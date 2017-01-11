@@ -352,6 +352,7 @@ public class Material implements Comparable<Material>, Serializable {
 		return this.visibility;
 	}
 
+	@Override
 	public int compareTo(Material another) {
 		if (another == null) {
 			return 1;

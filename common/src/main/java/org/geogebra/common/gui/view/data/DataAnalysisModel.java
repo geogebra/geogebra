@@ -276,8 +276,9 @@ public class DataAnalysisModel {
 	}
 
 	public StatGeo getStatGeo() {
-		if (statGeo == null)
+		if (statGeo == null) {
 			statGeo = new StatGeo(app, getListener());
+		}
 		return statGeo;
 	}
 
@@ -419,6 +420,7 @@ public class DataAnalysisModel {
 
 			// use a runnable to allow spreadsheet table model to update
 			app.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 					ctrl.updateDataAnalysisView();
 				}

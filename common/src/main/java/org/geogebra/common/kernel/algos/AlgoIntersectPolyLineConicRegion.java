@@ -179,10 +179,12 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		int numberOfLineParts = 1;
 		// decide number of line parts using calculated intersection points
 		for (int i = 0; i < 2; i++) {
-			if (intersectPoints[i].isDefined())
+			if (intersectPoints[i].isDefined()) {
 				numberOfLineParts += 1;
-			if (closureIntersect[i].isDefined())
+			}
+			if (closureIntersect[i].isDefined()) {
 				numberOfLineParts += 1;
+			}
 		}
 
 		GeoPoint P;
@@ -564,6 +566,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
 		return new OutputHandler<GeoSegment>(new elementFactory<GeoSegment>() {
+			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);
 				GeoPoint aS = new GeoPoint(cons);

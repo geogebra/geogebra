@@ -55,6 +55,7 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 		return Commands.TrapezoidalSum;
 	}
 
+	@Override
 	public AlgoSumTrapezoidal copy() {
 		return new AlgoSumTrapezoidal(
 				(GeoNumberValue) this.getA().deepCopy(kernel),

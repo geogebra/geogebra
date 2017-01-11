@@ -222,8 +222,9 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 
 	@Override
 	public void compute() {
-		if (index != null)
+		if (index != null) {
 			idx = Math.max(0, (int) index.getDouble() - 1);
+		}
 		parentOutput = algo.getIntersectionPoints();
 
 		if (kernel.getLoadingMode() && point.hasUpdatePrevilege) { // for
@@ -234,9 +235,11 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 		}
 
 		// update index if reference point has been defined
-		if (refPoint != null)
-			if (refPoint.isDefined())
+		if (refPoint != null) {
+			if (refPoint.isDefined()) {
 				idx = algo.getClosestPointIndex(refPoint);
+			}
+		}
 
 		if (input[0].isDefined() && input[1].isDefined()
 				&& idx < parentOutput.length) {
@@ -245,18 +248,20 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 
 			if (point.getIncidenceList() != null) {
 				for (int i = 0; i < parentOutput.length; ++i) {
-					if (!parentOutput[idx].contains(parentOutput[i]))
+					if (!parentOutput[idx].contains(parentOutput[i])) {
 						point.getIncidenceList().remove(parentOutput[i]);
+					}
 				}
 			}
 			point.addIncidence(parentOutput[idx], false);
 		} else {
 			point.setUndefined();
 			ArrayList<GeoElement> al = point.getIncidenceList();
-			if (al != null)
+			if (al != null) {
 				for (int i = 0; i < parentOutput.length; ++i) {
 					al.remove(parentOutput[i]);
 				}
+			}
 		}
 	}
 
@@ -284,15 +289,18 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectSingle(geo, this, scope);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

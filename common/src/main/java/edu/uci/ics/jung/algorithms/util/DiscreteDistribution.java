@@ -40,8 +40,9 @@ public class DiscreteDistribution {
 		checkLengths(dist, reference);
 
 		for (int i = 0; i < dist.length; i++) {
-			if (dist[i] > 0 && reference[i] > 0)
+			if (dist[i] > 0 && reference[i] > 0) {
 				distance += dist[i] * Math.log(dist[i] / reference[i]);
+			}
 		}
 		return distance;
 	}
@@ -120,8 +121,9 @@ public class DiscreteDistribution {
 		double total = 0;
 
 		for (int i = 0; i < dist.length; i++) {
-			if (dist[i] > 0)
+			if (dist[i] > 0) {
 				total += dist[i] * Math.log(dist[i]);
+			}
 		}
 		return -total;
 	}
@@ -131,9 +133,10 @@ public class DiscreteDistribution {
 	 * of the same length.
 	 */
 	protected static void checkLengths(double[] dist, double[] reference) {
-		if (dist.length != reference.length)
+		if (dist.length != reference.length) {
 			throw new IllegalArgumentException(
 					"Arrays must be of the same length");
+		}
 	}
 
 	/**
@@ -149,12 +152,14 @@ public class DiscreteDistribution {
 	public static void normalize(double[] counts, double alpha) {
 		double total_count = 0;
 
-		for (int i = 0; i < counts.length; i++)
+		for (int i = 0; i < counts.length; i++) {
 			total_count += counts[i];
+		}
 
-		for (int i = 0; i < counts.length; i++)
+		for (int i = 0; i < counts.length; i++) {
 			counts[i] = (counts[i] + alpha)
 					/ (total_count + counts.length * alpha);
+		}
 	}
 
 	/**
@@ -165,15 +170,17 @@ public class DiscreteDistribution {
 	 * @see #mean(double[][])
 	 */
 	public static double[] mean(Collection<double[]> distributions) {
-		if (distributions.isEmpty())
+		if (distributions.isEmpty()) {
 			throw new IllegalArgumentException(
 					"Distribution collection must be non-empty");
+		}
 		Iterator<double[]> iter = distributions.iterator();
 		double[] first = iter.next();
 		double[][] d_array = new double[distributions.size()][first.length];
 		d_array[0] = first;
-		for (int i = 1; i < d_array.length; i++)
+		for (int i = 1; i < d_array.length; i++) {
 			d_array[i] = iter.next();
+		}
 
 		return mean(d_array);
 	}
@@ -186,12 +193,15 @@ public class DiscreteDistribution {
 	 */
 	public static double[] mean(double[][] distributions) {
 		double[] d_mean = new double[distributions[0].length];
-		for (int j = 0; j < d_mean.length; j++)
+		for (int j = 0; j < d_mean.length; j++) {
 			d_mean[j] = 0;
+		}
 
-		for (int i = 0; i < distributions.length; i++)
-			for (int j = 0; j < d_mean.length; j++)
+		for (int i = 0; i < distributions.length; i++) {
+			for (int j = 0; j < d_mean.length; j++) {
 				d_mean[j] += distributions[i][j] / distributions.length;
+			}
+		}
 
 		return d_mean;
 	}

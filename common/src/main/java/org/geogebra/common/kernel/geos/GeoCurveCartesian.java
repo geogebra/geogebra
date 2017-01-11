@@ -213,8 +213,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 			setFun(1,
 					Function.getDerivativeQuotient(curve.fun[0], curve.fun[1]));
 			this.isDefined = !(getFun(0) == null || getFun(1) == null);
-			if (this.isDefined)
+			if (this.isDefined) {
 				setInterval(curve.startParam, curve.endParam);
+			}
 		} else {
 			this.isDefined = false;
 		}
@@ -522,8 +523,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 		GeoPoint P = (GeoPoint) PI;
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
@@ -552,10 +554,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		}
 
 		PathParameter pp = P.getPathParameter();
-		if (pp.t < this.startParam)
+		if (pp.t < this.startParam) {
 			pp.t = this.startParam;
-		else if (pp.t > this.endParam)
+		} else if (pp.t > this.endParam) {
 			pp.t = this.endParam;
+		}
 
 		// calc point for given parameter
 		P.setCoords2D(getFun(0).evaluate(pp.t), getFun(1).evaluate(pp.t), 1);
@@ -595,8 +598,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
 			if (this.distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
-					* Kernel.MIN_PRECISION)
+					* Kernel.MIN_PRECISION) {
 				return pathParam;
+			}
 
 			// if we don't have a startValue yet, let's take the path parameter
 			// as a guess
@@ -747,8 +751,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		f2X = getFun(0).getDerivative(2, true);
 		f2Y = getFun(1).getDerivative(2, true);
 
-		if (f1X == null || f1Y == null || f2X == null || f2Y == null)
+		if (f1X == null || f1Y == null || f2X == null || f2Y == null) {
 			return Double.NaN;
+		}
 
 		double f1eval[] = new double[2];
 		double f2eval[] = new double[2];
@@ -932,6 +937,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		return true;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC2D;
 	}

@@ -40,9 +40,10 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	 *             if either argument is null
 	 */
 	public Pair(T value1, T value2) {
-		if (value1 == null || value2 == null)
+		if (value1 == null || value2 == null) {
 			throw new IllegalArgumentException(
 					"Pair cannot contain null values");
+		}
 		first = value1;
 		second = value2;
 	}
@@ -58,19 +59,22 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	 *             != 2 elements.
 	 */
 	public Pair(Collection<? extends T> values) {
-		if (values == null)
+		if (values == null) {
 			throw new IllegalArgumentException(
 					"Input collection cannot be null");
+		}
 		if (values.size() == 2) {
-			if (values.contains(null))
+			if (values.contains(null)) {
 				throw new IllegalArgumentException(
 						"Pair cannot contain null values");
+			}
 			Iterator<? extends T> iter = values.iterator();
 			first = iter.next();
 			second = iter.next();
-		} else
+		} else {
 			throw new IllegalArgumentException(
 					"Pair may only be created from a Collection of exactly 2 elements");
+		}
 
 	}
 
@@ -83,18 +87,21 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	 *             elements.
 	 */
 	public Pair(T[] values) {
-		if (values == null)
+		if (values == null) {
 			throw new IllegalArgumentException("Input array cannot be null");
+		}
 		if (values.length == 2) {
-			if (values[0] == null || values[1] == null)
+			if (values[0] == null || values[1] == null) {
 				throw new IllegalArgumentException(
 						"Pair cannot contain null values");
+			}
 			first = values[0];
 			second = values[1];
-		} else
+		} else {
 			throw new IllegalArgumentException(
 					"Pair may only be created from an "
 							+ "array of 2 elements");
+		}
 	}
 
 	/**
@@ -114,8 +121,9 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
-		if (o == this)
+		if (o == this) {
 			return true;
+		}
 
 		if (o instanceof Pair) {
 			Pair otherPair = (Pair) o;
@@ -143,56 +151,69 @@ public final class Pair<T> implements Collection<T>, Serializable {
 		return "<" + first.toString() + ", " + second.toString() + ">";
 	}
 
+	@Override
 	public boolean add(T o) {
 		throw new UnsupportedOperationException("Pairs cannot be mutated");
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends T> c) {
 		throw new UnsupportedOperationException("Pairs cannot be mutated");
 	}
 
+	@Override
 	public void clear() {
 		throw new UnsupportedOperationException("Pairs cannot be mutated");
 	}
 
+	@Override
 	public boolean contains(Object o) {
 		return (first == o || first.equals(o) || second == o
 				|| second.equals(o));
 	}
 
+	@Override
 	public boolean containsAll(Collection<?> c) {
-		if (c.size() > 2)
+		if (c.size() > 2) {
 			return false;
+		}
 		Iterator<?> iter = c.iterator();
 		Object c_first = iter.next();
 		Object c_second = iter.next();
 		return this.contains(c_first) && this.contains(c_second);
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return false;
 	}
 
+	@Override
 	public Iterator<T> iterator() {
 		return new PairIterator();
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException("Pairs cannot be mutated");
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Pairs cannot be mutated");
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> c) {
 		throw new UnsupportedOperationException("Pairs cannot be mutated");
 	}
 
+	@Override
 	public int size() {
 		return 2;
 	}
 
+	@Override
 	public Object[] toArray() {
 		Object[] to_return = new Object[2];
 		to_return[0] = first;
@@ -200,6 +221,7 @@ public final class Pair<T> implements Collection<T>, Serializable {
 		return to_return;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <S> S[] toArray(S[] a) {
 		S[] to_return = a;
@@ -212,8 +234,9 @@ public final class Pair<T> implements Collection<T>, Serializable {
 		to_return[0] = (S) first;
 		to_return[1] = (S) second;
 
-		if (to_return.length > 2)
+		if (to_return.length > 2) {
 			to_return[2] = null;
+		}
 		return to_return;
 	}
 
@@ -224,20 +247,24 @@ public final class Pair<T> implements Collection<T>, Serializable {
 			position = 0;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return position < 2;
 		}
 
+		@Override
 		public T next() {
 			position++;
-			if (position == 1)
+			if (position == 1) {
 				return first;
-			else if (position == 2)
+			} else if (position == 2) {
 				return second;
-			else
+			} else {
 				return null;
+			}
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException("Pairs cannot be mutated");
 		}

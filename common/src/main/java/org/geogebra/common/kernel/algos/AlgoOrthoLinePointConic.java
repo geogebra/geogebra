@@ -74,8 +74,9 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 
 		// compute line
 		compute();
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			g[0].setLabel(label);
+		}
 
 		addIncidence();
 	}
@@ -108,8 +109,9 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 		input[1] = l.toGeoElement();
 
 		setOutputLength(4);
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			setOutput(i, g[i]);
+		}
 
 		setDependencies(); // done by AlgoElement
 	}

@@ -154,14 +154,17 @@ public class MyMathExact {
 			data = new MyDecimal[rowD][colD];
 		}
 
+		@Override
 		public boolean isSquare() {
 			return rowD == colD;
 		}
 
+		@Override
 		public int getRowDimension() {
 			return rowD;
 		}
 
+		@Override
 		public int getColumnDimension() {
 			return colD;
 		}
@@ -224,13 +227,16 @@ public class MyMathExact {
 			// m is number of rows; n is number of columns
 			MyDecimal ret = new MyDecimal(BigDecimal.ZERO);
 
-			if (m == 0 || n == 0)
+			if (m == 0 || n == 0) {
 				return ret;
+			}
 
-			for (int i = 0; i < m; i++)
-				for (int j = 0; j < n; j++)
+			for (int i = 0; i < m; i++) {
+				for (int j = 0; j < n; j++) {
 					ret = ret.add(matrix.getEntry(i, j)
 							.multiply(matrix.getEntry(i, j)));
+				}
+			}
 
 			return ret;
 		}

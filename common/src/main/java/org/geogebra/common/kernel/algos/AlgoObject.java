@@ -50,8 +50,9 @@ public class AlgoObject extends AlgoElement {
 		// Object["A" + d] might gives "A2.00" if significant figures used
 		// globally
 		// want it to give "A2"
-		if (!text.isLabelSet())
+		if (!text.isLabelSet()) {
 			text.setPrintDecimals(0, true);
+		}
 
 		setInputOutput(); // for AlgoElement
 

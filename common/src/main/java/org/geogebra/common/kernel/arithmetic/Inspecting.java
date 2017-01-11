@@ -33,6 +33,7 @@ public interface Inspecting {
 	public enum IneqFinder implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+		@Override
 		public boolean check(ExpressionValue v) {
 			return v.isExpressionNode()
 					&& ((ExpressionNode) v).getOperation().isInequality();
@@ -44,6 +45,7 @@ public interface Inspecting {
 	public enum CommandFinder implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+		@Override
 		public boolean check(ExpressionValue v) {
 			return v instanceof Command;
 		}
@@ -53,6 +55,7 @@ public interface Inspecting {
 	public enum ComplexChecker implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+		@Override
 		public boolean check(ExpressionValue v) {
 			return v instanceof GeoVec2D && ((GeoVec2D) v).isImaginaryUnit();
 		}
@@ -65,6 +68,7 @@ public interface Inspecting {
 	public enum ExtendedCommandFinder implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+		@Override
 		public boolean check(ExpressionValue v) {
 			if (v instanceof Command) {
 				return true;
@@ -93,6 +97,7 @@ public interface Inspecting {
 		private int nrOfPoints;
 		private static int type, dim;
 
+		@Override
 		public boolean check(ExpressionValue v) {
 			switch (type) {
 			case 0: // first define the top type of our expression
@@ -256,6 +261,7 @@ public interface Inspecting {
 	 */
 	public static Inspecting dynamicGeosFinder = new Inspecting() {
 
+		@Override
 		public boolean check(ExpressionValue v) {
 			if (!v.isGeoElement()) {
 				return false;
@@ -273,6 +279,7 @@ public interface Inspecting {
 	 */
 	public static Inspecting textFinder = new Inspecting() {
 
+		@Override
 		public boolean check(ExpressionValue v) {
 			return (v instanceof GeoText || v instanceof MyStringBuffer);
 		}
@@ -285,6 +292,7 @@ public interface Inspecting {
 	public enum PlusChecker implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+		@Override
 		public boolean check(ExpressionValue v) {
 			if (v instanceof GeoDummyVariable) {
 				return true;
@@ -307,6 +315,7 @@ public interface Inspecting {
 	public enum MinusChecker implements Inspecting {
 		/** singleton instance */
 		INSTANCE;
+		@Override
 		public boolean check(ExpressionValue v) {
 			if (v instanceof GeoDummyVariable) {
 				return true;

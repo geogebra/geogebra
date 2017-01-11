@@ -51,6 +51,7 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 		return Commands.Poisson;
 	}
 
+	@Override
 	protected void setInputOutput() {
 
 		input = new GeoElement[2];

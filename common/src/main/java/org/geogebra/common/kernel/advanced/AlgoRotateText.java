@@ -132,11 +132,13 @@ public class AlgoRotateText extends AlgoElement {
 		sbuilder.append("\\rotatebox{");
 		sbuilder.append(degrees); // convert to degrees
 		sbuilder.append("}{ ");
-		if (!latex)
+		if (!latex) {
 			sbuilder.append("\\text{ ");
+		}
 		sbuilder.append(text.getTextString());
-		if (!latex)
+		if (!latex) {
 			sbuilder.append(" } ");
+		}
 		sbuilder.append(" }");
 	}
 

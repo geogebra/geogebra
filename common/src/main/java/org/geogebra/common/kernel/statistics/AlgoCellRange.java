@@ -72,8 +72,9 @@ public class AlgoCellRange extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 
 		// don't remove if there is some child
 		if (geoList.hasChildren()) {

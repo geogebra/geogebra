@@ -59,14 +59,16 @@ public class StatisticsCollection {
 	}
 
 	public double getProportion() {
-		if (count > n)
+		if (count > n) {
 			return Double.NaN;
+		}
 		return 1.0 * count / n;
 	}
 
 	public double getProportion2() {
-		if (count2 > n2)
+		if (count2 > n2) {
 			return Double.NaN;
+		}
 
 		return 1.0 * count2 / n2;
 	}

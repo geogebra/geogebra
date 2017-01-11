@@ -106,6 +106,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		input[1] = equation;
 
 		outputs = new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
 				p.setParentAlgorithm(AlgoIntersectImplicitCurve.this);
@@ -542,7 +543,9 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 					break;
 				}
 				if (Kernel.isEqual(p[1], pair[1], eps))
+				 {
 					return; // do not add
+				}
 			}
 		}
 		it.add(pair);

@@ -40,10 +40,11 @@ public class CmdJoin extends CommandProcessor {
 				return ret;
 			} else
 
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		default:
 			// try to create list of numbers

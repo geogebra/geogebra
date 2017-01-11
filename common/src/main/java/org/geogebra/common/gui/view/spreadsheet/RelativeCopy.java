@@ -953,8 +953,9 @@ public class RelativeCopy {
 			return null;
 		} catch (Exception e) {
 			// create text if something went wrong
-			if (text.startsWith("\""))
+			if (text.startsWith("\"")) {
 				text = text.substring(1, text.length() - 2);
+			}
 			text = "\"" + (text.replace("\"", "\"+UnicodeToLetter[34]+\""))
 					+ "\"";
 			newValues = kernel.getAlgebraProcessor()
@@ -1010,6 +1011,7 @@ public class RelativeCopy {
 			final AsyncOperation<GeoElementND> callback) {
 		return new ErrorHandler() {
 
+			@Override
 			public void showError(String msg) {
 				Log.debug(msg);
 				if (kernel.getLocalization().getError("CircularDefinition")
@@ -1022,6 +1024,7 @@ public class RelativeCopy {
 
 			}
 
+			@Override
 			public void resetError() {
 				showError(null);
 			}
@@ -1067,16 +1070,19 @@ public class RelativeCopy {
 				}
 			}
 
+			@Override
 			public void showCommandError(String command, String message) {
 				handleThrowable();
 
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				return false;
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				// TODO Auto-generated method stub
 				return null;
@@ -1189,8 +1195,9 @@ public class RelativeCopy {
 		String s = str;
 		// trim and return false if empty string
 		s = s.trim();
-		if (s == null || s.length() == 0)
+		if (s == null || s.length() == 0) {
 			return false;
+		}
 
 		// remove degree/% char from end of string
 		if (s.charAt(s.length() - 1) == Unicode.DEGREE_CHAR
@@ -1205,8 +1212,9 @@ public class RelativeCopy {
 			return isStandardNumber(s2[0]);
 		} else if (s2.length == 2) {
 			return isStandardNumber(s2[0]) && isStandardNumber(s2[1]);
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -1219,8 +1227,9 @@ public class RelativeCopy {
 	private static boolean isStandardNumber(String s) {
 
 		// return if empty string
-		if (s == null || s.length() == 0)
+		if (s == null || s.length() == 0) {
 			return false;
+		}
 
 		// test the first char for a digit, sign or decimal point.
 		Character c = s.charAt(0);

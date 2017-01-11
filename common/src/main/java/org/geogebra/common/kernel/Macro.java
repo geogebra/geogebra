@@ -294,8 +294,9 @@ public class Macro {
 				// make sure we don't have any parent algorithms of input[i] in
 				// our construction
 				AlgoElement algo = input[i].getParentAlgorithm();
-				if (algo != null)
+				if (algo != null) {
 					macroConsOrigElements.remove(algo);
+				}
 			}
 
 		}
@@ -318,15 +319,17 @@ public class Macro {
 
 		// if we used temp labels in step (4) remove them again
 		for (int i = 0; i < input.length; i++) {
-			if (!isInputLabeled[i])
+			if (!isInputLabeled[i]) {
 				input[i].setLabelSet(false);
+			}
 			if (input[i] instanceof GeoVector) {
 				((GeoVector) input[i]).setStartPoint(startPoints[i]);
 			}
 		}
 		for (int i = 0; i < output.length; i++) {
-			if (!isOutputLabeled[i])
+			if (!isOutputLabeled[i]) {
 				output[i].setLabelSet(false);
+			}
 		}
 		Log.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
@@ -378,8 +381,9 @@ public class Macro {
 		// STANDARD case
 		// add algorithm
 		Long algoID = Long.valueOf(algo.getID());
-		if (!usedAlgoIds.contains(algoID))
+		if (!usedAlgoIds.contains(algoID)) {
 			consElementSet.add(algo);
+		}
 		usedAlgoIds.add(algoID);
 
 		// add all output elements including geo
@@ -416,8 +420,9 @@ public class Macro {
 			// add all output elements including geo
 			GeoElement[] algoInput = algo.getInput();
 			for (int i = 0; i < algoInput.length; i++) {
-				if (algoInput[i].isLabelSet())
+				if (algoInput[i].isLabelSet()) {
 					consElementSet.add(algoInput[i]);
+				}
 			}
 		}
 	}
@@ -578,10 +583,11 @@ public class Macro {
 	 *            Tool help. Either "","null" or null for empty.
 	 */
 	public void setToolHelp(String toolHelp) {
-		if (toolHelp == null || "null".equals(toolHelp))
+		if (toolHelp == null || "null".equals(toolHelp)) {
 			this.toolHelp = "";
-		else
+		} else {
 			this.toolHelp = toolHelp;
+		}
 	}
 
 	/**
@@ -600,8 +606,9 @@ public class Macro {
 	 *            Command name
 	 */
 	public void setCommandName(String name) {
-		if (name != null)
+		if (name != null) {
 			this.cmdName = name;
+		}
 	}
 
 	/**
@@ -619,8 +626,9 @@ public class Macro {
 	 * @return Toolname, if empty, returns command name.
 	 */
 	public String getToolOrCommandName() {
-		if (!"".equals(toolName))
+		if (!"".equals(toolName)) {
 			return toolName;
+		}
 		return cmdName;
 	}
 
@@ -631,10 +639,11 @@ public class Macro {
 	 *            new tool name
 	 */
 	public void setToolName(String name) {
-		if (name == null || "null".equals(name) || name.length() == 0)
+		if (name == null || "null".equals(name) || name.length() == 0) {
 			this.toolName = cmdName;
-		else
+		} else {
 			this.toolName = name;
+		}
 	}
 
 	/**
@@ -644,10 +653,11 @@ public class Macro {
 	 *            Icon filename, "" or null for empty
 	 */
 	public void setIconFileName(String name) {
-		if (name == null)
+		if (name == null) {
 			this.iconFileName = "";
-		else
+		} else {
 			this.iconFileName = name;
+		}
 	}
 
 	/**

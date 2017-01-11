@@ -123,6 +123,7 @@ final public class GeoVec2D extends ValidExpression
 		return new GeoVec2D(this);
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		// do nothing
 	}
@@ -204,6 +205,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * @return x-coord
 	 */
+	@Override
 	final public double getX() {
 		return x;
 	}
@@ -211,6 +213,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * @return y-coord
 	 */
+	@Override
 	final public double getY() {
 		return y;
 	}
@@ -415,8 +418,9 @@ final public class GeoVec2D extends ValidExpression
 		c.x = a.x + b.x;
 		c.y = a.y + b.y;
 		if (a.getMode() == Kernel.COORD_COMPLEX
-				|| b.getMode() == Kernel.COORD_COMPLEX)
+				|| b.getMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
+		}
 	}
 
 	/**
@@ -579,8 +583,9 @@ final public class GeoVec2D extends ValidExpression
 		c.x = a.x - b.x;
 		c.y = a.y - b.y;
 		if (a.getMode() == Kernel.COORD_COMPLEX
-				|| b.getMode() == Kernel.COORD_COMPLEX)
+				|| b.getMode() == Kernel.COORD_COMPLEX) {
 			c.setMode(Kernel.COORD_COMPLEX);
+		}
 	}
 
 	/**
@@ -1195,18 +1200,22 @@ final public class GeoVec2D extends ValidExpression
 	 * interface VectorValue implementation Make a copy to make sure eg
 	 * imaginary(i*5*x) returns 5*x
 	 */
+	@Override
 	final public GeoVec2D getVector() {
 		return new GeoVec2D(this);
 	}
 
+	@Override
 	final public boolean isConstant() {
 		return true;
 	}
 
+	@Override
 	final public boolean isLeaf() {
 		return true;
 	}
 
+	@Override
 	final public int getMode() {
 		return mode;
 	}
@@ -1216,10 +1225,12 @@ final public class GeoVec2D extends ValidExpression
 		return getVector();
 	}
 
+	@Override
 	final public HashSet<GeoElement> getVariables() {
 		return null;
 	}
 
+	@Override
 	final public void setMode(int mode) {
 		this.mode = mode;
 	}
@@ -1229,6 +1240,7 @@ final public class GeoVec2D extends ValidExpression
 		return toString(tpl);
 	}
 
+	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
@@ -1243,6 +1255,7 @@ final public class GeoVec2D extends ValidExpression
 	 * final public boolean isDefined() { return true; }
 	 */
 
+	@Override
 	final public boolean isNumberValue() {
 		return false;
 	}
@@ -1258,6 +1271,7 @@ final public class GeoVec2D extends ValidExpression
 		return this.mode != Kernel.COORD_COMPLEX;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
@@ -1269,8 +1283,9 @@ final public class GeoVec2D extends ValidExpression
 	 *            2x2 matrix
 	 */
 	public void multiplyMatrix(MyList list) {
-		if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2)
+		if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2) {
 			return;
+		}
 
 		double a, b, c, d;
 
@@ -1317,8 +1332,9 @@ final public class GeoVec2D extends ValidExpression
 	 *            2x2 matrix
 	 */
 	public void multiplyMatrixLeft(MyList list) {
-		if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2)
+		if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2) {
 			return;
+		}
 
 		double a, b, c, d;
 
@@ -1361,8 +1377,9 @@ final public class GeoVec2D extends ValidExpression
 	 *            GeoVec3D (as ExpressionValue) to get homogeneous coords from
 	 */
 	public void multiplyMatrixAffine(MyList list, ExpressionValue rt) {
-		if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3)
+		if (list.getMatrixCols() != 3 || list.getMatrixRows() != 3) {
 			return;
+		}
 
 		double a, b, c, d, e, f, g, h, i, z1, xx = x, yy = y, zz = 1;
 
@@ -1427,6 +1444,7 @@ final public class GeoVec2D extends ValidExpression
 		return;
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -1482,6 +1500,7 @@ final public class GeoVec2D extends ValidExpression
 		return true;
 	}
 
+	@Override
 	public double getZ() {
 		return 0;
 	}
@@ -1512,6 +1531,7 @@ final public class GeoVec2D extends ValidExpression
 		return new ExpressionNode(kernel, this);
 	}
 
+	@Override
 	public int getDimension() {
 		return 2;
 	}
@@ -1521,6 +1541,7 @@ final public class GeoVec2D extends ValidExpression
 		return new GeoVec2D(kernel1, Double.NaN, Double.NaN);
 	}
 
+	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { x, y, 0 };
 	}

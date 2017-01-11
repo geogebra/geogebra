@@ -103,8 +103,9 @@ public class DrawConic3D extends Drawable3DCurves
 	 * @return acosh(x) if x>=1; 0 otherwise
 	 */
 	public static double acosh(double x) {
-		if (x <= 1)
+		if (x <= 1) {
 			return 0;
+		}
 		return Math.log(x + Math.sqrt(x * x - 1));
 	}
 
@@ -489,8 +490,8 @@ public class DrawConic3D extends Drawable3DCurves
 				if (getView3D().viewChangedByZoom() // update only if zoom
 													// occurred
 						|| (visible != Visible.TOTALLY_INSIDE
-								&& getView3D().viewChangedByTranslate())) // or
-																			// if
+								&& getView3D().viewChangedByTranslate())) {
+					// if
 																			// translate
 																			// with
 																			// not
@@ -498,13 +499,15 @@ public class DrawConic3D extends Drawable3DCurves
 																			// visible
 																			// ellipse
 					updateForItSelf();
+				}
 				break;
 
 			default:
 			case GeoConicNDConstants.CONIC_SINGLE_POINT:
-				if (getView3D().viewChangedByZoom()) // update only if zoom
-														// occurred
+				if (getView3D().viewChangedByZoom()) {
+					// occurred
 					updateForItSelf();
+				}
 				break;
 			}
 		}
@@ -602,6 +605,7 @@ public class DrawConic3D extends Drawable3DCurves
 	// FUNCTION2VAR INTERFACE
 	// /////////////////////////////////
 
+	@Override
 	public Coords evaluatePoint(double u, double v) {
 
 		GeoConicND conic = (GeoConicND) getGeoElement();
@@ -613,11 +617,13 @@ public class DrawConic3D extends Drawable3DCurves
 		return n.add(conic.getMidpoint3D());
 	}
 
+	@Override
 	public Coords evaluateNormal(double u, double v) {
 		return new Coords(new double[] { Math.cos(u) * Math.cos(v),
 				Math.sin(u) * Math.cos(v), Math.sin(v) });
 	}
 
+	@Override
 	public double getMinParameter(int index) {
 		switch (index) {
 		case 0: // u
@@ -628,6 +634,7 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 	}
 
+	@Override
 	public double getMaxParameter(int index) {
 		switch (index) {
 		case 0: // u
@@ -639,12 +646,14 @@ public class DrawConic3D extends Drawable3DCurves
 
 	}
 
+	@Override
 	public void updatePreview() {
 
 		// setWaitForUpdate();
 
 	}
 
+	@Override
 	public void updateMousePos(double x, double y) {
 		// TODO Auto-generated method stub
 
@@ -973,8 +982,9 @@ public class DrawConic3D extends Drawable3DCurves
 
 		if (getGeoElement().getMetasLength() > 0) {
 			for (GeoElement meta : ((FromMeta) getGeoElement()).getMetas()) {
-				if (meta != null && meta.doHighlighting())
+				if (meta != null && meta.doHighlighting()) {
 					return true;
+				}
 			}
 		}
 

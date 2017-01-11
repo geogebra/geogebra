@@ -59,8 +59,9 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 								+ mean));
 			}
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

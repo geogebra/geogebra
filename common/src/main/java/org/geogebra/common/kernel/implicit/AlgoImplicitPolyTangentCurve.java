@@ -130,18 +130,22 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 	/**
 	 * @return resulting tangent curve
 	 */
+	@Override
 	public GeoImplicit getTangentCurve() {
 		return tangentPoly;
 	}
 
+	@Override
 	public GeoElement getVec() {
 		return point.toGeoElement();
 	}
 
+	@Override
 	public boolean vecDefined() {
 		return point.isDefined() && Kernel.isZero(point.getInhomZ());
 	}
 
+	@Override
 	public void getTangents(GeoPoint[] ip, OutputHandler<GeoLine> tangents) {
 		int n = 0;
 		if (point != null && poly.isOnPath(point, Kernel.STANDARD_PRECISION)) {
@@ -163,8 +167,9 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		for (int i = 0; i < ip.length; i++) {
 
 			if (Kernel.isEqual(ip[i].inhomX, point.getInhomX(), 1E-2)
-					&& Kernel.isEqual(ip[i].inhomY, point.getInhomY(), 1E-2))
+					&& Kernel.isEqual(ip[i].inhomY, point.getInhomY(), 1E-2)) {
 				continue;
+			}
 
 			// normal vector does not exist, therefore tangent is not defined
 			// We need to check if F1 :=dF/dx and F2 :=dF/dy are both zero when
@@ -185,8 +190,9 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 					Kernel.STANDARD_PRECISION_SQRT)
 					&& Kernel.isEqual(0,
 							this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
-							Kernel.STANDARD_PRECISION_SQRT))
+							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
+			}
 
 			tangents.adjustOutputSize(n + 1);
 			tangents.getElement(n).setCoords(
@@ -200,6 +206,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 
 	}
 
+	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == poly && pointOnPath) {
 			return point;

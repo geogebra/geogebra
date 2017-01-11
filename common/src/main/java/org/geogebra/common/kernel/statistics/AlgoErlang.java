@@ -53,8 +53,9 @@ public class AlgoErlang extends AlgoDistribution {
 			// old hack
 			// command = "If[x<0,0,gamma("+k+",("+l+")x)/("+k+"-1)!]";
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

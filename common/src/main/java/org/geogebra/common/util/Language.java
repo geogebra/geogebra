@@ -476,8 +476,9 @@ public enum Language {
 				// if (l.countries != null)
 				// AbstractApplication.debug(l.countries[0]);
 				if (l.countries != null && l.countries.length > 0
-						&& l.countries[0].getISO().equals(country))
+						&& l.countries[0].getISO().equals(country)) {
 					return l.countries[0].getISO();
+				}
 			}
 		}
 

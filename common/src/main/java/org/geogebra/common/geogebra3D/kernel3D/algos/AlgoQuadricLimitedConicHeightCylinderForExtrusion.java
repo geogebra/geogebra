@@ -32,6 +32,7 @@ public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
 
 	private ExtrusionComputer extrusionComputer;
 
+	@Override
 	public void setExtrusionComputer(ExtrusionComputer extrusionComputer) {
 		this.extrusionComputer = extrusionComputer;
 	}
@@ -39,10 +40,12 @@ public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
 	@Override
 	public void compute() {
 		super.compute();
-		if (extrusionComputer != null)
+		if (extrusionComputer != null) {
 			extrusionComputer.compute();
+		}
 	}
 
+	@Override
 	public GeoElement getGeoToHandle() {
 		return getTopFace();
 	}

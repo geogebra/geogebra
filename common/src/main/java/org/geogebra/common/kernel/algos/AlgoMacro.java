@@ -111,25 +111,28 @@ public class AlgoMacro extends AlgoElement
 		// we hide objects that are hidden in macro construction, but
 		// we want to do this only with 4.0 macros
 		if (macro.isCopyCaptionsAndVisibility()) {
-			for (int i = 0; i < macroOutput.length; i++)
+			for (int i = 0; i < macroOutput.length; i++) {
 				if (!macroOutput[i].isSetEuclidianVisible()) {
 					getOutput(i).setEuclidianVisible(false);
 					getOutput(i).update();
 				}
+			}
 		} else {
 			// for <=3.2 macros hide all angles
-			for (int i = 0; i < macroOutput.length; i++)
+			for (int i = 0; i < macroOutput.length; i++) {
 				if (macroOutput[i] instanceof GeoAngle) {
 					getOutput(i).setEuclidianVisible(false);
 					getOutput(i).update();
 				}
+			}
 		}
 	}
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		macro.unregisterAlgorithm(this);
 		super.remove();
 	}
@@ -207,8 +210,9 @@ public class AlgoMacro extends AlgoElement
 	 */
 	private boolean isMacroInputObject(GeoElementND macroGeo) {
 		for (int i = 0; i < macroInput.length; i++) {
-			if (macroGeo == macroInput[i])
+			if (macroGeo == macroInput[i]) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -222,8 +226,9 @@ public class AlgoMacro extends AlgoElement
 		for (int i = 0; i < macroInput.length; i++) {
 			macroInput[i].set(input[i]);
 			try {
-				if (macroInput[i] instanceof GeoVector)
+				if (macroInput[i] instanceof GeoVector) {
 					((GeoVector) macroInput[i]).setStartPoint(null);
+				}
 			} catch (Exception e) {
 				Log.debug("Exception while handling vector input: " + e);
 			}
@@ -353,8 +358,9 @@ public class AlgoMacro extends AlgoElement
 	 * automatically.
 	 */
 	private GeoElement getAlgoGeo(GeoElementND macroGeo) {
-		if (macroGeo == null)
+		if (macroGeo == null) {
 			return null;
+		}
 		GeoElement algoGeo = macroToAlgoMap.get(macroGeo);
 
 		// if we don't have a corresponding GeoElement in our map yet,
@@ -443,8 +449,9 @@ public class AlgoMacro extends AlgoElement
 	 */
 	private void initConic(GeoConic macroConic, GeoConic conic) {
 		ArrayList<GeoPointND> macroPoints = macroConic.getPointsOnConic();
-		if (macroPoints == null)
+		if (macroPoints == null) {
 			return;
+		}
 
 		int size = macroPoints.size();
 		ArrayList<GeoPointND> points = new ArrayList<GeoPointND>(size);
@@ -460,8 +467,9 @@ public class AlgoMacro extends AlgoElement
 	private void initLocateable(Locateable macroLocateable,
 			Locateable locateable) {
 		GeoPointND[] macroStartPoints = macroLocateable.getStartPoints();
-		if (macroStartPoints == null)
+		if (macroStartPoints == null) {
 			return;
+		}
 
 		try {
 			for (int i = 0; i < macroStartPoints.length; i++) {
@@ -511,6 +519,7 @@ public class AlgoMacro extends AlgoElement
 	 * @param geoList
 	 *            GeoList of construction geos
 	 */
+	@Override
 	final public void initList(GeoList macroList, GeoList geoList) {
 		// make sure all referenced GeoElements are from the algo-construction
 
@@ -529,6 +538,7 @@ public class AlgoMacro extends AlgoElement
 	 * @param fun
 	 *            function
 	 */
+	@Override
 	final public void initFunction(FunctionNVar fun) {
 		// geoFun was created as a copy of macroFun,
 		// make sure all referenced GeoElements are from the algo-construction
@@ -554,9 +564,9 @@ public class AlgoMacro extends AlgoElement
 		}
 
 		// right tree
-		if (right == null)
+		if (right == null) {
 			return;
-		else if (right.isGeoElement()) {
+		} else if (right.isGeoElement()) {
 			GeoElement referencedGeo = (GeoElement) right;
 			if (macro.isInMacroConstruction(referencedGeo)) {
 				exp.setRight(getAlgoGeo(referencedGeo));
@@ -582,6 +592,7 @@ public class AlgoMacro extends AlgoElement
 		return myIndex < otherIndex;
 	}
 
+	@Override
 	public boolean isChangeable(GeoElement out) {
 		for (int i = 0; i < macroOutput.length; i++) {
 			if (getOutput(i) == out && macroOutput[i].isChangeable()) {

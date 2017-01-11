@@ -123,8 +123,9 @@ public class Textures {
 		renderer.genTextures2D(TEXTURES_NUMBER, texturesIndex);
 
 		// dash textures
-		for (int i = 0; i < DASH_NUMBER; i++)
+		for (int i = 0; i < DASH_NUMBER; i++) {
 			initDashTexture(texturesIndex[i], DASH_DESCRIPTION[i]);
+		}
 
 		// fading textures
 		initFadingTexture(texturesIndex[FADING]);
@@ -168,12 +169,14 @@ public class Textures {
 		// byte[] bytes = new byte[4*sizeX*sizeY];
 		byte[] bytes = new byte[sizeX];
 
-		for (int i = 0; i < sizeX; i++)
-			if (description[i])
+		for (int i = 0; i < sizeX; i++) {
+			if (description[i]) {
 				bytes[i] = (byte) 255;
 		/*
 		 * bytes[4*i+0]= bytes[4*i+1]= bytes[4*i+2]= bytes[4*i+3]= (byte) 255;
 		 */
+			}
+		}
 
 		renderer.bindTexture(n);
 
@@ -261,9 +264,11 @@ public class Textures {
 
 		byte[] bytes = new byte[sizeX * sizeY + 2]; // TODO understand why +2
 
-		for (int i = 0; i < sizeX * sizeY; i++)
-			if (description[i])
+		for (int i = 0; i < sizeX * sizeY; i++) {
+			if (description[i]) {
 				bytes[i] = (byte) 255;
+			}
+		}
 
 		renderer.bindTexture(index);
 

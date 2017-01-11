@@ -13,8 +13,10 @@ public class RealRootDerivAdapter
 		this.derivFun = derivFun;
 	}
 
+	@Override
 	public UnivariateRealFunction derivative() {
 		return new UnivariateRealFunction() {
+			@Override
 			public double value(double x) throws FunctionEvaluationException {
 				double res = derivFun.evaluateDerivative(x);
 				if (Double.isInfinite(res) || Double.isNaN(res)) {
@@ -25,6 +27,7 @@ public class RealRootDerivAdapter
 		};
 	}
 
+	@Override
 	public double value(double x) throws FunctionEvaluationException {
 		double res = derivFun.evaluate(x);
 		if (Double.isInfinite(res) || Double.isNaN(res)) {

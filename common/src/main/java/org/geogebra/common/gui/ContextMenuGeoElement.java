@@ -57,8 +57,9 @@ public abstract class ContextMenuGeoElement {
 	 */
 	protected String getDescription(GeoElement geo, boolean addHTMLtag) {
 		String title = geo.getLongDescriptionHTML(false, addHTMLtag);
-		if (title.length() > 80)
+		if (title.length() > 80) {
 			title = geo.getNameDescriptionHTML(false, addHTMLtag);
+		}
 		return title;
 	}
 
@@ -452,8 +453,9 @@ public abstract class ContextMenuGeoElement {
 		app.getActiveEuclidianView().repaint();
 
 		// automatically start animation when animating was turned on
-		if (getGeo().isAnimating())
+		if (getGeo().isAnimating()) {
 			getGeo().getKernel().getAnimatonManager().startAnimation();
+		}
 	}
 
 	public void pinCmd(boolean isSelected) {

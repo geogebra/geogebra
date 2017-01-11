@@ -80,6 +80,7 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		}
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 
 		Coords coords = P.getCoordsInD2().getInhomCoordsInSameDimension();
@@ -130,6 +131,7 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC2D;
 	}

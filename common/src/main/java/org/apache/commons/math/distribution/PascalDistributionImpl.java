@@ -64,6 +64,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 * 
 	 * @return the number of successes
 	 */
+	@Override
 	public int getNumberOfSuccesses() {
 		return numberOfSuccesses;
 	}
@@ -73,6 +74,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 * 
 	 * @return the probability of success
 	 */
+	@Override
 	public double getProbabilityOfSuccess() {
 		return probabilityOfSuccess;
 	}
@@ -86,6 +88,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 *             if <code>successes</code> is not positive.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setNumberOfSuccesses(int successes) {
 		setNumberOfSuccessesInternal(successes);
@@ -116,6 +119,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 *             if <code>p</code> is not a valid probability.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setProbabilityOfSuccess(double p) {
 		setProbabilityOfSuccessInternal(p);
@@ -195,6 +199,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 *            the value at which the PMF is evaluated
 	 * @return PMF for this distribution
 	 */
+	@Override
 	public double probability(int x) {
 		double ret;
 		if (x < 0) {

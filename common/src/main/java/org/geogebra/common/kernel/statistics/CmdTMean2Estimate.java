@@ -44,14 +44,15 @@ public class CmdTMean2Estimate extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else if (!ok[2])
+			} else if (!ok[2]) {
 				throw argErr(app, c, arg[2]);
-			else
+			} else {
 				throw argErr(app, c, arg[3]);
+			}
 
 		case 8:
 			if ((ok[0] = arg[0].isGeoNumeric())
@@ -72,22 +73,23 @@ public class CmdTMean2Estimate extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else if (!ok[2])
+			} else if (!ok[2]) {
 				throw argErr(app, c, arg[2]);
-			else if (!ok[3])
+			} else if (!ok[3]) {
 				throw argErr(app, c, arg[3]);
-			else if (!ok[4])
+			} else if (!ok[4]) {
 				throw argErr(app, c, arg[4]);
-			else if (!ok[5])
+			} else if (!ok[5]) {
 				throw argErr(app, c, arg[5]);
-			else if (!ok[6])
+			} else if (!ok[6]) {
 				throw argErr(app, c, arg[6]);
-			else
+			} else {
 				throw argErr(app, c, arg[7]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

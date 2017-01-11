@@ -72,14 +72,16 @@ public class MyMath2 {
 	 */
 	final public static double factorial(double x) {
 
-		if (x < 0 || x > 170.624) // changed from ggb42, 171! used to return
-									// infinity, undefined is better
+		if (x < 0 || x > 170.624) {
+			// infinity, undefined is better
 			return Double.NaN;
+		}
 
 		// big x or floating point x is computed using gamma function
-		if (x < 0 || x > 32 || x - Math.floor(x) > 1E-10)
+		if (x < 0 || x > 32 || x - Math.floor(x) > 1E-10) {
 			// exp of log(gamma(x+1))
 			return Math.exp(Gamma.logGamma(x + 1.0));
+		}
 
 		int n = (int) x;
 		int j;
@@ -104,7 +106,9 @@ public class MyMath2 {
 
 		// Michael Borcherds 2008-05-04
 		if (x <= 0 && Kernel.isEqual(x, Math.round(x)))
+		 {
 			return Double.NaN; // negative integers
+		}
 
 		// Michael Borcherds 2007-10-15 BEGIN added case for x<0 otherwise no
 		// results in 3rd quadrant
@@ -281,8 +285,9 @@ public class MyMath2 {
 				// AbstractApplication.debug(Math.abs(delre - 1.0)+
 				// Math.abs(delim));
 				if (Math.abs(del.getReal() - 1.0)
-						+ Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION)
+						+ Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION) {
 					break;
+				}
 			}
 			// if (i > MAXIT)
 			// return new Complex(Double.NaN,Double.NaN);
@@ -312,12 +317,14 @@ public class MyMath2 {
 					sumc = sum;
 					sum = sums;
 				}
-				if (err < Kernel.STANDARD_PRECISION)
+				if (err < Kernel.STANDARD_PRECISION) {
 					break;
+				}
 				odd = !odd;
 			}
-			if (k > MAXIT)
+			if (k > MAXIT) {
 				return new Complex(Double.NaN, Double.NaN);
+			}
 		}
 
 		return new Complex(sumc + Math.log(t) + MyMath.EULER,
@@ -334,8 +341,9 @@ public class MyMath2 {
 	 * @return cosine integral of given number
 	 */
 	final public static double ci(double a) {
-		if (a < 0)
+		if (a < 0) {
 			return Double.NaN;
+		}
 		return cisi(a).getReal();
 	}
 
@@ -382,8 +390,9 @@ public class MyMath2 {
 	 * @return rieman zeta of val
 	 */
 	public static double zeta(double val) {
-		if (val < 0 && Kernel.isInteger(val / 2))
+		if (val < 0 && Kernel.isInteger(val / 2)) {
 			return 0;
+		}
 
 		double[] s = { val, 0 };
 		return Riemann.zeta(s)[0];

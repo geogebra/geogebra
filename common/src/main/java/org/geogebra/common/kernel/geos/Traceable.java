@@ -22,6 +22,7 @@ public interface Traceable extends GeoElementND {
 	/**
 	 * Update and repaint this element
 	 */
+	@Override
 	public void updateRepaint();
 
 }

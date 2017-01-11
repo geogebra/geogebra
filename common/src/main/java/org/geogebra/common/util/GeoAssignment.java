@@ -66,6 +66,7 @@ public class GeoAssignment extends Assignment {
 
 		geoInspector = new Inspecting() {
 
+			@Override
 			public boolean check(ExpressionValue v) {
 				return ((GeoElement) v).isLabelSet()
 						&& uniqueInputTypes.contains(Test.getSpecificTest(v));

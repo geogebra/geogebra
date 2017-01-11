@@ -175,8 +175,9 @@ public class CmdGetTime extends CommandProcessor {
 			break;
 		case 'z':
 			yearday = 0;
-			if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+			if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 				month_days[1] = 29;
+			}
 			for (int j = 0; j < month; j++) {
 				yearday += month_days[j];
 			}
@@ -185,8 +186,9 @@ public class CmdGetTime extends CommandProcessor {
 			break;
 		case 'W':
 			yearday = 0;
-			if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+			if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 				month_days[1] = 29;
+			}
 			for (int j = 0; j < month; j++) {
 				yearday += month_days[j];
 			}
@@ -194,8 +196,9 @@ public class CmdGetTime extends CommandProcessor {
 			Date temp = new Date(cal.getYear(), 0, 1);
 			int d1 = temp.getDay() + 1;
 			yearday -= ((9 - d1) % 7);
-			if (yearday < 0)
+			if (yearday < 0) {
 				yearday = -7;
+			}
 			sb.append((yearday / 7) + 1);
 			break;
 		case 'F':

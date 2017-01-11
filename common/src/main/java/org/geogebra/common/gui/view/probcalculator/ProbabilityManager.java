@@ -476,12 +476,13 @@ public class ProbabilityManager {
 			xMin = 0;
 			xMax = 4 * k;
 			yMin = 0;
-			if (k > 2)
+			if (k > 2) {
 				// mode occurs when x = k-2; add 0.1 to handle k near 2
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(k - 2 + 0.1);
-			else
+			} else {
 				// mode occurs at x = 0, but we only use x near zero
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.1);
+			}
 			break;
 
 		case F:
@@ -534,10 +535,11 @@ public class ProbabilityManager {
 			xMin = 0;
 			xMax = mean + 5 * sd;
 			yMin = 0;
-			if (alpha > 1) // mode = (alpha -1)*beta
+			if (alpha > 1) {
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(mode);
-			else
+			} else {
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0);
+			}
 			break;
 
 		case WEIBULL:
@@ -851,11 +853,9 @@ public class ProbabilityManager {
 	public double intervalProbability(double low, double high, DIST distType,
 			double[] parms, int probMode) {
 
-		if (probMode == ProbabilityCalculatorView.PROB_LEFT)
-
+		if (probMode == ProbabilityCalculatorView.PROB_LEFT) {
 			return probability(high, parms, distType, true);
-
-		else if (probMode == ProbabilityCalculatorView.PROB_RIGHT) {
+		} else if (probMode == ProbabilityCalculatorView.PROB_RIGHT) {
 
 			if (isDiscrete(distType)) {
 				return 1 - probability(low - 1, parms, distType, true);

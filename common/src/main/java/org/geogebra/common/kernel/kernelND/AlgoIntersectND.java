@@ -127,18 +127,20 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 		} else if (didSetIntersectionPointArray.length < points.length) {
 			boolean[] temp = new boolean[points.length];
 			for (int i = 0; i < points.length; i++) {
-				if (i < didSetIntersectionPointArray.length)
+				if (i < didSetIntersectionPointArray.length) {
 					temp[i] = didSetIntersectionPointArray[i];
-				else
+				} else {
 					temp[i] = false;
+				}
 			}
 			didSetIntersectionPointArray = temp;
 		}
 
 		// set coords of intersection point to those of p
 		setCoords(points[index], p);
-		if (defpoints != null)
+		if (defpoints != null) {
 			setCoords(defpoints[index], p);
+		}
 		// we only remember setting the point if we used a defined point
 		didSetIntersectionPointArray[index] = true;
 
@@ -147,8 +149,9 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 		for (int i = 0; i < points.length; i++) {
 			if (!didSetIntersectionPointArray[i]) {
 				points[i].setUndefined();
-				if (defpoints != null)
+				if (defpoints != null) {
 					defpoints[i].setUndefined();
+				}
 			}
 		}
 
@@ -193,8 +196,9 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		if (numberOfUsers == 0) {
 			// this algorithm has no users and no labeled output
 			super.remove();

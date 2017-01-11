@@ -302,8 +302,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		// System.out.println("or..."+c2);
 		// System.out.println("changes: "+changes);
 		if (changes > 2)
+		 {
 			c = (c + c2) / 2; // compromise?
 		// System.out.println("final c: "+c);
+		}
 
 		// Find d
 		// (d=0 might go well, but to be on the safe side...100 iterations

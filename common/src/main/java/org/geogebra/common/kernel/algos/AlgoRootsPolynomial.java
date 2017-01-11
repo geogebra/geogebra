@@ -91,12 +91,13 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		tempPoint = new GeoPoint(cons);
 
 		// set mode
-		if (g != null)
+		if (g != null) {
 			mode = INTERSECT_POLYNOMIALS;
-		else if (l != null) {
+		} else if (l != null) {
 			mode = INTERSECT_POLY_LINE;
-		} else
+		} else {
 			mode = ROOTS;
+		}
 
 		if (mode != ROOTS) { // for intersection of f and g resp. line
 			diffFunction = new Function(kernel);
@@ -186,8 +187,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		// make sure that there are at least as many
 		// points as labels
-		if (labels != null)
+		if (labels != null) {
 			initRootPoints(labels.length);
+		}
 
 		update();
 	}
@@ -438,10 +440,12 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			roots = derivPoly.getCoeffsCopy();
 			realRoots = eqnSolver.polynomialRoots(roots, false);
 			solution.addToCurrentRoots(roots, realRoots);
-		} else
+		} else {
 			return null;
-		if (solution.curRealRoots > 1)
+		}
+		if (solution.curRealRoots > 1) {
 			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
+		}
 		return evalFunction;
 
 	}
@@ -474,8 +478,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			rootPoints[i].setUndefined();
 		}
 
-		if (setLabels)
+		if (setLabels) {
 			updateLabels(number);
+		}
 	}
 
 	// number is the number of current roots
@@ -544,10 +549,12 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// build new rootPoints array without the removed point
 		GeoPoint[] temp = new GeoPoint[rootPoints.length - 1];
 		int i;
-		for (i = 0; i < pos; i++)
+		for (i = 0; i < pos; i++) {
 			temp[i] = rootPoints[i];
-		for (i = pos + 1; i < rootPoints.length; i++)
+		}
+		for (i = pos + 1; i < rootPoints.length; i++) {
 			temp[i - 1] = rootPoints[i];
+		}
 		rootPoints = temp;
 	}
 

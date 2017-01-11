@@ -201,8 +201,9 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		quadric.remove();
 	}

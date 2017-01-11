@@ -187,16 +187,18 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			int rightIndexNew = (int) Math.min(myPointList.size() - 1,
 					Math.ceil(new_param));
 			for (int i = leftIndexCurr + 1; i <= rightIndexNew; i++) {
-				if (!myPointList.get(i).lineTo)
+				if (!myPointList.get(i).lineTo) {
 					return true;
+				}
 			}
 		} else if (curr_param > new_param) {
 			int leftIndexNew = (int) Math.max(0, Math.floor(new_param));
 			int rightIndexCurr = (int) Math.min(myPointList.size() - 1,
 					Math.ceil(curr_param));
 			for (int i = leftIndexNew + 1; i <= rightIndexCurr; i++) {
-				if (!myPointList.get(i).lineTo)
+				if (!myPointList.get(i).lineTo) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -223,8 +225,9 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		if (posOrientation) {
 			for (int i = paramindex + 2; i <= myPointList.size() - 1; i++) {
 				// lineTo at i == paramindex + 1 cannot happen
-				if (myPointList.get(i).lineTo)
+				if (myPointList.get(i).lineTo) {
 					return i - 1;
+				}
 			}
 			maxBorderSet = true;
 			return max_param;

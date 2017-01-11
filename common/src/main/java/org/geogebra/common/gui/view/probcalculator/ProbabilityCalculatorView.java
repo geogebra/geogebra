@@ -250,31 +250,35 @@ public abstract class ProbabilityCalculatorView
 
 	public void setGraphType(int type) {
 
-		if (graphType == type)
+		if (graphType == type) {
 			return;
+		}
 
 		graphType = type;
-		if (isCumulative)
+		if (isCumulative) {
 			graphTypeCDF = type;
-		else
+		} else {
 			graphTypePDF = type;
+		}
 
 		updateAll();
 	}
 
 	public final void setCumulative(boolean isCumulative) {
 
-		if (this.isCumulative == isCumulative)
+		if (this.isCumulative == isCumulative) {
 			return;
+		}
 
 		this.isCumulative = isCumulative;
 
 		// in cumulative mode only left-sided intervals are allowed
 		setProbabilityComboBoxMenu();
-		if (!isCumulative)
+		if (!isCumulative) {
 			// make sure left-sided is still selected when reverting to
 			// non-cumulative mode
 			setTypeSelectedIndex(PROB_LEFT);
+		}
 
 		if (isCumulative) {
 			graphType = graphTypeCDF;
@@ -307,9 +311,10 @@ public abstract class ProbabilityCalculatorView
 		this.selectedDist = distributionType;
 		this.isCumulative = isCumulative;
 		this.parameters = parameters;
-		if (parameters == null)
+		if (parameters == null) {
 			this.parameters = ProbabilityManager
 					.getDefaultParameters(selectedDist);
+		}
 
 		updateAll();
 	}
@@ -478,11 +483,12 @@ public abstract class ProbabilityCalculatorView
 					Operation.PLUS, offset);
 
 			AlgoDependentNumber xLow;
-			if (isCumulative)
+			if (isCumulative) {
 				// for cumulative bar graphs we only show a single bar
 				xLow = new AlgoDependentNumber(cons, highPlusOffset, false);
-			else
+			} else {
 				xLow = new AlgoDependentNumber(cons, lowPlusOffset, false);
+			}
 			cons.removeFromConstructionList(xLow);
 
 			AlgoDependentNumber xHigh = new AlgoDependentNumber(cons,
@@ -723,8 +729,9 @@ public abstract class ProbabilityCalculatorView
 			// create the geo
 			// ================================
 			boolean oldSuppressLabelMode = cons.isSuppressLabelsActive();
-			if (suppressLabelCreation)
+			if (suppressLabelCreation) {
 				cons.setSuppressLabelCreation(true);
+			}
 
 			// workaround for eg CmdNormal -> always creates undo point
 			boolean oldEnableUndo = cons.isUndoEnabled();
@@ -735,8 +742,9 @@ public abstract class ProbabilityCalculatorView
 
 			cons.setUndoEnabled(oldEnableUndo);
 
-			if (suppressLabelCreation)
+			if (suppressLabelCreation) {
 				cons.setSuppressLabelCreation(oldSuppressLabelMode);
+			}
 
 			return geos[0];
 
@@ -891,8 +899,9 @@ public abstract class ProbabilityCalculatorView
 
 		// System.out.println(d[0] + "," + d[1] + "," + d[2] + "," + d[3]);
 
-		if (plotSettings == null)
+		if (plotSettings == null) {
 			plotSettings = new PlotSettings();
+		}
 
 		plotSettings.xMin = xMin;
 		plotSettings.xMax = xMax;
@@ -945,15 +954,17 @@ public abstract class ProbabilityCalculatorView
 		GeoElement.updateCascade(pointList, getTempSet(), false);
 		tempSet.clear();
 
-		if (probManager.isDiscrete(selectedDist))
+		if (probManager.isDiscrete(selectedDist)) {
 			table.setSelectionByRowValue((int) getLow(), (int) getHigh());
+		}
 
 		isSettingAxisPoints = false;
 	}
 
 	public void removeGeos() {
-		if (pointList != null)
+		if (pointList != null) {
 			pointList.clear();
+		}
 		clearPlotGeoList();
 		plotPanel.clearView();
 	}
@@ -1273,12 +1284,13 @@ public abstract class ProbabilityCalculatorView
 						false);
 				newGeoList.add(intervalValueList);
 
-				if (graphType == GRAPH_LINE)
+				if (graphType == GRAPH_LINE) {
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
 							+ intervalProbList.getLabel(tpl) + ",0]";
-				else
+				} else {
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
 							+ intervalProbList.getLabel(tpl) + ",1]";
+				}
 
 				GeoElementND discreteIntervalGraphCopy = createGeoFromString(
 						expr, false);
@@ -1369,6 +1381,7 @@ public abstract class ProbabilityCalculatorView
 		return App.VIEW_PROBABILITY_CALCULATOR;
 	}
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculator(pcSettings.getDistributionType(),
@@ -1383,16 +1396,20 @@ public abstract class ProbabilityCalculatorView
 
 	protected abstract void setInterval(double low2, double high2);
 
+	@Override
 	public void add(GeoElement geo) {
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
 
+	@Override
 	public void remove(GeoElement geo) {
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 	}
 
@@ -1406,9 +1423,10 @@ public abstract class ProbabilityCalculatorView
 					setLow(lowPoint.getInhomX());
 					updateIntervalProbability();
 					updateGUI();
-					if (probManager.isDiscrete(selectedDist))
+					if (probManager.isDiscrete(selectedDist)) {
 						table.setSelectionByRowValue((int) getLow(),
 								(int) getHigh());
+					}
 				} else {
 					setXAxisPoints();
 				}
@@ -1419,9 +1437,10 @@ public abstract class ProbabilityCalculatorView
 					setHigh(highPoint.getInhomX());
 					updateIntervalProbability();
 					updateGUI();
-					if (probManager.isDiscrete(selectedDist))
+					if (probManager.isDiscrete(selectedDist)) {
 						table.setSelectionByRowValue((int) getLow(),
 								(int) getHigh());
+					}
 				} else {
 					setXAxisPoints();
 				}
@@ -1456,16 +1475,18 @@ public abstract class ProbabilityCalculatorView
 
 	protected void updateIntervalProbability() {
 		probability = intervalProbability();
-		if (probmanagerIsDiscrete())
+		if (probmanagerIsDiscrete()) {
 			this.discreteIntervalGraph.updateCascade();
-		else if (hasIntegral)
+		} else if (hasIntegral) {
 			this.integral.updateCascade();
+		}
 	}
 
 	protected boolean isValidInterval(int probMode, double xLow, double xHigh) {
 
-		if (probMode == PROB_INTERVAL && xHigh < xLow)
+		if (probMode == PROB_INTERVAL && xHigh < xLow) {
 			return false;
+		}
 
 		// don't allow non-integer bounds for discrete dist.
 		if (probManager.isDiscrete(selectedDist)
@@ -1493,13 +1514,15 @@ public abstract class ProbabilityCalculatorView
 
 		case CHISQUARE:
 		case EXPONENTIAL:
-			if (probMode != PROB_LEFT)
+			if (probMode != PROB_LEFT) {
 				isValid = xLow >= 0;
+			}
 			break;
 
 		case F:
-			if (probMode != PROB_LEFT)
+			if (probMode != PROB_LEFT) {
 				isValid = xLow > 0;
+			}
 			break;
 
 		}
@@ -1653,32 +1676,39 @@ public abstract class ProbabilityCalculatorView
 		// kernel.notifyRemoveAll(this);
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 
 	}
 
+	@Override
 	public void repaintView() {
 	}
 
+	@Override
 	public void reset() {
 
 	}
 
+	@Override
 	public void clearView() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		return app.showView(App.VIEW_PROBABILITY_CALCULATOR);
 	}
@@ -1692,13 +1722,15 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	private void removeFromConstructionList(ConstructionElement ce) {
-		if (removeFromConstruction)
+		if (removeFromConstruction) {
 			cons.removeFromConstructionList(ce);
+		}
 	}
 
 	private void removeFromAlgorithmList(AlgoElement algo) {
-		if (removeFromConstruction)
+		if (removeFromConstruction) {
 			cons.removeFromAlgorithmList(algo);
+		}
 	}
 
 	/**
@@ -1783,8 +1815,9 @@ public abstract class ProbabilityCalculatorView
 	 */
 	public void getXML(StringBuilder sb) {
 
-		if (selectedDist == null)
+		if (selectedDist == null) {
 			return;
+		}
 
 		sb.append("<probabilityCalculator>\n");
 		sb.append("\t<distribution");

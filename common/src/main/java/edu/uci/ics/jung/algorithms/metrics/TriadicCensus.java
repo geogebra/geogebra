@@ -171,8 +171,9 @@ public class TriadicCensus {
 			V v = id.get(i_v);
 			for (V u : g.getNeighbors(v)) {
 				int triType = -1;
-				if (id.indexOf(u) <= i_v)
+				if (id.indexOf(u) <= i_v) {
 					continue;
+				}
 				Set<V> neighbors = new HashSet<V>(CollectionUtils
 						.union(g.getNeighbors(u), g.getNeighbors(v)));
 				neighbors.remove(u);
@@ -253,11 +254,13 @@ public class TriadicCensus {
 			V v, V w) {
 		int i_u = id.indexOf(u);
 		int i_w = id.indexOf(w);
-		if (i_u < i_w)
+		if (i_u < i_w) {
 			return true;
+		}
 		int i_v = id.indexOf(v);
-		if ((i_v < i_w) && (i_w < i_u) && (!g.isNeighbor(w, v)))
+		if ((i_v < i_w) && (i_w < i_u) && (!g.isNeighbor(w, v))) {
 			return true;
+		}
 		return false;
 	}
 }

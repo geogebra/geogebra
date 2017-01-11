@@ -50,14 +50,17 @@ public class DrawAxis3D extends DrawLine3D {
 		// Application.debug(getGeoElement()+":
 		// "+getGeoElement().isLabelVisible());
 
-		if (!getGeoElement().isEuclidianVisible())
+		if (!getGeoElement().isEuclidianVisible()) {
 			return;
+		}
 
-		if (!getGeoElement().isLabelVisible())
+		if (!getGeoElement().isLabelVisible()) {
 			return;
+		}
 
-		for (DrawLabel3D currentLabel : labels.values())
+		for (DrawLabel3D currentLabel : labels.values()) {
 			currentLabel.draw(renderer);
+		}
 
 		super.drawLabel(renderer);
 
@@ -66,8 +69,9 @@ public class DrawAxis3D extends DrawLine3D {
 	@Override
 	public void setWaitForReset() {
 		super.setWaitForReset();
-		for (DrawLabel3D currentLabel : labels.values())
+		for (DrawLabel3D currentLabel : labels.values()) {
 			currentLabel.setWaitForReset();
+		}
 	}
 
 	@Override
@@ -85,10 +89,11 @@ public class DrawAxis3D extends DrawLine3D {
 
 		int iMin = (int) (minmax[0] / distance);
 		int iMax = (int) (minmax[1] / distance);
-		if (minmax[0] > 0)
+		if (minmax[0] > 0) {
 			iMin++;
-		else if (minmax[1] < 0)
+		} else if (minmax[1] < 0) {
 			iMax--;
+		}
 		int nb = iMax - iMin + 1;
 		// Application.debug("iMinMax="+iMin+","+iMax);
 

@@ -80,6 +80,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D
 		return P;
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return P.getDefinition();
 	}

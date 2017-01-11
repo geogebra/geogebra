@@ -53,6 +53,7 @@ public class ConvexHull {
 		 * Sorts the points so that the lowest - leftmost one is the first. Used
 		 * by both Graham's and Jarvis's algorithms.
 		 */
+		@Override
 		public int compare(Point2D o1, Point2D o2) {
 			double y1 = o1.getY();
 			double y2 = o2.getY();
@@ -101,6 +102,7 @@ public class ConvexHull {
 		 * Sorts the points so that the lowest - leftmost one is the first. Used
 		 * by both Graham's and Jarvis's algorithms.
 		 */
+		@Override
 		public int compare(Point2D p1, Point2D p2) {
 
 			Double theta1 = polarAngle(p0, p1);

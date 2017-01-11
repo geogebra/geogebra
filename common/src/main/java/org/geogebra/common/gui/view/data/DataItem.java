@@ -217,8 +217,9 @@ public class DataItem {
 				return false;
 			}
 			for (CellRange cr : rangeList) {
-				if (cr.containsGeoClass(geoClass))
+				if (cr.containsGeoClass(geoClass)) {
 					return true;
+				}
 			}
 			break;
 		}
@@ -633,8 +634,8 @@ public class DataItem {
 	}
 
 	private static MyTable spreadsheetTable(App app) {
-		SpreadsheetViewInterface spvi = (SpreadsheetViewInterface) ((GuiManagerInterface) app
-				.getGuiManager()).getSpreadsheetView();
+		SpreadsheetViewInterface spvi = app
+				.getGuiManager().getSpreadsheetView();
 		return (MyTable) spvi.getSpreadsheetTable();
 	}
 

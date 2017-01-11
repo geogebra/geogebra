@@ -61,10 +61,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// getCurrentCAS();
 	}
 
+	@Override
 	public CASparser getCASparser() {
 		return casParser;
 	}
 
+	@Override
 	public synchronized CASGenericInterface getCurrentCAS() {
 		if (cas == null) {
 			app.setWaitCursor();
@@ -84,6 +86,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
+	@Override
 	public synchronized void setCurrentCAS() {
 		try {
 			cas = getGiac();
@@ -104,6 +107,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return cas;
 	}
 
+	@Override
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
 			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell,
 			Kernel kernel) throws CASException {
@@ -130,8 +134,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		// pass on exception
-		if (exception != null)
+		if (exception != null) {
 			throw exception;
+		}
 
 		// success
 		if (result != null) {
@@ -144,15 +149,17 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return result;
 	}
 
+	@Override
 	final public String evaluateGeoGebraCAS(String exp,
 			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
 			throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp, null);
 			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, null, kernel);
-			if (ret == null)
+			if (ret == null) {
 				throw new CASException(new Exception(app.getLocalization()
 						.getError("CAS.GeneralErrorMessage")));
+			}
 			return ret;
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -160,6 +167,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
+	@Override
 	final public String evaluateRaw(String exp) throws Throwable {
 		if (app.getSettings().getCasSettings().isEnabled()) {
 			return getCurrentCAS().evaluateRaw(exp);
@@ -189,6 +197,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
 	private StringBuilder sbPolyCoeffs = new StringBuilder();
 
+	@Override
 	final public String[] getPolynomialCoeffs(final String polyExpr,
 			final String variable) {
 		getPolynomialCoeffsSB.setLength(0);
@@ -227,12 +236,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				return null;
 			}
 			// invalid output -- don't cache
-			if ("?".equals(tmp) || "".equals(tmp) || tmp == null)
+			if ("?".equals(tmp) || "".equals(tmp) || tmp == null) {
 				return null;
+			}
 
 			// not a polynomial: result still includes the variable, e.g. "x"
-			if (tmp.indexOf(variable) >= 0)
+			if (tmp.indexOf(variable) >= 0) {
 				return null;
+			}
 
 			// get names of escaped global variables right
 			// e.g. "ggbcasvara" needs to be changed to "a"
@@ -264,6 +275,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return ev.toValueString(tpl);
 	}
 
+	@Override
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl) {
@@ -603,7 +615,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					}
 					handled = true;
 				}
-			} else
+			} else {
 				try {
 					Commands c = Commands.valueOf(name);
 					if (c != null) {
@@ -612,8 +624,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						StringBuilder sb = new StringBuilder(name);
 						sb.append('[');
 						for (int i = 0; i < args.size(); i++) {
-							if (i > 0)
+							if (i > 0) {
 								sb.append(',');
+							}
 							sb.append(args.get(i).toOutputValueString(
 									StringTemplate.defaultTemplate));
 						}
@@ -623,13 +636,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 										sb.toString(), false);
 						kern.setSilentMode(silent);
 						if (ggbResult != null && ggbResult.length > 0
-								&& ggbResult[0] != null)
+								&& ggbResult[0] != null) {
 							return ggbResult[0].toValueString(tpl);
+						}
 					}
 				} catch (Exception e) {
 					kern.setSilentMode(silent);
 					Log.info(name + " not known command or function");
 				}
+			}
 
 			// standard case: add ggbcasvar prefix to name for CAS
 			if (!handled) {
@@ -768,11 +783,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ExpressionValue ev = args.get(pos);
-						if (toString(ev, symbolic, tplToUse).matches("[^(),]*"))
+						if (toString(ev, symbolic, tplToUse).matches("[^(),]*")) {
 							sbCASCommand
 									.append(toString(ev, symbolic, tplToUse));
-						else
+						} else {
 							sbCASCommand.append("x");
+						}
 					} else {
 						// failed
 						sbCASCommand.append(ch);
@@ -810,6 +826,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
+	@Override
 	public String translateCommandSignature(String string) {
 		String translation = casParser.getTranslatedCASCommand(string);
 		if (translation != null) {
@@ -829,8 +846,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			equation.initEquation();
 			// assume can accept only equation in first degree and with one
 			// variable
-			if (equation.degree() == 1 && vars.size() == 1)
+			if (equation.degree() == 1 && vars.size() == 1) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -936,13 +954,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	}
 
+	@Override
 	final public boolean isCommandAvailable(final Command cmd) {
 		StringBuilder sbCASCommand = new StringBuilder();
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".");
 		sbCASCommand.append(cmd.getArgumentNumber());
-		if (casParser.isCommandAvailable(sbCASCommand.toString()))
+		if (casParser.isCommandAvailable(sbCASCommand.toString())) {
 			return true;
+		}
 		Log.debug("NOT AVAILABLE" + sbCASCommand);
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(cmd.getName());
@@ -953,6 +973,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return false;
 	}
 
+	@Override
 	public boolean isStructurallyEqual(final ValidExpression inputVE,
 			final String localizedInput, Kernel kernel) {
 		try {
@@ -976,12 +997,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
+	@Override
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
 		if (app.getSettings().getCasSettings().isEnabled()) {
 			getCurrentCAS().evaluateGeoGebraCASAsync(c);
 		}
 	}
 
+	@Override
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<String>();
 		for (String signature : casParser.getTranslationRessourceBundle()
@@ -994,6 +1017,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return cmdSet;
 	}
 
+	@Override
 	public void clearCache() {
 		getPolynomialCoeffsCache.clear();
 	}

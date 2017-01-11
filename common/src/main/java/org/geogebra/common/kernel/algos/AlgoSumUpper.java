@@ -55,6 +55,7 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 		return Commands.UpperSum;
 	}
 
+	@Override
 	public AlgoSumUpper copy() {
 		return new AlgoSumUpper((GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),

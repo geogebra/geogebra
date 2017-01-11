@@ -45,9 +45,10 @@ public final class DoubleArrayFactory {
 	 *            the array you no longer need that might be needed later.
 	 */
 	public void putArray(double[] array) {
-		if (array.length == 2)
+		if (array.length == 2) {
 			d2free = true;
-		else if (array.length == 6)
+		} else if (array.length == 6) {
 			d6free = true;
+		}
 	}
 }

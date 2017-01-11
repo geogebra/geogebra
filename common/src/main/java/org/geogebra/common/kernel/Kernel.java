@@ -456,8 +456,9 @@ public class Kernel {
 	 * @return (polynomial) equation solver
 	 */
 	final public EquationSolver getEquationSolver() {
-		if (eqnSolver == null)
+		if (eqnSolver == null) {
 			eqnSolver = new EquationSolver(this);
+		}
 		return eqnSolver;
 	}
 
@@ -468,8 +469,9 @@ public class Kernel {
 	 */
 	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
 			EquationSolverInterface eSolver) {
-		if (sysEqSolv == null)
+		if (sysEqSolv == null) {
 			sysEqSolv = new SystemOfEquationsSolver(eSolver);
+		}
 		return sysEqSolv;
 	}
 
@@ -477,8 +479,9 @@ public class Kernel {
 	 * @return extremum finding utility
 	 */
 	final public ExtremumFinder getExtremumFinder() {
-		if (extrFinder == null)
+		if (extrFinder == null) {
 			extrFinder = new ExtremumFinder();
+		}
 		return extrFinder;
 	}
 
@@ -486,8 +489,9 @@ public class Kernel {
 	 * @return parser for GGB and CAS expressions
 	 */
 	final public Parser getParser() {
-		if (parser == null)
+		if (parser == null) {
 			parser = new GParser(this, cons);
+		}
 		return parser;
 	}
 
@@ -528,6 +532,7 @@ public class Kernel {
 
 		Comparator<Double> ret = new Comparator<Double>() {
 
+			@Override
 			public int compare(Double d1, Double d2) {
 				if (Math.abs(d1 - d2) < eps) {
 					return 0;
@@ -574,15 +579,17 @@ public class Kernel {
 	}
 
 	final public boolean needToShowAnimationButton() {
-		if (!showAnimationButton)
+		if (!showAnimationButton) {
 			return false;
+		}
 		return animationManager != null
 				&& animationManager.needToShowAnimationButton();
 	}
 
 	final public void udpateNeedToShowAnimationButton() {
-		if (animationManager != null)
+		if (animationManager != null) {
 			animationManager.updateNeedToShowAnimationButton();
+		}
 
 	}
 
@@ -2760,8 +2767,9 @@ public class Kernel {
 	}
 
 	final public int getPrintDecimals() {
-		if (nf == null)
+		if (nf == null) {
 			return 5;
+		}
 		return nf.getMaximumFractionDigits();
 	}
 
@@ -3160,8 +3168,9 @@ public class Kernel {
 	}
 
 	public void notifyEuclidianViewCE(EVProperty prop) {
-		if (macroManager != null)
+		if (macroManager != null) {
 			macroManager.notifyEuclidianViewCE(prop);
+		}
 
 		cons.notifyEuclidianViewCE(prop);
 	}
@@ -3184,8 +3193,9 @@ public class Kernel {
 		if (this.ggbCAS != null) {
 			this.ggbCAS.getCurrentCAS().clearResult();
 		}
-		if (macroManager != null)
+		if (macroManager != null) {
 			macroManager.setAllMacrosUnused();
+		}
 
 		// clear animations
 		if (animationManager != null) {
@@ -3644,8 +3654,9 @@ public class Kernel {
 
 	public final void notifyScreenChanged() {
 		for (View view : views) {
-			if (view instanceof EuclidianViewInterfaceCommon)
+			if (view instanceof EuclidianViewInterfaceCommon) {
 				((EuclidianViewInterfaceCommon) view).screenChanged();
+			}
 		}
 	}
 
@@ -3727,8 +3738,9 @@ public class Kernel {
 				notifyEuclidianViewCE(EVProperty.ZOOM);
 				notifyReset();
 				// algebra settings need to be applied after remaking tree
-				if (app.getGuiManager() != null)
+				if (app.getGuiManager() != null) {
 					app.getGuiManager().applyAlgebraViewSettings();
+				}
 
 				viewReiniting = false;
 			} else {
@@ -4625,8 +4637,9 @@ public class Kernel {
 	 * Removes a macro from the kernel.
 	 */
 	public void removeMacro(Macro macro) {
-		if (macroManager != null)
+		if (macroManager != null) {
 			macroManager.removeMacro(macro);
+		}
 		// Also remove Assignments using this macro from Exercise
 		Exercise ex = getExercise();
 		if (!ex.isEmpty() && ex.usesMacro(macro)) {
@@ -4659,8 +4672,9 @@ public class Kernel {
 	 */
 	public boolean setMacroCommandName(Macro macro, String cmdName) {
 		boolean nameUsed = macroManager.getMacro(cmdName) != null;
-		if (nameUsed || cmdName == null || cmdName.length() == 0)
+		if (nameUsed || cmdName == null || cmdName.length() == 0) {
 			return false;
+		}
 
 		app.dispatchEvent(new Event(EventType.RENAME_MACRO, null,
 				"[\"" + macro.getCommandName() + "\",\"" + cmdName + "\"]"));
@@ -4686,8 +4700,9 @@ public class Kernel {
 	 * @return
 	 */
 	public String getMacroXML(ArrayList<Macro> macros) {
-		if (hasMacros())
+		if (hasMacros()) {
 			return MacroManager.getMacroXML(macros);
+		}
 		return "";
 	}
 
@@ -4704,8 +4719,9 @@ public class Kernel {
 	 * Returns the number of currently registered macros
 	 */
 	public int getMacroNumber() {
-		if (macroManager == null)
+		if (macroManager == null) {
 			return 0;
+		}
 		return macroManager.getMacroNumber();
 	}
 
@@ -5111,8 +5127,9 @@ public class Kernel {
 		app.updateMaxLayerUsed(layer2);
 		if (notifyViewsActive) {
 			for (View view : views) {
-				if (view instanceof LayerView)
+				if (view instanceof LayerView) {
 					((LayerView) view).changeLayer(ge, layer, layer2);
+				}
 			}
 		}
 	}

@@ -65,8 +65,9 @@ public final class FLS {
 		// triangle of inequality: at least 1 edge will be shorter.
 		// if both will be longer, there will be no improvement.
 		// return a positive delta to indicate no improvement.
-		if (_ab < _ac && _cd < _bd)
+		if (_ab < _ac && _cd < _bd) {
 			return 1;
+		}
 
 		// otherwise must calculate distance delta.
 		return (Maths.sqrt(_ac) + Maths.sqrt(_bd))
@@ -195,8 +196,9 @@ public final class FLS {
 	private static double distance(final Point[] points) {
 		final int len = points.length;
 		double d = points[len - 1].distance(points[0]);
-		for (int i = 1; i < len; i++)
+		for (int i = 1; i < len; i++) {
 			d += points[i - 1].distance(points[i]);
+		}
 		return d;
 	}
 

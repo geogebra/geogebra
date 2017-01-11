@@ -196,8 +196,9 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		((GeoElement) A).removeAlgorithm(algoCAS);
 		f.removeAlgorithm(algoCAS);

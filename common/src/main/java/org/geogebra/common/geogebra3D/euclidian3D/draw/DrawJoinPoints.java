@@ -223,10 +223,12 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	}
 
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
 
 	}
 
+	@Override
 	public void updatePreview() {
 
 		if (selectedPoints == null) { // when intersection curve

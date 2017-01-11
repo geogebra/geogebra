@@ -55,7 +55,7 @@ public abstract class CopyPasteCut {
 
 	private SpreadsheetViewInterface getView() {
 		if (view == null) {
-			view = (SpreadsheetViewInterface) app.getGuiManager()
+			view = app.getGuiManager()
 					.getSpreadsheetView();
 		}
 
@@ -180,9 +180,11 @@ public abstract class CopyPasteCut {
 
 			// paste data multiple times to fill in the selection rectangle (and
 			// maybe overflow a bit)
-			for (int c = column1; c <= column2; c += columnStep)
-				for (int r = row1; r <= row2; r += rowStep)
+			for (int c = column1; c <= column2; c += columnStep) {
+				for (int r = row1; r <= row2; r += rowStep) {
 					succ = succ && pasteInternal(c, r, maxColumn, maxRow);
+				}
+			}
 
 			// now do all redefining and build new construction
 			cons.processCollectedRedefineCalls();
@@ -222,11 +224,13 @@ public abstract class CopyPasteCut {
 	public boolean pasteInternal(int column1, int row1, int maxColumn,
 			int maxRow) throws Exception {
 		int width = cellBufferGeo.length;
-		if (width == 0)
+		if (width == 0) {
 			return false;
+		}
 		int height = cellBufferGeo[0].length;
-		if (height == 0)
+		if (height == 0) {
 			return false;
+		}
 
 		app.setWaitCursor();
 		boolean succ = false;
@@ -248,8 +252,9 @@ public abstract class CopyPasteCut {
 		 */
 
 		int size = (x2 - x1 + 1) * (y2 - y1 + 1);
-		if (constructionIndexes == null || constructionIndexes.length < size)
+		if (constructionIndexes == null || constructionIndexes.length < size) {
 			constructionIndexes = new Object[size];
+		}
 
 		int count = 0;
 
@@ -388,8 +393,9 @@ public abstract class CopyPasteCut {
 		int rowStep = data.length;
 		int columnStep = data[0].length;
 
-		if (columnStep == 0)
+		if (columnStep == 0) {
 			return false;
+		}
 
 		int maxColumn = column2;
 		int maxRow = row2;
@@ -403,9 +409,11 @@ public abstract class CopyPasteCut {
 
 		// paste data multiple times to fill in the selection rectangle (and
 		// maybe overflow a bit)
-		for (int c = column1; c <= column2; c += columnStep)
-			for (int r = row1; r <= row2; r += rowStep)
+		for (int c = column1; c <= column2; c += columnStep) {
+			for (int r = row1; r <= row2; r += rowStep) {
 				succ = succ && pasteExternal(data, c, r, maxColumn, maxRow);
+			}
+		}
 
 		app.getSettings().getSpreadsheet().setEqualsRequired(oldEqualsSetting);
 
@@ -437,24 +445,28 @@ public abstract class CopyPasteCut {
 			GeoElementND[][] values2 = new GeoElement[data.length][];
 			int maxLen = -1;
 			for (int row = row1; row < row1 + data.length; ++row) {
-				if (row < 0 || row > maxRow)
+				if (row < 0 || row > maxRow) {
 					continue;
+				}
 				int iy = row - row1;
 				values2[iy] = new GeoElement[data[iy].length];
-				if (maxLen < data[iy].length)
+				if (maxLen < data[iy].length) {
 					maxLen = data[iy].length;
+				}
 				if (tableModel.getColumnCount() < column1 + data[iy].length) {
 					tableModel.setColumnCount(column1 + data[iy].length);
 				}
 				for (int column = column1; column < column1
 						+ data[iy].length; ++column) {
-					if (column < 0 || column > maxColumn)
+					if (column < 0 || column > maxColumn) {
 						continue;
+					}
 					int ix = column - column1;
 					// Application.debug(iy + " " + ix + " [" + data[iy][ix] +
 					// "]");
-					if (data[iy][ix] == null)
+					if (data[iy][ix] == null) {
 						continue;
+					}
 					data[iy][ix] = data[iy][ix].trim();
 					if (data[iy][ix].length() == 0) {
 						GeoElement value0 = RelativeCopy.getValue(app, column,
@@ -581,6 +593,7 @@ public abstract class CopyPasteCut {
 	public static Comparator getComparator() {
 		if (comparator == null) {
 			comparator = new Comparator() {
+				@Override
 				public int compare(Object a, Object b) {
 					Record itemA = (Record) a;
 					Record itemB = (Record) b;

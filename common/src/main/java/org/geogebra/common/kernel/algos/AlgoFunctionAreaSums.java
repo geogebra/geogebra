@@ -529,8 +529,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		this.list2 = list2;
 		this.list3 = list3;
 		this.density = density;
-		if (density != null)
+		if (density != null) {
 			densityGeo = density.toGeoElement();
+		}
 
 		this.useDensityGeo = useDensity;
 
@@ -580,10 +581,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		this.p2 = p2;
 		this.p3 = p3;
 		p1geo = p1.toGeoElement();
-		if (p2 != null)
+		if (p2 != null) {
 			p2geo = p2.toGeoElement();
-		if (p3 != null)
+		}
+		if (p3 != null) {
 			p3geo = p3.toGeoElement();
+		}
 		this.isCumulative = isCumulative;
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
@@ -609,10 +612,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		this.p2 = p2;
 		this.p3 = p3;
 		p1geo = p1.toGeoElement();
-		if (p2 != null)
+		if (p2 != null) {
 			p2geo = p2.toGeoElement();
-		if (p3 != null)
+		}
+		if (p3 != null) {
 			p3geo = p3.toGeoElement();
+		}
 		this.isCumulative = isCumulative;
 		this.a = a;
 		this.b = b;
@@ -710,12 +715,15 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		case BARCHART_ZIPF:
 			ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
 			inputList.add(p1geo);
-			if (p2geo != null)
+			if (p2geo != null) {
 				inputList.add(p2geo);
-			if (p3geo != null)
+			}
+			if (p3geo != null) {
 				inputList.add(p3geo);
-			if (isCumulative != null)
+			}
+			if (isCumulative != null) {
 				inputList.add(isCumulative);
+			}
 
 			input = new GeoElement[inputList.size()];
 			input = inputList.toArray(input);
@@ -878,8 +886,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 			RealRootFunction fmin = fun;
 			if (type == SumType.UPPERSUM)
+			 {
 				fmin = new NegativeRealRootFunction(fun); // use -f to find
 															// maximum
+			}
 
 			double totalArea = 0;
 			double left, right, min;
@@ -937,8 +947,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 					// left now
 					// check right border too
 					y = fmin.evaluate(right);
-					if (y < min)
+					if (y < min) {
 						minSample = right;
+					}
 
 					// investigate only the interval around the minSample
 					// make sure we don't get out of our interval!
@@ -952,12 +963,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 				// one of the evaluated sub-samples could be smaller
 				// e.g. at the border of this interval
-				if (y > min)
+				if (y > min) {
 					y = min;
+				}
 
 				// store min/max
-				if (type == SumType.UPPERSUM)
+				if (type == SumType.UPPERSUM) {
 					y = -y;
+				}
 				yval[i] = y;
 
 				// add to sum
@@ -966,8 +979,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 			// calc area of rectangles
 			sum.setValue(totalArea * STEP);
-			if (!isDefined)
+			if (!isDefined) {
 				sum.setUndefined();
+			}
 			break;
 
 		case TRAPEZOIDALSUM:
@@ -1085,10 +1099,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				leftBorder[i] = ad + i * STEP;
 
 				geo = list1.get(i);
-				if (geo.isGeoNumeric())
+				if (geo.isGeoNumeric()) {
 					yval[i] = ((GeoNumeric) geo).getDouble();
-				else
+				} else {
 					yval[i] = 0;
+				}
 
 				totalArea += yval[i];
 			}
@@ -1177,17 +1192,18 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 
 			// zero frequencies
-			for (int i = 0; i < N; i++)
+			for (int i = 0; i < N; i++) {
 				yval[i] = 0;
+			}
 
 			// work out frequencies in each class
 			double datum, valueFrequency = 1;
 
 			for (int i = 0; i < list1.size(); i++) {
 				geo = list1.get(i);
-				if (geo.isGeoNumeric())
+				if (geo.isGeoNumeric()) {
 					datum = ((GeoNumeric) geo).getDouble();
-				else {
+				} else {
 					sum.setUndefined();
 					return;
 				}
@@ -1319,8 +1335,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				if (isCumulative != null
 						&& ((GeoBoolean) isCumulative).getBoolean()) {
 					sum.setValue(Double.POSITIVE_INFINITY);
-				} else
+				} else {
 					sum.setValue(1);
+				}
 				sum.updateCascade();
 			}
 
@@ -1498,16 +1515,16 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 					geo = list1.get(i);
 					if (i == 0) {
-						if (geo instanceof GeoNumberValue)
+						if (geo instanceof GeoNumberValue) {
 							a = (GeoNumberValue) geo;
-						else {
+						} else {
 							sum.setUndefined();
 							return;
 						}
 					}
-					if (geo.isGeoNumeric())
+					if (geo.isGeoNumeric()) {
 						leftBorder[i] = ((GeoNumeric) geo).getDouble();
-					else {
+					} else {
 						sum.setUndefined();
 						return;
 					}
@@ -1524,8 +1541,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				leftBorder[N - 1] = ((GeoNumeric) geo).getDouble();
 
 				// zero frequencies
-				for (int i = 0; i < N; i++)
+				for (int i = 0; i < N; i++) {
 					yval[i] = 0;
+				}
 
 				// work out frequencies in each class
 
@@ -1534,17 +1552,17 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				for (int i = 0; i < list2.size(); i++) {
 					geo = list2.get(i);
 
-					if (geo.isGeoNumeric())
+					if (geo.isGeoNumeric()) {
 						datum = ((GeoNumeric) geo).getDouble();
-					else {
+					} else {
 						sum.setUndefined();
 						return;
 					}
 					if (useFrequency) {
 						geo2 = list3.get(i);
-						if (geo2.isGeoNumeric())
+						if (geo2.isGeoNumeric()) {
 							valueFrequency = ((GeoNumeric) geo2).getDouble();
-						else {
+						} else {
 							sum.setUndefined();
 							return;
 						}
@@ -1610,16 +1628,16 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 					geo = list1.get(i);
 					if (i == 0) {
-						if (geo instanceof GeoNumberValue)
+						if (geo instanceof GeoNumberValue) {
 							a = (GeoNumberValue) geo;
-						else {
+						} else {
 							sum.setUndefined();
 							return;
 						}
 					}
-					if (geo instanceof NumberValue)
+					if (geo instanceof NumberValue) {
 						leftBorder[i] = ((NumberValue) geo).getDouble();
-					else {
+					} else {
 						sum.setUndefined();
 						return;
 					}
@@ -1690,8 +1708,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 		}
 		double val = f.evaluate(bd);
-		if (Double.isNaN(val) || Double.isInfinite(val))
+		if (Double.isNaN(val) || Double.isInfinite(val)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -1747,8 +1766,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				// do nothing
 				break;
 			case BARCHART_BINOMIAL:
-				if (!(p1geo.isDefined() && p2geo.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
+				}
 				int n = (int) Math.round(p1.getDouble());
 				double p = p2.getDouble();
 				dist = new BinomialDistributionImpl(n, p);
@@ -1757,8 +1777,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				break;
 
 			case BARCHART_PASCAL:
-				if (!(p1geo.isDefined() && p2geo.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
+				}
 				n = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
 				dist = new PascalDistributionImpl(n, p);
@@ -1767,8 +1788,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				last = (int) Math.max(1, (kernel).getXmax() + 1);
 				break;
 			case BARCHART_ZIPF:
-				if (!(p1geo.isDefined() && p2geo.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
+				}
 				n = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
 				dist = new ZipfDistributionImpl(n, p);
@@ -1777,8 +1799,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				last = n;
 				break;
 			case BARCHART_POISSON:
-				if (!p1geo.isDefined())
+				if (!p1geo.isDefined()) {
 					return false;
+				}
 				double lambda = p1.getDouble();
 				dist = new PoissonDistributionImpl(lambda);
 				first = 0;
@@ -1787,8 +1810,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 			case BARCHART_HYPERGEOMETRIC:
 				if (!(p1geo.isDefined() && p2geo.isDefined()
-						&& p3geo.isDefined()))
+						&& p3geo.isDefined())) {
 					return false;
+				}
 				int pop = (int) p1.getDouble();
 				int successes = (int) p2.getDouble();
 				int sample = (int) p3.getDouble();
@@ -1819,12 +1843,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			IntegerDistribution dist) throws Exception {
 		boolean oldSuppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		if (list1 != null)
+		if (list1 != null) {
 			list1.remove();
+		}
 		list1 = new GeoList(cons);
 
-		if (list2 != null)
+		if (list2 != null) {
 			list2.remove();
+		}
 		list2 = new GeoList(cons);
 
 		double prob;
@@ -1835,10 +1861,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			prob = dist.probability(i);
 			cumProb += prob;
 			if (isCumulative != null
-					&& ((GeoBoolean) isCumulative).getBoolean())
+					&& ((GeoBoolean) isCumulative).getBoolean()) {
 				list2.add(new GeoNumeric(cons, cumProb));
-			else
+			} else {
 				list2.add(new GeoNumeric(cons, prob));
+			}
 		}
 		cons.setSuppressLabelCreation(oldSuppress);
 	}

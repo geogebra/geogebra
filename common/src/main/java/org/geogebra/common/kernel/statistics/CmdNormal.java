@@ -44,8 +44,9 @@ public class CmdNormal extends CommandProcessor {
 		case 4:
 			if (arg[3] instanceof BooleanValue) {
 				cumulative = (BooleanValue) arg[3];
-			} else
+			} else {
 				throw argErr(app, c, arg[3]);
+			}
 
 			// fall through
 		case 3:
@@ -68,8 +69,9 @@ public class CmdNormal extends CommandProcessor {
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 
-				} else
+				} else {
 					throw argErr(app, c, arg[2]);
+				}
 			}
 			throw argErr(app, c, ok ? arg[1] : arg[0]);
 

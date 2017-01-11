@@ -55,9 +55,9 @@ public class CmdElement extends CommandProcessor {
 				throw argErr(app, c, arg[0]);
 			}
 			for (int i = 1; i < n; i++) {
-				if (arg[i] instanceof GeoNumberValue)
+				if (arg[i] instanceof GeoNumberValue) {
 					nvs[i - 1] = (GeoNumberValue) arg[i];
-				else {
+				} else {
 					throw argErr(app, c, arg[i]);
 				}
 			}

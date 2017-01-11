@@ -33,8 +33,9 @@ public class CmdLeftRightSide extends CommandProcessor {
 	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
-		if (args.length != 1)
+		if (args.length != 1) {
 			throw argNumErr(app, c, args.length);
+		}
 		if (!(args[0] instanceof EquationValue)
 				|| (args[0].isGeoImplicitCurve() && args[0].isGeoElement3D())) {
 			throw argErr(app, c, args[0]);

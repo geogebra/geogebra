@@ -228,8 +228,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 				// we need to check the references to all geos in its function's
 				// expression
 				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 3; i++) {
 					algoMacro.initFunction(fun[i]);
+				}
 			}
 		}
 
@@ -456,6 +457,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	private double[] xyzuv;
 
+	@Override
 	public void pointChangedForRegion(GeoPointND P) {
 
 		GeoPoint3D p = (GeoPoint3D) P;
@@ -1254,15 +1256,18 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		return a + (b - a) * cons.getApplication().getRandomNumber();
 	}
 
+	@Override
 	public void regionChanged(GeoPointND P) {
 		pointChangedForRegion(P);
 	}
 
+	@Override
 	public boolean isInRegion(GeoPointND P) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean isInRegion(double x0, double y0) {
 		// TODO Auto-generated method stub
 		return false;
@@ -1337,10 +1342,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		setLineThickness(th);
 	}
 
+	@Override
 	public void printCASEvalMapXML(StringBuilder sb) {
 		// fun.printCASevalMapXML(sb);
 	}
 
+	@Override
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		// TODO
 	}

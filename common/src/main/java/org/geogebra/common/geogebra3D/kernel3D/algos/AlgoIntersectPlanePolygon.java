@@ -29,7 +29,7 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 
 	@Override
 	protected GeoElement getFirstInput() {
-		return (GeoElement) plane;
+		return plane;
 	}
 
 	@Override

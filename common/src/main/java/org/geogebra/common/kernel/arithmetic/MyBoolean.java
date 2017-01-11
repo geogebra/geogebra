@@ -78,18 +78,22 @@ public class MyBoolean extends ValidExpression
 		return value ? "true" : "false";
 	}
 
+	@Override
 	public boolean isConstant() {
 		return true;
 	}
 
+	@Override
 	final public boolean isLeaf() {
 		return true;
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		// do nothing
 	}
 
+	@Override
 	final public boolean isNumberValue() {
 		return true;
 	}
@@ -99,6 +103,7 @@ public class MyBoolean extends ValidExpression
 		return new MyBoolean(kernel1, value);
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		return null;
 	}
@@ -108,18 +113,22 @@ public class MyBoolean extends ValidExpression
 		return toString(tpl);
 	}
 
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
+	@Override
 	final public MyBoolean getMyBoolean() {
 		return new MyBoolean(kernel, value);
 	}
 
+	@Override
 	final public boolean getBoolean() {
 		return value;
 	}
@@ -127,10 +136,12 @@ public class MyBoolean extends ValidExpression
 	/**
 	 * Returns 1 for true and 0 for false.
 	 */
+	@Override
 	public double getDouble() {
 		return value ? 1 : 0;
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -142,18 +153,22 @@ public class MyBoolean extends ValidExpression
 		return kernel;
 	}
 
+	@Override
 	public GeoElement toGeoElement(Construction cons) {
 		return new GeoBoolean(cons, value);
 	}
 
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getDouble());
 	}
 
+	@Override
 	public int getAngleDim() {
 		return 0;
 	}
 
+	@Override
 	public boolean isDefined() {
 		return isDefined;
 	}
@@ -171,6 +186,7 @@ public class MyBoolean extends ValidExpression
 		this.isDefined = defined;
 	}
 
+	@Override
 	public String getLabel(StringTemplate tpl) {
 		return toValueString(tpl);
 	}

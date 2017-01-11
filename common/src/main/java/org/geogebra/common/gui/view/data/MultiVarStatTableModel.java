@@ -50,6 +50,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 		return getColumnNames().length;
 	}
 
+	@Override
 	public ArrayList<Stat> getStatList() {
 
 		ArrayList<Stat> list = new ArrayList<Stat>();

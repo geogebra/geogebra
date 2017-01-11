@@ -153,6 +153,7 @@ public class AlgoSpline extends AlgoElement {
 		return parameterIntervalLimits;
 	}
 
+	@Override
 	public void compute() {
 		if (!this.inputList.isDefined()) {
 			spline.setUndefined();
@@ -176,10 +177,11 @@ public class AlgoSpline extends AlgoElement {
 		for (i = 0; i < dimension; i++) {
 			parameters[i] = getSystemSolution(getLinearSystemParametric(i));
 		}
-		for (i = 0; i < dimension; i++)
+		for (i = 0; i < dimension; i++) {
 			if (parameters[i] == null) {
 				return;
 			}
+		}
 
 		FunctionVariable fv = new FunctionVariable(this.kernel, "t");
 		MyList[] alt = new MyList[dimension];

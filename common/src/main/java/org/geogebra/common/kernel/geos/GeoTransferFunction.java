@@ -320,6 +320,7 @@ public class GeoTransferFunction extends GeoElement {
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC2D;
 	}

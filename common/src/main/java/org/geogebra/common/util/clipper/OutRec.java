@@ -18,8 +18,8 @@ class OutRec {
 		}
 		double a = 0;
 		do {
-			a = a + (double) (op.prev.getPt().getX() + op.getPt().getX())
-					* (double) (op.prev.getPt().getY() - op.getPt().getY());
+			a = a + (op.prev.getPt().getX() + op.getPt().getX())
+					* (op.prev.getPt().getY() - op.getPt().getY());
 			op = op.next;
 		} while (op != pts);
 		return a * 0.5;

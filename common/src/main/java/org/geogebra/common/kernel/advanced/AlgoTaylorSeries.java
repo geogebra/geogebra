@@ -162,7 +162,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 					g.setUndefined();
 					return;
 				} else if (Kernel.isZero(coeff))
+				 {
 					continue; // this part vanished
+				}
 
 				boolean negativeCoeff = coeff < 0;
 
@@ -199,7 +201,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 				} else {
 					if (negativeCoeff) {
 						if (coeffMyDouble != null)
+						 {
 							coeffMyDouble.set(-coeff); // change sign
+						}
 						series = new ExpressionNode(kernel, series,
 								Operation.MINUS, partExp);
 					} else {

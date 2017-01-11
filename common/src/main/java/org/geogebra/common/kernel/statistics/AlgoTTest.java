@@ -160,8 +160,9 @@ public class AlgoTTest extends AlgoElement {
 			try {
 
 				// get the test statistic and p
-				if (tTestImpl == null)
+				if (tTestImpl == null) {
 					tTestImpl = new TTestImpl();
+				}
 				testStat = tTestImpl.t(hypMean.getDouble(), val);
 				p = tTestImpl.tTest(hypMean.getDouble(), val);
 				p = adjustedPValue(p, testStat);
@@ -192,8 +193,9 @@ public class AlgoTTest extends AlgoElement {
 						(long) n.getDouble(), -1, -1, -1);
 
 				// get the test statistic and p
-				if (tTestImpl == null)
+				if (tTestImpl == null) {
 					tTestImpl = new TTestImpl();
+				}
 				testStat = tTestImpl.t(hypMean.getDouble(), sumStats);
 				p = tTestImpl.tTest(hypMean.getDouble(), sumStats);
 				p = adjustedPValue(p, testStat);

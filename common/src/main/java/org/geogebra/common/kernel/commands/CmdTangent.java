@@ -45,18 +45,18 @@ public class CmdTangent extends CommandProcessor {
 
 			// tangents through point
 			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic())))
+					&& (ok[1] = (arg[1].isGeoConic()))) {
 				return tangent(c.getLabels(), (GeoPointND) arg[0],
 						(GeoConicND) arg[1]);
-			else if ((ok[0] = (arg[0].isGeoConic()))
-					&& (ok[1] = (arg[1].isGeoPoint())))
+			} else if ((ok[0] = (arg[0].isGeoConic()))
+					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				return tangent(c.getLabels(), (GeoPointND) arg[1],
 						(GeoConicND) arg[0]);
-			else if ((ok[0] = (arg[0].isGeoLine()))
-					&& (ok[1] = (arg[1].isGeoConic())))
+			} else if ((ok[0] = (arg[0].isGeoLine()))
+					&& (ok[1] = (arg[1].isGeoConic()))) {
 				return tangent(c.getLabels(), (GeoLineND) arg[0],
 						(GeoConicND) arg[1]);
-			else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
+			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 
 				AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(
@@ -122,8 +122,9 @@ public class CmdTangent extends CommandProcessor {
 
 			// syntax error
 			else {
-				if (!ok[0])
+				if (!ok[0]) {
 					throw argErr(app, c, arg[0]);
+				}
 				throw argErr(app, c, arg[1]);
 			}
 

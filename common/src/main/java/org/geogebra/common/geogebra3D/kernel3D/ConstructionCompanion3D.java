@@ -121,12 +121,15 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 
 	@Override
 	public Constants isConstantElement(GeoElement geo) {
-		if (geo == zAxis3D)
+		if (geo == zAxis3D) {
 			return Constants.Z_AXIS;
-		if (geo == xOyPlane)
+		}
+		if (geo == xOyPlane) {
 			return Constants.XOY_PLANE;
-		if (geo == space)
+		}
+		if (geo == space) {
 			return Constants.SPACE;
+		}
 
 		return super.isConstantElement(geo);
 	}

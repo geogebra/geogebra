@@ -108,6 +108,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double solve(double min, double max)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -115,6 +116,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double solve(double min, double max, double initial)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -149,6 +151,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 	 *             a root)
 	 * @deprecated in 2.2 (to be removed in 3.0).
 	 */
+	@Override
 	@Deprecated
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max, final double initial)
@@ -258,6 +261,7 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 	 *             function at the endpoints are not opposites
 	 * @deprecated in 2.2 (to be removed in 3.0).
 	 */
+	@Override
 	@Deprecated
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max)

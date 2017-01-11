@@ -195,9 +195,10 @@ public class ExtremumFinder {
 
 		fx = minclass.evaluate(x);
 		/* added by Markus Hohenwarter */
-		if (Double.isNaN(fx))
+		if (Double.isNaN(fx)) {
 			return Double.NaN;
 		/* *********** */
+		}
 
 		fv = fx;
 		fw = fx;
@@ -212,8 +213,9 @@ public class ExtremumFinder {
 
 		while (Math.abs(x - xm) > (t2 - .5 * (b - a))) {
 
-			if (iterations > MAX_ITERATIONS)
+			if (iterations > MAX_ITERATIONS) {
 				return Double.NaN;
+			}
 			iterations++;
 
 			p = q = r = 0.0;
@@ -256,8 +258,9 @@ public class ExtremumFinder {
 				if (((u - a) < t2) || ((b - u) < t2)) {
 
 					d = tol1;
-					if (x >= xm)
+					if (x >= xm) {
 						d = -d;
+					}
 
 				}
 
@@ -302,9 +305,10 @@ public class ExtremumFinder {
 
 			fu = minclass.evaluate(u);
 			/* added by Markus Hohenwarter */
-			if (Double.isNaN(fu))
+			if (Double.isNaN(fu)) {
 				return Double.NaN;
 			/* *********** */
+			}
 
 			// Update a, b, v, w, and x
 

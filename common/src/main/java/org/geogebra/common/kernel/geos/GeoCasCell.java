@@ -425,6 +425,7 @@ public class GeoCasCell extends GeoElement
 	 * @param style
 	 *            font style
 	 */
+	@Override
 	public void setFontStyle(int style) {
 		commentText.setFontStyle(style);
 	}
@@ -447,6 +448,7 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * @return font style
 	 */
+	@Override
 	public int getFontStyle() {
 		return commentText.getFontStyle();
 	}
@@ -455,6 +457,7 @@ public class GeoCasCell extends GeoElement
 	 * @param d
 	 *            font size multiplier
 	 */
+	@Override
 	public void setFontSizeMultiplier(double d) {
 		commentText.setFontSizeMultiplier(d);
 	}
@@ -462,6 +465,7 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * @return font size
 	 */
+	@Override
 	public double getFontSizeMultiplier() {
 		return commentText.getFontSizeMultiplier();
 	}
@@ -544,8 +548,9 @@ public class GeoCasCell extends GeoElement
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8
 			String assignmentStr = twinGeo
 					.toCasAssignment(StringTemplate.defaultTemplate);
-			if (suppressOutput)
+			if (suppressOutput) {
 				assignmentStr = assignmentStr + ";";
+			}
 			String evalCmd1 = evalCmd;
 			if (setInput(assignmentStr)) {
 				if ("Numeric".equals(evalCmd1)) {
@@ -676,8 +681,9 @@ public class GeoCasCell extends GeoElement
 	 *            true if update variable names also
 	 */
 	public void updateInputStringWithRowReferences(boolean force) {
-		if (!includesRowReferences && !force)
+		if (!includesRowReferences && !force) {
 			return;
+		}
 
 		// inputVE will print the correct label, e.g. $4 for
 		// the row reference
@@ -777,8 +783,9 @@ public class GeoCasCell extends GeoElement
 	 * @return whether newInput and current input have same stucture
 	 */
 	public boolean isStructurallyEqualToLocalizedInput(final String newInput) {
-		if (localizedInput != null && localizedInput.equals(newInput))
+		if (localizedInput != null && localizedInput.equals(newInput)) {
 			return true;
+		}
 
 		if (!kernel.getGeoGebraCAS().isStructurallyEqual(getInputVE(), newInput,
 				getKernel())) {
@@ -815,8 +822,9 @@ public class GeoCasCell extends GeoElement
 		// clear var sets
 		clearInVars();
 
-		if (ve == null || useAsText)
+		if (ve == null || useAsText) {
 			return;
+		}
 
 		// get all command names
 		commands = new HashSet<Command>();
@@ -900,8 +908,9 @@ public class GeoCasCell extends GeoElement
 
 		if (ve.getLabel() != null && getFunctionVars().isEmpty()) {
 			String var = getFunctionVariable(ve, getKernel());
-			if (var != null)
+			if (var != null) {
 				getFunctionVars().add(var);
+			}
 		}
 		// create Array of defined input GeoElements
 		inGeos = updateInputGeoElements(invars);
@@ -925,15 +934,17 @@ public class GeoCasCell extends GeoElement
 
 	private static String getFunctionVariable(final ValidExpression ve,
 			Kernel kernel) {
-		if (!ve.isTopLevelCommand())
+		if (!ve.isTopLevelCommand()) {
 			return null;
+		}
 		Command cmd = ve.getTopLevelCommand();
 		if ("Derivative".equals(cmd.getName())) {
 			if (cmd.getArgumentNumber() > 1) {
 
 				if (!cmd.getArgument(1).isLeaf() || !(cmd.getArgument(1)
-						.getLeft() instanceof GeoDummyVariable))
+						.getLeft() instanceof GeoDummyVariable)) {
 					return null;
+				}
 				return ((GeoElement) cmd.getArgument(1).getLeft())
 						.toString(StringTemplate.defaultTemplate);// StringTemplate.defaultTemplate);
 			}
@@ -943,11 +954,12 @@ public class GeoCasCell extends GeoElement
 			while (it.hasNext()) {
 				GeoElement em = it.next();
 				if (kernel.lookupLabel(
-						em.toString(StringTemplate.defaultTemplate)) == null)
+						em.toString(StringTemplate.defaultTemplate)) == null) {
 					if (em instanceof VarString) {
 						return ((VarString) em)
 								.getVarString(StringTemplate.defaultTemplate);
 					}
+				}
 			}
 		}
 		return null;
@@ -1053,8 +1065,9 @@ public class GeoCasCell extends GeoElement
 	 */
 	private void changeAssignmentVar(final String oldLabel,
 			final String newLabel) {
-		if (newLabel.equals(oldLabel))
+		if (newLabel.equals(oldLabel)) {
 			return;
+		}
 
 		getInputVE().setLabel(newLabel);
 		if (oldLabel != null) {
@@ -1070,14 +1083,16 @@ public class GeoCasCell extends GeoElement
 	}
 
 	private TreeSet<String> getInVars() {
-		if (invars == null)
+		if (invars == null) {
 			invars = new TreeSet<String>();
+		}
 		return invars;
 	}
 
 	private TreeSet<String> getFunctionVars() {
-		if (functionvars == null)
+		if (functionvars == null) {
 			functionvars = new TreeSet<String>();
+		}
 		return functionvars;
 	}
 
@@ -1097,15 +1112,17 @@ public class GeoCasCell extends GeoElement
 	 * @return n-th input variable
 	 */
 	public String getInVar(int n) {
-		if (invars == null)
+		if (invars == null) {
 			return null;
+		}
 
 		Iterator<String> it = invars.iterator();
 		int pos = 0;
 		while (it.hasNext()) {
 			String var = it.next();
-			if (pos == n)
+			if (pos == n) {
 				return var;
+			}
 			pos++;
 		}
 
@@ -1127,8 +1144,9 @@ public class GeoCasCell extends GeoElement
 
 	private TreeSet<GeoElement> updateInputGeoElements(
 			final TreeSet<String> inputVars) {
-		if (inputVars == null || inputVars.isEmpty())
+		if (inputVars == null || inputVars.isEmpty()) {
 			return null;
+		}
 
 		// list to collect geo variables
 		TreeSet<GeoElement> geoVars = new TreeSet<GeoElement>();
@@ -1253,8 +1271,9 @@ public class GeoCasCell extends GeoElement
 	 */
 	private static void resolveFunctionVariableReferences(
 			final ValidExpression outputVE) {
-		if (!(outputVE instanceof FunctionNVar))
+		if (!(outputVE instanceof FunctionNVar)) {
 			return;
+		}
 
 		FunctionNVar fun = (FunctionNVar) outputVE;
 
@@ -1271,8 +1290,9 @@ public class GeoCasCell extends GeoElement
 	 * that are not GeoCasCells.
 	 */
 	private void resolveGeoElementReferences(final ValidExpression outVE) {
-		if (invars == null || !(outVE instanceof FunctionNVar))
+		if (invars == null || !(outVE instanceof FunctionNVar)) {
 			return;
+		}
 		FunctionNVar fun = (FunctionNVar) outVE;
 
 		// replace function variables in tree
@@ -1308,13 +1328,14 @@ public class GeoCasCell extends GeoElement
 	 */
 	final public boolean includesOnlyDefinedVariables(
 			final boolean ignoreUndefinedXY) {
-		if (invars == null)
+		if (invars == null) {
 			return true;
+		}
 
 		for (String varLabel : invars) {
 			if (!(ignoreUndefinedXY
-					&& ("x".equals(varLabel) || "y".equals(varLabel)))) // provide
-																		// definitions
+					&& ("x".equals(varLabel) || "y".equals(varLabel)))) {
+				// definitions
 																		// of
 																		// funktions
 																		// like
@@ -1326,8 +1347,10 @@ public class GeoCasCell extends GeoElement
 																		// a
 																		// better
 																		// way
-				if (kernel.lookupLabel(varLabel) == null)
+				if (kernel.lookupLabel(varLabel) == null) {
 					return false;
+				}
+			}
 		}
 		return true;
 	}
@@ -1622,8 +1645,9 @@ public class GeoCasCell extends GeoElement
 						.evaluatesTo3DVector()) {
 			isLine = true;
 		}
-		if (!isAssignmentVariableDefined())
+		if (!isAssignmentVariableDefined()) {
 			return;
+		}
 		if (isNative() && (getInputVE() instanceof Function)
 				&& (outputVE instanceof ExpressionNode)) {
 			String[] labels = outputVE.getLabels();
@@ -1640,8 +1664,9 @@ public class GeoCasCell extends GeoElement
 
 		// check that assignment variable is not a reserved name in GeoGebra
 		if (!isLine && kernel.getApplication().getParserFunctions()
-				.isReserved(assignmentVar))
+				.isReserved(assignmentVar)) {
 			return;
+		}
 
 		// needed for GGB-450
 		GeoElement geo = null;
@@ -1681,6 +1706,7 @@ public class GeoCasCell extends GeoElement
 				((ExpressionNode) outputVE).setForceFunction();
 				TreeSet<String> varSet = new TreeSet<String>(
 						new Comparator<String>() {
+							@Override
 							public int compare(String o1, String o2) {
 								return o2.compareTo(o1);
 							}
@@ -1822,8 +1848,9 @@ public class GeoCasCell extends GeoElement
 	 */
 	public boolean setLabelOfTwinGeo() {
 		if (twinGeo == null || twinGeo.isLabelSet()
-				|| !isAssignmentVariableDefined())
+				|| !isAssignmentVariableDefined()) {
 			return false;
+		}
 
 		// allow GeoElement to get same label as CAS cell, so we temporarily
 		// remove the label
@@ -2074,10 +2101,12 @@ public class GeoCasCell extends GeoElement
 
 			if (ggbEval != null) {
 				if (!allowFunction && (ggbEval[0] instanceof FunctionalNVar)
-						&& !wasFunction)
+						&& !wasFunction) {
 					return null;
-				if (!allowFunction && (ggbEval[0].isParametric() && !wasCurve))
+				}
+				if (!allowFunction && (ggbEval[0].isParametric() && !wasCurve)) {
 					return null;
+				}
 
 				return ggbEval[0];
 			}
@@ -2100,8 +2129,9 @@ public class GeoCasCell extends GeoElement
 		// do not compute output if this cell is used as a text cell
 		if (!useAsText) {
 			// input VE is noll sometimes, ie if Solve is used on a=b+c,b
-			if (getEvalVE() == null)
+			if (getEvalVE() == null) {
 				return;
+			}
 			computeOutput(getAssignmentType() != AssignmentType.DELAYED, false);
 		}
 	}
@@ -2585,21 +2615,29 @@ public class GeoCasCell extends GeoElement
 		 */
 		/* Ticket #3563 */
 		Set<String> set = new TreeSet<String>(new Comparator<String>() {
+			@Override
 			public int compare(String o1, String o2) {
-				if (o1.equals(o2))
+				if (o1.equals(o2)) {
 					return 0;
-				if ("x".equals(o1))
+				}
+				if ("x".equals(o1)) {
 					return -1;
-				if ("x".equals(o2))
+				}
+				if ("x".equals(o2)) {
 					return 1;
-				if ("y".equals(o1))
+				}
+				if ("y".equals(o1)) {
 					return -1;
-				if ("y".equals(o2))
+				}
+				if ("y".equals(o2)) {
 					return 1;
-				if ("z".equals(o1))
+				}
+				if ("z".equals(o1)) {
 					return -1;
-				if ("z".equals(o2))
+				}
+				if ("z".equals(o2)) {
 					return 1;
+				}
 				return o1.compareTo(o2);
 			}
 		});
@@ -2999,8 +3037,9 @@ public class GeoCasCell extends GeoElement
 		cons.removeFromGeoSetWithCasCells(this);
 
 		setTwinGeo(null);
-		if (this.isInConstructionList())
+		if (this.isInConstructionList()) {
 			cons.updateCasCells();
+		}
 	}
 
 	/**
@@ -3053,10 +3092,11 @@ public class GeoCasCell extends GeoElement
 			return true;
 		}
 		if (geo.isGeoList()) {
-			for (int i = 0; i < ((GeoList) geo).size(); i++)
+			for (int i = 0; i < ((GeoList) geo).size(); i++) {
 				if (dependsOnDummy(((GeoList) geo).get(i))) {
 					return true;
 				}
+			}
 		}
 
 		AlgoElement algo = geo.getParentAlgorithm();
@@ -3064,10 +3104,11 @@ public class GeoCasCell extends GeoElement
 			return false;
 		}
 
-		for (int i = 0; i < algo.getInput().length; i++)
+		for (int i = 0; i < algo.getInput().length; i++) {
 			if (dependsOnDummy(algo.getInput()[i])) {
 				return true;
 			}
+		}
 		return false;
 	}
 
@@ -3121,6 +3162,7 @@ public class GeoCasCell extends GeoElement
 		return true;
 	}
 
+	@Override
 	public String getVarString(final StringTemplate tpl) {
 		if (getInputVE() instanceof FunctionNVar) {
 			return ((FunctionNVar) getInputVE()).getVarString(tpl);
@@ -3297,8 +3339,9 @@ public class GeoCasCell extends GeoElement
 			kernel.notifyConstructionProtocol(twinGeo);
 		} else {
 			// Log.debug("Fail" + oldEvalComment);
-			if (twinGeo != null && twinGeo.getLabelSimple() != null)
+			if (twinGeo != null && twinGeo.getLabelSimple() != null) {
 				twinGeo.doRemove();
+			}
 			// plot failed, undo assignment
 			assignmentVar = oldAssignmentVar;
 			setAssignmentType(oldOVEAssignmentType);
@@ -3318,8 +3361,9 @@ public class GeoCasCell extends GeoElement
 	}
 
 	private boolean inequalityInEvalVE() {
-		if (expandedEvalVE == null)
+		if (expandedEvalVE == null) {
 			return false;
+		}
 		return expandedEvalVE.inspect(IneqFinder.INSTANCE);
 	}
 
@@ -3366,8 +3410,9 @@ public class GeoCasCell extends GeoElement
 	@Override
 	public String getTooltipText(final boolean colored,
 			final boolean alwaysOn) {
-		if (isError())
+		if (isError()) {
 			return getLoc().getError(error);
+		}
 		if (tooltip == null && outputVE != null) {
 			tooltip = getOutput(StringTemplate.defaultTemplate);
 			tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
@@ -3382,8 +3427,9 @@ public class GeoCasCell extends GeoElement
 				for (int i = listStart + 1; i < tooltip.length(); i++) {
 					if (tooltip.charAt(i) == ',') {
 						int nextComma = tooltip.indexOf(',', i + 1);
-						if (nextComma == -1)
+						if (nextComma == -1) {
 							nextComma = tooltip.length() - 1;
+						}
 						if (currLine + (nextComma - i) > SCREEN_WIDTH) {
 							sb.append(",\n");
 							currLine = 0;
@@ -3404,8 +3450,9 @@ public class GeoCasCell extends GeoElement
 	 * @return information about eval command for display in the cell
 	 */
 	public String getCommandAndComment() {
-		if (!this.showOutput())
+		if (!this.showOutput()) {
 			return "";
+		}
 		StringBuilder evalCmdLocal = new StringBuilder();
 		if (pointList) {
 			evalCmdLocal.append(getLoc().getCommand("PointList"));
@@ -3448,8 +3495,9 @@ public class GeoCasCell extends GeoElement
 	 *         command
 	 */
 	public boolean hasVariablesOrCommands() {
-		if (getGeoElementVariables() != null)
+		if (getGeoElementVariables() != null) {
 			return true;
+		}
 		return inputVE != null && inputVE.inspect(CommandFinder.INSTANCE);
 	}
 
@@ -3592,6 +3640,7 @@ public class GeoCasCell extends GeoElement
 		return evalVE.toString(tpl);
 	}
 
+	@Override
 	public ValueType getValueType() {
 		// TODO Auto-generated method stub
 		if (outputVE != null) {

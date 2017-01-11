@@ -80,9 +80,11 @@ public abstract class App3DCompanion extends AppCompanion {
 			app.getEuclidianView3D().getXML(sb, asPreference);
 		}
 
-		if (euclidianViewForPlaneCompanionList != null)
-			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList)
+		if (euclidianViewForPlaneCompanionList != null) {
+			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
 				vfpc.getView().getXML(sb, asPreference);
+			}
+		}
 
 	}
 
@@ -120,8 +122,9 @@ public abstract class App3DCompanion extends AppCompanion {
 		euclidianViewForPlaneCompanion.addExistingGeos();
 
 		// add it to list
-		if (euclidianViewForPlaneCompanionList == null)
+		if (euclidianViewForPlaneCompanionList == null) {
 			euclidianViewForPlaneCompanionList = new ArrayList<EuclidianViewForPlaneCompanion>();
+		}
 		euclidianViewForPlaneCompanionList.add(euclidianViewForPlaneCompanion);
 
 		return euclidianViewForPlaneCompanion;
@@ -159,11 +162,13 @@ public abstract class App3DCompanion extends AppCompanion {
 	 */
 	public void removeAllEuclidianViewForPlane() {
 
-		if (euclidianViewForPlaneCompanionList == null)
+		if (euclidianViewForPlaneCompanionList == null) {
 			return;
+		}
 
-		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList)
+		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
 			vfpc.removeFromGuiAndKernel();
+		}
 
 		euclidianViewForPlaneCompanionList.clear();
 		app.getSettings().clearEuclidianSettingsForPlane();
@@ -174,10 +179,12 @@ public abstract class App3DCompanion extends AppCompanion {
 	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
 
 		GeoElement geo = app.getKernel().lookupLabel(plane);
-		if (geo == null)
+		if (geo == null) {
 			return null;
-		if (!(geo instanceof ViewCreator))
+		}
+		if (!(geo instanceof ViewCreator)) {
 			return null;
+		}
 
 		ViewCreator vc = (ViewCreator) geo;// getViewCreator(id);
 		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc, false));

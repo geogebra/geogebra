@@ -154,9 +154,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			if (geoElement instanceof GeoLine) {
 				setLine();
 			} else {
-				if (geoElement.hasChildren())
+				if (geoElement.hasChildren()) {
 					geoElement.setUndefined();
-				else {
+				} else {
 					replaceGeoElement(new GeoLine(getConstruction()));
 					setLine();
 				}
@@ -167,9 +167,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			if (geoElement instanceof GeoConic) {
 				setConic();
 			} else {
-				if (geoElement.hasChildren())
+				if (geoElement.hasChildren()) {
 					geoElement.setUndefined();
-				else {
+				} else {
 					replaceGeoElement(new GeoConic(getConstruction()));
 					setConic();
 				}
@@ -185,9 +185,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 					((GeoImplicit) geoElement).setCoeff((double[][]) null);
 				}
 			} else {
-				if (geoElement.hasChildren())
+				if (geoElement.hasChildren()) {
 					geoElement.setUndefined();
-				else {
+				} else {
 					replaceGeoElement(
 							kernel.newImplicitPoly(getConstruction()));
 					((GeoImplicit) geoElement).setDefined();
@@ -307,8 +307,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			addAllFunctionalDescendents(this, dependentFromFunctions,
 					new TreeSet<AlgoElement>());
 		}
-		if (getOutputLength() == 0)
+		if (getOutputLength() == 0) {
 			setOutputLength(1);
+		}
 		setOutput(0, geoElement.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}

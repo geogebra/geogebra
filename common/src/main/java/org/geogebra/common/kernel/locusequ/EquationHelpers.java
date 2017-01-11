@@ -82,8 +82,9 @@ public class EquationHelpers {
 		GeoElement element;
 		while (it.hasNext()) {
 			element = it.next();
-			if (element.isGeoPoint() && !element.isIndependent())
+			if (element.isGeoPoint() && !element.isIndependent()) {
 				count++;
+			}
 		}
 		return count;
 	}
@@ -101,8 +102,9 @@ public class EquationHelpers {
 		GeoElement element;
 		while (it.hasNext()) {
 			element = it.next();
-			if (element.isGeoPoint())
+			if (element.isGeoPoint()) {
 				count++;
+			}
 		}
 		return count;
 	}

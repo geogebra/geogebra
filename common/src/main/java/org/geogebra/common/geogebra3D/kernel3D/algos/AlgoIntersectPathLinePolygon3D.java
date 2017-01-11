@@ -84,6 +84,7 @@ public class AlgoIntersectPathLinePolygon3D
 	@Override
 	protected OutputHandler<GeoElement> createOutputSegments() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoSegment3D newElement() {
 				GeoSegment3D a = new GeoSegment3D(cons);
 				GeoPoint3D aS = new GeoPoint3D(cons);
@@ -109,8 +110,9 @@ public class AlgoIntersectPathLinePolygon3D
 		if (g instanceof GeoSegmentND) {
 			newCoords.put(0.0, g.getStartInhomCoords());
 			newCoords.put(1.0, g.getEndInhomCoords());
-		} else if (g instanceof GeoRayND)
+		} else if (g instanceof GeoRayND) {
 			newCoords.put(0d, g.getStartInhomCoords());
+		}
 	}
 
 	@Override

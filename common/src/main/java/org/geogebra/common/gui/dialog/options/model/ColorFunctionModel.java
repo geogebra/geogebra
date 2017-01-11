@@ -62,9 +62,10 @@ public class ColorFunctionModel extends OptionsModel {
 			strRed = colorList.get(0).getLabel(StringTemplate.editTemplate);
 			strGreen = colorList.get(1).getLabel(StringTemplate.editTemplate);
 			strBlue = colorList.get(2).getLabel(StringTemplate.editTemplate);
-			if (colorList.size() == 4)
+			if (colorList.size() == 4) {
 				strAlpha = colorList.get(3)
 						.getLabel(StringTemplate.editTemplate);
+			}
 		}
 
 		// compare first geo with other selected geos
@@ -80,17 +81,22 @@ public class ColorFunctionModel extends OptionsModel {
 				String strBlueTemp = colorListTemp.get(2)
 						.getLabel(StringTemplate.editTemplate);
 				String strAlphaTemp = "";
-				if (colorListTemp.size() == 4)
+				if (colorListTemp.size() == 4) {
 					strAlphaTemp = colorListTemp.get(3)
 							.getLabel(StringTemplate.editTemplate);
-				if (!strRed.equals(strRedTemp))
+				}
+				if (!strRed.equals(strRedTemp)) {
 					strRed = "";
-				if (!strGreen.equals(strGreenTemp))
+				}
+				if (!strGreen.equals(strGreenTemp)) {
 					strGreen = "";
-				if (!strBlue.equals(strBlueTemp))
+				}
+				if (!strBlue.equals(strBlueTemp)) {
 					strBlue = "";
-				if (!strAlpha.equals(strAlphaTemp))
+				}
+				if (!strAlpha.equals(strAlphaTemp)) {
 					strAlpha = "";
+				}
 			}
 		}
 
@@ -120,14 +126,18 @@ public class ColorFunctionModel extends OptionsModel {
 				&& (strBlue == null || strBlue.trim().length() == 0)) {
 			// num = null;
 		} else {
-			if (strRed == null || strRed.trim().length() == 0)
+			if (strRed == null || strRed.trim().length() == 0) {
 				strRed = defaultRed;
-			if (strGreen == null || strGreen.trim().length() == 0)
+			}
+			if (strGreen == null || strGreen.trim().length() == 0) {
 				strGreen = defaultGreen;
-			if (strBlue == null || strBlue.trim().length() == 0)
+			}
+			if (strBlue == null || strBlue.trim().length() == 0) {
 				strBlue = defaultBlue;
-			if (strAlpha == null || strAlpha.trim().length() == 0)
+			}
+			if (strAlpha == null || strAlpha.trim().length() == 0) {
 				strAlpha = defaultAlpha;
+			}
 
 			list = kernel.getAlgebraProcessor().evaluateToList(
 					"{" + strRed + "," + strGreen + "," + strBlue + "}");
@@ -144,17 +154,19 @@ public class ColorFunctionModel extends OptionsModel {
 															// for a color
 					((list.get(1) instanceof NumberValue)) && //
 					((list.get(2) instanceof NumberValue)) && //
-					((list.size() == 3 || list.get(3) instanceof NumberValue))) //
+					((list.size() == 3 || list.get(3) instanceof NumberValue))) {
 				for (int i = 0; i < getGeosLength(); i++) {
 
 					GeoElement geo = getGeoAt(i);
 					if (geo.isFillable() && listAlpha != null) {
 						geo.setColorFunction(listAlpha);
 						list = listAlpha; // to have correct update
-					} else
+					} else {
 						geo.setColorFunction(list);
+					}
 					geo.setColorSpace(colorSpace);
 				}
+			}
 
 			list.updateRepaint();
 

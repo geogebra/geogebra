@@ -62,6 +62,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	private QDParser xmlParser;
 
+	/**
+	 * @param kernel
+	 * @param cons
+	 */
 	public MyXMLioJre(Kernel kernel, Construction cons) {
 		super(kernel, cons);
 	}
@@ -74,6 +78,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Reads zipped file from input stream that includes the construction saved
 	 * in xml format and maybe image files.
+	 * 
+	 * @param is
+	 * @param isGGTfile
+	 * @throws Exception
 	 */
 	public final void readZipFromInputStream(InputStream is, boolean isGGTfile)
 			throws Exception {
@@ -96,6 +104,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Reads zipped file from zip input stream that includes the construction
 	 * saved in xml format and maybe image files.
+	 * 
+	 * @param zip
+	 * @param isGGTfile
+	 * @throws Exception
 	 */
 	protected abstract void readZip(ZipInputStream zip, boolean isGGTfile)
 			throws Exception;
@@ -104,6 +116,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * Handles the XML file stored in buffer.
 	 * 
 	 * @param buffer
+	 * @param clearConstruction
+	 * @param isGGTOrDefaults
+	 * @throws Exception
 	 */
 	protected void processXMLBuffer(byte[] buffer, boolean clearConstruction,
 			boolean isGGTOrDefaults) throws Exception {
@@ -120,6 +135,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Reads from a zipped input stream that includes only the construction
 	 * saved in xml format.
+	 * 
+	 * @param is
+	 * @throws Exception
 	 */
 	public final void readZipFromMemory(InputStream is) throws Exception {
 		ZipInputStream zip = new ZipInputStream(is);
@@ -143,6 +161,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Creates a zipped file containing the construction and all settings saved
 	 * in xml format plus all external images.
+	 * 
+	 * @param file
+	 * @throws IOException
 	 */
 	final public void writeGeoGebraFile(File file) throws IOException {
 		// create file
@@ -159,6 +180,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Creates a zipped file containing the construction and all settings saved
 	 * in xml format plus all external images. GeoGebra File Format.
+	 * 
+	 * @param os
+	 * @param includeThumbail
+	 * @throws IOException
 	 */
 	final public void writeGeoGebraFile(OutputStream os,
 			boolean includeThumbail) throws IOException {
@@ -175,9 +200,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 			writeConstructionImages(kernel.getConstruction(), zip);
 
 			// write construction thumbnails
-			if (includeThumbail)
-				writeThumbnail(kernel.getConstruction(), zip,
-						XML_FILE_THUMBNAIL);
+			if (includeThumbail) {
+				writeThumbnail(zip, XML_FILE_THUMBNAIL);
+			}
 
 			// save macros
 			if (kernel.hasMacros()) {
@@ -237,6 +262,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Creates a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons).
+	 * 
+	 * @param file
+	 * @param macros
+	 * @throws IOException
 	 */
 	final public void writeMacroFile(File file, ArrayList<Macro> macros)
 			throws IOException {
@@ -254,6 +283,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Writes a zipped file containing the given macros in xml format plus all
 	 * their external images (e.g. icons) to the specified output stream.
+	 * 
+	 * @param os
+	 * @param macros
+	 * @throws IOException
 	 */
 	final public void writeMacroStream(OutputStream os, ArrayList<Macro> macros)
 			throws IOException {
@@ -277,17 +310,18 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Writes all images used in construction to zip.
 	 */
-	private void writeConstructionImages(Construction cons,
+	private void writeConstructionImages(Construction cons1,
 			ZipOutputStream zip) {
-		writeConstructionImages(cons, zip, "");
+		writeConstructionImages(cons1, zip, "");
 	}
 
-	private void writeConstructionImages(Construction cons, ZipOutputStream zip,
+	private void writeConstructionImages(Construction cons1,
+			ZipOutputStream zip,
 			String filePath) {
 		// save all GeoImage images
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
-		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
+		TreeSet<GeoElement> geos = cons1.getGeoSetLabelOrder();
 		if (geos == null)
 			return;
 
@@ -341,10 +375,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Writes thumbnail to zip
 	 */
-	// private void writeThumbnail(Construction cons, ZipOutputStream zip)
-	// throws IOException {
-	private void writeThumbnail(Construction cons, ZipOutputStream zip,
-			String fileName) {
+	private void writeThumbnail(ZipOutputStream zip, String fileName) {
 
 		// max 128 pixels either way
 		/*
@@ -359,10 +390,18 @@ public abstract class MyXMLioJre extends MyXMLio {
 			if (img != null)
 				writeImageToZip(zip, fileName, img);
 		} catch (Exception e) {
-		} // catch error if size is zero
+			// catch error if size is zero
+		}
 
 	}
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 * @return image
+	 */
 	abstract protected MyImageJre getExportImage(double width, double height);
 
 	/**
@@ -393,6 +432,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 	}
 
+	/**
+	 * @param fileName
+	 *            file name
+	 * @return image
+	 */
 	abstract protected MyImageJre getExternalImage(String fileName);
 
 	final private void writeImageToZip(ZipOutputStream zip, String fileName,
@@ -409,6 +453,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 		writeImageToStream(zip, fileName, img);
 	}
 
+	/**
+	 * @param os
+	 * @param fileName
+	 * @param img
+	 */
 	final public void writeImageToStream(OutputStream os, String fileName,
 			MyImageJre img) {
 		// if we get here we need to save the image from the memory
@@ -434,11 +483,21 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 	}
 
+	/**
+	 * @param img
+	 * @param ext
+	 * @param os
+	 * @throws IOException
+	 */
 	abstract protected void writeImage(MyImageJre img, String ext,
 			OutputStream os) throws IOException;
 
 	/**
 	 * Compresses xml String and writes result to os.
+	 * 
+	 * @param os
+	 * @param xmlString
+	 * @throws IOException
 	 */
 	public static void writeZipped(OutputStream os, StringBuilder xmlString)
 			throws IOException {
@@ -467,17 +526,34 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	}
 
+	/**
+	 *
+	 */
 	protected interface XMLStreamJre extends XMLStream {
+		/**
+		 * @return reader
+		 * @throws Exception
+		 *             e
+		 */
 		public Reader getReader() throws Exception;
 
+		/**
+		 * @throws Exception
+		 */
 		public void closeReader() throws Exception;
 	}
 
+	/**
+	 *
+	 */
 	protected class XMLStreamStringJre implements XMLStreamJre {
 
 		private String str;
 		private StringReader rs;
 
+		/**
+		 * @param str
+		 */
 		public XMLStreamStringJre(String str) {
 			this.str = str;
 		}
@@ -497,11 +573,17 @@ public abstract class MyXMLioJre extends MyXMLio {
 		return new XMLStreamStringJre(str);
 	}
 
+	/**
+	 *
+	 */
 	protected class XMLStreamInputStream implements XMLStreamJre {
 
 		private InputStream is;
 		private InputStreamReader reader;
 
+		/**
+		 * @param is
+		 */
 		public XMLStreamInputStream(InputStream is) {
 			this.is = is;
 		}

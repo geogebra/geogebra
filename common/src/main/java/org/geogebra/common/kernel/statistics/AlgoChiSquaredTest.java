@@ -92,8 +92,9 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	 *         freedom
 	 */
 	ChiSquaredDistribution getChiSquaredDistribution(double df) {
-		if (chisquared == null || chisquared.getDegreesOfFreedom() != df)
+		if (chisquared == null || chisquared.getDegreesOfFreedom() != df) {
 			chisquared = new ChiSquaredDistributionImpl(df);
+		}
 
 		return chisquared;
 	}

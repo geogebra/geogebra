@@ -166,8 +166,9 @@ abstract public class AlgoElement3D extends AlgoElement {
 	 */
 	protected void setInputOutput(boolean setDependencies) {
 
-		if (setDependencies)
+		if (setDependencies) {
 			setDependencies();
+		}
 
 		compute();
 

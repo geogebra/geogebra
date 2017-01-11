@@ -439,6 +439,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return super.distance(pt);
 	}
 
+	@Override
 	public Coords getOrigin() {
 		return getCoordSys().getOrigin();
 	}

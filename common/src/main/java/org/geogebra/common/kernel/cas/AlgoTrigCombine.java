@@ -42,8 +42,9 @@ public class AlgoTrigCombine extends AlgoCasBase {
 		if (target != null) {
 			input = new GeoElement[] { f.toGeoElement(), target };
 
-		} else
+		} else {
 			input = new GeoElement[] { f.toGeoElement() };
+		}
 		setOnlyOutput(g);
 		setDependencies();
 	}

@@ -416,8 +416,9 @@ public class PlotterBrush implements PathPlotter {
 						ticksDelta *= lengthInScene / length;
 					}
 					float ticksThickness = 4 * thicknessOld;
-					if (i * lengthInScene <= ticksDelta)
+					if (i * lengthInScene <= ticksDelta) {
 						i += ticksDistanceNormed;
+					}
 
 					for (; i <= 1 - arrowPos; i += ticksDistanceNormed) {
 						double x = i * lengthInScene;
@@ -1118,6 +1119,7 @@ public class PlotterBrush implements PathPlotter {
 
 	private Coords tmpDrawTo = Coords.createInhomCoorsInD3();
 
+	@Override
 	public void drawTo(double[] pos, boolean lineTo) {
 
 		tmpDrawTo.set(pos);
@@ -1146,10 +1148,12 @@ public class PlotterBrush implements PathPlotter {
 		}
 	}
 
+	@Override
 	public void lineTo(double[] pos) {
 		drawTo(pos, true);
 	}
 
+	@Override
 	public void moveTo(double[] pos) {
 
 		tmpDrawTo.set(pos);
@@ -1165,26 +1169,31 @@ public class PlotterBrush implements PathPlotter {
 		drawTo(x, y, z, false);
 	}
 
+	@Override
 	public void corner() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void corner(double[] pos) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
 		// TODO only Gap.MOVE_TO implemented
 		moveTo(pos);
 
 	}
 
+	@Override
 	public double[] newDoubleArray() {
 		return new double[3];
 	}
 
 	private Coords tmpCopyCoords;
 
+	@Override
 	public boolean copyCoords(MyPoint point, double[] ret,
 			CoordSys transformSys) {
 
@@ -1217,10 +1226,12 @@ public class PlotterBrush implements PathPlotter {
 		this.length = length;
 	}
 
+	@Override
 	public void endPlot() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public boolean supports(CoordSys transformSys) {
 		return true;
 	}

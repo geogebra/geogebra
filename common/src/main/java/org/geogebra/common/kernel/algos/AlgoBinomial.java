@@ -76,8 +76,9 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double nCr = MyMath.binomial(a.getDouble(), b.getDouble());
 			num.setValue(nCr);
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

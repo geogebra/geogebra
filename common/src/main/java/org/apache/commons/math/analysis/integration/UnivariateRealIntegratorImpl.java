@@ -119,6 +119,7 @@ public abstract class UnivariateRealIntegratorImpl
 	 * @throws IllegalStateException
 	 *             if no integral has been computed
 	 */
+	@Override
 	public double getResult() throws IllegalStateException {
 		if (resultComputed) {
 			return result;
@@ -151,16 +152,19 @@ public abstract class UnivariateRealIntegratorImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setMinimalIterationCount(int count) {
 		minimalIterationCount = count;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getMinimalIterationCount() {
 		return minimalIterationCount;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void resetMinimalIterationCount() {
 		minimalIterationCount = defaultMinimalIterationCount;
 	}

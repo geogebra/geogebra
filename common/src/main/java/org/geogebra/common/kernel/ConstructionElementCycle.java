@@ -70,48 +70,57 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 	 * set the direction to the second minimum element
 	 */
 	public void setDirection() {
-		if (size() < 3)
+		if (size() < 3) {
 			direction = 1;
-		else {
+		} else {
 			int before = minIndex - 1;
-			if (before == -1)
+			if (before == -1) {
 				before = size() - 1;
+			}
 			int after = minIndex + 1;
-			if (after == size())
+			if (after == size()) {
 				after = 0;
+			}
 			// if element before first minimum element is less than the element
 			// after,
 			// then the direction is ascendant, else the direction is descendant
-			if (get(before).getID() < get(after).getID())
+			if (get(before).getID() < get(after).getID()) {
 				direction = -1;
-			else
+			} else {
 				direction = 1;
+			}
 		}
 	}
 
+	@Override
 	public int compareTo(ConstructionElementCycle cycle) {
 
-		if (this == cycle)
+		if (this == cycle) {
 			return 0;
+		}
 
-		if (size() < cycle.size())
+		if (size() < cycle.size()) {
 			return -1;
-		if (size() > cycle.size())
+		}
+		if (size() > cycle.size()) {
 			return 1;
+		}
 
 		setCycleFirst();
 		cycle.setCycleFirst();
 		int diff = 0;
 		// find the first two different elements, return the difference or 0
-		for (int i = 0; diff == 0 && i < size(); i++)
+		for (int i = 0; diff == 0 && i < size(); i++) {
 			diff = getCycleNext().compareTo(cycle.getCycleNext());
+		}
 		return diff;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ConstructionElementCycle))
+		if (!(obj instanceof ConstructionElementCycle)) {
 			return false;
+		}
 
 		return compareTo((ConstructionElementCycle) obj) == 0;
 	}
@@ -126,10 +135,11 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 
 		// update cycleIndex
 		cycleIndex += direction;
-		if (cycleIndex == -1)
+		if (cycleIndex == -1) {
 			cycleIndex = size() - 1;
-		else if (cycleIndex == size())
+		} else if (cycleIndex == size()) {
 			cycleIndex = 0;
+		}
 
 		return ret;
 	}

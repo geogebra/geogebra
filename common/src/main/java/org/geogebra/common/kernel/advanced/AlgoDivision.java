@@ -52,8 +52,9 @@ public class AlgoDivision extends AlgoElement {
 			}
 			result.setDefined(true);
 			double m = numerator % Math.abs(denominator);
-			if (m < 0)
+			if (m < 0) {
 				m += Math.abs(denominator);
+			}
 			mod.setValue(m);
 
 			num.setValue(Math.round((numerator - m) / denominator));

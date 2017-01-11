@@ -126,10 +126,11 @@ public class AlgoTTest2 extends AlgoElement {
 
 		// one sided test
 		else if ((tail.getTextString().equals(">") && testStatistic > 0)
-				|| (tail.getTextString().equals("<") && testStatistic < 0))
+				|| (tail.getTextString().equals("<") && testStatistic < 0)) {
 			return p / 2;
-		else
+		} else {
 			return 1 - p / 2;
+		}
 	}
 
 	@Override
@@ -187,8 +188,9 @@ public class AlgoTTest2 extends AlgoElement {
 			try {
 
 				// get the test statistic and p
-				if (tTestImpl == null)
+				if (tTestImpl == null) {
 					tTestImpl = new TTestImpl();
+				}
 
 				if (pooled.getBoolean()) {
 					testStat = tTestImpl.homoscedasticT(val0, val1);
@@ -231,8 +233,9 @@ public class AlgoTTest2 extends AlgoElement {
 			try {
 
 				// get the test statistic and p
-				if (tTestImpl == null)
+				if (tTestImpl == null) {
 					tTestImpl = new TTestImpl();
+				}
 
 				if (pooled.getBoolean()) {
 					testStat = tTestImpl.homoscedasticT(sumStats0, sumStats1);

@@ -113,10 +113,12 @@ public class AlgoEllipseHyperbolaFociPoint
 		return getInputMaybeXOYPlane(i);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

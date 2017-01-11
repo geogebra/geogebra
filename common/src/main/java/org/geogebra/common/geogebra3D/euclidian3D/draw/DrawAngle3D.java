@@ -57,8 +57,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 			return;
 		}
 
-		if (getAlpha() < 255)
+		if (getAlpha() < 255) {
 			return;
+		}
 
 		setSurfaceHighlightingColor();
 
@@ -147,13 +148,15 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 			default:
 			case NOTREFLEX:
-				if (angle.getRawAngle() > Math.PI)
+				if (angle.getRawAngle() > Math.PI) {
 					vn.mulInside3(-1);
+				}
 				break;
 
 			case ISREFLEX:
-				if (angle.getRawAngle() < Math.PI)
+				if (angle.getRawAngle() < Math.PI) {
 					vn.mulInside3(-1);
+				}
 				break;
 			}
 
@@ -165,8 +168,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 			// size < points distances / 2
 			if (algo instanceof AlgoAnglePointsND) {
 				double l = Math.min(l1, l2) / 2;
-				if (size > l)
+				if (size > l) {
 					size = l;
+				}
 			}
 
 			labelRadius = size / 1.7;
@@ -346,8 +350,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 			return;
 		}
 
-		if (!hasTransparentAlpha())
+		if (!hasTransparentAlpha()) {
 			return;
+		}
 
 		setSurfaceHighlightingColor();
 
@@ -357,11 +362,13 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	@Override
 	public void drawHiding(Renderer renderer) {
-		if (!isVisible())
+		if (!isVisible()) {
 			return;
+		}
 
-		if (!hasTransparentAlpha())
+		if (!hasTransparentAlpha()) {
 			return;
+		}
 
 		drawSurfaceGeometry(renderer);
 
@@ -375,15 +382,17 @@ public class DrawAngle3D extends Drawable3DCurves {
 	@Override
 	protected void updateLabel() {// TODO remove this and implement all angle
 									// cases
-		if (labelCenter != null)
+		if (labelCenter != null) {
 			super.updateLabel();
+		}
 	}
 
 	@Override
 	protected void updateLabelPosition() {
 
-		if (labelCenter != null)
+		if (labelCenter != null) {
 			super.updateLabelPosition();
+		}
 
 	}
 

@@ -94,8 +94,9 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 		super(g, edge_weights);
 
 		Map<V, Double> unit_voltages = new HashMap<V, Double>();
-		for (V v : sources)
+		for (V v : sources) {
 			unit_voltages.put(v, new Double(1.0));
+		}
 		this.source_voltages = unit_voltages;
 		this.sinks = sinks;
 		initialize();
@@ -118,8 +119,9 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 		super(g);
 
 		Map<V, Double> unit_voltages = new HashMap<V, Double>();
-		for (V v : sources)
+		for (V v : sources) {
 			unit_voltages.put(v, new Double(1.0));
+		}
 		this.source_voltages = unit_voltages;
 		this.sinks = sinks;
 		initialize();
@@ -191,32 +193,37 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 		super.initialize();
 
 		// sanity check
-		if (source_voltages.isEmpty() || sinks.isEmpty())
+		if (source_voltages.isEmpty() || sinks.isEmpty()) {
 			throw new IllegalArgumentException(
 					"Both sources and sinks (grounds) must be defined");
+		}
 
-		if (source_voltages.size() + sinks.size() > graph.getVertexCount())
+		if (source_voltages.size() + sinks.size() > graph.getVertexCount()) {
 			throw new IllegalArgumentException(
 					"Source/sink sets overlap, or contain vertices not in graph");
+		}
 
 		for (Map.Entry<V, ? extends Number> entry : source_voltages
 				.entrySet()) {
 			V v = entry.getKey();
-			if (sinks.contains(v))
+			if (sinks.contains(v)) {
 				throw new IllegalArgumentException("Vertex " + v
 						+ " is incorrectly specified as both source and sink");
+			}
 			double value = entry.getValue().doubleValue();
-			if (value <= 0)
+			if (value <= 0) {
 				throw new IllegalArgumentException(
 						"Source vertex " + v + " has negative voltage");
+			}
 		}
 
 		// set up initial voltages
 		for (V v : graph.getVertices()) {
-			if (source_voltages.containsKey(v))
+			if (source_voltages.containsKey(v)) {
 				setOutputValue(v, source_voltages.get(v).doubleValue());
-			else
+			} else {
 				setOutputValue(v, 0.0);
+			}
 		}
 	}
 

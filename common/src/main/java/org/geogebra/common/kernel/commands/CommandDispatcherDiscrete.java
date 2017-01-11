@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.discrete.CmdVoronoi;
  *
  */
 public class CommandDispatcherDiscrete implements CommandDispatcherInterface {
+	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 

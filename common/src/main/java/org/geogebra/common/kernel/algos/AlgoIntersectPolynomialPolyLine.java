@@ -196,6 +196,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoPoint> createOutputPoints() {
 		return new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
 				p.setCoords(0, 0, 1);

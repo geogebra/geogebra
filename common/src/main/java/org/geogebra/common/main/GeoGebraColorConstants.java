@@ -262,9 +262,10 @@ public class GeoGebraColorConstants {
 			ret = geogebraColor
 					.get(app.getLocalization().reverseGetColor(colorName));
 		}
-		if (ret == null)
+		if (ret == null) {
 			// will need only English characters
 			ret = htmlColorMap().get(colorName.toUpperCase());
+		}
 		return ret;
 	}
 

@@ -49,16 +49,18 @@ public class FilterUtils {
 			subgraph = (G) graph.newInstance();
 
 			for (V v : vertices) {
-				if (!graph.containsVertex(v))
+				if (!graph.containsVertex(v)) {
 					throw new IllegalArgumentException(
 							"Vertex " + v + " is not an element of " + graph);
+				}
 				subgraph.addVertex(v);
 			}
 
 			for (E e : graph.getEdges()) {
 				Collection<V> incident = graph.getIncidentVertices(e);
-				if (vertices.containsAll(incident))
+				if (vertices.containsAll(incident)) {
 					subgraph.addEdge(e, incident, graph.getEdgeType(e));
+				}
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(
@@ -88,8 +90,9 @@ public class FilterUtils {
 			Collection<? extends Collection<V>> vertex_collections, G graph) {
 		Collection<G> subgraphs = new ArrayList<G>();
 
-		for (Collection<V> vertex_set : vertex_collections)
+		for (Collection<V> vertex_set : vertex_collections) {
 			subgraphs.add(createInducedSubgraph(vertex_set, graph));
+		}
 
 		return subgraphs;
 	}

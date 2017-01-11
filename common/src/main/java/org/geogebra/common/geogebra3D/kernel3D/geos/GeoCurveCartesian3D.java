@@ -83,8 +83,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 	public Coords evaluateTangent(double t) {
 		updateDerivatives();
 		Coords v = new Coords(3);
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			v.set(i + 1, funD1[i].evaluate(t));
+		}
 
 		return v.normalized();
 
@@ -127,11 +128,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 		Coords D1 = new Coords(3);
 		Coords D2 = new Coords(3);
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			D1.set(i + 1, funD1[i].evaluate(t));
+		}
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			D2.set(i + 1, funD2[i].evaluate(t));
+		}
 
 		// compute curvature using the formula k = |f'' x f'| / |f'|^3
 		Coords cross = D1.crossProduct(D2);
@@ -193,8 +196,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 				// we need to check the references to all geos in its function's
 				// expression
 				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 3; i++) {
 					algoMacro.initFunction(fun[i]);
+				}
 			}
 		}
 
@@ -428,8 +432,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		if (PI.getPath() == this)
+		if (PI.getPath() == this) {
 			return true;
+		}
 
 		// get closest parameter position on curve
 		PathParameter pp = PI.getPathParameter();
@@ -460,10 +465,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 		}
 
 		PathParameter pp = P.getPathParameter();
-		if (pp.t < startParam)
+		if (pp.t < startParam) {
 			pp.t = startParam;
-		else if (pp.t > endParam)
+		} else if (pp.t > endParam) {
 			pp.t = endParam;
+		}
 
 		// calc point for given parameter
 		P.setCoords(evaluateCurve3D(pp.t), false);
@@ -501,13 +507,15 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
 			if (distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
-					* Kernel.MIN_PRECISION)
+					* Kernel.MIN_PRECISION) {
 				return pathParam;
+			}
 
 			// if we don't have a startValue yet, let's take the path parameter
 			// as a guess
-			if (Double.isNaN(startVal))
+			if (Double.isNaN(startVal)) {
 				startVal = pathParam;
+			}
 		}
 
 		// first sample distFun to find a start intervall for ExtremumFinder
@@ -763,11 +771,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND
 		return ValueType.PARAMETRIC3D;
 	}
 
+	@Override
 	public RealRootFunction getRealRootFunctionX() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public RealRootFunction getRealRootFunctionY() {
 		// TODO Auto-generated method stub
 		return null;

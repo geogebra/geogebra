@@ -119,8 +119,9 @@ public abstract class DataAnalysisController {
 	 */
 	public void loadDataLists(boolean doCopy) {
 
-		if (dataSelected != null)
+		if (dataSelected != null) {
 			dataSelected.remove();
+		}
 
 		if (dataSource == null) {
 			setValidData(false);
@@ -202,8 +203,9 @@ public abstract class DataAnalysisController {
 
 		if (dataSelected != null) {
 
-			if (dataArray == null)
+			if (dataArray == null) {
 				dataArray = new ArrayList<GeoElement>();
+			}
 			dataArray.clear();
 
 			for (int i = 0; i < dataSelected.size(); i++) {
@@ -383,8 +385,9 @@ public abstract class DataAnalysisController {
 			}
 		}
 		double[] val = new double[list.size()];
-		for (int i = 0; i < list.size(); i++)
+		for (int i = 0; i < list.size(); i++) {
 			val[i] = list.get(i);
+		}
 
 		return val;
 	}

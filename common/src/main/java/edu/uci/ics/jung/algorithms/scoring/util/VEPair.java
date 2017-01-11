@@ -34,8 +34,9 @@ public class VEPair<V, E> {
 	 *            the edge to add
 	 */
 	public VEPair(V v, E e) {
-		if (v == null || e == null)
+		if (v == null || e == null) {
 			throw new IllegalArgumentException("elements must be non-null");
+		}
 
 		this.v = v;
 		this.e = e;

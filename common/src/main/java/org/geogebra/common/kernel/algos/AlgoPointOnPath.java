@@ -200,14 +200,17 @@ public class AlgoPointOnPath extends AlgoElement
 		return getLoc().getPlain("PointOnA", input[0].getLabel(tpl));
 	}
 
+	@Override
 	public boolean isChangeable(GeoElement out) {
 		return param == null;
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
@@ -224,6 +227,7 @@ public class AlgoPointOnPath extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
@@ -241,6 +245,7 @@ public class AlgoPointOnPath extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -279,6 +284,7 @@ public class AlgoPointOnPath extends AlgoElement
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -306,6 +312,7 @@ public class AlgoPointOnPath extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -428,6 +435,7 @@ public class AlgoPointOnPath extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
@@ -437,6 +445,7 @@ public class AlgoPointOnPath extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnPointOnPath(geo, this, scope);

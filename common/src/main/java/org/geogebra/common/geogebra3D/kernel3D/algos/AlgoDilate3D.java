@@ -46,8 +46,9 @@ public class AlgoDilate3D extends AlgoDilate {
 				|| geo instanceof GeoCurveCartesian) /*
 														 * && mirror .
 														 * isGeoElement3D ( )
-														 */)
+														 */) {
 			return new GeoCurveCartesian3D(cons);
+		}
 
 		return super.getResultTemplate(geo);
 	}

@@ -96,6 +96,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private GeoElement[] previewGeos;
 	private String[] sliders;
 
+	@Override
 	public void run() {
 		cleanOldSliders();
 		if (input.length() == 0) {

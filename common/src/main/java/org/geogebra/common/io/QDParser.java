@@ -153,8 +153,9 @@ public class QDParser {
 					tagName = sb.toString();
 					sb.setLength(0);
 					depth--;
-					if (depth == 0)
+					if (depth == 0) {
 						mode = DONE;
+					}
 					doc.endElement(tagName);
 					break;
 				default:
@@ -169,8 +170,9 @@ public class QDParser {
 					doc.text(sb.toString());
 					sb.setLength(0);
 					mode = popMode(stack);
-				} else
+				} else {
 					sb.append((char) c);
+				}
 				break;
 
 			// we are processing a comment. We are inside
@@ -179,8 +181,9 @@ public class QDParser {
 				if (c == '>' && sb.toString().endsWith("--")) {
 					sb.setLength(0);
 					mode = popMode(stack);
-				} else
+				} else {
 					sb.append((char) c);
+				}
 				break;
 
 			// We are outside the root tag element
@@ -197,8 +200,9 @@ public class QDParser {
 			case DOCTYPE:
 				if (c == '>') {
 					mode = popMode(stack);
-					if (mode == TEXT)
+					if (mode == TEXT) {
 						mode = PRE;
+					}
 				}
 				break;
 
@@ -230,25 +234,25 @@ public class QDParser {
 					mode = popMode(stack);
 					String cent = etag.toString();
 					etag.setLength(0);
-					if ("lt".equals(cent))
+					if ("lt".equals(cent)) {
 						sb.append('<');
-					else if ("gt".equals(cent))
+					} else if ("gt".equals(cent)) {
 						sb.append('>');
-					else if ("amp".equals(cent))
+					} else if ("amp".equals(cent)) {
 						sb.append('&');
-					else if ("quot".equals(cent))
+					} else if ("quot".equals(cent)) {
 						sb.append('"');
-					else if ("apos".equals(cent))
+					} else if ("apos".equals(cent)) {
 						sb.append('\'');
-					// Could parse hex entities if we wanted to
-					else if (cent.startsWith("#x"))
+					} else if (cent.startsWith("#x")) {
 						sb.append(
 								(char) Integer.parseInt(cent.substring(2), 16));
-					else if (cent.charAt(0) == '#')
+					} else if (cent.charAt(0) == '#') {
 						sb.append((char) Integer.parseInt(cent.substring(1)));
 					// Insert custom entity definitions here
-					else
+					} else {
 						exc("Unknown entity: &" + cent + ";", line, col);
+					}
 				} else {
 					etag.append((char) c);
 				}
@@ -258,10 +262,12 @@ public class QDParser {
 			// <foo a="b"/
 			// and are looking for the final >.
 			case SINGLE_TAG:
-				if (tagName == null)
+				if (tagName == null) {
 					tagName = sb.toString();
-				if (c != '>')
+				}
+				if (c != '>') {
 					exc("Expected > for tag: <" + tagName + "/>", line, col);
+				}
 				doc.startElement(tagName, attrs);
 				doc.endElement(tagName);
 				if (depth == 0) {
@@ -281,8 +287,9 @@ public class QDParser {
 			case OPEN_TAG:
 				switch (c) {
 				case '>':
-					if (tagName == null)
+					if (tagName == null) {
 						tagName = sb.toString();
+					}
 					sb.setLength(0);
 					depth++;
 					doc.startElement(tagName, attrs);
@@ -414,10 +421,11 @@ public class QDParser {
 			}
 		}
 
-		if (mode == DONE)
+		if (mode == DONE) {
 			doc.endDocument();
-		else
+		} else {
 			exc("missing end tag", line, col);
+		}
 
 	}
 

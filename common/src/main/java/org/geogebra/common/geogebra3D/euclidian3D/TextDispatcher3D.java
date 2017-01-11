@@ -64,11 +64,13 @@ public class TextDispatcher3D extends TextDispatcher {
 
 		GeoPoint3D cursor = view3D.getCursor3D();
 
-		if (cursor.hasRegion())
+		if (cursor.hasRegion()) {
 			return getPointForDynamicText(cursor.getRegion(), loc);
+		}
 
-		if (cursor.hasPath())
+		if (cursor.hasPath()) {
 			return getPointForDynamicText(cursor.getPath(), loc);
+		}
 
 		return super.getPointForDynamicText(loc);
 	}

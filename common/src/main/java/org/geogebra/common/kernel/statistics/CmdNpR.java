@@ -42,8 +42,9 @@ public class CmdNpR extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
+			}
 			throw argErr(app, c, arg[1]);
 
 		default:

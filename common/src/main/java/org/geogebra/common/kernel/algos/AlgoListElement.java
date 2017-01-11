@@ -228,20 +228,21 @@ public class AlgoListElement extends AlgoElement {
 
 		} else {
 
-			for (int k = 0; k < num2.length; k++)
+			for (int k = 0; k < num2.length; k++) {
 				if (!num2[k].toGeoElement().isDefined()) {
 					element.setUndefined();
 					return;
 				}
+			}
 
 			int m = (int) Math.round(num2[num2.length - 1].getDouble()) - 1;
 			GeoElement current = geoList;
 			for (int k = 0; k < num2.length - 1; k++) {
 				int index = (int) Math.round(num2[k].getDouble() - 1);
 				if (index >= 0 && current.isGeoList()
-						&& index < ((GeoList) current).size())
+						&& index < ((GeoList) current).size()) {
 					current = ((GeoList) current).get(index);
-				else {
+				} else {
 					element.setUndefined();
 					return;
 				}
@@ -249,9 +250,9 @@ public class AlgoListElement extends AlgoElement {
 
 			GeoList list = ((GeoList) current);
 
-			if (m >= 0 && m < list.size())
+			if (m >= 0 && m < list.size()) {
 				current = list.get(m);
-			else {
+			} else {
 				element.setUndefined();
 				return;
 			}
@@ -266,9 +267,10 @@ public class AlgoListElement extends AlgoElement {
 		if (nth.getGeoClassType() == element.getGeoClassType()
 				|| Test.canSet(element, nth)) {
 			element.set(nth);
-			if (nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
+			if (nth.getDrawAlgorithm() instanceof DrawInformationAlgo) {
 				element.setDrawAlgorithm(
 						((DrawInformationAlgo) nth.getDrawAlgorithm()).copy());
+			}
 
 		} else {
 			element.setUndefined();

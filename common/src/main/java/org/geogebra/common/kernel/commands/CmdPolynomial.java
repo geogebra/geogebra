@@ -52,8 +52,9 @@ public class CmdPolynomial extends CommandProcessor {
 				return ret;
 			}
 			// Michael Borcherds 2008-01-22 END
-			else
+ else {
 				throw argErr(app, c, arg[0]);
+			}
 
 			// more than one argument
 		default:

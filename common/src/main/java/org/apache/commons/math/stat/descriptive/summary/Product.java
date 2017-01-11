@@ -95,6 +95,7 @@ public class Product extends AbstractStorelessUnivariateStatistic
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public long getN() {
 		return n;
 	}
@@ -185,6 +186,7 @@ public class Product extends AbstractStorelessUnivariateStatistic
 	 *             if the parameters are not valid
 	 * @since 2.1
 	 */
+	@Override
 	public double evaluate(final double[] values, final double[] weights,
 			final int begin, final int length) {
 		double product = Double.NaN;
@@ -236,6 +238,7 @@ public class Product extends AbstractStorelessUnivariateStatistic
 	 *             if the parameters are not valid
 	 * @since 2.1
 	 */
+	@Override
 	public double evaluate(final double[] values, final double[] weights) {
 		return evaluate(values, weights, 0, values.length);
 	}

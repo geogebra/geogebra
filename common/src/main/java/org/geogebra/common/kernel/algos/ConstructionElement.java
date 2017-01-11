@@ -249,9 +249,11 @@ public abstract class ConstructionElement
 	 * Compares using creation ID. Older construction elements are larger. Note:
 	 * 0 is only returned for this == obj.
 	 */
+	@Override
 	public int compareTo(ConstructionElement obj) {
-		if (this == obj)
+		if (this == obj) {
 			return 0;
+		}
 
 		ConstructionElement ce = obj;
 		if (ceID < ce.ceID) {

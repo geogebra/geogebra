@@ -109,20 +109,24 @@ public class AlgoMode extends AlgoElement {
 			if (sortList[i] == val) {
 				run++;
 			} else {
-				if (run >= maxRun)
+				if (run >= maxRun) {
 					maxRun = run;
+				}
 				run = 1;
 				val = sortList[i];
 			}
 		}
-		if (run >= maxRun)
+		if (run >= maxRun) {
 			maxRun = run;
+		}
 
 		outputList.setDefined(true);
 		outputList.clear();
 
 		if (maxRun == 1)
+		 {
 			return; // no mode, return empty list
+		}
 
 		// check which numbers occur maxRun times and put them in a list
 		run = 1;
@@ -131,8 +135,9 @@ public class AlgoMode extends AlgoElement {
 		for (int i = 1; i < size; i++) {
 			if (sortList[i] == val) {
 				run++;
-				if (run == maxRun)
+				if (run == maxRun) {
 					outputList.addNumber(val, null);
+				}
 			} else {
 				run = 1;
 				val = sortList[i];

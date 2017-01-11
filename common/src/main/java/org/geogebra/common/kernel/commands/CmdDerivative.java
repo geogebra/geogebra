@@ -41,8 +41,9 @@ public class CmdDerivative extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0] instanceof CasEvaluableFunction) {
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
-				if (label == null)
+				if (label == null) {
 					label = getDerivLabel(f.toGeoElement(), 1);
+				}
 				GeoElement[] ret = { derivative(label, f, null, null, info) };
 				return ret;
 			}

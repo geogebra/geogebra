@@ -28,6 +28,7 @@ import org.apache.commons.math.ConvergenceException;
  * @deprecated in 2.2 (to be removed in 3.0).
  */
 
+@Deprecated
 public class OptimizationException extends ConvergenceException {
 
 	/** Serializable version identifier. */

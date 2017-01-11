@@ -36,11 +36,13 @@ public class ScoringUtils {
 			Collection<V> roots) {
 		final Collection<V> inner_roots = roots;
 		Transformer<V, Double> distribution = new Transformer<V, Double>() {
+			@Override
 			public Double transform(V input) {
-				if (inner_roots.contains(input))
+				if (inner_roots.contains(input)) {
 					return new Double(1.0 / inner_roots.size());
-				else
+				} else {
 					return 0.0;
+				}
 			}
 		};
 
@@ -62,12 +64,14 @@ public class ScoringUtils {
 			Collection<V> roots) {
 		final Collection<V> inner_roots = roots;
 		Transformer<V, HITS.Scores> distribution = new Transformer<V, HITS.Scores>() {
+			@Override
 			public HITS.Scores transform(V input) {
-				if (inner_roots.contains(input))
+				if (inner_roots.contains(input)) {
 					return new HITS.Scores(1.0 / inner_roots.size(),
 							1.0 / inner_roots.size());
-				else
+				} else {
 					return new HITS.Scores(0.0, 0.0);
+				}
 			}
 		};
 		return distribution;

@@ -45,8 +45,9 @@ public class CmdDilate extends CommandProcessor {
 				GeoNumberValue phi = (GeoNumberValue) arg[1];
 				return dilate(label, arg[0], phi);
 			}
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
+			}
 			throw argErr(app, c, arg[1]);
 
 		case 3:
@@ -59,8 +60,9 @@ public class CmdDilate extends CommandProcessor {
 				GeoNumberValue phi = (GeoNumberValue) arg[1];
 				return dilate(label, arg[0], phi, arg[2]);
 			}
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
+			}
 			throw argErr(app, c, arg[1]);
 
 		default:

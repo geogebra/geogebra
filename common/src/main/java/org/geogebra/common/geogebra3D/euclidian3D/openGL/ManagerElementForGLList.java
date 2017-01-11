@@ -197,46 +197,55 @@ public class ManagerElementForGLList extends Manager {
 			this.manager = manager;
 		}
 
+		@Override
 		public void allocate(int length) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setLimit(int length) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void put(short value) {
 			manager.put(value);
 
 		}
 
+		@Override
 		public short get() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		@Override
 		public void rewind() {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public int capacity() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		@Override
 		public void array(short[] ret) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public boolean isEmpty() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public void setEmpty() {
 			// TODO Auto-generated method stub
 

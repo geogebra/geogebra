@@ -141,6 +141,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		setDefinition(null);
 	}
 
+	@Override
 	final public void setCoords(double[] c) {
 		setCoords(c[0], c[1], c[2]);
 	}
@@ -167,15 +168,17 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			super.set(geo);
 		}
 
-		if (!geo.isGeoVector())
+		if (!geo.isGeoVector()) {
 			return;
+		}
 
 		GeoVector vec = (GeoVector) geo;
 
 		// don't set start point for macro output
 		// see AlgoMacro.initRay()
-		if (geo.getConstruction() != cons && isAlgoMacroOutput())
+		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
 			return;
+		}
 
 		try {
 			if (vec.startPoint != null) {
@@ -235,23 +238,28 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	/**
 	 * Retuns starting point of this vector or null.
 	 */
+	@Override
 	final public GeoPointND getStartPoint() {
 		return startPoint;
 	}
 
+	@Override
 	public GeoPointND[] getStartPoints() {
-		if (startPoint == null)
+		if (startPoint == null) {
 			return null;
+		}
 
 		GeoPointND[] ret = new GeoPointND[1];
 		ret[0] = startPoint;
 		return ret;
 	}
 
+	@Override
 	public boolean hasAbsoluteLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
+	@Override
 	public void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException {
 		setStartPoint(p);
@@ -261,10 +269,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * Sets the startpoint without performing any checks. This is needed for
 	 * macros.
 	 */
+	@Override
 	public void initStartPoint(GeoPointND p, int number) {
 		startPoint = p;
 	}
 
+	@Override
 	public void removeStartPoint(GeoPointND p) {
 		if (startPoint == p) {
 			try {
@@ -275,14 +285,17 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 	}
 
+	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 
-		if (startPoint == p)
+		if (startPoint == p) {
 			return;
+		}
 
 		// macro output uses initStartPoint() only
-		if (isAlgoMacroOutput())
+		if (isAlgoMacroOutput()) {
 			return;
+		}
 
 		// check for circular definition
 		if (isParentOf(p)) {
@@ -291,15 +304,17 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 
 		// remove old dependencies
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);
+		}
 
 		// set new location
 		startPoint = p;
 
 		// add new dependencies
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().registerLocateable(this);
+		}
 
 		// reinit path
 		if (pathSegment != null) {
@@ -325,6 +340,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 	}
 
+	@Override
 	public void setWaitForStartPoint() {
 		// the startpoint should not be used as long
 		// as waitingForStartPoint is true
@@ -338,10 +354,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public void doRemove() {
 		super.doRemove();
 		// tell startPoint
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);
+		}
 	}
 
+	@Override
 	final public boolean isFinite() {
 		return !isInfinite();
 	}
@@ -371,13 +389,15 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	@Override
 	final public boolean isEqual(GeoElement geo) {
 
-		if (!geo.isGeoVector())
+		if (!geo.isGeoVector()) {
 			return false;
+		}
 
 		GeoVector v = (GeoVector) geo;
 
-		if (!(isFinite() && v.isFinite()))
+		if (!(isFinite() && v.isFinite())) {
 			return false;
+		}
 		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);
 	}
 
@@ -387,6 +407,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	/**
 	 * rotate this vector by angle phi around (0,0)
 	 */
+	@Override
 	final public void rotate(NumberValue phi) {
 		rotateXY(phi);
 
@@ -395,32 +416,38 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	/**
 	 * Called when transforming Ray[point,direction] -- doesn't do anything.
 	 */
+	@Override
 	public void translate(Coords v) {
 		// do nothing
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		rotateXY(r);
 	}
 
+	@Override
 	public void mirror(Coords Q) {
 
 		setCoords(-x, -y, z);
 
 	}
 
+	@Override
 	public void mirror(GeoLineND g1) {
 		GeoLine g = (GeoLine) g1;
 		mirrorXY(2.0 * Math.atan2(-g.getX(), g.getY()));
 
 	}
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		setCoords(r * x, r * y, z);
 
 	}
 
+	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
 
 		Double x1 = a * x + b * y;
@@ -536,12 +563,14 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	/**
 	 * interface VectorValue implementation
 	 */
+	@Override
 	public GeoVec2D getVector() {
 		GeoVec2D ret = new GeoVec2D(kernel, x, y);
 		ret.setMode(toStringMode);
 		return ret;
 	}
 
+	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { x, y, 0 };
 	}
@@ -605,24 +634,29 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * Path interface
 	 */
 
+	@Override
 	public boolean isClosedPath() {
 		return false;
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 		if (startPoint == null && waitingForStartPoint) {
 			// remember waiting points
-			if (waitingPointSet == null)
+			if (waitingPointSet == null) {
 				waitingPointSet = new HashSet<GeoPointND>();
+			}
 			waitingPointSet.add(P);
 			return;
 		}
 
-		if (pathSegment == null)
+		if (pathSegment == null) {
 			updatePathSegment();
+		}
 		pathSegment.pointChanged(P);
 	}
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -636,6 +670,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		pathSegment.pathChanged(P);
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND P, double eps) {
 		updatePathSegment(); // Michael Borcherds 2008-06-10 bugfix
 		return pathSegment.isOnPath(P, eps);
@@ -646,14 +681,17 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return true;
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return 1;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
@@ -672,8 +710,9 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	private void updatePathSegment() {
-		if (pathSegment == null)
+		if (pathSegment == null) {
 			initPathSegment();
+		}
 
 		// update segment
 		pathEndPoint.setCoords(pathStartPoint.inhomX + x,
@@ -690,6 +729,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return true;
 	}
 
+	@Override
 	public boolean isAlwaysFixed() {
 		return false;
 	}
@@ -791,10 +831,11 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		return buildLatexString(kernel, sb, symbolic, tpl, toStringMode, x, y,
 				this);
@@ -898,6 +939,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return sb.toString();
 	}
 
+	@Override
 	public Coords getCoordsInD2() {
 		Coords ret = new Coords(3);
 		ret.setX(getX());
@@ -906,6 +948,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return ret;
 	}
 
+	@Override
 	public Coords getCoordsInD3() {
 		Coords ret = new Coords(4);
 		ret.setX(getX());
@@ -921,14 +964,17 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	// only used for 3D
+	@Override
 	public void updateStartPointPosition() {
 		// 3D only
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		return getCoordsInD3();
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		double x1 = a00 * x + a01 * y + a02 * 1;
@@ -990,6 +1036,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		spreadsheetTraceList.add(yy);
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -998,6 +1045,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return null;
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
@@ -1008,6 +1056,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -1016,6 +1065,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -1027,6 +1077,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersAlgo) {
@@ -1035,6 +1086,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
@@ -1044,6 +1096,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
@@ -1054,6 +1107,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public double[] getInhomCoords() {
 		double[] ret = new double[2];
 		ret[0] = getX();
@@ -1061,6 +1115,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return ret;
 	}
 
+	@Override
 	public void updateLocation() {
 		updateGeo(false);
 		kernel.notifyUpdateLocation(this);
@@ -1071,6 +1126,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return getMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
 				: ValueType.NONCOMPLEX2D;
@@ -1081,10 +1137,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return true;
 	}
 
+	@Override
 	public int getDimension() {
 		return 2;
 	}
 
+	@Override
 	public void setCoords(double x, double y, double z, double w) {
 		setCoords(x, y, w);
 	}

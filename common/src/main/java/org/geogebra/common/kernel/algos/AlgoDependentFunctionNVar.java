@@ -128,16 +128,18 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 			}
 
 			ExpressionNode node;
-			if (ev.isExpressionNode())
+			if (ev.isExpressionNode()) {
 				node = (ExpressionNode) ev;
-			else
+			} else {
 				node = new ExpressionNode(kernel, ev);
+			}
 
 			expandedFun.setExpression(node);
 			f.setFunction(expandedFun);
 			// we need this to update the borders, see #2880
-			if (f.isBooleanFunction() && f.isLabelSet())
+			if (f.isBooleanFunction() && f.isLabelSet()) {
 				f.resetIneqs();
+			}
 		}
 
 		f.setDefined(isDefined);
@@ -147,10 +149,11 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction()
 				|| tpl.hasType(StringType.GEOGEBRA_XML))) {
 			sb.append(f.getLabel(tpl));
@@ -162,6 +165,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 		return sb.toString();
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return expression;
 	}

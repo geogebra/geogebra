@@ -74,8 +74,9 @@ public class AlgoUnion extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			addToOutputList(outputList, inputList.get(i));
+		}
 
 		for (int i = 0; i < size2; i++) {
 			addToOutputList(outputList, inputList2.get(i));
@@ -88,11 +89,12 @@ public class AlgoUnion extends AlgoElement {
 	 */
 	protected static void addToOutputList(GeoList outputList, GeoElement geo) {
 		boolean alreadyInOutputList = false;
-		for (int k = 0; k < outputList.size(); k++)
+		for (int k = 0; k < outputList.size(); k++) {
 			if (geo.isEqual(outputList.get(k))) {
 				alreadyInOutputList = true;
 				break;
 			}
+		}
 
 		if (!alreadyInOutputList) {
 			outputList.add(geo.copyInternal(outputList.getConstruction()));

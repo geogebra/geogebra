@@ -47,9 +47,10 @@ public class EllipticArcLength {
 	 * @return arc length
 	 */
 	public double compute(double a, double b) {
-		if (a <= b)
+		if (a <= b) {
 			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, a,
 					b);
+		}
 		return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0,
 				Kernel.PI_2)
 				- AlgoIntegralDefinite.numericIntegration(arcLengthFunction, b,
@@ -65,6 +66,7 @@ public class EllipticArcLength {
 			// TODO Auto-generated constructor stub
 		}
 
+		@Override
 		public double evaluate(double t) {
 			double p = halfAxes[0] * Math.sin(t);
 			double q = halfAxes[1] * Math.cos(t);

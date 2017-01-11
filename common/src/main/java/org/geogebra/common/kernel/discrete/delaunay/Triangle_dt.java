@@ -130,23 +130,27 @@ public class Triangle_dt {
 	}
 
 	void switchneighbors(Triangle_dt Old, Triangle_dt New) {
-		if (abnext == Old)
+		if (abnext == Old) {
 			abnext = New;
-		else if (bcnext == Old)
+		} else if (bcnext == Old) {
 			bcnext = New;
-		else if (canext == Old)
+		} else if (canext == Old) {
 			canext = New;
-		else
+		} else {
 			Log.debug("Error, switchneighbors can't find Old.");
+		}
 	}
 
 	Triangle_dt neighbor(Point_dt p) {
-		if (a == p)
+		if (a == p) {
 			return canext;
-		if (b == p)
+		}
+		if (b == p) {
 			return abnext;
-		if (c == p)
+		}
+		if (c == p) {
 			return bcnext;
+		}
 		Log.debug("Error, neighbors can't find p: " + p);
 		return null;
 	}
@@ -202,9 +206,9 @@ public class Triangle_dt {
 		double v = ((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y))
 				/ 2.0f;
 		double den = (a.x - b.x) * (b.y - c.y) - (b.x - c.x) * (a.y - b.y);
-		if (den == 0) // oops, degenerate case
+		if (den == 0) {
 			circum = new Circle_dt(a, Double.POSITIVE_INFINITY);
-		else {
+		} else {
 			Point_dt cen = new Point_dt(
 					(u * (b.y - c.y) - v * (a.y - b.y)) / den,
 					(v * (a.x - b.x) - u * (b.x - c.x)) / den);
@@ -218,11 +222,13 @@ public class Triangle_dt {
 		return circum.radius() > circum.center().distance2(p);
 	}
 
+	@Override
 	public String toString() {
 		String res = ""; // +_id+") ";
 		res += a.toString() + b.toString();
-		if (!halfplane)
+		if (!halfplane) {
 			res += c.toString();
+		}
 		// res +=c.toString() +" | "+abnext._id+" "+bcnext._id+" "+canext._id;
 		return res;
 	}
@@ -237,8 +243,9 @@ public class Triangle_dt {
 	 */
 	public boolean contains(Point_dt p) {
 		boolean ans = false;
-		if (this.halfplane | p == null)
+		if (this.halfplane | p == null) {
 			return false;
+		}
 
 		if (isCorner(p)) {
 			return true;
@@ -253,8 +260,9 @@ public class Triangle_dt {
 				|| (a12 == Point_dt.RIGHT && a23 == Point_dt.RIGHT
 						&& a31 == Point_dt.RIGHT)
 				|| (a12 == Point_dt.ONSEGMENT || a23 == Point_dt.ONSEGMENT
-						|| a31 == Point_dt.ONSEGMENT))
+						|| a31 == Point_dt.ONSEGMENT)) {
 			ans = true;
+		}
 
 		return ans;
 	}
@@ -269,8 +277,9 @@ public class Triangle_dt {
 	 */
 	public boolean contains_BoundaryIsOutside(Point_dt p) {
 		boolean ans = false;
-		if (this.halfplane | p == null)
+		if (this.halfplane | p == null) {
 			return false;
+		}
 
 		if (isCorner(p)) {
 			return true;
@@ -283,8 +292,9 @@ public class Triangle_dt {
 		if ((a12 == Point_dt.LEFT && a23 == Point_dt.LEFT
 				&& a31 == Point_dt.LEFT)
 				|| (a12 == Point_dt.RIGHT && a23 == Point_dt.RIGHT
-						&& a31 == Point_dt.RIGHT))
+						&& a31 == Point_dt.RIGHT)) {
 			ans = true;
+		}
 
 		return ans;
 	}
@@ -331,17 +341,21 @@ public class Triangle_dt {
 	 * @return the Z value of this plane implies by this triangle 3 points.
 	 */
 	public double z_value(Point_dt q) {
-		if (q == null || this.halfplane)
+		if (q == null || this.halfplane) {
 			throw new RuntimeException(
 					"*** ERR wrong parameters, can't approximate the z value ..***: "
 							+ q);
+		}
 		/* incase the query point is on one of the points */
-		if (q.x == a.x & q.y == a.y)
+		if (q.x == a.x & q.y == a.y) {
 			return a.z;
-		if (q.x == b.x & q.y == b.y)
+		}
+		if (q.x == b.x & q.y == b.y) {
 			return b.z;
-		if (q.x == c.x & q.y == c.y)
+		}
+		if (q.x == c.x & q.y == c.y) {
 			return c.z;
+		}
 
 		/*
 		 * plane: aX + bY + c = Z: 2D line: y= mX + k
@@ -356,8 +370,9 @@ public class Triangle_dt {
 		if (x0 != x1) {
 			m01 = (y0 - y1) / (x0 - x1);
 			k01 = y0 - m01 * x0;
-			if (m01 == 0)
+			if (m01 == 0) {
 				flag01 = 1;
+			}
 		} else { // 2-vertical.
 			flag01 = 2;// x01 = x0
 		}
@@ -365,8 +380,9 @@ public class Triangle_dt {
 		if (x2 != x3) {
 			m23 = (y2 - y3) / (x2 - x3);
 			k23 = y2 - m23 * x2;
-			if (m23 == 0)
+			if (m23 == 0) {
 				flag23 = 1;
+			}
 		} else { // 2-vertical.
 			flag23 = 2;// x01 = x0
 		}

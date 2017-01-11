@@ -108,9 +108,9 @@ public class AlgoKimberling extends AlgoElement {
 			double wC = kernel.getApplication().kimberlingWeight(
 					new AlgoKimberlingWeightsParams(k, c, a, b));
 			double w = wA + wB + wC;
-			if (Double.isNaN(w) || Kernel.isZero(w))
+			if (Double.isNaN(w) || Kernel.isZero(w)) {
 				M.setUndefined();
-			else {
+			} else {
 				GeoPoint.setBarycentric(A, B, C, wA, wB, wC, w, M);
 			}
 		}

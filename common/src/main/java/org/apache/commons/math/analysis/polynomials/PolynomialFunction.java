@@ -95,6 +95,7 @@ public class PolynomialFunction
 	 * @return the value of the polynomial at the given point
 	 * @see UnivariateRealFunction#value(double)
 	 */
+	@Override
 	public double value(double x) {
 		return evaluate(coefficients, x);
 	}
@@ -291,6 +292,7 @@ public class PolynomialFunction
 	 *
 	 * @return the derivative function
 	 */
+	@Override
 	public UnivariateRealFunction derivative() {
 		return polynomialDerivative();
 	}
@@ -372,13 +374,16 @@ public class PolynomialFunction
 	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!(obj instanceof PolynomialFunction))
+		}
+		if (!(obj instanceof PolynomialFunction)) {
 			return false;
+		}
 		PolynomialFunction other = (PolynomialFunction) obj;
-		if (!Arrays.equals(coefficients, other.coefficients))
+		if (!Arrays.equals(coefficients, other.coefficients)) {
 			return false;
+		}
 		return true;
 	}
 

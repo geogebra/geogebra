@@ -113,6 +113,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return number for points
 	 */
+	@Override
 	public int getNumPoints() {
 		return points.length;
 	}
@@ -229,6 +230,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	/**
 	 * interface NumberValue
 	 */
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getLength());
 	}
@@ -240,6 +242,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		return length;
 	}
 
+	@Override
 	final public double getDouble() {
 		return getLength();
 	}
@@ -273,18 +276,22 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		return true;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return points.length - 1;
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		if (!isDefined()) {
 			return false;
@@ -295,22 +302,26 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	// dummy segment to use in calculations
 	private GeoSegment seg = new GeoSegment(cons);
 
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
 		GeoPoint P = (GeoPoint) PI;
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		// check if P is on one of the segments
 		for (int i = 0; i < points.length - 1; i++) {
 			setSegmentPoints((GeoPoint) points[i], (GeoPoint) points[i + 1]);
-			if (seg.isOnPath(P, eps))
+			if (seg.isOnPath(P, eps)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
+	@Override
 	public void pathChanged(GeoPointND PI) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -330,8 +341,9 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 			index = points.length - 2;
 		} else {
 			pp.t = pp.t % (points.length - 1);
-			if (pp.t < 0)
+			if (pp.t < 0) {
 				pp.t += (points.length - 1);
+			}
 			index = (int) Math.floor(pp.t);
 		}
 		setSegmentPoints((GeoPoint) points[index],
@@ -345,6 +357,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		P.z = 1.0;
 	}
 
+	@Override
 	public void pointChanged(GeoPointND PI) {
 
 		GeoPoint P = (GeoPoint) PI;
@@ -406,10 +419,12 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		getScriptTags(sb);
 	}
 
+	@Override
 	public final GeoPointND[] getPoints() {
 		return points;
 	}
 
+	@Override
 	public GeoPointND[] getPointsND() {
 		return points;
 	}
@@ -460,12 +475,14 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		this.points = points;
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint) points[i]).rotate(r);
 		}
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		Coords sCoords = S.getInhomCoords();
 		for (int i = 0; i < points.length; i++) {
@@ -473,6 +490,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		}
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
 		for (int i = 0; i < points.length; i++) {
@@ -482,12 +500,14 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	}
 
+	@Override
 	public void translate(Coords v) {
 		for (int i = 0; i < points.length; i++) {
 			getPoint(i).translate(v);
 		}
 	}
 
+	@Override
 	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < points.length; i++) {
 			getPoint(i).dilate(r, S);
@@ -495,29 +515,35 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		calcLength();
 	}
 
+	@Override
 	public void mirror(Coords Q) {
 		for (int i = 0; i < points.length; i++) {
 			getPoint(i).mirror(Q);
 		}
 	}
 
+	@Override
 	public void mirror(GeoLineND g) {
 		for (int i = 0; i < points.length; i++) {
 			getPoint(i).mirror(g);
 		}
 	}
 
+	@Override
 	public boolean isAllVertexLabelsSet() {
 		for (int i = 0; i < points.length; i++) {
-			if (!((GeoPoint) points[i]).isLabelSet())
+			if (!((GeoPoint) points[i]).isLabelSet()) {
 				return false;
+			}
 		}
 		return true;
 	}
 
+	@Override
 	public boolean isVertexCountFixed() {
-		if (getParentAlgorithm().getInput().length < 3)
+		if (getParentAlgorithm().getInput().length < 3) {
 			return false;
+		}
 		return true;
 	}
 
@@ -528,6 +554,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
@@ -542,6 +569,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		for (int i = 0; i < points.length; i++) {
@@ -551,10 +579,12 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		calcLength();
 	}
 
+	@Override
 	public GeoPoint getPoint(int i) {
 		return (GeoPoint) points[i];
 	}
 
+	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		if (!isDefined()) {
 			curve.setUndefined();
@@ -563,6 +593,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		curve.setFromPolyLine(points, false);
 	}
 
+	@Override
 	public Path getBoundary() {
 		return this;
 	}
@@ -572,6 +603,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}

@@ -77,8 +77,9 @@ public class AlgoDilate extends AlgoTransformation {
 		rgeo = r.toGeoElement();
 
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof Dilateable)
+		if (outGeo instanceof Dilateable) {
 			out = (Dilateable) outGeo;
+		}
 
 		setInputOutput();
 		compute();
@@ -101,8 +102,9 @@ public class AlgoDilate extends AlgoTransformation {
 		input = new GeoElement[S == null ? 2 : 3];
 		input[0] = inGeo;
 		input[1] = rgeo;
-		if (S != null)
+		if (S != null) {
 			input[2] = (GeoElement) S;
+		}
 
 		setOutputLength(1);
 		setOutput(0, outGeo);
@@ -123,8 +125,9 @@ public class AlgoDilate extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList))
+		if (!(outGeo instanceof GeoList)) {
 			out = (Dilateable) outGeo;
+		}
 	}
 
 	// calc dilated point
@@ -142,8 +145,9 @@ public class AlgoDilate extends AlgoTransformation {
 
 		out.dilate(r, getPointCoords());
 
-		if (inGeo.isLimitedPath())
+		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
+		}
 	}
 
 	/**
@@ -178,10 +182,11 @@ public class AlgoDilate extends AlgoTransformation {
 
 	@Override
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {
-		if (!(a instanceof GeoConicPart))
+		if (!(a instanceof GeoConicPart)) {
 			super.transformLimitedPath(a, b);
-		else
+		} else {
 			super.transformLimitedConic(a, b);
+		}
 
 	}
 

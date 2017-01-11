@@ -43,6 +43,7 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
 		return new Factory<Graph<V, E>>() {
+			@Override
 			public Graph<V, E> create() {
 				return new SortedSparseMultigraph<V, E>();
 			}
@@ -95,8 +96,9 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 		this.vertex_comparator = vertex_comparator;
 		Map<V, Pair<Set<E>>> tmp_vertices = new TreeMap<V, Pair<Set<E>>>(
 				vertex_comparator);
-		for (Map.Entry<V, Pair<Set<E>>> entry : vertices.entrySet())
+		for (Map.Entry<V, Pair<Set<E>>> entry : vertices.entrySet()) {
 			tmp_vertices.put(entry.getKey(), entry.getValue());
+		}
 		this.vertices = tmp_vertices;
 	}
 

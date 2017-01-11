@@ -26,6 +26,7 @@ import org.geogebra.common.main.App;
  *
  */
 public class CommandDispatcherCAS implements CommandDispatcherInterface {
+	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		App app = kernel.getApplication();
 

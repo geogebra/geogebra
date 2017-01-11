@@ -46,6 +46,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
 		input[0] = inputList;
@@ -69,11 +70,13 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	// weighted Shortest Path
 	// use length of segments to weight
 	private Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
+		@Override
 		public Double transform(MyLink link) {
 			return link.weight;
 		}
 	};
 
+	@Override
 	public final void compute() {
 
 		int size = inputList.size();
@@ -127,10 +130,11 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			}
 		}
 
-		if (al == null)
+		if (al == null) {
 			al = new ArrayList<MyPoint>();
-		else
+		} else {
 			al.clear();
+		}
 
 		if (startNode == null || endNode == null) {
 			locus.setPoints(al);
@@ -211,6 +215,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			this.n2 = n2;
 		}
 
+		@Override
 		public String toString() { // Always good for debugging
 			return "Edge" + id;
 		}

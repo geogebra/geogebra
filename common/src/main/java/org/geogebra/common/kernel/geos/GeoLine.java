@@ -182,6 +182,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param pointY
 	 *            y coord
 	 */
+	@Override
 	final public void setLineThrough(double pointX, double pointY) {
 		setCoords(x, y, -((x * pointX) + (y * pointY)));
 	}
@@ -218,8 +219,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            precision (ratio of allowed error and |x|+|y|)
 	 */
 	public final boolean isOnFullLine(GeoPoint P, double eps) {
-		if (!P.isDefined())
+		if (!P.isDefined()) {
 			return false;
+		}
 
 		double simplelength = Math.abs(x) + Math.abs(y);
 		if (P.isInfinite()) {
@@ -229,6 +231,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return Math.abs(x * P.inhomX + y * P.inhomY + z) < eps * simplelength;
 	}
 
+	@Override
 	public final boolean isOnFullLine(Coords Pnd, double eps) {
 
 		Coords P = Pnd.getCoordsIn2DView();
@@ -258,6 +261,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * Returns whether this point lies on this line, segment or ray.
 	 */
+	@Override
 	final public boolean isOnPath(GeoPointND PI, double eps) {
 
 		GeoPoint P = (GeoPoint) PI;
@@ -317,6 +321,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return result;
 	}
 
+	@Override
 	public boolean isOnPath(Coords Pnd, double eps) {
 		Coords P2d = Pnd.getCoordsIn2DView();
 		return isOnFullLine2D(P2d, eps);
@@ -344,6 +349,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return Kernel.isZero(det);
 	}
 
+	@Override
 	public boolean respectLimitedPath(Coords coords, double eps) {
 		return true;
 	}
@@ -373,8 +379,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return temporary path parameter
 	 */
 	protected PathParameter getTempPathParameter() {
-		if (tempPP == null)
+		if (tempPP == null) {
 			tempPP = new PathParameter();
+		}
 		return tempPP;
 	}
 
@@ -545,6 +552,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * Set standard start point (closest to (0,0)). Needed for path parameter to
 	 * work correctly.
 	 */
+	@Override
 	public final void setStandardStartPoint() {
 
 		if (startPoint == null) {
@@ -576,14 +584,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            start point
 	 */
 	public final void setStartPoint(GeoPoint P) {
-		if (startPoint == P)
+		if (startPoint == P) {
 			return;
+		}
 
 		startPoint = P;
-		if (P != null)
+		if (P != null) {
 			P.addIncidence(this, true);
+		}
 	}
 
+	@Override
 	public final void setStartPoint(GeoPointND P) {
 		if (P instanceof GeoPoint) {
 			setStartPoint((GeoPoint) P);
@@ -599,17 +610,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 *            end point
 	 */
 	public final void setEndPoint(GeoPoint Q) {
-		if (endPoint == Q)
+		if (endPoint == Q) {
 			return;
+		}
 
 		endPoint = Q;
-		if (Q != null)
+		if (Q != null) {
 			Q.addIncidence(this, true);
+		}
 	}
 
 	/**
 	 * Retuns first defining point of this line or null.
 	 */
+	@Override
 	final public GeoPoint getStartPoint() {
 		return startPoint;
 	}
@@ -617,6 +631,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * Retuns second point of this line or null.
 	 */
+	@Override
 	final public GeoPoint getEndPoint() {
 		return endPoint;
 	}
@@ -773,6 +788,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * translate by vector v
 	 */
+	@Override
 	public void translate(Coords v) {
 		z -= x * v.getX() + y * v.getY();
 	}
@@ -785,6 +801,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * dilate from S by r
 	 */
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double temp = (r - 1);
@@ -798,6 +815,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * rotate this line by angle phi around (0,0)
 	 */
+	@Override
 	public void rotate(NumberValue phiVal) {
 		rotateXY(phiVal);
 	}
@@ -805,6 +823,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * rotate this line by angle phi around Q
 	 */
+	@Override
 	public void rotate(NumberValue phiVal, GeoPointND point) {
 		Coords Q = point.getInhomCoords();
 		double phi = phiVal.getDouble();
@@ -823,6 +842,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * mirror this line at point Q
 	 */
+	@Override
 	public void mirror(Coords Q) {
 		double qx = x * Q.getX();
 		double qy = y * Q.getY();
@@ -835,6 +855,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * mirror this point at line g
 	 */
+	@Override
 	public void mirror(GeoLineND g1) {
 
 		GeoLine g = (GeoLine) g1;
@@ -879,22 +900,27 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param parameter
 	 *            name
 	 */
+	@Override
 	final public void setToParametric(String parameter) {
 		setMode(GeoLine.PARAMETRIC);
-		if (parameter != null && parameter.length() > 0)
+		if (parameter != null && parameter.length() > 0) {
 			this.parameter = parameter;
+		}
 	}
 
 	/** change equation mode to explicit */
+	@Override
 	final public void setToExplicit() {
 		setMode(EQUATION_EXPLICIT);
 	}
 
 	/** set equation mode to implicit */
+	@Override
 	final public void setToImplicit() {
 		setMode(EQUATION_IMPLICIT);
 	}
 
+	@Override
 	final public void setToUser() {
 		setMode(EQUATION_USER);
 	}
@@ -940,8 +966,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private StringBuilder sbToString;
 
 	private StringBuilder getSbToString() {
-		if (sbToString == null)
+		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
+		}
 		return sbToString;
 	}
 
@@ -1151,10 +1178,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * Path interface
 	 */
 
+	@Override
 	public boolean isClosedPath() {
 		return false;
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 		doPointChanged(P);
 	}
@@ -1218,6 +1247,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	}
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -1284,6 +1314,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * @return smallest possible parameter value for this path
 	 */
+	@Override
 	public double getMinParameter() {
 		return Double.NEGATIVE_INFINITY;
 	}
@@ -1294,10 +1325,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * @return largest possible parameter value for this path
 	 */
+	@Override
 	public double getMaxParameter() {
 		return Double.POSITIVE_INFINITY;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverLine();
 	}
@@ -1395,6 +1428,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	}
 
+	@Override
 	public void matrixTransform(double p, double q, double r, double s) {
 
 		double x1, y1;
@@ -1418,6 +1452,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * @return constant function
 	 */
+	@Override
 	public GeoFunction getGeoFunction() {
 		GeoFunction ret;
 
@@ -1487,9 +1522,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		con.fromLine(this);
 	}
 
+	@Override
 	public double evaluate(double x_var) {
-		if (Kernel.isZero(y))
+		if (Kernel.isZero(y)) {
 			return Double.NaN;
+		}
 		return (-x * x_var - z) / y;
 	}
 
@@ -1507,6 +1544,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return getPointInD(3, 0.5).getInhomCoordsInSameDimension();
 	}
 
+	@Override
 	public Coords getPointInD(int dimension, double lambda) {
 		return getStartCoordsInD(dimension).copy()
 				.addInsideMul(getDirectionInD(dimension), lambda);
@@ -1555,10 +1593,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return getDirectionInD(3);
 	}
 
+	@Override
 	public Coords getDirectionForEquation() {
 		return getDirectionInD(3);
 	}
 
+	@Override
 	public Coords getCartesianEquationVector(CoordMatrix m) {
 		if (m == null) {
 			return new Coords(x, y, z);
@@ -1568,6 +1608,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return CoordMatrixUtil.lineEquationVector(o, d, m);
 	}
 
+	@Override
 	public Coords getStartInhomCoords() {
 		if (startPoint != null && startPoint.isFinite()) {
 			return startPoint.getInhomCoordsInD3();
@@ -1575,6 +1616,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return getStartCoordsInD(3);
 	}
 
+	@Override
 	public Coords getEndInhomCoords() {
 		if (getEndPoint() != null) {
 			return getEndPoint().getInhomCoordsInD3();
@@ -1587,6 +1629,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		if (getEndPoint() == null) {
 			return new Coords(-y, x, 0, 0);
@@ -1595,6 +1638,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return getEndInhomCoords().sub(getStartInhomCoords());
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		double[][] b = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21,
@@ -1633,13 +1677,15 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param p
 	 *            point tobe added
 	 */
+	@Override
 	public final void addPointOnLine(GeoPointND p) {
 		if (pointsOnLine == null) {
 			pointsOnLine = new ArrayList<GeoPoint>();
 		}
 
-		if (!pointsOnLine.contains(p))
+		if (!pointsOnLine.contains(p)) {
 			pointsOnLine.add((GeoPoint) p);
+		}
 	}
 
 	/**
@@ -1648,17 +1694,21 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param p
 	 *            Point to be removed
 	 */
+	@Override
 	public final void removePointOnLine(GeoPointND p) {
-		if (pointsOnLine != null)
+		if (pointsOnLine != null) {
 			pointsOnLine.remove(p);
+		}
 	}
 
 	@Override
 	public void doRemove() {
-		if (getStartPoint() != null)
+		if (getStartPoint() != null) {
 			getStartPoint().removeIncidence(this);
-		if (getEndPoint() != null)
+		}
+		if (getEndPoint() != null) {
 			getEndPoint().removeIncidence(this);
+		}
 		if (pointsOnLine != null) {
 			for (int i = 0; i < pointsOnLine.size(); ++i) {
 				GeoPoint p = pointsOnLine.get(i);
@@ -1669,14 +1719,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		super.doRemove();
 	}
 
+	@Override
 	public Function getFunction() {
 		return getGeoFunction().getFunction();
 	}
 
+	@Override
 	public GeoFunction getGeoDerivative(int order, boolean fast) {
 		return getGeoFunction().getGeoDerivative(order, fast);
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -1685,6 +1738,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return null;
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
@@ -1695,6 +1749,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -1703,6 +1758,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -1714,6 +1770,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersAlgo) {
@@ -1739,6 +1796,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return false;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
@@ -1758,6 +1816,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
@@ -1771,6 +1830,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public double distance(GeoLineND g) {
 		return distance((GeoLine) g);
 	}
@@ -1781,6 +1841,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param param
 	 *            path parameter
 	 */
+	@Override
 	public boolean respectLimitedPath(double param) {
 		return true;
 	}
@@ -1851,6 +1912,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return getMode() == GeoLine.PARAMETRIC;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return getMode() == GeoLine.PARAMETRIC ? ValueType.PARAMETRIC2D
 				: ValueType.EQUATION;
@@ -1866,10 +1928,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return ':';
 	}
 
+	@Override
 	public Coords getOrigin() {
 		return getStartPoint().getCoordsInD3();
 	}
 
+	@Override
 	public Equation getEquation() {
 		FunctionVariable fvx = new FunctionVariable(kernel, "x");
 		FunctionVariable fvy = new FunctionVariable(kernel, "y");
@@ -1911,6 +1975,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return my;
 	}
 
+	@Override
 	public void setToGeneral() {
 		this.toStringMode = GeoLine.EQUATION_GENERAL;
 	}

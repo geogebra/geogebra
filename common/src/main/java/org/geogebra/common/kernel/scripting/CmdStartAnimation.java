@@ -51,8 +51,9 @@ public class CmdStartAnimation extends CmdScripting {
 					app.getKernel().getAnimatonManager().stopAnimation();
 				}
 				return arg;
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 		default:
 			arg = resArgs(c);
 			boolean start = true;
@@ -61,16 +62,19 @@ public class CmdStartAnimation extends CmdScripting {
 				start = ((GeoBoolean) arg[n - 1]).getBoolean();
 				sliderCount = n - 1;
 			}
-			for (int i = 0; i < sliderCount; i++)
-				if (!arg[i].isAnimatable())
+			for (int i = 0; i < sliderCount; i++) {
+				if (!arg[i].isAnimatable()) {
 					throw argErr(app, c, arg[i]);
+				}
+			}
 
 			for (int i = 0; i < sliderCount; i++) {
 				if (arg[i].isAnimatable()) {
 					arg[i].setAnimating(start);
 				}
-				if (start)
+				if (start) {
 					app.getKernel().getAnimatonManager().startAnimation();
+				}
 			}
 
 			return arg;

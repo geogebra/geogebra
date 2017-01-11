@@ -262,16 +262,18 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 				if (dummySegment.isOnPath(dummyOutputPoints[0],
 						Kernel.MIN_PRECISION)
 						&& c.isOnPath(dummyOutputPoints[0],
-								Kernel.MIN_PRECISION))
+								Kernel.MIN_PRECISION)) {
 					coords.add(dummyOutputPoints[0].getCoords());
+				}
 			}
 
 			if (dummyOutputPoints[1].isDefined()) {
 				if (dummySegment.isOnPath(dummyOutputPoints[1],
 						Kernel.MIN_PRECISION)
 						&& c.isOnPath(dummyOutputPoints[1],
-								Kernel.MIN_PRECISION))
+								Kernel.MIN_PRECISION)) {
 					coords.add(dummyOutputPoints[1].getCoords());
+				}
 			}
 
 		}
@@ -315,6 +317,7 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(getConstruction());
 				p.setCoords(0, 0, 1);

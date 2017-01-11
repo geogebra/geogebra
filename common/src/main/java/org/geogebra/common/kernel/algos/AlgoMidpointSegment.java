@@ -135,13 +135,14 @@ public class AlgoMidpointSegment extends AlgoElement
 			// M = (P + Q) / 2
 			M.setCoords((P.inhomX + Q.inhomX) / 2.0d,
 					(P.inhomY + Q.inhomY) / 2.0d, 1.0);
-		} else if (pInf && qInf)
+		} else if (pInf && qInf) {
 			M.setUndefined();
-		else if (pInf)
+		} else if (pInf) {
 			M.setCoords(P);
-		else
+		} else {
 			// qInf
 			M.setCoords(Q);
+		}
 	}
 
 	@Override
@@ -152,10 +153,12 @@ public class AlgoMidpointSegment extends AlgoElement
 
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
@@ -166,6 +169,7 @@ public class AlgoMidpointSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			int[] degreeP = P.getDegrees();
@@ -182,6 +186,7 @@ public class AlgoMidpointSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -197,6 +202,7 @@ public class AlgoMidpointSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -213,18 +219,21 @@ public class AlgoMidpointSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 
-		if (P == null || Q == null)
+		if (P == null || Q == null) {
 			throw new NoSymbolicParametersException();
+		}
 
 		if (botanaVars == null) {
 			botanaVars = new Variable[2];

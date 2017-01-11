@@ -41,6 +41,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
 		return new Factory<Graph<V, E>>() {
+			@Override
 			public Graph<V, E> create() {
 				return new SparseMultigraph<V, E>();
 			}
@@ -65,18 +66,22 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		directedEdges = new HashSet<E>();
 	}
 
+	@Override
 	public Collection<E> getEdges() {
 		return Collections.unmodifiableCollection(edges.keySet());
 	}
 
+	@Override
 	public Collection<V> getVertices() {
 		return Collections.unmodifiableCollection(vertices.keySet());
 	}
 
+	@Override
 	public boolean containsVertex(V vertex) {
 		return vertices.keySet().contains(vertex);
 	}
 
+	@Override
 	public boolean containsEdge(E edge) {
 		return edges.keySet().contains(edge);
 	}
@@ -89,6 +94,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		return vertices.get(vertex).getSecond();
 	}
 
+	@Override
 	public boolean addVertex(V vertex) {
 		if (vertex == null) {
 			throw new IllegalArgumentException("vertex may not be null");
@@ -102,16 +108,19 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		}
 	}
 
+	@Override
 	public boolean removeVertex(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return false;
+		}
 
 		// copy to avoid concurrent modification in removeEdge
 		Set<E> incident = new HashSet<E>(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 
-		for (E edge : incident)
+		for (E edge : incident) {
 			removeEdge(edge);
+		}
 
 		vertices.remove(vertex);
 
@@ -123,17 +132,20 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 			EdgeType edgeType) {
 
 		Pair<V> new_endpoints = getValidatedEndpoints(edge, endpoints);
-		if (new_endpoints == null)
+		if (new_endpoints == null) {
 			return false;
+		}
 
 		V v1 = new_endpoints.getFirst();
 		V v2 = new_endpoints.getSecond();
 
-		if (!vertices.containsKey(v1))
+		if (!vertices.containsKey(v1)) {
 			this.addVertex(v1);
+		}
 
-		if (!vertices.containsKey(v2))
+		if (!vertices.containsKey(v2)) {
 			this.addVertex(v2);
+		}
 
 		vertices.get(v1).getSecond().add(edge);
 		vertices.get(v2).getFirst().add(edge);
@@ -147,6 +159,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		return true;
 	}
 
+	@Override
 	public boolean removeEdge(E edge) {
 		if (!containsEdge(edge)) {
 			return false;
@@ -170,25 +183,31 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		return true;
 	}
 
+	@Override
 	public Collection<E> getInEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		return Collections
 				.unmodifiableCollection(vertices.get(vertex).getFirst());
 	}
 
+	@Override
 	public Collection<E> getOutEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		return Collections
 				.unmodifiableCollection(vertices.get(vertex).getSecond());
 	}
 
 	// TODO: this will need to get changed if we modify the internal
 	// representation
+	@Override
 	public Collection<V> getPredecessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Set<V> preds = new HashSet<V>();
 		for (E edge : getIncoming_internal(vertex)) {
@@ -203,9 +222,11 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 
 	// TODO: this will need to get changed if we modify the internal
 	// representation
+	@Override
 	public Collection<V> getSuccessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Set<V> succs = new HashSet<V>();
 		for (E edge : getOutgoing_internal(vertex)) {
 			if (getEdgeType(edge) == EdgeType.DIRECTED) {
@@ -217,18 +238,22 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		return Collections.unmodifiableCollection(succs);
 	}
 
+	@Override
 	public Collection<V> getNeighbors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Collection<V> out = new HashSet<V>();
 		out.addAll(this.getPredecessors(vertex));
 		out.addAll(this.getSuccessors(vertex));
 		return out;
 	}
 
+	@Override
 	public Collection<E> getIncidentEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Collection<E> out = new HashSet<E>();
 		out.addAll(this.getInEdges(vertex));
 		out.addAll(this.getOutEdges(vertex));
@@ -237,19 +262,24 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 
 	@Override
 	public E findEdge(V v1, V v2) {
-		if (!containsVertex(v1) || !containsVertex(v2))
+		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
-		for (E edge : getOutgoing_internal(v1))
-			if (this.getOpposite(v1, edge).equals(v2))
+		}
+		for (E edge : getOutgoing_internal(v1)) {
+			if (this.getOpposite(v1, edge).equals(v2)) {
 				return edge;
+			}
+		}
 
 		return null;
 	}
 
+	@Override
 	public Pair<V> getEndpoints(E edge) {
 		return edges.get(edge);
 	}
 
+	@Override
 	public V getSource(E edge) {
 		if (directedEdges.contains(edge)) {
 			return this.getEndpoints(edge).getFirst();
@@ -257,6 +287,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		return null;
 	}
 
+	@Override
 	public V getDest(E edge) {
 		if (directedEdges.contains(edge)) {
 			return this.getEndpoints(edge).getSecond();
@@ -264,23 +295,29 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		return null;
 	}
 
+	@Override
 	public boolean isSource(V vertex, E edge) {
-		if (!containsEdge(edge) || !containsVertex(vertex))
+		if (!containsEdge(edge) || !containsVertex(vertex)) {
 			return false;
+		}
 		return getSource(edge).equals(vertex);
 	}
 
+	@Override
 	public boolean isDest(V vertex, E edge) {
-		if (!containsEdge(edge) || !containsVertex(vertex))
+		if (!containsEdge(edge) || !containsVertex(vertex)) {
 			return false;
+		}
 		return getDest(edge).equals(vertex);
 	}
 
+	@Override
 	public EdgeType getEdgeType(E edge) {
 		return directedEdges.contains(edge) ? EdgeType.DIRECTED
 				: EdgeType.UNDIRECTED;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Collection<E> getEdges(EdgeType edgeType) {
 		if (edgeType == EdgeType.DIRECTED) {
@@ -295,22 +332,27 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 
 	}
 
+	@Override
 	public int getEdgeCount() {
 		return edges.keySet().size();
 	}
 
+	@Override
 	public int getVertexCount() {
 		return vertices.keySet().size();
 	}
 
+	@Override
 	public int getEdgeCount(EdgeType edge_type) {
 		return getEdges(edge_type).size();
 	}
 
+	@Override
 	public EdgeType getDefaultEdgeType() {
 		return EdgeType.UNDIRECTED;
 	}
 
+	@Override
 	public SparseMultigraph<V, E> newInstance() {
 		return new SparseMultigraph<V, E>();
 	}

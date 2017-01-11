@@ -81,6 +81,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the max.
 	 */
+	@Override
 	public double getMax() {
 		return max;
 	}
@@ -88,6 +89,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the mean.
 	 */
+	@Override
 	public double getMean() {
 		return mean;
 	}
@@ -95,6 +97,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the min.
 	 */
+	@Override
 	public double getMin() {
 		return min;
 	}
@@ -102,6 +105,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the number of values.
 	 */
+	@Override
 	public long getN() {
 		return n;
 	}
@@ -109,6 +113,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the sum.
 	 */
+	@Override
 	public double getSum() {
 		return sum;
 	}
@@ -116,6 +121,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the standard deviation
 	 */
+	@Override
 	public double getStandardDeviation() {
 		return FastMath.sqrt(variance);
 	}
@@ -123,6 +129,7 @@ public class StatisticalSummaryValues
 	/**
 	 * @return Returns the variance.
 	 */
+	@Override
 	public double getVariance() {
 		return variance;
 	}

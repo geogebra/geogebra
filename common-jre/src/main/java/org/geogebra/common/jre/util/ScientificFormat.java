@@ -157,17 +157,17 @@ public class ScientificFormat extends Format
 	private final static double k = 1 / Math.log(10);
 
 	private static double Log10(double x) {
-		if (x == 0)
+		if (x == 0) {
 			return 0;
-		else
-			return Math.log(x) * k;
+		}
+		return Math.log(x) * k;
 	}
 
-	private int resolveErrorSigDigit(double x, double dx) {
+	private int resolveErrorSigDigit(double x0, double dx0) {
 		// dx should never be negative
-		dx = Math.abs(dx);
+		double dx = Math.abs(dx0);
 		// make x +ve cause negative doesn't effect sigdigits
-		x = Math.abs(x);
+		double x = Math.abs(x0);
 
 		// these circumstances errorsigdit does equal sigdigit, excluding
 		// infinity and Nan which are handled by format

@@ -82,8 +82,9 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		for (int i = 0; i < coords.length; i++) {
 			exp[i] = kernel.convertNumberValueToExpressionNode(
 					coords[i].toGeoElement());
-			for (int j = 0; j < localVar.length; j++)
+			for (int j = 0; j < localVar.length; j++) {
 				exp[i] = exp[i].replace(localVar[j], funVar[j]).wrap();
+			}
 			fun[i] = new FunctionNVar(exp[i], funVar);
 		}
 
@@ -135,22 +136,25 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 			GeoNumeric[] localVar) {
 
 		int inputLength = from.length + to.length;
-		if (coords != null)
+		if (coords != null) {
 			inputLength += coords.length;
-		else
+		}
+		else {
 			inputLength += 1; // for the function
-		if (localVar != null)
+		}
+		if (localVar != null) {
 			inputLength += localVar.length;
+		}
 		GeoElement[] inputElements = new GeoElement[inputLength];
 
 		int index = 0;
 
-		if (coords != null)
+		if (coords != null) {
 			for (int i = 0; i < coords.length; i++) {
 				inputElements[index] = (GeoElement) coords[i];
 				index++;
 			}
-		else {
+		} else {
 			inputElements[index] = inputFunction;
 			index++;
 		}
@@ -180,8 +184,9 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	@Override
 	public void compute() {
 
-		if (inputFunction != null)
+		if (inputFunction != null) {
 			function.set(inputFunction);
+		}
 
 		function.setInterval(getDouble(from), getDouble(to));
 

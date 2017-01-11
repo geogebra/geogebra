@@ -94,10 +94,12 @@ public class AlgoMidpoint extends AlgoMidpointND
 				(P.inhomY + Q.inhomY) / 2.0d, 1.0);
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		GeoPoint P = getP();
@@ -110,6 +112,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
@@ -128,6 +131,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -145,6 +149,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -163,10 +168,12 @@ public class AlgoMidpoint extends AlgoMidpointND
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -176,8 +183,9 @@ public class AlgoMidpoint extends AlgoMidpointND
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
 
-		if (P == null || Q == null)
+		if (P == null || Q == null) {
 			throw new NoSymbolicParametersException();
+		}
 
 		if (botanaVars == null) {
 			botanaVars = new Variable[2];
@@ -196,6 +204,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnMidpoint(geo, this, scope);

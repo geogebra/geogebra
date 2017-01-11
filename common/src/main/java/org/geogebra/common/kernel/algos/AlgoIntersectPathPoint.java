@@ -157,6 +157,7 @@ public class AlgoIntersectPathPoint extends AlgoElement
 				input[1].getLabel(tpl));
 	}
 
+	@Override
 	public boolean isChangeable(GeoElement out) {
 		return false;
 	}

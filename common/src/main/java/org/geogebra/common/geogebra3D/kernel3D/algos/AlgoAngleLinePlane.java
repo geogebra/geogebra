@@ -96,6 +96,7 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		angle.setLabel(label);
 	}
 
+	@Override
 	public AlgoAngleLinePlane copy() {
 		return new AlgoAngleLinePlane(g.copy(), p.copy());
 	}

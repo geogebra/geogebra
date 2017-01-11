@@ -58,15 +58,17 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *            RHS
 	 */
 	public Equation(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs) {
-		if (lhs.isExpressionNode())
+		if (lhs.isExpressionNode()) {
 			this.lhs = (ExpressionNode) lhs;
-		else
+		} else {
 			this.lhs = new ExpressionNode(kernel, lhs);
+		}
 
-		if (rhs.isExpressionNode())
+		if (rhs.isExpressionNode()) {
 			this.rhs = (ExpressionNode) rhs;
-		else
+		} else {
 			this.rhs = new ExpressionNode(kernel, rhs);
+		}
 
 		this.kernel = kernel;
 		isFunctionDependent = false;
@@ -84,8 +86,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *            new RHS
 	 */
 	public void setRHS(ExpressionNode rhs) {
-		if (rhs != null)
+		if (rhs != null) {
 			this.rhs = rhs;
+		}
 	}
 
 	/**
@@ -100,8 +103,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *            new LHS
 	 */
 	public void setLHS(ExpressionNode lhs) {
-		if (lhs != null)
+		if (lhs != null) {
 			this.lhs = lhs;
+		}
 	}
 
 	/**
@@ -273,8 +277,9 @@ public class Equation extends ValidExpression implements EquationValue {
 		// try to replace x(x+1) by x*(x+1)
 		undecided.clear();
 		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
-		for (ExpressionNode en : undecided)
+		for (ExpressionNode en : undecided) {
 			en.setOperation(Operation.MULTIPLY);
+		}
 		undecided.clear();
 	}
 
@@ -397,6 +402,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		return !isExplicit("x") && !isExplicit("y") && !isExplicit("z");
 	}
 
+	@Override
 	public boolean contains(ExpressionValue ev) {
 		return lhs.contains(ev) || rhs.contains(ev);
 	}
@@ -436,6 +442,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		return ge;
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> leftVars = lhs.getVariables();
 		HashSet<GeoElement> rightVars = rhs.getVariables();
@@ -449,18 +456,22 @@ public class Equation extends ValidExpression implements EquationValue {
 		}
 	}
 
+	@Override
 	public boolean isConstant() {
 		return lhs.isConstant() && rhs.isConstant();
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return false;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		if ("X".equals(lhs.toString(StringTemplate.defaultTemplate))
 				&& kernel.lookupLabel("X") == null) {
@@ -470,19 +481,22 @@ public class Equation extends ValidExpression implements EquationValue {
 		rhs.resolveVariables(info);
 	}
 
+	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
-		if (lhs != null)
+		if (lhs != null) {
 			sb.append(lhs.toLaTeXString(symbolic, tpl));
-		else
+		} else {
 			sb.append('0');
+		}
 		sb.append(" = ");
 
-		if (rhs != null)
+		if (rhs != null) {
 			sb.append(rhs.toLaTeXString(symbolic, tpl));
-		else
+		} else {
 			sb.append('0');
+		}
 		return sb.toString();
 	}
 
@@ -490,10 +504,11 @@ public class Equation extends ValidExpression implements EquationValue {
 	final public String toValueString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
-		if (lhs != null)
+		if (lhs != null) {
 			sb.append(lhs.toValueString(tpl));
-		else
+		} else {
 			sb.append('0');
+		}
 
 		if (tpl.getStringType().isGiac()) {
 			if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
@@ -533,10 +548,11 @@ public class Equation extends ValidExpression implements EquationValue {
 		StringBuilder sb = new StringBuilder();
 
 		// left hand side
-		if (lhs1 != null)
+		if (lhs1 != null) {
 			sb.append(lhs1.toString(tpl));
-		else
+		} else {
 			sb.append('0');
+		}
 
 		if (tpl.getStringType().isGiac()) {
 			if (lhs1.evaluatesToList() || rhs.evaluatesToList()) {
@@ -551,10 +567,11 @@ public class Equation extends ValidExpression implements EquationValue {
 		}
 
 		// right hand side
-		if (rhs != null)
+		if (rhs != null) {
 			sb.append(rhs.toString(tpl));
-		else
+		} else {
 			sb.append('0');
+		}
 
 		return sb.toString();
 	}
@@ -569,6 +586,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		return ": \\, ";
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -769,6 +787,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		}
 	}
 
+	@Override
 	public Equation getEquation() {
 		return this;
 	}

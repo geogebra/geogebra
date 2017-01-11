@@ -346,9 +346,11 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 	abstract protected boolean isIntersectionPointIncident(int index,
 			GeoConicND conic);
 
+	@Override
 	public GeoPointND getTangentPoint(GeoElement conic, GeoLine line) {
-		if (conic != c[0] && conic != c[1])
+		if (conic != c[0] && conic != c[1]) {
 			return null;
+		}
 		if (conic == c[0]) {
 			if (line == tangents[0]) {
 				return tangentPoints[0];

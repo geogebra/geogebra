@@ -258,9 +258,10 @@ public class SpreadsheetContextMenu {
 
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable
-				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
+				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++) {
 					showRecordToSpreadsheet &= geos.get(i)
 							.isSpreadsheetTraceable();
+				}
 
 				if (showRecordToSpreadsheet) {
 					cmdString = MenuCommand.RecordToSpreadsheet.toString();
@@ -318,8 +319,9 @@ public class SpreadsheetContextMenu {
 		else if (geos != null && geos.size() == 1) {
 			GeoElement geo0 = geos.get(0);
 			title = geo0.getLongDescriptionHTML(false, true);
-			if (title.length() > 80)
+			if (title.length() > 80) {
 				title = geo0.getNameDescriptionHTML(false, true);
+			}
 		}
 
 		return title;
@@ -338,8 +340,9 @@ public class SpreadsheetContextMenu {
 		if (geos != null && geos.size() > 0) {
 			for (int i = 0; (i < geos.size() && allFixed); i++) {
 				GeoElement geo = geos.get(i);
-				if (!geo.isFixed())
+				if (!geo.isFixed()) {
 					allFixed = false;
+				}
 			}
 		}
 		return allFixed;
@@ -417,22 +420,25 @@ public class SpreadsheetContextMenu {
 
 		case Paste:
 			succ = table.getCopyPasteCut().paste(column1, row1, column2, row2);
-			if (succ)
+			if (succ) {
 				app.storeUndoInfo();
+			}
 			table.getView().rowHeaderRevalidate();
 			break;
 
 		case Cut:
 			succ = table.getCopyPasteCut().cut(column1, row1, column2, row2);
-			if (succ)
+			if (succ) {
 				app.storeUndoInfo();
+			}
 			break;
 
 		case Delete:
 		case DeleteObjects:
 			succ = table.getCopyPasteCut().delete(column1, row1, column2, row2);
-			if (succ)
+			if (succ) {
 				app.storeUndoInfo();
+			}
 			break;
 
 		case InsertLeft:
@@ -535,9 +541,9 @@ public class SpreadsheetContextMenu {
 	public void cmdRecordToSpreadsheet() {
 		GeoElement geo = geos.get(0);
 		GeoElement geoRecordToSpreadSheet;
-		if (geos.size() == 1)
+		if (geos.size() == 1) {
 			geoRecordToSpreadSheet = geo;
-		else {
+		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
 					.List(null, geos, false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);

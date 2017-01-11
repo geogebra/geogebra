@@ -170,8 +170,9 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	@Override
 	public int getOutputLength() {
-		if (index != null)
+		if (index != null) {
 			return 1;
+		}
 		return outputPoints.size();
 	}
 
@@ -243,8 +244,9 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	@Override
 	public GeoElement getOutput(int i) {
-		if (index != null)
+		if (index != null) {
 			return (GeoElement) oneVertex;
+		}
 		return outputPoints.getElement(i);
 	}
 
@@ -257,6 +259,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint pt = new GeoPoint(cons);
 				pt.setCoords(0, 0, 1);

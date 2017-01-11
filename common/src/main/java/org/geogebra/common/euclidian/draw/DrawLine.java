@@ -155,10 +155,11 @@ public class DrawLine extends Drawable implements Previewable {
 	 */
 	public DrawLine(EuclidianView view, ArrayList<GeoPointND> points,
 			ArrayList<GeoLineND> lines, boolean parallel) {
-		if (parallel)
+		if (parallel) {
 			previewMode = PreviewType.PARALLEL;
-		else
+		} else {
 			previewMode = PreviewType.PERPENDICULAR;
+		}
 		this.view = view;
 		this.points = points;
 		this.lines = lines;
@@ -213,8 +214,9 @@ public class DrawLine extends Drawable implements Previewable {
 			if (g.getTrace()) {
 				isTracing = true;
 				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null)
+				if (g2 != null) {
 					drawTrace(g2);
+				}
 			} else {
 				if (isTracing) {
 					isTracing = false;
@@ -270,8 +272,9 @@ public class DrawLine extends Drawable implements Previewable {
 			clipLeftRight();
 		}
 
-		if (line == null)
+		if (line == null) {
 			line = AwtFactory.getPrototype().newLine2D();
+		}
 		line.setLine(x1, y1, x2, y2);
 	}
 
@@ -286,8 +289,9 @@ public class DrawLine extends Drawable implements Previewable {
 		attr2[BOTTOM] = y2 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
 
 		// both points outside (TOP or BOTTOM)
-		if ((attr1[TOP] && attr2[TOP]) || (attr1[BOTTOM] && attr2[BOTTOM]))
+		if ((attr1[TOP] && attr2[TOP]) || (attr1[BOTTOM] && attr2[BOTTOM])) {
 			return;
+		}
 		// at least one point inside -> clip
 		// point1 TOP -> clip with y=0
 		if (attr1[TOP]) {
@@ -327,8 +331,9 @@ public class DrawLine extends Drawable implements Previewable {
 		attr2[RIGHT] = x2 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
 
 		// both points outside (LEFT or RIGHT)
-		if ((attr1[LEFT] && attr2[LEFT]) || (attr1[RIGHT] && attr2[RIGHT]))
+		if ((attr1[LEFT] && attr2[LEFT]) || (attr1[RIGHT] && attr2[RIGHT])) {
 			return;
+		}
 		// at least one point inside -> clip
 		// point1 LEFT -> clip with x=0
 		if (attr1[LEFT]) {
@@ -447,6 +452,7 @@ public class DrawLine extends Drawable implements Previewable {
 		g2.draw(line);
 	}
 
+	@Override
 	final public void updatePreview() {
 		switch (previewMode) {
 		default:
@@ -475,6 +481,7 @@ public class DrawLine extends Drawable implements Previewable {
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
 
+	@Override
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
@@ -506,8 +513,9 @@ public class DrawLine extends Drawable implements Previewable {
 					endPoint.setX(xRW);
 					endPoint.setY(yRW);
 					view.getEuclidianController().setLineEndPoint(endPoint);
-				} else
+				} else {
 					view.getEuclidianController().setLineEndPoint(null);
+				}
 
 				// line through first point and mouse position
 				// coords = startPoint.getCoordsInD2().crossProduct(new
@@ -635,6 +643,7 @@ public class DrawLine extends Drawable implements Previewable {
 
 	private boolean isPreviewVisible;
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isPreviewVisible) {
 			g2.setPaint(getObjectColor());
@@ -644,6 +653,7 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}
@@ -710,8 +720,9 @@ public class DrawLine extends Drawable implements Previewable {
 			} else {
 				gpc.lineTo(0, view.getHeight());
 				gpc.lineTo(0, 0);
-				if (!forConic)
+				if (!forConic) {
 					invert = !invert;
+				}
 			}
 		}
 		// cross top/bottom and right
@@ -732,8 +743,9 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 		gpc.closePath();
 		GArea gpcArea = AwtFactory.getPrototype().newArea(gpc);
-		if (!invert)
+		if (!invert) {
 			return gpcArea;
+		}
 		GArea complement = AwtFactory.getPrototype()
 				.newArea(view.getBoundingPath());
 		complement.subtract(gpcArea);

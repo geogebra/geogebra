@@ -914,8 +914,9 @@ public class StatGeo {
 					.createColor(DataAnalysisModel.REGRESSION_COLOR_IDX));
 
 			// hide the dummy geo
-			if (regNone)
+			if (regNone) {
 				geo.setEuclidianVisible(false);
+			}
 		}
 
 		return geo;
@@ -1055,8 +1056,9 @@ public class StatGeo {
 	private void removeFromConstructionList(ConstructionElement ce) {
 		// System.out.println("remove from cons:" + removeFromConstruction);
 
-		if (removeFromConstruction)
+		if (removeFromConstruction) {
 			cons.removeFromConstructionList(ce);
+		}
 	}
 
 }

@@ -80,58 +80,72 @@ public abstract class AbstractCollectionDecorator<E> implements Collection<E> {
 	}
 
 	// -----------------------------------------------------------------------
+	@Override
 	public boolean add(E object) {
 		return collection.add(object);
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends E> coll) {
 		return collection.addAll(coll);
 	}
 
+	@Override
 	public void clear() {
 		collection.clear();
 	}
 
+	@Override
 	public boolean contains(Object object) {
 		return collection.contains(object);
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return collection.isEmpty();
 	}
 
+	@Override
 	public Iterator<E> iterator() {
 		return collection.iterator();
 	}
 
+	@Override
 	public boolean remove(Object object) {
 		return collection.remove(object);
 	}
 
+	@Override
 	public int size() {
 		return collection.size();
 	}
 
+	@Override
 	public Object[] toArray() {
-		return (Object[]) collection.toArray();
+		return collection.toArray();
 	}
 
+	@Override
 	public <T> T[] toArray(T[] object) {
-		return (T[]) collection.toArray(object);
+		return collection.toArray(object);
 	}
 
+	@Override
 	public boolean containsAll(Collection<?> coll) {
 		return collection.containsAll(coll);
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> coll) {
 		return collection.removeAll(coll);
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> coll) {
 		return collection.retainAll(coll);
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object == this) {
 			return true;
@@ -139,10 +153,12 @@ public abstract class AbstractCollectionDecorator<E> implements Collection<E> {
 		return collection.equals(object);
 	}
 
+	@Override
 	public int hashCode() {
 		return collection.hashCode();
 	}
 
+	@Override
 	public String toString() {
 		return collection.toString();
 	}

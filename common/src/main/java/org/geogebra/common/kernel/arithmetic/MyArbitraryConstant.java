@@ -96,8 +96,9 @@ public class MyArbitraryConstant {
 			Map<Integer, GeoNumeric> map, String prefix, double index) {
 		Integer indexInt = Integer.valueOf((int) Math.round(index));
 		GeoNumeric found = map.get(indexInt);
-		if (found != null)
+		if (found != null) {
 			return found;
+		}
 		Construction c = ce.getConstruction();
 		if (position >= consts2.size() || consts2.get(position) == null) {
 			GeoNumeric add = new GeoNumeric(c);
@@ -234,9 +235,9 @@ public class MyArbitraryConstant {
 		@Override
 		public void compute() {
 			if (outCE instanceof AlgoElement
-					&& ((AlgoElement) outCE).getOutputLength() == 1)
+					&& ((AlgoElement) outCE).getOutputLength() == 1) {
 				((AlgoElement) outCE).getOutput(0).updateCascade();
-			else if (outCE instanceof GeoCasCell) {
+			} else if (outCE instanceof GeoCasCell) {
 				outCE.update();
 				if (((GeoCasCell) outCE).getTwinGeo() != null) {
 					((GeoCasCell) outCE).getTwinGeo().update();

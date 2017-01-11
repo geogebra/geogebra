@@ -32,14 +32,17 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		super(view);
 	}
 
+	@Override
 	public void lineTo(double[] pos) {
 		drawTo(pos, true);
 	}
 
+	@Override
 	public void moveTo(double[] pos) {
 		drawTo(pos, false);
 	}
 
+	@Override
 	public void drawTo(double[] pos, boolean lineTo) {
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
@@ -76,6 +79,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	}
 
+	@Override
 	public void corner() {
 		MyPoint fp = firstPoint();
 		if (fp != null) {
@@ -85,6 +89,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	}
 
+	@Override
 	public void corner(double[] pos) {
 
 		double[] p = Cloner.clone(pos);
@@ -127,6 +132,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	}
 
+	@Override
 	public void firstPoint(double pos[], Gap moveToAllowed) {
 
 		double[] p = Cloner.clone(pos);
@@ -177,10 +183,12 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		}
 	}
 
+	@Override
 	public double[] newDoubleArray() {
 		return new double[2];
 	}
 
+	@Override
 	public boolean copyCoords(MyPoint point, double[] ret,
 			CoordSys transformSys) {
 
@@ -196,12 +204,14 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		return true;
 	}
 
+	@Override
 	public void endPlot() {
 		// TODO Auto-generated method stub
 	}
 
 	private Coords tmpCoords = new Coords(4);
 
+	@Override
 	public boolean supports(CoordSys transformSys) {
 		return view.isInPlane(transformSys);
 	}

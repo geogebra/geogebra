@@ -135,8 +135,9 @@ public class DrawConicSection extends DrawConic {
 		}
 
 		if (Kernel.isZero(B.getZ())) {
-			if (line == null)
+			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
+			}
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;
@@ -341,9 +342,10 @@ public class DrawConicSection extends DrawConic {
 					if (lines == null) {
 						lines = new GLine2D[4];
 					}
-					if (lines[numPoints] == null)
+					if (lines[numPoints] == null) {
 						lines[numPoints] = AwtFactory.getPrototype()
 								.newLine2D();
+					}
 					lines[numPoints].setLine(x1, y1, x2, y2);
 					x1 = x2;
 					y1 = y2;
@@ -354,8 +356,9 @@ public class DrawConicSection extends DrawConic {
 
 		if (numPoints > 0) {// close path only if at least two points
 			path.closePath();
-			if (lines[numPoints] == null)
+			if (lines[numPoints] == null) {
 				lines[numPoints] = AwtFactory.getPrototype().newLine2D();
+			}
 			lines[numPoints].setLine(x1, y1, tx0, ty0);
 		}
 
@@ -375,8 +378,9 @@ public class DrawConicSection extends DrawConic {
 		Coords B = view.getCoordsForView(m.copy().addInsideMul(d, getEnd(0)));
 
 		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
-			if (line == null)
+			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
+			}
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;
@@ -457,8 +461,9 @@ public class DrawConicSection extends DrawConic {
 				m.copy().addInsideMul(ev1, u).addInsideMul(ev2, v));
 
 		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
-			if (line == null)
+			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
+			}
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;
@@ -517,8 +522,9 @@ public class DrawConicSection extends DrawConic {
 		}
 
 		if (A != null && Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
-			if (line == null)
+			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
+			}
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;

@@ -489,6 +489,7 @@ public abstract class EuclidianView
 
 	}
 
+	@Override
 	public void setAxesColor(GColor axesColor) {
 		if (axesColor != null) {
 			this.axesColor = axesColor;
@@ -516,6 +517,7 @@ public abstract class EuclidianView
 	/**
 	 * Returns point capturing mode.
 	 */
+	@Override
 	public int getPointCapturingMode() {
 
 		if (settings != null) {
@@ -528,6 +530,7 @@ public abstract class EuclidianView
 	/**
 	 * Set capturing of points to the grid.
 	 */
+	@Override
 	public void setPointCapturing(int mode) {
 		if (settings != null) {
 			settings.setPointCapturing(mode);
@@ -536,10 +539,12 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public int getMode() {
 		return mode;
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		if (mode == this.mode && mode != EuclidianConstants.MODE_IMAGE) {
 			return;
@@ -589,10 +594,12 @@ public abstract class EuclidianView
 	/**
 	 * @return the xminObject
 	 */
+	@Override
 	public GeoNumeric getXminObject() {
 		return (GeoNumeric) xminObject;
 	}
 
+	@Override
 	public void updateBoundObjects() {
 		if (isZoomable() && xminObject != null) {
 			((GeoNumeric) xminObject).setValue(getXmin());
@@ -613,6 +620,7 @@ public abstract class EuclidianView
 	 * 
 	 * @return true if the axes ratio is 1
 	 */
+	@Override
 	public boolean isLockedAxesRatio() {
 		return lockedAxesRatio > 0 || (gridType == GRID_POLAR);
 	}
@@ -632,10 +640,12 @@ public abstract class EuclidianView
 
 	private boolean updatingBounds = false;
 
+	@Override
 	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
 
-		if (updatingBounds)
+		if (updatingBounds) {
 			return;
+		}
 
 		updatingBounds = true;
 		for (int i = 0; i < axesDistanceObjects.length; i++) {
@@ -699,8 +709,9 @@ public abstract class EuclidianView
 		setCoordTransformIfNeeded();
 
 		// tell option panel
-		if (optionPanel != null)
+		if (optionPanel != null) {
 			optionPanel.updateBounds();
+		}
 
 		if (updateDrawables) {
 			this.updateAllDrawablesForView(true);
@@ -710,6 +721,7 @@ public abstract class EuclidianView
 		updatingBounds = false;
 	}
 
+	@Override
 	public boolean isZoomable() {
 		if (!GeoNumeric.isChangeable(xminObject)) {
 			return false;
@@ -730,6 +742,7 @@ public abstract class EuclidianView
 	 * @param xminObjectNew
 	 *            the xminObject to set
 	 */
+	@Override
 	public void setXminObject(NumberValue xminObjectNew) {
 		if (xminObject != null) {
 			((GeoNumeric) xminObject).removeEVSizeListener(this);
@@ -746,6 +759,7 @@ public abstract class EuclidianView
 	/**
 	 * @return the xmaxObject
 	 */
+	@Override
 	public GeoNumeric getXmaxObject() {
 		return (GeoNumeric) xmaxObject;
 	}
@@ -754,6 +768,7 @@ public abstract class EuclidianView
 	 * @param xmaxObjectNew
 	 *            the xmaxObject to set
 	 */
+	@Override
 	public void setXmaxObject(NumberValue xmaxObjectNew) {
 		if (xmaxObject != null) {
 			((GeoNumeric) xmaxObject).removeEVSizeListener(this);
@@ -770,6 +785,7 @@ public abstract class EuclidianView
 	/**
 	 * @return the yminObject
 	 */
+	@Override
 	public GeoNumeric getYminObject() {
 		return (GeoNumeric) yminObject;
 	}
@@ -778,6 +794,7 @@ public abstract class EuclidianView
 	 * @param yminObjectNew
 	 *            the yminObject to set
 	 */
+	@Override
 	public void setYminObject(NumberValue yminObjectNew) {
 		if (yminObject != null) {
 			((GeoNumeric) yminObject).removeEVSizeListener(this);
@@ -807,6 +824,7 @@ public abstract class EuclidianView
 	 *            real world x coord
 	 * @return screen equivalent of real world x-coord
 	 */
+	@Override
 	final public int toScreenCoordX(double xRW) {
 		return (int) Math.round(getXZero() + xRW * getXscale());
 	}
@@ -818,6 +836,7 @@ public abstract class EuclidianView
 	 *            real world y coord
 	 * @return screen equivalent of real world y-coord
 	 */
+	@Override
 	final public int toScreenCoordY(double yRW) {
 		return (int) Math.round(getYZero() - (yRW * getYscale()));
 	}
@@ -829,6 +848,7 @@ public abstract class EuclidianView
 	 *            real world x-coord
 	 * @return screen equivalent of real world x-coord as double
 	 */
+	@Override
 	final public double toScreenCoordXd(double xRW) {
 		if (getXaxisLog()) {
 			return getWidth() * (Math.log10(xRW) - Math.log10(xmin))
@@ -844,6 +864,7 @@ public abstract class EuclidianView
 	 *            real world y-coord
 	 * @return screen equivalent of real world y-coord
 	 */
+	@Override
 	final public double toScreenCoordYd(double yRW) {
 		if (getYaxisLog()) {
 			return getHeight() * (1 - (Math.log10(yRW) - Math.log10(ymin))
@@ -871,6 +892,7 @@ public abstract class EuclidianView
 	}
 
 	/** remembers the origins values (xzero, ...) */
+	@Override
 	public void rememberOrigins() {
 		xZeroOld = getXZero();
 		yZeroOld = getYZero();
@@ -910,15 +932,17 @@ public abstract class EuclidianView
 		if (getXaxisLog()) {
 			inOut[0] = getWidth() * (Math.log10(inOut[0]) - Math.log10(xmin))
 					/ (Math.log10(xmax) - Math.log10(xmin));
-		} else
+		} else {
 			inOut[0] = getXZero() + (inOut[0] * getXscale());
+		}
 
 		if (getYaxisLog()) {
 			inOut[1] = getHeight()
 					* (1 - (Math.log10(inOut[1]) - Math.log10(ymin))
 							/ (Math.log10(ymax) - Math.log10(ymin)));
-		} else
+		} else {
 			inOut[1] = getYZero() - (inOut[1] * getYscale());
+		}
 
 		// check if (x, y) is on screen
 		boolean onScreen = true;
@@ -1005,25 +1029,29 @@ public abstract class EuclidianView
 
 		// bottom
 		if (Kernel.isGreater(getYmin(), p1[1], tolerance)
-				&& Kernel.isGreater(getYmin(), p2[1], tolerance))
+				&& Kernel.isGreater(getYmin(), p2[1], tolerance)) {
 			return true;
+		}
 
 		// top
 		if (Kernel.isGreater(p1[1], getYmax(), tolerance)
-				&& Kernel.isGreater(p2[1], getYmax(), tolerance))
+				&& Kernel.isGreater(p2[1], getYmax(), tolerance)) {
 			return true;
+		}
 
 		tolerance = EuclidianStatic.CLIP_DISTANCE / getXscale();
 
 		// left
 		if (Kernel.isGreater(getXmin(), p1[0], tolerance)
-				&& Kernel.isGreater(getXmin(), p2[0], tolerance))
+				&& Kernel.isGreater(getXmin(), p2[0], tolerance)) {
 			return true;
+		}
 
 		// right
 		if (Kernel.isGreater(p1[0], getXmax(), tolerance)
-				&& Kernel.isGreater(p2[0], getXmax(), tolerance))
+				&& Kernel.isGreater(p2[0], getXmax(), tolerance)) {
 			return true;
+		}
 
 		// close to screen
 		return false;
@@ -1036,6 +1064,7 @@ public abstract class EuclidianView
 	 *            screen coord
 	 * @return real world equivalent of screen x-coord
 	 */
+	@Override
 	final public double toRealWorldCoordX(double x) {
 		return (x - getXZero()) * getInvXscale();
 	}
@@ -1047,6 +1076,7 @@ public abstract class EuclidianView
 	 *            screen coord
 	 * @return real world equivalent of screen y-coord
 	 */
+	@Override
 	final public double toRealWorldCoordY(double y) {
 		return (getYZero() - y) * getInvYscale();
 	}
@@ -1059,6 +1089,7 @@ public abstract class EuclidianView
 	 * Also updates settings *before* all the algos that might need them are
 	 * updated
 	 */
+	@Override
 	final public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
 		if (settings != null) {
@@ -1069,6 +1100,7 @@ public abstract class EuclidianView
 	}
 
 	/** Sets coord system from mouse move */
+	@Override
 	public void translateCoordSystemInPixels(int dx, int dy, int dz,
 			int modeForTranslate) {
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
@@ -1079,6 +1111,7 @@ public abstract class EuclidianView
 		translateCoordSystemInPixels(dx, dy, 0, mode);
 	}
 
+	@Override
 	public void pageUpDownTranslateCoordSystem(int height) {
 		translateCoordSystemInPixels(0, height, 0,
 				EuclidianController.MOVE_VIEW);
@@ -1088,6 +1121,7 @@ public abstract class EuclidianView
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
 	 */
+	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
 		double calcXscale = getWidth() / (xmax2 - xmin2);
@@ -1166,6 +1200,7 @@ public abstract class EuclidianView
 	/**
 	 * @return the ymaxObject
 	 */
+	@Override
 	public GeoNumeric getYmaxObject() {
 		return (GeoNumeric) ymaxObject;
 	}
@@ -1233,6 +1268,7 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public int getEuclidianViewNo() {
 		return evNo;
 	}
@@ -1241,6 +1277,7 @@ public abstract class EuclidianView
 	 * @param ymaxObjectNew
 	 *            the ymaxObject to set
 	 */
+	@Override
 	public void setYmaxObject(NumberValue ymaxObjectNew) {
 		if (ymaxObject != null) {
 			((GeoNumeric) ymaxObject).removeEVSizeListener(this);
@@ -1275,6 +1312,7 @@ public abstract class EuclidianView
 	/**
 	 * Returns x coordinate of axes origin.
 	 */
+	@Override
 	public double getXZero() {
 		return xZero;
 	}
@@ -1282,6 +1320,7 @@ public abstract class EuclidianView
 	/**
 	 * Returns y coordinate of axes origin.
 	 */
+	@Override
 	public double getYZero() {
 		return yZero;
 	}
@@ -1307,6 +1346,7 @@ public abstract class EuclidianView
 	 * Returns xscale of this view. The scale is the number of pixels in screen
 	 * space that represent one unit in user space.
 	 */
+	@Override
 	public double getXscale() {
 		return xscale;
 	}
@@ -1315,22 +1355,27 @@ public abstract class EuclidianView
 	 * Returns the yscale of this view. The scale is the number of pixels in
 	 * screen space that represent one unit in user space.
 	 */
+	@Override
 	public double getYscale() {
 		return yscale;
 	}
 
+	@Override
 	public double getInvXscale() {
 		return invXscale;
 	}
 
+	@Override
 	public double getInvYscale() {
 		return invYscale;
 	}
 
+	@Override
 	public int getViewWidth() {
 		return getWidth();
 	}
 
+	@Override
 	public int getViewHeight() {
 		return getHeight();
 	}
@@ -1348,6 +1393,7 @@ public abstract class EuclidianView
 	/**
 	 * @return Returns the xmax.
 	 */
+	@Override
 	public double getXmax() {
 		return xmax;
 	}
@@ -1355,6 +1401,7 @@ public abstract class EuclidianView
 	/**
 	 * @return Returns the xmin.
 	 */
+	@Override
 	public double getXmin() {
 		return xmin;
 	}
@@ -1362,6 +1409,7 @@ public abstract class EuclidianView
 	/**
 	 * @return Returns the ymax.
 	 */
+	@Override
 	public double getYmax() {
 		return ymax;
 	}
@@ -1369,6 +1417,7 @@ public abstract class EuclidianView
 	/**
 	 * @return Returns the ymin.
 	 */
+	@Override
 	public double getYmin() {
 		return ymin;
 	}
@@ -1376,6 +1425,7 @@ public abstract class EuclidianView
 	/**
 	 * Returns grid type.
 	 */
+	@Override
 	final public int getGridType() {
 		return gridType;
 	}
@@ -1383,6 +1433,7 @@ public abstract class EuclidianView
 	/**
 	 * Set grid type.
 	 */
+	@Override
 	public void setGridType(int type) {
 		gridType = type;
 	}
@@ -1496,10 +1547,12 @@ public abstract class EuclidianView
 	}
 
 	// may need to be synchronized for some 3D implementations
+	@Override
 	public void startBatchUpdate() {
 		this.batchUpdate = true;
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		this.batchUpdate = false;
 		if (this.needsAllDrawablesUpdate) {
@@ -1630,6 +1683,7 @@ public abstract class EuclidianView
 	/**
 	 * renames an element
 	 */
+	@Override
 	public void rename(GeoElement geo) {
 		Object d = DrawableMap.get(geo);
 		if (d != null) {
@@ -1638,6 +1692,7 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 		DrawableND d = DrawableMap.get(geo);
 
@@ -1673,6 +1728,7 @@ public abstract class EuclidianView
 	/**
 	 * adds a GeoElement to this view
 	 */
+	@Override
 	public void add(GeoElement geo) {
 
 		// G.Sturr 2010-6-30
@@ -1716,6 +1772,7 @@ public abstract class EuclidianView
 
 	private GeoElement[] previewFromInputBarGeos;
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
@@ -1760,12 +1817,14 @@ public abstract class EuclidianView
 	/**
 	 * removes a GeoElement from this view
 	 */
+	@Override
 	public void remove(GeoElement geo) {
 		this.geosWaiting.remove(geo);
 		Drawable d = (Drawable) DrawableMap.get(geo);
 		int layer = geo.getLayer();
-		if (d == null)
+		if (d == null) {
 			return;
+		}
 		if (d instanceof RemoveNeeded) {
 			drawLayers[layer].remove(d);
 			((RemoveNeeded) d).remove();
@@ -1779,12 +1838,14 @@ public abstract class EuclidianView
 			stickyPointList.remove(geo);
 		}
 		euclidianController.clear(geo);
-		if (!d.isCreatedByDrawListVisible())
+		if (!d.isCreatedByDrawListVisible()) {
 			repaint();
+		}
 
 	}
 
 	/** get the hits recorded */
+	@Override
 	public Hits getHits() {
 		return hits;
 	}
@@ -1836,6 +1897,7 @@ public abstract class EuclidianView
 		getCompanion().setHits(type);
 	}
 
+	@Override
 	public void setHits(GPoint p, PointerEventType type) {
 		setHits(p, app.getCapturingThreshold(type));
 		if (type == PointerEventType.TOUCH && this.hits.size() == 0) {
@@ -1947,6 +2009,7 @@ public abstract class EuclidianView
 
 	}
 
+	@Override
 	public MyButton getHitButton(GPoint p, PointerEventType type) {
 
 		DrawableIterator it = allDrawableList.getIterator();
@@ -1958,18 +2021,21 @@ public abstract class EuclidianView
 			if (d2 instanceof DrawButton
 					&& d2.hit(p.x, p.y, app.getCapturingThreshold(type))) {
 				if (d == null || d2.getGeoElement().getLayer() >= d
-						.getGeoElement().getLayer())
+						.getGeoElement().getLayer()) {
 					d = d2;
+				}
 			}
 		}
-		if (d != null)
+		if (d != null) {
 			return ((DrawButton) d).myButton;
+		}
 		return null;
 	}
 
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
+	@Override
 	public GeoElement getLabelHit(GPoint p, PointerEventType type) {
 		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
@@ -2026,6 +2092,7 @@ public abstract class EuclidianView
 		return DrawableMap.get(geo);
 	}
 
+	@Override
 	public DrawableND getDrawableND(GeoElement geo) {
 		return getDrawable(geo);
 	}
@@ -2108,10 +2175,12 @@ public abstract class EuclidianView
 	 *            geo
 	 * @return new drawable for the geo
 	 */
+	@Override
 	public DrawableND newDrawable(GeoElement geo) {
 		return companion.newDrawable(geo);
 	}
 
+	@Override
 	public void reset() {
 		resetMode();
 		updateBackgroundImage();
@@ -2120,6 +2189,7 @@ public abstract class EuclidianView
 	/**
 	 * clears all selections and highlighting
 	 */
+	@Override
 	public void resetMode() {
 		setMode(mode);
 	}
@@ -2133,21 +2203,26 @@ public abstract class EuclidianView
 
 	}
 
+	@Override
 	public void repaintView() {
 		repaint();
 
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
-		if (styleBar != null)
+		if (styleBar != null) {
 			styleBar.updateVisualStyle(geo);
+		}
 	}
 
+	@Override
 	final public DrawableND getDrawableFor(GeoElement geo) {
 		return DrawableMap.get(geo);
 	}
 
+	@Override
 	final public void updateAuxiliaryObject(GeoElement geo) {
 		// repaint();
 	}
@@ -2224,6 +2299,7 @@ public abstract class EuclidianView
 		return getFontPoint();
 	}
 
+	@Override
 	public ArrayList<GeoPointND> getStickyPointList() {
 		return stickyPointList;
 	}
@@ -2257,6 +2333,7 @@ public abstract class EuclidianView
 		tooltipsInThisView = setto;
 	}
 
+	@Override
 	final public int getAllowToolTips() {
 		return tooltipsInThisView;
 	}
@@ -2283,22 +2360,27 @@ public abstract class EuclidianView
 		return companion.getMatrix();
 	}
 
+	@Override
 	public String getFromPlaneString() {
 		return companion.getFromPlaneString();
 	}
 
+	@Override
 	public String getTranslatedFromPlaneString() {
 		return companion.getTranslatedFromPlaneString();
 	}
 
+	@Override
 	public boolean isDefault2D() {
 		return companion.isDefault2D();
 	}
 
+	@Override
 	public boolean isEuclidianView3D() {
 		return false;
 	}
 
+	@Override
 	public int getViewID() {
 		switch (evNo) {
 		case 1:
@@ -2310,6 +2392,7 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
 		drawLayers[oldlayer].remove((Drawable) DrawableMap.get(geo));
 		drawLayers[newlayer].add((Drawable) DrawableMap.get(geo));
@@ -2327,6 +2410,7 @@ public abstract class EuclidianView
 	 * 
 	 * @return null (for 2D) and xOyPlane (for 3D)
 	 */
+	@Override
 	public GeoDirectionND getDirection() {
 		return companion.getDirection();
 	}
@@ -2338,14 +2422,17 @@ public abstract class EuclidianView
 	 *            point
 	 * @return the same coords for classic 2d view
 	 */
+	@Override
 	public Coords getCoordsForView(Coords coords) {
 		return companion.getCoordsForView(coords);
 	}
 
+	@Override
 	public boolean isMoveable(GeoElement geo) {
 		return companion.isMoveable(geo);
 	}
 
+	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
@@ -2359,6 +2446,7 @@ public abstract class EuclidianView
 	 * @param num2
 	 *            new numeric
 	 */
+	@Override
 	public void replaceBoundObject(GeoNumeric num, GeoNumeric num2) {
 		if (xmaxObject == num) {
 			xmaxObject = num2;
@@ -2387,14 +2475,17 @@ public abstract class EuclidianView
 		return getApplication().rightAngleStyle;
 	}
 
+	@Override
 	public boolean isAutomaticGridDistance() {
 		return automaticGridDistance;
 	}
 
+	@Override
 	public double[] getGridDistances() {
 		return gridDistances;
 	}
 
+	@Override
 	public void setGridDistances(double[] dist) {
 		if (dist == null) {
 			return;
@@ -2403,10 +2494,12 @@ public abstract class EuclidianView
 		setAutomaticGridDistance(false);
 	}
 
+	@Override
 	public int getGridLineStyle() {
 		return gridLineStyle;
 	}
 
+	@Override
 	public void setAutomaticGridDistance(boolean flag) {
 		automaticGridDistance = flag;
 		setAxesIntervals(getXscale(), 0);
@@ -2416,10 +2509,12 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public int getAxesLineStyle() {
 		return axesLineType;
 	}
 
+	@Override
 	public void setAxesLineStyle(int axesLineStyle) {
 		this.axesLineType = axesLineStyle;
 	}
@@ -2428,8 +2523,9 @@ public abstract class EuclidianView
 	 * @return RW => EV transform; created (but not initialized) when null
 	 */
 	public GAffineTransform getCoordTransform() {
-		if (coordTransform == null)
+		if (coordTransform == null) {
 			coordTransform = AwtFactory.getPrototype().newAffineTransform();
+		}
 		return coordTransform;
 	}
 
@@ -2441,6 +2537,7 @@ public abstract class EuclidianView
 		this.coordTransform = coordTransform;
 	}
 
+	@Override
 	final public void updateBackground() {
 		// make sure axis number formats are up to date
 		setAxesIntervals(getXscale(), 0);
@@ -2537,6 +2634,7 @@ public abstract class EuclidianView
 
 	// getters and Setters for axis control vars
 
+	@Override
 	public void setSelectionRectangle(GRectangle selectionRectangle) {
 		// Application.printStacktrace("");
 		this.selectionRectangle = selectionRectangle;
@@ -2574,36 +2672,44 @@ public abstract class EuclidianView
 		this.shapePolygon = shapePolygon;
 	}
 
+	@Override
 	public double[] getAxesCross() {
 		return axisCross;
 	}
 
+	@Override
 	public void setAxesCross(double[] axisCross) {
 		this.axisCross = axisCross;
 	}
 
 	// for xml handler
+	@Override
 	public void setAxisCross(int axis, double cross) {
 		axisCross[axis] = cross;
 	}
 
+	@Override
 	public boolean[] getPositiveAxes() {
 		return positiveAxes;
 	}
 
+	@Override
 	public void setPositiveAxes(boolean[] positiveAxis) {
 		this.positiveAxes = positiveAxis;
 	}
 
 	// for xml handler
+	@Override
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
 		positiveAxes[axis] = isPositiveAxis;
 	}
 
+	@Override
 	public boolean[] getDrawBorderAxes() {
 		return drawBorderAxes;
 	}
 
+	@Override
 	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
 		this.drawBorderAxes = drawBorderAxes;
 		// don't show corner coordinates if one of the axes is sticky
@@ -2618,6 +2724,7 @@ public abstract class EuclidianView
 		return showAxesCornerCoords;
 	}
 
+	@Override
 	public void setAxesCornerCoordsVisible(boolean showAxesCornerCoords) {
 		this.showAxesCornerCoords = showAxesCornerCoords;
 	}
@@ -2643,6 +2750,7 @@ public abstract class EuclidianView
 	 * 
 	 */
 
+	@Override
 	public String[] getAxesLabels(boolean addBoldItalicTags) {
 		String[] ret = new String[axesLabels.length];
 
@@ -2661,6 +2769,7 @@ public abstract class EuclidianView
 		return ret;
 	}
 
+	@Override
 	public void setAxesLabels(String[] axesLabels) {
 		setAxisLabel(0, axesLabels[0]);
 		setAxisLabel(1, axesLabels[1]);
@@ -2674,6 +2783,7 @@ public abstract class EuclidianView
 	 * @param axLabel
 	 *            axis label
 	 */
+	@Override
 	public void setAxisLabel(int axis, String axLabel) {
 		String axisLabel = axLabel;
 		if ((axisLabel == null) || (axisLabel.length() == 0)) {
@@ -2708,16 +2818,19 @@ public abstract class EuclidianView
 		return getYscale();
 	}
 
+	@Override
 	final public void setAutomaticAxesNumberingDistance(boolean flag,
 			int axis) {
 		automaticAxesNumberingDistances[axis] = flag;
 		setAxesIntervals(getScale(axis), axis);
 	}
 
+	@Override
 	public boolean[] isAutomaticAxesNumberingDistance() {
 		return automaticAxesNumberingDistances;
 	}
 
+	@Override
 	public double[] getAxesNumberingDistances() {
 		return axesNumberingDistances;
 	}
@@ -2733,6 +2846,7 @@ public abstract class EuclidianView
 	 * @param axis
 	 *            0 for xAxis, 1 for yAxis
 	 */
+	@Override
 	public void setAxesNumberingDistance(GeoNumberValue dist, int axis) {
 		if (axesDistanceObjects[axis] != null) {
 			((GeoNumeric) axesDistanceObjects[axis]).removeEVSizeListener(this);
@@ -2750,26 +2864,32 @@ public abstract class EuclidianView
 	}
 
 	// Michael Borcherds 2008-04-11
+	@Override
 	public boolean getGridIsBold() {
 		return gridIsBold;
 	}
 
+	@Override
 	public boolean[] getShowAxesNumbers() {
 		return showAxesNumbers;
 	}
 
+	@Override
 	public void setShowAxesNumbers(boolean[] showAxesNumbers) {
 		this.showAxesNumbers = showAxesNumbers;
 	}
 
+	@Override
 	public void setShowAxisNumbers(int axis, boolean showAxisNumbers) {
 		showAxesNumbers[axis] = showAxisNumbers;
 	}
 
+	@Override
 	public String[] getAxesUnitLabels() {
 		return axesUnitLabels;
 	}
 
+	@Override
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
 		for (int i = 0; i < this.axesUnitLabels.length; i++) {
 			this.axesUnitLabels[i] = axesUnitLabels[i];
@@ -2784,50 +2904,62 @@ public abstract class EuclidianView
 		setAxesIntervals(getYscale(), 1);
 	}
 
+	@Override
 	public int[] getAxesTickStyles() {
 		return axesTickStyles;
 	}
 
+	@Override
 	public void setAxisTickStyle(int axis, int tickStyle) {
 		axesTickStyles[axis] = tickStyle;
 	}
 
+	@Override
 	public void setAxesTickStyles(int[] axesTickStyles) {
 		this.axesTickStyles = axesTickStyles;
 	}
 
+	@Override
 	public void setShowMouseCoords(boolean b) {
 		showMouseCoords = b;
 	}
 
+	@Override
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
 	}
 
+	@Override
 	public void setAllowShowMouseCoords(boolean neverShowMouseCoords) {
 		this.allowShowMouseCoords = neverShowMouseCoords;
 	}
 
+	@Override
 	public boolean getShowMouseCoords() {
 		return showMouseCoords;
 	}
 
+	@Override
 	public void setShowAxesRatio(boolean b) {
 		showAxesRatio = b;
 	}
 
+	@Override
 	public Previewable getPreviewDrawable() {
 		return previewDrawable;
 	}
 
+	@Override
 	public double getGridDistances(int i) {
 		return gridDistances[i];
 	}
 
+	@Override
 	public boolean getShowGrid() {
 		return showGrid;
 	}
 
+	@Override
 	public boolean isGridOrAxesShown() {
 		return showAxes[0] || showAxes[1] || showGrid;
 	}
@@ -2839,15 +2971,18 @@ public abstract class EuclidianView
 	 *            id of the axis
 	 * @return if the axis is shown
 	 */
+	@Override
 	public boolean getShowAxis(int axis) {
 		return showAxes[axis];
 	}
 
+	@Override
 	public boolean getShowXaxis() {
 		// return showAxes[0];
 		return getShowAxis(AXIS_X);
 	}
 
+	@Override
 	public boolean getShowYaxis() {
 		return getShowAxis(AXIS_Y);
 	}
@@ -2860,10 +2995,12 @@ public abstract class EuclidianView
 		return logAxes[axis];
 	}
 
+	@Override
 	public boolean getXaxisLog() {
 		return getLogAxis(AXIS_X);
 	}
 
+	@Override
 	public boolean getYaxisLog() {
 		return getLogAxis(AXIS_Y);
 	}
@@ -2871,77 +3008,92 @@ public abstract class EuclidianView
 	// ///////////////////////////////////////
 	// previewables
 
+	@Override
 	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
 		return new DrawLine(this, selectedPoints, PreviewType.LINE);
 	}
 
+	@Override
 	public Previewable createPreviewPerpendicularBisector(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawLine(this, selectedPoints,
 				PreviewType.PERPENDICULAR_BISECTOR);
 	}
 
+	@Override
 	public Previewable createPreviewAngleBisector(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawLine(this, selectedPoints, PreviewType.ANGLE_BISECTOR);
 	}
 
+	@Override
 	public Previewable createPreviewSegment(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawSegment(this, selectedPoints);
 	}
 
+	@Override
 	public Previewable createPreviewRay(ArrayList<GeoPointND> selectedPoints) {
 		return new DrawRay(this, selectedPoints);
 	}
 
+	@Override
 	public Previewable createPreviewVector(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawVector(this, selectedPoints);
 	}
 
+	@Override
 	public Previewable createPreviewConic(int mode1,
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawConic(this, mode1, selectedPoints);
 	}
 
+	@Override
 	public Previewable createPreviewParabola(
 			ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines) {
 		return new DrawConic(this, selectedPoints, selectedLines);
 	}
 
+	@Override
 	public Previewable createPreviewPolygon(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawPolygon(this, selectedPoints);
 	}
 
+	@Override
 	public Previewable createPreviewAngle(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawAngle(this, selectedPoints);
 	}
 
+	@Override
 	public Previewable createPreviewPolyLine(
 			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawPolyLine(this, selectedPoints);
 	}
 
+	@Override
 	public void updatePreviewable() {
 		GPoint mouseLoc = getEuclidianController().mouseLoc;
 		getPreviewDrawable().updateMousePos(toRealWorldCoordX(mouseLoc.x),
 				toRealWorldCoordY(mouseLoc.y));
 	}
 
+	@Override
 	public void updatePreviewableForProcessMode() {
 		if (getPreviewDrawable() != null) {
 			getPreviewDrawable().updatePreview();
 		}
 	}
 
+	@Override
 	public void mouseEntered() {
 		setHasMouse(true);
 	}
 
+	@Override
 	public void mouseExited() {
 		setHasMouse(false);
 	}
@@ -2964,12 +3116,14 @@ public abstract class EuclidianView
 		return hasMouse;
 	}
 
+	@Override
 	public Previewable createPreviewParallelLine(
 			ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines) {
 		return new DrawLine(this, selectedPoints, selectedLines, true);
 	}
 
+	@Override
 	public Previewable createPreviewPerpendicularLine(
 			ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoLineND> selectedLines) {
@@ -2984,6 +3138,7 @@ public abstract class EuclidianView
 		this.app = application;
 	}
 
+	@Override
 	public App getApplication() {
 		return this.app;
 	}
@@ -3116,6 +3271,7 @@ public abstract class EuclidianView
 	 * 
 	 * @return true if successful
 	 */
+	@Override
 	public abstract boolean requestFocusInWindow();
 
 	// Michael Borcherds 2008-03-01
@@ -3809,6 +3965,7 @@ public abstract class EuclidianView
 		// it could be abstract, but mess with EuclididanView3D
 	}
 
+	@Override
 	public abstract void setBackground(GColor bgColor);
 
 	/**
@@ -3832,10 +3989,12 @@ public abstract class EuclidianView
 	 */
 	public abstract void setPreferredSize(GDimension preferredSize);
 
+	@Override
 	public boolean showGrid(boolean show) {
 		return companion.showGrid(show);
 	}
 
+	@Override
 	public void setGridIsBold(boolean gridIsBold) {
 		if (this.gridIsBold == gridIsBold) {
 			return;
@@ -3847,12 +4006,14 @@ public abstract class EuclidianView
 		updateBackgroundImage();
 	}
 
+	@Override
 	public void setGridColor(GColor gridColor) {
 		if (gridColor != null) {
 			this.gridColor = gridColor;
 		}
 	}
 
+	@Override
 	public void setGridLineStyle(int gridLineStyle) {
 		this.gridLineStyle = gridLineStyle;
 		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f,
@@ -3863,6 +4024,7 @@ public abstract class EuclidianView
 	 * @param settings
 	 *            settings
 	 */
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 
 		companion.settingsChanged(settings);
@@ -3873,6 +4035,7 @@ public abstract class EuclidianView
 
 	}
 
+	@Override
 	public EuclidianSettings getSettings() {
 		return this.settings;
 	}
@@ -3881,6 +4044,7 @@ public abstract class EuclidianView
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
 	 */
+	@Override
 	public final void setHits(GRectangle rect) {
 		hits.init();
 		if (rect == null) {
@@ -3897,6 +4061,7 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public void updateCursor(GeoPointND point) {
 		// used in 3D
 	}
@@ -3924,6 +4089,7 @@ public abstract class EuclidianView
 		}
 	}
 
+	@Override
 	public GRectangle getSelectionRectangle() {
 		return selectionRectangle;
 	}
@@ -4059,6 +4225,7 @@ public abstract class EuclidianView
 		return result;
 	}
 
+	@Override
 	public void setPreview(Previewable p) {
 		if (previewDrawable != null) {
 			previewDrawable.disposePreview();
@@ -4121,8 +4288,9 @@ public abstract class EuclidianView
 					if (max.x < width) {
 						max.x = (int) width;
 					}
-					if (max.y == 0)
+					if (max.y == 0) {
 						max.y = (int) estimateNumberHeight(getFontAxes());
+					}
 				}
 			}
 		}
@@ -4163,6 +4331,7 @@ public abstract class EuclidianView
 	 * @param update
 	 *            update (or not) the background image
 	 */
+	@Override
 	public boolean setShowAxis(int axis, boolean flag, boolean update) {
 		if (flag == showAxes[axis]) {
 			return false;
@@ -4176,6 +4345,7 @@ public abstract class EuclidianView
 		return true;
 	}
 
+	@Override
 	public boolean setShowAxes(boolean flag, boolean update) {
 		boolean changedX = setShowAxis(AXIS_X, flag, false);
 		return setShowAxis(AXIS_Y, flag, true) || changedX;
@@ -4185,6 +4355,7 @@ public abstract class EuclidianView
 	 * change logarithmic flag of the axes
 	 */
 
+	@Override
 	public boolean setLogAxis(int axis, boolean flag, boolean update) {
 		if (flag == logAxes[axis]) {
 			return false;
@@ -4246,6 +4417,7 @@ public abstract class EuclidianView
 	 * @param asPreference
 	 *            true for preferences
 	 */
+	@Override
 	public void getXML(StringBuilder sbxml, boolean asPreference) {
 		companion.getXML(sbxml, asPreference);
 	}
@@ -4972,6 +5144,7 @@ public abstract class EuclidianView
 	private Hits tempArrayList = new Hits();
 
 	// for use in AlgebraController
+	@Override
 	final public void clickedGeo(GeoElement geo, boolean isControlDown) {
 		if (geo == null) {
 			return;
@@ -5009,6 +5182,7 @@ public abstract class EuclidianView
 	/**
 	 * Zooms around fixed point (px, py)
 	 */
+	@Override
 	public void zoom(double px, double py, double zoomFactor, int steps,
 			boolean storeUndo) {
 		if (!isZoomable()) {
@@ -5033,6 +5207,7 @@ public abstract class EuclidianView
 	 * @param storeUndo
 	 *            true to store undo step after
 	 */
+	@Override
 	public final void zoomAxesRatio(double newRatio, boolean storeUndo) {
 		if (!isZoomable()) {
 			return;
@@ -5055,6 +5230,7 @@ public abstract class EuclidianView
 	 * @param storeUndo
 	 *            true to store undo infor
 	 */
+	@Override
 	public void setStandardView(boolean storeUndo) {
 		if (!isZoomable()) {
 			return;
@@ -5115,6 +5291,7 @@ public abstract class EuclidianView
 	 * @param newScale
 	 *            x scale
 	 */
+	@Override
 	public void setAnimatedCoordSystem(double originX, double originY, double f,
 			double newScale, int steps, boolean storeUndo) {
 
@@ -5144,6 +5321,7 @@ public abstract class EuclidianView
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
 	 */
+	@Override
 	final public void setAnimatedRealWorldCoordSystem(double xmin, double xmax,
 			double ymin, double ymax, int steps, boolean storeUndo) {
 		if (zoomerRW == null) {
@@ -5156,6 +5334,7 @@ public abstract class EuclidianView
 	private MyZoomer zoomerRW;
 
 	// for use in AlgebraController
+	@Override
 	final public void mouseMovedOver(GeoElement geo) {
 		Hits geos = null;
 		if (geo != null) {
@@ -5172,16 +5351,21 @@ public abstract class EuclidianView
 		getEuclidianController().stopCollectingMinorRepaints();
 	}
 
+	@Override
 	public void highlight(GeoElement geo) {
-		if (getEuclidianController().highlight(geo))
+		if (getEuclidianController().highlight(geo)) {
 			kernel.notifyRepaint();
+		}
 	}
 
+	@Override
 	public void highlight(ArrayList<GeoElement> geos) {
-		if (getEuclidianController().highlight(geos))
+		if (getEuclidianController().highlight(geos)) {
 			kernel.notifyRepaint();
+		}
 	}
 
+	@Override
 	final public void mouseMovedOverList(ArrayList<GeoElement> geoList) {
 		Hits geos = null;
 		tempArrayList.clear();
@@ -5202,6 +5386,7 @@ public abstract class EuclidianView
 	 * 
 	 * @return whether status was changed
 	 */
+	@Override
 	public final boolean setAnimationButtonsHighlighted(boolean flag) {
 
 		// draw button in focused EV only
@@ -5314,6 +5499,7 @@ public abstract class EuclidianView
 
 	}
 
+	@Override
 	public void setShowAxis(boolean show) {
 		setShowAxis(0, show, false);
 		setShowAxis(1, show, true);
@@ -5415,10 +5601,12 @@ public abstract class EuclidianView
 		return StringUtil.getPrototype().estimateLength(s, fontAxes2);
 	}
 
+	@Override
 	public int getSliderOffsetY() {
 		return 50;
 	}
 
+	@Override
 	public int getComboOffsetY() {
 		return 70;
 	}
@@ -5439,6 +5627,7 @@ public abstract class EuclidianView
 		return MAX_DEFINED_BISECTIONS;
 	}
 
+	@Override
 	public double getMinPixelDistance() {
 		return MIN_PIXEL_DISTANCE;
 	}
@@ -5463,6 +5652,7 @@ public abstract class EuclidianView
 		return -1;
 	}
 
+	@Override
 	final public EuclidianStyleBar getStyleBar() {
 		if (styleBar == null) {
 			styleBar = newEuclidianStyleBar();
@@ -5623,6 +5813,7 @@ public abstract class EuclidianView
 		return img;
 	}
 
+	@Override
 	public void centerView(GeoPointND point) {
 
 		Coords p = getCoordsForView(point.getInhomCoordsInD3());
@@ -5662,6 +5853,7 @@ public abstract class EuclidianView
 		return text.toString();
 	}
 
+	@Override
 	public boolean isViewForPlane() {
 		if (settings == null) {
 			return false;
@@ -5677,6 +5869,7 @@ public abstract class EuclidianView
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void closeDropDowns(int x, int y) {
 
 		DrawableIterator it = allDrawableList.getIterator();
@@ -5739,6 +5932,7 @@ public abstract class EuclidianView
 						|| getHeight() < getSettings().getFileHeight()));
 	}
 
+	@Override
 	public boolean isInPlane(CoordSys sys) {
 		return companion.isInPlane(sys);
 	}
@@ -5763,6 +5957,7 @@ public abstract class EuclidianView
 		return yScaleStart;
 	}
 
+	@Override
 	public void screenChanged() {
 		screenChanged = true;
 	}

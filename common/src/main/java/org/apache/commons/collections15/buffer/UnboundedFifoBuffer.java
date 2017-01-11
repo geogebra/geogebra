@@ -114,6 +114,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 *
 	 * @return this buffer's size
 	 */
+	@Override
 	public int size() {
 		int size = 0;
 
@@ -131,6 +132,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 *
 	 * @return true if this buffer is empty
 	 */
+	@Override
 	public boolean isEmpty() {
 		return (size() == 0);
 	}
@@ -144,6 +146,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 * @throws NullPointerException
 	 *             if the given element is null
 	 */
+	@Override
 	public boolean add(final E obj) {
 		if (obj == null) {
 			throw new NullPointerException(
@@ -185,6 +188,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 * @throws BufferUnderflowException
 	 *             if this buffer is empty
 	 */
+	@Override
 	public E get() {
 		if (isEmpty()) {
 			throw new BufferUnderflowException("The buffer is already empty");
@@ -200,6 +204,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 * @throws BufferUnderflowException
 	 *             if this buffer is empty
 	 */
+	@Override
 	public E remove() {
 		if (isEmpty()) {
 			throw new BufferUnderflowException("The buffer is already empty");
@@ -254,17 +259,20 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 *
 	 * @return an iterator over this buffer's elements
 	 */
+	@Override
 	public Iterator<E> iterator() {
 		return new Iterator<E>() {
 
 			private int index = head;
 			private int lastReturnedIndex = -1;
 
+			@Override
 			public boolean hasNext() {
 				return index != tail;
 
 			}
 
+			@Override
 			public E next() {
 				if (!hasNext()) {
 					throw new NoSuchElementException();
@@ -274,6 +282,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 				return buffer[lastReturnedIndex];
 			}
 
+			@Override
 			public void remove() {
 				if (lastReturnedIndex == -1) {
 					throw new IllegalStateException();

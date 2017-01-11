@@ -81,8 +81,9 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 				noOfRoots = eqnSolver.polynomialComplexRoots(real, complex);
 				addToCurrentRoots(real, complex, noOfRoots);
 			}
-		} else
+		} else {
 			return;
+		}
 
 		/*
 		 * if (solution.curRealRoots > 1) { // sort roots and eliminate
@@ -114,8 +115,9 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 			curComplexRoots = temp2;
 		}
 
-		if (curComplexRoots == null)
+		if (curComplexRoots == null) {
 			curComplexRoots = new double[solution.curRoots.length];
+		}
 
 		// insert new roots
 		for (int i = 0; i < number; i++) {
@@ -141,8 +143,9 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 			rootPoints[i].setUndefined();
 		}
 
-		if (setLabels)
+		if (setLabels) {
 			updateLabels(number);
+		}
 	}
 
 }

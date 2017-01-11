@@ -141,19 +141,25 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		ArrayList<GeoElement> outList = new ArrayList<GeoElement>();
 
-		if (list1 != null)
+		if (list1 != null) {
 			outList.add(list1);
-		if (list2 != null)
+		}
+		if (list2 != null) {
 			outList.add(list2);
+		}
 
-		if (rowList != null)
+		if (rowList != null) {
 			outList.add(rowList);
-		if (colList != null)
+		}
+		if (colList != null) {
 			outList.add(colList);
-		if (freqMatrix != null)
+		}
+		if (freqMatrix != null) {
 			outList.add(freqMatrix);
-		if (args != null)
+		}
+		if (args != null) {
 			outList.add(args);
+		}
 
 		input = new GeoElement[outList.size()];
 		input = outList.toArray(input);
@@ -267,15 +273,17 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		for (int i = 0; i < rowCount; i++) {
 			geo = rowList.get(i);
-			if (!geo.isGeoText())
+			if (!geo.isGeoText()) {
 				return false;
+			}
 			rowValues[i] = ((GeoText) geo).getTextString();
 		}
 
 		for (int i = 0; i < colCount; i++) {
 			geo = colList.get(i);
-			if (!geo.isGeoText())
+			if (!geo.isGeoText()) {
 				return false;
+			}
 
 			colValues[i] = ((GeoText) geo).getTextString();
 		}
@@ -290,8 +298,9 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			for (int colIndex = 0; colIndex < colCount; colIndex++) {
 				// geo element
 				geo = rowGeo.get(colIndex);
-				if (!geo.isGeoNumeric())
+				if (!geo.isGeoNumeric()) {
 					return false;
+				}
 
 				freqValues[rowIndex][colIndex] = (int) ((GeoNumeric) rowGeo
 						.get(colIndex)).getDouble();
@@ -353,51 +362,62 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 				handleSpecialChar(getLoc().getMenu("Frequency")), "colValue",
 				lastRow == 0);
 
-		if (showRowPercent)
+		if (showRowPercent) {
 			addTableRow(tableSb, 0,
 					handleSpecialChar(getLoc().getPlain("RowPercent")), "blank",
 					lastRow == 1);
-		if (showColPercent)
+		}
+		if (showColPercent) {
 			addTableRow(tableSb, 0,
 					handleSpecialChar(getLoc().getPlain("ColumnPercent")),
 					"blank", lastRow == 2);
-		if (showTotalPercent)
+		}
+		if (showTotalPercent) {
 			addTableRow(tableSb, 0,
 					handleSpecialChar(getLoc().getPlain("TotalPercent")),
 					"blank", lastRow == 3);
-		if (showExpected)
+		}
+		if (showExpected) {
 			addTableRow(tableSb, 0,
 					handleSpecialChar(getLoc().getPlain("ExpectedCount")),
 					"blank", lastRow == 4);
-		if (showChi)
+		}
+		if (showChi) {
 			addTableRow(tableSb, 0,
 					handleSpecialChar(
 							getLoc().getPlain("ChiSquaredContribution")),
 					"blank", lastRow == 5);
+		}
 
 		// remaining rows
 		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
 
 			addTableRow(tableSb, rowIndex, rowValues[rowIndex], "count",
 					lastRow == 0);
-			if (showRowPercent)
+			if (showRowPercent) {
 				addTableRow(tableSb, rowIndex, null, "_", lastRow == 1);
-			if (showColPercent)
+			}
+			if (showColPercent) {
 				addTableRow(tableSb, rowIndex, null, "|", lastRow == 2);
-			if (showTotalPercent)
+			}
+			if (showTotalPercent) {
 				addTableRow(tableSb, rowIndex, null, "+", lastRow == 3);
-			if (showExpected)
+			}
+			if (showExpected) {
 				addTableRow(tableSb, rowIndex, null, "e", lastRow == 4);
-			if (showChi)
+			}
+			if (showChi) {
 				addTableRow(tableSb, rowIndex, null, "k", lastRow == 5);
+			}
 
 		}
 
 		// table footer
 		addTableRow(tableSb, -1, getLoc().getMenu("Total"), "tableFooter",
 				!showRowPercent);
-		if (showRowPercent)
+		if (showRowPercent) {
 			addTableRow(tableSb, 0, null, "rowPercentFooter", true);
+		}
 		endTable(tableSb);
 
 		if (showTest) {

@@ -140,10 +140,11 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		double[][] coeff = ip.getCoeff();
 
 		for (int i = 0; i <= deg; i++) {
-			if (coeff.length > i && coeff[i].length > deg - i)
+			if (coeff.length > i && coeff[i].length > deg - i) {
 				roots[i] = coeff[i][deg - i];
-			else
+			} else {
 				roots[i] = 0;
+			}
 		}
 
 		ArrayList<double[]> homogenPolys = new ArrayList<double[]>();
@@ -174,18 +175,20 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 						double[] c = new double[deg - k + 1];
 						for (int j = 0; j <= deg - k; j++) {
 							if (coeff.length > j
-									&& coeff[j].length > deg - j - k)
+									&& coeff[j].length > deg - j - k) {
 								c[j] = coeff[j][deg - j - k];
-							else
+							} else {
 								c[j] = 0;
+							}
 						}
 						pk = c;
 						homogenPolys.add(pk);
 					}
 					double ev = PolynomialUtils.eval(pk, roots[i]);
 					rk = (((deg - k) & 1) == 0 ? ev : -ev);
-					if (r == k)
+					if (r == k) {
 						break;
+					}
 					int l = 0;
 					if (PolynomialUtils.getDegree(pk) < 0) {
 						// if highest degree
@@ -216,13 +219,14 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 					if (r == Integer.MAX_VALUE) {
 						r = l;
 					}
-					if (r - k <= l)
+					if (r - k <= l) {
 						p.add(rk);
-					else {
+					} else {
 						p.clear();
 						r = l + k;
-						if (l > 0)
+						if (l > 0) {
 							p.add(rk);
+						}
 					}
 				}
 				p.add(rk);
@@ -242,10 +246,11 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 				} else {
 					double[] c = new double[deg - k + 1];
 					for (int j = 0; j <= deg - k; j++) {
-						if (coeff.length > j && coeff[j].length > deg - j - k)
+						if (coeff.length > j && coeff[j].length > deg - j - k) {
 							c[j] = coeff[j][deg - j - k];
-						else
+						} else {
 							c[j] = 0;
+						}
 					}
 					pk = c;
 					// homogenPolys.add(pk); //we won't need it anymore
@@ -264,9 +269,9 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 				if (r == Integer.MAX_VALUE) {
 					r = l;
 				}
-				if (r - k <= l)
+				if (r - k <= l) {
 					p.add(pk[deg - k - l]);
-				else {
+				} else {
 					p.clear();
 					p.add(pk[deg - k - l]);
 					r = l + k;

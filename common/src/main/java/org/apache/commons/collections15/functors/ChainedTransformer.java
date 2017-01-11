@@ -138,6 +138,7 @@ public class ChainedTransformer<I, O> implements Transformer<I, O> {
 	 *            the input object passed to the first transformer
 	 * @return the transformed result
 	 */
+	@Override
 	public O transform(I object) {
 		Object intermediate = object;
 		for (int i = 0; i < iTransformers.length; i++) {

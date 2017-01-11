@@ -176,6 +176,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return The number of available values
 	 */
+	@Override
 	public long getN() {
 		return n;
 	}
@@ -185,6 +186,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return The sum or <code>Double.NaN</code> if no values have been added
 	 */
+	@Override
 	public double getSum() {
 		return sumImpl.getResult();
 	}
@@ -209,6 +211,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return the mean
 	 */
+	@Override
 	public double getMean() {
 		if (mean == meanImpl) {
 			return new Mean(secondMoment).getResult();
@@ -225,6 +228,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return the standard deviation
 	 */
+	@Override
 	public double getStandardDeviation() {
 		double stdDev = Double.NaN;
 		if (getN() > 0) {
@@ -245,6 +249,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return the variance
 	 */
+	@Override
 	public double getVariance() {
 		if (varianceImpl == variance) {
 			return new Variance(secondMoment).getResult();
@@ -261,6 +266,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return the maximum
 	 */
+	@Override
 	public double getMax() {
 		return maxImpl.getResult();
 	}
@@ -273,6 +279,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	 * 
 	 * @return the minimum
 	 */
+	@Override
 	public double getMin() {
 		return minImpl.getResult();
 	}

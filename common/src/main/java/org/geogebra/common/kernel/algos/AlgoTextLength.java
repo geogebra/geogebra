@@ -61,10 +61,11 @@ public class AlgoTextLength extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (text.isDefined())
+		if (text.isDefined()) {
 			length.setValue(text.getTextString().length());
-		else
+		} else {
 			length.setUndefined();
+		}
 	}
 
 }

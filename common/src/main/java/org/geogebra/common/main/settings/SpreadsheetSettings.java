@@ -84,8 +84,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public HashMap<Integer, Integer> getWidthMap() {
-		if (widthMap == null)
+		if (widthMap == null) {
 			widthMap = new HashMap<Integer, Integer>();
+		}
 		return widthMap;
 	}
 
@@ -104,8 +105,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public HashMap<Integer, Integer> getHeightMap() {
-		if (heightMap == null)
+		if (heightMap == null) {
 			heightMap = new HashMap<Integer, Integer>();
+		}
 		return heightMap;
 	}
 
@@ -323,8 +325,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 	 *            the cellFormat to set
 	 */
 	public void setCellFormat(String cellFormat) {
-		if (this.cellFormat != null && this.cellFormat.equals(cellFormat))
+		if (this.cellFormat != null && this.cellFormat.equals(cellFormat)) {
 			return;
+		}
 		this.cellFormat = cellFormat;
 		settingChanged();
 	}

@@ -873,8 +873,9 @@ public class MathMLParser {
 
 			// scan for subblocks
 			int i = pos;
-			while ((i <= blockEnd) && (strBuf.charAt(i) != '<'))
+			while ((i <= blockEnd) && (strBuf.charAt(i) != '<')) {
 				i++;
+			}
 
 			if ((startTag != endTag) && (i > blockEnd)) {
 
@@ -1117,8 +1118,9 @@ public class MathMLParser {
 					tagBuf.append('<');
 					tagBuf.reverse();
 
-					if (tagBuf.indexOf(" ") > -1)
+					if (tagBuf.indexOf(" ") > -1) {
 						tagBuf.delete(tagBuf.indexOf(" "), tagBuf.length() - 1);
+					}
 
 					if (tagBuf.toString().equals(blockStartTag)) {
 						subBlocks--;
@@ -1174,8 +1176,9 @@ public class MathMLParser {
 				if (tagBuf.toString().equals(endTag)) {
 					subBlocks--;
 				} else {
-					if (tagBuf.indexOf(" ") > -1)
+					if (tagBuf.indexOf(" ") > -1) {
 						tagBuf.delete(tagBuf.indexOf(" "), tagBuf.length() - 1);
+					}
 
 					if (tagBuf.toString().equals(startTag)) {
 						subBlocks++;
@@ -1344,14 +1347,17 @@ public class MathMLParser {
 	 */
 	private static boolean isValidUnicode(String vu) {
 
-		if (vu.length() != 4)
+		if (vu.length() != 4) {
 			return false;
+		}
 
 		char[] ca = vu.toLowerCase().toCharArray();
 
-		for (int i = 0; i < 4; i++)
-			if (!Character.isDigit(ca[i]) && (ca[i] < 'a' || ca[i] > 'f'))
+		for (int i = 0; i < 4; i++) {
+			if (!Character.isDigit(ca[i]) && (ca[i] < 'a' || ca[i] > 'f')) {
 				return false;
+			}
+		}
 
 		return true;
 	}

@@ -158,6 +158,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getR() {
 
 		if (cachedR == null) {
@@ -183,6 +184,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getQ() {
 		if (cachedQ == null) {
 			cachedQ = getQT().transpose();
@@ -191,6 +193,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getQT() {
 
 		if (cachedQT == null) {
@@ -237,6 +240,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getH() {
 
 		if (cachedH == null) {
@@ -258,6 +262,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public DecompositionSolver getSolver() {
 		return new Solver(qrt, rDiag);
 	}
@@ -293,6 +298,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public boolean isNonSingular() {
 
 			for (double diag : rDiag) {
@@ -305,6 +311,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public double[] solve(double[] b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -353,6 +360,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public RealVector solve(RealVector b)
 				throws IllegalArgumentException, InvalidMatrixException {
 			if (b instanceof ArrayRealVector) {
@@ -382,6 +390,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public RealMatrix solve(RealMatrix b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -471,6 +480,7 @@ public class QRDecompositionImpl implements QRDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public RealMatrix getInverse() throws InvalidMatrixException {
 			return solve(MatrixUtils.createRealIdentityMatrix(rDiag.length));
 		}

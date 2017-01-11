@@ -476,8 +476,9 @@ public class StatisticsCalculatorProcessor {
 	 *         freedom
 	 */
 	private ChiSquaredDistribution getChiSquaredDistribution(double df) {
-		if (chisquared == null || chisquared.getDegreesOfFreedom() != df)
+		if (chisquared == null || chisquared.getDegreesOfFreedom() != df) {
 			chisquared = new ChiSquaredDistributionImpl(df);
+		}
 
 		return chisquared;
 	}

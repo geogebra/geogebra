@@ -148,9 +148,10 @@ public abstract class GeoQuadricND extends GeoElement
 	@Override
 	public void set(GeoElementND geo) {
 		GeoQuadricND quadric = (GeoQuadricND) geo;
-		if (quadric.hasChangeableCoordParentNumbers())
+		if (quadric.hasChangeableCoordParentNumbers()) {
 			setChangeableCoordParent(quadric.changeableCoordParent.getNumber(),
 					quadric.changeableCoordParent.getDirector());
+		}
 		reuseDefinition(geo);
 	}
 
@@ -338,26 +339,31 @@ public abstract class GeoQuadricND extends GeoElement
 		setMidpoint(coords);
 
 		// set halfAxes = radius
-		for (int i = 0; i < dimension; i++)
+		for (int i = 0; i < dimension; i++) {
 			halfAxes[i] = r;
+		}
 
 		// set quadric's matrix with M(mx, my, mz) and r
 		// [ 1 0 -m ]
 		// [ 0 1 -n ]
 		// [ -m -n m\u00b2+n\u00b2-r\u00b2 ]
 
-		for (int i = 0; i < dimension; i++)
+		for (int i = 0; i < dimension; i++) {
 			matrix[i] = 1.0d;
+		}
 
 		matrix[dimension] = -r * r;
-		for (int i = 0; i < dimension; i++)
+		for (int i = 0; i < dimension; i++) {
 			matrix[dimension] += coords[i] * coords[i];
+		}
 
-		for (int i = dimension + 1; i < matrixDim - dimension; i++)
+		for (int i = dimension + 1; i < matrixDim - dimension; i++) {
 			matrix[i] = 0.0;
+		}
 
-		for (int i = matrixDim - dimension; i < matrixDim; i++)
+		for (int i = matrixDim - dimension; i < matrixDim; i++) {
 			matrix[i] = -coords[i - (matrixDim - dimension)];
+		}
 
 		if (r >= Kernel.STANDARD_PRECISION) { // radius not zero
 			if (type != QUADRIC_SPHERE) {
@@ -431,8 +437,9 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public Coords getMidpoint3D() {
 		Coords ret = new Coords(4);
-		for (int i = 1; i < midpoint.getLength(); i++)
+		for (int i = 1; i < midpoint.getLength(); i++) {
 			ret.set(i, midpoint.get(i));
+		}
 		ret.setW(midpoint.getLast());
 		return ret;
 	}
@@ -534,10 +541,11 @@ public abstract class GeoQuadricND extends GeoElement
 				sbToValueString.append(")");
 				sbToValueString.append(squared);
 			}
-			if (i < dimension - 1)
+			if (i < dimension - 1) {
 				sbToValueString.append(" + ");
-			else
+			} else {
 				sbToValueString.append(" = ");
+			}
 		}
 
 		sbToValueString
@@ -645,10 +653,12 @@ public abstract class GeoQuadricND extends GeoElement
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}

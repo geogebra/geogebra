@@ -548,8 +548,9 @@ public abstract class Localization implements KeyboardLocale {
 	public String getOrdinalNumber(int n) {
 		String lang = getLanguage();
 
-		if ("en".equals(lang))
+		if ("en".equals(lang)) {
 			return getOrdinalNumberEn(n);
+		}
 
 		// check here for languages where 1st = 1
 		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
@@ -1055,6 +1056,7 @@ public abstract class Localization implements KeyboardLocale {
 	 * exist (or isn't loaded)
 	 * 
 	 */
+	@Override
 	public String getFunction(String key) {
 		String ret = getPlain("Function." + key);
 
@@ -1067,6 +1069,7 @@ public abstract class Localization implements KeyboardLocale {
 		return ret;
 	}
 
+	@Override
 	public String getLocaleStr() {
 		return getLocale().toString();
 	}
@@ -1089,8 +1092,9 @@ public abstract class Localization implements KeyboardLocale {
 
 		String ret = translateCommandTable == null ? key
 				: translateCommandTable.get(key);
-		if (ret != null)
+		if (ret != null) {
 			return ret;
+		}
 		// if that fails check internal commands
 		for (Commands c : Commands.values()) {
 			if (StringUtil.toLowerCase(c.name()).equals(key)) {
@@ -1112,6 +1116,7 @@ public abstract class Localization implements KeyboardLocale {
 		return translateCommandTable;
 	}
 
+	@Override
 	public String getKeyboardRow(int row) {
 		return getPlain("Keyboard.row" + row);
 	}

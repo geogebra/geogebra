@@ -249,12 +249,15 @@ public abstract class Prover {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null)
+			if (obj == null) {
 				return false;
-			if (obj == this)
+			}
+			if (obj == this) {
 				return true;
-			if (obj.getClass() != getClass())
+			}
+			if (obj.getClass() != getClass()) {
 				return false;
+			}
 
 			return this.hashCode() == obj.hashCode();
 		}
@@ -510,12 +513,14 @@ public abstract class Prover {
 		// Prove[1==1], i.e. Prove[true]
 		AlgoElement algoParent = statement.getParentAlgorithm();
 		if (algoParent == null) {
-			if (statement.getValueForInputBar().equals("true"))
+			if (statement.getValueForInputBar().equals("true")) {
 				result = ProofResult.TRUE; // Trust in kernel's wisdom
-			else if (statement.getValueForInputBar().equals("false"))
+			} else if (statement.getValueForInputBar().equals("false")) {
 				result = ProofResult.FALSE; // Trust in kernel's wisdom
-			else
+			}
+			else {
 				result = ProofResult.UNKNOWN; // Not sure if this is executed at
+			}
 												// all, but for sure.
 			return;
 		}
@@ -531,10 +536,11 @@ public abstract class Prover {
 		// Step 4: AUTO prover
 		Log.debug("Using " + engine);
 		Iterator<ProverEngine> it;
-		if (isReturnExtraNDGs())
+		if (isReturnExtraNDGs()) {
 			it = proveDetailsAutoOrder.iterator();
-		else
+		} else {
 			it = proveAutoOrder.iterator();
+		}
 		result = ProofResult.UNKNOWN;
 		while ((result == ProofResult.UNKNOWN
 				|| result == ProofResult.TRUE_NDG_UNREADABLE) && it.hasNext()) {
@@ -621,10 +627,12 @@ public abstract class Prover {
 	public ExtendedBoolean getYesNoAnswer() {
 		if (result != null) {
 			if (result == Prover.ProofResult.TRUE
-					|| result == Prover.ProofResult.TRUE_NDG_UNREADABLE)
+					|| result == Prover.ProofResult.TRUE_NDG_UNREADABLE) {
 				return ExtendedBoolean.TRUE;
-			if (result == Prover.ProofResult.FALSE)
+			}
+			if (result == Prover.ProofResult.FALSE) {
 				return ExtendedBoolean.FALSE;
+			}
 		}
 		return ExtendedBoolean.UNKNOWN;
 	}
@@ -1058,8 +1066,9 @@ public abstract class Prover {
 			GetCommand dominantPredicate = statement.getParentAlgorithm()
 					.getClassName();
 			String dominantPredicateS = "";
-			if (dominantPredicate != null)
+			if (dominantPredicate != null) {
 				dominantPredicateS = dominantPredicate.toString();
+			}
 			csvAdd("statement dominant predicate",
 					dominantPredicateS);
 			csvAdd("statement predicates",

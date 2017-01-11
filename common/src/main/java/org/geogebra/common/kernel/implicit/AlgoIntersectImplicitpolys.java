@@ -229,12 +229,15 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		PolynomialFunction[] aNew = new PolynomialFunction[m + n];
 		PolynomialFunction[] bPolys = new PolynomialFunction[n + 1];
 
-		for (int i = 0; i <= n; ++i)
+		for (int i = 0; i <= n; ++i) {
 			bPolys[i] = new PolynomialFunction(b.getCoeff()[i]);
-		for (int i = 0; i < n - 1; ++i)
+		}
+		for (int i = 0; i < n - 1; ++i) {
 			aNew[i] = new PolynomialFunction(new double[] { 0 });
-		for (int i = n - 1; i < n + m; ++i)
+		}
+		for (int i = n - 1; i < n + m; ++i) {
 			aNew[i] = new PolynomialFunction(a.getCoeff()[i - n + 1]);
+		}
 
 		int leadIndex = n + m - 1;
 		// Note: leadIndex of (n+1+t)-th row is equal to X-degree of b, + t. Use
@@ -242,27 +245,31 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		while (leadIndex >= 2 * n) {
 			if (!(aNew[leadIndex].degree() == 0
 					&& aNew[leadIndex].getCoefficients()[0] == 0)) {
-				for (int j = n - 1; j < leadIndex - n; ++j)
+				for (int j = n - 1; j < leadIndex - n; ++j) {
 					aNew[j] = aNew[j].multiply(bPolys[n]);
-				for (int j = leadIndex - n; j < leadIndex; ++j)
+				}
+				for (int j = leadIndex - n; j < leadIndex; ++j) {
 					aNew[j] = aNew[j].multiply(bPolys[n])
 							.subtract(bPolys[j - leadIndex + n]
 									.multiply(aNew[leadIndex]));
+				}
 			}
 			--leadIndex;
 		}
 		while (leadIndex >= n) {
 			if (!(aNew[leadIndex].degree() == 0
 					&& aNew[leadIndex].getCoefficients()[0] == 0)) {
-				for (int j = leadIndex - n; j < leadIndex; ++j)
+				for (int j = leadIndex - n; j < leadIndex; ++j) {
 					aNew[j] = aNew[j].multiply(bPolys[n])
 							.subtract(bPolys[j - leadIndex + n]
 									.multiply(aNew[leadIndex]));
+				}
 			}
 
-			for (int j = 0; j < n; ++j)
+			for (int j = 0; j < n; ++j) {
 				mat[2 * n - 1 - leadIndex][j] = new PolynomialFunction(
 						aNew[leadIndex - n + j].getCoefficients());
+			}
 
 			--leadIndex;
 		}
@@ -372,15 +379,19 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			c = mat[k][k];
 		}
 		if (det == null)
+		 {
 			det = mat[n - 1][n - 1];
 		// Application.debug("resultante = "+det);
+		}
 
 		univarType = PolyY;
 		double roots[] = det.getCoefficients();
 		// roots[0]-=0.001;
 		int nrRealRoots = 0;
 		if (roots.length > 1)
+		 {
 			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-1);// getRoots(roots,eqnSolver);
+		}
 
 		double[][] coeff;
 		double[] newCoeff;
@@ -436,8 +447,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					pair[1] = t;
 				}
 
-				if (PolynomialUtils.rootPolishing(pair, p1, p2))
+				if (PolynomialUtils.rootPolishing(pair, p1, p2)) {
 					insert(pair);
+				}
 			}
 		}
 
@@ -463,8 +475,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		double roots[] = Cloner.clone(b.getCoeff()[0]);
 		// roots[0]-=0.001;
 		int nrRealRoots = 0;
-		if (roots.length > 1)
+		if (roots.length > 1) {
 			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-5);
+		}
 		for (int i = 0; i < nrRealRoots; i++) {
 			PolynomialFunction tx = new PolynomialFunction(
 					new double[] { roots[i], 0 });
@@ -518,10 +531,11 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double lastErr = err * 2;
 			while (err < lastErr && err > Kernel.STANDARD_PRECISION) {
 				double devVal = derivative.value(x);
-				if (!Kernel.isZero(devVal))
+				if (!Kernel.isZero(devVal)) {
 					x = x - poly.value(x) / devVal;
-				else
+				} else {
 					break;
+				}
 				lastErr = err;
 				err = Math.abs(poly.value(x));
 			}
@@ -684,7 +698,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					break;
 				}
 				if (Kernel.isEqual(p[1], pair[1], eps))
+				 {
 					return; // do not add
+				}
 			}
 		}
 		it.add(pair);

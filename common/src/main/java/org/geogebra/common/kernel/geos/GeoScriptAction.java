@@ -70,8 +70,9 @@ public class GeoScriptAction extends GeoElement {
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!(geo instanceof GeoScriptAction))
+		if (!(geo instanceof GeoScriptAction)) {
 			throw new IllegalArgumentException();
+		}
 		action = ((GeoScriptAction) geo).action;
 		command = ((GeoScriptAction) geo).command;
 	}
@@ -105,8 +106,9 @@ public class GeoScriptAction extends GeoElement {
 
 	@Override
 	public boolean isEqual(GeoElement geo) {
-		if (!(geo instanceof GeoScriptAction))
+		if (!(geo instanceof GeoScriptAction)) {
 			return false;
+		}
 		return action == ((GeoScriptAction) geo).action;
 	}
 
@@ -114,8 +116,9 @@ public class GeoScriptAction extends GeoElement {
 	 * Perform the command
 	 */
 	public void perform() {
-		if (action != null)
+		if (action != null) {
 			action.performAndClean(command);
+		}
 		remove();
 	}
 
@@ -124,6 +127,7 @@ public class GeoScriptAction extends GeoElement {
 		return HitType.NONE;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}

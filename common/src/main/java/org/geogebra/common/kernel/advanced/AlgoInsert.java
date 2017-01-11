@@ -78,8 +78,9 @@ public class AlgoInsert extends AlgoElement {
 		insertPoint = (int) n.getDouble();
 
 		// -1 means insert in last place, -2 means penultimate etc
-		if (insertPoint < 0)
+		if (insertPoint < 0) {
 			insertPoint = size + insertPoint + 2;
+		}
 
 		if (!inputGeo.isDefined() || !inputList.isDefined() || insertPoint <= 0
 				|| insertPoint > size + 1) {
@@ -90,24 +91,29 @@ public class AlgoInsert extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (insertPoint > 1)
-			for (int i = 0; i < insertPoint - 1; i++)
+		if (insertPoint > 1) {
+			for (int i = 0; i < insertPoint - 1; i++) {
 				outputList.add(inputList.get(i).copyInternal(cons));
+			}
+		}
 
 		if (inputGeo.isGeoList()) {
 			GeoList list = (GeoList) inputGeo;
 
-			if (list.size() > 0)
-				for (int i = 0; i < list.size(); i++)
+			if (list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
 					outputList.add(list.get(i).copyInternal(cons));
+				}
+			}
 		} else {
 			outputList.add(inputGeo.copyInternal(cons));
 		}
 
-		if (insertPoint <= size)
+		if (insertPoint <= size) {
 			for (int i = insertPoint - 1; i < size; i++) {
 				outputList.add(inputList.get(i).copyInternal(cons));
 			}
+		}
 	}
 
 }

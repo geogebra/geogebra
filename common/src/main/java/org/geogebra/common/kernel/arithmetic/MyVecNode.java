@@ -84,6 +84,7 @@ public class MyVecNode extends ValidExpression
 		return ret;
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		x.resolveVariables(info);
 		y.resolveVariables(info);
@@ -231,6 +232,7 @@ public class MyVecNode extends ValidExpression
 		return toString(tpl, true);
 	}
 
+	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl, !symbolic);
 	}
@@ -238,38 +240,45 @@ public class MyVecNode extends ValidExpression
 	/**
 	 * interface VectorValue implementation
 	 */
+	@Override
 	public GeoVec2D getVector() {
 		GeoVec2D ret = new GeoVec2D(kernel, getCoords());
 		ret.setMode(mode);
 		return ret;
 	}
 
+	@Override
 	public boolean isConstant() {
 		return x.isConstant() && y.isConstant();
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return true;
 	}
 
 	/** POLAR or CARTESIAN */
+	@Override
 	public int getMode() {
 		return mode;
 	}
 
 	/** returns all GeoElement objects in the both coordinate subtrees */
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> temp, varset = x.getVariables();
 		if (varset == null) {
 			varset = new HashSet<GeoElement>();
 		}
 		temp = y.getVariables();
-		if (temp != null)
+		if (temp != null) {
 			varset.addAll(temp);
+		}
 
 		return varset;
 	}
 
+	@Override
 	public void setMode(int mode) {
 		this.mode = mode;
 	}
@@ -287,14 +296,17 @@ public class MyVecNode extends ValidExpression
 		return isCASVector;// this.mode != Kernel.COORD_COMPLEX;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -309,8 +321,9 @@ public class MyVecNode extends ValidExpression
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
-		if (v != this)
+		if (v != this) {
 			return v;
+		}
 		x = x.traverse(t);
 		y = y.traverse(t);
 		return this;
@@ -338,10 +351,12 @@ public class MyVecNode extends ValidExpression
 		return new ExpressionNode(kernel, this);
 	}
 
+	@Override
 	public boolean isCASVector() {
 		return isCASVector;
 	}
 
+	@Override
 	public int getDimension() {
 		return 2;
 	}
@@ -351,10 +366,12 @@ public class MyVecNode extends ValidExpression
 		return new GeoVec2D(kernel1, Double.NaN, Double.NaN);
 	}
 
+	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { x.evaluateDouble(), y.evaluateDouble(), 0 };
 	}
 
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		if (x instanceof ReplaceChildrenByValues) {
 			((ReplaceChildrenByValues) x).replaceChildrenByValues(geo);

@@ -91,12 +91,15 @@ public class AlgoCircleThreePoints extends AlgoElement
 	}
 
 	private void setIncidence() {
-		if (A instanceof GeoPoint)
+		if (A instanceof GeoPoint) {
 			((GeoPoint) A).addIncidence(circle, false);
-		if (B instanceof GeoPoint)
+		}
+		if (B instanceof GeoPoint) {
 			((GeoPoint) B).addIncidence(circle, false);
-		if (C instanceof GeoPoint)
+		}
+		if (C instanceof GeoPoint) {
 			((GeoPoint) C).addIncidence(circle, false);
+		}
 
 	}
 
@@ -308,6 +311,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 				B.getLabel(tpl), C.getLabel(tpl));
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircleThreePoints();
@@ -315,6 +319,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 		return botanaParams.getVars();
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
@@ -329,6 +334,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleThreePoints(geo, this, scope);

@@ -45,8 +45,9 @@ public class CmdZoomIn extends CmdScripting {
 				double py = ev.getHeight() / 2.0; // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
-				if (Kernel.isZero(factor))
+				if (Kernel.isZero(factor)) {
 					throw argErr(app, c, arg[0]);
+				}
 
 				ev.zoom(px, py, factor, 4, true);
 

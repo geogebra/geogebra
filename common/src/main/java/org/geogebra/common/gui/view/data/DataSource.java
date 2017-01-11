@@ -155,8 +155,8 @@ public class DataSource {
 	}
 
 	private MyTable spreadsheetTable() {
-		SpreadsheetViewInterface spvi = (SpreadsheetViewInterface) ((GuiManagerInterface) app
-				.getGuiManager()).getSpreadsheetView();
+		SpreadsheetViewInterface spvi = app
+				.getGuiManager().getSpreadsheetView();
 		return (MyTable) spvi.getSpreadsheetTable();
 	}
 
@@ -568,10 +568,12 @@ public class DataSource {
 			}
 
 			if (r != null) {
-				if (r.size() > 0)
+				if (r.size() > 0) {
 					itemList.add(new DataItem(r.get(0)));
-				if (r.size() > 1)
+				}
+				if (r.size() > 1) {
 					itemList.add(new DataItem(r.get(1)));
+				}
 			}
 
 		} else if (rangeList.size() == 2) { // two separate cell ranges

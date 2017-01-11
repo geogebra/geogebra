@@ -158,8 +158,9 @@ public class DrawRay extends Drawable implements Previewable {
 		if (ray.getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
+			if (g2 != null) {
 				drawTrace(g2);
+			}
 		} else {
 			if (isTracing) {
 				isTracing = false;
@@ -196,16 +197,18 @@ public class DrawRay extends Drawable implements Previewable {
 		// calc clip point C = a + lambda * v
 		double lambda;
 		if (Math.abs(v[0]) > Math.abs(v[1])) {
-			if (v[0] > 0) // RIGHT
+			if (v[0] > 0) {
 				lambda = (view.getWidth() - a[0]) / v[0];
-			else
+			} else {
 				// LEFT
 				lambda = -a[0] / v[0];
+			}
 		} else {
-			if (v[1] > 0) // BOTTOM
+			if (v[1] > 0) {
 				lambda = (view.getHeight() - a[1]) / v[1];
-			else
+			} else {
 				lambda = -a[1] / v[1];
+			}
 		}
 
 		if (lambda < 0) { // ray is completely out of screen
@@ -271,6 +274,7 @@ public class DrawRay extends Drawable implements Previewable {
 		g2.draw(line);
 	}
 
+	@Override
 	final public void updatePreview() {
 		isVisible = points.size() == 1;
 		if (isVisible) {
@@ -286,6 +290,7 @@ public class DrawRay extends Drawable implements Previewable {
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
+	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
@@ -322,8 +327,9 @@ public class DrawRay extends Drawable implements Previewable {
 				xx = view.getXZero() + xRW * view.getXscale();
 				yy = view.getYZero() - yRW * view.getYscale();
 
-			} else
+			} else {
 				view.getEuclidianController().setLineEndPoint(null);
+			}
 
 			/*
 			 * a[0] = A.inhomX; a[1] = A.inhomY; view.toScreenCoords(a);
@@ -334,6 +340,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
@@ -343,6 +350,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}

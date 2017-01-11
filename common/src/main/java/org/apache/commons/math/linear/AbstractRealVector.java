@@ -84,6 +84,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setSubVector(int index, RealVector v)
 			throws MatrixIndexException {
 		checkIndex(index);
@@ -92,6 +93,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setSubVector(int index, double[] v)
 			throws MatrixIndexException {
 		checkIndex(index);
@@ -102,6 +104,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector add(double[] v) throws IllegalArgumentException {
 		double[] result = Cloner.clone(v);
 		Iterator<Entry> it = sparseIterator();
@@ -113,6 +116,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector add(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			double[] values = ((ArrayRealVector) v).getDataRef();
@@ -129,6 +133,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector subtract(double[] v) throws IllegalArgumentException {
 		double[] result = Cloner.clone(v);
 		Iterator<Entry> it = sparseIterator();
@@ -141,6 +146,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector subtract(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			double[] values = ((ArrayRealVector) v).getDataRef();
@@ -157,11 +163,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAdd(double d) {
 		return copy().mapAddToSelf(d);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAddToSelf(double d) {
 		if (d != 0) {
 			try {
@@ -174,14 +182,17 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract AbstractRealVector copy();
 
 	/** {@inheritDoc} */
+	@Override
 	public double dotProduct(double[] v) throws IllegalArgumentException {
 		return dotProduct(new ArrayRealVector(v, false));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double dotProduct(RealVector v) throws IllegalArgumentException {
 		checkVectorDimensions(v);
 		double d = 0;
@@ -194,16 +205,19 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector ebeDivide(double[] v) throws IllegalArgumentException {
 		return ebeDivide(new ArrayRealVector(v, false));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector ebeMultiply(double[] v) throws IllegalArgumentException {
 		return ebeMultiply(new ArrayRealVector(v, false));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getDistance(RealVector v) throws IllegalArgumentException {
 		checkVectorDimensions(v);
 		double d = 0;
@@ -217,6 +231,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getNorm() {
 		double sum = 0;
 		Iterator<Entry> it = sparseIterator();
@@ -229,6 +244,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getL1Norm() {
 		double norm = 0;
 		Iterator<Entry> it = sparseIterator();
@@ -240,6 +256,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getLInfNorm() {
 		double norm = 0;
 		Iterator<Entry> it = sparseIterator();
@@ -251,11 +268,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getDistance(double[] v) throws IllegalArgumentException {
 		return getDistance(new ArrayRealVector(v, false));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getL1Distance(RealVector v) throws IllegalArgumentException {
 		checkVectorDimensions(v);
 		double d = 0;
@@ -268,6 +287,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getL1Distance(double[] v) throws IllegalArgumentException {
 		checkVectorDimensions(v.length);
 		double d = 0;
@@ -280,6 +300,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getLInfDistance(RealVector v)
 			throws IllegalArgumentException {
 		checkVectorDimensions(v);
@@ -294,6 +315,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getLInfDistance(double[] v) throws IllegalArgumentException {
 		checkVectorDimensions(v.length);
 		double d = 0;
@@ -366,11 +388,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAbs() {
 		return copy().mapAbsToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAbsToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.ABS);
@@ -380,11 +404,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAcos() {
 		return copy().mapAcosToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAcosToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.ACOS);
@@ -394,11 +420,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAsin() {
 		return copy().mapAsinToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAsinToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.ASIN);
@@ -408,11 +436,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAtan() {
 		return copy().mapAtanToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapAtanToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.ATAN);
@@ -422,11 +452,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCbrt() {
 		return copy().mapCbrtToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCbrtToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.CBRT);
@@ -436,11 +468,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCeil() {
 		return copy().mapCeilToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCeilToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.CEIL);
@@ -450,11 +484,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCos() {
 		return copy().mapCosToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCosToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.COS);
@@ -464,11 +500,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCosh() {
 		return copy().mapCoshToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapCoshToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.COSH);
@@ -478,11 +516,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapDivide(double d) {
 		return copy().mapDivideToSelf(d);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapDivideToSelf(double d) {
 		try {
 			return mapToSelf(BinaryFunction.DIVIDE.fix2ndArgument(d));
@@ -492,11 +532,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapExp() {
 		return copy().mapExpToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapExpToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.EXP);
@@ -506,11 +548,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapExpm1() {
 		return copy().mapExpm1ToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapExpm1ToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.EXPM1);
@@ -520,11 +564,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapFloor() {
 		return copy().mapFloorToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapFloorToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.FLOOR);
@@ -534,11 +580,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapInv() {
 		return copy().mapInvToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapInvToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.INVERT);
@@ -548,11 +596,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapLog() {
 		return copy().mapLogToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapLogToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.LOG);
@@ -562,11 +612,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapLog10() {
 		return copy().mapLog10ToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapLog10ToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.LOG10);
@@ -576,11 +628,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapLog1p() {
 		return copy().mapLog1pToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapLog1pToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.LOG1P);
@@ -590,11 +644,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapMultiply(double d) {
 		return copy().mapMultiplyToSelf(d);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapMultiplyToSelf(double d) {
 		try {
 			return mapToSelf(BinaryFunction.MULTIPLY.fix1stArgument(d));
@@ -604,11 +660,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapPow(double d) {
 		return copy().mapPowToSelf(d);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapPowToSelf(double d) {
 		try {
 			return mapToSelf(BinaryFunction.POW.fix2ndArgument(d));
@@ -618,11 +676,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapRint() {
 		return copy().mapRintToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapRintToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.RINT);
@@ -632,11 +692,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSignum() {
 		return copy().mapSignumToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSignumToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.SIGNUM);
@@ -646,11 +708,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSin() {
 		return copy().mapSinToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSinToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.SIN);
@@ -660,11 +724,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSinh() {
 		return copy().mapSinhToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSinhToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.SINH);
@@ -674,11 +740,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSqrt() {
 		return copy().mapSqrtToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSqrtToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.SQRT);
@@ -688,21 +756,25 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSubtract(double d) {
 		return copy().mapSubtractToSelf(d);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapSubtractToSelf(double d) {
 		return mapAddToSelf(-d);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapTan() {
 		return copy().mapTanToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapTanToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.TAN);
@@ -712,11 +784,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapTanh() {
 		return copy().mapTanhToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapTanhToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.TANH);
@@ -726,11 +800,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapUlp() {
 		return copy().mapUlpToSelf();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapUlpToSelf() {
 		try {
 			return mapToSelf(ComposableFunction.ULP);
@@ -740,6 +816,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix outerProduct(RealVector v)
 			throws IllegalArgumentException {
 		RealMatrix product;
@@ -767,16 +844,19 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix outerProduct(double[] v) throws IllegalArgumentException {
 		return outerProduct(new ArrayRealVector(v, false));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector projection(double[] v) throws IllegalArgumentException {
 		return projection(new ArrayRealVector(v, false));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void set(double value) {
 		Iterator<Entry> it = iterator();
 		Entry e = null;
@@ -786,6 +866,7 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] toArray() {
 		int dim = getDimension();
 		double[] values = new double[dim];
@@ -796,11 +877,13 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getData() {
 		return toArray();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector unitVector() {
 		RealVector copy = copy();
 		copy.unitize();
@@ -808,16 +891,19 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void unitize() {
 		mapDivideToSelf(getNorm());
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Iterator<Entry> sparseIterator() {
 		return new SparseEntryIterator();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Iterator<Entry> iterator() {
 		final int dim = getDimension();
 		return new Iterator<Entry>() {
@@ -829,17 +915,20 @@ public abstract class AbstractRealVector implements RealVector {
 			private EntryImpl e = new EntryImpl();
 
 			/** {@inheritDoc} */
+			@Override
 			public boolean hasNext() {
 				return i < dim;
 			}
 
 			/** {@inheritDoc} */
+			@Override
 			public Entry next() {
 				e.setIndex(i++);
 				return e;
 			}
 
 			/** {@inheritDoc} */
+			@Override
 			public void remove() {
 				throw new MathUnsupportedOperationException();
 			}
@@ -847,12 +936,14 @@ public abstract class AbstractRealVector implements RealVector {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector map(UnivariateRealFunction function)
 			throws FunctionEvaluationException {
 		return copy().mapToSelf(function);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector mapToSelf(UnivariateRealFunction function)
 			throws FunctionEvaluationException {
 		Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator()
@@ -939,11 +1030,13 @@ public abstract class AbstractRealVector implements RealVector {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public boolean hasNext() {
 			return next.getIndex() >= 0;
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public Entry next() {
 			int index = next.getIndex();
 			if (index < 0) {
@@ -955,6 +1048,7 @@ public abstract class AbstractRealVector implements RealVector {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public void remove() {
 			throw new MathUnsupportedOperationException();
 		}

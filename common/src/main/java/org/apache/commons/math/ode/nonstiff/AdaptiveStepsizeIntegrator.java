@@ -373,6 +373,7 @@ public abstract class AdaptiveStepsizeIntegrator extends AbstractIntegrator {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract double integrate(FirstOrderDifferentialEquations equations,
 			double t0, double[] y0, double t, double[] y)
 			throws DerivativeException, IntegratorException;

@@ -132,10 +132,12 @@ public class AlgoLinePointLine extends AlgoElement
 
 	// Simon Weitzhofer 2012-05-07
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 
@@ -148,6 +150,7 @@ public class AlgoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 
 		if (P != null && l != null) {
@@ -164,6 +167,7 @@ public class AlgoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -182,6 +186,7 @@ public class AlgoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 
 		if (polynomials != null) {
@@ -202,10 +207,12 @@ public class AlgoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

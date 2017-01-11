@@ -35,6 +35,7 @@ public class DropDownList {
 		this.listener = listener;
 		clickTimer = app.newTimer(new GTimerListener() {
 
+			@Override
 			public void onRun() {
 				doRunClick();
 			}
@@ -42,6 +43,7 @@ public class DropDownList {
 
 		scrollTimer = app.newTimer(new GTimerListener() {
 
+			@Override
 			public void onRun() {
 				doScroll();
 			}

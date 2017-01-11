@@ -227,8 +227,9 @@ final public class CellRange implements Cloneable {
 			for (int row = minRow; row <= maxRow; ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);
 
-				if (geo != null && !geo.isGeoPoint())
+				if (geo != null && !geo.isGeoPoint()) {
 					return false;
+				}
 			}
 		}
 		return true;
@@ -261,8 +262,9 @@ final public class CellRange implements Cloneable {
 	 */
 	public void setActualRange() {
 
-		if (minRow == -1 && maxRow == -1 && minColumn == -1 && maxColumn == -1)
+		if (minRow == -1 && maxRow == -1 && minColumn == -1 && maxColumn == -1) {
 			return;
+		}
 
 		if (minRow == -1 && maxRow == -1) {
 			minRow = 0;
@@ -315,11 +317,12 @@ final public class CellRange implements Cloneable {
 				for (int row = minRow; row <= maxRow; ++row) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
 					if (geo != null) {
-						if (copyByValue)
+						if (copyByValue) {
 							list.add(geo.getValueForInputBar());
-						else
+						} else {
 							list.add(geo
 									.getLabel(StringTemplate.defaultTemplate));
+						}
 					}
 				}
 			}
@@ -327,12 +330,14 @@ final public class CellRange implements Cloneable {
 			for (int row = minRow; row <= maxRow; ++row) {
 				for (int col = minColumn; col <= maxColumn; ++col) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
-					if (geo != null)
-						if (copyByValue)
+					if (geo != null) {
+						if (copyByValue) {
 							list.add(geo.getValueForInputBar());
-						else
+						} else {
 							list.add(geo
 									.getLabel(StringTemplate.defaultTemplate));
+						}
+					}
 				}
 			}
 		}
@@ -358,18 +363,20 @@ final public class CellRange implements Cloneable {
 			for (int col = cr.minColumn; col <= cr.maxColumn; ++col) {
 				for (int row = cr.minRow; row <= cr.maxRow; ++row) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
-					if (geo != null)
+					if (geo != null) {
 						list.add(geo
 								.toValueString(StringTemplate.defaultTemplate));
+					}
 				}
 			}
 		} else {
 			for (int row = cr.minRow; row <= cr.maxRow; ++row) {
 				for (int col = cr.minColumn; col <= cr.maxColumn; ++col) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
-					if (geo != null)
+					if (geo != null) {
 						list.add(geo
 								.toValueString(StringTemplate.defaultTemplate));
+					}
 				}
 			}
 		}
@@ -399,11 +406,13 @@ final public class CellRange implements Cloneable {
 		ArrayList<CellRange> list = new ArrayList<CellRange>();
 
 		if (isRow()) {
-			for (int row = minRow; row <= maxRow; row++)
+			for (int row = minRow; row <= maxRow; row++) {
 				list.add(new CellRange(app, 0, row, -1, row, maxColumn, row));
+			}
 		} else {
-			for (int row = minRow; row <= maxRow; row++)
+			for (int row = minRow; row <= maxRow; row++) {
 				list.add(new CellRange(app, minColumn, row, maxColumn, row));
+			}
 		}
 		return list;
 	}
@@ -465,15 +474,17 @@ final public class CellRange implements Cloneable {
 			for (int col = getMinColumn(); col <= getMaxColumn(); ++col) {
 				for (int row = getMinRow(); row <= getMaxRow(); ++row) {
 					GeoElement geo = RelativeCopy.getValue(app, col, row);
-					if (geo != null && geo.getGeoClassType() == geoClass)
+					if (geo != null && geo.getGeoClassType() == geoClass) {
 						++count;
+					}
 				}
 			}
 		} else {
 			for (int col = getMinColumn(); col <= getMaxColumn(); ++col) {
 				for (int row = getMinRow(); row <= getMaxRow(); ++row) {
-					if (RelativeCopy.getValue(app, col, row) != null)
+					if (RelativeCopy.getValue(app, col, row) != null) {
 						++count;
+					}
 				}
 			}
 
@@ -491,8 +502,9 @@ final public class CellRange implements Cloneable {
 		for (int col = getMinColumn(); col <= getMaxColumn(); ++col) {
 			for (int row = getMinRow(); row <= getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);
-				if (geo != null && geo.getGeoClassType() == geoClass)
+				if (geo != null && geo.getGeoClassType() == geoClass) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -511,6 +523,7 @@ final public class CellRange implements Cloneable {
 						&& maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP);
 	}
 
+	@SuppressWarnings("all")
 	final public CellRange clone() {
 		CellRange cr = new CellRange(app);
 		cr.anchorColumn = anchorColumn;

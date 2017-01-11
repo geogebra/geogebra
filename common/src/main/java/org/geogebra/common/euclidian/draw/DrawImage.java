@@ -83,8 +83,9 @@ public final class DrawImage extends Drawable {
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
@@ -250,9 +251,10 @@ public final class DrawImage extends Drawable {
 		if (isVisible) {
 			GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
-				if (alphaComp == null)
+				if (alphaComp == null) {
 					alphaComp = AwtFactory.getPrototype()
 							.newAlphaComposite(alpha);
+				}
 				g3.setComposite(alphaComp);
 			}
 
@@ -297,11 +299,12 @@ public final class DrawImage extends Drawable {
 					at.transform(corner2, corner2);
 					at.transform(corner3, corner3);
 					at.transform(corner4, corner4);
-					if (highlighting == null)
+					if (highlighting == null) {
 						highlighting = AwtFactory.getPrototype()
 								.newGeneralPath();
-					else
+					} else {
 						highlighting.reset();
+					}
 					highlighting.moveTo(corner1.getX(), corner1.getY());
 					highlighting.lineTo(corner2.getX(), corner2.getY());
 					highlighting.lineTo(corner3.getX(), corner3.getY());
@@ -347,8 +350,9 @@ public final class DrawImage extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (!isVisible || geoImage.isInBackground())
+		if (!isVisible || geoImage.isInBackground()) {
 			return false;
+		}
 
 		hitCoords[0] = x;
 		hitCoords[1] = y;
@@ -362,8 +366,9 @@ public final class DrawImage extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		if (!isVisible || geoImage.isInBackground())
+		if (!isVisible || geoImage.isInBackground()) {
 			return false;
+		}
 
 		return rect.intersects(boundingBox);
 	}
@@ -372,8 +377,9 @@ public final class DrawImage extends Drawable {
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		if (!isVisible || geoImage.isInBackground())
+		if (!isVisible || geoImage.isInBackground()) {
 			return false;
+		}
 		return rect.contains(boundingBox);
 	}
 

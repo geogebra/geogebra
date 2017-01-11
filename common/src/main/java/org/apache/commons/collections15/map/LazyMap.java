@@ -141,6 +141,7 @@ public class LazyMap<K, V> extends AbstractMapDecorator<K, V>
 		this.transformer = transformer;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public V get(Object key) {
 		// create value for key if key is not currently in the map

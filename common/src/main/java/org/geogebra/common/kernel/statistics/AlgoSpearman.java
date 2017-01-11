@@ -149,8 +149,9 @@ public class AlgoSpearman extends AlgoElement {
 			}
 		}
 
-		if (sp == null)
+		if (sp == null) {
 			sp = new SpearmansCorrelation();
+		}
 
 		result.setValue(sp.correlation(valX, valY));
 

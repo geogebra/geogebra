@@ -38,6 +38,7 @@ public class RedefineInputHandler implements InputHandler {
 		return geo;
 	}
 
+	@Override
 	public void processInput(String rawInput, ErrorHandler handler,
 			final AsyncOperation<Boolean> callback) {
 		if (rawInput == null) {

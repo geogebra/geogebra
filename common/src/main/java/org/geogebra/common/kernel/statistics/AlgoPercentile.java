@@ -105,8 +105,9 @@ public class AlgoPercentile extends AlgoElement {
 			}
 		}
 
-		if (percentile == null)
+		if (percentile == null) {
 			percentile = new Percentile();
+		}
 
 		percentile.setData(inputArray);
 		result.setValue(percentile.evaluate(val));

@@ -95,16 +95,19 @@ public class AlgoUnique extends AlgoElement {
 		}
 
 		// Load the data into f, an instance of Frequency class
-		if (f == null)
+		if (f == null) {
 			f = new FrequencyGgb();
+		}
 		f.clear();
 		for (int i = 0; i < dataList.size(); i++) {
-			if (dataList.getElementType().equals(GeoClass.TEXT))
+			if (dataList.getElementType().equals(GeoClass.TEXT)) {
 				f.addValue(((GeoText) dataList.get(i))
 						.toValueString(StringTemplate.defaultTemplate));
-			if (dataList.getElementType().equals(GeoClass.NUMERIC))
+			}
+			if (dataList.getElementType().equals(GeoClass.NUMERIC)) {
 				f.addValue(new MyDouble(kernel,
 						((GeoNumeric) dataList.get(i)).getDouble()));
+			}
 		}
 
 		// Get the unique value list

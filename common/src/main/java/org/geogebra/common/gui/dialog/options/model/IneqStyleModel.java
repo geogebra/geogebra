@@ -36,8 +36,9 @@ public class IneqStyleModel extends BooleanOptionModel {
 			}
 			temp = getInequalityPropertiesAt(i);
 
-			if (geo0.showOnAxis() != temp.showOnAxis())
+			if (geo0.showOnAxis() != temp.showOnAxis()) {
 				equalFix = false;
+			}
 		}
 
 		if (equalFix) {
@@ -45,8 +46,9 @@ public class IneqStyleModel extends BooleanOptionModel {
 			if (geo0.showOnAxis()) {
 				((IIneqStyleListener) getListener()).enableFilling(false);
 			}
-		} else
+		} else {
 			getListener().updateCheckbox(false);
+		}
 
 	}
 

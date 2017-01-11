@@ -102,16 +102,18 @@ public class DrawText3D extends Drawable3DCurves {
 		GeoText text = (GeoText) getGeoElement();
 
 		// compute location of text
-		if (text.isAbsoluteScreenLocActive())
+		if (text.isAbsoluteScreenLocActive()) {
 			return new Coords(text.getAbsoluteScreenLocX(),
 					text.getAbsoluteScreenLocY(), 0, 1);
+		}
 
 		GeoPointND loc = text.getStartPoint();
 
-		if (loc == null)
+		if (loc == null) {
 			// return new
 			// Coords(getView3D().getXZero(),getView3D().getYZero(),0,1);
 			return new Coords(0, 0, 0, 1);
+		}
 
 		if (!loc.isDefined()) {
 			// isLocationDefined = false;

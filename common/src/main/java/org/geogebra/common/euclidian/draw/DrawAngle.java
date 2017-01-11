@@ -176,8 +176,9 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	@Override
 	final public void update() {
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
 			init();
+		}
 
 		isVisible = true;
 
@@ -273,10 +274,11 @@ public class DrawAngle extends Drawable implements Previewable {
 			default:
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 				// set 90 degrees square
-				if (square == null)
+				if (square == null) {
 					square = AwtFactory.getPrototype().newGeneralPath();
-				else
+				} else {
 					square.reset();
+				}
 				double length = arcSize * 0.7071067811865;
 				square.moveTo(coords[0], coords[1]);
 				square.lineTo((coords[0] + length * Math.cos(angSt)),
@@ -300,10 +302,11 @@ public class DrawAngle extends Drawable implements Previewable {
 
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
 				// Belgian offset |_
-				if (square == null)
+				if (square == null) {
 					square = AwtFactory.getPrototype().newGeneralPath();
-				else
+				} else {
 					square.reset();
+				}
 				length = arcSize * 0.7071067811865;
 				double offset = length * 0.4;
 				square.moveTo(
@@ -338,9 +341,10 @@ public class DrawAngle extends Drawable implements Previewable {
 				// set 90 degrees dot
 				drawDot = true;
 
-				if (dot90degree == null)
+				if (dot90degree == null) {
 					dot90degree = AwtFactory.getPrototype()
 							.newEllipse2DDouble();
+				}
 				int diameter = 2 * geo.getLineThickness();
 				double radius = r / 1.7;
 				double labelAngle = angSt + angExt / 2.0;
@@ -509,8 +513,9 @@ public class DrawAngle extends Drawable implements Previewable {
 			xLabel = (int) (coords[0] - 3);
 			yLabel = (int) (coords[1] + 5);
 
-			if (!addLabelOffset() && drawDot)
+			if (!addLabelOffset() && drawDot) {
 				xLabel = (int) (coords[0] + 2 * geo.getLineThickness());
+			}
 		}
 
 		// G.Sturr 2010-6-28 spreadsheet trace is now handled in
@@ -657,8 +662,9 @@ public class DrawAngle extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || shape == null || !geo.isEuclidianVisible())
+		if (!geo.isDefined() || shape == null || !geo.isEuclidianVisible()) {
 			return null;
+		}
 
 		// return selection circle's bounding box
 		return shape.getBounds();
@@ -680,6 +686,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// initConic(algo.getCircle());
 	}
 
+	@Override
 	final public void updatePreview() {
 
 		if (geo == null || prevPoints.size() != 2) {
@@ -696,6 +703,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	}
 
+	@Override
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
 			previewTempPoints[previewTempPoints.length - 1].setCoords(xRW, yRW,
@@ -705,6 +713,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		isVisible = geo != null && prevPoints.size() == 2;
 		// shape may be null if the second point is placed and mouse did not yet
@@ -714,6 +723,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}

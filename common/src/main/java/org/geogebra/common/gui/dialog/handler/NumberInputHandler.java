@@ -30,6 +30,7 @@ public class NumberInputHandler implements InputHandler {
 		app = appl;
 	}
 
+	@Override
 	public void processInput(String inputString, final ErrorHandler handler,
 			final AsyncOperation<Boolean> callback0) {
 		try {

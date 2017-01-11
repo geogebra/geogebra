@@ -262,11 +262,13 @@ public class GeoConic3D extends GeoConicND
 	}
 
 	private void setSinglePointMatrix() {
-		for (int i = 0; i < matrix.length; i++)
+		for (int i = 0; i < matrix.length; i++) {
 			matrix[i] = 0;
+		}
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			matrix[i] = 1.0d;
+		}
 	}
 
 	/**
@@ -321,8 +323,9 @@ public class GeoConic3D extends GeoConicND
 
 		if (geo instanceof GeoConicND) {
 			super.set(geo);
-			if (coordSys == null) // TODO remove that
+			if (coordSys == null) {
 				coordSys = new CoordSys(2);
+			}
 			coordSys.set(((GeoConicND) geo).getCoordSys());
 			setIsEndOfQuadric(((GeoConicND) geo).isEndOfQuadric());
 		}
@@ -609,8 +612,9 @@ public class GeoConic3D extends GeoConicND
 	public void setView2DVisible(boolean flag) {
 
 		if (euclidianViewForPlane == null) {
-			if (flag)
+			if (flag) {
 				createView2D();
+			}
 			return;
 		}
 

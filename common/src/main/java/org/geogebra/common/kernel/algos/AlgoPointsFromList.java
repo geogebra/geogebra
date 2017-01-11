@@ -92,8 +92,9 @@ public class AlgoPointsFromList extends AlgoElement {
 
 		// make sure that there are at least as many
 		// points as labels
-		if (labels != null)
+		if (labels != null) {
 			initPoints(labels.length);
+		}
 
 		update();
 	}
@@ -245,8 +246,9 @@ public class AlgoPointsFromList extends AlgoElement {
 			points[i].setUndefined();
 		}
 
-		if (setLabels)
+		if (setLabels) {
 			updateLabels(number);
+		}
 	}
 
 	// roots array and number of roots
@@ -264,8 +266,9 @@ public class AlgoPointsFromList extends AlgoElement {
 			points3D[i].setUndefined();
 		}
 
-		if (setLabels)
+		if (setLabels) {
 			updateLabels(number);
+		}
 	}
 
 	// number is the number of current roots
@@ -398,10 +401,12 @@ public class AlgoPointsFromList extends AlgoElement {
 			// build new rootPoints array without the removed point
 			GeoPoint[] temp = new GeoPoint[points.length - 1];
 			int i;
-			for (i = 0; i < pos; i++)
+			for (i = 0; i < pos; i++) {
 				temp[i] = points[i];
-			for (i = pos + 1; i < points.length; i++)
+			}
+			for (i = pos + 1; i < points.length; i++) {
 				temp[i - 1] = points[i];
+			}
 			points = temp;
 		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
 				|| (list.get(0).isGeoList()
@@ -411,10 +416,12 @@ public class AlgoPointsFromList extends AlgoElement {
 			// build new rootPoints array without the removed point
 			GeoPoint3D[] temp = new GeoPoint3D[points3D.length - 1];
 			int i;
-			for (i = 0; i < pos; i++)
+			for (i = 0; i < pos; i++) {
 				temp[i] = points3D[i];
-			for (i = pos + 1; i < points3D.length; i++)
+			}
+			for (i = pos + 1; i < points3D.length; i++) {
 				temp[i - 1] = points3D[i];
+			}
 			points3D = temp;
 		}
 	}

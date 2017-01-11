@@ -74,12 +74,15 @@ public class AlgoIntersectRegionPlanePolyhedron
 			this.parameter = parameter;
 		}
 
+		@Override
 		public int compareTo(CoordsWithParent o) {
 			// first compare parameters
-			if (Kernel.isGreater(parameter, o.parameter))
+			if (Kernel.isGreater(parameter, o.parameter)) {
 				return 1;
-			if (Kernel.isGreater(o.parameter, parameter))
+			}
+			if (Kernel.isGreater(o.parameter, parameter)) {
 				return -1;
+			}
 
 			// if same parameter, compare parents
 			return compareParentTo(o);
@@ -213,19 +216,24 @@ public class AlgoIntersectRegionPlanePolyhedron
 			current = lowest;
 		}
 
+		@Override
 		public int compareTo(Vertices o) {
 
 			// first compare sizes
-			if (this.size() < o.size())
+			if (this.size() < o.size()) {
 				return -1;
-			if (o.size() < this.size())
+			}
+			if (o.size() < this.size()) {
 				return 1;
+			}
 
 			// compare lowest coords
-			if (COORDS_COMPARATOR.compare(get(lowest), o.get(o.lowest)) < 0)
+			if (COORDS_COMPARATOR.compare(get(lowest), o.get(o.lowest)) < 0) {
 				return -1;
-			if (COORDS_COMPARATOR.compare(get(lowest), o.get(o.lowest)) > 0)
+			}
+			if (COORDS_COMPARATOR.compare(get(lowest), o.get(o.lowest)) > 0) {
 				return 1;
+			}
 
 			// compare neighbors
 			start();
@@ -234,10 +242,12 @@ public class AlgoIntersectRegionPlanePolyhedron
 			while (visited < size()) {
 				Coords thisCoords = next();
 				Coords oCoords = o.next();
-				if (COORDS_COMPARATOR.compare(thisCoords, oCoords) < 0)
+				if (COORDS_COMPARATOR.compare(thisCoords, oCoords) < 0) {
 					return -1;
-				if (COORDS_COMPARATOR.compare(thisCoords, oCoords) > 0)
+				}
+				if (COORDS_COMPARATOR.compare(thisCoords, oCoords) > 0) {
 					return 1;
+				}
 				visited++;
 			}
 
@@ -389,21 +399,24 @@ public class AlgoIntersectRegionPlanePolyhedron
 	@Override
 	protected void setNewCoords() {
 
-		if (newCoordsList == null)
+		if (newCoordsList == null) {
 			newCoordsList = new TreeMap<GeoPolygon, ArrayList<Segment>>();
-		else
+		} else {
 			newCoordsList.clear();
+		}
 
-		if (parentToPolygons == null)
+		if (parentToPolygons == null) {
 			parentToPolygons = new TreeMap<GeoElementND, TreeSet<GeoPolygon>>();
-		else
+		} else {
 			parentToPolygons.clear();
+		}
 
 		// for polyhedron vertices
-		if (polyhedronVertices == null)
+		if (polyhedronVertices == null) {
 			polyhedronVertices = new TreeSet<Coords>(COORDS_COMPARATOR);
-		else
+		} else {
 			polyhedronVertices.clear();
+		}
 
 		/*
 		 * if (originalEdges==null) originalEdges = new TreeMap<GeoElement,
@@ -426,8 +439,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		// check if the polygon is defined (e.g. when regular polygon as pyramid
 		// bottom)
-		if (!p.isDefined())
+		if (!p.isDefined()) {
 			return;
+		}
 
 		// line origin and direction
 		setIntersectionLine();
@@ -472,10 +486,11 @@ public class AlgoIntersectRegionPlanePolyhedron
 		} else {// regular case: polygon not included in plane
 
 			// fill a new points map
-			if (newCoords == null)
+			if (newCoords == null) {
 				newCoords = new TreeSet<CoordsWithParent>();
-			else
+			} else {
 				newCoords.clear();
+			}
 
 			// add intersection coords
 			intersectionsCoords(p);
@@ -515,7 +530,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 			// midpoint
 			if (checkMidpoint(p, a, b)) {
 				if (startSegment == null)
+				 {
 					startSegment = a; // new start segment
+				}
 				endSegment = b; // extend segment to b
 			} else {
 				if (startSegment != null) {// add last correct segment
@@ -525,8 +542,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 			}
 		}
 
-		if (startSegment != null)// add last correct segment
+		if (startSegment != null) {
 			addSegment(startSegment, endSegment, ret);
+		}
 
 		return ret;
 	}
@@ -654,8 +672,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		segmentCoords.remove(index);
 		// Log.debug("\np2:"+p2+"\nsize="+segmentCoords.size());
-		if (segmentCoords.size() == 0)
+		if (segmentCoords.size() == 0) {
 			newCoordsList.remove(p2);
+		}
 
 	}
 
@@ -765,8 +784,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 			vertices.add(startPoint);
 			CoordsWithParent c = nextVertex(startPoint, oldParent,
 					firstPoint.parent);
-			if (c == null) // no next point
+			if (c == null) {
 				return null;
+			}
 			oldParent = startPoint.parent;
 			startPoint = c;
 			// Log.debug("\nb.parent:"+startPoint.parent+"\npoly:"+p);//Log.debug("\n\n\n\n\n");
@@ -821,8 +841,9 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 	private void updateLabels(
 			@SuppressWarnings("rawtypes") OutputHandler outputHandler) {
-		if (hasLabels)
+		if (hasLabels) {
 			outputHandler.updateLabels();
+		}
 	}
 
 	@Override
@@ -830,20 +851,23 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		// set intersection vertices
 		// (set it here since maybe some faces are included in the plane)
-		if (verticesList == null)
+		if (verticesList == null) {
 			verticesList = new VerticesList();
-		else
+		} else {
 			verticesList.clear();
+		}
 
-		if (checkVerticesList == null)
+		if (checkVerticesList == null) {
 			checkVerticesList = new TreeSet<Vertices>();
-		else
+		} else {
 			checkVerticesList.clear();
+		}
 
-		if (polyhedronFaces == null)
+		if (polyhedronFaces == null) {
 			polyhedronFaces = new ArrayList<Vertices>();
-		else
+		} else {
 			polyhedronFaces.clear();
+		}
 
 		// set the point map
 		setNewCoords();
@@ -978,13 +1002,15 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		outputPolygons = new OutputHandler<GeoPolygon3D>(
 				new elementFactory<GeoPolygon3D>() {
+					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons, true);
 						p.setParentAlgorithm(
 								AlgoIntersectRegionPlanePolyhedron.this);
-						if (outputPolygons.size() > 0)
+						if (outputPolygons.size() > 0) {
 							p.setAllVisualProperties(
 									outputPolygons.getElement(0), false);
+						}
 						p.setViewFlags(getFirstInput().getViewSet());
 						p.setVisibleInView3D(getFirstInput());
 						p.setVisibleInViewForPlane(getFirstInput());
@@ -1001,6 +1027,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		outputPoints = new OutputHandler<GeoPoint3D>(
 				new elementFactory<GeoPoint3D>() {
+					@Override
 					public GeoPoint3D newElement() {
 						GeoPoint3D newPoint = new GeoPoint3D(cons);
 						newPoint.setCoords(0, 0, 0, 1);
@@ -1052,6 +1079,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		outputSegmentsPolyhedron = // createOutputSegments();
 				new OutputHandler<GeoSegment3D>(
 						new elementFactory<GeoSegment3D>() {
+							@Override
 							public GeoSegment3D newElement() {
 								GeoSegment3D segment = (GeoSegment3D) outputPolygons
 										.getElement(0).createSegment(
@@ -1113,19 +1141,24 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 */
 	public static final Comparator<Coords> COORDS_COMPARATOR = new Comparator<Coords>() {
 
+		@Override
 		public int compare(Coords o1, Coords o) {
 			// 1) check vectors lengths
-			if (o1.val.length < o.val.length)
+			if (o1.val.length < o.val.length) {
 				return -1;
-			if (o1.val.length > o.val.length)
+			}
+			if (o1.val.length > o.val.length) {
 				return 1;
+			}
 
 			// 2) check if one value is lower
 			for (int i = 0; i < o1.val.length; i++) {
-				if (Kernel.isGreater(o.val[i], o1.val[i]))
+				if (Kernel.isGreater(o.val[i], o1.val[i])) {
 					return -1;
-				if (Kernel.isGreater(o1.val[i], o.val[i]))
+				}
+				if (Kernel.isGreater(o1.val[i], o.val[i])) {
 					return 1;
+				}
 			}
 
 			// 3) vectors are equal

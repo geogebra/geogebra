@@ -61,13 +61,15 @@ public class AlgoRotate extends AlgoTransformation {
 
 		// create output object
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof PointRotateable)
+		if (outGeo instanceof PointRotateable) {
 			out = (PointRotateable) outGeo;
+		}
 
 		setInputOutput();
 		compute();
-		if (inGeo.isGeoFunction())
+		if (inGeo.isGeoFunction()) {
 			cons.registerEuclidianViewCE(this);
+		}
 	}
 
 	@Override
@@ -112,14 +114,16 @@ public class AlgoRotate extends AlgoTransformation {
 		if (inGeo instanceof GeoFunction) {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
-		} else
+		} else {
 			outGeo.set(inGeo);
+		}
 		if (!outGeo.isDefined()) {
 			return;
 		}
 		out.rotate(angle);
-		if (inGeo.isLimitedPath())
+		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
+		}
 	}
 
 	@Override
@@ -134,15 +138,17 @@ public class AlgoRotate extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList))
+		if (!(outGeo instanceof GeoList)) {
 			out = (Rotateable) outGeo;
+		}
 
 	}
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoFunction)
+		if (geo instanceof GeoFunction) {
 			return new GeoCurveCartesian(cons);
+		}
 		return super.getResultTemplate(geo);
 	}
 

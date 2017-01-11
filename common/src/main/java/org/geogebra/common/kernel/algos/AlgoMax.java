@@ -46,8 +46,9 @@ public class AlgoMax extends AlgoTwoNumFunction {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double max = Math.max(a.getDouble(), b.getDouble());
 			num.setValue(max);
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

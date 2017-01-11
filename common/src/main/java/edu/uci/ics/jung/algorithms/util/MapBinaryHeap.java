@@ -128,11 +128,13 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	/**
 	 * Returns the element at the top of the heap; does not alter the heap.
 	 */
+	@Override
 	public T peek() {
-		if (heap.size() > 0)
+		if (heap.size() > 0) {
 			return heap.elementAt(TOP);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
@@ -292,11 +294,13 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		/**
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		@SuppressWarnings("unchecked")
 		public int compare(T arg0, T arg1) {
-			if (!(arg0 instanceof Comparable) || !(arg1 instanceof Comparable))
+			if (!(arg0 instanceof Comparable) || !(arg1 instanceof Comparable)) {
 				throw new IllegalArgumentException(
 						"Arguments must be Comparable");
+			}
 
 			return ((Comparable<T>) arg0).compareTo(arg1);
 		}
@@ -335,17 +339,21 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public T element() throws NoSuchElementException {
 		T top = this.peek();
-		if (top == null)
+		if (top == null) {
 			throw new NoSuchElementException();
+		}
 		return top;
 	}
 
+	@Override
 	public boolean offer(T o) {
 		return add(o);
 	}
 
+	@Override
 	public T poll() {
 		T top = this.peek();
 		if (top != null) {
@@ -354,18 +362,21 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 			object_indices.put(bottom_elt, Integer.valueOf(TOP));
 
 			heap.setSize(heap.size() - 1); // remove the last element
-			if (heap.size() > 1)
+			if (heap.size() > 1) {
 				percolateDown(TOP);
+			}
 
 			object_indices.remove(top);
 		}
 		return top;
 	}
 
+	@Override
 	public T remove() {
 		T top = this.poll();
-		if (top == null)
+		if (top == null) {
 			throw new NoSuchElementException();
+		}
 		return top;
 	}
 

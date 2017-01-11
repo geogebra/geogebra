@@ -30,8 +30,9 @@ public class CmdZip extends CommandProcessor {
 		// avoid
 		// "Command Sequence not known eg
 		// Sequence[If[Element[list1,i]=="b",0,1]]
-		if (n < 3)
+		if (n < 3) {
 			throw argNumErr(app, c, n);
+		}
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement arg = null;
@@ -43,9 +44,10 @@ public class CmdZip extends CommandProcessor {
 			arg = resArgsForZip(c, vars, over);
 		} finally {
 			for (GeoElement localVar : vars) {
-				if (localVar != null)
+				if (localVar != null) {
 					cons.removeLocalVariable(
 							localVar.getLabel(StringTemplate.defaultTemplate));
+				}
 			}
 			cons.setSuppressLabelCreation(oldval);
 		}

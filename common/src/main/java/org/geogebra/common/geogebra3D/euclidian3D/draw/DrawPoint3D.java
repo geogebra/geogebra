@@ -149,10 +149,12 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	}
 
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
 
 	}
 
+	@Override
 	public void updatePreview() {
 
 	}
@@ -171,6 +173,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	// FUNCTION2VAR INTERFACE
 	// /////////////////////////////////
 
+	@Override
 	public Coords evaluatePoint(double u, double v) {
 
 		GeoPointND point = (GeoPointND) getGeoElement();
@@ -179,14 +182,16 @@ public class DrawPoint3D extends Drawable3DCurves
 		Coords n = new Coords(new double[] { Math.cos(u) * Math.cos(v) * r,
 				Math.sin(u) * Math.cos(v) * r, Math.sin(v) * r });
 
-		return (Coords) n.add(point.getInhomCoordsInD3());
+		return n.add(point.getInhomCoordsInD3());
 	}
 
+	@Override
 	public Coords evaluateNormal(double u, double v) {
 		return new Coords(new double[] { Math.cos(u) * Math.cos(v),
 				Math.sin(u) * Math.cos(v), Math.sin(v) });
 	}
 
+	@Override
 	public double getMinParameter(int index) {
 		switch (index) {
 		case 0: // u
@@ -197,6 +202,7 @@ public class DrawPoint3D extends Drawable3DCurves
 		}
 	}
 
+	@Override
 	public double getMaxParameter(int index) {
 		switch (index) {
 		case 0: // u

@@ -215,8 +215,9 @@ public class ChangeableCoordParent {
 				-viewDirection.dotproduct3(direction)));
 		double ld = direction2.dotproduct3(direction2);
 
-		if (Kernel.isZero(ld))
+		if (Kernel.isZero(ld)) {
 			return false;
+		}
 
 		double shift = direction2.dotproduct3(rwTransVec) / ld;
 		if (!MyDouble.isFinite(shift)) {

@@ -28,6 +28,7 @@ public interface VectorValue extends VectorNDValue {
 	/**
 	 * @return this vector value as GeoVec2D
 	 */
+	@Override
 	public GeoVec2D getVector();
 
 	/**
@@ -35,6 +36,7 @@ public interface VectorValue extends VectorNDValue {
 	 * 
 	 * @return Kernel.COORD_*
 	 */
+	@Override
 	public int getMode();
 
 	/**
@@ -43,5 +45,6 @@ public interface VectorValue extends VectorNDValue {
 	 * @param mode
 	 *            Kernel.COORD_*
 	 */
+	@Override
 	public void setMode(int mode);
 }

@@ -203,10 +203,11 @@ public abstract class Renderer {
 		// clip planes
 		if (waitForUpdateClipPlanes) {
 			// Application.debug(enableClipPlanes);
-			if (enableClipPlanes)
+			if (enableClipPlanes) {
 				enableClipPlanes();
-			else
+			} else {
 				disableClipPlanes();
+			}
 			waitForUpdateClipPlanes = false;
 		}
 
@@ -788,13 +789,15 @@ public abstract class Renderer {
 
 		disableTextures();
 
-		if (enableClipPlanes)
+		if (enableClipPlanes) {
 			disableClipPlanes();
+		}
 
 		view3D.drawMouseCursor(this);
 
-		if (enableClipPlanes)
+		if (enableClipPlanes) {
 			enableClipPlanes();
+		}
 
 	}
 
@@ -845,16 +848,18 @@ public abstract class Renderer {
 	 * enable clipping if needed
 	 */
 	public void enableClipPlanesIfNeeded() {
-		if (!enableClipPlanes)
+		if (!enableClipPlanes) {
 			enableClipPlanes();
+		}
 	}
 
 	/**
 	 * disable clipping if needed
 	 */
 	public void disableClipPlanesIfNeeded() {
-		if (!enableClipPlanes)
+		if (!enableClipPlanes) {
 			disableClipPlanes();
+		}
 	}
 
 	/**
@@ -1203,15 +1208,17 @@ public abstract class Renderer {
 	 */
 	final public void drawCursor(int type) {
 
-		if (!PlotterCursor.isTypeAlready(type))
+		if (!PlotterCursor.isTypeAlready(type)) {
 			disableLighting();
+		}
 
 		initMatrix();
 		geometryManager.draw(geometryManager.cursor.getIndex(type));
 		resetMatrix();
 
-		if (!PlotterCursor.isTypeAlready(type))
+		if (!PlotterCursor.isTypeAlready(type)) {
 			enableLighting();
+		}
 
 	}
 
@@ -1735,11 +1742,13 @@ public abstract class Renderer {
 			v2 = v;
 		}
 
-		if (v1 > minmax[0])
+		if (v1 > minmax[0]) {
 			minmax[0] = v1;
+		}
 
-		if (v2 < minmax[1])
+		if (v2 < minmax[1]) {
 			minmax[1] = v2;
+		}
 
 		return minmax;
 	}
@@ -2120,8 +2129,9 @@ public abstract class Renderer {
 	public static final int firstPowerOfTwoGreaterThan(int val) {
 
 		int ret = 1;
-		while (ret < val)
+		while (ret < val) {
 			ret *= 2;
+		}
 		return ret;
 
 	}

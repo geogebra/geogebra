@@ -26,10 +26,12 @@ public abstract class CmdOneNumber extends CommandProcessor {
 	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
-		if (args.length != 1)
+		if (args.length != 1) {
 			throw argNumErr(app, c, args.length);
-		if (!(args[0] instanceof GeoNumberValue))
+		}
+		if (!(args[0] instanceof GeoNumberValue)) {
 			throw argErr(app, c, args[0]);
+		}
 		return new GeoElement[] {
 				getResult((GeoNumberValue) args[0], c.getLabel()) };
 	}

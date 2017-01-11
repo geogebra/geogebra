@@ -107,10 +107,12 @@ public class DistanceStatistics {
 				{
 					Number dist = d.getDistance(v, w);
 					if (dist == null) {
-						if (!use_max)
+						if (!use_max) {
 							return Double.POSITIVE_INFINITY;
-					} else
+						}
+					} else {
 						diameter = Math.max(diameter, dist.doubleValue());
+					}
 				}
 			}
 		}

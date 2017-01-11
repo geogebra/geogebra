@@ -135,8 +135,9 @@ public class ToolCreationDialogModel {
 	 */
 	public void updateInputList() {
 		// only change empty input list
-		if (inputList.size() > 0)
+		if (inputList.size() > 0) {
 			return;
+		}
 
 		// get output objects
 		GeoElement[] output = outputList.toGeoElements();
@@ -251,9 +252,10 @@ public class ToolCreationDialogModel {
 	public boolean overwriteMacro(Macro macro) {
 		boolean compatible = newTool.getNeededTypesString()
 				.equals(macro.getNeededTypesString());
-		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++)
+		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++) {
 			compatible = compatible && macro.getMacroOutput()[i].getClass()
 					.equals(newTool.getMacroOutput()[i].getClass());
+		}
 		Kernel kernel = macro.getKernel();
 		App appToSave = kernel.getApplication();
 		if (compatible) {
@@ -398,15 +400,17 @@ public class ToolCreationDialogModel {
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(macro.getMacroInput()[i]
 					.getLabel(StringTemplate.defaultTemplate));
-			if (el != null)
+			if (el != null) {
 				this.inputList.add(0, el);
+			}
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
 			GeoElement el = app.getKernel()
 					.lookupLabel(macro.getMacroOutput()[i]
 							.getLabel(StringTemplate.defaultTemplate));
-			if (el != null)
+			if (el != null) {
 				this.outputList.add(0, el);
+			}
 		}
 	}
 

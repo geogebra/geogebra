@@ -75,9 +75,10 @@ public class CmdFunction extends CommandProcessor {
 				fv = null;
 				if (varName != null || kernelA.getConstruction()
 						.getRegisteredFunctionVariable() != null) {
-					if (varName == null)
+					if (varName == null) {
 						varName = kernelA.getConstruction()
 								.getRegisteredFunctionVariable();
+					}
 					fv = new FunctionVariable(kernelA, varName);
 					int r = c.getArgument(0).replaceVariables(varName, fv);
 					c.getArgument(0).replaceVariables(varName, fv);
@@ -148,9 +149,10 @@ public class CmdFunction extends CommandProcessor {
 
 			if (varName != null || kernelA.getConstruction()
 					.getRegisteredFunctionVariable() != null) {
-				if (varName == null)
+				if (varName == null) {
 					varName = kernelA.getConstruction()
 							.getRegisteredFunctionVariable();
+				}
 				fv = new FunctionVariable(kernelA, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);
@@ -179,10 +181,12 @@ public class CmdFunction extends CommandProcessor {
 							.processExpressionNode(c.getArgument(1), silent)[0];
 					GeoElement high = kernelA.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(2), silent)[0];
-					if (!(low instanceof NumberValue))
+					if (!(low instanceof NumberValue)) {
 						throw argErr(app, c, low);
-					if (!(high instanceof NumberValue))
+					}
+					if (!(high instanceof NumberValue)) {
 						throw argErr(app, c, high);
+					}
 					c.getArgument(1).replaceVariables(varName, fv);
 					c.getArgument(0).resolveVariables(argInfo);
 

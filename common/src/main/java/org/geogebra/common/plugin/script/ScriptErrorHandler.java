@@ -19,6 +19,7 @@ public class ScriptErrorHandler implements ErrorHandler {
 		this.line = i;
 	}
 
+	@Override
 	public void showError(String msg) {
 		if (evt.type == EventType.UPDATE) {
 			app.setBlockUpdateScripts(true);
@@ -31,15 +32,18 @@ public class ScriptErrorHandler implements ErrorHandler {
 
 	}
 
+	@Override
 	public void resetError() {
 		// nothing to do
 	}
 
+	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return false;
 	}
 
+	@Override
 	public void showCommandError(String command, String message) {
 		if (evt.type == EventType.UPDATE) {
 			app.setBlockUpdateScripts(true);
@@ -52,6 +56,7 @@ public class ScriptErrorHandler implements ErrorHandler {
 
 	}
 
+	@Override
 	public String getCurrentCommand() {
 		// TODO Auto-generated method stub
 		return null;

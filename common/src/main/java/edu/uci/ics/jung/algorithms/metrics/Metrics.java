@@ -45,9 +45,9 @@ public class Metrics {
 
 		for (V v : graph.getVertices()) {
 			int n = graph.getNeighborCount(v);
-			if (n < 2)
+			if (n < 2) {
 				coefficients.put(v, new Double(0));
-			else {
+			} else {
 				// how many of v's neighbors are connected to each other?
 				ArrayList<V> neighbors = new ArrayList<V>(
 						graph.getNeighbors(v));

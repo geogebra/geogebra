@@ -129,13 +129,15 @@ public class TextOptionsModel extends OptionsModel {
 
 		int decimals = geo0.getPrintDecimals();
 		if (decimals > 0 && decimals < OptionsMenu.decimalsLookupLength()
-				&& !geo0.useSignificantFigures())
+				&& !geo0.useSignificantFigures()) {
 			selItem = OptionsMenu.decimalsLookup(decimals);
+		}
 
 		int figures = geo0.getPrintFigures();
 		if (figures > 0 && figures < OptionsMenu.figuresLookupLength()
-				&& geo0.useSignificantFigures())
+				&& geo0.useSignificantFigures()) {
 			selItem = OptionsMenu.figuresLookup(figures);
+		}
 
 		listener.selectDecimalPlaces(selItem);
 		listener.setSecondLineVisible(
@@ -248,10 +250,12 @@ public class TextOptionsModel extends OptionsModel {
 
 	public static int getFontStyle(boolean isBold, boolean isItalic) {
 		int style = 0;
-		if (isBold)
+		if (isBold) {
 			style += 1;
-		if (isItalic)
+		}
+		if (isItalic) {
 			style += 2;
+		}
 		return style;
 	}
 

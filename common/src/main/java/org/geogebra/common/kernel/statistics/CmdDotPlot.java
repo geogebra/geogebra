@@ -54,10 +54,11 @@ public class CmdDotPlot extends CommandProcessor {
 						(GeoList) arg[0], (GeoBoolean) arg[1], null);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())
@@ -67,12 +68,13 @@ public class CmdDotPlot extends CommandProcessor {
 						(GeoNumeric) arg[2]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else
+			} else {
 				throw argErr(app, c, arg[2]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

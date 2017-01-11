@@ -197,8 +197,10 @@ public class CurveFitter {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public MultivariateMatrixFunction jacobian() {
 			return new MultivariateMatrixFunction() {
+				@Override
 				public double[][] value(double[] point)
 						throws FunctionEvaluationException,
 						IllegalArgumentException {
@@ -218,6 +220,7 @@ public class CurveFitter {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public double[] value(double[] point)
 				throws FunctionEvaluationException, IllegalArgumentException {
 

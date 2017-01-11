@@ -40,6 +40,7 @@ public class UndirectedOrderedSparseMultigraph<V, E> extends
 	 */
 	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
 		return new Factory<UndirectedGraph<V, E>>() {
+			@Override
 			public UndirectedGraph<V, E> create() {
 				return new UndirectedOrderedSparseMultigraph<V, E>();
 			}
@@ -69,18 +70,20 @@ public class UndirectedOrderedSparseMultigraph<V, E> extends
 
 	@Override
 	public Collection<V> getNeighbors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Set<V> neighbors = new LinkedHashSet<V>();
 		for (E edge : getIncident_internal(vertex)) {
 			Pair<V> endpoints = this.getEndpoints(edge);
 			V e_a = endpoints.getFirst();
 			V e_b = endpoints.getSecond();
-			if (vertex.equals(e_a))
+			if (vertex.equals(e_a)) {
 				neighbors.add(e_b);
-			else
+			} else {
 				neighbors.add(e_a);
+			}
 		}
 
 		return Collections.unmodifiableCollection(neighbors);

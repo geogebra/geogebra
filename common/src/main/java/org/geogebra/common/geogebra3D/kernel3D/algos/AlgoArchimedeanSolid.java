@@ -114,12 +114,13 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 */
 	protected void setLabels(String[] labels) {
 
-		if (labels == null || labels.length <= 1)
+		if (labels == null || labels.length <= 1) {
 			polyhedron.initLabels(labels);
-		else {
+		} else {
 			polyhedron.setAllLabelsAreSet(true);
-			for (int i = 0; i < labels.length; i++)
+			for (int i = 0; i < labels.length; i++) {
 				getOutput(i).setLabel(labels[i]);
+			}
 		}
 
 	}
@@ -197,8 +198,9 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		int[][] faces = solidDescription.getFaces();
 		for (int i = 0; i < faces.length; i++) {
 			polyhedron.startNewFace();
-			for (int j = 0; j < faces[i].length; j++)
+			for (int j = 0; j < faces[i].length; j++) {
 				polyhedron.addPointToCurrentFace(points[faces[i][j]]);
+			}
 			polyhedron.endCurrentFace();
 		}
 
@@ -319,8 +321,9 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private void setUndefined() {
 		polyhedron.setUndefined();
 
-		for (int i = 0; i < outputPoints.size(); i++)
+		for (int i = 0; i < outputPoints.size(); i++) {
 			outputPoints.getElement(i).setUndefined();
+		}
 
 	}
 

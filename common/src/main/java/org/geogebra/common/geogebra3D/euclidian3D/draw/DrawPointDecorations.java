@@ -140,8 +140,9 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom())
+		if (getView3D().viewChangedByZoom()) {
 			updateForItSelf();
+		}
 	}
 
 	// /////////////////////////////////////////

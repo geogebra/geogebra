@@ -61,6 +61,7 @@ public final class FalsePredicate<T> implements Predicate<T> {
 	 *            the input object
 	 * @return false always
 	 */
+	@Override
 	public boolean evaluate(T object) {
 		return false;
 	}

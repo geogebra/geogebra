@@ -141,6 +141,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 
 		outputs = new OutputHandler<GeoPoint3D>(
 				new elementFactory<GeoPoint3D>() {
+					@Override
 					public GeoPoint3D newElement() {
 						GeoPoint3D p = new GeoPoint3D(cons);
 						p.setParentAlgorithm(AlgoIntersectImplicitSurface.this);

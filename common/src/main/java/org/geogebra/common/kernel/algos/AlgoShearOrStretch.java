@@ -83,14 +83,16 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 
 		setInputOutput();
 		compute();
-		if (inGeo.isGeoFunction())
+		if (inGeo.isGeoFunction()) {
 			cons.registerEuclidianViewCE(this);
+		}
 	}
 
 	@Override
 	public Commands getClassName() {
-		if (shear)
+		if (shear) {
 			return Commands.Shear;
+		}
 		return Commands.Stretch;
 	}
 
@@ -100,8 +102,9 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		input = new GeoElement[num == null ? 2 : 3];
 		input[0] = inGeo;
 		input[1] = line;
-		if (num != null)
+		if (num != null) {
 			input[2] = num.toGeoElement();
+		}
 
 		setOutputLength(1);
 		setOutput(0, outGeo);
@@ -127,8 +130,9 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		if (inGeo.isGeoFunction()) {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
-		} else
+		} else {
 			outGeo.set(inGeo);
+		}
 		if (!outGeo.isDefined()) {
 			return;
 		}
@@ -180,15 +184,17 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList))
+		if (!(outGeo instanceof GeoList)) {
 			out = (MatrixTransformable) outGeo;
+		}
 
 	}
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoFunction)
+		if (geo instanceof GeoFunction) {
 			return new GeoCurveCartesian(cons);
+		}
 		return super.getResultTemplate(geo);
 	}
 
@@ -203,8 +209,9 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 
 	@Override
 	public boolean swapOrientation(GeoConicPartND arc) {
-		if (shear || num == null)
+		if (shear || num == null) {
 			return (arc == null || arc.positiveOrientation());
+		}
 		return (arc == null || arc.positiveOrientation())
 				^ (num.getDouble() < 0);
 	}

@@ -161,6 +161,7 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getU() throws InvalidMatrixException {
 		// return the cached matrix
 		return cachedU;
@@ -168,6 +169,7 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getUT() throws InvalidMatrixException {
 
 		if (cachedUt == null) {
@@ -180,6 +182,7 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getS() throws InvalidMatrixException {
 
 		if (cachedS == null) {
@@ -192,11 +195,13 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getSingularValues() throws InvalidMatrixException {
 		return Cloner.clone(singularValues);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getV() throws InvalidMatrixException {
 		// return the cached matrix
 		return cachedV;
@@ -204,6 +209,7 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getVT() throws InvalidMatrixException {
 
 		if (cachedVt == null) {
@@ -216,6 +222,7 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getCovariance(final double minSingularValue) {
 
 		// get the number of singular values to consider
@@ -248,16 +255,19 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getNorm() throws InvalidMatrixException {
 		return singularValues[0];
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getConditionNumber() throws InvalidMatrixException {
 		return singularValues[0] / singularValues[singularValues.length - 1];
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getRank() throws IllegalStateException {
 
 		final double threshold = FastMath.max(m, n)
@@ -273,6 +283,7 @@ public class SingularValueDecompositionImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public DecompositionSolver getSolver() {
 		return new Solver(singularValues, getUT(), getV(),
 				getRank() == Math.max(m, n));
@@ -331,6 +342,7 @@ public class SingularValueDecompositionImpl
 		 * @exception IllegalArgumentException
 		 *                if matrices dimensions don't match
 		 */
+		@Override
 		public double[] solve(final double[] b)
 				throws IllegalArgumentException {
 			return pseudoInverse.operate(b);
@@ -349,6 +361,7 @@ public class SingularValueDecompositionImpl
 		 * @exception IllegalArgumentException
 		 *                if matrices dimensions don't match
 		 */
+		@Override
 		public RealVector solve(final RealVector b)
 				throws IllegalArgumentException {
 			return pseudoInverse.operate(b);
@@ -367,6 +380,7 @@ public class SingularValueDecompositionImpl
 		 * @exception IllegalArgumentException
 		 *                if matrices dimensions don't match
 		 */
+		@Override
 		public RealMatrix solve(final RealMatrix b)
 				throws IllegalArgumentException {
 			return pseudoInverse.multiply(b);
@@ -377,6 +391,7 @@ public class SingularValueDecompositionImpl
 		 * 
 		 * @return true if the decomposed matrix is non-singular
 		 */
+		@Override
 		public boolean isNonSingular() {
 			return nonSingular;
 		}
@@ -386,6 +401,7 @@ public class SingularValueDecompositionImpl
 		 * 
 		 * @return inverse matrix
 		 */
+		@Override
 		public RealMatrix getInverse() {
 			return pseudoInverse;
 		}

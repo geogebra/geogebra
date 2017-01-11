@@ -171,8 +171,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 			if (((Traceable) conicPart).getTrace()) {
 				isTracing = true;
 				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null)
+				if (g2 != null) {
 					drawTrace(g2);
+				}
 			} else {
 				if (isTracing) {
 					isTracing = false;
@@ -351,8 +352,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible())
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
+		}
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
@@ -440,10 +442,12 @@ public class DrawConicPart extends Drawable implements Previewable {
 			break;
 		}
 
-		if (conicPart != null)
+		if (conicPart != null) {
 			((GeoElement) conicPart).setLabelVisible(false);
+		}
 	}
 
+	@Override
 	final public void updatePreview() {
 
 		// two selected points + mouse position needed for preview
@@ -463,6 +467,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
 
@@ -489,10 +494,12 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		draw(g2);
 	}
 
+	@Override
 	public void disposePreview() {
 		if (conicPart != null) {
 			((GeoConicND) conicPart).remove();
@@ -501,8 +508,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		if (!isVisible)
+		if (!isVisible) {
 			return false;
+		}
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
@@ -540,8 +548,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (!isVisible)
+		if (!isVisible) {
 			return false;
+		}
 
 		boolean pathHit = false, regionHit = false;
 		switch (draw_type) {

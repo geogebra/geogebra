@@ -79,9 +79,10 @@ public class CmdIterationList extends CommandProcessor {
 				arg1 = resArgsForIteration(c, vars, over, num);
 			} finally {
 				for (GeoElement localVar : vars) {
-					if (localVar != null)
+					if (localVar != null) {
 						cons.removeLocalVariable(localVar
 								.getLabel(StringTemplate.defaultTemplate));
+					}
 				}
 				cons.setSuppressLabelCreation(oldval);
 			}

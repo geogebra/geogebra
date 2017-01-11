@@ -75,8 +75,9 @@ public class AlgoCircle3DPointRadiusDirection
 	 */
 	@Override
 	final protected String getCommandString() {
-		if (getForAxis() instanceof GeoCoordSys2D)
+		if (getForAxis() instanceof GeoCoordSys2D) {
 			return "CircleWithCenterARadiusBParallelToC";
+		}
 
 		return "CircleWithCenterAandRadiusBAxisParallelToC";
 	}

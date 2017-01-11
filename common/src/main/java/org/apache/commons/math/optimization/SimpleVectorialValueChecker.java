@@ -79,6 +79,7 @@ public class SimpleVectorialValueChecker
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public boolean converged(final int iteration,
 			final VectorialPointValuePair previous,
 			final VectorialPointValuePair current) {

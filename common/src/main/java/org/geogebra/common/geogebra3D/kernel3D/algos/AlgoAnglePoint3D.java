@@ -32,6 +32,7 @@ public class AlgoAnglePoint3D extends AlgoAngleElement3D {
 		super(cons, label, vec);
 	}
 
+	@Override
 	protected final Coords getVectorCoords() {
 
 		Coords v = ((GeoPoint3D) vec).getCoordsInD3().copyVector();
@@ -39,10 +40,12 @@ public class AlgoAnglePoint3D extends AlgoAngleElement3D {
 		return v;
 	}
 
+	@Override
 	protected final Coords getOrigin() {
 		return Coords.O;
 	}
 
+	@Override
 	protected final void setOrigin() {
 		// nothing to do here
 	}

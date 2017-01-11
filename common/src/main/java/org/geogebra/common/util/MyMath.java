@@ -212,8 +212,9 @@ public final class MyMath {
 	 * @return closest bigger pretty integer
 	 */
 	public static double nextPrettyNumber(double t, double min) {
-		if (t < min)
+		if (t < min) {
 			return 1;
+		}
 		double pot = Math.pow(10, Math.floor(Math.log10(t)));
 		double n = t / pot;
 
@@ -246,11 +247,11 @@ public final class MyMath {
 		double absx = Math.abs(x);
 		double absy = Math.abs(y);
 
-		if (absx == 0)
+		if (absx == 0) {
 			res = absy;
-		else if (absy == 0)
+		} else if (absy == 0) {
 			res = absx;
-		else {
+		} else {
 			res = lengthAbsNoZero(absx, absy);
 		}
 		return res;
@@ -347,12 +348,14 @@ public final class MyMath {
 		int l2 = m2[0].length;
 		int l3 = m1[0].length;
 		double[][] result = new double[l1][l2];
-		for (int i = 0; i < l1; i++)
+		for (int i = 0; i < l1; i++) {
 			for (int j = 0; j < l2; j++) {
 				result[i][j] = 0;
-				for (int k = 0; k < l3; k++)
+				for (int k = 0; k < l3; k++) {
 					result[i][j] += m1[i][k] * m2[k][j];
+				}
 			}
+		}
 		return result;
 	}
 
@@ -365,8 +368,9 @@ public final class MyMath {
 	 */
 	public static double binomial(double n, double k) {
 		try {
-			if (n == 0d && k == 0d)
+			if (n == 0d && k == 0d) {
 				return 1d;
+			}
 			double r = k > n / 2 ? n - k : k;
 			if (n < 1d || r < 0d || n < r) {
 				return 0d;
@@ -381,14 +385,18 @@ public final class MyMath {
 
 			double ncr = binomLog(n, r);
 			if (ncr == Double.POSITIVE_INFINITY)
+			 {
 				return Double.POSITIVE_INFINITY; // check to stop needless slow
 													// calculations
+			}
 
 			// BinomLog is not exact for some values
 			// (determined by trial and error)
 			if (n <= 37)
+			 {
 				return ncr;
 			// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
+			}
 
 			// BinomBig is more accurate but slower
 			// (but cannot be exact if the answer has more than about 16

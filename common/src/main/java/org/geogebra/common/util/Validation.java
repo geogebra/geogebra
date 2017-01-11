@@ -31,8 +31,9 @@ public class Validation {
 				Log.debug("invalid number:" + tf.getText());
 			}
 			if (!Double.isNaN(val) && !Double.isInfinite(val)
-					&& checkInterval(val))
+					&& checkInterval(val)) {
 				return val;
+			}
 			tf.setText(def + "");
 			return def;
 		}

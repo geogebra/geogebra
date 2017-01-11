@@ -48,8 +48,9 @@ public class CmdFactors extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 
 			// more than one argument
 		default:

@@ -91,8 +91,9 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		input = new GeoElement[scaleAdjustment == null ? 1 : 2];
 		input[0] = geoList;
 
-		if (scaleAdjustment != null)
+		if (scaleAdjustment != null) {
 			input[1] = scaleAdjustment;
+		}
 
 		super.setOutputLength(1);
 		super.setOutput(0, text);
@@ -117,8 +118,9 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		int size = data.length;
 		int[] outlierIndex = { 0, size };
 
-		if (size <= 1)
+		if (size <= 1) {
 			return outlierIndex;
+		}
 
 		// find Q1 and Q3
 		double Q1;
@@ -158,11 +160,13 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		double IQRplus = 1.5 * (Q3 - Q1);
 
 		for (int i = 0; i < data.length
-				&& data[i] < Q1 - IQRplus - Kernel.STANDARD_PRECISION; i++)
+				&& data[i] < Q1 - IQRplus - Kernel.STANDARD_PRECISION; i++) {
 			outlierIndex[0]++;
+		}
 		for (int i = data.length - 1; i >= 0
-				&& data[i] > Q3 + IQRplus + Kernel.STANDARD_PRECISION; i--)
+				&& data[i] > Q3 + IQRplus + Kernel.STANDARD_PRECISION; i--) {
 			outlierIndex[1]--;
+		}
 
 		return outlierIndex;
 	}
@@ -226,10 +230,11 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			}
 
 			// now add our leaf to the stem
-			if (stem == 0 && n < 0)
+			if (stem == 0 && n < 0) {
 				lines.get(lines.size() - 2).add(Integer.valueOf(leaf));
-			else
+			} else {
 				lines.get(lines.size() - 1).add(Integer.valueOf(leaf));
+			}
 		}
 
 		return lines;
@@ -357,10 +362,11 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			// add the stem and handle the case of -0
 			stem = currentLine.get(0);
 			if (stem == 0 && (r < stemLines.size() - 2
-					&& stemLines.get(r + 1).get(0) == 0))
+					&& stemLines.get(r + 1).get(0) == 0)) {
 				body.append("-" + stem + "");
-			else
+			} else {
 				body.append(stem + "");
+			}
 			body.append("&"); // column separator
 
 			// add the leaf values
@@ -368,7 +374,9 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 				body.append(
 						currentLine.size() > c ? currentLine.get(c) + "" : " ");
 				if (c < maxSize - 1)
+				 {
 					body.append("&"); // column separator
+				}
 			}
 			body.append(" \\\\ "); // newline in LaTeX ie \\
 		}
@@ -398,12 +406,14 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		sb.append('{');
 		sb.append("\\begin{tabular}{ll}");
-		if (outlierIndex[0] > 0)
+		if (outlierIndex[0] > 0) {
 			sb.append(low);
+		}
 		// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 		sb.append(body);
-		if (outlierIndex[1] < data.length)
+		if (outlierIndex[1] < data.length) {
 			sb.append(high);
+		}
 		sb.append(key);
 		sb.append("\\end{tabular}");
 		sb.append('}');
@@ -445,10 +455,11 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 			body.append(" \\ggbtdlrR{ ");
 			if (stem == 0 && (r < stemLines.size() - 2
-					&& stemLines.get(r + 1).get(0) == 0))
+					&& stemLines.get(r + 1).get(0) == 0)) {
 				body.append("-" + stem + "");
-			else
+			} else {
 				body.append(stem + "");
+			}
 			body.append(" } ");
 
 			// add the leaf values
@@ -483,12 +494,14 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		sb.setLength(0);
 		sb.append('{');
-		if (outlierIndex[0] > 0)
+		if (outlierIndex[0] > 0) {
 			sb.append(low);
+		}
 		// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 		sb.append(body);
-		if (outlierIndex[1] < data.length)
+		if (outlierIndex[1] < data.length) {
 			sb.append(high);
+		}
 		sb.append(key);
 
 		sb.append('}');

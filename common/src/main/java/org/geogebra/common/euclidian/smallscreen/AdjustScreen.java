@@ -44,6 +44,7 @@ public class AdjustScreen {
 			// TODO Auto-generated constructor stub
 		}
 
+		@Override
 		public int compare(GeoNumeric o1, GeoNumeric o2) {
 			double y1 = o1.getSliderY();
 			double y2 = o2.getSliderY();
@@ -59,6 +60,7 @@ public class AdjustScreen {
 			// TODO Auto-generated constructor stub
 		}
 
+		@Override
 		public int compare(GeoNumeric o1, GeoNumeric o2) {
 			double x1 = o1.getSliderX();
 			double x2 = o2.getSliderX();
@@ -74,6 +76,7 @@ public class AdjustScreen {
 			// TODO Auto-generated constructor stub
 		}
 
+		@Override
 		public int compare(GeoButton o1, GeoButton o2) {
 			int y1 = o1.getAbsoluteScreenLocY();
 			int y2 = o2.getAbsoluteScreenLocY();

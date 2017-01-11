@@ -65,6 +65,7 @@ public class CloneTransformer<T> implements Transformer<T, T>, Serializable {
 	 *            the input object to transform
 	 * @return the transformed result
 	 */
+	@Override
 	public T transform(T input) {
 		if (input == null) {
 			return null;

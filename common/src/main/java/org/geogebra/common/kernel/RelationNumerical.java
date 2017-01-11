@@ -322,41 +322,37 @@ public class RelationNumerical {
 		// decide what relation method can be used
 
 		// point, point
-		if (a instanceof GeoPoint && b instanceof GeoPoint)
+		if (a instanceof GeoPoint && b instanceof GeoPoint) {
 			return relation((GeoPoint) a, (GeoPoint) b);
-		else if (a instanceof GeoVector && b instanceof GeoVector)
+		} else if (a instanceof GeoVector && b instanceof GeoVector) {
 			return relation((GeoVector) a, (GeoVector) b);
-		else if (a instanceof GeoSegmentND && b instanceof GeoSegmentND)
+		} else if (a instanceof GeoSegmentND && b instanceof GeoSegmentND) {
 			return relation((GeoSegmentND) a, (GeoSegmentND) b);
-		else if (a instanceof GeoLine && b instanceof GeoLine)
+		} else if (a instanceof GeoLine && b instanceof GeoLine) {
 			return relation((GeoLine) a, (GeoLine) b);
-		else if (a instanceof GeoConicPart && b instanceof GeoConicPart)
+		} else if (a instanceof GeoConicPart && b instanceof GeoConicPart) {
 			return relation((GeoConicPart) a, (GeoConicPart) b);
-		else if (a instanceof GeoConic && b instanceof GeoConic)
+		} else if (a instanceof GeoConic && b instanceof GeoConic) {
 			return relation((GeoConic) a, (GeoConic) b);
-		else if (a instanceof GeoFunction && b instanceof GeoFunction)
+		} else if (a instanceof GeoFunction && b instanceof GeoFunction) {
 			return relation((GeoFunction) a, (GeoFunction) b);
-
-		else if (a instanceof GeoPoint && b instanceof GeoPolygon)
+		} else if (a instanceof GeoPoint && b instanceof GeoPolygon) {
 			return relation((GeoPoint) a, (GeoPolygon) b);
-		else if (a instanceof GeoPolygon && b instanceof GeoPoint)
+		} else if (a instanceof GeoPolygon && b instanceof GeoPoint) {
 			return relation((GeoPoint) b, (GeoPolygon) a);
-
-		else if (a instanceof GeoPoint && b instanceof Path)
+		} else if (a instanceof GeoPoint && b instanceof Path) {
 			return relation((GeoPoint) a, (Path) b);
-		else if (a instanceof Path && b instanceof GeoPoint)
+		} else if (a instanceof Path && b instanceof GeoPoint) {
 			return relation((GeoPoint) b, (Path) a);
-
-		else if (a instanceof GeoConic && b instanceof GeoLine)
+		} else if (a instanceof GeoConic && b instanceof GeoLine) {
 			return relation((GeoLine) b, (GeoConic) a);
-		else if (a instanceof GeoLine && b instanceof GeoConic)
+		} else if (a instanceof GeoLine && b instanceof GeoConic) {
 			return relation((GeoLine) a, (GeoConic) b);
-
-		else if (a instanceof GeoNumberValue && b instanceof GeoNumberValue)
+		} else if (a instanceof GeoNumberValue && b instanceof GeoNumberValue) {
 			return relation((GeoNumberValue) a, (GeoNumberValue) b);
-		else if (a instanceof GeoList && b instanceof GeoList)
+		} else if (a instanceof GeoList && b instanceof GeoList) {
 			return relation((GeoList) a, (GeoList) b);
-		else {
+		} else {
 			register(null, null, loc.getPlain("AandBcannotBeCompared",
 					a.getColoredLabel(), b.getColoredLabel()));
 			return reports;
@@ -1137,12 +1133,13 @@ public class RelationNumerical {
 		StringBuilder sb = new StringBuilder();
 		// Michael Borcherds 2008-05-14
 		// updated for better translation
-		if (intersects)
+		if (intersects) {
 			sb.append(loc.getPlain("AIntersectsWithB", a.getColoredLabel(),
 					b.getColoredLabel()));
-		else
+		} else {
 			sb.append(loc.getPlain("ADoesNotIntersectWithB",
 					a.getColoredLabel(), b.getColoredLabel()));
+		}
 		return sb.toString();
 	}
 
@@ -1168,12 +1165,13 @@ public class RelationNumerical {
 	final public static String touchString(GeoElement a, GeoElement b,
 			boolean touches, Localization loc) {
 		StringBuilder sb = new StringBuilder();
-		if (touches)
+		if (touches) {
 			sb.append(loc.getPlain("ATouchesB", a.getColoredLabel(),
 					b.getColoredLabel()));
-		else
+		} else {
 			sb.append(loc.getPlain("ADoesNotIntersectWithB",
 					a.getColoredLabel(), b.getColoredLabel()));
+		}
 		return sb.toString();
 	}
 

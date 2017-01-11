@@ -99,10 +99,11 @@ public class Construction {
 		geoSetsTypeMap = new HashMap<GeoClass, TreeSet<GeoElement>>();
 		euclidianViewCE = new ArrayList<EuclidianViewCE>();
 
-		if (parentConstruction != null)
+		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
-		else
+		} else {
 			newConstructionDefaults();
+		}
 		// consDefaults = new ConstructionDefaults(this);
 		setIgnoringNewTypes(true);
 		initAxis();
@@ -310,10 +311,12 @@ public class Construction {
 	 * @return which constant geo (xAxis, yAxis, ...)
 	 */
 	final public Constants isConstantElement(GeoElement geo) {
-		if (geo == xAxis)
+		if (geo == xAxis) {
 			return Constants.X_AXIS;
-		if (geo == yAxis)
+		}
+		if (geo == yAxis) {
 			return Constants.Y_AXIS;
+		}
 
 		return companion.isConstantElement(geo);
 	}
@@ -447,8 +450,9 @@ public class Construction {
 	 */
 	protected boolean worksheetTextDefined() {
 		for (int i = 0; i < worksheetText.length; i++) {
-			if (worksheetText[i] != null && worksheetText[i].length() > 0)
+			if (worksheetText[i] != null && worksheetText[i].length() > 0) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -604,8 +608,9 @@ public class Construction {
 	 *            local variable object
 	 */
 	final public void addLocalVariable(String varname, GeoElement geo) {
-		if (localVariableTable == null)
+		if (localVariableTable == null) {
 			localVariableTable = new HashMap<String, GeoElement>();
+		}
 		localVariableTable.put(varname, geo);
 		geo.setLocalVariableLabel(varname);
 	}
@@ -620,8 +625,9 @@ public class Construction {
 	final public void removeLocalVariable(String varname) {
 		if (localVariableTable != null) {
 			GeoElement geo = localVariableTable.remove(varname);
-			if (geo != null)
+			if (geo != null) {
 				geo.undoLocalVariableLabel();
+			}
 		}
 	}
 
@@ -689,8 +695,9 @@ public class Construction {
 	 *            position
 	 */
 	protected void updateConstructionIndex(int pos) {
-		if (pos < 0)
+		if (pos < 0) {
 			return;
+		}
 		int size = ceList.size();
 		for (int i = pos; i < size; ++i) {
 			ceList.get(i).setConstructionIndex(i);
@@ -713,8 +720,9 @@ public class Construction {
 		for (int i = 0; i < size; ++i) {
 			AlgoElement algo = algoList.get(i);
 			if (algo.wantsConstructionProtocolUpdate()) {
-				if (updateAlgos == null)
+				if (updateAlgos == null) {
 					updateAlgos = new ArrayList<AlgoElement>();
+				}
 				updateAlgos.add(algo);
 			}
 		}
@@ -726,8 +734,9 @@ public class Construction {
 
 		if (updateAlgos != null) {
 			App app = kernel.getApplication();
-			if (app.isUsingFullGui() && app.getGuiManager() != null)
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				app.getGuiManager().updateConstructionProtocol();
+			}
 		}
 
 		return updateAlgos != null;
@@ -748,8 +757,9 @@ public class Construction {
 		updateConstructionIndex(index);
 
 		// update cas row references
-		if (ce instanceof GeoCasCell)
+		if (ce instanceof GeoCasCell) {
 			updateCasCellRows();
+		}
 
 		updateAllConstructionProtocolAlgorithms();
 	}
@@ -823,8 +833,9 @@ public class Construction {
 			}
 
 			// update cas row references
-			if (ce instanceof GeoCasCell || ce instanceof AlgoCasCellInterface)
+			if (ce instanceof GeoCasCell || ce instanceof AlgoCasCellInterface) {
 				updateCasCellRows();
+			}
 
 			updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
 		} // 2008-05-15
@@ -843,10 +854,12 @@ public class Construction {
 	 */
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
-		if (supressLabelCreation)
+		if (supressLabelCreation) {
 			return;
-		if (checkContains && ce.isInConstructionList())
+		}
+		if (checkContains && ce.isInConstructionList()) {
 			return;
+		}
 
 		/*
 		 * ++step; updateAllConstructionProtocolAlgorithms(); // Michael
@@ -866,9 +879,9 @@ public class Construction {
 	 */
 	public void removeFromConstructionList(ConstructionElement ce) {
 		int pos = ceList.indexOf(ce);
-		if (pos == -1)
+		if (pos == -1) {
 			return;
-		else if (pos <= step) {
+		} else if (pos <= step) {
 			ceList.remove(ce);
 			ce.setConstructionIndex(-1);
 			--step;
@@ -993,8 +1006,9 @@ public class Construction {
 	 *            construction element to be registered
 	 */
 	public final void registerEuclidianViewCE(EuclidianViewCE elem) {
-		if (!euclidianViewCE.contains(elem))
+		if (!euclidianViewCE.contains(elem)) {
 			euclidianViewCE.add(elem);
+		}
 	}
 
 	/**
@@ -1042,8 +1056,9 @@ public class Construction {
 
 			boolean needsUpdateCascade = elem.euclidianViewUpdate();
 			if (needsUpdateCascade) {
-				if (updateSet == null)
+				if (updateSet == null) {
 					updateSet = new AlgorithmSet();
+				}
 				if (elem instanceof GeoElement) {
 					GeoElement geo = (GeoElement) elem;
 					updateSet.addAll(geo.getAlgoUpdateSet());
@@ -1056,8 +1071,9 @@ public class Construction {
 				}
 			}
 		}
-		if (updateSet != null)
+		if (updateSet != null) {
 			updateSet.updateAll();
+		}
 		return didUpdate;
 	}
 
@@ -1076,8 +1092,9 @@ public class Construction {
 	 * Updates all random numbers of this construction.
 	 */
 	final public void updateAllRandomGeos() {
-		if (randomElements == null)
+		if (randomElements == null) {
 			return;
+		}
 
 		Iterator<GeoElement> it = randomElements.iterator();
 		while (it.hasNext()) {
@@ -1090,8 +1107,9 @@ public class Construction {
 	 * Updates all free random numbers of this construction.
 	 */
 	final public void updateAllFreeRandomGeosNoCascade() {
-		if (randomElements == null)
+		if (randomElements == null) {
 			return;
+		}
 
 		Iterator<GeoElement> it = randomElements.iterator();
 		while (it.hasNext()) {
@@ -1111,8 +1129,9 @@ public class Construction {
 	 *            Element to be added
 	 */
 	public void addRandomGeo(GeoElement num) {
-		if (randomElements == null)
+		if (randomElements == null) {
 			randomElements = new TreeSet<GeoElement>();
+		}
 		randomElements.add(num);
 		num.setRandomGeo(true);
 	}
@@ -1124,8 +1143,9 @@ public class Construction {
 	 *            Element to be removed
 	 */
 	public void removeRandomGeo(GeoElement num) {
-		if (randomElements != null)
+		if (randomElements != null) {
 			randomElements.remove(num);
+		}
 		num.setRandomGeo(false);
 	}
 
@@ -1384,8 +1404,9 @@ public class Construction {
 	 *            Construction index of element to look for
 	 */
 	public ConstructionElement getConstructionElement(int index) {
-		if (index < 0 || index >= ceList.size())
+		if (index < 0 || index >= ceList.size()) {
 			return null;
+		}
 		return ceList.get(index);
 	}
 
@@ -1401,8 +1422,9 @@ public class Construction {
 
 		while (index < ceList.size() && geo == null) {
 			ce = ceList.get(index);
-			if (ce instanceof GeoElement)
+			if (ce instanceof GeoElement) {
 				geo = (GeoElement) ce;
+			}
 			index++;
 		}
 
@@ -1449,8 +1471,9 @@ public class Construction {
 	 */
 	public void startCollectingRedefineCalls() {
 		collectRedefineCalls = true;
-		if (redefineMap == null)
+		if (redefineMap == null) {
 			redefineMap = new HashMap<GeoElement, GeoElement>();
+		}
 		redefineMap.clear();
 	}
 
@@ -1461,8 +1484,9 @@ public class Construction {
 	 */
 	public void stopCollectingRedefineCalls() {
 		collectRedefineCalls = false;
-		if (redefineMap != null)
+		if (redefineMap != null) {
 			redefineMap.clear();
+		}
 	}
 
 	/**
@@ -1477,8 +1501,9 @@ public class Construction {
 	 *             i.e. for circular definition
 	 */
 	public void replace(GeoElement oldGeo, GeoElement newGeo) throws Exception {
-		if (oldGeo == null || newGeo == null || oldGeo == newGeo)
+		if (oldGeo == null || newGeo == null || oldGeo == newGeo) {
 			return;
+		}
 		// assignment v=? should make v undefined, not change its type
 		if (oldGeo.isIndependent() && newGeo instanceof GeoNumeric
 				&& newGeo.isIndependent() && !newGeo.isDefined()) {
@@ -1519,9 +1544,9 @@ public class Construction {
 			// set properties first, set label later. See #933
 			newGeo.setAllVisualProperties(oldGeo, false);
 
-			if (newGeo.isIndependent())
+			if (newGeo.isIndependent()) {
 				addToConstructionList(newGeo, true);
-			else {
+			} else {
 				AlgoElement parentAlgo = newGeo.getParentAlgorithm();
 				addToConstructionList(parentAlgo, true);
 				// make sure all output objects get labels, see #218
@@ -1533,8 +1558,9 @@ public class Construction {
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
 
-			if (newGeo.isGeoText())
+			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
+			}
 
 			return;
 		}
@@ -1671,8 +1697,9 @@ public class Construction {
 	public void processCollectedRedefineCalls() throws Exception {
 		collectRedefineCalls = false;
 
-		if (redefineMap == null || redefineMap.size() == 0)
+		if (redefineMap == null || redefineMap.size() == 0) {
 			return;
+		}
 
 		// get current construction XML
 		StringBuilder consXML = getCurrentUndoXML(false);
@@ -1861,8 +1888,9 @@ public class Construction {
 	public void setStep(int s) {
 		// Log.debug("setStep"+step+" "+s);
 		Log.debug(step + " to" + s);
-		if (s == step || s < -1 || s >= ceList.size())
+		if (s == step || s < -1 || s >= ceList.size()) {
 			return;
+		}
 
 		kernel.setAllowVisibilitySideEffects(false);
 
@@ -1916,8 +1944,9 @@ public class Construction {
 	 * @see #lookupLabel(String)
 	 */
 	public void putLabel(GeoElement geo) {
-		if (supressLabelCreation || geo.getLabelSimple() == null)
+		if (supressLabelCreation || geo.getLabelSimple() == null) {
 			return;
+		}
 
 		geoTable.put(geo.getLabelSimple(), geo);
 		addToGeoSets(geo);
@@ -1963,6 +1992,7 @@ public class Construction {
 	 *
 	 */
 	protected static class LabelComparator implements Comparator<GeoElement> {
+		@Override
 		public int compare(GeoElement ob1, GeoElement ob2) {
 			GeoElement geo1 = ob1;
 			GeoElement geo2 = ob2;
@@ -2004,8 +2034,9 @@ public class Construction {
 		// set ordered type set
 		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
-		if (typeSet != null)
+		if (typeSet != null) {
 			typeSet.remove(geo);
+		}
 
 		/*
 		 * Application.debug("*** geoSet order (remove " + geo + ") ***");
@@ -2027,11 +2058,13 @@ public class Construction {
 	 * @see #lookupCasCellLabel(String)
 	 */
 	public void putCasCellLabel(GeoCasCell geoCasCell, String label) {
-		if (label == null)
+		if (label == null) {
 			return;
+		}
 
-		if (geoCasCellTable == null)
+		if (geoCasCellTable == null) {
 			geoCasCellTable = new HashMap<String, GeoCasCell>();
+		}
 		geoCasCellTable.put(label, geoCasCell);
 	}
 
@@ -2309,8 +2342,9 @@ public class Construction {
 			return false;
 		}
 		if (!fileLoading && getKernel().getApplication().getParserFunctions()
-				.isReserved(label))
+				.isReserved(label)) {
 			return false;
+		}
 
 		if (fileLoading && casCellUpdate) {
 			GeoNumeric geoNum = lookupConstantLabel(label);
@@ -2348,8 +2382,9 @@ public class Construction {
 		}
 
 		// check standard geoTable
-		if (geoTable.containsKey(label))
+		if (geoTable.containsKey(label)) {
 			return false;
+		}
 
 		// optional: also check CAS variable table
 		if (includeCASvariables && geoCasCellTable != null
@@ -2377,13 +2412,15 @@ public class Construction {
 		int maxPredIndex = newGeo.getConstructionIndex();
 		for (GeoElement pred : predSet) {
 			int predIndex = pred.getConstructionIndex();
-			if (predIndex > maxPredIndex)
+			if (predIndex > maxPredIndex) {
 				maxPredIndex = predIndex;
+			}
 		}
 
 		// no reordering is needed
-		if (oldGeo.getConstructionIndex() > maxPredIndex)
+		if (oldGeo.getConstructionIndex() > maxPredIndex) {
 			return;
+		}
 
 		// reordering is needed
 		// move all predecessors of newGeo (i.e. all objects that geo depends
@@ -2427,14 +2464,16 @@ public class Construction {
 		int maxPredIndex = 0;
 		for (GeoElement pred : allPred) {
 			int predIndex = pred.getConstructionIndex();
-			if (predIndex > maxPredIndex)
+			if (predIndex > maxPredIndex) {
 				maxPredIndex = predIndex;
+			}
 		}
 
 		// if casCell comes after all its new predecessors,
 		// no reordering is needed
-		if (casCell.getConstructionIndex() > maxPredIndex)
+		if (casCell.getConstructionIndex() > maxPredIndex) {
 			return false;
+		}
 
 		// reordering is needed
 		// maybe we can move casCell down in the construction list
@@ -2495,10 +2534,11 @@ public class Construction {
 		// in order to let (2) and (3) work
 		if (newGeo.getConstructionIndex() == -1) {
 			int ind = ceList.size();
-			if (newGeoAlgo == null)
+			if (newGeoAlgo == null) {
 				newGeo.setConstructionIndex(ind);
-			else
+			} else {
 				newGeoAlgo.setConstructionIndex(ind);
+			}
 		}
 
 		// make sure all output objects of newGeoAlgo are labeled, otherwise
@@ -2596,10 +2636,11 @@ public class Construction {
 		// as prefix
 		String pref;
 		int pos = prefix.indexOf('_');
-		if (pos == -1)
+		if (pos == -1) {
 			pref = prefix;
-		else
+		} else {
 			pref = prefix.substring(0, pos);
+		}
 
 		StringBuilder sbIndexLabel = new StringBuilder();
 
@@ -2856,8 +2897,9 @@ public class Construction {
 		// undo unavailable in applets
 		// if (getApplication().isApplet()) return;
 
-		if (!isUndoEnabled())
+		if (!isUndoEnabled()) {
 			return;
+		}
 
 		undoManager.storeUndoInfo();
 	}
@@ -2872,8 +2914,9 @@ public class Construction {
 		// if (getApplication().isApplet()) return;
 		collectRedefineCalls = false;
 
-		if (undoManager != null)
+		if (undoManager != null) {
 			undoManager.restoreCurrentUndoInfo();
+		}
 	}
 
 	/**
@@ -2927,8 +2970,9 @@ public class Construction {
 	 *            Macro to be added
 	 */
 	public final void addUsedMacro(Macro macro) {
-		if (usedMacros == null)
+		if (usedMacros == null) {
 			usedMacros = new ArrayList<Macro>();
+		}
 		usedMacros.add(macro);
 	}
 
@@ -2997,8 +3041,9 @@ public class Construction {
 	 * @return MyXMLio for this construction
 	 */
 	public MyXMLio getXMLio() {
-		if (xmlio == null)
+		if (xmlio == null) {
 			xmlio = kernel.getApplication().createXMLio(this);
+		}
 		return xmlio;
 	}
 
@@ -3100,10 +3145,11 @@ public class Construction {
 	 *            local function variable
 	 */
 	public void registerFunctionVariable(String fv) {
-		if (fv == null)
+		if (fv == null) {
 			registredFV.clear();
-		else
+		} else {
 			registredFV.add(fv);
+		}
 
 	}
 
@@ -3125,8 +3171,9 @@ public class Construction {
 	 */
 	public String getRegisteredFunctionVariable() {
 		Iterator<String> it = registredFV.iterator();
-		if (it.hasNext())
+		if (it.hasNext()) {
 			return it.next();
+		}
 		return null;
 	}
 

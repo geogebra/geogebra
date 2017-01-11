@@ -163,12 +163,15 @@ public abstract class DialogManager {
 		NumberValue max = getNumber(kernel, "Enter maximum", maxStr);
 		NumberValue increment = getNumber(kernel, "Enter increment", incStr);
 
-		if (min != null)
+		if (min != null) {
 			slider.setIntervalMin(min);
-		if (max != null)
+		}
+		if (max != null) {
 			slider.setIntervalMax(max);
-		if (increment != null)
+		}
+		if (increment != null) {
 			slider.setAnimationStep(increment);
+		}
 
 		slider.setLabel(null);
 		slider.setValue(isAngle ? 45 * Math.PI / 180 : 1);
@@ -247,11 +250,13 @@ public abstract class DialogManager {
 			this.point = point;
 		}
 
+		@Override
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num) {
 			return ec.getCompanion().rotateByAngle(geo, num, point);
 		}
 
+		@Override
 		public GeoElementND getPivot() {
 			return point;
 		}
@@ -265,11 +270,13 @@ public abstract class DialogManager {
 			this.line = line;
 		}
 
+		@Override
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num) {
 			return ec.getKernel().getManager3D().Rotate3D(null, geo, num, line);
 		}
 
+		@Override
 		public GeoElementND getPivot() {
 			return line;
 		}
@@ -309,8 +316,9 @@ public abstract class DialogManager {
 							GeoNumberValue num = (GeoNumberValue) result[0];
 							// keep angle entered if it ends with
 							// 'degrees'
-							if (angleText.endsWith(Unicode.DEGREE))
+							if (angleText.endsWith(Unicode.DEGREE)) {
 								defaultRotateAngle = angleText;
+							}
 
 							if (polys.length == 1) {
 
@@ -459,9 +467,10 @@ public abstract class DialogManager {
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != point) {
 					if ((selGeos[i] instanceof Transformable)
-							|| selGeos[i].isGeoList())
+							|| selGeos[i].isGeoList()) {
 						ret.addAll(Arrays.asList(ec.getCompanion()
 								.dilateFromPoint(selGeos[i], num, point)));
+					}
 				}
 			}
 			if (!ret.isEmpty()) {
@@ -611,6 +620,7 @@ public abstract class DialogManager {
 			this.point = point;
 		}
 
+		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getManager3D().Sphere(null, point, num);
 		}
@@ -625,6 +635,7 @@ public abstract class DialogManager {
 			this.point2 = point2;
 		}
 
+		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getManager3D().ConeLimited(null, point1, point2,
 					num)[0];
@@ -641,6 +652,7 @@ public abstract class DialogManager {
 			this.point2 = point2;
 		}
 
+		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getManager3D().CylinderLimited(null, point1, point2,
 					num)[0];
@@ -659,6 +671,7 @@ public abstract class DialogManager {
 			this.forAxis = forAxis;
 		}
 
+		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getManager3D().Circle3D(null, point, num, forAxis);
 		}
@@ -672,6 +685,7 @@ public abstract class DialogManager {
 			this.point = point;
 		}
 
+		@Override
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getAlgoDispatcher().Circle(null, point, num);
 		}

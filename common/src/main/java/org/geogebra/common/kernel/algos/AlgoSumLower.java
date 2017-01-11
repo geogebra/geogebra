@@ -51,6 +51,7 @@ public class AlgoSumLower extends AlgoFunctionAreaSums {
 		cons.registerEuclidianViewCE(this);
 	}
 
+	@Override
 	public AlgoSumLower copy() {
 		return new AlgoSumLower((GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),

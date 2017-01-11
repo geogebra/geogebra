@@ -92,6 +92,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 		return LocusEquation.eqnCircumcircleArc(geo, this, scope);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircleThreePoints();
@@ -99,6 +100,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 		return botanaParams.getVars();
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

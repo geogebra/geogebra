@@ -69,10 +69,11 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 																// MyXMLHandler
-				if (Character.isLowerCase(label.charAt(0)))
+				if (Character.isLowerCase(label.charAt(0))) {
 					n.setForceVector();
-				else
+				} else {
 					n.setForcePoint();
+				}
 			}
 		}
 
@@ -83,15 +84,16 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double x = p[0];
 			double y = p[1];
 			double z = p[2];
-			if (isVector)
+			if (isVector) {
 				ret[0] = kernel.getManager3D().Vector3D(label, x, y, z);
-			else
+			} else {
 				ret[0] = kernel.getManager3D().Point3D(label, x, y, z, false);
+			}
 			ret[0].setDefinition(n);
 		} else {
-			if (isVector)
+			if (isVector) {
 				ret[0] = kernel.getManager3D().DependentVector3D(label, n);
-			else {
+			} else {
 				ret[0] = kernel.getManager3D().DependentPoint3D(n, true)
 						.toGeoElement();
 				ret[0].setLabel(label);
@@ -128,8 +130,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	@Override
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
 
-		if (equ.isForcedLine())
+		if (equ.isForcedLine()) {
 			return super.processLine(equ, def);
+		}
 
 		// check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedPlane() || kernel.isParsingFor3D()) {
@@ -142,8 +145,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	@Override
 	public GeoElement[] processConic(Equation equ, ExpressionNode def) {
 
-		if (equ.isForcedConic())
+		if (equ.isForcedConic()) {
 			return super.processConic(equ, def);
+		}
 
 		// check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedQuadric() || kernel.getApplication()

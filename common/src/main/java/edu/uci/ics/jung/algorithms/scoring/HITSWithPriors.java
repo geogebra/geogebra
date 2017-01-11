@@ -82,10 +82,11 @@ public class HITSWithPriors<V, E>
 		for (E e : graph.getInEdges(v)) {
 			int incident_count = getAdjustedIncidentCount(e);
 			for (V w : graph.getIncidentVertices(e)) {
-				if (!w.equals(v) || hyperedges_are_self_loops)
+				if (!w.equals(v) || hyperedges_are_self_loops) {
 					v_auth += (getCurrentValue(w).hub
 							* getEdgeWeight(w, e).doubleValue()
 							/ incident_count);
+				}
 			}
 			// V w = graph.getOpposite(v, e);
 			// auth += (getCurrentValue(w).hub * getEdgeWeight(w,
@@ -96,10 +97,11 @@ public class HITSWithPriors<V, E>
 		for (E e : graph.getOutEdges(v)) {
 			int incident_count = getAdjustedIncidentCount(e);
 			for (V w : graph.getIncidentVertices(e)) {
-				if (!w.equals(v) || hyperedges_are_self_loops)
+				if (!w.equals(v) || hyperedges_are_self_loops) {
 					v_hub += (getCurrentValue(w).authority
 							* getEdgeWeight(w, e).doubleValue()
 							/ incident_count);
+				}
 			}
 			// V x = graph.getOpposite(v,e);
 			// hub += (getCurrentValue(x).authority * getEdgeWeight(x,
@@ -182,18 +184,20 @@ public class HITSWithPriors<V, E>
 	@Override
 	protected void collectDisappearingPotential(V v) {
 		if (graph.outDegree(v) == 0) {
-			if (isDisconnectedGraphOK())
+			if (isDisconnectedGraphOK()) {
 				disappearing_potential.hub += getCurrentValue(v).authority;
-			else
+			} else {
 				throw new IllegalArgumentException(
 						"Outdegree of " + v + " must be > 0");
+			}
 		}
 		if (graph.inDegree(v) == 0) {
-			if (isDisconnectedGraphOK())
+			if (isDisconnectedGraphOK()) {
 				disappearing_potential.authority += getCurrentValue(v).hub;
-			else
+			} else {
 				throw new IllegalArgumentException(
 						"Indegree of " + v + " must be > 0");
+			}
 		}
 	}
 

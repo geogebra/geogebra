@@ -35,14 +35,17 @@ public class AlgoAngleVector3D extends AlgoAngleElement3D {
 		super(cons, label, vec);
 	}
 
+	@Override
 	protected final Coords getVectorCoords() {
 		return ((GeoVector3D) vec).getCoordsInD3().copyVector();
 	}
 
+	@Override
 	protected final Coords getOrigin() {
 		return o;
 	}
 
+	@Override
 	protected final void setOrigin() {
 		GeoPointND start = getStartPoint((GeoVector3D) vec);
 		if (centerIsNotDrawable(start)) {

@@ -112,10 +112,12 @@ public class AlgoAreConcurrent extends AlgoElement
 				GeoLine.concurrent(inputLine1, inputLine2, inputLine3));
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if ((inputLine1 instanceof GeoSegment)
@@ -132,6 +134,7 @@ public class AlgoAreConcurrent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if ((inputLine1 instanceof GeoSegment)
 				|| (inputLine2 instanceof GeoSegment)
@@ -154,6 +157,7 @@ public class AlgoAreConcurrent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -182,6 +186,7 @@ public class AlgoAreConcurrent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -212,6 +217,7 @@ public class AlgoAreConcurrent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -231,9 +237,10 @@ public class AlgoAreConcurrent extends AlgoElement
 
 			// We need three collinearities with an extra point.
 			botanaPolynomials = new Polynomial[1][3];
-			for (int i = 0; i < 3; ++i)
+			for (int i = 0; i < 3; ++i) {
 				botanaPolynomials[0][i] = Polynomial.collinear(v[i][0], v[i][1],
 						v[i][2], v[i][3], nv[0], nv[1]);
+			}
 
 			return botanaPolynomials;
 

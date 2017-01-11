@@ -34,8 +34,9 @@ public class CmdSetVisibleInView extends CmdScripting {
 		switch (n) {
 		case 3:
 			GeoElement[] arg = resArgs(c);
-			if (!(arg[1] instanceof NumberValue))
+			if (!(arg[1] instanceof NumberValue)) {
 				throw argErr(app, c, arg[1]);
+			}
 
 			if (arg[2].isGeoBoolean()) {
 

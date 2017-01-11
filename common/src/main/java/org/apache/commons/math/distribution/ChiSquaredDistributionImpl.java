@@ -101,6 +101,7 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 *            the new degrees of freedom.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setDegreesOfFreedom(double degreesOfFreedom) {
 		setDegreesOfFreedomInternal(degreesOfFreedom);
@@ -121,6 +122,7 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return the degrees of freedom.
 	 */
+	@Override
 	public double getDegreesOfFreedom() {
 		return gamma.getAlpha() * 2.0;
 	}
@@ -133,6 +135,7 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 * @return The pdf at point x.
 	 * @deprecated
 	 */
+	@Override
 	@Deprecated
 	public double density(Double x) {
 		return density(x.doubleValue());
@@ -161,6 +164,7 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 *             if the cumulative probability can not be computed due to
 	 *             convergence or other numerical errors.
 	 */
+	@Override
 	public double cumulativeProbability(double x) throws MathException {
 		return gamma.cumulativeProbability(x);
 	}

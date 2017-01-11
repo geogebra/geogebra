@@ -149,6 +149,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 * @param mirror
 	 *            Circle used as mirror
 	 */
+	@Override
 	final public void mirror(GeoConic mirror) {
 
 		if (mirror.getType() == CONIC_SINGLE_POINT) {
@@ -280,8 +281,9 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 					setSphereND(m,
 							sf / 2 * Math.sqrt(((perpX - mx) * (perpX - mx)
 									+ (perpY - my) * (perpY - my))));
-				} else
+				} else {
 					type = GeoConicNDConstants.CONIC_LINE;
+				}
 			} else {
 				setUndefined();
 			}
@@ -294,6 +296,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	/**
 	 * mirror this conic at point Q
 	 */
+	@Override
 	final public void mirror(Coords Q) {
 		double qx = Q.getX();
 		double qy = Q.getY();
@@ -319,6 +322,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	/**
 	 * mirror this point at line g
 	 */
+	@Override
 	final public void mirror(GeoLineND g1) {
 
 		GeoLine g = (GeoLine) g1;
@@ -428,6 +432,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		return coordSys;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		// TODO Auto-generated method stub
@@ -538,6 +543,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
@@ -547,6 +553,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
@@ -557,6 +564,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		return Coords.VZ;
 	}
@@ -569,6 +577,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 * @param S
 	 *            fixed point of dilation
 	 */
+	@Override
 	final public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double sx = S.getX();
@@ -614,10 +623,12 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.EQUATION;
 	}
 
+	@Override
 	public Equation getEquation() {
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}

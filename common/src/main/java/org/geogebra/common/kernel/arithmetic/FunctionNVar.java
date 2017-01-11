@@ -156,6 +156,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * @return kernel
 	 */
+	@Override
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -172,6 +173,7 @@ public class FunctionNVar extends ValidExpression
 		return expression;
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		expression.resolveVariables(info);
 	}
@@ -212,6 +214,7 @@ public class FunctionNVar extends ValidExpression
 		fVars = vars;
 	}
 
+	@Override
 	public FunctionNVar getFunction() {
 		return this;
 	}
@@ -221,6 +224,7 @@ public class FunctionNVar extends ValidExpression
 	 * 
 	 * @return array of variables
 	 */
+	@Override
 	public FunctionVariable[] getFunctionVariables() {
 		return fVars;
 	}
@@ -247,6 +251,7 @@ public class FunctionNVar extends ValidExpression
 		return fVars.length;
 	}
 
+	@Override
 	public String getVarString(final StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		return appendVarString(sb, tpl).toString();
@@ -350,19 +355,21 @@ public class FunctionNVar extends ValidExpression
 		// get function variables for x, y, z
 		FunctionVariable xVar = null, yVar = null, zVar = null;
 		for (FunctionVariable fVar : fVars) {
-			if ("x".equals(fVar.toString(StringTemplate.defaultTemplate)))
+			if ("x".equals(fVar.toString(StringTemplate.defaultTemplate))) {
 				xVar = fVar;
-			else if ("y".equals(fVar.toString(StringTemplate.defaultTemplate)))
+			} else if ("y".equals(fVar.toString(StringTemplate.defaultTemplate))) {
 				yVar = fVar;
-			else if ("z".equals(fVar.toString(StringTemplate.defaultTemplate)))
+			} else if ("z".equals(fVar.toString(StringTemplate.defaultTemplate))) {
 				zVar = fVar;
+			}
 		}
 
 		// try to replace x(x+1) by x*(x+1)
 		undecided.clear();
 		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
-		for (ExpressionNode en : undecided)
+		for (ExpressionNode en : undecided) {
 			en.setOperation(Operation.MULTIPLY);
+		}
 		undecided.clear();
 	}
 
@@ -393,6 +400,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Returns whether this function always evaluates to BooleanValue.
 	 */
+	@Override
 	final public boolean isBooleanFunction() {
 		return isBooleanFunction;
 	}
@@ -404,18 +412,23 @@ public class FunctionNVar extends ValidExpression
 	 * @return true iff constant
 	 */
 	final public boolean isConstantFunction() {
-		if (isConstantFunction)
+		if (isConstantFunction) {
 			return true;
-		for (int i = 0; i < fVars.length; i++)
-			if (expression.contains(fVars[i]))
+		}
+		for (int i = 0; i < fVars.length; i++) {
+			if (expression.contains(fVars[i])) {
 				return false;
+			}
+		}
 		return true; // none of the vars appears in the expression
 	}
 
+	@Override
 	public boolean isConstant() {
 		return false;
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return true;
 	}
@@ -427,6 +440,7 @@ public class FunctionNVar extends ValidExpression
 	 *            values of variables
 	 * @return f(vals)
 	 */
+	@Override
 	final public double evaluate(double[] vals) {
 		if (isBooleanFunction) {
 			// BooleanValue
@@ -439,6 +453,7 @@ public class FunctionNVar extends ValidExpression
 		return expression.evaluateDouble();
 	}
 
+	@Override
 	final public double evaluate(double x, double y) {
 		if (isBooleanFunction) {
 			// BooleanValue
@@ -461,11 +476,13 @@ public class FunctionNVar extends ValidExpression
 	 * @return f(vals)
 	 */
 	final public boolean evaluateBoolean(double[] vals) {
-		for (int i = 0; i < fVars.length; i++)
+		for (int i = 0; i < fVars.length; i++) {
 			fVars[i].set(vals[i]);
+		}
 		return expression.evaluateBoolean();
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		return expression.getVariables();
 	}
@@ -489,10 +506,12 @@ public class FunctionNVar extends ValidExpression
 		return expression.toValueString(tpl);
 	}
 
+	@Override
 	final public String toOutputValueString(StringTemplate tpl) {
 		return expression.toOutputValueString(tpl);
 	}
 
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return expression.toLaTeXString(symbolic, tpl);
 	}
@@ -666,18 +685,21 @@ public class FunctionNVar extends ValidExpression
 	 *            not used
 	 */
 	public void clearCasEvalMap(String label) {
-		if (casEvalMap == null)
+		if (casEvalMap == null) {
 			return;
+		}
 		casEvalMap.clear();
 	}
 
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
@@ -693,6 +715,7 @@ public class FunctionNVar extends ValidExpression
 		return sb.toString();
 	}
 
+	@Override
 	public IneqTree getIneqs() {
 		return ineqs;
 	}
@@ -707,8 +730,9 @@ public class FunctionNVar extends ValidExpression
 	 * @return true if the functions consists of inequalities
 	 */
 	public boolean initIneqs(ExpressionNode fe, FunctionalNVar functional) {
-		if (ineqs == null || fe == getExpression())
+		if (ineqs == null || fe == getExpression()) {
 			ineqs = new IneqTree();
+		}
 		boolean b = initIneqs(fe, functional, ineqs, false);
 		ineqs.recomputeSize();
 		return b;
@@ -727,8 +751,9 @@ public class FunctionNVar extends ValidExpression
 					functional);
 			if (newIneq.getType() != IneqType.INEQUALITY_INVALID) {
 				if (newIneq.getType() != IneqType.INEQUALITY_1VAR_X
-						&& newIneq.getType() != IneqType.INEQUALITY_1VAR_Y)
+						&& newIneq.getType() != IneqType.INEQUALITY_1VAR_Y) {
 					newIneq.getBorder().setInverseFill(newIneq.isAboveBorder());
+				}
 				tree.setIneq(newIneq);
 			}
 			return newIneq.getType() != IneqType.INEQUALITY_INVALID;
@@ -756,12 +781,14 @@ public class FunctionNVar extends ValidExpression
 					.getCopy(kernel);
 			FunctionVariable[] subVars = nv.getFunction()
 					.getFunctionVariables();
-			for (int i = 0; i < subVars.length; i++)
+			for (int i = 0; i < subVars.length; i++) {
 				subExpr.replace(subVars[i],
 						((MyList) rightTree.getLeft()).getListElement(i));
+			}
 			return initIneqs(subExpr, functional, tree, negate);
-		} else
+		} else {
 			return false;
+		}
 
 	}
 
@@ -798,8 +825,9 @@ public class FunctionNVar extends ValidExpression
 	 * @return true iff all inequalities are drawable
 	 */
 	public boolean updateIneqs() {
-		if (ineqs == null)
+		if (ineqs == null) {
 			return false;
+		}
 		return ineqs.updateCoef();
 	}
 
@@ -812,8 +840,9 @@ public class FunctionNVar extends ValidExpression
 	 */
 	public double evaluate(VectorNDValue pt) {
 		if (fVars.length == 1 && "y"
-				.equals(fVars[0].toString(StringTemplate.defaultTemplate)))
+				.equals(fVars[0].toString(StringTemplate.defaultTemplate))) {
 			return evaluate(new double[] { pt.getPointAsDouble()[1] });
+		}
 		return evaluate(pt.getPointAsDouble());
 	}
 
@@ -1195,9 +1224,11 @@ public class FunctionNVar extends ValidExpression
 		double[][] b = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21,
 				a22);
 		MyDouble[][] mbTrans = new MyDouble[3][3];
-		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 3; j++)
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
 				mbTrans[i][j] = new MyDouble(kernel, b[j][i]);
+			}
+		}
 		ExpressionNode newZ = new ExpressionNode(kernel, mbTrans[2][0],
 				Operation.MULTIPLY, fVars[0])
 						.plus(new ExpressionNode(kernel, mbTrans[2][1],
@@ -1225,8 +1256,9 @@ public class FunctionNVar extends ValidExpression
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
-		if (ev != this)
+		if (ev != this) {
 			return ev;
+		}
 		expression = expression.traverse(t).wrap();
 		return this;
 	}
@@ -1236,14 +1268,17 @@ public class FunctionNVar extends ValidExpression
 		return t.check(this) || expression.inspect(t);
 	}
 
+	@Override
 	public ExpressionNode getFunctionExpression() {
 		return expression;
 	}
 
+	@Override
 	public boolean isDefined() {
 		return true;
 	}
 
+	@Override
 	public void setDefined(boolean b) {
 		// nothing to do
 	}

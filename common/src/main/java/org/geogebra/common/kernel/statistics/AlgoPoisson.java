@@ -50,17 +50,20 @@ public class AlgoPoisson extends AlgoDistribution {
 			double val = b.getDouble();
 			try {
 				PoissonDistribution dist = getPoissonDistribution(param);
-				if (isCumulative.getBoolean())
+				if (isCumulative.getBoolean()) {
 					num.setValue(dist.cumulativeProbability(val)); // P(X <=
 																	// val)
-				else
+				}
+				else {
 					num.setValue(dist.probability(val)); // P(X = val)
+				}
 			} catch (Exception e) {
 				Log.debug(e.getMessage());
 				num.setUndefined();
 			}
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

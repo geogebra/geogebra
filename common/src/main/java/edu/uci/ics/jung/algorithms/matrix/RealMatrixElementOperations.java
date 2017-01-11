@@ -32,6 +32,7 @@ public class RealMatrixElementOperations<E>
 	/**
 	 * @see MatrixElementOperations#mergePaths(Object, Object)
 	 */
+	@Override
 	public void mergePaths(E e, Object pathData) {
 
 		Number pd = (Number) pathData;
@@ -49,6 +50,7 @@ public class RealMatrixElementOperations<E>
 	/**
 	 * @see MatrixElementOperations#computePathData(Object, Object)
 	 */
+	@Override
 	public Number computePathData(E e1, E e2) {
 		double d1 = edgeData.get(e1).doubleValue();
 		double d2 = edgeData.get(e2).doubleValue();
@@ -58,6 +60,7 @@ public class RealMatrixElementOperations<E>
 	/**
 	 * @return the edgeData
 	 */
+	@Override
 	public Map<E, Number> getEdgeData() {
 		return edgeData;
 	}

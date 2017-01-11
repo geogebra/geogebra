@@ -98,9 +98,9 @@ public class MyError extends java.lang.Error {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(getClass().toString() + ": ");
-		if (strs == null)
+		if (strs == null) {
 			sb.append(getError(getMessage()));
-		else {
+		} else {
 			for (int i = 0; i < strs.length; i++) {
 				sb.append(getError(strs[i]) + " : ");
 			}

@@ -12,6 +12,7 @@ public interface GArea extends GShape {
 
 	boolean isEmpty();
 
+	@Override
 	public GPathIterator getPathIterator(GAffineTransform t);
 
 }

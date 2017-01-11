@@ -113,6 +113,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 		return HitType.NONE;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}

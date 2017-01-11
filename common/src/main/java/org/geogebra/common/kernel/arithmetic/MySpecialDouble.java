@@ -100,8 +100,9 @@ public class MySpecialDouble extends MyDouble {
 
 	@Override
 	public MySpecialDouble deepCopy(Kernel kernel1) {
-		if (isEulerConstant())
+		if (isEulerConstant()) {
 			return kernel1.getEulerNumber();
+		}
 
 		MySpecialDouble ret = new MySpecialDouble(this);
 		ret.kernel = kernel1;

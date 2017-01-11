@@ -224,8 +224,9 @@ public class EuclidianControllerFor3DCompanion
 			boolean coords2D) {
 
 		// check if a and b are two 2D geos
-		if (!a.isGeoElement3D() && !b.isGeoElement3D())
+		if (!a.isGeoElement3D() && !b.isGeoElement3D()) {
 			return getSingleIntersectionPointFrom2D(a, b, coords2D);
+		}
 
 		GeoPointND point = null;
 

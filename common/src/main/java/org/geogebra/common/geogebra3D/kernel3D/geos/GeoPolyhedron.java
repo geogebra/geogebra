@@ -300,8 +300,9 @@ public class GeoPolyhedron extends GeoElement3D
 
 			// if a polygons already corresponds to the face description, then
 			// pass it
-			if (polygons.containsKey(currentFacePair.getValue()))
+			if (polygons.containsKey(currentFacePair.getValue())) {
 				continue;
+			}
 
 			// vertices of the face
 			GeoPointND[] p = new GeoPointND[currentFace.size()];
@@ -552,12 +553,14 @@ public class GeoPolyhedron extends GeoElement3D
 						(GeoElement) endPoint);
 
 		// check if this segment is already created
-		if (segmentsIndex.containsKey(key))
+		if (segmentsIndex.containsKey(key)) {
 			return segments.get(segmentsIndex.get(key));
+		}
 
 		// check if this segment is a segment linked
-		if (segmentsLinked.containsKey(key))
+		if (segmentsLinked.containsKey(key)) {
 			return segmentsLinked.get(key);
+		}
 
 		return null;
 	}
@@ -577,8 +580,9 @@ public class GeoPolyhedron extends GeoElement3D
 			return;
 		}
 
-		if (labels == null || labels.length == 0)
+		if (labels == null || labels.length == 0) {
 			labels = new String[1];
+		}
 
 		setLabel(labels[0]);
 
@@ -683,8 +687,9 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	private void defaultPointsLabels() {
-		for (GeoPointND point : pointsCreated)
+		for (GeoPointND point : pointsCreated) {
 			point.setLabel(null);
+		}
 	}
 
 	private StringBuilder sb = new StringBuilder();
@@ -695,12 +700,14 @@ public class GeoPolyhedron extends GeoElement3D
 	 * @return level of usability of the label
 	 */
 	private static int usableLabel(GeoElement geo) {
-		if (!geo.isLabelSet())
+		if (!geo.isLabelSet()) {
 			return 2; // not usable
-		else if (geo.getLabel(StringTemplate.defaultTemplate).contains("_"))
+		} else if (geo.getLabel(StringTemplate.defaultTemplate).contains("_")) {
 			return 2; // not usable
-		else
+		}
+		else {
 			return 0; // usable
+		}
 
 	}
 
@@ -724,8 +731,9 @@ public class GeoPolyhedron extends GeoElement3D
 				if (labelUsability < 2) {
 					points[i] = p.getLabel(StringTemplate.defaultTemplate);
 					if (points[i].compareToIgnoreCase(
-							points[indexFirstPointName]) < 0)
+							points[indexFirstPointName]) < 0) {
 						indexFirstPointName = i;
+					}
 					i++;
 				}
 			}
@@ -737,24 +745,30 @@ public class GeoPolyhedron extends GeoElement3D
 
 				// sets the direction to the next first name
 				int indexSecondPointPlus = indexFirstPointName + 1;
-				if (indexSecondPointPlus == points.length)
+				if (indexSecondPointPlus == points.length) {
 					indexSecondPointPlus = 0;
+				}
 				int indexSecondPointMinus = indexFirstPointName - 1;
-				if (indexSecondPointMinus == -1)
+				if (indexSecondPointMinus == -1) {
 					indexSecondPointMinus = points.length - 1;
+				}
 
 				if (points[indexSecondPointPlus].compareToIgnoreCase(
 						points[indexSecondPointMinus]) < 0) {
-					for (int j = indexFirstPointName; j < points.length; j++)
+					for (int j = indexFirstPointName; j < points.length; j++) {
 						sb.append(points[j]);
-					for (int j = 0; j < indexFirstPointName; j++)
+					}
+					for (int j = 0; j < indexFirstPointName; j++) {
 						sb.append(points[j]);
+					}
 				} else {
-					for (int j = indexFirstPointName; j >= 0; j--)
+					for (int j = indexFirstPointName; j >= 0; j--) {
 						sb.append(points[j]);
+					}
 					for (int j = points.length
-							- 1; j > indexFirstPointName; j--)
+							- 1; j > indexFirstPointName; j--) {
 						sb.append(points[j]);
+					}
 				}
 
 				label = sb.toString();
@@ -805,6 +819,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 	}
 
+	@Override
 	public GeoSegmentND[] getSegments() {
 
 		GeoSegmentND[] ret = new GeoSegmentND[segments.size()];
@@ -915,8 +930,9 @@ public class GeoPolyhedron extends GeoElement3D
 
 		super.setEuclidianVisible(visible);
 
-		if (cons.isFileLoading())
+		if (cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setEuclidianVisible(visible, false);
@@ -940,8 +956,9 @@ public class GeoPolyhedron extends GeoElement3D
 
 		super.setObjColor(color);
 
-		if (cons.isFileLoading())
+		if (cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setObjColor(color);
@@ -1037,8 +1054,9 @@ public class GeoPolyhedron extends GeoElement3D
 	public void setLineType(int type) {
 		super.setLineType(type);
 
-		if (polygons == null || cons.isFileLoading())
+		if (polygons == null || cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineType(type, false);
@@ -1066,8 +1084,9 @@ public class GeoPolyhedron extends GeoElement3D
 	public void setLayer(int layer2) {
 		super.setLayer(layer2);
 
-		if (polygons == null || cons.isFileLoading())
+		if (polygons == null || cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLayer(layer2);
@@ -1094,8 +1113,9 @@ public class GeoPolyhedron extends GeoElement3D
 	public void setLineTypeHidden(int type) {
 		super.setLineTypeHidden(type);
 
-		if (polygons == null || cons.isFileLoading())
+		if (polygons == null || cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineTypeHidden(type, false);
@@ -1123,8 +1143,9 @@ public class GeoPolyhedron extends GeoElement3D
 	public void setLineThickness(int th) {
 		super.setLineThickness(th);
 
-		if (polygons == null || cons.isFileLoading())
+		if (polygons == null || cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineThickness(th, false);
@@ -1151,8 +1172,9 @@ public class GeoPolyhedron extends GeoElement3D
 	public void setLineThicknessOrVisibility(int th) {
 		super.setLineThickness(th);
 
-		if (polygons == null || cons.isFileLoading())
+		if (polygons == null || cons.isFileLoading()) {
 			return;
+		}
 		GProperty prop = th > 0 ? GProperty.LINE_STYLE : GProperty.COMBINED;
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineThickness(th, false);
@@ -1180,8 +1202,9 @@ public class GeoPolyhedron extends GeoElement3D
 
 		super.setAlphaValue(alpha);
 
-		if (cons.isFileLoading())
+		if (cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setAlphaValue(alpha);
@@ -1268,6 +1291,7 @@ public class GeoPolyhedron extends GeoElement3D
 			if (copyPoints == null) {
 				if (pointIdComparator == null) {
 					pointIdComparator = new Comparator<GeoPointND>() {
+						@Override
 						public int compare(GeoPointND o1, GeoPointND o2) {
 							if (o1.getID() < o2.getID()) {
 								return -1;
@@ -1500,8 +1524,9 @@ public class GeoPolyhedron extends GeoElement3D
 
 		// prevent from removing this when redefine a prism (see
 		// AlgoJoinPoints3D and AlgoPolygon)
-		if (this != getConstruction().getKeepGeo())
+		if (this != getConstruction().getKeepGeo()) {
 			super.remove();
+		}
 	}
 
 	// //////////////////////////
@@ -1520,10 +1545,12 @@ public class GeoPolyhedron extends GeoElement3D
 		this.volume = volume;
 	}
 
+	@Override
 	public double getVolume() {
 		return volume;
 	}
 
+	@Override
 	public boolean hasFiniteVolume() {
 		return isDefined();
 	}
@@ -1584,10 +1611,12 @@ public class GeoPolyhedron extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 
 		this.trace = trace;
@@ -1619,6 +1648,7 @@ public class GeoPolyhedron extends GeoElement3D
 	// TRANSFORM
 	// ////////////////////////////////
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1630,6 +1660,7 @@ public class GeoPolyhedron extends GeoElement3D
 		updatePolygonsAndSegmentsAlgos();
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1642,6 +1673,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S,
 			GeoDirectionND orientation) {
 
@@ -1654,6 +1686,7 @@ public class GeoPolyhedron extends GeoElement3D
 		updatePolygonsAndSegmentsAlgos();
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1671,6 +1704,7 @@ public class GeoPolyhedron extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public void translate(Coords v) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1696,6 +1730,7 @@ public class GeoPolyhedron extends GeoElement3D
 	// MIRROR
 	// //////////////////////
 
+	@Override
 	public void mirror(Coords Q) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1707,6 +1742,7 @@ public class GeoPolyhedron extends GeoElement3D
 		updatePolygonsAndSegmentsAlgos();
 	}
 
+	@Override
 	public void mirror(GeoLineND g) {
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
@@ -1717,6 +1753,7 @@ public class GeoPolyhedron extends GeoElement3D
 		updatePolygonsAndSegmentsAlgos();
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {
@@ -1731,6 +1768,7 @@ public class GeoPolyhedron extends GeoElement3D
 	// DILATE
 	// //////////////////////
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
@@ -1764,6 +1802,7 @@ public class GeoPolyhedron extends GeoElement3D
 		orientedHeight = height;
 	}
 
+	@Override
 	public double getOrientedHeight() {
 		return orientedHeight;
 	}
@@ -1816,22 +1855,27 @@ public class GeoPolyhedron extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return segmentsLinked.size() + segments.size();
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		return true;
 	}
 
+	@Override
 	public void pathChanged(GeoPointND PI) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -1842,8 +1886,9 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D))
+		if (!(PI instanceof GeoPoint3D)) {
 			return;
+		}
 
 		GeoPoint3D P = (GeoPoint3D) PI;
 
@@ -1873,11 +1918,13 @@ public class GeoPolyhedron extends GeoElement3D
 		pp.setT(oldT);
 	}
 
+	@Override
 	public void pointChanged(GeoPointND PI) {
 
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D))
+		if (!(PI instanceof GeoPoint3D)) {
 			return;
+		}
 
 		GeoPoint3D P = (GeoPoint3D) PI;
 
@@ -1956,21 +2003,25 @@ public class GeoPolyhedron extends GeoElement3D
 		P.setRegion(region);
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
 		GeoPoint P = (GeoPoint) PI;
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		// check if P is on one of the segments
 		for (GeoSegmentND segment : segmentsLinked.values()) {
-			if (segment.isDefined() && segment.isOnPath(P, eps))
+			if (segment.isDefined() && segment.isOnPath(P, eps)) {
 				return true;
+			}
 		}
 		for (GeoSegmentND segment : segments.values()) {
-			if (segment.isDefined() && segment.isOnPath(P, eps))
+			if (segment.isDefined() && segment.isOnPath(P, eps)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -1981,8 +2032,9 @@ public class GeoPolyhedron extends GeoElement3D
 
 		super.setShowObjectCondition(cond);
 
-		if (cons.isFileLoading())
+		if (cons.isFileLoading()) {
 			return;
+		}
 
 		for (GeoPoint3D point : pointsCreated) {
 			point.setShowObjectCondition(cond);
@@ -2032,6 +2084,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 	}
 
+	@Override
 	public void setPointSizeOrVisibility(int size) {
 		for (GeoPoint3D point : pointsCreated) {
 			setPointSize(point, size);
@@ -2065,18 +2118,22 @@ public class GeoPolyhedron extends GeoElement3D
 		return HitType.ON_FILLING;
 	}
 
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getDouble());
 	}
 
+	@Override
 	public double getDouble() {
 		return getVolume();
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
 
+	@Override
 	public void pseudoCentroid(Coords coords) {
 		coords.set(0, 0, 0);
 		int n = 0;

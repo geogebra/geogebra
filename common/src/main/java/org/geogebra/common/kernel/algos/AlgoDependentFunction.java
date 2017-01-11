@@ -172,20 +172,23 @@ public class AlgoDependentFunction extends AlgoElement
 			}
 
 			ExpressionNode node;
-			if (ev.isExpressionNode())
+			if (ev.isExpressionNode()) {
 				node = (ExpressionNode) ev;
-			else
+			} else {
 				node = new ExpressionNode(kernel, ev);
+			}
 
 			expandedFun.setExpression(node);
 
 			f.setFunction(expandedFun);
 			// If the label is not set (first run of compute)
 			// isFillable will take care of updating ineqs
-			if (f.isBooleanFunction() && f.isLabelSet())
+			if (f.isBooleanFunction() && f.isLabelSet()) {
 				f.resetIneqs();
-		} else if (f.isBooleanFunction())
+			}
+		} else if (f.isBooleanFunction()) {
 			f.getFunction().updateIneqs();
+		}
 	}
 
 	private boolean inputDefined() {
@@ -258,8 +261,9 @@ public class AlgoDependentFunction extends AlgoElement
 						return null;
 					}
 					node.setLeft(leftValue);
-					if (leftValue.isExpressionNode())
+					if (leftValue.isExpressionNode()) {
 						return node;
+					}
 				}
 
 				// we do NOT expand GeoFunctionConditional objects in expression
@@ -272,8 +276,9 @@ public class AlgoDependentFunction extends AlgoElement
 				if (leftValue.isExpressionNode()) {
 					leftValue = expandFunctionDerivativeNodes(leftValue, fast);
 					node.setLeft(leftValue);
-					if (leftValue.isExpressionNode())
+					if (leftValue.isExpressionNode()) {
 						return node;
+					}
 				}
 				if (!(leftValue instanceof FunctionalNVar)) {
 					return null;
@@ -296,8 +301,9 @@ public class AlgoDependentFunction extends AlgoElement
 								|| ((ExpressionNode) leftValue)
 										.getOperation() == Operation.$VAR_ROW
 								|| ((ExpressionNode) leftValue)
-										.getOperation() == Operation.$VAR_ROW_COL))
+										.getOperation() == Operation.$VAR_ROW_COL)) {
 					leftValue = ((ExpressionNode) leftValue).getLeft();
+				}
 				if (leftValue instanceof GeoCasCell) {
 					return ((GeoCasCell) leftValue).getGeoDerivative(order,
 							fast);
@@ -382,14 +388,16 @@ public class AlgoDependentFunction extends AlgoElement
 				.getCopy(funN.getKernel());
 		// with f(A) where A is a point we should not get there, but
 		// still
-		if (!(right instanceof MyList))
+		if (!(right instanceof MyList)) {
 			return null;
+		}
 		// now replace every x in function by the expanded argument
-		for (int i = 0; i < xy.length; i++)
+		for (int i = 0; i < xy.length; i++) {
 			funNExpression = funNExpression.replace(xy[i],
 					expandFunctionDerivativeNodes(
 							((MyList) right).getListElement(i + offset), fast))
 					.wrap();
+		}
 		return (funNExpression);
 	}
 
@@ -434,10 +442,11 @@ public class AlgoDependentFunction extends AlgoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction()
 				|| tpl.hasType(StringType.GEOGEBRA_XML))) {
 			sb.append(f.getLabel(tpl));
@@ -499,6 +508,7 @@ public class AlgoDependentFunction extends AlgoElement
 
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return expression;
 	}

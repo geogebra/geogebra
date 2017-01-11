@@ -37,11 +37,13 @@ public class ShowLabelModel extends OptionsModel {
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
 			// same label visible value
-			if (geo0.isLabelVisible() != temp.isLabelVisible())
+			if (geo0.isLabelVisible() != temp.isLabelVisible()) {
 				equalLabelVal = false;
+			}
 			// same label mode
-			if (geo0.getLabelMode() != temp.getLabelMode())
+			if (geo0.getLabelMode() != temp.getLabelMode()) {
 				equalLabelMode = false;
+			}
 
 			showNameValue = showNameValue && temp.isLabelValueShowable()
 					&& !isDropDownList(temp) && !temp.isGeoInputBox();

@@ -205,18 +205,21 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 	 * Calculates the score for the specified vertex. Returns {@code null} if
 	 * there are missing distances and such are not ignored by this instance.
 	 */
+	@Override
 	public Double getVertexScore(V v) {
 		Double value = output.get(v);
 		if (value != null) {
-			if (value < 0)
+			if (value < 0) {
 				return null;
+			}
 			return value;
 		}
 
 		Map<V, Number> v_distances = new HashMap<V, Number>(
 				distance.getDistanceMap(v));
-		if (ignore_self_distances)
+		if (ignore_self_distances) {
 			v_distances.remove(v);
+		}
 
 		// if we don't ignore missing distances and there aren't enough
 		// distances, output null (shortcut)
@@ -231,22 +234,25 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 
 		Double sum = 0.0;
 		for (V w : graph.getVertices()) {
-			if (w.equals(v) && ignore_self_distances)
+			if (w.equals(v) && ignore_self_distances) {
 				continue;
+			}
 			Number w_distance = v_distances.get(w);
-			if (w_distance == null)
-				if (ignore_missing)
+			if (w_distance == null) {
+				if (ignore_missing) {
 					continue;
-				else {
+				} else {
 					output.put(v, -1.0);
 					return null;
 				}
-			else
+			} else {
 				sum += w_distance.doubleValue();
+			}
 		}
 		value = sum;
-		if (averaging)
+		if (averaging) {
 			value /= v_distances.size();
+		}
 
 		double score = value == 0 ? Double.POSITIVE_INFINITY : 1.0 / value;
 		output.put(v, score);

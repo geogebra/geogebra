@@ -19,24 +19,29 @@ public class ListFold implements FoldComputer {
 	private MyList sum;
 	private GeoList result;
 
+	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return result = new GeoList(cons);
 	}
 
+	@Override
 	public void add(GeoElement geoElement, Operation op) {
 		sum.applyLeft(op, geoElement, StringTemplate.defaultTemplate);
 
 	}
 
+	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
 		sum = ((GeoList) geoElement).getMyList();
 
 	}
 
+	@Override
 	public boolean check(GeoElement geoElement) {
 		return geoElement.isGeoList();
 	}
 
+	@Override
 	public void finish() {
 		result.clear();
 		AlgebraProcessor ap = result.getKernel().getAlgebraProcessor();

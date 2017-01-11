@@ -206,8 +206,9 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		((GeoElement) param1).removeAlgorithm(algoCASeu);
 		((GeoElement) param2).removeAlgorithm(algoCASeu);

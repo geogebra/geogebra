@@ -29,6 +29,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	private EuclidianView3D view3D;
 
+	@Override
 	protected void setView(EuclidianView view) {
 		super.setView(view);
 		view3D = (EuclidianView3D) view;

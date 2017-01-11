@@ -88,10 +88,12 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		value = val;
 	}
 
+	@Override
 	final public boolean getBoolean() {
 		return value;
 	}
 
+	@Override
 	final public MyBoolean getMyBoolean() {
 		return new MyBoolean(kernel, value);
 	}
@@ -111,8 +113,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 *            geo which should use this boolean as condition to show
 	 */
 	public void registerConditionListener(GeoElement geo) {
-		if (condListenersShowObject == null)
+		if (condListenersShowObject == null) {
 			condListenersShowObject = new ArrayList<GeoElement>();
+		}
 		condListenersShowObject.add(geo);
 	}
 
@@ -272,14 +275,17 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return true;
 	}
 
+	@Override
 	public double getRealWorldLocX() {
 		return 0;
 	}
 
+	@Override
 	public double getRealWorldLocY() {
 		return 0;
 	}
 
+	@Override
 	public boolean isAbsoluteScreenLocActive() {
 		return true;
 	}
@@ -306,22 +312,27 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		labelOffsetY = y;
 	}
 
+	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		setAbsoluteScreenLoc(x, y, false);
 	}
 
+	@Override
 	public int getAbsoluteScreenLocX() {
 		return labelOffsetX;
 	}
 
+	@Override
 	public int getAbsoluteScreenLocY() {
 		return labelOffsetY;
 	}
 
+	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		// do nothing
 	}
 
+	@Override
 	public void setRealWorldLoc(double x, double y) {
 		// do nothing
 	}
@@ -359,10 +370,12 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	/**
 	 * Returns 1 for true and 0 for false.
 	 */
+	@Override
 	public double getDouble() {
 		return value ? 1 : 0;
 	}
 
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getDouble());
 	}
@@ -392,8 +405,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 				&& ((GeoBoolean) oldGeo).condListenersShowObject != null) {
 
 			condListenersShowObject = ((GeoBoolean) oldGeo).condListenersShowObject;
-			for (GeoElement geo : condListenersShowObject)
+			for (GeoElement geo : condListenersShowObject) {
 				geo.condShowObject = this;
+			}
 
 			((GeoBoolean) oldGeo).condListenersShowObject = null;
 		}
@@ -448,14 +462,17 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	private boolean showExtendedAV = true;
 
+	@Override
 	public boolean isShowingExtendedAV() {
 		return showExtendedAV;
 	}
 
+	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.BOOLEAN;
 	}

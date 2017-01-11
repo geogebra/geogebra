@@ -142,12 +142,14 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
-		if (algoAnglePoly != null)
+		}
+		if (algoAnglePoly != null) {
 			algoAnglePoly.remove();
-		else
+		} else {
 			super.remove();
+		}
 	}
 
 	@Override

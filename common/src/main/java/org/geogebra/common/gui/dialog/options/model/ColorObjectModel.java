@@ -81,7 +81,7 @@ public class ColorObjectModel extends OptionsModel {
 		if (hasBackground) {
 			equalObjColorBackground = true;
 
-			if (geo0.getBackgroundColor() == null)
+			if (geo0.getBackgroundColor() == null) {
 				// test for all null background color
 				for (int i = 1; i < getGeosLength(); i++) {
 				temp = getGeoAt(i);
@@ -90,7 +90,7 @@ public class ColorObjectModel extends OptionsModel {
 				break;
 				}
 				}
-			else
+			} else {
 				// test for all same background color
 				for (int i = 1; i < getGeosLength(); i++) {
 				temp = getGeoAt(i);
@@ -100,6 +100,7 @@ public class ColorObjectModel extends OptionsModel {
 				break;
 				}
 				}
+			}
 		}
 
 		listener.updateChooser(equalObjColor, equalObjColorBackground,

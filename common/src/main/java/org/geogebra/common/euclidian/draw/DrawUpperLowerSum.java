@@ -75,15 +75,18 @@ public class DrawUpperLowerSum extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+		}
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
 			init();
+		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(sum);
 
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClipped(view);
+		}
 
 		if (barchartFreqs || histogram) {
 			updateBarChart();
@@ -123,10 +126,12 @@ public class DrawUpperLowerSum extends Drawable {
 
 			x = coords[0];
 
-			if (trapeziums)
+			if (trapeziums) {
 				gp.lineTo(x, coords[1]); // top
-			else
+			}
+			else {
 				gp.lineTo(x, y); // top
+			}
 
 			gp.lineTo(x, y0); // RHS
 			gp.moveTo(x, y);
@@ -143,10 +148,12 @@ public class DrawUpperLowerSum extends Drawable {
 			gp.lineTo(bx, y); // last bar: top
 		}
 
-		if (histogram)
+		if (histogram) {
 			gp.moveTo(bx, y0);
-		else if (!barchartFreqsWidth)
+		} else if (!barchartFreqsWidth)
+		 {
 			gp.lineTo(bx, y0);// last bar: right
+		}
 
 		gp.lineTo(ax, y0);// all bars, along bottom
 

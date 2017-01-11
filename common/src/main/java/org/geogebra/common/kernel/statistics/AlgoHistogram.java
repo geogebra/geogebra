@@ -135,14 +135,16 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 		return isRight() ? Commands.HistogramRight : Commands.Histogram;
 	}
 
+	@Override
 	public AlgoHistogram copy() {
 		int N = getIntervals();
-		if (getType() == SumType.HISTOGRAM_DENSITY)
+		if (getType() == SumType.HISTOGRAM_DENSITY) {
 			return new AlgoHistogram((GeoBoolean) getIsCumulative().copy(),
 					(GeoBoolean) getUseDensityGeo().copy(),
 					(GeoNumeric) getDensityGeo().copy(),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 					N);
+		}
 		return new AlgoHistogram(kernel.getConstruction(),
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 	}

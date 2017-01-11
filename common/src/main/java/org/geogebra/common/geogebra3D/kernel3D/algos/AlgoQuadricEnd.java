@@ -193,12 +193,14 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		// if is helper algo for a quadric, remove it
-		if (isHelperAlgo)
+		if (isHelperAlgo) {
 			quadric.remove();
+		}
 	}
 
 	/**

@@ -785,18 +785,22 @@ abstract public class Manager {
 	 * identity scaler
 	 */
 	protected static final ScalerXYZ scalerXYZIdentity = new ScalerXYZ() {
+		@Override
 		public void scaleXYZ(Coords coords) {
 			// do nothing
 		}
 
+		@Override
 		public double getXscale() {
 			return 1;
 		}
 
+		@Override
 		public double getYscale() {
 			return 1;
 		}
 
+		@Override
 		public double getZscale() {
 			return 1;
 		}

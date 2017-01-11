@@ -53,6 +53,7 @@ public class PrimMinimumSpanningTree<V, E>
 	 * @param graph
 	 *            the Graph to find MST in
 	 */
+	@Override
 	public Graph<V, E> transform(Graph<V, E> graph) {
 		Set<E> unfinishedEdges = new HashSet<E>(graph.getEdges());
 		Graph<V, E> tree = treeFactory.create();
@@ -91,8 +92,9 @@ public class PrimMinimumSpanningTree<V, E>
 		V currentVertex = null;
 		for (E e : unfinishedEdges) {
 
-			if (tree.getEdges().contains(e))
+			if (tree.getEdges().contains(e)) {
 				continue;
+			}
 			// find the lowest cost edge, get its opposite endpoint,
 			// and then update forest from its Successors
 			Pair<V> endpoints = graph.getEndpoints(e);

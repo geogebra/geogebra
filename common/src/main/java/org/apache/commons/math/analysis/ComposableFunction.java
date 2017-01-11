@@ -477,6 +477,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
 			final BivariateRealFunction combiner, final double initialValue) {
 		return new MultivariateRealFunction() {
 			/** {@inheritDoc} */
+			@Override
 			public double value(double[] point)
 					throws FunctionEvaluationException,
 					IllegalArgumentException {
@@ -549,6 +550,7 @@ public abstract class ComposableFunction implements UnivariateRealFunction {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract double value(double x) throws FunctionEvaluationException;
 
 }

@@ -93,10 +93,11 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 			return;
 		}
 
-		if (vl == null)
+		if (vl == null) {
 			vl = new ArrayList<Point2D>();
-		else
+		} else {
 			vl.clear();
+		}
 
 		double inhom[] = new double[2];
 

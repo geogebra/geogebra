@@ -133,8 +133,9 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 		GeoElement[] efficientInput = createEfficientInput();
 
 		input = new GeoElement[efficientInput.length];
-		for (int i = 0; i < efficientInput.length; i++)
+		for (int i = 0; i < efficientInput.length; i++) {
 			input[i] = efficientInput[i];
+		}
 
 		setEfficientDependencies(input, efficientInput);
 
@@ -158,8 +159,9 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 		} else {
 			// points as input
 			efficientInput = new GeoElement[points.length];
-			for (int i = 0; i < points.length; i++)
+			for (int i = 0; i < points.length; i++) {
 				efficientInput[i] = (GeoElement) points[i];
+			}
 		}
 
 		return efficientInput;

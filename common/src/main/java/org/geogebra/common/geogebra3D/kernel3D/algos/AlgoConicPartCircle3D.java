@@ -255,6 +255,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleArc(geo, this, scope);

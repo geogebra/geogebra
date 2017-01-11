@@ -56,8 +56,9 @@ public class GeoFactory {
 
 		switch (type.charAt(0)) {
 		case 'a': // angle
-			if ("angle".equals(type))
+			if ("angle".equals(type)) {
 				return new GeoAngle(cons1);
+			}
 			return new GeoAxis(cons1, 1);
 
 		case 'b': // angle
@@ -67,15 +68,15 @@ public class GeoFactory {
 			return new GeoButton(cons1); // "button"
 
 		case 'c': // conic
-			if ("conic".equals(type))
+			if ("conic".equals(type)) {
 				return new GeoConic(cons1);
-			else if ("conicpart".equals(type))
+			} else if ("conicpart".equals(type)) {
 				return new GeoConicPart(cons1, 0);
-			else if ("curvecartesian".equals(type))
+			} else if ("curvecartesian".equals(type)) {
 				return new GeoCurveCartesian(cons1);
-			else if ("cascell".equals(type))
+			} else if ("cascell".equals(type)) {
 				return new GeoCasCell(cons1);
-			else if ("circle".equals(type)) { // bug in GeoGebra 2.6c
+			} else if ("circle".equals(type)) { // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);
 			}
 
@@ -100,37 +101,39 @@ public class GeoFactory {
 			return new GeoConic(cons1);
 
 		case 'i': // image,implicitpoly
-			if ("image".equals(type))
+			if ("image".equals(type)) {
 				return new GeoImage(cons1);
-			else if ("intersectinglines".equals(type)) // bug in GeoGebra 2.6c
+			} else if ("intersectinglines".equals(type)) {
 				return new GeoConic(cons1);
-			else if ("implicitpoly".equals(type))
+			} else if ("implicitpoly".equals(type)) {
 				return newImplicitPoly(cons1).toGeoElement();
-			else if ("interval".equals(type)) {
+			} else if ("interval".equals(type)) {
 				return new GeoInterval(cons1);
 			}
 
 		case 'l': // line, list, locus
-			if ("line".equals(type))
+			if ("line".equals(type)) {
 				return new GeoLine(cons1);
-			else if ("list".equals(type))
+			} else if ("list".equals(type)) {
 				return new GeoList(cons1);
-			else
+			} else {
 				return new GeoLocus(cons1);
+			}
 
 		case 'n': // numeric
 			return new GeoNumeric(cons1);
 
 		case 'p': // point, polygon
-			if ("point".equals(type))
+			if ("point".equals(type)) {
 				return new GeoPoint(cons1);
-			else if ("polygon".equals(type))
+			} else if ("polygon".equals(type)) {
 				return new GeoPolygon(cons1, null);
-			else if ("polyline".equals(type))
+			} else if ("polyline".equals(type)) {
 				return new GeoPolyLine(cons1, new GeoPointND[] {});
-			else
+			} else {
 				// parabola, parallelLines, point // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);
+			}
 
 		case 'r': // ray
 			return new GeoRay(cons1, null);

@@ -122,46 +122,56 @@ public class EventDispatcher implements ClientView {
 	 * Implementation of View
 	 */
 
+	@Override
 	public void add(GeoElement geo) {
 		dispatchEvent(EventType.ADD, geo);
 	}
 
+	@Override
 	public void remove(GeoElement geo) {
 		dispatchEvent(EventType.REMOVE, geo);
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 		dispatchEvent(EventType.RENAME, geo);
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 		long start = System.currentTimeMillis();
 		dispatchEvent(EventType.UPDATE, geo);
 		GeoGebraProfiler.addEvent(System.currentTimeMillis() - start);
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		dispatchEvent(EventType.UPDATE_STYLE, geo);
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// not used
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// Ignore
 	}
 
+	@Override
 	public void repaintView() {
 		// Ignore
 
 	}
 
+	@Override
 	public void reset() {
 		// Ignore
 
 	}
 
+	@Override
 	public void clearView() {
 		// As I understand it, this happens when a new file is started. This is
 		// the time to call the reset() function of the registered event
@@ -171,19 +181,23 @@ public class EventDispatcher implements ClientView {
 		}
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		this.dispatchEvent(new Event(EventType.SET_MODE, null, mode + ""));
 
 	}
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_EVENT_DISPATCHER;
 	}
 
+	@Override
 	public boolean hasFocus() {
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		return false;
 	}
@@ -200,38 +214,47 @@ public class EventDispatcher implements ClientView {
 
 	}
 
+	@Override
 	public void renameUpdatesComplete() {
 		dispatchEvent(EventType.RENAME_COMPLETE, null);
 	}
 
+	@Override
 	public void addingPolygon() {
 		dispatchEvent(EventType.ADD_POLYGON, null);
 	}
 
+	@Override
 	public void addPolygonComplete(GeoElement polygon) {
 		dispatchEvent(EventType.ADD_POLYGON_COMPLETE, polygon);
 	}
 
+	@Override
 	public void movingGeos() {
 		dispatchEvent(EventType.MOVING_GEOS, null);
 	}
 
+	@Override
 	public void movedGeos(ArrayList<GeoElement> elms) {
 		dispatchBulkEvent(EventType.MOVED_GEOS, elms);
 	}
 
+	@Override
 	public void deleteGeos(ArrayList<GeoElement> elms) {
 		dispatchBulkEvent(EventType.DELETE_GEOS, elms);
 	}
 
+	@Override
 	public void pasteElms(String pasteXml) {
 		dispatchEvent(new Event(EventType.PASTE_ELMS, null, pasteXml));
 	}
 
+	@Override
 	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms) {
 		dispatchBulkEvent(EventType.PASTE_ELMS_COMPLETE, pastedElms);
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// not used for this view

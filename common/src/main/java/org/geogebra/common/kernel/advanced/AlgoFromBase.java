@@ -59,8 +59,9 @@ public class AlgoFromBase extends AlgoElement {
 				: StringUtil.toLowerCase(in);
 		for (int i = 0; i < s.length(); i++) {
 			int last = s.charAt(i) - 0x30;
-			if (last > 9)
+			if (last > 9) {
 				last -= 0x30 - 9;
+			}
 			if (last >= b || last < 0) {
 				result.setUndefined();
 				return;
@@ -72,8 +73,9 @@ public class AlgoFromBase extends AlgoElement {
 			double power = 1;
 			for (int i = 0; i < s.length(); i++) {
 				int last = s.charAt(i) - 0x30;
-				if (last > 9)
+				if (last > 9) {
 					last -= 0x30 - 9;
+				}
 				if (last >= b || last < 0) {
 					result.setUndefined();
 					return;

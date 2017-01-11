@@ -140,10 +140,12 @@ public abstract class FunctionSound {
 		for (int k = 0; k < getBuf().length; k++) {
 			value = getF().evaluate(t + 1.0 * k * getSamplePeriod());
 			// clip sound data
-			if (value > 1.0)
+			if (value > 1.0) {
 				value = 1.0;
-			if (value < -1.0)
+			}
+			if (value < -1.0) {
 				value = -1.0;
+			}
 
 			value = value * getMaxVolume();
 
@@ -176,10 +178,12 @@ public abstract class FunctionSound {
 			value = getF().evaluate(t + 1.0 * k * getSamplePeriod());
 			// System.out.print(value+",");
 			// clip sound data
-			if (value > 1.0)
+			if (value > 1.0) {
 				value = 1.0;
-			if (value < -1.0)
+			}
+			if (value < -1.0) {
 				value = -1.0;
+			}
 
 			value = value * getMaxVolume();
 
@@ -210,8 +214,9 @@ public abstract class FunctionSound {
 				: 2 * numSamples];
 
 		double delta = 1.0 * peakValue / numSamples;
-		if (isFadeOut)
+		if (isFadeOut) {
 			delta = -delta;
+		}
 
 		short value = isFadeOut ? peakValue : 0;
 

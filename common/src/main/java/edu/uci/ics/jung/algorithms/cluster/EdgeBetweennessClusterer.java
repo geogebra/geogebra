@@ -67,6 +67,7 @@ public class EdgeBetweennessClusterer<V, E>
 	 * @param graph
 	 *            the graph
 	 */
+	@Override
 	public Set<Set<V>> transform(Graph<V, E> graph) {
 
 		if (mNumEdgesToRemove < 0 || mNumEdgesToRemove > graph.getEdgeCount()) {
@@ -81,11 +82,12 @@ public class EdgeBetweennessClusterer<V, E>
 					graph);
 			E to_remove = null;
 			double score = 0;
-			for (E e : graph.getEdges())
+			for (E e : graph.getEdges()) {
 				if (bc.getEdgeScore(e) > score) {
 					to_remove = e;
 					score = bc.getEdgeScore(e);
 				}
+			}
 			edges_removed.put(to_remove, graph.getEndpoints(to_remove));
 			graph.removeEdge(to_remove);
 		}

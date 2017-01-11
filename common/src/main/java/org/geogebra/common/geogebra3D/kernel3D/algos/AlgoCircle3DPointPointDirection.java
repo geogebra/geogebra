@@ -57,8 +57,9 @@ public class AlgoCircle3DPointPointDirection
 				.sub(getCenter().getInhomCoordsInD3());
 
 		// check if direction is compatible (orthogonal) to center-second point
-		if (!Kernel.isZero(getDirection().dotproduct(radius)))
+		if (!Kernel.isZero(getDirection().dotproduct(radius))) {
 			return Double.NaN;
+		}
 
 		radius.calcNorm();
 
@@ -77,8 +78,9 @@ public class AlgoCircle3DPointPointDirection
 	 */
 	@Override
 	final protected String getCommandString() {
-		if (getForAxis() instanceof GeoCoordSys2D)
+		if (getForAxis() instanceof GeoCoordSys2D) {
 			return "CircleWithCenterAThroughBParallelToC";
+		}
 
 		return "CircleWithCenterAThroughBAxisParallelToC";
 	}

@@ -76,5 +76,6 @@ public interface NormalDistribution
 	 *            The point at which the density should be computed.
 	 * @return The pdf at point x.
 	 */
+	@Override
 	double density(Double x);
 }

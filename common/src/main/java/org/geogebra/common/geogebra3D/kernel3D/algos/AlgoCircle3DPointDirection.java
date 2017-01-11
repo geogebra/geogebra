@@ -55,7 +55,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 		circle.setCoordSys(coordsys);
 
 		setInputOutput(new GeoElement[] { (GeoElement) point, secondInput,
-				(GeoElement) forAxis }, new GeoElement[] { circle });
+				forAxis }, new GeoElement[] { circle });
 
 		// compute line
 		compute();
@@ -157,7 +157,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlain(getCommandString(),
 				((GeoElement) point).getLabel(tpl), secondInput.getLabel(tpl),
-				((GeoElement) forAxis).getLabel(tpl));
+				forAxis.getLabel(tpl));
 	}
 
 	/**

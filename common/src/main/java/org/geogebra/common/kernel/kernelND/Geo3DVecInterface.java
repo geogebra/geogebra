@@ -25,16 +25,19 @@ public interface Geo3DVecInterface extends GeoVecInterface {
 	/**
 	 * @return x-coord
 	 */
+	@Override
 	public double getX();
 
 	/**
 	 * @return y-coord
 	 */
+	@Override
 	public double getY();
 
 	/**
 	 * @return z-coord
 	 */
+	@Override
 	public double getZ();
 
 	/**

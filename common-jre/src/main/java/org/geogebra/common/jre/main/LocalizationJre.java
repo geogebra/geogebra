@@ -195,6 +195,7 @@ public abstract class LocalizationJre extends Localization {
 		rbcolors = createBundle(getColorRessourcePath(), currentLocale);
 	}
 
+	@Override
 	final protected void updateResourceBundles() {
 		if (rbmenu != null) {
 			rbmenu = createBundle(getMenuRessourcePath(), currentLocale);

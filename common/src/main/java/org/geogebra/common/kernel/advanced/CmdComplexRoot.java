@@ -39,8 +39,9 @@ public class CmdComplexRoot extends CommandProcessor {
 				// allow functions that can be simplified to factors of
 				// polynomials
 				if (!f.getConstruction().isFileLoading()
-						&& !f.isPolynomialFunction(true))
+						&& !f.isPolynomialFunction(true)) {
 					return null;
+				}
 
 				AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(
 						cons, c.getLabels(), f);

@@ -51,6 +51,7 @@ public class Intersections {
 
 	public static class EventComparator implements Comparator<Event> {
 
+		@Override
 		public int compare(Event e1, Event e2) {
 			Point2D o1 = e1.getIntersection().getPoint();
 			Point2D o2 = e2.getIntersection().getPoint();
@@ -88,6 +89,7 @@ public class Intersections {
 			this.x = x;
 		}
 
+		@Override
 		public int compare(Segment2DEx s1, Segment2DEx s2) {
 
 			if ((s1 == null) && (s2 == null)) {

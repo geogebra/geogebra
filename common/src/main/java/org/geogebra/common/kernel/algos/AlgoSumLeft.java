@@ -50,6 +50,7 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 		super(a, b, n, SumType.LEFTSUM, vals, borders, cons1);
 	}
 
+	@Override
 	public AlgoSumLeft copy() {
 		return new AlgoSumLeft((GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),

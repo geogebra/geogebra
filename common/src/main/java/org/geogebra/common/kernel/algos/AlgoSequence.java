@@ -115,8 +115,9 @@ public class AlgoSequence extends AlgoElement {
 		this.var_to = var_to;
 		var_to_geo = var_to.toGeoElement();
 		this.var_step = var_step;
-		if (var_step != null)
+		if (var_step != null) {
 			var_step_geo = var_step.toGeoElement();
+		}
 
 		expressionParentAlgo = expression.getParentAlgorithm();
 		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
@@ -322,10 +323,11 @@ public class AlgoSequence extends AlgoElement {
 		cons.setSuppressLabelCreation(true);
 
 		// update list
-		if (setValuesOnly)
+		if (setValuesOnly) {
 			updateListItems(from, to, step);
-		else
+		} else {
 			createNewList(from, to, step);
+		}
 
 		// revert label creation setting
 		cons.setSuppressLabelCreation(oldSuppressLabels);

@@ -30,8 +30,9 @@ public class SpreadsheetModeProcessor {
 	 */
 	public void performAutoFunctionCreation(CellRange cr, boolean shiftDown) {
 
-		if (cr.isColumn() || cr.isRow())
+		if (cr.isColumn() || cr.isRow()) {
 			return;
+		}
 
 		boolean isOK = true;
 		GeoElement targetCell = null;
@@ -140,16 +141,17 @@ public class SpreadsheetModeProcessor {
 
 		// Create a String expression for the new autofunction command geo
 		String cmd = null;
-		if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM)
+		if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM) {
 			cmd = "Sum";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT) {
 			cmd = "Length";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE) {
 			cmd = "Mean";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX) {
 			cmd = "Max";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN) {
 			cmd = "Min";
+		}
 
 		String expr = targetCellLabel + " = " + cmd + "[" + cellRangeString
 				+ "]";
@@ -211,16 +213,17 @@ public class SpreadsheetModeProcessor {
 
 		// Build a String expression for the autofunction
 		String cmd = null;
-		if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM)
+		if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_SUM) {
 			cmd = "Sum";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_COUNT) {
 			cmd = "Length";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_AVERAGE) {
 			cmd = "Mean";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MAX) {
 			cmd = "Max";
-		else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN)
+		} else if (app.getMode() == EuclidianConstants.MODE_SPREADSHEET_MIN) {
 			cmd = "Min";
+		}
 
 		String expr = cmd + "[" + cellRangeString + "]";
 

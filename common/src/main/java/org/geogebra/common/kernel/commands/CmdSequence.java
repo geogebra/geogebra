@@ -38,10 +38,11 @@ public class CmdSequence extends CommandProcessor {
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement[] arg;
-		if (n > 2)
+		if (n > 2) {
 			arg = resArgsLocalNumVar(c, 1, 2);
-		else
+		} else {
 			arg = resArgs(c);
+		}
 		switch (n) {
 		case 1:
 			if (arg[0] instanceof GeoNumberValue) {

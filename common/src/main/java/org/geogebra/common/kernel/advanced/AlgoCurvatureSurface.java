@@ -158,8 +158,9 @@ public class AlgoCurvatureSurface extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		((GeoElement) A).removeAlgorithm(algoCASfx);
 		f.removeAlgorithm(algoCASfx);

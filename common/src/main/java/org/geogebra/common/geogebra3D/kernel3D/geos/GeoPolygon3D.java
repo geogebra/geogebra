@@ -155,8 +155,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		// if start and end points are both 2D, then use super method
 		if (!((GeoElement) startPoint).isGeoElement3D()
-				&& !((GeoElement) endPoint).isGeoElement3D())
+				&& !((GeoElement) endPoint).isGeoElement3D()) {
 			return super.createSegment(startPoint, endPoint, euclidianVisible);
+		}
 
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
@@ -243,8 +244,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	@Override
 	public void setCoordSys(CoordSys cs) {
 
-		if (points == null)
+		if (points == null) {
 			return;
+		}
 
 		setDefined();
 
@@ -528,8 +530,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		}
 
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D))
+		if (!(PI instanceof GeoPoint3D)) {
 			return;
+		}
 
 		GeoPoint3D P = (GeoPoint3D) PI;
 
@@ -563,8 +566,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	public void pointChanged(GeoPointND PI) {
 
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D))
+		if (!(PI instanceof GeoPoint3D)) {
 			return;
+		}
 
 		GeoPoint3D P = (GeoPoint3D) PI;
 
@@ -666,32 +670,38 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		return euclidianViewForPlane.getId();
 	}
 
+	@Override
 	public void createView2D() {
-		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
+		euclidianViewForPlane = kernel
 				.getApplication().getCompanion()
 				.createEuclidianViewForPlane(this, true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
 
+	@Override
 	public void removeView2D() {
 		euclidianViewForPlane.doRemove();
 	}
 
+	@Override
 	public void setEuclidianViewForPlane(
 			EuclidianViewForPlaneCompanionInterface view) {
 		euclidianViewForPlane = view;
 	}
 
+	@Override
 	public boolean hasView2DVisible() {
 		return euclidianViewForPlane != null && kernel.getApplication()
 				.getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 
+	@Override
 	public void setView2DVisible(boolean flag) {
 
 		if (euclidianViewForPlane == null) {
-			if (flag)
+			if (flag) {
 				createView2D();
+			}
 			return;
 		}
 
@@ -834,6 +844,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		}
 	}
 
+	@Override
 	public void rotate(NumberValue phiVal, GeoPointND Q,
 			GeoDirectionND orientation) {
 
@@ -852,6 +863,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	}
 
+	@Override
 	public void rotate(NumberValue phiVal, GeoLineND line) {
 
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
@@ -939,6 +951,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		}
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
 		getCoordSys().mirror(plane.getCoordSys());
@@ -973,8 +986,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			r = -r;
 		}
 
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).dilate(r);
+		}
 
 		this.calcArea();
 
@@ -1052,8 +1066,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 					} else {
 						step = -1;
 						int j = iFirstPoint + step;
-						if (j < 0)
+						if (j < 0) {
 							j = gLength - 1;
+						}
 						if (this.getPoint3D(1)
 								.equalsForKernel(g.getPoint3D(j))) {
 							sPointFound = true;
@@ -1065,8 +1080,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 					if (sPointFound) {
 						int i = 2;
 						int j = iFirstPoint + step + step;
-						if (j < 0)
+						if (j < 0) {
 							j = j + gLength;
+						}
 						j = j % gLength;
 						boolean pointOK = true;
 						while ((pointOK) && (i < gLength)) {
@@ -1078,8 +1094,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 							 * }else { Log.debug("Arret : "+j); }
 							 */
 							j = j + step;
-							if (j < 0)
+							if (j < 0) {
 								j = gLength - 1;
+							}
 							j = j % gLength;
 							i++;
 						}

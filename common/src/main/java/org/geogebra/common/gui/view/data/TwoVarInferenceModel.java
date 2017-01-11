@@ -99,10 +99,11 @@ public class TwoVarInferenceModel {
 		case StatisticsModel.INFER_TTEST_2MEANS:
 		case StatisticsModel.INFER_TTEST_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
 				list.add(loc.getMenu("MeanDifference"));
-			else
+			} else {
 				list.add(loc.getMenu("fncInspector.Difference"));
+			}
 
 			list.add(loc.getMenu("PValue"));
 			list.add(loc.getMenu("TStatistic"));
@@ -113,10 +114,11 @@ public class TwoVarInferenceModel {
 		case StatisticsModel.INFER_TINT_2MEANS:
 		case StatisticsModel.INFER_TINT_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED) {
 				list.add(loc.getMenu("MeanDifference"));
-			else
+			} else {
 				list.add(loc.getMenu("fncInspector.Difference"));
+			}
 
 			list.add(loc.getMenu("MarginOfError.short"));
 			list.add(loc.getMenu("LowerLimit"));
@@ -147,10 +149,11 @@ public class TwoVarInferenceModel {
 		case StatisticsModel.INFER_TTEST_2MEANS:
 		case StatisticsModel.INFER_TTEST_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
 				listener.setFormattedValueAt(meanDifference, 0, 0);
-			else
+			} else {
 				listener.setFormattedValueAt(diffMeans, 0, 0);
+			}
 
 			listener.setFormattedValueAt(P, 0, 1);
 			listener.setFormattedValueAt(t, 0, 2);
@@ -161,10 +164,11 @@ public class TwoVarInferenceModel {
 		case StatisticsModel.INFER_TINT_2MEANS:
 		case StatisticsModel.INFER_TINT_PAIRED:
 
-			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
+			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED) {
 				listener.setFormattedValueAt(meanDifference, 0, 0);
-			else
+			} else {
 				listener.setFormattedValueAt(diffMeans, 0, 0);
+			}
 
 			listener.setFormattedValueAt(me, 0, 1);
 			listener.setFormattedValueAt(lower, 0, 2);
@@ -204,11 +208,13 @@ public class TwoVarInferenceModel {
 		}
 
 		// exit if paired data is expected and sample sizes are unequal
-		if (isPairedData() && stats1.getN() != stats2.getN())
+		if (isPairedData() && stats1.getN() != stats2.getN()) {
 			return false;
+		}
 
-		if (tTestImpl == null)
+		if (tTestImpl == null) {
 			tTestImpl = new TTestImpl();
+		}
 		double tCritical;
 
 		try {
@@ -234,8 +240,9 @@ public class TwoVarInferenceModel {
 					double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 							/ (n1 + n2 - 2);
 					se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-				} else
+				} else {
 					se = Math.sqrt((v1 / n1) + (v2 / n2));
+				}
 
 				// get confidence interval
 				tDist = new TDistributionImpl(df);
@@ -299,15 +306,14 @@ public class TwoVarInferenceModel {
 	public double adjustedPValue(double p, double testStatistic, String tail) {
 
 		// two sided test
-		if (tail.equals(tail_two))
+		if (tail.equals(tail_two)) {
 			return p;
-
-		// one sided test
-		else if ((tail.equals(tail_right) && testStatistic > 0)
-				|| (tail.equals(tail_left) && testStatistic < 0))
+		} else if ((tail.equals(tail_right) && testStatistic > 0)
+				|| (tail.equals(tail_left) && testStatistic < 0)) {
 			return p / 2;
-		else
+		} else {
 			return 1 - p / 2;
+		}
 	}
 
 	/**

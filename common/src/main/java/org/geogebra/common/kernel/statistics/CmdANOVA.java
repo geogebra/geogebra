@@ -36,8 +36,9 @@ public class CmdANOVA extends CommandProcessor {
 			if (ok[0]) {
 				GeoList list = (GeoList) arg[0];
 
-				if (list.size() == 0)
+				if (list.size() == 0) {
 					throw argErr(app, c, arg[0]);
+				}
 
 				if (list.get(0).isGeoList()) {
 					GeoElement[] ret = {
@@ -57,8 +58,9 @@ public class CmdANOVA extends CommandProcessor {
 			// null ret should mean that an arg is not a GeoList
 			// so find the bad one
 			for (int i = 0; i <= n; i++) {
-				if (!arg[i].isGeoList())
+				if (!arg[i].isGeoList()) {
 					throw argErr(app, c, arg[i]);
+				}
 			}
 			// throw error for any other reason ...
 			throw argErr(app, c, arg[0]);

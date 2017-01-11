@@ -117,16 +117,19 @@ public abstract class AbstractStorelessUnivariateStatistic extends
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract void clear();
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract double getResult();
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract void increment(final double d);
 
 	/**
@@ -142,6 +145,7 @@ public abstract class AbstractStorelessUnivariateStatistic extends
 	 *             if values is null
 	 * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[])
 	 */
+	@Override
 	public void incrementAll(double[] values) {
 		if (values == null) {
 			throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
@@ -167,6 +171,7 @@ public abstract class AbstractStorelessUnivariateStatistic extends
 	 * @see org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[],
 	 *      int, int)
 	 */
+	@Override
 	public void incrementAll(double[] values, int begin, int length) {
 		if (test(values, begin, length)) {
 			int k = begin + length;

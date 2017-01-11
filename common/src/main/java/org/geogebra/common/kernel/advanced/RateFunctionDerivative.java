@@ -39,6 +39,7 @@ public class RateFunctionDerivative implements UnivariateRealFunction {
 		this.pmtType = pmtType;
 	}
 
+	@Override
 	public double value(double x) throws FunctionEvaluationException {
 		double a = pv;
 		// double n = n;

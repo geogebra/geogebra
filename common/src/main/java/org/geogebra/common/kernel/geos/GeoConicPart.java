@@ -110,8 +110,9 @@ public class GeoConicPart extends GeoConic
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		if (!geo.isGeoConicPart())
+		if (!geo.isGeoConicPart()) {
 			return;
+		}
 
 		GeoConicPart cp = (GeoConicPart) geo;
 
@@ -135,6 +136,7 @@ public class GeoConicPart extends GeoConic
 	 * 
 	 * @return CONIC_PART_ARC or CONIC_PART_SECTOR
 	 */
+	@Override
 	final public int getConicPartType() {
 		if (parameters == null) { // for default settings
 			return GeoConicNDConstants.CONIC_PART_ARC;
@@ -145,6 +147,7 @@ public class GeoConicPart extends GeoConic
 	/**
 	 * @return start parameter
 	 */
+	@Override
 	final public double getParameterStart() {
 		return parameters.paramStart;
 	}
@@ -152,6 +155,7 @@ public class GeoConicPart extends GeoConic
 	/**
 	 * @return end parameter
 	 */
+	@Override
 	final public double getParameterEnd() {
 		return parameters.paramEnd;
 	}
@@ -159,6 +163,7 @@ public class GeoConicPart extends GeoConic
 	/**
 	 * @return end parameter - start parameter
 	 */
+	@Override
 	final public double getParameterExtent() {
 		return parameters.paramExtent;
 	}
@@ -166,6 +171,7 @@ public class GeoConicPart extends GeoConic
 	/**
 	 * @return start parameter
 	 */
+	@Override
 	final public boolean positiveOrientation() {
 		return parameters.posOrientation;
 	}
@@ -177,8 +183,9 @@ public class GeoConicPart extends GeoConic
 	@Override
 	final public boolean isEqual(GeoElement geo) {
 
-		if (!geo.isGeoConicPart())
+		if (!geo.isGeoConicPart()) {
 			return false;
+		}
 
 		GeoConicPart other = (GeoConicPart) geo;
 
@@ -197,6 +204,7 @@ public class GeoConicPart extends GeoConic
 	 * @param positiveOrientation
 	 *            true for positive orientation
 	 */
+	@Override
 	final public void setParameters(double start, double end,
 			boolean positiveOrientation) {
 
@@ -229,6 +237,7 @@ public class GeoConicPart extends GeoConic
 	 * 
 	 * @return arc length
 	 */
+	@Override
 	final public double getArcLength() {
 		return parameters.getArcLength();
 	}
@@ -256,23 +265,28 @@ public class GeoConicPart extends GeoConic
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		if (parameters.value_defined)
+		if (parameters.value_defined) {
 			return kernel.format(parameters.value, tpl);
+		}
 		return kernel.format(Double.NaN, tpl);
 	}
 
+	@Override
 	public boolean allowOutlyingIntersections() {
 		return parameters.allowOutlyingIntersections;
 	}
 
+	@Override
 	public void setAllowOutlyingIntersections(boolean flag) {
 		parameters.allowOutlyingIntersections = flag;
 	}
 
+	@Override
 	public boolean keepsTypeOnGeometricTransform() {
 		return parameters.keepTypeOnGeometricTransform;
 	}
 
+	@Override
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		parameters.keepTypeOnGeometricTransform = flag;
 	}
@@ -298,12 +312,14 @@ public class GeoConicPart extends GeoConic
 		double eps = precision;
 		GeoPoint P = (GeoPoint) PI;
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		// check if P lies on conic first
-		if (!isOnFullConic(P, eps))
+		if (!isOnFullConic(P, eps)) {
 			return false;
+		}
 
 		// idea: calculate path parameter and check
 		// if it is in [0, 1]
@@ -340,8 +356,9 @@ public class GeoConicPart extends GeoConic
 		}
 
 		// adapt eps for very large circles (almost line)
-		if (halfAxes[0] > 100)
+		if (halfAxes[0] > 100) {
 			eps = Math.max(Kernel.MAX_PRECISION, eps / halfAxes[0]);
+		}
 
 		boolean result = pPP.t >= -eps && pPP.t <= 1 + eps;
 
@@ -357,8 +374,9 @@ public class GeoConicPart extends GeoConic
 	private PathParameter tempPP;
 
 	private PathParameter getTempPathParameter() {
-		if (tempPP == null)
+		if (tempPP == null) {
 			tempPP = new PathParameter();
+		}
 		return tempPP;
 	}
 
@@ -379,6 +397,7 @@ public class GeoConicPart extends GeoConic
 	 * @param pp
 	 *            path parameter
 	 */
+	@Override
 	public void superPointChanged(Coords P, PathParameter pp) {
 		super.pointChanged(P, pp, true);
 	}
@@ -564,10 +583,12 @@ public class GeoConicPart extends GeoConic
 	/**
 	 * interface NumberValue
 	 */
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getValue());
 	}
 
+	@Override
 	final public double getDouble() {
 		return getValue();
 	}
@@ -582,6 +603,7 @@ public class GeoConicPart extends GeoConic
 		return true;
 	}
 
+	@Override
 	public GeoElement[] createTransformedObject(Transform t,
 			String transformedLabel) {
 		if (parameters.keepTypeOnGeometricTransform) {
@@ -692,10 +714,11 @@ public class GeoConicPart extends GeoConic
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
 							transformedConic, points[0], points[1],
 							conic_part_type);
-				} else
+				} else {
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
 							transformedConic, points[1], points[0],
 							conic_part_type);
+				}
 				GeoConicPart conicPart = ((AlgoConicPartConicPoints) algo)
 						.getConicPart();
 				conicPart.setVisualStyleForTransformations(this);
@@ -724,8 +747,9 @@ public class GeoConicPart extends GeoConic
 	@Override
 	public boolean isInRegion(double x0, double y0) {
 
-		if (!super.isInRegion(x0, y0))
+		if (!super.isInRegion(x0, y0)) {
 			return false;
+		}
 
 		return parameters.isInRegion(x0, y0);
 	}
@@ -743,8 +767,9 @@ public class GeoConicPart extends GeoConic
 
 		// check points of the conic part
 		Coords midPoint = getMidpoint2D();
-		if (getConicPartType() == CONIC_PART_SECTOR)
+		if (getConicPartType() == CONIC_PART_SECTOR) {
 			nearestPoint.check(midPoint);
+		}
 
 		Coords ev0 = new Coords(3);
 		ev0.set(getEigenvec(0));
@@ -782,8 +807,9 @@ public class GeoConicPart extends GeoConic
 			coords.projectLineSub(firstPoint, secondPoint, tmpCoords,
 					tmpParameters);
 			// check if the projected point is on the segment
-			if (tmpParameters[0] > 0 && tmpParameters[0] < 1)
+			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) {
 				nearestPoint.check(tmpCoords);
+			}
 		}
 
 		// may calc the nearest point of the global conic
@@ -815,8 +841,9 @@ public class GeoConicPart extends GeoConic
 
 		super.regionChanged(PI);
 		PI.updateCoords2D();
-		if (!isInRegion(PI))
+		if (!isInRegion(PI)) {
 			pointChanged(PI);
+		}
 	}
 
 	@Override
@@ -824,19 +851,23 @@ public class GeoConicPart extends GeoConic
 		return true;
 	}
 
+	@Override
 	public boolean isAllEndpointsLabelsSet() {
 		AlgoElement algo = this.getParentAlgorithm();
-		if (algo == null)// should never happen, just to be sure
+		if (algo == null) {
 			return false;
-		if (algo instanceof AlgoConicPartConicPoints)
+		}
+		if (algo instanceof AlgoConicPartConicPoints) {
 			return ((AlgoConicPartConicPoints) algo).getStartPoint()
 					.isLabelSet()
 					&& ((AlgoConicPartConicPoints) algo).getEndPoint()
 							.isLabelSet();
-		if (algo instanceof AlgoConicPartCircumcircle)
+		}
+		if (algo instanceof AlgoConicPartCircumcircle) {
 			return algo.getInput()[0].isLabelSet()
 					&& algo.getInput()[1].isLabelSet()
 					&& algo.getInput()[2].isLabelSet();
+		}
 		return false;
 	}
 
@@ -854,6 +885,7 @@ public class GeoConicPart extends GeoConic
 		return ret;
 	}
 
+	@Override
 	public GeoConicPartParameters getParameters() {
 		return parameters;
 	}
@@ -863,10 +895,12 @@ public class GeoConicPart extends GeoConic
 		return lines[i].getStartInhomCoords();
 	}
 
+	@Override
 	public Coords getSegmentEnd3D() {
 		return lines[0].getEndInhomCoords();
 	}
 
+	@Override
 	public void setParametersToSinglePoint() {
 		parameters.value = 0;
 		parameters.value_defined = true;

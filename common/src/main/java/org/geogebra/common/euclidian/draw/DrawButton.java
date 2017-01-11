@@ -138,8 +138,9 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		// get caption to show r
 		String caption = geo.getCaption(StringTemplate.defaultTemplate);
@@ -192,6 +193,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	/**
 	 * Removes button from view again
 	 */
+	@Override
 	final public void remove() {
 		// ((EuclidianView)view).remove(myButton);
 	}

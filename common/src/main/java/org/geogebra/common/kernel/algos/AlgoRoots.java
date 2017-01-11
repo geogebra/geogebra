@@ -209,8 +209,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	@Override
 	protected double yAt(double x) {
-		if (type == TYPE_ROOTS)
+		if (type == TYPE_ROOTS) {
 			return 0;
+		}
 		return f1.evaluate(x);
 	}
 
@@ -253,8 +254,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				}
 				m = m * 2;
 			} while (m < MAX_SAMPLES);
-			if (m > MAX_SAMPLES)
+			if (m > MAX_SAMPLES) {
 				Log.debug("We have probably lost some roots...");
+			}
 		} catch (Exception e) {
 			Log.debug("Exception in compute() " + e.toString());
 		} // try-catch
@@ -343,8 +345,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		UnivariateRealSolver rootFinder = UnivariateRealSolverFactory
 				.newInstance().newBrentSolver(); // Apache lib
 
-		if (!f.isDefined())
+		if (!f.isDefined()) {
 			return Double.NaN;
+		}
 
 		double root = Double.NaN;
 		Function fun = f.getFunction();
@@ -397,11 +400,13 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		left = x - delta;
 		right = x + delta;
 		int count = 0;
-		while (Math.abs(lefty = f.evaluate(left)) < delta && count++ < 100)
+		while (Math.abs(lefty = f.evaluate(left)) < delta && count++ < 100) {
 			left = left - delta;
+		}
 		count = 0;
-		while (Math.abs(righty = f.evaluate(right)) < delta && count++ < 100)
+		while (Math.abs(righty = f.evaluate(right)) < delta && count++ < 100) {
 			right = right + delta;
+		}
 		signChanged = lefty * righty < 0.0d;
 		return signChanged;
 	}// signChanged(f,x,deltax)
@@ -480,6 +485,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * objects for (int i = 0; i < getOutputLength(); i++) {
 	 * getOutput(i).updateCascade(); } }
 	 */
+	@Override
 	public boolean euclidianViewUpdate() {
 		compute();
 		return true;

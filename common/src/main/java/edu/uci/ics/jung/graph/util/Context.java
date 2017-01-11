@@ -42,8 +42,9 @@ public class Context<G, E> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Context))
+		if (!(o instanceof Context)) {
 			return false;
+		}
 		Context context = (Context) o;
 		return context.graph.equals(graph) && context.element.equals(element);
 	}

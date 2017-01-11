@@ -356,6 +356,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return used color space (GeoElement.COLORSPACE_*)
 	 */
+	@Override
 	public int getColorSpace() {
 		return colorSpace;
 	}
@@ -364,6 +365,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param colorSpace
 	 *            color space (GeoElement.COLORSPACE_*)
 	 */
+	@Override
 	public void setColorSpace(final int colorSpace) {
 		this.colorSpace = colorSpace;
 	}
@@ -549,6 +551,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return label if it is set
 	 */
+	@Override
 	public String getLabelSimple() {
 		return label;
 	}
@@ -559,6 +562,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param lab
 	 *            the label to set
 	 */
+	@Override
 	public void setLabelSimple(final String lab) {
 		label = lab;
 		GeoElementSpreadsheet.setBackgroundColor(this);
@@ -572,6 +576,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            string template
 	 * @return label or output value string
 	 */
+	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (!tpl.isUseRealLabels() || (realLabel == null)
 				|| "".equals(realLabel)) {
@@ -603,6 +608,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param mode
 	 *            LABEL_ mode
 	 */
+	@Override
 	public void setLabelMode(final int mode) {
 
 		if (isDefaultGeo()) {
@@ -732,6 +738,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return label mode (name, value, name + value, caption)
 	 */
+	@Override
 	public int getLabelMode() {
 		return labelMode;
 	}
@@ -750,6 +757,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return GeoClass
 	 */
+	@Override
 	public abstract GeoClass getGeoClassType();
 
 	/**
@@ -758,6 +766,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return copy of current element
 	 */
+	@Override
 	public abstract GeoElement copy();
 
 	/**
@@ -778,6 +787,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            construction
 	 * @return copy in given construction
 	 */
+	@Override
 	public GeoElement copyInternal(final Construction consToCopy) {
 		// default implementation: changed in some subclasses
 		final GeoElement geoCopy = copy();
@@ -840,11 +850,13 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param kernel1
 	 *            Kernel
 	 */
+	@Override
 	public ExpressionValue deepCopy(final Kernel kernel1) {
 		// default implementation: changed in some subclasses
 		return copy();
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		// do nothing
 	}
@@ -852,6 +864,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for infinite numbers or points with infinite coords
 	 */
+	@Override
 	public boolean isInfinite() {
 		return false;
 	}
@@ -862,6 +875,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param geo
 	 *            geo to copy
 	 */
+	@Override
 	public abstract void set(GeoElementND geo);
 
 	/**
@@ -869,14 +883,17 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return false when undefined
 	 */
+	@Override
 	public abstract boolean isDefined();
 
 	/**
 	 * Makes object undefined, some objects lose their internally stored value
 	 * when this is called
 	 */
+	@Override
 	public abstract void setUndefined();
 
+	@Override
 	public abstract String toValueString(StringTemplate tpl);
 
 	private EuclidianViewInterfaceSlim viewForValueString;
@@ -920,6 +937,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            if true, use outputValueString rather than valueString
 	 * @return definition or value string of this object
 	 */
+	@Override
 	public String getRedefineString(final boolean useChangeable,
 			final boolean useOutputValueString) {
 
@@ -954,6 +972,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *
 	 * @return definition for input field
 	 */
+	@Override
 	public String getDefinitionForInputBar() {
 		return getDefinitionForInputBar(StringTemplate.editTemplate);
 	}
@@ -1005,6 +1024,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return value for input field
 	 */
+	@Override
 	public String getValueForInputBar() {
 		StringTemplate tpl = StringTemplate.editTemplate;
 
@@ -1026,6 +1046,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * needed for texts that need to be quoted in lists and as command
 	 * arguments.
 	 */
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
 			return label;
@@ -1062,6 +1083,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param color
 	 *            new color for this object
 	 */
+	@Override
 	public void setObjColor(final GColor color) {
 		isColorSet = !this.isDefaultGeo() || !this.isGeoNumeric();
 		objColor = color == null ? GColor.BLACK : color;
@@ -1231,6 +1253,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return color of object for selection
 	 */
 	// Michael Borcherds 2008-04-02
+	@Override
 	public GColor getSelColor() {
 		if (colFunction == null) {
 			return selColor;
@@ -1243,6 +1266,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return color of fill
 	 */
 	// Michael Borcherds 2008-04-02
+	@Override
 	public GColor getFillColor() {
 		if (colFunction == null) {
 			return fillColor;
@@ -1255,6 +1279,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return color for algebra view (same as label or black)
 	 */
+	@Override
 	public GColor getAlgebraColor() {
 		return GColor.updateForWhiteBackground(objColor);
 	}
@@ -1264,6 +1289,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return color of label
 	 */
 	// Michael Borcherds 2008-04-01
+	@Override
 	public GColor getLabelColor() {
 		return getObjectColor();
 	}
@@ -1272,6 +1298,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return color of background
 	 */
+	@Override
 	public GColor getBackgroundColor() {
 		return bgColor;
 	}
@@ -1290,6 +1317,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return current color for this object
 	 */
 	// Michael Borcherds 2008-04-02
+	@Override
 	public GColor getObjectColor() {
 		GColor col = objColor;
 
@@ -1311,6 +1339,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param layer2
 	 *            layer from 0 to 9
 	 */
+	@Override
 	public void setLayer(int layer2) {
 		int newlayer = layer2;
 		// Application.printStacktrace("layer="+layer);
@@ -1337,6 +1366,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return layer of this geo (0 to 9)
 	 */
+	@Override
 	public int getLayer() {
 		return layer;
 	}
@@ -1411,6 +1441,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param alpha
 	 *            new alpha value
 	 */
+	@Override
 	public void setAlphaValue(final double alpha) {
 		if ((fillColor == null) || (alpha < 0.0f) || (alpha > 1.0f)) {
 			return;
@@ -1427,6 +1458,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         NOTE: can be -1 for lists, see GeoList.getAlphaValue(),
 	 *         GeoList.setgetAlphaValue()
 	 */
+	@Override
 	public double getAlphaValue() {
 		if ((colFunction == null) || (colFunction.size() == 3)) {
 			return alphaValue;
@@ -1485,6 +1517,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param keepAdvanced
 	 *            true to skip copying color function and visibility condition
 	 */
+	@Override
 	final public void setAllVisualProperties(final GeoElement geo,
 			final boolean keepAdvanced) {
 
@@ -1564,6 +1597,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param geo
 	 *            source geo
 	 */
+	@Override
 	public void setVisualStyleForTransformations(final GeoElement geo) {
 		setVisualStyle(geo);
 		setFixed(false);
@@ -1577,6 +1611,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param geo
 	 *            source geo
 	 */
+	@Override
 	public void setVisualStyle(final GeoElement geo) {
 
 		// label style
@@ -1700,6 +1735,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param geo
 	 *            style source
 	 */
+	@Override
 	public final void setAdvancedVisualStyleCopy(final GeoElementND geo) {
 		// copy color function
 		if (geo.getColorFunction() != null) {
@@ -1761,6 +1797,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return whether object should be visible in at least one view
 	 */
+	@Override
 	final public boolean isVisible() {
 		return isEuclidianVisible() || isAlgebraVisible();
 	}
@@ -1768,6 +1805,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return whether object should be drawn in euclidian view
 	 */
+	@Override
 	final public boolean isEuclidianVisible() {
 
 		// used by DrawPoint to draw parts of intersection objects near the
@@ -1792,6 +1830,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param visible
 	 *            true to allow drawing this in EV
 	 */
+	@Override
 	public void setEuclidianVisible(final boolean visible) {
 		euclidianVisible = visible;
 	}
@@ -1802,6 +1841,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param visible
 	 *            true to allow drawing this in EV
 	 */
+	@Override
 	public void setEuclidianVisibleIfNoConditionToShowObject(
 			final boolean visible) {
 		if (condShowObject == null) {
@@ -1822,6 +1862,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if this is allowed to be drawn in EV
 	 */
+	@Override
 	public boolean isSetEuclidianVisible() {
 		return euclidianVisible;
 	}
@@ -1864,6 +1905,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if this can be drawn
 	 */
+	@Override
 	public boolean isDrawable() {
 		return true;
 	}
@@ -1871,6 +1913,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if this can be filled
 	 */
+	@Override
 	public boolean isFillable() {
 		return false;
 	}
@@ -1881,6 +1924,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/** @return true if tracing is posible */
+	@Override
 	public boolean isTraceable() {
 		return false;
 	}
@@ -1894,6 +1938,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param flag
 	 *            true to make this fixed
 	 */
+	@Override
 	public final void setFixed(final boolean flag) {
 		if (!flag) {
 			fixed = flag;
@@ -1914,6 +1959,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * if an object has a fixed descendent, we want to set it undefined
 	 */
+	@Override
 	final public void removeOrSetUndefinedIfHasFixedDescendent() {
 
 		// can't delete a fixed object at all
@@ -1945,6 +1991,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for auxiliary objects
 	 */
+	@Override
 	final public boolean isAuxiliaryObject() {
 		return auxiliaryObject;
 	}
@@ -1961,6 +2008,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return this
 	 */
+	@Override
 	final public GeoElement toGeoElement() {
 		return this;
 	}
@@ -1969,6 +2017,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param flag
 	 *            true to make this auxiliary
 	 */
+	@Override
 	public void setAuxiliaryObject(final boolean flag) {
 		if (auxiliaryObject != flag) {
 			auxiliaryObject = flag;
@@ -1984,6 +2033,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param visible
 	 *            true to make label visible
 	 */
+	@Override
 	public void setLabelVisible(final boolean visible) {
 		labelVisible = visible;
 	}
@@ -1993,6 +2043,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if label should be shown
 	 */
+	@Override
 	public boolean isLabelVisible() {
 		return labelVisible && isLabelSet();
 	}
@@ -2124,6 +2175,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param mode
 	 *            new tooltip mode
 	 */
+	@Override
 	public void setTooltipMode(final int mode) {
 		// return isAlgebraVisible();
 		switch (mode) {
@@ -2197,6 +2249,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return algorithm responsible for computation of this object
 	 */
+	@Override
 	final public AlgoElement getParentAlgorithm() {
 		return algoParent;
 	}
@@ -2205,6 +2258,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param algorithm
 	 *            algorithm responsible for drawing this
 	 */
+	@Override
 	public void setDrawAlgorithm(final DrawInformationAlgo algorithm) {
 		if (algorithm instanceof AlgoElement) {
 			algoDraw = (AlgoElement) algorithm;
@@ -2214,6 +2268,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return algorithm responsible for drawing this
 	 */
+	@Override
 	final public AlgoElement getDrawAlgorithm() {
 		if (algoDraw == null) {
 			return algoParent;
@@ -2252,6 +2307,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true for points on path
 	 */
+	@Override
 	public boolean isPointOnPath() {
 		return false;
 	}
@@ -2275,6 +2331,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true for moveable objects
 	 */
+	@Override
 	public boolean isMoveable() {
 		return isChangeable();
 	}
@@ -2527,6 +2584,7 @@ public abstract class GeoElement extends ConstructionElement
 		animationIncrement = v;
 	}
 
+	@Override
 	public double getAnimationStep() {
 		if (animationIncrement == null) {
 			animationIncrement = new MyDouble(kernel,
@@ -2689,6 +2747,7 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
+	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
 		// if (symbolic)
@@ -2782,6 +2841,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @throws MyError
 	 *             : if new label is already in use
 	 */
+	@Override
 	public boolean rename(String labelNew) {
 		String newLabel = labelNew;
 		if (!isRenameable()) {
@@ -2815,6 +2875,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if this geo has valid label
 	 */
+	@Override
 	public boolean isLabelSet() {
 		return labelSet;
 	}
@@ -2829,6 +2890,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param labelNew
 	 *            new label
 	 */
+	@Override
 	public final void setLabel(String labelNew) {
 		String newLabel = labelNew;
 		// Application.printStacktrace(newLabel);
@@ -2909,6 +2971,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param label
 	 *            label
 	 */
+	@Override
 	public void setLoadedLabel(final String label) {
 		if (isLabelSet()) { // label was set before -> rename
 			doRenameLabel(label);
@@ -2926,6 +2989,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            raw caption
 	 * @return true if new caption is not null
 	 */
+	@Override
 	public boolean setCaption(String caption1) {
 		String caption2 = caption1;
 		if ((caption2 == null) || caption2.equals(label)) {
@@ -2966,6 +3030,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            string template
 	 * @return caption (or label if caption is null)
 	 */
+	@Override
 	public String getCaption(StringTemplate tpl) {
 		if (caption == null) {
 			return getLabel(tpl);
@@ -3078,6 +3143,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/** @return caption without substitution; returns "" if caption is null */
+	@Override
 	public String getRawCaption() {
 		if (caption == null) {
 			return "";
@@ -3331,6 +3397,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return label before renaming
 	 */
+	@Override
 	final public String getOldLabel() {
 		return oldLabel;
 	}
@@ -3448,6 +3515,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            label to be tried first
 	 * @return free label -- either suggestedLabel or suggestedLabel_index
 	 */
+	@Override
 	public String getFreeLabel(final String suggestedLabel) {
 		if (suggestedLabel != null) {
 			if ("x".equals(suggestedLabel) || "y".equals(suggestedLabel)) {
@@ -3477,6 +3545,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return deafult label for this geo (depends on type)
 	 */
+	@Override
 	public String getDefaultLabel() {
 		return getDefaultLabel(null, false);
 	}
@@ -3654,6 +3723,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            e.g. "c"
 	 * @return indexed label, e.g. "c_2"
 	 */
+	@Override
 	public String getIndexLabel(final String prefix) {
 		if (prefix == null) {
 			return getFreeLabel(null) + "_1";
@@ -3708,6 +3778,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * removes this GeoElement and all its dependents
 	 */
+	@Override
 	public void doRemove() {
 		// stop animation of this geo
 		setAnimating(false);
@@ -3793,6 +3864,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return latex cache
 	 */
+	@Override
 	public LaTeXCache getLaTeXCache() {
 		if (latexCache == null) {
 			latexCache = LaTeXFactory.getPrototype().newLaTeXCache();
@@ -3855,6 +3927,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param algorithm
 	 *            algorithm directly dependent on this
 	 */
+	@Override
 	final public void addAlgorithm(final AlgoElement algorithm) {
 		if (!(getAlgorithmList().contains(algorithm))) {
 			algorithmList.add(algorithm);
@@ -3870,6 +3943,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param algorithm
 	 *            algo to be added
 	 */
+	@Override
 	final public void addToAlgorithmListOnly(final AlgoElement algorithm) {
 		if (!getAlgorithmList().contains(algorithm)) {
 			algorithmList.add(algorithm);
@@ -3884,6 +3958,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param algorithm
 	 *            algorithm to be added
 	 */
+	@Override
 	final public void addToUpdateSetOnly(final AlgoElement algorithm) {
 		addToUpdateSets(algorithm);
 	}
@@ -3894,6 +3969,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param algorithm
 	 *            algorithm to be removed
 	 */
+	@Override
 	final public void removeAlgorithm(final AlgoElement algorithm) {
 		if (algorithmList != null) {
 			algorithmList.remove(algorithm);
@@ -3904,6 +3980,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return set of all dependent algos in topological order
 	 */
+	@Override
 	public AlgorithmSet getAlgoUpdateSet() {
 		if (algoUpdateSet == null) {
 			algoUpdateSet = new AlgorithmSet();
@@ -3919,6 +3996,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            algo to be added
 	 * @return true if added
 	 */
+	@Override
 	public boolean addToUpdateSets(final AlgoElement algorithm) {
 		final boolean added = getAlgoUpdateSet().add(algorithm);
 
@@ -3943,6 +4021,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            algo to be removed
 	 * @return true if removed
 	 */
+	@Override
 	public boolean removeFromUpdateSets(final AlgoElement algorithm) {
 		final boolean removed = (algoUpdateSet != null)
 				&& algoUpdateSet.remove(algorithm);
@@ -4039,6 +4118,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
+	@Override
 	public void updateCascade() {
 		updateCascade(false);
 	}
@@ -4085,6 +4165,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
+	@Override
 	public boolean hasAlgoUpdateSet() {
 		return algoUpdateSet != null;
 	}
@@ -4281,10 +4362,12 @@ public abstract class GeoElement extends ConstructionElement
 	 * Updates this object and all dependent ones. Notifies kernel to repaint
 	 * views.
 	 */
+	@Override
 	public void updateRepaint() {
 		updateRepaint(false);
 	}
 
+	@Override
 	public void updateVisualStyle(GProperty prop) {
 		// updateGeo();
 		kernel.notifyUpdateVisualStyle(this, prop);
@@ -4302,10 +4385,12 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * implementation of interface ExpressionValue
 	 */
+	@Override
 	public boolean isConstant() {
 		return false;
 	}
 
+	@Override
 	public final boolean isLeaf() {
 		return true;
 	}
@@ -4315,12 +4400,15 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return number or undefined double
 	 */
+	@Override
 	public double evaluateDouble() {
-		if (this instanceof NumberValue)
+		if (this instanceof NumberValue) {
 			return ((NumberValue) this).getDouble();
+		}
 		return Double.NaN;
 	}
 
+	@Override
 	final public ExpressionValue evaluate(StringTemplate tpl) {
 		if (this instanceof GeoCasCell) {
 			return ((GeoCasCell) this).getOutputValidExpression();
@@ -4332,6 +4420,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * Returns just set with just one element (itself). Do not ever remove the
 	 * final flag, it will break the update mechanism.
 	 */
+	@Override
 	public final HashSet<GeoElement> getVariables() {
 		final HashSet<GeoElement> ret = new HashSet<GeoElement>();
 		ret.add(this);
@@ -4450,6 +4539,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            other geo
 	 * @return true if geo depends on this object.
 	 */
+	@Override
 	final public boolean isParentOf(final GeoElementND geo) {
 		if (algoUpdateSet != null) {
 			final Iterator<AlgoElement> it = algoUpdateSet.getIterator();
@@ -4471,6 +4561,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if this object is parent of other geos.
 	 */
+	@Override
 	final public boolean hasChildren() {
 		return (algorithmList != null) && (algorithmList.size() > 0);
 	}
@@ -4482,6 +4573,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            other geo
 	 * @return true if this object is dependent on geo.
 	 */
+	@Override
 	final public boolean isChildOf(final GeoElement geo) {
 		if ((geo == null) || isIndependent()) {
 			return false;
@@ -4505,6 +4597,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return set of all children of this geo
 	 */
+	@Override
 	final public TreeSet<GeoElement> getAllChildren() {
 		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
 		if (algoUpdateSet != null) {
@@ -4718,6 +4811,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return type string for XML
 	 */
+	@Override
 	final public String getXMLtypeString() {
 		// don't use getTypeString() as it's overridden
 		return StringUtil.toLowerCase(getGeoClassType().xmlName);
@@ -4762,6 +4856,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return Type, label and definition information about this GeoElement (for
 	 *         tooltips and error messages)
 	 */
+	@Override
 	final public String getLongDescription() {
 		if (algoParent == null) {
 			return getNameDescription();
@@ -4928,6 +5023,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return label, value, label+value or caption
 	 */
+	@Override
 	public String getLabelDescription() {
 		switch (labelMode) {
 		case LABEL_NAME_VALUE:
@@ -5135,6 +5231,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return LaTeX description
 	 */
+	@Override
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
 			if (isDefined() && !isInfinite()) {
@@ -5529,8 +5626,9 @@ public abstract class GeoElement extends ConstructionElement
 		getXMLtags(sb);
 		getCaptionXML(sb);
 		getExtraTagsXML(sb);
-		if (getListenersToo)
+		if (getListenersToo) {
 			getListenerTagsXML(sb);
+		}
 		getElementCloseTagXML(sb);
 
 	}
@@ -6094,6 +6192,7 @@ public abstract class GeoElement extends ConstructionElement
 		return "";
 	}
 
+	@Override
 	final public int getLineThickness() {
 		return lineThickness;
 	}
@@ -6106,6 +6205,7 @@ public abstract class GeoElement extends ConstructionElement
 		return 1;
 	}
 
+	@Override
 	final public int getLineType() {
 		return lineType;
 	}
@@ -6121,6 +6221,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param th
 	 *            new thickness
 	 */
+	@Override
 	public void setLineThickness(final int th) {
 		lineThickness = Math.max(0, th);
 	}
@@ -6149,6 +6250,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param i
 	 *            new type
 	 */
+	@Override
 	public void setLineType(final int i) {
 		lineType = i;
 	}
@@ -6176,15 +6278,17 @@ public abstract class GeoElement extends ConstructionElement
 	 *            max for this object class
 	 */
 	public void setDecorationType(final int type, int max) {
-		if (type >= max || type < 0)
+		if (type >= max || type < 0) {
 			decorationType = DECORATION_NONE;
-		else
+		} else {
 			decorationType = type;
+		}
 	}
 
 	/**
 	 * @return true for 3D GeoElements
 	 */
+	@Override
 	public boolean isGeoElement3D() {
 		return false;
 	}
@@ -6196,6 +6300,7 @@ public abstract class GeoElement extends ConstructionElement
 		return isFillable();
 	}
 
+	@Override
 	public boolean isRegion3D() {
 		return false;
 	}
@@ -6218,6 +6323,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for angles
 	 */
+	@Override
 	public boolean isGeoAngle() {
 		return false;
 	}
@@ -6232,6 +6338,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for polylines
 	 */
+	@Override
 	public boolean isGeoPolyLine() {
 		return false;
 	}
@@ -6260,6 +6367,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for conics
 	 */
+	@Override
 	public boolean isGeoConic() {
 		return false;
 	}
@@ -6267,6 +6375,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for conic arcs/sectors
 	 */
+	@Override
 	public boolean isGeoConicPart() {
 		return false;
 	}
@@ -6274,6 +6383,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for valid functions
 	 */
+	@Override
 	public boolean isGeoFunction() {
 		return false;
 	}
@@ -6302,6 +6412,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for functionables
 	 */
+	@Override
 	public boolean isGeoFunctionable() {
 		return false;
 	}
@@ -6309,6 +6420,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for images
 	 */
+	@Override
 	public boolean isGeoImage() {
 		return false;
 	}
@@ -6323,6 +6435,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for lines
 	 */
+	@Override
 	public boolean isGeoLine() {
 		return false;
 	}
@@ -6351,6 +6464,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for numbers
 	 */
+	@Override
 	public boolean isGeoNumeric() {
 		return false;
 	}
@@ -6358,6 +6472,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for (ND) points
 	 */
+	@Override
 	public boolean isGeoPoint() {
 		return false;
 	}
@@ -6365,6 +6480,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for CAS cells
 	 */
+	@Override
 	public boolean isGeoCasCell() {
 		return false;
 	}
@@ -6375,6 +6491,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for polygons
 	 */
+	@Override
 	public boolean isGeoPolygon() {
 		return false;
 	}
@@ -6382,6 +6499,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for polyhedrons
 	 */
+	@Override
 	public boolean isGeoPolyhedron() {
 		return false;
 	}
@@ -6389,6 +6507,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for rays
 	 */
+	@Override
 	public boolean isGeoRay() {
 		return false;
 	}
@@ -6396,6 +6515,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for segments
 	 */
+	@Override
 	public boolean isGeoSegment() {
 		return false;
 	}
@@ -6403,6 +6523,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for texts
 	 */
+	@Override
 	public boolean isGeoText() {
 		return false;
 	}
@@ -6410,6 +6531,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for vectors
 	 */
+	@Override
 	public boolean isGeoVector() {
 		return false;
 	}
@@ -6417,6 +6539,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for cartesian curves
 	 */
+	@Override
 	public boolean isGeoCurveCartesian() {
 		return false;
 	}
@@ -6435,14 +6558,17 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
+	@Override
 	final public boolean isExpressionNode() {
 		return false;
 	}
 
+	@Override
 	final public boolean isVariable() {
 		return false;
 	}
 
+	@Override
 	final public boolean contains(final ExpressionValue ev) {
 		return ev == this;
 	}
@@ -6455,6 +6581,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param flag
 	 *            true to make this selected
 	 */
+	@Override
 	public void setSelected(final boolean flag) {
 		selected = flag;
 	}
@@ -6470,6 +6597,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if highlighted or selected
 	 */
+	@Override
 	final public boolean doHighlighting() {
 		return (highlighted || selected)
 				&& (!isFixed() || isSelectionAllowed(null));
@@ -6482,6 +6610,7 @@ public abstract class GeoElement extends ConstructionElement
 		return selected;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
@@ -6493,18 +6622,22 @@ public abstract class GeoElement extends ConstructionElement
 		return 0;
 	}
 
+	@Override
 	public boolean evaluatesToNonComplex2DVector() {
 		return false;
 	}
 
+	@Override
 	public boolean evaluatesToVectorNotPoint() {
 		return false;
 	}
 
+	@Override
 	public boolean evaluatesToText() {
 		return false;
 	}
 
+	@Override
 	public boolean evaluatesToList() {
 		return false;
 	}
@@ -6512,6 +6645,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for buttons
 	 */
+	@Override
 	public boolean isGeoButton() {
 		return false;
 	}
@@ -6541,6 +6675,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return condition to show this geo
 	 */
+	@Override
 	final public GeoBoolean getShowObjectCondition() {
 		return condShowObject;
 	}
@@ -6551,6 +6686,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @throws CircularDefinitionException
 	 *             if this == cond
 	 */
+	@Override
 	public void setShowObjectCondition(final GeoBoolean cond)
 			throws CircularDefinitionException {
 		// check for circular definition
@@ -6589,6 +6725,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return dynamic color as list of numbers {R,G,B} / {H,S,L} / {H,S,B}
 	 */
+	@Override
 	final public GeoList getColorFunction() {
 		return colFunction;
 	}
@@ -6597,6 +6734,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param col
 	 *            dynamic color as list of numbers {R,G,B} / {H,S,L} / {H,S,B}
 	 */
+	@Override
 	public void setColorFunction(final GeoList col)
 	// throws CircularDefinitionException
 	{
@@ -6710,6 +6848,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
+		@Override
 		public int compare(AlgoElement o1, AlgoElement o2) {
 			return o1.compareTo(o2);
 		}
@@ -7073,6 +7212,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            other geo
 	 * @return true if these elements are algebraically equal
 	 */
+	@Override
 	public abstract boolean isEqual(GeoElement geo);
 
 	/**
@@ -7117,6 +7257,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            true to substitute numbers
 	 * @return formula string
 	 */
+	@Override
 	public String getFormulaString(final StringTemplate tpl,
 			final boolean substituteNumbers) {
 
@@ -7185,6 +7326,7 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean spreadsheetTrace;
 
 	/** @return true if this geo is tracing to the spreadsheet */
+	@Override
 	public boolean getSpreadsheetTrace() {
 		return spreadsheetTrace;
 	}
@@ -7278,10 +7420,12 @@ public abstract class GeoElement extends ConstructionElement
 
 	private boolean inTree = false;
 
+	@Override
 	final public boolean isInTree() {
 		return inTree;
 	}
 
+	@Override
 	final public void setInTree(final boolean flag) {
 		inTree = flag;
 	}
@@ -7351,6 +7495,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            event type
 	 * @return script
 	 */
+	@Override
 	public Script getScript(EventType type) {
 		if (scripts == null) {
 			return null;
@@ -7383,6 +7528,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if showing trimmed lines
 	 */
+	@Override
 	public boolean getShowTrimmedIntersectionLines() {
 		return showTrimmedIntersectionLines;
 	}
@@ -7390,6 +7536,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for points in region
 	 */
+	@Override
 	public boolean isPointInRegion() {
 		return false;
 	}
@@ -7407,6 +7554,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for random geos (numbers, lists)
 	 */
+	@Override
 	public boolean isRandomGeo() {
 		return isRandomGeo;
 	}
@@ -7414,6 +7562,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Randomize this geo
 	 */
+	@Override
 	public void updateRandomGeo() {
 
 		// update parent algorithm, like AlgoRandom
@@ -7472,6 +7621,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param viewId
 	 *            view id
 	 */
+	@Override
 	final public void addView(final int viewId) {
 		if (App.isView3D(viewId)) {
 			addViews3D();
@@ -7493,6 +7643,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param viewId
 	 *            view id
 	 */
+	@Override
 	public void removeView(final int viewId) {
 		if (App.isView3D(viewId)) {
 			removeViews3D();
@@ -7514,6 +7665,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param flags
 	 *            list of view ids
 	 */
+	@Override
 	public void setViewFlags(List<Integer> flags) {
 		if (flags == null) {
 			viewFlags = null;
@@ -7531,6 +7683,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return set of views in which this is visible
 	 */
+	@Override
 	public List<Integer> getViewSet() {
 		if (viewFlags == null) {
 			return null;
@@ -7545,6 +7698,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if visible in 3D view
 	 */
+	@Override
 	public boolean isVisibleInView3D() {
 
 		switch (visibleInView3D) {
@@ -7655,6 +7809,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param geo
 	 *            geo
 	 */
+	@Override
 	public void setVisibleInView3D(GeoElement geo) {
 		visibleInView3D = geo.visibleInView3D;
 	}
@@ -7665,6 +7820,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param geo
 	 *            geo
 	 */
+	@Override
 	public void setVisibleInViewForPlane(GeoElement geo) {
 		visibleInViewForPlane = geo.visibleInViewForPlane;
 	}
@@ -7674,6 +7830,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            true to allow selection
 	 */
 
+	@Override
 	public void setSelectionAllowed(final boolean selected2) {
 		selectionAllowed = selected2;
 	}
@@ -7702,6 +7859,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if current fill style is hatch
 	 */
+	@Override
 	public boolean isHatchingEnabled() {
 		return fillType.isHatch();
 	}
@@ -7710,6 +7868,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param angle
 	 *            hatching angle in degrees
 	 */
+	@Override
 	public void setHatchingAngle(final int angle) {
 		hatchingAngle = angle;
 	}
@@ -7717,6 +7876,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return hatching angle in degrees
 	 */
+	@Override
 	public double getHatchingAngle() {
 		return hatchingAngle;
 	}
@@ -7725,6 +7885,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param distance
 	 *            hatching distance
 	 */
+	@Override
 	public void setHatchingDistance(final int distance) {
 		hatchingDistance = distance;
 	}
@@ -7732,6 +7893,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return hatching distance
 	 */
+	@Override
 	public int getHatchingDistance() {
 		return hatchingDistance;
 	}
@@ -7739,6 +7901,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return fill image
 	 */
+	@Override
 	public MyImage getFillImage() {
 
 		return graphicsadapter.getFillImage();
@@ -7759,6 +7922,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return fill type (standard/hatch/image)
 	 */
+	@Override
 	public FillType getFillType() {
 		return fillType;
 	}
@@ -7767,6 +7931,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param fillType
 	 *            new fill type
 	 */
+	@Override
 	public void setFillType(final FillType fillType) {
 		this.fillType = fillType;
 	}
@@ -7777,6 +7942,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param fileName
 	 *            filename
 	 */
+	@Override
 	public void setImageFileName(final String fileName) {
 		graphicsadapter.setImageFileName(fileName);
 	}
@@ -7784,6 +7950,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return filename of fill image
 	 */
+	@Override
 	public String getImageFileName() {
 		return graphicsadapter.getImageFileName();
 	}
@@ -7799,6 +7966,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return the inverseFill
 	 */
+	@Override
 	public boolean isInverseFill() {
 		return inverseFill;
 	}
@@ -7832,6 +8000,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            point
 	 * @return distance from point
 	 */
+	@Override
 	public double distance(final GeoPointND p) {
 		if ((p instanceof GeoElement) && (p instanceof GeoPoint)) {
 			return distance((GeoPoint) p);
@@ -7979,6 +8148,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if the given GeoElement geo is to be drawn with LaTeX in
 	 *         AV/Spreadsheet
 	 */
+	@Override
 	public boolean isLaTeXDrawableGeo() {
 		return false;
 	}
@@ -8018,12 +8188,13 @@ public abstract class GeoElement extends ConstructionElement
 	final public ArrayList<GeoText> getColumnHeadings() {
 
 		// if no values / only copy
-		if (getTraceSettings().doTraceGeoCopy) // update column headings for
-												// trace copy
+		if (getTraceSettings().doTraceGeoCopy) {
+			// trace copy
 			updateColumnHeadingsForTraceGeoCopy();
-		else
+		} else {
 			// update column headings for trace values
 			updateColumnHeadingsForTraceValues();
+		}
 
 		return spreadsheetColumnHeadings;
 	}
@@ -8137,10 +8308,12 @@ public abstract class GeoElement extends ConstructionElement
 		return label;
 	}
 
+	@Override
 	final public ExpressionValue traverse(Traversing t) {
 		return t.process(this);
 	}
 
+	@Override
 	final public boolean inspect(Inspecting t) {
 		return t.check(this);
 	}
@@ -8154,10 +8327,12 @@ public abstract class GeoElement extends ConstructionElement
 		return 0;
 	}
 
+	@Override
 	final public GeoElement unwrap() {
 		return this;
 	}
 
+	@Override
 	final public ExpressionNode wrap() {
 		return new ExpressionNode(getKernel(), this);
 	}
@@ -8191,6 +8366,7 @@ public abstract class GeoElement extends ConstructionElement
 		return getParentAlgorithm() instanceof AlgoAttachCopyToView;
 	}
 
+	@Override
 	public boolean hasCoords() {
 		return false;
 	}
@@ -8202,6 +8378,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param oldGeo
 	 *            old GeoElement
 	 */
+	@Override
 	public void setScripting(GeoElement oldGeo) {
 		if (oldGeo.scripts == null) {
 			this.scripts = null;
@@ -8223,10 +8400,12 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Implementation for numbers, segments etc.
 	 */
+	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
 		return new MyDouble(kernel, 0);
 	}
 
+	@Override
 	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
 		return null;
 	}
@@ -8241,6 +8420,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return Unicode symbol used for fill
 	 */
+	@Override
 	public String getFillSymbol() {
 		return fillSymbol;
 	}
@@ -8251,6 +8431,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param symbol
 	 *            Unicode symbol used for fill
 	 */
+	@Override
 	public void setFillSymbol(String symbol) {
 		fillSymbol = symbol;
 	}
@@ -8342,6 +8523,7 @@ public abstract class GeoElement extends ConstructionElement
 		return isPath();
 	}
 
+	@Override
 	public boolean evaluatesTo3DVector() {
 		return false;
 	}
@@ -8369,6 +8551,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if can be removed as input of algo -- only if just one algo
 	 *         left
 	 */
+	@Override
 	public boolean canBeRemovedAsInput() {
 		return canBeRemovedAsInput
 				&& (algorithmList == null || algorithmList.size() <= 1);
@@ -8389,6 +8572,7 @@ public abstract class GeoElement extends ConstructionElement
 		this.lineOpacity = lineOpacity;
 	}
 
+	@Override
 	public boolean evaluatesToNumber(boolean def) {
 		return this.isNumberValue();
 	}
@@ -8422,6 +8606,7 @@ public abstract class GeoElement extends ConstructionElement
 		return getAngleDim() == 1;
 	}
 
+	@Override
 	public String getAssignmentOperator() {
 		return ":=";
 	}
@@ -8429,10 +8614,12 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return whether this geo can be parametrized
 	 */
+	@Override
 	public boolean isParametric() {
 		return false;
 	}
 
+	@Override
 	public int getListDepth() {
 		return 0;
 	}
@@ -8451,6 +8638,7 @@ public abstract class GeoElement extends ConstructionElement
 		return toString(tpl.getTemplate());
 	}
 
+	@Override
 	public void setLabelWanted(boolean b) {
 		this.labelWanted = b;
 	}
@@ -8465,6 +8653,7 @@ public abstract class GeoElement extends ConstructionElement
 		return isEqual(geo) ? ExtendedBoolean.TRUE : ExtendedBoolean.UNKNOWN;
 	}
 
+	@Override
 	public void setDefinition(ExpressionNode root) {
 		if (definition != null && root == null && algoParent != null) {
 			return;
@@ -8480,6 +8669,7 @@ public abstract class GeoElement extends ConstructionElement
 		this.definition = !geo.isIndependent() ? null : geo.getDefinition();
 	}
 
+	@Override
 	public ExpressionNode getDefinition() {
 		return definition;
 	}
@@ -8505,16 +8695,19 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
+	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel1) {
 		GeoElement ret = copy();
 		ret.setUndefined();
 		return ret;
 	}
 
+	@Override
 	public ExpressionValue toValidExpression() {
 		return this;
 	}
 
+	@Override
 	public boolean evaluatesToNDVector() {
 		ValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
@@ -8523,6 +8716,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Updates visual properties and repaints this object
 	 */
+	@Override
 	public final void updateVisualStyleRepaint(GProperty prop) {
 		updateVisualStyle(prop);
 		kernel.notifyRepaint();
@@ -8535,6 +8729,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true, only if AV should display 2 rows in 'Definition And Value'
 	 *         style.
 	 */
+	@Override
 	public boolean needToShowBothRowsInAV() {
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ("".equals(def0)) {
@@ -8552,6 +8747,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if this can be listed as input for a macro
 	 */
+	@Override
 	public boolean isVisibleInputForMacro() {
 		return isLabelSet();
 	}
@@ -8575,6 +8771,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Set definition to null, no checks
 	 */
+	@Override
 	public void resetDefinition() {
 		definition = null;
 	}

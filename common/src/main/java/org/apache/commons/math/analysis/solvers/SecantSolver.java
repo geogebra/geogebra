@@ -71,6 +71,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double solve(final double min, final double max)
 			throws ConvergenceException, FunctionEvaluationException {
@@ -78,6 +79,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double solve(final double min, final double max,
 			final double initial)
@@ -136,6 +138,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	 *             function at the endpoints are not opposites
 	 * @deprecated in 2.2 (to be removed in 3.0).
 	 */
+	@Override
 	@Deprecated
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max, final double initial)
@@ -190,6 +193,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	 *             function at the endpoints are not opposites
 	 * @deprecated in 2.2 (to be removed in 3.0).
 	 */
+	@Override
 	@Deprecated
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max)

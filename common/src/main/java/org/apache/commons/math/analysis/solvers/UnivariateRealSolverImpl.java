@@ -123,28 +123,33 @@ public abstract class UnivariateRealSolverImpl extends ConvergingAlgorithmImpl
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getResult() {
 		checkResultComputed();
 		return result;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getFunctionValue() {
 		checkResultComputed();
 		return functionValue;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setFunctionValueAccuracy(final double accuracy) {
 		functionValueAccuracy = accuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getFunctionValueAccuracy() {
 		return functionValueAccuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void resetFunctionValueAccuracy() {
 		functionValueAccuracy = defaultFunctionValueAccuracy;
 	}

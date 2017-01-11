@@ -44,8 +44,9 @@ public class DrawRay3D extends DrawCoordSys1D {
 	 */
 	protected void updateForItSelf(boolean updateDrawMinMax) {
 
-		if (updateDrawMinMax)
+		if (updateDrawMinMax) {
 			updateDrawMinMax();
+		}
 
 		super.updateForItSelf();
 

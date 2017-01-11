@@ -51,6 +51,7 @@ public abstract class Optimizer implements RealRootFunction {
 	 */
 	public abstract void setValue(double old);
 
+	@Override
 	public double evaluate(double x) {
 		if ((dep != null) && (getGeo() != null)) {
 			setValue(x);

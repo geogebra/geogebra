@@ -213,6 +213,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		return Commands.BoxPlot;
 	}
 
+	@Override
 	public AlgoBoxPlot copy() {
 		return new AlgoBoxPlot(cons, Cloner.clone(leftBorder),
 				(GeoNumberValue) a.deepCopy(kernel),
@@ -345,9 +346,9 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 			double x = tempList.get(i);
 
-			if (!Double.isNaN(x))
+			if (!Double.isNaN(x)) {
 				leftBorder[i] = x;
-			else {
+			} else {
 				sum.setUndefined();
 				return;
 			}

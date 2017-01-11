@@ -43,8 +43,9 @@ public class CopyPaste3D extends CopyPaste {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
-			if (geo.getParentAlgorithm() == null)
+			if (geo.getParentAlgorithm() == null) {
 				continue;
+			}
 
 			if (geo.isGeoElement3D()) {
 				// TODO: implementation!
@@ -236,19 +237,23 @@ public class CopyPaste3D extends CopyPaste {
 							|| geo.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
-						if (!geos.contains(pgeos[0]))
+						if (!geos.contains(pgeos[0])) {
 							geos.add(pgeos[0]);
-						if (!geos.contains(pgeos[1]))
+						}
+						if (!geos.contains(pgeos[1])) {
 							geos.add(pgeos[1]);
-						if (!geos.contains(pgeos[2]))
+						}
+						if (!geos.contains(pgeos[2])) {
 							geos.add(pgeos[2]);
+						}
 					} else if (geo
 							.getParentAlgorithm() instanceof AlgoConicFivePoints3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
-							if (!geos.contains(pgeos[j]))
+							if (!geos.contains(pgeos[j])) {
 								geos.add(pgeos[j]);
+							}
 						}
 					} /*
 						 * else if (geo.getParentAlgorithm() instanceof

@@ -43,7 +43,7 @@ public class AlgoFocus extends AlgoElement {
 
 	AlgoFocus(Construction cons, String label, GeoConicND c) {
 		this(cons, c);
-		GeoElement.setLabels(label, (GeoElement[]) focus);
+		GeoElement.setLabels(label, focus);
 	}
 
 	public AlgoFocus(Construction cons, String[] labels, GeoConicND c) {

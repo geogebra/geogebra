@@ -327,13 +327,15 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		// break;
 
 		case NOTREFLEX:
-			if (angVal > Math.PI)
+			if (angVal > Math.PI) {
 				angVal = 2.0 * Math.PI - angVal;
+			}
 			break;
 
 		case ISREFLEX:
-			if (angVal < Math.PI)
+			if (angVal < Math.PI) {
 				angVal = 2.0 * Math.PI - angVal;
+			}
 			break;
 		case ANTICLOCKWISE:
 			break;
@@ -382,25 +384,29 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * 
 	 * @see #setValue(double)
 	 */
+	@Override
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
 		switch (angleStyle) {
 		case NOTREFLEX:
-			if (allowReflexAngle)
+			if (allowReflexAngle) {
 				setAngleStyle(AngleStyle.ANTICLOCKWISE);
+			}
 			break;
 		case ISREFLEX:
 			// do nothing
 			break;
 		default: // ANGLE_ISANTICLOCKWISE
-			if (!allowReflexAngle)
+			if (!allowReflexAngle) {
 				setAngleStyle(AngleStyle.NOTREFLEX);
+			}
 			break;
 
 		}
-		if (allowReflexAngle)
+		if (allowReflexAngle) {
 			setAngleStyle(AngleStyle.ANTICLOCKWISE);
-		else
+		} else {
 			setAngleStyle(AngleStyle.NOTREFLEX);
+		}
 	}
 
 	/**
@@ -409,6 +415,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @param forceReflexAngle
 	 *            switch to reflex for true
 	 */
+	@Override
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
 		if (forceReflexAngle) {
@@ -418,6 +425,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		}
 	}
 
+	@Override
 	public void setAngleStyle(int style) {
 		setAngleStyle(AngleStyle.getStyle(style));
 	}
@@ -429,10 +437,12 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @param angleStyle
 	 *            clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
+	@Override
 	public void setAngleStyle(AngleStyle angleStyle) {
 
-		if (angleStyle == this.angleStyle)
+		if (angleStyle == this.angleStyle) {
 			return;
+		}
 
 		this.angleStyle = angleStyle;
 
@@ -450,6 +460,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * 
 	 * @return Clockwise, counterclockwise reflex or not reflex
 	 */
+	@Override
 	public AngleStyle getAngleStyle() {
 		return angleStyle;
 	}
@@ -459,6 +470,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @return true if has a "super" orientation (e.g. in 3D, from a specific
 	 *         oriented plane)
 	 */
+	@Override
 	public boolean hasOrientation() {
 		return true; // orientation of xOyPlane
 	}
@@ -496,6 +508,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * 
 	 * @return arc size in pixels
 	 */
+	@Override
 	public int getArcSize() {
 		return arcSize;
 	}
@@ -506,6 +519,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @param i
 	 *            arc size, should be in <10,100>
 	 */
+	@Override
 	public void setArcSize(int i) {
 		arcSize = i;
 	}
@@ -582,8 +596,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	private void getXMLEmphasizeRightAngleTag(StringBuilder sb) {
-		if (emphasizeRightAngle)
+		if (emphasizeRightAngle) {
 			return;
+		}
 
 		// only store emphasizeRightAngle if "false"
 		sb.append("\t<emphasizeRightAngle val=\"");
@@ -601,6 +616,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * 
 	 * @return true iff this angle shuld be drawn differently when right
 	 */
+	@Override
 	public boolean isEmphasizeRightAngle() {
 		return emphasizeRightAngle;
 	}
@@ -611,6 +627,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @param emphasizeRightAngle
 	 *            true iff this angle shuld be drawn differently when right
 	 */
+	@Override
 	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
 		this.emphasizeRightAngle = emphasizeRightAngle;
 	}

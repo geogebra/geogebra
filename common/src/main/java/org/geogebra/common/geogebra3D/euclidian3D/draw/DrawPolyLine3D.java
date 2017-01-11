@@ -83,14 +83,17 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 		double[] minmax = getDrawMinMax();
 
-		if (Math.abs(minmax[0]) > 1E10)
+		if (Math.abs(minmax[0]) > 1E10) {
 			return true;
+		}
 
-		if (Math.abs(minmax[1]) > 1E10)
+		if (Math.abs(minmax[1]) > 1E10) {
 			return true;
+		}
 
-		if (minmax[0] > minmax[1])
+		if (minmax[0] > minmax[1]) {
 			return true;
+		}
 
 		Renderer renderer = getView3D().getRenderer();
 
@@ -171,8 +174,9 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom())
+		if (getView3D().viewChangedByZoom()) {
 			updateForItSelf();
+		}
 	}
 
 }

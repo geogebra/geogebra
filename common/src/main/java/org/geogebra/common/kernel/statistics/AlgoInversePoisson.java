@@ -69,16 +69,18 @@ public class AlgoInversePoisson extends AlgoDistribution {
 				double result = dist.inverseCumulativeProbability(val);
 
 				// eg InversePascal[1,1,1] returns 2147483647
-				if (result >= Integer.MAX_VALUE)
+				if (result >= Integer.MAX_VALUE) {
 					num.setUndefined();
-				else
+				} else {
 					num.setValue(result + 1);
+				}
 
 			} catch (Exception e) {
 				num.setUndefined();
 			}
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

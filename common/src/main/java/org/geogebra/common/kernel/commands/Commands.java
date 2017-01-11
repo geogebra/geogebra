@@ -1217,6 +1217,7 @@ public enum Commands implements CommandsConstants,
 		return comm;
 	}
 
+	@Override
 	public String getCommand() {
 		return name();
 	}

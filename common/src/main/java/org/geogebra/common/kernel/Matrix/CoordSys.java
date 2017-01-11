@@ -61,8 +61,9 @@ public class CoordSys {
 
 		matrix.set(cs.matrix);
 		matrixOrthonormal.set(cs.matrixOrthonormal);
-		if (drawingMatrix == null) // TODO remove that
+		if (drawingMatrix == null) {
 			drawingMatrix = new CoordMatrix4x4();
+		}
 		drawingMatrix.set(cs.drawingMatrix);
 		// dimension=cs.dimension;
 		equationVector.set(cs.equationVector);
@@ -174,6 +175,7 @@ public class CoordSys {
 	/**
 	 * @deprecated use {@link #getPoint(double, double, Coords)} instead
 	 */
+	@Deprecated
 	public Coords getPoint(double x, double y) {
 		return matrixOrthonormal.getOrigin().add(getVector(x, y));
 	}
@@ -181,6 +183,7 @@ public class CoordSys {
 	/**
 	 * @deprecated use {@link #getPoint(double, double, double, Coords)} instead
 	 */
+	@Deprecated
 	public Coords getPoint(double x, double y, double z) {
 		if (Kernel.isZero(z)) {
 			return getVector(x, y);
@@ -200,6 +203,7 @@ public class CoordSys {
 	 * @deprecated use {@link #getPointForDrawing(double, double, Coords)}
 	 *             instead
 	 */
+	@Deprecated
 	public Coords getPointForDrawing(double x, double y) {
 		return drawingMatrix.mul(new Coords(x, y, 0, 1));
 	}
@@ -216,6 +220,7 @@ public class CoordSys {
 	 * 
 	 * @deprecated use {@link #getPoint(double, Coords)} instead
 	 */
+	@Deprecated
 	public Coords getPoint(double x) {
 		return getOrigin().add(getVx().mul(x));
 	}
@@ -228,6 +233,7 @@ public class CoordSys {
 	 * 
 	 * @deprecated use {@link #getVector(Coords, Coords)} instead
 	 */
+	@Deprecated
 	public Coords getVector(Coords coords2D) {
 		return getVector(coords2D.getX(), coords2D.getY());
 	}
@@ -240,6 +246,7 @@ public class CoordSys {
 	 * 
 	 * @deprecated use {@link #getVector(double, double, Coords)} instead
 	 */
+	@Deprecated
 	public Coords getVector(double x, double y) {
 		return matrixOrthonormal.getVx().mul(x)
 				.add(matrixOrthonormal.getVy().mul(y));
@@ -322,12 +329,13 @@ public class CoordSys {
 			break;
 		case 1:
 			Coords vx = getVx();
-			if (Kernel.isZero(vx.getX()))
+			if (Kernel.isZero(vx.getX())) {
 				addVectorWithoutCheckMadeCoordSys(
 						new Coords(0, -vx.getZ(), vx.getY(), 0));
-			else
+			} else {
 				addVectorWithoutCheckMadeCoordSys(
 						new Coords(-vx.getY(), vx.getX(), 0, 0));
+			}
 			break;
 		}
 	}
@@ -350,8 +358,9 @@ public class CoordSys {
 	 */
 	public void addPoint(Coords p) {
 
-		if (isMadeCoordSys())
+		if (isMadeCoordSys()) {
 			return;
+		}
 
 		if (getMadeCoordSys() == -1) {
 			// add the origin
@@ -564,8 +573,9 @@ public class CoordSys {
 		}
 
 		// check if at least one coeff is non-zero
-		if (!originSet)
+		if (!originSet) {
 			return;
+		}
 
 		o.set(vals.length, 1);
 		addPoint(o);
@@ -593,8 +603,9 @@ public class CoordSys {
 		if (!isMadeCoordSys()) {
 			if (dimension == 1) {
 				matrixOrthonormal.set(0);
-				if (getMadeCoordSys() == 0)
+				if (getMadeCoordSys() == 0) {
 					matrixOrthonormal.setOrigin(getOrigin());
+				}
 				getVx().set(0);
 			}
 			return false;

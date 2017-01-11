@@ -39,8 +39,9 @@ public class CmdZoomOut extends CmdScripting {
 
 				double factor = numGeo.getDouble();
 
-				if (Kernel.isZero(factor))
+				if (Kernel.isZero(factor)) {
 					throw argErr(app, c, arg[0]);
+				}
 
 				ev.zoom(px, py, 1 / factor, 4, true);
 

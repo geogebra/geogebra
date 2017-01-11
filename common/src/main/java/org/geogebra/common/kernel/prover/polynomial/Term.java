@@ -109,6 +109,7 @@ public class Term implements Comparable<Term> {
 		return variables.lastKey();
 	}
 
+	@Override
 	public int compareTo(Term o) {
 		if (this == o) {
 			return 0;
@@ -205,8 +206,9 @@ public class Term implements Comparable<Term> {
 			Variable fv = entry.getKey();
 			sb.append(fv.toTeX());
 			int power = entry.getValue();
-			if (power > 1)
+			if (power > 1) {
 				sb.append("^{" + power + "}");
+			}
 		}
 		return sb.toString();
 	}

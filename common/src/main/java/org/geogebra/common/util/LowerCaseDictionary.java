@@ -51,6 +51,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 * @param s
 	 *            The string to add to the dictionary.
 	 */
+	@Override
 	public void addEntry(final String s) {
 		String lowerCase = normalizer.transform(s);
 		put(lowerCase, s);
@@ -66,12 +67,14 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 * @return True if successful, false if the string is not contained or
 	 *         cannot be removed.
 	 */
+	@Override
 	public boolean removeEntry(String s) {
 		String lowerCase = s.toLowerCase();
 		remove(lowerCase);
 		return treeSet.remove(lowerCase);
 	}
 
+	@Override
 	public Iterator<String> getIterator() {
 		return treeSet.iterator();
 	}
@@ -86,6 +89,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 * @return curr The closest matching string that completely contains the
 	 *         given string.
 	 */
+	@Override
 	public String lookup(final String curr) {
 		if (curr == null || "".equals(curr)) {
 			return null;
@@ -119,9 +123,11 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 * @return a list of strings containing all completions or null if none
 	 *         exists
 	 */
+	@Override
 	public List<String> getCompletions(final String curr) {
-		if (curr == null || "".equals(curr))
+		if (curr == null || "".equals(curr)) {
 			return null;
+		}
 
 		String currLowerCase = normalizer.transform(curr);
 		getGreatestCommonPrefix(currLowerCase);
@@ -155,13 +161,16 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	 */
 	public String setMatchingGreatestPrefix(final String curr,
 			ArrayList<String> completions) {
-		if (curr == null || "".equals(curr))
+		if (curr == null || "".equals(curr)) {
 			return "";
+		}
 
 		String prefixLowerCase = getGreatestCommonPrefix(
 				normalizer.transform(curr));
 		if (prefixLowerCase == null || "".equals(prefixLowerCase))
+		 {
 			return ""; // no common prefix
+		}
 
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(prefixLowerCase);
@@ -199,6 +208,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		return prefixAfter;
 	}
 
+	@Override
 	public List<String> getCompletionsKorean(final String curr) {
 		if (curr == null || "".equals(curr)) {
 			return null;

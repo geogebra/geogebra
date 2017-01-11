@@ -74,13 +74,15 @@ public class AlgoRotatePoint extends AlgoTransformation
 		inGeo = A;
 
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof PointRotateable)
+		if (outGeo instanceof PointRotateable) {
 			out = (PointRotateable) outGeo;
+		}
 
 		setInputOutput();
 		compute();
-		if (inGeo.isGeoFunction())
+		if (inGeo.isGeoFunction()) {
 			cons.registerEuclidianViewCE(this);
+		}
 	}
 
 	@Override
@@ -126,14 +128,16 @@ public class AlgoRotatePoint extends AlgoTransformation
 		if (inGeo instanceof GeoFunction) {
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
-		} else
+		} else {
 			outGeo.set(inGeo);
+		}
 		if (!outGeo.isDefined()) {
 			return;
 		}
 		out.rotate(angle, Q);
-		if (inGeo.isLimitedPath())
+		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
+		}
 	}
 
 	@Override
@@ -148,14 +152,16 @@ public class AlgoRotatePoint extends AlgoTransformation
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList))
+		if (!(outGeo instanceof GeoList)) {
 			out = (PointRotateable) outGeo;
+		}
 	}
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoFunction)
+		if (geo instanceof GeoFunction) {
 			return new GeoCurveCartesian(cons);
+		}
 		return super.getResultTemplate(geo);
 	}
 
@@ -164,10 +170,12 @@ public class AlgoRotatePoint extends AlgoTransformation
 		return 1;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

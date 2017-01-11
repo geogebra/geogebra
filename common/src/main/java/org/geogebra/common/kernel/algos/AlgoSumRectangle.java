@@ -57,6 +57,7 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 		return Commands.RectangleSum;
 	}
 
+	@Override
 	public AlgoSumRectangle copy() {
 		return new AlgoSumRectangle((GeoFunction) this.getF().copy(),
 				(GeoNumberValue) this.getA().deepCopy(kernel),

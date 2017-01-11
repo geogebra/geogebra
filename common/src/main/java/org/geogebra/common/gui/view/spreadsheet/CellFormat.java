@@ -151,8 +151,9 @@ public class CellFormat implements CellFormatInterface {
 	public void clearAll() {
 		highestIndexRow = 0;
 		highestIndexColumn = 0;
-		for (int i = 0; i < formatMapArray.length; i++)
+		for (int i = 0; i < formatMapArray.length; i++) {
 			formatMapArray[i].clear();
+		}
 	}
 
 	/**
@@ -168,6 +169,7 @@ public class CellFormat implements CellFormatInterface {
 	 *            Direction to shift rows or columns (Up or Down = shift rows,
 	 *            Left or Right = columns)
 	 */
+	@Override
 	public void shiftFormats(int startIndex, int shiftAmount,
 			CellRangeProcessor.Direction direction) {
 
@@ -412,6 +414,7 @@ public class CellFormat implements CellFormatInterface {
 	 * @param formatType
 	 * @return
 	 */
+	@Override
 	public HashMap<GPoint, Object> getFormatMap(int formatType) {
 		return formatMapArray[formatType];
 	}
@@ -420,6 +423,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Returns the format object for a given cell and a given format type. If
 	 * format does not exist, returns null.
 	 */
+	@Override
 	public Object getCellFormat(int x, int y, int formatType) {
 
 		MyHashMap formatMap = formatMapArray[formatType];
@@ -468,8 +472,9 @@ public class CellFormat implements CellFormatInterface {
 		Object format = getCellFormat(cr.getMinColumn(), cr.getMinRow(),
 				formatType);
 
-		if (format == null)
+		if (format == null) {
 			return null;
+		}
 
 		// Iterate through the range and test if they cells have the same format
 		for (int r = 0; r > cr.getMaxRow(); r++) {
@@ -542,8 +547,9 @@ public class CellFormat implements CellFormatInterface {
 			// cr.debug();
 			if (cr.isRow()) {
 
-				if (highestIndexRow < cr.getMaxRow())
+				if (highestIndexRow < cr.getMaxRow()) {
 					highestIndexRow = cr.getMaxRow();
+				}
 
 				// iterate through each row in the selection
 				for (int r = cr.getMinRow(); r <= cr.getMaxRow(); ++r) {
@@ -564,8 +570,9 @@ public class CellFormat implements CellFormatInterface {
 
 			else if (cr.isColumn()) {
 
-				if (highestIndexColumn < cr.getMaxColumn())
+				if (highestIndexColumn < cr.getMaxColumn()) {
 					highestIndexColumn = cr.getMaxColumn();
+				}
 
 				// iterate through each column in the selection
 				for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
@@ -590,14 +597,17 @@ public class CellFormat implements CellFormatInterface {
 
 			else {
 
-				if (highestIndexRow < cr.getMaxRow())
+				if (highestIndexRow < cr.getMaxRow()) {
 					highestIndexRow = cr.getMaxRow();
-				if (highestIndexColumn < cr.getMaxColumn())
+				}
+				if (highestIndexColumn < cr.getMaxColumn()) {
 					highestIndexColumn = cr.getMaxColumn();
+				}
 
 				// System.out.println("other");
-				for (GPoint cellPoint : cr.toCellList(true))
+				for (GPoint cellPoint : cr.toCellList(true)) {
 					formatTable.put(cellPoint, value);
+				}
 			}
 		}
 
@@ -623,8 +633,9 @@ public class CellFormat implements CellFormatInterface {
 	 * @param borderStyle
 	 */
 	public void setBorderStyle(ArrayList<CellRange> list, int borderStyle) {
-		for (CellRange cr : list)
+		for (CellRange cr : list) {
 			setBorderStyle(cr, borderStyle);
+		}
 	}
 
 	/**
@@ -757,19 +768,22 @@ public class CellFormat implements CellFormatInterface {
 
 		switch (borderStyle) {
 		case BORDER_STYLE_NONE:
-			for (int r = r1; r <= r2; r++)
-				for (int c = c1; c <= c2; c++)
+			for (int r = r1; r <= r2; r++) {
+				for (int c = c1; c <= c2; c++) {
 					setFormat(cr, FORMAT_BORDER, null);
+				}
+			}
 			break;
 
 		case BORDER_STYLE_ALL:
 
-			for (int r = r1; r <= r2; r++)
+			for (int r = r1; r <= r2; r++) {
 				for (int c = c1; c <= c2; c++) {
 					cell.x = c;
 					cell.y = r;
 					setFormat(cell, FORMAT_BORDER, BORDER_ALL);
 				}
+			}
 			break;
 
 		case BORDER_STYLE_FRAME:
@@ -931,11 +945,13 @@ public class CellFormat implements CellFormatInterface {
 	/**
 	 * Returns XML representation of the format maps
 	 */
+	@Override
 	public void getXML(StringBuilder sb) {
 
 		StringBuilder cellFormat = encodeFormats();
-		if (cellFormat == null)
+		if (cellFormat == null) {
 			return;
+		}
 
 		sb.append("\t<spreadsheetCellFormat ");
 		sb.append(" formatMap=\"");
@@ -956,10 +972,12 @@ public class CellFormat implements CellFormatInterface {
 
 		// create a set containing all cells with formats
 		HashSet<GPoint> masterKeySet = new HashSet<GPoint>();
-		for (int i = 0; i < formatMapArray.length; i++)
+		for (int i = 0; i < formatMapArray.length; i++) {
 			masterKeySet.addAll(formatMapArray[i].keySet());
-		if (masterKeySet.size() == 0)
+		}
+		if (masterKeySet.size() == 0) {
 			return null;
+		}
 
 		// iterate through the set creating XML tags for each cell and its
 		// formats
@@ -1019,10 +1037,12 @@ public class CellFormat implements CellFormatInterface {
 	 * @param xml
 	 *            String to be decoded
 	 */
+	@Override
 	public void processXMLString(String xml) {
 		clearAll();
-		if (xml == null)
+		if (xml == null) {
 			return;
+		}
 
 		String[] cellGroup = xml.split(cellDelimiter);
 		// System.out.println("cellGroup: " +

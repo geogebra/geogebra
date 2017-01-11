@@ -28,6 +28,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 		return Commands.Voronoi;
 	}
 
+	@Override
 	public final void compute() {
 
 		size = inputList.size();
@@ -115,7 +116,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 					Point_dt[] voronoiCell = dt.calcVoronoiCell(triangle,
 							corner);
 
-					if (voronoiCell != null)
+					if (voronoiCell != null) {
 						for (int i = 0; i < voronoiCell.length - 1; i++) {
 							tree.add(new MyLine(
 									new GPoint2D.Double(voronoiCell[i].x(),
@@ -128,6 +129,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 															.y())));
 
 						}
+					}
 				}
 			}
 
@@ -153,6 +155,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 	public static Comparator<GPoint2D> getPointComparator() {
 		if (pointComparator == null) {
 			pointComparator = new Comparator<GPoint2D>() {
+				@Override
 				public int compare(GPoint2D p1, GPoint2D p2) {
 
 					// double p1A = itemA.getX();

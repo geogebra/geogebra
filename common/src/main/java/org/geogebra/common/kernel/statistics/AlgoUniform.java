@@ -61,8 +61,9 @@ public class AlgoUniform extends AlgoDistribution {
 			} catch (Exception e) {
 				num.setUndefined();
 			}
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

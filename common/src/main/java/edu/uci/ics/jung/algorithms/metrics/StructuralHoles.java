@@ -80,9 +80,10 @@ public class StructuralHoles<V, E> {
 
 			for (V w : g.getNeighbors(u)) {
 
-				if (w != v && w != u)
+				if (w != v && w != u) {
 					result -= normalizedMutualEdgeWeight(v, w)
 							* maxScaledMutualEdgeWeight(u, w);
+				}
 			}
 		}
 		return result;
@@ -97,10 +98,11 @@ public class StructuralHoles<V, E> {
 	public double efficiency(V v) {
 		double degree = g.degree(v);
 
-		if (degree == 0)
+		if (degree == 0) {
 			return 0;
-		else
+		} else {
 			return effectiveSize(v) / degree;
+		}
 	}
 
 	/**
@@ -153,10 +155,12 @@ public class StructuralHoles<V, E> {
 	public double hierarchy(V v) {
 		double v_degree = g.degree(v);
 
-		if (v_degree == 0)
+		if (v_degree == 0) {
 			return Double.NaN;
-		if (v_degree == 1)
+		}
+		if (v_degree == 1) {
 			return 1;
+		}
 
 		double v_constraint = aggregateConstraint(v);
 
@@ -253,20 +257,23 @@ public class StructuralHoles<V, E> {
 	 * @see #mutualWeight(Object, Object)
 	 */
 	protected double normalizedMutualEdgeWeight(V v1, V v2) {
-		if (v1 == v2)
+		if (v1 == v2) {
 			return 0;
+		}
 
 		double numerator = mutualWeight(v1, v2);
 
-		if (numerator == 0)
+		if (numerator == 0) {
 			return 0;
+		}
 
 		double denominator = 0;
 		for (V v : g.getNeighbors(v1)) {
 			denominator += mutualWeight(v1, v);
 		}
-		if (denominator == 0)
+		if (denominator == 0) {
 			return 0;
+		}
 
 		return numerator / denominator;
 	}
@@ -307,23 +314,27 @@ public class StructuralHoles<V, E> {
 	 * @see #mutualWeight(Object, Object)
 	 */
 	protected double maxScaledMutualEdgeWeight(V v1, V v2) {
-		if (v1 == v2)
+		if (v1 == v2) {
 			return 0;
+		}
 
 		double numerator = mutualWeight(v1, v2);
 
-		if (numerator == 0)
+		if (numerator == 0) {
 			return 0;
+		}
 
 		double denominator = 0;
 		for (V w : g.getNeighbors(v1)) {
 
-			if (v2 != w)
+			if (v2 != w) {
 				denominator = Math.max(numerator, mutualWeight(v1, w));
+			}
 		}
 
-		if (denominator == 0)
+		if (denominator == 0) {
 			return 0;
+		}
 
 		return numerator / denominator;
 	}

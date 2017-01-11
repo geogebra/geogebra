@@ -99,8 +99,9 @@ public class AlgoLocusList extends AlgoElement {
 
 	private void fillLocusArray(GeoPoint Q, GeoPoint P) {
 
-		if (arrLocus == null)
+		if (arrLocus == null) {
 			arrLocus = new ArrayList<AlgoElement>();
+		}
 
 		// AlgoLocusList should be called only when the path is a GeoList
 		GeoElement actel, pathp;
@@ -168,15 +169,17 @@ public class AlgoLocusList extends AlgoElement {
 					// cons.unregisterEuclidianViewCE(actal);
 					cons.removeFromConstructionList(pathp);
 					P.setPath(path);
-					if (i < arrLocusSize)
+					if (i < arrLocusSize) {
 						arrLocus.set(i, actal);
-					else
+					} else {
 						arrLocus.add(actal);
+					}
 				} else {
-					if (i < arrLocusSize)
+					if (i < arrLocusSize) {
 						arrLocus.set(i, null);
-					else
+					} else {
 						arrLocus.add(null);
+					}
 				}
 			}
 		} catch (Exception ex) {
@@ -294,19 +297,21 @@ public class AlgoLocusList extends AlgoElement {
 		GeoLocus actGeo;
 		for (int i = 0; i < arrLocus.size(); i++) {
 			actLocus = arrLocus.get(i);
-			if (actLocus instanceof AlgoLocusList)
+			if (actLocus instanceof AlgoLocusList) {
 				actGeo = ((AlgoLocusList) actLocus).getLocus();
-			else if (actLocus instanceof AlgoLocus)
+			} else if (actLocus instanceof AlgoLocus) {
 				actGeo = (GeoLocus) ((AlgoLocus) actLocus).getLocus();
-			else
+			} else {
 				continue;
+			}
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
 				insertPoint(actGeo.getPoints().get(j).x,
 						actGeo.getPoints().get(j).y,
 						(j == 0) ? false : actGeo.getPoints().get(j).lineTo);
 			}
-			if (actGeo.getPointLength() > 0)
+			if (actGeo.getPointLength() > 0) {
 				foundDefined = true;
+			}
 		}
 		// set defined/undefined
 		locus.setDefined(foundDefined);
@@ -314,8 +319,9 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	private static boolean isPathIterable(GeoElement geoElement) {
-		if (geoElement.isGeoImplicitPoly())
+		if (geoElement.isGeoImplicitPoly()) {
 			return ((GeoImplicit) geoElement).isOnScreen();
+		}
 		return geoElement.isDefined();
 	}
 

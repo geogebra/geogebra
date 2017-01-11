@@ -182,9 +182,9 @@ public abstract class AbstractIterativeScorer<V, E, T>
 	 * reached.
 	 */
 	public void evaluate() {
-		do
+		do {
 			step();
-		while (!done());
+		} while (!done());
 	}
 
 	/**
@@ -192,6 +192,7 @@ public abstract class AbstractIterativeScorer<V, E, T>
 	 * to <code>max_iterations</code> or if the maximum value change observed is
 	 * less than <code>tolerance</code>.
 	 */
+	@Override
 	public boolean done() {
 		return total_iterations >= max_iterations || max_delta < tolerance;
 	}
@@ -200,6 +201,7 @@ public abstract class AbstractIterativeScorer<V, E, T>
 	 * Performs one step of this algorithm; updates the state (value) for each
 	 * vertex.
 	 */
+	@Override
 	public void step() {
 		swapOutputForCurrent();
 
@@ -237,10 +239,12 @@ public abstract class AbstractIterativeScorer<V, E, T>
 	protected void afterStep() {
 	}
 
+	@Override
 	public T getVertexScore(V v) {
-		if (!graph.containsVertex(v))
+		if (!graph.containsVertex(v)) {
 			throw new IllegalArgumentException(
 					"Vertex " + v + " not an element of this graph");
+		}
 
 		return output.get(v);
 	}

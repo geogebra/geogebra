@@ -97,10 +97,13 @@ public class AlgoFirst extends AlgoElement {
 		outputList.clear();
 
 		if (outsize == 0)
+		 {
 			return; // return empty list
+		}
 
-		for (int i = 0; i < outsize; i++)
+		for (int i = 0; i < outsize; i++) {
 			outputList.add(((GeoList) inputList).get(i).copyInternal(cons));
+		}
 	}
 
 }

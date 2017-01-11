@@ -23,6 +23,7 @@ package edu.uci.ics.jung.graph;
  *            type specification for edges
  */
 public interface DirectedGraph<V, E> extends Graph<V, E> {
+	@Override
 	public Graph<V, E> newInstance();
 
 }

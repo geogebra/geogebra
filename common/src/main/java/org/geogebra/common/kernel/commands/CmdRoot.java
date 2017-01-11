@@ -103,8 +103,9 @@ public class CmdRoot extends CommandProcessor {
 
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.getConstruction().isFileLoading()
-				&& !f.isPolynomialFunction(true) && f.isDefined())
+				&& !f.isPolynomialFunction(true) && f.isDefined()) {
 			throw argErr(app, c, f);
+		}
 
 		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(),
 				f);

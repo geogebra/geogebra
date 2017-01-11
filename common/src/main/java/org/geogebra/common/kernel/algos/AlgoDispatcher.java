@@ -965,12 +965,15 @@ public class AlgoDispatcher {
 	 * locus line for Q dependent on P. Note: P must be a point on a path.
 	 */
 	final public GeoElement Locus(String label, GeoPointND Q, GeoPointND P) {
-		if (!LocusCheck(P, Q))
+		if (!LocusCheck(P, Q)) {
 			return null;
-		if (P.getPath() instanceof GeoList)
-			if (((GeoList) P.getPath()).shouldUseAlgoLocusList(true))
+		}
+		if (P.getPath() instanceof GeoList) {
+			if (((GeoList) P.getPath()).shouldUseAlgoLocusList(true)) {
 				return (new AlgoLocusList(cons, label, (GeoPoint) Q,
 						(GeoPoint) P)).getLocus();
+			}
+		}
 		return (new AlgoLocus(cons, label, Q, P)).getLocus();
 	}
 
@@ -987,8 +990,9 @@ public class AlgoDispatcher {
 	 * locus line for Q dependent on P. Note: P must be a visible slider
 	 */
 	final public GeoElement Locus(String label, GeoPointND Q, GeoNumeric P) {
-		if (!LocusCheck(Q, P))
+		if (!LocusCheck(Q, P)) {
 			return null;
+		}
 		return LocusNoCheck(label, Q, P);
 	}
 
@@ -1001,7 +1005,7 @@ public class AlgoDispatcher {
 			GeoNumeric P) {
 		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, (GeoPoint) Q,
 				P);
-		return (GeoLocus) algo.getLocus();
+		return algo.getLocus();
 	}
 
 	/**
@@ -1163,7 +1167,7 @@ public class AlgoDispatcher {
 	public GeoElement[] IntersectPolyLineConic(String[] labels, GeoPolyLine g,
 			GeoConic c) {
 		AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
-				(GeoPolyLine) g, (GeoConic) c);
+				g, c);
 		algo.setPrintedInXML(true);
 		GeoElement[] points = algo.getOutput();
 		GeoElement.setLabels(labels, points);
@@ -1180,7 +1184,7 @@ public class AlgoDispatcher {
 			return null;
 		} else {
 			AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
-					(GeoPolygon) g, (GeoConic) c);
+					g, c);
 			algo.setPrintedInXML(true);
 			GeoElement[] points = algo.getOutput();
 			GeoElement.setLabels(labels, points);
@@ -1234,8 +1238,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint IntersectPolynomialsSingle(String label,
 			GeoFunction a, GeoFunction b, double xRW, double yRW) {
-		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false))
+		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 			return null;
+		}
 
 		AlgoIntersectPolynomials algo = getIntersectionAlgorithm(a, b);
 		int index = algo.getClosestPointIndex(xRW, yRW);
@@ -1489,8 +1494,9 @@ public class AlgoDispatcher {
 			GeoConic c) {
 
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(f, c);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectPolynomialConic) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialConic algo = new AlgoIntersectPolynomialConic(
@@ -1504,8 +1510,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectLineConic getIntersectionAlgorithm(GeoLine g,
 			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(g, c);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectLineConic) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
@@ -1518,8 +1525,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolyLineConic getIntersectionAlgorithm(GeoPolyLine g,
 			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(g, c);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectPolyLineConic) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolyLineConic algo = new AlgoIntersectPolyLineConic(cons,
@@ -1533,8 +1541,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolyLineConic getIntersectionAlgorithm(GeoPolygon g,
 			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(g, c);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectPolyLineConic) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolyLineConic algo = new AlgoIntersectPolyLineConic(cons,
@@ -1548,8 +1557,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectConics getIntersectionAlgorithm(GeoConic a,
 			GeoConic b) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, b);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectConics) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectConics algo = new AlgoIntersectConics(cons, a, b);
@@ -1562,8 +1572,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolynomials getIntersectionAlgorithm(GeoFunction a,
 			GeoFunction b) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, b);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectPolynomials) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomials algo = new AlgoIntersectPolynomials(cons, a,
@@ -1577,8 +1588,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolynomialLine getIntersectionAlgorithm(GeoFunction a,
 			GeoLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, l);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectPolynomialLine) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialLine algo = new AlgoIntersectPolynomialLine(cons,
@@ -1592,8 +1604,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectImplicitpolyParametric getIntersectionAlgorithm(
 			GeoImplicit p, GeoLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolyParametric) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
@@ -1607,8 +1620,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectImplicitpolyPolyLine getIntersectionAlgorithm(
 			GeoImplicit p, GeoPolyLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolyPolyLine) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyPolyLine algo = new AlgoIntersectImplicitpolyPolyLine(
@@ -1622,8 +1636,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectImplicitpolyPolyLine getIntersectionAlgorithm(
 			GeoImplicit p, GeoPolygon l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, l);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolyPolyLine) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyPolyLine algo = new AlgoIntersectImplicitpolyPolyLine(
@@ -1637,8 +1652,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectImplicitpolyParametric getIntersectionAlgorithm(
 			GeoImplicit p, GeoFunction f) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p, f);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolyParametric) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
@@ -1652,8 +1668,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(GeoImplicit p1,
 			GeoImplicit p2) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, p2);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolys) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
@@ -1666,8 +1683,9 @@ public class AlgoDispatcher {
 	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(GeoImplicit p1,
 			GeoConic c1) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, c1);
-		if (existingAlgo != null)
+		if (existingAlgo != null) {
 			return (AlgoIntersectImplicitpolys) existingAlgo;
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
@@ -1685,9 +1703,10 @@ public class AlgoDispatcher {
 			algo = intersectionAlgos.get(i);
 			GeoElement[] input = algo.getInput();
 			if (a == input[0] && b == input[1]
-					|| a == input[1] && b == input[0])
+					|| a == input[1] && b == input[0]) {
 				// we found an existing intersection algorithm
 				return algo;
+			}
 		}
 		return null;
 	}
@@ -1993,8 +2012,9 @@ public class AlgoDispatcher {
 			GeoFunction f, GeoLine l, double xRW, double yRW) {
 
 		if (!f.getConstruction().isFileLoading()
-				&& !f.isPolynomialFunction(false))
+				&& !f.isPolynomialFunction(false)) {
 			return null;
+		}
 
 		AlgoIntersectPolynomialLine algo = getIntersectionAlgorithm(f, l);
 		int index = algo.getClosestPointIndex(xRW, yRW);
@@ -2043,8 +2063,9 @@ public class AlgoDispatcher {
 	final public GeoPoint IntersectImplicitpolyPolynomialSingle(String label,
 			GeoImplicit p, GeoFunction f, double x, double y) {
 		if (!f.getConstruction().isFileLoading()
-				&& !f.isPolynomialFunction(false))
+				&& !f.isPolynomialFunction(false)) {
 			return null;
+		}
 		AlgoIntersect algo = getIntersectionAlgorithm(p, f);
 		int idx = algo.getClosestPointIndex(x, y);
 		AlgoIntersectSingle salgo = new AlgoIntersectSingle(label, algo, idx);

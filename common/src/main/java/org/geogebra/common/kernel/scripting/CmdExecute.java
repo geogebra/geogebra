@@ -29,14 +29,17 @@ public class CmdExecute extends CmdScripting {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n > 10)
+		if (n > 10) {
 			throw argNumErr(app, c, n);
+		}
 		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0
-				|| !arg[0].isDefined())
+				|| !arg[0].isDefined()) {
 			return new GeoElement[] {};
+		}
 		if ((!arg[0].isGeoList()) || (!((GeoList) arg[0])
-				.getGeoElementForPropertiesDialog().isGeoText()))
+				.getGeoElementForPropertiesDialog().isGeoText())) {
 			throw argErr(app, c, arg[0]);
+		}
 		GeoList list = (GeoList) arg[0];
 
 		// this is new in GeoGebra 4.2 and it will stop some files working
@@ -48,9 +51,10 @@ public class CmdExecute extends CmdScripting {
 		for (int i = 0; i < list.size(); i++) {
 			try {
 				String cmdText = ((GeoText) list.get(i)).getTextString();
-				for (int k = 1; k < n; k++)
+				for (int k = 1; k < n; k++) {
 					cmdText = cmdText.replace("%" + k,
 							arg[k].getLabel(StringTemplate.maxPrecision));
+				}
 				kernelA.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(cmdText,
 								false, app.getErrorHandler(), false, null);

@@ -46,6 +46,7 @@ public class RateFunction implements DifferentiableUnivariateRealFunction {
 		this.deriv = new RateFunctionDerivative(n, pv, fv, pmt, pmtType);
 	}
 
+	@Override
 	public double value(double x) throws FunctionEvaluationException {
 		// fv + pmt (1 + x pmtType) ((1 + x)^n - 1) / x + pv (1 + x)^n
 
@@ -62,6 +63,7 @@ public class RateFunction implements DifferentiableUnivariateRealFunction {
 				+ pv * Math.pow(1 + x, n);
 	}
 
+	@Override
 	public UnivariateRealFunction derivative() {
 		return deriv;
 	}

@@ -117,8 +117,9 @@ public class Coords {
 
 		this(vals.length);
 
-		for (int i = 0; i < vals.length; i++)
+		for (int i = 0; i < vals.length; i++) {
 			val[i] = vals[i];
+		}
 
 	}
 
@@ -214,8 +215,9 @@ public class Coords {
 	public void set(double[] vals0) {
 		// Application.debug("-------------val.length =
 		// "+val.length+"\n-------------vals0.length = "+vals0.length);
-		for (int i = 0; i < vals0.length; i++)
+		for (int i = 0; i < vals0.length; i++) {
 			val[i] = vals0[i];
+		}
 
 		calcNorm = calcSqNorm = true;
 	}
@@ -426,8 +428,9 @@ public class Coords {
 	public Coords copyVector() {
 
 		Coords result = new Coords(rows);
-		for (int i = 0; i < rows; i++)
+		for (int i = 0; i < rows; i++) {
 			result.val[i] = val[i];
+		}
 
 		return result;
 
@@ -450,8 +453,9 @@ public class Coords {
 		int r = end - start + 1;
 		Coords result = new Coords(r);
 
-		for (int i = 0; i < r; i++)
+		for (int i = 0; i < r; i++) {
 			result.val[i] = val[start + i - 1];
+		}
 
 		return result;
 
@@ -471,8 +475,9 @@ public class Coords {
 	 */
 	public Coords setSubVector(Coords v, int start, int end) {
 		int r = end - start + 1;
-		for (int i = 0; i < r; i++)
+		for (int i = 0; i < r; i++) {
 			val[i] = v.val[start + i - 1];
+		}
 
 		return this;
 
@@ -495,10 +500,11 @@ public class Coords {
 
 		int shift = 0;
 		for (int i = 0; i < r; i++) {
-			if (i == row)
+			if (i == row) {
 				shift = 1;
-			else
+			} else {
 				result.val[i] = val[i + shift];
+			}
 		}
 
 		return result;
@@ -544,8 +550,9 @@ public class Coords {
 	public double dotproduct(Coords v) {
 		int len = Math.min(getLength(), v.getLength());
 		double res = 0;
-		for (int i = 0; i < len; i++)
+		for (int i = 0; i < len; i++) {
 			res += val[i] * v.val[i];
+		}
 		return res;
 	}
 
@@ -561,8 +568,9 @@ public class Coords {
 	 */
 	public double dotproduct3(Coords v) {
 		double res = 0;
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			res += val[i] * v.val[i];
+		}
 		return res;
 	}
 
@@ -805,14 +813,17 @@ public class Coords {
 			double v = val[i] * normInv;
 			// check if v is near to be one direction vector
 			if (checkOneDirection && Kernel.isEqual(Math.abs(v), 1)) {
-				if (v < 0)
+				if (v < 0) {
 					ret.val[i] = -1;
-				else
+				} else {
 					ret.val[i] = 1;
-				for (int j = 0; j < i; j++)
+				}
+				for (int j = 0; j < i; j++) {
 					ret.val[j] = 0;
-				for (int j = i + 1; j < len; j++)
+				}
+				for (int j = i + 1; j < len; j++) {
 					ret.val[j] = 0;
+				}
 				break;
 			}
 			ret.val[i] = v;
@@ -902,12 +913,14 @@ public class Coords {
 	 */
 	public Coords normalize(boolean recalcNorm) {
 
-		if (recalcNorm)
+		if (recalcNorm) {
 			calcNorm();
+		}
 		double normInv = 1 / getNorm();
 		int len = getLength();
-		for (int i = 0; i < len; i++)
+		for (int i = 0; i < len; i++) {
 			val[i] *= normInv;
+		}
 
 		norm = sqNorm = 1.0;
 
@@ -1460,8 +1473,9 @@ public class Coords {
 	public Coords sub(Coords v) {
 		int i;
 		Coords result = new Coords(rows);
-		for (i = 0; i < rows; i++)
+		for (i = 0; i < rows; i++) {
 			result.val[i] = val[i] - v.val[i];
+		}
 
 		return result;
 	}
@@ -1528,8 +1542,9 @@ public class Coords {
 		Coords result = new Coords(r - 1);
 
 		double wdiv = 1 / val[r - 1];
-		for (int i = 0; i < r - 1; i++)
+		for (int i = 0; i < r - 1; i++) {
 			result.val[i] = val[i] * wdiv;
+		}
 
 		return result;
 	}
@@ -1551,8 +1566,9 @@ public class Coords {
 	public Coords setInhomCoords(Coords v) {
 
 		double wdiv = 1 / v.val[rows - 1];
-		for (int i = 0; i < rows - 1; i++)
+		for (int i = 0; i < rows - 1; i++) {
 			val[i] = v.val[i] * wdiv;
+		}
 
 		return this;
 	}
@@ -1570,14 +1586,16 @@ public class Coords {
 
 		int r = rows;
 
-		if (Kernel.isEqual(val[r - 1], 1))
+		if (Kernel.isEqual(val[r - 1], 1)) {
 			return this;
+		}
 
 		Coords result = new Coords(r);
 
 		double wdiv = 1 / val[r - 1];
-		for (int i = 0; i < r - 1; i++)
+		for (int i = 0; i < r - 1; i++) {
 			result.val[i] = val[i] * wdiv;
+		}
 
 		result.val[r - 1] = 1;
 
@@ -1605,8 +1623,9 @@ public class Coords {
 	 */
 	public void setInhomCoords() {
 
-		if (Kernel.isEqual(val[rows - 1], 1))
+		if (Kernel.isEqual(val[rows - 1], 1)) {
 			return;
+		}
 
 		double wdiv = 1 / val[rows - 1];
 		for (int i = 0; i < rows - 1; i++) {
@@ -1633,10 +1652,12 @@ public class Coords {
 		double lastCoord = val[len - 1];
 		if (lastCoord != 0.0) {
 			double lastCoordInv = 1 / lastCoord;
-			for (int i = 0; i < len; i++)
+			for (int i = 0; i < len; i++) {
 				result.val[i] = val[i] * lastCoordInv;
-		} else
+			}
+		} else {
 			result.set(this);
+		}
 		return result;
 	}
 
@@ -1653,8 +1674,9 @@ public class Coords {
 		double lastCoord = v.val[rows - 1];
 		if (lastCoord != 0.0) {
 			double lastCoordInv = 1 / lastCoord;
-			for (int i = 0; i < rows; i++)
+			for (int i = 0; i < rows; i++) {
 				val[i] = v.val[i] * lastCoordInv;
+			}
 		} else {
 			set(v);
 		}
@@ -1671,8 +1693,9 @@ public class Coords {
 	public Coords projectInfDim() {
 		int len = getLength();
 		Coords result = new Coords(len - 1);
-		for (int i = 0; i < len - 1; i++)
+		for (int i = 0; i < len - 1; i++) {
 			result.val[i] = val[i];
+		}
 		result.val[len - 2] = val[len - 1];
 		return result;
 	}
@@ -1703,9 +1726,11 @@ public class Coords {
 	 */
 	public boolean equalsForKernel(Coords v, double precision) {
 		int len = getLength();
-		for (int i = 0; i < len; i++)
-			if (!Kernel.isEqual(val[i], v.val[i], precision))
+		for (int i = 0; i < len; i++) {
+			if (!Kernel.isEqual(val[i], v.val[i], precision)) {
 				return false;
+			}
+		}
 
 		return true;
 	}
@@ -1720,9 +1745,11 @@ public class Coords {
 	 */
 	public boolean equalsForKernel(Coords v) {
 		int len = getLength();
-		for (int i = 0; i < len; i++)
-			if (!Kernel.isEqual(val[i], v.val[i]))
+		for (int i = 0; i < len; i++) {
+			if (!Kernel.isEqual(val[i], v.val[i])) {
 				return false;
+			}
+		}
 
 		return true;
 	}
@@ -1747,9 +1774,11 @@ public class Coords {
 	 */
 	public boolean isZero() {
 		int len = getLength();
-		for (int i = 0; i < len; i++)
-			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION))
+		for (int i = 0; i < len; i++) {
+			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION)) {
 				return false;
+			}
+		}
 		return true;
 	}
 
@@ -1759,9 +1788,11 @@ public class Coords {
 	 * @return whether first dim coords are 0
 	 */
 	public boolean isZero(int dim) {
-		for (int i = 0; i < dim; i++)
-			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION))
+		for (int i = 0; i < dim; i++) {
+			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION)) {
 				return false;
+			}
+		}
 		return true;
 	}
 
@@ -1777,9 +1808,11 @@ public class Coords {
 	 */
 	public boolean equalsForKernel(double val, double precision) {
 		int len = getLength();
-		for (int i = 0; i < len; i++)
-			if (!Kernel.isEqual(this.val[i], val, precision))
+		for (int i = 0; i < len; i++) {
+			if (!Kernel.isEqual(this.val[i], val, precision)) {
 				return false;
+			}
+		}
 
 		return true;
 
@@ -1942,6 +1975,7 @@ public class Coords {
 	 * @deprecated create vector and use {@link #setAdd(Coords, Coords)} or
 	 *             {@link #setAdd3(Coords, Coords)} instead
 	 */
+	@Deprecated
 	public Coords add(Coords v) {
 
 		Coords result = new Coords(rows);
@@ -1991,6 +2025,7 @@ public class Coords {
 	 * @deprecated create vector and use {@link #setAdd(Coords, Coords)} or
 	 *             {@link #setAdd3(Coords, Coords) instead
 	 */
+	@Deprecated
 	public Coords addSmaller(Coords v) {
 		Coords result = new Coords(rows);
 
@@ -2047,6 +2082,7 @@ public class Coords {
 	 * 
 	 * @deprecated create vector and use {@link #setMul(Coords, double)} instead
 	 */
+	@Deprecated
 	public Coords mul(double val0) {
 
 		Coords result = new Coords(rows);
@@ -2219,6 +2255,7 @@ public class Coords {
 	 * @deprecated create 3 rows vector and use
 	 *             {@link #setCoordsIn2DView(Coords)} instead
 	 */
+	@Deprecated
 	public Coords getCoordsIn2DView() {
 
 		int dim = rows - 1;
@@ -2232,8 +2269,9 @@ public class Coords {
 			return new Coords(getX(), 0, getY());
 		default:
 			for (int i = 3; i <= dim; i++) {
-				if (Double.isNaN(get(i)) || !Kernel.isZero(get(i)))
+				if (Double.isNaN(get(i)) || !Kernel.isZero(get(i))) {
 					return new Coords(Double.NaN, Double.NaN, Double.NaN);
+				}
 			}
 			// get(3) to get(dim) are all zero
 			return new Coords(get(1), get(2), get(dim + 1));

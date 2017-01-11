@@ -70,12 +70,13 @@ public class CmdCone extends CommandProcessor {
 						(GeoNumberValue) arg[2]) };
 				return ret;
 			} else {
-				if (!ok[0])
+				if (!ok[0]) {
 					throw argErr(arg[0], c);
-				else if (!ok[1])
+				} else if (!ok[1]) {
 					throw argErr(arg[1], c);
-				else
+				} else {
 					throw argErr(arg[2], c);
+				}
 			}
 
 		default:

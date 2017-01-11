@@ -26,6 +26,7 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 	private double c2, c3, c4, c5, c6, c7, c8, c9, c10, c12, c14, c16, c18, c20;
 	private double S, cA3, cB3, cC3;
 
+	@Override
 	public String getEquation(AlgoCubicSwitchParams cp) {
 		return getEquation(cp.n, cp.a, cp.b, cp.c);
 	}
@@ -4405,6 +4406,7 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		}
 	}
 
+	@Override
 	public String getEquation(double n, double a, double b, double c) {
 
 		String equation = symetricOrAntisymetric((int) Math.round(n), a, b, c);

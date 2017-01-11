@@ -84,6 +84,7 @@ public class FactoryTransformer<I, T>
 	 *            the input object to transform
 	 * @return the transformed result
 	 */
+	@Override
 	public T transform(I input) {
 		return iFactory.create();
 	}

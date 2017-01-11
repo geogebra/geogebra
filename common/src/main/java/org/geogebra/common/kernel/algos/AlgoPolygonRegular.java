@@ -115,6 +115,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 		// used only in 3D
 	}
 
+	@Override
 	public void calcCentroid(GeoPoint p) {
 		p.setCoords((GeoPoint) centerPoint);
 

@@ -98,6 +98,7 @@ public class Variable implements Comparable<Variable> {
 		return getName();
 	}
 
+	@Override
 	public int compareTo(Variable v) {
 		int vId = v.getId();
 		if (id < vId) {

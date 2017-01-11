@@ -135,21 +135,23 @@ public final class CoordMatrixUtil {
 
 		// angles
 		double a;
-		if (n1 == 0)
+		if (n1 == 0) {
 			a = 0;
-		else {
+		} else {
 			a = Math.acos(x / n1);
-			if (y < 0)
+			if (y < 0) {
 				a *= -1;
+			}
 		}
 
 		double b;
-		if (norm == 0)
+		if (norm == 0) {
 			b = 0;
-		else {
+		} else {
 			b = Math.acos(n1 / norm);
-			if (z < 0)
+			if (z < 0) {
 				b *= -1;
+			}
 		}
 
 		ret.setX(norm);
@@ -185,8 +187,9 @@ public final class CoordMatrixUtil {
 			Coords direction) {
 
 		// if lines is not in the plane, return null
-		if (!Kernel.isZero(origin.getZ()) || !Kernel.isZero(direction.getZ()))
+		if (!Kernel.isZero(origin.getZ()) || !Kernel.isZero(direction.getZ())) {
 			return null;
+		}
 
 		double x = -direction.getY();
 		double y = direction.getX();

@@ -172,6 +172,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getV() throws InvalidMatrixException {
 
 		if (cachedV == null) {
@@ -187,6 +188,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getD() throws InvalidMatrixException {
 		if (cachedD == null) {
 			// cache the matrix for subsequent calls
@@ -196,6 +198,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getVT() throws InvalidMatrixException {
 
 		if (cachedVt == null) {
@@ -212,28 +215,33 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getRealEigenvalues() throws InvalidMatrixException {
 		return Cloner.clone(realEigenvalues);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getRealEigenvalue(final int i)
 			throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
 		return realEigenvalues[i];
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getImagEigenvalues() throws InvalidMatrixException {
 		return Cloner.clone(imagEigenvalues);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getImagEigenvalue(final int i)
 			throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
 		return imagEigenvalues[i];
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector getEigenvector(final int i)
 			throws InvalidMatrixException, ArrayIndexOutOfBoundsException {
 		return eigenvectors[i].copy();
@@ -244,6 +252,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	 * 
 	 * @return determinant of the matrix
 	 */
+	@Override
 	public double getDeterminant() {
 		double determinant = 1;
 		for (double lambda : realEigenvalues) {
@@ -253,6 +262,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public DecompositionSolver getSolver() {
 		return new Solver(realEigenvalues, imagEigenvalues, eigenvectors);
 	}
@@ -302,6 +312,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 		 * @exception InvalidMatrixException
 		 *                if decomposed matrix is singular
 		 */
+		@Override
 		public double[] solve(final double[] b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -344,6 +355,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 		 * @exception InvalidMatrixException
 		 *                if decomposed matrix is singular
 		 */
+		@Override
 		public RealVector solve(final RealVector b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -387,6 +399,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 		 * @exception InvalidMatrixException
 		 *                if decomposed matrix is singular
 		 */
+		@Override
 		public RealMatrix solve(final RealMatrix b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -427,6 +440,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 		 * 
 		 * @return true if the decomposed matrix is non-singular
 		 */
+		@Override
 		public boolean isNonSingular() {
 			for (int i = 0; i < realEigenvalues.length; ++i) {
 				if ((realEigenvalues[i] == 0) && (imagEigenvalues[i] == 0)) {
@@ -443,6 +457,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 		 * @throws InvalidMatrixException
 		 *             if decomposed matrix is singular
 		 */
+		@Override
 		public RealMatrix getInverse() throws InvalidMatrixException {
 
 			if (!isNonSingular()) {
@@ -542,9 +557,10 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 					}
 				}
 				if (m != j) {
-					if (its == maxIter)
+					if (its == maxIter) {
 						throw new InvalidMatrixException(
 								new MaxIterationsExceededException(maxIter));
+					}
 					its++;
 					double q = (realEigenvalues[j + 1] - realEigenvalues[j])
 							/ (2 * e[j]);
@@ -592,8 +608,9 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 							z[ia][i] = c * z[ia][i] - s * p;
 						}
 					}
-					if (t == 0.0 && i >= j)
+					if (t == 0.0 && i >= j) {
 						continue;
+					}
 					realEigenvalues[j] -= u;
 					e[j] = q;
 					e[m] = 0.0;

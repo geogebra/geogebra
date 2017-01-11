@@ -194,6 +194,7 @@ public abstract class AlgoTangentPointND extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnTangentPoint(geo, this, scope);
@@ -201,14 +202,16 @@ public abstract class AlgoTangentPointND extends AlgoElement
 
 	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
-		if (geo != c)
+		if (geo != c) {
 			return null;
+		}
 
-		if (line == tangents[0])
+		if (line == tangents[0]) {
 			return tangentPoints[0];
-		else if (line == tangents[1])
+		} else if (line == tangents[1]) {
 			return tangentPoints[1];
-		else
+		} else {
 			return null;
+		}
 	}
 }

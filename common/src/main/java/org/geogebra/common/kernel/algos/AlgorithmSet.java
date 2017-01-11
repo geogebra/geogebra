@@ -62,8 +62,9 @@ public class AlgorithmSet {
 	 *            algo to be added
 	 */
 	final public boolean add(AlgoElement algo) {
-		if (contains(algo))
+		if (contains(algo)) {
 			return false;
+		}
 
 		// empty list?
 		if (getHead() == null) {
@@ -79,8 +80,9 @@ public class AlgorithmSet {
 		}
 
 		// check if algo is already at end of list
-		if (tail.algo == algo)
+		if (tail.algo == algo) {
 			return false;
+		}
 
 		/*
 		 * Usually we can just add an algorithm at the end of the list to have
@@ -140,8 +142,9 @@ public class AlgorithmSet {
 	 * @param algo
 	 */
 	final public boolean contains(AlgoElement algo) {
-		if (size == 0 || algo == null)
+		if (size == 0 || algo == null) {
 			return false;
+		}
 
 		return hashMap.get(algo) != null;
 	}
@@ -166,12 +169,14 @@ public class AlgorithmSet {
 			if (cur.algo == algo) {
 				if (prev == null) { // remove from head
 					setHead(cur.next);
-					if (getHead() == null)
+					if (getHead() == null) {
 						tail = null;
+					}
 				} else { // standard case
 					prev.next = cur.next;
-					if (prev.next == null)
+					if (prev.next == null) {
 						tail = prev;
+					}
 				}
 				size--;
 				return true;
@@ -206,8 +211,9 @@ public class AlgorithmSet {
 		while (cur != null) {
 			cur.algo.update();
 
-			if (cur.algo == lastAlgoToUpdate)
+			if (cur.algo == lastAlgoToUpdate) {
 				return;
+			}
 			cur = cur.next;
 		}
 	}
@@ -296,15 +302,18 @@ public class AlgorithmSet {
 		public AlgorithmSetIterator() {
 		}
 
+		@Override
 		public void remove() {
 			AlgorithmSet.this.remove(cur.algo);
 			cur = cur.next;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return cur != null;
 		}
 
+		@Override
 		public AlgoElement next() {
 			if (cur == null) {
 				throw new NoSuchElementException();

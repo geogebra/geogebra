@@ -100,6 +100,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 *            other point
 	 * @return euclidian distance from p
 	 */
+	@Override
 	public double distance(Point p) {
 		return MyMath.length(p.getX() - x, p.getY() - y);
 	}
@@ -212,15 +213,18 @@ public class MyPoint extends GPoint2D implements Point {
 
 	}
 
+	@Override
 	public double distanceSqr(Point to) {
 		return distSqr(to.getX(), to.getY());
 	}
 
+	@Override
 	public boolean isActive() {
 		// reuse field "lineTo"
 		return lineTo;
 	}
 
+	@Override
 	public void setActive(boolean active) {
 		// re-use field "lineTo"
 		this.lineTo = active;

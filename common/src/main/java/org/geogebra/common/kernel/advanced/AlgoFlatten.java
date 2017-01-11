@@ -87,8 +87,9 @@ public class AlgoFlatten extends AlgoElement {
 			GeoElement element = list.get(i);
 			if (element.isGeoList()) {
 				flatten(outputList, (GeoList) element);
-			} else
+			} else {
 				outputList.add(element.copyInternal(cons));
+			}
 		}
 	}
 

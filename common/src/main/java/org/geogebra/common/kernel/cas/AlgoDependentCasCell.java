@@ -99,8 +99,9 @@ public class AlgoDependentCasCell extends AlgoElement
 
 		setOutputLength(twinGeo == null ? 1 : 2);
 		setOutput(0, casCell);
-		if (twinGeo != null)
+		if (twinGeo != null) {
 			setOutput(1, twinGeo);
+		}
 
 		// set input and output dependencies
 		setDependencies();
@@ -109,6 +110,7 @@ public class AlgoDependentCasCell extends AlgoElement
 	/**
 	 * @return resulting CAS cell
 	 */
+	@Override
 	public GeoCasCell getCasCell() {
 		return casCell;
 	}

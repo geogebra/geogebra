@@ -219,10 +219,12 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		buildLocusMacroConstruction(locusConsOrigElements);
 
 		// if we used temp labels remove them again
-		if (!isLabeledP)
+		if (!isLabeledP) {
 			movingSlider.setLabelSet(false);
-		if (!isLabeledQ)
+		}
+		if (!isLabeledQ) {
 			locusPoint.toGeoElement().setLabelSet(false);
+		}
 	}
 
 	// for AlgoElement
@@ -448,8 +450,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 								&& !distanceOK(copyQ) && !maxTimeExceeded) {
 							// go back and try smaller step
 							boolean smallerStep = sliderMover.smallerStep();
-							if (!smallerStep)
+							if (!smallerStep) {
 								break;
+							}
 
 							stepChanged = true;
 							sliderMover.stepBack();
@@ -483,8 +486,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 						// set smallest step
 						if (!sliderMover.smallerStep()) {
 							prevQcopyDefined = false;
-						} else
+						} else {
 							stepChanged = true;
+						}
 					}
 
 					// add better undefined case support for continuous curves
@@ -510,8 +514,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 						}
 
 						// no smaller step possible: run finished
-						if (!sliderMover.hasNext())
+						if (!sliderMover.hasNext()) {
 							finishedRun = true;
+						}
 					}
 				}
 			}
@@ -526,8 +531,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			// look at Qcopy at startPos
 			copyP.set(startPPos);
 			pcopyUpdateCascade();
-			if (differentFromLast(copyQ))
+			if (differentFromLast(copyQ)) {
 				insertPoint(copyQ, distanceSmall(copyQ, false));
+			}
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
@@ -540,8 +546,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			// is positive like in the beginning
 			if (sliderMover.hasPositiveOrientation()) {
 				boolean equal = areEqual(startQPos, copyQ);
-				if (equal)
+				if (equal) {
 					break;
+				}
 			}
 
 			sliderMover.resetStartParameter();
@@ -665,8 +672,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	private void clearCache() {
 		for (int i = 0; i < paramCache.length; i++) {
 			paramCache[i] = Double.NaN;
-			if (qcopyCache[i] == null)
+			if (qcopyCache[i] == null) {
 				qcopyCache[i] = newCache();
+			}
 		}
 	}
 
@@ -675,8 +683,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	private T getCachedPoint(double param) {
 		// search for cached parameter
 		for (int i = 0; i < paramCache.length; i++) {
-			if (param == paramCache[i])
+			if (param == paramCache[i]) {
 				return qcopyCache[i];
+			}
 		}
 
 		return null;
@@ -684,8 +693,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	protected void putCachedPoint(double param, GeoPointND QCopy) {
 		cacheIndex++;
-		if (cacheIndex >= paramCache.length)
+		if (cacheIndex >= paramCache.length) {
 			cacheIndex = 0;
+		}
 
 		paramCache[cacheIndex] = param;
 		setQCopyCache(qcopyCache[cacheIndex], QCopy);
@@ -707,18 +717,22 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	protected boolean visibleEV[] = new boolean[] { false, false, false };
 
 	boolean isVisibleInEV1() {
-		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
+		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
 			return false;
-		if (!kernel.getApplication().getEuclidianView1().isShowing())
+		}
+		if (!kernel.getApplication().getEuclidianView1().isShowing()) {
 			return false;
+		}
 		return true;
 	}
 
 	boolean isVisibleInEV2() {
-		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
+		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
 			return false;
-		if (!kernel.getApplication().hasEuclidianView2(1))
+		}
+		if (!kernel.getApplication().hasEuclidianView2(1)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -732,24 +746,30 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	boolean isVisibleInEV(int i) {
 		switch (i) {
 		case 1:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
 				return false;
-			if (!kernel.getApplication().getEuclidianView1().isShowing())
+			}
+			if (!kernel.getApplication().getEuclidianView1().isShowing()) {
 				return false;
+			}
 			return true;
 
 		case 2:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
 				return false;
-			if (!kernel.getApplication().hasEuclidianView2(1))
+			}
+			if (!kernel.getApplication().hasEuclidianView2(1)) {
 				return false;
+			}
 			return true;
 
 		case 3:
-			if (!locus.isVisibleInView3D())
+			if (!locus.isVisibleInView3D()) {
 				return false;
-			if (kernel.getApplication().isEuclidianView3Dinited())
+			}
+			if (kernel.getApplication().isEuclidianView3Dinited()) {
 				return kernel.getApplication().getEuclidianView3D().isShowing();
+			}
 		}
 		return false;
 

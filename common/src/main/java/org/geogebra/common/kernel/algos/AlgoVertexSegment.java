@@ -55,9 +55,9 @@ public class AlgoVertexSegment extends AlgoElement {
 
 		// create new Point (2D or 3D as appropriate)
 		if (Math.round(index.evaluateDouble()) == 2) {
-			M = (GeoPointND) Q.copy();
+			M = Q.copy();
 		} else {
-			M = (GeoPointND) P.copy();
+			M = P.copy();
 		}
 		setInputOutput();
 

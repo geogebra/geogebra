@@ -5,6 +5,7 @@ public interface IComboListener extends PropertyListener {
 
 	void setSelectedItem(String item);
 
+	@Override
 	Object updatePanel(Object[] geos);
 
 	void addItem(String plain);

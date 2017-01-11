@@ -48,10 +48,12 @@ public abstract class CmdScripting extends CommandProcessor {
 	 */
 	public final void performAndClean(Command c) {
 		GeoElement[] arg = perform(c);
-		for (int i = 0; arg != null && i < arg.length; i++)
+		for (int i = 0; arg != null && i < arg.length; i++) {
 			if (arg[i] != null && !arg[i].isLabelSet()
-					&& !arg[i].isGeoCasCell())
+					&& !arg[i].isGeoCasCell()) {
 				arg[i].remove();
+			}
+		}
 	}
 
 	@Override

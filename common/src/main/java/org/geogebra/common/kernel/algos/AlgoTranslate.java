@@ -83,8 +83,9 @@ public class AlgoTranslate extends AlgoTransformation
 
 		// create output object
 		outGeo = getResultTemplate(inGeo);
-		if (outGeo instanceof Translateable)
+		if (outGeo instanceof Translateable) {
 			out = (Translateable) outGeo;
+		}
 
 		setInputOutput();
 		compute();
@@ -170,10 +171,12 @@ public class AlgoTranslate extends AlgoTransformation
 		}
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
@@ -185,6 +188,7 @@ public class AlgoTranslate extends AlgoTransformation
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			int[] degree1 = ((SymbolicParametersAlgo) inGeo).getDegrees();
@@ -202,6 +206,7 @@ public class AlgoTranslate extends AlgoTransformation
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -221,6 +226,7 @@ public class AlgoTranslate extends AlgoTransformation
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -246,10 +252,12 @@ public class AlgoTranslate extends AlgoTransformation
 		return 1;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

@@ -77,14 +77,18 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 		double minY = lastY;
 		double lengthX = Q.inhomX - lastX;
 		double lengthY = Q.inhomY - lastY;
-		if (Q.inhomX < minX)
+		if (Q.inhomX < minX) {
 			minX = Q.inhomX;
-		if (Q.inhomY < minY)
+		}
+		if (Q.inhomY < minY) {
 			minY = Q.inhomY;
-		if (lengthX < 0)
+		}
+		if (lengthX < 0) {
 			lengthX = -lengthX;
-		if (lengthY < 0)
+		}
+		if (lengthY < 0) {
 			lengthY = -lengthY;
+		}
 		return !rec.intersects(minX, minY, lengthX, lengthY);
 
 	}

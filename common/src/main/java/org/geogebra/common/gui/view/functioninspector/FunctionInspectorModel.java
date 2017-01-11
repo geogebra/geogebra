@@ -166,7 +166,7 @@ public class FunctionInspectorModel {
 		pointTabGeoList = new ArrayList<GeoElement>();
 		hiddenGeoList = new ArrayList<GeoElement>();
 
-		activeEV = (EuclidianView) app.getActiveEuclidianView();
+		activeEV = app.getActiveEuclidianView();
 
 		// load selected function
 		this.selectedGeo = selectedGeo;
@@ -198,8 +198,9 @@ public class FunctionInspectorModel {
 
 	public String getTitleString() {
 
-		if (selectedGeo == null)
+		if (selectedGeo == null) {
 			return loc.getMenu("SelectObject");
+		}
 		return selectedGeo.getAlgebraDescriptionDefault();
 	}
 	// =====================================
@@ -483,8 +484,9 @@ public class FunctionInspectorModel {
 	 */
 	private void updateExtraColumns(int rowCount) {
 
-		if (extraColumnList.size() == 0)
+		if (extraColumnList.size() == 0) {
 			return;
+		}
 
 		for (int column = 2; column < extraColumnList.size() + 2; column++) {
 
@@ -693,7 +695,7 @@ public class FunctionInspectorModel {
 
 		lowPoint.updateCascade();
 		highPoint.updateCascade();
-		activeEV = (EuclidianView) app.getActiveEuclidianView();
+		activeEV = app.getActiveEuclidianView();
 
 	}
 
@@ -954,8 +956,9 @@ public class FunctionInspectorModel {
 
 	public void updateTestPoint() {
 
-		if (testPoint == null)
+		if (testPoint == null) {
 			return;
+		}
 
 		int row = listener.getSelectedXYRow();
 		if (row >= 0) {
@@ -1057,11 +1060,12 @@ public class FunctionInspectorModel {
 				// remaining columns have data
 				else if (value2.get(row) != null) {
 
-					for (int k = 0; k < value2.get(row).length; k++)
+					for (int k = 0; k < value2.get(row).length; k++) {
 						if (value2.get(row)[k] != null) {
 							geo = new GeoNumeric(cons, value2.get(row)[k]);
 							processCellGeo(geo, targetColumn + k, row);
 						}
+					}
 				}
 			}
 		}

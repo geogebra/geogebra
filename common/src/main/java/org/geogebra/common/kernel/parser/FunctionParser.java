@@ -102,8 +102,9 @@ public class FunctionParser {
 		if (forceCommand || (geo == null && cell == null)) {
 			Operation op = app.getParserFunctions().get(funcName,
 					myList.size());
-			if (op != null)
+			if (op != null) {
 				return buildOpNode(op, myList);
+			}
 			// function name does not exist: return command
 			Command cmd = new Command(kernel, funcName, true, !GiacParsing);
 			for (int i = 0; i < myList.size(); i++) {

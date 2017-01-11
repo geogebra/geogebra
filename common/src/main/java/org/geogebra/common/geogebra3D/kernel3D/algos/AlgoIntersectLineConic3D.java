@@ -106,9 +106,11 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 
 	@Override
 	protected void checkIsOnFirstGeo(GeoPoint3D p) {
-		if (!p.isDefined())
+		if (!p.isDefined()) {
 			return;
-		if (!getLine().respectLimitedPath(p.getCoords(), Kernel.MIN_PRECISION))
+		}
+		if (!getLine().respectLimitedPath(p.getCoords(), Kernel.MIN_PRECISION)) {
 			p.setUndefined();
+		}
 	}
 }

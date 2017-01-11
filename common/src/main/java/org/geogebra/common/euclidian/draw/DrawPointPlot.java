@@ -128,8 +128,9 @@ public class DrawPointPlot extends Drawable {
 
 		for (int i = 0; i < drawPoints.size(); i++) {
 			Drawable d = drawPoints.get(i);
-			if (d.intersectsRectangle(rect))
+			if (d.intersectsRectangle(rect)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -140,8 +141,9 @@ public class DrawPointPlot extends Drawable {
 		int size = drawPoints.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = drawPoints.get(i);
-			if (!d.isInside(rect))
+			if (!d.isInside(rect)) {
 				return false;
+			}
 		}
 		return size > 0;
 	}
@@ -155,10 +157,12 @@ public class DrawPointPlot extends Drawable {
 	public void update() {
 
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+		}
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
 			init();
+		}
 		labelVisible = geo.isLabelVisible();
 
 		// add or remove point drawables

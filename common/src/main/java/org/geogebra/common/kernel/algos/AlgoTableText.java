@@ -362,8 +362,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 				// loc.getPlain("SyntaxErrorAisNotAList",geo.toValueString()));
 			}
 			geoLists[c] = (GeoList) geoList.get(c);
-			if (geoLists[c].size() > rows)
+			if (geoLists[c].size() > rows) {
 				rows = geoLists[c].size();
+			}
 		}
 
 		if (rows == 0) {
@@ -908,7 +909,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 		}
 		if (!finalCell)
+		 {
 			sb.append("&"); // separate columns
+		}
 	}
 
 	@Override

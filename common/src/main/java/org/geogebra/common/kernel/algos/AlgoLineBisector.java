@@ -114,10 +114,12 @@ public class AlgoLineBisector extends AlgoElement
 		g.z = -(midPoint.x * g.x + midPoint.y * g.y) / 2.0;
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (A != null && B != null) {
@@ -128,6 +130,7 @@ public class AlgoLineBisector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (A != null && B != null) {
 			int[] degree1 = A.getDegrees();
@@ -145,6 +148,7 @@ public class AlgoLineBisector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -178,6 +182,7 @@ public class AlgoLineBisector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -212,10 +217,12 @@ public class AlgoLineBisector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
@@ -248,6 +255,7 @@ public class AlgoLineBisector extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnLineBisector(geo, this, scope);

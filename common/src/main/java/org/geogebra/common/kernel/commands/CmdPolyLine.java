@@ -33,8 +33,9 @@ public class CmdPolyLine extends CommandProcessor {
 		case 0:
 			throw argNumErr(app, c, n);
 		case 1:
-			if (arg[0].isGeoList())
+			if (arg[0].isGeoList()) {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
+			}
 			throw argErr(app, c, arg[0]);
 
 		case 2:
@@ -78,8 +79,9 @@ public class CmdPolyLine extends CommandProcessor {
 		// check arguments
 		boolean is3D = false;
 		for (int i = 0; i < size; i++) {
-			if (!(arg[i].isGeoPoint()))
+			if (!(arg[i].isGeoPoint())) {
 				throw argErr(app, c, arg[i]);
+			}
 			points[i] = (GeoPointND) arg[i];
 			is3D = checkIs3D(is3D, arg[i]);
 		}

@@ -64,6 +64,7 @@ public class ExpressionNode extends ValidExpression
 
 	private static final Inspecting TRICKY_DIVISION_CHECKER = new Inspecting() {
 
+		@Override
 		public boolean check(ExpressionValue v) {
 			return v.isExpressionNode()
 					&& ((ExpressionNode) v).getOperation() == Operation.DIVIDE
@@ -455,6 +456,7 @@ public class ExpressionNode extends ValidExpression
 	 * look for Variable objects in the tree and replace them by their resolved
 	 * GeoElement
 	 */
+	@Override
 	public final void resolveVariables(EvalInfo info) {
 		doResolveVariables(info);
 		simplifyAndEvalCommands(info);
@@ -861,13 +863,16 @@ public class ExpressionNode extends ValidExpression
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
-		if (ev != this)
+		if (ev != this) {
 			return ev;
-		if (left != null)
+		}
+		if (left != null) {
 			left = left.traverse(t);
+		}
 
-		if (right != null)
+		if (right != null) {
 			right = right.traverse(t);
+		}
 
 		// if we did some replacement in a leaf,
 		// we might need to update the leaf flag (#3512)
@@ -880,6 +885,7 @@ public class ExpressionNode extends ValidExpression
 				|| (right != null && right.inspect(t));
 	}
 
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		// left tree
 		if (left.isGeoElement()) {
@@ -907,6 +913,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns true when the given object is found in this expression tree.
 	 */
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		if (leaf) {
 			return left.contains(ev);
@@ -1157,6 +1164,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * returns true, if there are no variable objects in the subtree
 	 */
+	@Override
 	final public boolean isConstant() {
 		if (isLeaf()) {
 			return left.isConstant();
@@ -1269,6 +1277,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns all GeoElement objects in the subtree
 	 */
+	@Override
 	final public HashSet<GeoElement> getVariables() {
 		if (leaf) {
 			return left.getVariables();
@@ -1303,6 +1312,7 @@ public class ExpressionNode extends ValidExpression
 		return ret;
 	}
 
+	@Override
 	final public boolean isLeaf() {
 		return leaf; // || operation == NO_OPERATION;
 	}
@@ -1461,7 +1471,9 @@ public class ExpressionNode extends ValidExpression
 		// See also the OGP code for the available (parsable) expressions.
 		if (operation.equals(Operation.EQUAL_BOOLEAN)
 				&& ev instanceof GeoSegment)
+		 {
 			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]"
+		}
 							// format expressions
 		return ((operation.equals(Operation.EQUAL_BOOLEAN)
 				|| operation.equals(Operation.DIVIDE)
@@ -1530,8 +1542,9 @@ public class ExpressionNode extends ValidExpression
 			if (tpl.getStringType().equals(StringType.OGP)
 					&& expandForOGP(left)) {
 				leftStr = ((GeoElement) left).getDefinition(tpl);
-			} else
+			} else {
 				leftStr = ((GeoElement) left).getLabel(tpl);
+			}
 		} else {
 			leftStr = left.toString(tpl);
 		}
@@ -1541,8 +1554,9 @@ public class ExpressionNode extends ValidExpression
 				if (tpl.getStringType().equals(StringType.OGP)
 						&& expandForOGP(right)) {
 					rightStr = ((GeoElement) right).getDefinition(tpl);
-				} else
+				} else {
 					rightStr = ((GeoElement) right).getLabel(tpl);
+				}
 			} else {
 				if (shaveBrackets()) {
 					rightStr = ((MyList) right).toString(tpl, false, false);
@@ -1602,6 +1616,7 @@ public class ExpressionNode extends ValidExpression
 				rightStr, true, tpl, kernel);
 	}
 
+	@Override
 	final public String toOutputValueString(StringTemplate tpl) {
 		if (isSecret()) {
 			return isSecret.getDefinition(tpl);
@@ -1637,6 +1652,7 @@ public class ExpressionNode extends ValidExpression
 	 * @param symbolic
 	 *            true for variable names, false for values of variables
 	 */
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		String ret;
 		if (isSecret != null) {
@@ -2493,10 +2509,11 @@ public class ExpressionNode extends ValidExpression
 			default:
 				sb.append("polygamma(");
 				sb.append(leftStr);
-				if (stringType.equals(StringType.LIBRE_OFFICE))
+				if (stringType.equals(StringType.LIBRE_OFFICE)) {
 					sb.append("\",\"");
-				else
+				} else {
 					sb.append(", ");
+				}
 				sb.append(rightStr);
 				sb.append(')');
 				break;
@@ -2991,10 +3008,11 @@ public class ExpressionNode extends ValidExpression
 				sb.append("gamma(");
 			}
 			sb.append(leftStr);
-			if (stringType.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE)) {
 				sb.append("\",\"");
-			else
+			} else {
 				sb.append(", ");
+			}
 			sb.append(rightStr);
 			sb.append(tpl.rightBracket());
 			break;
@@ -3018,10 +3036,11 @@ public class ExpressionNode extends ValidExpression
 				sb.append("gammaRegularized(");
 			}
 			sb.append(leftStr);
-			if (stringType.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE)) {
 				sb.append("\",\"");
-			else
+			} else {
 				sb.append(", ");
+			}
 			sb.append(rightStr);
 
 			if (stringType.isGiac()) {
@@ -3047,10 +3066,11 @@ public class ExpressionNode extends ValidExpression
 				sb.append("beta(");
 			}
 			sb.append(leftStr);
-			if (stringType.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE)) {
 				sb.append("\",\"");
-			else
+			} else {
 				sb.append(", ");
+			}
 			sb.append(rightStr);
 			sb.append(tpl.rightBracket());
 			break;
@@ -3072,10 +3092,11 @@ public class ExpressionNode extends ValidExpression
 				sb.append("beta(");
 			}
 			sb.append(leftStr);
-			if (stringType.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE)) {
 				sb.append("\",\"");
-			else
+			} else {
 				sb.append(", ");
+			}
 			sb.append(rightStr);
 			sb.append(tpl.rightBracket());
 			break;
@@ -3100,10 +3121,11 @@ public class ExpressionNode extends ValidExpression
 				sb.append("betaRegularized(");
 			}
 			sb.append(leftStr);
-			if (stringType.equals(StringType.LIBRE_OFFICE))
+			if (stringType.equals(StringType.LIBRE_OFFICE)) {
 				sb.append("\",\"");
-			else
+			} else {
 				sb.append(", ");
+			}
 			sb.append(rightStr);
 
 			if (stringType.isGiac()) {
@@ -3261,8 +3283,9 @@ public class ExpressionNode extends ValidExpression
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
 				if (geo.isLabelSet()) {
-					if (stringType.equals(StringType.LIBRE_OFFICE))
+					if (stringType.equals(StringType.LIBRE_OFFICE)) {
 						sb.append("func ");
+					}
 					sb.append(geo.getLabel(tpl));
 					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
@@ -3273,8 +3296,9 @@ public class ExpressionNode extends ValidExpression
 							.getFunctionVariable();
 					String oldVarStr = var.toString(tpl);
 					var.setVarString(rightStr);
-					if (stringType.equals(StringType.LIBRE_OFFICE))
+					if (stringType.equals(StringType.LIBRE_OFFICE)) {
 						sb.append("func ");
+					}
 					// do not recompute the expression string if we are plugging
 					// in the same variable; #3481
 					String rhString = oldVarStr.equals(rightStr) ? leftStr
@@ -3933,6 +3957,7 @@ public class ExpressionNode extends ValidExpression
 		return -1;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return this.evaluatesToNumber(false);
 	}
@@ -4150,10 +4175,12 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of addition
 	 */
 	public ExpressionNode plus(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0))
+		if (isConstantDouble(v2, 0)) {
 			return this;
-		if (this.isLeaf() && isConstantDouble(left, 0))
+		}
+		if (this.isLeaf() && isConstantDouble(left, 0)) {
 			return v2.wrap();
+		}
 		return new ExpressionNode(kernel, this, Operation.PLUS, v2);
 	}
 
@@ -4427,10 +4454,12 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of subtract
 	 */
 	public ExpressionNode subtract(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0))
+		if (isConstantDouble(v2, 0)) {
 			return this;
-		if (this.isLeaf() && isConstantDouble(left, 0))
+		}
+		if (this.isLeaf() && isConstantDouble(left, 0)) {
 			return v2.wrap().reverseSign();
+		}
 		return new ExpressionNode(kernel, this, Operation.MINUS, v2);
 	}
 
@@ -4543,10 +4572,12 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiplication
 	 */
 	public ExpressionNode multiply(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1))
+		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1)) {
 			return v2.wrap();
-		if (isConstantDouble(v2, 1) || isConstantDouble(this, 0))
+		}
+		if (isConstantDouble(v2, 1) || isConstantDouble(this, 0)) {
 			return this;
+		}
 		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
 	}
 
@@ -4556,10 +4587,12 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiplication
 	 */
 	public ExpressionNode multiplyR(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1))
+		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1)) {
 			return v2.wrap();
-		if (isConstantDouble(v2, 1))
+		}
+		if (isConstantDouble(v2, 1)) {
 			return this;
+		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, v2);
 	}
 
@@ -4569,10 +4602,12 @@ public class ExpressionNode extends ValidExpression
 	 * @return resulting power
 	 */
 	public ExpressionNode power(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0))
+		if (isConstantDouble(v2, 0)) {
 			return new ExpressionNode(kernel, 1);
-		if (isConstantDouble(v2, 1))
+		}
+		if (isConstantDouble(v2, 1)) {
 			return this;
+		}
 		return new ExpressionNode(kernel, this, Operation.POWER, v2);
 	}
 
@@ -4683,12 +4718,14 @@ public class ExpressionNode extends ValidExpression
 					if (rightLeaf.getLeft()
 							.toString(StringTemplate.defaultTemplate)
 							.equals("1")) {
-						if (operation != Operation.NROOT)
+						if (operation != Operation.NROOT) {
 							setRight(new MyDouble(kernel, Double.NaN));
+						}
 					} else { // to parse x^(c/2) to sqrt(x^c)
 						double c = 1;
-						if (rightLeaf.getLeft().isConstant())
+						if (rightLeaf.getLeft().isConstant()) {
 							c = rightLeaf.getLeft().evaluateDouble();
+						}
 						if (c < 0) {
 
 							setRight(new ExpressionNode(kernel,
@@ -4697,9 +4734,10 @@ public class ExpressionNode extends ValidExpression
 							setOperation(Operation.DIVIDE);
 							setLeft(new MyDouble(kernel, 1.0));
 
-						} else
+						} else {
 							setLeft(new ExpressionNode(kernel, getLeft(),
 									Operation.POWER, rightLeaf.getLeft()));
+						}
 					}
 				}
 
@@ -4758,8 +4796,9 @@ public class ExpressionNode extends ValidExpression
 
 	@Override
 	public ExpressionValue unwrap() {
-		if (isLeaf())
+		if (isLeaf()) {
 			return getLeft();
+		}
 		return this;
 	}
 
@@ -6202,6 +6241,7 @@ public class ExpressionNode extends ValidExpression
 	public boolean has2piPeriodicOperations() {
 		return this.inspect(new Inspecting() {
 
+			@Override
 			public boolean check(ExpressionValue v) {
 				return v.isExpressionNode() && is2piPeriodicOperation(
 						((ExpressionNode) v).getOperation());

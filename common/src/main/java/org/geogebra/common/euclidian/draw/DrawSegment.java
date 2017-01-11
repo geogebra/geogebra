@@ -94,8 +94,9 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
 		// check if in view
@@ -134,8 +135,9 @@ public class DrawSegment extends Drawable implements Previewable {
 		boolean onscreenA = view.toScreenCoords(coordsA);
 		boolean onscreenB = view.toScreenCoords(coordsB);
 
-		if (line == null)
+		if (line == null) {
 			line = AwtFactory.getPrototype().newLine2D();
+		}
 
 		if (onscreenA && onscreenB) {
 			// A and B on screen
@@ -154,8 +156,9 @@ public class DrawSegment extends Drawable implements Previewable {
 		if (s.getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
+			if (g2 != null) {
 				drawTrace(g2);
+			}
 		} else {
 			if (isTracing) {
 				isTracing = false;
@@ -165,8 +168,9 @@ public class DrawSegment extends Drawable implements Previewable {
 
 		// if no label and no decoration then we're done
 		if (!labelVisible
-				&& geo.getDecorationType() == GeoElement.DECORATION_NONE)
+				&& geo.getDecorationType() == GeoElement.DECORATION_NONE) {
 			return;
+		}
 
 		// calc midpoint (midX, midY) and perpendicular vector (nx, ny)
 		double midX = (coordsA[0] + coordsB[0]) / 2.0;
@@ -196,8 +200,9 @@ public class DrawSegment extends Drawable implements Previewable {
 				// only create these object when they are really needed
 				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
 				// changed from 3 to 6
-				for (int i = 0; i < decoTicks.length; i++)
+				for (int i = 0; i < decoTicks.length; i++) {
 					decoTicks[i] = AwtFactory.getPrototype().newLine2D();
+				}
 			}
 
 			// tick spacing and length.
@@ -337,9 +342,10 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// #4907 make sure decorations disappear for length 0 segments
 			if (decoTicks != null) {
-				for (int i = 0; i < decoTicks.length; i++)
+				for (int i = 0; i < decoTicks.length; i++) {
 					decoTicks[i].setLine(Double.NaN, Double.NaN, Double.NaN,
 							Double.NaN);
+				}
 			}
 
 		}
@@ -378,8 +384,9 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		// segments of polygons can have zero thickness
-		if (geo.getLineThickness() == 0)
+		if (geo.getLineThickness() == 0) {
 			return;
+		}
 
 		if (isVisible) {
 			if (geo.doHighlighting()) {
@@ -456,6 +463,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		g2.draw(line);
 	}
 
+	@Override
 	final public void updatePreview() {
 		isVisible = points.size() == 1;
 		if (isVisible) {
@@ -465,13 +473,15 @@ public class DrawSegment extends Drawable implements Previewable {
 					.get(coordsA);
 			view.toScreenCoords(coordsA);
 
-			if (line == null)
+			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
+			}
 		}
 	}
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
+	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
@@ -511,6 +521,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
@@ -520,6 +531,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}

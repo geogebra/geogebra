@@ -91,10 +91,11 @@ public class GeoInterval extends GeoFunction {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString2 == null)
+		if (sbToString2 == null) {
 			sbToString2 = new StringBuilder();
-		else
+		} else {
 			sbToString2.setLength(0);
+		}
 		if (isLabelSet()) {
 			sbToString2.append(label);
 			sbToString2.append(": ");

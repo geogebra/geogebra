@@ -112,10 +112,11 @@ public class AlgoIf extends AlgoElement {
 					return;
 				}
 				GeoElement last = alternatives.get(alternatives.size() - 1);
-				if (conditions.size() == alternatives.size())
+				if (conditions.size() == alternatives.size()) {
 					result.setUndefined();
-				else
+				} else {
 					setResult(last);
+				}
 
 			}
 		} catch (Exception e) {

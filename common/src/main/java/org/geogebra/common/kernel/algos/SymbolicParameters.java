@@ -52,8 +52,9 @@ public class SymbolicParameters {
 	 */
 	public static int[] getMaxDegree(int[] degree1, int[] degree2) {
 		if (degree1 == null || degree2 == null || degree1.length != 3
-				|| degree2.length != 3)
+				|| degree2.length != 3) {
 			return null;
+		}
 		int[] maxDegree = new int[3];
 		maxDegree[0] = Math.max(degree1[0], degree2[0]);
 		maxDegree[1] = Math.max(degree1[1], degree2[1]);
@@ -72,8 +73,9 @@ public class SymbolicParameters {
 	 */
 	public static int[] addDegree(int[] degree1, int[] degree2) {
 		if (degree1 == null || degree2 == null || degree1.length != 3
-				|| degree2.length != 3)
+				|| degree2.length != 3) {
 			return null;
+		}
 		int[] addDegree = new int[3];
 		addDegree[0] = degree1[0] + degree2[0];
 		addDegree[1] = degree1[1] + degree2[1];

@@ -56,8 +56,9 @@ public class AlgoInverseLogistic extends AlgoDistribution {
 				num.setValue(mean - Math.log(1 / x - 1) * s);
 			}
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

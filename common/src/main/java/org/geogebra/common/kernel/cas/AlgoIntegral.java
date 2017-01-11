@@ -65,14 +65,16 @@ public class AlgoIntegral extends AlgoCasBase {
 	@Override
 	protected void setInputOutput() {
 		int length = 1;
-		if (var != null)
+		if (var != null) {
 			length++;
+		}
 
 		input = new GeoElement[length];
 		length = 0;
 		input[0] = f.toGeoElement();
-		if (var != null)
+		if (var != null) {
 			input[++length] = var;
+		}
 
 		setOutputLength(1);
 		setOutput(0, g.toGeoElement());

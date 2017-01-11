@@ -37,6 +37,7 @@ public abstract class ScriptManager implements EventListener {
 		app.getEventDispatcher().addEventListener(this);
 	}
 
+	@Override
 	public void sendEvent(Event evt) {
 		// TODO get rid of javaToJavaScriptView
 		if (!listenersEnabled) {
@@ -179,6 +180,7 @@ public abstract class ScriptManager implements EventListener {
 	/*
 	 * needed for eg File -> New
 	 */
+	@Override
 	public void reset() {
 
 		if (updateListenerMap != null) {
@@ -190,8 +192,9 @@ public abstract class ScriptManager implements EventListener {
 		}
 
 		// If undo clicked, mustn't clear the global listeners
-		if (!listenersEnabled)
+		if (!listenersEnabled) {
 			return;
+		}
 
 		if (addListeners != null) {
 			addListeners.clear();

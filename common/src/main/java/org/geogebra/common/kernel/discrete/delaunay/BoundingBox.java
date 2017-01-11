@@ -41,10 +41,11 @@ public class BoundingBox {
 	 *            the copied bounding box
 	 */
 	public BoundingBox(BoundingBox other) {
-		if (other.isNull())
+		if (other.isNull()) {
 			setToNull();
-		else
+		} else {
 			init(other.minx, other.maxx, other.miny, other.maxy);
+		}
 	}
 
 	/**

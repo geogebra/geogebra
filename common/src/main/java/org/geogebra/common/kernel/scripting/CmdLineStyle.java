@@ -38,8 +38,9 @@ public class CmdLineStyle extends CmdScripting {
 				// For invalid number we assume it's 0
 				// We do this also for SetPointStyle
 
-				if (style < 0 || style >= EuclidianView.getLineTypeLength())
+				if (style < 0 || style >= EuclidianView.getLineTypeLength()) {
 					style = 0;
+				}
 
 				arg[0].setLineType(EuclidianView.getLineType(style));
 				arg[0].updateRepaint();

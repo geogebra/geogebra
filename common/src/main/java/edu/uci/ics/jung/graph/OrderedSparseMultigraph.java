@@ -41,6 +41,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
 		return new Factory<Graph<V, E>>() {
+			@Override
 			public Graph<V, E> create() {
 				return new OrderedSparseMultigraph<V, E>();
 			}
@@ -72,8 +73,9 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 
 	@Override
 	public Collection<V> getPredecessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Set<V> preds = new LinkedHashSet<V>();
 		for (E edge : getIncoming_internal(vertex)) {
@@ -88,8 +90,9 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 
 	@Override
 	public Collection<V> getSuccessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Set<V> succs = new LinkedHashSet<V>();
 		for (E edge : getOutgoing_internal(vertex)) {
@@ -104,8 +107,9 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 
 	@Override
 	public Collection<V> getNeighbors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Collection<V> out = new LinkedHashSet<V>();
 		out.addAll(this.getPredecessors(vertex));
@@ -115,8 +119,9 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 
 	@Override
 	public Collection<E> getIncidentEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Collection<E> out = new LinkedHashSet<E>();
 		out.addAll(this.getInEdges(vertex));

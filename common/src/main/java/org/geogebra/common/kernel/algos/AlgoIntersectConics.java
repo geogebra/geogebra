@@ -175,8 +175,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		if (list1 != null && list2 != null) {
 			for (int i = 0; i < list1.size(); i++) {
 				if (list1.get(i).getIncidenceList() != null
-						&& list1.get(i).getIncidenceList().contains(B))
+						&& list1.get(i).getIncidenceList().contains(B)) {
 					preexistPoints.add(list1.get(i));
+				}
 			}
 		}
 
@@ -292,8 +293,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 		// check for special case of two circles with common point
 		if (possibleSpecialCase) {
-			if (handleSpecialCase())
+			if (handleSpecialCase()) {
 				return;
+			}
 		}
 
 		// continous: use near-to-heuristic between old and new intersection
@@ -314,18 +316,21 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	private void matchExistingIntersections() {
 		// TODO Auto-generated method stub
 
-		if (preexistPoints.size() == 0)
+		if (preexistPoints.size() == 0) {
 			return;
+		}
 
 		newPoints.clear();
 
 		for (int i = 0; i < 4; i++) {
-			if (P[i].isDefined())
+			if (P[i].isDefined()) {
 				newPoints.add(P[i]);
+			}
 		}
 
-		if (newPoints.size() == 0)
+		if (newPoints.size() == 0) {
 			return;
+		}
 
 		double gap = Double.POSITIVE_INFINITY;
 		double minDistance = Double.POSITIVE_INFINITY;
@@ -336,8 +341,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			for (int j = i + 1; j < 4; j++) {
 				if (P[i].isDefined() && P[j].isDefined()) {
 					d = P[i].distance(P[j]);
-					if (d < gap)
+					if (d < gap) {
 						gap = d;
+					}
 				}
 			}
 		}
@@ -353,9 +359,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 					}
 				}
 
-				if (Kernel.isGreaterEqual(gap / 2, minDistance))
+				if (Kernel.isGreaterEqual(gap / 2, minDistance)) {
 					P[i].setCoordsFromPoint(
 							preexistPoints.get(closestPointIndex));
+				}
 			}
 
 		}
@@ -371,18 +378,21 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	private boolean handleSpecialCase() {
 		// we need two circles
 		if (A.type != GeoConicNDConstants.CONIC_CIRCLE
-				|| B.type != GeoConicNDConstants.CONIC_CIRCLE)
+				|| B.type != GeoConicNDConstants.CONIC_CIRCLE) {
 			return false;
+		}
 
 		// check if we have a point on A that is also on B
 		GeoPointND pointOnConic = getPointFrom1on2(A, B);
-		if (pointOnConic == null)
+		if (pointOnConic == null) {
 			// check if we have a point on B that is also on A
 			pointOnConic = getPointFrom1on2(B, A);
+		}
 
 		// if we didn't have a common point, there's no special case
-		if (pointOnConic == null)
+		if (pointOnConic == null) {
 			return false;
+		}
 
 		// intersect the two circles
 		intersectConicsWithEqualSubmatrixS(A, B, Q, Kernel.STANDARD_PRECISION);
@@ -425,8 +435,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path
 			for (int i = 0; i < 2; i++) {
-				if (!pointLiesOnBothPaths(P[i]))
+				if (!pointLiesOnBothPaths(P[i])) {
 					P[i].setUndefined();
+				}
 			}
 		}
 
@@ -451,8 +462,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 					// TODO: a potential temporary fix for #94.
 					if (A.isOnPath(p, Kernel.STANDARD_PRECISION)
-							&& B.isOnPath(p, Kernel.STANDARD_PRECISION))
+							&& B.isOnPath(p, Kernel.STANDARD_PRECISION)) {
 						pointOnConic = p;
+					}
 
 					// pointOnConic = p;
 					break;
@@ -479,8 +491,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path
 			for (int i = 0; i < P.length; i++) {
-				if (!pointLiesOnBothPaths(P[i]))
+				if (!pointLiesOnBothPaths(P[i])) {
 					P[i].setUndefined();
+				}
 			}
 		}
 	}
@@ -560,8 +573,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		isPermutationNeeded = false;
 
 		// make sure intersection points lie on limited paths
-		if (isLimitedPathSituation)
+		if (isLimitedPathSituation) {
 			handleLimitedPaths();
+		}
 	}
 
 	/**
@@ -620,8 +634,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			if (P[i].isDefined()) {
 				index[count] = i;
 				count++;
-				if (count > 2)
+				if (count > 2) {
 					return false;
+				}
 			}
 		}
 
@@ -649,8 +664,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			GeoPoint[] points) {
 
 		if (!(conic1.isDefined() && conic2.isDefined())) {
-			for (int i = 0; i < points.length; i++)
+			for (int i = 0; i < points.length; i++) {
 				points[i].setUndefined();
+			}
 			return;
 		}
 
@@ -698,8 +714,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			// Application.debug("INTERSECTING CONICS FAILED (epsilon = " +
 			// epsilon/10.0 + ")");
 			// INTERSECTION FAILED
-			for (i = 0; i < points.length; i++)
+			for (i = 0; i < points.length; i++) {
 				points[i].setUndefined();
+			}
 		}
 
 		// for non-continous kernel: move defined intersection points to front
@@ -781,8 +798,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// Application.debug("intersectWithDegenerate: undefined degenerate
 		// conic, type: "
 		// + degConic.type);
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			points[i].setUndefined();
+		}
 
 		// Application.debug("intersect conics: invalid degerate conic type: " +
 		// degConic.getTypeString());
@@ -798,10 +816,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		boolean foundPoint = false;
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {
-				if (!(A.isOnFullConic(P[i], eps) && B.isOnFullConic(P[i], eps)))
+				if (!(A.isOnFullConic(P[i], eps) && B.isOnFullConic(P[i], eps))) {
 					P[i].setUndefined();
-				else
+				} else {
 					foundPoint = true;
+				}
 			}
 		}
 		return foundPoint;
@@ -910,8 +929,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 		// solve cubic equation and sort solutions
 		int solnr = eqnSolver.solveCubic(eqn, sol, eps);
-		if (solnr > -1)
+		if (solnr > -1) {
 			Arrays.sort(sol, 0, solnr);
+		}
 
 		// for (i=0;i<solnr;i++) {
 		// Application.debug("sol[" + i + "] = " + sol[i]);
@@ -935,13 +955,15 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 			// try first conic
 			intersectWithDegenerate(conic1, degConic, points, eps);
-			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
 				return true;
+			}
 
 			// try second conic
 			intersectWithDegenerate(conic2, degConic, points, eps);
-			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
 				return true;
+			}
 		}
 
 		// DESPARATE MODE
@@ -961,8 +983,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 		// solve cubic equation and sort solutions
 		solnr = eqnSolver.solveCubic(eqn, sol, eps);
-		if (solnr > -1)
+		if (solnr > -1) {
 			Arrays.sort(sol, 0, solnr);
+		}
 
 		// Go through cubic equation's solutions and take first degenerate conic
 		// that gives us intersection points
@@ -979,13 +1002,15 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 			// try first conic
 			intersectWithDegenerate(conic1, degConic, points, eps);
-			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
 				return true;
+			}
 
 			// try second conic
 			intersectWithDegenerate(conic2, degConic, points, eps);
-			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
 				return true;
+			}
 		}
 
 		// If intersection points not found
@@ -1019,14 +1044,17 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			return false;
 		}
 
-		for (int i = 0; i < solnr; i++)
+		for (int i = 0; i < solnr; i++) {
 			points[i].setCoords(res[i][0], res[i][1], 1.0d);
+		}
 
-		for (int i = solnr; i < 4; i++)
+		for (int i = solnr; i < 4; i++) {
 			points[i].setUndefined();
+		}
 
-		if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
+		if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
 			return true;
+		}
 
 		// Application.debug("no solutions found");
 		// degConic.setUndefined();
@@ -1067,13 +1095,15 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 		// try first conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points, eps);
-		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION))
+		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION)) {
 			return true;
+		}
 
 		// try second conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, c2, points, eps);
-		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION))
+		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION)) {
 			return true;
+		}
 
 		return false;
 	}
@@ -1086,8 +1116,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		double max = 0;
 		for (int i = 0; i < array.length; i++) {
 			double abs = Math.abs(array[i]);
-			if (abs > max)
+			if (abs > max) {
 				max = abs;
+			}
 		}
 
 		// divide array by max
@@ -1209,8 +1240,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		for (int i = 0; i < Q.length; i++) {
 			for (int j = i + 1; j < Q.length; j++) {
 				temp = Q[i].distanceSqr(Q[j]);
-				if (temp < gap)
+				if (temp < gap) {
 					gap = temp;
+				}
 			}
 		}
 
@@ -1340,16 +1372,19 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * This code is very similar to AlgoIntersectLineConics. TODO: Maybe
 	 * commonize.
 	 */
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars.get(geo);
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			Polynomial[] ret = botanaPolynomials.get(geo);
-			if (ret != null)
+			if (ret != null) {
 				return ret;
+			}
 		}
 
 		// Special cases first.
@@ -1516,6 +1551,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectConics(geo, this, scope);

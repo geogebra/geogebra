@@ -129,18 +129,22 @@ public class AlgoJoinPointsRay extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnJoinPointsRay(geo, this, scope);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
-		if (botanaVars != null)
+		if (botanaVars != null) {
 			return botanaVars;
+		}
 		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;

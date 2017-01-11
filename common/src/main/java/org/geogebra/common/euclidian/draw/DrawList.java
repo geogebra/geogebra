@@ -1098,8 +1098,9 @@ public final class DrawList extends CanvasDrawable
 
 		} else {
 			isVisible = geoList.isEuclidianVisible();
-			if (!isVisible)
+			if (!isVisible) {
 				return;
+			}
 
 			// go through list elements and create and/or update drawables
 			int size = geoList.size();
@@ -1109,15 +1110,17 @@ public final class DrawList extends CanvasDrawable
 			int drawablePos = 0;
 			for (int i = 0; i < size; i++) {
 				GeoElement listElement = geoList.get(i);
-				if (!listElement.isDrawable())
+				if (!listElement.isDrawable()) {
 					continue;
+				}
 
 				// add drawable for listElement
 				// if (addToDrawableList(listElement, drawablePos,
 				// oldDrawableSize))
 				if (drawables.addToDrawableList(listElement, drawablePos,
-						oldDrawableSize, this))
+						oldDrawableSize, this)) {
 					drawablePos++;
+				}
 
 			}
 
@@ -1131,8 +1134,9 @@ public final class DrawList extends CanvasDrawable
 			if (geoList.getTrace()) {
 				isTracing = true;
 				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null)
+				if (g2 != null) {
 					drawTrace(g2);
+				}
 			} else {
 				if (isTracing) {
 					isTracing = false;
@@ -1147,6 +1151,7 @@ public final class DrawList extends CanvasDrawable
 	 * This method is necessary, for example when we set another construction
 	 * step, and the sub-drawables of this list should be removed as well
 	 */
+	@Override
 	final public void remove() {
 
 		if (geoList.drawAsComboBox()) {
@@ -1154,8 +1159,9 @@ public final class DrawList extends CanvasDrawable
 		} else {
 			for (int i = drawables.size() - 1; i >= 0; i--) {
 				GeoElement currentGeo = drawables.get(i).getGeoElement();
-				if (!currentGeo.isLabelSet())
+				if (!currentGeo.isLabelSet()) {
 					view.remove(currentGeo);
+				}
 			}
 			drawables.clear();
 		}
@@ -1233,8 +1239,9 @@ public final class DrawList extends CanvasDrawable
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			if (d.hit(x, y, hitThreshold))
+			if (d.hit(x, y, hitThreshold)) {
 				return true;
+			}
 		}
 		return false;
 
@@ -1249,8 +1256,9 @@ public final class DrawList extends CanvasDrawable
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			if (!d.isInside(rect))
+			if (!d.isInside(rect)) {
 				return false;
+			}
 		}
 		return size > 0;
 
@@ -1266,8 +1274,9 @@ public final class DrawList extends CanvasDrawable
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			if (d.intersectsRectangle(rect))
+			if (d.intersectsRectangle(rect)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -1282,8 +1291,9 @@ public final class DrawList extends CanvasDrawable
 
 		}
 
-		if (!geo.isEuclidianVisible())
+		if (!geo.isEuclidianVisible()) {
 			return null;
+		}
 
 		GRectangle result = null;
 
@@ -1730,6 +1740,7 @@ public final class DrawList extends CanvasDrawable
 		return drawOptions.onDrag(x, y);
 	}
 
+	@Override
 	public void onScroll(int x, int y) {
 		drawOptions.scroll();
 	}
@@ -1748,6 +1759,7 @@ public final class DrawList extends CanvasDrawable
 		}
 	}
 
+	@Override
 	public void onClick(int x, int y) {
 		drawOptions.onClick(x, y);
 	}

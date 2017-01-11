@@ -141,18 +141,22 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 
 	// Map delegation
 	// -----------------------------------------------------------------------
+	@Override
 	public V get(Object key) {
 		return normalMap.get(key);
 	}
 
+	@Override
 	public int size() {
 		return normalMap.size();
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return normalMap.isEmpty();
 	}
 
+	@Override
 	public boolean containsKey(Object key) {
 		return normalMap.containsKey(key);
 	}
@@ -174,6 +178,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 
 	// BidiMap changes
 	// -----------------------------------------------------------------------
+	@Override
 	public V put(K key, V value) {
 		if (normalMap.containsKey(key)) {
 			reverseMap.remove(normalMap.get(key));
@@ -186,12 +191,14 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 		return obj;
 	}
 
+	@Override
 	public void putAll(Map<? extends K, ? extends V> map) {
 		for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
 			put(entry.getKey(), entry.getValue());
 		}
 	}
 
+	@Override
 	public V remove(Object key) {
 		V value = null;
 		if (normalMap.containsKey(key)) {
@@ -201,11 +208,13 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 		return value;
 	}
 
+	@Override
 	public void clear() {
 		normalMap.clear();
 		reverseMap.clear();
 	}
 
+	@Override
 	public boolean containsValue(Object value) {
 		return reverseMap.containsKey(value);
 	}
@@ -223,14 +232,17 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	 *
 	 * @return a map iterator
 	 */
+	@Override
 	public MapIterator<K, V> mapIterator() {
 		return new BidiMapIterator<K, V>(this);
 	}
 
+	@Override
 	public K getKey(Object value) {
 		return reverseMap.get(value);
 	}
 
+	@Override
 	public K removeValue(Object value) {
 		K key = null;
 		if (reverseMap.containsKey(value)) {
@@ -240,6 +252,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 		return key;
 	}
 
+	@Override
 	public BidiMap<V, K> inverseBidiMap() {
 		if (inverseBidiMap == null) {
 			inverseBidiMap = createBidiMap(reverseMap, normalMap, this);
@@ -255,6 +268,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	 *
 	 * @return the keySet view
 	 */
+	@Override
 	public Set<K> keySet() {
 		if (keySet == null) {
 			keySet = new KeySet<K>(this);
@@ -280,6 +294,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	 *
 	 * @return the values view
 	 */
+	@Override
 	public Set<V> values() {
 		if (values == null) {
 			values = new Values<V>(this);
@@ -309,6 +324,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	 *
 	 * @return the entrySet view
 	 */
+	@Override
 	public Set<Map.Entry<K, V>> entrySet() {
 		if (entrySet == null) {
 			entrySet = new EntrySet<K, V>(this);
@@ -745,16 +761,19 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 			this.iterator = parent.normalMap.entrySet().iterator();
 		}
 
+		@Override
 		public boolean hasNext() {
 			return iterator.hasNext();
 		}
 
+		@Override
 		public K next() {
 			last = iterator.next();
 			canRemove = true;
 			return last.getKey();
 		}
 
+		@Override
 		public void remove() {
 			if (canRemove == false) {
 				throw new IllegalStateException(
@@ -769,6 +788,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 			canRemove = false;
 		}
 
+		@Override
 		public K getKey() {
 			if (last == null) {
 				throw new IllegalStateException(
@@ -777,6 +797,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 			return last.getKey();
 		}
 
+		@Override
 		public V getValue() {
 			if (last == null) {
 				throw new IllegalStateException(
@@ -785,6 +806,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 			return last.getValue();
 		}
 
+		@Override
 		public V setValue(V value) {
 			if (last == null) {
 				throw new IllegalStateException(
@@ -798,6 +820,7 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 			return parent.put(last.getKey(), value);
 		}
 
+		@Override
 		public void reset() {
 			iterator = parent.normalMap.entrySet().iterator();
 			last = null;

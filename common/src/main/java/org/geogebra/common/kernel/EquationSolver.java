@@ -48,6 +48,7 @@ public class EquationSolver implements EquationSolverInterface {
 		// extrFinder = kernel.getExtremumFinder();
 	}
 
+	@Override
 	final public int polynomialRoots(double[] roots, boolean multiple) {
 		int realRoots;
 
@@ -57,8 +58,9 @@ public class EquationSolver implements EquationSolverInterface {
 		 */
 
 		int degree = roots.length - 1;
-		for (int i = degree; i >= 0 && roots[i] == 0; i--)
+		for (int i = degree; i >= 0 && roots[i] == 0; i--) {
 			degree--;
+		}
 
 		switch (degree) { // degree of polynomial
 		case 0:
@@ -90,6 +92,7 @@ public class EquationSolver implements EquationSolverInterface {
 		return Math.max(0, realRoots);
 	}
 
+	@Override
 	final public int polynomialComplexRoots(double[] real, double complex[]) {
 		int ret = -1;
 		switch (real.length - 1) { // degree of polynomial
@@ -137,6 +140,7 @@ public class EquationSolver implements EquationSolverInterface {
 		return solveQuadratic(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
+	@Override
 	final public int solveQuadratic(double eqn[], double res[], double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
@@ -145,9 +149,10 @@ public class EquationSolver implements EquationSolverInterface {
 
 		if (Math.abs(a) < eps) {
 			// The quadratic parabola has degenerated to a line.
-			if (Math.abs(b) < eps)
+			if (Math.abs(b) < eps) {
 				// The line has degenerated to a constant.
 				return -1;
+			}
 			res[roots++] = -c / b;
 
 		} else if (Math.abs(b) < eps * Math.abs(a)) { // a*x^2 + c = 0
@@ -167,9 +172,10 @@ public class EquationSolver implements EquationSolverInterface {
 			if (Math.abs(d) < eps * b * b) {
 				res[roots++] = -b / (2.0 * a);
 			} else {
-				if (d < 0.0)
+				if (d < 0.0) {
 					// If d < 0.0, then there are no roots
 					return 0;
+				}
 				d = Math.sqrt(d);
 				// For accuracy, calculate one root using:
 				// (-b +/- d) / 2a
@@ -205,9 +211,10 @@ public class EquationSolver implements EquationSolverInterface {
 
 		if (Math.abs(a) < Kernel.STANDARD_PRECISION) {
 			// The quadratic parabola has degenerated to a line.
-			if (Math.abs(b) < Kernel.STANDARD_PRECISION)
+			if (Math.abs(b) < Kernel.STANDARD_PRECISION) {
 				// The line has degenerated to a constant.
 				return -1;
+			}
 			complex[roots] = 0;
 			real[roots++] = -c / b;
 		} else {
@@ -276,6 +283,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * 
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0
 	 */
+	@Override
 	final public int solveCubic(double eqn[], double res[], double eps) {
 
 		int roots = 0;
@@ -375,9 +383,10 @@ public class EquationSolver implements EquationSolverInterface {
 
 			// GeoGebra addition
 			// TODO: find a better way to deal with this
-			if (res != eqn) // if res has the same reference as eqn, it's not
-							// possible to fix roots
+			if (res != eqn) {
+				// possible to fix roots
 				fixRoots(res, eqn);
+			}
 
 			return 3;
 		} else {
@@ -449,13 +458,15 @@ public class EquationSolver implements EquationSolverInterface {
 		double origt = t;
 		while (true) {
 			slope = solveEqn(slopeqn, 2, t);
-			if (slope == 0.0)
+			if (slope == 0.0) {
 				// At a local minima - must return
 				return t;
+			}
 			double y = solveEqn(eqn, 3, t);
-			if (y == 0.0)
+			if (y == 0.0) {
 				// Found it! - return it
 				return t;
+			}
 			// assert(slope != 0 && y != 0);
 			double delta = -(y / slope);
 			// assert(delta != 0);
@@ -463,14 +474,17 @@ public class EquationSolver implements EquationSolverInterface {
 				origdelta = delta;
 			}
 			if (t < target) {
-				if (delta < 0)
+				if (delta < 0) {
 					return t;
+				}
 			} else if (t > target) {
-				if (delta > 0)
+				if (delta > 0) {
 					return t;
-			} else
+				}
+			} else {
 				return (delta > 0 ? (target + java.lang.Double.MIN_VALUE)
 						: (target - java.lang.Double.MIN_VALUE));
+			}
 			double newt = t + delta;
 			if (MyDouble.exactEqual(t, newt)) {
 				// The deltas are so small that we aren't moving...
@@ -480,9 +494,10 @@ public class EquationSolver implements EquationSolverInterface {
 				// We have reversed our path.
 				int tag = (origt < t ? getTag(target, origt, t)
 						: getTag(target, t, origt));
-				if (tag != INSIDE)
+				if (tag != INSIDE) {
 					// Local minima found away from target - return the middle
 					return (origt + t) / 2;
+				}
 				// Local minima somewhere near target - move to target
 				// and let the slope determine the resulting t.
 				t = target;
@@ -504,10 +519,12 @@ public class EquationSolver implements EquationSolverInterface {
 	 * BELOW, LOWEDGE, INSIDE, HIGHEDGE, or ABOVE.
 	 */
 	private static int getTag(double coord, double low, double high) {
-		if (coord <= low)
+		if (coord <= low) {
 			return (coord < low ? BELOW : LOWEDGE);
-		if (coord >= high)
+		}
+		if (coord >= high) {
 			return (coord > high ? ABOVE : HIGHEDGE);
+		}
 		return INSIDE;
 	}
 
@@ -554,8 +571,9 @@ public class EquationSolver implements EquationSolverInterface {
 					+ e.getLocalizedMessage());
 		}
 
-		if (complexRoots == null)
+		if (complexRoots == null) {
 			complexRoots = new Complex[0];
+		}
 
 		// sort complexRoots by real part into laguerreRoots
 		double[] laguerreRoots = new double[complexRoots.length];
@@ -648,10 +666,11 @@ public class EquationSolver implements EquationSolverInterface {
 			double slope = Math.abs(val[1]);
 
 			boolean success;
-			if (slope < 1)
+			if (slope < 1) {
 				success = error < LAGUERRE_EPS;
-			else
+			} else {
 				success = error < LAGUERRE_EPS * slope;
+			}
 
 			if (success) {
 				// Application.debug("FOUND ROOT: " + root);
@@ -732,10 +751,12 @@ public class EquationSolver implements EquationSolverInterface {
 	 * http://www.network-theory.co.uk/download/gslextras/Quartic/
 	 */
 
+	@Override
 	public int solveQuartic(double eqn[], double res[], double eps) {
 
-		if (Math.abs(eqn[4]) < 0)
+		if (Math.abs(eqn[4]) < 0) {
 			return solveCubic(eqn, res, Kernel.STANDARD_PRECISION);
+		}
 
 		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4],
 				d = eqn[0] / eqn[4];
@@ -857,8 +878,9 @@ public class EquationSolver implements EquationSolverInterface {
 					double sqrtQ = Math.sqrt(Q);
 					double sqrtQ3 = sqrtQ * sqrtQ * sqrtQ;
 					theta = Math.acos(R / sqrtQ3);
-					if (R / sqrtQ3 >= 1.0)
+					if (R / sqrtQ3 >= 1.0) {
 						theta = 0.0;
+					}
 					{
 						double norm = -2 * sqrtQ;
 
@@ -890,8 +912,9 @@ public class EquationSolver implements EquationSolverInterface {
 			 * (disc < 0) mt=3 : 2 real roots (disc > 0)
 			 */
 
-			if (0.0 == disc)
+			if (0.0 == disc) {
 				u[2] = u[1];
+			}
 
 			if (0 >= disc) {
 				mt = 2;
@@ -1014,6 +1037,7 @@ public class EquationSolver implements EquationSolverInterface {
 	public static Comparator<Complex> getComparatorReal() {
 		if (comparatorReal == null) {
 			comparatorReal = new Comparator<Complex>() {
+				@Override
 				public int compare(Complex itemA, Complex itemB) {
 
 					double compReal = itemA.getReal() - itemB.getReal();
@@ -1023,8 +1047,9 @@ public class EquationSolver implements EquationSolverInterface {
 								- itemB.getImaginary();
 
 						// if real parts equal, sort on imaginary
-						if (!Kernel.isZero(compImaginary))
+						if (!Kernel.isZero(compImaginary)) {
 							return compImaginary < 0 ? -1 : +1;
+						}
 
 						// return 0 -> remove duplicates!
 						return 0;

@@ -102,6 +102,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return mean for this distribution
 	 */
+	@Override
 	public double getMean() {
 		return mean;
 	}
@@ -113,6 +114,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 *            for this distribution
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setMean(double mean) {
 		setMeanInternal(mean);
@@ -133,6 +135,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return standard deviation for this distribution
 	 */
+	@Override
 	public double getStandardDeviation() {
 		return standardDeviation;
 	}
@@ -146,6 +149,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 *             if <code>sd</code> is not positive.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setStandardDeviation(double sd) {
 		setStandardDeviationInternal(sd);
@@ -175,6 +179,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * @return The pdf at point x.
 	 * @deprecated
 	 */
+	@Override
 	@Deprecated
 	public double density(Double x) {
 		return density(x.doubleValue());
@@ -208,6 +213,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
 	 * @throws MathException
 	 *             if the algorithm fails to converge
 	 */
+	@Override
 	public double cumulativeProbability(double x) throws MathException {
 		final double dev = x - mean;
 		if (FastMath.abs(dev) > 40 * standardDeviation) {

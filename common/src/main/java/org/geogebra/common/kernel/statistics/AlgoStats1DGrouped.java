@@ -67,10 +67,11 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 		this.stat = stat;
 		this.truncate = truncate;
 
-		if (geoList.size() > 0 && geoList.get(0).isAngle())
+		if (geoList.size() > 0 && geoList.get(0).isAngle()) {
 			result = new GeoAngle(cons);
-		else
+		} else {
 			result = new GeoNumeric(cons);
+		}
 
 		setInputOutput();
 		compute();
@@ -83,9 +84,11 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 	}
 
 	// OK
+	@Override
 	public abstract Algos getClassName();
 
 	// OK
+	@Override
 	protected void setInputOutput() {
 		if (truncate == null) {
 			input = new GeoElement[2];
@@ -107,6 +110,7 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 		return result;
 	}
 
+	@Override
 	public final void compute() {
 
 		// TODO: remove

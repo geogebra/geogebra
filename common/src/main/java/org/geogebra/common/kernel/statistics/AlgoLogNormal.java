@@ -67,8 +67,9 @@ public class AlgoLogNormal extends AlgoDistribution {
 			// 1/2",
 			// true );
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

@@ -113,11 +113,12 @@ public class AlgoCircumferenceConic extends AlgoElement {
 				// return circumference of **segment**
 				// ie curved + straight
 				circum.setValue(arclength + 2.0 * r * Math.sin(angle / 2));
-			} else
+			} else {
 				// circumference of ellipse sector is undefined
 				// note: circumference of ellipse sector is simply not
 				// implemented yet
 				circum.setUndefined();
+			}
 
 			return;
 		}

@@ -9,6 +9,7 @@ public class FixObjectModel extends BooleanOptionModel {
 		super(listener, app);
 	}
 
+	@Override
 	public void apply(int index, boolean value) {
 		GeoElement geo = getGeoAt(index);
 		geo.setFixed(value);

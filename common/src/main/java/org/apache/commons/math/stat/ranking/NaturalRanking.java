@@ -169,6 +169,7 @@ public class NaturalRanking implements RankingAlgorithm {
 	 *            array to be ranked
 	 * @return array of ranks
 	 */
+	@Override
 	public double[] rank(double[] data) {
 
 		// Array recording initial positions of data to be ranked
@@ -441,6 +442,7 @@ public class NaturalRanking implements RankingAlgorithm {
 		 *            the other pair to compare this to
 		 * @return result of <code>Double.compare(value, other.value)</code>
 		 */
+		@Override
 		public int compareTo(IntDoublePair other) {
 			return Double.compare(value, other.value);
 		}

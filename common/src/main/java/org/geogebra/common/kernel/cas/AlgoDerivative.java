@@ -143,18 +143,22 @@ public class AlgoDerivative extends AlgoCasBase {
 	@Override
 	protected void setInputOutput() {
 		int length = 1;
-		if (order != null)
+		if (order != null) {
 			length++;
-		if (var != null)
+		}
+		if (var != null) {
 			length++;
+		}
 
 		input = new GeoElement[length];
 		length = 0;
 		input[0] = f.toGeoElement();
-		if (var != null)
+		if (var != null) {
 			input[++length] = var;
-		if (order != null)
+		}
+		if (order != null) {
 			input[++length] = order.toGeoElement();
+		}
 
 		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement

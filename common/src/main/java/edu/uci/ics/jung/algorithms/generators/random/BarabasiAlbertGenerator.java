@@ -182,12 +182,14 @@ public class BarabasiAlbertGenerator<V, E>
 			// only need to check
 			// the list of candidate edges for duplicates.
 			if (!(mGraph instanceof MultiGraph)) {
-				if (added_pairs.contains(endpoints))
+				if (added_pairs.contains(endpoints)) {
 					continue;
+				}
 				if (mGraph.getDefaultEdgeType() == EdgeType.UNDIRECTED
 						&& added_pairs
-								.contains(new Pair<V>(attach_point, newVertex)))
+								.contains(new Pair<V>(attach_point, newVertex))) {
 					continue;
+				}
 			}
 
 			double degree = mGraph.inDegree(attach_point);
@@ -198,8 +200,9 @@ public class BarabasiAlbertGenerator<V, E>
 			// vertex_index)
 			double attach_prob = (degree + 1)
 					/ (mGraph.getEdgeCount() + mGraph.getVertexCount() - 1);
-			if (attach_prob >= mRandom.nextDouble())
+			if (attach_prob >= mRandom.nextDouble()) {
 				created_edge = true;
+			}
 		} while (!created_edge);
 
 		added_pairs.add(endpoints);
@@ -209,6 +212,7 @@ public class BarabasiAlbertGenerator<V, E>
 		}
 	}
 
+	@Override
 	public void evolveGraph(int numTimeSteps) {
 
 		for (int i = 0; i < numTimeSteps; i++) {
@@ -229,15 +233,17 @@ public class BarabasiAlbertGenerator<V, E>
 		Set<Pair<V>> added_pairs = new HashSet<Pair<V>>(
 				mNumEdgesToAttachPerStep * 3);
 
-		for (int i = 0; i < mNumEdgesToAttachPerStep; i++)
+		for (int i = 0; i < mNumEdgesToAttachPerStep; i++) {
 			createRandomEdge(preexistingNodes, newVertex, added_pairs);
+		}
 
 		for (Pair<V> pair : added_pairs) {
 			V v1 = pair.getFirst();
 			V v2 = pair.getSecond();
 			if (mGraph.getDefaultEdgeType() != EdgeType.UNDIRECTED
-					|| !mGraph.isNeighbor(v1, v2))
+					|| !mGraph.isNeighbor(v1, v2)) {
 				mGraph.addEdge(edgeFactory.create(), pair);
+			}
 		}
 		// now that we're done attaching edges to this new vertex,
 		// add it to the index
@@ -245,10 +251,12 @@ public class BarabasiAlbertGenerator<V, E>
 		index_vertex.put(newVertex, Integer.valueOf(vertex_index.size() - 1));
 	}
 
+	@Override
 	public int numIterations() {
 		return mElapsedTimeSteps;
 	}
 
+	@Override
 	public Graph<V, E> create() {
 		return mGraph;
 	}

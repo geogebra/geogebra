@@ -92,6 +92,7 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 		angle.setLabel(label);
 	}
 
+	@Override
 	public AlgoAnglePlanes copy() {
 		return new AlgoAnglePlanes(p.copy(), q.copy());
 	}

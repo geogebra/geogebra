@@ -222,10 +222,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private static double[] getMinMax(double min, double val, double max) {
 		double min1 = min, max1 = max;
-		if (val < min)
+		if (val < min) {
 			min1 = val;
-		else if (val > max)
+		} else if (val > max) {
 			max1 = val;
+		}
 
 		return new double[] { min1, max1 };
 	}
@@ -324,8 +325,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
-		if (mouseLoc == null)
+		if (mouseLoc == null) {
 			return;
+		}
 
 		// getting current pick point and direction v
 		Coords o;
@@ -639,11 +641,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// update cursor 3D infos
 		if (((GeoElement) sourcePoint).isIndependent()
-				|| !((GeoElement) sourcePoint).isGeoElement3D())
+				|| !((GeoElement) sourcePoint).isGeoElement3D()) {
 			point3D.setMoveNormalDirection(Coords.VZ);
-		else if (sourcePoint.hasRegion())
+		} else if (sourcePoint.hasRegion()) {
 			point3D.setMoveNormalDirection(
 					sourcePoint.getRegionParameters().getNormal());
+		}
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		point3D.setMoveMode(sourcePoint.getMoveMode());
 		point3D.setPointSize(sourcePoint.getPointSize());
@@ -682,11 +685,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected GeoPointND getSingleIntersectionPoint(Hits hits) {
 		// Log.debug(hits);
 
-		if (hits.isEmpty() || hits.size() < 2)
+		if (hits.isEmpty() || hits.size() < 2) {
 			return null;
+		}
 
-		if (mouseLoc == null)
+		if (mouseLoc == null) {
 			return null;
+		}
 
 		GeoElement a = hits.get(0);
 
@@ -697,35 +702,39 @@ public abstract class EuclidianController3D extends EuclidianController {
 			while (hits.size() >= 2) {
 				if (hits.get(1).isGeoPlane() && AlgoIntersectCS1D2D
 						.getConfigLinePlane((GeoLineND) a, ((GeoCoordSys2D) hits
-								.get(1))) == ConfigLinePlane.CONTAINED)
+								.get(1))) == ConfigLinePlane.CONTAINED) {
 					hits.remove(1);
-				else
+				} else {
 					break;
+				}
 			}
 		} else if (a.isGeoConic()) { // remove planes containing conic a
 			while (hits.size() >= 2) {
 				if (hits.get(1).isGeoPlane() && AlgoIntersectPlanes
 						.getConfigPlanePlane((((GeoConicND) a).getCoordSys()),
 								(((GeoCoordSys2D) hits.get(1))
-										.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
+										.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED) {
 					hits.remove(1);
-				else
+				} else {
 					break;
+				}
 			}
 		} else if (a.isGeoPolygon()) { // remove planes containing polygon a
 			while (hits.size() >= 2) {
 				if (hits.get(1) instanceof GeoCoordSys2D && AlgoIntersectPlanes
 						.getConfigPlanePlane((((GeoPolygon) a).getCoordSys()),
 								(((GeoCoordSys2D) hits.get(1))
-										.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
+										.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED) {
 					hits.remove(1);
-				else
+				} else {
 					break;
+				}
 			}
 		}
 
-		if (hits.size() < 2)
+		if (hits.size() < 2) {
 			return null;
+		}
 
 		// Application.debug(hits.toString());
 		GeoElement b = hits.get(1);
@@ -813,8 +822,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Application.debug("point is defined : "+point.isDefined());
 
-		if (singleIntersectionPoint == null)
+		if (singleIntersectionPoint == null) {
 			return null;
+		}
 
 		if (singleIntersectionPoint.isDefined()) {
 			if (((GeoElement) singleIntersectionPoint).isGeoElement3D()) {
@@ -902,8 +912,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return true if sphere created
 	 */
 	final protected boolean spherePointRadius(Hits hits, boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return false;
+		}
 
 		addSelectedPoint(hits, 1, false, selPreview);
 
@@ -927,8 +938,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return true if cone created
 	 */
 	final protected boolean coneTwoPointsRadius(Hits hits, boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return false;
+		}
 
 		addSelectedPoint(hits, 2, false, selPreview);
 
@@ -954,8 +966,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected boolean cylinderTwoPointsRadius(Hits hits,
 			boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return false;
+		}
 
 		addSelectedPoint(hits, 2, false, selPreview);
 
@@ -984,8 +997,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected GeoElement[] archimedeanSolid(Hits hits, Commands name,
 			boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		if (addSelectedPoint(hits, 2, false, selPreview) == 0
 				&& selPoints() == 0 && selDirections() == 0) {
@@ -1032,8 +1046,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return net of a polyhedron
 	 */
 	final protected GeoElement[] polyhedronNet(Hits hits, boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		addSelectedGeo(hits.getPolyhedronsIncludingMetaHits(), 1, false,
 				selPreview);
@@ -1069,8 +1084,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected GeoElement[] orthogonalPlane(Hits hits,
 			boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 		if (!hitPoint) {
@@ -1119,8 +1135,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected GeoElement[] circleAxisPoint(Hits hits,
 			boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		if (addSelectedPoint(hits, 1, false, selPreview) == 0) { // add line
 																	// only if
@@ -1150,11 +1167,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	final protected boolean circlePointRadiusDirection(Hits hits,
 			boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return false;
+		}
 
-		if (addSelectedPoint(hits, 1, false, selPreview) == 0)
+		if (addSelectedPoint(hits, 1, false, selPreview) == 0) {
 			addSelectedDirection(hits, 1, false, selPreview);
+		}
 
 		if (selPoints() == 1 && selDirections() == 1) {
 			app.getDialogManager()
@@ -1190,8 +1209,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return volume of a geo (from hits) that has a volume
 	 */
 	final protected boolean volume(Hits hits, boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return false;
+		}
 
 		addSelectedGeo(hits.getFiniteVolumeIncludingMetaHits(), 1, false,
 				selPreview);
@@ -1224,8 +1244,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Log.debug("\n=================\n"+hits0+"\n====\n"+hits+"\n=================\n");
 
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		// first try with polygon, conic, etc.
 		if (selPoints() == 0 && selLines() == 0) {
@@ -1283,8 +1304,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return false (kernel won't change)
 	 */
 	final protected boolean viewInFrontOf(Hits hits, boolean selPreview) {
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return false;
+		}
 
 		// Application.debug(hits);
 
@@ -1299,9 +1321,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// Application.debug(view3D.hasMouse());
 			Coords vn = geo.getMainDirection();
 			if (vn != null) {
-				if (view3D.hasMouse())
+				if (view3D.hasMouse()) {
 					view3D.setRotAnimation(view3D.getCursorNormal());
-				else {// doesn't come from 3D view
+				} else {// doesn't come from 3D view
 					view3D.setClosestRotAnimation(vn, true);
 				}
 			}
@@ -1320,8 +1342,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Application.debug(hits.toString());
 
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 		if (!hitPoint) {
@@ -1440,8 +1463,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
 		polygonForPyramidBasis = false;
 
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		if (draggingOccurredBeforeRelease((pyramidBasis == null)
 				&& selPoints() == 0 && selPolygons() == 0)) {
@@ -1515,8 +1539,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selPoints() == 1) {
 				// fetch selected point and vector
 				GeoPointND[] points = new GeoPointND[pyramidBasis.length + 1];
-				for (int i = 0; i < pyramidBasis.length; i++)
+				for (int i = 0; i < pyramidBasis.length; i++) {
 					points[i] = pyramidBasis[i];
+				}
 				points[pyramidBasis.length] = getSelectedPointsND()[0];
 				// create new pyramid or prism
 				view3D.disposePreview();
@@ -1552,8 +1577,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void wrapMouseReleased(AbstractEvent e) {
-		if (!draggingOccured && !app.isControlDown(e))
+		if (!draggingOccured && !app.isControlDown(e)) {
 			view3D.switchMoveCursor();
+		}
 
 		super.wrapMouseReleasedND(e, true);
 	}
@@ -1815,8 +1841,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// display correctly oriented 3D cursor
 		GeoPointND point = (GeoPointND) top.getFirstHit(Test.GEOPOINTND);
-		if (point != null)
+		if (point != null) {
 			view3D.updateCursor3D(hits);
+		}
 
 		return false;
 	}
@@ -2232,8 +2259,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
-			if (hits.size() == 0)
+			if (hits.size() == 0) {
 				createNewPoint(hits, false, true, true);
+			}
 			break;
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			// no need to do anything for preview when mouse is pressed
@@ -2316,18 +2344,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected GeoElement[] intersect(Hits hits0, boolean selPreview) {
 		Hits hits = hits0;
 		// AppD.debug(hits);
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 		if (hits.containsGeoPoint()) {
 			hits.clear();
 			return null;
 		}
 		hits.removePolygonsIfSidePresent();
 
-		if (goodHits == null)
+		if (goodHits == null) {
 			goodHits = new Hits3D();
-		else
+		} else {
 			goodHits.clear();
+		}
 
 		GeoPointND singlePoint = null;
 
@@ -2396,10 +2426,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 					if (goodHits.get(0).isGeoPlane() && AlgoIntersectCS1D2D
 							.getConfigLinePlane((GeoLineND) selected,
 									((GeoCoordSys2D) goodHits.get(
-											0))) == ConfigLinePlane.CONTAINED)
+											0))) == ConfigLinePlane.CONTAINED) {
 						goodHits.remove(0);
-					else
+					} else {
 						break;
+					}
 				}
 			} else if (selected.isGeoConic()) {
 				while (goodHits.size() >= 1) {
@@ -2407,10 +2438,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 							&& AlgoIntersectPlanes.getConfigPlanePlane(
 									(((GeoConicND) selected).getCoordSys()),
 									(((GeoCoordSys2D) goodHits.get(0))
-											.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
+											.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED) {
 						goodHits.remove(0);
-					else
+					} else {
 						break;
+					}
 				}
 			} else if (selected.isGeoPolygon()) {
 				while (goodHits.size() >= 1) {
@@ -2418,10 +2450,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 							&& AlgoIntersectPlanes.getConfigPlanePlane(
 									(((GeoPolygon) selected).getCoordSys()),
 									(((GeoCoordSys2D) goodHits.get(0))
-											.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
+											.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED) {
 						goodHits.remove(0);
-					else
+					} else {
 						break;
+					}
 				}
 			}
 
@@ -2459,8 +2492,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				GeoPointND[] points = getAlgoDispatcher()
 						.IntersectLineConic(null, line, conic);
-				for (int i = 0; i < 2; i++)
+				for (int i = 0; i < 2; i++) {
 					ret[i] = (GeoElement) points[i];
+				}
 
 				return ret;
 			} else if (selQuadric() == 1) { // line-quadric3D
@@ -2470,8 +2504,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 				GeoPointND[] points = getKernel().getManager3D()
 						.IntersectLineQuadric(null, line, quadric);
-				for (int i = 0; i < 2; i++)
+				for (int i = 0; i < 2; i++) {
 					ret[i] = (GeoElement) points[i];
+				}
 				return ret;
 			} else if (selPolygons() == 1) {// line-polygon
 				return getKernel().getManager3D().IntersectionPoint(
@@ -2510,8 +2545,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			GeoPointND[] points = getKernel().getManager3D()
 					.IntersectPlaneConic(null, plane, conic);
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 2; i++) {
 				ret[i] = (GeoElement) points[i];
+			}
 
 			return ret;
 		} else if (selConics() >= 1 && selQuadric() == 1) {
@@ -2523,8 +2559,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			GeoPointND[] points = getKernel().getManager3D()
 					.IntersectConics(null, conic, quadric);
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 2; i++) {
 				ret[i] = (GeoElement) points[i];
+			}
 
 			return ret;
 		} else if (selPolygons() == 1 && selPlanes() == 1) { // plane-polygon
@@ -3025,10 +3062,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return;
 		}
 
-		if (goodHits == null)
+		if (goodHits == null) {
 			goodHits = new Hits3D();
-		else
+		} else {
 			goodHits.clear();
+		}
 
 		// since resultedGeo!=null, hits contains at least two element.
 		// if one of the two is not one of A or B, we say that
@@ -3302,15 +3340,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (!geos.isEmpty()) {
 			// if the geo hitted is one of view3D's geos, then chooseGeo return
 			// null
-			if (!includeConstants && view3D.owns(geos.get(0)))
+			if (!includeConstants && view3D.owns(geos.get(0))) {
 				return null;
+			}
 
 			// doesn't use choosing dialog TODO use choosing dialog ?
 			// return super.chooseGeo(geos, includeFixed);
 			// return first element : ordering done in hits
 			GeoElement geo = geos.get(0);
-			if (!includeFixed && geo.isFixed())
+			if (!includeFixed && geo.isFixed()) {
 				return null;
+			}
 
 			return geo;
 		}
@@ -3552,8 +3592,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	public void setHandledGeo(GeoElement geo) {
 		handledGeo = geo;
-		if (handledGeo == null)
+		if (handledGeo == null) {
 			return;
+		}
 		setStartPointLocation();
 		handledGeo.recordChangeableCoordParentNumbers(view3D);
 	}
@@ -3640,8 +3681,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * update start point to current mouse coords
 	 */
 	protected void udpateStartPoint() {
-		if (mouseLoc == null)// case that it's algebra view calling
+		if (mouseLoc == null) {
 			return;
+		}
 
 		updateStartPoint(view3D.getPickPoint(mouseLoc));
 
@@ -3865,16 +3907,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	final protected GeoElement[] orthogonal(Hits hits, boolean selPreview) {
 
-		if (hits.isEmpty())
+		if (hits.isEmpty()) {
 			return null;
+		}
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 
 		if (!hitPoint) {
-			if (selCS2D() == 0)
+			if (selCS2D() == 0) {
 				addSelectedLine(hits, 1, false, selPreview);
-			if (selLines() == 0)
+			}
+			if (selLines() == 0) {
 				addSelectedCS2D(hits, 1, false, selPreview);
+			}
 		}
 
 		if (selPoints() == 1) {
@@ -3964,8 +4009,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public boolean viewOrientationForClockwise(boolean clockwise,
 			GeoLineND line) {
 
-		if (line.getDirectionInD3().dotproduct(view3D.getViewDirection()) > 0)
+		if (line.getDirectionInD3().dotproduct(view3D.getViewDirection()) > 0) {
 			return !clockwise;
+		}
 
 		return clockwise;
 	}
@@ -4049,8 +4095,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * update all drawables now
 	 */
 	public void updateOwnDrawablesNow() {
-		for (IntersectionCurve intersectionCurve : intersectionCurveList)
+		for (IntersectionCurve intersectionCurve : intersectionCurveList) {
 			intersectionCurve.drawable.update();
+		}
 	}
 
 	@Override
@@ -4173,8 +4220,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 							// (geogebra.gui.AngleInputDialog) ob[1];
 
 							// keep angle entered if it ends with 'degrees'
-							if (angleText.endsWith(Unicode.DEGREE))
+							if (angleText.endsWith(Unicode.DEGREE)) {
 								defaultRotateAngle = angleText;
+							}
 
 							if (polys.length == 1) {
 
@@ -4458,6 +4506,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCursorForTranslateView(hits);
 	}
 
+	@Override
 	protected void setCursorForTranslateViewNoHit() {
 		view3D.setCursorForTranslateViewNoHit();
 	}

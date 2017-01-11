@@ -424,35 +424,33 @@ public abstract class Layout implements SettingListener {
 		boolean changed = false;
 		if (!perspective.getId().equals("tmp")) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			if (app.getEuclidianView1() == ev)
+			if (app.getEuclidianView1() == ev) {
 				changed |= app.getSettings().getEuclidian(1).setShowAxes(
 						perspective.getShowAxes(), perspective.getShowAxes());
-
-			else if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1) == ev)
+			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+					&& app.getEuclidianView2(1) == ev) {
 				changed |= app.getSettings().getEuclidian(2).setShowAxes(
 						perspective.getShowAxes(), perspective.getShowAxes());
-			else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev)
+			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
 				changed |= app.getSettings().getEuclidian(3)
 						.setShowAxes(perspective.getShowAxes());
-
-			else
+			} else {
 				changed |= ev.setShowAxes(perspective.getShowAxes(), false);
+			}
 
-			if (app.getEuclidianView1() == ev)
+			if (app.getEuclidianView1() == ev) {
 				changed |= app.getSettings().getEuclidian(1)
 						.showGrid(perspective.getShowGrid());
-
-			else if (app.hasEuclidianView2EitherShowingOrNot(1)
-					&& app.getEuclidianView2(1) == ev)
+			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+					&& app.getEuclidianView2(1) == ev) {
 				changed |= app.getSettings().getEuclidian(2)
 						.showGrid(perspective.getShowGrid());
-			else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev)
+			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
 				changed |= app.getSettings().getEuclidian(3)
 						.showGrid(perspective.getShowGrid());
-
-			else
+			} else {
 				changed |= ev.showGrid(perspective.getShowGrid());
+			}
 
 			// ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
 		}
@@ -475,8 +473,9 @@ public abstract class Layout implements SettingListener {
 		 */
 		Perspective tmpPerspective = createPerspective("tmp");
 		// save the current perspective
-		if (tmpPerspective != null)
+		if (tmpPerspective != null) {
 			sb.append(tmpPerspective.getXml());
+		}
 
 	}
 

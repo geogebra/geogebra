@@ -53,10 +53,11 @@ public class CmdParseToNumber extends CommandProcessor {
 
 				GeoElement[] ret = { num };
 				return ret;
-			} else if (!ok)
+			} else if (!ok) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

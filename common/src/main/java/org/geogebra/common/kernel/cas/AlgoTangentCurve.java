@@ -198,6 +198,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		}
 	}
 
+	@Override
 	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == f && line == tangent) {
 			return getTangentPoint();

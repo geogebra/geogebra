@@ -287,10 +287,12 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		buildLocusMacroConstruction(locusConsOrigElements);
 
 		// if we used temp labels remove them again
-		if (!isLabeledP)
+		if (!isLabeledP) {
 			((GeoElement) movingPoint).setLabelSet(false);
-		if (!isLabeledQ)
+		}
+		if (!isLabeledQ) {
 			((GeoElement) locusPoint).setLabelSet(false);
+		}
 	}
 
 	// for AlgoElement
@@ -520,8 +522,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 								&& !distanceOK(copyQ) && !maxTimeExceeded) {
 							// go back and try smaller step
 							boolean smallerStep = pathMover.smallerStep();
-							if (!smallerStep)
+							if (!smallerStep) {
 								break;
+							}
 
 							stepChanged = true;
 							pathMover.stepBack();
@@ -555,8 +558,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 						// set smallest step
 						if (!pathMover.smallerStep()) {
 							prevQcopyDefined = false;
-						} else
+						} else {
 							stepChanged = true;
+						}
 					}
 
 					// add better undefined case support for continuous curves
@@ -581,8 +585,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 							// do nothing
 						}
 						// no smaller step possible: run finished
-						if (!pathMover.hasNext())
+						if (!pathMover.hasNext()) {
 							finishedRun = true;
+						}
 					}
 				}
 			}
@@ -596,8 +601,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// look at Qcopy at startPos
 			((GeoElement) copyP).set(startPPos);
 			pcopyUpdateCascade();
-			if (differentFromLast(copyQ))
+			if (differentFromLast(copyQ)) {
 				insertPoint(copyQ, distanceSmall(copyQ, true));
+			}
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
@@ -654,8 +660,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	abstract protected boolean areEqual(GeoPointND p1, GeoPointND p2);
 
 	private static boolean isPathIterable(GeoElement geoElement) {
-		if (geoElement.isGeoImplicitPoly())
+		if (geoElement.isGeoImplicitPoly()) {
 			return ((GeoImplicit) geoElement).isOnScreen();
+		}
 		return geoElement.isDefined();
 	}
 
@@ -729,16 +736,18 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	private void clearCache() {
 		for (int i = 0; i < paramCache.length; i++) {
 			paramCache[i] = Double.NaN;
-			if (qcopyCache[i] == null)
+			if (qcopyCache[i] == null) {
 				qcopyCache[i] = newCache();
+			}
 		}
 	}
 
 	private GPoint2D getCachedPoint(double param) {
 		// search for cached parameter
 		for (int i = 0; i < paramCache.length; i++) {
-			if (param == paramCache[i])
+			if (param == paramCache[i]) {
 				return qcopyCache[i];
+			}
 		}
 
 		return null;
@@ -746,8 +755,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	private void putCachedPoint(double param, GeoPointND Qcopy0) {
 		cacheIndex++;
-		if (cacheIndex >= paramCache.length)
+		if (cacheIndex >= paramCache.length) {
 			cacheIndex = 0;
+		}
 
 		paramCache[cacheIndex] = param;
 		setQCopyCache(qcopyCache[cacheIndex], Qcopy0);
@@ -850,24 +860,30 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	boolean isVisibleInEV(int i) {
 		switch (i) {
 		case 1:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
 				return false;
-			if (!kernel.getApplication().getEuclidianView1().isShowing())
+			}
+			if (!kernel.getApplication().getEuclidianView1().isShowing()) {
 				return false;
+			}
 			return true;
 
 		case 2:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
 				return false;
-			if (!kernel.getApplication().hasEuclidianView2(1))
+			}
+			if (!kernel.getApplication().hasEuclidianView2(1)) {
 				return false;
+			}
 			return true;
 
 		case 3:
-			if (!locus.isVisibleInView3D())
+			if (!locus.isVisibleInView3D()) {
 				return false;
-			if (kernel.getApplication().isEuclidianView3Dinited())
+			}
+			if (kernel.getApplication().isEuclidianView3Dinited()) {
 				return kernel.getApplication().getEuclidianView3D().isShowing();
+			}
 		}
 		return false;
 

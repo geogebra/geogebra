@@ -99,6 +99,7 @@ public class AlgoDependentListExpression extends AlgoElement
 	 * 
 	 * @return input expression
 	 */
+	@Override
 	public ExpressionNode getExpression() {
 		return list.getDefinition();
 	}

@@ -142,8 +142,9 @@ public class PolyFunction implements RealRootDerivFunction {
 	}
 
 	private PolyFunction buildDerivative() {
-		if (degree < 1)
+		if (degree < 1) {
 			return new PolyFunction(0);
+		}
 
 		// standard case
 		PolyFunction deriv = new PolyFunction(degree - 1);
@@ -166,6 +167,7 @@ public class PolyFunction implements RealRootDerivFunction {
 	/**
 	 * Evaluates polynomial and its derivative
 	 */
+	@Override
 	final public double[] evaluateDerivFunc(double x) {
 		double[] ret = new double[2];
 		ret[0] = coeffs[degree];
@@ -177,6 +179,7 @@ public class PolyFunction implements RealRootDerivFunction {
 		return ret;
 	}
 
+	@Override
 	final public double evaluateDerivative(double x) {
 		return evaluateDerivFunc(x)[1];
 	}
@@ -184,6 +187,7 @@ public class PolyFunction implements RealRootDerivFunction {
 	/**
 	 * Evaluates polynomial
 	 */
+	@Override
 	final public double evaluate(double x) {
 		double p = coeffs[degree];
 		for (int i = degree - 1; i >= 0; i--) {
@@ -209,12 +213,14 @@ public class PolyFunction implements RealRootDerivFunction {
 		int nnd, j, i;
 		double cnst = 1.0;
 		pd[0] = coeffs[degree];
-		for (j = 1; j <= order; j++)
+		for (j = 1; j <= order; j++) {
 			pd[j] = 0.0;
+		}
 		for (i = degree - 1; i >= 0; i--) {
 			nnd = (order < (degree - i) ? order : degree - i);
-			for (j = nnd; j >= 1; j--)
+			for (j = nnd; j >= 1; j--) {
 				pd[j] = pd[j] * x + pd[j - 1];
+			}
 			pd[0] = pd[0] * x + coeffs[i];
 		}
 		for (i = 2; i <= order; i++) { // After the first derivative, factorial

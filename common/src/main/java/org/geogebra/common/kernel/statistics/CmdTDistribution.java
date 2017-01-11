@@ -47,8 +47,9 @@ public class CmdTDistribution extends CommandProcessor {
 
 			if (arg[2].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[2];
-			} else
+			} else {
 				throw argErr(app, c, arg[2]);
+			}
 
 			// fall through
 		case 2:
@@ -68,8 +69,9 @@ public class CmdTDistribution extends CommandProcessor {
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
-				} else
+				} else {
 					throw argErr(app, c, arg[1]);
+				}
 
 			}
 			throw argErr(app, c, arg[0]);

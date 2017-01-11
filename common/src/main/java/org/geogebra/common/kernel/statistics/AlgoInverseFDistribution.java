@@ -77,8 +77,9 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
 				e.printStackTrace();
 				num.setUndefined();
 			}
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

@@ -504,11 +504,13 @@ public abstract class EuclidianController {
 	 */
 	public void startCollectingMinorRepaints() {
 
-		if (collectingRepaints < 0) // should not happen, just in case
+		if (collectingRepaints < 0) {
 			collectingRepaints = 0;
+		}
 
-		if (collectingRepaints == 0)
+		if (collectingRepaints == 0) {
 			collectedRepaints = false;
+		}
 		collectingRepaints++;
 	}
 
@@ -2781,8 +2783,9 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			return false;
 		}
-		if (selFunctions() == 0)
+		if (selFunctions() == 0) {
 			this.addSelectedFunction(hits, 1, false, selPreview);
+		}
 		if (selFunctions() == 1) {
 			GeoFunction[] functions = getSelectedFunctions();
 			// set mode first to prevent concurrency issue
@@ -3760,11 +3763,12 @@ public abstract class EuclidianController {
 		// repaint
 		// old refreshHighlighting repainted every time when one of them was not
 		// empty
-		if (!repaintNeeded)
+		if (!repaintNeeded) {
 			return false;
-		else if (oldHighlightedGeos.size() == highlightedGeos.size()
-				&& oldHighlightedGeos.containsAll(highlightedGeos))
+		} else if (oldHighlightedGeos.size() == highlightedGeos.size()
+				&& oldHighlightedGeos.containsAll(highlightedGeos)) {
 			return false;
+		}
 
 		return true;
 	}
@@ -3785,8 +3789,9 @@ public abstract class EuclidianController {
 		boolean repaintNeeded = clearHighlightedGeos();
 
 		if (geos != null && geos.size() > 0) {
-			for (GeoElement geo : geos)
+			for (GeoElement geo : geos) {
 				highlightedGeos.add(geo);
+			}
 			setHighlightedGeos(true);
 			repaintNeeded = true;
 		}
@@ -5275,8 +5280,9 @@ public abstract class EuclidianController {
 
 		// we're done if in selection preview
 		if (selPreview) {
-			if (callback2 != null)
+			if (callback2 != null) {
 				callback2.callback(false);
+			}
 			return false;
 		}
 
@@ -5306,8 +5312,9 @@ public abstract class EuclidianController {
 					if (num == null) {
 						// no success: reset mode
 						view.resetMode();
-						if (callback2 != null)
+						if (callback2 != null) {
 							callback2.callback(false);
+						}
 						return;
 					}
 					// great, we got our number
@@ -5362,8 +5369,9 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			GeoElement[] res = kernel.useMacro(null, macro, getSelectedGeos());
-			if (callback2 != null)
+			if (callback2 != null) {
 				callback2.callback(true);
+			}
 			return res != null;
 		}
 		if (callback2 != null) {
@@ -5670,8 +5678,9 @@ public abstract class EuclidianController {
 				@Override
 				public void callback(Boolean arg) {
 					memorizeJustCreatedGeosAfterProcessMode(null, selPreview);
-					if (callback != null)
+					if (callback != null) {
 						callback.callback(arg);
+					}
 				}
 			};
 
@@ -5739,8 +5748,9 @@ public abstract class EuclidianController {
 			boolean selPreview) {
 		memorizeJustCreatedGeosAfterProcessMode(ret, selPreview);
 
-		if (callback != null)
+		if (callback != null) {
 			callback.callback(changedKernel || (ret != null));
+		}
 
 		if (!changedKernel) {
 			return ret != null;
@@ -5835,8 +5845,9 @@ public abstract class EuclidianController {
 			toolCompleted();
 		}
 
-		if (callback == null)
+		if (callback == null) {
 			updatePreview();
+		}
 
 		return changedKernel;
 	}
@@ -7130,15 +7141,17 @@ public abstract class EuclidianController {
 					|| movedGeoElement.isGeoImage()
 					|| movedGeoElement.isGeoList()
 					|| movedGeoElement.isGeoVector()) {
-				if (translateableGeos == null)
+				if (translateableGeos == null) {
 					translateableGeos = new ArrayList<GeoElement>();
-				else
+				} else {
 					translateableGeos.clear();
+				}
 
 				addMovedGeoElementFreeInputPointsToTranslateableGeos();
 
-				if (movedGeoElement.isGeoList())
+				if (movedGeoElement.isGeoList()) {
 					translateableGeos.add(movedGeoElement);
+				}
 			}
 		}
 
@@ -8787,8 +8800,9 @@ public abstract class EuclidianController {
 		PointerEventType type = e.getType();
 		Hits hits;
 		// TODO we shall never get mode > 1000 here
-		if (mode > 1000)
+		if (mode > 1000) {
 			app.setMode(EuclidianConstants.MODE_MOVE);
+		}
 		switch (mode) {
 		// create new point at mouse location
 		// this point can be dragged: see mouseDragged() and mouseReleased()
@@ -10093,9 +10107,9 @@ public abstract class EuclidianController {
 
 						GeoElement geo = chooseGeo(hits, true, false);
 
-						if (geo == null)// when axis is clicked
+						if (geo == null) {
 							showDrawingPadPopup(mouseLoc);
-						else {
+						} else {
 							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
 							showPopupMenuChooseGeo(geos, hits);
@@ -10109,9 +10123,9 @@ public abstract class EuclidianController {
 
 					GeoElement geo = chooseGeo(hits, true, false);
 
-					if (geo == null)// when axis is clicked
+					if (geo == null) {
 						showDrawingPadPopup(mouseLoc);
-					else {
+					} else {
 						ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 						geos.add(geo);
 						showPopupMenuChooseGeo(geos, hits);
@@ -10198,10 +10212,11 @@ public abstract class EuclidianController {
 	}
 
 	public void setLineEndPoint(GPoint2D p) {
-		if (p == null)
+		if (p == null) {
 			lineEndPoint = null;
-		else
+		} else {
 			lineEndPoint = new GPoint2D.Double(p.getX(), p.getY());
+		}
 		useLineEndPoint = true;
 	}
 

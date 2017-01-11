@@ -151,8 +151,9 @@ public class TestGraphs {
 		// and, last, a partial clique
 		for (int i = 11; i <= 20; i++) {
 			for (int j = i + 1; j <= 20; j++) {
-				if (Math.random() > 0.6)
+				if (Math.random() > 0.6) {
 					continue;
+				}
 				String i1 = "" + i;
 				String i2 = "" + j;
 				g.addEdge(Math.pow(i + 2, j), i1, i2);
@@ -162,8 +163,9 @@ public class TestGraphs {
 		List<String> index = new ArrayList<String>();
 		index.addAll(g.getVertices());
 		// and one edge to connect them all
-		for (int i = 0; i < index.size() - 1; i++)
+		for (int i = 0; i < index.size() - 1; i++) {
 			g.addEdge(Integer.valueOf(i), index.get(i), index.get(i + 1));
+		}
 
 		return g;
 	}
@@ -195,8 +197,9 @@ public class TestGraphs {
 		// and, last, a partial clique
 		for (int i = 11; i <= 20; i++) {
 			for (int j = i + 1; j <= 20; j++) {
-				if (Math.random() > 0.6)
+				if (Math.random() > 0.6) {
 					continue;
+				}
 				String i1 = "p" + i;
 				String i2 = "p" + j;
 				g.addEdge(Math.pow(i + 2, j), i1, i2);

@@ -28,10 +28,12 @@ public class CmdMatrixRank extends CommandProcessor {
 	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
-		if (args.length != 1)
+		if (args.length != 1) {
 			throw argNumErr(app, c, args.length);
-		if (!args[0].isGeoList())
+		}
+		if (!args[0].isGeoList()) {
 			throw argErr(app, c, args[0]);
+		}
 
 		AlgoMatrixRank algo = new AlgoMatrixRank(cons, c.getLabel(),
 				(GeoList) args[0]);

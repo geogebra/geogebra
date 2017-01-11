@@ -49,11 +49,13 @@ public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 		locus.setLabel(label);
 	}
 
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[percentage == null ? 1 : 2];
 		input[0] = inputList;
-		if (percentage != null)
+		if (percentage != null) {
 			input[1] = percentage;
+		}
 
 		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement

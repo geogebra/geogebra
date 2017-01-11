@@ -199,10 +199,11 @@ public class Hits extends ArrayList<GeoElement> {
 	public Hits absorb(ArrayList<GeoElement> hits2) {
 		Hits ret = new Hits();
 		for (int i = 0; i < hits2.size(); i++) {
-			if (!contains(hits2.get(i)))
+			if (!contains(hits2.get(i))) {
 				add(hits2.get(i));
-			else
+			} else {
 				ret.add(hits2.get(i));
+			}
 		}
 		return ret;
 	}
@@ -213,8 +214,9 @@ public class Hits extends ArrayList<GeoElement> {
 	final public void removeAllPoints() {
 		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo == null || geo.isGeoPoint())
+			if (geo == null || geo.isGeoPoint()) {
 				remove(i);
+			}
 		}
 	}
 
@@ -228,8 +230,9 @@ public class Hits extends ArrayList<GeoElement> {
 			if (geo == null
 					|| geo.isRegion() && (geo.getAlphaValue() < 0.1f
 							|| geo.getLineThickness() < 0.5f)
-					|| geo.isPath() && geo.getLineThickness() < 0.5f)
+					|| geo.isPath() && geo.getLineThickness() < 0.5f) {
 				remove(i);
+			}
 		}
 	}
 
@@ -356,8 +359,9 @@ public class Hits extends ArrayList<GeoElement> {
 			GeoElement geo = get(i);
 			if (
 			// geo.isGeoNumeric() ||
-			geo.isGeoVector() || geo.isGeoPoint())
+			geo.isGeoVector() || geo.isGeoPoint()) {
 				ret.add(geo);
+			}
 		}
 
 		return ret;
@@ -374,8 +378,9 @@ public class Hits extends ArrayList<GeoElement> {
 
 			for (int i = size() - 1; i >= 0; i--) {
 				GeoElement geo = get(i);
-				if (geo.isGeoPolygon())
+				if (geo.isGeoPolygon()) {
 					remove(i);
+				}
 			}
 		}
 	}
@@ -386,8 +391,9 @@ public class Hits extends ArrayList<GeoElement> {
 	final public void removeAllPolygons() {
 		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo.isGeoPolygon())
+			if (geo.isGeoPolygon()) {
 				remove(i);
+			}
 		}
 	}
 
@@ -397,8 +403,9 @@ public class Hits extends ArrayList<GeoElement> {
 	final public void removeAllPlanes() {
 		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo.isGeoPlane())
+			if (geo.isGeoPlane()) {
 				remove(i);
+			}
 		}
 	}
 
@@ -479,8 +486,9 @@ public class Hits extends ArrayList<GeoElement> {
 	public void removeImages() {
 		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo.isGeoImage())
+			if (geo.isGeoImage()) {
 				remove(i);
+			}
 		}
 	}
 
@@ -524,8 +532,9 @@ public class Hits extends ArrayList<GeoElement> {
 		Hits selectableList = new Hits();
 		for (int i = 0; i < size(); ++i) {
 			geo = get(i);
-			if (geo.isSelectionAllowed(null))
+			if (geo.isSelectionAllowed(null)) {
 				selectableList.add(geo);
+			}
 		}
 
 		return selectableList;
@@ -557,8 +566,9 @@ public class Hits extends ArrayList<GeoElement> {
 				// point with changeable parent coords
 				else if (geo.isGeoPoint()) {
 					GeoPointND point = (GeoPointND) geo;
-					if (point.hasChangeableCoordParentNumbers())
+					if (point.hasChangeableCoordParentNumbers()) {
 						moveableList.add((GeoElement) point);
+					}
 				}
 				// not a point, but has moveable input points
 				else if (geo.hasMoveableInputPoints(view)) {
@@ -569,8 +579,9 @@ public class Hits extends ArrayList<GeoElement> {
 			case ROTATEMOVEABLE:
 				// check for circular definition
 				if (geo.isRotateMoveable()) {
-					if (rotCenter == null || !geo.isParentOf(rotCenter))
+					if (rotCenter == null || !geo.isParentOf(rotCenter)) {
 						moveableList.add(geo);
+					}
 
 				} else if (geo.hasMoveableInputPoints(view)) {
 					moveableList.add(geo);
@@ -653,10 +664,12 @@ public class Hits extends ArrayList<GeoElement> {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			boolean success = geoclass.check(get(i));
-			if (other)
+			if (other) {
 				success = !success;
-			if (success)
+			}
+			if (success) {
 				result.add(get(i));
+			}
 		}
 		// return result.size() == 0 ? null : result;
 
@@ -699,10 +712,12 @@ public class Hits extends ArrayList<GeoElement> {
 		for (int i = 0; i < size(); ++i) {
 			for (int j = 0; j < geoclasses.length; ++j) {
 				boolean success = geoclasses[j].check(get(i));
-				if (other)
+				if (other) {
 					success = !success;
-				if (success)
+				}
+				if (success) {
 					result.add(get(i));
+				}
 			}
 		}
 
@@ -719,8 +734,9 @@ public class Hits extends ArrayList<GeoElement> {
 	final public GeoElement getFirstHit(Test geoclass) {
 
 		for (int i = 0; i < size(); ++i) {
-			if (geoclass.check(get(i)))
+			if (geoclass.check(get(i))) {
 				return get(i);
+			}
 		}
 
 		return null;
@@ -764,8 +780,9 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	public Hits getTopHits() {
 
-		if (isEmpty())
+		if (isEmpty()) {
 			return cloneHits();
+		}
 
 		// point in there?
 		Hits topHitsList = new Hits();
@@ -811,8 +828,9 @@ public class Hits extends ArrayList<GeoElement> {
 		 */
 
 		Hits ret = new Hits();
-		for (int i = 0; i < nb && i < topHits.size(); i++)
+		for (int i = 0; i < nb && i < topHits.size(); i++) {
 			ret.add(topHits.get(i));
+		}
 
 		return ret;
 	}
@@ -824,8 +842,9 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	public Hits getHits(int nb) {
 		Hits ret = createNewHits();
-		for (int i = 0; i < nb && i < size(); i++)
+		for (int i = 0; i < nb && i < size(); i++) {
 			ret.add(get(i));
+		}
 
 		return ret;
 	}
@@ -854,8 +873,9 @@ public class Hits extends ArrayList<GeoElement> {
 	final public boolean containsGeoPoint() {
 
 		for (int i = 0; i < size(); i++) {
-			if (get(i).isGeoPoint())
+			if (get(i).isGeoPoint()) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -863,8 +883,9 @@ public class Hits extends ArrayList<GeoElement> {
 	final private boolean containsGeoNumeric() {
 
 		for (int i = 0; i < size(); i++) {
-			if (get(i).isGeoNumeric())
+			if (get(i).isGeoNumeric()) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -963,9 +984,11 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return true if contains at least one of the elements of the list
 	 */
 	public boolean intersect(ArrayList<GeoElement> list) {
-		for (GeoElement geo : list)
-			if (contains(geo))
+		for (GeoElement geo : list) {
+			if (contains(geo)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
@@ -981,8 +1004,10 @@ public class Hits extends ArrayList<GeoElement> {
 			// has finite volume
 			if (geo.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo).getMetas())
+				 {
 					addFiniteVolume(result, meta);
 				// check if the geo has finite volume
+				}
 			} else {
 				addFiniteVolume(result, geo);
 			}

@@ -212,6 +212,7 @@ public abstract class AbstractStepInterpolator implements StepInterpolator {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public StepInterpolator copy() throws DerivativeException {
 
 		// finalize the step before performing copy
@@ -322,6 +323,7 @@ public abstract class AbstractStepInterpolator implements StepInterpolator {
 	 * @return previous soft grid point time
 	 * @see #setSoftPreviousTime(double)
 	 */
+	@Override
 	public double getPreviousTime() {
 		return softPreviousTime;
 	}
@@ -332,22 +334,26 @@ public abstract class AbstractStepInterpolator implements StepInterpolator {
 	 * @return current soft grid point time
 	 * @see #setSoftCurrentTime(double)
 	 */
+	@Override
 	public double getCurrentTime() {
 		return softCurrentTime;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getInterpolatedTime() {
 		return interpolatedTime;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setInterpolatedTime(final double time) {
 		interpolatedTime = time;
 		dirtyState = true;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public boolean isForward() {
 		return forward;
 	}
@@ -371,6 +377,7 @@ public abstract class AbstractStepInterpolator implements StepInterpolator {
 			double oneMinusThetaH) throws DerivativeException;
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getInterpolatedState() throws DerivativeException {
 
 		// lazy evaluation of the state
@@ -386,6 +393,7 @@ public abstract class AbstractStepInterpolator implements StepInterpolator {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getInterpolatedDerivatives() throws DerivativeException {
 
 		// lazy evaluation of the state

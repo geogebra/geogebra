@@ -135,6 +135,7 @@ public interface ExpressionValue {
 	 */
 	public HashSet<GeoElement> getVariables();
 
+	@Override
 	@Deprecated
 	public String toString();
 

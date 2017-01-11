@@ -39,6 +39,7 @@ public class DirectedOrderedSparseMultigraph<V, E>
 	 */
 	public static <V, E> Factory<DirectedGraph<V, E>> getFactory() {
 		return new Factory<DirectedGraph<V, E>>() {
+			@Override
 			public DirectedGraph<V, E> create() {
 				return new DirectedOrderedSparseMultigraph<V, E>();
 			}
@@ -69,42 +70,50 @@ public class DirectedOrderedSparseMultigraph<V, E>
 
 	@Override
 	public Collection<V> getPredecessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Set<V> preds = new LinkedHashSet<V>();
-		for (E edge : getIncoming_internal(vertex))
+		for (E edge : getIncoming_internal(vertex)) {
 			preds.add(this.getSource(edge));
+		}
 
 		return Collections.unmodifiableCollection(preds);
 	}
 
 	@Override
 	public Collection<V> getSuccessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Set<V> succs = new LinkedHashSet<V>();
-		for (E edge : getOutgoing_internal(vertex))
+		for (E edge : getOutgoing_internal(vertex)) {
 			succs.add(this.getDest(edge));
+		}
 
 		return Collections.unmodifiableCollection(succs);
 	}
 
 	@Override
 	public Collection<V> getNeighbors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Collection<V> neighbors = new LinkedHashSet<V>();
-		for (E edge : getIncoming_internal(vertex))
+		for (E edge : getIncoming_internal(vertex)) {
 			neighbors.add(this.getSource(edge));
-		for (E edge : getOutgoing_internal(vertex))
+		}
+		for (E edge : getOutgoing_internal(vertex)) {
 			neighbors.add(this.getDest(edge));
+		}
 		return Collections.unmodifiableCollection(neighbors);
 	}
 
 	@Override
 	public Collection<E> getIncidentEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		Collection<E> incident = new LinkedHashSet<E>();
 		incident.addAll(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));

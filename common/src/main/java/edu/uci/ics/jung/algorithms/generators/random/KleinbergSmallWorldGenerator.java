@@ -157,8 +157,9 @@ public class KleinbergSmallWorldGenerator<V, E>
 			Map<V, Float> vertex_weights = new HashMap<V, Float>();
 			for (int j = 0; j < row_count; j++) {
 				for (int k = 0; k < col_count; k++) {
-					if (j == row && k == col)
+					if (j == row && k == col) {
 						continue;
+					}
 					int v_dist = Math.abs(j - row);
 					int h_dist = Math.abs(k - col);
 					if (is_toroidal) {
@@ -168,11 +169,12 @@ public class KleinbergSmallWorldGenerator<V, E>
 								Math.abs(k - col + col_offset));
 					}
 					int distance = v_dist + h_dist;
-					if (distance < 2)
+					if (distance < 2) {
 						continue;
-					else
+					} else {
 						vertex_weights.put(getVertex(j, k), (float) Math
 								.pow(distance, -clustering_exponent));
+					}
 				}
 			}
 

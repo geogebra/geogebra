@@ -123,6 +123,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 		return ret;
 	}
 
+	@Override
 	public void calcCentroid(GeoPoint p) {
 		// TODO Auto-generated method stub
 

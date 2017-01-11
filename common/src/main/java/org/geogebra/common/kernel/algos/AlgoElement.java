@@ -538,8 +538,9 @@ public abstract class AlgoElement extends ConstructionElement
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
 
-		if (classname == null)
+		if (classname == null) {
 			return "";
+		}
 		// translate algorithm class name to internal command name
 		return classname.getCommand();
 	}
@@ -843,8 +844,9 @@ public abstract class AlgoElement extends ConstructionElement
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		removed = true;
 		cons.removeFromConstructionList(this);
 		cons.removeFromAlgorithmList(this);
@@ -855,8 +857,9 @@ public abstract class AlgoElement extends ConstructionElement
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
 			if (!isProtectedInput() && input[i].canBeRemovedAsInput()
-					&& !input[i].isLabelSet() && !input[i].isGeoCasCell())
+					&& !input[i].isLabelSet() && !input[i].isGeoCasCell()) {
 				input[i].remove();
+			}
 			input[i].removeAlgorithm(this);
 		}
 
@@ -1220,8 +1223,9 @@ public abstract class AlgoElement extends ConstructionElement
 			return toString(tpl);
 		}
 		// #2706
-		if (input == null)
+		if (input == null) {
 			return null;
+		}
 		sbAE.setLength(0);
 		if (tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(getLoc().getCommand(def));
@@ -1254,7 +1258,9 @@ public abstract class AlgoElement extends ConstructionElement
 		if (geo.isGeoVector()) {
 			String vectorCommand = "Vector[";
 			if (tpl.isPrintLocalizedCommandNames())
+			 {
 				vectorCommand = getLoc().getCommand("Vector") + "["; // want it
+			}
 																		// translated
 																		// eg
 																		// for
@@ -1484,11 +1490,12 @@ public abstract class AlgoElement extends ConstructionElement
 			return "";
 		}
 		sb.append("<command name=\"");
-		if ("".equals(cmdname))
+		if ("".equals(cmdname)) {
 			sb.append("AlgoNonCommand"); // In such cases we may want to add a
 											// Command for the Algo
-		else
+		} else {
 			sb.append(cmdname);
+		}
 		sb.append("\"");
 		if (!"".equals(cmdname) && (this instanceof AlgoListElement
 				|| this.getClassName().equals(Commands.Cell)
@@ -1550,8 +1557,9 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		// add output information
-		if (getOutputLength() > 0)
+		if (getOutputLength() > 0) {
 			getCmdOutputXML(sb, tpl);
+		}
 
 		sb.append("</command>\n");
 		return sb.toString();

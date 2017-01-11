@@ -203,8 +203,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 	@Override
 	public final void initForNearToRelationship() {
-		if (isDefinedAsTangent)
+		if (isDefinedAsTangent) {
 			return;
+		}
 
 		isPermutationNeeded = true; // for non-continuous intersections
 		for (int i = 0; i < P.length; i++) {
@@ -236,8 +237,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		// check for special case of line through point on conic
 		if (possibleSpecialCase) {
-			if (handleSpecialCase())
+			if (handleSpecialCase()) {
 				return;
+			}
 		}
 
 		// continous: use near-to-heuristic between old and new intersection
@@ -394,14 +396,16 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				break;
 			}
 		}
-		if (!didSetP1) // this happens when both intersection points are equal
+		if (!didSetP1) {
 			P[secondIndex].setCoordsFromPoint(existingIntersection);
+		}
 
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path
 			for (int i = 0; i < 2; i++) {
-				if (!pointLiesOnBothPaths(P[i]))
+				if (!pointLiesOnBothPaths(P[i])) {
 					P[i].setUndefined();
+				}
 			}
 		}
 
@@ -449,8 +453,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path
 			for (int i = 0; i < P.length; i++) {
-				if (!pointLiesOnBothPaths(P[i]))
+				if (!pointLiesOnBothPaths(P[i])) {
 					P[i].setUndefined();
+				}
 			}
 		}
 	}
@@ -534,8 +539,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		 */
 
 		// make sure interesection points lie on limited paths
-		if (isLimitedPathSituation)
+		if (isLimitedPathSituation) {
 			handleLimitedPaths();
+		}
 	}
 
 	/**
@@ -619,8 +625,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (!ok) {
 			// Application.debug("INTERSECT LINE CONIC FAILED: epsilon = " +
 			// epsilon);
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 2; i++) {
 				sol[i].setUndefined();
+			}
 		}
 		intersectionType = ret;
 		return ret;
@@ -758,25 +765,29 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		boolean foundPoint = false;
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {
-				if (!(c.isOnFullConic(P[i], eps) && g.isOnFullLine(P[i], eps)))
+				if (!(c.isOnFullConic(P[i], eps) && g.isOnFullLine(P[i], eps))) {
 					P[i].setUndefined();
-				else
+				} else {
 					foundPoint = true;
+				}
 			}
 		}
 		return foundPoint;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars.get(geo);
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			Polynomial[] ret = botanaPolynomials.get(geo);
-			if (ret != null)
+			if (ret != null) {
 				return ret;
+			}
 		}
 
 		// We cannot decide a statement yet if the conic is not a circle.
@@ -959,6 +970,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectLineConic(geo, this, scope);

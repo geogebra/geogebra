@@ -23,8 +23,10 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
  * Curve in parametric form (f(t),g(t))
  */
 public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
+	@Override
 	double getMinParameter();
 
+	@Override
 	double getMaxParameter();
 
 	/**
@@ -45,6 +47,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	 * @param out
 	 *            array to store the result
 	 */
+	@Override
 	void evaluateCurve(double t, double[] out);
 
 	/**
@@ -66,6 +69,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	/**
 	 * @return true when this is function of x
 	 */
+	@Override
 	boolean isFunctionInX();
 
 	/**

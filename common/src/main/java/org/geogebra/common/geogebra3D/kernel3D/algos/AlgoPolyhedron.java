@@ -36,6 +36,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 
 		outputPolyhedron = new OutputHandler<GeoPolyhedron>(
 				new elementFactory<GeoPolyhedron>() {
+					@Override
 					public GeoPolyhedron newElement() {
 						GeoPolyhedron p = new GeoPolyhedron(cons);
 						p.setParentAlgorithm(AlgoPolyhedron.this);
@@ -83,6 +84,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
 		return new OutputHandler<GeoSegment3D>(
 				new elementFactory<GeoSegment3D>() {
+					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
 						// s.setParentAlgorithm(AlgoPolyhedron.this);
@@ -102,6 +104,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler() {
 		return new OutputHandler<GeoPolygon3D>(
 				new elementFactory<GeoPolygon3D>() {
+					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
 						// p.setParentAlgorithm(AlgoPolyhedron.this);
@@ -153,8 +156,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
 		for (int k = 0; k < algoList.size(); k++) {
 			AlgoElement algo = algoList.get(k);
-			for (int j = 0; j < input.length; j++)
+			for (int j = 0; j < input.length; j++) {
 				input[j].removeFromUpdateSets(algo);
+			}
 		}
 
 		// remove old point
@@ -196,6 +200,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	}
 
 	protected class PointFactory implements elementFactory<GeoPoint3D> {
+		@Override
 		public GeoPoint3D newElement() {
 			GeoPoint3D p = new GeoPoint3D(cons);
 			p.setCoords(0, 0, 0, 1);

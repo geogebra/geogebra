@@ -104,6 +104,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	/**
 	 * @return list of points that define this locus
 	 */
+	@Override
 	public ArrayList<T> getPoints() {
 		return myPointList;
 	}
@@ -171,14 +172,17 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return true;
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return myPointList.size() - 1;
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		if (myPointList.size() > 0) {
 			MyPoint first = myPointList.get(0);
@@ -188,6 +192,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return false;
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND P, double eps) {
 
 		setChangingPoint(P);
@@ -226,8 +231,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		GeoSegmentND closestSegment = newGeoSegment();
 		cons.setSuppressLabelCreation(temp);
 
-		if (closestPointIndex == -1)
+		if (closestPointIndex == -1) {
 			return null;
+		}
 
 		MyPoint locusPoint = myPointList.get(closestPointIndex);
 		MyPoint locusPoint2 = myPointList.get(closestPointIndex + 1);
@@ -236,10 +242,11 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 		closestPointParameter = getChangingPointParameter(closestSegment);
 
-		if (closestPointParameter < 0)
+		if (closestPointParameter < 0) {
 			closestPointParameter = 0;
-		else if (closestPointParameter > 1)
+		} else if (closestPointParameter > 1) {
 			closestPointParameter = 1;
+		}
 
 		return locusPoint.barycenter(closestPointParameter, locusPoint2);
 	}
@@ -263,8 +270,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	private void getClosestLine() {
 		int size = myPointList.size();
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		// search for closest point on path
 		// MyPoint closestPoint = null;
@@ -280,8 +288,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			MyPoint locusPoint2 = myPointList.get(i + 1);
 
 			// not a line, just a move (eg Voronoi Diagram)
-			if (!locusPoint2.lineTo)
+			if (!locusPoint2.lineTo) {
 				continue;
+			}
 
 			// line thro' 2 points
 			segment.setCoords(locusPoint, locusPoint2);
@@ -307,6 +316,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	private boolean trace;
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -406,6 +416,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
@@ -430,6 +441,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return true;
 	}
 
+	@Override
 	final public PathMover createPathMover() {
 		return new PathMoverLocus<T>(this);
 	}
@@ -439,6 +451,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return true;
 	}
 
+	@Override
 	public GeoLocusND<? extends MyPoint> getLocus() {
 		return this;
 	}

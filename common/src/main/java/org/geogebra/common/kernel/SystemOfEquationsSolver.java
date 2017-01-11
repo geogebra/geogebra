@@ -142,8 +142,8 @@ public class SystemOfEquationsSolver {
 			}
 		}
 
-		for (int i = 0; i < xs.size(); i++)
-			for (int j = i + 1; j < xs.size(); j++)
+		for (int i = 0; i < xs.size(); i++) {
+			for (int j = i + 1; j < xs.size(); j++) {
 				// removing duplicates, pairs where x==y
 				if (Math.abs(xs.get(i) - xs.get(j)) < epsilon
 						&& Math.abs(ys.get(i) - ys.get(j)) < epsilon) {
@@ -151,6 +151,8 @@ public class SystemOfEquationsSolver {
 					ys.remove(j);
 					j--;
 				}
+			}
+		}
 
 		for (int i = 0; i < xs.size(); i++) {
 			res[i][0] = xs.get(i);

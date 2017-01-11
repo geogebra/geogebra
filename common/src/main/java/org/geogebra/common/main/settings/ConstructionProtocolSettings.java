@@ -128,13 +128,15 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 
 		this.cpColumnsVisible = new boolean[defaultCpColumnsVisible.length];
 
-		for (int i = 0; i < defaultCpColumnsVisible.length; i++)
-			if (cpColumnsVisible == null)
+		for (int i = 0; i < defaultCpColumnsVisible.length; i++) {
+			if (cpColumnsVisible == null) {
 				this.cpColumnsVisible[i] = defaultCpColumnsVisible[i];
-			else if (cpColumnsVisible.length <= i)
+			} else if (cpColumnsVisible.length <= i) {
 				this.cpColumnsVisible[i] = defaultCpColumnsVisible[i];
-			else
+			} else {
 				this.cpColumnsVisible[i] = cpColumnsVisible[i];
+			}
+		}
 
 		settingChanged();
 

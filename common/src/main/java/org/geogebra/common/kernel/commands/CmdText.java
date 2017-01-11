@@ -51,8 +51,9 @@ public class CmdText extends CommandProcessor {
 
 				GeoElement[] ret2 = { algo.getGeoText() };
 				return ret2;
-			} else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		case 3:
 			boolean ok;

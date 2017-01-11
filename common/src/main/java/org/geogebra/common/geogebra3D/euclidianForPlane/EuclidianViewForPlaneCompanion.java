@@ -179,6 +179,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		return inverseTransformedMatrix;
 	}
 
+	@Override
 	public void updateMatrix() {
 
 		if (!plane.isDefined()) {
@@ -189,8 +190,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 			return;
 		}
 
-		if (transform == null) // transform has not already been set
+		if (transform == null) {
 			transform = CoordMatrix4x4.IDENTITY;
+		}
 
 		updateOtherMatrices();
 	}
@@ -224,6 +226,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	private int transformMirror;
 	private int transformRotate;
 
+	@Override
 	public void setTransformRegardingView() {
 
 		Coords directionView3D = ((EuclidianView3D) view.getApplication()
@@ -280,17 +283,19 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	 */
 	public void setTransform() {
 
-		if (transformMirror == 1)
+		if (transformMirror == 1) {
 			transform = CoordMatrix4x4.IDENTITY;
-		else
+		} else {
 			transform = CoordMatrix4x4.MIRROR_Y;
+		}
 
-		if (transformRotate == 90)
+		if (transformRotate == 90) {
 			transform = CoordMatrix4x4.ROTATION_OZ_90.mul(transform);
-		else if (transformRotate == -90)
+		} else if (transformRotate == -90) {
 			transform = CoordMatrix4x4.ROTATION_OZ_M90.mul(transform);
-		else if (transformRotate == 180)
+		} else if (transformRotate == 180) {
 			transform = CoordMatrix4x4.MIRROR_O.mul(transform);
+		}
 
 	}
 
@@ -330,8 +335,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 		// transform
 		transformMirror = 1;
-		if (evs.getMirror())
+		if (evs.getMirror()) {
 			transformMirror = -1;
+		}
 
 		transformRotate = evs.getRotate();
 
@@ -352,6 +358,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		return false;
 	}
 
+	@Override
 	public void updateForPlane() {
 		updateMatrix();
 		view.updateAllDrawables(true);
@@ -416,15 +423,17 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 	@Override
 	public String getFromPlaneString() {
-		if (plane == null)
+		if (plane == null) {
 			return "";
+		}
 		return plane.toGeoElement().getLabel(StringTemplate.defaultTemplate);
 	}
 
 	@Override
 	public String getTranslatedFromPlaneString() {
-		if (plane == null)
+		if (plane == null) {
 			return "";
+		}
 
 		if (plane instanceof GeoPlaneND) {
 			return view.getApplication().getLocalization().getPlain("PlaneA",
@@ -463,8 +472,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	 *         in the view
 	 */
 	public boolean viewOrientationForClockwise(boolean clockwise) {
-		if (transformMirror == 1)
+		if (transformMirror == 1) {
 			return clockwise;
+		}
 
 		return !clockwise;
 	}
@@ -490,9 +500,11 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
 		ArrayList<GeoPointND> list = algoParent.getFreeInputPoints();
 		ArrayList<GeoPointND> ret = new ArrayList<GeoPointND>();
-		for (GeoPointND p : list)
-			if (!hasForParent((GeoElement) p))
+		for (GeoPointND p : list) {
+			if (!hasForParent((GeoElement) p)) {
 				ret.add(p);
+			}
+		}
 		return ret;
 	}
 
@@ -535,8 +547,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	public boolean showGrid(boolean show) {
 		EuclidianSettings settings = view.getApplication().getSettings()
 				.getEuclidianForPlane(getFromPlaneString());
-		if (settings != null)
+		if (settings != null) {
 			settings.setShowGridSetting(show);
+		}
 		return super.showGrid(show);
 	}
 
@@ -563,6 +576,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 	private int id;
 
+	@Override
 	public int getId() {
 		return id;
 	}
@@ -570,6 +584,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	/**
 	 * remove the view when the creator doens't exist anymore
 	 */
+	@Override
 	public void doRemove() {
 		removeFromGuiAndKernel();
 		((App3DCompanion) view.getApplication().getCompanion())
@@ -593,6 +608,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	 * @param repaint
 	 *            says if repaint is needed
 	 */
+	@Override
 	public void updateAllDrawables(boolean repaint) {
 		view.updateAllDrawables(repaint);
 

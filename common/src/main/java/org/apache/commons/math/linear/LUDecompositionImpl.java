@@ -175,6 +175,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getL() {
 		if ((cachedL == null) && !singular) {
 			final int m = pivot.length;
@@ -191,6 +192,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getU() {
 		if ((cachedU == null) && !singular) {
 			final int m = pivot.length;
@@ -206,6 +208,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getP() {
 		if ((cachedP == null) && !singular) {
 			final int m = pivot.length;
@@ -218,11 +221,13 @@ public class LUDecompositionImpl implements LUDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int[] getPivot() {
 		return Cloner.clone(pivot);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getDeterminant() {
 		if (singular) {
 			return 0;
@@ -237,6 +242,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public DecompositionSolver getSolver() {
 		return new Solver(lu, pivot, singular);
 	}
@@ -271,11 +277,13 @@ public class LUDecompositionImpl implements LUDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public boolean isNonSingular() {
 			return !singular;
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public double[] solve(double[] b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -317,6 +325,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public RealVector solve(RealVector b)
 				throws IllegalArgumentException, InvalidMatrixException {
 			if (b instanceof ArrayRealVector) {
@@ -382,6 +391,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public RealMatrix solve(RealMatrix b)
 				throws IllegalArgumentException, InvalidMatrixException {
 
@@ -440,6 +450,7 @@ public class LUDecompositionImpl implements LUDecomposition {
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public RealMatrix getInverse() throws InvalidMatrixException {
 			return solve(MatrixUtils.createRealIdentityMatrix(pivot.length));
 		}

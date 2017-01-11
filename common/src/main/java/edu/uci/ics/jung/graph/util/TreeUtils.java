@@ -59,9 +59,10 @@ public class TreeUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <V, E> Tree<V, E> getSubTree(Forest<V, E> forest, V root) {
-		if (!forest.containsVertex(root))
+		if (!forest.containsVertex(root)) {
 			throw new IllegalArgumentException(
 					"Specified tree does not contain the specified root as a vertex");
+		}
 		Forest<V, E> subforest = (Forest<V, E>) forest.newInstance();
 		subforest.addVertex(root);
 		growSubTree(forest, subforest, root);
@@ -120,9 +121,10 @@ public class TreeUtils {
 	 */
 	public static <V, E> void addSubTree(Forest<V, E> tree,
 			Forest<V, E> subTree, V node, E connectingEdge) {
-		if (node != null && !tree.containsVertex(node))
+		if (node != null && !tree.containsVertex(node)) {
 			throw new IllegalArgumentException(
 					"Specified tree does not contain the specified node as a vertex");
+		}
 		V root = subTree.getTrees().iterator().next().getRoot();
 		addFromSubTree(tree, subTree, connectingEdge, node, root);
 	}

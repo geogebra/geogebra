@@ -44,6 +44,7 @@ public class AlgoRandomPoint extends AlgoElement {
 		M.setLabel(label);
 	}
 
+	@Override
 	public Commands getClassName() {
 		return Commands.RandomPointIn;
 	}

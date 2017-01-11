@@ -132,6 +132,7 @@ public class ScriptInputModel extends OptionsModel {
 			kernel = app.getKernel();
 		}
 
+		@Override
 		public void processInput(String inputValue, ErrorHandler handler,
 				AsyncOperation<Boolean> callback) {
 			if (inputValue == null) {
@@ -167,8 +168,9 @@ public class ScriptInputModel extends OptionsModel {
 
 	public void handleDocumentEvent() {
 
-		if (handlingDocumentEventOff)
+		if (handlingDocumentEventOff) {
 			return;
+		}
 
 		setEditOccurred(true);
 

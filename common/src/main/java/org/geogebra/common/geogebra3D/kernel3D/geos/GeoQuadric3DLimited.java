@@ -151,8 +151,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		if (labels.length < 3) {
 			bottom.setLabel(null);
-			if (!silentTop)
+			if (!silentTop) {
 				top.setLabel(null);
+			}
 			side.setLabel(null);
 			return;
 		} else if (labels.length == 3) {
@@ -184,8 +185,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		setLabel(labels[0]);
 
 		if (labels.length < 3) {
-			if (!silentTop)
+			if (!silentTop) {
 				top.setLabel(null);
+			}
 			side.setLabel(null);
 			return;
 		}
@@ -344,11 +346,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	@Override
 	public void setObjColor(GColor color) {
 		super.setObjColor(color);
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 		bottom.setObjColor(color);
-		if (!silentTop)
+		if (!silentTop) {
 			top.setObjColor(color);
+		}
 		side.setObjColor(color);
 
 	}
@@ -356,11 +360,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	@Override
 	public void setTrace(boolean trace) {
 		super.setTrace(trace);
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 		bottom.setTrace(trace);
-		if (!silentTop)
+		if (!silentTop) {
 			top.setTrace(trace);
+		}
 		side.setTrace(trace);
 
 	}
@@ -376,8 +382,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		super.setEuclidianVisible(visible);
 		bottom.setEuclidianVisible(visible);
-		if (!silentTop)
+		if (!silentTop) {
 			top.setEuclidianVisible(visible);
+		}
 		side.setEuclidianVisible(visible);
 
 	}
@@ -388,12 +395,14 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		super.setShowObjectCondition(cond);
 
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 
 		bottom.setShowObjectCondition(cond);
-		if (!silentTop)
+		if (!silentTop) {
 			top.setShowObjectCondition(cond);
+		}
 		side.setShowObjectCondition(cond);
 
 	}
@@ -403,12 +412,14 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		super.updateVisualStyle(prop);
 
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 
 		bottom.updateVisualStyle(prop);
-		if (!silentTop)
+		if (!silentTop) {
 			top.updateVisualStyle(prop);
+		}
 		side.updateVisualStyle(prop);
 
 	}
@@ -417,8 +428,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public void setLineType(int type) {
 		super.setLineType(type);
 
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 
 		bottom.setLineType(type);
 		bottom.update();
@@ -434,8 +446,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public void setLineTypeHidden(int type) {
 		super.setLineTypeHidden(type);
 
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 
 		bottom.setLineTypeHidden(type);
 		bottom.update();
@@ -449,8 +462,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	@Override
 	public void setLineThickness(int th) {
 		super.setLineThickness(th);
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 
 		bottom.setLineThickness(th);
 		bottom.update();
@@ -466,8 +480,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		super.setAlphaValue(alpha);
 
-		if (bottom == null)
+		if (bottom == null) {
 			return;
+		}
 
 		bottom.setAlphaValue(alpha);
 		bottom.updateVisualStyle(GProperty.COLOR);
@@ -589,8 +604,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public double getVolume() {
-		if (defined)
+		if (defined) {
 			return volume;
+		}
 		return Double.NaN;
 	}
 
@@ -861,6 +877,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		return HitType.ON_FILLING;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}

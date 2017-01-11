@@ -105,10 +105,12 @@ public class DrawTurtle extends Drawable {
 			nlines = 0;
 		}
 
+		@Override
 		public void setPen(boolean down) {
 			penDown = down;
 		}
 
+		@Override
 		public void move(GeoPointND newPosition) {
 			newPosition.getInhomCoords(coords);
 			getView().toScreenCoords(coords);
@@ -120,6 +122,7 @@ public class DrawTurtle extends Drawable {
 			}
 		}
 
+		@Override
 		public void partialMove(GeoPointND newPosition, double progress) {
 			double[] newCoords = new double[2];
 			newPosition.getInhomCoords(newCoords);
@@ -134,14 +137,17 @@ public class DrawTurtle extends Drawable {
 			}
 		}
 
+		@Override
 		public void turn(double angle) {
 			turnAngle1 += angle;
 		}
 
+		@Override
 		public void partialTurn(double angle, double progress) {
 			turnAngle1 += angle * progress;
 		}
 
+		@Override
 		public void setColor(GColor color) {
 			if (penColor != color) {
 				finishPartialPath();
@@ -149,6 +155,7 @@ public class DrawTurtle extends Drawable {
 			}
 		}
 
+		@Override
 		public void setThickness(int thickness) {
 			if (penThickness != thickness) {
 				finishPartialPath();
@@ -217,8 +224,9 @@ public class DrawTurtle extends Drawable {
 			at.setTransform(1, 0, 0, 1, 1, 0);
 			at.translate(currentCoords[0], currentCoords[1]);
 			at.rotate(-turnAngle);
-			if (geo.getFillImage() == null)
+			if (geo.getFillImage() == null) {
 				updateTurtleShape();
+			}
 		}
 	}
 
@@ -257,8 +265,9 @@ public class DrawTurtle extends Drawable {
 				// temp - until x,y parameters won't be used in drawImage on
 				// desktop for SVG images
 				if (turtle.getFillImage().isSVG()
-						&& !turtle.kernel.getApplication().isHTML5Applet())
+						&& !turtle.kernel.getApplication().isHTML5Applet()) {
 					g2.translate(-imgWidth / 2.0, -imgHeight / 2.0);
+				}
 				g2.drawImage(turtle.getFillImage(), -imgWidth / 2,
 						-imgHeight / 2);
 				g2.restoreTransform();

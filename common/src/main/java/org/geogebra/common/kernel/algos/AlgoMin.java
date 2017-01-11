@@ -51,8 +51,9 @@ public class AlgoMin extends AlgoTwoNumFunction {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double min = Math.min(a.getDouble(), b.getDouble());
 			num.setValue(min);
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

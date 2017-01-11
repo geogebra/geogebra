@@ -50,17 +50,20 @@ public class AlgoPascal extends AlgoDistribution {
 			double val = c.getDouble();
 			try {
 				PascalDistribution dist = getPascalDistribution(param, param2);
-				if (isCumulative.getBoolean())
+				if (isCumulative.getBoolean()) {
 					num.setValue(dist.cumulativeProbability(val)); // P(X <=
 																	// val)
-				else
+				}
+				else {
 					num.setValue(dist.probability(val)); // P(X = val)
+				}
 
 			} catch (Exception e) {
 				num.setUndefined();
 			}
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

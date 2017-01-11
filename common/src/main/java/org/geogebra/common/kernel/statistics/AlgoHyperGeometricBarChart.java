@@ -58,7 +58,7 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
 		if (b != null) {
-			b = (GeoBoolean) b.copy();
+			b = b.copy();
 		}
 		return new AlgoHyperGeometricBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel),

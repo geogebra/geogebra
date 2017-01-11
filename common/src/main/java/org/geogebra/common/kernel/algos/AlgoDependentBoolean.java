@@ -141,15 +141,18 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		return bool.getDefinition().toString(tpl);
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
 			throw new NoSymbolicParametersException();
+		}
 
 		GeoElement left = (GeoElement) root.getLeft();
 		GeoElement right = (GeoElement) root.getRight();
@@ -177,10 +180,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
 			throw new NoSymbolicParametersException();
+		}
 
 		GeoElement left = (GeoElement) root.getLeft();
 		GeoElement right = (GeoElement) root.getRight();
@@ -208,12 +213,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
 			throw new NoSymbolicParametersException();
+		}
 
 		GeoElement left = (GeoElement) root.getLeft();
 		GeoElement right = (GeoElement) root.getRight();
@@ -241,10 +248,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
 			throw new NoSymbolicParametersException();
+		}
 
 		GeoElement left = (GeoElement) root.getLeft();
 		GeoElement right = (GeoElement) root.getRight();
@@ -554,6 +563,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 	}
 
+	@Override
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
@@ -765,6 +775,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	/**
 	 * @return input expression
 	 */
+	@Override
 	public ExpressionNode getExpression() {
 		return bool.getDefinition();
 	}

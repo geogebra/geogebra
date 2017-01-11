@@ -89,10 +89,11 @@ public class PageRankWithPriors<V, E>
 			// by the number of vertices in the connecting edge e.
 			int incident_count = getAdjustedIncidentCount(e);
 			for (V w : graph.getIncidentVertices(e)) {
-				if (!w.equals(v) || hyperedges_are_self_loops)
+				if (!w.equals(v) || hyperedges_are_self_loops) {
 					v_input += (getCurrentValue(w)
 							* getEdgeWeight(w, e).doubleValue()
 							/ incident_count);
+				}
 			}
 		}
 
@@ -134,11 +135,12 @@ public class PageRankWithPriors<V, E>
 	@Override
 	protected void collectDisappearingPotential(V v) {
 		if (graph.outDegree(v) == 0) {
-			if (isDisconnectedGraphOK())
+			if (isDisconnectedGraphOK()) {
 				disappearing_potential += getCurrentValue(v);
-			else
+			} else {
 				throw new IllegalArgumentException(
 						"Outdegree of " + v + " must be > 0");
+			}
 		}
 	}
 }

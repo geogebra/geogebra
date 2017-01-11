@@ -72,10 +72,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 	private double bottom, top;
 
+	@Override
 	public double getBottomParameter() {
 		return bottom;
 	}
 
+	@Override
 	public double getTopParameter() {
 		return top;
 	}
@@ -83,16 +85,18 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	@Override
 	public double getMinParameter(int index) {
 
-		if (index == 1)
+		if (index == 1) {
 			return min;
+		}
 
 		return super.getMinParameter(index);
 	}
 
 	@Override
 	public double getMaxParameter(int index) {
-		if (index == 1)
+		if (index == 1) {
 			return max;
+		}
 
 		return super.getMaxParameter(index);
 	}
@@ -265,10 +269,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 		// check if coords respect limits
 		super.getNormalProjectionParameters(coords, tmpDouble2);
-		if (tmpDouble2[1] < getMinParameter(1))
+		if (tmpDouble2[1] < getMinParameter(1)) {
 			return false;
-		if (tmpDouble2[1] > getMaxParameter(1))
+		}
+		if (tmpDouble2[1] > getMaxParameter(1)) {
 			return false;
+		}
 
 		// all ok
 		return true;
@@ -322,20 +328,23 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	}
 
 	public double getArea() {
-		if (defined)
+		if (defined) {
 			return area;
-		else
+		} else {
 			return Double.NaN;
+		}
 	}
 
 	// ////////////////////////////////
 	// NumberValue
 	// ////////////////////////////////
 
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getDouble());
 	}
 
+	@Override
 	public double getDouble() {
 		return getArea();
 	}
@@ -360,6 +369,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		return 1;
 	}
 
+	@Override
 	public GeoElement[] getMetas() {
 		return new GeoElement[] { meta };
 	}

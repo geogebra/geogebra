@@ -37,22 +37,27 @@ public class ConstantMap<K, V> implements Map<K, V> {
 				Collections.<K, V> singletonMap(null, value));
 	}
 
+	@Override
 	public V get(Object key) {
 		return delegate.get(null);
 	}
 
+	@Override
 	public void clear() {
 		delegate.clear();
 	}
 
+	@Override
 	public boolean containsKey(Object key) {
 		return true;
 	}
 
+	@Override
 	public boolean containsValue(Object value) {
 		return delegate.containsValue(value);
 	}
 
+	@Override
 	public Set<Entry<K, V>> entrySet() {
 		return delegate.entrySet();
 	}
@@ -67,30 +72,37 @@ public class ConstantMap<K, V> implements Map<K, V> {
 		return delegate.hashCode();
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return delegate.isEmpty();
 	}
 
+	@Override
 	public Set<K> keySet() {
 		return delegate.keySet();
 	}
 
+	@Override
 	public V put(K key, V value) {
 		return delegate.put(key, value);
 	}
 
+	@Override
 	public void putAll(Map<? extends K, ? extends V> t) {
 		delegate.putAll(t);
 	}
 
+	@Override
 	public V remove(Object key) {
 		return delegate.remove(key);
 	}
 
+	@Override
 	public int size() {
 		return delegate.size();
 	}
 
+	@Override
 	public Collection<V> values() {
 		return delegate.values();
 	}

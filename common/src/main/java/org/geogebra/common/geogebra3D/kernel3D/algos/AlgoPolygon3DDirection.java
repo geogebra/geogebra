@@ -49,8 +49,9 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 		} else {
 			// points as input
 			efficientInput = new GeoElement[points.length + 1];
-			for (int i = 0; i < points.length; i++)
+			for (int i = 0; i < points.length; i++) {
 				efficientInput[i] = (GeoElement) points[i];
+			}
 			efficientInput[points.length] = (GeoElement) direction;
 		}
 
@@ -84,8 +85,9 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 		coordsys.makeOrthoMatrix(false, false);
 
 		// check if a coord sys is possible
-		if (((GeoPolygon3D) poly).checkPointsAreOnCoordSys())
+		if (((GeoPolygon3D) poly).checkPointsAreOnCoordSys()) {
 			super.compute();
+		}
 
 	}
 

@@ -48,8 +48,9 @@ public class CmdProduct extends CommandProcessor {
 		}
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (!arg[0].isGeoList())
+		if (!arg[0].isGeoList()) {
 			throw argErr(app, c, arg[0]);
+		}
 		GeoList list = (GeoList) arg[0];
 		switch (n) {
 		case 1:

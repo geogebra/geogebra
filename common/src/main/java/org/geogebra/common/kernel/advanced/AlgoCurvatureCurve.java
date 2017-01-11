@@ -87,8 +87,9 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
 			gc.toGeoCurveCartesian(f);
 			input[1] = gc;
-		} else
+		} else {
 			input[1] = f;
+		}
 
 		super.setOutputLength(1);
 		super.setOutput(0, K);

@@ -42,8 +42,9 @@ public class CmdTriangular extends CommandProcessor {
 		case 5:
 			if (arg[4].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[4];
-			} else
+			} else {
 				throw argErr(app, c2, arg[4]);
+			}
 
 			// fall through
 		case 4:
@@ -66,8 +67,9 @@ public class CmdTriangular extends CommandProcessor {
 							(GeoNumberValue) arg[3]);
 					return algo.getResult().asArray();
 
-				} else
+				} else {
 					throw argErr(app, c2, arg[2]);
+				}
 			}
 			throw argErr(app, c2,
 					!ok ? arg[0] : (ok2 ? arg[2] : arg[0]));

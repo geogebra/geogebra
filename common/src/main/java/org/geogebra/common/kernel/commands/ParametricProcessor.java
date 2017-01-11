@@ -582,8 +582,9 @@ public class ParametricProcessor {
 				Iterator<GeoElement> it = rightVars.iterator();
 				while (it.hasNext()) {
 					GeoElement var = it.next();
-					if (var.isChildOrEqual(coordNumeric))
+					if (var.isChildOrEqual(coordNumeric)) {
 						return null;
+					}
 				}
 			}
 		}

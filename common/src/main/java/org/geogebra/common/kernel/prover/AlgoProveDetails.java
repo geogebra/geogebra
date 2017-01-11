@@ -139,18 +139,20 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		Prover p = UtilFactory.getPrototype().newProver();
 		ProverSettings proverSettings = ProverSettings.get();
 		if ("OpenGeoProver".equalsIgnoreCase(proverSettings.proverEngine)) {
-			if ("Wu".equalsIgnoreCase(proverSettings.proverMethod))
+			if ("Wu".equalsIgnoreCase(proverSettings.proverMethod)) {
 				p.setProverEngine(ProverEngine.OPENGEOPROVER_WU);
-			else if ("Area".equalsIgnoreCase(proverSettings.proverMethod))
+			} else if ("Area".equalsIgnoreCase(proverSettings.proverMethod)) {
 				p.setProverEngine(ProverEngine.OPENGEOPROVER_AREA);
-		} else if ("Botana".equalsIgnoreCase(proverSettings.proverEngine))
+			}
+		} else if ("Botana".equalsIgnoreCase(proverSettings.proverEngine)) {
 			p.setProverEngine(ProverEngine.BOTANAS_PROVER);
-		else if ("Recio".equalsIgnoreCase(proverSettings.proverEngine))
+		} else if ("Recio".equalsIgnoreCase(proverSettings.proverEngine)) {
 			p.setProverEngine(ProverEngine.RECIOS_PROVER);
-		else if ("PureSymbolic".equalsIgnoreCase(proverSettings.proverEngine))
+		} else if ("PureSymbolic".equalsIgnoreCase(proverSettings.proverEngine)) {
 			p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
-		else if ("Auto".equalsIgnoreCase(proverSettings.proverEngine))
+		} else if ("Auto".equalsIgnoreCase(proverSettings.proverEngine)) {
 			p.setProverEngine(ProverEngine.AUTO);
+		}
 		p.setTimeout(proverSettings.proverTimeout);
 		p.setConstruction(cons);
 		p.setStatement(root);
@@ -266,10 +268,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 									 * still do the check here as well.
 									 */
 									GeoElement geo = ndgc.getGeos()[i];
-									if (geo != null)
+									if (geo != null) {
 										s += ndgc.getGeos()[i].getLabelSimple();
-									else
+									} else {
 										s += Unicode.ellipsis;
+									}
 								}
 								s += "]";
 								if (relTool) {
@@ -302,8 +305,9 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				}
 
 				// Put this list to the final output (if non-empty):
-				if (ndgConditionsList.size() > 0)
+				if (ndgConditionsList.size() > 0) {
 					list.add(ndgConditionsList);
+				}
 			}
 		}
 

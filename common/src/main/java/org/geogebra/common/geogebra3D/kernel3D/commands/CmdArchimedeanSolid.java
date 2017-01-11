@@ -56,8 +56,9 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 
 			}
 			for (int i = 0; i < 2; i++) {
-				if (!ok[i])
+				if (!ok[i]) {
 					throw argErr(app, c, arg[i]);
+				}
 			}
 			break;
 		case 3:
@@ -87,8 +88,9 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 			}
 
 			for (int i = 0; i < 3; i++) {
-				if (!ok[i])
+				if (!ok[i]) {
 					throw argErr(app, c, arg[i]);
+				}
 			}
 			break;
 		}

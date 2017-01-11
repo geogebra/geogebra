@@ -49,8 +49,9 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	private void initLabels() {
-		if (labels == null)
+		if (labels == null) {
 			labels = new Vector<String>();
+		}
 	}
 
 	/**
@@ -124,25 +125,30 @@ public abstract class ValidExpression implements ExpressionValue {
 	public void setLabels(String[] str) {
 		initLabels();
 		labels.clear();
-		if (str == null)
+		if (str == null) {
 			return;
+		}
 		for (int i = 0; i < str.length; i++) {
 			labels.add(str[i]);
 		}
 	}
 
+	@Override
 	public boolean isVariable() {
 		return false;
 	}
 
+	@Override
 	final public boolean isInTree() {
 		return inTree;
 	}
 
+	@Override
 	final public void setInTree(boolean flag) {
 		inTree = flag;
 	}
 
+	@Override
 	final public boolean isGeoElement() {
 		return false;
 	}
@@ -239,6 +245,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * @return operator for non-delayed assignment
 	 */
+	@Override
 	public String getAssignmentOperator() {
 		return ":=";
 	}
@@ -272,6 +279,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		// do nothing, see Command, ExpressionNode classes
 	}
 
+	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		return this;
 	}
@@ -281,10 +289,12 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @return number or undefined double
 	 */
+	@Override
 	public double evaluateDouble() {
 		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
-		if (ev instanceof NumberValue)
+		if (ev instanceof NumberValue) {
 			return ((NumberValue) ev).getDouble();
+		}
 		return Double.NaN;
 	}
 
@@ -305,14 +315,18 @@ public abstract class ValidExpression implements ExpressionValue {
 		return toString(StringTemplate.defaultTemplate);
 	}
 
+	@Override
 	public abstract String toString(StringTemplate tpl);
 
+	@Override
 	public abstract String toValueString(StringTemplate tpl);
 
+	@Override
 	public ExpressionValue traverse(final Traversing t) {
 		return t.process(this);
 	}
 
+	@Override
 	public boolean inspect(Inspecting t) {
 		return t.check(this);
 	}
@@ -323,20 +337,24 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * @return string for debugging (revealing structure)
 	 */
 	public static String debugString(ExpressionValue s) {
-		if (s == null)
+		if (s == null) {
 			return "<null>";
-		if (s instanceof ExpressionNode)
+		}
+		if (s instanceof ExpressionNode) {
 			return "ExNode(" + debugString(((ExpressionNode) s).getLeft()) + ","
 					+ ((ExpressionNode) s).getOperation() + ","
 					+ debugString(((ExpressionNode) s).getRight()) + ")";
-		if (s instanceof Equation)
+		}
+		if (s instanceof Equation) {
 			return "Eq(" + debugString(((Equation) s).getLHS()) + ",=,"
 					+ debugString(((Equation) s).getRHS()) + ")";
+		}
 		if (s instanceof MyList) {
 			StringBuilder sb = new StringBuilder("MyList(");
 			for (int i = 0; i < ((MyList) s).size(); i++) {
-				if (i > 0)
+				if (i > 0) {
 					sb.append(",");
+				}
 				sb.append(debugString(((MyList) s).getListElement(i)));
 			}
 			sb.append(')');
@@ -347,8 +365,9 @@ public abstract class ValidExpression implements ExpressionValue {
 			sb.append(((Command) s).getName());
 			sb.append("(");
 			for (int i = 0; i < ((Command) s).getArgumentNumber(); i++) {
-				if (i > 0)
+				if (i > 0) {
 					sb.append(",");
+				}
 				sb.append(debugString(((Command) s).getArgument(i).unwrap()));
 			}
 			sb.append(')');
@@ -371,26 +390,32 @@ public abstract class ValidExpression implements ExpressionValue {
 				+ s.toString(StringTemplate.defaultTemplate) + ")";
 	}
 
+	@Override
 	public ExpressionValue unwrap() {
 		return this;
 	}
 
+	@Override
 	public abstract ExpressionNode wrap();
 
+	@Override
 	public boolean hasCoords() {
 		return false;
 	}
 
+	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel) {
 		Log.debug("derivative from " + this.getValueType());
 		return null;
 	}
 
+	@Override
 	public ExpressionValue integral(FunctionVariable fv, Kernel kernel) {
 		Log.debug("integral from " + this.getValueType());
 		return null;
 	}
 
+	@Override
 	public boolean isExpressionNode() {
 		return false;
 	}
@@ -464,6 +489,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * Here we just check for number values, overridden in ExpressionNode
 	 */
+	@Override
 	public final boolean evaluatesToNumber(boolean def) {
 		return getValueType() == ValueType.NUMBER
 				|| getValueType() == ValueType.BOOLEAN
@@ -480,6 +506,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	public boolean containsDeep(final ExpressionValue needle) {
 		return inspect(new Inspecting() {
 
+			@Override
 			public boolean check(ExpressionValue v) {
 				return v == needle;
 			}
@@ -495,45 +522,56 @@ public abstract class ValidExpression implements ExpressionValue {
 		return toString(tpl.getTemplate());
 	}
 
+	@Override
 	public final boolean evaluatesToNonComplex2DVector() {
 		return getValueType() == ValueType.NONCOMPLEX2D;
 	}
 
+	@Override
 	public boolean evaluatesToVectorNotPoint() {
 		return false;
 	}
 
+	@Override
 	public final boolean evaluatesTo3DVector() {
 		return getValueType() == ValueType.VECTOR3D;
 	}
 
+	@Override
 	public final boolean evaluatesToList() {
 		return getValueType() == ValueType.LIST;
 	}
 
+	@Override
 	public int getListDepth() {
 		return 0;
 	}
 
+	@Override
 	public boolean evaluatesToText() {
 		return getValueType() == ValueType.TEXT;
 	}
 
+	@Override
 	public abstract ValueType getValueType();
 
+	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel) {
 		return new MyDouble(kernel, Double.NaN);
 	}
 
+	@Override
 	public ExpressionValue toValidExpression() {
 		return this;
 	}
 
+	@Override
 	public boolean evaluatesToNDVector() {
 		ValueType vt = getValueType();
 		return vt == ValueType.NONCOMPLEX2D || vt == ValueType.VECTOR3D;
 	}
 
+	@Override
 	public abstract ValidExpression deepCopy(Kernel kernel);
 
 	/**

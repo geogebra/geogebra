@@ -54,8 +54,9 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 				return ret;
 			}
 			for (int i = 0; i < n; i++) {
-				if (!ok[i])
+				if (!ok[i]) {
 					throw argErr(app, c, arg[i]);
+				}
 			}
 
 		}

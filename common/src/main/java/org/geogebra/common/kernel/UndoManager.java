@@ -132,8 +132,9 @@ public abstract class UndoManager {
 	 * @return whether undo operation is possible or not.
 	 */
 	public boolean undoPossible() {
-		if (!app.isUndoActive())
+		if (!app.isUndoActive()) {
 			return false;
+		}
 		return iterator.nextIndex() > 1;
 	}
 
@@ -143,8 +144,9 @@ public abstract class UndoManager {
 	 * @return whether redo operation is possible or not.
 	 */
 	public boolean redoPossible() {
-		if (!app.isUndoActive())
+		if (!app.isUndoActive()) {
 			return false;
+		}
 		return iterator.hasNext();
 	}
 
@@ -206,14 +208,16 @@ public abstract class UndoManager {
 			// use iterator to delete to avoid
 			// ConcurrentModificationException
 			// go to beginning of list
-			while (iterator.hasPrevious())
+			while (iterator.hasPrevious()) {
 				appState = iterator.previous();
+			}
 
 			iterator.remove();
 			appState.delete();
 
-			while (iterator.hasNext())
+			while (iterator.hasNext()) {
 				iterator.next();
+			}
 		}
 
 	}

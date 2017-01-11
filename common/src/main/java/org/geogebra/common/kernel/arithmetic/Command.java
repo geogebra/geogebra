@@ -105,8 +105,9 @@ public class Command extends ValidExpression
 			this.name = app.getReverseCommand(name);
 			// in CAS functions get parsed as commands as well and we want to
 			// keep the name
-			if (this.name == null)
+			if (this.name == null) {
 				this.name = name;
+			}
 		} else {
 			this.name = name;
 		}
@@ -136,13 +137,14 @@ public class Command extends ValidExpression
 	 * @return name of the variable at the specified argument position
 	 */
 	public String getVariableName(int i) {
-		if (i >= args.size())
+		if (i >= args.size()) {
 			return null;
+		}
 
 		ExpressionValue ev = args.get(i).unwrap();
-		if (ev instanceof Variable)
+		if (ev instanceof Variable) {
 			return ((Variable) ev).getName(StringTemplate.defaultTemplate);
-		else if (ev instanceof GeoElement) {
+		} else if (ev instanceof GeoElement) {
 			// XML Handler looks up labels of GeoElements
 			// so we may end up having a GeoElement object here
 			// return its name to use as local variable name
@@ -155,8 +157,9 @@ public class Command extends ValidExpression
 			return ((FunctionVariable) ev).getSetVarString();
 		} else if (ev instanceof Function) {
 			String str = ev.toString(StringTemplate.defaultTemplate);
-			if (str.length() == 1 && StringUtil.isLetter(str.charAt(0)))
+			if (str.length() == 1 && StringUtil.isLetter(str.charAt(0))) {
 				return str;
+			}
 		} else if (ev instanceof GeoVec2D) {
 			if (((GeoVec2D) ev).isImaginaryUnit()) {
 				return Unicode.IMAGINARY;
@@ -235,8 +238,9 @@ public class Command extends ValidExpression
 			return (kernel.getGeoGebraCAS()).getCASCommand(name, args, symbolic,
 					tpl);
 		case LATEX:
-			if (sbToString == null)
+			if (sbToString == null) {
 				sbToString = new StringBuilder();
+			}
 			sbToString.setLength(0);
 			if ("Integral".equals(name)) {
 				sbToString.append("\\int");
@@ -358,8 +362,9 @@ public class Command extends ValidExpression
 				return sbToString.toString();
 			}
 		default:
-			if (sbToString == null)
+			if (sbToString == null) {
 				sbToString = new StringBuilder();
+			}
 			sbToString.setLength(0);
 
 			// GeoGebra command syntax
@@ -394,8 +399,9 @@ public class Command extends ValidExpression
 				}
 				sbToString.append(',');
 			}
-			if (size > 0)
+			if (size > 0) {
 				sbToString.deleteCharAt(sbToString.length() - 1);
+			}
 			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\right");
 			}
@@ -487,17 +493,21 @@ public class Command extends ValidExpression
 	public boolean isConstant() {
 
 		// not yet evaluated: process command
-		if (evalGeos == null)
+		if (evalGeos == null) {
 			evalGeos = evaluateMultiple(new EvalInfo(false));
+		}
 
-		if (evalGeos == null || evalGeos.length == 0)
+		if (evalGeos == null || evalGeos.length == 0) {
 			throw new MyError(app.getLocalization(),
 					app.getLocalization().getError("InvalidInput") + ":\n"
 							+ this);
+		}
 
-		for (int i = 0; i < evalGeos.length; i++)
-			if (!evalGeos[i].isConstant())
+		for (int i = 0; i < evalGeos.length; i++) {
+			if (!evalGeos[i].isConstant()) {
 				return false;
+			}
+		}
 		return true;
 
 	}
@@ -579,8 +589,9 @@ public class Command extends ValidExpression
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
+			if (ev != null) {
 				return ev.unwrap().evaluatesToNonComplex2DVector();
+			}
 			throw ex;
 		}
 	}
@@ -599,8 +610,9 @@ public class Command extends ValidExpression
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
+			if (ev != null) {
 				return ev.unwrap().evaluatesToText();
+			}
 			throw ex;
 		}
 	}
@@ -630,8 +642,9 @@ public class Command extends ValidExpression
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
 			Set<GeoElement> s = args.get(i).getVariables();
-			if (s != null)
+			if (s != null) {
 				set.addAll(s);
+			}
 		}
 		return set;
 	}
@@ -659,8 +672,9 @@ public class Command extends ValidExpression
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
-			if (ev != null)
+			if (ev != null) {
 				return ev.unwrap().getListDepth();
+			}
 			throw ex;
 		}
 
@@ -704,8 +718,9 @@ public class Command extends ValidExpression
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
-		if (v != this)
+		if (v != this) {
 			return v;
+		}
 		for (int i = 0; i < args.size(); i++) {
 			ExpressionNode en = args.get(i).traverse(t).wrap();
 			args.set(i, en);
@@ -715,11 +730,13 @@ public class Command extends ValidExpression
 
 	@Override
 	public boolean inspect(Inspecting t) {
-		if (t.check(this))
+		if (t.check(this)) {
 			return true;
+		}
 		for (int i = 0; i < args.size(); i++) {
-			if (args.get(i).inspect(t))
+			if (args.get(i).inspect(t)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -731,8 +748,9 @@ public class Command extends ValidExpression
 
 	@Override
 	public boolean hasCoords() {
-		if ("x".equals(name) || "y".equals(name) || "z".equals(name))
+		if ("x".equals(name) || "y".equals(name) || "z".equals(name)) {
 			return false;
+		}
 		return true;
 	}
 

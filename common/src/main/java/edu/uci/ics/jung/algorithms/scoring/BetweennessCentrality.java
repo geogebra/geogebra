@@ -70,9 +70,10 @@ public class BetweennessCentrality<V, E>
 		// reject negative-weight edges up front
 		for (E e : graph.getEdges()) {
 			double e_weight = edge_weights.transform(e).doubleValue();
-			if (e_weight < 0)
+			if (e_weight < 0) {
 				throw new IllegalArgumentException(
 						"Weight for edge '" + e + "' is < 0: " + e_weight);
+			}
 		}
 
 		initialize(graph);
@@ -86,19 +87,22 @@ public class BetweennessCentrality<V, E>
 		this.edge_scores = new HashMap<E, Double>();
 		this.vertex_data = new HashMap<V, BetweennessData>();
 
-		for (V v : graph.getVertices())
+		for (V v : graph.getVertices()) {
 			this.vertex_scores.put(v, 0.0);
+		}
 
-		for (E e : graph.getEdges())
+		for (E e : graph.getEdges()) {
 			this.edge_scores.put(e, 0.0);
+		}
 	}
 
 	protected void computeBetweenness(Queue<V> queue,
 			Transformer<E, ? extends Number> edge_weights) {
 		for (V v : graph.getVertices()) {
 			// initialize the betweenness data for this new vertex
-			for (V s : graph.getVertices())
+			for (V s : graph.getVertices()) {
 				this.vertex_data.put(s, new BetweennessData());
+			}
 
 			// if (v.equals(new Integer(0)))
 			// System.out.println("pause");
@@ -120,8 +124,9 @@ public class BetweennessCentrality<V, E>
 				for (E e : graph.getOutEdges(w)) {
 					// TODO (jrtom): change this to getOtherVertices(w, e)
 					V x = graph.getOpposite(w, e);
-					if (x.equals(w))
+					if (x.equals(w)) {
 						continue;
+					}
 					double wx_weight = edge_weights.transform(e).doubleValue();
 
 					// for(V x : graph.getSuccessors(w))
@@ -182,8 +187,9 @@ public class BetweennessCentrality<V, E>
 				}
 				for (E e : graph.getOutEdges(w)) {
 					V x = graph.getOpposite(w, e);
-					if (x.equals(w))
+					if (x.equals(w)) {
 						continue;
+					}
 					double e_weight = edge_weights.transform(e).doubleValue();
 					BetweennessData x_data = vertex_data.get(x);
 					double x_potential_dist = w_data.distance + e_weight;
@@ -296,10 +302,12 @@ public class BetweennessCentrality<V, E>
 	// vertex_data.clear();
 	// }
 
+	@Override
 	public Double getVertexScore(V v) {
 		return vertex_scores.get(v);
 	}
 
+	@Override
 	public Double getEdgeScore(E e) {
 		return edge_scores.get(e);
 	}
@@ -328,6 +336,7 @@ public class BetweennessCentrality<V, E>
 	}
 
 	private class BetweennessComparator implements Comparator<V> {
+		@Override
 		public int compare(V v1, V v2) {
 			return vertex_data.get(v1).distance > vertex_data.get(v2).distance
 					? 1 : -1;

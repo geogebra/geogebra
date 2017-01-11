@@ -30,7 +30,7 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 
 	@Override
 	protected GeoElement getFirstInput() {
-		return (GeoElement) plane;
+		return plane;
 	}
 
 	@Override
@@ -72,8 +72,9 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 			GeoSegmentND seg = p.getSegments()[i];
 
 			Coords coords = intersectionCoords(seg);
-			if (coords != null)
+			if (coords != null) {
 				newCoords.put((double) i, coords);
+			}
 
 		}
 	}
@@ -89,8 +90,9 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 
 		// check if projection is intersection point
 		if (!Kernel.isZero(globalCoords.getW())
-				&& seg.respectLimitedPath(-inPlaneCoords.get(3)))
+				&& seg.respectLimitedPath(-inPlaneCoords.get(3))) {
 			return globalCoords;
+		}
 
 		return null;
 	}

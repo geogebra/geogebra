@@ -45,7 +45,7 @@ public abstract class CASgiacJre extends CASgiac {
 	/**
 	 * store result from Thread here
 	 */
-	private String threadResult;
+	String threadResult;
 
 	final public void clearResult() {
 		this.threadResult = null;

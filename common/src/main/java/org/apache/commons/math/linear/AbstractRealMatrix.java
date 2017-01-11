@@ -77,13 +77,16 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract RealMatrix createMatrix(final int rowDimension,
 			final int columnDimension) throws IllegalArgumentException;
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract RealMatrix copy();
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix add(RealMatrix m) throws IllegalArgumentException {
 
 		// safety check
@@ -104,6 +107,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix subtract(final RealMatrix m)
 			throws IllegalArgumentException {
 
@@ -125,6 +129,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix scalarAdd(final double d) {
 
 		final int rowCount = getRowDimension();
@@ -141,6 +146,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix scalarMultiply(final double d) {
 
 		final int rowCount = getRowDimension();
@@ -157,6 +163,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix multiply(final RealMatrix m)
 			throws IllegalArgumentException {
 
@@ -182,12 +189,14 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix preMultiply(final RealMatrix m)
 			throws IllegalArgumentException {
 		return m.multiply(this);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[][] getData() {
 
 		final double[][] data = new double[getRowDimension()][getColumnDimension()];
@@ -204,6 +213,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getNorm() {
 		return walkInColumnOrder(new RealMatrixPreservingVisitor() {
 
@@ -217,6 +227,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 			private double maxColSum;
 
 			/** {@inheritDoc} */
+			@Override
 			public void start(final int rows, final int columns,
 					final int startRow, final int endRow, final int startColumn,
 					final int endColumn) {
@@ -226,6 +237,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 			}
 
 			/** {@inheritDoc} */
+			@Override
 			public void visit(final int row, final int column,
 					final double value) {
 				columnSum += FastMath.abs(value);
@@ -236,6 +248,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 			}
 
 			/** {@inheritDoc} */
+			@Override
 			public double end() {
 				return maxColSum;
 			}
@@ -244,6 +257,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getFrobeniusNorm() {
 		return walkInOptimizedOrder(new RealMatrixPreservingVisitor() {
 
@@ -251,6 +265,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 			private double sum;
 
 			/** {@inheritDoc} */
+			@Override
 			public void start(final int rows, final int columns,
 					final int startRow, final int endRow, final int startColumn,
 					final int endColumn) {
@@ -258,12 +273,14 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 			}
 
 			/** {@inheritDoc} */
+			@Override
 			public void visit(final int row, final int column,
 					final double value) {
 				sum += value * value;
 			}
 
 			/** {@inheritDoc} */
+			@Override
 			public double end() {
 				return FastMath.sqrt(sum);
 			}
@@ -272,6 +289,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getSubMatrix(final int startRow, final int endRow,
 			final int startColumn, final int endColumn)
 			throws MatrixIndexException {
@@ -293,6 +311,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getSubMatrix(final int[] selectedRows,
 			final int[] selectedColumns) throws MatrixIndexException {
 
@@ -318,6 +337,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void copySubMatrix(final int startRow, final int endRow,
 			final int startColumn, final int endColumn,
 			final double[][] destination)
@@ -366,6 +386,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void copySubMatrix(int[] selectedRows, int[] selectedColumns,
 			double[][] destination)
 			throws MatrixIndexException, IllegalArgumentException {
@@ -391,6 +412,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setSubMatrix(final double[][] subMatrix, final int row,
 			final int column) throws MatrixIndexException {
 
@@ -430,6 +452,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getRowMatrix(final int row) throws MatrixIndexException {
 
 		MatrixUtils.checkRowIndex(this, row);
@@ -444,6 +467,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setRowMatrix(final int row, final RealMatrix matrix)
 			throws MatrixIndexException, InvalidMatrixException {
 
@@ -463,6 +487,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix getColumnMatrix(final int column)
 			throws MatrixIndexException {
 
@@ -478,6 +503,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setColumnMatrix(final int column, final RealMatrix matrix)
 			throws MatrixIndexException, InvalidMatrixException {
 
@@ -497,11 +523,13 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector getRowVector(final int row) throws MatrixIndexException {
 		return new ArrayRealVector(getRow(row), false);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setRowVector(final int row, final RealVector vector)
 			throws MatrixIndexException, InvalidMatrixException {
 
@@ -519,12 +547,14 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector getColumnVector(final int column)
 			throws MatrixIndexException {
 		return new ArrayRealVector(getColumn(column), false);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setColumnVector(final int column, final RealVector vector)
 			throws MatrixIndexException, InvalidMatrixException {
 
@@ -542,6 +572,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getRow(final int row) throws MatrixIndexException {
 
 		MatrixUtils.checkRowIndex(this, row);
@@ -556,6 +587,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setRow(final int row, final double[] array)
 			throws MatrixIndexException, InvalidMatrixException {
 
@@ -573,6 +605,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] getColumn(final int column) throws MatrixIndexException {
 
 		MatrixUtils.checkColumnIndex(this, column);
@@ -587,6 +620,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setColumn(final int column, final double[] array)
 			throws MatrixIndexException, InvalidMatrixException {
 
@@ -604,22 +638,27 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract double getEntry(int row, int column)
 			throws MatrixIndexException;
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract void setEntry(int row, int column, double value)
 			throws MatrixIndexException;
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract void addToEntry(int row, int column, double increment)
 			throws MatrixIndexException;
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract void multiplyEntry(int row, int column, double factor)
 			throws MatrixIndexException;
 
 	/** {@inheritDoc} */
+	@Override
 	public RealMatrix transpose() {
 
 		final int nRows = getRowDimension();
@@ -641,6 +680,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public RealMatrix inverse() throws InvalidMatrixException {
 		if (lu == null) {
@@ -650,6 +690,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double getDeterminant() throws InvalidMatrixException {
 		return new LUDecompositionImpl(this, MathUtils.SAFE_MIN)
@@ -657,11 +698,13 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public boolean isSquare() {
 		return getColumnDimension() == getRowDimension();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public boolean isSingular() {
 		if (lu == null) {
@@ -671,12 +714,15 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract int getRowDimension();
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract int getColumnDimension();
 
 	/** {@inheritDoc} */
+	@Override
 	public double getTrace() throws NonSquareMatrixException {
 		final int nRows = getRowDimension();
 		final int nCols = getColumnDimension();
@@ -691,6 +737,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] operate(final double[] v) throws IllegalArgumentException {
 
 		final int nRows = getRowDimension();
@@ -714,6 +761,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector operate(final RealVector v)
 			throws IllegalArgumentException {
 
@@ -743,6 +791,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double[] preMultiply(final double[] v)
 			throws IllegalArgumentException {
 
@@ -767,6 +816,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector preMultiply(final RealVector v)
 			throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
@@ -797,6 +847,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
 			throws MatrixVisitorException {
 		final int rows = getRowDimension();
@@ -814,6 +865,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
 			throws MatrixVisitorException {
 		final int rows = getRowDimension();
@@ -828,6 +880,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
 			final int startRow, final int endRow, final int startColumn,
 			final int endColumn)
@@ -848,6 +901,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
 			final int startRow, final int endRow, final int startColumn,
 			final int endColumn)
@@ -865,6 +919,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
 			throws MatrixVisitorException {
 		final int rows = getRowDimension();
@@ -882,6 +937,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
 			throws MatrixVisitorException {
 		final int rows = getRowDimension();
@@ -896,6 +952,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
 			final int startRow, final int endRow, final int startColumn,
 			final int endColumn)
@@ -916,6 +973,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
 			final int startRow, final int endRow, final int startColumn,
 			final int endColumn)
@@ -933,12 +991,14 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor)
 			throws MatrixVisitorException {
 		return walkInRowOrder(visitor);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInOptimizedOrder(
 			final RealMatrixPreservingVisitor visitor)
 			throws MatrixVisitorException {
@@ -946,6 +1006,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInOptimizedOrder(final RealMatrixChangingVisitor visitor,
 			final int startRow, final int endRow, final int startColumn,
 			final int endColumn)
@@ -955,6 +1016,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double walkInOptimizedOrder(
 			final RealMatrixPreservingVisitor visitor, final int startRow,
 			final int endRow, final int startColumn, final int endColumn)
@@ -964,6 +1026,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double[] solve(final double[] b)
 			throws IllegalArgumentException, InvalidMatrixException {
@@ -974,6 +1037,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public RealMatrix solve(final RealMatrix b)
 			throws IllegalArgumentException, InvalidMatrixException {

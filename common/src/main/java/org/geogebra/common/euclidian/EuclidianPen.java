@@ -409,10 +409,12 @@ public class EuclidianPen implements GTimerListener {
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		GGraphics2D g2D = view.getGraphicsForPen();
 
-		if (minX > e.getX())
+		if (minX > e.getX()) {
 			minX = e.getX();
-		if (maxX < e.getX())
+		}
+		if (maxX < e.getX()) {
 			maxX = e.getX();
+		}
 
 		if (penPoints.size() == 0) {
 			if (initialPoint != null) {
@@ -433,8 +435,9 @@ public class EuclidianPen implements GTimerListener {
 		} else {
 			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
 			drawPenPreviewLine(g2D, newPoint, lastPoint);
-			if (lastPoint.distance(newPoint) > 3)
+			if (lastPoint.distance(newPoint) > 3) {
 				penPoints.add(newPoint);
+			}
 		}
 
 	}
@@ -608,12 +611,15 @@ public class EuclidianPen implements GTimerListener {
 			temp1 = reco_queue_b;
 			while (j < recognizer_queue_length && temp1.startpt != 0) {
 				j++;
-				if (j == 2)
+				if (j == 2) {
 					temp1 = reco_queue_c;
-				if (j == 3)
+				}
+				if (j == 3) {
 					temp1 = reco_queue_d;
-				if (j == 4)
+				}
+				if (j == 4) {
 					temp1 = reco_queue_e;
+				}
 			}
 			recognizer_queue_length = recognizer_queue_length - j;
 			int te1 = 0;
@@ -647,14 +653,15 @@ public class EuclidianPen implements GTimerListener {
 		for (j = 0; j < n; ++j) {
 			rs = getRecoSegment(temp_reco + j);
 
-			if (j == 0)
+			if (j == 0) {
 				ss = a;
-			else if (j == 1)
+			} else if (j == 1) {
 				ss = b;
-			else if (j == 2)
+			} else if (j == 2) {
 				ss = c;
-			else if (j == 3)
+			} else if (j == 3) {
 				ss = d;
+			}
 			rs.startpt = brk[j];
 			rs.endpt = brk[j + 1];
 			get_segment_geometry(ss, rs);
@@ -842,8 +849,9 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private static AlgoPolyLine getAlgoPolyline(AlgoElement al) {
-		if (al instanceof AlgoPolyLine)
+		if (al instanceof AlgoPolyLine) {
 			return (AlgoPolyLine) al;
+		}
 		return (AlgoPolyLine) al.getInput()[0].getParentAlgorithm();
 	}
 
@@ -922,12 +930,13 @@ public class EuclidianPen implements GTimerListener {
 				if (i > nextValIndex) {
 					nextValIndex = i;
 					while (nextValIndex < n
-							&& Double.isNaN(freehand1[nextValIndex]))
+							&& Double.isNaN(freehand1[nextValIndex])) {
 						nextValIndex++;
+					}
 				}
-				if (nextValIndex >= n)
+				if (nextValIndex >= n) {
 					freehand1[i] = val;
-				else {
+				} else {
 					nextVal = freehand1[nextValIndex];
 					freehand1[i] = (val * (nextValIndex - i)
 							+ nextVal * (i - valIndex))
@@ -989,11 +998,16 @@ public class EuclidianPen implements GTimerListener {
 		// AbstractApplication.debug(start);
 		// AbstractApplication.debug(end);
 		if (end == start)
+		 {
 			return 0; // no way
-		if (nsides <= 0)
+		}
+		if (nsides <= 0) {
 			return 0;
+		}
 		if (end - start < 5)
+		 {
 			nsides = 1; // too small for a polygon
+		}
 		// look for a linear piece that's big enough
 		for (k = 0; k < nsides; ++k) {
 			i1 = start + (k * (end - start)) / nsides;
@@ -1001,25 +1015,29 @@ public class EuclidianPen implements GTimerListener {
 			i2 = start + ((k + 1) * (end - start)) / nsides;
 			// AbstractApplication.debug(i2);
 			calc_inertia(i1, i2, s);
-			if (EuclidianPen.I_det(s) < LINE_MAX_DET)
+			if (EuclidianPen.I_det(s) < LINE_MAX_DET) {
 				break;
+			}
 		}
-		if (k == nsides)
+		if (k == nsides) {
 			return 0;
+		}
 		while (true) {
 			if (i1 > start) {
 				s1.copyValuesFrom(s);
 				this.incr_inertia(i1 - 1, s1, 1);
 				det1 = EuclidianPen.I_det(s1);
-			} else
+			} else {
 				det1 = 1;
+			}
 
 			if (i2 < end) {
 				s2.copyValuesFrom(s);
 				this.incr_inertia(i2, s2, 1);
 				det2 = EuclidianPen.I_det(s2);
-			} else
+			} else {
 				det2 = 1;
+			}
 
 			if (det1 < det2 && det1 < LINE_MAX_DET) {
 				i1--;
@@ -1027,17 +1045,20 @@ public class EuclidianPen implements GTimerListener {
 			} else if (det2 < det1 && det2 < LINE_MAX_DET) {
 				i2++;
 				s.copyValuesFrom(s2);
-			} else
+			} else {
 				break;
+			}
 		}
 		if (i1 > start) {
 			n1 = this.findPolygonal(start, i1,
 					(i2 == end) ? (nsides - 1) : (nsides - 2), offset1,
 					offset2);
-			if (n1 == 0)
+			if (n1 == 0) {
 				return 0;
-		} else
+			}
+		} else {
 			n1 = 0;
+		}
 		brk[n1 + offset1] = i1;
 		brk[n1 + 1 + offset1] = i2;
 
@@ -1054,10 +1075,12 @@ public class EuclidianPen implements GTimerListener {
 		if (i2 < end) {
 			n2 = this.findPolygonal(i2, end, nsides - n1 - 1, offset1 + n1 + 1,
 					offset2 + n1 + 1);
-			if (n2 == 0.)
+			if (n2 == 0.) {
 				return 0;
-		} else
+			}
+		} else {
 			n2 = 0;
+		}
 		return n1 + n2 + 1;
 	}
 
@@ -1102,36 +1125,42 @@ public class EuclidianPen implements GTimerListener {
 		double ixx = I_xx(s);
 		double iyy = I_yy(s);
 		double ixy = I_xy(s);
-		if (s.mass <= 0.)
+		if (s.mass <= 0.) {
 			return 0.;
-		if (ixx + iyy <= 0.)
+		}
+		if (ixx + iyy <= 0.) {
 			return 0.;
+		}
 		return 4 * (ixx * iyy - ixy * ixy) / (ixx + iyy) / (ixx + iyy);
 	}
 
 	private static double I_xx(Inertia s) {
-		if (s.mass <= 0.)
+		if (s.mass <= 0.) {
 			return 0.;
+		}
 		return (s.sxx - s.sx * s.sx / s.mass) / s.mass;
 	}
 
 	private static double I_xy(Inertia s) {
-		if (s.mass <= 0.)
+		if (s.mass <= 0.) {
 			return 0.;
+		}
 		return (s.sxy - s.sx * s.sy / s.mass) / s.mass;
 	}
 
 	private static double I_yy(Inertia s) {
-		if (s.mass <= 0.)
+		if (s.mass <= 0.) {
 			return 0.;
+		}
 		return (s.syy - s.sy * s.sy / s.mass) / s.mass;
 	}
 
 	private double score_circle(int start, int end, Inertia s) {
 		double sum, x0, y0, r0, dm, deltar;
 		int i;
-		if (s.mass == 0.)
+		if (s.mass == 0.) {
 			return 0;
+		}
 		sum = 0.;
 		x0 = EuclidianPen.center_x(s);
 		y0 = EuclidianPen.center_y(s);
@@ -1157,8 +1186,9 @@ public class EuclidianPen implements GTimerListener {
 	private static double I_rad(Inertia s) {
 		double ixx = EuclidianPen.I_xx(s);
 		double iyy = EuclidianPen.I_yy(s);
-		if (ixx + iyy <= 0.)
+		if (ixx + iyy <= 0.) {
 			return 0.;
+		}
 		return Math.sqrt(ixx + iyy);
 	}
 
@@ -1166,8 +1196,9 @@ public class EuclidianPen implements GTimerListener {
 		temp = new ArrayList<GPoint>();
 		int npts, i = 0;
 		npts = (int) (2 * r);
-		if (npts < 12)
+		if (npts < 12) {
 			npts = 12;
+		}
 		GPoint p;
 		for (i = 0; i <= npts; i++) {
 			p = new GPoint();
@@ -1350,15 +1381,17 @@ public class EuclidianPen implements GTimerListener {
 				incr_inertia(brk[i] - 1, temp1, -1);
 				incr_inertia(brk[i] - 1, temp2, 1);
 				newcost = getCost(temp1, temp2);
-				if (newcost >= cost)
+				if (newcost >= cost) {
 					break;
+				}
 				improved = true;
 				cost = newcost;
 				brk[i]--;
 				copyInertiaFromTemp(temp1, temp2, i);
 			}
-			if (improved)
+			if (improved) {
 				continue;
+			}
 
 			copyInertiaToTemp(temp1, temp2, i);
 
@@ -1366,8 +1399,9 @@ public class EuclidianPen implements GTimerListener {
 				incr_inertia(brk[i], temp1, 1);
 				incr_inertia(brk[i], temp2, -1);
 				newcost = getCost(temp1, temp2);
-				if (newcost >= cost)
+				if (newcost >= cost) {
 					break;
+				}
 				cost = newcost;
 				brk[i]++;
 				copyInertiaFromTemp(temp1, temp2, i);
@@ -1446,10 +1480,12 @@ public class EuclidianPen implements GTimerListener {
 		for (i = start; i <= r.endpt; ++i) {
 			l = (penPoints.get(start).x - r.xcenter) * Math.cos(r.angle)
 					+ (penPoints.get(start).y - r.ycenter) * Math.sin(r.angle);
-			if (l < lmin)
+			if (l < lmin) {
 				lmin = l;
-			if (l > lmax)
+			}
+			if (l > lmax) {
 				lmax = l;
+			}
 			start++;
 		}
 		r.x1 = r.xcenter + lmin * Math.cos(r.angle);
@@ -1472,8 +1508,9 @@ public class EuclidianPen implements GTimerListener {
 		RecoSegment r1;
 		RecoSegment r2;
 		// AbstractApplication.debug(rs.startpt);
-		if (rs.startpt != 0)
+		if (rs.startpt != 0) {
 			return null;
+		}
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
 			r2 = getRecoSegment(
@@ -1481,13 +1518,15 @@ public class EuclidianPen implements GTimerListener {
 			// AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2)
 			// > RECTANGLE_ANGLE_TOLERANCE);
 			if (Math.abs(Math.abs(r1.angle - r2.angle)
-					- Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE)
+					- Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE) {
 				return null;
+			}
 			avg_angle = avg_angle + r1.angle;
-			if (r2.angle > r1.angle)
+			if (r2.angle > r1.angle) {
 				avg_angle = avg_angle + ((i + 1) * Math.PI / 2);
-			else
+			} else {
 				avg_angle = avg_angle - ((i + 1) * Math.PI / 2);
+			}
 			r1.reversed = ((r1.x2 - r1.x1) * (r2.xcenter - r1.xcenter)
 					+ (r1.y2 - r1.y1) * (r2.ycenter - r1.ycenter)) < 0;
 		}
@@ -1500,14 +1539,17 @@ public class EuclidianPen implements GTimerListener {
 							- (r2.reversed ? r2.x2 : r2.x1),
 					(r1.reversed ? r1.y1 : r1.y2)
 							- (r2.reversed ? r2.y2 : r2.y1));
-			if (dist > RECTANGLE_LINEAR_TOLERANCE * (r1.radius + r2.radius))
+			if (dist > RECTANGLE_LINEAR_TOLERANCE * (r1.radius + r2.radius)) {
 				return null;
+			}
 		}
 		avg_angle = avg_angle / nsides;
-		if (Math.abs(avg_angle) < SLANT_TOLERANCE)
+		if (Math.abs(avg_angle) < SLANT_TOLERANCE) {
 			avg_angle = 0;
-		if (Math.abs(avg_angle) > Math.PI / 2 - SLANT_TOLERANCE)
+		}
+		if (Math.abs(avg_angle) > Math.PI / 2 - SLANT_TOLERANCE) {
 			avg_angle = Math.PI / 2;
+		}
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
 			r1.angle = avg_angle + i * Math.PI / 2;
@@ -1760,6 +1802,7 @@ public class EuclidianPen implements GTimerListener {
 
 	}
 
+	@Override
 	public void onRun() {
 		startNewStroke = true;
 	}

@@ -104,12 +104,15 @@ public class AlgoLaTeX extends AlgoElement {
 
 		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 		geos.add(geo);
-		if (substituteVars != null)
+		if (substituteVars != null) {
 			geos.add(substituteVars);
-		if (showName != null)
+		}
+		if (showName != null) {
 			geos.add(showName);
-		if (geo.isGeoText())
+		}
+		if (geo.isGeoText()) {
 			((GeoText) geo).addTextDescendant(text);
+		}
 		input = new GeoElement[geos.size()];
 		for (int i = 0; i < input.length; i++) {
 			input[i] = geos.get(i);
@@ -165,8 +168,9 @@ public class AlgoLaTeX extends AlgoElement {
 				if (text.getTextString() == null) {
 					String desc = geo
 							.getAlgebraDescription(text.getStringTemplate());
-					if (geo.hasIndexLabel())
+					if (geo.hasIndexLabel()) {
 						desc = GeoElement.indicesToHTML(desc, true);
+					}
 					text.setTextString(desc);
 					useLaTeX = false;
 				}

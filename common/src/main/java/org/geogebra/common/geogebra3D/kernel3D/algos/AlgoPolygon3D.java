@@ -101,14 +101,16 @@ public class AlgoPolygon3D extends AlgoPolygon {
 			poly.updateRegionCS();
 		} else {
 			// check if a coord sys is possible
-			if (((GeoPolygon3D) poly).updateCoordSys())
+			if (((GeoPolygon3D) poly).updateCoordSys()) {
 				super.compute();
-			else
+			} else {
 				poly.setUndefined();
+			}
 		}
 
 	}
 
+	@Override
 	public void calcCentroid(GeoPoint p) {
 		// TODO
 		Log.debug("centroid unimplemented for 3D polys");

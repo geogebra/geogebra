@@ -87,8 +87,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		ExpressionValue special = handleSpecial(lt, rt, left, right, operation,
 				tpl);
-		if (special != null)
+		if (special != null) {
 			return special;
+		}
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
 	}

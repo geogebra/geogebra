@@ -86,8 +86,9 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 				&& cs2D.isInRegion(inPlaneCoords.get(1),
 						inPlaneCoords.get(2))) {
 			p.setCoords(globalCoords);
-		} else
+		} else {
 			p.setUndefined();
+		}
 
 	}
 

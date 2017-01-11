@@ -525,8 +525,9 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	 *            value
 	 */
 	public void setDiag(double v) {
-		for (int i = 1; i <= 3; i++)
+		for (int i = 1; i <= 3; i++) {
 			set(i, i, v);
+		}
 
 	}
 

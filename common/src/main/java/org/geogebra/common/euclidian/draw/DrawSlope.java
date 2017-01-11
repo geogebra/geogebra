@@ -74,8 +74,9 @@ public class DrawSlope extends Drawable {
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
-			if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+			if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
 				init();
+			}
 			int slopeTriangleSize = slope.getSlopeTriangleSize();
 			double rwHeight = slope.getValue() * slopeTriangleSize;
 			double height = view.getYscale() * rwHeight;
@@ -93,8 +94,9 @@ public class DrawSlope extends Drawable {
 			double x = coords[0];
 			double y = coords[1];
 			double xright = x + view.getXscale() * slopeTriangleSize;
-			if (gp == null)
+			if (gp == null) {
 				gp = new GeneralPathClipped(view);
+			}
 			gp.reset();
 			gp.moveTo(x, y);
 			gp.lineTo(xright, y);

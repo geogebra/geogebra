@@ -59,8 +59,9 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			geo.setVisualStyle(arg[0]);
 			geo.setLabel(label);
 			GeoElement[] ret = { geo };
-			if (!arg[0].isLabelSet())
+			if (!arg[0].isLabelSet()) {
 				arg[0].remove();
+			}
 			return ret;
 
 		// more than one argument
@@ -102,13 +103,15 @@ public class CmdCopyFreeObject extends CommandProcessor {
 					.processAlgebraCommandNoExceptions(command.toString(),
 							true);
 			ret[0].setVisualStyle(geoElement);
-			if (!geoElement.isLabelSet())
+			if (!geoElement.isLabelSet()) {
 				geoElement.remove();
+			}
 			return ret[0].toGeoElement().asArray();
 
 		} catch (Exception e) {
-			if (!geoElement.isLabelSet())
+			if (!geoElement.isLabelSet()) {
 				geoElement.remove();
+			}
 			e.printStackTrace();
 			throw argErr(geoElement, c);
 		}

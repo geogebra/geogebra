@@ -165,8 +165,9 @@ public class DrawInequality1Var extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (lines == null)
+		if (lines == null) {
 			return;
+		}
 		int i = 0;
 		while (i < lines.length && lines[i] != null) {
 			if (geo.doHighlighting()) {
@@ -186,8 +187,9 @@ public class DrawInequality1Var extends Drawable {
 			// TODO: draw label
 			i++;
 		}
-		if (circle == null)
+		if (circle == null) {
 			return;
+		}
 		while (i < circle.length && circle[i] != null) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -219,9 +221,11 @@ public class DrawInequality1Var extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		for (int i = 0; i < gp.length; i++)
-			if (gp[i] != null && gp[i].contains(x, y))
+		for (int i = 0; i < gp.length; i++) {
+			if (gp[i] != null && gp[i].contains(x, y)) {
 				return true;
+			}
+		}
 		return false;
 	}
 
@@ -253,10 +257,11 @@ public class DrawInequality1Var extends Drawable {
 			}
 			x[numOfX++] = -10;
 			if (numOfX > 2 && x[numOfX - 2] > 0
-					&& x[numOfX - 2] < view.getHeight())
+					&& x[numOfX - 2] < view.getHeight()) {
 				yLabel = (int) x[numOfX - 2] - 5;
-			else
+			} else {
 				yLabel = 10;
+			}
 			xLabel = (int) view.getXZero() + 6;
 			initGP(numOfX);
 			int j = ineq.getFunBorder().evaluate(
@@ -294,10 +299,11 @@ public class DrawInequality1Var extends Drawable {
 			x[numOfX++] = view.getWidth() + 10;
 
 			if (numOfX > 2 && x[numOfX - 2] > 0
-					&& x[numOfX - 2] < view.getHeight())
+					&& x[numOfX - 2] < view.getHeight()) {
 				xLabel = (int) x[numOfX - 2] - 10;
-			else
+			} else {
 				xLabel = 10;
+			}
 			yLabel = (int) view.getYZero() + 15;
 
 			initGP(numOfX);
@@ -308,10 +314,12 @@ public class DrawInequality1Var extends Drawable {
 					&& ((GeoFunction) geo).showOnAxis()) {
 				circle = new GEllipse2DDouble[numOfX];
 				for (int i = 0; i < numOfX; i++) {
-					if (x[i] < 0)
+					if (x[i] < 0) {
 						continue;
-					if (x[i] > view.getWidth())
+					}
+					if (x[i] > view.getWidth()) {
 						break;
+					}
 					circle[circleCount] = AwtFactory.getPrototype()
 							.newEllipse2DDouble();
 					double radius = geo.getLineThickness() * DOT_RADIUS;

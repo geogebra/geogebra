@@ -254,8 +254,9 @@ public class AlgoIterationList extends AlgoElement {
 			break;
 		}
 
-		if (updateRunning)
+		if (updateRunning) {
 			return;
+		}
 		updateRunning = true;
 
 		for (int i = 2; i < input.length - 1; i += 2) {
@@ -423,8 +424,9 @@ public class AlgoIterationList extends AlgoElement {
 			// GeoFunction
 			if (listElement instanceof CasEvaluableFunction) {
 				CasEvaluableFunction fun = (CasEvaluableFunction) listElement;
-				for (int i = 0; i < varCount; i++)
+				for (int i = 0; i < varCount; i++) {
 					fun.replaceChildrenByValues(vars[i]);
+				}
 			}
 		}
 
@@ -432,8 +434,9 @@ public class AlgoIterationList extends AlgoElement {
 	}
 
 	private void updateListItems() {
-		if (isEmpty)
+		if (isEmpty) {
 			return;
+		}
 
 		// int currentVal = 0;
 		int listSize = (int) Math.round(n.getDouble()) + 1;
@@ -475,8 +478,9 @@ public class AlgoIterationList extends AlgoElement {
 								.replaceChildrenByValues(vars[j]);
 					}
 				}
-			} else
+			} else {
 				listElement.setUndefined();
+			}
 			copyDrawAlgo(listElement);
 			listElement.update();
 			i++;
@@ -502,8 +506,9 @@ public class AlgoIterationList extends AlgoElement {
 		if (expressionParentAlgo != null) {
 			// update all dependent algorithms of the local variable var
 			this.setStopUpdateCascade(true);
-			for (int i = 0; i < varCount; i++)
+			for (int i = 0; i < varCount; i++) {
 				vars[i].getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
+			}
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
 		}

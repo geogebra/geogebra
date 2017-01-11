@@ -108,6 +108,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 *            the value at which the CDF is evaluated.
 	 * @return CDF evaluated at <code>x</code>.
 	 */
+	@Override
 	public double cumulativeProbability(double x) {
 		double ret;
 		if (x <= 0.0) {
@@ -123,6 +124,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return the shape parameter.
 	 */
+	@Override
 	public double getShape() {
 		return shape;
 	}
@@ -132,6 +134,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return the scale parameter.
 	 */
+	@Override
 	public double getScale() {
 		return scale;
 	}
@@ -199,6 +202,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 *            the new shape parameter value.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setShape(double alpha) {
 		setShapeInternal(alpha);
@@ -226,6 +230,7 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 *            the new scale parameter value.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setScale(double beta) {
 		setScaleInternal(beta);

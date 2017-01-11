@@ -70,8 +70,9 @@ public class HatchingHandler {
 		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
 		GBasicStroke objStroke = defObjStroke;
 		// constrain angle between 0 and 175 degrees
-		if (angle < 0 || angle >= Math.PI)
+		if (angle < 0 || angle >= Math.PI) {
 			angle = 0;
+		}
 
 		// constrain distance between 5 and 50 pixels
 		double dist = hatchDist;

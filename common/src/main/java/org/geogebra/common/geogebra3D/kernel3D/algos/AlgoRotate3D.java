@@ -80,15 +80,17 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList))
+		if (!(outGeo instanceof GeoList)) {
 			out = (RotateableND) outGeo;
+		}
 
 	}
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoFunction || geo instanceof GeoCurveCartesian)
+		if (geo instanceof GeoFunction || geo instanceof GeoCurveCartesian) {
 			return new GeoCurveCartesian3D(cons);
+		}
 
 		return super.getResultTemplate(geo);
 	}

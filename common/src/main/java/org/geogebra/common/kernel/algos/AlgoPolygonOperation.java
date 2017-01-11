@@ -281,12 +281,14 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		outputPolygons = new OutputHandler<GeoPolygon>(
 				new elementFactory<GeoPolygon>() {
+					@Override
 					public GeoPolygon newElement() {
 						GeoPolygon p = new GeoPolygon(cons, true);
 						p.setParentAlgorithm(AlgoPolygonOperation.this);
-						if (outputPolygons.size() > 0)
+						if (outputPolygons.size() > 0) {
 							p.setAllVisualProperties(
 									outputPolygons.getElement(0), false);
+						}
 						p.setViewFlags(inPoly0.getViewSet());
 						p.setNotFixedPointsLength(true);
 						return p;
@@ -297,6 +299,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		outputPoints = new OutputHandler<GeoPoint>(
 				new elementFactory<GeoPoint>() {
+					@Override
 					public GeoPoint newElement() {
 						GeoPoint newPoint = new GeoPoint(cons);
 						newPoint.setCoords(0, 0, 1);
@@ -312,6 +315,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		outputSegments = new OutputHandler<GeoSegment>(
 				new elementFactory<GeoSegment>() {
+					@Override
 					public GeoSegment newElement() {
 						GeoSegment segment = (GeoSegment) outputPolygons
 								.getElement(0)

@@ -60,6 +60,7 @@ public interface BidiMap<K, V> extends IterableMap<K, V> {
 	 *
 	 * @return a map iterator
 	 */
+	@Override
 	MapIterator<K, V> mapIterator();
 
 	/**
@@ -96,6 +97,7 @@ public interface BidiMap<K, V> extends IterableMap<K, V> {
 	 *             (optional) if the map limits the values to non-null and null
 	 *             was specified
 	 */
+	@Override
 	V put(K key, V value);
 
 	/**
@@ -169,6 +171,7 @@ public interface BidiMap<K, V> extends IterableMap<K, V> {
 	 *
 	 * @return a Set view of the values contained in this map.
 	 */
+	@Override
 	Set<V> values();
 
 }

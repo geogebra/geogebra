@@ -91,13 +91,14 @@ public class AlgoAreaPolygon extends AlgoElement
 		area.setValue(polygon.getArea());
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		GeoPointND[] pointsOfPolygon = polygon.getPoints();
 		if (botanaVars == null) {
 			botanaVars = new Variable[pointsOfPolygon.length * 2];
 			for (int i = 0; i < pointsOfPolygon.length; i++) {
 				Variable[] currentPointBotanavars = ((GeoPoint) pointsOfPolygon[i])
-						.getBotanaVars((GeoPoint) pointsOfPolygon[i]);
+						.getBotanaVars(pointsOfPolygon[i]);
 				botanaVars[2 * i] = currentPointBotanavars[0];
 				botanaVars[2 * i + 1] = currentPointBotanavars[1];
 			}
@@ -105,6 +106,7 @@ public class AlgoAreaPolygon extends AlgoElement
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;

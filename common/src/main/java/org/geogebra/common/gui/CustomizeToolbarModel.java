@@ -38,14 +38,16 @@ public class CustomizeToolbarModel {
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
 					int mode = modeInt.intValue();
-					if (mode != -1)
+					if (mode != -1) {
 						vector.add(modeInt);
+					}
 				}
 			} else {
 				Integer modeInt = element.getMode();
 				int mode = modeInt.intValue();
-				if (mode != -1)
+				if (mode != -1) {
 					vector.add(modeInt);
+				}
 			}
 		}
 		return vector;

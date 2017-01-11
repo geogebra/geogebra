@@ -140,47 +140,56 @@ public abstract class AbstractLeastSquaresOptimizer
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setMaxIterations(int maxIterations) {
 		this.maxIterations = maxIterations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getMaxIterations() {
 		return maxIterations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getIterations() {
 		return iterations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setMaxEvaluations(int maxEvaluations) {
 		this.maxEvaluations = maxEvaluations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getMaxEvaluations() {
 		return maxEvaluations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getEvaluations() {
 		return objectiveEvaluations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getJacobianEvaluations() {
 		return jacobianEvaluations;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setConvergenceChecker(
 			VectorialConvergenceChecker convergenceChecker) {
 		this.checker = convergenceChecker;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public VectorialConvergenceChecker getConvergenceChecker() {
 		return checker;
 	}
@@ -349,6 +358,7 @@ public abstract class AbstractLeastSquaresOptimizer
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public VectorialPointValuePair optimize(
 			final DifferentiableMultivariateVectorialFunction f,
 			final double[] target, final double[] weights,

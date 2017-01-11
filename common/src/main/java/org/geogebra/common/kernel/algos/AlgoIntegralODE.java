@@ -158,10 +158,11 @@ public class AlgoIntegralODE extends AlgoElement {
 			}
 		}
 
-		if (al == null)
+		if (al == null) {
 			al = new ArrayList<MyPoint>();
-		else
+		} else {
 			al.clear();
+		}
 
 		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(
 				step);
@@ -226,14 +227,17 @@ public class AlgoIntegralODE extends AlgoElement {
 	}
 
 	private StepHandler stepHandler = new StepHandler() {
+		@Override
 		public void reset() {
 			//
 		}
 
+		@Override
 		public boolean requiresDenseOutput() {
 			return false;
 		}
 
+		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast)
 				throws DerivativeException {
 			double t = interpolator.getCurrentTime();
@@ -257,10 +261,12 @@ public class AlgoIntegralODE extends AlgoElement {
 			this.f = f;
 		}
 
+		@Override
 		public int getDimension() {
 			return 1;
 		}
 
+		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
 			double input[] = { t, y[0] };
@@ -269,8 +275,9 @@ public class AlgoIntegralODE extends AlgoElement {
 			// eg SolveODE[y, x(A), y(A), 5, 0.1]
 			if (f instanceof GeoFunction && ((GeoFunction) f).isFunctionOfY()) {
 				yDot[0] = ((GeoFunction) f).evaluate(y[0]);
-			} else
+			} else {
 				yDot[0] = f.evaluate(input);
+			}
 
 		}
 
@@ -285,10 +292,12 @@ public class AlgoIntegralODE extends AlgoElement {
 			this.y1 = x;
 		}
 
+		@Override
 		public int getDimension() {
 			return 2;
 		}
 
+		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
 			double input[] = { y[0], y[1] };
@@ -298,16 +307,18 @@ public class AlgoIntegralODE extends AlgoElement {
 			if (y1 instanceof GeoFunction
 					&& ((GeoFunction) y1).isFunctionOfY()) {
 				yDot[0] = ((GeoFunction) y1).evaluate(y[1]);
-			} else
+			} else {
 				yDot[0] = y1.evaluate(input);
+			}
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-x, y, x(A), y(A), 5, 0.1]
 			if (y0 instanceof GeoFunction
 					&& ((GeoFunction) y0).isFunctionOfY()) {
 				yDot[1] = ((GeoFunction) y0).evaluate(y[1]);
-			} else
+			} else {
 				yDot[1] = y0.evaluate(input);
+			}
 
 		}
 
@@ -315,8 +326,9 @@ public class AlgoIntegralODE extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		if (quotient && f0 != null) {
 			((GeoElement) f0).removeAlgorithm(numAlgo);

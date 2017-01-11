@@ -119,6 +119,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		setEndPoint(B);
 	}
 
+	@Override
 	public void setTwoPointsInhomCoords(Coords start, Coords end) {
 		this.startPoint.setCoords(start.get(1), start.get(2), 1);
 		this.endPoint.setCoords(end.get(1), end.get(2), 1);
@@ -162,8 +163,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		if (!geo.isGeoSegment())
+		if (!geo.isGeoSegment()) {
 			return;
+		}
 
 		GeoSegment seg = (GeoSegment) geo;
 		length = seg.length;
@@ -212,13 +214,15 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		if (defined) {
 			length = startPoint.distance(endPoint);
 
-			if (Kernel.isZero(length))
+			if (Kernel.isZero(length)) {
 				length = 0;
+			}
 		} else {
 			length = Double.NaN;
 		}
 	}
 
+	@Override
 	public double getLength() {
 		return length;
 	}
@@ -261,8 +265,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		if (geo.isGeoElement3D()) {
 			return geo.isEqual(this);
 		}
-		if (!geo.isGeoSegment())
+		if (!geo.isGeoSegment()) {
 			return false;
+		}
 		GeoSegment s = (GeoSegment) geo;
 		return ((startPoint.isEqual(s.startPoint)
 				&& endPoint.isEqual(s.endPoint))
@@ -270,6 +275,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 						&& endPoint.isEqual(s.startPoint)));
 	}
 
+	@Override
 	final public boolean isEqual(GeoSegmentND geo) {
 
 		return (((startPoint).isEqualPointND(geo.getStartPoint())
@@ -306,10 +312,12 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	/**
 	 * interface NumberValue
 	 */
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getLength());
 	}
 
+	@Override
 	final public double getDouble() {
 		return getLength();
 	}
@@ -324,18 +332,22 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return true;
 	}
 
+	@Override
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;
 	}
 
+	@Override
 	public void setAllowOutlyingIntersections(boolean flag) {
 		allowOutlyingIntersections = flag;
 	}
 
+	@Override
 	public boolean keepsTypeOnGeometricTransform() {
 		return keepTypeOnGeometricTransform;
 	}
 
+	@Override
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		keepTypeOnGeometricTransform = flag;
 	}
@@ -347,8 +359,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	@Override
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
-		if (allowOutlyingIntersections)
+		if (allowOutlyingIntersections) {
 			return isOnFullLine(p, eps);
+		}
 		return isOnPath(p, eps);
 	}
 
@@ -356,18 +369,22 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * GeoSegmentInterface interface
 	 */
 
+	@Override
 	public GeoElement getStartPointAsGeoElement() {
 		return getStartPoint();
 	}
 
+	@Override
 	public GeoElement getEndPointAsGeoElement() {
 		return getEndPoint();
 	}
 
+	@Override
 	public double getPointX(double parameter) {
 		return startPoint.inhomX + parameter * y;
 	}
 
+	@Override
 	public double getPointY(double parameter) {
 		return startPoint.inhomY - parameter * x;
 	}
@@ -487,6 +504,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	/**
 	 * creates new transformed segment
 	 */
+	@Override
 	public GeoElement[] createTransformedObject(Transform t,
 			String transformedLabel) {
 
@@ -584,10 +602,12 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 		// if t is outside the range [0,1] then the closest point is not on the
 		// Segment
-		if (t < 0)
+		if (t < 0) {
 			return p.distance(startPoint);
-		if (t > 1)
+		}
+		if (t > 1) {
 			return p.distance(endPoint);
+		}
 
 		return super.distance(p);
 	}
@@ -599,10 +619,12 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 		// if t is outside the range [0,1] then the closest point is not on the
 		// Segment
-		if (t < 0)
+		if (t < 0) {
 			return startPoint.distance(x0, y0);
-		if (t > 1)
+		}
+		if (t > 1) {
 			return endPoint.distance(x0, y0);
+		}
 
 		return super.distance(x0, y0);
 	}
@@ -615,8 +637,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 			pnt2D = new Coords(3);
 		}
 		pnt2D.setCoordsIn2DView(Pnd);
-		if (!super.isOnFullLine2D(pnt2D, eps))
+		if (!super.isOnFullLine2D(pnt2D, eps)) {
 			return false;
+		}
 
 		return respectLimitedPath(pnt2D, eps);
 
@@ -655,8 +678,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		if (checkOnFullLine) {
 			if (segEnd.sub(segStart).crossProduct(point.sub(segStart))
 					.equalsForKernel(new Coords(0, 0, 0),
-							Kernel.STANDARD_PRECISION))
+							Kernel.STANDARD_PRECISION)) {
 				return false;
+			}
 		}
 
 		double x1 = segStart.getInhom(0);
@@ -677,11 +701,13 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return x1 - eps <= x && x <= x2 + eps || x2 - eps <= x && x <= x1 + eps;
 	}
 
+	@Override
 	public boolean isAllEndpointsLabelsSet() {
 		return !forceSimpleTransform && startPoint.isLabelSet()
 				&& endPoint.isLabelSet();
 	}
 
+	@Override
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q) {
 		AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
 		algo.modifyInputPoints(P, Q);
@@ -698,6 +724,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return 1;
 	}
 
+	@Override
 	public GeoElement[] getMetas() {
 		return new GeoElement[] { meta };
 	}
@@ -829,6 +856,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	}
 
+	@Override
 	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2) {
 		double x1 = locusPoint.x;
 		double x2 = locusPoint2.x;
@@ -841,6 +869,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		endPoint.setCoords(x2, y2, 1.0);
 	}
 
+	@Override
 	public GeoElement copyFreeSegment() {
 		GeoPoint startPoint1 = (GeoPoint) getStartPoint().copyInternal(cons);
 		GeoPoint endPoint1 = (GeoPoint) getEndPoint().copyInternal(cons);
@@ -856,6 +885,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 
+	@Override
 	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
 		// used for GeoPoint3D
 	}

@@ -211,6 +211,7 @@ public class EuclidianControllerInput3DCompanion extends
 			return Math.abs(distance);
 		}
 
+		@Override
 		public int compareTo(StickyPoint sp) {
 
 			// check distance
@@ -270,6 +271,7 @@ public class EuclidianControllerInput3DCompanion extends
 			return Math.abs(distanceOrtho / distanceOrigin);
 		}
 
+		@Override
 		public int compareTo(StickyPointForDirection spd) {
 
 			// compare cosinus

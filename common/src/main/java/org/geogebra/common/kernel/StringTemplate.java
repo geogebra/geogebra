@@ -1474,21 +1474,23 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	private String right() {
-		if (stringType.equals(StringType.LATEX))
+		if (stringType.equals(StringType.LATEX)) {
 			return " \\right";
-		else if (stringType.equals(StringType.LIBRE_OFFICE))
+		} else if (stringType.equals(StringType.LIBRE_OFFICE)) {
 			return " right ";
-		else
+		} else {
 			return "";
+		}
 	}
 
 	private String left() {
-		if (stringType.equals(StringType.LATEX))
+		if (stringType.equals(StringType.LATEX)) {
 			return " \\left";
-		else if (stringType.equals(StringType.LIBRE_OFFICE))
+		} else if (stringType.equals(StringType.LIBRE_OFFICE)) {
 			return " left ";
-		else
+		} else {
 			return "";
+		}
 	}
 
 	public String minusString(ExpressionValue l, ExpressionValue r,

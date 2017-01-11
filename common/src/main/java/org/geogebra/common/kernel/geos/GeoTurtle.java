@@ -421,8 +421,9 @@ public class GeoTurtle extends GeoPoint {
 	}
 
 	private void doUpdate() {
-		if (autoUpdate)
+		if (autoUpdate) {
 			updateRepaint();
+		}
 	}
 
 	// ===========================================================

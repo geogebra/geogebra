@@ -104,17 +104,22 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 				return;
 			}
 
-			if (i == 0)
+			if (i == 0) {
 				continue;
+			}
 
-			if (xMax < x)
+			if (xMax < x) {
 				xMax = x;
-			if (xMin > x)
+			}
+			if (xMin > x) {
 				xMin = x;
-			if (yMax < y)
+			}
+			if (yMax < y) {
 				yMax = y;
-			if (yMin > y)
+			}
+			if (yMin > y) {
 				yMin = y;
+			}
 		}
 
 		boolean foundRandom = false;

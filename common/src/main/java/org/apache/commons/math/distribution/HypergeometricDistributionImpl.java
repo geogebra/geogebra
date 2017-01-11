@@ -164,6 +164,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *
 	 * @return the number of successes.
 	 */
+	@Override
 	public int getNumberOfSuccesses() {
 		return numberOfSuccesses;
 	}
@@ -173,6 +174,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *
 	 * @return the population size.
 	 */
+	@Override
 	public int getPopulationSize() {
 		return populationSize;
 	}
@@ -182,6 +184,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *
 	 * @return the sample size.
 	 */
+	@Override
 	public int getSampleSize() {
 		return sampleSize;
 	}
@@ -207,6 +210,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the value at which the PMF is evaluated.
 	 * @return PMF for this distribution.
 	 */
+	@Override
 	public double probability(int x) {
 		double ret;
 
@@ -258,6 +262,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *             if <code>num</code> is negative.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setNumberOfSuccesses(int num) {
 		setNumberOfSuccessesInternal(num);
@@ -288,6 +293,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *             if <code>size</code> is not positive.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setPopulationSize(int size) {
 		setPopulationSizeInternal(size);
@@ -318,6 +324,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *             if <code>size</code> is negative.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setSampleSize(int size) {
 		setSampleSizeInternal(size);

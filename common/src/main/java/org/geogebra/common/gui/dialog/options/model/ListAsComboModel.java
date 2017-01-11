@@ -19,6 +19,7 @@ public class ListAsComboModel extends BooleanOptionModel {
 		return (GeoList) getObjectAt(index);
 	}
 
+	@Override
 	public void applyChanges(boolean value) {
 		super.applyChanges(value);
 		app.refreshViews();

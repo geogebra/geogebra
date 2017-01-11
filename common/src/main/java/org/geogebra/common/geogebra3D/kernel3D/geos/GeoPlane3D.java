@@ -587,8 +587,9 @@ public class GeoPlane3D extends GeoElement3D
 	public void setView2DVisible(boolean flag) {
 
 		if (euclidianViewForPlane == null) {
-			if (flag)
+			if (flag) {
 				createView2D();
+			}
 			return;
 		}
 
@@ -653,6 +654,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	}
 
+	@Override
 	public double distanceWithSign(GeoPlaneND P) {
 
 		if (tmpCoords1 == null) {
@@ -814,6 +816,7 @@ public class GeoPlane3D extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.EQUATION;
 	}
@@ -838,6 +841,7 @@ public class GeoPlane3D extends GeoElement3D
 		return 0;
 	}
 
+	@Override
 	public Equation getEquation() {
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}

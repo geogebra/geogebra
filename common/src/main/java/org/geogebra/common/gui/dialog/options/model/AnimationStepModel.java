@@ -34,10 +34,12 @@ public class AnimationStepModel extends OptionsModel {
 			temp = getGeoAt(i);
 			// same object visible value
 			if (!Kernel.isEqual(geo0.getAnimationStep(),
-					temp.getAnimationStep()))
+					temp.getAnimationStep())) {
 				equalStep = false;
-			if (!(temp.isGeoAngle()))
+			}
+			if (!(temp.isGeoAngle())) {
 				onlyAngles = false;
+			}
 		}
 
 		// int oldDigits = kernel.getMaximumFractionDigits();

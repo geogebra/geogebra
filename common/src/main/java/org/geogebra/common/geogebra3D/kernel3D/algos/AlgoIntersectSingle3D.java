@@ -45,10 +45,11 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		algo.addUser(); // this algorithm is a user of algo
 
 		// check index
-		if (index < 0)
+		if (index < 0) {
 			index = 0;
-		else
+		} else {
 			this.index = index;
+		}
 
 		point = new GeoPoint3D(algo.getConstruction());
 
@@ -131,9 +132,11 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 	public void compute() {
 		parentOutput = algo.getIntersectionPoints();
 
-		if (refPoint != null)
-			if (refPoint.isDefined())
+		if (refPoint != null) {
+			if (refPoint.isDefined()) {
 				index = algo.getClosestPointIndex(refPoint);
+			}
+		}
 
 		if (input[0].isDefined() && input[1].isDefined()
 				&& index < parentOutput.length) {

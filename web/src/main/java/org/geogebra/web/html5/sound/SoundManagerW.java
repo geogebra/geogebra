@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 /**
- * @author micro_000
  *
  */
 public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {

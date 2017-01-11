@@ -47,8 +47,9 @@ public class CmdErlang extends CommandProcessor {
 
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[3];
-			} else
+			} else {
 				throw argErr(app, c, arg[3]);
+			}
 
 			// fall through
 		case 3:
@@ -69,13 +70,15 @@ public class CmdErlang extends CommandProcessor {
 							(GeoNumberValue) arg[2]);
 					return algo.getResult().asArray();
 
-				} else
+				} else {
 					throw argErr(app, c, arg[2]);
+				}
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

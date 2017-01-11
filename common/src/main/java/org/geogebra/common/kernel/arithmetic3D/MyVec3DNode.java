@@ -256,10 +256,11 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	private void appendSeparator(StringBuilder sb) {
-		if (mode == Kernel.COORD_CARTESIAN_3D)
+		if (mode == Kernel.COORD_CARTESIAN_3D) {
 			sb.append(", ");
-		else
+		} else {
 			sb.append("; ");
+		}
 	}
 
 	@Override
@@ -295,14 +296,17 @@ public class MyVec3DNode extends ValidExpression
 	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> temp, varset = x.getVariables();
-		if (varset == null)
+		if (varset == null) {
 			varset = new HashSet<GeoElement>();
+		}
 		temp = y.getVariables();
-		if (temp != null)
+		if (temp != null) {
 			varset.addAll(temp);
+		}
 		temp = z.getVariables();
-		if (temp != null)
+		if (temp != null) {
 			varset.addAll(temp);
+		}
 		return varset;
 	}
 
@@ -346,8 +350,9 @@ public class MyVec3DNode extends ValidExpression
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
-		if (ev != this)
+		if (ev != this) {
 			return ev;
+		}
 		x = x.traverse(t);
 		y = y.traverse(t);
 		z = z.traverse(t);
@@ -425,11 +430,13 @@ public class MyVec3DNode extends ValidExpression
 				Double.NaN);
 	}
 
+	@Override
 	public void setMode(int mode) {
 		this.mode = mode;
 
 	}
 
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		if (x instanceof ReplaceChildrenByValues) {
 			((ReplaceChildrenByValues) x).replaceChildrenByValues(geo);

@@ -39,14 +39,17 @@ public class UniformDegreeWeight<V, E>
 	/**
 	 * @see org.apache.commons.collections15.Transformer#transform(java.lang.Object)
 	 */
+	@Override
 	public Double transform(VEPair<V, E> ve_pair) {
 		E e = ve_pair.getE();
 		V v = ve_pair.getV();
 		EdgeType edge_type = graph.getEdgeType(e);
-		if (edge_type == EdgeType.UNDIRECTED)
+		if (edge_type == EdgeType.UNDIRECTED) {
 			return 1.0 / graph.degree(v);
-		if (edge_type == EdgeType.DIRECTED)
+		}
+		if (edge_type == EdgeType.DIRECTED) {
 			return 1.0 / graph.outDegree(graph.getSource(e));
+		}
 		throw new IllegalArgumentException(
 				"can't handle edge type: " + edge_type);
 	}

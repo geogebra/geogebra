@@ -50,11 +50,12 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 		int minIndex = 0;
 		for (int i = 0; i < P.length; i++) {
 			Coords toScreenCoords;
-			if (mat == null)
+			if (mat == null) {
 				toScreenCoords = P[i].getInhomCoords();
-			else
+			} else {
 				toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1())
 						.getInhomCoords();
+			}
 			// Application.debug("\nScreen coords of point "+i+"
 			// is:\n"+toScreenCoords);
 			x = (toScreenCoords.getX() - xRW);

@@ -42,10 +42,11 @@ public class CmdPan extends CmdScripting {
 						-(int) y.getDouble(), 0, EuclidianController.MOVE_VIEW);
 
 				return arg;
-			} else if (!ok)
+			} else if (!ok) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 		case 3:
 			arg = resArgs(c);
 			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()
@@ -61,10 +62,11 @@ public class CmdPan extends CmdScripting {
 						EuclidianController.MOVE_VIEW);
 
 				return arg;
-			} else if (!ok)
+			} else if (!ok) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

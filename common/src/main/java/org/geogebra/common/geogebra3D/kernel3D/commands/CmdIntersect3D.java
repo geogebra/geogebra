@@ -64,77 +64,60 @@ public class CmdIntersect3D extends CmdIntersect {
 				// POINTS
 				// intersection line/conic
 				if ((arg[0] instanceof GeoLineND)
-						&& (arg[1] instanceof GeoConicND))
+						&& (arg[1] instanceof GeoConicND)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectLineConic(c.getLabels(),
 									(GeoLineND) arg[0], (GeoConicND) arg[1]);
-				else if ((arg[0] instanceof GeoConicND)
-						&& (arg[1] instanceof GeoLineND))
+				} else if ((arg[0] instanceof GeoConicND)
+						&& (arg[1] instanceof GeoLineND)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectLineConic(c.getLabels(),
 									(GeoLineND) arg[1], (GeoConicND) arg[0]);
-				// intersection plane/conic
-				else if ((arg[0] instanceof GeoPlane3D)
-						&& (arg[1] instanceof GeoConicND))
+				} else if ((arg[0] instanceof GeoPlane3D)
+						&& (arg[1] instanceof GeoConicND)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectPlaneConic(c.getLabels(),
 									(GeoCoordSys2D) arg[0],
 									(GeoConicND) arg[1]);
-				else if ((arg[0] instanceof GeoConicND)
-						&& (arg[1] instanceof GeoPlane3D))
+				} else if ((arg[0] instanceof GeoConicND)
+						&& (arg[1] instanceof GeoPlane3D)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectPlaneConic(c.getLabels(),
 									(GeoCoordSys2D) arg[1],
 									(GeoConicND) arg[0]);
-				else if ((arg[0] instanceof GeoPlane3D)
-						&& (arg[1] instanceof GeoCurveCartesianND))
+				} else if ((arg[0] instanceof GeoPlane3D)
+						&& (arg[1] instanceof GeoCurveCartesianND)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectPlaneCurve(c.getLabels(),
 									(GeoCoordSys2D) arg[0],
 									(GeoCurveCartesianND) arg[1]);
-				else if ((arg[0] instanceof GeoCurveCartesianND)
-						&& (arg[1] instanceof GeoPlane3D))
+				} else if ((arg[0] instanceof GeoCurveCartesianND)
+						&& (arg[1] instanceof GeoPlane3D)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectPlaneCurve(c.getLabels(),
 									(GeoCoordSys2D) arg[1],
 									(GeoCurveCartesianND) arg[0]);
-				// intersection plane/polygon
-				else if ((arg[0] instanceof GeoPlane3D)
-						&& (arg[1] instanceof GeoPolygon))
+				} else if ((arg[0] instanceof GeoPlane3D)
+						&& (arg[1] instanceof GeoPolygon)) {
 					return kernelA.getManager3D().IntersectionPoint(
 							c.getLabels(), (GeoPlane3D) arg[0],
 							(GeoPolygon) arg[1]);
-				else if ((arg[0] instanceof GeoPolygon)
-						&& (arg[1] instanceof GeoPlane3D))
+				} else if ((arg[0] instanceof GeoPolygon)
+						&& (arg[1] instanceof GeoPlane3D)) {
 					return kernelA.getManager3D().IntersectionPoint(
 							c.getLabels(), (GeoPlane3D) arg[1],
 							(GeoPolygon) arg[0]);
-
-				// intersection plane/polyhedron
-				/*
-				 * else if ( (arg[0] instanceof GeoPlane3D) &&
-				 * (arg[1].isGeoPolyhedron())) return
-				 * kernelA.getManager3D().IntersectionPoint( c.getLabels(),
-				 * (GeoPlane3D) arg[0], (GeoPolyhedron) arg[1]); else if (
-				 * (arg[0].isGeoPolyhedron()) && (arg[1] instanceof GeoPlane3D))
-				 * return kernelA.getManager3D().IntersectionPoint(
-				 * c.getLabels(), (GeoPlane3D) arg[1], (GeoPolyhedron) arg[0]);
-				 */
-
-				// Line - Quadric
-				else if ((ok[0] = (arg[0].isGeoLine()))
-						&& (ok[1] = (arg[1] instanceof GeoQuadric3D)))
+				} else if ((ok[0] = (arg[0].isGeoLine()))
+						&& (ok[1] = (arg[1] instanceof GeoQuadric3D))) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectLineQuadric(c.getLabels(),
 									(GeoLineND) arg[0], (GeoQuadric3D) arg[1]);
-				else if ((ok[0] = (arg[0] instanceof GeoQuadric3D))
-						&& (ok[1] = (arg[1].isGeoLine())))
+				} else if ((ok[0] = (arg[0] instanceof GeoQuadric3D))
+						&& (ok[1] = (arg[1].isGeoLine()))) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectLineQuadric(c.getLabels(),
 									(GeoLineND) arg[1], (GeoQuadric3D) arg[0]);
-
-				// intersection conic/conic
-				else if ((arg[0] instanceof GeoConicND) && (arg[1].isGeoConic()
+				} else if ((arg[0] instanceof GeoConicND) && (arg[1].isGeoConic()
 						|| arg[1] instanceof GeoQuadric3D)) {
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectConics(c.getLabels(), (GeoConicND) arg[0],
@@ -152,22 +135,17 @@ public class CmdIntersect3D extends CmdIntersect {
 				else if ((arg[0] instanceof GeoLineND
 						&& arg[1] instanceof GeoPolygon)
 						|| (arg[1] instanceof GeoLineND
-								&& arg[0] instanceof GeoPolygon))
-
+								&& arg[0] instanceof GeoPolygon)) {
 					return kernelA.getManager3D().IntersectionPoint(
 							c.getLabels(), (GeoLineND) arg[0],
 							(GeoPolygon) arg[1]);
-
-				// intersect points polygon/polygon
-				else if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()
+				} else if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()
 						&& (arg[1] instanceof GeoPolygon3D
-								|| arg[0] instanceof GeoPolygon3D))
+								|| arg[0] instanceof GeoPolygon3D)) {
 					return kernelA.getManager3D().IntersectionPoint(
 							c.getLabels(), (GeoPolygon) arg[0],
 							(GeoPolygon) arg[1]);
-
-				// intersection line/planar objects
-				else if (arg[0] instanceof GeoLineND
+				} else if (arg[0] instanceof GeoLineND
 						&& arg[1] instanceof GeoCoordSys2D) {
 
 					GeoPoint3D point = (GeoPoint3D) kernelA.getManager3D()
@@ -259,15 +237,16 @@ public class CmdIntersect3D extends CmdIntersect {
 
 				// Plane - Polyhedron
 				if ((ok[0] = (arg[0].isGeoPlane()))
-						&& (ok[1] = (arg[1].isGeoPolyhedron())))
+						&& (ok[1] = (arg[1].isGeoPolyhedron()))) {
 					return kernelA.getManager3D().IntersectRegion(c.getLabels(),
 							(GeoPlane3D) arg[0], (GeoPolyhedron) arg[1],
 							c.getOutputSizes());
-				else if ((ok[1] = (arg[1].isGeoPlane()))
-						&& (ok[0] = (arg[0].isGeoPolyhedron())))
+				} else if ((ok[1] = (arg[1].isGeoPlane()))
+						&& (ok[0] = (arg[0].isGeoPolyhedron()))) {
 					return kernelA.getManager3D().IntersectRegion(c.getLabels(),
 							(GeoPlane3D) arg[1], (GeoPolyhedron) arg[0],
 							c.getOutputSizes());
+				}
 
 				GeoElement ret = CmdIntersectPath3D.processPlaneSurface(kernelA,
 						arg, ok, c.getLabel());

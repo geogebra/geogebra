@@ -48,16 +48,18 @@ public class CmdVector extends CommandProcessor {
 					arg[0].setLabel(c.getLabel());
 
 					// make sure that arg[0] is in construction list
-					if (arg[0].isIndependent())
+					if (arg[0].isIndependent()) {
 						cons.addToConstructionList(arg[0], true);
-					else
+					} else {
 						cons.addToConstructionList(arg[0].getParentAlgorithm(),
 								true);
+					}
 				}
 				GeoElement[] ret = { arg[0] };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 
 		case 2:
 			arg = resArgs(c);

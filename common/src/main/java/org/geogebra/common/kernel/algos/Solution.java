@@ -72,14 +72,16 @@ public class Solution {
 			// ensure we get a non-zero y value to the left
 			int count = 0;
 			while (Math.abs(leftEval = f.evaluate(left)) < DELTA
-					&& count++ < 100)
+					&& count++ < 100) {
 				left = left - DELTA;
+			}
 
 			// ensure we get a non-zero y value to the right
 			count = 0;
 			while (Math.abs(rightEval = f.evaluate(right)) < DELTA
-					&& count++ < 100)
+					&& count++ < 100) {
 				right = right + DELTA;
+			}
 
 			// Application.debug("leftEval: " + leftEval + ", left: " + left);
 			// Application.debug("rightEval: " + rightEval + ", right: " +

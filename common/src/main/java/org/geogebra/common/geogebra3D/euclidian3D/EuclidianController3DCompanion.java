@@ -128,8 +128,9 @@ public class EuclidianController3DCompanion
 			}
 
 			// update previewable
-			if (ec.view.getPreviewDrawable() != null)
+			if (ec.view.getPreviewDrawable() != null) {
 				ec.view.updatePreviewable();
+			}
 
 		} else { // 2D point
 			Coords o = ec3D.view3D
@@ -187,11 +188,12 @@ public class EuclidianController3DCompanion
 
 		if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
 			// max z value
-			if (tmpCoords1.getZ() > ec3D.zMinMax[1])
+			if (tmpCoords1.getZ() > ec3D.zMinMax[1]) {
 				tmpCoords1.setZ(ec3D.zMinMax[1]);
-			else if (tmpCoords1
-					.getZ() < ec3D.zMinMax[0])
+			} else if (tmpCoords1
+					.getZ() < ec3D.zMinMax[0]) {
 				tmpCoords1.setZ(ec3D.zMinMax[0]);
+			}
 		}
 
 		// capturing points
@@ -353,14 +355,16 @@ public class EuclidianController3DCompanion
 		if (!forPreviewable) {
 			// if there's "no" 3D cursor, no point is created
 			if (ec3D.view3D
-					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE)
+					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE) {
 				return null;
+			}
 			point3D = (GeoPoint3D) ec.kernel.getManager3D().Point3D(null, 0, 0,
 					0, false);
 		} else {
 			point3D = createNewFreePoint(complex);
-			if (point3D == null)
+			if (point3D == null) {
 				return null;
+			}
 			point3D.setPath(null);
 			point3D.setRegion(null);
 			ec3D.view3D
@@ -383,10 +387,10 @@ public class EuclidianController3DCompanion
 
 		GeoPoint3D point3D;
 
-		if (!forPreviewable)
+		if (!forPreviewable) {
 			point3D = (GeoPoint3D) ec.getKernel().getManager3D().Point3D(null,
 					path, false);
-		else {
+		} else {
 			point3D = ec3D.view3D.getCursor3D();
 			point3D.setPath(path);
 			point3D.setRegion(null);
@@ -488,7 +492,7 @@ public class EuclidianController3DCompanion
 
 			GeoPoint3D ret = (GeoPoint3D) ec.getKernel().getManager3D()
 					.Point3DIn(null, region, false);
-			ret.set((GeoElement) point3D);
+			ret.set(point3D);
 			// ret.setRegion(region);
 			ret.doRegion();
 
@@ -538,8 +542,9 @@ public class EuclidianController3DCompanion
 	protected void setMouseOrigin(GeoPoint3D point, GPoint mouseLoc) {
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
-		if (mouseLoc == null)
+		if (mouseLoc == null) {
 			return;
+		}
 
 		Coords o = getView().getPickPoint(mouseLoc);
 		getView().toSceneCoords3D(o);

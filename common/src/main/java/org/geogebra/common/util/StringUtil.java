@@ -116,8 +116,9 @@ public class StringUtil {
 	 * @author Markus Hohenwarter
 	 */
 	final public static String toHTMLString(String str, boolean encodeLTGT) {
-		if (str == null)
+		if (str == null) {
 			return null;
+		}
 
 		StringBuilder sb = new StringBuilder();
 
@@ -190,8 +191,9 @@ public class StringUtil {
 	 * string can be used in XML files.
 	 */
 	public static void encodeXML(StringBuilder sb, String str) {
-		if (str == null)
+		if (str == null) {
 			return;
+		}
 
 		// convert every single character and append it to sb
 		int len = str.length();
@@ -290,10 +292,12 @@ public class StringUtil {
 			if (prototype.isRightToLeftChar(c)) {
 				int j = i;
 				while (j < length && (prototype.isRightToLeftChar(str.charAt(j))
-						|| str.charAt(j) == '\u00a0'))
+						|| str.charAt(j) == '\u00a0')) {
 					j++;
-				for (int k = j - 1; k >= i; k--)
+				}
+				for (int k = j - 1; k >= i; k--) {
 					sbReplaceExp.append(str.charAt(k));
+				}
 				sbReplaceExp.append(' ');
 				i = j - 1;
 				continue;
@@ -604,19 +608,23 @@ public class StringUtil {
 
 		int len = str.length();
 
-		if (len == 0)
+		if (len == 0) {
 			return "";
+		}
 
 		int start = 0;
-		while (str.charAt(start) == ' ' && start < len - 1)
+		while (str.charAt(start) == ' ' && start < len - 1) {
 			start++;
+		}
 
 		int end = len;
-		while (str.charAt(end - 1) == ' ' && end > start)
+		while (str.charAt(end - 1) == ' ' && end > start) {
 			end--;
+		}
 
-		if (start == end)
+		if (start == end) {
 			return "";
+		}
 
 		return str.substring(start, end);
 
@@ -625,8 +633,9 @@ public class StringUtil {
 	private static StringBuilder sbReplaceExp = new StringBuilder(200);
 
 	public static StringBuilder resetStringBuilder(StringBuilder high) {
-		if (high == null)
+		if (high == null) {
 			return new StringBuilder();
+		}
 		high.setLength(0);
 		return high;
 	}
@@ -639,8 +648,9 @@ public class StringUtil {
 
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (!isDigit(c) && c != '.' && c != Unicode.ArabicComma && c != '-')
+			if (!isDigit(c) && c != '.' && c != Unicode.ArabicComma && c != '-') {
 				return false;
+			}
 		}
 
 		return true;
@@ -678,20 +688,22 @@ public class StringUtil {
 
 	public static double parseDouble(String s) {
 
-		if ("NaN".equals(s) || "undefined".equals(s) || "null".equals(s))
+		if ("NaN".equals(s) || "undefined".equals(s) || "null".equals(s)) {
 			return Double.NaN;
-		else if ("Infinity".equals(s))
+		} else if ("Infinity".equals(s)) {
 			return Double.POSITIVE_INFINITY;
-		else if ("-Infinity".equals(s))
+		} else if ("-Infinity".equals(s)) {
 			return Double.NEGATIVE_INFINITY;
+		}
 
 		return Double.parseDouble(s);
 	}
 
 	public static String repeat(char c, int count) {
 		StringBuilder ret = new StringBuilder();
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < count; i++) {
 			ret.append(c);
+		}
 		return ret.toString();
 	}
 
@@ -1090,8 +1102,9 @@ public class StringUtil {
 		boolean comment = false;
 		for (int i = text.length() - 1; i >= 0; i--) {
 			char ch = text.charAt(i);
-			if (comment && ch != '"')
+			if (comment && ch != '"') {
 				continue;
+			}
 			switch (ch) {
 			case '}':
 			case ')':
@@ -1104,8 +1117,9 @@ public class StringUtil {
 				brackets++;
 				break;
 			case ',':
-				if (brackets == 0)
+				if (brackets == 0) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -1244,8 +1258,9 @@ public class StringUtil {
 	 */
 	public static String removeLeadingSlash(String filename) {
 		if (filename != null && filename.length() != 0
-				&& filename.charAt(0) == '/')
+				&& filename.charAt(0) == '/') {
 			return filename.substring(1);
+		}
 		return filename;
 	}
 
@@ -1583,13 +1598,15 @@ public class StringUtil {
 
 	public static String addDegreeSignIfNumber(char c, String inputText) {
 		// return unless digit typed
-		if (!StringUtil.isDigit(c))
+		if (!StringUtil.isDigit(c)) {
 			return inputText;
+		}
 
 		// if text already contains degree symbol or variable
 		for (int i = 0; i < inputText.length(); i++) {
-			if (!StringUtil.isDigit(inputText.charAt(i)))
+			if (!StringUtil.isDigit(inputText.charAt(i))) {
 				return inputText;
+			}
 		}
 
 		return (inputText + Unicode.DEGREE);

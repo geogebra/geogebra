@@ -76,6 +76,7 @@ public abstract class AlgoUnitVector extends AlgoElement {
 	abstract protected GeoPointND getInputStartPoint();
 
 	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputGeo;

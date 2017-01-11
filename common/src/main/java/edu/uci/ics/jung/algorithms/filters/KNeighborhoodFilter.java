@@ -81,6 +81,7 @@ public class KNeighborhoodFilter<V, E> implements Filter<V, E> {
 	 * Constructs an unassembled graph containing the k-neighborhood around the
 	 * root node(s).
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public Graph<V, E> transform(Graph<V, E> graph) {
 		// generate a Set of Vertices we want

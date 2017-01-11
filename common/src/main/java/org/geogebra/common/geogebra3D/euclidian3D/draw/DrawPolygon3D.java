@@ -413,11 +413,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updatePreview() {
 
 		// intersection curve
@@ -437,7 +439,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		for (; i.hasNext() && spi.hasNext();) {
 			point = i.next();
 			if (sp != null)
+			 {
 				sp.add(point); // add second point to precedent segment
+			}
 
 			sp = spi.next();
 			sp.clear();
@@ -453,7 +457,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		// set points to new segments points
 		for (; i.hasNext();) {
 			if (sp != null && point != null)
+			 {
 				sp.add(point); // add second point to precedent segment
+			}
 
 			sp = new ArrayList<GeoPointND>();
 			segmentsPoints.add(sp);
@@ -466,8 +472,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// update segments
-		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();)
+		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();) {
 			s.next().updatePreview();
+		}
 
 		// Application.debug("DrawList3D:\n"+getView3D().getDrawList3D().toString());
 
@@ -494,8 +501,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		((GeoPolygon3D) getGeoElement()).setPoints(points, null, false);
 		// check if all points are on the same plane
 		((GeoPolygon3D) getGeoElement()).updateCoordSys();
-		if (getGeoElement().isDefined())
+		if (getGeoElement().isDefined()) {
 			setWaitForUpdate();
+		}
 
 	}
 
@@ -528,8 +536,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		if (getGeoElement().getMetasLength() > 0) {
 			for (GeoElement meta : ((FromMeta) getGeoElement()).getMetas()) {
-				if (meta != null && meta.doHighlighting())
+				if (meta != null && meta.doHighlighting()) {
 					return true;
+				}
 			}
 		}
 

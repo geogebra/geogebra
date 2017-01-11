@@ -117,6 +117,7 @@ public class AlgoLimit extends AlgoElement
 
 	}
 
+	@Override
 	public String getCasInput() {
 		return limitString;
 	}
@@ -129,21 +130,25 @@ public class AlgoLimit extends AlgoElement
 		return 0;
 	}
 
+	@Override
 	public void handleCASoutput(String output, int requestID) {
 
 		NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(output,
 				ErrorHelper.silent());
 		outNum.setValue(nv.getDouble());
-		if (USE_ASYNCHRONOUS)
+		if (USE_ASYNCHRONOUS) {
 			outNum.updateCascade();
+		}
 
 	}
 
+	@Override
 	public void handleException(Throwable exception, int id) {
 		outNum.setUndefined();
 
 	}
 
+	@Override
 	public boolean useCacheing() {
 		return true;
 	}

@@ -126,8 +126,9 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 			cons.removeFromConstructionList(algoAngle);
 		}
 		// other points are undefined
-		for (int i = length; i < outputAngles.size(); i++)
+		for (int i = length; i < outputAngles.size(); i++) {
 			outputAngles.getElement(i).setUndefined();
+		}
 	}
 
 	@Override

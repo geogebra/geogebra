@@ -52,7 +52,7 @@ public class AlgoVertexConic extends AlgoElement {
 	 */
 	AlgoVertexConic(Construction cons, String label, GeoConicND c) {
 		this(cons, c);
-		GeoElement.setLabels(label, (GeoElement[]) vertex);
+		GeoElement.setLabels(label, vertex);
 	}
 
 	/**

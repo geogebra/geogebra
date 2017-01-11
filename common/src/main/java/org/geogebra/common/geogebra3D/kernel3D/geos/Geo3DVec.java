@@ -92,10 +92,12 @@ final public class Geo3DVec extends ValidExpression
 		mode = v.mode;
 	}
 
+	@Override
 	public Geo3DVec deepCopy(Kernel kernel1) {
 		return new Geo3DVec(this);
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		// no variables ?
 	}
@@ -138,14 +140,17 @@ final public class Geo3DVec extends ValidExpression
 		z = v.z;
 	}
 
+	@Override
 	final public double getX() {
 		return x;
 	}
 
+	@Override
 	final public double getY() {
 		return y;
 	}
 
+	@Override
 	final public double getZ() {
 		return z;
 	}
@@ -162,6 +167,7 @@ final public class Geo3DVec extends ValidExpression
 	 * Calculates the eucilidian length of this 2D vector. The result is
 	 * sqrt(x^2 + y^2).
 	 */
+	@Override
 	final public double length() {
 		return length(x, y, z);
 	}
@@ -334,18 +340,22 @@ final public class Geo3DVec extends ValidExpression
 	/**
 	 * interface VectorValue implementation
 	 */
+	@Override
 	final public Geo3DVec getVector() {
 		return this;
 	}
 
+	@Override
 	final public boolean isConstant() {
 		return true;
 	}
 
+	@Override
 	final public boolean isLeaf() {
 		return true;
 	}
 
+	@Override
 	final public HashSet<GeoElement> getVariables() {
 		return null;
 	}
@@ -355,26 +365,32 @@ final public class Geo3DVec extends ValidExpression
 		return toString(tpl);
 	}
 
+	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
+	@Override
 	final public boolean isNumberValue() {
 		return false;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
+	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { getX(), getY(), getZ() };
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
 
+	@Override
 	public boolean isEqual(Geo3DVecInterface vec) {
 		Geo3DVec v = (Geo3DVec) vec;
 		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y)
@@ -555,16 +571,19 @@ final public class Geo3DVec extends ValidExpression
 		return this.mode;
 	}
 
+	@Override
 	public Geo3DVec round() {
 		return new Geo3DVec(kernel, Math.round(x), Math.round(y),
 				Math.round(z));
 	}
 
+	@Override
 	public Geo3DVec floor() {
 		return new Geo3DVec(kernel, Math.floor(x), Math.floor(y),
 				Math.floor(z));
 	}
 
+	@Override
 	public Geo3DVec ceil() {
 		return new Geo3DVec(kernel, Math.ceil(x), Math.ceil(y), Math.ceil(z));
 	}
@@ -574,6 +593,7 @@ final public class Geo3DVec extends ValidExpression
 		return new ExpressionNode(kernel, this);
 	}
 
+	@Override
 	public double arg() {
 		return Math.atan2(y, x);
 	}
@@ -583,16 +603,19 @@ final public class Geo3DVec extends ValidExpression
 		return ValueType.VECTOR3D;
 	}
 
+	@Override
 	public int getDimension() {
 		return 3;
 	}
 
+	@Override
 	public void mult(double d) {
 		this.x *= d;
 		this.y *= d;
 		this.z *= d;
 	}
 
+	@Override
 	public void setMode(int mode) {
 		this.mode = mode;
 

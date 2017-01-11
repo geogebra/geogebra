@@ -37,14 +37,16 @@ public class CmdFillColumn extends CommandProcessor {
 
 				int col = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
-				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP)
+				if (col < 0 || col > Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP) {
 					throw argErr(app, c, arg[0]);
+				}
 
 				GeoList list = (GeoList) arg[1];
 				GeoElement[] ret = { list };
 
-				if (list.size() == 0)
+				if (list.size() == 0) {
 					return ret;
+				}
 
 				for (int row = 0; row < list.size(); row++) {
 					GeoElement cellGeo = list.get(row).copy();
@@ -61,10 +63,11 @@ public class CmdFillColumn extends CommandProcessor {
 				app.storeUndoInfo();
 				return ret;
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

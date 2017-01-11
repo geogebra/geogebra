@@ -28,8 +28,9 @@ public class CmdSetActiveView extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		if (!app.isUsingFullGui())
+		if (!app.isUsingFullGui()) {
 			return new GeoElement[0];
+		}
 
 		switch (n) {
 		case 1:

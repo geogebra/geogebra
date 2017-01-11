@@ -306,8 +306,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				double val = symbIntegral.evaluate(upperLimit)
 						- symbIntegral.evaluate(lowerLimit);
 				n.setValue(val);
-				if (n.isDefined())
+				if (n.isDefined()) {
 					return;
+				}
 			} else if (symbIntegral != null && symbIntegral.isDefined()
 					&& !this.evaluateNumerically) {
 				computeSpecial();
@@ -737,11 +738,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// integrate using gauss quadrature
 		try {
 			firstSum = firstGauss.integrate(fun, a, b);
-			if (Double.isNaN(firstSum))
+			if (Double.isNaN(firstSum)) {
 				return Double.NaN;
+			}
 			secondSum = secondGauss.integrate(fun, a, b);
-			if (Double.isNaN(secondSum))
+			if (Double.isNaN(secondSum)) {
 				return Double.NaN;
+			}
 		} catch (MaxIterationsExceededException e) {
 			error = true;
 		} catch (ConvergenceException e) {
@@ -781,11 +784,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				ageo.getLabel(tpl), bgeo.getLabel(tpl));
 	}
 
+	@Override
 	public DrawInformationAlgo copy() {
-		if (evaluate != null)
+		if (evaluate != null) {
 			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 					(NumberValue) a.deepCopy(kernel),
 					(NumberValue) b.deepCopy(kernel), evaluate.copy());
+		}
 		return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 				(NumberValue) a.deepCopy(kernel),
 				(NumberValue) b.deepCopy(kernel), null);
@@ -794,6 +799,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	/*
 	 * make sure shaded-only integrals are drawn
 	 */
+	@Override
 	public boolean evaluateOnly() {
 		return evaluateOnlySet() || validButUndefined;
 	}
@@ -814,6 +820,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		}
 	}
 
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		f.replaceChildrenByValues(geo);
 

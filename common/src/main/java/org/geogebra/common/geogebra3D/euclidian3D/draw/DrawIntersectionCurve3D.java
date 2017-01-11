@@ -88,11 +88,13 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 	// //////////////////////////////
 	// Previewable interface
 
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updatePreview() {
 
 		setWaitForUpdate();

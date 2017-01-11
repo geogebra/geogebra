@@ -136,8 +136,9 @@ public class MinimumSpanningForest<V, E> {
 		V currentVertex = null;
 		for (E e : unfinishedEdges) {
 
-			if (forest.getEdges().contains(e))
+			if (forest.getEdges().contains(e)) {
 				continue;
+			}
 			// find the lowest cost edge, get its opposite endpoint,
 			// and then update forest from its Successors
 			Pair<V> endpoints = graph.getEndpoints(e);

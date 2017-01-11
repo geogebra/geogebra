@@ -80,9 +80,11 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	@Override
 	protected void setInputOutput() {
 		input = text.getDefinition().getGeoElementVariables();
-		for (int i = 0; i < input.length; i++)
-			if (input[i].isGeoText())
+		for (int i = 0; i < input.length; i++) {
+			if (input[i].isGeoText()) {
 				((GeoText) input[i]).addTextDescendant(text);
+			}
+		}
 		super.setOutputLength(1);
 		super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
@@ -148,8 +150,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		// was defined as e.g. text0 = "Radius: " + r
-		if (text.getDefinition() == null)
+		if (text.getDefinition() == null) {
 			return "";
+		}
 		return text.getDefinition().toString(tpl);
 	}
 
@@ -274,10 +277,12 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		if (!numToTraceSet) {
 			numToTrace = ev;
 			numToTraceSet = true;
-		} else
+		} else {
 			numToTrace = null;
+		}
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return text.getDefinition();
 	}

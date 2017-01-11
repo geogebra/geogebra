@@ -2,12 +2,16 @@ package org.geogebra.common.awt;
 
 public interface GRectangle extends GRectangle2D {
 
+	@Override
 	public double getY();
 
+	@Override
 	public double getX();
 
+	@Override
 	public double getWidth();
 
+	@Override
 	public double getHeight();
 
 	public void setBounds(int xLabel, int i, int width, int height);

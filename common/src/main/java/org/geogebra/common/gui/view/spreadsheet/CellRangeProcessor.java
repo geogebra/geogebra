@@ -85,16 +85,14 @@ public class CellRangeProcessor {
 
 		// two adjacent rows or columns?
 		if (rangeList.size() == 1
-				&& (rangeList.get(0).is2D() || rangeList.get(0).is3D()))
+				&& (rangeList.get(0).is2D() || rangeList.get(0).is3D())) {
 			return true;
-
-		// two non-adjacent rows or columns?
-		else if (rangeList.size() == 2 && rangeList.get(0).getWidth() == 1
-				&& rangeList.get(1).getWidth() == 1)
+		} else if (rangeList.size() == 2 && rangeList.get(0).getWidth() == 1
+				&& rangeList.get(1).getWidth() == 1) {
 			return true;
-
-		else if (rangeList.size() == 1)
+		} else if (rangeList.size() == 1) {
 			return rangeList.get(0).isPointList();
+		}
 
 		return false;
 	}
@@ -110,24 +108,28 @@ public class CellRangeProcessor {
 	public boolean isCreateOperationTablePossible(
 			ArrayList<CellRange> rangeList) {
 
-		if (rangeList.size() != 1)
+		if (rangeList.size() != 1) {
 			return false;
+		}
 
 		CellRange cr = rangeList.get(0);
 		int r1 = cr.getMinRow();
 		int c1 = cr.getMinColumn();
 
-		if (!(RelativeCopy.getValue(app, c1, r1) instanceof GeoFunctionNVar))
+		if (!(RelativeCopy.getValue(app, c1, r1) instanceof GeoFunctionNVar)) {
 			return false;
+		}
 
 		for (int r = r1 + 1; r <= cr.getMaxRow(); ++r) {
-			if (!(RelativeCopy.getValue(app, c1, r) instanceof GeoNumeric))
+			if (!(RelativeCopy.getValue(app, c1, r) instanceof GeoNumeric)) {
 				return false;
+			}
 		}
 
 		for (int c = c1 + 1; c <= cr.getMaxColumn(); ++c) {
-			if (!(RelativeCopy.getValue(app, c, r1) instanceof GeoNumeric))
+			if (!(RelativeCopy.getValue(app, c, r1) instanceof GeoNumeric)) {
 				return false;
+			}
 		}
 
 		return true;
@@ -164,15 +166,17 @@ public class CellRangeProcessor {
 	public boolean isOneVarStatsPossible(ArrayList<CellRange> rangeList,
 			GeoClass geoClass) {
 
-		if (rangeList == null || rangeList.size() == 0)
+		if (rangeList == null || rangeList.size() == 0) {
 			return false;
+		}
 
 		int count = 0;
 
 		for (CellRange cr : rangeList) {
 			count += cr.getGeoCount(geoClass);
-			if (count >= 2)
+			if (count >= 2) {
 				return true;
+			}
 		}
 
 		return false;
@@ -189,20 +193,23 @@ public class CellRangeProcessor {
 	 */
 	public boolean isMultiVarStatsPossible(ArrayList<CellRange> rangeList) {
 
-		if (rangeList == null || rangeList.size() == 0)
+		if (rangeList == null || rangeList.size() == 0) {
 			return false;
+		}
 
 		// if rangeList is a single cell range check that there are at least two
 		// columns and at least three non-empty rows
 		if (rangeList.size() == 1) {
 			CellRange cr = rangeList.get(0);
-			if (cr.getMaxColumn() - cr.getMinColumn() < 1)
+			if (cr.getMaxColumn() - cr.getMinColumn() < 1) {
 				return false;
+			}
 
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 				if (!containsMinimumGeoNumeric(new CellRange(app, col,
-						cr.getMinRow(), col, cr.getMaxRow()), 3))
+						cr.getMinRow(), col, cr.getMaxRow()), 3)) {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -212,10 +219,12 @@ public class CellRangeProcessor {
 		// has at least three data values.
 		int columnCount = 0;
 		for (CellRange cr : rangeList) {
-			if (!cr.isColumn())
+			if (!cr.isColumn()) {
 				return false;
-			if (!containsMinimumGeoNumeric(cr, 3))
+			}
+			if (!containsMinimumGeoNumeric(cr, 3)) {
 				return false;
+			}
 			columnCount += cr.getMaxColumn() - cr.getMinColumn() + 1;
 		}
 		return columnCount >= 2;
@@ -237,10 +246,12 @@ public class CellRangeProcessor {
 			for (int row = cellRange.getMinRow(); row <= cellRange
 					.getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);
-				if (geo != null && geo.isGeoNumeric())
+				if (geo != null && geo.isGeoNumeric()) {
 					++count;
-				if (count >= minimumCount)
+				}
+				if (count >= minimumCount) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -255,8 +266,9 @@ public class CellRangeProcessor {
 	public boolean containsGeoClass(ArrayList<CellRange> rangeList,
 			GeoClass geoClass) {
 		for (CellRange cr : rangeList) {
-			if (cr.containsGeoClass(geoClass))
+			if (cr.containsGeoClass(geoClass)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -562,8 +574,9 @@ public class CellRangeProcessor {
 		// don't process the point if either coordinate is null or
 		// non-numeric,
 		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
-				|| !yCoord.isGeoNumeric())
+				|| !yCoord.isGeoNumeric()) {
 			return;
+		}
 
 		GeoPoint geoPoint;
 		AlgoDependentPoint pointAlgo = null;
@@ -589,14 +602,16 @@ public class CellRangeProcessor {
 			// draggable)
 			geoPoint.setLabel(null);
 		} else {
-			if (pointAlgo != null)
+			if (pointAlgo != null) {
 				cons.removeFromConstructionList(pointAlgo);
+			}
 		}
 
 		list.add(geoPoint);
 
-		if (yCoord.isAngle() || xCoord.isAngle())
+		if (yCoord.isAngle() || xCoord.isAngle()) {
 			geoPoint.setPolar();
+		}
 
 	}
 
@@ -610,8 +625,9 @@ public class CellRangeProcessor {
 		// non-numeric,
 		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
 				|| !yCoord.isGeoNumeric() || zCoord == null
-				|| !zCoord.isGeoNumeric())
+				|| !zCoord.isGeoNumeric()) {
 			return;
+		}
 
 		GeoPointND geoPoint;
 
@@ -653,8 +669,9 @@ public class CellRangeProcessor {
 		String[] title = new String[2];
 
 		// return null titles if data source is a point list
-		if (rangeList.size() == 1 && rangeList.get(0).isPointList())
+		if (rangeList.size() == 1 && rangeList.get(0).isPointList()) {
 			return title;
+		}
 
 		// get the orientation and dimensions of the list
 		PointDimension pd = new PointDimension();
@@ -780,10 +797,11 @@ public class CellRangeProcessor {
 
 		GeoList geoList = null;
 		ArrayList<GeoElementND> list = null;
-		if (copyByValue)
+		if (copyByValue) {
 			geoList = new GeoList(cons);
-		else
+		} else {
 			list = new ArrayList<GeoElementND>();
+		}
 
 		ArrayList<GPoint> cellList = new ArrayList<GPoint>();
 
@@ -806,10 +824,11 @@ public class CellRangeProcessor {
 					GeoElement geo = RelativeCopy.getValue(app, cell.x, cell.y);
 					if (geo != null && (geoTypeFilter == null
 							|| geo.getGeoClassType() == geoTypeFilter)) {
-						if (copyByValue)
+						if (copyByValue) {
 							geoList.add(geo.copy());
-						else
+						} else {
 							list.add(geo);
+						}
 					}
 					usedCells.add(cell);
 				}
@@ -1124,8 +1143,9 @@ public class CellRangeProcessor {
 		for (int column = maxColumn; column >= startColumn; --column) {
 			for (int row = 0; row <= maxRow; ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
-				if (geo == null)
+				if (geo == null) {
 					continue;
+				}
 
 				String newLabel = GeoElementSpreadsheet
 						.getSpreadsheetCellName(column + 1, row);
@@ -1149,8 +1169,9 @@ public class CellRangeProcessor {
 		for (int column = startColumn; column <= maxColumn; ++column) {
 			for (int row = 0; row <= maxRow; ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
-				if (geo == null)
+				if (geo == null) {
 					continue;
+				}
 
 				String newLabel = GeoElementSpreadsheet
 						.getSpreadsheetCellName(column - shiftAmount, row);
@@ -1211,8 +1232,9 @@ public class CellRangeProcessor {
 		for (int row = maxRow; row >= startRow; --row) {
 			for (int column = 0; column <= maxColumn; ++column) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
-				if (geo == null)
+				if (geo == null) {
 					continue;
+				}
 				String newLabel = GeoElementSpreadsheet
 						.getSpreadsheetCellName(column, row + 1);
 				geo.setLabel(newLabel);
@@ -1220,8 +1242,9 @@ public class CellRangeProcessor {
 			}
 		}
 
-		if (succ)
+		if (succ) {
 			app.storeUndoInfo();
+		}
 	}
 
 	private void shiftRowsUp(int startRow, int shiftAmount) {
@@ -1233,8 +1256,9 @@ public class CellRangeProcessor {
 		for (int row = startRow; row <= maxRow; ++row) {
 			for (int column = 0; column <= maxColumn; ++column) {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
-				if (geo == null)
+				if (geo == null) {
 					continue;
+				}
 				String newLabel = GeoElementSpreadsheet
 						.getSpreadsheetCellName(column, row - shiftAmount);
 				geo.setLabel(newLabel);

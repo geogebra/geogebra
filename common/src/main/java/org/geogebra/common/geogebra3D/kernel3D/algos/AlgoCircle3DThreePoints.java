@@ -77,8 +77,9 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 		coordSys = new CoordSys(2);
 
 		points2D = new GeoPoint[3];
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			points2D[i] = new GeoPoint(getConstruction());
+		}
 
 		super.setPoints(points2D[0], points2D[1], points2D[2]);
 
@@ -103,8 +104,9 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 	@Override
 	protected void setInput() {
 		input = new GeoElement[3];
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			input[i] = (GeoElement) points[i];
+		}
 
 	}
 
@@ -119,8 +121,9 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 	public void compute() {
 
 		coordSys.resetCoordSys();
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			coordSys.addPoint(points[i].getInhomCoordsInD3());
+		}
 
 		/*
 		 * if (!coordSys.makeOrthoMatrix(false,false)){ circle.setUndefined();

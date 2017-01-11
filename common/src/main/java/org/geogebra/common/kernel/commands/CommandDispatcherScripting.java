@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.scripting.CmdZoomOut;
  *
  */
 public class CommandDispatcherScripting implements CommandDispatcherInterface {
+	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		// scripting

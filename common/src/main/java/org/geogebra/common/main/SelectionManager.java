@@ -128,8 +128,9 @@ public class SelectionManager {
 			}
 		}
 		kernel.notifyRepaint();
-		if (updateSelection)
+		if (updateSelection) {
 			updateSelection();
+		}
 	}
 
 	/**
@@ -168,8 +169,9 @@ public class SelectionManager {
 
 			}
 			selectedGeos.clear();
-			if (repaint)
+			if (repaint) {
 				kernel.notifyRepaint();
+			}
 
 			if (updateSelection) {
 				updateSelection();
@@ -200,8 +202,9 @@ public class SelectionManager {
 		if (selectedGeos.remove(geo)) {
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
-			if (updateSelection)
+			if (updateSelection) {
 				updateSelection();
+			}
 			if (repaint) {
 				kernel.notifyRepaint();
 			}
@@ -241,8 +244,9 @@ public class SelectionManager {
 			kernel.notifyRepaint();
 		}
 
-		if (updateSelection)
+		if (updateSelection) {
 			updateSelection();
+		}
 
 		// notify all registered selection listeners
 		for (GeoElementSelectionListener sl : getSelectionListeners()) {
@@ -287,14 +291,18 @@ public class SelectionManager {
 	 */
 	public int getSelectedLayer() {
 		if (getSelectedGeos().size() == 0)
+		 {
 			return -1; // return -1 if nothing selected
+		}
 
 		int layer = getSelectedGeos().get(0).getLayer();
 
 		for (int i = 1; i < getSelectedGeos().size(); i++) {
 			GeoElement geo = getSelectedGeos().get(i);
 			if (geo.getLayer() != layer)
+			 {
 				return -2; // return -2 if more than one layer selected
+			}
 		}
 		return layer;
 	}
@@ -518,8 +526,9 @@ public class SelectionManager {
 	 */
 	final public GeoElement setFirstGeoSelectedForPropertiesView() {
 		GeoElement geo = kernel.getFirstGeo();
-		if (geo == null)
+		if (geo == null) {
 			return null;
+		}
 
 		clearSelectedGeos(false);
 		selectedGeos.add(geo);
@@ -1038,8 +1047,9 @@ public class SelectionManager {
 	 */
 	public void storeSelectedGeosNames() {
 		selectedGeosNames.clear();
-		for (GeoElement geo : getSelectedGeos())
+		for (GeoElement geo : getSelectedGeos()) {
 			selectedGeosNames.add(geo.getLabelSimple());
+		}
 	}
 
 	/**
@@ -1049,8 +1059,9 @@ public class SelectionManager {
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 		for (String name : selectedGeosNames) {
 			GeoElement geo = kernel.lookupLabel(name);
-			if (geo != null)
+			if (geo != null) {
 				list.add(geo);
+			}
 		}
 		setSelectedGeos(list);
 	}

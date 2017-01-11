@@ -99,6 +99,7 @@ import org.geogebra.common.main.Feature;
  *
  */
 public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
+	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		// advanced

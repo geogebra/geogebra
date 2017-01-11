@@ -27,8 +27,9 @@ public class TextFieldSizeModel extends OptionsModel {
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			temp = getTextFieldAt(i);
-			if (geo0.getLength() != temp.getLength())
+			if (geo0.getLength() != temp.getLength()) {
 				equalSize = false;
+			}
 		}
 
 		if (equalSize) {

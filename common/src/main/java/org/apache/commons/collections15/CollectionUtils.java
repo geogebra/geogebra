@@ -755,6 +755,7 @@ public class CollectionUtils {
 	 * @throws NullPointerException
 	 *             if the collection or iterator is null
 	 */
+	@Deprecated
 	public static <E> void addAll(Collection<E> collection,
 			Iterator<? extends E> iterator) {
 		while (iterator.hasNext()) {
@@ -775,6 +776,7 @@ public class CollectionUtils {
 	 * @throws NullPointerException
 	 *             if the collection or enumeration is null
 	 */
+	@Deprecated
 	public static <E> void addAll(Collection<E> collection,
 			Enumeration<? extends E> enumeration) {
 		while (enumeration.hasMoreElements()) {
@@ -825,6 +827,7 @@ public class CollectionUtils {
 	 * @deprecated use {@link #get(Object, int)} instead. Will be removed in
 	 *             v4.0
 	 */
+	@Deprecated
 	public static Object index(Object obj, int idx) {
 		return index(obj, Integer.valueOf(idx));
 	}
@@ -857,6 +860,7 @@ public class CollectionUtils {
 	 * @deprecated use {@link #get(Object, int)} instead. Will be removed in
 	 *             v4.0
 	 */
+	@Deprecated
 	public static Object index(Object obj, Object index) {
 		if (obj instanceof Map) {
 			Map map = (Map) obj;

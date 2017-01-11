@@ -90,11 +90,11 @@ public class AlgoFirstString extends AlgoElement {
 			return;
 		}
 
-		if (outsize == 0)
+		if (outsize == 0) {
 			outputText.setTextString(""); // return empty string
-
-		else
+		} else {
 			outputText.setTextString(str.substring(0, outsize));
+		}
 	}
 
 }

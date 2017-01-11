@@ -340,10 +340,12 @@ public class DrawBarGraph extends Drawable {
 	public void update() {
 
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+		}
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
 			init();
+		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(sum);
 

@@ -53,11 +53,13 @@ public class FractionField implements Field<Fraction>, Serializable {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Fraction getOne() {
 		return Fraction.ONE;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Fraction getZero() {
 		return Fraction.ZERO;
 	}

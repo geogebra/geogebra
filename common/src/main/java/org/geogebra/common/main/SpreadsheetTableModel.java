@@ -157,6 +157,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	// VIEW implementation
 	// ====================================
 
+	@Override
 	public void add(GeoElement geo) {
 		update(geo);
 		addToCellRangeAlgos(geo);
@@ -167,6 +168,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		addToCellRangeAlgos(geo);
 	}
 
+	@Override
 	public void remove(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null) {
@@ -175,6 +177,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		}
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 		GPoint location = geo.getOldSpreadsheetCoords();
 		if (location != null) {
@@ -189,6 +192,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		updateHighestUsedColAndRow(col, row);
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 		if (geo.isEmptySpreadsheetCell() && geo.isDefined()) {
 			geo.setEmptySpreadsheetCell(false);
@@ -242,10 +246,12 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	}
 
+	@Override
 	public void updateLocation(GeoElement geo) {
 		updateWithoutTrace(geo);
 	}
 
+	@Override
 	public void clearView() {
 
 		for (int c = 0; c < getColumnCount(); ++c) {
@@ -258,30 +264,37 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		cellRangeManager.removeAll();
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		updateWithoutTrace(geo);
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// not used
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// ignore
 	}
 
+	@Override
 	public void repaintView() {
 		// ignore
 	}
 
+	@Override
 	public void reset() {
 		// ignore
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		// ignore
 	}
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_TABLE_MODEL;
 	}

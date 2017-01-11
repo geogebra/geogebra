@@ -92,10 +92,11 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 			pointOnFunction = algoPoint.getPath() == f;
 		}
 
-		if (pointOnFunction)
+		if (pointOnFunction) {
 			T = (GeoPoint) P;
-		else
+		} else {
 			T = new GeoPoint(cons);
+		}
 		tangent.setStartPoint(T);
 
 		if (f.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
@@ -180,9 +181,11 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 		return T;
 	}
 
+	@Override
 	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
-		if (geo != f)
+		if (geo != f) {
 			return null;
+		}
 		if (line != tangent) {
 			return null;
 		}

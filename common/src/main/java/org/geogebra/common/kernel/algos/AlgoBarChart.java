@@ -355,10 +355,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this.p2 = p2;
 		this.p3 = p3;
 		p1geo = p1.toGeoElement();
-		if (p2 != null)
+		if (p2 != null) {
 			p2geo = p2.toGeoElement();
-		if (p3 != null)
+		}
+		if (p3 != null) {
 			p3geo = p3.toGeoElement();
+		}
 		this.isCumulative = isCumulative;
 
 		sum = new GeoNumeric(cons) {
@@ -404,10 +406,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		this.p2 = p2;
 		this.p3 = p3;
 		p1geo = p1.toGeoElement();
-		if (p2 != null)
+		if (p2 != null) {
 			p2geo = p2.toGeoElement();
-		if (p3 != null)
+		}
+		if (p3 != null) {
 			p3geo = p3.toGeoElement();
+		}
 		this.isCumulative = isCumulative;
 		this.a = a;
 		this.b = b;
@@ -559,12 +563,15 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		case TYPE_BARCHART_ZIPF:
 			ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
 			inputList.add(p1geo);
-			if (p2geo != null)
+			if (p2geo != null) {
 				inputList.add(p2geo);
-			if (p3geo != null)
+			}
+			if (p3geo != null) {
 				inputList.add(p3geo);
-			if (isCumulative != null)
+			}
+			if (isCumulative != null) {
 				inputList.add(isCumulative);
+			}
 
 			input = new GeoElement[inputList.size()];
 			input = inputList.toArray(input);
@@ -741,8 +748,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (type == TYPE_STICKGRAPH) {
 			return DrawBarGraph.POINT_LEFT;
 		}
-		if (pointType == null)
+		if (pointType == null) {
 			return DrawBarGraph.POINT_NONE;
+		}
 
 		int p = (int) ((GeoNumeric) pointType).getDouble();
 		if (p < -2 || p > 2) {
@@ -856,10 +864,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			leftBorder[i] = ad + i * barWidth;
 
 			geo = list1.get(i);
-			if (geo.isGeoNumeric())
+			if (geo.isGeoNumeric()) {
 				yval[i] = ((GeoNumeric) geo).getDouble();
-			else
+			} else {
 				yval[i] = 0;
+			}
 
 			value[i] = kernel.format(ad + i * barWidth / 2,
 					StringTemplate.defaultTemplate);
@@ -1071,8 +1080,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				// do nothing
 				break;
 			case TYPE_BARCHART_BINOMIAL:
-				if (!(p1geo.isDefined() && p2geo.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
+				}
 				int n = (int) Math.round(p1.getDouble());
 				double p = p2.getDouble();
 				dist = new BinomialDistributionImpl(n, p);
@@ -1081,8 +1091,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				break;
 
 			case TYPE_BARCHART_PASCAL:
-				if (!(p1geo.isDefined() && p2geo.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
+				}
 				n = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
 				dist = new PascalDistributionImpl(n, p);
@@ -1091,8 +1102,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				last = (int) Math.max(1, (kernel).getXmax() + 1);
 				break;
 			case TYPE_BARCHART_ZIPF:
-				if (!(p1geo.isDefined() && p2geo.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
+				}
 				n = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
 				dist = new ZipfDistributionImpl(n, p);
@@ -1101,8 +1113,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				last = n;
 				break;
 			case TYPE_BARCHART_POISSON:
-				if (!p1geo.isDefined())
+				if (!p1geo.isDefined()) {
 					return false;
+				}
 				double lambda = p1.getDouble();
 				dist = new PoissonDistributionImpl(lambda);
 				first = 0;
@@ -1111,8 +1124,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 			case TYPE_BARCHART_HYPERGEOMETRIC:
 				if (!(p1geo.isDefined() && p2geo.isDefined()
-						&& p3geo.isDefined()))
+						&& p3geo.isDefined())) {
 					return false;
+				}
 				int pop = (int) p1.getDouble();
 				int successes = (int) p2.getDouble();
 				int sample = (int) p3.getDouble();
@@ -1161,10 +1175,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			prob = dist.probability(i);
 			cumProb += prob;
 			if (isCumulative != null
-					&& ((GeoBoolean) isCumulative).getBoolean())
+					&& ((GeoBoolean) isCumulative).getBoolean()) {
 				list2.addNumber(cumProb, this);
-			else
+			} else {
 				list2.addNumber(prob, this);
+			}
 		}
 		cons.setSuppressLabelCreation(oldSuppress);
 	}
@@ -1173,6 +1188,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	// Copy
 	// ======================================================
 
+	@Override
 	public DrawInformationAlgo copy() {
 		int N = this.getIntervals();
 		switch (this.getType()) {

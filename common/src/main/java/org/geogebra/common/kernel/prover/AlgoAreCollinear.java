@@ -91,10 +91,12 @@ public class AlgoAreCollinear extends AlgoElement
 				GeoPoint.collinearND(inputPoint1, inputPoint2, inputPoint3));
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (getInputPoint1() != null && getInputPoint2() != null
@@ -107,6 +109,7 @@ public class AlgoAreCollinear extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
@@ -125,6 +128,7 @@ public class AlgoAreCollinear extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -149,6 +153,7 @@ public class AlgoAreCollinear extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -176,6 +181,7 @@ public class AlgoAreCollinear extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

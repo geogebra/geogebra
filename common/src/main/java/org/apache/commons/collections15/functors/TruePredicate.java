@@ -61,6 +61,7 @@ public final class TruePredicate<T> implements Predicate<T> {
 	 *            the input object
 	 * @return true always
 	 */
+	@Override
 	public boolean evaluate(T object) {
 		return true;
 	}

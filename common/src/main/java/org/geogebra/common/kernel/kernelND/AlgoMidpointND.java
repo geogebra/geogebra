@@ -113,12 +113,13 @@ public abstract class AlgoMidpointND extends AlgoElement {
 		if (!pInf && !qInf) {
 			// M = (P + Q) / 2
 			computeMidCoords();
-		} else if (pInf && qInf)
+		} else if (pInf && qInf) {
 			M.setUndefined();
-		else if (pInf)
+		} else if (pInf) {
 			copyCoords(P);
-		else // qInf
+		} else {
 			copyCoords(Q);
+		}
 	}
 
 	/**

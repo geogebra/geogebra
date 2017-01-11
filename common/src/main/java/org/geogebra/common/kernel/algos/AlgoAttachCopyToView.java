@@ -184,8 +184,9 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			return;
 		}
 
-		if (view == 0)
+		if (view == 0) {
 			return;
+		}
 
 		Coords c1 = corner1.getCoordsInD3();
 		Coords c3 = corner3.getCoordsInD3();

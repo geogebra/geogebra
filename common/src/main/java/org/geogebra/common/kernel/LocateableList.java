@@ -39,8 +39,9 @@ public class LocateableList extends ArrayList<Locateable> {
 	 *            locateable
 	 */
 	public void registerLocateable(Locateable l) {
-		if (contains(l))
+		if (contains(l)) {
 			return;
+		}
 
 		// add only locateables that are not already
 		// part of the updateSet of this point

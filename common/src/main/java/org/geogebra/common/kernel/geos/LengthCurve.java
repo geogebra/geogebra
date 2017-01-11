@@ -20,6 +20,7 @@ public class LengthCurve implements RealRootFunction {
 		this.c1 = c1;
 	}
 
+	@Override
 	public double evaluate(double t) {
 
 		c1.evaluateCurve(t, f1eval);

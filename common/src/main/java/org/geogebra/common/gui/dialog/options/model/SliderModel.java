@@ -27,6 +27,7 @@ public class SliderModel extends OptionsModel {
 
 		void setSliderDirection(int i);
 
+		@Override
 		Object updatePanel(Object[] geos2);
 
 	}
@@ -79,26 +80,34 @@ public class SliderModel extends OptionsModel {
 			if (num0.getIntervalMinObject() == null
 					|| temp.getIntervalMinObject() == null
 					|| !Kernel.isEqual(num0.getIntervalMin(),
-							temp.getIntervalMin()))
+							temp.getIntervalMin())) {
 				equalMin = false;
+			}
 			if (num0.getIntervalMaxObject() == null
 					|| temp.getIntervalMaxObject() == null
 					|| !Kernel.isEqual(num0.getIntervalMax(),
-							temp.getIntervalMax()))
+							temp.getIntervalMax())) {
 				equalMax = false;
-			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth()))
+			}
+			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
 				equalWidth = false;
-			if (num0.isSliderFixed() != temp.isSliderFixed())
+			}
+			if (num0.isSliderFixed() != temp.isSliderFixed()) {
 				equalSliderFixed = false;
-			if (num0.isRandom() != temp.isRandom())
+			}
+			if (num0.isRandom() != temp.isRandom()) {
 				random = false;
-			if (num0.isSliderHorizontal() != temp.isSliderHorizontal())
+			}
+			if (num0.isSliderHorizontal() != temp.isSliderHorizontal()) {
 				equalSliderHorizontal = false;
-			if (num0.isPinned() != temp.isPinned())
+			}
+			if (num0.isPinned() != temp.isPinned()) {
 				equalPinned = false;
+			}
 
-			if (!(temp instanceof GeoAngle))
+			if (!(temp instanceof GeoAngle)) {
 				onlyAngles = false;
+			}
 		}
 
 		StringTemplate highPrecision = StringTemplate.printDecimals(
@@ -110,9 +119,10 @@ public class SliderModel extends OptionsModel {
 				listener.setMinText(kernel
 						.formatAngle(num0.getIntervalMin(), highPrecision, true)
 						.toString());
-			} else
+			} else {
 				listener.setMinText(
 						num0.getIntervalMinObject().getLabel(highPrecision));
+			}
 		} else {
 			listener.setMinText("");
 		}
@@ -120,13 +130,14 @@ public class SliderModel extends OptionsModel {
 		if (equalMax) {
 			GeoElement max0 = GeoElement.as(num0.getIntervalMaxObject());
 			if (onlyAngles && (max0 == null
-					|| (!max0.isLabelSet() && max0.isIndependent())))
+					|| (!max0.isLabelSet() && max0.isIndependent()))) {
 				listener.setMaxText(kernel
 						.formatAngle(num0.getIntervalMax(), highPrecision, true)
 						.toString());
-			else
+			} else {
 				listener.setMaxText(
 						num0.getIntervalMaxObject().getLabel(highPrecision));
+			}
 		} else {
 			listener.setMaxText("");
 		}
@@ -135,8 +146,9 @@ public class SliderModel extends OptionsModel {
 		if (equalWidth && equalPinned) {
 			listener.setWidthText(
 					kernel.format(num0.getSliderWidth(), highPrecision));
-			if (num0.isPinned())
+			if (num0.isPinned()) {
 				widthUnit = true;
+			}
 		} else {
 			listener.setMaxText("");
 		}
@@ -198,12 +210,13 @@ public class SliderModel extends OptionsModel {
 			GeoNumeric num = getNumericAt(i);
 			boolean dependsOnListener = false;
 			GeoElement geoValue = value.toGeoElement(num.getConstruction());
-			if (num.getMinMaxListeners() != null)
+			if (num.getMinMaxListeners() != null) {
 				for (GeoNumeric numListener : num.getMinMaxListeners()) {
 					if (geoValue.isChildOrEqual(numListener)) {
 						dependsOnListener = true;
 					}
 				}
+			}
 
 			if (dependsOnListener || geoValue.isChildOrEqual(num)) {
 				app.showError(

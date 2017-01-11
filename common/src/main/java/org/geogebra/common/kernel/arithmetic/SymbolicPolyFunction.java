@@ -82,7 +82,9 @@ public class SymbolicPolyFunction extends PolyFunction {
 						.evaluate(StringTemplate.defaultTemplate);
 				coeff = ((NumberValue) eval).getDouble();
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff))
+				 {
 					return false; // no valid values
+				}
 				coeffs[i] = coeff; // set polynomial coefficient
 			}
 			return true;

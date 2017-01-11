@@ -41,6 +41,7 @@ public class DelegateToEdgeTransformer<V, E>
 	/**
 	 * @see Transformer#transform(Object)
 	 */
+	@Override
 	public Number transform(VEPair<V, E> arg0) {
 		return delegate.transform(arg0.getE());
 	}

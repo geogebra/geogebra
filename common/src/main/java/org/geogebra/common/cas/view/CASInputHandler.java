@@ -56,8 +56,9 @@ public class CASInputHandler {
 	public void processCurrentRow(String command) {
 		String ggbcmd = command;
 		int selRow = consoleTable.getSelectedRow();
-		if (selRow < 0)
+		if (selRow < 0) {
 			return;
+		}
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		// Text cells do not need the processing below
 		if (cellValue.isUseAsText()) {
@@ -114,9 +115,10 @@ public class CASInputHandler {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
 				GeoCasCell cell = consoleTable
 						.getGeoCasCell(consoleTable.getSelectedRow());
-				if (cell.getInputVE() != null)
+				if (cell.getInputVE() != null) {
 					selRowInput = cell.getInputVE()
 							.toString(StringTemplate.numericDefault);
+				}
 			}
 			// process empty row
 			if (selRowInput.length() == 0) {
@@ -542,13 +544,16 @@ public class CASInputHandler {
 	 * @return whether it is meaningful to consider this as a selection
 	 */
 	private static boolean meaningfulSelection(String text) {
-		if (text == null)
+		if (text == null) {
 			return false;
+		}
 		String trimmed = text.trim();
-		if (trimmed.length() == 0)
+		if (trimmed.length() == 0) {
 			return false;
-		if (trimmed.length() == 1 && "]})".indexOf(trimmed) > -1)
+		}
+		if (trimmed.length() == 1 && "]})".indexOf(trimmed) > -1) {
 			return false;
+		}
 		return true;
 	}
 
@@ -582,8 +587,9 @@ public class CASInputHandler {
 		// get current row and input text
 		consoleTable.stopEditing();
 		int selRow = consoleTable.getSelectedRow();
-		if (selRow < 0)
+		if (selRow < 0) {
 			selRow = consoleTable.getRowCount() - 1;
+		}
 
 		int currentRow = selRow;
 
@@ -593,8 +599,9 @@ public class CASInputHandler {
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<Integer>();
 		for (int i = 0; i < selectedIndices.length; i++) {
-			if (!casView.isRowEmpty(selectedIndices[i]))
+			if (!casView.isRowEmpty(selectedIndices[i])) {
 				l.add(selectedIndices[i]);
+			}
 		}
 		selectedIndices = new int[l.size()];
 		for (int i = 0; i < l.size(); i++) {
@@ -714,9 +721,9 @@ public class CASInputHandler {
 				cellText = selCellValue.getInputVE().toString(tpl);
 				cellText = resolveCASrowReferences(cellText, selectedIndices[i],
 						GeoCasCell.ROW_REFERENCE_STATIC, false);
-				if (!inTheSelectedRow)
+				if (!inTheSelectedRow) {
 					references[i] = "$" + (selectedIndices[i] + 1);
-				else {
+				} else {
 					assert (false) : "this should not be possible";
 					references[counter] = cellText;
 				}
@@ -737,8 +744,9 @@ public class CASInputHandler {
 			cellText.append(",{");
 			boolean first = true;
 			for (int i = 0; i < vars.size(); i++) {
-				if (!first)
+				if (!first) {
 					cellText.append(",");
+				}
 				if (vars.get(i) instanceof GeoDummyVariable) {
 					first = false;
 					cellText.append(

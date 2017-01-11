@@ -42,8 +42,9 @@ public class CmdNormalize extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!(arg[0] instanceof VectorValue))
+			} else if (!(arg[0] instanceof VectorValue)) {
 				throw argErr(app, c, arg[0]);
+			}
 
 		default:
 

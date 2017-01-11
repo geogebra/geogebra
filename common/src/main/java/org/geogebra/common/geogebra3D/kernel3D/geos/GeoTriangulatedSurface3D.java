@@ -373,6 +373,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		}
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.EQUATION;
 	}

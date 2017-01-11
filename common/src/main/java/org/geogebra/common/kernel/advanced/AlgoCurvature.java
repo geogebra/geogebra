@@ -67,16 +67,18 @@ public class AlgoCurvature extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (f.isDefined() && Kernel.isZero(A.getInhomZ()))
+		if (f.isDefined() && Kernel.isZero(A.getInhomZ())) {
 			K.setValue(f.evaluateCurvature(A.getInhomX()));
-		else
+		} else {
 			K.setUndefined();
+		}
 	}
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 	}
 

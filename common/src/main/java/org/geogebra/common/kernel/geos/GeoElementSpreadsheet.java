@@ -61,8 +61,9 @@ public class GeoElementSpreadsheet {
 	 */
 	public static String getSpreadsheetColumnName(String label) {
 		MatchResult matcher = spreadsheetPattern.exec(label);
-		if (matcher == null)
+		if (matcher == null) {
 			return null;
+		}
 		return matcher.getGroup(MATCH_COLUMN);
 	}
 
@@ -127,8 +128,9 @@ public class GeoElementSpreadsheet {
 	 * @author Michael Borcherds
 	 */
 	public static boolean isSpreadsheetLabel(String str) {
-		if (str == null)
+		if (str == null) {
 			return false;
+		}
 
 		MatchResult matcher = spreadsheetPattern.exec(str);
 		if (matcher == null) {
@@ -152,8 +154,9 @@ public class GeoElementSpreadsheet {
 	public static int getSpreadsheetColumn(MatchResult matcher) {
 		// if (!matcher.matches())
 		// return -1;
-		if (matcher == null)
+		if (matcher == null) {
 			return -1;
+		}
 
 		String s = matcher.getGroup(MATCH_COLUMN);
 		int column = 0;
@@ -181,8 +184,9 @@ public class GeoElementSpreadsheet {
 	 * @return row number
 	 */
 	public static int getSpreadsheetRow(MatchResult matcher) {
-		if (matcher == null)
+		if (matcher == null) {
 			return -1;
+		}
 		int ret = -1;
 		try {
 			String s = matcher.getGroup(MATCH_ROW);
@@ -238,10 +242,11 @@ public class GeoElementSpreadsheet {
 			GeoElement cellGeo) {
 		String cellName = getSpreadsheetCellName(col, row);
 
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		sb.append(cellName);
 		if (cellGeo instanceof FunctionalNVar) {
@@ -258,10 +263,11 @@ public class GeoElementSpreadsheet {
 
 		// need an = for B3=B4
 		// need a : for B2:x^2 + y^2 = 2
-		if (label.indexOf('=') == -1)
+		if (label.indexOf('=') == -1) {
 			sb.append('=');
-		else
+		} else {
 			sb.append(':');
+		}
 
 		sb.append(label);
 
@@ -306,8 +312,9 @@ public class GeoElementSpreadsheet {
 
 			// try to get neighbouring cell for object type look above
 			GeoElement neighbourCell = cons.geoTableVarLookup(col + (row - 1));
-			if (neighbourCell == null) // look below
+			if (neighbourCell == null) {
 				neighbourCell = cons.geoTableVarLookup(col + (row + 1));
+			}
 
 			String label1 = col + row;
 			return cons.createSpreadsheetGeoElement(neighbourCell, label1);

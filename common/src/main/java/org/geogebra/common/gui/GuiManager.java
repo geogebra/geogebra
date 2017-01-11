@@ -92,19 +92,23 @@ public abstract class GuiManager implements GuiManagerInterface {
 		this.kernel = app.getKernel();
 	}
 
+	@Override
 	public void updateMenubar() {
 	} // temporarily nothing
 
+	@Override
 	public boolean hasAlgebraView() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean isUsingConstructionProtocol() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void getExtraViewsXML(StringBuilder sb) {
 		if (isUsingConstructionProtocol()) {
 			getConsProtocolXML(sb);
@@ -115,6 +119,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	@Override
 	public final void getConsProtocolXML(StringBuilder sb) {
 		if (this.isUsingConstructionProtocol()) {
 			getConstructionProtocolView().getXML(sb);
@@ -143,35 +148,43 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	}
 
+	@Override
 	public boolean hasProbabilityCalculator() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void getProbabilityCalculatorXML(StringBuilder sb) {
-		if (probCalculator != null)
+		if (probCalculator != null) {
 			probCalculator.getXML(sb);
+		}
 	}
 
+	@Override
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updateActions() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updateConstructionProtocol() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean loadURL(String urlString) {
 		return loadURL(urlString, true);
 	}
 
+	@Override
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
 		String processedUrlString = urlString.trim();
 
@@ -307,6 +320,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * 
 	 * @param viewId
 	 */
+	@Override
 	public void attachView(int viewId) {
 		switch (viewId) {
 		case App.VIEW_ALGEBRA:
@@ -343,6 +357,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	@Override
 	public void showAxesCmd() {
 		// get ev with focus
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
@@ -360,14 +375,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
 			app.getSettings().getEuclidian(3).setShowAxes(!bothAxesShown);
 
-		} else
+		} else {
 			ev.setShowAxes(!bothAxesShown, true);
+		}
 
 		ev.repaint();
 		app.storeUndoInfo();
 		app.updateMenubar();
 	}
 
+	@Override
 	public void showGridCmd() {
 		// get ev with focus
 		EuclidianView ev = getActiveEuclidianView();
@@ -381,14 +398,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
 			app.getSettings().getEuclidian(3).showGrid(!ev.getShowGrid());
 
-		} else
+		} else {
 			ev.showGrid(!ev.getShowGrid());
+		}
 
 		ev.repaint();
 		app.storeUndoInfo();
 		app.updateMenubar();
 	}
 
+	@Override
 	public void doAfterRedefine(GeoElementND geo) {
 
 		// G.Sturr 2010-6-28
@@ -408,6 +427,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * 
 	 * @param viewId
 	 */
+	@Override
 	public void detachView(int viewId) {
 		switch (viewId) {
 		case App.VIEW_ALGEBRA:
@@ -444,34 +464,40 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	@Override
 	public void openCommandHelp(String command) {
 		String internalCmd = null;
-		if (command != null)
+		if (command != null) {
 			try { // convert eg uppersum to UpperSum
 				internalCmd = getApp().getReverseCommand(command);
 			} catch (Exception e) {
 				Log.warn("Command not found in dictionary:" + command);
 			}
+		}
 
 		openHelp(internalCmd, Help.COMMAND);
 	}
 
 	protected abstract void openHelp(String internalCmd, Help command);
 
+	@Override
 	public void openHelp(String page) {
 		openHelp(page, Help.GENERIC);
 	}
 
+	@Override
 	public void setShowConstructionProtocolNavigation(boolean show, int id) {
 		getConstructionProtocolNavigation(id).setVisible(show);
 
 		if (show) {
-			if (getApp().getActiveEuclidianView() != null)
+			if (getApp().getActiveEuclidianView() != null) {
 				getApp().getActiveEuclidianView().resetMode();
+			}
 			getConstructionProtocolView();
 		}
 	}
 
+	@Override
 	public void setShowConstructionProtocolNavigation(boolean show, int id,
 			boolean playButton, double playDelay, boolean showProtButton) {
 		setShowConstructionProtocolNavigation(show, id);
@@ -484,6 +510,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
 
+	@Override
 	public void updateNavBars() {
 		if (constProtocolNavigationMap != null) {
 			Iterator<ConstructionProtocolNavigation> it = constProtocolNavigationMap
@@ -504,6 +531,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 *            view id
 	 * @return construction protocol for the view id
 	 */
+	@Override
 	final public ConstructionProtocolNavigation getConstructionProtocolNavigation(
 			int id) {
 
@@ -521,6 +549,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return constProtocolNavigation;
 	}
 
+	@Override
 	final public Collection<ConstructionProtocolNavigation> getAllConstructionProtocolNavigations() {
 		if (constProtocolNavigationMap == null) {
 			return null;
@@ -529,6 +558,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return constProtocolNavigationMap.values();
 	}
 
+	@Override
 	final public void setNavBarButtonPause() {
 		if (constProtocolNavigationMap != null) {
 			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
@@ -538,6 +568,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	@Override
 	final public void setNavBarButtonPlay() {
 		if (constProtocolNavigationMap != null) {
 			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
@@ -559,6 +590,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * 
 	 * @return construction protocol for the view id
 	 */
+	@Override
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 		return getConstructionProtocolNavigation(App.VIEW_EUCLIDIAN);
 	}
@@ -567,6 +599,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * Returns the construction protocol navigation bar instance or null, if it
 	 * not exists.
 	 */
+	@Override
 	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists() {
 		if (constProtocolNavigationMap == null) {
 			return null;
@@ -574,9 +607,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return constProtocolNavigationMap.get(App.VIEW_EUCLIDIAN);
 	}
 
+	@Override
 	public abstract void updateCheckBoxesForShowConstructinProtocolNavigation(
 			int id);
 
+	@Override
 	public void applyCPsettings(ConstructionProtocolSettings cps) {
 		if (constProtocolNavigationMap == null) {
 			return;
@@ -591,6 +626,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	@Override
 	public void registerConstructionProtocolView(ConstructionProtocolView cpv) {
 		if (constProtocolNavigationMap == null) {
 			ConstructionProtocolNavigation cpn = getConstructionProtocolNavigation();
@@ -611,8 +647,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
 
 	protected HashMap<Integer, PlotPanelEuclidianViewInterface> getPlotPanelIDMap() {
-		if (plotPanelIDMap == null)
+		if (plotPanelIDMap == null) {
 			plotPanelIDMap = new HashMap<Integer, PlotPanelEuclidianViewInterface>();
+		}
 		return plotPanelIDMap;
 	}
 
@@ -631,6 +668,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return viewID;
 	}
 
+	@Override
 	public PlotPanelEuclidianViewInterface getPlotPanelView(int viewID) {
 		return getPlotPanelIDMap().get(viewID);
 	}
@@ -639,6 +677,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	protected ProbabilityCalculatorView probCalculator;
 	protected int caller_APP;
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 
 		setModeFinished = false;
@@ -646,8 +685,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// can't move this after otherwise Object Properties doesn't work
 		kernel.notifyModeChanged(mode, m);
 		// notifyModeChanged called another setMode => nothing to do here
-		if (setModeFinished)
+		if (setModeFinished) {
 			return;
+		}
 		// select toolbar button, returns *actual* mode selected - only for
 		// desktop
 		// if (caller_APP == DESKTOP) {
@@ -754,6 +794,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return urlSB.toString();
 	}
 
+	@Override
 	public void redo() {
 		app.setWaitCursor();
 		kernel.redo();
@@ -762,6 +803,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		app.setDefaultCursor();
 	}
 
+	@Override
 	public void undo() {
 		app.setWaitCursor();
 		kernel.undo();
@@ -770,10 +812,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		app.setDefaultCursor();
 	}
 
+	@Override
 	public abstract String getToolbarDefinition();
 
 	public abstract void setToolBarDefinition(String toolBarDefinition);
 
+	@Override
 	public void refreshCustomToolsInToolBar() {
 		String oldToolbar = getToolbarDefinition() == null
 				? ToolBar.getAllTools(app) : getToolbarDefinition();
@@ -849,10 +893,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 	}
 
+	@Override
 	public void replaceInputSelection(String string) {
 
 	}
 
+	@Override
 	public void setInputText(String string) {
 
 	}
@@ -871,7 +917,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	public void ensure2ndCornerOnScreen(double x1, GeoPoint point) {
 		double x2 = point.inhomX;
-		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		EuclidianView ev = app.getActiveEuclidianView();
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
 		if (x2 > xmax) {
 			point.setCoords((x1 + 9 * xmax) / 10, point.inhomY, 1);
@@ -881,7 +927,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	private void ensure1stCornerOnScreen(GeoPoint point) {
-		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		EuclidianView ev = app.getActiveEuclidianView();
 		double xmin = ev.toRealWorldCoordX(0.0);
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
 		double ymin = ev.toRealWorldCoordY(0.0);
@@ -897,6 +943,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param fileName
 	 *            The image file name.
 	 */
+	@Override
 	public void setImageCornersFromSelection(GeoImage geoImage) {
 
 		ArrayList<GeoPoint> corners = new ArrayList<GeoPoint>();

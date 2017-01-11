@@ -37,11 +37,13 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 
 		if (geo.isPointOnPath() || geo
 				.getDefaultGeoType() == ConstructionDefaults.DEFAULT_POINT_ON_PATH) {
-			if (!geo.isChangeable())
+			if (!geo.isChangeable()) {
 				return false;
+			}
 		} else if (geo.isGeoNumeric() && geo.isIndependent()) {
-			if (!isShowSliders() || !geo.isChangeable()) // slider
+			if (!isShowSliders() || !geo.isChangeable()) {
 				return false;
+			}
 		} else {
 			return false;
 		}
@@ -82,8 +84,9 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 			getListener().setText(speedObj == null
 					? num.getAnimationSpeedObject().getLabel(highPrecision)
 					: speedObj.getLabel(highPrecision));
-		} else
+		} else {
 			getListener().setText("");
+		}
 
 	}
 

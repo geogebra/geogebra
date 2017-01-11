@@ -75,10 +75,11 @@ public class AlgoColumnName extends AlgoElement {
 		String col = GeoElementSpreadsheet.getSpreadsheetColumnName(
 				geo.getLabel(StringTemplate.defaultTemplate));
 
-		if (col == null)
+		if (col == null) {
 			text.setUndefined();
-		else
+		} else {
 			text.setTextString(col);
+		}
 	}
 
 }

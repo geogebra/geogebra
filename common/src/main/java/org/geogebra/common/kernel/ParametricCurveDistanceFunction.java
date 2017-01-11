@@ -58,6 +58,7 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 	 * point and this curve at parameter position t, i.e. (funX(t) - Px)^2 +
 	 * (funY(t) - Py)^2.
 	 */
+	@Override
 	public double evaluate(double t) {
 
 		double dx = funX.evaluate(t) - px;

@@ -46,6 +46,7 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		}
 	}
 
+	@Override
 	public IComboListener getListener() {
 		return listener;
 	}

@@ -131,8 +131,9 @@ public class EuclidianControllerCompanion {
 				if (!((GeoLine) a).linDep((GeoLine) b)) {
 					point = ec.getAlgoDispatcher().IntersectLines(null,
 							(GeoLine) a, (GeoLine) b);
-				} else
+				} else {
 					return null;
+				}
 			} else if (b.isGeoConic()) {
 				point = ec.getAlgoDispatcher().IntersectLineConicSingle(null,
 						(GeoLine) a, (GeoConic) b, ec.xRW, ec.yRW);

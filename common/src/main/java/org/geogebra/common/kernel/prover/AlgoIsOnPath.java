@@ -95,6 +95,7 @@ public class AlgoIsOnPath extends AlgoElement
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

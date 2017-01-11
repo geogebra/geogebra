@@ -24,6 +24,7 @@ public class IndexHTMLBuilder {
 		sb.append("</font></sub>");
 	}
 
+	@Override
 	public String toString() {
 
 		if (needsTag) {

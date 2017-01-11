@@ -18,10 +18,12 @@ public class FunctionNvarFold implements FoldComputer {
 
 	private GeoFunctionNVar result;
 
+	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.result = new GeoFunctionNVar(cons);
 	}
 
+	@Override
 	public void add(GeoElement geoElement, Operation op) {
 		FunctionNVar fn = GeoFunction
 				.operationSymb(op, result, (FunctionalNVar) geoElement)
@@ -34,15 +36,18 @@ public class FunctionNvarFold implements FoldComputer {
 
 	}
 
+	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
 		this.result.set(geoElement);
 		this.result.setDefined(true);
 	}
 
+	@Override
 	public boolean check(GeoElement geoElement) {
 		return geoElement instanceof FunctionalNVar;
 	}
 
+	@Override
 	public void finish() {
 		this.result.setDefined(true);
 	}

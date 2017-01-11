@@ -149,10 +149,12 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				(GeoLine) tangents[1]);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

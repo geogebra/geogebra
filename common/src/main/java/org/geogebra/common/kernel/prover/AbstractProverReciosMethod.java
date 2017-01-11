@@ -54,13 +54,13 @@ public abstract class AbstractProverReciosMethod {
 		GeoElement statement = prover.getStatement();
 		Prover p;
 
-		if (statement instanceof SymbolicParametersAlgo)
+		if (statement instanceof SymbolicParametersAlgo) {
 			s = (((SymbolicParametersAlgo) statement).getSymbolicParameters());
-		else if (statement
-				.getParentAlgorithm() instanceof SymbolicParametersAlgo)
+		} else if (statement
+				.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
 			s = (((SymbolicParametersAlgo) statement.getParentAlgorithm())
 					.getSymbolicParameters());
-		else {
+		} else {
 			return ProofResult.UNKNOWN;
 		}
 		if (B) {
@@ -114,6 +114,7 @@ public abstract class AbstractProverReciosMethod {
 		HashMap<Variable, BigInteger> values = new HashMap<Variable, BigInteger>();
 		TreeSet<Variable> fixedVariables = new TreeSet<Variable>(
 				new Comparator<Variable>() {
+					@Override
 					public int compare(Variable v1, Variable v2) {
 						String nameV1, nameV2;
 						if (v1.getParent() == null
@@ -234,7 +235,7 @@ public abstract class AbstractProverReciosMethod {
 			if (solvable.boolVal()) {
 				return ProofResult.FALSE;
 			}
-		} else
+		} else {
 			try {
 				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 				for (BigInteger result : exactCoordinates) {
@@ -245,6 +246,7 @@ public abstract class AbstractProverReciosMethod {
 			} catch (NoSymbolicParametersException e) {
 				return ProofResult.UNKNOWN;
 			}
+		}
 		return ProofResult.TRUE;
 	}
 
@@ -272,7 +274,7 @@ public abstract class AbstractProverReciosMethod {
 				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
 				}
-			} else
+			} else {
 				try {
 					BigInteger[] exactCoordinates = s
 							.getExactCoordinates(values);
@@ -284,6 +286,7 @@ public abstract class AbstractProverReciosMethod {
 				} catch (NoSymbolicParametersException e) {
 					return ProofResult.UNKNOWN;
 				}
+			}
 		}
 		return ProofResult.TRUE;
 	}
@@ -326,7 +329,7 @@ public abstract class AbstractProverReciosMethod {
 					if (solvable.boolVal()) {
 						return ProofResult.FALSE;
 					}
-				} else
+				} else {
 					try {
 						BigInteger[] exactCoordinates = s
 								.getExactCoordinates(values);
@@ -338,6 +341,7 @@ public abstract class AbstractProverReciosMethod {
 					} catch (NoSymbolicParametersException e) {
 						return ProofResult.UNKNOWN;
 					}
+				}
 			}
 		}
 		return ProofResult.TRUE;

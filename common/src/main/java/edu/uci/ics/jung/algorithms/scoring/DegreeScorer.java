@@ -40,6 +40,7 @@ public class DegreeScorer<V> implements VertexScorer<V, Integer> {
 	 * 
 	 * @return the degree of the vertex
 	 */
+	@Override
 	public Integer getVertexScore(V v) {
 		return graph.degree(v);
 	}

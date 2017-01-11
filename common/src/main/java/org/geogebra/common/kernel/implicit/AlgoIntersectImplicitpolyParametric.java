@@ -229,15 +229,17 @@ public class AlgoIntersectImplicitpolyParametric
 
 	private void mergeWithTangentPoints() {
 
-		if (tangentPoints == null || tangentPoints.length == 0)
+		if (tangentPoints == null || tangentPoints.length == 0) {
 			return;
+		}
 
 		// assumption: tangent points are far apart from each other such that
 		// dist(tangent1,tangent2) > epsilon.
 		boolean addTangent[] = new boolean[tangentPoints.length];
 		int orgSize = points.size();
-		while (!points.getElement(orgSize - 1).isDefined())
+		while (!points.getElement(orgSize - 1).isDefined()) {
 			--orgSize;
+		}
 
 		int newSize = orgSize;
 		double EPS2 = Kernel.STANDARD_PRECISION; // TODO: have a better guess of
@@ -260,8 +262,9 @@ public class AlgoIntersectImplicitpolyParametric
 
 					}
 				}
-				if (addTangent[i])
+				if (addTangent[i]) {
 					++newSize;
+				}
 
 			} else {
 				addTangent[i] = false;
@@ -271,9 +274,10 @@ public class AlgoIntersectImplicitpolyParametric
 		int definedCount = 0;
 		for (int i = 0; i < orgSize; ++i) {
 			if (points.getElement(i).isDefined()) {
-				if (definedCount != i)
+				if (definedCount != i) {
 					points.getElement(definedCount)
 							.setCoords(points.getElement(i));
+				}
 				++definedCount;
 			}
 		}
@@ -286,8 +290,9 @@ public class AlgoIntersectImplicitpolyParametric
 			}
 		}
 
-		if (setLabels)
+		if (setLabels) {
 			points.updateLabels();
+		}
 
 	}
 

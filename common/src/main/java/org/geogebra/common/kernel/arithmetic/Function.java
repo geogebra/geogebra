@@ -167,6 +167,7 @@ public class Function extends FunctionNVar
 	 *            position
 	 * @return f(x)
 	 */
+	@Override
 	public double evaluate(double x) {
 		if (isBooleanFunction) {
 			// BooleanValue
@@ -371,8 +372,9 @@ public class Function extends FunctionNVar
 	final public LinkedList<PolyFunction> getSymbolicPolynomialDerivativeFactors(
 			int n, boolean rootFindingSimplification) {
 		Function deriv = getDerivative(n, false);
-		if (deriv == null)
+		if (deriv == null) {
 			return null;
+		}
 
 		// try to get symbolic polynomial factors
 		return deriv.getSymbolicPolynomialFactors(rootFindingSimplification,
@@ -449,10 +451,11 @@ public class Function extends FunctionNVar
 			// new expression
 			factorParentExp = expression;
 
-			if (symbolicPolyFactorList == null)
+			if (symbolicPolyFactorList == null) {
 				symbolicPolyFactorList = new LinkedList<PolyFunction>();
-			else
+			} else {
 				symbolicPolyFactorList.clear();
+			}
 			symbolicPolyFactorListDefined = addPolynomialFactors(expression,
 					symbolicPolyFactorList, true, rootFindingSimplification,
 					assumeFalseIfCASNeeded);
@@ -479,10 +482,11 @@ public class Function extends FunctionNVar
 	 */
 	private LinkedList<PolyFunction> getNumericPolynomialFactors(
 			boolean rootFindingSimplification, boolean avoidCAS) {
-		if (numericPolyFactorList == null)
+		if (numericPolyFactorList == null) {
 			numericPolyFactorList = new LinkedList<PolyFunction>();
-		else
+		} else {
 			numericPolyFactorList.clear();
+		}
 
 		boolean success = addPolynomialFactors(expression,
 				numericPolyFactorList, false, rootFindingSimplification,
@@ -523,13 +527,15 @@ public class Function extends FunctionNVar
 			// try some simplifications of factors for root finding
 			case POWER:
 			case DIVIDE:
-				if (!rootFindingSimplification)
+				if (!rootFindingSimplification) {
 					break;
+				}
 
 				// divide: x in denominator: no polynomial
 				// power: x in exponent: no polynomial
-				if (node.getRight().contains(fVars[0]))
+				if (node.getRight().contains(fVars[0])) {
 					return false;
+				}
 
 				// power:
 				// symbolic: non-zero constants in exponent may be omitted
@@ -543,16 +549,17 @@ public class Function extends FunctionNVar
 						return false;
 					}
 					if (node.getOperation().equals(Operation.POWER)) {
-						if (Kernel.isZero(rightVal))
+						if (Kernel.isZero(rightVal)) {
 							// left^0 = 1
 							return addPolynomialFactors(new MyDouble(kernel, 1),
 									l, symbolic, rootFindingSimplification,
 									assumeFalseIfCASNeeded);
-						else if (rightVal > 0)
+						} else if (rightVal > 0) {
 							// left ^ right = 0 <=> left = 0 for right > 0
 							return addPolynomialFactors(node.getLeft(), l,
 									symbolic, rootFindingSimplification,
 									assumeFalseIfCASNeeded);
+						}
 					} else { // division
 						if (Kernel.isZero(rightVal)) {
 							// left / 0 = undefined
@@ -569,8 +576,9 @@ public class Function extends FunctionNVar
 			case ABS:
 			case SGN:
 			case SQRT:
-				if (!rootFindingSimplification)
+				if (!rootFindingSimplification) {
 					break;
+				}
 
 				// these functions can be omitted as f(x) = 0 iff x = 0
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
@@ -588,7 +596,9 @@ public class Function extends FunctionNVar
 			PolyFunction factor = expandToPolyFunction(ev, symbolic,
 					assumeFalseIfCASNeeded);
 			if (factor == null)
+			 {
 				return false; // did not work
+			}
 			l.add(factor);
 		}
 		return true;
@@ -616,8 +626,9 @@ public class Function extends FunctionNVar
 		// TODO: make sure expandToPolyFunctionNoCas does not mess with ev
 		// instead of the next line
 		initFunction();
-		if (polyFunNoCas != null || assumeFalseIfCASNeeded)
+		if (polyFunNoCas != null || assumeFalseIfCASNeeded) {
 			return polyFunNoCas;
+		}
 		ExpressionNode node;
 		if (ev.isExpressionNode()) {
 			node = (ExpressionNode) ev;
@@ -641,9 +652,10 @@ public class Function extends FunctionNVar
 
 		String[] strCoeffs = kernel.getPolynomialCoeffs(function, var);
 
-		if (strCoeffs == null)
+		if (strCoeffs == null) {
 			// this is not a valid polynomial
 			return null;
+		}
 
 		// convert sring coefficients to coefficients of a SymbolicPolyFunction
 		// resp. PolyFunction
@@ -654,8 +666,9 @@ public class Function extends FunctionNVar
 			ExpressionNode[] symbCoeffs = symbPolyFun.getSymbolicCoeffs();
 			for (int i = 0; i < strCoeffs.length; i++) {
 				symbCoeffs[degree - i] = evaluateToExpressionNode(strCoeffs[i]);
-				if (symbCoeffs[degree - i] == null)
+				if (symbCoeffs[degree - i] == null) {
 					return null;
+				}
 				symbCoeffs[degree - i].simplifyConstantIntegers();
 			}
 			return symbPolyFun;
@@ -765,9 +778,11 @@ public class Function extends FunctionNVar
 	/**
 	 * Returns n-th derivative of this function wrapped as a GeoFunction object.
 	 */
+	@Override
 	public GeoFunction getGeoDerivative(int n, boolean fast) {
-		if (geoDeriv == null)
+		if (geoDeriv == null) {
 			geoDeriv = new GeoFunction(kernel.getConstruction());
+		}
 		Function deriv = getDerivative(n, fast);
 		geoDeriv.setFunction(deriv);
 		geoDeriv.setDefined(deriv != null);
@@ -864,11 +879,13 @@ public class Function extends FunctionNVar
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Derivative[");
-		if (!keepFractions)
+		if (!keepFractions) {
 			sb.append("Numeric[");
+		}
 		sb.append("%");
-		if (!keepFractions)
+		if (!keepFractions) {
 			sb.append("]");
+		}
 		sb.append(",");
 		sb.append(varStr);
 		sb.append(",");
@@ -886,8 +903,9 @@ public class Function extends FunctionNVar
 	 *            function y(t)
 	 */
 	public static Function getDerivativeQuotient(Function funX, Function funY) {
-		if (funX.fVars == null)
+		if (funX.fVars == null) {
 			return null;
+		}
 
 		// use fast non-CAS method
 		Function xDashed = funX.getDerivativeNoCAS(1);
@@ -1007,16 +1025,19 @@ public class Function extends FunctionNVar
 			this.realRootDerivative = derivative;
 		}
 
+		@Override
 		public double[] evaluateDerivFunc(double x) {
 			ret[0] = fun.evaluate(x);
 			ret[1] = realRootDerivative.evaluate(x);
 			return ret;
 		}
 
+		@Override
 		public double evaluate(double x) {
 			return fun.evaluate(x);
 		}
 
+		@Override
 		public double evaluateDerivative(double x) {
 			return realRootDerivative.evaluate(x);
 		}
@@ -1059,6 +1080,7 @@ public class Function extends FunctionNVar
 		return expression.includesNonContinuousIntegral();
 	}
 
+	@Override
 	public GeoFunction getGeoFunction() {
 		GeoFunction gf = new GeoFunction(kernel.getConstruction());
 		gf.setFunction(this);
@@ -1093,6 +1115,7 @@ public class Function extends FunctionNVar
 	/**
 	 * Evaluates polynomial and its derivative
 	 */
+	@Override
 	public double[] evaluateDerivFunc(double x) {
 
 		double[] ret = new double[2];
@@ -1113,6 +1136,7 @@ public class Function extends FunctionNVar
 
 	}
 
+	@Override
 	public double evaluateDerivative(double x) {
 
 		if (isBooleanFunction) {

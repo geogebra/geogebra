@@ -41,10 +41,12 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		if (functional instanceof GeoFunctionNVar)
+		if (functional instanceof GeoFunctionNVar) {
 			input = new GeoElement[] { (GeoFunctionNVar) functional };
-		if (functional instanceof GeoFunction)
+		}
+		if (functional instanceof GeoFunction) {
 			input = new GeoElement[] { (GeoFunction) functional };
+		}
 		setDependencies();
 
 	}

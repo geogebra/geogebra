@@ -103,6 +103,7 @@ public class Lattice2DGenerator<V, E> implements GraphGenerator<V, E> {
 	/**
 	 * @see edu.uci.ics.jung.algorithms.generators.GraphGenerator#create()
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public Graph<V, E> create() {
 		int vertex_count = row_count * col_count;
@@ -120,29 +121,37 @@ public class Lattice2DGenerator<V, E> implements GraphGenerator<V, E> {
 
 		// fill in edges
 		// down
-		for (int i = 0; i < end_row; i++)
-			for (int j = 0; j < col_count; j++)
+		for (int i = 0; i < end_row; i++) {
+			for (int j = 0; j < col_count; j++) {
 				graph.addEdge(edge_factory.create(), getVertex(i, j),
 						getVertex(i + 1, j));
+			}
+		}
 		// right
-		for (int i = 0; i < row_count; i++)
-			for (int j = 0; j < end_col; j++)
+		for (int i = 0; i < row_count; i++) {
+			for (int j = 0; j < end_col; j++) {
 				graph.addEdge(edge_factory.create(), getVertex(i, j),
 						getVertex(i, j + 1));
+			}
+		}
 
 		// if the graph is directed, fill in the edges going the other
 		// direction...
 		if (graph.getDefaultEdgeType() == EdgeType.DIRECTED) {
 			// up
-			for (int i = start; i < row_count; i++)
-				for (int j = 0; j < col_count; j++)
+			for (int i = start; i < row_count; i++) {
+				for (int j = 0; j < col_count; j++) {
 					graph.addEdge(edge_factory.create(), getVertex(i, j),
 							getVertex(i - 1, j));
+				}
+			}
 			// left
-			for (int i = 0; i < row_count; i++)
-				for (int j = start; j < col_count; j++)
+			for (int i = 0; i < row_count; i++) {
+				for (int j = start; j < col_count; j++) {
 					graph.addEdge(edge_factory.create(), getVertex(i, j),
 							getVertex(i, j - 1));
+				}
+			}
 		}
 
 		return graph;

@@ -208,8 +208,9 @@ public class AnimationManager implements GTimerListener {
 	 */
 	protected void sliderStep() {
 		// skip animation frames while kernel is saving XML
-		if (kernel.isSaving())
+		if (kernel.isSaving()) {
 			return;
+		}
 
 		kernel.notifyBatchUpdate();
 
@@ -225,8 +226,9 @@ public class AnimationManager implements GTimerListener {
 		for (int i = size - 1; i >= 0; i--) {
 			Animatable anim = (Animatable) animatedGeos.get(i);
 			GeoElementND changed = anim.doAnimationStep(frameRate, null);
-			if (changed != null)
+			if (changed != null) {
 				changedGeos.add(changed);
+			}
 		}
 		// do we need to update anything?
 		if (changedGeos.size() > 0) {
@@ -298,6 +300,7 @@ public class AnimationManager implements GTimerListener {
 
 	}
 
+	@Override
 	public void onRun() {
 		sliderStep();
 

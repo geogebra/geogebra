@@ -82,8 +82,9 @@ public class GeneralPathClipped implements GShape {
 	 * @return this as GeneralPath
 	 */
 	public GGeneralPath getGeneralPath() {
-		if (pathPoints.size() == 0)
+		if (pathPoints.size() == 0) {
 			return gp;
+		}
 
 		gp.reset();
 		if (largestCoord < MAX_COORD_VALUE) {
@@ -308,10 +309,12 @@ public class GeneralPathClipped implements GShape {
 			bounds.setBounds((int) p.getX(), (int) p.getY(), 0, 0);
 		}
 
-		if (Math.abs(p.getX()) > largestCoord)
+		if (Math.abs(p.getX()) > largestCoord) {
 			largestCoord = Math.abs(p.getX());
-		if (Math.abs(p.getY()) > largestCoord)
+		}
+		if (Math.abs(p.getY()) > largestCoord) {
 			largestCoord = Math.abs(p.getY());
+		}
 
 		bounds.add(p.getX(), p.getY());
 	}
@@ -354,10 +357,12 @@ public class GeneralPathClipped implements GShape {
 	 *            rectangle
 	 * @return true if contains given rectangle
 	 */
+	@Override
 	public boolean contains(GRectangle2D rect) {
 		return getGeneralPath().contains(rect);
 	}
 
+	@Override
 	public boolean contains(double arg0, double arg1) {
 		return getGeneralPath().contains(arg0, arg1);
 	}
@@ -378,6 +383,7 @@ public class GeneralPathClipped implements GShape {
 		return getGeneralPath().contains(arg0, arg1, arg2, arg3);
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		// TODO Auto-generated method stub
 		return getGeneralPath().contains(x, y);
@@ -393,11 +399,13 @@ public class GeneralPathClipped implements GShape {
 		return getGeneralPath().contains(rectangle);
 	}
 
+	@Override
 	public GRectangle getBounds() {
 		return bounds == null ? AwtFactory.getPrototype().newRectangle()
 				: bounds;
 	}
 
+	@Override
 	public GRectangle2D getBounds2D() {
 		return bounds == null ? AwtFactory.getPrototype().newRectangle()
 				: bounds;
@@ -410,19 +418,23 @@ public class GeneralPathClipped implements GShape {
 	 * (arg0); }
 	 */
 
+	@Override
 	public GPathIterator getPathIterator(GAffineTransform arg0) {
 		return getGeneralPath().getPathIterator(arg0);
 	}
 
+	@Override
 	public boolean intersects(GRectangle2D arg0) {
 		return getGeneralPath().intersects(arg0);
 	}
 
+	@Override
 	public boolean intersects(double arg0, double arg1, double arg2,
 			double arg3) {
 		return getGeneralPath().intersects(arg0, arg1, arg2, arg3);
 	}
 
+	@Override
 	public boolean intersects(int i, int j, int k, int l) {
 		return getGeneralPath().intersects(i, j, k, l);
 	}

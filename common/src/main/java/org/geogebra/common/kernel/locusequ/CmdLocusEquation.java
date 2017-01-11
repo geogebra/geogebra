@@ -88,8 +88,9 @@ public class CmdLocusEquation extends CommandProcessor {
 	final public GeoImplicit locusEquation(String label, GeoPoint locusPoint,
 			GeoPoint movingPoint) {
 		if (movingPoint.getPath() == null || locusPoint.getPath() != null
-				|| !movingPoint.isParentOf(locusPoint))
+				|| !movingPoint.isParentOf(locusPoint)) {
 			return null;
+		}
 		AlgoLocusEquation algo = new AlgoLocusEquation(cons, locusPoint,
 				movingPoint);
 		GeoImplicit poly = algo.getPoly();

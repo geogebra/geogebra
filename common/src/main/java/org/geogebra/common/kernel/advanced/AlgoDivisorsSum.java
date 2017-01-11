@@ -68,8 +68,9 @@ public class AlgoDivisorsSum extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		if (sum)
+		if (sum) {
 			return Commands.DivisorsSum;
+		}
 		return Commands.Divisors;
 	}
 

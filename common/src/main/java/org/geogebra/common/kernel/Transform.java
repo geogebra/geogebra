@@ -31,8 +31,9 @@ public abstract class Transform {
 	 */
 	public static String transformedGeoLabel(GeoElement geo) {
 		if (geo.isGeoFunction()) {
-			if (geo.isLabelSet() && !geo.hasIndexLabel())
+			if (geo.isLabelSet() && !geo.hasIndexLabel()) {
 				return geo.getFreeLabel(geo.getLabelSimple());
+			}
 			return null;
 		}
 
@@ -91,12 +92,14 @@ public abstract class Transform {
 		// for polygons we transform
 		if (geo instanceof GeoPoly && this.isAffine()) {
 			GeoPoly poly = (GeoPoly) geo;
-			if (poly.isVertexCountFixed() && poly.isAllVertexLabelsSet())
+			if (poly.isVertexCountFixed() && poly.isAllVertexLabelsSet()) {
 				return transformPoly(label, poly,
 						transformPoints(poly.getPointsND()));
+			}
 		}
-		if (label == null)
+		if (label == null) {
 			label = transformedGeoLabel(geo);
+		}
 
 		// handle segments, rays and arcs separately
 		// in case these are not e.g. parts of list

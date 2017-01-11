@@ -144,13 +144,15 @@ public abstract class PropertiesView implements View {
 				geos.add(geo);
 			} else {
 				// remember type
-				if (firstConstant == Construction.Constants.NOT)
+				if (firstConstant == Construction.Constants.NOT) {
 					firstConstant = constant;
+				}
 			}
 		}
 
-		if (firstConstant != Construction.Constants.NOT)
+		if (firstConstant != Construction.Constants.NOT) {
 			updateSelectedTab(firstConstant);
+		}
 
 		return geos;
 
@@ -351,8 +353,9 @@ public abstract class PropertiesView implements View {
 	private void updatePropertiesView(ArrayList<GeoElement> geos) {
 
 		if (geos.size() > 0) {
-			if (!stayInCurrentPanel())
+			if (!stayInCurrentPanel()) {
 				setOptionPanel(OptionType.OBJECTS, geos);
+			}
 		} else {
 
 			setOptionPanelRegardingFocus(true);
@@ -374,8 +377,9 @@ public abstract class PropertiesView implements View {
 	final protected void setOptionPanelRegardingFocus(
 			boolean updateEuclidianTab) {
 
-		if (stayInCurrentPanelWithObjects())
+		if (stayInCurrentPanelWithObjects()) {
 			return;
+		}
 
 		OptionType type = getFocusedViewType();
 
@@ -394,8 +398,9 @@ public abstract class PropertiesView implements View {
 					setSelectedTab(type);
 				}
 
-			} else
+			} else {
 				setOptionPanel(type);
+			}
 
 			// here necessary no object is selected
 			updateObjectPanelSelection(
@@ -467,6 +472,7 @@ public abstract class PropertiesView implements View {
 	 */
 	abstract public void updateStyleBar();
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}

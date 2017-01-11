@@ -92,8 +92,9 @@ public class AxisModel {
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || "".equals(text))
+		if (text == null || "".equals(text)) {
 			return Double.NaN;
+		}
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 	}
 
@@ -278,8 +279,9 @@ public class AxisModel {
 
 	public void applyCrossing(String crossStr) {
 		String str = crossStr;
-		if ("".equals(str))
+		if ("".equals(str)) {
 			str = "0";
+		}
 		double cross = parseDouble(str);
 		if (!(Double.isInfinite(cross) || Double.isNaN(cross))) {
 			double[] ac = view.getAxesCross();

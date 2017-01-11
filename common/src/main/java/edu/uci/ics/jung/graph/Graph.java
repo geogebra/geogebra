@@ -61,6 +61,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * @return a <code>Collection</code> view of the incoming edges incident to
 	 *         <code>vertex</code> in this graph
 	 */
+	@Override
 	Collection<E> getInEdges(V vertex);
 
 	/**
@@ -72,6 +73,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * @return a <code>Collection</code> view of the outgoing edges incident to
 	 *         <code>vertex</code> in this graph
 	 */
+	@Override
 	Collection<E> getOutEdges(V vertex);
 
 	/**
@@ -87,6 +89,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * @return a <code>Collection</code> view of the predecessors of
 	 *         <code>vertex</code> in this graph
 	 */
+	@Override
 	Collection<V> getPredecessors(V vertex);
 
 	/**
@@ -102,6 +105,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * @return a <code>Collection</code> view of the successors of
 	 *         <code>vertex</code> in this graph
 	 */
+	@Override
 	Collection<V> getSuccessors(V vertex);
 
 	/**
@@ -112,6 +116,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 *            the vertex whose indegree is to be calculated
 	 * @return the number of incoming edges incident to <code>vertex</code>
 	 */
+	@Override
 	int inDegree(V vertex);
 
 	/**
@@ -122,6 +127,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 *            the vertex whose outdegree is to be calculated
 	 * @return the number of outgoing edges incident to <code>vertex</code>
 	 */
+	@Override
 	int outDegree(V vertex);
 
 	/**
@@ -185,6 +191,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * @return the source of <code>directed_edge</code> if it is a directed edge
 	 *         in this graph, or <code>null</code> otherwise
 	 */
+	@Override
 	V getSource(E directed_edge);
 
 	/**
@@ -199,6 +206,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * @return the destination of <code>directed_edge</code> if it is a directed
 	 *         edge in this graph, or <code>null</code> otherwise
 	 */
+	@Override
 	V getDest(E directed_edge);
 
 	/**
@@ -303,5 +311,6 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 */
 	V getOpposite(V vertex, E edge);
 
+	@Override
 	Graph<V, E> newInstance();
 }

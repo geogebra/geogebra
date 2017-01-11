@@ -52,8 +52,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public AlgoClosestPoint getNewAlgoClosestPoint(Construction cons2,
 			Path path, GeoPointND point) {
 
-		if (((GeoElement) path).isGeoElement3D() || point.isGeoElement3D())
+		if (((GeoElement) path).isGeoElement3D() || point.isGeoElement3D()) {
 			return new AlgoClosestPoint3D(cons2, path, point);
+		}
 
 		return super.getNewAlgoClosestPoint(cons2, path, point);
 	}
@@ -98,8 +99,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			GeoConicND b) {
 
 		if (((GeoElement) a).isGeoElement3D()
-				|| ((GeoElement) b).isGeoElement3D())
+				|| ((GeoElement) b).isGeoElement3D()) {
 			return getManager3D().IntersectConics(labels, a, b);
+		}
 		return super.IntersectConics(labels, a, b);
 	}
 
@@ -108,8 +110,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			GeoConicND c) {
 
 		if (((GeoElement) g).isGeoElement3D()
-				|| ((GeoElement) c).isGeoElement3D())
+				|| ((GeoElement) c).isGeoElement3D()) {
 			return getManager3D().IntersectLineConic(null, g, c);
+		}
 
 		return super.IntersectLineConic(labels, g, c);
 	}
@@ -311,6 +314,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return out;
 	}
 
+	@Override
 	final public GeoElement[] Polygon(String[] labels, GeoList pointList) {
 		AlgoPolygon algo;
 		if (pointList.getElementType() == GeoClass.POINT3D) {

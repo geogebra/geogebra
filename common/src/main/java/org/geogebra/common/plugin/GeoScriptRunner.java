@@ -18,6 +18,7 @@ public class GeoScriptRunner implements EventListener {
 		this.app = app;
 	}
 
+	@Override
 	public void sendEvent(Event evt) {
 		if (app.isScriptingDisabled() || evt.target == null) {
 			return;
@@ -45,6 +46,7 @@ public class GeoScriptRunner implements EventListener {
 		}
 	}
 
+	@Override
 	public void reset() {
 		// Nothing to do here as the script are removed with the geos.
 	}

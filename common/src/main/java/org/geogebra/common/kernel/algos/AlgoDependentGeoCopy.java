@@ -120,6 +120,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return origGeoNode.toString(tpl);
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return origGeoNode;
 	}

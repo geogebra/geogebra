@@ -40,8 +40,9 @@ public class CmdToBase extends CommandProcessor {
 				GeoElement[] ret = { toBase.getResult() };
 				return ret;
 			}
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
+			}
 			throw argErr(app, c, arg[1]);
 
 		default:

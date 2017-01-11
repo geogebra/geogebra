@@ -35,6 +35,7 @@ public interface GeoPlaneND extends GeoCoordSys2D {
 	 *            point
 	 * @return coords of normal projection of given point
 	 */
+	@Override
 	public Coords[] getNormalProjection(Coords coords);
 
 	public double distanceWithSign(GeoPlaneND h3d);

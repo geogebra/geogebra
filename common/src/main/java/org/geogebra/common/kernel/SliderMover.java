@@ -54,8 +54,9 @@ public class SliderMover extends PathMoverGeneric {
 		if (start_param < min_param || start_param > max_param) {
 			param_extent = max_param - min_param;
 			start_param = (start_param - min_param) % param_extent;
-			if (start_param < min_param)
+			if (start_param < min_param) {
 				start_param += param_extent;
+			}
 		}
 
 		if (min_param == Double.NEGATIVE_INFINITY) {

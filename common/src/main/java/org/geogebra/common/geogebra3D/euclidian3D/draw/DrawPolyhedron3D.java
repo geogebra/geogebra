@@ -264,6 +264,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 	}
 
+	@Override
 	public void updatePreview() {
 
 		if (previewBasisIsFinished) {
@@ -340,6 +341,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	// }
 	// }
 
+	@Override
 	public void updateMousePos(double x, double y) {
 		// TODO Auto-generated method stub
 	}

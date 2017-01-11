@@ -1206,20 +1206,23 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
 		// not needed
 	}
 
+	@Override
 	public void updatePreview() {
 
 		GeoPointND firstPoint = null;
 		GeoPointND secondPoint = null;
 		if (selectedPoints.size() >= 1) {
 			firstPoint = selectedPoints.get(0);
-			if (selectedPoints.size() == 2)
+			if (selectedPoints.size() == 2) {
 				secondPoint = selectedPoints.get(1);
-			else
+			} else {
 				secondPoint = getView3D().getCursor3D();
+			}
 		}
 
 		if (selectedPoints.size() >= 1) {

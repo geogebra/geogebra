@@ -428,8 +428,9 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			String number = mr.getGroup(0);
 			// Adding the non-matching part from the previous match (or from the
 			// start):
-			if (from <= mr.getIndex() - 1)
+			if (from <= mr.getIndex() - 1) {
 				output.append(input.substring(from, mr.getIndex()));
+			}
 			// Adding the matching part in replaced form (removing the first "."
 			// character):
 			output.append(StringTemplate.giacTemplate

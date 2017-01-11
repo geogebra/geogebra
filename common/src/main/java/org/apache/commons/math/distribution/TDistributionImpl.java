@@ -87,6 +87,7 @@ public class TDistributionImpl extends AbstractContinuousDistribution
 	 *            the new degrees of freedom.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setDegreesOfFreedom(double degreesOfFreedom) {
 		setDegreesOfFreedomInternal(degreesOfFreedom);
@@ -112,6 +113,7 @@ public class TDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return the degrees of freedom.
 	 */
+	@Override
 	public double getDegreesOfFreedom() {
 		return degreesOfFreedom;
 	}
@@ -144,6 +146,7 @@ public class TDistributionImpl extends AbstractContinuousDistribution
 	 *             if the cumulative probability can not be computed due to
 	 *             convergence or other numerical errors.
 	 */
+	@Override
 	public double cumulativeProbability(double x) throws MathException {
 		double ret;
 		if (x == 0.0) {

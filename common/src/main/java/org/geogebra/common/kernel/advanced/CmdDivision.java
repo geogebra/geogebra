@@ -52,8 +52,9 @@ public class CmdDivision extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {
-				if (!ok[0])
+				if (!ok[0]) {
 					throw argErr(app, c, arg[0]);
+				}
 				throw argErr(app, c, arg[1]);
 			}
 

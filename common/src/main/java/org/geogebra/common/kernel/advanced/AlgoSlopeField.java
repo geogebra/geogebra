@@ -109,35 +109,47 @@ public class AlgoSlopeField extends AlgoElement {
 	protected void setInputOutput() {
 
 		int noOfInputs = 1;
-		if (n != null)
+		if (n != null) {
 			noOfInputs++;
-		if (lengthRatio != null)
+		}
+		if (lengthRatio != null) {
 			noOfInputs++;
-		if (minX != null)
+		}
+		if (minX != null) {
 			noOfInputs++;
-		if (minY != null)
+		}
+		if (minY != null) {
 			noOfInputs++;
-		if (maxX != null)
+		}
+		if (maxX != null) {
 			noOfInputs++;
-		if (maxY != null)
+		}
+		if (maxY != null) {
 			noOfInputs++;
+		}
 
 		input = new GeoElement[noOfInputs];
 		int i = 0;
 
 		input[i++] = (GeoElement) func;
-		if (n != null)
+		if (n != null) {
 			input[i++] = n;
-		if (lengthRatio != null)
+		}
+		if (lengthRatio != null) {
 			input[i++] = lengthRatio;
-		if (minX != null)
+		}
+		if (minX != null) {
 			input[i++] = minX;
-		if (minY != null)
+		}
+		if (minY != null) {
 			input[i++] = minY;
-		if (maxX != null)
+		}
+		if (maxX != null) {
 			input[i++] = maxX;
-		if (maxY != null)
+		}
+		if (maxY != null) {
 			input[i++] = maxY;
+		}
 
 		super.setOutputLength(1);
 		super.setOutput(0, locus);
@@ -158,10 +170,11 @@ public class AlgoSlopeField extends AlgoElement {
 			return;
 		}
 
-		if (al == null)
+		if (al == null) {
 			al = new ArrayList<MyPoint>();
-		else
+		} else {
 			al.clear();
+		}
 
 		mainView = null;
 		double xmax = -Double.MAX_VALUE;
@@ -201,8 +214,9 @@ public class AlgoSlopeField extends AlgoElement {
 				EuclidianView view2 = kernel.getApplication()
 						.getEuclidianView2(1);
 				if (view2.isVisibleInThisView(locus)) {
-					if (mainView == null)
+					if (mainView == null) {
 						mainView = view2;
+					}
 					xmax = Math.max(xmax,
 							view2.toRealWorldCoordX((view.getWidth())));
 					ymax = Math.max(ymax, view2.toRealWorldCoordY(0));
@@ -306,8 +320,9 @@ public class AlgoSlopeField extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		((GeoElement) func).removeAlgorithm(numAlgo);
 		((GeoElement) func).removeAlgorithm(denAlgo);

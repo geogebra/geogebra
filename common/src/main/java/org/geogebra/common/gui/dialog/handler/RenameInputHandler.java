@@ -29,6 +29,7 @@ public class RenameInputHandler implements InputHandler {
 		this.geo = geo;
 	}
 
+	@Override
 	public void processInput(String inputValue, ErrorHandler handler,
 			AsyncOperation<Boolean> callback) {
 		GeoElementND geo = this.geo;

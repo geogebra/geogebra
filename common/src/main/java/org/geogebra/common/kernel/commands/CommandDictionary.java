@@ -56,16 +56,18 @@ public class CommandDictionary extends TreeSet<String> {
 	 *         given string.
 	 */
 	public String lookup(String curr) {
-		if ("".equals(curr))
+		if ("".equals(curr)) {
 			return null;
+		}
 		try {
 			SortedSet<String> tailSet = tailSet(curr);
 			if (tailSet != null) {
 				Object firstObj = tailSet.first();
 				if (firstObj != null) {
 					String first = (String) firstObj;
-					if (first.startsWith(curr))
+					if (first.startsWith(curr)) {
 						return first;
+					}
 				}
 			}
 		} catch (Exception e) {

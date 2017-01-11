@@ -287,8 +287,9 @@ public class GeoList extends GeoElement
 			geo.setFillType(fillType);
 			geo.setHatchingAngle(hatchingAngle);
 			geo.setHatchingDistance(hatchingDistance);
-			if (!geo.getGeoElementForPropertiesDialog().isGeoImage())
+			if (!geo.getGeoElementForPropertiesDialog().isGeoImage()) {
 				geo.setImageFileName(getGraphicsAdapter().getImageFileName());
+			}
 			geo.setAlphaValue(getAlphaValue());
 
 			geo.setLayer(getLayer());
@@ -981,8 +982,9 @@ public class GeoList extends GeoElement
 
 		// for ComboBoxes (and comments)
 		getCaptionXML(sb);
-		if (getListenersToo)
+		if (getListenersToo) {
 			getListenerTagsXML(sb);
+		}
 
 		sb.append("</element>\n");
 
@@ -1729,8 +1731,9 @@ public class GeoList extends GeoElement
 		// update closestPointIndex
 		getNearestPoint(P);
 		if (geoList.size() == 0) {
-			if (P.isDefined())
+			if (P.isDefined()) {
 				P.setUndefined();
+			}
 			return;
 		}
 		final GeoElement geo = get(closestPointIndex);
@@ -1757,23 +1760,25 @@ public class GeoList extends GeoElement
 		// "+path.getMaxParameter());
 
 		int closestPointIndexBack = closestPointIndex;
-		if (directionInfoOrdering != null)
+		if (directionInfoOrdering != null) {
 			for (int i = 0; i < this.size(); i++) {
 				if (directionInfoOrdering[i] == closestPointIndex) {
 					closestPointIndexBack = i;
 					break;
 				}
 			}
+		}
 
 		if ((directionInfoArray == null)
-				|| directionInfoArray[closestPointIndex])
+				|| directionInfoArray[closestPointIndex]) {
 			pp.t = closestPointIndexBack
 					+ PathNormalizer.toNormalizedPathParameter(pp.t,
 							path.getMinParameter(), path.getMaxParameter());
-		else
+		} else {
 			pp.t = closestPointIndexBack + 1
 					- PathNormalizer.toNormalizedPathParameter(pp.t,
 							path.getMinParameter(), path.getMaxParameter());
+		}
 
 		// Application.debug(pp.t);
 	}
@@ -1863,8 +1868,9 @@ public class GeoList extends GeoElement
 
 		int n1 = n;
 
-		if (directionInfoOrdering != null)
+		if (directionInfoOrdering != null) {
 			n = directionInfoOrdering[n];
+		}
 
 		GeoElement elementN = get(n);
 
@@ -1900,14 +1906,15 @@ public class GeoList extends GeoElement
 		// Application.debug(PathNormalizer.toNormalizedPathParameter(t,
 		// path.getMinParameter(), path.getMaxParameter()));
 
-		if ((directionInfoArray == null) || directionInfoArray[n])
+		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
 					path.getMinParameter(), path.getMaxParameter()) + n1);
-		else
+		} else {
 			pp.setT(1
 					- PathNormalizer.toNormalizedPathParameter(t,
 							path.getMinParameter(), path.getMaxParameter())
 					+ n1);
+		}
 
 		pp.setPathType(pt);
 	}
@@ -2150,8 +2157,9 @@ public class GeoList extends GeoElement
 			TraceModesEnum geoMode = geo.getTraceModes();
 			if (traceModes == null) {
 				traceModes = geoMode;
-				if (geoMode == TraceModesEnum.NOT_TRACEABLE)
+				if (geoMode == TraceModesEnum.NOT_TRACEABLE) {
 					return traceModes;
+				}
 			} else {
 				switch (geoMode) {
 				case NOT_TRACEABLE:
@@ -2169,10 +2177,11 @@ public class GeoList extends GeoElement
 
 				case ONE_VALUE_OR_COPY:
 				case SEVERAL_VALUES_OR_COPY:
-					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY)
+					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY) {
 						traceModes = TraceModesEnum.SEVERAL_VALUES_ONLY;
-					else if (traceModes == TraceModesEnum.ONE_VALUE_OR_COPY)
+					} else if (traceModes == TraceModesEnum.ONE_VALUE_OR_COPY) {
 						traceModes = TraceModesEnum.SEVERAL_VALUES_OR_COPY;
+					}
 					break;
 
 				case ONLY_COPY:
@@ -2196,8 +2205,9 @@ public class GeoList extends GeoElement
 	@Override
 	public TraceModesEnum getTraceModes() {
 
-		if (traceModes != null)
+		if (traceModes != null) {
 			return traceModes;
+		}
 
 		if (getParentAlgorithm() != null
 				&& (getParentAlgorithm() instanceof AlgoDependentList)) {
@@ -2226,8 +2236,9 @@ public class GeoList extends GeoElement
 			// list = {A, B} : names for A, B
 			boolean notFirst = false;
 			for (GeoElement geo : geoList) {
-				if (notFirst)
+				if (notFirst) {
 					sb.append(", ");
+				}
 				sb.append(geo.getTraceDialogAsValues());
 				notFirst = true;
 			}
@@ -2273,8 +2284,9 @@ public class GeoList extends GeoElement
 				}
 				actions++;
 			}
-			if (get(i) instanceof GeoList)
+			if (get(i) instanceof GeoList) {
 				actions += ((GeoList) get(i)).performScriptActions(info);
+			}
 		}
 		return actions;
 	}
@@ -2550,12 +2562,16 @@ public class GeoList extends GeoElement
 			// search for the thing after ii with the help of the ref tree
 			for (i = 0; i < this.size(); i++) {
 				if (i == ii)
+				 {
 					continue;// it is not the same as itself
+				}
 
-				if (j > 0)// it is not the same as the previous (or other
-							// direction)
-					if (directionInfoOrdering[j - 1] == i)
+				if (j > 0) {
+					// direction)
+					if (directionInfoOrdering[j - 1] == i) {
 						continue;
+					}
+				}
 
 				if (direction) {
 					// if direction of ii is true, then use its maxParStatic
@@ -2625,8 +2641,9 @@ public class GeoList extends GeoElement
 			} else {
 				contains = geo.isGeoElement3D();
 			}
-			if (contains)
+			if (contains) {
 				return true;
+			}
 		}
 
 		return false;
@@ -2664,8 +2681,9 @@ public class GeoList extends GeoElement
 	@Override
 	public void setAngleStyle(AngleStyle angleStyle) {
 		AngleStyle newAngleStyle = angleStyle;
-		if (newAngleStyle == this.angleStyle)
+		if (newAngleStyle == this.angleStyle) {
 			return;
+		}
 
 		this.angleStyle = newAngleStyle;
 		switch (newAngleStyle) {
@@ -2714,22 +2732,25 @@ public class GeoList extends GeoElement
 	final public void setAllowReflexAngle(boolean allowReflexAngle) {
 		switch (angleStyle) {
 		case NOTREFLEX:
-			if (allowReflexAngle)
+			if (allowReflexAngle) {
 				setAngleStyle(AngleStyle.ANTICLOCKWISE);
+			}
 			break;
 		case ISREFLEX:
 			// do nothing
 			break;
 		default: // ANGLE_ISANTICLOCKWISE
-			if (!allowReflexAngle)
+			if (!allowReflexAngle) {
 				setAngleStyle(AngleStyle.NOTREFLEX);
+			}
 			break;
 
 		}
-		if (allowReflexAngle)
+		if (allowReflexAngle) {
 			setAngleStyle(AngleStyle.ANTICLOCKWISE);
-		else
+		} else {
 			setAngleStyle(AngleStyle.NOTREFLEX);
+		}
 
 		for (GeoElement geo : geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
@@ -2978,6 +2999,7 @@ public class GeoList extends GeoElement
 		}
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.LIST;
 
@@ -3013,6 +3035,7 @@ public class GeoList extends GeoElement
 		return getMyList();
 	}
 
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		for (int i = 0; i < this.size(); i++) {
 			if (get(i) instanceof HasSymbolicMode) {
@@ -3022,6 +3045,7 @@ public class GeoList extends GeoElement
 
 	}
 
+	@Override
 	public boolean isSymbolicMode() {
 		return size() > 0 && get(0) instanceof HasSymbolicMode
 				&& ((HasSymbolicMode) get(0)).isSymbolicMode();
@@ -3103,6 +3127,7 @@ public class GeoList extends GeoElement
 		}
 	}
 
+	@Override
 	public GeoElementND doAnimationStep(double frameRate, GeoList parent) {
 		if (size() > selectedIndex) {
 			if (get(selectedIndex).isAnimatable()) {

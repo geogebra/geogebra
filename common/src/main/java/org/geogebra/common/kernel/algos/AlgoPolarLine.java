@@ -55,6 +55,7 @@ public class AlgoPolarLine extends AlgoPolarLineND {
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnPolarLine(geo, this, scope);

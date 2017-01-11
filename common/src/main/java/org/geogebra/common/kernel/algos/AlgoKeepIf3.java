@@ -97,8 +97,9 @@ public class AlgoKeepIf3 extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		try {
 			for (int i = 0; i < size; i++) {

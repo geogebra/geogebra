@@ -143,8 +143,9 @@ public class ClipShape {
 				double[] last = uncommittedPoints.peek();
 				// are we adding the same point?
 				if (Math.abs(last[0] - x) < TOLERANCE
-						&& Math.abs(last[1] - y) < TOLERANCE)
+						&& Math.abs(last[1] - y) < TOLERANCE) {
 					return;
+				}
 			}
 
 			double[] f = doubleFactory.getArray(2);
@@ -256,15 +257,18 @@ public class ClipShape {
 			return slope + "*t+" + intercept;
 		}
 
+		@Override
 		public double evaluate(double t) {
 			return slope * t + intercept;
 		}
 
+		@Override
 		public int evaluateInverse(double x, double[] dest, int offset) {
 			dest[offset] = (x - intercept) / slope;
 			return 1;
 		}
 
+		@Override
 		public double getDerivative(double t) {
 			return slope;
 		}
@@ -291,19 +295,23 @@ public class ClipShape {
 			c = x0;
 		}
 
+		@Override
 		public double evaluate(double t) {
 			return a * t * t + b * t + c;
 		}
 
+		@Override
 		public double getDerivative(double t) {
 			return 2 * a * t + b;
 		}
 
+		@Override
 		public int evaluateInverse(double x, double[] dest, int offset) {
 			double C = c - x;
 			double det = b * b - 4 * a * C;
-			if (det < 0)
+			if (det < 0) {
 				return 0;
+			}
 			if (det == 0) {
 				dest[offset] = (-b) / (2 * a);
 				return 1;
@@ -334,10 +342,12 @@ public class ClipShape {
 			d = x0;
 		}
 
+		@Override
 		public double evaluate(double t) {
 			return a * t * t * t + b * t * t + c * t + d;
 		}
 
+		@Override
 		public double getDerivative(double t) {
 			return 3 * a * t * t + 2 * b * t + c;
 		}
@@ -351,6 +361,7 @@ public class ClipShape {
 		private double[] t2;
 		private double[] eqn;
 
+		@Override
 		public int evaluateInverse(double x, double[] dest, int offset) {
 			if (eqn == null) {
 				eqn = new double[4];
@@ -363,16 +374,19 @@ public class ClipShape {
 			if (offset == 0) {
 				// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,dest);
 				int k = AwtFactory.getPrototype().solveCubic(eqn, dest);
-				if (k < 0)
+				if (k < 0) {
 					return 0;
+				}
 				return k;
 			}
-			if (t2 == null)
+			if (t2 == null) {
 				t2 = new double[3];
+			}
 			// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,t2);
 			int k = AwtFactory.getPrototype().solveCubic(eqn, t2);
-			if (k < 0)
+			if (k < 0) {
 				return 0;
+			}
 			for (int i = 0; i < k; i++) {
 				dest[offset + i] = t2[i];
 			}
@@ -460,14 +474,18 @@ public class ClipShape {
 				initialY = f[1];
 				cappedX = f[0];
 				cappedY = f[1];
-				if (cappedX < rLeft)
+				if (cappedX < rLeft) {
 					cappedX = rLeft;
-				if (cappedX > rRight)
+				}
+				if (cappedX > rRight) {
 					cappedX = rRight;
-				if (cappedY < rTop)
+				}
+				if (cappedY < rTop) {
 					cappedY = rTop;
-				if (cappedY > rBottom)
+				}
+				if (cappedY > rBottom) {
 					cappedY = rBottom;
+				}
 				p.moveTo(cappedX, cappedY);
 				lastX = f[0];
 				lastY = f[1];

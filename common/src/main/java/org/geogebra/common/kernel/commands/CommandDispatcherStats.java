@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.statistics.*;
  *
  */
 public class CommandDispatcherStats implements CommandDispatcherInterface {
+	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		case RandomElement:

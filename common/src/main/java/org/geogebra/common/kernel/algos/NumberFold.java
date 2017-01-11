@@ -16,10 +16,12 @@ public class NumberFold implements FoldComputer {
 	private GeoNumeric result;
 	private double x;
 
+	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.result = new GeoNumeric(cons);
 	}
 
+	@Override
 	public void add(GeoElement p, Operation op) {
 		if (op == Operation.MULTIPLY) {
 			x *= ((GeoNumberValue) p).getDouble();
@@ -28,14 +30,17 @@ public class NumberFold implements FoldComputer {
 		}
 	}
 
+	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
 		x = ((GeoNumberValue) geoElement).getDouble();
 	}
 
+	@Override
 	public boolean check(GeoElement geoElement) {
 		return geoElement instanceof GeoNumberValue;
 	}
 
+	@Override
 	public void finish() {
 		result.setValue(x);
 

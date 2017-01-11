@@ -121,8 +121,9 @@ public class AlgoConicFivePoints extends AlgoElement
 		criticalCase = false;
 
 		for (int i = 0; i < P.length; i++) {
-			if (P[i].getIncidenceList() == null)
+			if (P[i].getIncidenceList() == null) {
 				return;
+			}
 		}
 
 		ArrayList<GeoElement> firstList = P[0].getIncidenceList();
@@ -257,7 +258,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	 * @return
 	 */
 	private boolean hugeForMatrix(double e12, double M[][]) {
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				// e12 is much bigger than any matrix entry
 				if (!Kernel.isZero(M[i][j], Kernel.MIN_PRECISION)
@@ -265,6 +266,7 @@ public class AlgoConicFivePoints extends AlgoElement
 					return true;
 				}
 			}
+		}
 		return false;
 	}
 
@@ -326,10 +328,12 @@ public class AlgoConicFivePoints extends AlgoElement
 		return LocusEquation.eqnConicFivePoints(geo, this, scope);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

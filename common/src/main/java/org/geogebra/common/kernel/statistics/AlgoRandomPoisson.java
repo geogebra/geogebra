@@ -69,12 +69,14 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	public final void compute() {
 		if (input[0].isDefined()) {
 			double lambda = a.getDouble();
-			if (lambda > 0)
+			if (lambda > 0) {
 				num.setValue(randomPoissonTRS(lambda));
-			else
+			} else {
 				num.setUndefined();
-		} else
+			}
+		} else {
 			num.setUndefined();
+		}
 	}
 
 	/*
@@ -103,8 +105,9 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	 */
 	private int randomPoissonTRS(double mu) {
 
-		if (mu < 10)
+		if (mu < 10) {
 			return randomPoisson(mu);
+		}
 
 		double b = 0.931 + +2.53 * Math.sqrt(mu);
 		double a = -0.059 + 0.02438 * b;
@@ -121,8 +124,9 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 				v = kernel.getApplication().getRandomNumber();
 				us = 0.5 - Math.abs(u);
 				k = (int) Math.floor((2 * a / us + b) * u + mu + 0.43);
-				if (us >= 0.07 && v < v_r)
+				if (us >= 0.07 && v < v_r) {
 					return k;
+				}
 			}
 
 			double alpha = 1.1239 + 1.1328 / (b - 3.4);
@@ -131,8 +135,9 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 			v = v * alpha / (a / (us * us) + b);
 
 			if (Math.log(v * alpha / (a / us / us + b)) <= -mu + k * lnmu
-					- logOfKFactorial(k))
+					- logOfKFactorial(k)) {
 				return k;
+			}
 		}
 
 	}
@@ -143,8 +148,9 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 	private static double logOfKFactorial(int k) {
 		if (k < 10) {
-			if (logtable[k] == 0)
+			if (logtable[k] == 0) {
 				logtable[k] = Math.log(MyMath2.factorial(k));
+			}
 			return logtable[k];
 		}
 
@@ -154,6 +160,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 						/ (k + 1) / (k + 1)) / (k + 1);
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 		d = Math.round(Kernel.checkInteger(d));
 

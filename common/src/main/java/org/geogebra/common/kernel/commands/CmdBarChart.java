@@ -50,8 +50,9 @@ public class CmdBarChart extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c, null);
+			}
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))

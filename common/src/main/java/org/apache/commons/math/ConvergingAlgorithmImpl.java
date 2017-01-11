@@ -71,51 +71,61 @@ public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getIterationCount() {
 		return iterationCount;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setAbsoluteAccuracy(double accuracy) {
 		absoluteAccuracy = accuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getAbsoluteAccuracy() {
 		return absoluteAccuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void resetAbsoluteAccuracy() {
 		absoluteAccuracy = defaultAbsoluteAccuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setMaximalIterationCount(int count) {
 		maximalIterationCount = count;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getMaximalIterationCount() {
 		return maximalIterationCount;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void resetMaximalIterationCount() {
 		maximalIterationCount = defaultMaximalIterationCount;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setRelativeAccuracy(double accuracy) {
 		relativeAccuracy = accuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getRelativeAccuracy() {
 		return relativeAccuracy;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void resetRelativeAccuracy() {
 		relativeAccuracy = defaultRelativeAccuracy;
 	}

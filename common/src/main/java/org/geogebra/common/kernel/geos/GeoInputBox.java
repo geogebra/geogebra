@@ -102,8 +102,9 @@ public class GeoInputBox extends GeoButton {
 
 	@Override
 	public String toValueString(StringTemplate tpl1) {
-		if (linkedGeo == null)
+		if (linkedGeo == null) {
 			return "";
+		}
 		return text;
 	}
 

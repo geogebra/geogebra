@@ -43,6 +43,7 @@ public class WeakComponentClusterer<V, E>
 	 *            the graph whose weak components are to be extracted
 	 * @return the list of weak components
 	 */
+	@Override
 	public Set<Set<V>> transform(Graph<V, E> graph) {
 
 		Set<Set<V>> clusterSet = new HashSet<Set<V>>();

@@ -66,8 +66,9 @@ public abstract class IterativeProcess implements IterativeContext {
 		while (iterations++ < maximumIterations) {
 			step();
 			precision = getPrecision();
-			if (hasConverged())
+			if (hasConverged()) {
 				break;
+			}
 		}
 		finalizeIterations();
 	}
@@ -75,6 +76,7 @@ public abstract class IterativeProcess implements IterativeContext {
 	/**
 	 * Evaluate the result of the current iteration.
 	 */
+	@Override
 	abstract public void step();
 
 	/**
@@ -130,6 +132,7 @@ public abstract class IterativeProcess implements IterativeContext {
 		return precision < desiredPrecision;
 	}
 
+	@Override
 	public boolean done() {
 		return hasConverged();
 	}
@@ -162,9 +165,10 @@ public abstract class IterativeProcess implements IterativeContext {
 	 */
 	public void setDesiredPrecision(double prec)
 			throws IllegalArgumentException {
-		if (prec <= 0)
+		if (prec <= 0) {
 			throw new IllegalArgumentException(
 					"Non-positive precision: " + prec);
+		}
 		desiredPrecision = prec;
 	}
 
@@ -173,9 +177,10 @@ public abstract class IterativeProcess implements IterativeContext {
 	 */
 	public void setMaximumIterations(int maxIter)
 			throws IllegalArgumentException {
-		if (maxIter < 1)
+		if (maxIter < 1) {
 			throw new IllegalArgumentException(
 					"Non-positive maximum iteration: " + maxIter);
+		}
 		maximumIterations = maxIter;
 	}
 }

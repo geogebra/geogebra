@@ -289,12 +289,14 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		outputPolygons = new OutputHandler<GeoPolygon3D>(
 				new elementFactory<GeoPolygon3D>() {
+					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons, true);
 						p.setParentAlgorithm(AlgoPolygonOperations3D.this);
-						if (outputPolygons.size() > 0)
+						if (outputPolygons.size() > 0) {
 							p.setAllVisualProperties(
 									outputPolygons.getElement(0), false);
+						}
 						p.setViewFlags(inPoly0.getViewSet());
 						p.setNotFixedPointsLength(true);
 						return p;
@@ -305,6 +307,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		outputPoints = new OutputHandler<GeoPoint3D>(
 				new elementFactory<GeoPoint3D>() {
+					@Override
 					public GeoPoint3D newElement() {
 						GeoPoint3D newPoint = new GeoPoint3D(cons);
 						newPoint.setCoords(0, 0, 1);
@@ -321,6 +324,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		outputSegments = new OutputHandler<GeoSegment3D>(
 				new elementFactory<GeoSegment3D>() {
+					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D segment = (GeoSegment3D) outputPolygons
 								.getElement(0)
@@ -669,8 +673,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				double t1 = project[2].get(1); // parameter on line
 				double t2 = project[2].get(2); // parameter on segment
 
-				if (line.respectLimitedPath(t1) && seg.respectLimitedPath(t2))
+				if (line.respectLimitedPath(t1) && seg.respectLimitedPath(t2)) {
 					newCoords.put(t1, project[0]);
+				}
 			}
 		}
 
@@ -694,8 +699,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				globalCoords, inPlaneCoords);
 
 		// check if projection is intersection point
-		if (singlePoint != null)
+		if (singlePoint != null) {
 			newCoords.put(0d, singlePoint);
+		}
 
 	}
 }

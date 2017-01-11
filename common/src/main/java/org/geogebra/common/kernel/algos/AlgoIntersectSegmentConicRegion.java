@@ -504,10 +504,12 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 		// decide number of line parts using calculated intersection points
 		for (int i = 0; i < 2; i++) {
-			if (intersectPoints[i].isDefined())
+			if (intersectPoints[i].isDefined()) {
 				numberOfLineParts += 1;
-			if (closureIntersect[i].isDefined())
+			}
+			if (closureIntersect[i].isDefined()) {
 				numberOfLineParts += 1;
+			}
 		}
 	}
 
@@ -728,6 +730,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
 		return new OutputHandler<GeoSegment>(new elementFactory<GeoSegment>() {
+			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);
 				GeoPoint aS = new GeoPoint(cons);

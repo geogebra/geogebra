@@ -74,6 +74,7 @@ public class JsScript extends Script {
 	 * 
 	 * @return whether any renaming happened
 	 */
+	@Override
 	public boolean renameGeo(String oldLabel, String newLabel) {
 		// TODO: this method is hard to write,
 		// as JavaScript might contain many kinds of strings

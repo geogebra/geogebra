@@ -152,6 +152,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		return getLoc().getPlain("SlopeOfA", (g != null ? g : f).getLabel(tpl));
 	}
 
+	@Override
 	public DrawInformationAlgo copy() {
 		if (g != null) {
 			return new AlgoSlope(g.copy());

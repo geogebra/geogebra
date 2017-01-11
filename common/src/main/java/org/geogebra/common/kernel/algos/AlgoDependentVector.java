@@ -109,6 +109,7 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 		return v.getDefinition().toString(tpl);
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return v.getDefinition();
 	}

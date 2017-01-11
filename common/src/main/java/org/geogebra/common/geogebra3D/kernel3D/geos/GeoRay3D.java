@@ -56,8 +56,9 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	@Override
 	public boolean isOnPath(Coords p, double eps) {
 		// first check global line
-		if (!super.isOnPath(p, eps))
+		if (!super.isOnPath(p, eps)) {
 			return false;
+		}
 
 		// then check position on segment
 		return respectLimitedPath(p, eps);
@@ -66,11 +67,13 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public boolean respectLimitedPath(Coords p, double eps) {
-		if (Kernel.isEqual(p.getW(), 0, eps))// infinite point
+		if (Kernel.isEqual(p.getW(), 0, eps)) {
 			return false;
+		}
 		double d = p.sub(getStartInhomCoords()).dotproduct(getDirectionInD3());
-		if (d < -eps)
+		if (d < -eps) {
 			return false;
+		}
 
 		return true;
 	}
@@ -88,22 +91,27 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		return true;
 	}
 
+	@Override
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;
 	}
 
+	@Override
 	public void setAllowOutlyingIntersections(boolean flag) {
 		allowOutlyingIntersections = flag;
 	}
 
+	@Override
 	public boolean keepsTypeOnGeometricTransform() {
 		return keepTypeOnGeometricTransform;
 	}
 
+	@Override
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		keepTypeOnGeometricTransform = flag;
 	}
 
+	@Override
 	public GeoElement[] createTransformedObject(Transform t, String label) {
 		AlgoElement algoParent = keepTypeOnGeometricTransform
 				? getParentAlgorithm() : null;
@@ -180,15 +188,18 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		}
 	}
 
+	@Override
 	public boolean isAllEndpointsLabelsSet() {
 		return startPoint.isLabelSet();
 	}
 
+	@Override
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
-		if (allowOutlyingIntersections)
+		if (allowOutlyingIntersections) {
 			return isOnFullLine(p.getCoordsInD3(), eps);
-		else
+		} else {
 			return isOnPath(p, eps);
+		}
 	}
 
 	@Override
@@ -202,11 +213,13 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		if (!geo.isGeoRay())
+		if (!geo.isGeoRay()) {
 			return;
+		}
 
-		if (!geo.isDefined())
+		if (!geo.isDefined()) {
 			setUndefined();
+		}
 
 		GeoRayND ray = (GeoRayND) geo;
 
@@ -246,6 +259,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		// not needed here
 	}
 
+	@Override
 	public GeoElement copyFreeRay() {
 		GeoPointND startPoint1 = (GeoPointND) getStartPoint()
 				.copyInternal(cons);

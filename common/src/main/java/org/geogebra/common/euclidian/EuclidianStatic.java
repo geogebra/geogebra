@@ -64,8 +64,9 @@ public class EuclidianStatic {
 	 */
 	public final static double textWidth(String str, GFont font,
 			GFontRenderContext frc) {
-		if ("".equals(str))
+		if ("".equals(str)) {
 			return 0;
+		}
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout(str, font,
 				frc);
 		return layout.getAdvance();
@@ -272,8 +273,9 @@ public class EuclidianStatic {
 					if (j + 1 < lines.length) {
 						height += ((lineHeights.get(currentLine))).intValue();
 
-						if (xOffset > width)
+						if (xOffset > width) {
 							width = xOffset;
+						}
 					}
 
 					// create a new line if more will follow
@@ -291,8 +293,9 @@ public class EuclidianStatic {
 			if (i + 1 == elements.length) {
 				height += ((lineHeights.get(currentLine))).intValue();
 
-				if (xOffset > width)
+				if (xOffset > width) {
 					width = xOffset;
+				}
 			}
 
 			isLaTeX = !isLaTeX;
@@ -421,8 +424,9 @@ public class EuclidianStatic {
 		double x = xPos;
 		double y = yPos;
 		int startPos = 0;
-		if (str == null)
+		if (str == null) {
 			return null;
+		}
 		int length = str.length();
 
 		for (int i = 0; i < length; i++) {
@@ -435,8 +439,9 @@ public class EuclidianStatic {
 				if (i > startPos) {
 					font = (depth == 0) ? g2font : indexFont;
 					y = yPos + depth * indexOffset;
-					if (y > maxY)
+					if (y > maxY) {
 						maxY = y;
+					}
 					String tempStr = str.substring(startPos, i);
 
 					if (doDraw) {
@@ -454,8 +459,9 @@ public class EuclidianStatic {
 				if (startPos < length && str.charAt(startPos) != '{') {
 					font = (depth == 0) ? g2font : indexFont;
 					y = yPos + depth * indexOffset;
-					if (y > maxY)
+					if (y > maxY) {
 						maxY = y;
+					}
 					String tempStr = str.substring(startPos, startPos + 1);
 					if (doDraw) {
 						g3.setFont(font);
@@ -473,8 +479,9 @@ public class EuclidianStatic {
 					if (i > startPos) {
 						font = indexFont;
 						y = yPos + depth * indexOffset;
-						if (y > maxY)
+						if (y > maxY) {
 							maxY = y;
+						}
 						String tempStr = str.substring(startPos, i);
 						if (doDraw) {
 							g3.setFont(font);
@@ -492,8 +499,9 @@ public class EuclidianStatic {
 		if (startPos < length) {
 			font = (depth == 0) ? g2font : indexFont;
 			y = yPos + depth * indexOffset;
-			if (y > maxY)
+			if (y > maxY) {
 				maxY = y;
+			}
 			String tempStr = str.substring(startPos);
 			if (doDraw) {
 				g3.setFont(font);
@@ -512,9 +520,10 @@ public class EuclidianStatic {
 
 	private static double measureString(String tempStr, GFont font,
 			GFontRenderContext frc) {
-		if (frc != null)
+		if (frc != null) {
 			return AwtFactory.getPrototype().newTextLayout(tempStr, font, frc)
 					.getAdvance();
+		}
 		return StringUtil.getPrototype().estimateLength(tempStr, font);
 	}
 
@@ -563,8 +572,9 @@ public class EuclidianStatic {
 
 				int width = (int) textWidth(labelDesc.substring(lineBegin, i),
 						font, frc);
-				if (width > xoffset)
+				if (width > xoffset) {
 					xoffset = width;
+				}
 
 				lines++;
 				lineBegin = i + 1;
@@ -579,8 +589,9 @@ public class EuclidianStatic {
 		g2.drawString(labelDesc.substring(lineBegin), xLabel, ypos);
 
 		int width = (int) textWidth(labelDesc.substring(lineBegin), font, frc);
-		if (width > xoffset)
+		if (width > xoffset) {
 			xoffset = width;
+		}
 
 		// Michael Borcherds 2008-06-10
 		// changed setLocation to setBounds (bugfix)

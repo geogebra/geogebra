@@ -141,8 +141,9 @@ public class CmdSetColor extends CmdScripting {
 		switch (n) {
 		case 2:
 
-			if (!arg[1].isGeoText())
+			if (!arg[1].isGeoText()) {
 				throw argErr(app, c, arg[1]);
+			}
 
 			try {
 
@@ -197,22 +198,24 @@ public class CmdSetColor extends CmdScripting {
 				int blue = MyDouble
 						.normalize0to255(((NumberValue) arg[3]).getDouble());
 
-				if (background)
+				if (background) {
 					arg[0].setBackgroundColor(
 							GColor.newColor(red, green, blue));
-				else
+				} else {
 					arg[0].setObjColor(GColor.newColor(red, green, blue));
+				}
 
 				arg[0].updateRepaint();
 
 				return arg;
 
-			} else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else if (!ok[2])
+			} else if (!ok[2]) {
 				throw argErr(app, c, arg[2]);
-			else
+			} else {
 				throw argErr(app, c, arg[3]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

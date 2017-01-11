@@ -45,13 +45,14 @@ public abstract class ProbabilityTable {
 		Localization loc = app.getLocalization();
 		columnNames = new String[2];
 		columnNames[0] = "k";
-		if (isCumulative())
+		if (isCumulative()) {
 			columnNames[1] = loc.getMenu("ProbabilityOf") + "X "
 					+ Unicode.LESS_EQUAL + " k"
 					+ loc.getMenu("EndProbabilityOf");
-		else
+		} else {
 			columnNames[1] = loc.getMenu("ProbabilityOf") + "X = k"
 					+ loc.getMenu("EndProbabilityOf");
+		}
 
 	}
 

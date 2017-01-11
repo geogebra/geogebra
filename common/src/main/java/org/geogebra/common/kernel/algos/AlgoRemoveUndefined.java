@@ -92,14 +92,16 @@ public class AlgoRemoveUndefined extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 
-			if (isDefined(geo))
+			if (isDefined(geo)) {
 				outputList.add(geo.copyInternal(cons));
+			}
 		}
 	}
 

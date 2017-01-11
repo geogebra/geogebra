@@ -49,8 +49,9 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 *            target list
 	 */
 	protected void transformList(GeoList ageo2, GeoList bgeo2) {
-		for (int i = bgeo2.size() - 1; i >= ageo2.size(); i--)
+		for (int i = bgeo2.size() - 1; i >= ageo2.size(); i--) {
 			bgeo2.remove(i);
+		}
 
 		for (int i = 0; i < ageo2.size(); i++) {
 			GeoElement trans = null;
@@ -74,10 +75,12 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 * @return template element that can be used for result
 	 */
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoPoly || geo.isLimitedPath())
+		if (geo instanceof GeoPoly || geo.isLimitedPath()) {
 			return copyInternal(cons, geo);
-		if (geo.isGeoList())
+		}
+		if (geo.isGeoList()) {
 			return new GeoList(cons);
+		}
 		return copy(geo);
 	}
 

@@ -54,7 +54,7 @@ public class CmdArePerpendicular extends CommandProcessor {
 			}
 
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
-					c.getLabel(), (GeoLine) arg[0], (GeoLine) arg[1]);
+					c.getLabel(), arg[0], arg[1]);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 
 public interface DistanceFunction extends RealRootFunction {
 
+	@Override
 	double evaluate(double pathParam);
 
 	/**

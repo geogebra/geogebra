@@ -274,6 +274,7 @@ public class EventState {
 					increasing = gb >= ga;
 
 					final UnivariateRealFunction f = new UnivariateRealFunction() {
+						@Override
 						public double value(final double t) {
 							try {
 								interpolator.setInterpolatedTime(t);

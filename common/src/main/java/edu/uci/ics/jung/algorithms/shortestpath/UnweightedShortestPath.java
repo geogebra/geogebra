@@ -43,6 +43,7 @@ public class UnweightedShortestPath<V, E>
 	 * @see edu.uci.ics.jung.algorithms.shortestpath.Distance#getDistance(Object,
 	 *      Object)
 	 */
+	@Override
 	public Number getDistance(V source, V target) {
 		Map<V, Number> sourceSPMap = getDistanceMap(source);
 		return sourceSPMap.get(target);
@@ -51,6 +52,7 @@ public class UnweightedShortestPath<V, E>
 	/**
 	 * @see edu.uci.ics.jung.algorithms.shortestpath.Distance#getDistanceMap(Object)
 	 */
+	@Override
 	public Map<V, Number> getDistanceMap(V source) {
 		Map<V, Number> sourceSPMap = mDistanceMap.get(source);
 		if (sourceSPMap == null) {
@@ -63,6 +65,7 @@ public class UnweightedShortestPath<V, E>
 	/**
 	 * @see edu.uci.ics.jung.algorithms.shortestpath.ShortestPath#getIncomingEdgeMap(Object)
 	 */
+	@Override
 	public Map<V, E> getIncomingEdgeMap(V source) {
 		Map<V, E> sourceIEMap = mIncomingEdgeMap.get(source);
 		if (sourceIEMap == null) {
@@ -98,9 +101,11 @@ public class UnweightedShortestPath<V, E>
 					for (V neighbor : mGraph
 							.getIncidentVertices(incomingEdge)) {
 						if (neighbor.equals(vertex))
+						 {
 							continue;
 						// V neighbor = mGraph.getOpposite(vertex,
 						// incomingEdge);
+						}
 
 						Number predDistanceVal = distances.get(neighbor);
 

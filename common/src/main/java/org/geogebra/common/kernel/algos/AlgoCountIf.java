@@ -101,8 +101,9 @@ public class AlgoCountIf extends AlgoElement {
 			for (int i = 0; i < list.size(); i++) {
 				GeoElement val = list.get(i);
 				if (val.isGeoNumeric()) {
-					if (boolFun.evaluateBoolean(((GeoNumeric) val).getValue()))
+					if (boolFun.evaluateBoolean(((GeoNumeric) val).getValue())) {
 						count++;
+					}
 				} else {
 					ExpressionNode ex = boolFun.getFunction()
 							.getExpression().deepCopy(kernel);
@@ -111,8 +112,9 @@ public class AlgoCountIf extends AlgoElement {
 							.wrap();
 					if (((MyBoolean) ex
 							.evaluate(StringTemplate.defaultTemplate))
-									.getBoolean())
+									.getBoolean()) {
 						count++;
+					}
 				}
 			}
 			// </Zbynek>

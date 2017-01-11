@@ -55,8 +55,9 @@ public class DynamicTextProcessor {
 
 		dList.clear();
 
-		if (geo == null)
+		if (geo == null) {
 			return dList;
+		}
 
 		if (geo.isIndependent()) {
 			dList.add(new DynamicTextElement(geo.getTextString(),
@@ -99,9 +100,9 @@ public class DynamicTextProcessor {
 						((GeoElement) left).getLabel(tpl));
 				// add at end
 				dList.add(d);
-			} else if (left.isExpressionNode())
+			} else if (left.isExpressionNode()) {
 				splitString((ExpressionNode) left, dList);
-			else if (left instanceof MyStringBuffer) {
+			} else if (left instanceof MyStringBuffer) {
 				DynamicTextElement d = createDynamicTextElement(
 						left.toString(tpl).replaceAll("\"", ""));
 				dList.add(d);
@@ -128,10 +129,9 @@ public class DynamicTextProcessor {
 				dList.add(createDynamicTextElement(
 						((GeoElement) left).getLabel(tpl)));
 
-			} else if (left.isExpressionNode())
+			} else if (left.isExpressionNode()) {
 				this.splitString((ExpressionNode) left, dList);
-
-			else if (left instanceof MyStringBuffer) {
+			} else if (left instanceof MyStringBuffer) {
 				dList.add(new DynamicTextElement(
 						left.toString(tpl).replaceAll("\"", ""),
 						DynamicTextType.STATIC));
@@ -144,10 +144,9 @@ public class DynamicTextProcessor {
 					dList.add(createDynamicTextElement(
 							((GeoElement) right).getLabel(tpl)));
 
-				} else if (right.isExpressionNode())
+				} else if (right.isExpressionNode()) {
 					this.splitString((ExpressionNode) right, dList);
-
-				else if (right instanceof MyStringBuffer) {
+				} else if (right instanceof MyStringBuffer) {
 
 					dList.add(new DynamicTextElement(
 							right.toString(tpl).replaceAll("\"", ""),
@@ -188,10 +187,11 @@ public class DynamicTextProcessor {
 				int commaIndex = contentString.lastIndexOf(',');
 				int bracketCount = 0;
 				for (int i = commaIndex + 1; i < contentString.length(); i++) {
-					if (contentString.charAt(i) == '[')
+					if (contentString.charAt(i) == '[') {
 						bracketCount++;
-					else if (contentString.charAt(i) == ']')
+					} else if (contentString.charAt(i) == ']') {
 						bracketCount--;
+					}
 				}
 				if (bracketCount != 0 || commaIndex == -1) {
 					// no second argument

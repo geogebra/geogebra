@@ -113,8 +113,9 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	 */
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 
 		// removing unlabeled input
@@ -154,8 +155,9 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 				for (int k = 0; k < algo.getOutputLength(); k++) {
 					GeoElement geo = algo.getOutput(k);
 					if ((geo == input[i] || geo.isDefined())
-							&& !geoList.listContains(geo))
+							&& !geoList.listContains(geo)) {
 						geoList.add(geo);
+					}
 				}
 			} else {
 				// independent or mixed sibling types:
@@ -170,9 +172,9 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else {
+		} else {
 			sb.setLength(0);
 		}
 
@@ -189,6 +191,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 		return sb.toString();
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return geoList.wrap();
 	}

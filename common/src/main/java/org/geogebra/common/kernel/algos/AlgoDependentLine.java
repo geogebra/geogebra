@@ -118,8 +118,9 @@ public class AlgoDependentLine extends AlgoElement
 			g.z = ev[2].evaluateDouble();
 
 			// other algos might use the startPoint so we have to update it
-			if (g.getStartPoint() != null)
+			if (g.getStartPoint() != null) {
 				g.setStandardStartPoint();
+			}
 		} catch (Throwable e) {
 			g.setUndefined();
 		}
@@ -133,6 +134,7 @@ public class AlgoDependentLine extends AlgoElement
 		return equation.toString(tpl);
 	}
 
+	@Override
 	final public double evaluate(GeoPoint P) {
 		double mat0 = ev[0].evaluateDouble(); // x\u00b2
 		double mat1 = ev[1].evaluateDouble(); // y\u00b2
@@ -140,6 +142,7 @@ public class AlgoDependentLine extends AlgoElement
 		return P.x * mat0 + P.y * mat1 + P.z * mat2;
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return null;
 	}

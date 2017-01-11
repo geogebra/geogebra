@@ -139,18 +139,20 @@ public class GeoText extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!geo.isGeoText())
+		if (!geo.isGeoText()) {
 			return;
+		}
 		GeoText gt = (GeoText) geo;
 		// macro output: don't set start point
 		// but update to desired number format
 		if (cons != geo.getConstruction() && isAlgoMacroOutput()) {
-			if (!useSignificantFigures)
+			if (!useSignificantFigures) {
 				gt.setPrintDecimals(printDecimals > -1 ? printDecimals
 						: kernel.getPrintDecimals(), true);
-			else
+			} else {
 				gt.setPrintFigures(printFigures > -1 ? printFigures
 						: kernel.getPrintFigures(), true);
+			}
 			str = gt.str;
 			isLaTeX = gt.isLaTeX;
 			updateTemplate();
@@ -187,8 +189,9 @@ public class GeoText extends GeoElement
 	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
-		if (!geo.isGeoText())
+		if (!geo.isGeoText()) {
 			return;
+		}
 
 		GeoText text = (GeoText) geo;
 		serifFont = text.serifFont;
@@ -230,6 +233,7 @@ public class GeoText extends GeoElement
 	 * 
 	 * @return the string wrapped in this text
 	 */
+	@Override
 	final public String getTextString() {
 		return str;
 	}
@@ -238,15 +242,18 @@ public class GeoText extends GeoElement
 	 * Sets the startpoint without performing any checks. This is needed for
 	 * macros.
 	 */
+	@Override
 	public void initStartPoint(GeoPointND p, int number) {
 		startPoint = p;
 	}
 
+	@Override
 	public void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException {
 		setStartPoint(p);
 	}
 
+	@Override
 	public void removeStartPoint(GeoPointND p) {
 		if (startPoint == p) {
 			try {
@@ -257,27 +264,33 @@ public class GeoText extends GeoElement
 		}
 	}
 
+	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 		// don't allow this if it's eg Text["hello",(2,3)]
 		if (alwaysFixed)
+		 {
 			return;
 		// macro output uses initStartPoint() only
 		// if (isAlgoMacroOutput()) return;
+		}
 
 		// check for circular definition
-		if (isParentOf(p))
+		if (isParentOf(p)) {
 			throw new CircularDefinitionException();
+		}
 
 		// remove old dependencies
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);
+		}
 
 		// set new location
 		if (p == null) {
-			if (startPoint != null) // copy old startPoint
+			if (startPoint != null) {
 				startPoint = startPoint.copy();
-			else
+			} else {
 				startPoint = null;
+			}
 			labelOffsetX = 0;
 			labelOffsetY = 0;
 		} else {
@@ -295,27 +308,33 @@ public class GeoText extends GeoElement
 	public void doRemove() {
 		super.doRemove();
 		// tell startPoint
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);
+		}
 	}
 
+	@Override
 	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
 
+	@Override
 	public GeoPointND[] getStartPoints() {
-		if (startPoint == null)
+		if (startPoint == null) {
 			return null;
+		}
 
 		GeoPointND[] ret = new GeoPointND[1];
 		ret[0] = startPoint;
 		return ret;
 	}
 
+	@Override
 	public boolean hasAbsoluteLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
+	@Override
 	public void setWaitForStartPoint() {
 		// this can be ignored for a text
 		// as the position of its startpoint
@@ -382,8 +401,9 @@ public class GeoText extends GeoElement
 			sbToString.append('\"');
 		}
 
-		if (str != null)
+		if (str != null) {
 			sbToString.append(str);
+		}
 
 		if (tpl1.isMathQuill()) {
 			sbToString.append("}");
@@ -456,8 +476,9 @@ public class GeoText extends GeoElement
 	@Override
 	public boolean isMoveable() {
 
-		if (alwaysFixed)
+		if (alwaysFixed) {
 			return false;
+		}
 
 		return !isFixed();
 	}
@@ -481,8 +502,9 @@ public class GeoText extends GeoElement
 
 		// check for eg If[ a==1 , "hello", "bye"] first
 		if ((getParentAlgorithm() != null)
-				&& !(getParentAlgorithm() instanceof AlgoDependentText))
+				&& !(getParentAlgorithm() instanceof AlgoDependentText)) {
 			return true;
+		}
 
 		return isTextCommand;
 	}
@@ -490,10 +512,12 @@ public class GeoText extends GeoElement
 	/**
 	 * @return true if this text was produced by algo with LaTeX output
 	 */
+	@Override
 	public boolean isLaTeXTextCommand() {
 
-		if (!isTextCommand || getParentAlgorithm() == null)
+		if (!isTextCommand || getParentAlgorithm() == null) {
 			return false;
+		}
 
 		return getParentAlgorithm().isLaTeXTextCommand();
 	}
@@ -517,8 +541,9 @@ public class GeoText extends GeoElement
 	 *            descendant whose string template may be used
 	 */
 	public void addTextDescendant(GeoText text) {
-		if (isLabelSet())
+		if (isLabelSet()) {
 			return;
+		}
 		linkedText = text;
 	}
 
@@ -535,8 +560,9 @@ public class GeoText extends GeoElement
 	public boolean isFixable() {
 
 		// workaround for Text["text",(1,2)]
-		if (alwaysFixed)
+		if (alwaysFixed) {
 			return false;
+		}
 
 		return true;
 	}
@@ -556,9 +582,11 @@ public class GeoText extends GeoElement
 		return true;
 	}
 
+	@Override
 	public MyStringBuffer getText() {
-		if (str != null)
+		if (str != null) {
 			return new MyStringBuffer(kernel, str);
+		}
 		return new MyStringBuffer(kernel, "");
 	}
 
@@ -597,8 +625,9 @@ public class GeoText extends GeoElement
 		}
 
 		getXMLtags(sb);
-		if (getListenersToo)
+		if (getListenersToo) {
 			getListenerTagsXML(sb);
+		}
 		sb.append("</element>\n");
 
 	}
@@ -725,8 +754,9 @@ public class GeoText extends GeoElement
 	 *            when true, parent is recomputed
 	 */
 	public void setLaTeX(boolean b, boolean updateParentAlgo) {
-		if (b == isLaTeX)
+		if (b == isLaTeX) {
 			return;
+		}
 
 		isLaTeX = b;
 
@@ -745,31 +775,39 @@ public class GeoText extends GeoElement
 
 	}
 
+	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
 	}
 
+	@Override
 	public int getAbsoluteScreenLocX() {
 		return labelOffsetX;
 	}
 
+	@Override
 	public int getAbsoluteScreenLocY() {
 		return labelOffsetY;
 	}
 
+	@Override
 	public double getRealWorldLocX() {
-		if (startPoint == null)
+		if (startPoint == null) {
 			return 0;
+		}
 		return startPoint.getInhomCoords().getX();
 	}
 
+	@Override
 	public double getRealWorldLocY() {
-		if (startPoint == null)
+		if (startPoint == null) {
 			return 0;
+		}
 		return startPoint.getInhomCoords().getY();
 	}
 
+	@Override
 	public void setRealWorldLoc(double x, double y) {
 		GeoPointND locPoint = getStartPoint();
 		if (locPoint == null) {
@@ -785,9 +823,11 @@ public class GeoText extends GeoElement
 		labelOffsetY = 0;
 	}
 
+	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
-		if (flag == hasAbsoluteScreenLocation)
+		if (flag == hasAbsoluteScreenLocation) {
 			return;
+		}
 
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
@@ -802,6 +842,7 @@ public class GeoText extends GeoElement
 		}
 	}
 
+	@Override
 	public boolean isAbsoluteScreenLocActive() {
 		return hasAbsoluteScreenLocation;
 	}
@@ -815,6 +856,7 @@ public class GeoText extends GeoElement
 	// return fontSize;
 	// }
 
+	@Override
 	public double getFontSizeMultiplier() {
 		return fontSizeD;
 	}
@@ -878,34 +920,41 @@ public class GeoText extends GeoElement
 	// fontSize = size;
 	// }
 
+	@Override
 	public void setFontSizeMultiplier(double d) {
 		fontSizeD = d;
 	}
 
+	@Override
 	public int getFontStyle() {
 		return fontStyle;
 	}
 
+	@Override
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
 
 		// needed for eg \sqrt in latex
-		if ((fontStyle & GFont.BOLD) != 0)
+		if ((fontStyle & GFont.BOLD) != 0) {
 			setLineThickness(
 					EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2);
-		else
+		} else {
 			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
+		}
 
 	}
 
+	@Override
 	final public int getPrintDecimals() {
 		return printDecimals;
 	}
 
+	@Override
 	final public int getPrintFigures() {
 		return printFigures;
 	}
 
+	@Override
 	public void setPrintDecimals(int printDecimals, boolean update) {
 		AlgoElement algo = getParentAlgorithm();
 		if (algo != null && update) {
@@ -917,6 +966,7 @@ public class GeoText extends GeoElement
 		}
 	}
 
+	@Override
 	public void setPrintFigures(int printFigures, boolean update) {
 		AlgoElement algo = getParentAlgorithm();
 		if (algo != null && update) {
@@ -929,24 +979,30 @@ public class GeoText extends GeoElement
 	}
 
 	private void updateTemplateAlgos(AlgoElement algo) {
-		if (algo == null)
+		if (algo == null) {
 			return;
-		for (int i = 0; i < algo.getInput().length; i++)
-			if (algo.getInput()[i].isGeoText())
+		}
+		for (int i = 0; i < algo.getInput().length; i++) {
+			if (algo.getInput()[i].isGeoText()) {
 				updateTemplateAlgos(algo.getInput()[i].getParentAlgorithm());
+			}
+		}
 		algo.update();
 
 	}
 
+	@Override
 	public boolean useSignificantFigures() {
 		return useSignificantFigures;
 
 	}
 
+	@Override
 	public boolean isSerifFont() {
 		return serifFont;
 	}
 
+	@Override
 	public void setSerifFont(boolean serifFont) {
 		this.serifFont = serifFont;
 	}
@@ -1036,10 +1092,12 @@ public class GeoText extends GeoElement
 	@Override
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type
-		if (str == null)
+		if (str == null) {
 			return false;
-		if (geo.isGeoText())
+		}
+		if (geo.isGeoText()) {
 			return str.equals(((GeoText) geo).str);
+		}
 		return false;
 	}
 
@@ -1057,6 +1115,7 @@ public class GeoText extends GeoElement
 	public static Comparator<GeoText> getComparator() {
 		if (comparator == null) {
 			comparator = new Comparator<GeoText>() {
+				@Override
 				public int compare(GeoText itemA, GeoText itemB) {
 
 					NormalizerMinimal noramlizer = itemA.getKernel()
@@ -1075,11 +1134,12 @@ public class GeoText extends GeoElement
 								.compareTo(itemB.getTextString());
 					}
 
-					if (comp == 0)
+					if (comp == 0) {
 						// if we return 0 for equal strings, the TreeSet deletes
 						// the equal one
 						return itemA.getConstructionIndex() > itemB
 								.getConstructionIndex() ? -1 : 1;
+					}
 					return comp;
 				}
 			};
@@ -1103,10 +1163,12 @@ public class GeoText extends GeoElement
 		tpl = tpl.deriveWithFractions(this.symbolicMode);
 	}
 
+	@Override
 	public boolean isAlwaysFixed() {
 		return alwaysFixed;
 	}
 
+	@Override
 	public boolean justFontSize() {
 		return false;
 	}
@@ -1139,8 +1201,9 @@ public class GeoText extends GeoElement
 	 * @return template
 	 */
 	public StringTemplate getStringTemplate() {
-		if (linkedText == null)
+		if (linkedText == null) {
 			return tpl;
+		}
 		return linkedText.getStringTemplate();
 	}
 
@@ -1190,10 +1253,11 @@ public class GeoText extends GeoElement
 				if (spreadsheetTraceableLeftTree != null) {
 					spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
 					// if no traceable value, only copy possible
-					if (spreadsheetTraceableValue == null)
+					if (spreadsheetTraceableValue == null) {
 						traceModes = TraceModesEnum.ONLY_COPY;
-					else
+					} else {
 						traceModes = TraceModesEnum.ONE_VALUE_OR_COPY;
+					}
 					return true;
 				}
 			}
@@ -1286,6 +1350,7 @@ public class GeoText extends GeoElement
 		return true;
 	}
 
+	@Override
 	public void updateLocation() {
 		updateGeo(false);
 		kernel.notifyUpdateLocation(this);
@@ -1297,8 +1362,9 @@ public class GeoText extends GeoElement
 		if (prop == GProperty.FONT) {
 			ArrayList<AlgoElement> algosTextCorner = new ArrayList<AlgoElement>();
 			for (AlgoElement algo : getAlgorithmList()) {
-				if (algo instanceof AlgoTextCorner)
+				if (algo instanceof AlgoTextCorner) {
 					algosTextCorner.add(algo);
+				}
 			}
 			AlgoElement.updateCascadeAlgos(algosTextCorner);
 		}
@@ -1338,6 +1404,7 @@ public class GeoText extends GeoElement
 		}
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.TEXT;
 
@@ -1348,6 +1415,7 @@ public class GeoText extends GeoElement
 		return false;
 	}
 
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		if (mode != this.symbolicMode) {
 			this.symbolicMode = mode;
@@ -1359,6 +1427,7 @@ public class GeoText extends GeoElement
 
 	}
 
+	@Override
 	public boolean isSymbolicMode() {
 		return this.symbolicMode;
 	}

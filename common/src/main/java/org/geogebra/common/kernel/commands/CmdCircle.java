@@ -70,8 +70,9 @@ public class CmdCircle extends CommandProcessor {
 					(GeoPointND) arg[1]) };
 			return ret;
 		} else {
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
+			}
 			throw argErr(app, c, arg[1]);
 		}
 

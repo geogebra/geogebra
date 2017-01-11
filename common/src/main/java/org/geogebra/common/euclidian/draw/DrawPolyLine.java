@@ -107,8 +107,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			if (poly.getTrace()) {
 				isTracing = true;
 				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null)
+				if (g2 != null) {
 					drawTrace(g2);
+				}
 			} else {
 				if (isTracing) {
 					isTracing = false;
@@ -276,6 +277,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		return poly.getLineThickness() / 4.0f;
 	}
 
+	@Override
 	final public void updatePreview() {
 		int size = points.size();
 		isVisible = size > 0;
@@ -291,6 +293,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
+	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
@@ -323,12 +326,14 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
-			} else
+			} else {
 				view.getEuclidianController().setLineEndPoint(null);
+			}
 			gp.lineTo(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
@@ -338,6 +343,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}

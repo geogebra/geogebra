@@ -92,10 +92,11 @@ public abstract class MyXMLio {
 	 * @return handler for GGB files
 	 */
 	protected MyXMLHandler getGGBHandler() {
-		if (handler == null)
+		if (handler == null) {
 			// ggb3D : to create also a MyXMLHandler3D
 			// ggbDocHandler = new MyXMLHandler(kernel, cons);
 			handler = kernel.newMyXMLHandler(cons);
+		}
 		return handler;
 	}
 
@@ -227,10 +228,12 @@ public abstract class MyXMLio {
 			sb.append("\" ");
 		}
 		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
-		if (isMacro)
+		if (isMacro) {
 			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
-		else
+		}
+		else {
 			sb.append(GeoGebraConstants.GGB_XSD_FILENAME); // eg ggb.xsd
+		}
 		sb.append(
 				"\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
 	}

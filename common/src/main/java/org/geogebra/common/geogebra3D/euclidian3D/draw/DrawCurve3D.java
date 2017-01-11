@@ -65,10 +65,12 @@ public class DrawCurve3D extends Drawable3DCurves {
 				max = ((GeoFunction) curve).getIntervalMax();
 				double minView = view.getXmin();
 				double maxView = view.getXmax();
-				if (min < minView)
+				if (min < minView) {
 					min = minView;
-				if (max > maxView)
+				}
+				if (max > maxView) {
 					max = maxView;
+				}
 			} else {
 				min = view.getXmin();
 				max = view.getXmax();

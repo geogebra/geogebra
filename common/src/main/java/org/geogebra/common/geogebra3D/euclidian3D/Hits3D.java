@@ -80,9 +80,10 @@ public class Hits3D extends Hits {
 	public Hits3D() {
 		super();
 
-		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++)
+		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++) {
 			hitSet[i] = new TreeSetOfDrawable3D(
 					new Drawable3D.DrawableComparator());
+		}
 
 		// init counters
 		QuadCount = 0;
@@ -124,8 +125,9 @@ public class Hits3D extends Hits {
 	@Override
 	public void init() {
 		super.init();
-		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++)
+		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++) {
 			hitSet[i].clear();
+		}
 		hitsOthers.clear();
 		hitsLabels.clear();
 
@@ -172,10 +174,11 @@ public class Hits3D extends Hits {
 
 		// Log.debug("\n"+d+"\n"+type);
 
-		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX)
+		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX) {
 			hitSet[d.getPickOrder()].add(d, zNear, zFar);
-		else
+		} else {
 			hitsOthers.add(d, zNear, zFar);
+		}
 
 	}
 
@@ -199,10 +202,11 @@ public class Hits3D extends Hits {
 
 		// Log.debug("\n"+d+"\n"+type);
 
-		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX)
+		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX) {
 			hitSet[d.getPickOrder()].add(d);
-		else
+		} else {
 			hitsOthers.add(d);
+		}
 
 	}
 
@@ -296,8 +300,9 @@ public class Hits3D extends Hits {
 	@Override
 	public Hits getTopHits() {
 
-		if (topHits.isEmpty())
+		if (topHits.isEmpty()) {
 			return cloneHits();
+		}
 		return topHits;
 
 	}
@@ -310,8 +315,9 @@ public class Hits3D extends Hits {
 		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet
 				.iterator(); iterSet.hasNext() && depthCount < depth;) {
 			TreeSetOfDrawable3D set = iterSet.next();
-			if (set.size() > 0)
+			if (set.size() > 0) {
 				depthCount++;
+			}
 
 			for (Iterator<Drawable3D> iter = set.iterator(); iter.hasNext()
 					&& geoNCount < geoN;) {
@@ -331,15 +337,17 @@ public class Hits3D extends Hits {
 	 */
 	public GeoElement getLabelHit() {
 
-		if (hitsLabels.isEmpty())
+		if (hitsLabels.isEmpty()) {
 			return null;
+		}
 
 		// Log.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst
 		// hit:"+drawables3D.get(0).zPickMin);
 		GeoElement labelGeo = hitsLabels.first().getGeoElement();
 		// check if the label hit is the first geo hitted
-		if (labelGeo == topHits.get(0))
+		if (labelGeo == topHits.get(0)) {
 			return labelGeo;
+		}
 		// else label is not hitted
 		return null;
 	}
@@ -360,9 +368,10 @@ public class Hits3D extends Hits {
 			GeoElement geo = get(i);
 			if (geo.isGeoPolygon() || geo instanceof GeoQuadric3D
 					|| geo.isGeoConic()) {
-				if (foundTarget)
+				if (foundTarget) {
 					// not removing when found first time
 					remove(i);
+				}
 				foundTarget = true;
 			}
 		}

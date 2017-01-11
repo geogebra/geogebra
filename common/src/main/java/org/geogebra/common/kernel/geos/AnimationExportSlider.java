@@ -10,6 +10,7 @@ public interface AnimationExportSlider {
 	 * 
 	 * @return string displayed in slider combo box
 	 */
+	@Override
 	public String toString();
 
 	/**

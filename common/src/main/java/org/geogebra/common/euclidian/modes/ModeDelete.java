@@ -219,8 +219,9 @@ public class ModeDelete {
 		}
 
 		ec.deleteAll(h);
-		if (as != null)
+		if (as != null) {
 			as.updateAll();
+		}
 	}
 
 	private void deleteUnnecessaryUndefPoints(GeoPointND[] dataPoints,
@@ -490,8 +491,9 @@ public class ModeDelete {
 		if (interPointX <= Math.max(segStartX, segEndX)
 				&& interPointX >= Math.min(segStartX, segEndX)
 				&& interPointY <= Math.max(segStartY, segEndY)
-				&& interPointY >= Math.min(segStartY, segEndY))
+				&& interPointY >= Math.min(segStartY, segEndY)) {
 			return true;
+		}
 
 		return false;
 	}
@@ -708,8 +710,9 @@ public class ModeDelete {
 					// remove this Stroke
 					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
 				}
-				if (as != null)
+				if (as != null) {
 					as.updateAll();
+				}
 			}
 			// delete this object
 			else {

@@ -637,8 +637,9 @@ public enum Operation {
 				GeoVec2D.complexExp(vec, vec);
 				return vec;
 
-			} else
+			} else {
 				return ev.polynomialOrDie(lt, this, "exp(");
+			}
 
 		}
 	},
@@ -657,8 +658,9 @@ public enum Operation {
 				GeoVec2D.complexLog(vec, vec);
 				return vec;
 
-			} else
+			} else {
 				return ev.polynomialOrDie(lt, this, "log(");
+			}
 		}
 	},
 	ARCCOS {
@@ -811,8 +813,9 @@ public enum Operation {
 				GeoVec2D.complexSqrt(vec, vec);
 				return vec;
 
-			} else
+			} else {
 				return ev.polynomialOrDie(lt, this, "sqrt(");
+			}
 		}
 	},
 	SQRT_SHORT {
@@ -848,8 +851,9 @@ public enum Operation {
 
 				return new MyDouble(kernel, vec3d.length());
 
-			} else
+			} else {
 				return ev.polynomialOrDie(lt, Operation.ABS, "abs(");
+			}
 		}
 	},
 	SGN {
@@ -1738,8 +1742,9 @@ public enum Operation {
 
 				return vec;
 
-			} else
+			} else {
 				return ev.polynomialOrDie(lt, this, "zeta(");
+			}
 		}
 	},
 	DIFF {

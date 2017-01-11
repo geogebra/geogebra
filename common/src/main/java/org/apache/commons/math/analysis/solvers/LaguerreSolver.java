@@ -98,6 +98,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double solve(final double min, final double max)
 			throws ConvergenceException, FunctionEvaluationException {
@@ -105,6 +106,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	@Deprecated
 	public double solve(final double min, final double max,
 			final double initial)
@@ -169,6 +171,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if any parameters are invalid
 	 * @deprecated in 2.2 (to be removed in 3.0).
 	 */
+	@Override
 	@Deprecated
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max, final double initial)
@@ -256,6 +259,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if any parameters are invalid
 	 * @deprecated in 2.2 (to be removed in 3.0).
 	 */
+	@Override
 	@Deprecated
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max)

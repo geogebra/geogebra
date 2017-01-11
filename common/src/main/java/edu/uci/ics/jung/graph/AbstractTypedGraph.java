@@ -40,6 +40,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	/**
 	 * Returns this graph's edge type.
 	 */
+	@Override
 	public EdgeType getDefaultEdgeType() {
 		return this.edge_type;
 	}
@@ -48,6 +49,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	 * Returns this graph's edge type, or {@code null} if {@code e} is not in
 	 * this graph.
 	 */
+	@Override
 	public EdgeType getEdgeType(E e) {
 		return hasEqualEdgeType(edge_type) ? this.edge_type : null;
 	}
@@ -56,6 +58,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	 * Returns the edge set for this graph if {@code edgeType} matches the edge
 	 * type for this graph, and an empty set otherwise.
 	 */
+	@Override
 	public Collection<E> getEdges(EdgeType edge_type) {
 		return hasEqualEdgeType(edge_type) ? this.getEdges()
 				: Collections.<E> emptySet();
@@ -65,6 +68,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	 * Returns the edge count for this graph if {@code edge_type} matches the
 	 * edge type for this graph, and 0 otherwise.
 	 */
+	@Override
 	public int getEdgeCount(EdgeType edge_type) {
 		return hasEqualEdgeType(edge_type) ? this.getEdgeCount() : 0;
 	}
@@ -88,9 +92,10 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	 *            the edge type to compare to this instance's default edge type
 	 */
 	protected void validateEdgeType(EdgeType edge_type) {
-		if (!hasEqualEdgeType(edge_type))
+		if (!hasEqualEdgeType(edge_type)) {
 			throw new IllegalArgumentException("Edge type '" + edge_type
 					+ "' does not match the default edge type for this graph: '"
 					+ this.edge_type + "'");
+		}
 	}
 }

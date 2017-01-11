@@ -110,10 +110,12 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		g.z = -(midPoint.x * g.x + midPoint.y * g.y) / 2.0;
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
@@ -127,6 +129,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
 		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
@@ -147,6 +150,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -183,6 +187,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -220,6 +225,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
@@ -231,6 +237,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	 * @see geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo#
 	 * getBotanaPolynomials()
 	 */
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
@@ -262,6 +269,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnLineBisectorSegment(geo, this, scope);

@@ -95,6 +95,7 @@ public class EppsteinPowerLawGenerator<V, E> implements GraphGenerator<V, E> {
 	 * 
 	 * @return the generated graph
 	 */
+	@Override
 	public Graph<V, E> create() {
 		Graph<V, E> graph = initializeGraph();
 

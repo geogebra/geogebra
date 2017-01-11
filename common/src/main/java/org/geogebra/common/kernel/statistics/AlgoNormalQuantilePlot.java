@@ -179,12 +179,13 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		cons.setSuppressLabelCreation(true);
 
 		for (int i = 0; i < sortedData.length; i++) {
-			if (i < oldListSize)
+			if (i < oldListSize) {
 				((GeoPoint) outputList.get(i)).setCoords(sortedData[i],
 						zValues[i], 1.0);
-			else
+			} else {
 				outputList.add(new GeoPoint(cons, null, sortedData[i],
 						zValues[i], 1.0));
+			}
 		}
 
 		// create qq line segment and add it to the list

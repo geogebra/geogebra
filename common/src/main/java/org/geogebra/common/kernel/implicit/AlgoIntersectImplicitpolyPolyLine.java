@@ -232,10 +232,12 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 				zs = zs.multiply(ty).add(
 						new PolynomialFunction(new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
 			}
-			if (sum == null)
+			if (sum == null) {
 				sum = zs;
-			else
+			}
+			else {
 				sum = sum.multiply(tx).add(zs);// sum*x+zs;
+			}
 		}
 		return sum;
 	}
@@ -245,14 +247,16 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 			double min, double max) {
 		double roots[] = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
-		if (roots.length > 1)
+		if (roots.length > 1) {
 			nrRealRoots = AlgoSimpleRootsPolynomial.getRoots(roots, eqnSolver);
+		}
 
 		for (int i = 0; i < nrRealRoots; ++i) {
 			if (Kernel.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
 					|| Kernel.isGreater(min, roots[i],
-							Kernel.STANDARD_PRECISION))
+							Kernel.STANDARD_PRECISION)) {
 				roots[i] = Double.NaN;
+			}
 		}
 
 		// makePoints(roots, nrRealRoots);
@@ -263,8 +267,9 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		// return tx.value(t); }
 		int count = 0;
 		for (int i = 0; i < nrRealRoots; i++) {
-			if (Double.isNaN(roots[i]))
+			if (Double.isNaN(roots[i])) {
 				continue;
+			}
 			Coords pair = new Coords(tx.value(roots[i]), ty.value(roots[i]), 1);
 			for (int k = 1; k < count + 1; k++) {
 				if (count > 0 && distancePairSq(pair,
@@ -329,6 +334,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoPoint> createOutputPoints() {
 		return new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
 				p.setCoords(0, 0, 1);

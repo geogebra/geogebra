@@ -137,8 +137,9 @@ public class OptionsMenu {
 	 * Update the menu with all decimal places.
 	 */
 	public void updateMenuDecimalPlaces() {
-		if (menuDecimalPlaces == null)
+		if (menuDecimalPlaces == null) {
 			return;
+		}
 
 		int pos = getMenuDecimalPosition(kernel);
 
@@ -161,13 +162,15 @@ public class OptionsMenu {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < figuresLookupLength())
+			if (figures > 0 && figures < figuresLookupLength()) {
 				pos = figuresLookup(figures);
+			}
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals >= 0 && decimals < decimalsLookupLength())
+			if (decimals >= 0 && decimals < decimalsLookupLength()) {
 				pos = decimalsLookup(decimals);
+			}
 
 		}
 
@@ -213,8 +216,9 @@ public class OptionsMenu {
 	 * Update the selected item in the labeling capturing menu.
 	 */
 	public void updateMenuLabeling() {
-		if (menuLabeling == null)
+		if (menuLabeling == null) {
 			return;
+		}
 
 		int pos = app.getLabelingStyleForMenu();
 		menuLabeling.setSelected(pos);

@@ -42,10 +42,12 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	 *            weight parameters
 	 * @return the same as weight(int,double,double,double)
 	 */
+	@Override
 	public double weight(AlgoKimberlingWeightsParams kw) {
 		return weight(kw.k, kw.a, kw.b, kw.c);
 	}
 
+	@Override
 	public double weight(int k, double a, double b, double c) {
 
 		a2 = a * a;

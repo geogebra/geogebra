@@ -88,11 +88,12 @@ public class Coords3D {
 	public Coords3D normalized() {
 
 		double inv;
-		if (calcNorm)
+		if (calcNorm) {
 			inv = 1 / Math
 					.sqrt(val[0] * val[0] + val[1] * val[1] + val[2] * val[2]);
-		else
+		} else {
 			inv = 1 / norm;
+		}
 		return new Coords3D(val[0] * inv, val[1] * inv, val[2] * inv,
 				val[3] * inv);
 	}
@@ -100,11 +101,12 @@ public class Coords3D {
 	/** normalize this */
 	public Coords3D normalize() {
 		double inv;
-		if (calcNorm)
+		if (calcNorm) {
 			inv = 1 / Math
 					.sqrt(val[0] * val[0] + val[1] * val[1] + val[2] * val[2]);
-		else
+		} else {
 			inv = 1 / norm;
+		}
 		val[0] *= inv;
 		val[1] *= inv;
 		val[2] *= inv;

@@ -83,6 +83,7 @@ public abstract class AbstractContinuousDistribution extends
 	 * @throws IllegalArgumentException
 	 *             if <code>p</code> is not a valid probability.
 	 */
+	@Override
 	public double inverseCumulativeProbability(final double p)
 			throws MathException {
 		if (p < 0.0 || p > 1.0) {
@@ -94,6 +95,7 @@ public abstract class AbstractContinuousDistribution extends
 		// solver.
 		// subclasses can override if there is a better method.
 		UnivariateRealFunction rootFindingFunction = new UnivariateRealFunction() {
+			@Override
 			public double value(double x) throws FunctionEvaluationException {
 				double ret = Double.NaN;
 				try {

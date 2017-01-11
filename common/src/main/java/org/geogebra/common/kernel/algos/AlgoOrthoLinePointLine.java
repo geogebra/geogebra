@@ -136,10 +136,12 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		GeoVec3D.cross(P, l.x, l.y, 0.0, g);
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && l != null) {
@@ -150,6 +152,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (P != null && l != null) {
 			int[] degreeP = P.getDegrees();
@@ -165,6 +168,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -181,6 +185,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -198,10 +203,12 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
@@ -251,6 +258,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnOrthoLinePointLine(geo, this, scope);

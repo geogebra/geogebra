@@ -51,8 +51,9 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 				return ret;
 
 			} else if (!(arg[0] instanceof VectorValue
-					&& arg[1] instanceof VectorValue))
+					&& arg[1] instanceof VectorValue)) {
 				throw argErr(app, c, arg[0]);
+			}
 
 		default:
 

@@ -343,8 +343,9 @@ public class ParserFunctions {
 	 * @return operation
 	 */
 	public Operation get(String s, int size) {
-		if (size > MAX_ARGS)
+		if (size > MAX_ARGS) {
 			return null;
+		}
 		Operation ret = stringToOp.get(size).get(s);
 		if (!this.inverseTrig || ret == null) {
 			return ret;
@@ -373,8 +374,9 @@ public class ParserFunctions {
 		if (arg != null) {
 			syntaxes.add(name + arg);
 		}
-		if (size > MAX_ARGS)
+		if (size > MAX_ARGS) {
 			return;
+		}
 		stringToOp.get(size).put(name, op);
 
 	}

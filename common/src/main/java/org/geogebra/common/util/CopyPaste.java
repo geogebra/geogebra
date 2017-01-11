@@ -85,8 +85,9 @@ public class CopyPaste {
 	 * @return whether the clipboard is empty
 	 */
 	public boolean isEmpty() {
-		if (copiedXML == null)
+		if (copiedXML == null) {
 			return true;
+		}
 
 		return (copiedXML.length() == 0);
 	}
@@ -101,10 +102,11 @@ public class CopyPaste {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
-			if (geo.isGeoNumeric())
+			if (geo.isGeoNumeric()) {
 				if (((GeoNumeric) geo).isSliderFixed()) {
 					geos.remove(geo);
 				}
+			}
 		}
 	}
 
@@ -203,8 +205,9 @@ public class CopyPaste {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
-			if (geo.getParentAlgorithm() == null)
+			if (geo.getParentAlgorithm() == null) {
 				continue;
+			}
 
 			if (!geo.isGeoElement3D()) {
 				if ((geo.isGeoLine()
@@ -275,35 +278,42 @@ public class CopyPaste {
 					if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
-						if (!geos.contains(pgeos[0]))
+						if (!geos.contains(pgeos[0])) {
 							geos.add(pgeos[0]);
-						if (!geos.contains(pgeos[1]))
+						}
+						if (!geos.contains(pgeos[1])) {
 							geos.add(pgeos[1]);
+						}
 					} else if (geo
 							.getParentAlgorithm() instanceof AlgoCircleThreePoints
 							|| geo.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
-						if (!geos.contains(pgeos[0]))
+						if (!geos.contains(pgeos[0])) {
 							geos.add(pgeos[0]);
-						if (!geos.contains(pgeos[1]))
+						}
+						if (!geos.contains(pgeos[1])) {
 							geos.add(pgeos[1]);
-						if (!geos.contains(pgeos[2]))
+						}
+						if (!geos.contains(pgeos[2])) {
 							geos.add(pgeos[2]);
+						}
 					} else if (geo
 							.getParentAlgorithm() instanceof AlgoConicFivePoints) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
-							if (!geos.contains(pgeos[j]))
+							if (!geos.contains(pgeos[j])) {
 								geos.add(pgeos[j]);
+							}
 						}
 					} else if (geo
 							.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
-						if (!geos.contains(pgeos[0]))
+						if (!geos.contains(pgeos[0])) {
 							geos.add(pgeos[0]);
+						}
 					}
 				} else if (geo.isGeoList()) {
 					// TODO: note that there are a whole lot of other list algos
@@ -319,16 +329,18 @@ public class CopyPaste {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						if (pgeos.length > 1) {
-							if (!geos.contains(pgeos[0]))
+							if (!geos.contains(pgeos[0])) {
 								geos.add(pgeos[0]);
+							}
 						}
 					} else if (geo
 							.getParentAlgorithm() instanceof AlgoDependentList) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
-							if (!geos.contains(pgeos[j]))
+							if (!geos.contains(pgeos[j])) {
 								geos.add(pgeos[j]);
+							}
 						}
 					}
 				}
@@ -488,10 +500,11 @@ public class CopyPaste {
 			ArrayList<ConstructionElement> geostohide, boolean samewindow,
 			boolean putdown) {
 
-		if (samewindow)
+		if (samewindow) {
 			copiedXMLlabelsforSameWindow = new ArrayList<String>();
-		else
+		} else {
 			copiedXMLlabels = new ArrayList<String>();
+		}
 
 		ConstructionElement geo;
 		String label;
@@ -502,12 +515,13 @@ public class CopyPaste {
 				if (label != null) {
 					((GeoElement) geo).setLabelSimple(labelPrefix + label);
 
-					if (samewindow)
+					if (samewindow) {
 						copiedXMLlabelsforSameWindow
 								.add(((GeoElement) geo).getLabelSimple());
-					else
+					} else {
 						copiedXMLlabels
 								.add(((GeoElement) geo).getLabelSimple());
+					}
 
 					if (putdown) {
 						geo.getKernel().renameLabelInScripts(label,
@@ -592,8 +606,9 @@ public class CopyPaste {
 
 		boolean copyMacrosPresume = true;
 
-		if (geos.isEmpty())
+		if (geos.isEmpty()) {
 			return;
+		}
 
 		boolean scriptsBlocked = app.isBlockUpdateScripts();
 		app.setBlockUpdateScripts(true);
@@ -682,8 +697,9 @@ public class CopyPaste {
 			Construction cons = app.getKernel().getConstruction();
 			for (int i = 0; i < cons.steps(); ++i) {
 				ce = cons.getConstructionElement(i);
-				if (geoslocal.contains(ce))
+				if (geoslocal.contains(ce)) {
 					ce.getXML(false, copiedXML);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -711,8 +727,9 @@ public class CopyPaste {
 				Construction cons = app.getKernel().getConstruction();
 				for (int i = 0; i < cons.steps(); ++i) {
 					ce = cons.getConstructionElement(i);
-					if (geoslocalsw.contains(ce))
+					if (geoslocalsw.contains(ce)) {
 						ce.getXML(false, copiedXMLforSameWindow);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -811,13 +828,15 @@ public class CopyPaste {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						if (pgeos.length > 1 && pgeos[1].getLabelSimple()
-								.length() > labelPrefix.length())
+								.length() > labelPrefix.length()) {
 							if (pgeos[1].getLabelSimple()
 									.substring(0, labelPrefix.length())
-									.equals(labelPrefix))
+									.equals(labelPrefix)) {
 								pgeos[1].setLabelSimple(
 										pgeos[1].getLabelSimple().substring(
 												labelPrefix.length()));
+							}
+						}
 					}
 				}
 			}
@@ -831,10 +850,12 @@ public class CopyPaste {
 	 * @return boolean
 	 */
 	public boolean pasteFast(App app) {
-		if (app.getActiveEuclidianView() != copySource)
+		if (app.getActiveEuclidianView() != copySource) {
 			return false;
-		if (copyObject != copyObject2)
+		}
+		if (copyObject != copyObject2) {
 			return false;
+		}
 		return true;
 	}
 
@@ -846,24 +867,29 @@ public class CopyPaste {
 	 */
 	public void pasteFromXML(App app, boolean putdown) {
 
-		if (copiedXML == null)
+		if (copiedXML == null) {
 			return;
+		}
 
-		if (copiedXML.length() == 0)
+		if (copiedXML.length() == 0) {
 			return;
+		}
 
-		if (!app.getActiveEuclidianView().getEuclidianController().mayPaste())
+		if (!app.getActiveEuclidianView().getEuclidianController().mayPaste()) {
 			return;
+		}
 
 		copyObject2 = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
 
 		if (pasteFast(app) && !putdown) {
-			if (copiedXMLforSameWindow == null)
+			if (copiedXMLforSameWindow == null) {
 				return;
+			}
 
-			if (copiedXMLforSameWindow.length() == 0)
+			if (copiedXMLforSameWindow.length() == 0) {
 				return;
+			}
 		}
 		
 		if(pasteFast(app)){

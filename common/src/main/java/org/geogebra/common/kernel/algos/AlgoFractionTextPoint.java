@@ -98,8 +98,9 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 			text.setTextString(sb.toString());
 
-		} else
+		} else {
 			text.setTextString("?");
+		}
 	}
 
 	@Override

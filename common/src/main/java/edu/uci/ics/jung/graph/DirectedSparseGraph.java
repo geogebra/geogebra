@@ -39,6 +39,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	public static final <V, E> Factory<DirectedGraph<V, E>> getFactory() {
 		return new Factory<DirectedGraph<V, E>>() {
+			@Override
 			public DirectedGraph<V, E> create() {
 				return new DirectedSparseGraph<V, E>();
 			}
@@ -66,22 +67,26 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 			EdgeType edgeType) {
 		this.validateEdgeType(edgeType);
 		Pair<V> new_endpoints = getValidatedEndpoints(edge, endpoints);
-		if (new_endpoints == null)
+		if (new_endpoints == null) {
 			return false;
+		}
 
 		V source = new_endpoints.getFirst();
 		V dest = new_endpoints.getSecond();
 
-		if (findEdge(source, dest) != null)
+		if (findEdge(source, dest) != null) {
 			return false;
+		}
 
 		edges.put(edge, new_endpoints);
 
-		if (!vertices.containsKey(source))
+		if (!vertices.containsKey(source)) {
 			this.addVertex(source);
+		}
 
-		if (!vertices.containsKey(dest))
+		if (!vertices.containsKey(dest)) {
 			this.addVertex(dest);
+		}
 
 		// map source of this edge to <dest, edge> and vice versa
 		vertices.get(source).getSecond().put(dest, edge);
@@ -92,19 +97,22 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 
 	@Override
 	public E findEdge(V v1, V v2) {
-		if (!containsVertex(v1) || !containsVertex(v2))
+		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
+		}
 		return vertices.get(v1).getSecond().get(v2);
 	}
 
 	@Override
 	public Collection<E> findEdgeSet(V v1, V v2) {
-		if (!containsVertex(v1) || !containsVertex(v2))
+		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
+		}
 		ArrayList<E> edge_collection = new ArrayList<E>(1);
 		E e = findEdge(v1, v2);
-		if (e == null)
+		if (e == null) {
 			return edge_collection;
+		}
 		edge_collection.add(e);
 		return edge_collection;
 	}
@@ -125,87 +133,113 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		return vertices.get(vertex).getSecond().keySet();
 	}
 
+	@Override
 	public Collection<E> getInEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		return Collections.unmodifiableCollection(getIncoming_internal(vertex));
 	}
 
+	@Override
 	public Collection<E> getOutEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		return Collections.unmodifiableCollection(getOutgoing_internal(vertex));
 	}
 
+	@Override
 	public Collection<V> getPredecessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		return Collections.unmodifiableCollection(getPreds_internal(vertex));
 	}
 
+	@Override
 	public Collection<V> getSuccessors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 		return Collections.unmodifiableCollection(getSuccs_internal(vertex));
 	}
 
+	@Override
 	public Pair<V> getEndpoints(E edge) {
-		if (!containsEdge(edge))
+		if (!containsEdge(edge)) {
 			return null;
+		}
 		return edges.get(edge);
 	}
 
+	@Override
 	public V getSource(E directed_edge) {
-		if (!containsEdge(directed_edge))
+		if (!containsEdge(directed_edge)) {
 			return null;
+		}
 		return edges.get(directed_edge).getFirst();
 	}
 
+	@Override
 	public V getDest(E directed_edge) {
-		if (!containsEdge(directed_edge))
+		if (!containsEdge(directed_edge)) {
 			return null;
+		}
 		return edges.get(directed_edge).getSecond();
 	}
 
+	@Override
 	public boolean isSource(V vertex, E edge) {
-		if (!containsEdge(edge) || !containsVertex(vertex))
+		if (!containsEdge(edge) || !containsVertex(vertex)) {
 			return false;
+		}
 		return vertex.equals(this.getEndpoints(edge).getFirst());
 	}
 
+	@Override
 	public boolean isDest(V vertex, E edge) {
-		if (!containsEdge(edge) || !containsVertex(vertex))
+		if (!containsEdge(edge) || !containsVertex(vertex)) {
 			return false;
+		}
 		return vertex.equals(this.getEndpoints(edge).getSecond());
 	}
 
+	@Override
 	public Collection<E> getEdges() {
 		return Collections.unmodifiableCollection(edges.keySet());
 	}
 
+	@Override
 	public Collection<V> getVertices() {
 		return Collections.unmodifiableCollection(vertices.keySet());
 	}
 
+	@Override
 	public boolean containsVertex(V vertex) {
 		return vertices.containsKey(vertex);
 	}
 
+	@Override
 	public boolean containsEdge(E edge) {
 		return edges.containsKey(edge);
 	}
 
+	@Override
 	public int getEdgeCount() {
 		return edges.size();
 	}
 
+	@Override
 	public int getVertexCount() {
 		return vertices.size();
 	}
 
+	@Override
 	public Collection<V> getNeighbors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Collection<V> neighbors = new HashSet<V>();
 		neighbors.addAll(getPreds_internal(vertex));
@@ -213,9 +247,11 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		return Collections.unmodifiableCollection(neighbors);
 	}
 
+	@Override
 	public Collection<E> getIncidentEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Collection<E> incident_edges = new HashSet<E>();
 		incident_edges.addAll(getIncoming_internal(vertex));
@@ -223,6 +259,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		return Collections.unmodifiableCollection(incident_edges);
 	}
 
+	@Override
 	public boolean addVertex(V vertex) {
 		if (vertex == null) {
 			throw new IllegalArgumentException("vertex may not be null");
@@ -236,25 +273,30 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		}
 	}
 
+	@Override
 	public boolean removeVertex(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return false;
+		}
 
 		// copy to avoid concurrent modification in removeEdge
 		ArrayList<E> incident = new ArrayList<E>(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 
-		for (E edge : incident)
+		for (E edge : incident) {
 			removeEdge(edge);
+		}
 
 		vertices.remove(vertex);
 
 		return true;
 	}
 
+	@Override
 	public boolean removeEdge(E edge) {
-		if (!containsEdge(edge))
+		if (!containsEdge(edge)) {
 			return false;
+		}
 
 		Pair<V> endpoints = this.getEndpoints(edge);
 		V source = endpoints.getFirst();
@@ -268,6 +310,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		return true;
 	}
 
+	@Override
 	public DirectedSparseGraph<V, E> newInstance() {
 		return new DirectedSparseGraph<V, E>();
 	}

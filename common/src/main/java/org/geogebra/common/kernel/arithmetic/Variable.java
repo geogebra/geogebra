@@ -70,10 +70,12 @@ public class Variable extends ValidExpression {
 		return toString(tpl);
 	}
 
+	@Override
 	public boolean isConstant() {
 		return false;
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return true;
 	}
@@ -110,8 +112,9 @@ public class Variable extends ValidExpression {
 		// allowed
 		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement,
 				kernel.isResolveUnkownVarsAsDummyGeos());
-		if (geo != null || !throwError)
+		if (geo != null || !throwError) {
 			return geo;
+		}
 
 		// if we get here we couldn't resolve this variable name as a GeoElement
 		String[] str = { "UndefinedVariable", name };
@@ -146,13 +149,14 @@ public class Variable extends ValidExpression {
 			boolean col$ = name.indexOf('$') == 0;
 			boolean row$ = name.length() > 2 && name.indexOf('$', 1) > -1;
 			Operation operation = Operation.NO_OPERATION;
-			if (row$ && col$)
+			if (row$ && col$) {
 				operation = Operation.$VAR_ROW_COL;
-			else if (row$)
+			} else if (row$) {
 				operation = Operation.$VAR_ROW;
-			else
+			} else {
 				// if (col$)
 				operation = Operation.$VAR_COL;
+			}
 
 			// build an expression node that wraps the resolved geo
 			return new ExpressionNode(kernel, geo, operation, null);
@@ -197,8 +201,9 @@ public class Variable extends ValidExpression {
 		}
 		for (i = nameNoX.length() - 1; i >= 0; i--) {
 			char c = name.charAt(i);
-			if ((c < 'x' || c > 'z') && c != Unicode.theta && c != Unicode.pi)
+			if ((c < 'x' || c > 'z') && c != Unicode.theta && c != Unicode.pi) {
 				break;
+			}
 			exponents[c == Unicode.pi ? 4
 					: (c == Unicode.theta ? 3 : c - 'x')]++;
 			nameNoX = name.substring(0, i);
@@ -218,8 +223,9 @@ public class Variable extends ValidExpression {
 				}
 			}
 
-			if (geo2 != null)
+			if (geo2 != null) {
 				break;
+			}
 		}
 		while (nameNoX.length() > 0 && geo2 == null && (nameNoX.startsWith("pi")
 				|| nameNoX.charAt(0) == Unicode.pi)) {
@@ -310,12 +316,14 @@ public class Variable extends ValidExpression {
 				: (piExp == null ? degExp : piExp.multiply(degExp));
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> ret = new HashSet<GeoElement>();
 		ret.add(resolve(true));
 		return ret;
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		// this has to be handled in ExpressionNode
 	}
@@ -330,10 +338,12 @@ public class Variable extends ValidExpression {
 		return toString(tpl);
 	}
 
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
@@ -343,10 +353,12 @@ public class Variable extends ValidExpression {
 		return true;
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
+	@Override
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
@@ -361,8 +373,9 @@ public class Variable extends ValidExpression {
 	@Override
 	public boolean hasCoords() {
 		GeoElement ge = kernel.lookupLabel(name, false, true);
-		if (ge != null && !(ge instanceof GeoDummyVariable))
+		if (ge != null && !(ge instanceof GeoDummyVariable)) {
 			return ge.hasCoords();
+		}
 
 		return false;
 	}

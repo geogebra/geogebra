@@ -104,6 +104,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * @param pointY
 	 *            y coord
 	 */
+	@Override
 	final public void setLineThrough(double pointX, double pointY) {
 		setCoord(new Coords(pointX, pointY, 0, 1), getDirectionInD3());
 	}
@@ -123,8 +124,9 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		startPoint = O;
 		endPoint = I;
 
-		if ((O == null) || (I == null))
+		if ((O == null) || (I == null)) {
 			return true;
+		}
 
 		if (I.isInfinite()) {
 			if (O.isInfinite()) {
@@ -151,14 +153,15 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo instanceof GeoCoordSys1D) {
-			if (!geo.isDefined())
+			if (!geo.isDefined()) {
 				setUndefined();
-			else
+			} else {
 				setCoord((GeoCoordSys1D) geo);
+			}
 		} else if (geo instanceof GeoLineND) {
-			if (!geo.isDefined())
+			if (!geo.isDefined()) {
 				setUndefined();
-			else {
+			} else {
 				setCoord(((GeoLineND) geo).getStartPoint(),
 						((GeoLineND) geo).getEndPoint());
 			}
@@ -212,6 +215,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * @param lambda
 	 * @return the point at position lambda on the coord sys
 	 */
+	@Override
 	public Coords getPointInD(int dimension, double lambda) {
 
 		Coords v = getPoint(lambda);
@@ -237,6 +241,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return getCoordSys().getMatrixOrthonormal().getVx();
 	}
 
+	@Override
 	public Coords getDirectionForEquation() {
 		return getCoordSys().getVx();
 	}
@@ -247,14 +252,16 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 
 		double t = getParamOnLine(P);
 
-		if (t < getMinParameter())
+		if (t < getMinParameter()) {
 			t = getMinParameter();
-		else if (t > getMaxParameter())
+		} else if (t > getMaxParameter()) {
 			t = getMaxParameter();
+		}
 
 		// set path parameter
 		PathParameter pp = P.getPathParameter();
@@ -298,8 +305,9 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 							.sub(coordsys.getOrigin())
 							.crossProduct(coordsys.getVx());
 					if (preDirection.equalsForKernel(0,
-							Kernel.STANDARD_PRECISION))
+							Kernel.STANDARD_PRECISION)) {
 						preDirection = coordsys.getVy();
+					}
 
 					if (tmpCoords1 == null) {
 						tmpCoords1 = Coords.createInhomCoorsInD3();
@@ -321,8 +329,9 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 			// Application.debug("project current point coordinates");
 			Coords preDirection = P.getInhomCoordsInD3()
 					.sub(coordsys.getOrigin()).crossProduct(coordsys.getVx());
-			if (preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION))
+			if (preDirection.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 				preDirection = coordsys.getVy();
+			}
 
 			if (tmpCoords1 == null) {
 				tmpCoords1 = Coords.createInhomCoorsInD3();
@@ -335,6 +344,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return t;
 	}
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -349,17 +359,21 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
-		if (PI.getPath() == this)
+		if (PI.getPath() == this) {
 			return true;
+		}
 
 		return isOnPath(PI.getCoordsInD3(), eps);
 	}
 
+	@Override
 	public boolean isOnPath(Coords coords, double eps) {
 		return isOnFullLine(coords, eps);
 	}
 
+	@Override
 	public boolean isOnFullLine(Coords p, double eps) {
 		Coords cross;
 
@@ -376,6 +390,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	public boolean respectLimitedPath(Coords coords, double eps) {
 		return true;
 	}
@@ -407,6 +422,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	public CoordSys getCoordSys() {
 		return coordsys;
 	}
@@ -416,6 +432,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return coordsys.getPoint(0.5);
 	}
 
+	@Override
 	public Coords getCartesianEquationVector(CoordMatrix m) {
 
 		if (m == null) {
@@ -427,6 +444,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 				getCoordSys().getVx(), m);
 	}
 
+	@Override
 	public Coords getStartInhomCoords() {
 		return getCoordSys().getOrigin().getInhomCoordsInSameDimension();
 	}
@@ -434,10 +452,12 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	/**
 	 * @return inhom coords of the end point
 	 */
+	@Override
 	public Coords getEndInhomCoords() {
 		return getCoordSys().getPoint(1).getInhomCoordsInSameDimension();
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		return getCoordSys().getVx();
 	}
@@ -446,6 +466,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * 
 	 * @return start point
 	 */
+	@Override
 	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
@@ -454,6 +475,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * 
 	 * @return "end" point
 	 */
+	@Override
 	public GeoPointND getEndPoint() {
 		return endPoint;
 	}
@@ -471,6 +493,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	final public void translate(Coords v) {
 
 		Coords o = getCoordSys().getOrigin();
@@ -506,12 +529,15 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		pointsOnLine = points;
 	}
 
+	@Override
 	public final void addPointOnLine(GeoPointND p) {
-		if (pointsOnLine == null)
+		if (pointsOnLine == null) {
 			pointsOnLine = new ArrayList<GeoPointND>();
+		}
 
-		if (!pointsOnLine.contains(p))
+		if (!pointsOnLine.contains(p)) {
 			pointsOnLine.add(p);
+		}
 	}
 
 	/**
@@ -521,6 +547,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 *            line
 	 * @return distance between lines
 	 */
+	@Override
 	final public double distance(GeoLineND g) {
 
 		double dist;
@@ -541,16 +568,19 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return dist;
 	}
 
+	@Override
 	public void setToImplicit() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setToExplicit() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setToParametric(String parameter) {
 		// TODO Auto-generated method stub
 
@@ -565,6 +595,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
 
@@ -599,6 +630,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
@@ -643,10 +675,12 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
@@ -655,6 +689,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	// ROTATE
 	// //////////////////
 
+	@Override
 	public void rotate(NumberValue phiValue) {
 
 		Coords o = getCoordSys().getOrigin();
@@ -692,6 +727,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
 
 		Coords o = getCoordSys().getOrigin();
@@ -772,6 +808,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		setCoord(oRot, vRot);
 	}
 
+	@Override
 	public void rotate(NumberValue phiValue, GeoPointND S,
 			GeoDirectionND orientation) {
 
@@ -782,6 +819,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		rotate(phiValue, o1, vn);
 	}
 
+	@Override
 	public void rotate(NumberValue phiValue, GeoLineND line) {
 
 		Coords o1 = line.getStartInhomCoords();
@@ -795,6 +833,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	// MIRROR
 	// //////////////////////
 
+	@Override
 	public void mirror(Coords Q) {
 
 		Coords o = getCoordSys().getOrigin().mul(-1);
@@ -805,6 +844,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	public void mirror(GeoLineND line) {
 
 		Coords o1 = line.getStartInhomCoords();
@@ -826,6 +866,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
 		Coords point = getCoordSys().getOrigin();
@@ -852,6 +893,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	// DILATE
 	// //////////////////////
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 
 		double r = rval.getDouble();
@@ -864,11 +906,13 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	@Override
 	public void setToUser() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setToGeneral() {
 		// no general line type in 3D
 	}

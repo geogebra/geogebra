@@ -96,8 +96,9 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 		}
 
 		if (coordsys.makeOrthoMatrix(false, false)) {
-			if (coordsys.isDefined())
+			if (coordsys.isDefined()) {
 				coordsys.setEquationVector(oa, vn);
+			}
 		}
 
 		// Application.debug(cs.getCoordSys().getMatrixOrthonormal().toString());

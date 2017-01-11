@@ -224,8 +224,9 @@ public final class MathUtils {
 			return n;
 		}
 		// Use symmetry for large k
-		if (k > n / 2)
+		if (k > n / 2) {
 			return binomialCoefficient(n, n - k);
+		}
 
 		// We use the formula
 		// (n choose k) = n! / (n-k)! / k!

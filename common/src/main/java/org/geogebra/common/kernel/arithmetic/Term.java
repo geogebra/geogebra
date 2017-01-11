@@ -154,8 +154,9 @@ public class Term implements Comparable<Object> {
 	int degree(char var) {
 		int count = 0;
 		for (int i = 0; i < variables.length(); i++) {
-			if (variables.charAt(i) == var)
+			if (variables.charAt(i) == var) {
 				count++;
+			}
 		}
 		return count;
 	}
@@ -207,10 +208,11 @@ public class Term implements Comparable<Object> {
 				}
 			} // else
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
-		} else if (bconst)
+		} else if (bconst) {
 			return add(b, a, kernel); // get the constant to the left
-		else
+		} else {
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
+		}
 	}
 
 	private ExpressionValue sub(ExpressionValue a, ExpressionValue b,
@@ -269,11 +271,11 @@ public class Term implements Comparable<Object> {
 			return new MyDouble(kernel, aval * bval);
 		} else if (aconst) {
 			aval = a.evaluateDouble();
-			if (aval == 0.0d)
+			if (aval == 0.0d) {
 				return new MyDouble(kernel, 0.0d);
-			else if (aval == 1.0d)
+			} else if (aval == 1.0d) {
 				return b;
-			else {
+			} else {
 				if (b instanceof ExpressionNode) {
 					ExpressionNode ben = (ExpressionNode) b;
 					if (ben.getLeft().isConstant()) {
@@ -293,11 +295,12 @@ public class Term implements Comparable<Object> {
 				}
 				return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);
 			}
-		} else if (bconst)
+		} else if (bconst) {
 			// a * b = b * a
 			return multiply(b, a, kernel); // get the constant to the left
-		else
+		} else {
 			return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);
+		}
 	}
 
 	/**
@@ -349,8 +352,9 @@ public class Term implements Comparable<Object> {
 				return a;
 			}
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
-		} else
+		} else {
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
+		}
 	}
 
 	// sort single characters: "yx" -> "xy"
@@ -391,6 +395,7 @@ public class Term implements Comparable<Object> {
 		return (variables.toString().indexOf(var) >= 0);
 	}
 
+	@Override
 	public int compareTo(Object o) {
 		if (o instanceof Term) {
 			return ((Term) o).variables.toString()
@@ -415,8 +420,9 @@ public class Term implements Comparable<Object> {
 	 * @return string representation
 	 */
 	public String toString(StringTemplate tpl) {
-		if (ExpressionNode.isEqualString(coefficient, 0, true))
+		if (ExpressionNode.isEqualString(coefficient, 0, true)) {
 			return "0";
+		}
 		if (ExpressionNode.isEqualString(coefficient, 1, true)) {
 			if (variableString(tpl).length() > 0) {
 				return variableString(tpl);
@@ -441,9 +447,9 @@ public class Term implements Comparable<Object> {
 	}
 
 	private String coeffString(ExpressionValue ev, StringTemplate tpl) {
-		if (ev instanceof GeoElement)
+		if (ev instanceof GeoElement) {
 			return ((GeoElement) ev).getLabel(tpl);
-		else if (ev instanceof ExpressionNode) {
+		} else if (ev instanceof ExpressionNode) {
 			ExpressionNode n = (ExpressionNode) ev;
 			if (n.isLeaf()
 					|| ExpressionNode.opID(n) >= Operation.MULTIPLY.ordinal()
@@ -455,8 +461,9 @@ public class Term implements Comparable<Object> {
 			sb.append(n.toString(tpl));
 			sb.append(')');
 			return sb.toString();
-		} else
+		} else {
 			return ev.toString(tpl);
+		}
 	}
 
 	private String variableString(StringTemplate tpl) {
@@ -467,8 +474,9 @@ public class Term implements Comparable<Object> {
 			StringBuilder sb = new StringBuilder("(");
 
 			for (int i = 0; i < str.length(); i++) {
-				if (i > 0)
+				if (i > 0) {
 					sb.append('*');
+				}
 				sb.append(tpl.printVariableName(str.charAt(0) + ""));
 			}
 			sb.append(')');

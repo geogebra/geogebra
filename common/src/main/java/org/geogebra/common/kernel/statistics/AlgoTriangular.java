@@ -86,8 +86,9 @@ public class AlgoTriangular extends AlgoDistribution {
 			// 1]]]",
 			// true );
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

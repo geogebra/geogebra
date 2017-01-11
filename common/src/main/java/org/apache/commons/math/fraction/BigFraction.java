@@ -515,6 +515,7 @@ public class BigFraction extends Number implements FieldElement<BigFraction>,
 	 * @throws NullPointerException
 	 *             if the {@link BigFraction} is {@code null}.
 	 */
+	@Override
 	public BigFraction add(final BigFraction fraction) {
 		if (fraction == null) {
 			throw new NullPointerException(LocalizedFormats.FRACTION);
@@ -605,6 +606,7 @@ public class BigFraction extends Number implements FieldElement<BigFraction>,
 	 *         than <tt>object</tt>, 0 if they are equal.
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(final BigFraction object) {
 		BigInteger nOd = numerator.multiply(object.denominator);
 		BigInteger dOn = denominator.multiply(object.numerator);
@@ -680,6 +682,7 @@ public class BigFraction extends Number implements FieldElement<BigFraction>,
 	 * @throws ArithmeticException
 	 *             if the fraction to divide by is zero.
 	 */
+	@Override
 	public BigFraction divide(final BigFraction fraction) {
 		if (fraction == null) {
 			throw new NullPointerException(LocalizedFormats.FRACTION);
@@ -917,6 +920,7 @@ public class BigFraction extends Number implements FieldElement<BigFraction>,
 	 * @throws NullPointerException
 	 *             if {@code fraction} is {@code null}.
 	 */
+	@Override
 	public BigFraction multiply(final BigFraction fraction) {
 		if (fraction == null) {
 			throw new NullPointerException(LocalizedFormats.FRACTION);
@@ -1116,6 +1120,7 @@ public class BigFraction extends Number implements FieldElement<BigFraction>,
 	 * @throws NullPointerException
 	 *             if the {@code fraction} is {@code null}.
 	 */
+	@Override
 	public BigFraction subtract(final BigFraction fraction) {
 		if (fraction == null) {
 			throw new NullPointerException(LocalizedFormats.FRACTION);
@@ -1161,6 +1166,7 @@ public class BigFraction extends Number implements FieldElement<BigFraction>,
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public BigFractionField getField() {
 		return BigFractionField.getInstance();
 	}

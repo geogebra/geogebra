@@ -86,6 +86,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	/**
 	 * @return mode (complex / polar / cartesian / etc.)
 	 */
+	@Override
 	public int getMode();
 
 	/**
@@ -296,6 +297,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	/**
 	 * @return copy of this point
 	 */
+	@Override
 	public GeoPointND copy();
 
 	/**

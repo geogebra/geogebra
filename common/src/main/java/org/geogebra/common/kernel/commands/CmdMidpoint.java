@@ -88,8 +88,9 @@ public class CmdMidpoint extends CommandProcessor {
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
-		} else
+		} else {
 			throw argErr(app, c, arg);
+		}
 	}
 
 	/**

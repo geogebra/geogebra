@@ -73,6 +73,7 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 		return (GeoPoint) B;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaParams == null) {
 			botanaParams = new BotanaEllipseHyperbolaLength();
@@ -80,6 +81,7 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 		return botanaParams.getVars();
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaParams == null) {

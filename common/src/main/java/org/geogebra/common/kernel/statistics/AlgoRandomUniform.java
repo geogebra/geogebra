@@ -45,11 +45,13 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 			num.setValue(
 					a.getDouble() + kernel.getApplication().getRandomNumber()
 							* (b.getDouble() - a.getDouble()));
-		} else
+		} else {
 			num.setUndefined();
+		}
 
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 
 		if (d >= a.getDouble() && d <= b.getDouble()) {

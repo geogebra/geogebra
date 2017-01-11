@@ -73,10 +73,11 @@ public class AlgoRow extends AlgoElement {
 	@Override
 	public final void compute() {
 		GPoint p = geo.getSpreadsheetCoords();
-		if (p != null)
+		if (p != null) {
 			num.setValue(p.y + 1);
-		else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

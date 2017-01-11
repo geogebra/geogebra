@@ -100,8 +100,9 @@ public class CreateObjectModel {
 
 		if (newGeo == null) {
 			listener.setName("");
-		} else
+		} else {
 			listener.setName(newGeo.getLabel(StringTemplate.defaultTemplate));
+		}
 
 		listener.setSortVisible(getObjectType() == TYPE_POLYLINE);
 
@@ -148,8 +149,9 @@ public class CreateObjectModel {
 		}
 
 		newGeo.setEuclidianVisible(true);
-		if (!newGeo.isGeoText())
+		if (!newGeo.isGeoText()) {
 			newGeo.setAuxiliaryObject(false);
+		}
 
 		if (getObjectType() == TYPE_LISTOFPOINTS) {
 			GeoList gl = (GeoList) newGeo;
@@ -180,15 +182,17 @@ public class CreateObjectModel {
 		if (!nullGeo) {
 			if (getObjectType() == TYPE_LISTOFPOINTS) {
 				GeoList gl = (GeoList) newGeo;
-				for (int i = 0; i < gl.size(); i++)
+				for (int i = 0; i < gl.size(); i++) {
 					gl.get(i).remove();
+				}
 			}
 
 			if (getObjectType() == TYPE_POLYLINE) {
 				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 						.getPoints();
-				for (int i = 0; i < pts.length; i++)
+				for (int i = 0; i < pts.length; i++) {
 					pts[i].remove();
+				}
 			}
 			newGeo.remove();
 		}

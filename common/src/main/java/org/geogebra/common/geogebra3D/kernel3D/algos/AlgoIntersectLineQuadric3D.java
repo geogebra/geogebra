@@ -285,8 +285,9 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 			}
 		}
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++) {
 			checkIsOnLine(Q[i]);
+		}
 
 	}
 
@@ -301,10 +302,12 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	}
 
 	private void checkIsOnLine(GeoPoint3D p) {
-		if (!p.isDefined())
+		if (!p.isDefined()) {
 			return;
-		if (!g.respectLimitedPath(p.getCoords(), Kernel.MIN_PRECISION))
+		}
+		if (!g.respectLimitedPath(p.getCoords(), Kernel.MIN_PRECISION)) {
 			p.setUndefined();
+		}
 	}
 
 	/** @return intersection type (tangent, asymptote, ...) */

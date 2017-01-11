@@ -41,6 +41,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		super(c);
 		eqnSolver = cons.getKernel().getEquationSolver();
 		points = new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
 				// p.setCoords(0, 0, 1);
@@ -117,8 +118,9 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 					c++;
 				} else {
 					last = roots[i];
-					if (c > 0)
+					if (c > 0) {
 						roots[i - c] = roots[i];
+					}
 				}
 			}
 			nrRealRoots -= c;
@@ -129,8 +131,9 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	protected void doCalc(PolynomialFunction rootsPoly) {
 		double roots[] = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
-		if (roots.length > 1)
+		if (roots.length > 1) {
 			nrRealRoots = getRoots(roots, eqnSolver);
+		}
 		makePoints(roots, nrRealRoots);
 	}
 
@@ -138,14 +141,16 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			double max) {
 		double roots[] = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
-		if (roots.length > 1)
+		if (roots.length > 1) {
 			nrRealRoots = getRoots(roots, eqnSolver);
+		}
 
 		for (int i = 0; i < nrRealRoots; ++i) {
 			if (Kernel.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
 					|| Kernel.isGreater(min, roots[i],
-							Kernel.STANDARD_PRECISION))
+							Kernel.STANDARD_PRECISION)) {
 				roots[i] = Double.NaN;
+			}
 		}
 		makePoints(roots, nrRealRoots);
 	}
@@ -169,8 +174,9 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 						break;
 					}
 				}
-				if (pair != null)
+				if (pair != null) {
 					valPairs.add(pair);
+				}
 			}
 		}
 		setPoints(valPairs);
@@ -188,8 +194,9 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 					valPairs.get(i)[1], 1);
 		}
 
-		if (setLabels)
+		if (setLabels) {
 			points.updateLabels();
+		}
 	}
 
 	/**

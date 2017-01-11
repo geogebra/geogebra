@@ -91,8 +91,9 @@ public class VoltageClusterer<V, E> {
 	 *            the number of candidate clusters to create
 	 */
 	public VoltageClusterer(Graph<V, E> g, int num_candidates) {
-		if (num_candidates < 1)
+		if (num_candidates < 1) {
 			throw new IllegalArgumentException("must generate >=1 candidates");
+		}
 
 		this.num_candidates = num_candidates;
 		this.kmc = new KMeansClusterer<V>();
@@ -145,11 +146,12 @@ public class VoltageClusterer<V, E> {
 
 		for (int j = 0; j < num_candidates; j++) {
 			V source;
-			if (origin == null)
+			if (origin == null) {
 				source = v_array
 						.get((int) (rand.nextDouble() * v_array.size()));
-			else
+			} else {
 				source = origin;
+			}
 			V target = null;
 			do {
 				target = v_array
@@ -159,8 +161,9 @@ public class VoltageClusterer<V, E> {
 			vs.evaluate();
 
 			Map<V, double[]> voltage_ranks = new HashMap<V, double[]>();
-			for (V v : g.getVertices())
+			for (V v : g.getVertices()) {
 				voltage_ranks.put(v, new double[] { vs.getVertexScore(v) });
+			}
 
 			// addOneCandidateCluster(candidates, voltage_ranks);
 			addTwoCandidateClusters(candidates, voltage_ranks);
@@ -182,21 +185,23 @@ public class VoltageClusterer<V, E> {
 		int seed_index = 0;
 
 		for (int j = 0; j < (num_clusters - 1); j++) {
-			if (remaining.isEmpty())
+			if (remaining.isEmpty()) {
 				break;
+			}
 
 			V seed;
-			if (seed_index == 0 && origin != null)
+			if (seed_index == 0 && origin != null) {
 				seed = origin;
-			else {
+			} else {
 				do {
 					seed = seed_candidates.get(seed_index++);
 				} while (!remaining.contains(seed));
 			}
 
 			Map<V, double[]> occur_counts = getObjectCounts(candidates, seed);
-			if (occur_counts.size() < 2)
+			if (occur_counts.size() < 2) {
 				break;
+			}
 
 			// now that we have the counts, cluster them...
 			try {
@@ -211,14 +216,16 @@ public class VoltageClusterer<V, E> {
 				double[] centroid2 = DiscreteDistribution
 						.mean(cluster2.values());
 				Set<V> new_cluster;
-				if (centroid1[0] >= centroid2[0])
+				if (centroid1[0] >= centroid2[0]) {
 					new_cluster = cluster1.keySet();
-				else
+				} else {
 					new_cluster = cluster2.keySet();
+				}
 
 				// ...remove the elements of new_cluster from each candidate...
-				for (Set<V> cluster : candidates)
+				for (Set<V> cluster : candidates) {
 					cluster.removeAll(new_cluster);
+				}
 				clusters.add(new_cluster);
 				remaining.removeAll(new_cluster);
 			} catch (NotEnoughClustersException nece) {
@@ -228,8 +235,9 @@ public class VoltageClusterer<V, E> {
 		}
 
 		// identify remaining vertices (if any) as a 'garbage' cluster
-		if (!remaining.isEmpty())
+		if (!remaining.isEmpty()) {
 			clusters.add(remaining);
+		}
 
 		return clusters;
 	}
@@ -279,10 +287,11 @@ public class VoltageClusterer<V, E> {
 			List<Map<V, double[]>> clusters;
 			clusters = new ArrayList<Map<V, double[]>>(
 					kmc.cluster(voltage_ranks, 2));
-			if (clusters.get(0).size() < clusters.get(1).size())
+			if (clusters.get(0).size() < clusters.get(1).size()) {
 				candidates.add(clusters.get(0).keySet());
-			else
+			} else {
 				candidates.add(clusters.get(1).keySet());
+			}
 		} catch (NotEnoughClustersException e) {
 			// no valid candidates, continue
 		}
@@ -302,8 +311,9 @@ public class VoltageClusterer<V, E> {
 				new MapValueArrayComparator(occur_counts));
 
 		System.out.println("occurrences: ");
-		for (int i = 0; i < occurrences.size(); i++)
+		for (int i = 0; i < occurrences.size(); i++) {
 			System.out.println(occur_counts.get(occurrences.get(i))[0]);
+		}
 
 		return occurrences;
 	}
@@ -311,12 +321,14 @@ public class VoltageClusterer<V, E> {
 	protected Map<V, double[]> getObjectCounts(Collection<Set<V>> candidates,
 			V seed) {
 		Map<V, double[]> occur_counts = new HashMap<V, double[]>();
-		for (V v : g.getVertices())
+		for (V v : g.getVertices()) {
 			occur_counts.put(v, new double[] { 0 });
+		}
 
 		for (Set<V> candidate : candidates) {
-			if (seed == null)
+			if (seed == null) {
 				System.out.println(candidate.size());
+			}
 			if (seed == null || candidate.contains(seed)) {
 				for (V element : candidate) {
 					double[] count = occur_counts.get(element);
@@ -327,8 +339,9 @@ public class VoltageClusterer<V, E> {
 
 		if (seed == null) {
 			System.out.println("occur_counts size: " + occur_counts.size());
-			for (V v : occur_counts.keySet())
+			for (V v : occur_counts.keySet()) {
 				System.out.println(occur_counts.get(v)[0]);
+			}
 		}
 
 		return occur_counts;
@@ -341,13 +354,15 @@ public class VoltageClusterer<V, E> {
 			this.map = map;
 		}
 
+		@Override
 		public int compare(V o1, V o2) {
 			double[] count0 = map.get(o1);
 			double[] count1 = map.get(o2);
-			if (count0[0] < count1[0])
+			if (count0[0] < count1[0]) {
 				return 1;
-			else if (count0[0] > count1[0])
+			} else if (count0[0] > count1[0]) {
 				return -1;
+			}
 			return 0;
 		}
 

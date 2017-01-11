@@ -102,6 +102,7 @@ public class AlgoAreaPoints extends AlgoElement
 		area.setValue(Math.abs(AlgoPolygon.calcAreaWithSign(P)));
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		GeoPointND[] points = getPoints();
 		if (botanaVars == null) {
@@ -116,6 +117,7 @@ public class AlgoAreaPoints extends AlgoElement
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// TODO Auto-generated method stub

@@ -29,8 +29,8 @@ public class AlgoTransformation3D {
 			GeoFunction geoFun, GeoCurveCartesian3D curve) {
 		FunctionVariable t = new FunctionVariable(kernel, "t");
 		FunctionVariable x = geoFun.getFunction().getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) geoFun
-				.getFunction().getExpression().deepCopy(kernel)).replace(x, t);
+		ExpressionNode yExp = (ExpressionNode) geoFun
+				.getFunction().getExpression().deepCopy(kernel).replace(x, t);
 		Function[] fun = new Function[3];
 		fun[0] = new Function(new ExpressionNode(kernel, t), t);
 		fun[1] = new Function(yExp, t);

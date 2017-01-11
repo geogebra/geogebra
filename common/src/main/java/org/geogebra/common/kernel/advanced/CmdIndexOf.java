@@ -46,9 +46,9 @@ public class CmdIndexOf extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else
-
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 		case 3:
 			boolean[] ok = new boolean[2];
 			if ((ok[0] = arg[1].isGeoText() && arg[0].isGeoText())
@@ -68,8 +68,9 @@ public class CmdIndexOf extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[1]);
+			}
 			throw argErr(app, c, arg[2]);
 
 		default:

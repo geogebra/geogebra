@@ -112,6 +112,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	}
 
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
 		// TODO Auto-generated method stub
 
@@ -139,6 +140,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 	abstract protected AlgoForExtrusion getAlgo(GeoConicND basis,
 			GeoNumeric height);
 
+	@Override
 	public void updatePreview() {
 
 		if (extrusionComputer == null) {
@@ -272,7 +274,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 		@Override
 		public void callback(GeoNumberValue obj) {
-			GeoNumberValue num = (GeoNumberValue) obj;
+			GeoNumberValue num = obj;
 
 			// Log.debug("callback : "+num + "," + basis + " ,
 			// "+extrusionComputer);

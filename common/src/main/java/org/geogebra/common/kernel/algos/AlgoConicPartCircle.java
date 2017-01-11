@@ -153,11 +153,13 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleArc(geo, this, scope);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircle();
@@ -165,6 +167,7 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 		return botanaParams.getBotanaVars(startPoint, center);
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK to return null here since no constraint must be set:

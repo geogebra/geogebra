@@ -86,6 +86,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	 * public final void compute() { circle.setCircle(M, P); }
 	 */
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircle();
@@ -93,6 +94,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 		return botanaParams.getBotanaVars(getP(), getM());
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK to return null here since no constraint must be set:
@@ -104,6 +106,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleTwoPoints(geo, this, scope);

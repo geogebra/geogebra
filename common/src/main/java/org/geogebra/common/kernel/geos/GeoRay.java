@@ -96,8 +96,9 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		if (!geo.isGeoRay())
+		if (!geo.isGeoRay()) {
 			return;
+		}
 
 		GeoRay ray = (GeoRay) geo;
 		keepTypeOnGeometricTransform = ray.keepTypeOnGeometricTransform;
@@ -180,18 +181,22 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		P.z = 1.0;
 	}
 
+	@Override
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;
 	}
 
+	@Override
 	public void setAllowOutlyingIntersections(boolean flag) {
 		allowOutlyingIntersections = flag;
 	}
 
+	@Override
 	public boolean keepsTypeOnGeometricTransform() {
 		return keepTypeOnGeometricTransform;
 	}
 
+	@Override
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		keepTypeOnGeometricTransform = flag;
 	}
@@ -203,8 +208,9 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 
 	@Override
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
-		if (allowOutlyingIntersections)
+		if (allowOutlyingIntersections) {
 			return isOnFullLine(p, eps);
+		}
 		return isOnPath(p, eps);
 	}
 
@@ -261,6 +267,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 *            transform
 	 */
 
+	@Override
 	public GeoElement[] createTransformedObject(Transform t,
 			String transformedLabel) {
 		AlgoElement parent = keepTypeOnGeometricTransform ? getParentAlgorithm()
@@ -358,8 +365,9 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	final public boolean isEqual(GeoElement geo) {
 		// return false if it's a different type, otherwise check direction and
 		// start point
-		if (!geo.isGeoRay())
+		if (!geo.isGeoRay()) {
 			return false;
+		}
 
 		return isSameDirection((GeoLine) geo)
 				&& ((GeoRay) geo).getStartPoint().isEqual(getStartPoint());
@@ -374,8 +382,9 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 			pnt2D = new Coords(3);
 		}
 		pnt2D.setCoordsIn2DView(Pnd);
-		if (!isOnFullLine2D(pnt2D, eps))
+		if (!isOnFullLine2D(pnt2D, eps)) {
 			return false;
+		}
 
 		return respectLimitedPath(pnt2D, eps);
 
@@ -394,6 +403,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		return t >= -eps;
 	}
 
+	@Override
 	public boolean isAllEndpointsLabelsSet() {
 		return startPoint.isLabelSet();
 	}
@@ -403,6 +413,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		return Kernel.isGreaterEqual(parameter, 0);
 	}
 
+	@Override
 	public GeoElement copyFreeRay() {
 		GeoPoint startPoint1 = (GeoPoint) getStartPoint().copyInternal(cons);
 

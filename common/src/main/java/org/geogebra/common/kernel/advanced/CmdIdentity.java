@@ -27,10 +27,12 @@ public class CmdIdentity extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n != 1)
+		if (n != 1) {
 			throw argNumErr(app, c, n);
-		if (!(arg[0] instanceof GeoNumberValue))
+		}
+		if (!(arg[0] instanceof GeoNumberValue)) {
 			throw argErr(app, c, arg[0]);
+		}
 
 		AlgoIdentity algo = new AlgoIdentity(kernelA.getConstruction(),
 				c.getLabel(), (GeoNumberValue) arg[0]);

@@ -88,9 +88,10 @@ public class VertexPartitionCollapser<V, E, CV, CE> {
 					.getVertexToPartitionMap();
 			// collect the collapsed vertices corresponding to the original
 			// incident vertices
-			for (V v : incident)
+			for (V v : incident) {
 				collapsed_vertices
 						.add(set_collapsedv.get(vertex_partitions.get(v)));
+			}
 			// if there's only one collapsed vertex, continue (no edges to
 			// create)
 			if (collapsed_vertices.size() > 1) {

@@ -74,8 +74,9 @@ public class AlgoDeterminant extends AlgoElement {
 
 		double det = matrix.determinant();
 
-		if (matrix.hasOnlyIntegers())
+		if (matrix.hasOnlyIntegers()) {
 			det = Math.round(det);
+		}
 
 		num.setValue(det);
 

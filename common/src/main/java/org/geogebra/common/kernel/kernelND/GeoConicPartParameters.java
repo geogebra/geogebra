@@ -83,8 +83,9 @@ public class GeoConicPartParameters {
 			paramStart = Kernel.convertToAngleValue(startParam);
 			paramEnd = Kernel.convertToAngleValue(endParam);
 			paramExtent = paramEnd - paramStart;
-			if (paramExtent < 0)
+			if (paramExtent < 0) {
 				paramExtent += Kernel.PI_2;
+			}
 
 			double r = conic.getHalfAxis(0);
 			arcLength = r * paramExtent;
@@ -103,11 +104,13 @@ public class GeoConicPartParameters {
 			paramStart = Kernel.convertToAngleValue(startParam);
 			paramEnd = Kernel.convertToAngleValue(endParam);
 			paramExtent = paramEnd - paramStart;
-			if (paramExtent < 0)
+			if (paramExtent < 0) {
 				paramExtent += Kernel.PI_2;
+			}
 
-			if (ellipticArcLength == null)
+			if (ellipticArcLength == null) {
 				ellipticArcLength = new EllipticArcLength(conic);
+			}
 
 			if (conic_part_type == GeoConicNDConstants.CONIC_PART_ARC) {
 				// length
@@ -159,8 +162,9 @@ public class GeoConicPartParameters {
 	 * @return arc length / area as appropriate
 	 */
 	final public double getValue() {
-		if (!value_defined)
+		if (!value_defined) {
 			return Double.NaN;
+		}
 		return value;
 	}
 
@@ -170,8 +174,9 @@ public class GeoConicPartParameters {
 	 * @return arc length
 	 */
 	final public double getArcLength() {
-		if (!value_defined)
+		if (!value_defined) {
 			return Double.NaN;
+		}
 		return arcLength;
 	}
 
@@ -181,8 +186,9 @@ public class GeoConicPartParameters {
 	 * @return area
 	 */
 	final public double getArea() {
-		if (!value_defined)
+		if (!value_defined) {
 			return Double.NaN;
+		}
 		return area;
 	}
 
@@ -191,11 +197,13 @@ public class GeoConicPartParameters {
 		((GeoConicPartND) conic).superPointChanged(P, pp);
 
 		// now transform parameter t from [paramStart, paramEnd] to [0, 1]
-		if (pp.t < 0)
+		if (pp.t < 0) {
 			pp.t += Kernel.PI_2;
+		}
 		double t = pp.t - paramStart;
-		if (t < 0)
+		if (t < 0) {
 			t += Kernel.PI_2;
+		}
 		pp.t = t / paramExtent;
 	}
 
@@ -208,16 +216,18 @@ public class GeoConicPartParameters {
 		// take 0 for parameter > (1 + 2pi/paramExtent)/2
 		// else take 1
 		if (pp.t > 0.5 + Math.PI / paramExtent) {
-			if (posOrientation)
+			if (posOrientation) {
 				pp.t = 0;
-			else
+			} else {
 				pp.t = 1;
+			}
 			conic.pathChanged(P, pp);
 		} else if (pp.t > 1) {
-			if (posOrientation)
+			if (posOrientation) {
 				pp.t = 1;
-			else
+			} else {
 				pp.t = 0;
+			}
 			conic.pathChanged(P, pp);
 		} else if (!posOrientation) {
 			pp.t = 1.0 - pp.t;
@@ -244,8 +254,10 @@ public class GeoConicPartParameters {
 		if (conic_part_type == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			double arg = computeArg(x0, y0);
 			if (arg < 0)
+			 {
 				arg += Kernel.PI_2;
 			// Application.debug(arg+" <? "+paramExtent);
+			}
 
 			return ((arg >= -Kernel.STANDARD_PRECISION)
 					&& (arg <= paramExtent + Kernel.STANDARD_PRECISION));
@@ -293,8 +305,9 @@ public class GeoConicPartParameters {
 		// t = atan(a/b tan(theta)) where tan(theta) = py / px
 		double arg = Math.atan2(conic.getHalfAxis(0) * py,
 				conic.getHalfAxis(1) * px2);
-		if (arg < 0)
+		if (arg < 0) {
 			arg += Kernel.PI_2;
+		}
 		return arg - paramStart;
 	}
 

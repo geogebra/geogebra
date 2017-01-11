@@ -67,6 +67,7 @@ public class CASparser implements CASParserInterface {
 		this.parserFunctions = pf;
 	}
 
+	@Override
 	public ValidExpression parseGeoGebraCASInput(final String exp,
 			GeoCasCell cell) throws CASException {
 		CASException c;
@@ -83,11 +84,13 @@ public class CASparser implements CASParserInterface {
 		}
 	}
 
+	@Override
 	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
 			final String inValue, Kernel kernel, GeoCasCell cell)
 			throws CASException {
-		if (inValue == null || inValue.length() == 0)
+		if (inValue == null || inValue.length() == 0) {
 			return null;
+		}
 
 		try {
 			// parse input into valid expression
@@ -111,8 +114,9 @@ public class CASparser implements CASParserInterface {
 			// }catch (MaximaVersionUnsupportedExecption e) {
 			// throw e; // propagate exception
 		} catch (Throwable e) {
-			if (e instanceof CASException)
+			if (e instanceof CASException) {
 				throw (CASException) e;
+			}
 			throw new CASException(e);
 		}
 
@@ -122,6 +126,7 @@ public class CASparser implements CASParserInterface {
 	 * Resolves all variables in ValidExpression. Unknown variables are kept as
 	 * symbolic variables. TODO check that we need default template here
 	 */
+	@Override
 	public synchronized ExpressionValue resolveVariablesForCAS(
 			ExpressionValue ev, Kernel kernel) {
 
@@ -197,8 +202,9 @@ public class CASparser implements CASParserInterface {
 		ExpressionNode expr;
 		if (!ev.isExpressionNode()) {
 			expr = ev.wrap();
-		} else
+		} else {
 			expr = (ExpressionNode) ev;
+		}
 		GeoGebraString = expr.getCASstring(tpl, true);
 		if (GeoGebraString.startsWith("?")) {
 			return "?";
@@ -321,8 +327,9 @@ public class CASparser implements CASParserInterface {
 	public String insertSpecialChars(String str) {
 		int prefixLen = ExpressionNodeConstants.UNICODE_PREFIX.length();
 
-		if (str.length() < prefixLen)
+		if (str.length() < prefixLen) {
 			return str;
+		}
 
 		int len = str.length();
 		StringBuilder insertSpecial = new StringBuilder();
@@ -434,6 +441,7 @@ public class CASparser implements CASParserInterface {
 	 * @return The command in CAS format, where parameter n is written as %n.
 	 * 
 	 */
+	@Override
 	public String getTranslatedCASCommand(final String command) {
 		return getTranslationRessourceBundle().get(command);
 	}

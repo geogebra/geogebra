@@ -61,8 +61,9 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 	@Override
 	public void compute() {
 
-		if (!outputIsDefined())
+		if (!outputIsDefined()) {
 			return;
+		}
 
 		GeoLineND line1 = (GeoLineND) getCS1();
 		GeoLineND line2 = (GeoLineND) getCS2();
@@ -81,9 +82,9 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 
 		if (Double.isNaN(project[2].get(1))) { // infinite point
 			if (getCS1().isGeoSegment() || getCS1().isGeoRay()
-					|| getCS2().isGeoSegment() || getCS2().isGeoRay())
+					|| getCS2().isGeoSegment() || getCS2().isGeoRay()) {
 				p.setUndefined();
-			else { // set coords to direction only when lines
+			} else { // set coords to direction only when lines
 				p.setCoords(project[0]);
 				p.updateCoords();
 			}
@@ -96,12 +97,14 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 			if (t1 > line1.getMinParameter() - Kernel.STANDARD_PRECISION
 					&& t1 < line1.getMaxParameter() + Kernel.STANDARD_PRECISION
 					&& t2 > line2.getMinParameter() - Kernel.STANDARD_PRECISION
-					&& t2 < line2.getMaxParameter() + Kernel.STANDARD_PRECISION)
+					&& t2 < line2.getMaxParameter() + Kernel.STANDARD_PRECISION) {
 				p.setCoords(project[0]);
-			else
+			} else {
 				p.setUndefined();
-		} else
+			}
+		} else {
 			p.setUndefined();
+		}
 
 	}
 

@@ -23,6 +23,7 @@ public class ShowConditionModel extends OptionsModel {
 		this.listener = listener;
 	}
 
+	@Override
 	public void updateProperties() {
 
 		// take condition of first geo
@@ -38,8 +39,9 @@ public class ShowConditionModel extends OptionsModel {
 			cond = geo.getShowObjectCondition();
 			if (cond != null) {
 				String strCondGeo = cond.getLabel(StringTemplate.editTemplate);
-				if (!strCond.equals(strCondGeo))
+				if (!strCond.equals(strCondGeo)) {
 					strCond = "";
+				}
 			}
 		}
 
@@ -77,8 +79,9 @@ public class ShowConditionModel extends OptionsModel {
 					geo.setShowObjectCondition(cond);
 
 					// make sure object shown when condition removed
-					if (cond == null)
+					if (cond == null) {
 						geo.updateRepaint();
+					}
 				}
 
 			} catch (CircularDefinitionException e) {
@@ -86,8 +89,9 @@ public class ShowConditionModel extends OptionsModel {
 				ErrorHelper.handleException(e, app, handler);
 			}
 
-			if (cond != null)
+			if (cond != null) {
 				cond.updateRepaint();
+			}
 
 			// to update "showObject" as well
 			listener.updateSelection(getGeos());

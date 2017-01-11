@@ -108,8 +108,9 @@ public class MacroManager {
 	 */
 	public int getMacroID(Macro macro) {
 		for (int i = 0; i < macroList.size(); i++) {
-			if (macro == macroList.get(i))
+			if (macro == macroList.get(i)) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -163,8 +164,9 @@ public class MacroManager {
 	 * @return XML representation as one string
 	 */
 	public static String getMacroXML(ArrayList<Macro> macros) {
-		if (macros == null)
+		if (macros == null) {
 			return "";
+		}
 
 		StringBuilder sb = new StringBuilder();
 		// save selected macros

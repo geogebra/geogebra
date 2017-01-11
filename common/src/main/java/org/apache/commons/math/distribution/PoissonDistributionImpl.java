@@ -161,6 +161,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 *
 	 * @return the Poisson mean for the distribution.
 	 */
+	@Override
 	public double getMean() {
 		return mean;
 	}
@@ -175,6 +176,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 *             if p &le; 0
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setMean(double p) {
 		setNormalAndMeanInternal(normal, p);
@@ -210,6 +212,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 *            evaluated.
 	 * @return the value of the probability mass function at x
 	 */
+	@Override
 	public double probability(int x) {
 		double ret;
 		if (x < 0 || x == Integer.MAX_VALUE) {
@@ -264,6 +267,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 * @throws MathException
 	 *             if an error occurs computing the normal approximation
 	 */
+	@Override
 	public double normalApproximateProbability(int x) throws MathException {
 		// calculate the probability using half-correction
 		return normal.cumulativeProbability(x + 0.5);

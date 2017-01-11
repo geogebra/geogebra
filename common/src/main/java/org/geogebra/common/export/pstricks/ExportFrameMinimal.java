@@ -22,42 +22,52 @@ public class ExportFrameMinimal implements ExportSettings {
 	private int yMin;
 	private GeoNumeric cbitem;
 
+	@Override
 	public double getLatexHeight() {
 		return latexHeight;
 	}
 
+	@Override
 	public int getFontSize() {
 		return fontSize;
 	}
 
+	@Override
 	public double getYUnit() {
 		return yUnit;
 	}
 
+	@Override
 	public boolean isGrayscale() {
 		return grayscale;
 	}
 
+	@Override
 	public double getXUnit() {
 		return xUnit;
 	}
 
+	@Override
 	public boolean getKeepDotColors() {
 		return keepDotColors;
 	}
 
+	@Override
 	public int getFormat() {
 		return format;
 	}
 
+	@Override
 	public int textYmaxValue() {
 		return yMax;
 	}
 
+	@Override
 	public int textYminValue() {
 		return yMin;
 	}
 
+	@Override
 	public void write(StringBuilder code) {
 		this.code = code;
 	}
@@ -66,38 +76,47 @@ public class ExportFrameMinimal implements ExportSettings {
 		return code.toString();
 	}
 
+	@Override
 	public boolean getAsyCompactCse5() {
 		return false;
 	}
 
+	@Override
 	public boolean getAsyCompact() {
 		return false;
 	}
 
+	@Override
 	public int getFillType() {
 		return fillType;
 	}
 
+	@Override
 	public boolean getExportPointSymbol() {
 		return exportPointSymbol;
 	}
 
+	@Override
 	public double getLatexWidth() {
 		return latexWidth;
 	}
 
+	@Override
 	public boolean getShowAxes() {
 		return showAxes;
 	}
 
+	@Override
 	public boolean getUsePairNames() {
 		return usePairName;
 	}
 
+	@Override
 	public boolean getGnuplot() {
 		return gnuPlot;
 	}
 
+	@Override
 	public GeoNumeric getcbSlidersItem() {
 		return cbitem;
 	}

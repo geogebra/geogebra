@@ -210,8 +210,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public String getTypeString() {
 
-		if (notFixedPointsLength || points == null)
+		if (notFixedPointsLength || points == null) {
 			return "Polygon";
+		}
 
 		switch (getPointsLength()) {
 		case 3:
@@ -276,8 +277,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		this.points = points;
 		setCoordSys(cs);
 
-		if (createSegments)
+		if (createSegments) {
 			updateSegments();
+		}
 
 		// if (points != null) {
 		// Application.debug("*** " + this + " *****************");
@@ -302,8 +304,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @return number for points
 	 */
 	public int getPointsLength() {
-		if (getPoints() == null) // TODO remove this (preview bug)
+		if (getPoints() == null) {
 			return 0;
+		}
 		return getPoints().length;
 	}
 
@@ -341,8 +344,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            labels of points and segments
 	 */
 	public void initLabels(String[] labels) {
-		if (cons.isSuppressLabelsActive())
+		if (cons.isSuppressLabelsActive()) {
 			return;
+		}
 		initLabelsCalled = true;
 		// Application.debug("INIT LABELS");
 
@@ -413,8 +417,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		if (getPointsLength() == 3) {
 
 			// make sure segment opposite C is called c not a_1
-			if (getParentAlgorithm() instanceof AlgoPolygonRegularND)
+			if (getParentAlgorithm() instanceof AlgoPolygonRegularND) {
 				points[2].setLabel(null);
+			}
 
 			setLabel(segments[0], points[2]);
 			setLabel(segments[1], points[0]);
@@ -452,8 +457,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * reused if possible.
 	 */
 	public void updateSegments() {
-		if (points == null)
+		if (points == null) {
 			return;
+		}
 
 		// make sure the polygon is defined to get correct euclidian visibility
 		setDefined();
@@ -623,8 +629,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		updateSegments();
 		defined = poly.defined;
 
-		if (poly.hasChangeableCoordParentNumbers())
+		if (poly.hasChangeableCoordParentNumbers()) {
 			setChangeableCoordParent(poly.changeableCoordParent);
+		}
 		updateRegionCS();
 	}
 
@@ -712,6 +719,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            number of point
 	 * @return the i-th point
 	 */
+	@Override
 	public GeoPoint getPoint(int i) {
 		return (GeoPoint) points[i];
 	}
@@ -722,6 +730,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return points of this polygon.
 	 */
+	@Override
 	public GeoPointND[] getPoints() {
 		return points;
 	}
@@ -742,6 +751,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return points of this polygon
 	 */
+	@Override
 	final public GeoPointND[] getPointsND() {
 
 		return points;
@@ -764,6 +774,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return segments of this polygon.
 	 */
+	@Override
 	public GeoSegmentND[] getSegments() {
 		return segments;
 	}
@@ -806,6 +817,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return undirected area
 	 */
+	@Override
 	public double getArea() {
 		if (isDefined()) {
 			return Math.abs(area);
@@ -818,6 +830,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return getArea();
 	}
 
+	@Override
 	public Path getBoundary() {
 		boolean suppress = this.cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
@@ -972,8 +985,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					} else {
 						step = -1;
 						int j = iFirstPoint + step;
-						if (j < 0)
+						if (j < 0) {
 							j = gLength - 1;
+						}
 						if (this.getPoint(1).isEqual(g.getPoint(j))) {
 							sPointFound = true;
 						}
@@ -983,16 +997,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					if (sPointFound) {
 						int i = 2;
 						int j = iFirstPoint + step + step;
-						if (j < 0)
+						if (j < 0) {
 							j = j + gLength;
+						}
 						j = j % gLength;
 						boolean pointOK = true;
 						while ((pointOK) && (i < gLength)) {
 							pointOK = (this.getPoint(i).isEqual(g.getPoint(j)));
 							if (pointOK) {
 								j = j + step;
-								if (j < 0)
+								if (j < 0) {
 									j = gLength - 1;
+								}
 								j = j % gLength;
 								i++;
 							}
@@ -1191,8 +1207,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		// case the geo is a GeoNumeric, e.g. area using formula
 		// we can check whether the areas are equal or not
 		if (geo instanceof GeoNumeric) {
-			if (Kernel.isEqual(this.getArea(), ((GeoNumeric) geo).getValue()))
+			if (Kernel.isEqual(this.getArea(), ((GeoNumeric) geo).getValue())) {
 				return ExtendedBoolean.TRUE;
+			}
 		}
 		return ExtendedBoolean.FALSE;
 	}
@@ -1400,13 +1417,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void setLineType(int type, boolean updateSegments) {
 		super.setLineType(type);
-		if (updateSegments)
+		if (updateSegments) {
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					segments[i].setLineType(type);
 					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
+		}
 	}
 
 	@Override
@@ -1424,13 +1442,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void setLineTypeHidden(int type, boolean updateSegments) {
 		super.setLineTypeHidden(type);
-		if (updateSegments)
+		if (updateSegments) {
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					((GeoElement) segments[i]).setLineTypeHidden(type);
 					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
+		}
 	}
 
 	@Override
@@ -1449,13 +1468,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setLineThickness(int th, boolean updateSegments) {
 		super.setLineThickness(th);
 
-		if (updateSegments)
+		if (updateSegments) {
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					segments[i].setLineThickness(th);
 					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
+		}
 	}
 
 	@Override
@@ -1497,10 +1517,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * interface NumberValue
 	 */
+	@Override
 	public MyDouble getNumber() {
 		return new MyDouble(kernel, getArea());
 	}
 
+	@Override
 	final public double getDouble() {
 		return getArea();
 	}
@@ -1529,33 +1551,40 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return true;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return getPointsLength();
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		return true;
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
 		GeoPoint P = (GeoPoint) PI;
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		// check if P is on one of the segments
 		for (int i = 0; i < segments.length; i++) {
-			if (segments[i].isOnPath(P, eps))
+			if (segments[i].isOnPath(P, eps)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -1572,12 +1601,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		// check if P is on one of the segments
 		for (int i = 0; i < segments.length; i++) {
-			if (segments[i].isOnPath(coords, eps))
+			if (segments[i].isOnPath(coords, eps)) {
 				return true;
+			}
 		}
 		return false;
 	}
 
+	@Override
 	public void pathChanged(GeoPointND PI) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -1592,8 +1623,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		PathParameter pp = PI.getPathParameter();
 		pp.t = pp.t % segments.length;
-		if (pp.t < 0)
+		if (pp.t < 0) {
 			pp.t += segments.length;
+		}
 		int index = (int) Math.floor(pp.t);
 		GeoSegmentND seg = segments[index];
 		double segParameter = pp.t - index;
@@ -1603,6 +1635,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				1);
 	}
 
+	@Override
 	public void pointChanged(GeoPointND PI) {
 		Coords coords = PI.getCoordsInD2();
 		double qx = coords.getX() / coords.getZ();
@@ -1654,6 +1687,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            point
 	 * @return true if PI is in this polygon
 	 */
+	@Override
 	public boolean isInRegion(GeoPointND PI) {
 
 		Coords coords = PI.getCoordsInD2();
@@ -1671,6 +1705,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            y-coord of the point
 	 * @return true if the point (x0,y0) is in the region
 	 */
+	@Override
 	public boolean isInRegion(double x0, double y0) {
 
 		double x1, y1, x2, y2;
@@ -1684,7 +1719,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			y2 = getPointY(i) - y0;
 			int inter = intersectOx(x1, y1, x2, y2);
 			if (inter == 2)
+			 {
 				return true; // point on an edge
+			}
 			ret = ret ^ (inter == 1);
 			x1 = x2;
 			y1 = y2;
@@ -1693,6 +1730,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return ret;
 	}
 
+	@Override
 	final public void regionChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -1706,9 +1744,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		// GeoPoint P = (GeoPoint) PI;
 		RegionParameters rp = P.getRegionParameters();
 
-		if (rp.isOnPath())
+		if (rp.isOnPath()) {
 			pathChanged(P);
-		else {
+		} else {
 			// Application.debug(rp.getT1()+ "," + rp.getT2());
 			// pointChangedForRegion(P);
 			double xu = p1.inhomX - p0.inhomX;
@@ -1745,6 +1783,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	}
 
+	@Override
 	public void pointChangedForRegion(GeoPointND P) {
 
 		P.updateCoords2D();
@@ -1830,12 +1869,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// Application.debug(" p1 ("+secondPoint+") =
 			// "+p1.inhomX+","+p1.inhomY);
 			if (!Kernel.isEqual(p0.inhomX, p1.inhomX,
-					Kernel.STANDARD_PRECISION))
+					Kernel.STANDARD_PRECISION)) {
 				secondPointFound = true;
-			else if (!Kernel.isEqual(p0.inhomY, p1.inhomY,
+			} else if (!Kernel.isEqual(p0.inhomY, p1.inhomY,
 					Kernel.STANDARD_PRECISION))
+			 {
 				secondPointFound = true;
 			// Log.debug(" secondPointFound = " + secondPointFound);
+			}
 		}
 
 		int thirdPoint = -1;
@@ -1866,10 +1907,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	// /////////////////////////////
 	private boolean asBoundary = false;
 
+	@Override
 	public void setRole(boolean isAsBoundary) {
 		this.asBoundary = isAsBoundary; // false means 'as region'
 	}
 
+	@Override
 	public boolean asBoundary() {
 		return asBoundary;
 	}
@@ -1888,23 +1931,26 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		if (Kernel.isZero(y1)) { // first point on (Ox)
 			if (Kernel.isZero(y2)) { // second point on (Ox)
-				if (Kernel.isGreaterEqual(0, x1 * x2)) // 0 on segment
+				if (Kernel.isGreaterEqual(0, x1 * x2)) {
 					return 2;
+				}
 				// ignore the segment on 0x if it is whole on left or right
 				return -1;
 			}
 			// only first point is on (Ox)
-			if (Kernel.isZero(x1)) // first point ~ 0
+			if (Kernel.isZero(x1)) {
 				return 2;
+			}
 			return y2 > eps && x1 > eps ? 1 : -1;
 		} else if (Kernel.isZero(y2)) {
 			// only second point is on (0x)
-			if (Kernel.isZero(x2)) // second point ~ 0
+			if (Kernel.isZero(x2)) {
 				return 2;
+			}
 			return y1 > eps && x2 > eps ? 1 : -1;
-		} else if (y1 * y2 > eps) // segment totally above or under
+		} else if (y1 * y2 > eps) {
 			return -1;
-		else {
+		} else {
 			if (y1 > y2) { // first point under (Ox)
 				double y = y1;
 				y1 = y2;
@@ -1914,16 +1960,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				x2 = x;
 			}
 
-			if ((x1 + eps < 0) && (x2 + eps < 0)) // segment totally on the left
+			if ((x1 + eps < 0) && (x2 + eps < 0)) {
 				return -1;
-			else if ((x1 > eps) && (x2 > eps)) // segment totally on the right
+			} else if ((x1 > eps) && (x2 > eps)) {
 				return 1;
-			else if (x1 * y2 > x2 * y1 + eps) // angle > 0
+			} else if (x1 * y2 > x2 * y1 + eps) {
 				return 1;
-			else if (x1 * y2 + eps < x2 * y1) // angle < 0
+			} else if (x1 * y2 + eps < x2 * y1) {
 				return -1;
-			else
+			}
+			else {
 				return 2; // angle ~ 0
+			}
 		}
 	}
 
@@ -1957,6 +2005,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
@@ -2179,18 +2228,22 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	// GEOCOORDSYS2D INTERFACE
 	// //////////////////////////////////////
 
+	@Override
 	public CoordSys getCoordSys() {
 		return CoordSys.Identity3D;
 	}
 
+	@Override
 	public Coords getPoint(double x2d, double y2d, Coords coords) {
 		return getCoordSys().getPoint(x2d, y2d, coords);
 	}
 
+	@Override
 	public Coords[] getNormalProjection(Coords coords) {
 		return getCoordSys().getNormalProjection(coords);
 	}
 
+	@Override
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
 
@@ -2242,29 +2295,36 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).rotate(r);
+		}
 		updatePathRegion();
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		Coords Scoords = S.getInhomCoords();
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).rotate(r, Scoords);
+		}
 		updatePathRegion();
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).matrixTransform(a00, a01, a10, a11);
+		}
 
 		calcArea();
 
 		updatePathRegion();
 	}
 
+	@Override
 	public void translate(Coords v) {
 		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).translate(v);
@@ -2272,22 +2332,26 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		updatePathRegion();
 	}
 
+	@Override
 	public void dilate(NumberValue r, Coords S) {
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).dilate(r, S);
+		}
 
 		calcArea();
 
 		updatePathRegion();
 	}
 
+	@Override
 	public void mirror(Coords Q) {
 
 		// important for centroid calculation
 		area *= -1;
 
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).mirror(Q);
+		}
 		updatePathRegion();
 	}
 
@@ -2296,13 +2360,15 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		this.updateSegments();
 	}
 
+	@Override
 	public void mirror(GeoLineND g) {
 
 		// important for centroid calculation
 		area *= -1;
 
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).mirror(g);
+		}
 		updatePathRegion();
 	}
 
@@ -2311,10 +2377,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return true iff all vertices are labeled
 	 */
+	@Override
 	public boolean isAllVertexLabelsSet() {
-		for (int i = 0; i < getPointsLength(); i++)
-			if (!getPoint(i).isLabelSet())
+		for (int i = 0; i < getPointsLength(); i++) {
+			if (!getPoint(i).isLabelSet()) {
 				return false;
+			}
+		}
 		return true;
 	}
 
@@ -2323,21 +2392,26 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @return true iff number of vertices is not volatile
 	 */
+	@Override
 	public boolean isVertexCountFixed() {
 		// regularPolygon[vertex,vertex,count]
-		if (getParentAlgorithm() instanceof AlgoPolygonRegularND)
+		if (getParentAlgorithm() instanceof AlgoPolygonRegularND) {
 			return false;
+		}
 		// polygon[list]
-		if (getParentAlgorithm().getInput().length < 3)
+		if (getParentAlgorithm().getInput().length < 3) {
 			return false;
+		}
 		return true;
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 
 		return Coords.VZ;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
@@ -2412,6 +2486,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	}
 
+	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		if (!isDefined()) {
 			curve.setUndefined();
@@ -2422,15 +2497,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public String getDefaultLabel(char[] chars, boolean isInteger) {
-		if (chars != null)
+		if (chars != null) {
 			return super.getDefaultLabel(chars, isInteger);
+		}
 		int counter = 0;
 		String str;
 		String name;
-		if (getMetasLength() == 1)
+		if (getMetasLength() == 1) {
 			name = getLoc().getPlainLabel("face"); // Name.face
-		else
+		}
+		else {
 			name = getLoc().getPlainLabel("polygon"); // Name.polygon
+		}
 		do {
 			counter++;
 			str = name + kernel.internationalizeDigits(counter + "",
@@ -2451,11 +2529,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		algo.modifyInputPoints(newPoints);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		// It's OK to return null here:
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK to return null here:
@@ -2471,6 +2551,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return metas.size();
 	}
 
+	@Override
 	public GeoElement[] getMetas() {
 		GeoElement[] ret = new GeoElement[metas.size()];
 		metas.toArray(ret);
@@ -2587,6 +2668,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return points == null ? 0 : points.length;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}

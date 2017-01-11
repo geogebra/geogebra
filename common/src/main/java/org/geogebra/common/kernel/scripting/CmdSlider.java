@@ -34,14 +34,19 @@ public class CmdSlider extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n < 2 || n > 9)
+		if (n < 2 || n > 9) {
 			throw argNumErr(app, c, n);
-		for (int i = 0; i < Math.min(n, 5); i++)
-			if (!(arg[i] instanceof GeoNumberValue))
+		}
+		for (int i = 0; i < Math.min(n, 5); i++) {
+			if (!(arg[i] instanceof GeoNumberValue)) {
 				throw argErr(app, c, arg[i]);
-		for (int i = 5; i < n; i++)
-			if (!(arg[i] instanceof BooleanValue))
+			}
+		}
+		for (int i = 5; i < n; i++) {
+			if (!(arg[i] instanceof BooleanValue)) {
 				throw argErr(app, c, arg[i]);
+			}
+		}
 
 		GeoNumeric slider = null;
 
@@ -71,16 +76,21 @@ public class CmdSlider extends CommandProcessor {
 			slider.setAnimationStep((GeoNumberValue) arg[2]);
 			slider.setAutoStep(!MyDouble.isFinite(arg[2].evaluateDouble()));
 		}
-		if (n > 3)
+		if (n > 3) {
 			slider.setAnimationSpeedObject((GeoNumberValue) arg[3]);
-		if (n > 4)
+		}
+		if (n > 4) {
 			slider.setSliderWidth(((GeoNumberValue) arg[4]).getDouble());
-		if (n > 6)
+		}
+		if (n > 6) {
 			slider.setSliderHorizontal(((BooleanValue) arg[6]).getBoolean());
-		if (n > 7)
+		}
+		if (n > 7) {
 			slider.setAnimating(((BooleanValue) arg[7]).getBoolean());
-		if (n > 8)
+		}
+		if (n > 8) {
 			slider.setRandom(((BooleanValue) arg[8]).getBoolean());
+		}
 		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 		slider.setLabelVisible(true);
 		slider.setEuclidianVisible(true);

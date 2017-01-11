@@ -62,12 +62,13 @@ public class TransformMirror3D extends TransformMirror {
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoTransformation algo = null;
-		if (mirror.isGeoPoint())
+		if (mirror.isGeoPoint()) {
 			algo = new AlgoMirror3D(cons, geo, (GeoPointND) mirror);
-		else if (mirror.isGeoLine())
+		} else if (mirror.isGeoLine()) {
 			algo = new AlgoMirror3D(cons, geo, (GeoLineND) mirror);
-		else if (mirror instanceof GeoCoordSys2D)
+		} else if (mirror instanceof GeoCoordSys2D) {
 			algo = new AlgoMirror3D(cons, geo, (GeoCoordSys2D) mirror);
+		}
 		return algo;
 	}
 

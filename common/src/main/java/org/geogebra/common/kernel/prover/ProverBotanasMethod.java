@@ -69,8 +69,9 @@ public class ProverBotanasMethod {
 	 *            the input statement
 	 */
 	static void updateBotanaVarsInv(GeoElement statement) {
-		if (botanaVarsInv == null)
+		if (botanaVarsInv == null) {
 			botanaVarsInv = new HashMap<List<Variable>, GeoElement>();
+		}
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
@@ -128,11 +129,12 @@ public class ProverBotanasMethod {
 					center[1] = vars[1];
 					GeoElement centerGeo = botanaVarsInv
 							.get(Arrays.asList(center));
-					if (centerGeo != null)
+					if (centerGeo != null) {
 						/*
 						 * it may be a virtual center (TODO: handle somehow)
 						 */
 						circleCenters.add(centerGeo);
+					}
 				}
 			}
 		}
@@ -155,10 +157,11 @@ public class ProverBotanasMethod {
 
 		/* Creating NDGs: */
 		NDGCondition ndgc = new NDGCondition();
-		if (setSize > 3)
+		if (setSize > 3) {
 			ndgc.setCondition("DegeneratePolygon");
-		else
+		} else {
 			ndgc.setCondition("AreCollinear");
+		}
 		GeoElement[] geos = new GeoElement[setSize];
 		int i = 0;
 		Iterator<GeoElement> it = freePoints.iterator();
@@ -1112,10 +1115,11 @@ public class ProverBotanasMethod {
 		/* Set substitutions. */
 		HashMap<Variable, Long> substitutions = null;
 		int fixcoords = 0;
-		if (prover.isReturnExtraNDGs())
+		if (prover.isReturnExtraNDGs()) {
 			fixcoords = proverSettings.useFixCoordinatesProveDetails;
-		else
+		} else {
 			fixcoords = proverSettings.useFixCoordinatesProve;
+		}
 		if (as.maxFixcoords >= 0 && as.maxFixcoords < fixcoords) {
 			fixcoords = as.maxFixcoords;
 		}
@@ -1207,9 +1211,9 @@ public class ProverBotanasMethod {
 								return ProofResult.UNKNOWN;
 							}
 							NDGCondition ndgc = ndgd.detect(poly);
-							if (ndgc == null)
+							if (ndgc == null) {
 								readable = false;
-							else {
+							} else {
 								/*
 								 * Check if this elimination ideal equals to
 								 * {xM-xN,yM-yN}:

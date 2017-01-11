@@ -196,37 +196,47 @@ public class Point_dt {
 		double dy = b.y - a.y;
 		double res = dy * (x - a.x) - dx * (y - a.y);
 
-		if (res < 0)
+		if (res < 0) {
 			return LEFT;
-		if (res > 0)
+		}
+		if (res > 0) {
 			return RIGHT;
+		}
 
 		if (dx > 0) {
-			if (x < a.x)
+			if (x < a.x) {
 				return INFRONTOFA;
-			if (b.x < x)
+			}
+			if (b.x < x) {
 				return BEHINDB;
+			}
 			return ONSEGMENT;
 		}
 		if (dx < 0) {
-			if (x > a.x)
+			if (x > a.x) {
 				return INFRONTOFA;
-			if (b.x > x)
+			}
+			if (b.x > x) {
 				return BEHINDB;
+			}
 			return ONSEGMENT;
 		}
 		if (dy > 0) {
-			if (y < a.y)
+			if (y < a.y) {
 				return INFRONTOFA;
-			if (b.y < y)
+			}
+			if (b.y < y) {
 				return BEHINDB;
+			}
 			return ONSEGMENT;
 		}
 		if (dy < 0) {
-			if (y > a.y)
+			if (y > a.y) {
 				return INFRONTOFA;
-			if (b.y > y)
+			}
+			if (b.y > y) {
 				return BEHINDB;
+			}
 			return ONSEGMENT;
 		}
 		Log.error("Error, pointLineTest with a=b");
@@ -253,8 +263,9 @@ public class Point_dt {
 				/ 2.0f;
 		double v = ((b.x - x) * (b.x + x) + (b.y - y) * (b.y + y)) / 2.0f;
 		double den = (a.x - b.x) * (b.y - y) - (b.x - x) * (a.y - b.y);
-		if (den == 0) // oops
+		if (den == 0) {
 			Log.debug("circumcenter, degenerate case");
+		}
 		return new Point_dt((u * (b.y - y) - v * (a.y - b.y)) / den,
 				(v * (a.x - b.x) - u * (b.x - x)) / den);
 	}
@@ -284,54 +295,73 @@ class Compare implements Comparator {
 			Point_dt d1 = (Point_dt) o1;
 			Point_dt d2 = (Point_dt) o2;
 			if (_flag == 0) {
-				if (greaterThan(d1.x, d2.x))
+				if (greaterThan(d1.x, d2.x)) {
 					return 1;
-				if (lessThan(d1.x, d2.x))
+				}
+				if (lessThan(d1.x, d2.x)) {
 					return -1;
+				}
 				// x1 == x2
-				if (greaterThan(d1.y, d2.y))
+				if (greaterThan(d1.y, d2.y)) {
 					return 1;
-				if (lessThan(d1.y, d2.y))
+				}
+				if (lessThan(d1.y, d2.y)) {
 					return -1;
+				}
 			} else if (_flag == 1) {
-				if (greaterThan(d1.x, d2.x))
+				if (greaterThan(d1.x, d2.x)) {
 					return -1;
-				if (lessThan(d1.x, d2.x))
+				}
+				if (lessThan(d1.x, d2.x)) {
 					return 1;
+				}
 				// x1 == x2
-				if (greaterThan(d1.y, d2.y))
+				if (greaterThan(d1.y, d2.y)) {
 					return -1;
-				if (lessThan(d1.y, d2.y))
+				}
+				if (lessThan(d1.y, d2.y)) {
 					return 1;
+				}
 			} else if (_flag == 2) {
-				if (greaterThan(d1.y, d2.y))
+				if (greaterThan(d1.y, d2.y)) {
 					return 1;
-				if (lessThan(d1.y, d2.y))
+				}
+				if (lessThan(d1.y, d2.y)) {
 					return -1;
+				}
 				// y1 == y2
-				if (greaterThan(d1.x, d2.x))
+				if (greaterThan(d1.x, d2.x)) {
 					return 1;
-				if (d1.x < d2.x)
+				}
+				if (d1.x < d2.x) {
 					return -1;
+				}
 
 			} else if (_flag == 3) {
-				if (greaterThan(d1.y, d2.y))
+				if (greaterThan(d1.y, d2.y)) {
 					return -1;
-				if (d1.y < d2.y)
+				}
+				if (d1.y < d2.y) {
 					return 1;
+				}
 				// y1 == y2
-				if (greaterThan(d1.x, d2.x))
+				if (greaterThan(d1.x, d2.x)) {
 					return -1;
-				if (lessThan(d1.x, d2.x))
+				}
+				if (lessThan(d1.x, d2.x)) {
 					return 1;
+				}
 			}
 		} else {
-			if (o1 == null && o2 == null)
+			if (o1 == null && o2 == null) {
 				return 0;
-			if (o1 == null && o2 != null)
+			}
+			if (o1 == null && o2 != null) {
 				return 1;
-			if (o1 != null && o2 == null)
+			}
+			if (o1 != null && o2 == null) {
 				return -1;
+			}
 		}
 		return ans;
 	}

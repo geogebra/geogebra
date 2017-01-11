@@ -108,6 +108,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 		outputNet = new OutputHandler<GeoPolyhedronNet>(
 				new elementFactory<GeoPolyhedronNet>() {
+					@Override
 					public GeoPolyhedronNet newElement() {
 						GeoPolyhedronNet p = new GeoPolyhedronNet(cons);
 						p.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
@@ -453,6 +454,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	private OutputHandler<GeoPoint3D> createOutputPoints() {
 		return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
+			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p = new GeoPoint3D(cons);
 				p.setCoords(0, 0, 0, 1);
@@ -647,6 +649,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
 		return new OutputHandler<GeoSegment3D>(
 				new elementFactory<GeoSegment3D>() {
+					@Override
 					public GeoSegment3D newElement() {
 						GeoSegment3D s = new GeoSegment3D(cons);
 						// s.setParentAlgorithm(AlgoPolyhedron.this);
@@ -658,6 +661,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
 		return new OutputHandler<GeoPolygon3D>(
 				new elementFactory<GeoPolygon3D>() {
+					@Override
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
 						// p.setParentAlgorithm(AlgoPolyhedron.this);
@@ -668,9 +672,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	private void setLabels(String[] labels) {
 
-		if (labels == null || labels.length <= 1)
+		if (labels == null || labels.length <= 1) {
 			getNet().initLabels(labels);
-		else {
+		} else {
 			getNet().setAllLabelsAreSet(true);
 			for (int i = 0; i < labels.length; i++) {
 				getOutput(i).setLabel(labels[i]);

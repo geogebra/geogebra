@@ -100,6 +100,7 @@ public class AlgoRandomUniformList extends AlgoElement
 
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 		if (d >= a.getDouble() && d <= b.getDouble()) {
 			// list.setValue(d); ????

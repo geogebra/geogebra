@@ -165,8 +165,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 		// if its predecessors are undefined
 		for (int i = 0; i <= 1; i++) {
 			AlgoElement algo = null;
-			if (coords[i].toGeoElement() != null)
+			if (coords[i].toGeoElement() != null) {
 				algo = (coords[i].toGeoElement()).getParentAlgorithm();
+			}
 			if (algo != null && algo.isUndefined()) {
 				curve.setUndefined();
 				return;
@@ -194,10 +195,11 @@ public class AlgoCurveCartesian extends AlgoElement {
 					return;
 				}
 				ExpressionNode node;
-				if (ev.isExpressionNode())
+				if (ev.isExpressionNode()) {
 					node = (ExpressionNode) ev;
-				else
+				} else {
 					node = new ExpressionNode(kernel, ev);
+				}
 
 				// expandedFun.setExpression(node);
 

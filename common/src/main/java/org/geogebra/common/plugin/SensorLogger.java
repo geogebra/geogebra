@@ -278,12 +278,14 @@ public abstract class SensorLogger {
 
 			geo.setValue(val);
 
-			if (repaint)
+			if (repaint) {
 				geo.updateRepaint();
-			else if (update || !atleast)
+			} else if (update || !atleast) {
 				geo.updateCascade();
-			else
+			}
+			else {
 				geo.update(); // at least call updateScripts
+			}
 
 			registerLog(type);
 		} else {
@@ -299,12 +301,14 @@ public abstract class SensorLogger {
 					list.addQueue(geo);
 				}
 
-				if (repaint)
+				if (repaint) {
 					list.updateRepaint();
-				else if (update || !atleast)
+				} else if (update || !atleast) {
 					list.updateCascade();
-				else
+				}
+				else {
 					list.update(); // at least call updateScripts
+				}
 
 				registerLog(type);
 			} else {
@@ -338,10 +342,12 @@ public abstract class SensorLogger {
 
 				if (repaint) {
 					fn.updateRepaint();
-				} else if (update || !atleast)
+				} else if (update || !atleast) {
 					fn.updateCascade();
-				else
+				}
+				else {
 					fn.update(); // at least call updateScripts
+				}
 
 				registerLog(type);
 			}

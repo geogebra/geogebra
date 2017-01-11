@@ -20,17 +20,20 @@ public class LabelManager {
 	 */
 	public static boolean checkName(GeoElementND geo, String nameToCheck) {
 		String name = nameToCheck;
-		if (name == null)
+		if (name == null) {
 			return true;
+		}
 
-		if (name.startsWith(CopyPaste.labelPrefix))
+		if (name.startsWith(CopyPaste.labelPrefix)) {
 			return false;
+		}
 
 		name = StringUtil.toLowerCase(name);
 		if (geo.isGeoFunction()) {
 			if (geo.getKernel().getApplication().getParserFunctions()
-					.isReserved(name))
+					.isReserved(name)) {
 				return false;
+			}
 		}
 
 		return true;

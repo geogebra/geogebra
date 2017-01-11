@@ -11,6 +11,7 @@ public class RealRootAdapter implements UnivariateRealFunction {
 		this.fun = fun;
 	}
 
+	@Override
 	public double value(double x) throws FunctionEvaluationException {
 		double res = this.fun.evaluate(x);
 		if (Double.isInfinite(res) || Double.isNaN(res)) {

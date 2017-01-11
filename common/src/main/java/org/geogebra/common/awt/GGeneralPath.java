@@ -17,11 +17,13 @@ public interface GGeneralPath extends GShape {
 
 	public abstract GPoint2D getCurrentPoint();
 
+	@Override
 	public abstract boolean contains(GRectangle2D p);
 
 	public abstract boolean contains(double arg0, double arg1, double arg2,
 			double arg3);
 
+	@Override
 	public abstract boolean intersects(GRectangle2D arg0);
 
 	public abstract boolean contains(GPoint2D p);

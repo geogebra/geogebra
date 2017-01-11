@@ -43,8 +43,9 @@ public class CmdClosestPointRegion extends CommandProcessor {
 								(GeoPointND) arg[0]) };
 			}
 
-			if (ok[0] && !ok[1])
+			if (ok[0] && !ok[1]) {
 				throw argErr(app, c, arg[1]);
+			}
 			throw argErr(app, c, arg[0]);
 
 		default:

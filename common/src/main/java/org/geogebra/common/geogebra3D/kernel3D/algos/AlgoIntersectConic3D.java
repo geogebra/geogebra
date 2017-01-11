@@ -179,10 +179,11 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			p2d.setZ(inPlaneCoords.getW());
 			// check if intersect point is on conic
 			if (c.isOnFullConic(p2d, Kernel.MIN_PRECISION)
-					&& getFirstGeoRespectLimitedPath(globalCoords))
+					&& getFirstGeoRespectLimitedPath(globalCoords)) {
 				P[0].setCoords(globalCoords, false);
-			else
+			} else {
 				setPointsUndefined();
+			}
 		} else {// line parallel to conic coord sys
 			Coords op = cs.getNormalProjection(o)[1];
 			if (!Kernel.isZero(op.getZ())) {// line not included
@@ -226,8 +227,9 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	private void checkIsOnConicPart(GeoConicND c, GeoPoint point,
 			GeoPoint3D p3d) {
 		if (c.isGeoConicPart()) {
-			if (!p3d.isDefined())
+			if (!p3d.isDefined()) {
 				return;
+			}
 
 			if (tmpCoords == null) {
 				tmpCoords = new Coords(3);
@@ -251,8 +253,9 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	protected abstract void checkIsOnFirstGeo(GeoPoint3D p);
 
 	private void setPointsUndefined() {
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++) {
 			P[i].setUndefined();
+		}
 
 	}
 

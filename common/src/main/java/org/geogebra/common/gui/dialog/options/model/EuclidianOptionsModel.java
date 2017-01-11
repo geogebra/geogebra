@@ -648,8 +648,9 @@ public class EuclidianOptionsModel {
 		if (value >= 0) {
 			double[] ticks = view.getGridDistances();
 			// val = 4 gives 5*PI/12, skip this and go to 6*Pi/2 = Pi/2
-			if (value == 4)
+			if (value == 4) {
 				value = 5;
+			}
 			ticks[2] = (value + 1) * Math.PI / 12;
 			view.setGridDistances(ticks);
 		}

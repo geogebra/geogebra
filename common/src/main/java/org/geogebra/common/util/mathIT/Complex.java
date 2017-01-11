@@ -421,8 +421,9 @@ public class Complex {
 	 * @see #ln(double[])
 	 */
 	public static double[] exp(double[] z) {
-		if (z[0] > 709)
+		if (z[0] > 709) {
 			return multiply(Double.POSITIVE_INFINITY, ONE_);
+		}
 
 		double[] w = { Math.exp(z[0]) * Math.cos(z[1]),
 				Math.exp(z[0]) * Math.sin(z[1]) };
@@ -784,8 +785,9 @@ public class Complex {
 			double[] w = add(ln(z), multiply(Numbers.GAMMA, z));
 			w = multiply(-1.0, w);
 			int nMax = (int) (Math.abs(z[0]) / ACCURACY);
-			if (nMax > 10000)
+			if (nMax > 10000) {
 				nMax = 10000;
+			}
 			double[] z_n;
 			for (int n = 1; n <= nMax; n++) {
 				z_n = multiply(1.0 / n, z);

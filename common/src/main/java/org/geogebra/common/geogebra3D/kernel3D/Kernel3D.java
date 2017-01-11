@@ -291,8 +291,9 @@ public class Kernel3D extends Kernel {
 	@Override
 	final public GeoRayND rayND(String label, GeoPointND P, GeoPointND Q) {
 		if (((GeoElement) P).isGeoElement3D()
-				|| ((GeoElement) Q).isGeoElement3D())
+				|| ((GeoElement) Q).isGeoElement3D()) {
 			return getManager3D().Ray3D(label, P, Q);
+		}
 		return super.ray(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
@@ -301,8 +302,9 @@ public class Kernel3D extends Kernel {
 			GeoPointND Q) {
 
 		if (((GeoElement) P).isGeoElement3D()
-				|| ((GeoElement) Q).isGeoElement3D())
+				|| ((GeoElement) Q).isGeoElement3D()) {
 			return getManager3D().Segment3D(label, P, Q);
+		}
 		return super.segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
@@ -310,12 +312,15 @@ public class Kernel3D extends Kernel {
 	final public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
 
 		boolean is3D = false;
-		for (int i = 0; i < P.length && !is3D; i++)
-			if (((GeoElement) P[i]).isGeoElement3D())
+		for (int i = 0; i < P.length && !is3D; i++) {
+			if (((GeoElement) P[i]).isGeoElement3D()) {
 				is3D = true;
+			}
+		}
 
-		if (is3D)
+		if (is3D) {
 			return getManager3D().Polygon3D(labels, P);
+		}
 		return super.polygon(labels, P);
 	}
 
@@ -323,12 +328,15 @@ public class Kernel3D extends Kernel {
 	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
 
 		boolean is3D = false;
-		for (int i = 0; i < P.length && !is3D; i++)
-			if (((GeoElement) P[i]).isGeoElement3D())
+		for (int i = 0; i < P.length && !is3D; i++) {
+			if (((GeoElement) P[i]).isGeoElement3D()) {
 				is3D = true;
+			}
+		}
 
-		if (is3D)
+		if (is3D) {
 			return getManager3D().PolyLine3D(label, P);
+		}
 		return super.polyLine(label, P, false);
 
 	}

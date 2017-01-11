@@ -74,11 +74,13 @@ public class CmdFillCells extends CommandProcessor {
 
 				if (geo.isGeoLocus()) {
 
-					if (!geo.isDefined())
+					if (!geo.isDefined()) {
 						throw argErr(app, c, arg[1]);
+					}
 
-					if (minCol + 1 != maxCol)
+					if (minCol + 1 != maxCol) {
 						throw argErr(app, c, arg[0]);
+					}
 
 					GeoLocus locus = (GeoLocus) geo;
 
@@ -119,7 +121,7 @@ public class CmdFillCells extends CommandProcessor {
 				}
 				if (!geo.isGeoList()) {
 
-					for (int row = minRow; row <= maxRow; row++)
+					for (int row = minRow; row <= maxRow; row++) {
 						for (int col = minCol; col <= maxCol; col++) {
 							try {
 								// cell will have been autocreated by eg A1:A3
@@ -145,6 +147,7 @@ public class CmdFillCells extends CommandProcessor {
 								throw argErr(app, c, arg[1]);
 							}
 						}
+					}
 					app.setScrollToShow(true);
 					return ret;
 				}
@@ -183,7 +186,7 @@ public class CmdFillCells extends CommandProcessor {
 				} else {
 					// not matrix, just use each list value in turn
 					int count = 0;
-					for (int row = minRow; row <= maxRow; row++)
+					for (int row = minRow; row <= maxRow; row++) {
 						for (int col = minCol; col <= maxCol; col++) {
 							try {
 								// cell will have been autocreated by eg A1:A3
@@ -203,6 +206,7 @@ public class CmdFillCells extends CommandProcessor {
 								throw argErr(app, c, arg[1]);
 							}
 						}
+					}
 
 				}
 
@@ -268,7 +272,7 @@ public class CmdFillCells extends CommandProcessor {
 						arg[0].remove();
 					}
 
-					for (int i = list.size() - 1; i >= 0; i--)
+					for (int i = list.size() - 1; i >= 0; i--) {
 						try {
 							// Application.debug("setting "+row+" "+(column+i)+"
 							// to "+list.get(i).toString());
@@ -280,6 +284,7 @@ public class CmdFillCells extends CommandProcessor {
 							app.setScrollToShow(true);
 							throw argErr(app, c, arg[1]);
 						}
+					}
 				}
 
 			} else {

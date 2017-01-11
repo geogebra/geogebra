@@ -45,6 +45,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  */
 public class StructurallyEquivalent<V, E>
 		implements Transformer<Graph<V, E>, VertexPartition<V, E>> {
+	@Override
 	public VertexPartition<V, E> transform(Graph<V, E> g) {
 		Set<Pair<V>> vertex_pairs = getEquivalentPairs(g);
 
@@ -52,10 +53,12 @@ public class StructurallyEquivalent<V, E>
 		Map<V, Set<V>> intermediate = new HashMap<V, Set<V>>();
 		for (Pair<V> p : vertex_pairs) {
 			Set<V> res = intermediate.get(p.getFirst());
-			if (res == null)
+			if (res == null) {
 				res = intermediate.get(p.getSecond());
-			if (res == null) // we haven't seen this one before
+			}
+			if (res == null) {
 				res = new HashSet<V>();
+			}
 			res.add(p.getFirst());
 			res.add(p.getSecond());
 			intermediate.put(p.getFirst(), res);
@@ -94,18 +97,21 @@ public class StructurallyEquivalent<V, E>
 		List<V> l = new ArrayList<V>(g.getVertices());
 
 		for (V v1 : l) {
-			if (alreadyEquivalent.contains(v1))
+			if (alreadyEquivalent.contains(v1)) {
 				continue;
+			}
 
 			for (Iterator<V> iterator = l
 					.listIterator(l.indexOf(v1) + 1); iterator.hasNext();) {
 				V v2 = iterator.next();
 
-				if (alreadyEquivalent.contains(v2))
+				if (alreadyEquivalent.contains(v2)) {
 					continue;
+				}
 
-				if (!canPossiblyCompare(v1, v2))
+				if (!canPossiblyCompare(v1, v2)) {
 					continue;
+				}
 
 				if (isStructurallyEquivalent(g, v1, v2)) {
 					Pair<V> p = new Pair<V>(v1, v2);
@@ -153,8 +159,9 @@ public class StructurallyEquivalent<V, E>
 
 		// this neglects self-loops and directed edges from 1 to other
 		boolean b = (n1.equals(n2) && o1.equals(o2));
-		if (!b)
+		if (!b) {
 			return b;
+		}
 
 		// if there's a directed edge v1->v2 then there's a directed edge v2->v1
 		b &= (g.isSuccessor(v1, v2) == g.isSuccessor(v2, v1));

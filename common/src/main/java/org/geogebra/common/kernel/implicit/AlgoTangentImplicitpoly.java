@@ -141,6 +141,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		input[0] = algoTangentPoly.getVec();
 
 		tangents = new OutputHandler<GeoLine>(new elementFactory<GeoLine>() {
+			@Override
 			public GeoLine newElement() {
 				GeoLine g1 = new GeoLine(getConstruction());
 				g1.setParentAlgorithm(AlgoTangentImplicitpoly.this);
@@ -210,6 +211,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		return ip;
 	}
 
+	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		return this.algoTangentPoly.getTangentPoint(geo, line);
 	}

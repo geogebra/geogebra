@@ -88,6 +88,7 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		return true;
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		// return null since there's no specific direction
 		// used for commands that should need a direction, like OrthogonalLine
@@ -108,6 +109,7 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		return HitType.NONE;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}

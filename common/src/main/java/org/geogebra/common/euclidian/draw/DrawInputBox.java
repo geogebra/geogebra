@@ -190,6 +190,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 * @param e
 		 *            key event
 		 */
+		@Override
 		public void keyReleased(KeyEvent e) {
 			if (!isSelectedForInput()) {
 				Log.debug("[DF] keyReleased NOT " + "for " + labelDesc);
@@ -216,8 +217,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 					// return if text already contains degree symbol or variable
 					for (int i = 0; i < text.length(); i++) {
-						if (!StringUtil.isDigit(text.charAt(i)))
+						if (!StringUtil.isDigit(text.charAt(i))) {
 							return;
+						}
 					}
 
 					int caretPos = tf.getCaretPosition();
@@ -436,6 +438,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	/**
 	 * Removes button from view again
 	 */
+	@Override
 	final public void remove() {
 		if (!isSelectedForInput()) {
 			return;

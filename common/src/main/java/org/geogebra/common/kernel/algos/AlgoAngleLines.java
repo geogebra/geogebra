@@ -97,6 +97,7 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 		angle.setLabel(label);
 	}
 
+	@Override
 	public AlgoAngleLines copy() {
 		return new AlgoAngleLines(g.copy(), h.copy());
 	}

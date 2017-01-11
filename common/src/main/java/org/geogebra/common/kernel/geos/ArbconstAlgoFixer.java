@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.AlgoDependentAr
  */
 public class ArbconstAlgoFixer implements Inspecting {
 
+	@Override
 	public boolean check(ExpressionValue ev) {
 		if (ev instanceof GeoNumeric) {
 			GeoNumeric num = ((GeoNumeric) ev);

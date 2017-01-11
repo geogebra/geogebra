@@ -81,6 +81,7 @@ public class PathMoverGeneric implements PathMover {
 
 	}
 
+	@Override
 	public void init(GeoPointND p, int min_steps) {
 		MIN_STEPS_INSTANCE = min_steps;
 		PathParameter pp = p.getPathParameter();
@@ -104,8 +105,9 @@ public class PathMoverGeneric implements PathMover {
 		if (start_param < min_param || start_param > max_param) {
 			param_extent = max_param - min_param;
 			start_param = (start_param - min_param) % param_extent;
-			if (start_param < min_param)
+			if (start_param < min_param) {
 				start_param += param_extent;
+			}
 		}
 
 		if (min_param == Double.NEGATIVE_INFINITY) {
@@ -167,6 +169,7 @@ public class PathMoverGeneric implements PathMover {
 		// System.out.println(" max_step_width : " + max_step_width);
 	}
 
+	@Override
 	public void resetStartParameter() {
 		curr_param = start_param;
 		last_param = start_param;
@@ -174,10 +177,12 @@ public class PathMoverGeneric implements PathMover {
 		step_width = max_step_width;
 	}
 
+	@Override
 	public void getCurrentPosition(GeoPointND p) {
 		calcPoint(p);
 	}
 
+	@Override
 	public boolean getNext(GeoPointND p) {
 		// check if we are in our interval
 		boolean lineTo = true;
@@ -271,6 +276,7 @@ public class PathMoverGeneric implements PathMover {
 		p.updateCoords();
 	}
 
+	@Override
 	public boolean hasNext() {
 		// check if we pass the start parameter
 		// from last_param to the next parameter curr_param
@@ -290,31 +296,38 @@ public class PathMoverGeneric implements PathMover {
 		return hasNext;
 	}
 
+	@Override
 	public double getCurrentParameter() {
 		return curr_param;
 	}
 
+	@Override
 	public void changeOrientation() {
 		posOrientation = !posOrientation;
 		step_width = -step_width;
 	}
 
+	@Override
 	public boolean hasPositiveOrientation() {
 		return posOrientation;
 	}
 
+	@Override
 	final public boolean smallerStep() {
 		return changeStep(step_width * STEP_DECREASE_FACTOR);
 	}
 
+	@Override
 	final public boolean biggerStep() {
 		return changeStep(step_width * STEP_INCREASE_FACTOR);
 	}
 
+	@Override
 	final public boolean setStep(double step) {
 		return changeStep(step);
 	}
 
+	@Override
 	final public double getStep() {
 		return step_width;
 	}
@@ -366,6 +379,7 @@ public class PathMoverGeneric implements PathMover {
 		}
 	}
 
+	@Override
 	public void stepBack() {
 		curr_param = last_param;
 		maxBorderSet = lastMaxBorderSet;

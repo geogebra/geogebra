@@ -23,6 +23,7 @@ public class PointNDFold implements FoldComputer {
 	private GeoElement result;
 	private double x, y, z;
 
+	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.result = doGetTemplate(cons, listElement);
 	}
@@ -44,6 +45,7 @@ public class PointNDFold implements FoldComputer {
 		return new GeoPoint(cons);
 	}
 
+	@Override
 	public void add(GeoElement p, Operation op) {
 		if (op == Operation.MULTIPLY) {
 			double x0 = x;
@@ -94,6 +96,7 @@ public class PointNDFold implements FoldComputer {
 
 	}
 
+	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
 		x = 0;
 		y = 0;
@@ -101,10 +104,12 @@ public class PointNDFold implements FoldComputer {
 		add(geoElement, Operation.PLUS);
 	}
 
+	@Override
 	public boolean check(GeoElement geoElement) {
 		return geoElement instanceof VectorNDValue;
 	}
 
+	@Override
 	public void finish() {
 		if (result instanceof GeoVec3D) {
 			// 2D Point / Vector

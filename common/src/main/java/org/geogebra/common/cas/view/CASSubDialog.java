@@ -176,10 +176,12 @@ public abstract class CASSubDialog {
 	private static void addVariables(GeoElement var, HashSet<GeoElement> vars) {
 		if (var instanceof GeoCasCell) {
 			ValidExpression ve = ((GeoCasCell) var).getOutputValidExpression();
-			if (ve != null)
+			if (ve != null) {
 				vars.addAll(ve.getVariables());
-		} else
+			}
+		} else {
 			vars.add(var);
+		}
 	}
 
 	/**
@@ -216,8 +218,9 @@ public abstract class CASSubDialog {
 		}
 		substList.append('}');
 
-		if ("{}".equals(substList.toString()))
+		if ("{}".equals(substList.toString())) {
 			return false;
+		}
 
 		// make sure pure substitute is not evaluated
 		boolean keepInput = false;

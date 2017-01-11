@@ -86,8 +86,9 @@ public class AlgoTiedRank extends AlgoElement {
 			}
 		}
 
-		if (rankingAlgorithm == null)
+		if (rankingAlgorithm == null) {
 			rankingAlgorithm = new NaturalRanking(TiesStrategy.AVERAGE);
+		}
 
 		outputArray = rankingAlgorithm.rank(inputArray);
 

@@ -77,6 +77,7 @@ public final class MapTransformer<I, O>
 	 *            the input object to transform
 	 * @return the transformed result
 	 */
+	@Override
 	public O transform(I input) {
 		return iMap.get(input);
 	}

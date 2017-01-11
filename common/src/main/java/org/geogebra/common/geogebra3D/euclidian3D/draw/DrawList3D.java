@@ -46,8 +46,9 @@ public class DrawList3D extends Drawable3D {
 		// Log.debug("LIST -- "+getGeoElement());
 
 		isVisible = geoList.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return true;
+		}
 
 		// getView3D().removeGeoToPick(drawables.size());
 
@@ -60,13 +61,15 @@ public class DrawList3D extends Drawable3D {
 		for (int i = 0; i < size; i++) {
 			GeoElement listElement = geoList.get(i);
 			// only new 3D elements are drawn
-			if (!listElement.hasDrawable3D())
+			if (!listElement.hasDrawable3D()) {
 				continue;
+			}
 
 			// add drawable for listElement
 			if (drawables.addToDrawableList(listElement, drawablePos,
-					oldDrawableSize, this))
+					oldDrawableSize, this)) {
 				drawablePos++;
+			}
 
 		}
 

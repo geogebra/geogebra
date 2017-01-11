@@ -118,9 +118,11 @@ public abstract class AlgoTangentLineND extends AlgoElement
 		return c;
 	}
 
+	@Override
 	public GeoPointND getTangentPoint(GeoElement conic, GeoLine line) {
-		if (conic != c)
+		if (conic != c) {
 			return null;
+		}
 
 		if (line == tangents[0]) {
 			return tangentPoints[0];

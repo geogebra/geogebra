@@ -736,8 +736,9 @@ public class CoordMatrix {
 			for (int j = 1; j <= result.getColumns(); j++) {
 
 				double r = 0;
-				for (int n = 1; n <= getColumns(); n++)
+				for (int n = 1; n <= getColumns(); n++) {
 					r += get(i, n) * m.get(n, j);
+				}
 
 				result.set(i, j, r);
 			}
@@ -810,8 +811,9 @@ public class CoordMatrix {
 			for (int j = 1; j <= 3; j++) {
 
 				double r = 0;
-				for (int n = 1; n <= 3; n++)
+				for (int n = 1; n <= 3; n++) {
 					r += get(i, n) * m.get(n, j);
+				}
 
 				result.set(i, j, r);
 			}
@@ -848,8 +850,9 @@ public class CoordMatrix {
 	 * @return true if the matrix is a square-matrix
 	 */
 	public boolean isSquare() {
-		if (isSingular())
+		if (isSingular()) {
 			return false;
+		}
 		return getRows() == getColumns();
 	}
 

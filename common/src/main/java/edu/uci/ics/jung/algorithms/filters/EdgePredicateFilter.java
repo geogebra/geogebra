@@ -38,6 +38,7 @@ public class EdgePredicateFilter<V, E> implements Filter<V, E> {
 		this.edge_pred = edge_pred;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Graph<V, E> transform(Graph<V, E> g) {
 		Graph<V, E> filtered;
@@ -48,12 +49,14 @@ public class EdgePredicateFilter<V, E> implements Filter<V, E> {
 					"Unable to create copy of existing graph: ", e);
 		}
 
-		for (V v : g.getVertices())
+		for (V v : g.getVertices()) {
 			filtered.addVertex(v);
+		}
 
 		for (E e : g.getEdges()) {
-			if (edge_pred.evaluate(e))
+			if (edge_pred.evaluate(e)) {
 				filtered.addEdge(e, g.getIncidentVertices(e));
+			}
 		}
 
 		return filtered;

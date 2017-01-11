@@ -56,11 +56,13 @@ public class BicomponentClusterer<V, E>
 	 *            the graph whose bicomponents are to be extracted
 	 * @return the <code>ClusterSet</code> of bicomponents
 	 */
+	@Override
 	public Set<Set<V>> transform(UndirectedGraph<V, E> theGraph) {
 		Set<Set<V>> bicomponents = new LinkedHashSet<Set<V>>();
 
-		if (theGraph.getVertices().isEmpty())
+		if (theGraph.getVertices().isEmpty()) {
 			return bicomponents;
+		}
 
 		// initialize DFS number for each vertex to 0
 		dfs_num = new HashMap<V, Number>();
@@ -156,8 +158,9 @@ public class BicomponentClusterer<V, E>
 					bicomponents.add(bicomponent);
 				}
 				high.put(v, Math.max(w_high, high.get(v).intValue()));
-			} else if (w != parents.get(v)) // (v,w) is a back or a forward edge
+			} else if (w != parents.get(v)) {
 				high.put(v, Math.max(w_dfs_num, high.get(v).intValue()));
+			}
 		}
 	}
 }

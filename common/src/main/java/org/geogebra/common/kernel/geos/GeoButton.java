@@ -125,8 +125,9 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!geo.isGeoButton())
+		if (!geo.isGeoButton()) {
 			return;
+		}
 		setCaption(geo.getRawCaption());
 	}
 
@@ -150,14 +151,17 @@ public class GeoButton extends GeoElement
 		return label;
 	}
 
+	@Override
 	public double getRealWorldLocX() {
 		return 0;
 	}
 
+	@Override
 	public double getRealWorldLocY() {
 		return 0;
 	}
 
+	@Override
 	public boolean isAbsoluteScreenLocActive() {
 		return true;
 	}
@@ -167,6 +171,7 @@ public class GeoButton extends GeoElement
 		return true;
 	}
 
+	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
@@ -179,18 +184,22 @@ public class GeoButton extends GeoElement
 		}
 	}
 
+	@Override
 	public int getAbsoluteScreenLocX() {
 		return labelOffsetX;
 	}
 
+	@Override
 	public int getAbsoluteScreenLocY() {
 		return labelOffsetY;
 	}
 
+	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		// do nothing
 	}
 
+	@Override
 	public void setRealWorldLoc(double x, double y) {
 		// do nothing
 	}
@@ -217,50 +226,62 @@ public class GeoButton extends GeoElement
 		return false;
 	}
 
+	@Override
 	public double getFontSizeMultiplier() {
 		return fontSizeD;
 	}
 
+	@Override
 	public void setFontSizeMultiplier(double d) {
 		fontSizeD = d;
 	}
 
+	@Override
 	public int getFontStyle() {
 		return fontStyle;
 	}
 
+	@Override
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
 	}
 
+	@Override
 	public int getPrintDecimals() {
 		return 0;
 	}
 
+	@Override
 	public int getPrintFigures() {
 		return 0;
 	}
 
+	@Override
 	public void setPrintDecimals(int printDecimals, boolean update) {
 		// do nothing
 	}
 
+	@Override
 	public void setPrintFigures(int printFigures, boolean update) {
 		// do nothing
 	}
 
+	@Override
 	public boolean isSerifFont() {
 		return serifFont;
 	}
 
+	@Override
 	public void setSerifFont(boolean serifFont) {
 		this.serifFont = serifFont;
 	}
 
+	@Override
 	public boolean useSignificantFigures() {
 		return false;
 	}
 
+	@Override
 	public boolean justFontSize() {
 		return true;
 	}
@@ -301,6 +322,7 @@ public class GeoButton extends GeoElement
 		return FillType.IMAGE;
 	}
 
+	@Override
 	public boolean isFurniture() {
 		return true;
 	}
@@ -381,6 +403,7 @@ public class GeoButton extends GeoElement
 		public void notifySizeChanged();
 	}
 
+	@Override
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}
@@ -399,6 +422,7 @@ public class GeoButton extends GeoElement
 		return HitType.ON_FILLING;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}

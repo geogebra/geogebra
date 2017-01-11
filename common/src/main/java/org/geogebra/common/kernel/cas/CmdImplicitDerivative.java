@@ -25,10 +25,12 @@ public class CmdImplicitDerivative extends CommandProcessor {
 	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
-		if (args.length != 1)
+		if (args.length != 1) {
 			throw argNumErr(app, c, args.length);
-		if (!(args[0] instanceof FunctionalNVar))
+		}
+		if (!(args[0] instanceof FunctionalNVar)) {
 			throw argErr(app, c, args[0]);
+		}
 
 		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,
 				c.getLabel(), (FunctionalNVar) args[0]);

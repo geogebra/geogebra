@@ -86,6 +86,7 @@ public class FunctionFold implements FoldComputer {
 		return geoElement.isGeoFunctionable();
 	}
 
+	@Override
 	public void finish() {
 		// nothing to do
 	}

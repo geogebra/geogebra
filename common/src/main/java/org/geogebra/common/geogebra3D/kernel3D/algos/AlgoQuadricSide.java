@@ -82,11 +82,13 @@ public class AlgoQuadricSide extends AlgoQuadric {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
-		if (isHelperAlgo)
+		if (isHelperAlgo) {
 			getInputQuadric().remove();
+		}
 	}
 
 	@Override

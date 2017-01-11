@@ -189,8 +189,9 @@ public class CurvePlotter {
 		boolean onScreenStack[] = new boolean[LENGTH];
 		double divisors[] = new double[LENGTH];
 		divisors[0] = t2 - t1;
-		for (int i = 1; i < LENGTH; i++)
+		for (int i = 1; i < LENGTH; i++) {
 			divisors[i] = divisors[i - 1] / 2;
+		}
 		int i = 1;
 		dyadicStack[0] = 1;
 		depthStack[0] = 0;
@@ -328,15 +329,18 @@ public class CurvePlotter {
 			// remember first point on screen for label position
 			if (needLabelPos && onScreen) {
 				double xLabel = view.toScreenCoordXd(eval1[0]) + 10;
-				if (xLabel < 20)
+				if (xLabel < 20) {
 					xLabel = 5;
-				if (xLabel > view.getWidth() - 30)
+				}
+				if (xLabel > view.getWidth() - 30) {
 					xLabel = view.getWidth() - 15;
+				}
 				double yLabel = view.toScreenCoordYd(eval1[1]) + 15;
-				if (yLabel < 40)
+				if (yLabel < 40) {
 					yLabel = 15;
-				else if (yLabel > view.getHeight() - 30)
+				} else if (yLabel > view.getHeight() - 30) {
 					yLabel = view.getHeight() - 5;
+				}
 
 				labelPoint = new GPoint((int) xLabel, (int) yLabel);
 				needLabelPos = false;
@@ -375,8 +379,9 @@ public class CurvePlotter {
 	 */
 	private static boolean isUndefined(double[] eval) {
 		for (int i = 0; i < eval.length; i++) {
-			if (isUndefined(eval[i]))
+			if (isUndefined(eval[i])) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -440,12 +445,13 @@ public class CurvePlotter {
 					moveToAllowed);
 		}
 
-		if (labelPoint != null)
+		if (labelPoint != null) {
 			return labelPoint;
-		else if (labelPoint1 != null)
+		} else if (labelPoint1 != null) {
 			return labelPoint1;
-		else
+		} else {
 			return labelPoint2;
+		}
 	}
 
 	/**
@@ -544,8 +550,9 @@ public class CurvePlotter {
 			int mnaxIterations) {
 		double t1 = from;
 		double t2 = to;
-		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
+		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
 			return true;
+		}
 
 		// left = c(t1)
 		double[] left = c.newDoubleArray();
@@ -592,9 +599,11 @@ public class CurvePlotter {
 			}
 
 			if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
+			 {
 				return true;
 			// System.out.println(" largest dist: " + dist + ", [" + t1 + ", "
 			// + t2 +"]");
+			}
 		}
 
 		// we managed to make the distance clearly smaller than the initial

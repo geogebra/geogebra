@@ -40,6 +40,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		public OutputPolygonsHandler() {
 			super(new elementFactory<GeoPolygon3D>() {
+				@Override
 				public GeoPolygon3D newElement() {
 					GeoPolygon3D p = new GeoPolygon3D(cons);
 					// p.setParentAlgorithm(AlgoPolyhedron.this);
@@ -70,6 +71,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		public OutputSegmentsHandler() {
 			super(new elementFactory<GeoSegment3D>() {
+				@Override
 				public GeoSegment3D newElement() {
 					GeoSegment3D s = new GeoSegment3D(cons);
 					if (heightChangeableCoordParent != null) {
@@ -146,8 +148,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		initCoords();
 
 		bottomPoints = new GeoPointND[points.length - 1];
-		for (int i = 0; i < points.length - 1; i++)
+		for (int i = 0; i < points.length - 1; i++) {
 			bottomPoints[i] = points[i];
+		}
 		setTopPoint(points[points.length - 1]);
 		shift = 1; // output points are shifted of 1 to input points (one less)
 
@@ -155,8 +158,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		// input : inputPoints or list of faces
 		input = new GeoElement[points.length];
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < points.length; i++) {
 			input[i] = (GeoElement) points[i];
+		}
 		addAlgoToInput();
 
 		updateOutputPoints();
@@ -235,9 +239,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 *            labels
 	 */
 	protected void setLabels(String[] labels) {
-		if (labels == null || labels.length <= 1)
+		if (labels == null || labels.length <= 1) {
 			polyhedron.initLabels(labels);
-		else {
+		} else {
 			augmentOutputSize(labels.length);
 			for (int i = 0; i < labels.length; i++) {
 				getOutput(i).setLabel(labels[i]);
@@ -437,8 +441,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	}
 
 	protected GeoPolygon getBottom() {
-		if (bottom != null)
+		if (bottom != null) {
 			return bottom;
+		}
 		return outputPolygonsBottom.getElement(0);
 	}
 
@@ -516,8 +521,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @return bottom points
 	 */
 	protected GeoPointND[] getBottomPoints() {
-		if (bottom != null)
+		if (bottom != null) {
 			return bottom.getPointsND();
+		}
 		return bottomPoints;
 	}
 
@@ -544,38 +550,50 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 *            flag
 	 */
 	public void setOutputOtherEuclidianVisible(boolean visible) {
-		for (int i = 0; i < outputSegmentsBottom.size(); i++)
+		for (int i = 0; i < outputSegmentsBottom.size(); i++) {
 			outputSegmentsBottom.getElement(i).setEuclidianVisible(visible);
-		for (int i = 0; i < outputSegmentsSide.size(); i++)
+		}
+		for (int i = 0; i < outputSegmentsSide.size(); i++) {
 			outputSegmentsSide.getElement(i).setEuclidianVisible(visible);
-		for (int i = 0; i < outputSegmentsTop.size(); i++)
+		}
+		for (int i = 0; i < outputSegmentsTop.size(); i++) {
 			outputSegmentsTop.getElement(i).setEuclidianVisible(visible);
-		for (int i = 0; i < outputPolygonsBottom.size(); i++)
+		}
+		for (int i = 0; i < outputPolygonsBottom.size(); i++) {
 			outputPolygonsBottom.getElement(i).setEuclidianVisible(visible,
 					false);
-		for (int i = 0; i < outputPolygonsSide.size(); i++)
+		}
+		for (int i = 0; i < outputPolygonsSide.size(); i++) {
 			outputPolygonsSide.getElement(i).setEuclidianVisible(visible,
 					false);
-		for (int i = 0; i < outputPolygonsTop.size(); i++)
+		}
+		for (int i = 0; i < outputPolygonsTop.size(); i++) {
 			outputPolygonsTop.getElement(i).setEuclidianVisible(visible, false);
+		}
 	}
 
 	/**
 	 * notify kernel update of output other than points
 	 */
 	public void notifyUpdateOutputOther() {
-		for (int i = 0; i < outputSegmentsBottom.size(); i++)
+		for (int i = 0; i < outputSegmentsBottom.size(); i++) {
 			getKernel().notifyUpdate(outputSegmentsBottom.getElement(i));
-		for (int i = 0; i < outputSegmentsSide.size(); i++)
+		}
+		for (int i = 0; i < outputSegmentsSide.size(); i++) {
 			getKernel().notifyUpdate(outputSegmentsSide.getElement(i));
-		for (int i = 0; i < outputSegmentsTop.size(); i++)
+		}
+		for (int i = 0; i < outputSegmentsTop.size(); i++) {
 			getKernel().notifyUpdate(outputSegmentsTop.getElement(i));
-		for (int i = 0; i < outputPolygonsBottom.size(); i++)
+		}
+		for (int i = 0; i < outputPolygonsBottom.size(); i++) {
 			getKernel().notifyUpdate(outputPolygonsBottom.getElement(i));
-		for (int i = 0; i < outputPolygonsSide.size(); i++)
+		}
+		for (int i = 0; i < outputPolygonsSide.size(); i++) {
 			getKernel().notifyUpdate(outputPolygonsSide.getElement(i));
-		for (int i = 0; i < outputPolygonsTop.size(); i++)
+		}
+		for (int i = 0; i < outputPolygonsTop.size(); i++) {
 			getKernel().notifyUpdate(outputPolygonsTop.getElement(i));
+		}
 	}
 
 	/**
@@ -585,16 +603,18 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 *            flag
 	 */
 	public void setOutputPointsEuclidianVisible(boolean visible) {
-		for (int i = 0; i < outputPoints.size(); i++)
+		for (int i = 0; i < outputPoints.size(); i++) {
 			outputPoints.getElement(i).setEuclidianVisible(visible);
+		}
 	}
 
 	/**
 	 * notify kernel update of output points
 	 */
 	public void notifyUpdateOutputPoints() {
-		for (int i = 0; i < outputPoints.size(); i++)
+		for (int i = 0; i < outputPoints.size(); i++) {
 			getKernel().notifyUpdate(outputPoints.getElement(i));
+		}
 	}
 
 	/**
@@ -607,8 +627,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		GeoPointND[] points = getBottomPoints();
 
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < points.length; i++) {
 			ret = ret.add(points[i].getInhomCoordsInD3());
+		}
 
 		return ret.mul((double) 1 / points.length);
 	}
@@ -620,8 +641,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 */
 	public Coords getTopMiddlePoint() {
 		Coords ret = new Coords(4);
-		for (int i = 0; i < outputPoints.size(); i++)
+		for (int i = 0; i < outputPoints.size(); i++) {
 			ret = ret.add(outputPoints.getElement(i).getInhomCoordsInD3());
+		}
 
 		return ret.mul((double) 1 / outputPoints.size());
 	}

@@ -118,10 +118,12 @@ public class AlgoAreCongruent extends AlgoElement
 		}
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if ((inputElement1 instanceof GeoSegment)
@@ -145,6 +147,7 @@ public class AlgoAreCongruent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if ((inputElement1 instanceof GeoSegment)
 				|| (inputElement2 instanceof GeoSegment)) {
@@ -173,6 +176,7 @@ public class AlgoAreCongruent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -203,6 +207,7 @@ public class AlgoAreCongruent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		Log.debug(polynomials);
 		if (polynomials != null) {
@@ -234,6 +239,7 @@ public class AlgoAreCongruent extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {

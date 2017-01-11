@@ -55,6 +55,7 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnHyperbolaFociLength(geo, this, scope);

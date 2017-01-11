@@ -40,8 +40,9 @@ public class AlgoNpR extends AlgoElement {
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double nCr = NpR(num1.getDouble(), num2.getDouble());
 			result.setValue(nCr);
-		} else
+		} else {
 			result.setUndefined();
+		}
 	}
 
 	@Override
@@ -56,22 +57,29 @@ public class AlgoNpR extends AlgoElement {
 	private static double NpR(double n, double r) {
 		double INFINITY = Double.POSITIVE_INFINITY;
 		try {
-			if (n == 0d && r == 0d)
+			if (n == 0d && r == 0d) {
 				return 1d;
-			if (n < 1d || r < 0d || n < r)
+			}
+			if (n < 1d || r < 0d || n < r) {
 				return 0d;
-			if (Math.floor(n) != n || Math.floor(r) != r)
+			}
+			if (Math.floor(n) != n || Math.floor(r) != r) {
 				return 0d;
+			}
 
 			double ncr = NpRLog(n, r);
 			if (ncr == INFINITY)
+			 {
 				return INFINITY; // check to stop needless slow calculations
+			}
 
 			// NpRLog is not exact for some values
 			// (determined by trial and error) eg 17P16
 			if (n <= 16)
+			 {
 				return ncr;
 			// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
+			}
 
 			// NpRBig is more accurate but slower
 			// (but cannot be exact if the answer has more than about 16

@@ -74,10 +74,12 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 		return LocusEquation.eqnParabolaPointLine(geo, this, scope);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

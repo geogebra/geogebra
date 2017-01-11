@@ -56,8 +56,9 @@ public class CmdSetValue extends CmdScripting {
 					throw argErr(app, c, arg[1]);
 				}
 
-			} else
+			} else {
 				throw argErr(app, c, ok ? arg[1] : arg[0]);
+			}
 
 			return arg;
 
@@ -134,8 +135,9 @@ public class CmdSetValue extends CmdScripting {
 				if (geo2.isGeoList()) {
 					GeoList gl = (GeoList) geo2;
 					for (int i = 0; i < gl.size(); i++) {
-						if (gl.get(i) == geo)
+						if (gl.get(i) == geo) {
 							gl.updateRepaint();
+						}
 					}
 				}
 			}

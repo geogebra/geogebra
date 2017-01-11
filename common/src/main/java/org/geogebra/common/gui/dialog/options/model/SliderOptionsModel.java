@@ -15,6 +15,7 @@ public abstract class SliderOptionsModel extends NumberOptionsModel {
 
 	}
 
+	@Override
 	public ISliderListener getListener() {
 		return listener;
 	}

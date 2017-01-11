@@ -139,8 +139,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 			}
 		} else {
 			input = new GeoElement[coords.length + 3 * localVar.length];
-			for (int i = 0; i < coords.length; i++)
+			for (int i = 0; i < coords.length; i++) {
 				input[i] = coords[i].toGeoElement();
+			}
 		}
 
 		for (int i = 0; i < localVar.length; i++) {
@@ -174,8 +175,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 		// if its predecessors are undefined
 		for (int i = 0; i < 3; i++) {
 			AlgoElement algo = null;
-			if (coords[i].toGeoElement() != null)
+			if (coords[i].toGeoElement() != null) {
 				algo = (coords[i].toGeoElement()).getParentAlgorithm();
+			}
 			if (algo != null) {
 				for (GeoElement geo : algo.getInput()) {
 					if (!geo.isDefined()) {

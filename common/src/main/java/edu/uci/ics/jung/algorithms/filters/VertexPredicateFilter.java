@@ -40,6 +40,7 @@ public class VertexPredicateFilter<V, E> implements Filter<V, E> {
 		this.vertex_pred = vertex_pred;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Graph<V, E> transform(Graph<V, E> g) {
 		Graph<V, E> filtered;
@@ -50,16 +51,19 @@ public class VertexPredicateFilter<V, E> implements Filter<V, E> {
 					"Unable to create copy of existing graph: ", e);
 		}
 
-		for (V v : g.getVertices())
-			if (vertex_pred.evaluate(v))
+		for (V v : g.getVertices()) {
+			if (vertex_pred.evaluate(v)) {
 				filtered.addVertex(v);
+			}
+		}
 
 		Collection<V> filtered_vertices = filtered.getVertices();
 
 		for (E e : g.getEdges()) {
 			Collection<V> incident = g.getIncidentVertices(e);
-			if (filtered_vertices.containsAll(incident))
+			if (filtered_vertices.containsAll(incident)) {
 				filtered.addEdge(e, incident);
+			}
 		}
 
 		return filtered;

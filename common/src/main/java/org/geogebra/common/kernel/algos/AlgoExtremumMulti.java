@@ -173,8 +173,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					}
 					m = m * 2;
 				} while (m < MAX_SAMPLES);
-				if (m > MAX_SAMPLES)
+				if (m > MAX_SAMPLES) {
 					Log.debug("We have probably lost some extremums...");
+				}
 			} catch (Exception e) {
 				Log.debug("Exception in compute() " + e.toString());
 			} // try-catch
@@ -311,6 +312,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	// */ //--- SNIP end ---------------------------------------
 
+	@Override
 	public boolean euclidianViewUpdate() {
 		compute();
 		return true;

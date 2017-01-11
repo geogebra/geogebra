@@ -183,8 +183,9 @@ public class GeoImplicitSurface extends GeoElement3D
 	 * @return direction of normal vector
 	 */
 	public Coords3 evaluateNormalAt(double x, double y, double z) {
-		if (!hasDerivatives)
+		if (!hasDerivatives) {
 			return DUMMY_NORMAL;
+		}
 		normEval[0] = x;
 		normEval[1] = y;
 		normEval[2] = z;
@@ -339,6 +340,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		updateSurface(bounds);
 	}
 
+	@Override
 	public FunctionNVar getExpression() {
 		return expression.getFunction();
 	}
@@ -388,31 +390,38 @@ public class GeoImplicitSurface extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public void dilate(NumberValue r, Coords S) {
 		expression.dilate3D(r, S);
 	}
 
+	@Override
 	public void translate(Coords v) {
 		expression.translate3D(v);
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
 		expression.rotate(r);
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		expression.rotate(r, S);
 	}
 
+	@Override
 	public void mirror(Coords Q) {
 		expression.mirror3D(Q);
 	}
 
+	@Override
 	public void mirror(GeoLineND g) {
 		// TODO : implement it correctly
 		// expression.mirror3D(g);
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		// TODO implement mirror at plane
 	}
@@ -444,8 +453,9 @@ public class GeoImplicitSurface extends GeoElement3D
 	 * @return String representation of coordinate
 	 */
 	static String toString(double[] coords) {
-		if (!DEBUG)
+		if (!DEBUG) {
 			return "";
+		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		for (int i = 0; i < coords.length; i++) {
@@ -1143,10 +1153,12 @@ public class GeoImplicitSurface extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
 	}
 
+	@Override
 	public Equation getEquation() {
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}

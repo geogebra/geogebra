@@ -60,6 +60,7 @@ public class GeoConicSection extends GeoConic3D
 			this.index = index;
 		}
 
+		@Override
 		public int compareTo(IndexedParameter parameter) {
 
 			// NaN are the greatest
@@ -172,14 +173,16 @@ public class GeoConicSection extends GeoConic3D
 			paramStart[0] = Kernel.convertToAngleValue(end1);
 			paramEnd[0] = Kernel.convertToAngleValue(start2);
 			paramExtent[0] = paramEnd[0] - paramStart[0];
-			if (paramExtent[0] < 0)
+			if (paramExtent[0] < 0) {
 				paramExtent[0] += Kernel.PI_2;
+			}
 
 			paramStart[1] = Kernel.convertToAngleValue(end2);
 			paramEnd[1] = Kernel.convertToAngleValue(start1);
 			paramExtent[1] = paramEnd[1] - paramStart[1];
-			if (paramExtent[1] < 0)
+			if (paramExtent[1] < 0) {
 				paramExtent[1] += Kernel.PI_2;
+			}
 
 			// set edges
 			if (!Double.isNaN(paramStart[0])) { // at least one edge
@@ -422,6 +425,7 @@ public class GeoConicSection extends GeoConic3D
 	 *            index of the hole
 	 * @return start parameter
 	 */
+	@Override
 	final public double getParameterStart(int index) {
 		return paramStart[index];
 	}
@@ -431,6 +435,7 @@ public class GeoConicSection extends GeoConic3D
 	 *            index of the hole
 	 * @return end parameter
 	 */
+	@Override
 	final public double getParameterEnd(int index) {
 		return paramEnd[index];
 	}
@@ -440,6 +445,7 @@ public class GeoConicSection extends GeoConic3D
 	 *            index of the hole
 	 * @return end parameter - start parameter
 	 */
+	@Override
 	final public double getParameterExtent(int index) {
 		return paramExtent[index];
 	}

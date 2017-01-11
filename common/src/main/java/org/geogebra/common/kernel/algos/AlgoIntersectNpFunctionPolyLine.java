@@ -133,8 +133,9 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 							startPoint.getCoords());
 				}
 			} else {
-				if (currentIntersectCoords == null)
+				if (currentIntersectCoords == null) {
 					continue;
+				}
 
 				disCurrCoordsStart = distanceSqr(currentIntersectCoords,
 						startPoint.getCoords());

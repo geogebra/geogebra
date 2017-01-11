@@ -67,6 +67,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		setLabelVisible(false);
 	}
 
+	@Override
 	public int getType() {
 		return type;
 	}
@@ -100,8 +101,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	 * @return whether str is equal to this axis' label.
 	 */
 	public boolean equalsLabel(String str) {
-		if (str == null)
+		if (str == null) {
 			return false;
+		}
 		return str.equals(label) || str.equals(getLoc().getPlain(label));
 	}
 
@@ -119,16 +121,19 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	// GEOAXISND INTERFACE
 	// /////////////////////////////////////
 
+	@Override
 	public String getUnitLabel() {
 		// TODO Auto-generated method stub
 		return "";
 	}
 
+	@Override
 	public int getTickStyle() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public boolean getShowNumbers() {
 		// TODO Auto-generated method stub
 		return true;
@@ -137,6 +142,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	// for numbers and ticks
 	private int ticksize = 5; // TODO
 
+	@Override
 	public int getTickSize() {
 		return ticksize;
 	}
@@ -152,8 +158,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 
 	@Override
 	public Coords getDirectionInD3() {
-		if (type == X_AXIS)
+		if (type == X_AXIS) {
 			return new Coords(1, 0, 0, 0);
+		}
 
 		return new Coords(0, 1, 0, 0);
 	}

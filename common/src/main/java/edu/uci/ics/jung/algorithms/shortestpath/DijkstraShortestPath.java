@@ -107,8 +107,9 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	@Override
 	protected SourceData getSourceData(V source) {
 		SourceData sd = sourceMap.get(source);
-		if (sd == null)
+		if (sd == null) {
 			sd = new SourcePathData(source);
+		}
 		return sd;
 	}
 
@@ -125,13 +126,15 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * </p>
 	 */
 	public E getIncomingEdge(V source, V target) {
-		if (!g.containsVertex(source))
+		if (!g.containsVertex(source)) {
 			throw new IllegalArgumentException("Specified source vertex "
 					+ source + " is not part of graph " + g);
+		}
 
-		if (!g.containsVertex(target))
+		if (!g.containsVertex(target)) {
 			throw new IllegalArgumentException("Specified target vertex "
 					+ target + " is not part of graph " + g);
+		}
 
 		Set<V> targets = new HashSet<V>();
 		targets.add(target);
@@ -140,8 +143,9 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 				.get(source)).incomingEdges;
 		E incomingEdge = incomingEdgeMap.get(target);
 
-		if (!cached)
+		if (!cached) {
 			reset(source);
+		}
 
 		return incomingEdge;
 	}
@@ -160,6 +164,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * @param source
 	 *            the vertex from which distances are measured
 	 */
+	@Override
 	public Map<V, E> getIncomingEdgeMap(V source) {
 		return getIncomingEdgeMap(source, g.getVertexCount());
 	}
@@ -171,13 +176,15 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * instance was created, throws <code>IllegalArgumentException</code>.
 	 */
 	public List<E> getPath(V source, V target) {
-		if (!g.containsVertex(source))
+		if (!g.containsVertex(source)) {
 			throw new IllegalArgumentException("Specified source vertex "
 					+ source + " is not part of graph " + g);
+		}
 
-		if (!g.containsVertex(target))
+		if (!g.containsVertex(target)) {
 			throw new IllegalArgumentException("Specified target vertex "
 					+ target + " is not part of graph " + g);
+		}
 
 		LinkedList<E> path = new LinkedList<E>();
 
@@ -190,8 +197,9 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 		Map<V, E> incomingEdges = ((SourcePathData) sourceMap
 				.get(source)).incomingEdges;
 
-		if (incomingEdges.isEmpty() || incomingEdges.get(target) == null)
+		if (incomingEdges.isEmpty() || incomingEdges.get(target) == null) {
 			return path;
+		}
 		V current = target;
 		while (!current.equals(source)) {
 			E incoming = incomingEdges.get(current);
@@ -219,21 +227,24 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 *            the number of vertics for which to measure distances
 	 */
 	public LinkedHashMap<V, E> getIncomingEdgeMap(V source, int numDests) {
-		if (g.getVertices().contains(source) == false)
+		if (g.getVertices().contains(source) == false) {
 			throw new IllegalArgumentException("Specified source vertex "
 					+ source + " is not part of graph " + g);
+		}
 
-		if (numDests < 1 || numDests > g.getVertexCount())
+		if (numDests < 1 || numDests > g.getVertexCount()) {
 			throw new IllegalArgumentException(
 					"numDests must be >= 1 " + "and <= g.numVertices()");
+		}
 
 		singleSourceShortestPath(source, null, numDests);
 
 		LinkedHashMap<V, E> incomingEdgeMap = ((SourcePathData) sourceMap
 				.get(source)).incomingEdges;
 
-		if (!cached)
+		if (!cached) {
 			reset(source);
+		}
 
 		return incomingEdgeMap;
 	}

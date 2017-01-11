@@ -28,12 +28,15 @@ public class CmdIsInRegion extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n != 2)
+		if (n != 2) {
 			throw argNumErr(app, c, n);
-		if (!arg[0].isGeoPoint())
+		}
+		if (!arg[0].isGeoPoint()) {
 			throw argErr(app, c, arg[0]);
-		if (!arg[1].isRegion())
+		}
+		if (!arg[1].isRegion()) {
 			throw argErr(app, c, arg[1]);
+		}
 
 		AlgoIsInRegion algo = new AlgoIsInRegion(cons, c.getLabel(),
 				(GeoPointND) arg[0], (Region) arg[1]);

@@ -144,8 +144,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		if (geoList == null) {
 			poly.initLabels(labels);
 		} else {
-			if (labels != null)
+			if (labels != null) {
 				poly.setLabel(labels[0]);
+			}
 		}
 
 		// END G.Sturr
@@ -194,8 +195,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		}
 		poly.setPointsAndSegments(points);
 
-		if (oldPointsLength != points.length)
+		if (oldPointsLength != points.length) {
 			setOutput();
+		}
 	}
 
 	protected GeoElement[] createEfficientInput() {
@@ -209,8 +211,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		} else {
 			// points as input
 			efficientInput = new GeoElement[points.length];
-			for (int i = 0; i < points.length; i++)
+			for (int i = 0; i < points.length; i++) {
 				efficientInput[i] = (GeoElement) points[i];
+			}
 		}
 
 		return efficientInput;
@@ -223,8 +226,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 *            new input points
 	 */
 	public void modifyInputPoints(GeoPointND[] newPoints) {
-		for (int i = 0; i < input.length; i++)
+		for (int i = 0; i < input.length; i++) {
 			input[i].removeAlgorithm(this);
+		}
 
 		points = newPoints;
 		poly.setPoints(points, null, false); // don't recreate segments
@@ -246,8 +250,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 			input = efficientInput;
 		} else {
 			input = new GeoElement[efficientInput.length + 1];
-			for (int i = 0; i < efficientInput.length; i++)
+			for (int i = 0; i < efficientInput.length; i++) {
 				input[i] = efficientInput[i];
+			}
 			input[efficientInput.length] = polyhedron;
 		}
 
@@ -293,9 +298,10 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 	@Override
 	protected void removeOutput() {
-		if (polyhedron == null) // if from polyhedron, no need to remove
-								// dependent objects
+		if (polyhedron == null) {
+			// dependent objects
 			super.removeOutput();
+		}
 	}
 
 	@Override
@@ -319,12 +325,14 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		// if polygon is part of a polyhedron, remove it
-		if (polyhedron != null)
+		if (polyhedron != null) {
 			polyhedron.remove();
+		}
 	}
 
 	@Override
@@ -356,8 +364,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 * @return directed area
 	 */
 	final static public double calcAreaWithSign(GeoPointND[] points2) {
-		if (points2 == null || points2.length < 2)
+		if (points2 == null || points2.length < 2) {
 			return Double.NaN;
+		}
 
 		int i = 0;
 		for (; i < points2.length; i++) {
@@ -487,11 +496,13 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnPolygon(geo, this, scope);
 	}
 
+	@Override
 	public void calcArea() {
 		GeoPointND[] points2d = poly.getPoints();
 
@@ -501,6 +512,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 	private double[] tmp3;
 
+	@Override
 	public void calcCentroid(GeoPoint p) {
 		GeoPointND[] points2d = poly.getPoints();
 

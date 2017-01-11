@@ -62,6 +62,7 @@ public class ErdosRenyiGenerator<V, E> implements GraphGenerator<V, E> {
 	 * Returns a graph in which each pair of vertices is connected by an
 	 * undirected edge with the probability specified by the constructor.
 	 */
+	@Override
 	public Graph<V, E> create() {
 		UndirectedGraph<V, E> g = graphFactory.create();
 		for (int i = 0; i < mNumVertices; i++) {

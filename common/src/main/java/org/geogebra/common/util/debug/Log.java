@@ -139,26 +139,36 @@ public abstract class Log {
 	}
 
 	private void setLogLevelImpl(String logLevel) {
-		if (logLevel == null)
+		if (logLevel == null) {
 			return;
-		if ("ALERT".equals(logLevel))
+		}
+		if ("ALERT".equals(logLevel)) {
 			this.logLevel = ALERT;
-		if ("EMERGENCY".equals(logLevel))
+		}
+		if ("EMERGENCY".equals(logLevel)) {
 			this.logLevel = EMERGENCY;
-		if ("CRITICAL".equals(logLevel))
+		}
+		if ("CRITICAL".equals(logLevel)) {
 			this.logLevel = CRITICAL;
-		if ("ERROR".equals(logLevel))
+		}
+		if ("ERROR".equals(logLevel)) {
 			this.logLevel = ERROR;
-		if ("WARN".equals(logLevel))
+		}
+		if ("WARN".equals(logLevel)) {
 			this.logLevel = WARN;
-		if ("INFO".equals(logLevel))
+		}
+		if ("INFO".equals(logLevel)) {
 			this.logLevel = INFO;
-		if ("NOTICE".equals(logLevel))
+		}
+		if ("NOTICE".equals(logLevel)) {
 			this.logLevel = NOTICE;
-		if ("DEBUG".equals(logLevel))
+		}
+		if ("DEBUG".equals(logLevel)) {
 			this.logLevel = DEBUG;
-		if ("TRACE".equals(logLevel))
+		}
+		if ("TRACE".equals(logLevel)) {
 			this.logLevel = TRACE;
+		}
 	}
 
 	/**
@@ -280,8 +290,9 @@ public abstract class Log {
 				if (message.length() >= 21) {
 					if (message.toLowerCase().substring(0, 21)
 							.equals("implementation needed")) {
-						if (!reportedImplementationNeeded.contains(caller))
+						if (!reportedImplementationNeeded.contains(caller)) {
 							reportedImplementationNeeded.add(caller);
+						}
 					}
 				}
 				caller += ": ";
@@ -302,8 +313,9 @@ public abstract class Log {
 			print(logEntry, level);
 			// In desktop logging, preserve the entire log in memory as well:
 			if (keepLog) {
-				if (memoryLog.length() > LOGFILE_MAXLENGTH)
+				if (memoryLog.length() > LOGFILE_MAXLENGTH) {
 					memoryLog.setLength(0);
+				}
 				memoryLog.append(logEntry + "\n");
 			}
 		}

@@ -65,10 +65,11 @@ public class AlgoColumn extends AlgoElement {
 	@Override
 	public final void compute() {
 		GPoint p = geo.getSpreadsheetCoords();
-		if (p != null)
+		if (p != null) {
 			num.setValue(p.x + 1);
-		else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

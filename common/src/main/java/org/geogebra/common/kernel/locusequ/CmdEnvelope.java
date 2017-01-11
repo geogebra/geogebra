@@ -63,8 +63,9 @@ public class CmdEnvelope extends CommandProcessor {
 	final public GeoImplicit envelope(String label, GeoElement linear,
 			GeoPoint movingPoint) {
 		// TODO: add check here if linear is a correct input
-		if (movingPoint.getPath() == null || !movingPoint.isParentOf(linear))
+		if (movingPoint.getPath() == null || !movingPoint.isParentOf(linear)) {
 			return null;
+		}
 		AlgoEnvelope algo = new AlgoEnvelope(cons, linear, movingPoint);
 		GeoImplicit poly = algo.getPoly();
 

@@ -64,25 +64,30 @@ public class ErrorHelper {
 	public static ErrorHandler silent() {
 		return new ErrorHandler() {
 
+			@Override
 			public void showError(String msg) {
 				Log.printStacktrace(msg);
 
 			}
 
+			@Override
 			public void resetError() {
 				// do nothing
 			}
 
+			@Override
 			public void showCommandError(String command, String message) {
 				Log.warn(command + ":" + message);
 
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				return false;

@@ -72,8 +72,9 @@ public class AlgoLCM extends AlgoTwoNumFunction {
 			} else {
 				num.setUndefined();
 			}
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

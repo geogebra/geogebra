@@ -826,8 +826,9 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setDrawBorderAxes(int axis, boolean value) {
 		if ((axis == 0) || (axis == 1)) {
-			if (drawBorderAxes[axis] == value)
+			if (drawBorderAxes[axis] == value) {
 				return;
+			}
 			drawBorderAxes[axis] = value;
 			settingChanged();
 		}

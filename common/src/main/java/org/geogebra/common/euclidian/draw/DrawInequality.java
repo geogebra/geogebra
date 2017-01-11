@@ -63,13 +63,16 @@ public class DrawInequality extends Drawable {
 		geo = (GeoElement) function;
 		this.function = function;
 		operation = function.getIneqs().getOperation();
-		if (function.getIneqs().getLeft() != null)
+		if (function.getIneqs().getLeft() != null) {
 			left = new DrawInequality(function.getIneqs().getLeft(), view, geo);
-		if (function.getIneqs().getRight() != null)
+		}
+		if (function.getIneqs().getRight() != null) {
 			right = new DrawInequality(function.getIneqs().getRight(), view,
 					geo);
-		if (function.getIneqs().getIneq() != null)
+		}
+		if (function.getIneqs().getIneq() != null) {
 			ineq = function.getIneqs().getIneq();
+		}
 		update();
 	}
 
@@ -384,8 +387,9 @@ public class DrawInequality extends Drawable {
 	final public void update() {
 		// take line g here, not geo this object may be used for conics too
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		labelVisible = geo.isLabelVisible();
 
 		// init gp
@@ -455,8 +459,9 @@ public class DrawInequality extends Drawable {
 			xLabel = left.xLabel;
 		}
 
-		if (ineq != it.getIneq())
+		if (ineq != it.getIneq()) {
 			ineq = it.getIneq();
+		}
 
 		if (ineq != null) {
 
@@ -545,41 +550,47 @@ public class DrawInequality extends Drawable {
 		}
 		if (it.getLeft() != null) {
 			left.updateRecursive(it.getLeft());
-		} else
+		} else {
 			left = null;
+		}
 		if (it.getRight() != null && right == null) {
 			right = new DrawInequality(it.getRight(), view, geo);
 		}
-		if (it.getRight() != null)
+		if (it.getRight() != null) {
 			right.updateRecursive(it.getRight());
-		else
+		} else {
 			right = null;
+		}
 
 	}
 
 	private static boolean matchBorder(GeoElement border, Drawable d) {
-		if (d instanceof DrawConic && ((DrawConic) d).getConic().equals(border))
+		if (d instanceof DrawConic && ((DrawConic) d).getConic().equals(border)) {
 			return true;
+		}
 		/*
 		 * if (d instanceof DrawImplicitPoly && ((DrawImplicitPoly)
 		 * d).getPoly().equals(border)) return true;
 		 */
 		if (d instanceof DrawParametricInequality
-				&& ((DrawParametricInequality) d).getBorder().equals(border))
+				&& ((DrawParametricInequality) d).getBorder().equals(border)) {
 			return ((DrawParametricInequality) d).isXparametric();
+		}
 
 		return false;
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (!isForceNoFill() && !isVisible)
+		if (!isForceNoFill() && !isVisible) {
 			return;
+		}
 		if (operation.equals(Operation.NO_OPERATION)) {
 			if (drawable != null) {
 				drawable.updateStrokesJustLineThickness(geo);
-				if (geo.getLineThickness() > 0)
+				if (geo.getLineThickness() > 0) {
 					drawable.draw(g2);
+				}
 			}
 		} else {
 			if (left != null) {
@@ -632,19 +643,22 @@ public class DrawInequality extends Drawable {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
 		if (geo instanceof GeoFunction && ((GeoFunction) geo)
-				.getVarString(StringTemplate.defaultTemplate).equals("y"))
+				.getVarString(StringTemplate.defaultTemplate).equals("y")) {
 			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
+		}
 		return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
 
 	}
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		if (!geo.isEuclidianVisible())
+		if (!geo.isEuclidianVisible()) {
 			return false;
+		}
 		if (geo instanceof GeoFunction && ((GeoFunction) geo).showOnAxis()
-				&& Math.abs(y - view.toScreenCoordY(0)) > hitThreshold)
+				&& Math.abs(y - view.toScreenCoordY(0)) > hitThreshold) {
 			return false;
+		}
 		return hit2(x, y) || hit2(x - 4, y) || hit2(x + 4, y) || hit2(x, y - 4)
 				|| hit2(x, y + 4);
 

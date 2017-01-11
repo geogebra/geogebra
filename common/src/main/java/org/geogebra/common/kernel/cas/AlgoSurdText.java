@@ -604,11 +604,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					b2 = b2 / 4;
 					b1 = b1 * 2;
 				}
-				for (int s = 3; s <= Math.sqrt(b2); s += 2)
+				for (int s = 3; s <= Math.sqrt(b2); s += 2) {
 					while (b2 % (s * s) == 0) {
 						b2 = b2 / (s * s);
 						b1 = b1 * s;
 					}
+				}
 
 				if (c < 0) {
 					a = -a;
@@ -755,11 +756,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				b2 = b2 / 4;
 				b1 = b1 * 2;
 			}
-			for (int s = 3; s <= Math.sqrt(b2); s += 2)
+			for (int s = 3; s <= Math.sqrt(b2); s += 2) {
 				while (b2 % (s * s) == 0) {
 					b2 = b2 / (s * s);
 					b1 = b1 * s;
 				}
+			}
 
 			if (c < 0) {
 				a = -a;
@@ -830,16 +832,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		int[] coeffs = new int[n];
 
 		double[] xB;
-		if (xB_mutable == null)
+		if (xB_mutable == null) {
 			xB = new double[n];
-		else
+		} else {
 			xB = xB_mutable;
+		}
 
 		int[][] B;
-		if (B_mutable == null)
+		if (B_mutable == null) {
 			B = new int[n][n];
-		else
+		} else {
 			B = B_mutable;
+		}
 
 		// other working variables
 		double normX;
@@ -854,12 +858,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			coeffs[i] = 0;
 		}
 
-		if (n <= 1)
+		if (n <= 1) {
 			return coeffs;
+		}
 
 		for (int i = 0; i < n; i++) {
-			if (Double.isNaN(x[i]))
+			if (Double.isNaN(x[i])) {
 				return coeffs;
+			}
 		}
 
 		// PSLQ Algorithm (Ferguson et al, 1999)
@@ -934,8 +940,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				H[i][j] = -x[i] * x[j] / Pss[j];
 			}
 
-			if (i < n - 1)
+			if (i < n - 1) {
 				H[i][i] = ss[i + 1] / ss[i];
+			}
 
 			for (int j = i + 1; j < n - 1; j++) {
 				H[i][j] = 0;
@@ -966,11 +973,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// initialize matrices R
 		R = new int[n - 1][n][n];
 		for (int j = 0; j < n - 1; j++) {
-			for (int i = 0; i < n; i++)
-				for (int k = 0; k < n; k++)
+			for (int i = 0; i < n; i++) {
+				for (int k = 0; k < n; k++) {
 					R[j][i][k] = 0;
-			for (int i = 0; i < n; i++)
+				}
+			}
+			for (int i = 0; i < n; i++) {
 				R[j][i][i] = 1;
+			}
 			R[j][j][j] = 0;
 			R[j][j][j + 1] = 1;
 			R[j][j + 1][j] = 1;
@@ -982,17 +992,23 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		// initialize A, B = I_n
 		A = new int[n][n];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < n; j++)
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				A[i][j] = 0;
-		for (int i = 0; i < n; i++)
+			}
+		}
+		for (int i = 0; i < n; i++) {
 			A[i][i] = 1;
+		}
 		// B = new int[n][n];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < n; j++)
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				B[i][j] = 0;
-		for (int i = 0; i < n; i++)
+			}
+		}
+		for (int i = 0; i < n; i++) {
 			B[i][i] = 1;
+		}
 
 		// iteration
 		int itCount = 0;
@@ -1007,23 +1023,26 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			boolean firstSolutionRecorded = false;
 			for (int i = 0; i < n; i++) {
 				xB[i] = 0;
-				for (int k = 0; k < n; k++)
+				for (int k = 0; k < n; k++) {
 					xB[i] += x[k] * B[k][i];
+				}
 				if (Kernel.isEqual(xB[i], 0, AccuracyFactor / normX)) {
 
 					solutionFound = true;
 
 					if (!firstSolutionRecorded) {
-						for (int k = 0; k < n; k++)
+						for (int k = 0; k < n; k++) {
 							coeffs[k] = B[k][i];
+						}
 
 						firstSolutionRecorded = true;
 					}
 				}
 			}
 
-			if (solutionFound)
+			if (solutionFound) {
 				return coeffs;
+			}
 			// 0.5. calculate D, E
 			// matrix D
 			D = new int[n][n];
@@ -1061,8 +1080,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				E[i][i] = 1;
 				for (int j = i - 1; j >= 0; j--) {
 					int sum = 0;
-					for (int k = j + 1; k <= i; k++)
+					for (int k = j + 1; k <= i; k++) {
 						sum += E[i][k] * D[k][j];
+					}
 
 					E[i][j] = -sum;
 				}
@@ -1084,9 +1104,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 
-			for (int i = 0; i < n; i++)
-				for (int j = 0; j < n - 1; j++)
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n - 1; j++) {
 					H[i][j] = newH[i][j];
+				}
+			}
 
 			// 2. find j to maximize gamma^j |h_jj|
 			double gammaPow = 1;
@@ -1105,23 +1127,30 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			// 2.5 calculate matrices G[0], G[1],... G[n-2]
 			G = new double[n - 1][n - 1][n - 1];
-			for (int i = 0; i < n - 1; i++)
-				for (int k = 0; k < n - 1; k++)
+			for (int i = 0; i < n - 1; i++) {
+				for (int k = 0; k < n - 1; k++) {
 					G[n - 2][i][k] = 0;
-			for (int i = 0; i < n - 1; i++)
+				}
+			}
+			for (int i = 0; i < n - 1; i++) {
 				G[n - 2][i][i] = 1;
+			}
 
 			for (int j = 0; j < n - 2; j++) {
 				double b = H[j + 1][j];
 				double c = H[j + 1][j + 1];
 				double d = Math.sqrt(b * b + c * c);
-				for (int i = 0; i < n - 2; i++)
-					for (int k = 0; k < n - 2; k++)
+				for (int i = 0; i < n - 2; i++) {
+					for (int k = 0; k < n - 2; k++) {
 						G[j][i][k] = 0;
-				for (int i = 0; i < j; i++)
+					}
+				}
+				for (int i = 0; i < j; i++) {
 					G[j][i][i] = 1;
-				for (int i = j + 2; i < n - 1; i++)
+				}
+				for (int i = j + 2; i < n - 1; i++) {
 					G[j][i][i] = 1;
+				}
 				G[j][j][j] = b / d;
 				G[j][j][j + 1] = -c / d;
 				G[j][j + 1][j] = -G[j][j][j + 1]; // =c/d
@@ -1133,40 +1162,52 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n - 1; j++) {
 					newH[i][j] = 0;
-					for (int k = 0; k < n; k++)
-						for (int l = 0; l < n - 1; l++)
+					for (int k = 0; k < n; k++) {
+						for (int l = 0; l < n - 1; l++) {
 							newH[i][j] += R[index][i][k] * H[k][l]
 									* G[index][l][j];
+						}
+					}
 				}
 			}
-			for (int i = 0; i < n; i++)
-				for (int j = 0; j < n - 1; j++)
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n - 1; j++) {
 					H[i][j] = newH[i][j];
+				}
+			}
 
 			newAorB = new int[n][n];
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					newAorB[i][j] = 0;
-					for (int k = 0; k < n; k++)
-						for (int l = 0; l < n; l++)
+					for (int k = 0; k < n; k++) {
+						for (int l = 0; l < n; l++) {
 							newAorB[i][j] += R[index][i][k] * D[k][l] * A[l][j];
+						}
+					}
 				}
 			}
-			for (int i = 0; i < n; i++)
-				for (int j = 0; j < n; j++)
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
 					A[i][j] = newAorB[i][j];
+				}
+			}
 
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					newAorB[i][j] = 0;
-					for (int k = 0; k < n; k++)
-						for (int l = 0; l < n; l++)
+					for (int k = 0; k < n; k++) {
+						for (int l = 0; l < n; l++) {
 							newAorB[i][j] += B[i][k] * E[k][l] * R[index][l][j];
+						}
+					}
 				}
 			}
-			for (int i = 0; i < n; i++)
-				for (int j = 0; j < n; j++)
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < n; j++) {
 					B[i][j] = newAorB[i][j];
+				}
+			}
 
 			itCount++;
 		}
@@ -1394,8 +1435,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				// reduction
 
-				if (!relationExhausted)
+				if (!relationExhausted) {
 					hermiteReduction();
+				}
 
 				// termination
 				boolean relationFound = false;
@@ -1431,8 +1473,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				// System.out.println("");
 
-				if (relationFound && !loopTillExhausted || relationExhausted)
+				if (relationFound && !loopTillExhausted || relationExhausted) {
 					break;
+				}
 
 				iterCount++;
 			}
@@ -1493,8 +1536,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 							.divide(Pss[j]).negate());
 				}
 
-				if (i < n - 1)
+				if (i < n - 1) {
 					H_full.setEntry(i, i, ss[i + 1].divide(ss[i]));
+				}
 
 				for (int j = i + 1; j < n - 1; j++) {
 					H_full.setEntry(i, j, ZERO);
@@ -1558,10 +1602,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			I = new MyDecimalMatrix(lessScale1, n, n);
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
-					if (i == j)
+					if (i == j) {
 						I.setEntry(i, i, ONE_LESS);
-					else
+					} else {
 						I.setEntry(i, j, ZERO_LESS);
+					}
 				}
 
 			}
@@ -1702,6 +1747,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				return null;
 			}
 
+			@Override
 			public int compareTo(IntRelation m2) {
 				if (this.size != m2.size) {
 					return -100 * (this.size - m2.size); // should throw an
@@ -1984,29 +2030,32 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				w[3][j] = w[1][j] * w[1][j] - 4 * w[0][j] * w[2][j];
 
 				if (Kernel.isZero(w[2][j])) { // w[0][j]+w[1][j]x=0
-					if (Kernel.isZero(w[1][j]))
+					if (Kernel.isZero(w[1][j])) {
 						penalties[3][j] = 10000; // bad case
-					else if (Kernel.isEqual(Math.abs(w[1][j]), 1.0)) // naturally
-																		// an
+					} else if (Kernel.isEqual(Math.abs(w[1][j]), 1.0)) {
+						// an
 																		// integer
 						penalties[3][j] = 0;
-					else
+					} else {
 						penalties[3][j] = 1;
+					}
 				} else {
 					if (Kernel.isEqual(Math.abs(w[2][j]), 0.5)) { // 0 or 2 or 4
-						if (Kernel.isZero(w[3][j]))
+						if (Kernel.isZero(w[3][j])) {
 							penalties[3][j] = 0;
-						else if (Kernel.isZero(w[1][j]))
+						} else if (Kernel.isZero(w[1][j])) {
 							penalties[3][j] = 2;
-						else
+						} else {
 							penalties[3][j] = 4;
+						}
 					} else { // 1 or 3 or 5
-						if (Kernel.isZero(w[3][j]))
+						if (Kernel.isZero(w[3][j])) {
 							penalties[3][j] = 1;
-						else if (Kernel.isZero(w[1][j]))
+						} else if (Kernel.isZero(w[1][j])) {
 							penalties[3][j] = 3;
-						else
+						} else {
 							penalties[3][j] = 5;
+						}
 					}
 				}
 
@@ -2174,8 +2223,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				if (!Kernel.isZero(discr)) {
 					if (num1 * 2 * Cvalue + Bvalue >= 0) {
 						formalSolution.append("+");
-					} else
+					} else {
 						formalSolution.append("-");
+					}
 
 					formalSolution.append("sqrt(");
 
@@ -2253,18 +2303,20 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			r2 = new MyDecimalMatrix(m.getBMatrix().getScale(), n, n);
 
 			result2 = m.getBSolMatrix();
-			if (result2 != null)
+			if (result2 != null) {
 				q = result2.getColumnDimension();
-			else
+			} else {
 				q = 0;
+			}
 
 			// store the results to r2
 			for (int j = 0; j < q; j++) {
 				for (int i = 0; i < n; i++) {
 					r2.setEntry(i, rCols, result2.getEntry(i, j));
 				}
-				if (rCols == n - 1)
+				if (rCols == n - 1) {
 					Log.warn("There should not be that many solutions.");
+				}
 				rCols++;
 			}
 
@@ -2303,21 +2355,25 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 					// we don't accept all zeros as a relation
 					boolean allZero = true;
-					for (int i = 0; i < n; i++)
+					for (int i = 0; i < n; i++) {
 						allZero = allZero
 								&& result2.getEntry(i, j).intValue() == 0;
-					if (allZero)
+					}
+					if (allZero) {
 						break;
+					}
 
 					// we don't accept any entry's absolute value being larger
 					// than
 					// bound
 					boolean tooLargeEntry = false;
-					for (int i = 0; i < n; i++)
+					for (int i = 0; i < n; i++) {
 						tooLargeEntry = tooLargeEntry || result2.getEntry(i, j)
 								.abs().intValue() > bound;
-					if (tooLargeEntry)
+					}
+					if (tooLargeEntry) {
 						break;
+					}
 
 					for (int i = 0; i < n; i++) {
 						r2.setEntry(i, rCols, result2.getEntry(i, j));
@@ -2337,8 +2393,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 
 				// B_comp <- B_comp . the new B_rest (nxq,qxq')
-				if (m.getBRestMatrix() != null)
+				if (m.getBRestMatrix() != null) {
 					B_comp = B_comp.multiply(m.getBRestMatrix());
+				}
 
 			}
 			/*
@@ -2366,8 +2423,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			numList = new double[] { number, 1 };
 			coeffs = mPSLQ(2, numList, err, coeffBound);
 
-			if (coeffs == null)
+			if (coeffs == null) {
 				return;
+			}
 
 			// get number of solutions
 			s = coeffs[0].length;
@@ -2430,13 +2488,17 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			for (int j = 0; j < s; j++) {
 
-				for (int i = 0; i < numOfRadicals; i++)
-					if (coeffs[i][j] != 0)
+				for (int i = 0; i < numOfRadicals; i++) {
+					if (coeffs[i][j] != 0) {
 						numOfRadicalsUsed++;
+					}
+				}
 
-				for (int i = numOfRadicals; i < numOfConsts; i++)
-					if (coeffs[i][j] != 0)
+				for (int i = numOfRadicals; i < numOfConsts; i++) {
+					if (coeffs[i][j] != 0) {
 						numOfOthersUsed++;
+					}
+				}
 
 				numOfConstsUsed = numOfRadicalsUsed + numOfOthersUsed;
 

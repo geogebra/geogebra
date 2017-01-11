@@ -135,8 +135,9 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		f.removeAlgorithm(algo);
 		f.removeAlgorithm(cv);

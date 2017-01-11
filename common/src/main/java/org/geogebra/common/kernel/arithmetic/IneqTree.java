@@ -89,13 +89,16 @@ public class IneqTree {
 			ineq.updateCoef();
 			return ineq.getType() != IneqType.INEQUALITY_INVALID;
 		}
-		if (left == null && right == null)
+		if (left == null && right == null) {
 			return false;
+		}
 		boolean b = true;
-		if (left != null)
+		if (left != null) {
 			b &= left.updateCoef();
-		if (right != null)
+		}
+		if (right != null) {
 			b &= right.updateCoef();
+		}
 		return b;
 	}
 
@@ -116,10 +119,12 @@ public class IneqTree {
 	 * @return i-th inequality in the tree in left to right order
 	 */
 	public Inequality get(int i) {
-		if (ineq != null)
+		if (ineq != null) {
 			return ineq;
-		if (i < left.getSize())
+		}
+		if (i < left.getSize()) {
 			return left.get(i);
+		}
 		return right.get(i - left.getSize());
 	}
 
@@ -129,8 +134,9 @@ public class IneqTree {
 	public void recomputeSize() {
 		if (ineq != null) {
 			size = 1;
-		} else
+		} else {
 			size = 0;
+		}
 		if (left != null) {
 			left.recomputeSize();
 			size += left.size;

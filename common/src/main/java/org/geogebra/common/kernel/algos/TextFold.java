@@ -15,10 +15,12 @@ public class TextFold implements FoldComputer {
 	private GeoText result;
 	private StringBuilder sb;
 
+	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.result = new GeoText(cons);
 	}
 
+	@Override
 	public void add(GeoElement p, Operation op) {
 		if (p.isGeoText()) {
 			sb.append(((GeoText) p).getTextString());
@@ -29,6 +31,7 @@ public class TextFold implements FoldComputer {
 
 	}
 
+	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
 		if (sb == null) {
 			sb = new StringBuilder();
@@ -38,10 +41,12 @@ public class TextFold implements FoldComputer {
 		add(geoElement, Operation.PLUS);
 	}
 
+	@Override
 	public boolean check(GeoElement geoElement) {
 		return geoElement.isGeoText();
 	}
 
+	@Override
 	public void finish() {
 		result.setTextString(sb.toString());
 

@@ -71,8 +71,9 @@ public class EuclidianControllerForPlaneCompanion
 		ec.movedGeoPoint.setCoords(coords, true);
 		((GeoElement) ec.movedGeoPoint).updateCascade();
 
-		if (repaint)
+		if (repaint) {
 			ec.kernel.notifyRepaint();
+		}
 	}
 
 	@Override
@@ -122,9 +123,11 @@ public class EuclidianControllerForPlaneCompanion
 	public ArrayList<GeoElement> removeParentsOfView(
 			ArrayList<GeoElement> list) {
 		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-		for (GeoElement geo : list)
-			if (ec.view.isMoveable(geo))
+		for (GeoElement geo : list) {
+			if (ec.view.isMoveable(geo)) {
 				ret.add(geo);
+			}
+		}
 		return ret;
 	}
 

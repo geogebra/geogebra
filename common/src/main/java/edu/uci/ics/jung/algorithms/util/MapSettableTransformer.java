@@ -29,10 +29,12 @@ public class MapSettableTransformer<I, O> implements SettableTransformer<I, O> {
 		this.map = m;
 	}
 
+	@Override
 	public O transform(I input) {
 		return map.get(input);
 	}
 
+	@Override
 	public void set(I input, O output) {
 		map.put(input, output);
 	}

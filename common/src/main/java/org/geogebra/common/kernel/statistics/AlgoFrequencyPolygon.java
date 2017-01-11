@@ -216,8 +216,9 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 
 		// update the polyLine
 		outputPolyLine.setPoints(points);
-		if (oldPointsLength != points.length)
+		if (oldPointsLength != points.length) {
 			setOutput();
+		}
 
 	}
 

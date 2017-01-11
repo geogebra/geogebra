@@ -134,10 +134,11 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 
-		for (int i = 0; i < fun.length; i++)
+		for (int i = 0; i < fun.length; i++) {
 			if (fun[i] != null) {
 				fun[i].replaceChildrenByValues(geo);
 			}
+		}
 	}
 
 	/**
@@ -272,8 +273,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 			for (int i = 0; i < fun.length; i++) {
 				sbTemp.append(fun[i].toString(tpl));
-				if (i < fun.length - 1)
+				if (i < fun.length - 1) {
 					sbTemp.append(", ");
+				}
 			}
 
 			sbTemp.append(')');
@@ -287,6 +289,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 *            dimension index
 	 * @return i-th function
 	 */
+	@Override
 	public Function getFun(int i) {
 		if (i >= fun.length) {
 			return new Function(new ExpressionNode(kernel, 0),
@@ -336,8 +339,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 			}
 			this.cons.removeLocalVariable(
 					getFun(0).getVarString(StringTemplate.defaultTemplate));
-			if (this.isDefined)
+			if (this.isDefined) {
 				setInterval(c.startParam, c.endParam);
+			}
 		} else {
 			this.isDefined = false;
 		}
@@ -416,8 +420,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 				this.isDefined = this.isDefined && getFun(k) != null;
 			}
 
-			if (this.isDefined)
+			if (this.isDefined) {
 				setInterval(curve.startParam, curve.endParam);
+			}
 		} else {
 			this.isDefined = false;
 		}
@@ -466,6 +471,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	public abstract double getClosestParameter(GeoPointND a,
 			double minParameter);
 
+	@Override
 	public abstract double evaluateCurvature(double t);
 
 	private boolean hideRangeInFormula;
@@ -601,6 +607,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	protected abstract GeoCurveCartesianND newGeoCurveCartesian(
 			Construction cons1);
 
+	@Override
 	public abstract ExpressionValue evaluateCurve(double double1);
 
 	@Override
@@ -620,6 +627,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	abstract public void updateDistanceFunction();
 
+	@Override
 	public void evaluateCurve(double t, double[] f1eval) {
 		// TODO Auto-generated method stub
 
@@ -659,8 +667,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 					Operation.ABS, null);
 			Coords c1 = pointToCoords(points[pointIndex]);
 			Coords c2 = pointToCoords(points[i - 1]);
-			if (c1.isEqual(c2))
+			if (c1.isEqual(c2)) {
 				continue;
+			}
 			for (int j = 0; j < dim; j++) {
 				coef = 0.5 * c1.get(j + 1) - 0.5 * c2.get(j + 1)
 						- cumulative[j];

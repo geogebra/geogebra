@@ -241,7 +241,7 @@ public class JSONParserGGT {
 		}
 		// 1 material
 		else if (materialsArray instanceof JSONObject) {
-			addToArray(result, (JSONObject) materialsArray);
+			addToArray(result, materialsArray);
 		}
 		return meta;
 	}

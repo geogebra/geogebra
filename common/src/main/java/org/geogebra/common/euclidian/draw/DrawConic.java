@@ -325,8 +325,9 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		labelVisible = geo.isLabelVisible();
 
 		updateStrokes(conic);
@@ -369,8 +370,9 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 		}
 
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		// shape on screen?
 		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
@@ -390,15 +392,17 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 		}
 
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		// draw trace
 		if (conic.getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
+			if (g2 != null) {
 				drawTrace(g2);
+			}
 		} else {
 			if (isTracing) {
 				isTracing = false;
@@ -467,8 +471,9 @@ public class DrawConic extends Drawable implements Previewable {
 		if (firstPoint) {
 			firstPoint = false;
 			point = conic.getSinglePoint();
-			if (point == null)
+			if (point == null) {
 				point = new GeoPoint(conic.getConstruction());
+			}
 			drawPoint = new DrawPoint(view, point, isPreview);
 			drawPoint.setGeoElement(conic);
 			// drawPoint.font = view.fontConic;
@@ -549,8 +554,10 @@ public class DrawConic extends Drawable implements Previewable {
 
 			shape = drawLines[0].getShape(true);
 			if (conic.type != GeoConicNDConstants.CONIC_LINE)
+			 {
 				((GArea) shape).exclusiveOr(drawLines[1].getShape(true));
 			// FIXME: buggy when conic(RW(0),RW(0))=0
+			}
 
 			if (negativeColored()) {
 				GArea complement = AwtFactory.getPrototype()
@@ -570,13 +577,16 @@ public class DrawConic extends Drawable implements Previewable {
 		for (int i = 0; i < 6; i++) {
 			double val1 = conic.evaluate(view.toRealWorldCoordX(xTry[i]),
 					view.toRealWorldCoordY(yTry[i]));
-			if (conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES)
+			if (conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES) {
 				val1 *= conic.evaluate(conic.b.getX() + lines[0].x + lines[1].x,
 						conic.b.getY() + lines[0].y + lines[1].y);
-			if (conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES)
+			}
+			if (conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 				val1 *= conic.evaluate(conic.b.getX(), conic.b.getY());
-			if (!Kernel.isZero(val1))
+			}
+			if (!Kernel.isZero(val1)) {
 				return (val1 > 0) ^ shape.contains(xTry[i], yTry[i]);
+			}
 		}
 		return false;
 	}
@@ -601,8 +611,9 @@ public class DrawConic extends Drawable implements Previewable {
 		if (firstCircle) {
 			firstCircle = false;
 			arc = AwtFactory.getPrototype().newArc2D();
-			if (ellipse == null)
+			if (ellipse == null) {
 				ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
+			}
 		}
 
 		int i = -1; // bugfix
@@ -618,9 +629,9 @@ public class DrawConic extends Drawable implements Previewable {
 			arcFiller = null;
 			// calc screen coords of midpoint
 			Coords M;
-			if (isPreview) // midpoint has been calculated in view coords
+			if (isPreview) {
 				M = conic.getMidpoint3D().getInhomCoords();
-			else {
+			} else {
 				M = view.getCoordsForView(conic.getMidpoint3D());
 				if (!Kernel.isZero(M.getZ())) {// check if in view
 					isVisible = false;
@@ -753,10 +764,11 @@ public class DrawConic extends Drawable implements Previewable {
 
 			// set general path for filling the arc to screen borders
 			if (conic.isFilled() && !fullAngle) {
-				if (gp == null)
+				if (gp == null) {
 					gp = new GeneralPathClipped(view);
-				else
+				} else {
 					gp.reset();
+				}
 				GPoint2D sp = arc.getStartPoint();
 				GPoint2D ep = arc.getEndPoint();
 				if (!conic.isInverseFill()) {
@@ -944,8 +956,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 		if (firstEllipse) {
 			firstEllipse = false;
-			if (ellipse == null)
+			if (ellipse == null) {
 				ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
+			}
 		}
 
 		// set transform
@@ -1348,8 +1361,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 	@Override
 	final public void draw(GGraphics2D g2) {
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		g2.setColor(getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
@@ -1420,8 +1434,10 @@ public class DrawConic extends Drawable implements Previewable {
 								// appropriate
 		}
 		if (arcFiller != null && !conic.isInverseFill())
+		 {
 			fill(g2, arcFiller); // fill using default/hatching/image
 									// as appropriate
+		}
 	}
 
 	/**
@@ -1437,8 +1453,9 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		if (conic.isInverseFill()) {
 			fill(g2, getShape());
-		} else
+		} else {
 			fill(g2, shape);
+		}
 	}
 
 	/**
@@ -1454,18 +1471,22 @@ public class DrawConic extends Drawable implements Previewable {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
 
-			if (hypLeftOnScreen)
+			if (hypLeftOnScreen) {
 				g2.draw(hypLeft);
-			if (hypRightOnScreen)
+			}
+			if (hypRightOnScreen) {
 				g2.draw(hypRight);
+			}
 		}
 		g2.setStroke(objStroke);
 		g2.setColor(getObjectColor());
 		if (geo.getLineThickness() > 0) {
-			if (hypLeftOnScreen)
+			if (hypLeftOnScreen) {
 				g2.draw(hypLeft);
-			if (hypRightOnScreen)
+			}
+			if (hypRightOnScreen) {
 				g2.draw(hypRight);
+			}
 		}
 
 		if (labelVisible) {
@@ -1485,10 +1506,12 @@ public class DrawConic extends Drawable implements Previewable {
 			complement.subtract(a2);
 			fill(g2, complement);
 		} else {
-			if (hypLeftOnScreen)
+			if (hypLeftOnScreen) {
 				fill(g2, hypLeft);
-			if (hypRightOnScreen)
+			}
+			if (hypRightOnScreen) {
 				fill(g2, hypRight);
+			}
 		}
 	}
 
@@ -1499,8 +1522,9 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible())
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
+		}
 
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
@@ -1584,8 +1608,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int hitX, int hitY, int hitThreshold) {
-		if (!isVisible)
+		if (!isVisible) {
 			return false;
+		}
 		// set a flag that says if the point is on the filling
 		boolean isOnFilling = false;
 		if (checkIsOnFilling()) {
@@ -1598,10 +1623,11 @@ public class DrawConic extends Drawable implements Previewable {
 					+ (conic.isInRegion(realX + x3, realY - y3) ? 1 : 0)
 					+ (conic.isInRegion(realX - x3, realY + y3) ? 1 : 0)
 					+ (conic.isInRegion(realX + x3, realY + y3) ? 1 : 0);
-			if (conic.isInverseFill())
+			if (conic.isInverseFill()) {
 				isOnFilling = (insideNeigbors < 5);
-			else
+			} else {
 				isOnFilling = (insideNeigbors > 0);
+			}
 		}
 		// set a flag to say if point is on the boundary
 		boolean isOnBoundary = false;
@@ -1759,9 +1785,11 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
-		if (drawLines != null)
-			for (int i = 0; i < 2 && drawLines[i] != null; i++)
+		if (drawLines != null) {
+			for (int i = 0; i < 2 && drawLines[i] != null; i++) {
 				drawLines[i].setGeoElement(geo);
+			}
+		}
 	}
 
 	private void initPreview() {
@@ -1841,11 +1869,13 @@ public class DrawConic extends Drawable implements Previewable {
 			Log.debug("unknown conic type");
 		}
 
-		if (conic != null)
+		if (conic != null) {
 			conic.setLabelVisible(false);
+		}
 	}
 
 	// preview of circle with midpoint through a second point
+	@Override
 	final public void updatePreview() {
 
 		switch (previewMode) {
@@ -1928,6 +1958,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	}
 
+	@Override
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
 			// double xRW = view.toRealWorldCoordX(x);
@@ -1939,10 +1970,12 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		draw(g2);
 	}
 
+	@Override
 	public void disposePreview() {
 		if (conic != null) {
 			conic.remove();

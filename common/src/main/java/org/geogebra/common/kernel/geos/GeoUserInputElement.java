@@ -86,8 +86,9 @@ public abstract class GeoUserInputElement extends GeoElement {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (validInputForm && inputForm && getDefinition() != null)
+		if (validInputForm && inputForm && getDefinition() != null) {
 			return getDefinition().toValueString(tpl);
+		}
 
 		return toRawValueString(tpl);
 
@@ -95,8 +96,9 @@ public abstract class GeoUserInputElement extends GeoElement {
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!(geo instanceof GeoUserInputElement))
+		if (!(geo instanceof GeoUserInputElement)) {
 			return;
+		}
 		reuseDefinition(geo);
 	}
 

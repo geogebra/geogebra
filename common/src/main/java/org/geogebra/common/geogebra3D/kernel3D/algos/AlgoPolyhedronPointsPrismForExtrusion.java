@@ -38,6 +38,7 @@ public class AlgoPolyhedronPointsPrismForExtrusion
 	 * @param extrusionComputer
 	 *            extrusion computer
 	 */
+	@Override
 	public void setExtrusionComputer(ExtrusionComputer extrusionComputer) {
 		this.extrusionComputer = extrusionComputer;
 	}
@@ -45,10 +46,12 @@ public class AlgoPolyhedronPointsPrismForExtrusion
 	@Override
 	public void compute() {
 		super.compute();
-		if (extrusionComputer != null)
+		if (extrusionComputer != null) {
 			extrusionComputer.compute();
+		}
 	}
 
+	@Override
 	public GeoElement getGeoToHandle() {
 		return getTopFace();
 	}

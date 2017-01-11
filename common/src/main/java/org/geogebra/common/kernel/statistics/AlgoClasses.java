@@ -66,14 +66,17 @@ public class AlgoClasses extends AlgoElement {
 
 		tempList.add(dataList);
 
-		if (start != null)
+		if (start != null) {
 			tempList.add(start);
+		}
 
-		if (width != null)
+		if (width != null) {
 			tempList.add(width);
+		}
 
-		if (numClasses != null)
+		if (numClasses != null) {
 			tempList.add(numClasses);
+		}
 
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
@@ -132,10 +135,12 @@ public class AlgoClasses extends AlgoElement {
 			for (int i = 1; i < dataList.size(); i++) {
 				String geoString = ((GeoText) dataList.get(i))
 						.toValueString(StringTemplate.defaultTemplate);
-				if (geoString.compareTo(minGeoString) < 0)
+				if (geoString.compareTo(minGeoString) < 0) {
 					minGeoString = geoString;
-				if (geoString.compareTo(maxGeoString) < 0)
+				}
+				if (geoString.compareTo(maxGeoString) < 0) {
 					maxGeoString = geoString;
+				}
 			}
 		}
 
@@ -145,8 +150,9 @@ public class AlgoClasses extends AlgoElement {
 		if (input.length == 2) {
 
 			int n = (int) numClasses.getDouble();
-			if (n < 1)
+			if (n < 1) {
 				classList.setUndefined();
+			}
 
 			double width = (maxGeoValue - minGeoValue) / n;
 			for (int i = 0; i < n; i++) {
@@ -167,8 +173,9 @@ public class AlgoClasses extends AlgoElement {
 				// maxGeoValue);
 				classList.addNumber(value, null);
 			}
-			if (classList.size() < 2)
+			if (classList.size() < 2) {
 				classList.setUndefined();
+			}
 		}
 	}
 

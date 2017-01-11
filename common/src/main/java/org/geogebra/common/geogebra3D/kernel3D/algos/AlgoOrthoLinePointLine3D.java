@@ -64,10 +64,11 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 		Coords v3 = v1.crossProduct(v2);
 		Coords v = v3.crossProduct(v1);
 
-		if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION))
+		if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 			getLine().setUndefined();
-		else
+		} else {
 			getLine().setCoord(getPoint().getInhomCoordsInD3(), v.normalize());
+		}
 
 	}
 

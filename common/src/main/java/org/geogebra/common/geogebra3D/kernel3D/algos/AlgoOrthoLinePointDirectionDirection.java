@@ -67,25 +67,28 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 
 		Coords direction = direction1.getDirectionInD3()
 				.crossProduct(direction2.getDirectionInD3());
-		if (direction.isZero())
+		if (direction.isZero()) {
 			line.setUndefined();
-		else
+		} else {
 			line.setCoord(point.getInhomCoordsInD3(), direction);
+		}
 
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
 		// point, plane, line
-		if (direction1 instanceof GeoCoordSys2D)
+		if (direction1 instanceof GeoCoordSys2D) {
 			return getLoc().getPlain("LineThroughAParallelToBPerpendicularToC",
 					point.getLabel(tpl), direction1.getLabel(tpl),
 					direction2.getLabel(tpl));
+		}
 		// point, line, plane
-		if (direction2 instanceof GeoCoordSys2D)
+		if (direction2 instanceof GeoCoordSys2D) {
 			return getLoc().getPlain("LineThroughAPerpendicularToBParallelToC",
 					point.getLabel(tpl), direction1.getLabel(tpl),
 					direction2.getLabel(tpl));
+		}
 		// point, line, line
 		return getLoc().getPlain("LineThroughAPerpendicularToBAndC",
 				point.getLabel(tpl), direction1.getLabel(tpl),

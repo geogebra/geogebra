@@ -207,6 +207,7 @@ public class AlgoDependentNumber extends AlgoElement
 		return number;
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return number.getDefinition();
 	}
@@ -252,6 +253,7 @@ public class AlgoDependentNumber extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
@@ -267,6 +269,7 @@ public class AlgoDependentNumber extends AlgoElement
 		botanaVars = vars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

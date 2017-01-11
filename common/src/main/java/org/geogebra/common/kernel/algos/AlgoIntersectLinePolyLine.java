@@ -106,6 +106,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
 				p.setCoords(0, 0, 1);
@@ -162,8 +163,9 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 					Kernel.STANDARD_PRECISION)) {
 				double t = ((GeoLine) g).getPossibleParameter(coords);
 				// Application.debug("parameter("+i+") : "+t);
-				if (t >= min && t <= max)
+				if (t >= min && t <= max) {
 					newCoords.put(t, coords);
+				}
 			}
 		}
 	}

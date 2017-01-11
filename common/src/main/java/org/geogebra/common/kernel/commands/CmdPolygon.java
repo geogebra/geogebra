@@ -75,9 +75,10 @@ public class CmdPolygon extends CommandProcessor {
 		case 3:
 			// regular polygon
 			if (arg[0].isGeoPoint() && arg[1].isGeoPoint()
-					&& arg[2] instanceof GeoNumberValue)
+					&& arg[2] instanceof GeoNumberValue) {
 				return regularPolygon(c.getLabels(), (GeoPointND) arg[0],
 						(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
+			}
 
 		default:
 			// polygon for given points
@@ -85,8 +86,9 @@ public class CmdPolygon extends CommandProcessor {
 			// check arguments
 			boolean is3D = false;
 			for (int i = 0; i < n; i++) {
-				if (!(arg[i].isGeoPoint()))
+				if (!(arg[i].isGeoPoint())) {
 					throw argErr(app, c, arg[i]);
+				}
 				points[i] = (GeoPointND) arg[i];
 				is3D = checkIs3D(is3D, arg[i]);
 			}

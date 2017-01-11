@@ -140,6 +140,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 				"x = " + ngeo.getLabel(tpl));
 	}
 
+	@Override
 	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == f && line == tangent) {
 			return T;

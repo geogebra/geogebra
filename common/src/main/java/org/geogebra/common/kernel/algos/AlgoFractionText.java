@@ -112,7 +112,9 @@ public class AlgoFractionText extends AlgoElement {
 
 		double ret[] = { 0, 0 };
 		if (Double.isNaN(decimal))
+		 {
 			return ret; // return 0/0
+		}
 
 		if (decimal == Double.POSITIVE_INFINITY) {
 			ret[0] = 1;
@@ -125,10 +127,11 @@ public class AlgoFractionText extends AlgoElement {
 			return ret;
 		}
 
-		if (decimal < 0.0)
+		if (decimal < 0.0) {
 			decimalSign = -1.0;
-		else
+		} else {
 			decimalSign = 1.0;
+		}
 
 		decimal = Math.abs(decimal);
 

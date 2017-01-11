@@ -107,6 +107,7 @@ public class MaterialRequest implements Request {
 		return mr;
 	}
 
+	@Override
 	public String toJSONString(ClientInfo client) {
 		try {
 			this.apiJSON.put("-api", MaterialRequest.api);

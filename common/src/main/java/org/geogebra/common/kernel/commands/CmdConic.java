@@ -31,8 +31,9 @@ public class CmdConic extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
 		case 1:
-			if (arg[0].isGeoList())
+			if (arg[0].isGeoList()) {
 				return conic(c.getLabel(), (GeoList) arg[0]);
+			}
 		case 5:
 			for (int i = 0; i < 5; i++) {
 				if (!arg[i].isGeoPoint()) {

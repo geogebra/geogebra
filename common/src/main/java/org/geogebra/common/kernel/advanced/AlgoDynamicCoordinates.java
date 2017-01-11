@@ -69,6 +69,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return M;
 	}
 
+	@Override
 	public GeoPointND getParentPoint() {
 		return P;
 	}
@@ -96,6 +97,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return getLoc().getPlain("DynamicCoordinatesOfA", P.getLabel(tpl));
 	}
 
+	@Override
 	public boolean isChangeable(GeoElement out) {
 		return true;
 	}

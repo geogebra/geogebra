@@ -119,10 +119,11 @@ public class AlgoSolveODE2 extends AlgoElement {
 		}
 
 		// g.clear();
-		if (al == null)
+		if (al == null) {
 			al = new ArrayList<MyPoint>();
-		else
+		} else {
 			al.clear();
+		}
 
 		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(
 				step.getDouble());
@@ -155,16 +156,19 @@ public class AlgoSolveODE2 extends AlgoElement {
 	}
 
 	private StepHandler stepHandler = new StepHandler() {
+		@Override
 		public void reset() {
 			// do nothing
 		}
 
 		private Construction cons1 = kernel.getConstruction();
 
+		@Override
 		public boolean requiresDenseOutput() {
 			return false;
 		}
 
+		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast)
 				throws DerivativeException {
 			double t = interpolator.getCurrentTime();
@@ -193,6 +197,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 			this.f = f;
 		}
 
+		@Override
 		public int getDimension() {
 			return 2;
 		}
@@ -203,6 +208,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		 * y1 - c y0 (2)
 		 */
 
+		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
 			yDot[0] = y[1]; // (1)

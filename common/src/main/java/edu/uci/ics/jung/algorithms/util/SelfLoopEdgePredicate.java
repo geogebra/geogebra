@@ -17,6 +17,7 @@ import edu.uci.ics.jung.graph.util.Pair;
 public class SelfLoopEdgePredicate<V, E>
 		implements Predicate<Context<Graph<V, E>, E>> {
 
+	@Override
 	public boolean evaluate(Context<Graph<V, E>, E> context) {
 		Pair<V> endpoints = context.graph.getEndpoints(context.element);
 		return endpoints.getFirst().equals(endpoints.getSecond());

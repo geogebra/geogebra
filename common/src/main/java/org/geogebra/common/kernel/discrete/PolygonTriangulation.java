@@ -203,6 +203,7 @@ public class PolygonTriangulation {
 			this.id = id;
 		}
 
+		@SuppressWarnings("all")
 		public Point clone() {
 			Point ret = new Point(x, y, id);
 			ret.name = name;
@@ -436,6 +437,7 @@ public class PolygonTriangulation {
 			this.orientation = orientation;
 		}
 
+		@SuppressWarnings("all")
 		public Segment clone() {
 			return new Segment(orientation, leftPoint, rightPoint);
 		}

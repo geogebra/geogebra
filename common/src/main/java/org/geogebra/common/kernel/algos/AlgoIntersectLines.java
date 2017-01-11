@@ -125,8 +125,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		// this is needed for the intersection of segments
 		if (S.isDefined()) {
 			if (!(g.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)
-					&& h.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)))
+					&& h.isIntersectionPointIncident(S, Kernel.MIN_PRECISION))) {
 				S.setUndefined();
+			}
 		}
 	}
 
@@ -139,10 +140,12 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
@@ -156,6 +159,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
@@ -168,6 +172,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -182,6 +187,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -198,10 +204,12 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -243,6 +251,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectLines(geo, this, scope);

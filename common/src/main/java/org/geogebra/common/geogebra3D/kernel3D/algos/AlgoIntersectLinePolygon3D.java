@@ -74,6 +74,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p = new GeoPoint3D(cons);
 				p.setCoords(0, 0, 0, 1);
@@ -85,6 +86,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoSegment3D newElement() {
 
 				GeoPoint3D aS = new GeoPoint3D(cons);
@@ -166,8 +168,9 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 				double t1 = project[2].get(1); // parameter on line
 				double t2 = project[2].get(2); // parameter on segment
 
-				if (checkParameter(t1) && seg.respectLimitedPath(t2))
+				if (checkParameter(t1) && seg.respectLimitedPath(t2)) {
 					newCoords.put(t1, project[0]);
+				}
 
 			}
 		}
@@ -192,8 +195,9 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 				globalCoords, inPlaneCoords);
 
 		// check if projection is intersection point
-		if (singlePoint != null)
+		if (singlePoint != null) {
 			newCoords.put(0d, singlePoint);
+		}
 
 	}
 
@@ -233,8 +237,9 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		}
 
 		// other points are undefined (eventually all if input are undefined)
-		for (; index < outputPoints.size(); index++)
+		for (; index < outputPoints.size(); index++) {
 			outputPoints.getElement(index).setUndefined();
+		}
 
 	}
 

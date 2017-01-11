@@ -126,11 +126,12 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		}
 
 		boolean remove[] = new boolean[n];
-		for (int i = 0; i < n - 1; i++)
+		for (int i = 0; i < n - 1; i++) {
 			remove[i] = false;
+		}
 
 		// check all the x-coordinates are different
-		for (int i = 0; i < n - 1; i++)
+		for (int i = 0; i < n - 1; i++) {
 			for (int j = i + 1; j < n; j++) {
 				if (x[i] == x[j]) {
 					if (y[i] == y[j]) { // two equal points, remove one
@@ -142,6 +143,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 					}
 				}
 			}
+		}
 
 		// remove duplicates at end of list
 		while (remove[n - 1]) {
@@ -149,7 +151,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		}
 
 		// remove duplicates in the middle;
-		if (n > 2)
+		if (n > 2) {
 			for (int i = n - 2; i > 0; i--) {
 				if (remove[i]) {
 					x[i] = x[n - 1];
@@ -157,6 +159,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 					n--;
 				}
 			}
+		}
 
 		// calculate the coefficients
 		double cof[] = new double[n];
@@ -208,7 +211,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 				return null;
 			} else if (coeff == 0)
+			 {
 				continue; // this part vanished
+			}
 
 			boolean negativeCoeff = coeff < 0;
 
@@ -233,17 +238,19 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			ExpressionValue partExp;
 			MyDouble coeffMyDouble = null;
 			if (Kernel.isEqual(coeff, 1.0)) {
-				if (powerExp == null)
+				if (powerExp == null) {
 					partExp = new MyDouble(kernel, 1.0);
-				else
+				} else {
 					partExp = powerExp;
+				}
 			} else {
 				coeffMyDouble = new MyDouble(kernel, coeff);
-				if (powerExp == null)
+				if (powerExp == null) {
 					partExp = coeffMyDouble;
-				else
+				} else {
 					partExp = new ExpressionNode(kernel, coeffMyDouble,
 							Operation.MULTIPLY, powerExp);
+				}
 			}
 
 			// add part to series
@@ -252,7 +259,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			} else {
 				if (negativeCoeff) {
 					if (coeffMyDouble != null)
+					 {
 						coeffMyDouble.set(-coeff); // change sign
+					}
 					poly = new ExpressionNode(kernel, poly, Operation.MINUS,
 							partExp);
 				} else {
@@ -293,12 +302,14 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			y[i] = new BigDecimal(yy[i]);
 		}
 		// double s[] = new double[n];
-		for (i = 0; i < n; i++)
+		for (i = 0; i < n; i++) {
 			s[i] = cof[i] = BigDecimal.ZERO;
+		}
 		s[n - 1] = x[0].multiply(minusone);
 		for (i = 1; i < n; i++) {
-			for (j = n - 1 - i; j < n - 1; j++)
+			for (j = n - 1 - i; j < n - 1; j++) {
 				s[j] = s[j].subtract(x[i].multiply(s[j + 1]));
+			}
 			s[n - 1] = s[n - 1].subtract(x[i]);
 		}
 		for (j = 0; j < n; j++) {
@@ -318,8 +329,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			}
 		}
 
-		for (i = 0; i < n; i++)
+		for (i = 0; i < n; i++) {
 			coff[i] = cof[i].doubleValue();
+		}
 
 	}
 

@@ -154,15 +154,17 @@ public class GgbMat extends Array2DRowRealMatrix {
 	 */
 	public void reducedRowEchelonFormImmediate() {
 		int rowCount = data.length;
-		if (rowCount == 0)
+		if (rowCount == 0) {
 			return;
+		}
 
 		int columnCount = data[0].length;
 
 		int lead = 0;
 		for (int r = 0; r < rowCount; r++) {
-			if (lead >= columnCount)
+			if (lead >= columnCount) {
 				break;
+			}
 			{
 				int i = r;
 				// make sure we don't use a leader which is almost zero
@@ -173,8 +175,9 @@ public class GgbMat extends Array2DRowRealMatrix {
 					if (i == rowCount) {
 						i = r;
 						lead++;
-						if (lead == columnCount)
+						if (lead == columnCount) {
 							return;
+						}
 					}
 				}
 				double[] temp = data[r];
@@ -184,15 +187,17 @@ public class GgbMat extends Array2DRowRealMatrix {
 
 			{
 				double lv = data[r][lead];
-				for (int j = 0; j < columnCount; j++)
+				for (int j = 0; j < columnCount; j++) {
 					data[r][j] /= lv;
+				}
 			}
 
 			for (int i = 0; i < rowCount; i++) {
 				if (i != r) {
 					double lv = data[i][lead];
-					for (int j = 0; j < columnCount; j++)
+					for (int j = 0; j < columnCount; j++) {
 						data[i][j] -= lv * data[r][j];
+					}
 				}
 			}
 			lead++;
@@ -293,10 +298,13 @@ public class GgbMat extends Array2DRowRealMatrix {
 	 * @return true if all entries are integers
 	 */
 	public boolean hasOnlyIntegers() {
-		for (int i = 0; i < data.length; i++)
-			for (int j = 0; j < data[i].length; j++)
-				if (!Kernel.isInteger(data[i][j]))
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data[i].length; j++) {
+				if (!Kernel.isInteger(data[i][j])) {
 					return false;
+				}
+			}
+		}
 		return true;
 	}
 

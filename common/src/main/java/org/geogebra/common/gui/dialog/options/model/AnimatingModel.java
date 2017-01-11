@@ -12,6 +12,7 @@ public class AnimatingModel extends BooleanOptionModel {
 		kernel = app.getKernel();
 	}
 
+	@Override
 	public void applyChanges(boolean value) {
 		super.applyChanges(value);
 		if (value) {

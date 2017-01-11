@@ -49,8 +49,9 @@ public class CmdMin extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 
 		case 2:
 			arg = resArgs(c);

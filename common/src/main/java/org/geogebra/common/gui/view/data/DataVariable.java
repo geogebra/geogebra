@@ -382,21 +382,23 @@ public class DataVariable {
 				// don't process the point if either coordinate is null or
 				// non-numeric,
 				if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
-						|| !yCoord.isGeoNumeric())
+						|| !yCoord.isGeoNumeric()) {
 					continue;
+				}
 
 				GeoPoint geoPoint;
 				AlgoDependentPoint pointAlgo = null;
 
 				if (byValue) {
-					if (leftToRight)
+					if (leftToRight) {
 						geoPoint = new GeoPoint(cons,
 								((GeoNumeric) xCoord).getDouble(),
 								((GeoNumeric) yCoord).getDouble(), 1.0);
-					else
+					} else {
 						geoPoint = new GeoPoint(cons,
 								((GeoNumeric) yCoord).getDouble(),
 								((GeoNumeric) xCoord).getDouble(), 1.0);
+					}
 
 				} else {
 
@@ -413,13 +415,15 @@ public class DataVariable {
 
 				}
 
-				if (pointAlgo != null)
+				if (pointAlgo != null) {
 					cons.removeFromConstructionList(pointAlgo);
+				}
 
 				list.add(geoPoint);
 
-				if (yCoord.isAngle() || xCoord.isAngle())
+				if (yCoord.isAngle() || xCoord.isAngle()) {
 					geoPoint.setPolar();
+				}
 
 			}
 		}
@@ -522,8 +526,9 @@ public class DataVariable {
 	 */
 	public boolean isInDataSource(GeoElement geo) {
 
-		if (geo == null)
+		if (geo == null) {
 			return false;
+		}
 
 		ArrayList<DataItem> itemList = getItemList();
 
@@ -544,17 +549,19 @@ public class DataVariable {
 
 		if (isCell) {
 			for (DataItem dataItem : itemList) {
-				if (dataItem.getType() == SourceType.SPREADSHEET)
+				if (dataItem.getType() == SourceType.SPREADSHEET) {
 					try {
 						if (dataItem.getRangeList() != null) {
-							for (CellRange cr : dataItem.getRangeList())
+							for (CellRange cr : dataItem.getRangeList()) {
 								if (cr.contains(geo)) {
 									return true;
 								}
+							}
 						}
 					} catch (Exception e) {
 						// e.printStackTrace();
 					}
+				}
 			}
 		}
 

@@ -34,8 +34,9 @@ public class AlgoInputBox extends AlgoElement {
 		this.linkedGeo = linkedGeo;
 
 		inputBox = new GeoInputBox(cons);
-		if (linkedGeo != null)
+		if (linkedGeo != null) {
 			inputBox.setLinkedGeo(linkedGeo);
+		}
 		inputBox.setAbsoluteScreenLoc(30, 30);
 		setInputOutput();
 		compute();
@@ -52,9 +53,9 @@ public class AlgoInputBox extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		if (linkedGeo == null)
+		if (linkedGeo == null) {
 			input = new GeoElement[0];
-		else {
+		} else {
 			input = new GeoElement[1];
 			input[0] = linkedGeo;
 		}

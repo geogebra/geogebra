@@ -663,8 +663,9 @@ public abstract class App implements UpdateSelection {
 		if (subCommandDict == null) {
 			initTranslatedCommands();
 		}
-		if (getLocalization().isCommandChanged())
+		if (getLocalization().isCommandChanged()) {
 			updateCommandDictionary();
+		}
 
 		return subCommandDict;
 	}
@@ -1371,7 +1372,7 @@ public abstract class App implements UpdateSelection {
 	 * @return current mode
 	 */
 	final public int getMode() {
-		EuclidianView view = (EuclidianView) getActiveEuclidianView();
+		EuclidianView view = getActiveEuclidianView();
 		if (view == null) {
 			view = getEuclidianView1();
 		}
@@ -1630,8 +1631,9 @@ public abstract class App implements UpdateSelection {
 	 *         none
 	 */
 	public String getMacroXMLorEmpty() {
-		if (!kernel.hasMacros() && kernel.getExercise().isEmpty())
+		if (!kernel.hasMacros() && kernel.getExercise().isEmpty()) {
 			return "";
+		}
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		return getXMLio().getFullMacroXML(macros);
 	}
@@ -1689,46 +1691,56 @@ public abstract class App implements UpdateSelection {
 		case VIEW_ALGEBRA:
 			return getAlgebraView();
 		case VIEW_SPREADSHEET:
-			if (!isUsingFullGui())
+			if (!isUsingFullGui()) {
 				return null;
-			else if (getGuiManager() == null)
+			} else if (getGuiManager() == null) {
 				initGuiManager();
-			if (getGuiManager() == null)
+			}
+			if (getGuiManager() == null) {
 				return null;
+			}
 			return getGuiManager().getSpreadsheetView();
 		case VIEW_CAS:
-			if (!isUsingFullGui())
+			if (!isUsingFullGui()) {
 				return null;
-			else if (getGuiManager() == null)
+			} else if (getGuiManager() == null) {
 				initGuiManager();
-			if (getGuiManager() == null)
+			}
+			if (getGuiManager() == null) {
 				return null;
+			}
 			return getGuiManager().getCasView();
 		case VIEW_EUCLIDIAN2:
 			return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
 		case VIEW_CONSTRUCTION_PROTOCOL:
-			if (!isUsingFullGui())
+			if (!isUsingFullGui()) {
 				return null;
-			else if (getGuiManager() == null)
+			} else if (getGuiManager() == null) {
 				initGuiManager();
-			if (getGuiManager() == null)
+			}
+			if (getGuiManager() == null) {
 				return null;
+			}
 			return getGuiManager().getConstructionProtocolData();
 		case VIEW_PROBABILITY_CALCULATOR:
-			if (!isUsingFullGui())
+			if (!isUsingFullGui()) {
 				return null;
-			else if (getGuiManager() == null)
+			} else if (getGuiManager() == null) {
 				initGuiManager();
-			if (getGuiManager() == null)
+			}
+			if (getGuiManager() == null) {
 				return null;
+			}
 			return getGuiManager().getProbabilityCalculator();
 		case VIEW_DATA_ANALYSIS:
-			if (!isUsingFullGui())
+			if (!isUsingFullGui()) {
 				return null;
-			else if (getGuiManager() == null)
+			} else if (getGuiManager() == null) {
 				initGuiManager();
-			if (getGuiManager() == null)
+			}
+			if (getGuiManager() == null) {
 				return null;
+			}
 			return getGuiManager().getDataAnalysisView();
 		}
 
@@ -2130,8 +2142,9 @@ public abstract class App implements UpdateSelection {
 	 * @return spreadsheet trace manager
 	 */
 	final public SpreadsheetTraceManager getTraceManager() {
-		if (traceManager == null)
+		if (traceManager == null) {
 			traceManager = new SpreadsheetTraceManager(this);
+		}
 		return traceManager;
 	}
 
@@ -2366,6 +2379,7 @@ public abstract class App implements UpdateSelection {
 	 * @param updatePropertiesView
 	 *            whether to update properties view
 	 */
+	@Override
 	public void updateSelection(boolean updatePropertiesView) {
 
 		if (!isUsingFullGui() || isIniting()) {
@@ -2411,8 +2425,9 @@ public abstract class App implements UpdateSelection {
 	 *            advanced, ...)
 	 */
 	public void setPropertiesViewPanel(OptionType type) {
-		if (propertiesView != null)
+		if (propertiesView != null) {
 			propertiesView.setOptionPanel(type);
+		}
 	}
 
 	/**

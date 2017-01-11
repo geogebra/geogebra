@@ -79,6 +79,7 @@ public class OneWayAnovaImpl implements OneWayAnova {
 	 * <a href="http://faculty.vassar.edu/lowry/ch13pt1.html"> here</a>
 	 * </p>
 	 */
+	@Override
 	public double anovaFValue(Collection<double[]> categoryData)
 			throws IllegalArgumentException, MathException {
 		AnovaStats a = anovaStats(categoryData);
@@ -102,6 +103,7 @@ public class OneWayAnovaImpl implements OneWayAnova {
 	 * the F distribution.
 	 * </p>
 	 */
+	@Override
 	public double anovaPValue(Collection<double[]> categoryData)
 			throws IllegalArgumentException, MathException {
 		AnovaStats a = anovaStats(categoryData);
@@ -129,6 +131,7 @@ public class OneWayAnovaImpl implements OneWayAnova {
 	 * True is returned iff the estimated p-value is less than alpha.
 	 * </p>
 	 */
+	@Override
 	public boolean anovaTest(Collection<double[]> categoryData, double alpha)
 			throws IllegalArgumentException, MathException {
 		if ((alpha <= 0) || (alpha > 0.5)) {

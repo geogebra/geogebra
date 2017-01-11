@@ -642,6 +642,7 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector ebeMultiply(RealVector v)
 			throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
@@ -682,6 +683,7 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return ebeDivide((ArrayRealVector) v);
@@ -985,6 +987,7 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector projection(RealVector v) {
 		return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
 	}
@@ -1056,16 +1059,19 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public double getEntry(int index) throws MatrixIndexException {
 		return data[index];
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public int getDimension() {
 		return data.length;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector append(RealVector v) {
 		if (v instanceof ArrayRealVector) {
 			return new ArrayRealVector(this, (ArrayRealVector) v);
@@ -1086,6 +1092,7 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector append(double in) {
 		final double[] out = new double[data.length + 1];
 		System.arraycopy(data, 0, out, 0, data.length);
@@ -1094,11 +1101,13 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector append(double[] in) {
 		return new ArrayRealVector(this, in);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public RealVector getSubVector(int index, int n) {
 		ArrayRealVector out = new ArrayRealVector(n);
 		try {
@@ -1111,6 +1120,7 @@ public class ArrayRealVector extends AbstractRealVector
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setEntry(int index, double value) {
 		try {
 			data[index] = value;
@@ -1209,6 +1219,7 @@ public class ArrayRealVector extends AbstractRealVector
 	 * 
 	 * @return true if any coordinate of this vector is NaN; false otherwise
 	 */
+	@Override
 	public boolean isNaN() {
 		for (double v : data) {
 			if (Double.isNaN(v)) {
@@ -1225,6 +1236,7 @@ public class ArrayRealVector extends AbstractRealVector
 	 * @return true if any coordinate of this vector is infinite and none are
 	 *         NaN; false otherwise
 	 */
+	@Override
 	public boolean isInfinite() {
 
 		if (isNaN()) {

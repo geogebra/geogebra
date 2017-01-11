@@ -121,8 +121,9 @@ public class AlgoCell extends AlgoElement {
 			} else {
 				geo.setUndefined();
 			}
-		} else
+		} else {
 			geo.setUndefined();
+		}
 	}
 
 	private void updateReferencedObject() {

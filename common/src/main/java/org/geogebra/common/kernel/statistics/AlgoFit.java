@@ -200,6 +200,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	}
 
+	@Override
 	public double[] getCoeffs() {
 		double[] ret = new double[functionsize];
 		for (int i = 0; i < functionsize; i++) {

@@ -89,6 +89,7 @@ public abstract class BinaryFunction implements BivariateRealFunction {
 	};
 
 	/** {@inheritDoc} */
+	@Override
 	public abstract double value(double x, double y)
 			throws FunctionEvaluationException;
 

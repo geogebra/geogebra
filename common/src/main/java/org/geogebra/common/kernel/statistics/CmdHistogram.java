@@ -55,10 +55,11 @@ public class CmdHistogram extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		case 3:
 			arg = resArgs(c);
@@ -67,12 +68,13 @@ public class CmdHistogram extends CommandProcessor {
 				GeoElement[] ret = { Histogram(c.getLabel(), (GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2], null, right) };
 				return ret;
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else
+			} else {
 				throw argErr(app, c, arg[2]);
+			}
 
 		case 4:
 			arg = resArgs(c);
@@ -98,14 +100,15 @@ public class CmdHistogram extends CommandProcessor {
 				return ret;
 			}
 
-			else if (!ok[0])
+			else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else if (!ok[2])
+			} else if (!ok[2]) {
 				throw argErr(app, c, arg[2]);
-			else
+			} else {
 				throw argErr(app, c, arg[3]);
+			}
 
 		case 5:
 			arg = resArgs(c);
@@ -131,16 +134,17 @@ public class CmdHistogram extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else if (!ok[2])
+			} else if (!ok[2]) {
 				throw argErr(app, c, arg[2]);
-			else if (!ok[3])
+			} else if (!ok[3]) {
 				throw argErr(app, c, arg[3]);
-			else
+			} else {
 				throw argErr(app, c, arg[4]);
+			}
 
 		case 6:
 			arg = resArgs(c);
@@ -168,18 +172,19 @@ public class CmdHistogram extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else if (!ok[2])
+			} else if (!ok[2]) {
 				throw argErr(app, c, arg[2]);
-			else if (!ok[3])
+			} else if (!ok[3]) {
 				throw argErr(app, c, arg[3]);
-			else if (!ok[4])
+			} else if (!ok[4]) {
 				throw argErr(app, c, arg[4]);
-			else
+			} else {
 				throw argErr(app, c, arg[5]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

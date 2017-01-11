@@ -39,6 +39,7 @@ public abstract class BooleanOptionModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
+	@Override
 	public IBooleanOptionListener getListener() {
 		return listener;
 	}

@@ -78,10 +78,11 @@ public class AlgoParabolaParameter extends AlgoElement {
 	// set parameter of parabola
 	@Override
 	public final void compute() {
-		if (c.type == GeoConicNDConstants.CONIC_PARABOLA)
+		if (c.type == GeoConicNDConstants.CONIC_PARABOLA) {
 			num.setValue(c.p);
-		else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 	@Override

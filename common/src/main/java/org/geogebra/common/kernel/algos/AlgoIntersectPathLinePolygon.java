@@ -140,6 +140,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);
 				GeoPoint aS = new GeoPoint(cons);
@@ -249,8 +250,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 					double t1 = lineCoords[0]; // parameter on line
 					double t2 = lineCoords[1]; // parameter on segment
 
-					if (checkParameter(t1) && onSegment(t2))// seg.respectLimitedPath(t2))
+					if (checkParameter(t1) && onSegment(t2)) {
 						addCoords(t1, project1, seg);
+					}
 
 				}
 			}
@@ -288,8 +290,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		if (g instanceof GeoSegment) {
 			newCoords.put(0.0, g.getStartPoint().getInhomCoordsInD2());
 			newCoords.put(1.0, g.getEndPoint().getInhomCoordsInD2());
-		} else if (g instanceof GeoRay)
+		} else if (g instanceof GeoRay) {
 			newCoords.put(0d, g.getStartPoint().getInhomCoordsInD2());
+		}
 	}
 
 	private Coords project = Coords.createInhomCoorsInD3();
@@ -316,8 +319,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 					double t1 = parameters[0];
 
-					if (checkParameter(t1))
+					if (checkParameter(t1)) {
 						addCoords(t1, project, geoPoint);
+					}
 				}
 			}
 		}
@@ -378,7 +382,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				b = points[i];
 				if (checkMidpoint(p, a, b)) {
 					if (startSegment == null)
+					 {
 						startSegment = a; // new start segment
+					}
 					endSegment = b; // extend segment to b
 				} else {
 					if (startSegment != null) {// add last correct segment
@@ -388,8 +394,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 					}
 				}
 			}
-			if (startSegment != null)// add last correct segment
+			if (startSegment != null) {
 				segmentList.add(new Coords[] { startSegment, endSegment });
+			}
 
 			// adjust segments output
 			if (segmentList.size() == 0) {

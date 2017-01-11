@@ -51,6 +51,7 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 		return Commands.BinomialDist;
 	}
 
+	@Override
 	protected void setInputOutput() {
 
 		input = new GeoElement[3];

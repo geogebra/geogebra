@@ -56,10 +56,11 @@ public class CmdLaTeX extends CommandProcessor {
 				return ret2;
 			}
 
-			else if (!arg[1].isGeoBoolean())
+			else if (!arg[1].isGeoBoolean()) {
 				throw argErr(app, c, arg[1]);
-			else
+			} else {
 				throw argErr(app, c, arg[2]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

@@ -35,6 +35,7 @@ public interface EuclidianViewInterfaceCommon
 	/**
 	 * Zooms around fixed point (px, py)
 	 */
+	@Override
 	public void zoom(double px, double py, double zoomFactor, int steps,
 			boolean storeUndo);
 
@@ -945,6 +946,7 @@ public interface EuclidianViewInterfaceCommon
 	/**
 	 * @return true if focused
 	 */
+	@Override
 	public boolean hasFocus();
 
 	/**
@@ -989,6 +991,7 @@ public interface EuclidianViewInterfaceCommon
 	 */
 	public void zoomAxesRatio(double newRatio, boolean storeUndo);
 
+	@Override
 	public EuclidianSettings getSettings();
 
 	/**

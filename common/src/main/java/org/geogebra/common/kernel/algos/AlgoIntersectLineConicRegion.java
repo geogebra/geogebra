@@ -77,15 +77,17 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 		// should change to a more dynamic version.
 		lines = new GeoLine[4];
 		lines[0] = (GeoLine) g.copyInternal(cons);
-		if (Double.isInfinite(tMin))
+		if (Double.isInfinite(tMin)) {
 			lines[1] = new GeoRay(cons);
-		else
+		} else {
 			lines[1] = new GeoSegment(cons);
+		}
 		lines[2] = new GeoSegment(cons);
-		if (Double.isInfinite(tMax))
+		if (Double.isInfinite(tMax)) {
 			lines[3] = new GeoRay(cons);
-		else
+		} else {
 			lines[3] = new GeoSegment(cons);
+		}
 
 		for (int i = 0; i < 4; i++) {
 			setOutputDependencies(lines[i]);
@@ -125,9 +127,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			lines[2].setUndefined();
 			lines[3].setUndefined();
 
-			if (!currentPartIsInRegion)
+			if (!currentPartIsInRegion) {
 				lines[0].setUndefined();
-			else {
+			} else {
 				lines[0].set(g);
 				numberOfOutputLines++;
 			}
@@ -147,9 +149,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					lines[1].changeSign();
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t))
+					if (Kernel.isGreater(tMin, t)) {
 						lines[1].setUndefined();
-					else {
+					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
 						numberOfOutputLines++;
 					}
@@ -164,9 +166,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					((GeoRay) lines[3]).set(Q[0], g);
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t))
+					if (Kernel.isGreater(tMin, t)) {
 						lines[1].setUndefined();
-					else {
+					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
 						numberOfOutputLines++;
 					}
@@ -188,9 +190,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t))
+					if (Kernel.isGreater(tMin, t)) {
 						lines[1].setUndefined();
-					else {
+					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
 						numberOfOutputLines++;
 					}
@@ -200,9 +202,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					((GeoRay) lines[3]).set(Q[0], g);
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t))
+					if (Kernel.isGreater(tMin, t)) {
 						lines[1].setUndefined();
-					else {
+					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
 						numberOfOutputLines++;
 					}
@@ -240,9 +242,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					lines[1].changeSign();
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t1))
+					if (Kernel.isGreater(tMin, t1)) {
 						lines[1].setUndefined();
-					else {
+					} else {
 						((GeoSegment) lines[1]).set(Q[j0], g.endPoint, g);
 						numberOfOutputLines++;
 					}
@@ -252,9 +254,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					((GeoRay) lines[3]).set(Q[j1], g);
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(t2, tMax))
+					if (Kernel.isGreater(t2, tMax)) {
 						lines[3].setUndefined();
-					else {
+					} else {
 						((GeoSegment) lines[3]).set(Q[j1], g.endPoint, g);
 						numberOfOutputLines++;
 					}
@@ -265,9 +267,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
 				// set line[2]
 
-				if (Kernel.isGreater(t1, tMax) || Kernel.isGreater(tMin, t2))
+				if (Kernel.isGreater(t1, tMax) || Kernel.isGreater(tMin, t2)) {
 					lines[2].setUndefined();
-				else {
+				} else {
 					((GeoSegment) lines[2]).set(
 							Kernel.isGreater(tMin, t1) ? g.startPoint : Q[j0],
 							Kernel.isGreater(t2, tMax) ? g.endPoint : Q[j1], g);
@@ -403,8 +405,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			break;
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			if (numberOfLineParts == 1) {
-				if (Kernel.isGreater(-g.z / ((g.x) * (g.x) + (g.y) * (g.y)), 0))
+				if (Kernel.isGreater(-g.z / ((g.x) * (g.x) + (g.y) * (g.y)), 0)) {
 					currentPartIsInRegion = true;
+				}
 			}
 			break;
 		default:

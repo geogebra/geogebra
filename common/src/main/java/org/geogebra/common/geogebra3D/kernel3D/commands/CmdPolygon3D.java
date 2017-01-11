@@ -33,10 +33,11 @@ public class CmdPolygon3D extends CmdPolygon {
 			// regular polygon with direction
 			if (arg[0].isGeoPoint() && arg[1].isGeoPoint()
 					&& arg[2] instanceof GeoNumberValue
-					&& arg[3] instanceof GeoDirectionND)
+					&& arg[3] instanceof GeoDirectionND) {
 				return regularPolygon(c.getLabels(), (GeoPointND) arg[0],
 						(GeoPointND) arg[1], (GeoNumberValue) arg[2],
 						(GeoDirectionND) arg[3]);
+			}
 		}
 
 		// use super method

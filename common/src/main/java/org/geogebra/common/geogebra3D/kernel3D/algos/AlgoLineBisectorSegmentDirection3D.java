@@ -83,9 +83,10 @@ public class AlgoLineBisectorSegmentDirection3D extends AlgoElement3D {
 	@Override
 	public String toString(StringTemplate tpl) {
 		// direction is plane
-		if (direction instanceof GeoCoordSys2D)
+		if (direction instanceof GeoCoordSys2D) {
 			return getLoc().getPlain("LineBisectorOfAParallelToB",
 					segment.getLabel(tpl), direction.getLabel(tpl));
+		}
 		// direction is line
 		return getLoc().getPlain("LineBisectorOfAPerpendicularToB",
 				segment.getLabel(tpl), direction.getLabel(tpl));

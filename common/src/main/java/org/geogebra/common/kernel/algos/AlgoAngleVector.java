@@ -42,12 +42,14 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 		angle.setValue(Math.atan2(coords[1], coords[0]));
 	}
 
+	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
 		if (vec.isGeoVector()) {
 			GeoPointND vertex = getStartPoint((GeoVector) vec);
-			if (vertex != null)
+			if (vertex != null) {
 				vertex.getInhomCoords(m);
+			}
 			return vertex != null && vertex.isDefined() && !vertex.isInfinite();
 		}
 		m[0] = 0;

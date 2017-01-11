@@ -120,18 +120,22 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 	/**
 	 * @return resulting tangent curve
 	 */
+	@Override
 	public GeoImplicit getTangentCurve() {
 		return tangentPoly;
 	}
 
+	@Override
 	public GeoElement getVec() {
 		return line.toGeoElement();
 	}
 
+	@Override
 	public boolean vecDefined() {
 		return line.isDefined();
 	}
 
+	@Override
 	public void getTangents(GeoPoint[] ip, OutputHandler<GeoLine> tangents) {
 		int n = 0;
 		GeoLine line2d = (GeoLine) line;
@@ -156,8 +160,9 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 					Kernel.STANDARD_PRECISION_SQRT)
 					&& Kernel.isEqual(0,
 							this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
-							Kernel.STANDARD_PRECISION_SQRT))
+							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
+			}
 
 			tangents.adjustOutputSize(n + 1);
 
@@ -172,6 +177,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 
 	}
 
+	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine l) {
 		// TODO Auto-generated method stub
 		return null;

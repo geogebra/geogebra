@@ -379,6 +379,7 @@ public abstract class GeoGebraTubeAPI {
 		HttpRequest req = createHttpRequest();
 		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
 
+			@Override
 			public void onSuccess(String response) {
 				ArrayList<Material> result = new ArrayList<Material>();
 				ArrayList<Chapter> meta = JSONParserGGT.prototype
@@ -387,6 +388,7 @@ public abstract class GeoGebraTubeAPI {
 
 			}
 
+			@Override
 			public void onError(String error) {
 				cb.onError(new Exception(error));
 

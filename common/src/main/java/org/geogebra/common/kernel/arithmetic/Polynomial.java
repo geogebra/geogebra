@@ -106,8 +106,9 @@ public class Polynomial {
 	 * @return true if this polynomial equals "1 var"
 	 */
 	boolean isVar(String var) {
-		if (length() != 1)
+		if (length() != 1) {
 			return false;
+		}
 		try {
 			Term t = terms.get(0);
 			return (t.getVars().equals(var) && t.getCoefficient().isConstant()
@@ -287,8 +288,9 @@ public class Polynomial {
 		// add all coefficients of the wanted variables
 		for (int i = 0; i < length(); i++) {
 			t = getTerm(i);
-			if (t.getVars().equals(variables))
+			if (t.getVars().equals(variables)) {
 				newTerm.addToCoefficient(t.coefficient, kernel);
+			}
 		}
 		return newTerm.coefficient;
 	}
@@ -378,8 +380,9 @@ public class Polynomial {
 	boolean contains(String var) {
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
-			if (i.next().contains(var))
+			if (i.next().contains(var)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -393,14 +396,16 @@ public class Polynomial {
 		int deg = 0;
 		int varLen;
 
-		if (terms.size() == 0)
+		if (terms.size() == 0) {
 			return -1;
+		}
 
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
 			varLen = i.next().degree();
-			if (varLen > deg)
+			if (varLen > deg) {
 				deg = varLen;
+			}
 		}
 		return deg;
 	}
@@ -413,14 +418,16 @@ public class Polynomial {
 	 * @return true if does not contain var
 	 */
 	public boolean isFreeOf(char var) {
-		if (terms.size() == 0)
+		if (terms.size() == 0) {
 			return true;
+		}
 
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
 			Term t = i.next();
-			if (t.degree(var) > 0)
+			if (t.degree(var) > 0) {
 				return false;
+			}
 		}
 
 		return true;
@@ -436,23 +443,27 @@ public class Polynomial {
 		int deg = 0;
 		int varLen;
 
-		if (terms.size() == 0)
+		if (terms.size() == 0) {
 			return -1;
+		}
 
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
 			Term t = i.next();
 			varLen = t.degree('x');
-			if (varLen > deg)
+			if (varLen > deg) {
 				deg = varLen;
+			}
 
 			varLen = t.degree('y');
-			if (varLen > deg)
+			if (varLen > deg) {
 				deg = varLen;
+			}
 
 			varLen = t.degree('z');
-			if (varLen > deg)
+			if (varLen > deg) {
 				deg = varLen;
+			}
 		}
 		return deg;
 	}
@@ -465,8 +476,9 @@ public class Polynomial {
 
 	private String toString(StringTemplate tpl) {
 		int size = terms.size();
-		if (size == 0)
+		if (size == 0) {
 			return null;
+		}
 
 		StringBuilder sb = new StringBuilder();
 		String termStr;

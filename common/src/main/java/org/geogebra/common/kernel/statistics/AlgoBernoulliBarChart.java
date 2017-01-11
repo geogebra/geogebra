@@ -55,6 +55,7 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 		return Commands.Bernoulli;
 	}
 
+	@Override
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
 		if (b != null) {

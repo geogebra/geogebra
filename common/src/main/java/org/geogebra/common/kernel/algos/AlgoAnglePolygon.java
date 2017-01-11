@@ -52,6 +52,7 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 	 * @param cons
 	 * @return helper algo
 	 */
+	@Override
 	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons) {
 		return new AlgoAnglePoints(cons);
 	}

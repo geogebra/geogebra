@@ -273,28 +273,32 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
 		algo2d.intersectConics(A2d, B2d, points2d);
 
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			P[i].setCoords(csA.getPoint(points2d[i].x, points2d[i].y), false);
+		}
 
 	}
 
 	private static void checkIsOnConic(GeoConicND B, GeoPoint3D p) {
-		if (!p.isDefined())
+		if (!p.isDefined()) {
 			return;
+		}
 
 		Coords pp = B.getCoordSys().getNormalProjection(p.getCoords())[1];
 		Coords pp2d = new Coords(3);
 		pp2d.setX(pp.getX());
 		pp2d.setY(pp.getY());
 		pp2d.setZ(pp.getW());
-		if (!B.isOnFullConic(pp2d, Kernel.MIN_PRECISION))
+		if (!B.isOnFullConic(pp2d, Kernel.MIN_PRECISION)) {
 			p.setUndefined();
+		}
 
 	}
 
 	private static void setPointsUndefined(GeoPoint3D[] P) {
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			P[i].setUndefined();
+		}
 
 	}
 

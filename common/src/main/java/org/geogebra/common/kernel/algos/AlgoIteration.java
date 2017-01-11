@@ -196,8 +196,9 @@ public class AlgoIteration extends AlgoElement {
 			return;
 		}
 		Log.debug(nGeo.isLabelSet() + "label");
-		if (updateRunning)
+		if (updateRunning) {
 			return;
+		}
 		updateRunning = true;
 
 		for (int i = 2; i < input.length - 1; i += 2) {
@@ -243,8 +244,9 @@ public class AlgoIteration extends AlgoElement {
 	}
 
 	private void updateListItems() {
-		if (isEmpty)
+		if (isEmpty) {
 			return;
+		}
 
 		int listSize = (int) Math.round(n.getDouble());
 

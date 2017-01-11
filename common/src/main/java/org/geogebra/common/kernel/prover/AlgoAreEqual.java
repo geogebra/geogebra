@@ -118,6 +118,7 @@ public class AlgoAreEqual extends AlgoElement
 		outputBoolean.setValue(inputElement1.isEqual(inputElement2));
 	}
 
+	@Override
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -308,8 +309,9 @@ public class AlgoAreEqual extends AlgoElement
 				n1 = (GeoNumeric) inputElement1;
 				if (inputElement2 instanceof GeoNumeric) {
 					n2 = (GeoNumeric) inputElement2;
-				} else
+				} else {
 					s = (GeoSegment) inputElement2;
+				}
 			} else {
 				n1 = (GeoNumeric) inputElement2;
 				s = (GeoSegment) inputElement1;

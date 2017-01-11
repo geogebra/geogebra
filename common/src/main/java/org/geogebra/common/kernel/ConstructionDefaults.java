@@ -567,12 +567,13 @@ public class ConstructionDefaults {
 			} else if (p.isIndependent()) {
 				type = DEFAULT_POINT_FREE;
 			} else {
-				if (p.hasPath())
+				if (p.hasPath()) {
 					type = DEFAULT_POINT_ON_PATH;
-				else if (p.hasRegion())
+				} else if (p.hasRegion()) {
 					type = DEFAULT_POINT_IN_REGION;
-				else
+				} else {
 					type = DEFAULT_POINT_DEPENDENT;
+				}
 			}
 			break;
 
@@ -742,8 +743,9 @@ public class ConstructionDefaults {
 			} else {
 				geo.setAllVisualProperties(defaultGeo, isReset);
 			}
-			if (geo instanceof GeoFunction)
+			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
+			}
 
 			if (!isReset) {
 				// set to highest used layer

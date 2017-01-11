@@ -149,8 +149,9 @@ public class AlgoZip extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (updateRunning)
+		if (updateRunning) {
 			return;
+		}
 		updateRunning = true;
 		// only set undefined when some *input list* is undefined
 		for (int i = 2; i < input.length; i += 2) {
@@ -182,10 +183,11 @@ public class AlgoZip extends AlgoElement {
 		cons.setSuppressLabelCreation(true);
 
 		// update list
-		if (setValuesOnly)
+		if (setValuesOnly) {
 			updateListItems();
-		else
+		} else {
 			createNewList();
+		}
 
 		// revert label creation setting
 		cons.setSuppressLabelCreation(oldSuppressLabels);
@@ -287,8 +289,9 @@ public class AlgoZip extends AlgoElement {
 			// GeoFunction
 			if (listElement instanceof CasEvaluableFunction) {
 				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
-				for (int i = 0; i < varCount; i++)
+				for (int i = 0; i < varCount; i++) {
 					f.replaceChildrenByValues(vars[i]);
+				}
 			}
 		}
 
@@ -296,8 +299,9 @@ public class AlgoZip extends AlgoElement {
 	}
 
 	private void updateListItems() {
-		if (isEmpty)
+		if (isEmpty) {
 			return;
+		}
 
 		int currentVal = 0;
 
@@ -326,8 +330,9 @@ public class AlgoZip extends AlgoElement {
 								.replaceChildrenByValues(vars[j]);
 					}
 				}
-			} else
+			} else {
 				listElement.setUndefined();
+			}
 			copyDrawAlgo(listElement);
 			listElement.update();
 
@@ -355,9 +360,11 @@ public class AlgoZip extends AlgoElement {
 
 	private int minOverSize() {
 		int min = over[0].size();
-		for (int i = 1; i < listCount; i++)
-			if (over[i].size() < min)
+		for (int i = 1; i < listCount; i++) {
+			if (over[i].size() < min) {
 				min = over[i].size();
+			}
+		}
 		return min;
 	}
 
@@ -367,8 +374,9 @@ public class AlgoZip extends AlgoElement {
 	 */
 	private void updateLocalVar(int index) {
 		// set local variable to given value
-		for (int i = 0; i < listCount; i++)
+		for (int i = 0; i < listCount; i++) {
 			vars[i].set(over[i].get(index));
+		}
 		if (varCount > listCount) {
 			((GeoNumeric) vars[varCount - 1]).setValue(index + 1);
 		}
@@ -377,8 +385,9 @@ public class AlgoZip extends AlgoElement {
 		if (expressionParentAlgo != null) {
 			// update all dependent algorithms of the local variable var
 			this.setStopUpdateCascade(true);
-			for (int i = 0; i < listCount; i++)
+			for (int i = 0; i < listCount; i++) {
 				vars[i].getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
+			}
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
 		}

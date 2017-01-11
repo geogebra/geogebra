@@ -43,12 +43,14 @@ public class UniformInOut<V, E> implements Transformer<VEPair<V, E>, Double> {
 	 * @see org.apache.commons.collections15.Transformer#transform(Object)
 	 * @throws IllegalArgumentException
 	 */
+	@Override
 	public Double transform(VEPair<V, E> ve_pair) {
 		V v = ve_pair.getV();
 		E e = ve_pair.getE();
-		if (graph.getEdgeType(e) != EdgeType.DIRECTED)
+		if (graph.getEdgeType(e) != EdgeType.DIRECTED) {
 			throw new IllegalArgumentException(
 					"This transformer only" + " operates on directed edges");
+		}
 		return 1.0 / (graph.isSource(v, e) ? graph.outDegree(v)
 				: graph.inDegree(v));
 	}

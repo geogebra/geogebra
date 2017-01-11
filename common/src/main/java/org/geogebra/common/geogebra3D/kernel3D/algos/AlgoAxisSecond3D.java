@@ -25,6 +25,7 @@ public class AlgoAxisSecond3D extends AlgoAxisSecond {
 		P.setCoords(getConic().getMidpoint3D(), false);
 	}
 
+	@Override
 	public GeoLineND getAxis() {
 		return axis;
 	}

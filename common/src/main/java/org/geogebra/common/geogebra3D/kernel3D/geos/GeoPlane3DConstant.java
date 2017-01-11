@@ -84,11 +84,13 @@ public class GeoPlane3DConstant extends GeoPlane3D
 		return false;
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// TODO Auto-generated method stub
@@ -113,6 +115,7 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	private boolean gridVisible;
 
 	/** returns if there is a grid to plot or not */
+	@Override
 	public boolean isGridVisible() {
 		return gridVisible && isEuclidianVisible();
 	}

@@ -95,18 +95,21 @@ public class DrawIntegral extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(n);
 		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
-				|| isCasObject)
+				|| isCasObject) {
 			init();
+		}
 
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		else
+		} else {
 			gp.reset();
+		}
 
 		// init gp
 		double aRW = Math.min(a.getDouble(), b.getDouble());
@@ -116,12 +119,14 @@ public class DrawIntegral extends Drawable {
 		// these changes are needed (also filter out out of screen integrals)
 		// see #1234
 		aRW = Math.max(aRW, view.getXmin() - EuclidianStatic.CLIP_DISTANCE);
-		if (aRW > view.getXmax() + EuclidianStatic.CLIP_DISTANCE)
+		if (aRW > view.getXmax() + EuclidianStatic.CLIP_DISTANCE) {
 			return;
+		}
 
 		bRW = Math.min(bRW, view.getXmax() + EuclidianStatic.CLIP_DISTANCE);
-		if (bRW < view.getXmin() - EuclidianStatic.CLIP_DISTANCE)
+		if (bRW < view.getXmin() - EuclidianStatic.CLIP_DISTANCE) {
 			return;
+		}
 
 		double ax = view.toScreenCoordXd(aRW);
 		double bx = view.toScreenCoordXd(bRW);

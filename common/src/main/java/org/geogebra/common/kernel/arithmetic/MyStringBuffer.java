@@ -74,18 +74,22 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return temp.toString();
 	}
 
+	@Override
 	public void resolveVariables(EvalInfo info) {
 		// MyStringBuffer never has variables
 	}
 
+	@Override
 	public boolean isConstant() {
 		return true;
 	}
 
+	@Override
 	public boolean isLeaf() {
 		return true;
 	}
 
+	@Override
 	public boolean isNumberValue() {
 		return false;
 	}
@@ -100,6 +104,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return getText();
 	}
 
+	@Override
 	public HashSet<GeoElement> getVariables() {
 		return null;
 	}
@@ -109,6 +114,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb.toString();
 	}
 
+	@Override
 	final public String toOutputValueString(StringTemplate tpl) {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
 		if (tpl.isMathQuill()) {
@@ -123,14 +129,17 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb2.toString();
 	}
 
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return sb.toString();
 	}
 
+	@Override
 	public MyStringBuffer getText() {
 		return new MyStringBuffer(kernel, sb.toString());
 	}
 
+	@Override
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
@@ -152,6 +161,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return ValueType.TEXT;
 	}
 
+	@Override
 	public String getTextString() {
 		return sb.toString();
 	}

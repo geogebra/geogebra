@@ -93,7 +93,7 @@ public abstract class GeoGebraExport {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
-		this.euclidianView = (EuclidianView) app.getActiveEuclidianView();
+		this.euclidianView = app.getActiveEuclidianView();
 		this.tpl = StringTemplate.printFigures(StringType.PSTRICKS, 12, false);
 		initBounds();
 	}
@@ -212,8 +212,9 @@ public abstract class GeoGebraExport {
 		// StringTokenizer st = new StringTokenizer(s, "e");
 		StringBuilder number;
 		int posE = s.indexOf("e");
-		if (posE == -1)
+		if (posE == -1) {
 			return s;
+		}
 		String token1 = s.substring(0, posE);
 		String token2 = s.substring(posE + 1);
 		number = new StringBuilder(token1);
@@ -221,20 +222,23 @@ public abstract class GeoGebraExport {
 		if (exp > 0) {
 			int id_point = number.indexOf(".");
 			if (id_point == -1) {
-				for (int i = 0; i < exp; i++)
+				for (int i = 0; i < exp; i++) {
 					number.append("0");
+				}
 			} else {
 				number.deleteCharAt(id_point);
 				int zeros = exp - (number.length() - id_point);
-				for (int i = 0; i < zeros; i++)
+				for (int i = 0; i < zeros; i++) {
 					number.append("0");
+				}
 			}
 		} else {
 			exp = -exp;
 			int id_point = number.indexOf(".");
 			number.deleteCharAt(id_point);
-			for (int i = 0; i < exp - 1; i++)
+			for (int i = 0; i < exp - 1; i++) {
 				number.insert(0, "0");
+			}
 			number.insert(0, "0.");
 		}
 		return number.toString();
@@ -342,18 +346,16 @@ public abstract class GeoGebraExport {
 					drawBoxPlot((GeoNumeric) g);
 				} else if (algo instanceof AlgoFunctionAreaSums) {
 					// Trapezoidal Sum
-					if (algo instanceof AlgoSumTrapezoidal)
+					if (algo instanceof AlgoSumTrapezoidal) {
 						drawSumTrapezoidal((GeoNumeric) g);
-
-					// Histogram
-					else if (algo instanceof AlgoHistogram)
+					} else if (algo instanceof AlgoHistogram) {
 						drawBarChartOrHistogram((GeoNumeric) g);
-					// Lower or Upper Sum, Left Sum or Rectangle Sum
-					else if (algo instanceof AlgoSumUpper
+					} else if (algo instanceof AlgoSumUpper
 							|| algo instanceof AlgoSumLower
 							|| algo instanceof AlgoSumLeft
-							|| algo instanceof AlgoSumRectangle)
+							|| algo instanceof AlgoSumRectangle) {
 						drawSumUpperLower((GeoNumeric) g);
+					}
 					drawLabel(g, null);
 				}
 				// Bar Chart
@@ -368,8 +370,9 @@ public abstract class GeoGebraExport {
 				GeoConicPart geo = (GeoConicPart) g;
 				drawGeoConicPart(geo);
 				if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC
-						|| geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR)
+						|| geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 					drawLabel(g, null);
+				}
 			} else if (g instanceof GeoConic) {
 				if (isSinglePointConic(g)) {
 					GeoConic geo = (GeoConic) g;
@@ -447,8 +450,9 @@ public abstract class GeoGebraExport {
 	protected boolean isSinglePointConic(GeoElement geo) {
 		if (geo.isGeoConic()) {
 			if (((GeoConic) geo)
-					.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT)
+					.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -460,16 +464,18 @@ public abstract class GeoGebraExport {
 					|| ((GeoConic) geo)
 							.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES
 					|| ((GeoConic) geo)
-							.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES)
+							.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	protected boolean isEmpty(GeoElement geo) {
 		if (geo.isGeoConic()) {
-			if (((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_EMPTY)
+			if (((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_EMPTY) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -479,8 +485,9 @@ public abstract class GeoGebraExport {
 		double height_latex = frame.getLatexHeight();
 		double ratio = height_latex / height_geogebra;
 		int tmp = (int) Math.round(ratio * size);
-		if (tmp != 0)
+		if (tmp != 0) {
 			return tmp;
+		}
 		return 1;
 	}
 
@@ -1216,10 +1223,11 @@ public abstract class GeoGebraExport {
 				|| euclidianView.getShowXaxis()
 				|| euclidianView.getShowYaxis());
 		for (int step = 0; step < construction.steps(); step++) {
-			if (increment)
+			if (increment) {
 				beamerSlideNumber = step + 2;
-			else
+			} else {
 				beamerSlideNumber = step + 1;
+			}
 			GeoElementND[] geos = construction.getConstructionElement(step)
 					.getGeoElements();
 			for (int j = 0; j < geos.length; j++) {
@@ -1236,29 +1244,33 @@ public abstract class GeoGebraExport {
 				|| euclidianView.getShowXaxis()
 				|| euclidianView.getShowYaxis());
 		for (int step = 0; step < construction.steps(); step++) {
-			if (increment)
+			if (increment) {
 				beamerSlideNumber = step + 2;
-			else
+			} else {
 				beamerSlideNumber = step + 1;
+			}
 			GeoElementND[] geos = construction.getConstructionElement(step)
 					.getGeoElements();
 			for (int j = 0; j < geos.length; j++) {
 				GeoElement g = geos[j].toGeoElement();
-				if (g.isIndependent())
+				if (g.isIndependent()) {
 					drawGeoElement(g, false, false);
+				}
 			}
 		}
 
 	}
 
 	protected void startBeamer(StringBuilder sb) {
-		if (isBeamer)
+		if (isBeamer) {
 			sb.append("\\onslide<" + beamerSlideNumber + "->{\n  ");
+		}
 	}
 
 	protected void endBeamer(StringBuilder sb) {
-		if (isBeamer)
+		if (isBeamer) {
 			sb.append("}\n");
+		}
 	}
 
 	protected void resizeFont(StringBuilder sb) {
@@ -1276,68 +1288,71 @@ public abstract class GeoGebraExport {
 		int sizept = (int) (sizeCM / 2.54 * 72.27 + 0.5);
 		int texSize = frame.getFontSize();
 		if (texSize == 10) {
-			if (sizept <= 5)
+			if (sizept <= 5) {
 				sb.append("\\tiny{");
-			else if (sizept <= 7)
+			} else if (sizept <= 7) {
 				sb.append("\\scriptsize{");
-			else if (sizept == 8)
+			} else if (sizept == 8) {
 				sb.append("\\footnotesize{");
-			else if (sizept == 9)
+			} else if (sizept == 9) {
 				sb.append("\\small{");
-			else if (sizept == 10)
+			} else if (sizept == 10) {
 				sb.append("\\normalsize{");
-			else if (sizept <= 12)
+			} else if (sizept <= 12) {
 				sb.append("\\large{");
-			else if (sizept <= 14)
+			} else if (sizept <= 14) {
 				sb.append("\\Large{");
-			else if (sizept <= 17)
+			} else if (sizept <= 17) {
 				sb.append("\\LARGE{");
-			else if (sizept <= 20)
+			} else if (sizept <= 20) {
 				sb.append("\\huge{");
-			else
+			} else {
 				sb.append("\\Huge{");
+			}
 		} else if (texSize == 11) {
-			if (sizept <= 6)
+			if (sizept <= 6) {
 				sb.append("\\tiny{");
-			else if (sizept <= 8)
+			} else if (sizept <= 8) {
 				sb.append("\\scriptsize{");
-			else if (sizept == 9)
+			} else if (sizept == 9) {
 				sb.append("\\footnotesize{");
-			else if (sizept == 10)
+			} else if (sizept == 10) {
 				sb.append("\\small{");
-			else if (sizept == 11)
+			} else if (sizept == 11) {
 				sb.append("\\normalsize{");
-			else if (sizept == 12)
+			} else if (sizept == 12) {
 				sb.append("\\large{");
-			else if (sizept <= 14)
+			} else if (sizept <= 14) {
 				sb.append("\\Large{");
-			else if (sizept <= 17)
+			} else if (sizept <= 17) {
 				sb.append("\\LARGE{");
-			else if (sizept <= 20)
+			} else if (sizept <= 20) {
 				sb.append("\\huge{");
-			else
+			} else {
 				sb.append("\\Huge{");
+			}
 		} else if (texSize == 12) {
-			if (sizept <= 6)
+			if (sizept <= 6) {
 				sb.append("\\tiny{");
-			else if (sizept <= 8)
+			} else if (sizept <= 8) {
 				sb.append("\\scriptsize{");
-			else if (sizept <= 10)
+			} else if (sizept <= 10) {
 				sb.append("\\footnotesize{");
-			else if (sizept == 11)
+			} else if (sizept == 11) {
 				sb.append("\\small{");
-			else if (sizept == 12)
+			} else if (sizept == 12) {
 				sb.append("\\normalsize{");
-			else if (sizept <= 14)
+			} else if (sizept <= 14) {
 				sb.append("\\large{");
-			else if (sizept <= 17)
+			} else if (sizept <= 17) {
 				sb.append("\\Large{");
-			else if (sizept <= 20)
+			} else if (sizept <= 20) {
 				sb.append("\\LARGE{");
-			else if (sizept <= 25)
+			} else if (sizept <= 25) {
 				sb.append("\\huge{");
-			else
+			} else {
 				sb.append("\\Huge{");
+			}
 		}
 	}
 
@@ -1350,8 +1365,9 @@ public abstract class GeoGebraExport {
 				double tmp = coeff[i][j];
 				if (tmp != 0) {
 					if (tmp > 0) {
-						if (!first)
+						if (!first) {
 							sb.append("+");
+						}
 					}
 					sb.append(tmp);
 					if (i == 0) {
@@ -1386,17 +1402,20 @@ public abstract class GeoGebraExport {
 		StringBuilder lineBuilder = new StringBuilder();
 		double y = geo.evaluate(xrangemin);
 		double yprec = y;
-		if (Math.abs(y) < 0.001)
+		if (Math.abs(y) < 0.001) {
 			y = yprec = 0;
+		}
 		double step = (xrangemax - xrangemin) / point;
 		double xprec = xrangemin;
 		double x = xprec;
 		for (; x <= xrangemax; x += step) {
 			y = geo.evaluate(x);
-			if (Math.abs(y) < 0.001)
+			if (Math.abs(y) < 0.001) {
 				y = 0;
-			if (Math.abs(x) < 0.001)
+			}
+			if (Math.abs(x) < 0.001) {
 				x = 0;
+			}
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
 				if (CurvePlotter.isContinuous(curve, xprec, x, 8)) {
 					lineBuilder.append(
@@ -1610,7 +1629,7 @@ public abstract class GeoGebraExport {
 			boolean fill = fillSpline(curves);
 			if (!fill) {
 				for (int i = 0; i < curves.length; i++) {
-					drawSingleCurveCartesian((GeoCurveCartesian) curves[i],
+					drawSingleCurveCartesian(curves[i],
 							true);
 				}
 			}
@@ -1644,8 +1663,9 @@ public abstract class GeoGebraExport {
 		while (x <= b) {
 			double y = f.evaluate(x);
 			if (Double.isNaN(y)) {
-				if (step1 < PRECISION_XRANGE_FUNCTION)
+				if (step1 < PRECISION_XRANGE_FUNCTION) {
 					return x - step1;
+				}
 				return maxDefinedValue(f, x - step1, x);
 			}
 			x += step1;

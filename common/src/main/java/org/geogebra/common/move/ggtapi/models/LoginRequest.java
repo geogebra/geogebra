@@ -30,6 +30,7 @@ public class LoginRequest implements Request {
 		this.password = password;
 	}
 
+	@Override
 	public String toJSONString(ClientInfo app) {
 
 		try {

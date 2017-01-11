@@ -104,9 +104,9 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 			if (geoElem instanceof GeoPlane3D) {
 				setPlane();
 			} else {
-				if (geoElem.hasChildren())
+				if (geoElem.hasChildren()) {
 					geoElem.setUndefined();
-				else {
+				} else {
 					replaceGeoElement(new GeoPlane3D(getConstruction()));
 					setPlane();
 				}
@@ -117,9 +117,9 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 			if (geoElem instanceof GeoQuadric3D) {
 				setQuadric();
 			} else {
-				if (geoElem.hasChildren())
+				if (geoElem.hasChildren()) {
 					geoElem.setUndefined();
-				else {
+				} else {
 					replaceGeoElement(new GeoQuadric3D(getConstruction()));
 					setQuadric();
 				}
@@ -129,9 +129,9 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 			if (geoElem instanceof GeoImplicit) {
 				((GeoImplicitSurface) geoElem).updateSurface();
 			} else {
-				if (geoElem.hasChildren())
+				if (geoElem.hasChildren()) {
 					geoElem.setUndefined();
-				else {
+				} else {
 					replaceGeoElement(
 							new GeoImplicitSurface(getConstruction()));
 					((GeoImplicitSurface) geoElem).fromEquation(equation);

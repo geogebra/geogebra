@@ -97,8 +97,9 @@ public class AlgoRemove extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		geosToRemove.clear();
 		int undefinedToRemove = 0;

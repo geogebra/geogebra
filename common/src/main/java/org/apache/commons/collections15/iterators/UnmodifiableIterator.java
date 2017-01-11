@@ -70,14 +70,17 @@ public final class UnmodifiableIterator<E>
 	}
 
 	// -----------------------------------------------------------------------
+	@Override
 	public boolean hasNext() {
 		return iterator.hasNext();
 	}
 
+	@Override
 	public E next() {
 		return iterator.next();
 	}
 
+	@Override
 	public void remove() {
 		throw new UnsupportedOperationException("remove() is not supported");
 	}

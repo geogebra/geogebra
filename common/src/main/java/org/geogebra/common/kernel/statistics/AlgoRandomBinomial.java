@@ -47,9 +47,9 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 		// Application.debug(frac[0]+" "+frac[1]);
 
 		if (input[0].isDefined() && input[1].isDefined()) {
-			if (b.getDouble() < 0)
+			if (b.getDouble() < 0) {
 				num.setUndefined();
-			else {
+			} else {
 				// disabled randomBinomialTRS() as it doesn't work well
 				// eg when p is near 0.5
 				// http://www.geogebra.org/forum/viewtopic.php?f=8&t=18685
@@ -59,10 +59,12 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 						randomBinomial((int) a.getDouble(), b.getDouble()));
 			}
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 		d = Math.round(Kernel.checkInteger(d));
 
@@ -77,8 +79,9 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 
 		int count = 0;
 		for (int i = 0; i < n; i++) {
-			if (kernel.getApplication().getRandomNumber() < p)
+			if (kernel.getApplication().getRandomNumber() < p) {
 				count++;
+			}
 		}
 
 		return count;

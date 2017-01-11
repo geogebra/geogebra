@@ -27,8 +27,9 @@ public class CmdRandomDiscrete extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 
-		if (n != 2)
+		if (n != 2) {
 			throw argNumErr(app, c, n);
+		}
 
 		if (!arg[0].isGeoList()) {
 			throw argErr(arg[0], c);

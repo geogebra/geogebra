@@ -91,8 +91,9 @@ public abstract class AbstractIterativeScorerWithPriors<V, E, S>
 		// initialize output values to priors
 		// (output and current are swapped before each step(), so current will
 		// have priors when update()s start happening)
-		for (V v : graph.getVertices())
+		for (V v : graph.getVertices()) {
 			setOutputValue(v, getVertexPrior(v));
+		}
 	}
 
 	/**

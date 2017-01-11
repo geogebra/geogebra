@@ -53,10 +53,12 @@ public class Combinations implements Iterator<Object> {
 		list = set.toArray();
 	}
 
+	@Override
 	public boolean hasNext() {
 		return !done;
 	}
 
+	@Override
 	public Set<Object> next() {
 		Set<Object> ret = new HashSet<Object>();
 		for (int i = 0; i < r; ++i) {
@@ -88,6 +90,7 @@ public class Combinations implements Iterator<Object> {
 		return false;
 	}
 
+	@Override
 	public void remove() {
 		// TODO Auto-generated method stub
 

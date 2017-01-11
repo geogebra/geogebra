@@ -99,9 +99,11 @@ public class VertexPartition<V, E> {
 	public Map<V, Set<V>> getVertexToPartitionMap() {
 		if (vertex_partition_map == null) {
 			this.vertex_partition_map = new HashMap<V, Set<V>>();
-			for (Set<V> set : this.vertex_sets)
-				for (V v : set)
+			for (Set<V> set : this.vertex_sets) {
+				for (V v : set) {
 					this.vertex_partition_map.put(v, set);
+				}
+			}
 		}
 		return vertex_partition_map;
 	}

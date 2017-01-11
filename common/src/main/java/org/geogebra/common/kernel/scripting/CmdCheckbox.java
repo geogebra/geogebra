@@ -45,8 +45,9 @@ public class CmdCheckbox extends CommandProcessor {
 			}
 			if (arg[1].isGeoList()) {
 				geosToHide = (GeoList) arg[1];
-			} else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 			break;
 		case 1:
 			arg = resArgs(c);
@@ -54,8 +55,9 @@ public class CmdCheckbox extends CommandProcessor {
 				caption = ((GeoText) arg[0]).getTextString();
 			} else if (arg[0].isGeoList()) {
 				geosToHide = (GeoList) arg[0];
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 			break;
 		case 0:
 			break;
@@ -91,10 +93,11 @@ public class CmdCheckbox extends CommandProcessor {
 		}
 		try {
 
-			if (geosToHide != null)
+			if (geosToHide != null) {
 				for (int i = 0; i < geosToHide.size(); i++) {
 					geosToHide.get(i).setShowObjectCondition(gb);
 				}
+			}
 		} catch (CircularDefinitionException e) {
 			app.showError("CircularDefinition");
 		}

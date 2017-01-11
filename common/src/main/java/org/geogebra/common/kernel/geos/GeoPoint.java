@@ -253,15 +253,19 @@ public class GeoPoint extends GeoVec3D
 		pathParameter = null;
 	}
 
+	@Override
 	final public PathParameter getPathParameter() {
-		if (pathParameter == null)
+		if (pathParameter == null) {
 			pathParameter = new PathParameter(0);
+		}
 		return pathParameter;
 	}
 
+	@Override
 	final public RegionParameters getRegionParameters() {
-		if (regionParameters == null)
+		if (regionParameters == null) {
 			regionParameters = new RegionParameters();
+		}
 		return regionParameters;
 	}
 
@@ -302,6 +306,7 @@ public class GeoPoint extends GeoVec3D
 		set(geo, true);
 	}
 
+	@Override
 	public void set(GeoElementND geo, boolean macroFeedback) {
 		this.isDefined = geo.isDefined();
 		if (geo.isGeoPoint()) {
@@ -337,10 +342,12 @@ public class GeoPoint extends GeoVec3D
 	 * void initSetLabelVisible() { setLabelVisible(true); }
 	 */
 
+	@Override
 	public void setPointSize(int i) {
 		pointSize = i;
 	}
 
+	@Override
 	public int getPointSize() {
 		return pointSize;
 	}
@@ -349,6 +356,7 @@ public class GeoPoint extends GeoVec3D
 	 * @author Florian Sonner
 	 * @version 2008-07-17
 	 */
+	@Override
 	final public int getPointStyle() {
 		return pointStyle;
 	}
@@ -359,12 +367,14 @@ public class GeoPoint extends GeoVec3D
 	 * @param style
 	 *            the new style to use
 	 */
+	@Override
 	public void setPointStyle(int style) {
 
-		if (style > -1 && style <= EuclidianStyleConstants.MAX_POINT_STYLE)
+		if (style > -1 && style <= EuclidianStyleConstants.MAX_POINT_STYLE) {
 			pointStyle = style;
-		else
+		} else {
 			pointStyle = -1;
+		}
 
 	}
 
@@ -402,8 +412,9 @@ public class GeoPoint extends GeoVec3D
 			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
 		Coords endPosition = targetPosition;
-		if (!hasChangeableCoordParentNumbers())
+		if (!hasChangeableCoordParentNumbers()) {
 			return false;
+		}
 
 		if (endPosition == null) {
 			endPosition = getInhomCoords().add(rwTransVec);
@@ -441,17 +452,20 @@ public class GeoPoint extends GeoVec3D
 					// use angle value closest to closest border
 					double minDiff = Math.abs(
 							(angle - ((GeoNumeric) yvar).getIntervalMin()));
-					if (minDiff > Math.PI)
+					if (minDiff > Math.PI) {
 						minDiff = Kernel.PI_2 - minDiff;
+					}
 					double maxDiff = Math.abs(
 							(angle - ((GeoNumeric) yvar).getIntervalMax()));
-					if (maxDiff > Math.PI)
+					if (maxDiff > Math.PI) {
 						maxDiff = Kernel.PI_2 - maxDiff;
+					}
 
-					if (minDiff < maxDiff)
+					if (minDiff < maxDiff) {
 						angle = angle - Kernel.PI_2;
-					else
+					} else {
 						angle = angle + Kernel.PI_2;
+					}
 				}
 				((GeoNumeric) yvar).setValue(angle);
 			}
@@ -519,8 +533,9 @@ public class GeoPoint extends GeoVec3D
 		NumberValue num1 = coords.get(0);
 		NumberValue num2 = coords.get(1);
 
-		if (num1 == null && num2 == null)
+		if (num1 == null && num2 == null) {
 			return false;
+		}
 
 		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
 			GeoElement maxObj1 = GeoElement
@@ -531,14 +546,18 @@ public class GeoPoint extends GeoVec3D
 					.as(((GeoNumeric) num1).getIntervalMinObject());
 			GeoElement minObj2 = GeoElement
 					.as(((GeoNumeric) num2).getIntervalMinObject());
-			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2))
+			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2)) {
 				return false;
-			if (minObj1 != null && minObj1.isChildOrEqual((GeoElement) num2))
+			}
+			if (minObj1 != null && minObj1.isChildOrEqual((GeoElement) num2)) {
 				return false;
-			if (maxObj2 != null && maxObj2.isChildOrEqual((GeoElement) num1))
+			}
+			if (maxObj2 != null && maxObj2.isChildOrEqual((GeoElement) num1)) {
 				return false;
-			if (minObj2 != null && minObj2.isChildOrEqual((GeoElement) num1))
+			}
+			if (minObj2 != null && minObj2.isChildOrEqual((GeoElement) num1)) {
 				return false;
+			}
 		}
 
 		boolean ret = (num1 instanceof GeoNumeric
@@ -635,10 +654,12 @@ public class GeoPoint extends GeoVec3D
 		return isPointOnPath() && isChangeable();
 	}
 
+	@Override
 	public boolean hasPath() {
 		return path != null;
 	}
 
+	@Override
 	final public Path getPath() {
 		return path;
 	}
@@ -647,6 +668,7 @@ public class GeoPoint extends GeoVec3D
 	 * @param p
 	 *            path restricting this point
 	 */
+	@Override
 	public void setPath(Path p) {
 		path = p;
 		// tell conic that this point is on it, that's needed to handle
@@ -685,6 +707,7 @@ public class GeoPoint extends GeoVec3D
 		return isInfinite;
 	}
 
+	@Override
 	final public boolean isFinite() {
 		return isDefined && !isInfinite;
 	}
@@ -716,6 +739,7 @@ public class GeoPoint extends GeoVec3D
 		super.setUndefined();
 	}
 
+	@Override
 	public void setCoords2D(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
@@ -808,11 +832,12 @@ public class GeoPoint extends GeoVec3D
 		}
 	}
 
+	@Override
 	public void setCoords(Coords v, boolean doPathOrRegion) {
 
-		if (doPathOrRegion)
+		if (doPathOrRegion) {
 			setCoords(v.getX(), v.getY(), v.getLast());
-		else {
+		} else {
 			// set coordinates
 			this.x = v.getX();
 			this.y = v.getY();
@@ -830,6 +855,7 @@ public class GeoPoint extends GeoVec3D
 		return tempPathParameter;
 	}
 
+	@Override
 	final public void updateCoords() {
 		// infinite point
 		// #5202
@@ -917,8 +943,9 @@ public class GeoPoint extends GeoVec3D
 	 */
 	final public boolean isEqual(GeoElement geo, double eps) {
 
-		if (!geo.isGeoPoint())
+		if (!geo.isGeoPoint()) {
 			return false;
+		}
 
 		if (geo.isGeoElement3D()) {
 			return geo.isEqual(this); // do the 3D test
@@ -928,6 +955,7 @@ public class GeoPoint extends GeoVec3D
 
 	}
 
+	@Override
 	public boolean isEqualPointND(GeoPointND geo) {
 		if (geo.isGeoElement3D()) {
 			return geo.isEqualPointND(this); // do the 3D test
@@ -938,17 +966,19 @@ public class GeoPoint extends GeoVec3D
 
 	private boolean isEqualPoint2D(GeoPoint P) {
 
-		if (!(isDefined() && P.isDefined()))
+		if (!(isDefined() && P.isDefined())) {
 			return false;
+		}
 
 		// both finite
 		if (isFinite() && P.isFinite()) {
 			return Kernel.isEqual(inhomX, P.inhomX)
 					&& Kernel.isEqual(inhomY, P.inhomY);
-		} else if (isInfinite() && P.isInfinite())
+		} else if (isInfinite() && P.isInfinite()) {
 			return linDep(P);
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -974,6 +1004,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * @return inhomogeneous X
 	 */
+	@Override
 	final public double getInhomX() {
 		return inhomX;
 	}
@@ -981,6 +1012,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * @return inhomogeneous Y
 	 */
+	@Override
 	final public double getInhomY() {
 		return inhomY;
 	}
@@ -988,10 +1020,12 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * @return inhomogeneous Z (in 3D space)
 	 */
+	@Override
 	final public double getInhomZ() {
 		return 0;
 	}
 
+	@Override
 	final public double[] vectorTo(GeoPointND QI) {
 		GeoPoint Q = (GeoPoint) QI;
 		return new double[] { Q.getInhomX() - getInhomX(),
@@ -1240,6 +1274,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * translate by vector v
 	 */
+	@Override
 	final public void translate(Coords v) {
 		setCoords(x + v.getX() * z, y + v.getY() * z, z);
 	}
@@ -1252,6 +1287,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * dilate from S by r
 	 */
+	@Override
 	final public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double temp = (1 - r);
@@ -1271,6 +1307,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * rotate this point by angle phi around (0,0)
 	 */
+	@Override
 	final public void rotate(NumberValue phiValue) {
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -1282,6 +1319,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * rotate this point by angle phi around Q
 	 */
+	@Override
 	final public void rotate(NumberValue phiValue, Coords point) {
 		Coords Q = point;
 		double phi = phiValue.getDouble();
@@ -1294,6 +1332,7 @@ public class GeoPoint extends GeoVec3D
 				(x - qx) * sin + (y - qy) * cos + qy, z);
 	}
 
+	@Override
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
 		rotate(phiValue, point.getInhomCoords());
 	}
@@ -1301,6 +1340,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * mirror this point at point Q
 	 */
+	@Override
 	final public void mirror(Coords Q) {
 		double qx = z * Q.getX();
 		double qy = z * Q.getY();
@@ -1311,6 +1351,7 @@ public class GeoPoint extends GeoVec3D
 	/*
 	 * Michael Borcherds 2008-02-10 Invert point in circle
 	 */
+	@Override
 	final public void mirror(GeoConic c) {
 		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 			// Mirror point in circle
@@ -1318,9 +1359,9 @@ public class GeoPoint extends GeoVec3D
 			GeoVec2D midpoint = (c.getTranslationVector());
 			double a = midpoint.getX();
 			double b = midpoint.getY();
-			if (Double.isInfinite(x) || Double.isInfinite(y2D))
+			if (Double.isInfinite(x) || Double.isInfinite(y2D)) {
 				setCoords(a, b, 1.0);
-			else {
+			} else {
 				double sf = r * r / ((inhomX - a) * (inhomX - a)
 						+ (inhomY - b) * (inhomY - b));
 				setCoords(a + sf * (inhomX - a), b + sf * (inhomY - b), 1.0);
@@ -1369,6 +1410,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * mirror this point at line g
 	 */
+	@Override
 	final public void mirror(GeoLineND g1) {
 
 		GeoLine g = (GeoLine) g1;
@@ -1682,6 +1724,7 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * interface VectorValue implementation
 	 */
+	@Override
 	public GeoVec2D getVector() {
 		GeoVec2D ret = new GeoVec2D(kernel, inhomX, inhomY);
 		ret.setMode(toStringMode);
@@ -1758,6 +1801,7 @@ public class GeoPoint extends GeoVec3D
 
 	}
 
+	@Override
 	public String getStartPointXML() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t<startPoint ");
@@ -1776,6 +1820,7 @@ public class GeoPoint extends GeoVec3D
 		return sb.toString();
 	}
 
+	@Override
 	final public boolean isAbsoluteStartPoint() {
 		return isIndependent() && !isLabelSet();
 	}
@@ -1829,9 +1874,11 @@ public class GeoPoint extends GeoVec3D
 		return tempSet;
 	}
 
+	@Override
 	public LocateableList getLocateableList() {
-		if (locateableList == null)
+		if (locateableList == null) {
 			locateableList = new LocateableList(this);
+		}
 		return locateableList;
 	}
 
@@ -1918,6 +1965,7 @@ public class GeoPoint extends GeoVec3D
 		return true;
 	}
 
+	@Override
 	public void showUndefinedInAlgebraView(boolean flag) {
 		showUndefinedInAlgebraView = flag;
 	}
@@ -1931,6 +1979,7 @@ public class GeoPoint extends GeoVec3D
 	public static Comparator<GeoPoint> getComparatorX() {
 		if (comparatorX == null) {
 			comparatorX = new Comparator<GeoPoint>() {
+				@Override
 				public int compare(GeoPoint itemA, GeoPoint itemB) {
 
 					double compX = itemA.inhomX - itemB.inhomX;
@@ -1939,8 +1988,9 @@ public class GeoPoint extends GeoVec3D
 						double compY = itemA.inhomY - itemB.inhomY;
 
 						// if x-coords equal, sort on y-coords
-						if (!Kernel.isZero(compY))
+						if (!Kernel.isZero(compY)) {
 							return compY < 0 ? -1 : +1;
+						}
 
 						// don't return 0 for equal objects, otherwise the
 						// TreeSet deletes duplicates
@@ -1966,10 +2016,12 @@ public class GeoPoint extends GeoVec3D
 		return region != null;
 	}
 
+	@Override
 	public boolean hasRegion() {
 		return region != null;
 	}
 
+	@Override
 	public Region getRegion() {
 		return region;
 	}
@@ -1978,24 +2030,29 @@ public class GeoPoint extends GeoVec3D
 	 * @param a_region
 	 *            region restricting this point
 	 */
+	@Override
 	public void setRegion(Region a_region) {
 		region = a_region;
 	}
 
+	@Override
 	public void updateCoords2D() {
 		x2D = x / z;
 		y2D = y / z;
 	}
 
+	@Override
 	public double getX2D() {
 		return x2D;
 	}
 
+	@Override
 	public double getY2D() {
 		return y2D;
 	}
 
 	// may be used when 2D point is put on 3D path
+	@Override
 	public void updateCoordsFrom2D(boolean doPathOrRegion, CoordSys coordsys) {
 		if (coordsys != null) {
 			updateCoords2D();
@@ -2004,10 +2061,12 @@ public class GeoPoint extends GeoVec3D
 
 	}
 
+	@Override
 	public void updateCoordsFrom2D(boolean doPathOrRegion) {
 		// 3D only
 	}
 
+	@Override
 	public Coords getInhomCoords() {
 		if (inhomCoords2D == null) {
 			inhomCoords2D = new Coords(new double[] { inhomX, inhomY });
@@ -2021,6 +2080,7 @@ public class GeoPoint extends GeoVec3D
 	private Coords coords2D;
 	private Coords inhomCoords3D, inhomCoords2D;
 
+	@Override
 	public Coords getInhomCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
@@ -2032,6 +2092,7 @@ public class GeoPoint extends GeoVec3D
 		}
 	}
 
+	@Override
 	public Coords getInhomCoordsInD3() {
 		if (inhomCoords3D == null) {
 			inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1 });
@@ -2042,6 +2103,7 @@ public class GeoPoint extends GeoVec3D
 		return inhomCoords3D;
 	}
 
+	@Override
 	public Coords getInhomCoordsInD2() {
 		return getInhomCoords();
 	}
@@ -2050,6 +2112,7 @@ public class GeoPoint extends GeoVec3D
 
 	private Coords tmpCoords;
 
+	@Override
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys) {
 
 		if (setCoords2D(coordSys)) {
@@ -2059,6 +2122,7 @@ public class GeoPoint extends GeoVec3D
 		return null;
 	}
 
+	@Override
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		setCoords2D(coordSys);
@@ -2099,14 +2163,17 @@ public class GeoPoint extends GeoVec3D
 		return true;
 	}
 
+	@Override
 	public Coords getCoordsInD2() {
 		return getCoordsInD2(null);
 	}
 
+	@Override
 	public Coords getCoordsInD3() {
 		return new Coords(x, y, 0, z);
 	}
 
+	@Override
 	public Coords getCoordsInD(int dimension) {
 		switch (dimension) {
 		case 2:
@@ -2124,6 +2191,7 @@ public class GeoPoint extends GeoVec3D
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
 
 		Double x1 = a * x + b * y;
@@ -2149,6 +2217,7 @@ public class GeoPoint extends GeoVec3D
 		return getInhomCoordsInD3();
 	}
 
+	@Override
 	public void pointChanged(GeoPointND p) {
 		pointChanged(p, x, y, z);
 	}
@@ -2174,34 +2243,42 @@ public class GeoPoint extends GeoVec3D
 
 	}
 
+	@Override
 	public void pathChanged(GeoPointND PI) {
 		pointChanged(PI);
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
 		return isEqual((GeoElement) PI);
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		return false;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return null;
 	}
 
+	@Override
 	public double getAnimationValue() {
 		return animationValue;
 	}
 
+	@Override
 	public void setAnimationValue(double val) {
 		animationValue = val;
 	}
@@ -2230,8 +2307,9 @@ public class GeoPoint extends GeoVec3D
 				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
 		// update animation value
-		if (Double.isNaN(p.getAnimationValue()))
+		if (Double.isNaN(p.getAnimationValue())) {
 			p.setAnimationValue(oldValue);
+		}
 		p.setAnimationValue(p.getAnimationValue() + step);
 
 		// make sure we don't get outside our interval
@@ -2239,10 +2317,11 @@ public class GeoPoint extends GeoVec3D
 		case GeoElement.ANIMATION_DECREASING:
 		case GeoElement.ANIMATION_INCREASING:
 			// jump to other end of slider
-			if (p.getAnimationValue() > 1)
+			if (p.getAnimationValue() > 1) {
 				p.setAnimationValue(p.getAnimationValue() - intervalWidth);
-			else if (p.getAnimationValue() < 0)
+			} else if (p.getAnimationValue() < 0) {
 				p.setAnimationValue(p.getAnimationValue() + intervalWidth);
+			}
 			break;
 
 		case GeoElement.ANIMATION_INCREASING_ONCE:
@@ -2287,6 +2366,7 @@ public class GeoPoint extends GeoVec3D
 	 * 
 	 * @return whether the value of this number was changed
 	 */
+	@Override
 	public synchronized GeoElementND doAnimationStep(double frameRate,
 			GeoList parent) {
 
@@ -2297,20 +2377,23 @@ public class GeoPoint extends GeoVec3D
 	// MOVING THE POINT (3D)
 	// ///////////////////////////////////////
 
+	@Override
 	public void switchMoveMode(int mode) {
 		// 3D only
 	}
 
+	@Override
 	public int getMoveMode() {
 		if (hasChangeableCoordParentNumbers()) {
 			return MOVE_MODE_XY;
 		}
-		if (!isIndependent() || isFixed())
+		if (!isIndependent() || isFixed()) {
 			return MOVE_MODE_NONE;
-		else if (hasPath())
+		} else if (hasPath()) {
 			return MOVE_MODE_Z;
-		else
+		} else {
 			return MOVE_MODE_XY;
+		}
 	}
 
 	@Override
@@ -2318,6 +2401,7 @@ public class GeoPoint extends GeoVec3D
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
@@ -2331,12 +2415,14 @@ public class GeoPoint extends GeoVec3D
 	/**
 	 * Remove path restricting this point
 	 */
+	@Override
 	public void removePath() {
 		path = null;
 		pathParameter = null;
 	}
 
 	// needed for GeoPointND interface for 3D, do nothing
+	@Override
 	public void setCoords(double x, double y, double z, double w) {
 		// 3D only
 	}
@@ -2348,9 +2434,11 @@ public class GeoPoint extends GeoVec3D
 			locateableList = ((GeoPointND) oldGeo).getLocateableList();
 			for (Locateable locPoint : locateableList) {
 				GeoPointND[] pts = locPoint.getStartPoints();
-				for (int i = 0; i < pts.length; i++)
-					if (pts[i] == (GeoPoint) oldGeo)
+				for (int i = 0; i < pts.length; i++) {
+					if (pts[i] == (GeoPoint) oldGeo) {
 						pts[i] = this;
+					}
+				}
 				locPoint.toGeoElement().updateRepaint();
 			}
 			((GeoPointND) oldGeo).setLocateableList(null);
@@ -2398,6 +2486,7 @@ public class GeoPoint extends GeoVec3D
 	 * @param geo
 	 *            incident object
 	 */
+	@Override
 	public void addIncidence(GeoElement geo, boolean isStartPoint) {
 		if (incidenceList == null) {
 			createIncidenceList();
@@ -2419,6 +2508,7 @@ public class GeoPoint extends GeoVec3D
 	 * @param geo
 	 *            incident geo tobe removed
 	 */
+	@Override
 	public final void removeIncidence(GeoElement geo) {
 		if (incidenceList != null) {
 			incidenceList.remove(geo);
@@ -2455,7 +2545,9 @@ public class GeoPoint extends GeoVec3D
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
 		if (algorithm != null)
+		 {
 			setConstructionDefaults(); // set colors to dependent colors
+		}
 	}
 
 	@Override
@@ -2545,10 +2637,12 @@ public class GeoPoint extends GeoVec3D
 
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 
@@ -2574,6 +2668,7 @@ public class GeoPoint extends GeoVec3D
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (algoParent == null) {
 			GeoElement[] fixedElements = AbstractProverReciosMethod
@@ -2600,6 +2695,7 @@ public class GeoPoint extends GeoVec3D
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -2620,6 +2716,7 @@ public class GeoPoint extends GeoVec3D
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		// if this is a free point
 		if (algoParent == null) {
@@ -2639,6 +2736,7 @@ public class GeoPoint extends GeoVec3D
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
@@ -2659,6 +2757,7 @@ public class GeoPoint extends GeoVec3D
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
@@ -2669,22 +2768,27 @@ public class GeoPoint extends GeoVec3D
 		return null; // Here maybe an exception should be thrown...?
 	}
 
+	@Override
 	public int getDimension() {
 		return 2;
 	}
 
+	@Override
 	public double distanceToPath(PathOrPoint path1) {
 		return path1.toGeoElement().distance(this);
 	}
 
+	@Override
 	public boolean hasLocateableList() {
 		return locateableList != null;
 	}
 
+	@Override
 	public void setLocateableList(LocateableList locateableList) {
 		this.locateableList = locateableList;
 	}
 
+	@Override
 	public void setCoordsFromPoint(GeoPointND point) {
 		if (point instanceof GeoPoint) {
 			setCoords((GeoPoint) point);
@@ -2693,6 +2797,7 @@ public class GeoPoint extends GeoVec3D
 		}
 	}
 
+	@Override
 	public void set(double param1, double param2, MyPoint leftPoint,
 			MyPoint rightPoint) {
 		x = param2 * leftPoint.x + param1 * rightPoint.x;
@@ -2705,6 +2810,7 @@ public class GeoPoint extends GeoVec3D
 		return HitType.ON_BOUNDARY;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return getMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
 				: ValueType.NONCOMPLEX2D;
@@ -2720,6 +2826,7 @@ public class GeoPoint extends GeoVec3D
 		return getVector();
 	}
 
+	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { inhomX, inhomY, 0 };
 	}
@@ -2753,6 +2860,7 @@ public class GeoPoint extends GeoVec3D
 
 	}
 
+	@Override
 	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
 		// used for GeoPoint3D
 	}

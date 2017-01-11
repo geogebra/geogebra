@@ -114,8 +114,9 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			GeoElement poly, GeoClass geoClassType) {
 		super(cons);
 
-		if (poly != null)
+		if (poly != null) {
 			setUpdateAfterAlgo(poly.getParentAlgorithm());
+		}
 
 		this.P = P;
 		this.Q = Q;
@@ -188,8 +189,9 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 	public void compute() {
 
 		if (poly != null) {
-			if (!poly.isDefined())
+			if (!poly.isDefined()) {
 				cs.setUndefined();
+			}
 		}
 
 		if ((((GeoElement) P).isDefined() || P.isInfinite())
@@ -202,8 +204,9 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
 		// if segment is part of a polygon, remove it
 		if (poly != null) {
@@ -211,14 +214,17 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 		}
 	}
 
+	@Override
 	public void modifyInputPoints(GeoPointND A, GeoPointND B) {
 
 		// same points : return
-		if ((P == A && Q == B) || (Q == A && P == B))
+		if ((P == A && Q == B) || (Q == A && P == B)) {
 			return;
+		}
 
-		for (int i = 0; i < input.length; i++)
+		for (int i = 0; i < input.length; i++) {
 			input[i].removeAlgorithm(this);
+		}
 
 		P = A;
 		Q = B;
@@ -242,11 +248,13 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			GeoPointND B) {
 
 		// same points : return
-		if (p == poly && (P == A && Q == B) || (Q == A && P == B))
+		if (p == poly && (P == A && Q == B) || (Q == A && P == B)) {
 			return;
+		}
 
-		for (int i = 0; i < input.length; i++)
+		for (int i = 0; i < input.length; i++) {
 			input[i].removeAlgorithm(this);
+		}
 
 		poly = p;
 		P = A;
@@ -276,13 +284,14 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 
 		switch (geoClassType) {
 		case SEGMENT3D:
-			if (poly != null)
+			if (poly != null) {
 				sb.append(getLoc().getPlain("SegmentABofC", P.getLabel(tpl),
 						Q.getLabel(tpl), poly.getNameDescription()));
-			else
+			} else {
 				sb.append(getLoc().getPlain("SegmentAB",
 						((GeoElement) P).getLabel(tpl),
 						((GeoElement) Q).getLabel(tpl)));
+			}
 			break;
 		default:
 		case LINE3D:
@@ -304,6 +313,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 	 * 
 	 * @return parent polygon/polyhedron (if exists)
 	 */
+	@Override
 	public GeoElement getPoly() {
 		return poly;
 	}

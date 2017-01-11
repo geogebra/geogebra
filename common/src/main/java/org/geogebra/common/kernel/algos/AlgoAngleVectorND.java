@@ -58,12 +58,14 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 
 	}
 
+	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
 		if (vec.isGeoVector()) {
 			GeoPointND vertex = ((GeoVector) vec).getStartPoint();
-			if (vertex != null)
+			if (vertex != null) {
 				vertex.getInhomCoords(m);
+			}
 			return vertex != null && vertex.isDefined() && !vertex.isInfinite();
 		}
 		m[0] = 0;

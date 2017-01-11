@@ -57,6 +57,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	 * the indices for <code>e</code> and for all edges parallel to
 	 * <code>e</code>, if they are not already assigned.
 	 */
+	@Override
 	public int getIndex(Graph<V, E> graph, E e) {
 
 		Integer index = edge_index
@@ -134,6 +135,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	 * 
 	 * @param e
 	 */
+	@Override
 	public void reset(Graph<V, E> graph, E e) {
 		Pair<V> endpoints = graph.getEndpoints(e);
 		getIndex(graph, e, endpoints.getFirst());
@@ -144,6 +146,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	 * Clears all edge indices for all edges in all graphs. Does not recalculate
 	 * the indices.
 	 */
+	@Override
 	public void reset() {
 		edge_index.clear();
 	}

@@ -49,16 +49,18 @@ public class GeoDummyVariable extends GeoNumeric {
 	 */
 	public GeoElement getElementWithSameName() {
 		GeoElement ge = kernel.lookupCasCellLabel(varName);
-		if (ge == null)
+		if (ge == null) {
 			ge = kernel.lookupLabel(varName);
+		}
 		return ge;
 	}
 
 	@Override
 	public boolean hasCoords() {
 		GeoElement ge = getElementWithSameName();
-		if (ge != null && !(ge instanceof GeoDummyVariable))
+		if (ge != null && !(ge instanceof GeoDummyVariable)) {
 			return ge.hasCoords();
+		}
 		return false;
 	}
 

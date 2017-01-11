@@ -81,10 +81,12 @@ public abstract class RendererImplShaders extends RendererImpl {
 	private Stack<Object> removedBuffers = new Stack<Object>();
 	private Stack<Object> removedElementBuffers = new Stack<Object>();
 
+	@Override
 	final public void createArrayBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedBuffers);
 	}
 
+	@Override
 	final public void createElementBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedElementBuffers);
 	}
@@ -94,10 +96,12 @@ public abstract class RendererImplShaders extends RendererImpl {
 		stack.push(buffer.get());
 	}
 
+	@Override
 	public void removeArrayBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedBuffers);
 	}
 
+	@Override
 	public void removeElementBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedElementBuffers);
 	}

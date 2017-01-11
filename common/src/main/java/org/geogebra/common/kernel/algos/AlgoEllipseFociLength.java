@@ -56,6 +56,7 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnEllipseFociLength(geo, this, scope);

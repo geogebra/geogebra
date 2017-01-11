@@ -33,6 +33,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 		public FunMustBeZero() {
 		}
 
+		@Override
 		public double evaluate(double t) {
 
 			parent.evaluateCurve(t, parentOut.val);
@@ -65,6 +66,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 		funZ = new FunMustBeZero();
 	}
 
+	@Override
 	public void evaluateCurve(double t, double[] out) {
 		parent.evaluateCurve(t, parentOut.val);
 		parentOutInView = companion.getCoordsForView(parentOut);
@@ -79,39 +81,48 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 
 	}
 
+	@Override
 	public double[] getDefinedInterval(double a, double b) {
 		return GeoCurveCartesian3D.getDefinedInterval(a, b, parent.getFun(0),
 				parent.getFun(1), parent.getFun(2), funZ);
 	}
 
+	@Override
 	public double[] newDoubleArray() {
 		return new double[2];
 	}
 
+	@Override
 	public double getMinParameter() {
 		return parent.getMinParameter();
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return parent.getMaxParameter();
 	}
 
+	@Override
 	public boolean getTrace() {
 		return parent.getTrace();
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		return parent.isClosedPath();
 	}
 
+	@Override
 	public boolean isFunctionInX() {
 		return parent.isFunctionInX();
 	}
 
+	@Override
 	public GeoElement toGeoElement() {
 		return parent.toGeoElement();
 	}
 
+	@Override
 	public double distanceMax(double[] p1, double[] p2) {
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 	}

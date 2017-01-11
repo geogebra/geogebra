@@ -22,13 +22,15 @@ public class PathNormalizer {
 			double max) {
 		double tn = pn;
 		// for Points as Paths (min=max=0)
-		if (min == max)
+		if (min == max) {
 			return min;
+		}
 
-		if (tn < 0)
+		if (tn < 0) {
 			tn = 0;
-		else if (tn > 1)
+		} else if (tn > 1) {
 			tn = 1;
+		}
 
 		if (min == Double.NEGATIVE_INFINITY) {
 			if (max == Double.POSITIVE_INFINITY) {
@@ -79,11 +81,11 @@ public class PathNormalizer {
 		if (min == Double.NEGATIVE_INFINITY) {
 			if (max == Double.POSITIVE_INFINITY) {
 				// (-infinite, +infinite) -> [0,1]
-				if (t == Double.NEGATIVE_INFINITY)
+				if (t == Double.NEGATIVE_INFINITY) {
 					return 0;
-				else if (t == Double.POSITIVE_INFINITY)
+				} else if (t == Double.POSITIVE_INFINITY) {
 					return 1;
-				else {
+				} else {
 					// (-infinite, +infinite) -> (0,1)
 					// solve for tn: t = infFunction(2*tn - 1);
 					return 0.5 + 0.5 * inverseInfFunction(t);

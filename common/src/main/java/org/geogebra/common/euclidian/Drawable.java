@@ -187,8 +187,9 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 */
 	public final void drawLabel(GGraphics2D g2) {
-		if (labelDesc == null)
+		if (labelDesc == null) {
 			return;
+		}
 		String label = labelDesc;
 
 		// stripping off helper syntax from captions
@@ -205,8 +206,9 @@ public abstract class Drawable extends DrawableND {
 		if (label.length() > 1 && (label.charAt(0) == '$')
 				&& label.endsWith("$")) {
 			boolean serif = true; // nice "x"s
-			if (geo.isGeoText())
+			if (geo.isGeoText()) {
 				serif = ((GeoText) geo).isSerifFont();
+			}
 			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
 													// don't go
 													// off bottom of screen
@@ -265,8 +267,9 @@ public abstract class Drawable extends DrawableND {
 			lastFontSize = fontSize;
 		}
 
-		if (oldFont != null)
+		if (oldFont != null) {
 			g2.setFont(oldFont);
+		}
 	}
 
 	/**
@@ -323,8 +326,9 @@ public abstract class Drawable extends DrawableND {
 			}
 			yLabel = Math.max(yLabel, heightEstimate);
 
-		} else
+		} else {
 			yLabel = Math.min(yLabel, view.getHeight() - 3);
+		}
 
 		// update label rectangle position
 		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
@@ -363,8 +367,9 @@ public abstract class Drawable extends DrawableND {
 	 */
 	protected final void drawMultilineText(GGraphics2D g2, GFont textFont) {
 
-		if (labelDesc == null)
+		if (labelDesc == null) {
 			return;
+		}
 
 		// no index in text
 		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex) {
@@ -397,10 +402,12 @@ public abstract class Drawable extends DrawableND {
 							view.getApplication(), g2,
 							labelDesc.substring(lineBegin, i), xLabel,
 							yLabel + lines * lineSpread, isSerif(), true);
-					if (p.x > xoffset)
+					if (p.x > xoffset) {
 						xoffset = p.x;
-					if (p.y > yoffset)
+					}
+					if (p.y > yoffset) {
 						yoffset = p.y;
+					}
 					lines++;
 					lineBegin = i + 1;
 				}
@@ -413,10 +420,12 @@ public abstract class Drawable extends DrawableND {
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
 					g2, labelDesc.substring(lineBegin), xLabel, ypos, isSerif(),
 					true);
-			if (p.x > xoffset)
+			if (p.x > xoffset) {
 				xoffset = p.x;
-			if (p.y > yoffset)
+			}
+			if (p.y > yoffset) {
 				yoffset = p.y;
+			}
 			labelHasIndex = yoffset > 0;
 			int height = (int) ((lines + 1) * lineSpread);
 			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3,
@@ -430,8 +439,9 @@ public abstract class Drawable extends DrawableND {
 	 * @return whether the label fits on screen
 	 */
 	final protected boolean addLabelOffset() {
-		if (geo.labelOffsetX == 0 && geo.labelOffsetY == 0)
+		if (geo.labelOffsetX == 0 && geo.labelOffsetY == 0) {
 			return false;
+		}
 
 		int x = xLabel + geo.labelOffsetX;
 		int y = yLabel + geo.labelOffsetY;
@@ -439,10 +449,12 @@ public abstract class Drawable extends DrawableND {
 		// don't let offset move label out of screen
 		int xmax = view.getWidth() - 15;
 		int ymax = view.getHeight() - 5;
-		if (x < 5 || x > xmax)
+		if (x < 5 || x > xmax) {
 			return false;
-		if (y < 15 || y > ymax)
+		}
+		if (y < 15 || y > ymax) {
 			return false;
+		}
 
 		xLabel = x;
 		yLabel = y;
@@ -534,8 +546,9 @@ public abstract class Drawable extends DrawableND {
 
 		if (lineThickness != fromGeo.getLineThickness()) {
 			lineThickness = Math.max(minThickness, fromGeo.getLineThickness());
-			if (!forcedLineType)
+			if (!forcedLineType) {
 				lineType = fromGeo.getLineType();
+			}
 
 			double width = lineThickness / 2.0;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
@@ -545,8 +558,9 @@ public abstract class Drawable extends DrawableND {
 					width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
-			if (!forcedLineType)
+			if (!forcedLineType) {
 				lineType = fromGeo.getLineType();
+			}
 
 			double width = lineThickness / 2.0;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
@@ -608,8 +622,9 @@ public abstract class Drawable extends DrawableND {
 	 */
 	protected void fill(GGraphics2D g2, GShape fillShape, GPaint gpaint0,
 			GBufferedImage subImage) {
-		if (isForceNoFill())
+		if (isForceNoFill()) {
 			return;
+		}
 		GPaint gpaint = gpaint0;
 		if (geo.isHatchingEnabled() || gpaint != null) {
 			// use decoStroke as it is always full (not dashed/dotted etc)

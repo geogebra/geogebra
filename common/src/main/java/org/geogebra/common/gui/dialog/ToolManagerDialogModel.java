@@ -84,8 +84,9 @@ public class ToolManagerDialogModel {
 	 * Deletes all selected tools that are not used in the construction.
 	 */
 	public boolean deleteTools(Object[] sel) {
-		if (sel == null || sel.length == 0)
+		if (sel == null || sel.length == 0) {
 			return false;
+		}
 
 		boolean didDeletion = false;
 		boolean changeToolBar = false;
@@ -146,8 +147,9 @@ public class ToolManagerDialogModel {
 			app.getSelectionManager().clearSelectedGeos(true, false);
 			app.updateSelection(false);
 
-			if (sel == null || sel.length == 0)
+			if (sel == null || sel.length == 0) {
 				return;
+			}
 
 			// we need to save all selected tools and all tools
 			// that are used by the selected tools
@@ -155,8 +157,9 @@ public class ToolManagerDialogModel {
 			for (int i = 0; i < sel.length; i++) {
 				Macro macro = (Macro) sel[i];
 				ArrayList<Macro> macros = macro.getUsedMacros();
-				if (macros != null)
+				if (macros != null) {
 					tools.addAll(macros);
+				}
 				tools.add(macro);
 			}
 
@@ -187,8 +190,9 @@ public class ToolManagerDialogModel {
 		for (int i = 0; i < sel.length; i++) {
 			Macro macro = (Macro) sel[i];
 			ArrayList<Macro> macros = macro.getUsedMacros();
-			if (macros != null)
+			if (macros != null) {
 				tools.addAll(macros);
+			}
 			tools.add(macro);
 		}
 

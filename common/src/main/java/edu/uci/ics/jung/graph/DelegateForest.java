@@ -113,12 +113,13 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * @return <code>true</code> iff the tree was modified
 	 */
 	public boolean removeEdge(E edge, boolean remove_subtree) {
-		if (!delegate.containsEdge(edge))
+		if (!delegate.containsEdge(edge)) {
 			return false;
+		}
 		V child = getDest(edge);
-		if (remove_subtree)
+		if (remove_subtree) {
 			return removeVertex(child);
-		else {
+		} else {
 			delegate.removeEdge(edge);
 			return false;
 		}
@@ -152,11 +153,14 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * @return <code>true</code> iff the tree was modified
 	 */
 	public boolean removeVertex(V vertex, boolean remove_subtrees) {
-		if (!delegate.containsVertex(vertex))
+		if (!delegate.containsVertex(vertex)) {
 			return false;
-		if (remove_subtrees)
-			for (V v : new ArrayList<V>(delegate.getSuccessors(vertex)))
+		}
+		if (remove_subtrees) {
+			for (V v : new ArrayList<V>(delegate.getSuccessors(vertex))) {
 				removeVertex(v, true);
+			}
+		}
 		return delegate.removeVertex(vertex);
 	}
 
@@ -169,8 +173,9 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * @return an ordered list of the nodes from root to child
 	 */
 	public List<V> getPath(V child) {
-		if (!delegate.containsVertex(child))
+		if (!delegate.containsVertex(child)) {
 			return null;
+		}
 		List<V> list = new ArrayList<V>();
 		list.add(child);
 		V parent = getParent(child);
@@ -181,9 +186,11 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		return list;
 	}
 
+	@Override
 	public V getParent(V child) {
-		if (!delegate.containsVertex(child))
+		if (!delegate.containsVertex(child)) {
 			return null;
+		}
 		Collection<V> parents = delegate.getPredecessors(child);
 		if (parents.size() > 0) {
 			return parents.iterator().next();
@@ -267,6 +274,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	/**
 	 * Returns the children of {@code v}.
 	 */
+	@Override
 	public Collection<V> getChildren(V v) {
 		return delegate.getSuccessors(v);
 	}
@@ -308,6 +316,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		return roots;
 	}
 
+	@Override
 	public Collection<Tree<V, E>> getTrees() {
 		Collection<Tree<V, E>> trees = new HashSet<Tree<V, E>>();
 		for (V v : getRoots()) {
@@ -329,17 +338,21 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		TreeUtils.addSubTree(this, tree, null, null);
 	}
 
+	@Override
 	public int getChildCount(V vertex) {
 		return delegate.getSuccessorCount(vertex);
 	}
 
+	@Override
 	public Collection<E> getChildEdges(V vertex) {
 		return delegate.getOutEdges(vertex);
 	}
 
+	@Override
 	public E getParentEdge(V vertex) {
-		if (isRoot(vertex))
+		if (isRoot(vertex)) {
 			return null;
+		}
 		return delegate.getInEdges(vertex).iterator().next();
 	}
 

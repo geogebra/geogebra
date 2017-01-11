@@ -47,8 +47,9 @@ public abstract class GlobalKeyDispatcher {
 	 *            selected geo
 	 */
 	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
-		if (!app.showAlgebraInput() || app.getGuiManager() == null)
+		if (!app.showAlgebraInput() || app.getGuiManager() == null) {
 			return;
+		}
 
 		switch (fkey) {
 		default:
@@ -198,7 +199,9 @@ public abstract class GlobalKeyDispatcher {
 
 		// set translation vector
 		if (tempVec == null)
+		 {
 			tempVec = new Coords(4); // 4 coords for 3D
+		}
 		double xd = geo.getAnimationStep() * xdiff;
 		double yd = geo.getAnimationStep() * ydiff;
 		double zd = geo.getAnimationStep() * zdiff;
@@ -208,7 +211,7 @@ public abstract class GlobalKeyDispatcher {
 
 		// move objects
 		boolean moved = GeoElement.moveObjects(geos, tempVec, null, null,
-				(EuclidianView) app.getActiveEuclidianView());
+				app.getActiveEuclidianView());
 
 		// nothing moved
 		if (!moved) {
@@ -224,8 +227,9 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 
-		if (moved)
+		if (moved) {
 			app.getKernel().notifyRepaint();
+		}
 
 		return moved;
 	}
@@ -548,10 +552,11 @@ public abstract class GlobalKeyDispatcher {
 			// Ctrl + H / G: Show Hide objects (labels)
 			case G:
 			case H:
-				if (isShiftDown)
+				if (isShiftDown) {
 					selection.showHideSelectionLabels();
-				else
+				} else {
 					selection.showHideSelection();
+				}
 				consumed = true;
 				break;
 
@@ -589,10 +594,11 @@ public abstract class GlobalKeyDispatcher {
 			// Ctrl + Z: Undo
 			case Z:
 				if (app.getGuiManager() != null) {
-					if (isShiftDown)
+					if (isShiftDown) {
 						app.getGuiManager().redo();
-					else
+					} else {
 						app.getGuiManager().undo();
+					}
 				}
 				consumed = true;
 				break;
@@ -660,10 +666,11 @@ public abstract class GlobalKeyDispatcher {
 			// Ctrl-(shift)-J
 			case J:
 			case Q:
-				if (isShiftDown)
+				if (isShiftDown) {
 					selection.selectAllDescendants();
-				else
+				} else {
 					selection.selectAllPredecessors();
+				}
 				consumed = true;
 				break;
 
@@ -863,8 +870,9 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public static boolean changeFontsAndGeoElements(App app, int fontSize,
 			boolean blackWhiteMode, boolean makeAxesBold) {
-		if (app.isApplet())
+		if (app.isApplet()) {
 			return false;
+		}
 
 		app.setWaitCursor();
 
@@ -902,8 +910,9 @@ public abstract class GlobalKeyDispatcher {
 
 		// change application font size
 		app.setFontSize(fontSize, true);
-		if (app.isUsingFullGui() && app.getGuiManager() != null)
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			app.getGuiManager().updateSpreadsheetColumnWidths();
+		}
 
 		// apply styles to to selected or all geos
 		Iterator<GeoElement> it = null;
@@ -929,8 +938,9 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private static int getPointSizeInc(int oldFontSize, int newFontSize) {
-		if (oldFontSize == newFontSize)
+		if (oldFontSize == newFontSize) {
 			return 0;
+		}
 		int step = newFontSize > oldFontSize ? 1 : -1;
 
 		int left = Math.min(oldFontSize, newFontSize);
@@ -1008,12 +1018,15 @@ public abstract class GlobalKeyDispatcher {
 		// Ctrl : base = 10
 		// Alt : base = 100
 		double base = 1;
-		if (isShiftDown)
+		if (isShiftDown) {
 			base = 0.1;
-		if (isControlDown)
+		}
+		if (isControlDown) {
 			base = 10;
-		if (isAltDown)
+		}
+		if (isAltDown) {
 			base = 100;
+		}
 		// Log.debug("key pressed");
 		if (geos == null || geos.size() == 0) {
 
@@ -1021,7 +1034,7 @@ public abstract class GlobalKeyDispatcher {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			int width = ev.getWidth();
 			int height = ev.getHeight();
-			if (ev.hasFocus() && app.isShiftDragZoomEnabled())
+			if (ev.hasFocus() && app.isShiftDragZoomEnabled()) {
 				switch (key) {
 
 				case PAGEUP:
@@ -1133,6 +1146,7 @@ public abstract class GlobalKeyDispatcher {
 					}
 					return true;
 				}
+			}
 
 			return false;
 		}
@@ -1166,9 +1180,9 @@ public abstract class GlobalKeyDispatcher {
 
 		case F3:
 			// F3 key: copy definition to input field
-			if (geos.size() == 1)
+			if (geos.size() == 1) {
 				handleFunctionKeyForAlgebraInput(3, geos.get(0));
-			else {
+			} else {
 				// F3 key: copy definitions to input field as list
 				copyDefinitionsToInputBarAsList(geos);
 				break;
@@ -1194,8 +1208,9 @@ public abstract class GlobalKeyDispatcher {
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
 			if (app.getGuiManager() != null
 					&& app.getGuiManager().hasSpreadsheetView()
-					&& app.getGuiManager().getSpreadsheetView().hasFocus())
+					&& app.getGuiManager().getSpreadsheetView().hasFocus()) {
 				return false;
+			}
 			// DELETE selected objects
 			if (!app.isApplet() || app.isRightClickEnabled()) {
 				app.deleteSelectedObjects();
@@ -1205,8 +1220,9 @@ public abstract class GlobalKeyDispatcher {
 		case BACKSPACE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
 			if (app.getGuiManager() != null
-					&& app.getGuiManager().getSpreadsheetView().hasFocus())
+					&& app.getGuiManager().getSpreadsheetView().hasFocus()) {
 				return false;
+			}
 			// DELETE selected objects
 			// Note: ctrl-h generates a KeyEvent.VK_BACK_SPACE event, so check
 			// for ctrl too
@@ -1384,9 +1400,10 @@ public abstract class GlobalKeyDispatcher {
 										* Kernel.checkDecimalFraction(
 												newValue * Kernel.CONST_180_PI,
 												1 / num.getAnimationStep());
-							} else
+							} else {
 								newValue = Kernel.checkDecimalFraction(newValue,
 										1 / num.getAnimationStep());
+							}
 						}
 						num.setValue(newValue);
 					}

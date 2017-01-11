@@ -42,10 +42,11 @@ public class CmdSetPointStyle extends CmdScripting {
 				point.updateRepaint();
 
 				return arg;
-			} else if (!ok)
+			} else if (!ok) {
 				throw argErr(app, c, arg[0]);
-			else
+			} else {
 				throw argErr(app, c, arg[1]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

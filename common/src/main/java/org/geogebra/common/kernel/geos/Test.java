@@ -481,10 +481,12 @@ Test {
 	MOVEABLE {
 		@Override
 		public boolean check(Object ob) {
-			if (!(ob instanceof GeoElement))
+			if (!(ob instanceof GeoElement)) {
 				return false;
-			if (((GeoElement) ob).isMoveable())
+			}
+			if (((GeoElement) ob).isMoveable()) {
 				return true;
+			}
 
 			return false;
 		}
@@ -494,10 +496,12 @@ Test {
 	ROTATEMOVEABLE {
 		@Override
 		public boolean check(Object ob) {
-			if (!(ob instanceof GeoElement))
+			if (!(ob instanceof GeoElement)) {
 				return false;
-			if (((GeoElement) ob).isRotateMoveable())
+			}
+			if (((GeoElement) ob).isRotateMoveable()) {
 				return true;
+			}
 
 			return false;
 		}

@@ -84,6 +84,7 @@ public class ConstantTransformer<T>
 	 *            the input object which is ignored
 	 * @return the stored constant
 	 */
+	@Override
 	public T transform(Object input) {
 		return iConstant;
 	}

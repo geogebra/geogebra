@@ -87,8 +87,9 @@ public class RegionParameters {
 	 *            new first parameter
 	 */
 	public final void setT1(double t1) {
-		if (isNaN(t1))
+		if (isNaN(t1)) {
 			return;
+		}
 		this.t1 = t1;
 	}
 
@@ -104,8 +105,9 @@ public class RegionParameters {
 	 *            new second parameter
 	 */
 	public final void setT2(double t2) {
-		if (isNaN(t2))
+		if (isNaN(t2)) {
 			return;
+		}
 		this.t2 = t2;
 	}
 

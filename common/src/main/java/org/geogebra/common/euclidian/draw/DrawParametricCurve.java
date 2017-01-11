@@ -75,8 +75,9 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		dataExpression = null;
 		if (geo.getLineType() == EuclidianStyleConstants.LINE_TYPE_POINTWISE
 				&& (curve instanceof GeoFunction)) {
@@ -89,8 +90,9 @@ public class DrawParametricCurve extends Drawable {
 			updatePointwise();
 			return;
 		}
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
+		}
 		gp.reset();
 
 		fillCurve = filling(curve);
@@ -100,10 +102,12 @@ public class DrawParametricCurve extends Drawable {
 		if (curve.toGeoElement().isGeoFunction()) {
 			double minView = view.getXmin();
 			double maxView = view.getXmax();
-			if (min < minView || Double.isInfinite(min))
+			if (min < minView || Double.isInfinite(min)) {
 				min = minView;
-			if (max > maxView || Double.isInfinite(max))
+			}
+			if (max > maxView || Double.isInfinite(max)) {
 				max = maxView;
+			}
 		}
 		GPoint labelPoint;
 		if (Kernel.isEqual(min, max)) {
@@ -167,8 +171,9 @@ public class DrawParametricCurve extends Drawable {
 		if (curve.getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
+			if (g2 != null) {
 				drawTrace(g2);
+			}
 		} else {
 			if (isTracing) {
 				isTracing = false;
@@ -234,6 +239,7 @@ public class DrawParametricCurve extends Drawable {
 	private Inspecting checkPointwise() {
 		return new Inspecting() {
 
+			@Override
 			public boolean check(ExpressionValue v) {
 				/*
 				 * if (v.isExpressionNode() && ((ExpressionNode)

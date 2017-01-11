@@ -97,9 +97,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * 
 	 * @return length
 	 */
+	@Override
 	public double getLength() {
-		if (isDefined())
+		if (isDefined()) {
 			return getUnit();
+		}
 
 		return Double.NaN;
 	}
@@ -126,8 +128,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		if (!geo.isGeoSegment())
+		if (!geo.isGeoSegment()) {
 			return false;
+		}
 		GeoSegment3D s = (GeoSegment3D) geo;
 
 		return (((startPoint).isEqualPointND(s.startPoint)
@@ -136,6 +139,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 						&& (endPoint).isEqualPointND(s.startPoint)));
 	}
 
+	@Override
 	final public boolean isEqual(GeoSegmentND geo) {
 
 		return (getStartInhomCoords().equalsForKernel(geo.getStartInhomCoords())
@@ -201,6 +205,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return true;
 	}
 
+	@Override
 	public void setTwoPointsInhomCoords(Coords start, Coords end) {
 		this.setCoord(start, end.sub(start));
 	}
@@ -208,8 +213,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	@Override
 	public boolean isOnPath(Coords p, double eps) {
 		// first check global line
-		if (!super.isOnPath(p, eps))
+		if (!super.isOnPath(p, eps)) {
 			return false;
+		}
 
 		// then check position on segment
 		return respectLimitedPath(p, eps);
@@ -219,30 +225,37 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	@Override
 	public boolean respectLimitedPath(Coords p, double eps) {
 
-		if (Kernel.isEqual(p.getW(), 0, eps))// infinite point
+		if (Kernel.isEqual(p.getW(), 0, eps)) {
 			return false;
+		}
 		double d = p.sub(getStartInhomCoords()).dotproduct(getDirectionInD3());
-		if (d < -eps)
+		if (d < -eps) {
 			return false;
+		}
 		double l = getLength();
-		if (d > l * l + eps)
+		if (d > l * l + eps) {
 			return false;
+		}
 
 		return true;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
 
+	@Override
 	public double getMaxParameter() {
 		return 1;
 	}
 
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		// TODO Auto-generated method stub
 		return false;
@@ -251,11 +264,13 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	// ///////////////////////////////////
 	// GeoSegmentInterface interface
 
+	@Override
 	public double getPointX(double parameter) {
 		// TODO delete from GeoSegmentND
 		return 0;
 	}
 
+	@Override
 	public double getPointY(double parameter) {
 		// TODO delete from GeoSegmentND
 		return 0;
@@ -274,10 +289,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 						.sub(startPoint.getInhomCoordsInD3())).mul(parameter));
 	}
 
+	@Override
 	public GeoElement getStartPointAsGeoElement() {
 		return (GeoElement) startPoint;
 	}
 
+	@Override
 	public GeoElement getEndPointAsGeoElement() {
 		return (GeoElement) endPoint;
 	}
@@ -306,18 +323,22 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return true;
 	}
 
+	@Override
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;
 	}
 
+	@Override
 	public void setAllowOutlyingIntersections(boolean flag) {
 		allowOutlyingIntersections = flag;
 	}
 
+	@Override
 	public boolean keepsTypeOnGeometricTransform() {
 		return keepTypeOnGeometricTransform;
 	}
 
+	@Override
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		keepTypeOnGeometricTransform = flag;
 	}
@@ -327,6 +348,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	/**
 	 * creates new transformed segment
 	 */
+	@Override
 	public GeoElement[] createTransformedObject(Transform t,
 			String labelTrans) {
 
@@ -357,14 +379,17 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		}
 	}
 
+	@Override
 	public boolean isAllEndpointsLabelsSet() {
 		return !forceSimpleTransform && startPoint.isLabelSet()
 				&& endPoint.isLabelSet();
 	}
 
+	@Override
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
-		if (allowOutlyingIntersections)
+		if (allowOutlyingIntersections) {
 			return isOnFullLine(p.getCoordsInD3(), eps);
+		}
 		return isOnPath(p, eps);
 	}
 
@@ -380,8 +405,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		if (!geo.isGeoSegment())
+		if (!geo.isGeoSegment()) {
 			return;
+		}
 
 		GeoSegmentND seg = (GeoSegmentND) geo;
 
@@ -396,8 +422,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 */
 	public void setSegment(GeoSegmentND seg) {
 
-		if (!seg.isDefined())
+		if (!seg.isDefined()) {
 			setUndefined();
+		}
 
 		setKeepTypeOnGeometricTransform(seg.keepsTypeOnGeometricTransform());
 
@@ -420,10 +447,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	}
 
+	@Override
 	final public MyDouble getNumber() {
 		return new MyDouble(kernel, getLength());
 	}
 
+	@Override
 	final public double getDouble() {
 		return getLength();
 	}
@@ -444,6 +473,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return 1;
 	}
 
+	@Override
 	public GeoElement[] getMetas() {
 		return new GeoElement[] { meta };
 	}
@@ -456,6 +486,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		meta = poly;
 	}
 
+	@Override
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q) {
 		AlgoJoinPoints3D algo = (AlgoJoinPoints3D) getParentAlgorithm();
 		algo.modifyInputPoints(P, Q);
@@ -477,10 +508,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		algo.modifyInputPolyAndPoints(poly, P, Q);
 	}
 
+	@Override
 	public final void removePointOnLine(GeoPointND p) {
 		// TODO
 	}
 
+	@Override
 	public boolean respectLimitedPath(double parameter) {
 		return Kernel.isGreaterEqual(parameter, 0)
 				&& Kernel.isGreaterEqual(1, parameter);
@@ -505,6 +538,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	}
 
+	@Override
 	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2) {
 		setCoordFromPoints(
 				new Coords(locusPoint.x, locusPoint.y, locusPoint.getZ(), 1.0),
@@ -517,6 +551,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * P.distLine(getStartInhomCoords(), getDirectionInD3()); }
 	 */
 
+	@Override
 	public GeoElement copyFreeSegment() {
 		GeoPointND startPoint1 = (GeoPointND) getStartPoint()
 				.copyInternal(cons);
@@ -543,10 +578,12 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return false;
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
 
+	@Override
 	public final void setStartPoint(GeoPointND P) {
 		startPoint = P;
 	}
@@ -557,6 +594,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 
+	@Override
 	public Coords getOrigin() {
 		return getCoordSys().getOrigin();
 	}
@@ -574,6 +612,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 *            changeable coord parent
 	 * 
 	 */
+	@Override
 	final public void setChangeableCoordParentIfNull(
 			ChangeableCoordParent ccp) {
 		if (changeableCoordParent == null) {

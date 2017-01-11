@@ -169,6 +169,7 @@ public abstract class DrawEquation {
 
 			HasForegroundColor fg = new HasForegroundColor() {
 
+				@Override
 				public Color getForegroundColor() {
 					return fgColor;
 				}

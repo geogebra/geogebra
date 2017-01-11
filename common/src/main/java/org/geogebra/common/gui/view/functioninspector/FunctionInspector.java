@@ -193,6 +193,7 @@ public abstract class FunctionInspector
 	// View Implementation
 	// ====================================================
 
+	@Override
 	public void update(GeoElement geo) {
 
 		if (!getModel().isValid() || isChangingValue || isIniting) {
@@ -203,32 +204,41 @@ public abstract class FunctionInspector
 
 	}
 
+	@Override
 	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 
+	@Override
 	public void add(GeoElement geo) {
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
 
+	@Override
 	public void remove(GeoElement geo) {
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 	}
 
+	@Override
 	public void repaintView() {
 	}
 
+	@Override
 	public void clearView() {
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 	}
 
@@ -239,6 +249,7 @@ public abstract class FunctionInspector
 	private void createGeoElementSelectionListener() {
 		if (sl == null) {
 			sl = new GeoElementSelectionListener() {
+				@Override
 				public void geoElementSelected(GeoElement geo,
 						boolean addToSelection) {
 					insertGeoElement(geo);
@@ -291,6 +302,7 @@ public abstract class FunctionInspector
 
 	protected abstract void changeStart(double x);
 
+	@Override
 	public void changedNumberFormat() {
 		this.updateGUI();
 		this.updateIntervalFields();
@@ -302,6 +314,7 @@ public abstract class FunctionInspector
 
 	protected abstract void doCopyToSpreadsheet();
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_FUNCTION_INSPECTOR;
 	}
@@ -310,16 +323,19 @@ public abstract class FunctionInspector
 		Log.debug("unimplemented");
 	}
 
+	@Override
 	public boolean isShowing() {
 		Log.debug("unimplemented");
 		return false;
 	}
 
+	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 

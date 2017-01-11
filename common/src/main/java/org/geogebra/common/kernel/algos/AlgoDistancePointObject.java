@@ -88,6 +88,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	@Override
 	public GeoNumeric getDistance() {
 		return dist;
 	}
@@ -103,10 +104,11 @@ public class AlgoDistancePointObject extends AlgoElement
 	// calc length of vector v
 	@Override
 	public final void compute() {
-		if (closePt != null)
+		if (closePt != null) {
 			dist.setValue(closePt.getP().distance(P));
-		else
+		} else {
 			dist.setValue(g.distance(P));
+		}
 	}
 
 	@Override

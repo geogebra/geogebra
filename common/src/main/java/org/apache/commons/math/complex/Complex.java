@@ -160,6 +160,7 @@ public class Complex implements FieldElement<Complex>, Serializable {
 	 * @throws NullPointerException
 	 *             if <code>rhs</code> is null
 	 */
+	@Override
 	public Complex add(Complex rhs) {
 		return createComplex(real + rhs.getReal(),
 				imaginary + rhs.getImaginary());
@@ -230,6 +231,7 @@ public class Complex implements FieldElement<Complex>, Serializable {
 	 * @throws NullPointerException
 	 *             if <code>rhs</code> is null
 	 */
+	@Override
 	public Complex divide(Complex rhs) {
 		if (isNaN() || rhs.isNaN()) {
 			return NaN;
@@ -383,6 +385,7 @@ public class Complex implements FieldElement<Complex>, Serializable {
 	 * @throws NullPointerException
 	 *             if <code>rhs</code> is null
 	 */
+	@Override
 	public Complex multiply(Complex rhs) {
 		if (isNaN() || rhs.isNaN()) {
 			return NaN;
@@ -478,6 +481,7 @@ public class Complex implements FieldElement<Complex>, Serializable {
 	 * @throws NullPointerException
 	 *             if <code>rhs</code> is null
 	 */
+	@Override
 	public Complex subtract(Complex rhs) {
 		if (isNaN() || rhs.isNaN()) {
 			return NaN;
@@ -1185,6 +1189,7 @@ public class Complex implements FieldElement<Complex>, Serializable {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ComplexField getField() {
 		return ComplexField.getInstance();
 	}

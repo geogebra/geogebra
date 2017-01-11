@@ -102,8 +102,9 @@ public class PolynomialUtils {
 	 */
 	public static int getDegree(double[] c) {
 		for (int i = c.length - 1; i >= 0; i--) {
-			if (!Kernel.isZero(c[i]))
+			if (!Kernel.isZero(c[i])) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -115,8 +116,9 @@ public class PolynomialUtils {
 	 */
 	public static double getLeadingCoeff(double[] c) {
 		int d = getDegree(c);
-		if (d >= 0)
+		if (d >= 0) {
 			return c[d];
+		}
 		return 0;
 	}
 
@@ -137,8 +139,9 @@ public class PolynomialUtils {
 	 * @return p(x)
 	 */
 	public static double eval(double[] c, double x) {
-		if (c.length == 0)
+		if (c.length == 0) {
 			return 0;
+		}
 		double s = c[c.length - 1];
 		for (int i = c.length - 2; i >= 0; i--) {
 			s *= x;
@@ -220,10 +223,11 @@ public class PolynomialUtils {
 			return false;
 		}
 		p = p1.evaluateImplicitCurve(x, y);
-		if (p2 != null)
+		if (p2 != null) {
 			q = p2.evaluateImplicitCurve(x, y);
-		else
+		} else {
 			q = line[0] + x * line[1] + y * line[2];
+		}
 		double lastErr = Double.MAX_VALUE;
 		double err = Math.abs(p) + Math.abs(q);
 		int n = 0;

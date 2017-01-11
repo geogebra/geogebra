@@ -93,6 +93,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 	/**
 	 * @return Normal PDF or CDF function
 	 */
+	@Override
 	public GeoFunction getResult() {
 		return ret;
 	}

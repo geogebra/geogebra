@@ -80,9 +80,9 @@ public class AlgoVector extends AlgoElement
 
 		// set startpoint of vector
 		try {
-			if (P.isLabelSet())
+			if (P.isLabelSet()) {
 				v.setStartPoint(P);
-			else {
+			} else {
 				GeoPointND startPoint = newStartPoint();
 				// GeoPoint startPoint = new GeoPoint(P);
 				startPoint.set(P);
@@ -166,10 +166,11 @@ public class AlgoVector extends AlgoElement
 			// update position of unlabeled startpoint
 			GeoPointND startPoint = v.getStartPoint();
 
-			if (startPoint != null)
+			if (startPoint != null) {
 				if (!startPoint.isLabelSet()) {
 					startPoint.set(P);
 				}
+			}
 
 		} else {
 			v.setUndefined();
@@ -183,10 +184,12 @@ public class AlgoVector extends AlgoElement
 		v.setCoords(P.vectorTo(Q));
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null && P instanceof SymbolicParametersAlgo
@@ -198,6 +201,7 @@ public class AlgoVector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (P != null && Q != null && P instanceof SymbolicParametersAlgo
 				&& Q instanceof SymbolicParametersAlgo) {
@@ -215,6 +219,7 @@ public class AlgoVector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -235,6 +240,7 @@ public class AlgoVector extends AlgoElement
 		return null;
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -256,10 +262,12 @@ public class AlgoVector extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

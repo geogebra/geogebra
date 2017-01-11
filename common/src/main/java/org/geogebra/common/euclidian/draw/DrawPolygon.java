@@ -254,10 +254,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 					// draw the triangle fans
 
 					// needs specific path for fans
-					if (gpTriangularize == null)
+					if (gpTriangularize == null) {
 						gpTriangularize = new GeneralPathClipped(view);
-					else
+					} else {
 						gpTriangularize.reset();
+					}
 
 					for (TriangleFan triFan : pt.getTriangleFans()) {
 						// we need here verticesWithIntersections, for
@@ -427,18 +428,21 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	// return false if a point doesn't lie on the plane
 	private boolean addPointsToPath(int length) {
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClipped(view);
-		else
+		} else {
 			gp.reset();
+		}
 
-		if (length <= 0)
+		if (length <= 0) {
 			return false;
+		}
 
 		// first point
 		Coords v = getCoords(0);
-		if (!Kernel.isZero(v.getZ()))
+		if (!Kernel.isZero(v.getZ())) {
 			return false;
+		}
 		coords[0] = v.getX();
 		coords[1] = v.getY();
 		view.toScreenCoords(coords);
@@ -508,6 +512,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void updatePreview() {
 		int size = points.size();
 		isVisible = size > 0;
@@ -519,6 +524,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
+	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
@@ -611,12 +617,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
 				gp.lineTo(mx, my);
-			} else
+			} else {
 				view.getEuclidianController().setLineEndPoint(null);
+			}
 			gp.lineTo(view.toScreenCoordX(xRW), view.toScreenCoordY(yRW));
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 
@@ -630,6 +638,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}
@@ -704,8 +713,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	public GArea getShape() {
-		if (geo.isInverseFill() || super.getShape() != null)
+		if (geo.isInverseFill() || super.getShape() != null) {
 			return super.getShape();
+		}
 		setShape(AwtFactory.getPrototype().newArea(gp));
 		return super.getShape();
 	}

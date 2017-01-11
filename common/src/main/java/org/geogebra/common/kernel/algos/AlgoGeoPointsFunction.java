@@ -90,8 +90,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 		// make sure that there are at least as many
 		// points as labels
-		if (labels != null)
+		if (labels != null) {
 			initPoints(labels.length);
+		}
 
 		update();
 	}// setLabels(String[])
@@ -143,8 +144,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			points[i].setUndefined();
 		} //
 
-		if (setLabels)
+		if (setLabels) {
 			updateLabels(number);
+		}
 		noUndefinedPointsInAlgebraView(points); // **** experiment****
 	}// setPoints(double[],n)
 
@@ -231,10 +233,12 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		// build new rootPoints array without the removed point
 		GeoPoint[] temp = new GeoPoint[points.length - 1];
 		int i;
-		for (i = 0; i < pos; i++)
+		for (i = 0; i < pos; i++) {
 			temp[i] = points[i];
-		for (i = pos + 1; i < points.length; i++)
+		}
+		for (i = pos + 1; i < points.length; i++) {
 			temp[i - 1] = points[i];
+		}
 		points = temp;
 	}// removePoint(int pos)
 

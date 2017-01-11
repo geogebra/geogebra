@@ -90,7 +90,9 @@ public class AlgoReverse extends AlgoElement {
 		outputList.clear();
 
 		if (size == 0)
+		 {
 			return; // return empty list
+		}
 
 		for (int i = 0; i < size; i++) {
 			// need to copy elements like eg {(1,1)} so the properties can be

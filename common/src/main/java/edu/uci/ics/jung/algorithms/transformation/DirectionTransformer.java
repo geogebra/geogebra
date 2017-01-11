@@ -60,18 +60,20 @@ public class DirectionTransformer {
 			Factory<E> edge_factory, boolean create_new) {
 		UndirectedGraph<V, E> out = graph_factory.create();
 
-		for (V v : graph.getVertices())
+		for (V v : graph.getVertices()) {
 			out.addVertex(v);
+		}
 
 		for (E e : graph.getEdges()) {
 			Pair<V> endpoints = graph.getEndpoints(e);
 			V v1 = endpoints.getFirst();
 			V v2 = endpoints.getSecond();
 			E to_add;
-			if (graph.getEdgeType(e) == EdgeType.DIRECTED || create_new)
+			if (graph.getEdgeType(e) == EdgeType.DIRECTED || create_new) {
 				to_add = edge_factory.create();
-			else
+			} else {
 				to_add = e;
+			}
 			out.addEdge(to_add, v1, v2, EdgeType.UNDIRECTED);
 		}
 		return out;
@@ -105,8 +107,9 @@ public class DirectionTransformer {
 			boolean create_new) {
 		DirectedGraph<V, E> out = graph_factory.create();
 
-		for (V v : graph.getVertices())
+		for (V v : graph.getVertices()) {
 			out.addVertex(v);
+		}
 
 		for (E e : graph.getEdges()) {
 			Pair<V> endpoints = graph.getEndpoints(e);

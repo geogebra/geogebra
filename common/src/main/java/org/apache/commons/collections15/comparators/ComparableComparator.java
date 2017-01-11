@@ -97,6 +97,7 @@ public class ComparableComparator<T extends Comparable>
 	 *             when <i>obj1</i> is not a <code>Comparable</code>, or when
 	 *             <code>((Comparable)obj1).compareTo(obj2)</code> does
 	 */
+	@Override
 	public int compare(T obj1, T obj2) {
 		return obj1.compareTo(obj2);
 	}
@@ -109,6 +110,7 @@ public class ComparableComparator<T extends Comparable>
 	 * @return a hash code for this comparator.
 	 * @since Commons Collections 3.0
 	 */
+	@Override
 	public int hashCode() {
 		return "ComparableComparator".hashCode();
 	}
@@ -129,6 +131,7 @@ public class ComparableComparator<T extends Comparable>
 	 * @return true if equal
 	 * @since Commons Collections 3.0
 	 */
+	@Override
 	public boolean equals(Object object) {
 		return (this == object) || ((null != object)
 				&& (object.getClass().equals(this.getClass())));

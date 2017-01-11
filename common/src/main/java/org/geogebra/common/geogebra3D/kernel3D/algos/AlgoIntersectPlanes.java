@@ -143,8 +143,9 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 	// TODO optimize it, using the coefficients of planes directly
 	public static int getConfigPlanePlane(CoordSys cs1, CoordSys cs2) {
 
-		if (cs1.getDimension() != 2 || cs2.getDimension() != 2)
+		if (cs1.getDimension() != 2 || cs2.getDimension() != 2) {
 			return RESULTCATEGORY_NA;
+		}
 
 		// normal vectors of plane1,2 are parallel
 		if (cs1.getNormal().crossProduct(cs2.getNormal()).isZero()) {

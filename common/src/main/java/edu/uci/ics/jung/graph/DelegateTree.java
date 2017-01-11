@@ -36,6 +36,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 */
 	public static final <V, E> Factory<Tree<V, E>> getFactory() {
 		return new Factory<Tree<V, E>>() {
+			@Override
 			public Tree<V, E> create() {
 				return new DelegateTree<V, E>(
 						new DirectedSparseMultigraph<V, E>());
@@ -154,8 +155,9 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 */
 	@Override
 	public boolean removeVertex(V vertex) {
-		if (!delegate.containsVertex(vertex))
+		if (!delegate.containsVertex(vertex)) {
 			return false;
+		}
 		for (V v : getChildren(vertex)) {
 			removeVertex(v);
 			vertex_depths.remove(v);
@@ -224,27 +226,33 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * get the number of children of the passed parent node
 	 */
+	@Override
 	public int getChildCount(V parent) {
-		if (!delegate.containsVertex(parent))
+		if (!delegate.containsVertex(parent)) {
 			return 0;
+		}
 		return getChildren(parent).size();
 	}
 
 	/**
 	 * get the immediate children nodes of the passed parent
 	 */
+	@Override
 	public Collection<V> getChildren(V parent) {
-		if (!delegate.containsVertex(parent))
+		if (!delegate.containsVertex(parent)) {
 			return null;
+		}
 		return delegate.getSuccessors(parent);
 	}
 
 	/**
 	 * get the single parent node of the passed child
 	 */
+	@Override
 	public V getParent(V child) {
-		if (!delegate.containsVertex(child))
+		if (!delegate.containsVertex(child)) {
 			return null;
+		}
 		Collection<V> predecessors = delegate.getPredecessors(child);
 		if (predecessors.size() == 0) {
 			return null;
@@ -261,8 +269,9 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * @return an ordered list of the nodes from root to child
 	 */
 	public List<V> getPath(V vertex) {
-		if (!delegate.containsVertex(vertex))
+		if (!delegate.containsVertex(vertex)) {
 			return null;
+		}
 		List<V> vertex_to_root = new ArrayList<V>();
 		vertex_to_root.add(vertex);
 		V parent = getParent(vertex);
@@ -272,8 +281,9 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 		}
 		// reverse list so that it goes from root to child
 		List<V> root_to_vertex = new ArrayList<V>(vertex_to_root.size());
-		for (int i = vertex_to_root.size() - 1; i >= 0; i--)
+		for (int i = vertex_to_root.size() - 1; i >= 0; i--) {
 			root_to_vertex.add(vertex_to_root.get(i));
+		}
 		return root_to_vertex;
 	}
 
@@ -282,6 +292,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * 
 	 * @return the root
 	 */
+	@Override
 	public V getRoot() {
 		return root;
 	}
@@ -316,6 +327,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 *            the node who's depth is computed
 	 * @return the depth to the passed node.
 	 */
+	@Override
 	public int getDepth(V v) {
 		return this.vertex_depths.get(v);
 	}
@@ -325,6 +337,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * 
 	 * @return the height
 	 */
+	@Override
 	public int getHeight() {
 		int height = 0;
 		for (V v : getVertices()) {
@@ -341,8 +354,9 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 *         root of this tree
 	 */
 	public boolean isInternal(V v) {
-		if (!delegate.containsVertex(v))
+		if (!delegate.containsVertex(v)) {
 			return false;
+		}
 		return isLeaf(v) == false && isRoot(v) == false;
 	}
 
@@ -352,8 +366,9 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * @return <code>true</code> if the passed node has no children
 	 */
 	public boolean isLeaf(V v) {
-		if (!delegate.containsVertex(v))
+		if (!delegate.containsVertex(v)) {
 			return false;
+		}
 		return getChildren(v).size() == 0;
 	}
 
@@ -361,15 +376,17 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * computes whether the passed node is a root node (has no children)
 	 */
 	public boolean isRoot(V v) {
-		if (!delegate.containsVertex(v))
+		if (!delegate.containsVertex(v)) {
 			return false;
+		}
 		return getParent(v) == null;
 	}
 
 	@Override
 	public int getIncidentCount(E edge) {
-		if (!delegate.containsEdge(edge))
+		if (!delegate.containsEdge(edge)) {
 			return 0;
+		}
 		// all edges in a tree connect exactly 2 vertices
 		return 2;
 	}
@@ -391,14 +408,17 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 		return "Tree of " + delegate.toString();
 	}
 
+	@Override
 	public Collection<Tree<V, E>> getTrees() {
 		return Collections.<Tree<V, E>> singleton(this);
 	}
 
+	@Override
 	public Collection<E> getChildEdges(V vertex) {
 		return getOutEdges(vertex);
 	}
 
+	@Override
 	public E getParentEdge(V vertex) {
 		return getInEdges(vertex).iterator().next();
 	}

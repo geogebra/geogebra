@@ -20,6 +20,7 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 
 	private GeoQuadric3D quadric;
 
+	@Override
 	protected void init(GeoElement line, GeoElement geo2) {
 
 		super.init(line);

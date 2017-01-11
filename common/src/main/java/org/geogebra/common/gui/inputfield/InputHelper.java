@@ -144,8 +144,9 @@ public class InputHelper {
 			boolean onlySquareBrackets) {
 		int caretPos = caretPos0;
 		int curWordStart;
-		if (text == null)
+		if (text == null) {
 			return -1;
+		}
 
 		if (searchRight) {
 			// search to right first to see if we are inside [ ]
@@ -154,18 +155,21 @@ public class InputHelper {
 
 			while (curWordStart < text.length()) {
 				char c = text.charAt(curWordStart);
-				if (isOpenBracket(c, onlySquareBrackets))
+				if (isOpenBracket(c, onlySquareBrackets)) {
 					break;
-				if (isCloseBracket(c, onlySquareBrackets))
+				}
+				if (isCloseBracket(c, onlySquareBrackets)) {
 					insideBrackets = true;
+				}
 				curWordStart++;
 			}
 
 			// found [, so go back until we get a ]
 			if (insideBrackets) {
 				while (caretPos > 0 && !isOpenBracket(text.charAt(caretPos),
-						onlySquareBrackets))
+						onlySquareBrackets)) {
 					caretPos--;
+				}
 			}
 		}
 
@@ -180,8 +184,9 @@ public class InputHelper {
 		int curWordEnd = caretPos;
 		int length = text.length();
 		while (curWordEnd < length && StringUtil
-				.isLetterOrDigitOrUnderscore(text.charAt(curWordEnd)))
+				.isLetterOrDigitOrUnderscore(text.charAt(curWordEnd))) {
 			++curWordEnd;
+		}
 
 		curWord.setLength(0);
 		if (curWordEnd <= length) {

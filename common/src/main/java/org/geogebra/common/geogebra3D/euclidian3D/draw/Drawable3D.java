@@ -319,8 +319,9 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected boolean hasTrace() {
 
-		if (createdByDrawList())
+		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).hasTrace();
+		}
 
 		if (getGeoElement() == null) {
 			return false;
@@ -700,8 +701,9 @@ public abstract class Drawable3D extends DrawableND {
 
 		// check pickability
 
-		if (!isVisible())
+		if (!isVisible()) {
 			return null;
+		}
 
 		if (intersection) { // used for intersection tool
 
@@ -709,8 +711,9 @@ public abstract class Drawable3D extends DrawableND {
 
 		} else {
 
-			if (!getGeoElement().isPickable())
+			if (!getGeoElement().isPickable()) {
 				return null;
+			}
 
 			drawGeometryForPicking(renderer, type);
 
@@ -798,12 +801,15 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	private boolean drawLabel(Renderer renderer, boolean forPicking) {
 
-		if (forPicking)
-			if (!(getGeoElement().isPickable()))
+		if (forPicking) {
+			if (!(getGeoElement().isPickable())) {
 				return false;
+			}
+		}
 
-		if (!isLabelVisible())
+		if (!isLabelVisible()) {
 			return false;
+		}
 
 		label.draw(renderer, forPicking);
 
@@ -918,10 +924,12 @@ public abstract class Drawable3D extends DrawableND {
 		if (this.zPickFar <= d.zPickNear && d.zPickFar <= this.zPickNear) {
 
 			if (checkPickOrder) {
-				if (this.getPickOrder() < d.getPickOrder())
+				if (this.getPickOrder() < d.getPickOrder()) {
 					return -1;
-				if (this.getPickOrder() > d.getPickOrder())
+				}
+				if (this.getPickOrder() > d.getPickOrder()) {
 					return 1;
+				}
 			}
 
 			GeoElement geo1 = this.getGeoElement();
@@ -931,16 +939,20 @@ public abstract class Drawable3D extends DrawableND {
 			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
 				// check if one is on a path and the other not
 				if ((((GeoPointND) geo1).hasPath())
-						&& (!((GeoPointND) geo2).hasPath()))
+						&& (!((GeoPointND) geo2).hasPath())) {
 					return -1;
+				}
 				if ((!((GeoPointND) geo1).hasPath())
-						&& (((GeoPointND) geo2).hasPath()))
+						&& (((GeoPointND) geo2).hasPath())) {
 					return 1;
+				}
 				// check if one is the child of the other
-				if (geo1.isMoveable() && geo1.isChildOf(geo2))
+				if (geo1.isMoveable() && geo1.isChildOf(geo2)) {
 					return -1;
-				if (geo2.isMoveable() && geo2.isChildOf(geo1))
+				}
+				if (geo2.isMoveable() && geo2.isChildOf(geo1)) {
 					return 1;
+				}
 			} else {
 				// any geo before a plane
 				if (!geo1.isGeoPlane() && geo2.isGeoPlane()) {
@@ -1010,10 +1022,12 @@ public abstract class Drawable3D extends DrawableND {
 			 */
 
 			// check if one set is empty
-			if (set1.isEmpty())
+			if (set1.isEmpty()) {
 				return 1;
-			if (set2.isEmpty())
+			}
+			if (set2.isEmpty()) {
 				return -1;
+			}
 
 			Drawable3D d1 = set1.first();
 			Drawable3D d2 = set2.first();
@@ -1035,10 +1049,12 @@ public abstract class Drawable3D extends DrawableND {
 			return false;
 		}
 
-		if (getGeoElement().doHighlighting())
+		if (getGeoElement().doHighlighting()) {
 			return true;
-		if (createdByDrawList())
+		}
+		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).doHighlighting();
+		}
 		return false;
 	}
 
@@ -1674,6 +1690,7 @@ public abstract class Drawable3D extends DrawableND {
 		}
 	}
 
+	@Override
 	public boolean isTracing() {
 		return false;
 	}

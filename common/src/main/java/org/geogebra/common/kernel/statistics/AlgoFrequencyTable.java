@@ -161,22 +161,27 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 			ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
 
-			if (isCumulative != null)
+			if (isCumulative != null) {
 				tempList.add(isCumulative);
+			}
 
-			if (classList != null)
+			if (classList != null) {
 				tempList.add(classList);
+			}
 
 			tempList.add(dataList);
 
-			if (useDensity != null)
+			if (useDensity != null) {
 				tempList.add(useDensity);
+			}
 
-			if (density != null)
+			if (density != null) {
 				tempList.add(density);
+			}
 
-			if (scale != null)
+			if (scale != null) {
 				tempList.add(scale);
+			}
 
 			input = new GeoElement[tempList.size()];
 			input = tempList.toArray(input);

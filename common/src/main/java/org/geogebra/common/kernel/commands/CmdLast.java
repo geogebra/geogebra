@@ -64,9 +64,10 @@ public class CmdLast extends CommandProcessor {
 				GeoElement[] ret = { Last(c.getLabel(), (GeoText) arg[0],
 						(GeoNumeric) arg[1]) };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c,
 						(list && text) ? arg[1] : arg[0]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

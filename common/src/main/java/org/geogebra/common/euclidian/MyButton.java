@@ -92,8 +92,9 @@ public class MyButton implements Observer {
 		if (geoButton.getFillImage() != null) {
 			imgHeight = geoButton.getFillImage().getHeight();
 			imgWidth = geoButton.getFillImage().getWidth();
-			if (hasText)
+			if (hasText) {
 				imgGap = 4;
+			}
 		}
 		GTextLayout t = null;
 		// get dimensions
@@ -509,6 +510,7 @@ public class MyButton implements Observer {
 		geoButton.setFixedSize(fixedSize);
 	}
 
+	@Override
 	public void notifySizeChanged() {
 		geoButton.getKernel().notifyRepaint();
 	}

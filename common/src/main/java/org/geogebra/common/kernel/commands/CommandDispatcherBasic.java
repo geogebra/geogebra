@@ -12,6 +12,7 @@ import org.geogebra.common.plugin.Operation;
  *
  */
 public class CommandDispatcherBasic implements CommandDispatcherInterface {
+	@Override
 	public CommandProcessor dispatch(Commands c, Kernel kernel) {
 		switch (c) {
 		// basic

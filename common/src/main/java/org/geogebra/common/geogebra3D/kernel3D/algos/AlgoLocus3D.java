@@ -118,18 +118,24 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 		double lengthX = coords.getX() - lastX;
 		double lengthY = coords.getY() - lastY;
 		double lengthZ = coords.getY() - lastZ;
-		if (coords.getX() < minX)
+		if (coords.getX() < minX) {
 			minX = coords.getX();
-		if (coords.getY() < minY)
+		}
+		if (coords.getY() < minY) {
 			minY = coords.getY();
-		if (coords.getZ() < minZ)
+		}
+		if (coords.getZ() < minZ) {
 			minZ = coords.getZ();
-		if (lengthX < 0)
+		}
+		if (lengthX < 0) {
 			lengthX = -lengthX;
-		if (lengthY < 0)
+		}
+		if (lengthY < 0) {
 			lengthY = -lengthY;
-		if (lengthZ < 0)
+		}
+		if (lengthZ < 0) {
 			lengthZ = -lengthZ;
+		}
 		return !rectangle.intersects(minX, minY, lengthX, lengthY);
 		// TODO
 	}

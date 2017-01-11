@@ -78,8 +78,9 @@ public class AlgoDependentPoint extends AlgoElement
 
 		setInputOutput(); // for AlgoElement
 
-		if (complex)
+		if (complex) {
 			P.setMode(Kernel.COORD_COMPLEX);
+		}
 
 		// compute value of dependent number
 		compute();
@@ -107,6 +108,7 @@ public class AlgoDependentPoint extends AlgoElement
 		return P;
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return P.getDefinition();
 	}
@@ -139,6 +141,7 @@ public class AlgoDependentPoint extends AlgoElement
 				: P.getDefinition().toString(tpl);
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		GeoElement left = (GeoElement) P.getDefinition().getLeft();
 		// GeoElement right = (GeoElement) root.getRight();
@@ -149,6 +152,7 @@ public class AlgoDependentPoint extends AlgoElement
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;

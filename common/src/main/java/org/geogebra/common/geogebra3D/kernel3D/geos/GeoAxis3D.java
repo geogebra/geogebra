@@ -28,6 +28,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		super(cons);
 	}
 
+	@Override
 	public int getType() {
 		return type;
 	}
@@ -103,16 +104,19 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return true;
 	}
 
+	@Override
 	public String getUnitLabel() {
 		// TODO Auto-generated method stub
 		return "";
 	}
 
+	@Override
 	public int getTickStyle() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public boolean getShowNumbers() {
 		// TODO Auto-generated method stub
 		return true;
@@ -121,6 +125,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	/**
 	 * @return tick size
 	 */
+	@Override
 	public int getTickSize() {
 		return ticksize;
 	}

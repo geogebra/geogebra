@@ -229,10 +229,12 @@ public class ColorProvider {
 
 	private static String trimVar(String var) {
 		String ret = var;
-		if (ret.charAt(0) == '(')
+		if (ret.charAt(0) == '(') {
 			ret = ret.substring(1);
-		if (ret.charAt(ret.length() - 1) == ')')
+		}
+		if (ret.charAt(ret.length() - 1) == ')') {
 			ret = ret.substring(0, ret.length() - 1);
+		}
 		return ret.trim();
 	}
 
@@ -326,10 +328,11 @@ public class ColorProvider {
 				int nrOfBrackets = 1;
 				char closingBracket = getClosingBracket(openingBracket);
 				for (; i < text.length() && nrOfBrackets != 0; i++) {
-					if (text.charAt(i) == openingBracket.charAt(0))
+					if (text.charAt(i) == openingBracket.charAt(0)) {
 						nrOfBrackets++;
-					else if (text.charAt(i) == closingBracket)
+					} else if (text.charAt(i) == closingBracket) {
 						nrOfBrackets--;
+					}
 				}
 				params = text.substring(paramsStart, i);
 				step = paramsStart + params.length();

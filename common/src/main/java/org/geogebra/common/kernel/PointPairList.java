@@ -61,8 +61,9 @@ public class PointPairList {
 
 		PointPair currentPair = head;
 		while (currentPair.next != null) {
-			if (smallerThan(newPair, currentPair.next))
+			if (smallerThan(newPair, currentPair.next)) {
 				break;
+			}
 			currentPair = currentPair.next;
 		}
 
@@ -129,12 +130,14 @@ public class PointPairList {
 	 *            pair such that pairs with one same point must be removed
 	 */
 	public final void removeAllPairs(PointPair pair) {
-		if (head == null)
+		if (head == null) {
 			return;
+		}
 		while (head.indexP == pair.indexP || head.indexQ == pair.indexQ) {
 			head = head.next;
-			if (head == null)
+			if (head == null) {
 				return;
+			}
 		}
 
 		PointPair prevPair = head, currentPair = head.next;
@@ -187,8 +190,9 @@ public class PointPairList {
 
 		PointPair pair = this.getHead();
 		while (pair != null) {
-			if (pair.indexQ == indexQ)
+			if (pair.indexQ == indexQ) {
 				return pair.indexP;
+			}
 			pair = pair.next;
 		}
 		return -1; // indexQ not found
@@ -205,8 +209,9 @@ public class PointPairList {
 
 		PointPair pair = this.getHead();
 		while (pair != null) {
-			if (pair.indexP == indexP)
+			if (pair.indexP == indexP) {
 				return pair.indexP;
+			}
 			pair = pair.next;
 		}
 		return -1; // indexQ not found

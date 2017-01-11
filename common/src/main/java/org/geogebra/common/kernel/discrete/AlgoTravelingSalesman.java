@@ -18,10 +18,12 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 		super(cons, label, inputList, null);
 	}
 
+	@Override
 	public Commands getClassName() {
 		return Commands.TravelingSalesman;
 	}
 
+	@Override
 	public void compute() {
 
 		size = inputList.size();

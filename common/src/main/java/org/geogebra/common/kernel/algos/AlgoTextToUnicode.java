@@ -70,8 +70,9 @@ public class AlgoTextToUnicode extends AlgoElement {
 
 		int size = t.length();
 
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 
 		for (int i = 0; i < size; i++) {
 			GeoNumeric num = new GeoNumeric(cons);

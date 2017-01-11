@@ -118,23 +118,26 @@ public class DrawLabel3D {
 			GColor color, Coords v, float xOffset, float yOffset) {
 
 		this.origin = v;
-		if (text.length() == 0)
+		if (text.length() == 0) {
 			return;
+		}
 
 		this.color = new Coords((double) color.getRed() / 255,
 				(double) color.getGreen() / 255, (double) color.getBlue() / 255,
 				1);
 
-		if (backgroundColor != null)
+		if (backgroundColor != null) {
 			this.backgroundColor = new Coords(
 					(double) backgroundColor.getRed() / 255,
 					(double) backgroundColor.getGreen() / 255,
 					(double) backgroundColor.getBlue() / 255, 1);
-		else
+		} else {
 			this.backgroundColor = null;
+		}
 
-		if (view.isGrayScaled())
+		if (view.isGrayScaled()) {
 			this.color.convertToGrayScale();
+		}
 
 		setIsVisible(true);
 
@@ -304,6 +307,7 @@ public class DrawLabel3D {
 			this.label = label;
 		}
 
+		@Override
 		public void run() {
 			label.drawable.setLabelWaitForReset();
 			view.repaintView();
@@ -444,11 +448,13 @@ public class DrawLabel3D {
 	 */
 	public void draw(Renderer renderer, boolean forPicking) {
 
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
-		if (textureIndex == -1)
+		if (textureIndex == -1) {
 			return;
+		}
 
 		renderer.setLabelOrigin(labelOrigin);
 

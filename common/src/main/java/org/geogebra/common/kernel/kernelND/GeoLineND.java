@@ -163,6 +163,7 @@ public interface GeoLineND extends GeoDirectionND {
 	 * 
 	 * @return copy
 	 */
+	@Override
 	public GeoLineND copy();
 
 	/**

@@ -109,10 +109,11 @@ public class AlgoTurtle extends AlgoElement {
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		sb.append(getLoc().getPlain("Turtle"));
 

@@ -81,8 +81,9 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 		if (getGeoElement().getMetasLength() > 0) {
 			for (GeoElement meta : ((FromMeta) getGeoElement()).getMetas()) {
-				if (meta != null && meta.doHighlighting())
+				if (meta != null && meta.doHighlighting()) {
 					return true;
+				}
 			}
 		}
 

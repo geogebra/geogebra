@@ -189,6 +189,7 @@ public abstract class GeoVec3D extends GeoElement
 	/**
 	 * @return currently used coordstyle
 	 */
+	@Override
 	public int getMode() {
 		return toStringMode;
 	}
@@ -199,6 +200,7 @@ public abstract class GeoVec3D extends GeoElement
 	 * @param mode
 	 *            new coord style
 	 */
+	@Override
 	public void setMode(int mode) {
 		toStringMode = mode;
 	}
@@ -206,6 +208,7 @@ public abstract class GeoVec3D extends GeoElement
 	/**
 	 * Changes coord style to POLAR
 	 */
+	@Override
 	public void setPolar() {
 		toStringMode = Kernel.COORD_POLAR;
 	}
@@ -213,6 +216,7 @@ public abstract class GeoVec3D extends GeoElement
 	/**
 	 * Changes coord style to CARTESIAN
 	 */
+	@Override
 	public void setCartesian() {
 		toStringMode = Kernel.COORD_CARTESIAN;
 	}
@@ -220,6 +224,7 @@ public abstract class GeoVec3D extends GeoElement
 	/**
 	 * Changes coord style to COMPLEX
 	 */
+	@Override
 	public void setComplex() {
 		toStringMode = Kernel.COORD_COMPLEX;
 	}
@@ -227,10 +232,12 @@ public abstract class GeoVec3D extends GeoElement
 	/**
 	 * Changes coord style to CARTESIAN 3D
 	 */
+	@Override
 	public void setCartesian3D() {
 		toStringMode = Kernel.COORD_CARTESIAN_3D;
 	}
 
+	@Override
 	public void setSpherical() {
 		setMode(Kernel.COORD_SPHERICAL);
 	}
@@ -240,6 +247,7 @@ public abstract class GeoVec3D extends GeoElement
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}

@@ -71,8 +71,9 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 */
 	protected void updateForItSelf(boolean updateDrawMinMax) {
 
-		if (updateDrawMinMax)
+		if (updateDrawMinMax) {
 			updateDrawMinMax();
+		}
 
 		super.updateForItSelf();
 
@@ -98,8 +99,9 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom()
-				|| getView3D().viewChangedByTranslate())
+				|| getView3D().viewChangedByTranslate()) {
 			updateForItSelf();
+		}
 	}
 
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);

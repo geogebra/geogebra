@@ -55,8 +55,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			LinkedHashMap<String, String> attrs) {
 
 		// must do this first
-		if (evSet == null)
+		if (evSet == null) {
 			evSet = app.getSettings().getEuclidian(3);
+		}
 
 		// make sure eg is reset the first time (for each EV) we get the
 		// settings

@@ -11,13 +11,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *          (Zbynek Konecny)
  */
 public class NameDescriptionComparator implements Comparator<GeoElement> {
+	@Override
 	public int compare(GeoElement geo1, GeoElement geo2) {
-		if (geo1 == null)
+		if (geo1 == null) {
 			return -1;
-		else if (geo2 == null)
+		} else if (geo2 == null) {
 			return 1;
-		else
+		} else {
 			return geo1.getNameDescription()
 					.compareTo(geo2.getNameDescription());
+		}
 	}
 }

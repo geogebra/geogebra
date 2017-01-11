@@ -51,8 +51,9 @@ public class DrawableList {
 	 *            Drawable to be inserted
 	 */
 	public final void add(Drawable d) {
-		if (d == null)
+		if (d == null) {
 			return;
+		}
 
 		if (head == null) {
 			head = new Link(d, null);
@@ -121,8 +122,9 @@ public class DrawableList {
 	 *            drawable to be added
 	 */
 	public final void addUnique(Drawable d) {
-		if (!contains(d))
+		if (!contains(d)) {
 			add(d);
+		}
 	}
 
 	/**
@@ -135,8 +137,9 @@ public class DrawableList {
 	public final boolean contains(Drawable d) {
 		Link cur = head;
 		while (cur != null) {
-			if (cur.d == d)
+			if (cur.d == d) {
 				return true;
+			}
 			cur = cur.next;
 		}
 		return false;
@@ -156,12 +159,14 @@ public class DrawableList {
 			if (cur.d == d) {
 				if (prev == null) { // remove from head
 					head = cur.next;
-					if (head == null)
+					if (head == null) {
 						tail = null;
+					}
 				} else { // standard case
 					prev.next = cur.next;
-					if (prev.next == null)
+					if (prev.next == null) {
 						tail = prev;
+					}
 				}
 				size--;
 				return;
@@ -283,6 +288,7 @@ public class DrawableList {
 			reset();
 		}
 
+		@Override
 		final public Drawable next() {
 			if (it == null) {
 				throw new NoSuchElementException();
@@ -292,6 +298,7 @@ public class DrawableList {
 			return ret;
 		}
 
+		@Override
 		final public boolean hasNext() {
 			return (it != null);
 		}
@@ -303,6 +310,7 @@ public class DrawableList {
 			it = head;
 		}
 
+		@Override
 		final public void remove() {
 			// do nothing
 		}

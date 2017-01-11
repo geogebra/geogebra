@@ -187,6 +187,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		return true;
 	}
 
+	@Override
 	public double[] getCoeffs() {
 		MyDouble[] coeffs = prfunction.getCoeffs();
 

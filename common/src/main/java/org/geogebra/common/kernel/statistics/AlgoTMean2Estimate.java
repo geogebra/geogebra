@@ -153,8 +153,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	private static double getDegreeOfFreedom(double v1, double v2, double n1,
 			double n2, boolean pooled) {
 
-		if (pooled)
+		if (pooled) {
 			return n1 + n2 - 2;
+		}
 		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
 				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
 						+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));

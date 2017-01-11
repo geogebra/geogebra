@@ -14,6 +14,7 @@ public abstract class GPoint2D {
 			setLocation(0, 0);
 		}
 
+		@Override
 		public void setLocation(double x, double y) {
 			this.x = x;
 			this.y = y;

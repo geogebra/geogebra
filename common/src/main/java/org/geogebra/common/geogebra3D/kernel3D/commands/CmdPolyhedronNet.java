@@ -41,8 +41,9 @@ public class CmdPolyhedronNet extends CommandProcessor {
 						null);
 			}
 
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
+			}
 			throw argErr(app, c, arg[1]);
 
 			/*
@@ -85,10 +86,12 @@ public class CmdPolyhedronNet extends CommandProcessor {
 						(GeoPolygon) arg[2], segments);
 			}
 
-			if (!ok[0])
+			if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			if (!ok[1])
+			}
+			if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
+			}
 			throw argErr(app, c, arg[2]);
 
 		}

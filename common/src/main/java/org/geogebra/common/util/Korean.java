@@ -11,8 +11,9 @@ public class Korean {
 
 	static void init() {
 
-		if (koreanLeadToTail == null)
+		if (koreanLeadToTail == null) {
 			koreanLeadToTail = new HashMap<Character, Character>();
+		}
 
 		koreanLeadToTail.put(new Character('\u1100'), new Character('\u11a8'));
 		koreanLeadToTail.put(new Character('\u1101'), new Character('\u11a9'));
@@ -51,18 +52,19 @@ public class Korean {
 
 		init();
 
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		boolean lastWasVowel = false;
 
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
-			if (isKoreanMultiChar(c))
+			if (isKoreanMultiChar(c)) {
 				appendKoreanMultiChar(sb, c);
-			else {
+			} else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
 				if (lastWasVowel && isKoreanLeadChar(c)) {
 					sb.append(koreanLeadToTail.get(Character.valueOf(c))
@@ -134,8 +136,9 @@ public class Korean {
 	}
 
 	private static boolean isKoreanTailChar(char c) {
-		if (c >= 0x11a8 && c <= 0x11c2)
+		if (c >= 0x11a8 && c <= 0x11c2) {
 			return true;
+		}
 
 		return false;
 	}
@@ -248,13 +251,15 @@ public class Korean {
 			"missing break is deliberate" })
 	public static String mergeDoubleCharacters(String str) {
 
-		if (str.length() < 2)
+		if (str.length() < 2) {
 			return str;
+		}
 
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		char c, c2;
 
@@ -400,8 +405,9 @@ public class Korean {
 			default:
 				sb.append(c);
 			}
-			if (i == str.length() - 2)
+			if (i == str.length() - 2) {
 				sb.append(str.charAt(str.length() - 1));
+			}
 
 		}
 

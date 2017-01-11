@@ -105,6 +105,7 @@ public class FitRealFunction implements
 	 *            double[] parameters
 	 * @return functionvalue
 	 */
+	@Override
 	public final double value(double x, double[] pars) {
 		for (int i = 0; i < numberOfParameters; i++) {
 			mydoubles[i].set(pars[i]);
@@ -122,6 +123,7 @@ public class FitRealFunction implements
 	 * @param pars
 	 *            double[] parameters
 	 */
+	@Override
 	public final double[] gradient(double x, double[] pars) {
 		double oldf, newf;
 		double deltap = 1.0E-5;// 1E-10 and 1E-15 is far too small, keep E-5

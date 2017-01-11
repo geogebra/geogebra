@@ -54,8 +54,9 @@ public class CmdPerimeter extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

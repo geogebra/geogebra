@@ -35,6 +35,7 @@ public class VertexScoreTransformer<V, S> implements Transformer<V, S> {
 	/**
 	 * Returns the score for this vertex.
 	 */
+	@Override
 	public S transform(V v) {
 		return vs.getVertexScore(v);
 	}

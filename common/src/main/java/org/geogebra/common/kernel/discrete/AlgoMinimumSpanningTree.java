@@ -24,6 +24,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 	protected int edgeCount;
 
 	private static Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
+		@Override
 		public Double transform(MyLink link) {
 			return link.weight;
 		}
@@ -34,10 +35,12 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 		super(cons, label, inputList, null);
 	}
 
+	@Override
 	public Commands getClassName() {
 		return Commands.MinimumSpanningTree;
 	}
 
+	@Override
 	public final void compute() {
 
 		size = inputList.size();
@@ -116,6 +119,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 			this.n2 = n2;
 		}
 
+		@Override
 		public String toString() { // Always good for debugging
 			return "Edge" + id;
 		}

@@ -126,6 +126,7 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 *             if the cumulative probability can not be computed due to
 	 *             convergence or other numerical errors.
 	 */
+	@Override
 	public double cumulativeProbability(double x) throws MathException {
 		double ret;
 		if (x <= 0.0) {
@@ -226,6 +227,7 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 *             if <code>degreesOfFreedom</code> is not positive.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
 		setNumeratorDegreesOfFreedomInternal(degreesOfFreedom);
@@ -253,6 +255,7 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return the numerator degrees of freedom.
 	 */
+	@Override
 	public double getNumeratorDegreesOfFreedom() {
 		return numeratorDegreesOfFreedom;
 	}
@@ -266,6 +269,7 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 *             if <code>degreesOfFreedom</code> is not positive.
 	 * @deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
+	@Override
 	@Deprecated
 	public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
 		setDenominatorDegreesOfFreedomInternal(degreesOfFreedom);
@@ -294,6 +298,7 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @return the denominator degrees of freedom.
 	 */
+	@Override
 	public double getDenominatorDegreesOfFreedom() {
 		return denominatorDegreesOfFreedom;
 	}

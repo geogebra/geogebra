@@ -179,6 +179,7 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 		super(g, h);
 	}
 
+	@Override
 	public AlgoAngleLines3D copy() {
 		return new AlgoAngleLines3D(g.copy(), h.copy());
 	}

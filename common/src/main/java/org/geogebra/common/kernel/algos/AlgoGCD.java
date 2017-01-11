@@ -69,8 +69,9 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 				num.setUndefined();
 			}
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

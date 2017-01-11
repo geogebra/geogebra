@@ -77,8 +77,9 @@ public class AlgoMod extends AlgoTwoNumFunction {
 
 			num.setValue(mod);
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

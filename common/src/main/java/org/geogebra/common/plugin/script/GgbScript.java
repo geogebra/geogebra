@@ -96,10 +96,12 @@ public class GgbScript extends Script {
 	}
 
 	private static boolean isFunction(String[] starr, int i, App app) {
-		if (i >= starr.length - 1 || starr[i + 1].startsWith("["))
+		if (i >= starr.length - 1 || starr[i + 1].startsWith("[")) {
 			return false;
-		if (app.getKernel().lookupLabel(starr[i]) != null)
+		}
+		if (app.getKernel().lookupLabel(starr[i]) != null) {
 			return true;
+		}
 		return false;
 	}
 
@@ -252,6 +254,7 @@ public class GgbScript extends Script {
 	 * 
 	 * @return whether any renaming happened
 	 */
+	@Override
 	public boolean renameGeo(String oldLabel, String newLabel) {
 		if (oldLabel == null || "".equals(oldLabel) || newLabel == null
 				|| "".equals(newLabel)) {

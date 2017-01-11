@@ -119,15 +119,18 @@ public class DrawBoxPlot extends Drawable {
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
+		}
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
 			init();
+		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(sum);
 
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClipped(view);
+		}
 		// init gp
 		gp.reset();
 		double yOff = a.getDouble();

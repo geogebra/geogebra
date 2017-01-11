@@ -42,12 +42,14 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
-			if (b.getDouble() < 0)
+			if (b.getDouble() < 0) {
 				num.setUndefined();
-			else
+			} else {
 				num.setValue(randomNormal(a.getDouble(), b.getDouble()));
-		} else
+			}
+		} else {
 			num.setUndefined();
+		}
 	}
 
 	private double randomNormal(double mean, double sd) {
@@ -69,6 +71,7 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 		num.setValue(d);
 		num.updateRepaint();

@@ -58,10 +58,11 @@ public class AlgoLengthLocus extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (locus.isDefined())
+		if (locus.isDefined()) {
 			length.setValue(locus.getPointLength());
-		else
+		} else {
 			length.setUndefined();
+		}
 	}
 
 }

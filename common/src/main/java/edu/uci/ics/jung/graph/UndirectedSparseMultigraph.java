@@ -53,6 +53,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
 		return new Factory<UndirectedGraph<V, E>>() {
 
+			@Override
 			public UndirectedGraph<V, E> create() {
 				return new UndirectedSparseMultigraph<V, E>();
 			}
@@ -71,18 +72,22 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		edges = new HashMap<E, Pair<V>>();
 	}
 
+	@Override
 	public Collection<E> getEdges() {
 		return Collections.unmodifiableCollection(edges.keySet());
 	}
 
+	@Override
 	public Collection<V> getVertices() {
 		return Collections.unmodifiableCollection(vertices.keySet());
 	}
 
+	@Override
 	public boolean containsVertex(V vertex) {
 		return vertices.keySet().contains(vertex);
 	}
 
+	@Override
 	public boolean containsEdge(E edge) {
 		return edges.keySet().contains(edge);
 	}
@@ -91,6 +96,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		return vertices.get(vertex);
 	}
 
+	@Override
 	public boolean addVertex(V vertex) {
 		if (vertex == null) {
 			throw new IllegalArgumentException("vertex may not be null");
@@ -103,12 +109,15 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		}
 	}
 
+	@Override
 	public boolean removeVertex(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return false;
+		}
 
-		for (E edge : new ArrayList<E>(getIncident_internal(vertex)))
+		for (E edge : new ArrayList<E>(getIncident_internal(vertex))) {
 			removeEdge(edge);
+		}
 
 		vertices.remove(vertex);
 		return true;
@@ -125,19 +134,22 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		validateEdgeType(edge_type);
 
 		Pair<V> new_endpoints = getValidatedEndpoints(edge, endpoints);
-		if (new_endpoints == null)
+		if (new_endpoints == null) {
 			return false;
+		}
 
 		V v1 = endpoints.getFirst();
 		V v2 = endpoints.getSecond();
 
 		edges.put(edge, new_endpoints);
 
-		if (!containsVertex(v1))
+		if (!containsVertex(v1)) {
 			this.addVertex(v1);
+		}
 
-		if (!containsVertex(v2))
+		if (!containsVertex(v2)) {
 			this.addVertex(v2);
+		}
 
 		vertices.get(v1).add(edge);
 		vertices.get(v2).add(edge);
@@ -145,9 +157,11 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		return true;
 	}
 
+	@Override
 	public boolean removeEdge(E edge) {
-		if (!containsEdge(edge))
+		if (!containsEdge(edge)) {
 			return false;
+		}
 
 		Pair<V> endpoints = getEndpoints(edge);
 		V v1 = endpoints.getFirst();
@@ -161,90 +175,109 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		return true;
 	}
 
+	@Override
 	public Collection<E> getInEdges(V vertex) {
 		return this.getIncidentEdges(vertex);
 	}
 
+	@Override
 	public Collection<E> getOutEdges(V vertex) {
 		return this.getIncidentEdges(vertex);
 	}
 
+	@Override
 	public Collection<V> getPredecessors(V vertex) {
 		return this.getNeighbors(vertex);
 	}
 
+	@Override
 	public Collection<V> getSuccessors(V vertex) {
 		return this.getNeighbors(vertex);
 	}
 
+	@Override
 	public Collection<V> getNeighbors(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		Set<V> neighbors = new HashSet<V>();
 		for (E edge : getIncident_internal(vertex)) {
 			Pair<V> endpoints = this.getEndpoints(edge);
 			V e_a = endpoints.getFirst();
 			V e_b = endpoints.getSecond();
-			if (vertex.equals(e_a))
+			if (vertex.equals(e_a)) {
 				neighbors.add(e_b);
-			else
+			} else {
 				neighbors.add(e_a);
+			}
 		}
 
 		return Collections.unmodifiableCollection(neighbors);
 	}
 
+	@Override
 	public Collection<E> getIncidentEdges(V vertex) {
-		if (!containsVertex(vertex))
+		if (!containsVertex(vertex)) {
 			return null;
+		}
 
 		return Collections.unmodifiableCollection(getIncident_internal(vertex));
 	}
 
 	@Override
 	public E findEdge(V v1, V v2) {
-		if (!containsVertex(v1) || !containsVertex(v2))
+		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
+		}
 		for (E edge : getIncident_internal(v1)) {
 			Pair<V> endpoints = this.getEndpoints(edge);
 			V e_a = endpoints.getFirst();
 			V e_b = endpoints.getSecond();
 			if ((v1.equals(e_a) && v2.equals(e_b))
-					|| (v1.equals(e_b) && v2.equals(e_a)))
+					|| (v1.equals(e_b) && v2.equals(e_a))) {
 				return edge;
+			}
 		}
 		return null;
 	}
 
+	@Override
 	public Pair<V> getEndpoints(E edge) {
 		return edges.get(edge);
 	}
 
+	@Override
 	public V getDest(E directed_edge) {
 		return null;
 	}
 
+	@Override
 	public V getSource(E directed_edge) {
 		return null;
 	}
 
+	@Override
 	public boolean isDest(V vertex, E edge) {
 		return false;
 	}
 
+	@Override
 	public boolean isSource(V vertex, E edge) {
 		return false;
 	}
 
+	@Override
 	public int getEdgeCount() {
 		return edges.size();
 	}
 
+	@Override
 	public int getVertexCount() {
 		return vertices.size();
 	}
 
+	@Override
 	public UndirectedSparseMultigraph<V, E> newInstance() {
 		return new UndirectedSparseMultigraph<V, E>();
 	}

@@ -69,6 +69,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	/**
 	 * set derivatives (if not already done)
 	 */
+	@Override
 	public void setDerivatives() {
 
 		if (fun1 != null || fun == null) {
@@ -138,6 +139,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	/**
 	 * reset derivatives
 	 */
+	@Override
 	public void resetDerivatives() {
 		fun1 = null;
 		fun2 = null;
@@ -154,10 +156,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	public void replaceChildrenByValues(GeoElement geo) {
 
-		for (int i = 0; i < fun.length; i++)
+		for (int i = 0; i < fun.length; i++) {
 			if (fun[i] != null) {
 				fun[i].replaceChildrenByValues(geo);
 			}
+		}
 	}
 
 	/**
@@ -175,8 +178,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 		isDefined = true;
 
-		for (int i = 0; i < startParam.length && isDefined; i++)
+		for (int i = 0; i < startParam.length && isDefined; i++) {
 			isDefined = startParam[i] <= endParam[i];
+		}
 	}
 
 	/**
@@ -186,6 +190,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *         Double.NEGATIVE_INFINITY)
 	 * 
 	 */
+	@Override
 	public double getMinParameter(int i) {
 		return startParam[i];
 	}
@@ -197,6 +202,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *         Double.POSITIVE_INFINITY)
 	 * 
 	 */
+	@Override
 	public double getMaxParameter(int i) {
 		return endParam[i];
 	}
@@ -262,8 +268,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 			for (int i = 0; i < fun.length; i++) {
 				sbTemp.append(fun[i].toValueString(tpl));
-				if (i < fun.length - 1)
+				if (i < fun.length - 1) {
 					sbTemp.append(", ");
+				}
 			}
 
 			sbTemp.append(')');
@@ -285,8 +292,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 			for (int i = 0; i < fun.length; i++) {
 				sbTemp.append(fun[i].toString(tpl));
-				if (i < fun.length - 1)
+				if (i < fun.length - 1) {
 					sbTemp.append(", ");
+				}
 			}
 
 			sbTemp.append(')');
@@ -305,8 +313,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 				for (int i = 0; i < fun.length; i++) {
 					sbTemp.append(fun[i].toLaTeXString(symbolic, tpl));
-					if (i < fun.length - 1)
+					if (i < fun.length - 1) {
 						sbTemp.append("\\\\");
+					}
 				}
 
 				sbTemp.append("\\end{array}\\right)");

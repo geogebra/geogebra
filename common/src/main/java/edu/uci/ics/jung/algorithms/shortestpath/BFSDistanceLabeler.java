@@ -140,8 +140,9 @@ public class BFSDistanceLabeler<V, E> {
 					}
 				}
 			}
-			if (newList.size() == 0)
+			if (newList.size() == 0) {
 				break;
+			}
 			mCurrentList = newList;
 			distance++;
 		}

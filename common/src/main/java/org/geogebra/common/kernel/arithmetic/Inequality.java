@@ -131,15 +131,18 @@ public class Inequality {
 			} else if (fv[0].toString(StringTemplate.defaultTemplate)
 					.equals("y")) {
 				type = IneqType.INEQUALITY_1VAR_Y;
-			} else
+			} else {
 				type = IneqType.INEQUALITY_1VAR_X;
+			}
 
 			return;
 		}
-		if (zeroDummy0 != null)
+		if (zeroDummy0 != null) {
 			normal.replace(zeroDummy0, fv[0]).wrap();
-		if (zeroDummy1 != null)
+		}
+		if (zeroDummy1 != null) {
 			normal.replace(zeroDummy1, fv[1]).wrap();
+		}
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
 		Function fun = null;
@@ -191,8 +194,9 @@ public class Inequality {
 			}
 			Polynomial newBorder = equ.getNormalForm();
 			if (newBorder.degree() < 2) {
-				if (lineBorder == null)
+				if (lineBorder == null) {
 					lineBorder = new GeoLine(kernel.getConstruction());
+				}
 				// if we got here coefX and coefY are null #5315
 				ExpressionValue[][] evs = equ.getNormalForm().getCoeff();
 				lineBorder.setCoords(coefX = GeoConic.evalCoeff(evs, 1, 0),
@@ -202,8 +206,9 @@ public class Inequality {
 				border = lineBorder;
 				isAboveBorder = coefY < 0 || coefY == 0.0 && coefX > 0;
 			} else if (newBorder.degree() == 2) {
-				if (conicBorder == null)
+				if (conicBorder == null) {
 					conicBorder = new GeoConic(kernel.getConstruction());
+				}
 				// conicBorder.setLabel("res");
 				conicBorder.setCoeffs(equ.getNormalForm().getCoeff());
 				type = IneqType.INEQUALITY_CONIC;
@@ -229,8 +234,9 @@ public class Inequality {
 				funBorder.swapEval();
 			}
 		}
-		if (funBorder != null)
+		if (funBorder != null) {
 			border = funBorder;
+		}
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else {
@@ -265,15 +271,17 @@ public class Inequality {
 		border = funBorder;
 		if (isStrict()) {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
-		} else
+		} else {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+		}
 
 	}
 
 	final private static GeoPoint[] RootMultiple(GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
-		if (!f.isPolynomialFunction(true))
+		if (!f.isPolynomialFunction(true)) {
 			return null;
+		}
 
 		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(f);
 		GeoPoint[] g = algo.getRootPoints();
@@ -295,9 +303,9 @@ public class Inequality {
 			otherVal = normal.getCoefficient(fv[1]);
 		}
 		if (coefVal == null || coefVal == 0
-				|| (otherVal != null && Math.abs(otherVal) > Math.abs(coefVal)))
+				|| (otherVal != null && Math.abs(otherVal) > Math.abs(coefVal))) {
 			update();
-		else {
+		} else {
 			isAboveBorder = coefVal > 0;
 			coef.set(-coefVal);
 		}

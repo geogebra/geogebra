@@ -32,6 +32,7 @@ public interface FunctionalNVar extends Evaluate2Var {
 	/**
 	 * @return function
 	 */
+	@Override
 	public FunctionNVar getFunction();
 
 	/**
@@ -52,16 +53,19 @@ public interface FunctionalNVar extends Evaluate2Var {
 	 *            string template
 	 * @return comma separated variable names
 	 */
+	@Override
 	public String getVarString(StringTemplate tpl);
 
 	/**
 	 * @return function expression
 	 */
+	@Override
 	public ExpressionNode getFunctionExpression();
 
 	/**
 	 * @return whether this function is defined or not
 	 */
+	@Override
 	public boolean isDefined();
 
 	/**

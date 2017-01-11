@@ -60,10 +60,12 @@ public abstract class CASView implements Editing, SetLabels {
 	/**
 	 * Updates labels to match current locale
 	 */
+	@Override
 	public void setLabels() {
 		getConsoleTable().setLabels();
 	}
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_CAS;
 	}
@@ -127,9 +129,11 @@ public abstract class CASView implements Editing, SetLabels {
 	/**
 	 * Handles toolbar mode changes
 	 */
+	@Override
 	public void setMode(int mode, ModeSetter m) {
-		if (m != ModeSetter.TOOLBAR)
+		if (m != ModeSetter.TOOLBAR) {
 			return;
+		}
 
 		String command = EuclidianConstants.getModeTextSimple(mode); // e.g.
 		// "Derivative"
@@ -155,18 +159,21 @@ public abstract class CASView implements Editing, SetLabels {
 			// make sure we don't switch to evaluate if delete tool is used in
 			// EV
 			if (getApp().getGuiManager() != null && getApp().getGuiManager()
-					.getActiveToolbarId() != this.getViewID())
+					.getActiveToolbarId() != this.getViewID()) {
 				backToEvaluate = false;
+			}
 			boolean undo = deleteCasCells(getConsoleTable().getSelectedRows());
-			if (undo)
+			if (undo) {
 				getConsoleTable().getApplication().storeUndoInfo();
+			}
 			break;
 		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
 			// make sure we don't switch to evaluate if delete tool is used in
 			// EV
 			if (getApp().getGuiManager() != null && getApp().getGuiManager()
-					.getActiveToolbarId() != this.getViewID())
+					.getActiveToolbarId() != this.getViewID()) {
 				backToEvaluate = false;
+			}
 			if (getConsoleTable().getSelectedRows().length > 0) {
 				GeoCasCell cell = getConsoleTable()
 						.getGeoCasCell(getConsoleTable().getSelectedRows()[0]);
@@ -204,10 +211,12 @@ public abstract class CASView implements Editing, SetLabels {
 	/**
 	 * Renames function definitions in the CAS
 	 */
+	@Override
 	public void rename(GeoElement geo) {
 		update(geo);
 	}
 
+	@Override
 	public void clearView() {
 		// delete all rows
 		getConsoleTable().deleteAllRows();
@@ -248,10 +257,12 @@ public abstract class CASView implements Editing, SetLabels {
 		clearView();
 	}
 
+	@Override
 	public void reset() {
 		repaintView();
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// do nothing
 	}
@@ -259,11 +270,13 @@ public abstract class CASView implements Editing, SetLabels {
 	/**
 	 * Defines new functions in the CAS
 	 */
+	@Override
 	public void add(GeoElement geo) {
 		update(geo);
 		ensureOneEmptyRow();
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
@@ -271,6 +284,7 @@ public abstract class CASView implements Editing, SetLabels {
 	/**
 	 * Removes function definitions from the CAS
 	 */
+	@Override
 	public void remove(GeoElement geo) {
 		if (geo instanceof GeoCasCell) {
 			GeoCasCell casCell = (GeoCasCell) geo;
@@ -290,6 +304,7 @@ public abstract class CASView implements Editing, SetLabels {
 	/**
 	 * Handles updates of geo in CAS view.
 	 */
+	@Override
 	public void update(GeoElement geo) {
 
 		if (geo instanceof GeoCasCell) {
@@ -299,6 +314,7 @@ public abstract class CASView implements Editing, SetLabels {
 
 	}
 
+	@Override
 	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
@@ -437,8 +453,9 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @return true if given cell is empty
 	 */
 	public boolean isRowEmpty(int row) {
-		if (row < 0)
+		if (row < 0) {
 			return false;
+		}
 
 		GeoCasCell value = getConsoleTable().getGeoCasCell(row);
 		return value.isEmpty();
@@ -450,8 +467,9 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @return true if given cell's input is empty
 	 */
 	public boolean isRowInputEmpty(int row) {
-		if (row < 0)
+		if (row < 0) {
 			return false;
+		}
 
 		GeoCasCell value = getConsoleTable().getGeoCasCell(row);
 		return value.isInputEmpty();
@@ -474,8 +492,9 @@ public abstract class CASView implements Editing, SetLabels {
 				// kernel.getConstruction().setCasCellRow(newValue, lastRow);
 			}
 			getConsoleTable().setRow(lastRow, toInsert);
-			if (startEditing)
+			if (startEditing) {
 				getConsoleTable().startEditingRow(lastRow);
+			}
 		} else {
 			getConsoleTable().insertRow(lastRow + 1, toInsert, startEditing);
 		}
@@ -487,8 +506,9 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @return true if given cell is empty and it's not a text cell
 	 */
 	public boolean isRowOutputEmpty(int row) {
-		if (row < 0)
+		if (row < 0) {
 			return false;
+		}
 
 		GeoCasCell value = getConsoleTable().getGeoCasCell(row);
 		return value.isOutputEmpty() && !value.isUseAsText();
@@ -519,6 +539,7 @@ public abstract class CASView implements Editing, SetLabels {
 		return null;
 	}
 
+	@Override
 	public void cancelEditItem() {
 		CASTable table = getConsoleTable();
 		table.stopEditing();

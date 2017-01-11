@@ -49,11 +49,13 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 				&& !Double.isNaN(aNum) && !Double.isNaN(bNum)) {
 			num.setValue(
 					cons.getApplication().getRandomIntegerBetween(aNum, bNum));
-		} else
+		} else {
 			num.setUndefined();
+		}
 
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 		d = Math.round(Kernel.checkInteger(d));
 

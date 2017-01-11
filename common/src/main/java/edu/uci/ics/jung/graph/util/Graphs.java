@@ -202,6 +202,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDefaultEdgeType()
 		 */
+		@Override
 		public EdgeType getDefaultEdgeType() {
 			return delegate.getDefaultEdgeType();
 		}
@@ -210,6 +211,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object,
 		 *      EdgeType)
 		 */
+		@Override
 		public synchronized boolean addEdge(E e, V v1, V v2,
 				EdgeType edgeType) {
 			return delegate.addEdge(e, v1, v2, edgeType);
@@ -219,6 +221,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(Object, Collection,
 		 *      EdgeType)
 		 */
+		@Override
 		public synchronized boolean addEdge(E e,
 				Collection<? extends V> vertices, EdgeType edgeType) {
 			return delegate.addEdge(e, vertices, edgeType);
@@ -227,6 +230,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object)
 		 */
+		@Override
 		public synchronized boolean addEdge(E e, V v1, V v2) {
 			return delegate.addEdge(e, v1, v2);
 		}
@@ -234,6 +238,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#addVertex(java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean addVertex(V vertex) {
 			return delegate.addVertex(vertex);
 		}
@@ -242,6 +247,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean isIncident(V vertex, E edge) {
 			return delegate.isIncident(vertex, edge);
 		}
@@ -250,6 +256,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean isNeighbor(V v1, V v2) {
 			return delegate.isNeighbor(v1, v2);
 		}
@@ -257,6 +264,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#degree(java.lang.Object)
 		 */
+		@Override
 		public synchronized int degree(V vertex) {
 			return delegate.degree(vertex);
 		}
@@ -265,6 +273,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized E findEdge(V v1, V v2) {
 			return delegate.findEdge(v1, v2);
 		}
@@ -273,6 +282,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<E> findEdgeSet(V v1, V v2) {
 			return delegate.findEdgeSet(v1, v2);
 		}
@@ -280,6 +290,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdges()
 		 */
+		@Override
 		public synchronized Collection<E> getEdges() {
 			return delegate.getEdges();
 		}
@@ -287,6 +298,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getEdges(EdgeType)
 		 */
+		@Override
 		public synchronized Collection<E> getEdges(EdgeType edgeType) {
 			return delegate.getEdges(edgeType);
 		}
@@ -294,6 +306,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getEndpoints(java.lang.Object)
 		 */
+		@Override
 		public synchronized Pair<V> getEndpoints(E edge) {
 			return delegate.getEndpoints(edge);
 		}
@@ -301,6 +314,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentEdges(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<E> getIncidentEdges(V vertex) {
 			return delegate.getIncidentEdges(vertex);
 		}
@@ -308,6 +322,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentVertices(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<V> getIncidentVertices(E edge) {
 			return delegate.getIncidentVertices(edge);
 		}
@@ -315,6 +330,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getInEdges(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<E> getInEdges(V vertex) {
 			return delegate.getInEdges(vertex);
 		}
@@ -322,6 +338,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getNeighbors(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<V> getNeighbors(V vertex) {
 			return delegate.getNeighbors(vertex);
 		}
@@ -330,6 +347,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized V getOpposite(V vertex, E edge) {
 			return delegate.getOpposite(vertex, edge);
 		}
@@ -337,6 +355,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getOutEdges(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<E> getOutEdges(V vertex) {
 			return delegate.getOutEdges(vertex);
 		}
@@ -344,6 +363,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getPredecessors(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<V> getPredecessors(V vertex) {
 			return delegate.getPredecessors(vertex);
 		}
@@ -351,6 +371,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getSuccessors(java.lang.Object)
 		 */
+		@Override
 		public synchronized Collection<V> getSuccessors(V vertex) {
 			return delegate.getSuccessors(vertex);
 		}
@@ -358,6 +379,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getVertices()
 		 */
+		@Override
 		public synchronized Collection<V> getVertices() {
 			return delegate.getVertices();
 		}
@@ -365,6 +387,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount()
 		 */
+		@Override
 		public synchronized int getEdgeCount() {
 			return delegate.getEdgeCount();
 		}
@@ -372,6 +395,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount(EdgeType)
 		 */
+		@Override
 		public synchronized int getEdgeCount(EdgeType edge_type) {
 			return delegate.getEdgeCount(edge_type);
 		}
@@ -379,6 +403,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getVertexCount()
 		 */
+		@Override
 		public synchronized int getVertexCount() {
 			return delegate.getVertexCount();
 		}
@@ -386,6 +411,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#inDegree(java.lang.Object)
 		 */
+		@Override
 		public synchronized int inDegree(V vertex) {
 			return delegate.inDegree(vertex);
 		}
@@ -393,6 +419,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getEdgeType(java.lang.Object)
 		 */
+		@Override
 		public synchronized EdgeType getEdgeType(E edge) {
 			return delegate.getEdgeType(edge);
 		}
@@ -401,6 +428,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean isPredecessor(V v1, V v2) {
 			return delegate.isPredecessor(v1, v2);
 		}
@@ -409,6 +437,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean isSuccessor(V v1, V v2) {
 			return delegate.isSuccessor(v1, v2);
 		}
@@ -416,6 +445,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getNeighborCount(java.lang.Object)
 		 */
+		@Override
 		public synchronized int getNeighborCount(V vertex) {
 			return delegate.getNeighborCount(vertex);
 		}
@@ -423,6 +453,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getPredecessorCount(java.lang.Object)
 		 */
+		@Override
 		public synchronized int getPredecessorCount(V vertex) {
 			return delegate.getPredecessorCount(vertex);
 		}
@@ -430,6 +461,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getSuccessorCount(java.lang.Object)
 		 */
+		@Override
 		public synchronized int getSuccessorCount(V vertex) {
 			return delegate.getSuccessorCount(vertex);
 		}
@@ -437,6 +469,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#outDegree(java.lang.Object)
 		 */
+		@Override
 		public synchronized int outDegree(V vertex) {
 			return delegate.outDegree(vertex);
 		}
@@ -444,6 +477,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#removeEdge(java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean removeEdge(E edge) {
 			return delegate.removeEdge(edge);
 		}
@@ -451,6 +485,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#removeVertex(java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean removeVertex(V vertex) {
 			return delegate.removeVertex(vertex);
 		}
@@ -458,6 +493,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDest(java.lang.Object)
 		 */
+		@Override
 		public synchronized V getDest(E directed_edge) {
 			return delegate.getDest(directed_edge);
 		}
@@ -465,6 +501,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getSource(java.lang.Object)
 		 */
+		@Override
 		public synchronized V getSource(E directed_edge) {
 			return delegate.getSource(directed_edge);
 		}
@@ -473,6 +510,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean isDest(V vertex, E edge) {
 			return delegate.isDest(vertex, edge);
 		}
@@ -481,6 +519,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean isSource(V vertex, E edge) {
 			return delegate.isSource(vertex, edge);
 		}
@@ -488,6 +527,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentCount(Object)
 		 */
+		@Override
 		public synchronized int getIncidentCount(E edge) {
 			return delegate.getIncidentCount(edge);
 		}
@@ -496,6 +536,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object,
 		 *      java.util.Collection)
 		 */
+		@Override
 		public synchronized boolean addEdge(E hyperedge,
 				Collection<? extends V> vertices) {
 			return delegate.addEdge(hyperedge, vertices);
@@ -504,6 +545,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#containsEdge(java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean containsEdge(E edge) {
 			return delegate.containsEdge(edge);
 		}
@@ -511,10 +553,12 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#containsVertex(java.lang.Object)
 		 */
+		@Override
 		public synchronized boolean containsVertex(V vertex) {
 			return delegate.containsVertex(vertex);
 		}
 
+		@Override
 		public Graph<V, E> newInstance() {
 			return delegate.newInstance();
 		}
@@ -582,14 +626,17 @@ public class Graphs {
 			super(delegate);
 		}
 
+		@Override
 		public synchronized int getDepth(V vertex) {
 			return ((Tree<V, E>) delegate).getDepth(vertex);
 		}
 
+		@Override
 		public synchronized int getHeight() {
 			return ((Tree<V, E>) delegate).getHeight();
 		}
 
+		@Override
 		public synchronized V getRoot() {
 			return ((Tree<V, E>) delegate).getRoot();
 		}
@@ -608,26 +655,32 @@ public class Graphs {
 			super(delegate);
 		}
 
+		@Override
 		public synchronized Collection<Tree<V, E>> getTrees() {
 			return ((Forest<V, E>) delegate).getTrees();
 		}
 
+		@Override
 		public int getChildCount(V vertex) {
 			return ((Forest<V, E>) delegate).getChildCount(vertex);
 		}
 
+		@Override
 		public Collection<E> getChildEdges(V vertex) {
 			return ((Forest<V, E>) delegate).getChildEdges(vertex);
 		}
 
+		@Override
 		public Collection<V> getChildren(V vertex) {
 			return ((Forest<V, E>) delegate).getChildren(vertex);
 		}
 
+		@Override
 		public V getParent(V vertex) {
 			return ((Forest<V, E>) delegate).getParent(vertex);
 		}
 
+		@Override
 		public E getParentEdge(V vertex) {
 			return ((Forest<V, E>) delegate).getParentEdge(vertex);
 		}
@@ -648,6 +701,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDefaultEdgeType()
 		 */
+		@Override
 		public EdgeType getDefaultEdgeType() {
 			return delegate.getDefaultEdgeType();
 		}
@@ -656,6 +710,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object,
 		 *      EdgeType)
 		 */
+		@Override
 		public boolean addEdge(E e, V v1, V v2, EdgeType edgeType) {
 			throw new UnsupportedOperationException();
 		}
@@ -664,6 +719,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Collection,
 		 *      EdgeType)
 		 */
+		@Override
 		public boolean addEdge(E e, Collection<? extends V> vertices,
 				EdgeType edgeType) {
 			throw new UnsupportedOperationException();
@@ -672,6 +728,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object)
 		 */
+		@Override
 		public boolean addEdge(E e, V v1, V v2) {
 			throw new UnsupportedOperationException();
 		}
@@ -679,6 +736,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#addVertex(java.lang.Object)
 		 */
+		@Override
 		public boolean addVertex(V vertex) {
 			throw new UnsupportedOperationException();
 		}
@@ -687,6 +745,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public boolean isIncident(V vertex, E edge) {
 			return delegate.isIncident(vertex, edge);
 		}
@@ -695,6 +754,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public boolean isNeighbor(V v1, V v2) {
 			return delegate.isNeighbor(v1, v2);
 		}
@@ -702,6 +762,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#degree(java.lang.Object)
 		 */
+		@Override
 		public int degree(V vertex) {
 			return delegate.degree(vertex);
 		}
@@ -710,6 +771,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public E findEdge(V v1, V v2) {
 			return delegate.findEdge(v1, v2);
 		}
@@ -718,6 +780,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public Collection<E> findEdgeSet(V v1, V v2) {
 			return delegate.findEdgeSet(v1, v2);
 		}
@@ -725,6 +788,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdges()
 		 */
+		@Override
 		public Collection<E> getEdges() {
 			return delegate.getEdges();
 		}
@@ -732,6 +796,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount()
 		 */
+		@Override
 		public int getEdgeCount() {
 			return delegate.getEdgeCount();
 		}
@@ -739,6 +804,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount(EdgeType)
 		 */
+		@Override
 		public int getEdgeCount(EdgeType edge_type) {
 			return delegate.getEdgeCount(edge_type);
 		}
@@ -746,6 +812,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getVertexCount()
 		 */
+		@Override
 		public int getVertexCount() {
 			return delegate.getVertexCount();
 		}
@@ -753,6 +820,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getEdges(edu.uci.ics.jung.graph.util.EdgeType)
 		 */
+		@Override
 		public Collection<E> getEdges(EdgeType edgeType) {
 			return delegate.getEdges(edgeType);
 		}
@@ -760,6 +828,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getEndpoints(java.lang.Object)
 		 */
+		@Override
 		public Pair<V> getEndpoints(E edge) {
 			return delegate.getEndpoints(edge);
 		}
@@ -767,6 +836,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentEdges(java.lang.Object)
 		 */
+		@Override
 		public Collection<E> getIncidentEdges(V vertex) {
 			return delegate.getIncidentEdges(vertex);
 		}
@@ -774,6 +844,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentVertices(java.lang.Object)
 		 */
+		@Override
 		public Collection<V> getIncidentVertices(E edge) {
 			return delegate.getIncidentVertices(edge);
 		}
@@ -781,6 +852,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getInEdges(java.lang.Object)
 		 */
+		@Override
 		public Collection<E> getInEdges(V vertex) {
 			return delegate.getInEdges(vertex);
 		}
@@ -788,6 +860,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getNeighbors(java.lang.Object)
 		 */
+		@Override
 		public Collection<V> getNeighbors(V vertex) {
 			return delegate.getNeighbors(vertex);
 		}
@@ -796,6 +869,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public V getOpposite(V vertex, E edge) {
 			return delegate.getOpposite(vertex, edge);
 		}
@@ -803,6 +877,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getOutEdges(java.lang.Object)
 		 */
+		@Override
 		public Collection<E> getOutEdges(V vertex) {
 			return delegate.getOutEdges(vertex);
 		}
@@ -810,6 +885,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getPredecessors(java.lang.Object)
 		 */
+		@Override
 		public Collection<V> getPredecessors(V vertex) {
 			return delegate.getPredecessors(vertex);
 		}
@@ -817,6 +893,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getSuccessors(java.lang.Object)
 		 */
+		@Override
 		public Collection<V> getSuccessors(V vertex) {
 			return delegate.getSuccessors(vertex);
 		}
@@ -824,6 +901,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getVertices()
 		 */
+		@Override
 		public Collection<V> getVertices() {
 			return delegate.getVertices();
 		}
@@ -831,6 +909,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#inDegree(java.lang.Object)
 		 */
+		@Override
 		public int inDegree(V vertex) {
 			return delegate.inDegree(vertex);
 		}
@@ -838,6 +917,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getEdgeType(java.lang.Object)
 		 */
+		@Override
 		public EdgeType getEdgeType(E edge) {
 			return delegate.getEdgeType(edge);
 		}
@@ -846,6 +926,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public boolean isPredecessor(V v1, V v2) {
 			return delegate.isPredecessor(v1, v2);
 		}
@@ -854,6 +935,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public boolean isSuccessor(V v1, V v2) {
 			return delegate.isSuccessor(v1, v2);
 		}
@@ -861,6 +943,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getNeighborCount(java.lang.Object)
 		 */
+		@Override
 		public int getNeighborCount(V vertex) {
 			return delegate.getNeighborCount(vertex);
 		}
@@ -868,6 +951,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getPredecessorCount(java.lang.Object)
 		 */
+		@Override
 		public int getPredecessorCount(V vertex) {
 			return delegate.getPredecessorCount(vertex);
 		}
@@ -875,6 +959,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getSuccessorCount(java.lang.Object)
 		 */
+		@Override
 		public int getSuccessorCount(V vertex) {
 			return delegate.getSuccessorCount(vertex);
 		}
@@ -882,6 +967,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#outDegree(java.lang.Object)
 		 */
+		@Override
 		public int outDegree(V vertex) {
 			return delegate.outDegree(vertex);
 		}
@@ -889,6 +975,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#removeEdge(java.lang.Object)
 		 */
+		@Override
 		public boolean removeEdge(E edge) {
 			throw new UnsupportedOperationException();
 		}
@@ -896,6 +983,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#removeVertex(java.lang.Object)
 		 */
+		@Override
 		public boolean removeVertex(V vertex) {
 			throw new UnsupportedOperationException();
 		}
@@ -903,6 +991,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDest(java.lang.Object)
 		 */
+		@Override
 		public V getDest(E directed_edge) {
 			return delegate.getDest(directed_edge);
 		}
@@ -910,6 +999,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getSource(java.lang.Object)
 		 */
+		@Override
 		public V getSource(E directed_edge) {
 			return delegate.getSource(directed_edge);
 		}
@@ -918,6 +1008,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public boolean isDest(V vertex, E edge) {
 			return delegate.isDest(vertex, edge);
 		}
@@ -926,6 +1017,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object,
 		 *      java.lang.Object)
 		 */
+		@Override
 		public boolean isSource(V vertex, E edge) {
 			return delegate.isSource(vertex, edge);
 		}
@@ -933,6 +1025,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentCount(Object)
 		 */
+		@Override
 		public int getIncidentCount(E edge) {
 			return delegate.getIncidentCount(edge);
 		}
@@ -941,6 +1034,7 @@ public class Graphs {
 		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object,
 		 *      java.util.Collection)
 		 */
+		@Override
 		public boolean addEdge(E hyperedge, Collection<? extends V> vertices) {
 			return delegate.addEdge(hyperedge, vertices);
 		}
@@ -948,6 +1042,7 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#containsEdge(java.lang.Object)
 		 */
+		@Override
 		public boolean containsEdge(E edge) {
 			return delegate.containsEdge(edge);
 		}
@@ -955,10 +1050,12 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#containsVertex(java.lang.Object)
 		 */
+		@Override
 		public boolean containsVertex(V vertex) {
 			return delegate.containsVertex(vertex);
 		}
 
+		@Override
 		public Graph<V, E> newInstance() {
 			return delegate.newInstance();
 		}
@@ -1018,26 +1115,32 @@ public class Graphs {
 			super(delegate);
 		}
 
+		@Override
 		public Collection<Tree<V, E>> getTrees() {
 			return ((Forest<V, E>) delegate).getTrees();
 		}
 
+		@Override
 		public int getChildCount(V vertex) {
 			return ((Forest<V, E>) delegate).getChildCount(vertex);
 		}
 
+		@Override
 		public Collection<E> getChildEdges(V vertex) {
 			return ((Forest<V, E>) delegate).getChildEdges(vertex);
 		}
 
+		@Override
 		public Collection<V> getChildren(V vertex) {
 			return ((Forest<V, E>) delegate).getChildren(vertex);
 		}
 
+		@Override
 		public V getParent(V vertex) {
 			return ((Forest<V, E>) delegate).getParent(vertex);
 		}
 
+		@Override
 		public E getParentEdge(V vertex) {
 			return ((Forest<V, E>) delegate).getParentEdge(vertex);
 		}
@@ -1050,14 +1153,17 @@ public class Graphs {
 			super(delegate);
 		}
 
+		@Override
 		public int getDepth(V vertex) {
 			return ((Tree<V, E>) delegate).getDepth(vertex);
 		}
 
+		@Override
 		public int getHeight() {
 			return ((Tree<V, E>) delegate).getHeight();
 		}
 
+		@Override
 		public V getRoot() {
 			return ((Tree<V, E>) delegate).getRoot();
 		}

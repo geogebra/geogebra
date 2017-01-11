@@ -42,12 +42,13 @@ public class CmdSegment extends CommandProcessor {
 
 			// segment from point with given length
 			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue)))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				return getAlgoDispatcher().Segment(c.getLabels(),
 						(GeoPointND) arg[0], (GeoNumberValue) arg[1]);
-			else {
-				if (!ok[0])
+			} else {
+				if (!ok[0]) {
 					throw argErr(app, c, arg[0]);
+				}
 				throw argErr(app, c, arg[1]);
 			}
 

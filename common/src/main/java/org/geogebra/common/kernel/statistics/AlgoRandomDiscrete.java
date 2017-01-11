@@ -47,6 +47,7 @@ public class AlgoRandomDiscrete extends AlgoElement {
 		cons.addRandomGeo(randomDiscrete);
 	}
 
+	@Override
 	public Commands getClassName() {
 		return Commands.RandomDiscrete;
 	}
@@ -65,6 +66,7 @@ public class AlgoRandomDiscrete extends AlgoElement {
 		return randomDiscrete;
 	}
 
+	@Override
 	public final void compute() {
 		size = values.size();
 

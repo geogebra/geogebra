@@ -17,6 +17,7 @@ class LengthFunction implements RealRootFunction {
 		this.f1 = f1;
 	}
 
+	@Override
 	public double evaluate(double t) {
 		double p = f1.evaluate(t);
 		return Math.sqrt(1 + p * p);

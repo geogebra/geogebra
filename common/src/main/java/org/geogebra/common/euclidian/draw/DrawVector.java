@@ -93,8 +93,9 @@ public class DrawVector extends Drawable implements Previewable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 		labelVisible = geo.isLabelVisible();
 
 		updateStrokes(v);
@@ -198,8 +199,9 @@ public class DrawVector extends Drawable implements Previewable {
 		coordsF[1] = coordsB[1] - coordsV[1];
 
 		// set clipped line
-		if (line == null)
+		if (line == null) {
 			line = AwtFactory.getPrototype().newLine2D();
+		}
 		lineVisible = true;
 		if (onscreenA && onscreenB) {
 			// A and B on screen
@@ -226,20 +228,22 @@ public class DrawVector extends Drawable implements Previewable {
 						view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
 						-EuclidianStatic.CLIP_DISTANCE,
 						view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
-				if (clippedPoints != null)
+				if (clippedPoints != null) {
 					line.setLine(clippedPoints[0].getX(),
 							clippedPoints[0].getY(), clippedPoints[1].getX(),
 							clippedPoints[1].getY());
-				else
+				} else {
 					lineVisible = false;
+				}
 			}
 		}
 
 		// add triangle if visible
-		if (gp == null)
+		if (gp == null) {
 			gp = AwtFactory.getPrototype().newGeneralPath();
-		else
+		} else {
 			gp.reset();
+		}
 
 		if (isVisible) {
 
@@ -264,23 +268,27 @@ public class DrawVector extends Drawable implements Previewable {
 			if (traceDrawingNeeded) {
 				traceDrawingNeeded = false;
 				GGraphics2D g2d = view.getBackgroundGraphics();
-				if (g2d != null)
+				if (g2d != null) {
 					drawTrace(g2d);
+				}
 			}
 
 			if (geo.doHighlighting()) {
 				g2.setPaint(((GeoElement) v).getSelColor());
 				g2.setStroke(selStroke);
-				if (lineVisible)
+				if (lineVisible) {
 					g2.draw(line);
+				}
 			}
 
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			if (lineVisible)
+			if (lineVisible) {
 				g2.draw(line);
-			if (arrowheadVisible)
+			}
+			if (arrowheadVisible) {
 				g2.fill(gp);
+			}
 
 			if (labelVisible) {
 				g2.setFont(view.getFontVector());
@@ -294,12 +302,15 @@ public class DrawVector extends Drawable implements Previewable {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		if (lineVisible)
+		if (lineVisible) {
 			g2.draw(line);
-		if (arrowheadVisible)
+		}
+		if (arrowheadVisible) {
 			g2.fill(gp);
+		}
 	}
 
+	@Override
 	final public void updatePreview() {
 		isVisible = points.size() == 1;
 		if (isVisible) {
@@ -315,6 +326,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
+	@Override
 	final public void updateMousePos(double xRWmouse, double yRWmouse) {
 		double xRW = xRWmouse;
 		double yRW = yRWmouse;
@@ -341,8 +353,9 @@ public class DrawVector extends Drawable implements Previewable {
 				endPoint.setX(xRW);
 				endPoint.setY(yRW);
 				view.getEuclidianController().setLineEndPoint(endPoint);
-			} else
+			} else {
 				view.getEuclidianController().setLineEndPoint(null);
+			}
 
 			// set start and end point in real world coords
 			// GeoPoint P = (GeoPoint) points.get(0);
@@ -358,18 +371,22 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
+	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
-			if (arrowheadVisible)
+			if (arrowheadVisible) {
 				g2.fill(gp);
-			if (lineVisible)
+			}
+			if (lineVisible) {
 				g2.draw(line);
+			}
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		// do nothing
 	}
@@ -407,17 +424,20 @@ public class DrawVector extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible())
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
+		}
 		GRectangle ret = null;
-		if (lineVisible)
+		if (lineVisible) {
 			ret = line.getBounds();
+		}
 
-		if (arrowheadVisible)
+		if (arrowheadVisible) {
 			ret = (ret == null)
 					? AwtFactory.getPrototype().newRectangle(gp.getBounds())
 					: AwtFactory.getPrototype()
 							.newRectangle(ret.union(gp.getBounds()));
+		}
 
 		return ret;
 	}

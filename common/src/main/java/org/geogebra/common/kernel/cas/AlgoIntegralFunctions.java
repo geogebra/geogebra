@@ -136,6 +136,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 		return Commands.IntegralBetween;
 	}
 
+	@Override
 	public AlgoIntegralFunctions copy() {
 
 		return new AlgoIntegralFunctions((GeoFunction) f.copy(),
@@ -221,10 +222,12 @@ public class AlgoIntegralFunctions extends AlgoElement
 		n.setValue(intF.getValue() - intG.getValue());
 	}
 
+	@Override
 	public boolean evaluateOnly() {
 		return evaluate != null && !evaluate.getBoolean();
 	}
 
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 		f.replaceChildrenByValues(geo);
 		g.replaceChildrenByValues(geo);

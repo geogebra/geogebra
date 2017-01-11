@@ -102,16 +102,18 @@ public class EuclidianStyleBarStatic {
 					// convert real world to screen coords
 					int x = ev.toScreenCoordX(geoASL.getRealWorldLocX());
 					int y = ev.toScreenCoordY(geoASL.getRealWorldLocY());
-					if (!geoASL.isAbsoluteScreenLocActive())
+					if (!geoASL.isAbsoluteScreenLocActive()) {
 						geoASL.setAbsoluteScreenLoc(x, y);
+					}
 				} else {
 					// convert screen coords to real world
 					double x = ev
 							.toRealWorldCoordX(geoASL.getAbsoluteScreenLocX());
 					double y = ev
 							.toRealWorldCoordY(geoASL.getAbsoluteScreenLocY());
-					if (geoASL.isAbsoluteScreenLocActive())
+					if (geoASL.isAbsoluteScreenLocActive()) {
 						geoASL.setRealWorldLoc(x, y);
+					}
 				}
 				geoASL.setAbsoluteScreenLocActive(flag);
 				geo.updateRepaint();
@@ -230,8 +232,9 @@ public class EuclidianStyleBarStatic {
 
 		final App app = geo.getKernel().getApplication();
 
-		if (cmdtext == null)
+		if (cmdtext == null) {
 			return newGeo;
+		}
 
 		Log.debug("redefining " + geo + " as " + cmdtext);
 
@@ -414,8 +417,9 @@ public class EuclidianStyleBarStatic {
 								.getMode() == EuclidianConstants.MODE_PEN)) {
 					geo.setObjColor(color);
 					// if we change alpha for functions, hit won't work properly
-					if (geo.isFillable())
+					if (geo.isFillable()) {
 						geo.setAlphaValue(alpha);
+					}
 					if (geo instanceof GeoPolyLine
 							&& geo.getKernel().getApplication()
 									.getMode() == EuclidianConstants.MODE_PEN) {
@@ -442,7 +446,7 @@ public class EuclidianStyleBarStatic {
 			GeoElement geo = geos.get(i);
 
 			// if text geo, then apply background color
-			if (geo instanceof TextProperties)
+			if (geo instanceof TextProperties) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
 					geo.setBackgroundColor(color == null ? null : color);
@@ -451,6 +455,7 @@ public class EuclidianStyleBarStatic {
 					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);
 					needUndo = true;
 				}
+			}
 		}
 		return needUndo;
 	}
@@ -571,7 +576,9 @@ public class EuclidianStyleBarStatic {
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 
 			if (mode == 3 || mode == 0)
+			 {
 				mode = 3 - mode; // swap 0 and 3
+			}
 			ev.setPointCapturing(mode);
 
 			// update other EV stylebars since this is a global property
@@ -589,8 +596,9 @@ public class EuclidianStyleBarStatic {
 	public static AlgoTableText updateTableText(Object[] geos, int mode) {
 
 		AlgoTableText tableText = null;
-		if (geos == null || geos.length == 0 || EuclidianView.isPenMode(mode))
+		if (geos == null || geos.length == 0 || EuclidianView.isPenMode(mode)) {
 			return tableText;
+		}
 
 		boolean geosOK = true;
 		AlgoElement algo;

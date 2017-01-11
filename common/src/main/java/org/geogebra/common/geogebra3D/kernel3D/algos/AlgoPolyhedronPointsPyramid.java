@@ -83,8 +83,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 		// /////////
 
 		points = new GeoPointND[bottomPointsLength + 1];
-		for (int i = 0; i < bottomPointsLength; i++)
+		for (int i = 0; i < bottomPointsLength; i++) {
 			points[i] = bottomPoints[i];
+		}
 		points[bottomPointsLength] = topPoint;
 
 		// /////////
@@ -178,8 +179,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 		if (bottomPointsLength < newBottomPointsLength) {
 			// update last sides
-			for (int i = bottomPointsLength; i < newBottomPointsLength; i++)
+			for (int i = bottomPointsLength; i < newBottomPointsLength; i++) {
 				updateSide(i, bottomPoints, bottomSegments);
+			}
 		}
 
 		bottomPointsLength = newBottomPointsLength;
@@ -243,8 +245,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 	public void compute() {
 
 		if (!preCompute()) {
-			if (height != null)
+			if (height != null) {
 				((GeoPoint3D) getTopPoint()).setUndefined();
+			}
 			return;
 		}
 
@@ -289,8 +292,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 		// Application.debug("bottomAsInput="+bottomAsInput+",shift="+getShift());
 
-		if (bottomAsInput)
+		if (bottomAsInput) {
 			return (length + getShift() - 2) / 2;
+		}
 
 		return (length + getShift() - 3) / 3;
 

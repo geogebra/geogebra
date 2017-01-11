@@ -47,6 +47,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	 * Returns the index for the specified edge. Calculates the indices for
 	 * <code>e</code> and for all edges parallel to <code>e</code>.
 	 */
+	@Override
 	public int getIndex(Graph<V, E> graph, E e) {
 		Integer index = edge_index.get(e);
 		if (index == null) {
@@ -101,6 +102,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	 * 
 	 * @param e
 	 */
+	@Override
 	public void reset(Graph<V, E> graph, E e) {
 		Pair<V> endpoints = graph.getEndpoints(e);
 		getIndex(graph, e, endpoints.getFirst());
@@ -111,6 +113,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	 * Clears all edge indices for all edges in all graphs. Does not recalculate
 	 * the indices.
 	 */
+	@Override
 	public void reset() {
 		edge_index.clear();
 	}

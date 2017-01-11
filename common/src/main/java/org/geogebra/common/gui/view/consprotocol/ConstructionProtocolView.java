@@ -49,13 +49,14 @@ public class ConstructionProtocolView {
 		}
 
 		public void updateAlgebraAndName() {
-			if (geo instanceof GeoText)
+			if (geo instanceof GeoText) {
 				algebra = "\""
 						+ geo.toValueString(StringTemplate.defaultTemplate)
 						+ "\"";
-			else
+			} else {
 				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true));
+			}
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = geo.getNameDescriptionTextOrHTML();
@@ -145,8 +146,9 @@ public class ConstructionProtocolView {
 				m = geo.getParentAlgorithm().getRelatedModeID();
 			}
 			// 3) otherwise use the modeID of the GeoElement itself:
-			else
+ else {
 				m = geo.getRelatedModeID();
+			}
 
 			if (m != -1 && index != prevIndex) {
 				toolbarIcon = getModeIcon(m); // app.wrapGetModeIcon(m);
@@ -158,13 +160,14 @@ public class ConstructionProtocolView {
 			name = geo.getNameDescriptionTextOrHTML();
 			// algebra = geo.getRedefineString(true, true);
 			// algebra = geo.toOutputValueString();
-			if (geo instanceof GeoText)
+			if (geo instanceof GeoText) {
 				algebra = "\""
 						+ geo.toValueString(StringTemplate.defaultTemplate)
 						+ "\"";
-			else
+			} else {
 				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(
 						new IndexHTMLBuilder(true));
+			}
 			description = geo.getDescriptionHTML(true);
 			definition = geo.getDefinitionHTML(true);
 			updateCaption();
@@ -231,8 +234,9 @@ public class ConstructionProtocolView {
 			// shown
 			// in app
 			if ("Value".equals(title)
-					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA))
+					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
 				return false;
+			}
 
 			return initShow;
 		}
@@ -273,48 +277,58 @@ public class ConstructionProtocolView {
 	}
 
 	public void setConstructionStep(int step) {
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.detach(data);
+		}
 		kernel.setConstructionStep(step);
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.attach(data);
+		}
 		updateNavBarsAndRepaint();
 	}
 
 	public void nextStep() {
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.detach(data);
+		}
 		kernel.nextStep();
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.attach(data);
+		}
 		updateNavBarsAndRepaint();
 		scrollToConstructionStep();
 	}
 
 	public void previousStep() {
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.detach(data);
+		}
 		kernel.previousStep();
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.attach(data);
+		}
 		updateNavBarsAndRepaint();
 	}
 
 	public void firstStep() {
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.detach(data);
+		}
 		kernel.firstStep();
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.attach(data);
+		}
 		updateNavBarsAndRepaint();
 	}
 
 	public void lastStep() {
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.detach(data);
+		}
 		kernel.lastStep();
-		if (isViewAttached)
+		if (isViewAttached) {
 			kernel.attach(data);
+		}
 		updateNavBarsAndRepaint();
 	}
 
@@ -364,6 +378,7 @@ public class ConstructionProtocolView {
 			this.gui = gui;
 		}
 
+		@Override
 		public void setLabels() {
 			this.gui.setLabels();
 		}
@@ -380,6 +395,7 @@ public class ConstructionProtocolView {
 
 		}
 
+		@Override
 		public boolean suggestRepaint() {
 			return false;
 			// not used for this view
@@ -409,10 +425,11 @@ public class ConstructionProtocolView {
 		 */
 		public int getLastStepNumber() {
 			int pos = rowList.size() - 1;
-			if (pos >= 0)
+			if (pos >= 0) {
 				return rowList.get(pos).getIndex();
-			else
+			} else {
 				return 0;
+			}
 		}
 
 		/**
@@ -453,6 +470,7 @@ public class ConstructionProtocolView {
 		/**
 		 * Don't react to changing mode.
 		 */
+		@Override
 		public void setMode(int mode, ModeSetter m) {
 		}
 
@@ -504,11 +522,13 @@ public class ConstructionProtocolView {
 		/***********************
 		 * View Implementation *
 		 ***********************/
+		@Override
 		public void add(GeoElement geo) {
 			if ((!geo.isLabelSet() && !geo.isGeoCasCell())
 					|| (kernel.getConstruction().showOnlyBreakpoints()
-							&& !geo.isConsProtocolBreakpoint()))
+							&& !geo.isConsProtocolBreakpoint())) {
 				return;
+			}
 			// if we already have twin geo, ignore CAS cell
 			if (geo.isGeoCasCell() && ((GeoCasCell) geo).getTwinGeo() != null
 					&& ((GeoCasCell) geo).getTwinGeo().isAlgebraVisible()) {
@@ -540,8 +560,9 @@ public class ConstructionProtocolView {
 				int pos = 0; // there may be more rows with same index
 				int size = rowList.size();
 				while (pos < size && index >= rowList.get(pos).getGeo()
-						.getConstructionIndex())
+						.getConstructionIndex()) {
 					pos++;
+				}
 
 				row = new RowData(geo, !app.isHTML5Applet());
 				if (pos < size) {
@@ -561,10 +582,12 @@ public class ConstructionProtocolView {
 			}
 		}
 
+		@Override
 		public void updatePreviewFromInputBar(GeoElement[] geos) {
 			// TODO
 		}
 
+		@Override
 		public void remove(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			// lookup row for GeoElement
@@ -579,6 +602,7 @@ public class ConstructionProtocolView {
 			}
 		}
 
+		@Override
 		public void clearView() {
 			rowList.clear();
 			geoMap.clear();
@@ -586,16 +610,19 @@ public class ConstructionProtocolView {
 			updateNavBarsAndRepaint();
 		}
 
+		@Override
 		public void repaintView() {
 			// overridden in subclasses
 		}
 
+		@Override
 		public void rename(GeoElement geo) {
 			// renaming may affect multiple rows
 			// so let's update whole table
 			updateAll();
 		}
 
+		@Override
 		public final void update(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			if (row != null) {
@@ -603,9 +630,9 @@ public class ConstructionProtocolView {
 				// are shown and this is no longer a breakpoint (while loading a
 				// construction)
 				if (!geo.isConsProtocolBreakpoint()
-						&& kernel.getConstruction().showOnlyBreakpoints())
+						&& kernel.getConstruction().showOnlyBreakpoints()) {
 					remove(geo);
-				else {
+				} else {
 					row.updateAlgebraAndName();
 					row.updateCaption();
 					fireTableRowsUpdated(row.getRowNumber(),
@@ -616,8 +643,9 @@ public class ConstructionProtocolView {
 				// are shown and this became a breakpoint (while loading a
 				// construction)
 				if (kernel.getConstruction().showOnlyBreakpoints()
-						&& geo.isConsProtocolBreakpoint())
+						&& geo.isConsProtocolBreakpoint()) {
 					add(geo);
+				}
 			}
 
 		}
@@ -627,31 +655,37 @@ public class ConstructionProtocolView {
 
 		}
 
+		@Override
 		public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void updateAuxiliaryObject(GeoElement geo) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void reset() {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public int getViewID() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		@Override
 		public boolean hasFocus() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean isShowing() {
 			// TODO Auto-generated method stub
 			return false;
@@ -660,8 +694,9 @@ public class ConstructionProtocolView {
 		/* End of View Implementation */
 
 		private void updateRowNumbers(int row) {
-			if (row < 0)
+			if (row < 0) {
 				return;
+			}
 			int size = rowList.size();
 			for (int i = row; i < size; ++i) {
 				// rowList.get(i).rowNumber = i;
@@ -671,8 +706,9 @@ public class ConstructionProtocolView {
 
 		private void updateIndices() {
 			int size = rowList.size();
-			if (size == 0)
+			if (size == 0) {
 				return;
+			}
 
 			int lastIndex = -1;
 			int count = 0;

@@ -82,6 +82,7 @@ public class AlgoDistancePoints extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	@Override
 	public GeoNumeric getDistance() {
 		return dist;
 	}
@@ -105,10 +106,12 @@ public class AlgoDistancePoints extends AlgoElement
 
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 

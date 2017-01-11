@@ -130,8 +130,10 @@ public final class DrawPoint extends Drawable {
 	final public void update() {
 
 		if (gp != null)
+		 {
 			gp.reset(); // stop trace being left when (filled diamond) point
 						// moved
+		}
 
 		isVisible = geo.isEuclidianVisible();
 
@@ -151,8 +153,9 @@ public final class DrawPoint extends Drawable {
 		}
 
 		// trace to spreadsheet is no longer bound to EV
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		update(coords1);
 	}
@@ -193,8 +196,9 @@ public final class DrawPoint extends Drawable {
 
 		int pointStyle = P.getPointStyle();
 
-		if (pointStyle == -1)
+		if (pointStyle == -1) {
 			pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+		}
 
 		double root3over2;
 
@@ -217,8 +221,9 @@ public final class DrawPoint extends Drawable {
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
 
 			double direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH)
+			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
 				direction = -1.0;
+			}
 
 			if (gp == null) {
 				gp = AwtFactory.getPrototype().newGeneralPath();
@@ -237,8 +242,9 @@ public final class DrawPoint extends Drawable {
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 
 			direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST)
+			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
 				direction = -1.0;
+			}
 
 			if (gp == null) {
 				gp = AwtFactory.getPrototype().newGeneralPath();
@@ -313,8 +319,9 @@ public final class DrawPoint extends Drawable {
 		if (P.getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
+			if (g2 != null) {
 				drawTrace(g2);
+			}
 		} else {
 			if (isTracing) {
 				isTracing = false;
@@ -405,15 +412,17 @@ public final class DrawPoint extends Drawable {
 				if (algo instanceof AlgoIntersectAbstract) {
 					GeoElement[] geos = algo.getInput();
 					drawClippedSection(geos[0], g2);
-					if (geos.length > 1)
+					if (geos.length > 1) {
 						drawClippedSection(geos[1], g2);
+					}
 				}
 			}
 
 			int pointStyle = P.getPointStyle();
 
-			if (pointStyle == -1)
+			if (pointStyle == -1) {
 				pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+			}
 
 			switch (pointStyle) {
 			case EuclidianStyleConstants.POINT_STYLE_PLUS:
@@ -552,13 +561,15 @@ public final class DrawPoint extends Drawable {
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
 	final private static GBasicStroke getEmptyStroke(int pointSize) {
-		if (pointSize > 9)
+		if (pointSize > 9) {
 			return AwtFactory.getPrototype()
 					.newBasicStrokeJoinMitre(pointSize / 2f);
+		}
 
-		if (emptyStrokes[pointSize] == null)
+		if (emptyStrokes[pointSize] == null) {
 			emptyStrokes[pointSize] = AwtFactory.getPrototype()
 					.newBasicStrokeJoinMitre(pointSize / 2f);
+		}
 
 		return emptyStrokes[pointSize];
 	}
@@ -569,12 +580,14 @@ public final class DrawPoint extends Drawable {
 	 */
 	final private static GBasicStroke getFillStroke(int pointSize) {
 
-		if (pointSize > 9)
+		if (pointSize > 9) {
 			return AwtFactory.getPrototype().newBasicStroke(pointSize / 2f);
+		}
 
-		if (fillStrokes[pointSize] == null)
+		if (fillStrokes[pointSize] == null) {
 			fillStrokes[pointSize] = AwtFactory.getPrototype()
 					.newBasicStroke(pointSize / 2f);
+		}
 
 		return fillStrokes[pointSize];
 	}

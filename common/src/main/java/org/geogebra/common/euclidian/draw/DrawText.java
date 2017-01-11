@@ -78,15 +78,18 @@ public final class DrawText extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible && !text.isNeedsUpdatedBoundingBox()) // needed for
-																// Corner[Element[text
+		if (!isVisible && !text.isNeedsUpdatedBoundingBox()) {
+			// Corner[Element[text
 			return;
+		}
 
-		if (isLaTeX) // needed eg for \sqrt
+		if (isLaTeX) {
 			updateStrokes(text);
+		}
 
-		if (isLaTeX) // needed eg for \sqrt
+		if (isLaTeX) {
 			updateStrokes(text);
+		}
 
 		String newText = text.getTextString();
 		boolean textChanged = labelDesc == null || !labelDesc.equals(newText)
@@ -140,11 +143,12 @@ public final class DrawText extends Drawable {
 				|| fontChanged || text.getKernel().getForceUpdatingBoundingBox()
 				|| text.getBoundingBox() == null)) {
 			// ensure that bounding box gets updated by drawing text once
-			if (isLaTeX)
+			if (isLaTeX) {
 				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,
 						geo.getObjectColor(), view.getBackgroundCommon());
-			else
+			} else {
 				drawMultilineText(view.getTempGraphics2D(textFont), textFont);
+			}
 
 			// update corners for Corner[] command
 			double xRW = view.toRealWorldCoordX(labelRectangle.getX());

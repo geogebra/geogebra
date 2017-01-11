@@ -161,8 +161,9 @@ public class TwoVarStatModel {
 			}
 
 			// exit if sample sizes are unequal
-			if (stats1.getN() != stats2.getN())
+			if (stats1.getN() != stats2.getN()) {
 				return false;
+			}
 
 			// get statistics
 			meanDifference = StatUtils.meanDifference(sample1, sample2);

@@ -48,8 +48,9 @@ public class MacroConstruction extends Construction {
 	 *             if there is a problem while reading XML
 	 */
 	public void loadXML(String xmlString) throws Exception {
-		if (undoManager == null)
+		if (undoManager == null) {
 			undoManager = kernel.getApplication().getUndoManager(this);
+		}
 		this.setFileLoading(true);
 		undoManager.processXML(xmlString);
 		this.setFileLoading(false);
@@ -78,16 +79,18 @@ public class MacroConstruction extends Construction {
 	@Override
 	public final GeoElement lookupLabel(String label, boolean autoCreate) {// package
 																			// private
-		if (label == null)
+		if (label == null) {
 			return null;
+		}
 
 		String label1 = label;
 
 		// local var handling
 		if (localVariableTable != null) {
 			GeoElement localGeo = localVariableTable.get(label1);
-			if (localGeo != null)
+			if (localGeo != null) {
 				return localGeo;
+			}
 		}
 
 		// global var handling

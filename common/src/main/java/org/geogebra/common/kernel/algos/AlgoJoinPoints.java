@@ -136,10 +136,12 @@ public class AlgoJoinPoints extends AlgoElement
 	}
 
 	// Simon Weitzhofer 2012-04-03
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
@@ -151,6 +153,7 @@ public class AlgoJoinPoints extends AlgoElement
 
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			int[] degree1 = P.getDegrees();
@@ -161,6 +164,7 @@ public class AlgoJoinPoints extends AlgoElement
 
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -174,6 +178,7 @@ public class AlgoJoinPoints extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -194,13 +199,16 @@ public class AlgoJoinPoints extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
-		if (botanaVars != null)
+		if (botanaVars != null) {
 			return botanaVars;
+		}
 		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines are only created when a third point is
@@ -213,6 +221,7 @@ public class AlgoJoinPoints extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnJoinPoints(geo, this, scope);

@@ -61,23 +61,28 @@ public class SingularWebService {
 		// Varnish currently cannot do caching for POST requests,
 		// so we prefer GET for the shorter Singular programs:
 		if (encodedParameters.length() + url1.length() + command.length()
-				+ 6 <= GET_REQUEST_MAX_SIZE)
+				+ 6 <= GET_REQUEST_MAX_SIZE) {
 			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters
 					+ caching);
-		else
+		} else {
 			httpr.sendRequestPost(url1,
 					"c=" + command + "&p=" + encodedParameters + caching, null);
+		}
 		// In fact we will not use Varnish after changing SingularWS to version
 		// >= 3 (2014-01-03).
 		String response = httpr.getResponse(); // will not work in web, TODO:
 												// callback!
 		if (response == null)
+		 {
 			return null; // avoiding NPE in web
+		}
 		// Trimming:
-		if (response.endsWith("> "))
+		if (response.endsWith("> ")) {
 			response = response.substring(0, response.length() - 2);
-		if (response.endsWith("\n"))
+		}
+		if (response.endsWith("\n")) {
 			response = response.substring(0, response.length() - 1);
+		}
 		if (response.contains("error")) {
 			// Intuitive detection of error in computation. TODO: be more
 			// strict.
@@ -102,10 +107,12 @@ public class SingularWebService {
 	 * @return true if SingularWS is available
 	 */
 	public boolean isAvailable() {
-		if (available == null)
+		if (available == null) {
 			return false;
-		if (available)
+		}
+		if (available) {
 			return true;
+		}
 		return false;
 	}
 
@@ -119,8 +126,9 @@ public class SingularWebService {
 	}
 
 	private String speed() {
-		if (isFast())
+		if (isFast()) {
 			return "fast";
+		}
 		return "slow";
 	}
 
@@ -141,8 +149,9 @@ public class SingularWebService {
 		} catch (Throwable e) {
 			Log.error("Failure while testing SingularWS connection");
 		}
-		if (result == null)
+		if (result == null) {
 			return false;
+		}
 		if ("ok".equals(result)) {
 			// Testing connection speed.
 			fastConn = true; // be optimistic
@@ -158,8 +167,9 @@ public class SingularWebService {
 				long elapsedTime = date.getTime() - startTime;
 				Log.debug("Measuring speed to SWS #" + i + ": " + elapsedTime
 						+ " ms");
-				if (elapsedTime > CONNECTION_SPEED_THRESHOLD)
+				if (elapsedTime > CONNECTION_SPEED_THRESHOLD) {
 					fastConn = false;
+				}
 			}
 
 			// Testing extra features.
@@ -236,8 +246,9 @@ public class SingularWebService {
 		boolean tc = testConnection();
 		if (tc) {
 			this.available = true;
-		} else
+		} else {
 			this.available = false;
+		}
 	}
 
 	/**

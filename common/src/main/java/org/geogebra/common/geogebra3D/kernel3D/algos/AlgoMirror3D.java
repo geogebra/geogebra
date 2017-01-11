@@ -78,24 +78,27 @@ public class AlgoMirror3D extends AlgoMirror {
 
 	@Override
 	protected GeoElement copy(GeoElement geo) {
-		if (mirror.isGeoElement3D())
+		if (mirror.isGeoElement3D()) {
 			return kernel.copy3D(geo);
+		}
 		return super.copy(geo);
 	}
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
 		if ((geo instanceof GeoFunction || geo instanceof GeoCurveCartesian)
-				&& mirror.isGeoElement3D())
+				&& mirror.isGeoElement3D()) {
 			return new GeoCurveCartesian3D(cons);
+		}
 
 		return super.getResultTemplate(geo);
 	}
 
 	@Override
 	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
-		if (mirror.isGeoElement3D())
+		if (mirror.isGeoElement3D()) {
 			return kernel.copyInternal3D(cons, geo);
+		}
 		return super.copyInternal(cons, geo);
 	}
 

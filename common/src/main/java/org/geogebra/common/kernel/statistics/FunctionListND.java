@@ -31,6 +31,7 @@ public interface FunctionListND {
 
 		private GeoFunctionable[] array;
 
+		@Override
 		public boolean set(int i, GeoElement geo) {
 			if (!(geo instanceof GeoFunctionable)) {
 				return false;
@@ -39,15 +40,18 @@ public interface FunctionListND {
 			return true;
 		}
 
+		@Override
 		public double evaluate(int c, GeoPointND point) {
 			return array[c].getGeoFunction().evaluate(point.getInhomX());
 		}
 
+		@Override
 		public double extractValueCoord(GeoPointND point) {
 			return point.getInhomY();
 		}
 
 		// Making GeoFunction fit(x)= p1*f(x)+p2*g(x)+p3*h(x)+...
+		@Override
 		public final CasEvaluableFunction makeFunction(
 				CasEvaluableFunction template, GeoList functionlist,
 				RealMatrix P) {
@@ -72,10 +76,12 @@ public interface FunctionListND {
 			return fitfunction2;
 		}
 
+		@Override
 		public CasEvaluableFunction getTemplate(Construction cons) {
 			return new GeoFunction(cons);
 		}
 
+		@Override
 		public void setSize(int size) {
 			array = new GeoFunctionable[size];
 
@@ -90,6 +96,7 @@ public interface FunctionListND {
 
 		private Evaluate2Var[] array;
 
+		@Override
 		public boolean set(int i, GeoElement geo) {
 			if (!(geo instanceof Evaluate2Var)) {
 				return false;
@@ -98,14 +105,17 @@ public interface FunctionListND {
 			return true;
 		}
 
+		@Override
 		public double evaluate(int c, GeoPointND point) {
 			return array[c].evaluate(point.getInhomX(), point.getInhomY());
 		}
 
+		@Override
 		public double extractValueCoord(GeoPointND point) {
 			return point.getInhomZ();
 		}
 
+		@Override
 		public CasEvaluableFunction makeFunction(CasEvaluableFunction template,
 				GeoList functionlist, RealMatrix P) {
 			double p;
@@ -157,10 +167,12 @@ public interface FunctionListND {
 			res.setFunction(fRes);
 		}
 
+		@Override
 		public CasEvaluableFunction getTemplate(Construction cons) {
 			return new GeoFunctionNVar(cons);
 		}
 
+		@Override
 		public void setSize(int size) {
 			array = new Evaluate2Var[size];
 

@@ -320,6 +320,7 @@ public class Fraction extends Number
 	 * @return -1 if this is less than <tt>object</tt>, +1 if this is greater
 	 *         than <tt>object</tt>, 0 if they are equal.
 	 */
+	@Override
 	public int compareTo(Fraction object) {
 		long nOd = ((long) numerator) * object.denominator;
 		long dOn = ((long) denominator) * object.numerator;
@@ -462,6 +463,7 @@ public class Fraction extends Number
 	 *             if the resulting numerator or denominator exceeds
 	 *             <code>Integer.MAX_VALUE</code>
 	 */
+	@Override
 	public Fraction add(Fraction fraction) {
 		return addSub(fraction, true /* add */);
 	}
@@ -492,6 +494,7 @@ public class Fraction extends Number
 	 *             if the resulting numerator or denominator cannot be
 	 *             represented in an <code>int</code>.
 	 */
+	@Override
 	public Fraction subtract(Fraction fraction) {
 		return addSub(fraction, false /* subtract */);
 	}
@@ -582,6 +585,7 @@ public class Fraction extends Number
 	 *             if the resulting numerator or denominator exceeds
 	 *             <code>Integer.MAX_VALUE</code>
 	 */
+	@Override
 	public Fraction multiply(Fraction fraction) {
 		if (fraction == null) {
 			throw new NullArgumentException(LocalizedFormats.FRACTION);
@@ -626,6 +630,7 @@ public class Fraction extends Number
 	 *             if the resulting numerator or denominator exceeds
 	 *             <code>Integer.MAX_VALUE</code>
 	 */
+	@Override
 	public Fraction divide(Fraction fraction) {
 		if (fraction == null) {
 			throw new NullArgumentException(LocalizedFormats.FRACTION);
@@ -722,6 +727,7 @@ public class Fraction extends Number
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public FractionField getField() {
 		return FractionField.getInstance();
 	}

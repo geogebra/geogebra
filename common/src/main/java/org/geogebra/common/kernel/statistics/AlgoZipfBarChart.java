@@ -50,10 +50,12 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 		return Commands.Zipf;
 	}
 
+	@Override
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
-		if (b != null)
-			b = (GeoBoolean) b.copy();
+		if (b != null) {
+			b = b.copy();
+		}
 		return new AlgoZipfBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
 				(GeoNumberValue) this.getP2().deepCopy(kernel), b,

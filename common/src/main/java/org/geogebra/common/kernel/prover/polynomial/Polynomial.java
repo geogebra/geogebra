@@ -91,8 +91,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial(final long coeff, final Variable variable) {
 		this();
-		if (coeff != 0)
+		if (coeff != 0) {
 			terms.put(new Term(variable), coeff);
+		}
 	}
 
 	/**
@@ -108,8 +109,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial(final long coeff, final Variable variable,
 			final int power) {
 		this();
-		if (coeff != 0)
+		if (coeff != 0) {
 			terms.put(new Term(variable, power), coeff);
+		}
 	}
 
 	/**
@@ -133,8 +135,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial(final long coeff, final Term t) {
 		this();
-		if (coeff != 0)
+		if (coeff != 0) {
 			terms.put(t, coeff);
+		}
 	}
 
 	/**
@@ -243,6 +246,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		return new Polynomial(result);
 	}
 
+	@Override
 	public int compareTo(Polynomial poly) {
 		if (this == poly) {
 			return 0;
@@ -309,11 +313,13 @@ public class Polynomial implements Comparable<Polynomial> {
 			Term t = entry.getKey();
 			long c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
-				if (c != 1)
+				if (c != 1) {
 					sb.append(c + "*");
+				}
 				sb.append(t);
-			} else
+			} else {
 				sb.append(c);
+			}
 			sb.append('+');
 		}
 		return sb.substring(0, sb.length() - 1) // removing closing "+"
@@ -361,8 +367,9 @@ public class Polynomial implements Comparable<Polynomial> {
 					}
 				}
 				sb.append(t.toTeX());
-			} else
+			} else {
 				sb.append(c);
+			}
 			sb.append('+');
 		}
 		return sb.substring(0, sb.length() - 1); // removing closing "+"
@@ -393,12 +400,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	public static HashSet<Variable> getVars(Polynomial[] polys) {
 		HashSet<Variable> v = new HashSet<Variable>();
 		int polysLength = 0;
-		if (polys != null)
+		if (polys != null) {
 			polysLength = polys.length;
+		}
 		for (int i = 0; i < polysLength; ++i) {
 			HashSet<Variable> vars = polys[i].getVars();
-			if (vars != null)
+			if (vars != null) {
 				v.addAll(vars);
+			}
 		}
 		return v;
 	}
@@ -419,17 +428,21 @@ public class Polynomial implements Comparable<Polynomial> {
 			HashSet<Variable> extraVars, Boolean free) {
 		StringBuilder sb = new StringBuilder();
 		HashSet<Variable> vars = getVars(polys);
-		if (extraVars != null)
+		if (extraVars != null) {
 			vars.addAll(extraVars);
+		}
 		Iterator<Variable> it = vars.iterator();
 		while (it.hasNext()) {
 			Variable fv = it.next();
 			if ((free == null) || (free && fv.isFree())
-					|| (!free && !fv.isFree()))
+					|| (!free && !fv.isFree())) {
 				sb.append("," + fv);
+			}
 		}
 		if (sb.length() > 0)
+		 {
 			return sb.substring(1); // removing first "," character
+		}
 		return "";
 	}
 
@@ -448,7 +461,9 @@ public class Polynomial implements Comparable<Polynomial> {
 			}
 		}
 		if (sb.length() > 0)
+		 {
 			return sb.substring(1); // removing first "," character
+		}
 		return "0";
 	}
 
@@ -469,6 +484,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		String vars = getVarsAsCommaSeparatedString(new Polynomial[] { p1, p2 },
 				null, null);
 		if (!"".equals(vars))
+		 {
 			return "ring " + ringVariable + "=0,(" + vars + "),dp;" // ring
 																	// definition
 																	// in
@@ -478,6 +494,7 @@ public class Polynomial implements Comparable<Polynomial> {
 
 					+ "(" + p1.toString() + ")" + "*" + "(" + p2.toString()
 					+ ");"; // the multiplication command
+		}
 		return p1.toString() + "*" + p2.toString() + ";";
 	}
 
@@ -727,8 +744,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial substitute(Map<Variable, Long> substitutions) {
 
-		if (substitutions == null)
+		if (substitutions == null) {
 			return this;
+		}
 
 		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
 
@@ -917,8 +935,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return output string
 	 */
 	public static String addLeadingComma(String in) {
-		if (in == null || in.length() == 0)
+		if (in == null || in.length() == 0) {
 			return "";
+		}
 		return "," + in;
 	}
 
@@ -932,8 +951,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the first non-empty input
 	 */
 	public static String coalesce(String in1, String in2) {
-		if (in1 == null || in1.length() == 0)
+		if (in1 == null || in1.length() == 0) {
 			return in2;
+		}
 		return in1;
 	}
 
@@ -1047,8 +1067,9 @@ public class Polynomial implements Comparable<Polynomial> {
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);
 			}
-		} else
+		} else {
 			ret.append(dummyVar);
+		}
 
 		ret.append("),dp;");
 
@@ -1074,10 +1095,11 @@ public class Polynomial implements Comparable<Polynomial> {
 				vars.append("*");
 			}
 		}
-		if (vars.length() > 0)
+		if (vars.length() > 0) {
 			ret.append(vars);
-		else
+		} else {
 			ret.append(dummyVar);
+		}
 
 		ret.append(");");
 
@@ -1131,18 +1153,20 @@ public class Polynomial implements Comparable<Polynomial> {
 					transcext);
 
 			if (solvableProgram
-					.length() > SingularWSSettings.debugMaxProgramSize)
+					.length() > SingularWSSettings.debugMaxProgramSize) {
 				Log.trace(solvableProgram.length() + " bytes -> singular");
-			else
+			} else {
 				Log.trace(solvableProgram + " -> singular");
+			}
 			try {
 				solvableResult = App.singularWSdirectCommand(solvableProgram);
 				if (solvableResult
-						.length() > SingularWSSettings.debugMaxProgramSize)
+						.length() > SingularWSSettings.debugMaxProgramSize) {
 					Log.trace("singular -> " + solvableResult.length()
 							+ " bytes");
-				else
+				} else {
 					Log.trace("singular -> " + solvableResult);
+				}
 				if ("0".equals(solvableResult)) {
 					return ExtendedBoolean.FALSE; // no solution
 				}
@@ -1344,20 +1368,22 @@ public class Polynomial implements Comparable<Polynomial> {
 			elimProgram = createEliminateFactorizedScript(eqSystemSubstituted,
 					pVariables, dependentVariables);
 
-			if (elimProgram.length() > SingularWSSettings.debugMaxProgramSize)
+			if (elimProgram.length() > SingularWSSettings.debugMaxProgramSize) {
 				Log.trace(elimProgram.length() + " bytes -> singular");
-			else
+			} else {
 				Log.trace(elimProgram + " -> singular");
+			}
 			try {
 				elimResult = App.singularWSdirectCommand(elimProgram);
 				if (elimResult == null) {
 					return null;
 				}
 				if (elimResult
-						.length() > SingularWSSettings.debugMaxProgramSize)
+						.length() > SingularWSSettings.debugMaxProgramSize) {
 					Log.trace("singular -> " + elimResult.length() + " bytes");
-				else
+				} else {
 					Log.trace("singular -> " + elimResult);
+				}
 			} catch (Throwable e) {
 				Log.debug("Could not compute elimination with SingularWS");
 				return null;

@@ -105,7 +105,7 @@ public class AlgoClosestPoint extends AlgoElement
 	public final void compute() {
 		if (input[0].isDefined() && point.isDefined()) {
 			if (path instanceof GeoFunction) {
-				Function fun = (Function) ((GeoFunction) path).getFunction()
+				Function fun = ((GeoFunction) path).getFunction()
 						.deepCopy(kernel);
 				Coords coords = point.getCoordsInD2();
 				double val = AlgoDistancePointObject
@@ -129,6 +129,7 @@ public class AlgoClosestPoint extends AlgoElement
 				input[1].getLabel(tpl));
 	}
 
+	@Override
 	public boolean isChangeable(GeoElement out) {
 		return false;
 	}

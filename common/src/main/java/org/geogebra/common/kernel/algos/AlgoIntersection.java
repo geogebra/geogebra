@@ -88,14 +88,16 @@ public class AlgoIntersection extends AlgoElement {
 				if (inputList.get(j).isEqual(geo)) {
 
 					boolean alreadyInOutputList = false;
-					for (int k = 0; k < outputList.size(); k++)
+					for (int k = 0; k < outputList.size(); k++) {
 						if (geo.isEqual(outputList.get(k))) {
 							alreadyInOutputList = true;
 							break;
 						}
+					}
 
-					if (!alreadyInOutputList)
+					if (!alreadyInOutputList) {
 						outputList.add(geo.copy());
+					}
 					break;
 				}
 			}

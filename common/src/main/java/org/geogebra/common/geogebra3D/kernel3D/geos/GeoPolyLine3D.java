@@ -119,14 +119,16 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	@Override
 	public boolean isOnPath(GeoPointND P, double eps) {
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		// check if P is on one of the segments
 		for (int i = 0; i < points.length - 1; i++) {
 			setSegmentPoints(points[i], points[i + 1]);
-			if (seg.isOnPath(P, eps))
+			if (seg.isOnPath(P, eps)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -151,8 +153,9 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			index = points.length - 2;
 		} else {
 			t = t % (points.length - 1);
-			if (t < 0)
+			if (t < 0) {
 				t += (points.length - 1);
+			}
 			index = (int) Math.floor(t);
 		}
 		setSegmentPoints(points[index], points[index + 1]);
@@ -193,14 +196,16 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			} else if (localT > 1 && direction >= 0) {
 				direction = 1;
 				index++;
-			} else
+			} else {
 				break;
+			}
 		}
 
-		if (index >= getNumPoints() - 1)
+		if (index >= getNumPoints() - 1) {
 			index = getNumPoints() - 1;
-		else if (index < 0)
+		} else if (index < 0) {
 			index = 0;
+		}
 
 		t = index + Math.min(1, Math.max(0, localT));
 		pp.setT(t);
@@ -238,6 +243,7 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		return; // TODO
 	}
 
+	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		return; // TODO
 	}
@@ -268,9 +274,11 @@ public class GeoPolyLine3D extends GeoPolyLine {
 
 	@Override
 	public boolean isAllVertexLabelsSet() {
-		for (int i = 0; i < points.length; i++)
-			if (!points[i].isLabelSet())
+		for (int i = 0; i < points.length; i++) {
+			if (!points[i].isLabelSet()) {
 				return false;
+			}
+		}
 		return true;
 	}
 
@@ -283,6 +291,7 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	/**
 	 * @deprecated use getPointND(int i)
 	 */
+	@Deprecated
 	@Override
 	public GeoPoint getPoint(int i) {
 		return null;
@@ -296,8 +305,9 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	}
 
 	public void calcIsPlanar() {
-		if (!isDefined())
+		if (!isDefined()) {
 			return;
+		}
 		if (getNumPoints() <= 3) {
 			isPlanar = true;
 			return;

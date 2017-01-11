@@ -61,6 +61,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 	 *             if the cumulative probability can not be computed due to
 	 *             convergence or other numerical errors.
 	 */
+	@Override
 	public double cumulativeProbability(double x) throws MathException {
 		return cumulativeProbability((int) FastMath.floor(x));
 	}
@@ -113,6 +114,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 	 *             if the cumulative probability can not be computed due to
 	 *             convergence or other numerical errors.
 	 */
+	@Override
 	public abstract double cumulativeProbability(int x) throws MathException;
 
 	/**
@@ -127,6 +129,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 	 *            evaluated
 	 * @return the value of the probability density function at x
 	 */
+	@Override
 	public double probability(double x) {
 		double fl = FastMath.floor(x);
 		if (fl == x) {
@@ -151,6 +154,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 	 * @throws IllegalArgumentException
 	 *             if x0 > x1
 	 */
+	@Override
 	public double cumulativeProbability(int x0, int x1) throws MathException {
 		if (x0 > x1) {
 			throw MathRuntimeException.createIllegalArgumentException(
@@ -174,6 +178,7 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 	 * @throws IllegalArgumentException
 	 *             if p < 0 or p > 1
 	 */
+	@Override
 	public int inverseCumulativeProbability(final double p)
 			throws MathException {
 		if (p < 0.0 || p > 1.0) {

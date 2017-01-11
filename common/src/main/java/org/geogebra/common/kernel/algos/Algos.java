@@ -15,6 +15,7 @@ public enum Algos implements GetCommand {
 		this.command = command.name();
 	}
 
+	@Override
 	public String getCommand() {
 		return command;
 	}

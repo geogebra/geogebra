@@ -161,6 +161,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * 
 	 * @return coord sys where the conic lies
 	 */
+	@Override
 	abstract public CoordSys getCoordSys();
 
 	/**
@@ -410,6 +411,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		result[1] = p * eigenvec0.getY();
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 
 		Coords coords = P.getCoordsInD2(getCoordSys());
@@ -741,6 +743,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * Edited by Kai Chung Tam
 	 */
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -767,12 +770,14 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private boolean compatibleType(int t) {
-		if (type == t)
+		if (type == t) {
 			return true;
+		}
 		// the conic type change temporarily to point or empty conic --
 		// once the conic returns back, we want the old parameter to be used
-		if (t == CONIC_EMPTY || t == CONIC_SINGLE_POINT)
+		if (t == CONIC_EMPTY || t == CONIC_SINGLE_POINT) {
 			return true;
+		}
 		return false;
 	}
 
@@ -857,8 +862,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		P.setX(halfAxes[0] * MyMath.cosh(s));
 		P.setY(halfAxes[1] * MyMath.sinh(s));
 		P.setZ(1.0);
-		if (leftBranch)
+		if (leftBranch) {
 			P.setX(-P.getX());
+		}
 
 		// transform back to real world coord system
 		coordsEVtoRW(P);
@@ -938,6 +944,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return the largest possible parameter value for this path (may be
 	 *         Double.POSITIVE_INFINITY)
 	 */
+	@Override
 	public double getMaxParameter() {
 		switch (type) {
 		case CONIC_DOUBLE_LINE:
@@ -970,6 +977,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return the smallest possible parameter value for this path (may be
 	 *         Double.NEGATIVE_INFINITY)
 	 */
+	@Override
 	public double getMinParameter() {
 		switch (type) {
 		case CONIC_PARABOLA:
@@ -996,6 +1004,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
+	@Override
 	public boolean isClosedPath() {
 		switch (type) {
 		case CONIC_CIRCLE:
@@ -1007,10 +1016,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND P, double eps) {
 
-		if (P.getPath() == this)
+		if (P.getPath() == this) {
 			return true;
+		}
 
 		return isOnFullConic(P, eps);
 	}
@@ -1026,8 +1037,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            precision
 	 */
 	public final boolean isOnFullConic(GeoPointND P, double eps) {
-		if (!P.isDefined())
+		if (!P.isDefined()) {
 			return false;
+		}
 
 		return isOnFullConic(P.getCoordsInD2(), eps);
 	}
@@ -1112,6 +1124,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return result;
 	}
 
+	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
@@ -1228,11 +1241,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            point
 	 */
 	public final void addPointOnConic(GeoPointND pt) {
-		if (pointsOnConic == null)
+		if (pointsOnConic == null) {
 			pointsOnConic = new ArrayList<GeoPointND>();
+		}
 
-		if (!pointsOnConic.contains(pt))
+		if (!pointsOnConic.contains(pt)) {
 			pointsOnConic.add(pt);
+		}
 	}
 
 	/**
@@ -1242,8 +1257,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            Point to be removed
 	 */
 	public final void removePointOnConic(GeoPointND pt) {
-		if (pointsOnConic != null)
+		if (pointsOnConic != null) {
 			pointsOnConic.remove(pt);
+		}
 	}
 
 	/**
@@ -1263,7 +1279,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		toStringMode = co.toStringMode;
 		type = co.type;
 		for (int i = 0; i < 6; i++)
+		 {
 			matrix[i] = co.matrix[i]; // flat matrix A
+		}
 
 		if (co.transform != null) {
 			GAffineTransform at = getAffineTransform();
@@ -1285,8 +1303,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		setLines(co);
 
 		if (co.singlePoint != null) {
-			if (singlePoint == null)
+			if (singlePoint == null) {
 				singlePoint = new GeoPoint(cons);
+			}
 			singlePoint.setCoords(co.singlePoint);
 		}
 		if (co.startPoints != null) {
@@ -1477,8 +1496,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true iff explicit equation is possible
 	 */
 	final public boolean isExplicitPossible() {
-		if (type == CONIC_LINE)
+		if (type == CONIC_LINE) {
 			return false;
+		}
 		return !Kernel.isZero(matrix[5]) && Kernel.isZero(matrix[3])
 				&& Kernel.isZero(matrix[1]);
 	}
@@ -1531,8 +1551,9 @@ public abstract class GeoConicND extends GeoQuadricND
 			}
 
 			double abs = Math.abs(matrix[i]);
-			if (abs > Kernel.STANDARD_PRECISION)
+			if (abs > Kernel.STANDARD_PRECISION) {
 				allZero = false;
+			}
 			if ((i == 0 || i == 1 || i == 3) && maxCoeffAbs < abs) { // check
 																		// max
 																		// only
@@ -1557,12 +1578,14 @@ public abstract class GeoConicND extends GeoQuadricND
 		double factor = 1.0;
 		if (maxCoeffAbs < MIN_COEFFICIENT_SIZE) {
 			factor = 2;
-			while (maxCoeffAbs * factor < MIN_COEFFICIENT_SIZE)
+			while (maxCoeffAbs * factor < MIN_COEFFICIENT_SIZE) {
 				factor *= 2;
+			}
 		} else if (maxCoeffAbs > MAX_COEFFICIENT_SIZE) {
 			factor = 0.5;
-			while (maxCoeffAbs * factor > MAX_COEFFICIENT_SIZE)
+			while (maxCoeffAbs * factor > MAX_COEFFICIENT_SIZE) {
 				factor *= 0.5;
+			}
 		}
 
 		// multiply matrix with factor to avoid huge and tiny coefficients
@@ -1680,8 +1703,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	protected String getXMLtagsMinimal() {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++) {
 			sb.append(regrFormat(matrix[i]) + " ");
+		}
 		sb.append(regrFormat(matrix[5]));
 
 		return sb.toString();
@@ -1783,9 +1807,10 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		switch (toStringMode) {
 		case EQUATION_SPECIFIC:
-			if (!isSpecificPossible())
+			if (!isSpecificPossible()) {
 				return kernel.buildImplicitEquation(coeffs, myVars,
 						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
+			}
 
 			switch (type) {
 			case CONIC_CIRCLE:
@@ -1894,17 +1919,18 @@ public abstract class GeoConicND extends GeoQuadricND
 						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
 
 			case CONIC_PARABOLA:
-				if (!Kernel.isZero(coeffs[2]))
+				if (!Kernel.isZero(coeffs[2])) {
 					return kernel.buildExplicitConicEquation(coeffs, myVars, 2,
 							KEEP_LEADING_SIGN, tpl);
-				else if (!Kernel.isZero(coeffs[0]))
+				} else if (!Kernel.isZero(coeffs[0])) {
 					return kernel.buildExplicitConicEquation(coeffs, myVars, 0,
 							KEEP_LEADING_SIGN, tpl);
-				else
+				} else {
 					return kernel.buildImplicitEquation(coeffs, myVars,
 							KEEP_LEADING_SIGN,
 
 							true, false, '=', tpl, true);
+				}
 
 			case CONIC_DOUBLE_LINE:
 				sbToValueString.append('(');
@@ -1926,9 +1952,10 @@ public abstract class GeoConicND extends GeoQuadricND
 			}
 
 		case EQUATION_EXPLICIT:
-			if (isExplicitPossible())
+			if (isExplicitPossible()) {
 				return kernel.buildExplicitConicEquation(coeffs, myVars, 4,
 						KEEP_LEADING_SIGN, tpl);
+			}
 
 		case EQUATION_VERTEX:
 			if (isVertexformPossible()) {
@@ -1984,8 +2011,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return eigenvector-real worl transformation
 	 */
 	final public GAffineTransform getAffineTransform() {
-		if (transform == null)
+		if (transform == null) {
 			transform = AwtFactory.getPrototype().newAffineTransform();
+		}
 		return transform;
 	}
 
@@ -2202,8 +2230,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	final public void setParabola(GeoPoint F, GeoLine g) {
 		defined = F.isDefined() && !F.isInfinite() && g.isDefined();
 
-		if (!defined)
+		if (!defined) {
 			return;
+		}
 
 		// set parabola's matrix
 		double fx = F.inhomX;
@@ -2353,6 +2382,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param v
 	 *            translation vector
 	 */
+	@Override
 	public void translate(Coords v) {
 		doTranslate(v);
 
@@ -2429,6 +2459,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param phiVal
 	 *            angle
 	 */
+	@Override
 	public void rotate(NumberValue phiVal) {
 		double phi = phiVal.getDouble();
 		rotate(phi);
@@ -2445,6 +2476,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param point
 	 *            rotation center
 	 */
+	@Override
 	public void rotate(NumberValue phiVal, GeoPointND point) {
 		Coords Q = point.getInhomCoords();
 		double phi = phiVal.getDouble();
@@ -2467,6 +2499,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
 		double det = a00 * a11 - a01 * a10;
@@ -2732,14 +2765,16 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * parameters on the next call of pointChanged().
 	 */
 	private void makePathParametersInvalid() {
-		if (pointsOnConic == null)
+		if (pointsOnConic == null) {
 			return;
+		}
 
 		// eigenvectors have changed: we need to force an update of the
 		// path parameters of all points on this conic.
 		getAffineTransform();
-		if (oldTransform == null)
+		if (oldTransform == null) {
 			oldTransform = AwtFactory.getPrototype().newAffineTransform();
+		}
 		boolean eigenVectorsSame = Kernel.isEqual(transform.getScaleX(),
 				oldTransform.getScaleX(), Kernel.MIN_PRECISION)
 				|| Kernel.isEqual(transform.getScaleY(),
@@ -2777,8 +2812,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	public void classifyConic(boolean degenerate) {
 
 		defined = degenerate || checkDefined();
-		if (!defined)
+		if (!defined) {
 			return;
+		}
 
 		// det of S lets us distinguish between
 		// parabolic and midpoint conics
@@ -2906,8 +2942,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	final protected void singlePoint() {
 		type = GeoConicNDConstants.CONIC_SINGLE_POINT;
 
-		if (singlePoint == null)
+		if (singlePoint == null) {
 			singlePoint = new GeoPoint(cons);
+		}
 		singlePoint.setCoords(b.getX(), b.getY(), 1.0d);
 		// Application.debug("singlePoint : " + b);
 
@@ -2928,10 +2965,11 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		// take line with smallest change of direction
 		if (Math.abs(nx * lines[0].x + ny * lines[0].y) < Math
-				.abs(nx * lines[1].x + ny * lines[1].y))
+				.abs(nx * lines[1].x + ny * lines[1].y)) {
 			index = 1;
-		else
+		} else {
 			index = 0;
+		}
 
 		lines[index].x = nx;
 		lines[index].y = ny;
@@ -3346,8 +3384,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public boolean isEqual(GeoElement geo) {
 
-		if (!geo.isGeoConic())
+		if (!geo.isGeoConic()) {
 			return false;
+		}
 
 		GeoConicND conic = (GeoConicND) geo;
 		double[] B = conic.matrix;
@@ -3359,23 +3398,23 @@ public abstract class GeoConicND extends GeoQuadricND
 			bZero = Kernel.isZero(B[i]);
 
 			// A[i] == 0 and B[i] != 0 => not equal
-			if (aZero && !bZero)
+			if (aZero && !bZero) {
 				equal = false;
-			// B[i] == 0 and A[i] != 0 => not equal
-			else if (bZero && !aZero)
+			} else if (bZero && !aZero) {
 				equal = false;
-			// A[i] != 0 and B[i] != 0
-			else if (!aZero && !bZero) {
+			} else if (!aZero && !bZero) {
 				// init lambda?
-				if (lambda1 == 0.0)
+				if (lambda1 == 0.0) {
 					lambda1 = matrix[i] / B[i];
 				// check equality
-				else
+				} else {
 					equal = Kernel.isEqual(matrix[i], lambda1 * B[i]);
+				}
 			}
 			// leaf loop
-			if (!equal)
+			if (!equal) {
 				break;
+			}
 		}
 		return equal;
 	}
@@ -3572,8 +3611,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		// as only <matrix> will cause a call to classifyConic()
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
 		sb.append("\t<matrix");
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 6; i++) {
 			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
+		}
 		sb.append("/>\n");
 
 		// implicit or specific mode
@@ -3697,6 +3737,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return true;
 	}
 
+	@Override
 	public boolean isInRegion(GeoPointND PI) {
 
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
@@ -3721,6 +3762,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            y-coord
 	 * @return true if point (x0,y0) is inside the connic
 	 */
+	@Override
 	public boolean isInRegion(double x0, double y0) {
 
 		return Kernel.isGreaterEqual(
@@ -3756,6 +3798,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param PI
 	 *            point
 	 */
+	@Override
 	public void pointChangedForRegion(GeoPointND PI) {
 		PI.updateCoords2D();
 
@@ -3805,6 +3848,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            point
 	 */
 
+	@Override
 	public void regionChanged(GeoPointND PI) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
@@ -3818,9 +3862,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		// GeoPoint P = (GeoPoint) PI;
 		RegionParameters rp = PI.getRegionParameters();
 
-		if (rp.isOnPath())
+		if (rp.isOnPath()) {
 			pathChanged(PI);
-		else {
+		} else {
 			Coords P = new Coords(3);
 			if (P.isDefined()) {
 				if (type != CONIC_PARABOLA) {
@@ -3903,8 +3947,9 @@ public abstract class GeoConicND extends GeoQuadricND
 			evX = new ExpressionNode(kernel, fv, Operation.MULTIPLY, fv);
 			min = kernel.getXminForFunctions();
 			max = kernel.getXmaxForFunctions();
-		} else
+		} else {
 			return;
+		}
 
 		if (curve.getDimension() == 3) {
 			Coords e0 = this.getEigenvec3D(0);
@@ -3984,14 +4029,18 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *         inputs
 	 */
 	public boolean keepsType() {
-		if (getParentAlgorithm() == null)
+		if (getParentAlgorithm() == null) {
 			return true;
-		if (getParentAlgorithm() instanceof AlgoConicFivePoints)
+		}
+		if (getParentAlgorithm() instanceof AlgoConicFivePoints) {
 			return false;
-		if (getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint)
+		}
+		if (getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
 			return false;
-		if (getParentAlgorithm() instanceof AlgoEllipseFociLength)
+		}
+		if (getParentAlgorithm() instanceof AlgoEllipseFociLength) {
 			return false;
+		}
 		return true;
 	}
 
@@ -4142,14 +4191,17 @@ public abstract class GeoConicND extends GeoQuadricND
 	// REGION3D INTERFACE
 	// //////////////////////////////////////
 
+	@Override
 	public Coords[] getNormalProjection(Coords coords) {
 		return getCoordSys().getNormalProjection(coords);
 	}
 
+	@Override
 	public Coords getPoint(double x2d, double y2d, Coords coords) {
 		return getCoordSys().getPoint(x2d, y2d, coords);
 	}
 
+	@Override
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
 
@@ -4171,6 +4223,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return metas.size();
 	}
 
+	@Override
 	public GeoElement[] getMetas() {
 		GeoElement[] ret = new GeoElement[metas.size()];
 		metas.toArray(ret);

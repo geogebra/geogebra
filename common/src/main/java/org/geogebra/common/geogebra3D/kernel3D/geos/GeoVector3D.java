@@ -80,8 +80,9 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	public void setCoords(double[] vals) {
 		super.setCoords(vals);
 
-		if (matrix == null)
+		if (matrix == null) {
 			matrix = new CoordMatrix(4, 2);
+		}
 
 		// sets the drawing matrix
 		matrix.set(getCoords(), 1);
@@ -91,13 +92,15 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	/**
 	 * update the start point position
 	 */
+	@Override
 	public void updateStartPointPosition() {
 
-		if (startPoint != null)
+		if (startPoint != null) {
 			matrix.set(startPoint.getInhomCoordsInD3(), 2);
-		else {
-			for (int i = 1; i < 4; i++)
+		} else {
+			for (int i = 1; i < 4; i++) {
 				matrix.set(i, 2, 0.0);
+			}
 			matrix.set(4, 2, 1.0);
 		}
 
@@ -130,13 +133,15 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	@Override
 	public boolean isEqual(GeoElement geo) {
 
-		if (!geo.isGeoVector())
+		if (!geo.isGeoVector()) {
 			return false;
+		}
 
 		GeoVectorND v = (GeoVectorND) geo;
 
-		if (!(isFinite() && v.isFinite()))
+		if (!(isFinite() && v.isFinite())) {
 			return false;
+		}
 
 		Coords c1 = getCoords();
 		Coords c2 = v.getCoordsInD3();
@@ -154,6 +159,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 				|| Double.isInfinite(v.getZ());
 	}
 
+	@Override
 	final public boolean isFinite() {
 		return !isInfinite();
 	}
@@ -169,8 +175,9 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 			// don't set start point for macro output
 			// see AlgoMacro.initRay()
-			if (geo.getConstruction() != cons && isAlgoMacroOutput())
+			if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
 				return;
+			}
 
 			try {
 				GeoPointND sp = vec.getStartPoint();
@@ -330,10 +337,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
 			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(),
@@ -408,65 +416,78 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	// LOCATEABLE INTERFACE
 	// /////////////////////////////////////////////
 
+	@Override
 	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
 
+	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 
 		// Application.debug("point : "+((GeoElement) pI).getLabel());
 
 		// GeoPoint3D p = (GeoPoint3D) pI;
 
-		if (startPoint == p)
+		if (startPoint == p) {
 			return;
+		}
 
 		// macro output uses initStartPoint() only
-		if (isAlgoMacroOutput())
+		if (isAlgoMacroOutput()) {
 			return;
+		}
 
 		// check for circular definition
-		if (isParentOf(p))
+		if (isParentOf(p)) {
 			throw new CircularDefinitionException();
+		}
 
 		// remove old dependencies
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().unregisterLocateable(this);
+		}
 
 		// set new location
 		startPoint = p;
 
 		// add new dependencies
-		if (startPoint != null)
+		if (startPoint != null) {
 			startPoint.getLocateableList().registerLocateable(this);
+		}
 
 		// update position matrix
 		// updateStartPointPosition();
 
 	}
 
+	@Override
 	public GeoPointND[] getStartPoints() {
-		if (startPoint == null)
+		if (startPoint == null) {
 			return null;
+		}
 
 		GeoPointND[] ret = new GeoPointND[1];
 		ret[0] = startPoint;
 		return ret;
 	}
 
+	@Override
 	public boolean hasAbsoluteLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
+	@Override
 	public void initStartPoint(GeoPointND p, int number) {
 		startPoint = p;
 
 	}
 
+	@Override
 	public boolean isAlwaysFixed() {
 		return false;
 	}
 
+	@Override
 	public void removeStartPoint(GeoPointND p) {
 		if (startPoint == p) {
 			try {
@@ -478,32 +499,38 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	}
 
+	@Override
 	public void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException {
 		setStartPoint(p);
 
 	}
 
+	@Override
 	public void setWaitForStartPoint() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public Geo3DVec getVector() {
 		return new Geo3DVec(kernel, v.getX(), v.getY(), v.getZ());
 	}
 
+	@Override
 	public double[] getPointAsDouble() {
 		double[] ret = { v.getX(), v.getY(), v.getZ() };
 		return ret;
 	}
 
+	@Override
 	public Coords getCoordsInD2() {
 		Coords ret = new Coords(3);
 		ret.setValues(v, 3);
 		return ret;
 	}
 
+	@Override
 	public Coords getCoordsInD3() {
 		Coords ret = new Coords(4);
 		ret.setValues(v, 4);
@@ -518,14 +545,17 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		return true;
 	}
 
+	@Override
 	public void setTrace(boolean trace) {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		return getCoordsInD3();
 	}
@@ -535,12 +565,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		return true;
 	}
 
+	@Override
 	public void getInhomCoords(double[] coords) {
 		coords[0] = v.getX();
 		coords[1] = v.getY();
 		coords[2] = v.getZ();
 	}
 
+	@Override
 	public double[] getInhomCoords() {
 		double[] coords = new double[3];
 		getInhomCoords(coords);
@@ -609,11 +641,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		return true;
 	}
 
+	@Override
 	public void updateLocation() {
 		updateGeo(false);
 		kernel.notifyUpdateLocation(this);
 	}
 
+	@Override
 	final public void rotate(NumberValue phiValue) {
 
 		double phi = phiValue.getDouble();
@@ -627,12 +661,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
 	}
 
+	@Override
 	final public void rotate(NumberValue phiValue, GeoPointND Q) {
 
 		rotate(phiValue);
 
 	}
 
+	@Override
 	public void rotate(NumberValue phiValue, GeoPointND S,
 			GeoDirectionND orientation) {
 
@@ -663,6 +699,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	}
 
+	@Override
 	public void rotate(NumberValue phiValue, GeoLineND line) {
 
 		Coords o1 = line.getStartInhomCoords();
@@ -672,12 +709,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	}
 
+	@Override
 	public void mirror(Coords Q) {
 
 		setCoords(v.mul(-1));
 
 	}
 
+	@Override
 	public void mirror(GeoLineND line) {
 
 		Coords vn = line.getDirectionInD3().normalized();
@@ -685,6 +724,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
 		Coords vn = plane.getDirectionInD3().normalized();
@@ -696,6 +736,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	// DILATE
 	// //////////////////////
 
+	@Override
 	public void dilate(NumberValue rval, Coords S) {
 
 		setCoords(v.mul(rval.getDouble()));
@@ -706,6 +747,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
 
 		double x = getX();
@@ -717,6 +759,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		setCoords(x1, y1, getZ(), getW());
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
@@ -732,22 +775,27 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	}
 
+	@Override
 	public void setCartesian() {
 		setMode(Kernel.COORD_CARTESIAN);
 	}
 
+	@Override
 	public void setCartesian3D() {
 		setMode(Kernel.COORD_CARTESIAN_3D);
 	}
 
+	@Override
 	public void setSpherical() {
 		setMode(Kernel.COORD_SPHERICAL);
 	}
 
+	@Override
 	public void setPolar() {
 		setMode(Kernel.COORD_POLAR);
 	}
 
+	@Override
 	public void setComplex() {
 		setMode(Kernel.COORD_COMPLEX);
 	}
@@ -787,10 +835,12 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	}
 
+	@Override
 	public ValueType getValueType() {
 		return ValueType.VECTOR3D;
 	}
 
+	@Override
 	public int getDimension() {
 		return 3;
 	}

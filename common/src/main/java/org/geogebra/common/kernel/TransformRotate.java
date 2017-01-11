@@ -50,8 +50,9 @@ public class TransformRotate extends Transform {
 		AlgoTransformation algo = null;
 		if (center == null) {
 			algo = new AlgoRotate(cons, geo, angle);
-		} else
+		} else {
 			algo = new AlgoRotatePoint(cons, geo, angle, center);
+		}
 		return algo;
 	}
 

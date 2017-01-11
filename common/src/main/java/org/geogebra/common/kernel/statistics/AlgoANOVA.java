@@ -129,8 +129,9 @@ public class AlgoANOVA extends AlgoElement {
 		try {
 
 			// get the test statistic and p value
-			if (anovaImpl == null)
+			if (anovaImpl == null) {
 				anovaImpl = new OneWayAnovaImpl();
+			}
 			p = anovaImpl.anovaPValue(categoryData);
 			testStat = anovaImpl.anovaFValue(categoryData);
 

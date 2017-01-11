@@ -314,21 +314,23 @@ public class DataDisplayModel {
 				listener.updatePlotPanelSettings();
 
 				if (hasControlPanel && settings.getDataSource()
-						.getGroupType() != GroupType.CLASS)
+						.getGroupType() != GroupType.CLASS) {
 					if (settings.isUseManualClasses()) {
 						listener.showManualClassesPanel();
 					} else {
 						listener.showNumClassesPanel();
 
 					}
+				}
 
 				listener.showPlotPanel();
 				break;
 
 			case BOXPLOT:
 				if (doCreate) {
-					if (boxPlot != null)
+					if (boxPlot != null) {
 						boxPlot.remove();
+					}
 					boxPlot = statGeo.createBoxPlot(dataListSelected, settings);
 					plotGeoList.add(boxPlot);
 				}
@@ -380,8 +382,9 @@ public class DataDisplayModel {
 
 			case DOTPLOT:
 				if (doCreate) {
-					if (dotPlot != null)
+					if (dotPlot != null) {
 						dotPlot.remove();
+					}
 					dotPlot = statGeo.createDotPlot(dataListSelected);
 					plotGeoList.add(dotPlot);
 				}
@@ -399,8 +402,9 @@ public class DataDisplayModel {
 
 			case NORMALQUANTILE:
 				if (doCreate) {
-					if (nqPlot != null)
+					if (nqPlot != null) {
 						nqPlot.remove();
+					}
 					nqPlot = statGeo.createNormalQuantilePlot(dataListSelected);
 					plotGeoList.add(nqPlot);
 				}
@@ -461,15 +465,17 @@ public class DataDisplayModel {
 				if (doCreate) {
 					GeoElement[] boxPlots = statGeo
 							.createMultipleBoxPlot(dataListSelected, settings);
-					for (int i = 0; i < boxPlots.length; i++)
+					for (int i = 0; i < boxPlots.length; i++) {
 						plotGeoList.add(boxPlots[i]);
+					}
 				}
 
 				statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
 				listener.updatePlotPanelSettings();
 				boxPlotTitles = statGeo.createBoxPlotTitles(daModel, settings);
-				for (int i = 0; i < boxPlotTitles.length; i++)
+				for (int i = 0; i < boxPlotTitles.length; i++) {
 					plotGeoList.add(boxPlotTitles[i]);
+				}
 
 				listener.showPlotPanel();
 				break;

@@ -54,7 +54,7 @@ public class CmdAreParallel extends CommandProcessor {
 			}
 
 			AlgoAreParallel algo = new AlgoAreParallel(cons, c.getLabel(),
-					(GeoLine) arg[0], (GeoLine) arg[1]);
+					arg[0], arg[1]);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;

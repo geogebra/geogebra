@@ -109,8 +109,9 @@ public class StatisticsModel {
 	 * menu string, Value = integer mode
 	 */
 	private void createLabelMap() {
-		if (labelMap == null)
+		if (labelMap == null) {
 			labelMap = new HashMap<Integer, String>();
+		}
 
 		labelMap.clear();
 		labelMap.put(INFER_TTEST, loc.getMenu("TMeanTest"));

@@ -10,6 +10,7 @@ public class NegativeRealRootFunction implements RealRootFunction {
 		this.f = f;
 	}
 
+	@Override
 	final public double evaluate(double x) {
 		return -f.evaluate(x);
 	}

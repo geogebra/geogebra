@@ -53,8 +53,9 @@ public class MacroProcessor extends CommandProcessor {
 			if (arg.length > 0 && arg[0].isGeoPolygon()) {
 				GeoPointND[] points = ((GeoPolygon) arg[0]).getPoints();
 				arg = new GeoElement[points.length];
-				for (int i = 0; i < points.length; i++)
+				for (int i = 0; i < points.length; i++) {
 					arg[i] = (GeoElement) points[i];
+				}
 				lengthOk = arg.length == macroInputTypes.length;
 			}
 

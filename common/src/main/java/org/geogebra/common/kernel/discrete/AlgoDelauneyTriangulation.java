@@ -30,6 +30,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 		return Commands.DelauneyTriangulation;
 	}
 
+	@Override
 	public final void compute() {
 		try {
 			size = inputList.size();
@@ -117,6 +118,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 	public static Comparator<MyLine> getComparator() {
 		if (lineComparator == null) {
 			lineComparator = new Comparator<MyLine>() {
+				@Override
 				public int compare(MyLine itemA, MyLine itemB) {
 
 					GPoint2D p1A = itemA.p1;

@@ -97,8 +97,9 @@ public class AlgoKeepIf extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0)
+		if (size == 0) {
 			return;
+		}
 		/*
 		 * If val is not numeric, we use the underlying Expression of the
 		 * function and plug the list element as variable. Deep copy is needed

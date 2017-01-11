@@ -82,9 +82,10 @@ public class WeightedChoice<T> {
 	 */
 	public WeightedChoice(Map<T, ? extends Number> item_weights, Random random,
 			double threshold) {
-		if (item_weights.isEmpty())
+		if (item_weights.isEmpty()) {
 			throw new IllegalArgumentException(
 					"Item weights must be non-empty");
+		}
 
 		int item_count = item_weights.size();
 		item_pairs = new ArrayList<ItemPair>(item_count);
@@ -92,8 +93,9 @@ public class WeightedChoice<T> {
 		double sum = 0;
 		for (Map.Entry<T, ? extends Number> entry : item_weights.entrySet()) {
 			double value = entry.getValue().doubleValue();
-			if (value <= 0)
+			if (value <= 0) {
 				throw new IllegalArgumentException("Weights must be > 0");
+			}
 			sum += value;
 		}
 		double bucket_weight = 1.0 / item_weights.size();
@@ -124,9 +126,10 @@ public class WeightedChoice<T> {
 				// 1/n--back in the appropriate queue
 				double new_weight = heavy_item.weight
 						- (bucket_weight - light_weight);
-				if (new_weight > threshold)
+				if (new_weight > threshold) {
 					enqueueItem(heavy, new_weight, bucket_weight, light_weights,
 							heavy_weights);
+				}
 			}
 			light_weight *= item_count;
 
@@ -143,10 +146,11 @@ public class WeightedChoice<T> {
 	 */
 	private void enqueueItem(T key, double value, double threshold,
 			Queue<ItemPair> light_weights, Queue<ItemPair> heavy_weights) {
-		if (value < threshold)
+		if (value < threshold) {
 			light_weights.offer(new ItemPair(key, null, value));
-		else
+		} else {
 			heavy_weights.offer(new ItemPair(null, key, value));
+		}
 	}
 
 	/**
@@ -162,8 +166,9 @@ public class WeightedChoice<T> {
 	 */
 	public T nextItem() {
 		ItemPair item_pair = item_pairs.get(random.nextInt(item_pairs.size()));
-		if (random.nextDouble() < item_pair.weight)
+		if (random.nextDouble() < item_pair.weight) {
 			return item_pair.light;
+		}
 		return item_pair.heavy;
 	}
 

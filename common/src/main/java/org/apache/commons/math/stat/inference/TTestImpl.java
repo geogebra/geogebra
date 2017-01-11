@@ -94,6 +94,7 @@ public class TTestImpl implements TTest {
 	 *             if the statistic can not be computed do to a convergence or
 	 *             other numerical error.
 	 */
+	@Override
 	public double pairedT(double[] sample1, double[] sample2)
 			throws IllegalArgumentException, MathException {
 		checkSampleData(sample1);
@@ -145,6 +146,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double pairedTTest(double[] sample1, double[] sample2)
 			throws IllegalArgumentException, MathException {
 		double meanDifference = StatUtils.meanDifference(sample1, sample2);
@@ -193,6 +195,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs performing the test
 	 */
+	@Override
 	public boolean pairedTTest(double[] sample1, double[] sample2, double alpha)
 			throws IllegalArgumentException, MathException {
 		checkSignificanceLevel(alpha);
@@ -221,6 +224,7 @@ public class TTestImpl implements TTest {
 	 * @throws IllegalArgumentException
 	 *             if input array length is less than 2
 	 */
+	@Override
 	public double t(double mu, double[] observed)
 			throws IllegalArgumentException {
 		checkSampleData(observed);
@@ -251,6 +255,7 @@ public class TTestImpl implements TTest {
 	 * @throws IllegalArgumentException
 	 *             if the precondition is not met
 	 */
+	@Override
 	public double t(double mu, StatisticalSummary sampleStats)
 			throws IllegalArgumentException {
 		checkSampleData(sampleStats);
@@ -303,6 +308,7 @@ public class TTestImpl implements TTest {
 	 * @throws IllegalArgumentException
 	 *             if the precondition is not met
 	 */
+	@Override
 	public double homoscedasticT(double[] sample1, double[] sample2)
 			throws IllegalArgumentException {
 		checkSampleData(sample1);
@@ -349,6 +355,7 @@ public class TTestImpl implements TTest {
 	 * @throws IllegalArgumentException
 	 *             if the precondition is not met
 	 */
+	@Override
 	public double t(double[] sample1, double[] sample2)
 			throws IllegalArgumentException {
 		checkSampleData(sample1);
@@ -398,6 +405,7 @@ public class TTestImpl implements TTest {
 	 * @throws IllegalArgumentException
 	 *             if the precondition is not met
 	 */
+	@Override
 	public double t(StatisticalSummary sampleStats1,
 			StatisticalSummary sampleStats2) throws IllegalArgumentException {
 		checkSampleData(sampleStats1);
@@ -453,6 +461,7 @@ public class TTestImpl implements TTest {
 	 * @throws IllegalArgumentException
 	 *             if the precondition is not met
 	 */
+	@Override
 	public double homoscedasticT(StatisticalSummary sampleStats1,
 			StatisticalSummary sampleStats2) throws IllegalArgumentException {
 		checkSampleData(sampleStats1);
@@ -496,6 +505,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double tTest(double mu, double[] sample)
 			throws IllegalArgumentException, MathException {
 		checkSampleData(sample);
@@ -552,6 +562,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error computing the p-value
 	 */
+	@Override
 	public boolean tTest(double mu, double[] sample, double alpha)
 			throws IllegalArgumentException, MathException {
 		checkSignificanceLevel(alpha);
@@ -593,6 +604,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double tTest(double mu, StatisticalSummary sampleStats)
 			throws IllegalArgumentException, MathException {
 		checkSampleData(sampleStats);
@@ -649,6 +661,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public boolean tTest(double mu, StatisticalSummary sampleStats,
 			double alpha) throws IllegalArgumentException, MathException {
 		checkSignificanceLevel(alpha);
@@ -699,6 +712,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double tTest(double[] sample1, double[] sample2)
 			throws IllegalArgumentException, MathException {
 		checkSampleData(sample1);
@@ -749,6 +763,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double homoscedasticTTest(double[] sample1, double[] sample2)
 			throws IllegalArgumentException, MathException {
 		checkSampleData(sample1);
@@ -820,6 +835,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs performing the test
 	 */
+	@Override
 	public boolean tTest(double[] sample1, double[] sample2, double alpha)
 			throws IllegalArgumentException, MathException {
 		checkSignificanceLevel(alpha);
@@ -888,6 +904,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs performing the test
 	 */
+	@Override
 	public boolean homoscedasticTTest(double[] sample1, double[] sample2,
 			double alpha) throws IllegalArgumentException, MathException {
 		checkSignificanceLevel(alpha);
@@ -936,6 +953,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double tTest(StatisticalSummary sampleStats1,
 			StatisticalSummary sampleStats2)
 			throws IllegalArgumentException, MathException {
@@ -989,6 +1007,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs computing the p-value
 	 */
+	@Override
 	public double homoscedasticTTest(StatisticalSummary sampleStats1,
 			StatisticalSummary sampleStats2)
 			throws IllegalArgumentException, MathException {
@@ -1063,6 +1082,7 @@ public class TTestImpl implements TTest {
 	 * @throws MathException
 	 *             if an error occurs performing the test
 	 */
+	@Override
 	public boolean tTest(StatisticalSummary sampleStats1,
 			StatisticalSummary sampleStats2, double alpha)
 			throws IllegalArgumentException, MathException {

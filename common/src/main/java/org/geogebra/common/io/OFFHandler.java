@@ -72,8 +72,9 @@ public class OFFHandler {
 			GeoPointND[] geoPs = new GeoPointND[s];
 
 			// Create faces (Polygon)
-			for (int i = 0; i < s; i++)
+			for (int i = 0; i < s; i++) {
 				geoPs[i] = vert[fs[i]];
+			}
 			// FIXME: better to add a method in AlgoDispatcher for this
 			AlgoPolygon3D algo = new AlgoPolygon3D(construction, geoPs, false,
 					null);
@@ -93,8 +94,9 @@ public class OFFHandler {
 
 					polygon = (GeoPolygon3D) algo.getOutput()[0];
 					polygon.setLabel(null);
-					if (hasColor)
+					if (hasColor) {
 						polygon.setObjColor(getFaceColor(index));
+					}
 				}
 			}
 			index++;
@@ -121,8 +123,9 @@ public class OFFHandler {
 	}
 
 	private void rangeCheck(int faceIndex) {
-		if (faceIndex < 0 || faceIndex >= faceCount)
+		if (faceIndex < 0 || faceIndex >= faceCount) {
 			throw new ArrayIndexOutOfBoundsException(faceIndex);
+		}
 	}
 
 	/**
@@ -239,8 +242,9 @@ public class OFFHandler {
 					b = Math.min(1.0f, b);
 					a = Math.min(1.0f, a);
 					color = GColor.newColor(h, s, b, a);
-				} else
+				} else {
 					color = GColor.newColor(h, h, h);
+				}
 			}
 		} catch (Exception ex) {
 			Log.debug(ex.getMessage());

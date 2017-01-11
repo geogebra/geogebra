@@ -45,17 +45,21 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getConicAt(i);
 			// same type?
-			if (geo0.getType() != temp.getType())
+			if (geo0.getType() != temp.getType()) {
 				equalType = false;
+			}
 			// same mode?
-			if (geo0.getToStringMode() != temp.getToStringMode())
+			if (geo0.getToStringMode() != temp.getToStringMode()) {
 				equalMode = false;
+			}
 			// specific equation possible?
-			if (!temp.isSpecificPossible())
+			if (!temp.isSpecificPossible()) {
 				specificPossible = false;
+			}
 			// explicit equation possible?
-			if (!temp.isExplicitPossible())
+			if (!temp.isExplicitPossible()) {
 				explicitPossible = false;
+			}
 			if (temp.getDefinition() == null) {
 				userPossible = false;
 			}
@@ -68,8 +72,9 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		}
 
 		// specific can't be shown because there are different types
-		if (!equalType)
+		if (!equalType) {
 			specificPossible = false;
+		}
 
 		specificIndex = -1;
 		explicitIndex = -1;
@@ -104,19 +109,22 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		}
 
 		int mode;
-		if (equalMode)
+		if (equalMode) {
 			mode = geo0.getToStringMode();
-		else
+		} else {
 			mode = -1;
+		}
 		switch (mode) {
 		case GeoConicND.EQUATION_SPECIFIC:
-			if (specificIndex > -1)
+			if (specificIndex > -1) {
 				getListener().setSelectedIndex(specificIndex);
+			}
 			break;
 
 		case GeoConicND.EQUATION_EXPLICIT:
-			if (explicitIndex > -1)
+			if (explicitIndex > -1) {
 				getListener().setSelectedIndex(explicitIndex);
+			}
 			break;
 
 		case GeoConicND.EQUATION_IMPLICIT:
@@ -129,12 +137,14 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			getListener().setSelectedIndex(userIndex);
 			break;
 		case GeoConicND.EQUATION_VERTEX:
-			if (vertexformIndex > -1)
+			if (vertexformIndex > -1) {
 				getListener().setSelectedIndex(vertexformIndex);
+			}
 			break;
 		case GeoConicND.EQUATION_CONICFORM:
-			if (conicformIndex > -1)
+			if (conicformIndex > -1) {
 				getListener().setSelectedIndex(conicformIndex);
+			}
 			break;
 
 		default:

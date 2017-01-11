@@ -126,14 +126,17 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		setEfficientDependencies(input, efficientInput);
 	}
 
+	@Override
 	public void modifyInputPoints(GeoPointND A, GeoPointND B) {
 
 		// same points : return
-		if ((P == A && Q == B) || (Q == A && P == B))
+		if ((P == A && Q == B) || (Q == A && P == B)) {
 			return;
+		}
 
-		for (int i = 0; i < input.length; i++)
+		for (int i = 0; i < input.length; i++) {
 			input[i].removeAlgorithm(this);
+		}
 
 		P = (GeoPoint) A;
 		Q = (GeoPoint) B;
@@ -158,6 +161,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		return Q;
 	}
 
+	@Override
 	public GeoPolygon getPoly() {// protected
 		return poly;
 	}
@@ -173,11 +177,13 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	@Override
 	public void remove() {
-		if (removed)
+		if (removed) {
 			return;
+		}
 		super.remove();
-		if (poly != null)
+		if (poly != null) {
 			poly.remove();
+		}
 	}
 
 	/**
@@ -207,13 +213,16 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		return getLoc().getPlain("SegmentAB", P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
+	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
-		if (botanaVars != null)
+		if (botanaVars != null) {
 			return botanaVars;
+		}
 		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
+	@Override
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines/segments are only created when a third
@@ -221,10 +230,12 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		return null;
 	}
 
+	@Override
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
 	}
 
+	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
@@ -236,6 +247,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	}
 
+	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			int[] degree1 = P.getDegrees();
@@ -246,6 +258,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	}
 
+	@Override
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
@@ -259,6 +272,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
+	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
@@ -280,6 +294,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnJoinPointsSegment(geo, this, scope);

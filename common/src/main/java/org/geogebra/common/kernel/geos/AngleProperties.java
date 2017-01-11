@@ -64,6 +64,7 @@ public interface AngleProperties extends GeoElementND {
 	 */
 	public int getArcSize();
 
+	@Override
 	public boolean isDrawable();
 
 	/**

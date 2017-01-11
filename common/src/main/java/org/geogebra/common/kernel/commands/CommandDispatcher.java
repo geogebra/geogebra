@@ -154,10 +154,11 @@ public abstract class CommandDispatcher {
 
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
 			EvalInfo info) {
-		if (cmdProc == null)
+		if (cmdProc == null) {
 			throw new MyError(app.getLocalization(),
 					app.getLocalization().getError("UnknownCommand") + " : "
 							+ app.getLocalization().getCommand(c.getName()));
+		}
 
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]

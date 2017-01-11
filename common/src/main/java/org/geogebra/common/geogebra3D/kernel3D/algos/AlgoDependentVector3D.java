@@ -98,6 +98,7 @@ public class AlgoDependentVector3D extends AlgoElement3D
 		return vec.getDefinition().toString(tpl);
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return vec.getDefinition();
 	}

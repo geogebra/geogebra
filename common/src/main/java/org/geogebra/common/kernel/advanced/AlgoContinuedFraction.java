@@ -173,8 +173,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 		double PreviousDenominator;
 		double ScratchValue;
 
-		if (Double.isNaN(dec))
+		if (Double.isNaN(dec)) {
 			return -1;
+		}
 
 		if (dec == Double.POSITIVE_INFINITY
 				|| dec == Double.NEGATIVE_INFINITY) {

@@ -43,8 +43,9 @@ public class CmdCoefficients extends CommandProcessor {
 						c.getLabel(), (GeoConicND) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else
+			} else {
 				throw argErr(app, c, arg[0]);
+			}
 
 			// more than one argument
 		default:

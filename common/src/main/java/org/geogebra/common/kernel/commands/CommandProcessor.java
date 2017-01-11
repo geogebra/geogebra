@@ -595,16 +595,18 @@ public abstract class CommandProcessor {
 		}
 
 		// set local variable as our varPos argument
-		for (int i = 0; i < varPos.length; i++)
+		for (int i = 0; i < varPos.length; i++) {
 			c.setArgument(varPos[i], new ExpressionNode(c.getKernel(), num[i]));
+		}
 
 		// resolve all command arguments including the local variable just
 		// created
 		GeoElement[] arg = resArgs(c);
 
 		// remove local variable name from kernel again
-		for (int i = 0; i < varPos.length; i++)
+		for (int i = 0; i < varPos.length; i++) {
 			cmdCons.removeLocalVariable(localVarName[i]);
+		}
 
 		return arg;
 
@@ -641,10 +643,11 @@ public abstract class CommandProcessor {
 	protected final MyError argErr(Localization app1, String cmd,
 			ExpressionValue arg) {
 		String localName = app1.getCommand(cmd);
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 
 		final boolean reverseOrder = app1.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
@@ -662,10 +665,11 @@ public abstract class CommandProcessor {
 		sb.append(":\n");
 		sb.append(app1.getError("IllegalArgument"));
 		sb.append(": ");
-		if (arg instanceof GeoElement)
+		if (arg instanceof GeoElement) {
 			sb.append(((GeoElement) arg).getNameDescription());
-		else if (arg != null)
+		} else if (arg != null) {
 			sb.append(arg.toString(StringTemplate.defaultTemplate));
+		}
 		sb.append("\n\n");
 		sb.append(app1.getPlain("Syntax"));
 		sb.append(":\n");
@@ -686,10 +690,11 @@ public abstract class CommandProcessor {
 	 */
 
 	protected final MyError argNumErr(App app1, Command cmd, int argNumber) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 		getCommandSyntax(sb, app1.getLocalization(), cmd.getName(), argNumber);
 		return new MyError(app1.getLocalization(), sb.toString(), cmd.getName(),
 				null);
@@ -762,8 +767,9 @@ public abstract class CommandProcessor {
 	 */
 	protected static GeoElement getBadArg(boolean[] ok, GeoElement[] arg) {
 		for (int i = 0; i < ok.length; i++) {
-			if (!ok[i])
+			if (!ok[i]) {
 				return arg[i];
+			}
 		}
 		return arg[arg.length - 1];
 	}
@@ -792,9 +798,9 @@ public abstract class CommandProcessor {
 		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
 		for (int i = 0; i < length; i++) {
 			if (type.equals(GeoClass.DEFAULT)
-					|| args[i].getGeoClassType() == type)
+					|| args[i].getGeoClassType() == type) {
 				geoElementList.add(args[i]);
-			else {
+			} else {
 				correctType = false;
 				break;
 			}
@@ -809,8 +815,9 @@ public abstract class CommandProcessor {
 		}
 
 		// list of zero size is not wanted
-		if (list != null && list.size() == 0)
+		if (list != null && list.size() == 0) {
 			list = null;
+		}
 
 		return list;
 	}

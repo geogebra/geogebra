@@ -109,8 +109,9 @@ public class LineStyleModel extends OptionsModel {
 			for (int i = 1; i < getGeosLength(); i++) {
 				temp = getGeoAt(i);
 				// same style?
-				if (type0 != temp.getLineType())
+				if (type0 != temp.getLineType()) {
 					equalStyle = false;
+				}
 			}
 
 			if (listener != null) {
@@ -125,8 +126,9 @@ public class LineStyleModel extends OptionsModel {
 			for (int i = 1; i < getGeosLength(); i++) {
 				temp = getGeoAt(i);
 				// same style?
-				if (type0 != temp.getLineTypeHidden())
+				if (type0 != temp.getLineTypeHidden()) {
 					equalStyle = false;
+				}
 			}
 
 			if (listener != null) {

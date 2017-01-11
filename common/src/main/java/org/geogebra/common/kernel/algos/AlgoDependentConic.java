@@ -119,6 +119,7 @@ public class AlgoDependentConic extends AlgoElement
 		}
 	}
 
+	@Override
 	final public double evaluate(GeoPoint P) {
 		double mat0 = ev[0].evaluateDouble(); // x\u00b2
 		double mat1 = ev[2].evaluateDouble(); // y\u00b2
@@ -139,6 +140,7 @@ public class AlgoDependentConic extends AlgoElement
 		return equation.toString(tpl);
 	}
 
+	@Override
 	public ExpressionNode getExpression() {
 		return equation.wrap();
 	}

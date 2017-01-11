@@ -55,8 +55,9 @@ public class AlgoLogistic extends AlgoDistribution {
 			// processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))",
 			// true );
 
-		} else
+		} else {
 			num.setUndefined();
+		}
 	}
 
 }

@@ -42,12 +42,13 @@ public class CmdInverseFDistribution extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!ok[0])
+			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
-			else if (!ok[1])
+			} else if (!ok[1]) {
 				throw argErr(app, c, arg[1]);
-			else
+			} else {
 				throw argErr(app, c, arg[2]);
+			}
 
 		default:
 			throw argNumErr(app, c, n);

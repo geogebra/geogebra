@@ -32,8 +32,9 @@ public enum PathRegionHandling {
 	 * @return parsed value
 	 */
 	public static PathRegionHandling parse(String s) {
-		if ("false".equals(s))
+		if ("false".equals(s)) {
 			return OFF;
+		}
 		return ON;
 	}
 }

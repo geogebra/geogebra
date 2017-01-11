@@ -41,6 +41,7 @@ public class GPointWithZ extends GPoint {
 		this.z = p.z;
 	}
 
+	@Override
 	public int getZ() {
 		return z;
 	}

@@ -66,8 +66,9 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 		coordsys.set(csInput.getCoordSys());
 
 		// recalc equation vector (not existing for polygons, ...)
-		if (coordsys.isDefined())
+		if (coordsys.isDefined()) {
 			coordsys.makeEquationVector();
+		}
 
 	}
 

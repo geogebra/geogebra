@@ -65,8 +65,9 @@ public class CmdStretch extends CommandProcessor {
 				}
 				throw argErr(app, c, arg[0]);
 			}
-			if (!(arg[1] instanceof GeoVec3D))
+			if (!(arg[1] instanceof GeoVec3D)) {
 				throw argErr(app, c, arg[1]);
+			}
 			throw argErr(app, c, arg[2]);
 
 		default:

@@ -115,8 +115,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public void drawOutline(Renderer renderer) {
 
-		if (!isGridVisible())
+		if (!isGridVisible()) {
 			return;
+		}
 
 		if (!viewDirectionIsParallel) {
 			renderer.getTextures()
@@ -128,11 +129,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 
-		if (!isVisible())
+		if (!isVisible()) {
 			return;
+		}
 
-		if (!isGridVisible())
+		if (!isGridVisible()) {
 			return;
+		}
 
 		if (viewDirectionIsParallel) {
 			renderer.setDashTexture(Textures.DASH_LONG);
@@ -269,19 +272,23 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 			brush.setAffineTexture((0f - xmin1) / ydelta1, 0.25f);
 			int i0 = (int) (ymin1 / dy);
-			if (ymin1 > 0)
+			if (ymin1 > 0) {
 				i0++;
-			for (int i = i0; i <= ymax1 / dy; i++)
+			}
+			for (int i = i0; i <= ymax1 / dy; i++) {
 				brush.segment(coordsys.getPointForDrawing(xmin1, i * dy),
 						coordsys.getPointForDrawing(xmax1, i * dy));
+			}
 			// along y axis
 			brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
 			i0 = (int) (xmin1 / dx);
-			if (xmin1 > 0)
+			if (xmin1 > 0) {
 				i0++;
-			for (int i = i0; i <= xmax1 / dx; i++)
+			}
+			for (int i = i0; i <= xmax1 / dx; i++) {
 				brush.segment(coordsys.getPointForDrawing(i * dx, ymin1),
 						coordsys.getPointForDrawing(i * dx, ymax1));
+			}
 
 			gridIndex = brush.end();
 
@@ -293,8 +300,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			// draws the rectangle outline
 			if (showClippingCube) {
 				brush.setAffineTexture((0f - xmin1) / ydelta1, 0.25f);
-			} else
+			} else {
 				brush.setPlainTexture();
+			}
 			brush.segment(coordsys.getPointForDrawing(xmin1, ymax1 - thickness),
 					coordsys.getPointForDrawing(xmax1, ymax1 - thickness));
 			brush.segment(coordsys.getPointForDrawing(xmin1, ymin1 + thickness),
@@ -456,15 +464,19 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		v[2] = tmpCoords1.sub(o);
 		for (int i = 0; i < 3; i++) {
 			double x = v[i].getX();
-			if (x < 0)
+			if (x < 0) {
 				minmaxXFinal[0] += x; // sub from xmin
-			else
+			}
+			else {
 				minmaxXFinal[1] += x; // add to xmax
+			}
 			double y = v[i].getY();
-			if (y < 0)
+			if (y < 0) {
 				minmaxYFinal[0] += y; // sub from ymin
-			else
+			}
+			else {
 				minmaxYFinal[1] += y; // add to ymax
+			}
 
 		}
 

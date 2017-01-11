@@ -40,8 +40,9 @@ public class CmdExtremum extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoFunctionable();
-			if (ok[0])
+			if (ok[0]) {
 				return Extremum(c, ((GeoFunctionable) arg[0]).getGeoFunction());
+			}
 			throw argErr(app, c, arg[0]);
 		case 3: // Extremum[f,start-x,end-x]
 			arg = resArgs(c);

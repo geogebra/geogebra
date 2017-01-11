@@ -109,6 +109,7 @@ public class JSONObject {
 											// implementation
 		}
 
+		@Override
 		public int hashCode() {
 			return 0;
 		}
@@ -140,7 +141,7 @@ public class JSONObject {
 	/* (accept a raw type for API compatibility) */
 	public JSONObject(Map copyFrom) {
 		this();
-		Map<?, ?> contentsTyped = (Map<?, ?>) copyFrom;
+		Map<?, ?> contentsTyped = copyFrom;
 		for (Map.Entry<?, ?> entry : contentsTyped.entrySet()) {
 			/*
 			 * Deviate from the original by checking that keys are non-null and
@@ -778,7 +779,7 @@ public class JSONObject {
 			return "-0";
 		}
 		long longValue = number.longValue();
-		if (doubleValue == (double) longValue) {
+		if (doubleValue == longValue) {
 			return Long.toString(longValue);
 		}
 		return number.toString();

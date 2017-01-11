@@ -64,8 +64,9 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible)
+		if (!isVisible) {
 			return;
+		}
 
 		buildGeneralPath(locus.getPoints());
 
@@ -104,8 +105,9 @@ public class DrawLocus extends Drawable {
 				&& ((Traceable) geo).getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
+			if (g2 != null) {
 				drawTrace(g2);
+			}
 		} else {
 			if (isTracing) {
 				isTracing = false;
@@ -129,10 +131,11 @@ public class DrawLocus extends Drawable {
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
-		else
+		} else {
 			gp.reset();
+		}
 
 		// Use the last plotted point for positioning the label:
 		labelPosition = CurvePlotter.draw(gp, pointList, transformSys);

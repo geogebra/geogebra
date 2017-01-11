@@ -66,8 +66,9 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[points.length];
-		for (int i = 0; i < points.length; i++)
+		for (int i = 0; i < points.length; i++) {
 			input[i] = (GeoElement) points[i];
+		}
 
 		setOnlyOutput(randomPoint);
 		setDependencies(); // done by AlgoElement
@@ -105,17 +106,22 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 				return;
 			}
 
-			if (i == 0)
+			if (i == 0) {
 				continue;
+			}
 
-			if (xMax < x)
+			if (xMax < x) {
 				xMax = x;
-			if (xMin > x)
+			}
+			if (xMin > x) {
 				xMin = x;
-			if (yMax < y)
+			}
+			if (yMax < y) {
 				yMax = y;
-			if (yMin > y)
+			}
+			if (yMin > y) {
 				yMin = y;
+			}
 		}
 
 		GeoPolygon polygon = new GeoPolygon(cons, points);
