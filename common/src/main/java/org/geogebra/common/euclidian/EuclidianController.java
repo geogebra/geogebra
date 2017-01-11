@@ -5706,7 +5706,7 @@ public abstract class EuclidianController {
 			// case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			// MOW-75
-			// view.setCursor(EuclidianCursor.PEN);
+			view.setCursor(EuclidianCursor.PEN);
 			break;
 
 		// Michael Borcherds 2008-03-13
