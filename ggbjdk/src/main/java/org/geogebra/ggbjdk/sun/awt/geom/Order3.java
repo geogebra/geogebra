@@ -354,13 +354,13 @@ final class Order3 extends Curve {
         if (R2 < Q3) {
             double theta = Math.acos(R / Math.sqrt(Q3));
             Q = -2.0 * Math.sqrt(Q);
-            t = refine(a, b, c, y, Q * Math.cos(theta / 3.0) - a_3);
+            t = refine(y, Q * Math.cos(theta / 3.0) - a_3);
             if (t < 0) {
-                t = refine(a, b, c, y,
+                t = refine(y,
                            Q * Math.cos((theta + Math.PI * 2.0)/ 3.0) - a_3);
             }
             if (t < 0) {
-                t = refine(a, b, c, y,
+                t = refine(y,
                            Q * Math.cos((theta - Math.PI * 2.0)/ 3.0) - a_3);
             }
         } else {
@@ -374,7 +374,7 @@ final class Order3 extends Curve {
                 A = -A;
             }
             double B = (A == 0.0) ? 0.0 : (Q / A);
-            t = refine(a, b, c, y, (A + B) - a_3);
+            t = refine(y, (A + B) - a_3);
         }
         if (t < 0) {
             //throw new RuntimeException("bad t");
@@ -406,8 +406,7 @@ final class Order3 extends Curve {
         return t;
     }
 
-    public double refine(double a, double b, double c,
-                         double target, double t)
+    public double refine(double target, double t)
     {
         if (t < -0.1 || t > 1.1) {
             return -1;
