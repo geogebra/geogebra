@@ -86,10 +86,10 @@ public class TeXFormulaParser {
 								+ "'!");
 			} else {
 				// parse arguments
-				NodeList args = el.getElementsByTagName("Argument");
+				//NodeList args = el.getElementsByTagName("Argument");
 				// get argument classes and values
-				Class[] argClasses = getArgumentClasses(args);
-				Object[] argValues = getArgumentValues(args);
+				//Class[] argClasses = getArgumentClasses(args);
+				//Object[] argValues = getArgumentValues(args);
 				// invoke method
 				try {
 					throw new UnsupportedOperationException("Not implemented yet.");
@@ -291,7 +291,7 @@ public class TeXFormulaParser {
 							ARG_VAL_ATTR, "has an unknown temporary TeXFormula name as value : '" + value
 									+ "'!");
 				} else {
-					return (TeXFormula) formula;
+					return formula;
 				}
 			}
 		}

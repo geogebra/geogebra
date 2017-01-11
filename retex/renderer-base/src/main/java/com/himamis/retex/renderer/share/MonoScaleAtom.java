@@ -53,7 +53,7 @@ public class MonoScaleAtom extends ScaleAtom {
 	private double factor;
 
 	public MonoScaleAtom(Atom base, double factor) {
-		super(base, (double) factor, (double) factor);
+		super(base, factor, factor);
 		this.factor = factor;
 	}
 

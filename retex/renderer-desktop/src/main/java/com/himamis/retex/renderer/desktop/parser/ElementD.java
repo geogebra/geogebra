@@ -43,8 +43,6 @@
  */
 package com.himamis.retex.renderer.desktop.parser;
 
-import org.w3c.dom.Node;
-
 import com.himamis.retex.renderer.share.platform.parser.Element;
 import com.himamis.retex.renderer.share.platform.parser.NamedNodeMap;
 import com.himamis.retex.renderer.share.platform.parser.NodeList;
@@ -54,7 +52,7 @@ public class ElementD extends NodeD implements Element {
 	private org.w3c.dom.Element impl;
 	
 	public ElementD(org.w3c.dom.Element impl) {
-		super((Node) impl);
+		super(impl);
 		this.impl = impl;
 	}
 

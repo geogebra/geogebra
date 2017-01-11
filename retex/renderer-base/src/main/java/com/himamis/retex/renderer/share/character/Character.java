@@ -2754,7 +2754,7 @@ public final class Character {
 	 */
 	public static Character valueOf(char c) {
 		if (c <= 127) { // must cache
-			return CharacterCache.cache[(int) c];
+			return CharacterCache.cache[c];
 		}
 		return new Character(c);
 	}
@@ -2776,7 +2776,7 @@ public final class Character {
 	 */
 	@Override
 	public int hashCode() {
-		return (int) value;
+		return value;
 	}
 
 	/**

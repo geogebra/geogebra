@@ -178,7 +178,7 @@ public final class JLaTeXMathCache {
 	 */
 	public static void removeCachedTeXFormula(Object o) throws ParseException {
 		if (o != null && o instanceof CachedTeXFormula) {
-			cache.remove((CachedTeXFormula) o);
+			cache.remove(o);
 		}
 	}
 

@@ -67,7 +67,7 @@ public class ScaleBox extends Box {
 	}
 
 	public ScaleBox(Box b, double factor) {
-		this(b, (double) factor, (double) factor);
+		this(b, factor, factor);
 		this.factor = factor;
 	}
 

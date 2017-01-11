@@ -143,13 +143,13 @@ public class RowAtom extends Atom implements Row {
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		HorizontalBox hBox = new HorizontalBox(env.getColor(), env.getBackground());
-		int position = 0;
+		//int position = 0;
 		env.reset();
 
 		// convert atoms to boxes and add to the horizontal box
 		for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {
 			Atom at = it.next();
-			position++;
+			//position++;
 
 			boolean markAdded = false;
 			while (at instanceof BreakMarkAtom) {
@@ -158,7 +158,7 @@ public class RowAtom extends Atom implements Row {
 				}
 				if (it.hasNext()) {
 					at = it.next();
-					position++;
+					//position++;
 				} else {
 					break;
 				}
@@ -180,7 +180,7 @@ public class RowAtom extends Atom implements Row {
 			// several ligatures as in ffi or ffl
 			while (it.hasNext() && atom.getRightType() == TeXConstants.TYPE_ORDINARY && atom.isCharSymbol()) {
 				Atom next = it.next();
-				position++;
+				//position++;
 				if (next instanceof CharSymbol && ligKernSet.getBit(next.getLeftType())) {
 					atom.markAsTextSymbol();
 					CharFont l = atom.getCharFont(tf), r = ((CharSymbol) next).getCharFont(tf);
@@ -188,7 +188,7 @@ public class RowAtom extends Atom implements Row {
 					if (lig == null) {
 						kern = tf.getKern(l, r, env.getStyle());
 						it.previous();
-						position--;
+						//position--;
 						break; // iterator remains unchanged (no ligature!)
 					} else { // ligature
 						atom.changeAtom(new FixedCharAtom(lig)); // go on with the
@@ -196,7 +196,7 @@ public class RowAtom extends Atom implements Row {
 					}
 				} else {
 					it.previous();
-					position--;
+					//position--;
 					break;
 				}// iterator remains unchanged
 			}

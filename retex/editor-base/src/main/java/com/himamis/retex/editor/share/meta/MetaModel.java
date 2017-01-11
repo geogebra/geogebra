@@ -229,7 +229,7 @@ public class MetaModel {
                 arrayList.add(groups.get(i));
             }
         }
-        return (MetaGroup[]) arrayList.toArray(new MetaGroup[arrayList.size()]);
+        return arrayList.toArray(new MetaGroup[arrayList.size()]);
     }
 
     public int getDefaultArraySize() {

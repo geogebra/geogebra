@@ -229,7 +229,7 @@ public class SpaceAtom extends Atom {
 	}
 
 	public static int getUnit(String unit) {
-		Integer u = (Integer) units.get(unit);
+		Integer u = units.get(unit);
 		return u == null ? TeXConstants.UNIT_PIXEL : u.intValue();
 	}
 

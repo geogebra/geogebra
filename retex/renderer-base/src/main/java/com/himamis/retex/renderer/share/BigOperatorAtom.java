@@ -163,7 +163,7 @@ public class BigOperatorAtom extends Atom {
 			VerticalBox vBox = new VerticalBox();
 
 			double bigop5 = tf.getBigOpSpacing5(style), kern = 0;
-			double xh = 0; // TODO: check why this is not used // NOPMD
+			//double xh = 0; // TODO: check why this is not used // NOPMD
 
 			// over
 			if (over != null) {
@@ -172,7 +172,7 @@ public class BigOperatorAtom extends Atom {
 				vBox.add(x);
 				kern = Math.max(tf.getBigOpSpacing1(style), tf.getBigOpSpacing3(style) - x.getDepth());
 				vBox.add(new StrutBox(0, kern, 0, 0));
-				xh = vBox.getHeight() + vBox.getDepth();
+				//xh = vBox.getHeight() + vBox.getDepth();
 			}
 
 			// base
