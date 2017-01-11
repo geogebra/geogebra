@@ -50,24 +50,28 @@ public class GroupNameLabel extends Label
 		this.setStyleName("elemHeadingName");
 	}
 
+	@Override
 	public void onClick(ClickEvent evt) {
 		Object uo;
 		ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
 		for (int i = 0; i < par.getChildCount(); i++) {
 			//par.getChild(i).setSelected(true);
 			uo = par.getChild(i).getUserObject();
-			if (uo instanceof GeoElement)
+			if (uo instanceof GeoElement) {
 				groupedGeos.add((GeoElement)uo);
+			}
 		}
 		par.setSelected(false);
 
 		//if (!AppD.isControlDown(e) && !e.isShiftDown())
-		if (!evt.isControlKeyDown() && !evt.isShiftKeyDown())
+		if (!evt.isControlKeyDown() && !evt.isShiftKeyDown()) {
 			selection.clearSelectedGeos();
+		}
 
 		selection.addSelectedGeos(groupedGeos, true);
 	}
 
+	@Override
 	public void onMouseOver(MouseOverEvent evt) {
 
 
@@ -80,6 +84,7 @@ public class GroupNameLabel extends Label
 		//
 	}
 
+	@Override
 	public void onMouseOut(MouseOutEvent evt) {
 
 

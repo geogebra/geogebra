@@ -44,6 +44,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		add(content);
 	}
 
+	@Override
 	public void addView(AbstractView view) {
 		if (hasView(view)) {
 			return;
@@ -64,6 +65,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		}
 	}
 
+	@Override
 	public void removeView(AbstractView view) {
 		if (!hasView(view)) {
 			return;
@@ -87,6 +89,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		}
 	}
 
+	@Override
 	public void showView(AbstractView view) {
 		if (view == activeView || !hasView(view)) {
 			return;
@@ -102,6 +105,7 @@ public class ViewPanelContainer extends SimplePanel implements
 	 * updated. the active view "scrolls" to the right position.
 	 * 
 	 */
+	@Override
 	public void updateAfterResize() {
 		content.swipeTo(getViewIndex(activeView));
 	}
@@ -110,6 +114,7 @@ public class ViewPanelContainer extends SimplePanel implements
 		return viewOrder.indexOf(view);
 	}
 
+	@Override
 	public void onResize() {
 		updateSize();
 		for (ViewPanelWithStylebar panel : viewPanels.values()) {

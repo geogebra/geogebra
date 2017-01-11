@@ -129,6 +129,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			tf.addKeyHandler(new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.applyMinMax(tf.getText(), type);
@@ -146,8 +147,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		}
 		protected double parseDouble(String text) {
-			if (text == null || "".equals(text))
+			if (text == null || "".equals(text)) {
 				return Double.NaN;
+			}
 			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 		}
 		
@@ -162,6 +164,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 			tf.addKeyHandler(new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						applyAxesRatio();
@@ -247,6 +250,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			tbLockRatio.addClickHandler(new ClickHandler() {
 				
+				@Override
 				public void onClick(ClickEvent event) {
 					if (tbLockRatio.getValue()) {
 						model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
@@ -302,35 +306,42 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			btAxesColor.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 	              app.getDialogManager().showColorChooserDialog(model.getAxesColor(),
 	            		  new ColorChangeHandler() {
 					
+					@Override
 					public void onForegroundSelected() {
 						// TODO Auto-generated method stub
 						
 					}
 					
+					@Override
 					public void onColorChange(GColor color) {
 						model.applyAxesColor(color);
 						updateAxesColorButton(color);
 					}
 					
+					@Override
 					public void onClearBackground() {
 						// TODO Auto-generated method stub
 						
 					}
 					
+					@Override
 					public void onBackgroundSelected() {
 						// TODO Auto-generated method stub
 						
 					}
 					
+					@Override
 					public void onAlphaChange() {
 						// TODO Auto-generated method stub
 						
 					}
 
+						@Override
 						public void onBarSelected() {
 							// TODO Auto-generated method stub
 
@@ -371,6 +382,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			fillAxesOptionsPanel();
 			cbShowAxes.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					setShowAxes(cbShowAxes.getValue());
 					updateView();
@@ -378,6 +390,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			cbBoldAxes.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyBoldAxes(cbBoldAxes.getValue(), cbShowAxes.getValue());
 					updateView();
@@ -385,6 +398,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			cbAxisLabelSerif.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.setAxesLabelsSerif(cbAxisLabelSerif.getValue());
 				}
@@ -392,6 +406,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			cbAxisLabelBold.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.setAxisFontBold(cbAxisLabelBold.getValue());
 				}
@@ -399,6 +414,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			cbAxisLabelItalic.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.setAxisFontItalic(cbAxisLabelItalic.getValue());
 				}
@@ -475,6 +491,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			cbShowNavbar.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					app.toggleShowConstructionProtocolNavigation(view
 							.getViewID());
@@ -484,12 +501,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			cbNavPlay.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					togglePlayButton();
 				}});
 			
 			cbOpenConsProtocol.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					toggleConsProtButton();
 				}});
@@ -539,35 +558,42 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     
 			btBackgroundColor.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 		              app.getDialogManager().showColorChooserDialog(model.getBackgroundColor(),
 		           		  new ColorChangeHandler() {
 							
+							@Override
 							public void onForegroundSelected() {
 								// TODO Auto-generated method stub
 								
 							}
 							
+							@Override
 							public void onColorChange(GColor color) {
 								applyBackgroundColor(color);
 								updateBackgroundColorButton(color);
 							}
 							
+							@Override
 							public void onClearBackground() {
 								// TODO Auto-generated method stub
 								
 							}
 							
+							@Override
 							public void onBackgroundSelected() {
 								// TODO Auto-generated method stub
 								
 							}
 							
+							@Override
 							public void onAlphaChange() {
 								// TODO Auto-generated method stub
 								
 							}
 
+						@Override
 						public void onBarSelected() {
 							// TODO Auto-generated method stub
 
@@ -579,12 +605,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			cbShowMouseCoords.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 	                model.applyMouseCoords(cbShowMouseCoords.getValue());
                 }});
 			
 			lbTooltips.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 	                model.applyTooltipMode(lbTooltips.getSelectedIndex());
                 }});
@@ -600,6 +628,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 
+		@Override
 		public void setLabels() {
 			dimTitle.setText(loc.getMenu("Dimensions"));
 			
@@ -753,6 +782,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axisPanel.setShowAxis(value);
 		}
 
+		@Override
 		public void setLabels() {
 	        axisPanel.setLabels();
         }
@@ -782,6 +812,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbShowGrid = new CheckBox();
 			cbShowGrid.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					enableGrid(cbShowGrid.getValue());
 				}
@@ -818,6 +849,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			lbGridType.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 	                model.appyGridType(lbGridType.getSelectedIndex());
 					updateView();
@@ -827,6 +859,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbGridManualTick = new CheckBox();
 			cbGridManualTick.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 	                model.appyGridManualTick(cbGridManualTick.getValue());
 					updateView();
@@ -887,6 +920,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					ncbGridTickXPanel, ncbGridTickYPanel, ncbGridTickAnglePanel));
 
 			lbGridTickAngle.addChangeHandler(new ChangeHandler(){
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyGridTickAngle(lbGridTickAngle.getSelectedIndex());
 					updateView();
@@ -894,6 +928,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 			
 			lbGridType.addChangeHandler(new ChangeHandler(){
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.appyGridType(lbGridType.getSelectedIndex());
 					updateView();					
@@ -918,6 +953,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
+				@Override
 				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					model.appyGridStyle(EuclidianView
 							.getLineType(btnGridStyle.getSelectedIndex()));
@@ -930,6 +966,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btGridColor = new MyCJButton();
 			btGridColor.addClickHandler(new ClickHandler() {
 				
+				@Override
 				public void onClick(ClickEvent event) {
 					if (!cbShowGrid.getValue()) {
 						return;
@@ -937,31 +974,37 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	              app.getDialogManager().showColorChooserDialog(model.getGridColor(),
 	            		new ColorChangeHandler() {
 						
+						@Override
 						public void onForegroundSelected() {
 							// TODO Auto-generated method stub
 							
 						}
 						
+						@Override
 						public void onColorChange(GColor color) {
 							model.applyGridColor(color);
 							updateGridColorButton(color);
 						}
 						
+						@Override
 						public void onClearBackground() {
 							// TODO Auto-generated method stub
 							
 						}
 						
+						@Override
 						public void onBackgroundSelected() {
 							// TODO Auto-generated method stub
 							
 						}
 						
+						@Override
 						public void onAlphaChange() {
 							// TODO Auto-generated method stub
 							
 						}
 
+						@Override
 						public void onBarSelected() {
 							// TODO Auto-generated method stub
 
@@ -975,6 +1018,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbBoldGrid = new CheckBox();
 			cbBoldGrid.addClickHandler(new ClickHandler() {
 				
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyBoldGrid(cbBoldGrid.getValue());
 					updateView();
@@ -996,6 +1040,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 
+		@Override
 		public void setLabels() {
 			cbShowGrid.setText(loc.getMenu("ShowGrid"));
 	        int idx = lbGridType.getSelectedIndex();
@@ -1061,7 +1106,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				ncbGridTickX.setDoubleValue(gridTicks[0]);
 				int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
 				if (val == 5)
+				 {
 					val = 4; // handle Pi/2 problem
+				}
 				lbGridTickAngle.setSelectedIndex(val);
 				gridLabel1.setText("r:");
 			}
@@ -1116,6 +1163,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		app.setDefaultCursor();
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 
+			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				updateGUI();
 			}
@@ -1206,7 +1254,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 * set labels
 	 */
 	public void setLabels() {
-			setLabels(((MultiRowsTabPanel) tabPanel).getTabBar(), 3);
+			setLabels(tabPanel.getTabBar(), 3);
 
 	}
 
@@ -1234,8 +1282,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    basicTab.updateBounds();
     }
 
+	@Override
 	public Widget getWrappedPanel() {
-		return (Widget) tabPanel;
+		return tabPanel;
     }
 	
 	protected AutoCompleteTextFieldW getTextField() {
@@ -1245,60 +1294,74 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		return tf;
 	}
 	
+	@Override
 	public GColor getEuclidianBackground(int viewNumber) {
 		return app.getSettings().getEuclidian(viewNumber).getBackground();
 	}
 
+	@Override
 	public void enableAxesRatio(boolean value) {
 		basicTab.enableAxesRatio(value);
 	}		
 
+	@Override
 	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
 		basicTab.setMinMaxText(minX, maxX, minY, maxY);
 	}
 
+	@Override
 	public void addTooltipItem(String item) {
 	    lbTooltips.addItem(item);
     }
 
+	@Override
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
 		basicTab.updateAxes(color, isShown, isBold);
 	}
 
+	@Override
 	public void updateBackgroundColor(GColor color) {
 		basicTab.updateBackgroundColorButton(color);
 	}
 	
+	@Override
 	public void selectTooltipType(int index) {
 		lbTooltips.setSelectedIndex(index);
 	}
 
+	@Override
 	public void updateConsProtocolPanel(boolean isVisible) {
 	    basicTab.updateConsProtocolPanel(isVisible);
     }
 
+	@Override
 	public void updateGrid(GColor color, boolean isShown, boolean isBold,
             int gridType) {
 		gridTab.update(color, isShown, isBold, gridType);
     }
 
+	@Override
 	public void showMouseCoords(boolean value) {
 		basicTab.showMouseCoords(value);
     }
 
+	@Override
 	public void selectAxesStyle(int index) {
 	    basicTab.selectAxesStyle(index);
     }
 
+	@Override
 	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
             int gridType) {
 		gridTab.updateTicks(isAutoGrid, gridTicks, gridType);
     }
 
+	@Override
 	public void enableLock(boolean value) {
 		basicTab.enabeLock(value);
 	}
 
+	@Override
 	public void selectGridStyle(int style) {
 		if (gridTab == null) {
 			return;
@@ -1306,6 +1369,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		gridTab.selectGridStyle(style);
     }
 
+	@Override
 	public void addGridTypeItem(String item) {
 		if (gridTab == null) {
 			return;
@@ -1314,6 +1378,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		gridTab.addGridTypeItem(item);
     }
 
+	@Override
 	public void addAngleOptionItem(String item) {
 		if (gridTab == null) {
 			return;
@@ -1347,6 +1412,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		Log.warn("======== OptionsEuclidianW.setSelectedTab() : TODO");
 	}
 
+	@Override
 	public void updateAxisFontStyle(boolean serif, boolean isBold,
 			boolean isItalic) {
 		basicTab.cbAxisLabelSerif.setValue(serif);
@@ -1355,6 +1421,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	}
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
 	}

@@ -73,6 +73,7 @@ public class TabletDeviceWin extends TouchDevice {
 		return new ImageInputDialogWin(app);
 	}
 
+	@Override
 	public native void resizeView(int width, int height) /*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android.callPlugin("ResizeView", [ width, height ]);

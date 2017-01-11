@@ -201,6 +201,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	    
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 	    actionPerformed(event.getSource());
     }

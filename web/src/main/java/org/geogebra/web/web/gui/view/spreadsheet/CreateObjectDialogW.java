@@ -125,6 +125,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		typeList = new ListBox();
 		typeList.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				objectTypeChanged();
 			}
@@ -138,6 +139,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		fldName.showPopupSymbolButton(true);
 		fldName.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				apply(fldName);
 			}
@@ -146,6 +148,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		cbScanOrder = new ListBox();
 		cbScanOrder.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				apply(cbScanOrder);
 				
@@ -155,6 +158,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		cbLeftRightOrder = new ListBox();
 		cbLeftRightOrder.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				apply(cbLeftRightOrder);
 				
@@ -172,6 +176,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		ckTranspose.setValue(false);
 		ckTranspose.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				apply(ckTranspose);
 			}
@@ -328,6 +333,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	}
 
+	@Override
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		if (latexStr != null && isLatexDrawable) {
 
@@ -419,30 +425,37 @@ public class CreateObjectDialogW extends InputDialogW implements
 		setVisible(false);
 	}
 
+	@Override
 	public void setName(String name) {
 		fldName.setText(name);
 	}
 
+	@Override
 	public void setSortVisible(boolean isVisible) {
 		ckSort.setVisible(isVisible);
 	}
 
+	@Override
 	public boolean isVisible() {
 		return wrappedPopup != null && wrappedPopup.isVisible();
 	}
 
+	@Override
 	public boolean isCopiedByValue() {
 		return btnValue.getValue();
 	}
 
+	@Override
 	public boolean isScannedByColumn() {
 		return cbScanOrder.getSelectedIndex() == 1;
 	}
 
+	@Override
 	public boolean isLeftToRight() {
 		return cbLeftRightOrder.getSelectedIndex() == 0;
 	}
 
+	@Override
 	public boolean isTranspose() {
 		return ckTranspose.getValue();
 	}

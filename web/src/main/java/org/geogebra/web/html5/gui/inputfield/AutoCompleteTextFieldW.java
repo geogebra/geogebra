@@ -254,8 +254,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				// at least in the following three cases:
 				if (event.getTypeInt() == Event.ONMOUSEMOVE
 						|| event.getTypeInt() == Event.ONMOUSEOVER
-						|| event.getTypeInt() == Event.ONMOUSEOUT)
+						|| event.getTypeInt() == Event.ONMOUSEOUT) {
 					return;
+				}
 
 				// autoCompleteTextField should not loose focus
 				AutoCompleteTextFieldW.this.setFocus(true);
@@ -369,7 +370,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				// textField.setFocus(true);
 				requestFocus();
 				if (app != null) {
-					((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher())
+					app.getGlobalKeyDispatcher()
 							.setFocused(true);
 				}
 			}
@@ -381,6 +382,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return drawTextField;
 	}
 
+	@Override
 	public ArrayList<String> getHistory() {
 		return history;
 	}
@@ -391,8 +393,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public void addHistoryPopup(boolean isDownPopup) {
 
-		if (historyPopup == null)
+		if (historyPopup == null) {
 			historyPopup = new HistoryPopupW(this, app.getPanel());
+		}
 
 		historyPopup.setDownPopup(isDownPopup);
 
@@ -463,12 +466,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	}
 
+	@Override
 	public List<String> resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
 		completions = null;
-		if (isEqualsRequired && !text.startsWith("="))
+		if (isEqualsRequired && !text.startsWith("=")) {
 			return null;
+		}
 
 		boolean korean = false; // AG
 								// app.getLocale().getLanguage().equals("ko");
@@ -672,6 +677,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return curWord.toString();
 	}
 
+	@Override
 	public List<String> getCompletions() {
 		return completions;
 	}
@@ -736,11 +742,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		dummyCursor = true;
 	}
 
+	@Override
 	public void addDummyCursor() {
 		if (dummyCursor) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				int caretPos = getCaretPosition();
 				addDummyCursor(caretPos);
@@ -748,6 +756,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 	}
 
+	@Override
 	public int removeDummyCursor() {
 		if (!dummyCursor) {
 			return -1;
@@ -785,16 +794,18 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// search to the left
 		int wordStart = pos - 1;
 		while (wordStart >= 0 && StringUtil
-				.isLetterOrDigitOrUnderscore(text.charAt(wordStart)))
+				.isLetterOrDigitOrUnderscore(text.charAt(wordStart))) {
 			--wordStart;
+		}
 		wordStart++;
 
 		// search to the right
 		int wordEnd = pos;
 		int length = text.length();
 		while (wordEnd < length
-				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd)))
+				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd))) {
 			++wordEnd;
+		}
 
 		if (wordStart >= 0 && wordEnd <= length) {
 			return text.substring(wordStart, wordEnd);
@@ -833,8 +844,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));
 			setText(sb.toString());
-			if (pos < sb.length())
+			if (pos < sb.length()) {
 				setCaretPosition(pos);
+			}
 		}
 	}
 
@@ -867,10 +879,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * @return previous input from input textfield's history
 	 */
 	private String getPreviousInput() {
-		if (history.size() == 0)
+		if (history.size() == 0) {
 			return null;
-		if (historyIndex > 0)
+		}
+		if (historyIndex > 0) {
 			--historyIndex;
+		}
 		return history.get(historyIndex);
 	}
 
@@ -878,10 +892,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * @return next input from input textfield's history
 	 */
 	private String getNextInput() {
-		if (historyIndex < history.size())
+		if (historyIndex < history.size()) {
 			++historyIndex;
-		if (historyIndex == history.size())
+		}
+		if (historyIndex == history.size()) {
 			return null;
+		}
 
 		return history.get(historyIndex);
 	}
@@ -904,8 +920,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		// make sure it works if caret is just after [
 		if (caretPos > 0 && text.length() < caretPos
-				&& text.charAt(caretPos) != '[')
+				&& text.charAt(caretPos) != '[') {
 			caretPos--;
+		}
 		String suffix = text.substring(caretPos);
 		int index = -1;
 		// AGMatcher argMatcher = syntaxArgPattern.matcher(text);
@@ -1001,18 +1018,19 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				int count = 0;
 				for (int i = 0; i < text.length(); i++) {
 					char c = text.charAt(i);
-					if (c == '{')
+					if (c == '{') {
 						count++;
-					else if (c == '}')
+					} else if (c == '}') {
 						count--;
-					else if (c == '(')
+					} else if (c == '(') {
 						count += 1E3;
-					else if (c == ')')
+					} else if (c == ')') {
 						count -= 1E3;
-					else if (c == '[')
+					} else if (c == '[') {
 						count += 1E6;
-					else if (c == ']')
+					} else if (c == ']') {
 						count -= 1E6;
+					}
 				}
 
 				if (count == 0) {
@@ -1105,8 +1123,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltKeyDown() && e.isControlKeyDown())
+		if (e.isAltKeyDown() && e.isControlKeyDown()) {
 			return;
+		}
 
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
 		/*
@@ -1158,8 +1177,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 				if (historyPopup == null) {
 					String text = getPreviousInput();
-					if (text != null)
+					if (text != null) {
 						setText(text);
+					}
 				} else if (!historyPopup.isDownPopup()) {
 					historyPopup.showPopup();
 				}
@@ -1185,8 +1205,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		case GWTKeycodes.KEY_F9:
 			// needed for applets
-			if (app.isApplet())
+			if (app.isApplet()) {
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+			}
 			break;
 		case GWTKeycodes.KEY_LEFT:
 			textField.hideSuggestions();
@@ -1219,10 +1240,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					String lowerCurWord = word.toLowerCase();
 					String closest = getDictionary().lookup(lowerCurWord);
 
-					if (closest != null)// &&
-										// lowerCurWord.equals(closest.toLowerCase()))
+					if (closest != null) {
+						// lowerCurWord.equals(closest.toLowerCase()))
 						showCommandHelp(app.getInternalCommand(closest));
-					else if (app.getGuiManager() != null) {
+					} else if (app.getGuiManager() != null) {
 						app.getGuiManager().openHelp(App.WIKI_MANUAL);
 					}
 
@@ -1244,8 +1265,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		case GWTKeycodes.KEY_7:
 		case GWTKeycodes.KEY_8:
 		case GWTKeycodes.KEY_9:
-			if (e.isControlKeyDown() && e.isShiftKeyDown())
+			if (e.isControlKeyDown() && e.isShiftKeyDown()) {
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+			}
 
 			// fall through eg Alt-2 for squared
 
@@ -1278,8 +1300,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			// we don't want to act when AltGr is down
 			// as it is used eg for entering {[}] is some locales
 			// NB e.isAltGraphDown() doesn't work
-			if (e.isAltKeyDown() && e.isControlKeyDown())
+			if (e.isAltKeyDown() && e.isControlKeyDown()) {
 				modifierKeyPressed = false;
+			}
 
 			char charPressed = Character.valueOf((char) e.getNativeKeyCode());
 
@@ -1303,13 +1326,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	public void addToHistory(String str) {
 		// exit if the new string is the same as the last entered string
-		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
+		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
 			return;
+		}
 
 		history.add(str);
 		historyIndex = history.size();
 	}
 
+	@Override
 	public boolean isSuggesting() {
 		return textField.isSuggestionListVisible();
 	}
@@ -1424,8 +1449,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	void showTablePopupRelativeTo(Widget w) {
-		if (tablePopup == null && this.showSymbolButton != null)
+		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
+		}
 		if (this.tablePopup != null) {
 			tablePopup.showRelativeTo(w);
 		}
@@ -1451,6 +1477,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return textField.getValueBox();
 	}
 
+	@Override
 	public void toggleSymbolButton(boolean toggled) {
 		if (showSymbolButton == null) {
 			return;
@@ -1525,6 +1552,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	Scheduler.ScheduledCommand cmdDeferredFocus = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			textField.setFocus(true);
 		}
@@ -1626,12 +1654,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		addFocusHandler(new FocusHandler() {
+			@Override
 			public void onFocus(FocusEvent event) {
 				fieldFocus();
 			}
 		});
 
 		addBlurHandler(new BlurHandler() {
+			@Override
 			public void onBlur(BlurEvent event) {
 				fieldBlur();
 			}
@@ -1708,10 +1738,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
+	@Override
 	public void setFocus(boolean b, boolean sv) {
 		setFocus(b);
 	}
 
+	@Override
 	public void setFocus(boolean b) {
 		textField.setFocus(b);
 	}
@@ -1753,22 +1785,26 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	}
 
+	@Override
 	public void startOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			addDummyCursor();
 		}
 	}
 
+	@Override
 	public void endOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			removeDummyCursor();
 		}
 	}
 
+	@Override
 	public boolean hasDeferredFocus() {
 		return deferredFocus;
 	}
 
+	@Override
 	public void setDeferredFocus(boolean b) {
 		deferredFocus = b;
 	}
@@ -1785,10 +1821,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	}
 
+	@Override
 	public void hideDeferred(final GBox box) {
 		CancelEventTimer.blurEventOccured();
 		Scheduler.get().scheduleEntry(new RepeatingCommand() {
 
+			@Override
 			public boolean execute() {
 				if (CancelEventTimer.cancelBlurEvent()) {
 					return true;
@@ -1802,6 +1840,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 	}
 
+	@Override
 	public void autocomplete(String s) {
 		getTextField().setText(s);
 		ArrayList<String> arr = new ArrayList<String>();
@@ -1809,27 +1848,33 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		validateAutoCompletion(0, arr);
 	}
 
+	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void updatePosition(DefaultSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(textField);
 
 	}
 
+	@Override
 	public boolean isForCAS() {
 		return false;
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		return false;
 	}
 
+	@Override
 	public void setDrawTextField(DrawInputBox df) {
 		drawTextField = df;
 	}
 
+	@Override
 	public GeoInputBox getInputBox() {
 		return geoUsedForInputBox;
 	}

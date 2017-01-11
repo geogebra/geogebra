@@ -39,6 +39,7 @@ public class ScriptArea extends TextArea
 		addKeyUpHandler(this);
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent e) {
 		if (e.isAltKeyDown() && !e.isControlKeyDown()) {
 
@@ -120,6 +121,7 @@ public class ScriptArea extends TextArea
 		// }
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent e) {
 
 		if (GlobalKeyDispatcherW.isBadKeyEvent(e)
@@ -129,6 +131,7 @@ public class ScriptArea extends TextArea
 
 	}
 
+	@Override
 	public void onKeyPress(KeyPressEvent e) {
 		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
@@ -137,23 +140,27 @@ public class ScriptArea extends TextArea
 		}
 	}
 
+	@Override
 	public void startOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			addDummyCursor();
 		}
 	}
 
+	@Override
 	public void endOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			removeDummyCursor();
 		}
 	}
 
+	@Override
 	public void addDummyCursor() {
 		if (dummyCursor) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				int caretPos = getCursorPos();
 				addDummyCursor(caretPos);
@@ -161,6 +168,7 @@ public class ScriptArea extends TextArea
 		});
 	}
 
+	@Override
 	public int removeDummyCursor() {
 		if (!dummyCursor) {
 			return -1;
@@ -190,20 +198,24 @@ public class ScriptArea extends TextArea
 		dummyCursor = true;
 	}
 
+	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void ensureEditing() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		// TODO Auto-generated method stub
 		return false;
@@ -224,12 +236,14 @@ public class ScriptArea extends TextArea
 		}
 
 		addFocusHandler(new FocusHandler() {
+			@Override
 			public void onFocus(FocusEvent event) {
 				FieldHandler.focusGained(ScriptArea.this, app);
 			}
 		});
 
 		addBlurHandler(new BlurHandler() {
+			@Override
 			public void onBlur(BlurEvent event) {
 				FieldHandler.focusLost(ScriptArea.this, app);
 			}

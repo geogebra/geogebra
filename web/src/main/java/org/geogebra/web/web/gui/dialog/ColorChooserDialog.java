@@ -49,6 +49,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		
 		btnOk.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 					handler.onColorChange(getSelectedColor());
 		            hide();	            
@@ -56,12 +57,14 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 			}});
 		btnCancel.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				hide();
             }});
 		
 		btnReset.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				setSelectedColor(originalColor);
 				colorChooserW.setSelectedColor(originalColor);
@@ -74,30 +77,36 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		
 		colorChooserW.addChangeHandler(new ColorChangeHandler() {
 			
+			@Override
 			public void onForegroundSelected() {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void onColorChange(GColor color) {
 				setSelectedColor(color);
 			}
 			
+			@Override
 			public void onClearBackground() {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void onBackgroundSelected() {
 				// TODO Auto-generated method stub
 				
 			}
 			
+			@Override
 			public void onAlphaChange() {
 				// TODO Auto-generated method stub
 				
 			}
 
+			@Override
 			public void onBarSelected() {
 				// TODO Auto-generated method stub
 
@@ -105,6 +114,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		});
 	}
 	
+	@Override
 	public void setLabels() {
 		this.getCaption().setText(localize("ChooseColor"));
 		colorChooserW.setPaletteTitles(localize("RecentColor"), localize("Other"));

@@ -72,6 +72,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbShowAxis = new CheckBox(loc.getMenu("Show" + strAxisEn));
 		cbShowAxis.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.showAxis(cbShowAxis.getValue());
 			}});
@@ -80,6 +81,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbAxisNumber = new CheckBox(loc.getMenu("ShowAxisNumbers"));
 		cbAxisNumber.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.showAxisNumbers(cbAxisNumber.getValue());
 			}});
@@ -88,6 +90,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbPositiveAxis = new CheckBox(loc.getMenu("PositiveDirectionOnly"));
 		cbPositiveAxis.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.applyPositiveAxis(cbPositiveAxis.getValue());
 
@@ -97,6 +100,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbAllowSelection = new CheckBox(loc.getMenu("SelectionAllowed"));
 		cbAllowSelection.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.applyAllowSelection(cbAllowSelection.getValue());
 			}
@@ -110,6 +114,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		lbTickStyle.addChangeHandler(new ChangeHandler(){
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				int type = lbTickStyle.getSelectedIndex();
 				model.applyTickStyle(type);
@@ -125,6 +130,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbManualTicks = new CheckBox(loc.getMenu("TickDistance") + ":");
 		cbManualTicks.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				boolean isTickDistanceOn = cbManualTicks.getValue(); 
 				model.applyTickDistance(isTickDistanceOn);
@@ -184,13 +190,14 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		// cross at and stick to edge
 
-		InputPanelW input = new InputPanelW(null, (AppW) app, 1, -1, true);
-		tfCross = (AutoCompleteTextFieldW) input.getTextComponent();
+		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		tfCross = input.getTextComponent();
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();
 
 		tfCross.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					model.applyCrossing(tfCross.getText());
@@ -208,6 +215,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));
 		cbDrawAtBorder.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.applyDrawAtBorder(cbDrawAtBorder.getValue());
 			}});
@@ -266,10 +274,11 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		// view.getShowYaxis());
 		setShowAxis(view.getShowAxis(axis));
 
-		if (view.getDrawBorderAxes()[axis])
+		if (view.getDrawBorderAxes()[axis]) {
 			tfCross.setText("");
-		else
+		} else {
 			tfCross.setText("" + view.getAxesCross()[axis]);
+		}
 	
 		tfCross.setVisible(!view.getDrawBorderAxes()[axis]);
 		cbPositiveAxis.setValue(view.getPositiveAxes()[axis]);
@@ -283,6 +292,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbShowAxis.setValue(value);
 	}
 
+	@Override
 	public void setLabels() {
 		String strAxisEn = model.getAxisName();
 		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
@@ -300,8 +310,9 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || "".equals(text))
+		if (text == null || "".equals(text)) {
 			return Double.NaN;
+		}
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 	}
 
@@ -333,18 +344,22 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	//		tfCross.setFont(font);
 	//	}
 
+	@Override
 	public void addTickItem(String item) {
 		lbTickStyle.addItem(item);
 	}
 
+	@Override
 	public void addAxisLabelItem(String item) {
 		comboAxisLabel.addItem(item == null ? "": item);
 	} 
 
+	@Override
 	public void addUnitLabelItem(String item) {
 		comboUnitLabel.addItem(item == null ? "": item);
 	} 
 
+	@Override
 	public void setCrossText(String text) {
 		tfCross.setText(text);
 	}

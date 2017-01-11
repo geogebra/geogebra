@@ -144,8 +144,9 @@ public class RadioTreeItemController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		if (checkEditing())
+		if (checkEditing()) {
 			return;
+		}
 
 		startEdit(evt.isControlKeyDown());
 	}
@@ -179,6 +180,7 @@ public class RadioTreeItemController
 	}
 
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
 
@@ -313,6 +315,7 @@ public class RadioTreeItemController
 	private void setFocusDeferred() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				setFocus(true);
 			}
@@ -496,6 +499,7 @@ public class RadioTreeItemController
 			}
 
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				@Override
 				public void execute() {
 
 					item.adjustStyleBar();
@@ -594,8 +598,9 @@ public class RadioTreeItemController
 			return;
 		}
 
-		if (checkEditing())
+		if (checkEditing()) {
 			return;
+		}
 
 		GeoElement geo = item.geo;
 		SelectionManager selection = app.getSelectionManager();

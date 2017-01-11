@@ -17,6 +17,7 @@ public class ANOVATableW extends BasicStatTableW {
 		
 	}
 
+	@Override
 	protected void initStatTable() {
 
 		statTable = new StatTableW(app);

@@ -67,6 +67,7 @@ public class StyleBarContainer extends FlowPanel implements FastClickHandler {
 		setShowStyleBar(!showStyleBar);
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		toggleStyleBar();
 	}

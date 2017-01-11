@@ -50,6 +50,7 @@ public class DrawEquationW extends DrawEquation {
 			Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
+				@Override
 				public void onDrawingFinished() {
 					((GGraphics2DW) g2).updateCanvasColor();
 					if (callback != null) {

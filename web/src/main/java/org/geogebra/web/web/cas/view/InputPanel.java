@@ -18,11 +18,13 @@ public interface InputPanel extends IsWidget {
 
 	public class InputPanelLabel extends Label implements InputPanel {
 
+		@Override
 		public void setLaTeX(String laTeX) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setPixelRatio(double ratio) {
 			// TODO Auto-generated method stub
 
@@ -43,34 +45,41 @@ public interface InputPanel extends IsWidget {
 			c.setCoordinateSpaceHeight(1);
 			c.setCoordinateSpaceWidth(1);
 		}
+		@Override
 		public void setText(String input) {
 
 			this.text = input;
 
 		}
 
+		@Override
 		public String getText() {
 			return text;
 		}
 
+		@Override
 		public void addStyleName(String style) {
 			c.addStyleName(style);
 
 		}
 
+		@Override
 		public Widget asWidget() {
 			return c;
 		}
 
+		@Override
 		public void removeStyleName(String string) {
 			c.removeStyleName(string);
 
 		}
 
+		@Override
 		public Element getElement() {
 			return c.getElement();
 		}
 
+		@Override
 		public void setLaTeX(String laTeX) {
 			this.laTex = laTeX;
 			if (laTeX == null) {
@@ -83,6 +92,7 @@ public interface InputPanel extends IsWidget {
 
 		}
 
+		@Override
 		public void setPixelRatio(double ratio) {
 			if (this.laTex != null) {
 				setLaTeX(laTex);

@@ -43,6 +43,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		
 		addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				Cell cell = getCellForEvent(event);
 				if (cell == null) {
@@ -54,6 +55,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		
 		cellEditor.addKeyHandler(new KeyHandler() {
 			
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (keyHandler != null) {
 					keyHandler.keyReleased(e);
@@ -63,6 +65,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		
 		cellEditor.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				if (blurHandler != null) {
 					blurHandler.onBlur(event);
@@ -120,11 +123,13 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		}
 		
 	}
+	@Override
 	public void updateHeader(int col, String title) {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
     }
 	
 	
+	@Override
 	public void updateDataCell(int row, int col, DataCell value) {
 		// Cells at row 0 are headers.
 		updateCell(row + 1, col, value);
@@ -175,6 +180,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	    this.model = model;
     }
 
+	@Override
 	public void addRow(List<DataCell> row) {
 		int numRows = getRowCount();
 		int col = 0;
@@ -184,6 +190,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		}
     }
 
+	@Override
 	public void setHeaders(String[] headers) {
 		int col = 0;
 		for (String title: headers) {
@@ -203,21 +210,25 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		rf.setStyleName(selectedRow, "selected");
     }
 
+	@Override
 	public void removeLastCell(int row) {
 	    removeCell(row, model.getColumnCount());
     }
 
+	@Override
 	public void removeLastRow() {
 	    removeRow(getRowCount() -1);
 	  //  App.debug("[TABLE] rowCount: " + getRowCount());
     }
 
+	@Override
 	public void removeColumn() {
 		for (int row=0; row < getRowCount(); row++) {
 			removeLastCell(row);
 		}
     }
 
+	@Override
 	public void appendColumn(String name) {
 		int col = getCellCount(HEADER_ROW);
 		addCell(HEADER_ROW);

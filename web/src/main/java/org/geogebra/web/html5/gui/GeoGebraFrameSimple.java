@@ -84,14 +84,17 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		return false;
 	}
 
+	@Override
 	public void showKeyboardOnFocus() {
 		// no keyboard
 	}
 
+	@Override
 	public void updateKeyboardHeight() {
 		// no keyboard
 	}
 
+	@Override
 	public double getKeyboardHeight() {
 		return 0;
 	}

@@ -114,10 +114,11 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 						}
 					}
 
-					if (hasFillable)
+					if (hasFillable) {
 						setTitle(loc.getMenu("stylebar.ColorTransparency"));
-					else
+					} else {
 						setTitle(loc.getMenu("stylebar.Color"));
+					}
 					setSliderVisible(hasFillable);
 
 					setSliderValue((int) Math.round(alpha * 100));
@@ -183,6 +184,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			treeModeButton.setFixedIcon(icon);
 	
 			treeModeButton.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					SortMode selectedMode = app.getAlgebraView().getTreeMode();
 					treeModeButton.setSelectedIndex(supportedModes
@@ -216,6 +218,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			descriptionButton.setFixedIcon(icon);
 
 			descriptionButton.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					int selectedMode = app.getKernel().getAlgebraStyle();
 					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {

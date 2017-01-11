@@ -106,8 +106,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void resetMenu();
 
+	@Override
 	public AlgebraView getAlgebraView();
 
+	@Override
 	public SpreadsheetViewInterface getSpreadsheetView();
 
 	public void onScreenEditingEnded();

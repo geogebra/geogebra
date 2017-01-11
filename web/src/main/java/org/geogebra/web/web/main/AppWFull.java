@@ -809,6 +809,7 @@ public abstract class AppWFull extends AppW {
 
 			afterLocalizationLoaded(new Runnable() {
 
+				@Override
 				public void run() {
 					((DialogManagerW) getDialogManager())
 							.showRecoverAutoSavedDialog(AppWFull.this,

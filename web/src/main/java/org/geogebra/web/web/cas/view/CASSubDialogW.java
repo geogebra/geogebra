@@ -162,6 +162,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		table.addColumn(oldVal, loc.getPlain("OldExpression"));
 		table.setColumnWidth(oldVal, 40, Unit.PX);
 		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
+			@Override
 			public void update(int index, SubstituteValue object, String value) {
 				object.setVariable(value);
 				if ((index == (getTable().getRowCount() - 1))
@@ -190,6 +191,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		table.addColumn(newVal, loc.getPlain("NewExpression"));
 		table.setColumnWidth(newVal, 40, Unit.PX);
 		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
+			@Override
 			public void update(int index, SubstituteValue object, String value) {
 				object.setValue(value);
 				if ((index == (getTable().getRowCount() - 1))
@@ -215,18 +217,22 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		return dialog;
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object src = event.getSource();
 		stopEditing();
 		if (btEval == src) {
-			if (apply(ACTION_EVALUATE))
+			if (apply(ACTION_EVALUATE)) {
 				dialog.hide(false);
+			}
 		} else if (btNumeric == src) {
-			if (apply(ACTION_NUMERIC))
+			if (apply(ACTION_NUMERIC)) {
 				dialog.hide(false);
+			}
 		} else if (btSub == src) {
-			if (apply(ACTION_SUBSTITUTE))
+			if (apply(ACTION_SUBSTITUTE)) {
 				dialog.hide(false);
+			}
 		}
 	}
 

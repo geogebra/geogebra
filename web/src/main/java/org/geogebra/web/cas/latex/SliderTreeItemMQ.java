@@ -59,6 +59,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	private ScheduledCommand resizeCmd = new ScheduledCommand() {
 
 
+		@Override
 		public void execute() {
 			resize();
 		}
@@ -132,6 +133,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	/**
 	 * resize slider to fit to the panel in a deferred way.
 	 */
+	@Override
 	public void deferredResize() {
 		if (slider == null) {
 			return;
@@ -241,11 +243,13 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	}
 
 
+	@Override
 	public void setSliderVisible(boolean visible) {
 		getSliderPanel().setVisible(visible);
 	}
 
 
+	@Override
 	public void setAnimPanelVisible(boolean visible) {
 		controls.showAnimPanel(visible);
 	}
@@ -283,11 +287,13 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		return slider;
 	}
 
+	@Override
 	public void expandSize(int width) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void restoreSize() {
 		// TODO Auto-generated method stub
 

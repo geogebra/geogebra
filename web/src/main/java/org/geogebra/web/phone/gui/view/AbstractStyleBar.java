@@ -15,6 +15,7 @@ public abstract class AbstractStyleBar implements StyleBar {
 	private IsWidget styleBar;
 	private ImageResource styleBarIcon;
 
+	@Override
 	public IsWidget getStyleBar() {
 		if (styleBar == null) {
 			styleBar = createStyleBar();
@@ -22,6 +23,7 @@ public abstract class AbstractStyleBar implements StyleBar {
 		return styleBar;
 	}
 
+	@Override
 	public ImageResource getStyleBarIcon() {
 		if (styleBarIcon == null) {
 			styleBarIcon = createStyleBarIcon();

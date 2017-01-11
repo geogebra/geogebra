@@ -152,6 +152,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 		RequestCallback cb = new RequestCallback() {
 
+			@Override
 			public void onResponseReceived(Request request, Response response) {
 
 				if (response != null) {
@@ -212,6 +213,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				}
 			}
 
+			@Override
 			public void onError(Request request, Throwable exception) {
 				Log.debug("[ANIMGIF] EXCEPTION: " + exception);
 

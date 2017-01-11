@@ -95,6 +95,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		lbPolyOrder.setSelectedIndex(0);
 		lbPolyOrder.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbPolyOrder);
 			}
@@ -109,6 +110,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		
 		lbRegression.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbRegression);
 			}
@@ -159,6 +161,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		
 		fldInputX.addKeyHandler(new KeyHandler() {
 			
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					doTextFieldActionPerformed(fldInputX);
@@ -168,6 +171,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		
 		fldInputX.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				doTextFieldActionPerformed(fldInputX);
 			}
@@ -217,6 +221,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	/**
 	 * Sets the labels according to current locale
 	 */
+	@Override
 	public void setLabels() {
 		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
@@ -253,12 +258,13 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		try {
 			// prepare number format
 			StringTemplate highPrecision;
-			if (daModel.getPrintDecimals() >= 0)
+			if (daModel.getPrintDecimals() >= 0) {
 				highPrecision = StringTemplate.printDecimals(StringType.LATEX,
 						daModel.getPrintDecimals(), false);
-			else
+			} else {
 				highPrecision = StringTemplate.printFigures(StringType.LATEX,
 						daModel.getPrintFigures(), false);
+			}
 
 			// no regression
 			if (daModel.getRegressionMode().equals(Regression.NONE)
@@ -332,14 +338,16 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		if (source == fldInputX) {
 			try {
 				String inputText = source.getText().trim();
-				if (inputText == null || inputText.length() == 0)
+				if (inputText == null || inputText.length() == 0) {
 					return;
+				}
 
 				NumberValue nv;
 				nv = app.getKernel().getAlgebraProcessor()
@@ -358,6 +366,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		}
 	}
 
+	@Override
 	public void updatePanel() {
 		// TODO Auto-generated method stub
 

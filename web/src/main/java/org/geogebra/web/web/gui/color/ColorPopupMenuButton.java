@@ -159,13 +159,14 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	private static ImageOrText[] getColorSwatchIcons(GColor[] colorArray,
 			double alpha, GDimensionW iconSize) {
 		ImageOrText[] a = new ImageOrText[colorArray.length];
-		for (int i = 0; i < colorArray.length; i++)
+		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {
 				a[i] = GeoGebraIconW.createColorSwatchIcon(alpha, colorArray[i],
 						null);
 			} else {
 				a[i] = new ImageOrText(AppResources.INSTANCE.more());
 			}
+		}
 		return a;
 	}
 
@@ -178,6 +179,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		return a;
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		if (this.hasSlider) {
 			Integer si = getSelectedIndex();

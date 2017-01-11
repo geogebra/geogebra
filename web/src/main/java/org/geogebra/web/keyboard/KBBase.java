@@ -1156,6 +1156,7 @@ public abstract class KBBase extends PopupPanel {
 				setStyleName();
 			}
 
+			@Override
 			public void onError() {
 				Log.debug("keyboard not loaded");
 

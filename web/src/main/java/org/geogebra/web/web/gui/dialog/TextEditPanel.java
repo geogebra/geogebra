@@ -121,6 +121,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		}
 	}
 
+	@Override
 	public void onFocus(FocusEvent event) {
 		app.setSelectionListenerMode(sl);
 	}
@@ -128,6 +129,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	/**
 	 * Updates PreviewPanel with current editor content.
 	 */
+	@Override
 	public void updatePreviewPanel() {
 
 		if (previewer == null) {
@@ -146,6 +148,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		}
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 
@@ -197,6 +200,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	private void registerListeners() {
 
 		sl = new GeoElementSelectionListener() {
+			@Override
 			public void geoElementSelected(GeoElement geo,
 			        boolean addToSelection) {
 				if (geo != editGeo) {
@@ -220,6 +224,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		this.editGeo = editGeo;
 	}
 
+	@Override
 	public GeoText getEditGeo() {
 		return editGeo;
 	}
@@ -356,6 +361,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	 * 
 	 * @param geo
 	 */
+	@Override
 	public void insertGeoElement(GeoElement geo) {
 		editor.insertGeoElement(geo);
 
@@ -367,6 +373,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	 * @param text
 	 * @param isLatex
 	 */
+	@Override
 	public void insertTextString(String text, boolean isLatex) {
 		editor.insertTextString(text, isLatex);
 	}
@@ -379,6 +386,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		return TextOptionsModel.getFontStyle(isBold(), isItalic());
 	}
 
+	@Override
 	public void ensureLaTeX() {
 		btnLatex.setValue(true);
 		editGeo.setLaTeX(true, false);

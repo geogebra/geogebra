@@ -33,6 +33,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		views = new ArrayList<SimpleHeaderView>();
 	}
 
+	@Override
 	public void onResize() {
 		setPixelSize(Window.getClientWidth(),
 		        PhoneLookAndFeel.PHONE_HEADER_HEIGHT);
@@ -50,6 +51,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		add(rightTabPanel);
 	}
 
+	@Override
 	public void addView(AbstractView view) {
 		SimpleHeaderView headerView = new SimpleHeaderView(view);
 		if (views.size() > 0) {
@@ -60,6 +62,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		rightTabPanel.add(headerView);
 	}
 
+	@Override
 	public void removeView(AbstractView view) {
 		SimpleHeaderView headerView = getSimpleHeaderViewByView(view);
 		if (headerView == null) {
@@ -72,6 +75,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		}
 	}
 
+	@Override
 	public void showView(AbstractView view) {
 		if (view == activeView) {
 			return;

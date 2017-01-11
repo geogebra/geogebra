@@ -13,6 +13,7 @@ public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 	private OptionsModel model;
 	private Widget widget;
 
+	@Override
 	public OptionPanel updatePanel(Object[] geos) {
 		getModel().setGeos(geos);
 		boolean geosOK = getModel().checkGeos();
@@ -29,14 +30,17 @@ public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 		return this;
 	}
 
+	@Override
 	public Widget getWidget() {
 		return widget;
 	}
 
+	@Override
 	public void setWidget(Widget widget) {
 		this.widget = widget;
 	}
 
+	@Override
 	public OptionsModel getModel() {
 		return model;
 	}
@@ -49,5 +53,6 @@ public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 		this.model = model;
 	}
 
+	@Override
 	public abstract void setLabels();
 }

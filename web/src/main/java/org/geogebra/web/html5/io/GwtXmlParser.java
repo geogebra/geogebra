@@ -7,6 +7,7 @@ import org.geogebra.common.io.QDParser;
 
 public class GwtXmlParser implements XmlParser {
 
+	@Override
 	public void parse(DocHandler docHandler, String xml) throws Exception {
 		// FIXME trying to use QDParser always to fix problem with invalid XML
 		// files

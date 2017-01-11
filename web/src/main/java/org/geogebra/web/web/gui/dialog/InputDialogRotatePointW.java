@@ -27,6 +27,7 @@ public class InputDialogRotatePointW extends InputDialogRotateW implements KeyUp
 		this.points = points;	}
 
 
+	@Override
 	protected void processInput(AsyncOperation<String> callback) {
 
 		DialogManager.rotateObject(app, inputPanel.getText(),

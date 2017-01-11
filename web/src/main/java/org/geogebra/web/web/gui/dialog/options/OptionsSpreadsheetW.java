@@ -41,6 +41,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		createGUI();
 	}
 
+	@Override
 	public Widget getWrappedPanel() {
 		return optionsPanel;
 	}
@@ -126,6 +127,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	 * Update spreadsheet panel labels. Should be applied if the language was
 	 * changed. Will be called after initialization automatically.
 	 */
+	@Override
 	public void setLabels() {
 
 		cbShowFormulaBar.setText(app.getMenu("ShowInputField"));
@@ -143,6 +145,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		descriptionLabel.setText(app.getMenu("AlgebraDescriptions"));
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		doActionPerformed(event.getSource());
 	}
@@ -203,6 +206,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		return app.getSettings().getSpreadsheet();
 	}
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		// TODO Auto-generated method stub
 		return null;

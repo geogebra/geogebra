@@ -221,6 +221,7 @@ public class StyleInjector {
 	        .createArray().cast();
 
 	private static ScheduledCommand flusher = new ScheduledCommand() {
+		@Override
 		public void execute() {
 			if (needsInjection) {
 				flush(null);

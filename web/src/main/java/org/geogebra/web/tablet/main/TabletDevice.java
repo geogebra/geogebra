@@ -19,6 +19,7 @@ public class TabletDevice extends TouchDevice {
 		return new TabletBrowseGUI(app);
 	}
 
+	@Override
 	public void resizeView(int width, int height) {
 		// TODO Auto-generated method stub
 

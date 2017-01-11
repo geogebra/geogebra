@@ -28,14 +28,17 @@ public class GLBufferW implements GLBuffer {
 
 	private int currentLength;
 
+	@Override
 	public boolean isEmpty() {
 		return isEmpty;
 	}
 
+	@Override
 	public void setEmpty() {
 		isEmpty = true;
 	}
 
+	@Override
 	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
@@ -49,11 +52,13 @@ public class GLBufferW implements GLBuffer {
 
 	private int index = 0;
 
+	@Override
 	public void setLimit(int length) {
 		currentLength = length;
 		isEmpty = false;
 	}
 
+	@Override
 	public void put(double value) {
 		if (impl == null) {
 			return;
@@ -62,17 +67,20 @@ public class GLBufferW implements GLBuffer {
 		index++;
 	}
 
+	@Override
 	public double get() {
 		double ret = impl.get(index);
 		index++;
 		return ret;
 	}
 
+	@Override
 	public void rewind() {
 		index = 0;
 	}
 
 
+	@Override
 	public void set(ArrayList<Double> array, int length) {
 
 		allocate(length);
@@ -86,10 +94,12 @@ public class GLBufferW implements GLBuffer {
 		setLimit(length);
 	}
 
+	@Override
 	public int capacity() {
 		return currentLength;
 	}
 
+	@Override
 	public void array(float[] ret) {
 		if (impl == null) {
 			return;

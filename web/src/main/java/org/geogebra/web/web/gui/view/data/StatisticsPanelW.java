@@ -139,8 +139,9 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	private ANOVATableW getAnovaTable() {
-		if (anovaTable == null)
+		if (anovaTable == null) {
 			anovaTable = new ANOVATableW(app, statDialog);
+		}
 		return anovaTable;
 	}
 
@@ -168,8 +169,9 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	private MultiVarStatPanelW getMinMVStatPanel() {
-		if (minMVStatPanel == null)
+		if (minMVStatPanel == null) {
 			minMVStatPanel = new MultiVarStatPanelW(app, statDialog);
+		}
 		minMVStatPanel.setMinimalTable(true);
 		return minMVStatPanel;
 	}
@@ -183,6 +185,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 			lbInferenceMode = new ListBox();
 			lbInferenceMode.addChangeHandler(new ChangeHandler() {
 				
+				@Override
 				public void onChange(ChangeEvent event) {
 					actionPerformed(lbInferenceMode);
 				}
@@ -196,10 +199,12 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		model.fillInferenceModes();
 
 	}
+	@Override
 	public void setLabels() {
 		statTable.setLabels();
 	}
 
+	@Override
 	public void updatePanel() {
 		// System.out.println("============= update stat panel");
 		if (statTable == null) {
@@ -225,10 +230,12 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	}
 
+	@Override
 	public void addInferenceMode(String item) {
 		lbInferenceMode.addItem(item);
 	}
 
+	@Override
 	public void selectInferenceMode(String item) {
 		for (int idx=0; idx < lbInferenceMode.getItemCount(); idx++) {
 			String s = lbInferenceMode.getItemText(idx);
@@ -243,20 +250,24 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		
 	}
 
+	@Override
 	public String getSeparator() {
 		return SEPARATOR;
 	}
 
+	@Override
 	public void updateOneVarInference(int mode) {
 		getOneVarInferencePanel().setSelectedPlot(mode);
 		getOneVarInferencePanel().updatePanel();
 	}
 
+	@Override
 	public void updateTwoVarInference(int mode) {
 		getTwoVarInferencePanel().setSelectedInference(mode);
 		getTwoVarInferencePanel().updatePanel();
 	}
 
+	@Override
 	public void updateAnovaTable() {
 		getAnovaTable().updatePanel();
 		getMinMVStatPanel().updatePanel();

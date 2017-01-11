@@ -10,10 +10,12 @@ import com.googlecode.gwtphonegap.client.log.shared.PhoneGapLogServiceAsync;
 public class DummyService
 		implements PhoneGapLogService, PhoneGapLogServiceAsync {
 
+	@Override
 	public String logOnServer(String clientId, List<LogRecord> record) {
 		return "";
 	}
 
+	@Override
 	public void logOnServer(String clientId, List<LogRecord> record,
 			AsyncCallback<String> callback) {
 		// ignore

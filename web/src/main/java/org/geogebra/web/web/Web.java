@@ -45,6 +45,7 @@ public class Web implements EntryPoint {
 	/**
 	 * set true if Google Api Js loaded
 	 */
+	@Override
 	public void onModuleLoad() {
 
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null

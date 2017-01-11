@@ -53,6 +53,7 @@ public class PerformanceTest implements EntryPoint {
 	 * set true if Google Api Js loaded
 	 */
 
+	@Override
 	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
 			"object adds itself to construction" })
 	public void onModuleLoad() {
@@ -213,10 +214,12 @@ public class PerformanceTest implements EntryPoint {
 	public static void loadAppletAsync() {
 		GWT.runAsync(new RunAsyncCallback() {
 
+			@Override
 			public void onSuccess() {
 				startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 			}
 
+			@Override
 			public void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
 

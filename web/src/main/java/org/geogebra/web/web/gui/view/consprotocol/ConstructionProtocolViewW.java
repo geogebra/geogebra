@@ -192,6 +192,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				// TODO Auto-generated method stub
 				NodeList<Element> tableRows = table.getElement()
@@ -225,6 +226,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	public class MyPanel extends ScrollPanel {
 
+		@Override
 		public void onResize() {
 			setHeaderSizes();
 		}
@@ -307,7 +309,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
     	}
     }
 
-    public void setLabels(){
+    @Override
+	public void setLabels(){
     	initGUI();
     }
     
@@ -377,6 +380,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				.getNumberOfOpenViews() > 1) {
 			popupMenu.addItem(app.getMenu("Close"), new ScheduledCommand() {
 
+				@Override
 				public void execute() {
 					app.getGuiManager().setShowView(false,
 							App.VIEW_CONSTRUCTION_PROTOCOL);
@@ -399,6 +403,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			if (!"No.".equals(colData.getTitle())) {
 				final int j = k;
 				com = new ScheduledCommand() {
+					@Override
 					public void execute() {
 						if (breakpoint && !data.columns[j].isVisible()) {
 							app.getKernel().getConstruction()
@@ -425,6 +430,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				.getLocalization().getPlain("ShowOnlyBreakpoints"),
 				new ScheduledCommand() {
 
+					@Override
 					public void execute() {
 						showOnlyBreakpointsAction();
 						miShowOnlyBreakpoints.setSelected(app.getKernel()
@@ -441,6 +447,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	private void addHeaderClickHandler() {
 		ClickHandler popupMenuClickHandler = new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				Element el = Element
 						.as(event.getNativeEvent().getEventTarget());
@@ -619,6 +626,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
 
+			@Override
 			public void update(int index, RowData object, String value) {
 				object.getGeo().setCaption(value);
 				data.initView();
@@ -701,6 +709,7 @@ myCell) {
 
 		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
 
+			@Override
 			public void update(int index, RowData object, String value) {
 				object.getGeo().setCaption(value);
 				data.initView();
@@ -799,6 +808,7 @@ myCell) {
 
 		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
 
+			@Override
 			public void update(int index, RowData object, String value) {
 				object.getGeo().setCaption(value);
 				data.initView();
@@ -830,6 +840,7 @@ myCell) {
 
 		col.setFieldUpdater(new FieldUpdater<RowData, Boolean>() {
 
+			@Override
 			public void update(int index, RowData object, Boolean value) {
 				object.getGeo().setConsProtocolBreakpoint(value);
 				data.initView();
@@ -841,12 +852,16 @@ myCell) {
 		return col;
 	}
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
 
 		boolean gcv[] = cps.getColsVisibility();
-		if (gcv != null) if (gcv.length > 0)
-			setColsVisibility(gcv);
+		if (gcv != null) {
+			if (gcv.length > 0) {
+				setColsVisibility(gcv);
+			}
+		}
 
 		initGUI();
 //		update();
@@ -875,16 +890,18 @@ myCell) {
 		}
 		if (table != null) {
 			int rowCount = table.getRowCount();
-			if (rowCount == 0)
+			if (rowCount == 0) {
 				return;
+			}
 
 			int step = kernel.getConstructionStep();
 			int row = -1; //it's possible that ConsStep == 0, so we need index -1 to deselect all rows
 			for (int i = 0; i < rowCount; i++) {
-				if (data.getConstructionIndex(i) <= step)
+				if (data.getConstructionIndex(i) <= step) {
 					row = i;
-				else
+				} else {
 					break;
+				}
 			}
 			final int row2 = row;
 			app.invokeLater(new Runnable() {
@@ -960,7 +977,8 @@ myCell) {
 
 	void rowCountChanged() {
 		app.invokeLater(new Runnable() {
-	    	public void run(){
+	    	@Override
+			public void run(){
 	    		makeTableRowsDragable();
 	    	}
 	    });
@@ -1096,6 +1114,7 @@ myCell) {
 	    return styleBar;
     }
 
+	@Override
 	public void getPrintable(final FlowPanel printPanel, Button btPrint) {
 		// I couldn't put into less the calculating of the zoom, because less
 		// has no any knowledge about the elements of the page, and because of
@@ -1130,6 +1149,7 @@ myCell) {
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				Log.debug("width: " + previewTable.getOffsetWidth());
 				Log.debug("zoom: " + scaledWidth / previewTable.getOffsetWidth());

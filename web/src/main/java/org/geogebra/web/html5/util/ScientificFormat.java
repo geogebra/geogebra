@@ -48,6 +48,7 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	/**
 	 * Returns the number of significant digits
 	 */
+	@Override
 	public int getSigDigits() {
 		return sigDigit;
 	}
@@ -56,6 +57,7 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	 * Returns the maximum allowable width of formatted number excluding any
 	 * exponentials
 	 */
+	@Override
 	public int getMaxWidth() {
 		return maxWidth;
 	}
@@ -64,6 +66,7 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	 * Returns the formatting style: True means Pure scientific formatting,
 	 * False means standard.
 	 */
+	@Override
 	public boolean getScientificNotationStyle() {
 		return sciNote;
 	}
@@ -71,9 +74,11 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	/**
 	 * Sets the number of significant digits for the formatted number
 	 */
+	@Override
 	public void setSigDigits(int SigDigit) {
-		if (SigDigit < 1)
+		if (SigDigit < 1) {
 			throw new IllegalArgumentException("sigDigit");
+		}
 		sigDigit = SigDigit;
 		decimalFormat = null;
 	}
@@ -82,9 +87,11 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	 * Sets the maximum allowable length of the formattted number mantissa
 	 * before exponential notation is used.
 	 */
+	@Override
 	public void setMaxWidth(int mWidth) {
-		if (mWidth < 3)
+		if (mWidth < 3) {
 			throw new IllegalArgumentException("maxWidth");
+		}
 		maxWidth = mWidth;
 	}
 
@@ -97,6 +104,7 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	 * parameter but will not have a Base 10 Exponential(E) if the number of
 	 * digits in the mantissa <= maxWidth.
 	 */
+	@Override
 	public void setScientificNotationStyle(boolean sciNote) {
 		this.sciNote = sciNote;
 	}
@@ -105,10 +113,11 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	private final static double k = 1 / Math.log(10);
 
 	private static double Log10(double x) {
-		if (x == 0)
+		if (x == 0) {
 			return 0;
-		else
+		} else {
 			return Math.log(x) * k;
+		}
 	}
 
 	private int resolveErrorSigDigit(double x, double dx) {
@@ -119,26 +128,30 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 
 		// these circumstances errorsigdit does equal sigdigit, excluding
 		// infinity and Nan which are handled by format
-		if (dx == 0 || Double.isInfinite(dx) || Double.isNaN(dx) || dx >= x)
+		if (dx == 0 || Double.isInfinite(dx) || Double.isNaN(dx) || dx >= x) {
 			return sigDigit;
+		}
 
 		// fail cases for log, method fails to handle
-		if (x == 0 || Double.isInfinite(x) || Double.isNaN(x))
+		if (x == 0 || Double.isInfinite(x) || Double.isNaN(x)) {
 			return sigDigit;
+		}
 
 		// otherwise solve for cases when dx<x
 		int log = (int) Math.round(Log10(dx / x));// always will return negative
 												  // number
 		int errorsigdigit = sigDigit + log;
-		if (errorsigdigit < 1)
+		if (errorsigdigit < 1) {
 			return 1;
+		}
 		return errorsigdigit;
 	}
 
 	private static DecimalFormat getDecimalFormat(int sigDig) {
 		StringBuffer buffer = new StringBuffer("0.");
-		for (int i = 1; i < sigDig; i++)
+		for (int i = 1; i < sigDig; i++) {
 			buffer.append('0');
+		}
 		buffer.append("E0");
 		return new DecimalFormat(buffer.toString());
 	}
@@ -146,27 +159,32 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	/**
 	 * Format the number using scientific notation
 	 */
+	@Override
 	public String format(double d) {
 		return format(d, sigDigit);
 	}
 
 	private String format(double d, int sigDig) {
 		// Delegate the hard part to decimalFormat
-		if (decimalFormat == null)
+		if (decimalFormat == null) {
 			decimalFormat = getDecimalFormat(sigDigit);
+		}
 		DecimalFormat format = (sigDig == sigDigit) ? decimalFormat
 		        : getDecimalFormat(sigDig);
 
 		String preliminaryResult = format.format(d);
-		if (sciNote)
+		if (sciNote) {
 			return preliminaryResult;
+		}
 
 		int ePos = preliminaryResult.indexOf('E');
 		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1)) + 1;
-		if (exponent > maxWidth)
+		if (exponent > maxWidth) {
 			return preliminaryResult;
-		if (exponent < -maxWidth + sigDig + 1)
+		}
+		if (exponent < -maxWidth + sigDig + 1) {
 			return preliminaryResult;
+		}
 
 		// We need to fix up the result
 
@@ -175,17 +193,20 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 		        sign, sign + 1) + preliminaryResult.substring(sign + 2, ePos));
 
 		if (exponent >= sigDig) {
-			for (int i = sigDig; i < exponent; i++)
+			for (int i = sigDig; i < exponent; i++) {
 				result.append('0');
+			}
 		} else if (exponent < 0) {
 			result.insert(0, ".");
-			for (int i = exponent; i < 0; i++)
+			for (int i = exponent; i < 0; i++) {
 				result.insert(1, '0');
+			}
 		} else {
 			result.insert(exponent, '.');
 		}
-		if (sign > 0)
+		if (sign > 0) {
 			result.insert(0, '-');
+		}
 		return result.toString();
 	}
 	// /**

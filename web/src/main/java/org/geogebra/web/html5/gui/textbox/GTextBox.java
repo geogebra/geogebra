@@ -54,6 +54,7 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 		final KeyUpHandler finalHandler = handler;
 		return super.addKeyUpHandler(new KeyUpHandler() {
 
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == 0) {
 					NativeEvent nativeEvent = Document.get().createKeyUpEvent(
@@ -67,6 +68,7 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 		});
 	}
 
+	@Override
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		if (event.getTypeInt() == Event.ONKEYDOWN) {
 			NativeEvent nativeEvent = event.getNativeEvent();
@@ -90,20 +92,24 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 		}
 	}
 
+	@Override
 	public void ensureEditing() {
 		this.setFocus(true);
 
 	}
 
+	@Override
 	public void setFocus(boolean b, boolean sv) {
 		this.setFocus(b);
 	}
 
+	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		return false;
 	}

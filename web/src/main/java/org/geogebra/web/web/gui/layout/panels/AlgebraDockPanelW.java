@@ -64,6 +64,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 			algebrap.addStyleName("algebraPanel");
 			algebrap.addDomHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					int bt = simplep.getAbsoluteTop()
 							+ simplep.getOffsetHeight();

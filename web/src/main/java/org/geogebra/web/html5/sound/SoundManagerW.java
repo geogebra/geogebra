@@ -22,10 +22,12 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		// getMidiSound().setListener(this);
 	}
 
+	@Override
 	public void pauseResumeSound(boolean b) {
 		FunctionSoundW.INSTANCE.pause(b);
 	}
 
+	@Override
 	public void playSequenceNote(int note, double duration, int instrument,
 			int velocity) {
 
@@ -34,15 +36,18 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		// duration);
 	}
 
+	@Override
 	public void playSequenceFromString(String string, int double1) {
 		Log.debug("playSequenceFromString");
 
 	}
 
+	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max) {
 		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max);
 	}
 
+	@Override
 	public void playFile(String url0) {
 		String url = url0;
 		// eg PlaySound["#12345"] to play material 12345 from GeoGebraTube
@@ -85,6 +90,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		// getMidiSound().stop();
 	}
 
+	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
 		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max, sampleRate,
@@ -115,7 +121,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	public void onInfo(String msg) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true,
-				(AppW) app);
+				app);
 
 	}
 	

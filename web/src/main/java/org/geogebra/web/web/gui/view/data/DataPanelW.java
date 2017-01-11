@@ -44,6 +44,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 			this.index = index;
 		}
 		
+		@Override
 		public void onClick(ClickEvent event) {
 	        onDataClick(index);
         }
@@ -63,6 +64,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		cbEnableAll = new CheckBox("");
 		cbEnableAll.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				enableAll();
 			}
@@ -95,10 +97,12 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	}
 
+	@Override
 	public void setLabels() {
 		lblHeader.setText(loc.getMenu("Data"));
 	}
 
+	@Override
 	public void updatePanel() {
 //		setRowHeight();
 	}
@@ -291,6 +295,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		return true;
 	}
 
+	@Override
 	public void onResize() {
 	    scrollPane.setHeight(getOffsetHeight() - lblHeader.getOffsetHeight() + "px");
     }

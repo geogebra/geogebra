@@ -104,6 +104,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		settingsChanged(settings());
 
 		this.spreadsheet.addDomHandler(new TouchStartHandler() {
+			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				if (event.getTouches().length() > 1) {
 					Touch t0 = event.getTouches().get(0);
@@ -118,6 +119,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}, TouchStartEvent.getType());
 
 		this.spreadsheet.addDomHandler(new TouchMoveHandler() {
+			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				if (event.getTouches().length() > 1) {
 					Touch t0 = event.getTouches().get(0);
@@ -169,10 +171,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// getters/setters
 	// ===============================================================
 
+	@Override
 	public AppW getApplication() {
 		return app;
 	}
 
+	@Override
 	public MyTableInterface getSpreadsheetTable() {
 		return table;
 	}
@@ -181,14 +185,17 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * public JViewport getRowHeader() { return spreadsheet.getRowHeader(); }
 	 */
 
+	@Override
 	public void rowHeaderRevalidate() {
 		// TODO//spreadsheet.getRowHeader().revalidate();
 	}
 
+	@Override
 	public void columnHeaderRevalidate() {
 		// TODO//spreadsheet.getColumnHeader().revalidate();
 	}
 
+	@Override
 	public int getMode() {
 		return mode;
 	}
@@ -219,6 +226,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// kernel.notifyRemoveAll(this);
 	}
 
+	@Override
 	public void add(GeoElement geo) {
 
 		// Application.debug(new Date() + " ADD: " + geo);
@@ -229,6 +237,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// scheduleRepaint();
 	}
 
+	@Override
 	public void scrollIfNeeded(GeoElement geo, String labelNew) {
 		GPoint location = geo.getSpreadsheetCoords();
 
@@ -247,6 +256,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
+	@Override
 	public void remove(GeoElement geo) {
 		// Application.debug(new Date() + " REMOVE: " + geo);
 		// table.setRepaintAll();
@@ -280,6 +290,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.renderSelectionDeferred();
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 
 		/*
@@ -291,10 +302,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		 */
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// ignore
 	}
 
+	@Override
 	public void repaintView() {
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			getApplication().ensureTimerRunning();
@@ -302,6 +315,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
+	@Override
 	public void clearView() {
 
 		// restore defaults;
@@ -313,6 +327,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	/** Respond to changes in mode sent by GUI manager */
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		if (m != ModeSetter.TOOLBAR) {
 			return;
@@ -366,11 +381,14 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	/** Resets spreadsheet after undo/redo call. */
+	@Override
 	public void reset() {
-		if (app.getTraceManager() != null)
+		if (app.getTraceManager() != null) {
 			app.getTraceManager().loadTraceGeoCollection();
+		}
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 
 		// table.setRepaintAll();
@@ -408,10 +426,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		}
 	}
 
+	@Override
 	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
@@ -435,6 +455,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// Tracing
 	// =====================================================
 
+	@Override
 	public void showTraceDialog(GeoElement geo, CellRange traceCell) {
 
 		// not implemented yet
@@ -508,9 +529,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			for (int col = 1; col < table.getColumnCount(); col++) {
 				int colWidth = table.getColumnWidth(col - 1);
 				// if (colWidth != DEFAULT_COLUMN_WIDTH)
-				if (colWidth != table.preferredColumnWidth)
+				if (colWidth != table.preferredColumnWidth) {
 					sb.append("\t<spreadsheetColumn id=\"" + (col - 1)
 					        + "\" width=\"" + colWidth + "\"/>\n");
+				}
 			}
 
 			// row heights
@@ -520,9 +542,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 				if (rowHeight != table.minimumRowHeight
 				// FIXME: temporarily, otherwise
 				// table.getRowHeight()
-				)
+				) {
 					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
 					        + rowHeight + "\"/>\n");
+				}
 			}
 
 			// initial selection
@@ -628,8 +651,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		 */
 
 		// cell formats
-		if (!asPreference)
+		if (!asPreference) {
 			table.getCellFormatHandler().getXML(sb);
+		}
 
 		sb.append("</spreadsheetView>\n");
 
@@ -888,9 +912,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 
 
+	@Override
 	public void updateCellFormat(String cellFormat) {
-		if (!allowSettingUpdate)
+		if (!allowSettingUpdate) {
 			return;
+		}
 
 		settings().removeListener(this);
 		settings().setCellFormat(cellFormat);
@@ -909,8 +935,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 */
 
 	protected void updateRowHeightSetting(int row, int height) {
-		if (!allowSettingUpdate)
+		if (!allowSettingUpdate) {
 			return;
+		}
 
 		settings().removeListener(this);
 		settings().getHeightMap().put(row, height);
@@ -918,8 +945,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	protected void updatePreferredRowHeight(int preferredRowHeight) {
-		if (!allowSettingUpdate)
+		if (!allowSettingUpdate) {
 			return;
+		}
 
 		settings().removeListener(this);
 		settings().getHeightMap().clear();
@@ -928,8 +956,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	protected void updateColumnWidth(int col, int colWidth) {
-		if (!allowSettingUpdate)
+		if (!allowSettingUpdate) {
 			return;
+		}
 
 		settings().removeListener(this);
 		settings().getWidthMap().put(col, colWidth);
@@ -937,8 +966,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	protected void updatePreferredColumnWidth(int colWidth) {
-		if (!allowSettingUpdate)
+		if (!allowSettingUpdate) {
 			return;
+		}
 
 		settings().removeListener(this);
 		settings().getWidthMap().clear();
@@ -964,11 +994,13 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return app.getSettings().getSpreadsheet();
 	}
 
+	@Override
 	public void settingsChanged(AbstractSettings settings0) {
 		Scheduler.get().scheduleDeferred(deferredSettingsChanged);
 	}
 
 	Scheduler.ScheduledCommand deferredSettingsChanged = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			settingsChangedCommand();
 		}
@@ -1071,6 +1103,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			spreadsheetWrapper.setFocus(true);
 			table.updateCopiableSelection();
@@ -1079,6 +1112,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// test all components of SpreadsheetView for hasFocus
 	// @Override
+	@Override
 	public boolean hasFocus() {
 		return ((DockManagerW) app.getGuiManager().getLayout().getDockManager())
 		        .getFocusedViewId() == App.VIEW_SPREADSHEET;
@@ -1101,10 +1135,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 * }
 	 */
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_SPREADSHEET;
 	}
 
+	@Override
 	public boolean isShowing() {
 		// if this is attached, we shall make sure its parents are visible too
 		return spreadsheetWrapper.isVisible()
@@ -1132,6 +1168,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	/**
 	 * timer system suggests a repaint
 	 */
+	@Override
 	public boolean suggestRepaint() {
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			return false;
@@ -1162,6 +1199,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	Scheduler.ScheduledCommand scheduleRepaintCommand = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			repaintScheduled = false;
 			repaintView();
@@ -1176,11 +1214,13 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// return this;
 	// }
 
+	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
@@ -1224,6 +1264,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	}
 
+	@Override
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
 		// pPanel.add(table.);
 	}
@@ -1232,6 +1273,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return keyboardEnabled;
 	}
 
+	@Override
 	public void setKeyboardEnabled(boolean b) {
 		keyboardEnabled = b;
 	}

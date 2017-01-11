@@ -45,6 +45,7 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 		setWidget(centerPanel);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == btCancel) {
 			hideAndFocus();

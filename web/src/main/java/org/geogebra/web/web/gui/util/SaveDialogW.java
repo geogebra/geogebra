@@ -145,6 +145,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
+			@Override
 			public void onClose(final CloseEvent<GPopupPanel> event) {
 				handleClose();
 			}
@@ -634,6 +635,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.setAnimationEnabled(false);
 		super.show();
 		app.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				position();
 			}
@@ -669,6 +671,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			this.saveButton.setEnabled(false);
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
 			public void execute() {
 				title.setFocus(true);
 			}

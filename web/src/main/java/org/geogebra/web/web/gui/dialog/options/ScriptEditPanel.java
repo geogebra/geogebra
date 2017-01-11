@@ -94,10 +94,12 @@ class ScriptEditPanel extends OptionPanel {
 		updateDialog.setGeo(geo);
 		globalDialog.setGlobal();
 		tabbedPane.clear();
-		if (geo.canHaveClickScript())
+		if (geo.canHaveClickScript()) {
 			tabbedPane.add(clickScriptPanel, loc.getPlain("OnClick"));
-		if (geo.canHaveUpdateScript())
+		}
+		if (geo.canHaveUpdateScript()) {
 			tabbedPane.add(updateScriptPanel, loc.getPlain("OnUpdate"));
+		}
 		tabbedPane.add(globalScriptPanel, loc.getPlain("GlobalJavaScript"));
 
 		// select tab as before

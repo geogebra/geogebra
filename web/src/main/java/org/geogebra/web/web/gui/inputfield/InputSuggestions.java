@@ -40,6 +40,7 @@ public class InputSuggestions implements HasSuggestions {
 	}
 
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
+		@Override
 		public void onSuggestionsReady(SuggestOracle.Request req,
 				SuggestOracle.Response res) {
 			updateSuggestions(res);
@@ -48,6 +49,7 @@ public class InputSuggestions implements HasSuggestions {
 	};
 
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
+		@Override
 		public void onSuggestionSelected(Suggestion s) {
 
 			String sugg = s.getReplacementString();
@@ -113,6 +115,7 @@ public class InputSuggestions implements HasSuggestions {
 
 	}
 
+	@Override
 	public double getMaxSuggestionsHeight() {
 		double ret = (app.getHeight() / 2);
 		if (component != null) {

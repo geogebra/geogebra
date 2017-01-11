@@ -69,6 +69,7 @@ public class MathQuillProcessing implements KeyboardListener {
 		needsLeftParenthesis.add("th");
 	}
 
+	@Override
 	public void updateForNewLanguage(KeyboardLocale loc) {
 		needsLeftParenthesis.clear();
 		initNeedsLeftParenthesis();
@@ -176,6 +177,7 @@ public class MathQuillProcessing implements KeyboardListener {
 		return field.resetAfterEnter();
 		}
 
+	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// TODO Auto-generated method stub
 
@@ -197,15 +199,18 @@ public class MathQuillProcessing implements KeyboardListener {
 				|| text.equals(Unicode.DIVIDE);
 	}
 
+	@Override
 	public boolean isSVCell() {
 		return false;
 	}
 
+	@Override
 	public void endEditing() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public EquationEditorListener getField() {
 		return field;
 	}

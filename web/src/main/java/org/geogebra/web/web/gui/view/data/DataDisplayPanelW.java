@@ -184,6 +184,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		btnOptions.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				actionPerformed(btnOptions);
 			}
@@ -277,6 +278,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	/**
 	 * Sets the labels to the current language
 	 */
+	@Override
 	public void setLabels() {
 
 		createDisplayTypeComboBox();
@@ -303,6 +305,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			lbDisplayType = new ListBox();
 			lbDisplayType.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					actionPerformed(lbDisplayType);
 				}
@@ -362,6 +365,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		sliderNumClasses.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
 				fldNumClasses.setText(("" + getModel().getSettings()
@@ -389,18 +393,21 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		minus.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				actionPerformed(minus);
 			}
 		});
 
 		none.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				actionPerformed(none);
 			}
 		});
 
 		plus.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				actionPerformed(plus);
 			}
@@ -432,6 +439,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 				lblWidth, fldWidth));
 		fldStart.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldStart);
 			}
@@ -439,6 +447,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		fldStart.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					actionPerformed(fldStart);
@@ -448,6 +457,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		fldWidth.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldWidth);
 			}
@@ -455,6 +465,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		fldWidth.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					actionPerformed(fldWidth);
@@ -469,7 +480,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		MenuItem miToGraphich = new MenuItem(loc.getMenu("CopyToGraphics"),
 		        new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 				        exportToEV();
 			        }
 		});
@@ -481,7 +493,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 					loc.getPlain("ExportAsPicture"),
 			        new Command() {
 
-				        public void execute() {
+				        @Override
+						public void execute() {
 				        	exportAsPicture();
 				        }
 			});
@@ -523,16 +536,19 @@ public class DataDisplayPanelW extends FlowPanel implements
 		daView.updateOtherDataDisplay(this);
     }
 
+	@Override
 	public void showControlPanel() {
 		controlDecks.showWidget(EMPTY_IDX);
 	}
 
+	@Override
 	public void setOptionsButtonVisible() {
 		btnOptions.setVisible(true);
 		btnExport.setVisible(true);
 		plotPanel.updateSize();
 	}
 
+	@Override
 	public void showInvalidDataDisplay() {
 		//		imageContainer.setIcon(null);
 		displayDeckPanel.showWidget(IMAGE_IDX);
@@ -618,15 +634,18 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 
+	@Override
 	public void updatePanel() {
 		//
 	}
 
+	@Override
 	public void addDisplayTypeItem(PlotType type) {
 		lbDisplayType.addItem(loc.getMenu(type.getKey()));
 		plotTypes.add(type);
 	}
 
+	@Override
 	public void updateScatterPlot() {
 		if (!daModel.isRegressionMode()) {
 			return;
@@ -644,15 +663,18 @@ public class DataDisplayPanelW extends FlowPanel implements
 		
 	}
 
+	@Override
 	public void updateFrequencyTable() {
 		plotPanelSouth.add(spFrequencyTable);
 		metaPlotPanel.add(plotPanelSouth);
 	}
 
+	@Override
 	public void setSelectedType(PlotType type) {
 		lbDisplayType.setSelectedIndex(plotTypes.indexOf(type));
 	}
 
+	@Override
 	public void setTableFromGeoFrequencyTable(
 			AlgoFrequencyTable parentAlgorithm, boolean b) {
 		Log.debug("setTableFromGeoFrequencyTable");
@@ -660,6 +682,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		resize(false);
 	}
 
+	@Override
 	public void removeFrequencyTable() {
 		Log.debug("removeFrequencyTable");
 		plotPanelSouth.remove(spFrequencyTable);
@@ -667,24 +690,29 @@ public class DataDisplayPanelW extends FlowPanel implements
 		resize(false);
 	}
 
+	@Override
 	public void updatePlotPanelSettings() {
 		plotPanel.commonFields.updateSettings(plotPanel, getModel()
 				.getSettings());
 	}
 
+	@Override
 	public void showManualClassesPanel() {
 		controlDecks.showWidget(MANUAL_CLASSES_IDX);
 	}
 
+	@Override
 	public void showNumClassesPanel() {
 		controlDecks.showWidget(NUM_CLASSES_IDX);
 	}
 
+	@Override
 	public void showPlotPanel() {
 		displayDeckPanel.showWidget(METAPLOT_IDX);
 	}
 	
 
+	@Override
 	public void updateStemPlot(String latex) {
 		btnOptions.setVisible(false);
 		btnExport.setVisible(false);
@@ -700,6 +728,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	}
 
+	@Override
 	public void updateXYTitles(boolean isPointList, boolean isLeftToRight) {
 
 		if (isPointList) {
@@ -716,6 +745,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 	}
 
+	@Override
 	public void geoToPlotPanel(GeoElement listGeo) {
 		listGeo.addView(plotPanel.getViewID());
 		plotPanel.add(listGeo);
@@ -753,6 +783,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 				this.value.put(key, value);
 			}
 
+			@Override
 			public void execute() {
 				Integer euclidianViewID = (Integer) this
 						.getValue("euclidianViewID");
@@ -823,10 +854,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 	    resize(getOffsetWidth(), getOffsetHeight(), update);
     }
 
+	@Override
 	public void resize() {
 	    resize(true);
     }
 
+	@Override
 	public void onResize() {
 		resize(true);  
     }

@@ -105,8 +105,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      */
     public void setModel(T model) {
         if (model != null && this.model != model) {
-            if (this.model != null)
-                this.model.removeListModelListener(this);
+            if (this.model != null) {
+				this.model.removeListModelListener(this);
+			}
             this.model = model;
             this.model.addListModelListener(this);
             prepareSelectedValue();
@@ -119,10 +120,12 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @param listItemFactory Value to set for property 'listItemFactory'.
      */
     public void setListItemFactory(ListItemFactory listItemFactory) {
-        if (listItemFactory != null)
-            this.listItemFactory = listItemFactory;
-        if (isListPanelOpened())
-            getListPanel().prepareList();
+        if (listItemFactory != null) {
+			this.listItemFactory = listItemFactory;
+		}
+        if (isListPanelOpened()) {
+			getListPanel().prepareList();
+		}
     }
 
     @Override
@@ -186,8 +189,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @return Value for property 'listItemFactory'.
      */
     public ListItemFactory getListItemFactory() {
-        if (listItemFactory == null)
-            listItemFactory = new DefaultListItemFactory();
+        if (listItemFactory == null) {
+			listItemFactory = new DefaultListItemFactory();
+		}
         return listItemFactory;
     }
 
@@ -330,10 +334,11 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @param opened <code>true</code> means "show".
      */
     public void setListPopupOpened(boolean opened) {
-        if (opened)
-            getListPanel().show();
-        else
-            getListPanel().hide();
+        if (opened) {
+			getListPanel().show();
+		} else {
+			getListPanel().hide();
+		}
     }
 
     /**
@@ -344,8 +349,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
     public Widget getSelectedWidget() {
         if (isListPanelOpened() && getModel().getSelectedIndex() >= 0) {
             FlowPanel list = getListPanel().getList();
-            if (list.getWidgetCount() > getModel().getSelectedIndex())
-                return list.getWidget(getModel().getSelectedIndex());
+            if (list.getWidgetCount() > getModel().getSelectedIndex()) {
+				return list.getWidget(getModel().getSelectedIndex());
+			}
             return null;
         }
 		return null;
@@ -417,10 +423,12 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      */
     public void showList(boolean prepareList) {
         getListPanel().show();
-        if (prepareList)
-            getListPanel().prepareList();
-        if (getItemCount() <= 0)
-            getListPanel().hide();
+        if (prepareList) {
+			getListPanel().prepareList();
+		}
+        if (getItemCount() <= 0) {
+			getListPanel().hide();
+		}
     }
 
     /**
@@ -430,16 +438,19 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      */
     public void moveCursor(int step) {
         int row = getListPanel().getHighlightRow();
-        if (step == 0 || row + step < 0 || row + step >= getItemCount())
-            return;
+        if (step == 0 || row + step < 0 || row + step >= getItemCount()) {
+			return;
+		}
 
         row += step;
 
         if (row != getListPanel().getHighlightRow()) {
-            if (row >= getModel().getCount())
-                row = getModel().getCount() - 1;
-            if (row < 0)
-                row = 0;
+            if (row >= getModel().getCount()) {
+				row = getModel().getCount() - 1;
+			}
+            if (row < 0) {
+				row = 0;
+			}
 
             getListPanel().setHighlightRow(row);
             Widget item = getListPanel().getList().getWidget(row);
@@ -599,8 +610,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
                     }
                 } else {
                     getListPanel().prepareList();
-                    if (getItemCount() <= 0)
-                        getListPanel().hide();
+                    if (getItemCount() <= 0) {
+						getListPanel().hide();
+					}
                 }
             }
         }
@@ -628,8 +640,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             for (Map.Entry<String, Integer> entry : event.getItemIndexes().entrySet()) {
                 if (entry.getValue() < getListPanel().getList().getWidgetCount()) {
                     getListPanel().remove(getListPanel().getList().getWidget(entry.getValue()));
-                    if (getListPanel().getList().getWidgetCount() <= 0)
-                        getListPanel().hide();
+                    if (getListPanel().getList().getWidgetCount() <= 0) {
+						getListPanel().hide();
+					}
                 }
             }
         }
@@ -712,8 +725,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @return Value for property 'delegateHandler'.
      */
     protected DelegateHandler getDelegateHandler() {
-        if (delegateHandler == null)
-            delegateHandler = new DelegateHandler();
+        if (delegateHandler == null) {
+			delegateHandler = new DelegateHandler();
+		}
         return delegateHandler;
     }
 
@@ -723,8 +737,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @return an instance of the manager.
      */
     protected ComboBoxKeyboardManager getKeyboardManager() {
-        if (keyboardManager == null)
-            keyboardManager = new ComboBoxKeyboardManager();
+        if (keyboardManager == null) {
+			keyboardManager = new ComboBoxKeyboardManager();
+		}
         return keyboardManager;
     }
 
@@ -738,8 +753,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
         @Override
         public void onBlur(BlurEvent event) {
-            if (!isFocus())
-                return;
+            if (!isFocus()) {
+				return;
+			}
 
             if (keyboardManagerRegistration != null) {
                 keyboardManagerRegistration.removeHandler();
@@ -750,11 +766,13 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             getFocuses().remove(sender);
 
 			AutoCompleteTextFieldW value = getSelectedValue();
-            if (sender == value && !isCustomTextAllowed())
-                value.removeStyleName("selected-row");
+            if (sender == value && !isCustomTextAllowed()) {
+				value.removeStyleName("selected-row");
+			}
 
-			if (!isFocus())
-                fireEvent(event);
+			if (!isFocus()) {
+				fireEvent(event);
+			}
         }
 
         @Override
@@ -762,25 +780,29 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             Object sender = event.getSource();
             getFocuses().add(sender);
 
-            if (keyboardManagerRegistration == null)
-                keyboardManagerRegistration = Event.addNativePreviewHandler(getKeyboardManager());
+            if (keyboardManagerRegistration == null) {
+				keyboardManagerRegistration = Event.addNativePreviewHandler(getKeyboardManager());
+			}
 
 			AutoCompleteTextFieldW value = getSelectedValue();
             if (sender == value) {
                 if (!isCustomTextAllowed()) {
                     value.addStyleName("selected-row");
-                    if (isChoiceButtonVisible())
-                        getChoiceButton().setFocus(true);
+                    if (isChoiceButtonVisible()) {
+						getChoiceButton().setFocus(true);
+					}
                 }
 
             } else if (sender == null || sender == getListPanel()) { //on drop down list show
                 Widget widget = getSelectedWidget();
-                if (widget != null)
-                    getListPanel().ensureVisible(widget);
+                if (widget != null) {
+					getListPanel().ensureVisible(widget);
+				}
             }
 
-			if (focuses.size() == 1)
-                fireEvent(event);
+			if (focuses.size() == 1) {
+				fireEvent(event);
+			}
         }
 
         @Override
@@ -802,8 +824,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
                 if (count > 0 && !getListPanel().isShowing()) {
 					getListPanel().prepareList();
                     getListPanel().show();
-                    if (getItemCount() <= 0)
-                        getListPanel().hide();
+                    if (getItemCount() <= 0) {
+						getListPanel().hide();
+					}
                     getChoiceButton().setDown(true);
                 } else {
                     getListPanel().hide();
@@ -832,8 +855,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		 * @return set of focuses
 		 */
         protected Set<Object> getFocuses() {
-            if (focuses == null)
-                focuses = new HashSet<Object>();
+            if (focuses == null) {
+				focuses = new HashSet<Object>();
+			}
             return focuses;
         }
 
@@ -860,16 +884,18 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
         public void onPreviewNativeEvent(Event.NativePreviewEvent event) {
             NativeEvent nativeEvent = event.getNativeEvent();
             EventTarget eventTarget = nativeEvent.getEventTarget();
-            if (!Element.is(eventTarget)) //chrome fix
-                return;
+            if (!Element.is(eventTarget)) {
+				return;
+			}
 
 			Element target = Element.as(eventTarget);
 
             int type = event.getTypeInt();
             if (type == Event.ONKEYDOWN) {
                 setKeyPressed(true);
-                if (DOM.getCaptureElement() != null)
-                    return;
+                if (DOM.getCaptureElement() != null) {
+					return;
+				}
 
                 boolean eventTargetsPopup = (target != null)
 						&& getElement().isOrHasChild(target);

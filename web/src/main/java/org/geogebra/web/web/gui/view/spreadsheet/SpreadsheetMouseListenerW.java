@@ -75,6 +75,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		longTouchManager = LongTouchManager.getInstance();
 	}
 	
+	@Override
 	public void handleLongTouch(int x, int y) {
 	    showContextMenu(x, y);
 	}
@@ -106,6 +107,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return new GPoint(getAbsoluteX(event), getAbsoluteY(event));
 	}
 
+	@Override
 	public void onDoubleClick(DoubleClickEvent doubleClickEvent) {
 		if (!editEnabled) {
 			return;
@@ -143,6 +145,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		table.setAllowEditing(false);
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent mouseDownEvent) {
 		focusKeyDispatcher();
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -157,6 +160,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		}
 	}
 
+	@Override
 	public void onTouchStart(TouchStartEvent touchStartEvent) {
 		focusKeyDispatcher();
 		numberOfTouches = touchStartEvent.getTouches().length();
@@ -297,6 +301,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return isInsideCurrentSelection(point) && singleCellSelected();
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -304,6 +309,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		handlePointerUp(event);
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		numberOfTouches = event.getChangedTouches().length();
@@ -448,6 +454,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		table.isDragging = false;
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		numberOfTouches = event.getTouches().length();
 		if (numberOfTouches == 1) {
@@ -463,6 +470,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		CancelEventTimer.touchEventOccured();
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
@@ -581,8 +589,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							rowOffset = mouseY - (int) selRect.getY();
 							if (-rowOffset < 0.5 * table.getCellRect(
 							        table.minSelectionRow - 1,
-							        table.minSelectionColumn, true).getHeight())
+							        table.minSelectionColumn, true).getHeight()) {
 								rowOffset = 0;
+							}
 						} else if (table.maxSelectionRow < app
 								.getMaxSpreadsheetRowsVisible()
 						        && table.dragingToRow > table.maxSelectionRow) {
@@ -591,8 +600,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							                .getHeight());
 							if (rowOffset < 0.5 * table.getCellRect(
 							        table.maxSelectionRow + 1,
-							        table.maxSelectionColumn, true).getHeight())
+							        table.maxSelectionColumn, true).getHeight()) {
 								rowOffset = 0;
+							}
 						}
 
 						// get column distance
@@ -602,8 +612,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							if (-colOffset < 0.5 * table.getCellRect(
 							        table.minSelectionRow,
 							        table.minSelectionColumn - 1, true)
-							        .getWidth())
+							        .getWidth()) {
 								colOffset = 0;
+							}
 						} else if (table.maxSelectionColumn < app
 								.getMaxSpreadsheetColumnsVisible()
 						        && table.dragingToColumn > table.maxSelectionColumn) {
@@ -613,8 +624,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							if (colOffset < 0.5 * table.getCellRect(
 							        table.maxSelectionRow,
 							        table.maxSelectionColumn + 1, true)
-							        .getWidth())
+							        .getWidth()) {
 								colOffset = 0;
+							}
 						}
 
 						if (rowOffset == 0 && colOffset == 0) {
@@ -642,8 +654,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				}
 			}
 
-			if (eConsumed)
+			if (eConsumed) {
 				return;
+			}
 
 			// MyTable's default listeners follow, they should be simulated in
 			// Web e.g. here
@@ -662,8 +675,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		} else {
 			// MOVE, NO DRAG
 
-			if (table.isEditing())
+			if (table.isEditing()) {
 				return;
+			}
 
 			// get GeoElement at mouse location
 			int row = point.getY();// ?//table.rowAtPoint(e.getPoint());

@@ -87,6 +87,7 @@ public abstract class FileManager implements FileManagerI {
 		this.app = app;
 	}
 
+	@Override
 	public abstract void delete(final Material mat, boolean permanent,
 	        Runnable onSuccess);
 
@@ -170,6 +171,7 @@ public abstract class FileManager implements FileManagerI {
 	 * @param query
 	 *            String
 	 */
+	@Override
 	public void search(final String query) {
 		getFiles(MaterialFilter.getSearchFilter(query));
 	}
@@ -177,6 +179,7 @@ public abstract class FileManager implements FileManagerI {
 	/**
 	 * adds the files from the current user to the {@link BrowseGUI}
 	 */
+	@Override
 	public void getUsersMaterials() {
 		getFiles(MaterialFilter.getUniversalFilter());
 		// getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
@@ -318,6 +321,7 @@ public abstract class FileManager implements FileManagerI {
 
 	}
 
+	@Override
 	public void getFromTube(final int id, final boolean fromAnotherDevice) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(id + "", new MaterialCallback() {
@@ -484,6 +488,7 @@ public abstract class FileManager implements FileManagerI {
 	 */
 	public abstract void setTubeID(String localKey, Material mat);
 
+	@Override
 	public boolean shouldKeep(int id) {
 		return true;
 	}
@@ -499,10 +504,12 @@ public abstract class FileManager implements FileManagerI {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
+	@Override
 	public void setFileProvider(Provider provider) {
 		this.provider = provider;
 	}
 
+	@Override
 	public Provider getFileProvider() {
 		return this.provider;
 	}
@@ -534,6 +541,7 @@ public abstract class FileManager implements FileManagerI {
 		return this.app;
 	}
 
+	@Override
 	public final boolean save(AppW appw) {
 		if (this.provider == Provider.LOCAL) {
 			((DialogManagerW) appw.getDialogManager()).showSaveDialog();
@@ -554,10 +562,12 @@ public abstract class FileManager implements FileManagerI {
 		return true;
 	}
 
+	@Override
 	public boolean isSyncing() {
 		return this.notDownloadedFileCount > 0 || this.notSyncedFileCount > 0;
 	}
 
+	@Override
 	public native void nativeShare(String base64, String title)/*-{
 		if ($wnd.android) {
 			$wnd.android.share(base64, title, 'ggb');

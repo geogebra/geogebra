@@ -240,6 +240,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		return menu == perspectivesMenu || menu == viewMenu;
 	}
 
+	@Override
 	public void render(boolean online) {
 		if(!app.enableFileFeatures()){
 			return;

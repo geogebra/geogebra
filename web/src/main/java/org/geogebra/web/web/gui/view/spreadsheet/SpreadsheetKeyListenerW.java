@@ -40,6 +40,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 	}
 
+	@Override
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 			"missing break is deliberate" })
 	public void onKeyDown(KeyDownEvent e) {
@@ -76,14 +77,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				if (model.getValueAt(row, column) != null) {
 					// move to top of current "block"
 					// if shift pressed, select cells too
-					while (row > 0 && model.getValueAt(row - 1, column) != null)
+					while (row > 0 && model.getValueAt(row - 1, column) != null) {
 						row--;
+					}
 					table.changeSelection(row, column, 
 					        e.isShiftKeyDown());
 				} else {
 					// move up to next defined cell
-					while (row > 0 && model.getValueAt(row - 1, column) == null)
+					while (row > 0 && model.getValueAt(row - 1, column) == null) {
 						row--;
+					}
 					table.changeSelection(Math.max(0, row - 1), column, false);
 
 				}
@@ -117,14 +120,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					// move to left of current "block"
 					// if shift pressed, select cells too
 					while (column > 0
-					        && model.getValueAt(row, column - 1) != null)
+					        && model.getValueAt(row, column - 1) != null) {
 						column--;
+					}
 					table.changeSelection(row, column, e.isShiftKeyDown());
 				} else {
 					// move left to next defined cell
 					while (column > 0
-					        && model.getValueAt(row, column - 1) == null)
+					        && model.getValueAt(row, column - 1) == null) {
 						column--;
+					}
 					table.changeSelection(row, Math.max(0, column - 1), false);
 				}
 
@@ -167,14 +172,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					// move to bottom of current "block"
 					// if shift pressed, select cells too
 					while (row < table.getRowCount() - 1
-					        && model.getValueAt(row + 1, column) != null)
+					        && model.getValueAt(row + 1, column) != null) {
 						row++;
+					}
 					table.changeSelection(row, column, e.isShiftKeyDown());
 				} else {
 					// move down to next selected cell
 					while (row < table.getRowCount() - 1
-					        && model.getValueAt(row + 1, column) == null)
+					        && model.getValueAt(row + 1, column) == null) {
 						row++;
+					}
 					table.changeSelection(
 					        Math.min(table.getRowCount() - 1, row + 1), column,
 					        e.isShiftKeyDown());
@@ -228,15 +235,19 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			// if shift pressed, select cells too
 
 			// find rectangle that will contain all cells
-			for (int c = 0; c < table.getColumnCount() - 1; c++)
-				for (int r = 0; r < table.getRowCount() - 1; r++)
+			for (int c = 0; c < table.getColumnCount() - 1; c++) {
+				for (int r = 0; r < table.getRowCount() - 1; r++) {
 					if ((r > row || c > column)
 					        && model.getValueAt(r, c) != null) {
-						if (r > row)
+						if (r > row) {
 							row = r;
-						if (c > column)
+						}
+						if (c > column) {
 							column = c;
+						}
 					}
+				}
+			}
 			table.changeSelection(row, column, e.isShiftKeyDown());
 
 			// e.consume();
@@ -270,14 +281,16 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					// move to bottom of current "block"
 					// if shift pressed, select cells too
 					while (column < table.getColumnCount() - 1
-					        && model.getValueAt(row, column + 1) != null)
+					        && model.getValueAt(row, column + 1) != null) {
 						column++;
+					}
 					table.changeSelection(row, column, e.isShiftKeyDown());
 				} else {
 					// move right to next defined cell
 					while (column < table.getColumnCount() - 1
-					        && model.getValueAt(row, column + 1) == null)
+					        && model.getValueAt(row, column + 1) == null) {
 						column++;
+					}
 					table.changeSelection(row,
 					        Math.min(table.getColumnCount() - 1, column + 1),
 					        false);
@@ -320,8 +333,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// AppD.isControlDown(e)) {
 				kernel.updateConstruction();
 				// e.consume();
-			} else
+			} else {
 				letterOrDigitTyped();
+			}
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the undo
@@ -330,8 +344,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// Application.debug("undo");
 				app.getGuiManager().undo();
 				// e.consume();
-			} else
+			} else {
 				letterOrDigitTyped();
+			}
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the redo
@@ -340,8 +355,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// Application.debug("redo");
 				app.getGuiManager().redo();
 				// e.consume();
-			} else
+			} else {
 				letterOrDigitTyped();
+			}
 			break;
 
 		case GWTKeycodes.KEY_C:// KeyEvent.VK_C:
@@ -361,8 +377,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// e.consume();
 				// Application.debug("deleting...");
 				boolean storeUndo = table.delete();
-				if (storeUndo)
+				if (storeUndo) {
 					app.storeUndoInfo();
+				}
 				return;
 			}
 			break;
@@ -448,15 +465,19 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				row = 0;
 				column = 0;
 				// find rectangle that will contain all defined cells
-				for (int c = 0; c < table.getColumnCount() - 1; c++)
-					for (int r = 0; r < table.getRowCount() - 1; r++)
+				for (int c = 0; c < table.getColumnCount() - 1; c++) {
+					for (int r = 0; r < table.getRowCount() - 1; r++) {
 						if ((r > row || c > column)
 						        && model.getValueAt(r, c) != null) {
-							if (r > row)
+							if (r > row) {
 								row = r;
-							if (c > column)
+							}
+							if (c > column) {
 								column = c;
+							}
 						}
+					}
+				}
 				table.changeSelection(0, 0, false);
 				table.changeSelection(row, column, true);
 
@@ -472,9 +493,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				 */
 			!editor.isEditing() && !(ctrlDown || e.isAltKeyDown())) {
 				letterOrDigitTyped();
-			} else
+			} else {
 				// e.consume();
 				break;
+			}
 
 		}
 
@@ -494,8 +516,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		        table.getSelectedColumn());
 		if (o != null && o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isFixed())
+			if (geo.isFixed()) {
 				return;
+			}
 		}
 
 		model.setValueAt(null, table.getSelectedRow(),
@@ -505,6 +528,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		table.setAllowEditing(false);
 	}
 
+	@Override
 	public void onKeyPress(KeyPressEvent e) {
 
 		// make sure e.g. SHIFT+ doesn't trigger default browser action
@@ -543,12 +567,14 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// make sure that this code runs after the editor has actually been
 		// created
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				// if the user enters something meaningful, spare an additional
 				// entering
 				String str = "";
-				if (charcode > 0)
+				if (charcode > 0) {
 					str = new String(Character.toChars(charcode));
+				}
 
 				Object ce = table.getCellEditor(table.getSelectedRow(),
 				        table.getSelectedColumn());
@@ -605,8 +631,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 	public void onPaste(String text) {
 		boolean storeUndo = table.paste(text);
 		view.rowHeaderRevalidate();
-		if (storeUndo)
+		if (storeUndo) {
 			app.storeUndoInfo();
+		}
 	}
 
 	public void onCopy(final boolean altDown) {
@@ -620,6 +647,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				table.copy(altDown, true);
 			}
@@ -636,10 +664,12 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				boolean storeUndo = table.cut(true);
-				if (storeUndo)
+				if (storeUndo) {
 					app.storeUndoInfo();
+				}
 			}
 		});
 	}

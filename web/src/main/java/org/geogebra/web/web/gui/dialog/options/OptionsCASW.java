@@ -66,12 +66,14 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 
 	}
 
+	@Override
 	public void updateGUI() {
 		showRoots.setValue(app.getSettings().getCasSettings()
 				.getShowExpAsRoots());
 		showNavigation.setValue(app.showConsProtNavigation(App.VIEW_CAS));
     }
 
+	@Override
 	public Widget getWrappedPanel() {
 		return optionsPanel;
     }
@@ -82,6 +84,7 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 	    
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 		actionPerformed(event.getSource());
 
@@ -101,6 +104,7 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 
 	}
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		// TODO Auto-generated method stub
 		return null;

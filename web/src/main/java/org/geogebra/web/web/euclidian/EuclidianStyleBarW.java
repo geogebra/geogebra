@@ -150,8 +150,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// init button-specific fields
 		// TODO: put these in button classes
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
+		}
 
 		lineStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
@@ -189,15 +190,19 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return ev;
 	}
 
+	@Override
 	public void updateButtonPointCapture(int mode) {
 		if (mode > 3) {
 			return;
 		}
 		if (mode == 3 || mode == 0)
+		 {
 			mode = 3 - mode; // swap 0 and 3
+		}
 		btnPointCapture.setSelectedIndex(mode);
 	}
 
+	@Override
 	public void setMode(int mode) {
 
 		if (this.mode == mode) {
@@ -226,10 +231,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return geo.isVisibleInView(ev.getViewID());
 	}
 
+	@Override
 	public void restoreDefaultGeo() {
-		if (oldDefaultGeo != null)
+		if (oldDefaultGeo != null) {
 			oldDefaultGeo = cons.getConstructionDefaults().getDefaultGeo(
 			        oldDefaultMode);
+		}
 	}
 
 	@Override
@@ -254,6 +261,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
+	@Override
 	public void updateStyleBar() {
 		if (!visible) {
 			this.waitingOperation = StyleBarMethod.UPDATE;
@@ -410,6 +418,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		if (activeGeoList != null && activeGeoList.contains(geo)) {
 			if (!visible) {
@@ -461,8 +470,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		add(btnPointStyle);
 
 		// add text decoration buttons
-		if (btnBold.isVisible())
+		if (btnBold.isVisible()) {
 			addSeparator();
+		}
 
 		add(btnBold);
 		add(btnItalic);
@@ -473,8 +483,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		add(btnLabelStyle);
 
-		if (btnFixPosition.isVisible() || btnFixObject.isVisible())
+		if (btnFixPosition.isVisible() || btnFixObject.isVisible()) {
 			addSeparator();
+		}
 
 		add(btnFixPosition);
 		add(btnFixObject);
@@ -613,9 +624,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// ========================================
 		// show grid button
 		ImageOrText[] grids = new ImageOrText[4];
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			grids[i] = GeoGebraIconW
 					.createGridStyleIcon(EuclidianView.getPointStyle(i));
+		}
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
 				SelectionTable.MODE_ICON, ev);
 		btnShowGrid.addPopupHandler(this);
@@ -758,6 +770,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				StyleBarResources.INSTANCE.standard_view());
 		btnStandardView.setIcon(icon);
 		btnStandardView.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				setEvStandardView();
 			}
@@ -824,10 +837,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							}
 						}
 
-						if (hasFillable)
+						if (hasFillable) {
 							setTitle(loc.getMenu("stylebar.ColorTransparency"));
-						else
+						} else {
 							setTitle(loc.getMenu("stylebar.Color"));
+						}
 
 						setSliderVisible(hasFillable);
 
@@ -1095,10 +1109,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// Event Handlers
 	// =====================================================
 
+	@Override
 	public void updateGUI() {
 
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		btnPointCapture.removeActionListener(this);
 		updateButtonPointCapture(ev.getPointCapturingMode());
@@ -1115,6 +1131,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnShowGrid.setSelectedIndex(gridIndex(ev));
 	}
 
+	@Override
 	public void onValueChange(ValueChangeEvent event) {
 		Object source = event.getSource();
 
@@ -1136,8 +1153,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					targetGeos.add(geo);
 				}
 			}
-		} else
+		} else {
 			targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
+		}
 
 		processSource(source, targetGeos);
 
@@ -1181,8 +1199,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		if ((source instanceof Widget)
 		        && (EuclidianStyleBarStatic.processSourceCommon(
-		                getActionCommand((Widget) source), targetGeos, ev)))
+		                getActionCommand((Widget) source), targetGeos, ev))) {
 			return true;
+		}
 
 		// processes btnColor, btnLineStyle and btnPointStyle
 		if (super.processSource(source, targetGeos)) {
@@ -1301,6 +1320,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 	}
 
+	@Override
 	public int getPointCaptureSelectedIndex() {
 		return btnPointCapture.getSelectedIndex();
 	}
@@ -1333,6 +1353,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 	}
 
+	@Override
 	public void resetFirstPaint() {
 		firstPaint = true;
 	}
@@ -1431,6 +1452,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	}
 
+	@Override
 	public void reinit() {
 		// TODO Auto-generated method stub
 

@@ -34,7 +34,8 @@ public class WindowMenuW extends MenuBar{
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 				.empty().getSafeUri().asString(), app.getMenu("NewWindow"), true),
 		        true, new Command() {
-			        public void execute() {
+			        @Override
+					public void execute() {
 						Window.open(Window.Location.getHref(), "_blank", "");
 			        }
 		        });

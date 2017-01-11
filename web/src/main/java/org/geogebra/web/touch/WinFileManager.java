@@ -47,6 +47,7 @@ public class WinFileManager extends FileManager {
 
 	}
 
+	@Override
 	public void saveLoggedOut(AppW app) {
 		((DialogManagerW) app.getDialogManager()).showSaveDialog();
 	}
@@ -281,6 +282,7 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 	
+	@Override
 	public void export(final AppW app) {
 		final String title1 = app.getExportTitle();
 		app.getGgbApi().showTooltip(app.getLocalization().getMenu("Saving"));
@@ -343,6 +345,7 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 	
+	@Override
 	public native void exportImage(String url, String title)/*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android.callPlugin('SaveDialog', [
@@ -350,10 +353,12 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 
+	@Override
 	public boolean hasBase64(Material material) {
 		return true;
 	}
 
+	@Override
 	public void showExportAsPictureDialog(String url, String filename, AppW app) {
 		exportImage(url, filename);
 		// TODO check if it really happened
@@ -361,6 +366,7 @@ public class WinFileManager extends FileManager {
 
 	}
 
+	@Override
 	public void refreshAutosaveTimestamp() {
 		// TODO Auto-generated method stub
 

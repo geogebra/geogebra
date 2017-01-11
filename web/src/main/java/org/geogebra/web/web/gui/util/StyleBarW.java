@@ -74,6 +74,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			menuButton.setIcon(icon);
 	
 			menuButton.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
 						PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
@@ -178,6 +179,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 
 		viewButton.getMyPopup().addCloseHandler(
 				new CloseHandler<GPopupPanel>() {
+					@Override
 					public void onClose(CloseEvent<GPopupPanel> event) {
 				ImageOrText icon = new ImageOrText(AppResources.INSTANCE.dots());
 				viewButton.setFixedIcon(icon);
@@ -228,9 +230,11 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	    }
 	}
 
+	@Override
 	public void setLabels() {
-		if (this.viewButton == null)
+		if (this.viewButton == null) {
 			return;
+		}
 		remove(viewButton);
 		// FIXME ONLY UPDATE TEXT
 		addViewButton();

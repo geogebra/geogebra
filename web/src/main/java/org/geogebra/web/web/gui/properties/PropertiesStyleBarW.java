@@ -116,6 +116,7 @@ public class PropertiesStyleBarW extends
 				final PropertiesButton btn = new PropertiesButton(
 						getMenuHtml(type), new Command() {
 
+					@Override
 					public void execute() {
 						propertiesView.setOptionPanel(type, 0);
 						selectButton(type);

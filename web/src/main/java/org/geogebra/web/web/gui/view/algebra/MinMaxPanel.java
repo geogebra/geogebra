@@ -161,6 +161,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		tfStep.addFocusHandler(new FocusHandler() {
 
+			@Override
 			public void onFocus(FocusEvent event) {
 				if (focusRequested) {
 					event.preventDefault();
@@ -175,6 +176,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		addMouseUpHandler(this);
 		addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 
 				hide();
@@ -196,6 +198,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		lblStep.setText(app.getLocalization().getMenu("Step"));
 	}
@@ -228,6 +231,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.isEnterKey()) {
 			apply();
@@ -267,10 +271,12 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		return value;
 	}
 
+	@Override
 	public void cancel() {
 		hide();
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (isKeepOpen()) {
 			setKeepOpen(false);
@@ -293,6 +299,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
 			return;

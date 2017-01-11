@@ -15,6 +15,7 @@ import com.google.gwt.core.shared.GWT;
 public class PNGImageFactory implements ImageFactory {
 	private static ToolbarResources tb;
 
+	@Override
 	public ToolbarResources getToolbarResources() {
 		if (tb == null) {
 			tb = GWT.create(MyIconResourceBundle.class);
@@ -24,6 +25,7 @@ public class PNGImageFactory implements ImageFactory {
 
 	private static PerspectiveResources pr;
 
+	@Override
 	public PerspectiveResources getPerspectiveResources() {
 		if (pr == null) {
 			pr = GWT.create(PngPerspectiveResources.class);

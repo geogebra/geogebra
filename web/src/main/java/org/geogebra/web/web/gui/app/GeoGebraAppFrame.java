@@ -133,6 +133,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	
 	public static void removeCloseMessage(){
 		Window.addWindowClosingHandler(new Window.ClosingHandler() {
+			@Override
 			public void onWindowClosing(final ClosingEvent event) {
 				event.setMessage(null);
 			}
@@ -145,6 +146,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 //		init();
 		setVisible(false);
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				init();
 				if (app.isExam()
@@ -171,6 +173,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		Log.debug("Callbacks ...");
 		
 		this.addDomHandler(new MouseDownHandler() {
+			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				if(!CancelEventTimer.cancelMouseEvent()){
 					closePopupsAndMaybeMenu(event.getNativeEvent());
@@ -179,6 +182,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		}, MouseDownEvent.getType());
 		
 		this.addDomHandler(new TouchStartHandler() {
+			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				event.stopPropagation();
 				CancelEventTimer.touchEventOccured();
@@ -188,6 +192,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		
 		addDomHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
 				CancelEventTimer.cancelMouseEvent();
@@ -322,6 +327,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	/**
 	 * @return GGWToolbar the Toolbar container
 	 */
+	@Override
 	public GGWToolBar getToolbar() {
 	    return ggwToolBar;
     }
@@ -344,6 +350,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	private boolean[] childVisible = new boolean[0];
 	private boolean isBrowserShowing = false;
 	
+	@Override
 	public void showBrowser(final HeaderPanel bg) {
 		this.isBrowserShowing = true;
 	    final int count = frameLayout.getWidgetCount();
@@ -368,6 +375,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    
     }
 
+	@Override
 	public void hideBrowser(final MyHeaderPanel bg) {
 		this.isBrowserShowing = false;
 		frameLayout.remove(bg);
@@ -402,6 +410,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    return frameLayout.getMenuBar();
     }
 
+	@Override
 	public void setMenuHeight(boolean showAlgebraInput) {
 	   this.frameLayout.setMenuHeight(showAlgebraInput);
     }
@@ -480,12 +489,14 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		return this.frameLayout.keyboardShowing;
 	}
 
+	@Override
 	public void showKeyboardOnFocus() {
 		this.app.getGuiManager().getOnScreenKeyboard(null, frameLayout)
 				.showOnFocus();
 
 	}
 
+	@Override
 	public double getKeyboardHeight() {
 		return this.frameLayout.getKeyboardHeight();
 	}
@@ -494,6 +505,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		return this.frameLayout;
 	}
 
+	@Override
 	public void remove() {
 		this.removeFromParent();
 

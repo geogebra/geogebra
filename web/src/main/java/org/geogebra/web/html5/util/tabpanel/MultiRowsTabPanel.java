@@ -36,6 +36,7 @@ public class MultiRowsTabPanel extends Composite
 		initWidget(panel);
 	}
 
+	@Override
 	public HandlerRegistration addSelectionHandler(
 			SelectionHandler<Integer> selectionHandler) {
 		return addHandler(selectionHandler, SelectionEvent.getType());

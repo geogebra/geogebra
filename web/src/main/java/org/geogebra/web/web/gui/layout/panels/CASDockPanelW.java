@@ -60,6 +60,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 		return getResources().menu_icon_cas();
 	}
 
+	@Override
 	public MathKeyboardListener getKeyboardListener() {
 		return ((CASViewW) ((GuiManagerW) app.getGuiManager()).getCasView())
 				.getEditor();

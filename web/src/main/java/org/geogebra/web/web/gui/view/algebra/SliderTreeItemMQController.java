@@ -136,6 +136,7 @@ public class SliderTreeItemMQController extends RadioTreeItemController
 				&& !isWidgetHit(slider.getMinMaxPanel(), x, y));
 	}
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Double> event) {
 		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
 			slider.getController().stopEdit();

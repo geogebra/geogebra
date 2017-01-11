@@ -59,7 +59,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		MenuItem miShowAllObjectsView = new MenuItem(
 				loc.getMenu("ShowAllObjects"), new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 				        setViewShowAllObject();
 			        }
 
@@ -70,7 +71,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		MenuItem miStandardView = new MenuItem(loc.getMenu("StandardView"),
 		        new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 				        setStandardView();
 			        }
 		        });
@@ -103,7 +105,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				loc.getMenu(name) + " ..."), true,
 		        new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 						showOptionsDialog(type);
 			        }
 		        });
@@ -216,6 +219,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			// get it right!
 			mi = new MenuItem(sb.toString(), new Command() {
 
+				@Override
 				public void execute() {
 					zoom(zoomFactors[index]);
 				}
@@ -238,8 +242,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		// SafeHtmlUtils.fromSafeConstant(MainMenu.getMenuBarHtml(AppResources.INSTANCE.axes().getSafeUri().asString(),
 		// loc.getMenu("Axes")));
 
-		if (app.getGuiManager() == null)
+		if (app.getGuiManager() == null) {
 			return;
+		}
 
 		String htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE
 				.axes().getSafeUri().asString(), loc.getMenu("Axes"));
@@ -267,6 +272,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addNavigationBar() {
 		// Show construction protocol navigation bar checkbox item
 		Command showConstructionStepCommand = new Command() {
+			@Override
 			public void execute() {
 				toggleShowConstructionProtocolNavigation();
 			}
@@ -282,6 +288,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addSeparator();
 	}
 
+	@Override
 	public void actionPerformed(String command) {
 		try {
 			// zoomYaxis(Double.parseDouble(e.getActionCommand()));

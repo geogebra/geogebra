@@ -40,6 +40,7 @@ public class EditorTextField extends GTextBox implements KeyUpHandler {
 		this.target = target;
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent e) {
 		updateTarget();
 	}

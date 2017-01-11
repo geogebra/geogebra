@@ -86,6 +86,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		btnOnlineHelp = new Button(app.getLocalization().getMenu(
 				"ShowOnlineHelp"));
 			btnOnlineHelp.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					openOnlineHelp();
 				}
@@ -101,6 +102,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		// create close button
 		btnClose = new Button(app.getLocalization().getMenu("Close"));
 		btnClose.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				hide();
 			}
@@ -167,6 +169,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
+	@Override
 	public void render(boolean online) {
 		btnOnlineHelp.setEnabled(online);
     }
@@ -213,6 +216,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		        .getInnerText();
 	}
 
+	@Override
 	public void setLabels() {
 
 		setCommands();
@@ -309,6 +313,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			}
 
 			this.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					if (!isLeaf) {
 						item.setState(!item.getState());
@@ -354,6 +359,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			// TODO Auto-generated constructor stub
 		}
 
+		@Override
 		public native int compare(String source, String target) /*-{
 			return source.localeCompare(target);
 		}-*/;

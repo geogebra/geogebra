@@ -60,6 +60,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	}-*/ ;
 
+	@Override
 	public void setScale(double zoom) {
 		setScale(range, zoom);
 	}
@@ -74,6 +75,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		$(range1).slider("values", [ val ]);
 	}-*/;
 
+	@Override
 	public Double getValue() {
 		return getRangeValue(range);
 	}
@@ -98,23 +100,28 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		$(range1).slider("option", prop, val);
 	}-*/;
 
+	@Override
 	public void setMaximum(double max) {
 		setProperty(range, "max", max);
 	}
 
+	@Override
 	public void setMinimum(double min) {
 		setProperty(range, "min", min);
 	}
 
+	@Override
 	public void setStep(double step) {
 		setProperty(range, "step", step);
 	}
 
+	@Override
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<Double> handler) {
 		if (!valueChangeHandlerInitialized) {
 			valueChangeHandlerInitialized = true;
 			addChangeHandler(new ChangeHandler() {
+				@Override
 				public void onChange(ChangeEvent event) {
 					ValueChangeEvent.fire(SliderWJquery.this, getValue());
 				}
@@ -123,10 +130,12 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
+	@Override
 	public void setValue(Double value) {
 		setValue(value, false);
 	}
 
+	@Override
 	public void setValue(Double value, boolean fireEvents) {
 		setRangeValue(range, value);
 	}
@@ -136,6 +145,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	 * }
 	 */
 
+	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
 	}

@@ -178,6 +178,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW implements MouseMoveHandler
 		CancelEventTimer.touchEventOccured();
 	}
 
+	@Override
 	public void onEnd(DomEvent<?> event) {
 
 		int mode = Integer.parseInt(event.getRelativeElement().getAttribute("mode"));

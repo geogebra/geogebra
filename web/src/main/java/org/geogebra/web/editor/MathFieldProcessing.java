@@ -16,21 +16,25 @@ public class MathFieldProcessing implements KeyboardListener {
 		this.mf = mf;
 	}
 
+	@Override
 	public void setFocus(boolean focus) {
 		mf.setFocus(focus);
 
 	}
 
+	@Override
 	public void onEnter() {
 		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_ENTER));
 
 	}
 
+	@Override
 	public void onBackSpace() {
 		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_BACK_SPACE));
 
 	}
 
+	@Override
 	public void onArrow(ArrowType type) {
 		int arrowType = type == ArrowType.left ? KeyEvent.VK_LEFT
 				: KeyEvent.VK_RIGHT;
@@ -39,6 +43,7 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	@Override
 	public void insertString(String text) {
 		if (text.equals(KeyboardConstants.A_POWER_X)) {
 			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '^'));
@@ -54,21 +59,25 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	@Override
 	public void scrollCursorIntoView() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean resetAfterEnter() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// TODO Auto-generated method stub
 
@@ -84,15 +93,18 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	@Override
 	public boolean isSVCell() {
 		return false;
 	}
 
+	@Override
 	public void endEditing() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public MathFieldW getField() {
 		return mf;
 	}

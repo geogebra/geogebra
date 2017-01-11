@@ -116,9 +116,11 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		Button labelIcon = new Button(loc.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				(new UploadImageDialog((AppW) app, ICON_WIDTH, ICON_HEIGHT) {
 
+					@Override
 					public void onClick(ClickEvent ev) {
 						Object source = ev.getSource();
 						if (source == insertBtn) {
@@ -140,6 +142,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		showTool.setValue(true);
 		showTool.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
+			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				showToolChanged();
 			}
@@ -224,8 +227,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	 * 
 	 */
 	private void updateMacro() {
-		if (macro == null)
+		if (macro == null) {
 			return;
+		}
 		//
 		macro.setToolName(getToolName());
 		macro.setToolHelp(getToolHelp());
@@ -294,11 +298,13 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		this.listener = listener;
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		updateCmdName(event.getSource());
 
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		updateCmdName(event.getSource());
 		showToolChanged();
@@ -313,8 +319,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		try {
 			String parsed = app.getKernel().getAlgebraProcessor()
 					.parseLabel(cmdName);
-			if (!parsed.equals(tfCmdName.getText()))
+			if (!parsed.equals(tfCmdName.getText())) {
 				tfCmdName.setText(parsed);
+			}
 		} catch (Error err) {
 			tfCmdName.setText(defaultToolName());
 		} catch (Exception ex) {

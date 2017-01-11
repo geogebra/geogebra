@@ -238,8 +238,10 @@ public class ToolBarW extends FlowPanel
 			}
 		}
 		if (modeToggleMenus.size() > 0)
+		 {
 			modeToggleMenus.get(0).setButtonTabIndex(0);
 			// end of Feature.TOOLBAR_ON_SMALL_SCREENS
+		}
 
 		} else {
 			Vector<ToolbarItem> toolbarVec = getToolbarVec();
@@ -263,8 +265,9 @@ public class ToolBarW extends FlowPanel
 				modeToggleMenus.get(modeToggleMenus.size() - 1).addModes(menu);
 			}
 			 
-			 if (modeToggleMenus.size() > 0)
-			 modeToggleMenus.get(0).setButtonTabIndex(0); 
+			 if (modeToggleMenus.size() > 0) {
+				modeToggleMenus.get(0).setButtonTabIndex(0);
+			} 
 		}
 	}
 
@@ -362,6 +365,7 @@ public class ToolBarW extends FlowPanel
 		return false;
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		// TODO: maybe use CancelEvents.instance?
 		event.stopPropagation();
@@ -429,10 +433,12 @@ public class ToolBarW extends FlowPanel
 		}
     }
 
+	@Override
 	public String getImageURL(int mode) {
 		return GGWToolBar.getImageURL(mode, app);
 	}
 
+	@Override
 	public boolean isMobileToolbar() {
 		return isMobileToolbar;
 	}
@@ -458,6 +464,7 @@ public class ToolBarW extends FlowPanel
 	}
 
 
+	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		setMouseDown(false);
 	}

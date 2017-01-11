@@ -146,19 +146,22 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		        "stylebar.AlignRight"));
 	}
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		Object source = event.getSource();
 		handleEventHandlers(source);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		handleEventHandlers(event.getSource());
 	}
 
 	private void handleEventHandlers(Object source) {
 
-		if (!allowActionPerformed)
+		if (!allowActionPerformed) {
 			return;
+		}
 		
 		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
 
@@ -167,12 +170,13 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 			Integer align = null;
 			if (((MyToggleButton2) source).isSelected()) {
-				if (source == btnLeftAlign)
+				if (source == btnLeftAlign) {
 					align = CellFormat.ALIGN_LEFT;
-				else if (source == btnRightAlign)
+				} else if (source == btnRightAlign) {
 					align = CellFormat.ALIGN_RIGHT;
-				else
+				} else {
 					align = CellFormat.ALIGN_CENTER;
+				}
 			}
 
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_ALIGN,
@@ -190,10 +194,12 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 		else if (source == btnBold || source == btnItalic) {
 			Integer fontStyle = CellFormat.STYLE_PLAIN;
-			if (btnBold.isSelected())
+			if (btnBold.isSelected()) {
 				fontStyle += CellFormat.STYLE_BOLD;
-			if (btnItalic.isSelected())
+			}
+			if (btnItalic.isSelected()) {
 				fontStyle += CellFormat.STYLE_ITALIC;
+			}
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_FONTSTYLE,
 			        fontStyle);
 		}
@@ -278,6 +284,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 	}
 
+	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		handleEventHandlers(actionButton);
     }

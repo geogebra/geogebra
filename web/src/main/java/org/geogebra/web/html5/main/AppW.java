@@ -948,8 +948,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public final MyImage getExternalImageAdapter(String fileName, int width,
 	        int height) {
 		ImageElement im = getImageManager().getExternalImage(fileName, this);
-		if (im == null)
+		if (im == null) {
 			return null;
+		}
 		if (width != 0 && height != 0) {
 			im.setWidth(width);
 			im.setHeight(height);
@@ -2090,8 +2091,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public EuclidianViewW getEuclidianView2(int idx) {
 
-		if (getGuiManager() == null)
+		if (getGuiManager() == null) {
 			return null;
+		}
 
 		return (EuclidianViewW) getGuiManager().getEuclidianView2(idx);
 	}
@@ -2476,8 +2478,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			// empirical hack to make room for the toolbar always
 			if (showToolBar() && ret < 598)
+			 {
 				ret = 598; // 2: border
 			// maybe this has to be put outside the "if"?
+			}
 		}
 		return ret;
 	}
@@ -2498,8 +2502,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
 		}
 		// menubar height is always 0
-		if (windowHeight <= 0)
+		if (windowHeight <= 0) {
 			windowHeight = fallback;
+		}
 		return windowHeight;
 	}
 
@@ -2926,15 +2931,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public double getWidth() {
-		if (getFrameElement() == null)
+		if (getFrameElement() == null) {
 			return 0;
+		}
 		return getFrameElement().getOffsetWidth();
 	}
 
 	@Override
 	public double getHeight() {
-		if (getFrameElement() == null)
+		if (getFrameElement() == null) {
 			return 0;
+		}
 		return getFrameElement().getOffsetHeight();
 	}
 
@@ -2965,8 +2972,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public static Widget getRootComponent(AppW app) {
 
 		// This is just used from tooltipManager yet
-		if (app.getGuiManager() == null)
+		if (app.getGuiManager() == null) {
 			return null;
+		}
 
 		return app.getGuiManager().getRootComponent();
 	}
@@ -2977,10 +2985,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public Widget getSplitLayoutPanel() {
-		if (getGuiManager() == null)
+		if (getGuiManager() == null) {
 			return null;
-		if (getGuiManager().getLayout() == null)
+		}
+		if (getGuiManager().getLayout() == null) {
 			return null;
+		}
 		return getGuiManager().getRootComponent();
 	}
 

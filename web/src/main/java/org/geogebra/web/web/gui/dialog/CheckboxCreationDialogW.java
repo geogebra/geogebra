@@ -188,6 +188,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		
 		gbObjects.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				GeoElement geo = gbObjects.getSelectedGeo();
 				if (geo != null) {
@@ -197,6 +198,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		});
 	}
 
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		gbList.add(geo);
 	}
@@ -225,6 +227,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		
 		btnRemove.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				GeoElement geo = gbList.getSelectedGeo();
 				if (geo != null) {
@@ -237,6 +240,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		btOK = new Button(loc.getPlain("OK"));
 		btOK.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				actionPerformed(btOK);
 			}
@@ -246,6 +250,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				actionPerformed(btCancel);
 			}

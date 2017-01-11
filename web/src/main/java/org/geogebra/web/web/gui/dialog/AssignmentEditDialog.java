@@ -115,6 +115,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 		checkOperation.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				assignment1.setCheckOperation(checkOperation
 						.getValue(checkOperation.getSelectedIndex()));
@@ -123,6 +124,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 		checkOperation.addAttachHandler(new Handler() {
 
+			@Override
 			public void onAttachOrDetach(AttachEvent event) {
 				int index = 0;
 				while (index < GeoAssignment.CHECK_OPERATIONS.length
@@ -151,6 +153,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		}
 	}
 
+	@Override
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
 

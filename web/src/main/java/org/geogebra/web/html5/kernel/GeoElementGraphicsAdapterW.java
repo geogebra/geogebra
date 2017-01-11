@@ -30,8 +30,9 @@ public class GeoElementGraphicsAdapterW extends
 
 	@Override
 	public MyImage getFillImage() {
-		if (image != null)
+		if (image != null) {
 			return image;
+		}
 
 		if ("".equals(imageFileName)) {
 			return null;
@@ -83,8 +84,9 @@ public class GeoElementGraphicsAdapterW extends
 		String fileName = fileNameRaw;
 		// for file names e.g. /geogebra/main/nav_play.png
 		if (fileName != null && fileName.length() != 0
-		        && fileName.charAt(0) == '/')
+		        && fileName.charAt(0) == '/') {
 			fileName = fileName.substring(1);
+		}
 
 		if (fileName == null || fileName.equals(this.imageFileName)) {
 			return;

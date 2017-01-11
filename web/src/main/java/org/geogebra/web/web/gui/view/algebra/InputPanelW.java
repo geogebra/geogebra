@@ -105,15 +105,17 @@ public class InputPanelW extends FlowPanel {
 		}
 
 		if (rows > 1) {
-			if (initText != null)
+			if (initText != null) {
 				textAreaComponent.setText(initText);
+			}
 			add(textAreaComponent);
 
 		}
 		//
 		else {
-			if (initText != null)
+			if (initText != null) {
 				textComponent.setText(initText);
+			}
 			add(textComponent);
 		}
 	}
@@ -150,6 +152,7 @@ public class InputPanelW extends FlowPanel {
 			textComponent.getTextBox().getElement().focus();
 		} else {
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				@Override
 				public void execute() {
 					textAreaComponent.getTextArea().setFocus(true);
 				}

@@ -109,6 +109,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	
 		spDelay.addChangeHandler(new ChangeHandler(){
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				try {
 					playDelay = Double.parseDouble(spDelay.getValue().toString());
@@ -136,6 +137,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		// AppResources.INSTANCE.table().getSafeUri()).toString());
 		btOpenWindow.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				if (!app.getGuiManager().showView(
 						App.VIEW_CONSTRUCTION_PROTOCOL)) {
@@ -246,6 +248,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		return implPanel;
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		

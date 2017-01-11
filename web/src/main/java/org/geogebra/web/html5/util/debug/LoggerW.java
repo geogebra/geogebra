@@ -89,10 +89,11 @@ public class LoggerW extends Log {
 	 */
 	@Override
 	public void log(Level level, String message, int depth) {
-		if (Browser.isFirefox())
+		if (Browser.isFirefox()) {
 			super.log(level, "\n" + message, depth);
-		else
+		} else {
 			super.log(level, message, depth);
+		}
 	}
 
 	public static void startLogger(ArticleElement article) {

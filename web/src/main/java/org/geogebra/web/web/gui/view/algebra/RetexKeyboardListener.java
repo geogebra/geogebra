@@ -17,25 +17,30 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		this.mf = mf;
 	}
 
+	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
 		canvas.setFocus(focus);
 
 	}
 
+	@Override
 	public void ensureEditing() {
 		mf.setFocus(true);
 
 	}
 
+	@Override
 	public UIObject asWidget() {
 		return canvas;
 	}
 
+	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
 
@@ -45,6 +50,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return mf;
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		return true;
 	}

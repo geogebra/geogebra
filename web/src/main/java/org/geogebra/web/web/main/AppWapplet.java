@@ -483,16 +483,18 @@ public class AppWapplet extends AppWFull {
 		Log.debug(widthDiff + "x" + heightDiff);
 		if (evno == 1 && getEuclidianView1().isShowing()) {
 			// this should follow the resizing of the EuclidianView
-			if (getSplitLayoutPanel() != null)
+			if (getSplitLayoutPanel() != null) {
 				getSplitLayoutPanel().setPixelSize(
 						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
 						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+			}
 		} else if (evno == 2 && hasEuclidianView2(1)
 				&& getEuclidianView2(1).isShowing()) {// or the EuclidianView 2
-			if (getSplitLayoutPanel() != null)
+			if (getSplitLayoutPanel() != null) {
 				getSplitLayoutPanel().setPixelSize(
 						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
 						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+			}
 		}
 	}
 

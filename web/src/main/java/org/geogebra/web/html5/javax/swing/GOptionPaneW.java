@@ -112,8 +112,9 @@ public class GOptionPaneW extends GDialogBox implements ClickHandler {
 		}
 
 		// return the focus to the input field calling this dialog
-		if (caller != null)
+		if (caller != null) {
 			caller.setFocus(true);
+		}
 		caller = null;
 
 	}

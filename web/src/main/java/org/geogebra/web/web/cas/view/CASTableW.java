@@ -47,6 +47,7 @@ public class CASTableW extends Grid implements CASTable {
 		view = casViewW;
 	}
 
+	@Override
 	public void setLabels() {
 		if (hasEditor()) {
 			getEditor().setLabels();
@@ -54,6 +55,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	}
 
+	@Override
 	public GeoCasCell getGeoCasCell(int n) {
 		if (this.getRowCount() > n) {
 			Widget w = getWidget(n, COL_CAS_CELLS_WEB);
@@ -64,20 +66,24 @@ public class CASTableW extends Grid implements CASTable {
 		return null;
 	}
 
+	@Override
 	public App getApplication() {
 		return app;
 	}
 
+	@Override
 	public void deleteAllRows() {
 		resize(0, 2);
 	}
 
+	@Override
 	public void insertRow(int rows, GeoCasCell casCell, boolean b) {
 		int n = rows;
-		if (n >= getRowCount())
+		if (n >= getRowCount()) {
 			resize(n + 1, 2);
-		else
+		} else {
 			this.insertRow(n);
+		}
 		// update keys (rows) in arbitrary constant table
 		updateAfterInsertArbConstTable(rows);
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
@@ -131,6 +137,7 @@ public class CASTableW extends Grid implements CASTable {
 		}
 	}
 
+	@Override
 	public void resetRowNumbers(int from) {
 		RowHeaderWidget nextHeader;
 		for (int i = from; i < getRowCount(); i++) {
@@ -139,29 +146,36 @@ public class CASTableW extends Grid implements CASTable {
 		}
 	}
 
+	@Override
 	public int[] getSelectedRows() {
 		return selectedRows;
 	}
 
+	@Override
 	public int getSelectedRow() {
-		if (selectedRows.length < 1)
+		if (selectedRows.length < 1) {
 			return -1;
+		}
 		return selectedRows[0];
 	}
 
+	@Override
 	public void stopEditing() {
-		if (editing != null)
+		if (editing != null) {
 			editing.stopEditing();
+		}
 		editing = null;
 
 	}
 
 	public void cancelEditing() {
-		if (editing != null)
+		if (editing != null) {
 			editing.cancelEditing();
+		}
 		editing = null;
 	}
 
+	@Override
 	public void startEditingRow(int n) {
 		startEditingRow(n, null);
 
@@ -197,10 +211,12 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public void setInput() {
-		if (editing != null)
+		if (editing != null) {
 			editing.setInput();
+		}
 	}
 
+	@Override
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
 			editor = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
@@ -209,6 +225,7 @@ public class CASTableW extends Grid implements CASTable {
 		return editor;
 	}
 
+	@Override
 	public void deleteRow(int rowNumber) {
 		removeRow(rowNumber);
 		resetRowNumbers(rowNumber);
@@ -253,14 +270,17 @@ public class CASTableW extends Grid implements CASTable {
 		}
 	}
 
+	@Override
 	public void setRow(int rowNumber, GeoCasCell casCell) {
-		if (rowNumber < 0)
+		if (rowNumber < 0) {
 			return;
+		}
 		if (rowNumber >= this.getRowCount()) {
 			resize(rowNumber + 1, 2);
 		}
-		if (casCell.isUseAsText())
+		if (casCell.isUseAsText()) {
 			setInput();
+		}
 
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1, casCell,
@@ -288,6 +308,7 @@ public class CASTableW extends Grid implements CASTable {
 		}
 	}
 
+	@Override
 	public boolean isEditing() {
 		return editing != null;
 	}
@@ -313,8 +334,9 @@ public class CASTableW extends Grid implements CASTable {
 	public void addSelectedRows(int a, int b) {
 		int from = Math.min(a, b);
 		int to = Math.max(a, b);
-		if (from < 0)
+		if (from < 0) {
 			return;
+		}
 		for (int i = 0; i < getRowCount(); i++) {
 			markRowSelected(i, false);
 		}
@@ -346,8 +368,9 @@ public class CASTableW extends Grid implements CASTable {
 
 	public boolean isSelectedIndex(int row) {
 		for (Integer item : getSelectedRows()) {
-			if (item.equals(row))
+			if (item.equals(row)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -430,6 +453,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	}
 
+	@Override
 	public boolean hasEditor() {
 		return this.editor != null;
 	}

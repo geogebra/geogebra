@@ -43,6 +43,7 @@ public class AlertDialog extends DialogBoxW {
 		final AlertDialog _this = this;
 		ok.addClickHandler(new ClickHandler() {
 			
+			@Override
 			public void onClick(ClickEvent event) {
 				_this.hide();
 			}

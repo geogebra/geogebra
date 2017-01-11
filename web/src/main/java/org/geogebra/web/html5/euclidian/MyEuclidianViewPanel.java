@@ -30,30 +30,37 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		canvas = Canvas.createIfSupported();
 	}
 
+	@Override
 	public AbsolutePanel getAbsolutePanel() {
 		return this;
 	}
 
+	@Override
 	public Panel getEuclidianPanel() {
 		return this;
 	}
 
+	@Override
 	public Canvas getCanvas() {
 		return canvas;
 	}
 
+	@Override
 	public EuclidianView getEuclidianView() {
 
 		return ev;
 	}
 
+	@Override
 	public void onResize() {
 		// ev.setCoordinateSpaceSizeDirectly(100, 100);
 	}
 
+	@Override
 	public void deferredOnResize() {
 	}
 
+	@Override
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
 

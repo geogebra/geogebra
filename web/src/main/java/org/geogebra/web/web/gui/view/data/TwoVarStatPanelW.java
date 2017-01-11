@@ -68,6 +68,7 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	    
 	    listBox.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = listBox.getSelectedIndex();
 				if (row == 0) {
@@ -91,19 +92,23 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 		model.update();
 	}
 
+	@Override
 	public void setValueAt(String value, int row, int col) {
 		statTable.setValueAt(value, row, col);
 
 	}
 
+	@Override
 	public void setValueAt(double value, int row, int col) {
 		statTable.setValueAt(statDialog.format(value), row, col);
 	}
 
+	@Override
 	public GeoList getDataSelected() {
 		return statDialog.getController().getDataSelected();
 	}
 
+	@Override
 	public double[] getValueArray(GeoList list) {
 		return statDialog.getController().getValueArray(list);
 	}

@@ -46,6 +46,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		if (item.isEmpty() && item.isInputTreeItem()) {
 			item.addDummyLabel();
@@ -93,6 +94,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			}
 		});
 	}
+	@Override
 	public void onEnter() {
 		if (isSuggesting()) {
 			sug.needsEnterForSuggestion();
@@ -101,14 +103,17 @@ public class LatexTreeItemController extends RadioTreeItemController
 		onEnter(!item.hasGeo());
 	}
 
+	@Override
 	public void onKeyTyped() {
 		getLatexTreeItem().onKeyTyped();
 	}
 
+	@Override
 	public void onCursorMove() {
 		getLatexTreeItem().onCursorMove();
 	}
 
+	@Override
 	public void onUpKeyPressed() {
 		if (isSuggesting()) {
 			sug.onKeyUp();
@@ -117,20 +122,24 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 
+	@Override
 	public void onDownKeyPressed() {
 		if (isSuggesting()) {
 			sug.onKeyDown();
 		}
 	}
 
+	@Override
 	public String alt(int unicodeKeyChar, boolean shift) {
 		return getRetexListener().alt(unicodeKeyChar, shift);
 	}
 
+	@Override
 	public String serialize(MathSequence selectionText) {
 		return GeoGebraSerializer.serialize(selectionText);
 	}
 
+	@Override
 	public void onInsertString() {
 		getMathField().setFormula(
 				GeoGebraSerializer.reparse(getMathField().getFormula()));

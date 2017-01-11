@@ -29,10 +29,11 @@ public class GBufferedImageW implements GBufferedImage {
 			double pixelRatio, boolean opaque) {
 		this.pixelRatio = pixelRatio;
 
-		if (canvas == null)
+		if (canvas == null) {
 			canv = makeCanvas();
-		else
+		} else {
 			canv = canvas;
+		}
 
 		canv.setCoordinateSpaceWidth((int) (width * pixelRatio));
 		canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
@@ -64,10 +65,11 @@ public class GBufferedImageW implements GBufferedImage {
 	}
 
 	public GBufferedImageW(ImageElement imageElement) {
-		if (imageElement != null)// This should not called with null
+		if (imageElement != null) {
 			img = imageElement;
-		else
+		} else {
 			Log.debug("BufferedImage (gawt) called with null");
+		}
 	}
 
 	// this clones this bufferedimage!
@@ -99,17 +101,21 @@ public class GBufferedImageW implements GBufferedImage {
 		// img = getImageElement();
 	}
 
+	@Override
 	public int getWidth() {
-		if (canv == null)
+		if (canv == null) {
 			return img.getWidth();
+		}
 		return canv.getCoordinateSpaceWidth();
 		// programmers should make sure that
 		// canv.getCoordinateSpaceWidth() == canv.getCanvasElement().getWidth()
 	}
 
+	@Override
 	public int getHeight() {
-		if (canv == null)
+		if (canv == null) {
 			return img.getHeight();
+		}
 		return canv.getCoordinateSpaceHeight();
 	}
 
@@ -128,8 +134,9 @@ public class GBufferedImageW implements GBufferedImage {
 	}
 
 	public GBufferedImageW cloneDeep() {
-		if (canv != null)
+		if (canv != null) {
 			return new GBufferedImageW(canv);
+		}
 		return new GBufferedImageW((ImageElement) img.cloneNode(true));
 	}
 
@@ -173,6 +180,7 @@ public class GBufferedImageW implements GBufferedImage {
 		        getHeight());
 	}
 
+	@Override
 	public void flush() {
 		// nothing to flush
 	}

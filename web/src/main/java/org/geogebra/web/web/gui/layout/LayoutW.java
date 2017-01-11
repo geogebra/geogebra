@@ -170,6 +170,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * 			 used.
 	 * @throws IllegalArgumentException If no perspective with the given name could be found.
 	 */
+	@Override
 	public void applyPerspective(String id) throws IllegalArgumentException {
 		Perspective perspective = getPerspective(id);
 		
@@ -196,8 +197,9 @@ public class LayoutW extends Layout implements SettingListener {
 	 * @return perspective at given index
 	 */
 	public Perspective getPerspective(int index) {
-		if(index >= perspectives.size())
+		if(index >= perspectives.size()) {
 			throw new IndexOutOfBoundsException();
+		}
 		
 		return perspectives.get(index);
 	}
@@ -256,6 +258,7 @@ public class LayoutW extends Layout implements SettingListener {
 	}
 	
 	
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		// TODO Auto-generated method stub
 
@@ -267,9 +270,11 @@ public class LayoutW extends Layout implements SettingListener {
 	 * @param id
 	 * @return a perspective for the current layout.
 	 */
+	@Override
 	public Perspective createPerspective(String id) {
-		if(app == null || dockManager.getRoot() == null)
+		if(app == null || dockManager.getRoot() == null) {
 			return null;
+		}
 		
 		// return the default perspective in case we're creating new preferences of
 		// a virgin application.		
@@ -304,6 +309,7 @@ public class LayoutW extends Layout implements SettingListener {
 		// definition should
 		// be read first by the loading algorithm.
 		Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
+			@Override
 			public int compare(DockPanelData o1, DockPanelData o2) {
 				int diff = o2.getEmbeddedDef().length()
 						- o1.getEmbeddedDef().length();
@@ -371,6 +377,7 @@ public class LayoutW extends Layout implements SettingListener {
 	/**
 	 * @return The management class for the docking behavior.
 	 */
+	@Override
 	public DockManagerW getDockManager() {
 		return dockManager;
 	}

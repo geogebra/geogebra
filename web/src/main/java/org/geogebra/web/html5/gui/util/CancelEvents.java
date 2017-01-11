@@ -40,56 +40,67 @@ public class CancelEvents implements MouseDownHandler,
 		super();
 	}
 
+	@Override
 	public void onClick(ClickEvent ce) {
 		ce.preventDefault();
 		ce.stopPropagation();
 	}
 
+	@Override
 	public void onDoubleClick(DoubleClickEvent me) {
 		me.preventDefault();
 		me.stopPropagation();
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent me) {
 		me.preventDefault();
 		me.stopPropagation();
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent mue) {
 		mue.preventDefault();
 		mue.stopPropagation();
 	}
 
+	@Override
 	public void onMouseOver(MouseOverEvent me) {
 		me.preventDefault();
 		me.stopPropagation();
 	}
 
+	@Override
 	public void onMouseOut(MouseOutEvent mue) {
 		mue.preventDefault();
 		mue.stopPropagation();
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent mue) {
 		mue.preventDefault();
 		mue.stopPropagation();
 	}
 
+	@Override
 	public void onTouchStart(TouchStartEvent tse) {
 		tse.preventDefault();
 		tse.stopPropagation();
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent tee) {
 		tee.preventDefault();
 		tee.stopPropagation();
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent tee) {
 		tee.preventDefault();
 		tee.stopPropagation();
 	}
 
+	@Override
 	public void onTouchCancel(TouchCancelEvent tce) {
 		tce.preventDefault();
 		tce.stopPropagation();

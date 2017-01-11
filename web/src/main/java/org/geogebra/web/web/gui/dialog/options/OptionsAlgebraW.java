@@ -67,6 +67,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		sortMode.addChangeHandler(this);
 		description.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = description.getSelectedIndex();
 				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
@@ -95,12 +96,14 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
 	}
 
+	@Override
 	public void updateGUI() {
 		showAuxiliaryObjects.setValue(app.showAuxiliaryObjects);
 		updateSortMode();
 		description.update();
 	}
 
+	@Override
 	public Widget getWrappedPanel() {
 		return optionsPanel;
     }
@@ -111,6 +114,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	    
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == showAuxiliaryObjects) {
@@ -118,6 +122,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		lblShow.setText(app.getLocalization().getPlain("Show"));
 		showAuxiliaryObjects
@@ -130,6 +135,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		description.update();
 	}
 
+	@Override
 	public void onChange(ChangeEvent event) {
 		Object source = event.getSource();
 		if (source == sortMode) {
@@ -140,11 +146,13 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		}
 	}
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		updateGUI();
 
 	}
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return null;
 	}

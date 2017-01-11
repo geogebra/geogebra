@@ -52,6 +52,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 
         tfAnimSpeed.addKeyHandler(new KeyHandler(){
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					doActionPerformed();	    
@@ -94,6 +95,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		modeLabel.setText(loc.getPlain("Repeat") + ": ");
 	}
 
+	@Override
 	public void setText(String text) {
 		tfAnimSpeed.setText(text);
     }

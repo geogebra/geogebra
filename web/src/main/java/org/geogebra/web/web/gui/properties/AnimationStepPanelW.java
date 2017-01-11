@@ -35,6 +35,7 @@ implements ITextFieldListener {
 
 		tfAnimStep.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				doActionPerformed();
 			}
@@ -45,6 +46,7 @@ implements ITextFieldListener {
 
 		tfAnimStep.addKeyDownHandler(new KeyDownHandler(){
 
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == '\n') {
 					doActionPerformed();
@@ -61,6 +63,7 @@ implements ITextFieldListener {
 		//update(model.getGeos());
 	}
 
+	@Override
 	public void setText(String text) {
 		tfAnimStep.setText(text);
 	}

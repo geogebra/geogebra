@@ -11,6 +11,7 @@ public class SmartSignInButton extends SignInButton{
 		super(app, 0, null);
     }
 
+	@Override
 	public void login(){
 		String url =  "https://accounts.geogebra.org/user/signin" 
 					+ "/caller/web/"

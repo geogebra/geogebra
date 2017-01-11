@@ -183,6 +183,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		return geosOK;
 	}
 
+	@Override
 	public int getOffsetHeight() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -194,6 +195,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 	}
 
+	@Override
 	public void onClick(ClickEvent e) {
 		Object source = e.getSource();
 
@@ -215,18 +217,21 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		} else if (source == btnUseAsText) {
 			int i = casView.getConsoleTable().getEditingRow();
 			applyUseAsText(targetGeos);
-			if (i > 0)
+			if (i > 0) {
 				casView.getConsoleTable().startEditingRow(i);
+			}
 		}
 		updateStyleBar();
 	}
 
 	private void applyFontStyle(ArrayList<GeoElement> geos) {
 		int fontStyle = 0;
-		if (btnBold.isSelected())
+		if (btnBold.isSelected()) {
 			fontStyle += 1;
-		if (btnItalic.isSelected())
+		}
+		if (btnItalic.isSelected()) {
 			fontStyle += 2;
+		}
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell
@@ -315,6 +320,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		}
 	}
 
+	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		if (actionButton == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {

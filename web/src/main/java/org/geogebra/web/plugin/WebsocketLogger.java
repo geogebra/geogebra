@@ -58,6 +58,7 @@ public class WebsocketLogger extends SensorLogger {
 			this.connection = WebSocketFactory.create(this.websocket_url);
 			this.connection.onOpen(new OpenEventHandler() {
 
+				@Override
 				public void open(JavaScriptObject event) {
 					startHandShake();
 				}
@@ -88,6 +89,7 @@ public class WebsocketLogger extends SensorLogger {
 	private void initErrorHandler() {
 		connection.onError(new ErrorEventHandler() {
 
+			@Override
 			public void error(JavaScriptObject e) {
 				Log.debug("Error with webSocket");
 			}
@@ -135,6 +137,7 @@ public class WebsocketLogger extends SensorLogger {
 	private void initCloseHandler() {
 		connection.onClose(new CloseEventHandler() {
 
+			@Override
 			public void close(JavaScriptObject event) {
 				Log.debug("Connection closed of Websocket");
 			}
@@ -299,6 +302,7 @@ public class WebsocketLogger extends SensorLogger {
 	private void initMsgHandler() {
 		connection.onMessage(new MessageEventHandler() {
 
+			@Override
 			public void message(JavaScriptObject msg) {
 				String data = JSON.get(msg, "data");
 				JavaScriptObject jsonData = JSON.parse(data);

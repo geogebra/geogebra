@@ -171,18 +171,21 @@ public class ProbabilityCalculatorStyleBarW extends
 		int printFigures = probCalc.getPrintFigures();
 		int printDecimals = probCalc.getPrintDecimals();
 
-		if (menu == null)
+		if (menu == null) {
 			return;
+		}
 		int pos = -1;
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < OptionsMenu.figuresLookupLength())
+					&& printFigures < OptionsMenu.figuresLookupLength()) {
 				pos = OptionsMenu.figuresLookup(printFigures);
+			}
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < OptionsMenu.decimalsLookupLength())
+					&& printDecimals < OptionsMenu.decimalsLookupLength()) {
 				pos = OptionsMenu.decimalsLookup(printDecimals);
+			}
 		}
 
 		try {
@@ -252,6 +255,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		}
     }
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		Object source = event.getSource();
 		if (source instanceof RadioButton) {
@@ -284,18 +288,21 @@ public class ProbabilityCalculatorStyleBarW extends
 		 		}
 		    }
 		} else if (event.getSource() == btnLineGraph) {
-			if (btnLineGraph.isSelected())
+			if (btnLineGraph.isSelected()) {
 				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_LINE);
+			}
 		}
 
 		else if (event.getSource() == btnBarGraph) {
-			if (btnBarGraph.isSelected())
+			if (btnBarGraph.isSelected()) {
 				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_BAR);
+			}
 		}
 
 		else if (event.getSource() == btnStepGraph) {
-			if (btnStepGraph.isSelected())
+			if (btnStepGraph.isSelected()) {
 				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_STEP);
+			}
 		}
 
 //		else if (event.getSource() == btnNormalOverlay) {

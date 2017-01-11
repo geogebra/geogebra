@@ -98,6 +98,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		focus();
 		wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
+			@Override
 			public void onClose(CloseEvent<GPopupPanel> event) {
 				resetEditor();
 			}
@@ -133,8 +134,9 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		t.setFontStyle(editor.getFontStyle());
 		t.setSerifFont(editor.isSerif());
 		// make sure for new LaTeX texts we get nice "x"s
-		if (editor.isLatex())
+		if (editor.isLatex()) {
 			t.setSerifFont(true);
+		}
 
 	}
 
@@ -165,6 +167,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			kernel = app.getKernel();
 		}
 
+		@Override
 		public void processInput(String input, ErrorHandler handler,
 				AsyncOperation<Boolean> callback) {
 			if (input == null) {
@@ -226,10 +229,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 									((GeoText) newText).setLaTeX(isLatex(),
 											true);
 
-									if (newText.getParentAlgorithm() != null)
+									if (newText.getParentAlgorithm() != null) {
 										newText.getParentAlgorithm().update();
-									else
+									} else {
 										newText.updateRepaint();
+									}
 
 									app.doAfterRedefine(newText);
 
@@ -374,6 +378,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 
+	@Override
 	public void reInitEditor(GeoText text, GeoPointND startPoint2,
 			boolean rw1) {
 		if (editor == null) {

@@ -60,6 +60,7 @@ public class CASViewW extends CASView implements PrintableW {
 
 		app.invokeLater(new Runnable() {
 
+			@Override
 			public void run() {
 				getCAS().initCurrentCAS();
 				GuiManagerW gm = (GuiManagerW) app.getGuiManager();
@@ -77,16 +78,19 @@ public class CASViewW extends CASView implements PrintableW {
 		maybeOpenKeyboard(false);
 	}
 
+	@Override
 	public void repaintView() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		// TODO Auto-generated method stub
 		return false;
@@ -105,8 +109,9 @@ public class CASViewW extends CASView implements PrintableW {
 	@Override
 	public void showSubstituteDialog(String prefix, String evalText,
 	        String postfix, int selRow) {
-		if (subDialog != null && subDialog.getDialog().isShowing())
+		if (subDialog != null && subDialog.getDialog().isShowing()) {
 			return;
+		}
 		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
 		        selRow);
 		d.getDialog().center();
@@ -136,6 +141,7 @@ public class CASViewW extends CASView implements PrintableW {
 		return new CASStylebarW(this, app);
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		// not used for this view
 		return false;
@@ -168,6 +174,7 @@ public class CASViewW extends CASView implements PrintableW {
 		final AppW app1 = app;
 		app.invokeLater(new Runnable() {
 
+			@Override
 			public void run() {
 				app1.showKeyboard(getEditor(), force);
 				getEditor().setFocus(true, true);
@@ -211,6 +218,7 @@ public class CASViewW extends CASView implements PrintableW {
 		}
 	}
 
+	@Override
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
 		// Widget[] printableList = {};
 

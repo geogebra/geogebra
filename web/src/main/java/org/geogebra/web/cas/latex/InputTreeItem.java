@@ -536,8 +536,9 @@ public class InputTreeItem extends MathQuillTreeItem
 				historyPopup.showPopup();
 			} else {
 				String text = editor.getPreviousInput();
-				if (text != null)
+				if (text != null) {
 					editor.setText(text, true);
+				}
 			}
 		}
 	}
@@ -768,8 +769,9 @@ public class InputTreeItem extends MathQuillTreeItem
 	 */
 	public void addHistoryPopup(boolean isDownPopup) {
 
-		if (historyPopup == null)
+		if (historyPopup == null) {
 			historyPopup = new HistoryPopupW(this, app.getPanel());
+		}
 
 		historyPopup.setDownPopup(isDownPopup);
 	}

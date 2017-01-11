@@ -13,14 +13,17 @@ public class MyZoomerW extends MyZoomer implements GTimerListener {
 		timer = new GTimerW(this, DELAY);
 	}
 
+	@Override
 	protected void stopTimer() {
 		timer.stop();
 	}
 
+	@Override
 	protected boolean hasTimer() {
 		return timer != null;
 	}
 
+	@Override
 	public synchronized void onRun() {
 		step();
 	}

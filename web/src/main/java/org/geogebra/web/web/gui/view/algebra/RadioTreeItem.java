@@ -537,6 +537,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			btnSymbolic.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					toggleSymbolic(btnSymbolic);
 				}
@@ -951,6 +952,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				int width = panel.getOffsetWidth()
 						+ marblePanel.getOffsetWidth();
@@ -1250,6 +1252,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		return new ErrorHandler(){
 
+			@Override
 			public void showError(String msg) {
 				if (errorLabel != null) {
 					errorLabel.setText(msg);
@@ -1259,10 +1262,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 				
 			}
 
+			@Override
 			public void resetError() {
 				showError(null);
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				if (valid) {
@@ -1283,6 +1288,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
+			@Override
 			public void showCommandError(String command, String message) {
 				if (errorLabel != null) {
 					errorLabel.setText(message);
@@ -1292,6 +1298,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				}
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				return RadioTreeItem.this.getCommand();
 			}
@@ -1679,6 +1686,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 
+	@Override
 	public UIObject asWidget() {
 		return main.asWidget();
 	}
@@ -1706,6 +1714,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
+	@Override
 	public void autocomplete(String s) {
 		// TODO implement autocomplete in RTI
 	}
@@ -2016,6 +2025,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return false;
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		return true;
 	}
@@ -2025,6 +2035,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			btnClearInput = new PushButton(
 					new Image(GuiResources.INSTANCE.algebra_delete()));
 			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
+				@Override
 				public void onMouseDown(MouseDownEvent event) {
 					clearInput();
 					getController().setFocus(true);

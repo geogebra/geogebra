@@ -154,6 +154,7 @@ public class CASgiacW extends CASgiac {
 
 	public void initialize() {
 		GWT.runAsync(new RunAsyncCallback() {
+			@Override
 			public void onSuccess() {
 				Log.debug("giac.js loading success");
 				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
@@ -161,18 +162,21 @@ public class CASgiacW extends CASgiac {
 				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			}
 
+			@Override
 			public void onFailure(Throwable reason) {
 				Log.debug("giac.js loading failure");
 			}
 		});
 	}
 
+	@Override
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 		// TODO Auto-generated method stub
 
 	}
 
 
+	@Override
 	public void clearResult() {
 		// not needed
 

@@ -61,6 +61,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 		inputPanel = new FlowPanel();
 		textArea = new ScriptArea();
 			textArea.addKeyUpHandler(new KeyUpHandler() {
+				@Override
 				public void onKeyUp(KeyUpEvent event) {
 					applyScript();
 				}
@@ -92,12 +93,14 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 		textArea.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 	            applyScript();
             }});
 		
 		languageSelector.addChangeHandler(new ChangeHandler(){
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				model.setScriptType(ScriptType.values()[languageSelector
 				                						.getSelectedIndex()]);
@@ -195,15 +198,18 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 	}
 
+	@Override
 	public void setInputText(String text) {
 		textArea.setText(text);
 
 	}
 
+	@Override
 	public String getInputText() {
 		return textArea.getText();
 	}
 
+	@Override
 	public void setLanguageIndex(int index, String name) {
 //		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
 //				.getTextComponent();
@@ -226,6 +232,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	    return btPanel;
     }
 
+	@Override
 	public Object updatePanel(Object[] geos2) {
 		return this;
 	}

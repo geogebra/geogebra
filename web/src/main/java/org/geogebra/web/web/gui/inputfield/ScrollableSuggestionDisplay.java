@@ -30,17 +30,19 @@ public final class ScrollableSuggestionDisplay extends
 	@Override
 	protected void moveSelectionDown() {
 		super.moveSelectionDown();
-		if (scrollable != null)
+		if (scrollable != null) {
 			scrollable.setVerticalScrollPosition(scrollable
 			        .getVerticalScrollPosition() + lineWidth);
+		}
 	}
 
 	@Override
 	protected void moveSelectionUp() {
 		super.moveSelectionUp();
-		if (scrollable != null)
+		if (scrollable != null) {
 			scrollable.setVerticalScrollPosition(scrollable
 			        .getVerticalScrollPosition() - lineWidth);
+		}
 	}
 
 	@Override

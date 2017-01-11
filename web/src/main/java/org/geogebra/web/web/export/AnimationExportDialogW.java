@@ -172,6 +172,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		timeBetweenFramesInput.setEnabled(enabled);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == cancelBtn) { // cancel button clicked
 			hide();

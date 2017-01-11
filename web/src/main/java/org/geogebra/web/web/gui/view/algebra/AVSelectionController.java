@@ -112,20 +112,24 @@ public class AVSelectionController {
 						|| (geo2.isAuxiliaryObject() == aux
 								&& geo2.isIndependent() == ind)) {
 
-					if (direction && geo2.equals(getLastSelectedGeo()))
+					if (direction && geo2.equals(getLastSelectedGeo())) {
 						selecting = !selecting;
-					if (!direction && geo2.equals(geo))
+					}
+					if (!direction && geo2.equals(geo)) {
 						selecting = !selecting;
+					}
 
 					if (selecting) {
 						selection.toggleSelectedGeo(geo2);
 						nowSelecting = selection.getSelectedGeos()
 								.contains(geo2);
 					}
-					if (!direction && geo2.equals(getLastSelectedGeo()))
+					if (!direction && geo2.equals(getLastSelectedGeo())) {
 						selecting = !selecting;
-					if (direction && geo2.equals(geo))
+					}
+					if (direction && geo2.equals(geo)) {
 						selecting = !selecting;
+					}
 				}
 			}
 		}

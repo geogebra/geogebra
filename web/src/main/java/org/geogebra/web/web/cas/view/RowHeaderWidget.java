@@ -24,8 +24,9 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		oldValue = false;
 		add(label);
 		add(marble);
-		if (cell != null)
+		if (cell != null) {
 			CASInputHandler.handleMarble(cell, this);
+		}
 		marble.addClickHandler(new MarbleClickHandler(cell, this));
 
 		// instead of here, from now on the whole of header areas should
@@ -48,15 +49,18 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		return Integer.parseInt(((Label) (getWidget(0))).getText()) - 1;
 	}
 
+	@Override
 	public void setMarbleValue(boolean value) {
-		if (value == oldValue)
+		if (value == oldValue) {
 			return;
+		}
 		marble.setUrl(value ? AppResources.INSTANCE.shown().getSafeUri()
 		        : AppResources.INSTANCE.hidden().getSafeUri());
 		oldValue = value;
 
 	}
 
+	@Override
 	public void setMarbleVisible(boolean visible) {
 		marble.setVisible(visible);
 
@@ -72,6 +76,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 			this.rowHeaderWidget = rowHeaderWidget;
 		}
 
+		@Override
 		public void onClick(ClickEvent event) {
 			cell.toggleTwinGeoEuclidianVisible();
 			CASInputHandler.handleMarble(cell, rowHeaderWidget);

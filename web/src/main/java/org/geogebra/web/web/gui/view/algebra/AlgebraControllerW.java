@@ -46,6 +46,7 @@ public class AlgebraControllerW extends AlgebraController
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
+	@Override
 	public void handleLongTouch(int x, int y) {
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
 		event.setIsRightClick(true);
@@ -88,6 +89,7 @@ public class AlgebraControllerW extends AlgebraController
 	// Drag and Drop 
 	//=====================================================
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
 		event.preventDefault();
@@ -99,6 +101,7 @@ public class AlgebraControllerW extends AlgebraController
 
 
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.instance);
@@ -110,11 +113,13 @@ public class AlgebraControllerW extends AlgebraController
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
@@ -127,6 +132,7 @@ public class AlgebraControllerW extends AlgebraController
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		event.preventDefault();
 	}

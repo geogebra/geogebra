@@ -257,6 +257,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	 * The editor must be recreated each time the options panel is re-attached
 	 * to the DOM
 	 */
+	@Override
 	public void reinitEditor() {
 
 		int index = editorPanel.getWidgetIndex(editor);
@@ -459,6 +460,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	}
 
+	@Override
 	public void ensureLaTeX() {
 		btnLatex.setValue(true);
 		model.getEditGeo().setLaTeX(true, false);

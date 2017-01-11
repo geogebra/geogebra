@@ -55,6 +55,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	private ScheduledCommand resizeCmd = new ScheduledCommand() {
 
 
+		@Override
 		public void execute() {
 			resize();
 		}
@@ -125,6 +126,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	/**
 	 * resize slider to fit to the panel in a deferred way.
 	 */
+	@Override
 	public void deferredResize() {
 		if (getSlider() == null) {
 			return;
@@ -198,6 +200,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	// }
 
 
+	@Override
 	protected void addAVEXWidget(Widget w) {
 		if (sliderPanel == null) {
 			return;
@@ -249,11 +252,13 @@ public class SliderTreeItemRetex extends LatexTreeItem
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
 
+	@Override
 	public void setSliderVisible(boolean visible) {
 		sliderPanel.setVisible(visible);
 	}
 
 
+	@Override
 	public void setAnimPanelVisible(boolean visible) {
 		controls.showAnimPanel(visible);
 	}
@@ -276,10 +281,12 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		this.slider = slider;
 	}
 
+	@Override
 	public void expandSize(int width) {
 		getAV().expandWidth(width);
 	}
 
+	@Override
 	public void restoreSize() {
 		getAV().restoreWidth();
 	}

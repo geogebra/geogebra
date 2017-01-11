@@ -52,16 +52,19 @@ public class CASLaTeXEditor extends SimplePanel
 
 	}
 
+	@Override
 	public int getInputSelectionEnd() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getInputSelectionStart() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public String getInputSelectedText() {
 		// TODO Auto-generated method stub
 		return null;
@@ -76,25 +79,30 @@ public class CASLaTeXEditor extends SimplePanel
 		return s.serialize(mf.getFormula());
 	}
 
+	@Override
 	public String getInput() {
 		return getText();
 	}
 
+	@Override
 	public void setInputSelectionStart(int selStart) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setInputSelectionEnd(int selEnd) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void clearInputText() {
 		setText("");
 
 	}
 
+	@Override
 	public void setInput(String string) {
 		if (getWidget() != mf.asWidget()) {
 			setWidget(mf.asWidget());
@@ -103,6 +111,7 @@ public class CASLaTeXEditor extends SimplePanel
 
 	}
 
+	@Override
 	public void setText(String text0) {
 		// removeDummy();
 		if (mf != null) {
@@ -119,6 +128,7 @@ public class CASLaTeXEditor extends SimplePanel
 		// updateLineHeight();
 	}
 
+	@Override
 	public Object getCellEditorValue(int index) {
 		if (table != null) {
 			return table.getGeoCasCell(index);
@@ -126,11 +136,13 @@ public class CASLaTeXEditor extends SimplePanel
 		return null;
 	}
 
+	@Override
 	public void setLabels() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
 		setWidget(focus ? mf.asWidget()
 				: new Label(app.getLocalization().getMenu("InputLabel")
@@ -139,6 +151,7 @@ public class CASLaTeXEditor extends SimplePanel
 
 	}
 
+	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
 		if (sug.needsEnterForSuggestion()) {
@@ -147,21 +160,25 @@ public class CASLaTeXEditor extends SimplePanel
 		this.controller.handleEnterKey(false, false, app);
 	}
 
+	@Override
 	public void resetInput() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setAutocomplete(boolean b) {
 		this.autocomplete = true;
 
 	}
 
+	@Override
 	public void setLaTeX(String plain, String latex) {
 		// not needed
 
 	}
 
+	@Override
 	public void ensureEditing() {
 		app.getGuiManager().setOnScreenKeyboardTextField(this.retexListener);
 		CancelEventTimer.keyboardSetVisible();
@@ -185,36 +202,44 @@ public class CASLaTeXEditor extends SimplePanel
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
 	}
+	@Override
 	public boolean getAutoComplete() {
 		return autocomplete;
 	}
 
+	@Override
 	public List<String> resetCompletions() {
 		return getInputSuggestions().resetCompletions();
 	}
 
+	@Override
 	public List<String> getCompletions() {
 		return getInputSuggestions().getCompletions();
 	}
 
+	@Override
 	public void insertString(String text) {
 		new MathFieldProcessing(mf).autocomplete(text);
 	}
 
+	@Override
 	public void toggleSymbolButton(boolean toggled) {
 		// only for linear input
 
 	}
 
+	@Override
 	public ArrayList<String> getHistory() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean isSuggesting() {
 		return sug != null && sug.isSuggesting();
 	}
 
+	@Override
 	public void requestFocus() {
 		if (getWidget() != mf.asWidget()) {
 			setWidget(mf.asWidget());
@@ -223,24 +248,29 @@ public class CASLaTeXEditor extends SimplePanel
 
 	}
 
+	@Override
 	public Widget toWidget() {
 		return this;
 	}
 
+	@Override
 	public void autocomplete(String text) {
 		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
 
 	}
 
+	@Override
 	public void updatePosition(DefaultSuggestionDisplay sugPanel) {
 		sugPanel.setPositionRelativeTo(this);
 
 	}
 
+	@Override
 	public boolean isForCAS() {
 		return true;
 	}
 
+	@Override
 	public String getCommand() {
 		return mf == null ? "" : mf.getCurrentWord();
 	}
@@ -252,30 +282,36 @@ public class CASLaTeXEditor extends SimplePanel
 		return sug;
 	}
 
+	@Override
 	public void onEnter() {
 		// TODO or onEnter(false) ?
 		onEnter(true);
 
 	}
 
+	@Override
 	public void onKeyTyped() {
 		// TODO Auto-generated method stub
 		getInputSuggestions().popupSuggestions();
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		return true;
 	}
 
+	@Override
 	public void onCursorMove() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public String alt(int unicodeKeyChar, boolean shift) {
 		return retexListener.alt(unicodeKeyChar, shift);
 	}
 
+	@Override
 	public void onUpKeyPressed() {
 		if (isSuggesting()) {
 			sug.onKeyUp();
@@ -284,16 +320,19 @@ public class CASLaTeXEditor extends SimplePanel
 	}
 
 
+	@Override
 	public void onDownKeyPressed() {
 		if (isSuggesting()) {
 			sug.onKeyDown();
 		}
 	}
 
+	@Override
 	public String serialize(MathSequence selectionText) {
 		return GeoGebraSerializer.serialize(selectionText);
 	}
 
+	@Override
 	public void onInsertString() {
 		mf.setFormula(GeoGebraSerializer.reparse(this.mf.getFormula()));
 

@@ -7,17 +7,20 @@ import com.google.gwt.user.client.ui.Tree;
 
 public class TreeImages implements Tree.Resources{
 
- public ImageResource treeClosed() {
+ @Override
+public ImageResource treeClosed() {
 		return AppResources.INSTANCE.empty();
  }
 
 
- public ImageResource treeLeaf() {
+ @Override
+public ImageResource treeLeaf() {
 		return AppResources.INSTANCE.empty();
  }
 
 
- public ImageResource treeOpen() {
+ @Override
+public ImageResource treeOpen() {
 		return AppResources.INSTANCE.empty();
  }
 }

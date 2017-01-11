@@ -31,6 +31,7 @@ public abstract class ClickEndHandler {
 			final ClickEndHandler handler) {
 		final HandlerRegistration mouseReg = w.addDomHandler(
 				new MouseUpHandler() {
+			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();
@@ -47,6 +48,7 @@ public abstract class ClickEndHandler {
 
 		final HandlerRegistration touchReg = w.addDomHandler(
 				new TouchEndHandler() {
+			@Override
 			public void onTouchEnd(TouchEndEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();
@@ -63,6 +65,7 @@ public abstract class ClickEndHandler {
 		}, TouchEndEvent.getType());
 		return new HandlerRegistration() {
 
+			@Override
 			public void removeHandler() {
 				mouseReg.removeHandler();
 				touchReg.removeHandler();

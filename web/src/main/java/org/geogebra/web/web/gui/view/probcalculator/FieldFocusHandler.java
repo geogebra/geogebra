@@ -18,6 +18,7 @@ public class FieldFocusHandler implements FocusHandler {
 		app = appl;
 	}
 
+	@Override
 	public void onFocus(FocusEvent event) {
 		Object source = event.getSource();
 

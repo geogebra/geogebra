@@ -16,6 +16,7 @@ public class GwtByteArrayOutputStream extends OutputStream {
 
 	// @Override is not allowed here because only the default constructor
 	// of java.io.OutputStream is JRE white-listed in GWT
+	@Override
 	public void write(int b) {
 		int newcount = count + 1;
 		if (newcount > buf.length) {

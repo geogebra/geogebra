@@ -66,6 +66,7 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 	 * and don't mind changing focus by tabIndex features
 	 * @param focus true focus false blur
 	 */
+	@Override
 	public void setFocus(boolean focus) {
 		Element el = this.disabledTextarea ? getContainerElement()
 				: this.focusTextarea;
@@ -91,6 +92,7 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 	 * @param str
 	 *            string for copying/cutting
 	 */
+	@Override
 	public void setSelectedContent(String str) {
 		if (focusTextarea.getValue().isEmpty()
 				&& (str == null || str.isEmpty())) {
@@ -100,6 +102,7 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		focusTextarea.select();
 	}
 
+	@Override
 	public void addPasteHandler(SpreadsheetKeyListenerW sskl) {
 		sskl.addPasteHandlerTo(getTextarea());
 	}

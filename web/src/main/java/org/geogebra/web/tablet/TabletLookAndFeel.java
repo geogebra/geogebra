@@ -71,6 +71,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	/**
 	 * @return style name for app frame
 	 */
+	@Override
 	public String getFrameStyleName() {
 		return "Tablet";
 	}

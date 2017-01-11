@@ -24,14 +24,17 @@ public class GLBufferIndicesW implements GLBufferIndices {
 
 	private int currentLength;
 
+	@Override
 	public boolean isEmpty() {
 		return isEmpty;
 	}
 
+	@Override
 	public void setEmpty() {
 		isEmpty = true;
 	}
 
+	@Override
 	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
@@ -45,11 +48,13 @@ public class GLBufferIndicesW implements GLBufferIndices {
 
 	private int index = 0;
 
+	@Override
 	public void setLimit(int length) {
 		currentLength = length;
 		isEmpty = false;
 	}
 
+	@Override
 	public void put(short value) {
 		if (impl == null) {
 			return;
@@ -58,20 +63,24 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		index++;
 	}
 
+	@Override
 	public short get() {
 		short ret = (short) impl.get(index);
 		index++;
 		return ret;
 	}
 
+	@Override
 	public void rewind() {
 		index = 0;
 	}
 
+	@Override
 	public int capacity() {
 		return currentLength;
 	}
 
+	@Override
 	public void array(short[] ret) {
 		if (impl == null) {
 			return;

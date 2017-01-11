@@ -17,6 +17,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 		this.field = field;
 	}
 
+	@Override
 	public void setFocus(boolean focus) {
 		if (field == null) {
 			return;
@@ -25,6 +26,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 		field.setFocus(focus);
 	}
 
+	@Override
 	public void onEnter() {
 		// TODO: why don't work
 		NativeEvent event2 = Document.get().createKeyDownEvent(false, false,
@@ -32,6 +34,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 		field.onBrowserEvent(Event.as(event2));
 	}
 
+	@Override
 	public void onBackSpace() {
 		int start = field.getCursorPos();
 		int end = start + field.getSelectionLength();
@@ -53,12 +56,14 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 	}
 
+	@Override
 	public void onArrow(ArrowType type) {
 		int cursorPos = field.getCursorPos();
 		switch (type) {
 		case left:
-			if (cursorPos > 0)
+			if (cursorPos > 0) {
 				field.setCursorPos(cursorPos - 1);
+			}
 			break;
 		case right:
 			if (cursorPos < field.getText().length()) {
@@ -68,6 +73,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 		}
 	}
 
+	@Override
 	public void insertString(String text) {
 		field.insertString(text);
 		if (text.startsWith("(")) {
@@ -82,35 +88,42 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 	}
 
+	@Override
 	public void scrollCursorIntoView() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean resetAfterEnter() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean isSVCell() {
 		return false;
 	}
 
+	@Override
 	public void endEditing() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public ScriptArea getField() {
 		return field;
 	}

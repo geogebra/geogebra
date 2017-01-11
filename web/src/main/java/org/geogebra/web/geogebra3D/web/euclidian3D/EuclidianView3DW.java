@@ -123,6 +123,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		updateFirstAndLast(true, true);
 
 		canvas.addAttachHandler(new AttachEvent.Handler() {
+			@Override
 			public void onAttachOrDetach(AttachEvent ae) {
 				// see attach handler of EuclidianViewW
 				updateFirstAndLast(ae.isAttached(), false);
@@ -226,6 +227,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
+	@Override
 	public boolean isInFocus() {
 		return isInFocus;
 	}
@@ -423,6 +425,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
+	@Override
 	public double getPixelRatio() {
 		if (((AppW) app).getArticleElement().disableHiRes3D()) {
 			return 1;
@@ -438,15 +441,17 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void add(GBox box) {
-		if (EVPanel != null)
+		if (EVPanel != null) {
 			EVPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
 			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
+		}
 	}
 
 	@Override
 	public void remove(GBox box) {
-		if (EVPanel != null)
+		if (EVPanel != null) {
 			EVPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+		}
 	}
 
 	private void setCursorClass(String className) {
@@ -599,10 +604,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
+	@Override
 	public GGraphics2DW getG2P() {
 		return g2p;
 	}
 
+	@Override
 	public void resetMsZoomer() {
 		// TODO Auto-generated method stub
 	}
@@ -670,6 +677,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
+	@Override
 	public void setAltText() {
 		GeoElement alt = app.getKernel().lookupLabel("altText3D1");
 		if (alt == null) {
@@ -692,6 +700,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
+	@Override
 	public void readText(String text) {
 		//String oldAltText = g2p.getAltText();
 		//g2p.setAltText(text);

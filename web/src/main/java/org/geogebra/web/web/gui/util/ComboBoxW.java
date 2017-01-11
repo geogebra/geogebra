@@ -47,6 +47,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		
 		addCloseHandler(new CloseHandler<PopupPanel>() {
 			
+			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
 				onValueChange(getValue());
 			}
@@ -54,6 +55,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 		addKeyDownHandler(new KeyDownHandler(){
 
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					onValueChange(getValue());
@@ -79,6 +81,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 		tf.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					onValueChange(tf.getText());
@@ -89,6 +92,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 		tf.addInsertHandler(new InsertHandler() {
 
+			@Override
 			public void onInsert(String text) {
 				ComboBoxW.this.onValueChange(text);
 			}

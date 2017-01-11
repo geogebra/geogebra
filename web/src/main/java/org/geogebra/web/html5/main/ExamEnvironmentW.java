@@ -19,7 +19,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
         this.app = app;
     }
 
-    public void setStart(long time) {
+    @Override
+	public void setStart(long time) {
         super.setStart(time);
         // airplane mode should be on when started
         wasAirplaneModeOn = true;
@@ -108,7 +109,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
 	}-*/;
 
 
-    public void exit() {
+    @Override
+	public void exit() {
         if (app.getVersion().isAndroidWebview()) {
             // stop timer if necessary
             if (checkTaskLockTimer != null && checkTaskLockTimer.isRunning()) {
@@ -279,7 +281,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
 
     private boolean isCheating;
 
-    public boolean isCheating() {
+    @Override
+	public boolean isCheating() {
         if (app.has(Feature.EXAM_ANDROID_CHECK_SCREEN_STATE) && app.getVersion().isAndroidWebview()) {
             return isCheating;
         }
@@ -288,7 +291,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
 
-    protected void addCheatingWindowsLeft(long time){
+    @Override
+	protected void addCheatingWindowsLeft(long time){
         if (app.getVersion().isAndroidWebview()) {
             if (isScreenOff()) {
                 screenOff();

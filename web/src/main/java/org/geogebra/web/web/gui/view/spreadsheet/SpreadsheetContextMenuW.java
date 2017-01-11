@@ -51,7 +51,8 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(
 		        AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 		        true, new Command() {
-			        public void execute() {
+			        @Override
+					public void execute() {
 				        popup.setVisible(false);
 			        }
 		        });
@@ -115,6 +116,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 	private Command getCommand(final String cmdString) {
 		Command cmd = new Command() {
+			@Override
 			public void execute() {
 				doCommand(cmdString);
 			}

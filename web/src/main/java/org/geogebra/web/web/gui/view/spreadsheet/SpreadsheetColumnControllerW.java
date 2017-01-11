@@ -80,6 +80,7 @@ public class SpreadsheetColumnControllerW implements
 			table.getTableHeader().resizeAndRepaint();
 	}*/
 
+	@Override
 	public void onMouseDown(MouseDownEvent e) {
 
 		isMouseDown = true;
@@ -149,6 +150,7 @@ public class SpreadsheetColumnControllerW implements
 		}
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent e) {
 
 		isMouseDown = false;
@@ -221,8 +223,9 @@ public class SpreadsheetColumnControllerW implements
 
 			boolean in = false;
 			for (int i = 0; i < selected.length; ++i) {
-				if (column == selected[i])
+				if (column == selected[i]) {
 					in = true;
+				}
 			}
 			if (!in) {
 				return;
@@ -240,6 +243,7 @@ public class SpreadsheetColumnControllerW implements
 	// MouseMotion Listener Methods
 	// =========================================================
 
+	@Override
 	public void onMouseMove(MouseMoveEvent e) {
 
 		e.preventDefault();
@@ -481,11 +485,13 @@ public class SpreadsheetColumnControllerW implements
 		}*/
 	}
 
+	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
 	    // TODO Auto-generated method stub
 	    
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 	    // TODO Auto-generated method stub
 	    

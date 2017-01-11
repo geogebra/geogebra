@@ -225,8 +225,11 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 					GeoNumeric geoNum = ((GeoNumeric)geoResult);
 					
-					if (val > geoNum.getIntervalMax()) geoNum.setIntervalMax(val);
-					else if (val < geoNum.getIntervalMin()) geoNum.setIntervalMin(val);
+					if (val > geoNum.getIntervalMax()) {
+						geoNum.setIntervalMax(val);
+					} else if (val < geoNum.getIntervalMin()) {
+						geoNum.setIntervalMin(val);
+					}
 					
 					geoNum.setValue(val);
 				} catch (Exception e) {
@@ -239,6 +242,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	}
 
 
+	@Override
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
 		if (target == btOK.getElement()) {
@@ -265,6 +269,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		}
 	}
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> vc) {
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;			
 		if (vc.getSource() == rbInteger) {
@@ -294,6 +299,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	}
 
 
+	@Override
 	public void onChange(ChangeEvent event) {
 	    // TODO Auto-generated method stub
 	    

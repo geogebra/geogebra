@@ -28,6 +28,7 @@ public class Phone implements EntryPoint {
 	private AbstractView browseView;
 	GeoGebraAppFrame appFrame;
 
+	@Override
 	public void onModuleLoad() {
 		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(),
 				new PhoneDevice(this),

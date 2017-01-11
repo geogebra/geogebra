@@ -335,7 +335,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     }
 
 	//@Override
-    public void onValueChange(ValueChangeEvent<Boolean> event) {
+    @Override
+	public void onValueChange(ValueChangeEvent<Boolean> event) {
     	  Object source = event.getSource();
     	  
 
@@ -346,7 +347,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     }
 
 	//@Override
-    public void onChange(ChangeEvent event) {
+    @Override
+	public void onChange(ChangeEvent event) {
 	    updateGUI();
     }
     
@@ -488,6 +490,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		return wrappedPanel;
     	}
 
+		@Override
 		public void onKeyUp(KeyUpEvent e) {
 
 			updateCellData();
@@ -496,7 +499,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     	    
         }
 
-        public void onFocus(FocusEvent event) {
+        @Override
+		public void onFocus(FocusEvent event) {
     		if (event.getSource() instanceof TextBox) {
     			((TextBox) event.getSource()).selectAll();
     		}
@@ -504,6 +508,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
     }
 
+	@Override
 	public void onFocus(FocusEvent event) {
 	    if (event.getSource() instanceof TextBox) {
 	    	((TextBox) event.getSource()).selectAll();
@@ -511,6 +516,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    
     }
 
+	@Override
 	public void onKeyPress(KeyPressEvent event) {
 	   Object source = event.getSource();
 	   if (source instanceof TextBox) {

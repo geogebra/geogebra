@@ -155,10 +155,11 @@ public class AppWapplet3D extends AppWapplet {
 	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		if (evno == EuclidianView.EVNO_3D && hasEuclidianView3D()
 		        && getEuclidianView3D().isShowing()) {// or the EuclidianView 2
-			if (getSplitLayoutPanel() != null)
+			if (getSplitLayoutPanel() != null) {
 				getSplitLayoutPanel().setPixelSize(
 				        getSplitLayoutPanel().getOffsetWidth() + widthDiff,
 				        getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+			}
 		} else {
 			super.syncAppletPanelSize(widthDiff, heightDiff, evno);
 		}

@@ -45,6 +45,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 		checkbox = new CheckBox();
 		checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
+			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 	           if (valueChangeHandler != null) {
 	        	   valueChangeHandler.onValueChange(event);
@@ -54,6 +55,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 		});
 		this.setScheduledCommand(new ScheduledCommand() {
 			
+			@Override
 			public void execute() {
 				if (valueChangeHandler != null) {
 					checkbox.setValue(!checkbox.getValue());
@@ -105,6 +107,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 		valueChangeHandler = handler;
 		return new HandlerRegistration() {
 			
+			@Override
 			public void removeHandler() {
 				valueChangeHandler = null;
 			}

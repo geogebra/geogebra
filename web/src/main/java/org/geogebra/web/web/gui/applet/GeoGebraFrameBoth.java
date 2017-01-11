@@ -194,6 +194,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	}
 
+	@Override
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
 
@@ -327,6 +328,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	@Override
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
 		if (forceShow) {
@@ -481,6 +483,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		return this.keyboardShowing;
 	}
 
+	@Override
 	public void showKeyboardOnFocus() {
 		if (app != null) {
 			this.app.getGuiManager().getOnScreenKeyboard(null, this)
@@ -488,10 +491,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	@Override
 	public void updateKeyboardHeight() {
 		// TODO update of height
 	}
 
+	@Override
 	public double getKeyboardHeight() {
 		return keyboardShowing ? keyboardHeight : 0;
 	}
@@ -532,10 +537,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	@Override
 	public GGWToolBar getToolbar() {
 		return ggwToolBar;
 	}
 
+	@Override
 	public void setMenuHeight(boolean linearInputbar) {
 		// TODO in app mode we need to change menu height when inputbar is
 		// visible

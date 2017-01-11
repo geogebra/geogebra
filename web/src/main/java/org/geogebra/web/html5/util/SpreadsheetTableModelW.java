@@ -81,11 +81,15 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	public void attachMyTable(MyTable newTable) {
 		this.table = newTable;
 		Object value;
-		if (newTable != null)
-			for (int i = 0; i < rowNum; i++)
-				for (int j = 0; j < colNum; j++)
-					if ((value = getValueAt(i, j)) != null)
+		if (newTable != null) {
+			for (int i = 0; i < rowNum; i++) {
+				for (int j = 0; j < colNum; j++) {
+					if ((value = getValueAt(i, j)) != null) {
 						newTable.updateTableCellValue(value, i, j);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -103,16 +107,19 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		if (rowNum == rowCount) {
 			return;
 		} else if (rowNum > rowCount) {
-			for (int i = rowNum * colNum - 1; i >= rowCount * colNum; i--)
+			for (int i = rowNum * colNum - 1; i >= rowCount * colNum; i--) {
 				defaultTableModel.remove(i);
+			}
 		} else {
 			defaultTableModel.ensureCapacity(rowCount * colNum);
-			for (int i = rowNum * colNum; i < rowCount * colNum; i++)
+			for (int i = rowNum * colNum; i < rowCount * colNum; i++) {
 				defaultTableModel.add(null);
+			}
 		}
 		rowNum = rowCount;
-		if (listener != null)
+		if (listener != null) {
 			listener.dimensionChange();
+		}
 	}
 
 	@Override
@@ -120,21 +127,27 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		if (colNum == columnCount) {
 			return;
 		} else if (colNum > columnCount) {
-			for (int i = rowNum - 1; i >= 0; i--)
-				for (int j = colNum - 1; j >= columnCount; j--)
+			for (int i = rowNum - 1; i >= 0; i--) {
+				for (int j = colNum - 1; j >= columnCount; j--) {
 					defaultTableModel.remove(i * colNum + j);
+				}
+			}
 		} else {
 			defaultTableModel.ensureCapacity(rowNum * columnCount);
-			for (int i = rowNum - 1; i >= 0; i--)
-				for (int j = colNum; j < columnCount; j++)
-					if (i * colNum + j >= defaultTableModel.size())
+			for (int i = rowNum - 1; i >= 0; i--) {
+				for (int j = colNum; j < columnCount; j++) {
+					if (i * colNum + j >= defaultTableModel.size()) {
 						defaultTableModel.add(null);
-					else
+					} else {
 						defaultTableModel.add(i * colNum + j, null);
+					}
+				}
+			}
 		}
 		colNum = columnCount;
-		if (listener != null)
+		if (listener != null) {
 			listener.dimensionChange();
+		}
 	}
 
 	@Override
@@ -168,18 +181,21 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 				table.updateTableCellValue(value, row, column);
 				// do this after updateTableCellValue, as it does no harm
 				// and the valueChange might need the table cell value!
-				if (listener != null)
+				if (listener != null) {
 					listener.valueChange();
+				}
 			}
 		}
 
 	}
 
+	@Override
 	public boolean hasFocus() {
 		Log.debug("unimplemented");
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		return false;
 	}
@@ -192,6 +208,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		listener = cl;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		// repaint not needed
 		return false;

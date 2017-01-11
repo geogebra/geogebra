@@ -83,8 +83,9 @@ public class GTextBoxProcessing implements KeyboardListener {
 		int cursorPos = field.getCursorPos();
 		switch (type) {
 		case left:
-			if (cursorPos > 0)
+			if (cursorPos > 0) {
 				field.setCursorPos(cursorPos - 1);
+			}
 			break;
 		case right:
 			if (cursorPos < field.getText().length()) {
@@ -101,29 +102,35 @@ public class GTextBoxProcessing implements KeyboardListener {
 		return false;
 	}
 
+	@Override
 	public void setKeyBoardModeText(boolean text) {
 		// overridden for RTI
 
 	}
 
+	@Override
 	public void scrollCursorIntoView() {
 		// overridden for RTI
 
 	}
 
+	@Override
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// overridden for RTI
 	}
 
+	@Override
 	public boolean isSVCell() {
 		return false;
 	}
 
+	@Override
 	public void endEditing() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public GTextBox getField() {
 		return field;
 	}

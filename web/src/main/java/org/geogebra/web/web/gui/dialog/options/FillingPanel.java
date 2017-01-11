@@ -304,6 +304,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		lbBars.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				model.updateProperties();
 			}
@@ -702,11 +703,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		cbFillInverse.setValue(value);
 	}
 
+	@Override
 	public void clearItems() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setBarChart(AlgoBarChart algo) {
 		if (algo != null) {
 			lbBars.setBarCount(algo.getIntervals());

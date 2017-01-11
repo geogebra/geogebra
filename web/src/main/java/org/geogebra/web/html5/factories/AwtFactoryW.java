@@ -271,6 +271,7 @@ public class AwtFactoryW extends AwtFactory {
 				// listeners
 				ImageWrapper.nativeon(((GBufferedImageW) gi).getImageElement(),
 						"load", new ImageLoadCallback() {
+							@Override
 							public void onLoad() {
 								if (!repaintDeferred) {
 									repaintDeferred = true;
@@ -281,6 +282,7 @@ public class AwtFactoryW extends AwtFactory {
 									// in repaints
 									Scheduler.get().scheduleDeferred(
 											new Scheduler.ScheduledCommand() {
+												@Override
 												public void execute() {
 													repaintDeferred = false;
 													repaintsFromHereInProgress++;
@@ -288,10 +290,11 @@ public class AwtFactoryW extends AwtFactory {
 															.getEuclidianView1())
 																	.doRepaint();
 													if (app.hasEuclidianView2(
-															1))
+															1)) {
 														((EuclidianViewW) app
 																.getEuclidianView2(
 																		1)).doRepaint();
+													}
 													repaintsFromHereInProgress--;
 												}
 											});
@@ -302,6 +305,7 @@ public class AwtFactoryW extends AwtFactory {
 		}
 	}
 	
+	@Override
 	public int solveCubic(double[] eqn, double[] dest) {
 		return org.geogebra.ggbjdk.java.awt.geom.CubicCurve2D.solveCubic(eqn, dest);
 	}

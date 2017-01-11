@@ -20,6 +20,7 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 		appl = app;
 	}
 
+	@Override
 	public void onFocus(FocusEvent event) {
 		Object source = event.getSource();
 
@@ -34,6 +35,7 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 		}
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		// TODO: 1st parameter
 		focusLost(null, appl);

@@ -208,8 +208,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	@Override
 	public void showRenameDialog(GeoElement geo, boolean storeUndo, String initText,
 			boolean selectInitText) {
-		if (!app.isRightClickEnabled())
+		if (!app.isRightClickEnabled()) {
 			return;
+		}
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
 		if (app.getGuiManager() != null) {
@@ -354,8 +355,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
-		if (!((AppW) app).letShowPropertiesDialog() || app.getGuiManager() == null)
+		if (!((AppW) app).letShowPropertiesDialog() || app.getGuiManager() == null) {
 			return;
+		}
 
 		// get PropertiesView
 		PropertiesView pv = ((GuiManagerW) app.getGuiManager())
@@ -368,9 +370,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			}
 
 			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
-					&& geos.get(0) instanceof GeoNumeric)
+					&& geos.get(0) instanceof GeoNumeric) {
 				// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
 				subType = 2;
+			}
 		}
 
 		// set properties option type
@@ -473,8 +476,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		//if (functionInspector != null)
 		//	functionInspector.setLabels();
 
-		if (textInputDialog != null)
+		if (textInputDialog != null) {
 			((TextInputDialogW) textInputDialog).setLabels();
+		}
 
 		if (saveDialog != null) {
 			saveDialog.setLabels();

@@ -279,6 +279,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private JavaScriptObject onLoadCallback = null;
 
+	@Override
 	public JavaScriptObject getOnLoadCallback() {
 		return onLoadCallback;
 	}
@@ -572,6 +573,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 *            sets the geogebra-web applet widht
 	 */
+	@Override
 	public void setWidth(int width) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, getOffsetHeight());
@@ -593,6 +595,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 *            sets the geogebra-web applet height
 	 */
+	@Override
 	public void setHeight(int height) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(getOffsetWidth(), height);
@@ -619,6 +622,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 * 
 	 */
+	@Override
 	public void setSize(int width, int height) {
 		// setPixelSize(width, height);
 		if (app.getGuiManager() != null) {
@@ -635,6 +639,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * After loading a new GGB file, the size should be set to "auto"
 	 */
+	@Override
 	public void resetAutoSize() {
 		setWidth("auto");
 		setHeight("auto");
@@ -647,6 +652,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 *            wheter show the toolbar in geogebra-web applets or not
 	 */
+	@Override
 	public void showToolBar(boolean show) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().showToolBar(show);
@@ -658,6 +664,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 *            wheter show the menubar in geogebra-web applets or not
 	 */
+	@Override
 	public void showMenuBar(boolean show) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().showMenuBar(show);
@@ -669,6 +676,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 *            wheter show the algebrainput in geogebra-web applets or not
 	 */
+	@Override
 	public void showAlgebraInput(boolean show) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().showAlgebraInput(show);
@@ -680,6 +688,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 *            wheter show the reseticon in geogebra-web applets or not
 	 */
+	@Override
 	public void showResetIcon(boolean show) {
 		app.setShowResetIcon(show);
 		app.refreshViews();
@@ -727,6 +736,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * removes applet from the page
 	 */
+	@Override
 	public void remove() {
 		this.removeFromParent();
 		// this does not do anything!

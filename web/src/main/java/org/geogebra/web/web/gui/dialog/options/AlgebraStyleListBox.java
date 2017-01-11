@@ -21,6 +21,7 @@ public class AlgebraStyleListBox extends ListBox {
 		this.app = appW;
 		addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = getSelectedIndex();
 				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {

@@ -91,9 +91,11 @@ public class StatTableW extends FlowPanel {
 	 */
 	@Override
     public void clear() {
-		for (int r = 0; r < myTable.getRowCount(); r++)
-			for (int c = 0; c < myTable.getColumnCount(); c++)
+		for (int r = 0; r < myTable.getRowCount(); r++) {
+			for (int c = 0; c < myTable.getColumnCount(); c++) {
 				myTable.setWidget(r, c, new Label(" "));
+			}
+		}
 	}
 	
 	/**
@@ -141,8 +143,9 @@ public class StatTableW extends FlowPanel {
 		}
 		try {
 			if (columnNames != null) {
-				for (int i = 0; i < columnNames.length; i++)
+				for (int i = 0; i < columnNames.length; i++) {
 					myTable.setWidget(0, i + 1, new Label(columnNames[i]));
+				}
 			}
 
 			int startRow = hasHeader ? 1 : 0;

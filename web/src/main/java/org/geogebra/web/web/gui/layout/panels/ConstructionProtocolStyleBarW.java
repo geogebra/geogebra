@@ -68,6 +68,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		if (actionButton == btnColumns) {
 

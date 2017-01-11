@@ -20,6 +20,7 @@ public class AppletFactory3D implements AppletFactory{
 			return new AppWapplet3D(ae, fr, (GLookAndFeel) laf);
 		}
 		
+		@Override
 		public AppW getApplication(ArticleElement article, GeoGebraAppFrame fr, GLookAndFeel laf,
 	            GDevice device) {
 		    return new AppWapplication3D(article, fr,  laf, device);

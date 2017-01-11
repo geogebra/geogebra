@@ -87,6 +87,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	/**
 	 * Go for the google drive url, and fetch the script
 	 */
+	@Override
 	public void initGoogleDriveApi() {
 		if (!inited) {
 			createGoogleApiCallbackFunction();
@@ -224,6 +225,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		picker.setVisible(true);
 	}-*/;
 
+	@Override
 	public void renderEvent(BaseEvent event) {
 		Log.debug("event: " + event.toString());
 		if (event instanceof GoogleDriveLoadedEvent) {
@@ -270,6 +272,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		} else {
 			getView().add(new EventRenderable() {
 
+				@Override
 				public void renderEvent(BaseEvent loadevent) {
 					if (loadevent instanceof GoogleDriveLoadedEvent) {
 						login(true);
@@ -414,6 +417,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		postprocessFileLoading(description, title, id);
 	}
 
+	@Override
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
 		if ("null".equals(desc) || "undefined".equals(desc)) {
 			driveBase64description = "";
@@ -572,6 +576,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		return action;
 	}
 
+	@Override
 	public void requestPicker() {
 		if (this.authToken != null) {
 			createPicker(this.authToken);
@@ -582,6 +587,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	}
 
+	@Override
 	public void resetStorageInfo() {
 		driveBase64FileName = null;
 		driveBase64description = null;

@@ -36,10 +36,12 @@ public class NumberFormatW extends Format implements NumberFormatAdapter {
 		nf.overrideFractionDigits(0, maximumFractionDigits);
 	}
 
+	@Override
 	public int getMaximumFractionDigits() {
 		return maximumFractionDigits;
 	}
 
+	@Override
 	public String format(double x) {
 		String ret = nf.format(x);
 

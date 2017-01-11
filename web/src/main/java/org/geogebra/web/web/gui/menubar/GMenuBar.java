@@ -31,6 +31,7 @@ public class GMenuBar extends MenuBar{
 		
     }
 	
+	@Override
 	public MenuItemSeparator addSeparator(){
 		this.separators  ++;
 		return super.addSeparator();
@@ -49,6 +50,7 @@ public class GMenuBar extends MenuBar{
 		final Object[] ait = new Object[2];
 		ait[1] = null;// means the popup assigned to this MenuItem
 		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
+			@Override
 			public void execute() {
 
 				if (ait[0] != null) {
@@ -83,7 +85,8 @@ public class GMenuBar extends MenuBar{
 						if (submenupopup instanceof RadioButtonMenuBarW) {
 							((RadioButtonMenuBarW) submenupopup)
 							        .registerItemSideEffect(new Scheduler.ScheduledCommand() {
-								        public void execute() {
+								        @Override
+										public void execute() {
 									        // this should only run if some item
 									        // is selected and clicked
 									        ait[1] = null;
@@ -103,8 +106,9 @@ public class GMenuBar extends MenuBar{
 					} else {
 						submenupopup.selectItem(null);
 
-						if (ait[1] instanceof PopupPanel)
+						if (ait[1] instanceof PopupPanel) {
 							((PopupPanel) ait[1]).hide();
+						}
 
 						// if popuppanel is present, it will be hidden
 						// due to autoHide, and no new one is created instead

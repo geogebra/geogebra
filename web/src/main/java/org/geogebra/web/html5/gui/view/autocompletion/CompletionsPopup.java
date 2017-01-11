@@ -33,8 +33,9 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	@Override
 	public void requestSuggestions(Request request, Callback callback) {
 
-		if (textField == null)
+		if (textField == null) {
 			return;
+		}
 
 		if (!textField.getAutoComplete()) {
 			callback.onSuggestionsReady(request, new Response(Collections.EMPTY_LIST));

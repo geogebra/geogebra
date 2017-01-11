@@ -54,6 +54,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 		}
 
+	@Override
 	public boolean isSVCell() {
 		return field.getStyleName().indexOf("SpreadsheetEditorCell") >= 0;
 	}
@@ -79,8 +80,9 @@ public class AutocompleteProcessing implements KeyboardListener {
 		int caretPos = field.getCaretPosition();
 		switch (type) {
 		case left:
-			if (caretPos > 0)
+			if (caretPos > 0) {
 				field.setCaretPosition(caretPos - 1);
+			}
 			break;
 		case right:
 			if (caretPos < field.getText().length()) {
@@ -97,18 +99,22 @@ public class AutocompleteProcessing implements KeyboardListener {
 		return false;
 	}
 
+	@Override
 	public void scrollCursorIntoView() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// overridden for RTI
 	}
 
+	@Override
 	public void endEditing() {
 		field.endOnscreenKeyboardEditing();
 	}
 
+	@Override
 	public AutoCompleteTextFieldW getField() {
 		return field;
 	}

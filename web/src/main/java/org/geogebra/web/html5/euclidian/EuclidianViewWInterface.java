@@ -42,17 +42,20 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 */
 	public boolean textfieldClicked(int x, int y, PointerEventType type);
 
+	@Override
 	public int getViewID();
 
 	public double getXZero();
 
 	public double getYZero();
 
+	@Override
 	public double getXscale();
 
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 	        double newRatioY);
 
+	@Override
 	public double getYscale();
 
 	public void rememberOrigins();

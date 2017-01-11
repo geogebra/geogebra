@@ -33,6 +33,7 @@ public class HttpRequestW extends HttpRequest {
 			builder.setTimeoutMillis(getTimeout() * 1000);
 			Log.debug("Sending request " + url + " until timeout " + getTimeout());
 			builder.sendRequest(null, new RequestCallback() {
+				@Override
 				public void onError(Request request, Throwable exception) {
 					// Couldn't connect to server (could be timeout, SOP
 					// violation, etc.)
@@ -40,6 +41,7 @@ public class HttpRequestW extends HttpRequest {
 					processed = true;
 				}
 
+				@Override
 				public void onResponseReceived(Request request,
 				        Response response) {
 					if (200 == response.getStatusCode()) {

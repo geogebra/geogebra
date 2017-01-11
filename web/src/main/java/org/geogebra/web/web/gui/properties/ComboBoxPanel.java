@@ -63,14 +63,17 @@ public abstract class ComboBoxPanel extends OptionPanel
 		comboBox.setValue(text);
 	}
 
+	@Override
 	public void setSelectedIndex(int index) {
 		comboBox.setSelectedIndex(index);
     }
 
+	@Override
 	public void addItem(String item) {
         comboBox.addItem(item);
     }
 
+	@Override
 	public void addItem(GeoElement geo) {
 		if (geo == null) {
 			comboBox.addItem("");
@@ -97,6 +100,7 @@ public abstract class ComboBoxPanel extends OptionPanel
         this.label = label;
     }
 
+	@Override
 	public void setSelectedItem(String item) {
 	    // TODO Auto-generated method stub
 	    
@@ -110,6 +114,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	    this.comboBox = comboBox;
     }
 
+	@Override
 	public void clearItems() {
 		comboBox.getModel().clear();
 
@@ -129,19 +134,23 @@ public abstract class ComboBoxPanel extends OptionPanel
 
 	}
 
+	@Override
 	public void resetError() {
 		errorPanel.clear();
 	}
 
+	@Override
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
 
 	}
 
+	@Override
 	public String getCurrentCommand() {
 		return null;
 	}
 	
+	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		// TODO Auto-generated method stub

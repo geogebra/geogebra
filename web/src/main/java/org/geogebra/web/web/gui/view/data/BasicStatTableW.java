@@ -83,6 +83,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	 * not valid, the result cells are set blank.
 	 * 
 	 */
+	@Override
 	public void updatePanel() {
 		// App.printStacktrace("update stat panel");
 		GeoList dataList = getDataSelected();
@@ -139,43 +140,53 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		return getModel().getAlgoClass(stat, frequencyData, geoRegression);
 	}
 
+	@Override
 	public void setLabels() {
 		statTable.setLabels(getModel().getRowNames(), getModel().getColumnNames(), false);
 	}
 
+	@Override
 	public GeoList getDataSelected() {
 		return daView.getController().getDataSelected();
 	}
 
+	@Override
 	public GeoElement getRegressionModel() {
 		return daView.getRegressionModel();
 	}
 
+	@Override
 	public DataAnalysisModel.Regression getRegressionMode() {
 		return daView.getModel().getRegressionMode();
 	}
 
+	@Override
 	public boolean isValidData() {
 		return daView.getController().isValidData();
 	}
 
+	@Override
 	public void setValueAt(double value, int row, int col) {
 		statTable.setValueAt(daView.getModel().format(value), row,
 				col);
 	}
 
+	@Override
 	public boolean isViewValid() {
 		return daView == null || daView.getDataSource() == null;
 	}
 
+	@Override
 	public int getMode() {
 		return daView.getModel().getMode();
 	}
 
+	@Override
 	public GroupType groupType() {
 		return daView.groupType();
 	}
 
+	@Override
 	public boolean isNumericData() {
 		return daView.getDataSource().isNumericData();
 	}

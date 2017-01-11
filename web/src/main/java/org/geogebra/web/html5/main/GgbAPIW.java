@@ -58,6 +58,7 @@ public class GgbAPIW extends GgbAPI {
 		this.construction = kernel.getConstruction();
 	}
 
+	@Override
 	public byte[] getGGBfile() {
 		// TODO Auto-generated method stub
 		return null;
@@ -67,6 +68,7 @@ public class GgbAPIW extends GgbAPI {
 		return ((AppW) app).getCanvas().getContext2d();
 	}
 
+	@Override
 	public void setBase64(String base64) {
 		resetPerspective();
 		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
@@ -85,6 +87,7 @@ public class GgbAPIW extends GgbAPI {
 		if (callback != null) {
 			OpenFileListener listener = new OpenFileListener() {
 
+				@Override
 				public void onOpenFile() {
 					ScriptManagerW.runCallback(callback);
 					app.unregisterOpenFileListener(this);
@@ -99,6 +102,7 @@ public class GgbAPIW extends GgbAPI {
 		if (callback != null) {
 			OpenFileListener listener = new OpenFileListener() {
 
+				@Override
 				public void onOpenFile() {
 					ScriptManagerW.runCallback(callback);
 					app.unregisterOpenFileListener(this);
@@ -109,20 +113,24 @@ public class GgbAPIW extends GgbAPI {
 		openFile(filename);
 	}
 
+	@Override
 	public void setErrorDialogsActive(boolean flag) {
 		app.setErrorDialogsActive(flag);
 	}
 
+	@Override
 	public void refreshViews() {
 		app.refreshViews();
 	}
 
+	@Override
 	public void openFile(String filename) {
 		resetPerspective();
 		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
 		view.processFileName(filename);
 	}
 
+	@Override
 	public boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double DPI) {
 
@@ -137,6 +145,7 @@ public class GgbAPIW extends GgbAPI {
 		return true;
 	}
 
+	@Override
 	public String getPNGBase64(double exportScale, boolean transparent,
 			double DPI, boolean copyToClipboard) {
 		if (app.getGuiManager() != null) {
@@ -175,11 +184,13 @@ public class GgbAPIW extends GgbAPI {
 		return c.toDataUrl().substring("data:image/png;base64,".length());
 	}
 
+	@Override
 	public void drawToImage(String label, double[] x, double[] y) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void clearImage(String label) {
 		GeoElement ge = kernel.lookupLabel(label);
 
@@ -245,6 +256,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
+	@Override
 	public String getBase64(boolean includeThumbnail) {
 		StoreString storeString = new StoreString();
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
@@ -307,10 +319,11 @@ public class GgbAPIW extends GgbAPI {
 		writeConstructionImages(getConstruction(), "", archiveContent);
 
 		// write construction thumbnails
-		if (includeThumbnail)
+		if (includeThumbnail) {
 			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
 					getViewForThumbnail()
 							.getCanvasBase64WithTypeString(), archiveContent);
+		}
 
 		if (!"".equals(macroXml)) {
 			writeMacroImages(archiveContent);
@@ -647,8 +660,9 @@ public class GgbAPIW extends GgbAPI {
 
 	private void writeMacroImages(ArrayList<Macro> macros, String filePath,
 			Map<String, String> archive) {
-		if (macros == null)
+		if (macros == null) {
 			return;
+		}
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
@@ -686,8 +700,9 @@ public class GgbAPIW extends GgbAPI {
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
-		if (geos == null)
+		if (geos == null) {
 			return;
+		}
 
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
@@ -710,8 +725,9 @@ public class GgbAPIW extends GgbAPI {
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
-		if (geos == null)
+		if (geos == null) {
 			return;
+		}
 
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
@@ -1009,6 +1025,7 @@ public class GgbAPIW extends GgbAPI {
 
 	public void checkSaved(final JavaScriptObject callback) {
 		((AppW) app).checkSaved(new Runnable() {
+			@Override
 			public void run() {
 				ScriptManagerW.runCallback(callback);
 			}

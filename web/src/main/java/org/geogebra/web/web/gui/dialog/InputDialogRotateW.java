@@ -110,21 +110,24 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 	/*
 	 * auto-insert degree symbol when appropriate
 	 */
+	@Override
 	public void onKeyUp(KeyUpEvent e) {
 
 		// return unless digit typed (instead of !Character.isDigit)
 		if (e.getNativeKeyCode() < 48 ||
 			(e.getNativeKeyCode() >  57 && e.getNativeKeyCode() < 96) ||
-			e.getNativeKeyCode() > 105)
+			e.getNativeKeyCode() > 105) {
 			return;
+		}
 
 		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
 		String text = tc.getText();
 
 		// if text already contains degree symbol or variable
 		for (int i = 0; i < text.length(); i++) {
-			if (!StringUtil.isDigit(text.charAt(i)))
+			if (!StringUtil.isDigit(text.charAt(i))) {
 				return;
+			}
 		}
 
 		int caretPos = tc.getCaretPosition();

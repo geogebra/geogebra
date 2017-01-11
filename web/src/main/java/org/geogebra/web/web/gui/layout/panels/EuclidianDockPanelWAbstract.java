@@ -157,6 +157,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			checkFocus();
 		}
 
+		@Override
 		public void onResize() {
 
 			if (app != null) {

@@ -140,8 +140,10 @@ public class EditMenuW extends GMenuBar {
 				        public void doExecute() {
 					        int layer1 = selection.getSelectedLayer();
 					        if (layer1 != -1)
-						        selection.selectAll(layer1); // select all
+							 {
+								selection.selectAll(layer1); // select all
 						                                     // objects in layer
+							}
 				        }
 			        });
 		}

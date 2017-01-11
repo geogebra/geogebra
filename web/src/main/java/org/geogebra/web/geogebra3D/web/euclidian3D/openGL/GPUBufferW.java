@@ -11,10 +11,12 @@ public class GPUBufferW implements GPUBuffer {
 	public GPUBufferW() {
 	}
 
+	@Override
 	public void set(Object index) {
 		impl = (WebGLBuffer) index;
 	}
 
+	@Override
 	public WebGLBuffer get() {
 		return impl;
 	}

@@ -233,6 +233,7 @@ pr.menu_header_undo(), null, 32);
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		if (redoButton != null) {
@@ -288,6 +289,7 @@ pr.menu_header_undo(), null, 32);
 
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
+			@Override
 			public void onClick(ClickEvent event) {
 				if (app.getArticleElement().hasDataParamEnableGraphing()) {
 					exam.setHasGraph(true);
@@ -555,6 +557,7 @@ pr.menu_header_undo(), null, 32);
 			});
 
 		openMenuButton.addDomHandler(new KeyUpHandler(){
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
 	            	GGWToolBar.this.app.toggleMenu();
@@ -596,6 +599,7 @@ pr.menu_header_undo(), null, 32);
 				});
 		
 			openSearchButton.addDomHandler(new KeyUpHandler(){
+				@Override
 				public void onKeyUp(KeyUpEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
 						app.openSearch(null);
@@ -671,6 +675,7 @@ pr.menu_header_undo(), null, 32);
 		return (url.length()>0) ? "<img src=\""+url+"\" width=\"32\">" : "";
 	}
 
+	@Override
 	public String getImageURL(int mode) {
 		return getImageURL(mode, app);
 	}
@@ -1302,8 +1307,12 @@ pr.menu_header_undo(), null, 32);
 	}
 
 	public static void set1rstMode(AppW app) {
-		if (app.getToolbar() == null) return;
-		if (((GGWToolBar)app.getToolbar()).getToolBar() == null) return;
+		if (app.getToolbar() == null) {
+			return;
+		}
+		if (((GGWToolBar)app.getToolbar()).getToolBar() == null) {
+			return;
+		}
 		
 		app.setMode(((GGWToolBar)app.getToolbar()).
 				getToolBar().getFirstMode(),
@@ -1311,6 +1320,7 @@ pr.menu_header_undo(), null, 32);
 	    
     }
 
+	@Override
 	public void closeAllSubmenu() {
 		toolBar.closeAllSubmenu();
 	}
@@ -1319,6 +1329,7 @@ pr.menu_header_undo(), null, 32);
 		return toolBarPanel;
 	}
 
+	@Override
 	public boolean isMobileToolbar() {
 		return toolBar != null && toolBar.isMobileToolbar();
 	}

@@ -23,6 +23,7 @@ public class WebSimple implements EntryPoint {
 	 * set true if Google Api Js loaded
 	 */
 
+	@Override
 	public void onModuleLoad() {
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
 		        && !"".equals(RootPanel.getBodyElement().getAttribute(
@@ -56,10 +57,12 @@ public class WebSimple implements EntryPoint {
 	public static void loadAppletAsync() {
 		GWT.runAsync(new RunAsyncCallback() {
 
+			@Override
 			public void onSuccess() {
 				startGeoGebra(ArticleElement.getGeoGebraMobileTags());
 			}
 
+			@Override
 			public void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
 
@@ -73,6 +76,7 @@ public class WebSimple implements EntryPoint {
 	 */
 	public static void registerSuperdevExceptionHandler() {
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+					@Override
 					public void onUncaughtException(Throwable t) {
 						Throwable cause = t;
 						while (cause.getCause() != null) {

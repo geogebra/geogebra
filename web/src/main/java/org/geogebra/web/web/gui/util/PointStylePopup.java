@@ -25,15 +25,17 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 		PointStylePopup.mode = mode;
 		
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
+		}
 
 		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
 		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianView
 				.getPointStyleLength()];
-		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleIcons[i] = GeoGebraIconW
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
+		}
 
 		return new PointStylePopup(app, pointStyleIcons, 2, -1,
 				pointStyleIconSize, SelectionTable.MODE_ICON, true,
@@ -120,15 +122,18 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 		return val == -1 ? DEFAULT_SIZE : val;
 	}
 
+	@Override
 	public void setSelectedIndex(int index) {
 	    super.setSelectedIndex(index);		
     }
 
+	@Override
 	public void addItem(String item) {
 	    // TODO Auto-generated method stub
 	    
     }
 
+	@Override
 	public void setSelectedItem(String item) {
 	    // TODO Auto-generated method stub
 	    
@@ -142,6 +147,7 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 		euclidian3D = euclidian3d;
 	}
 
+	@Override
 	public void clearItems() {
 		// TODO Auto-generated method stub
 

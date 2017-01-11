@@ -96,6 +96,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	GRectangle contentRect;
 
 	Scheduler.ScheduledCommand scrollRectCommand = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			scrollRectToVisibleCommand();
 		}
@@ -268,6 +269,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		doAdjustScroll = true;
 	}
 
+	@Override
 	public void onScroll(ScrollEvent event) {
 		adjustScroll();
 		syncHeaders();

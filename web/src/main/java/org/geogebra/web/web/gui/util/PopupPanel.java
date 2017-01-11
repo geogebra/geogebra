@@ -373,7 +373,8 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
    * Window resize handler used to keep the glass the proper size.
    */
   private ResizeHandler glassResizer = new ResizeHandler() {
-    public void onResize(ResizeEvent event) {
+    @Override
+	public void onResize(ResizeEvent event) {
       Style style = glass.getStyle();
 
       int winWidth = Window.getClientWidth();
@@ -468,14 +469,16 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     autoHidePartners.add(partner);
   }
 
-  public HandlerRegistration addCloseHandler(CloseHandler<PopupPanel> handler) {
+  @Override
+public HandlerRegistration addCloseHandler(CloseHandler<PopupPanel> handler) {
     return addHandler(handler, CloseEvent.getType());
   }
 
   /**
    * @deprecated Use {@link #addCloseHandler} instead. This method does nothing.
    */
-  @Deprecated
+  @Override
+@Deprecated
   public void addPopupListener(final PopupListener listener) {
     //ListenerWrapper.WrappedPopupListener.add(this, listener);
   }
@@ -600,7 +603,8 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     CloseEvent.fire(this, this, autoClosed);
   }
 
-  public boolean isAnimationEnabled() {
+  @Override
+public boolean isAnimationEnabled() {
     return isAnimationEnabled;
   }
 
@@ -683,7 +687,8 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
   /**
    * @deprecated Use {@link #onPreviewNativeEvent} instead
    */
-  @Deprecated
+  @Override
+@Deprecated
   public boolean onEventPreview(Event event) {
     return true;
   }
@@ -750,12 +755,14 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
    *             object returned by {@link #addCloseHandler} instead. 
    *             This method does nothing.
    */
-  @Deprecated
+  @Override
+@Deprecated
   public void removePopupListener(PopupListener listener) {
     //ListenerWrapper.WrappedPopupListener.remove(this, listener);
   }
 
-  public void setAnimationEnabled(boolean enable) {
+  @Override
+public void setAnimationEnabled(boolean enable) {
     isAnimationEnabled = enable;
   }
 
@@ -1000,7 +1007,8 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
   public final void showRelativeTo(final UIObject target) {
     // Set the position of the popup right before it is shown.
     setPopupPositionAndShow(new PositionCallback() {
-      public void setPosition(int offsetWidth, int offsetHeight) {
+      @Override
+	public void setPosition(int offsetWidth, int offsetHeight) {
         position(target, offsetWidth, offsetHeight);
       }
     });
@@ -1423,12 +1431,14 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     // Create handlers if showing.
     if (showing) {
       nativePreviewHandlerRegistration = Event.addNativePreviewHandler(new NativePreviewHandler() {
-        public void onPreviewNativeEvent(NativePreviewEvent event) {
+        @Override
+		public void onPreviewNativeEvent(NativePreviewEvent event) {
           previewNativeEvent(event);
         }
       });
       historyHandlerRegistration = History.addValueChangeHandler(new ValueChangeHandler<String>() {
-        public void onValueChange(ValueChangeEvent<String> event) {
+        @Override
+		public void onValueChange(ValueChangeEvent<String> event) {
           if (autoHideOnHistoryEvents) {
             hide();
           }

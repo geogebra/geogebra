@@ -430,6 +430,7 @@ public class ToolTipManagerW {
 
 		// Closing tooltips is done in AppW.closePopups
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				NativeEvent e = event.getNativeEvent();
 

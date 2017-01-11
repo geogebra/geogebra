@@ -21,6 +21,7 @@ public class ViewPanelWithStylebar extends AbsolutePanel implements
 	private StyleBar styleBar;
 	private StyleBarContainer styleBarContainer;
 
+	@Override
 	public void onResize() {
 		refreshPanel();
 		refreshStyleBar();

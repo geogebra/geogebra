@@ -455,6 +455,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			add(sp);
 			slider.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					onSliderInput();
                 }});
@@ -462,6 +463,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		}
 
+		@Override
 		public void onSliderInput() {
 			if (changeHandler != null) {
 				changeHandler.onAlphaChange();
@@ -506,12 +508,14 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			btnClearBackground.setVisible(false);
 			foregroundButton.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					setBackground(false);
                 }});		
 			
 			backgroundButton.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					setBackground(true);
 				}});		
@@ -519,6 +523,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			
 			btnClearBackground.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 	                changeHandler.onClearBackground();
 	                
@@ -621,6 +626,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		btnCustomColor.setStyleName("CustomColorButton");
 		btnCustomColor.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				showCustomColorDialog();
             }
@@ -637,6 +643,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		add(lbBars);
 		
 		canvas.addClickHandler(new ClickHandler(){
+			@Override
 			public void onClick(ClickEvent event) {
 				for (ColorTable table: tables) {
 					GColor color = table.getSelectedColor();
@@ -650,6 +657,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		canvas.addMouseMoveHandler(new MouseMoveHandler() {
 
+			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				int mx = event.getRelativeX(canvas.getElement());
 				int my = event.getRelativeY(canvas.getElement());
@@ -660,6 +668,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		lbBars.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = lbBars.getSelectedIndex();
 				setSelectedBar(idx);
@@ -735,6 +744,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 	}
 
+	@Override
 	public GColor getSelectedColor() {
 		return selectedColor;
 	}
@@ -814,6 +824,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		app.setDefaultCursor();
     }
 
+	@Override
 	public void onCustomColor(GColor color) {
 	    otherTable.injectColor(color);
 	    otherTable.select(0, 0);

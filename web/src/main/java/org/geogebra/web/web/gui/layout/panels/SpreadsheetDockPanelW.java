@@ -138,8 +138,9 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	public boolean hasStyleBar() {
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 
-		if (settings == null)
+		if (settings == null) {
 			return super.hasStyleBar();
+		}
 
 		return super.hasStyleBar() && settings.showRowHeader() && settings.showColumnHeader();
 	}

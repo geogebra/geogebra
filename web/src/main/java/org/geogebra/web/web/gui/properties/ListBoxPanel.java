@@ -31,6 +31,7 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		
 		getListBox().addChangeHandler(new ChangeHandler(){
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				onListBoxChange();
 			}});
@@ -55,10 +56,12 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 		getListBox().setSelectedIndex(idx);
 	}
 
+	@Override
 	public void setSelectedIndex(int index) {
 		getListBox().setSelectedIndex(index);
     }
 
+	@Override
 	public void addItem(String item) {
         getListBox().addItem(item);
     }
@@ -89,11 +92,13 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
         this.label = label;
     }
 
+	@Override
 	public void setSelectedItem(String item) {
 	    // TODO Auto-generated method stub
 	    
     }
 
+	@Override
 	public void clearItems() {
 		getListBox().clear();
 

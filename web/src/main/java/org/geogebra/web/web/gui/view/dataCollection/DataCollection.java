@@ -167,10 +167,12 @@ public class DataCollection implements WebSocketListener {
 		this.sensorLogger.triggerFrequency();
 	}
 
+	@Override
 	public void onFrequency(int freq) {
 		this.dataView.setFrequency(freq);
 	}
 
+	@Override
 	public void onDataReceived(Types sensor, double timestamp, int dataCount) {
 		for (Frequency freq : this.frequencies) {
 			if (freq.getType().equals(sensor)) {

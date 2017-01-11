@@ -60,6 +60,7 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 
 		popupPanel.addCloseHandler(new CloseHandler<PopupPanel>() {
 
+			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
 				if (subPopup != null) {
 					subPopup.removeFromDOM();
@@ -151,6 +152,7 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 		show(new GPoint(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y));
 	}
 
+	@Override
 	public void removeFromDOM() {
 		removeSubPopup();
 		popupPanel.removeFromParent();
@@ -179,6 +181,7 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 		if (submenu == null) {
 			final ScheduledCommand oldCmd = item.getScheduledCommand();
 			ScheduledCommand cmd = new ScheduledCommand() {
+				@Override
 				public void execute() {
 					oldCmd.execute();
 					popupPanel.hide();
@@ -196,6 +199,7 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 			// submenu.addHandler(closehandler, CloseEvent.getType());
 
 			submenu.addHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					popupPanel.hide();
 				}
@@ -230,10 +234,12 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 			newItem.getElement().setAttribute("hasPopup", "true");
 			popupMenu.addItem(newItem);
 			itemCommand = new ScheduledCommand() {
+				@Override
 				public void execute() {
 					int xCord, yCord;
-					if (subPopup != null)
+					if (subPopup != null) {
 						subPopup.removeFromDOM();
+					}
 					subPopup = new GPopupMenuW(subMenu);
 					subPopup.setVisible(true);
 					int xPercent = 0;
@@ -284,11 +290,13 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 	public int getSubPopupWidth() {
 		int width;
 		boolean shown = subPopup.popupPanel.isShowing();
-		if (!shown)
+		if (!shown) {
 			subPopup.popupPanel.show();
+		}
 		width = subPopup.popupPanel.getOffsetWidth();
-		if (!shown)
+		if (!shown) {
 			subPopup.popupPanel.hide();
+		}
 		return width;
 	}
 
@@ -298,11 +306,13 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 	public int getSubPopupHeight() {
 		int ret;
 		boolean shown = subPopup.popupPanel.isShowing();
-		if (!shown)
+		if (!shown) {
 			subPopup.popupPanel.show();
+		}
 		ret = subPopup.popupPanel.getOffsetHeight();
-		if (!shown)
+		if (!shown) {
 			subPopup.popupPanel.hide();
+		}
 		return ret;
 	}
 
@@ -384,8 +394,9 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 					if ("true".equals(item.getElement()
 							.getAttribute("hasPopup"))) {
 						item.getScheduledCommand().execute();
-					} else
+					} else {
 						removeSubPopup();
+					}
 				}
 				break;
 			}

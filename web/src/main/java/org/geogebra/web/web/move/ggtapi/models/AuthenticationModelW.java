@@ -68,7 +68,7 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	private void ensureInited() {
 
-		if (inited || ((AppW) app).getLAF().getLoginListener() == null) {
+		if (inited || app.getLAF().getLoginListener() == null) {
 			return;
 		}
 		inited = true;

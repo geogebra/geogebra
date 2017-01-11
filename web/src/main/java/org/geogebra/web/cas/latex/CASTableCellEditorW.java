@@ -105,43 +105,52 @@ public class CASTableCellEditorW extends Label implements
 
 	}
 
+	@Override
 	public int getInputSelectionEnd() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getInputSelectionStart() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public String getInputSelectedText() {
 		// TODO Auto-generated method stub
 		return "";
 	}
 
+	@Override
 	public String getInput() {
 		return MathQuillHelper.getActualEditedValue(seMayLaTeX, false);
 	}
 
+	@Override
 	public void setInputSelectionStart(int selStart) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setInputSelectionEnd(int selEnd) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setLabels() {
 		editor.resetLanguage();
 	}
 
+	@Override
 	public void setInput(String input) {
 		editor.setText(input, false);
 	}
 
+	@Override
 	public void clearInputText() {
 		editor.setText("", false);
 	}
@@ -302,10 +311,12 @@ public class CASTableCellEditorW extends Label implements
 		return this;
 	}
 
+	@Override
 	public void resetInput() {
 		// TODO clear input
 	}
 
+	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
 		MathQuillHelper.triggerKeypress(this, this.seMayLaTeX, character, alt,
@@ -314,21 +325,25 @@ public class CASTableCellEditorW extends Label implements
 
 	}
 
+	@Override
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
 		MathQuillHelper.triggerKeydown(this, seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
+	@Override
 	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
 		MathQuillHelper.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
+	@Override
 	public void scrollCursorIntoView() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void ensureEditing() {
 		if (!thisIsEdited) {
 			thisIsEdited = true;
@@ -338,24 +353,29 @@ public class CASTableCellEditorW extends Label implements
 
 	}
 
+	@Override
 	public boolean resetAfterEnter() {
 		return false;
 	}
 
+	@Override
 	public void typing(boolean heuristic) {
 
 		// to be overridden in NewRadioButtonTreeItem,
 		// to know whether it's empty, whether to show Xbutton
 	}
 
+	@Override
 	public void onBlur(BlurEvent be) {
 		// to be overridden in NewRadioButtonTreeItem
 	}
 
+	@Override
 	public void onFocus(FocusEvent fe) {
 		// to be overridden in NewRadioButtonTreeItem
 	}
 
+	@Override
 	public String getLaTeX() {
 		return dollarFix(
 				MathQuillHelper.getActualEditedValue(seMayLaTeX, true));
@@ -365,10 +385,12 @@ public class CASTableCellEditorW extends Label implements
 		return actualEditedValue.replace("$", "\\$");
 	}
 
+	@Override
 	public void setAutocomplete(boolean autocomplete) {
 		this.autocomplete = autocomplete;
 	}
 
+	@Override
 	public boolean isForCAS() {
 		return true;
 	}
@@ -384,10 +406,12 @@ public class CASTableCellEditorW extends Label implements
 		return null;
 	}
 
+	@Override
 	public Element getScrollElement() {
 		return getElement();
 	}
 
+	@Override
 	public void onKeyPress(String s) {
 		String input = this.getInput();
 		int editingRow = table.getEditingRow();
@@ -405,15 +429,18 @@ public class CASTableCellEditorW extends Label implements
 
 	}
 
+	@Override
 	public void setLaTeX(String plain, String latex) {
 		editor.setLaTeX(plain, latex);
 
 	}
 
+	@Override
 	public void autocomplete(String s) {
 		editor.autocomplete(s, false);
 	}
 
+	@Override
 	public void onEnter(boolean keepFocus) {
 		stopNewFormulaCreation(getText(), getLaTeX(),
 				new AsyncOperation<Object>() {
@@ -428,14 +455,17 @@ public class CASTableCellEditorW extends Label implements
 				});
 	}
 
+	@Override
 	public KeyboardListener getKeyboardListener() {
 		return new MathQuillProcessing(this);
 	}
 
+	@Override
 	public String getCommand() {
 		return editor.getCurrentCommand();
 	}
 
+	@Override
 	public boolean needsAutofocus() {
 		return true;
 	}

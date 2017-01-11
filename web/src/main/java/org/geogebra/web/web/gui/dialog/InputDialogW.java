@@ -103,6 +103,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		wrappedPopup.center();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				if (inputPanel != null) {
 					inputPanel.getTextComponent().setFocus(true);
@@ -237,7 +238,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	/**
 	 * Handles button clicks for dialog.
 	 */	
-    public void onClick(ClickEvent e) {
+    @Override
+	public void onClick(ClickEvent e) {
 		actionPerformed(e);
 	}
 	
@@ -299,6 +301,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	}-*/;
 
+	@Override
 	public void setLabels() {
 		wrappedPopup.setText(title);
 		btOK.setText(loc.getPlain("OK"));
@@ -345,14 +348,17 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 
+	@Override
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
 	}
 
+	@Override
 	public String getCurrentCommand() {
 		return inputPanel.getTextComponent().getCommand();
 	}
 
+	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return app.getGuiManager().checkAutoCreateSliders(string, callback);
@@ -363,6 +369,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	}
 
+	@Override
 	public void resetError() {
 		showError(null);
 	}

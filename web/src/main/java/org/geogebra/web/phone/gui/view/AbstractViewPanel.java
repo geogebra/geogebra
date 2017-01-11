@@ -13,6 +13,7 @@ public abstract class AbstractViewPanel extends FlowPanel implements ViewPanel {
 		setStyleName(getViewPanelStyleName());
 	}
 
+	@Override
 	public void onResize() {
 		setPixelSize(Window.getClientWidth(), Window.getClientHeight()
 		        - PhoneLookAndFeel.PHONE_HEADER_HEIGHT);

@@ -171,6 +171,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 		setTitle(toolTipText);
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		this.setFocus(false);
 	}

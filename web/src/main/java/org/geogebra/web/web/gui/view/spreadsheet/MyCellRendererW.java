@@ -243,8 +243,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		
 		if (geo != null) {
 
-			if (bgColor == null && geo.getBackgroundColor() != null)
+			if (bgColor == null && geo.getBackgroundColor() != null) {
 				bgColor = geo.getBackgroundColor();
+			}
 
 			// adjust selection color when there is a bgColor
 			if (geo.doHighlighting()) {
@@ -257,10 +258,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
-		if (bgColor != null)
+		if (bgColor != null) {
 			s.setBackgroundColor(bgColor.toString());
-		else
+		} else {
 			s.clearBackgroundColor();
+		}
 
 	}
 
@@ -357,11 +359,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent e) {
 		// TODO: maybe use CancelEvents.instance?
 		e.stopPropagation();
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent e) {
 		// TODO: maybe use CancelEvents.instance?
 		e.stopPropagation();
@@ -401,6 +405,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			final GeoBoolean geoBoolean = (GeoBoolean) geo;
 
 			checkbox.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent ce) {
 					if (view.allowSpecialEditor()) {
 						geoBoolean.setValue(!geoBoolean.getBoolean());
@@ -429,6 +434,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			button.getElement().addClassName("geogebraweb-button-spreadsheet");
 
 			button.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent ce) {
 					gb.runClickScripts(null);
 					gb.getKernel().updateConstruction();
@@ -452,10 +458,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			lb.getElement().addClassName("geogebraweb-select-spreadsheet");
 
 			if (list.size() > 0) {
-				for (int i = 0; i < list.size(); i++)
+				for (int i = 0; i < list.size(); i++) {
 					// toString doesn't work for some reason
 					lb.addItem(list.get(i).toValueString(
 					        StringTemplate.defaultTemplate));
+				}
 				lb.setSelectedIndex(list.getSelectedIndex());
 			}
 
@@ -463,6 +470,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			lb.addMouseUpHandler(this);
 
 			lb.addChangeHandler(new ChangeHandler() {
+				@Override
 				public void onChange(ChangeEvent ce) {
 					if (view.allowSpecialEditor()) {
 						list.setSelectedIndex(lb.getSelectedIndex(), true);

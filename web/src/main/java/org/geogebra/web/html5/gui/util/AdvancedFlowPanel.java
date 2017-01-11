@@ -32,38 +32,47 @@ public class AdvancedFlowPanel extends Composite implements HasWidgets,
 		initWidget(focusPanel);
 	}
 
+	@Override
 	public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
 		return focusPanel.addKeyUpHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
 		return focusPanel.addKeyDownHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return focusPanel.addKeyPressHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addMouseDownHandler(MouseDownHandler handler) {
 		return focusPanel.addMouseDownHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addMouseUpHandler(MouseUpHandler handler) {
 		return focusPanel.addMouseUpHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
 		return focusPanel.addMouseOutHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
 		return focusPanel.addMouseOverHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addMouseMoveHandler(MouseMoveHandler handler) {
 		return focusPanel.addMouseMoveHandler(handler);
 	}
 
+	@Override
 	public HandlerRegistration addMouseWheelHandler(MouseWheelHandler handler) {
 		return focusPanel.addMouseWheelHandler(handler);
 
@@ -73,18 +82,22 @@ public class AdvancedFlowPanel extends Composite implements HasWidgets,
 		return focusPanel.addBlurHandler(handler);
 	}
 
+	@Override
 	public void add(Widget w) {
 		mainPanel.add(w);
 	}
 
+	@Override
 	public void clear() {
 		mainPanel.clear();
 	}
 
+	@Override
 	public Iterator<Widget> iterator() {
 		return mainPanel.iterator();
 	}
 
+	@Override
 	public boolean remove(Widget w) {
 		return mainPanel.remove(w);
 	}

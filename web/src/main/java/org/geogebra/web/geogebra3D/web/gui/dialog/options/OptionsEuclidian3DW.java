@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
-import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
@@ -94,6 +93,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			cbUseLight.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).getSettings().setUseLight(
 					        cbUseLight.getValue());
@@ -287,6 +287,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			// TODO remove this when implemented
 		}
 
+		@Override
 		protected void setGridTypeLabel() {
 			lblGridType.setText(loc.getMenu("GridType") + " : "
 			        + app.getMenu("Cartesian"));
@@ -656,7 +657,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	@Override
 	public void setLabels() {
-		MultiRowsTabBar tabBar = ((MultiRowsTabPanel) tabPanel).getTabBar();
+		MultiRowsTabBar tabBar = tabPanel.getTabBar();
 
 		super.setLabels(tabBar, 4);
 

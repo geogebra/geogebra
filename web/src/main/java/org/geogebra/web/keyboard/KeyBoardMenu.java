@@ -26,6 +26,7 @@ public class KeyBoardMenu extends FlexTable implements ClickHandler {
 		addClickHandler(this);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		int cellIndex = getCellForEvent(event).getCellIndex();
 		keyboard.setKeyboardMode(KeyboardMode.values()[cellIndex]);

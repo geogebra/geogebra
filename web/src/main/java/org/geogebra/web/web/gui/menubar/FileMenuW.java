@@ -309,6 +309,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	protected void showShareDialog() {
 		Runnable shareCallback = new Runnable() {
 
+			@Override
 			public void run() {
 				ShareDialogW sd = new ShareDialogW(app);
 				sd.setVisible(true);
@@ -322,6 +323,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				// not saved, not logged in
 				app.getLoginOperation().getView().add(new EventRenderable() {
 
+					@Override
 					public void renderEvent(BaseEvent event) {
 						if (event instanceof LoginEvent
 								&& ((LoginEvent) event).isSuccessful()) {
@@ -379,6 +381,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param online wether the application is online
 	 * renders a the online - offline state of the FileMenu
 	 */
+	@Override
 	public void render(boolean online) {
 		shareItem.setEnabled(online);
 	    if (!online) {

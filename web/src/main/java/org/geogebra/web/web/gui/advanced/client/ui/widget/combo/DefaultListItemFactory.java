@@ -39,41 +39,29 @@ public class DefaultListItemFactory implements ListItemFactory {
      * @param value is a value to be adopted.
      * @return a widget to be inserted into the list.
      */
-    public Widget createWidget(Object value) {
-        if (value == null)
-            return new Label();
-		else if (value instanceof String || value instanceof Number)
-             return new Label(String.valueOf(value));
-
-		else if (value instanceof GeoElement){
+    @Override
+	public Widget createWidget(Object value) {
+        if (value == null) {
+			return new Label();
+		} else if (value instanceof String || value instanceof Number) {
+			return new Label(String.valueOf(value));
+		} else if (value instanceof GeoElement){
 			return new HTML(((GeoElement) value).getColoredLabel());			
+		} else {
+			return null;
 		}
-
-       /* else if (value instanceof Date) {
-            DatePicker datePicker = new DatePicker((Date) value);
-            datePicker.setChoiceButtonVisible(false);
-            return datePicker;
-        } else if (value instanceof IconItem) {
-            IconItem item = (IconItem) value;
-            FlexTable table = new FlexTable();
-            table.setStyleName("icon-item");
-            table.setWidget(0, 0, new Image(item.getImageName()));
-            table.setWidget(0, 1, new Label(item.getLabel()));
-            table.getCellFormatter().setWidth(0, 0, "1%");
-            table.getCellFormatter().setWidth(0, 1, "99%");
-            return table;
-        }*/ else
-            return null;
     }
 
     /** {@inheritDoc} */
-    public String convert(Object value) {
-        if (value == null)
-            return "";
-        else if (value instanceof String || value instanceof Number)
-            return String.valueOf(value);
-		else if (value instanceof GeoElement)
+    @Override
+	public String convert(Object value) {
+        if (value == null) {
+			return "";
+		} else if (value instanceof String || value instanceof Number) {
+			return String.valueOf(value);
+		} else if (value instanceof GeoElement) {
 			return ((GeoElement) value).getLabel(StringTemplate.editTemplate);
+		}
       /*  else if (value instanceof Date)
             return new DatePicker((Date)value).getTextualDate();
         else if (value instanceof IconItem)

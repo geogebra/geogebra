@@ -132,6 +132,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		collapse.addStyleName("collapse");
 		collapse.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				dataValues.setVisible(!collapse.isDown());
 			}

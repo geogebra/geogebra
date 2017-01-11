@@ -45,6 +45,7 @@ public class RowHeaderPopupMenuW extends
 		boolean canSystemCopy = CopyPasteCutW.checkClipboardSupported();
 		MenuItem miCopyInput = new MenuItem(loc.getMenu("CopyInput"),
 				new ScheduledCommand() {
+					@Override
 					public void execute() {
 						actionPerformed(CellAction.COPY_INPUT);
 					}
@@ -54,6 +55,7 @@ public class RowHeaderPopupMenuW extends
 
 		MenuItem miPaste = new MenuItem(loc.getMenu("Paste"),
 				new ScheduledCommand() {
+					@Override
 					public void execute() {
 						actionPerformed(CellAction.PASTE);
 					}
@@ -64,7 +66,8 @@ public class RowHeaderPopupMenuW extends
 
 		MenuItem miInsertAbove = new MenuItem(loc.getMenu("InsertAbove"),
 		        new ScheduledCommand() {
-			        public void execute() {
+			        @Override
+					public void execute() {
 						actionPerformed(CellAction.INSERT_ABOVE);
 			        }
 		        });
@@ -74,7 +77,8 @@ public class RowHeaderPopupMenuW extends
 		// "Insert Below" menuitem
 		MenuItem miInsertBelow = new MenuItem(loc.getMenu("InsertBelow"),
 		        new ScheduledCommand() {
-			        public void execute() {
+			        @Override
+					public void execute() {
 						actionPerformed(CellAction.INSERT_BELOW);
 			        }
 		        });
@@ -84,6 +88,7 @@ public class RowHeaderPopupMenuW extends
 		int[] selRows = table.getSelectedRows();
 		String strRows = getDeleteString(selRows);
 		MenuItem miDelete = new MenuItem(strRows, new ScheduledCommand() {
+			@Override
 			public void execute() {
 				actionPerformed(CellAction.DELETE);
 			}
@@ -95,7 +100,8 @@ public class RowHeaderPopupMenuW extends
 
 		MenuItem miUseAsText = new MenuItem(loc.getMenu("CasCellUseAsText"),
 		        new ScheduledCommand() {
-			        public void execute() {
+			        @Override
+					public void execute() {
 						actionPerformed(CellAction.TEXT);
 			        }
 		        });
@@ -107,6 +113,7 @@ public class RowHeaderPopupMenuW extends
 
 			MenuItem copyItem = new MenuItem(loc.getMenu("Copy"),
 					new ScheduledCommand() {
+						@Override
 						public void execute() {
 							actionPerformed(CellAction.COPY);
 						}
@@ -116,6 +123,7 @@ public class RowHeaderPopupMenuW extends
 
 			MenuItem latexItem = new MenuItem(loc.getMenu("CopyAsLaTeX"),
 				new ScheduledCommand() {
+					@Override
 					public void execute() {
 							actionPerformed(CellAction.COPY_LATEX);
 					}
@@ -131,8 +139,9 @@ public class RowHeaderPopupMenuW extends
 	 */
 	void actionPerformed(CellAction ac) {
 		int[] selRows = table.getSelectedRows();
-		if (selRows.length == 0)
+		if (selRows.length == 0) {
 			return;
+		}
 
 		boolean undoNeeded = true;
 
@@ -220,6 +229,7 @@ public class RowHeaderPopupMenuW extends
 		}
 	}
 
+	@Override
 	public void removeFromDOM() {
 		rowHeaderPopupMenu.removeFromDOM();
 	}

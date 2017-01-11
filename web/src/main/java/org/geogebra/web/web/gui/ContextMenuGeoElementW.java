@@ -103,11 +103,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 		}
 
 		// TODO remove the condition when ggb version >= 5
-		if (app.getKernel().getManager3D() != null)
+		if (app.getKernel().getManager3D() != null) {
 			addPlaneItems();
+		}
 
-		if (wrappedPopup.getComponentCount() > 2)
+		if (wrappedPopup.getComponentCount() > 2) {
 			wrappedPopup.addSeparator();
+		}
 		addForAllItems();
 	}
 
@@ -128,6 +130,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				                .getSafeUri().asString(),
 						loc.getMenu("ShowObject")), new Command() {
 
+					@Override
 					public void execute() {
 						showObjectCmd();
 					}
@@ -143,6 +146,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				                .getSafeUri().asString(),
 						loc.getMenu("ShowLabel")), new Command() {
 
+					@Override
 					public void execute() {
 						showLabelCmd();
 					}
@@ -159,7 +163,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						loc.getMenu("TraceOn")),
 				        new Command() {
 
-					        public void execute() {
+					        @Override
+							public void execute() {
 						        traceCmd();
 					        }
 						}, true);
@@ -171,9 +176,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			        && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable
-				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
+				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++) {
 					showRecordToSpreadsheet &= geos.get(i)
 					        .isSpreadsheetTraceable();
+				}
 
 				if (showRecordToSpreadsheet) {
 					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
@@ -181,6 +187,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					                .getSafeUri().asString(),
 							loc.getMenu("RecordToSpreadsheet")), new Command() {
 
+						@Override
 						public void execute() {
 							recordToSpreadSheetCmd();
 									// Log.debug("not ported yet
@@ -197,6 +204,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				        AppResources.INSTANCE.empty().getSafeUri().asString(),
 						loc.getMenu("Animating")), new Command() {
 
+					@Override
 					public void execute() {
 						animationCmd();
 					}
@@ -215,7 +223,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						loc.getMenu("AuxiliaryObject")),
 				        new Command() {
 
-					        public void execute() {
+					        @Override
+							public void execute() {
 						        showObjectAuxiliaryCmd();
 					        }
 						}, true);
@@ -232,6 +241,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 						loc.getMenu("FixObject")), new Command() {
 
+					@Override
 					public void execute() {
 						fixObjectCmd();
 					}
@@ -247,7 +257,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							loc.getMenu("FixObject")),
 					        new Command() {
 
-						        public void execute() {
+						        @Override
+								public void execute() {
 							        fixObjectNumericCmd(num);
 						        }
 							}, true);
@@ -260,6 +271,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 								.asString(),
 						loc.getMenu("FixCheckbox")), new Command() {
 
+					@Override
 					public void execute() {
 						fixCheckboxCmd();
 					}
@@ -279,7 +291,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(
 			        new Command() {
 
-				        public void execute() {
+				        @Override
+						public void execute() {
 					        renameCmd();
 				        }
 			        },
@@ -293,7 +306,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(
 			        new Command() {
 
-				        public void execute() {
+				        @Override
+						public void execute() {
 					        editCmd();
 				        }
 			        },
@@ -307,7 +321,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(
 			        new Command() {
 
-				        public void execute() {
+				        @Override
+						public void execute() {
 					        deleteCmd();
 				        }
 			        },
@@ -326,7 +341,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(
 			        new Command() {
 
-				        public void execute() {
+				        @Override
+						public void execute() {
 					        openPropertiesDialogCmd();
 				        }
 			        },
@@ -347,6 +363,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							loc.getMenu("AbsoluteScreenLocation")),
 					new Command() {
 
+				@Override
 				public void execute() {
 							pinCmd(pinned);
 				}
@@ -379,8 +396,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 	private void addPlaneItems() {
 
-		if (!(getGeo() instanceof ViewCreator))
+		if (!(getGeo() instanceof ViewCreator)) {
 			return;
+		}
 
 		Log.debug("==================== addPlaneItems");
 
@@ -388,6 +406,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 		Command action = new Command() {
 
+			@Override
 			public void execute() {
 				plane.setView2DVisible(true);
 				Log.debug("set plane visible : " + plane);
@@ -409,6 +428,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				if (inputElement.isInputForm()) {
 					action = new Command() {
 
+						@Override
 						public void execute() {
 							extendedFormCmd(inputElement);
 						}
@@ -417,6 +437,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				} else {
 					action = new Command() {
 
+						@Override
 						public void execute() {
 							inputFormCmd(inputElement);
 						}
@@ -434,8 +455,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 	}
 
 	private void addConicItems() {
-		if (getGeo().getClass() != GeoConic.class)
+		if (getGeo().getClass() != GeoConic.class) {
 			return;
+		}
 		GeoConic conic = (GeoConic) getGeo();
 		// there's no need to show implicit equation
 		// if you can't select the specific equation
@@ -443,8 +465,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		boolean explicitPossible = conic.isExplicitPossible();
 		boolean vertexformPossible = conic.isVertexformPossible();
 		boolean conicformPossible = conic.isConicformPossible();
-		if (!(specificPossible || explicitPossible))
+		if (!(specificPossible || explicitPossible)) {
 			return;
+		}
 
 		int mode = conic.getToStringMode();
 		Command action;
@@ -456,6 +479,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("ImplicitConicEquation"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					implicitConicEquationCmd();
 				}
@@ -473,6 +497,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				sb.append(conicEqn);
 				action = new Command() {
 
+					@Override
 					public void execute() {
 						equationConicEqnCmd();
 					}
@@ -488,6 +513,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("ExplicitConicEquation"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					equationExplicitConicEquationCmd();
 				}
@@ -502,6 +528,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("ParabolaVertexForm"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					equationVertexEquationCmd();
 				}
@@ -516,6 +543,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("ParabolaConicForm"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					equationConicformEquationCmd();
 				}
@@ -527,10 +555,12 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 
 	private void addLineItems() {
-		if (!(getGeo() instanceof GeoLine))
+		if (!(getGeo() instanceof GeoLine)) {
 			return;
-		if (getGeo() instanceof GeoSegment)
+		}
+		if (getGeo() instanceof GeoSegment) {
 			return;
+		}
 
 		GeoLine line = (GeoLine) getGeo();
 		int mode = line.getMode();
@@ -545,6 +575,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("ImplicitLineEquation"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					equationImplicitEquationCmd();
 				}
@@ -559,6 +590,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("ExplicitLineEquation"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					equationExplicitEquationCmd();
 				}
@@ -569,6 +601,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		if (mode != GeoLine.PARAMETRIC) {
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					parametricFormCmd();
 				}
@@ -583,6 +616,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			sb.append(loc.getMenu("GeneralLineEquation"));
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					equationGeneralLineEquationCmd();
 				}
@@ -594,8 +628,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 	private void addCoordsModeItems() {
 
-		if (!(getGeo() instanceof HasCoordsMode))
+		if (!(getGeo() instanceof HasCoordsMode)) {
 			return;
+		}
 
 		if (getGeo().isFixed()) {
 			return;
@@ -614,6 +649,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		case Kernel.COORD_POLAR:
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					cartesianCoordsCmd();
 				}
@@ -624,6 +660,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		case Kernel.COORD_CARTESIAN:
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					polarCoorsCmd();
 				}
@@ -635,6 +672,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		case Kernel.COORD_SPHERICAL:
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					cartesianCoords3dCmd();
 				}
@@ -645,6 +683,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		case Kernel.COORD_CARTESIAN_3D:
 			action = new Command() {
 
+				@Override
 				public void execute() {
 					sphericalCoordsCmd();
 				}
@@ -676,7 +715,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		        AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 		        true, new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 				        wrappedPopup.setVisible(false);
 			        }
 		        });
@@ -702,6 +742,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 	// addOtherItems();
 	// }
 
+	@Override
 	public void removeFromDOM() {
 		getWrappedPopup().removeFromDOM();
 	}

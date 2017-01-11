@@ -182,8 +182,9 @@ public class ViewW {
 			ConstructionProtocolNavigation cpNav = this.getApplication()
 			        .getGuiManager()
 			        .getConstructionProtocolNavigationIfExists();
-			if (cpNav != null)
+			if (cpNav != null) {
 				cpNav.update();
+			}
 		}
 		Log.debug("end unzipping" + System.currentTimeMillis());
 	}
@@ -325,11 +326,13 @@ public class ViewW {
 			HttpRequestW request = new HttpRequestW();
 			request.sendRequestPost(url, "", new AjaxCallback() {
 
+				@Override
 				public void onSuccess(String response) {
 					app.openOFF(response);
 
 				}
 
+				@Override
 				public void onError(String error) {
 					// TODO Auto-generated method stub
 
@@ -343,11 +346,13 @@ public class ViewW {
 			HttpRequestW request = new HttpRequestW();
 			request.sendRequestPost(url, "", new AjaxCallback() {
 
+				@Override
 				public void onSuccess(String response) {
 					app.openCSV(response);
 
 				}
 
+				@Override
 				public void onError(String error) {
 					// TODO Auto-generated method stub
 

@@ -48,6 +48,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 		// when window is unload, dispose openGL stuff
 		Window.addCloseHandler(new CloseHandler<Window>() {
+			@Override
 			public void onClose(CloseEvent<Window> event) {
 				rendererImpl.dispose();
 			}
@@ -213,6 +214,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 	private double ratio = 1;
 
+	@Override
 	public void setPixelRatio(double ratio) {
 		this.ratio = ratio;
 	}
@@ -315,6 +317,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 		}
 	}
 
+	@Override
 	public void setBuffering(boolean b) {
 		this.createGLContext(b);
 	}

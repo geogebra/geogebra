@@ -13,6 +13,7 @@ public class ImageFileInputDialog extends FileInputDialog{
 	    createGUI();
     }
 
+	@Override
 	protected void createGUI() {
 		super.createGUI();
 		addGgbChangeHandler(getInputWidget().getElement(), app);
@@ -37,6 +38,7 @@ public class ImageFileInputDialog extends FileInputDialog{
 		};
 	}-*/;
 
+	@Override
 	public void onClick(ClickEvent event) {
 	    if (event.getSource() == btCancel) {
 	    	hideAndFocus();

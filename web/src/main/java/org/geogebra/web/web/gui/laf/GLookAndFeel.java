@@ -39,20 +39,24 @@ public class GLookAndFeel implements GLookAndFeelI{
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
 	
+	@Override
 	public MainMenu getMenuBar(AppW app) {
 		return new MainMenu(app);
 
     }
 
+	@Override
 	public boolean undoRedoSupported() {
 	    return true;
     }
 	
 	
+	@Override
 	public boolean isSmart() {
 		return false;
 	}
 	
+	@Override
 	public boolean isTablet() {
 		return false;
 	}
@@ -61,13 +65,15 @@ public class GLookAndFeel implements GLookAndFeelI{
 	 * (makes no sense for SMART widget)
 	 * overridden for SMART and TOUCH - they don't use a windowClosingHandler
 	 */
+	@Override
 	public void addWindowClosingHandler(final AppW app) {
 		if (app.getExam() != null) {
 			return;
 		}
 		// popup when the user wants to exit accidentally
         this.windowClosingHandler = Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            public void onWindowClosing(ClosingEvent event) {
+            @Override
+			public void onWindowClosing(ClosingEvent event) {
             	event.setMessage(app.getLocalization().getPlain("CloseApplicationLoseUnsavedData"));
             }
         });
@@ -89,6 +95,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	 * removes the {@link com.google.gwt.user.client.Window.ClosingHandler}
 	 * overridden for SMART and TOUCH - they don't use a windowClosingHandler
 	 */
+	@Override
 	public void removeWindowClosingHandler() {
 		if (this.windowClosingHandler != null) {
 			this.windowClosingHandler.removeHandler();
@@ -100,20 +107,24 @@ public class GLookAndFeel implements GLookAndFeelI{
 	/**
 	 * @return app type for API calls
 	 */
+	@Override
 	public String getType() {
 	    return "web";
     }
 
+	@Override
 	public boolean copyToClipboardSupported() {
 	    return true;
     }
 
+	@Override
 	public String getLoginListener() {
 	    return null;
     }
 
 	
 
+	@Override
 	public boolean isEmbedded() {
 	    return false;
     }
@@ -131,6 +142,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return new MaterialListElement(m, app, isLocal);
     }
 
+	@Override
 	public SignInButton getSignInButton(App app) {
 		return new SignInButton(app, Browser.isIE9() ? 2000 : 0, null);
     }
@@ -150,6 +162,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return true;
     }
 
+	@Override
 	public boolean supportsGoogleDrive() {
 		return true;
 	}
@@ -159,14 +172,17 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return false;
 	}
 
+	@Override
 	public boolean examSupported(boolean tabletExamExists) {
 		return true;
 	}
 
+	@Override
 	public boolean printSupported() {
 		return true;
 	}
 
+	@Override
 	public Versions getVersion(int dim, boolean app) {
 		if (app) {
 			return dim > 2 ? Versions.WEB_APP_FOR_BROWSER_3D
@@ -176,16 +192,19 @@ public class GLookAndFeel implements GLookAndFeelI{
 				: Versions.WEB_FOR_BROWSER_2D;
 	}
 
+	@Override
 	public void toggleFullscreen(boolean full) {
 		ExamUtil.toggleFullscreen(full, true);
 	}
 
+	@Override
 	public void storeLanguage(String s) {
 		Date exp = new Date(
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
 		Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/", false);
 	}
 
+	@Override
 	public String getFrameStyleName() {
 		return "GeoGebra";
 	}

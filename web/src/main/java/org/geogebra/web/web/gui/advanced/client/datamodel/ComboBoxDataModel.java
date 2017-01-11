@@ -41,19 +41,22 @@ public class ComboBoxDataModel implements ListDataModel {
     private List<ListModelListener> listeners = new ArrayList<ListModelListener>();
 
     /** {@inheritDoc} */
-    public void add(String id, Object item) {
+    @Override
+	public void add(String id, Object item) {
         addInternally(id, item);
 
         fireEvent(new ListModelEvent(this, id, getItemIds().indexOf(id), ListModelEvent.ADD_ITEM));
     }
 
     /** {@inheritDoc} */
+	@Override
 	public void add(int invalidIndex, String id, Object item) {
         List<String> ids = getItemIds();
 		int index = getValidIndex(invalidIndex);
 
-        if (!ids.contains(id))
-            ids.add(index, id);
+        if (!ids.contains(id)) {
+			ids.add(index, id);
+		}
 
         add(id, item);
     }
@@ -75,12 +78,14 @@ public class ComboBoxDataModel implements ListDataModel {
     }
 
     /** {@inheritDoc} */
-    public Object get(String id) {
+    @Override
+	public Object get(String id) {
         return getItems().get(id);
     }
 
     /** {@inheritDoc} */
-    public Object get(int index) {
+    @Override
+	public Object get(int index) {
 		if (isIndexValid(index)) {
             return get(getItemIds().get(index));
 		}
@@ -88,7 +93,8 @@ public class ComboBoxDataModel implements ListDataModel {
     }
 
     /** {@inheritDoc} */
-    public void remove(String... ids) {
+    @Override
+	public void remove(String... ids) {
         Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
         for (String id : ids) {
             int index = removeInternally(id);
@@ -99,7 +105,8 @@ public class ComboBoxDataModel implements ListDataModel {
     }
 
     /** {@inheritDoc} */
-    public void remove(int... indexes) {
+    @Override
+	public void remove(int... indexes) {
         Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
         for (int index : indexes) {
             if (isIndexValid(index)) {
@@ -113,52 +120,61 @@ public class ComboBoxDataModel implements ListDataModel {
     }
 
     /** {@inheritDoc} */
-    public String getSelectedId() {
+    @Override
+	public String getSelectedId() {
         return selectedId;
     }
 
     /** {@inheritDoc} */
-    public int getSelectedIndex() {
+    @Override
+	public int getSelectedIndex() {
         return getItemIds().indexOf(getSelectedId());
     }
 
     /** {@inheritDoc} */
-    public Object getSelected() {
+    @Override
+	public Object getSelected() {
         return getItems().get(getSelectedId());
     }
 
     /** {@inheritDoc} */
-    public void setSelectedId(String id) {
+    @Override
+	public void setSelectedId(String id) {
         this.selectedId = id;
 
         fireEvent(new ListModelEvent(this, id, getSelectedIndex(), ListModelEvent.SELECT_ITEM));
     }
 
     /** {@inheritDoc} */
-    public void setSelectedIndex(int index) {
+    @Override
+	public void setSelectedIndex(int index) {
         if (index < 0) {
             selectedId = null;
             return;
         }
         List<String> ids = getItemIds();
-        if (ids.size() > 0)
-            setSelectedId(ids.get(index));
+        if (ids.size() > 0) {
+			setSelectedId(ids.get(index));
+		}
     }
 
     /** {@inheritDoc} */
-    public void clear() {
+    @Override
+	public void clear() {
         getItemIds().clear();
 
         fireEvent(new ListModelEvent(this, ListModelEvent.CLEAN));
     }
 
     /** {@inheritDoc} */
-    public boolean isEmpty() {
+    @Override
+	public boolean isEmpty() {
         return getItemIds().isEmpty();
     }
 
     /** {@inheritDoc} */
-    public int getCount() {
+    @Override
+	public int getCount() {
         return getItemIds().size();
     }
 
@@ -206,8 +222,9 @@ public class ComboBoxDataModel implements ListDataModel {
      */
     protected void addInternally(String id, Object item) {
         List<String> ids = getItemIds();
-        if (!ids.contains(id))
-            ids.add(id);
+        if (!ids.contains(id)) {
+			ids.add(id);
+		}
         getItems().put(id, item);
     }
 

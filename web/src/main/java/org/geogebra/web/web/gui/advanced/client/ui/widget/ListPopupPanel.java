@@ -172,11 +172,13 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
     protected void setHighlightRow(int row) {
         if (row < getList().getWidgetCount()) {
             Widget widget = null;
-            if (this.highlightRow >= 0 && getList().getWidgetCount() > this.highlightRow)
-                widget = getList().getWidget(this.highlightRow);
+            if (this.highlightRow >= 0 && getList().getWidgetCount() > this.highlightRow) {
+				widget = getList().getWidget(this.highlightRow);
+			}
 
-            if (widget != null)
-                widget.removeStyleName("selected-row");
+            if (widget != null) {
+				widget.removeStyleName("selected-row");
+			}
             this.highlightRow = row;
             if (row >= 0) {
                 widget = getList().getWidget(this.highlightRow);
@@ -254,8 +256,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
      */
     public void setVisibleRows(int visibleRows) {
         this.visibleRows = visibleRows;
-        if (isShowing())
-            adjustSize();
+        if (isShowing()) {
+			adjustSize();
+		}
     }
 
     /**
@@ -268,8 +271,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
     public void setStartItemIndex(int index) {
 
 		this.startItemIndex = index < 0 ? 0 : index;
-        if (isShowing())
-            adjustSize();
+        if (isShowing()) {
+			adjustSize();
+		}
     }
 
 	/**
@@ -296,8 +300,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
      */
     public void setDropDownPosition(DropDownPosition dropDownPosition) {
         this.dropDownPosition = dropDownPosition;
-        if (isShowing())
-            adjustSize();
+        if (isShowing()) {
+			adjustSize();
+		}
     }
 
     /** Adjusts drop down list sizes to make it take optimal area on the screen. */
@@ -319,18 +324,20 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
 
             if (index + rowsVisible > count) {
                 index = count - rowsVisible + 1;
-                if (index < 0)
-                    index = 0;
+                if (index < 0) {
+					index = 0;
+				}
             }
 
             int listHeight = 0;
             int scrollPosition = 0;
             for (int i = 0; i < index + rowsVisible && i < count; i++) {
                 int height = getList().getWidget(i).getOffsetHeight();
-                if (i < index)
-                    scrollPosition += height;
-                else
-                    listHeight += height;
+                if (i < index) {
+					scrollPosition += height;
+				} else {
+					listHeight += height;
+				}
             }
             table.setSize(table.getOffsetWidth() + "px", listHeight + "px");
 			table.setVerticalScrollPosition(scrollPosition);
@@ -381,15 +388,17 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
     protected void prepareList() {
         FlowPanel panel = getList();
 
-        if (!isLazyRenderingEnabled() || getComboBox().getModel().getCount() != getItemCount())
-            panel.clear();
+        if (!isLazyRenderingEnabled() || getComboBox().getModel().getCount() != getItemCount()) {
+			panel.clear();
+		}
 
         fillList();
 
         int selected = getComboBox().getModel().getSelectedIndex();
         selectRow(selected);
-        if (selected >= 0 && selected < getItemCount())
-            ensureVisible(getItem(selected));
+        if (selected >= 0 && selected < getItemCount()) {
+			ensureVisible(getItem(selected));
+		}
     }
 
     /**
@@ -403,8 +412,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
 
         int count = getItemCount();
         int previouslyLoadedRows = count;
-        while (!isRenderingLimitReached(previouslyLoadedRows))
-            panel.add(adoptItemWidget(itemFactory.createWidget(model.get(count++))));
+        while (!isRenderingLimitReached(previouslyLoadedRows)) {
+			panel.add(adoptItemWidget(itemFactory.createWidget(model.get(count++))));
+		}
     }
 
     /**
@@ -493,8 +503,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
      * @return Value for property 'list'.
      */
     protected FlowPanel getList() {
-        if (list == null)
-            list = new FlowPanel();
+        if (list == null) {
+			list = new FlowPanel();
+		}
         return list;
     }
 
@@ -526,8 +537,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
 	 * @return Value for property 'itemClickHandler'.
 	 */
     protected ClickHandler getItemClickHandler() {
-        if (itemClickHandler == null)
-            itemClickHandler = new ItemClickHandler();
+        if (itemClickHandler == null) {
+			itemClickHandler = new ItemClickHandler();
+		}
         return itemClickHandler;
     }
 
@@ -537,8 +549,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
      * @return Value for property 'mouseEventsListener'.
      */
     protected ListMouseHandler getMouseEventsHandler() {
-        if (mouseEventsListener == null)
-            mouseEventsListener = new ListMouseHandler();
+        if (mouseEventsListener == null) {
+			mouseEventsListener = new ListMouseHandler();
+		}
         return mouseEventsListener;
     }
 
@@ -573,19 +586,22 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
         /** {@inheritDoc} */
         @Override
         public void onMouseOut(MouseOutEvent event) {
-            if (getComboBox().isKeyPressed())
-                return;
+            if (getComboBox().isKeyPressed()) {
+				return;
+			}
             ((Widget) event.getSource()).removeStyleName("selected-row");
         }
 
         /** {@inheritDoc} */
         @Override
         public void onMouseOver(MouseOverEvent event) {
-            if (getComboBox().isKeyPressed())
-                return;
+            if (getComboBox().isKeyPressed()) {
+				return;
+			}
             int index = getComboBox().getModel().getSelectedIndex();
-            if (index >= 0)
-                getList().getWidget(index).removeStyleName("selected-row");
+            if (index >= 0) {
+				getList().getWidget(index).removeStyleName("selected-row");
+			}
             Widget sender = (Widget) event.getSource();
             sender.addStyleName("selected-row");
             setHighlightRow(getList().getWidgetIndex(sender));
@@ -614,8 +630,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
                     autoScrollingEnabled = true;
                     ensureVisible(getItem(firstItemOnNextPage));
                 }
-            } else
-                autoScrollingEnabled = false;
+            } else {
+				autoScrollingEnabled = false;
+			}
         }
     }
 

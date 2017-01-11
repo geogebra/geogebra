@@ -133,7 +133,9 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	public int getSelectedIndex() {
 		int index = this.getColumnCount() * this.selectedRow
 		        + this.selectedColumn;
-		if(index <-1) index = -1;
+		if(index <-1) {
+			index = -1;
+		}
 		return index;	
     }
 
@@ -231,6 +233,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		return w;
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 	   Cell clicked = getCellForEvent(event);
 	   
@@ -278,8 +281,9 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 * @return {@link ImageOrText}
 	 */
 	public ImageOrText getSelectedValue() {
-		if (this.selectedRow != -1 && this.selectedColumn != -1)
+		if (this.selectedRow != -1 && this.selectedColumn != -1) {
 			return getValueAt(this.selectedRow, this.selectedColumn);
+		}
 		return null;
     }
 

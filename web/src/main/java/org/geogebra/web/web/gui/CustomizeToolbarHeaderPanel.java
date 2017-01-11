@@ -112,6 +112,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
 				btn.addClickHandler(new ClickHandler() {
 
+					@Override
 					public void onClick(ClickEvent event) {
 						selectAndUpdate(btn, viewId);
 					}
@@ -123,6 +124,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		}
 		btnGeneral.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				selectAndUpdate(btnGeneral, GENERAL);
 

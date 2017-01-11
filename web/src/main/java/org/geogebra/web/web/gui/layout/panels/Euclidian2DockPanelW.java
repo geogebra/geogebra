@@ -87,10 +87,12 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		return (Widget) espanel;
 	}
 
+	@Override
 	public Canvas getCanvas() {
 	    return eview1;
     }
 
+	@Override
 	public void onResize() {
 		super.onResize();
     }
@@ -108,9 +110,11 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		return euclidianpanel;
 	}
 
+	@Override
 	public EuclidianView getEuclidianView() {
-		if (app != null && app.hasEuclidianView2(idx))
+		if (app != null && app.hasEuclidianView2(idx)) {
 			return app.getEuclidianView2(idx);
+		}
 		return null;
 	}
 	

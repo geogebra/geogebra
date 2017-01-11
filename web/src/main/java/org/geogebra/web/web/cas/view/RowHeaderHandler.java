@@ -34,6 +34,7 @@ public class RowHeaderHandler implements MouseUpHandler {
 		table = casTableW;
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		int releasedRow = rowHeader.getIndex();
 		table.getCASView().getCASStyleBar()

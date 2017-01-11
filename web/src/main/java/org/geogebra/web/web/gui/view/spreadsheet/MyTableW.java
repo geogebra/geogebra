@@ -113,6 +113,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public ArrayList<CellRange> selectedCellRanges;
 
+	@Override
 	public ArrayList<CellRange> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
@@ -395,6 +396,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		gridPanel.addDomHandler(ml, TouchEndEvent.getType());
 
 		upperLeftCorner.addDomHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				selectAll();
 			}
@@ -651,6 +653,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * 
 	 * @return SpreadsheetView
 	 */
+	@Override
 	public SpreadsheetViewInterface getView() {
 		return view;
 	}
@@ -660,6 +663,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * 
 	 * @return App
 	 */
+	@Override
 	public App getApplication() {
 		return app;
 	}
@@ -669,6 +673,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * 
 	 * @return Kernel
 	 */
+	@Override
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -681,6 +686,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return ssGrid;
 	}
 
+	@Override
 	public CopyPasteCut getCopyPasteCut() {
 		return copyPasteCut;
 	}
@@ -689,9 +695,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * Returns CellRangeProcessor for this table. If none exists, a new one is
 	 * created.
 	 */
+	@Override
 	public CellRangeProcessor getCellRangeProcessor() {
-		if (crProcessor == null)
+		if (crProcessor == null) {
 			crProcessor = new CellRangeProcessor(this);
+		}
 		return crProcessor;
 	}
 
@@ -699,9 +707,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * Returns CellFormat helper class for this table. If none exists, a new one
 	 * is created.
 	 */
+	@Override
 	public CellFormatInterface getCellFormatHandler() {
-		if (formatHandler == null)
+		if (formatHandler == null) {
 			formatHandler = new CellFormat(this);
+		}
 		return formatHandler;
 	}
 
@@ -807,6 +817,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public class MyTableModelListener implements
 	        SpreadsheetTableModelW.ChangeListener {
 
+		@Override
 		public void dimensionChange() {
 			// TODO: comment them out to imitate the Desktop behaviour
 			// TODO//getView().updateRowHeader();
@@ -820,6 +831,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			repaintAll();
 		}
 
+		@Override
 		public void valueChange() {
 			updateCopiableSelection();
 		}
@@ -830,8 +842,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (view != null && view.spreadsheetWrapper != null) {
 			String cs = copyString();
 			view.spreadsheetWrapper.setSelectedContent(cs);
-			if (rowHeader != null && selectionType == MyTable.ROW_SELECT)
+			if (rowHeader != null && selectionType == MyTable.ROW_SELECT) {
 				rowHeader.focusPanel.setSelectedContent(cs);
+			}
 		} else if (rowHeader != null && selectionType == MyTable.ROW_SELECT) {
 			rowHeader.focusPanel.setSelectedContent(copyString());
 		}
@@ -839,8 +852,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private void updateRowCount() {
 
-		if (ssGrid.getRowCount() >= tableModel.getRowCount())
+		if (ssGrid.getRowCount() >= tableModel.getRowCount()) {
 			return;
+		}
 
 		int oldRowCount = ssGrid.getRowCount();
 		ssGrid.resizeRows(tableModel.getRowCount());
@@ -859,8 +873,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	protected void updateColumnCount() {
 
-		if (ssGrid.getColumnCount() >= tableModel.getColumnCount())
+		if (ssGrid.getColumnCount() >= tableModel.getColumnCount()) {
 			return;
+		}
 
 		int oldColumnCount = ssGrid.getColumnCount();
 		ssGrid.resizeColumns(tableModel.getColumnCount());
@@ -888,6 +903,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		changeSelection(point.getY(), point.getX(), extend);
 	}
 
+	@Override
 	public void changeSelection(int rowIndex, int columnIndex, boolean extend) {
 		// force column selection
 		if (view.isColumnSelect()) {
@@ -897,10 +913,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (extend) {
 			leadSelectionColumn = columnIndex;
 			leadSelectionRow = rowIndex;
-			if (anchorSelectionColumn == -1)
+			if (anchorSelectionColumn == -1) {
 				anchorSelectionColumn = leadSelectionColumn;
-			if (anchorSelectionRow == -1)
+			}
+			if (anchorSelectionRow == -1) {
 				anchorSelectionRow = leadSelectionRow;
+			}
 		} else {
 			anchorSelectionColumn = columnIndex;
 			anchorSelectionRow = rowIndex;
@@ -954,6 +972,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * This handles all selection changes for the table.
 	 */
+	@Override
 	public void selectionChanged() {
 
 		// create a cell range object to store
@@ -1026,15 +1045,19 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
-		if (selectionType == MyTable.COLUMN_SELECT)
+		if (selectionType == MyTable.COLUMN_SELECT) {
 			for (int i = newSelection.getMinColumn(); i <= newSelection
-			        .getMaxColumn(); i++)
+			        .getMaxColumn(); i++) {
 				selectedColumnSet.add(i);
+			}
+		}
 
-		if (selectionType == MyTable.ROW_SELECT)
+		if (selectionType == MyTable.ROW_SELECT) {
 			for (int i = newSelection.getMinRow(); i <= newSelection
-			        .getMaxRow(); i++)
+			        .getMaxRow(); i++) {
 				selectedRowSet.add(i);
+			}
+		}
 
 		// check for change in anchor cell (for now this is minrow and mincol
 		// ...)
@@ -1052,8 +1075,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// newSelection.debug();
 		// printSelectionParameters();
 
-		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
+		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1)) {
 			setSelectNone(false);
+		}
 
 		// TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
 
@@ -1118,10 +1142,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		setSelectionType(MyTable.CELL_SELECT);
 
-		if (column == -1)
+		if (column == -1) {
 			column = 0;
-		if (row == -1)
+		}
+		if (row == -1) {
 			row = 0;
+		}
 		minSelectionColumn = column;
 		maxSelectionColumn = column;
 		minSelectionRow = row;
@@ -1175,8 +1201,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	public boolean setSelection(String cellName) {
 
-		if (cellName == null)
+		if (cellName == null) {
 			return setSelection(-1, -1, -1, -1);
+		}
 
 		GPoint newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (newCell.x != -1 && newCell.y != -1) {
@@ -1185,6 +1212,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;
 	}
 
+	@Override
 	public boolean setSelection(int c, int r) {
 		CellRange cr = new CellRange(app, c, r, c, r);
 		return setSelection(cr);
@@ -1193,8 +1221,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
 
 		CellRange cr = new CellRange(app, c1, r1, c2, r2);
-		if (!cr.isValid())
+		if (!cr.isValid()) {
 			return false;
+		}
 
 		// ArrayList<CellRange> list = new ArrayList<CellRange>();
 		// list.add(cr);
@@ -1203,10 +1232,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	@Override
 	public boolean setSelection(CellRange cr) {
 
-		if (cr != null && !cr.isValid())
+		if (cr != null && !cr.isValid()) {
 			return false;
+		}
 
 		try {
 			if (cr == null || cr.isEmptyRange()) {
@@ -1314,6 +1345,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	@Override
 	public int getSelectionType() {
 		return selectionType;
 	}
@@ -1338,6 +1370,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
 
+	@Override
 	public boolean isSelectNone() {
 		return isSelectNone;
 	}
@@ -1353,6 +1386,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	@Override
 	public boolean isSelectAll() {
 		return isSelectAll;
 	}
@@ -1367,8 +1401,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		for (CellRange cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
-				if (!columns.contains(c))
+				if (!columns.contains(c)) {
 					columns.add(c);
+				}
 			}
 		}
 		return columns;
@@ -1379,8 +1414,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		ArrayList<Integer> columns = getSelectedColumnsList();
 		int[] ret = new int[columns.size()];
-		for (int c = 0; c < columns.size(); c++)
+		for (int c = 0; c < columns.size(); c++) {
 			ret[c] = columns.get(c);
+		}
 
 		return ret;
 	}
@@ -1466,14 +1502,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int extraCell = min ? 0 : 1;
 
 		for (int c = 0; c < column + extraCell; c++) {
-			Integer w = (Integer) widthMap.get(c);
+			Integer w = widthMap.get(c);
 			if (w == null) {
 				w = preferredColumnWidth;
 			}
 			p.x += w;
 		}
 		for (int r = 0; r < row + extraCell; r++) {
-			Integer h = (Integer) heightMap.get(r);
+			Integer h = heightMap.get(r);
 			if (h == null) {
 				h = view.settings().preferredRowHeight();
 			}
@@ -1502,8 +1538,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * location
 	 */
 	public GPoint getIndexFromPixel(int x, int y) {
-		if (x < 0 || y < 0)
+		if (x < 0 || y < 0) {
 			return null;
+		}
 
 		int columnFrom = 0;
 		int rowFrom = 0;
@@ -1592,10 +1629,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * longer than MAX_CELL_EDIT_STRING_LENGTH, the redefine dialog is shown.
 	 * Also prevents fixed cells from being edited.
 	 */
+	@Override
 	public boolean editCellAt(int row, int col) {
 
-		if (row < 0 || col < 0)
+		if (row < 0 || col < 0) {
 			return false;
+		}
 
 		Object ob = tableModel.getValueAt(row, col);
 
@@ -1667,8 +1706,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		BaseCellEditor mce = getCellEditor(row, col);
-		if (mce != null)
+		if (mce != null) {
 			mce.cancelCellEditing();
+		}
 		return false;// TODO: implementation needed
 	}
 
@@ -1700,23 +1740,27 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public boolean isCellEditable(int row, int column) {
 
-		if (view.isColumnSelect())
+		if (view.isColumnSelect()) {
 			return false;
+		}
 
 		// allow use of special editors for e.g. buttons, lists
 		if (view.allowSpecialEditor()
-		        && oneClickEditMap.containsKey(new GPoint(column, row)))
+		        && oneClickEditMap.containsKey(new GPoint(column, row))) {
 			return true;
+		}
 
 		// normal case: return false so we can handle double click in our //
 		// mouseReleased
-		if (!allowEditing)
+		if (!allowEditing) {
 			return false;
+		}
 
 		// prevent editing fixed geos when allowEditing == true
 		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
-		if (geo != null && geo.isFixed())
+		if (geo != null && geo.isFixed()) {
 			return false;
+		}
 
 		// return true when editing is allowed (mostly for blank cells). This
 		// lets
@@ -1725,6 +1769,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return true;
 	}
 
+	@Override
 	public void updateEditor(String text) {
 		if (this.isEditing()) {
 			editor.setText(text);
@@ -1842,8 +1887,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					}
 				}
 				if (view != null) {
-					if (doRecordRowHeights)
+					if (doRecordRowHeights) {
 						adjustedRowHeights.add(new GPoint(row, rowHeight2));
+					}
 				}
 			}
 		});
@@ -1944,7 +1990,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			Element tableColumn = ssGrid.getColumnFormatter().getElement(col);
 
 			int resultWidth = Math.max(tableColumn.getOffsetWidth(),
-			        (int) prefElement.getOffsetWidth());
+			        prefElement.getOffsetWidth());
 			tableColumn.getStyle().setWidth(resultWidth /*
 														 * TODO this.
 														 * getIntercellSpacing
@@ -1960,7 +2006,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			int resultHeight = Math.max(ssGrid.getRowFormatter()
 			        .getElement(row).getOffsetHeight(),
-			        (int) prefElement.getOffsetHeight());
+			        prefElement.getOffsetHeight());
 			int rowHeight2 = resultHeight;
 			// if (rowHeight2 < minimumRowHeight)
 			// rowHeight2 = minimumRowHeight;
@@ -2097,6 +2143,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// Table mode change
 	// ==================================================
 
+	@Override
 	public int getTableMode() {
 		return tableMode;
 	}
@@ -2106,12 +2153,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * 
 	 * @param tableMode
 	 */
+	@Override
 	public void setTableMode(int tableMode) {
 
 		if (tableMode == MyTable.TABLE_MODE_AUTOFUNCTION) {
 
-			if (!initAutoFunction())
+			if (!initAutoFunction()) {
 				return;
+			}
 		}
 
 		else if (tableMode == MyTable.TABLE_MODE_DROP) {
@@ -2151,8 +2200,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			if (RelativeCopy.getValue(app, minSelectionColumn, minSelectionRow) != null) {
 				boolean isOK = copyPasteCut.delete(minSelectionColumn,
 				        minSelectionRow, minSelectionColumn, minSelectionRow);
-				if (!isOK)
+				if (!isOK) {
 					return false;
+				}
 			}
 
 			// Set targetCell as a GeoNumeric that can be used to preview the
@@ -2191,11 +2241,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			// Don't stay in this mode, we're done
 			return false;
-		}
-
-		// Exit if any other type of selection exists
-		else
+		} else {
 			return false;
+		}
 
 		return true;
 	}
@@ -2266,6 +2314,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * Updates all cell formats and the current selection.
 	 */
+	@Override
 	public void repaintAll() {
 		repaintAll = true;
 		repaint();
@@ -2275,6 +2324,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * Updates only the current selection. For efficiency the cell formats are
 	 * not updated.
 	 */
+	@Override
 	public void repaint() {
 
 		if (repaintAll) {
@@ -2322,10 +2372,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
+	@Override
 	public void updateTableCellValue(Object value, int row, int column) {
-		if (defaultTableCellRenderer != null)
+		if (defaultTableCellRenderer != null) {
 			defaultTableCellRenderer.updateTableCellValue(ssGrid, value, row,
 			        column);
+		}
 	}
 
 	public boolean showCanDragBlueDot() {
@@ -2334,12 +2386,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 		        && minSelectionColumn != -1 && maxSelectionColumn != -1) {
 
-			if (showBlueDot)
-				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
-					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
-						if (tableModel.getValueAt(i, j) instanceof GeoElement)
+			if (showBlueDot) {
+				for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
+					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++) {
+						if (tableModel.getValueAt(i, j) instanceof GeoElement) {
 							showBlueDot &= !((GeoElement) tableModel
 							        .getValueAt(i, j)).isFixed();
+						}
+					}
+				}
+			}
 
 			return showBlueDot;
 		}
@@ -2425,26 +2481,30 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public int getSelectedRow() {
-		if (minSelectionRow < 0)
+		if (minSelectionRow < 0) {
 			return -1;
+		}
 		return minSelectionRow;
 	}
 
 	public int getSelectedColumn() {
-		if (minSelectionColumn < 0)
+		if (minSelectionColumn < 0) {
 			return -1;
+		}
 		return minSelectionColumn;
 	}
 
 	public int getMaxSelectedRow() {
-		if (maxSelectionRow < 0)
+		if (maxSelectionRow < 0) {
 			return -1;
+		}
 		return maxSelectionRow;
 	}
 
 	public int getMaxSelectedColumn() {
-		if (maxSelectionColumn < 0)
+		if (maxSelectionColumn < 0) {
 			return -1;
+		}
 		return maxSelectionColumn;
 	}
 
@@ -2490,18 +2550,22 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		updateTableLayout();
 	}
 
+	@Override
 	public void updateCellFormat(String cellFormatString) {
 		view.updateCellFormat(cellFormatString);
 	}
 
+	@Override
 	public boolean allowSpecialEditor() {
 		return view.allowSpecialEditor();
 	}
 
+	@Override
 	public int getColumnCount() {
 		return tableModel.getColumnCount();
 	}
 
+	@Override
 	public int getRowCount() {
 		return tableModel.getRowCount();
 	}
@@ -2586,8 +2650,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void positionEditorPanel(boolean visible, int row, int column) {
-		if (editorPanel == null)
+		if (editorPanel == null) {
 			return;
+		}
 		editorPanel.setVisible(visible);
 		if (visible) {
 			GPoint p = getPixel(column, row, true);

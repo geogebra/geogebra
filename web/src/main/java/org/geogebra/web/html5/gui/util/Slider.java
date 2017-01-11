@@ -54,6 +54,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		range.value = value;
 	}-*/;
 
+	@Override
 	public Integer getValue() {
 		return Integer.valueOf(getRangeValue(range));
 	}
@@ -82,11 +83,13 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		return new GDimensionW(100, 10);
 	}
 
+	@Override
 	public HandlerRegistration addValueChangeHandler(
 	        ValueChangeHandler<Integer> handler) {
 		if (!valueChangeHandlerInitialized) {
 			valueChangeHandlerInitialized = true;
 			addChangeHandler(new ChangeHandler() {
+				@Override
 				public void onChange(ChangeEvent event) {
 					ValueChangeEvent.fire(Slider.this, getValue());
 				}
@@ -95,10 +98,12 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
+	@Override
 	public void setValue(Integer value) {
 		setValue(value, false);
 	}
 
+	@Override
 	public void setValue(Integer value, boolean fireEvents) {
 		// Integer oldValue = getValue();
 		setSliderValue(String.valueOf(value));
@@ -111,19 +116,23 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		setRangeValue(range, value);
 	}
 
+	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
 
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		valueOnDragStart = getValue();
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		event.stopPropagation();
 	}

@@ -301,6 +301,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			setWidget(mainPanel);
 		}
 
+		@Override
 		public void resetError() {
 			showError(null);
 		}
@@ -317,11 +318,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		@Override
 		public void showCommandError(String command, String message) {
 			app.getDefaultErrorHandler().showCommandError(command, message);
 
 		}
 
+		@Override
 		public String getCurrentCommand() {
 			return tfCondition.getCommand();
 		}
@@ -353,6 +356,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		@Override
 		public boolean onUndefinedVariables(String string,
 				AsyncOperation<String[]> callback) {
 			return app.getGuiManager().checkAutoCreateSliders(string, callback);
@@ -504,6 +508,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			updateGUI(true, true);
 		}
 
+		@Override
 		public void resetError() {
 			showError(null);
 		}
@@ -516,6 +521,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		@Override
 		public boolean onUndefinedVariables(String string,
 				AsyncOperation<String[]> callback) {
 			return app.getGuiManager().checkAutoCreateSliders(string, callback);
@@ -663,11 +669,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		@Override
 		public void showCommandError(String command, String message) {
 			app.getDefaultErrorHandler().showCommandError(command, message);
 
 		}
 
+		@Override
 		public String getCurrentCommand() {
 			return tfDefinition.getCommand();
 		}
@@ -786,6 +794,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
 
@@ -853,8 +862,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 				@Override
 				protected void wrapFocusLost(){
-					if (!processed)
+					if (!processed) {
 						doActionPerformed();
+					}
 				}	
 			};
 
@@ -869,8 +879,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						if (!processed)
+						if (!processed) {
 							doActionPerformed();
+						}
 					}
 				}
 
@@ -1199,10 +1210,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		@Override
 		public void setCheckBox3DVisible(boolean flag) {
 			cbGraphicsView3D.setVisible(flag);
 		}
 
+		@Override
 		public void setCheckBoxForPlaneVisible(boolean flag) {
 			cbGraphicsViewForPlane.setVisible(flag);
 		}
@@ -1577,6 +1590,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
 	}

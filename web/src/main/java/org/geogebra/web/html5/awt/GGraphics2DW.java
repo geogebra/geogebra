@@ -128,6 +128,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	private double[] coords = new double[6];
 
+	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
 		int width = (int) context.getLineWidth();
 		context.beginPath();
@@ -162,8 +163,9 @@ public class GGraphics2DW implements GGraphics2D {
 				break;
 			case PathIterator.SEG_MOVETO:
 				context.moveTo(coords[0], coords[1]);
-				if (enableDashEmulation)
+				if (enableDashEmulation) {
 					setLastCoords(coords[0], coords[1]);
+				}
 				break;
 			case PathIterator.SEG_LINETO:
 				if (dash_array == null || !enableDashEmulation) {
@@ -181,14 +183,16 @@ public class GGraphics2DW implements GGraphics2D {
 			case PathIterator.SEG_CUBICTO:
 				context.bezierCurveTo(coords[0], coords[1], coords[2],
 				        coords[3], coords[4], coords[5]);
-				if (enableDashEmulation)
+				if (enableDashEmulation) {
 					setLastCoords(coords[4], coords[5]);
+				}
 				break;
 			case PathIterator.SEG_QUADTO:
 				context.quadraticCurveTo(coords[0], coords[1], coords[2],
 				        coords[3]);
-				if (enableDashEmulation)
+				if (enableDashEmulation) {
 					setLastCoords(coords[2], coords[3]);
+				}
 				break;
 			case PathIterator.SEG_CLOSE:
 				context.closePath();
@@ -208,14 +212,17 @@ public class GGraphics2DW implements GGraphics2D {
 
 	//
 
+	@Override
 	public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
 	}
 
+	@Override
 	public void drawString(String str, double x, double y) {
 		context.fillText(str, x, y);
 	}
 
+	@Override
 	public void setComposite(GComposite comp) {
 		context.setGlobalAlpha(((GAlphaCompositeW) comp).getAlpha());
 
@@ -229,6 +236,7 @@ public class GGraphics2DW implements GGraphics2D {
 		// }
 	}
 
+	@Override
 	public void setPaint(final GPaint paint) {
 		if (paint instanceof GColor) {
 			setColor((GColor) paint);
@@ -258,7 +266,8 @@ public class GGraphics2DW implements GGraphics2D {
 				} else {
 					ImageWrapper.nativeon(bi.getImageElement(), "load",
 					        new ImageLoadCallback() {
-						        public void onLoad() {
+						        @Override
+								public void onLoad() {
 							        currentPaint = new GTexturePaintW(
 							                (GTexturePaintW) paint);
 							        CanvasPattern ptr = context.createPattern(
@@ -277,6 +286,7 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 	}
 
+	@Override
 	public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
 			context.setLineWidth(((GBasicStrokeW) stroke).getLineWidth());
@@ -287,8 +297,9 @@ public class GGraphics2DW implements GGraphics2D {
 			if (dasharr != null) {
 				jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
-				for (int i = 0; i < dasharr.length; i++)
+				for (int i = 0; i < dasharr.length; i++) {
 					jsarrn.set(i, dasharr[i]);
+				}
 				setStrokeDash(context, jsarrn);
 			} else {
 				setStrokeDash(context, null);
@@ -325,15 +336,18 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	@Override
 	public void translate(double tx, double ty) {
 		context.translate2(tx, ty);
 
 	}
 
+	@Override
 	public void scale(double sx, double sy) {
 		context.scale2(sx, sy);
 	}
 
+	@Override
 	public void transform(GAffineTransform Tx) {
 		context.transform2(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
 				Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
@@ -353,6 +367,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	@Override
 	public GComposite getComposite() {
 		return new GAlphaCompositeW(context.getGlobalAlpha());
 
@@ -362,10 +377,12 @@ public class GGraphics2DW implements GGraphics2D {
 		// };
 	}
 
+	@Override
 	public GColor getBackground() {
 		return GColor.WHITE;
 	}
 
+	@Override
 	public GBasicStroke getStroke() {
 
 		return new GBasicStrokeW(context.getLineWidth(),
@@ -373,14 +390,17 @@ public class GGraphics2DW implements GGraphics2D {
 		        GBasicStrokeW.getJoin(context.getLineJoin()), 0, dash_array, 0);
 	}
 
+	@Override
 	public GFontRenderContext getFontRenderContext() {
 		return new GFontRenderContextW(context);
 	}
 
+	@Override
 	public GColor getColor() {
 		return color;
 	}
 
+	@Override
 	public GFontW getFont() {
 		return currentFont;
 	}
@@ -432,6 +452,7 @@ public class GGraphics2DW implements GGraphics2D {
 		return canvas.getAbsoluteLeft();
 	}
 
+	@Override
 	public void setFont(GFont font) {
 		if (font instanceof GFontW) {
 			currentFont = (GFontW) font;
@@ -446,6 +467,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	@Override
 	public void setColor(GColor fillColor) {
 		// checking for the same color here speeds up axis drawing by 25%
 		if (fillColor.equals(color)) {
@@ -461,6 +483,7 @@ public class GGraphics2DW implements GGraphics2D {
 		this.currentPaint = fillColor;
 	}
 
+	@Override
 	public void updateCanvasColor() {
 		if (color == null || context == null) {
 			return;
@@ -472,10 +495,12 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	@Override
 	public void fillRect(int x, int y, int w, int h) {
 		context.fillRect(x, y, w, h);
 	}
 
+	@Override
 	public void clearRect(int x, int y, int w, int h) {
 		context.saveTransform();
 		context.setTransform2(1, 0, 0, 1, 0, 0);
@@ -483,6 +508,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.restoreTransform();
 	}
 
+	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
 
 		/*
@@ -506,6 +532,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	@Override
 	public void setClip(GShape shape) {
 		if (shape == null) {
 			Log.warn("Set clip should not be called with null, use resetClip instead");
@@ -524,6 +551,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.clip();
 	}
 
+	@Override
 	public void draw(GShape shape) {
 		if (shape == null) {
 			Log.error("Error in EuclidianView.draw");
@@ -538,6 +566,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.stroke();
 	}
 
+	@Override
 	public void fill(GShape gshape) {
 		if (gshape == null) {
 			Log.error("Error in EuclidianView.draw");
@@ -573,6 +602,7 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 	}
 
+	@Override
 	public void drawRect(int x, int y, int width, int height) {
 		context.beginPath();
 		context.rect(x, y, width, height);
@@ -580,6 +610,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	@Override
 	public void setClip(int x, int y, int width, int height) {
 
 		double[] dash_array_save = dash_array;
@@ -626,6 +657,7 @@ public class GGraphics2DW implements GGraphics2D {
 		return this.canvas;
 	}
 
+	@Override
 	public void drawRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
 		roundRect(x, y, width, height, arcHeight - arcHeight / 2);
@@ -660,6 +692,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.closePath();
 	}
 
+	@Override
 	public void fillRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
 		roundRect(x, y, width, height, arcHeight - arcHeight / 2);
@@ -822,10 +855,12 @@ public class GGraphics2DW implements GGraphics2D {
 		context.putImageData(data, x, y);
 	}
 
+	@Override
 	public void setAntialiasing() {
 		// not needed
 	}
 
+	@Override
 	public void setTransparent() {
 		setComposite(GAlphaCompositeW.Src);
 	}
@@ -876,11 +911,13 @@ public class GGraphics2DW implements GGraphics2D {
 		return context;
 	}
 
+	@Override
 	public Object setInterpolationHint(boolean needsInterpolationRenderingHint) {
 		this.setImageInterpolation(needsInterpolationRenderingHint);
 		return null;
 	}
 
+	@Override
 	public void resetInterpolationHint(Object oldInterpolationHint) {
 		this.setImageInterpolation(true);
 		this.color = null;
@@ -889,8 +926,9 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void drawImage(GBufferedImage img, int x, int y) {
 		GBufferedImageW bi = (GBufferedImageW) img;
-		if (bi == null)
+		if (bi == null) {
 			return;
+		}
 		try {
 			if (bi.hasCanvas()) {
 				if (bi.getCanvas().getCoordinateSpaceWidth() > 0) {
@@ -920,6 +958,7 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 	}
 
+	@Override
 	public void drawImage(MyImage img, int x, int y) {
 		context.drawImage(((MyImageW) img).getImage(), x, y);
 
@@ -953,6 +992,7 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 	}
 
+	@Override
 	public void resetClip() {
 		context.restoreTransform();
 	}

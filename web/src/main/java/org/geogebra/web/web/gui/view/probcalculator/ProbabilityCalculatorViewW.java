@@ -120,8 +120,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 			@Override
 		public void onSelection(SelectionEvent<Integer> event) {
-			if (styleBar != null)
+			if (styleBar != null) {
 				styleBar.updateLayout();
+			}
 		   }
 	   });
 	   
@@ -157,10 +158,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		setDistributionComboBoxMenu();
 
-		if (table != null)
+		if (table != null) {
 			((ProbabilityTableW) table).setLabels();
-		if (styleBar != null)
+		}
+		if (styleBar != null) {
 			styleBar.setLabels();
+		}
 
 		btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
 
@@ -446,8 +449,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
     }
 	
 	private void updateProbabilityType() {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		boolean isDiscrete = probmanagerIsDiscrete();
 		int oldProbMode = probMode;
@@ -491,11 +495,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				setHigh(getLow());
 			}
 
-			if (isDiscrete)
+			if (isDiscrete) {
 				setLow(((GeoNumeric) discreteValueList.get(0)).getDouble());
-			else
+			}
+			else {
 				setLow(plotSettings.xMin - 1); // move offscreen so the integral
 												// looks complete
+			}
 
 		}
 
@@ -510,12 +516,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				setLow(getHigh());
 			}
 
-			if (isDiscrete)
+			if (isDiscrete) {
 				setHigh(((GeoNumeric) discreteValueList.get(discreteValueList
 						.size() - 1)).getDouble());
-			else
+			}
+			else {
 				setHigh(plotSettings.xMax + 1); // move offscreen so the integral
 												// looks complete
+			}
 
 		}
 
@@ -574,8 +582,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			if(pdfCurve != null){
 				pdfCurve.update();
 			}
-			if (hasIntegral)
+			if (hasIntegral) {
 				integral.update();
+			}
 		}
 
 		btnNormalOverlay.setVisible(isOverlayDefined());
@@ -605,8 +614,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
     protected void updateDiscreteTable() {
-		if (!probmanagerIsDiscrete())
+		if (!probmanagerIsDiscrete()) {
 			return;
+		}
 		int[] firstXLastX = generateFirstXLastXCommon();
 		((ProbabilityTableW) table).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
 		tabbedPane.onResize();
@@ -681,8 +691,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		Object source = event.getSource();
 		if (source == comboDistribution) {
 
-			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution.getValue(comboDistribution.getSelectedIndex()).equals(SEPARATOR))
-				
+			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution.getValue(comboDistribution.getSelectedIndex()).equals(SEPARATOR)) {
 				if (!selectedDist.equals(this.getReverseDistributionMap()
 						.get(comboDistribution.getValue(comboDistribution.getSelectedIndex())))) {
 
@@ -694,6 +703,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 							isCumulative);
 					tabbedPane.onResize();
 				}
+			}
 		} else if (source == comboProbType) {
 			updateProbabilityType();
 		}
@@ -704,9 +714,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		comboProbType.clear();
 		comboProbHandler.removeHandler();
-		if (isCumulative)
+		if (isCumulative) {
 			comboProbType.addItem(loc.getMenu("LeftProb"));
-		else {
+		} else {
 			comboProbType.addItem(loc.getMenu("IntervalProb"));
 			comboProbType.addItem(loc.getMenu("LeftProb"));
 			comboProbType.addItem(loc.getMenu("RightProb"));
@@ -761,6 +771,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	/**
 	 * @return ProbabilitiManager
 	 */
+	@Override
 	public ProbabilityManager getProbManager() {
 	   return probManager;
     }
@@ -858,8 +869,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 	void doTextFieldActionPerformed(TextBox source,
 	        boolean intervalCheck) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 		try {
 
 			String inputText = source.getText().trim();
@@ -915,11 +927,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						}
 						setXAxisPoints();
 					}
-				}
-	
-					else
+				} else {
 					// handle parameter entry
-					for (int i = 0; i < parameters.length; ++i)
+					for (int i = 0; i < parameters.length; ++i) {
 						if (source == fldParameterArray[i].getTextBox()) {
 	
 							if (isValidParameter(value, i)) {
@@ -928,6 +938,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 							}
 	
 						}
+					}
+				}
 					if (intervalCheck) {
 						updateIntervalProbability();
 						if (update) {

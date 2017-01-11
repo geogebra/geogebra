@@ -294,8 +294,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * @return Value for property 'choiceButton'.
      */
     protected ToggleButton getChoiceButton() {
-        if (choiceButton == null)
-            choiceButton = new ToggleButton();
+        if (choiceButton == null) {
+			choiceButton = new ToggleButton();
+		}
         return choiceButton;
     }
 
@@ -305,8 +306,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * @return Value for property 'choiceButtonImage'.
      */
     protected Image getChoiceButtonImage() {
-        if (choiceButtonImage == null)
-            choiceButtonImage = new Image(GuiResources.INSTANCE.little_triangle_down());
+        if (choiceButtonImage == null) {
+			choiceButtonImage = new Image(GuiResources.INSTANCE.little_triangle_down());
+		}
         return choiceButtonImage;
     }
 
@@ -350,8 +352,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * @return Value for property 'lockingPanel'.
      */
     protected LockingPanel getLockingPanel() {
-        if (lockingPanel == null)
-            lockingPanel = new LockingPanel();
+        if (lockingPanel == null) {
+			lockingPanel = new LockingPanel();
+		}
         return lockingPanel;
     }
 

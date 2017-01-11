@@ -354,6 +354,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		toolList.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				updateMacroPanel();
 			}
@@ -404,16 +405,19 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		dlg.show();
 	}
 
+	@Override
 	public void removeMacroFromToolbar(int i) {
 
 		app.getGuiManager().removeFromToolbarDefinition(i);
 	}
 
+	@Override
 	public void refreshCustomToolsInToolBar() {
 		app.getGuiManager().refreshCustomToolsInToolBar();
 		app.getGuiManager().updateToolbar();
 	}
 
+	@Override
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		GeoGebraTubeExportW exporter = new GeoGebraTubeExportW(app);
 
@@ -421,6 +425,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object src = event.getSource();
 
@@ -472,6 +477,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		refreshCustomToolsInToolBar();
 
 	}
+	@Override
 	public void onMacroChange(Macro macro) {
 		Macro m = toolList.getSelectedMacro();
 		m.setCommandName(macro.getCommandName());

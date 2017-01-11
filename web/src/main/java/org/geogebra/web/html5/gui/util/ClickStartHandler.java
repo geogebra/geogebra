@@ -22,6 +22,7 @@ public abstract class ClickStartHandler {
 	 */
 	public static void init(Widget w, final ClickStartHandler handler) {
 		w.addDomHandler(new MouseDownHandler() {
+			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();
@@ -41,6 +42,7 @@ public abstract class ClickStartHandler {
 		}, MouseDownEvent.getType());
 
 		w.addDomHandler(new TouchStartHandler() {
+			@Override
 			public void onTouchStart(TouchStartEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();

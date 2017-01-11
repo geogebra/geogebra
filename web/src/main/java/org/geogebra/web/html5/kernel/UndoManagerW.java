@@ -39,6 +39,7 @@ public class UndoManagerW extends UndoManager {
 			return storage.getItem(key);
 		}
 
+		@Override
 		public void delete() {
 			xml = null;
 			if (storage != null) {
@@ -87,8 +88,9 @@ public class UndoManagerW extends UndoManager {
 		// public void run() {
 
 		doStoreUndoInfo(currentUndoXML);
-		if (refresh)
+		if (refresh) {
 			restoreCurrentUndoInfo();
+		}
 
 		// }
 		// };

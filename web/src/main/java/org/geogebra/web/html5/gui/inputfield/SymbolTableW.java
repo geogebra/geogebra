@@ -84,6 +84,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		return c;
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 
 		Cell clickCell = getCellForEvent(event);
@@ -115,6 +116,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		return this.symbolStrings[index];
 	}
 
+	@Override
 	public com.google.gwt.user.client.Element getEventTargetCell(Event event) {
 		return super.getEventTargetCell(event);
 	}

@@ -55,6 +55,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 		pButton.addStyleName("XButtonNeighbour");
 		pButton.addStyleName("shown");
 		pButton.addMouseDownHandler(new MouseDownHandler() {
+			@Override
 			public void onMouseDown(MouseDownEvent mde) {
 				mde.preventDefault();
 				mde.stopPropagation();
@@ -125,6 +126,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 		actual.add(new Label(loc.getMenu("AddRow")));
 		// ClickHandler is okay here, but maybe MouseDownHandler is better?
 		actual.addDomHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				ce.preventDefault();
@@ -140,6 +142,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 		actual.add(new Image(GuiResources.INSTANCE.algebra_remove()));
 		actual.add(new Label(loc.getMenu("RemoveRow")));
 		actual.addDomHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				ce.preventDefault();
@@ -155,6 +158,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new()));
 		actual.add(new Label(loc.getMenu("AddColumn")));
 		actual.addDomHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				ce.preventDefault();
@@ -170,6 +174,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 		actual.add(new Image(GuiResources.INSTANCE.algebra_remove()));
 		actual.add(new Label(loc.getMenu("RemoveColumn")));
 		actual.addDomHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				ce.preventDefault();
@@ -219,6 +224,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 	 */
 	public void appendRow() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				changeSize(MatrixOps.APPEND_ROW);
 			}
@@ -230,6 +236,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 	 */
 	public void removeLastRow() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				changeSize(MatrixOps.REMOVE_LAST_ROW);
 			}
@@ -241,6 +248,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 	 */
 	public void appendColumn() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				changeSize(MatrixOps.APPEND_COLUMN);
 			}
@@ -252,6 +260,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 	 */
 	public void removeLastColumn() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				changeSize(MatrixOps.REMOVE_LAST_COLUMN);
 			}

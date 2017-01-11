@@ -255,6 +255,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.appIDTextBox.addStyleName("appIdTextBox");
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
 		
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					onAppIdChange();
@@ -655,6 +656,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		// not used
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// not used
 	}
@@ -736,6 +738,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	/**
 	 * only after opening a file
 	 */
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		TreeSet<GeoElement> newTreeSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();

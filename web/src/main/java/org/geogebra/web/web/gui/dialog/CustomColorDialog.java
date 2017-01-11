@@ -68,12 +68,14 @@ public class CustomColorDialog extends DialogBoxW {
 					
 			spinner.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 	                slider.setValue(Integer.parseInt(spinner.getValue()));
 	                preview.update();
                 }});
 			slider.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 	                spinner.setValue(slider.getValue().toString());
 	                preview.update();
@@ -133,6 +135,7 @@ public class CustomColorDialog extends DialogBoxW {
 			
 		}
 		
+		@Override
 		public void setTitle(String text) {
 			title.setText(text);
 		}
@@ -182,6 +185,7 @@ public class CustomColorDialog extends DialogBoxW {
 		
 		btnOk.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				if (listener != null) {
 					listener.onCustomColor(getColor());
@@ -191,12 +195,14 @@ public class CustomColorDialog extends DialogBoxW {
 			}});
 		btnCancel.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				hide();
             }});
 		
 		btnReset.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				reset();
             }});

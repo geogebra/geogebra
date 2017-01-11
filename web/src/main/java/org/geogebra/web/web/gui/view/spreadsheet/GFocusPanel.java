@@ -11,10 +11,12 @@ public class GFocusPanel extends FocusPanel implements AdvancedFocusPanelI {
 		super(spreadsheet);
 	}
 
+	@Override
 	public void addPasteHandler(SpreadsheetKeyListenerW sskl) {
 
 	}
 
+	@Override
 	public void setSelectedContent(String cs) {
 		// TODO Auto-generated method stub
 

@@ -46,6 +46,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		setStyleName("optionsSlider");
 	}
 
+	@Override
 	public Double getValue() {
 		return slider.getValue();
 	}
@@ -95,19 +96,23 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		return new GDimensionW(180, 10);
 	}
 
+	@Override
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<Double> handler) {
 		return slider.addValueChangeHandler(handler);
 	}
 
+	@Override
 	public void setValue(Double value) {
 		slider.setValue(value, false);
 	}
 
+	@Override
 	public void setValue(Double value, boolean fireEvents) {
 		slider.setValue(value, fireEvents);
 	}
 
+	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return slider.addChangeHandler(handler);
 	}

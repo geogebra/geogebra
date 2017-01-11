@@ -168,6 +168,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				&& !isWidgetHit(slider.minMaxPanel, x, y));
 	}
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Double> event) {
 		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
 			stopEdit();

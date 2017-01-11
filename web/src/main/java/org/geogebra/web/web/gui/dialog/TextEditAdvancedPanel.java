@@ -93,6 +93,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		super.insert(child, tab, beforeIndex);
 		tab.addDomHandler(new MouseDownHandler(){
 
+			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				TextEditAdvancedPanel.this.selectTab(child);
 				event.preventDefault();
@@ -104,6 +105,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 		// update the geoPanel when selected
 		addSelectionHandler(new SelectionHandler<Integer>() {
+			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				if (event.getSelectedItem() == 1) {
 					updateGeoList();
@@ -157,6 +159,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
  2,
 				new StringHandler() {
 
+					@Override
 					public void handle(String s) {
 						editPanel.insertGeoElement(app.getKernel().lookupLabel(
 								s));
@@ -241,6 +244,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, isLatex,
 				rowSize, new StringHandler() {
 
+					@Override
 					public void handle(String s) {
 						editPanel.insertTextString(s, isLatex);
 
@@ -294,6 +298,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
 				rowSize, new StringHandler() {
 
+					@Override
 					public void handle(String s) {
 						editPanel.insertTextString(s, true);
 						editPanel.ensureLaTeX();
@@ -320,6 +325,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 		if (Browser.isIE10plus()) {
 		symTable.addDomHandler(new MouseDownHandler() {
+			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				/*
 				 * Cell clickCell = ((HTMLTable) event.getSource())
@@ -345,6 +351,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		}, MouseDownEvent.getType());
 		} else {
 			symTable.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 
 					HTMLTable.Cell clickCell = ((HTMLTable) event

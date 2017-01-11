@@ -147,8 +147,9 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 	public void updateColumnCount() {
 
-		if (grid.getColumnCount() >= table.getColumnCount())
+		if (grid.getColumnCount() >= table.getColumnCount()) {
 			return;
+		}
 
 		int oldColumnCount = grid.getColumnCount();
 		grid.resizeColumns(table.getColumnCount());
@@ -332,6 +333,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	 * public void mouseExited(MouseEvent e) { }
 	 */
 
+	@Override
 	public void onMouseDown(MouseDownEvent e) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -341,6 +343,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		onPointerDown(event);
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent e) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -354,6 +357,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	// MouseMotion Listener Methods
 	// ===============================================
 
+	@Override
 	public void onMouseMove(MouseMoveEvent e) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -484,14 +488,15 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			if (table.minSelectionColumn != -1
 			        && table.maxSelectionColumn != -1
 			        && (table.maxSelectionColumn - table.minSelectionColumn > 0)) {
-				if (table.isSelectAll())
+				if (table.isSelectAll()) {
 					table.setColumnWidth(columnWidth);
-				else
+				} else {
 					for (int col = table.minSelectionColumn; col <= table.maxSelectionColumn; col++) {
 						Log.debug("setting column, width: " + col + " , "
 						        + columnWidth);
 						table.setColumnWidth(col, columnWidth);
 					}
+				}
 			}
 			table.repaint();
 			table.renderSelectionDeferred();
@@ -552,21 +557,25 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		}
 	}
 
+	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		event.preventDefault();
@@ -575,6 +584,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	    CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.preventDefault();
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
@@ -588,6 +598,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
@@ -596,6 +607,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void handleLongTouch(int x, int y) {
 	    showContextMenu(x, y, false);
     }

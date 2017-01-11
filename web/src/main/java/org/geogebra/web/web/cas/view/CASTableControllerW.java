@@ -69,6 +69,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
+	@Override
 	public void handleLongTouch(int x, int y) {
 		CASTableW table = view.getConsoleTable();
 		if (!table.isSelectedIndex(startSelectRow)) {
@@ -120,11 +121,13 @@ public class CASTableControllerW extends CASTableCellController implements
 		return false;
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		handleMouseMoveSelection(event);
 		event.stopPropagation();
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -213,6 +216,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		return true;
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -246,6 +250,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		CASTableW table = view.getConsoleTable();
 		GPoint point = table.getPointForEvent(event);
@@ -260,6 +265,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		CancelEventTimer.touchEventOccured();
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		touchDown = false;
@@ -271,6 +277,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		CancelEventTimer.touchEventOccured();
 	}
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		handleTouchStartSelection(event);
 		touchDown = true;
@@ -305,8 +312,9 @@ public class CASTableControllerW extends CASTableCellController implements
 	private boolean selectionContainsRow(int row) {
 		CASTableW table = view.getConsoleTable();
 		for (Integer item : table.getSelectedRows()) {
-			if (item.equals(row))
+			if (item.equals(row)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -348,6 +356,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		table.setSelectedRows(startSelectRow, currentRow);
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		char ch = e.getCharCode();
 		CASTableW table = view.getConsoleTable();
@@ -419,6 +428,7 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		CASTableCellEditor editor = view.getConsoleTable().getEditor();
 		if (!((CASEditorW) editor).isSuggesting()

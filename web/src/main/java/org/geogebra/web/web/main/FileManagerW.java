@@ -246,10 +246,12 @@ public class FileManagerW extends FileManager {
 		this.stockStore.removeItem(AUTO_SAVE_KEY);
 	}
 
+	@Override
 	public void saveLoggedOut(AppW app) {
 		app.getGuiManager().exportGGB();
 	}
 	
+	@Override
 	public void export(AppW app) {
 		app.getGuiManager().exportGGB();
 	}
@@ -283,6 +285,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	
+	@Override
 	public void showExportAsPictureDialog(final String url, String filename,
 			final AppW app) {
 		Localization loc = getApp().getLocalization();
@@ -307,15 +310,18 @@ public class FileManagerW extends FileManager {
 
 	}
 
+	@Override
 	public boolean hasBase64(Material material) {
 		return material.getBase64() != null
 				&& material.getBase64().length() > 0;
 	}
 
+	@Override
 	public void exportImage(String url, String filename) {
 		Browser.exportImage(url, filename);
 	}
 
+	@Override
 	public void refreshAutosaveTimestamp() {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());

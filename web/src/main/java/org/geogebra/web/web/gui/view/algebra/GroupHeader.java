@@ -36,6 +36,7 @@ public class GroupHeader extends FlowPanel {
 			
 			addDomHandler(new ClickHandler()
 			{
+				@Override
 				public void onClick(ClickEvent event)
 				{
 					boolean open = ti.getState();

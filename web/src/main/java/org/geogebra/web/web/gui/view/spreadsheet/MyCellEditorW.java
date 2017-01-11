@@ -81,8 +81,9 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	public void setText(String text) {
-		if (!autoCompleteTextField.hasFocus() && !table.isDragging)
+		if (!autoCompleteTextField.hasFocus() && !table.isDragging) {
 			autoCompleteTextField.setText(text);
+		}
 
 	}
 
@@ -165,16 +166,18 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	/** Insert a geo label into current editor string. */
 	public void addLabel(String label) {
-		if (!editing)
+		if (!editing) {
 			return;
+		}
 		// String text = (String) delegate.getCellEditorValue();
 		// delegate.setValue(text + label);
 		autoCompleteTextField.insertString(" " + label + " ");
 	}
 
 	public void setLabel(String text) {
-		if (!editing)
+		if (!editing) {
 			return;
+		}
 		autoCompleteTextField.setText(text);
 	}
 
@@ -190,6 +193,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	// Stop/Cancel Editing
 	// =======================================================
 
+	@Override
 	public void cancelCellEditing() {
 		editing = false;
 		
@@ -276,8 +280,9 @@ public class MyCellEditorW implements BaseCellEditor {
 					value = newVal;
 				}
 
-				if (value != null)
+				if (value != null) {
 					app.storeUndoInfo();
+				}
 			}
 
 		} catch (Exception ex) {
@@ -318,6 +323,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			this.isFormulaBarListener = isFormulaBarListener;
 		}
 
+		@Override
 		public void onKeyDown(KeyDownEvent e) {
 
 			// stopping propagation is needed to prevent duplicate events
@@ -350,6 +356,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			}
 		}
 
+		@Override
 		public void onKeyPress(KeyPressEvent e) {
 			// iOS: we do receive the event but nothing is actually printed
 			// because focus moved from dummy textarea into editor
@@ -358,6 +365,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			if (MyCellEditorW.this.allowAutoEdit) {
 				app.invokeLater(new Runnable() {
 
+					@Override
 					public void run() {
 						String text = autoCompleteTextField.getText();
 						if (text == null || text.length() == 0) {
@@ -373,6 +381,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			e.stopPropagation();
 		}
 
+		@Override
 		public void onKeyUp(KeyUpEvent e) {
 			// stopping propagation may be needed in strange browsers
 			// this also makes sure no top-level action is done on keyUp
@@ -397,8 +406,9 @@ public class MyCellEditorW implements BaseCellEditor {
 				if(isSuggesting()){
 					return;
 				}
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 
 				// Application.debug("UP");
 				stopCellEditing(0, -1, false);
@@ -407,14 +417,16 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_TAB:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 				Log.debug(" tab");
 				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right
-				if (tabReturnCol == -1)
+				if (tabReturnCol == -1) {
 					tabReturnCol = column;
+				}
 				stopCellEditing(e.isShiftKeyDown() ? -1 : 1, 0, false);
 				e.preventDefault();
 				break;
@@ -473,8 +485,9 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_LEFT:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 				// Application.debug("LEFT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == 0) {
@@ -484,8 +497,9 @@ public class MyCellEditorW implements BaseCellEditor {
 				break;
 
 			case KeyCodes.KEY_RIGHT:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 				// Application.debug("RIGHT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == text.length()) {

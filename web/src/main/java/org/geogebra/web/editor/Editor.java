@@ -28,6 +28,7 @@ import com.himamis.retex.renderer.web.resources.ResourceLoaderW;
 public class Editor implements EntryPoint, MathFieldListener {
 	private JlmEditorLib library;
 	private Opentype opentype;
+	@Override
 	public void onModuleLoad() {
 		ResourceLoaderW.addResource(
 				"/com/himamis/retex/editor/desktop/meta/Octave.xml",
@@ -54,11 +55,13 @@ public class Editor implements EntryPoint, MathFieldListener {
 				false);
 		kb.setListener(new UpdateKeyBoardListener() {
 
+			@Override
 			public void keyBoardNeeded(boolean show,
 					MathKeyboardListener textField) {
 
 			}
 
+			@Override
 			public void doShowKeyBoard(boolean b,
 					MathKeyboardListener textField) {
 			}
@@ -66,6 +69,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 		kb.setProcessing(new MathFieldProcessing(fld));
 		parentWidget.addDomHandler(new MouseUpHandler() {
 
+			@Override
 			public void onMouseUp(MouseUpEvent event) {
 
 			}
@@ -91,39 +95,47 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	}-*/;
 
+	@Override
 	public void onEnter() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onKeyTyped() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onCursorMove() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public String alt(int unicodeKeyChar, boolean shift) {
 		return unicodeKeyChar + "";
 	}
 
+	@Override
 	public void onDownKeyPressed() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onUpKeyPressed() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public String serialize(MathSequence selectionText) {
 		return GeoGebraSerializer.serialize(selectionText);
 	}
 
+	@Override
 	public void onInsertString() {
 		// TODO Auto-generated method stub
 

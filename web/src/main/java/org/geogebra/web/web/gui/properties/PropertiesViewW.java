@@ -221,6 +221,7 @@ public class PropertiesViewW extends PropertiesView
 				setObjectPanel(new OptionsObjectW((AppW) app, false,
 						new Runnable() {
 
+							@Override
 							public void run() {
 								updatePropertiesView();
 							}
@@ -275,27 +276,32 @@ public class PropertiesViewW extends PropertiesView
 				? (OptionsObjectW) super.getObjectPanel() : null;
 	}
 
+	@Override
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void remove(GeoElement geo) {
 		// TODO Auto-generated method stub
 	}	
 
 
 
+	@Override
 	public void rename(GeoElement geo) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 		if(geo.isLabelSet()){
 			updatePropertiesGUI();
 		}
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		// TODO Auto-generated method stub
 		Log.debug("update visual style");
@@ -304,35 +310,42 @@ public class PropertiesViewW extends PropertiesView
 		}
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
 		updatePropertiesGUI();
 
 	}
 
+	@Override
 	public void repaintView() {
 		// nothing on repaint
 	}
 
+	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
 		Log.debug("reset");
 	}
 
+	@Override
 	public void clearView() {
 		Log.debug("Clear View");
 	}
 
+	@Override
 	public void setMode(int mode,ModeSetter m) {
 		// TODO Auto-generated method stub
 		Log.debug("setting mode");
 	}
 
+	@Override
 	public int getViewID() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
@@ -504,6 +517,7 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 
+	@Override
 	public boolean isShowing() {
 		Log.debug("isShowing");
 		return false;
@@ -524,7 +538,8 @@ public class PropertiesViewW extends PropertiesView
 		updatePropertiesGUI();
 	}
 
-    public void onResize() {
+    @Override
+	public void onResize() {
     	//-34px for width of stylebar
     	int width = getWrappedPanel().getOffsetWidth() - 37;
     	int height = getWrappedPanel().getOffsetHeight();
@@ -537,6 +552,7 @@ public class PropertiesViewW extends PropertiesView
     	}
     }
     
+	@Override
 	public boolean suggestRepaint(){
 		return false;
 	}

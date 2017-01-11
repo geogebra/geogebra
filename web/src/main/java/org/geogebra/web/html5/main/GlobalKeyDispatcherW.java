@@ -95,6 +95,7 @@ public class GlobalKeyDispatcherW extends
 	private void initNativeKeyHandlers() {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 
+			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 
 				Element targetElement = Element.as(event.getNativeEvent()
@@ -281,8 +282,9 @@ public class GlobalKeyDispatcherW extends
 			if (classnames.contains(className)) {
 				return el;
 			}
-			if (el.hasParentElement())
+			if (el.hasParentElement()) {
 				el = el.getParentElement();
+			}
 		} while (el.hasParentElement());
 		return null;
 	}
@@ -313,6 +315,7 @@ public class GlobalKeyDispatcherW extends
 		return inFocus;
 	}
 
+	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
 		event.stopPropagation();
@@ -342,6 +345,7 @@ public class GlobalKeyDispatcherW extends
 		}
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		if (inFocus) {
@@ -445,6 +449,7 @@ public class GlobalKeyDispatcherW extends
 		        false);
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		Log.debug("KEY pressed::"
 				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()));

@@ -19,10 +19,12 @@ public class CASComponentW extends ScrollPanel implements ScrollHandler,
 		Event.addNativePreviewHandler(this);
 	}
 
+	@Override
 	public void onScroll(ScrollEvent event) {
 		scrollHappened = true;
 	}
 
+	@Override
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		Element element = Element.as(event.getNativeEvent().getEventTarget());
 		if (this.getElement().isOrHasChild(element)) {

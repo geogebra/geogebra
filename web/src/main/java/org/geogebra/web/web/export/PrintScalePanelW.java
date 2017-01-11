@@ -65,12 +65,14 @@ public class PrintScalePanelW extends FlowPanel {
 		this.addStyleName("printScalePanel");
 
 		Runnable updateCm = new Runnable() {
+			@Override
 			public void run() {
 				fireTextFieldUpdate();
 			}
 		};
 
 		Runnable updateFixedSize = new Runnable() {
+			@Override
 			public void run() {
 				fireFixedSizeTextFieldUpdate();
 			}
@@ -91,6 +93,7 @@ public class PrintScalePanelW extends FlowPanel {
 		add(exportMode);
 		exportMode.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				switchMode();
 			}
@@ -227,6 +230,7 @@ public class PrintScalePanelW extends FlowPanel {
 
 		ret.addDomHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				if (handlers.get(ret)) {
 					handlers.put(ret, false);

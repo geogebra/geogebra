@@ -44,6 +44,7 @@ public final class MyImageW implements MyImage {
 		}
 	}
 
+	@Override
 	public int getWidth() {
 		if (width == 0) {
 			width = img.getWidth();
@@ -51,6 +52,7 @@ public final class MyImageW implements MyImage {
 		return width;
 	}
 
+	@Override
 	public int getHeight() {
 		if (height == 0) {
 			height = img.getHeight();
@@ -58,10 +60,12 @@ public final class MyImageW implements MyImage {
 		return height;
 	}
 
+	@Override
 	public boolean isSVG() {
 		return isSVG;
 	}
 
+	@Override
 	public void drawSubimage(int x, int y, int screenWidth, int screenHeight,
 			GGraphics2D g, int posX, int posY) {
 		((GGraphics2DW) g).getContext().drawImage(
@@ -82,6 +86,7 @@ public final class MyImageW implements MyImage {
 		return canv;
 	}
 
+	@Override
 	public GGraphics2D createGraphics() {
 		return new GGraphics2DW(getCanvas(), true);
 	}

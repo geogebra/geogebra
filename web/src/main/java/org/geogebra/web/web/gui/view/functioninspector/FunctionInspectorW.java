@@ -88,6 +88,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			index = idx;
 		}
 
+		@Override
 		public void execute() {
 			getModel().applyDecimalPlaces(index);
 		}
@@ -123,16 +124,19 @@ public class FunctionInspectorW extends FunctionInspector {
 		setInspectorVisible(true);
 	}
 
+	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void updateFonts() {
 		// TODO Auto-generated method stub
 
@@ -143,6 +147,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	}
 
+	@Override
 	public void updateXYTable(boolean isTable) {
 		// reset table model and update the XYtable
 		tableXY.setCellEditable(-1, -1);
@@ -169,6 +174,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		updateTestPoint();
 	}
 
+	@Override
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
 		debug("updateInterval");
@@ -181,12 +187,14 @@ public class FunctionInspectorW extends FunctionInspector {
 		debug("updateInterval ended");
 	}
 
+	@Override
 	public void setXYValueAt(Double value, int row, int col) {
 		debug("[XY] setData");
 		modelXY.setData(row, col, getModel().format(value));
 		debug("setData ended");
 	}
 
+	@Override
 	public Object getXYValueAt(int row, int col) {
 		Log.debug("GETDATA row: " + row + " col: " + col);
 		DataCell value = modelXY.getData(row, col);
@@ -194,20 +202,24 @@ public class FunctionInspectorW extends FunctionInspector {
 		return value != null ? value.toString() : "";
 	}
 
+	@Override
 	public void addTableColumn(String name) {
 		modelXY.addColumn(name);
 		updateXYTable();
 	}
 
+	@Override
 	public void setGeoName(String name) {
 		lblGeoName.setText(name);
 	}
 
+	@Override
 	public void changeTableSelection() {
 		updateXYTable();
 		updateTestPoint();
 	}
 
+	@Override
 	public void updateHighAndLow(boolean isAscending, boolean isLowSelected) {
 		if (isAscending) {
 			if (isLowSelected) {
@@ -220,15 +232,18 @@ public class FunctionInspectorW extends FunctionInspector {
 		updateIntervalFields();
 	}
 
+	@Override
 	public void setStepText(String text) {
 		fldStep.setText(text);
 	}
 
+	@Override
 	public void setStepVisible(boolean isVisible) {
 		lblStep.setVisible(isVisible);
 		fldStep.setVisible(isVisible);
 	}
 
+	@Override
 	public GColor getColor(Colors id) {
 		GColor color;
 		switch (id) {
@@ -251,6 +266,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		return color;
 	}
 
+	@Override
 	public int getSelectedXYRow() {
 		int row = tableXY.getSelectedRow() - 1;
 		return row;
@@ -264,6 +280,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		tabPanel.selectTab(TAB_INTERVAL_IDX);
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 
+			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				updateTabPanels();
 			}
@@ -364,6 +381,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		ClickHandler btnClick = new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				updateGUI();
 			}
@@ -396,6 +414,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		tableXY.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					changeXYStart();
@@ -405,6 +424,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		tableXY.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				changeXYStart();
 			}
@@ -418,6 +438,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		fldStep.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					doTextFieldActionPerformed(fldStep);
@@ -427,6 +448,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		fldStep.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				doTextFieldActionPerformed(fldStep);
 			}
@@ -473,6 +495,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		fldLow.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					doTextFieldActionPerformed(fldLow);
@@ -483,6 +506,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		fldLow.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				doTextFieldActionPerformed(fldLow);
 			}
@@ -494,6 +518,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		fldHigh.addKeyHandler(new KeyHandler() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					doTextFieldActionPerformed(fldHigh);
@@ -504,6 +529,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		fldHigh.addBlurHandler(new BlurHandler() {
 
+			@Override
 			public void onBlur(BlurEvent event) {
 				doTextFieldActionPerformed(fldHigh);
 			}
@@ -637,10 +663,12 @@ public class FunctionInspectorW extends FunctionInspector {
 		return mainPanel;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 	}
 
+	@Override
 	public void setLabels() {
 		debug("setLabels");
 		Localization loc = getAppW().getLocalization();

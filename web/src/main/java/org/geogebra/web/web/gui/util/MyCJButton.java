@@ -138,6 +138,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	public void addActionListener(final ClickHandler handler) {
 		button.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				if (!isEnabled) {
 					return;

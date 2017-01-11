@@ -47,6 +47,7 @@ public class GuiManager3DW extends GuiManagerW {
 
 	}
 
+	@Override
 	public DockPanelW getEuclidian3DPanel() {
 		return this.euclidian3Dpanel;
 	}
@@ -73,6 +74,7 @@ public class GuiManager3DW extends GuiManagerW {
 	public Command getShowAxes3DAction() {
 		return new Command() {
 
+			@Override
 			public void execute() {
 				// toggle axes
 				((EuclidianView3DW) getApp().getEuclidianView3D()).toggleAxis();
@@ -90,6 +92,7 @@ public class GuiManager3DW extends GuiManagerW {
 	public Command getShowGrid3DAction() {
 		return new Command() {
 
+			@Override
 			public void execute() {
 				// toggle axes
 				((EuclidianView3DW) getApp().getEuclidianView3D()).toggleGrid();
@@ -107,6 +110,7 @@ public class GuiManager3DW extends GuiManagerW {
 	public Command getShowPlane3DAction() {
 		return new Command() {
 
+			@Override
 			public void execute() {
 				// toggle axes
 				((EuclidianView3DW) getApp().getEuclidianView3D())

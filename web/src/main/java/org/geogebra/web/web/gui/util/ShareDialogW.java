@@ -104,6 +104,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		// ShareDialog will be closed at clicking on icons
 		ClickHandler closePopupHandler = new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				hide();
 			}
@@ -115,6 +116,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		PushButton geogebrabutton = new PushButton(geogebraimg,
 				new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 						if (!FileMenuW.nativeShareSupported()) {
 							app.uploadToGeoGebraTube();
@@ -211,11 +213,13 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		addCallback(scriptE2, new Callback<Void, Exception>() {
 
+			@Override
 			public void onFailure(Exception reason) {
 				Log.debug("onFailure - script injection");
 
 			}
 
+			@Override
 			public void onSuccess(Void result) {
 				ScriptElement scriptE3 = Document.get().createScriptElement();
 				scriptE3.setInnerText("gapi.sharetoclassroom.go(\"shareggbmaterial_content\");");
@@ -250,6 +254,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		PushButton copyToClipboardIcon = new PushButton(new NoDragImage(
 				AppResources.INSTANCE.edit_copy().getSafeUri().asString()),
 				new ClickHandler() {
+					@Override
 					public void onClick(ClickEvent event) {
 						CopyToClipboard(GeoGebraConstants.TUBE_URL_SHORT
 								+ sharingKey, link);
@@ -265,8 +270,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	}
 
 	static boolean CopyToClipboard(String value, TextBox link) {
-		if (CopyPasteCutW.copyToSystemClipboard(value))
+		if (CopyPasteCutW.copyToSystemClipboard(value)) {
 			return true;
+		}
 
 		if (Browser.isInternetExplorer()) {
 			CopyPasteCutW.copyToSystemClipboardIE(value);

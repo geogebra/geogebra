@@ -105,6 +105,7 @@ public class PerspectivesMenuW extends GMenuBar {
 
 		return new Runnable() {
 
+			@Override
 			public void run() {
 				app.getLAF().toggleFullscreen(true);
 

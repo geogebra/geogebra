@@ -39,6 +39,7 @@ public class CondFunctionTreeItem extends MathQuillTreeItem {
 		pButton.addStyleName("XButtonNeighbour");
 		pButton.addStyleName("shown");
 		pButton.addMouseDownHandler(new MouseDownHandler() {
+			@Override
 			public void onMouseDown(MouseDownEvent mde) {
 				mde.preventDefault();
 				mde.stopPropagation();
@@ -62,6 +63,7 @@ public class CondFunctionTreeItem extends MathQuillTreeItem {
 		// mouse event handlers, so it would be harmful
 	}
 
+	@Override
 	protected PushButton getPButton() {
 		return pButton;
 	}
@@ -86,13 +88,15 @@ public class CondFunctionTreeItem extends MathQuillTreeItem {
 
 	public void addNewRow() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 
 				// could probably implement this for non-editing case
 				// better (like in MatrixRadioButtonTreeItem),
 				// but now it's only used in editing mode anyway
-				if (!commonEditingCheck())
+				if (!commonEditingCheck()) {
 					ensureEditing();
+				}
 
 				MathQuillHelper.appendRowToMatrix(latexItem);
 			}

@@ -60,29 +60,35 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 		resizeListeners.add(panel);
 	}
 
+	@Override
 	public void addView(AbstractView view) {
 		header.addView(view);
 		panel.addView(view);
 	}
 
+	@Override
 	public void removeView(AbstractView view) {
 		header.removeView(view);
 		panel.removeView(view);
 	}
 
+	@Override
 	public void showView(AbstractView view) {
 		header.showView(view);
 		panel.showView(view);
 	}
 
+	@Override
 	public void onViewChange(ViewChangeEvent event) {
 		showView(event.getView());
 	}
 
+	@Override
 	public void onResize(ResizeEvent event) {
 		onResize();
 	}
 
+	@Override
 	public void onResize() {
 		setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 		for (final ResizeListener res : resizeListeners) {

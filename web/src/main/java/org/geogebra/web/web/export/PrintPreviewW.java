@@ -175,6 +175,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
+			@Override
 			public void onClose(final CloseEvent<GPopupPanel> event) {
 				app.setDefaultCursor();
 				app.closePopups();
@@ -184,6 +185,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		add(centerPanel);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == btPrint || event.getSource() == btCancel) {
 			hide();
@@ -224,6 +226,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		}
 	}
 
+	@Override
 	public void onChange(ChangeEvent event) {
 		if (event.getSource() == m_cbView) {
 			scalePanelHolder.clear();

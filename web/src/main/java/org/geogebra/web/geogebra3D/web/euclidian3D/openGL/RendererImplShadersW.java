@@ -566,24 +566,29 @@ public class RendererImplShadersW extends RendererImplShaders {
 		label.setTextureIndex(textureIndex);
 	}
 
+	@Override
 	protected void bindFramebuffer(Object id) {
 		getGL().bindFramebuffer(WebGLRenderingContext.FRAMEBUFFER,
 				(WebGLFramebuffer) id);
 	}
 
+	@Override
 	protected void bindRenderbuffer(Object id) {
 		getGL().bindRenderbuffer(WebGLRenderingContext.RENDERBUFFER,
 				(WebGLRenderbuffer) id);
 	}
 
+	@Override
 	protected void unbindFramebuffer() {
 		bindFramebuffer(null);
 	}
 
+	@Override
 	protected void unbindRenderbuffer() {
 		bindRenderbuffer(null);
 	}
 
+	@Override
 	protected void textureParametersNearest() {
 		getGL().texParameterf(WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_MAG_FILTER,
@@ -593,6 +598,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 				WebGLRenderingContext.NEAREST);
 	}
 
+	@Override
 	protected void textureImage2DForBuffer(int width, int height) {
 		getGL().texImage2D(WebGLRenderingContext.TEXTURE_2D, 0,
 				WebGLRenderingContext.RGBA, width, height, 0,
@@ -600,6 +606,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 				WebGLRenderingContext.UNSIGNED_BYTE, null);
 	}
 
+	@Override
 	protected void renderbufferStorage(int width, int height) {
 		getGL().renderbufferStorage(WebGLRenderingContext.RENDERBUFFER,
 				WebGLRenderingContext.DEPTH_COMPONENT, width, height);
@@ -610,14 +617,17 @@ public class RendererImplShadersW extends RendererImplShaders {
 		return getGL().createTexture();
 	}
 
+	@Override
 	protected Object genRenderbuffer() {
 		return getGL().createRenderbuffer();
 	}
 
+	@Override
 	protected Object genFramebuffer() {
 		return getGL().createFramebuffer();
 	}
 
+	@Override
 	protected void framebuffer(Object colorId, Object depthId) {
 		getGL().framebufferTexture2D(WebGLRenderingContext.FRAMEBUFFER,
 				WebGLRenderingContext.COLOR_ATTACHMENT0,
@@ -627,6 +637,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 				WebGLRenderingContext.RENDERBUFFER, (WebGLRenderbuffer) depthId);
 	}
 
+	@Override
 	protected boolean checkFramebufferStatus() {
 		return getGL()
 				.checkFramebufferStatus(

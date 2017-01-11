@@ -36,10 +36,12 @@ public class CopyPasteCutW extends CopyPasteCut {
 					if (indx > -1) {
 						int end = valueString.length() - 1;
 						// only in this case, we should remove trailing zeroes!
-						while (valueString.charAt(end) == '0')
+						while (valueString.charAt(end) == '0') {
 							end--;
-						if (end == indx)
+						}
+						if (end == indx) {
 							end--;
+						}
 						valueString = valueString.substring(0, end + 1);
 					}
 
@@ -124,6 +126,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	private Runnable getFocusCallback() {
 		return new Runnable() {
+			@Override
 			public void run() {
 				getTable().editCellAt(sourceColumn1, sourceRow1);
 			}
@@ -136,6 +139,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		/*Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable contents = clipboard.getContents(null);*/
 		String contents = getClipboardContents(new Runnable() {
+			@Override
 			public void run() {
 				getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
 			}
@@ -169,8 +173,9 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 		// extract a String from the Transferable contents
 		transferString = contents;//DataImport.convertTransferableToString(contents);
-		if (transferString == null)
+		if (transferString == null) {
 			return false;
+		}
 
 		// isCSV = DataImport.hasHTMLFlavor(contents);
 		// App.debug("transfer string: " + transferString);

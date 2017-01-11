@@ -346,8 +346,9 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		PopupMenuButtonW[] ret = new PopupMenuButtonW[superList.length + 4];
 
 		// -1: skip change view popup and insert it after rotate
-		for (int i = 0; i < superList.length - 1; i++)
+		for (int i = 0; i < superList.length - 1; i++) {
 			ret[i] = superList[i];
+		}
 
 		int index = superList.length;
 		ret[index] = btnRotateView;

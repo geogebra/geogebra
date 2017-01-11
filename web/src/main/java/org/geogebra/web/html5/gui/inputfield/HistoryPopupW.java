@@ -81,6 +81,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 		        .getSelectedIndex()));
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		int charCode = event.getNativeKeyCode();
 		switch (charCode) {
@@ -100,6 +101,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		hide();
 	}

@@ -22,6 +22,7 @@ public class ButtonPopupMenu extends GPopupPanel {
 		container.addStyleName("ButtonPopupMenu");
 		container.addKeyUpHandler(new KeyUpHandler() {
 			
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
 					hide();

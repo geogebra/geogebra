@@ -8,6 +8,7 @@ public class SafeUriImpl implements com.google.gwt.safehtml.shared.SafeUri {
 		this.url = url;
 	}
 
+	@Override
 	public String asString() {
 		return url;
 	}

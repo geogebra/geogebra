@@ -11,11 +11,13 @@ import org.geogebra.web.web.main.GDevice;
 
 public class AppletFactoryPhone implements AppletFactory {
 
+	@Override
 	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth gf,
 	        GLookAndFeelI laf) {
 		return new AppPapplet(ae, gf, (GLookAndFeel) laf);
 	}
 
+	@Override
 	public AppW getApplication(ArticleElement article, GeoGebraAppFrame fr,
 	        GLookAndFeel laf, GDevice device) {
 		return new AppP(article, fr, laf, device);

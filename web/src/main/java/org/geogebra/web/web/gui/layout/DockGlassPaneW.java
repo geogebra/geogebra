@@ -116,8 +116,9 @@ public class DockGlassPaneW extends AbsolutePanel implements
 		});
 		
 		// this.getElement().getStyle().setZIndex(50);
-		if (dragInProgress)
+		if (dragInProgress) {
 			return;
+		}
 
 		dragInProgress = true;
 
@@ -133,8 +134,9 @@ public class DockGlassPaneW extends AbsolutePanel implements
 		for (int i = 0; i < dockPanels.length; ++i) {
 			// we don't need to care about invisible or views in a different
 			// window for the drag'n'drop
-			if (!dockPanels[i].isVisible() || dockPanels[i].isOpenInFrame())
+			if (!dockPanels[i].isVisible() || dockPanels[i].isOpenInFrame()) {
 				continue;
+			}
 
 			// tmpRect = dockPanels[i].getBounds();
 			tmpRect = new Rectangle(dockPanels[i].getAbsoluteLeft(),
@@ -158,8 +160,9 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	 */
 	public void stopDrag() {
 		Event.releaseCapture(this.getElement());
-		if (!dragInProgress)
+		if (!dragInProgress) {
 			return;
+		}
 		reg0.removeHandler();
 		reg1.removeHandler();
 		reg2.removeHandler();
@@ -175,13 +178,15 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	}
 
 	private void setColorEnoughHeight(DockPanelW target) {
-		if (target.getHeight() < DockComponent.MIN_SIZE * 2)
+		if (target.getHeight() < DockComponent.MIN_SIZE * 2) {
 			color = COLOR_NOT_ENOUGH_SPACE;
+		}
 	}
 
 	private void setColorEnoughWidth(DockPanelW target) {
-		if (target.getWidth() < DockComponent.MIN_SIZE * 2)
+		if (target.getWidth() < DockComponent.MIN_SIZE * 2) {
 			color = COLOR_NOT_ENOUGH_SPACE;
+		}
 	}
 
 	/**
@@ -370,6 +375,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if (dragInProgress) {
 			// It is not exactly known what should event.getX() and event.getY() mean
@@ -381,6 +387,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 		}
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		if (dragInProgress) {
 			if (event.getTouches().length() == 1) {

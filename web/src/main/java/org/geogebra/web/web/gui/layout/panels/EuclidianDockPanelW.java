@@ -109,6 +109,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		return (Widget) espanel;
 	}
 
+	@Override
 	public Canvas getCanvas() {
 	    return eview1;
     }
@@ -128,8 +129,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 	@Override
     public EuclidianView getEuclidianView() {
-		if (app != null)
+		if (app != null) {
 			return app.getEuclidianView1();
+		}
 		return null;
 	}
 

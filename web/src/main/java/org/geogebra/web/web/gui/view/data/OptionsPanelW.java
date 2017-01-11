@@ -93,6 +93,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private final static int fieldWidth = 8;
 
 	private class PropertyChangeHandler implements ClickHandler {
+		@Override
 		public void onClick(ClickEvent event) {
 	       actionPerformed(event.getSource());
         }
@@ -104,6 +105,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		public PropertyKeyHandler(Object source) {
 			this.source = source;
 		}
+		@Override
 		public void keyReleased(KeyEvent e) {
 	        if (e.isEnterKey()) {
 	        	actionPerformed(source);
@@ -391,6 +393,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		fldXMin.setEditable(true);
 		fldXMin.addKeyHandler(new KeyHandler() {
 			
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					actionPerformed(fldXMin);
@@ -399,6 +402,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		});
 		fldXMin.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldXMin);
 			}
@@ -408,6 +412,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		fldXMax = InputPanelW.newTextComponent(app);
 		fldXMax.addKeyHandler(new KeyHandler() {
 			
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					actionPerformed(fldXMax);
@@ -416,6 +421,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		});
 		fldXMax.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldXMax);
 			}
@@ -473,6 +479,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 			cbLogAxes.addItem("Logarithmic To Logarithmic");
 			cbLogAxes.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					onComboBoxChange();
 
@@ -493,6 +500,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		// titled borders
@@ -611,8 +619,9 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 	public void actionPerformed(Object source) {
 
-		if (isUpdating)
+		if (isUpdating) {
 			return;
+		}
 
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
@@ -674,8 +683,9 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
-		if (isUpdating)
+		if (isUpdating) {
 			return;
+		}
 		try {
 			String inputText = source.getText().trim();
 			NumberValue nv;
@@ -719,17 +729,20 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	    dyModel.updatePlot(true);
     }
 
+	@Override
 	public void updatePanel() {
 		
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 	       actionPerformed(event.getSource());
 	    
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 	       actionPerformed(event.getSource());
 

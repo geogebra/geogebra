@@ -75,6 +75,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lbTitle2 = new ListBox();
 		lbTitle1.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbTitle1);
 			}
@@ -82,6 +83,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		
 		lbTitle2.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbTitle2);
 			}
@@ -94,6 +96,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		ckPooled.setValue(false);
 		ckPooled.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
+			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				model.setPooled(ckPooled.getValue());
 			}
@@ -104,6 +107,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		lbAltHyp.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbAltHyp);
 			}
@@ -117,6 +121,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		fldNullHyp.setText("" + 0);
 		fldNullHyp.addKeyHandler(new KeyHandler(){
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 	            if (e.isEnterKey()) {
 	            	doTextFieldActionPerformed(fldNullHyp);
@@ -125,6 +130,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		
 		fldNullHyp.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				doTextFieldActionPerformed(fldNullHyp);
 			}
@@ -135,6 +141,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		fldConfLevel.setColumns(4);
 		fldConfLevel.addKeyHandler(new KeyHandler(){
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 	            if (e.isEnterKey()) {
 	            	doTextFieldActionPerformed(fldConfLevel);
@@ -143,6 +150,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		
 		fldConfLevel.addBlurHandler(new BlurHandler() {
 			
+			@Override
 			public void onBlur(BlurEvent event) {
 				doTextFieldActionPerformed(fldConfLevel);
 			}
@@ -187,10 +195,11 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		mainPanel.clear();
 
 		// layout
-		if (model.isTest())
+		if (model.isTest()) {
 			mainPanel.add(testPanel);
-		else
+		} else {
 			mainPanel.add(intPanel);
+		}
 
 		mainPanel.add(samplePanel);
 		// mainPanel.add(ckEqualVariances,c);
@@ -268,6 +277,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 
 
+	@Override
 	public void setLabels() {
 
 		lblResultHeader.setText(app.getMenu("Result") + ": ");
@@ -287,6 +297,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		ckPooled.setText(app.getMenu("Pooled"));
 	}
 
+	@Override
 	public void updatePanel() {
 
 
@@ -315,8 +326,9 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		Double value = Double.parseDouble(source.getText().trim());
 
@@ -338,31 +350,38 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	}
 
 
+	@Override
 	public void setStatTable(int row, String[] rowNames, int length,
             String[] columnNames) {
 		resultTable.setStatTable(1, null, columnNames.length, columnNames);
 	  }
 
+	@Override
 	public void setFormattedValueAt(double value, int row, int col) {
 	    resultTable.setValueAt(daView.format(value), row, col);
     }
 
+	@Override
 	public GeoList getDataSelected() {
 	    return daView.getController().getDataSelected();
     }
 
+	@Override
 	public int getSelectedDataIndex(int idx) {
 	    return selectedDataIndex()[idx];
     }
 
+	@Override
 	public double[] getValueArray(GeoList list) {
 	    return daView.getController().getValueArray(list);
     }
 
+	@Override
 	public void addAltHypItem(String name, String tail, double value) {
 	    lbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
     }
 
+	@Override
 	public void selectAltHyp(int idx) {
 	   lbAltHyp.setSelectedIndex(idx);
     }

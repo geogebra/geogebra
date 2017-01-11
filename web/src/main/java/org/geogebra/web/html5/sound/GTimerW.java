@@ -21,24 +21,29 @@ public class GTimerW implements GTimer {
 		};
 		setDelay(delay);
 	}
+	@Override
 	public void start() {
 		timer.schedule(delay);
 	}
 
+	@Override
 	public void startRepeat() {
 		if (!isRunning()) {
 			timer.scheduleRepeating(delay);
 		}
 	}
 
+	@Override
 	public void stop() {
 		timer.cancel();
 	}
 
+	@Override
 	public boolean isRunning() {
 		return timer.isRunning();
 	}
 
+	@Override
 	public void setDelay(int delay) {
 		this.delay = delay;
 		if (isRunning()) {

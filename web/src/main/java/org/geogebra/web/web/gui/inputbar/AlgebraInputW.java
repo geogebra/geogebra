@@ -135,6 +135,7 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 
+	@Override
 	public void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
@@ -160,6 +161,7 @@ public class AlgebraInputW extends FlowPanel
 	 * container is used. (Really just a workaround because the nested gwt
 	 * panels are not allowing 100% width to work as we would like).
 	 */
+	@Override
 	public void setInputFieldWidth(int width) {
 		// if the size is too small, use default size
 		if (width > 100) {
@@ -167,6 +169,7 @@ public class AlgebraInputW extends FlowPanel
 		}
 	}
 
+	@Override
 	public void onResize() {
 		if(app == null){
 			return;
@@ -220,7 +223,9 @@ public class AlgebraInputW extends FlowPanel
 	 *            string to be inserted
 	 */
 	public void insertString(String str) {
-		if (str == null) return;
+		if (str == null) {
+			return;
+		}
 
 		int pos = inputField.getCaretPosition();
 		String oldText = inputField.getText();
@@ -238,6 +243,7 @@ public class AlgebraInputW extends FlowPanel
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 
 	}
+	@Override
 	public void onFocus(FocusEvent event) {
 		if (((AlgebraViewW) app.getGuiManager().getAlgebraView())
 				.isNodeTableEmpty() && !getAlgebraDockPanel().hasLongStyleBar()) {
@@ -249,6 +255,7 @@ public class AlgebraInputW extends FlowPanel
 		this.focused = true;
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		getAlgebraDockPanel().showStyleBarPanel(true);
 		Object source = event.getSource();
@@ -257,6 +264,7 @@ public class AlgebraInputW extends FlowPanel
 		onEnterPressed(false);
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		// the input field may have consumed this event
 		// for auto completion
@@ -274,8 +282,9 @@ public class AlgebraInputW extends FlowPanel
 				&& keyCode != GWTKeycodes.KEY_X) {
 			app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg
 																	// ctrl-tab
-			if (keyCode == GWTKeycodes.KEY_ESCAPE)
+			if (keyCode == GWTKeycodes.KEY_ESCAPE) {
 				inputField.setText(null);
+			}
 		}
 		inputField.setIsSuggestionJustHappened(false);
 	}
@@ -358,6 +367,7 @@ public class AlgebraInputW extends FlowPanel
 		// TODO Auto-generated method stub
 		return new ErrorHandler() {
 
+			@Override
 			public void showError(String msg) {
 
 				input.updateIcons(msg != null);
@@ -367,15 +377,18 @@ public class AlgebraInputW extends FlowPanel
 
 			}
 
+			@Override
 			public void resetError() {
 				showError(null);
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				return false;
 			}
 
+			@Override
 			public void showCommandError(String command, String message) {
 				input.updateIcons(true);
 				if (((GuiManagerW) app2.getGuiManager())
@@ -390,6 +403,7 @@ public class AlgebraInputW extends FlowPanel
 				}
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				return input.getCommand();
 			}
@@ -397,6 +411,7 @@ public class AlgebraInputW extends FlowPanel
 		};
 	}
 
+	@Override
 	public String getCommand() {
 		return inputField.getCommand();
 	}
@@ -405,6 +420,7 @@ public class AlgebraInputW extends FlowPanel
 			final boolean explicit) {
 		return new ErrorHandler() {
 
+			@Override
 			public void showError(String msg) {
 				if (explicit) {
 					app.getDefaultErrorHandler().showError(msg);
@@ -412,10 +428,12 @@ public class AlgebraInputW extends FlowPanel
 
 			}
 
+			@Override
 			public void resetError() {
 				showError(null);
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				if (explicit) {
@@ -436,6 +454,7 @@ public class AlgebraInputW extends FlowPanel
 				return false;
 			}
 
+			@Override
 			public void showCommandError(String command, String message) {
 				if (explicit) {
 					app.getDefaultErrorHandler().showCommandError(command,
@@ -444,16 +463,19 @@ public class AlgebraInputW extends FlowPanel
 
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				return inputField.getCommand();
 			}
 		};
 	}
 
+	@Override
 	public void requestFocus(){
 		inputField.requestFocus();
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 
@@ -496,6 +518,7 @@ public class AlgebraInputW extends FlowPanel
 		
 			helpPopup
 					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+				@Override
 				public void setPosition(int offsetWidth, int offsetHeight) {
 					helpPopup.getElement().getStyle().setProperty("left", "auto");
 					helpPopup.getElement().getStyle().setProperty("top", "auto");
@@ -512,6 +535,7 @@ public class AlgebraInputW extends FlowPanel
 		}
 	}
 
+	@Override
 	public void setText(String s) {
 		this.inputField.setText(s);
 	}
@@ -530,6 +554,7 @@ public class AlgebraInputW extends FlowPanel
 		return this.inputField;
 	}
 
+	@Override
 	public ToggleButton getHelpToggle() {
 		return this.btnHelpToggle;
 	}

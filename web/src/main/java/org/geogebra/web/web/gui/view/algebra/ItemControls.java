@@ -219,6 +219,7 @@ public class ItemControls extends FlowPanel {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				ScrollPanel algebraPanel = ((AlgebraDockPanelW) radioTreeItem.app
 						.getGuiManager().getLayout().getDockManager()

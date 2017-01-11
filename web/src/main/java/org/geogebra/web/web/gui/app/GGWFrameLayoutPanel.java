@@ -313,6 +313,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
 	 * DOM in the process so it may steal focus from currently selected element.
 	 */
+	@Override
 	public void doShowKeyBoard(boolean show,
 	        final MathKeyboardListener textField) {
 		if (app == null) {
@@ -357,6 +358,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		// although we can add browser check here if necessary, but it may be slower?
 		//if (Browser.isIE())// also might not cover every exception
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				if (textField != null) {
 					textField.asWidget().getElement().setScrollLeft(pos);

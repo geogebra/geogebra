@@ -661,6 +661,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		resultPane.getElement().setInnerHTML(str);
 	}
 	
+	@Override
 	protected void updateStatisticCollection() {
 		try {
 
@@ -764,6 +765,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		return Double.NaN;
 	}
 
+	@Override
 	public void onChange(ChangeEvent event) {
 		selectedProcedure = mapNameToProcedure.get(cbProcedure.getValue(cbProcedure.getSelectedIndex()));
 		updateGUI();
@@ -778,6 +780,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		//});
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 	   doButtonEvents(event);
     }
@@ -786,6 +789,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		updateResult();
     }
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		Object source = event.getSource();
 		if (source == ckPooled) {
@@ -802,6 +806,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		}
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
@@ -817,6 +822,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
 			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+				@Override
 				public void onInsert(String text) {
 					field.removeDummyCursor();
 					doTextFieldActionPerformed();
@@ -828,6 +834,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		}
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 	    if (event.getSource() instanceof TextBox) {
 	    	doTextFieldActionPerformed();

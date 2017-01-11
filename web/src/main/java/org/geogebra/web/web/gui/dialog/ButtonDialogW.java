@@ -101,13 +101,16 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 			if (cbAdd.getItemCount() > 1) {
 				cbAdd.addClickHandler(new ClickHandler(){
 
+					@Override
 					public void onClick(ClickEvent event) {
 						String text = cbAdd.getItemText(cbAdd.getSelectedIndex());
 						if("".equals(text.trim())){
 							model.setLinkedGeo(null);
 						}
 						GeoElement geo = getGeo(text);
-						if (geo==null) return;
+						if (geo==null) {
+							return;
+						}
 						model.setLinkedGeo(geo);
                     }
 					
@@ -119,8 +122,9 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 						while (it.hasNext()) {
 							GeoElement geo = it.next();
 							if (text.equals(geo
-							        .toString(StringTemplate.defaultTemplate)))
+							        .toString(StringTemplate.defaultTemplate))) {
 								return geo;
+							}
 
 						} 
 						return null;
@@ -177,6 +181,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 		//this.getElement().getElementsByTagName("table").getItem(0).setAttribute("cellpadding", "5px");
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 //	    AbstractApplication.debug(((Widget) event.getSource()).getElement().getAttribute("action"));
 	

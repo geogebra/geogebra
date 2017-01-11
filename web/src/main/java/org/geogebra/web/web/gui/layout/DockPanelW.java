@@ -197,6 +197,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * For calling the onResize method in a deferred way
 	 */
 	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			onResize();
 		}
@@ -205,6 +206,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * For calling the onResize method in a deferred way
 	 */
+	@Override
 	public void deferredOnResize() {
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
@@ -505,8 +507,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Switch panel to drag mode
 	 */
 	protected void startDragging() {
-		if (componentPanel == null)
+		if (componentPanel == null) {
 			return;
+		}
 
 		dockManager.drag(DockPanelW.this);
 
@@ -523,6 +526,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		FastClickHandler toggleStyleBarHandler = new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				setShowStyleBar(!showStyleBar);
 
@@ -555,8 +559,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	protected void setLayout(boolean deferred) {
 
-		if (!isVisible())
+		if (!isVisible()) {
 			return;
+		}
 
 		buildGUIIfNecessary(false);
 
@@ -692,8 +697,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateTitleBar() {
 
-		if (componentPanel == null)
+		if (componentPanel == null) {
 			return;
+		}
 
 		updateLabels();
 	}
@@ -748,8 +754,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public final void updatePanel(boolean deferred) {
 
-		if (!isVisible())
+		if (!isVisible()) {
 			return;
+		}
 
 		if (component == null) {
 			component = loadComponent();
@@ -788,6 +795,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dockManager.closePanel(this, isPermanent);
 	}
 	
+	@Override
 	public void closePanel() {
 		closePanel(true);
 	}
@@ -805,8 +813,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Update the style bar visibility.
 	 */
 	public void updateStyleBarVisibility() {
-		if (!isVisible())
+		if (!isVisible()) {
 			return;
+		}
 
 		buildGUIIfNecessary(true);
 
@@ -843,13 +852,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @return The parent DockSplitPane or null.
 	 */
 	public DockSplitPaneW getParentSplitPane() {
-		if (isOpenInFrame())
+		if (isOpenInFrame()) {
 			return null;
+		}
 
 		Widget parent = getParent();
 
-		if (parent == null || !(parent instanceof DockSplitPaneW))
+		if (parent == null || !(parent instanceof DockSplitPaneW)) {
 			return null;
+		}
 
 		return (DockSplitPaneW) parent;
 	}
@@ -870,17 +881,19 @@ public abstract class DockPanelW extends ResizeComposite implements
 			parentDSP = (DockSplitPaneW) parent;
 
 			if (parentDSP.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
-				if (current == parentDSP.getLeftComponent()) // left
+				if (current == parentDSP.getLeftComponent()) {
 					defType = 3;
-				else
+				} else {
 					// right
 					defType = 1;
+				}
 			} else {
-				if (current == parentDSP.getLeftComponent()) // top
+				if (current == parentDSP.getLeftComponent()) {
 					defType = 0;
-				else
+				} else {
 					// bottom
 					defType = 2;
+				}
 			}
 
 			if (def.length() == 0) {
@@ -922,6 +935,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return Whether this view should open in frame.
 	 */
+	@Override
 	public boolean isOpenInFrame() {
 		// TODO: return openInFrame;
 		// currently opening in an own frame is not implemented on web,
@@ -1067,8 +1081,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected void setFocus(boolean hasFocus) {
 
 		// don't change anything if it's not necessary
-		if (this.hasFocus == hasFocus)
+		if (this.hasFocus == hasFocus) {
 			return;
+		}
 
 		this.hasFocus = hasFocus;
 
@@ -1143,6 +1158,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return An unique ID for this DockPanel.
 	 */
+	@Override
 	public int getViewId() {
 		return id;
 	}
@@ -1195,6 +1211,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return The definition string associated with this toolbar.
 	 */
+	@Override
 	public String getToolbarString() {
 		return toolbarString;
 	}
@@ -1217,6 +1234,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return The default toolbar string of this panel (or null).
 	 */
+	@Override
 	public String getDefaultToolbarString() {
 		return defaultToolbarString;
 	}
@@ -1251,30 +1269,36 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	public void toggleMaximize() {
 
-		if (isMaximized())
+		if (isMaximized()) {
 			dockManager.undoMaximize(true);
-		else
+		} else {
 			dockManager.maximize(this);
+		}
 
 		updatePanel(true);
 	}
 
+	@Override
 	public String toString(String prefix) {
 		return "\n" + prefix + this.toString();
 	}
 
+	@Override
 	public boolean updateResizeWeight() {
 		return false;
 	}
 
+	@Override
 	public void saveDividerLocation() {
 		// no divider here
 	}
 
+	@Override
 	public void updateDividerLocation(int size, int orientation1) {
 		// no divider here
 	}
 
+	@Override
 	public void setDockPanelsVisible(boolean visible) {
 		setVisible(visible);
 	}
@@ -1479,6 +1503,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return null;
 	}
 
+	@Override
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
 	}
@@ -1511,6 +1536,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
 		resetIcon.addFastClickHandler(new FastClickHandler() {
 
+			@Override
 			public void onClick(Widget source) {
 				app.reset();
 

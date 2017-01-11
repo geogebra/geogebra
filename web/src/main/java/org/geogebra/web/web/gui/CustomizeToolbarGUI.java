@@ -52,14 +52,17 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		public ToolTreeResources() {
 		}
 
+		@Override
 		public ImageResource treeClosed() {
 			return GuiResources.INSTANCE.algebra_tree_closed();
 		}
 
+		@Override
 		public ImageResource treeLeaf() {
 			return GuiResources.INSTANCE.algebra_tree_closed();
 		}
 
+		@Override
 		public ImageResource treeOpen() {
 			return GuiResources.INSTANCE.algebra_tree_open();
 		}
@@ -420,6 +423,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			tool.addDropHandler(new DropHandler() {
 
+				@Override
 				public void onDrop(DropEvent event) {
 					if (draggingTool == tool
 					        || draggingTool.treeItem == treeItem) {
@@ -442,6 +446,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			tool.addDragOverHandler(new DragOverHandler() {
 
+				@Override
 				public void onDragOver(DragOverEvent event) {
 					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
 						tool.addStyleName("insertAfterLeaf");
@@ -454,6 +459,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			tool.addDragLeaveHandler(new DragLeaveHandler() {
 
+				@Override
 				public void onDragLeave(DragLeaveEvent event) {
 					tool.removeHighligts();
 
@@ -485,6 +491,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		private void initDrag() {
 			addDomHandler(new DragStartHandler() {
 
+				@Override
 				public void onDragStart(DragStartEvent event) {
 					Log.debug("!DRAG START!");
 					draggingTool = DraggableTool.this;
@@ -629,6 +636,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		btDefalutToolbar = new Button();
 		btDefalutToolbar.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				Log.debug("[Customize] reset");
 				resetDefaultToolbar();
@@ -639,6 +647,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		btApply = new Button();
 		btApply.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				Log.debug("[Customize] apply");
 				apply();
@@ -817,6 +826,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	/**
 	 * updates the tools
 	 */
+	@Override
 	public void update(int newToolbarId) {
 		this.toolbarId = newToolbarId;
 		updateTools();

@@ -86,6 +86,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		public ParamKeyHandler(Object source) {
 			this.source = source;
 		}
+		@Override
 		public void keyReleased(KeyEvent e) {
 	        if (e.isEnterKey()) {
 	        	actionPerformed(source);
@@ -98,6 +99,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		public ParamBlurHandler(Object source) {
 			this.source = source;
 		}
+		@Override
 		public void onBlur(BlurEvent event) {
 			   actionPerformed(source);
 		            
@@ -149,6 +151,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		lbAltHyp = new ListBox();
 		lbAltHyp.addChangeHandler(new ChangeHandler() {
 			
+			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbAltHyp);
 			}
@@ -354,6 +357,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	//============================================================
 
 	
+	@Override
 	public void setLabels() {
 
 		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = " );
@@ -396,12 +400,13 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_left + " " + statDialog.format(hypMean));
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two + " " + statDialog.format(hypMean));
 
-		if(tail == tail_right)
+		if(tail == tail_right) {
 			lbAltHyp.setSelectedIndex(0);
-		else if(tail == tail_left)
+		} else if(tail == tail_left) {
 			lbAltHyp.setSelectedIndex(1);
-		else
+		} else {
 			lbAltHyp.setSelectedIndex(2);
+		}
 
 
 	}
@@ -419,12 +424,13 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		else if(source == lbAltHyp){
 
-			if(lbAltHyp.getSelectedIndex() == 0)
+			if(lbAltHyp.getSelectedIndex() == 0) {
 				tail = tail_right;
-			else if(lbAltHyp.getSelectedIndex() == 1)
+			} else if(lbAltHyp.getSelectedIndex() == 1) {
 				tail = tail_left;
-			else
+			} else {
 				tail = tail_two;
+			}
 
 			evaluate();
 			updateResultTable();
@@ -433,7 +439,9 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
-		if(isIniting) return;
+		if(isIniting) {
+			return;
+		}
 
 		Double value = Double.parseDouble(source.getText().trim());
 
@@ -463,6 +471,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		updateGUI();
 	}
 
+	@Override
 	public void updatePanel(){
 		evaluate();
 		updateGUI();
@@ -508,8 +517,9 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 			case StatisticsModel.INFER_TTEST:
 			case StatisticsModel.INFER_TINT:
-				if(tTestImpl == null)
+				if(tTestImpl == null) {
 					tTestImpl = new TTestImpl();
+				}
 				se = Math.sqrt(StatUtils.variance(sample)/N);
 				df = N-1;
 				testStat = tTestImpl.t(hypMean, sample);
@@ -537,15 +547,14 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	private double adjustedPValue(double p, double testStatistic, String tail){
 
 		// two sided test
-		if(tail.equals(tail_two)) 
+		if(tail.equals(tail_two)) {
 			return p;
-
-		// one sided test
-		else if((tail.equals(tail_right) && testStatistic > 0)
-				|| (tail.equals(tail_left) && testStatistic < 0))
+		} else if((tail.equals(tail_right) && testStatistic > 0)
+				|| (tail.equals(tail_left) && testStatistic < 0)) {
 			return p/2;
-		else
+		} else {
 			return 1 - p/2;
+		}
 	}
 
 
@@ -578,12 +587,14 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 
 
+	@Override
 	public void onClick(ClickEvent event) {
 	    actionPerformed(event.getSource());
     }
 
 
 
+	@Override
 	public void onBlur(BlurEvent event) {
 	    // TODO Auto-generated method stub
 		doTextFieldActionPerformed((AutoCompleteTextFieldW)(event.getSource()));

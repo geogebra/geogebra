@@ -52,6 +52,7 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 
 	protected abstract Panel getViewPanel();
 
+	@Override
 	public int navHeight() {
 		if (this.consProtNav != null
 				&& this.consProtNav.getImpl().getOffsetHeight() != 0) {

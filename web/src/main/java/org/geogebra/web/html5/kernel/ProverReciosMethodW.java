@@ -86,17 +86,17 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
 				}
-			} else
-
-			try {
-				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
-				for (BigInteger result : exactCoordinates) {
-					if (!result.equals(BigInteger.ZERO)) {
-						return ProofResult.FALSE;
+			} else {
+				try {
+					BigInteger[] exactCoordinates = s.getExactCoordinates(values);
+					for (BigInteger result : exactCoordinates) {
+						if (!result.equals(BigInteger.ZERO)) {
+							return ProofResult.FALSE;
+						}
 					}
+				} catch (NoSymbolicParametersException e) {
+					return ProofResult.UNKNOWN;
 				}
-			} catch (NoSymbolicParametersException e) {
-				return ProofResult.UNKNOWN;
 			}
 
 			indicesChanged = false;

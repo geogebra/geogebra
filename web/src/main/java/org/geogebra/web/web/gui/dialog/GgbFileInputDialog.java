@@ -12,6 +12,7 @@ public class GgbFileInputDialog extends FileInputDialog{
 	    createGUI();
     }
 	
+	@Override
 	protected void createGUI(){
 		super.createGUI();
 //		inputWidget.getElement().setPropertyString("accept", "application/zip");

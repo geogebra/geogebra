@@ -141,6 +141,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		// add ChangeHandler
 		outputAddLB = new ListBox();
 		outputAddLB.addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
 				// added empty option at top, so use index-1
 				toolModel.addToOutput(outputAddLB.getSelectedIndex() - 1);
@@ -152,6 +153,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 
 		inputAddLB = new ListBox();
 		inputAddLB.addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
 				// added empty option at top, so use index-1
 				toolModel.addToInput(inputAddLB.getSelectedIndex() - 1);
@@ -236,6 +238,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	private SelectionHandler<Integer> getSelectionHandler() {
 		SelectionHandler<Integer> handler = new SelectionHandler<Integer>() {
 
+			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				int tab = event.getSelectedItem();
 
@@ -300,6 +303,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		bottomWidget.add(btCancel);
 	}
 
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		int selectedTab = tabPanel.getTabBar().getSelectedTab();
 		switch (selectedTab) {
@@ -315,6 +319,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		}
 	}
 
+	@Override
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
 		int selectedTab = tabPanel.getTabBar().getSelectedTab();
@@ -459,6 +464,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		}
 	}
 
+	@Override
 	public void updateLists() {
 		updateListBox(outputAddLB, toolModel.getOutputAddList(), true);
 		updateListBox(outputLB, toolModel.getOutputList(), false);

@@ -19,6 +19,7 @@ public class ImageInputDialog extends UploadImageDialog {
 		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 	}
 	
+	@Override
 	protected void initGUI() {
 		super.initGUI();
 		if (webcamSupported()) {
@@ -30,6 +31,7 @@ public class ImageInputDialog extends UploadImageDialog {
 		return Browser.supportsWebcam();
 	}
 
+	@Override
 	protected void initActions() {
 		super.initActions();
 		if(webcam != null){
@@ -37,6 +39,7 @@ public class ImageInputDialog extends UploadImageDialog {
 		}
 	}
 	
+	@Override
 	public void setLabels() {
 		super.setLabels();
 		if(webcam != null){
@@ -45,6 +48,7 @@ public class ImageInputDialog extends UploadImageDialog {
 	}
 	
 	
+	@Override
 	protected void uploadClicked() {
 		super.uploadClicked();
 		if(webcam != null){
@@ -72,6 +76,7 @@ public class ImageInputDialog extends UploadImageDialog {
     	imageAvailable();
 	}
 	
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == insertBtn) {

@@ -219,6 +219,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		Image editIcon = new Image(GuiResources.INSTANCE.menu_icon_edit());
 		editIcon.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				handleEditClick(assignment);
 			}
@@ -282,6 +283,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		fractions.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				GeoNumberValue num = app.getKernel().getAlgebraProcessor()
 						.evaluateToNumeric(fractions.getText(), true);
@@ -296,6 +298,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		fractions.addAttachHandler(new Handler() {
 
+			@Override
 			public void onAttachOrDetach(AttachEvent event) {
 				fractions.setValue(app.getKernel().format(
 						assignment.getFractionForResult(res) * 100,
@@ -319,6 +322,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		textForResult.addChangeHandler(new ChangeHandler() {
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				assignment.setHintForResult(res, textForResult.getText());
 			}
@@ -326,6 +330,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		textForResult.addAttachHandler(new Handler() {
 
+			@Override
 			public void onAttachOrDetach(AttachEvent event) {
 				textForResult.setText(assignment.getHintForResult(res));
 			}
@@ -411,6 +416,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				.mode_tool_32()).getSafeUri();
 	}
 
+	@Override
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
 		boolean isEditing = assignmentsTable.isVisible();
@@ -535,6 +541,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		updateAddList();
 	}
 
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		if (geo instanceof GeoBoolean) {
 			addAssignment(geo);
@@ -564,6 +571,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		}
 	}
 
+	@Override
 	public void onChange(ChangeEvent event) {
 		int selectedIndex = addList.getSelectedIndex();
 		if (selectedIndex == 1) {

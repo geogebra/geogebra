@@ -54,6 +54,7 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 		symbolTable.addClickHandler(this);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		// autoCompleteTextField should not loose focus
 		this.textField.setFocus(true, false);

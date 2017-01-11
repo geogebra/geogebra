@@ -95,6 +95,7 @@ public class BrowserDevice implements GDevice {
 		return !app.getNetworkOperation().isOnline();
 	}
 
+	@Override
 	public UploadImageDialog getImageInputDialog(AppW app) {
 
 		return new ImageInputDialog(app);
@@ -113,6 +114,7 @@ public class BrowserDevice implements GDevice {
 		return new ConstructionProtocolViewW(app);
 	}
 
+	@Override
 	public void resizeView(int width0, int height0) {
 		if (width0 > Browser.getScreenWidth()
 				|| height0 > Browser.getScreenHeight()) {

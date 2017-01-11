@@ -514,6 +514,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		int keyCode = event.getNativeKeyCode();
 	
@@ -551,7 +552,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				Element nextSiblingElement = event.getRelativeElement().getNextSiblingElement();
 				if (nextSiblingElement != null){
 					nextSiblingElement.focus();
-				} else event.getRelativeElement().getParentElement().getFirstChildElement().focus();
+				} else {
+					event.getRelativeElement().getParentElement().getFirstChildElement().focus();
+				}
 			}
 			break;
 		case KeyCodes.KEY_UP:

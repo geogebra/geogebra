@@ -12,6 +12,7 @@ public class KeyListenerW implements KeyPressHandler {
 		this.handler = handler;
 	}
 
+	@Override
 	public void onKeyPress(KeyPressEvent e) {
 
 		KeyEventW event = KeyEventW.wrapEvent(e);

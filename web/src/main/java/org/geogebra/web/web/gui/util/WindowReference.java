@@ -81,6 +81,7 @@ public class WindowReference implements EventRenderable {
 	private void initClosedCheck() {
 	    requestAnimationFrame = AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			
+			@Override
 			public void execute(double timestamp) {
 				if (instance != null && instance.closed()) {
 					if(lOW != null){
@@ -112,7 +113,8 @@ public class WindowReference implements EventRenderable {
 		return false;
 	}-*/;
 
-    public void renderEvent(BaseEvent event) {
+    @Override
+	public void renderEvent(BaseEvent event) {
     	if(event instanceof LoginEvent && !((LoginEvent)event).isSuccessful()){
     		return;
     	}

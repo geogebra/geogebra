@@ -47,7 +47,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		MenuItem miStandardView = new MenuItem(loc.getMenu("StandardView"),
 		        new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 				        ((EuclidianView3DW) app.getEuclidianView3D())
 				                .setStandardView(true);
 			        }
@@ -58,7 +59,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		MenuItem miShowAllObjectsView = new MenuItem(
 				loc.getMenu("ShowAllObjects"), new Command() {
 
-			        public void execute() {
+			        @Override
+					public void execute() {
 						setViewShowAllObject();
 			        }
 
@@ -102,6 +104,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	}
 
+	@Override
 	protected void zoom(double zoomFactor) {
 		app.zoom(px, py, zoomFactor);
 		if (app.getActiveEuclidianView().isEuclidianView3D()) {

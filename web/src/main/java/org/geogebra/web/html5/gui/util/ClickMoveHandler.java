@@ -21,6 +21,7 @@ public abstract class ClickMoveHandler {
 	 */
 	public static void init(Widget w, final ClickMoveHandler handler) {
 		w.addDomHandler(new MouseMoveHandler() {
+			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();
@@ -36,6 +37,7 @@ public abstract class ClickMoveHandler {
 		}, MouseMoveEvent.getType());
 
 		w.addDomHandler(new TouchMoveHandler() {
+			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				if (handler.preventDefault) {
 					event.preventDefault();

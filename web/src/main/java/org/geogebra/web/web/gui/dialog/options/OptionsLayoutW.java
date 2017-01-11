@@ -12,11 +12,13 @@ public class OptionsLayoutW extends OptionsLayout implements OptionPanelW {
 	    // TODO Auto-generated constructor stub
     }
 
+	@Override
 	public void updateGUI() {
 	    // TODO Auto-generated method stub
 	    
     }
 
+	@Override
 	public Widget getWrappedPanel() {
 	    // TODO Auto-generated method stub
 	    return null;
@@ -28,6 +30,7 @@ public class OptionsLayoutW extends OptionsLayout implements OptionPanelW {
 	    
     }
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		// TODO Auto-generated method stub
 		return null;

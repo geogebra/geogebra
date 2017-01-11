@@ -253,6 +253,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		return true;
 	}
 
+	@Override
 	public void onEnter(final boolean keepFocus) {
 		if (!getController().isEditing()) {
 			return;
@@ -281,14 +282,16 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 * @return editor content
 	 */
 	protected String getEditorValue(boolean latexValue) {
-		if (latexItem == null)
+		if (latexItem == null) {
 			return "";
+		}
 
 		String ret = MathQuillHelper
 				.getActualEditedValue(latexItem.getElement(), latexValue);
 
-		if (ret == null)
+		if (ret == null) {
 			return "";
+		}
 
 		return ret;
 	}
@@ -390,12 +393,14 @@ public class MathQuillTreeItem extends RadioTreeItem
 				isInputTreeItem());
 	}
 
+	@Override
 	protected void clearInput() {
 		MathQuillHelper.stornoFormulaMathQuillGGB(MathQuillTreeItem.this,
 				latexItem);
 
 	}
 
+	@Override
 	public KeyboardListener getKeyboardListener() {
 		return new MathQuillProcessing(this);
 	}
@@ -416,6 +421,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 * @param geo2
 	 *            selected element
 	 */
+	@Override
 	public void handleFKey(int fkey, GeoElement geo2) {
 		switch (fkey) {
 		default:
@@ -442,6 +448,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 	}
 
+	@Override
 	protected String stopCommon(String newValue) {
 		return EquationEditor.stopCommon(newValue);
 	}
@@ -483,6 +490,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		// AppW.anyAppHasFocus = true;
 	}
 	
+	@Override
 	public void onKeyPress(String s) {
 		// TODO Auto-generated method stub
 
@@ -495,6 +503,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 * @param newValue0
 	 * @return boolean whether it was successful
 	 */
+	@Override
 	public boolean stopNewFormulaCreation(final String newValue0,
 			final String latexx, final AsyncOperation<Object> cb) {
 		return stopNewFormulaCreation(newValue0, latexx, cb, true);

@@ -77,6 +77,7 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 			thumb = new GBufferedImageW(img);
 			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
 
+				@Override
 				public void onLoad() {
 					repaint();
 

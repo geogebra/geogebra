@@ -243,9 +243,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void setBackground(GColor bgColor) {
-		if (bgColor != null)
+		if (bgColor != null) {
 			backgroundColor = GColor.newColor(bgColor.getRed(),
 			        bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
+		}
 	}
 
 	@Override
@@ -481,10 +482,11 @@ public class EuclidianViewW extends EuclidianView implements
 		double ratio = width / height;
 		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
 		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
-		if (ratio < 1)
+		if (ratio < 1) {
 			thx *= ratio;
-		else if (ratio > 1)
+		} else if (ratio > 1) {
 			thy /= ratio;
+		}
 
 		Canvas canv = Canvas.createIfSupported();
 		canv.setCoordinateSpaceHeight((int) thy);
@@ -495,9 +497,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(),
 		// 0, 0, (int)thx, (int)thy);
-		if (background != null)
+		if (background != null) {
 			c2.drawImage(background.getCanvasElement(), 0, 0, (int) thx,
 			        (int) thy);
+		}
 		c2.drawImage(foreground.getCanvasElement(), 0, 0, (int) thx,
 		        (int) thy);
 
@@ -798,9 +801,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		if (app.getLAF() != null) {
-			if (app.getLAF().registerHandlers(evPanel, euclidiancontroller))
-
+			if (app.getLAF().registerHandlers(evPanel, euclidiancontroller)) {
 				return;
+			}
 		}
 
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
@@ -1077,15 +1080,17 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void add(GBox box) {
-		if (EVPanel != null)
+		if (EVPanel != null) {
 			EVPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
 			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
+		}
 	}
 
 	@Override
 	public void remove(GBox box) {
-		if (EVPanel != null)
+		if (EVPanel != null) {
 			EVPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+		}
 	}
 
 	@Override

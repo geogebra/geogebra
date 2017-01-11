@@ -83,6 +83,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		cbSliderFixed = new CheckBox();
 		cbSliderFixed.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.applyFixed(cbSliderFixed.getValue());
 
@@ -92,6 +93,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		cbRandom = new CheckBox();
 		cbRandom.addClickHandler(new ClickHandler(){
 
+			@Override
 			public void onClick(ClickEvent event) {
 				model.applyRandom(cbRandom.getValue());
 
@@ -101,6 +103,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		lbSliderHorizontal = new ListBox();
 		lbSliderHorizontal.addChangeHandler(new ChangeHandler(){
 
+			@Override
 			public void onChange(ChangeEvent event) {
 				model.applyDirection(lbSliderHorizontal.getSelectedIndex());
 
@@ -111,6 +114,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		tfMin = new AngleTextFieldW(6, app);
 		tfMin.addKeyDownHandler(new KeyDownHandler(){
 
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeEvent().getKeyCode() == 13) {
 					applyMin();
@@ -130,6 +134,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		tfMax = new AngleTextFieldW(6, app);
 		tfMax.addKeyDownHandler(new KeyDownHandler(){
 
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeEvent().getKeyCode() == 13) {
 					applyMax();
@@ -151,6 +156,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		tfWidth.removeSymbolTable();
 		tfWidth.addKeyHandler(new KeyHandler(){
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					applyWidth();
@@ -256,6 +262,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		setWidget(mainPanel);
 	}
 
+	@Override
 	public void setLabels() {
 		cbSliderFixed.setText(loc.getMenu("fixed"));
 		cbRandom.setText(loc.getMenu("Random"));
@@ -298,34 +305,42 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		return value;
 	}
 
+	@Override
 	public void setMinText(String text) {
 		tfMin.setText(text);
 	}
 
+	@Override
 	public void setMaxText(String text) {
 		tfMax.setText(text);
 	}
 
+	@Override
 	public void setWidthText(String text) {
 		tfWidth.setText(text);
 	}
 
+	@Override
 	public void selectFixed(boolean value) {
 		cbSliderFixed.setValue(value);
 	}
 
+	@Override
 	public void selectRandom(boolean value) {
 		cbRandom.setValue(value);
 	}
 
+	@Override
 	public void setRandomVisible(boolean value) {
 		cbRandom.setVisible(value);
 	}
 
+	@Override
 	public void setSliderDirection(int index) {
 		lbSliderHorizontal.setSelectedIndex(index);
 	}
 
+	@Override
 	public void setWidthUnitText(String text) {
 		widthUnitLabel.setText(text);
 	}

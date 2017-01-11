@@ -44,6 +44,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	 *            = 8 or 16
 	 * @return
 	 */
+	@Override
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
 		if (!super.initStreamingAudio(sampleRate, bitDepth)) {
 			return false;
@@ -83,6 +84,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	 * 
 	 * @param doPause
 	 */
+	@Override
 	public void pause(boolean resume) {
 
 		if (resume) {
@@ -109,13 +111,16 @@ public final class FunctionSoundW extends FunctionSound implements
 		waw.stop();
 	}
 
+	@Override
 	public double getValueAt(double t) {
 		double value = getF().evaluate(t + 1.0 * getSamplePeriod());
 
-		if (value > 1.0)
+		if (value > 1.0) {
 			value = 1.0;
-		if (value < -1.0)
+		}
+		if (value < -1.0) {
 			value = -1.0;
+		}
 
 		return value;
 	}

@@ -344,6 +344,7 @@ public class OptionsTab extends FlowPanel {
 					updatePreview(color, alpha);
 				}
 
+				@Override
 				public void onBarSelected() {
 					updateChooserFromBarChart(model.getGeoAt(0));
 				}
@@ -359,6 +360,7 @@ public class OptionsTab extends FlowPanel {
 				mainPanel.add(sequential);
 				sequential.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					// TODO we may need to update the GUI here
 					model.setSequential(sequential.getValue());
@@ -584,6 +586,7 @@ public class OptionsTab extends FlowPanel {
 			// deco change
 		}
 
+		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
 
@@ -648,6 +651,7 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
+		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
 
@@ -736,8 +740,9 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setSelectedIndex(int index) {
-			if (btnPointStyle != null)
+			if (btnPointStyle != null) {
 				btnPointStyle.setSelectedIndex(index);
+			}
 		}
 
 		@Override
@@ -752,6 +757,7 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
+		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
 
@@ -1271,6 +1277,7 @@ public class OptionsTab extends FlowPanel {
 			combo.setSelectedIndex(idx);
 		}
 
+		@Override
 		public void addItem(String item) {
 			combo.addItem(item);
 		}
@@ -1286,6 +1293,7 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
+		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
 

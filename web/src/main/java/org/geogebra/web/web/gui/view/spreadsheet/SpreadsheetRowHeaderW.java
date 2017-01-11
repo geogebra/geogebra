@@ -169,8 +169,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 */
 	public void updateRowCount() {
 
-		if (grid.getRowCount() >= table.getRowCount())
+		if (grid.getRowCount() >= table.getRowCount()) {
 			return;
+		}
 
 		int oldRowCount = grid.getRowCount();
 		grid.resizeRows(table.getRowCount());
@@ -345,6 +346,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 * public void mouseExited(MouseEvent e) { }
 	 */
 
+	@Override
 	public void onMouseDown(MouseDownEvent e) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -354,6 +356,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		onPointerDown(event);
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent e) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -363,6 +366,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		onPointerUp(event);
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent e) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -372,11 +376,13 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		onPointerMove(event);
 	}
 
+	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		// TODO Auto-generated method stub
 
@@ -389,6 +395,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	}
 
 	Scheduler.ScheduledCommand requestFocusCommand = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			focusPanel.setFocus(true);
 			table.updateCopiableSelection();
@@ -399,6 +406,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	// Key Listeners
 	// ===============================================
 
+	@Override
 	public void onKeyDown(KeyDownEvent e) {
 		//App.debug("row header key down");
 		e.stopPropagation();
@@ -436,11 +444,13 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				table.changeSelection(row + 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
-				if (table.minSelectionRow >= 0)
+				if (table.minSelectionRow >= 0) {
 					table.setSelection(0, table.minSelectionRow + 1);
-				else
+				}
+				else {
 					table.setSelection(0, table.minSelectionRow);
 				// table.requestFocus();
+				}
 			}
 			break;
 
@@ -488,8 +498,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			boolean storeUndo = table.copyPasteCut.delete(0, table.minSelectionRow,
 			        table.getModel().getColumnCount() - 1,
 			        table.maxSelectionRow);
-			if (storeUndo)
+			if (storeUndo) {
 				app.storeUndoInfo();
+			}
 			break;
 		}
 	}
@@ -509,27 +520,32 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			this.getElement().setPropertyInt("tabIndex", 0);
 		}
 
+		@Override
 		public int getTabIndex() {
 			// TODO Auto-generated method stub
 			return this.getElement().getPropertyInt("tabIndex");
 		}
 
+		@Override
 		public void setAccessKey(char key) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setFocus(boolean focused) {
 			this.getElement().focus();
 
 		}
 
+		@Override
 		public void setTabIndex(int index) {
 			this.getElement().setPropertyInt("tabIndex", index);
 		}
 
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		event.preventDefault();
@@ -538,6 +554,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	    CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.preventDefault();
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
@@ -551,6 +568,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
@@ -559,6 +577,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		CancelEventTimer.touchEventOccured();
     }
 
+	@Override
 	public void handleLongTouch(int x, int y) {
 		showContextMenu(x, y, false);
     }
@@ -591,8 +610,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		// left click
 		if (!rightClick) {
 
-			if (resizingRow >= 0)
+			if (resizingRow >= 0) {
 				return;
+			}
 
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
@@ -637,8 +657,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 		if (isMouseDown) {
 
-			if (e.isRightClick())
+			if (e.isRightClick()) {
 				return;
+			}
 
 			// On mouse drag either resize or select a row
 			int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
@@ -681,14 +702,16 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		boolean rightClick = e.isRightClick();
 
 		if (rightClick) {
-			if (!app.letShowPopupMenu())
+			if (!app.letShowPopupMenu()) {
 				return;
+			}
 
 			GPoint p = table.getIndexFromPixel(
 			        SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app),
 			        SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app));
-			if (p == null)
+			if (p == null) {
 				return;
+			}
 
 			// if click is outside current selection then change selection
 			if (p.getY() < table.minSelectionRow
@@ -718,14 +741,15 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			// table.maxSelectionRow);
 			if (table.minSelectionRow != -1 && table.maxSelectionRow != -1
 			        && (table.maxSelectionRow - table.minSelectionRow > 0)) {
-				if (table.isSelectAll())
+				if (table.isSelectAll()) {
 					table.setRowHeight(rowHeight);
-				else
+				} else {
 					for (int row = table.minSelectionRow; row <= table.maxSelectionRow; row++) {
 						// App.debug("set row height row/height: " + row + " / "
 						// + rowHeight);
 						table.setRowHeight(row, rowHeight);
 					}
+				}
 			}
 			table.repaint();
 			table.renderSelectionDeferred();
@@ -789,8 +813,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			boolean storeUndo = ((CopyPasteCutW)table.copyPasteCut).paste(0,
 			        table.minSelectionRow, table.getModel()
 			                .getColumnCount() - 1, table.maxSelectionRow, text);
-			if (storeUndo)
+			if (storeUndo) {
 				app.storeUndoInfo();
+			}
 		}
 	}
 
@@ -805,6 +830,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
 					((CopyPasteCutW)table.copyPasteCut).copy(0, table.minSelectionRow, table
@@ -825,6 +851,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
 					((CopyPasteCutW)table.copyPasteCut).copy(0, table.minSelectionRow, table
@@ -835,8 +862,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				        table.minSelectionRow,
 				        table.getModel().getColumnCount() - 1,
 				        table.maxSelectionRow);
-				if (storeUndo)
+				if (storeUndo) {
 					app.storeUndoInfo();
+				}
 			}
 		});
 	}

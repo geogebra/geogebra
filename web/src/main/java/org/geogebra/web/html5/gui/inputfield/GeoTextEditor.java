@@ -71,6 +71,7 @@ public class GeoTextEditor extends RichTextArea {
 
 		// styles and handlers must be set after the editor has been initialized
 		addInitializeHandler(new InitializeHandler() {
+			@Override
 			public void onInitialize(InitializeEvent event) {
 				initialized = true;
 				updateFonts();
@@ -96,12 +97,14 @@ public class GeoTextEditor extends RichTextArea {
 	private void registerHandlers() {
 
 		addKeyUpHandler(new KeyUpHandler() {
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				editPanel.updatePreviewPanel();
 			}
 		});
 
 		editBox.addKeyUpHandler(new KeyUpHandler() {
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 
 				int keyCode = event.getNativeKeyCode();
@@ -123,6 +126,7 @@ public class GeoTextEditor extends RichTextArea {
 		});
 
 		addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 
 				showEditPopup(false);
@@ -260,6 +264,7 @@ public class GeoTextEditor extends RichTextArea {
 		// setDynamicText();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				getBody().setInnerHTML(getUnformattedContent());
 				updateFonts();
@@ -482,7 +487,8 @@ public class GeoTextEditor extends RichTextArea {
 		if (isVisible) {
 			textEditPopup
 			        .setPopupPositionAndShow(new PopupPanel.PositionCallback() {
-				        public void setPosition(int offsetWidth,
+				        @Override
+						public void setPosition(int offsetWidth,
 				                int offsetHeight) {
 
 					        int left = (getAbsoluteLeft() + getOffsetWidth()
@@ -492,7 +498,8 @@ public class GeoTextEditor extends RichTextArea {
 					        textEditPopup.setPopupPosition(left, top);
 					        Scheduler.get().scheduleDeferred(
 					                new Scheduler.ScheduledCommand() {
-						                public void execute() {
+						                @Override
+										public void execute() {
 							                editBox.setFocus(true);
 						                }
 					                });
@@ -517,6 +524,7 @@ public class GeoTextEditor extends RichTextArea {
 
 			textEditPopup.setAutoHideEnabled(true);
 			editBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+				@Override
 				public void onValueChange(ValueChangeEvent<String> event) {
 					textEditPopup.hide();
 				}

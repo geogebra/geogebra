@@ -1233,18 +1233,21 @@ public class MathQuillHelper extends LaTeXHelper {
 
 		// make sure eg FractionText[] works (surrounds with {} which doesn't
 		// draw well in MathQuillGGB)
-		if (eqstring.length() >= 2)
+		if (eqstring.length() >= 2) {
 			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
 				eqstring = eqstring.substring(1, eqstring.length() - 1);
 			}
+		}
 
 		// remove $s
 		eqstring = eqstring.trim();
 		if (eqstring.length() > 2) {
-			while (eqstring.startsWith("$"))
+			while (eqstring.startsWith("$")) {
 				eqstring = eqstring.substring(1).trim();
-			while (eqstring.endsWith("$"))
+			}
+			while (eqstring.endsWith("$")) {
 				eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+			}
 		} else if ("$$".equals(eqstring)) {
 			eqstring = "";
 			// the rest cases: do not remove single $
@@ -1368,8 +1371,9 @@ public class MathQuillHelper extends LaTeXHelper {
 			Element parentElement, boolean newCreationMode) {
 		JavaScriptObject jo = grabSelectionFocusForScrollIntoView(
 				parentElement);
-		if (jo != null)
+		if (jo != null) {
 			MathQuillHelper.scrollJSOIntoView(jo, rbti, parentElement, false);
+		}
 	}
 
 	private static Element mqSize;

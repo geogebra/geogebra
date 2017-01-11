@@ -163,10 +163,12 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 			setStyleName("Caption");
 		}
 
+		@Override
 		public void onAttach() {
 			super.onAttach();
 		}
 
+		@Override
 		public void onDetach() {
 			super.onDetach();
 		}
@@ -175,22 +177,27 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	private class MouseHandler implements MouseDownHandler, MouseUpHandler,
 			MouseOutHandler, MouseOverHandler, MouseMoveHandler {
 
+		@Override
 		public void onMouseDown(MouseDownEvent event) {
 			beginDragging(event);
 		}
 
+		@Override
 		public void onMouseMove(MouseMoveEvent event) {
 			continueDragging(event);
 		}
 
+		@Override
 		public void onMouseOut(MouseOutEvent event) {
 			GDialogBox.this.onMouseLeave(caption.asWidget());
 		}
 
+		@Override
 		public void onMouseOver(MouseOverEvent event) {
 			GDialogBox.this.onMouseEnter(caption.asWidget());
 		}
 
+		@Override
 		public void onMouseUp(MouseUpEvent event) {
 			endDragging(event);
 		}
@@ -314,10 +321,12 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 		return caption;
 	}
 
+	@Override
 	public String getHTML() {
 		return caption.getHTML();
 	}
 
+	@Override
 	public String getText() {
 		return caption.getText();
 	}
@@ -353,6 +362,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	/**
 	 * @deprecated Use {@link #beginDragging} and {@link #getCaption} instead
 	 */
+	@Override
 	@Deprecated
 	public void onMouseDown(Widget sender, int x, int y) {
 		if (DOM.getCaptureElement() == null) {
@@ -372,6 +382,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	/**
 	 * @deprecated Use {@link Caption#addMouseOverHandler} instead
 	 */
+	@Override
 	@Deprecated
 	public void onMouseEnter(Widget sender) {
 	}
@@ -379,6 +390,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	/**
 	 * @deprecated Use {@link Caption#addMouseOutHandler} instead
 	 */
+	@Override
 	@Deprecated
 	public void onMouseLeave(Widget sender) {
 	}
@@ -386,6 +398,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	/**
 	 * @deprecated Use {@link #continueDragging} and {@link #getCaption} instead
 	 */
+	@Override
 	@Deprecated
 	public void onMouseMove(Widget sender, int x, int y) {
 		if (dragging) {
@@ -409,6 +422,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	/**
 	 * @deprecated Use {@link #endDragging} and {@link #getCaption} instead
 	 */
+	@Override
 	@Deprecated
 	public void onMouseUp(Widget sender, int x, int y) {
 		dragging = false;
@@ -425,6 +439,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 * @param html
 	 *            the object's new HTML
 	 */
+	@Override
 	public void setHTML(SafeHtml html) {
 		caption.setHTML(html);
 	}
@@ -440,6 +455,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 * @param html
 	 *            the object's new HTML
 	 */
+	@Override
 	public void setHTML(String html) {
 		caption.setHTML(SafeHtmlUtils.fromTrustedString(html));
 	}
@@ -454,6 +470,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	 * @param text
 	 *            the object's new text
 	 */
+	@Override
 	public void setText(String text) {
 		caption.setText(text);
 	}
@@ -463,6 +480,7 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 		if (resizeHandlerRegistration == null) {
 			resizeHandlerRegistration = Window
 					.addResizeHandler(new ResizeHandler() {
+						@Override
 						public void onResize(ResizeEvent event) {
 							windowWidth = event.getWidth();
 						}

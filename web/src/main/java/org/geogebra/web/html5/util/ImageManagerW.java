@@ -117,6 +117,7 @@ public class ImageManagerW extends ImageManager {
 			this.gi = gi2;
 		}
 
+		@Override
 		public void onLoad() {
 			gi.updateRepaint();
 		}
@@ -131,6 +132,7 @@ public class ImageManagerW extends ImageManager {
 			this.app = app;
 		}
 
+		@Override
 		public void onLoad() {
 			// Image onerror and onabort actually
 			gi.getCorner(0).remove();
@@ -167,6 +169,7 @@ getExternalImage(
 						imgSrc.getKey(), app));
 				img.attachNativeLoadHandler(this, new ImageLoadCallback() {
 
+					@Override
 					public void onLoad() {
 						checkIfAllLoaded(app);
 

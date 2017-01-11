@@ -243,11 +243,13 @@ public class LoadFilePresenter {
 		}
 		Storage stockStore = Storage.getLocalStorageIfSupported();
 
-		if (stockStore == null)
+		if (stockStore == null) {
 			return false;
+		}
 		String base64String = stockStore.getItem("reloadBase64String");
-		if ((base64String == null) || (base64String.length() == 0))
+		if ((base64String == null) || (base64String.length() == 0)) {
 			return false;
+		}
 		process(base64String);
 		stockStore.removeItem("reloadBase64String");
 		return true;
@@ -267,6 +269,7 @@ public class LoadFilePresenter {
 	 */
 	public void processJSON(final String json) {
 		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				getView().processJSON(json);
 			}

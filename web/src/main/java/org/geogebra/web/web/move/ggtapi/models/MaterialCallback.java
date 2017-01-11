@@ -13,6 +13,7 @@ public abstract class MaterialCallback implements MaterialCallbackI {
 
 
 
+	@Override
 	public void onError(Throwable exception) {
 		Log.error("Tube API error:" + exception.getMessage());
 		// TODO
@@ -20,6 +21,7 @@ public abstract class MaterialCallback implements MaterialCallbackI {
 				exception.getMessage(), true, null);
 	}
 
+	@Override
 	public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 		// onLoaded(result);
 

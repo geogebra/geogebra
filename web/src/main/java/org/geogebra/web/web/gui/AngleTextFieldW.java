@@ -31,6 +31,7 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		this.addKeyUpHandler(this);
 	}
 
+	@Override
 	public void onKeyUp(KeyUpEvent e) {
 
 		boolean modifierKeyPressed = app.isMacOS() ? e.isControlKeyDown() : e
@@ -71,8 +72,9 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 				sb.append(oldText.substring(0, start));
 				sb.append(oldText.substring(end));
 				setText(sb.toString());
-				if (pos < sb.length())
+				if (pos < sb.length()) {
 					setCursorPos(pos);
+				}
 			}
 
 			String oldText = getText();
@@ -93,12 +95,14 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		}
 	}
 
+	@Override
 	public void startOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			addDummyCursor();
 		}
 	}
 
+	@Override
 	public void endOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			removeDummyCursor();
@@ -116,23 +120,27 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		}
 
 		addFocusHandler(new FocusHandler() {
+			@Override
 			public void onFocus(FocusEvent event) {
 				FieldHandler.focusGained(AngleTextFieldW.this, app);
 			}
 		});
 
 		addBlurHandler(new BlurHandler() {
+			@Override
 			public void onBlur(BlurEvent event) {
 				FieldHandler.focusLost(AngleTextFieldW.this, app);
 			}
 		});
 	}
 
+	@Override
 	public void addDummyCursor() {
 		if (dummyCursor) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				int caretPos = getCursorPos();
 				addDummyCursor(caretPos);
@@ -141,6 +149,7 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	}
 
 
+	@Override
 	public int removeDummyCursor() {
 		if (!dummyCursor) {
 			return -1;

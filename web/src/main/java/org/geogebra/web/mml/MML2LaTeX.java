@@ -23,6 +23,7 @@ public class MML2LaTeX implements EntryPoint {
 		return mathmlParserLaTeX.parse(mml, false, false);
 	}
 
+	@Override
 	public void onModuleLoad() {
 		exportJS();
 	

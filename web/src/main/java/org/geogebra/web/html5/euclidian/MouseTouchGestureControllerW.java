@@ -475,8 +475,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
 			}
 			if (ec.view.getMode() != EuclidianConstants.MODE_FREEHAND_SHAPE
-					&& ec.view.getMode() != EuclidianConstants.MODE_PEN)
+					&& ec.view.getMode() != EuclidianConstants.MODE_PEN) {
 				return;
+			}
 		}
 
 		onMouseMoveNow(e, time, true);
@@ -529,8 +530,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// hide dialogs if they are open
 		// but don't hide context menu if we just opened it via long tap in IE
 		if (ec.getDefaultEventType() == PointerEventType.MOUSE
-				&& app.getGuiManager() != null)
+				&& app.getGuiManager() != null) {
 			app.getGuiManager().removePopup();
+		}
 
 		ec.wrapMouseReleased(e);
 		e.release();
@@ -689,6 +691,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return ec.view.getViewID();
 	}
 
+	@Override
 	public PointerEventType getDefaultEventType() {
 		return ec.getDefaultEventType();
 	}

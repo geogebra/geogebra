@@ -20,6 +20,7 @@ public class MultiRowsTabBar extends FlowPanel implements
 		tabPanel = tabPanel2;
 	}
 
+	@Override
 	public HandlerRegistration addSelectionHandler(
 			SelectionHandler<Integer> handler) {
 		return addHandler(handler, SelectionEvent.getType());
@@ -71,6 +72,7 @@ public class MultiRowsTabBar extends FlowPanel implements
 	/*
 	 * @deprecated Use {@link #addTab(String)} instead
 	 */
+	@Override
 	@Deprecated
 	public void add(Widget w) {
 		// do nothing

@@ -55,10 +55,12 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		return this;
 	}
 
+	@Override
 	public Canvas getCanvas() {
 		return eview1;
 	}
 
+	@Override
 	public Panel getEuclidianPanel() {
 		return this;
 	}
@@ -71,16 +73,20 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		return this;
 	}
 
+	@Override
 	public AbsolutePanel getAbsolutePanel() {
 		return this;
 	}
 
+	@Override
 	public EuclidianView getEuclidianView() {
-		if (app != null)
+		if (app != null) {
 			return app.getEuclidianView1();
+		}
 		return null;
 	}
 
+	@Override
 	public void onResize() {
 
 		// This is probably not needed, but what if yes?
@@ -102,6 +108,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		}
 	}
 
+	@Override
 	public void deferredOnResize() {
 
 		// There is probably no need for deferred call here, but what if yes?
@@ -111,11 +118,13 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	}
 
 	Scheduler.ScheduledCommand onResizeCmd = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			onResize();
 		}
 	};
 
+	@Override
 	public void updateNavigationBar() {
 	}
 

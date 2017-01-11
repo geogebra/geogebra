@@ -56,10 +56,12 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 //		updateFonts(app.getPlainFont());
 	}
 
+	@Override
 	public void updatePanel() {
 		// do nothing
 	}
 
+	@Override
 	public void setLabels() {
 		statTable.setLabels(null, strHeader);
 	}

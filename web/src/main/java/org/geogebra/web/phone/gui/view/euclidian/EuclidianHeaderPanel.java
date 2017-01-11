@@ -41,6 +41,7 @@ public class EuclidianHeaderPanel extends SimplePanel implements HeaderPanel, Fa
 		add(openToolBarButton);
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		panel.show();
 

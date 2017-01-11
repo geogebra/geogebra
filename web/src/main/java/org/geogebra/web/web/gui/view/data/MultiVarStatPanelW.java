@@ -56,6 +56,7 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	
 	
 
+	@Override
 	protected void initStatTable() {
 
 		statTable = new StatTableW(app);
@@ -76,10 +77,12 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 		getModel().updatePanel();
 	}
 
+	@Override
 	public String[] getDataTitles() {
 		return daView.getDataTitles();
 	}
 
+	@Override
 	public boolean isMinimalTable() {
 		// TODO Auto-generated method stub
 		return isMinimalTable;

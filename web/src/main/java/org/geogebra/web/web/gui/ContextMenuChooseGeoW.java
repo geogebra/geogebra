@@ -101,6 +101,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			this.geo = geo;
 		}
 
+		@Override
 		public void onBrowserEvent(Event event) {
 			view.getEuclidianController().doSingleHighlighting(geo);
 			Log.debug(
@@ -134,6 +135,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			this.geo = geo;
 		}
 
+		@Override
 		public void execute() {
 			geoActionCmd(this.geo, selectedGeos, geos, view, loc);
 		}

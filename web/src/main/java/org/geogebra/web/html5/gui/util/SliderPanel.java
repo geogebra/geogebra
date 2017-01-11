@@ -40,6 +40,7 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		Slider.addInputHandler(slider.getElement(), this);
 	}
 
+	@Override
 	public Integer getValue() {
 		return slider.getValue();
 	}
@@ -74,27 +75,32 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		return new GDimensionW(180, 10);
 	}
 
+	@Override
 	public HandlerRegistration addValueChangeHandler(
 	        ValueChangeHandler<Integer> handler) {
 		return slider.addValueChangeHandler(handler);
 	}
 
+	@Override
 	public void onSliderInput() {
 		DomEvent.fireNativeEvent(Document.get().createChangeEvent(),
 				this.slider);
 		sliderLabel.setText(this.getValue() + "");
 	}
 
+	@Override
 	public void setValue(Integer value) {
 		slider.setValue(value, false);
 		sliderLabel.setText(this.getValue() + "");
 	}
 
+	@Override
 	public void setValue(Integer value, boolean fireEvents) {
 		slider.setValue(value, fireEvents);
 		sliderLabel.setText(this.getValue() + "");
 	}
 
+	@Override
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return slider.addChangeHandler(handler);
 	}

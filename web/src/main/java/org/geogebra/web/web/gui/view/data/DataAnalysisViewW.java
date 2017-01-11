@@ -72,6 +72,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 * For calling the onResize method in a deferred way
 	 */
 	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			onResize();
 		}
@@ -79,6 +80,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 
 	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			if (model.isMultiVar() && model.showStatPanel()) {
 				Log.debug("Showing MultiVar stat panel");
@@ -180,35 +182,41 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		statisticsPanel = new StatisticsPanelW(app, this);
 	}
 
+	@Override
 	public void setPlotPanelOVNotNumeric(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
 		dataDisplayPanel2.setPanel(PlotType.BARCHART, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelOVRawData(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
 		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelOVFrequency(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
 		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelOVClass(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
 		dataDisplayPanel2.setPanel(PlotType.HISTOGRAM, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelRegression(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.SCATTERPLOT, mode);
 		dataDisplayPanel2.setPanel(PlotType.RESIDUAL, mode);
 	}
 
+	@Override
 	public void setPlotPanelMultiVar(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.MULTIBOXPLOT, mode);
 
@@ -237,6 +245,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	}
 
+	@Override
 	public void loadDataTable(ArrayList<GeoElement> dataArray) {
 		if (dataPanel == null) {
 			buildDataPanel();
@@ -370,6 +379,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		//	return statisticsPanel;
 	}
 
+	@Override
 	public DataAnalysisControllerW getController() {
 		return daCtrl;
 	}
@@ -390,6 +400,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	// Handlers for Component Visibility
 	// =================================================
 
+	@Override
 	public void updateStatDataPanelVisibility() {
 		updateLayout();
 	}
@@ -405,6 +416,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	// Event Handlers and Updates
 	// =================================================
 
+	@Override
 	public void updateGUI() {
 
 		if (stylebar != null) {
@@ -413,6 +425,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		deferredOnResize();
 	}
 
+	@Override
 	public void setLabels() {
 
 		if (model.isIniting()) {
@@ -440,46 +453,57 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	// View Implementation
 	// =================================================
 
+	@Override
 	public void remove(GeoElement geo) {
 		model.remove(geo);
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 		model.update(geo);
 	}
 
+	@Override
 	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
 
+	@Override
 	public void add(GeoElement geo) {
 		// do nothing
 	}
 
+	@Override
 	public void clearView() {
 		// do nothing
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 		// do nothing
 	}
 
+	@Override
 	public void repaintView() {
 
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// do nothing
 	}
 
+	@Override
 	public void reset() {
 		// do nothing
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		// do nothing
 	}
@@ -490,15 +514,17 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 		// attachView to plot panels
 		dataDisplayPanel1.attachView();
-		if (dataDisplayPanel2 != null)
+		if (dataDisplayPanel2 != null) {
 			dataDisplayPanel2.attachView();
+		}
 	}
 
 	public void detachView() {
 
 		dataDisplayPanel1.detachView();
-		if (dataDisplayPanel2 != null)
+		if (dataDisplayPanel2 != null) {
 			dataDisplayPanel2.detachView();
+		}
 		daCtrl.removeStatGeos();
 
 		kernel.detach(this);
@@ -585,24 +611,29 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	//
 	//	}
 	//
+	@Override
 	public int getViewID() {
 		return App.VIEW_DATA_ANALYSIS;
 	}
 
+	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 	}
 
+	@Override
 	public DataAnalysisModel getModel() {
 		return model;
 	}
@@ -611,6 +642,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		this.model = model;
 	}
 
+	@Override
 	public void onModeChange() {
 		dataPanel = null;
 		buildStatisticsPanel();
@@ -619,6 +651,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	}
 
+	@Override
 	public void showComboPanel2(boolean show) {
 		comboPanelSplit.clear();
 
@@ -646,15 +679,18 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return model.format(value);
 	}
 
+	@Override
 	public GColor createColor(int idx) {
 		return colors[idx];
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		return app.showView(App.VIEW_DATA_ANALYSIS);
 	}
@@ -698,10 +734,12 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return Arrays.asList(printableList);
 	}
 
+	@Override
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public DataDisplayModel getDisplayModel(int index) {
 		return index == 0 ? this.dataDisplayPanel1.getModel()
 				: this.dataDisplayPanel2.getModel();

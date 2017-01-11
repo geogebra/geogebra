@@ -153,6 +153,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		}
 	}
 	
+	@Override
 	public void actionPerformed(String cmd){
 		getOptionsMenu().processActionPerformed(cmd);
 	}
@@ -165,6 +166,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				return new RadioButtonMenuBarW(getApp(), true);
 			}
 
+			@Override
 			public void addMenuItem(MenuInterface parentMenu, String key,
 					boolean asHtml, MenuInterface subMenu) {
 				addMenuItem((MenuBar) parentMenu, key, subMenu);

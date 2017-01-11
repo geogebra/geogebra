@@ -25,6 +25,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		model.setListener(this);
 		this.setKeepVisible(false);
 		getMySlider().addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
 				model.applyThickness(getSliderValue());
 			}
@@ -36,6 +37,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		updatePanel(geos);
 	}
 
+	@Override
 	public Object updatePanel(Object[] geos) {
 		model.setGeos(geos);
 
@@ -66,22 +68,27 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		getMyPopup().hide();
 	}
 
+	@Override
 	public void setThicknessSliderValue(int value) {
 		getMySlider().setValue(value);
 	}
 
+	@Override
 	public void setThicknessSliderMinimum(int minimum) {
 		getMySlider().setMinimum(minimum);
 	}
 
+	@Override
 	public void selectCommonLineStyle(boolean equalStyle, int type) {
 		selectLineType(type);
 	}
 
+	@Override
 	public void setLineTypeVisible(boolean value) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void setLineStyleHiddenVisible(boolean value) {
 		// TODO Auto-generated method stub
 	}
@@ -92,10 +99,12 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 
 	}
 
+	@Override
 	public void setOpacitySliderValue(int value) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void setLineOpacityVisible(boolean value) {
 		// TODO Auto-generated method stub
 	}

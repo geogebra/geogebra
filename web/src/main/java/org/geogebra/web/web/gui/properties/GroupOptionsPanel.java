@@ -43,6 +43,7 @@ public class GroupOptionsPanel implements IOptionPanel {
 		panels.add(panel);
 	}
 
+	@Override
 	public void setLabels() {
 		setTitleLabel();
 		for (IOptionPanel panel: panels) {
@@ -64,6 +65,7 @@ public class GroupOptionsPanel implements IOptionPanel {
 		return ret;
     }
 
+	@Override
 	public Object updatePanel(Object[] geos) {
 		boolean result = false;
 		for (IOptionPanel panel: panels) {
@@ -72,13 +74,16 @@ public class GroupOptionsPanel implements IOptionPanel {
 		return result ? this : null;
 	}
 
+	@Override
 	public Widget getWidget() {
 		return mainWidget;
 	}
 
+	@Override
 	public void setWidget(Widget widget) {
 	}
 
+	@Override
 	public OptionsModel getModel() {
 		return model;
 	}

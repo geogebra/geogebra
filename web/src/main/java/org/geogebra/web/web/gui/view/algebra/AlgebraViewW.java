@@ -91,12 +91,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private Integer originalWidth = null;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+		@Override
 		public void execute(double ts) {
 			doRepaint();
 		}
 	};
 
 	private AnimationScheduler.AnimationCallback repaintSlidersCallback = new AnimationScheduler.AnimationCallback() {
+		@Override
 		public void execute(double ts) {
 			doRepaintSliders();
 		}
@@ -177,6 +179,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			app.getSelectionManager()
 					.addSelectionListener(new GeoElementSelectionListener() {
+						@Override
 						public void geoElementSelected(GeoElement geo,
 								boolean addToSelection) {
 							updateSelection();
@@ -328,6 +331,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * timer system suggests a repaint
 	 */
+	@Override
 	public boolean suggestRepaint(){
 
 		// repaint sliders as fast as possible
@@ -356,6 +360,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 
 
+	@Override
 	public final void repaintView() {
 		app.ensureTimerRunning();
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
@@ -366,10 +371,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Make sure we repaint all updated objects in nodes that were collapsed before
 	 */
+	@Override
 	public void onOpen(OpenEvent<TreeItem> event){
 		this.deferredRepaint();
 	}
 
+	@Override
 	public final int getViewID() {
 		return App.VIEW_ALGEBRA;
 	}
@@ -379,6 +386,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
 	 */
+	@Override
 	public void update(GeoElement geo) {
 		long start = System.currentTimeMillis();
 		TreeItem node = nodeTable.get(geo);
@@ -497,15 +505,17 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		if (collapsedNodes == null)
+		if (collapsedNodes == null) {
 			collapsedNodes = new ArrayList<Integer>();
-		else
+		} else {
 			collapsedNodes.clear();
+		}
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem node = getItem(i);
-			if (!node.getState())
+			if (!node.getState()) {
 				collapsedNodes.add(i);
+			}
 		}
 
 	}
@@ -546,10 +556,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public final void getXML(StringBuilder sb) {
 
-		if (sbXML == null)
+		if (sbXML == null) {
 			sbXML = new StringBuilder();
-		else
+		} else {
 			sbXML.setLength(0);
+		}
 
 		// tree mode
 		if (getTreeMode() != SortMode.TYPE) {
@@ -596,16 +607,19 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private boolean isShowingAuxiliaryObjects;
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
-		if (collapsedNodes == null)
+		if (collapsedNodes == null) {
 			return;
+		}
 
-		if (this.collapsedNodes == null)
+		if (this.collapsedNodes == null) {
 			this.collapsedNodes = new ArrayList<Integer>();
-		else
+		} else {
 			this.collapsedNodes.clear();
+		}
 
-		for (int i = 0; i < collapsedNodes.length; i++)
+		for (int i = 0; i < collapsedNodes.length; i++) {
 			this.collapsedNodes.add(collapsedNodes[i]);
+		}
 	}
 
 	/**
@@ -680,8 +694,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 
 		// collapsed nodes
-		if (collapsedNodes == null)
+		if (collapsedNodes == null) {
 			return;
+		}
 
 		for (int i : collapsedNodes) {
 			TreeItem node = getItem(i);
@@ -695,6 +710,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
@@ -715,8 +731,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public void attachView() {
 
-		if (attached)
+		if (attached) {
 			return;
+		}
 		attached = true;
 		clearView();
 		kernel.notifyAddAll(this);
@@ -1100,6 +1117,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * adds a new node to the tree
 	 */
+	@Override
 	public void add(GeoElement geo) {
 		add(geo, -1);
 	}
@@ -1144,19 +1162,22 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 				} else {
 					parent.addItem(node);
-					if (parent.equals(rootOrder))
+					if (parent.equals(rootOrder)) {
 						addItem(node);
+					}
 				}
 
 			} else {
 				try {
 					parent.insertItem(pos, node);
-					if (parent.equals(rootOrder))
+					if (parent.equals(rootOrder)) {
 						insertItem(pos, node);
+					}
 				} catch (IndexOutOfBoundsException e) {
 					parent.addItem(node);
-					if (parent.equals(rootOrder))
+					if (parent.equals(rootOrder)) {
 						addItem(node);
+					}
 				}
 			}
 
@@ -1196,6 +1217,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			inputPanelLatex.styleScrollBox();
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+				@Override
 				public void execute() {
 
 					inputPanelLatex.updateButtonPanelPosition();
@@ -1206,6 +1228,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 
+	@Override
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
 		if (this.treeMode.equals(SortMode.LAYER)) {
 			TreeItem node = nodeTable.get(g);
@@ -1224,6 +1247,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * removes a node from the tree
 	 */
+	@Override
 	public void remove(GeoElement geo) {
 		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
@@ -1238,6 +1262,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 
+	@Override
 	public void clearView() {
 		nodeTable.clear();
 		clearTree();
@@ -1251,6 +1276,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * renames an element and sorts list
 	 */
+	@Override
 	public void rename(GeoElement geo) {
 		remove(geo);
 		add(geo);
@@ -1300,8 +1326,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
 
-		if (compare(newGeo, geo2, mode))
+		if (compare(newGeo, geo2, mode)) {
 			return right;
+		}
 		// binary search
 		while (right > left) {
 			int middle = (left + right) / 2;
@@ -1336,8 +1363,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	final public static int binarySearchGeo(TreeItem parent, String geoLabel) {
 		int left = 0;
 		int right = parent.getChildCount() - 1;
-		if (right == -1 || geoLabel == null)
+		if (right == -1 || geoLabel == null) {
 			return -1;
+		}
 
 		// binary search for geo's label
 		while (left <= right) {
@@ -1347,12 +1375,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					.getLabelSimple();
 
 			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
-			if (compare < 0)
+			if (compare < 0) {
 				right = middle - 1;
-			else if (compare > 0)
+			} else if (compare > 0) {
 				left = middle + 1;
-			else
+			} else {
 				return middle;
+			}
 		}
 
 		return -1;
@@ -1368,14 +1397,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return -1 when not found
 	 */
 	final public static int linearSearchGeo(TreeItem parent, String geoLabel) {
-		if (geoLabel == null)
+		if (geoLabel == null) {
 			return -1;
+		}
 		int childCount = parent.getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			TreeItem node = parent.getChild(i);
 			GeoElement g = (GeoElement) node.getUserObject();
-			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate)))
+			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate))) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -1383,6 +1414,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Reset the algebra view if the mode changed.
 	 */
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		reset();
 	}
@@ -1405,11 +1437,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
+	@Override
 	final public void updateAuxiliaryObject(GeoElement geo) {
 		remove(geo);
 		add(geo);
 	}
 
+	@Override
 	public void reset() {
 		cancelEditItem();
 		repaintView();
@@ -1420,6 +1454,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * resets all fix labels of the View. This method is called by the
 	 * application if the language setting is changed.
 	 */
+	@Override
 	public void setLabels() {
 		/*
 		 * if (inputPanel != null) { inputPanel.setLabels(); }
@@ -1443,6 +1478,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return getSelectionCtrl().getLastSelectedGeo();
 	}
 
+	@Override
 	public final void setLastSelectedGeo(GeoElement geo) {
 		getSelectionCtrl().setLastSelectedGeo(geo);
 	}
@@ -1453,6 +1489,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
@@ -1521,6 +1558,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						.getAVInput(kernel);
 	}
 
+	@Override
 	public void setShowAlgebraInput(boolean show) {
 		if (show) {
 			showAlgebraInput(false);
@@ -1600,6 +1638,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void doShowKeyboard() {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				setActiveTreeItem(null);
 				app.showKeyboard(inputPanelLatex, true);
@@ -1750,6 +1789,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private GeoElement[] previewGeos = null;
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (!app.has(Feature.AV_PREVIEW)) {
 			return;
@@ -1767,15 +1807,18 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
+	@Override
 	public boolean isShowing() {
 		return isVisible() && isAttached();
 	}
 
+	@Override
 	public void cancelEditItem() {
 		editItem = false;
 		setAnimationEnabled(true);
 	}
 
+	@Override
 	public boolean isEditItem() {
 		return editItem;
 	}
@@ -1783,6 +1826,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Starts the corresponding editor for geo.
 	 */
+	@Override
 	public void startEditItem(GeoElement geo) {
 		if (!app.has(Feature.RETEX_EDITOR)
 				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
@@ -1879,7 +1923,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// super.setSelectedItem(null);
 
 		for (int i = 0; i < getItemCount(); i++) {
-			if (!(getItem(i).getUserObject() instanceof GeoElement))
+			if (!(getItem(i).getUserObject() instanceof GeoElement)) {
 				for (int j = 0; j < getItem(i).getChildCount(); j++) {
 					TreeItem item = getItem(i).getChild(j);
 					item.setSelected(false);
@@ -1887,6 +1931,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						unselect(RadioTreeItem.as(item).getGeo());
 					}
 				}
+			}
 		}
 
 		getSelectionCtrl().setSelectedGeo(null);
@@ -1910,6 +1955,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		setDraggedGeo(geo);
 	}
 
+	@Override
 	public GeoElement getDraggedGeo() {
 		return draggedGeo;
 	}
@@ -1918,6 +1964,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.draggedGeo = draggedGeo;
 	}
 
+	@Override
 	public boolean hasFocus() {
 		Log.debug("unimplemented");
 		return false;
@@ -2129,6 +2176,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
+	@Override
 	public void resetItems(boolean unselectAll) {
 		MinMaxPanel.closeMinMaxPanel();
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
@@ -2167,6 +2215,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.originalWidth = oldWidth;
 	}
 
+	@Override
 	public boolean isAttachedToKernel() {
 		return attached;
 	}
@@ -2179,6 +2228,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		printLeaf.repaint();
 	}
 
+	@Override
 	public void getPrintable(FlowPanel pPanel, final Button btPrint) {
 		Tree printTree = new Tree();
 
@@ -2212,6 +2262,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		pPanel.add(printTree);
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				btPrint.setEnabled(true);
 			}

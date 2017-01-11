@@ -17,6 +17,7 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	/**
 	 * @return the scaleX
 	 */
+	@Override
 	public double getScaleX() {
 		return scaleX;
 	}
@@ -32,6 +33,7 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	/**
 	 * @return the scaleY
 	 */
+	@Override
 	public double getScaleY() {
 		return scaleY;
 	}

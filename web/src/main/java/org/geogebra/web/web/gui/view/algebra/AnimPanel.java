@@ -209,6 +209,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		btnSpeedValue.setText(speedStr);
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		radioTreeItem.getController().stopEdit();
 		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {

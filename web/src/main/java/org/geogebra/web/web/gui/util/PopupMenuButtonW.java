@@ -132,6 +132,7 @@ public class PopupMenuButtonW extends MyCJButton
 		// add a mouse listener to our button that triggers the popup
 		addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
 				if (!PopupMenuButtonW.this.isEnabled()) {
@@ -226,6 +227,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 		myTable.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				handlePopupActionEvent();
 			}
@@ -295,7 +297,9 @@ public class PopupMenuButtonW extends MyCJButton
 	}
 	
 	private void updateGUI(){
-		if(isIniting) return;
+		if(isIniting) {
+			return;
+		}
 
 		if (hasTable && !multiselectionEnabled) {
 			setIcon(getButtonIcon());
@@ -369,6 +373,7 @@ public class PopupMenuButtonW extends MyCJButton
 		onSliderInput();
 	}
 
+	@Override
 	public void onSliderInput() {
 		if(mySlider != null) {
 			   setSliderValue(mySlider.getValue());

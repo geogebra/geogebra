@@ -38,6 +38,7 @@ public class RelationPaneW extends DialogBox
 	private FlowPanel[] texts;
 	private FlowPanel[] buttons;
 
+	@Override
 	public void showDialog(String title, RelationRow[] relations, App app) {
 
 		// setGlassEnabled(true);
@@ -115,6 +116,7 @@ public class RelationPaneW extends DialogBox
 		}
 	}
 
+	@Override
 	public void updateRow(int row, RelationRow relation) {
 		texts[row].clear();
 		HTML text = new HTML(relation.getInfo());

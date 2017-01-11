@@ -242,8 +242,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	private void showPopupMenu(final ArrayList<GeoElement> geos,
 	        final Canvas invoker, final GPoint p) {
-		if (geos == null || !app.letShowPopupMenu())
+		if (geos == null || !app.letShowPopupMenu()) {
 			return;
+		}
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
 		} else {
@@ -294,8 +295,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	        final ArrayList<GeoElement> geos, final EuclidianView view,
 	        final GPoint p) {
 
-		if (geos == null || !app.letShowPopupMenu())
+		if (geos == null || !app.letShowPopupMenu()) {
 			return;
+		}
 
 		if (!geos.isEmpty() && app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(view, p);
@@ -370,8 +372,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			        updatePropertiesView);
 
 			// notify the properties view
-			if (updatePropertiesView)
+			if (updatePropertiesView) {
 				updatePropertiesView();
+			}
 		}
 	}
 
@@ -458,8 +461,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		// until we have no enough place for the big icons in the toolbar, don't
 		// enable to increase too much the size of icons.
-		if (toolbariconSize > 45)
+		if (toolbariconSize > 45) {
 			toolbariconSize = 45;
+		}
 
 		// Build inner text for a style element that handles font size
 		// =============================================================
@@ -533,10 +537,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean hasSpreadsheetView() {
-		if (spreadsheetView == null)
+		if (spreadsheetView == null) {
 			return false;
-		if (!spreadsheetView.isShowing())
+		}
+		if (!spreadsheetView.isShowing()) {
 			return false;
+		}
 		return true;
 	}
 
@@ -555,8 +561,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void setShowView(final boolean flag, final int viewId,
 	        final boolean isPermanent) {
 		if (flag) {
-			if (!showView(viewId))
+			if (!showView(viewId)) {
 				layout.getDockManager().show(viewId);
+			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
 				getSpreadsheetView().requestFocus();
@@ -565,8 +572,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				getSpreadsheetView().requestFocus();
 			}
 		} else {
-			if (showView(viewId))
+			if (showView(viewId)) {
 				layout.getDockManager().hide(viewId, isPermanent);
+			}
 
 			if (viewId == App.VIEW_SPREADSHEET) {
 				(app).getActiveEuclidianView().requestFocus();
@@ -598,8 +606,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public Editing getCasView() {
-		if (casView == null)
+		if (casView == null) {
 			casView = new CASViewW((AppW) app);
+		}
 		return casView;
 	}
 
@@ -694,16 +703,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public String getToolbarDefinition() {
-		if (strCustomToolbarDefinition == null && getToolbarPanel() != null)
+		if (strCustomToolbarDefinition == null && getToolbarPanel() != null) {
 			return getGeneralToolbar().getDefaultToolbarString();
+		}
 		// return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		return strCustomToolbarDefinition;
 	}
 
 	@Override
 	public String getToolbarDefinition(final Integer viewId) {
-		if (viewId == App.VIEW_CAS)
+		if (viewId == App.VIEW_CAS) {
 			return CASView.TOOLBAR_DEFINITION;
+		}
 		return getToolbarDefinition();
 	}
 
@@ -853,6 +864,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	@Override
 	public void updateToolbarActions() {
 		if (getToolbarPanel() != null) {
 			getToolbarPanel().updateActionPanel();
@@ -890,8 +902,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void setShowAuxiliaryObjects(final boolean flag) {
-		if (!hasAlgebraViewShowing())
+		if (!hasAlgebraViewShowing()) {
 			return;
+		}
 		getAlgebraView();
 		algebraView.setShowAuxiliaryObjects(flag);
 		app.getSettings().getAlgebra().setShowAuxiliaryObjects(flag);
@@ -941,14 +954,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachAlgebraView() {
-		if (algebraView != null)
+		if (algebraView != null) {
 			algebraView.detachView();
+		}
 	}
 
 	@Override
 	public void applyAlgebraViewSettings() {
-		if (algebraView != null)
+		if (algebraView != null) {
 			algebraView.applySettings();
+		}
 	}
 
 	@Override
@@ -991,6 +1006,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	@Override
 	public void updatePropertiesViewStylebar() {
 		if (propertiesView != null) {
 			propertiesView.updateStyleBar();
@@ -1081,8 +1097,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			if (!app.isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (app.needsSpreadsheetTableModel())
+				 {
 					(app).getSpreadsheetTableModel(); // ensure create one if
 					                                  // not already done
+				}
 			}
 		} else if (isMacroFile && success) {
 
@@ -1103,8 +1121,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		//
 		// }
 		// force JavaScript ggbOnInit(); to be called
-		if (!app.isApplet())
+		if (!app.isApplet()) {
 			app.getScriptManager().ggbOnInit();
+		}
 	}
 
 	@Override
@@ -1146,8 +1165,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachPropertiesView() {
-		if (propertiesView != null)
+		if (propertiesView != null) {
 			propertiesView.detachView();
+		}
 	}
 
 	@Override
@@ -1203,8 +1223,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	
 	@Override
 	public EuclidianView getActiveEuclidianView() {
-		if (layout == null)
+		if (layout == null) {
 			return app.getEuclidianView1();
+		}
 
 		final EuclidianDockPanelWAbstract focusedEuclidianPanel = layout
 		        .getDockManager().getFocusedEuclidianPanel();
@@ -1283,10 +1304,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean hasDataAnalysisView() {
-		if (dataAnalysisView == null)
+		if (dataAnalysisView == null) {
 			return false;
-		if (!dataAnalysisView.isShowing())
+		}
+		if (!dataAnalysisView.isShowing()) {
 			return false;
+		}
 		return true;
 	}
 
@@ -1308,8 +1331,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachSpreadsheetView() {
-		if (spreadsheetView != null)
+		if (spreadsheetView != null) {
 			spreadsheetView.detachView();
+		}
 	}
 
 	@Override
@@ -1329,14 +1353,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void resetSpreadsheet() {
-		if (spreadsheetView != null)
+		if (spreadsheetView != null) {
 			spreadsheetView.restart();
+		}
 	}
 
 	@Override
 	public void setScrollToShow(final boolean b) {
-		if (spreadsheetView != null)
+		if (spreadsheetView != null) {
 			spreadsheetView.setScrollToShow(b);
+		}
 	}
 
 	@Override
@@ -1375,15 +1401,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (idx == 1) {
 			return showView(App.VIEW_EUCLIDIAN2);
 		}
-		if (!euclidianView2.get(idx).isShowing())
+		if (!euclidianView2.get(idx).isShowing()) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public void setLabels() {
-		if (algebraInput != null)
+		if (algebraInput != null) {
 			algebraInput.setLabels();
+		}
 
 		if (toolbarPanel != null && toolbarPanel.getToolBar() != null) {
 			toolbarPanel.getToolBar().buildGui();
@@ -1403,8 +1431,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (getLayout() != null && getLayout().getDockManager() != null) {
 			final DockPanelW[] panels = getLayout().getDockManager()
 			        .getPanels();
-			for (int i = 0; i < panels.length; i++)
+			for (int i = 0; i < panels.length; i++) {
 				panels[i].setLabels();
+			}
 		}
 		if (propertiesView != null) {
 			((PropertiesViewW) propertiesView).setLabels();
@@ -1419,6 +1448,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	@Override
 	public void resetMenu() {
 		final GGWMenuBar bar = getObjectPool().getGgwMenubar();
 		if (bar != null && bar.getMenubar() != null) {
@@ -1476,8 +1506,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot(final int idx) {
 		if (euclidianView2 == null || euclidianView2.size() <= idx
-		        || euclidianView2.get(idx) == null)
+		        || euclidianView2.get(idx) == null) {
 			return false;
+		}
 		return true;
 	}
 
@@ -1526,8 +1557,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void getAlgebraViewXML(final StringBuilder sb,
 	        final boolean asPreference) {
-		if (algebraView != null)
+		if (algebraView != null) {
 			algebraView.getXML(sb);
+		}
 	}
 
 	@Override
@@ -1639,16 +1671,19 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		} else if (viewid == App.VIEW_EUCLIDIAN2) {
 			ep = ((Euclidian2DockPanelW) getLayout().getDockManager().getPanel(
 			        viewid)).getAbsolutePanel();
-		} else
+		} else {
 			return;
+		}
 
-		if (ep == null)
+		if (ep == null) {
 			return;
+		}
 		final Iterator<Widget> it = ep.iterator();
 		while (it.hasNext()) {
 			final Widget nextItem = it.next();
-			if (!(nextItem instanceof Canvas))
+			if (!(nextItem instanceof Canvas)) {
 				it.remove();
+			}
 		}
 	}
 
@@ -1680,6 +1715,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 
+	@Override
 	public GOptionPaneW getOptionPane() {
 		if (optionPane == null) {
 			optionPane = new GOptionPaneW(((AppW) app).getPanel());
@@ -1816,6 +1852,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		layout.getDockManager().enableDragging(oldDraggingViews);
 	}
 
+	@Override
 	public EuclidianViewW getPlotPanelEuclidanView() {
 		return (EuclidianViewW) probCalculator.plotPanel;
 	}
@@ -2042,8 +2079,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public String getDefaultToolbarString() {
-		if (toolbarPanel == null)
+		if (toolbarPanel == null) {
 			return "";
+		}
 
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
@@ -2099,6 +2137,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	@Override
 	public void onScreenEditingEnded() {
 		if (onScreenKeyboard != null) {
 			onScreenKeyboard.endEditing();
@@ -2137,6 +2176,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 * setFocusScheduled was true (at least, it can have effect only in this
 	 * case)
 	 */
+	@Override
 	public boolean focusScheduled(boolean setNotGet,
 			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed) {
 		if (setNotGet) {
@@ -2164,6 +2204,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return true;
 	}
 
+	@Override
 	public void setPixelRatio(double ratio) {
 		if (hasAlgebraView()) {
 			this.getAlgebraView().setPixelRatio(ratio);
@@ -2177,6 +2218,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	}
 
+	@Override
 	public String getTooltipURL(int mode) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			return getHelpURL(Help.GENERIC, "Custom_Tools");
@@ -2186,6 +2228,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				EuclidianConstants.getModeTextSimple(mode));
 	}
 
+	@Override
 	public String getToolImageURL(int mode, GeoImage geoImage) {
 		String url = GGWToolBar.getImageURL(mode, (AppW) app);
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();

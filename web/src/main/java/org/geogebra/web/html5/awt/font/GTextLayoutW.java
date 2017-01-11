@@ -34,16 +34,20 @@ public class GTextLayoutW implements GTextLayout {
 		// str.indexOf('j') > -1 || str.indexOf('f') > -1;
 	}
 
+	@Override
 	public double getAdvance() {
-		if (advance < 0)
+		if (advance < 0) {
 			advance = frc.measureText(str, ((GFontW) font).getFullFontString());
+		}
 		return advance;
 	}
 
+	@Override
 	public GRectangle2D getBounds() {
 		return new Rectangle((int) getAdvance(), (int) getAscent());
 	}
 
+	@Override
 	public double getAscent() {
 		if (containsLowerCase) {
 			return font.getSize() * 0.75f;
@@ -51,6 +55,7 @@ public class GTextLayoutW implements GTextLayout {
 		return font.getSize() * 0.80f;
 	}
 
+	@Override
 	public double getDescent() {
 		if (containsLowerCase) {
 			return font.getSize() * 0.25f;
@@ -58,6 +63,7 @@ public class GTextLayoutW implements GTextLayout {
 		return font.getSize() * 0.20f;
 	}
 
+	@Override
 	public void draw(GGraphics2D g2, int x, int y) {
 		GFont tempFont = g2.getFont();
 		g2.setFont(font);

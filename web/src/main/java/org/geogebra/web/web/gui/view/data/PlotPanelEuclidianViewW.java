@@ -79,16 +79,19 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	}
 
 
+	@Override
 	public void setViewId(Kernel kernel) {
 	    // get viewID from GuiManager
 		commonFields.setViewID(((GuiManagerW) kernel.getApplication().getGuiManager())
 				.assignPlotPanelID(this));
     }
 
+	@Override
 	public void setEVParams() {
 	    commonFields.setEVParams(this);
     }
 
+	@Override
 	public double getPixelOffset() {
 		return (30 * getApplication().getFontSize()
 				) / 12.0;

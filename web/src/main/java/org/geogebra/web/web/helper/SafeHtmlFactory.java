@@ -18,6 +18,7 @@ public class SafeHtmlFactory {
 	public static SafeHtml getImageHtml(final ImageResource imgres) {
 		return new SafeHtml() {
 
+			@Override
 			public String asString() {
 				return "<img width=\"" + imgres.getWidth() + "\" height=\""
 				        + imgres.getHeight() + "\" src=\""

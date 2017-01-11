@@ -614,15 +614,17 @@ public class DockManagerW extends DockManager {
 		} else {
 			if(source == target) {
 				if(opposite instanceof DockPanel) {
-					if(((DockPanelW) opposite).getParentSplitPane().getOpposite(opposite) == null)
+					if(((DockPanelW) opposite).getParentSplitPane().getOpposite(opposite) == null) {
 						rootPane = newSplitPane;
-					else
+					} else {
 						((DockPanelW) opposite).getParentSplitPane().replaceComponent(opposite, newSplitPane);
+					}
 				} else {
-					if(opposite == rootPane)
+					if(opposite == rootPane) {
 						rootPane = newSplitPane;
-					else
+					} else {
 						((DockSplitPaneW)opposite.getParent()).replaceComponent(opposite, newSplitPane);
+					}
 				}
 				
 				if(dndRegion == DnDState.LEFT || dndRegion == DnDState.TOP) {
@@ -773,8 +775,9 @@ public class DockManagerW extends DockManager {
 		panel.setVisible(true);
 		panel.setHidden(false);
 		// undo maximized state if another dock panel is to be shown
-		if(isMaximized)
+		if(isMaximized) {
 			undoMaximize(false);
+		}
 		
 		// TODO causes any problems?
 		app.getGuiManager().attachView(panel.getViewId());
@@ -795,12 +798,15 @@ public class DockManagerW extends DockManager {
 				locations[i] = Integer.parseInt(def[i]);
 				
 				if(locations[i] > 3 || locations[i] < 0)
+				 {
 					locations[i] = 3; // left as default direction
+				}
 			}
 			
 			// We insert this panel at the left by default
-			if(locations.length == 0) 
+			if(locations.length == 0) {
 				locations = new int[] { 3 };
+			}
 			
 			DockSplitPaneW currentPane = rootPane;
 			int secondLastPos = -1;
@@ -820,10 +826,11 @@ public class DockManagerW extends DockManager {
 				
 				Widget component;
 				
-				if(locations[i] == 0 || locations[i] == 3)
+				if(locations[i] == 0 || locations[i] == 3) {
 					component = currentPane.getLeftComponent();
-				else
+				} else {
 					component = currentPane.getRightComponent();
+				}
 				
 				if(!(component instanceof DockSplitPaneW)) {
 					secondLastPos = locations[i];
@@ -916,8 +923,9 @@ public class DockManagerW extends DockManager {
 				newSplitPane.setRightComponent(panel);
 			}
 			
-			if(!app.isIniting())
+			if(!app.isIniting()) {
 				app.updateCenterPanel(true);
+			}
 			
 			//check new split pane size regarding orientation
 			int newSplitPaneSize;
@@ -931,8 +939,10 @@ public class DockManagerW extends DockManager {
 			}
 			//check if panel size is not too large
 			if (size+DockComponent.MIN_SIZE>newSplitPaneSize)
+			 {
 				size = newSplitPaneSize/2;
 			//set the divider location
+			}
 			
 			//----------------
 			// TODO turned this off for now ... need to fix for web
@@ -1053,8 +1063,9 @@ public class DockManagerW extends DockManager {
 		}
 		
 		//if panel is open in frame, check if it's not the last one
-		if (!panel.isOpenInFrame() && containsLessThanTwoPanels())
+		if (!panel.isOpenInFrame() && containsLessThanTwoPanels()) {
 			return false;
+		}
 		
 		// do in the end, because we need to calculate width/height
 		//panel.setHidden(!isPermanent);
@@ -1094,10 +1105,11 @@ public class DockManagerW extends DockManager {
 			}
 			int orientation = parent.getOrientation();
 			int size = 0;
-			if (orientation == SwingConstants.VERTICAL_SPLIT)
+			if (orientation == SwingConstants.VERTICAL_SPLIT) {
 				size = parentOffsetHeight;
-			else
+			} else {
 				size = parentOffsetWidth;
+			}
 
 
 			if(parent == rootPane) {
@@ -1116,8 +1128,9 @@ public class DockManagerW extends DockManager {
 			}
 			
 			//re dispatch divider location
-			if (opposite!=null)
+			if (opposite!=null) {
 				((DockComponent) opposite).updateDividerLocation(size,orientation);
+			}
 			
 		// TODO: resize here?	
 		//	if(isPermanent) {
@@ -1369,8 +1382,9 @@ public class DockManagerW extends DockManager {
 	@Override
 	public int getFocusedViewId() {
 		
-		if (focusedDockPanel == null)
+		if (focusedDockPanel == null) {
 			return -1;
+		}
 
 		return focusedDockPanel.getViewId();
 	}
@@ -1395,8 +1409,9 @@ public class DockManagerW extends DockManager {
 	 * 		the effect so to say.
 	 */
 	public void moveFocus(boolean forward) {
-		if(focusedDockPanel == null)
+		if(focusedDockPanel == null) {
 			return;
+		}
 		
 		// to follow the DRY principle we'll use a single iterator for both
 		// forward and backward iteration
@@ -1651,8 +1666,9 @@ public class DockManagerW extends DockManager {
 	 */
 	public DockPanelW getPanel(DockPanelData dpData)
 	{
-		if (dpData.getPlane()==null) //standard case
+		if (dpData.getPlane()==null) {
 			return getPanel(dpData.getViewId());
+		}
 		
 		//euclidian view for plane case	
 		DockPanelW panel = (DockPanelW) app.getCompanion().createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
@@ -1715,10 +1731,12 @@ public class DockManagerW extends DockManager {
 	 *            The app frame
 	 */
 	public void init(Panel panel) {
-		if (rootPane == null)
+		if (rootPane == null) {
 			rootPane = new DockSplitPaneW(app);
-		if (rootPane.getParent() == null)
+		}
+		if (rootPane.getParent() == null) {
 			panel.add(rootPane);
+		}
 		panelsMoved = false;
 	}
 
@@ -1744,29 +1762,32 @@ public class DockManagerW extends DockManager {
 		
 		strBuffer.append(strRepeat("-", depth) + "[left]");
 		
-		if(leftComponent == null)
+		if(leftComponent == null) {
 			strBuffer.append("null" + "\n");
-		else if(leftComponent instanceof DockSplitPaneW)
+		} else if(leftComponent instanceof DockSplitPaneW) {
 			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPaneW)leftComponent));
-		else
+		} else {
 			strBuffer.append(leftComponent.toString() + "\n");
+		}
 		
 		strBuffer.append(strRepeat("-", depth) + "[right]");
 		
-		if(rightComponent == null)
+		if(rightComponent == null) {
 			strBuffer.append("null" + "\n");
-		else if(rightComponent instanceof DockSplitPaneW)
+		} else if(rightComponent instanceof DockSplitPaneW) {
 			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPaneW)rightComponent));
-		else
+		} else {
 			strBuffer.append(rightComponent.toString() + "\n");
+		}
 		
 		return strBuffer.toString();
 	}
 	
 	private static String strRepeat(String str, int times)	{
 		StringBuilder strBuffer = new StringBuilder();
-		for(int i = 0; i < times; ++i)
+		for(int i = 0; i < times; ++i) {
 			strBuffer.append(str);
+		}
 		return strBuffer.toString();
 	}
 	
@@ -1806,8 +1827,9 @@ public class DockManagerW extends DockManager {
 	 *            if true, then attempt to restore the previous state
 	 */
 	public void undoMaximize(boolean doRestore) {
-		if (!isMaximized)
+		if (!isMaximized) {
 			return;
+		}
 		
 		isMaximized = false;
 		if (doRestore) {
@@ -1903,6 +1925,7 @@ public class DockManagerW extends DockManager {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				adjustViews(portrait, landscape);
 			}

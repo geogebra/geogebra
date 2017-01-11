@@ -484,25 +484,29 @@ public class FileManagerT extends FileManager {
 			        public void onSuccess(FileEntry metaFile) {
 				        metaFile.getFile(new FileCallback<FileObject, FileError>() {
 
-					        public void onSuccess(FileObject entry) {
+					        @Override
+							public void onSuccess(FileObject entry) {
 						        final FileReader reader = PhoneGapManager
 						                .getPhoneGap().getFile().createReader();
 
 						        reader.setOnloadCallback(new ReaderCallback<FileReader>() {
-							        public void onCallback(FileReader result) {
+							        @Override
+									public void onCallback(FileReader result) {
 								        cb.onSuccess(result.getResult());
 							        }
 						        });
 
 						        reader.setOnErrorCallback(new ReaderCallback<FileReader>() {
-							        public void onCallback(FileReader result) {
+							        @Override
+									public void onCallback(FileReader result) {
 								        cb.onFailure(result.getError());
 							        }
 						        });
 						        reader.readAsText(entry);
 					        }
 
-					        public void onFailure(FileError error) {
+					        @Override
+							public void onFailure(FileError error) {
 						        cb.onFailure(error);
 					        }
 				        });
@@ -783,6 +787,7 @@ public class FileManagerT extends FileManager {
 
 	}
 
+	@Override
 	public void saveLoggedOut(AppW app) {
 		((DialogManagerW) app.getDialogManager()).showSaveDialog();
 	}
@@ -854,17 +859,20 @@ public class FileManagerT extends FileManager {
 	protected void readFile(FileEntry entry, final Callback<String, FileError> cb) {
 		entry.getFile(new FileCallback<FileObject, FileError>() {
 
+			@Override
 			public void onSuccess(FileObject fileObject) {
 				final FileReader reader = PhoneGapManager.getPhoneGap()
 				        .getFile().createReader();
 
 				reader.setOnloadCallback(new ReaderCallback<FileReader>() {
+					@Override
 					public void onCallback(FileReader result) {
 						cb.onSuccess(result.getResult());
 					}
 				});
 
 				reader.setOnErrorCallback(new ReaderCallback<FileReader>() {
+					@Override
 					public void onCallback(FileReader result) {
 						cb.onFailure(result.getError());
 					}
@@ -1052,6 +1060,7 @@ public class FileManagerT extends FileManager {
 		}
 	}
 	
+	@Override
 	public void export(final AppW app) {
 		app.getGgbApi().getBase64(true, new StringHandler() {
 
@@ -1070,16 +1079,19 @@ public class FileManagerT extends FileManager {
 		}
 	}-*/;
 
+	@Override
 	public void showExportAsPictureDialog(String url, String filename, AppW app) {
 		exportImage(url, filename);
 		// TODO check if it really happened
 		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));
 	}
 
+	@Override
 	public boolean hasBase64(Material material) {
 		return true;
 	}
 
+	@Override
 	public void refreshAutosaveTimestamp() {
 		// TODO Auto-generated method stub
 

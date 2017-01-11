@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class EquationEditor implements HasSuggestions {
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
+		@Override
 		public void onSuggestionSelected(Suggestion s) {
 
 			String sugg = s.getReplacementString();
@@ -36,6 +37,7 @@ public class EquationEditor implements HasSuggestions {
 	};
 
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
+		@Override
 		public void onSuggestionsReady(SuggestOracle.Request req,
 		        SuggestOracle.Response res) {
 			updateSuggestions(res);
@@ -271,10 +273,12 @@ public class EquationEditor implements HasSuggestions {
 	 * @return next input from input textfield's history
 	 */
 	public String getNextInput() {
-		if (historyIndex < history.size())
+		if (historyIndex < history.size()) {
 			++historyIndex;
-		if (historyIndex == history.size())
+		}
+		if (historyIndex == history.size()) {
 			return null;
+		}
 
 		return history.get(historyIndex);
 	}
@@ -287,8 +291,9 @@ public class EquationEditor implements HasSuggestions {
 	 */
 	public void addToHistory(String str, String latex) {
 		// exit if the new string is the same as the last entered string
-		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
+		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
 			return;
+		}
 		history.add(str);
 		historyIndex = history.size();
 		if (latex != null) {
@@ -300,10 +305,12 @@ public class EquationEditor implements HasSuggestions {
 	 * @return previous input from input textfield's history
 	 */
 	public String getPreviousInput() {
-		if (history.size() == 0)
+		if (history.size() == 0) {
 			return null;
-		if (historyIndex > 0)
+		}
+		if (historyIndex > 0) {
 			--historyIndex;
+		}
 		return history.get(historyIndex);
 	}
 
@@ -365,6 +372,7 @@ public class EquationEditor implements HasSuggestions {
 		dict = null;
 	}
 
+	@Override
 	public double getMaxSuggestionsHeight() {
 		double ret = (app.getHeight() / 2);
 		if (component != null) {

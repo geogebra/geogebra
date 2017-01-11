@@ -52,6 +52,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		return super.addItem(radioButton.toString(), true, com);
 	}
 	
+	@Override
 	public void addRadioButtonMenuItems(MyActionListener al,
 			String[] items, final String[] actionCommands, int selectedPos, boolean changeText) {
 		texts = items;
@@ -65,6 +66,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		setSelected(selectedPos);
 	}
 
+	@Override
 	public void setSelected(int selectedPos) {
 		clearItems();	
 		for (int i = 0; i < texts.length; i++) {
@@ -75,6 +77,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 			} else {
 				final int j=i;
 				addItem(texts[i], new Command() {
+					@Override
 					public void execute() {
 						setSelected(j);
 						listener.actionPerformed(commands[j]);
@@ -92,10 +95,12 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		itemSideEffect = sc;
 	}
 
+	@Override
 	public int getItemCount() {
 		return getItems().size();
 	}
 
+	@Override
 	public void setEnabled(boolean value) {
 	    for (RadioButton button: radioButtons) {
 	    	if (button != null) {

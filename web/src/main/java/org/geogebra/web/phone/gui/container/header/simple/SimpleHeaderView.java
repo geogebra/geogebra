@@ -39,6 +39,7 @@ public class SimpleHeaderView extends SimplePanel implements FastClickHandler {
 		setStyleName("activeTab", active);
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (!active) {
 			EventUtil.fireEvent(new ViewChangeEvent(view));
