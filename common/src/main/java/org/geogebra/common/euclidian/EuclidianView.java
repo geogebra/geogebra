@@ -402,6 +402,8 @@ public abstract class EuclidianView
 
 	private boolean screenChanged = false;
 
+	private boolean tracing = false;
+
 	protected EuclidianViewCompanion companion;
 
 	/**
@@ -4228,9 +4230,6 @@ public abstract class EuclidianView
 		return bgImageList.size() > 0;
 	}
 
-	/** Whether some trace was painted in this view */
-	protected boolean tracing = false;
-
 	/**
 	 * @return background graphics
 	 */
@@ -5800,5 +5799,9 @@ public abstract class EuclidianView
 		if (viewTextField != null) {
 			viewTextField.remove();
 		}
+	}
+
+	protected boolean isTraceDrawn() {
+		return tracing;
 	}
 }

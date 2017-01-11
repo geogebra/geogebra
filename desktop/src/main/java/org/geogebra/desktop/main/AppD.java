@@ -431,8 +431,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 
-		OS = StringUtil.toLowerCase(System.getProperty("os.name"));
-
 		if (args != null) {
 			handleHelpVersionArgs(args);
 		}
@@ -4673,7 +4671,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
 	 * Windows Vista Windows XP
 	 */
-	private static String OS = StringUtil
+	private static final String OS = StringUtil
 			.toLowerCase(System.getProperty("os.name"));
 
 	public static final boolean MAC_OS = OS.startsWith("mac");

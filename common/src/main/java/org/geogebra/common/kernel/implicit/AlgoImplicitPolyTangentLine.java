@@ -172,7 +172,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 
 	}
 
-	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
+	public GeoPointND getTangentPoint(GeoElement geo, GeoLine l) {
 		// TODO Auto-generated method stub
 		return null;
 	}

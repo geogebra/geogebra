@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
@@ -49,7 +48,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private final AppW app;
 	private SpreadsheetViewW view;
-	private Kernel kernel;
 	private MyTableW table;
 	private SpreadsheetTableModel model;
 	private MyCellEditorW editor;
@@ -68,13 +66,12 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	 */
 	public SpreadsheetMouseListenerW(AppW app, MyTableW table) {
 		this.app = app;
-		kernel = app.getKernel();
 		this.table = table;
 		view = (SpreadsheetViewW) table.getView();
 		model = table.getModel();
 		editor = table.getEditor();
 
-		relativeCopy = new RelativeCopy(kernel);
+		relativeCopy = new RelativeCopy(app.getKernel());
 		longTouchManager = LongTouchManager.getInstance();
 	}
 	

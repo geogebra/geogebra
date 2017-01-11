@@ -264,14 +264,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
-		if (this.isGridOrAxesShown() || this.hasBackgroundImages()
-		        || this.tracing || app.showResetIcon()
+		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
+				|| app.showResetIcon()
 		        || kernel.needToShowAnimationButton()) {
 			((GGraphics2DW) g2).drawImage(bgImage,
 					0, 0);
 		} else {
-			((GGraphics2DW) g2).fillWith(this
-			        .getBackgroundCommon());
+			((GGraphics2DW) g2).fillWith(getBackgroundCommon());
 		}
 
 	}
@@ -348,6 +347,7 @@ public class EuclidianViewW extends EuclidianView implements
 		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
 	}
 
+	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -365,6 +365,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return g4copy.getCanvas().toDataUrl();
 	}
 
+	@Override
 	public GBufferedImageW getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
@@ -463,6 +464,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
+
+	@Override
 	public String getCanvasBase64WithTypeString() {
 		return getCanvasBase64WithTypeString(g2p.getCoordinateSpaceWidth(),
 		        g2p.getCoordinateSpaceHeight(), bgGraphics == null ? null
@@ -577,11 +580,11 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
-			EuclidianController euclidiancontroller, int evNo,
+			EuclidianController euclidiancontroller, int newEvNo,
 			EuclidianSettings settings) {
 
 		final Canvas canvas = euclidianViewPanel.getCanvas();
-		this.evNo = evNo;
+		this.evNo = newEvNo;
 
 		this.g2p = new GGraphics2DW(canvas);
 		g2p.devicePixelRatio = app.getPixelRatio();
@@ -604,6 +607,7 @@ public class EuclidianViewW extends EuclidianView implements
 		updateFirstAndLast(true, true);
 
 		canvas.addAttachHandler(new AttachEvent.Handler() {
+			@Override
 			public void onAttachOrDetach(AttachEvent ae) {
 				if (ae.isAttached()) {
 					// canvas just attached
@@ -658,8 +662,8 @@ public class EuclidianViewW extends EuclidianView implements
 			es = settings;
 			// settings from XML for EV1, EV2
 			// not for eg probability calculator
-		} else if ((evNo == 1) || (evNo == 2)) {
-			es = getApplication().getSettings().getEuclidian(evNo);
+		} else if ((newEvNo == 1) || (newEvNo == 2)) {
+			es = getApplication().getSettings().getEuclidian(newEvNo);
 		}
 
 		if (es != null) {
@@ -809,7 +813,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
-	private void registerDragDropHandlers(
+	private static void registerDragDropHandlers(
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianControllerW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
@@ -943,6 +947,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	@Override
 	public boolean isInFocus() {
 		return isInFocus;
 	}
@@ -1124,6 +1129,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
+	@Override
 	public void resetMsZoomer() {
 		if (msZoomer != null) {
 			msZoomer.reset();
@@ -1135,6 +1141,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return g2p.getCanvas();
 	}
 
+	@Override
 	public GGraphics2DW getG2P() {
 		return g2p;
 	}
@@ -1155,6 +1162,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	@Override
 	public void setAltText() {
 		GeoElement alt = app.getKernel().lookupLabel("altText" + evNo);
 		if (alt == null) {
@@ -1167,14 +1175,17 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
+	@Override
 	public void closeDropdowns() {
 		closeAllDropDowns();
 	}
 
+	@Override
 	public void cancelBlur() {
 		CancelEventTimer.disableBlurEvent();
 	}
 
+	@Override
 	public void getPrintable(final FlowPanel pPanel, Button btPrint) {
 		Log.debug(getPrintingScale());
 		final Image prevImg = new Image();
@@ -1184,6 +1195,7 @@ public class EuclidianViewW extends EuclidianView implements
 		prevImg.addStyleName("prevImg");
 		pPanel.clear();
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				pPanel.add(prevImg);
 				Window.print();
@@ -1198,10 +1210,12 @@ public class EuclidianViewW extends EuclidianView implements
 		});
 	}
 
+	@Override
 	public double getPixelRatio() {
 		return app.getPixelRatio();
 	}
 
+	@Override
 	public void setCursor(EuclidianCursor cursor) {
 		switch (cursor) {
 		case HIT:
@@ -1243,6 +1257,8 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	boolean temp = true;
+
+	@Override
 	public void readText(final String text) {
 		Log.debug("read text: " + text);
 		// String oldAltText = g2p.getAltText();
@@ -1281,6 +1297,7 @@ public class EuclidianViewW extends EuclidianView implements
 			// let's go back to the first one!
 			// but how?? maybe better than jQuery:
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				@Override
 				public void execute() {
 					// in theory, the tabPressed will not be set
 					// to false
