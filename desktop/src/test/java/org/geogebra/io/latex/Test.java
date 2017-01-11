@@ -35,6 +35,7 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -101,8 +102,15 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("Mod[a,b]");
+					.parse("log_{()}");
 			mathField.setFormula(f);
+			mathField.getInternal().getCursorController()
+					.prevCharacter(mathField.getInternal().getEditorState());
+			mathField.getInternal()
+					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0));
+			mathField.getInternal().getInputController().removeCharacters(
+					mathField.getInternal().getEditorState(), 1, 0);
+			mathField.getInternal().update();
 			System.out.println(mathField.getCurrentWord());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
