@@ -1038,11 +1038,11 @@ public class Polynomial implements Comparable<Polynomial> {
 		for (Variable v : pVariables) {
 			vars.append(v + ",");
 		}
-		if (!"".equals(vars)) {
+		if (vars.length() > 0) {
 			vars.setLength(vars.length() - 1);
 		}
 
-		if (!"".equals(vars)) {
+		if (vars.length() > 0) {
 			ret.append(vars);
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);

@@ -20,8 +20,8 @@ public class ProverPureSymbolicMethod {
 	/**
 	 * Proves the statement by using pure symbolic method
 	 * 
-	 * @param statement
-	 *            the statement to prove
+	 * @param prover
+	 *            the prover to be used
 	 * @return if the proof was successful
 	 */
 	public static ProofResult prove(Prover prover) {
