@@ -12,7 +12,7 @@ public class EditorState {
     private MathSequence rootComponent;
 
     private MathSequence currentField;
-    private Integer currentOffset;
+    private int currentOffset;
 
 	private MathComponent currentSelStart, currentSelEnd;
 	private MathComponent selectionAnchor;
@@ -37,11 +37,11 @@ public class EditorState {
         this.currentField = currentField;
     }
 
-    public Integer getCurrentOffset() {
+    public int getCurrentOffset() {
         return currentOffset;
     }
 
-    public void setCurrentOffset(Integer currentOffset) {
+    public void setCurrentOffset(int currentOffset) {
         this.currentOffset = currentOffset;
     }
 
