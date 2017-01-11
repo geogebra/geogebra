@@ -236,8 +236,12 @@ final class Order3 extends Curve {
         // REMIND: Better accuracy in the root finding methods would
         //  ensure that cys are in range.  As it stands, they are never
         //  more than "1 mantissa bit" out of range...
-        if (cy0 < y0) cy0 = y0;
-        if (cy1 > y1) cy1 = y1;
+        if (cy0 < y0) {
+			cy0 = y0;
+		}
+        if (cy1 > y1) {
+			cy1 = y1;
+		}
         this.x0 = x0;
         this.y0 = y0;
         this.cx0 = cx0;
@@ -259,39 +263,48 @@ final class Order3 extends Curve {
         YforT1 = YforT2 = YforT3 = y0;
     }
 
-    public int getOrder() {
+    @Override
+	public int getOrder() {
         return 3;
     }
 
-    public double getXTop() {
+    @Override
+	public double getXTop() {
         return x0;
     }
 
-    public double getYTop() {
+    @Override
+	public double getYTop() {
         return y0;
     }
 
-    public double getXBot() {
+    @Override
+	public double getXBot() {
         return x1;
     }
 
-    public double getYBot() {
+    @Override
+	public double getYBot() {
         return y1;
     }
 
-    public double getXMin() {
+    @Override
+	public double getXMin() {
         return xmin;
     }
 
-    public double getXMax() {
+    @Override
+	public double getXMax() {
         return xmax;
     }
 
-    public double getX0() {
+    @Override
+	public double getX0() {
         return (direction == INCREASING) ? x0 : x1;
     }
 
-    public double getY0() {
+    @Override
+	public double getY0() {
         return (direction == INCREASING) ? y0 : y1;
     }
 
@@ -311,11 +324,13 @@ final class Order3 extends Curve {
         return (direction == DECREASING) ? cy0 : cy1;
     }
 
-    public double getX1() {
+    @Override
+	public double getX1() {
         return (direction == DECREASING) ? x0 : x1;
     }
 
-    public double getY1() {
+    @Override
+	public double getY1() {
         return (direction == DECREASING) ? y0 : y1;
     }
 
@@ -333,12 +348,23 @@ final class Order3 extends Curve {
      *     x^3 + (ycoeff2)x^2 + (ycoeff1)x + (ycoeff0) = y
      * @return the first valid root (in the range [0, 1])
      */
-    public double TforY(double y) {
-        if (y <= y0) return 0;
-        if (y >= y1) return 1;
-        if (y == YforT1) return TforY1;
-        if (y == YforT2) return TforY2;
-        if (y == YforT3) return TforY3;
+    @Override
+	public double TforY(double y) {
+        if (y <= y0) {
+			return 0;
+		}
+        if (y >= y1) {
+			return 1;
+		}
+        if (y == YforT1) {
+			return TforY1;
+		}
+        if (y == YforT2) {
+			return TforY2;
+		}
+        if (y == YforT3) {
+			return TforY3;
+		}
         // From Numerical Recipes, 5.6, Quadratic and Cubic Equations
         if (ycoeff3 == 0.0) {
             // The cubic degenerated to quadratic (or line or ...).
@@ -455,7 +481,8 @@ final class Order3 extends Curve {
         return (t > 1) ? -1 : t;
     }
 
-    public double XforY(double y) {
+    @Override
+	public double XforY(double y) {
         if (y <= y0) {
             return x0;
         }
@@ -465,15 +492,18 @@ final class Order3 extends Curve {
         return XforT(TforY(y));
     }
 
-    public double XforT(double t) {
+    @Override
+	public double XforT(double t) {
         return (((xcoeff3 * t) + xcoeff2) * t + xcoeff1) * t + xcoeff0;
     }
 
-    public double YforT(double t) {
+    @Override
+	public double YforT(double t) {
         return (((ycoeff3 * t) + ycoeff2) * t + ycoeff1) * t + ycoeff0;
     }
 
-    public double dXforT(double t, int deriv) {
+    @Override
+	public double dXforT(double t, int deriv) {
         switch (deriv) {
         case 0:
             return (((xcoeff3 * t) + xcoeff2) * t + xcoeff1) * t + xcoeff0;
@@ -488,7 +518,8 @@ final class Order3 extends Curve {
         }
     }
 
-    public double dYforT(double t, int deriv) {
+    @Override
+	public double dYforT(double t, int deriv) {
         switch (deriv) {
         case 0:
             return (((ycoeff3 * t) + ycoeff2) * t + ycoeff1) * t + ycoeff0;
@@ -503,7 +534,8 @@ final class Order3 extends Curve {
         }
     }
 
-    public double nextVertical(double t0, double t1) {
+    @Override
+	public double nextVertical(double t0, double t1) {
         double eqn[] = {xcoeff1, 2 * xcoeff2, 3 * xcoeff3};
         int numroots = QuadCurve2D.solveQuadratic(eqn, eqn);
         for (int i = 0; i < numroots; i++) {
@@ -514,7 +546,8 @@ final class Order3 extends Curve {
         return t1;
     }
 
-    public void enlarge(Rectangle2D r) {
+    @Override
+	public void enlarge(Rectangle2D r) {
         r.add(x0, y0);
         double eqn[] = {xcoeff1, 2 * xcoeff2, 3 * xcoeff3};
         int numroots = QuadCurve2D.solveQuadratic(eqn, eqn);
@@ -527,7 +560,8 @@ final class Order3 extends Curve {
         r.add(x1, y1);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
+    @Override
+	public Curve getSubCurve(double ystart, double yend, int dir) {
         if (ystart <= y0 && yend >= y1) {
             return getWithDirection(dir);
         }
@@ -579,11 +613,13 @@ final class Order3 extends Curve {
                           dir);
     }
 
-    public Curve getReversedCurve() {
+    @Override
+	public Curve getReversedCurve() {
         return new Order3(x0, y0, cx0, cy0, cx1, cy1, x1, y1, -direction);
     }
 
-    public int getSegment(double coords[]) {
+    @Override
+	public int getSegment(double coords[]) {
         if (direction == INCREASING) {
             coords[0] = cx0;
             coords[1] = cy0;
@@ -602,7 +638,8 @@ final class Order3 extends Curve {
         return PathIterator.SEG_CUBICTO;
     }
 
-    public String controlPointString() {
+    @Override
+	public String controlPointString() {
         return (("("+round(getCX0())+", "+round(getCY0())+"), ")+
                 ("("+round(getCX1())+", "+round(getCY1())+"), "));
     }

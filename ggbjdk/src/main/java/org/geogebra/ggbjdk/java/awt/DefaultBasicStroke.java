@@ -153,22 +153,27 @@ public class DefaultBasicStroke implements GBasicStroke {
 		this(width, CAP_SQUARE, JOIN_MITER, 10, null, 0);
 	}
 
+	@Override
 	public double getLineWidth() {
 		return width;
 	}
 
+	@Override
 	public int getEndCap() {
 		return cap;
 	}
 
+	@Override
 	public int getLineJoin() {
 		return join;
 	}
 
+	@Override
 	public double getMiterLimit() {
 		return miterLimit;
 	}
 
+	@Override
 	public double[] getDashArray() {
 		return dash;
 	}
@@ -215,6 +220,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 		return width * width * Math.sin(Math.PI * CORNER_ZERO / 180.0);
 	}
 
+	@Override
 	public GShape createStrokedShape(GShape s) {
 		w2 = width / 2.0;
 		curveDelta = getCurveDelta(w2);

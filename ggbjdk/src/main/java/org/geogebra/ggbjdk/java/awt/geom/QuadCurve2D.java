@@ -134,7 +134,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX1() {
+        @Override
+		public double getX1() {
             return x1;
         }
 
@@ -142,7 +143,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY1() {
+        @Override
+		public double getY1() {
             return y1;
         }
 
@@ -150,7 +152,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getP1() {
+        @Override
+		public Point2D getP1() {
             return new Point2D.Double(x1, y1);
         }
 
@@ -158,7 +161,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getCtrlX() {
+        @Override
+		public double getCtrlX() {
             return ctrlx;
         }
 
@@ -166,7 +170,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getCtrlY() {
+        @Override
+		public double getCtrlY() {
             return ctrly;
         }
 
@@ -174,7 +179,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getCtrlPt() {
+        @Override
+		public Point2D getCtrlPt() {
             return new Point2D.Double(ctrlx, ctrly);
         }
 
@@ -182,7 +188,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX2() {
+        @Override
+		public double getX2() {
             return x2;
         }
 
@@ -190,7 +197,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY2() {
+        @Override
+		public double getY2() {
             return y2;
         }
 
@@ -198,7 +206,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Point2D getP2() {
+        @Override
+		public Point2D getP2() {
             return new Point2D.Double(x2, y2);
         }
 
@@ -206,7 +215,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setCurve(double x1, double y1,
+        @Override
+		public void setCurve(double x1, double y1,
                              double ctrlx, double ctrly,
                              double x2, double y2)
         {
@@ -222,7 +232,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
+        @Override
+		public Rectangle2D getBounds2D() {
             double left   = Math.min(Math.min(x1, x2), ctrlx);
             double top    = Math.min(Math.min(y1, y2), ctrly);
             double right  = Math.max(Math.max(x1, x2), ctrlx);
@@ -336,7 +347,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * @param y2 the Y coordinate of the end point
      * @since 1.2
      */
-    public abstract void setCurve(double x1, double y1,
+    @Override
+	public abstract void setCurve(double x1, double y1,
                                   double ctrlx, double ctrly,
                                   double x2, double y2);
 
@@ -350,7 +362,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      *          <code>QuadCurve2D</code>
      * @since 1.2
      */
-    public void setCurve(double[] coords, int offset) {
+    @Override
+	public void setCurve(double[] coords, int offset) {
         setCurve(coords[offset + 0], coords[offset + 1],
                  coords[offset + 2], coords[offset + 3],
                  coords[offset + 4], coords[offset + 5]);
@@ -709,7 +722,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    @Override
+	public boolean contains(double x, double y) {
 
         double x1 = getX1();
         double y1 = getY1();
@@ -811,7 +825,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(GPoint2D p) {
+    @Override
+	public boolean contains(GPoint2D p) {
         return contains(p.getX(), p.getY());
     }
 
@@ -913,7 +928,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    @Override
+	public boolean intersects(double x, double y, double w, double h) {
         // Trivially reject non-existant rectangles
         if (w <= 0 || h <= 0) {
             return false;
@@ -1097,7 +1113,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(GRectangle2D r) {
+    @Override
+	public boolean intersects(GRectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -1105,7 +1122,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    @Override
+	public boolean contains(double x, double y, double w, double h) {
         if (w <= 0 || h <= 0) {
             return false;
         }
@@ -1121,7 +1139,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(GRectangle2D r) {
+    @Override
+	public boolean contains(GRectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -1129,7 +1148,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * {@inheritDoc}
      * @since 1.2
      */
-    public GRectangle getBounds() {
+    @Override
+	public GRectangle getBounds() {
         return getBounds2D().getBounds();
     }
 
@@ -1147,7 +1167,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      *          of the shape.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at) {
         return new QuadIterator(this, at);
     }
 
@@ -1169,7 +1190,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      *          flattened boundary of the shape.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
         return new FlatteningPathIterator(getPathIterator(at), flatness);
     }
 

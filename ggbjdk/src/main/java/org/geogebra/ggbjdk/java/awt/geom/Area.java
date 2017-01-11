@@ -231,7 +231,8 @@ public class Area implements Shape, Cloneable, GArea {
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void add(GArea rhs) {
+    @Override
+	public void add(GArea rhs) {
         curves = new AreaOp.AddOp().calculate(this.curves, ((Area)rhs).curves);
         invalidateBounds();
     }
@@ -264,7 +265,8 @@ public class Area implements Shape, Cloneable, GArea {
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void subtract(GArea rhs) {
+    @Override
+	public void subtract(GArea rhs) {
         curves = new AreaOp.SubOp().calculate(this.curves, ((Area)rhs).curves);
         invalidateBounds();
     }
@@ -297,7 +299,8 @@ public class Area implements Shape, Cloneable, GArea {
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void intersect(GArea rhs) {
+    @Override
+	public void intersect(GArea rhs) {
         curves = new AreaOp.IntOp().calculate(this.curves, ((Area)rhs).curves);
         invalidateBounds();
     }
@@ -331,7 +334,8 @@ public class Area implements Shape, Cloneable, GArea {
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void exclusiveOr(GArea rhs) {
+    @Override
+	public void exclusiveOr(GArea rhs) {
         curves = new AreaOp.XorOp().calculate(this.curves, ((Area)rhs).curves);
         invalidateBounds();
     }
@@ -352,7 +356,8 @@ public class Area implements Shape, Cloneable, GArea {
      * represents an empty area; <code>false</code> otherwise.
      * @since 1.2
      */
-    public boolean isEmpty() {
+    @Override
+	public boolean isEmpty() {
         return (curves.size() == 0);
     }
 
@@ -462,7 +467,8 @@ public class Area implements Shape, Cloneable, GArea {
      * <code>Area</code>.
      * @since 1.2
      */
-    public GRectangle2D getBounds2D() {
+    @Override
+	public GRectangle2D getBounds2D() {
         return getCachedBounds().getBounds2D();
     }
 
@@ -482,7 +488,8 @@ public class Area implements Shape, Cloneable, GArea {
      * <code>Area</code>.
      * @since 1.2
      */
-    public GRectangle getBounds() {
+    @Override
+	public GRectangle getBounds() {
         return getCachedBounds().getBounds();
     }
 
@@ -491,7 +498,8 @@ public class Area implements Shape, Cloneable, GArea {
      * @return    Created clone object
      * @since 1.2
      */
-    public Object clone() {
+    @SuppressWarnings("all")
+	public Object clone() {
         return new Area(this);
     }
 
@@ -559,7 +567,8 @@ public class Area implements Shape, Cloneable, GArea {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    @Override
+	public boolean contains(double x, double y) {
         if (!getCachedBounds().contains(x, y)) {
             return false;
         }
@@ -576,7 +585,8 @@ public class Area implements Shape, Cloneable, GArea {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(GPoint2D p) {
+    @Override
+	public boolean contains(GPoint2D p) {
         return contains(p.getX(), p.getY());
     }
 
@@ -584,7 +594,8 @@ public class Area implements Shape, Cloneable, GArea {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    @Override
+	public boolean contains(double x, double y, double w, double h) {
         if (w < 0 || h < 0) {
             return false;
         }
@@ -599,7 +610,8 @@ public class Area implements Shape, Cloneable, GArea {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(GRectangle2D r) {
+    @Override
+	public boolean contains(GRectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -607,7 +619,8 @@ public class Area implements Shape, Cloneable, GArea {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    @Override
+	public boolean intersects(double x, double y, double w, double h) {
         if (w < 0 || h < 0) {
             return false;
         }
@@ -622,7 +635,8 @@ public class Area implements Shape, Cloneable, GArea {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(GRectangle2D r) {
+    @Override
+	public boolean intersects(GRectangle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -637,7 +651,8 @@ public class Area implements Shape, Cloneable, GArea {
      *          segment at a time.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at) {
         return new AreaIterator(curves, at);
     }
 
@@ -659,7 +674,8 @@ public class Area implements Shape, Cloneable, GArea {
      * at a time.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
         return new FlatteningPathIterator(getPathIterator(at), flatness);
     }
 
@@ -691,18 +707,21 @@ class AreaIterator implements GPathIterator {
         }
     }
 
-    public int getWindingRule() {
+    @Override
+	public int getWindingRule() {
         // REMIND: Which is better, EVEN_ODD or NON_ZERO?
         //         The paths calculated could be classified either way.
         //return WIND_EVEN_ODD;
         return WIND_NON_ZERO;
     }
 
-    public boolean isDone() {
+    @Override
+	public boolean isDone() {
         return (prevcurve == null && thiscurve == null);
     }
 
-    public void next() {
+    @Override
+	public void next() {
         if (prevcurve != null) {
             prevcurve = null;
         } else {
@@ -722,7 +741,8 @@ class AreaIterator implements GPathIterator {
         }
     }
 
-    public int currentSegment(double coords[]) {
+    @Override
+	public int currentSegment(double coords[]) {
         int segtype;
         int numpoints;
         if (prevcurve != null) {

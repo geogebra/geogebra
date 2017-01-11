@@ -54,51 +54,63 @@ final class Order1 extends Curve {
         }
     }
 
-    public int getOrder() {
+    @Override
+	public int getOrder() {
         return 1;
     }
 
-    public double getXTop() {
+    @Override
+	public double getXTop() {
         return x0;
     }
 
-    public double getYTop() {
+    @Override
+	public double getYTop() {
         return y0;
     }
 
-    public double getXBot() {
+    @Override
+	public double getXBot() {
         return x1;
     }
 
-    public double getYBot() {
+    @Override
+	public double getYBot() {
         return y1;
     }
 
-    public double getXMin() {
+    @Override
+	public double getXMin() {
         return xmin;
     }
 
-    public double getXMax() {
+    @Override
+	public double getXMax() {
         return xmax;
     }
 
-    public double getX0() {
+    @Override
+	public double getX0() {
         return (direction == INCREASING) ? x0 : x1;
     }
 
-    public double getY0() {
+    @Override
+	public double getY0() {
         return (direction == INCREASING) ? y0 : y1;
     }
 
-    public double getX1() {
+    @Override
+	public double getX1() {
         return (direction == DECREASING) ? x0 : x1;
     }
 
-    public double getY1() {
+    @Override
+	public double getY1() {
         return (direction == DECREASING) ? y0 : y1;
     }
 
-    public double XforY(double y) {
+    @Override
+	public double XforY(double y) {
         if (x0 == x1 || y <= y0) {
             return x0;
         }
@@ -109,7 +121,8 @@ final class Order1 extends Curve {
         return (x0 + (y - y0) * (x1 - x0) / (y1 - y0));
     }
 
-    public double TforY(double y) {
+    @Override
+	public double TforY(double y) {
         if (y <= y0) {
             return 0;
         }
@@ -119,15 +132,18 @@ final class Order1 extends Curve {
         return (y - y0) / (y1 - y0);
     }
 
-    public double XforT(double t) {
+    @Override
+	public double XforT(double t) {
         return x0 + t * (x1 - x0);
     }
 
-    public double YforT(double t) {
+    @Override
+	public double YforT(double t) {
         return y0 + t * (y1 - y0);
     }
 
-    public double dXforT(double t, int deriv) {
+    @Override
+	public double dXforT(double t, int deriv) {
         switch (deriv) {
         case 0:
             return x0 + t * (x1 - x0);
@@ -138,7 +154,8 @@ final class Order1 extends Curve {
         }
     }
 
-    public double dYforT(double t, int deriv) {
+    @Override
+	public double dYforT(double t, int deriv) {
         switch (deriv) {
         case 0:
             return y0 + t * (y1 - y0);
@@ -149,11 +166,13 @@ final class Order1 extends Curve {
         }
     }
 
-    public double nextVertical(double t0, double t1) {
+    @Override
+	public double nextVertical(double t0, double t1) {
         return t1;
     }
 
-    public boolean accumulateCrossings(Crossings c) {
+    @Override
+	public boolean accumulateCrossings(Crossings c) {
         double xlo = c.getXLo();
         double ylo = c.getYLo();
         double xhi = c.getXHi();
@@ -192,12 +211,14 @@ final class Order1 extends Curve {
         return false;
     }
 
-    public void enlarge(Rectangle2D r) {
+    @Override
+	public void enlarge(Rectangle2D r) {
         r.add(x0, y0);
         r.add(x1, y1);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
+    @Override
+	public Curve getSubCurve(double ystart, double yend, int dir) {
         if (ystart == y0 && yend == y1) {
             return getWithDirection(dir);
         }
@@ -211,11 +232,13 @@ final class Order1 extends Curve {
         return new Order1(xstart, ystart, xend, yend, dir);
     }
 
-    public Curve getReversedCurve() {
+    @Override
+	public Curve getReversedCurve() {
         return new Order1(x0, y0, x1, y1, -direction);
     }
 
-    public int compareTo(Curve other, double yrange[]) {
+    @Override
+	public int compareTo(Curve other, double yrange[]) {
         if (!(other instanceof Order1)) {
             return super.compareTo(other, yrange);
         }
@@ -298,7 +321,8 @@ final class Order1 extends Curve {
         return orderof(XforY(y), c1.XforY(y));
     }
 
-    public int getSegment(double coords[]) {
+    @Override
+	public int getSegment(double coords[]) {
         if (direction == INCREASING) {
             coords[0] = x1;
             coords[1] = y1;

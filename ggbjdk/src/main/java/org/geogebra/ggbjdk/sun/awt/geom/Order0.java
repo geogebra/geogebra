@@ -38,102 +38,126 @@ final class Order0 extends Curve {
         this.y = y;
     }
 
-    public int getOrder() {
+    @Override
+	public int getOrder() {
         return 0;
     }
 
-    public double getXTop() {
+    @Override
+	public double getXTop() {
         return x;
     }
 
-    public double getYTop() {
+    @Override
+	public double getYTop() {
         return y;
     }
 
-    public double getXBot() {
+    @Override
+	public double getXBot() {
         return x;
     }
 
-    public double getYBot() {
+    @Override
+	public double getYBot() {
         return y;
     }
 
-    public double getXMin() {
+    @Override
+	public double getXMin() {
         return x;
     }
 
-    public double getXMax() {
+    @Override
+	public double getXMax() {
         return x;
     }
 
-    public double getX0() {
+    @Override
+	public double getX0() {
         return x;
     }
 
-    public double getY0() {
+    @Override
+	public double getY0() {
         return y;
     }
 
-    public double getX1() {
+    @Override
+	public double getX1() {
         return x;
     }
 
-    public double getY1() {
+    @Override
+	public double getY1() {
         return y;
     }
 
-    public double XforY(double y) {
+    @Override
+	public double XforY(double y) {
         return y;
     }
 
-    public double TforY(double y) {
+    @Override
+	public double TforY(double y) {
         return 0;
     }
 
-    public double XforT(double t) {
+    @Override
+	public double XforT(double t) {
         return x;
     }
 
-    public double YforT(double t) {
+    @Override
+	public double YforT(double t) {
         return y;
     }
 
-    public double dXforT(double t, int deriv) {
+    @Override
+	public double dXforT(double t, int deriv) {
         return 0;
     }
 
-    public double dYforT(double t, int deriv) {
+    @Override
+	public double dYforT(double t, int deriv) {
         return 0;
     }
 
-    public double nextVertical(double t0, double t1) {
+    @Override
+	public double nextVertical(double t0, double t1) {
         return t1;
     }
 
-    public int crossingsFor(double x, double y) {
+    @Override
+	public int crossingsFor(double x, double y) {
         return 0;
     }
 
-    public boolean accumulateCrossings(Crossings c) {
+    @Override
+	public boolean accumulateCrossings(Crossings c) {
         return (x > c.getXLo() &&
                 x < c.getXHi() &&
                 y > c.getYLo() &&
                 y < c.getYHi());
     }
 
-    public void enlarge(Rectangle2D r) {
+    @Override
+	public void enlarge(Rectangle2D r) {
         r.add(x, y);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
+    @Override
+	public Curve getSubCurve(double ystart, double yend, int dir) {
         return this;
     }
 
-    public Curve getReversedCurve() {
+    @Override
+	public Curve getReversedCurve() {
         return this;
     }
 
-    public int getSegment(double coords[]) {
+    @Override
+	public int getSegment(double coords[]) {
         coords[0] = x;
         coords[1] = y;
         return PathIterator.SEG_MOVETO;

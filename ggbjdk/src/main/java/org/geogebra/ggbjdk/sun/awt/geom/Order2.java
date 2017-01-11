@@ -187,39 +187,48 @@ final class Order2 extends Curve {
         ycoeff2 = y0 - cy0 - cy0 + y1;
     }
 
-    public int getOrder() {
+    @Override
+	public int getOrder() {
         return 2;
     }
 
-    public double getXTop() {
+    @Override
+	public double getXTop() {
         return x0;
     }
 
-    public double getYTop() {
+    @Override
+	public double getYTop() {
         return y0;
     }
 
-    public double getXBot() {
+    @Override
+	public double getXBot() {
         return x1;
     }
 
-    public double getYBot() {
+    @Override
+	public double getYBot() {
         return y1;
     }
 
-    public double getXMin() {
+    @Override
+	public double getXMin() {
         return xmin;
     }
 
-    public double getXMax() {
+    @Override
+	public double getXMax() {
         return xmax;
     }
 
-    public double getX0() {
+    @Override
+	public double getX0() {
         return (direction == INCREASING) ? x0 : x1;
     }
 
-    public double getY0() {
+    @Override
+	public double getY0() {
         return (direction == INCREASING) ? y0 : y1;
     }
 
@@ -231,15 +240,18 @@ final class Order2 extends Curve {
         return cy0;
     }
 
-    public double getX1() {
+    @Override
+	public double getX1() {
         return (direction == DECREASING) ? x0 : x1;
     }
 
-    public double getY1() {
+    @Override
+	public double getY1() {
         return (direction == DECREASING) ? y0 : y1;
     }
 
-    public double XforY(double y) {
+    @Override
+	public double XforY(double y) {
         if (y <= y0) {
             return x0;
         }
@@ -249,7 +261,8 @@ final class Order2 extends Curve {
         return XforT(TforY(y));
     }
 
-    public double TforY(double y) {
+    @Override
+	public double TforY(double y) {
         if (y <= y0) {
             return 0;
         }
@@ -341,15 +354,18 @@ final class Order2 extends Curve {
         return (0 < (y0 + y1) / 2) ? 0.0 : 1.0;
     }
 
-    public double XforT(double t) {
+    @Override
+	public double XforT(double t) {
         return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
     }
 
-    public double YforT(double t) {
+    @Override
+	public double YforT(double t) {
         return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
     }
 
-    public double dXforT(double t, int deriv) {
+    @Override
+	public double dXforT(double t, int deriv) {
         switch (deriv) {
         case 0:
             return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
@@ -362,7 +378,8 @@ final class Order2 extends Curve {
         }
     }
 
-    public double dYforT(double t, int deriv) {
+    @Override
+	public double dYforT(double t, int deriv) {
         switch (deriv) {
         case 0:
             return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
@@ -375,7 +392,8 @@ final class Order2 extends Curve {
         }
     }
 
-    public double nextVertical(double t0, double t1) {
+    @Override
+	public double nextVertical(double t0, double t1) {
         double t = -xcoeff1 / (2 * xcoeff2);
         if (t > t0 && t < t1) {
             return t;
@@ -383,7 +401,8 @@ final class Order2 extends Curve {
         return t1;
     }
 
-    public void enlarge(Rectangle2D r) {
+    @Override
+	public void enlarge(Rectangle2D r) {
         r.add(x0, y0);
         double t = -xcoeff1 / (2 * xcoeff2);
         if (t > 0 && t < 1) {
@@ -392,7 +411,8 @@ final class Order2 extends Curve {
         r.add(x1, y1);
     }
 
-    public Curve getSubCurve(double ystart, double yend, int dir) {
+    @Override
+	public Curve getSubCurve(double ystart, double yend, int dir) {
         double t0, t1;
         if (ystart <= y0) {
             if (yend >= y1) {
@@ -430,11 +450,13 @@ final class Order2 extends Curve {
                           dir);
     }
 
-    public Curve getReversedCurve() {
+    @Override
+	public Curve getReversedCurve() {
         return new Order2(x0, y0, cx0, cy0, x1, y1, -direction);
     }
 
-    public int getSegment(double coords[]) {
+    @Override
+	public int getSegment(double coords[]) {
         coords[0] = cx0;
         coords[1] = cy0;
         if (direction == INCREASING) {
@@ -447,7 +469,8 @@ final class Order2 extends Curve {
         return PathIterator.SEG_QUADTO;
     }
 
-    public String controlPointString() {
+    @Override
+	public String controlPointString() {
         return ("("+round(cx0)+", "+round(cy0)+"), ");
     }
 }

@@ -86,8 +86,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
             this.y = y;
         }
         
-        //@Override
-        public Object clone() {
+        @SuppressWarnings("all")
+		public Object clone() {
         	return new Double(x, y);
         }
 
@@ -95,7 +95,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX() {
+        @Override
+		public double getX() {
             return x;
         }
 
@@ -103,7 +104,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY() {
+        @Override
+		public double getY() {
             return y;
         }
 
@@ -111,7 +113,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setLocation(double x, double y) {
+        @Override
+		public void setLocation(double x, double y) {
             this.x = x;
             this.y = y;
         }
@@ -122,7 +125,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
          * @return a string representation of this <code>Point2D</code>.
          * @since 1.2
          */
-        public String toString() {
+        @Override
+		public String toString() {
             return "Point2D.Double["+x+", "+y+"]";
         }
 
@@ -163,7 +167,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * @return the X coordinate of this <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract double getX();
+    @Override
+	public abstract double getX();
 
     /**
      * Returns the Y coordinate of this <code>Point2D</code> in
@@ -171,7 +176,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * @return the Y coordinate of this <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract double getY();
+    @Override
+	public abstract double getY();
 
     /**
      * Sets the location of this <code>Point2D</code> to the
@@ -181,7 +187,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * @param y the new Y coordinate of this {@code Point2D}
      * @since 1.2
      */
-    public abstract void setLocation(double x, double y);
+    @Override
+	public abstract void setLocation(double x, double y);
 
     /**
      * Sets the location of this <code>Point2D</code> to the same
@@ -278,7 +285,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * and a specified point.
      * @since 1.2
      */
-    public double distance(double px, double py) {
+    @Override
+	public double distance(double px, double py) {
         px -= getX();
         py -= getY();
         return Math.sqrt(px * px + py * py);
@@ -294,7 +302,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * the specified <code>Point2D</code>.
      * @since 1.2
      */
-    public double distance(GPoint2D pt) {
+    @Override
+	public double distance(GPoint2D pt) {
         double px = pt.getX() - this.getX();
         double py = pt.getY() - this.getY();
         return Math.sqrt(px * px + py * py);
@@ -321,7 +330,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * Returns the hashcode for this <code>Point2D</code>.
      * @return      a hash code for this <code>Point2D</code>.
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         long bits = java.lang.Double.doubleToLongBits(getX());
         bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
         return (((int) bits) ^ ((int) (bits >> 32)));
@@ -338,7 +348,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      *         the same values; <code>false</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj instanceof GPoint2D) {
             GPoint2D p2d = (GPoint2D) obj;
             return (getX() == p2d.getX()) && (getY() == p2d.getY());

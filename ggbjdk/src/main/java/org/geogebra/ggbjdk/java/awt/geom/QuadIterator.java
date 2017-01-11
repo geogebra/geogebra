@@ -52,7 +52,8 @@ class QuadIterator implements GPathIterator {
      * @see #WIND_EVEN_ODD
      * @see #WIND_NON_ZERO
      */
-    public int getWindingRule() {
+    @Override
+	public int getWindingRule() {
         return WIND_NON_ZERO;
     }
 
@@ -60,7 +61,8 @@ class QuadIterator implements GPathIterator {
      * Tests if there are more points to read.
      * @return true if there are more points to read
      */
-    public boolean isDone() {
+    @Override
+	public boolean isDone() {
         return (index > 1);
     }
 
@@ -69,7 +71,8 @@ class QuadIterator implements GPathIterator {
      * along the primary direction of traversal as long as there are
      * more points in that direction.
      */
-    public void next() {
+    @Override
+	public void next() {
         index++;
     }
 
@@ -91,7 +94,8 @@ class QuadIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(double[] coords) {
+    @Override
+	public int currentSegment(double[] coords) {
         if (isDone()) {
             throw new NoSuchElementException("quad iterator iterator out of bounds");
         }

@@ -116,7 +116,8 @@ final class Edge {
         return (this.etag == etag && this.activey >= y);
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return ("Edge["+curve+
                 ", "+
                 (ctag == AreaOp.CTAG_LEFT ? "L" : "R")+

@@ -137,7 +137,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX() {
+        @Override
+		public double getX() {
             return x;
         }
 
@@ -145,7 +146,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY() {
+        @Override
+		public double getY() {
             return y;
         }
 
@@ -153,7 +155,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getWidth() {
+        @Override
+		public double getWidth() {
             return width;
         }
 
@@ -161,7 +164,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getHeight() {
+        @Override
+		public double getHeight() {
             return height;
         }
 
@@ -169,7 +173,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0) || (height <= 0.0);
         }
 
@@ -177,7 +182,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRect(double x, double y, double w, double h) {
+        @Override
+		public void setRect(double x, double y, double w, double h) {
             this.x = x;
             this.y = y;
             this.width = w;
@@ -188,7 +194,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRect(GRectangle2D r) {
+        @Override
+		public void setRect(GRectangle2D r) {
             this.x = r.getX();
             this.y = r.getY();
             this.width = r.getWidth();
@@ -199,7 +206,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public int outcode(double x, double y) {
+        @Override
+		public int outcode(double x, double y) {
             int out = 0;
             if (this.width <= 0) {
                 out |= OUT_LEFT | OUT_RIGHT;
@@ -222,7 +230,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
+        @Override
+		public Rectangle2D getBounds2D() {
             return new Double(x, y, width, height);
         }
 
@@ -230,7 +239,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D createIntersection(GRectangle2D r) {
+        @Override
+		public GRectangle2D createIntersection(GRectangle2D r) {
             GRectangle2D dest = new Rectangle2D.Double();
             Rectangle2D.intersect(this, r, dest);
             return dest;
@@ -240,7 +250,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D createUnion(GRectangle2D r) {
+        @Override
+		public GRectangle2D createUnion(GRectangle2D r) {
             GRectangle2D dest = new Rectangle2D.Double();
             Rectangle2D.union(this, r, dest);
             return dest;
@@ -253,7 +264,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * <code>Rectangle2D</code>.
          * @since 1.2
          */
-        public String toString() {
+        @Override
+		public String toString() {
             return getClass().getName()
                 + "[x=" + x +
                 ",y=" + y +
@@ -294,7 +306,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @param h the height of this <code>Rectangle2D</code>
      * @since 1.2
      */
-    public abstract void setRect(double x, double y, double w, double h);
+    @Override
+	public abstract void setRect(double x, double y, double w, double h);
 
     /**
      * Sets this <code>Rectangle2D</code> to be the same as the specified
@@ -323,7 +336,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * otherwise.
      * @since 1.2
      */
-    public boolean intersectsLine(double x1, double y1, double x2, double y2) {
+    @Override
+	public boolean intersectsLine(double x1, double y1, double x2, double y2) {
         int out1, out2;
         if ((out2 = outcode(x2, y2)) == 0) {
             return true;
@@ -414,7 +428,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @param h the height of this <code>Rectangle2D</code>
      * @since 1.2
      */
-    public void setFrame(double x, double y, double w, double h) {
+    @Override
+	public void setFrame(double x, double y, double w, double h) {
         setRect(x, y, w, h);
     }
 
@@ -422,7 +437,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * {@inheritDoc}
      * @since 1.2
      */
-    public GRectangle2D getBounds2D() {
+    @Override
+	public GRectangle2D getBounds2D() {
         return (GRectangle2D) clone();
     }
 
@@ -430,7 +446,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    @Override
+	public boolean contains(double x, double y) {
         double x0 = getX();
         double y0 = getY();
         return (x >= x0 &&
@@ -443,7 +460,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    @Override
+	public boolean intersects(double x, double y, double w, double h) {
         if (isEmpty() || w <= 0 || h <= 0) {
             return false;
         }
@@ -459,7 +477,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    @Override
+	public boolean contains(double x, double y, double w, double h) {
         if (isEmpty() || w <= 0 || h <= 0) {
             return false;
         }
@@ -482,7 +501,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      *          <code>Rectangle2D</code>.
      * @since 1.2
      */
-    public abstract GRectangle2D createIntersection(GRectangle2D r);
+    @Override
+	public abstract GRectangle2D createIntersection(GRectangle2D r);
 
     /**
      * Intersects the pair of specified source <code>Rectangle2D</code>
@@ -630,7 +650,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      *          <code>Rectangle2D</code>, one segment at a time.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at) {
         return new RectIterator(this, at);
     }
 
@@ -655,7 +676,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      *          <code>Rectangle2D</code>, one segment at a time.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
         return new RectIterator(this, at);
     }
 
@@ -664,7 +686,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @return the hashcode for this <code>Rectangle2D</code>.
      * @since 1.2
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         long bits = java.lang.Double.doubleToLongBits(getX());
         bits += java.lang.Double.doubleToLongBits(getY()) * 37;
         bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
@@ -685,7 +708,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      *                     the same values; <code>false</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
@@ -709,7 +733,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		return contains((double)x, (double)y);
 	}
 	
-    public Object clone() {
+	@SuppressWarnings("all")
+	public Object clone() {
     	return new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 

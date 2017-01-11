@@ -219,7 +219,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          *
          * @since 1.2
          */
-        public double getX() {
+        @Override
+		public double getX() {
             return x;
         }
 
@@ -231,7 +232,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          *
          * @since 1.2
          */
-        public double getY() {
+        @Override
+		public double getY() {
             return y;
         }
 
@@ -243,7 +245,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          *
          * @since 1.2
          */
-        public double getWidth() {
+        @Override
+		public double getWidth() {
             return width;
         }
 
@@ -255,7 +258,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          *
          * @since 1.2
          */
-        public double getHeight() {
+        @Override
+		public double getHeight() {
             return height;
         }
 
@@ -263,7 +267,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleStart() {
+        @Override
+		public double getAngleStart() {
             return start;
         }
 
@@ -271,7 +276,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleExtent() {
+        @Override
+		public double getAngleExtent() {
             return extent;
         }
 
@@ -279,7 +285,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -287,7 +294,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setArc(double x, double y, double w, double h,
+        @Override
+		public void setArc(double x, double y, double w, double h,
                            double angSt, double angExt, int closure) {
             this.setArcType(closure);
             this.x = x;
@@ -302,7 +310,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleStart(double angSt) {
+        @Override
+		public void setAngleStart(double angSt) {
             this.start = angSt;
         }
 
@@ -310,7 +319,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleExtent(double angExt) {
+        @Override
+		public void setAngleExtent(double angExt) {
             this.extent = angExt;
         }
 
@@ -318,7 +328,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        protected Rectangle2D makeBounds(double x, double y,
+        @Override
+		protected Rectangle2D makeBounds(double x, double y,
                                          double w, double h) {
             return new Rectangle2D.Double(x, y, w, h);
         }
@@ -455,7 +466,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * x,y coordinates of the starting point of the arc.
      * @since 1.2
      */
-    public GPoint2D getStartPoint() {
+    @Override
+	public GPoint2D getStartPoint() {
         double angle = Math.toRadians(-getAngleStart());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
@@ -472,7 +484,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * x,y coordinates  of the ending point of the arc.
      * @since 1.2
      */
-    public GPoint2D getEndPoint() {
+    @Override
+	public GPoint2D getEndPoint() {
         double angle = Math.toRadians(-getAngleStart() - getAngleExtent());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
@@ -495,7 +508,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public abstract void setArc(double x, double y, double w, double h,
+    @Override
+	public abstract void setArc(double x, double y, double w, double h,
                                 double angSt, double angExt, int closure);
 
     /**
@@ -563,7 +577,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public void setArcByCenter(double x, double y, double radius,
+    @Override
+	public void setArcByCenter(double x, double y, double radius,
                                double angSt, double angExt, int closure) {
         setArc(x - radius, y - radius, radius * 2.0, radius * 2.0,
                angSt, angExt, closure);
@@ -739,7 +754,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      *
      * @since 1.2
      */
-    public void setFrame(double x, double y, double w, double h) {
+    @Override
+	public void setFrame(double x, double y, double w, double h) {
         setArc(x, y, w, h, getAngleStart(), getAngleExtent(), type);
     }
 
@@ -759,7 +775,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * framing rectangle.
      * @since 1.2
      */
-    public GRectangle2D getBounds2D() {
+    @Override
+	public GRectangle2D getBounds2D() {
         if (isEmpty()) {
             return makeBounds(getX(), getY(), getWidth(), getHeight());
         }
@@ -891,7 +908,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * arc's bounds.
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    @Override
+	public boolean contains(double x, double y) {
         // Normalize the coordinates compared to the ellipse
         // having a center at 0,0 and a radius of 0.5.
         double ellw = getWidth();
@@ -955,7 +973,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * <CODE>false</CODE> if the arc doesn't intersect the rectangle.
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    @Override
+	public boolean intersects(double x, double y, double w, double h) {
 
         double aw = getWidth();
         double ah = getHeight();
@@ -1060,7 +1079,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * <CODE>false</CODE> if the arc doesn't contain the rectangle.
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    @Override
+	public boolean contains(double x, double y, double w, double h) {
         return contains(x, y, w, h, null);
     }
 
@@ -1142,7 +1162,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @return the hashcode for this <code>Arc2D</code>.
      * @since 1.6
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         long bits = java.lang.Double.doubleToLongBits(getX());
         bits += java.lang.Double.doubleToLongBits(getY()) * 37;
         bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
@@ -1167,7 +1188,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      *          <code>false</code> otherwise.
      * @since 1.6
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }
@@ -1184,7 +1206,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         return false;
     }
     
-    public GPathIterator getPathIterator(GAffineTransform at) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at) {
         return new ArcIterator(this, at);
     }
     

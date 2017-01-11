@@ -135,7 +135,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getX() {
+        @Override
+		public double getX() {
             return x;
         }
 
@@ -143,7 +144,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getY() {
+        @Override
+		public double getY() {
             return y;
         }
 
@@ -151,7 +153,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getWidth() {
+        @Override
+		public double getWidth() {
             return width;
         }
 
@@ -159,7 +162,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getHeight() {
+        @Override
+		public double getHeight() {
             return height;
         }
 
@@ -167,7 +171,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getArcWidth() {
+        @Override
+		public double getArcWidth() {
             return arcwidth;
         }
 
@@ -175,7 +180,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getArcHeight() {
+        @Override
+		public double getArcHeight() {
             return archeight;
         }
 
@@ -183,7 +189,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        @Override
+		public boolean isEmpty() {
             return (width <= 0.0) || (height <= 0.0);
         }
 
@@ -191,7 +198,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRoundRect(double x, double y, double w, double h,
+        @Override
+		public void setRoundRect(double x, double y, double w, double h,
                                  double arcw, double arch)
         {
             this.x = x;
@@ -206,7 +214,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRoundRect(RoundRectangle2D rr) {
+        @Override
+		public void setRoundRect(RoundRectangle2D rr) {
             this.x = rr.getX();
             this.y = rr.getY();
             this.width = rr.getWidth();
@@ -219,7 +228,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
+        @Override
+		public Rectangle2D getBounds2D() {
             return new Rectangle2D.Double(x, y, width, height);
         }
 
@@ -296,7 +306,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public void setFrame(double x, double y, double w, double h) {
+    @Override
+	public void setFrame(double x, double y, double w, double h) {
         setRoundRect(x, y, w, h, getArcWidth(), getArcHeight());
     }
 
@@ -304,7 +315,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    @Override
+	public boolean contains(double x, double y) {
         if (isEmpty()) {
             return false;
         }
@@ -351,7 +363,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    @Override
+	public boolean intersects(double x, double y, double w, double h) {
         if (isEmpty() || w <= 0 || h <= 0) {
             return false;
         }
@@ -394,7 +407,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    @Override
+	public boolean contains(double x, double y, double w, double h) {
         if (isEmpty() || w <= 0 || h <= 0) {
             return false;
         }
@@ -420,7 +434,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      *          <code>RoundRectangle2D</code>, one segment at a time.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at) {
+    @Override
+	public GPathIterator getPathIterator(GAffineTransform at) {
         return new RoundRectIterator(this, at);
     }
 
@@ -429,7 +444,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * @return the hashcode for this <code>RoundRectangle2D</code>.
      * @since 1.6
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         long bits = java.lang.Double.doubleToLongBits(getX());
         bits += java.lang.Double.doubleToLongBits(getY()) * 37;
         bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
@@ -453,7 +469,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      *          <code>false</code> otherwise.
      * @since 1.6
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (obj == this) {
             return true;
         }

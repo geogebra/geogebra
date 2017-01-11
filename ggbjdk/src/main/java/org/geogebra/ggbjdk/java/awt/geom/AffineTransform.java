@@ -1101,7 +1101,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getTranslateY
      * @since 1.2
      */
-    public void getMatrix(double[] flatmatrix) {
+    @Override
+	public void getMatrix(double[] flatmatrix) {
         flatmatrix[0] = m00;
         flatmatrix[1] = m10;
         flatmatrix[2] = m01;
@@ -1120,7 +1121,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getScaleX() {
+    @Override
+	public double getScaleX() {
         return m00;
     }
 
@@ -1132,7 +1134,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getScaleY() {
+    @Override
+	public double getScaleY() {
         return m11;
     }
 
@@ -1144,7 +1147,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getShearX() {
+    @Override
+	public double getShearX() {
         return m01;
     }
 
@@ -1156,7 +1160,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getShearY() {
+    @Override
+	public double getShearY() {
         return m10;
     }
 
@@ -1168,7 +1173,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getTranslateX() {
+    @Override
+	public double getTranslateX() {
         return m02;
     }
 
@@ -1180,7 +1186,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getTranslateY() {
+    @Override
+	public double getTranslateY() {
         return m12;
     }
 
@@ -1199,7 +1206,8 @@ public class AffineTransform implements GAffineTransform {
      * Y axis direction
      * @since 1.2
      */
-    public void translate(double tx, double ty) {
+    @Override
+	public void translate(double tx, double ty) {
         switch (state) {
         default:
             stateError();
@@ -1361,7 +1369,8 @@ public class AffineTransform implements GAffineTransform {
      * @param theta the angle of rotation measured in radians
      * @since 1.2
      */
-    public void rotate(double theta) {
+    @Override
+	public void rotate(double theta) {
         double sin = Math.sin(theta);
         if (sin == 1.0) {
             rotate90();
@@ -1586,7 +1595,8 @@ public class AffineTransform implements GAffineTransform {
      * Y axis direction
      * @since 1.2
      */
-    public void scale(double sx, double sy) {
+    @Override
+	public void scale(double sx, double sy) {
         int state = this.state;
         switch (state) {
         default:
@@ -1731,7 +1741,8 @@ public class AffineTransform implements GAffineTransform {
      * Y axis direction
      * @since 1.2
      */
-    public void setToTranslation(double tx, double ty) {
+    @Override
+	public void setToTranslation(double tx, double ty) {
         m00 = 1.0;
         m10 = 0.0;
         m01 = 0.0;
@@ -1763,7 +1774,8 @@ public class AffineTransform implements GAffineTransform {
      * @param theta the angle of rotation measured in radians
      * @since 1.2
      */
-    public void setToRotation(double theta) {
+    @Override
+	public void setToRotation(double theta) {
         double sin = Math.sin(theta);
         double cos;
         if (sin == 1.0 || sin == -1.0) {
@@ -1824,7 +1836,8 @@ public class AffineTransform implements GAffineTransform {
      * @param anchory the Y coordinate of the rotation anchor point
      * @since 1.2
      */
-    public void setToRotation(double theta, double anchorx, double anchory) {
+    @Override
+	public void setToRotation(double theta, double anchorx, double anchory) {
         setToRotation(theta);
         double sin = m10;
         double oneMinusCos = 1.0 - m00;
@@ -2072,7 +2085,8 @@ public class AffineTransform implements GAffineTransform {
      * Y axis direction
      * @since 1.2
      */
-    public void setToScale(double sx, double sy) {
+    @Override
+	public void setToScale(double sx, double sy) {
         m00 = sx;
         m10 = 0.0;
         m01 = 0.0;
@@ -2125,7 +2139,8 @@ public class AffineTransform implements GAffineTransform {
      * copy the transform
      * @since 1.2
      */
-    public void setTransform(GAffineTransform Tx0) {
+    @Override
+	public void setTransform(GAffineTransform Tx0) {
 
     	AffineTransform Tx = (AffineTransform) Tx0;
     	
@@ -2151,7 +2166,8 @@ public class AffineTransform implements GAffineTransform {
      * @param m12 the Y coordinate translation element of the 3x3 matrix
      * @since 1.2
      */
-    public void setTransform(double m00, double m10,
+    @Override
+	public void setTransform(double m00, double m10,
                              double m01, double m11,
                              double m02, double m12) {
         this.m00 = m00;
@@ -2184,7 +2200,8 @@ public class AffineTransform implements GAffineTransform {
      * @see #preConcatenate
      * @since 1.2
      */
-    public void concatenate(GAffineTransform Tx0) {
+    @Override
+	public void concatenate(GAffineTransform Tx0) {
     	
     	AffineTransform Tx = (AffineTransform) Tx0;
     	
@@ -2612,7 +2629,8 @@ public class AffineTransform implements GAffineTransform {
      * if the matrix cannot be inverted.
      * @since 1.2
      */
-    public AffineTransform createInverse()
+    @Override
+	public AffineTransform createInverse()
         throws NoninvertibleTransformException
     {
         double det;
@@ -2837,7 +2855,8 @@ public class AffineTransform implements GAffineTransform {
      * <code>ptSrc</code> and storing the result in <code>ptDst</code>.
      * @since 1.2
      */
-    public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
+    @Override
+	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
             if (ptSrc instanceof Point2D.Double) {
                 ptDst = new Point2D.Double();
@@ -2991,7 +3010,8 @@ public class AffineTransform implements GAffineTransform {
      * @param numPts the number of point objects to be transformed
      * @since 1.2
      */
-    public void transform(double[] srcPts, int srcOff,
+    @Override
+	public void transform(double[] srcPts, int srcOff,
                           double[] dstPts, int dstOff,
                           int numPts) {
         double M00, M01, M02, M10, M11, M12;    // For caching
@@ -3479,7 +3499,8 @@ public class AffineTransform implements GAffineTransform {
      * of the transformed <code>Shape</code>, or null if {@code pSrc} is null.
      * @since 1.2
      */
-    public GShape createTransformedShape(GShape pSrc) {
+    @Override
+	public GShape createTransformedShape(GShape pSrc) {
         if (pSrc == null) {
             return null;
         }
@@ -3499,7 +3520,8 @@ public class AffineTransform implements GAffineTransform {
      * <code>Object</code>.
      * @since 1.2
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return ("AffineTransform[["
                 + _matround(m00) + ", "
                 + _matround(m01) + ", "
@@ -3516,7 +3538,8 @@ public class AffineTransform implements GAffineTransform {
      * an identity transform; <code>false</code> otherwise.
      * @since 1.2
      */
-    public boolean isIdentity() {
+    @Override
+	public boolean isIdentity() {
         return (state == APPLY_IDENTITY || (getType() == TYPE_IDENTITY));
     }
 
@@ -3526,7 +3549,7 @@ public class AffineTransform implements GAffineTransform {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
-    public Object clone() {
+    @SuppressWarnings("all")	public Object clone() {
         return new AffineTransform(this);
     }
 
@@ -3535,7 +3558,8 @@ public class AffineTransform implements GAffineTransform {
      * @return      a hash code for this transform.
      * @since 1.2
      */
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         long bits = Double.doubleToLongBits(m00);
         bits = bits * 31 + Double.doubleToLongBits(m01);
         bits = bits * 31 + Double.doubleToLongBits(m02);
@@ -3555,7 +3579,8 @@ public class AffineTransform implements GAffineTransform {
      * <code>AffineTransform</code> object; <code>false</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Object obj) {
+    @Override
+	public boolean equals(Object obj) {
         if (!(obj instanceof AffineTransform)) {
             return false;
         }

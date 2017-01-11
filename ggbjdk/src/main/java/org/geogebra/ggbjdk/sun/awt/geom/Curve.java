@@ -216,13 +216,23 @@ public abstract class Curve {
                                             double x0, double y0,
                                             double x1, double y1)
     {
-        if (py <  y0 && py <  y1) return 0;
-        if (py >= y0 && py >= y1) return 0;
+        if (py <  y0 && py <  y1) {
+			return 0;
+		}
+        if (py >= y0 && py >= y1) {
+			return 0;
+		}
         // assert(y0 != y1);
-        if (px >= x0 && px >= x1) return 0;
-        if (px <  x0 && px <  x1) return (y0 < y1) ? 1 : -1;
+        if (px >= x0 && px >= x1) {
+			return 0;
+		}
+        if (px <  x0 && px <  x1) {
+			return (y0 < y1) ? 1 : -1;
+		}
         double xintercept = x0 + (py - y0) * (x1 - x0) / (y1 - y0);
-        if (px >= xintercept) return 0;
+        if (px >= xintercept) {
+			return 0;
+		}
         return (y0 < y1) ? 1 : -1;
     }
 
@@ -241,22 +251,34 @@ public abstract class Curve {
                                             double xc, double yc,
                                             double x1, double y1, int level)
     {
-        if (py <  y0 && py <  yc && py <  y1) return 0;
-        if (py >= y0 && py >= yc && py >= y1) return 0;
+        if (py <  y0 && py <  yc && py <  y1) {
+			return 0;
+		}
+        if (py >= y0 && py >= yc && py >= y1) {
+			return 0;
+		}
         // Note y0 could equal y1...
-        if (px >= x0 && px >= xc && px >= x1) return 0;
+        if (px >= x0 && px >= xc && px >= x1) {
+			return 0;
+		}
         if (px <  x0 && px <  xc && px <  x1) {
             if (py >= y0) {
-                if (py < y1) return 1;
+                if (py < y1) {
+					return 1;
+				}
             } else {
                 // py < y0
-                if (py >= y1) return -1;
+                if (py >= y1) {
+					return -1;
+				}
             }
             // py outside of y01 range, and/or y0==y1
             return 0;
         }
         // double precision only has 52 bits of mantissa
-        if (level > 52) return pointCrossingsForLine(px, py, x0, y0, x1, y1);
+        if (level > 52) {
+			return pointCrossingsForLine(px, py, x0, y0, x1, y1);
+		}
         double x0c = (x0 + xc) / 2;
         double y0c = (y0 + yc) / 2;
         double xc1 = (xc + x1) / 2;
@@ -293,22 +315,34 @@ public abstract class Curve {
                                              double xc1, double yc1,
                                              double x1, double y1, int level)
     {
-        if (py <  y0 && py <  yc0 && py <  yc1 && py <  y1) return 0;
-        if (py >= y0 && py >= yc0 && py >= yc1 && py >= y1) return 0;
+        if (py <  y0 && py <  yc0 && py <  yc1 && py <  y1) {
+			return 0;
+		}
+        if (py >= y0 && py >= yc0 && py >= yc1 && py >= y1) {
+			return 0;
+		}
         // Note y0 could equal yc0...
-        if (px >= x0 && px >= xc0 && px >= xc1 && px >= x1) return 0;
+        if (px >= x0 && px >= xc0 && px >= xc1 && px >= x1) {
+			return 0;
+		}
         if (px <  x0 && px <  xc0 && px <  xc1 && px <  x1) {
             if (py >= y0) {
-                if (py < y1) return 1;
+                if (py < y1) {
+					return 1;
+				}
             } else {
                 // py < y0
-                if (py >= y1) return -1;
+                if (py >= y1) {
+					return -1;
+				}
             }
             // py outside of y01 range, and/or y0==yc0
             return 0;
         }
         // double precision only has 52 bits of mantissa
-        if (level > 52) return pointCrossingsForLine(px, py, x0, y0, x1, y1);
+        if (level > 52) {
+			return pointCrossingsForLine(px, py, x0, y0, x1, y1);
+		}
         double xmid = (xc0 + xc1) / 2;
         double ymid = (yc0 + yc1) / 2;
         xc0 = (x0 + xc0) / 2;
@@ -489,9 +523,15 @@ public abstract class Curve {
                                            double x0, double y0,
                                            double x1, double y1)
     {
-        if (y0 >= rymax && y1 >= rymax) return crossings;
-        if (y0 <= rymin && y1 <= rymin) return crossings;
-        if (x0 <= rxmin && x1 <= rxmin) return crossings;
+        if (y0 >= rymax && y1 >= rymax) {
+			return crossings;
+		}
+        if (y0 <= rymin && y1 <= rymin) {
+			return crossings;
+		}
+        if (x0 <= rxmin && x1 <= rxmin) {
+			return crossings;
+		}
         if (x0 >= rxmax && x1 >= rxmax) {
             // Line is entirely to the right of the rect
             // and the vertical ranges of the two overlap by a non-empty amount
@@ -501,13 +541,21 @@ public abstract class Curve {
             if (y0 < y1) {
                 // y-increasing line segment...
                 // We know that y0 < rymax and y1 > rymin
-                if (y0 <= rymin) crossings++;
-                if (y1 >= rymax) crossings++;
+                if (y0 <= rymin) {
+					crossings++;
+				}
+                if (y1 >= rymax) {
+					crossings++;
+				}
             } else if (y1 < y0) {
                 // y-decreasing line segment...
                 // We know that y1 < rymax and y0 > rymin
-                if (y1 <= rymin) crossings--;
-                if (y0 >= rymax) crossings--;
+                if (y1 <= rymin) {
+					crossings--;
+				}
+                if (y0 >= rymax) {
+					crossings--;
+				}
             }
             return crossings;
         }
@@ -534,18 +582,28 @@ public abstract class Curve {
         } else if (y1 > rymax) {
             xi1 += ((rymax - y1) * (x0 - x1) / (y0 - y1));
         }
-        if (xi0 <= rxmin && xi1 <= rxmin) return crossings;
+        if (xi0 <= rxmin && xi1 <= rxmin) {
+			return crossings;
+		}
         if (xi0 >= rxmax && xi1 >= rxmax) {
             if (y0 < y1) {
                 // y-increasing line segment...
                 // We know that y0 < rymax and y1 > rymin
-                if (y0 <= rymin) crossings++;
-                if (y1 >= rymax) crossings++;
+                if (y0 <= rymin) {
+					crossings++;
+				}
+                if (y1 >= rymax) {
+					crossings++;
+				}
             } else if (y1 < y0) {
                 // y-decreasing line segment...
                 // We know that y1 < rymax and y0 > rymin
-                if (y1 <= rymin) crossings--;
-                if (y0 >= rymax) crossings--;
+                if (y1 <= rymin) {
+					crossings--;
+				}
+                if (y0 >= rymax) {
+					crossings--;
+				}
             }
             return crossings;
         }
@@ -565,9 +623,15 @@ public abstract class Curve {
                                            double x1, double y1,
                                            int level)
     {
-        if (y0 >= rymax && yc >= rymax && y1 >= rymax) return crossings;
-        if (y0 <= rymin && yc <= rymin && y1 <= rymin) return crossings;
-        if (x0 <= rxmin && xc <= rxmin && x1 <= rxmin) return crossings;
+        if (y0 >= rymax && yc >= rymax && y1 >= rymax) {
+			return crossings;
+		}
+        if (y0 <= rymin && yc <= rymin && y1 <= rymin) {
+			return crossings;
+		}
+        if (x0 <= rxmin && xc <= rxmin && x1 <= rxmin) {
+			return crossings;
+		}
         if (x0 >= rxmax && xc >= rxmax && x1 >= rxmax) {
             // Quad is entirely to the right of the rect
             // and the vertical range of the 3 Y coordinates of the quad
@@ -579,12 +643,20 @@ public abstract class Curve {
             // two endpoints are entirely above or below.
             if (y0 < y1) {
                 // y-increasing line segment...
-                if (y0 <= rymin && y1 >  rymin) crossings++;
-                if (y0 <  rymax && y1 >= rymax) crossings++;
+                if (y0 <= rymin && y1 >  rymin) {
+					crossings++;
+				}
+                if (y0 <  rymax && y1 >= rymax) {
+					crossings++;
+				}
             } else if (y1 < y0) {
                 // y-decreasing line segment...
-                if (y1 <= rymin && y0 >  rymin) crossings--;
-                if (y1 <  rymax && y0 >= rymax) crossings--;
+                if (y1 <= rymin && y0 >  rymin) {
+					crossings--;
+				}
+                if (y1 <  rymax && y0 >= rymax) {
+					crossings--;
+				}
             }
             return crossings;
         }
@@ -662,12 +734,20 @@ public abstract class Curve {
             // two endpoints are entirely above or below.
             if (y0 < y1) {
                 // y-increasing line segment...
-                if (y0 <= rymin && y1 >  rymin) crossings++;
-                if (y0 <  rymax && y1 >= rymax) crossings++;
+                if (y0 <= rymin && y1 >  rymin) {
+					crossings++;
+				}
+                if (y0 <  rymax && y1 >= rymax) {
+					crossings++;
+				}
             } else if (y1 < y0) {
                 // y-decreasing line segment...
-                if (y1 <= rymin && y0 >  rymin) crossings--;
-                if (y1 <  rymax && y0 >= rymax) crossings--;
+                if (y1 <= rymin && y0 >  rymin) {
+					crossings--;
+				}
+                if (y1 <  rymax && y0 >= rymax) {
+					crossings--;
+				}
             }
             return crossings;
         }
@@ -745,7 +825,8 @@ public abstract class Curve {
     }
 
 
-    public String toString() {
+    @Override
+	public String toString() {
         return ("Curve["+
                 getOrder()+", "+
                 ("("+round(getX0())+", "+round(getY0())+"), ")+
