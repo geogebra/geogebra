@@ -24,14 +24,17 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 
 	private int currentLength;
 
+	@Override
 	public boolean isEmpty() {
 		return isEmpty;
 	}
 
+	@Override
 	public void setEmpty() {
 		isEmpty = true;
 	}
 
+	@Override
 	public void allocate(int length) {
 
 		// allocate buffer only at start and when length change
@@ -45,6 +48,7 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 
 	}
 
+	@Override
 	public void setLimit(int length) {
 		impl.limit(length);
 		currentLength = length;
@@ -53,22 +57,27 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 		isEmpty = false;
 	}
 
+	@Override
 	public void put(short value) {
 		impl.put(value);
 	}
 
+	@Override
 	public short get() {
 		return impl.get();
 	}
 
+	@Override
 	public void rewind() {
 		impl.rewind();
 	}
 
+	@Override
 	public int capacity() {
 		return currentLength;
 	}
 
+	@Override
 	public void array(short[] ret) {
 		impl.rewind();
 		for (int i = 0; i < ret.length; i++) {

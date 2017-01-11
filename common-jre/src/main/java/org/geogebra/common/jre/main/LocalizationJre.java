@@ -260,8 +260,9 @@ public abstract class LocalizationJre extends Localization {
 
 	@Override
 	final public String getTooltipLanguageString() {
-		if (tooltipLocale == null)
+		if (tooltipLocale == null) {
 			return null;
+		}
 		return tooltipLocale.toString();
 	}
 

@@ -46,6 +46,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 	/*
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
+	@Override
 	final public synchronized String getPNGBase64(double preferredScale,
 			boolean transparent, double DPI, boolean copyToClipboard) {
 		double exportScale = preferredScale;
@@ -99,6 +100,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 * constructions.
 	 */
 
+	@Override
 	public void setBase64(String base64) {
 		byte[] zipFile;
 		try {

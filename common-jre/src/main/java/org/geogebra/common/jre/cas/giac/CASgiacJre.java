@@ -47,6 +47,7 @@ public abstract class CASgiacJre extends CASgiac {
 	 */
 	String threadResult;
 
+	@Override
 	final public void clearResult() {
 		this.threadResult = null;
 	}
@@ -214,6 +215,7 @@ public abstract class CASgiacJre extends CASgiac {
 
 	private Thread casThread;
 
+	@Override
 	@SuppressWarnings("unused")
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand cmd) {
 		Log.debug("about to start thread");
@@ -233,8 +235,9 @@ public abstract class CASgiacJre extends CASgiac {
 						ValidExpression inVE = null;
 						// remove before evaluating to ensure we don't ignore
 						// new requests meanwhile
-						if (queue.size() > 0)
+						if (queue.size() > 0) {
 							queue.remove(0);
+						}
 						try {
 							inVE = casParser.parseGeoGebraCASInput(input, null);
 							// TODO: arbconst()

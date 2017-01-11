@@ -269,8 +269,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 */
 	final public void writeMacroFile(File file, ArrayList<Macro> macros)
 			throws IOException {
-		if (macros == null)
+		if (macros == null) {
 			return;
+		}
 
 		// create file
 		FileOutputStream f = new FileOutputStream(file);
@@ -322,8 +323,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons1.getGeoSetLabelOrder();
-		if (geos == null)
+		if (geos == null) {
 			return;
+		}
 
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
@@ -347,8 +349,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 				} else {
 					// BITMAP
-					if (image.hasNonNullImplementation())
+					if (image.hasNonNullImplementation()) {
 						writeImageToZip(zip, filePath + fileName, image);
+					}
 
 				}
 
@@ -387,8 +390,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 			// BufferedImage img = app.getExportImage(exportScale);
 			MyImageJre img = getExportImage(THUMBNAIL_PIXELS_X,
 					THUMBNAIL_PIXELS_Y);
-			if (img != null)
+			if (img != null) {
 				writeImageToZip(zip, fileName, img);
+			}
 		} catch (Exception e) {
 			// catch error if size is zero
 		}
@@ -414,8 +418,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip,
 			String filePath) {
-		if (macros == null)
+		if (macros == null) {
 			return;
+		}
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
@@ -465,10 +470,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 			// try to write image using the format of the filename extension
 			int pos = fileName.lastIndexOf('.');
 			String ext = StringUtil.toLowerCase(fileName.substring(pos + 1));
-			if ("jpg".equals(ext) || "jpeg".equals(ext))
+			if ("jpg".equals(ext) || "jpeg".equals(ext)) {
 				ext = "JPG";
-			else
+			} else {
 				ext = "PNG";
+			}
 
 			writeImage(img, ext, os);
 		} catch (Exception e) {
@@ -558,11 +564,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 			this.str = str;
 		}
 
+		@Override
 		public Reader getReader() throws Exception {
 			rs = new StringReader(str);
 			return rs;
 		}
 
+		@Override
 		public void closeReader() throws Exception {
 			rs.close();
 		}
@@ -588,11 +596,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 			this.is = is;
 		}
 
+		@Override
 		public Reader getReader() throws Exception {
 			reader = new InputStreamReader(is, Charsets.UTF_8);
 			return reader;
 		}
 
+		@Override
 		public void closeReader() throws Exception {
 			reader.close();
 		}
