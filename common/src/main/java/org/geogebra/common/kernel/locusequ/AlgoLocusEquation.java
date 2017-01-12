@@ -501,10 +501,11 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					/*
 					 * If this "free" point is on a path, then its path may be
 					 * important to be kept as a symbolic object for
-					 * consistency. Let's try to do that.
+					 * consistency. Let's do that if the path is linear.
 					 */
 					if (ae != null
-							&& freePoint instanceof SymbolicParametersBotanaAlgo) {
+							&& ae instanceof AlgoPointOnPath
+							&& ae.input[0] instanceof GeoLine) {
 						Polynomial[] symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
 								.getBotanaPolynomials(freePoint);
 						int i = 1;
