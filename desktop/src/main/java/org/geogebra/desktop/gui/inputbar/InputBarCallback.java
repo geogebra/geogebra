@@ -14,12 +14,14 @@ public class InputBarCallback extends AsyncOperation<GeoElementND[]> {
 	private App app;
 	private AutoCompleteTextFieldD inputField;
 	private String input;
+	private int oldStep;
 
 	public InputBarCallback(App app, AutoCompleteTextFieldD inputField,
-			String input) {
+			String input, int oldStep) {
 		this.app = app;
 		this.inputField = inputField;
 		this.input = input;
+		this.oldStep = oldStep;
 	}
 
 	@Override
@@ -52,7 +54,8 @@ public class InputBarCallback extends AsyncOperation<GeoElementND[]> {
 			app.getSelectionManager().setSelectedGeos(list);
 		}
 
-		InputHelper.updateProperties(geos, app.getActiveEuclidianView());
+		InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
+				oldStep);
 		if (geos != null) {
 			app.setScrollToShow(false);
 

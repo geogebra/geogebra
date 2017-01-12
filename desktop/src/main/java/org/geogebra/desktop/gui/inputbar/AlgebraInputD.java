@@ -416,7 +416,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
 							getErrorHandler(valid, explicit), true,
-							new InputBarCallback(app, inputField, input));
+							new InputBarCallback(app, inputField, input,
+									app.getKernel().getConstructionStep()));
 
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());

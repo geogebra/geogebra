@@ -50,12 +50,18 @@ public class InputHelper {
 	 *            geos created from input
 	 * @param ev
 	 *            view
+	 * @param oldStep
+	 *            cons step before update
 	 */
 	public static void updateProperties(GeoElementND[] geos,
-			EuclidianViewInterfaceCommon ev) {
+			EuclidianViewInterfaceCommon ev, int oldStep) {
 		// create texts in the middle of the visible view
 		// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
 		if (geos == null) {
+			return;
+		}
+		if (geos.length > 0
+				&& geos[0].getKernel().getConstructionStep() <= oldStep) {
 			return;
 		}
 		for (int i = 0; i < geos.length; i++) {

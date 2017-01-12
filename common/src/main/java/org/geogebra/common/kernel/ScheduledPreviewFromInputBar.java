@@ -136,7 +136,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					previewGeos = null;
 					if (inputGeos != null) {
 						InputHelper.updateProperties(previewGeos, kernel
-								.getApplication().getActiveEuclidianView());
+								.getApplication().getActiveEuclidianView(), 0);
 						int unlabeled = 0;
 						for (GeoElementND geo : inputGeos) {
 							if (geo instanceof GeoFunction) {

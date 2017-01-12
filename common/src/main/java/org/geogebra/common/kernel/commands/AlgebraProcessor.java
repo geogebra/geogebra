@@ -820,13 +820,8 @@ public class AlgebraProcessor {
 	void runCallback(AsyncOperation<GeoElementND[]> callback0,
 			GeoElementND[] ret, int step) {
 		if (callback0 != null) {
-			if (cons.getStep() > step) {
-				callback0.callback(ret);
-			} else {
-				callback0.callback(new GeoElement[0]);
-			}
+			callback0.callback(ret);
 		}
-
 	}
 
 	/**

@@ -160,7 +160,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		final boolean valid = input.equals(newValue);
 
 		app.setScrollToShow(true);
-
+		final int oldStep = app.getKernel().getConstructionStep();
 		AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
 			@Override
@@ -179,7 +179,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				}
 
 				InputHelper.updateProperties(geos,
-						app.getActiveEuclidianView());
+						app.getActiveEuclidianView(), oldStep);
 				app.setScrollToShow(false);
 				/**
 				 * if (!valid) { addToHistory(input, null);

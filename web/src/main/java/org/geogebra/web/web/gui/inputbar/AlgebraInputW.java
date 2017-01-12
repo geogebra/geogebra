@@ -303,6 +303,7 @@ public class AlgebraInputW extends FlowPanel
 		app.setScrollToShow(true);
 
 		try {
+			final int oldStep = app.getKernel().getConstructionStep();
 			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
 				@Override
@@ -319,7 +320,8 @@ public class AlgebraInputW extends FlowPanel
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 
-					InputHelper.updateProperties(geos, app.getActiveEuclidianView());
+					InputHelper.updateProperties(geos,
+							app.getActiveEuclidianView(), oldStep);
 
 					app.setScrollToShow(false);
 

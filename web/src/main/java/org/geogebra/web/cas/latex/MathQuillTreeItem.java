@@ -538,7 +538,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		final boolean valid = input.equals(newValue);
 		final String newValueF = newValue;
 		app.setScrollToShow(true);
-
+		final int oldStep = app.getKernel().getConstructionStep();
 		try {
 			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
@@ -558,7 +558,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 					}
 
 					InputHelper.updateProperties(geos,
-							app.getActiveEuclidianView());
+							app.getActiveEuclidianView(), oldStep);
 					app.setScrollToShow(false);
 					if (!valid) {
 						addToHistory(input, null);
