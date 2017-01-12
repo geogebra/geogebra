@@ -1275,7 +1275,7 @@ namespace giac {
 	if (is_undef(tmpsto))
 	  return tmpsto;
 	f=quotesubst(*it,makevecteur(x,y),makevecteur(tplus*x,tplus*y),contextptr);
-	f=normal(f-*it,contextptr);
+	f=recursive_normal(f-*it,contextptr);
 	if (is_zero(f)){
 	  if (step_info)
 	    gprintf("Order 1 Homogeneous differential equation",vecteur(0),step_info,contextptr);
@@ -1284,7 +1284,7 @@ namespace giac {
 	  tmpsto=sto(doubleassume_and(vecteur(2,0),0,1,false,contextptr),x,contextptr);
 	  if (is_undef(tmpsto))
 	    return tmpsto;
-	  f=normal(quotesubst(*it,y,tplus*x,contextptr)-tplus,contextptr);
+	  f=recursive_normal(quotesubst(*it,y,tplus*x,contextptr)-tplus,contextptr);
 	  purgenoassume(x,contextptr);
 	  // y=tx -> t'x=f
 	  // Singular solutions f(t)=0

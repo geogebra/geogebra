@@ -2228,6 +2228,8 @@ namespace giac {
 	  for (int ntry=0;ntry<10;++ntry,tst=false){
 	    gen tmp00=subst(tmp0,vinit,vzero,false,contextptr);
 	    gen tmp10=subst(tmp1,vinit,vzero,false,contextptr);
+	    if (!lvar(makevecteur(tmp00,tmp10)).empty())
+	      break;
 	    if (tmp10.type==_VECT && _size(_gcd(makesequence(tmp10,derivative(*tmp10._VECTptr)),contextptr),contextptr)>1)
 	      tmp00=cst_i; // retry
 	    else {

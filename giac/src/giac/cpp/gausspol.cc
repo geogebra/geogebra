@@ -5586,7 +5586,7 @@ namespace giac {
 	    v=taylor(v,decal);
 	    // pcur=poly12polynome(v); 
 	    poly12polynome(v,1,pcur,f_it->fact.dim);
-#if 0
+#if 1
 	    pcur=gcd(pcur,pcopy); 
 #else
 	    if (f_it+1==f_itend){
@@ -5601,7 +5601,7 @@ namespace giac {
 #endif
 	  }
 	  else {
-#if 0
+#if 1
 	    pcur=gcd(f_it->fact,p);
 #else
 	    if (f_it+1==f_itend){
