@@ -61,7 +61,7 @@ public class LatexTreeItem extends RadioTreeItem {
 			}
 		}
 		getWidget().addStyleName("latexEditor");
-
+		content.addStyleName("avPreview");
 		renderLatex("", false);
 	}
 
@@ -155,7 +155,7 @@ public class LatexTreeItem extends RadioTreeItem {
 	private void initMathField() {
 		mf = new MathFieldW(latexItem, canvas,
 				getLatexController());
-		mf.setFontSize(app.getFontSizeWeb());
+		mf.setFontSize(getFontSize() + 1);
 		mf.setPixelRatio(app.getPixelRatio());
 	}
 
@@ -474,7 +474,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	public void updateFonts() {
 		if (mf != null) {
-			mf.setFontSize(app.getFontSizeWeb());
+			mf.setFontSize(getFontSize());
 		}
 		super.updateFonts();
 	}

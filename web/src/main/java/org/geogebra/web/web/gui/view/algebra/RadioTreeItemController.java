@@ -80,7 +80,7 @@ public class RadioTreeItemController
 		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler,
 		LongTouchHandler {
 
-	private static final int VERTICAL_PADDING = 16;
+	private static final int VERTICAL_PADDING = 20;
 	protected AppW app;
 	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
