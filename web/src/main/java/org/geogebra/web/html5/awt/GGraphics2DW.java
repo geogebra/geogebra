@@ -21,7 +21,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
-import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -161,13 +160,13 @@ public class GGraphics2DW implements GGraphics2D {
 			default:
 				// do nothing
 				break;
-			case PathIterator.SEG_MOVETO:
+			case GPathIterator.SEG_MOVETO:
 				context.moveTo(coords[0], coords[1]);
 				if (enableDashEmulation) {
 					setLastCoords(coords[0], coords[1]);
 				}
 				break;
-			case PathIterator.SEG_LINETO:
+			case GPathIterator.SEG_LINETO:
 				if (dash_array == null || !enableDashEmulation) {
 					context.lineTo(coords[0], coords[1]);
 				} else {
@@ -180,21 +179,21 @@ public class GGraphics2DW implements GGraphics2D {
 				}
 				setLastCoords(coords[0], coords[1]);
 				break;
-			case PathIterator.SEG_CUBICTO:
+			case GPathIterator.SEG_CUBICTO:
 				context.bezierCurveTo(coords[0], coords[1], coords[2],
 				        coords[3], coords[4], coords[5]);
 				if (enableDashEmulation) {
 					setLastCoords(coords[4], coords[5]);
 				}
 				break;
-			case PathIterator.SEG_QUADTO:
+			case GPathIterator.SEG_QUADTO:
 				context.quadraticCurveTo(coords[0], coords[1], coords[2],
 				        coords[3]);
 				if (enableDashEmulation) {
 					setLastCoords(coords[2], coords[3]);
 				}
 				break;
-			case PathIterator.SEG_CLOSE:
+			case GPathIterator.SEG_CLOSE:
 				context.closePath();
 			}
 			it.next();

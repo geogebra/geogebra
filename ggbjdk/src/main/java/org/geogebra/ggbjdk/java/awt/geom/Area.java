@@ -26,6 +26,7 @@
 package org.geogebra.ggbjdk.java.awt.geom;
 
 
+import java.awt.geom.PathIterator;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Vector;
@@ -158,34 +159,34 @@ public class Area implements Shape, Cloneable, GArea {
         double newx, newy;
         while (!pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+			case GPathIterator.SEG_MOVETO:
                 Curve.insertLine(curves, curx, cury, movx, movy);
                 curx = movx = coords[0];
                 cury = movy = coords[1];
                 Curve.insertMove(curves, movx, movy);
                 break;
-            case PathIterator.SEG_LINETO:
+			case GPathIterator.SEG_LINETO:
                 newx = coords[0];
                 newy = coords[1];
                 Curve.insertLine(curves, curx, cury, newx, newy);
                 curx = newx;
                 cury = newy;
                 break;
-            case PathIterator.SEG_QUADTO:
+			case GPathIterator.SEG_QUADTO:
                 newx = coords[2];
                 newy = coords[3];
                 Curve.insertQuad(curves, curx, cury, coords);
                 curx = newx;
                 cury = newy;
                 break;
-            case PathIterator.SEG_CUBICTO:
+			case GPathIterator.SEG_CUBICTO:
                 newx = coords[4];
                 newy = coords[5];
                 Curve.insertCubic(curves, curx, cury, coords);
                 curx = newx;
                 cury = newy;
                 break;
-            case PathIterator.SEG_CLOSE:
+			case GPathIterator.SEG_CLOSE:
                 Curve.insertLine(curves, curx, cury, movx, movy);
                 curx = movx;
                 cury = movy;
@@ -195,7 +196,7 @@ public class Area implements Shape, Cloneable, GArea {
         }
         Curve.insertLine(curves, curx, cury, movx, movy);
         AreaOp operator;
-        if (windingRule == PathIterator.WIND_EVEN_ODD) {
+		if (windingRule == GPathIterator.WIND_EVEN_ODD) {
             operator = new AreaOp.EOWindOp();
         } else {
             operator = new AreaOp.NZWindOp();

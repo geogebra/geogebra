@@ -27,7 +27,7 @@ package org.geogebra.ggbjdk.sun.awt.geom;
 
 import java.util.Vector;
 
-import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 
@@ -635,7 +635,7 @@ final class Order3 extends Curve {
             coords[4] = x0;
             coords[5] = y0;
         }
-        return PathIterator.SEG_CUBICTO;
+		return GPathIterator.SEG_CUBICTO;
     }
 
     @Override

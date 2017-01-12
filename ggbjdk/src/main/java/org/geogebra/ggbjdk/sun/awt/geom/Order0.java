@@ -25,7 +25,7 @@
 
 package org.geogebra.ggbjdk.sun.awt.geom;
 
-import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 
 final class Order0 extends Curve {
@@ -160,6 +160,6 @@ final class Order0 extends Curve {
 	public int getSegment(double coords[]) {
         coords[0] = x;
         coords[1] = y;
-        return PathIterator.SEG_MOVETO;
+		return GPathIterator.SEG_MOVETO;
     }
 }

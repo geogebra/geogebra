@@ -25,10 +25,11 @@
 
 package org.geogebra.ggbjdk.sun.awt.geom;
 
+import java.awt.geom.PathIterator;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
+import org.geogebra.common.awt.GPathIterator;
 
 public abstract class Crossings {
     public static final boolean debug = false;
@@ -101,7 +102,7 @@ public abstract class Crossings {
                                           double xhi, double yhi)
     {
         Crossings cross;
-        if (pi.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
+		if (pi.getWindingRule() == GPathIterator.WIND_EVEN_ODD) {
             cross = new EvenOdd(xlo, ylo, xhi, yhi);
         } else {
             cross = new NonZero(xlo, ylo, xhi, yhi);
@@ -129,7 +130,7 @@ public abstract class Crossings {
         while (!pi.isDone()) {
             int type = pi.currentSegment(coords);
             switch (type) {
-            case PathIterator.SEG_MOVETO:
+			case GPathIterator.SEG_MOVETO:
                 if (movy != cury &&
                     cross.accumulateLine(curx, cury, movx, movy))
                 {
@@ -138,7 +139,7 @@ public abstract class Crossings {
                 movx = curx = coords[0];
                 movy = cury = coords[1];
                 break;
-            case PathIterator.SEG_LINETO:
+			case GPathIterator.SEG_LINETO:
                 newx = coords[0];
                 newy = coords[1];
                 if (cross.accumulateLine(curx, cury, newx, newy)) {
@@ -147,7 +148,7 @@ public abstract class Crossings {
                 curx = newx;
                 cury = newy;
                 break;
-            case PathIterator.SEG_QUADTO:
+			case GPathIterator.SEG_QUADTO:
                 newx = coords[2];
                 newy = coords[3];
                 if (cross.accumulateQuad(curx, cury, coords)) {
@@ -156,7 +157,7 @@ public abstract class Crossings {
                 curx = newx;
                 cury = newy;
                 break;
-            case PathIterator.SEG_CUBICTO:
+			case GPathIterator.SEG_CUBICTO:
                 newx = coords[4];
                 newy = coords[5];
                 if (cross.accumulateCubic(curx, cury, coords)) {
@@ -165,7 +166,7 @@ public abstract class Crossings {
                 curx = newx;
                 cury = newy;
                 break;
-            case PathIterator.SEG_CLOSE:
+			case GPathIterator.SEG_CLOSE:
                 if (movy != cury &&
                     cross.accumulateLine(curx, cury, movx, movy))
                 {

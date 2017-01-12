@@ -79,7 +79,7 @@ public abstract class Path2D implements Shape, Cloneable {
      * @see PathIterator#WIND_EVEN_ODD
      * @since 1.6
      */
-    public static final int WIND_EVEN_ODD = PathIterator.WIND_EVEN_ODD;
+	public static final int WIND_EVEN_ODD = GPathIterator.WIND_EVEN_ODD;
 
     /**
      * A non-zero winding rule for determining the interior of a
@@ -88,15 +88,15 @@ public abstract class Path2D implements Shape, Cloneable {
      * @see PathIterator#WIND_NON_ZERO
      * @since 1.6
      */
-    public static final int WIND_NON_ZERO = PathIterator.WIND_NON_ZERO;
+	public static final int WIND_NON_ZERO = GPathIterator.WIND_NON_ZERO;
 
     // For code simplicity, copy these constants to our namespace
     // and cast them to byte constants for easy storage.
-    private static final byte SEG_MOVETO  = (byte) PathIterator.SEG_MOVETO;
-    private static final byte SEG_LINETO  = (byte) PathIterator.SEG_LINETO;
-    private static final byte SEG_QUADTO  = (byte) PathIterator.SEG_QUADTO;
-    private static final byte SEG_CUBICTO = (byte) PathIterator.SEG_CUBICTO;
-    private static final byte SEG_CLOSE   = (byte) PathIterator.SEG_CLOSE;
+	private static final byte SEG_MOVETO = (byte) GPathIterator.SEG_MOVETO;
+	private static final byte SEG_LINETO = (byte) GPathIterator.SEG_LINETO;
+	private static final byte SEG_QUADTO = (byte) GPathIterator.SEG_QUADTO;
+	private static final byte SEG_CUBICTO = (byte) GPathIterator.SEG_CUBICTO;
+	private static final byte SEG_CLOSE = (byte) GPathIterator.SEG_CLOSE;
 
     transient byte[] pointTypes;
     transient int numTypes;
@@ -369,7 +369,7 @@ public abstract class Path2D implements Shape, Cloneable {
             int ci = 2;
             for (int i = 1; i < numTypes; i++) {
                 switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
+				case GPathIterator.SEG_MOVETO:
                     if (cury != movy) {
                         crossings +=
                             Curve.pointCrossingsForLine(px, py,
@@ -379,7 +379,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     movx = curx = coords[ci++];
                     movy = cury = coords[ci++];
                     break;
-                case PathIterator.SEG_LINETO:
+				case GPathIterator.SEG_LINETO:
                     crossings +=
                         Curve.pointCrossingsForLine(px, py,
                                                     curx, cury,
@@ -388,7 +388,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     curx = endx;
                     cury = endy;
                     break;
-                case PathIterator.SEG_QUADTO:
+				case GPathIterator.SEG_QUADTO:
                     crossings +=
                         Curve.pointCrossingsForQuad(px, py,
                                                     curx, cury,
@@ -400,7 +400,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     curx = endx;
                     cury = endy;
                     break;
-            case PathIterator.SEG_CUBICTO:
+				case GPathIterator.SEG_CUBICTO:
                     crossings +=
                         Curve.pointCrossingsForCubic(px, py,
                                                      curx, cury,
@@ -414,7 +414,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     curx = endx;
                     cury = endy;
                     break;
-                case PathIterator.SEG_CLOSE:
+				case GPathIterator.SEG_CLOSE:
                     if (cury != movy) {
                         crossings +=
                             Curve.pointCrossingsForLine(px, py,
@@ -450,7 +450,7 @@ public abstract class Path2D implements Shape, Cloneable {
                  i++)
             {
                 switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
+				case GPathIterator.SEG_MOVETO:
                     if (curx != movx || cury != movy) {
                         crossings =
                             Curve.rectCrossingsForLine(crossings,
@@ -464,7 +464,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     movx = curx = coords[ci++];
                     movy = cury = coords[ci++];
                     break;
-                case PathIterator.SEG_LINETO:
+				case GPathIterator.SEG_LINETO:
                     endx = coords[ci++];
                     endy = coords[ci++];
                     crossings =
@@ -476,7 +476,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     curx = endx;
                     cury = endy;
                     break;
-                case PathIterator.SEG_QUADTO:
+				case GPathIterator.SEG_QUADTO:
                     crossings =
                         Curve.rectCrossingsForQuad(crossings,
                                                    rxmin, rymin,
@@ -490,7 +490,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     curx = endx;
                     cury = endy;
                     break;
-                case PathIterator.SEG_CUBICTO:
+				case GPathIterator.SEG_CUBICTO:
                     crossings =
                         Curve.rectCrossingsForCubic(crossings,
                                                     rxmin, rymin,
@@ -506,7 +506,7 @@ public abstract class Path2D implements Shape, Cloneable {
                     curx = endx;
                     cury = endy;
                     break;
-                case PathIterator.SEG_CLOSE:
+				case GPathIterator.SEG_CLOSE:
                     if (curx != movx || cury != movy) {
                         crossings =
                             Curve.rectCrossingsForLine(crossings,

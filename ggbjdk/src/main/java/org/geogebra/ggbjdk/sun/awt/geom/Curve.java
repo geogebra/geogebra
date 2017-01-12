@@ -26,11 +26,11 @@
 package org.geogebra.ggbjdk.sun.awt.geom;
 
 
+import java.awt.geom.PathIterator;
 import java.util.Vector;
 
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.IllegalPathStateException;
-import org.geogebra.ggbjdk.java.awt.geom.PathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 
 public abstract class Curve {
@@ -484,7 +484,7 @@ public abstract class Curve {
                 curx = endx;
                 cury = endy;
                 break;
-            case PathIterator.SEG_CLOSE:
+			case GPathIterator.SEG_CLOSE:
                 if (curx != movx || cury != movy) {
                     crossings = rectCrossingsForLine(crossings,
                                                      rxmin, rymin,
