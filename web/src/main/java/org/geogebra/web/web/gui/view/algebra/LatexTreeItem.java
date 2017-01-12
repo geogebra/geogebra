@@ -440,9 +440,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		if (text == null || !app.has(Feature.RETEX_EDITOR)) {
 			return false;
 		}
-		if (errorLabel != null) {
-			errorLabel.setText("");
-		}
+		clearErrorLabel();
 		removeDummy();
 
 		renderLatex(text, true);

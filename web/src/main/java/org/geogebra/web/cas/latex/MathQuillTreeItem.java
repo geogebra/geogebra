@@ -218,9 +218,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		if (text == null) {
 			return false;
 		}
-		if (errorLabel != null) {
-			errorLabel.setText("");
-		}
+		clearErrorLabel();
 		if (isDefinitionAndValue()) {
 			editLatexMQ(text);
 		} else {

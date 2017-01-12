@@ -30,6 +30,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -1241,9 +1242,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void createErrorLabel() {
-		this.errorLabel = new Label();
-		errorLabel.setStyleName("algebraError");
-		main.add(errorLabel);
+		if (errorLabel == null) {
+			this.errorLabel = new Label();
+			errorLabel.setStyleName("algebraError");
+			main.add(errorLabel);
+		}
+	}
+
+	protected void clearErrorLabel() {
+		if (errorLabel != null) {
+			errorLabel.setText("");
+			errorLabel.setVisible(false);
+		}
 	}
 	/**
 	 * @param valid
@@ -1252,18 +1262,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * @return error handler
 	 */
 	protected ErrorHandler getErrorHandler(final boolean valid) {
-		if (errorLabel != null) {
-			errorLabel.setText("");
-		} else {
-			createErrorLabel();
-		}
+
+		createErrorLabel();
+
+		clearErrorLabel();
 		return new ErrorHandler(){
 
 			@Override
 			public void showError(String msg) {
-				if (errorLabel != null) {
-					errorLabel.setText(msg);
-				} else {
+				if (!setErrorText(msg)) {
 					app.getDefaultErrorHandler().showError(msg);
 				}
 				
@@ -1297,9 +1304,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			@Override
 			public void showCommandError(String command, String message) {
-				if (errorLabel != null) {
-					errorLabel.setText(message);
-				} else {
+				if (!setErrorText(message)) {
 					app.getDefaultErrorHandler().showCommandError(command,
 							message);
 				}
@@ -1311,6 +1316,19 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			
 		};
+	}
+
+	protected boolean setErrorText(String msg) {
+		if (StringUtil.empty(msg)) {
+			clearErrorLabel();
+			return true;
+		}
+		if (errorLabel != null) {
+			errorLabel.setText(msg);
+			errorLabel.setVisible(true);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1805,8 +1823,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
 		}
-		if (!warning && errorLabel != null) {
-			errorLabel.setText("");
+		if (!warning) {
+			clearErrorLabel();
 		}
 		btnHelpToggle.getUpFace().setImage(new NoDragImage(
 				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
