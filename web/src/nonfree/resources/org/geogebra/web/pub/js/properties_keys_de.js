@@ -2134,7 +2134,6 @@ __GGB__keysVar.de.menu = {
     "NSolve": "L\xf6se numerisch",
     "NSolve.Help": "L\xf6sen Sie eine oder mehrere Gleichungen numerisch.",
     "Name": "Name",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "Schaltfl\xe4che",
     "Name.edge": "Kante",
     "Name.face": "Fl\xe4che",

@@ -2134,7 +2134,6 @@ __GGB__keysVar.sq.menu = {
     "NSolve": "Zgjidh Numerikisht",
     "NSolve.Help": "Zgjidh Numerikisht nje ose me shume ekuacione",
     "Name": "Emer",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "buton",
     "Name.edge": "buze",
     "Name.face": "fytyre",

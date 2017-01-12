@@ -2134,7 +2134,6 @@ __GGB__keysVar.vi.menu = {
     "NSolve": "Gi\u1ea3i nghi\u1ec7m s\u1ed1",
     "NSolve.Help": "Gi\u1ea3i m\u1ed9t ho\u1eb7c nhi\u1ec1u ph\u01b0\u01a1ng tr\xecnh nghi\u1ec7m s\u1ed1",
     "Name": "T\xean",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "Nut",
     "Name.edge": "Canh",
     "Name.face": "Mat",

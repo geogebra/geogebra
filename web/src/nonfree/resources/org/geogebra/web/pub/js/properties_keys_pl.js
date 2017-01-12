@@ -2134,7 +2134,6 @@ __GGB__keysVar.pl.menu = {
     "NSolve": "Rozwi\u0105\u017c numerycznie",
     "NSolve.Help": "Rozwi\u0105\u017c jedno lub wi\u0119cej r\xf3wna\u0144 numerycznie",
     "Name": "Nazwa",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "przycisk",
     "Name.edge": "kraw\u0119d\u017a",
     "Name.face": "powierzchnia",

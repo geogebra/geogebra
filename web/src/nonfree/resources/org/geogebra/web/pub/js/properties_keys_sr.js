@@ -2134,7 +2134,6 @@ __GGB__keysVar.sr.menu = {
     "NSolve": "Re\u0161i numeri\u010dki",
     "NSolve.Help": "Re\u0161i jednu ili vi\u0161e jedna\u010dina numeri\u010dki",
     "Name": "Ime",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "dugme",
     "Name.edge": "ivica",
     "Name.face": "lice",

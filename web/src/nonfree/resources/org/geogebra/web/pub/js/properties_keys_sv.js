@@ -2134,7 +2134,6 @@ __GGB__keysVar.sv.menu = {
     "NSolve": "L\xf6s numeriskt",
     "NSolve.Help": "L\xf6ser en eller flera ekvationer numeriskt",
     "Name": "Namn",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "knapp",
     "Name.edge": "kant",
     "Name.face": "sidyta",

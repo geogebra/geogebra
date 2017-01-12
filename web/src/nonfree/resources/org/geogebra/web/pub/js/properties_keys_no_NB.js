@@ -2134,7 +2134,6 @@ __GGB__keysVar.no_NB.menu = {
     "NSolve": "L\xf8s numerisk",
     "NSolve.Help": "L\xf8ser en eller flere likninger numerisk.",
     "Name": "Navn",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "knapp",
     "Name.edge": "kant",
     "Name.face": "flate",

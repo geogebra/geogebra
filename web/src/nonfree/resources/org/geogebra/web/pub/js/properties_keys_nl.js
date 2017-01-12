@@ -2134,7 +2134,6 @@ __GGB__keysVar.nl.menu = {
     "NSolve": "Numeriek_oplossen",
     "NSolve.Help": "Los \xe9\xe9n of meerdere vergelijkingen numeriek op",
     "Name": "Naam",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "knop",
     "Name.edge": "Ribbe",
     "Name.face": "zijvlak",

@@ -2134,7 +2134,6 @@ __GGB__keysVar.sk.menu = {
     "NSolve": "Rie\u0161i\u0165 numericky",
     "NSolve.Help": "Rie\u0161\xed numericky jednu alebo viac rovn\xedc",
     "Name": "N\xe1zov",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "Tla\u010didlo",
     "Name.edge": "hrana",
     "Name.face": "stena",

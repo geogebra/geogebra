@@ -2134,7 +2134,6 @@ __GGB__keysVar.xh.menu = {
     "NSolve": "Sombulula",
     "NSolve.Help": "Isombulula isivakalise sezibalo sibesinye okanye ngaphezulu",
     "Name": "Igama",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "iqhosha",
     "Name.edge": "icala",
     "Name.face": "ubuso",

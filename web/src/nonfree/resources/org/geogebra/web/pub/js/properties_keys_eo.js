@@ -2134,7 +2134,6 @@ __GGB__keysVar.eo.menu = {
     "NSolve": "Solve Numerically",
     "NSolve.Help": "Solves one or more equations numerically",
     "Name": "Nomo",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "butono",
     "Name.edge": "e\u011do",
     "Name.face": "faco",

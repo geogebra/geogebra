@@ -2134,7 +2134,6 @@ __GGB__keysVar.lv.menu = {
     "NSolve": "Atrisina skaitliski",
     "NSolve.Help": "Atrisina vienu vai vair\u0101kus vien\u0101dojumus skaitliski",
     "Name": "Nosaukums",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "poga",
     "Name.edge": "\u0161\u0137autne",
     "Name.face": "skaldne",

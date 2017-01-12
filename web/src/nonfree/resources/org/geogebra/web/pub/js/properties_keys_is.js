@@ -2134,7 +2134,6 @@ __GGB__keysVar.is.menu = {
     "NSolve": "T\xf6luleg Lausn",
     "NSolve.Help": "Leysir eina e\xf0a fleiri j\xf6fnur t\xf6lulega",
     "Name": "Nafn",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "hnappur",
     "Name.edge": "edge",
     "Name.face": "face",

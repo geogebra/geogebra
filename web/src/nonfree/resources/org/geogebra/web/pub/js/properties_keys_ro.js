@@ -2134,7 +2134,6 @@ __GGB__keysVar.ro.menu = {
     "NSolve": "Rezolv\u0103 numeric",
     "NSolve.Help": "Rezolv\u0103 numeric una sau mai multe ecua\u021bii",
     "Name": "Nume",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "buton",
     "Name.edge": "margine",
     "Name.face": "fa\u021b\u0103",

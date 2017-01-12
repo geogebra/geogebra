@@ -2134,7 +2134,6 @@ __GGB__keysVar.lt.menu = {
     "NSolve": "Rasti sveikus sprendinius",
     "NSolve.Help": "Randa vienos ar daugiau lyg\u010di\u0173 sveikuosius sprendinius",
     "Name": "Pavadinimas",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "mygtukas",
     "Name.edge": "kra\u0161tas",
     "Name.face": "pavir\u0161ius",

@@ -2134,7 +2134,6 @@ __GGB__keysVar.fa.menu = {
     "NSolve": "\u062d\u0644 \u0639\u062f\u062f\u06cc",
     "NSolve.Help": "\u062d\u0644 \u06cc\u06a9 \u06cc\u0627 \u0686\u0646\u062f \u0645\u0639\u0627\u062f\u0644\u0647 \u0628\u0647 \u0635\u0648\u0631\u062a \u0639\u062f\u062f\u06cc",
     "Name": "\u0646\u0627\u0645",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "\u062f\u06a9\u0645\u0647",
     "Name.edge": "edge",
     "Name.face": "face",

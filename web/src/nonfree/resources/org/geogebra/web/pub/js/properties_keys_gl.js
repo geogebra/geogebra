@@ -2134,7 +2134,6 @@ __GGB__keysVar.gl.menu = {
     "NSolve": "Resoluci\xf3n num\xe9rica",
     "NSolve.Help": "Resoluci\xf3n num\xe9rica de unha ou m\xe1is ecuaci\xf3ns",
     "Name": "Nome",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "bot\xf3n",
     "Name.edge": "aresta",
     "Name.face": "cara",

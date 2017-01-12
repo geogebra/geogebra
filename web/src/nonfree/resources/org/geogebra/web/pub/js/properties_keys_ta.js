@@ -2134,7 +2134,6 @@ __GGB__keysVar.ta.menu = {
     "NSolve": "Solve Numerically",
     "NSolve.Help": "Solves one or more equations numerically",
     "Name": "\u0baa\u0bc6\u0baf\u0bb0\u0bcd",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "button",
     "Name.edge": "edge",
     "Name.face": "\u0bae\u0bc1\u0b95\u0bae\u0bcd",

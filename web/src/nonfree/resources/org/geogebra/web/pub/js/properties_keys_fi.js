@@ -2134,7 +2134,6 @@ __GGB__keysVar.fi.menu = {
     "NSolve": "Ratkaise numeerisesti",
     "NSolve.Help": "Ratkaisee yhden tai useamman yht\xe4l\xf6n numeerisesti",
     "Name": "Nimi",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "painike",
     "Name.edge": "s\xe4rm\xe4",
     "Name.face": "tahko",

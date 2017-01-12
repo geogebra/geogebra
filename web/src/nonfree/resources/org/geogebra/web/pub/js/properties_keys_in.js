@@ -2134,7 +2134,6 @@ __GGB__keysVar.in.menu = {
     "NSolve": "Selesaikan secara Numerik",
     "NSolve.Help": "Selesaikan satu atau lebih persamaan secara numerik",
     "Name": "Nama",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "tombol",
     "Name.edge": "pinggiran",
     "Name.face": "menghadap",

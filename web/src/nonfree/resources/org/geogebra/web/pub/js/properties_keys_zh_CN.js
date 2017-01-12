@@ -2134,7 +2134,6 @@ __GGB__keysVar.zh_CN.menu = {
     "NSolve": "\u8fd1\u4f3c\u89e3",
     "NSolve.Help": "\u89e3\u65b9\u7a0b(\u7ec4), \u5f97\u5230\u8fd1\u4f3c\u89e3",
     "Name": "\u540d\u79f0",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "\u6309\u94ae",
     "Name.edge": "\u68f1",
     "Name.face": "\u9762",

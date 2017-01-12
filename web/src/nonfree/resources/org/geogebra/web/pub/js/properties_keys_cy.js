@@ -2134,7 +2134,6 @@ __GGB__keysVar.cy.menu = {
     "NSolve": "Datrys Rhifiadol",
     "NSolve.Help": "Datrys un neu fwy hafaliad yn rhifiadol",
     "Name": "Enw",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "botwm",
     "Name.edge": "edge",
     "Name.face": "face",

@@ -2134,7 +2134,6 @@ __GGB__keysVar.pt_PT.menu = {
     "NSolve": "Resolu\xe7\xe3o Num\xe9rica",
     "NSolve.Help": "Resolva uma ou mais condi\xe7\xf5es numericamente",
     "Name": "Nome",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "bot\xe3o",
     "Name.edge": "aresta",
     "Name.face": "face",

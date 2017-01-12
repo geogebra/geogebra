@@ -2134,7 +2134,6 @@ __GGB__keysVar.hr.menu = {
     "NSolve": "Rije\u0161i numeri\u010dki",
     "NSolve.Help": "Rje\u0161ava jednu ili vi\u0161e jednad\u017ebi numeri\u010dki",
     "Name": "Naziv",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "gumb",
     "Name.edge": "brid",
     "Name.face": "strana",

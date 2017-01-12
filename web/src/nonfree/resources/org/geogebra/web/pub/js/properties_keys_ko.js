@@ -2134,7 +2134,6 @@ __GGB__keysVar.ko.menu = {
     "NSolve": "\uc218\uce58\ud574\uc11d\uc73c\ub85c \ud480\uae30",
     "NSolve.Help": "\ud558\ub098 \uc774\uc0c1\uc758 \ubc29\uc815\uc2dd\uc744 \uc218\uce58\ud574\uc11d\uc801 \ubc29\ubc95\uc73c\ub85c \ud574\uacb0\ud558\uc138\uc694.",
     "Name": "\uc774\ub984",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "\ubc84\ud2bc",
     "Name.edge": "\ubaa8\uc11c\ub9ac",
     "Name.face": "\uba74",

@@ -2134,7 +2134,6 @@ __GGB__keysVar.hu.menu = {
     "NSolve": "Numerikusan megold",
     "NSolve.Help": "Egy vagy t\xf6bb egyenlet numerikus megold\xe1sa",
     "Name": "N\xe9v",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "gomb",
     "Name.edge": "\xe9l",
     "Name.face": "fel\xfclet",

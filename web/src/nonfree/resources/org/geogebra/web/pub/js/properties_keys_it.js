@@ -2134,7 +2134,6 @@ __GGB__keysVar.it.menu = {
     "NSolve": "Risolvi numericamente",
     "NSolve.Help": "Risolve numericamente una o pi\xf9 equazioni",
     "Name": "Nome",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "pulsante",
     "Name.edge": "spigolo",
     "Name.face": "faccia",

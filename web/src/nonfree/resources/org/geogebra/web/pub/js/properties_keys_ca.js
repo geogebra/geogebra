@@ -2134,7 +2134,6 @@ __GGB__keysVar.ca.menu = {
     "NSolve": "Resol num\xe8ricament",
     "NSolve.Help": "Resol num\xe8ricament una equaci\xf3 o un sistema escrit com d'una llista",
     "Name": "Nom",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "bot\xf3",
     "Name.edge": "aresta",
     "Name.face": "cara",

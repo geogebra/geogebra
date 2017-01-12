@@ -2134,7 +2134,6 @@ __GGB__keysVar.tl.menu = {
     "NSolve": "Saguting ng Pabilang",
     "NSolve.Help": "Nagsosolve ng isa o higit pang equations numerically",
     "Name": "Pangalan",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "pindutan",
     "Name.edge": "dulo",
     "Name.face": "face",

@@ -2134,7 +2134,6 @@ __GGB__keysVar.tr.menu = {
     "NSolve": "Say\u0131sal olarak \xc7\xf6z",
     "NSolve.Help": "Bir veya daha fazla denklemi say\u0131sal olarak \xe7\xf6zer",
     "Name": "Ad",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "d\xfc\u011fme",
     "Name.edge": "ayr\u0131t",
     "Name.face": "y\xfcz",

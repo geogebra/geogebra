@@ -2134,7 +2134,6 @@ __GGB__keysVar.eu.menu = {
     "NSolve": "Zenbakiz Ebatzi",
     "NSolve.Help": "Ekuazio bat edo gehiago zenbakiz ebazten ditu",
     "Name": "Izena",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "botoia",
     "Name.edge": "Ertza",
     "Name.face": "Aurpegia",

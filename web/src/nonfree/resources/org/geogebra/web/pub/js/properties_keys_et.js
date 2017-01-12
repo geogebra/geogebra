@@ -2134,7 +2134,6 @@ __GGB__keysVar.et.menu = {
     "NSolve": "Lahenda numbriliselt",
     "NSolve.Help": "Lahendab \xfche v\xf5i enam v\xf5rrandit numbriliselt",
     "Name": "T\xe4his",
-    "Name.ImplicitSurface": "Implicit Surface",
     "Name.button": "nupp",
     "Name.edge": "serv",
     "Name.face": "tahk",
