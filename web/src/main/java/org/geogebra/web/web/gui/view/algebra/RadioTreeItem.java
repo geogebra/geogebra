@@ -1183,6 +1183,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 
 		}
+		if (success && typeChanged()) {
+			av.remove(geo);
+			av.add(geo);
+		}
 
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
 				&& content.getElement().isOrHasChild(latexItem.getElement())) {
@@ -1202,6 +1206,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 				}
 			});
 		}
+	}
+
+	private boolean typeChanged() {
+		return (isSliderItem() != SliderTreeItemRetex.match(geo))
+				|| (isCheckBoxItem() != CheckboxTreeItem.match(geo));
 	}
 
 	private void cancelDV() {
