@@ -113,7 +113,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	 */
 	public void scrollToBottom(){
 		if (this.algebrap != null) {
-			this.algebrap.scrollToBottom();
+			// this.algebrap.scrollToBottom();
 		}
 	}
 
@@ -126,32 +126,32 @@ public class AlgebraDockPanelW extends DockPanelW {
 	 * Scroll to the item that is selected.
 	 */
 	public void scrollToActiveItem() {
-		// if (aview.isInputActive()) {
-		// scrollToBottom();
-		// return;
-		// }
 
 		RadioTreeItem item = aview.getActiveTreeItem();
 		if (item == null) {
 			return;
 		}
 
+		if (item.isInputTreeItem()) {
+			algebrap.scrollToBottom();
+			return;
+		}
+
 		int spH = algebrap.getOffsetHeight();
 		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
 
-		int h = aview.getOffsetHeight();
-
-		int itemTop = item.getAbsoluteTop() - algebrap.getAbsoluteTop()
+		int itemTop = item.getAbsoluteTop() - aview.getAbsoluteTop() - spH
 				+ item.getOffsetHeight() + AUTOSCROLL_MARGIN;
 
-		int relTop = itemTop % (spH + kH);
-		Log.debug("[AVS] scrollpanel: " + spH + " item top: " + itemTop
-				+ " relative: " + relTop);
 
-		if (relTop > spH) {
-			Log.debug("[AVS] scrollolololllollllllllllllll");
+		Log.debug("[AVS] scrollpanel: " + spH + " item top: " + itemTop);
+
+		// int relTop = itemTop % (spH + kH);
+
+		// if (relTop > spH) {
+		// Log.debug("[AVS] scrollolololllollllllllllllll");
 			scrollTo(itemTop);
-		}
+		// }
 
 	}
 }
