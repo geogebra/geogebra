@@ -94,6 +94,7 @@ public class Text extends ShapeElement {
 	public Text() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -122,6 +123,7 @@ public class Text extends ShapeElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
@@ -132,6 +134,7 @@ public class Text extends ShapeElement {
 	/**
 	 * Called during load process to add text scanned within a tag
 	 */
+	@Override
 	public void loaderAddText(SVGLoaderHelper helper, String text) {
 		Matcher matchWs = Pattern.compile("\\s*").matcher(text);
 		if (!matchWs.matches()) {
@@ -139,6 +142,7 @@ public class Text extends ShapeElement {
 		}
 	}
 
+	@Override
 	public void build() throws SVGException {
 		super.build();
 
@@ -253,7 +257,7 @@ public class Text extends ShapeElement {
 		FontFace fontFace = font.getFontFace();
 		// int unitsPerEm = fontFace.getUnitsPerEm();
 		int ascent = fontFace.getAscent();
-		float fontScale = fontSize / (float) ascent;
+		float fontScale = fontSize / ascent;
 
 		// AffineTransform oldXform = g.getTransform();
 		AffineTransform xform = new AffineTransform();
@@ -401,16 +405,19 @@ public class Text extends ShapeElement {
 		}
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		beginLayer(g);
 		renderShape(g, textShape);
 		finishLayer(g);
 	}
 
+	@Override
 	public Shape getShape() {
 		return shapeToParent(textShape);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		return boundsToParent(includeStrokeInBounds(textShape.getBounds2D()));
 	}
@@ -422,6 +429,7 @@ public class Text extends ShapeElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 		boolean changeState = super.updateTime(curTime);

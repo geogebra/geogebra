@@ -83,6 +83,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 		TitlePanel tp = new TitlePanel(app);
 		cp.add(tp, BorderLayout.NORTH);
 		tp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				kernelChanged = true;
 			}
@@ -122,6 +123,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 
 		// disable width and height field when checkbox is deselected
 		cbDrawingPadPicture.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean flag = cbDrawingPadPicture.isSelected();
 				sizePanel.setEnabled(flag);
@@ -131,6 +133,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 			}
 		});
 		cbScreenshotPicture.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean flag = cbScreenshotPicture.isSelected();
 				sizePanel.setEnabled(false);
@@ -140,11 +143,13 @@ public class ConstructionProtocolExportDialog extends JDialog
 			}
 		});
 		cbColor.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				prot.setUseColors(cbColor.isSelected());
 			}
 		});
 		cbIcons.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				prot.setAddIcons(cbIcons.isSelected());
 			}
@@ -153,19 +158,22 @@ public class ConstructionProtocolExportDialog extends JDialog
 		// Cancel and Export Button
 		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 		JButton exportButton = new JButton(loc.getMenu("Export"));
 		exportButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
 						dispose();
-						if (kernelChanged)
+						if (kernelChanged) {
 							app.storeUndoInfo();
+						}
 						exportHTML(cbDrawingPadPicture.isSelected(),
 								cbScreenshotPicture.isSelected(),
 								cbColor.isSelected(), cbIcons.isSelected());
@@ -177,13 +185,15 @@ public class ConstructionProtocolExportDialog extends JDialog
 
 		JButton clipboardButton = new JButton(loc.getMenu("Clipboard"));
 		clipboardButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
 						dispose();
-						if (kernelChanged)
+						if (kernelChanged) {
 							app.storeUndoInfo();
+						}
 						try {
 							Toolkit toolkit = Toolkit.getDefaultToolkit();
 							Clipboard clipboard = toolkit.getSystemClipboard();
@@ -225,6 +235,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 	 * Keylistener implementation of ConstructionProtocol
 	 */
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_ESCAPE) {
@@ -232,10 +243,12 @@ public class ConstructionProtocolExportDialog extends JDialog
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		//
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		//
 	}

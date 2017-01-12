@@ -50,9 +50,10 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 		super(pdf, writer);
 		this.name = name;
 		object = parent;
-		if (object == null)
+		if (object == null) {
 			System.err.println(
 					"PDFWriter: 'PDFStream' cannot have a null parent");
+		}
 		// first write the dictionary
 		dictionaryOpen = true;
 		this.encode = encode;
@@ -73,8 +74,9 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	private void startStream(String[] encode) throws IOException {
 		if (dictionaryOpen) {
 			PDFName[] filters = decodeFilters(encode);
-			if (filters != null)
+			if (filters != null) {
 				entry("Filter", filters);
+			}
 
 			super.close();
 			dictionaryOpen = false;
@@ -92,7 +94,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	private void write(byte[] b) throws IOException {
 		for (int i = 0; i < b.length; i++) {
-			write((int) b[i]);
+			write(b[i]);
 		}
 	}
 
@@ -155,6 +157,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 		}
 	}
 
+	@Override
 	void close() throws IOException {
 		closeFilters(stream);
 		stream = null;
@@ -199,8 +202,9 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	public void restore() throws IOException {
-		if (gStates <= 0)
+		if (gStates <= 0) {
 			System.err.println("PDFStream: unbalanced saves()/restores()");
+		}
 		gStates--;
 		println("Q");
 	}
@@ -362,16 +366,18 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	private boolean textOpen = false;
 
 	public void beginText() throws IOException {
-		if (textOpen)
+		if (textOpen) {
 			System.err.println("PDFStream: nested beginText() not allowed.");
+		}
 		println("BT");
 		textOpen = true;
 	}
 
 	public void endText() throws IOException {
-		if (!textOpen)
+		if (!textOpen) {
 			System.err.println(
 					"PDFStream: unbalanced use of beginText()/endText().");
+		}
 		println("ET");
 		textOpen = false;
 	}
@@ -439,33 +445,39 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	// Text Showing operators (see Table 5.6)
 	//
 	public void show(String text) throws IOException {
-		if (!fontWasSet)
+		if (!fontWasSet) {
 			System.err.println(
 					"PDFStream: cannot use Text Showing operator before font is set.");
-		if (!textOpen)
+		}
+		if (!textOpen) {
 			System.err.println(
 					"PDFStream: Text Showing operator only allowed inside Text section.");
+		}
 		println("(" + PDFUtil.escape(text) + ") Tj");
 	}
 
 	public void showLine(String text) throws IOException {
-		if (!fontWasSet)
+		if (!fontWasSet) {
 			System.err.println(
 					"PDFStream: cannot use Text Showing operator before font is set.");
-		if (!textOpen)
+		}
+		if (!textOpen) {
 			System.err.println(
 					"PDFStream: Text Showing operator only allowed inside Text section.");
+		}
 		println("(" + PDFUtil.escape(text) + ") '");
 	}
 
 	public void showLine(double wordSpace, double charSpace, String text)
 			throws IOException {
-		if (!fontWasSet)
+		if (!fontWasSet) {
 			System.err.println(
 					"PDFStream: cannot use Text Showing operator before font is set.");
-		if (!textOpen)
+		}
+		if (!textOpen) {
 			System.err.println(
 					"PDFStream: Text Showing operator only allowed inside Text section.");
+		}
 		println(PDFUtil.fixedPrecision(wordSpace) + " "
 				+ PDFUtil.fixedPrecision(charSpace) + " ("
 				+ PDFUtil.escape(text) + ") \"");
@@ -756,17 +768,19 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	private boolean compatibilityOpen = false;
 
 	public void beginCompatibility() throws IOException {
-		if (compatibilityOpen)
+		if (compatibilityOpen) {
 			System.err.println(
 					"PDFStream: nested use of Compatibility sections not allowed.");
+		}
 		println("BX");
 		compatibilityOpen = true;
 	}
 
 	public void endCompatibility() throws IOException {
-		if (!compatibilityOpen)
+		if (!compatibilityOpen) {
 			System.err.println(
 					"PDFStream: unbalanced use of begin/endCompatibilty().");
+		}
 		println("EX");
 		compatibilityOpen = false;
 	}

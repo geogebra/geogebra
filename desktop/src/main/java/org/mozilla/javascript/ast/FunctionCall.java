@@ -84,8 +84,9 @@ public class FunctionCall extends AstNode {
 		if (arguments == null) {
 			this.arguments = null;
 		} else {
-			if (this.arguments != null)
+			if (this.arguments != null) {
 				this.arguments.clear();
+			}
 			for (AstNode arg : arguments) {
 				addArgument(arg);
 			}

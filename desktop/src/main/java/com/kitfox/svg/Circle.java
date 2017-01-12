@@ -60,10 +60,12 @@ public class Circle extends ShapeElement {
 	public Circle() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -84,16 +86,19 @@ public class Circle extends ShapeElement {
 		circle.setFrame(cx - r, cy - r, r * 2f, r * 2f);
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		beginLayer(g);
 		renderShape(g, circle);
 		finishLayer(g);
 	}
 
+	@Override
 	public Shape getShape() {
 		return shapeToParent(circle);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		return boundsToParent(includeStrokeInBounds(circle.getBounds2D()));
 	}
@@ -105,6 +110,7 @@ public class Circle extends ShapeElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 		boolean changeState = super.updateTime(curTime);

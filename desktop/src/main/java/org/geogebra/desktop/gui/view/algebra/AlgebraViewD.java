@@ -225,8 +225,9 @@ public class AlgebraViewD extends AlgebraTree
 	public void attachView() {
 		// AbstractApplication.printStacktrace("");
 
-		if (attached)
+		if (attached) {
 			return;
+		}
 
 		clearView();
 		kernel.notifyAddAll(this);
@@ -268,12 +269,15 @@ public class AlgebraViewD extends AlgebraTree
 		// canceled on a focus lost event
 		editTF.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(FocusEvent e) {
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
-				if (e.getSource() == editTF)
+				if (e.getSource() == editTF) {
 					cancelEditItem();
+				}
 			}
 		});
 
@@ -363,6 +367,7 @@ public class AlgebraViewD extends AlgebraTree
 	 * @param value
 	 *            Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
 	 */
+	@Override
 	public void setTreeMode(SortMode value) {
 		if (getTreeMode().equals(value)) {
 			return;
@@ -400,9 +405,11 @@ public class AlgebraViewD extends AlgebraTree
 	/**
 	 * Open Editor textfield for geo.
 	 */
+	@Override
 	public void startEditItem(GeoElement geo) {
-		if (geo == null)
+		if (geo == null) {
 			return;
+		}
 
 		// open Object Properties for eg GeoImages
 		// also for GeoPenStroke
@@ -569,8 +576,9 @@ public class AlgebraViewD extends AlgebraTree
 			String geoLabel) {
 		int left = 0;
 		int right = parent.getChildCount() - 1;
-		if (right == -1 || geoLabel == null)
+		if (right == -1 || geoLabel == null) {
 			return -1;
+		}
 
 		// binary search for geo's label
 		while (left <= right) {
@@ -581,12 +589,13 @@ public class AlgebraViewD extends AlgebraTree
 					.getLabelSimple();
 
 			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
-			if (compare < 0)
+			if (compare < 0) {
 				right = middle - 1;
-			else if (compare > 0)
+			} else if (compare > 0) {
 				left = middle + 1;
-			else
+			} else {
 				return middle;
+			}
 		}
 
 		return -1;
@@ -599,15 +608,17 @@ public class AlgebraViewD extends AlgebraTree
 	 */
 	final public static int linearSearchGeo(DefaultMutableTreeNode parent,
 			String geoLabel) {
-		if (geoLabel == null)
+		if (geoLabel == null) {
 			return -1;
+		}
 		int childCount = parent.getChildCount();
 		for (int i = 0; i < childCount; i++) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 					.getChildAt(i);
 			GeoElement g = (GeoElement) node.getUserObject();
-			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate)))
+			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate))) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -664,10 +675,12 @@ public class AlgebraViewD extends AlgebraTree
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) root
 						.getChildAt(i);
 				Object ob = child.getUserObject();
-				if (ob == geo1 || ob == geo2)
+				if (ob == geo1 || ob == geo2) {
 					found++;
-				if (found > 0)
+				}
+				if (found > 0) {
 					ret.add((GeoElement) ob);
+				}
 			}
 			return ret;
 		}
@@ -676,6 +689,7 @@ public class AlgebraViewD extends AlgebraTree
 		return super.getGeosBetween(geo1, geo2);
 	}
 
+	@Override
 	public void repaintView() {
 		repaint();
 	}
@@ -683,10 +697,12 @@ public class AlgebraViewD extends AlgebraTree
 	/**
 	 * Reset the algebra view if the mode changed.
 	 */
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		reset();
 	}
 
+	@Override
 	public void reset() {
 		cancelEditItem();
 		repaint();
@@ -747,9 +763,11 @@ public class AlgebraViewD extends AlgebraTree
 		/*
 		 * CellEditorListener implementation
 		 */
+		@Override
 		public void editingCanceled(ChangeEvent event) {
 		}
 
+		@Override
 		public void editingStopped(ChangeEvent event) {
 
 			// get the entered String
@@ -792,8 +810,9 @@ public class AlgebraViewD extends AlgebraTree
 		@Override
 		public boolean isCellEditable(EventObject event) {
 
-			if (event == null)
+			if (event == null) {
 				return true;
+			}
 
 			return false;
 		}
@@ -808,10 +827,11 @@ public class AlgebraViewD extends AlgebraTree
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			if (tree != null) {
-				if (tree.getSelectionCount() == 1)
+				if (tree.getSelectionCount() == 1) {
 					lastPath = tree.getSelectionPath();
-				else
+				} else {
 					lastPath = null;
+				}
 				/***** ADDED by Markus Hohenwarter ***********/
 				storeSelection(lastPath);
 				/********************************************/
@@ -826,8 +846,9 @@ public class AlgebraViewD extends AlgebraTree
 		 * selectedGeoElement are private members of AlgebraView
 		 */
 		private void storeSelection(TreePath tp) {
-			if (tp == null)
+			if (tp == null) {
 				return;
+			}
 
 			Object ob;
 			selectedNode = (DefaultMutableTreeNode) tp.getLastPathComponent();
@@ -907,8 +928,9 @@ public class AlgebraViewD extends AlgebraTree
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension d = super.getPreferredSize();
-				if (editingComponent != null)
+				if (editingComponent != null) {
 					d.height = editingComponent.getHeight();
+				}
 				return d;
 			}
 
@@ -923,18 +945,22 @@ public class AlgebraViewD extends AlgebraTree
 
 	} // MyDefaultTreeCellEditor
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_ALGEBRA;
 	}
 
+	@Override
 	public AppD getApplication() {
 		return app;
 	}
 
+	@Override
 	public int[] getGridColwidths() {
 		return new int[] { getWidth() };
 	}
 
+	@Override
 	public int[] getGridRowHeights() {
 		// Object root=model.getRoot();
 		// ArrayList<Integer> heights=new ArrayList<Integer>();
@@ -960,10 +986,12 @@ public class AlgebraViewD extends AlgebraTree
 		return heights;
 	}
 
+	@Override
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { this } };
 	}
 
+	@Override
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
 		if (this.treeMode.equals(SortMode.LAYER)) {
 			DefaultMutableTreeNode node = nodeTable.get(g);
@@ -1021,17 +1049,19 @@ public class AlgebraViewD extends AlgebraTree
 			return;
 		}
 
-		if (collapsedNodes == null)
+		if (collapsedNodes == null) {
 			collapsedNodes = new ArrayList<Integer>();
-		else
+		} else {
 			collapsedNodes.clear();
+		}
 
 		DefaultMutableTreeNode root = getRoot();
 		for (int i = 0; i < root.getChildCount(); i++) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 					.getChildAt(i);
-			if (isCollapsed(new TreePath(node.getPath())))
+			if (isCollapsed(new TreePath(node.getPath()))) {
 				collapsedNodes.add(i);
+			}
 		}
 
 	}
@@ -1041,10 +1071,11 @@ public class AlgebraViewD extends AlgebraTree
 	 */
 	public void getXML(StringBuilder sb, boolean asPreference) {
 
-		if (sbXML == null)
+		if (sbXML == null) {
 			sbXML = new StringBuilder();
-		else
+		} else {
 			sbXML.setLength(0);
+		}
 
 		// tree mode
 		if (getTreeMode() != SortMode.TYPE) {
@@ -1090,16 +1121,19 @@ public class AlgebraViewD extends AlgebraTree
 	private ArrayList<Integer> collapsedNodes;
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
-		if (collapsedNodes == null)
+		if (collapsedNodes == null) {
 			return;
+		}
 
-		if (this.collapsedNodes == null)
+		if (this.collapsedNodes == null) {
 			this.collapsedNodes = new ArrayList<Integer>();
-		else
+		} else {
 			this.collapsedNodes.clear();
+		}
 
-		for (int i = 0; i < collapsedNodes.length; i++)
+		for (int i = 0; i < collapsedNodes.length; i++) {
 			this.collapsedNodes.add(collapsedNodes[i]);
+		}
 	}
 
 	/**
@@ -1121,8 +1155,9 @@ public class AlgebraViewD extends AlgebraTree
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
 		// collapsed nodes
-		if (collapsedNodes == null)
+		if (collapsedNodes == null) {
 			return;
+		}
 
 		DefaultMutableTreeNode root = getRoot();
 		for (int i : collapsedNodes) {
@@ -1141,6 +1176,7 @@ public class AlgebraViewD extends AlgebraTree
 
 	private boolean settingsChanged = false;
 
+	@Override
 	public void settingsChanged(AbstractSettings settings) {
 
 		AlgebraSettings algebraSettings = (AlgebraSettings) settings;
@@ -1153,31 +1189,37 @@ public class AlgebraViewD extends AlgebraTree
 
 	}
 
+	@Override
 	public void setFocus(boolean b) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public GeoElement getLastSelectedGeo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void setLastSelectedGeo(GeoElement geo) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web
@@ -1188,24 +1230,29 @@ public class AlgebraViewD extends AlgebraTree
 		return attached;
 	}
 
+	@Override
 	public GeoElement getDraggedGeo() {
 		// temporary change to fix it because it did not compile
 		return null;
 	}
 
+	@Override
 	public void setShowAlgebraInput(boolean b) {
 		// only used in web
 	}
 
+	@Override
 	public void resetItems(boolean clear) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void cancelEditItem() {
 		cancelEditing();
 	}
 
+	@Override
 	public boolean isEditItem() {
 		return isEditing();
 	}

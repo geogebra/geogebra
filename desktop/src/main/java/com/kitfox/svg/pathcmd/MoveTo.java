@@ -59,6 +59,7 @@ public class MoveTo extends PathCommand {
 	}
 
 	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	@Override
 	public void appendPath(GeneralPath path, BuildHistory hist) {
 		float offx = isRelative ? hist.lastPoint.x : 0f;
 		float offy = isRelative ? hist.lastPoint.y : 0f;
@@ -69,10 +70,12 @@ public class MoveTo extends PathCommand {
 		hist.setLastKnot(x + offx, y + offy);
 	}
 
+	@Override
 	public int getNumKnotsAdded() {
 		return 2;
 	}
 
+	@Override
 	public String toString() {
 		return "M " + x + " " + y;
 	}

@@ -61,6 +61,7 @@ class ToolsMenuD extends BaseMenu {
 				app.getMenu("Toolbar.Customize") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getDialogManager().showToolbarConfigDialog();
 			}
@@ -71,6 +72,7 @@ class ToolsMenuD extends BaseMenu {
 				app.getMenuIcon(GuiResourcesD.TOOL)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ToolCreationDialogD tcd = new ToolCreationDialogD(app);
 				tcd.setVisible(true);
@@ -82,6 +84,7 @@ class ToolsMenuD extends BaseMenu {
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_PROPERTIES)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ToolManagerDialogD tmd = new ToolManagerDialogD(app);
 				tmd.setVisible(true);

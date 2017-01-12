@@ -27,6 +27,7 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 		set(view, manager);
 	}
 
+	@Override
 	protected void printToFile(String s) {
 		// System.out.print(s);
 		try {

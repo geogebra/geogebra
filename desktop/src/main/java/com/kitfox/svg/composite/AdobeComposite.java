@@ -77,6 +77,7 @@ public class AdobeComposite implements Composite {
 		return compositeType;
 	}
 
+	@Override
 	public CompositeContext createContext(ColorModel srcColorModel,
 			ColorModel dstColorModel, RenderingHints hints) {
 		return new AdobeCompositeContext(compositeType, extraAlpha);

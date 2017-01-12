@@ -72,8 +72,9 @@ class JavaMembers {
 		if (member == null) {
 			member = this.getExplicitFunction(scope, name, javaObject,
 					isStatic);
-			if (member == null)
+			if (member == null) {
 				return Scriptable.NOT_FOUND;
+			}
 		}
 		if (member instanceof Scriptable) {
 			return member;
@@ -84,8 +85,9 @@ class JavaMembers {
 		try {
 			if (member instanceof BeanProperty) {
 				BeanProperty bp = (BeanProperty) member;
-				if (bp.getter == null)
+				if (bp.getter == null) {
 					return Scriptable.NOT_FOUND;
+				}
 				rval = bp.getter.invoke(javaObject, Context.emptyArgs);
 				type = bp.getter.method().getReturnType();
 			} else {
@@ -109,8 +111,9 @@ class JavaMembers {
 			// Try to get static member from instance (LC3)
 			member = staticMembers.get(name);
 		}
-		if (member == null)
+		if (member == null) {
 			throw reportMemberNotFound(name);
+		}
 		if (member instanceof FieldAndMethods) {
 			FieldAndMethods fam = (FieldAndMethods) ht.get(name);
 			member = fam.field;
@@ -316,8 +319,9 @@ class JavaMembers {
 											method);
 									if (!map.containsKey(sig)) {
 										if (includePrivate
-												&& !method.isAccessible())
+												&& !method.isAccessible()) {
 											method.setAccessible(true);
+										}
 										map.put(sig, method);
 									}
 								}
@@ -331,8 +335,9 @@ class JavaMembers {
 							for (Method method : methods) {
 								MethodSignature sig = new MethodSignature(
 										method);
-								if (!map.containsKey(sig))
+								if (!map.containsKey(sig)) {
 									map.put(sig, method);
+								}
 							}
 							break; // getMethods gets superclass methods, no
 									// need to loop any more
@@ -344,8 +349,9 @@ class JavaMembers {
 						MethodSignature sig = new MethodSignature(method);
 						// Array may contain methods with same signature but
 						// different return value!
-						if (!map.containsKey(sig))
+						if (!map.containsKey(sig)) {
 							map.put(sig, method);
+						}
 					}
 				}
 				return;
@@ -421,8 +427,9 @@ class JavaMembers {
 				if (value instanceof ObjArray) {
 					overloadedMethods = (ObjArray) value;
 				} else {
-					if (!(value instanceof Method))
+					if (!(value instanceof Method)) {
 						Kit.codeBug();
+					}
 					// value should be instance of Method as at this stage
 					// staticMembers and members can only contain methods
 					overloadedMethods = new ObjArray();
@@ -447,8 +454,9 @@ class JavaMembers {
 				} else {
 					ObjArray overloadedMethods = (ObjArray) value;
 					int N = overloadedMethods.size();
-					if (N < 2)
+					if (N < 2) {
 						Kit.codeBug();
+					}
 					methodBoxes = new MemberBox[N];
 					for (int i = 0; i != N; ++i) {
 						Method method = (Method) overloadedMethods.get(i);
@@ -533,8 +541,9 @@ class JavaMembers {
 					// Double check name component.
 					String nameComponent = name
 							.substring(memberIsIsMethod ? 2 : 3);
-					if (nameComponent.length() == 0)
+					if (nameComponent.length() == 0) {
 						continue;
+					}
 
 					// Make the bean property name.
 					String beanPropertyName = nameComponent;
@@ -553,8 +562,9 @@ class JavaMembers {
 
 					// If we already have a member by this name, don't do this
 					// property.
-					if (toAdd.containsKey(beanPropertyName))
+					if (toAdd.containsKey(beanPropertyName)) {
 						continue;
+					}
 					Object v = ht.get(beanPropertyName);
 					if (v != null) {
 						// A private field shouldn't mask a public getter/setter
@@ -659,8 +669,9 @@ class JavaMembers {
 						int mod = field.getModifiers();
 						if (includePrivate || isPublic(mod)
 								|| isProtected(mod)) {
-							if (!field.isAccessible())
+							if (!field.isAccessible()) {
 								field.setAccessible(true);
+							}
 							fieldsList.add(field);
 						}
 					}
@@ -730,8 +741,9 @@ class JavaMembers {
 								return method;
 							}
 						} else {
-							if (pass != 2)
+							if (pass != 2) {
 								Kit.codeBug();
+							}
 							if (params[0].isAssignableFrom(type)) {
 								return method;
 							}
@@ -762,8 +774,9 @@ class JavaMembers {
 			Object javaObject, boolean isStatic) {
 		Map<String, FieldAndMethods> ht = isStatic ? staticFieldAndMethods
 				: fieldAndMethods;
-		if (ht == null)
+		if (ht == null) {
 			return null;
+		}
 		int len = ht.size();
 		Map<String, FieldAndMethods> result = new HashMap<String, FieldAndMethods>(
 				len);
@@ -870,8 +883,9 @@ class FieldAndMethods extends NativeJavaMethod {
 
 	@Override
 	public Object getDefaultValue(Class<?> hint) {
-		if (hint == ScriptRuntime.FunctionClass)
+		if (hint == ScriptRuntime.FunctionClass) {
 			return this;
+		}
 		Object rval;
 		Class<?> type;
 		try {

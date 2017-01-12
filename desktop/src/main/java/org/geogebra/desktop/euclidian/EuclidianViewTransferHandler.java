@@ -22,7 +22,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.view.data.PlotPanelEuclidianViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.AlgebraViewTransferHandler;
@@ -165,8 +164,9 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		// try to get an image
 		boolean imageDropped = ((GuiManagerD) ev.getApplication()
 				.getGuiManager()).loadImage(t, false);
-		if (imageDropped)
+		if (imageDropped) {
 			return true;
+		}
 
 		// handle CAS table cells as simple latex string (not dynamic!!)
 		// ToDo: make it dynamic (after ticket 2449 is finished)
@@ -217,8 +217,9 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		// check for ggb file drop
 		boolean ggbFileDropped = ((GuiManagerD) app.getGuiManager())
 				.handleGGBFileDrop(t);
-		if (ggbFileDropped)
+		if (ggbFileDropped) {
 			return true;
+		}
 
 		// handle all text flavors
 		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
@@ -271,13 +272,15 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 					// if the reader didn't work, try to get whatever string is
 					// available
-					if (text == null)
+					if (text == null) {
 						text = (String) t
 								.getTransferData(DataFlavor.stringFlavor);
+					}
 
 					// exit if no text found
-					if (text == null)
+					if (text == null) {
 						return false;
+					}
 
 					// TODO --- validate the text? e.g. no quotes for a GeoText
 
@@ -322,12 +325,13 @@ public class EuclidianViewTransferHandler extends TransferHandler
 	 * focus (current code assumes only 2 EVs)
 	 */
 	private void requestViewFocus() {
-		if (ev.equals(app.getEuclidianView1()))
-			((LayoutD) ((GuiManagerD) app.getGuiManager()).getLayout())
+		if (ev.equals(app.getEuclidianView1())) {
+			((GuiManagerD) app.getGuiManager()).getLayout()
 					.getDockManager().setFocusedPanel(App.VIEW_EUCLIDIAN);
-		else
-			((LayoutD) ((GuiManagerD) app.getGuiManager()).getLayout())
+		} else {
+			((GuiManagerD) app.getGuiManager()).getLayout()
 					.getDockManager().setFocusedPanel(App.VIEW_EUCLIDIAN2);
+		}
 	}
 
 	@Override
@@ -335,18 +339,22 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		return null;
 	}
 
+	@Override
 	public Object getTransferData(DataFlavor flavor) {
 		return null;
 	}
 
+	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return supportedFlavors;
 	}
 
+	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		for (int i = 0; i < supportedFlavors.length; i++) {
-			if (supportedFlavors[i].equals(flavor))
+			if (supportedFlavors[i].equals(flavor)) {
 				return true;
+			}
 		}
 		return false;
 	}

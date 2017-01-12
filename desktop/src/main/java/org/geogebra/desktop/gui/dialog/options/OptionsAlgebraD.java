@@ -61,6 +61,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 	private void addListeners() {
 		description.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (ignoreActions) {
 					return;
@@ -75,6 +76,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 		sortMode.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (ignoreActions) {
 					return;
@@ -89,6 +91,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 		auxiliary.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setShowAuxiliaryObjects(auxiliary.isSelected());
 
@@ -143,6 +146,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 	 * 
 	 * @remark Do not call setLabels() here
 	 */
+	@Override
 	public void updateGUI() {
 		auxiliary.setSelected(app.showAuxiliaryObjects);
 		updateSortMode();
@@ -179,6 +183,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 		ignoreActions = false;
 	}
 
+	@Override
 	public void setLabels() {
 		auxiliary.setText(loc.getPlain("AuxiliaryObjects"));
 		descriptionLabel.setText(loc.getMenu("AlgebraDescriptions"));
@@ -188,30 +193,36 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 	}
 
+	@Override
 	public void revalidate() {
 		wrappedPanel.revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return wrappedPanel;
 	}
 
+	@Override
 	public void applyModifications() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updateFont() {
 		Font font = app.getPlainFont();
 		wrappedPanel.setFont(font);
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// TODO Auto-generated method stub
 

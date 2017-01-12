@@ -30,13 +30,17 @@ public class GeoGebraKeys implements KeyListener {
 		// nothing to do
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
 		if (AppD.MAC_OS && e.isControlDown())
+		 {
 			e.consume();
 		// Application.debug("keyPressed");
+		}
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 
 		// Application.debug("keyTyped"+e.getKeyChar());
@@ -72,11 +76,13 @@ public class GeoGebraKeys implements KeyListener {
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltDown() && e.isControlDown())
+		if (e.isAltDown() && e.isControlDown()) {
 			return;
+		}
 
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 		// when decimal comma typed on numeric keypad on eg German keyboard,
@@ -126,32 +132,36 @@ public class GeoGebraKeys implements KeyListener {
 
 				// make sure it's not eg alt-*
 				if (c >= '0' && c <= '9')
+				 {
 					altCodes.append(e.getKeyChar());
 				// Application.debug("alt:"+altCodes);
+				}
 			}
 
 			boolean numpad = e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD;
 
 			// Numeric keypad numbers eg NumPad-8, NumPad *
-			if (!e.isAltDown() && numpad)
+			if (!e.isAltDown() && numpad) {
 				keyString = e.getKeyChar() + "";
+			}
 
 			Log.debug("Key pressed " + StringUtil.toHexString(e.getKeyChar())
 					+ " " + keyString);
 
 			// workaround for different Java versions!!
-			if ("minus".equals(keyString))
+			if ("minus".equals(keyString)) {
 				keyString = "-";
-			else if ("plus".equals(keyString))
+			} else if ("plus".equals(keyString)) {
 				keyString = "+";
-			else if ("comma".equals(keyString))
+			} else if ("comma".equals(keyString)) {
 				keyString = ",";
-			else if ("period".equals(keyString))
+			} else if ("period".equals(keyString)) {
 				keyString = ".";
-			else if ("equals".equals(keyString))
+			} else if ("equals".equals(keyString)) {
 				keyString = "=";
-			else if (keyString.length() > 1)
+			} else if (keyString.length() > 1) {
 				Log.debug("Unknown keyString: " + keyString);
+			}
 
 			switch (e.getKeyChar()) {
 			default:

@@ -50,26 +50,31 @@ public class LineNumberWriter extends Writer {
 		this.out = out;
 	}
 
+	@Override
 	public void write(char cbuf[]) throws IOException {
 		write(cbuf, 0, cbuf.length);
 	}
 
+	@Override
 	public void write(char cbuf[], int off, int len) throws IOException {
 		for (int i = 0; i < len; i++) {
 			write(cbuf[off + i]);
 		}
 	}
 
+	@Override
 	public void write(String str) throws IOException {
 		write(str, 0, str.length());
 	}
 
+	@Override
 	public void write(String str, int off, int len) throws IOException {
 		for (int i = 0; i < len; i++) {
 			write(str.charAt(off + i));
 		}
 	}
 
+	@Override
 	public void write(int c) throws IOException {
 		boolean newLine = false;
 		synchronized (lock) {
@@ -82,14 +87,16 @@ public class LineNumberWriter extends Writer {
 				case '\r':
 					lineNo++;
 					lineSeparator = (c == '\n') ? CRLF : CR;
-					if (c == '\r')
+					if (c == '\r') {
 						lineNo++;
+					}
 					break;
 				case '\n':
 					lineNo++;
 					lineSeparator = (c == '\r') ? LFCR : LF;
-					if (c == '\n')
+					if (c == '\n') {
 						lineNo++;
+					}
 					break;
 				default:
 					break;
@@ -128,10 +135,12 @@ public class LineNumberWriter extends Writer {
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		out.close();
 	}
 
+	@Override
 	public void flush() throws IOException {
 		out.flush();
 	}
@@ -167,11 +176,13 @@ public class LineNumberWriter extends Writer {
 	 */
 	public void addLineNumberListener(LineNumberListener listener,
 			int lineNoLimit) throws TooManyListenersException {
-		if (this.listener != null)
+		if (this.listener != null) {
 			throw new TooManyListenersException();
-		if (lineNoLimit < 2)
+		}
+		if (lineNoLimit < 2) {
 			throw new IllegalArgumentException(
 					"LineNoLimit cannot be less than 2");
+		}
 
 		this.listener = listener;
 		this.lineNoLimit = lineNoLimit;
@@ -231,6 +242,7 @@ public class LineNumberWriter extends Writer {
 			return lineNo;
 		}
 
+		@Override
 		public String toString() {
 			return "LineNumberEvent: line=" + lineNo + "; "
 					+ getSource().toString();

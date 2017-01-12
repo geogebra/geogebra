@@ -30,16 +30,19 @@ public class FileTransferable implements Transferable {
 	}
 
 	// Returns supported flavors
+	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return dataFlavors;
 	}
 
 	// Returns true if flavor is supported
+	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		return dataFlavors[0].equals(flavor);
 	}
 
 	// Returns file
+	@Override
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException {
 		return files;

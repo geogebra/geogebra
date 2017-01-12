@@ -16,12 +16,15 @@ public class DummyOutputStream extends OutputStream {
 	public DummyOutputStream() {
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 	}
 
+	@Override
 	public void write(byte[] b) throws IOException {
 	}
 
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 	}
 }

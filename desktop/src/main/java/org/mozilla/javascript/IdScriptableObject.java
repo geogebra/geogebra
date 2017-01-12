@@ -49,10 +49,12 @@ public abstract class IdScriptableObject extends ScriptableObject
 		private short constructorAttrs;
 
 		PrototypeValues(IdScriptableObject obj, int maxId) {
-			if (obj == null)
+			if (obj == null) {
 				throw new IllegalArgumentException();
-			if (maxId < 1)
+			}
+			if (maxId < 1) {
 				throw new IllegalArgumentException();
+			}
 			this.obj = obj;
 			this.maxId = maxId;
 		}
@@ -63,15 +65,19 @@ public abstract class IdScriptableObject extends ScriptableObject
 
 		final void initValue(int id, String name, Object value,
 				int attributes) {
-			if (!(1 <= id && id <= maxId))
+			if (!(1 <= id && id <= maxId)) {
 				throw new IllegalArgumentException();
-			if (name == null)
+			}
+			if (name == null) {
 				throw new IllegalArgumentException();
-			if (value == NOT_FOUND)
+			}
+			if (value == NOT_FOUND) {
 				throw new IllegalArgumentException();
+			}
 			ScriptableObject.checkValidAttributes(attributes);
-			if (obj.findPrototypeId(name) != id)
+			if (obj.findPrototypeId(name) != id) {
 				throw new IllegalArgumentException(name);
+			}
 
 			if (id == constructorId) {
 				if (!(value instanceof IdFunctionObject)) {
@@ -89,8 +95,9 @@ public abstract class IdScriptableObject extends ScriptableObject
 		private void initSlot(int id, String name, Object value,
 				int attributes) {
 			Object[] array = valueArray;
-			if (array == null)
+			if (array == null) {
 				throw new IllegalStateException();
+			}
 
 			if (value == null) {
 				value = UniqueTag.NULL_VALUE;
@@ -103,15 +110,17 @@ public abstract class IdScriptableObject extends ScriptableObject
 					array[index + NAME_SLOT] = name;
 					attributeArray[id - 1] = (short) attributes;
 				} else {
-					if (!name.equals(array[index + NAME_SLOT]))
+					if (!name.equals(array[index + NAME_SLOT])) {
 						throw new IllegalStateException();
+					}
 				}
 			}
 		}
 
 		final IdFunctionObject createPrecachedConstructor() {
-			if (constructorId != 0)
+			if (constructorId != 0) {
 				throw new IllegalStateException();
+			}
 			constructorId = obj.findPrototypeId("constructor");
 			if (constructorId == 0) {
 				throw new IllegalStateException(
@@ -157,8 +166,9 @@ public abstract class IdScriptableObject extends ScriptableObject
 		}
 
 		final void set(int id, Scriptable start, Object value) {
-			if (value == NOT_FOUND)
+			if (value == NOT_FOUND) {
 				throw new IllegalArgumentException();
+			}
 			ensureId(id);
 			int attr = attributeArray[id - 1];
 			if ((attr & READONLY) == 0) {
@@ -321,15 +331,17 @@ public abstract class IdScriptableObject extends ScriptableObject
 		if (info != 0) {
 			int id = (info & 0xFFFF);
 			value = getInstanceIdValue(id);
-			if (value != NOT_FOUND)
+			if (value != NOT_FOUND) {
 				return value;
+			}
 		}
 		if (prototypeValues != null) {
 			int id = prototypeValues.findId(name);
 			if (id != 0) {
 				value = prototypeValues.get(id);
-				if (value != NOT_FOUND)
+				if (value != NOT_FOUND) {
 					return value;
+				}
 			}
 		}
 		return NOT_FOUND;
@@ -540,6 +552,7 @@ public abstract class IdScriptableObject extends ScriptableObject
 	 * 'thisObj' will be null if invoked as constructor, in which case instance
 	 * of Scriptable should be returned.
 	 */
+	@Override
 	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
 			Scriptable thisObj, Object[] args) {
 		throw f.unknown();
@@ -573,8 +586,9 @@ public abstract class IdScriptableObject extends ScriptableObject
 	public final void activatePrototypeMap(int maxPrototypeId) {
 		PrototypeValues values = new PrototypeValues(this, maxPrototypeId);
 		synchronized (this) {
-			if (prototypeValues != null)
+			if (prototypeValues != null) {
 				throw new IllegalStateException();
+			}
 			prototypeValues = values;
 		}
 	}
@@ -588,10 +602,12 @@ public abstract class IdScriptableObject extends ScriptableObject
 
 	public final void initPrototypeConstructor(IdFunctionObject f) {
 		int id = prototypeValues.constructorId;
-		if (id == 0)
+		if (id == 0) {
 			throw new IllegalStateException();
-		if (f.methodId() != id)
+		}
+		if (f.methodId() != id) {
 			throw new IllegalArgumentException();
+		}
 		if (isSealed()) {
 			f.sealObject();
 		}

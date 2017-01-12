@@ -250,8 +250,9 @@ public abstract class RendererGL2 extends RendererD
 	protected void setStencilLines() {
 
 		// disable clip planes if used
-		if (enableClipPlanes)
+		if (enableClipPlanes) {
 			disableClipPlanes();
+		}
 
 		final int w = right - left;
 		final int h = top - bottom;
@@ -325,8 +326,9 @@ public abstract class RendererGL2 extends RendererD
 		waitForSetStencilLines = false;
 
 		// restore clip planes
-		if (enableClipPlanes)
+		if (enableClipPlanes) {
 			enableClipPlanes();
+		}
 
 	}
 
@@ -465,14 +467,16 @@ public abstract class RendererGL2 extends RendererD
 
 	@Override
 	protected void enableClipPlanes() {
-		for (int n = 0; n < 6; n++)
+		for (int n = 0; n < 6; n++) {
 			enableClipPlane(n);
+		}
 	}
 
 	@Override
 	protected void disableClipPlanes() {
-		for (int n = 0; n < 6; n++)
+		for (int n = 0; n < 6; n++) {
 			disableClipPlane(n);
+		}
 	}
 
 	protected void enableClipPlane(int n) {
@@ -546,10 +550,12 @@ public abstract class RendererGL2 extends RendererD
 		return false;
 	}
 
+	@Override
 	public RendererJogl getJogl() {
 		return jogl;
 	}
 
+	@Override
 	public GLU getGLU() {
 		return glu;
 	}

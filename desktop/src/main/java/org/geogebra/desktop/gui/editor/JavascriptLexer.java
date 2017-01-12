@@ -103,9 +103,9 @@ public final class JavascriptLexer extends Lexer
 		while (i < l) {
 			int count = packed.charAt(i++);
 			int value = packed.charAt(i++);
-			do
+			do {
 				result[j++] = value;
-			while (--count > 0);
+			} while (--count > 0);
 		}
 		return j;
 	}
@@ -187,11 +187,13 @@ public final class JavascriptLexer extends Lexer
 		setDocument(doc);
 	}
 
+	@Override
 	public void setDocument(Document doc) {
 		this.doc = (JavascriptEditorKit.JavascriptDocument) doc;
 		this.elem = doc.getDefaultRootElement();
 	}
 
+	@Override
 	public void setRange(int p0, int p1) {
 		start = p0;
 		end = p1;
@@ -207,14 +209,17 @@ public final class JavascriptLexer extends Lexer
 		}
 	}
 
+	@Override
 	public int yychar() {
 		return yychar;
 	}
 
+	@Override
 	public int scan() throws IOException {
 		return yylex();
 	}
 
+	@Override
 	public int getKeyword(int pos, boolean strict) {
 		int index = elem.getElementIndex(pos);
 		Element line = elem.getElement(index);
@@ -287,9 +292,9 @@ public final class JavascriptLexer extends Lexer
 		while (i < 170) {
 			int count = packed.charAt(i++);
 			char value = packed.charAt(i++);
-			do
+			do {
 				map[j++] = value;
-			while (--count > 0);
+			} while (--count > 0);
 		}
 		return map;
 	}
@@ -355,8 +360,9 @@ public final class JavascriptLexer extends Lexer
 		zzAtEOF = true; /* indicate end of file */
 		zzEndRead = zzStartRead; /* invalidate buffer */
 
-		if (zzReader != null)
+		if (zzReader != null) {
 			zzReader.close();
+		}
 	}
 
 	/**
@@ -423,6 +429,7 @@ public final class JavascriptLexer extends Lexer
 	/**
 	 * Returns the length of the matched text region.
 	 */
+	@Override
 	public final int yylength() {
 		return zzMarkedPos - zzStartRead;
 	}
@@ -462,8 +469,9 @@ public final class JavascriptLexer extends Lexer
 	 *            not be greater than yylength()!
 	 */
 	public void yypushback(int number) {
-		if (number > yylength())
+		if (number > yylength()) {
 			zzScanError(ZZ_PUSHBACK_2BIG);
+		}
 
 		zzMarkedPos -= number;
 	}
@@ -501,9 +509,9 @@ public final class JavascriptLexer extends Lexer
 			zzForAction: {
 				while (true) {
 
-					if (zzCurrentPosL < zzEndReadL)
+					if (zzCurrentPosL < zzEndReadL) {
 						zzInput = zzBufferL[zzCurrentPosL++];
-					else if (zzAtEOF) {
+					} else if (zzAtEOF) {
 						zzInput = YYEOF;
 						break zzForAction;
 					} else {
@@ -8654,8 +8662,9 @@ public final class JavascriptLexer extends Lexer
 					if (zzIsFinal) {
 						zzAction = zzState;
 						zzMarkedPosL = zzCurrentPosL;
-						if (zzNoLookAhead)
+						if (zzNoLookAhead) {
 							break zzForAction;
+						}
 					}
 
 				}

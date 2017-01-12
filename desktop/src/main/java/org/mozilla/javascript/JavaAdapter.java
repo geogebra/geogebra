@@ -43,26 +43,33 @@ public final class JavaAdapter implements IdFunctionCall {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (!(obj instanceof JavaAdapterSignature))
+			if (!(obj instanceof JavaAdapterSignature)) {
 				return false;
-			JavaAdapterSignature sig = (JavaAdapterSignature) obj;
-			if (superClass != sig.superClass)
-				return false;
-			if (interfaces != sig.interfaces) {
-				if (interfaces.length != sig.interfaces.length)
-					return false;
-				for (int i = 0; i < interfaces.length; i++)
-					if (interfaces[i] != sig.interfaces[i])
-						return false;
 			}
-			if (names.size() != sig.names.size())
+			JavaAdapterSignature sig = (JavaAdapterSignature) obj;
+			if (superClass != sig.superClass) {
 				return false;
+			}
+			if (interfaces != sig.interfaces) {
+				if (interfaces.length != sig.interfaces.length) {
+					return false;
+				}
+				for (int i = 0; i < interfaces.length; i++) {
+					if (interfaces[i] != sig.interfaces[i]) {
+						return false;
+					}
+				}
+			}
+			if (names.size() != sig.names.size()) {
+				return false;
+			}
 			ObjToIntMap.Iterator iter = new ObjToIntMap.Iterator(names);
 			for (iter.start(); !iter.done(); iter.next()) {
 				String name = (String) iter.getKey();
 				int arity = iter.getValue();
-				if (arity != sig.names.get(name, arity + 1))
+				if (arity != sig.names.get(name, arity + 1)) {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -85,6 +92,7 @@ public final class JavaAdapter implements IdFunctionCall {
 		ctor.exportAsScopeProperty();
 	}
 
+	@Override
 	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
 			Scriptable thisObj, Object[] args) {
 		if (f.hasTag(FTAG)) {
@@ -236,8 +244,9 @@ public final class JavaAdapter implements IdFunctionCall {
 		Class<?>[] interfaces = cl.getInterfaces();
 		String[] interfaceNames = new String[interfaces.length];
 
-		for (int i = 0; i < interfaces.length; i++)
+		for (int i = 0; i < interfaces.length; i++) {
 			interfaceNames[i] = interfaces[i].getName();
+		}
 
 		out.writeObject(interfaceNames);
 
@@ -267,8 +276,9 @@ public final class JavaAdapter implements IdFunctionCall {
 		String[] interfaceNames = (String[]) in.readObject();
 		Class<?>[] interfaces = new Class[interfaceNames.length];
 
-		for (int i = 0; i < interfaceNames.length; i++)
+		for (int i = 0; i < interfaceNames.length; i++) {
 			interfaces[i] = Class.forName(interfaceNames[i]);
+		}
 
 		Scriptable delegee = (Scriptable) in.readObject();
 
@@ -293,8 +303,9 @@ public final class JavaAdapter implements IdFunctionCall {
 		Object[] ids = ScriptableObject.getPropertyIds(obj);
 		ObjToIntMap map = new ObjToIntMap(ids.length);
 		for (int i = 0; i != ids.length; ++i) {
-			if (!(ids[i] instanceof String))
+			if (!(ids[i] instanceof String)) {
 				continue;
+			}
 			String id = (String) ids[i];
 			Object value = ScriptableObject.getProperty(obj, id);
 			if (value instanceof Function) {
@@ -349,8 +360,9 @@ public final class JavaAdapter implements IdFunctionCall {
 						| ClassFileWriter.ACC_FINAL));
 		int interfacesCount = interfaces == null ? 0 : interfaces.length;
 		for (int i = 0; i < interfacesCount; i++) {
-			if (interfaces[i] != null)
+			if (interfaces[i] != null) {
 				cfw.addInterface(interfaces[i].getName());
+			}
 		}
 
 		String superName = superClass.getName().replace('.', '/');
@@ -445,12 +457,14 @@ public final class JavaAdapter implements IdFunctionCall {
 		ObjToIntMap.Iterator iter = new ObjToIntMap.Iterator(functionNames);
 		for (iter.start(); !iter.done(); iter.next()) {
 			String functionName = (String) iter.getKey();
-			if (generatedMethods.has(functionName))
+			if (generatedMethods.has(functionName)) {
 				continue;
+			}
 			int length = iter.getValue();
 			Class<?>[] parms = new Class[length];
-			for (int k = 0; k < length; k++)
+			for (int k = 0; k < length; k++) {
 				parms[k] = ScriptRuntime.ObjectClass;
+			}
 			generateMethod(cfw, adapterName, functionName, parms,
 					ScriptRuntime.ObjectClass, false);
 		}
@@ -468,8 +482,9 @@ public final class JavaAdapter implements IdFunctionCall {
 			appendOverridableMethods(c, list, skip);
 		}
 		for (Class<?> c = clazz; c != null; c = c.getSuperclass()) {
-			for (Class<?> intf : c.getInterfaces())
+			for (Class<?> intf : c.getInterfaces()) {
 				appendOverridableMethods(intf, list, skip);
+			}
 		}
 		return list.toArray(new Method[list.size()]);
 	}
@@ -481,10 +496,13 @@ public final class JavaAdapter implements IdFunctionCall {
 			String methodKey = methods[i].getName() + getMethodSignature(
 					methods[i], methods[i].getParameterTypes());
 			if (skip.contains(methodKey))
+			 {
 				continue; // skip this method
+			}
 			int mods = methods[i].getModifiers();
-			if (Modifier.isStatic(mods))
+			if (Modifier.isStatic(mods)) {
 				continue;
+			}
 			if (Modifier.isFinal(mods)) {
 				// Make sure we don't add a final method to the list
 				// of overridable methods.
@@ -536,8 +554,9 @@ public final class JavaAdapter implements IdFunctionCall {
 			// for instance.
 			return null;
 		}
-		if (!(x instanceof Function))
+		if (!(x instanceof Function)) {
 			throw ScriptRuntime.notFunctionError(x, functionName);
+		}
 
 		return (Function) x;
 	}
@@ -567,6 +586,7 @@ public final class JavaAdapter implements IdFunctionCall {
 			return doCall(cx, scope, thisObj, f, args, argsToWrap);
 		} else {
 			return factory.call(new ContextAction() {
+				@Override
 				public Object run(Context cx) {
 					return doCall(cx, scope, thisObj, f, args, argsToWrap);
 				}
@@ -591,6 +611,7 @@ public final class JavaAdapter implements IdFunctionCall {
 	public static Scriptable runScript(final Script script) {
 		return (Scriptable) ContextFactory.getGlobal()
 				.call(new ContextAction() {
+					@Override
 					public Object run(Context cx) {
 						ScriptableObject global = ScriptRuntime.getGlobal(cx);
 						script.exec(cx, global);
@@ -1121,16 +1142,19 @@ public final class JavaAdapter implements IdFunctionCall {
 	static int[] getArgsToConvert(Class<?>[] argTypes) {
 		int count = 0;
 		for (int i = 0; i != argTypes.length; ++i) {
-			if (!argTypes[i].isPrimitive())
+			if (!argTypes[i].isPrimitive()) {
 				++count;
+			}
 		}
-		if (count == 0)
+		if (count == 0) {
 			return null;
+		}
 		int[] array = new int[count];
 		count = 0;
 		for (int i = 0; i != argTypes.length; ++i) {
-			if (!argTypes[i].isPrimitive())
+			if (!argTypes[i].isPrimitive()) {
 				array[count++] = i;
+			}
 		}
 		return array;
 	}

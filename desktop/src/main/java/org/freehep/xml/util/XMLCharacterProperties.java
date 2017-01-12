@@ -87,12 +87,14 @@ public final class XMLCharacterProperties {
 	 */
 	public static boolean validVersionNum(String version) {
 		int len = version.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
+		}
 		for (int i = 0; i < len; i++) {
 			char ch = version.charAt(i);
-			if (ch > 'z' || fgAsciiNameChar[ch] == 0)
+			if (ch > 'z' || fgAsciiNameChar[ch] == 0) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -110,15 +112,18 @@ public final class XMLCharacterProperties {
 	 */
 	public static boolean validEncName(String encoding) {
 		int len = encoding.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
+		}
 		char ch = encoding.charAt(0);
-		if (ch > 'z' || fgAsciiAlphaChar[ch] == 0)
+		if (ch > 'z' || fgAsciiAlphaChar[ch] == 0) {
 			return false;
+		}
 		for (int i = 1; i < len; i++) {
 			ch = encoding.charAt(i);
-			if (ch > 'z' || fgAsciiEncNameChar[ch] == 0)
+			if (ch > 'z' || fgAsciiEncNameChar[ch] == 0) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -136,12 +141,14 @@ public final class XMLCharacterProperties {
 	 */
 	public static int validPublicId(String publicId) {
 		int len = publicId.length();
-		if (len == 0)
+		if (len == 0) {
 			return -1;
+		}
 		for (int i = 0; i < len; i++) {
 			char ch = publicId.charAt(i);
-			if (ch > 'z' || fgAsciiPubidChar[ch] == 0)
+			if (ch > 'z' || fgAsciiPubidChar[ch] == 0) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -159,21 +166,26 @@ public final class XMLCharacterProperties {
 	 */
 	public static boolean validName(String name) {
 		int len = name.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
+		}
 		char ch = name.charAt(0);
 		if (ch > 'z') {
-			if ((fgCharFlags[ch] & E_InitialNameCharFlag) == 0)
+			if ((fgCharFlags[ch] & E_InitialNameCharFlag) == 0) {
 				return false;
-		} else if (fgAsciiInitialNameChar[ch] == 0)
+			}
+		} else if (fgAsciiInitialNameChar[ch] == 0) {
 			return false;
+		}
 		for (int i = 1; i < len; i++) {
 			ch = name.charAt(i);
 			if (ch > 'z') {
-				if ((fgCharFlags[ch] & E_NameCharFlag) == 0)
+				if ((fgCharFlags[ch] & E_NameCharFlag) == 0) {
 					return false;
-			} else if (fgAsciiNameChar[ch] == 0)
+				}
+			} else if (fgAsciiNameChar[ch] == 0) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -191,21 +203,26 @@ public final class XMLCharacterProperties {
 	 */
 	public static boolean validNCName(String name) {
 		int len = name.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
+		}
 		char ch = name.charAt(0);
 		if (ch > 'z') {
-			if ((fgCharFlags[ch] & E_InitialNameCharFlag) == 0)
+			if ((fgCharFlags[ch] & E_InitialNameCharFlag) == 0) {
 				return false;
-		} else if (fgAsciiInitialNCNameChar[ch] == 0)
+			}
+		} else if (fgAsciiInitialNCNameChar[ch] == 0) {
 			return false;
+		}
 		for (int i = 1; i < len; i++) {
 			ch = name.charAt(i);
 			if (ch > 'z') {
-				if ((fgCharFlags[ch] & E_NameCharFlag) == 0)
+				if ((fgCharFlags[ch] & E_NameCharFlag) == 0) {
 					return false;
-			} else if (fgAsciiNCNameChar[ch] == 0)
+				}
+			} else if (fgAsciiNCNameChar[ch] == 0) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -223,13 +240,15 @@ public final class XMLCharacterProperties {
 	 */
 	public static boolean validNmtoken(String nmtoken) {
 		int len = nmtoken.length();
-		if (len == 0)
+		if (len == 0) {
 			return false;
+		}
 		for (int i = 0; i < len; i++) {
 			char ch = nmtoken.charAt(i);
 			if (ch > 'z') {
-				if ((fgCharFlags[ch] & E_NameCharFlag) == 0)
+				if ((fgCharFlags[ch] & E_NameCharFlag) == 0) {
 					return false;
+				}
 			} else if (fgAsciiNameChar[ch] == 0) {
 				return false;
 			}
@@ -365,11 +384,13 @@ public final class XMLCharacterProperties {
 		int ch;
 		for (i = 0; (ch = ranges[i]) != 0; i += 2) {
 			int endch = ranges[i + 1];
-			while (ch <= endch)
+			while (ch <= endch) {
 				fgCharFlags[ch++] |= flag;
+			}
 		}
-		for (i++; (ch = ranges[i]) != 0; i++)
+		for (i++; (ch = ranges[i]) != 0; i++) {
 			fgCharFlags[ch] |= flag;
+		}
 	}
 
 	/*

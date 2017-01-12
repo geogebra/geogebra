@@ -211,14 +211,16 @@ public class AlgebraTree extends JTree {
 	 * @return geo at this path
 	 */
 	public static GeoElement getGeoElementForPath(TreePath tp) {
-		if (tp == null)
+		if (tp == null) {
 			return null;
+		}
 
 		Object ob;
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
 				.getLastPathComponent();
-		if (node != null && (ob = node.getUserObject()) instanceof GeoElement)
+		if (node != null && (ob = node.getUserObject()) instanceof GeoElement) {
 			return (GeoElement) ob;
+		}
 
 		return null;
 	}
@@ -229,14 +231,16 @@ public class AlgebraTree extends JTree {
 	 * @return geos as childs under this path
 	 */
 	public static ArrayList<GeoElement> getGeoChildsForPath(TreePath tp) {
-		if (tp == null)
+		if (tp == null) {
 			return null;
+		}
 
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
 				.getLastPathComponent();
 
-		if (node == null)
+		if (node == null) {
 			return null;
+		}
 
 		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 		addChilds(ret, node, 0, node.getChildCount());
@@ -465,8 +469,9 @@ public class AlgebraTree extends JTree {
 			}
 		}
 
-		if (found < 2)
+		if (found < 2) {
 			return null;
+		}
 
 		return ret;
 
@@ -507,8 +512,9 @@ public class AlgebraTree extends JTree {
 			for (int i = p1 + 1; i < p2; i++) {
 				node = (DefaultMutableTreeNode) root.getChildAt(i);
 				// add childs only if node is expanded
-				if (!isCollapsed(new TreePath(node.getPath())))
+				if (!isCollapsed(new TreePath(node.getPath()))) {
 					addChilds(ret, node, 0, node.getChildCount());
+				}
 			}
 			node = (DefaultMutableTreeNode) root.getChildAt(p2);
 			addChilds(ret, node, 0, c2 + 1);
@@ -528,8 +534,9 @@ public class AlgebraTree extends JTree {
 			DefaultMutableTreeNode child = (DefaultMutableTreeNode) node
 					.getChildAt(i);
 			if (child != null
-					&& (ob = child.getUserObject()) instanceof GeoElement)
+					&& (ob = child.getUserObject()) instanceof GeoElement) {
 				list.add((GeoElement) ob);
+			}
 		}
 	}
 
@@ -580,16 +587,18 @@ public class AlgebraTree extends JTree {
 		// standard case: binary search
 		int left = 0;
 		int right = parent.getChildCount();
-		if (right == 0)
+		if (right == 0) {
 			return right;
+		}
 
 		// bigger then last?
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 				.getLastChild();
 		// String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
-		if (compare(newGeo, geo2, mode))
+		if (compare(newGeo, geo2, mode)) {
 			return right;
+		}
 
 		// binary search
 		while (right > left) {

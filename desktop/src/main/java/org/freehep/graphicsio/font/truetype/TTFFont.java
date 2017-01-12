@@ -50,8 +50,9 @@ public abstract class TTFFont {
 	/** Returns the table with the given tag and reads it if necessary. */
 	public TTFTable getTable(String tag) throws IOException {
 		TTFTable table = (TTFTable) entry.get(tag);
-		if (!table.isRead())
+		if (!table.isRead()) {
 			table.read();
+		}
 		return table;
 	}
 
@@ -64,8 +65,9 @@ public abstract class TTFFont {
 		Iterator i = entry.values().iterator();
 		while (i.hasNext()) {
 			TTFTable table = (TTFTable) i.next();
-			if ((table != null) && (!table.isRead()))
+			if ((table != null) && (!table.isRead())) {
 				table.read();
+			}
 		}
 	}
 

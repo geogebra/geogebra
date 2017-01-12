@@ -191,6 +191,7 @@ public class ModeToggleMenuD extends JPanel {
 	// sets new mode when item in popup menu is selected
 	private class MenuItemListener implements ActionListener {
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
 			if (!(Integer.toString(EuclidianConstants.MODE_IMAGE)
@@ -231,12 +232,15 @@ public class ModeToggleMenuD extends JPanel {
 	public void setPopupVisible(boolean flag) {
 		if (flag) {
 			bg.setActivePopupMenu(new GPopupMenuD(popMenu));
-			if (popMenu.isShowing())
+			if (popMenu.isShowing()) {
 				return;
+			}
 			Point locButton = tbutton.getLocationOnScreen();
 			Component component = SwingUtilities.getRootPane(tbutton);
 			if (component == null)
+			 {
 				component = app.getMainComponent(); // if geogebrapanel is
+			}
 													// inside an awt window
 			Point locApp = component.getLocationOnScreen();
 
@@ -317,6 +321,7 @@ class MyJToggleButton extends JToggleButton
 	}
 
 	// set mode
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		// don't select mode if popup triangle clicked
@@ -359,8 +364,9 @@ class MyJToggleButton extends JToggleButton
 
 		// draw little arrow (for popup menu)
 		if (menu.size > 1) {
-			if (gp == null)
+			if (gp == null) {
 				initPath();
+			}
 			GGraphics2DD.setAntialiasing(g2);
 
 			if (menu.getMouseOverButton() == this
@@ -422,6 +428,7 @@ class MyJToggleButton extends JToggleButton
 		return popupTriangleClicked;
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (!menu.isPopupShowing() && e.getClickCount() == 2) {
 			menu.setPopupVisible(true);
@@ -430,6 +437,7 @@ class MyJToggleButton extends JToggleButton
 
 	int defaultInitialDelay;
 
+	@Override
 	public void mouseEntered(MouseEvent arg0) {
 
 		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
@@ -439,6 +447,7 @@ class MyJToggleButton extends JToggleButton
 		menu.setMouseOverButton(this);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		if (!menu.isPopupShowing()
 				&& popupTriangleClicked(e.getX(), e.getY())) {
@@ -453,6 +462,7 @@ class MyJToggleButton extends JToggleButton
 			// mouse
 			if (showMenuTimer == null) {
 				showMenuTimer = new Timer(1000, new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						menu.setPopupVisible(true);
 						showMenuTimer.stop();
@@ -466,6 +476,7 @@ class MyJToggleButton extends JToggleButton
 		}
 	}
 
+	@Override
 	public void mouseExited(MouseEvent arg0) {
 		menu.setMouseOverButton(null);
 		if (popupTriangleHighlighting) {
@@ -482,6 +493,7 @@ class MyJToggleButton extends JToggleButton
 		ToolTipManager.sharedInstance().setInitialDelay(defaultInitialDelay);
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
@@ -489,16 +501,19 @@ class MyJToggleButton extends JToggleButton
 	@Override
 	public void doClick() {
 		super.doClick();
-		if (!hasFocus())
+		if (!hasFocus()) {
 			requestFocusInWindow();
+		}
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (popupTriangleClicked(e.getX(), e.getY())) {
 			menu.setPopupVisible(true);
 		}
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		menu.mouseOver();
 		showToolTipText = !menu.isPopupShowing();

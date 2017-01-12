@@ -65,6 +65,7 @@ public class StretchDIBits extends EMFTag implements EMFConstants {
 		this.bmi = null;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -96,6 +97,7 @@ public class StretchDIBits extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 		emf.writeLONG(x);
@@ -145,6 +147,7 @@ public class StretchDIBits extends EMFTag implements EMFConstants {
 		emf.append();
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
 				+ "  x, y, w, h: " + x + " " + y + " " + width + " " + height

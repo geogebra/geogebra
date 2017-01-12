@@ -34,6 +34,7 @@ public class MyComboBox extends JComboBox implements PopupMenuListener {
 	boolean stateCmb = false;
 
 	// Extend JComboBox's length and reset it
+	@Override
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 		JComboBox cmb = (JComboBox) e.getSource();
 		int oldWidth = cmb.getPreferredSize().width;
@@ -43,8 +44,9 @@ public class MyComboBox extends JComboBox implements PopupMenuListener {
 
 		// If it pops up now JPopupMenu will still be short
 		// Fire popupMenuCanceled...
-		if (!stateCmb)
+		if (!stateCmb) {
 			cmb.firePopupMenuCanceled();
+		}
 
 		// Reset JComboBox and state
 		stateCmb = false;
@@ -52,6 +54,7 @@ public class MyComboBox extends JComboBox implements PopupMenuListener {
 	}
 
 	// Show extended JPopupMenu
+	@Override
 	public void popupMenuCanceled(PopupMenuEvent e) {
 		JComboBox cmb = (JComboBox) e.getSource();
 		stateCmb = true;
@@ -59,6 +62,7 @@ public class MyComboBox extends JComboBox implements PopupMenuListener {
 		cmb.showPopup();
 	}
 
+	@Override
 	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 		stateCmb = false;
 	}

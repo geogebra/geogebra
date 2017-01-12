@@ -18,6 +18,7 @@ public class RealizePalette extends EMFTag {
 		super(52, 1);
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 

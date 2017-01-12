@@ -81,11 +81,13 @@ public class XMLParseUtil {
 		int i = 0;
 		for (; i < size; i++) {
 			node = nl.item(i);
-			if (node instanceof Text)
+			if (node instanceof Text) {
 				break;
+			}
 		}
-		if (i == size || node == null)
+		if (i == size || node == null) {
 			return null;
+		}
 
 		return ((Text) node).getData();
 	}
@@ -99,11 +101,13 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (ele.getTagName().equals(name))
+			if (ele.getTagName().equals(name)) {
 				return ele;
+			}
 		}
 
 		return null;
@@ -143,13 +147,15 @@ public class XMLParseUtil {
 	 * contains, parses and returns it.
 	 */
 	public synchronized static double findDouble(String val) {
-		if (val == null)
+		if (val == null) {
 			return 0;
+		}
 
 		fpMatch.reset(val);
 		try {
-			if (!fpMatch.find())
+			if (!fpMatch.find()) {
 				return 0;
+			}
 		} catch (StringIndexOutOfBoundsException e) {
 			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
 					"XMLParseUtil: regex parse problem: '" + val + "'", e);
@@ -164,7 +170,7 @@ public class XMLParseUtil {
 
 			float pixPerInch;
 			try {
-				pixPerInch = (float) Toolkit.getDefaultToolkit()
+				pixPerInch = Toolkit.getDefaultToolkit()
 						.getScreenResolution();
 			} catch (NoClassDefFoundError err) {
 				// Default value for headless X servers
@@ -173,9 +179,9 @@ public class XMLParseUtil {
 			final float inchesPerCm = .3936f;
 			final String units = fpMatch.group(6);
 
-			if ("%".equals(units))
+			if ("%".equals(units)) {
 				retVal /= 100;
-			else if ("in".equals(units)) {
+			} else if ("in".equals(units)) {
 				retVal *= pixPerInch;
 			} else if ("cm".equals(units)) {
 				retVal *= inchesPerCm * pixPerInch;
@@ -198,8 +204,9 @@ public class XMLParseUtil {
 	 * seperated, and many other separation schemes correctly.
 	 */
 	public synchronized static double[] parseDoubleList(String list) {
-		if (list == null)
+		if (list == null) {
 			return null;
+		}
 
 		fpMatch.reset(list);
 
@@ -234,12 +241,14 @@ public class XMLParseUtil {
 	 * contains, parses and returns it.
 	 */
 	public synchronized static float findFloat(String val) {
-		if (val == null)
+		if (val == null) {
 			return 0f;
+		}
 
 		fpMatch.reset(val);
-		if (!fpMatch.find())
+		if (!fpMatch.find()) {
 			return 0f;
+		}
 
 		val = fpMatch.group(1);
 		// System.err.println("Parsing " + val);
@@ -248,16 +257,18 @@ public class XMLParseUtil {
 		try {
 			retVal = Float.parseFloat(val);
 			String units = fpMatch.group(6);
-			if ("%".equals(units))
+			if ("%".equals(units)) {
 				retVal /= 100;
+			}
 		} catch (Exception e) {
 		}
 		return retVal;
 	}
 
 	public synchronized static float[] parseFloatList(String list) {
-		if (list == null)
+		if (list == null) {
 			return null;
+		}
 
 		fpMatch.reset(list);
 
@@ -278,8 +289,9 @@ public class XMLParseUtil {
 	}
 
 	public static int parseInt(String val) {
-		if (val == null)
+		if (val == null) {
 			return 0;
+		}
 
 		int retVal = 0;
 		try {
@@ -294,12 +306,14 @@ public class XMLParseUtil {
 	 * parses and returns it.
 	 */
 	public static int findInt(String val) {
-		if (val == null)
+		if (val == null) {
 			return 0;
+		}
 
 		intMatch.reset(val);
-		if (!intMatch.find())
+		if (!intMatch.find()) {
 			return 0;
+		}
 
 		val = intMatch.group();
 		// System.err.println("Parsing " + val);
@@ -313,8 +327,9 @@ public class XMLParseUtil {
 	}
 
 	public static int[] parseIntList(String list) {
-		if (list == null)
+		if (list == null) {
 			return null;
+		}
 
 		intMatch.reset(list);
 
@@ -351,8 +366,9 @@ public class XMLParseUtil {
 	 * number on the range of [0.0 1.0] or as a percentage [0% 100%]
 	 */
 	public static double parseRatio(String val) {
-		if (val == null || val.equals(""))
+		if (val == null || val.equals("")) {
 			return 0.0;
+		}
 
 		if (val.charAt(val.length() - 1) == '%') {
 			parseDouble(val.substring(0, val.length() - 1));
@@ -361,8 +377,9 @@ public class XMLParseUtil {
 	}
 
 	public static NumberWithUnits parseNumberWithUnits(String val) {
-		if (val == null)
+		if (val == null) {
 			return null;
+		}
 
 		return new NumberWithUnits(val);
 	}
@@ -479,8 +496,9 @@ public class XMLParseUtil {
 	 */
 	public static ReadableXMLElement getElement(Class classType, Element root,
 			String name, URL docRoot) {
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		// Do not process if not a LoadableObject
 		if (!ReadableXMLElement.class.isAssignableFrom(classType)) {
@@ -491,11 +509,13 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (!ele.getTagName().equals(name))
+			if (!ele.getTagName().equals(name)) {
 				continue;
+			}
 
 			ReadableXMLElement newObj = null;
 			try {
@@ -507,8 +527,9 @@ public class XMLParseUtil {
 			}
 			newObj.read(ele, docRoot);
 
-			if (newObj == null)
+			if (newObj == null) {
 				continue;
+			}
 
 			return newObj;
 		}
@@ -523,8 +544,9 @@ public class XMLParseUtil {
 	 */
 	public static HashMap getElementHashMap(Class classType, Element root,
 			String name, String key, URL docRoot) {
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		// Do not process if not a LoadableObject
 		if (!ReadableXMLElement.class.isAssignableFrom(classType)) {
@@ -537,11 +559,13 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (!ele.getTagName().equals(name))
+			if (!ele.getTagName().equals(name)) {
 				continue;
+			}
 
 			ReadableXMLElement newObj = null;
 			try {
@@ -553,8 +577,9 @@ public class XMLParseUtil {
 			}
 			newObj.read(ele, docRoot);
 
-			if (newObj == null)
+			if (newObj == null) {
 				continue;
+			}
 
 			String keyVal = getAttribString(ele, key);
 			retMap.put(keyVal, newObj);
@@ -565,8 +590,9 @@ public class XMLParseUtil {
 
 	public static HashSet getElementHashSet(Class classType, Element root,
 			String name, URL docRoot) {
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		// Do not process if not a LoadableObject
 		if (!ReadableXMLElement.class.isAssignableFrom(classType)) {
@@ -579,11 +605,13 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (!ele.getTagName().equals(name))
+			if (!ele.getTagName().equals(name)) {
 				continue;
+			}
 
 			ReadableXMLElement newObj = null;
 			try {
@@ -607,8 +635,9 @@ public class XMLParseUtil {
 
 	public static LinkedList getElementLinkedList(Class classType, Element root,
 			String name, URL docRoot) {
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		// Do not process if not a LoadableObject
 		if (!ReadableXMLElement.class.isAssignableFrom(classType)) {
@@ -620,11 +649,13 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (!ele.getTagName().equals(name))
+			if (!ele.getTagName().equals(name)) {
 				continue;
+			}
 
 			ReadableXMLElement newObj = null;
 			try {
@@ -668,8 +699,9 @@ public class XMLParseUtil {
 	 */
 	public static int[] getElementArrayInt(Element root, String name,
 			String attrib) {
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		NodeList nl = root.getChildNodes();
 		LinkedList elementCache = new LinkedList();
@@ -677,11 +709,13 @@ public class XMLParseUtil {
 
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (!ele.getTagName().equals(name))
+			if (!ele.getTagName().equals(name)) {
 				continue;
+			}
 
 			String valS = ele.getAttribute(attrib);
 			int eleVal = 0;
@@ -710,8 +744,9 @@ public class XMLParseUtil {
 	 */
 	public static String[] getElementArrayString(Element root, String name,
 			String attrib) {
-		if (root == null)
+		if (root == null) {
 			return null;
+		}
 
 		NodeList nl = root.getChildNodes();
 		LinkedList elementCache = new LinkedList();
@@ -719,11 +754,13 @@ public class XMLParseUtil {
 
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element))
+			if (!(node instanceof Element)) {
 				continue;
+			}
 			Element ele = (Element) node;
-			if (!ele.getTagName().equals(name))
+			if (!ele.getTagName().equals(name)) {
 				continue;
+			}
 
 			String valS = ele.getAttribute(attrib);
 

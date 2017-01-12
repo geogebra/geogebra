@@ -46,8 +46,9 @@ public class ExpressionStatement extends AstNode {
 	 */
 	public ExpressionStatement(AstNode expr, boolean hasResult) {
 		this(expr);
-		if (hasResult)
+		if (hasResult) {
 			setHasResult();
+		}
 	}
 
 	/**

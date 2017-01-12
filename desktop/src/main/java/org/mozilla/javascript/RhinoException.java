@@ -24,15 +24,17 @@ public abstract class RhinoException extends RuntimeException {
 
 	RhinoException() {
 		Evaluator e = Context.createInterpreter();
-		if (e != null)
+		if (e != null) {
 			e.captureStackInfo(this);
+		}
 	}
 
 	RhinoException(String details) {
 		super(details);
 		Evaluator e = Context.createInterpreter();
-		if (e != null)
+		if (e != null) {
 			e.captureStackInfo(this);
+		}
 	}
 
 	@Override
@@ -77,10 +79,12 @@ public abstract class RhinoException extends RuntimeException {
 	 *             if the method is called more then once.
 	 */
 	public final void initSourceName(String sourceName) {
-		if (sourceName == null)
+		if (sourceName == null) {
 			throw new IllegalArgumentException();
-		if (this.sourceName != null)
+		}
+		if (this.sourceName != null) {
 			throw new IllegalStateException();
+		}
 		this.sourceName = sourceName;
 	}
 
@@ -103,10 +107,12 @@ public abstract class RhinoException extends RuntimeException {
 	 *             if the method is called more then once.
 	 */
 	public final void initLineNumber(int lineNumber) {
-		if (lineNumber <= 0)
+		if (lineNumber <= 0) {
 			throw new IllegalArgumentException(String.valueOf(lineNumber));
-		if (this.lineNumber > 0)
+		}
+		if (this.lineNumber > 0) {
 			throw new IllegalStateException();
+		}
 		this.lineNumber = lineNumber;
 	}
 
@@ -128,10 +134,12 @@ public abstract class RhinoException extends RuntimeException {
 	 *             if the method is called more then once.
 	 */
 	public final void initColumnNumber(int columnNumber) {
-		if (columnNumber <= 0)
+		if (columnNumber <= 0) {
 			throw new IllegalArgumentException(String.valueOf(columnNumber));
-		if (this.columnNumber > 0)
+		}
+		if (this.columnNumber > 0) {
 			throw new IllegalStateException();
+		}
 		this.columnNumber = columnNumber;
 	}
 
@@ -153,10 +161,12 @@ public abstract class RhinoException extends RuntimeException {
 	 *             if the method is called more then once.
 	 */
 	public final void initLineSource(String lineSource) {
-		if (lineSource == null)
+		if (lineSource == null) {
 			throw new IllegalArgumentException();
-		if (this.lineSource != null)
+		}
+		if (this.lineSource != null) {
 			throw new IllegalStateException();
+		}
 		this.lineSource = lineSource;
 	}
 
@@ -187,8 +197,9 @@ public abstract class RhinoException extends RuntimeException {
 		super.printStackTrace(new PrintWriter(writer));
 		String origStackTrace = writer.toString();
 		Evaluator e = Context.createInterpreter();
-		if (e != null)
+		if (e != null) {
 			return e.getPatchedStack(this, origStackTrace);
+		}
 		return null;
 	}
 
@@ -302,9 +313,10 @@ public abstract class RhinoException extends RuntimeException {
 		ScriptStackElement[][] interpreterStack = null;
 		if (interpreterStackInfo != null) {
 			Evaluator interpreter = Context.createInterpreter();
-			if (interpreter instanceof Interpreter)
+			if (interpreter instanceof Interpreter) {
 				interpreterStack = ((Interpreter) interpreter)
 						.getScriptStackElements(this);
+			}
 		}
 
 		int interpreterStackIndex = 0;

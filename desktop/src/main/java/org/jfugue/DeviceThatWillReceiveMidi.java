@@ -78,6 +78,7 @@ public class DeviceThatWillReceiveMidi {
 	public void sendSequence(Sequence sequence) {
 		TimeFactor.sortAndDeliverMidiMessages(sequence,
 				new MidiMessageRecipient() {
+					@Override
 					public void messageReady(MidiMessage message,
 							long timestamp) {
 						receiver.send(message, -1);

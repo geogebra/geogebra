@@ -355,8 +355,9 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 				X = "constructor";
 				id = Id_constructor;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#
@@ -427,8 +428,9 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 				X = "BYTES_PER_ELEMENT";
 				id = Id_BYTES_PER_ELEMENT;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#
@@ -466,21 +468,25 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 
 	// Abstract List implementation
 
+	@Override
 	@SuppressWarnings("unused")
 	public int size() {
 		return length;
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean isEmpty() {
 		return (length == 0);
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean contains(Object o) {
 		return (indexOf(o) >= 0);
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean containsAll(Collection<?> objects) {
 		for (Object o : objects) {
@@ -491,6 +497,7 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		return true;
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public int indexOf(Object o) {
 		for (int i = 0; i < length; i++) {
@@ -501,6 +508,7 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		return -1;
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public int lastIndexOf(Object o) {
 		for (int i = length - 1; i >= 0; i--) {
@@ -511,6 +519,7 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		return -1;
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public Object[] toArray() {
 		Object[] a = new Object[length];
@@ -520,6 +529,7 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		return a;
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public <U> U[] toArray(U[] ts) {
 		U[] a;
@@ -568,16 +578,19 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		return 0;
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public Iterator<T> iterator() {
 		return new NativeTypedArrayIterator<T>(this, 0);
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public ListIterator<T> listIterator() {
 		return new NativeTypedArrayIterator<T>(this, 0);
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public ListIterator<T> listIterator(int start) {
 		if (checkIndex(start)) {
@@ -586,51 +599,61 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		return new NativeTypedArrayIterator<T>(this, start);
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public List<T> subList(int i, int i2) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean add(T aByte) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public void add(int i, T aByte) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean addAll(Collection<? extends T> bytes) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean addAll(int i, Collection<? extends T> bytes) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public void clear() {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public T remove(int i) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean removeAll(Collection<?> objects) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	@SuppressWarnings("unused")
 	public boolean retainAll(Collection<?> objects) {
 		throw new UnsupportedOperationException();

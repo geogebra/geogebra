@@ -28,6 +28,7 @@ public abstract class PolylinePathConstructor
 		this.fill = fill;
 	}
 
+	@Override
 	public void move(double x, double y) throws IOException {
 		writePolyline();
 		polyline = new Vector();
@@ -35,12 +36,14 @@ public abstract class PolylinePathConstructor
 		super.move(x, y);
 	}
 
+	@Override
 	public void line(double x, double y) throws IOException {
 		// System.out.println("Line "+x+" "+y);
 		polyline.add(new Point2D.Double(x, y));
 		super.line(x, y);
 	}
 
+	@Override
 	public void closePath(double x0, double y0) throws IOException {
 		closed = true;
 		writePolyline();
@@ -48,8 +51,9 @@ public abstract class PolylinePathConstructor
 	}
 
 	public void writePolyline() throws IOException {
-		if (polyline != null)
+		if (polyline != null) {
 			writePolyline(polyline);
+		}
 		closed = false;
 		polyline = null;
 	}

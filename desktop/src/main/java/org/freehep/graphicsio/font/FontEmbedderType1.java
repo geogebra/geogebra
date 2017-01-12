@@ -63,9 +63,11 @@ public class FontEmbedderType1 extends FontEmbedder {
 		asciiEnd = encEnd = -1;
 	}
 
+	@Override
 	protected void writeWidths(double[] w) throws IOException {
 	}
 
+	@Override
 	protected void writeEncoding(CharTable t) throws IOException {
 		fontFile.println("/Encoding 256 array");
 		fontFile.println("0 1 255 {1 index exch /.notdef put} for"); // set
@@ -75,12 +77,14 @@ public class FontEmbedderType1 extends FontEmbedder {
 																		// ??
 		for (int i = 0; i < 256; i++) {
 			String charName = t.toName(i);
-			if (charName != null)
+			if (charName != null) {
 				fontFile.println("dup " + i + " /" + charName + " put");
+			}
 		}
 		fontFile.println("readonly def");
 	}
 
+	@Override
 	protected void openIncludeFont() throws IOException {
 
 		// begin clear text ascii portion
@@ -107,6 +111,7 @@ public class FontEmbedderType1 extends FontEmbedder {
 				+ 1 / FONT_SIZE + " 0.0 0.0] readonly def");
 	}
 
+	@Override
 	protected void closeIncludeFont() {
 
 		Rectangle2D boundingBox = getFontBBox();
@@ -128,6 +133,7 @@ public class FontEmbedderType1 extends FontEmbedder {
 		fontFile.flush();
 	}
 
+	@Override
 	protected void openGlyphs() throws IOException {
 		// begin encryption
 		if (ENCRYPT) {
@@ -157,11 +163,13 @@ public class FontEmbedderType1 extends FontEmbedder {
 				+ " dict dup begin");
 	}
 
+	@Override
 	protected void closeGlyphs() throws IOException {
 		encrypted.println("end"); // end Private
 		encrypted.println("end"); // end CharStrings
 	}
 
+	@Override
 	protected void closeEmbedFont() throws IOException {
 		encrypted.println("readonly put");
 		encrypted.println("noaccess put");
@@ -172,17 +180,20 @@ public class FontEmbedderType1 extends FontEmbedder {
 		}
 		encrypted.flush();
 		encEnd = byteCounter.getCount();
-		if (!ENCRYPT)
+		if (!ENCRYPT) {
 			asciiEnd = encEnd;
+		}
 
 		if (addZeros) {
 			fontFile.println();
-			for (int i = 0; i < 16; i++)
+			for (int i = 0; i < 16; i++) {
 				fontFile.println("00000000000000000000000000000000");
+			}
 			fontFile.println("cleartomark");
 		}
 	}
 
+	@Override
 	protected void writeGlyph(String characterName, Shape glyph,
 			GlyphMetrics glyphMetrics) throws IOException {
 

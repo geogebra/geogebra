@@ -36,6 +36,7 @@ public class NoCloseReader extends BufferedReader {
 		super(reader, size);
 	}
 
+	@Override
 	public void close() throws IOException {
 	}
 

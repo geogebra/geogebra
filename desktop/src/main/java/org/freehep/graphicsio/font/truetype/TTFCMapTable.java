@@ -54,10 +54,12 @@ public class TTFCMapTable extends TTFTable {
 						"Illegal value for encoding table format: " + format);
 				break;
 			}
-			if (tableFormat != null)
+			if (tableFormat != null) {
 				tableFormat.read();
+			}
 		}
 
+		@Override
 		public String toString() {
 			String str = "[encoding] PID:" + platformID + " EID:" + encodingID
 					+ " format:" + format + " v" + version
@@ -77,24 +79,30 @@ public class TTFCMapTable extends TTFTable {
 
 		public int[] glyphIdArray = new int[256];
 
+		@Override
 		public void read() throws IOException {
-			for (int i = 0; i < glyphIdArray.length; i++)
+			for (int i = 0; i < glyphIdArray.length; i++) {
 				glyphIdArray[i] = ttf.readByte();
+			}
 		}
 
+		@Override
 		public String toString() {
 			String str = "";
 			for (int i = 0; i < glyphIdArray.length; i++) {
-				if (i % 16 == 0)
+				if (i % 16 == 0) {
 					str += "\n    " + Integer.toHexString(i / 16) + "x: ";
+				}
 				String number = glyphIdArray[i] + "";
-				while (number.length() < 3)
+				while (number.length() < 3) {
 					number = " " + number;
+				}
 				str += number + " ";
 			}
 			return str;
 		}
 
+		@Override
 		public int getGlyphIndex(int character) {
 			return glyphIdArray[character];
 		}
@@ -108,6 +116,7 @@ public class TTFCMapTable extends TTFTable {
 
 		public short[] idDelta; // could be int (ushort) as well
 
+		@Override
 		public void read() throws IOException {
 			segCount = ttf.readUShort() / 2;
 			// dump the next three ushorts to /dev/null as they guy
@@ -119,9 +128,10 @@ public class TTFCMapTable extends TTFTable {
 			// endCount = readFFFFTerminatedUShortArray();
 			endCount = ttf.readUShortArray(segCount);
 			int reservedPad = ttf.readUShort();
-			if (reservedPad != 0)
+			if (reservedPad != 0) {
 				System.err
 						.println("reservedPad not 0, but " + reservedPad + ".");
+			}
 
 			startCount = ttf.readUShortArray(endCount.length);
 			// the deltas should be unsigned, but due to
@@ -130,14 +140,17 @@ public class TTFCMapTable extends TTFTable {
 			idRangeOffset = ttf.readUShortArray(endCount.length);
 		}
 
+		@Override
 		public String toString() {
 			String str = "\n   " + endCount.length + " sections:";
-			for (int i = 0; i < endCount.length; i++)
+			for (int i = 0; i < endCount.length; i++) {
 				str += "\n    " + startCount[i] + " to " + endCount[i] + " : "
 						+ idDelta[i] + " (" + idRangeOffset[i] + ")";
+			}
 			return str;
 		}
 
+		@Override
 		public int getGlyphIndex(int character) {
 			return 0;
 		}
@@ -147,10 +160,12 @@ public class TTFCMapTable extends TTFTable {
 
 	public EncodingTable encodingTable[];
 
+	@Override
 	public String getTag() {
 		return "cmap";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		version = ttf.readUShort();
 		encodingTable = new EncodingTable[ttf.readUShort()];
@@ -163,10 +178,12 @@ public class TTFCMapTable extends TTFTable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString() + " v" + version;
-		for (int i = 0; i < encodingTable.length; i++)
+		for (int i = 0; i < encodingTable.length; i++) {
 			str += "\n  " + encodingTable[i];
+		}
 		return str;
 	}
 }

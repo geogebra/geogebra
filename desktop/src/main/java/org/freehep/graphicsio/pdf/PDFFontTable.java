@@ -92,10 +92,12 @@ public class PDFFontTable extends FontTable {
 		tracker.writeAll();
 	}
 
+	@Override
 	public CharTable getEncodingTable() {
 		return Lookup.getInstance().getTable("PDFLatin");
 	}
 
+	@Override
 	public void firstRequest(Entry e, boolean embed, String embedAs) {
 	}
 
@@ -108,6 +110,7 @@ public class PDFFontTable extends FontTable {
 		replaceFonts.setProperty("Monospaced", "Courier");
 	}
 
+	@Override
 	protected Font substituteFont(Font font) {
 		String fontName = replaceFonts.getProperty(font.getName(), null);
 		if (fontName != null) {
@@ -122,6 +125,7 @@ public class PDFFontTable extends FontTable {
 	 * 
 	 * @return "F"+currentFontIndex
 	 */
+	@Override
 	protected String createFontReference(Font f) {
 		return "F" + (currentFontIndex++);
 	}

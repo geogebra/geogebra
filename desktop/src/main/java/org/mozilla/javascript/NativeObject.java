@@ -245,15 +245,17 @@ public class NativeObject extends IdScriptableObject implements Map {
 			Callable getterOrSetter = (Callable) args[1];
 			boolean isSetter = (id == Id___defineSetter__);
 			so.setGetterOrSetter(name, index, getterOrSetter, isSetter);
-			if (so instanceof NativeArray)
+			if (so instanceof NativeArray) {
 				((NativeArray) so).setDenseOnly(false);
+			}
 		}
 			return Undefined.instance;
 
 		case Id___lookupGetter__:
 		case Id___lookupSetter__: {
-			if (args.length < 1 || !(thisObj instanceof ScriptableObject))
+			if (args.length < 1 || !(thisObj instanceof ScriptableObject)) {
 				return Undefined.instance;
+			}
 
 			ScriptableObject so = (ScriptableObject) thisObj;
 			String name = ScriptRuntime.toStringIdOrIndex(cx, args[0]);
@@ -262,20 +264,24 @@ public class NativeObject extends IdScriptableObject implements Map {
 			Object gs;
 			for (;;) {
 				gs = so.getGetterOrSetter(name, index, isSetter);
-				if (gs != null)
+				if (gs != null) {
 					break;
+				}
 				// If there is no getter or setter for the object itself,
 				// how about the prototype?
 				Scriptable v = so.getPrototype();
-				if (v == null)
+				if (v == null) {
 					break;
-				if (v instanceof ScriptableObject)
+				}
+				if (v instanceof ScriptableObject) {
 					so = (ScriptableObject) v;
-				else
+				} else {
 					break;
+				}
 			}
-			if (gs != null)
+			if (gs != null) {
 				return gs;
+			}
 		}
 			return Undefined.instance;
 
@@ -361,14 +367,16 @@ public class NativeObject extends IdScriptableObject implements Map {
 			Object arg = args.length < 1 ? Undefined.instance : args[0];
 			ScriptableObject obj = ensureScriptableObject(arg);
 
-			if (obj.isExtensible())
+			if (obj.isExtensible()) {
 				return Boolean.FALSE;
+			}
 
 			for (Object name : obj.getAllIds()) {
 				Object configurable = obj.getOwnPropertyDescriptor(cx, name)
 						.get("configurable");
-				if (Boolean.TRUE.equals(configurable))
+				if (Boolean.TRUE.equals(configurable)) {
 					return Boolean.FALSE;
+				}
 			}
 
 			return Boolean.TRUE;
@@ -377,16 +385,19 @@ public class NativeObject extends IdScriptableObject implements Map {
 			Object arg = args.length < 1 ? Undefined.instance : args[0];
 			ScriptableObject obj = ensureScriptableObject(arg);
 
-			if (obj.isExtensible())
+			if (obj.isExtensible()) {
 				return Boolean.FALSE;
+			}
 
 			for (Object name : obj.getAllIds()) {
 				ScriptableObject desc = obj.getOwnPropertyDescriptor(cx, name);
-				if (Boolean.TRUE.equals(desc.get("configurable")))
+				if (Boolean.TRUE.equals(desc.get("configurable"))) {
 					return Boolean.FALSE;
+				}
 				if (isDataDescriptor(desc)
-						&& Boolean.TRUE.equals(desc.get("writable")))
+						&& Boolean.TRUE.equals(desc.get("writable"))) {
 					return Boolean.FALSE;
+				}
 			}
 
 			return Boolean.TRUE;
@@ -413,10 +424,12 @@ public class NativeObject extends IdScriptableObject implements Map {
 			for (Object name : obj.getAllIds()) {
 				ScriptableObject desc = obj.getOwnPropertyDescriptor(cx, name);
 				if (isDataDescriptor(desc)
-						&& Boolean.TRUE.equals(desc.get("writable")))
+						&& Boolean.TRUE.equals(desc.get("writable"))) {
 					desc.put("writable", desc, Boolean.FALSE);
-				if (Boolean.TRUE.equals(desc.get("configurable")))
+				}
+				if (Boolean.TRUE.equals(desc.get("configurable"))) {
 					desc.put("configurable", desc, Boolean.FALSE);
+				}
 				obj.defineOwnProperty(cx, name, desc, false);
 			}
 			obj.preventExtensions();
@@ -431,6 +444,7 @@ public class NativeObject extends IdScriptableObject implements Map {
 
 	// methods implementing java.util.Map
 
+	@Override
 	public boolean containsKey(Object key) {
 		if (key instanceof String) {
 			return has((String) key, this);
@@ -440,6 +454,7 @@ public class NativeObject extends IdScriptableObject implements Map {
 		return false;
 	}
 
+	@Override
 	public boolean containsValue(Object value) {
 		for (Object obj : values()) {
 			if (value == obj || value != null && value.equals(obj)) {
@@ -449,6 +464,7 @@ public class NativeObject extends IdScriptableObject implements Map {
 		return false;
 	}
 
+	@Override
 	public Object remove(Object key) {
 		Object value = get(key);
 		if (key instanceof String) {
@@ -459,26 +475,32 @@ public class NativeObject extends IdScriptableObject implements Map {
 		return value;
 	}
 
+	@Override
 	public Set<Object> keySet() {
 		return new KeySet();
 	}
 
+	@Override
 	public Collection<Object> values() {
 		return new ValueCollection();
 	}
 
+	@Override
 	public Set<Map.Entry<Object, Object>> entrySet() {
 		return new EntrySet();
 	}
 
+	@Override
 	public Object put(Object key, Object value) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void putAll(Map m) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void clear() {
 		throw new UnsupportedOperationException();
 	}
@@ -491,22 +513,27 @@ public class NativeObject extends IdScriptableObject implements Map {
 				Object key = null;
 				int index = 0;
 
+				@Override
 				public boolean hasNext() {
 					return index < ids.length;
 				}
 
+				@Override
 				public Map.Entry<Object, Object> next() {
 					final Object ekey = key = ids[index++];
 					final Object value = get(key);
 					return new Map.Entry<Object, Object>() {
+						@Override
 						public Object getKey() {
 							return ekey;
 						}
 
+						@Override
 						public Object getValue() {
 							return value;
 						}
 
+						@Override
 						public Object setValue(Object value) {
 							throw new UnsupportedOperationException();
 						}
@@ -536,6 +563,7 @@ public class NativeObject extends IdScriptableObject implements Map {
 					};
 				}
 
+				@Override
 				public void remove() {
 					if (key == null) {
 						throw new IllegalStateException();
@@ -566,10 +594,12 @@ public class NativeObject extends IdScriptableObject implements Map {
 				Object key;
 				int index = 0;
 
+				@Override
 				public boolean hasNext() {
 					return index < ids.length;
 				}
 
+				@Override
 				public Object next() {
 					try {
 						return (key = ids[index++]);
@@ -579,6 +609,7 @@ public class NativeObject extends IdScriptableObject implements Map {
 					}
 				}
 
+				@Override
 				public void remove() {
 					if (key == null) {
 						throw new IllegalStateException();
@@ -604,14 +635,17 @@ public class NativeObject extends IdScriptableObject implements Map {
 				Object key;
 				int index = 0;
 
+				@Override
 				public boolean hasNext() {
 					return index < ids.length;
 				}
 
+				@Override
 				public Object next() {
 					return get((key = ids[index++]));
 				}
 
+				@Override
 				public void remove() {
 					if (key == null) {
 						throw new IllegalStateException();
@@ -698,8 +732,9 @@ public class NativeObject extends IdScriptableObject implements Map {
 				id = Id_propertyIsEnumerable;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

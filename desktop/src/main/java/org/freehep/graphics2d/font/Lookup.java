@@ -45,8 +45,9 @@ public class Lookup {
 	public char toUnicode(String name) {
 		for (int i = 0; i < ntables; i++) {
 			char uc = tables[i].toUnicode(name);
-			if (uc != '\uffff')
+			if (uc != '\uffff') {
 				return (uc);
+			}
 		}
 		return ('\uffff');
 	}
@@ -59,8 +60,9 @@ public class Lookup {
 	public String toName(char uc) {
 		for (int i = 0; i < ntables; i++) {
 			String name = tables[i].toName(uc);
-			if (name != null)
+			if (name != null) {
 				return (name);
+			}
 		}
 		return (null);
 	}
@@ -73,8 +75,9 @@ public class Lookup {
 	public String toName(Character uc) {
 		for (int i = 0; i < ntables; i++) {
 			String name = tables[i].toName(uc);
-			if (name != null)
+			if (name != null) {
 				return (name);
+			}
 		}
 		return (null);
 	}
@@ -90,8 +93,9 @@ public class Lookup {
 	public CharTable getTable(String tableName) {
 		for (int i = 0; i < ntables; i++) {
 			String tblName = tables[i].getEncoding() + tables[i].getName();
-			if (tblName.equalsIgnoreCase(tableName))
+			if (tblName.equalsIgnoreCase(tableName)) {
 				return (tables[i]);
+			}
 		}
 		return (null);
 	}

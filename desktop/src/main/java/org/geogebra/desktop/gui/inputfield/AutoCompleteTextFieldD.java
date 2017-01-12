@@ -118,8 +118,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 			KeyNavigation handleEscapeKey, boolean forCAS) {
 		super(app);
 		// allow dynamic width with columns = -1
-		if (columns > 0)
+		if (columns > 0) {
 			setColumns(columns);
+		}
 
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -166,12 +167,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 */
 	public void addHistoryPopup(boolean isDownPopup) {
 
-		if (historyPopup == null)
+		if (historyPopup == null) {
 			historyPopup = new HistoryPopupD(this);
+		}
 
 		historyPopup.setDownPopup(isDownPopup);
 
 		ActionListener al = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String cmd = e.getActionCommand();
 				if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
@@ -187,11 +190,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 		this.setBorderButtonVisible(1, false);
 	}
 
+	@Override
 	public void showPopupSymbolButton(boolean showPopupSymbolButton) {
 		((MyTextFieldD) this).setShowSymbolTableIcon(
 				showPopupSymbolButton && !popupSymbolDisabled);
 	}
 
+	@Override
 	public void removeSymbolTable() {
 		popupSymbolDisabled = true;
 	}
@@ -210,6 +215,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param forCAS
 	 *            whether this is for CAS
 	 */
+	@Override
 	public void setDictionary(boolean forCAS) {
 		this.dict = null;
 		this.forCAS = forCAS;
@@ -221,6 +227,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @return dict The dictionary that will be used for the autocomplete
 	 *         lookups.
 	 */
+	@Override
 	public AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
 			this.dict = this.forCAS ? app.getCommandDictionaryCAS()
@@ -236,11 +243,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @param val
 	 *            True or false.
 	 */
+	@Override
 	public void setAutoComplete(boolean val) {
 		autoComplete = val && app.getLocalization().isAutoCompletePossible();
 
-		if (autoComplete)
+		if (autoComplete) {
 			app.initTranslatedCommands();
+		}
 
 	}
 
@@ -254,6 +263,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * 
 	 * @return True or false.
 	 */
+	@Override
 	public boolean getAutoComplete() {
 		return autoComplete && loc.isAutoCompletePossible();
 	}
@@ -266,6 +276,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return curWordStart;
 	}
 
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean add) {
 		if (geo != null) {
 			replaceSelection(
@@ -301,8 +312,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltDown() && e.isControlDown())
+		if (e.isAltDown() && e.isControlDown()) {
 			return;
+		}
 
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
 		if (AppD.MAC_OS && e.isControlDown()) {
@@ -337,8 +349,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		case KeyEvent.VK_7:
 		case KeyEvent.VK_8:
 		case KeyEvent.VK_9:
-			if (AppD.isControlDown(e) && e.isShiftDown())
+			if (AppD.isControlDown(e) && e.isShiftDown()) {
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+			}
 			break;
 
 		// process input
@@ -371,8 +384,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 			}
 			if (historyPopup == null) {
 				String text = getPreviousInput();
-				if (text != null)
+				if (text != null) {
 					setText(text);
+				}
 			} else if (!historyPopup.isDownPopup()) {
 				historyPopup.showPopup();
 			}
@@ -394,8 +408,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		case KeyEvent.VK_F9:
 			// needed for applets
-			if (app.isApplet())
+			if (app.isApplet()) {
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+			}
 			break;
 
 		case KeyEvent.VK_RIGHT:
@@ -465,12 +480,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 							options, // the titles of buttons
 							options[0]); // default button title
 
-					if (n == 1)
+					if (n == 1) {
 						app.getGuiManager().openHelp(helpURL);
+					}
 
 				}
-			} else
+			} else {
 				app.getGuiManager().openHelp(helpURL);
+			}
 
 			e.consume();
 			break;
@@ -508,8 +525,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltDown() && e.isControlDown())
+		if (e.isAltDown() && e.isControlDown()) {
 			modifierKeyPressed = false;
+		}
 
 		char charPressed = e.getKeyChar();
 
@@ -563,8 +581,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 			setText(sb.toString());
 			// set caret position to start
 			pos = start;
-			if (pos < sb.length())
+			if (pos < sb.length()) {
 				setCaretPosition(pos);
+			}
 		}
 	}
 
@@ -619,18 +638,19 @@ public class AutoCompleteTextFieldD extends MathTextField
 				int count = 0;
 				for (int i = 0; i < text.length(); i++) {
 					char c = text.charAt(i);
-					if (c == '{')
+					if (c == '{') {
 						count++;
-					else if (c == '}')
+					} else if (c == '}') {
 						count--;
-					else if (c == '(')
+					} else if (c == '(') {
 						count += 1E3;
-					else if (c == ')')
+					} else if (c == ')') {
 						count -= 1E3;
-					else if (c == '[')
+					} else if (c == '[') {
 						count += 1E6;
-					else if (c == ']')
+					} else if (c == ']') {
 						count -= 1E6;
+					}
 				}
 
 				if (count == 0) {
@@ -695,16 +715,18 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// search to the left
 		int wordStart = pos - 1;
 		while (wordStart >= 0 && StringUtil
-				.isLetterOrDigitOrUnderscore(text.charAt(wordStart)))
+				.isLetterOrDigitOrUnderscore(text.charAt(wordStart))) {
 			--wordStart;
+		}
 		wordStart++;
 
 		// search to the right
 		int wordEnd = pos;
 		int length = text.length();
 		while (wordEnd < length
-				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd)))
+				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd))) {
 			++wordEnd;
+		}
 
 		if (wordStart >= 0 && wordEnd <= length) {
 			return text.substring(wordStart, wordEnd);
@@ -749,8 +771,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		String text = getText();
 		updateCurrentWord(false);
 		completions = null;
-		if (isEqualsRequired && !text.startsWith("="))
+		if (isEqualsRequired && !text.startsWith("=")) {
 			return null;
+		}
 
 		boolean korean = app.getLocale().getLanguage().equals("ko");
 		// start autocompletion only for long enough words
@@ -761,10 +784,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		cmdPrefix = curWord.toString();
 
-		if (korean)
+		if (korean) {
 			completions = getDictionary().getCompletionsKorean(cmdPrefix);
-		else
+		} else {
 			completions = getDictionary().getCompletions(cmdPrefix);
+		}
 
 		List<String> commandCompletions = getSyntaxes(completions);
 
@@ -902,23 +926,27 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void addToHistory(String str) {
 
 		// exit if the new string is the same as the last entered string
-		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
+		if (!history.isEmpty() && str.equals(history.get(history.size() - 1))) {
 			return;
+		}
 
 		history.add(str);
 		historyIndex = history.size();
-		if (historyPopup != null && !isBorderButtonVisible(1))
+		if (historyPopup != null && !isBorderButtonVisible(1)) {
 			setBorderButtonVisible(1, true);
+		}
 	}
 
 	/**
 	 * @return previous input from input textfield's history
 	 */
 	private String getPreviousInput() {
-		if (history.size() == 0)
+		if (history.size() == 0) {
 			return null;
-		if (historyIndex > 0)
+		}
+		if (historyIndex > 0) {
 			--historyIndex;
+		}
 		return history.get(historyIndex);
 	}
 
@@ -926,10 +954,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @return next input from input textfield's history
 	 */
 	private String getNextInput() {
-		if (historyIndex < history.size())
+		if (historyIndex < history.size()) {
 			++historyIndex;
-		if (historyIndex == history.size())
+		}
+		if (historyIndex == history.size()) {
 			return null;
+		}
 		return history.get(historyIndex);
 	}
 
@@ -965,6 +995,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		app.showError(e);
 	}
 
+	@Override
 	public void setFont(GFont font) {
 		super.setFont(GFontD.getAwtFont(font));
 	}
@@ -984,24 +1015,29 @@ public class AutoCompleteTextFieldD extends MathTextField
 		}
 	}
 
+	@Override
 	public void setForeground(GColor color) {
 		super.setForeground(GColorD.getAwtColor(color));
 
 	}
 
+	@Override
 	public void setBackground(GColor color) {
 		super.setBackground(GColorD.getAwtColor(color));
 
 	}
 
+	@Override
 	public void addFocusListener(FocusListener focusListener) {
 		if (focusListener instanceof FocusListenerD) {
 			super.addFocusListener((FocusListenerD) focusListener);
 		}
 	}
 
+	@Override
 	public void wrapSetText(final String s) {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				setText(s);
 			}
@@ -1009,10 +1045,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	}
 
+	@Override
 	public void setUsedForInputBox(GeoInputBox geo) {
 		geoUsedForInputBox = geo;
 	}
 
+	@Override
 	public boolean usedForInputBox() {
 		return geoUsedForInputBox != null;
 	}
@@ -1026,16 +1064,19 @@ public class AutoCompleteTextFieldD extends MathTextField
 		}
 	}
 
+	@Override
 	public void addKeyHandler(KeyHandler handler) {
 		addKeyListener(new KeyListenerD(handler));
 
 	}
 
+	@Override
 	public String getCommand() {
 		this.updateCurrentWord(true);
 		return this.getCurrentWord();
 	}
 
+	@Override
 	public void setFocus(boolean b) {
 
 	}
@@ -1045,10 +1086,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 		this.setShowSymbolTableIcon(b);
 	}
 
+	@Override
 	public boolean hasDeferredFocus() {
 		return false;
 	}
 
+	@Override
 	public void setDeferredFocus(boolean b) {
 	}
 
@@ -1066,6 +1109,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	}
 
+	@Override
 	public void hideDeferred(final GBox box) {
 		setVisible(false);
 		box.setVisible(false);
@@ -1078,10 +1122,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return previewActive;
 	}
 
+	@Override
 	public void setDrawTextField(DrawInputBox df) {
 		drawTextField = df;
 	}
 
+	@Override
 	public GeoInputBox getInputBox() {
 		return geoUsedForInputBox;
 	}

@@ -1161,17 +1161,19 @@ public class AppD extends App implements KeyEventDispatcher {
 			int fixcoordsP = Integer.parseInt(str[1].substring(0, 1));
 			int fixcoordsPD = Integer.parseInt(str[1].substring(1, 2));
 
-			if (fixcoordsP < 0 || fixcoordsP > 4)
+			if (fixcoordsP < 0 || fixcoordsP > 4) {
 				Log.error(
 						"Improper value for usefixcoords for Prove, using default instead");
-			else
+			} else {
 				proverSettings.useFixCoordinatesProve = fixcoordsP;
+			}
 
-			if (fixcoordsPD < 0 || fixcoordsPD > 4)
+			if (fixcoordsPD < 0 || fixcoordsPD > 4) {
 				Log.error(
 						"Improper value for usefixcoords for ProveDetails, using default instead");
-			else
+			} else {
 				proverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
+			}
 
 			return;
 		}
@@ -2786,10 +2788,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			applicationPanel.add(mainPanel, BorderLayout.CENTER);
 
 			if (showDockBar && !isApplet()) {
-				if (dockBar.isEastOrientation())
+				if (dockBar.isEastOrientation()) {
 					applicationPanel.add((Component) dockBar,
 							getLocalization().borderEast());
-				else {
+				} else {
 					applicationPanel.add((Component) dockBar,
 							getLocalization().borderWest());
 				}
@@ -3068,8 +3070,9 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	protected void hideDockBarPopup() {
-		if (getDockBar() != null)
+		if (getDockBar() != null) {
 			getDockBar().hidePopup();
+		}
 	}
 
 	public DockBarInterface getDockBar() {
@@ -4450,8 +4453,9 @@ public class AppD extends App implements KeyEventDispatcher {
 			str = (String) contents.getTransferData(DataFlavor.stringFlavor);
 		} catch (UnsupportedFlavorException e) {
 			if (contents.getTransferDataFlavors() != null
-					&& contents.getTransferDataFlavors().length > 0)
+					&& contents.getTransferDataFlavors().length > 0) {
 				Log.debug(contents.getTransferDataFlavors()[0]);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -4905,10 +4909,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param panel
 	 */
 	public void setFlowLayoutOrientation(JPanel panel) {
-		if (getLocalization().isRightToLeftReadingOrder())
+		if (getLocalization().isRightToLeftReadingOrder()) {
 			panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		else
+		} else {
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		}
 	}
 
 	// **************************************************************************

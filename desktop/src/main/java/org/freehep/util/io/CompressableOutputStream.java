@@ -33,6 +33,7 @@ public class CompressableOutputStream extends FilterOutputStream
 		compress = false;
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		if (compress) {
 			dos.write(b);
@@ -41,12 +42,14 @@ public class CompressableOutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		for (int i = 0; i < len; i++) {
 			write(b[off + i]);
 		}
 	}
 
+	@Override
 	public void finish() throws IOException {
 		if (compress) {
 			dos.finish();
@@ -56,6 +59,7 @@ public class CompressableOutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (compress) {
 			finish();

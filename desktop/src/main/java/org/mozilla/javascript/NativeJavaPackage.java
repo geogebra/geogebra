@@ -106,8 +106,9 @@ public class NativeJavaPackage extends ScriptableObject {
 	synchronized Object getPkgProperty(String name, Scriptable start,
 			boolean createPkg) {
 		Object cached = super.get(name, start);
-		if (cached != NOT_FOUND)
+		if (cached != NOT_FOUND) {
 			return cached;
+		}
 		if (negativeCache != null && negativeCache.contains(name)) {
 			// Performance optimization: see bug 421071
 			return null;
@@ -140,8 +141,9 @@ public class NativeJavaPackage extends ScriptableObject {
 				newValue = pkg;
 			} else {
 				// add to negative cache
-				if (negativeCache == null)
+				if (negativeCache == null) {
 					negativeCache = new HashSet<String>();
+				}
 				negativeCache.add(name);
 			}
 		}

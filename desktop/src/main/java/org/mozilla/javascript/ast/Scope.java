@@ -188,8 +188,9 @@ public class Scope extends Jump {
 	 * Enters a symbol into this scope.
 	 */
 	public void putSymbol(Symbol symbol) {
-		if (symbol.getName() == null)
+		if (symbol.getName() == null) {
 			throw new IllegalArgumentException("null symbol name");
+		}
 		ensureSymbolTable();
 		symbolTable.put(symbol.getName(), symbol);
 		symbol.setContainingTable(this);

@@ -57,8 +57,9 @@ public class Yield extends AstNode {
 	 */
 	public void setValue(AstNode expr) {
 		this.value = expr;
-		if (expr != null)
+		if (expr != null) {
 			expr.setParent(this);
+		}
 	}
 
 	@Override

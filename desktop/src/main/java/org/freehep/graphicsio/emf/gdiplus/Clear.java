@@ -28,6 +28,7 @@ public class Clear extends EMFPlusTag {
 		this.color = color;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		Clear tag = new Clear();
@@ -36,11 +37,13 @@ public class Clear extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		emf.writeCOLOR(color);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n  color: " + color;
 	}

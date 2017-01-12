@@ -120,6 +120,7 @@ public class Player {
 	private void initSequencer() {
 		// Close the sequencer and synthesizer
 		getSequencer().addMetaEventListener(new MetaEventListener() {
+			@Override
 			public void meta(MetaMessage event) {
 				if (event.getType() == 47) {
 					close();
@@ -368,8 +369,9 @@ public class Player {
 		Sequence sequence = getSequence(pattern);
 
 		int[] writers = MidiSystem.getMidiFileTypes(sequence);
-		if (writers.length == 0)
+		if (writers.length == 0) {
 			return;
+		}
 
 		MidiSystem.write(sequence, writers[0], file);
 	}

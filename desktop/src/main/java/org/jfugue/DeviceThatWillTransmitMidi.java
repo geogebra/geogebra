@@ -153,12 +153,14 @@ public class DeviceThatWillTransmitMidi {
 			return this.parser;
 		}
 
+		@Override
 		public void send(MidiMessage message, long timestamp) {
 			System.out.println("Parsing " + message + " ts: " + timestamp);
 			parser.parse(message, timestamp / (1000 * 4));
 			sequencerReceiver.send(message, timestamp);
 		}
 
+		@Override
 		public void close() {
 			sequencerReceiver.close();
 		}

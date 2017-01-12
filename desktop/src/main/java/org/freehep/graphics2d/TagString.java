@@ -14,10 +14,12 @@ public class TagString {
 		string = value;
 	}
 
+	@Override
 	public int hashCode() {
 		return string.hashCode();
 	}
 
+	@Override
 	final public boolean equals(Object obj) {
 		if (obj == null || string == null) {
 			return false;
@@ -25,6 +27,7 @@ public class TagString {
 		return string.equals(obj);
 	}
 
+	@Override
 	public String toString() {
 		return string;
 	}

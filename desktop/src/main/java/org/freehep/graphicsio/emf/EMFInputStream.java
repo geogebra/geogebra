@@ -175,13 +175,15 @@ public class EMFInputStream extends TaggedInputStream implements EMFConstants {
 		return new String(bytes, 0, length, "UTF-16LE");
 	}
 
+	@Override
 	protected TagHeader readTagHeader() throws IOException {
 		// Read the tag.
 		// byteAlign();
 		int tagID = read();
 		// End of stream
-		if (tagID == -1)
+		if (tagID == -1) {
 			return null;
+		}
 
 		tagID |= readUnsignedByte() << 8;
 		int flags = readUnsignedByte();
@@ -191,6 +193,7 @@ public class EMFInputStream extends TaggedInputStream implements EMFConstants {
 		return new EMFTagHeader(tagID, length - 8, flags);
 	}
 
+	@Override
 	protected ActionHeader readActionHeader() throws IOException {
 		return null;
 	}

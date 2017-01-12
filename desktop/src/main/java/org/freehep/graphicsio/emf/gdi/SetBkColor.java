@@ -27,6 +27,7 @@ public class SetBkColor extends EMFTag {
 		this.color = color;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -34,10 +35,12 @@ public class SetBkColor extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeCOLORREF(color);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  color: " + color;
 	}

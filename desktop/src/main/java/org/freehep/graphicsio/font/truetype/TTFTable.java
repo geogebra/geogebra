@@ -58,6 +58,7 @@ public abstract class TTFTable {
 
 	// --------------------------------------------------------------------------------
 
+	@Override
 	public String toString() {
 		return ttf + ": [" + getTag() + "/" + getClass().getName() + "]";
 	}

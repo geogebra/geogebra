@@ -62,8 +62,9 @@ public class NewExpression extends FunctionCall {
 	 */
 	public void setInitializer(ObjectLiteral initializer) {
 		this.initializer = initializer;
-		if (initializer != null)
+		if (initializer != null) {
 			initializer.setParent(this);
+		}
 	}
 
 	@Override

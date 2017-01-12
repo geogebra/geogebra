@@ -355,32 +355,38 @@ public class AppDNoGui extends App {
 		if (ggbapi == null) {
 			ggbapi = new GgbAPIJre(this) {
 
+				@Override
 				public byte[] getGGBfile() {
 					// TODO Auto-generated method stub
 					return null;
 				}
 
+				@Override
 				public void setErrorDialogsActive(boolean flag) {
 					// TODO Auto-generated method stub
 
 				}
 
+				@Override
 				public void refreshViews() {
 					// TODO Auto-generated method stub
 
 				}
 
+				@Override
 				public void openFile(String strURL) {
 					// TODO Auto-generated method stub
 
 				}
 
+				@Override
 				public boolean writePNGtoFile(String filename,
 						double exportScale, boolean transparent, double DPI) {
 					// TODO Auto-generated method stub
 					return false;
 				}
 
+				@Override
 				public void clearImage(String label) {
 					// TODO Auto-generated method stub
 

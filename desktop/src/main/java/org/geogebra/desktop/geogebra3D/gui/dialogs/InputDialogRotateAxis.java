@@ -24,6 +24,7 @@ public class InputDialogRotateAxis extends InputDialogRotateD {
 
 	}
 
+	@Override
 	protected void processInput(AsyncOperation<String> callback) {
 
 		EuclidianController3D.rotateObject(app, inputPanel.getText(),

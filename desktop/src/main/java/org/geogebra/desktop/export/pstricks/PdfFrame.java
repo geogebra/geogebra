@@ -159,8 +159,9 @@ public class PdfFrame extends ExportFrame {
 	@Override
 	protected boolean isLaTeX() {
 		int id = comboFormat.getSelectedIndex();
-		if (id == 0 || id == 3)
+		if (id == 0 || id == 3) {
 			return true;
+		}
 		return false;
 	}
 

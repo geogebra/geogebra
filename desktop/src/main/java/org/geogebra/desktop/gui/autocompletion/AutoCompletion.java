@@ -72,12 +72,14 @@ public class AutoCompletion {
 		}
 
 		CompletionProvider<File> fileChooserCompletionProvider = new CompletionProvider<File>() {
+			@Override
 			public List<File> getCompletionOptions(String prefix) {
 				// Create adapter: javax.swing.filechooser.FileFilter -->
 				// java.io.FileFilter
 				final javax.swing.filechooser.FileFilter fileChooserFileFilter = fileChooser
 						.getFileFilter();
 				FileFilter fileFilter = new FileFilter() {
+					@Override
 					public boolean accept(File pathname) {
 						return fileChooserFileFilter.accept(pathname);
 					}
@@ -92,6 +94,7 @@ public class AutoCompletion {
 				}
 				CompletionProvider<File> completionProvider = new SortedArrayCompletionProvider<File>(
 						options, caseInsensitiveCompletion) {
+					@Override
 					public String toString(File option) {
 						return fileToString(option);
 					}
@@ -100,6 +103,7 @@ public class AutoCompletion {
 				return completionProvider.getCompletionOptions(prefix);
 			}
 
+			@Override
 			public String toString(File option) {
 				return fileToString(option);
 			}
@@ -167,6 +171,7 @@ public class AutoCompletion {
 		// Wrap array in provider and install
 		CompletionProvider<String> arrayProvider = new SortedArrayCompletionProvider<String>(
 				optionsCopy, caseInsensitiveCompletion) {
+			@Override
 			public String toString(String option) {
 				return option;
 			}

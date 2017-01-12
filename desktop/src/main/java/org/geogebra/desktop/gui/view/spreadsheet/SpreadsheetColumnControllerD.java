@@ -63,6 +63,7 @@ public class SpreadsheetColumnControllerD
 	// Mouse Listener Methods
 	// =========================================================
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 
 		// Double clicking on a column boundary auto-adjusts the
@@ -87,15 +88,19 @@ public class SpreadsheetColumnControllerD
 		}
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		overTraceButtonColumn = -1;
-		if (table.getTableHeader() != null)
+		if (table.getTableHeader() != null) {
 			table.getTableHeader().resizeAndRepaint();
+		}
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
@@ -164,6 +169,7 @@ public class SpreadsheetColumnControllerD
 		}
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		boolean rightClick = AppD.isRightClick(e);
 
@@ -230,8 +236,9 @@ public class SpreadsheetColumnControllerD
 
 			boolean in = false;
 			for (int i = 0; i < selected.length; ++i) {
-				if (column == selected[i])
+				if (column == selected[i]) {
 					in = true;
+				}
 			}
 			if (!in) {
 				return;
@@ -251,6 +258,7 @@ public class SpreadsheetColumnControllerD
 	// MouseMotion Listener Methods
 	// =========================================================
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 
 		if (AppD.isRightClick(e)) {
@@ -273,6 +281,7 @@ public class SpreadsheetColumnControllerD
 		}
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 
 		// handles mouse over a trace button
@@ -319,9 +328,11 @@ public class SpreadsheetColumnControllerD
 	// Key Listener Methods
 	// =========================================================
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 
 		boolean metaDown = AppD.isControlDown(e);
@@ -424,6 +435,7 @@ public class SpreadsheetColumnControllerD
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 	}
@@ -469,6 +481,7 @@ public class SpreadsheetColumnControllerD
 			layout = (BorderLayout) this.getLayout();
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table0,
 				Object value, boolean isSelected, boolean hasFocus,
 				int rowIndex, int colIndex) {

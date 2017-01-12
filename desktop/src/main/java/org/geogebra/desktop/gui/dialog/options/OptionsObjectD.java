@@ -121,8 +121,9 @@ public class OptionsObjectD extends OptionsObject
 	 * show slider tab
 	 */
 	public void showSliderTab() {
-		if (propPanel != null)
+		if (propPanel != null) {
 			propPanel.showSliderTab();
+		}
 	}
 
 	/**
@@ -130,6 +131,7 @@ public class OptionsObjectD extends OptionsObject
 	 * 
 	 * TODO Create "Apply Defaults" phrase (F.S.)
 	 */
+	@Override
 	public void setLabels() {
 
 		propPanel.setLabels();
@@ -178,8 +180,9 @@ public class OptionsObjectD extends OptionsObject
 	}
 
 	private void setViewActive(boolean flag) {
-		if (flag == viewActive)
+		if (flag == viewActive) {
 			return;
+		}
 		viewActive = flag;
 
 	}
@@ -236,6 +239,7 @@ public class OptionsObjectD extends OptionsObject
 		return tree;
 	}
 
+	@Override
 	public void updateGUI() {
 		setLabels();
 
@@ -254,10 +258,11 @@ public class OptionsObjectD extends OptionsObject
 		// "+(selection!=null
 		// && selection.contains(geo)));
 		if (selection != null && selection.size() == 1
-				&& selection.contains(geo))
+				&& selection.contains(geo)) {
 			// propPanel.updateSelection(selection.toArray()); //TODO update
 			// only first tab, set flag to others
 			propPanel.updateOneGeoDefinition(geo);
+		}
 	}
 
 	/**
@@ -268,8 +273,9 @@ public class OptionsObjectD extends OptionsObject
 	 */
 	public void rename(GeoElement geo) {
 		if (selection != null && selection.size() == 1
-				&& selection.contains(geo))
+				&& selection.contains(geo)) {
 			propPanel.updateOneGeoName(geo);
+		}
 	}
 
 	/**
@@ -295,11 +301,13 @@ public class OptionsObjectD extends OptionsObject
 
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		// TODO Auto-generated method stub
 
@@ -313,14 +321,17 @@ public class OptionsObjectD extends OptionsObject
 		wrappedPanel.setMinimumSize(preferredSize);
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return wrappedPanel;
 	}
 
+	@Override
 	public void applyModifications() {
 		propPanel.applyModifications();
 	}
 
+	@Override
 	public void updateFont() {
 
 		tree.updateFonts();
@@ -328,6 +339,7 @@ public class OptionsObjectD extends OptionsObject
 
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// isSelected = flag;
 	}

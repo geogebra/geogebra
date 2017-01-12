@@ -83,23 +83,27 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		editorComponent.addFocusListener(this);
 
 		DocumentListener documentListener = new DocumentListener() {
+			@Override
 			public void changedUpdate(DocumentEvent documentEvent) {
 				// do nothing
 			}
 
+			@Override
 			public void insertUpdate(DocumentEvent documentEvent) {
 				updateFormulaBar(documentEvent);
 			}
 
+			@Override
 			public void removeUpdate(DocumentEvent documentEvent) {
 				updateFormulaBar(documentEvent);
 			}
 
 			private void updateFormulaBar(DocumentEvent documentEvent) {
 				if (table.view.getShowFormulaBar()
-						&& (textField.hasFocus() || table.isDragging2))
+						&& (textField.hasFocus() || table.isDragging2)) {
 					table.view.getFormulaBar()
 							.setEditorText(textField.getText());
+				}
 			}
 		};
 		textField.getDocument().addDocumentListener(documentListener);
@@ -107,8 +111,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 	}
 
 	public void setText(String text) {
-		if (!textField.hasFocus() && !table.isDragging2)
+		if (!textField.hasFocus() && !table.isDragging2) {
 			textField.setText(text);
+		}
 
 	}
 
@@ -191,16 +196,18 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 	/** Insert a geo label into current editor string. */
 	public void addLabel(String label) {
-		if (!editing)
+		if (!editing) {
 			return;
+		}
 		// String text = (String) delegate.getCellEditorValue();
 		// delegate.setValue(text + label);
 		textField.replaceSelection(" " + label + " ");
 	}
 
 	public void setLabel(String text) {
-		if (!editing)
+		if (!editing) {
 			return;
+		}
 		delegate.setValue(text);
 	}
 
@@ -239,8 +246,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 		// try to redefine or create the cell geo with the current editing
 		// string
-		if (!processGeo())
+		if (!processGeo()) {
 			return false;
+		}
 
 		errorOnStopEditing = false;
 		editing = false;
@@ -300,8 +308,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 					value = newVal;
 				}
 
-				if (value != null)
+				if (value != null) {
 					app.storeUndoInfo();
+				}
 			}
 
 		} catch (Exception ex) {
@@ -334,10 +343,12 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			this.isFormulaBarListener = isFormulaBarListener;
 		}
 
+		@Override
 		public void keyTyped(KeyEvent e) {
 			//
 		}
 
+		@Override
 		public void keyPressed(KeyEvent e) {
 			checkCursorKeys(e);
 			int keyCode = e.getKeyCode();
@@ -359,6 +370,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			}
 		}
 
+		@Override
 		public void keyReleased(KeyEvent e) {
 			//
 		}
@@ -374,8 +386,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				// do nothing
 				break;
 			case KeyEvent.VK_UP:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 
 				// Application.debug("UP");
 				stopCellEditing(0, -1);
@@ -385,14 +398,16 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				break;
 
 			case KeyEvent.VK_TAB:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 				Log.debug(" tab");
 				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right
-				if (tabReturnCol == -1)
+				if (tabReturnCol == -1) {
 					tabReturnCol = column;
+				}
 				stopCellEditing(e.isShiftDown() ? -1 : 1, 0);
 				editing = false;
 
@@ -443,8 +458,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				break;
 
 			case KeyEvent.VK_LEFT:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 				// Application.debug("LEFT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == 0) {
@@ -456,8 +472,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				break;
 
 			case KeyEvent.VK_RIGHT:
-				if (isFormulaBarListener)
+				if (isFormulaBarListener) {
 					return;
+				}
 				// Application.debug("RIGHT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == text.length()) {
@@ -488,16 +505,19 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 		editing = true;
 	}
 
+	@Override
 	public void focusLost(FocusEvent arg0) {
 
 		// VirtualKeyboard gets the focus very briefly when opened
 		// so ignore this!
-		if (arg0.getOppositeComponent() instanceof VirtualKeyboardD)
+		if (arg0.getOppositeComponent() instanceof VirtualKeyboardD) {
 			return;
+		}
 
 		// only needed if eg columns resized
 		if (editing) {

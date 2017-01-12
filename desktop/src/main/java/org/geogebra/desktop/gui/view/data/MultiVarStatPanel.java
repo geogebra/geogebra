@@ -63,10 +63,12 @@ public class MultiVarStatPanel extends BasicStatTable
 		statTable.repaint();
 	}
 
+	@Override
 	public String[] getDataTitles() {
 		return daView.getDataTitles();
 	}
 
+	@Override
 	public boolean isMinimalTable() {
 		// TODO Auto-generated method stub
 		return isMinimalTable;

@@ -225,8 +225,9 @@ public class CreateObjectDialog extends InputDialogD
 	@Override
 	public void setLabels(String title) {
 
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
@@ -293,6 +294,7 @@ public class CreateObjectDialog extends InputDialogD
 
 	}
 
+	@Override
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		ImageIcon latexIcon = new ImageIcon();
 		Font latexFont = new Font(app.getPlainFont().getName(),
@@ -392,6 +394,7 @@ public class CreateObjectDialog extends InputDialogD
 		setVisible(false);
 	}
 
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 
 		if (e.getSource() == typeList) {
@@ -414,38 +417,47 @@ public class CreateObjectDialog extends InputDialogD
 		}
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		//
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
 
+	@Override
 	public void setName(String name) {
 		fldName.setText(name);
 	}
 
+	@Override
 	public void setSortVisible(boolean isVisible) {
 		ckSort.setVisible(isVisible);
 	}
 
+	@Override
 	public boolean isVisible() {
 		return wrappedDialog != null && wrappedDialog.isVisible();
 	}
 
+	@Override
 	public boolean isCopiedByValue() {
 		return btnValue.isSelected();
 	}
 
+	@Override
 	public boolean isScannedByColumn() {
 		return cbScanOrder.getSelectedIndex() == 1;
 	}
 
+	@Override
 	public boolean isLeftToRight() {
 		return cbLeftRightOrder.getSelectedIndex() == 0;
 	}
 
+	@Override
 	public boolean isTranspose() {
 		return ckTranspose.isSelected();
 	}

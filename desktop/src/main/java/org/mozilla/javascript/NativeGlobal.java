@@ -121,6 +121,7 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 		}
 	}
 
+	@Override
 	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
 			Scriptable thisObj, Object[] args) {
 		if (f.hasTag(FTAG)) {
@@ -201,21 +202,24 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 		int radix = ScriptRuntime.toInt32(args, 1);
 
 		int len = s.length();
-		if (len == 0)
+		if (len == 0) {
 			return ScriptRuntime.NaNobj;
+		}
 
 		boolean negative = false;
 		int start = 0;
 		char c;
 		do {
 			c = s.charAt(start);
-			if (!ScriptRuntime.isStrWhiteSpaceChar(c))
+			if (!ScriptRuntime.isStrWhiteSpaceChar(c)) {
 				break;
+			}
 			start++;
 		} while (start < len);
 
-		if (c == '+' || (negative = (c == '-')))
+		if (c == '+' || (negative = (c == '-'))) {
 			start++;
+		}
 
 		final int NO_RADIX = -1;
 		if (radix == 0) {
@@ -224,8 +228,9 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 			return ScriptRuntime.NaNobj;
 		} else if (radix == 16 && len - start > 1 && s.charAt(start) == '0') {
 			c = s.charAt(start + 1);
-			if (c == 'x' || c == 'X')
+			if (c == 'x' || c == 'X') {
 				start += 2;
+			}
 		}
 
 		if (radix == NO_RADIX) {
@@ -253,8 +258,9 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 	 *            the arguments to parseFloat, ignoring args[>=1]
 	 */
 	static Object js_parseFloat(Object[] args) {
-		if (args.length < 1)
+		if (args.length < 1) {
 			return ScriptRuntime.NaNobj;
+		}
 
 		String s = ScriptRuntime.toString(args[0]);
 		int len = s.length();
@@ -302,8 +308,9 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 		for (; i < len; i++) {
 			switch (s.charAt(i)) {
 			case '.':
-				if (decimal != -1) // Only allow a single decimal point.
+				if (decimal != -1) {
 					break;
+				}
 				decimal = i;
 				continue;
 
@@ -562,8 +569,9 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 	}
 
 	private static char toHexChar(int i) {
-		if (i >> 4 != 0)
+		if (i >> 4 != 0) {
 			Kit.codeBug();
+		}
 		return (char) ((i < 10) ? i + '0' : i - 10 + 'A');
 	}
 
@@ -608,11 +616,13 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 					bufTop = k;
 				}
 				int start = k;
-				if (k + 3 > length)
+				if (k + 3 > length) {
 					throw uriError();
+				}
 				int B = unHex(str.charAt(k + 1), str.charAt(k + 2));
-				if (B < 0)
+				if (B < 0) {
 					throw uriError();
+				}
 				k += 3;
 				if ((B & 0x80) == 0) {
 					C = (char) B;
@@ -647,14 +657,17 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 						// First UTF-8 can not be 0xFF or 0xFE
 						throw uriError();
 					}
-					if (k + 3 * utf8Tail > length)
+					if (k + 3 * utf8Tail > length) {
 						throw uriError();
+					}
 					for (int j = 0; j != utf8Tail; j++) {
-						if (str.charAt(k) != '%')
+						if (str.charAt(k) != '%') {
 							throw uriError();
+						}
 						B = unHex(str.charAt(k + 1), str.charAt(k + 2));
-						if (B < 0 || (B & 0xC0) != 0x80)
+						if (B < 0 || (B & 0xC0) != 0x80) {
 							throw uriError();
+						}
 						ucs4Char = (ucs4Char << 6) | (B & 0x3F);
 						k += 3;
 					}
@@ -719,9 +732,9 @@ public class NativeGlobal implements Serializable, IdFunctionCall {
 		int utf8Length = 1;
 
 		// JS_ASSERT(ucs4Char <= 0x7FFFFFFF);
-		if ((ucs4Char & ~0x7F) == 0)
+		if ((ucs4Char & ~0x7F) == 0) {
 			utf8Buffer[0] = (byte) ucs4Char;
-		else {
+		} else {
 			int i;
 			int a = ucs4Char >>> 11;
 			utf8Length = 2;

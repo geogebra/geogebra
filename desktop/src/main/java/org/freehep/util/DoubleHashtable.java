@@ -37,6 +37,7 @@ public class DoubleHashtable extends AbstractCollection
 	/**
 	 * removes all entries and sub-tables
 	 */
+	@Override
 	public void clear() {
 		table.clear();
 	}
@@ -51,6 +52,7 @@ public class DoubleHashtable extends AbstractCollection
 		}
 	}
 
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		throw new CloneNotSupportedException(
 				"DoubleHashtable.clone() is not (yet) supported.");
@@ -59,14 +61,17 @@ public class DoubleHashtable extends AbstractCollection
 	/**
 	 * @return true if value exists in some sub-table
 	 */
+	@Override
 	public boolean contains(Object value) {
-		if (value == null)
+		if (value == null) {
 			value = this;
+		}
 
 		for (Enumeration e = table.keys(); e.hasMoreElements();) {
 			Hashtable subtable = get(e.nextElement());
-			if (subtable.contains(value))
+			if (subtable.contains(value)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -75,8 +80,9 @@ public class DoubleHashtable extends AbstractCollection
 	 * @return true if sub-table exists for key
 	 */
 	public boolean containsKey(Object key) {
-		if (key == null)
+		if (key == null) {
 			key = this;
+		}
 		return table.containsKey(key);
 	}
 
@@ -84,8 +90,9 @@ public class DoubleHashtable extends AbstractCollection
 	 * @return true if value exists for key and subkey
 	 */
 	public boolean containsKey(Object key, Object subKey) {
-		if (subKey == null)
+		if (subKey == null) {
 			subKey = this;
+		}
 		Hashtable subtable = get(key);
 		return (subtable != null) ? subtable.containsKey(subKey) : false;
 	}
@@ -99,6 +106,7 @@ public class DoubleHashtable extends AbstractCollection
 			private Enumeration valueEnumeration;
 			private Object nullValue = DoubleHashtable.this;
 
+			@Override
 			public boolean hasMoreElements() {
 				if ((valueEnumeration == null)
 						|| (!valueEnumeration.hasMoreElements())) {
@@ -111,6 +119,7 @@ public class DoubleHashtable extends AbstractCollection
 				return true;
 			}
 
+			@Override
 			public Object nextElement() {
 				hasMoreElements();
 				Object value = valueEnumeration.nextElement();
@@ -122,6 +131,7 @@ public class DoubleHashtable extends AbstractCollection
 	/**
 	 * @return iterator over all values in all sub-tables
 	 */
+	@Override
 	public Iterator iterator() {
 		return new Iterator() {
 			private Iterator subtableIterator = table.entrySet().iterator();
@@ -129,6 +139,7 @@ public class DoubleHashtable extends AbstractCollection
 			private Iterator valueIterator;
 			private Object nullValue = DoubleHashtable.this;
 
+			@Override
 			public boolean hasNext() {
 				if ((valueIterator == null) || (!valueIterator.hasNext())) {
 					if (!subtableIterator.hasNext()) {
@@ -141,6 +152,7 @@ public class DoubleHashtable extends AbstractCollection
 				return true;
 			}
 
+			@Override
 			public Object next() {
 				hasNext();
 				Map.Entry entry = (Map.Entry) valueIterator.next();
@@ -148,6 +160,7 @@ public class DoubleHashtable extends AbstractCollection
 				return (value == nullValue) ? null : value;
 			}
 
+			@Override
 			public void remove() {
 				valueIterator.remove();
 
@@ -162,8 +175,9 @@ public class DoubleHashtable extends AbstractCollection
 	 * @return sub-table for key
 	 */
 	public Hashtable get(Object key) {
-		if (key == null)
+		if (key == null) {
 			key = this;
+		}
 		return (Hashtable) table.get(key);
 	}
 
@@ -172,8 +186,9 @@ public class DoubleHashtable extends AbstractCollection
 	 *         stored
 	 */
 	public Object get(Object key, Object subKey) {
-		if (subKey == null)
+		if (subKey == null) {
 			subKey = this;
+		}
 		Hashtable table = get(key);
 		Object value = (table == null) ? null : table.get(subKey);
 		return (value == this) ? null : value;
@@ -182,6 +197,7 @@ public class DoubleHashtable extends AbstractCollection
 	/**
 	 * @return true if table is empty
 	 */
+	@Override
 	public boolean isEmpty() {
 		return table.isEmpty();
 	}
@@ -204,10 +220,12 @@ public class DoubleHashtable extends AbstractCollection
 					: subtable.keys();
 			private Object nullKey = DoubleHashtable.this;
 
+			@Override
 			public boolean hasMoreElements() {
 				return (subkeys == null) ? false : subkeys.hasMoreElements();
 			}
 
+			@Override
 			public Object nextElement() {
 				if (subkeys == null) {
 					throw new NoSuchElementException();
@@ -228,16 +246,19 @@ public class DoubleHashtable extends AbstractCollection
 		Hashtable subtable = get(key);
 		if (subtable == null) {
 			subtable = new Hashtable();
-			if (key == null)
+			if (key == null) {
 				key = this;
+			}
 			table.put(key, subtable);
 		}
 
 		// add entry and handle nulls
-		if (subKey == null)
+		if (subKey == null) {
 			subKey = this;
-		if (value == null)
+		}
+		if (value == null) {
 			value = this;
+		}
 		Object old = subtable.get(subKey);
 		subtable.put(subKey, value);
 
@@ -253,18 +274,21 @@ public class DoubleHashtable extends AbstractCollection
 	public Object remove(Object key, Object subKey) {
 		// look for subtable
 		Hashtable subtable = get(key);
-		if (subtable == null)
+		if (subtable == null) {
 			return null;
+		}
 
 		// remove from subtable
-		if (subKey == null)
+		if (subKey == null) {
 			subKey = this;
+		}
 		Object old = subtable.remove(subKey);
 
 		// remove subtable if needed
 		if (subtable.isEmpty()) {
-			if (key == null)
+			if (key == null) {
 				key = this;
+			}
 			table.remove(key);
 		}
 
@@ -275,6 +299,7 @@ public class DoubleHashtable extends AbstractCollection
 	/**
 	 * @return size of all tables
 	 */
+	@Override
 	public int size() {
 		int size = 0;
 		for (Enumeration e = table.keys(); e.hasMoreElements();) {
@@ -288,6 +313,7 @@ public class DoubleHashtable extends AbstractCollection
 	/**
 	 * @return a string representation of the table
 	 */
+	@Override
 	public String toString() {
 		return "DoubleHashtable@" + hashCode();
 	}

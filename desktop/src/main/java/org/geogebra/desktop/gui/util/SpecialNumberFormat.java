@@ -67,12 +67,13 @@ public class SpecialNumberFormat implements ActionListener {
 	public String format(double x) {
 		StringTemplate highPrecision;
 		// override the default decimal place setting
-		if (printDecimals >= 0)
+		if (printDecimals >= 0) {
 			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
 					printDecimals, false);
-		else
+		} else {
 			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
 					printFigures, false);
+		}
 
 		// get the formatted string
 		String result = app.getKernel().format(x, highPrecision);
@@ -101,18 +102,21 @@ public class SpecialNumberFormat implements ActionListener {
 	 * Update the menu to select the current format.
 	 */
 	private void updateMenuDecimalPlaces() {
-		if (menuDecimalPlaces == null)
+		if (menuDecimalPlaces == null) {
 			return;
+		}
 		int pos = -1;
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < OptionsMenu.figuresLookupLength())
+					&& printFigures < OptionsMenu.figuresLookupLength()) {
 				pos = OptionsMenu.figuresLookup(printFigures);
+			}
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < OptionsMenu.decimalsLookupLength())
+					&& printDecimals < OptionsMenu.decimalsLookupLength()) {
 				pos = OptionsMenu.decimalsLookup(printDecimals);
+			}
 		}
 
 		try {
@@ -147,8 +151,9 @@ public class SpecialNumberFormat implements ActionListener {
 				String text = app.getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(app.getFontCanDisplayAwt(text));
-				if (i == selectedPos)
+				if (i == selectedPos) {
 					mi.setSelected(true);
+				}
 				mi.setActionCommand(actionCommands[i]);
 				mi.addActionListener(al);
 				bg.add(mi);
@@ -161,6 +166,7 @@ public class SpecialNumberFormat implements ActionListener {
 	 * Listener for the Rounding menu. Notifies the invoking component of a
 	 * format change with invoker.changedNumberFormat().
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();

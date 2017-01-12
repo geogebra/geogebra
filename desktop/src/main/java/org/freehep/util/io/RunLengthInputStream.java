@@ -39,11 +39,13 @@ public class RunLengthInputStream extends InputStream implements RunLength {
 		count = 0;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		if ((index >= count) || (index > 128)) {
-			if (!fillBuffer())
+			if (!fillBuffer()) {
 				return -1;
+			}
 		}
 
 		int b = buffer[index];
@@ -54,23 +56,26 @@ public class RunLengthInputStream extends InputStream implements RunLength {
 	private boolean fillBuffer() throws IOException {
 		count = in.read();
 
-		if (end(count))
+		if (end(count)) {
 			return false;
+		}
 
 		if (count < 128) {
 			// buffered
 			count++;
 			for (int i = 0; i < count; i++) {
 				buffer[i] = in.read();
-				if (end(buffer[i]))
+				if (end(buffer[i])) {
 					return false;
+				}
 			}
 		} else {
 			// counted
 			count = 257 - count;
 			int b = in.read();
-			if (end(b))
+			if (end(b)) {
 				return false;
+			}
 
 			for (int i = 0; i < count; i++) {
 				buffer[i] = b;

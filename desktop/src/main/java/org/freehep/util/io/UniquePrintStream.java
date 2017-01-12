@@ -33,12 +33,14 @@ public class UniquePrintStream extends PrintStream
 		super(out);
 	}
 
+	@Override
 	public void println(String s) {
 		synchronized (this) {
 			msg.add(s);
 		}
 	}
 
+	@Override
 	public void finish() {
 		for (Iterator i = msg.iterator(); i.hasNext();) {
 			String s = (String) i.next();

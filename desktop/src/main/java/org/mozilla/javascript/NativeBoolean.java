@@ -34,8 +34,9 @@ final class NativeBoolean extends IdScriptableObject {
 	public Object getDefaultValue(Class<?> typeHint) {
 		// This is actually non-ECMA, but will be proposed
 		// as a change in round 2.
-		if (typeHint == ScriptRuntime.BooleanClass)
+		if (typeHint == ScriptRuntime.BooleanClass) {
 			return ScriptRuntime.wrapBoolean(booleanValue);
+		}
 		return super.getDefaultValue(typeHint);
 	}
 
@@ -93,8 +94,9 @@ final class NativeBoolean extends IdScriptableObject {
 
 		// The rest of Boolean.prototype methods require thisObj to be Boolean
 
-		if (!(thisObj instanceof NativeBoolean))
+		if (!(thisObj instanceof NativeBoolean)) {
 			throw incompatibleCallError(f);
+		}
 		boolean value = ((NativeBoolean) thisObj).booleanValue;
 
 		switch (id) {
@@ -138,8 +140,9 @@ final class NativeBoolean extends IdScriptableObject {
 				X = "constructor";
 				id = Id_constructor;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

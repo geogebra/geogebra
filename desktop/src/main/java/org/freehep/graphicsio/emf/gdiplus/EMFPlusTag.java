@@ -30,6 +30,7 @@ public abstract class EMFPlusTag extends EMFTag {
 		super(id + OFFSET, version + OFFSET);
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -40,6 +41,7 @@ public abstract class EMFPlusTag extends EMFTag {
 	public abstract EMFPlusTag read(int tagID, int flags, EMFInputStream emf,
 			int len) throws IOException;
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.pushBuffer();
 		write(tagID - OFFSET, flags, emf);
@@ -51,6 +53,7 @@ public abstract class EMFPlusTag extends EMFTag {
 	public abstract void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException;
 
+	@Override
 	public String toString() {
 		int id = getTag();
 		String s = "EMF+Tag " + getName() + " (" + id + ") (0x"

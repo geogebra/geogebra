@@ -27,6 +27,7 @@ public class SetArcDirection extends EMFTag implements EMFConstants {
 		this.direction = direction;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -34,10 +35,12 @@ public class SetArcDirection extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeDWORD(direction);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  direction: " + direction;
 	}

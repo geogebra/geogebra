@@ -52,11 +52,13 @@ public class BorderButtonD extends AbstractBorder
 
 		// register our mouseListener, making sure it is the first one added
 		MouseListener[] ml = borderOwner.getMouseListeners();
-		for (int i = 0; i < ml.length; i++)
+		for (int i = 0; i < ml.length; i++) {
 			borderOwner.removeMouseListener(ml[i]);
+		}
 		borderOwner.addMouseListener(this);
-		for (int i = 0; i < ml.length; i++)
+		for (int i = 0; i < ml.length; i++) {
 			borderOwner.addMouseListener(ml[i]);
+		}
 
 		// register mouseMotionListener
 		borderOwner.addMouseMotionListener(this);
@@ -102,15 +104,17 @@ public class BorderButtonD extends AbstractBorder
 
 	public void setBorderButton(int index, ImageIcon icon,
 			ActionListener listener) {
-		if (index < 0 || index > maxIconCount)
+		if (index < 0 || index > maxIconCount) {
 			return;
+		}
 		this.icon[index] = icon;
 		al[index] = listener;
 	}
 
 	public void setIconVisible(int index, boolean isVisible) {
-		if (index < 0 || index > maxIconCount)
+		if (index < 0 || index > maxIconCount) {
 			return;
+		}
 		isVisibleIcon[index] = isVisible;
 		this.borderOwner.validate();
 	}
@@ -122,8 +126,9 @@ public class BorderButtonD extends AbstractBorder
 	private int getTotalInsetWidth() {
 		int insetWidth = 0;
 		for (int i = 0; i < icon.length; i++) {
-			if (isVisibleIcon[i])
+			if (isVisibleIcon[i]) {
 				insetWidth += icon[i].getIconWidth() + hGap;
+			}
 		}
 		return insetWidth;
 	}
@@ -148,9 +153,11 @@ public class BorderButtonD extends AbstractBorder
 	// Mouse Listeners
 	// =============================================
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 
 		boolean isOver = e.getPoint().x > iconRect[0].x;
@@ -168,15 +175,19 @@ public class BorderButtonD extends AbstractBorder
 		}
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		for (int i = 0; i < iconRect.length; i++) {
 			if (isMouseOverIcon[i]) {
@@ -188,6 +199,7 @@ public class BorderButtonD extends AbstractBorder
 		}
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		for (int i = 0; i < iconRect.length; i++) {
 			if (isMouseOverIcon[i]) {

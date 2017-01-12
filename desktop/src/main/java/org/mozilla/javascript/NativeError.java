@@ -355,8 +355,9 @@ final class NativeError extends IdScriptableObject {
 				X = "constructor";
 				id = Id_constructor;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

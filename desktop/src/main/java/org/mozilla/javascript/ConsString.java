@@ -91,15 +91,18 @@ public class ConsString implements CharSequence, Serializable {
 		}
 	}
 
+	@Override
 	public int length() {
 		return length;
 	}
 
+	@Override
 	public char charAt(int index) {
 		String str = depth == 0 ? (String) s1 : flatten();
 		return str.charAt(index);
 	}
 
+	@Override
 	public CharSequence subSequence(int start, int end) {
 		String str = depth == 0 ? (String) s1 : flatten();
 		return str.substring(start, end);

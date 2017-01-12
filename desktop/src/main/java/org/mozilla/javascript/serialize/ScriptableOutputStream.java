@@ -150,8 +150,9 @@ public class ScriptableOutputStream extends ObjectOutputStream {
 		while (st.hasMoreTokens()) {
 			String s = st.nextToken();
 			result = ScriptableObject.getProperty((Scriptable) result, s);
-			if (result == null || !(result instanceof Scriptable))
+			if (result == null || !(result instanceof Scriptable)) {
 				break;
+			}
 		}
 		return result;
 	}
@@ -173,10 +174,13 @@ public class ScriptableOutputStream extends ObjectOutputStream {
 	@Override
 	protected Object replaceObject(Object obj) throws IOException {
 		if (false)
+		 {
 			throw new IOException(); // suppress warning
+		}
 		String name = table.get(obj);
-		if (name == null)
+		if (name == null) {
 			return obj;
+		}
 		return new PendingLookup(name);
 	}
 

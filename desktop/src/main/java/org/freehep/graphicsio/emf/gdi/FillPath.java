@@ -27,6 +27,7 @@ public class FillPath extends EMFTag {
 		this.bounds = bounds;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -34,10 +35,12 @@ public class FillPath extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  bounds: " + bounds;
 	}

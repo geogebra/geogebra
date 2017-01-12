@@ -95,6 +95,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 		return event.isPopupTrigger();
 	}
 
+	@Override
 	public java.awt.Component getComponent() {
 		return event.getComponent();
 	}

@@ -56,8 +56,9 @@ public class NativeArray extends IdScriptableObject implements List {
 		denseOnly = lengthArg <= maximumInitialCapacity;
 		if (denseOnly) {
 			int intLength = (int) lengthArg;
-			if (intLength < DEFAULT_INITIAL_CAPACITY)
+			if (intLength < DEFAULT_INITIAL_CAPACITY) {
 				intLength = DEFAULT_INITIAL_CAPACITY;
+			}
 			dense = new Object[intLength];
 			Arrays.fill(dense, Scriptable.NOT_FOUND);
 		}
@@ -305,8 +306,9 @@ public class NativeArray extends IdScriptableObject implements List {
 				if (args.length > 0) {
 					thisObj = ScriptRuntime.toObject(cx, scope, args[0]);
 					Object[] newArgs = new Object[args.length - 1];
-					for (int i = 0; i < newArgs.length; i++)
+					for (int i = 0; i < newArgs.length; i++) {
 						newArgs[i] = args[i + 1];
+					}
 					args = newArgs;
 				}
 				id = -id;
@@ -390,19 +392,23 @@ public class NativeArray extends IdScriptableObject implements List {
 
 	@Override
 	public Object get(int index, Scriptable start) {
-		if (!denseOnly && isGetterOrSetter(null, index, false))
+		if (!denseOnly && isGetterOrSetter(null, index, false)) {
 			return super.get(index, start);
-		if (dense != null && 0 <= index && index < dense.length)
+		}
+		if (dense != null && 0 <= index && index < dense.length) {
 			return dense[index];
+		}
 		return super.get(index, start);
 	}
 
 	@Override
 	public boolean has(int index, Scriptable start) {
-		if (!denseOnly && isGetterOrSetter(null, index, false))
+		if (!denseOnly && isGetterOrSetter(null, index, false)) {
 			return super.has(index, start);
-		if (dense != null && 0 <= index && index < dense.length)
+		}
+		if (dense != null && 0 <= index && index < dense.length) {
 			return dense[index] != NOT_FOUND;
+		}
 		return super.has(index, start);
 	}
 
@@ -479,8 +485,9 @@ public class NativeArray extends IdScriptableObject implements List {
 				return;
 			} else if (index < dense.length) {
 				dense[index] = value;
-				if (this.length <= index)
+				if (this.length <= index) {
 					this.length = (long) index + 1;
+				}
 				return;
 			} else if (denseOnly && index < dense.length * GROW_FACTOR
 					&& ensureCapacity(index + 1)) {
@@ -572,16 +579,18 @@ public class NativeArray extends IdScriptableObject implements List {
 	public Object getDefaultValue(Class<?> hint) {
 		if (hint == ScriptRuntime.NumberClass) {
 			Context cx = Context.getContext();
-			if (cx.getLanguageVersion() == Context.VERSION_1_2)
+			if (cx.getLanguageVersion() == Context.VERSION_1_2) {
 				return Long.valueOf(length);
+			}
 		}
 		return super.getDefaultValue(hint);
 	}
 
 	private ScriptableObject defaultIndexPropertyDescriptor(Object value) {
 		Scriptable scope = getParentScope();
-		if (scope == null)
+		if (scope == null) {
 			scope = this;
+		}
 		ScriptableObject desc = new NativeObject();
 		ScriptRuntime.setBuiltinProtoAndParent(desc, scope,
 				TopLevel.Builtins.Object);
@@ -639,8 +648,9 @@ public class NativeArray extends IdScriptableObject implements List {
 	 */
 	private static Object jsConstructor(Context cx, Scriptable scope,
 			Object[] args) {
-		if (args.length == 0)
+		if (args.length == 0) {
 			return new NativeArray(0);
+		}
 
 		// Only use 1 arg as first element for version 1.2; for
 		// any other version (including 1.3) follow ECMA and use it as
@@ -685,8 +695,9 @@ public class NativeArray extends IdScriptableObject implements List {
 	 *             back to a dense representation
 	 */
 	void setDenseOnly(boolean denseOnly) {
-		if (denseOnly && !this.denseOnly)
+		if (denseOnly && !this.denseOnly) {
 			throw new IllegalArgumentException();
+		}
 		this.denseOnly = denseOnly;
 	}
 
@@ -733,12 +744,14 @@ public class NativeArray extends IdScriptableObject implements List {
 						// > MAXINT will appear as string
 						String strId = (String) id;
 						long index = toArrayIndex(strId);
-						if (index >= longVal)
+						if (index >= longVal) {
 							delete(strId);
+						}
 					} else {
 						int index = ((Integer) id).intValue();
-						if (index >= longVal)
+						if (index >= longVal) {
 							delete(index);
+						}
 					}
 				}
 			} else {
@@ -882,8 +895,9 @@ public class NativeArray extends IdScriptableObject implements List {
 				boolean skipUndefinedAndNull = !toSource
 						|| cx.getLanguageVersion() < Context.VERSION_1_5;
 				for (i = 0; i < length; i++) {
-					if (i > 0)
+					if (i > 0) {
 						result.append(separator);
+					}
 					Object elem = getRawElem(thisObj, i);
 					if (elem == NOT_FOUND || (skipUndefinedAndNull
 							&& (elem == null || elem == Undefined.instance))) {
@@ -928,10 +942,11 @@ public class NativeArray extends IdScriptableObject implements List {
 
 		if (toSource) {
 			// for [,,].length behavior; we want toString to be symmetric.
-			if (!haslast && i > 0)
+			if (!haslast && i > 0) {
 				result.append(", ]");
-			else
+			} else {
 				result.append(']');
+			}
 		}
 		return result.toString();
 	}
@@ -1038,6 +1053,7 @@ public class NativeArray extends IdScriptableObject implements List {
 			final Scriptable funThis = ScriptRuntime.lastStoredScriptable(cx);
 			final Object[] cmpBuf = new Object[2]; // Buffer for cmp arguments
 			comparator = new Comparator<Object>() {
+				@Override
 				public int compare(final Object x, final Object y) {
 					// sort undefined to end
 					if (x == NOT_FOUND) {
@@ -1065,6 +1081,7 @@ public class NativeArray extends IdScriptableObject implements List {
 			};
 		} else {
 			comparator = new Comparator<Object>() {
+				@Override
 				public int compare(final Object x, final Object y) {
 					// sort undefined to end
 					if (x == NOT_FOUND) {
@@ -1131,13 +1148,13 @@ public class NativeArray extends IdScriptableObject implements List {
 		 * If JS1.2, follow Perl4 by returning the last thing pushed. Otherwise,
 		 * return the new array length.
 		 */
-		if (cx.getLanguageVersion() == Context.VERSION_1_2)
+		if (cx.getLanguageVersion() == Context.VERSION_1_2) {
 			// if JS1.2 && no arguments, return undefined.
 			return args.length == 0 ? Undefined.instance
 					: args[args.length - 1];
-
-		else
+		} else {
 			return lengthObj;
+		}
 	}
 
 	private static Object js_pop(Context cx, Scriptable thisObj,
@@ -1262,8 +1279,9 @@ public class NativeArray extends IdScriptableObject implements List {
 		/* create an empty Array to return. */
 		scope = getTopLevelScope(scope);
 		int argc = args.length;
-		if (argc == 0)
+		if (argc == 0) {
 			return cx.newArray(scope, 0);
+		}
 		long length = getLengthProperty(cx, thisObj);
 
 		/* Convert the first argument into a starting index. */
@@ -1538,11 +1556,13 @@ public class NativeArray extends IdScriptableObject implements List {
 			start = (long) ScriptRuntime.toInteger(args[1]);
 			if (start < 0) {
 				start += length;
-				if (start < 0)
+				if (start < 0) {
 					start = 0;
+				}
 			}
-			if (start > length - 1)
+			if (start > length - 1) {
 				return NEGATIVE_ONE;
+			}
 		}
 		if (thisObj instanceof NativeArray) {
 			NativeArray na = (NativeArray) thisObj;
@@ -1592,12 +1612,14 @@ public class NativeArray extends IdScriptableObject implements List {
 			start = length - 1;
 		} else {
 			start = (long) ScriptRuntime.toInteger(args[1]);
-			if (start >= length)
+			if (start >= length) {
 				start = length - 1;
-			else if (start < 0)
+			} else if (start < 0) {
 				start += length;
-			if (start < 0)
+			}
+			if (start < 0) {
 				return NEGATIVE_ONE;
+			}
 		}
 		if (thisObj instanceof NativeArray) {
 			NativeArray na = (NativeArray) thisObj;
@@ -1672,12 +1694,14 @@ public class NativeArray extends IdScriptableObject implements List {
 			Object result = f.call(cx, parent, thisArg, innerArgs);
 			switch (id) {
 			case Id_every:
-				if (!ScriptRuntime.toBoolean(result))
+				if (!ScriptRuntime.toBoolean(result)) {
 					return Boolean.FALSE;
+				}
 				break;
 			case Id_filter:
-				if (ScriptRuntime.toBoolean(result))
+				if (ScriptRuntime.toBoolean(result)) {
 					defineElem(cx, array, j++, innerArgs[0]);
+				}
 				break;
 			case Id_forEach:
 				break;
@@ -1685,16 +1709,19 @@ public class NativeArray extends IdScriptableObject implements List {
 				defineElem(cx, array, i, result);
 				break;
 			case Id_some:
-				if (ScriptRuntime.toBoolean(result))
+				if (ScriptRuntime.toBoolean(result)) {
 					return Boolean.TRUE;
+				}
 				break;
 			case Id_find:
-				if (ScriptRuntime.toBoolean(result))
+				if (ScriptRuntime.toBoolean(result)) {
 					return elem;
+				}
 				break;
 			case Id_findIndex:
-				if (ScriptRuntime.toBoolean(result))
+				if (ScriptRuntime.toBoolean(result)) {
 					return ScriptRuntime.wrapNumber(i);
+				}
 				break;
 			}
 		}
@@ -1760,14 +1787,17 @@ public class NativeArray extends IdScriptableObject implements List {
 
 	// methods to implement java.util.List
 
+	@Override
 	public boolean contains(Object o) {
 		return indexOf(o) > -1;
 	}
 
+	@Override
 	public Object[] toArray() {
 		return toArray(ScriptRuntime.emptyArgs);
 	}
 
+	@Override
 	public Object[] toArray(Object[] a) {
 		long longLen = length;
 		if (longLen > Integer.MAX_VALUE) {
@@ -1783,10 +1813,13 @@ public class NativeArray extends IdScriptableObject implements List {
 		return array;
 	}
 
+	@Override
 	public boolean containsAll(Collection c) {
-		for (Object aC : c)
-			if (!contains(aC))
+		for (Object aC : c) {
+			if (!contains(aC)) {
 				return false;
+			}
+		}
 		return true;
 	}
 
@@ -1818,10 +1851,12 @@ public class NativeArray extends IdScriptableObject implements List {
 		}
 	}
 
+	@Override
 	public Object get(int index) {
 		return get((long) index);
 	}
 
+	@Override
 	public int indexOf(Object o) {
 		long longLen = length;
 		if (longLen > Integer.MAX_VALUE) {
@@ -1844,6 +1879,7 @@ public class NativeArray extends IdScriptableObject implements List {
 		return -1;
 	}
 
+	@Override
 	public int lastIndexOf(Object o) {
 		long longLen = length;
 		if (longLen > Integer.MAX_VALUE) {
@@ -1866,14 +1902,17 @@ public class NativeArray extends IdScriptableObject implements List {
 		return -1;
 	}
 
+	@Override
 	public Iterator iterator() {
 		return listIterator(0);
 	}
 
+	@Override
 	public ListIterator listIterator() {
 		return listIterator(0);
 	}
 
+	@Override
 	public ListIterator listIterator(final int start) {
 		long longLen = length;
 		if (longLen > Integer.MAX_VALUE) {
@@ -1889,10 +1928,12 @@ public class NativeArray extends IdScriptableObject implements List {
 
 			int cursor = start;
 
+			@Override
 			public boolean hasNext() {
 				return cursor < len;
 			}
 
+			@Override
 			public Object next() {
 				if (cursor == len) {
 					throw new NoSuchElementException();
@@ -1900,10 +1941,12 @@ public class NativeArray extends IdScriptableObject implements List {
 				return get(cursor++);
 			}
 
+			@Override
 			public boolean hasPrevious() {
 				return cursor > 0;
 			}
 
+			@Override
 			public Object previous() {
 				if (cursor == 0) {
 					throw new NoSuchElementException();
@@ -1911,68 +1954,84 @@ public class NativeArray extends IdScriptableObject implements List {
 				return get(--cursor);
 			}
 
+			@Override
 			public int nextIndex() {
 				return cursor;
 			}
 
+			@Override
 			public int previousIndex() {
 				return cursor - 1;
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}
 
+			@Override
 			public void add(Object o) {
 				throw new UnsupportedOperationException();
 			}
 
+			@Override
 			public void set(Object o) {
 				throw new UnsupportedOperationException();
 			}
 		};
 	}
 
+	@Override
 	public boolean add(Object o) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean addAll(Collection c) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean removeAll(Collection c) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean retainAll(Collection c) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void clear() {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void add(int index, Object element) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean addAll(int index, Collection c) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object set(int index, Object element) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object remove(int index) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public List subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException();
 	}
@@ -2111,8 +2170,9 @@ public class NativeArray extends IdScriptableObject implements List {
 				id = Id_toLocaleString;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

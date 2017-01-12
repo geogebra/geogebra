@@ -354,6 +354,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 	}
 
+	@Override
 	public void setLabels() {
 
 		lblResult.setText(app.getMenu("Result"));
@@ -619,6 +620,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e);
 	}
@@ -640,6 +642,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 			// reset the scrollpane to the top
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 					scroller.getVerticalScrollBar().setValue(0);
 				}
@@ -692,6 +695,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		return Double.NaN;
 	}
 
+	@Override
 	protected void updateStatisticCollection() {
 		try {
 
@@ -772,6 +776,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextFieldD) {
 			((MyTextFieldD) e.getSource()).selectAll();
@@ -779,9 +784,11 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof MyTextFieldD)
+		if (e.getSource() instanceof MyTextFieldD) {
 			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
+		}
 
 	}
 

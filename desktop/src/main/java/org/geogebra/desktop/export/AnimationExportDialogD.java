@@ -237,10 +237,12 @@ public class AnimationExportDialogD extends JDialog {
 			return step;
 		}
 
+		@Override
 		public int getAnimationType() {
 			return GeoElement.ANIMATION_INCREASING;
 		}
 
+		@Override
 		public void setValue(double x) {
 			value = x;
 		}
@@ -297,29 +299,35 @@ public class AnimationExportDialogD extends JDialog {
 		case GeoElement.ANIMATION_DECREASING:
 			step = -num.getAnimationStep();
 			n = (int) ((max - min) / -step);
-			if (Kernel.isZero(((max - min) / -step) - n))
+			if (Kernel.isZero(((max - min) / -step) - n)) {
 				n++;
-			if (n == 0)
+			}
+			if (n == 0) {
 				n = 1;
+			}
 			val = max;
 			break;
 		case GeoElement.ANIMATION_OSCILLATING:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
-			if (Kernel.isZero(((max - min) / step * 2) - n))
+			if (Kernel.isZero(((max - min) / step * 2) - n)) {
 				n++;
-			if (n == 0)
+			}
+			if (n == 0) {
 				n = 1;
+			}
 			val = min;
 			break;
 		default: // GeoElement.ANIMATION_INCREASING:
 					// GeoElement.ANIMATION_INCREASING_ONCE:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step);
-			if (Kernel.isZero(((max - min) / step) - n))
+			if (Kernel.isZero(((max - min) / step) - n)) {
 				n++;
-			if (n == 0)
+			}
+			if (n == 0) {
 				n = 1;
+			}
 			val = min;
 		}
 

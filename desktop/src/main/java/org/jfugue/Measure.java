@@ -44,6 +44,7 @@ public final class Measure implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		return "|";
 	}
@@ -53,6 +54,7 @@ public final class Measure implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		return "Measure";
 	}

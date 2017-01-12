@@ -78,6 +78,7 @@ abstract public class TransformableElement extends SVGElement {
 	 * xform = parseTransform(transform); } }
 	 */
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -109,6 +110,7 @@ abstract public class TransformableElement extends SVGElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		StyleAttribute sty = new StyleAttribute();
 

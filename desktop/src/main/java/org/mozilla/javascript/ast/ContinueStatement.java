@@ -94,8 +94,9 @@ public class ContinueStatement extends Jump {
 	 */
 	public void setLabel(Name label) {
 		this.label = label;
-		if (label != null)
+		if (label != null) {
 			label.setParent(this);
+		}
 	}
 
 	@Override

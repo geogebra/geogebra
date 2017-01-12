@@ -27,6 +27,7 @@ public class Restore extends EMFPlusTag {
 		this.containerIndex = containerIndex;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		Restore tag = new Restore();
@@ -35,11 +36,13 @@ public class Restore extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		emf.writeUINT(containerIndex);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n  index: " + containerIndex;
 	}

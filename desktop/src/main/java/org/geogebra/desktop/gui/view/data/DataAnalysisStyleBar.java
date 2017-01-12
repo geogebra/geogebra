@@ -215,6 +215,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		DataAnalysisModel model = daView.getModel();
 		Object source = e.getSource();

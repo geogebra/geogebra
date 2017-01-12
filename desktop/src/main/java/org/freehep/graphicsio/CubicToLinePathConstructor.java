@@ -27,6 +27,7 @@ public abstract class CubicToLinePathConstructor
 		this.resolution = Math.abs(resolution);
 	}
 
+	@Override
 	public void cubic(double x1, double y1, double x2, double y2, double x3,
 			double y3) throws IOException {
 

@@ -71,6 +71,7 @@ public class MissingGlyph extends ShapeElement {
 	public MissingGlyph() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -79,11 +80,13 @@ public class MissingGlyph extends ShapeElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -140,6 +143,7 @@ public class MissingGlyph extends ShapeElement {
 		return path;
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		// Do not push or pop stack
 
@@ -187,6 +191,7 @@ public class MissingGlyph extends ShapeElement {
 
 	}
 
+	@Override
 	public Shape getShape() {
 		if (path != null) {
 			return shapeToParent(path);
@@ -194,6 +199,7 @@ public class MissingGlyph extends ShapeElement {
 		return null;
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		if (path != null) {
 			return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
@@ -208,6 +214,7 @@ public class MissingGlyph extends ShapeElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Fonts can't change
 		return false;

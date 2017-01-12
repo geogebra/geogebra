@@ -104,14 +104,17 @@ public class FormulaBar extends JToolBar
 	}
 
 	private DocumentListener documentListener = new DocumentListener() {
+		@Override
 		public void changedUpdate(DocumentEvent documentEvent) {
 			// do nothing
 		}
 
+		@Override
 		public void insertUpdate(DocumentEvent documentEvent) {
 			updateCellEditor(documentEvent);
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent documentEvent) {
 			updateCellEditor(documentEvent);
 		}
@@ -123,8 +126,9 @@ public class FormulaBar extends JToolBar
 	};
 
 	public void setEditorText(String text) {
-		if (!fldFormula.hasFocus() || table.isDragging2)
+		if (!fldFormula.hasFocus() || table.isDragging2) {
 			fldFormula.setText(text);
+		}
 	}
 
 	public void update() {
@@ -169,13 +173,15 @@ public class FormulaBar extends JToolBar
 		fldFormula.addActionListener(this);
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 
 		// make sure the spreadsheet gets the view focus in case first click is
 		// here
-		if (!view.hasViewFocus())
+		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
+		}
 
 		// select the upper left corner cell if nothing is selected
 		if (table.isSelectNone() || table.getSelectedRow() < 0
@@ -193,14 +199,17 @@ public class FormulaBar extends JToolBar
 
 	}
 
+	@Override
 	public void focusLost(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		Object source = e.getSource();
 
@@ -210,13 +219,15 @@ public class FormulaBar extends JToolBar
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		String inputText = source.getText().trim();
 		if (source == fldCellName) {
-			if (table.setSelection(inputText))
+			if (table.setSelection(inputText)) {
 				update();
+			}
 		}
 
 	}

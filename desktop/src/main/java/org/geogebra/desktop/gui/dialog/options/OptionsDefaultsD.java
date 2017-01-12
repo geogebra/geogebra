@@ -154,6 +154,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 		// apply defaults button
 		defaultsButton = new JButton();
 		defaultsButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				applyDefaults();
 			}
@@ -311,6 +312,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 	/**
 	 * Update the GUI to take care of new settings which were applied.
 	 */
+	@Override
 	public void updateGUI() {
 		SwingUtilities.updateComponentTreeUI(this.wrappedPanel);
 	}
@@ -319,6 +321,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 	 * Update the labels of the current panel. Should be applied if the language
 	 * was changed.
 	 */
+	@Override
 	public void setLabels() {
 		// update tree labels
 		Localization loc = app.getLocalization();
@@ -355,6 +358,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 	/**
 	 * The selection has changed.
 	 */
+	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
 				.getLastSelectedPathComponent();
@@ -387,19 +391,23 @@ public class OptionsDefaultsD extends OptionsDefaults
 	/**
 	 * Save the settings of this panel.
 	 */
+	@Override
 	public void applyModifications() {
 
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return this.wrappedPanel;
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
@@ -418,6 +426,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 
 	}
 
+	@Override
 	public void updateFont() {
 		Font font = app.getPlainFont();
 
@@ -429,6 +438,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 		// propPanel.setFont(font);
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}

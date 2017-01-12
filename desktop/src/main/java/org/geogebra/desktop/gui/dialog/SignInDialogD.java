@@ -105,6 +105,7 @@ public class SignInDialogD extends WebViewDialog {
 
 	private void handleLoginResult(final WebEngine webEngine) {
 		Platform.runLater(new Runnable() {
+			@Override
 			public void run() {
 
 				// Call the javascript method that returns the token.
@@ -118,6 +119,7 @@ public class SignInDialogD extends WebViewDialog {
 
 					// Close the dialog
 					SwingUtilities.invokeLater(new Runnable() {
+						@Override
 						public void run() {
 							SignInDialogD.this.dispatchEvent(
 									new WindowEvent(SignInDialogD.this,

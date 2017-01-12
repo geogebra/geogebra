@@ -49,6 +49,7 @@ public class RowHeaderListener extends MouseAdapter
 		rowHeader.requestFocus();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		e.consume();
 
@@ -61,10 +62,11 @@ public class RowHeaderListener extends MouseAdapter
 			table.stopEditing();
 			mousePressedRow = mouseDraggedRow;
 		}
-		if (AppD.isControlDown(e))
+		if (AppD.isControlDown(e)) {
 			rowHeader.addSelectionInterval(mousePressedRow, mouseDraggedRow);
-		else
+		} else {
 			rowHeader.setSelectionInterval(mousePressedRow, mouseDraggedRow);
+		}
 	}
 
 	@Override
@@ -125,10 +127,12 @@ public class RowHeaderListener extends MouseAdapter
 		// not needed, we handle mouse events in mouseReleased
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		e.consume();
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		boolean undoNeeded = false;
 
@@ -154,19 +158,23 @@ public class RowHeaderListener extends MouseAdapter
 
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		// not needed, we handle key events in keyPressed
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		// not needed, we handle key events in keyPressed
 	}
 
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 		int minIndex = lsm.getMinSelectionIndex();
 		int maxIndex = lsm.getMaxSelectionIndex();
-		if (minIndex == maxIndex)
+		if (minIndex == maxIndex) {
 			table.startEditingRow(minIndex);
+		}
 	}
 }

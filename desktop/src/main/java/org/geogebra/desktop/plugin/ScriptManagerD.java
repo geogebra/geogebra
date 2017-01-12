@@ -82,8 +82,9 @@ public class ScriptManagerD extends ScriptManager {
 				sb.append('"');
 				sb.append(args[i].toString());
 				sb.append('"');
-				if (i < args.length - 1)
+				if (i < args.length - 1) {
 					sb.append(",");
+				}
 			}
 			sb.append(");");
 			try {
@@ -99,6 +100,7 @@ public class ScriptManagerD extends ScriptManager {
 		return globalScopeMap;
 	}
 
+	@Override
 	public void setGlobalScript() {
 
 		Scriptable globalScope = CallJavaScript.evalGlobalScript(app);

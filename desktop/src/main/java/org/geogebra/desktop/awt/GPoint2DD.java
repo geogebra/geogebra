@@ -57,8 +57,9 @@ public class GPoint2DD extends GPoint2D {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof GPoint2DD))
+		if (!(o instanceof GPoint2DD)) {
 			return false;
+		}
 		return impl.equals(((GPoint2DD) o).impl);
 	}
 

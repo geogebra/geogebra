@@ -105,8 +105,9 @@ public class ArrayComprehension extends Scope {
 	 */
 	public void setFilter(AstNode filter) {
 		this.filter = filter;
-		if (filter != null)
+		if (filter != null) {
 			filter.setParent(this);
+		}
 	}
 
 	/**

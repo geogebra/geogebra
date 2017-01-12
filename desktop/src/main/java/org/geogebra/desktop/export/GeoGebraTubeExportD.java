@@ -280,6 +280,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		// setup buttons
 		abortButton = new JButton(getLoc().getMenu("Close"));
 		abortButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				hideDialog();
 			}

@@ -333,6 +333,7 @@ public final class LinearGradientPaint extends MultipleGradientPaint {
 	 *
 	 * @see PaintContext
 	 */
+	@Override
 	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds,
 			Rectangle2D userBounds, AffineTransform transform,
 			RenderingHints hints) {

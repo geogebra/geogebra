@@ -93,6 +93,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getDialogManager().showPropertiesDialog(OptionType.LAYOUT,
 						null);
@@ -102,6 +103,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		showKeyboardAction = new AbstractAction(loc.getMenu("Keyboard")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
@@ -127,6 +129,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		showAlgebraInputAction = new AbstractAction(app.getMenu("InputField")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setShowAlgebraInput(!app.showAlgebraInput(), true);
 				app.updateContentPane();
@@ -190,6 +193,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			this.cb = cb;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent arg0) {
 
 			((GuiManagerD) app.getGuiManager()).setShowView(
@@ -299,8 +303,9 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 				menu.add(cb);
 				cbViews[i] = cb;
-				if (panel instanceof ConstructionProtocolDockPanel)
+				if (panel instanceof ConstructionProtocolDockPanel) {
 					cbConsprot = cb;
+				}
 				++i;
 			}
 		}

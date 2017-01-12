@@ -107,6 +107,7 @@ public class OptionsMenuD extends BaseMenu
 			// check
 			if (flag == null) {
 				new Thread(new Runnable() {
+					@Override
 					public void run() {
 
 						String geoIPflagname = app.getFlagName();
@@ -212,14 +213,15 @@ public class OptionsMenuD extends BaseMenu
 			mi.addActionListener(al);
 			bg.add(mi);
 
-			if (ch <= 'D')
+			if (ch <= 'D') {
 				submenu1.add(mi);
-			else if (ch <= 'I')
+			} else if (ch <= 'I') {
 				submenu2.add(mi);
-			else if (ch <= 'Q')
+			} else if (ch <= 'Q') {
 				submenu3.add(mi);
-			else
+			} else {
 				submenu4.add(mi);
+			}
 		}
 	}
 
@@ -234,6 +236,7 @@ public class OptionsMenuD extends BaseMenu
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getDialogManager().showPropertiesDialog(OptionType.ADVANCED,
 						null);
@@ -247,6 +250,7 @@ public class OptionsMenuD extends BaseMenu
 				@SuppressWarnings("hiding")
 				public static final long serialVersionUID = 1L;
 
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
 				}
@@ -258,6 +262,7 @@ public class OptionsMenuD extends BaseMenu
 				@SuppressWarnings("hiding")
 				public static final long serialVersionUID = 1L;
 
+				@Override
 				public void actionPerformed(ActionEvent e) {
 
 					// set checkbox size to new default
@@ -313,13 +318,16 @@ public class OptionsMenuD extends BaseMenu
 							.createDefaultGeoElements();
 					app.setInputPosition(InputPosition.algebraView, false);
 					// reset the stylebar defaultGeo
-					if (app.getEuclidianView1().hasStyleBar())
+					if (app.getEuclidianView1().hasStyleBar()) {
 						app.getEuclidianView1().getStyleBar()
 								.restoreDefaultGeo();
-					if (app.hasEuclidianView2EitherShowingOrNot(1))
-						if (app.getEuclidianView2(1).hasStyleBar())
+					}
+					if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+						if (app.getEuclidianView2(1).hasStyleBar()) {
 							app.getEuclidianView2(1).getStyleBar()
 									.restoreDefaultGeo();
+						}
+					}
 					app.getKernel().updateConstruction();
 					// set default layout options
 					app.setToolbarPosition(SwingConstants.NORTH, false);
@@ -342,6 +350,7 @@ public class OptionsMenuD extends BaseMenu
 	/**
 	 * Execute a performed action.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
 		getOptionsMenu().processActionPerformed(cmd);
@@ -352,6 +361,7 @@ public class OptionsMenuD extends BaseMenu
 		initItems(null);
 	}
 
+	@Override
 	public void actionPerformed(String command) {
 		getOptionsMenu().processActionPerformed(command);
 	}
@@ -364,6 +374,7 @@ public class OptionsMenuD extends BaseMenu
 				return new RadioButtonMenuBarD(app);
 			}
 
+			@Override
 			public void addMenuItem(MenuInterface parentMenu, String key,
 					boolean asHtml, MenuInterface subMenu) {
 				ImageResourceD res = null;

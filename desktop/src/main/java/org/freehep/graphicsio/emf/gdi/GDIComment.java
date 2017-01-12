@@ -41,17 +41,20 @@ public class GDIComment extends EMFTag {
 		this.tag = tag;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 		// FIXME decode internal EMFPlus Tags
 		int l = emf.readDWORD();
 		GDIComment tag = new GDIComment(emf.readBYTE(l));
 		// Align to 4-byte boundary
-		if (l % 4 != 0)
+		if (l % 4 != 0) {
 			emf.readBYTE(4 - l % 4);
+		}
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		if (tag != null) {
 			emf.pushBuffer();
@@ -71,6 +74,7 @@ public class GDIComment extends EMFTag {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer(super.toString());
 		sb.append("\n");
@@ -88,8 +92,9 @@ public class GDIComment extends EMFTag {
 				while (emfPlusTag != null) {
 					sb.append(emfPlusTag);
 					emfPlusTag = emf.readTag();
-					if (emfPlusTag != null)
+					if (emfPlusTag != null) {
 						sb.append("\n");
+					}
 				}
 				emf.close();
 			} catch (IOException e) {
@@ -99,8 +104,9 @@ public class GDIComment extends EMFTag {
 			int n = Math.min(bytes.length, 40);
 			sb.append("  bytes: ");
 			for (int i = 0; i < n; i++) {
-				if (i != 0)
+				if (i != 0) {
 					sb.append(" ");
+				}
 				sb.append(Integer.toHexString(bytes[i]));
 			}
 			sb.append(" ");

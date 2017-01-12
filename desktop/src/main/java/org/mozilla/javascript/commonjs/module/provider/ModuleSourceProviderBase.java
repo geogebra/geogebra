@@ -32,6 +32,7 @@ public abstract class ModuleSourceProviderBase
 		implements ModuleSourceProvider, Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public ModuleSource loadSource(String moduleId, Scriptable paths,
 			Object validator) throws IOException, URISyntaxException {
 		if (!entityNeedsRevalidation(validator)) {
@@ -52,6 +53,7 @@ public abstract class ModuleSourceProviderBase
 		return loadFromFallbackLocations(moduleId, validator);
 	}
 
+	@Override
 	public ModuleSource loadSource(URI uri, URI base, Object validator)
 			throws IOException, URISyntaxException {
 		return loadFromUri(uri, base, validator);

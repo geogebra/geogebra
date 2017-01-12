@@ -110,8 +110,9 @@ public class SelectionTableD extends JTable {
 		this.app = app;
 		this.mode = mode;
 		this.iconSize = iconSize;
-		if (mode == SelectionTable.MODE_LATEX)
+		if (mode == SelectionTable.MODE_LATEX) {
 			data = createLatexIconArray((String[]) data);
+		}
 		this.data = data;
 
 		// =======================================
@@ -268,10 +269,11 @@ public class SelectionTableD extends JTable {
 
 				if (toolTipArray != null) {
 					int index = getColumnCount() * row + column;
-					if (index < data.length)
+					if (index < data.length) {
 						setToolTipText(toolTipArray[index]);
-					else
+					} else {
 						setToolTipText(null);
+					}
 				}
 				repaint();
 			}
@@ -285,8 +287,9 @@ public class SelectionTableD extends JTable {
 	public int getSelectedIndex() {
 		int index = this.getColumnCount() * this.getSelectedRow()
 				+ this.getSelectedColumn();
-		if (index < -1)
+		if (index < -1) {
 			index = -1;
+		}
 		return index;
 	}
 
@@ -303,8 +306,9 @@ public class SelectionTableD extends JTable {
 	}
 
 	public Object getSelectedValue() {
-		if (getSelectedRow() != -1 && getSelectedColumn() != -1)
+		if (getSelectedRow() != -1 && getSelectedColumn() != -1) {
 			return model.getValueAt(getSelectedRow(), getSelectedColumn());
+		}
 		return null;
 	}
 
@@ -324,9 +328,11 @@ public class SelectionTableD extends JTable {
 
 		ImageIcon icon = null;
 		if (value == null)
+		 {
 			return GeoGebraIconD.createEmptyIcon(1, 1);
 		// GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true,
 		// false, true, iconSize , Color.GRAY, null);
+		}
 
 		switch (mode) {
 
@@ -368,10 +374,11 @@ public class SelectionTableD extends JTable {
 
 			rollOverBorder = BorderFactory.createLineBorder(Color.GRAY, 3);
 			normalBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
-			if (mode == SelectionTable.MODE_LATEX)
+			if (mode == SelectionTable.MODE_LATEX) {
 				selectedBorder = rollOverBorder;
-			else
+			} else {
 				selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
+			}
 
 			setOpaque(true);
 			setHorizontalAlignment(CENTER);
@@ -379,6 +386,7 @@ public class SelectionTableD extends JTable {
 
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {

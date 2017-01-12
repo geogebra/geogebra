@@ -79,21 +79,25 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 * =======
 	 */
 	/* 3.1 Header & Trailer */
+	@Override
 	public void writeHeader() throws IOException {
 		writeWarning(getClass() + ": writeHeader() not implemented.");
 		// Write out the header to the output stream.
 	}
 
+	@Override
 	public void writeBackground() throws IOException {
 		writeWarning(getClass() + ": writeBackground() not implemented.");
 		// Write out the background to the output stream.
 	}
 
+	@Override
 	public void writeTrailer() throws IOException {
 		writeWarning(getClass() + ": writeTrailer() not implemented.");
 		// Write out the trailer to the output stream.
 	}
 
+	@Override
 	public void closeStream() throws IOException {
 		writeWarning(getClass() + ": closeStream() not implemented.");
 		// Close the output stream.
@@ -108,6 +112,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 * =======
 	 */
 
+	@Override
 	public Graphics create() {
 		// Create a new graphics context from the current one.
 		try {
@@ -119,6 +124,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 		return new DummyGraphics2D(this, true);
 	}
 
+	@Override
 	public Graphics create(double x, double y, double width, double height) {
 		// Create a new graphics context from the current one.
 		try {
@@ -132,12 +138,14 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 		return graphics;
 	}
 
+	@Override
 	protected void writeGraphicsSave() throws IOException {
 		writeWarning(getClass() + ": writeGraphicsSave() not implemented.");
 		// Write a graphics context save.
 		// If the output format does not support this, keep a stack yourself.
 	}
 
+	@Override
 	protected void writeGraphicsRestore() throws IOException {
 		writeWarning(getClass() + ": writeGraphicsRestore() not implemented.");
 		// Write a graphics context restore.
@@ -152,11 +160,13 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 */
 	/* 5.1.4. shapes */
 
+	@Override
 	public void draw(Shape shape) {
 		writeWarning(getClass() + ": draw(Shape) not implemented.");
 		// Write out the stroke of the shape.
 	}
 
+	@Override
 	public void fill(Shape shape) {
 		writeWarning(getClass() + ": fill(Shape) not implemented.");
 		// Write out the fill of the shape.
@@ -170,12 +180,14 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/* 5.2. Images */
+	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
 		writeWarning(getClass()
 				+ ": copyArea(int, int, int, int, int, int) not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	protected void writeImage(RenderedImage image, AffineTransform xform,
 			Color bkg) throws IOException {
 		writeWarning(getClass()
@@ -184,6 +196,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/* 5.3. Strings */
+	@Override
 	protected void writeString(String string, double x, double y)
 			throws IOException {
 		writeWarning(getClass()
@@ -197,6 +210,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	protected void writeTransform(AffineTransform t) throws IOException {
 		writeWarning(getClass()
 				+ ": writeTransform(AffineTransform) not implemented.");
@@ -206,6 +220,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 		// You can also use the currentTransform.
 	}
 
+	@Override
 	protected void writeSetTransform(AffineTransform t) throws IOException {
 		writeWarning(getClass()
 				+ ": writeTransform(AffineTransform) not implemented.");
@@ -219,11 +234,13 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	protected void writeClip(Shape s) throws IOException {
 		writeWarning(getClass() + ": writeClip(Shape) not implemented.");
 		// Write out the clip shape.
 	}
 
+	@Override
 	protected void writeSetClip(Shape s) throws IOException {
 		writeWarning(getClass() + ": writeSetClip(Shape) not implemented.");
 		// Write out the clip shape.
@@ -236,26 +253,31 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 * =======
 	 */
 	/* 8.1. stroke/linewidth */
+	@Override
 	protected void writeWidth(float width) throws IOException {
 		writeWarning(getClass() + ": writeWidth(float) not implemented.");
 		// Write out the stroke width.
 	}
 
+	@Override
 	protected void writeCap(int cap) throws IOException {
 		writeWarning(getClass() + ": writeCap(int) not implemented.");
 		// Write out the stroke cap.
 	}
 
+	@Override
 	protected void writeJoin(int join) throws IOException {
 		writeWarning(getClass() + ": writeJoin(int) not implemented.");
 		// Write out the stroke join.
 	}
 
+	@Override
 	protected void writeMiterLimit(float limit) throws IOException {
 		writeWarning(getClass() + ": writeMiterLimit(float) not implemented.");
 		// Write out the stroke miter limit.
 	}
 
+	@Override
 	protected void writeDash(float[] dash, float phase) throws IOException {
 		writeWarning(
 				getClass() + ": writeDash(float[], float) not implemented.");
@@ -263,33 +285,39 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/* 8.2. paint/color */
+	@Override
 	public void setPaintMode() {
 		writeWarning(getClass() + ": setPaintMode() not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	public void setXORMode(Color c1) {
 		writeWarning(getClass() + ": setXORMode(Color) not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	protected void writePaint(Color p) throws IOException {
 		writeWarning(getClass() + ": writePaint(Color) not implemented.");
 		// Write out the color paint.
 	}
 
+	@Override
 	protected void writePaint(GradientPaint p) throws IOException {
 		writeWarning(
 				getClass() + ": writePaint(GradientPaint) not implemented.");
 		// Write out the gradient paint.
 	}
 
+	@Override
 	protected void writePaint(TexturePaint p) throws IOException {
 		writeWarning(
 				getClass() + ": writePaint(TexturePaint) not implemented.");
 		// Write out the texture paint.
 	}
 
+	@Override
 	protected void writePaint(Paint p) throws IOException {
 		writeWarning(getClass() + ": writePaint(Paint) not implemented for "
 				+ p.getClass());
@@ -297,6 +325,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/* 8.3. font */
+	@Override
 	protected void writeFont(Font font) throws IOException {
 		writeWarning(getClass() + ": writeFont(Font) not implemented.");
 	}
@@ -309,6 +338,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
 		writeWarning(
 				getClass() + ": getDeviceConfiguration() not implemented.");
@@ -316,6 +346,7 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 		return null;
 	}
 
+	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
 		writeWarning(getClass()
 				+ ": hit(Rectangle, Shape, boolean) not implemented.");
@@ -323,11 +354,13 @@ public class DummyGraphics2D extends AbstractVectorGraphicsIO {
 		return false;
 	}
 
+	@Override
 	public void writeComment(String comment) throws IOException {
 		writeWarning(getClass() + ": writeComment(String) not implemented.");
 		// Write out the comment.
 	}
 
+	@Override
 	public String toString() {
 		return "DummyGraphics";
 	}

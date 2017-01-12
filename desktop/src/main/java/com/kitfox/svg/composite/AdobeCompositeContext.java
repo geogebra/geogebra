@@ -60,6 +60,7 @@ public class AdobeCompositeContext implements CompositeContext {
 		rgba_dstOut[3] = 1f;
 	}
 
+	@Override
 	public void compose(Raster src, Raster dstIn, WritableRaster dstOut) {
 		int width = src.getWidth();
 		int height = src.getHeight();
@@ -100,6 +101,7 @@ public class AdobeCompositeContext implements CompositeContext {
 		}
 	}
 
+	@Override
 	public void dispose() {
 	}
 

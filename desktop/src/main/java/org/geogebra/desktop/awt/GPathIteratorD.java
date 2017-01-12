@@ -12,14 +12,17 @@ public class GPathIteratorD implements GPathIterator {
 		impl = pathIterator;
 	}
 
+	@Override
 	public int getWindingRule() {
 		return impl.getWindingRule();
 	}
 
+	@Override
 	public boolean isDone() {
 		return impl.isDone();
 	}
 
+	@Override
 	public void next() {
 		impl.next();
 	}
@@ -28,6 +31,7 @@ public class GPathIteratorD implements GPathIterator {
 		return impl.currentSegment(coords);
 	}
 
+	@Override
 	public int currentSegment(double[] coords) {
 		return impl.currentSegment(coords);
 	}

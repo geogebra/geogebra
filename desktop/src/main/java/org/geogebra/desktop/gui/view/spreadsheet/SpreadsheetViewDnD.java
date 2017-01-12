@@ -105,10 +105,12 @@ public class SpreadsheetViewDnD
 	// Drag Source Listeners
 	// ======================================
 
+	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
-		if (!table.isOverDnDRegion)
+		if (!table.isOverDnDRegion) {
 			return;
+		}
 
 		/*
 		 * ----- code from AlgebraView Dnd, to be adapted later
@@ -137,18 +139,23 @@ public class SpreadsheetViewDnD
 
 	}
 
+	@Override
 	public void dragDropEnd(DragSourceDropEvent e) {
 	}
 
+	@Override
 	public void dragEnter(DragSourceDragEvent e) {
 	}
 
+	@Override
 	public void dragExit(DragSourceEvent e) {
 	}
 
+	@Override
 	public void dragOver(DragSourceDragEvent e) {
 	}
 
+	@Override
 	public void dropActionChanged(DragSourceDragEvent e) {
 	}
 
@@ -159,6 +166,7 @@ public class SpreadsheetViewDnD
 	/**
 	 * Listener that notifies the table to prepare for dragging
 	 */
+	@Override
 	public void dragEnter(DropTargetDragEvent dte) {
 		table.setTableMode(MyTable.TABLE_MODE_DROP);
 	}
@@ -166,6 +174,7 @@ public class SpreadsheetViewDnD
 	/**
 	 * Listener that notifies the table to stop handling drag events
 	 */
+	@Override
 	public void dragExit(DropTargetEvent dte) {
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 	}
@@ -174,6 +183,7 @@ public class SpreadsheetViewDnD
 	 * Listener to keep track of current mouseOver cell and update the target
 	 * cell border
 	 */
+	@Override
 	public void dragOver(DropTargetDragEvent dte) {
 
 		GPoint overCell = table.getIndexFromPixel(dte.getLocation().x,
@@ -193,6 +203,7 @@ public class SpreadsheetViewDnD
 	/**
 	 * Handles drops.
 	 */
+	@Override
 	public void drop(DropTargetDropEvent dte) {
 
 		Transferable t = dte.getTransferable();
@@ -255,15 +266,17 @@ public class SpreadsheetViewDnD
 					AlgebraViewTransferHandler.algebraViewFlavor);
 
 			// exit if empty list
-			if (list.size() == 0)
+			if (list.size() == 0) {
 				return false;
+			}
 
 			GeoElement[] geoArray = new GeoElement[list.size()];
 			for (int i = 0; i < geoArray.length; i++) {
 				GeoElement geo = app.getKernel().lookupLabel(list.get(i));
 				if (geo != null) {
-					if (GeoElementSpreadsheet.hasSpreadsheetLabel(geo))
+					if (GeoElementSpreadsheet.hasSpreadsheetLabel(geo)) {
 						return false;
+					}
 				}
 				geoArray[i] = geo;
 			}
@@ -288,14 +301,15 @@ public class SpreadsheetViewDnD
 					columnCount = Math.max(columnCount, tempList.size());
 
 					for (int k = 0; k < tempList.size(); k++) {
-						if (isCopyByValue)
+						if (isCopyByValue) {
 							currentRow.add(tempList.get(k).toValueString(
 									StringTemplate.defaultTemplate));
-						else
+						} else {
 							currentRow.add("=Element["
 									+ tempList.getLabel(
 											StringTemplate.defaultTemplate)
 									+ "," + (k + 1) + "]");
+						}
 					}
 					dataList.add(currentRow);
 				}
@@ -311,15 +325,16 @@ public class SpreadsheetViewDnD
 						ArrayList<String> currentRow = new ArrayList<String>();
 						columnCount = Math.max(columnCount, tempList.size());
 						for (int col = 0; col < tempList.size(); col++) {
-							if (isCopyByValue)
+							if (isCopyByValue) {
 								currentRow.add(tempList.get(col).toValueString(
 										StringTemplate.defaultTemplate));
-							else
+							} else {
 								currentRow.add("=Element["
 										+ tempMatrix.getLabel(
 												StringTemplate.defaultTemplate)
 										+ "," + (row + 1) + "," + (col + 1)
 										+ "]");
+							}
 						}
 						dataList.add(currentRow);
 					}
@@ -328,12 +343,13 @@ public class SpreadsheetViewDnD
 				// single geo
 				else {
 					ArrayList<String> currentRow = new ArrayList<String>();
-					if (isCopyByValue)
+					if (isCopyByValue) {
 						currentRow.add(geoArray[geoIndex]
 								.toValueString(StringTemplate.maxPrecision));
-					else
+					} else {
 						currentRow
 								.add("=" + geoArray[geoIndex].getLabelSimple());
+					}
 					dataList.add(currentRow);
 				}
 
@@ -343,29 +359,31 @@ public class SpreadsheetViewDnD
 			String[][] data = new String[rowCount][columnCount];
 			String[][] dataTranspose = null;
 
-			for (int r = 0; r < rowCount; r++)
+			for (int r = 0; r < rowCount; r++) {
 				for (int c = 0; c < dataList.get(r).size(); c++) {
 					data[r][c] = dataList.get(r).get(c);
 				}
+			}
 
 			// create a transposed array
 			if (isTranspose) {
 				dataTranspose = new String[columnCount][rowCount];
-				for (int r = 0; r < rowCount; r++)
+				for (int r = 0; r < rowCount; r++) {
 					for (int c = 0; c < columnCount; c++) {
 						dataTranspose[c][r] = data[r][c];
 					}
+				}
 			}
 
-			if (!isTranspose)
+			if (!isTranspose) {
 				table.copyPasteCut.pasteExternal(data, currentCell.x,
 						currentCell.y, currentCell.x + columnCount - 1,
 						currentCell.y + rowCount - 1);
-
-			else
+			} else {
 				table.copyPasteCut.pasteExternal(dataTranspose, currentCell.x,
 						currentCell.y, currentCell.x + rowCount - 1,
 						currentCell.y + columnCount - 1);
+			}
 
 			return true;
 
@@ -383,6 +401,7 @@ public class SpreadsheetViewDnD
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 	}
 
+	@Override
 	public void dropActionChanged(DropTargetDragEvent dte) {
 		// TODO Auto-generated method stub
 
@@ -404,20 +423,25 @@ public class SpreadsheetViewDnD
 			this.geoLabelList = geoLabelList;
 		}
 
+		@Override
 		public DataFlavor[] getTransferDataFlavors() {
 			return supportedFlavors;
 		}
 
+		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
-			if (flavor.equals(algebraViewFlavor))
+			if (flavor.equals(algebraViewFlavor)) {
 				return true;
+			}
 			return false;
 		}
 
+		@Override
 		public Object getTransferData(DataFlavor flavor)
 				throws UnsupportedFlavorException {
-			if (flavor.equals(algebraViewFlavor))
+			if (flavor.equals(algebraViewFlavor)) {
 				return geoLabelList;
+			}
 			throw new UnsupportedFlavorException(flavor);
 		}
 	}

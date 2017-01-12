@@ -37,6 +37,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		setGridColor(GColor.GRAY);
 	}
 
+	@Override
 	public void repaint() {
 		// TODO Auto-generated method stub
 
@@ -49,66 +50,79 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public final void setBackground(GColor bgColor) {
-		if (bgColor != null)
+		if (bgColor != null) {
 			backgroundColor = GColor.newColor(bgColor.getRed(),
 					bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
+		}
 	}
 
+	@Override
 	public boolean hitAnimationButton(int x, int y) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void setCursor(EuclidianCursor cursor) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setToolTipText(String plainTooltip) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void requestFocus() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void closeDropdowns() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public EuclidianController getEuclidianController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void clearView() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean isShowing() {
 		// TODO Auto-generated method stub
 		return false;
@@ -216,6 +230,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		return null;
 	}
 
+	@Override
 	public void readText(String text) {
 		// TODO Auto-generated method stub
 

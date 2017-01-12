@@ -73,6 +73,7 @@ abstract public class ShapeElement extends RenderableElement {
 	public ShapeElement() {
 	}
 
+	@Override
 	abstract public void render(Graphics2D g) throws SVGException;
 
 	/*
@@ -80,6 +81,7 @@ abstract public class ShapeElement extends RenderableElement {
 	 * this.strokeWidthScalar = strokeWidthScalar; }
 	 */
 
+	@Override
 	void pick(Point2D point, boolean boundingBox, List retVec)
 			throws SVGException {
 		// StyleAttribute styleAttrib = new StyleAttribute();
@@ -90,6 +92,7 @@ abstract public class ShapeElement extends RenderableElement {
 		}
 	}
 
+	@Override
 	void pick(Rectangle2D pickArea, AffineTransform ltw, boolean boundingBox,
 			List retVec) throws SVGException {
 		// StyleAttribute styleAttrib = new StyleAttribute();
@@ -124,22 +127,24 @@ abstract public class ShapeElement extends RenderableElement {
 
 		// Don't process if not visible
 		if (getStyle(styleAttrib.setName("visibility"))) {
-			if (!styleAttrib.getStringValue().equals("visible"))
+			if (!styleAttrib.getStringValue().equals("visible")) {
 				return;
+			}
 		}
 
 		if (getStyle(styleAttrib.setName("display"))) {
-			if (styleAttrib.getStringValue().equals("none"))
+			if (styleAttrib.getStringValue().equals("none")) {
 				return;
+			}
 		}
 
 		// None, solid color, gradient, pattern
 		Paint fillPaint = Color.black; // Default to black. Must be explicitly
 										// set to none for no fill.
 		if (getStyle(styleAttrib.setName("fill"))) {
-			if (styleAttrib.getStringValue().equals("none"))
+			if (styleAttrib.getStringValue().equals("none")) {
 				fillPaint = null;
-			else {
+			} else {
 				fillPaint = handleCurrentColor(styleAttrib);
 				if (fillPaint == null) {
 					URI uri = styleAttrib.getURIValue(getXMLBase());
@@ -170,9 +175,9 @@ abstract public class ShapeElement extends RenderableElement {
 
 		Paint strokePaint = null; // Default is to stroke with none
 		if (getStyle(styleAttrib.setName("stroke"))) {
-			if (styleAttrib.getStringValue().equals("none"))
+			if (styleAttrib.getStringValue().equals("none")) {
 				strokePaint = null;
-			else {
+			} else {
 				strokePaint = handleCurrentColor(styleAttrib);
 				if (strokePaint == null) {
 					URI uri = styleAttrib.getURIValue(getXMLBase());
@@ -193,8 +198,9 @@ abstract public class ShapeElement extends RenderableElement {
 		float[] strokeDashArray = null;
 		if (getStyle(styleAttrib.setName("stroke-dasharray"))) {
 			strokeDashArray = styleAttrib.getFloatList();
-			if (strokeDashArray.length == 0)
+			if (strokeDashArray.length == 0) {
 				strokeDashArray = null;
+			}
 		}
 
 		float strokeDashOffset = 0f;
@@ -368,12 +374,14 @@ abstract public class ShapeElement extends RenderableElement {
 	protected Rectangle2D includeStrokeInBounds(Rectangle2D rect)
 			throws SVGException {
 		StyleAttribute styleAttrib = new StyleAttribute();
-		if (!getStyle(styleAttrib.setName("stroke")))
+		if (!getStyle(styleAttrib.setName("stroke"))) {
 			return rect;
+		}
 
 		double strokeWidth = 1;
-		if (getStyle(styleAttrib.setName("stroke-width")))
+		if (getStyle(styleAttrib.setName("stroke-width"))) {
 			strokeWidth = styleAttrib.getDoubleValue();
+		}
 
 		rect.setRect(rect.getX() - strokeWidth / 2,
 				rect.getY() - strokeWidth / 2, rect.getWidth() + strokeWidth,

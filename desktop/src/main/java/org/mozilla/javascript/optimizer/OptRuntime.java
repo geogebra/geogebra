@@ -86,18 +86,22 @@ public final class OptRuntime extends ScriptRuntime {
 	}
 
 	public static Object add(Object val1, double val2) {
-		if (val1 instanceof Scriptable)
+		if (val1 instanceof Scriptable) {
 			val1 = ((Scriptable) val1).getDefaultValue(null);
-		if (!(val1 instanceof CharSequence))
+		}
+		if (!(val1 instanceof CharSequence)) {
 			return wrapDouble(toNumber(val1) + val2);
+		}
 		return new ConsString((CharSequence) val1, toString(val2));
 	}
 
 	public static Object add(double val1, Object val2) {
-		if (val2 instanceof Scriptable)
+		if (val2 instanceof Scriptable) {
 			val2 = ((Scriptable) val2).getDefaultValue(null);
-		if (!(val2 instanceof CharSequence))
+		}
+		if (!(val2 instanceof CharSequence)) {
 			return wrapDouble(toNumber(val2) + val1);
+		}
 		return new ConsString(toString(val1), (CharSequence) val2);
 	}
 
@@ -178,8 +182,9 @@ public final class OptRuntime extends ScriptRuntime {
 	private static int[] decodeIntArray(String str, int arraySize) {
 		// XXX: this extremely inefficient for small integers
 		if (arraySize == 0) {
-			if (str != null)
+			if (str != null) {
 				throw new IllegalArgumentException();
+			}
 			return null;
 		}
 		if (str.length() != 1 + arraySize * 2 && str.charAt(0) != 1) {
@@ -201,6 +206,7 @@ public final class OptRuntime extends ScriptRuntime {
 
 	public static void main(final Script script, final String[] args) {
 		ContextFactory.getGlobal().call(new ContextAction() {
+			@Override
 			public Object run(Context cx) {
 				ScriptableObject global = getGlobal(cx);
 
@@ -230,15 +236,17 @@ public final class OptRuntime extends ScriptRuntime {
 
 	public static Object[] getGeneratorStackState(Object obj) {
 		GeneratorState rgs = (GeneratorState) obj;
-		if (rgs.stackState == null)
+		if (rgs.stackState == null) {
 			rgs.stackState = new Object[rgs.maxStack];
+		}
 		return rgs.stackState;
 	}
 
 	public static Object[] getGeneratorLocalsState(Object obj) {
 		GeneratorState rgs = (GeneratorState) obj;
-		if (rgs.localsState == null)
+		if (rgs.localsState == null) {
 			rgs.localsState = new Object[rgs.maxLocals];
+		}
 		return rgs.localsState;
 	}
 

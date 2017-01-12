@@ -22,15 +22,18 @@ public abstract class AbstractPathConstructor implements PathConstructor {
 		currentY = 0;
 	}
 
+	@Override
 	public void flush() throws IOException {
 		currentX = 0;
 		currentY = 0;
 	}
 
+	@Override
 	public boolean addPath(Shape s) throws IOException {
 		return addPath(s, null);
 	}
 
+	@Override
 	public boolean addPath(Shape s, AffineTransform transform)
 			throws IOException {
 		return addPath(this, s, transform);

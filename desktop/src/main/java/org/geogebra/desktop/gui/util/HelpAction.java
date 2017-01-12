@@ -37,6 +37,7 @@ public class HelpAction extends AbstractAction {
 		this.articleName = articleName;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Thread runner = new Thread() {
 			@Override

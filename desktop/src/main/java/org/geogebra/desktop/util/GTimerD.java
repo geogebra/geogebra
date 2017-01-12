@@ -16,26 +16,32 @@ public class GTimerD implements GTimer, ActionListener {
 		timer = new Timer(delay, this);
 	}
 
+	@Override
 	public void start() {
 		timer.start();
 	}
 
+	@Override
 	public void stop() {
 		timer.stop();
 	}
 
+	@Override
 	public boolean isRunning() {
 		return timer.isRunning();
 	}
 
+	@Override
 	public void setDelay(int delay) {
 		timer.setDelay(delay);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		listener.onRun();
 	}
 
+	@Override
 	public void startRepeat() {
 		timer.setRepeats(true);
 		start();

@@ -216,13 +216,15 @@ public class OneVarInferencePanelD extends JPanel
 		tab.anchor = GridBagConstraints.WEST;
 
 		c.gridy = GridBagConstraints.RELATIVE;
-		if (isZProcedure)
+		if (isZProcedure) {
 			mainPanel.add(sigmaPanel, tab);
+		}
 
-		if (isTest)
+		if (isTest) {
 			mainPanel.add(testPanel, c);
-		else
+		} else {
 			mainPanel.add(intPanel, c);
+		}
 
 		c.weightx = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -345,11 +347,13 @@ public class OneVarInferencePanelD extends JPanel
 	// Updates and Event Handlers
 	// ============================================================
 
+	@Override
 	public void updateFonts(Font font) {
 		// not needed
 		// ... font updates handled by recursive call in StatDialog
 	}
 
+	@Override
 	public void setLabels() {
 
 		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = ");
@@ -400,20 +404,23 @@ public class OneVarInferencePanelD extends JPanel
 		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two
 				+ " " + statDialog.format(hypMean));
 
-		if (tail == tail_right)
+		if (tail == tail_right) {
 			cbAltHyp.setSelectedIndex(0);
-		else if (tail == tail_left)
+		} else if (tail == tail_left) {
 			cbAltHyp.setSelectedIndex(1);
-		else
+		} else {
 			cbAltHyp.setSelectedIndex(2);
+		}
 
 		cbAltHyp.addActionListener(this);
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 		Object source = e.getSource();
 
 		if (source instanceof JTextField) {
@@ -422,12 +429,13 @@ public class OneVarInferencePanelD extends JPanel
 
 		else if (source == cbAltHyp) {
 
-			if (cbAltHyp.getSelectedIndex() == 0)
+			if (cbAltHyp.getSelectedIndex() == 0) {
 				tail = tail_right;
-			else if (cbAltHyp.getSelectedIndex() == 1)
+			} else if (cbAltHyp.getSelectedIndex() == 1) {
 				tail = tail_left;
-			else
+			} else {
 				tail = tail_two;
+			}
 
 			evaluate();
 			updateResultTable();
@@ -436,8 +444,9 @@ public class OneVarInferencePanelD extends JPanel
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		Double value = Double.parseDouble(source.getText().trim());
 
@@ -461,9 +470,11 @@ public class OneVarInferencePanelD extends JPanel
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
@@ -473,6 +484,7 @@ public class OneVarInferencePanelD extends JPanel
 		updateGUI();
 	}
 
+	@Override
 	public void updatePanel() {
 		// evaluate();
 		updateGUI();
@@ -514,8 +526,9 @@ public class OneVarInferencePanelD extends JPanel
 
 			case StatisticsModel.INFER_TTEST:
 			case StatisticsModel.INFER_TINT:
-				if (tTestImpl == null)
+				if (tTestImpl == null) {
 					tTestImpl = new TTestImpl();
+				}
 				se = Math.sqrt(StatUtils.variance(sample) / N);
 				df = N - 1;
 				testStat = tTestImpl.t(hypMean, sample);
@@ -542,15 +555,14 @@ public class OneVarInferencePanelD extends JPanel
 	private double adjustedPValue(double p, double testStatistic, String tail) {
 
 		// two sided test
-		if (tail.equals(tail_two))
+		if (tail.equals(tail_two)) {
 			return p;
-
-		// one sided test
-		else if ((tail.equals(tail_right) && testStatistic > 0)
-				|| (tail.equals(tail_left) && testStatistic < 0))
+		} else if ((tail.equals(tail_right) && testStatistic > 0)
+				|| (tail.equals(tail_left) && testStatistic < 0)) {
 			return p / 2;
-		else
+		} else {
 			return 1 - p / 2;
+		}
 	}
 
 	protected double evaluateExpression(String expr) {
@@ -590,16 +602,21 @@ public class OneVarInferencePanelD extends JPanel
 	private JPanel blPanel(Component center, Component north, Component south,
 			Component west, Component east) {
 		JPanel p = new JPanel(new BorderLayout());
-		if (center != null)
+		if (center != null) {
 			p.add(center, BorderLayout.CENTER);
-		if (north != null)
+		}
+		if (north != null) {
 			p.add(north, BorderLayout.NORTH);
-		if (south != null)
+		}
+		if (south != null) {
 			p.add(south, BorderLayout.SOUTH);
-		if (west != null)
+		}
+		if (west != null) {
 			p.add(west, loc.borderWest());
-		if (east != null)
+		}
+		if (east != null) {
 			p.add(east, loc.borderEast());
+		}
 
 		// p.setBackground(Color.white);
 		return p;

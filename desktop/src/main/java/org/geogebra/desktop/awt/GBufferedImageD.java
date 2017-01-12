@@ -18,10 +18,12 @@ public class GBufferedImageD implements GBufferedImage {
 		impl = image;
 	}
 
+	@Override
 	public int getWidth() {
 		return impl.getWidth();
 	}
 
+	@Override
 	public int getHeight() {
 		return impl.getHeight();
 	}
@@ -33,10 +35,12 @@ public class GBufferedImageD implements GBufferedImage {
 		return ((GBufferedImageD) im).impl;
 	}
 
+	@Override
 	public GGraphics2D createGraphics() {
 		return new GGraphics2DD((Graphics2D) impl.getGraphics());
 	}
 
+	@Override
 	public GBufferedImage getSubimage(int i, int j, int size, int size2) {
 		return new GBufferedImageD(impl.getSubimage(i, j, size, size2));
 	}
@@ -49,6 +53,7 @@ public class GBufferedImageD implements GBufferedImage {
 		return ((DataBufferInt) impl.getRaster().getDataBuffer()).getData();
 	}
 
+	@Override
 	public void flush() {
 		impl.flush();
 	}

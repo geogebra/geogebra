@@ -87,14 +87,17 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		inputPanel.getTextComponent().getDocument()
 				.addDocumentListener(new DocumentListener() {
 
+					@Override
 					public void changedUpdate(DocumentEvent e) {
 						preview();
 					}
 
+					@Override
 					public void removeUpdate(DocumentEvent e) {
 						preview();
 					}
 
+					@Override
 					public void insertUpdate(DocumentEvent e) {
 						preview();
 					}
@@ -108,10 +111,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(inputField.getText(),
 										new ErrorHandler() {
+											@Override
 											public void resetError() {
 												showError(null);
 											}
 
+											@Override
 											public void showError(String msg) {
 												updateIcons(msg != null);
 												btnHelpToggle.setToolTipText(
@@ -122,6 +127,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 											}
 
+											@Override
 											public void showCommandError(
 													String command,
 													String message) {
@@ -143,10 +149,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 												}
 											}
 
+											@Override
 											public String getCurrentCommand() {
 												return inputField.getCommand();
 											}
 
+											@Override
 											public boolean onUndefinedVariables(
 													String string,
 													AsyncOperation<String[]> callback) {
@@ -262,12 +270,15 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	/**
 	 * updates labels according to current locale
 	 */
+	@Override
 	public void setLabels() {
-		if (inputLabel != null)
+		if (inputLabel != null) {
 			inputLabel.setText(loc.getMenu("InputLabel") + ":");
+		}
 
-		if (btnHelpToggle != null)
+		if (btnHelpToggle != null) {
 			btnHelpToggle.setToolTipText(loc.getMenu("InputHelp"));
+		}
 
 		inputField.setDictionary(false);
 		inputField.setLabels();
@@ -311,8 +322,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	// see actionPerformed
 	public void insertCommand(String cmd) {
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 
 		int pos = inputField.getCaretPosition();
 		String oldText = inputField.getText();
@@ -325,8 +337,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	}
 
 	public void insertString(String str) {
-		if (str == null)
+		if (str == null) {
 			return;
+		}
 
 		int pos = inputField.getCaretPosition();
 		String oldText = inputField.getText();
@@ -341,6 +354,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	/**
 	 * action listener implementation for input help panel toggle button
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -368,11 +382,13 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		}
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		// the input field may have consumed this event
 		// for auto completion
-		if (e.isConsumed())
+		if (e.isConsumed()) {
 			return;
+		}
 
 		int keyCode = e.getKeyCode();
 
@@ -444,6 +460,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			final boolean explicit) {
 		return new ErrorHandler() {
 
+			@Override
 			public void showError(String msg) {
 				if (explicit) {
 					app.getDefaultErrorHandler().showError(msg);
@@ -452,10 +469,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			}
 
+			@Override
 			public void resetError() {
 				showError(null);
 			}
 
+			@Override
 			public void showCommandError(String command, String message) {
 				if (explicit) {
 					app.getDefaultErrorHandler().showCommandError(command,
@@ -465,10 +484,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				return inputField.getCommand();
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				if (explicit) {
@@ -490,42 +511,51 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		};
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		//
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		//
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 		// app.clearSelectedGeos();
 	}
 
+	@Override
 	public void focusLost(FocusEvent arg0) {
 		onEnterPressed(false);
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		//
 
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		//
 
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		//
 
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		// make sure tooltips from Tool Bar don't get in the way
 		setToolTipText("");
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		//
 

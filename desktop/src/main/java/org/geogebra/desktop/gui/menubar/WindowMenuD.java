@@ -44,8 +44,9 @@ class WindowMenuD extends BaseMenu {
 
 		ArrayList<GeoGebraFrame> ggbInstances = GeoGebraFrame.getInstances();
 		int size = ggbInstances.size();
-		if (size == 1)
+		if (size == 1) {
 			return;
+		}
 
 		addSeparator();
 		StringBuilder sb = new StringBuilder();
@@ -57,8 +58,9 @@ class WindowMenuD extends BaseMenu {
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = ggbInstances.get(i);
 			AppD application = ggb.getApplication();
-			if (app == application)
+			if (app == application) {
 				current = i;
+			}
 		}
 
 		for (int i = 0; i < size; i++) {
@@ -75,14 +77,16 @@ class WindowMenuD extends BaseMenu {
 			}
 
 			mi = new JRadioButtonMenuItem(sb.toString());
-			if (application == this.app)
+			if (application == this.app) {
 				mi.setSelected(true);
+			}
 			ActionListener al = new RequestFocusListener(ggb);
 			mi.addActionListener(al);
-			if (i == ((current + 1) % size))
+			if (i == ((current + 1) % size)) {
 				setMenuShortCutShiftAccelerator(mi, 'N');
-			else if (i == ((current - 1 + size) % size))
+			} else if (i == ((current - 1 + size) % size)) {
 				setMenuShortCutShiftAltAccelerator(mi, 'N');
+			}
 			bg.add(mi);
 			add(mi);
 		}
@@ -101,6 +105,7 @@ class WindowMenuD extends BaseMenu {
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override

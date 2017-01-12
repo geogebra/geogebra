@@ -36,6 +36,7 @@ public class NoCloseInputStream extends BufferedInputStream {
 		super(stream, size);
 	}
 
+	@Override
 	public void close() throws IOException {
 	}
 

@@ -84,8 +84,9 @@ public class LinearRegressionPanel extends JPanel
 				app.getMenu("Slope"), };
 
 		model.setColumnCount(0);
-		for (int i = 0; i < columnLabels.length; i++)
+		for (int i = 0; i < columnLabels.length; i++) {
 			model.addColumn(columnLabels[i]);
+		}
 
 		model.setRowCount(rowLabels.length);
 		headerModel.setSize(0);
@@ -116,6 +117,7 @@ public class LinearRegressionPanel extends JPanel
 			setFont(app.getPlainFont());
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			setText((value == null) ? "" : value.toString());
@@ -123,16 +125,19 @@ public class LinearRegressionPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setLabels() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updatePanel() {
 		// TODO Auto-generated method stub
 

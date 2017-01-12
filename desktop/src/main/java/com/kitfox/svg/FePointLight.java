@@ -54,10 +54,12 @@ public class FePointLight extends FeLight {
 	public FePointLight() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -77,10 +79,12 @@ public class FePointLight extends FeLight {
 		}
 	}
 
+	@Override
 	public float getX() {
 		return x;
 	}
 
+	@Override
 	public float getY() {
 		return y;
 	}
@@ -89,6 +93,7 @@ public class FePointLight extends FeLight {
 		return z;
 	}
 
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 

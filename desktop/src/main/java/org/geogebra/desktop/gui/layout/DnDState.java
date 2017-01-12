@@ -84,8 +84,9 @@ public class DnDState {
 	}
 
 	public void setRegion(int region) {
-		if (region < 0 || region > LEFT_OUT)
+		if (region < 0 || region > LEFT_OUT) {
 			throw new IllegalArgumentException();
+		}
 
 		this.region = region;
 	}

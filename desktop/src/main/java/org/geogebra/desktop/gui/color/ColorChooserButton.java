@@ -217,6 +217,7 @@ public class ColorChooserButton extends JButton {
 				}
 			}
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				chooserButton.swatchClicked(
 						((SwatchButton) e.getSource()).getColor());

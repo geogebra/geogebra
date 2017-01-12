@@ -220,9 +220,9 @@ public final class MidiParser extends Parser {
 
 		fireTimeEvent(new Time(time));
 		fireVoiceEvent(new Voice((byte) track));
-		Note note = new Note((byte) data1, (long) (timestamp - time));
+		Note note = new Note((byte) data1, timestamp - time);
 		note.setDecimalDuration(
-				(double) ((timestamp - time) / (this.tempo * 4.0D)));
+				(timestamp - time) / (this.tempo * 4.0D));
 		note.setAttackVelocity(tempNoteAttackRegistry[track][data1]);
 		note.setDecayVelocity((byte) data2);
 		fireNoteEvent(note);

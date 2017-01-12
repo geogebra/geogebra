@@ -71,6 +71,7 @@ public class ConditionalInputStream extends InputStream {
 		len = 0;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		int b;
@@ -85,8 +86,9 @@ public class ConditionalInputStream extends InputStream {
 		}
 
 		// return if End Of Stream
-		if (b < 0)
+		if (b < 0) {
 			return -1;
+		}
 
 		// escape \@-signs
 		if (b == '\\') {
@@ -154,17 +156,19 @@ public class ConditionalInputStream extends InputStream {
 				} else if (keyword.equals("else")) {
 					// FIXME one could have multiple elses without endifs...
 					// calculate inclusion based on ifdef nesting
-					if (nesting <= 0)
+					if (nesting <= 0) {
 						throw new RuntimeException(
 								"@else without corresponding @ifdef");
+					}
 					ok[nesting - 1] = (nesting > 1 ? ok[nesting - 2] : true)
 							&& !ok[nesting - 1];
 					replaceBufferWithWhitespace(index);
 				} else if (keyword.equals("endif")) {
 					// calculate inclusion based on ifdef nesting
-					if (nesting <= 0)
+					if (nesting <= 0) {
 						throw new RuntimeException(
 								"@endif without corresponding @ifdef");
+					}
 					nesting--;
 					replaceBufferWithWhitespace(index);
 				} else {
@@ -177,8 +181,9 @@ public class ConditionalInputStream extends InputStream {
 		}
 
 		if ((nesting > 0) && !ok[nesting - 1]) {
-			if (!Character.isWhitespace((char) b))
+			if (!Character.isWhitespace((char) b)) {
 				b = ' ';
+			}
 		}
 		return b & 0x00FF;
 	}

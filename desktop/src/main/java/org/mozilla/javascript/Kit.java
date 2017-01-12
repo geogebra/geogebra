@@ -191,10 +191,12 @@ public class Kit {
 	 * @see #getListener(Object bag, int index)
 	 */
 	public static Object addListener(Object bag, Object listener) {
-		if (listener == null)
+		if (listener == null) {
 			throw new IllegalArgumentException();
-		if (listener instanceof Object[])
+		}
+		if (listener instanceof Object[]) {
 			throw new IllegalArgumentException();
+		}
 
 		if (bag == null) {
 			bag = listener;
@@ -204,8 +206,9 @@ public class Kit {
 			Object[] array = (Object[]) bag;
 			int L = array.length;
 			// bag has at least 2 elements if it is array
-			if (L < 2)
+			if (L < 2) {
 				throw new IllegalArgumentException();
+			}
 			Object[] tmp = new Object[L + 1];
 			System.arraycopy(array, 0, tmp, 0, L);
 			tmp[L] = listener;
@@ -233,10 +236,12 @@ public class Kit {
 	 * @see #getListener(Object bag, int index)
 	 */
 	public static Object removeListener(Object bag, Object listener) {
-		if (listener == null)
+		if (listener == null) {
 			throw new IllegalArgumentException();
-		if (listener instanceof Object[])
+		}
+		if (listener instanceof Object[]) {
 			throw new IllegalArgumentException();
+		}
 
 		if (bag == listener) {
 			bag = null;
@@ -244,8 +249,9 @@ public class Kit {
 			Object[] array = (Object[]) bag;
 			int L = array.length;
 			// bag has at least 2 elements if it is array
-			if (L < 2)
+			if (L < 2) {
 				throw new IllegalArgumentException();
+			}
 			if (L == 2) {
 				if (array[1] == listener) {
 					bag = array[0];
@@ -286,19 +292,23 @@ public class Kit {
 	 */
 	public static Object getListener(Object bag, int index) {
 		if (index == 0) {
-			if (bag == null)
+			if (bag == null) {
 				return null;
-			if (!(bag instanceof Object[]))
+			}
+			if (!(bag instanceof Object[])) {
 				return bag;
+			}
 			Object[] array = (Object[]) bag;
 			// bag has at least 2 elements if it is array
-			if (array.length < 2)
+			if (array.length < 2) {
 				throw new IllegalArgumentException();
+			}
 			return array[0];
 		} else if (index == 1) {
 			if (!(bag instanceof Object[])) {
-				if (bag == null)
+				if (bag == null) {
 					throw new IllegalArgumentException();
+				}
 				return null;
 			}
 			Object[] array = (Object[]) bag;
@@ -308,10 +318,12 @@ public class Kit {
 			// bag has to array
 			Object[] array = (Object[]) bag;
 			int L = array.length;
-			if (L < 2)
+			if (L < 2) {
 				throw new IllegalArgumentException();
-			if (index == L)
+			}
+			if (index == L) {
 				return null;
+			}
 			return array[index];
 		}
 	}
@@ -341,8 +353,9 @@ public class Kit {
 
 		@Override
 		public boolean equals(Object anotherObj) {
-			if (!(anotherObj instanceof ComplexKey))
+			if (!(anotherObj instanceof ComplexKey)) {
 				return false;
+			}
 			ComplexKey another = (ComplexKey) anotherObj;
 			return key1.equals(another.key1) && key2.equals(another.key2);
 		}
@@ -357,10 +370,12 @@ public class Kit {
 	}
 
 	public static Object makeHashKeyFromPair(Object key1, Object key2) {
-		if (key1 == null)
+		if (key1 == null) {
 			throw new IllegalArgumentException();
-		if (key2 == null)
+		}
+		if (key2 == null) {
 			throw new IllegalArgumentException();
+		}
 		return new ComplexKey(key1, key2);
 	}
 

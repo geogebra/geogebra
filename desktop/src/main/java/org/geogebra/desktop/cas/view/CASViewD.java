@@ -138,9 +138,11 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	private ListSelectionListener selectionListener() {
 		return new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting())
+				if (e.getValueIsAdjusting()) {
 					return;
+				}
 
 				// table selection changed -> update stylebar
 				int[] selRows = getConsoleTable().getSelectedRows();
@@ -205,9 +207,11 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	@Override
 	public void showSubstituteDialog(final String prefix, final String evalText,
 			final String postfix, final int selRow) {
-		if (subDialog != null && subDialog.isShowing())
+		if (subDialog != null && subDialog.isShowing()) {
 			return;
+		}
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix,
 						evalText, postfix, selRow);
@@ -234,8 +238,9 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	public void updateFonts() {
 
 		if (component.getFont() != null
-				&& app.getGUIFontSize() == component.getFont().getSize())
+				&& app.getGUIFontSize() == component.getFont().getSize()) {
 			return;
+		}
 		component.setFont(app.getPlainFont());
 		getConsoleTable().setFont(component.getFont());
 		if (rowHeader != null) {
@@ -286,19 +291,23 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return app;
 	}
 
+	@Override
 	public void repaintView() {
 		component.repaint();
 	}
 
+	@Override
 	public AppD getApplication() {
 		return app;
 	}
 
+	@Override
 	public int[] getGridColwidths() {
 		return new int[] {
 				rowHeader.getWidth() + getConsoleTable().getWidth() };
 	}
 
+	@Override
 	public int[] getGridRowHeights() {
 		int[] heights = new int[getConsoleTable().getRowCount()];
 		for (int i = 0; i < heights.length; i++) {
@@ -307,6 +316,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return heights;
 	}
 
+	@Override
 	public Component[][] getPrintComponents() {
 		return new Component[][] { { rowHeader, consoleTable } };
 	}
@@ -331,11 +341,13 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return new CASStyleBar(this, app);
 	}
 
+	@Override
 	public boolean hasFocus() {
 		Log.debug("unimplemented");
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		Log.debug("unimplemented");
 		return false;
@@ -348,11 +360,13 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return this;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only used in web
 	}
 
+	@Override
 	public void setOrientation() {
 		getConsoleTable().setOrientation();
 	}

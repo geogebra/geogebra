@@ -7,10 +7,12 @@ public class BitReservoir2 extends BitReservoir {
 	private int writeIndex, bitCount;
 	private final byte[] buffer = new byte[BUFFER_SIZE];
 
+	@Override
 	int getBitCount() {
 		return bitCount;
 	}
 
+	@Override
 	int getBits(int n) {
 		int x = 0;
 		for (int i = 0; i < n; i++) {
@@ -19,6 +21,7 @@ public class BitReservoir2 extends BitReservoir {
 		return x;
 	}
 
+	@Override
 	int getOneBit() {
 		// byte
 		int x = buffer[bitCount >>> 3] & (1 << (7 - (bitCount++ & 7)));
@@ -38,16 +41,19 @@ public class BitReservoir2 extends BitReservoir {
 	// bitCount = 0;
 	// }
 
+	@Override
 	void putByte(int val) {
 		int wi = writeIndex;
 		buffer[wi] |= val << (8 * (wi & 3));
 		writeIndex = (wi + 1) & BUFFER_SIZE_MASK;
 	}
 
+	@Override
 	void rewindBits(int n) {
 		bitCount -= n;
 	}
 
+	@Override
 	void rewindBytes(int n) {
 		bitCount -= n * 8;
 	}

@@ -47,6 +47,7 @@ public class CASTableCellEditorD extends CASTableCell
 		getInputArea().addKeyListener(this);
 	}
 
+	@Override
 	public Component getTableCellEditorComponent(JTable casTable, Object value,
 			boolean isSelected, int row, int column) {
 		if (value instanceof GeoCasCell) {
@@ -93,22 +94,27 @@ public class CASTableCellEditorD extends CASTableCell
 		return getInputArea().getText();
 	}
 
+	@Override
 	public String getInputSelectedText() {
 		return getInputArea().getSelectedText();
 	}
 
+	@Override
 	public int getInputSelectionStart() {
 		return getInputArea().getSelectionStart();
 	}
 
+	@Override
 	public int getInputSelectionEnd() {
 		return getInputArea().getSelectionEnd();
 	}
 
+	@Override
 	public void setInputSelectionStart(int pos) {
 		getInputArea().setSelectionStart(pos);
 	}
 
+	@Override
 	public void setInputSelectionEnd(int pos) {
 		getInputArea().setSelectionEnd(pos);
 	}
@@ -139,26 +145,30 @@ public class CASTableCellEditorD extends CASTableCell
 		getInputArea().setText(null);
 	}
 
+	@Override
 	public boolean stopCellEditing() {
 		// update cellValue's input using editor content
 		if (editing && cellValue != null) {
 			String newInput = getInput();
 			if (!newInput.equals(inputOnEditingStart)
-					|| cellValue.isUseAsText() != isUseAsTextOnEditingStart)
+					|| cellValue.isUseAsText() != isUseAsTextOnEditingStart) {
 				cellValue.setInput(getInput());
+			}
 			fireEditingStopped();
 		}
 
 		return true;
 	}
 
+	@Override
 	public void cancelCellEditing() {
 		// update cellValue's input using editor content
 		if (editing && cellValue != null) {
 			String newInput = getInput();
 			if (!newInput.equals(inputOnEditingStart)
-					|| cellValue.isUseAsText() != isUseAsTextOnEditingStart)
+					|| cellValue.isUseAsText() != isUseAsTextOnEditingStart) {
 				cellValue.setInput(getInput());
+			}
 			fireEditingCanceled();
 		}
 	}
@@ -170,11 +180,13 @@ public class CASTableCellEditorD extends CASTableCell
 		return editing; // && hasFocus();
 	}
 
+	@Override
 	public Object getCellEditorValue(int idx) {
 		// idx is not used in Desktop
 		return cellValue;
 	}
 
+	@Override
 	public Object getCellEditorValue() {
 		return cellValue;
 	}
@@ -209,19 +221,24 @@ public class CASTableCellEditorD extends CASTableCell
 		editing = false;
 	}
 
+	@Override
 	public boolean isCellEditable(EventObject anEvent) {
 		return true;
 	}
 
+	@Override
 	public void removeCellEditorListener(CellEditorListener l) {
 		listeners.remove(l);
 	}
 
+	@Override
 	public void addCellEditorListener(CellEditorListener l) {
-		if (!listeners.contains(l))
+		if (!listeners.contains(l)) {
 			listeners.add(l);
+		}
 	}
 
+	@Override
 	public boolean shouldSelectCell(EventObject anEvent) {
 		return true;
 	}
@@ -233,6 +250,7 @@ public class CASTableCellEditorD extends CASTableCell
 		return editingRow;
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 
@@ -260,10 +278,12 @@ public class CASTableCellEditorD extends CASTableCell
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// do nothing
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		char ch = e.getKeyChar();
 		JTextComponent inputArea = getInputArea();
@@ -308,10 +328,12 @@ public class CASTableCellEditorD extends CASTableCell
 		}
 	}
 
+	@Override
 	public void clearInputText() {
 		clearInputSelectionText();
 	}
 
+	@Override
 	public void ensureEditing() {
 		// only in web
 	}

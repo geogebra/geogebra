@@ -44,11 +44,11 @@ public class MiniStyle {
 
 		this.selection = app.getSelectionManager();
 		colorList = createStyleBarColorList();
-		if (mode == MODE_PEN)
+		if (mode == MODE_PEN) {
 			setPenDefaults();
-
-		else if (mode == MODE_STANDARD)
+		} else if (mode == MODE_STANDARD) {
 			setStandardDefaults();
+		}
 	}
 
 	// ==============================================
@@ -137,10 +137,12 @@ public class MiniStyle {
 	public void applyBold() {
 
 		int fontStyle = 0;
-		if (isBold)
+		if (isBold) {
 			fontStyle += 1;
-		if (isItalic)
+		}
+		if (isItalic) {
 			fontStyle += 2;
+		}
 
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 

@@ -191,11 +191,13 @@ public class EpsGraphicsD extends EpsGraphics {
 
 	}
 
+	@Override
 	public void setRenderingHint(int hintKey, int hintValue) {
 		// nothing to do
 
 	}
 
+	@Override
 	public void resetClip() {
 		this.setClip(null);
 

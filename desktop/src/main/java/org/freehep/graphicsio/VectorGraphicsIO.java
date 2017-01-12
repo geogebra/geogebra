@@ -31,6 +31,7 @@ public abstract class VectorGraphicsIO extends AbstractVectorGraphics {
 
 	public abstract Dimension getSize();
 
+	@Override
 	public abstract void printComment(String comment);
 
 	/**
@@ -66,10 +67,12 @@ public abstract class VectorGraphicsIO extends AbstractVectorGraphics {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (br != null)
+				if (br != null) {
 					br.close();
-				if (is != null)
+				}
+				if (is != null) {
 					is.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

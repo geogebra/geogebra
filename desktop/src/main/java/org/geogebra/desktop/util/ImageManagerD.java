@@ -103,8 +103,9 @@ public class ImageManagerD extends ImageManager {
 
 	// draw a line around the image
 	public static Image addBorder(Image im, Color borderColor) {
-		if (borderColor == null)
+		if (borderColor == null) {
 			return im;
+		}
 
 		BufferedImage bim = toBufferedImage(im);
 		Graphics g = bim.getGraphics();
@@ -239,16 +240,18 @@ public class ImageManagerD extends ImageManager {
 		// Pixels
 		boolean hasAlpha = hasAlpha(image);
 
-		if (hasAlpha)
+		if (hasAlpha) {
 			return toBufferedImage(image, Transparency.BITMASK);
-		else
+		} else {
 			return toBufferedImage(image, Transparency.OPAQUE);
+		}
 
 	}
 
 	public static BufferedImage toBufferedImage(Image image, int transparency) {
-		if (image instanceof BufferedImage)
+		if (image instanceof BufferedImage) {
 			return (BufferedImage) image;
+		}
 
 		// This code ensures that all the pixels in the image are loaded
 		image = new ImageIcon(image).getImage();
@@ -272,10 +275,11 @@ public class ImageManagerD extends ImageManager {
 		if (bimage == null) {
 			// Create a buffered image using the default color model
 			int type;
-			if (transparency == Transparency.OPAQUE)
+			if (transparency == Transparency.OPAQUE) {
 				type = BufferedImage.TYPE_INT_RGB;
-			else
+			} else {
 				type = BufferedImage.TYPE_INT_ARGB;
+			}
 
 			bimage = new BufferedImage(image.getWidth(null),
 					image.getHeight(null), type);

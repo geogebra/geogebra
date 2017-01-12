@@ -143,8 +143,9 @@ class NativeScript extends BaseFunction {
 
 	private static NativeScript realThis(Scriptable thisObj,
 			IdFunctionObject f) {
-		if (!(thisObj instanceof NativeScript))
+		if (!(thisObj instanceof NativeScript)) {
 			throw incompatibleCallError(f);
+		}
 		return (NativeScript) thisObj;
 	}
 
@@ -188,8 +189,9 @@ class NativeScript extends BaseFunction {
 				id = Id_constructor;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

@@ -23,15 +23,18 @@ public class RawImageWriterSpi extends ImageWriterSpi {
 				false, null, null, null, null);
 	}
 
+	@Override
 	public String getDescription(Locale locale) {
 		return "FreeHEP RAW Image Format";
 	}
 
+	@Override
 	public ImageWriter createWriterInstance(Object extension)
 			throws IOException {
 		return new RawImageWriter(this);
 	}
 
+	@Override
 	public boolean canEncodeImage(ImageTypeSpecifier type) {
 		// FIXME
 		return true;

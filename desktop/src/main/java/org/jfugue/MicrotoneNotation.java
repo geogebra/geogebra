@@ -77,8 +77,9 @@ public class MicrotoneNotation {
 
 		double note = ((octave + 1) * 12) + semitone; // This gives a MIDI
 														// value, 0 - 128
-		if (note > 127)
+		if (note > 127) {
 			note = 127;
+		}
 
 		StringBuilder buffy = new StringBuilder();
 		buffy.append("&");

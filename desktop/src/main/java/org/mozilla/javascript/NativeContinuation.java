@@ -32,10 +32,12 @@ public final class NativeContinuation extends IdScriptableObject
 		return "Continuation";
 	}
 
+	@Override
 	public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
 		throw Context.reportRuntimeError("Direct call is not supported");
 	}
 
+	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj,
 			Object[] args) {
 		return Interpreter.restartContinuation(this, cx, scope, args);
@@ -90,8 +92,9 @@ public final class NativeContinuation extends IdScriptableObject
 				X = "constructor";
 				id = Id_constructor;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

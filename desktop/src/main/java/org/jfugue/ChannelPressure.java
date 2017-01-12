@@ -70,6 +70,7 @@ public final class ChannelPressure implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("+");
@@ -82,6 +83,7 @@ public final class ChannelPressure implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("ChannelPressure: pressure=");

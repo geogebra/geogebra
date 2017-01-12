@@ -30,6 +30,7 @@ public abstract class MyComboBoxListener extends MouseAdapter
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}

@@ -60,10 +60,12 @@ public class Glyph extends MissingGlyph {
 	public Glyph() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -85,6 +87,7 @@ public class Glyph extends MissingGlyph {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Fonts can't change
 		return false;

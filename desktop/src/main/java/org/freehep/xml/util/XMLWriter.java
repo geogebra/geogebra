@@ -35,6 +35,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * closes the writer
 	 */
+	@Override
 	public void close() throws IOException {
 		closeDoc();
 		writer.close();
@@ -43,6 +44,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Opens the document with an xml header
 	 */
+	@Override
 	public void openDoc() {
 		openDoc("1.0", "", false);
 	}
@@ -50,20 +52,23 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Opens the document with an xml header
 	 */
+	@Override
 	public void openDoc(String version, String encoding, boolean standalone) {
 		String indentString = writer.getIndentString();
 		writer.setIndentString(indentString);
 
 		closed = false;
-		if (!XMLCharacterProperties.validVersionNum(version))
+		if (!XMLCharacterProperties.validVersionNum(version)) {
 			throw new RuntimeException("Invalid version number: " + version);
+		}
 		writer.print("<?xml version=\"");
 		writer.print(version);
 		writer.print("\" ");
 		if ((encoding != null) && (!encoding.equals(""))) {
-			if (!XMLCharacterProperties.validEncName(encoding))
+			if (!XMLCharacterProperties.validEncName(encoding)) {
 				throw new RuntimeException(
 						"Invalid encoding name: " + encoding);
+			}
 			writer.print("encoding=\"");
 			writer.print(encoding);
 			writer.print("\" ");
@@ -78,6 +83,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Writes a reference to a DTD
 	 */
+	@Override
 	public void referToDTD(String name, String pid, String ref) {
 		if (dtdName != null) {
 			throw new RuntimeException("ReferToDTD cannot be called twice");
@@ -90,6 +96,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Writes a reference to a DTD
 	 */
+	@Override
 	public void referToDTD(String name, String system) {
 		if (dtdName != null) {
 			throw new RuntimeException("ReferToDTD cannot be called twice");
@@ -101,6 +108,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Closes the document, and checks if you closed all the tags
 	 */
+	@Override
 	public void closeDoc() {
 		if (!closed) {
 			if (!openTags.isEmpty()) {
@@ -121,9 +129,11 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Print a comment
 	 */
+	@Override
 	public void printComment(String comment) {
-		if (comment.indexOf("--") >= 0)
+		if (comment.indexOf("--") >= 0) {
 			throw new RuntimeException("'--' sequence not allowed in comment");
+		}
 		writer.print("<!--");
 		writer.print(normalizeText(comment));
 		writer.println("-->");
@@ -132,6 +142,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Prints character data, while escaping < and >
 	 */
+	@Override
 	public void print(String text) {
 		writer.print(normalizeText(text));
 	}
@@ -147,6 +158,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Prints a new XML tag and increases the identation level
 	 */
+	@Override
 	public void openTag(String namespace, String name) {
 		if (namespace.equals(defaultNameSpace)) {
 			openTag(name);
@@ -158,6 +170,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Prints a new XML tag and increases the identation level
 	 */
+	@Override
 	public void openTag(String name) {
 		checkNameValid(name);
 		if (openTags.isEmpty() && dtdName != null && !dtdName.equals(name)) {
@@ -174,6 +187,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Closes the current XML tag and decreases the indentation level
 	 */
+	@Override
 	public void closeTag() {
 		if (openTags.isEmpty()) {
 			writer.close();
@@ -189,6 +203,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Prints an empty XML tag.
 	 */
+	@Override
 	public void printTag(String namespace, String name) {
 		if (namespace.equals(defaultNameSpace)) {
 			printTag(name);
@@ -200,6 +215,7 @@ public class XMLWriter implements XMLTagWriter {
 	/**
 	 * Prints an empty XML tag.
 	 */
+	@Override
 	public void printTag(String name) {
 		checkNameValid(name);
 		writer.print("<" + name);
@@ -211,86 +227,106 @@ public class XMLWriter implements XMLTagWriter {
 	 * Sets an attribute which will be included in the next tag printed by
 	 * openTag or printTag
 	 */
+	@Override
 	public void setAttribute(String name, String value) {
 		if ((name != null) && (value != null)) {
 			attributes.put(name, value);
 		}
 	}
 
+	@Override
 	public void setAttribute(String namespace, String name, String value) {
 		if ((namespace != null) && (name != null)) {
 			attributes.put(namespace + ":" + name, value);
 		}
 	}
 
+	@Override
 	public void setAttribute(String name, byte value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, char value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, long value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, int value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, short value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, boolean value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, float value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, double value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String name, Color value) {
 		setAttribute(name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, byte value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, char value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, long value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, int value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, short value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, boolean value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, float value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, double value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
 
+	@Override
 	public void setAttribute(String ns, String name, Color value) {
 		setAttribute(ns + ":" + name, String.valueOf(value));
 	}
@@ -321,8 +357,9 @@ public class XMLWriter implements XMLTagWriter {
 			writer.print("\"");
 		}
 		attributes.clear();
-		if (extraIndent)
+		if (extraIndent) {
 			writer.outdent();
+		}
 	}
 
 	// /**
@@ -477,8 +514,9 @@ public class XMLWriter implements XMLTagWriter {
 	}
 
 	protected void checkNameValid(String s) {
-		if (!XMLCharacterProperties.validName(s))
+		if (!XMLCharacterProperties.validName(s)) {
 			throw new RuntimeException("Invalid name: " + s);
+		}
 	}
 
 	protected boolean closed = true;

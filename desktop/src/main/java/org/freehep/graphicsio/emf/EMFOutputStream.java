@@ -64,6 +64,7 @@ public class EMFOutputStream extends TaggedOutputStream {
 		this(os, imageBounds, handles, application, name, device, 1);
 	}
 
+	@Override
 	public void close() throws IOException {
 		int len = popBuffer();
 		recordCount++;
@@ -234,21 +235,25 @@ public class EMFOutputStream extends TaggedOutputStream {
 		}
 	}
 
+	@Override
 	protected int getTagAlignment() {
 		return 4;
 	}
 
+	@Override
 	protected TagHeader createTagHeader(Tag tag, long len) {
 		EMFTag emfTag = (EMFTag) tag;
 		return new EMFTagHeader(tag.getTag(), len, emfTag.getFlags());
 	}
 
+	@Override
 	protected void writeTagHeader(TagHeader header) throws IOException {
 		EMFTagHeader tagHeader = (EMFTagHeader) header;
 		writeUnsignedInt(tagHeader.getTag() | (tagHeader.getFlags() << 16));
 		writeUnsignedInt(tagHeader.getLength() + 8);
 	}
 
+	@Override
 	public void writeTag(Tag tag) throws IOException {
 		// nest EMFPlusTags in GDIComments
 		if (tag instanceof EMFPlusTag) {
@@ -262,6 +267,7 @@ public class EMFOutputStream extends TaggedOutputStream {
 		super.writeTag(tag);
 	}
 
+	@Override
 	protected void writeActionHeader(ActionHeader header) throws IOException {
 		// empty
 	}

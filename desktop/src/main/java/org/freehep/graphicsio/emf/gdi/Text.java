@@ -45,12 +45,15 @@ public class Text implements EMFConstants {
 		/* int cOffset = */ emf.readDWORD();
 		// FIXME: nothing done with offsets
 		string = new String(emf.readBYTE(sLen));
-		if ((sLen) % 4 != 0)
-			for (int i = 0; i < 4 - (sLen) % 4; i++)
+		if ((sLen) % 4 != 0) {
+			for (int i = 0; i < 4 - (sLen) % 4; i++) {
 				emf.readBYTE();
+			}
+		}
 		widths = new int[sLen];
-		for (int i = 0; i < sLen; i++)
+		for (int i = 0; i < sLen; i++) {
 			widths[i] = emf.readDWORD();
+		}
 	}
 
 	public void write(EMFOutputStream emf) throws IOException {
@@ -60,22 +63,27 @@ public class Text implements EMFConstants {
 		emf.writeDWORD(options);
 		emf.writeRECTL(bounds);
 		int pad = (string.length()) % 4;
-		if (pad > 0)
+		if (pad > 0) {
 			pad = 4 - pad;
+		}
 		emf.writeDWORD(8 + 28 + 40 + string.length() + pad); // offset to
 																// character
 																// spacing array
 		emf.writeBYTE(string.getBytes());
-		for (int i = 0; i < pad; i++)
+		for (int i = 0; i < pad; i++) {
 			emf.writeBYTE(0);
-		for (int i = 0; i < string.length(); i++)
+		}
+		for (int i = 0; i < string.length(); i++) {
 			emf.writeDWORD(widths[i]);
+		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer widthsS = new StringBuffer();
-		for (int i = 0; i < string.length(); i++)
+		for (int i = 0; i < string.length(); i++) {
 			widthsS.append("," + widths[i]);
+		}
 		widthsS.append(']');
 		widthsS.setCharAt(0, '[');
 		return "  Text\n" + "    pos: " + pos + "\n" + "    options: " + options

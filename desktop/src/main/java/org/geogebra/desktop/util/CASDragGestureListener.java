@@ -56,13 +56,15 @@ public class CASDragGestureListener
 		}
 	}
 
+	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
 		table.stopEditing();
 
-		if (geoLabelList == null)
+		if (geoLabelList == null) {
 			geoLabelList = new ArrayList<String>();
-		else
+		} else {
 			geoLabelList.clear();
+		}
 
 		int row = table.rowAtPoint(dge.getDragOrigin());
 		GeoCasCell cell = table.getGeoCasCell(row);
@@ -120,28 +122,35 @@ public class CASDragGestureListener
 			isAssignment = false;
 		}
 
+		@Override
 		public DataFlavor[] getTransferDataFlavors() {
 			return supportedFlavors;
 		}
 
+		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
 			// algebraViewFlavor can only be used if the cas cell contains an
 			// assignment
 			if (flavor.equals(AlgebraViewTransferHandler.algebraViewFlavor)
-					&& isAssignment)
+					&& isAssignment) {
 				return true;
-			if (flavor.equals(CASTransferHandler.casTableFlavor))
+			}
+			if (flavor.equals(CASTransferHandler.casTableFlavor)) {
 				return true;
+			}
 
 			return false;
 		}
 
+		@Override
 		public Object getTransferData(DataFlavor flavor)
 				throws UnsupportedFlavorException {
-			if (flavor.equals(AlgebraViewTransferHandler.algebraViewFlavor))
+			if (flavor.equals(AlgebraViewTransferHandler.algebraViewFlavor)) {
 				return geoLabels;
-			if (flavor.equals(CASTransferHandler.casTableFlavor))
+			}
+			if (flavor.equals(CASTransferHandler.casTableFlavor)) {
 				return tableRef;
+			}
 			throw new UnsupportedFlavorException(flavor);
 		}
 
@@ -159,22 +168,27 @@ public class CASDragGestureListener
 	// Drag and Drop
 	// =====================================================
 
+	@Override
 	public void dragDropEnd(DragSourceDropEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void dragEnter(DragSourceDragEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void dragExit(DragSourceEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void dragOver(DragSourceDragEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void dropActionChanged(DragSourceDragEvent e) {
 		// do nothing
 	}

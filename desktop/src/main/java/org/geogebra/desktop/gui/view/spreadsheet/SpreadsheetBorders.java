@@ -44,10 +44,11 @@ public class SpreadsheetBorders {
 				c = cell.x;
 				r = cell.y;
 				// System.out.println(cell.toString());
-				if (c == -1 || r == -1)
+				if (c == -1 || r == -1) {
 					handleRowOrColumnGridFormat(g2, table, c, r, b);
-				else
+				} else {
 					drawPartialBorder(g2, table, c, r, c + 1, r + 1, b);
+				}
 			}
 		}
 
@@ -89,11 +90,13 @@ public class SpreadsheetBorders {
 			// otherwise just draw a border line for an entire row
 			else {
 				// top bar
-				if (!CellFormat.isZeroBit(v, 1))
+				if (!CellFormat.isZeroBit(v, 1)) {
 					drawRowBorder(g2, table, row);
+				}
 				// bottom bar
-				if (!CellFormat.isZeroBit(v, 3))
+				if (!CellFormat.isZeroBit(v, 3)) {
 					drawRowBorder(g2, table, row + 1);
+				}
 			}
 		}
 
@@ -111,11 +114,13 @@ public class SpreadsheetBorders {
 			// otherwise just draw a border line for an entire column
 			else {
 				// left column
-				if (!CellFormat.isZeroBit(v, 0))
+				if (!CellFormat.isZeroBit(v, 0)) {
 					drawColumnBorder(g2, table, col);
+				}
 				// right column
-				if (!CellFormat.isZeroBit(v, 2))
+				if (!CellFormat.isZeroBit(v, 2)) {
 					drawColumnBorder(g2, table, col + 1);
+				}
 			}
 		}
 	}
@@ -150,17 +155,21 @@ public class SpreadsheetBorders {
 		// 3
 		//
 		// left bar, 0
-		if (!CellFormat.isZeroBit(v, 0))
+		if (!CellFormat.isZeroBit(v, 0)) {
 			g2.drawLine(r1, c1, r1, c2);
+		}
 		// top bar, 1
-		if (!CellFormat.isZeroBit(v, 1))
+		if (!CellFormat.isZeroBit(v, 1)) {
 			g2.drawLine(r1, c1, r2, c1);
+		}
 		// right bar, 2
-		if (!CellFormat.isZeroBit(v, 2))
+		if (!CellFormat.isZeroBit(v, 2)) {
 			g2.drawLine(r2, c1, r2, c2);
+		}
 		// bottom bar, 3
-		if (!CellFormat.isZeroBit(v, 3))
+		if (!CellFormat.isZeroBit(v, 3)) {
 			g2.drawLine(r1, c2, r2, c2);
+		}
 
 	}
 

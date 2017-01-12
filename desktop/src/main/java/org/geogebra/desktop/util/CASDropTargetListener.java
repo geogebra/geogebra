@@ -54,22 +54,27 @@ public class CASDropTargetListener implements DropTargetListener {
 	 * enables Drag and Drop for this listener
 	 */
 	public void enableDnD() {
-		if (dropTarget == null)
+		if (dropTarget == null) {
 			dropTarget = new DropTarget(table, this);
+		}
 	}
 
+	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void dragExit(DropTargetEvent dte) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void dragOver(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void drop(DropTargetDropEvent dropEvent) {
 		Transferable t = dropEvent.getTransferable();
 		int row = table.rowAtPoint(dropEvent.getLocation());
@@ -94,8 +99,9 @@ public class CASDropTargetListener implements DropTargetListener {
 						row);
 
 				// dont use the same cell as source and destination
-				if (cell.getRowNumber() == source.getRowNumber())
+				if (cell.getRowNumber() == source.getRowNumber()) {
 					return;
+				}
 
 				// view.ensureOneEmptyRow();
 				GeoCasCell newcell = new GeoCasCell(cell.getConstruction());
@@ -182,6 +188,7 @@ public class CASDropTargetListener implements DropTargetListener {
 
 	}
 
+	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 	}

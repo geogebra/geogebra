@@ -81,6 +81,7 @@ public class BitmapInfoHeader implements EMFConstants {
 		emf.writeDWORD(clrImportant);
 	}
 
+	@Override
 	public String toString() {
 		return "    size: " + size + "\n" + "    width: " + width + "\n"
 				+ "    height: " + height + "\n" + "    planes: " + planes

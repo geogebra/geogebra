@@ -16,8 +16,9 @@ public class EMFHandleManager {
 	public int getHandle() {
 		int handle = nextClearBit();
 		handles.set(handle);
-		if (handle > maxHandle)
+		if (handle > maxHandle) {
 			maxHandle = handle;
+		}
 		return handle;
 	}
 
@@ -28,9 +29,11 @@ public class EMFHandleManager {
 
 	private int nextClearBit() {
 		// return handles.nextClearBit(1); // JDK 1.4
-		for (int i = 1;; i++)
-			if (!handles.get(i))
+		for (int i = 1;; i++) {
+			if (!handles.get(i)) {
 				return i;
+			}
+		}
 	}
 
 	public int highestHandleInUse() {

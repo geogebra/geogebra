@@ -125,8 +125,9 @@ public abstract class NativeArrayBufferView extends IdScriptableObject {
 					id = Id_byteOffset;
 				}
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

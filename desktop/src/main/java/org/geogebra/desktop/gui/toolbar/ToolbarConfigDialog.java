@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
-import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -63,8 +62,8 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		JComboBox switcher = new JComboBox();
 		switcher.addItem(new KeyValue(-1, loc.getMenu("General")));
 
-		DockPanelD[] panels = ((LayoutD) ((GuiManagerD) app.getGuiManager())
-				.getLayout()).getDockManager().getPanels();
+		DockPanelD[] panels = ((GuiManagerD) app.getGuiManager())
+				.getLayout().getDockManager().getPanels();
 
 		int toolbarId = app.getGuiManager().getActiveToolbarId();
 		int selIdx = 0;
@@ -135,6 +134,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		btCancel.setText(loc.getMenu("Close"));
 
 		ActionListener ac = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Object src = e.getSource();
 				if (src == btApply) {
@@ -194,6 +194,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	/**
 	 * Switch panel for which we want to change the toolbar.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		int id = ((KeyValue) ((JComboBox) e.getSource()).getSelectedItem())
 				.getKey();

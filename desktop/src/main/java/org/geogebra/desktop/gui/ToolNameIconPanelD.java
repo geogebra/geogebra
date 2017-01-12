@@ -115,14 +115,17 @@ public class ToolNameIconPanelD extends JPanel {
 			labelToolHelp.setText(app.getMenu("ToolHelp"));
 		}
 		KeyListener kl = new KeyListener() {
+			@Override
 			public void keyPressed(KeyEvent e) {
 
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				updateCmdName(e.getSource());
 			}
 
+			@Override
 			public void keyTyped(KeyEvent arg0) {
 			}
 		};
@@ -142,9 +145,11 @@ public class ToolNameIconPanelD extends JPanel {
 					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
 					new Insets(0, 0, 0, 0), 0, 0));
 			FocusListener fl = new FocusListener() {
+				@Override
 				public void focusGained(FocusEvent arg0) {
 				}
 
+				@Override
 				public void focusLost(FocusEvent e) {
 					updateCmdName(e.getSource());
 				}
@@ -173,6 +178,7 @@ public class ToolNameIconPanelD extends JPanel {
 						new Insets(0, 0, 0, 0), 0, 0));
 		btIconFile.setText(app.getMenu("Icon") + " ...");
 		ActionListener ac = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String fileName = ((GuiManagerD) app.getGuiManager())
 						.getImageFromFile();
@@ -192,6 +198,7 @@ public class ToolNameIconPanelD extends JPanel {
 		cbShowInToolBar.setText(app.getMenu("ShowInToolBar"));
 		cbShowInToolBar.setSelected(true);
 		ActionListener ac2 = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				boolean active = cbShowInToolBar.isSelected();
 				labelIcon.setEnabled(active);
@@ -223,8 +230,9 @@ public class ToolNameIconPanelD extends JPanel {
 	 * 
 	 */
 	private void updateMacro() {
-		if (macro == null)
+		if (macro == null) {
 			return;
+		}
 
 		macro.setToolName(getToolName());
 		macro.setToolHelp(getToolHelp());
@@ -244,8 +252,9 @@ public class ToolNameIconPanelD extends JPanel {
 			}
 		}
 
-		if (managerDialog != null)
+		if (managerDialog != null) {
 			managerDialog.repaint();
+		}
 	}
 
 	/**
@@ -418,8 +427,9 @@ public class ToolNameIconPanelD extends JPanel {
 		try {
 			String parsed = app.getKernel().getAlgebraProcessor()
 					.parseLabel(cmdName);
-			if (!parsed.equals(tfCmdName.getText()))
+			if (!parsed.equals(tfCmdName.getText())) {
 				tfCmdName.setText(parsed);
+			}
 		} catch (Error err) {
 			tfCmdName.setText(defaultToolName());
 		} catch (Exception ex) {

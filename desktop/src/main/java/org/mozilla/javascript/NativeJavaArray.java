@@ -57,8 +57,9 @@ public class NativeJavaArray extends NativeJavaObject {
 
 	@Override
 	public Object get(String id, Scriptable start) {
-		if (id.equals("length"))
+		if (id.equals("length")) {
 			return Integer.valueOf(length);
+		}
 		Object result = super.get(id, start);
 		if (result == NOT_FOUND
 				&& !ScriptableObject.hasProperty(getPrototype(), id)) {
@@ -81,9 +82,10 @@ public class NativeJavaArray extends NativeJavaObject {
 	@Override
 	public void put(String id, Scriptable start, Object value) {
 		// Ignore assignments to "length"--it's readonly.
-		if (!id.equals("length"))
+		if (!id.equals("length")) {
 			throw Context.reportRuntimeError1("msg.java.array.member.not.found",
 					id);
+		}
 	}
 
 	@Override
@@ -99,12 +101,15 @@ public class NativeJavaArray extends NativeJavaObject {
 
 	@Override
 	public Object getDefaultValue(Class<?> hint) {
-		if (hint == null || hint == ScriptRuntime.StringClass)
+		if (hint == null || hint == ScriptRuntime.StringClass) {
 			return array.toString();
-		if (hint == ScriptRuntime.BooleanClass)
+		}
+		if (hint == ScriptRuntime.BooleanClass) {
 			return Boolean.TRUE;
-		if (hint == ScriptRuntime.NumberClass)
+		}
+		if (hint == ScriptRuntime.NumberClass) {
 			return ScriptRuntime.NaNobj;
+		}
 		return this;
 	}
 
@@ -112,15 +117,17 @@ public class NativeJavaArray extends NativeJavaObject {
 	public Object[] getIds() {
 		Object[] result = new Object[length];
 		int i = length;
-		while (--i >= 0)
+		while (--i >= 0) {
 			result[i] = Integer.valueOf(i);
+		}
 		return result;
 	}
 
 	@Override
 	public boolean hasInstance(Scriptable value) {
-		if (!(value instanceof Wrapper))
+		if (!(value instanceof Wrapper)) {
 			return false;
+		}
 		Object instance = ((Wrapper) value).unwrap();
 		return cls.isInstance(instance);
 	}

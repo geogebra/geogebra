@@ -121,8 +121,9 @@ public abstract class CASTableCell extends JPanel {
 
 		Dimension d = dummyField.getPreferredSize();
 		// use the parameter width - 15 pixels to correct for border padding
-		if (width > 0)
+		if (width > 0) {
 			d.width = width - 15;
+		}
 
 		inputPanel.setPreferredSize(d);
 
@@ -185,8 +186,9 @@ public abstract class CASTableCell extends JPanel {
 
 			if (prefSize != null) {
 				setSize(prefSize);
-				if (table.getRowHeight(row) != prefSize.height)
+				if (table.getRowHeight(row) != prefSize.height) {
 					table.setRowHeight(row, prefSize.height);
+				}
 			}
 		}
 	}
@@ -205,8 +207,9 @@ public abstract class CASTableCell extends JPanel {
 	 *            the input string
 	 */
 	public void setInput(String input) {
-		if (input != null)
+		if (input != null) {
 			inputPanel.setInput(input);
+		}
 	}
 
 	/**
@@ -234,8 +237,9 @@ public abstract class CASTableCell extends JPanel {
 		if (dummyField != null) {
 			dummyField.setFont(ft);
 		}
-		if (outputPanel != null)
+		if (outputPanel != null) {
 			outputPanel.setFont(ft);
+		}
 	}
 
 	/**

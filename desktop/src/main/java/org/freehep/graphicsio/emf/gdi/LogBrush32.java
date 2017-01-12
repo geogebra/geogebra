@@ -42,6 +42,7 @@ public class LogBrush32 implements EMFConstants {
 		emf.writeULONG(hatch);
 	}
 
+	@Override
 	public String toString() {
 		return "  LogBrush32\n" + "    style: " + style + "\n" + "    color: "
 				+ color + "\n" + "    hatch: " + hatch;

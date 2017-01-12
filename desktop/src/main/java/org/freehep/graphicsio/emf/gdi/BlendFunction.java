@@ -47,6 +47,7 @@ public class BlendFunction implements EMFConstants {
 		emf.writeBYTE(alphaFormat);
 	}
 
+	@Override
 	public String toString() {
 		return "BlendFunction";
 	}

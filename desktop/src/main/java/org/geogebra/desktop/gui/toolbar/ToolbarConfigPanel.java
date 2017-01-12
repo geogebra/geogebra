@@ -199,6 +199,7 @@ public class ToolbarConfigPanel extends JPanel
 	/**
 	 * Handles remove, add and up, down buttons.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// get selected node in tree
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
@@ -258,8 +259,9 @@ public class ToolbarConfigPanel extends JPanel
 				sortToolList();
 
 				// select node at same row or above
-				if (selRow >= tree.getRowCount())
+				if (selRow >= tree.getRowCount()) {
 					selRow--;
+				}
 				tree.setSelectionRow(selRow);
 			}
 		}
@@ -273,8 +275,9 @@ public class ToolbarConfigPanel extends JPanel
 				// check if too is already there
 				Integer modeInt = (Integer) tools[i];
 				if (modeInt.intValue() > -1
-						&& containsTool(root, (Integer) tools[i]))
+						&& containsTool(root, (Integer) tools[i])) {
 					continue;
+				}
 
 				DefaultMutableTreeNode newNode;
 				if (parentNode == root) {
@@ -294,8 +297,9 @@ public class ToolbarConfigPanel extends JPanel
 
 				// remove node from list of unused tools if the node is not a
 				// separator
-				if (modeInt.intValue() > -1)
+				if (modeInt.intValue() > -1) {
 					toolListModel.removeElement(modeInt);
+				}
 			}
 
 			if (didInsert) {
@@ -316,8 +320,9 @@ public class ToolbarConfigPanel extends JPanel
 
 		// UP
 		else if (src == moveUpButton) {
-			if (selNode == root)
+			if (selNode == root) {
 				return;
+			}
 
 			if (parentNode.getChildBefore(selNode) != null) {
 				model.removeNodeFromParent(selNode);
@@ -328,8 +333,9 @@ public class ToolbarConfigPanel extends JPanel
 
 		// DOWN
 		else if (src == moveDownButton) {
-			if (selNode == root)
+			if (selNode == root) {
 				return;
+			}
 
 			if (parentNode.getChildAfter(selNode) != null) {
 				model.removeNodeFromParent(selNode);
@@ -350,8 +356,9 @@ public class ToolbarConfigPanel extends JPanel
 			for (Enumeration<DefaultMutableTreeNode> e = node.children(); e
 					.hasMoreElements();) {
 				DefaultMutableTreeNode n = e.nextElement();
-				if (containsTool(n, mode))
+				if (containsTool(n, mode)) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -442,17 +449,18 @@ public class ToolbarConfigPanel extends JPanel
 
 			if (menu.getChildCount() == 0) { // new menu with separator
 				sb.append("|| ");
-			} else if (i > 0 && !sb.toString().endsWith("|| ")) // new menu
+			} else if (i > 0 && !sb.toString().endsWith("|| ")) {
 				sb.append("| ");
+			}
 
 			for (int j = 0; j < menu.getChildCount(); j++) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) menu
 						.getChildAt(j);
 				int mode = ((Integer) node.getUserObject()).intValue();
 
-				if (mode < 0) // separator
+				if (mode < 0) {
 					sb.append(", ");
-				else { // mode number
+				} else { // mode number
 					sb.append(mode);
 					sb.append(" ");
 				}
@@ -498,14 +506,16 @@ public class ToolbarConfigPanel extends JPanel
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
 					int mode = modeInt.intValue();
-					if (mode != -1)
+					if (mode != -1) {
 						vector.add(modeInt);
+					}
 				}
 			} else {
 				Integer modeInt = element.getMode();
 				int mode = modeInt.intValue();
-				if (mode != -1)
+				if (mode != -1) {
 					vector.add(modeInt);
+				}
 			}
 		}
 		return vector;
@@ -556,8 +566,9 @@ public class ToolbarConfigPanel extends JPanel
 					sub.add(new DefaultMutableTreeNode(menu.get(j)));
 				}
 				node.add(sub);
-			} else
+			} else {
 				node.add(new DefaultMutableTreeNode(ob.getMode()));
+			}
 		}
 		return node;
 	}
@@ -591,6 +602,7 @@ public class ToolbarConfigPanel extends JPanel
 	/**
 	 * 
 	 */
+	@Override
 	public void treeCollapsed(TreeExpansionEvent event) {/*
 															 * do nothing
 															 */
@@ -599,6 +611,7 @@ public class ToolbarConfigPanel extends JPanel
 	/**
 	 * 
 	 */
+	@Override
 	public void treeExpanded(TreeExpansionEvent event) {
 		/*
 		 * tabbed.invalidate(); tabbed.validateTree();

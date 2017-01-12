@@ -113,8 +113,9 @@ public class SliderPanel extends JPanel
 			textField.addActionListener(this);
 			textField.addFocusListener(this);
 			p.add(textField);
-			if (i == 2) // width
+			if (i == 2) {
 				p.add(lbWidthUnit);
+			}
 			p.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 			if (i < 2) {
@@ -163,6 +164,7 @@ public class SliderPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		initPanels();
 
@@ -193,6 +195,7 @@ public class SliderPanel extends JPanel
 		speedPanel.setLabels();
 	}
 
+	@Override
 	public JPanel updatePanel(Object[] geos) {
 		stepPanel.updatePanel(geos);
 		speedPanel.updatePanel(geos);
@@ -226,16 +229,18 @@ public class SliderPanel extends JPanel
 	/**
 	 * handle textfield changes
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		if (source == cbSliderFixed)
+		if (source == cbSliderFixed) {
 			doCheckBoxActionPerformed((JCheckBox) source);
-		else if (source == cbRandom)
+		} else if (source == cbRandom) {
 			doRandomActionPerformed((JCheckBox) source);
-		else if (source == coSliderHorizontal)
+		} else if (source == coSliderHorizontal) {
 			doComboBoxActionPerformed((JComboBox) source);
-		else
+		} else {
 			doTextFieldActionPerformed((JTextField) e.getSource());
+		}
 	}
 
 	private void doCheckBoxActionPerformed(JCheckBox source) {
@@ -280,15 +285,18 @@ public class SliderPanel extends JPanel
 		actionPerforming = false;
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		if (!actionPerforming) {
 			doTextFieldActionPerformed((JTextField) e.getSource());
 		}
 	}
 
+	@Override
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 
@@ -304,47 +312,57 @@ public class SliderPanel extends JPanel
 		tfMax.setFont(font);
 		tfWidth.setFont(font);
 
-		for (int i = 0; i < tfields.length; ++i)
+		for (int i = 0; i < tfields.length; ++i) {
 			tfields[i].setFont(font);
+		}
 
 		stepPanel.updateFonts();
 		speedPanel.updateFonts();
 
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setMinText(String text) {
 		tfMin.setText(text);
 	}
 
+	@Override
 	public void setMaxText(String text) {
 		tfMax.setText(text);
 	}
 
+	@Override
 	public void setWidthText(String text) {
 		tfWidth.setText(text);
 	}
 
+	@Override
 	public void selectFixed(boolean value) {
 		cbSliderFixed.setSelected(value);
 	}
 
+	@Override
 	public void selectRandom(boolean value) {
 		cbRandom.setSelected(value);
 	}
 
+	@Override
 	public void setRandomVisible(boolean value) {
 		cbRandom.setVisible(value);
 	}
 
+	@Override
 	public void setSliderDirection(int index) {
 		coSliderHorizontal.setSelectedIndex(index);
 	}
 
+	@Override
 	public void setWidthUnitText(String text) {
 		lbWidthUnit.setText(text);
 	}

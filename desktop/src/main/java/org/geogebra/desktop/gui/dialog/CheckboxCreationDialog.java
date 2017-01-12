@@ -103,8 +103,9 @@ public class CheckboxCreationDialog extends JDialog implements
 
 			@Override
 			public void addElement(Object ob) {
-				if (contains(ob))
+				if (contains(ob)) {
 					return;
+				}
 
 				if (ob instanceof GeoElement) {
 					GeoElement geo = (GeoElement) ob;
@@ -124,6 +125,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		}
 	}
 
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		listModel.addElement(geo);
 	}
@@ -178,6 +180,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		app.setComponentOrientation(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent ae) {
 		Object src = ae.getSource();
 
@@ -222,6 +225,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		app.storeUndoInfo();
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		// make sure this dialog is the current selection listener
 		if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER
@@ -230,6 +234,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		}
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent arg0) {
 	}
 

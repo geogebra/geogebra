@@ -55,8 +55,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 
 	public void setFgColor(GColor fgColor) {
-		if (myTable != null)
+		if (myTable != null) {
 			myTable.setFgColor(fgColor);
+		}
 		updateGUI();
 
 	}
@@ -160,8 +161,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				if (!thisButton.isEnabled())
+				if (!thisButton.isEnabled()) {
 					return;
+				}
 				if (popupIsVisible && !myPopup.isVisible()) {
 					popupIsVisible = false;
 					return;
@@ -181,19 +183,21 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 				if (isStandardButton
 						|| e.getX() >= getWidth() - clicDownArrowWidth
 								&& e.getX() <= getWidth()) {
-					if (hasTable)
+					if (hasTable) {
 						myTable.updateFonts();
-					if (isDownwardPopup)
+					}
+					if (isDownwardPopup) {
 						// popup appears below the button
 						myPopup.show(getParent(), locButton.x,
 								locButton.y + getHeight());
-					else
+					} else {
 						// popup appears above the button
 						myPopup.show(getParent(),
 								locButton.x - myPopup.getPreferredSize().width
 										+ thisButton.getWidth(),
 								locButton.y - myPopup.getPreferredSize().height
 										- 2);
+					}
 				}
 
 				popupIsVisible = myPopup.isShowing();
@@ -232,8 +236,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		}
 
 		// create slider
-		if (hasSlider)
+		if (hasSlider) {
 			getMySlider();
+		}
 
 		isIniting = false;
 
@@ -284,8 +289,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 			// mouse is over the popup triangle side of the button
 			if (isStandardButton
 					|| e.getX() >= getWidth() - app.getScaledIconSize()
-							&& e.getX() <= getWidth())
+							&& e.getX() <= getWidth()) {
 				return;
+			}
 		}
 
 		super.processMouseEvent(e);
@@ -301,8 +307,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private void updateGUI() {
 
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		setIcon(getButtonIcon());
 
@@ -329,10 +336,11 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 		// set slider dimensions
 		Dimension d = mySlider.getPreferredSize();
-		if (hasTable)
+		if (hasTable) {
 			d.width = myTable.getPreferredSize().width;
-		else
+		} else {
 			d.width = 110;
+		}
 		mySlider.setPreferredSize(d);
 
 		mySlider.setBackground(myPopup.getBackground());
@@ -354,20 +362,23 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		this.fireActionPerformed(new ActionEvent(this,
 				ActionEvent.ACTION_PERFORMED, getActionCommand()));
 		updateGUI();
-		if (!keepVisible)
+		if (!keepVisible) {
 			myPopup.setVisible(false);
+		}
 	}
 
 	/**
 	 * Change listener for slider. Fires an action event up to the button
 	 * invoker.
 	 */
+	@Override
 	public void stateChanged(ChangeEvent e) {
 
 		// if (mySlider.getValueIsAdjusting()) return;
 
-		if (mySlider != null)
+		if (mySlider != null) {
 			setSliderValue(mySlider.getValue());
+		}
 		// System.out.println(mySlider.getValue());
 		this.fireActionPerformed(new ActionEvent(this,
 				ActionEvent.ACTION_PERFORMED, getActionCommand()));
@@ -389,8 +400,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	public void setSelectedIndex(Integer selectedIndex) {
 
-		if (selectedIndex == null)
+		if (selectedIndex == null) {
 			selectedIndex = -1;
+		}
 
 		myTable.setSelectedIndex(selectedIndex);
 		updateGUI();
@@ -406,14 +418,16 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		mySlider.setValue(value);
 		mySlider.addChangeListener(this);
 
-		if (hasTable)
+		if (hasTable) {
 			myTable.setSliderValue(value);
+		}
 		updateGUI();
 	}
 
 	public JSlider getMySlider() {
-		if (mySlider == null)
+		if (mySlider == null) {
 			initSlider();
+		}
 		return mySlider;
 	}
 
@@ -438,8 +452,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	public ImageIcon getButtonIcon() {
 
 		ImageIcon icon = (ImageIcon) this.getIcon();
-		if (isFixedIcon)
+		if (isFixedIcon) {
 			return icon;
+		}
 
 		// draw the icon for the current table selection
 		if (hasTable) {
@@ -479,12 +494,14 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 			return;
 		}
 
-		if (iconSize == null)
-			if (icon != null)
+		if (iconSize == null) {
+			if (icon != null) {
 				iconSize = new Dimension(icon.getIconWidth(),
 						icon.getIconHeight());
-			else
+			} else {
 				iconSize = new Dimension(1, 1);
+			}
+		}
 
 		if (icon == null) {
 			// icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);

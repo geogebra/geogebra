@@ -21,6 +21,7 @@ public class CASTransferHandler extends TransferHandler {
 	/**
 	 * We only support importing strings.
 	 */
+	@Override
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
 		setSupportedFlavours();
 
@@ -39,6 +40,7 @@ public class CASTransferHandler extends TransferHandler {
 	 * Bundle up the selected items in a single list for export. Each line is
 	 * separated by a newline.
 	 */
+	@Override
 	protected Transferable createTransferable(JComponent c) {
 		return null;
 	}
@@ -46,6 +48,7 @@ public class CASTransferHandler extends TransferHandler {
 	/**
 	 * We support both copy and move actions.
 	 */
+	@Override
 	public int getSourceActions(JComponent c) {
 		return TransferHandler.COPY_OR_MOVE;
 	}
@@ -60,6 +63,7 @@ public class CASTransferHandler extends TransferHandler {
 	/**
 	 * Remove the items moved from the list.
 	 */
+	@Override
 	protected void exportDone(JComponent c, Transferable data, int action) {
 	}
 }

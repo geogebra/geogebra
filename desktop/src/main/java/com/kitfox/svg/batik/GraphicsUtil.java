@@ -40,8 +40,9 @@ public class GraphicsUtil {
 	 */
 	public static ColorModel coerceColorModel(ColorModel cm,
 			boolean newAlphaPreMult) {
-		if (cm.isAlphaPremultiplied() == newAlphaPreMult)
+		if (cm.isAlphaPremultiplied() == newAlphaPreMult) {
 			return cm;
+		}
 
 		// Easiest way to build proper colormodel for new Alpha state...
 		// Eventually this should switch on known ColorModel types and
@@ -67,13 +68,15 @@ public class GraphicsUtil {
 
 		// System.out.println("CoerceData: " + cm.isAlphaPremultiplied() +
 		// " Out: " + newAlphaPreMult);
-		if (cm.hasAlpha() == false)
+		if (cm.hasAlpha() == false) {
 			// Nothing to do no alpha channel
 			return cm;
+		}
 
-		if (cm.isAlphaPremultiplied() == newAlphaPreMult)
+		if (cm.isAlphaPremultiplied() == newAlphaPreMult) {
 			// nothing to do alpha state matches...
 			return cm;
+		}
 
 		// System.out.println("CoerceData: " + wr.getSampleModel());
 
@@ -81,11 +84,11 @@ public class GraphicsUtil {
 		int bands = wr.getNumBands();
 		float norm;
 		if (newAlphaPreMult) {
-			if (is_BYTE_COMP_Data(wr.getSampleModel()))
+			if (is_BYTE_COMP_Data(wr.getSampleModel())) {
 				mult_BYTE_COMP_Data(wr);
-			else if (is_INT_PACK_Data(wr.getSampleModel(), true))
+			} else if (is_INT_PACK_Data(wr.getSampleModel(), true)) {
 				mult_INT_PACK_Data(wr);
-			else {
+			} else {
 				norm = 1f / 255f;
 				int x0, x1, y0, y1, a, b;
 				float alpha;
@@ -93,41 +96,45 @@ public class GraphicsUtil {
 				x1 = x0 + wr.getWidth();
 				y0 = wr.getMinY();
 				y1 = y0 + wr.getHeight();
-				for (int y = y0; y < y1; y++)
+				for (int y = y0; y < y1; y++) {
 					for (int x = x0; x < x1; x++) {
 						pixel = wr.getPixel(x, y, pixel);
 						a = pixel[bands - 1];
 						if ((a >= 0) && (a < 255)) {
 							alpha = a * norm;
-							for (b = 0; b < bands - 1; b++)
+							for (b = 0; b < bands - 1; b++) {
 								pixel[b] = (int) (pixel[b] * alpha + 0.5f);
+							}
 							wr.setPixel(x, y, pixel);
 						}
 					}
+				}
 			}
 		} else {
-			if (is_BYTE_COMP_Data(wr.getSampleModel()))
+			if (is_BYTE_COMP_Data(wr.getSampleModel())) {
 				divide_BYTE_COMP_Data(wr);
-			else if (is_INT_PACK_Data(wr.getSampleModel(), true))
+			} else if (is_INT_PACK_Data(wr.getSampleModel(), true)) {
 				divide_INT_PACK_Data(wr);
-			else {
+			} else {
 				int x0, x1, y0, y1, a, b;
 				float ialpha;
 				x0 = wr.getMinX();
 				x1 = x0 + wr.getWidth();
 				y0 = wr.getMinY();
 				y1 = y0 + wr.getHeight();
-				for (int y = y0; y < y1; y++)
+				for (int y = y0; y < y1; y++) {
 					for (int x = x0; x < x1; x++) {
 						pixel = wr.getPixel(x, y, pixel);
 						a = pixel[bands - 1];
 						if ((a > 0) && (a < 255)) {
 							ialpha = 255 / (float) a;
-							for (b = 0; b < bands - 1; b++)
+							for (b = 0; b < bands - 1; b++) {
 								pixel[b] = (int) (pixel[b] * ialpha + 0.5f);
+							}
 							wr.setPixel(x, y, pixel);
 						}
 					}
+				}
 			}
 		}
 
@@ -137,31 +144,39 @@ public class GraphicsUtil {
 	public static boolean is_INT_PACK_Data(SampleModel sm,
 			boolean requireAlpha) {
 		// Check ColorModel is of type DirectColorModel
-		if (!(sm instanceof SinglePixelPackedSampleModel))
+		if (!(sm instanceof SinglePixelPackedSampleModel)) {
 			return false;
+		}
 
 		// Check transfer type
-		if (sm.getDataType() != DataBuffer.TYPE_INT)
+		if (sm.getDataType() != DataBuffer.TYPE_INT) {
 			return false;
+		}
 
 		SinglePixelPackedSampleModel sppsm;
 		sppsm = (SinglePixelPackedSampleModel) sm;
 
 		int[] masks = sppsm.getBitMasks();
 		if (masks.length == 3) {
-			if (requireAlpha)
+			if (requireAlpha) {
 				return false;
-		} else if (masks.length != 4)
+			}
+		} else if (masks.length != 4) {
 			return false;
+		}
 
-		if (masks[0] != 0x00ff0000)
+		if (masks[0] != 0x00ff0000) {
 			return false;
-		if (masks[1] != 0x0000ff00)
+		}
+		if (masks[1] != 0x0000ff00) {
 			return false;
-		if (masks[2] != 0x000000ff)
+		}
+		if (masks[2] != 0x000000ff) {
 			return false;
-		if ((masks.length == 4) && (masks[3] != 0xff000000))
+		}
+		if ((masks.length == 4) && (masks[3] != 0xff000000)) {
 			return false;
+		}
 
 		return true;
 	}
@@ -239,12 +254,14 @@ public class GraphicsUtil {
 
 	public static boolean is_BYTE_COMP_Data(SampleModel sm) {
 		// Check ColorModel is of type DirectColorModel
-		if (!(sm instanceof ComponentSampleModel))
+		if (!(sm instanceof ComponentSampleModel)) {
 			return false;
+		}
 
 		// Check transfer type
-		if (sm.getDataType() != DataBuffer.TYPE_BYTE)
+		if (sm.getDataType() != DataBuffer.TYPE_BYTE) {
 			return false;
+		}
 
 		return true;
 	}
@@ -278,11 +295,12 @@ public class GraphicsUtil {
 			final int end = sp + width * pixStride;
 			while (sp < end) {
 				a = pixels[sp + aOff] & 0xFF;
-				if (a != 0xFF)
+				if (a != 0xFF) {
 					for (b = 0; b < bands; b++) {
 						i = sp + bandOff[b];
 						pixels[i] = (byte) (((pixels[i] & 0xFF) * a) >> 8);
 					}
+				}
 				sp += pixStride;
 			}
 		}
@@ -317,8 +335,9 @@ public class GraphicsUtil {
 			while (sp < end) {
 				a = pixels[sp + aOff] & 0xFF;
 				if (a == 0) {
-					for (b = 0; b < bands; b++)
+					for (b = 0; b < bands; b++) {
 						pixels[sp + bandOff[b]] = (byte) 0xFF;
+					}
 				} else if (a < 255) {
 					int aFP = (0x00FF0000 / a);
 					for (b = 0; b < bands; b++) {

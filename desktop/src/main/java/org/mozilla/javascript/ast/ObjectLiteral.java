@@ -76,10 +76,12 @@ public class ObjectLiteral extends AstNode implements DestructuringForm {
 		if (elements == null) {
 			this.elements = null;
 		} else {
-			if (this.elements != null)
+			if (this.elements != null) {
 				this.elements.clear();
-			for (ObjectProperty o : elements)
+			}
+			for (ObjectProperty o : elements) {
 				addElement(o);
+			}
 		}
 	}
 
@@ -105,6 +107,7 @@ public class ObjectLiteral extends AstNode implements DestructuringForm {
 	 * context such as {@code for ([a, b] in ...)} where it's the target of a
 	 * destructuring assignment.
 	 */
+	@Override
 	public void setIsDestructuring(boolean destructuring) {
 		isDestructuring = destructuring;
 	}
@@ -114,6 +117,7 @@ public class ObjectLiteral extends AstNode implements DestructuringForm {
 	 * parameter, the target of a variable initializer, the iterator of a
 	 * for..in loop, etc.
 	 */
+	@Override
 	public boolean isDestructuring() {
 		return isDestructuring;
 	}

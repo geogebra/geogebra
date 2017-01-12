@@ -68,6 +68,7 @@ public class TurtleDriverPanel extends JPanel
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -93,6 +94,7 @@ public class TurtleDriverPanel extends JPanel
 
 	}
 
+	@Override
 	public void setLabels() {
 		btnFD.setText("FD");
 		btnBK.setText("BK");

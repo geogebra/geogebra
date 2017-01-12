@@ -30,6 +30,7 @@ public class DrawEllipse extends EMFPlusTag {
 		this.h = h;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		DrawEllipse tag = new DrawEllipse();
@@ -48,6 +49,7 @@ public class DrawEllipse extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		// No Provision for 16 bit integer values.
@@ -57,6 +59,7 @@ public class DrawEllipse extends EMFPlusTag {
 		emf.writeFLOAT(h);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n  rect: (" + x + ", " + y + ", " + w + ", "
 				+ h + ")";

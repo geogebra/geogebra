@@ -53,8 +53,9 @@ public class CompilerEnvirons {
 	}
 
 	public void setErrorReporter(ErrorReporter errorReporter) {
-		if (errorReporter == null)
+		if (errorReporter == null) {
 			throw new IllegalArgumentException();
+		}
 		this.errorReporter = errorReporter;
 	}
 

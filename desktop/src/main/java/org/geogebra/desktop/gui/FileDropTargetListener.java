@@ -50,24 +50,29 @@ public class FileDropTargetListener implements DropTargetListener {
 		this.app = app;
 	}
 
+	@Override
 	public void dragEnter(DropTargetDragEvent event) {
 	}
 
+	@Override
 	public void dragExit(DropTargetEvent event) {
 	}
 
+	@Override
 	public void dragOver(DropTargetDragEvent event) {
 		// provide visual feedback
 		event.acceptDrag(DnDConstants.ACTION_COPY);
 	}
 
+	@Override
 	public void dropActionChanged(DropTargetDragEvent event) {
 	}
 
+	@Override
 	public void drop(DropTargetDropEvent event) {
-		if ((event.getSourceActions() & DnDConstants.ACTION_COPY) != 0)
+		if ((event.getSourceActions() & DnDConstants.ACTION_COPY) != 0) {
 			event.acceptDrop(DnDConstants.ACTION_COPY);
-		else {
+		} else {
 			event.rejectDrop();
 			return;
 		}
@@ -110,8 +115,9 @@ public class FileDropTargetListener implements DropTargetListener {
 
 		else if (allGGT || app.isSaved() || app.saveCurrentFile()) {
 			File[] files = new File[al.size()];
-			for (int i = 0; i < al.size(); i++)
+			for (int i = 0; i < al.size(); i++) {
 				files[i] = al.get(i);
+			}
 			((GuiManagerD) app.getGuiManager()).doOpenFiles(files, true);
 			return true;
 		}
@@ -182,8 +188,9 @@ public class FileDropTargetListener implements DropTargetListener {
 			} else if (transferable.isDataFlavorSupported(urlFlavor)) {
 				Log.debug("url flavor not supported");
 				// URL url = (URL) trans.getTransferData (urlFlavor);
-			} else
+			} else {
 				Log.debug("flavor not supported: " + transferable);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

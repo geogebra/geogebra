@@ -89,29 +89,36 @@ public abstract class VectorGraphics extends Graphics2D
 	// Methods defined in java.awt.Graphics (alphabetical)
 	// //
 
+	@Override
 	public abstract void clearRect(int x, int y, int width, int height);
 
+	@Override
 	public abstract void clipRect(int x, int y, int width, int height);
 
+	@Override
 	public abstract void copyArea(int x, int y, int width, int height, int dx,
 			int dy);
 
+	@Override
 	public abstract Graphics create();
 
 	// NOTE: implemented in Graphics, must be implemented here otherwise the
 	// compiler
 	// cannot choose between converting ints to doubles or calling the
 	// superclass.
+	@Override
 	public Graphics create(int x, int y, int width, int height) {
 		return super.create(x, y, width, height);
 	}
 
+	@Override
 	public abstract void dispose();
 
 	// NOTE: implemented in Graphics
 	// public abstract void draw3DRect(int x, int y,
 	// int width, int height,
 	// boolean raised);
+	@Override
 	public abstract void drawArc(int x, int y, int width, int height,
 			int startAngle, int arcAngle);
 
@@ -123,127 +130,169 @@ public abstract class VectorGraphics extends Graphics2D
 	// public abstract void drawChars(char[] data, int offset,
 	// int length,
 	// int x, int y);
+	@Override
 	public abstract boolean drawImage(Image image, int x, int y,
 			ImageObserver observer);
 
+	@Override
 	public abstract boolean drawImage(Image image, int x, int y, int width,
 			int height, ImageObserver observer);
 
+	@Override
 	public abstract boolean drawImage(Image image, int x, int y, Color bgColor,
 			ImageObserver observer);
 
+	@Override
 	public abstract boolean drawImage(Image image, int x, int y, int width,
 			int height, Color bgColor, ImageObserver observer);
 
+	@Override
 	public abstract boolean drawImage(Image image, int dx1, int dy1, int dx2,
 			int dy2, int sx1, int sy1, int sx2, int sy2,
 			ImageObserver observer);
 
+	@Override
 	public abstract boolean drawImage(Image image, int dx1, int dy1, int dx2,
 			int dy2, int sx1, int sy1, int sx2, int sy2, Color bgColor,
 			ImageObserver observer);
 
+	@Override
 	public abstract void drawLine(int x1, int y1, int x2, int y2);
 
+	@Override
 	public abstract void drawOval(int x, int y, int width, int height);
 
+	@Override
 	public abstract void drawPolygon(int[] xPoints, int[] yPoints, int nPoints);
 
 	// NOTE implemented in Graphics
 	// public abstract void drawPolygon(Polygon p);
+	@Override
 	public abstract void drawPolyline(int[] xPoints, int[] yPoints,
 			int nPoints);
 
+	@Override
 	public abstract void drawRect(int x, int y, int width, int height);
 
+	@Override
 	public abstract void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
+	@Override
 	public abstract void drawString(AttributedCharacterIterator iterator, int x,
 			int y);
 
+	@Override
 	public abstract void drawString(String str, int x, int y);
 
 	// NOTE: implemented in Graphics
 	// public abstract void fill3DRect(int x, int y,
 	// int width, int height,
 	// boolean raised);
+	@Override
 	public abstract void fillArc(int x, int y, int width, int height,
 			int startAngle, int arcAngle);
 
+	@Override
 	public abstract void fillOval(int x, int y, int width, int height);
 
+	@Override
 	public abstract void fillPolygon(int[] xPoints, int[] yPoints, int nPoints);
 
 	// NOTE: implemented in Graphics
 	// public abstract void fillPolygon(Polygon p);
+	@Override
 	public abstract void fillRect(int x, int y, int width, int height);
 
+	@Override
 	public abstract void fillRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);
 
 	// NOTE: implemented in Graphics
 	// public abstract void finalize();
+	@Override
 	public abstract Shape getClip();
 
+	@Override
 	public abstract Rectangle getClipBounds();
 
+	@Override
 	public abstract Rectangle getClipBounds(Rectangle r);
 
 	// NOTE: implemented in Graphics
 	// public abstract Rectangle getClipRect();
+	@Override
 	public abstract Color getColor();
 
+	@Override
 	public abstract Font getFont();
 
 	// NOTE: implemented in Graphics
 	// public abstract FontMetrics getFontMetrics();
+	@Override
 	public abstract FontMetrics getFontMetrics(Font font);
 
 	// NOTE: implemented in Graphics
 	// public abstract boolean hitClip(int x, int y, int width, int height);
+	@Override
 	public abstract void setClip(int x, int y, int width, int height);
 
+	@Override
 	public abstract void setClip(Shape clip);
 
+	@Override
 	public abstract void setColor(Color c);
 
+	@Override
 	public abstract void setFont(Font font);
 
+	@Override
 	public abstract void setPaintMode();
 
+	@Override
 	public abstract void setXORMode(Color c1);
 
+	@Override
 	public abstract String toString();
 
+	@Override
 	public abstract void translate(int x, int y);
 
 	// //
 	// Methods from java.awt.Graphics2D (alphabetical)
 	// //
+	@Override
 	public abstract void addRenderingHints(Map hints);
 
+	@Override
 	public abstract void clip(Shape s);
 
+	@Override
 	public abstract void draw(Shape s);
 
 	// NOTE: overridden in Graphics2D
 	// public abstract void draw3DRect(int x, int y, int width, int height,
 	// boolean raised);
+	@Override
 	public abstract void drawGlyphVector(GlyphVector g, float x, float y);
 
+	@Override
 	public abstract void drawImage(BufferedImage img, BufferedImageOp op, int x,
 			int y);
 
+	@Override
 	public abstract boolean drawImage(Image img, AffineTransform xform,
 			ImageObserver obs);
 
+	@Override
 	public abstract void drawRenderableImage(RenderableImage img,
 			AffineTransform xform);
 
+	@Override
 	public abstract void drawRenderedImage(RenderedImage img,
 			AffineTransform xform);
 
+	@Override
 	public abstract void drawString(AttributedCharacterIterator iterator,
 			float x, float y);
 
@@ -252,59 +301,84 @@ public abstract class VectorGraphics extends Graphics2D
 	// x, int y);
 	// NOTE: redefined in Graphics2D
 	// public abstract void drawString(String str, int x, int y);
+	@Override
 	public abstract void drawString(String str, float x, float y);
 
+	@Override
 	public abstract void fill(Shape s);
 
 	// NOTE: overridden in Graphics2D
 	// public abstract void fill3DRect(int x, int y,
 	// int width, int height,
 	// boolean raised);
+	@Override
 	public abstract Color getBackground();
 
+	@Override
 	public abstract Composite getComposite();
 
+	@Override
 	public abstract GraphicsConfiguration getDeviceConfiguration();
 
+	@Override
 	public abstract FontRenderContext getFontRenderContext();
 
+	@Override
 	public abstract Paint getPaint();
 
+	@Override
 	public abstract Object getRenderingHint(RenderingHints.Key inteKey);
 
+	@Override
 	public abstract RenderingHints getRenderingHints();
 
+	@Override
 	public abstract Stroke getStroke();
 
+	@Override
 	public abstract AffineTransform getTransform();
 
+	@Override
 	public abstract boolean hit(Rectangle rect, Shape s, boolean onStroke);
 
+	@Override
 	public abstract void rotate(double theta);
 
+	@Override
 	public abstract void rotate(double theta, double x, double y);
 
+	@Override
 	public abstract void scale(double sx, double sy);
 
+	@Override
 	public abstract void setBackground(Color color);
 
+	@Override
 	public abstract void setComposite(Composite comp);
 
+	@Override
 	public abstract void setPaint(Paint paint);
 
+	@Override
 	public abstract void setRenderingHint(RenderingHints.Key hintKey,
 			Object hintValue);
 
+	@Override
 	public abstract void setRenderingHints(Map hints);
 
+	@Override
 	public abstract void setStroke(Stroke s);
 
+	@Override
 	public abstract void setTransform(AffineTransform xform);
 
+	@Override
 	public abstract void shear(double shx, double shy);
 
+	@Override
 	public abstract void transform(AffineTransform xform);
 
+	@Override
 	public abstract void translate(double tx, double ty);
 
 	// NOTE: redefines in Graphics2D

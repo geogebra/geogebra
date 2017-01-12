@@ -229,8 +229,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void updatePropertiesView() {
 
-		if (!isShowing())
+		if (!isShowing()) {
 			return;
+		}
 
 		setOptionPanelRegardingFocus(false);
 	}
@@ -248,8 +249,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 */
 	public void applyModifications() {
 
-		if (selectedOptionPanel != null)
+		if (selectedOptionPanel != null) {
 			((OptionPanelD) selectedOptionPanel).applyModifications();
+		}
 
 	}
 
@@ -261,8 +263,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 */
 	public void setSelectedOptionPanelVisible(boolean isVisible) {
 
-		if (selectedOptionPanel != null)
+		if (selectedOptionPanel != null) {
 			((OptionPanelD) selectedOptionPanel).setSelected(isVisible);
+		}
 
 	}
 
@@ -486,24 +489,33 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	/**
 	 * Update the labels of the components (e.g. if the language changed).
 	 */
+	@Override
 	public void setLabels() {
 
-		if (defaultsPanel != null)
+		if (defaultsPanel != null) {
 			defaultsPanel.setLabels();
-		if (euclidianPanel != null)
+		}
+		if (euclidianPanel != null) {
 			euclidianPanel.setLabels();
-		if (euclidianPanel2 != null)
+		}
+		if (euclidianPanel2 != null) {
 			euclidianPanel2.setLabels();
-		if (spreadsheetPanel != null)
+		}
+		if (spreadsheetPanel != null) {
 			spreadsheetPanel.setLabels();
-		if (casPanel != null)
+		}
+		if (casPanel != null) {
 			casPanel.setLabels();
-		if (advancedPanel != null)
+		}
+		if (advancedPanel != null) {
 			advancedPanel.setLabels();
-		if (getObjectPanel() != null)
+		}
+		if (getObjectPanel() != null) {
 			((SetLabels) getObjectPanel()).setLabels();
-		if (layoutPanel != null)
+		}
+		if (layoutPanel != null) {
 			layoutPanel.setLabels();
+		}
 
 		updateStyleBar();
 		styleBar.setLabels();
@@ -561,15 +573,17 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public void remove(GeoElement geo) {
 		// ((OptionsObjectD) objectPanel).updateIfInSelection(geo);
 		((OptionsObjectD) getObjectPanel()).getTree().remove(geo);
-		if (app.getKernel().isEmpty())
+		if (app.getKernel().isEmpty()) {
 			styleBar.setObjectButtonEnable(false);
+		}
 
 	}
 
 	@Override
 	public void rename(GeoElement geo) {
-		if (!isShowing())
+		if (!isShowing()) {
 			return;
+		}
 
 		((OptionsObjectD) getObjectPanel()).rename(geo);
 		((OptionsObjectD) getObjectPanel()).getTree().rename(geo);
@@ -580,8 +594,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void update(GeoElement geo) {
 
-		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell()))
+		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell())) {
 			return;
+		}
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
@@ -593,8 +608,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 
-		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell()))
+		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell())) {
 			return;
+		}
 
 		((OptionsObjectD) getObjectPanel()).updateVisualStyle(geo);
 		((OptionsObjectD) getObjectPanel()).getTree().updateVisualStyle(geo, prop);
@@ -604,8 +620,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 
-		if (!isShowing())
+		if (!isShowing()) {
 			return;
+		}
 
 		((OptionsObjectD) getObjectPanel()).updateIfInSelection(geo);
 		((OptionsObjectD) getObjectPanel()).getTree().updateAuxiliaryObject(geo);
@@ -615,8 +632,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void repaintView() {
 
-		if (!isShowing())
+		if (!isShowing()) {
 			return;
+		}
 
 		if (getObjectPanel() != null) {
 			((OptionsObjectD) getObjectPanel()).getTree().repaint();
@@ -642,11 +660,13 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public void setMode(int mode, ModeSetter m) {
 
 		// on init, mode=-1
-		if (mode < 0)
+		if (mode < 0) {
 			return;
+		}
 
-		if (mode == this.mode)
+		if (mode == this.mode) {
 			return;
+		}
 
 		// close undocked properties view when setting mode
 		// if propreties view covers a part of the main window
@@ -667,8 +687,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 					|| (panelRectangle.y
 							+ panelRectangle.height < mainWindowRectangle.y);
 
-			if (!outside)
+			if (!outside) {
 				manager.closePanel(panel, false);
+			}
 		}
 
 		this.mode = mode;
@@ -687,8 +708,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void updateSelection() {
 
-		if (!isShowing())
+		if (!isShowing()) {
 			return;
+		}
 
 		ArrayList<GeoElement> geos = app.getSelectionManager()
 				.getSelectedGeos();
@@ -702,8 +724,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
 		if (geos.size() > 0) {
-			if (!stayInCurrentPanel())
+			if (!stayInCurrentPanel()) {
 				setObjectPanel(geos);
+			}
 		} else {
 			setOptionPanelRegardingFocus(true);
 		}
@@ -720,14 +743,17 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			if (geo == null) {
 				// if no first geo, close properties view if object panel
 				// visible
-				if (selectedOptionType == OptionType.OBJECTS)
+				if (selectedOptionType == OptionType.OBJECTS) {
 					((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 							.closePanel(getViewID(), false);
+				}
 
-			} else if (selectedOptionType != OptionType.OBJECTS)
+			} else if (selectedOptionType != OptionType.OBJECTS) {
 				setOptionPanel(OptionType.OBJECTS);
-		} else if (selectedOptionType != OptionType.OBJECTS)
+			}
+		} else if (selectedOptionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
+		}
 
 		// always update selection for object panel
 		updateObjectPanelSelection(geos);
@@ -848,21 +874,37 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		mainPanel.setFont(font);
 
 		if (defaultsPanel != null)
+		 {
 			defaultsPanel.updateFont(); // tree + button
+		}
 		if (euclidianPanel != null)
+		 {
 			euclidianPanel.updateFont(); //
+		}
 		if (euclidianPanel2 != null)
+		 {
 			euclidianPanel2.updateFont(); //
+		}
 		if (spreadsheetPanel != null)
+		 {
 			spreadsheetPanel.updateFont(); //
+		}
 		if (casPanel != null)
+		 {
 			casPanel.updateFont(); //
+		}
 		if (advancedPanel != null)
+		 {
 			advancedPanel.updateFont(); //
+		}
 		if (getObjectPanel() != null)
+		 {
 			((OptionsObjectD) getObjectPanel()).updateFont(); // tree
+		}
 		if (layoutPanel != null)
+		 {
 			layoutPanel.updateFont(); //
+		}
 
 		if (styleBar != null) {
 			styleBar.reinit();
@@ -880,8 +922,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		PropertiesDockPanel dockPanel = ((GuiManagerD) app.getGuiManager())
 				.getPropertiesDockPanel();
-		if (dockPanel == null)
+		if (dockPanel == null) {
 			return false;
+		}
 
 		return dockPanel.isVisible();
 	}

@@ -97,10 +97,12 @@ public class SwitchStatement extends Jump {
 		if (cases == null) {
 			this.cases = null;
 		} else {
-			if (this.cases != null)
+			if (this.cases != null) {
 				this.cases.clear();
-			for (SwitchCase sc : cases)
+			}
+			for (SwitchCase sc : cases) {
 				addCase(sc);
+			}
 		}
 	}
 

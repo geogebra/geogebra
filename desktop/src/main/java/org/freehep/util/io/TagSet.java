@@ -61,8 +61,9 @@ public class TagSet {
 	 */
 	public Tag get(int tagID) {
 		Tag tag = (Tag) tags.get(Integer.valueOf(tagID));
-		if (tag == null)
+		if (tag == null) {
 			tag = defaultTag;
+		}
 		return tag;
 	}
 

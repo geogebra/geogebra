@@ -32,14 +32,17 @@ public class MathTextField extends MyTextFieldD implements KeyListener {
 		addKeyListener(this);
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		ggbKeys.keyPressed(e);
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		ggbKeys.keyReleased(e);
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		ggbKeys.keyTyped(e);
 	}

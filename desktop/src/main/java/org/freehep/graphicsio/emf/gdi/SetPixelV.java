@@ -31,6 +31,7 @@ public class SetPixelV extends EMFTag {
 		this.color = color;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -38,11 +39,13 @@ public class SetPixelV extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writePOINTL(point);
 		emf.writeCOLORREF(color);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  point: " + point + "\n"
 				+ "  color: " + color;

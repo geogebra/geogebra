@@ -78,8 +78,9 @@ public class BitInputStream extends DecompressableInputStream {
 	protected void fetchByte() throws IOException {
 
 		bits = read();
-		if (bits < 0)
+		if (bits < 0) {
 			throw new EOFException();
+		}
 		validBits = MASK_SIZE;
 	}
 
@@ -100,8 +101,9 @@ public class BitInputStream extends DecompressableInputStream {
 	 */
 	public boolean readBitFlag() throws IOException {
 
-		if (validBits == 0)
+		if (validBits == 0) {
 			fetchByte();
+		}
 		return ((bits & BIT_MASK[--validBits]) != 0);
 	}
 
@@ -116,8 +118,9 @@ public class BitInputStream extends DecompressableInputStream {
 	 */
 	public long readSBits(int n) throws IOException {
 
-		if (n == 0)
+		if (n == 0) {
 			return 0;
+		}
 		int value = (readBitFlag()) ? ONES : ZERO;
 		value <<= (--n);
 		return (value | readUBits(n));
@@ -134,8 +137,9 @@ public class BitInputStream extends DecompressableInputStream {
 	 */
 	public float readFBits(int n) throws IOException {
 
-		if (n == 0)
+		if (n == 0) {
 			return 0.0f;
+		}
 		return ((float) readSBits(n)) / 0x1000;
 	}
 
@@ -155,8 +159,9 @@ public class BitInputStream extends DecompressableInputStream {
 
 			// Take the needed bits or the number which are valid
 			// whichever is less.
-			if (validBits == 0)
+			if (validBits == 0) {
 				fetchByte();
+			}
 			int nbits = (n > validBits) ? validBits : n;
 
 			// Take the bits and update the counters.

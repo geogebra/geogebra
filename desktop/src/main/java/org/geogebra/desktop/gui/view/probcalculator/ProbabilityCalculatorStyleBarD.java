@@ -92,6 +92,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 				GuiResourcesD.CUMULATIVE_DISTRIBUTION), iconHeight);
 		btnCumulative.setSelected(probCalc.isCumulative());
 		btnCumulative.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				((ProbabilityCalculatorViewD) probCalc)
 						.setCumulative(!probCalc.isCumulative());
@@ -122,6 +123,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 				((AppD) app).getScaledIcon(GuiResourcesD.GRID), iconHeight);
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
 		btnGrid.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				PlotSettings ps = probCalc.getPlotSettings();
 				ps.showGrid = !ps.showGrid;
@@ -238,6 +240,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		roundingPopup = createRoundingPopup();
 
 		btnRounding.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// popup appears below the button
 				roundingPopup.show(wrappedToolbar.getParent(),
@@ -259,18 +262,21 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		int printFigures = probCalc.getPrintFigures();
 		int printDecimals = probCalc.getPrintDecimals();
 
-		if (menu == null)
+		if (menu == null) {
 			return;
+		}
 		int pos = -1;
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < OptionsMenu.figuresLookupLength())
+					&& printFigures < OptionsMenu.figuresLookupLength()) {
 				pos = OptionsMenu.figuresLookup(printFigures);
+			}
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < OptionsMenu.decimalsLookupLength())
+					&& printDecimals < OptionsMenu.decimalsLookupLength()) {
 				pos = OptionsMenu.decimalsLookup(printDecimals);
+			}
 		}
 
 		try {
@@ -314,8 +320,9 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 				String text = app.getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(((AppD) app).getFontCanDisplayAwt(text));
-				if (i == selectedPos)
+				if (i == selectedPos) {
 					mi.setSelected(true);
+				}
 				mi.setActionCommand(actionCommands[i]);
 				mi.addActionListener(al);
 				bg.add(mi);
@@ -324,6 +331,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
@@ -357,18 +365,21 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		}
 
 		else if (e.getSource() == btnLineGraph) {
-			if (btnLineGraph.isSelected())
+			if (btnLineGraph.isSelected()) {
 				probCalc.setGraphType(ProbabilityCalculatorViewD.GRAPH_LINE);
+			}
 		}
 
 		else if (e.getSource() == btnBarGraph) {
-			if (btnBarGraph.isSelected())
+			if (btnBarGraph.isSelected()) {
 				probCalc.setGraphType(ProbabilityCalculatorViewD.GRAPH_BAR);
+			}
 		}
 
 		else if (e.getSource() == btnStepGraph) {
-			if (btnStepGraph.isSelected())
+			if (btnStepGraph.isSelected()) {
 				probCalc.setGraphType(ProbabilityCalculatorViewD.GRAPH_STEP);
+			}
 		}
 
 		else if (e.getSource() == btnNormalOverlay) {

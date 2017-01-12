@@ -19,10 +19,12 @@ public class PDFFontEmbedderType3 extends PDFFontEmbedder {
 		super(context, pdf, reference, tracker);
 	}
 
+	@Override
 	protected String getSubtype() {
 		return "Type3";
 	}
 
+	@Override
 	protected void addAdditionalEntries(PDFDictionary fontDict)
 			throws IOException {
 		Rectangle2D boundingBox = getFontBBox();
@@ -42,6 +44,7 @@ public class PDFFontEmbedderType3 extends PDFFontEmbedder {
 		fontDict.close(resources);
 	}
 
+	@Override
 	protected void addAdditionalInitDicts() throws IOException {
 		// CharProcs
 		PDFDictionary charProcs = pdf
@@ -61,6 +64,7 @@ public class PDFFontEmbedderType3 extends PDFFontEmbedder {
 		pdf.close(charProcs);
 	}
 
+	@Override
 	protected void writeGlyph(String characterName, Shape glyph,
 			GlyphMetrics glyphMetrics) throws IOException {
 

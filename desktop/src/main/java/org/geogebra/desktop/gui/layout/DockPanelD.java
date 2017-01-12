@@ -519,8 +519,9 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		JPanel metaPanel = new JPanel(new BorderLayout());
 		metaPanel.add(titleBar, BorderLayout.SOUTH);
-		if (hasToolbar())
+		if (hasToolbar()) {
 			metaPanel.add(toolbarPanel, BorderLayout.CENTER);
+		}
 
 		// make titlebar visible if necessary
 		updatePanel();
@@ -664,10 +665,12 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		Rectangle windowBounds = getFrameBounds();
 
 		// resize window if necessary
-		if (windowBounds.width > screenSize.width)
+		if (windowBounds.width > screenSize.width) {
 			windowBounds.width = screenSize.width - 50;
-		if (windowBounds.height > screenSize.height)
+		}
+		if (windowBounds.height > screenSize.height) {
 			windowBounds.height = windowBounds.height - 50;
+		}
 
 		// center window if necessary
 		if (isNewDialog) {
@@ -962,6 +965,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * Close this panel permanently.
 	 */
+	@Override
 	public void closePanel() {
 		closePanel(true);
 	}
@@ -1050,8 +1054,9 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 */
 	public void updateStyleBarVisibility() {
 
-		if (!isVisible())
+		if (!isVisible()) {
 			return;
+		}
 
 		styleBarPanel.setVisible(isStyleBarVisible());
 		updateToggleStyleBarButtons();
@@ -1067,6 +1072,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * One of the buttons was pressed.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == closeButton) {
 			closePanel(false);
@@ -1088,6 +1094,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * Hide the view if the window was closed or if the close button was
 	 * pressed.
 	 */
+	@Override
 	public void windowClosing(WindowEvent e) {
 		closePanel(false);
 	}
@@ -1096,6 +1103,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * Start dragging if the mouse was pressed while it was on the title panel.
 	 * Or toggle the stylebar on double-click.
 	 */
+	@Override
 	public void mousePressed(MouseEvent arg0) {
 
 		// double-click opens the stylebar and shows the button panel
@@ -1116,13 +1124,15 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * @return The parent DockSplitPane or null.
 	 */
 	public DockSplitPane getParentSplitPane() {
-		if (isOpenInFrame())
+		if (isOpenInFrame()) {
 			return null;
+		}
 
 		Container parent = getParent();
 
-		if (parent == null || !(parent instanceof DockSplitPane))
+		if (parent == null || !(parent instanceof DockSplitPane)) {
 			return null;
+		}
 		return (DockSplitPane) parent;
 	}
 
@@ -1142,17 +1152,19 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			parentDSP = (DockSplitPane) parent;
 
 			if (parentDSP.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-				if (current == parentDSP.getLeftComponent()) // left
+				if (current == parentDSP.getLeftComponent()) {
 					defType = 3;
-				else
+				} else {
 					// right
 					defType = 1;
+				}
 			} else {
-				if (current == parentDSP.getLeftComponent()) // top
+				if (current == parentDSP.getLeftComponent()) {
 					defType = 0;
-				else
+				} else {
 					// bottom
 					defType = 2;
+				}
 			}
 
 			if (def.length() == 0) {
@@ -1197,6 +1209,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * @return Whether this view should open in frame.
 	 */
+	@Override
 	public boolean isOpenInFrame() {
 		return openInFrame;
 	}
@@ -1337,8 +1350,9 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	protected void setFocus(boolean hasFocus) {
 
 		// don't change anything if it's not necessary
-		if (this.hasFocus == hasFocus)
+		if (this.hasFocus == hasFocus) {
 			return;
+		}
 
 		this.hasFocus = hasFocus;
 
@@ -1403,10 +1417,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 */
 	protected void setTitleLabelFocus() {
 		if (dockManager.hasFullFocusSystem()) {
-			if (titleIsBold())
+			if (titleIsBold()) {
 				titleLabel.setFont(app.getBoldFont());
-			else
+			} else {
 				titleLabel.setFont(app.getPlainFont());
+			}
 		}
 	}
 
@@ -1421,6 +1436,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * @return An unique ID for this DockPanel.
 	 */
+	@Override
 	public int getViewId() {
 		return id;
 	}
@@ -1480,6 +1496,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * @return The definition string associated with this toolbar.
 	 */
+	@Override
 	public String getToolbarString() {
 		if (toolbarString == null) {
 			Log.warn("Toolbar not initialized");
@@ -1506,6 +1523,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * @return The default toolbar string of this panel (or null).
 	 */
+	@Override
 	public String getDefaultToolbarString() {
 		return defaultToolbarString;
 	}
@@ -1534,43 +1552,55 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * @author Florian Sonner
 	 */
 	public static class MenuOrderComparator implements Comparator<DockPanelD> {
+		@Override
 		public int compare(DockPanelD a, DockPanelD b) {
 			return a.getMenuOrder() - b.getMenuOrder();
 		}
 	}
 
+	@Override
 	public final void windowClosed(WindowEvent e) {
 	}
 
+	@Override
 	public final void windowActivated(WindowEvent e) {
 	}
 
+	@Override
 	public final void windowDeactivated(WindowEvent e) {
 	}
 
+	@Override
 	public final void windowDeiconified(WindowEvent e) {
 	}
 
+	@Override
 	public final void windowIconified(WindowEvent e) {
 	}
 
+	@Override
 	public final void windowOpened(WindowEvent e) {
 	}
 
+	@Override
 	public final void mouseClicked(MouseEvent e) {
 	}
 
+	@Override
 	public final void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public final void mouseExited(MouseEvent e) {
 	}
 
+	@Override
 	public final void mouseReleased(MouseEvent e) {
 	}
 
 	public class MyButtonHider extends MouseAdapter {
 
+		@Override
 		public void mouseEntered(MouseEvent e) {
 			// System.out.println("entered, not jpanel");
 			if (e.getSource() != titlePanel) {
@@ -1584,6 +1614,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			setToolTipText("");
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e) {
 			// System.out.println("exited:");
 			if (!titlePanel.getVisibleRect().contains(e.getPoint())) {
@@ -1605,30 +1636,36 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 */
 	public void toggleMaximize() {
 
-		if (isMaximized())
+		if (isMaximized()) {
 			dockManager.undoMaximize(true);
-		else
+		} else {
 			dockManager.maximize(this);
+		}
 
 		updatePanel();
 	}
 
+	@Override
 	public String toString(String prefix) {
 		return "\n" + prefix + this.toString();
 	}
 
+	@Override
 	public boolean updateResizeWeight() {
 		return false;
 	}
 
+	@Override
 	public void saveDividerLocation() {
 		// no divider here
 	}
 
+	@Override
 	public void updateDividerLocation(int size, int orientation1) {
 		// no divider here
 	}
 
+	@Override
 	public void setDockPanelsVisible(boolean visible) {
 		setVisible(visible);
 	}
@@ -1637,6 +1674,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		return false;
 	}
 
+	@Override
 	public void deferredOnResize() {
 		// used in Web only
 	}
@@ -1690,6 +1728,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		updateToggleStyleBarButtons();
 	}
 
+	@Override
 	public void updateNavigationBar() {
 		// not needed in desktop
 	}

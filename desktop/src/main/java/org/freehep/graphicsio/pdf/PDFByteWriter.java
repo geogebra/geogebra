@@ -30,6 +30,7 @@ public class PDFByteWriter extends CountedByteOutputStream
 		write(s.getBytes("ISO-8859-1"));
 	}
 
+	@Override
 	public void close() throws IOException {
 		out.close();
 		super.close();

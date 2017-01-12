@@ -104,8 +104,9 @@ public class ManagerGLList extends ManagerD {
 		// Application.debug("ret = "+ret);
 
 		// if ret == 0, there's no list
-		if (ret == 0)
+		if (ret == 0) {
 			return 0;
+		}
 
 		newList(ret);
 

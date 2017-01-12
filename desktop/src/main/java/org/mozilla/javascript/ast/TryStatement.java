@@ -85,8 +85,9 @@ public class TryStatement extends AstNode {
 		if (catchClauses == null) {
 			this.catchClauses = null;
 		} else {
-			if (this.catchClauses != null)
+			if (this.catchClauses != null) {
 				this.catchClauses.clear();
+			}
 			for (CatchClause cc : catchClauses) {
 				addCatchClause(cc);
 			}
@@ -122,8 +123,9 @@ public class TryStatement extends AstNode {
 	 */
 	public void setFinallyBlock(AstNode finallyBlock) {
 		this.finallyBlock = finallyBlock;
-		if (finallyBlock != null)
+		if (finallyBlock != null) {
 			finallyBlock.setParent(this);
+		}
 	}
 
 	/**

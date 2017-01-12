@@ -21,7 +21,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -125,6 +124,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 				app.getMenu("NavigationBar")) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				toggleShowConstructionProtocolNavigation();
 
@@ -205,6 +205,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		wrappedPopup.add(cbShowGrid);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 
@@ -236,6 +237,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		int perc;
 
 		ActionListener al = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					zoom(Double.parseDouble(e.getActionCommand()));
@@ -274,6 +276,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 	private void addAxesRatioItems(JMenu menu) {
 		ActionListener al = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					zoomYaxis(Double.parseDouble(e.getActionCommand()));
@@ -283,7 +286,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		};
 
 		// get current axes ratio
-		double scaleRatio = ((EuclidianView) app.getActiveEuclidianView())
+		double scaleRatio = app.getActiveEuclidianView()
 				.getScaleRatio();
 
 		JMenuItem mi;
@@ -303,8 +306,9 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 				}
 
 			} else { // factor
-				if (axesRatios[i] == 1)
+				if (axesRatios[i] == 1) {
 					menu.addSeparator();
+				}
 				sb.append("1 : ");
 				sb.append((int) (1.0 / axesRatios[i]));
 			}

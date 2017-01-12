@@ -33,12 +33,14 @@ public abstract class AbstractPolygon extends EMFTag {
 		this.points = points;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 		emf.writeDWORD(numberOfPoints);
 		emf.writePOINTL(numberOfPoints, points);
 	}
 
+	@Override
 	public String toString() {
 		String result = super.toString() + "\n  bounds: " + bounds
 				+ "\n  #points: " + numberOfPoints;

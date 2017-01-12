@@ -28,6 +28,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 		app = (AppD) application;
 	}
 
+	@Override
 	public void addRadioButtonMenuItems(final MyActionListener alistener,
 			String[] items, String[] actionCommands, int selectedPos,
 			boolean changeText) {
@@ -52,6 +53,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 					mi.addActionListener((ActionListener) alistener);
 				} else {
 					mi.addActionListener(new ActionListener() {
+						@Override
 						public void actionPerformed(ActionEvent e) {
 							alistener.actionPerformed(e.getActionCommand());
 						}
@@ -65,6 +67,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 		}
 	}
 
+	@Override
 	public void setSelected(int pos) {
 
 		if (pos == -1) { // unselect all

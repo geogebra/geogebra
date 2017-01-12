@@ -126,10 +126,11 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 
 		float dgdXAbs = Math.abs(dgdX);
 		float dgdYAbs = Math.abs(dgdY);
-		if (dgdXAbs > dgdYAbs)
+		if (dgdXAbs > dgdYAbs) {
 			pixSz = dgdXAbs;
-		else
+		} else {
 			pixSz = dgdYAbs;
+		}
 
 		// constant, incorporates the translation components from the matrix
 		gc = (a02 - start.x) * constX + (a12 - start.y) * constY;
@@ -143,13 +144,15 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		fillMethod = DEFAULT_IMPL;
 
 		if ((cycleMethod == MultipleGradientPaint.REPEAT) || hasDiscontinuity) {
-			if (rend == RenderingHints.VALUE_RENDER_QUALITY)
+			if (rend == RenderingHints.VALUE_RENDER_QUALITY) {
 				fillMethod = ANTI_ALIAS_IMPL;
+			}
 			// ColorRend overrides rend.
-			if (colorRend == RenderingHints.VALUE_COLOR_RENDER_SPEED)
+			if (colorRend == RenderingHints.VALUE_COLOR_RENDER_SPEED) {
 				fillMethod = DEFAULT_IMPL;
-			else if (colorRend == RenderingHints.VALUE_COLOR_RENDER_QUALITY)
+			} else if (colorRend == RenderingHints.VALUE_COLOR_RENDER_QUALITY) {
 				fillMethod = ANTI_ALIAS_IMPL;
+			}
 		}
 	}
 
@@ -167,16 +170,17 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 			if (dgdX == 0) {
 				// System.out.println("In fillHard: " + g);
 				final int val;
-				if (g <= 0)
+				if (g <= 0) {
 					val = gradientUnderflow;
-				else if (g >= 1)
+				} else if (g >= 1) {
 					val = gradientOverflow;
-				else {
+				} else {
 					// Could be a binary search...
 					int gradIdx = 0;
 					while (gradIdx < gradientsLength - 1) {
-						if (g < fractions[gradIdx + 1])
+						if (g < fractions[gradIdx + 1]) {
 							break;
+						}
 						gradIdx++;
 					}
 					float delta = (g - fractions[gradIdx]);
@@ -205,13 +209,15 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 					postVal = gradientUnderflow;
 				}
 
-				if (gradSteps > w)
+				if (gradSteps > w) {
 					gradSteps = w;
+				}
 
 				final int gradLimit = off + gradSteps;
 				if (preGradSteps > 0) {
-					if (preGradSteps > w)
+					if (preGradSteps > w) {
 						preGradSteps = w;
+					}
 					final int preGradLimit = off + preGradSteps;
 
 					while (off < preGradLimit) {
@@ -224,8 +230,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 					// Could be a binary search...
 					int gradIdx = 0;
 					while (gradIdx < gradientsLength - 1) {
-						if (g < fractions[gradIdx + 1])
+						if (g < fractions[gradIdx + 1]) {
 							break;
+						}
 						gradIdx++;
 					}
 
@@ -236,8 +243,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 						int steps = (int) Math
 								.ceil((fractions[gradIdx + 1] - g) / dgdX);
 						int subGradLimit = off + steps;
-						if (subGradLimit > gradLimit)
+						if (subGradLimit > gradLimit) {
 							subGradLimit = gradLimit;
+						}
 
 						int idx = (int) (((delta * GRADIENT_SIZE_INDEX)
 								/ normalizedIntervals[gradIdx]) * (1 << 16))
@@ -255,8 +263,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 					// Could be a binary search...
 					int gradIdx = gradientsLength - 1;
 					while (gradIdx > 0) {
-						if (g > fractions[gradIdx])
+						if (g > fractions[gradIdx]) {
 							break;
+						}
 						gradIdx--;
 					}
 
@@ -266,8 +275,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 
 						int steps = (int) Math.ceil(delta / -dgdX);
 						int subGradLimit = off + steps;
-						if (subGradLimit > gradLimit)
+						if (subGradLimit > gradLimit) {
 							subGradLimit = gradLimit;
+						}
 
 						int idx = (int) (((delta * GRADIENT_SIZE_INDEX)
 								/ normalizedIntervals[gradIdx]) * (1 << 16))
@@ -311,12 +321,13 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 			if (dgdX == 0) {
 				// System.out.println("In fillSimpleNC: " + g);
 				final int val;
-				if (g <= 0)
+				if (g <= 0) {
 					val = gradientUnderflow;
-				else if (g >= fastGradientArraySize)
+				} else if (g >= fastGradientArraySize) {
 					val = gradientOverflow;
-				else
+				} else {
 					val = grad[(int) g];
+				}
 				while (off < rowLimit) {
 					pixels[off++] = val;
 				}
@@ -339,13 +350,15 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 					postVal = gradientUnderflow;
 				}
 
-				if (gradSteps > w)
+				if (gradSteps > w) {
 					gradSteps = w;
+				}
 				final int gradLimit = off + gradSteps;
 
 				if (preGradSteps > 0) {
-					if (preGradSteps > w)
+					if (preGradSteps > w) {
 						preGradSteps = w;
+					}
 					final int preGradLimit = off + preGradSteps;
 
 					while (off < preGradLimit) {
@@ -382,8 +395,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		// Make it a Positive step (a small negative step is
 		// the same as a positive step slightly less than
 		// fastGradientArraySize.
-		if (step < 0)
+		if (step < 0) {
 			step += fastGradientArraySize;
+		}
 
 		final int[] grad = gradient;
 
@@ -394,8 +408,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 			// now Limited between -1 and 1.
 			g = g - (int) g;
 			// put in the positive side.
-			if (g < 0)
+			if (g < 0) {
 				g += 1;
+			}
 
 			// scale for gradient array...
 			g *= fastGradientArraySize;
@@ -443,8 +458,9 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 			// all negative step values into the positive
 			// side.
 			step = step - 2 * ((int) step / 2.0f);
-			if (step < 0)
+			if (step < 0) {
 				step += 2.0;
+			}
 			final int reflectMax = 2 * fastGradientArraySize;
 
 			// Scale for gradient array.
@@ -459,10 +475,11 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 					idx -= reflectMax;
 				}
 
-				if (idx <= fastGradientArraySize)
+				if (idx <= fastGradientArraySize) {
 					pixels[off++] = grad[idx];
-				else
+				} else {
 					pixels[off++] = grad[reflectMax - idx];
+				}
 				g += step;
 			}
 
@@ -479,6 +496,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 	 *            The area in device space for which colors are generated.
 	 *
 	 */
+	@Override
 	protected void fillRaster(int[] pixels, int off, int adjust, int x, int y,
 			int w, int h) {
 
@@ -518,12 +536,13 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		} else {
 			// Simple implementations: just scale index by array size
 
-			if (cycleMethod == MultipleGradientPaint.NO_CYCLE)
+			if (cycleMethod == MultipleGradientPaint.NO_CYCLE) {
 				fillSimpleNoCycle(pixels, off, adjust, x, y, w, h);
-			else if (cycleMethod == MultipleGradientPaint.REPEAT)
+			} else if (cycleMethod == MultipleGradientPaint.REPEAT) {
 				fillSimpleRepeat(pixels, off, adjust, x, y, w, h);
-			else // cycleMethod == MultipleGradientPaint.REFLECT
+			} else {
 				fillSimpleReflect(pixels, off, adjust, x, y, w, h);
+			}
 		}
 	}
 

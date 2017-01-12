@@ -133,8 +133,9 @@ final class MemberBox implements Serializable {
 			do {
 				e = ((InvocationTargetException) e).getTargetException();
 			} while ((e instanceof InvocationTargetException));
-			if (e instanceof ContinuationPending)
+			if (e instanceof ContinuationPending) {
 				throw (ContinuationPending) e;
+			}
 			throw Context.throwAsScriptRuntimeEx(e);
 		} catch (Exception ex) {
 			throw Context.throwAsScriptRuntimeEx(ex);
@@ -228,8 +229,9 @@ final class MemberBox implements Serializable {
 			return;
 		}
 		out.writeBoolean(true);
-		if (!(member instanceof Method || member instanceof Constructor))
+		if (!(member instanceof Method || member instanceof Constructor)) {
 			throw new IllegalArgumentException("not Method or Constructor");
+		}
 		out.writeBoolean(member instanceof Method);
 		out.writeObject(member.getName());
 		out.writeObject(member.getDeclaringClass());
@@ -245,8 +247,9 @@ final class MemberBox implements Serializable {
 	 */
 	private static Member readMember(ObjectInputStream in)
 			throws IOException, ClassNotFoundException {
-		if (!in.readBoolean())
+		if (!in.readBoolean()) {
 			return null;
+		}
 		boolean isMethod = in.readBoolean();
 		String name = (String) in.readObject();
 		Class<?> declaring = (Class<?>) in.readObject();

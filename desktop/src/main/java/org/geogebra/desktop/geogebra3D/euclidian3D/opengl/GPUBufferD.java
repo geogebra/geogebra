@@ -9,10 +9,12 @@ public class GPUBufferD implements GPUBuffer {
 	public GPUBufferD() {
 	}
 
+	@Override
 	public void set(Object index) {
 		impl = (Integer) index;
 	}
 
+	@Override
 	public Integer get() {
 		return impl;
 	}

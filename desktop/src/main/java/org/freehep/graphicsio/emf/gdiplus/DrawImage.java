@@ -30,6 +30,7 @@ public class DrawImage extends EMFPlusTag {
 		this.image = image;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		DrawImage tag = new DrawImage();
@@ -47,6 +48,7 @@ public class DrawImage extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		emf.writeInt(-1); // image attributes

@@ -103,6 +103,7 @@ public class GraphicSizePanel extends JPanel
 		return height;
 	}
 
+	@Override
 	public void setEnabled(boolean flag) {
 		Object[] comp = getComponents();
 		for (int i = 0; i < comp.length; i++) {
@@ -140,14 +141,17 @@ public class GraphicSizePanel extends JPanel
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent ev) {
 		updateValues(ev.getSource());
 	}
 
+	@Override
 	public void focusGained(FocusEvent ev) {
 		//
 	}
 
+	@Override
 	public void focusLost(FocusEvent ev) {
 		updateValues(ev.getSource());
 	}

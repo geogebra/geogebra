@@ -15,6 +15,7 @@ public class PDFName implements PDFConstants {
 		this.name = name;
 	}
 
+	@Override
 	public String toString() {
 		return "/" + name;
 	}

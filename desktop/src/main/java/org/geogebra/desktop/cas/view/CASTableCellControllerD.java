@@ -33,18 +33,22 @@ public class CASTableCellControllerD extends CASTableCellController
 		tableCellEditor = table.getEditor();
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		Object src = e.getSource();
 		boolean consumed = e.isConsumed();
-		if (src == tableCellEditor.getInputArea())
+		if (src == tableCellEditor.getInputArea()) {
 			consumed = handleKeyPressedInputTextField(e);
-		if (!consumed)
+		}
+		if (!consumed) {
 			view.getApplication().getGlobalKeyDispatcher().handleGeneralKeys(e);
+		}
 	}
 
 	private boolean handleKeyPressedInputTextField(final KeyEvent e) {
-		if (e.isConsumed())
+		if (e.isConsumed()) {
 			return true;
+		}
 
 		boolean consumeEvent = false;
 		boolean needUndo = false;
@@ -121,6 +125,7 @@ public class CASTableCellControllerD extends CASTableCellController
 		this.rightClick = rightClick;
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		setRightClick(AppD.isRightClickForceMetaDown(e));
 		if (isRightClick()) {
@@ -131,29 +136,35 @@ public class CASTableCellControllerD extends CASTableCellController
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// do nothing; we use keyPressed
 	}
 
+	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// do nothing; we use keyPressed
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 

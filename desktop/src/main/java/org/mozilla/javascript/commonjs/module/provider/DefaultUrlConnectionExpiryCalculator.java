@@ -44,6 +44,7 @@ public class DefaultUrlConnectionExpiryCalculator
 		this.relativeExpiry = relativeExpiry;
 	}
 
+	@Override
 	public long calculateExpiry(URLConnection urlConnection) {
 		return System.currentTimeMillis() + relativeExpiry;
 	}

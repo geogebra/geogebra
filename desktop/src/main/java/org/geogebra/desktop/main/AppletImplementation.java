@@ -125,6 +125,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		init();
 	}
 
+	@Override
 	public void dispose() {
 		app = null;
 		kernel = null;
@@ -141,6 +142,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * Initializes the CAS, GUI components, and downloads jar files in a
 	 * separate thread.
 	 */
+	@Override
 	public void initInBackground() {
 		Log.debug("initInBackground");
 
@@ -451,6 +453,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	private class ButtonClickListener implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			showFrame();
 		}
@@ -572,6 +575,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * Opens construction given in XML format. May be used for loading
 	 * constructions.
 	 */
+	@Override
 	public synchronized void setXML(String xml) {
 		app.setXML(xml, true);
 		reinitGUI();
@@ -584,6 +588,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public synchronized void setBase64(final String base64) {
 		// base64 might contain an image, calls ImageIO etc
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
+			@Override
 			public Object run() {
 				// perform the security-sensitive operation here
 				getGgbApi().setBase64(base64);
@@ -597,6 +602,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * Evaluates the given XML string and changes the current construction.
 	 * Note: the construction is NOT cleared before evaluating the XML string.
 	 */
+	@Override
 	public synchronized void evalXML(String xmlString) {
 		StringBuilder sb = new StringBuilder();
 
@@ -617,6 +623,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * 
 	 * @return evaluation result in GeoGebraCAS syntax
 	 */
+	@Override
 	public synchronized String evalGeoGebraCAS(String cmdString) {
 		return evalGeoGebraCAS(cmdString, false);
 	}
@@ -634,6 +641,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			final boolean debugOutput) {
 		// avoid security problems calling from JavaScript
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			@Override
 			public String run() {
 				return getGgbApi().evalGeoGebraCAS(cmdString, debugOutput);
 			}
@@ -644,6 +652,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * Resets the initial construction (given in filename parameter) of this
 	 * applet.
 	 */
+	@Override
 	public synchronized void reset() {
 
 		if (fileStr == null) {
@@ -662,6 +671,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		} else {
 			// avoid security problems calling from JavaScript
 			AccessController.doPrivileged(new PrivilegedAction<Object>() {
+				@Override
 				public Object run() {
 					// perform the security-sensitive operation here
 					app.setWaitCursor();
@@ -696,9 +706,11 @@ public class AppletImplementation implements AppletImplementationInterface {
 	/**
 	 * Loads a construction from a file (given URL).
 	 */
+	@Override
 	public synchronized void openFile(final String strURL) {
 		// avoid security problems calling from JavaScript
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
+			@Override
 			public Object run() {
 				// perform the security-sensitive operation here
 				// load file
@@ -738,11 +750,13 @@ public class AppletImplementation implements AppletImplementationInterface {
 	/**
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
+	@Override
 	public synchronized String getPNGBase64(final double exportScale,
 			final boolean transparent, final double DPI,
 			final boolean copyToClipboard) {
 		// avoid security problems calling from JavaScript
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			@Override
 			public String run() {
 				// perform the security-sensitive operation here
 				return getGgbApi().getPNGBase64(exportScale, transparent, DPI,
@@ -754,12 +768,14 @@ public class AppletImplementation implements AppletImplementationInterface {
 	/**
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
+	@Override
 	public synchronized boolean writePNGtoFile(final String filename,
 			final double exportScale, final boolean transparent,
 			final double DPI) {
 		// avoid security problems calling from JavaScript
 		Boolean b = AccessController
 				.doPrivileged(new PrivilegedAction<Boolean>() {
+					@Override
 					public Boolean run() {
 						// perform the security-sensitive operation here
 						return getGgbApi().writePNGtoFile(filename, exportScale,
@@ -815,6 +831,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return applet;
 	}
 
+	@Override
 	public GgbAPID getGgbApi() {
 		return ggbApi;
 	}

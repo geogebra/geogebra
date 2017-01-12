@@ -33,16 +33,19 @@ public abstract class CubicToQuadPathConstructor
 		resolutionSq = resolution * resolution;
 	}
 
+	@Override
 	public void move(double x, double y) throws IOException {
 		currentX = x;
 		currentY = y;
 	}
 
+	@Override
 	public void line(double x, double y) throws IOException {
 		currentX = x;
 		currentY = y;
 	}
 
+	@Override
 	public void cubic(double x1, double y1, double x2, double y2, double x3,
 			double y3) throws IOException {
 		quadratify(new Point2D.Double(currentX, currentY),
@@ -53,6 +56,7 @@ public abstract class CubicToQuadPathConstructor
 		currentY = y3;
 	}
 
+	@Override
 	public void closePath(double x0, double y0) throws IOException {
 		currentX = 0;
 		currentY = 0;
@@ -65,15 +69,17 @@ public abstract class CubicToQuadPathConstructor
 		double dx2 = p3.getX() - p4.getX();
 
 		// line are vertical
-		if ((dx1 == 0) && (dx2 == 0))
+		if ((dx1 == 0) && (dx2 == 0)) {
 			return null;
+		}
 
 		double dy1 = p2.getY() - p1.getY();
 		double dy2 = p3.getY() - p4.getY();
 
 		// line are horizontal
-		if ((dy1 == 0) && (dy2 == 0))
+		if ((dy1 == 0) && (dy2 == 0)) {
 			return null;
+		}
 
 		double m1 = (p2.getY() - p1.getY()) / dx1;
 		double m2 = (p3.getY() - p4.getY()) / dx2;
@@ -89,8 +95,9 @@ public abstract class CubicToQuadPathConstructor
 		}
 
 		// lines are parallel
-		if (m1 == m2)
+		if (m1 == m2) {
 			return null;
+		}
 
 		double x = (-m2 * p4.getX() + p4.getY() + m1 * p1.getX() - p1.getY())
 				/ (m1 - m2);
@@ -107,8 +114,9 @@ public abstract class CubicToQuadPathConstructor
 			throws IOException {
 		// find intersection between bezier arms
 		Point2D s = intersect(a, b, c, d);
-		if (s == null)
+		if (s == null) {
 			return;
+		}
 
 		// find distance between the midpoints
 		double dx = (a.getX() + d.getX() + s.getX() * 4
@@ -137,6 +145,7 @@ public abstract class CubicToQuadPathConstructor
 			super(resolution);
 		}
 
+		@Override
 		public void quad(double x1, double y1, double x2, double y2) {
 			System.out.println("Quad: (" + currentX + ", " + currentY + ") ("
 					+ x1 + ", " + y1 + ") (" + x2 + ", " + y2 + ")");

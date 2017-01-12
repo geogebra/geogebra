@@ -35,14 +35,16 @@ class TokenStream {
 		this.parser = parser;
 		this.lineno = lineno;
 		if (sourceReader != null) {
-			if (sourceString != null)
+			if (sourceString != null) {
 				Kit.codeBug();
+			}
 			this.sourceReader = sourceReader;
 			this.sourceBuffer = new char[512];
 			this.sourceEnd = 0;
 		} else {
-			if (sourceString == null)
+			if (sourceString == null) {
 				Kit.codeBug();
+			}
 			this.sourceString = sourceString;
 			this.sourceEnd = sourceString.length();
 		}
@@ -451,8 +453,9 @@ class TokenStream {
 				id = Id_synchronized;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 		}
 		// #/generated#
 		// #/string_id_map#
@@ -522,8 +525,9 @@ class TokenStream {
 			tokenBeg = cursor - 1;
 			tokenEnd = cursor;
 
-			if (c == '@')
+			if (c == '@') {
 				return Token.XMLATTR;
+			}
 
 			// identifier/keyword/instanceof?
 			// watch out for starting with a <backslash>
@@ -1118,8 +1122,9 @@ class TokenStream {
 			// Miss-scanned /=
 			addToString('=');
 		} else {
-			if (startToken != Token.DIV)
+			if (startToken != Token.DIV) {
 				Kit.codeBug();
+			}
 		}
 
 		boolean inCharSet = false; // true if inside a '['..']' pair
@@ -1145,16 +1150,17 @@ class TokenStream {
 		int reEnd = stringBufferTop;
 
 		while (true) {
-			if (matchChar('g'))
+			if (matchChar('g')) {
 				addToString('g');
-			else if (matchChar('i'))
+			} else if (matchChar('i')) {
 				addToString('i');
-			else if (matchChar('m'))
+			} else if (matchChar('m')) {
 				addToString('m');
-			else if (matchChar('y')) // FireFox 3
+			} else if (matchChar('y')) {
 				addToString('y');
-			else
+			} else {
 				break;
+			}
 		}
 		tokenEnd = start + stringBufferTop + 2; // include slashes
 
@@ -1181,8 +1187,9 @@ class TokenStream {
 		xmlOpenTagsCount = 0;
 		xmlIsAttribute = false;
 		xmlIsTagContent = false;
-		if (!canUngetChar())
+		if (!canUngetChar()) {
 			return Token.ERROR;
+		}
 		ungetChar('<');
 		return getNextXMLToken();
 	}
@@ -1215,8 +1222,9 @@ class TokenStream {
 				case '\'':
 				case '"':
 					addToString(c);
-					if (!readQuotedString(c))
+					if (!readQuotedString(c)) {
 						return Token.ERROR;
+					}
 					break;
 				case '=':
 					addToString(c);
@@ -1255,8 +1263,9 @@ class TokenStream {
 							c = getChar();
 							if (c == '-') {
 								addToString(c);
-								if (!readXmlComment())
+								if (!readXmlComment()) {
 									return Token.ERROR;
+								}
 							} else {
 								// throw away the string in progress
 								stringBufferTop = 0;
@@ -1277,8 +1286,9 @@ class TokenStream {
 								addToString('T');
 								addToString('A');
 								addToString('[');
-								if (!readCDATA())
+								if (!readCDATA()) {
 									return Token.ERROR;
+								}
 
 							} else {
 								// throw away the string in progress
@@ -1289,16 +1299,18 @@ class TokenStream {
 							}
 							break;
 						default:
-							if (!readEntity())
+							if (!readEntity()) {
 								return Token.ERROR;
+							}
 							break;
 						}
 						break;
 					case '?':
 						c = getChar(); // Skip ?
 						addToString(c);
-						if (!readPI())
+						if (!readPI()) {
 							return Token.ERROR;
+						}
 						break;
 					case '/':
 						// End tag
@@ -1345,8 +1357,9 @@ class TokenStream {
 	private boolean readQuotedString(int quote) throws IOException {
 		for (int c = getChar(); c != EOF_CHAR; c = getChar()) {
 			addToString(c);
-			if (c == quote)
+			if (c == quote) {
 				return true;
+			}
 		}
 
 		stringBufferTop = 0; // throw away the string in progress
@@ -1420,8 +1433,9 @@ class TokenStream {
 				break;
 			case '>':
 				declTags--;
-				if (declTags == 0)
+				if (declTags == 0) {
 					return true;
+				}
 				break;
 			}
 		}
@@ -1473,8 +1487,9 @@ class TokenStream {
 
 	private void ungetChar(int c) {
 		// can not unread past across line boundary
-		if (ungetCursor != 0 && ungetBuffer[ungetCursor - 1] == '\n')
+		if (ungetCursor != 0 && ungetBuffer[ungetCursor - 1] == '\n') {
 			Kit.codeBug();
+		}
 		ungetBuffer[ungetCursor++] = c;
 		cursor--;
 	}
@@ -1543,7 +1558,9 @@ class TokenStream {
 				}
 			} else {
 				if (c == BYTE_ORDER_MARK)
+				 {
 					return c; // BOM is considered whitespace
+				}
 				if (skipFormattingChars && isJSFormatChar(c)) {
 					continue;
 				}
@@ -1589,7 +1606,9 @@ class TokenStream {
 				}
 			} else {
 				if (c == BYTE_ORDER_MARK)
+				 {
 					return c; // BOM is considered whitespace
+				}
 				if (isJSFormatChar(c)) {
 					continue;
 				}
@@ -1729,8 +1748,9 @@ class TokenStream {
 	}
 
 	private boolean fillSourceBuffer() throws IOException {
-		if (sourceString != null)
+		if (sourceString != null) {
 			Kit.codeBug();
+		}
 		if (sourceEnd == sourceBuffer.length) {
 			if (lineStart != 0 && !isMarkingComment()) {
 				System.arraycopy(sourceBuffer, lineStart, sourceBuffer, 0,
@@ -1807,12 +1827,14 @@ class TokenStream {
 
 	final String getAndResetCurrentComment() {
 		if (sourceString != null) {
-			if (isMarkingComment())
+			if (isMarkingComment()) {
 				Kit.codeBug();
+			}
 			return sourceString.substring(tokenBeg, tokenEnd);
 		} else {
-			if (!isMarkingComment())
+			if (!isMarkingComment()) {
 				Kit.codeBug();
+			}
 			StringBuilder comment = new StringBuilder(commentPrefix);
 			comment.append(sourceBuffer, commentCursor,
 					getTokenLength() - commentPrefix.length());

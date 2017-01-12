@@ -53,10 +53,12 @@ public class Base64OutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void write(int a) throws IOException {
 		buffer[position++] = (byte) a;
-		if (position < buffer.length)
+		if (position < buffer.length) {
 			return;
+		}
 
 		// System.out.print(Integer.toHexString(buffer[0])+",
 		// "+Integer.toHexString(buffer[1])+",
@@ -73,6 +75,7 @@ public class Base64OutputStream extends FilterOutputStream
 		position = 0;
 	}
 
+	@Override
 	public void finish() throws IOException {
 		writeTuple();
 		flush();
@@ -81,6 +84,7 @@ public class Base64OutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		finish();
 		super.close();

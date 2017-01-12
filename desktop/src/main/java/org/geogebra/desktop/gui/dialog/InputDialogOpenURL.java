@@ -19,8 +19,9 @@ public class InputDialogOpenURL extends InputDialogD {
 		String clipboardString = app.getStringFromClipboard();
 		if (clipboardString != null && (clipboardString.startsWith("http://")
 				|| clipboardString.startsWith("https://")
-				|| clipboardString.startsWith("www")))
+				|| clipboardString.startsWith("www"))) {
 			initString = clipboardString;
+		}
 
 		createGUI(loc.getMenu("OpenWebpage"), loc.getMenu("EnterAppletAddress"),
 				false, DEFAULT_COLUMNS, 1, false, true, false, false,

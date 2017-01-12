@@ -56,8 +56,9 @@ public class LabeledStatement extends AstNode {
 	 */
 	public void setLabels(List<Label> labels) {
 		assertNotNull(labels);
-		if (this.labels != null)
+		if (this.labels != null) {
 			this.labels.clear();
+		}
 		for (Label l : labels) {
 			addLabel(l);
 		}

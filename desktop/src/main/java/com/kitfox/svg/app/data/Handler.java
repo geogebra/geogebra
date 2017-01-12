@@ -75,9 +75,11 @@ public class Handler extends URLStreamHandler {
 			}
 		}
 
+		@Override
 		public void connect() throws IOException {
 		}
 
+		@Override
 		public String getHeaderField(String name) {
 			if ("content-type".equals(name)) {
 				return mime;
@@ -86,6 +88,7 @@ public class Handler extends URLStreamHandler {
 			return super.getHeaderField(name);
 		}
 
+		@Override
 		public InputStream getInputStream() throws IOException {
 			return new ByteArrayInputStream(buf);
 		}
@@ -96,6 +99,7 @@ public class Handler extends URLStreamHandler {
 		// }
 	}
 
+	@Override
 	protected URLConnection openConnection(URL u) throws IOException {
 		return new Connection(u);
 	}

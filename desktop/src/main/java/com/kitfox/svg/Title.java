@@ -52,6 +52,7 @@ public class Title extends SVGElement {
 	public Title() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -59,6 +60,7 @@ public class Title extends SVGElement {
 	/**
 	 * Called during load process to add text scanned within a tag
 	 */
+	@Override
 	public void loaderAddText(SVGLoaderHelper helper, String text) {
 		this.text.append(text);
 	}
@@ -74,6 +76,7 @@ public class Title extends SVGElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Title does not change
 		return false;

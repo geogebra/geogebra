@@ -249,6 +249,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		psp = new PrintScalePanel(app, ev);
 		psp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateSizeLabel();
 			}
@@ -294,36 +295,42 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		p.add(dpiPanel);
 		cbDPI.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ae) {
 				updateSizeLabel();
 			}
 		});
 
 		cbTransparent.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				transparent = cbTransparent.isSelected();
 			}
 		});
 
 		cbBraille.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				braille = cbBraille.isSelected();
 			}
 		});
 
 		cbEMFPlus.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				EMFPlus = cbEMFPlus.isSelected();
 			}
 		});
 
 		textAsShapesCB.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				textAsShapes = textAsShapesCB.isSelected();
 			}
 		});
 
 		cbFormat.addActionListener(new ActionListener() {
+			@Override
 			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 					"missing break is deliberate" })
 			public void actionPerformed(ActionEvent arg0) {
@@ -390,12 +397,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// Cancel and Export Button
 		cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
 		JButton exportButton = new JButton(loc.getMenu("Save"));
 		exportButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -411,6 +420,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		JButton exportClipboardButton = new JButton(loc.getMenu("Clipboard"));
 		exportClipboardButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -909,6 +919,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_ESCAPE) {
@@ -916,10 +927,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		//
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		//
 	}

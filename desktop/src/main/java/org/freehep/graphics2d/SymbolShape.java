@@ -39,26 +39,31 @@ public class SymbolShape implements Shape {
 			this.type = type;
 		}
 
+		@Override
 		public boolean isDone() {
 			return currentPoint >= numberOfPoints;
 		}
 
+		@Override
 		public void next() {
 			currentPoint++;
 		}
 
+		@Override
 		public int currentSegment(double[] coords) {
 			coords[0] = points[2 * currentPoint];
 			coords[1] = points[2 * currentPoint + 1];
 			return type[currentPoint];
 		}
 
+		@Override
 		public int currentSegment(float[] coords) {
 			coords[0] = (float) points[2 * currentPoint];
 			coords[1] = (float) points[2 * currentPoint + 1];
 			return type[currentPoint];
 		}
 
+		@Override
 		public int getWindingRule() {
 			return PathIterator.WIND_NON_ZERO;
 		}
@@ -93,19 +98,23 @@ public class SymbolShape implements Shape {
 		this.pathIterator = new ArrayPathIterator(points, type);
 	}
 
+	@Override
 	public boolean contains(double x, double y) {
 		return getBounds2D().contains(x, y);
 	}
 
+	@Override
 	public boolean contains(double x, double y, double w, double h) {
 		return contains(x, y) && contains(x + w, y) && contains(x, y + h)
 				&& contains(x + w, y + h);
 	}
 
+	@Override
 	public boolean contains(Point2D p) {
 		return contains(p.getX(), p.getY());
 	}
 
+	@Override
 	public boolean contains(Rectangle2D r) {
 		return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
@@ -113,27 +122,33 @@ public class SymbolShape implements Shape {
 	/**
 	 * Returns true, if at least one of the points is contained by the shape.
 	 */
+	@Override
 	public boolean intersects(double x, double y, double w, double h) {
 		return contains(x, y) || contains(x + w, y) || contains(x, y + h)
 				|| contains(x + w, y + h);
 	}
 
+	@Override
 	public boolean intersects(Rectangle2D r) {
 		return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
+	@Override
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
 		return getPathIterator(at);
 	}
 
+	@Override
 	public Rectangle2D getBounds2D() {
 		return new Rectangle2D.Double(x - size / 2, y - size / 2, size, size);
 	}
 
+	@Override
 	public Rectangle getBounds() {
 		return getBounds2D().getBounds();
 	}
 
+	@Override
 	public PathIterator getPathIterator(AffineTransform t) {
 		if (t != null) {
 			t.transform(points, 0, pathIterator.points, 0, points.length / 2);
@@ -199,6 +214,7 @@ public class SymbolShape implements Shape {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return getClass() + ": " + symbol + " (" + x + ", " + y + ") size: "
 				+ size;

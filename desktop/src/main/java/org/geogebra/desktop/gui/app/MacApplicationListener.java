@@ -35,12 +35,14 @@ public class MacApplicationListener
 		return wnd;
 	}
 
+	@Override
 	public synchronized void handleQuit(com.apple.eawt.ApplicationEvent ev) {
 		// quit all frames
 		AppD app = getGGBInstance().getApplication();
 		app.exitAll();
 	}
 
+	@Override
 	public synchronized void handleAbout(
 			com.apple.eawt.ApplicationEvent event) {
 		event.setHandled(true);
@@ -48,6 +50,7 @@ public class MacApplicationListener
 		((GuiManagerD) app.getGuiManager()).showAboutDialog();
 	}
 
+	@Override
 	public synchronized void handleOpenFile(
 			com.apple.eawt.ApplicationEvent ev) {
 		Log.debug("handleOpenFile event, filename: " + ev.getFilename());
@@ -70,12 +73,14 @@ public class MacApplicationListener
 						openInThisWindow);
 
 				// make sure window is visible
-				if (openInThisWindow)
+				if (openInThisWindow) {
 					ggb.setVisible(true);
+				}
 			}
 		}
 	}
 
+	@Override
 	public synchronized void handlePrintFile(
 			com.apple.eawt.ApplicationEvent event) {
 		Log.debug("handlePrintFile event, filename: " + event.getFilename());
@@ -85,6 +90,7 @@ public class MacApplicationListener
 				.showPrintPreview();
 	}
 
+	@Override
 	public synchronized void handleOpenApplication(
 			com.apple.eawt.ApplicationEvent ev) {
 		Log.debug("handleOpenApplication event, filename: " + ev.getFilename());
@@ -95,16 +101,19 @@ public class MacApplicationListener
 			handleOpenFile(ev);
 		} else {
 			GeoGebraFrame wnd = getGGBInstance();
-			if (!wnd.isShowing())
+			if (!wnd.isShowing()) {
 				wnd.setVisible(true);
+			}
 		}
 	}
 
+	@Override
 	public synchronized void handlePreferences(
 			com.apple.eawt.ApplicationEvent arg0) {
 		Log.debug("handlePreferences event, filename: " + arg0.getFilename());
 	}
 
+	@Override
 	public synchronized void handleReOpenApplication(
 			com.apple.eawt.ApplicationEvent arg0) {
 		Log.debug("handleReOpenApplication event, filename: "

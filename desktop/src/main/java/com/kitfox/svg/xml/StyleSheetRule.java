@@ -19,6 +19,7 @@ public class StyleSheetRule {
 		this.className = className;
 	}
 
+	@Override
 	public int hashCode() {
 		int hash = 7;
 		hash = 13 * hash
@@ -29,6 +30,7 @@ public class StyleSheetRule {
 		return hash;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;

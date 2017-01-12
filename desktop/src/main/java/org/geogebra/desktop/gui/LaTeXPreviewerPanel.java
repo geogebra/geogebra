@@ -65,8 +65,10 @@ public class LaTeXPreviewerPanel extends JPanel {
 			} else {
 				// bad syntax, remove all quotes and use raw string
 				while (str.indexOf('"') > -1)
+				 {
 					str = str.replace('"', ' ');
 				// latexPreview.setLaTeX(str);
+				}
 			}
 		} else {
 			// latexPreview.setLaTeX(str);

@@ -36,8 +36,9 @@ public class VariableInitializer extends AstNode {
 	 */
 	public void setNodeType(int nodeType) {
 		if (nodeType != Token.VAR && nodeType != Token.CONST
-				&& nodeType != Token.LET)
+				&& nodeType != Token.LET) {
 			throw new IllegalArgumentException("invalid node type");
+		}
 		setType(nodeType);
 	}
 
@@ -80,8 +81,9 @@ public class VariableInitializer extends AstNode {
 	public void setTarget(AstNode target) {
 		// Don't throw exception if target is an "invalid" node type.
 		// See mozilla/js/tests/js1_7/block/regress-350279.js
-		if (target == null)
+		if (target == null) {
 			throw new IllegalArgumentException("invalid target arg");
+		}
 		this.target = target;
 		target.setParent(this);
 	}
@@ -101,8 +103,9 @@ public class VariableInitializer extends AstNode {
 	 */
 	public void setInitializer(AstNode initializer) {
 		this.initializer = initializer;
-		if (initializer != null)
+		if (initializer != null) {
 			initializer.setParent(this);
+		}
 	}
 
 	@Override

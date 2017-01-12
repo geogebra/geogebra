@@ -58,7 +58,7 @@ public final class TimeEventManager {
 
 				// Put the MIDI message into the time map
 				List<MidiEvent> list = null;
-				if ((list = (ArrayList<MidiEvent>) timeMap
+				if ((list = timeMap
 						.get(timestamp)) == null) {
 					// Add a new list to the map if one doesn't already exist
 					// for the timestamp in question
@@ -95,7 +95,7 @@ public final class TimeEventManager {
 		for (long l = 0; l < longestTime; l++) {
 			Long key = new Long(l);
 			if (timeMap.containsKey(key)) {
-				List<MidiEvent> list = (List<MidiEvent>) timeMap.get(key);
+				List<MidiEvent> list = timeMap.get(key);
 				totalList.addAll(list);
 			}
 		}

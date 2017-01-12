@@ -56,6 +56,7 @@ public class SpreadsheetMouseListenerD
 		this.relativeCopy = new RelativeCopy(kernel);
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 
 		boolean doubleClick = (e.getClickCount() != 1);
@@ -144,18 +145,23 @@ public class SpreadsheetMouseListenerD
 			// if no cells below, count left ... if none on the left, count
 			// right
 			while (row < table.getRowCount() - 1
-					&& model.getValueAt(row + 1, col) != null)
+					&& model.getValueAt(row + 1, col) != null) {
 				row++;
-			if (row - table.maxSelectionRow == 0 && col > 0)
+			}
+			if (row - table.maxSelectionRow == 0 && col > 0) {
 				while (row < table.getRowCount() - 1
-						&& model.getValueAt(row + 1, col - 1) != null)
+						&& model.getValueAt(row + 1, col - 1) != null) {
 					row++;
+				}
+			}
 			if (row - table.maxSelectionRow == 0
-					&& table.maxSelectionColumn <= table.getColumnCount() - 1)
+					&& table.maxSelectionColumn <= table.getColumnCount() - 1) {
 				while (row < table.getRowCount() - 1
 						&& model.getValueAt(row + 1,
-								table.maxSelectionColumn + 1) != null)
+								table.maxSelectionColumn + 1) != null) {
 					row++;
+				}
+			}
 			int rowCount = row - table.maxSelectionRow;
 
 			// now fill down
@@ -165,26 +171,31 @@ public class SpreadsheetMouseListenerD
 						table.maxSelectionRow, table.minSelectionColumn,
 						table.maxSelectionRow + 1, table.maxSelectionColumn,
 						table.maxSelectionRow + rowCount);
-				if (succ)
+				if (succ) {
 					app.storeUndoInfo();
+				}
 			}
 			table.isDragingDot = false;
 		}
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 
 		boolean rightClick = AppD.isRightClick(e);
 
-		if (!view.hasViewFocus())
+		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
+		}
 
 		// tell selection listener about click on GeoElement
 		if (!rightClick && app
@@ -230,8 +241,9 @@ public class SpreadsheetMouseListenerD
 			 */
 
 			GPoint point1 = table.getMaxSelectionPixel();
-			if (point1 == null)
+			if (point1 == null) {
 				return;
+			}
 
 			// Handle click in another cell while editing a cell:
 			// if the edit string begins with "=" then the clicked cell name
@@ -257,8 +269,9 @@ public class SpreadsheetMouseListenerD
 							// get cell name
 							String name = GeoElementSpreadsheet
 									.getSpreadsheetCellName(column, row);
-							if (geo.isGeoFunction())
+							if (geo.isGeoFunction()) {
 								name += "(x)";
+							}
 							selectedCellName = name;
 
 							// get prefix/post substrings for current text caret
@@ -297,6 +310,7 @@ public class SpreadsheetMouseListenerD
 		}
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		boolean rightClick = AppD.isRightClick(e);
 
@@ -332,8 +346,9 @@ public class SpreadsheetMouseListenerD
 			}
 
 			if (table.isDragingDot) {
-				if (table.dragingToColumn == -1 || table.dragingToRow == -1)
+				if (table.dragingToColumn == -1 || table.dragingToRow == -1) {
 					return;
+				}
 				int x1 = -1;
 				int y1 = -1;
 				int x2 = -1;
@@ -408,8 +423,9 @@ public class SpreadsheetMouseListenerD
 
 		// handle right click
 		if (rightClick) {
-			if (!((AppD) kernel.getApplication()).letShowPopupMenu())
+			if (!((AppD) kernel.getApplication()).letShowPopupMenu()) {
 				return;
+			}
 
 			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
 
@@ -437,6 +453,7 @@ public class SpreadsheetMouseListenerD
 
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
@@ -541,16 +558,18 @@ public class SpreadsheetMouseListenerD
 						rowOffset = mouseY - selRect.y;
 						if (-rowOffset < 0.5
 								* table.getCellRect(table.minSelectionRow - 1,
-										table.minSelectionColumn, true).height)
+										table.minSelectionColumn, true).height) {
 							rowOffset = 0;
+						}
 					} else if (table.maxSelectionRow < app
 							.getMaxSpreadsheetRowsVisible()
 							&& table.dragingToRow > table.maxSelectionRow) {
 						rowOffset = mouseY - (selRect.y + selRect.height);
 						if (rowOffset < 0.5
 								* table.getCellRect(table.maxSelectionRow + 1,
-										table.maxSelectionColumn, true).height)
+										table.maxSelectionColumn, true).height) {
 							rowOffset = 0;
+						}
 					}
 
 					// get column distance
@@ -560,8 +579,9 @@ public class SpreadsheetMouseListenerD
 						if (-colOffset < 0.5
 								* table.getCellRect(table.minSelectionRow,
 										table.minSelectionColumn - 1,
-										true).width)
+										true).width) {
 							colOffset = 0;
+						}
 					} else if (table.maxSelectionColumn < app
 							.getMaxSpreadsheetColumnsVisible()
 							&& table.dragingToColumn > table.maxSelectionColumn) {
@@ -569,8 +589,9 @@ public class SpreadsheetMouseListenerD
 						if (colOffset < 0.5
 								* table.getCellRect(table.maxSelectionRow,
 										table.maxSelectionColumn + 1,
-										true).width)
+										true).width) {
 							colOffset = 0;
+						}
 					}
 
 					if (rowOffset == 0 && colOffset == 0) {
@@ -602,9 +623,11 @@ public class SpreadsheetMouseListenerD
 	/**
 	 * Shows tool tip description of geo on mouse over
 	 */
+	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (table.isEditing())
+		if (table.isEditing()) {
 			return;
+		}
 
 		// get GeoElement at mouse location
 		int row = table.rowAtPoint(e.getPoint());
@@ -616,8 +639,9 @@ public class SpreadsheetMouseListenerD
 			app.getLocalization().setTooltipFlag();
 			table.setToolTipText(geo.getLongDescriptionHTML(true, true));
 			app.getLocalization().clearTooltipFlag();
-		} else
+		} else {
 			table.setToolTipText(null);
+		}
 
 		// check if over the dragging dot and update accordingly
 		GPoint maxPoint = table.getMaxSelectionPixel();
@@ -662,14 +686,11 @@ public class SpreadsheetMouseListenerD
 	 */
 	private void setTableCursor() {
 
-		if (table.isOverDot)
+		if (table.isOverDot) {
 			table.setCursor(table.crossHairCursor);
-
-		// else if(table.isOverDnDRegion)
-		// table.setCursor(table.grabCursor);
-
-		else
+		} else {
 			table.setCursor(table.defaultCursor);
+		}
 
 	}
 

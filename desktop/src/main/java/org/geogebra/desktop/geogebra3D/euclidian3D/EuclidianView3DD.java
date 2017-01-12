@@ -226,6 +226,7 @@ public class EuclidianView3DD extends EuclidianView3D
 		evjpanel.setBackground(GColorD.getAwtColor(bgApplyedColor));
 	}
 
+	@Override
 	public void setTransparentCursor() {
 
 		setCursor(((AppD) app).getTransparentCursor());
@@ -632,6 +633,7 @@ public class EuclidianView3DD extends EuclidianView3D
 		return new Mouse3DEventD(mouse3DLoc, getJPanel());
 	}
 
+	@Override
 	public void readText(String text) {
 		// TODO Auto-generated method stub
 

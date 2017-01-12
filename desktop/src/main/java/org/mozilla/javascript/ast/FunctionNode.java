@@ -131,8 +131,9 @@ public class FunctionNode extends ScriptNode {
 	 */
 	public void setFunctionName(Name name) {
 		functionName = name;
-		if (name != null)
+		if (name != null) {
 			name.setParent(this);
+		}
 	}
 
 	/**
@@ -165,10 +166,12 @@ public class FunctionNode extends ScriptNode {
 		if (params == null) {
 			this.params = null;
 		} else {
-			if (this.params != null)
+			if (this.params != null) {
 				this.params.clear();
-			for (AstNode param : params)
+			}
+			for (AstNode param : params) {
 				addParam(param);
+			}
 		}
 	}
 
@@ -312,8 +315,9 @@ public class FunctionNode extends ScriptNode {
 	}
 
 	public void addResumptionPoint(Node target) {
-		if (generatorResumePoints == null)
+		if (generatorResumePoints == null) {
 			generatorResumePoints = new ArrayList<Node>();
+		}
 		generatorResumePoints.add(target);
 	}
 
@@ -326,8 +330,9 @@ public class FunctionNode extends ScriptNode {
 	}
 
 	public void addLiveLocals(Node node, int[] locals) {
-		if (liveLocals == null)
+		if (liveLocals == null) {
 			liveLocals = new HashMap<Node, int[]>();
+		}
 		liveLocals.put(node, locals);
 	}
 
@@ -392,8 +397,9 @@ public class FunctionNode extends ScriptNode {
 	 */
 	public void setMemberExprNode(AstNode node) {
 		memberExprNode = node;
-		if (node != null)
+		if (node != null) {
 			node.setParent(this);
+		}
 	}
 
 	public AstNode getMemberExprNode() {

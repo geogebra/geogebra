@@ -300,8 +300,9 @@ public class NativeCallSite extends IdScriptableObject {
 				}
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

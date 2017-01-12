@@ -35,20 +35,23 @@ public class DiscreteAngle {
 	 * only contains one angle.
 	 */
 	public double getAngle(double angle) {
-		if (angles.isEmpty())
+		if (angles.isEmpty()) {
 			return angle;
+		}
 
 		Iterator i = angles.iterator();
 		Double prev = (Double) i.next();
-		if (!i.hasNext())
+		if (!i.hasNext()) {
 			return prev.doubleValue();
+		}
 
 		while (i.hasNext()) {
 			Double cur = (Double) i.next();
 			double cutoff = (cur.doubleValue() - prev.doubleValue()) / 2.0
 					+ prev.doubleValue();
-			if (angle <= cutoff)
+			if (angle <= cutoff) {
 				return prev.doubleValue();
+			}
 			prev = cur;
 		}
 		return prev.doubleValue();
@@ -83,14 +86,16 @@ public class DiscreteAngle {
 		return (angle != null) ? angles.remove(angle) : false;
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer s = new StringBuffer();
 		s.append("Angles: ");
 		for (Iterator i = angles.iterator(); i.hasNext();) {
 			Double r = (Double) i.next();
 			s.append(r.doubleValue());
-			if (i.hasNext())
+			if (i.hasNext()) {
 				s.append(", ");
+			}
 		}
 		return s.toString();
 	}

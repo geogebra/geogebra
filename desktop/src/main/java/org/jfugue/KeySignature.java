@@ -98,6 +98,7 @@ public final class KeySignature implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		StringBuilder keySigSB = new StringBuilder();
 		keySigSB.append("K");
@@ -116,6 +117,7 @@ public final class KeySignature implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("KeySig: keySig=");

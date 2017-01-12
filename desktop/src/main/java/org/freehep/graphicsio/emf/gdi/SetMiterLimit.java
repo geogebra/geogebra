@@ -26,6 +26,7 @@ public class SetMiterLimit extends EMFTag {
 		this.limit = limit;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -33,10 +34,12 @@ public class SetMiterLimit extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeDWORD(limit);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  limit: " + limit;
 	}

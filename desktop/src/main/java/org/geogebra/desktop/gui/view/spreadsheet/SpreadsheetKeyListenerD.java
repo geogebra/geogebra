@@ -33,10 +33,12 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 
 	}
 
+	@Override
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 			"missing break is deliberate" })
 	public void keyPressed(KeyEvent e) {
@@ -58,13 +60,15 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				if (model.getValueAt(row, column) != null) {
 					// move to top of current "block"
 					// if shift pressed, select cells too
-					while (row > 0 && model.getValueAt(row - 1, column) != null)
+					while (row > 0 && model.getValueAt(row - 1, column) != null) {
 						row--;
+					}
 					table.changeSelection(row, column, false, e.isShiftDown());
 				} else {
 					// move up to next defined cell
-					while (row > 0 && model.getValueAt(row - 1, column) == null)
+					while (row > 0 && model.getValueAt(row - 1, column) == null) {
 						row--;
+					}
 					table.changeSelection(Math.max(0, row - 1), column, false,
 							false);
 
@@ -90,14 +94,16 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 					// move to left of current "block"
 					// if shift pressed, select cells too
 					while (column > 0
-							&& model.getValueAt(row, column - 1) != null)
+							&& model.getValueAt(row, column - 1) != null) {
 						column--;
+					}
 					table.changeSelection(row, column, false, e.isShiftDown());
 				} else {
 					// move left to next defined cell
 					while (column > 0
-							&& model.getValueAt(row, column - 1) == null)
+							&& model.getValueAt(row, column - 1) == null) {
 						column--;
+					}
 					table.changeSelection(row, Math.max(0, column - 1), false,
 							false);
 				}
@@ -131,14 +137,16 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 					// move to bottom of current "block"
 					// if shift pressed, select cells too
 					while (row < table.getRowCount() - 1
-							&& model.getValueAt(row + 1, column) != null)
+							&& model.getValueAt(row + 1, column) != null) {
 						row++;
+					}
 					table.changeSelection(row, column, false, e.isShiftDown());
 				} else {
 					// move down to next selected cell
 					while (row < table.getRowCount() - 1
-							&& model.getValueAt(row + 1, column) == null)
+							&& model.getValueAt(row + 1, column) == null) {
 						row++;
+					}
 					table.changeSelection(
 							Math.min(table.getRowCount() - 1, row + 1), column,
 							false, false);
@@ -180,15 +188,19 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			// if shift pressed, select cells too
 
 			// find rectangle that will contain all cells
-			for (int c = 0; c < table.getColumnCount(); c++)
-				for (int r = 0; r < table.getRowCount(); r++)
+			for (int c = 0; c < table.getColumnCount(); c++) {
+				for (int r = 0; r < table.getRowCount(); r++) {
 					if ((r > row || c > column)
 							&& model.getValueAt(r, c) != null) {
-						if (r > row)
+						if (r > row) {
 							row = r;
-						if (c > column)
+						}
+						if (c > column) {
 							column = c;
+						}
 					}
+				}
+			}
 			table.changeSelection(row, column, false, e.isShiftDown());
 
 			e.consume();
@@ -213,14 +225,16 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 					// move to bottom of current "block"
 					// if shift pressed, select cells too
 					while (column < table.getColumnCount() - 1
-							&& model.getValueAt(row, column + 1) != null)
+							&& model.getValueAt(row, column + 1) != null) {
 						column++;
+					}
 					table.changeSelection(row, column, false, e.isShiftDown());
 				} else {
 					// move right to next defined cell
 					while (column < table.getColumnCount() - 1
-							&& model.getValueAt(row, column + 1) == null)
+							&& model.getValueAt(row, column + 1) == null) {
 						column++;
+					}
 					table.changeSelection(row,
 							Math.min(table.getColumnCount() - 1, column + 1),
 							false, false);
@@ -255,8 +269,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			if (AppD.isControlDown(e)) {
 				kernel.updateConstruction();
 				e.consume();
-			} else
+			} else {
 				letterOrDigitTyped();
+			}
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the undo
@@ -265,8 +280,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				// Application.debug("undo");
 				app.getGuiManager().undo();
 				e.consume();
-			} else
+			} else {
 				letterOrDigitTyped();
+			}
 			break;
 
 		// needs to be here to stop keypress starting a cell edit after the redo
@@ -275,8 +291,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				// Application.debug("redo");
 				app.getGuiManager().redo();
 				e.consume();
-			} else
+			} else {
 				letterOrDigitTyped();
+			}
 			break;
 
 		case KeyEvent.VK_C:
@@ -297,12 +314,14 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 					} else if (keyCode == KeyEvent.VK_V) {
 						boolean storeUndo = table.paste();
 						view.getRowHeader().revalidate();
-						if (storeUndo)
+						if (storeUndo) {
 							app.storeUndoInfo();
+						}
 					} else if (keyCode == KeyEvent.VK_X) {
 						boolean storeUndo = table.cut();
-						if (storeUndo)
+						if (storeUndo) {
 							app.storeUndoInfo();
+						}
 					}
 				}
 				if (keyCode == KeyEvent.VK_DELETE
@@ -310,8 +329,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 					e.consume();
 					// Application.debug("deleting...");
 					boolean storeUndo = table.delete();
-					if (storeUndo)
+					if (storeUndo) {
 						app.storeUndoInfo();
+					}
 				}
 				return;
 			}
@@ -347,8 +367,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 		// stop TAB erasing cell before moving
 		case KeyEvent.VK_TAB:
 			// disable shift-tab in column A
-			if (table.getSelectedColumn() == 0 && e.isShiftDown())
+			if (table.getSelectedColumn() == 0 && e.isShiftDown()) {
 				e.consume();
+			}
 			break;
 
 		case KeyEvent.VK_A:
@@ -358,15 +379,19 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				row = 0;
 				column = 0;
 				// find rectangle that will contain all defined cells
-				for (int c = 0; c < table.getColumnCount(); c++)
-					for (int r = 0; r < table.getRowCount(); r++)
+				for (int c = 0; c < table.getColumnCount(); c++) {
+					for (int r = 0; r < table.getRowCount(); r++) {
 						if ((r > row || c > column)
 								&& model.getValueAt(r, c) != null) {
-							if (r > row)
+							if (r > row) {
 								row = r;
-							if (c > column)
+							}
+							if (c > column) {
 								column = c;
+							}
 						}
+					}
+				}
 				table.changeSelection(0, 0, false, false);
 				table.changeSelection(row, column, false, true);
 
@@ -378,8 +403,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 			if (!Character.isIdentifierIgnorable(e.getKeyChar())
 					&& !editor.isEditing() && !(ctrlDown || e.isAltDown())) {
 				letterOrDigitTyped();
-			} else
+			} else {
 				e.consume();
+			}
 			break;
 
 		}
@@ -403,8 +429,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				table.getSelectedColumn());
 		if (o != null && o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isFixed())
+			if (geo.isFixed()) {
 				return;
+			}
 		}
 
 		model.setValueAt(null, table.getSelectedRow(),
@@ -417,18 +444,21 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 		f.getCaret().setVisible(true);
 
 		// workaround for Mac OS X 10.5 problem (first character typed deleted)
-		if (AppD.MAC_OS)
+		if (AppD.MAC_OS) {
 			SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 					f.setSelectionStart(1);
 					f.setSelectionEnd(1);
 				}
 			});
+		}
 
 		table.setAllowEditing(false);
 
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 	}

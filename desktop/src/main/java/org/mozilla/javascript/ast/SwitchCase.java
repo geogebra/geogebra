@@ -64,8 +64,9 @@ public class SwitchCase extends AstNode {
 	 */
 	public void setExpression(AstNode expression) {
 		this.expression = expression;
-		if (expression != null)
+		if (expression != null) {
 			expression.setParent(this);
+		}
 	}
 
 	/**

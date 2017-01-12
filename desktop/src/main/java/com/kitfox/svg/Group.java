@@ -64,6 +64,7 @@ public class Group extends ShapeElement {
 	public Group() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -72,6 +73,7 @@ public class Group extends ShapeElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
@@ -92,6 +94,7 @@ public class Group extends ShapeElement {
 		return true;
 	}
 
+	@Override
 	void pick(Point2D point, boolean boundingBox, List retVec)
 			throws SVGException {
 		Point2D xPoint = new Point2D.Double(point.getX(), point.getY());
@@ -113,6 +116,7 @@ public class Group extends ShapeElement {
 		}
 	}
 
+	@Override
 	void pick(Rectangle2D pickArea, AffineTransform ltw, boolean boundingBox,
 			List retVec) throws SVGException {
 		if (xform != null) {
@@ -130,6 +134,7 @@ public class Group extends ShapeElement {
 		}
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		// Don't process if not visible
 		StyleAttribute styleAttrib = new StyleAttribute();
@@ -188,6 +193,7 @@ public class Group extends ShapeElement {
 	/**
 	 * Retrieves the cached bounding box of this group
 	 */
+	@Override
 	public Shape getShape() {
 		if (cachedShape == null) {
 			calcShape();
@@ -216,6 +222,7 @@ public class Group extends ShapeElement {
 	/**
 	 * Retrieves the cached bounding box of this group
 	 */
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		if (boundingBox == null) {
 			calcBoundingBox();
@@ -265,6 +272,7 @@ public class Group extends ShapeElement {
 		boundingBox = boundsToParent(retRect);
 	}
 
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		boolean changeState = super.updateTime(curTime);
 		Iterator it = children.iterator();

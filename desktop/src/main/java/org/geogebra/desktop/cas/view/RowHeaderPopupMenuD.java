@@ -95,10 +95,12 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		int[] selRows = rowHeader.getSelectedIndices();
-		if (selRows.length == 0)
+		if (selRows.length == 0) {
 			return;
+		}
 
 		boolean undoNeeded = true;
 

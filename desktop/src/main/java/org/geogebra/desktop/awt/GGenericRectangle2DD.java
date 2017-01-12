@@ -21,32 +21,39 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		impl = bounds2d;
 	}
 
+	@Override
 	public double getY() {
 		return impl.getY();
 	}
 
+	@Override
 	public double getX() {
 		return impl.getX();
 	}
 
+	@Override
 	public double getWidth() {
 		return impl.getWidth();
 	}
 
+	@Override
 	public double getHeight() {
 		return impl.getHeight();
 	}
 
+	@Override
 	public void setRect(double x, double y, double width, double height) {
 		impl.setRect(x, y, width, height);
 
 	}
 
+	@Override
 	public void setFrame(double x, double y, double width, double height) {
 		impl.setFrame(x, y, width, height);
 
 	}
 
+	@Override
 	public boolean intersects(double minX, double minY, double lengthX,
 			double lengthY) {
 		return impl.intersects(minX, minY, lengthX, lengthY);
@@ -62,28 +69,34 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		} else if (r2d instanceof GRectangleD) {
 			return ((GRectangleD) r2d).impl;
 		}
-		if (r2d != null)
+		if (r2d != null) {
 			Log.debug("other type");
+		}
 		return null;
 
 	}
 
+	@Override
 	public boolean contains(double xTry, double yTry) {
 		return impl.contains(xTry, yTry);
 	}
 
+	@Override
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		return impl.contains(x, y);
 	}
 
+	@Override
 	public GRectangleD getBounds() {
 		return new GRectangleD(impl.getBounds());
 	}
 
+	@Override
 	public GRectangle2D getBounds2D() {
 		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
@@ -92,6 +105,7 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		return impl.contains(GRectangleD.getAWTRectangle(rectangle));
 	}
 
+	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
@@ -102,14 +116,17 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
+	@Override
 	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
+	@Override
 	public Shape getAwtShape() {
 		return impl;
 	}
 
+	@Override
 	public GRectangle2D createIntersection(GRectangle2D r) {
 		return new GGenericRectangle2DD(impl
 				.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));

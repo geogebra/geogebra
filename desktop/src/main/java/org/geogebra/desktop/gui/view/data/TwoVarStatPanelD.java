@@ -88,9 +88,11 @@ public class TwoVarStatPanelD extends StatTable
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		if (e.getActionCommand().equals("updateTable")) {
 			model.setSelectedDataIndex0(getComboCellEditorSelectedIndex(0, 0));
@@ -100,19 +102,23 @@ public class TwoVarStatPanelD extends StatTable
 		parentActionListener.actionPerformed(e);
 	}
 
+	@Override
 	public void setValueAt(String value, int row, int col) {
 		statTable.setValueAt(value, row, col);
 
 	}
 
+	@Override
 	public void setValueAt(double value, int row, int col) {
 		statTable.setValueAt(statDialog.format(value), row, col);
 	}
 
+	@Override
 	public GeoList getDataSelected() {
 		return statDialog.getController().getDataSelected();
 	}
 
+	@Override
 	public double[] getValueArray(GeoList list) {
 		return statDialog.getController().getValueArray(list);
 	}

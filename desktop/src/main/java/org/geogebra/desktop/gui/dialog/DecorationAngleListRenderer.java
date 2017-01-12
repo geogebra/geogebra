@@ -37,6 +37,7 @@ public class DecorationAngleListRenderer extends JPanel
 		// setPreferredSize(new Dimension(50,20));
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		// Get the selected index. (The index param isn't

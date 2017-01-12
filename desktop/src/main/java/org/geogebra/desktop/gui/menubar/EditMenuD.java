@@ -60,12 +60,13 @@ public class EditMenuD extends BaseMenu {
 			setMenuShortCutAccelerator(mi, 'Z');
 			mi = add(((GuiManagerD) app.getGuiManager()).getRedoAction());
 			mi.setIcon(app.getMenuIcon(GuiResourcesD.MENU_EDIT_REDO));
-			if (AppD.MAC_OS)
+			if (AppD.MAC_OS) {
 				// Command-Shift-Z
 				setMenuShortCutShiftAccelerator(mi, 'Z');
-			else
+			} else {
 				// Ctrl-Y
 				setMenuShortCutAccelerator(mi, 'Y');
+			}
 			addSeparator();
 		}
 
@@ -154,6 +155,7 @@ public class EditMenuD extends BaseMenu {
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
 						null);
@@ -164,6 +166,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				selection.selectAll(-1); // pass "-1" to select all
 			}
@@ -173,11 +176,14 @@ public class EditMenuD extends BaseMenu {
 				loc.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				int layer = selection.getSelectedLayer();
 				if (layer != -1)
+				 {
 					selection.selectAll(layer); // select all objects in layer
+				}
 
 			}
 		};
@@ -186,6 +192,7 @@ public class EditMenuD extends BaseMenu {
 				loc.getMenu("SelectAncestors"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				selection.selectAllPredecessors();
@@ -196,6 +203,7 @@ public class EditMenuD extends BaseMenu {
 				loc.getMenu("SelectDescendants"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				selection.selectAllDescendants();
@@ -206,6 +214,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				selection.showHideSelection();
@@ -217,6 +226,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				selection.showHideSelectionLabels();
@@ -227,6 +237,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(),
@@ -240,6 +251,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				app.getCopyPaste().pasteFromXML(app, false);
@@ -252,6 +264,7 @@ public class EditMenuD extends BaseMenu {
 				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				app.copyGraphicsViewToClipboard();
@@ -263,6 +276,7 @@ public class EditMenuD extends BaseMenu {
 				loc.getMenu("Clipboard"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				((GuiManagerD) app.getGuiManager()).loadImage(null, true);
@@ -274,6 +288,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				((GuiManagerD) app.getGuiManager()).loadImage(null, false);
@@ -285,6 +300,7 @@ public class EditMenuD extends BaseMenu {
 				app.getMenuIcon(GuiResourcesD.DELETE_SMALL)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.deleteSelectedObjects();
 			}
@@ -294,6 +310,7 @@ public class EditMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				selection.invertSelection();
 			}

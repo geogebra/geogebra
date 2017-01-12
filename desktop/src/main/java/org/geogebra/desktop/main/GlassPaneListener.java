@@ -47,30 +47,37 @@ public class GlassPaneListener
 		this.destComp = destComp;
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		redispatchMouseEvent(e);
 	}
@@ -95,9 +102,11 @@ public class GlassPaneListener
 		}
 	}
 
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
-		if (destComp != null)
+		if (destComp != null) {
 			destComp.dispatchEvent(e);
+		}
 		return true;
 	}
 }

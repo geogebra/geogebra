@@ -91,6 +91,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 		}
 	}
 
+	@Override
 	public void updateNow(GeoElement geo) {
 		super.update(geo);
 	}
@@ -105,6 +106,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 		repaint();
 	}
 
+	@Override
 	final public void repaintNow() {
 		if (needRepaint) {
 			super.repaint();

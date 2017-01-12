@@ -231,6 +231,7 @@ class ColorPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = this.propertiesPanelD.app.getLocalization();
 		previewLabel
@@ -246,6 +247,7 @@ class ColorPanel extends JPanel
 		updateToolTipText();
 	}
 
+	@Override
 	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		addSelectionBar();
@@ -254,8 +256,9 @@ class ColorPanel extends JPanel
 
 	public JPanel update() {
 
-		if (!model.checkGeos())
+		if (!model.checkGeos()) {
 			return null;
+		}
 
 		model.updateProperties();
 
@@ -311,11 +314,12 @@ class ColorPanel extends JPanel
 	private void updateToolTipText() {
 		// set the preview tool tip and color label text for the chosen
 		// color
-		if (selectedColor == null)
+		if (selectedColor == null) {
 			previewPanel.setToolTipText("");
-		else
+		} else {
 			previewPanel.setToolTipText(
 					getToolTipText(propertiesPanelD.app, selectedColor));
+		}
 		currentColorLabel.setText(previewPanel.getToolTipText());
 	}
 
@@ -381,6 +385,7 @@ class ColorPanel extends JPanel
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(new ActionListener() {
 
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						selectedBarButton = Integer
 								.parseInt(((JToggleButton) arg0.getSource())
@@ -402,21 +407,24 @@ class ColorPanel extends JPanel
 	/**
 	 * Listens for color chooser state changes
 	 */
+	@Override
 	public void stateChanged(ChangeEvent e) {
 
 		float alpha = opacitySlider.getValue() / 100.0f;
 		GColor color = GColorD
 				.newColor(this.propertiesPanelD.colChooser.getColor());
-		if (e.getSource() == opacitySlider)
+		if (e.getSource() == opacitySlider) {
 			model.applyChanges(color, alpha, true);
-		else
+		} else {
 			model.applyChanges(color, alpha, false);
+		}
 
 	}
 
 	/**
 	 * action listener implementation for label mode combobox
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if (source == rbtnBackgroundColor || source == rbtnForegroundColor) {
@@ -435,6 +443,7 @@ class ColorPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void updateFonts() {
 		Font font = this.propertiesPanelD.app.getPlainFont();
 
@@ -461,12 +470,15 @@ class ColorPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
-		if (model.getGeos() == null)
+		if (model.getGeos() == null) {
 			return;
+		}
 		update();
 	}
 
+	@Override
 	public void updateChooser(boolean equalObjColor,
 			boolean equalObjColorBackground, boolean allFillable,
 			boolean hasBackground, boolean hasOpacity) {
@@ -549,6 +561,7 @@ class ColorPanel extends JPanel
 
 	}
 
+	@Override
 	public void updatePreview(GColor col, double alpha) {
 		// update preview panel
 		Color color = GColorD.getAwtColor(col);
@@ -559,10 +572,12 @@ class ColorPanel extends JPanel
 
 	}
 
+	@Override
 	public boolean isBackgroundColorSelected() {
 		return rbtnBackgroundColor.isSelected();
 	}
 
+	@Override
 	public void updateNoBackground(GeoElement geo, GColor col, double alpha,
 			boolean updateAlphaOnly, boolean allFillable) {
 

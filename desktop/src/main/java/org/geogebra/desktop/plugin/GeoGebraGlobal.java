@@ -62,6 +62,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		}
 	}
 
+	@Override
 	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
 			Scriptable thisObj, Object[] args) {
 		if (f.hasTag(FTAG)) {
@@ -107,10 +108,11 @@ public class GeoGebraGlobal implements IdFunctionCall {
 	int[] linep = new int[1];
 
 	private String argError(Object arg, String syntax) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 		Context.getSourcePositionFromStack(linep); // line number of error
 		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0] + ""));
 		sb.append("\n");
@@ -125,10 +127,11 @@ public class GeoGebraGlobal implements IdFunctionCall {
 	}
 
 	private String argNumError(int argNumber, String syntax) {
-		if (sb == null)
+		if (sb == null) {
 			sb = new StringBuilder();
-		else
+		} else {
 			sb.setLength(0);
+		}
 		Context.getSourcePositionFromStack(linep); // line number of error
 		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0] + ""));
 		sb.append("\n");

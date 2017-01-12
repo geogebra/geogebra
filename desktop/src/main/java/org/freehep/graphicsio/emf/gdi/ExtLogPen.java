@@ -46,8 +46,9 @@ public class ExtLogPen implements EMFConstants {
 		hatch = emf.readULONG();
 		int nStyle = emf.readDWORD();
 		// it seems we always have to read one!
-		if (nStyle == 0)
+		if (nStyle == 0) {
 			emf.readDWORD();
+		}
 		style = emf.readDWORD(nStyle);
 	}
 
@@ -59,11 +60,13 @@ public class ExtLogPen implements EMFConstants {
 		emf.writeULONG(hatch);
 		emf.writeDWORD(style.length);
 		// it seems we always have to write one!
-		if (style.length == 0)
+		if (style.length == 0) {
 			emf.writeDWORD(0);
+		}
 		emf.writeDWORD(style);
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer s = new StringBuffer();
 		s.append("  ExtLogPen\n");

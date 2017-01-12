@@ -51,6 +51,7 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 	// FIXME: The StemV entry is missing in the FontDescriptor dictionary, but
 	// it
 	// does not cause the Acrobat Reader to crash.
+	@Override
 	protected void openIncludeFont() throws IOException {
 		super.openIncludeFont();
 
@@ -100,11 +101,13 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 
 	}
 
+	@Override
 	protected void writeWidths(double[] widths) throws IOException {
 		super.writeWidths(widths);
 		Object[] widthsObj = new Object[256];
-		for (int i = 0; i < widthsObj.length; i++)
+		for (int i = 0; i < widthsObj.length; i++) {
 			widthsObj[i] = Integer.valueOf((int) Math.round(widths[i]));
+		}
 		pdf.object(reference + "Widths", widthsObj);
 	}
 
@@ -113,10 +116,12 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 	// FontEmbedderPDF.writeEncoding(pdf, getReference()+"Encoding", charTable);
 	// }
 
+	@Override
 	protected void openGlyphs() throws IOException {
 		super.openGlyphs();
 	}
 
+	@Override
 	protected void closeEmbedFont() throws IOException {
 		super.closeEmbedFont();
 

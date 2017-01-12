@@ -11,6 +11,7 @@ public class ImageResourceDImpl implements ImageResourceD {
 		this.fn = fn;
 	}
 
+	@Override
 	public String getFilename() {
 		return fn;
 	}

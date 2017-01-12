@@ -73,8 +73,9 @@ public class NativeDataView extends NativeArrayBufferView {
 
 	private static NativeDataView realThis(Scriptable thisObj,
 			IdFunctionObject f) {
-		if (!(thisObj instanceof NativeDataView))
+		if (!(thisObj instanceof NativeDataView)) {
 			throw incompatibleCallError(f);
+		}
 		return (NativeDataView) thisObj;
 	}
 
@@ -449,8 +450,9 @@ public class NativeDataView extends NativeArrayBufferView {
 				id = Id_constructor;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

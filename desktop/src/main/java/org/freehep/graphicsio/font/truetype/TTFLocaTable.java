@@ -13,10 +13,12 @@ public class TTFLocaTable extends TTFTable {
 
 	public long offset[];
 
+	@Override
 	public String getTag() {
 		return "loca";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		short format = ((TTFHeadTable) getTable("head")).indexToLocFormat;
 		int numGlyphs = ((TTFMaxPTable) getTable("maxp")).numGlyphs + 1;
@@ -27,11 +29,13 @@ public class TTFLocaTable extends TTFTable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString();
 		for (int i = 0; i < offset.length; i++) {
-			if (i % 16 == 0)
+			if (i % 16 == 0) {
 				str += "\n  ";
+			}
 			str += offset[i] + " ";
 		}
 		return str;

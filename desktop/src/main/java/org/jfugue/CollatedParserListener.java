@@ -35,58 +35,72 @@ package org.jfugue;
  */
 public abstract class CollatedParserListener implements ParserListener {
 
+	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
 		jfugueEvent(channelPressure);
 	}
 
+	@Override
 	public void controllerEvent(Controller controller) {
 		jfugueEvent(controller);
 	}
 
+	@Override
 	public void instrumentEvent(Instrument instrument) {
 		jfugueEvent(instrument);
 	}
 
+	@Override
 	public void keySignatureEvent(KeySignature keySig) {
 		jfugueEvent(keySig);
 	}
 
+	@Override
 	public void layerEvent(Layer layer) {
 		jfugueEvent(layer);
 	}
 
+	@Override
 	public void measureEvent(Measure measure) {
 		jfugueEvent(measure);
 	}
 
+	@Override
 	public void noteEvent(Note note) {
 		jfugueEvent(note);
 	}
 
+	@Override
 	public void parallelNoteEvent(Note note) {
 		jfugueEvent(note);
 	}
 
+	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
 		jfugueEvent(pitchBend);
 	}
 
+	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
 		jfugueEvent(polyphonicPressure);
 	}
 
+	@Override
 	public void sequentialNoteEvent(Note note) {
 		jfugueEvent(note);
 	}
 
+	@Override
 	public void tempoEvent(Tempo tempo) {
 		jfugueEvent(tempo);
 	}
 
+	@Override
 	public void timeEvent(Time time) {
 		jfugueEvent(time);
 	}
 
+	@Override
 	public void voiceEvent(Voice voice) {
 		jfugueEvent(voice);
 	}

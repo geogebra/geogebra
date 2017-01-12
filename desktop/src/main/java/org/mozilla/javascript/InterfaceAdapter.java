@@ -24,8 +24,9 @@ public class InterfaceAdapter {
 	 *         methods with different signatures.
 	 */
 	static Object create(Context cx, Class<?> cl, ScriptableObject object) {
-		if (!cl.isInterface())
+		if (!cl.isInterface()) {
 			throw new IllegalArgumentException();
+		}
 
 		Scriptable topScope = ScriptRuntime.getTopCallScope(cx);
 		ClassCache cache = ClassCache.get(topScope);
@@ -72,6 +73,7 @@ public class InterfaceAdapter {
 			final Scriptable topScope, final Object thisObject,
 			final Method method, final Object[] args) {
 		ContextAction action = new ContextAction() {
+			@Override
 			public Object run(Context cx) {
 				return invokeImpl(cx, target, topScope, thisObject, method,
 						args);

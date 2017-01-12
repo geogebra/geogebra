@@ -106,6 +106,7 @@ public class OptionsCASD extends OptionsCAS
 	 * 
 	 * @remark Do not call setLabels() here
 	 */
+	@Override
 	public void updateGUI() {
 		casSettings = app.getSettings().getCasSettings();
 		cbTimeout.setSelectedItem(OptionsCAS
@@ -117,6 +118,7 @@ public class OptionsCASD extends OptionsCAS
 	/**
 	 * React to actions.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// change timeout
 		if (e.getSource() == cbTimeout) {
@@ -135,6 +137,7 @@ public class OptionsCASD extends OptionsCAS
 	/**
 	 * Update the language of the user interface.
 	 */
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		timeoutLabel.setText(loc.getPlain("CasTimeout"));
@@ -145,22 +148,27 @@ public class OptionsCASD extends OptionsCAS
 	/**
 	 * Apply changes
 	 */
+	@Override
 	public void applyModifications() {
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return this.wrappedPanel;
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
 
+	@Override
 	public void updateFont() {
 		Font font = app.getPlainFont();
 
@@ -170,6 +178,7 @@ public class OptionsCASD extends OptionsCAS
 		cbShowNavigation.setFont(font);
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}

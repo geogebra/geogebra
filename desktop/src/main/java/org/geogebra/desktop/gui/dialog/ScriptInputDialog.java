@@ -152,9 +152,9 @@ public class ScriptInputDialog extends InputDialogD
 				});
 
 			} else if (source == btCancel) {
-				if (wrappedDialog.isShowing())
+				if (wrappedDialog.isShowing()) {
 					setVisible(false);
-				else {
+				} else {
 					model.setGeo(model.getGeo());
 				}
 			} else if (source == languageSelector) {
@@ -202,16 +202,19 @@ public class ScriptInputDialog extends InputDialogD
 		}
 	}
 
+	@Override
 	public void changedUpdate(DocumentEvent e) {
 		// nothing to do
 
 	}
 
+	@Override
 	public void insertUpdate(DocumentEvent e) {
 		model.handleDocumentEvent();
 
 	}
 
+	@Override
 	public void removeUpdate(DocumentEvent e) {
 		model.handleDocumentEvent();
 
@@ -227,15 +230,18 @@ public class ScriptInputDialog extends InputDialogD
 
 	}
 
+	@Override
 	public void setInputText(String text) {
 		inputPanel.getTextComponent().setText(text);
 
 	}
 
+	@Override
 	public String getInputText() {
 		return inputPanel.getTextComponent().getText();
 	}
 
+	@Override
 	public void setLanguageIndex(int index, String name) {
 		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
 				.getTextComponent();
@@ -254,6 +260,7 @@ public class ScriptInputDialog extends InputDialogD
 		model.setGlobal();
 	}
 
+	@Override
 	public Object updatePanel(Object[] geos2) {
 		return this;
 	}

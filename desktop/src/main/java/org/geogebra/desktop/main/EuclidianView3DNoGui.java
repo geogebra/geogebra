@@ -20,41 +20,49 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 		super(ec, settings);
 	}
 
+	@Override
 	public void repaint() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setToolTipText(String plainTooltip) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void requestFocus() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean isShowing() {
 		// TODO Auto-generated method stub
 		return false;
@@ -162,6 +170,7 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 		return null;
 	}
 
+	@Override
 	public void readText(String text) {
 		// TODO Auto-generated method stub
 

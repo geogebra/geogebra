@@ -46,6 +46,7 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * 
 	 * @return euclidian controller
 	 */
+	@Override
 	public EuclidianController getEuclidianController();
 
 	/**

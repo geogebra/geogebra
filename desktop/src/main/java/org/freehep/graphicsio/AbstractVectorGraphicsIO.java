@@ -234,6 +234,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	public Dimension getSize() {
 		return size;
 	}
@@ -249,6 +250,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * =======
 	 */
 	/* 3.1 Header & Trailer */
+	@Override
 	public void startExport() {
 		try {
 			writeHeader();
@@ -263,6 +265,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		}
 	}
 
+	@Override
 	public void endExport() {
 		try {
 			dispose();
@@ -310,6 +313,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 */
 	public abstract void closeStream() throws IOException;
 
+	@Override
 	public void printComment(String comment) {
 		try {
 			writeComment(comment);
@@ -342,6 +346,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * Disposes of the graphics context. If on creation restoreOnDispose was
 	 * true, writeGraphicsRestore() will be called.
 	 */
+	@Override
 	public void dispose() {
 		try {
 			// Swing sometimes calls dispose several times for a given
@@ -377,6 +382,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 */
 
 	/* 5.3. Images */
+	@Override
 	public boolean drawImage(Image image, int x, int y,
 			ImageObserver observer) {
 		int imageWidth = image.getWidth(observer);
@@ -385,6 +391,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 				imageWidth, imageHeight, null, observer);
 	}
 
+	@Override
 	public boolean drawImage(Image image, int x, int y, int width, int height,
 			ImageObserver observer) {
 		int imageWidth = image.getWidth(observer);
@@ -393,6 +400,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 				imageHeight, null, observer);
 	}
 
+	@Override
 	public boolean drawImage(Image image, int x, int y, int width, int height,
 			Color bgColor, ImageObserver observer) {
 		int imageWidth = image.getWidth(observer);
@@ -401,6 +409,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 				imageHeight, bgColor, observer);
 	}
 
+	@Override
 	public boolean drawImage(Image image, int x, int y, Color bgColor,
 			ImageObserver observer) {
 		int imageWidth = image.getWidth(observer);
@@ -409,12 +418,14 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 				imageWidth, imageHeight, bgColor, observer);
 	}
 
+	@Override
 	public boolean drawImage(Image image, int dx1, int dy1, int dx2, int dy2,
 			int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
 		return drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null,
 				observer);
 	}
 
+	@Override
 	public boolean drawImage(Image image, AffineTransform xform,
 			ImageObserver observer) {
 		drawRenderedImage(
@@ -423,11 +434,13 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		return true;
 	}
 
+	@Override
 	public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
 		drawImage(img, x, y, null);
 	}
 
 	// NOTE: not tested yet!!!
+	@Override
 	public void drawRenderableImage(RenderableImage image,
 			AffineTransform xform) {
 		drawRenderedImage(image.createRendering(
@@ -462,6 +475,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *            for updates if image still incomplete
 	 * @return true if successful
 	 */
+	@Override
 	public boolean drawImage(Image image, int dx1, int dy1, int dx2, int dy2,
 			int sx1, int sy1, int sx2, int sy2, Color bgColor,
 			ImageObserver observer) {
@@ -550,6 +564,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param xform
 	 *            transform to be used on the image
 	 */
+	@Override
 	public void drawRenderedImage(RenderedImage image, AffineTransform xform) {
 		try {
 			writeImage(image, xform, null);
@@ -573,6 +588,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param height
 	 *            rectangle to be cleared.
 	 */
+	@Override
 	public void clearRect(double x, double y, double width, double height) {
 		Paint temp = getPaint();
 		setPaint(getBackground());
@@ -590,6 +606,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param x
 	 * @param y
 	 */
+	@Override
 	public void drawString(String string, double x, double y) {
 		// something to draw?
 		if (string == null || string.equals("")) {
@@ -638,10 +655,12 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param x
 	 * @param y
 	 */
+	@Override
 	public void drawGlyphVector(GlyphVector g, float x, float y) {
 		fill(g.getOutline(x, y));
 	}
 
+	@Override
 	public void drawString(AttributedCharacterIterator iterator, float x,
 			float y) {
 
@@ -718,6 +737,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current transform
 	 */
+	@Override
 	public AffineTransform getTransform() {
 		return new AffineTransform(currentTransform);
 	}
@@ -728,6 +748,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param transform
 	 *            to be set
 	 */
+	@Override
 	public void setTransform(AffineTransform transform) {
 		// Fix for FREEHEP-569
 		oldTransform.setTransform(currentTransform);
@@ -745,6 +766,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param transform
 	 *            to be applied
 	 */
+	@Override
 	public void transform(AffineTransform transform) {
 		currentTransform.concatenate(transform);
 		try {
@@ -762,6 +784,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param y
 	 *            amount by which to translate
 	 */
+	@Override
 	public void translate(double x, double y) {
 		currentTransform.translate(x, y);
 		try {
@@ -779,6 +802,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param theta
 	 *            radians over which to rotate
 	 */
+	@Override
 	public void rotate(double theta) {
 		currentTransform.rotate(theta);
 		try {
@@ -797,6 +821,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param sy
 	 *            amount used for scaling
 	 */
+	@Override
 	public void scale(double sx, double sy) {
 		currentTransform.scale(sx, sy);
 		try {
@@ -814,6 +839,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param shy
 	 *            amount for shearing
 	 */
+	@Override
 	public void shear(double shx, double shy) {
 		currentTransform.shear(shx, shy);
 		try {
@@ -880,6 +906,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current clip
 	 */
+	@Override
 	public Shape getClip() {
 		return (userClip != null) ? new Area(untransformShape(userClip)) : null;
 	}
@@ -889,6 +916,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current clip
 	 */
+	@Override
 	public Rectangle getClipBounds() {
 		Shape clip = getClip();
 		return (clip != null) ? getClip().getBounds() : null;
@@ -899,10 +927,12 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current clip
 	 */
+	@Override
 	public Rectangle getClipBounds(Rectangle r) {
 		Rectangle bounds = getClipBounds();
-		if (bounds != null)
+		if (bounds != null) {
 			r.setBounds(bounds);
+		}
 		return r;
 	}
 
@@ -918,6 +948,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param height
 	 *            rectangle for clipping
 	 */
+	@Override
 	public void clipRect(int x, int y, int width, int height) {
 		clip(new Rectangle(x, y, width, height));
 	}
@@ -934,6 +965,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param height
 	 *            rectangle for clipping
 	 */
+	@Override
 	public void clipRect(double x, double y, double width, double height) {
 		clip(new Rectangle2D.Double(x, y, width, height));
 	}
@@ -950,6 +982,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param height
 	 *            rectangle for clipping
 	 */
+	@Override
 	public void setClip(int x, int y, int width, int height) {
 		setClip(new Rectangle(x, y, width, height));
 	}
@@ -966,6 +999,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param height
 	 *            rectangle for clipping
 	 */
+	@Override
 	public void setClip(double x, double y, double width, double height) {
 		setClip(new Rectangle2D.Double(x, y, width, height));
 	}
@@ -976,6 +1010,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param s
 	 *            used for clipping
 	 */
+	@Override
 	public void setClip(Shape s) {
 
 		Shape ts = transformShape(s);
@@ -995,6 +1030,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param s
 	 *            used for clipping
 	 */
+	@Override
 	public void clip(Shape s) {
 		Shape ts = transformShape(s);
 		if (userClip != null) {
@@ -1042,6 +1078,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current stroke
 	 */
+	@Override
 	public Stroke getStroke() {
 		return currentStroke;
 	}
@@ -1053,6 +1090,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param stroke
 	 *            to be set
 	 */
+	@Override
 	public void setStroke(Stroke stroke) {
 		if (stroke.equals(currentStroke)) {
 			return;
@@ -1182,7 +1220,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		for (int i = 0; i < dash.length; i++) {
 			dd[i] = dash[i];
 		}
-		writeDash(dd, (double) phase);
+		writeDash(dd, phase);
 	}
 
 	/**
@@ -1194,17 +1232,21 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param phase
 	 *            of the dash pattern
 	 */
+	@Deprecated
 	protected void writeDash(double[] dash, double phase) throws IOException {
 		writeWarning(getClass() + ": writeDash() not implemented.");
 	}
 
 	/* 8.2 Paint */
+	@Override
 	public void setColor(Color color) {
-		if (color == null)
+		if (color == null) {
 			return;
+		}
 
-		if (color.equals(getColor()))
+		if (color.equals(getColor())) {
 			return;
+		}
 
 		try {
 			super.setColor(color);
@@ -1223,12 +1265,15 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param paint
 	 *            to be set
 	 */
+	@Override
 	public void setPaint(Paint paint) {
-		if (paint == null)
+		if (paint == null) {
 			return;
+		}
 
-		if (paint.equals(getPaint()))
+		if (paint.equals(getPaint())) {
 			return;
+		}
 
 		try {
 			if (paint instanceof Color) {
@@ -1288,6 +1333,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current font render context
 	 */
+	@Override
 	public FontRenderContext getFontRenderContext() {
 		// NOTE: not sure?
 		return new FontRenderContext(new AffineTransform(1, 0, 0, -1, 0, 0),
@@ -1302,6 +1348,8 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *            to be used for retrieving fontmetrics
 	 * @return fontmetrics for given font
 	 */
+	@Deprecated
+	@Override
 	public FontMetrics getFontMetrics(Font font) {
 		return Toolkit.getDefaultToolkit().getFontMetrics(font);
 	}
@@ -1312,6 +1360,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return clone of table of rendering hints.
 	 */
+	@Override
 	public RenderingHints getRenderingHints() {
 		return (RenderingHints) hints.clone();
 	}
@@ -1322,6 +1371,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param hints
 	 *            table to be added
 	 */
+	@Override
 	public void addRenderingHints(Map hints) {
 		this.hints.putAll(hints);
 	}
@@ -1332,6 +1382,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param hints
 	 *            table to be set
 	 */
+	@Override
 	public void setRenderingHints(Map hints) {
 		this.hints.clear();
 		this.hints.putAll(hints);
@@ -1344,6 +1395,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *            hint key
 	 * @return hint associated to key
 	 */
+	@Override
 	public Object getRenderingHint(RenderingHints.Key key) {
 		return hints.get(key);
 	}
@@ -1356,10 +1408,12 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param hint
 	 *            to be associated with key
 	 */
+	@Override
 	public void setRenderingHint(RenderingHints.Key key, Object hint) {
 		// extra protection, failed on under MacOS X 10.2.6, jdk 1.4.1_01-39/14
-		if ((key == null) || (hint == null))
+		if ((key == null) || (hint == null)) {
 			return;
+		}
 		hints.put(key, hint);
 	}
 
@@ -1369,9 +1423,11 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param font
 	 *            to be set
 	 */
+	@Override
 	public void setFont(Font font) {
-		if (font == null)
+		if (font == null) {
 			return;
+		}
 
 		// FIXME: maybe add delayed setting
 		super.setFont(font);
@@ -1403,6 +1459,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *
 	 * @return current composite
 	 */
+	@Override
 	public Composite getComposite() {
 		return currentComposite;
 	}
@@ -1413,6 +1470,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param composite
 	 *            to be set
 	 */
+	@Override
 	public void setComposite(Composite composite) {
 		currentComposite = composite;
 	}
@@ -1469,6 +1527,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		 */
 	}
 
+	@Override
 	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
 			boolean close) {
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
@@ -1477,15 +1536,17 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			for (int i = 1; i < nPoints; i++) {
 				path.lineTo((float) xPoints[i], (float) yPoints[i]);
 			}
-			if (close)
+			if (close) {
 				path.closePath();
+			}
 		}
 		return path;
 	}
 
 	private Shape transformShape(AffineTransform at, Shape s) {
-		if (s == null)
+		if (s == null) {
 			return null;
+		}
 		if (at == null) {
 			return s;
 		}
@@ -1497,8 +1558,9 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	}
 
 	private Shape untransformShape(Shape s) {
-		if (s == null)
+		if (s == null) {
 			return null;
+		}
 		if (getTransform() == null) {
 			return s;
 		}

@@ -35,6 +35,7 @@ public abstract class KeywordAdapter implements KeywordListener {
 	/**
 	 * @return the type of this listener
 	 */
+	@Override
 	public int getType() {
 		return type;
 	}
@@ -45,6 +46,7 @@ public abstract class KeywordAdapter implements KeywordListener {
 	 * @param e
 	 *            a KeywordEvent
 	 */
+	@Override
 	public abstract void caughtKeyword(KeywordEvent e);
 
 	/**

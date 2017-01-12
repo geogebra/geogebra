@@ -154,35 +154,41 @@ public class DataAnalysisViewD extends JPanel
 		statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
 	}
 
+	@Override
 	public void setPlotPanelOVNotNumeric(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
 		dataDisplayPanel2.setPanel(PlotType.BARCHART, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelOVRawData(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
 		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelOVFrequency(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
 		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelOVClass(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
 		dataDisplayPanel2.setPanel(PlotType.HISTOGRAM, mode);
 
 	}
 
+	@Override
 	public void setPlotPanelRegression(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.SCATTERPLOT, mode);
 		dataDisplayPanel2.setPanel(PlotType.RESIDUAL, mode);
 	}
 
+	@Override
 	public void setPlotPanelMultiVar(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.MULTIBOXPLOT, mode);
 
@@ -212,6 +218,7 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
+	@Override
 	public void loadDataTable(ArrayList<GeoElement> dataArray) {
 		if (dataPanel == null) {
 			buildDataPanel();
@@ -361,6 +368,7 @@ public class DataAnalysisViewD extends JPanel
 		return this;
 	}
 
+	@Override
 	public DataAnalysisControllerD getController() {
 		return daCtrl;
 	}
@@ -381,10 +389,12 @@ public class DataAnalysisViewD extends JPanel
 	// Handlers for Component Visibility
 	// =================================================
 
+	@Override
 	public void updateStatDataPanelVisibility() {
 
-		if (statDataPanel == null)
+		if (statDataPanel == null) {
 			return;
+		}
 
 		if (!model.isMultiVar()) {
 
@@ -413,10 +423,11 @@ public class DataAnalysisViewD extends JPanel
 			}
 
 			// hide/show divider
-			if (model.showDataPanel() && model.showStatPanel())
+			if (model.showDataPanel() && model.showStatPanel()) {
 				statDataPanel.setDividerSize(defaultDividerSize);
-			else
+			} else {
 				statDataPanel.setDividerSize(0);
+			}
 
 			// hide/show statData panel
 			if (model.showDataPanel() || model.showStatPanel()) {
@@ -471,6 +482,7 @@ public class DataAnalysisViewD extends JPanel
 	// Event Handlers and Updates
 	// =================================================
 
+	@Override
 	public void updateGUI() {
 
 		if (stylebar != null) {
@@ -512,12 +524,14 @@ public class DataAnalysisViewD extends JPanel
 			if (com instanceof StatPanelInterface) {
 				((StatPanelInterface) com).updateFonts(font);
 			}
-			if (com instanceof Container)
+			if (com instanceof Container) {
 				setFontRecursive((Container) com, font);
+			}
 		}
 
 	}
 
+	@Override
 	public void setLabels() {
 
 		if (model.isIniting()) {
@@ -546,8 +560,9 @@ public class DataAnalysisViewD extends JPanel
 			if (com instanceof StatPanelInterface) {
 				// System.out.println(c.getClass().getSimpleName());
 				((StatPanelInterface) com).setLabels();
-			} else if (com instanceof Container)
+			} else if (com instanceof Container) {
 				setLabelsRecursive((Container) com);
+			}
 		}
 	}
 
@@ -561,46 +576,57 @@ public class DataAnalysisViewD extends JPanel
 	// View Implementation
 	// =================================================
 
+	@Override
 	public void remove(GeoElement geo) {
 		model.remove(geo);
 	}
 
+	@Override
 	public void update(GeoElement geo) {
 		model.update(geo);
 	}
 
+	@Override
 	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
 
+	@Override
 	public void add(GeoElement geo) {
 		// do nothing
 	}
 
+	@Override
 	public void clearView() {
 		// do nothing
 	}
 
+	@Override
 	public void rename(GeoElement geo) {
 		// do nothing
 	}
 
+	@Override
 	public void repaintView() {
 		// do nothing
 	}
 
+	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// do nothing
 	}
 
+	@Override
 	public void reset() {
 		// do nothing
 	}
 
+	@Override
 	public void setMode(int mode, ModeSetter m) {
 		// do nothing
 	}
@@ -613,15 +639,17 @@ public class DataAnalysisViewD extends JPanel
 
 		// attachView to plot panels
 		dataDisplayPanel1.attachView();
-		if (dataDisplayPanel2 != null)
+		if (dataDisplayPanel2 != null) {
 			dataDisplayPanel2.attachView();
+		}
 	}
 
 	public void detachView() {
 
 		dataDisplayPanel1.detachView();
-		if (dataDisplayPanel2 != null)
+		if (dataDisplayPanel2 != null) {
 			dataDisplayPanel2.detachView();
+		}
 		daCtrl.removeStatGeos();
 
 		kernel.detach(this);
@@ -642,10 +670,12 @@ public class DataAnalysisViewD extends JPanel
 	// Printing
 	// =================================================
 
+	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
 		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
-		if (pageIndex > 0)
+		if (pageIndex > 0) {
 			return (NO_SUCH_PAGE);
+		}
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
@@ -673,10 +703,11 @@ public class DataAnalysisViewD extends JPanel
 			line = author;
 		}
 		if (!"".equals(date)) {
-			if (line == null)
+			if (line == null) {
 				line = date;
-			else
+			} else {
 				line = line + " - " + date;
+			}
 		}
 
 		if (line != null) {
@@ -713,6 +744,7 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
+	@Override
 	public int getViewID() {
 		return App.VIEW_DATA_ANALYSIS;
 	}
@@ -721,21 +753,25 @@ public class DataAnalysisViewD extends JPanel
 		return dataDisplayPanel1.getExportMenu();
 	}
 
+	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web
 	}
 
+	@Override
 	public DataAnalysisModel getModel() {
 		return model;
 	}
@@ -744,6 +780,7 @@ public class DataAnalysisViewD extends JPanel
 		this.model = model;
 	}
 
+	@Override
 	public void onModeChange() {
 		dataPanel = null;
 		buildStatisticsPanel();
@@ -753,6 +790,7 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
+	@Override
 	public void showComboPanel2(boolean show) {
 		if (show) {
 			if (comboPanelSplit == null) {
@@ -775,6 +813,7 @@ public class DataAnalysisViewD extends JPanel
 		return model.format(value);
 	}
 
+	@Override
 	public GColor createColor(int idx) {
 		Color c = colors[idx];
 		return GColor.newColor(c.getRed(), c.getGreen(), c.getBlue());
@@ -792,6 +831,7 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
+	@Override
 	public DataDisplayModel getDisplayModel(int index) {
 		return index == 0 ? this.dataDisplayPanel1.getModel()
 				: this.dataDisplayPanel2.getModel();

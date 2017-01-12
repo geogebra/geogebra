@@ -50,6 +50,7 @@ public final class FunctionSoundD extends FunctionSound
 	 *            = 8 or 16
 	 * @return
 	 */
+	@Override
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
 		if (!super.initStreamingAudio(sampleRate, bitDepth)) {
 			return false;
@@ -106,6 +107,7 @@ public final class FunctionSoundD extends FunctionSound
 	 * 
 	 * @param doPause
 	 */
+	@Override
 	public void pause(boolean doPause) {
 
 		if (doPause) {
@@ -120,6 +122,7 @@ public final class FunctionSoundD extends FunctionSound
 	/**
 	 * Listener for line events, used for debugging.
 	 */
+	@Override
 	public void update(LineEvent le) {
 
 		LineEvent.Type type = le.getType();
@@ -164,10 +167,11 @@ public final class FunctionSoundD extends FunctionSound
 			// dynamically
 			// TODO: find optimal buffer size
 			int frameSetSize = getSampleRate() / 50; // 20ms ok?
-			if (getBitDepth() == 8)
+			if (getBitDepth() == 8) {
 				setBuf(new byte[frameSetSize]);
-			else
+			} else {
 				setBuf(new byte[2 * frameSetSize]);
+			}
 
 			// generate the function sound
 			try {
@@ -203,8 +207,9 @@ public final class FunctionSoundD extends FunctionSound
 						sdl.write(getBuf(), 0, getBufLength());
 					} while (getT() < getMax() && !stopped);
 
-					if (!stopped)
+					if (!stopped) {
 						doFade(getBuf()[getBufLength() - 1], true);
+					}
 
 				}
 

@@ -347,6 +347,7 @@ public enum GuiResourcesD implements ImageResourceD {
 		this.filename = filename;
 	}
 
+	@Override
 	public String getFilename() {
 		return filename;
 	}

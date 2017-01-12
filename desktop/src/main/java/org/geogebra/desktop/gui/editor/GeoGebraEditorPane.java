@@ -258,6 +258,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void caretUpdate(CaretEvent e) {
 		if (lexer != null) {
 			int pos = getCaretPosition();
@@ -307,6 +308,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void focusGained(FocusEvent e) {
 		//
 	}
@@ -314,6 +316,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void focusLost(FocusEvent e) {
 		if (helpPopup != null) {
 			helpPopup.hide();
@@ -394,6 +397,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		preventConcernedKeywordListener(getCaretPosition(), e,
 				KeywordListener.ONMOUSECLICKED);
@@ -405,6 +409,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		this.mousePoint = e.getPoint();
 	}
@@ -415,6 +420,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mouseExited(MouseEvent e) {
 		//
 	}
@@ -425,6 +431,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mousePressed(MouseEvent e) {
 		//
 	}
@@ -435,6 +442,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		//
 	}
@@ -445,6 +453,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		this.mousePoint = e.getPoint();
 		preventConcernedKeywordListener(viewToModel(mousePoint), e,
@@ -457,6 +466,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param e
 	 *            event
 	 */
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		//
 	}

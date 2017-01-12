@@ -75,6 +75,7 @@ public class RowHeaderRenderer extends JPanel
 		setMarbleValue(marbleValue);
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		numLabel.setText((value == null) ? "" : value.toString());
@@ -107,11 +108,13 @@ public class RowHeaderRenderer extends JPanel
 		return this;
 	}
 
+	@Override
 	public void setMarbleValue(boolean value) {
 		showHideControl.setIcon(value ? iconShown : iconHidden);
 		marbleValue = value;
 	}
 
+	@Override
 	public void setMarbleVisible(boolean visible) {
 		showHideControl.setVisible(visible);
 	}

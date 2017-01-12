@@ -38,65 +38,76 @@ public class PDFDictionary implements PDFConstants {
 	}
 
 	void close() throws IOException {
-		if (open != null)
+		if (open != null) {
 			System.err
 					.println("PDFWriter error: '" + open + "' was not closed");
+		}
 		out.outdent();
 		out.println(">>");
-		if (object != null)
+		if (object != null) {
 			object.close();
+		}
 		ok = false;
 	}
 
 	public void entry(String key, String string) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " (" + PDFUtil.escape(string) + ")");
 	}
 
 	public void entry(String key, PDFName name) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " " + name);
 	}
 
 	public void entry(String key, int number) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " " + number);
 	}
 
 	public void entry(String key, double number) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " " + PDFUtil.fixedPrecision(number));
 	}
 
 	public void entry(String key, boolean bool) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " " + (bool ? "true" : "false"));
 	}
 
 	public void entry(String key, PDFRef ref) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " " + ref);
 	}
 
 	public void entry(String key, Date date) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.println("/" + key + " " + PDFUtil.date(date));
 	}
 
 	public void entry(String key, Object[] objs) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.print("/" + key + " [");
 		for (int i = 0; i < objs.length; i++) {
-			if (i != 0)
+			if (i != 0) {
 				out.printPlain(" ");
+			}
 			out.printPlain(objs[i]);
 		}
 		out.printPlain("]");
@@ -104,12 +115,14 @@ public class PDFDictionary implements PDFConstants {
 	}
 
 	public void entry(String key, int[] numbers) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.print("/" + key + " [");
 		for (int i = 0; i < numbers.length; i++) {
-			if (i != 0)
+			if (i != 0) {
 				out.printPlain(" ");
+			}
 			out.printPlain(numbers[i]);
 		}
 		out.printPlain("]");
@@ -117,12 +130,14 @@ public class PDFDictionary implements PDFConstants {
 	}
 
 	public void entry(String key, double[] numbers) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.print("/" + key + " [");
 		for (int i = 0; i < numbers.length; i++) {
-			if (i != 0)
+			if (i != 0) {
 				out.printPlain(" ");
+			}
 			out.printPlain(PDFUtil.fixedPrecision(numbers[i]));
 		}
 		out.printPlain("]");
@@ -130,12 +145,14 @@ public class PDFDictionary implements PDFConstants {
 	}
 
 	public void entry(String key, boolean[] bool) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
+		}
 		out.print("/" + key + " [");
 		for (int i = 0; i < bool.length; i++) {
-			if (i != 0)
+			if (i != 0) {
 				out.printPlain(" ");
+			}
 			out.printPlain(bool[i] ? "true" : "false");
 		}
 		out.printPlain("]");
@@ -143,11 +160,13 @@ public class PDFDictionary implements PDFConstants {
 	}
 
 	public PDFDictionary openDictionary(String name) throws IOException {
-		if (!ok)
+		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
-		if (open != null)
+		}
+		if (open != null) {
 			System.err
 					.println("PDFWriter error: '" + open + "' was not closed");
+		}
 		open = "PDFDictionary: " + name;
 		out.println("/" + name);
 		PDFDictionary dictionary = new PDFDictionary(pdf, out);

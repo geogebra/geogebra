@@ -371,6 +371,7 @@ public class EuclidianViewD extends EuclidianView
 		return y;
 	}
 
+	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
 		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 		if (pageIndex > 0) {
@@ -416,6 +417,7 @@ public class EuclidianViewD extends EuclidianView
 		exportPaint(new GGraphics2DD(g2d), scale, false, exportType);
 	}
 
+	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard, ExportType exportType) {
 
@@ -492,6 +494,7 @@ public class EuclidianViewD extends EuclidianView
 		GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
 
+	@Override
 	public final boolean hitAnimationButton(int x, int y) {
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -502,6 +505,7 @@ public class EuclidianViewD extends EuclidianView
 				&& (y >= (getHeight() - 27));
 	}
 
+	@Override
 	public EuclidianController getEuclidianController() {
 		return euclidianController;
 	}
@@ -618,14 +622,17 @@ public class EuclidianViewD extends EuclidianView
 	 * @param cursor
 	 *            new cursor
 	 */
+	@Override
 	public void setCursor(Cursor cursor) {
 		evjpanel.setCursor(cursor);
 	}
 
+	@Override
 	public boolean hasFocus() {
 		return evjpanel.hasFocus();
 	}
 
+	@Override
 	public void repaint() {
 		this.updateBackgroundIfNecessary();
 		evjpanel.repaint();
@@ -649,6 +656,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * @return underlying component
 	 */
+	@Override
 	public JPanel getJPanel() {
 		return evjpanel;
 	}
@@ -656,6 +664,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * This view should be focused
 	 */
+	@Override
 	public void requestFocus() {
 		evjpanel.requestFocus();
 	}
@@ -669,6 +678,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * @return mouse position
 	 */
+	@Override
 	public Point getMousePosition() {
 		return evjpanel.getMousePosition();
 	}
@@ -686,6 +696,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * @return whethe this view is visible
 	 */
+	@Override
 	public boolean isShowing() {
 		return evjpanel.isShowing();
 	}
@@ -784,6 +795,7 @@ public class EuclidianViewD extends EuclidianView
 	 * @param border
 	 *            new border
 	 */
+	@Override
 	public void setBorder(Border border) {
 		evjpanel.setBorder(border);
 	}
@@ -835,6 +847,7 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	// @Override
+	@Override
 	public void setToolTipText(String plain) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
@@ -842,10 +855,12 @@ public class EuclidianViewD extends EuclidianView
 		}
 	}
 
+	@Override
 	public int getWidth() {
 		return evjpanel.getWidth();
 	}
 
+	@Override
 	public int getHeight() {
 		return evjpanel.getHeight();
 	}
@@ -897,6 +912,7 @@ public class EuclidianViewD extends EuclidianView
 		}
 	}
 
+	@Override
 	public void clearView() {
 		evjpanel.removeAll(); // remove hotEqns
 		resetLists();
@@ -906,6 +922,7 @@ public class EuclidianViewD extends EuclidianView
 		// settings we have just loaded using initView
 	}
 
+	@Override
 	public GColor getBackgroundCommon() {
 		return GColorD.newColor(evjpanel.getBackground());
 	}
@@ -956,6 +973,7 @@ public class EuclidianViewD extends EuclidianView
 	 * 
 	 * @return new euclidian style bar
 	 */
+	@Override
 	protected EuclidianStyleBarD newEuclidianStyleBar() {
 		return new EuclidianStyleBarD(this);
 	}
@@ -1006,15 +1024,18 @@ public class EuclidianViewD extends EuclidianView
 		return null;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only used in web for now
 	}
 
+	@Override
 	public void closeDropdowns() {
 		closeAllDropDowns();
 	}
 
+	@Override
 	public void setCursor(EuclidianCursor cursor) {
 		switch (cursor) {
 		case HIT:
@@ -1042,6 +1063,7 @@ public class EuclidianViewD extends EuclidianView
 
 	}
 
+	@Override
 	public void readText(String text) {
 		// TODO Auto-generated method stub
 

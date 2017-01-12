@@ -26,6 +26,7 @@ public class SelectPalette extends EMFTag {
 		this.index = index;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -33,10 +34,12 @@ public class SelectPalette extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeDWORD(index);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  index: 0x"
 				+ Integer.toHexString(index);

@@ -25,35 +25,43 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 		impl = new Ellipse2D.Double(i, j, k, l);
 	}
 
+	@Override
 	public void setFrame(double xUL, double yUL, double diameter,
 			double diameter2) {
 		impl.setFrame(xUL, yUL, diameter, diameter2);
 	}
 
+	@Override
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		return impl.contains(x, y);
 	}
 
+	@Override
 	public GRectangle getBounds() {
 		return new GRectangleD(impl.getBounds());
 	}
 
+	@Override
 	public GRectangle2D getBounds2D() {
 		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
+	@Override
 	public boolean contains(GRectangle2D rectangle) {
 		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
+	@Override
 	public boolean contains(double xTry, double yTry) {
 		return impl.contains(xTry, yTry);
 	}
 
+	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
@@ -64,18 +72,22 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
+	@Override
 	public boolean intersects(double x, double y, double w, double h) {
 		return impl.intersects(x, y, w, h);
 	}
 
+	@Override
 	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
+	@Override
 	public Shape getAwtShape() {
 		return impl;
 	}
 
+	@Override
 	public void setFrameFromCenter(double i, double j, double d, double e) {
 		impl.setFrameFromCenter(i, j, d, e);
 

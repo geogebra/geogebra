@@ -43,6 +43,7 @@ public enum GuiResources3D implements ImageResourceD {
 		this.fn = fn;
 	}
 
+	@Override
 	public String getFilename() {
 		return fn;
 	}

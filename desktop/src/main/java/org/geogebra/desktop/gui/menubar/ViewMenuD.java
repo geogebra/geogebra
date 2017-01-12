@@ -68,6 +68,7 @@ public class ViewMenuD extends BaseMenu {
 				new ImageIcon(app.getRefreshViewImage())) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.refreshViews();
 			}
@@ -77,6 +78,7 @@ public class ViewMenuD extends BaseMenu {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getKernel().updateConstruction();
 			}
@@ -96,8 +98,9 @@ public class ViewMenuD extends BaseMenu {
 	public boolean is3DViewShown() {
 		DockPanelD[] dockPanels = layout.getDockManager().getPanels();
 		for (DockPanelD panel : dockPanels) {
-			if (panel.isVisible() && panel.isEuclidianDockPanel3D())
+			if (panel.isVisible() && panel.isEuclidianDockPanel3D()) {
 				return true;
+			}
 		}
 		return false;
 	}

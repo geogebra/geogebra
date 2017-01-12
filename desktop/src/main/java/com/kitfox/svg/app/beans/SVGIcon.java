@@ -341,6 +341,7 @@ public class SVGIcon {
 	 * @deprecated
 	 * @return
 	 */
+	@Deprecated
 	public boolean isScaleToFit() {
 		return autosize == AUTOSIZE_STRETCH;
 	}
@@ -349,6 +350,7 @@ public class SVGIcon {
 	 * @deprecated
 	 * @return
 	 */
+	@Deprecated
 	public void setScaleToFit(boolean scaleToFit) {
 		setAutosize(AUTOSIZE_STRETCH);
 		// boolean old = this.scaleToFit;
@@ -387,6 +389,7 @@ public class SVGIcon {
 	 * @return true if antiAliasing is turned on.
 	 * @deprecated
 	 */
+	@Deprecated
 	public boolean getUseAntiAlias() {
 		return getAntiAlias();
 	}
@@ -396,6 +399,7 @@ public class SVGIcon {
 	 *            true to use antiAliasing.
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setUseAntiAlias(boolean antiAlias) {
 		setAntiAlias(antiAlias);
 	}

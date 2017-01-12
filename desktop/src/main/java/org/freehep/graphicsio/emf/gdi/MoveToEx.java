@@ -27,6 +27,7 @@ public class MoveToEx extends EMFTag {
 		this.point = point;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -34,10 +35,12 @@ public class MoveToEx extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writePOINTL(point);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  point: " + point;
 	}

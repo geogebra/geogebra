@@ -162,6 +162,7 @@ public class GenericTagHandler extends TagHandler {
 	 * @return empty string or the result of the overloaded method
 	 */
 	// FIXME: check if we can support overline and vertical?
+	@Override
 	protected String openTag(String tag) {
 		// store position of parser for openening tag only if
 		// it the first openened, e.g. <b>text<b>text2</b> will draw
@@ -181,6 +182,7 @@ public class GenericTagHandler extends TagHandler {
 	 *            to close
 	 * @return empty string or the result of the overloaded method
 	 */
+	@Override
 	protected String closeTag(String tag) {
 		// begin is stored in 'tags'
 		int begin;
@@ -261,6 +263,7 @@ public class GenericTagHandler extends TagHandler {
 	 *            text to draw
 	 * @return unmodified text parameter
 	 */
+	@Override
 	protected String text(String text) {
 		// appand text as cleared
 		clearedText.append(text);

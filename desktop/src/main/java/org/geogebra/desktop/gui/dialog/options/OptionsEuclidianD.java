@@ -260,8 +260,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private void initDimensionPanel() {
 
 		dimLabel = new JLabel[4]; // "Xmin", "Xmax" etc.
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			dimLabel[i] = new JLabel("");
+		}
 
 		tfMinX = new MyTextFieldD(app, 8);
 		tfMaxX = new MyTextFieldD(app, 8);
@@ -556,8 +557,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	@Override
 	final public void updateBounds() {
 
-		if (!isSelected)
+		if (!isSelected) {
 			return;
+		}
 
 		updateMinMax();
 
@@ -577,6 +579,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
 		btAxesColor.setForeground(GColorD.getAwtColor(color));
 		cbShowAxes.removeActionListener(this);
@@ -589,6 +592,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void updateGrid(GColor color, boolean isShown, boolean isBold,
 			int gridType) {
 		btGridColor.setForeground(GColorD.getAwtColor(color));
@@ -607,6 +611,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void updateGUI() {
 		btBackgroundColor
 				.setForeground(GColorD.getAwtColor(view.getBackgroundCommon()));
@@ -625,6 +630,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void updateConsProtocolPanel(boolean isVisible) {
 
 		// cons protocol panel
@@ -643,6 +649,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		typePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("GridType")));
 	}
 
+	@Override
 	public void setLabels() {
 		setTypePanelLabel();
 
@@ -734,6 +741,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbAxisLabelItalic.setText(loc.getMenu("Italic"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
@@ -838,24 +846,28 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	protected void setViewFromIndex(int index) {
 
-		if (index == 0)
+		if (index == 0) {
 			setView(app.getEuclidianView1());
-		else
+		} else {
 			setView(((GuiManagerD) (app.getGuiManager()))
 					.getEuclidianView2(index));
+		}
 
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || "".equals(text))
+		if (text == null || "".equals(text)) {
 			return Double.NaN;
+		}
 		return kernel.getAlgebraProcessor().evaluateToDouble(text);
 	}
 
+	@Override
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getSource();
-		if (e.getStateChange() != ItemEvent.SELECTED)
+		if (e.getStateChange() != ItemEvent.SELECTED) {
 			return;
+		}
 
 		if (source == ncbGridTickX) {
 			model.applyGridTicks(ncbGridTickX.getValue(), 0);
@@ -873,9 +885,11 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		updateGUI();
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		// handle focus changes in text fields
 		doActionPerformed(e.getSource());
@@ -920,24 +934,29 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		tabbedPane.setSelectedIndex(index);
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return this.wrappedPanel;
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
 
+	@Override
 	public void applyModifications() {
 		// override this method to make the properties view apply modifications
 		// when panel changes
 	}
 
+	@Override
 	public void updateFont() {
 
 		Font font = app.getPlainFont();
@@ -971,8 +990,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		tabbedPane.setFont(font);
 
 		// window dimension panel
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			dimLabel[i].setFont(font);
+		}
 		axesRatioLabel.setFont(font);
 
 		backgroundColor.setFont(font);
@@ -1020,6 +1040,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	private boolean isSelected = false;
 
+	@Override
 	public void setSelected(boolean flag) {
 		boolean old = isSelected;
 		isSelected = flag;
@@ -1056,6 +1077,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	Action showConsProtNavigationAction = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			app.toggleShowConstructionProtocolNavigation(view.getViewID());
 		}
@@ -1064,6 +1086,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	Action showConsProtNavigationPlayAction = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			Collection<ConstructionProtocolNavigation> cpns = app
 					.getGuiManager().getAllConstructionProtocolNavigations();
@@ -1081,6 +1104,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	Action showConsProtNavigationOpenProtAction = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			Collection<ConstructionProtocolNavigation> cpns = app
@@ -1096,12 +1120,14 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		}
 	};
 
+	@Override
 	public GColor getEuclidianBackground(int viewNumber) {
 		return GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
 				.showColorChooser(app.getSettings().getEuclidian(viewNumber)
 						.getBackground()));
 	}
 
+	@Override
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.setEnabled(value);
 		tfAxesRatioY.setEnabled(value);
@@ -1110,6 +1136,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void setMinMaxText(String minX, String maxX, String minY,
 			String maxY) {
 		tfMinX.setText(minX);
@@ -1119,20 +1146,24 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void addTooltipItem(String item) {
 		cbTooltips.addItem(item);
 	}
 
+	@Override
 	public void selectTooltipType(int index) {
 		cbTooltips.setSelectedIndex(index);
 	}
 
+	@Override
 	public void showMouseCoords(boolean value) {
 		cbShowMouseCoords.removeActionListener(this);
 		cbShowMouseCoords.setSelected(value);
 		cbShowMouseCoords.addActionListener(this);
 	}
 
+	@Override
 	public void selectAxesStyle(int index) {
 		cbAxesStyle.removeActionListener(this);
 		cbAxesStyle.setSelectedIndex(index);
@@ -1140,6 +1171,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
 			int gridType) {
 		ncbGridTickX.removeItemListener(this);
@@ -1166,7 +1198,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 			ncbGridTickX.setValue(gridTicks[0]);
 			int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
 			if (val == 5)
+			 {
 				val = 4; // handle Pi/2 problem
+			}
 			cbGridTickAngle.setSelectedIndex(val);
 			gridLabel1.setText("r:");
 		}
@@ -1180,23 +1214,28 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	}
 
+	@Override
 	public void enableLock(boolean value) {
 		cbLockRatio.setEnabled(value);
 	}
 
+	@Override
 	public void selectGridStyle(int style) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void addGridTypeItem(String item) {
 		cbGridType.addItem(item);
 	}
 
+	@Override
 	public void addAngleOptionItem(String item) {
 		cbGridTickAngle.addItem(item);
 	}
 
+	@Override
 	public void updateBackgroundColor(GColor color) {
 		// TODO Auto-generated method stub
 
@@ -1207,6 +1246,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		initGUI();
 	}
 
+	@Override
 	public void updateAxisFontStyle(boolean isSerif, boolean isBold,
 			boolean isItalic) {
 		cbAxisLabelSerif.setSelected(isSerif);

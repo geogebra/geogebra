@@ -117,15 +117,17 @@ public class BaseFunction extends IdScriptableObject implements Function {
 				}
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#
 		// #/string_id_map#
 
-		if (id == 0)
+		if (id == 0) {
 			return super.findInstanceIdInfo(s);
+		}
 
 		int attr;
 		switch (id) {
@@ -378,11 +380,13 @@ public class BaseFunction extends IdScriptableObject implements Function {
 	/**
 	 * Should be overridden.
 	 */
+	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj,
 			Object[] args) {
 		return Undefined.instance;
 	}
 
+	@Override
 	public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
 		Scriptable result = createObject(cx, scope);
 		if (result != null) {
@@ -630,8 +634,9 @@ public class BaseFunction extends IdScriptableObject implements Function {
 				id = Id_constructor;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

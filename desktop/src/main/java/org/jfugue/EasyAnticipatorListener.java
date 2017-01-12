@@ -33,27 +33,33 @@ public abstract class EasyAnticipatorListener extends ParserListenerAdapter {
 
 	private int tempo;
 
+	@Override
 	public void tempoEvent(Tempo tempo) {
 		this.tempo = tempo.getTempo();
 		System.out.println("tempo = " + tempo.getTempo());
 	}
 
+	@Override
 	public void voiceEvent(Voice voice) {
 		this.activeVoice = voice;
 	}
 
+	@Override
 	public void instrumentEvent(Instrument instrument) {
 		this.activeInstrument = instrument;
 	}
 
+	@Override
 	public void noteEvent(Note note) {
 		extendedNoteEvent(activeVoice, activeInstrument, note);
 	}
 
+	@Override
 	public void parallelNoteEvent(Note note) {
 		extendedNoteEvent(activeVoice, activeInstrument, note);
 	}
 
+	@Override
 	public void sequentialNoteEvent(Note note) {
 		extendedNoteEvent(activeVoice, activeInstrument, note);
 		// sleep(note.getDuration());

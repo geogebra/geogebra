@@ -246,6 +246,7 @@ public class InputDialogD extends InputDialog
 				showSymbolPopupIcon, type);
 
 		sl = new GeoElementSelectionListener() {
+			@Override
 			public void geoElementSelected(GeoElement geo,
 					boolean addToSelection) {
 				insertGeoElement(geo);
@@ -285,8 +286,9 @@ public class InputDialogD extends InputDialog
 
 		// add buttons to panels
 		loadBtPanel(showApply);
-		if (showProperties)
+		if (showProperties) {
 			btPanel2.add(btProperties);
+		}
 
 		// =====================================================================
 		// Create the optionPane: a panel with message label on top, button
@@ -308,8 +310,9 @@ public class InputDialogD extends InputDialog
 	protected void loadBtPanel(boolean showApply) {
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
-		if (showApply)
+		if (showApply) {
 			btPanel.add(btApply);
+		}
 	}
 
 	protected void centerOnScreen() {
@@ -357,11 +360,13 @@ public class InputDialogD extends InputDialog
 	// ===================================================
 
 	public void insertGeoElement(GeoElement geo) {
-		if (geo != null)
+		if (geo != null) {
 			insertString(
 					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
+		}
 	}
 
+	@Override
 	public void insertString(String str) {
 		insertString(str, false);
 	}
@@ -414,6 +419,7 @@ public class InputDialogD extends InputDialog
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -484,6 +490,7 @@ public class InputDialogD extends InputDialog
 	// Window Focus Listeners
 	// ===================================================
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!wrappedDialog.isModal()) {
 			app.setSelectionListenerMode(sl);
@@ -491,6 +498,7 @@ public class InputDialogD extends InputDialog
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent arg0) {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
 				!(arg0.getOppositeWindow() instanceof VirtualKeyboardD));
@@ -500,6 +508,7 @@ public class InputDialogD extends InputDialog
 		return wrappedDialog;
 	}
 
+	@Override
 	public void updateFonts() {
 
 		Font font = app.getPlainFont();
@@ -515,33 +524,40 @@ public class InputDialogD extends InputDialog
 
 	}
 
+	@Override
 	public void windowOpened(WindowEvent e) {
 		// not needed
 	}
 
+	@Override
 	public void windowClosing(WindowEvent e) {
 		if (!wrappedDialog.isModal()) {
 			app.setSelectionListenerMode(null);
 		}
 	}
 
+	@Override
 	public void windowClosed(WindowEvent e) {
 		// this one is actually useful, overriden in subclass(es)
 	}
 
+	@Override
 	public void windowIconified(WindowEvent e) {
 		// not needed
 
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// not needed
 	}
 
+	@Override
 	public void windowActivated(WindowEvent e) {
 		// not needed
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// not needed
 	}
@@ -554,6 +570,7 @@ public class InputDialogD extends InputDialog
 
 	private boolean showingError = false;
 
+	@Override
 	public void showError(String msg) {
 		if (msg == null) {
 			errorPanel.removeAll();
@@ -570,21 +587,25 @@ public class InputDialogD extends InputDialog
 
 	}
 
+	@Override
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
 
 	}
 
+	@Override
 	public String getCurrentCommand() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return app.getGuiManager().checkAutoCreateSliders(string, callback);
 	}
 
+	@Override
 	public void resetError() {
 		showError(null);
 	}

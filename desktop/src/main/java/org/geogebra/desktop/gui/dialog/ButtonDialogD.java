@@ -142,8 +142,9 @@ public class ButtonDialogD extends JDialog
 						&& !(geo.isGeoBoolean())) {
 					comboModel.addElement(geo);
 					String str = geo.toString(StringTemplate.defaultTemplate);
-					if (width < fm.stringWidth(str))
+					if (width < fm.stringWidth(str)) {
 						width = fm.stringWidth(str);
+					}
 				}
 			}
 
@@ -224,10 +225,11 @@ public class ButtonDialogD extends JDialog
 
 		// create object list
 		optionPane.add(captionPanel, BorderLayout.NORTH);
-		if (model.isTextField())
+		if (model.isTextField()) {
 			optionPane.add(linkedPanel, BorderLayout.CENTER);
-		else
+		} else {
 			optionPane.add(scriptPanel, BorderLayout.CENTER);
+		}
 		optionPane.add(btPanel, BorderLayout.SOUTH);
 		optionPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -256,6 +258,7 @@ public class ButtonDialogD extends JDialog
 		 */
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		Log.debug(tfScript.getText());
@@ -268,6 +271,7 @@ public class ButtonDialogD extends JDialog
 		}
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		default:
@@ -284,38 +288,47 @@ public class ButtonDialogD extends JDialog
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowActivated(WindowEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowClosed(WindowEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowClosing(WindowEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowIconified(WindowEvent arg0) {
 		// nothing to do
 	}
 
+	@Override
 	public void windowOpened(WindowEvent arg0) {
 		// setLabelFieldFocus();
 	}

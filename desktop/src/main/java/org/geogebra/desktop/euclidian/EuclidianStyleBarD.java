@@ -184,13 +184,15 @@ public class EuclidianStyleBarD extends JToolBar
 		// init button-specific fields
 		// TODO: put these in button classes
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
+		}
 
 		Integer[] lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < lineStyleArray.length; i++)
+		for (int i = 0; i < lineStyleArray.length; i++) {
 			lineStyleMap.put(lineStyleArray[i], i);
+		}
 
 		setLabels(); // this will also init the GUI
 
@@ -212,6 +214,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 	private boolean firstPaint = true;
 
+	@Override
 	public void resetFirstPaint() {
 		firstPaint = true;
 	}
@@ -247,6 +250,7 @@ public class EuclidianStyleBarD extends JToolBar
 	 * @param mode
 	 *            new mode
 	 */
+	@Override
 	public void setMode(int mode) {
 
 		if (this.mode == mode) {
@@ -271,10 +275,12 @@ public class EuclidianStyleBarD extends JToolBar
 		return geo.isVisibleInView(ev.getViewID());
 	}
 
+	@Override
 	public void restoreDefaultGeo() {
-		if (oldDefaultGeo != null)
+		if (oldDefaultGeo != null) {
 			oldDefaultGeo = cons.getConstructionDefaults()
 					.getDefaultGeo(oldDefaultMode);
+		}
 	}
 
 	protected ArrayList<GeoElement> activeGeoList;
@@ -283,6 +289,7 @@ public class EuclidianStyleBarD extends JToolBar
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
+	@Override
 	public void updateStyleBar() {
 
 		// -----------------------------------------------------
@@ -429,9 +436,11 @@ public class EuclidianStyleBarD extends JToolBar
 
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
-		if (activeGeoList.contains(geo))
+		if (activeGeoList.contains(geo)) {
 			updateButtons();
+		}
 	}
 
 	// =====================================================
@@ -486,8 +495,9 @@ public class EuclidianStyleBarD extends JToolBar
 		add(btnPointStyle);
 
 		// add text decoration buttons
-		if (btnBold.isVisible())
+		if (btnBold.isVisible()) {
 			addSeparator();
+		}
 
 		add(btnBold);
 		add(btnItalic);
@@ -507,8 +517,9 @@ public class EuclidianStyleBarD extends JToolBar
 		addBtnRotateView();
 		// add(btnPenDelete);
 
-		if (btnFixPosition.isVisible() || btnFixObject.isVisible())
+		if (btnFixPosition.isVisible() || btnFixObject.isVisible()) {
 			addSeparator();
+		}
 
 		add(btnFixPosition);
 		add(btnFixObject);
@@ -629,10 +640,11 @@ public class EuclidianStyleBarD extends JToolBar
 				Math.max(80, iconHeight * 4), iconHeight);
 		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianView
 				.getLineTypeLength()];
-		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++)
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
 			lineStyleIcons[i] = GeoGebraIconD.createLineStyleIcon(
 					EuclidianView.getLineType(i), 2, lineStyleIconSize,
 					Color.BLACK, null);
+		}
 
 		// create button
 		btnLineStyle = new PopupMenuButtonD(app, lineStyleIcons, -1, 1,
@@ -720,10 +732,11 @@ public class EuclidianStyleBarD extends JToolBar
 				iconHeight);
 		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianView
 				.getPointStyleLength()];
-		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleIcons[i] = GeoGebraIconD.createPointStyleIcon(
 					EuclidianView.getPointStyle(i), 4, pointStyleIconSize,
 					Color.BLACK, null);
+		}
 
 		// create button
 		btnPointStyle = new PopupMenuButtonD(app, pointStyleIcons, 2, -1,
@@ -760,8 +773,9 @@ public class EuclidianStyleBarD extends JToolBar
 						setSliderValue(((PointProperties) geo).getPointSize());
 						int pointStyle = ((PointProperties) geo)
 								.getPointStyle();
-						if (pointStyle == -1) // global default point style
+						if (pointStyle == -1) {
 							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+						}
 						selectPointStyle(pointStyleMap.get(pointStyle));
 						this.setKeepVisible(
 								mode == EuclidianConstants.MODE_MOVE);
@@ -1059,11 +1073,12 @@ public class EuclidianStyleBarD extends JToolBar
 							}
 						}
 
-						if (hasFillable)
+						if (hasFillable) {
 							setToolTipText(
 									loc.getPlain("stylebar.ColorTransparency"));
-						else
+						} else {
 							setToolTipText(loc.getPlain("stylebar.Color"));
+						}
 
 						setSliderValue((int) Math.round(alpha * 100));
 
@@ -1496,6 +1511,7 @@ public class EuclidianStyleBarD extends JToolBar
 	// Event Handlers
 	// =====================================================
 
+	@Override
 	public void updateGUI() {
 
 		if (isIniting) {
@@ -1521,6 +1537,7 @@ public class EuclidianStyleBarD extends JToolBar
 		btnStandardView.addActionListener(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -1537,8 +1554,9 @@ public class EuclidianStyleBarD extends JToolBar
 					targetGeos.add(geo);
 				}
 			}
-		} else
+		} else {
 			targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
+		}
 
 		processSource(source, targetGeos);
 
@@ -1562,10 +1580,9 @@ public class EuclidianStyleBarD extends JToolBar
 
 		if ((source instanceof JButton)
 				&& (EuclidianStyleBarStatic.processSourceCommon(
-						((JButton) source).getActionCommand(), targetGeos, ev)))
+						((JButton) source).getActionCommand(), targetGeos, ev))) {
 			return;
-
-		else if (source == btnColor) {
+		} else if (source == btnColor) {
 			if (EuclidianView.isPenMode(mode)) {
 				ec.getPen().setPenColor((btnColor.getSelectedColor()));
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
@@ -1681,9 +1698,12 @@ public class EuclidianStyleBarD extends JToolBar
 		}
 	}
 
+	@Override
 	public void updateButtonPointCapture(int mode1) {
 		if (mode1 == 3 || mode1 == 0)
+		 {
 			mode1 = 3 - mode1; // swap 0 and 3
+		}
 		btnPointCapture.setSelectedIndex(mode1);
 	}
 
@@ -1694,6 +1714,7 @@ public class EuclidianStyleBarD extends JToolBar
 	/**
 	 * Set labels with localized strings.
 	 */
+	@Override
 	public void setLabels() {
 
 		initGUI();
@@ -1738,6 +1759,7 @@ public class EuclidianStyleBarD extends JToolBar
 		btnDeleteSize[2].setToolTipText(loc.getPlainTooltip("Large"));
 	}
 
+	@Override
 	public int getPointCaptureSelectedIndex() {
 		return btnPointCapture.getSelectedIndex();
 	}
@@ -1755,6 +1777,7 @@ public class EuclidianStyleBarD extends JToolBar
 		btnPointStyle.setSelectedIndex(idx);
 	}
 
+	@Override
 	public void reinit() {
 		updatePreferredSize();
 		createButtons();

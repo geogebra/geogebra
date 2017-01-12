@@ -25,24 +25,29 @@ public class WriterOutputStream extends OutputStream {
 		this.writer = writer;
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		writer.write(b & 0xFF);
 	}
 
+	@Override
 	public void write(byte[] b) throws IOException {
 		write(b, 0, b.length);
 	}
 
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		for (int i = 0; i < len; i++) {
 			writer.write(b[off + i]);
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		writer.close();
 	}
 
+	@Override
 	public void flush() throws IOException {
 		writer.flush();
 	}

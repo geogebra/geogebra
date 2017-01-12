@@ -30,8 +30,9 @@ public class ClassCompiler {
 	 * generating classes.
 	 */
 	public ClassCompiler(CompilerEnvirons compilerEnv) {
-		if (compilerEnv == null)
+		if (compilerEnv == null) {
 			throw new IllegalArgumentException();
+		}
 		this.compilerEnv = compilerEnv;
 		this.mainMethodClassName = Codegen.DEFAULT_MAIN_METHOD_CLASS;
 	}

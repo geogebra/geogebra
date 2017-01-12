@@ -76,6 +76,7 @@ public class AnimationSpeedPanel extends JPanel
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		modeLabel.setText(loc.getMenu("Repeat") + ": ");
 		speedLabel.setText(loc.getMenu("AnimationSpeed") + ": ");
@@ -92,6 +93,7 @@ public class AnimationSpeedPanel extends JPanel
 		model.setShowSliders(true);
 	}
 
+	@Override
 	public JPanel updatePanel(Object[] geos) {
 		return update(geos);
 	}
@@ -113,11 +115,13 @@ public class AnimationSpeedPanel extends JPanel
 	/**
 	 * handle textfield changes
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfAnimSpeed)
+		if (e.getSource() == tfAnimSpeed) {
 			doActionPerformed();
-		else if (e.getSource() == animationModeCB)
+		} else if (e.getSource() == animationModeCB) {
 			setType(animationModeCB.getSelectedIndex());
+		}
 	}
 
 	private void doActionPerformed() {
@@ -140,13 +144,16 @@ public class AnimationSpeedPanel extends JPanel
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doActionPerformed();
 	}
 
+	@Override
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 
@@ -157,29 +164,35 @@ public class AnimationSpeedPanel extends JPanel
 		tfAnimSpeed.setFont(font);
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setSelectedIndex(int index) {
 		animationModeCB.setSelectedIndex(index);
 
 	}
 
+	@Override
 	public void addItem(String item) {
 		animationModeCB.addItem(item);
 	}
 
+	@Override
 	public void setText(String text) {
 		tfAnimSpeed.setText(text);
 	}
 
+	@Override
 	public void setSelectedItem(String item) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void clearItems() {
 		// TODO Auto-generated method stub
 

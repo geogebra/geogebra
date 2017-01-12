@@ -247,9 +247,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		this.remove(((BorderLayout) getLayout())
 				.getLayoutComponent(loc.borderWest()));
 		if (((BorderLayout) getLayout())
-				.getLayoutComponent(BorderLayout.CENTER) != null)
+				.getLayoutComponent(BorderLayout.CENTER) != null) {
 			this.remove(((BorderLayout) getLayout())
 					.getLayoutComponent(BorderLayout.CENTER));
+		}
 		if (showHelpBar) {
 			this.add(myToolbar, loc.borderWest());
 			this.add(getToolbarHelpPanel(), BorderLayout.CENTER);
@@ -364,6 +365,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setToolTipText(loc.getPlainTooltip("Preferences"));
 		btnProperties.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				PropertiesMenu pm = new PropertiesMenu();
 				if (orientation == SwingConstants.NORTH) {
@@ -391,6 +393,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setContentAreaFilled(false);
 		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
 		btnHelp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new HelpDialog(app).openToolHelp();
 
@@ -634,6 +637,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Check if we still can display a help text.
 	 */
+	@Override
 	public void componentResized(ComponentEvent e) {
 		if (getWidth() != oldWidth) {
 			oldWidth = getWidth();
@@ -661,8 +665,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 *            mode
 	 */
 	public void updateHelpText(int mode) {
-		if (modeNameLabel == null)
+		if (modeNameLabel == null) {
 			return;
+		}
 
 		String toolName = app.getToolName(mode);
 		String helpText = app.getToolHelp(mode);
@@ -687,8 +692,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param mode
 	 */
 	private void resolveMouseListener(final int mode) {
-		if (modeNameLabel.getMouseListeners().length > 0)
+		if (modeNameLabel.getMouseListeners().length > 0) {
 			modeNameLabel.removeMouseListener(helpMouseAdapter);
+		}
 		if (mode > EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			return;
 		}
@@ -846,12 +852,15 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	// Component listener methods
+	@Override
 	public void componentShown(ComponentEvent e) { /* do nothing */
 	}
 
+	@Override
 	public void componentHidden(ComponentEvent e) {/* do nothing */
 	}
 
+	@Override
 	public void componentMoved(ComponentEvent e) { /* do nothing */
 	}
 
@@ -934,6 +943,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				}
 
 				item.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						openPropertiesView(type);
 					}

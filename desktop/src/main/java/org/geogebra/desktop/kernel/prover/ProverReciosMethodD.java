@@ -237,7 +237,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					wrong = true;
 					break;
 				}
-			} else
+			} else {
 				try {
 					BigInteger[] exactCoordinates = s
 							.getExactCoordinates(values);
@@ -254,6 +254,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					writeResult(TestPointResult.ERROR);
 					continue;
 				}
+			}
 			if (wrong) {
 				writeResult(TestPointResult.FALSE);
 			} else {
@@ -298,6 +299,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 			this.s = s;
 		}
 
+		@Override
 		public void run() {
 			BigInteger[] coordinates;
 			boolean wrong;

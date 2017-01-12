@@ -24,6 +24,7 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 		setOpaque(true);
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		// Get the selected index. (The index param isn't

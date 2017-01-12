@@ -227,6 +227,7 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 * @param x,y,w,h
 	 *            The area in device space for which colors are generated.
 	 */
+	@Override
 	protected void fillRaster(int pixels[], int off, int adjust, int x, int y,
 			int w, int h) {
 		switch (fillMethod) {
@@ -282,8 +283,9 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 			final int val = gradientOverflow;
 			for (j = 0; j < h; j++) { // for every row
 				// for every column (inner loop begins here)
-				for (end = indexer + w; indexer < end; indexer++)
+				for (end = indexer + w; indexer < end; indexer++) {
 					pixels[indexer] = val;
+				}
 				indexer += adjust;
 			}
 			return;
@@ -527,8 +529,8 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 		int indexer = off - 1; // index variable for pixels array
 
 		// Size of a pixel in user space.
-		double pixSzSq = (float) (a00 * a00 + a01 * a01 + a10 * a10
-				+ a11 * a11);
+		double pixSzSq = a00 * a00 + a01 * a01 + a10 * a10
+				+ a11 * a11;
 		double[] prevGs = new double[w + 1];
 		double deltaXSq, deltaYSq;
 		double solutionX, solutionY;

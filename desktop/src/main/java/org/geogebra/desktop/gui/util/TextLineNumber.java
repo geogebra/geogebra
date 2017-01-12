@@ -276,10 +276,11 @@ public class TextLineNumber extends JPanel
 
 		while (rowStartOffset <= endOffset) {
 			try {
-				if (isCurrentLine(rowStartOffset))
+				if (isCurrentLine(rowStartOffset)) {
 					g.setColor(getCurrentLineForeground());
-				else
+				} else {
 					g.setColor(getForeground());
+				}
 
 				// Get the line number as a string and then determine the
 				// "X" and "Y" offsets for drawing the string.
@@ -359,8 +360,9 @@ public class TextLineNumber extends JPanel
 			descent = fontMetrics.getDescent();
 		} else // We need to check all the attributes for font changes
 		{
-			if (fonts == null)
+			if (fonts == null) {
 				fonts = new HashMap<String, FontMetrics>();
+			}
 
 			Element root = component.getDocument().getDefaultRootElement();
 			int index = root.getElementIndex(rowStartOffset);
@@ -394,6 +396,7 @@ public class TextLineNumber extends JPanel
 	// Implement CaretListener interface
 	//
 
+	@Override
 	public void caretUpdate(CaretEvent e) {
 		// Get the line the caret is positioned on
 
@@ -413,14 +416,17 @@ public class TextLineNumber extends JPanel
 	// Implement DocumentListener interface
 	//
 
+	@Override
 	public void changedUpdate(DocumentEvent e) {
 		documentChanged();
 	}
 
+	@Override
 	public void insertUpdate(DocumentEvent e) {
 		documentChanged();
 	}
 
+	@Override
 	public void removeUpdate(DocumentEvent e) {
 		documentChanged();
 	}
@@ -434,6 +440,7 @@ public class TextLineNumber extends JPanel
 		// the DocumentEvent is fired
 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				int preferredHeight = component.getPreferredSize().height;
 
@@ -453,6 +460,7 @@ public class TextLineNumber extends JPanel
 	// Implement PropertyChangeListener interface
 	//
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (evt.getNewValue() instanceof Font) {
 			if (updateFont) {

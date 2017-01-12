@@ -80,8 +80,9 @@ public class GeoGebraColorChooser extends JColorChooser {
 		AbstractColorChooserPanel[] panels = getChooserPanels();
 		for (int i = 0; i < panels.length; i++) {
 			AbstractColorChooserPanel panel = panels[i];
-			if (panel instanceof GeoGebraColorChooserPanel)
+			if (panel instanceof GeoGebraColorChooserPanel) {
 				((GeoGebraColorChooserPanel) panel).setLabels();
+			}
 		}
 	}
 
@@ -89,8 +90,9 @@ public class GeoGebraColorChooser extends JColorChooser {
 		AbstractColorChooserPanel[] panels = getChooserPanels();
 		for (int i = 0; i < panels.length; i++) {
 			AbstractColorChooserPanel panel = panels[i];
-			if (panel instanceof GeoGebraColorChooserPanel)
+			if (panel instanceof GeoGebraColorChooserPanel) {
 				((GeoGebraColorChooserPanel) panel).updateFonts();
+			}
 		}
 	}
 

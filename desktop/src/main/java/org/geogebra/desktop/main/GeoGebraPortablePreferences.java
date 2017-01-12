@@ -131,6 +131,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	}// storePreferences()
 
 	// / --- GeoGebraPreferences interface --- ///
+	@Override
 	public String loadPreference(String key, String defaultValue) { // debug("loadPreferene()
 																	// called
 																	// with:
@@ -139,6 +140,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		return get(key, defaultValue);
 	}// loadPreference(key,def)
 
+	@Override
 	public void savePreference(String key, String value) { // debug("savePreferneces()
 															// called with:
 															// "+key+",
@@ -149,34 +151,40 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	/**
 	 * Returns the path of the first file in the file list
 	 */
+	@Override
 	public File getDefaultFilePath() {
 		File file = new File(properties.getProperty(APP_FILE_ + "1", "")); // debug("getDeafultFilepath():
 																			// "+file.toString());
-		if (file.exists())
+		if (file.exists()) {
 			return file.getParentFile();
-		else
+		} else {
 			return null;
+		}
 	}// getDefaultFilePath()
 
 	/**
 	 * Returns the default image path
 	 */
+	@Override
 	public File getDefaultImagePath() {
 		// image path
 		String pathName = properties.getProperty(APP_CURRENT_IMAGE_PATH, null);
-		if (pathName != null)
+		if (pathName != null) {
 			return new File(pathName);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
 	 * Saves the currently set locale.
 	 */
+	@Override
 	public void saveDefaultImagePath(File imgPath) {
 		try {
-			if (imgPath != null)
+			if (imgPath != null) {
 				set(APP_CURRENT_IMAGE_PATH, imgPath.getCanonicalPath());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -185,18 +193,21 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	/**
 	 * Returns the default locale
 	 */
+	@Override
 	public Locale getDefaultLocale() {
 		// language
 		String strLocale = get(APP_LOCALE, null);
-		if (strLocale != null)
+		if (strLocale != null) {
 			return AppD.getLocale(strLocale);
-		else
+		} else {
 			return null;
+		}
 	}// getDefaultLocale()
 
 	/**
 	 * Saves the currently set locale.
 	 */
+	@Override
 	public void saveDefaultLocale(Locale locale) {
 		// save locale (language)
 		set(APP_LOCALE, locale.toString());
@@ -206,6 +217,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	 * Loads the names of the eight last used files from the preferences backing
 	 * store.
 	 */
+	@Override
 	public void loadFileList() {
 		// load last four files
 		for (int i = AppD.MAX_RECENT_FILES; i >= 1; i--) {
@@ -219,6 +231,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	/**
 	 * Saves the names of the four last used files.
 	 */
+	@Override
 	public void saveFileList() {
 		String path;
 		try {
@@ -229,8 +242,9 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 					path = file.getCanonicalPath(); // debug("saveFilelist():
 													// "+path.toString());
 					set(APP_FILE_ + i, path);
-				} else
+				} else {
 					set(APP_FILE_ + i, "");
+				}
 			} // debug("list:");properties.list(System.out);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -246,6 +260,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	 * no limit on property length! (# preferences: 8192), so no need to split
 	 * up in pieces :-) But we have to convert byte[]--b64-->String
 	 */
+	@Override
 	public void saveXMLPreferences(AppD app) { // debug("saveXMLPreferences(app):");
 		// preferences xml
 		String xml = app.getPreferencesXML();
@@ -281,6 +296,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	 * construction in the application. Note: the XML string used is the same as
 	 * for ggb files.
 	 */
+	@Override
 	public void loadXMLPreferences(AppD app) {
 		app.setWaitCursor();
 

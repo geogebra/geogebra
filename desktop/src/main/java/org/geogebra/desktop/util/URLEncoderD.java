@@ -7,6 +7,7 @@ import org.geogebra.common.util.URLEncoder;
 
 public class URLEncoderD extends URLEncoder {
 
+	@Override
 	public String encode(String decodedURL) {
 
 		try {

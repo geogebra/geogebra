@@ -79,10 +79,12 @@ public class AlgebraTreeController extends AlgebraController
 	/*
 	 * MouseListener implementation for popup menus
 	 */
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		// use mouse released instead
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 
 		// process click if no dragging
@@ -126,26 +128,30 @@ public class AlgebraTreeController extends AlgebraController
 		}
 
 		// check double click
-		if (checkDoubleClick(geo, e))
+		if (checkDoubleClick(geo, e)) {
 			return;
+		}
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		int mode = ev.getMode();
 		if (!skipSelection && isSelectionModeForClick(mode)) {
 			// update selection
 			if (geo == null) {
-				if (!AppD.isControlDown(e) && !e.isShiftDown())
+				if (!AppD.isControlDown(e) && !e.isShiftDown()) {
 					selection.clearSelectedGeos();
+				}
 
-				if (groupedGeos != null)
+				if (groupedGeos != null) {
 					selection.addSelectedGeos(groupedGeos, true);
+				}
 
 			} else {
 				// handle selecting geo
 				if (AppD.isControlDown(e)) {
 					selection.toggleSelectedGeo(geo);
-					if (selection.getSelectedGeos().contains(geo))
+					if (selection.getSelectedGeos().contains(geo)) {
 						lastSelectedGeo = geo;
+					}
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {
 					ArrayList<GeoElement> geos = tree
 							.getGeosBetween(lastSelectedGeo, geo);
@@ -164,9 +170,10 @@ public class AlgebraTreeController extends AlgebraController
 			}
 		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			euclidianViewClick(ev, geo, e);
-		} else
+		} else {
 			// tell selection listener about click
 			app.geoElementSelected(geo, false);
+		}
 
 		// Alt click: copy definition to input field
 		if (geo != null && e.isAltDown() && app.showAlgebraInput()) {
@@ -193,6 +200,7 @@ public class AlgebraTreeController extends AlgebraController
 		setSelectedGeo(geo);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		leftPress(e);
 		setMousePressed();
@@ -314,8 +322,9 @@ public class AlgebraTreeController extends AlgebraController
 	protected boolean leftPressCanSelectGeo(MouseEvent e, GeoElement geo) {
 
 		if (!AppD.isControlDown(e) && !e.isShiftDown()) {
-			if (!setSelectedGeo(geo))
+			if (!setSelectedGeo(geo)) {
 				return true;
+			}
 		}
 
 		return false;
@@ -351,10 +360,11 @@ public class AlgebraTreeController extends AlgebraController
 			if (e.getX() - rect.x < tree.getOpenIconHeight()) { // collapse/expand
 																// icon
 				if (mousePressed) {
-					if (tree.isCollapsed(tp))
+					if (tree.isCollapsed(tp)) {
 						tree.expandPath(tp);
-					else
+					} else {
 						tree.collapsePath(tp);
+					}
 				}
 			} else { // collect geos of the group
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
@@ -372,10 +382,12 @@ public class AlgebraTreeController extends AlgebraController
 
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent p1) {
 		//
 	}
 
+	@Override
 	public void mouseExited(MouseEvent p1) {
 		highlight(app.getActiveEuclidianView(), (GeoElement) null);
 	}
@@ -383,6 +395,7 @@ public class AlgebraTreeController extends AlgebraController
 	private boolean draggingOccured = false;
 
 	// MOUSE MOTION LISTENER
+	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// used for interactive boards
 		if (System.currentTimeMillis() > EuclidianConstants.DRAGGING_DELAY
@@ -400,9 +413,11 @@ public class AlgebraTreeController extends AlgebraController
 	}
 
 	// tell EuclidianView
+	@Override
 	public void mouseMoved(MouseEvent e) {
-		if (viewIsEditing())
+		if (viewIsEditing()) {
 			return;
+		}
 
 		int x = e.getX();
 		int y = e.getY();

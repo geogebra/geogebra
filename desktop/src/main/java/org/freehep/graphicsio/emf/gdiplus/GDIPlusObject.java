@@ -89,9 +89,10 @@ public class GDIPlusObject extends EMFPlusTag {
 
 	public GDIPlusObject(int index, Stroke stroke, Paint brush) {
 		this();
-		if (!(stroke instanceof BasicStroke))
+		if (!(stroke instanceof BasicStroke)) {
 			throw new IllegalArgumentException(getClass()
 					+ ": can only handle Stroke of class BasicStroke");
+		}
 		this.stroke = (BasicStroke) stroke;
 		this.brush = brush;
 		flags = index | PEN;
@@ -118,6 +119,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		flags = index | IMAGE;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		GDIPlusObject tag = new GDIPlusObject();
@@ -166,6 +168,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		int type = flags & 0x0000FF00;
@@ -208,6 +211,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer(super.toString());
 		sb.append("\n  ");

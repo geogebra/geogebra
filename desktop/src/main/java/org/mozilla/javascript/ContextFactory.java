@@ -186,10 +186,12 @@ public class ContextFactory {
 		}
 		hasCustomGlobal = true;
 		class GlobalSetterImpl implements GlobalSetter {
+			@Override
 			public void setContextFactoryGlobal(ContextFactory factory) {
 				global = factory == null ? new ContextFactory() : factory;
 			}
 
+			@Override
 			public ContextFactory getContextFactoryGlobal() {
 				return global;
 			}
@@ -281,8 +283,9 @@ public class ContextFactory {
 
 	private boolean isDom3Present() {
 		Class<?> nodeClass = Kit.classOrNull("org.w3c.dom.Node");
-		if (nodeClass == null)
+		if (nodeClass == null) {
 			return false;
+		}
 		// Check to see whether DOM3 is present; use a new method defined in
 		// DOM3 that is vital to our implementation
 		try {
@@ -329,6 +332,7 @@ public class ContextFactory {
 	protected GeneratedClassLoader createClassLoader(final ClassLoader parent) {
 		return AccessController
 				.doPrivileged(new PrivilegedAction<DefiningClassLoader>() {
+					@Override
 					public DefiningClassLoader run() {
 						return new DefiningClassLoader(parent);
 					}
@@ -351,15 +355,18 @@ public class ContextFactory {
 	 * @see #getApplicationClassLoader()
 	 */
 	public final void initApplicationClassLoader(ClassLoader loader) {
-		if (loader == null)
+		if (loader == null) {
 			throw new IllegalArgumentException("loader is null");
-		if (!Kit.testIfCanLoadRhinoClasses(loader))
+		}
+		if (!Kit.testIfCanLoadRhinoClasses(loader)) {
 			throw new IllegalArgumentException(
 					"Loader can not resolve Rhino classes");
+		}
 
-		if (this.applicationClassLoader != null)
+		if (this.applicationClassLoader != null) {
 			throw new IllegalStateException(
 					"applicationClassLoader can only be set once");
+		}
 		checkNotSealed();
 
 		this.applicationClassLoader = loader;
@@ -390,8 +397,9 @@ public class ContextFactory {
 		Object listeners = this.listeners;
 		for (int i = 0;; ++i) {
 			Listener l = (Listener) Kit.getListener(listeners, i);
-			if (l == null)
+			if (l == null) {
 				break;
+			}
 			l.contextCreated(cx);
 		}
 	}
@@ -400,8 +408,9 @@ public class ContextFactory {
 		Object listeners = this.listeners;
 		for (int i = 0;; ++i) {
 			Listener l = (Listener) Kit.getListener(listeners, i);
-			if (l == null)
+			if (l == null) {
 				break;
+			}
 			l.contextReleased(cx);
 		}
 	}
@@ -459,8 +468,9 @@ public class ContextFactory {
 	}
 
 	protected final void checkNotSealed() {
-		if (sealed)
+		if (sealed) {
 			throw new IllegalStateException();
+		}
 	}
 
 	/**

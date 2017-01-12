@@ -288,14 +288,16 @@ public class NativeJavaMethod extends BaseFunction {
 			}
 			for (int j = 0; j != alength; ++j) {
 				if (!NativeJavaObject.canConvert(args[j], argTypes[j])) {
-					if (debug)
+					if (debug) {
 						printDebug("Rejecting (args can't convert) ", member,
 								args);
+					}
 					return -1;
 				}
 			}
-			if (debug)
+			if (debug) {
 				printDebug("Found ", member, args);
+			}
 			return 0;
 		}
 
@@ -319,15 +321,17 @@ public class NativeJavaMethod extends BaseFunction {
 			}
 			for (int j = 0; j < alength; j++) {
 				if (!NativeJavaObject.canConvert(args[j], argTypes[j])) {
-					if (debug)
+					if (debug) {
 						printDebug("Rejecting (args can't convert) ", member,
 								args);
+					}
 					continue search;
 				}
 			}
 			if (firstBestFit < 0) {
-				if (debug)
+				if (debug) {
 					printDebug("Found first applicable ", member, args);
+				}
 				firstBestFit = i;
 			} else {
 				// Compare with all currently fit methods.
@@ -355,10 +359,11 @@ public class NativeJavaMethod extends BaseFunction {
 						// to non-public members, continue to prefer public
 						// methods in overloading
 						if ((bestFit.member().getModifiers()
-								& Modifier.PUBLIC) == 0)
+								& Modifier.PUBLIC) == 0) {
 							++betterCount;
-						else
+						} else {
 							++worseCount;
+						}
 					} else {
 						int preference = preferSignature(args, argTypes,
 								member.vararg, bestFit.argTypes,
@@ -370,8 +375,9 @@ public class NativeJavaMethod extends BaseFunction {
 						} else if (preference == PREFERENCE_SECOND_ARG) {
 							++worseCount;
 						} else {
-							if (preference != PREFERENCE_EQUAL)
+							if (preference != PREFERENCE_EQUAL) {
 								Kit.codeBug();
+							}
 							// This should not happen in theory
 							// but on some JVMs, Class.getMethods will return
 							// all
@@ -387,20 +393,22 @@ public class NativeJavaMethod extends BaseFunction {
 								// if
 								// a derived class's parameters match exactly.
 								// We want to call the derived class's method.
-								if (debug)
+								if (debug) {
 									printDebug(
 											"Substituting (overridden static)",
 											member, args);
+								}
 								if (j == -1) {
 									firstBestFit = i;
 								} else {
 									extraBestFits[j] = i;
 								}
 							} else {
-								if (debug)
+								if (debug) {
 									printDebug(
 											"Ignoring same signature member ",
 											member, args);
+								}
 							}
 							continue search;
 						}
@@ -408,19 +416,22 @@ public class NativeJavaMethod extends BaseFunction {
 				}
 				if (betterCount == 1 + extraBestFitsCount) {
 					// member was prefered over all best fits
-					if (debug)
+					if (debug) {
 						printDebug("New first applicable ", member, args);
+					}
 					firstBestFit = i;
 					extraBestFitsCount = 0;
 				} else if (worseCount == 1 + extraBestFitsCount) {
 					// all best fits were prefered over member, ignore it
-					if (debug)
+					if (debug) {
 						printDebug("Rejecting (all current bests better) ",
 								member, args);
+					}
 				} else {
 					// some ambiguity was present, add member to best fit set
-					if (debug)
+					if (debug) {
 						printDebug("Added to best fit set ", member, args);
+					}
 					if (extraBestFits == null) {
 						// Allocate maximum possible array
 						extraBestFits = new int[methodsOrCtors.length - 1];
@@ -560,8 +571,9 @@ class ResolvedOverload {
 		types = new Class<?>[args.length];
 		for (int i = 0, l = args.length; i < l; i++) {
 			Object arg = args[i];
-			if (arg instanceof Wrapper)
+			if (arg instanceof Wrapper) {
 				arg = ((Wrapper) arg).unwrap();
+			}
 			types[i] = arg == null ? null : arg.getClass();
 		}
 	}
@@ -572,11 +584,13 @@ class ResolvedOverload {
 		}
 		for (int i = 0, l = args.length; i < l; i++) {
 			Object arg = args[i];
-			if (arg instanceof Wrapper)
+			if (arg instanceof Wrapper) {
 				arg = ((Wrapper) arg).unwrap();
+			}
 			if (arg == null) {
-				if (types[i] != null)
+				if (types[i] != null) {
 					return false;
+				}
 			} else if (arg.getClass() != types[i]) {
 				return false;
 			}

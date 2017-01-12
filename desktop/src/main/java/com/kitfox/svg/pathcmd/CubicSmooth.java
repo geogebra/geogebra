@@ -64,6 +64,7 @@ public class CubicSmooth extends PathCommand {
 	}
 
 	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	@Override
 	public void appendPath(GeneralPath path, BuildHistory hist) {
 		float offx = isRelative ? hist.lastPoint.x : 0f;
 		float offy = isRelative ? hist.lastPoint.y : 0f;
@@ -81,10 +82,12 @@ public class CubicSmooth extends PathCommand {
 		hist.setLastKnot(k2x + offx, k2y + offy);
 	}
 
+	@Override
 	public int getNumKnotsAdded() {
 		return 6;
 	}
 
+	@Override
 	public String toString() {
 		return "S " + k2x + " " + k2y + " " + x + " " + y;
 	}

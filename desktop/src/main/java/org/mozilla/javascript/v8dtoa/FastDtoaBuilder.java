@@ -102,8 +102,9 @@ public class FastDtoaBuilder {
 			int r = exp % 10;
 			chars[charPos--] = digits[r];
 			exp = exp / 10;
-			if (exp == 0)
+			if (exp == 0) {
 				break;
+			}
 		}
 	}
 

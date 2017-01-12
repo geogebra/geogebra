@@ -148,10 +148,12 @@ public class NumberWithUnits implements Serializable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return "" + value + unitsAsString(unitType);
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -170,6 +172,7 @@ public class NumberWithUnits implements Serializable {
 		return true;
 	}
 
+	@Override
 	public int hashCode() {
 		int hash = 5;
 		hash = 37 * hash + Float.floatToIntBits(this.value);

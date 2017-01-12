@@ -27,6 +27,7 @@ public class ResizePalette extends EMFTag {
 		this.entries = entries;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -34,11 +35,13 @@ public class ResizePalette extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeDWORD(index);
 		emf.writeDWORD(entries);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  index: 0x"
 				+ Integer.toHexString(index) + "\n" + "  entries: " + entries;

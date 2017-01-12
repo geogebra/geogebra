@@ -64,8 +64,9 @@ public class PerspectivePanel extends JPopupMenu {
 	@Override
 	public void setVisible(boolean b) {
 		// prevent call from javax.swing.JPopupMenu.menuSelectionChanged()
-		if (!dockBar.sideBarHasMouse())
+		if (!dockBar.sideBarHasMouse()) {
 			superSetVisible(b);
+		}
 	}
 
 	/**
@@ -174,6 +175,7 @@ public class PerspectivePanel extends JPopupMenu {
 				app.getScaledFlagIcon(flagName)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				LanguageDialog d = new LanguageDialog(app);
 				d.setVisible(true);
@@ -185,6 +187,7 @@ public class PerspectivePanel extends JPopupMenu {
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// default perspectives start with a "d"
 				boolean changed;

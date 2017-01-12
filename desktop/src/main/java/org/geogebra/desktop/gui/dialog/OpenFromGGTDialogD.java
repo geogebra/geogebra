@@ -59,6 +59,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 		 * URL of the material to open to this webview
 		 */
 		getWebEngine().setOnAlert(new EventHandler<WebEvent<String>>() {
+			@Override
 			public void handle(WebEvent<String> event) {
 				String url = event.getData();
 				if (url != null && url.startsWith("EXT: ")) {
@@ -84,6 +85,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 
 		// Close the dialog
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				OpenFromGGTDialogD.this.dispatchEvent(new WindowEvent(
 						OpenFromGGTDialogD.this, WindowEvent.WINDOW_CLOSING));

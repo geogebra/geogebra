@@ -51,10 +51,11 @@ public class AlgebraViewTransferHandler extends TransferHandler
 
 	@Override
 	public Transferable createTransferable(JComponent comp) {
-		if (geoLabelList == null)
+		if (geoLabelList == null) {
 			geoLabelList = new ArrayList<String>();
-		else
+		} else {
 			geoLabelList.clear();
+		}
 		if (comp instanceof AlgebraViewD) {
 			ArrayList<GeoElement> geos = app.getSelectionManager()
 					.getSelectedGeos();
@@ -72,6 +73,7 @@ public class AlgebraViewTransferHandler extends TransferHandler
 		return false;
 	}
 
+	@Override
 	public Object getTransferData(DataFlavor flavor) {
 		if (isDataFlavorSupported(flavor)) {
 			return geoLabelList;
@@ -79,17 +81,20 @@ public class AlgebraViewTransferHandler extends TransferHandler
 		return null;
 	}
 
+	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return supportedFlavors;
 	}
 
+	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		for (int i = 0; i < supportedFlavors.length; i++) {
 			// System.out.println(flavor.getMimeType());
 			// System.out.println(supportedFlavors[i].getMimeType());
 			// System.out.println("------------");
-			if (supportedFlavors[i].equals(flavor))
+			if (supportedFlavors[i].equals(flavor)) {
 				return true;
+			}
 		}
 		return false;
 	}

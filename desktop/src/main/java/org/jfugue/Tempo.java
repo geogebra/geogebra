@@ -73,6 +73,7 @@ public final class Tempo implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("T");
@@ -85,6 +86,7 @@ public final class Tempo implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("Tempo: tempo=");

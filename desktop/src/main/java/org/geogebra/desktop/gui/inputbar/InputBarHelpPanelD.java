@@ -292,24 +292,28 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		public void mouseClicked(MouseEvent e) {
 
 			if (e.getSource() == functionTable) {
-				if (!cmdTree.getSelectionModel().isSelectionEmpty())
+				if (!cmdTree.getSelectionModel().isSelectionEmpty()) {
 					cmdTree.clearSelection();
+				}
 				selectedFunction = (String) functionTable.getSelectedValue();
 				selectedCommand = null;
 				helpTextPane.setText("");
-				if (e.getClickCount() == 2)
+				if (e.getClickCount() == 2) {
 					doPaste();
+				}
 			}
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		setLabels(true);
 	}
 
 	private void setLabels(boolean setCommands) {
-		if (setCommands)
+		if (setCommands) {
 			setCommands();
+		}
 		cmdTreeModel.setRoot(rootSubCommands);
 		cmdTreeModel.reload();
 
@@ -391,9 +395,11 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		cmdTree.setRowHeight(-1);
 
 		cmdTree.addTreeExpansionListener(new TreeExpansionListener() {
+			@Override
 			public void treeCollapsed(TreeExpansionEvent e) {
 			}
 
+			@Override
 			public void treeExpanded(TreeExpansionEvent e) {
 				thisPanel.btnRefresh.setEnabled(true);
 			}
@@ -401,11 +407,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	}
 
 	public void setCommands() {
-		if (rootSubCommands == null)
+		if (rootSubCommands == null) {
 			rootSubCommands = new DefaultMutableTreeNode();
-		if (rootAllCommands == null)
+		}
+		if (rootAllCommands == null) {
 			rootAllCommands = new DefaultMutableTreeNode(
 					loc.getMenu("AllCommands"));
+		}
 		rootSubCommands.removeAllChildren();
 		rootAllCommands.removeAllChildren();
 
@@ -414,8 +422,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		// load the sub-command nodes
 		for (int i = 0; i < subDict.length; i++) {
-			if (subDict[i].isEmpty())
+			if (subDict[i].isEmpty()) {
 				continue;
+			}
 
 			// add stem node: sub-command set name
 			String name = app.getKernel().getAlgebraProcessor()
@@ -483,12 +492,15 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		return;
 	}
 
+	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) cmdTree
 				.getLastSelectedPathComponent();
 
 		if (node == null)
+		 {
 			return; // Nothing is selected.
+		}
 
 		if (node.isLeaf()) {
 			Object nodeInfo = node.getUserObject();
@@ -496,8 +508,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			selectedFunction = null;
 			// insertInputBarCommand(selectedCommand);
 			showSelectedSyntax();
-			if (functionTable.getSelectedIndex() != -1)
+			if (functionTable.getSelectedIndex() != -1) {
 				functionTable.clearSelection();
+			}
 		}
 	}
 
@@ -508,8 +521,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			int y = e.getY();
 			JTree tree = (JTree) e.getSource();
 			TreePath tp = tree.getPathForLocation(x, y);
-			if (tp == null)
+			if (tp == null) {
 				return;
+			}
 			DefaultMutableTreeNode node = ((DefaultMutableTreeNode) tp
 					.getLastPathComponent());
 			if (node.isLeaf()) {
@@ -536,6 +550,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 						app.getLocalization().getMenu("ShowOnlineHelp"));
 				item.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
 				item.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						((GuiManagerD) app.getGuiManager())
 								.openCommandHelp(rollOverCommand);
@@ -551,8 +566,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger())
+			if (e.isPopupTrigger()) {
 				myPopupEvent(e);
+			}
 			if (e.getClickCount() == 2) {
 				doPaste();
 			}
@@ -560,8 +576,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger())
+			if (e.isPopupTrigger()) {
 				myPopupEvent(e);
+			}
 		}
 
 		@Override
@@ -582,10 +599,11 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			// TODO most of this code can be removed now that roll over no
 			// longer changes the help text
 			MyJTree tree;
-			if (e.getSource() instanceof MyJTree)
+			if (e.getSource() instanceof MyJTree) {
 				tree = (MyJTree) e.getSource();
-			else
+			} else {
 				return;
+			}
 
 			int row = tree.getRowForLocation(e.getX(), e.getY());
 
@@ -669,7 +687,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
 		if (loc.isCASCommand(cmd)) {
-			if (!description.equals(cmd + Localization.syntaxStr))
+			if (!description.equals(cmd + Localization.syntaxStr)) {
 				try {
 					doc.insertString(doc.getLength(), description + "\n",
 							doc.getStyle("regular"));
@@ -677,6 +695,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 					// should never occur
 					e.printStackTrace();
 				}
+			}
 			try {
 				doc.insertString(doc.getLength(), descriptionCASHeader,
 						doc.getStyle("italic"));
@@ -772,6 +791,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == btnRefresh) {
@@ -788,11 +808,12 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			if (selectedCommand != null) {
 				((GuiManagerD) app.getGuiManager())
 						.openCommandHelp(selectedCommand);
-			} else if (selectedFunction != null)
+			} else if (selectedFunction != null) {
 				((GuiManagerD) app.getGuiManager())
 						.openHelp(App.WIKI_OPERATORS);
-			else
+			} else {
 				((GuiManagerD) app.getGuiManager()).openHelp("InputBar");
+			}
 		}
 
 		else if (e.getSource() == btnPaste) {
@@ -832,10 +853,12 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	 * }
 	 */
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void focusLost(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 	}

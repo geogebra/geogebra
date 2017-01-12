@@ -11,6 +11,7 @@ public class GeoLaTeXCache implements LaTeXCache {
 	// used by Captions, GeoText and DrawParametricCurve to cache LaTeX formulae
 	public Object keyLaTeX = null;
 
+	@Override
 	public Object getCachedLaTeXKey(String latex, int fontSize, int style,
 			Object fgColor) {
 		Object newKey;
@@ -47,13 +48,15 @@ public class GeoLaTeXCache implements LaTeXCache {
 
 	}
 
+	@Override
 	public void remove() {
-		if (keyLaTeX != null)
+		if (keyLaTeX != null) {
 			try {
 				JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			} catch (Exception ee) {
 				ee.printStackTrace();
 			}
+		}
 
 	}
 

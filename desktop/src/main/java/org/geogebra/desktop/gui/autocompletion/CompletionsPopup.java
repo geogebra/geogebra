@@ -97,9 +97,11 @@ public class CompletionsPopup {
 
 	private class PopupListener implements PopupMenuListener {
 
+		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
 		}
 
+		@Override
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 			textField.removeKeyListener(keyListener);
 			for (KeyListener listener : textFieldKeyListeners) {
@@ -107,6 +109,7 @@ public class CompletionsPopup {
 			}
 		}
 
+		@Override
 		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 			// Remove key listeners and replace with own;
 			textFieldKeyListeners = textField.getKeyListeners();
@@ -121,9 +124,11 @@ public class CompletionsPopup {
 		// Suggest completions on text changes, store reference to listener
 		// object
 		textFieldDocListener = new DocumentListener() {
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 			}
 
+			@Override
 			public void insertUpdate(DocumentEvent e) { /* showCompletions(); */
 				if (current_length != e.getOffset()) {
 					hidePopup();
@@ -131,6 +136,7 @@ public class CompletionsPopup {
 				}
 			}
 
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 			}
 		};

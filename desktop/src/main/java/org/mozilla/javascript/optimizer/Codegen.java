@@ -52,26 +52,32 @@ import org.mozilla.javascript.ast.ScriptNode;
  */
 
 public class Codegen implements Evaluator {
+	@Override
 	public void captureStackInfo(RhinoException ex) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public String getSourcePositionFromStack(Context cx, int[] linep) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public String getPatchedStack(RhinoException ex, String nativeStackTrace) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public List<String> getScriptStack(RhinoException ex) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void setEvalScriptFlag(Script script) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object compile(CompilerEnvirons compilerEnv, ScriptNode tree,
 			String encodedSource, boolean returnFunction) {
 		int serial;
@@ -96,6 +102,7 @@ public class Codegen implements Evaluator {
 		return new Object[] { mainClassName, mainClassBytes };
 	}
 
+	@Override
 	public Script createScriptObject(Object bytecode,
 			Object staticSecurityDomain) {
 		Class<?> cl = defineClass(bytecode, staticSecurityDomain);
@@ -110,6 +117,7 @@ public class Codegen implements Evaluator {
 		return script;
 	}
 
+	@Override
 	public Function createFunctionObject(Context cx, Scriptable scope,
 			Object bytecode, Object staticSecurityDomain) {
 		Class<?> cl = defineClass(bytecode, staticSecurityDomain);
@@ -396,14 +404,16 @@ public class Codegen implements Evaluator {
 	private void generateResumeGenerator(ClassFileWriter cfw) {
 		boolean hasGenerators = false;
 		for (int i = 0; i < scriptOrFnNodes.length; i++) {
-			if (isGenerator(scriptOrFnNodes[i]))
+			if (isGenerator(scriptOrFnNodes[i])) {
 				hasGenerators = true;
+			}
 		}
 
 		// if there are no generators defined, we don't implement a
 		// resumeGenerator(). The base class provides a default implementation.
-		if (!hasGenerators)
+		if (!hasGenerators) {
 			return;
+		}
 
 		cfw.startMethod("resumeGenerator", "(Lorg/mozilla/javascript/Context;"
 				+ "Lorg/mozilla/javascript/Scriptable;" + "ILjava/lang/Object;"
@@ -631,8 +641,9 @@ public class Codegen implements Evaluator {
 
 		int start = (scriptOrFnNodes[0].getType() == Token.SCRIPT) ? 1 : 0;
 		int end = scriptOrFnNodes.length;
-		if (start == end)
+		if (start == end) {
 			throw badTree();
+		}
 		boolean generateSwitch = (2 <= end - start);
 
 		int switchStart = 0;
@@ -834,8 +845,9 @@ public class Codegen implements Evaluator {
 						int paramSwitchStart = cfw.addTableSwitch(1,
 								paramAndVarCount - 1);
 						for (int j = 0; j != paramAndVarCount; ++j) {
-							if (cfw.getStackTop() != 0)
+							if (cfw.getStackTop() != 0) {
 								Kit.codeBug();
+							}
 							String s = n.getParamOrVarName(j);
 							if (j == 0) {
 								cfw.markTableSwitchDefault(paramSwitchStart);
@@ -873,8 +885,9 @@ public class Codegen implements Evaluator {
 						int paramSwitchStart = cfw.addTableSwitch(1,
 								paramAndVarCount - 1);
 						for (int j = 0; j != paramAndVarCount; ++j) {
-							if (cfw.getStackTop() != 0)
+							if (cfw.getStackTop() != 0) {
 								Kit.codeBug();
+							}
 							if (j == 0) {
 								cfw.markTableSwitchDefault(paramSwitchStart);
 							} else {
@@ -973,8 +986,9 @@ public class Codegen implements Evaluator {
 
 	private void emitConstantDudeInitializers(ClassFileWriter cfw) {
 		int N = itsConstantListSize;
-		if (N == 0)
+		if (N == 0) {
 			return;
+		}
 
 		cfw.startMethod("<clinit>", "()V", (short) (ACC_STATIC | ACC_FINAL));
 
@@ -1328,8 +1342,9 @@ class BodyCodegen {
 				}
 			}
 			inDirectCallFunction = fnCurrent.isTargetOfDirectCall();
-			if (inDirectCallFunction && !hasVarsInRegs)
+			if (inDirectCallFunction && !hasVarsInRegs) {
 				Codegen.badTree();
+			}
 		} else {
 			fnCurrent = null;
 			hasVarsInRegs = false;
@@ -1364,8 +1379,9 @@ class BodyCodegen {
 			// 1 is reserved for context
 			// 2 is reserved for parentScope
 			// 3 is reserved for script 'this'
-			if (firstFreeLocal != 4)
+			if (firstFreeLocal != 4) {
 				Kit.codeBug();
+			}
 			for (int i = 0; i != directParameterCount; ++i) {
 				varRegisters[i] = firstFreeLocal;
 				// 3 is 1 for Object parm and 2 for double parm
@@ -1450,8 +1466,9 @@ class BodyCodegen {
 					Codegen.REGEXP_INIT_METHOD_SIGNATURE);
 		}
 
-		if (compilerEnv.isGenerateObserverCount())
+		if (compilerEnv.isGenerateObserverCount()) {
 			saveCurrentCodeOffset();
+		}
 
 		if (hasVarsInRegs) {
 			// No need to create activation. Pad arguments if need be.
@@ -1531,8 +1548,9 @@ class BodyCodegen {
 		// skip creating activation object for the body of a generator. The
 		// activation record required by a generator has already been created
 		// in generateGenerator().
-		if (isGenerator)
+		if (isGenerator) {
 			return;
+		}
 
 		String debugVariableName;
 		if (fnCurrent != null) {
@@ -1586,8 +1604,9 @@ class BodyCodegen {
 			cfw.addAStore(popvLocal);
 
 			int linenum = scriptOrFn.getEndLineno();
-			if (linenum != -1)
+			if (linenum != -1) {
 				cfw.addLineNumberEntry((short) linenum);
+			}
 
 		} else {
 			if (fnCurrent.itsContainsCalls0) {
@@ -1628,8 +1647,9 @@ class BodyCodegen {
 	}
 
 	private void generateEpilogue() {
-		if (compilerEnv.isGenerateObserverCount())
+		if (compilerEnv.isGenerateObserverCount()) {
 			addInstructionCount();
+		}
 		if (isGenerator) {
 			// generate locals initialization
 			Map<Node, int[]> liveLocals = ((FunctionNode) scriptOrFn)
@@ -1740,8 +1760,9 @@ class BodyCodegen {
 	}
 
 	private void generateActivationExit() {
-		if (fnCurrent == null || hasVarsInRegs)
+		if (fnCurrent == null || hasVarsInRegs) {
 			throw Kit.codeBug();
+		}
 		cfw.addALoad(contextLocal);
 		addScriptRuntimeInvoke("exitActivationFunction",
 				"(Lorg/mozilla/javascript/Context;)V");
@@ -1838,14 +1859,16 @@ class BodyCodegen {
 
 		case Token.THROW:
 			generateExpression(child, node);
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				addInstructionCount();
+			}
 			generateThrowJavaScriptException();
 			break;
 
 		case Token.RETHROW:
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				addInstructionCount();
+			}
 			cfw.addALoad(getLocalBlockRegister(node));
 			cfw.add(ByteCode.ATHROW);
 			break;
@@ -1858,24 +1881,28 @@ class BodyCodegen {
 				} else if (type == Token.RETURN) {
 					Codegen.pushUndefined(cfw);
 				} else {
-					if (popvLocal < 0)
+					if (popvLocal < 0) {
 						throw Codegen.badTree();
+					}
 					cfw.addALoad(popvLocal);
 				}
 			}
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				addInstructionCount();
+			}
 			if (epilogueLabel == -1) {
-				if (!hasVarsInRegs)
+				if (!hasVarsInRegs) {
 					throw Codegen.badTree();
+				}
 				epilogueLabel = cfw.acquireLabel();
 			}
 			cfw.add(ByteCode.GOTO, epilogueLabel);
 			break;
 
 		case Token.SWITCH:
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				addInstructionCount();
+			}
 			visitSwitch((Jump) node, child);
 			break;
 
@@ -1934,10 +1961,11 @@ class BodyCodegen {
 				generateYieldPoint(child, false);
 			} else {
 				generateExpression(child, node);
-				if (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1)
+				if (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1) {
 					cfw.add(ByteCode.POP2);
-				else
+				} else {
 					cfw.add(ByteCode.POP);
+				}
 			}
 			break;
 
@@ -1950,12 +1978,14 @@ class BodyCodegen {
 			break;
 
 		case Token.TARGET: {
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				addInstructionCount();
+			}
 			int label = getTargetLabel(node);
 			cfw.markLabel(label);
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				saveCurrentCodeOffset();
+			}
 		}
 			break;
 
@@ -1963,8 +1993,9 @@ class BodyCodegen {
 		case Token.GOTO:
 		case Token.IFEQ:
 		case Token.IFNE:
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				addInstructionCount();
+			}
 			visitGoto((Jump) node, type, child);
 			break;
 
@@ -1978,8 +2009,9 @@ class BodyCodegen {
 				break;
 			}
 
-			if (compilerEnv.isGenerateObserverCount())
+			if (compilerEnv.isGenerateObserverCount()) {
 				saveCurrentCodeOffset();
+			}
 			// there is exactly one value on the stack when enterring
 			// finally blocks: the return address (or its int encoding)
 			cfw.setStackTop((short) 1);
@@ -2257,10 +2289,11 @@ class BodyCodegen {
 			cfw.add(ByteCode.DUP);
 			addScriptRuntimeInvoke("toBoolean", "(Ljava/lang/Object;)Z");
 			int falseTarget = cfw.acquireLabel();
-			if (type == Token.AND)
+			if (type == Token.AND) {
 				cfw.add(ByteCode.IFEQ, falseTarget);
-			else
+			} else {
 				cfw.add(ByteCode.IFNE, falseTarget);
+			}
 			cfw.add(ByteCode.POP);
 			generateExpression(child.getNext(), node);
 			cfw.markLabel(falseTarget);
@@ -2672,10 +2705,11 @@ class BodyCodegen {
 
 		// generate the yield argument
 		Node child = node.getFirstChild();
-		if (child != null)
+		if (child != null) {
 			generateExpression(child, node);
-		else
+		} else {
 			Codegen.pushUndefined(cfw);
+		}
 
 		// change the resumption state
 		int nextState = getNextGeneratorState(node);
@@ -2724,8 +2758,9 @@ class BodyCodegen {
 
 		// mark the re-entry point
 		// jump here after initializing the locals
-		if (label != -1)
+		if (label != -1) {
 			cfw.markLabel(label);
+		}
 		if (!hasLocals) {
 			// jump here directly if there are no locals
 			cfw.markTableSwitchCase(generatorSwitch, nextState);
@@ -2828,14 +2863,16 @@ class BodyCodegen {
 	private void visitGoto(Jump node, int type, Node child) {
 		Node target = node.target;
 		if (type == Token.IFEQ || type == Token.IFNE) {
-			if (child == null)
+			if (child == null) {
 				throw Codegen.badTree();
+			}
 			int targetLabel = getTargetLabel(target);
 			int fallThruLabel = cfw.acquireLabel();
-			if (type == Token.IFEQ)
+			if (type == Token.IFEQ) {
 				generateIfJump(child, node, targetLabel, fallThruLabel);
-			else
+			} else {
 				generateIfJump(child, node, fallThruLabel, targetLabel);
+			}
 			cfw.markLabel(fallThruLabel);
 		} else {
 			if (type == Token.JSR) {
@@ -3154,8 +3191,9 @@ class BodyCodegen {
 	}
 
 	private void visitStandardCall(Node node, Node child) {
-		if (node.getType() != Token.CALL)
+		if (node.getType() != Token.CALL) {
 			throw Codegen.badTree();
+		}
 
 		Node firstArgChild = child.getNext();
 		int childType = child.getType();
@@ -3254,8 +3292,9 @@ class BodyCodegen {
 	}
 
 	private void visitStandardNew(Node node, Node child) {
-		if (node.getType() != Token.NEW)
+		if (node.getType() != Token.NEW) {
 			throw Codegen.badTree();
+		}
 
 		Node firstArgChild = child.getNext();
 
@@ -3462,8 +3501,9 @@ class BodyCodegen {
 								+ ")Lorg/mozilla/javascript/Callable;");
 			} else {
 				generateExpression(id, node); // id
-				if (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1)
+				if (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1) {
 					addDoubleWrap();
+				}
 				cfw.addALoad(contextLocal);
 				cfw.addALoad(variableObjectLocal);
 				addScriptRuntimeInvoke("getElemFunctionAndThis",
@@ -3504,8 +3544,9 @@ class BodyCodegen {
 
 	private void updateLineNumber(Node node) {
 		itsLineNumber = node.getLineno();
-		if (itsLineNumber == -1)
+		if (itsLineNumber == -1) {
 			return;
+		}
 		cfw.addLineNumberEntry((short) itsLineNumber);
 	}
 
@@ -3641,17 +3682,18 @@ class BodyCodegen {
 
 			// get the label to JSR to
 			int finallyLabel = finallyTarget.labelId();
-			if (isGenerator)
+			if (isGenerator) {
 				addGotoWithReturn(finallyTarget);
-			else {
+			} else {
 				inlineFinally(finallyTarget, handlerLabels[FINALLY_EXCEPTION],
 						finallyEnd);
 			}
 
 			// rethrow
 			cfw.addALoad(exceptionLocal);
-			if (isGenerator)
+			if (isGenerator) {
 				cfw.add(ByteCode.CHECKCAST, "java/lang/Throwable");
+			}
 			cfw.add(ByteCode.ATHROW);
 
 			cfw.markLabel(finallyEnd);
@@ -4016,8 +4058,9 @@ class BodyCodegen {
 	private boolean generateSaveLocals(Node node) {
 		int count = 0;
 		for (int i = 0; i < firstFreeLocal; i++) {
-			if (locals[i] != 0)
+			if (locals[i] != 0) {
 				count++;
+			}
 		}
 
 		if (count == 0) {
@@ -4067,8 +4110,9 @@ class BodyCodegen {
 		for (Jump caseNode = (Jump) child
 				.getNext(); caseNode != null; caseNode = (Jump) caseNode
 						.getNext()) {
-			if (caseNode.getType() != Token.CASE)
+			if (caseNode.getType() != Token.CASE) {
 				throw Codegen.badTree();
+			}
 			Node test = caseNode.getFirstChild();
 			generateExpression(test, caseNode);
 			cfw.addALoad(selector);
@@ -4158,8 +4202,9 @@ class BodyCodegen {
 		Node child = node.getFirstChild();
 		switch (child.getType()) {
 		case Token.GETVAR:
-			if (!hasVarsInRegs)
+			if (!hasVarsInRegs) {
 				Kit.codeBug();
+			}
 			boolean post = ((incrDecrMask & Node.POST_FLAG) != 0);
 			int varIndex = fnCurrent.getVarIndex(child);
 			short reg = varRegisters[varIndex];
@@ -4321,11 +4366,13 @@ class BodyCodegen {
 		} else {
 			boolean childOfArithmetic = isArithmeticNode(parent);
 			generateExpression(child, node);
-			if (!isArithmeticNode(child))
+			if (!isArithmeticNode(child)) {
 				addObjectToDouble();
+			}
 			generateExpression(child.getNext(), node);
-			if (!isArithmeticNode(child.getNext()))
+			if (!isArithmeticNode(child.getNext())) {
 				addObjectToDouble();
+			}
 			cfw.add(opCode);
 			if (!childOfArithmetic) {
 				addDoubleWrap();
@@ -4404,8 +4451,9 @@ class BodyCodegen {
 	}
 
 	private void genSimpleCompare(int type, int trueGOTO, int falseGOTO) {
-		if (trueGOTO == -1)
+		if (trueGOTO == -1) {
 			throw Codegen.badTree();
+		}
 		switch (type) {
 		case Token.LE:
 			cfw.add(ByteCode.DCMPG);
@@ -4427,14 +4475,16 @@ class BodyCodegen {
 			throw Codegen.badTree();
 
 		}
-		if (falseGOTO != -1)
+		if (falseGOTO != -1) {
 			cfw.add(ByteCode.GOTO, falseGOTO);
+		}
 	}
 
 	private void visitIfJumpRelOp(Node node, Node child, int trueGOTO,
 			int falseGOTO) {
-		if (trueGOTO == -1 || falseGOTO == -1)
+		if (trueGOTO == -1 || falseGOTO == -1) {
 			throw Codegen.badTree();
+		}
 		int type = node.getType();
 		Node rChild = child.getNext();
 		if (type == Token.INSTANCEOF || type == Token.IN) {
@@ -4491,8 +4541,9 @@ class BodyCodegen {
 				cfw.addDLoad(left_dcp_register + 1);
 				dcpLoadAsNumber(right_dcp_register);
 				genSimpleCompare(type, trueGOTO, falseGOTO);
-				if (stack != cfw.getStackTop())
+				if (stack != cfw.getStackTop()) {
 					throw Codegen.badTree();
+				}
 
 				cfw.markLabel(leftIsNotNumber);
 				int rightIsNotNumber = cfw.acquireLabel();
@@ -4504,8 +4555,9 @@ class BodyCodegen {
 				addObjectToDouble();
 				cfw.addDLoad(right_dcp_register + 1);
 				genSimpleCompare(type, trueGOTO, falseGOTO);
-				if (stack != cfw.getStackTop())
+				if (stack != cfw.getStackTop()) {
 					throw Codegen.badTree();
+				}
 
 				cfw.markLabel(rightIsNotNumber);
 				// Load both register as objects to call generic cmp_*
@@ -4531,8 +4583,9 @@ class BodyCodegen {
 
 	private void visitIfJumpEqOp(Node node, Node child, int trueGOTO,
 			int falseGOTO) {
-		if (trueGOTO == -1 || falseGOTO == -1)
+		if (trueGOTO == -1 || falseGOTO == -1) {
 			throw Codegen.badTree();
+		}
 
 		short stackInitial = cfw.getStackTop();
 		int type = node.getType();
@@ -4552,8 +4605,9 @@ class BodyCodegen {
 			} else {
 				if (type != Token.EQ) {
 					// swap false/true targets for !=
-					if (type != Token.NE)
+					if (type != Token.NE) {
 						throw Codegen.badTree();
+					}
 					int tmp = trueGOTO;
 					trueGOTO = falseGOTO;
 					falseGOTO = tmp;
@@ -4583,10 +4637,11 @@ class BodyCodegen {
 					cfw.addDLoad(child_dcp_register + 1);
 					cfw.addPush(convertChild.getDouble());
 					cfw.add(ByteCode.DCMPL);
-					if (type == Token.EQ)
+					if (type == Token.EQ) {
 						cfw.add(ByteCode.IFEQ, trueGOTO);
-					else
+					} else {
 						cfw.add(ByteCode.IFNE, trueGOTO);
+					}
 					cfw.add(ByteCode.GOTO, falseGOTO);
 					cfw.markLabel(notNumbersLabel);
 					// fall thru into generic handling
@@ -4623,8 +4678,9 @@ class BodyCodegen {
 			cfw.add(testCode, trueGOTO);
 			cfw.add(ByteCode.GOTO, falseGOTO);
 		}
-		if (stackInitial != cfw.getStackTop())
+		if (stackInitial != cfw.getStackTop()) {
 			throw Codegen.badTree();
+		}
 	}
 
 	private void visitSetName(Node node, Node child) {
@@ -4674,8 +4730,9 @@ class BodyCodegen {
 	}
 
 	private void visitGetVar(Node node) {
-		if (!hasVarsInRegs)
+		if (!hasVarsInRegs) {
 			Kit.codeBug();
+		}
 		int varIndex = fnCurrent.getVarIndex(node);
 		short reg = varRegisters[varIndex];
 		if (varIsDirectCallParameter(varIndex)) {
@@ -4696,8 +4753,9 @@ class BodyCodegen {
 	}
 
 	private void visitSetVar(Node node, Node child, boolean needValue) {
-		if (!hasVarsInRegs)
+		if (!hasVarsInRegs) {
 			Kit.codeBug();
+		}
 		int varIndex = fnCurrent.getVarIndex(node);
 		generateExpression(child.getNext(), node);
 		boolean isNumber = (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1);
@@ -4705,15 +4763,17 @@ class BodyCodegen {
 		boolean[] constDeclarations = fnCurrent.fnode.getParamAndVarConst();
 		if (constDeclarations[varIndex]) {
 			if (!needValue) {
-				if (isNumber)
+				if (isNumber) {
 					cfw.add(ByteCode.POP2);
-				else
+				} else {
 					cfw.add(ByteCode.POP);
+				}
 			}
 		} else if (varIsDirectCallParameter(varIndex)) {
 			if (isNumber) {
-				if (needValue)
+				if (needValue) {
 					cfw.add(ByteCode.DUP2);
+				}
 				cfw.addALoad(reg);
 				cfw.add(ByteCode.GETSTATIC, "java/lang/Void", "TYPE",
 						"Ljava/lang/Class;");
@@ -4728,8 +4788,9 @@ class BodyCodegen {
 				cfw.addDStore(reg + 1);
 				cfw.markLabel(beyond);
 			} else {
-				if (needValue)
+				if (needValue) {
 					cfw.add(ByteCode.DUP);
+				}
 				cfw.addAStore(reg);
 			}
 		} else {
@@ -4737,29 +4798,34 @@ class BodyCodegen {
 			if (isNumber) {
 				if (isNumberVar) {
 					cfw.addDStore(reg);
-					if (needValue)
+					if (needValue) {
 						cfw.addDLoad(reg);
+					}
 				} else {
-					if (needValue)
+					if (needValue) {
 						cfw.add(ByteCode.DUP2);
+					}
 					// Cannot save number in variable since !isNumberVar,
 					// so convert to object
 					addDoubleWrap();
 					cfw.addAStore(reg);
 				}
 			} else {
-				if (isNumberVar)
+				if (isNumberVar) {
 					Kit.codeBug();
+				}
 				cfw.addAStore(reg);
-				if (needValue)
+				if (needValue) {
 					cfw.addALoad(reg);
+				}
 			}
 		}
 	}
 
 	private void visitSetConstVar(Node node, Node child, boolean needValue) {
-		if (!hasVarsInRegs)
+		if (!hasVarsInRegs) {
 			Kit.codeBug();
+		}
 		int varIndex = fnCurrent.getVarIndex(node);
 		generateExpression(child.getNext(), node);
 		boolean isNumber = (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1);
@@ -5103,17 +5169,20 @@ class BodyCodegen {
 
 		if (result != -1) {
 			locals[result] = 1;
-			if (count > 1)
+			if (count > 1) {
 				locals[result + 1] = 1;
-			if (count > 2)
+			}
+			if (count > 2) {
 				locals[result + 2] = 1;
+			}
 
 			if (result == firstFreeLocal) {
 				for (int i = result + count; i < MAX_LOCALS; i++) {
 					if (locals[i] == 0) {
 						firstFreeLocal = (short) i;
-						if (localsMax < firstFreeLocal)
+						if (localsMax < firstFreeLocal) {
 							localsMax = firstFreeLocal;
+						}
 						return (short) result;
 					}
 				}
@@ -5136,8 +5205,9 @@ class BodyCodegen {
 	}
 
 	private void releaseWordLocal(short local) {
-		if (local < firstFreeLocal)
+		if (local < firstFreeLocal) {
 			firstFreeLocal = local;
+		}
 		locals[local] = 0;
 	}
 

@@ -27,8 +27,9 @@ public class Region {
 		int size = emf.readDWORD();
 		bounds = emf.readRECTL();
 		region = emf.readRECTL();
-		for (int i = 16; i < size; i += 16)
+		for (int i = 16; i < size; i += 16) {
 			emf.readRECTL();
+		}
 	}
 
 	public void write(EMFOutputStream emf) throws IOException {
@@ -44,6 +45,7 @@ public class Region {
 		return 48;
 	}
 
+	@Override
 	public String toString() {
 		return "  Region\n" + "    bounds: " + bounds + "\n" + "    region: "
 				+ region;

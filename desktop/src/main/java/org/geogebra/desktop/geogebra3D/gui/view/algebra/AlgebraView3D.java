@@ -46,8 +46,9 @@ public class AlgebraView3D extends AlgebraViewD {
 	protected DefaultMutableTreeNode getParentNode(GeoElement geo,
 			int forceLayer) {
 
-		if (!treeMode.equals(SortMode.VIEW))
+		if (!treeMode.equals(SortMode.VIEW)) {
 			return super.getParentNode(geo, forceLayer);
+		}
 
 		DefaultMutableTreeNode parent;
 
@@ -55,10 +56,11 @@ public class AlgebraView3D extends AlgebraViewD {
 		EuclidianViewInterfaceCommon view = (EuclidianViewInterfaceCommon) geo
 				.getViewForValueString();
 		if (view == null) {
-			if (geo.isGeoElement3D())
+			if (geo.isGeoElement3D()) {
 				view = ((App3D) app).getEuclidianView3D();
-			else
+			} else {
 				view = app.getActiveEuclidianView();
+			}
 		}
 
 		String viewString = view.getFromPlaneString();
@@ -127,8 +129,9 @@ public class AlgebraView3D extends AlgebraViewD {
 
 	@Override
 	protected void removeAuxiliaryNode() {
-		if (auxiliaryNode.isNodeChild(rootDependency))
+		if (auxiliaryNode.isNodeChild(rootDependency)) {
 			super.removeAuxiliaryNode();
+		}
 	}
 
 	@Override

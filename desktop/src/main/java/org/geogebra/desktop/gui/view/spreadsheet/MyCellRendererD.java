@@ -179,8 +179,10 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 				comboBox.setBackground(table.getBackground());
 				cbModel.removeAllElements();
 				if (list.size() > 0)
+				 {
 					cbModel.addElement(list.get(list.getSelectedIndex()));
 				// comboBox.setSelected(((GeoBoolean)geo).getBoolean());
+				}
 
 				return comboBox;
 			}
@@ -230,8 +232,9 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 		// ===============================================
 		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint.x,
 				cellPoint.y, CellFormat.FORMAT_FONTSTYLE);
-		if (fontStyle == null)
+		if (fontStyle == null) {
 			fontStyle = Font.PLAIN;
+		}
 
 		setText(text);
 		setFont(app.getFontCanDisplayAwt(text, fontStyle));
@@ -302,8 +305,9 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 						true);
 				if (geo.isLaTeXDrawableGeo()) {
 					try {
-						if (geo.isGeoText())
+						if (geo.isGeoText()) {
 							isSerif = ((GeoText) geo).isSerifFont();
+						}
 						// System.out.println(latexStr);
 						app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
 								latexStr, getFont(), isSerif,
@@ -344,12 +348,14 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 
 			if (value != null) {
 				GeoElement geo = (GeoElement) value;
-				if (geo.isGeoText())
+				if (geo.isGeoText()) {
 					setText(geo.toValueString(StringTemplate.defaultTemplate));
-				else
+				} else {
 					setText(geo.getLabel(StringTemplate.defaultTemplate));
-			} else
+				}
+			} else {
 				setText(" ");
+			}
 
 			return lbl;
 		}

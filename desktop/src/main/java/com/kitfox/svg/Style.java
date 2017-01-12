@@ -59,6 +59,7 @@ public class Style extends SVGElement {
 	public Style() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -66,6 +67,7 @@ public class Style extends SVGElement {
 	/**
 	 * Called during load process to add text scanned within a tag
 	 */
+	@Override
 	public void loaderAddText(SVGLoaderHelper helper, String text) {
 		this.text.append(text);
 
@@ -73,6 +75,7 @@ public class Style extends SVGElement {
 		styleSheet = null;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -83,6 +86,7 @@ public class Style extends SVGElement {
 		}
 	}
 
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Style sheet doesn't change
 		return false;

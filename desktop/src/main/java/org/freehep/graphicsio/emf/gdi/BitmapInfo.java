@@ -30,6 +30,7 @@ public class BitmapInfo {
 		// colormap not necessary for true color image
 	}
 
+	@Override
 	public String toString() {
 		return "  BitmapInfo\n" + header.toString();
 	}

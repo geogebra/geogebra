@@ -135,8 +135,9 @@ public class PstricksFrame extends ExportFrame {
 	// end changes.
 	@Override
 	protected boolean isBeamer() {
-		if (comboFormat.getSelectedIndex() == 1)
+		if (comboFormat.getSelectedIndex() == 1) {
 			return true;
+		}
 		return false;
 	}
 

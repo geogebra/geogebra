@@ -337,8 +337,9 @@ final class NativeString extends IdScriptableObject {
 					thisObj = ScriptRuntime.toObject(cx, scope,
 							ScriptRuntime.toCharSequence(args[0]));
 					Object[] newArgs = new Object[args.length - 1];
-					for (int i = 0; i < newArgs.length; i++)
+					for (int i = 0; i < newArgs.length; i++) {
 						newArgs[i] = args[i + 1];
+					}
 					args = newArgs;
 				} else {
 					thisObj = ScriptRuntime.toObject(cx, scope,
@@ -350,8 +351,9 @@ final class NativeString extends IdScriptableObject {
 
 			case ConstructorId_fromCharCode: {
 				int N = args.length;
-				if (N < 1)
+				if (N < 1) {
 					return "";
+				}
 				StringBuilder sb = new StringBuilder(N);
 				for (int i = 0; i != N; ++i) {
 					sb.append(ScriptRuntime.toUint16(args[i]));
@@ -388,16 +390,18 @@ final class NativeString extends IdScriptableObject {
 				CharSequence target = ScriptRuntime.toCharSequence(thisObj);
 				double pos = ScriptRuntime.toInteger(args, 0);
 				if (pos < 0 || pos >= target.length()) {
-					if (id == Id_charAt)
+					if (id == Id_charAt) {
 						return "";
-					else
+					} else {
 						return ScriptRuntime.NaNobj;
+					}
 				}
 				char c = target.charAt((int) pos);
-				if (id == Id_charAt)
+				if (id == Id_charAt) {
 					return String.valueOf(c);
-				else
+				} else {
 					return ScriptRuntime.wrapInt(c);
+				}
 			}
 
 			case Id_indexOf:
@@ -586,18 +590,19 @@ final class NativeString extends IdScriptableObject {
 				String formStr = ScriptRuntime.toString(args, 0);
 
 				Normalizer.Form form;
-				if (Normalizer.Form.NFD.name().equals(formStr))
+				if (Normalizer.Form.NFD.name().equals(formStr)) {
 					form = Normalizer.Form.NFD;
-				else if (Normalizer.Form.NFKC.name().equals(formStr))
+				} else if (Normalizer.Form.NFKC.name().equals(formStr)) {
 					form = Normalizer.Form.NFKC;
-				else if (Normalizer.Form.NFKD.name().equals(formStr))
+				} else if (Normalizer.Form.NFKD.name().equals(formStr)) {
 					form = Normalizer.Form.NFKD;
-				else if (Normalizer.Form.NFC.name().equals(formStr)
-						|| args.length == 0)
+				} else if (Normalizer.Form.NFC.name().equals(formStr)
+						|| args.length == 0) {
 					form = Normalizer.Form.NFC;
-				else
+				} else {
 					throw rangeError(
 							"The normalization form should be one of NFC, NFD, NFKC, NFKD");
+				}
 
 				return Normalizer.normalize(ScriptRuntime
 						.toString(requireObjectCoercible(thisObj, f)), form);
@@ -612,8 +617,9 @@ final class NativeString extends IdScriptableObject {
 					return "";
 				}
 
-				if (cnt < 0 || cnt == Double.POSITIVE_INFINITY)
+				if (cnt < 0 || cnt == Double.POSITIVE_INFINITY) {
 					throw rangeError("Invalid count value");
+				}
 
 				long size = str.length() * (long) cnt;
 				// Check for overflow
@@ -629,8 +635,9 @@ final class NativeString extends IdScriptableObject {
 					retval.append(retval);
 					i *= 2;
 				}
-				while (i++ < cnt)
+				while (i++ < cnt) {
 					retval.append(str);
+				}
 
 				return retval.toString();
 			}
@@ -650,8 +657,9 @@ final class NativeString extends IdScriptableObject {
 
 	private static NativeString realThis(Scriptable thisObj,
 			IdFunctionObject f) {
-		if (!(thisObj instanceof NativeString))
+		if (!(thisObj instanceof NativeString)) {
 			throw incompatibleCallError(f);
+		}
 		return (NativeString) thisObj;
 	}
 
@@ -721,18 +729,20 @@ final class NativeString extends IdScriptableObject {
 				&& methodId != Id_endsWith) {
 			return -1;
 		} else {
-			if (position < 0)
+			if (position < 0) {
 				position = 0;
-			else if (position > target.length())
+			} else if (position > target.length()) {
 				position = target.length();
-			else if (methodId == Id_endsWith
-					&& (position != position || position > target.length()))
+			} else if (methodId == Id_endsWith
+					&& (position != position || position > target.length())) {
 				position = target.length();
+			}
 
 			if (Id_endsWith == methodId) {
 				if (args.length == 0 || args.length == 1
-						|| (args.length == 2 && args[1] == Undefined.instance))
+						|| (args.length == 2 && args[1] == Undefined.instance)) {
 					position = target.length();
+				}
 				return target.substring(0, (int) position).endsWith(searchStr)
 						? 0 : -1;
 			}
@@ -751,10 +761,11 @@ final class NativeString extends IdScriptableObject {
 		String search = ScriptRuntime.toString(args, 0);
 		double end = ScriptRuntime.toNumber(args, 1);
 
-		if (end != end || end > target.length())
+		if (end != end || end > target.length()) {
 			end = target.length();
-		else if (end < 0)
+		} else if (end < 0) {
 			end = 0;
+		}
 
 		return target.lastIndexOf(search, (int) end);
 	}
@@ -768,19 +779,21 @@ final class NativeString extends IdScriptableObject {
 		double start = ScriptRuntime.toInteger(args, 0);
 		double end;
 
-		if (start < 0)
+		if (start < 0) {
 			start = 0;
-		else if (start > length)
+		} else if (start > length) {
 			start = length;
+		}
 
 		if (args.length <= 1 || args[1] == Undefined.instance) {
 			end = length;
 		} else {
 			end = ScriptRuntime.toInteger(args[1]);
-			if (end < 0)
+			if (end < 0) {
 				end = 0;
-			else if (end > length)
+			} else if (end > length) {
 				end = length;
+			}
 
 			// swap if end < start
 			if (end < start) {
@@ -805,8 +818,9 @@ final class NativeString extends IdScriptableObject {
 	 * Non-ECMA methods.
 	 */
 	private static CharSequence js_substr(CharSequence target, Object[] args) {
-		if (args.length < 1)
+		if (args.length < 1) {
 			return target;
+		}
 
 		double begin = ScriptRuntime.toInteger(args[0]);
 		double end;
@@ -814,8 +828,9 @@ final class NativeString extends IdScriptableObject {
 
 		if (begin < 0) {
 			begin += length;
-			if (begin < 0)
+			if (begin < 0) {
 				begin = 0;
+			}
 		} else if (begin > length) {
 			begin = length;
 		}
@@ -824,11 +839,13 @@ final class NativeString extends IdScriptableObject {
 			end = length;
 		} else {
 			end = ScriptRuntime.toInteger(args[1]);
-			if (end < 0)
+			if (end < 0) {
 				end = 0;
+			}
 			end += begin;
-			if (end > length)
+			if (end > length) {
 				end = length;
+			}
 		}
 
 		return target.subSequence((int) begin, (int) end);
@@ -870,8 +887,9 @@ final class NativeString extends IdScriptableObject {
 		int length = target.length();
 		if (begin < 0) {
 			begin += length;
-			if (begin < 0)
+			if (begin < 0) {
 				begin = 0;
+			}
 		} else if (begin > length) {
 			begin = length;
 		}
@@ -882,13 +900,15 @@ final class NativeString extends IdScriptableObject {
 			end = ScriptRuntime.toInteger(args[1]);
 			if (end < 0) {
 				end += length;
-				if (end < 0)
+				if (end < 0) {
 					end = 0;
+				}
 			} else if (end > length) {
 				end = length;
 			}
-			if (end < begin)
+			if (end < begin) {
 				end = begin;
+			}
 		}
 		return target.subSequence((int) begin, (int) end);
 	}
@@ -1123,8 +1143,9 @@ final class NativeString extends IdScriptableObject {
 				}
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

@@ -91,8 +91,9 @@ public class CASOutputPanel extends JPanel {
 			latexPanel.setLaTeX(latexOutput);
 		} else {
 			outputArea.setText(output);
-			if (isError)
+			if (isError) {
 				outputArea.setForeground(ERROR_COLOR);
+			}
 		}
 
 		outputSign.setText(cmd);
@@ -102,16 +103,20 @@ public class CASOutputPanel extends JPanel {
 	final public void setFont(Font ft) {
 		super.setFont(ft);
 
-		if (ft == null)
+		if (ft == null) {
 			return;
+		}
 
-		if (latexPanel != null)
+		if (latexPanel != null) {
 			latexPanel.setFont(ft.deriveFont(ft.getSize() + 2f));
+		}
 
-		if (outputArea != null)
+		if (outputArea != null) {
 			outputArea.setFont(ft);
-		if (outputSign != null)
+		}
+		if (outputSign != null) {
 			outputSign.setFont(ft);
+		}
 	}
 
 	public void setOrientation() {

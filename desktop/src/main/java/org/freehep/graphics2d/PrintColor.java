@@ -111,10 +111,11 @@ public class PrintColor extends Color {
 	 * @return a color from the standard java colors
 	 */
 	public static Color getDefaultColor(int index) {
-		if ((index < 0) || (index >= defaultColors.length))
+		if ((index < 0) || (index >= defaultColors.length)) {
 			throw new IllegalArgumentException(
 					"PrintColor.getDefaultColor index outside of expected range: "
 							+ index);
+		}
 		return createPrintColor(defaultColors[index]);
 	}
 
@@ -126,17 +127,20 @@ public class PrintColor extends Color {
 		return new Color(red, green, blue);
 	}
 
+	@Override
 	public int hashCode() {
 		// FIXME could make something better here
 		return super.hashCode();
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj) && obj instanceof PrintColor
 				&& ((PrintColor) obj).asGray == this.asGray
 				&& ((PrintColor) obj).asBlack == this.asBlack;
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + ", asGray: " + asGray + ", asBlack: "
 				+ asBlack;

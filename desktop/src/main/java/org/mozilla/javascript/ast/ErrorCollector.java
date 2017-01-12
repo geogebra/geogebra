@@ -29,6 +29,7 @@ public class ErrorCollector implements IdeErrorReporter {
 	 * 
 	 * @throws UnsupportedOperationException
 	 */
+	@Override
 	public void warning(String message, String sourceName, int line,
 			String lineSource, int lineOffset) {
 		throw new UnsupportedOperationException();
@@ -37,6 +38,7 @@ public class ErrorCollector implements IdeErrorReporter {
 	/**
 	 * @inheritDoc
 	 */
+	@Override
 	public void warning(String message, String sourceName, int offset,
 			int length) {
 		errors.add(new ParseProblem(ParseProblem.Type.Warning, message,
@@ -49,6 +51,7 @@ public class ErrorCollector implements IdeErrorReporter {
 	 * 
 	 * @throws UnsupportedOperationException
 	 */
+	@Override
 	public void error(String message, String sourceName, int line,
 			String lineSource, int lineOffset) {
 		throw new UnsupportedOperationException();
@@ -57,6 +60,7 @@ public class ErrorCollector implements IdeErrorReporter {
 	/**
 	 * @inheritDoc
 	 */
+	@Override
 	public void error(String message, String sourceName, int fileOffset,
 			int length) {
 		errors.add(new ParseProblem(ParseProblem.Type.Error, message,
@@ -66,6 +70,7 @@ public class ErrorCollector implements IdeErrorReporter {
 	/**
 	 * @inheritDoc
 	 */
+	@Override
 	public EvaluatorException runtimeError(String message, String sourceName,
 			int line, String lineSource, int lineOffset) {
 		throw new UnsupportedOperationException();

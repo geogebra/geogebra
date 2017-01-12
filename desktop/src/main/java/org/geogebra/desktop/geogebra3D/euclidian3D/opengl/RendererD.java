@@ -883,7 +883,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 			int i = 0;
-			for (int y = height - 1; y >= 0; y--)
+			for (int y = height - 1; y >= 0; y--) {
 				for (int x = 0; x < width; x++) {
 					int r = (int) (pixels[i] * 255);
 					int g = (int) (pixels[i + 1] * 255);
@@ -891,6 +891,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 					bi.setRGB(x, y, ((r << 16) | (g << 8) | b));
 					i += 3;
 				}
+			}
 			bi.flush();
 		} catch (Exception e) {
 			Log.error("setExportImage: " + e.getMessage());

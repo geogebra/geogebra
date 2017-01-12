@@ -50,14 +50,17 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
 		lineNo = 1;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		if (bIndex >= bLength) {
-			if (endReached)
+			if (endReached) {
 				return -1;
+			}
 			bLength = readTuple();
-			if (bLength < 0)
+			if (bLength < 0) {
 				return -1;
+			}
 			bIndex = 0;
 		}
 		int a = b[bIndex];
@@ -87,8 +90,9 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
 				b[0] = b[1] = b[2] = b[3] = '!';
 				return 4;
 			case '~':
-				if (in.read() != '>')
+				if (in.read() != '>') {
 					throw new EncodingException("Invalid ASCII85 EOD");
+				}
 				endReached = true;
 				break;
 			case '\r':

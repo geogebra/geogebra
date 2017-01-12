@@ -386,16 +386,18 @@ public final class IRFactory extends Parser {
 				}
 				skipIndexes.add(i);
 			}
-			if (i < elems.size() - 1)
+			if (i < elems.size() - 1) {
 				decompiler.addToken(Token.COMMA);
+			}
 		}
 		decompiler.addToken(Token.RB);
 		array.putIntProp(Node.DESTRUCTURING_ARRAY_LENGTH,
 				node.getDestructuringLength());
 		if (skipIndexes != null) {
 			int[] skips = new int[skipIndexes.size()];
-			for (int i = 0; i < skipIndexes.size(); i++)
+			for (int i = 0; i < skipIndexes.size(); i++) {
 				skips[i] = skipIndexes.get(i);
+			}
 			array.putProp(Node.SKIP_INDEXES_PROP, skips);
 		}
 		return array;
@@ -500,8 +502,9 @@ public final class IRFactory extends Parser {
 
 	private Node transformForInLoop(ForInLoop loop) {
 		decompiler.addToken(Token.FOR);
-		if (loop.isForEach())
+		if (loop.isForEach()) {
 			decompiler.addName("each ");
+		}
 		decompiler.addToken(Token.LP);
 
 		loop.setType(Token.LOOP);
@@ -992,16 +995,18 @@ public final class IRFactory extends Parser {
 		}
 		AstNode rv = node.getReturnValue();
 		Node value = rv == null ? null : transform(rv);
-		if (!expClosure)
+		if (!expClosure) {
 			decompiler.addEOL(Token.SEMI);
+		}
 		return rv == null ? new Node(Token.RETURN, node.getLineno())
 				: new Node(Token.RETURN, value, node.getLineno());
 	}
 
 	private Node transformScript(ScriptNode node) {
 		decompiler.addToken(Token.SCRIPT);
-		if (currentScope != null)
+		if (currentScope != null) {
 			Kit.codeBug();
+		}
 		currentScope = node;
 		Node body = new Node(Token.BLOCK);
 		for (Node kid : node) {
@@ -1249,10 +1254,11 @@ public final class IRFactory extends Parser {
 	private Node transformYield(Yield node) {
 		decompiler.addToken(Token.YIELD);
 		Node kid = node.getValue() == null ? null : transform(node.getValue());
-		if (kid != null)
+		if (kid != null) {
 			return new Node(Token.YIELD, kid, node.getLineno());
-		else
+		} else {
 			return new Node(Token.YIELD, node.getLineno());
+		}
 	}
 
 	private Node transformXmlLiteral(XmlLiteral node) {
@@ -1325,8 +1331,9 @@ public final class IRFactory extends Parser {
 	}
 
 	private Node transformXmlRef(Node pn, XmlRef node, int memberTypeFlags) {
-		if ((memberTypeFlags & Node.ATTRIBUTE_FLAG) != 0)
+		if ((memberTypeFlags & Node.ATTRIBUTE_FLAG) != 0) {
 			decompiler.addToken(Token.XMLATTR);
+		}
 		Name namespace = node.getNamespace();
 		String ns = namespace != null ? namespace.getIdentifier() : null;
 		if (ns != null) {
@@ -1359,11 +1366,13 @@ public final class IRFactory extends Parser {
 	 */
 	private void addSwitchCase(Node switchBlock, Node caseExpression,
 			Node statements) {
-		if (switchBlock.getType() != Token.BLOCK)
+		if (switchBlock.getType() != Token.BLOCK) {
 			throw Kit.codeBug();
+		}
 		Jump switchNode = (Jump) switchBlock.getFirstChild();
-		if (switchNode.getType() != Token.SWITCH)
+		if (switchNode.getType() != Token.SWITCH) {
 			throw Kit.codeBug();
+		}
 
 		Node gotoTarget = Node.newTarget();
 		if (caseExpression != null) {
@@ -1378,11 +1387,13 @@ public final class IRFactory extends Parser {
 	}
 
 	private void closeSwitch(Node switchBlock) {
-		if (switchBlock.getType() != Token.BLOCK)
+		if (switchBlock.getType() != Token.BLOCK) {
 			throw Kit.codeBug();
+		}
 		Jump switchNode = (Jump) switchBlock.getFirstChild();
-		if (switchNode.getType() != Token.SWITCH)
+		if (switchNode.getType() != Token.SWITCH) {
 			throw Kit.codeBug();
+		}
 
 		Node switchBreakTarget = Node.newTarget();
 		// switchNode.target is only used by NodeTransformer
@@ -1568,9 +1579,10 @@ public final class IRFactory extends Parser {
 				type = destructuring = kidType;
 				lvalue = kid;
 				destructuringLen = 0;
-				if (kid instanceof ArrayLiteral)
+				if (kid instanceof ArrayLiteral) {
 					destructuringLen = ((ArrayLiteral) kid)
 							.getDestructuringLength();
+				}
 			} else if (kidType == Token.NAME) {
 				lvalue = Node.newString(Token.NAME, kid.getString());
 			} else {
@@ -1581,9 +1593,10 @@ public final class IRFactory extends Parser {
 			destructuring = type;
 			lvalue = lhs;
 			destructuringLen = 0;
-			if (lhs instanceof ArrayLiteral)
+			if (lhs instanceof ArrayLiteral) {
 				destructuringLen = ((ArrayLiteral) lhs)
 						.getDestructuringLength();
+			}
 		} else {
 			lvalue = makeReference(lhs);
 			if (lvalue == null) {
@@ -1621,8 +1634,9 @@ public final class IRFactory extends Parser {
 
 		loop = createLoop((Jump) loop, LOOP_WHILE, newBody, cond, null, null);
 		loop.addChildToFront(init);
-		if (type == Token.VAR || type == Token.LET)
+		if (type == Token.VAR || type == Token.LET) {
 			loop.addChildToFront(lhs);
+		}
 		localBlock.addChildToBack(loop);
 
 		return localBlock;
@@ -2014,8 +2028,9 @@ public final class IRFactory extends Parser {
 		if (namespace == null && memberTypeFlags == 0) {
 			// stand-alone [aaa] as primary expression is array literal
 			// declaration and should not come here!
-			if (target == null)
+			if (target == null) {
 				throw Kit.codeBug();
+			}
 			return new Node(Token.GETELEM, target, elem);
 		}
 		return createMemberRefGet(target, namespace, elem, memberTypeFlags);
@@ -2270,8 +2285,9 @@ public final class IRFactory extends Parser {
 	}
 
 	private Node createUseLocal(Node localBlock) {
-		if (Token.LOCAL_BLOCK != localBlock.getType())
+		if (Token.LOCAL_BLOCK != localBlock.getType()) {
 			throw Kit.codeBug();
+		}
 		Node result = new Node(Token.LOCAL_LOAD);
 		result.putProp(Node.LOCAL_BLOCK_PROP, localBlock);
 		return result;

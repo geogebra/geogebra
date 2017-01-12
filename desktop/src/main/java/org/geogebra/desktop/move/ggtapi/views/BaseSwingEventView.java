@@ -18,6 +18,7 @@ public class BaseSwingEventView extends BaseEventView {
 
 		// call the gui event on the Event dispatch thread.
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			@SuppressWarnings("synthetic-access")
 			public void run() {
 				BaseSwingEventView.super.onEvent(event);

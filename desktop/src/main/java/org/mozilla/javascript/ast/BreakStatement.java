@@ -59,8 +59,9 @@ public class BreakStatement extends Jump {
 	 */
 	public void setBreakLabel(Name label) {
 		breakLabel = label;
-		if (label != null)
+		if (label != null) {
 			label.setParent(this);
+		}
 	}
 
 	/**

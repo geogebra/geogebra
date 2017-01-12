@@ -86,6 +86,7 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
+	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
 
 	}

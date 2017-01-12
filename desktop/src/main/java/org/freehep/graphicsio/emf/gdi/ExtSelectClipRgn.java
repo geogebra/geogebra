@@ -30,6 +30,7 @@ public class ExtSelectClipRgn extends EMFTag implements EMFConstants {
 		this.rgn = rgn;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -40,12 +41,14 @@ public class ExtSelectClipRgn extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeDWORD(rgn.length());
 		emf.writeDWORD(mode);
 		rgn.write(emf);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  mode: " + mode + "\n" + rgn;
 	}

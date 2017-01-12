@@ -87,12 +87,14 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 	/*
 	 * Write a tag.
 	 */
+	@Override
 	public void writeTag(Tag tag) throws IOException {
 
 		int tagID = tag.getTag();
 
-		if (!tagSet.exists(tagID))
+		if (!tagSet.exists(tagID)) {
 			throw new UndefinedTagException(tagID);
+		}
 
 		pushBuffer();
 		tag.write(tagID, this);
@@ -146,8 +148,9 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 
 		int actionCode = action.getCode();
 
-		if (!actionSet.exists(actionCode))
+		if (!actionSet.exists(actionCode)) {
 			throw new UndefinedTagException(actionCode);
+		}
 
 		pushBuffer();
 		action.write(actionCode, this);

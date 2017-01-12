@@ -46,20 +46,24 @@ public class GGraphics2DD implements GGraphics2D {
 		impl = g2Dtemp;
 	}
 
+	@Override
 	public void drawString(String str, int x, int y) {
 		impl.drawString(str, x, y);
 
 	}
 
+	@Override
 	public void drawString(String str, double x, double y) {
 		impl.drawString(str, (float) x, (float) y);
 
 	}
 
+	@Override
 	public void setComposite(GComposite comp) {
 		impl.setComposite(GCompositeD.getAwtComposite(comp));
 	}
 
+	@Override
 	public void setPaint(GPaint paint) {
 		if (paint instanceof GColor) {
 			impl.setPaint(GColorD.getAwtColor((GColor) paint));
@@ -112,20 +116,24 @@ public class GGraphics2DD implements GGraphics2D {
 		return null;
 	}
 
+	@Override
 	public void setRenderingHint(int key, int value) {
 		impl.setRenderingHint(getAwtHintKey(key), getAwtHintValue(value));
 	}
 
+	@Override
 	public void translate(double tx, double ty) {
 		impl.translate(tx, ty);
 
 	}
 
+	@Override
 	public void scale(double sx, double sy) {
 		impl.scale(sx, sy);
 
 	}
 
+	@Override
 	public void transform(GAffineTransform Tx) {
 		impl.transform(GAffineTransformD.getAwtAffineTransform(Tx));
 
@@ -146,22 +154,27 @@ public class GGraphics2DD implements GGraphics2D {
 		return null;
 	}
 
+	@Override
 	public GComposite getComposite() {
 		return new GCompositeD(impl.getComposite());
 	}
 
+	@Override
 	public GColor getBackground() {
 		return GColorD.newColor(impl.getBackground());
 	}
 
+	@Override
 	public GFontRenderContext getFontRenderContext() {
 		return new GFontRenderContextD(impl.getFontRenderContext());
 	}
 
+	@Override
 	public GColor getColor() {
 		return GColorD.newColor(impl.getColor());
 	}
 
+	@Override
 	public GFont getFont() {
 		return new GFontD(impl.getFont());
 	}
@@ -175,22 +188,26 @@ public class GGraphics2DD implements GGraphics2D {
 		return ((GGraphics2DD) g2).impl;
 	}
 
+	@Override
 	public void setFont(GFont font) {
 		impl.setFont(GFontD.getAwtFont(font));
 
 	}
 
+	@Override
 	public void setStroke(GBasicStroke s) {
 		impl.setStroke(
 				((AwtFactoryD) AwtFactory.getPrototype()).getAwtStroke(s));
 
 	}
 
+	@Override
 	public void setColor(GColor selColor) {
 		impl.setColor(GColorD.getAwtColor(selColor));
 
 	}
 
+	@Override
 	public GBasicStroke getStroke() {
 		return (GBasicStrokeD) impl.getStroke();
 	}
@@ -200,6 +217,7 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
 	}
 
+	@Override
 	public void drawImage(MyImage img, int x, int y) {
 
 		MyImageD imgD = (MyImageD) img;
@@ -217,18 +235,22 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
+	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);
 	}
 
+	@Override
 	public void clearRect(int x, int y, int width, int height) {
 		impl.clearRect(x, y, width, height);
 	}
 
+	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
 		impl.drawLine(x1, y1, x2, y2);
 	}
 
+	@Override
 	public void setClip(GShape shape) {
 		if (shape == null) {
 			impl.setClip(null);
@@ -237,15 +259,18 @@ public class GGraphics2DD implements GGraphics2D {
 		}
 	}
 
+	@Override
 	public void resetClip() {
 		impl.setClip(null);
 	}
 
+	@Override
 	public void drawRect(int x, int y, int width, int height) {
 		impl.drawRect(x, y, width, height);
 
 	}
 
+	@Override
 	public void setClip(int x, int y, int width, int height) {
 		impl.setClip(x, y, width, height);
 
@@ -261,18 +286,21 @@ public class GGraphics2DD implements GGraphics2D {
 		impl = g;
 	}
 
+	@Override
 	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
 			int arcHeight) {
 		impl.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
 
 	}
 
+	@Override
 	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
 			int arcHeight) {
 		impl.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
 
 	}
 
+	@Override
 	public void setAntialiasing() {
 		setAntialiasing(impl);
 	}
@@ -292,30 +320,35 @@ public class GGraphics2DD implements GGraphics2D {
 				RenderingHints.VALUE_RENDER_QUALITY);
 	}
 
+	@Override
 	public void setTransparent() {
 		impl.setComposite(AlphaComposite.Src);
 
 	}
 
+	@Override
 	public void draw(GShape shape) {
 
 		impl.draw(GGenericShapeD.getAwtShape(shape));
 	}
 
+	@Override
 	public void fill(GShape shape) {
 
 		impl.fill(GGenericShapeD.getAwtShape(shape));
 
 	}
 
+	@Override
 	public Object setInterpolationHint(
 			boolean needsInterpolationRenderingHint) {
 		Graphics2D g2 = impl;
 		Object oldInterpolationHint = g2
 				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 
-		if (oldInterpolationHint == null)
+		if (oldInterpolationHint == null) {
 			oldInterpolationHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+		}
 
 		if (needsInterpolationRenderingHint) {
 			// improve rendering quality for transformed images
@@ -328,6 +361,7 @@ public class GGraphics2DD implements GGraphics2D {
 		return oldInterpolationHint;
 	}
 
+	@Override
 	public void resetInterpolationHint(Object hint) {
 		impl.setRenderingHint(RenderingHints.KEY_INTERPOLATION, hint);
 	}

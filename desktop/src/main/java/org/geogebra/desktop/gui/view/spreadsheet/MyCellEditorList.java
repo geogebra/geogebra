@@ -40,6 +40,7 @@ public class MyCellEditorList extends DefaultCellEditor
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			editGeo.setSelectedIndex(comboBox.getSelectedIndex(), false);
@@ -98,12 +99,14 @@ public class MyCellEditorList extends DefaultCellEditor
 
 			if (value != null) {
 				GeoElement geo = (GeoElement) value;
-				if (geo.isGeoText())
+				if (geo.isGeoText()) {
 					setText(geo.toValueString(StringTemplate.defaultTemplate));
-				else
+				} else {
 					setText(geo.getLabel(StringTemplate.defaultTemplate));
-			} else
+				}
+			} else {
 				setText(" ");
+			}
 
 			return lbl;
 		}

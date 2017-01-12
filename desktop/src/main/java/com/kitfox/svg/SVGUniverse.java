@@ -551,6 +551,7 @@ public class SVGUniverse implements Serializable {
 			// Parse the input
 			XMLReader reader = getXMLReaderCached();
 			reader.setEntityResolver(new EntityResolver() {
+				@Override
 				public InputSource resolveEntity(String publicId,
 						String systemId) {
 					// Ignore all DTDs

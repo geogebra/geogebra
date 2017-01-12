@@ -157,6 +157,7 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 	 * Update spreadsheet panel labels. Should be applied if the language was
 	 * changed. Will be called after initialization automatically.
 	 */
+	@Override
 	public void setLabels() {
 
 		// TODO -- add labels as needed
@@ -178,11 +179,13 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 	/**
 	 * Save the settings of this panel.
 	 */
+	@Override
 	public void applyModifications() {
 		// TODO -- add any settings that need changing on Apply button click
 		// or after dialog close
 	}
 
+	@Override
 	public void updateGUI() {
 
 		updateCheckBox(cbShowFormulaBar, settings().showFormulaBar());
@@ -219,6 +222,7 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 		cb.addActionListener(this);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
@@ -279,26 +283,32 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 		updateGUI();
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doActionPerformed(e.getSource());
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return this.wrappedPanel;
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
 
+	@Override
 	public void updateFont() {
 
 		Font font = app.getPlainFont();
@@ -317,6 +327,7 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}

@@ -23,16 +23,19 @@ public class EMFPlusPathConstructor extends QuadToCubicPathConstructor {
 		path = new ArrayList();
 	}
 
+	@Override
 	public void move(double x, double y) throws IOException {
 		super.move(x, y);
 		path.add(new PathPoint(PathPoint.TYPE_START, x, y));
 	}
 
+	@Override
 	public void line(double x, double y) throws IOException {
 		super.line(x, y);
 		path.add(new PathPoint(PathPoint.TYPE_LINE, x, y));
 	}
 
+	@Override
 	public void cubic(double x1, double y1, double x2, double y2, double x3,
 			double y3) throws IOException {
 		super.cubic(x1, y1, x2, y2, x3, y3);
@@ -42,6 +45,7 @@ public class EMFPlusPathConstructor extends QuadToCubicPathConstructor {
 		path.add(new PathPoint(PathPoint.TYPE_BEZIER, x3, y3));
 	}
 
+	@Override
 	public void closePath(double x, double y) throws IOException {
 		super.closePath(x, y);
 		PathPoint last = (PathPoint) path.get(path.size() - 1);

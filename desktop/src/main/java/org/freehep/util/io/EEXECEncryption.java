@@ -63,21 +63,25 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 		return cipher;
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		if (first) {
-			for (int i = 0; i < n; i++)
+			for (int i = 0; i < n; i++) {
 				out.write(encrypt(0));
+			}
 			first = false;
 		}
 
 		out.write(encrypt(b));
 	}
 
+	@Override
 	public void flush() throws IOException {
 		super.flush();
 		out.flush();
 	}
 
+	@Override
 	public void close() throws IOException {
 		flush();
 		super.close();
@@ -94,6 +98,7 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 			i = 0;
 		}
 
+		@Override
 		public void write(int b) {
 			chars[i++] = b;
 		} // str += (char)b; }

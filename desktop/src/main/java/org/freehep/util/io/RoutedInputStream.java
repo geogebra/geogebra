@@ -90,6 +90,7 @@ public class RoutedInputStream extends InputStream {
 	 * reading and closed, return the first byte after the end marker. This of
 	 * course unless that byte is part of the next start marker.
 	 */
+	@Override
 	public int read() throws IOException {
 
 		int result;
@@ -101,8 +102,9 @@ public class RoutedInputStream extends InputStream {
 				// fill the buffer with one or more bytes
 				int b = -1;
 				while (sob != eob) {
-					if (sob < 0)
+					if (sob < 0) {
 						sob = 0;
+					}
 
 					// read a byte from the underlying stream
 					b = in.read();
@@ -332,8 +334,9 @@ public class RoutedInputStream extends InputStream {
 		public Route(byte[] start, byte[] end) {
 			this.start = start;
 			this.end = end;
-			if (end != null)
+			if (end != null) {
 				buffer = new byte[end.length];
+			}
 			index = 0;
 			closed = false;
 		}
@@ -344,9 +347,11 @@ public class RoutedInputStream extends InputStream {
 		 * 
 		 * If the end marker is null, the route is indefinite.
 		 */
+		@Override
 		public int read() throws IOException {
-			if (closed)
+			if (closed) {
 				return -1;
+			}
 
 			int b = RoutedInputStream.this.read();
 			if (b < 0) {
@@ -354,8 +359,9 @@ public class RoutedInputStream extends InputStream {
 				return b;
 			}
 
-			if (end == null)
+			if (end == null) {
 				return b;
+			}
 
 			buffer[index] = (byte) b;
 			index = (index + 1) % buffer.length;
@@ -369,6 +375,7 @@ public class RoutedInputStream extends InputStream {
 		 * Closes the stream, and discards any bytes up to and including the end
 		 * marker.
 		 */
+		@Override
 		public void close() throws IOException {
 			while (read() >= 0) {
 			}

@@ -58,6 +58,7 @@ public class ClipPath extends SVGElement {
 	public ClipPath() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -66,11 +67,13 @@ public class ClipPath extends SVGElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -123,6 +126,7 @@ public class ClipPath extends SVGElement {
 	 *         update
 	 * @throws com.kitfox.svg.SVGException
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Get current values for parameters
 		StyleAttribute sty = new StyleAttribute();

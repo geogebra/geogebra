@@ -38,6 +38,7 @@ public class DrawEquationD extends DrawEquation {
 
 	private Object initJLaTeXMath;
 
+	@Override
 	public void checkFirstCall(App app) {
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
@@ -62,6 +63,7 @@ public class DrawEquationD extends DrawEquation {
 
 	}
 
+	@Override
 	final public GDimension drawEquation(final App app, final GeoElementND geo,
 			final GGraphics2D g2, final int x, final int y, final String text,
 			final GFont font, final boolean serif, final GColor fgColor,

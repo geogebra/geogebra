@@ -109,6 +109,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 
 		cbShowOnlyBreakpoints.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				constprotView.showOnlyBreakpointsAction();
 			}
@@ -119,6 +120,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 				loc.getMenu("ColorfulConstructionProtocol"));
 		cbUseColors.setSelected(constprotView.getUseColors());
 		cbUseColors.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				constprotView.setUseColors(!constprotView.getUseColors());
 				// constprotView.getData().updateAll();
@@ -135,6 +137,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		JMenuItem mi = new JMenuItem(loc.getMenu("FastHelp"),
 				app.getScaledIcon(GuiResourcesD.HELP));
 		ActionListener lstHelp = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.showHelp("ConstructionProtocolHelp");
 				requestFocus();

@@ -53,10 +53,11 @@ public class PropertiesDockPanel extends DockPanelD
 
 		getPropertiesView();
 
-		if (isOpenInFrame())
+		if (isOpenInFrame()) {
 			view.windowPanel();
-		else
+		} else {
 			view.unwindowPanel();
+		}
 		return view.getWrappedPanel();
 	}
 
@@ -124,11 +125,13 @@ public class PropertiesDockPanel extends DockPanelD
 		titleLabel.setVisible(true);
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		//
 
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent arg0) {
 	}
 

@@ -30,6 +30,7 @@ public class DrawLines extends EMFPlusTag {
 		this.y = y;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		DrawLines tag = new DrawLines();
@@ -44,6 +45,7 @@ public class DrawLines extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		emf.writeUINT(x.length);

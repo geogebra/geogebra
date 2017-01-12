@@ -206,8 +206,9 @@ public class IconTabbedPane extends JTabbedPane {
 		@Override
 		protected int calculateTabHeight(int tabPlacement, int tabIndex,
 				int fontHeight) {
-			if (!isEnabledAt(tabIndex))
+			if (!isEnabledAt(tabIndex)) {
 				return 0;
+			}
 
 			return fontHeight + 45;
 		}
@@ -219,8 +220,9 @@ public class IconTabbedPane extends JTabbedPane {
 		@Override
 		protected int calculateTabWidth(int tabPlacement, int tabIndex,
 				FontMetrics metrics) {
-			if (!isEnabledAt(tabIndex))
+			if (!isEnabledAt(tabIndex)) {
 				return 0;
+			}
 
 			return super.calculateTabWidth(tabPlacement, tabIndex, metrics)
 					- 32;

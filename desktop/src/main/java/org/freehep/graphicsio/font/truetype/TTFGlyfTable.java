@@ -39,6 +39,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 			return new Rectangle(xMin, yMin, xMax - xMin, yMax - yMin);
 		}
 
+		@Override
 		public String toString() {
 			return "[" + getType() + "] (" + xMin + "," + yMin + "):(" + xMax
 					+ "," + yMax + ")";
@@ -88,19 +89,23 @@ public class TTFGlyfTable extends TTFVersionTable {
 			this.endPtsOfContours = new int[numberOfContours];
 		}
 
+		@Override
 		public String getType() {
 			return "Simple Glyph";
 		}
 
+		@Override
 		public void read() throws IOException {
 			super.read();
 
-			for (int i = 0; i < endPtsOfContours.length; i++)
+			for (int i = 0; i < endPtsOfContours.length; i++) {
 				endPtsOfContours[i] = ttf.readUShort();
+			}
 
 			instructions = new int[ttf.readUShort()];
-			for (int i = 0; i < instructions.length; i++)
+			for (int i = 0; i < instructions.length; i++) {
 				instructions[i] = ttf.readByte();
+			}
 
 			int numberOfPoints = endPtsOfContours[endPtsOfContours.length - 1]
 					+ 1;
@@ -161,15 +166,18 @@ public class TTFGlyfTable extends TTFVersionTable {
 			}
 		}
 
+		@Override
 		public String toString() {
 			String str = super.toString() + ", " + numberOfContours
 					+ " contours, endPts={";
-			for (int i = 0; i < numberOfContours; i++)
+			for (int i = 0; i < numberOfContours; i++) {
 				str += (i == 0 ? "" : ",") + endPtsOfContours[i];
+			}
 			str += "}, " + instructions.length + " instructions";
 			return str;
 		}
 
+		@Override
 		public String toDetailedString() {
 			String str = toString() + "\n  instructions = {";
 			for (int i = 0; i < instructions.length; i++) {
@@ -178,6 +186,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 			return str + "}";
 		}
 
+		@Override
 		public GeneralPath getShape() {
 			if (shape != null) {
 				return shape;
@@ -245,14 +254,17 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 		private int noComponents;
 
+		@Override
 		public String getType() {
 			return "Composite Glyph";
 		}
 
+		@Override
 		public GeneralPath getShape() {
 			return shape;
 		}
 
+		@Override
 		public void read() throws IOException {
 			super.read();
 			shape = new GeneralPath();
@@ -299,6 +311,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 			}
 		}
 
+		@Override
 		public String toString() {
 			return super.toString() + ", " + noComponents + " components";
 		}
@@ -311,10 +324,12 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 	private long[] offsets;
 
+	@Override
 	public String getTag() {
 		return "glyf";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		glyphs = new Glyph[((TTFMaxPTable) getTable("maxp")).numGlyphs];
 		offsets = ((TTFLocaTable) getTable("loca")).offset;
@@ -344,10 +359,11 @@ public class TTFGlyfTable extends TTFVersionTable {
 			ttf.pushPos();
 			ttf.seek(offsets[i]);
 			int numberOfContours = ttf.readShort();
-			if (numberOfContours >= 0)
+			if (numberOfContours >= 0) {
 				glyphs[i] = new SimpleGlyph(numberOfContours);
-			else
+			} else {
 				glyphs[i] = new CompositeGlyph();
+			}
 			glyphs[i].read();
 			// System.out.println(i+": "+offsets[i]+"-"+ttf.getPointer());
 			ttf.popPos();
@@ -355,10 +371,12 @@ public class TTFGlyfTable extends TTFVersionTable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString();
-		for (int i = 0; i < glyphs.length; i++)
+		for (int i = 0; i < glyphs.length; i++) {
 			str += "\n  #" + i + ": " + glyphs[i];
+		}
 		return str;
 	}
 }

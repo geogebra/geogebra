@@ -69,6 +69,7 @@ public class FilterEffects extends SVGElement {
 	public FilterEffects() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -77,6 +78,7 @@ public class FilterEffects extends SVGElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
@@ -86,6 +88,7 @@ public class FilterEffects extends SVGElement {
 		}
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -132,6 +135,7 @@ public class FilterEffects extends SVGElement {
 		return height;
 	}
 
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 

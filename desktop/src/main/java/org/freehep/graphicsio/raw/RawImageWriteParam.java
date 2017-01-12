@@ -38,6 +38,7 @@ public class RawImageWriteParam extends ImageWriteParam
 		pad = 1;
 	}
 
+	@Override
 	public ImageWriteParam getWriteParam(Properties properties) {
 		UserProperties p = new UserProperties(properties);
 		setBackground(p.getPropertyColor(BACKGROUND, bkg));

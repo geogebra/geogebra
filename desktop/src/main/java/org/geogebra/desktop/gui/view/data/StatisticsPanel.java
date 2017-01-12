@@ -105,8 +105,9 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	 */
 	private void setInferencePanel() {
 
-		if (inferencePanel == null)
+		if (inferencePanel == null) {
 			return;
+		}
 
 		inferencePanel.removeAll();
 		switch (model.getSelectedMode()) {
@@ -165,20 +166,23 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	}
 
 	private ANOVATable getAnovaTable() {
-		if (anovaTable == null)
+		if (anovaTable == null) {
 			anovaTable = new ANOVATable(app, statDialog);
+		}
 		return anovaTable;
 	}
 
 	private OneVarInferencePanelD getOneVarInferencePanel() {
-		if (oneVarInferencePanel == null)
+		if (oneVarInferencePanel == null) {
 			oneVarInferencePanel = new OneVarInferencePanelD(app, statDialog);
+		}
 		return oneVarInferencePanel;
 	}
 
 	private TwoVarInferencePanel getTwoVarInferencePanel() {
-		if (twoVarInferencePanel == null)
+		if (twoVarInferencePanel == null) {
 			twoVarInferencePanel = new TwoVarInferencePanel(app, statDialog);
+		}
 		return twoVarInferencePanel;
 	}
 
@@ -189,8 +193,9 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	}
 
 	private MultiVarStatPanel getMinMVStatPanel() {
-		if (minMVStatPanel == null)
+		if (minMVStatPanel == null) {
 			minMVStatPanel = new MultiVarStatPanel(app, statDialog);
+		}
 		minMVStatPanel.setMinimalTable(true);
 		return minMVStatPanel;
 	}
@@ -218,16 +223,19 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		if (statTable != null) {
 			statTable.updateFonts(font);
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		statTable.setLabels();
 	}
 
+	@Override
 	public void updatePanel() {
 		// System.out.println("============= update stat panel");
 		if (statTable == null) {
@@ -243,6 +251,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -272,6 +281,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			separator = new JSeparator(SwingConstants.HORIZONTAL);
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			String str = (value == null) ? "" : value.toString();
@@ -291,28 +301,34 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		}
 	}
 
+	@Override
 	public void addInferenceMode(String item) {
 		cbInferenceMode.addItem(item);
 	}
 
+	@Override
 	public void selectInferenceMode(String item) {
 		cbInferenceMode.setSelectedItem(item);
 	}
 
+	@Override
 	public String getSeparator() {
 		return MyRenderer.SEPARATOR;
 	}
 
+	@Override
 	public void updateOneVarInference(int mode) {
 		getOneVarInferencePanel().setSelectedPlot(mode);
 		getOneVarInferencePanel().updatePanel();
 	}
 
+	@Override
 	public void updateTwoVarInference(int mode) {
 		getTwoVarInferencePanel().setSelectedInference(mode);
 		getTwoVarInferencePanel().updatePanel();
 	}
 
+	@Override
 	public void updateAnovaTable() {
 		getAnovaTable().updatePanel();
 		getMinMVStatPanel().updatePanel();

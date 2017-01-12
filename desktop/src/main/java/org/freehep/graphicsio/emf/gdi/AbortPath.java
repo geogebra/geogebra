@@ -18,6 +18,7 @@ public class AbortPath extends EMFTag {
 		super(68, 1);
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 

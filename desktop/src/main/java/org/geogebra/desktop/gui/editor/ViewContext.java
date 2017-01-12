@@ -57,5 +57,6 @@ public abstract class ViewContext implements ViewFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public abstract View create(Element elem);
 }

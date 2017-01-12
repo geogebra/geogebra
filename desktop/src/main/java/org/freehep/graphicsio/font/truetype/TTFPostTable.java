@@ -23,10 +23,12 @@ public class TTFPostTable extends TTFTable {
 
 	public int[] glyphNameIndex;
 
+	@Override
 	public String getTag() {
 		return "post";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		format = ttf.readFixed();
 
@@ -49,6 +51,7 @@ public class TTFPostTable extends TTFTable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString() + " format: " + format + "\n  italic:"
 				+ italicAngle + " ulPos:" + underlinePosition + " ulThick:"
@@ -56,8 +59,9 @@ public class TTFPostTable extends TTFTable {
 		if (glyphNameIndex != null) {
 			str += "\n  glyphNamesIndex[" + glyphNameIndex.length + "] = {";
 			for (int i = 0; i < glyphNameIndex.length; i++) {
-				if (i % 16 == 0)
+				if (i % 16 == 0) {
 					str += "\n    ";
+				}
 				str += glyphNameIndex[i] + " ";
 			}
 			str += "\n  }";

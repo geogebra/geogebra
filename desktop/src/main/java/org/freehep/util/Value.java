@@ -239,15 +239,16 @@ public class Value {
 	 *
 	 */
 	public int getInt() {
-		if (type == TYPE_INTEGER)
+		if (type == TYPE_INTEGER) {
 			return intValue;
-		else if (type == TYPE_SHORT)
+		} else if (type == TYPE_SHORT) {
 			return shortValue;
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return byteValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getInt cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -259,13 +260,14 @@ public class Value {
 	 *
 	 */
 	public short getShort() {
-		if (type == TYPE_SHORT)
+		if (type == TYPE_SHORT) {
 			return shortValue;
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return byteValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getShort cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -277,17 +279,18 @@ public class Value {
 	 *
 	 */
 	public long getLong() {
-		if (type == TYPE_LONG)
+		if (type == TYPE_LONG) {
 			return longValue;
-		else if (type == TYPE_INTEGER)
+		} else if (type == TYPE_INTEGER) {
 			return intValue;
-		else if (type == TYPE_SHORT)
+		} else if (type == TYPE_SHORT) {
 			return shortValue;
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return byteValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getLong cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -299,19 +302,20 @@ public class Value {
 	 *
 	 */
 	public float getFloat() {
-		if (type == TYPE_FLOAT)
+		if (type == TYPE_FLOAT) {
 			return floatValue;
-		else if (type == TYPE_INTEGER)
+		} else if (type == TYPE_INTEGER) {
 			return intValue;
-		else if (type == TYPE_SHORT)
+		} else if (type == TYPE_SHORT) {
 			return shortValue;
-		else if (type == TYPE_LONG)
+		} else if (type == TYPE_LONG) {
 			return longValue;
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return byteValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getFloat cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -323,23 +327,24 @@ public class Value {
 	 *
 	 */
 	public double getDouble() {
-		if (type == TYPE_DOUBLE)
+		if (type == TYPE_DOUBLE) {
 			return doubleValue;
-		else if (type == TYPE_INTEGER)
+		} else if (type == TYPE_INTEGER) {
 			return intValue;
-		else if (type == TYPE_SHORT)
+		} else if (type == TYPE_SHORT) {
 			return shortValue;
-		else if (type == TYPE_LONG)
+		} else if (type == TYPE_LONG) {
 			return longValue;
-		else if (type == TYPE_FLOAT)
+		} else if (type == TYPE_FLOAT) {
 			return floatValue;
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return byteValue;
-		else if (type == TYPE_DATE)
+		} else if (type == TYPE_DATE) {
 			return ((Date) obj).getTime();
-		else
+		} else {
 			throw new ClassCastException(
 					"getDouble cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -351,11 +356,12 @@ public class Value {
 	 *
 	 */
 	public boolean getBoolean() {
-		if (type == TYPE_BOOLEAN)
+		if (type == TYPE_BOOLEAN) {
 			return boolValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getBoolean cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -367,11 +373,12 @@ public class Value {
 	 *
 	 */
 	public byte getByte() {
-		if (type == TYPE_BYTE)
+		if (type == TYPE_BYTE) {
 			return byteValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getByte cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -383,11 +390,12 @@ public class Value {
 	 *
 	 */
 	public char getChar() {
-		if (type == TYPE_CHAR)
+		if (type == TYPE_CHAR) {
 			return charValue;
-		else
+		} else {
 			throw new ClassCastException(
 					"getChar cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -397,28 +405,29 @@ public class Value {
 	 *
 	 */
 	public String getString() {
-		if (type == TYPE_STRING)
+		if (type == TYPE_STRING) {
 			return (String) obj;
-		else if (type == TYPE_INTEGER)
+		} else if (type == TYPE_INTEGER) {
 			return String.valueOf(intValue);
-		else if (type == TYPE_SHORT)
+		} else if (type == TYPE_SHORT) {
 			return String.valueOf(shortValue);
-		else if (type == TYPE_LONG)
+		} else if (type == TYPE_LONG) {
 			return String.valueOf(longValue);
-		else if (type == TYPE_FLOAT)
+		} else if (type == TYPE_FLOAT) {
 			return String.valueOf(floatValue);
-		else if (type == TYPE_DOUBLE)
+		} else if (type == TYPE_DOUBLE) {
 			return String.valueOf(doubleValue);
-		else if (type == TYPE_BOOLEAN)
+		} else if (type == TYPE_BOOLEAN) {
 			return String.valueOf(boolValue);
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return String.valueOf(byteValue);
-		else if (type == TYPE_CHAR)
+		} else if (type == TYPE_CHAR) {
 			return String.valueOf(charValue);
-		else if (type == TYPE_DATE)
+		} else if (type == TYPE_DATE) {
 			return ((Date) obj).toString();
-		else
+		} else {
 			return obj != null ? obj.toString() : "null";
+		}
 	}
 
 	/**
@@ -430,11 +439,12 @@ public class Value {
 	 *
 	 */
 	public Date getDate() {
-		if (type == TYPE_DATE)
+		if (type == TYPE_DATE) {
 			return (Date) obj;
-		else
+		} else {
 			throw new ClassCastException(
 					"getDate cannot be called for type " + type.toString());
+		}
 	}
 
 	/**
@@ -444,26 +454,27 @@ public class Value {
 	 *
 	 */
 	public Object getObject() {
-		if (obj != null)
+		if (obj != null) {
 			return obj;
-		else if (type == TYPE_INTEGER)
+		} else if (type == TYPE_INTEGER) {
 			return Integer.valueOf(intValue);
-		else if (type == TYPE_SHORT)
+		} else if (type == TYPE_SHORT) {
 			return Short.valueOf(shortValue);
-		else if (type == TYPE_LONG)
+		} else if (type == TYPE_LONG) {
 			return Long.valueOf(longValue);
-		else if (type == TYPE_FLOAT)
+		} else if (type == TYPE_FLOAT) {
 			return Float.valueOf(floatValue);
-		else if (type == TYPE_DOUBLE)
+		} else if (type == TYPE_DOUBLE) {
 			return Double.valueOf(doubleValue);
-		else if (type == TYPE_BOOLEAN)
+		} else if (type == TYPE_BOOLEAN) {
 			return Boolean.valueOf(boolValue);
-		else if (type == TYPE_BYTE)
+		} else if (type == TYPE_BYTE) {
 			return Byte.valueOf(byteValue);
-		else if (type == TYPE_CHAR)
+		} else if (type == TYPE_CHAR) {
 			return Character.valueOf(charValue);
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**

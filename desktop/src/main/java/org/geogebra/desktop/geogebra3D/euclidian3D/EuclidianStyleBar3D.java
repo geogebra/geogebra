@@ -123,8 +123,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		} else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
 			getView().getSettings().setProjection(si);
-		} else
+		} else {
 			super.processSource(source, targetGeos);
+		}
 	}
 
 	private class PopupMenuButtonForView3D extends PopupMenuButtonD {
@@ -277,8 +278,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@Override
 	public void updateGUI() {
 
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		super.updateGUI();
 
@@ -311,8 +313,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected PopupMenuButtonD[] newPopupBtnList() {
 		PopupMenuButtonD[] superList = super.newPopupBtnList();
 		PopupMenuButtonD[] ret = new PopupMenuButtonD[superList.length + 4];
-		for (int i = 0; i < superList.length; i++)
+		for (int i = 0; i < superList.length; i++) {
 			ret[i] = superList[i];
+		}
 
 		int index = superList.length;
 		ret[index] = btnRotateView;
@@ -329,8 +332,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected MyToggleButton[] newToggleBtnList() {
 		MyToggleButton[] superList = super.newToggleBtnList();
 		MyToggleButton[] ret = new MyToggleButton[superList.length + 1];
-		for (int i = 0; i < superList.length; i++)
+		for (int i = 0; i < superList.length; i++) {
 			ret[i] = superList[i];
+		}
 
 		int index = superList.length;
 		ret[index] = btnShowPlane;
@@ -342,6 +346,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		return (EuclidianView3D) ev;
 	}
 
+	@Override
 	protected void selectPointStyle(int idx) {
 
 	}

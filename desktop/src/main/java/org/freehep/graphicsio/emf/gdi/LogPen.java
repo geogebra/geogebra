@@ -42,6 +42,7 @@ public class LogPen implements EMFConstants {
 		emf.writeCOLORREF(color);
 	}
 
+	@Override
 	public String toString() {
 		return "  LogPen\n" + "    penstyle: " + penStyle + "\n" + "    width: "
 				+ width + "\n" + "    color: " + color;

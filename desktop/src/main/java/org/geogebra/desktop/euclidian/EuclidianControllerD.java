@@ -71,10 +71,12 @@ public class EuclidianControllerD extends EuclidianController
 		this.view = view;
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		// let mousePressed and mouseReleased take care of this
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		closePopups(event.getX(), event.getY(), null);
@@ -86,6 +88,7 @@ public class EuclidianControllerD extends EuclidianController
 		event.release();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		// no capture in desktop
@@ -94,6 +97,7 @@ public class EuclidianControllerD extends EuclidianController
 		event.release();
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		if (moveCounter < 2) {
@@ -104,16 +108,19 @@ public class EuclidianControllerD extends EuclidianController
 		event.release();
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseMoved(event);
 		event.release();
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		wrapMouseEntered();
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseExited(event);
@@ -172,19 +179,23 @@ public class EuclidianControllerD extends EuclidianController
 	 * line = kernel.Line(null, points[0], points[1]); }
 	 */
 
+	@Override
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
 		view.updateSize();
 	}
 
+	@Override
 	public void componentShown(ComponentEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void componentHidden(ComponentEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void componentMoved(ComponentEvent e) {
 		// do nothing
 	}
@@ -192,11 +203,13 @@ public class EuclidianControllerD extends EuclidianController
 	/**
 	 * Zooms in or out using mouse wheel
 	 */
+	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		wrapMouseWheelMoved(e.getX(), e.getY(), e.getWheelRotation(),
 				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
 
+	@Override
 	public void addListenersTo(Component evjpanel) {
 		evjpanel.addMouseMotionListener(this);
 		evjpanel.addMouseListener(this);

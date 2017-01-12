@@ -155,8 +155,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					data.columns[k].getPreferredWidth(), renderer, null);
 			tableColumns[k].setMinWidth(data.columns[k].getMinWidth());
 			tableColumns[k].setHeaderRenderer(headerRend);
-			if (data.columns[k].getInitShow())
+			if (data.columns[k].getInitShow()) {
 				table.addColumn(tableColumns[k]);
+			}
 			if ("Caption".equals(data.columns[k].getTitle())) {
 				tableColumns[k]
 						.setCellEditor(new ConstructionTableCellEditor());
@@ -228,8 +229,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	}
 
 	public void initProtocol() {
-		if (!isViewAttached)
+		if (!isViewAttached) {
 			((ConstructionTableDataD) data).initView();
+		}
 	}
 
 	protected void repaintScrollpane() {
@@ -310,16 +312,18 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	@Override
 	public void scrollToConstructionStep() {
 		int rowCount = table.getRowCount();
-		if (rowCount == 0)
+		if (rowCount == 0) {
 			return;
+		}
 
 		int step = kernel.getConstructionStep();
 		int row = 0;
 		for (int i = Math.max(step, 0); i < rowCount; i++) {
-			if (data.getConstructionIndex(i) <= step)
+			if (data.getConstructionIndex(i) <= step) {
 				row = i;
-			else
+			} else {
 				break;
+			}
 		}
 
 		table.setRowSelectionInterval(row, row);
@@ -421,10 +425,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						String title = cons.getTitle();
 						String date = tp.configureDate(cons.getDate());
 
-						if ("".equals(title))
+						if ("".equals(title)) {
 							title = loc.getMenu("UntitledConstruction");
-						if ("".equals(author))
+						}
+						if ("".equals(author)) {
 							return title + " (" + date + ")";
+						}
 						return author + ": " + title + " (" + date + ")";
 
 					}
@@ -495,8 +501,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				Point origin = e.getPoint();
 				GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
 				int row = table.rowAtPoint(origin);
-				if (row < 0)
+				if (row < 0) {
 					return;
+				}
 
 				// right click
 				if (AppD.isRightClick(e)) {
@@ -566,8 +573,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.getSource() != table)
+			if (e.getSource() != table) {
 				return;
+			}
 			int row = table.rowAtPoint(e.getPoint());
 			if (row >= 0) { // init drag
 				GeoElement geo = ((ConstructionTableDataD) data)
@@ -580,8 +588,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (e.getSource() != table)
+			if (e.getSource() != table) {
 				return;
+			}
 			if (!dragging) {
 				table.repaint();
 				return;
@@ -592,8 +601,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				dropIndex = data.getConstructionIndex(row);
 				boolean kernelChanged = ((ConstructionTableDataD) data)
 						.moveInConstructionList(dragIndex, dropIndex);
-				if (kernelChanged)
+				if (kernelChanged) {
 					app.storeUndoInfo();
+				}
 			}
 			// reinit vars
 			dragging = false;
@@ -605,8 +615,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			if (e.getSource() != table || dragIndex == -1)
+			if (e.getSource() != table || dragIndex == -1) {
 				return;
+			}
 
 			int row = table.rowAtPoint(e.getPoint());
 			int index = (row < 0) ? -1 : data.getConstructionIndex(row);
@@ -667,8 +678,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// move column to its default place
 				int lastPos = model.getColumnCount() - 1;
 				int pos = data.getColumnNumber(colData);
-				if (pos >= 0 && pos < lastPos)
+				if (pos >= 0 && pos < lastPos) {
 					model.moveColumn(lastPos, pos);
+				}
 				scrollPane.setSize(
 						scrollPane.getWidth() + column.getPreferredWidth(),
 						scrollPane.getHeight());
@@ -757,21 +769,23 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			Component comp = isBoolean ? cbTemp : (Component) this;
 
-			if (isBoolean)
+			if (isBoolean) {
 				comp = cbTemp;
-			else if (isImage)
+			} else if (isImage) {
 				comp = iTemp;
-			else
+			} else {
 				comp = this;
+			}
 
 			int step = kernel.getConstructionStep();
 			RowData rd = data.getRow(row);
 			int index = rd.getGeo().getConstructionIndex();
-			if (useColors)
+			if (useColors) {
 				comp.setForeground(
 						GColorD.getAwtColor(rd.getGeo().getAlgebraColor()));
-			else
+			} else {
 				comp.setForeground(Color.black);
+			}
 
 			if (index == step) { // current construction step background color
 				comp.setBackground(COLOR_STEP_HIGHLIGHT);
@@ -929,9 +943,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		private Color getColorAt(int nRow, int nCol) {
 			try {
-				if (useColors)
+				if (useColors) {
 					return GColorD.getAwtColor(
 							rowList.get(nRow).getGeo().getAlgebraColor());
+				}
 				return Color.black;
 			} catch (Exception e) {
 				return Color.black;
@@ -939,8 +954,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 
 		public Object getValueAt(int nRow, int nCol) {
-			if (nRow < 0 || nRow >= getRowCount())
+			if (nRow < 0 || nRow >= getRowCount()) {
 				return "";
+			}
 			switch (nCol) {
 			case 0:
 				return rowList.get(nRow).getIndex() + "";
@@ -966,8 +982,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		// no html code but plain text
 		public String getPlainTextAt(int nRow, int nCol) {
-			if (nRow < 0 || nRow >= getRowCount())
+			if (nRow < 0 || nRow >= getRowCount()) {
 				return "";
+			}
 			switch (nCol) {
 			case 0:
 				return "" + (rowList.get(nRow).getGeo().getConstructionIndex()
@@ -1006,8 +1023,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			index = (nRow < 0) ? -1 : data.getConstructionIndex(nRow);
 			prevIndex = (nRow < 1) ? -1 : data.getConstructionIndex(nRow - 1);
 
-			if (nRow < 0 || nRow >= getRowCount())
+			if (nRow < 0 || nRow >= getRowCount()) {
 				return "";
+			}
 			switch (nCol) {
 			case 0:
 				return "" + (rowList.get(nRow).getGeo().getConstructionIndex()
@@ -1028,11 +1046,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 					m = ge.getParentAlgorithm().getRelatedModeID();
 				}
 				// 3) otherwise use the modeID of the GeoElement itself:
-				else
+ else {
 					m = rowList.get(nRow).getGeo().getRelatedModeID();
+				}
 
-				if (m == -1 || index == prevIndex)
+				if (m == -1 || index == prevIndex) {
 					return "";
+				}
 
 				ImageIcon icon = ((AppD) app).getModeIcon(m);
 				Image img1 = icon.getImage();
@@ -1089,14 +1109,15 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public void updateAll() {
-			if (notifyUpdateCalled)
+			if (notifyUpdateCalled) {
 				return;
+			}
 			int size = rowList.size();
 
 			int toolbarIconHeight = 0;
 			// If displaying toolbarIcon is set, row height must be at least 32
 			// + 1:
-			if (isColumnInModel(tableColumns[1]))
+			if (isColumnInModel(tableColumns[1])) {
 				toolbarIconHeight = 32 + 1;
 			/*
 			 * FIXME: The cell content is not aligned vertically centered. I
@@ -1107,6 +1128,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			 * may help, or to use the same technique which is introduced in
 			 * GeoGebraCAS.
 			 */
+			}
 
 			for (int i = 0; i < size; ++i) {
 				RowData row = rowList.get(i);
@@ -1391,10 +1413,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			line = author;
 		}
 		if (!"".equals(date)) {
-			if (line == null)
+			if (line == null) {
 				line = date;
-			else
+			} else {
 				line = line + " - " + date;
+			}
 		}
 		if (line != null) {
 			sb.append("<h3>");
@@ -1454,9 +1477,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							.toHTMLString(((ConstructionTableDataD) data)
 									.getPlainHTMLAt(nRow, col), false);
 					sb.append("<td>");
-					if ("".equals(str))
+					if ("".equals(str)) {
 						sb.append("&nbsp;"); // space
-					else {
+					} else {
 						Color color = ((ConstructionTableDataD) data)
 								.getColorAt(nRow, col);
 						if (color != Color.black) {
@@ -1468,8 +1491,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");
-						} else
+						} else {
 							sb.append(str);
+						}
 					}
 					sb.append("</td>\n");
 				}
@@ -1548,9 +1572,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
 
 		boolean gcv[] = cps.getColsVisibility();
-		if (gcv != null)
-			if (gcv.length > 0)
+		if (gcv != null) {
+			if (gcv.length > 0) {
 				setColsVisibility(gcv);
+			}
+		}
 
 		update();
 		((ConstructionTableDataD) getData()).initView();

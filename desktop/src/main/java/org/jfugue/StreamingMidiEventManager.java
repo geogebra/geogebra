@@ -57,6 +57,7 @@ final public class StreamingMidiEventManager {
 		currentTime = System.currentTimeMillis();
 
 		Thread timerThread = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				while (isActive) {
 					long checkTime = System.currentTimeMillis();

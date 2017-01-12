@@ -35,6 +35,7 @@ public class PolyBezierTo16 extends EMFTag {
 		this.points = points;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -44,12 +45,14 @@ public class PolyBezierTo16 extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 		emf.writeDWORD(numberOfPoints);
 		emf.writePOINTS(numberOfPoints, points);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
 				+ "  #points: " + numberOfPoints;

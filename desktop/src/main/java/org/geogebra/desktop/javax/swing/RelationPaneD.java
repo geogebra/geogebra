@@ -73,6 +73,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	private final static int ORIG_OKWIDTH = 140;
 	private int OKWIDTH;
 
+	@Override
 	public void showDialog(String title, final RelationRow[] relations,
 			App app) {
 
@@ -179,6 +180,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		}
 
 		frame.addComponentListener(new ComponentListener() {
+			@Override
 			public void componentResized(ComponentEvent evt) {
 				// Extremely ugly way to learn if this event comes from resizing
 				// or refresh.
@@ -249,6 +251,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		return ret;
 	}
 
+	@Override
 	public synchronized void updateRow(int row, RelationRow relation) {
 		table.setValueAt(relation.getInfo(), row, 0);
 		callbacks[row] = relation.getCallback();
@@ -292,6 +295,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			setOpaque(true);
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
@@ -315,6 +319,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			setOpaque(true);
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
@@ -340,6 +345,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			button = new JButton();
 			button.setOpaque(true);
 			button.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					fireEditingStopped();
 				}

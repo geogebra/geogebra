@@ -103,6 +103,7 @@ final class InterpretedFunction extends NativeFunction implements Script {
 		return Interpreter.interpret(this, cx, scope, thisObj, args);
 	}
 
+	@Override
 	public Object exec(Context cx, Scriptable scope) {
 		if (!isScript()) {
 			// Can only be applied to scripts

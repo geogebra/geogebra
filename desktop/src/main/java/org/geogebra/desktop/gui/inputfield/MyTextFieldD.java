@@ -221,6 +221,7 @@ public class MyTextFieldD extends JTextField
 
 	int oldStyle = Font.PLAIN;
 
+	@Override
 	public void focusGained(FocusEvent e) {
 
 		if (selectAllOnFocus) {
@@ -228,26 +229,32 @@ public class MyTextFieldD extends JTextField
 			thisField.selectAll();
 		}
 
-		if (showSymbolTableIcon && hasFocus())
+		if (showSymbolTableIcon && hasFocus()) {
 			borderBtn.setIconVisible(0, true);
+		}
 		thisField.repaint();
 
-		if (app.getGuiManager() != null)
+		if (app.getGuiManager() != null) {
 			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this,
 					false);
+		}
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 
-		if (showSymbolTableIcon)
+		if (showSymbolTableIcon) {
 			borderBtn.setIconVisible(0, false);
+		}
 		thisField.repaint();
 
-		if (app.getGuiManager() != null)
+		if (app.getGuiManager() != null) {
 			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
 					!(e.getOppositeComponent() instanceof VirtualKeyboardD));
+		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
@@ -260,6 +267,7 @@ public class MyTextFieldD extends JTextField
 	/**
 	 * Caret update
 	 */
+	@Override
 	public void caretUpdate(CaretEvent e) {
 		caretUpdated = true;
 		repaint();
@@ -268,6 +276,7 @@ public class MyTextFieldD extends JTextField
 	/**
 	 * Inserts a string into the text at the current caret position
 	 */
+	@Override
 	public void insertString(String text) {
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
@@ -317,8 +326,9 @@ public class MyTextFieldD extends JTextField
 	}
 
 	private SymbolTablePopupD getTablePopup() {
-		if (tablePopup == null)
+		if (tablePopup == null) {
 			tablePopup = new SymbolTablePopupD(app, this);
+		}
 		return tablePopup;
 	}
 
@@ -339,9 +349,11 @@ public class MyTextFieldD extends JTextField
 		super.processKeyEvent(e);
 	}
 
+	@Override
 	public void setLabels() {
-		if (tablePopup != null)
+		if (tablePopup != null) {
 			tablePopup.setLabels();
+		}
 	}
 
 	public void setOrientation() {
@@ -399,8 +411,9 @@ public class MyTextFieldD extends JTextField
 		// get caret position information
 		caret = getCaretPosition();
 		float caretPos = -1;
-		if (caret == 0)
+		if (caret == 0) {
 			caretPos = pos;
+		}
 
 		// get the bracket positions
 		String text2 = StringUtil.ignoreIndices(text);
@@ -433,10 +446,13 @@ public class MyTextFieldD extends JTextField
 			GColor fg = null;
 
 			// determine the color
-			if (text.charAt(i) == '\"')
+			if (text.charAt(i) == '\"') {
 				textMode = !textMode;
+			}
 			if (i == wrong)
+			 {
 				fg = COLOR_UNMATCHED; // unmatched bracket
+			}
 			if (i == bracket1pos || i == bracket2pos) {
 				if (bracket2pos > -1) {
 					fg = COLOR_MATCHED; // matched bracket
@@ -461,15 +477,17 @@ public class MyTextFieldD extends JTextField
 			// now draw the text
 			drawText(text.charAt(i) + "", i >= selStart && i < selEnd);
 
-			if (i + 1 == caret)
+			if (i + 1 == caret) {
 				caretPos = pos;
+			}
 		}
 
 		// draw caret if there's been no caret movement since last repaint
-		if (caretUpdated)
+		if (caretUpdated) {
 			caretShowing = false;
-		else
+		} else {
 			caretShowing = !caretShowing;
+		}
 		caretUpdated = false;
 
 		if (caretShowing && caretPos > -1 && hasFocus()) {
@@ -482,15 +500,17 @@ public class MyTextFieldD extends JTextField
 	}
 
 	private float getLength(String text) {
-		if (text == null || text.length() == 0)
+		if (text == null || text.length() == 0) {
 			return 0;
+		}
 		TextLayout layout = new TextLayout(text, font, frc);
 		return layout.getAdvance();
 	}
 
 	private void drawText(String str, boolean selected/* , Color bg */) {
-		if ("".equals(str))
+		if ("".equals(str)) {
 			return;
+		}
 
 		// compute advance
 		FontMetrics metrics = g2.getFontMetrics(font);
@@ -533,6 +553,7 @@ public class MyTextFieldD extends JTextField
 		}
 	}
 
+	@Override
 	public void wrapSetText(String s) {
 		// TODO Auto-generated method stub
 

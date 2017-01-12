@@ -165,8 +165,9 @@ public class GeoGebraFileChooser extends JFileChooser
 		}
 
 		// do not perform any unnecessary actions
-		if (this.currentMode == mode)
+		if (this.currentMode == mode) {
 			return;
+		}
 
 		if (mode == MODE_GEOGEBRA) { // load/save ggb, ggt etc. files
 			setMultiSelectionEnabled(true);
@@ -185,6 +186,7 @@ public class GeoGebraFileChooser extends JFileChooser
 	/**
 	 * Check if we have to show / hide the accessory
 	 */
+	@Override
 	public void componentResized(ComponentEvent e) {
 		if (getSize().width < ACCESSORY_WIDTH && showAccessory) {
 			setAccessory(null);
@@ -207,12 +209,15 @@ public class GeoGebraFileChooser extends JFileChooser
 		}
 	}
 
+	@Override
 	public void componentShown(ComponentEvent e) {
 	}
 
+	@Override
 	public void componentHidden(ComponentEvent e) {
 	}
 
+	@Override
 	public void componentMoved(ComponentEvent e) {
 	}
 
@@ -320,16 +325,19 @@ public class GeoGebraFileChooser extends JFileChooser
 		/**
 		 * A new file was selected -> update the panel if necessary.
 		 */
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			try {
 				File file = fileChooser.getSelectedFile();
 
-				if (file != null && file.exists()) // don't update on directory
-													// change
-					if (fileChooser.getMode() == GeoGebraFileChooser.MODE_DATA)
+				if (file != null && file.exists()) {
+					// change
+					if (fileChooser.getMode() == GeoGebraFileChooser.MODE_DATA) {
 						updateDataPreview(file);
-					else
+					} else {
 						updateImage(file);
+					}
+				}
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
@@ -372,9 +380,10 @@ public class GeoGebraFileChooser extends JFileChooser
 
 				fileLabel.setText(fileInfo.toString());
 
-				if (contents.length() == 0)
+				if (contents.length() == 0) {
 					contents.append(app.getLocalization()
 							.getMenu("PreviewUnavailable"));
+				}
 
 				dataPreviewPanel.setText(contents.toString());
 				dataPreviewPanel.setCaretPosition(0);

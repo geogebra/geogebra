@@ -31,21 +31,25 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 		this.textComp = textComp;
 	}
 
+	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void dragExit(DropTargetEvent dte) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void dragOver(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void drop(DropTargetDropEvent dropEvent) {
 
 		dropEvent.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
@@ -83,9 +87,9 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 				// if only one geo, get definition string
 				if (list.size() == 1) {
 					GeoElement geo = app.getKernel().lookupLabel(list.get(0));
-					if (geo != null)
+					if (geo != null) {
 						textImport = geo.getDefinitionForInputBar();
-					else {
+					} else {
 						dropEvent.dropComplete(false);
 						return;
 					}
@@ -113,6 +117,7 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 		}
 	}
 
+	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 

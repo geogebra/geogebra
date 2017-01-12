@@ -209,10 +209,11 @@ public class SliderDialogD extends JDialog
 
 					GeoNumeric geoNum = ((GeoNumeric) geoResult);
 
-					if (val > geoNum.getIntervalMax())
+					if (val > geoNum.getIntervalMax()) {
 						geoNum.setIntervalMax(val);
-					else if (val < geoNum.getIntervalMin())
+					} else if (val < geoNum.getIntervalMin()) {
 						geoNum.setIntervalMin(val);
+					}
 
 					geoNum.setValue(val);
 				} catch (Exception e) {
@@ -224,6 +225,7 @@ public class SliderDialogD extends JDialog
 		return geoResult;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -276,6 +278,7 @@ public class SliderDialogD extends JDialog
 		tfLabel.selectText();
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		default:
@@ -292,38 +295,47 @@ public class SliderDialogD extends JDialog
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// only key press is important
 	}
 
+	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// only key press is important
 	}
 
+	@Override
 	public void windowActivated(WindowEvent arg0) {
 		// only window opened is important
 	}
 
+	@Override
 	public void windowClosed(WindowEvent arg0) {
 		// only window opened is important
 	}
 
+	@Override
 	public void windowClosing(WindowEvent arg0) {
 		// only window opened is important
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent arg0) {
 		// only window opened is important
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent arg0) {
 		// only window opened is important
 	}
 
+	@Override
 	public void windowIconified(WindowEvent arg0) {
 		// only window opened is important
 	}
 
+	@Override
 	public void windowOpened(WindowEvent arg0) {
 		setLabelFieldFocus();
 	}

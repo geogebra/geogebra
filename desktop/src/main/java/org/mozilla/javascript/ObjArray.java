@@ -40,10 +40,12 @@ public class ObjArray implements Serializable {
 	}
 
 	public final void setSize(int newSize) {
-		if (newSize < 0)
+		if (newSize < 0) {
 			throw new IllegalArgumentException();
-		if (sealed)
+		}
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		int N = size;
 		if (newSize < N) {
 			for (int i = newSize; i != N; ++i) {
@@ -58,16 +60,19 @@ public class ObjArray implements Serializable {
 	}
 
 	public final Object get(int index) {
-		if (!(0 <= index && index < size))
+		if (!(0 <= index && index < size)) {
 			throw onInvalidIndex(index, size);
+		}
 		return getImpl(index);
 	}
 
 	public final void set(int index, Object value) {
-		if (!(0 <= index && index < size))
+		if (!(0 <= index && index < size)) {
 			throw onInvalidIndex(index, size);
-		if (sealed)
+		}
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		setImpl(index, value);
 	}
 
@@ -134,14 +139,16 @@ public class ObjArray implements Serializable {
 
 	public final Object peek() {
 		int N = size;
-		if (N == 0)
+		if (N == 0) {
 			throw onEmptyStackTopRead();
+		}
 		return getImpl(N - 1);
 	}
 
 	public final Object pop() {
-		if (sealed)
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		int N = size;
 		--N;
 		Object top;
@@ -181,8 +188,9 @@ public class ObjArray implements Serializable {
 	}
 
 	public final void add(Object value) {
-		if (sealed)
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		int N = size;
 		if (N >= FIELDS_STORE_SIZE) {
 			ensureCapacity(N + 1);
@@ -193,10 +201,12 @@ public class ObjArray implements Serializable {
 
 	public final void add(int index, Object value) {
 		int N = size;
-		if (!(0 <= index && index <= N))
+		if (!(0 <= index && index <= N)) {
 			throw onInvalidIndex(index, N + 1);
-		if (sealed)
+		}
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		Object tmp;
 		switch (index) {
 		case 0:
@@ -254,10 +264,12 @@ public class ObjArray implements Serializable {
 
 	public final void remove(int index) {
 		int N = size;
-		if (!(0 <= index && index < N))
+		if (!(0 <= index && index < N)) {
 			throw onInvalidIndex(index, N);
-		if (sealed)
+		}
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		--N;
 		switch (index) {
 		case 0:
@@ -303,8 +315,9 @@ public class ObjArray implements Serializable {
 	}
 
 	public final void clear() {
-		if (sealed)
+		if (sealed) {
 			throw onSeledMutation();
+		}
 		int N = size;
 		for (int i = 0; i != N; ++i) {
 			setImpl(i, null);
@@ -345,8 +358,9 @@ public class ObjArray implements Serializable {
 
 	private void ensureCapacity(int minimalCapacity) {
 		int required = minimalCapacity - FIELDS_STORE_SIZE;
-		if (required <= 0)
+		if (required <= 0) {
 			throw new IllegalArgumentException();
+		}
 		if (data == null) {
 			int alloc = FIELDS_STORE_SIZE * 2;
 			if (alloc < required) {

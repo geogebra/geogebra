@@ -51,6 +51,7 @@ public class FontUtilities {
 	 * @deprecated use
 	 *             org.freehep.graphics2d.font.FontEncoder.getEncodedString()
 	 */
+	@Deprecated
 	public static String getEncodedString(String string, String tableName) {
 		return FontEncoder.getEncodedString(string, tableName);
 	}
@@ -62,6 +63,7 @@ public class FontUtilities {
 	 * @deprecated use
 	 *             org.freehep.graphics2d.font.FontEncoder.getEncodedString()
 	 */
+	@Deprecated
 	public static String getEncodedString(String string, CharTable charTable) {
 		return FontEncoder.getEncodedString(string, charTable);
 	}
@@ -88,9 +90,10 @@ public class FontUtilities {
 	public static void showString(Font font, String string,
 			CharTable latinTable, ShowString device) throws IOException {
 
-		if (latinTable == null)
+		if (latinTable == null) {
 			throw new RuntimeException(
 					"FontUtilities.showString(...): latinTable cannot be 'null'");
+		}
 
 		STANDARD_FONT[0] = font;
 		STANDARD_FONT[1] = new Font("Symbol", Font.PLAIN, font.getSize());
@@ -120,8 +123,9 @@ public class FontUtilities {
 				} while ((encoding == 0)
 						&& (table < STANDARD_CHAR_TABLES.length - 1));
 			}
-			if (encoding == 0)
+			if (encoding == 0) {
 				table = lastTable;
+			}
 
 			if ((table != lastTable) && (!out.equals(""))) {
 				// if font changes, write the old font and string so far

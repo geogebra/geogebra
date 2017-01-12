@@ -86,10 +86,12 @@ public class WebColor extends Color {
 	}
 
 	public static WebColor create(Color color) {
-		if (color == null)
+		if (color == null) {
 			return null;
-		if (color instanceof WebColor)
+		}
+		if (color instanceof WebColor) {
 			return (WebColor) color;
+		}
 		return new WebColor(color);
 	}
 }

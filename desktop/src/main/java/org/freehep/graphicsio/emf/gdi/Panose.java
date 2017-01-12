@@ -75,6 +75,7 @@ public class Panose implements EMFConstants {
 		emf.writeBYTE(xHeight);
 	}
 
+	@Override
 	public String toString() {
 		return "  Panose\n" + "    familytype: " + familyType + "\n"
 				+ "    serifStyle: " + serifStyle + "\n" + "    weight: "

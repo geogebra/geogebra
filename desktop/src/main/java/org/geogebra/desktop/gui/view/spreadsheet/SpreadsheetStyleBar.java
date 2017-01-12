@@ -191,10 +191,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (!allowActionPerformed)
+		if (!allowActionPerformed) {
 			return;
+		}
 
 		Object source = e.getSource();
 
@@ -203,12 +205,13 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 			Integer align = null;
 			if (((MyToggleButton) source).isSelected()) {
-				if (source == btnLeftAlign)
+				if (source == btnLeftAlign) {
 					align = CellFormat.ALIGN_LEFT;
-				else if (source == btnRightAlign)
+				} else if (source == btnRightAlign) {
 					align = CellFormat.ALIGN_RIGHT;
-				else
+				} else {
 					align = CellFormat.ALIGN_CENTER;
+				}
 			}
 
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_ALIGN,
@@ -226,10 +229,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 		else if (source == btnBold || source == btnItalic) {
 			Integer fontStyle = CellFormat.STYLE_PLAIN;
-			if (btnBold.isSelected())
+			if (btnBold.isSelected()) {
 				fontStyle += CellFormat.STYLE_BOLD;
-			if (btnItalic.isSelected())
+			}
+			if (btnItalic.isSelected()) {
 				fontStyle += CellFormat.STYLE_ITALIC;
+			}
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_FONTSTYLE,
 					fontStyle);
 		}
@@ -276,8 +281,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		else if (source == btnFormulaBar) {
 			app.getSettings().getSpreadsheet()
 					.setShowFormulaBar(btnFormulaBar.isSelected());
-			if (view.getSpreadsheetTable().isSelectNone())
+			if (view.getSpreadsheetTable().isSelectNone()) {
 				view.getSpreadsheetTable().setSelection(0, 0);
+			}
 			view.updateFormulaBar();
 
 		}

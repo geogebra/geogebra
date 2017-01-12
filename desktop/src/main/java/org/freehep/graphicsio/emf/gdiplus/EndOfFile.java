@@ -19,11 +19,13 @@ public class EndOfFile extends EMFPlusTag {
 		super(2, 1);
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		return new EndOfFile();
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		// nop

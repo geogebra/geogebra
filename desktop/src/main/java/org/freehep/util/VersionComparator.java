@@ -26,8 +26,9 @@ public class VersionComparator implements Comparator {
 			int i1 = i < t1.length ? Integer.parseInt(t1[i]) : 0;
 			int i2 = i < t2.length ? Integer.parseInt(t2[i]) : 0;
 
-			if (i1 == i2)
+			if (i1 == i2) {
 				continue;
+			}
 			return i1 - i2;
 		}
 		return 0;
@@ -41,6 +42,7 @@ public class VersionComparator implements Comparator {
 		return in;
 	}
 
+	@Override
 	public int compare(Object obj, Object obj1) {
 		return versionNumberCompare(obj.toString(), obj1.toString());
 	}

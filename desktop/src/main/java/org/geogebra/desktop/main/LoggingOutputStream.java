@@ -41,6 +41,7 @@ class LoggingOutputStream extends ByteArrayOutputStream {
 	 * @throws java.io.IOException
 	 *             in case of error
 	 */
+	@Override
 	public void flush() throws IOException {
 
 		String record;

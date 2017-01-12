@@ -61,8 +61,9 @@ public abstract class XmlRef extends AstNode {
 	 */
 	public void setNamespace(Name namespace) {
 		this.namespace = namespace;
-		if (namespace != null)
+		if (namespace != null) {
 			namespace.setParent(this);
+		}
 	}
 
 	/**

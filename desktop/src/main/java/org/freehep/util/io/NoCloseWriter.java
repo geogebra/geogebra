@@ -36,6 +36,7 @@ public class NoCloseWriter extends BufferedWriter {
 		super(writer, size);
 	}
 
+	@Override
 	public void close() throws IOException {
 		flush();
 	}

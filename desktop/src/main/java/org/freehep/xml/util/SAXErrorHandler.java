@@ -44,16 +44,19 @@ public class SAXErrorHandler implements ErrorHandler {
 		this.minLevel = minLevelForException;
 	}
 
+	@Override
 	public void warning(SAXParseException exception)
 			throws org.xml.sax.SAXException {
 		handle(exception, LEVEL_WARNING, "Warning");
 	}
 
+	@Override
 	public void error(SAXParseException exception)
 			throws org.xml.sax.SAXException {
 		handle(exception, LEVEL_ERROR, "Error");
 	}
 
+	@Override
 	public void fatalError(SAXParseException exception) throws SAXException {
 		handle(exception, LEVEL_FATAL, "Fatal");
 	}
@@ -62,13 +65,16 @@ public class SAXErrorHandler implements ErrorHandler {
 			String levelName) throws SAXException {
 		StringBuffer message = new StringBuffer(levelName);
 		String fileName = exception.getPublicId();
-		if (fileName == null)
+		if (fileName == null) {
 			fileName = exception.getSystemId();
-		if (fileName != null)
+		}
+		if (fileName != null) {
 			message.append(" at " + fileName);
+		}
 		message.append(" line " + exception.getLineNumber());
-		if (level > maxLevel)
+		if (level > maxLevel) {
 			maxLevel = level;
+		}
 		if (level >= minLevel) {
 			throw new BadXMLException(message.toString(), exception);
 		}

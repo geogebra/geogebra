@@ -51,6 +51,7 @@ public class Base64InputStream extends FilterInputStream {
 		super(in);
 	}
 
+	@Override
 	public int read() throws IOException {
 		if (drain && bufSize == 0) {
 			return -1;

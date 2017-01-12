@@ -222,6 +222,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =======
 	 */
 	/* 3.1 Header & Trailer */
+	@Override
 	public void writeHeader() throws IOException {
 		ros = new BufferedOutputStream(ros);
 
@@ -252,6 +253,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 	}
 
+	@Override
 	public void writeGraphicsState() throws IOException {
 		super.writeGraphicsState();
 		// write a special matrix here to scale all written coordinates by a
@@ -261,6 +263,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		os.writeTag(new SetWorldTransform(n));
 	}
 
+	@Override
 	public void writeBackground() throws IOException {
 		if (isProperty(TRANSPARENT)) {
 			setBackground(null);
@@ -277,18 +280,21 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		}
 	}
 
+	@Override
 	public void writeTrailer() throws IOException {
 		// delete any remaining objects
 		for (;;) {
 			int handle = handleManager.highestHandleInUse();
-			if (handle < 0)
+			if (handle < 0) {
 				break;
+			}
 			os.writeTag(new DeleteObject(handle));
 			handleManager.freeHandle(handle);
 		}
 		os.writeTag(new EOF());
 	}
 
+	@Override
 	public void closeStream() throws IOException {
 		os.close();
 	}
@@ -302,6 +308,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =======
 	 */
 
+	@Override
 	public Graphics create() {
 		// Create a new graphics context from the current one.
 		try {
@@ -314,6 +321,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		return new EMFGraphics2D(this, true);
 	}
 
+	@Override
 	public Graphics create(double x, double y, double width, double height) {
 		// Create a new graphics context from the current one.
 		try {
@@ -329,16 +337,20 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		return graphics;
 	}
 
+	@Override
 	protected void writeGraphicsSave() throws IOException {
 		os.writeTag(new SaveDC());
 	}
 
+	@Override
 	protected void writeGraphicsRestore() throws IOException {
-		if (penHandle != 0)
+		if (penHandle != 0) {
 			os.writeTag(new DeleteObject(handleManager.freeHandle(penHandle)));
-		if (brushHandle != 0)
+		}
+		if (brushHandle != 0) {
 			os.writeTag(
 					new DeleteObject(handleManager.freeHandle(brushHandle)));
+		}
 		os.writeTag(new RestoreDC());
 	}
 
@@ -354,6 +366,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 	Color invisible = new Color(0, 0, 0, 0);
 
+	@Override
 	public void draw(Shape shape) {
 		try {
 			if (getStroke() instanceof BasicStroke) {
@@ -370,6 +383,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		}
 	}
 
+	@Override
 	public void fill(Shape shape) {
 		try {
 			writeBrush(getColor());
@@ -392,6 +406,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 5.2. Images */
+	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
 		writeWarning(getClass()
 				+ ": copyArea(int, int, int, int, int, int) not implemented.");
@@ -400,6 +415,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 	// NOTE: does not use writeGraphicsSave and writeGraphicsRestore since these
 	// delete pen and brush
+	@Override
 	protected void writeImage(RenderedImage image, AffineTransform xform,
 			Color bkg) throws IOException {
 		os.writeTag(new SaveDC());
@@ -422,6 +438,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 5.3. Strings */
+	@Override
 	public void writeString(String string, double x, double y)
 			throws IOException {
 
@@ -515,6 +532,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	protected void writeTransform(AffineTransform t) throws IOException {
 		AffineTransform n = new AffineTransform(t.getScaleX(), t.getShearY(),
 				t.getShearX(), t.getScaleY(),
@@ -523,6 +541,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		os.writeTag(new ModifyWorldTransform(n, EMFConstants.MWT_LEFTMULTIPLY));
 	}
 
+	@Override
 	protected void writeSetTransform(AffineTransform t) throws IOException {
 		// write a special matrix here to scale all written coordinates by a
 		// factor of TWIPS
@@ -539,6 +558,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	protected void writeSetClip(Shape s) throws IOException {
 		if (s == null || !isProperty(CLIP)) {
 			return;
@@ -548,6 +568,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		os.writeTag(new SelectClipPath(EMFConstants.RGN_COPY));
 	}
 
+	@Override
 	protected void writeClip(Shape s) throws IOException {
 
 		if (s == null || !isProperty(CLIP)) {
@@ -564,6 +585,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	public void writeStroke(Stroke stroke) throws IOException {
 		if (stroke instanceof BasicStroke) {
 			writePen((BasicStroke) stroke, getColor());
@@ -571,20 +593,24 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 8.2. paint/color */
+	@Override
 	public void setPaintMode() {
 		writeWarning(getClass() + ": setPaintMode() not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	public void setXORMode(Color c1) {
 		writeWarning(getClass() + ": setXORMode(Color) not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	protected void writePaint(Color p) throws IOException {
 		// all color setting delayed
 	}
 
+	@Override
 	protected void writePaint(GradientPaint p) throws IOException {
 		writeWarning(
 				getClass() + ": writePaint(GradientPaint) not implemented.");
@@ -592,6 +618,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		setColor(PrintColor.mixColor(p.getColor1(), p.getColor2()));
 	}
 
+	@Override
 	protected void writePaint(TexturePaint p) throws IOException {
 		writeWarning(
 				getClass() + ": writePaint(TexturePaint) not implemented.");
@@ -599,6 +626,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		setColor(Color.RED);
 	}
 
+	@Override
 	protected void writePaint(Paint p) throws IOException {
 		writeWarning(getClass() + ": writePaint(Paint) not implemented for "
 				+ p.getClass());
@@ -607,6 +635,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 8.3. font */
+	@Override
 	protected void writeFont(Font font) throws IOException {
 		// written when needed
 	}
@@ -619,6 +648,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =========================================================================
 	 * =======
 	 */
+	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
 		writeWarning(
 				getClass() + ": getDeviceConfiguration() not implemented.");
@@ -626,6 +656,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		return null;
 	}
 
+	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
 		writeWarning(getClass()
 				+ ": hit(Rectangle, Shape, boolean) not implemented.");
@@ -633,11 +664,13 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		return false;
 	}
 
+	@Override
 	public void writeComment(String comment) throws IOException {
 		writeWarning(getClass() + ": writeComment(String) not implemented.");
 		// Write out the comment.
 	}
 
+	@Override
 	public String toString() {
 		return "EMFGraphics2D";
 	}
@@ -646,6 +679,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * Implementation of createShape makes sure that the points are different by
 	 * at least one Unit.
 	 */
+	@Override
 	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
 			boolean close) {
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
@@ -665,8 +699,9 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 					lastY = yPoints[i];
 				}
 			}
-			if (close)
+			if (close) {
 				path.closePath();
+			}
 		}
 		return path;
 	}
@@ -688,8 +723,9 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	private void writePen(BasicStroke stroke, Color color) throws IOException {
-		if (color.equals(penColor) && stroke.equals(getStroke()))
+		if (color.equals(penColor) && stroke.equals(getStroke())) {
 			return;
+		}
 		penColor = color;
 
 		int style = EMFConstants.PS_GEOMETRIC;
@@ -749,8 +785,9 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	private void writeBrush(Color color) throws IOException {
-		if (color.equals(brushColor))
+		if (color.equals(brushColor)) {
 			return;
+		}
 		brushColor = color;
 
 		int brushStyle = (color.getAlpha() == 0) ? EMFConstants.BS_NULL

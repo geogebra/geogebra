@@ -78,9 +78,11 @@ public final class NativeGenerator extends IdScriptableObject {
 			this.generator = generator;
 		}
 
+		@Override
 		public Object run(Context cx) {
 			Scriptable scope = ScriptableObject.getTopLevelScope(generator);
 			Callable closeGenerator = new Callable() {
+				@Override
 				public Object call(Context cx, Scriptable scope,
 						Scriptable thisObj, Object[] args) {
 					return ((NativeGenerator) thisObj).resume(cx, scope,
@@ -131,8 +133,9 @@ public final class NativeGenerator extends IdScriptableObject {
 		}
 		int id = f.methodId();
 
-		if (!(thisObj instanceof NativeGenerator))
+		if (!(thisObj instanceof NativeGenerator)) {
 			throw incompatibleCallError(f);
+		}
 
 		NativeGenerator generator = (NativeGenerator) thisObj;
 
@@ -172,8 +175,9 @@ public final class NativeGenerator extends IdScriptableObject {
 	private Object resume(Context cx, Scriptable scope, int operation,
 			Object value) {
 		if (savedState == null) {
-			if (operation == GENERATOR_CLOSE)
+			if (operation == GENERATOR_CLOSE) {
 				return Undefined.instance;
+			}
 			Object thrown;
 			if (operation == GENERATOR_THROW) {
 				thrown = value;
@@ -187,8 +191,9 @@ public final class NativeGenerator extends IdScriptableObject {
 				// generator execution is necessarily single-threaded and
 				// non-reentrant.
 				// See https://bugzilla.mozilla.org/show_bug.cgi?id=349263
-				if (locked)
+				if (locked) {
 					throw ScriptRuntime.typeError0("msg.already.exec.gen");
+				}
 				locked = true;
 			}
 			return function.resumeGenerator(cx, scope, operation, savedState,
@@ -207,8 +212,9 @@ public final class NativeGenerator extends IdScriptableObject {
 			synchronized (this) {
 				locked = false;
 			}
-			if (operation == GENERATOR_CLOSE)
+			if (operation == GENERATOR_CLOSE) {
 				savedState = null;
+			}
 		}
 	}
 
@@ -245,8 +251,9 @@ public final class NativeGenerator extends IdScriptableObject {
 				X = "__iterator__";
 				id = Id___iterator__;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

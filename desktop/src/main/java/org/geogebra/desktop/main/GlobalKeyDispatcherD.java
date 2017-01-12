@@ -50,6 +50,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	 * dispatched to their targets, allowing it to handle the key event and
 	 * consume it.
 	 */
+	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 
 		// ignore key events coming from text components (i.e. text fields and
@@ -205,8 +206,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		// make sure TAB works in Input Boxes but also in Spreadsheet, Input Bar
 		Component owner = ((AppD) app).getFrame().getFocusOwner();
 		if (owner instanceof AutoCompleteTextField
-				&& ((AutoCompleteTextField) owner).usedForInputBox())
+				&& ((AutoCompleteTextField) owner).usedForInputBox()) {
 			useTab = true;
+		}
 
 		if (useTab) {
 			super.handleTab(isControlDown, isShiftDown, cycle);
@@ -295,8 +297,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				TreeSet<File> sortedSet = new TreeSet<File>(
 						UtilD.getFileComparator());
 				for (int i = 0; i < options.length; i++) {
-					if (options[i].isFile())
+					if (options[i].isFile()) {
 						sortedSet.add(options[i]);
+					}
 				}
 
 				String currentFile = ((AppD) app).getCurrentFile().getName();
@@ -306,10 +309,11 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				while (iterator.hasNext() && fileToLoad == null) {
 					if (iterator.next().getName().equals(currentFile)) {
 						// check if we're at the end
-						if (iterator.hasNext())
+						if (iterator.hasNext()) {
 							fileToLoad = iterator.next();
-						else
+						} else {
 							fileToLoad = options[0];
+						}
 					}
 				}
 
@@ -353,8 +357,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		while (it.hasNext()) {
 			sb.append(it.next().getFormulaString(StringTemplate.defaultTemplate,
 					false));
-			if (it.hasNext())
+			if (it.hasNext()) {
 				sb.append(',');
+			}
 		}
 		sb.append('}');
 

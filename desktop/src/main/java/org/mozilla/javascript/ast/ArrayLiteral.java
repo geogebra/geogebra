@@ -80,10 +80,12 @@ public class ArrayLiteral extends AstNode implements DestructuringForm {
 		if (elements == null) {
 			this.elements = null;
 		} else {
-			if (this.elements != null)
+			if (this.elements != null) {
 				this.elements.clear();
-			for (AstNode e : elements)
+			}
+			for (AstNode e : elements) {
 				addElement(e);
+			}
 		}
 	}
 
@@ -98,8 +100,9 @@ public class ArrayLiteral extends AstNode implements DestructuringForm {
 	 */
 	public void addElement(AstNode element) {
 		assertNotNull(element);
-		if (elements == null)
+		if (elements == null) {
 			elements = new ArrayList<AstNode>();
+		}
 		elements.add(element);
 		element.setParent(this);
 	}
@@ -122,8 +125,9 @@ public class ArrayLiteral extends AstNode implements DestructuringForm {
 	 *             if the index is invalid
 	 */
 	public AstNode getElement(int index) {
-		if (elements == null)
+		if (elements == null) {
 			throw new IndexOutOfBoundsException("no elements");
+		}
 		return elements.get(index);
 	}
 
@@ -169,6 +173,7 @@ public class ArrayLiteral extends AstNode implements DestructuringForm {
 	 * context such as {@code for ([a, b] in ...)} where it's the target of a
 	 * destructuring assignment.
 	 */
+	@Override
 	public void setIsDestructuring(boolean destructuring) {
 		isDestructuring = destructuring;
 	}
@@ -178,6 +183,7 @@ public class ArrayLiteral extends AstNode implements DestructuringForm {
 	 * parameter, the target of a variable initializer, the iterator of a
 	 * for..in loop, etc.
 	 */
+	@Override
 	public boolean isDestructuring() {
 		return isDestructuring;
 	}

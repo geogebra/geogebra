@@ -56,6 +56,7 @@ public class EMFHeader implements EMFConstants {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
 	public EMFHeader(Rectangle bounds, int versionMajor, int versionMinor,
 			int bytes, int records, int handles, String application,
 			String name, Dimension device) {
@@ -185,6 +186,7 @@ public class EMFHeader implements EMFConstants {
 		return 108 + (2 * description.length());
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer s = new StringBuffer("EMF Header\n");
 		s.append("  bounds: " + bounds + "\n");

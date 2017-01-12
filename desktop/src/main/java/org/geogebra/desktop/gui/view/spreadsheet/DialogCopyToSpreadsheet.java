@@ -117,13 +117,13 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 	/**
 	 * Handles button clicks for dialog.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source == btnCancel)
+		if (source == btnCancel) {
 			setVisible(false);
-
-		else if (source == btnCopy) {
+		} else if (source == btnCopy) {
 			dndHandler.setCopyByValue(rbFree.isSelected());
 			dndHandler.setTranspose(ckTranspose.isSelected());
 			dndHandler.setAllowDrop(true);

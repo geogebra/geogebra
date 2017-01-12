@@ -31,6 +31,7 @@ public class GeoGebraToPstricksD extends GeoGebraToPstricks {
 			super(geo, ineq);
 		}
 
+		@Override
 		public void fill(GShape s) {
 			superFill(s, ineq, geo, ds);
 		}

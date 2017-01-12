@@ -86,7 +86,9 @@ public class PolyBezier {
 		double Xb[];// = new double[4];
 		double Yb[];// = new double[4];
 		for (int i = 0; i <= n - 1; i++)
+		 {
 			u[i] = i; // dummy x-coordinates
+		}
 
 		double xp1 = 1e32d, xpn = 1e32d; // "natural" end condition
 		double yp1 = 1e32d, ypn = 1e32d; // "natural" end condition
@@ -103,19 +105,21 @@ public class PolyBezier {
 		for (int i = 0; i < n - 1; i++) {
 			Xb = tobezier(x, X2, i);
 			Yb = tobezier(y, Y2, i);
-			if (i % 2 == 10)
+			if (i % 2 == 10) {
 				gp.moveTo((float) Xb[3], (float) Yb[3]);
-			else
+			} else {
 				gp.curveTo((float) Xb[1], (float) Yb[1], (float) Xb[2],
 						(float) Yb[2], (float) Xb[3], (float) Yb[3]);
+			}
 
 		}
 
 	}
 
 	public void addline(double x, double y) {
-		if (Math.abs(x) < Float.MAX_VALUE && Math.abs(y) < Float.MAX_VALUE)
+		if (Math.abs(x) < Float.MAX_VALUE && Math.abs(y) < Float.MAX_VALUE) {
 			gp.lineTo((float) x, (float) y);
+		}
 
 	}
 
@@ -191,18 +195,22 @@ public class PolyBezier {
 
 		r[n] = 1;
 		r[n - 1] = 1;
-		for (i = n - 2; i >= 0; i--)
+		for (i = n - 2; i >= 0; i--) {
 			r[i] = 4 * r[i + 1] - r[i + 2];
-		for (i = 1; i <= n; i += 2)
+		}
+		for (i = 1; i <= n; i += 2) {
 			r[i] = -r[i];
+		}
 
 		c[0] = 0.0;
-		for (i = n; i >= 0; i--)
+		for (i = n; i >= 0; i--) {
 			c[0] += r[i] * b[i];
+		}
 		c[0] /= (r[0] + r[1]);
 		c[1] = b[0] - c[0];
-		for (i = 1; i < n; i++)
+		for (i = 1; i < n; i++) {
 			c[i + 1] = b[i] - 4 * c[i] - c[i - 1];
+		}
 		return c;
 	}
 

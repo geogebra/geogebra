@@ -89,6 +89,7 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 		viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
+	@Override
 	public boolean hasPlane() {
 		return false;
 	}

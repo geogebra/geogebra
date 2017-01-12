@@ -39,6 +39,7 @@ public class PromptInputStream extends RoutedInputStream {
 	public void addPromptListener(String prompt, PromptListener listener) {
 		final PromptListener promptListener = listener;
 		addRoute(prompt, prompt, new RouteListener() {
+			@Override
 			public void routeFound(RoutedInputStream.Route input)
 					throws IOException {
 				promptListener.promptFound(input);

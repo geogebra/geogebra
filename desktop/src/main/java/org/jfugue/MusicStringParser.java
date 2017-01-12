@@ -284,51 +284,51 @@ public final class MusicStringParser extends Parser {
 		int keySig = 0;
 
 		if (rootNote.equalsIgnoreCase("CBMAJ")
-				|| rootNote.equalsIgnoreCase("ABMIN"))
+				|| rootNote.equalsIgnoreCase("ABMIN")) {
 			keySig = -7;
-		else if (rootNote.equalsIgnoreCase("GBMAJ")
-				|| rootNote.equalsIgnoreCase("EBMIN"))
+		} else if (rootNote.equalsIgnoreCase("GBMAJ")
+				|| rootNote.equalsIgnoreCase("EBMIN")) {
 			keySig = -6;
-		else if (rootNote.equalsIgnoreCase("DBMAJ")
-				|| rootNote.equalsIgnoreCase("BBMIN"))
+		} else if (rootNote.equalsIgnoreCase("DBMAJ")
+				|| rootNote.equalsIgnoreCase("BBMIN")) {
 			keySig = -5;
-		else if (rootNote.equalsIgnoreCase("ABMAJ")
-				|| rootNote.equalsIgnoreCase("FMIN"))
+		} else if (rootNote.equalsIgnoreCase("ABMAJ")
+				|| rootNote.equalsIgnoreCase("FMIN")) {
 			keySig = -4;
-		else if (rootNote.equalsIgnoreCase("EBMAJ")
-				|| rootNote.equalsIgnoreCase("CMIN"))
+		} else if (rootNote.equalsIgnoreCase("EBMAJ")
+				|| rootNote.equalsIgnoreCase("CMIN")) {
 			keySig = -3;
-		else if (rootNote.equalsIgnoreCase("BBMAJ")
-				|| rootNote.equalsIgnoreCase("GMIN"))
+		} else if (rootNote.equalsIgnoreCase("BBMAJ")
+				|| rootNote.equalsIgnoreCase("GMIN")) {
 			keySig = -2;
-		else if (rootNote.equalsIgnoreCase("FMAJ")
-				|| rootNote.equalsIgnoreCase("DMIN"))
+		} else if (rootNote.equalsIgnoreCase("FMAJ")
+				|| rootNote.equalsIgnoreCase("DMIN")) {
 			keySig = -1;
-		else if (rootNote.equalsIgnoreCase("CMAJ")
-				|| rootNote.equalsIgnoreCase("AMIN"))
+		} else if (rootNote.equalsIgnoreCase("CMAJ")
+				|| rootNote.equalsIgnoreCase("AMIN")) {
 			keySig = 0;
-		else if (rootNote.equalsIgnoreCase("GMAJ")
-				|| rootNote.equalsIgnoreCase("EMIN"))
+		} else if (rootNote.equalsIgnoreCase("GMAJ")
+				|| rootNote.equalsIgnoreCase("EMIN")) {
 			keySig = +1;
-		else if (rootNote.equalsIgnoreCase("DMAJ")
-				|| rootNote.equalsIgnoreCase("BMIN"))
+		} else if (rootNote.equalsIgnoreCase("DMAJ")
+				|| rootNote.equalsIgnoreCase("BMIN")) {
 			keySig = +2;
-		else if (rootNote.equalsIgnoreCase("AMAJ")
-				|| rootNote.equalsIgnoreCase("F#MIN"))
+		} else if (rootNote.equalsIgnoreCase("AMAJ")
+				|| rootNote.equalsIgnoreCase("F#MIN")) {
 			keySig = +3;
-		else if (rootNote.equalsIgnoreCase("EMAJ")
-				|| rootNote.equalsIgnoreCase("C#MIN"))
+		} else if (rootNote.equalsIgnoreCase("EMAJ")
+				|| rootNote.equalsIgnoreCase("C#MIN")) {
 			keySig = +4;
-		else if (rootNote.equalsIgnoreCase("BMAJ")
-				|| rootNote.equalsIgnoreCase("G#MIN"))
+		} else if (rootNote.equalsIgnoreCase("BMAJ")
+				|| rootNote.equalsIgnoreCase("G#MIN")) {
 			keySig = +5;
-		else if (rootNote.equalsIgnoreCase("F#MAJ")
-				|| rootNote.equalsIgnoreCase("D#MIN"))
+		} else if (rootNote.equalsIgnoreCase("F#MAJ")
+				|| rootNote.equalsIgnoreCase("D#MIN")) {
 			keySig = +6;
-		else if (rootNote.equalsIgnoreCase("C#MAJ")
-				|| rootNote.equalsIgnoreCase("A#MIN"))
+		} else if (rootNote.equalsIgnoreCase("C#MAJ")
+				|| rootNote.equalsIgnoreCase("A#MIN")) {
 			keySig = +7;
-		else {
+		} else {
 			throw new JFugueException(JFugueException.KEYSIG_EXC, s);
 		}
 		trace("Key signature: sig=", keySig, " scale=", scale);
@@ -1043,34 +1043,46 @@ public final class MusicStringParser extends Parser {
 
 		// Adjust for Key Signature
 		if ((keySig != 0) && (!context.isNatural)) {
-			if ((keySig <= -1) && (context.noteNumber == 11))
+			if ((keySig <= -1) && (context.noteNumber == 11)) {
 				context.noteNumber = 10;
-			if ((keySig <= -2) && (context.noteNumber == 4))
+			}
+			if ((keySig <= -2) && (context.noteNumber == 4)) {
 				context.noteNumber = 3;
-			if ((keySig <= -3) && (context.noteNumber == 9))
+			}
+			if ((keySig <= -3) && (context.noteNumber == 9)) {
 				context.noteNumber = 8;
-			if ((keySig <= -4) && (context.noteNumber == 2))
+			}
+			if ((keySig <= -4) && (context.noteNumber == 2)) {
 				context.noteNumber = 1;
-			if ((keySig <= -5) && (context.noteNumber == 7))
+			}
+			if ((keySig <= -5) && (context.noteNumber == 7)) {
 				context.noteNumber = 6;
+			}
 			if ((keySig <= -6) && (context.noteNumber == 0)) {
 				context.noteNumber = 11;
 				context.octaveNumber--;
 			}
-			if ((keySig <= -7) && (context.noteNumber == 5))
+			if ((keySig <= -7) && (context.noteNumber == 5)) {
 				context.noteNumber = 4;
-			if ((keySig >= +1) && (context.noteNumber == 5))
+			}
+			if ((keySig >= +1) && (context.noteNumber == 5)) {
 				context.noteNumber = 6;
-			if ((keySig >= +2) && (context.noteNumber == 0))
+			}
+			if ((keySig >= +2) && (context.noteNumber == 0)) {
 				context.noteNumber = 1;
-			if ((keySig >= +3) && (context.noteNumber == 7))
+			}
+			if ((keySig >= +3) && (context.noteNumber == 7)) {
 				context.noteNumber = 8;
-			if ((keySig >= +4) && (context.noteNumber == 2))
+			}
+			if ((keySig >= +4) && (context.noteNumber == 2)) {
 				context.noteNumber = 3;
-			if ((keySig >= +5) && (context.noteNumber == 9))
+			}
+			if ((keySig >= +5) && (context.noteNumber == 9)) {
 				context.noteNumber = 10;
-			if ((keySig >= +6) && (context.noteNumber == 4))
+			}
+			if ((keySig >= +6) && (context.noteNumber == 4)) {
 				context.noteNumber = 5;
+			}
 			if ((keySig >= +7) && (context.noteNumber == 11)) {
 				context.noteNumber = 0;
 				context.octaveNumber++;
@@ -1533,8 +1545,9 @@ public final class MusicStringParser extends Parser {
 
 			char velocityChar = s.charAt(index);
 			int lengthOfByte = 0;
-			if ((velocityChar == '+') || (velocityChar == '_'))
+			if ((velocityChar == '+') || (velocityChar == '_')) {
 				break;
+			}
 			trace("Identified Velocity character ", velocityChar);
 			boolean byteDone = false;
 			while (!byteDone && (index + lengthOfByte + 1 < slen)) {
@@ -1854,6 +1867,7 @@ public final class MusicStringParser extends Parser {
 		ParserListener listener = new CollatedParserListener() {
 			private StringBuilder results = new StringBuilder();
 
+			@Override
 			public void jfugueEvent(JFugueElement e) {
 				results.append(e.getVerifyString());
 
@@ -1895,6 +1909,7 @@ public final class MusicStringParser extends Parser {
 
 		MusicStringParser parser = new MusicStringParser();
 		ParserListener renderer = new ParserListenerAdapter() {
+			@Override
 			public void noteEvent(Note note) {
 				rootNote.setValue(note.getValue());
 				rootNote.setDuration(note.getDuration());

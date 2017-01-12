@@ -123,15 +123,18 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 	}
 
 	/*
 	 * auto-insert degree symbol when appropriate
 	 */
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 		JTextComponent tc = inputPanel.getTextComponent();

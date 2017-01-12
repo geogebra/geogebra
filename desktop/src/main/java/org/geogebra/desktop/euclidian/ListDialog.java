@@ -86,8 +86,9 @@ public class ListDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				GeoLabel gl = (GeoLabel) list.getSelectedValue();
-				if (gl == null)
+				if (gl == null) {
 					return;
+				}
 				setValue(gl.geo);
 				setVisible(false);
 			}

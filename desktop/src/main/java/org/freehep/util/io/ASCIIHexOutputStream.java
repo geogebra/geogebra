@@ -42,6 +42,7 @@ public class ASCIIHexOutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		String s = Integer.toHexString(b & 0x00FF);
 		switch (s.length()) {
@@ -59,6 +60,7 @@ public class ASCIIHexOutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void finish() throws IOException {
 		if (!end) {
 			end = true;
@@ -71,6 +73,7 @@ public class ASCIIHexOutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		finish();
 		super.close();

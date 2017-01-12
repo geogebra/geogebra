@@ -208,14 +208,17 @@ public class MyImageD implements MyImageJre {
 		return img;
 	}
 
+	@Override
 	public boolean hasNonNullImplementation() {
 		return img != null;
 	}
 
+	@Override
 	public boolean isSVG() {
 		return diagram != null;
 	}
 
+	@Override
 	public int getHeight() {
 		if (img != null) {
 			return img.getHeight(null);
@@ -228,6 +231,7 @@ public class MyImageD implements MyImageJre {
 		return 1;
 	}
 
+	@Override
 	public int getWidth() {
 		if (img != null) {
 			return img.getWidth(null);
@@ -240,6 +244,7 @@ public class MyImageD implements MyImageJre {
 		return 1;
 	}
 
+	@Override
 	public void drawSubimage(int startX, int startY, int imgWidth,
 			int imgHeight, GGraphics2D g, int posX, int posY) {
 		GGraphics2DD.getAwtGraphics(g).drawImage(((BufferedImage) img)
@@ -247,6 +252,7 @@ public class MyImageD implements MyImageJre {
 				posY);
 	}
 
+	@Override
 	public GGraphics2D createGraphics() {
 		return new GGraphics2DD((Graphics2D) img.getGraphics());
 	}
@@ -255,6 +261,7 @@ public class MyImageD implements MyImageJre {
 		return diagram;
 	}
 
+	@Override
 	public String getSVG() {
 		return svg.toString();
 	}

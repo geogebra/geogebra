@@ -158,8 +158,9 @@ public class GgbAPID extends GgbAPIJre {
 	 */
 	public static MessageDigest getMessageDigestMD5()
 			throws NoSuchAlgorithmException {
-		if (messageDigestMD5 == null)
+		if (messageDigestMD5 == null) {
 			messageDigestMD5 = MessageDigest.getInstance("MD5");
+		}
 
 		return messageDigestMD5;
 	}
@@ -178,8 +179,9 @@ public class GgbAPID extends GgbAPIJre {
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-		if (file1 == null)
+		if (file1 == null) {
 			return false;
+		}
 		final File file = file1;
 		return (Boolean) AccessController
 				.doPrivileged(new PrivilegedAction<Object>() {
@@ -316,8 +318,9 @@ public class GgbAPID extends GgbAPIJre {
 				options, // the titles of buttons
 				options[0]); // default button title
 
-		if (n == 0)
+		if (n == 0) {
 			throw new Error("Script stopped by user");
+		}
 
 	}
 

@@ -84,10 +84,12 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 */
 	public MyFileFilter(FileExtensions extension, String description) {
 		this();
-		if (extension != null)
+		if (extension != null) {
 			addExtension(extension);
-		if (description != null)
+		}
+		if (description != null) {
 			setDescription(description);
+		}
 	}
 
 	/**
@@ -123,8 +125,9 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 			// add filters one by one
 			addExtension(filters[i]);
 		}
-		if (description != null)
+		if (description != null) {
 			setDescription(description);
+		}
 	}
 
 	/**
@@ -165,8 +168,9 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 		if (f != null) {
 			String filename = f.getName();
 			int i = filename.lastIndexOf('.');
-			if (i > 0 && i < filename.length() - 1)
+			if (i > 0 && i < filename.length() - 1) {
 				return StringUtil.toLowerCase(filename.substring(i + 1));
+			}
 		}
 		return null;
 	}
@@ -216,8 +220,9 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 						: description + " (";
 				// build the description from the extension list
 
-				if (filters.size() > 0)
+				if (filters.size() > 0) {
 					fullDescription += "." + filters.get(0);
+				}
 
 				for (int i = 1; i < filters.size(); i++) {
 					fullDescription += ", ." + filters.get(i);

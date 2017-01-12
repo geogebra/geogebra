@@ -132,6 +132,7 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
 		 * relative to their parent, so this comparator is only meaningful for
 		 * comparing siblings.
 		 */
+		@Override
 		public int compare(AstNode n1, AstNode n2) {
 			return n1.position - n2.position;
 		}
@@ -353,8 +354,9 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
 	 */
 	public static String operatorToString(int op) {
 		String result = operatorNames.get(op);
-		if (result == null)
+		if (result == null) {
 			throw new IllegalArgumentException("Invalid operator: " + op);
+		}
 		return result;
 	}
 
@@ -468,8 +470,9 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
 	 *             if the argument is {@code null}
 	 */
 	protected void assertNotNull(Object arg) {
-		if (arg == null)
+		if (arg == null) {
 			throw new IllegalArgumentException("arg cannot be null");
+		}
 	}
 
 	/**
@@ -556,21 +559,27 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
 	 *         abitrarily on hashcode unless the nodes are the same per
 	 *         {@link #equals}.
 	 */
+	@Override
 	public int compareTo(AstNode other) {
-		if (this.equals(other))
+		if (this.equals(other)) {
 			return 0;
+		}
 		int abs1 = this.getAbsolutePosition();
 		int abs2 = other.getAbsolutePosition();
-		if (abs1 < abs2)
+		if (abs1 < abs2) {
 			return -1;
-		if (abs2 < abs1)
+		}
+		if (abs2 < abs1) {
 			return 1;
+		}
 		int len1 = this.getLength();
 		int len2 = other.getLength();
-		if (len1 < len2)
+		if (len1 < len2) {
 			return -1;
-		if (len2 < len1)
+		}
+		if (len2 < len1) {
 			return 1;
+		}
 		return this.hashCode() - other.hashCode();
 	}
 
@@ -605,6 +614,7 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
 			return sb.toString();
 		}
 
+		@Override
 		public boolean visit(AstNode node) {
 			int tt = node.getType();
 			String name = Token.typeToName(tt);
@@ -629,10 +639,12 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
 	 */
 	@Override
 	public int getLineno() {
-		if (lineno != -1)
+		if (lineno != -1) {
 			return lineno;
-		if (parent != null)
+		}
+		if (parent != null) {
 			return parent.getLineno();
+		}
 		return -1;
 	}
 

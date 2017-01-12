@@ -311,6 +311,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -333,6 +334,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		updateCellContent();
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextFieldD) {
 			((MyTextFieldD) e.getSource()).selectAll();
@@ -340,9 +342,11 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof MyTextFieldD)
+		if (e.getSource() instanceof MyTextFieldD) {
 			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
+		}
 
 	}
 
@@ -478,17 +482,20 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			updateCellData(fldInput.getText());
 		}
 
+		@Override
 		public void focusGained(FocusEvent e) {
 			if (e.getSource() instanceof MyTextFieldD) {
 				((MyTextFieldD) e.getSource()).selectAll();
 			}
 		}
 
+		@Override
 		public void focusLost(FocusEvent e) {
 			updateCellData();
 			getStatCalc().updateResult();
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			updateCellData();
 			getStatCalc().updateResult();

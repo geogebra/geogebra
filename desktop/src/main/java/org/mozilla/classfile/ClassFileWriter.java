@@ -59,8 +59,9 @@ public class ClassFileWriter {
 		itsConstantPool = new ConstantPool(this);
 		itsThisClassIndex = itsConstantPool.addClass(className);
 		itsSuperClassIndex = itsConstantPool.addClass(superClassName);
-		if (sourceFileName != null)
+		if (sourceFileName != null) {
 			itsSourceFileNameIndex = itsConstantPool.addUtf8(sourceFileName);
+		}
 		// All "new" implementations are supposed to output ACC_SUPER as a
 		// class flag. This is specified in the first JVM spec, so it should
 		// be old enough that it's okay to always set it.
@@ -280,8 +281,9 @@ public class ClassFileWriter {
 	 *            registers) used by the method
 	 */
 	public void stopMethod(short maxLocals) {
-		if (itsCurrentMethod == null)
+		if (itsCurrentMethod == null) {
 			throw new IllegalStateException("No method to stop");
+		}
 
 		fixLabelGotos();
 
@@ -357,13 +359,16 @@ public class ClassFileWriter {
 				short endPC = (short) getLabelPC(ete.itsEndLabel);
 				short handlerPC = (short) getLabelPC(ete.itsHandlerLabel);
 				short catchType = ete.itsCatchType;
-				if (startPC == -1)
+				if (startPC == -1) {
 					throw new IllegalStateException("start label not defined");
-				if (endPC == -1)
+				}
+				if (endPC == -1) {
 					throw new IllegalStateException("end label not defined");
-				if (handlerPC == -1)
+				}
+				if (handlerPC == -1) {
 					throw new IllegalStateException(
 							"handler label not defined");
+				}
 
 				index = putInt16(startPC, codeAttribute, index);
 				index = putInt16(endPC, codeAttribute, index);
@@ -376,10 +381,12 @@ public class ClassFileWriter {
 		}
 
 		int attributeCount = 0;
-		if (itsLineNumberTable != null)
+		if (itsLineNumberTable != null) {
 			attributeCount++;
-		if (itsVarDescriptors != null)
+		}
+		if (itsVarDescriptors != null) {
 			attributeCount++;
+		}
 		if (stackMapTableLength > 0) {
 			attributeCount++;
 		}
@@ -453,17 +460,21 @@ public class ClassFileWriter {
 	 *            the opcode of the bytecode
 	 */
 	public void add(int theOpCode) {
-		if (opcodeCount(theOpCode) != 0)
+		if (opcodeCount(theOpCode) != 0) {
 			throw new IllegalArgumentException("Unexpected operands");
+		}
 		int newStack = itsStackTop + stackChange(theOpCode);
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
-		if (DEBUGCODE)
+		}
+		if (DEBUGCODE) {
 			System.out.println("Add " + bytecodeStr(theOpCode));
+		}
 		addToCodeBuffer(theOpCode);
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(theOpCode) + " stack = "
 					+ itsStackTop);
@@ -489,8 +500,9 @@ public class ClassFileWriter {
 					+ Integer.toHexString(theOperand));
 		}
 		int newStack = itsStackTop + stackChange(theOpCode);
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 
 		switch (theOpCode) {
 		case ByteCode.GOTO:
@@ -517,8 +529,9 @@ public class ClassFileWriter {
 		case ByteCode.IFNULL:
 		case ByteCode.IFNONNULL: {
 			if ((theOperand & 0x80000000) != 0x80000000) {
-				if ((theOperand < 0) || (theOperand > 65535))
+				if ((theOperand < 0) || (theOperand > 65535)) {
 					throw new IllegalArgumentException("Bad label for branch");
+				}
 			}
 			int branchPC = itsCodeBufferTop;
 			addToCodeBuffer(theOpCode);
@@ -549,30 +562,34 @@ public class ClassFileWriter {
 			break;
 
 		case ByteCode.BIPUSH:
-			if ((byte) theOperand != theOperand)
+			if ((byte) theOperand != theOperand) {
 				throw new IllegalArgumentException("out of range byte");
+			}
 			addToCodeBuffer(theOpCode);
 			addToCodeBuffer((byte) theOperand);
 			break;
 
 		case ByteCode.SIPUSH:
-			if ((short) theOperand != theOperand)
+			if ((short) theOperand != theOperand) {
 				throw new IllegalArgumentException("out of range short");
+			}
 			addToCodeBuffer(theOpCode);
 			addToCodeInt16(theOperand);
 			break;
 
 		case ByteCode.NEWARRAY:
-			if (!(0 <= theOperand && theOperand < 256))
+			if (!(0 <= theOperand && theOperand < 256)) {
 				throw new IllegalArgumentException("out of range index");
+			}
 			addToCodeBuffer(theOpCode);
 			addToCodeBuffer(theOperand);
 			break;
 
 		case ByteCode.GETFIELD:
 		case ByteCode.PUTFIELD:
-			if (!(0 <= theOperand && theOperand < 65536))
+			if (!(0 <= theOperand && theOperand < 65536)) {
 				throw new IllegalArgumentException("out of range field");
+			}
 			addToCodeBuffer(theOpCode);
 			addToCodeInt16(theOperand);
 			break;
@@ -580,8 +597,9 @@ public class ClassFileWriter {
 		case ByteCode.LDC:
 		case ByteCode.LDC_W:
 		case ByteCode.LDC2_W:
-			if (!(0 <= theOperand && theOperand < 65536))
+			if (!(0 <= theOperand && theOperand < 65536)) {
 				throw new IllegalArgumentException("out of range index");
+			}
 			if (theOperand >= 256 || theOpCode == ByteCode.LDC_W
 					|| theOpCode == ByteCode.LDC2_W) {
 				if (theOpCode == ByteCode.LDC) {
@@ -607,8 +625,9 @@ public class ClassFileWriter {
 		case ByteCode.FSTORE:
 		case ByteCode.DSTORE:
 		case ByteCode.ASTORE:
-			if (!(0 <= theOperand && theOperand < 65536))
+			if (!(0 <= theOperand && theOperand < 65536)) {
 				throw new ClassFileFormatException("out of range variable");
+			}
 			if (theOperand >= 256) {
 				addToCodeBuffer(ByteCode.WIDE);
 				addToCodeBuffer(theOpCode);
@@ -625,8 +644,9 @@ public class ClassFileWriter {
 		}
 
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(theOpCode) + " stack = "
 					+ itsStackTop);
@@ -722,14 +742,17 @@ public class ClassFileWriter {
 					+ Integer.toHexString(theOperand2));
 		}
 		int newStack = itsStackTop + stackChange(theOpCode);
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 
 		if (theOpCode == ByteCode.IINC) {
-			if (!(0 <= theOperand1 && theOperand1 < 65536))
+			if (!(0 <= theOperand1 && theOperand1 < 65536)) {
 				throw new ClassFileFormatException("out of range variable");
-			if (!(0 <= theOperand2 && theOperand2 < 65536))
+			}
+			if (!(0 <= theOperand2 && theOperand2 < 65536)) {
 				throw new ClassFileFormatException("out of range increment");
+			}
 
 			if (theOperand1 > 255 || theOperand2 < -128 || theOperand2 > 127) {
 				addToCodeBuffer(ByteCode.WIDE);
@@ -742,10 +765,12 @@ public class ClassFileWriter {
 				addToCodeBuffer(theOperand2);
 			}
 		} else if (theOpCode == ByteCode.MULTIANEWARRAY) {
-			if (!(0 <= theOperand1 && theOperand1 < 65536))
+			if (!(0 <= theOperand1 && theOperand1 < 65536)) {
 				throw new IllegalArgumentException("out of range index");
-			if (!(0 <= theOperand2 && theOperand2 < 256))
+			}
+			if (!(0 <= theOperand2 && theOperand2 < 256)) {
 				throw new IllegalArgumentException("out of range dimensions");
+			}
 
 			addToCodeBuffer(ByteCode.MULTIANEWARRAY);
 			addToCodeInt16(theOperand1);
@@ -755,8 +780,9 @@ public class ClassFileWriter {
 					"Unexpected opcode for 2 operands");
 		}
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(theOpCode) + " stack = "
 					+ itsStackTop);
@@ -770,8 +796,9 @@ public class ClassFileWriter {
 					"Add " + bytecodeStr(theOpCode) + ", " + className);
 		}
 		int newStack = itsStackTop + stackChange(theOpCode);
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 		switch (theOpCode) {
 		case ByteCode.NEW:
 		case ByteCode.ANEWARRAY:
@@ -788,8 +815,9 @@ public class ClassFileWriter {
 					"bad opcode for class reference");
 		}
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(theOpCode) + " stack = "
 					+ itsStackTop);
@@ -818,16 +846,18 @@ public class ClassFileWriter {
 			throw new IllegalArgumentException(
 					"bad opcode for field reference");
 		}
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 		short fieldRefIndex = itsConstantPool.addFieldRef(className, fieldName,
 				fieldType);
 		addToCodeBuffer(theOpCode);
 		addToCodeInt16(fieldRefIndex);
 
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(theOpCode) + " stack = "
 					+ itsStackTop);
@@ -846,8 +876,9 @@ public class ClassFileWriter {
 
 		int newStack = itsStackTop + stackDiff;
 		newStack += stackChange(theOpCode); // adjusts for 'this'
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 
 		switch (theOpCode) {
 		case ByteCode.INVOKEVIRTUAL:
@@ -874,8 +905,9 @@ public class ClassFileWriter {
 					"bad opcode for method reference");
 		}
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(theOpCode) + " stack = "
 					+ itsStackTop);
@@ -1133,13 +1165,15 @@ public class ClassFileWriter {
 			System.out.println("Add " + bytecodeStr(ByteCode.TABLESWITCH) + " "
 					+ low + " " + high);
 		}
-		if (low > high)
+		if (low > high) {
 			throw new ClassFileFormatException(
 					"Bad bounds: " + low + ' ' + high);
+		}
 
 		int newStack = itsStackTop + stackChange(ByteCode.TABLESWITCH);
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 
 		int entryCount = high - low + 1;
 		int padSize = 3 & ~itsCodeBufferTop; // == 3 - itsCodeBufferTop % 4
@@ -1156,8 +1190,9 @@ public class ClassFileWriter {
 		putInt32(high, itsCodeBuffer, N);
 
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + bytecodeStr(ByteCode.TABLESWITCH)
 					+ " stack = " + itsStackTop);
@@ -1180,8 +1215,9 @@ public class ClassFileWriter {
 
 	public final void markTableSwitchCase(int switchStart, int caseIndex,
 			int stackTop) {
-		if (!(0 <= stackTop && stackTop <= itsMaxStack))
+		if (!(0 <= stackTop && stackTop <= itsMaxStack)) {
 			throw new IllegalArgumentException("Bad stack index: " + stackTop);
+		}
 		itsStackTop = (short) stackTop;
 		addSuperBlockStart(itsCodeBufferTop);
 		itsJumpFroms.put(itsCodeBufferTop, switchStart);
@@ -1194,11 +1230,13 @@ public class ClassFileWriter {
 	 */
 	public void setTableSwitchJump(int switchStart, int caseIndex,
 			int jumpTarget) {
-		if (!(0 <= jumpTarget && jumpTarget <= itsCodeBufferTop))
+		if (!(0 <= jumpTarget && jumpTarget <= itsCodeBufferTop)) {
 			throw new IllegalArgumentException(
 					"Bad jump target: " + jumpTarget);
-		if (!(caseIndex >= -1))
+		}
+		if (!(caseIndex >= -1)) {
 			throw new IllegalArgumentException("Bad case index: " + caseIndex);
+		}
 
 		int padSize = 3 & ~switchStart; // == 3 - switchStart % 4
 		int caseOffset;
@@ -1245,12 +1283,14 @@ public class ClassFileWriter {
 	}
 
 	public void markLabel(int label) {
-		if (!(label < 0))
+		if (!(label < 0)) {
 			throw new IllegalArgumentException("Bad label, no biscuit");
+		}
 
 		label &= 0x7FFFFFFF;
-		if (label > itsLabelTableTop)
+		if (label > itsLabelTableTop) {
 			throw new IllegalArgumentException("Bad label");
+		}
 
 		if (itsLabelTable[label] != -1) {
 			throw new IllegalStateException("Can only mark label once");
@@ -1270,20 +1310,24 @@ public class ClassFileWriter {
 	}
 
 	public int getLabelPC(int label) {
-		if (!(label < 0))
+		if (!(label < 0)) {
 			throw new IllegalArgumentException("Bad label, no biscuit");
+		}
 		label &= 0x7FFFFFFF;
-		if (!(label < itsLabelTableTop))
+		if (!(label < itsLabelTableTop)) {
 			throw new IllegalArgumentException("Bad label");
+		}
 		return itsLabelTable[label];
 	}
 
 	private void addLabelFixup(int label, int fixupSite) {
-		if (!(label < 0))
+		if (!(label < 0)) {
 			throw new IllegalArgumentException("Bad label, no biscuit");
+		}
 		label &= 0x7FFFFFFF;
-		if (!(label < itsLabelTableTop))
+		if (!(label < itsLabelTableTop)) {
 			throw new IllegalArgumentException("Bad label");
+		}
 		int top = itsFixupTableTop;
 		if (itsFixupTable == null || top == itsFixupTable.length) {
 			if (itsFixupTable == null) {
@@ -1342,11 +1386,13 @@ public class ClassFileWriter {
 
 	public void adjustStackTop(int delta) {
 		int newStack = itsStackTop + delta;
-		if (newStack < 0 || Short.MAX_VALUE < newStack)
+		if (newStack < 0 || Short.MAX_VALUE < newStack) {
 			badStack(newStack);
+		}
 		itsStackTop = (short) newStack;
-		if (newStack > itsMaxStack)
+		if (newStack > itsMaxStack) {
 			itsMaxStack = (short) newStack;
+		}
 		if (DEBUGSTACK) {
 			System.out.println("After " + "adjustStackTop(" + delta + ")"
 					+ " stack = " + itsStackTop);
@@ -1364,8 +1410,9 @@ public class ClassFileWriter {
 	}
 
 	private int addReservedCodeSpace(int size) {
-		if (itsCurrentMethod == null)
+		if (itsCurrentMethod == null) {
 			throw new IllegalArgumentException("No method to add to");
+		}
 		int oldTop = itsCodeBufferTop;
 		int newTop = oldTop + size;
 		if (newTop > itsCodeBuffer.length) {
@@ -1383,12 +1430,15 @@ public class ClassFileWriter {
 
 	public void addExceptionHandler(int startLabel, int endLabel,
 			int handlerLabel, String catchClassName) {
-		if ((startLabel & 0x80000000) != 0x80000000)
+		if ((startLabel & 0x80000000) != 0x80000000) {
 			throw new IllegalArgumentException("Bad startLabel");
-		if ((endLabel & 0x80000000) != 0x80000000)
+		}
+		if ((endLabel & 0x80000000) != 0x80000000) {
 			throw new IllegalArgumentException("Bad endLabel");
-		if ((handlerLabel & 0x80000000) != 0x80000000)
+		}
+		if ((handlerLabel & 0x80000000) != 0x80000000) {
 			throw new IllegalArgumentException("Bad handlerLabel");
+		}
 
 		/*
 		 * If catchClassName is null, use 0 for the catch_type_index; which
@@ -1413,8 +1463,9 @@ public class ClassFileWriter {
 	}
 
 	public void addLineNumberEntry(short lineNumber) {
-		if (itsCurrentMethod == null)
+		if (itsCurrentMethod == null) {
 			throw new IllegalArgumentException("No method to stop");
+		}
 		int N = itsLineNumberTableTop;
 		if (N == 0) {
 			itsLineNumberTable = new int[LineNumberTableSize];
@@ -4247,8 +4298,9 @@ public class ClassFileWriter {
 			int read = 0;
 			while (read < 8) {
 				int c = is.read(header, read, 8 - read);
-				if (c < 0)
+				if (c < 0) {
 					throw new IOException();
+				}
 				read += c;
 			}
 			minor = (header[4] << 8) | (header[5] & 0xff);

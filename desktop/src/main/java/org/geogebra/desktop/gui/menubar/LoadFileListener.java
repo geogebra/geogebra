@@ -18,6 +18,7 @@ public class LoadFileListener implements ActionListener {
 		this.file = file;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (file.exists()) {
 			// standard GeoGebra file

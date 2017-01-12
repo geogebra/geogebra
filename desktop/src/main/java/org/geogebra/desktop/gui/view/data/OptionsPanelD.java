@@ -548,6 +548,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		return p;
 	}
 
+	@Override
 	public void setLabels() {
 
 		// titled borders
@@ -697,8 +698,9 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if (isUpdating)
+		if (isUpdating) {
 			return;
+		}
 		try {
 			String inputText = source.getText().trim();
 			NumberValue nv;
@@ -737,10 +739,12 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (isUpdating)
+		if (isUpdating) {
 			return;
+		}
 
 		Object source = e.getSource();
 		if (source instanceof JTextField) {
@@ -813,27 +817,32 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		updateGUI();
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof JTextField) {
 			((JTextField) e.getSource()).selectAll();
 		}
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		if (e.getSource() instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) (e.getSource()));
 		}
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		setLabels();
 	}
 
+	@Override
 	public void updatePanel() {
 		// TODO Auto-generated method stub
 

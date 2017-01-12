@@ -23,20 +23,25 @@ public class RawImageWriter extends ImageWriter {
 		super(originatingProvider);
 	}
 
+	@Override
 	public void write(IIOMetadata streamMetadata, IIOImage image,
 			ImageWriteParam param) throws IOException {
-		if (image == null)
+		if (image == null) {
 			throw new IllegalArgumentException("image == null");
+		}
 
-		if (image.hasRaster())
+		if (image.hasRaster()) {
 			throw new UnsupportedOperationException("Cannot write rasters");
+		}
 
 		Object output = getOutput();
-		if (output == null)
+		if (output == null) {
 			throw new IllegalStateException("output was not set");
+		}
 
-		if (param == null)
+		if (param == null) {
 			param = getDefaultWriteParam();
+		}
 
 		ImageOutputStream ios = (ImageOutputStream) output;
 		RenderedImage ri = image.getRenderedImage();
@@ -48,25 +53,30 @@ public class RawImageWriter extends ImageWriter {
 		ios.close();
 	}
 
+	@Override
 	public IIOMetadata convertStreamMetadata(IIOMetadata inData,
 			ImageWriteParam param) {
 		return null;
 	}
 
+	@Override
 	public IIOMetadata convertImageMetadata(IIOMetadata inData,
 			ImageTypeSpecifier imageType, ImageWriteParam param) {
 		return null;
 	}
 
+	@Override
 	public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
 			ImageWriteParam param) {
 		return null;
 	}
 
+	@Override
 	public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
 		return null;
 	}
 
+	@Override
 	public ImageWriteParam getDefaultWriteParam() {
 		return new RawImageWriteParam(getLocale());
 	}

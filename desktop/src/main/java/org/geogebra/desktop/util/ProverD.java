@@ -31,6 +31,7 @@ public class ProverD extends Prover {
 		public computeThread() {
 		}
 
+		@Override
 		public void run() {
 			// Display info about this particular thread
 			Log.debug(Thread.currentThread() + " running");
@@ -73,8 +74,9 @@ public class ProverD extends Prover {
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.getLabelSimple().equals(label))
+			if (geo.getLabelSimple().equals(label)) {
 				return geo;
+			}
 		}
 		return null;
 	}
@@ -106,12 +108,13 @@ public class ProverD extends Prover {
 		}
 		inputObject.setTimeOut(proverSettings.proverTimeout);
 		inputObject.setMaxTerms(proverSettings.maxTerms);
-		if (isReturnExtraNDGs())
+		if (isReturnExtraNDGs()) {
 			inputObject.setReportFormat(
 					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
-		else
+		} else {
 			inputObject.setReportFormat(
 					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
+		}
 
 		// OGP API
 		GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();
@@ -183,13 +186,15 @@ public class ProverD extends Prover {
 			if (outputObject
 					.getOutputResult(
 							GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
-					.equals("true"))
+					.equals("true")) {
 				return ProofResult.TRUE;
+			}
 			if (outputObject
 					.getOutputResult(
 							GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
-					.equals("false"))
+					.equals("false")) {
 				return ProofResult.FALSE;
+			}
 		}
 		return ProofResult.UNKNOWN;
 	}

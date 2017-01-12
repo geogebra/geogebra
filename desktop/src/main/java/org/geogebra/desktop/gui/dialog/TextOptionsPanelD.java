@@ -111,6 +111,7 @@ class TextOptionsPanelD extends JPanel
 		this.editPanel = tep;
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = this.propertiesPanelD.app.getLocalization();
 		String[] fontSizes = loc.getFontSizeStrings();
@@ -134,6 +135,7 @@ class TextOptionsPanelD extends JPanel
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 	}
 
+	@Override
 	public void setFontSizeVisibleOnly() {
 		cbSize.setVisible(true);
 		cbFont.setVisible(false);
@@ -155,6 +157,7 @@ class TextOptionsPanelD extends JPanel
 			separator = new JSeparator(SwingConstants.HORIZONTAL);
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			String str = (value == null) ? "" : value.toString();
@@ -174,11 +177,13 @@ class TextOptionsPanelD extends JPanel
 		}
 	}
 
+	@Override
 	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 		return update();
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		if (!model.hasGeos()) {
 			return;
@@ -208,6 +213,7 @@ class TextOptionsPanelD extends JPanel
 	/**
 	 * change listener implementation for slider
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -236,6 +242,7 @@ class TextOptionsPanelD extends JPanel
 		}
 	}
 
+	@Override
 	public void updateFonts() {
 		Font font = this.propertiesPanelD.app.getPlainFont();
 
@@ -251,15 +258,18 @@ class TextOptionsPanelD extends JPanel
 		editPanel.setFont(font);
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 		cbSize.setSelectedIndex(GeoText.getFontSizeIndex(
 				model.getTextPropertiesAt(0).getFontSizeMultiplier()));
 	}
 
+	@Override
 	public void focusLost(FocusEvent arg0) {
 		model.cancelEditGeo();
 	}
 
+	@Override
 	public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
 		// hide most options for Textfields
 		cbFont.setVisible(showFontDetails);
@@ -278,20 +288,24 @@ class TextOptionsPanelD extends JPanel
 
 	}
 
+	@Override
 	public void selectSize(int index) {
 		cbSize.setSelectedIndex(index);
 
 	}
 
+	@Override
 	public void selectFont(int index) {
 		cbFont.setSelectedIndex(index);
 
 	}
 
+	@Override
 	public void selectDecimalPlaces(int index) {
 		cbDecimalPlaces.setSelectedIndex(index);
 	}
 
+	@Override
 	public void setSecondLineVisible(boolean noDecimals) {
 		if (noDecimals) {
 
@@ -308,12 +322,14 @@ class TextOptionsPanelD extends JPanel
 
 	}
 
+	@Override
 	public void updatePreview() {
 		if (this.propertiesPanelD.getTextPanel() != null) {
 			this.propertiesPanelD.getTextPanel().td.handleDocumentEvent();
 		}
 	}
 
+	@Override
 	public void selectFontStyle(int style) {
 		btBold.setSelected(
 				style == Font.BOLD || style == (Font.BOLD + Font.ITALIC));
@@ -322,16 +338,19 @@ class TextOptionsPanelD extends JPanel
 
 	}
 
+	@Override
 	public void setEditorText(ArrayList<DynamicTextElement> list) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setEditorText(String text) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void reinitEditor() {
 		// only called in Web
 

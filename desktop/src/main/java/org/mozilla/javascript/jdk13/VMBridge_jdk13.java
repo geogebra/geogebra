@@ -101,6 +101,7 @@ public class VMBridge_jdk13 extends VMBridge {
 		Constructor<?> c = (Constructor<?>) proxyHelper;
 
 		InvocationHandler handler = new InvocationHandler() {
+			@Override
 			public Object invoke(Object proxy, Method method, Object[] args) {
 				// In addition to methods declared in the interface, proxies
 				// also route some java.lang.Object methods through the

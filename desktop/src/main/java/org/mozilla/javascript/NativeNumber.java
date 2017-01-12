@@ -137,8 +137,9 @@ final class NativeNumber extends IdScriptableObject {
 
 		// The rest of Number.prototype methods require thisObj to be Number
 
-		if (!(thisObj instanceof NativeNumber))
+		if (!(thisObj instanceof NativeNumber)) {
 			throw incompatibleCallError(f);
+		}
 		double value = ((NativeNumber) thisObj).doubleValue;
 
 		switch (id) {
@@ -376,8 +377,9 @@ final class NativeNumber extends IdScriptableObject {
 				id = Id_toLocaleString;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

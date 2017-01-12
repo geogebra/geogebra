@@ -25,6 +25,7 @@ public class SetAntiAliasMode extends EMFPlusTag {
 		flags = antiAlias ? 0x01 : 0x00;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		SetAntiAliasMode tag = new SetAntiAliasMode();
@@ -32,6 +33,7 @@ public class SetAntiAliasMode extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		// nop

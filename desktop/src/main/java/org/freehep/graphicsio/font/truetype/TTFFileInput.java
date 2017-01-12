@@ -28,37 +28,45 @@ public class TTFFileInput extends TTFInput {
 
 	// --------------- IO ---------------
 
+	@Override
 	public void seek(long offset) throws IOException {
 		ttf.seek(this.offset + offset);
 		// System.out.println("seek "+(this.offset+offset));
 	}
 
+	@Override
 	long getPointer() throws IOException {
 		return ttf.getFilePointer() - offset;
 	}
 
 	// ---------- Simple Data Types --------------
 
+	@Override
 	public int readByte() throws IOException {
 		return ttf.readUnsignedByte();
 	}
 
+	@Override
 	public int readRawByte() throws IOException {
 		return ttf.readByte() & 255;
 	}
 
+	@Override
 	public short readShort() throws IOException {
 		return ttf.readShort();
 	}
 
+	@Override
 	public int readUShort() throws IOException {
 		return ttf.readUnsignedShort();
 	}
 
+	@Override
 	public int readLong() throws IOException {
 		return ttf.readInt();
 	}
 
+	@Override
 	public long readULong() throws IOException {
 		byte[] temp = new byte[4];
 		ttf.readFully(temp);
@@ -72,16 +80,19 @@ public class TTFFileInput extends TTFInput {
 		return l;
 	}
 
+	@Override
 	public byte readChar() throws IOException {
 		return ttf.readByte();
 	}
 
 	// ---------------- Arrays -------------------
 
+	@Override
 	public void readFully(byte[] b) throws IOException {
 		ttf.readFully(b);
 	}
 
+	@Override
 	public String toString() {
 		return offset + "-" + (offset + length - 1) + " - " + checksum;
 	}

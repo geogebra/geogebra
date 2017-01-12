@@ -93,14 +93,17 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 		mi.setAccelerator(ks);
 	}
 
+	@Override
 	final public void menuDeselected(MenuEvent e) {
 		// nothing to do here
 	}
 
+	@Override
 	final public void menuCanceled(MenuEvent e) {
 		// nothing to do here
 	}
 
+	@Override
 	public void menuSelected(MenuEvent e) {
 
 		if (getItemCount() == 0) {

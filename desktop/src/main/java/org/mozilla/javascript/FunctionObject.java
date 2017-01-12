@@ -172,18 +172,24 @@ public class FunctionObject extends BaseFunction {
 	 *         {@link #JAVA_UNSUPPORTED_TYPE} if the convertion is not possible
 	 */
 	public static int getTypeTag(Class<?> type) {
-		if (type == ScriptRuntime.StringClass)
+		if (type == ScriptRuntime.StringClass) {
 			return JAVA_STRING_TYPE;
-		if (type == ScriptRuntime.IntegerClass || type == Integer.TYPE)
+		}
+		if (type == ScriptRuntime.IntegerClass || type == Integer.TYPE) {
 			return JAVA_INT_TYPE;
-		if (type == ScriptRuntime.BooleanClass || type == Boolean.TYPE)
+		}
+		if (type == ScriptRuntime.BooleanClass || type == Boolean.TYPE) {
 			return JAVA_BOOLEAN_TYPE;
-		if (type == ScriptRuntime.DoubleClass || type == Double.TYPE)
+		}
+		if (type == ScriptRuntime.DoubleClass || type == Double.TYPE) {
 			return JAVA_DOUBLE_TYPE;
-		if (ScriptRuntime.ScriptableClass.isAssignableFrom(type))
+		}
+		if (ScriptRuntime.ScriptableClass.isAssignableFrom(type)) {
 			return JAVA_SCRIPTABLE_TYPE;
-		if (type == ScriptRuntime.ObjectClass)
+		}
+		if (type == ScriptRuntime.ObjectClass) {
 			return JAVA_OBJECT_TYPE;
+		}
 
 		// Note that the long type is not supported; see the javadoc for
 		// the constructor for this class
@@ -195,20 +201,24 @@ public class FunctionObject extends BaseFunction {
 			int typeTag) {
 		switch (typeTag) {
 		case JAVA_STRING_TYPE:
-			if (arg instanceof String)
+			if (arg instanceof String) {
 				return arg;
+			}
 			return ScriptRuntime.toString(arg);
 		case JAVA_INT_TYPE:
-			if (arg instanceof Integer)
+			if (arg instanceof Integer) {
 				return arg;
+			}
 			return Integer.valueOf(ScriptRuntime.toInt32(arg));
 		case JAVA_BOOLEAN_TYPE:
-			if (arg instanceof Boolean)
+			if (arg instanceof Boolean) {
 				return arg;
+			}
 			return ScriptRuntime.toBoolean(arg) ? Boolean.TRUE : Boolean.FALSE;
 		case JAVA_DOUBLE_TYPE:
-			if (arg instanceof Double)
+			if (arg instanceof Double) {
 				return arg;
+			}
 			return new Double(ScriptRuntime.toNumber(arg));
 		case JAVA_SCRIPTABLE_TYPE:
 			return ScriptRuntime.toObjectOrNull(cx, arg, scope);
@@ -282,8 +292,9 @@ public class FunctionObject extends BaseFunction {
 		try {
 			// getDeclaredMethods may be rejected by the security manager
 			// but getMethods is more expensive
-			if (!sawSecurityException)
+			if (!sawSecurityException) {
 				methods = clazz.getDeclaredMethods();
+			}
 		} catch (SecurityException e) {
 			// If we get an exception once, give up on getDeclaredMethods
 			sawSecurityException = true;
@@ -303,8 +314,9 @@ public class FunctionObject extends BaseFunction {
 		Method[] result = new Method[count];
 		int j = 0;
 		for (int i = 0; i < methods.length; i++) {
-			if (methods[i] != null)
+			if (methods[i] != null) {
 				result[j++] = methods[i];
+			}
 		}
 		return result;
 	}

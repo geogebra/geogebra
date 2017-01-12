@@ -39,9 +39,10 @@ public class HttpRequestD extends HttpRequest {
 			answer = in.readLine(); // the last line will never get a "\n" on
 									// its end
 			while ((s = in.readLine()) != null) {
-				if (!("".equals(answer))) // if the answer starts with "\n"s, we
-											// ignore them
+				if (!("".equals(answer))) {
+					// ignore them
 					answer += "\n";
+				}
 				answer += s;
 			}
 		} catch (Exception ex) {
@@ -117,10 +118,11 @@ public class HttpRequestD extends HttpRequest {
 										// on
 				// its end
 				while ((s = in.readLine()) != null) {
-					if (!("".equals(answer))) // if the answer starts with
-												// "\n"s, we
+					if (!("".equals(answer))) {
+						// "\n"s, we
 						// ignore them
 						answer += "\n";
+					}
 					answer += s;
 				}
 			} finally {
@@ -163,16 +165,19 @@ public class HttpRequestD extends HttpRequest {
 		Log.error("****************************** ignoring SSL certificate");
 		TrustManager[] trustAllCerts = new TrustManager[] {
 				new X509TrustManager() {
+					@Override
 					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
 						return null;
 					}
 
+					@Override
 					public void checkClientTrusted(
 							java.security.cert.X509Certificate[] certs,
 							String authType) {
 						// accept all
 					}
 
+					@Override
 					public void checkServerTrusted(
 							java.security.cert.X509Certificate[] certs,
 							String authType) {

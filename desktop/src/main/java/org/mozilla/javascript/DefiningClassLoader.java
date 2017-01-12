@@ -19,6 +19,7 @@ public class DefiningClassLoader extends ClassLoader
 		this.parentLoader = parentLoader;
 	}
 
+	@Override
 	public Class<?> defineClass(String name, byte[] data) {
 		// Use our own protection domain for the generated classes.
 		// TODO: we might want to use a separate protection domain for classes
@@ -27,6 +28,7 @@ public class DefiningClassLoader extends ClassLoader
 				SecurityUtilities.getProtectionDomain(getClass()));
 	}
 
+	@Override
 	public void linkClass(Class<?> cl) {
 		resolveClass(cl);
 	}

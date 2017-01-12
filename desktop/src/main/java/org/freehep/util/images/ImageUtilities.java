@@ -25,8 +25,9 @@ public class ImageUtilities {
 
 	public static RenderedImage createRenderedImage(Image image,
 			ImageObserver observer, Color bkg) {
-		if ((bkg == null) && (image instanceof RenderedImage))
+		if ((bkg == null) && (image instanceof RenderedImage)) {
 			return (RenderedImage) image;
+		}
 
 		BufferedImage bufferedImage = new BufferedImage(
 				image.getWidth(observer), image.getHeight(observer),
@@ -43,22 +44,25 @@ public class ImageUtilities {
 
 	public static BufferedImage createBufferedImage(RenderedImage image,
 			ImageObserver observer, Color bkg) {
-		if (image instanceof BufferedImage)
+		if (image instanceof BufferedImage) {
 			return (BufferedImage) image;
+		}
 		throw new IllegalArgumentException("not supperted " + image.getClass());
 	}
 
 	public static BufferedImage createBufferedImage(Image image,
 			ImageObserver observer, Color bkg) {
-		if ((bkg == null) && (image instanceof BufferedImage))
+		if ((bkg == null) && (image instanceof BufferedImage)) {
 			return (BufferedImage) image;
+		}
 		return (BufferedImage) createRenderedImage(image, observer, bkg);
 	}
 
 	public static RenderedImage createRenderedImage(RenderedImage image,
 			Color bkg) {
-		if (bkg == null)
+		if (bkg == null) {
 			return image;
+		}
 
 		BufferedImage bufferedImage = new BufferedImage(image.getWidth(),
 				image.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -91,8 +95,9 @@ public class ImageUtilities {
 	 */
 	public static byte[] getBytes(RenderedImage image, Color bkg, String code,
 			int pad) {
-		if (pad < 1)
+		if (pad < 1) {
 			pad = 1;
+		}
 
 		Raster raster = image.getData();
 
@@ -100,8 +105,9 @@ public class ImageUtilities {
 		int height = image.getHeight();
 
 		boolean preMultiply = (code.charAt(0) == '*');
-		if (preMultiply)
+		if (preMultiply) {
 			code = code.substring(1);
+		}
 
 		int pixelSize = code.length();
 
@@ -125,8 +131,9 @@ public class ImageUtilities {
 				// Check the transparancy. If transparent substitute
 				// the background color.
 				if (preMultiply && (a < 0xFF)) {
-					if (bkg == null)
+					if (bkg == null) {
 						bkg = Color.BLACK;
+					}
 					double alpha = a / 255.0;
 					r = (int) (alpha * r + (1 - alpha) * bkg.getRed());
 					g = (int) (alpha * g + (1 - alpha) * bkg.getGreen());

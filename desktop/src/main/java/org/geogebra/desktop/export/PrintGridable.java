@@ -47,6 +47,7 @@ public class PrintGridable implements Printable {
 		titleOffset = 0;
 	}
 
+	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 
@@ -95,8 +96,9 @@ public class PrintGridable implements Printable {
 		int pagesHor = boundsHor.size() - 1;
 		int pagesVer = boundsVer.size() - 1;
 
-		if (pageIndex >= pagesHor * pagesVer)
+		if (pageIndex >= pagesHor * pagesVer) {
 			return Printable.NO_SUCH_PAGE;
+		}
 
 		int px = pageIndex % pagesHor;
 		int py = pageIndex / pagesHor;

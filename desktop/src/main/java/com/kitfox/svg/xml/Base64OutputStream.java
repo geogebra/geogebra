@@ -51,10 +51,12 @@ public class Base64OutputStream extends FilterOutputStream {
 		super(out);
 	}
 
+	@Override
 	public void flush() throws IOException {
 		out.flush();
 	}
 
+	@Override
 	public void close() throws IOException {
 		switch (numBytes) {
 		case 1:
@@ -84,6 +86,7 @@ public class Base64OutputStream extends FilterOutputStream {
 		out.close();
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		buf = (buf << 8) | (0xff & b);
 		numBytes++;

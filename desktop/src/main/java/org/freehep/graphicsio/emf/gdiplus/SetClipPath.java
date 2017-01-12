@@ -32,6 +32,7 @@ public class SetClipPath extends EMFPlusTag {
 		flags = clipIndex | (mode << 8);
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		SetClipPath tag = new SetClipPath();
@@ -39,6 +40,7 @@ public class SetClipPath extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		// nop

@@ -22,8 +22,9 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 
 	@Override
 	public MyImage getFillImage() {
-		if (image != null)
+		if (image != null) {
 			return image;
+		}
 
 		if ("".equals(imageFileName)) {
 			return null;
@@ -94,12 +95,12 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		setImageFileNameOnly(fileName);
 
 		if (fileName.startsWith("/geogebra")) { // internal image
-			Image im = ((ImageManagerD) ((App) app).getImageManager())
+			Image im = ((ImageManagerD) app.getImageManager())
 					.getImageResource(findFillImage(imageFileName));
 			image = new MyImageD(ImageManagerD.toBufferedImage(im));
 
 		} else {
-			image = ((App) app).getExternalImageAdapter(fileName, 0, 0);
+			image = app.getExternalImageAdapter(fileName, 0, 0);
 		}
 	}
 

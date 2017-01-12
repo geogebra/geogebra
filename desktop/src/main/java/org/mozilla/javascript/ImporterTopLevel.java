@@ -89,8 +89,9 @@ public class ImporterTopLevel extends TopLevel {
 	@Override
 	public Object get(String name, Scriptable start) {
 		Object result = super.get(name, start);
-		if (result != NOT_FOUND)
+		if (result != NOT_FOUND) {
 			return result;
+		}
 		result = getPackageProperty(name, start);
 		return result;
 	}
@@ -246,8 +247,9 @@ public class ImporterTopLevel extends TopLevel {
 			// function that ignore thisObj
 			return this;
 		}
-		if (!(thisObj instanceof ImporterTopLevel))
+		if (!(thisObj instanceof ImporterTopLevel)) {
 			throw incompatibleCallError(f);
+		}
 		return (ImporterTopLevel) thisObj;
 	}
 
@@ -275,8 +277,9 @@ public class ImporterTopLevel extends TopLevel {
 				X = "importPackage";
 				id = Id_importPackage;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

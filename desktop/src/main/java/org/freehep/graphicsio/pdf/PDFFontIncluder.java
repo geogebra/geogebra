@@ -56,6 +56,7 @@ public class PDFFontIncluder extends FontIncluder {
 		this.redundanceTracker = redundanceTracker;
 	}
 
+	@Override
 	protected void openIncludeFont() throws IOException {
 
 		int style = getFontStyle(getFont());
@@ -72,6 +73,7 @@ public class PDFFontIncluder extends FontIncluder {
 		pdf.close(font);
 	}
 
+	@Override
 	protected void writeEncoding(CharTable charTable) throws IOException {
 	}
 
@@ -108,10 +110,12 @@ public class PDFFontIncluder extends FontIncluder {
 	 */
 	private static int getFontStyle(Font font) {
 		int fontBase = getFontBaseIndex(font);
-		if ((fontBase >= 0) && (STANDARD_FONT[fontBase].length == 1))
+		if ((fontBase >= 0) && (STANDARD_FONT[fontBase].length == 1)) {
 			return PLAIN;
-		if (fontBase < 0)
+		}
+		if (fontBase < 0) {
 			return -1;
+		}
 		if (font.isBold()) {
 			if (font.isItalic()) {
 				return BOLDITALIC;
@@ -119,8 +123,9 @@ public class PDFFontIncluder extends FontIncluder {
 				return BOLD;
 			}
 		} else {
-			if (font.isItalic())
+			if (font.isItalic()) {
 				return ITALIC;
+			}
 		}
 		return PLAIN;
 	}

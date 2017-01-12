@@ -187,14 +187,17 @@ public class DataPanelD extends JPanel
 
 	}
 
+	@Override
 	public void setLabels() {
 		lblHeader.setText(loc.getMenu("Data"));
 	}
 
+	@Override
 	public void updatePanel() {
 		setRowHeight();
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		// TODO Auto-generated method stub
 
@@ -323,8 +326,9 @@ public class DataPanelD extends JPanel
 					/ dataTable.getRowHeight();
 			dataModel.setRowCount(dataTable.getRowCount() + newRows);
 			for (int i = 0; i <= dataTable.getRowCount(); ++i) {
-				if (rowHeader.getModel().getElementAt(i) != null)
+				if (rowHeader.getModel().getElementAt(i) != null) {
 					((DefaultListModel) rowHeader.getModel()).add(i, true);
+				}
 			}
 		}
 
@@ -353,8 +357,9 @@ public class DataPanelD extends JPanel
 
 			// set the font for each component
 			dataTable.setFont(font);
-			if (dataTable.getTableHeader() != null)
+			if (dataTable.getTableHeader() != null) {
 				dataTable.getTableHeader().setFont(font);
+			}
 			rowHeader.setFont(font);
 
 			setRowHeight();
@@ -362,7 +367,9 @@ public class DataPanelD extends JPanel
 			// set the column width
 			int size = font.getSize();
 			if (size < 12)
+			 {
 				size = 12; // minimum size
+			}
 			double multiplier = (size) / 12.0;
 			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH
 					* multiplier);
@@ -393,6 +400,7 @@ public class DataPanelD extends JPanel
 		return rowHeader;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnEnableAll) {
 			rowHeader.enableAll();
@@ -418,6 +426,7 @@ public class DataPanelD extends JPanel
 			setFont(app.getPlainFont());
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus,
 				int rowIndex, int colIndex) {
@@ -455,10 +464,11 @@ public class DataPanelD extends JPanel
 			// setBackground(SELECTED_BACKGROUND_COLOR_HEADER);
 			// setBackground(table.getBackground());
 
-			if (!selectionList[row])
+			if (!selectionList[row]) {
 				setBackground(DISABLED_BACKGROUND_COLOR);
-			else
+			} else {
 				setBackground(table.getBackground());
+			}
 
 			setText(text);
 			return this;
@@ -510,6 +520,7 @@ public class DataPanelD extends JPanel
 				setFont(table.getFont());
 			}
 
+			@Override
 			public Component getListCellRendererComponent(JList list,
 					Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
@@ -523,24 +534,29 @@ public class DataPanelD extends JPanel
 					setIcon(iconUnChecked);
 				}
 
-				if (!(Boolean) value)
+				if (!(Boolean) value) {
 					setBackground(DISABLED_BACKGROUND_COLOR);
-				else
+				} else {
 					setBackground(TABLE_HEADER_COLOR);
+				}
 
 				return this;
 			}
 		}
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent arg0) {
 		}
 
+		@Override
 		public void mouseExited(MouseEvent arg0) {
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			// check if we clicked in checkbox icon area
 			int index = this.locationToIndex(e.getPoint());
@@ -563,6 +579,7 @@ public class DataPanelD extends JPanel
 			}
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent arg0) {
 		}
 

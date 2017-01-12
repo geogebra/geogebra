@@ -200,8 +200,9 @@ public class GeoGebraPanel extends JPanel {
 		// create application panel
 		add(app.buildApplicationPanel(), BorderLayout.CENTER);
 
-		if (isShowing())
+		if (isShowing()) {
 			SwingUtilities.updateComponentTreeUI(this);
+		}
 	}
 
 	/**

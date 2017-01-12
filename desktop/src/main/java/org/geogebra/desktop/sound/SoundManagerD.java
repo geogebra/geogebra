@@ -70,13 +70,14 @@ public class SoundManagerD implements SoundManager {
 	 * exists.
 	 */
 	MidiSoundD getMidiSound() {
-		if (midiSound == null)
+		if (midiSound == null) {
 			try {
 				midiSound = new MidiSoundD(app);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 		return midiSound;
 	}
 
@@ -85,12 +86,13 @@ public class SoundManagerD implements SoundManager {
 	 * none exists.
 	 */
 	private FunctionSoundD getFunctionSound() {
-		if (functionSound == null)
+		if (functionSound == null) {
 			try {
 				functionSound = new FunctionSoundD(app);
 			} catch (Exception e) {
 				Log.error("Problem in getFunctionSound(): " + e.getMessage());
 			}
+		}
 		return functionSound;
 	}
 
@@ -106,6 +108,7 @@ public class SoundManagerD implements SoundManager {
 	 * @param instrument
 	 * @param velocity
 	 */
+	@Override
 	public void playSequenceNote(final int note, final double duration,
 			final int instrument, final int velocity) {
 		try {
@@ -129,9 +132,11 @@ public class SoundManagerD implements SoundManager {
 	 * 
 	 * @param fileName
 	 */
+	@Override
 	public void playFile(final String fileName) {
 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 
 				try {
@@ -199,14 +204,16 @@ public class SoundManagerD implements SoundManager {
 
 			// Initialize the webView in a JavaFX-Thread
 			Platform.runLater(new Runnable() {
+				@Override
 				public void run() {
 					MediaPlayer player = new MediaPlayer(new Media(url));
 					player.play();
 				}
 			});
 
-			if (true)
+			if (true) {
 				return;
+			}
 
 			AudioInputStream in = AudioSystem.getAudioInputStream(new URL(url));
 			AudioFormat baseFormat = in.getFormat();
@@ -247,6 +254,7 @@ public class SoundManagerD implements SoundManager {
 	 * @param noteString
 	 * @param instrument
 	 */
+	@Override
 	public void playSequenceFromString(String noteString, int instrument) {
 		try {
 			stopCurrentSound();
@@ -268,6 +276,7 @@ public class SoundManagerD implements SoundManager {
 	 * @param sampleRate
 	 * @param bitDepth
 	 */
+	@Override
 	public void playFunction(final GeoFunction f, final double min,
 			final double max, final int sampleRate, final int bitDepth) {
 		try {
@@ -287,6 +296,7 @@ public class SoundManagerD implements SoundManager {
 	 * @param min
 	 * @param max
 	 */
+	@Override
 	public void playFunction(final GeoFunction f, final double min,
 			final double max) {
 		try {
@@ -306,10 +316,12 @@ public class SoundManagerD implements SoundManager {
 	 * Stops all sound creation and closes all sound-related resources.
 	 */
 	public void stopCurrentSound() {
-		if (midiSound != null)
+		if (midiSound != null) {
 			midiSound.stop();
-		if (functionSound != null)
+		}
+		if (functionSound != null) {
 			functionSound.pause(true);
+		}
 	}
 
 	/**
@@ -318,14 +330,16 @@ public class SoundManagerD implements SoundManager {
 	 * @param doResume
 	 *            : true = resume play, false = pause
 	 */
+	@Override
 	public void pauseResumeSound(boolean doResume) {
 
 		if (currentSoundType == SOUNDTYPE_MIDI && midiSound != null) {
 			midiSound.pause(!doResume);
 		}
 
-		if (currentSoundType == SOUNDTYPE_FUNCTION && functionSound != null)
+		if (currentSoundType == SOUNDTYPE_FUNCTION && functionSound != null) {
 			functionSound.pause(!doResume);
+		}
 
 		isPaused = !doResume;
 	}

@@ -142,6 +142,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		jcbAsyCse5.setEnabled(false);
 		jcbDotColors.setSelected(false);
 		jcbAsyCompact.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (jcbAsyCompact.isSelected()) {
 					jcbAsyCse5.setEnabled(true);
@@ -176,12 +177,14 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		}
 		cbSliders = new JComboBox(comboModel);
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ggb.setBeamer(isBeamer());
 				ggb.generateAllCode();
 			}
 		});
 		button_copy.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				textarea.copy();
 			}
@@ -191,12 +194,14 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		buttonSave = new JButton(app.getMenu("SaveAs"));
 		buttonSave.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentFile = app.getGuiManager().showSaveDialog(fileExtension,
 						currentFile, fileExtensionMsg + app.getMenu("Files"),
 						true, false);
-				if (currentFile == null)
+				if (currentFile == null) {
 					return;
+				}
 				try {
 
 					FileOutputStream f = new FileOutputStream(currentFile);
@@ -239,14 +244,17 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		setLocationRelativeTo(app.getMainComponent());
 	}
 
+	@Override
 	public boolean isGrayscale() {
 		return jcbGrayscale.isSelected();
 	}
 
+	@Override
 	public boolean getExportPointSymbol() {
 		return jcbPointSymbol.isSelected();
 	}
 
+	@Override
 	public double getXUnit() {
 		double d;
 		try {
@@ -257,10 +265,12 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		return d;
 	}
 
+	@Override
 	public GeoNumeric getcbSlidersItem() {
 		return (GeoNumeric) cbSliders.getSelectedItem();
 	}
 
+	@Override
 	public double getYUnit() throws NumberFormatException {
 		double d;
 		try {
@@ -271,19 +281,23 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		return d;
 	}
 
+	@Override
 	public double getLatexHeight() {
 		return textheight.getValue();
 	}
 
+	@Override
 	public double getLatexWidth() {
 		return textwidth.getValue();
 	}
 
+	@Override
 	public void write(StringBuilder sb) {
 		textarea.setText(new String(sb));
 		textarea.selectAll();
 	}
 
+	@Override
 	public int getFontSize() {
 		switch (comboFontSize.getSelectedIndex()) {
 		case 0:
@@ -296,41 +310,50 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		return 10;
 	}
 
+	@Override
 	public int getFormat() {
 		return comboFormat.getSelectedIndex();
 	}
 
 	// Andy Zhu - for use in Asymptote frame
+	@Override
 	public boolean getShowAxes() {
 		return jcbShowAxes.isSelected();
 	}
 
+	@Override
 	public boolean getAsyCompact() {
 		return jcbAsyCompact.isSelected();
 	}
 
+	@Override
 	public boolean getAsyCompactCse5() {
 		return jcbAsyCse5.isSelected();
 	}
 
+	@Override
 	public boolean getKeepDotColors() {
 		return jcbDotColors.isSelected();
 	}
 
+	@Override
 	public boolean getUsePairNames() {
 		return jcbPairName.isSelected();
 	}
 
+	@Override
 	public int getFillType() {
 		return comboFill.getSelectedIndex();
 	}
 
 	// end changes
 
+	@Override
 	public int textYmaxValue() {
 		return (int) this.textYmax.getValue();
 	}
 
+	@Override
 	public int textYminValue() {
 		return (int) this.textYmin.getValue();
 	}
@@ -507,6 +530,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		}
 	}
 
+	@Override
 	public boolean getGnuplot() {
 		return false;
 	}

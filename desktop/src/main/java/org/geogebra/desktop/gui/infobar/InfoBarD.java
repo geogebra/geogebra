@@ -41,11 +41,14 @@ public class InfoBarD extends InfoBar {
 	public void show(String message) {
 		Log.info("ANNOUNCEMENT: " + message);
 
-		if (myApp.isApplet()) // Avoid getting an exception below this point.
+		if (myApp.isApplet())
+		 {
 			return; // TODO: Find a way to inform the applet user.
+		}
 
-		if (origInfo == null)
+		if (origInfo == null) {
 			origInfo = getFrame().getTitle();
+		}
 		String newName = origInfo + " - "
 				+ myApp.getLocalization().getMenu(message);
 		getFrame().setTitle(newName);

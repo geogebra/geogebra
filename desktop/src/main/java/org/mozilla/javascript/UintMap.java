@@ -32,16 +32,18 @@ public class UintMap implements Serializable {
 	}
 
 	public UintMap(int initialCapacity) {
-		if (initialCapacity < 0)
+		if (initialCapacity < 0) {
 			Kit.codeBug();
+		}
 		// Table grow when number of stored keys >= 3/4 of max capacity
 		int minimalCapacity = initialCapacity * 4 / 3;
 		int i;
 		for (i = 2; (1 << i) < minimalCapacity; ++i) {
 		}
 		power = i;
-		if (check && power < 2)
+		if (check && power < 2) {
 			Kit.codeBug();
+		}
 	}
 
 	public boolean isEmpty() {
@@ -53,8 +55,9 @@ public class UintMap implements Serializable {
 	}
 
 	public boolean has(int key) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		return 0 <= findIndex(key);
 	}
 
@@ -64,8 +67,9 @@ public class UintMap implements Serializable {
 	 * @return key object value or null if key is absent
 	 */
 	public Object getObject(int key) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		if (values != null) {
 			int index = findIndex(key);
 			if (0 <= index) {
@@ -81,8 +85,9 @@ public class UintMap implements Serializable {
 	 * @return key integer value or defaultValue if key is absent
 	 */
 	public int getInt(int key, int defaultValue) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		int index = findIndex(key);
 		if (0 <= index) {
 			if (ivaluesShift != 0) {
@@ -102,8 +107,9 @@ public class UintMap implements Serializable {
 	 *             if key does not exist
 	 */
 	public int getExistingInt(int key) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		int index = findIndex(key);
 		if (0 <= index) {
 			if (ivaluesShift != 0) {
@@ -121,8 +127,9 @@ public class UintMap implements Serializable {
 	 * value to 0.
 	 */
 	public void put(int key, Object value) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		int index = ensureIndex(key, false);
 		if (values == null) {
 			values = new Object[1 << power];
@@ -135,8 +142,9 @@ public class UintMap implements Serializable {
 	 * value to null.
 	 */
 	public void put(int key, int value) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		int index = ensureIndex(key, true);
 		if (ivaluesShift == 0) {
 			int N = 1 << power;
@@ -152,8 +160,9 @@ public class UintMap implements Serializable {
 	}
 
 	public void remove(int key) {
-		if (key < 0)
+		if (key < 0) {
 			Kit.codeBug();
+		}
 		int index = findIndex(key);
 		if (0 <= index) {
 			keys[index] = DELETED;
@@ -225,8 +234,9 @@ public class UintMap implements Serializable {
 				int n = 0;
 				do {
 					if (check) {
-						if (n >= occupiedCount)
+						if (n >= occupiedCount) {
 							Kit.codeBug();
+						}
 						++n;
 					}
 					index = (index + step) & mask;
@@ -243,10 +253,12 @@ public class UintMap implements Serializable {
 	// Insert key that is not present to table without deleted entries
 	// and enough free space
 	private int insertNewKey(int key) {
-		if (check && occupiedCount != keyCount)
+		if (check && occupiedCount != keyCount) {
 			Kit.codeBug();
-		if (check && keyCount == 1 << power)
+		}
+		if (check && keyCount == 1 << power) {
 			Kit.codeBug();
+		}
 		int[] keys = this.keys;
 		int fraction = key * A;
 		int index = fraction >>> (32 - power);
@@ -255,11 +267,13 @@ public class UintMap implements Serializable {
 			int step = tableLookupStep(fraction, mask, power);
 			int firstIndex = index;
 			do {
-				if (check && keys[index] == DELETED)
+				if (check && keys[index] == DELETED) {
 					Kit.codeBug();
+				}
 				index = (index + step) & mask;
-				if (check && firstIndex == index)
+				if (check && firstIndex == index) {
 					Kit.codeBug();
+				}
 			} while (keys[index] != EMPTY);
 		}
 		keys[index] = key;
@@ -336,8 +350,9 @@ public class UintMap implements Serializable {
 				int n = 0;
 				do {
 					if (check) {
-						if (n >= occupiedCount)
+						if (n >= occupiedCount) {
 							Kit.codeBug();
+						}
 						++n;
 					}
 					index = (index + step) & mask;
@@ -352,8 +367,9 @@ public class UintMap implements Serializable {
 			}
 		}
 		// Inserting of new key
-		if (check && keys != null && keys[index] != EMPTY)
+		if (check && keys != null && keys[index] != EMPTY) {
 			Kit.codeBug();
+		}
 		if (firstDeleted >= 0) {
 			index = firstDeleted;
 		} else {

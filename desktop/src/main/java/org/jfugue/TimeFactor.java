@@ -137,7 +137,7 @@ public final class TimeFactor {
 
 		long lastTime = 0;
 		for (long time = 0; time < longestTime; time++) {
-			List<MidiEvent> midiEventList = (List<MidiEvent>) timeMap.get(time);
+			List<MidiEvent> midiEventList = timeMap.get(time);
 			if (midiEventList != null) {
 				for (MidiEvent event : midiEventList) {
 					MidiMessage message = event.getMessage();

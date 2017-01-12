@@ -49,19 +49,22 @@ public class ClassPathEntityResolver implements EntityResolver {
 	/*
 	 * Implementation of resolveEntity method
 	 */
+	@Override
 	public InputSource resolveEntity(String publicId, String systemId)
 			throws SAXException {
 		if (name != null && systemId.endsWith(name)) {
 			InputStream in = root.getResourceAsStream(name);
-			if (in == null)
+			if (in == null) {
 				throw new SAXException(systemId + " not found");
+			}
 			return new InputSource(in);
 		}
 		if (prefix != null && systemId.startsWith(prefix)) {
 			String postfix = systemId.substring(prefix.length());
 			InputStream in = root.getResourceAsStream(postfix);
-			if (in == null)
+			if (in == null) {
 				throw new SAXException(systemId + " not found");
+			}
 			return new InputSource(in);
 		}
 		return null;

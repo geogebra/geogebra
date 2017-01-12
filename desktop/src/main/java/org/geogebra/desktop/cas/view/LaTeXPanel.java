@@ -42,8 +42,9 @@ public class LaTeXPanel extends JPanel {
 	 *            LaTeX text
 	 */
 	public void setLaTeX(String latex) {
-		if (latex.equals(this.latex))
+		if (latex.equals(this.latex)) {
 			return;
+		}
 
 		this.latex = latex;
 
@@ -73,8 +74,9 @@ public class LaTeXPanel extends JPanel {
 	}
 
 	private Dimension drawEquationToImage() {
-		if (g2image == null || latex == null)
+		if (g2image == null || latex == null) {
 			return new Dimension(0, 0);
+		}
 		g2image.setBackground(getBackground());
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 

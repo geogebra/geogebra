@@ -16,43 +16,52 @@ public class TTFMemoryInput extends TTFInput {
 		this.data = data;
 	}
 
+	@Override
 	public void seek(long offset) {
 		pointer = (int) offset;
 	}
 
+	@Override
 	long getPointer() {
 		return pointer;
 	}
 
 	// ---------- Simple Data Types --------------
 
+	@Override
 	public byte readChar() {
 		return data[pointer++];
 	}
 
+	@Override
 	public int readRawByte() {
 		return data[pointer++] & 0x00ff;
 	}
 
+	@Override
 	public int readByte() {
 		return data[pointer++] & 0x00ff;
 	}
 
+	@Override
 	public short readShort() {
 		int result = data[pointer++];
 		return (short) ((result << 8) | data[pointer++]);
 	}
 
+	@Override
 	public int readUShort() {
 		return (data[pointer++] << 8) | data[pointer++];
 	}
 
+	@Override
 	public int readLong() {
 		int result = data[pointer++];
 		return (short) ((result << 24) | data[pointer++] << 16
 				| data[pointer++] << 8 | data[pointer++]);
 	}
 
+	@Override
 	public long readULong() {
 		byte[] temp = new byte[4];
 		readFully(temp);
@@ -65,6 +74,7 @@ public class TTFMemoryInput extends TTFInput {
 
 	// ---------------- Arrays -------------------
 
+	@Override
 	public void readFully(byte[] b) {
 		for (int i = 0; i < b.length; i++) {
 			b[i] = data[pointer++];

@@ -205,8 +205,9 @@ class Block {
 	}
 
 	private static String toString(Block[] blockList, Node[] statementNodes) {
-		if (!DEBUG)
+		if (!DEBUG) {
 			return null;
+		}
 
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -359,8 +360,9 @@ class Block {
 			// TYPEOFNAME may be used with undefined names, which is why
 			// this is handled separately from GETVAR above.
 			int varIndex = fn.fnode.getIndexForNameNode(n);
-			if (varIndex > -1 && !itsNotDefSet.get(varIndex))
+			if (varIndex > -1 && !itsNotDefSet.get(varIndex)) {
 				itsUseBeforeDefSet.set(varIndex);
+			}
 		}
 			break;
 		case Token.DEC:
@@ -368,8 +370,9 @@ class Block {
 			Node child = n.getFirstChild();
 			if (child.getType() == Token.GETVAR) {
 				int varIndex = fn.getVarIndex(child);
-				if (!itsNotDefSet.get(varIndex))
+				if (!itsNotDefSet.get(varIndex)) {
 					itsUseBeforeDefSet.set(varIndex);
+				}
 				itsNotDefSet.set(varIndex);
 			} else {
 				lookForVariableAccess(fn, child);
@@ -386,8 +389,9 @@ class Block {
 			break;
 		case Token.GETVAR: {
 			int varIndex = fn.getVarIndex(n);
-			if (!itsNotDefSet.get(varIndex))
+			if (!itsNotDefSet.get(varIndex)) {
 				itsUseBeforeDefSet.set(varIndex);
+			}
 		}
 			break;
 		default:
@@ -609,14 +613,18 @@ class Block {
 		if (DEBUG) {
 			for (int i = 0; i < fn.getVarCount(); i++) {
 				String name = fn.fnode.getParamOrVarName(i);
-				if (itsUseBeforeDefSet.get(i))
+				if (itsUseBeforeDefSet.get(i)) {
 					System.out.println(name + " is used before def'd");
-				if (itsNotDefSet.get(i))
+				}
+				if (itsNotDefSet.get(i)) {
 					System.out.println(name + " is not def'd");
-				if (itsLiveOnEntrySet.get(i))
+				}
+				if (itsLiveOnEntrySet.get(i)) {
 					System.out.println(name + " is live on entry");
-				if (itsLiveOnExitSet.get(i))
+				}
+				if (itsLiveOnExitSet.get(i)) {
 					System.out.println(name + " is live on exit");
+				}
 			}
 		}
 	}

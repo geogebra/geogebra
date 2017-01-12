@@ -88,28 +88,33 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 	}
 
 	/*
 	 * auto-insert degree symbol when appropriate
 	 */
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 		// return unless digit typed
-		if (!Character.isDigit(e.getKeyChar()))
+		if (!Character.isDigit(e.getKeyChar())) {
 			return;
+		}
 
 		JTextComponent tc = inputPanel.getTextComponent();
 		String text = tc.getText();
 
 		// if text already contains degree symbol or variable
 		for (int i = 0; i < text.length(); i++) {
-			if (!Character.isDigit(text.charAt(i)))
+			if (!Character.isDigit(text.charAt(i))) {
 				return;
+			}
 		}
 
 		int caretPos = tc.getCaretPosition();

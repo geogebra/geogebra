@@ -40,8 +40,9 @@ public class FastStack extends ArrayList {
 
 	public Object peek() {
 		int len = size();
-		if (len == 0)
+		if (len == 0) {
 			throw new EmptyStackException();
+		}
 		return get(len - 1);
 	}
 }

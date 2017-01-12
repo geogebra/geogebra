@@ -29,6 +29,7 @@ public class FillPath extends EMFPlusTag {
 		this.brushIndex = brushIndex;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		FillPath tag = new FillPath();
@@ -41,6 +42,7 @@ public class FillPath extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		if (brushColor != null) {
@@ -50,6 +52,7 @@ public class FillPath extends EMFPlusTag {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n  " + (brushColor != null
 				? "brushColor: " + brushColor : "brushIndex: " + brushIndex);

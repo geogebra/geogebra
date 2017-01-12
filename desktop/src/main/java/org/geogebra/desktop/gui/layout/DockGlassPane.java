@@ -62,8 +62,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	 * @param state
 	 */
 	public void startDrag(DnDState state) {
-		if (dragInProgress)
+		if (dragInProgress) {
 			return;
+		}
 
 		dragInProgress = true;
 
@@ -83,8 +84,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		for (int i = 0; i < dockPanels.length; ++i) {
 			// we don't need to care about invisible or views in a different
 			// window for the drag'n'drop
-			if (!dockPanels[i].isVisible() || dockPanels[i].isOpenInFrame())
+			if (!dockPanels[i].isVisible() || dockPanels[i].isOpenInFrame()) {
 				continue;
+			}
 
 			tmpRect = dockPanels[i].getBounds();
 			tmpRect.setLocation(SwingUtilities.convertPoint(dockPanels[i],
@@ -109,8 +111,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	 * The mouse was released, quit the drag'n'drop mode.
 	 */
 	public void stopDrag() {
-		if (!dragInProgress)
+		if (!dragInProgress) {
 			return;
+		}
 
 		dragInProgress = false;
 
@@ -127,8 +130,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
-		if (dndState == null || dndState.getTarget() == null)
+		if (dndState == null || dndState.getTarget() == null) {
 			return;
+		}
 
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -141,13 +145,15 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	}
 
 	private void setColorEnoughHeight(DockPanelD target) {
-		if (target.getHeight() < DockComponent.MIN_SIZE * 2)
+		if (target.getHeight() < DockComponent.MIN_SIZE * 2) {
 			color = COLOR_NOT_ENOUGH_SPACE;
+		}
 	}
 
 	private void setColorEnoughWidth(DockPanelD target) {
-		if (target.getWidth() < DockComponent.MIN_SIZE * 2)
+		if (target.getWidth() < DockComponent.MIN_SIZE * 2) {
 			color = COLOR_NOT_ENOUGH_SPACE;
+		}
 	}
 
 	/**
@@ -329,14 +335,16 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	/**
 	 * Redirect every mouse action.
 	 */
+	@Override
 	public void eventDispatched(AWTEvent event) {
 		if (event instanceof MouseEvent) {
 			if (event.getID() == MouseEvent.MOUSE_DRAGGED
 					&& ((MouseEvent) event)
-							.getModifiers() == InputEvent.BUTTON1_MASK)
+							.getModifiers() == InputEvent.BUTTON1_MASK) {
 				mouseDragged((MouseEvent) event);
-			else if (event.getID() == MouseEvent.MOUSE_RELEASED)
+			} else if (event.getID() == MouseEvent.MOUSE_RELEASED) {
 				stopDrag();
+			}
 		}
 	}
 }

@@ -25,8 +25,10 @@ public class MyCellEditorButton extends AbstractCellEditor
 
 	public MyCellEditorButton() {
 		ActionListener actionListener = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
 				SwingUtilities.invokeLater(new Runnable() {
+					@Override
 					public void run() {
 						editGeo.runClickScripts(null);
 					}
@@ -37,10 +39,12 @@ public class MyCellEditorButton extends AbstractCellEditor
 		delegate.addActionListener(actionListener);
 	}
 
+	@Override
 	public Object getCellEditorValue() {
 		return editGeo;
 	}
 
+	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 		editGeo = (GeoButton) value;

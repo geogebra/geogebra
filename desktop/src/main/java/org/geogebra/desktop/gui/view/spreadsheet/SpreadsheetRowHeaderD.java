@@ -89,10 +89,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			this.model = model;
 		}
 
+		@Override
 		public int getSize() {
 			return model.getRowCount();
 		}
 
+		@Override
 		public Object getElementAt(int index) {
 			return "" + (index + 1);
 		}
@@ -129,6 +131,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 					MyTableD.HEADER_GRID_COLOR));
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 
@@ -159,6 +162,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	/**
 	 * Update the rowHeader list when row selection changes in the table
 	 */
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		ListSelectionModel selectionModel = (ListSelectionModel) e.getSource();
 		minSelectionRow = selectionModel.getMinSelectionIndex();
@@ -200,6 +204,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	// Mouse Listener Methods
 	// ===============================================
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 
 		// Double clicking on a row boundary auto-adjusts the
@@ -212,12 +217,15 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		}
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean shiftPressed = e.isShiftDown();
 		boolean rightClick = AppD.isRightClick(e);
@@ -225,9 +233,10 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		int x = e.getX();
 		int y = e.getY();
 
-		if (!view.hasViewFocus())
+		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
+		}
 
 		// Update resizingRow. If nonnegative, then mouse is over a boundary
 		// and it gives the row to be resized (resizing is done in
@@ -241,7 +250,9 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		if (!rightClick) {
 
 			if (resizingRow >= 0)
+			 {
 				return; // GSTURR 2010-1-9
+			}
 
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
@@ -270,17 +281,20 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 
 		boolean rightClick = AppD.isRightClick(e);
 
 		if (rightClick) {
-			if (!app.letShowPopupMenu())
+			if (!app.letShowPopupMenu()) {
 				return;
+			}
 
 			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
-			if (p == null)
+			if (p == null) {
 				return;
+			}
 
 			// if click is outside current selection then change selection
 			if (p.getY() < minSelectionRow || p.getY() > maxSelectionRow
@@ -307,13 +321,14 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		if (doRowResize) {
 			if (minSelectionRow != -1 && maxSelectionRow != -1
 					&& (maxSelectionRow - minSelectionRow > 1)) {
-				if (table.isSelectAll())
+				if (table.isSelectAll()) {
 					table.setRowHeight(table.getRowHeight(resizingRow));
-				else
+				} else {
 					for (int row = minSelectionRow; row <= maxSelectionRow; row++) {
 						table.setRowHeight(row,
 								table.getRowHeight(resizingRow));
 					}
+				}
 			}
 			doRowResize = false;
 		}
@@ -323,9 +338,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	// MouseMotion Listener Methods
 	// ===============================================
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (AppD.isRightClick(e))
+		 {
 			return; // G.Sturr 2009-9-30
+		}
 
 		// G.STURR 2010-1-9
 		// On mouse drag either resize or select a row
@@ -357,6 +375,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		// Show resize cursor when mouse is over a row boundary
 		if ((getResizingRow(
@@ -369,9 +388,11 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	// Key Listener Methods
 	// ===============================================
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 
 		int keyCode = e.getKeyCode();
@@ -395,10 +416,11 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			} else {
 				// select topmost cell in first column to the left of the
 				// selection
-				if (table.minSelectionRow > 0)
+				if (table.minSelectionRow > 0) {
 					table.setSelection(0, table.minSelectionRow - 1);
-				else
+				} else {
 					table.setSelection(0, table.minSelectionRow);
+				}
 				table.requestFocus();
 			}
 			break;
@@ -411,10 +433,11 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			} else {
 				// select topmost cell in first column to the left of the
 				// selection
-				if (table.minSelectionRow > 0)
+				if (table.minSelectionRow > 0) {
 					table.setSelection(0, table.minSelectionRow + 1);
-				else
+				} else {
 					table.setSelection(0, table.minSelectionRow);
+				}
 				table.requestFocus();
 			}
 			break;
@@ -431,8 +454,9 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
 				boolean storeUndo = table.copyPasteCut.paste(0, minSelectionRow,
 						table.getModel().getColumnCount() - 1, maxSelectionRow);
-				if (storeUndo)
+				if (storeUndo) {
 					app.storeUndoInfo();
+				}
 				e.consume();
 			}
 			break;
@@ -445,20 +469,23 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			}
 			boolean storeUndo = table.copyPasteCut.delete(0, minSelectionRow,
 					table.getModel().getColumnCount() - 1, maxSelectionRow);
-			if (storeUndo)
+			if (storeUndo) {
 				app.storeUndoInfo();
+			}
 			break;
 
 		case KeyEvent.VK_DELETE: // delete
 		case KeyEvent.VK_BACK_SPACE: // delete on MAC
 			storeUndo = table.copyPasteCut.delete(0, minSelectionRow,
 					table.getModel().getColumnCount() - 1, maxSelectionRow);
-			if (storeUndo)
+			if (storeUndo) {
 				app.storeUndoInfo();
+			}
 			break;
 		}
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 

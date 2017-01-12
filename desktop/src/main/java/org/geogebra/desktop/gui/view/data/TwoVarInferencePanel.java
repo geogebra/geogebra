@@ -187,10 +187,11 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		// layout
 		mainPanel.add(ckPooled, c);
-		if (model.isTest())
+		if (model.isTest()) {
 			mainPanel.add(testPanel, c);
-		else
+		} else {
 			mainPanel.add(intPanel, c);
+		}
 
 		mainPanel.add(samplePanel, tab);
 		// mainPanel.add(ckEqualVariances,c);
@@ -281,11 +282,13 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		updateGUI();
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		twoStatPanel.updateFonts(font);
 
 	}
 
+	@Override
 	public void setLabels() {
 
 		lblResultHeader.setText(app.getMenu("Result") + ": ");
@@ -305,6 +308,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		ckPooled.setText(app.getMenu("Pooled"));
 	}
 
+	@Override
 	public void updatePanel() {
 
 		updateGUI();
@@ -312,6 +316,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -341,8 +346,9 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		Double value = Double.parseDouble(source.getText().trim());
 
@@ -358,9 +364,11 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
@@ -381,32 +389,39 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		return p;
 	}
 
+	@Override
 	public void setStatTable(int row, String[] rowNames, int length,
 			String[] columnNames) {
 		resultTable.setStatTable(row, rowNames, columnNames.length,
 				columnNames);
 	}
 
+	@Override
 	public void setFormattedValueAt(double value, int row, int col) {
 		resultTable.getModel().setValueAt(daView.format(value), row, col);
 	}
 
+	@Override
 	public GeoList getDataSelected() {
 		return daView.getController().getDataSelected();
 	}
 
+	@Override
 	public int getSelectedDataIndex(int idx) {
 		return selectedDataIndex()[idx];
 	}
 
+	@Override
 	public double[] getValueArray(GeoList list) {
 		return daView.getController().getValueArray(list);
 	}
 
+	@Override
 	public void addAltHypItem(String name, String tail, double value) {
 		cbAltHyp.addItem(name + " " + tail + " " + daView.format(value));
 	}
 
+	@Override
 	public void selectAltHyp(int idx) {
 		cbAltHyp.setSelectedIndex(idx);
 	}

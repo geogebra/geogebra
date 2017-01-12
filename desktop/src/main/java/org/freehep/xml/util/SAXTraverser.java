@@ -28,6 +28,7 @@ public class SAXTraverser extends DefaultHandler {
 		reader.setContentHandler(this);
 	}
 
+	@Override
 	public void startElement(String namespaceURI, String localName,
 			String qName, Attributes attrs) throws SAXException {
 		qName = qName.intern();
@@ -37,19 +38,22 @@ public class SAXTraverser extends DefaultHandler {
 			newHandler.previous = this;
 			newHandler.parser = parser;
 			parser.setContentHandler(newHandler);
-		} else
+		} else {
 			stack++;
+		}
 
 	}
 
+	@Override
 	public void endElement(String namespaceURI, String localName, String qName)
 			throws SAXException {
 		if (stack == 0) {
 			handleEndElement(localName);
 			previous.handleSubElement(this);
 			parser.setContentHandler(previous);
-		} else
+		} else {
 			stack--;
+		}
 	}
 
 	/**
@@ -88,12 +92,13 @@ public class SAXTraverser extends DefaultHandler {
 	 * Utility routine to convert a String to a boolean
 	 */
 	public boolean toBoolean(String value) throws BadXMLException {
-		if (value.equalsIgnoreCase("true"))
+		if (value.equalsIgnoreCase("true")) {
 			return true;
-		else if (value.equalsIgnoreCase("false"))
+		} else if (value.equalsIgnoreCase("false")) {
 			return false;
-		else
+		} else {
 			throw new BadXMLException("Bad boolean value " + value);
+		}
 	}
 
 	/**

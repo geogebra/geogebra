@@ -168,12 +168,14 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 
 		@Override
 		public void addElement(Object ob) {
-			if (!(ob instanceof GeoElement))
+			if (!(ob instanceof GeoElement)) {
 				return;
+			}
 
 			GeoElement geo = (GeoElement) ob;
-			if (!possibleInput(geo) || contains(geo))
+			if (!possibleInput(geo) || contains(geo)) {
 				return;
+			}
 
 			// add geo to list
 			super.addElement(geo);
@@ -223,8 +225,9 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		newTool.setIconFileName(namePanel.getIconFileName());
 
 		AppD appToSave = app;
-		if (app.getMacro() != null)
+		if (app.getMacro() != null) {
 			appToSave = (AppD) app.getMacro().getKernel().getApplication();
+		}
 
 		Kernel kernel = appToSave.getKernel();
 		String cmdName = namePanel.getCommandName();
@@ -247,8 +250,9 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 			appToSave.updateToolBar();
 			appToSave.setMode(mode);
 		}
-		if (app.getMacro() != null)
+		if (app.getMacro() != null) {
 			app.getFrame().setVisible(false);
+		}
 		app.showMessage(app.getMenu("Tool.CreationSuccess"));
 
 		// hide and dispose dialog
@@ -272,15 +276,17 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 						macro.getToolName()),
 				loc.getMenu("Question"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-		if (returnVal == 1)
+		if (returnVal == 1) {
 			return;
+		}
 		Kernel kernel = macro.getKernel();
 		AppD appToSave = (AppD) kernel.getApplication();
 		boolean compatible = newTool.getNeededTypesString()
 				.equals(macro.getNeededTypesString());
-		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++)
+		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++) {
 			compatible = compatible && macro.getMacroOutput()[i].getClass()
 					.equals(newTool.getMacroOutput()[i].getClass());
+		}
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
@@ -314,8 +320,9 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 	 */
 	private void updateInputList() {
 		// only change empty input list
-		if (inputList.size() > 0)
+		if (inputList.size() > 0) {
 			return;
+		}
 
 		// get output objects
 		GeoElement[] output = toGeoElements(outputList);
@@ -466,15 +473,17 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(macro.getMacroInput()[i]
 					.getLabel(StringTemplate.defaultTemplate));
-			if (el != null)
+			if (el != null) {
 				this.inputList.add(0, el);
+			}
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
 			GeoElement el = app.getKernel()
 					.lookupLabel(macro.getMacroOutput()[i]
 							.getLabel(StringTemplate.defaultTemplate));
-			if (el != null)
+			if (el != null) {
 				this.outputList.add(0, el);
+			}
 		}
 	}
 
@@ -496,6 +505,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		btCancel.setText(loc.getMenu("Cancel"));
 
 		ActionListener ac = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Object src = e.getSource();
 				if (src == btNext) {
@@ -518,6 +528,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		btBack.addActionListener(ac);
 
 		ChangeListener cl = new ChangeListener() {
+			@Override
 			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 					"missing break is deliberate" })
 			public void stateChanged(ChangeEvent e) {
@@ -599,8 +610,9 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 			}
 		};
 		cbAdd.addActionListener(ac);
-		if (listener != null)
+		if (listener != null) {
 			cbAdd.addActionListener(listener);
+		}
 		cbAdd.addMouseListener(ac);
 
 		// list to show selected geos
@@ -644,8 +656,9 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		JScrollPane scrollPane = new JScrollPane(list);
 		scrollPane.setBorder(
 				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		if (cbAdd != null)
+		if (cbAdd != null) {
 			listPanel.add(cbAdd, BorderLayout.NORTH);
+		}
 		listPanel.add(scrollPane, BorderLayout.CENTER);
 		centerPanel.add(listPanel, BorderLayout.CENTER);
 
@@ -661,8 +674,9 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		final JButton btDown = new JButton("\u25bc");
 		btDown.setVisible(showUpDownButtons);
 		btDown.setToolTipText(loc.getPlainTooltip("Down"));
-		if (cbAdd != null)
+		if (cbAdd != null) {
 			outputButtonPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+		}
 		outputButtonPanel.add(btUp);
 		outputButtonPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		outputButtonPanel.add(btDown);
@@ -676,6 +690,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 
 		// listener for buttons
 		ActionListener ac = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Object src = e.getSource();
 				DefaultListModel listModel = (DefaultListModel) list.getModel();
@@ -750,6 +765,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 	/**
 	 * Adds selected geo to input/output list of dialog.
 	 */
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		int tab = tabbedPane.getSelectedIndex();
 		switch (tab) {
@@ -803,10 +819,11 @@ class MyCellRenderer extends DefaultListCellRenderer {
 			} else {
 				GeoElement geo = (GeoElement) value;
 				String text = geo.getLongDescriptionHTML(true, true);
-				if (text.length() < 100)
+				if (text.length() < 100) {
 					setText(text);
-				else
+				} else {
 					setText(geo.getNameDescriptionHTML(true, true));
+				}
 			}
 		} else {
 			setText(" ");

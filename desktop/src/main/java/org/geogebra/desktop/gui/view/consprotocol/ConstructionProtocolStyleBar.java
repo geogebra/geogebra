@@ -141,6 +141,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		miShowOnlyBreakpoints.setSelected(
 				app.getKernel().getConstruction().showOnlyBreakpoints());
 		miShowOnlyBreakpoints.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cpView.showOnlyBreakpointsAction();
 			}
@@ -151,6 +152,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 				loc.getPlain("ColorfulConstructionProtocol"));
 		miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
 		miColorfulConstructionProtocol.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				cpView.setUseColors(!cpView.getUseColors());
 			}
@@ -182,6 +184,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		// btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
 		btnHelp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -221,6 +224,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 	/**
 	 * React to button presses.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == btnColumns) {
@@ -235,8 +239,9 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		if (e.getSource() == btnOptions) {
 			if (btnOptions.getSelectedIndex() == 0) {
 				cpView.showOnlyBreakpointsAction();
-			} else if (btnOptions.getSelectedIndex() == 1)
+			} else if (btnOptions.getSelectedIndex() == 1) {
 				cpView.setUseColors(!cpView.getUseColors());
+			}
 		}
 
 		if (e.getSource() == btnExport) {

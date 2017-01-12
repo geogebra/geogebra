@@ -68,6 +68,7 @@ public final class Time implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("@");
@@ -80,6 +81,7 @@ public final class Time implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("Time: time=");

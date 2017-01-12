@@ -60,6 +60,7 @@ public class AnimationStepPanel extends JPanel
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		label.setText(kernel.getLocalization().getMenu("AnimationStep") + ": ");
 	}
@@ -68,6 +69,7 @@ public class AnimationStepPanel extends JPanel
 		model.setPartOfSlider(true);
 	}
 
+	@Override
 	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
 
@@ -84,9 +86,11 @@ public class AnimationStepPanel extends JPanel
 	/**
 	 * handle textfield changes
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfAnimStep)
+		if (e.getSource() == tfAnimStep) {
 			doActionPerformed();
+		}
 	}
 
 	private void doActionPerformed() {
@@ -95,13 +99,16 @@ public class AnimationStepPanel extends JPanel
 		updatePanel(model.getGeos());
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doActionPerformed();
 	}
 
+	@Override
 	public void updateFonts() {
 		Font font = ((AppD) kernel.getApplication()).getPlainFont();
 
@@ -109,11 +116,13 @@ public class AnimationStepPanel extends JPanel
 		tfAnimStep.setFont(font);
 	}
 
+	@Override
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setText(String text) {
 		tfAnimStep.setText(text);
 	}

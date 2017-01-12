@@ -81,6 +81,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 
 	private static final Map /* UserProperties */ defaultProperties = new HashMap();
 
+	@Override
 	public FontRenderContext getFontRenderContext() {
 		// TODO Auto-generated method stub
 		FontRenderContext f = super.getFontRenderContext();
@@ -160,9 +161,11 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		return properties;
 	}
 
+	@Override
 	public void setProperties(Properties newProperties) {
-		if (newProperties == null)
+		if (newProperties == null) {
 			return;
+		}
 
 		String formatKey = rootKey + "." + format;
 		Properties formatProperties = new Properties();
@@ -251,8 +254,9 @@ public class ImageGraphics2D extends PixelGraphics2D {
 
 		setColor(component.getForeground());
 		GraphicsConfiguration gc = component.getGraphicsConfiguration();
-		if (gc != null)
+		if (gc != null) {
 			setTransform(gc.getDefaultTransform());
+		}
 	}
 
 	private void init(OutputStream os, Dimension size, String format) {
@@ -287,10 +291,12 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		setHintsOnGraphics();
 	}
 
+	@Override
 	public Graphics create() {
 		return new ImageGraphics2D(this);
 	}
 
+	@Override
 	public Graphics create(double x, double y, double width, double height) {
 		ImageGraphics2D imageGraphics = new ImageGraphics2D(this);
 		imageGraphics.translate(x, y);
@@ -298,12 +304,14 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		return imageGraphics;
 	}
 
+	@Override
 	public void startExport() {
 		if (getBackground() != null) {
 			clearRect(0.0, 0.0, image.getWidth(), image.getHeight());
 		}
 	}
 
+	@Override
 	public void endExport() {
 		try {
 			write();
@@ -345,8 +353,9 @@ public class ImageGraphics2D extends PixelGraphics2D {
 	public static BufferedImage generateThumbnail(Component component,
 			Dimension size) {
 		int longSide = Math.max(size.width, size.height);
-		if (longSide < 0)
+		if (longSide < 0) {
 			return null;
+		}
 
 		int componentWidth = component.getBounds().width;
 		int componentHeight = component.getBounds().height;
@@ -383,9 +392,10 @@ public class ImageGraphics2D extends PixelGraphics2D {
 			Properties properties, OutputStream os) throws IOException {
 
 		ImageWriter writer = getPreferredImageWriter(format);
-		if (writer == null)
+		if (writer == null) {
 			throw new IOException(ImageGraphics2D.class
 					+ ": No writer for format '" + format + "'.");
+		}
 
 		// get the parameters for this format
 		UserProperties user = new UserProperties(properties);
@@ -458,6 +468,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 				return 3;
 			}
 
+			@Override
 			public int compare(Object arg0, Object arg1) {
 				int order0 = order(arg0);
 				int order1 = order(arg1);
@@ -465,7 +476,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 			}
 		});
 		while (iterator.hasNext()) {
-			imageWriters.add((ImageWriter) iterator.next());
+			imageWriters.add(iterator.next());
 		}
 		return imageWriters;
 	}

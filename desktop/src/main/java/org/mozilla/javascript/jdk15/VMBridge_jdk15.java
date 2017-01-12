@@ -32,12 +32,13 @@ public class VMBridge_jdk15
 
 	@Override
 	public boolean isVarArgs(Member member) {
-		if (member instanceof Method)
+		if (member instanceof Method) {
 			return ((Method) member).isVarArgs();
-		else if (member instanceof Constructor)
+		} else if (member instanceof Constructor) {
 			return ((Constructor<?>) member).isVarArgs();
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -51,10 +52,12 @@ public class VMBridge_jdk15
 		if (obj instanceof Wrapper) {
 			Object unwrapped = ((Wrapper) obj).unwrap();
 			Iterator<?> iterator = null;
-			if (unwrapped instanceof Iterator)
+			if (unwrapped instanceof Iterator) {
 				iterator = (Iterator<?>) unwrapped;
-			if (unwrapped instanceof Iterable)
+			}
+			if (unwrapped instanceof Iterable) {
 				iterator = ((Iterable<?>) unwrapped).iterator();
+			}
 			return iterator;
 		}
 		return null;

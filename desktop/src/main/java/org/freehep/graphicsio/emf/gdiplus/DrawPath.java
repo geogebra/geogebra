@@ -27,6 +27,7 @@ public class DrawPath extends EMFPlusTag {
 		this.penIndex = penIndex;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		DrawPath tag = new DrawPath();
@@ -35,11 +36,13 @@ public class DrawPath extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		emf.writeUINT(penIndex);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n  penIndex: " + penIndex;
 	}

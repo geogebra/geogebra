@@ -35,10 +35,12 @@ public class UndefinedTag extends Tag {
 		this.bytes = bytes;
 	}
 
+	@Override
 	public int getTagType() {
 		return 0;
 	}
 
+	@Override
 	public Tag read(int tagID, TaggedInputStream input, int len)
 			throws IOException {
 
@@ -47,11 +49,13 @@ public class UndefinedTag extends Tag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, TaggedOutputStream output) throws IOException {
 
 		output.writeUnsignedByte(bytes);
 	}
 
+	@Override
 	public String toString() {
 		return ("UNDEFINED TAG: " + getTag() + " length: " + bytes.length);
 	}

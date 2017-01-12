@@ -40,8 +40,9 @@ public class PDF {
 	}
 
 	public PDFRef ref(String name) {
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 		PDFRef ref = (PDFRef) refsByName.get(name);
 		if (ref == null) {
 			int refNumber = refsByNumber.size();
@@ -101,8 +102,9 @@ public class PDF {
 		PDFDictionary dictionary = new PDFDictionary(this, out);
 		dictionary.entry("Size", refsByName.size());
 		dictionary.entry("Root", ref(rootName));
-		if (docInfoName != null)
+		if (docInfoName != null) {
 			dictionary.entry("Info", ref(docInfoName));
+		}
 		dictionary.close();
 
 		out.println();

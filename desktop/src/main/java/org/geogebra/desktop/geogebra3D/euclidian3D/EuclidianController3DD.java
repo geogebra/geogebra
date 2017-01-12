@@ -70,16 +70,19 @@ public class EuclidianController3DD extends EuclidianController3D
 		setView3D(view);
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		// let mousePressed and mouseReleased take care of this
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMousePressed(event);
 		event.release();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		// no capture in desktop
@@ -87,22 +90,26 @@ public class EuclidianController3DD extends EuclidianController3D
 		event.release();
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseReleased(event);
 		event.release();
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseMoved(event);
 		event.release();
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		wrapMouseEntered();
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		wrapMouseExited(event);
@@ -129,6 +136,7 @@ public class EuclidianController3DD extends EuclidianController3D
 		ttm.setInitialDelay(defaultInitialDelay);
 	}
 
+	@Override
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
 		if (view != null) {
@@ -136,14 +144,17 @@ public class EuclidianController3DD extends EuclidianController3D
 		}
 	}
 
+	@Override
 	public void componentShown(ComponentEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void componentHidden(ComponentEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void componentMoved(ComponentEvent e) {
 		// do nothing
 	}
@@ -151,11 +162,13 @@ public class EuclidianController3DD extends EuclidianController3D
 	/**
 	 * Zooms in or out using mouse wheel
 	 */
+	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		wrapMouseWheelMoved(e.getX(), e.getY(), e.getWheelRotation(),
 				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
 
+	@Override
 	public void addListenersTo(Component evjpanel) {
 		evjpanel.addMouseMotionListener(this);
 		evjpanel.addMouseListener(this);
@@ -166,8 +179,9 @@ public class EuclidianController3DD extends EuclidianController3D
 	@Override
 	public boolean refreshHighlighting(Hits hits, boolean control) {
 
-		if (AppD.getShiftDown())
+		if (AppD.getShiftDown()) {
 			return false;
+		}
 
 		return super.refreshHighlighting(hits, control);
 	}

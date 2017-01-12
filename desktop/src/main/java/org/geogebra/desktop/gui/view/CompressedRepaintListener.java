@@ -19,6 +19,7 @@ public class CompressedRepaintListener implements ActionListener {
 		this.view = view;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		view.repaintNow();
 	}

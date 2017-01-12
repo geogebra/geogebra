@@ -76,9 +76,10 @@ public class PDFWriter extends PDF implements PDFConstants {
 
 	public PDFObject openObject(String name) throws IOException {
 		// FIXME: check if name was already written!
-		if (open != null)
+		if (open != null) {
 			System.err
 					.println("PDFWriter error: '" + open + "' was not closed");
+		}
 		open = "PDFObject: " + name;
 
 		PDFRef ref = ref(name);

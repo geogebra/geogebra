@@ -23,6 +23,7 @@ public class InputDialogRotatePointD extends InputDialogRotateD {
 
 	}
 
+	@Override
 	protected void processInput(AsyncOperation<String> callback) {
 
 		DialogManager.rotateObject(app, inputPanel.getText(),

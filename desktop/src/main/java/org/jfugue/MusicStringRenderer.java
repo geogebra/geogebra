@@ -40,50 +40,62 @@ public final class MusicStringRenderer implements ParserListener {
 		return this.pattern;
 	}
 
+	@Override
 	public void voiceEvent(Voice voice) {
 		pattern.add(voice.getMusicString());
 	}
 
+	@Override
 	public void instrumentEvent(Instrument instrument) {
 		pattern.add(instrument.getMusicString());
 	}
 
+	@Override
 	public void tempoEvent(Tempo tempo) {
 		pattern.add(tempo.getMusicString());
 	}
 
+	@Override
 	public void layerEvent(Layer layer) {
 		pattern.add(layer.getMusicString());
 	}
 
+	@Override
 	public void timeEvent(Time time) {
 		pattern.add(time.getMusicString());
 	}
 
+	@Override
 	public void keySignatureEvent(KeySignature keySig) {
 		pattern.add(keySig.getMusicString());
 	}
 
+	@Override
 	public void measureEvent(Measure measure) {
 		pattern.add(measure.getMusicString());
 	}
 
+	@Override
 	public void controllerEvent(Controller controller) {
 		pattern.add(controller.getMusicString());
 	}
 
+	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
 		pattern.add(channelPressure.getMusicString());
 	}
 
+	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
 		pattern.add(polyphonicPressure.getMusicString());
 	}
 
+	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
 		pattern.add(pitchBend.getMusicString());
 	}
 
+	@Override
 	public void noteEvent(Note note) {
 		// Don't use add(note.getMusicString(), because that will incorrectly
 		// add a space between sequential or parallel notes.
@@ -96,10 +108,12 @@ public final class MusicStringRenderer implements ParserListener {
 		}
 	}
 
+	@Override
 	public void sequentialNoteEvent(Note note) {
 		// We won't get these events from a MIDI parser
 	}
 
+	@Override
 	public void parallelNoteEvent(Note note) {
 		// We won't get these events from a MIDI parser
 	}

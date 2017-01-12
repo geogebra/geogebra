@@ -27,8 +27,9 @@ class Optimizer {
 	}
 
 	private void optimizeFunction(OptFunctionNode theFunction) {
-		if (theFunction.fnode.requiresActivation())
+		if (theFunction.fnode.requiresActivation()) {
 			return;
+		}
 
 		inDirectCallFunction = theFunction.isTargetOfDirectCall();
 		this.theFunction = theFunction;
@@ -108,8 +109,9 @@ class Optimizer {
 		case Token.EXPR_VOID: {
 			Node child = n.getFirstChild();
 			int type = rewriteForNumberVariables(child, NumberType);
-			if (type == NumberType)
+			if (type == NumberType) {
 				n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+			}
 			return NoType;
 		}
 		case Token.NUMBER:
@@ -160,8 +162,9 @@ class Optimizer {
 					}
 					markDCPNumberContext(rChild);
 					return NoType;
-				} else
+				} else {
 					return rType;
+				}
 			} else if (theFunction.isNumberVar(varIndex)) {
 				if (rType != NumberType) {
 					n.removeChild(rChild);
@@ -396,10 +399,11 @@ class Optimizer {
 				if (!convertParameter(child)) {
 					n.removeChild(child);
 					Node nuChild = new Node(Token.TO_OBJECT, child);
-					if (nextChild == null)
+					if (nextChild == null) {
 						n.addChildToBack(nuChild);
-					else
+					} else {
 						n.addChildBefore(nuChild, nextChild);
+					}
 				}
 			}
 			child = nextChild;

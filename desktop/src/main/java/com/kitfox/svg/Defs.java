@@ -51,6 +51,7 @@ public class Defs extends TransformableElement {
 	public Defs() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -59,6 +60,7 @@ public class Defs extends TransformableElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
@@ -66,6 +68,7 @@ public class Defs extends TransformableElement {
 		// members.add(child);
 	}
 
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		boolean stateChange = false;
 		for (Iterator it = children.iterator(); it.hasNext();) {

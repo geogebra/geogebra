@@ -51,45 +51,54 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		return impl;
 	}
 
+	@Override
 	public void setStroke(Stroke stroke) {
 		if (stroke instanceof BasicStroke) {
 			impl.setStroke(new GBasicStrokeD((BasicStroke) stroke));
 		}
 	}
 
+	@Override
 	public Stroke getStroke() {
 		return new StrokeD(((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(impl.getStroke()));
 	}
 
+	@Override
 	public void setColor(Color color) {
 		if (color instanceof java.awt.Color) {
 			impl.setColor(GColorD.newColor((java.awt.Color) color));
 		}
 	}
 
+	@Override
 	public Color getColor() {
 		return new ColorD(GColorD.getAwtColor(impl.getColor()));
 	}
 
+	@Override
 	public Transform getTransform() {
 		return new TransformD(
 				GAffineTransformD.getAwtAffineTransform(impl.getTransform()));
 	}
 
+	@Override
 	public Font getFont() {
 		return new FontD(GFontD.getAwtFont(impl.getFont()));
 
 	}
 
+	@Override
 	public void setFont(Font font) {
 		impl.setFont(new GFontD(((FontD) font).impl));
 	}
 
+	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);
 	}
 
+	@Override
 	public void fill(Rectangle2D rectangle) {
 		if (rectangle instanceof java.awt.geom.Rectangle2D) {
 			impl.fill(new GGenericRectangle2DD(
@@ -97,6 +106,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		}
 	}
 
+	@Override
 	public void draw(Rectangle2D rectangle) {
 		if (rectangle instanceof java.awt.geom.Rectangle2D) {
 			impl.draw(new GGenericRectangle2DD(
@@ -104,62 +114,74 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		}
 	}
 
+	@Override
 	public void draw(RoundRectangle2D rectangle) {
 		Log.debug("unimplemented - not needed?");
 		// impl.draw((Shape) rectangle);
 	}
 
+	@Override
 	public void draw(Line2D line) {
 		if (line instanceof java.awt.geom.Line2D) {
 			impl.draw(new GLine2DD((java.awt.geom.Line2D) line));
 		}
 	}
 
+	@Override
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
 		impl.drawChars(data, offset, length, x, y);
 
 	}
 
+	@Override
 	public void drawArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
 		Log.debug("unimplemented - not needed?");
 		// impl.drawArc(x, y, width, height, startAngle, arcAngle);
 	}
 
+	@Override
 	public void fillArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
 		Log.debug("unimplemnted - not needed?");
 		// impl.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 
+	@Override
 	public void translate(double x, double y) {
 		impl.translate(x, y);
 	}
 
+	@Override
 	public void scale(double x, double y) {
 		impl.scale(x, y);
 	}
 
+	@Override
 	public void rotate(double theta, double x, double y) {
 		impl.rotate(theta, x, y);
 	}
 
+	@Override
 	public void rotate(double theta) {
 		impl.rotate(theta);
 	}
 
+	@Override
 	public void drawImage(Image image, int x, int y) {
 		if (image instanceof BufferedImage) {
 			impl.drawImage(new GBufferedImageD(((BufferedImage) image)), x, y);
 		}
 	}
 
+	@Override
 	public void drawImage(Image image, Transform transform) {
 		Log.debug("unimplemented - not needed?");
 		// impl.drawImage(new GBufferedImageD(((BufferedImage) image)),
 		// new GAffineTransformD(((AffineTransform) transform)));
 	}
 
+	@Override
 	public FontRenderContext getFontRenderContext() {
 		Log.debug("unimplemented - not needed?");
 		// return new
@@ -167,14 +189,17 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		return null;
 	}
 
+	@Override
 	public void dispose() {
 		//
 	}
 
+	@Override
 	public void setRenderingHint(int key, int value) {
 		//
 	}
 
+	@Override
 	public int getRenderingHint(int key) {
 		return -1;
 	}
@@ -183,11 +208,13 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		return -1;
 	}
 
+	@Override
 	public void saveTransformation() {
 		transformationStack.add(new GAffineTransformD(
 				GAffineTransformD.getAwtAffineTransform(impl.getTransform())));
 	}
 
+	@Override
 	public void restoreTransformation() {
 		GAffineTransform last = transformationStack.removeLast();
 		impl.setTransform(last);

@@ -32,11 +32,13 @@ public class BitOutputStream extends CompressableOutputStream
 		bitPos = 0;
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		// Application.debug(Integer.toHexString(b));
 		super.write(b);
 	}
 
+	@Override
 	public void finish() throws IOException {
 
 		flushByte();
@@ -45,6 +47,7 @@ public class BitOutputStream extends CompressableOutputStream
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 
 		finish();
@@ -59,8 +62,9 @@ public class BitOutputStream extends CompressableOutputStream
 	 */
 	protected void flushByte() throws IOException {
 
-		if (bitPos == 0)
+		if (bitPos == 0) {
 			return;
+		}
 
 		write(bits);
 		bits = 0;
@@ -123,8 +127,9 @@ public class BitOutputStream extends CompressableOutputStream
 	 */
 	public void writeFBits(float value, int n) throws IOException {
 
-		if (n == 0)
+		if (n == 0) {
 			return;
+		}
 		long tmp = (long) (value * 0x10000);
 		writeSBits(tmp, n);
 	}
@@ -141,10 +146,12 @@ public class BitOutputStream extends CompressableOutputStream
 	 */
 	public void writeUBits(long value, int n) throws IOException {
 
-		if (n == 0)
+		if (n == 0) {
 			return;
-		if (bitPos == 0)
+		}
+		if (bitPos == 0) {
 			bitPos = 8;
+		}
 
 		int bitNum = n;
 
@@ -166,8 +173,9 @@ public class BitOutputStream extends CompressableOutputStream
 			if (bitPos == 0) {
 				write(bits);
 				bits = 0;
-				if (bitNum > 0)
+				if (bitNum > 0) {
 					bitPos = 8;
+				}
 			}
 		}
 	}
@@ -207,8 +215,9 @@ public class BitOutputStream extends CompressableOutputStream
 
 		for (i = 1; i <= 64; i++) {
 			x <<= 1;
-			if (x > number)
+			if (x > number) {
 				break;
+			}
 		}
 
 		return i + ((signed) ? 1 : 0);

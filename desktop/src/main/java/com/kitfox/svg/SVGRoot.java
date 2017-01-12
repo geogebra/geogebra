@@ -91,10 +91,12 @@ public class SVGRoot extends Group {
 	public SVGRoot() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	public void build() throws SVGException {
 		super.build();
 
@@ -171,6 +173,7 @@ public class SVGRoot extends Group {
 		return (text.indexOf(find) != -1);
 	}
 
+	@Override
 	public SVGRoot getRoot() {
 		return this;
 	}
@@ -198,8 +201,8 @@ public class SVGRoot extends Group {
 						width.getValue());
 			}
 		} else if (viewBox != null) {
-			xx = (float) viewBox.x;
-			ww = (float) viewBox.width;
+			xx = viewBox.x;
+			ww = viewBox.width;
 			width = new NumberWithUnits(ww, NumberWithUnits.UT_PX);
 			x = new NumberWithUnits(xx, NumberWithUnits.UT_PX);
 		} else {
@@ -221,8 +224,8 @@ public class SVGRoot extends Group {
 						height.getValue());
 			}
 		} else if (viewBox != null) {
-			yy = (float) viewBox.y;
-			hh = (float) viewBox.height;
+			yy = viewBox.y;
+			hh = viewBox.height;
 			height = new NumberWithUnits(hh, NumberWithUnits.UT_PX);
 			y = new NumberWithUnits(yy, NumberWithUnits.UT_PX);
 		} else {
@@ -277,6 +280,7 @@ public class SVGRoot extends Group {
 		g.setTransform(cachedXform);
 	}
 
+	@Override
 	public void pick(Rectangle2D pickArea, AffineTransform ltw,
 			boolean boundingBox, List retVec) throws SVGException {
 		if (viewXform != null) {
@@ -287,6 +291,7 @@ public class SVGRoot extends Group {
 		super.pick(pickArea, ltw, boundingBox, retVec);
 	}
 
+	@Override
 	public void pick(Point2D point, boolean boundingBox, List retVec)
 			throws SVGException {
 		Point2D xPoint = new Point2D.Double(point.getX(), point.getY());
@@ -301,11 +306,13 @@ public class SVGRoot extends Group {
 		super.pick(xPoint, boundingBox, retVec);
 	}
 
+	@Override
 	public Shape getShape() {
 		Shape shape = super.getShape();
 		return viewXform.createTransformedShape(shape);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		Rectangle2D bbox = super.getBoundingBox();
 		return viewXform.createTransformedShape(bbox).getBounds2D();
@@ -331,6 +338,7 @@ public class SVGRoot extends Group {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		boolean changeState = super.updateTime(curTime);
 

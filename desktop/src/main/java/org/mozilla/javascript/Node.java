@@ -207,13 +207,15 @@ public class Node implements Iterable<Node> {
 	}
 
 	public Node getChildBefore(Node child) {
-		if (child == first)
+		if (child == first) {
 			return null;
+		}
 		Node n = first;
 		while (n.next != child) {
 			n = n.next;
-			if (n == null)
+			if (n == null) {
 				throw new RuntimeException("node is not a child");
+			}
 		}
 		return n;
 	}
@@ -267,9 +269,10 @@ public class Node implements Iterable<Node> {
 	 * Add 'child' before 'node'.
 	 */
 	public void addChildBefore(Node newChild, Node node) {
-		if (newChild.next != null)
+		if (newChild.next != null) {
 			throw new RuntimeException(
 					"newChild had siblings in addChildBefore");
+		}
 		if (first == node) {
 			newChild.next = first;
 			first = newChild;
@@ -283,23 +286,27 @@ public class Node implements Iterable<Node> {
 	 * Add 'child' after 'node'.
 	 */
 	public void addChildAfter(Node newChild, Node node) {
-		if (newChild.next != null)
+		if (newChild.next != null) {
 			throw new RuntimeException(
 					"newChild had siblings in addChildAfter");
+		}
 		newChild.next = node.next;
 		node.next = newChild;
-		if (last == node)
+		if (last == node) {
 			last = newChild;
+		}
 	}
 
 	public void removeChild(Node child) {
 		Node prev = getChildBefore(child);
-		if (prev == null)
+		if (prev == null) {
 			first = first.next;
-		else
+		} else {
 			prev.next = child.next;
-		if (child == last)
+		}
+		if (child == last) {
 			last = prev;
+		}
 		child.next = null;
 	}
 
@@ -311,8 +318,9 @@ public class Node implements Iterable<Node> {
 			Node prev = getChildBefore(child);
 			prev.next = newChild;
 		}
-		if (child == last)
+		if (child == last) {
 			last = newChild;
+		}
 		child.next = null;
 	}
 
@@ -320,8 +328,9 @@ public class Node implements Iterable<Node> {
 		Node child = prevChild.next;
 		newChild.next = child.next;
 		prevChild.next = newChild;
-		if (child == last)
+		if (child == last) {
 			last = newChild;
+		}
 		child.next = null;
 	}
 
@@ -346,10 +355,12 @@ public class Node implements Iterable<Node> {
 			cursor = Node.this.first;
 		}
 
+		@Override
 		public boolean hasNext() {
 			return cursor != null;
 		}
 
+		@Override
 		public Node next() {
 			if (cursor == null) {
 				throw new NoSuchElementException();
@@ -361,6 +372,7 @@ public class Node implements Iterable<Node> {
 			return prev;
 		}
 
+		@Override
 		public void remove() {
 			if (prev == NOT_SET) {
 				throw new IllegalStateException("next() has not been called");
@@ -383,6 +395,7 @@ public class Node implements Iterable<Node> {
 	/**
 	 * Returns an {@link java.util.Iterator} over the node's children.
 	 */
+	@Override
 	public Iterator<Node> iterator() {
 		return new NodeIterator();
 	}
@@ -553,8 +566,9 @@ public class Node implements Iterable<Node> {
 
 	/** Can only be called when node has String context. */
 	public final void setString(String s) {
-		if (s == null)
+		if (s == null) {
 			Kit.codeBug();
+		}
 		((Name) this).setIdentifier(s);
 	}
 
@@ -565,8 +579,9 @@ public class Node implements Iterable<Node> {
 
 	/** Can only be called when node has String context. */
 	public void setScope(Scope s) {
-		if (s == null)
+		if (s == null) {
 			Kit.codeBug();
+		}
 		if (!(this instanceof Name)) {
 			throw Kit.codeBug();
 		}
@@ -578,14 +593,16 @@ public class Node implements Iterable<Node> {
 	}
 
 	public final int labelId() {
-		if (type != Token.TARGET && type != Token.YIELD)
+		if (type != Token.TARGET && type != Token.YIELD) {
 			Kit.codeBug();
+		}
 		return getIntProp(LABEL_ID_PROP, -1);
 	}
 
 	public void labelId(int labelId) {
-		if (type != Token.TARGET && type != Token.YIELD)
+		if (type != Token.TARGET && type != Token.YIELD) {
 			Kit.codeBug();
+		}
 		putIntProp(LABEL_ID_PROP, labelId);
 	}
 
@@ -672,10 +689,11 @@ public class Node implements Iterable<Node> {
 
 		rv = th.endCheck();
 
-		if (el != null)
+		if (el != null) {
 			rv |= el.endCheck();
-		else
+		} else {
 			rv |= END_DROPS_OFF;
+		}
 
 		return rv;
 	}
@@ -790,15 +808,17 @@ public class Node implements Iterable<Node> {
 		for (n = first; n.next != last; n = n.next) {
 			/* skip */
 		}
-		if (n.type != Token.IFEQ)
+		if (n.type != Token.IFEQ) {
 			return END_DROPS_OFF;
+		}
 
 		// The target's next is the loop body block
 		rv = ((Jump) n).target.next.endCheck();
 
 		// check to see if the loop condition is true
-		if (n.first.type == Token.TRUE)
+		if (n.first.type == Token.TRUE) {
 			rv &= ~END_DROPS_OFF;
+		}
 
 		// look for effect of breaks
 		rv |= getIntProp(CONTROL_BLOCK_PROP, END_UNREACHED);
@@ -871,8 +891,9 @@ public class Node implements Iterable<Node> {
 			return endCheckBreak();
 
 		case Token.EXPR_VOID:
-			if (this.first != null)
+			if (this.first != null) {
 				return first.endCheck();
+			}
 			return END_DROPS_OFF;
 
 		case Token.YIELD:
@@ -883,16 +904,18 @@ public class Node implements Iterable<Node> {
 			return END_UNREACHED;
 
 		case Token.RETURN:
-			if (this.first != null)
+			if (this.first != null) {
 				return END_RETURNS_VALUE;
-			else
+			} else {
 				return END_RETURNS;
+			}
 
 		case Token.TARGET:
-			if (next != null)
+			if (next != null) {
 				return next.endCheck();
-			else
+			} else {
 				return END_DROPS_OFF;
+			}
 
 		case Token.LOOP:
 			return endCheckLoop();
@@ -900,8 +923,9 @@ public class Node implements Iterable<Node> {
 		case Token.LOCAL_BLOCK:
 		case Token.BLOCK:
 			// there are several special kinds of blocks
-			if (first == null)
+			if (first == null) {
 				return END_DROPS_OFF;
+			}
 
 			switch (first.type) {
 			case Token.LABEL:
@@ -929,21 +953,24 @@ public class Node implements Iterable<Node> {
 		switch (type) {
 		case Token.EXPR_VOID:
 		case Token.COMMA:
-			if (last != null)
+			if (last != null) {
 				return last.hasSideEffects();
-			else
+			} else {
 				return true;
+			}
 
 		case Token.HOOK:
-			if (first == null || first.next == null || first.next.next == null)
+			if (first == null || first.next == null || first.next.next == null) {
 				Kit.codeBug();
+			}
 			return first.next.hasSideEffects()
 					&& first.next.next.hasSideEffects();
 
 		case Token.AND:
 		case Token.OR:
-			if (first == null || last == null)
+			if (first == null || last == null) {
 				Kit.codeBug();
+			}
 			return first.hasSideEffects() || last.hasSideEffects();
 
 		case Token.ERROR: // Avoid cascaded error messages
@@ -1192,8 +1219,9 @@ public class Node implements Iterable<Node> {
 					value = "[";
 					for (int i = 0; i < a.length; i++) {
 						value += a[i].toString();
-						if (i + 1 < a.length)
+						if (i + 1 < a.length) {
 							value += ", ";
+						}
 					}
 					value += "]";
 					break;

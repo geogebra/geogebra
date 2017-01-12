@@ -150,6 +150,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		miscPanel.add(LayoutUtil.flowPanel(cbUseLight));
 	}
 
+	@Override
 	protected void initMiscPanel() {
 
 		// use light
@@ -311,8 +312,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new JButton(
 					app.getScaledIcon(GuiResources3D.PROJECTION_OBLIQUE));
 
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 4; i++) {
 				buttons[i].addActionListener(options);
+			}
 
 			buttonSelected = view.getProjection();
 			buttons[buttonSelected].setSelected(true);
@@ -351,8 +353,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		projectionLabel = new JLabel[4]; // "orthographic", "perspective",
 											// "glasses" etc.
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			projectionLabel[i] = new JLabel("");
+		}
 
 		projectionButtons = new ProjectionButtons(this);
 

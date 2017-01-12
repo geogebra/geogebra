@@ -83,6 +83,7 @@ class PerspectivesMenuD extends BaseMenu {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// default perspectives start with a "d"
 				if (e.getActionCommand().startsWith("d")) {

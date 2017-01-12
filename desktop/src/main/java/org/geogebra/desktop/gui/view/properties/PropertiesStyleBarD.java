@@ -94,6 +94,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 				btn.setPreferredSize(new Dimension(icon.getIconWidth(),
 						icon.getIconHeight()));
 				btn.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						propertiesView.setOptionPanel(type);
 					}
@@ -112,8 +113,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		objectButton = buttonMap.get(OptionType.OBJECTS);
 
 		// disable object button if no object
-		if (app.getKernel().isEmpty())
+		if (app.getKernel().isEmpty()) {
 			setObjectButtonEnable(false);
+		}
 
 		this.wrappedPanel.setLayout(new BorderLayout());
 		this.wrappedPanel.add(toolbar, BorderLayout.NORTH);
@@ -209,6 +211,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 				mi.setText(propertiesView.getTypeString(type));
 				mi.setIcon(PropertiesViewD.getTypeIcon(app, type));
 				mi.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						propertiesView.setOptionPanel(type);
 						buildMenu();

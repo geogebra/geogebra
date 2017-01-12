@@ -258,6 +258,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 				getModel().getSettings());
 		optionsPanel.addPropertyChangeListener("settings",
 				new PropertyChangeListener() {
+					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						getModel().updatePlot(true);
 					}
@@ -288,6 +289,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	/**
 	 * Sets the labels to the current language
 	 */
+	@Override
 	public void setLabels() {
 
 		createDisplayTypeComboBox();
@@ -389,6 +391,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		sliderNumClasses.setMajorTickSpacing(1);
 		sliderNumClasses.setSnapToTicks(true);
 		sliderNumClasses.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent evt) {
 				JSlider slider = (JSlider) evt.getSource();
 				getModel().getSettings().setNumClasses(slider.getValue());
@@ -481,15 +484,18 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	// DISPLAY UPDATE
 	// ==============================================
 
+	@Override
 	public void showControlPanel() {
 		((CardLayout) controlCards.getLayout()).show(controlCards,
 				"blankPanel");
 	}
 
+	@Override
 	public void setOptionsButtonVisible() {
 		btnOptions.setVisible(true);
 	}
 
+	@Override
 	public void showInvalidDataDisplay() {
 		imageContainer.setIcon(null);
 		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
@@ -500,14 +506,14 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	// Event Handlers
 	// ============================================================
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source instanceof JTextField)
+		if (source instanceof JTextField) {
 			doTextFieldActionPerformed(source);
-
-		else if (source == minus || source == plus || source == none) {
+		} else if (source == minus || source == plus || source == none) {
 			minus.setSelected(source == minus);
 			none.setSelected(source == none);
 			plus.setSelected(source == plus);
@@ -566,12 +572,15 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		getModel().updatePlot(true);
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		Object source = e.getSource();
-		if (source instanceof JTextField)
+		if (source instanceof JTextField) {
 			this.doTextFieldActionPerformed(source);
+		}
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		//
 	}
@@ -607,6 +616,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		return p;
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		plotPanel.updateFonts();
 		updateIcons();
@@ -614,6 +624,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		setLabels();
 	}
 
+	@Override
 	public void updatePanel() {
 		//
 	}
@@ -637,6 +648,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 			separator = new JSeparator(SwingConstants.HORIZONTAL);
 		}
 
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			String str = "";
@@ -677,6 +689,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	AbstractAction exportToEVAction = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void actionPerformed(ActionEvent event) {
 			Integer euclidianViewID = (Integer) this
 					.getValue("euclidianViewID");
@@ -696,6 +709,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		}
 	};
 
+	@Override
 	public void addDisplayTypeItem(PlotType type) {
 		cbDisplayType.addItem(type);
 	}
@@ -704,6 +718,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		daView.updateOtherDataDisplay(this);
 	}
 
+	@Override
 	public void updateScatterPlot() {
 		plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 		plotPanelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -716,26 +731,31 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 	}
 
+	@Override
 	public void updateFrequencyTable() {
 		plotPanelSouth.setLayout(new BorderLayout());
 		plotPanelSouth.add(frequencyTable, BorderLayout.CENTER);
 		metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 	}
 
+	@Override
 	public void removeFrequencyTable() {
 		metaPlotPanel.remove(plotPanelSouth);
 	}
 
+	@Override
 	public void setSelectedType(PlotType type) {
 		cbDisplayType.setSelectedItem(type);
 	}
 
+	@Override
 	public void setTableFromGeoFrequencyTable(
 			AlgoFrequencyTable parentAlgorithm, boolean b) {
 		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
 
 	}
 
+	@Override
 	public void updatePlotPanelSettings() {
 		plotPanel.commonFields.updateSettings(plotPanel,
 				getModel().getSettings());
@@ -745,18 +765,22 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		((CardLayout) panel.getLayout()).show(panel, id);
 	}
 
+	@Override
 	public void showManualClassesPanel() {
 		showCardPanel(controlCards, "manualClassesPanel");
 	}
 
+	@Override
 	public void showNumClassesPanel() {
 		showCardPanel(controlCards, "numClassesPanel");
 	}
 
+	@Override
 	public void showPlotPanel() {
 		showCardPanel(displayCardPanel, "plotPanel");
 	}
 
+	@Override
 	public void updateStemPlot(String latex) {
 		imageContainer.setIcon(GeoGebraIconD.createLatexIcon(app, latex,
 				app.getPlainFont(), true, Color.BLACK, null));
@@ -770,6 +794,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	}
 
+	@Override
 	public void updateXYTitles(boolean isPointList, boolean isLeftToRight) {
 
 		if (isPointList) {
@@ -786,6 +811,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		}
 	}
 
+	@Override
 	public void geoToPlotPanel(GeoElement listGeo) {
 		listGeo.addView(plotPanel.getViewID());
 		plotPanel.add(listGeo);
@@ -801,6 +827,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		this.model = model;
 	}
 
+	@Override
 	public void resize() {
 		// TODO Auto-generated method stub
 

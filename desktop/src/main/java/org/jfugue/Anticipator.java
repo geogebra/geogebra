@@ -66,9 +66,11 @@ public class Anticipator {
 
 	protected void play(final Sequence sequence) {
 		final Thread anticipatingThread = new Thread() {
+			@Override
 			public void run() {
 				TimeFactor.sortAndDeliverMidiMessages(sequence,
 						new MidiMessageRecipient() {
+							@Override
 							public void messageReady(MidiMessage message,
 									long timestamp) {
 								parser.parse(message, timestamp);

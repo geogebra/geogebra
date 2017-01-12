@@ -77,8 +77,9 @@ public class MyXMLioD extends MyXMLioJre {
 			} catch (Exception e) {
 				Log.error(e.getMessage());
 			}
-			if (entry == null)
+			if (entry == null) {
 				break;
+			}
 
 			String name = entry.getName();
 			if (name.equals(XML_FILE)) {
@@ -168,10 +169,12 @@ public class MyXMLioD extends MyXMLioJre {
 			kernel.getConstruction().setFileLoading(false);
 		}
 
-		if (!javaScriptFound && !isGGTfile)
+		if (!javaScriptFound && !isGGTfile) {
 			kernel.resetLibraryJavaScript();
-		if (!(macroXMLfound || xmlFound))
+		}
+		if (!(macroXMLfound || xmlFound)) {
 			throw new Exception("No XML data found in file.");
+		}
 	}
 
 	@Override
@@ -216,8 +219,9 @@ public class MyXMLioD extends MyXMLioJre {
 		// get all entries from the zip archive
 		while (true) {
 			ZipEntry entry = zip.getNextEntry();
-			if (entry == null)
+			if (entry == null) {
 				break;
+			}
 
 			if (entry.getName().equals(XML_FILE_THUMBNAIL)) {
 				result = ImageIO.read(zip);

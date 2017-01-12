@@ -128,6 +128,7 @@ public class SVGFontTable {
 	 *
 	 * @return string representing the entry
 	 */
+	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 

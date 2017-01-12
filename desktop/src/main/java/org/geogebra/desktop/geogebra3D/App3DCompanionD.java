@@ -74,10 +74,11 @@ public class App3DCompanionD extends App3DCompanion {
 	@Override
 	public void storeViewCreators() {
 
-		if (panelForPlaneList == null)
+		if (panelForPlaneList == null) {
 			panelForPlaneList = new ArrayList<EuclidianDockPanelForPlaneD>();
-		else
+		} else {
 			panelForPlaneList.clear();
+		}
 		if (app.getGuiManager() != null) {
 			DockPanelD[] panels = ((LayoutD) app.getGuiManager().getLayout())
 					.getDockManager().getPanels();

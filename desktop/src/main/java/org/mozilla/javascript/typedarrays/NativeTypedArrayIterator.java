@@ -44,7 +44,7 @@ public class NativeTypedArrayIterator<T> implements ListIterator<T> {
 	@Override
 	public T next() {
 		if (hasNext()) {
-			T ret = (T) view.get(position);
+			T ret = view.get(position);
 			lastPosition = position;
 			position++;
 			return ret;
@@ -57,7 +57,7 @@ public class NativeTypedArrayIterator<T> implements ListIterator<T> {
 		if (hasPrevious()) {
 			position--;
 			lastPosition = position;
-			return (T) view.get(position);
+			return view.get(position);
 		}
 		throw new NoSuchElementException();
 	}

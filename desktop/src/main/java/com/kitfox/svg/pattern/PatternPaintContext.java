@@ -88,13 +88,16 @@ public class PatternPaintContext implements PaintContext {
 		sourceHeight = source.getHeight();
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public ColorModel getColorModel() {
 		return source.getColorModel();
 	}
 
+	@Override
 	public Raster getRaster(int x, int y, int w, int h) {
 		// System.err.println("" + x + ", " + y + ", " + w + ", " + h);
 		if (buf == null || buf.getWidth() != w || buf.getHeight() != h) {
@@ -114,11 +117,13 @@ public class PatternPaintContext implements PaintContext {
 				// distortXform.transform(srcPt2, srcPt);
 
 				int ii = ((int) srcPt.x) % sourceWidth;
-				if (ii < 0)
+				if (ii < 0) {
 					ii += sourceWidth;
+				}
 				int jj = ((int) srcPt.y) % sourceHeight;
-				if (jj < 0)
+				if (jj < 0) {
 					jj += sourceHeight;
+				}
 
 				buf.setRGB(i, j, source.getRGB(ii, jj));
 			}

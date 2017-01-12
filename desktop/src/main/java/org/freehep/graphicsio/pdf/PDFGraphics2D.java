@@ -295,10 +295,12 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ============================================
 	 * ====================================
 	 */
+	@Override
 	public void setMultiPage(boolean multiPage) {
 		this.multiPage = multiPage;
 	}
 
+	@Override
 	public boolean isMultiPage() {
 		return multiPage;
 	}
@@ -325,6 +327,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * Writes the catalog, docinfo, preferences, and (as we use only single page
 	 * output the page tree.
 	 */
+	@Override
 	public void writeHeader() throws IOException {
 		os = new PDFWriter(new BufferedOutputStream(ros), PDF_VERSION);
 
@@ -376,10 +379,12 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 		// hide the multipage functionality to the user in case of single page
 		// output by opening the first and only page immediately
-		if (!isMultiPage())
+		if (!isMultiPage()) {
 			openPage(getSize(), null, getComponent());
+		}
 	}
 
+	@Override
 	public void writeBackground() {
 		if (isProperty(TRANSPARENT)) {
 			setBackground(null);
@@ -393,9 +398,11 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		}
 	}
 
+	@Override
 	public void writeTrailer() throws IOException {
-		if (!isMultiPage())
+		if (!isMultiPage()) {
 			closePage();
+		}
 
 		// pages
 		PDFPageTree pages = os.openPageTree("RootPage", null);
@@ -442,14 +449,18 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		// resources
 		PDFDictionary resources = os.openDictionary("Resources");
 		resources.entry("ProcSet", os.ref("PageProcSet"));
-		if (nFonts > 0)
+		if (nFonts > 0) {
 			resources.entry("Font", os.ref("FontList"));
-		if (nXObjects > 0)
+		}
+		if (nXObjects > 0) {
 			resources.entry("XObject", os.ref("XObjects"));
-		if (nPatterns > 0)
+		}
+		if (nPatterns > 0) {
 			resources.entry("Pattern", os.ref("Pattern"));
-		if (extGStates.size() > 0)
+		}
+		if (extGStates.size() > 0) {
 			resources.entry("ExtGState", os.ref("ExtGState"));
+		}
 		os.close(resources);
 
 		// outlines
@@ -471,6 +482,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		processDelayed();
 	}
 
+	@Override
 	public void closeStream() throws IOException {
 		os.close();
 	}
@@ -483,18 +495,21 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 3.2 MultipageDocument methods */
+	@Override
 	public void openPage(Component component) throws IOException {
 		openPage(component.getSize(), component.getName(), component);
 	}
 
+	@Override
 	public void openPage(Dimension size, String title) throws IOException {
 		openPage(size, title, null);
 	}
 
 	private void openPage(Dimension size, String title, Component component)
 			throws IOException {
-		if (size == null)
+		if (size == null) {
 			size = component.getSize();
+		}
 
 		resetClip(new Rectangle(0, 0, size.width, size.height));
 
@@ -513,15 +528,17 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 		currentPage++;
 
-		if (title == null)
+		if (title == null) {
 			title = "Page " + currentPage + " (untitled)";
+		}
 		titles.add(title);
 
 		PDFPage page = os.openPage("Page" + currentPage, "RootPage");
 		page.setContents("PageContents" + currentPage);
 
-		if (thumbnail != null)
+		if (thumbnail != null) {
 			page.setThumb("Thumb" + currentPage);
+		}
 
 		os.close(page);
 
@@ -580,6 +597,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		writeBackground();
 	}
 
+	@Override
 	public void closePage() throws IOException {
 		if (pageStream == null) {
 			writeWarning("Page " + currentPage + " already closed. "
@@ -600,6 +618,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		// 4!
 	}
 
+	@Override
 	public void setHeader(Font font, TagString left, TagString center,
 			TagString right, int underlineThickness) {
 		this.headerFont = font;
@@ -610,6 +629,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		this.headerUnderline = underlineThickness;
 	}
 
+	@Override
 	public void setFooter(Font font, TagString left, TagString center,
 			TagString right, int underlineThickness) {
 		this.footerFont = font;
@@ -648,12 +668,15 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		setColor(Color.black);
 		setFont(font);
 		writeTransform(trafo);
-		if (text[0] != null)
+		if (text[0] != null) {
 			drawString(text[0], 0, ty, TEXT_LEFT, yAlign);
-		if (text[1] != null)
+		}
+		if (text[1] != null) {
 			drawString(text[1], getWidth() / 2, ty, TEXT_CENTER, yAlign);
-		if (text[2] != null)
+		}
+		if (text[2] != null) {
 			drawString(text[2], getWidth(), ty, TEXT_RIGHT, yAlign);
+		}
 		if (underline >= 0) {
 			setLineWidth((double) underline);
 			drawLine(0, ly, getWidth(), ly);
@@ -668,6 +691,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ==================================
 	 */
 
+	@Override
 	public Graphics create() {
 		try {
 			writeGraphicsSave();
@@ -677,6 +701,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		return new PDFGraphics2D(this, true);
 	}
 
+	@Override
 	public Graphics create(double x, double y, double width, double height) {
 		try {
 			writeGraphicsSave();
@@ -689,10 +714,12 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		return graphics;
 	}
 
+	@Override
 	protected void writeGraphicsSave() throws IOException {
 		pageStream.save();
 	}
 
+	@Override
 	protected void writeGraphicsRestore() throws IOException {
 		pageStream.restore();
 	}
@@ -703,6 +730,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ==============================================
 	 * ================================== /* 5.1.4. shapes
 	 */
+	@Override
 	public void draw(Shape s) {
 		try {
 			if (getStroke() instanceof BasicStroke) {
@@ -719,6 +747,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		}
 	}
 
+	@Override
 	public void fill(Shape s) {
 		try {
 			boolean eofill = pageStream.drawPath(s);
@@ -750,11 +779,13 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 5.2 Images */
+	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
 		writeWarning(getClass()
 				+ ": copyArea(int, int, int, int, int, int) not implemented.");
 	}
 
+	@Override
 	protected void writeImage(RenderedImage image, AffineTransform xform,
 			Color bkg) throws IOException {
 		PDFName ref = delayImageQueue.delayImage(image, bkg,
@@ -771,6 +802,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 5.3. Strings */
+	@Override
 	protected void writeString(String str, double x, double y)
 			throws IOException {
 		// save the graphics context, especially the transformation matrix
@@ -802,6 +834,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ==================================
 	 */
 	/** Write the given transformation matrix to the file. */
+	@Override
 	protected void writeTransform(AffineTransform t) throws IOException {
 		pageStream.matrix(t);
 	}
@@ -812,6 +845,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ======================================================
 	 * ==========================
 	 */
+	@Override
 	protected void writeSetClip(Shape s) throws IOException {
 		// clear old clip
 		try {
@@ -831,6 +865,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		writeClip(s);
 	}
 
+	@Override
 	protected void writeClip(Shape s) throws IOException {
 		if (s == null || !isProperty(CLIP)) {
 			return;
@@ -867,10 +902,12 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ================================
 	 */
 	/* 8.1. stroke/linewidth */
+	@Override
 	protected void writeWidth(float width) throws IOException {
 		pageStream.width(width);
 	}
 
+	@Override
 	protected void writeCap(int cap) throws IOException {
 		switch (cap) {
 		default:
@@ -886,6 +923,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		}
 	}
 
+	@Override
 	protected void writeJoin(int join) throws IOException {
 		switch (join) {
 		default:
@@ -901,23 +939,28 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		}
 	}
 
+	@Override
 	protected void writeMiterLimit(float limit) throws IOException {
 		pageStream.mitterLimit(limit);
 	}
 
+	@Override
 	protected void writeDash(float[] dash, float phase) throws IOException {
 		pageStream.dash(dash, phase);
 	}
 
 	/* 8.2. paint/color */
+	@Override
 	public void setPaintMode() {
 		writeWarning(getClass() + ": setPaintMode() not implemented.");
 	}
 
+	@Override
 	public void setXORMode(Color c1) {
 		writeWarning(getClass() + ": setXORMode(Color) not implemented.");
 	}
 
+	@Override
 	protected void writePaint(Color c) throws IOException {
 		float[] cc = c.getRGBComponents(null);
 		// System.out.println("alpha = "+cc[3]);
@@ -933,14 +976,17 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		pageStream.colorSpaceStroke(cc[0], cc[1], cc[2]);
 	}
 
+	@Override
 	protected void writePaint(GradientPaint c) throws IOException {
 		writePaint((Paint) c);
 	}
 
+	@Override
 	protected void writePaint(TexturePaint c) throws IOException {
 		writePaint((Paint) c);
 	}
 
+	@Override
 	protected void writePaint(Paint paint) throws IOException {
 		pageStream.colorSpace(os.name("Pattern"));
 		pageStream.colorSpaceStroke(os.name("Pattern"));
@@ -961,6 +1007,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/* 8.3. font */
+	@Override
 	protected void writeFont(Font font) throws IOException {
 		// written when needed
 	}
@@ -971,23 +1018,27 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ====================================================
 	 * ============================
 	 */
+	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
 		writeWarning(
 				getClass() + ": getDeviceConfiguration() not implemented.");
 		return null;
 	}
 
+	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
 		writeWarning(getClass()
 				+ ": hit(Rectangle, Shape, boolean) not implemented.");
 		return false;
 	}
 
+	@Override
 	public void writeComment(String comment) throws IOException {
 		// comments are ignored and disabled, because they confuse compressed
 		// streams
 	}
 
+	@Override
 	public String toString() {
 		return "PDFGraphics2D";
 	}
@@ -998,6 +1049,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ==============================================
 	 * ==================================
 	 */
+	@Override
 	public void showString(Font font, String str) throws IOException {
 		String fontRef = fontTable.fontReference(font, isProperty(EMBED_FONTS),
 				getProperty(EMBED_FONTS_AS));

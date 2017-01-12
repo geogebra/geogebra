@@ -142,8 +142,9 @@ public class StyleAttribute implements Serializable {
 
 	public String getUnits() {
 		matchFpNumUnits.reset(stringValue);
-		if (!matchFpNumUnits.matches())
+		if (!matchFpNumUnits.matches()) {
 			return null;
+		}
 		return matchFpNumUnits.group(6);
 	}
 
@@ -164,7 +165,7 @@ public class StyleAttribute implements Serializable {
 
 		float pixPerInch;
 		try {
-			pixPerInch = (float) Toolkit.getDefaultToolkit()
+			pixPerInch = Toolkit.getDefaultToolkit()
 					.getScreenResolution();
 		} catch (HeadlessException ex) {
 			// default to 72 dpi
@@ -202,8 +203,9 @@ public class StyleAttribute implements Serializable {
 
 	public URL getURLValue(URL docRoot) {
 		String fragment = parseURLFn();
-		if (fragment == null)
+		if (fragment == null) {
 			return null;
+		}
 		try {
 			return new URL(docRoot, fragment);
 		} catch (Exception e) {
@@ -214,8 +216,9 @@ public class StyleAttribute implements Serializable {
 
 	public URL getURLValue(URI docRoot) {
 		String fragment = parseURLFn();
-		if (fragment == null)
+		if (fragment == null) {
 			return null;
+		}
 		try {
 			URI ref = docRoot.resolve(fragment);
 			return ref.toURL();
@@ -240,10 +243,12 @@ public class StyleAttribute implements Serializable {
 	public URI getURIValue(URI base) {
 		try {
 			String fragment = parseURLFn();
-			if (fragment == null)
+			if (fragment == null) {
 				fragment = stringValue.replaceAll("\\s+", "");
-			if (fragment == null)
+			}
+			if (fragment == null) {
 				return null;
+			}
 
 			// ======================
 			// This gets around a bug in the 1.5.0 JDK
@@ -261,8 +266,9 @@ public class StyleAttribute implements Serializable {
 				return uriFrag;
 			}
 
-			if (base == null)
+			if (base == null) {
 				return uriFrag;
+			}
 
 			URI relBase = new URI(null, base.getSchemeSpecificPart(), null);
 			URI relUri;

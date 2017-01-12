@@ -1245,6 +1245,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	abstract public GGraphics2D create();
 
+	@Override
 	abstract public void drawImage(MyImage img, int x, int y);
 
 	@Override

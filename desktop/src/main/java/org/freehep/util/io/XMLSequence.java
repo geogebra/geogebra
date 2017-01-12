@@ -79,8 +79,9 @@ public class XMLSequence extends InputStream {
 	 * @return true if another XML segment can be read
 	 */
 	public boolean hasNext() {
-		if (closed)
+		if (closed) {
 			return false;
+		}
 
 		try {
 			return readUntilXMLDeclaration();
@@ -97,24 +98,30 @@ public class XMLSequence extends InputStream {
 	 *             if read fails
 	 */
 	public InputStream next() throws IOException {
-		if (eof)
+		if (eof) {
 			throw new NoSuchElementException(getClass() + ": at EOF.");
-		if (closed)
+		}
+		if (closed) {
 			throw new NoSuchElementException(getClass() + ": already closed.");
+		}
 
-		if (!readUntilXMLDeclaration())
+		if (!readUntilXMLDeclaration()) {
 			throw new NoSuchElementException(
 					getClass() + ": No more sequences.");
+		}
 
 		xmlIndex = 0;
 		return new NoCloseInputStream(this);
 	}
 
+	@Override
 	public int read() throws IOException {
-		if (xmlIndex == xml.length)
+		if (xmlIndex == xml.length) {
 			return -1;
-		if (closed)
+		}
+		if (closed) {
 			return -1;
+		}
 
 		int a = -1;
 		if (!eof) {
@@ -137,8 +144,9 @@ public class XMLSequence extends InputStream {
 				}
 				bufferEmpty = false;
 
-				if (xmlIndex == xml.length)
+				if (xmlIndex == xml.length) {
 					return -1;
+				}
 			}
 
 			// read next character
@@ -157,8 +165,9 @@ public class XMLSequence extends InputStream {
 		}
 
 		// returned all...
-		if (eof && (buffer[index] == -1))
+		if (eof && (buffer[index] == -1)) {
 			return -1;
+		}
 
 		// replace and return next character
 		int b = buffer[index];
@@ -167,20 +176,25 @@ public class XMLSequence extends InputStream {
 		return b;
 	}
 
+	@Override
 	public void mark(int readLimit) {
 		in.mark(readLimit);
 	}
 
+	@Override
 	public boolean markSupported() {
 		return in.markSupported();
 	}
 
+	@Override
 	public void reset() throws IOException {
-		if (closed)
+		if (closed) {
 			throw new IOException(getClass() + ": already closed.");
+		}
 
-		if (!in.markSupported())
+		if (!in.markSupported()) {
 			throw new IOException(getClass() + ": does not support reset().");
+		}
 
 		in.reset();
 		xmlIndex = 0;
@@ -189,6 +203,7 @@ public class XMLSequence extends InputStream {
 		eof = false;
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (!closed) {
 			in.close();
@@ -197,8 +212,9 @@ public class XMLSequence extends InputStream {
 	}
 
 	private boolean readUntilXMLDeclaration() throws IOException {
-		while (read() >= 0)
+		while (read() >= 0) {
 			;
+		}
 		return (xmlIndex == xml.length);
 	}
 }

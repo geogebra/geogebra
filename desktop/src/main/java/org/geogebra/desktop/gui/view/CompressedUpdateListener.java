@@ -42,6 +42,7 @@ public class CompressedUpdateListener implements ActionListener {
 		this.lock = lock;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (updateSet.isEmpty()) {
 			return;

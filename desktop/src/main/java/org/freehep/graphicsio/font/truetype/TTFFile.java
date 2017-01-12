@@ -60,15 +60,18 @@ public class TTFFile extends TTFFont {
 		}
 	}
 
+	@Override
 	public int getFontVersion() {
 		return sfntMajorVersion;
 	}
 
+	@Override
 	public void close() throws IOException {
 		super.close();
 		ttf.close();
 	}
 
+	@Override
 	public void show() {
 		super.show();
 

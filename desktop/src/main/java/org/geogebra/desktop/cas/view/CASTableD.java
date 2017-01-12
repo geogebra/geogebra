@@ -152,6 +152,7 @@ public class CASTableD extends JTable implements CASTable {
 		// note: this only adjusts column 0
 		tableModel.addTableModelListener(new TableModelListener() {
 
+			@Override
 			public void tableChanged(TableModelEvent e) {
 				if (e.getType() == TableModelEvent.UPDATE
 						|| e.getType() == TableModelEvent.DELETE) {
@@ -251,9 +252,10 @@ public class CASTableD extends JTable implements CASTable {
 				else if (isOutputPanelClicked(e.getPoint())
 						&& clickedCell.showOutput()
 						&& !clickedCell.isOutputEmpty()) {
-					if (!clickedCell.isError())
+					if (!clickedCell.isError()) {
 						getEditor().insertText(
 								view.getRowOutputValue(getClickedRow()));
+					}
 				} else {
 					getSelectionModel().setSelectionInterval(getClickedRow(),
 							getClickedRow());
@@ -298,8 +300,9 @@ public class CASTableD extends JTable implements CASTable {
 					&& getGeoCasCell(row).getLaTeXOutput().length() > 0);
 			if (isOutputRollOver) {
 				setToolTipText(getGeoCasCell(row).getTooltipText(true, true));
-			} else
+			} else {
 				setToolTipText(null);
+			}
 		}
 
 		@Override
@@ -324,6 +327,7 @@ public class CASTableD extends JTable implements CASTable {
 			this.table = table;
 		}
 
+		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			if (!e.getValueIsAdjusting()) {
 				table.repaint();
@@ -349,8 +353,9 @@ public class CASTableD extends JTable implements CASTable {
 	 */
 	boolean isOutputPanelClicked(Point p) {
 		int row = rowAtPoint(p);
-		if (row < 0)
+		if (row < 0) {
 			return false;
+		}
 
 		// calculate sum of row heights before
 		int rowHeightsAbove = 0;
@@ -377,13 +382,16 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * Stops editing of current cell
 	 */
+	@Override
 	public void stopEditing() {
-		if (!isEditing())
+		if (!isEditing()) {
 			return;
+		}
 		// stop editing
 		CellEditor editor1 = (CellEditor) getEditorComponent();
-		if (editor1 != null)
+		if (editor1 != null) {
 			editor1.stopCellEditing();
+		}
 	}
 
 	/**
@@ -391,6 +399,7 @@ public class CASTableD extends JTable implements CASTable {
 	 * 
 	 * @return cell editor
 	 */
+	@Override
 	public CASTableCellEditorD getEditor() {
 		return editor;
 	}
@@ -405,10 +414,12 @@ public class CASTableD extends JTable implements CASTable {
 	 * @param startEditing
 	 *            true to start editing
 	 */
+	@Override
 	public void insertRow(final int selectedRow, GeoCasCell newValue,
 			final boolean startEditing) {
-		if (startEditing)
+		if (startEditing) {
 			stopEditing();
+		}
 		GeoCasCell toInsert = newValue;
 		if (toInsert == null) {
 			toInsert = new GeoCasCell(kernel.getConstruction());
@@ -435,8 +446,9 @@ public class CASTableD extends JTable implements CASTable {
 				getTable().getCellRect(selectedRow, 0, false));
 
 		// update height of new row
-		if (startEditing)
+		if (startEditing) {
 			startEditingRow(selectedRow);
+		}
 	}
 
 	/**
@@ -474,13 +486,16 @@ public class CASTableD extends JTable implements CASTable {
 	 * @param casCell
 	 *            CAS cell
 	 */
+	@Override
 	final public void setRow(final int row, final GeoCasCell casCell) {
-		if (row < 0)
+		if (row < 0) {
 			return;
+		}
 
 		// cancel editing
-		if (editor.isEditing() && editor.getEditingRow() == row)
+		if (editor.isEditing() && editor.getEditingRow() == row) {
 			editor.cancelCellEditing();
+		}
 
 		int rowCount = tableModel.getRowCount();
 		if (row < rowCount) {
@@ -566,8 +581,9 @@ public class CASTableD extends JTable implements CASTable {
 	 */
 	public void updateAllRows() {
 		int rowCount = tableModel.getRowCount();
-		if (rowCount > 0)
+		if (rowCount > 0) {
 			tableModel.fireTableRowsUpdated(0, rowCount - 1);
+		}
 	}
 
 	/**
@@ -575,6 +591,7 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row index (starting from 0)
 	 * @return CAS cell on given row
 	 */
+	@Override
 	public GeoCasCell getGeoCasCell(int row) {
 		if (row < 0 || row > tableModel.getRowCount() - 1) {
 			return null;
@@ -586,6 +603,7 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * Delete all rows
 	 */
+	@Override
 	public void deleteAllRows() {
 		tableModel.setRowCount(0);
 		// kernel.getConstruction().setArbitraryConsTable(
@@ -598,10 +616,12 @@ public class CASTableD extends JTable implements CASTable {
 	 * @param row
 	 *            row (staring from 0)
 	 */
+	@Override
 	public void deleteRow(int row) {
 
-		if (row > -1 && row < tableModel.getRowCount())
+		if (row > -1 && row < tableModel.getRowCount()) {
 			tableModel.removeRow(row);
+		}
 		// update keys (rows) in arbitrary constant table
 		updateAfterDeleteArbConstTable(row);
 
@@ -646,6 +666,7 @@ public class CASTableD extends JTable implements CASTable {
 	 * @param editRow
 	 *            row number (starting from 0)
 	 */
+	@Override
 	public void startEditingRow(final int editRow) {
 		rollOverRow = -1;
 		if (editRow >= tableModel.getRowCount()) {
@@ -658,8 +679,9 @@ public class CASTableD extends JTable implements CASTable {
 	}
 
 	private void doEditCellAt(final int editRow) {
-		if (editRow < 0)
+		if (editRow < 0) {
 			return;
+		}
 		setRowSelectionInterval(editRow, editRow);
 		scrollRectToVisible(getCellRect(editRow, COL_CAS_CELLS, true));
 		editCellAt(editRow, COL_CAS_CELLS);
@@ -667,10 +689,12 @@ public class CASTableD extends JTable implements CASTable {
 		// use invokeLater to prevent the scrollpane from stealing the focus
 		// when scrollbars are made visible
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				boolean success = editCellAt(editRow, COL_CAS_CELLS);
-				if (success)
+				if (success) {
 					editor.setInputAreaFocused();
+				}
 			}
 		});
 	}
@@ -684,8 +708,9 @@ public class CASTableD extends JTable implements CASTable {
 			}
 			editor.setFont(getFont());
 		}
-		if (renderer != null)
+		if (renderer != null) {
 			renderer.setFont(getFont());
+		}
 
 		repaint();
 	}
@@ -744,6 +769,7 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * Updates labels to match current locale
 	 */
+	@Override
 	public void setLabels() {
 		editor.setLabels();
 	}
@@ -884,14 +910,17 @@ public class CASTableD extends JTable implements CASTable {
 
 	}
 
+	@Override
 	public App getApplication() {
 		return app;
 	}
 
+	@Override
 	public void resetRowNumbers(int from) {
 		// do nothing
 	}
 
+	@Override
 	public boolean hasEditor() {
 		return this.editor != null;
 	}

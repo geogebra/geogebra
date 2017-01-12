@@ -19,6 +19,7 @@ public class EOF extends EMFTag {
 		super(14, 1);
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -27,6 +28,7 @@ public class EOF extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeDWORD(0); // # of palette entries
 		emf.writeDWORD(0x10); // offset for palette

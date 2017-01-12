@@ -24,10 +24,12 @@ public class TTFHHeaTable extends TTFVersionTable {
 
 	public int numberOfHMetrics;
 
+	@Override
 	public String getTag() {
 		return "hhea";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		readVersion();
 
@@ -44,13 +46,15 @@ public class TTFHHeaTable extends TTFVersionTable {
 		caretSlopeRise = ttf.readShort();
 		caretSlopeRun = ttf.readShort();
 
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++) {
 			ttf.checkShortZero();
+		}
 
 		metricDataFormat = ttf.readShort();
 		numberOfHMetrics = ttf.readUShort();
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "\n  asc:" + ascender + " desc:" + descender + " lineGap:"

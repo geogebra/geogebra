@@ -73,10 +73,11 @@ public class InspectorTable extends JTable {
 	}
 
 	public void setCellEditable(int rowIndex, int colIndex) {
-		if (rowIndex == -1 && colIndex == -1)
+		if (rowIndex == -1 && colIndex == -1) {
 			editableCell.clear();
-		else
+		} else {
 			editableCell.add(new Point(rowIndex, colIndex));
+		}
 
 	}
 
@@ -181,10 +182,11 @@ public class InspectorTable extends JTable {
 
 			setFont(app.getPlainFont());
 
-			if (table.isCellEditable(row, column))
+			if (table.isCellEditable(row, column)) {
 				setBorder(editCellBorder);
-			else
+			} else {
 				setBorder(paddingBorder);
+			}
 
 			if (isSelected && !table.isCellEditable(row, column)) {
 				setBackground(table.getSelectionBackground());
@@ -200,8 +202,9 @@ public class InspectorTable extends JTable {
 			if (value != null) {
 				try {
 					double val = Double.parseDouble((String) value);
-					if (val < 0 && doRedNegative)
+					if (val < 0 && doRedNegative) {
 						setForeground(Color.red);
+					}
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
 					// e.printStackTrace();

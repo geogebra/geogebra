@@ -115,6 +115,7 @@ public class LogFontW implements EMFConstants {
 		emf.writeWCHAR(faceFamily, 32);
 	}
 
+	@Override
 	public String toString() {
 		return "  LogFontW\n" + "    height: " + height + "\n" + "    width: "
 				+ width + "\n" + "    orientation: " + orientation + "\n"

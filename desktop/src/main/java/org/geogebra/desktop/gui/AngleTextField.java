@@ -26,14 +26,17 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 		this.addKeyListener(this);
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown()
@@ -74,8 +77,9 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 				sb.append(oldText.substring(0, start));
 				sb.append(oldText.substring(end));
 				setText(sb.toString());
-				if (pos < sb.length())
+				if (pos < sb.length()) {
 					setCaretPosition(pos);
+				}
 			}
 
 			String oldText = getText();

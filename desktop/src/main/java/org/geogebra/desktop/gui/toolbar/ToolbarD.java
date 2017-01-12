@@ -242,8 +242,9 @@ public class ToolbarD extends JToolBar {
 				}
 			}
 
-			if (tm.getToolsCount() > 0)
+			if (tm.getToolsCount() > 0) {
 				add(tm);
+			}
 		}
 
 		endAdd();

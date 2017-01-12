@@ -16,10 +16,12 @@ public class DelegatingListModel extends AbstractListModel {
 	private static final long serialVersionUID = 1L;
 	private List<?> delegate = Collections.emptyList();
 
+	@Override
 	public int getSize() {
 		return delegate.size();
 	}
 
+	@Override
 	public Object getElementAt(int index) {
 		return delegate.get(index);
 	}

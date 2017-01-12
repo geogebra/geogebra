@@ -86,8 +86,9 @@ public class GuiManager3D extends GuiManagerD {
 	@Override
 	protected boolean initActions() {
 
-		if (!super.initActions())
+		if (!super.initActions()) {
 			return false;
+		}
 		showAxes3DAction = new AbstractAction(getApp().getMenu("Axes"),
 				(getApp()).getScaledIcon(GuiResourcesD.AXES)) {
 			private static final long serialVersionUID = 1L;
@@ -215,8 +216,9 @@ public class GuiManager3D extends GuiManagerD {
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
 
-		if (selectedGeos == null || selectedGeos.get(0) == null)
+		if (selectedGeos == null || selectedGeos.get(0) == null) {
 			return;
+		}
 
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
@@ -268,8 +270,9 @@ public class GuiManager3D extends GuiManagerD {
 
 		if (app.isEuclidianView3Dinited()) {
 			EuclidianView3DInterface view = app.getEuclidianView3D();
-			if (view != null && ((EuclidianView) view).hasStyleBar())
+			if (view != null && ((EuclidianView) view).hasStyleBar()) {
 				((EuclidianView) view).getStyleBar().setLabels();
+			}
 
 		}
 	}

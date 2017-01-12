@@ -48,10 +48,12 @@ public class TTFOS_2Table extends TTFVersionTable {
 
 	public long[] ulCodePageRange = new long[2];
 
+	@Override
 	public String getTag() {
 		return "OS/2";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 
 		version = ttf.readUShort();
@@ -75,8 +77,9 @@ public class TTFOS_2Table extends TTFVersionTable {
 
 		ttf.readFully(panose);
 
-		for (int i = 0; i < ulUnicode.length; i++)
+		for (int i = 0; i < ulUnicode.length; i++) {
 			ulUnicode[i] = ttf.readULong();
+		}
 		ttf.readFully(achVendID);
 		fsSelection = ttf.readUShort();
 
@@ -103,6 +106,7 @@ public class TTFOS_2Table extends TTFVersionTable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n  version: " + version + "\n  vendor: "
 				+ getAchVendID();

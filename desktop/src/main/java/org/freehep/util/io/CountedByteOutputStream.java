@@ -27,16 +27,19 @@ public class CountedByteOutputStream extends FilterOutputStream {
 		count = 0;
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		out.write(b);
 		count++;
 	}
 
+	@Override
 	public void write(byte[] b) throws IOException {
 		out.write(b);
 		count += b.length;
 	}
 
+	@Override
 	public void write(byte[] b, int offset, int len) throws IOException {
 		out.write(b, offset, len);
 		count += len;

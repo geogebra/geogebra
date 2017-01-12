@@ -456,8 +456,9 @@ public class Context {
 			throw new IllegalStateException(
 					"Calling Context.exit without previous Context.enter");
 		}
-		if (cx.enterCount < 1)
+		if (cx.enterCount < 1) {
 			Kit.codeBug();
+		}
 		if (--cx.enterCount == 0) {
 			VMBridge.instance.setContext(helper, null);
 			cx.factory.onContextReleased(cx);
@@ -504,6 +505,7 @@ public class Context {
 			factory = ContextFactory.getGlobal();
 		}
 		return call(factory, new ContextAction() {
+			@Override
 			public Object run(Context cx) {
 				return callable.call(cx, scope, thisObj, args);
 			}
@@ -592,8 +594,9 @@ public class Context {
 	 * @see #unseal(Object)
 	 */
 	public final void seal(Object sealKey) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		sealed = true;
 		this.sealKey = sealKey;
 	}
@@ -607,12 +610,15 @@ public class Context {
 	 * @see #seal(Object sealKey)
 	 */
 	public final void unseal(Object sealKey) {
-		if (sealKey == null)
+		if (sealKey == null) {
 			throw new IllegalArgumentException();
-		if (this.sealKey != sealKey)
+		}
+		if (this.sealKey != sealKey) {
 			throw new IllegalArgumentException();
-		if (!sealed)
+		}
+		if (!sealed) {
 			throw new IllegalStateException();
+		}
 		sealed = false;
 		this.sealKey = null;
 	}
@@ -645,8 +651,9 @@ public class Context {
 	 *            the version as specified by VERSION_1_0, VERSION_1_1, etc.
 	 */
 	public void setLanguageVersion(int version) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		checkLanguageVersion(version);
 		Object listeners = propertyListeners;
 		if (listeners != null && version != this.version) {
@@ -729,8 +736,9 @@ public class Context {
 					// Ignore this unlikely event
 				} finally {
 					try {
-						if (is != null)
+						if (is != null) {
 							is.close();
+						}
 					} catch (IOException e) {
 						// Ignore this even unlikelier event
 					}
@@ -760,10 +768,12 @@ public class Context {
 	 * @see org.mozilla.javascript.ErrorReporter
 	 */
 	public final ErrorReporter setErrorReporter(ErrorReporter reporter) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (reporter == null)
+		}
+		if (reporter == null) {
 			throw new IllegalArgumentException();
+		}
 		ErrorReporter old = getErrorReporter();
 		if (reporter == old) {
 			return old;
@@ -784,8 +794,9 @@ public class Context {
 	 */
 
 	public final Locale getLocale() {
-		if (locale == null)
+		if (locale == null) {
 			locale = Locale.getDefault();
+		}
 		return locale;
 	}
 
@@ -795,8 +806,9 @@ public class Context {
 	 * @see java.util.Locale
 	 */
 	public final Locale setLocale(Locale loc) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		Locale result = locale;
 		locale = loc;
 		return result;
@@ -812,8 +824,9 @@ public class Context {
 	 *            the listener
 	 */
 	public final void addPropertyChangeListener(PropertyChangeListener l) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		propertyListeners = Kit.addListener(propertyListeners, l);
 	}
 
@@ -827,8 +840,9 @@ public class Context {
 	 *            the listener
 	 */
 	public final void removePropertyChangeListener(PropertyChangeListener l) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		propertyListeners = Kit.removeListener(propertyListeners, l);
 	}
 
@@ -858,8 +872,9 @@ public class Context {
 			Object oldValue, Object newValue) {
 		for (int i = 0;; ++i) {
 			Object l = Kit.getListener(listeners, i);
-			if (l == null)
+			if (l == null) {
 				break;
+			}
 			if (l instanceof PropertyChangeListener) {
 				PropertyChangeListener pcl = (PropertyChangeListener) l;
 				pcl.propertyChange(new PropertyChangeEvent(this, property,
@@ -886,11 +901,12 @@ public class Context {
 	public static void reportWarning(String message, String sourceName,
 			int lineno, String lineSource, int lineOffset) {
 		Context cx = Context.getContext();
-		if (cx.hasFeature(FEATURE_WARNING_AS_ERROR))
+		if (cx.hasFeature(FEATURE_WARNING_AS_ERROR)) {
 			reportError(message, sourceName, lineno, lineSource, lineOffset);
-		else
+		} else {
 			cx.getErrorReporter().warning(message, sourceName, lineno,
 					lineSource, lineOffset);
+		}
 	}
 
 	/**
@@ -1430,10 +1446,11 @@ public class Context {
 		// Return false only if an error occurred as a result of reading past
 		// the end of the file, i.e. if the source could be fixed by
 		// appending more source.
-		if (errorseen && p.eof())
+		if (errorseen && p.eof()) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	/**
@@ -1593,11 +1610,12 @@ public class Context {
 	 * @return a string representing the function source
 	 */
 	public final String decompileFunction(Function fun, int indent) {
-		if (fun instanceof BaseFunction)
+		if (fun instanceof BaseFunction) {
 			return ((BaseFunction) fun).decompile(indent, 0);
-		else
+		} else {
 			return "function " + fun.getClassName()
 					+ "() {\n\t[native code]\n}\n";
+		}
 	}
 
 	/**
@@ -1718,8 +1736,9 @@ public class Context {
 	 * @return the new array object.
 	 */
 	public Scriptable newArray(Scriptable scope, Object[] elements) {
-		if (elements.getClass().getComponentType() != ScriptRuntime.ObjectClass)
+		if (elements.getClass().getComponentType() != ScriptRuntime.ObjectClass) {
 			throw new IllegalArgumentException();
+		}
 		NativeArray result = new NativeArray(elements);
 		ScriptRuntime.setBuiltinProtoAndParent(result, scope,
 				TopLevel.Builtins.Array);
@@ -1962,11 +1981,13 @@ public class Context {
 	 * @since 1.3
 	 */
 	public final void setGeneratingDebug(boolean generatingDebug) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		generatingDebugChanged = true;
-		if (generatingDebug && getOptimizationLevel() > 0)
+		if (generatingDebug && getOptimizationLevel() > 0) {
 			setOptimizationLevel(0);
+		}
 		this.generatingDebug = generatingDebug;
 	}
 
@@ -1990,8 +2011,9 @@ public class Context {
 	 * @since 1.3
 	 */
 	public final void setGeneratingSource(boolean generatingSource) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		this.generatingSource = generatingSource;
 	}
 
@@ -2025,15 +2047,17 @@ public class Context {
 	 *
 	 */
 	public final void setOptimizationLevel(int optimizationLevel) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		if (optimizationLevel == -2) {
 			// To be compatible with Cocoon fork
 			optimizationLevel = -1;
 		}
 		checkOptimizationLevel(optimizationLevel);
-		if (codegenClass == null)
+		if (codegenClass == null) {
 			optimizationLevel = -1;
+		}
 		this.optimizationLevel = optimizationLevel;
 	}
 
@@ -2087,8 +2111,9 @@ public class Context {
 	 *             if the new depth is not at least 1
 	 */
 	public final void setMaximumInterpreterStackDepth(int max) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		if (optimizationLevel != -1) {
 			throw new IllegalStateException(
 					"Cannot set maximumInterpreterStackDepth when optimizationLevel != -1");
@@ -2116,10 +2141,12 @@ public class Context {
 	 * @see SecurityController#hasGlobal()
 	 */
 	public final void setSecurityController(SecurityController controller) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (controller == null)
+		}
+		if (controller == null) {
 			throw new IllegalArgumentException();
+		}
 		if (securityController != null) {
 			throw new SecurityException(
 					"Can not overwrite existing SecurityController object");
@@ -2143,10 +2170,12 @@ public class Context {
 	 *             if there is already a ClassShutter object for this Context
 	 */
 	public synchronized final void setClassShutter(ClassShutter shutter) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (shutter == null)
+		}
+		if (shutter == null) {
 			throw new IllegalArgumentException();
+		}
 		if (hasClassShutter) {
 			throw new SecurityException(
 					"Cannot overwrite existing " + "ClassShutter object");
@@ -2166,14 +2195,17 @@ public class Context {
 	}
 
 	public final synchronized ClassShutterSetter getClassShutterSetter() {
-		if (hasClassShutter)
+		if (hasClassShutter) {
 			return null;
+		}
 		hasClassShutter = true;
 		return new ClassShutterSetter() {
+			@Override
 			public void setClassShutter(ClassShutter shutter) {
 				classShutter = shutter;
 			}
 
+			@Override
 			public ClassShutter getClassShutter() {
 				return classShutter;
 			}
@@ -2196,8 +2228,9 @@ public class Context {
 	 * @return a value previously stored using putThreadLocal.
 	 */
 	public final Object getThreadLocal(Object key) {
-		if (threadLocalMap == null)
+		if (threadLocalMap == null) {
 			return null;
+		}
 		return threadLocalMap.get(key);
 	}
 
@@ -2211,10 +2244,12 @@ public class Context {
 	 *            the value to save
 	 */
 	public synchronized final void putThreadLocal(Object key, Object value) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (threadLocalMap == null)
+		}
+		if (threadLocalMap == null) {
 			threadLocalMap = new HashMap<Object, Object>();
+		}
 		threadLocalMap.put(key, value);
 	}
 
@@ -2226,10 +2261,12 @@ public class Context {
 	 * @since 1.5 release 2
 	 */
 	public final void removeThreadLocal(Object key) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (threadLocalMap == null)
+		}
+		if (threadLocalMap == null) {
 			return;
+		}
 		threadLocalMap.remove(key);
 	}
 
@@ -2252,10 +2289,12 @@ public class Context {
 	 * @since 1.5 Release 4
 	 */
 	public final void setWrapFactory(WrapFactory wrapFactory) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (wrapFactory == null)
+		}
+		if (wrapFactory == null) {
 			throw new IllegalArgumentException();
+		}
 		this.wrapFactory = wrapFactory;
 	}
 
@@ -2300,8 +2339,9 @@ public class Context {
 	 *            data.
 	 */
 	public final void setDebugger(Debugger debugger, Object contextData) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		this.debugger = debugger;
 		debuggerData = contextData;
 	}
@@ -2394,10 +2434,12 @@ public class Context {
 	 *            The instruction threshold
 	 */
 	public final void setInstructionObserverThreshold(int threshold) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (threshold < 0)
+		}
+		if (threshold < 0) {
 			throw new IllegalArgumentException();
+		}
 		instructionThreshold = threshold;
 		setGenerateObserverCount(threshold > 0);
 	}
@@ -2483,8 +2525,9 @@ public class Context {
 	}
 
 	public final void setApplicationClassLoader(ClassLoader loader) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
+		}
 		if (loader == null) {
 			// restore default behaviour
 			applicationClassLoader = null;
@@ -2524,11 +2567,13 @@ public class Context {
 		}
 
 		// One of sourceReader or sourceString has to be null
-		if (!(sourceReader == null ^ sourceString == null))
+		if (!(sourceReader == null ^ sourceString == null)) {
 			Kit.codeBug();
+		}
 		// scope should be given if and only if compiling function
-		if (!(scope == null ^ returnFunction))
+		if (!(scope == null ^ returnFunction)) {
 			Kit.codeBug();
+		}
 
 		CompilerEnvirons compilerEnv = new CompilerEnvirons();
 		compilerEnv.initFromContext(this);
@@ -2581,8 +2626,9 @@ public class Context {
 		Object bytecode = compiler.compile(compilerEnv, tree,
 				tree.getEncodedSource(), returnFunction);
 		if (debugger != null) {
-			if (sourceString == null)
+			if (sourceString == null) {
 				Kit.codeBug();
+			}
 			if (bytecode instanceof DebuggableScript) {
 				DebuggableScript dscript = (DebuggableScript) bytecode;
 				notifyDebugger_r(this, dscript, sourceString);
@@ -2632,12 +2678,14 @@ public class Context {
 
 	public static String getSourcePositionFromStack(int[] linep) {
 		Context cx = getCurrentContext();
-		if (cx == null)
+		if (cx == null) {
 			return null;
+		}
 		if (cx.lastInterpreterFrame != null) {
 			Evaluator evaluator = createInterpreter();
-			if (evaluator != null)
+			if (evaluator != null) {
 				return evaluator.getSourcePositionFromStack(cx, linep);
+			}
 		}
 		/**
 		 * A bit of a hack, but the only way to get filename and line number
@@ -2694,10 +2742,12 @@ public class Context {
 	 *            the name of the object to add to the list
 	 */
 	public void addActivationName(String name) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (activationNames == null)
+		}
+		if (activationNames == null) {
 			activationNames = new HashSet<String>();
+		}
 		activationNames.add(name);
 	}
 
@@ -2722,10 +2772,12 @@ public class Context {
 	 *            the name of the object to remove from the list
 	 */
 	public void removeActivationName(String name) {
-		if (sealed)
+		if (sealed) {
 			onSealedMutation();
-		if (activationNames != null)
+		}
+		if (activationNames != null) {
 			activationNames.remove(name);
+		}
 	}
 
 	private static String implementationVersion;

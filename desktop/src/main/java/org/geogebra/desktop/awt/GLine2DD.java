@@ -22,30 +22,37 @@ public class GLine2DD implements GLine2D, GShapeD {
 		impl = line;
 	}
 
+	@Override
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		return impl.contains(x, y);
 	}
 
+	@Override
 	public GRectangle getBounds() {
 		return new GRectangleD(impl.getBounds());
 	}
 
+	@Override
 	public GRectangle2D getBounds2D() {
 		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
+	@Override
 	public boolean contains(GRectangle2D rectangle) {
 		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
+	@Override
 	public boolean contains(double xTry, double yTry) {
 		return impl.contains(xTry, yTry);
 	}
 
+	@Override
 	public Shape getAwtShape() {
 		return impl;
 	}
@@ -56,6 +63,7 @@ public class GLine2DD implements GLine2D, GShapeD {
 
 	}
 
+	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
@@ -66,40 +74,50 @@ public class GLine2DD implements GLine2D, GShapeD {
 				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
+	@Override
 	public boolean intersects(double x, double y, double w, double h) {
 		return impl.intersects(x, y, w, h);
 	}
 
+	@Override
 	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
+	@Override
 	public GPoint2D getP1() {
 		Point2D p1 = impl.getP1();
-		if (p1 == null)
+		if (p1 == null) {
 			return null;
+		}
 		return new GPoint2DD(p1.getX(), p1.getY());
 	}
 
+	@Override
 	public GPoint2D getP2() {
 		Point2D p2 = impl.getP2();
-		if (p2 == null)
+		if (p2 == null) {
 			return null;
+		}
 		return new GPoint2DD(p2.getX(), p2.getY());
 	}
 
+	@Override
 	public double getX1() {
 		return impl.getX1();
 	}
 
+	@Override
 	public double getY1() {
 		return impl.getY1();
 	}
 
+	@Override
 	public double getX2() {
 		return impl.getX2();
 	}
 
+	@Override
 	public double getY2() {
 		return impl.getY2();
 	}

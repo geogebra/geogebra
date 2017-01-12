@@ -68,14 +68,17 @@ public class Base64InputStream extends InputStream {
 		lineNo = 1;
 	}
 
+	@Override
 	public int read() throws IOException {
 
 		if (bIndex >= bLength) {
-			if (endReached)
+			if (endReached) {
 				return -1;
+			}
 			bLength = readTuple();
-			if (bLength <= 0)
+			if (bLength <= 0) {
 				return -1;
+			}
 			bIndex = 0;
 		}
 		int a = b[bIndex];
@@ -100,8 +103,9 @@ public class Base64InputStream extends InputStream {
 		int prevEncoding = 0;
 		int i = 0;
 
-		if (endReached)
+		if (endReached) {
 			return 0;
+		}
 
 		while (i < c.length) {
 			int ch = in.read();

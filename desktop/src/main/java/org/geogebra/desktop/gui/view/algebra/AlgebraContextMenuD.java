@@ -48,6 +48,7 @@ public class AlgebraContextMenuD extends JPopupMenu {
 				app.getScaledIcon(GuiResourcesD.AUXILIARY)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
 			}

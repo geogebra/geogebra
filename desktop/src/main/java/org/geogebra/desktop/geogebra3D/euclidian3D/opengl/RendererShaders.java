@@ -376,10 +376,12 @@ public class RendererShaders extends RendererD
 
 	}
 
+	@Override
 	public void createArrayBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedBuffers);
 	}
 
+	@Override
 	public void createElementBuffer(GPUBuffer buffer) {
 		createBuffer(buffer, removedElementBuffers);
 	}
@@ -391,10 +393,12 @@ public class RendererShaders extends RendererD
 		stack.push(((GPUBufferD) buffer).get());
 	}
 
+	@Override
 	public void removeArrayBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedBuffers);
 	}
 
+	@Override
 	public void removeElementBuffer(GPUBuffer buffer) {
 		removeBuffer(buffer, removedElementBuffers);
 	}

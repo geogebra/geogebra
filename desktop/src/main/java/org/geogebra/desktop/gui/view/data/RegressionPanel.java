@@ -194,6 +194,7 @@ public class RegressionPanel extends JPanel
 	/**
 	 * Sets the labels according to current locale
 	 */
+	@Override
 	public void setLabels() {
 		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
@@ -233,12 +234,13 @@ public class RegressionPanel extends JPanel
 		try {
 			// prepare number format
 			StringTemplate highPrecision;
-			if (daModel.getPrintDecimals() >= 0)
+			if (daModel.getPrintDecimals() >= 0) {
 				highPrecision = StringTemplate.printDecimals(StringType.LATEX,
 						daModel.getPrintDecimals(), false);
-			else
+			} else {
 				highPrecision = StringTemplate.printFigures(StringType.LATEX,
 						daModel.getPrintFigures(), false);
+			}
 
 			// no regression
 			if (daModel.getRegressionMode().equals(Regression.NONE)
@@ -291,6 +293,7 @@ public class RegressionPanel extends JPanel
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
@@ -319,14 +322,16 @@ public class RegressionPanel extends JPanel
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		if (source == fldInputX) {
 			try {
 				String inputText = source.getText().trim();
-				if (inputText == null || inputText.length() == 0)
+				if (inputText == null || inputText.length() == 0) {
 					return;
+				}
 
 				NumberValue nv;
 				nv = app.getKernel().getAlgebraProcessor()
@@ -345,11 +350,13 @@ public class RegressionPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updatePanel() {
 		// TODO Auto-generated method stub
 

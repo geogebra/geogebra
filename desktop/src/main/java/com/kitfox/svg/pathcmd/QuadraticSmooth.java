@@ -52,6 +52,7 @@ public class QuadraticSmooth extends PathCommand {
 	public QuadraticSmooth() {
 	}
 
+	@Override
 	public String toString() {
 		return "T " + x + " " + y;
 	}
@@ -63,6 +64,7 @@ public class QuadraticSmooth extends PathCommand {
 	}
 
 	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	@Override
 	public void appendPath(GeneralPath path, BuildHistory hist) {
 		float offx = isRelative ? hist.lastPoint.x : 0f;
 		float offy = isRelative ? hist.lastPoint.y : 0f;
@@ -80,6 +82,7 @@ public class QuadraticSmooth extends PathCommand {
 		hist.setLastKnot(kx, ky);
 	}
 
+	@Override
 	public int getNumKnotsAdded() {
 		return 4;
 	}

@@ -14,8 +14,9 @@ public class IdFunctionObject extends BaseFunction {
 
 	public IdFunctionObject(IdFunctionCall idcall, Object tag, int id,
 			int arity) {
-		if (arity < 0)
+		if (arity < 0) {
 			throw new IllegalArgumentException();
+		}
 
 		this.idcall = idcall;
 		this.tag = tag;
@@ -27,10 +28,12 @@ public class IdFunctionObject extends BaseFunction {
 			String name, int arity, Scriptable scope) {
 		super(scope, null);
 
-		if (arity < 0)
+		if (arity < 0) {
 			throw new IllegalArgumentException();
-		if (name == null)
+		}
+		if (name == null) {
 			throw new IllegalArgumentException();
+		}
 
 		this.idcall = idcall;
 		this.tag = tag;
@@ -40,10 +43,12 @@ public class IdFunctionObject extends BaseFunction {
 	}
 
 	public void initFunction(String name, Scriptable scope) {
-		if (name == null)
+		if (name == null) {
 			throw new IllegalArgumentException();
-		if (scope == null)
+		}
+		if (scope == null) {
 			throw new IllegalArgumentException();
+		}
 		this.functionName = name;
 		setParentScope(scope);
 	}

@@ -38,11 +38,13 @@ public class DurationPatternTool extends ParserListenerAdapter {
 		reset();
 	}
 
+	@Override
 	public void voiceEvent(Voice voice) {
 		this.activeVoice = voice.getVoice();
 	}
 
 	// Only look at the first Note events, not parallel or sequential ones.
+	@Override
 	public void noteEvent(Note note) {
 		long duration = note.getDuration();
 		this.voiceDuration[this.activeVoice] += duration;

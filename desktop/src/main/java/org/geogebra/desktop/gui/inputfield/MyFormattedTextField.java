@@ -30,16 +30,19 @@ public class MyFormattedTextField extends JFormattedTextField
 		addFocusListener(this);
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		guiManager.setCurrentTextfield(this, false);
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		guiManager.setCurrentTextfield(null,
 				!(e.getOppositeComponent() instanceof VirtualKeyboardD));
 
 	}
 
+	@Override
 	public void insertString(String text) {
 
 		int start = getSelectionStart();
@@ -52,8 +55,9 @@ public class MyFormattedTextField extends JFormattedTextField
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));
 			setText(sb.toString());
-			if (pos < sb.length())
+			if (pos < sb.length()) {
 				setCaretPosition(pos);
+			}
 		}
 
 		int pos = getCaretPosition();

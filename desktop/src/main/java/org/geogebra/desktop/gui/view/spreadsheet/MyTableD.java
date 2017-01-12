@@ -103,6 +103,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 */
 	public ArrayList<CellRange> selectedCellRanges;
 
+	@Override
 	public ArrayList<CellRange> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
@@ -316,6 +317,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 * @return CopyPasteCut
 	 */
+	@Override
 	public CopyPasteCut getCopyPasteCut() {
 		return copyPasteCut;
 	}
@@ -325,6 +327,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 * @return Kernel
 	 */
+	@Override
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -334,6 +337,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 * @return App
 	 */
+	@Override
 	public App getApplication() {
 		return app;
 	}
@@ -343,6 +347,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 * @return SpreadsheetView
 	 */
+	@Override
 	public SpreadsheetViewD getView() {
 		return view;
 	}
@@ -351,9 +356,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * Returns CellRangeProcessor for this table. If none exists, a new one is
 	 * created.
 	 */
+	@Override
 	public CellRangeProcessor getCellRangeProcessor() {
-		if (crProcessor == null)
+		if (crProcessor == null) {
 			crProcessor = new CellRangeProcessor(this);
+		}
 		return crProcessor;
 	}
 
@@ -361,9 +368,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * Returns CellFormat helper class for this table. If none exists, a new one
 	 * is created.
 	 */
+	@Override
 	public CellFormatInterface getCellFormatHandler() {
-		if (formatHandler == null)
+		if (formatHandler == null) {
 			formatHandler = new CellFormat(this);
+		}
 		return formatHandler;
 	}
 
@@ -372,8 +381,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * one is created.
 	 */
 	public MyCellEditorBoolean getEditorBoolean() {
-		if (editorBoolean == null)
+		if (editorBoolean == null) {
 			editorBoolean = new MyCellEditorBoolean(kernel);
+		}
 		return editorBoolean;
 	}
 
@@ -382,8 +392,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * created.
 	 */
 	public MyCellEditorButton getEditorButton() {
-		if (editorButton == null)
+		if (editorButton == null) {
 			editorButton = new MyCellEditorButton();
+		}
 		return editorButton;
 	}
 
@@ -392,8 +403,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * is created.
 	 */
 	public MyCellEditorList getEditorList() {
-		if (editorList == null)
+		if (editorList == null) {
 			editorList = new MyCellEditorList();
+		}
 		return editorList;
 	}
 
@@ -403,8 +415,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 */
 	protected void updateColumnCount() {
 
-		if (tableModel.getColumnCount() <= this.getColumnCount())
+		if (tableModel.getColumnCount() <= this.getColumnCount()) {
 			return;
+		}
 
 		// ensure that auto-create is off
 		if (this.getAutoCreateColumnsFromModel()) {
@@ -482,6 +495,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	public class MyTableModelListener implements TableModelListener {
 
+		@Override
 		public void tableChanged(TableModelEvent e) {
 			// force rowHeader redraw when a new row is added (after drag
 			// down or arrow down)
@@ -499,6 +513,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	// ===============================================================
 	// Selection
 	// ===============================================================
+	@Override
 	public void changeSelection(int rowIndex, int columnIndex, boolean extend) {
 		this.changeSelection(rowIndex, columnIndex, false, extend);
 	}
@@ -548,6 +563,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	/**
 	 * This handles all selection changes for the table.
 	 */
+	@Override
 	public void selectionChanged() {
 
 		// create a cell range object to store
@@ -633,15 +649,19 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
-		if (selectionType == MyTable.COLUMN_SELECT)
+		if (selectionType == MyTable.COLUMN_SELECT) {
 			for (int i = newSelection.getMinColumn(); i <= newSelection
-					.getMaxColumn(); i++)
+					.getMaxColumn(); i++) {
 				selectedColumnSet.add(i);
+			}
+		}
 
-		if (selectionType == MyTable.ROW_SELECT)
+		if (selectionType == MyTable.ROW_SELECT) {
 			for (int i = newSelection.getMinRow(); i <= newSelection
-					.getMaxRow(); i++)
+					.getMaxRow(); i++) {
 				selectedRowSet.add(i);
+			}
+		}
 
 		// check for change in anchor cell (for now this is minrow and mincol
 		// ...)
@@ -659,11 +679,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// newSelection.debug();
 		// printSelectionParameters();
 
-		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1))
+		if (isSelectNone && (minSelectionColumn != -1 || minSelectionRow != -1)) {
 			setSelectNone(false);
+		}
 
-		if (changedAnchor && !isEditing())
+		if (changedAnchor && !isEditing()) {
 			view.updateFormulaBar();
+		}
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
@@ -680,8 +702,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				getSpreadsheetModeProcessor().updateAutoFunction();
 			}
 
-			if (view.isVisibleStyleBar())
+			if (view.isVisibleStyleBar()) {
 				view.getSpreadsheetStyleBar().updateStyleBar();
+			}
 
 			app.getSelectionManager().setSelectedGeos(list, false);
 			if (list.size() > 0) {
@@ -697,8 +720,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// repaint
 		if (changed || list.isEmpty()) {
 			repaint();
-			if (this.getTableHeader() != null)
+			if (this.getTableHeader() != null) {
 				getTableHeader().repaint();
+			}
 		}
 
 		// System.out.println("------------------");
@@ -723,10 +747,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		setSelectionType(MyTable.CELL_SELECT);
 
-		if (column == -1)
+		if (column == -1) {
 			column = 0;
-		if (row == -1)
+		}
+		if (row == -1) {
 			row = 0;
+		}
 		minSelectionColumn = column;
 		maxSelectionColumn = column;
 		minSelectionRow = row;
@@ -776,8 +802,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	public boolean setSelection(String cellName) {
 
-		if (cellName == null)
+		if (cellName == null) {
 			return setSelection(-1, -1, -1, -1);
+		}
 
 		GPoint newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (newCell.x != -1 && newCell.y != -1) {
@@ -786,6 +813,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return false;
 	}
 
+	@Override
 	public boolean setSelection(int c, int r) {
 		CellRange cr = new CellRange(app, c, r, c, r);
 		return setSelection(cr);
@@ -794,8 +822,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
 
 		CellRange cr = new CellRange(app, c1, r1, c2, r2);
-		if (!cr.isValid())
+		if (!cr.isValid()) {
 			return false;
+		}
 
 		// ArrayList<CellRange> list = new ArrayList<CellRange>();
 		// list.add(cr);
@@ -804,10 +833,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	}
 
+	@Override
 	public boolean setSelection(CellRange cr) {
 
-		if (cr != null && !cr.isValid())
+		if (cr != null && !cr.isValid()) {
 			return false;
+		}
 
 		try {
 			if (cr == null || cr.isEmptyRange()) {
@@ -931,6 +962,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	}
 
+	@Override
 	public int getSelectionType() {
 		return selectionType;
 	}
@@ -955,6 +987,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
 
+	@Override
 	public boolean isSelectNone() {
 		return isSelectNone;
 	}
@@ -970,6 +1003,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	}
 
+	@Override
 	public boolean isSelectAll() {
 		return isSelectAll;
 	}
@@ -984,8 +1018,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		for (CellRange cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
-				if (!columns.contains(c))
+				if (!columns.contains(c)) {
 					columns.add(c);
+				}
 			}
 		}
 		return columns;
@@ -996,8 +1031,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		ArrayList<Integer> columns = getSelectedColumnsList();
 		int[] ret = new int[columns.size()];
-		for (int c = 0; c < columns.size(); c++)
+		for (int c = 0; c < columns.size(); c++) {
 			ret[c] = columns.get(c);
+		}
 
 		return ret;
 	}
@@ -1043,8 +1079,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * location
 	 */
 	public GPoint getIndexFromPixel(int x, int y) {
-		if (x < 0 || y < 0)
+		if (x < 0 || y < 0) {
 			return null;
+		}
 		int indexX = -1;
 		int indexY = -1;
 		for (int i = 0; i < getColumnCount(); ++i) {
@@ -1107,12 +1144,16 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
 
-			if (showBlueDot)
-				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
-					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
-						if (tableModel.getValueAt(i, j) instanceof GeoElement)
+			if (showBlueDot) {
+				for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
+					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++) {
+						if (tableModel.getValueAt(i, j) instanceof GeoElement) {
 							showBlueDot &= !((GeoElement) tableModel
 									.getValueAt(i, j)).isFixed();
+						}
+					}
+				}
+			}
 
 			return showBlueDot;
 		}
@@ -1146,8 +1187,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// if the spreadsheet doesn't have focus
 		// then don't draw the selection graphics ... exit now
 		if (!view.hasViewFocus()) {
-			if (!isSelectNone)
+			if (!isSelectNone) {
 				setSelectNone(true);
+			}
 			return;
 		}
 
@@ -1407,23 +1449,27 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 */
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		if (view.isColumnSelect())
+		if (view.isColumnSelect()) {
 			return false;
+		}
 
 		// allow use of special editors for e.g. buttons, lists
 		if (view.allowSpecialEditor()
-				&& oneClickEditMap.containsKey(new GPoint(column, row)))
+				&& oneClickEditMap.containsKey(new GPoint(column, row))) {
 			return true;
+		}
 
 		// normal case: return false so we can handle double click in our
 		// mouseReleased
-		if (!allowEditing)
+		if (!allowEditing) {
 			return false;
+		}
 
 		// prevent editing fixed geos when allowEditing == true
 		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
-		if (geo != null && geo.isFixed())
+		if (geo != null && geo.isFixed()) {
 			return false;
+		}
 
 		// return true when editing is allowed (mostly for blank cells). This
 		// lets
@@ -1432,24 +1478,30 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return true;
 	}
 
+	@Override
 	public void updateEditor(String text) {
 		if (this.isEditing()) {
 			editor.setText(text);
 		}
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
-		if (AppD.isVirtualKeyboardActive())
+		if (AppD.isVirtualKeyboardActive()) {
 			((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
+		}
 
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		// avoid infinite loop!
-		if (e.getOppositeComponent() instanceof VirtualKeyboardD)
+		if (e.getOppositeComponent() instanceof VirtualKeyboardD) {
 			return;
-		if (AppD.isVirtualKeyboardActive())
+		}
+		if (AppD.isVirtualKeyboardActive()) {
 			((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);
+		}
 
 	}
 
@@ -1460,8 +1512,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		try {
 			if (view != null) {
 				view.updateRowHeader();
-				if (doRecordRowHeights)
+				if (doRecordRowHeights) {
 					adjustedRowHeights.add(new GPoint(row, rowHeight));
+				}
 				view.updateRowHeightSetting(row, rowHeight);
 			}
 		} catch (Exception e) {
@@ -1636,6 +1689,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public class MyTableColumnModelListener
 			implements TableColumnModelListener {
 
+		@Override
 		public void columnMarginChanged(ChangeEvent e) {
 			if (isSelectAll() && minSelectionColumn >= 0) {
 				preferredColumnWidth = getColumnModel()
@@ -1646,15 +1700,19 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			view.updateAllColumnWidthSettings();
 		}
 
+		@Override
 		public void columnAdded(TableColumnModelEvent arg0) {
 		}
 
+		@Override
 		public void columnMoved(TableColumnModelEvent arg0) {
 		}
 
+		@Override
 		public void columnRemoved(TableColumnModelEvent arg0) {
 		}
 
+		@Override
 		public void columnSelectionChanged(ListSelectionEvent arg0) {
 		}
 	}
@@ -1678,6 +1736,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	// Table mode change
 	// ==================================================
 
+	@Override
 	public int getTableMode() {
 		return tableMode;
 	}
@@ -1687,12 +1746,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * 
 	 * @param tableMode
 	 */
+	@Override
 	public void setTableMode(int tableMode) {
 
 		if (tableMode == MyTable.TABLE_MODE_AUTOFUNCTION) {
 
-			if (!initAutoFunction())
+			if (!initAutoFunction()) {
 				return;
+			}
 		}
 
 		else if (tableMode == MyTable.TABLE_MODE_DROP) {
@@ -1733,8 +1794,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 					minSelectionRow) != null) {
 				boolean isOK = copyPasteCut.delete(minSelectionColumn,
 						minSelectionRow, minSelectionColumn, minSelectionRow);
-				if (!isOK)
+				if (!isOK) {
 					return false;
+				}
 			}
 
 			// Set targetCell as a GeoNumeric that can be used to preview the
@@ -1771,11 +1833,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 			// Don't stay in this mode, we're done
 			return false;
-		}
-
-		// Exit if any other type of selection exists
-		else
+		} else {
 			return false;
+		}
 
 		return true;
 	}
@@ -1819,11 +1879,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return cursor;
 	}
 
+	@Override
 	public void updateCellFormat(String cellFormat) {
 		view.updateCellFormat(cellFormat);
 
 	}
 
+	@Override
 	public boolean allowSpecialEditor() {
 		return view.allowSpecialEditor();
 	}
@@ -1833,6 +1895,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// only used in Web
 	}
 
+	@Override
 	public void repaintAll() {
 		repaint();
 		// method for web, do nothing else here

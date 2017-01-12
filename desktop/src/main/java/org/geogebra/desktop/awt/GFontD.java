@@ -17,8 +17,9 @@ public class GFontD extends GFont {
 	}
 
 	public static Font getAwtFont(GFont font) {
-		if (!(font instanceof GFontD))
+		if (!(font instanceof GFontD)) {
 			return null;
+		}
 		return ((GFontD) font).impl;
 	}
 

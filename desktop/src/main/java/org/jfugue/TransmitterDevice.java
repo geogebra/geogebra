@@ -106,12 +106,14 @@ public class TransmitterDevice {
 			return this.parser;
 		}
 
+		@Override
 		public void send(MidiMessage message, long timestamp) {
 			System.out.println("Parsing " + message + " ts: " + timestamp);
 			parser.parse(message, timestamp);
 			sequencerReceiver.send(message, timestamp);
 		}
 
+		@Override
 		public void close() {
 		}
 

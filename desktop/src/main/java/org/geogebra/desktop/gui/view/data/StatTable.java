@@ -152,8 +152,9 @@ public class StatTable extends JScrollPane {
 			this.setColumnHeaderView(null);
 		} else {
 			tableModel.setColumnCount(0);
-			for (int i = 0; i < columnNames.length; i++)
+			for (int i = 0; i < columnNames.length; i++) {
 				tableModel.addColumn(columnNames[i]);
+			}
 		}
 
 		// create row header
@@ -180,9 +181,11 @@ public class StatTable extends JScrollPane {
 	 * dimensions.
 	 */
 	public void clear() {
-		for (int r = 0; r < myTable.getRowCount(); r++)
-			for (int c = 0; c < myTable.getColumnCount(); c++)
+		for (int r = 0; r < myTable.getRowCount(); r++) {
+			for (int c = 0; c < myTable.getColumnCount(); c++) {
 				myTable.setValueAt(" ", r, c);
+			}
+		}
 	}
 
 	/**
@@ -195,11 +198,13 @@ public class StatTable extends JScrollPane {
 
 		this.al = al;
 
-		if (comboBoxEditorMap == null)
+		if (comboBoxEditorMap == null) {
 			comboBoxEditorMap = new HashMap<Point, MyComboBoxEditor>();
+		}
 		comboBoxEditorMap.clear();
-		if (comboBoxRendererMap == null)
+		if (comboBoxRendererMap == null) {
 			comboBoxRendererMap = new HashMap<Point, MyComboBoxRenderer>();
+		}
 		comboBoxRendererMap.clear();
 
 		for (Entry<Point, String[]> entry : cellMap.entrySet()) {
@@ -230,8 +235,9 @@ public class StatTable extends JScrollPane {
 	 * @return
 	 */
 	public Integer getComboCellEditorSelectedIndex(int row, int column) {
-		if (comboBoxEditorMap == null)
+		if (comboBoxEditorMap == null) {
 			return null;
+		}
 
 		int modelColumn = myTable.convertColumnIndexToModel(column);
 		Point cell = new Point(row, modelColumn);
@@ -251,8 +257,9 @@ public class StatTable extends JScrollPane {
 	 */
 	public boolean setComboCellSelectedIndex(int index, int row, int column) {
 
-		if (comboBoxRendererMap == null)
+		if (comboBoxRendererMap == null) {
 			return false;
+		}
 
 		int modelColumn = myTable.convertColumnIndexToModel(column);
 		Point cell = new Point(row, modelColumn);
@@ -268,9 +275,10 @@ public class StatTable extends JScrollPane {
 
 		// set column names
 		if (columnNames != null) {
-			for (int i = 0; i < columnNames.length; i++)
+			for (int i = 0; i < columnNames.length; i++) {
 				myTable.getColumnModel().getColumn(i)
 						.setHeaderValue(columnNames[i]);
+			}
 		}
 
 		if (rowNames != null) {
@@ -296,13 +304,15 @@ public class StatTable extends JScrollPane {
 				rowHeader.setFixedCellHeight(myTable.getRowHeight());
 			}
 
-			if (myTable.getTableHeader() != null)
+			if (myTable.getTableHeader() != null) {
 				myTable.getTableHeader().setFont(font);
+			}
 		}
 
-		if (myTable != null)
+		if (myTable != null) {
 			myTable.setPreferredScrollableViewportSize(
 					myTable.getPreferredSize());
+		}
 	}
 
 	/**
@@ -312,8 +322,9 @@ public class StatTable extends JScrollPane {
 	public void autoFitColumnWidth(int column, int defaultColumnWidth) {
 
 		MyTable table = myTable;
-		if (table.getRowCount() <= 0)
+		if (table.getRowCount() <= 0) {
 			return;
+		}
 
 		TableColumn tableColumn = table.getColumnModel().getColumn(column);
 
@@ -350,8 +361,9 @@ public class StatTable extends JScrollPane {
 	public void autoFitRowHeight() {
 
 		MyTable table = myTable;
-		if (table.getRowCount() <= 0)
+		if (table.getRowCount() <= 0) {
 			return;
+		}
 
 		// iterate through the rows and find the preferred height
 		int prefHeight = table.getRowHeight();
@@ -410,10 +422,11 @@ public class StatTable extends JScrollPane {
 			setText((String) value);
 			setHorizontalAlignment(statTable.getHorizontalAlignment());
 
-			if (isSelected)
+			if (isSelected) {
 				setBackground(SELECTED_BACKGROUND_COLOR);
-			else
+			} else {
 				setBackground(Color.white);
+			}
 
 			return this;
 		}
@@ -465,6 +478,7 @@ public class StatTable extends JScrollPane {
 
 			}
 
+			@Override
 			public Component getListCellRendererComponent(JList list,
 					Object value, int index, boolean isSelected,
 					boolean cellHasFocus) {
@@ -499,6 +513,7 @@ public class StatTable extends JScrollPane {
 
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
@@ -539,6 +554,7 @@ public class StatTable extends JScrollPane {
 
 		}
 
+		@Override
 		public void itemStateChanged(ItemEvent e) {
 			if (e.getStateChange() != ItemEvent.SELECTED) {
 				return;
@@ -596,8 +612,9 @@ public class StatTable extends JScrollPane {
 				return true;
 			}
 
-			if (comboBoxEditorMap == null)
+			if (comboBoxEditorMap == null) {
 				return false;
+			}
 
 			int modelColumn = convertColumnIndexToModel(colIndex);
 			Point cell = new Point(rowIndex, modelColumn);
@@ -628,8 +645,9 @@ public class StatTable extends JScrollPane {
 		// Determine if comboCellEditor should be used
 		@Override
 		public TableCellEditor getCellEditor(int row, int column) {
-			if (comboBoxEditorMap == null)
+			if (comboBoxEditorMap == null) {
 				return super.getCellEditor(row, column);
+			}
 
 			int modelColumn = convertColumnIndexToModel(column);
 			Point cell = new Point(row, modelColumn);
@@ -642,8 +660,9 @@ public class StatTable extends JScrollPane {
 		// Determine if comboCellRenderer should be used
 		@Override
 		public TableCellRenderer getCellRenderer(int row, int column) {
-			if (comboBoxRendererMap == null)
+			if (comboBoxRendererMap == null) {
 				return super.getCellRenderer(row, column);
+			}
 
 			int modelColumn = convertColumnIndexToModel(column);
 			Point cell = new Point(row, modelColumn);

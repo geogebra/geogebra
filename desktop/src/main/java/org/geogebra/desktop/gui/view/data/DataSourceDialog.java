@@ -93,14 +93,17 @@ public class DataSourceDialog extends JDialog
 		super.setVisible(isVisible);
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent e) {
 		// ignored
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent e) {
 		// this.setVisible(false);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 

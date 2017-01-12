@@ -61,10 +61,12 @@ public class Line extends ShapeElement {
 	public Line() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -89,16 +91,19 @@ public class Line extends ShapeElement {
 		line = new Line2D.Float(x1, y1, x2, y2);
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		beginLayer(g);
 		renderShape(g, line);
 		finishLayer(g);
 	}
 
+	@Override
 	public Shape getShape() {
 		return shapeToParent(line);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		return boundsToParent(includeStrokeInBounds(line.getBounds2D()));
 	}
@@ -110,6 +115,7 @@ public class Line extends ShapeElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 		boolean changeState = super.updateTime(curTime);

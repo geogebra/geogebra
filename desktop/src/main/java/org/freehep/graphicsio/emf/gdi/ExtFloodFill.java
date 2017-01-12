@@ -35,6 +35,7 @@ public class ExtFloodFill extends EMFTag implements EMFConstants {
 		this.mode = mode;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -43,12 +44,14 @@ public class ExtFloodFill extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writePOINTL(start);
 		emf.writeCOLORREF(color);
 		emf.writeDWORD(mode);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  start: " + start + "\n"
 				+ "  color: " + color + "\n" + "  mode: " + mode;

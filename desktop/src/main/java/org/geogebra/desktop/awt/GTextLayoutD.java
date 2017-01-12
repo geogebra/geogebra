@@ -19,22 +19,27 @@ public class GTextLayoutD implements GTextLayout {
 				GFontRenderContextD.getAwtFrc(frc));
 	}
 
+	@Override
 	public double getAdvance() {
 		return impl.getAdvance();
 	}
 
+	@Override
 	public GRectangle2DD getBounds() {
 		return new GGenericRectangle2DD(impl.getBounds());
 	}
 
+	@Override
 	public double getAscent() {
 		return impl.getAscent();
 	}
 
+	@Override
 	public double getDescent() {
 		return impl.getDescent();
 	}
 
+	@Override
 	public void draw(GGraphics2D g2, int x, int y) {
 		if (g2 instanceof GGraphics2DD) {
 			impl.draw(GGraphics2DD.getAwtGraphics(g2), x, y);

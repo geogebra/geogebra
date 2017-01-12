@@ -85,6 +85,7 @@ public class WorksheetExportDialog extends JDialog {
 		// title, author, date
 		titlePanel = new TitlePanel(app);
 		ActionListener kernelChangedListener = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				kernelChanged = true;
 			}
@@ -95,6 +96,7 @@ public class WorksheetExportDialog extends JDialog {
 		// Cancel and Export Button
 		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
@@ -108,13 +110,15 @@ public class WorksheetExportDialog extends JDialog {
 
 		uploadButton = new JButton(loc.getMenu("Upload"));
 		uploadButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
 						setVisible(false);
-						if (kernelChanged)
+						if (kernelChanged) {
 							app.storeUndoInfo();
+						}
 
 						GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
 								app);
@@ -142,11 +146,13 @@ public class WorksheetExportDialog extends JDialog {
 		// init text of text areas
 		Construction cons = kernel.getConstruction();
 		String text = cons.getWorksheetText(0);
-		if (text.length() > 0)
+		if (text.length() > 0) {
 			textAboveUpload.setText(text);
+		}
 		text = cons.getWorksheetText(1);
-		if (text.length() > 0)
+		if (text.length() > 0) {
 			textBelowUpload.setText(text);
+		}
 
 		titleField.setText(cons.getTitle());
 
@@ -169,11 +175,13 @@ public class WorksheetExportDialog extends JDialog {
 		titleField = new MyTextFieldD(app);
 
 		titleField.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Construction cons = kernel.getConstruction();
 
-				if (titleField.getText().equals(cons.getTitle()))
+				if (titleField.getText().equals(cons.getTitle())) {
 					return;
+				}
 				cons.setTitle(titleField.getText());
 
 				kernelChanged = true;
@@ -181,16 +189,19 @@ public class WorksheetExportDialog extends JDialog {
 		});
 
 		titleField.addFocusListener(new FocusListener() {
+			@Override
 			public void focusLost(FocusEvent e) {
 				Construction cons = kernel.getConstruction();
 
-				if (titleField.getText().equals(cons.getTitle()))
+				if (titleField.getText().equals(cons.getTitle())) {
 					return;
+				}
 				cons.setTitle(titleField.getText());
 
 				kernelChanged = true;
 			}
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				//
 			}

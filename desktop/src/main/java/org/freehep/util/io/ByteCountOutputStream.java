@@ -41,6 +41,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 		bufferList = new LinkedList();
 	}
 
+	@Override
 	public void write(int b) throws IOException {
 		// Application.debug(Integer.toHexString(b)+" "+index);
 		// original stream
@@ -158,6 +159,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	/**
 	 * closes the stream, inserting any non-written header.
 	 */
+	@Override
 	public void close() throws IOException {
 		append();
 		super.close();

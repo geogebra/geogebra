@@ -46,6 +46,7 @@ public class ASCII85OutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void write(int a) throws IOException {
 		b[bIndex] = a & 0x00FF;
 		bIndex++;
@@ -55,6 +56,7 @@ public class ASCII85OutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void finish() throws IOException {
 		if (!end) {
 			end = true;
@@ -69,6 +71,7 @@ public class ASCII85OutputStream extends FilterOutputStream
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		finish();
 		super.close();

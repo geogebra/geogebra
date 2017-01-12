@@ -55,17 +55,21 @@ public class ASCIIHexInputStream extends InputStream {
 		lineNo = 1;
 	}
 
+	@Override
 	public int read() throws IOException {
-		if (endReached)
+		if (endReached) {
 			return -1;
+		}
 
 		int b0 = readPart();
-		if (b0 == -1)
+		if (b0 == -1) {
 			return -1;
+		}
 
 		int b1 = readPart();
-		if (b1 == -1)
+		if (b1 == -1) {
 			b1 = 0;
+		}
 
 		int d = (b0 << 4 | b1) & 0x00FF;
 		return d;

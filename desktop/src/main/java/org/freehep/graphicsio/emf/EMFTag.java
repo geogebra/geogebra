@@ -29,6 +29,7 @@ public abstract class EMFTag extends Tag {
 		super(id, version);
 	}
 
+	@Override
 	public Tag read(int tagID, TaggedInputStream input, int len)
 			throws IOException {
 
@@ -41,6 +42,7 @@ public abstract class EMFTag extends Tag {
 	public abstract EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException;
 
+	@Override
 	public void write(int tagID, TaggedOutputStream output) throws IOException {
 		write(tagID, (EMFOutputStream) output);
 	}
@@ -66,6 +68,7 @@ public abstract class EMFTag extends Tag {
 	/**
 	 * @return a description of the tagName and tagID
 	 */
+	@Override
 	public String toString() {
 		int id = getTag();
 		return "EMFTag " + getName() + " (" + id + ") (0x"

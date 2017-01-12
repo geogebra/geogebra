@@ -42,26 +42,32 @@ public class GeoGebraComboBoxEditor implements ComboBoxEditor {
 		tf.enableColoring(false);
 	}
 
+	@Override
 	public void addActionListener(ActionListener actionListener) {
 		tf.addActionListener(actionListener);
 	}
 
+	@Override
 	public Component getEditorComponent() {
 		return tf;
 	}
 
+	@Override
 	public Object getItem() {
 		return tf.getText();
 	}
 
+	@Override
 	public void removeActionListener(ActionListener actionListener) {
 		tf.removeActionListener(actionListener);
 	}
 
+	@Override
 	public void selectAll() {
 		tf.selectAll();
 	}
 
+	@Override
 	public void setItem(Object obj) {
 		if (obj != null) {
 			tf.setText(obj.toString());

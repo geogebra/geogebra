@@ -44,6 +44,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 

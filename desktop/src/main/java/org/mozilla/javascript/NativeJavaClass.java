@@ -66,13 +66,15 @@ public class NativeJavaClass extends NativeJavaObject implements Function {
 		// for our prototype to create an object of the correct type.
 		// We don't really care what the object is, since we're returning
 		// one constructed out of whole cloth, so we return null.
-		if (name.equals("prototype"))
+		if (name.equals("prototype")) {
 			return null;
+		}
 
 		if (staticFieldAndMethods != null) {
 			Object result = staticFieldAndMethods.get(name);
-			if (result != null)
+			if (result != null) {
 				return result;
+			}
 		}
 
 		if (members.has(name, true)) {
@@ -117,15 +119,19 @@ public class NativeJavaClass extends NativeJavaObject implements Function {
 
 	@Override
 	public Object getDefaultValue(Class<?> hint) {
-		if (hint == null || hint == ScriptRuntime.StringClass)
+		if (hint == null || hint == ScriptRuntime.StringClass) {
 			return this.toString();
-		if (hint == ScriptRuntime.BooleanClass)
+		}
+		if (hint == ScriptRuntime.BooleanClass) {
 			return Boolean.TRUE;
-		if (hint == ScriptRuntime.NumberClass)
+		}
+		if (hint == ScriptRuntime.NumberClass) {
 			return ScriptRuntime.NaNobj;
+		}
 		return this;
 	}
 
+	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj,
 			Object[] args) {
 		// If it looks like a "cast" of an object to this class type,
@@ -137,8 +143,9 @@ public class NativeJavaClass extends NativeJavaObject implements Function {
 			do {
 				if (p instanceof Wrapper) {
 					Object o = ((Wrapper) p).unwrap();
-					if (c.isInstance(o))
+					if (c.isInstance(o)) {
 						return p;
+					}
 				}
 				p = p.getPrototype();
 			} while (p != null);
@@ -146,6 +153,7 @@ public class NativeJavaClass extends NativeJavaObject implements Function {
 		return construct(cx, scope, args);
 	}
 
+	@Override
 	public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
 		Class<?> classObject = getClassObject();
 		int modifiers = classObject.getModifiers();
@@ -189,8 +197,9 @@ public class NativeJavaClass extends NativeJavaObject implements Function {
 			} catch (Exception ex) {
 				// fall through to error
 				String m = ex.getMessage();
-				if (m != null)
+				if (m != null) {
 					msg = m;
+				}
 			}
 			throw Context.reportRuntimeError2("msg.cant.instantiate", msg,
 					classObject.getName());

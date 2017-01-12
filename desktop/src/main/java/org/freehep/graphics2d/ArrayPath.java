@@ -45,10 +45,12 @@ public class ArrayPath implements Shape {
 			isDone = nPoints == 0;
 		}
 
+		@Override
 		public boolean isDone() {
 			return isDone;
 		}
 
+		@Override
 		public void next() {
 			currentPoint++;
 			while ((currentPoint < nPoints - 1)
@@ -69,6 +71,7 @@ public class ArrayPath implements Shape {
 					: currentPoint >= nPoints;
 		}
 
+		@Override
 		public int currentSegment(double[] coords) {
 			if (closed && (currentPoint == nPoints)) {
 				return PathIterator.SEG_CLOSE;
@@ -80,6 +83,7 @@ public class ArrayPath implements Shape {
 					: PathIterator.SEG_LINETO;
 		}
 
+		@Override
 		public int currentSegment(float[] coords) {
 			if (closed && (currentPoint == nPoints)) {
 				return PathIterator.SEG_CLOSE;
@@ -93,6 +97,7 @@ public class ArrayPath implements Shape {
 					: PathIterator.SEG_LINETO;
 		}
 
+		@Override
 		public int getWindingRule() {
 			return PathIterator.WIND_NON_ZERO;
 		}
@@ -115,37 +120,45 @@ public class ArrayPath implements Shape {
 		this.resolution = resolution;
 	}
 
+	@Override
 	public boolean contains(double x, double y) {
 		// conservative guess
 		return false;
 	}
 
+	@Override
 	public boolean contains(double x, double y, double w, double h) {
 		// conservative guess
 		return false;
 	}
 
+	@Override
 	public boolean contains(Point2D p) {
 		return contains(p.getX(), p.getY());
 	}
 
+	@Override
 	public boolean contains(Rectangle2D r) {
 		return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
+	@Override
 	public boolean intersects(double x, double y, double w, double h) {
 		// conservative guess
 		return true;
 	}
 
+	@Override
 	public boolean intersects(Rectangle2D r) {
 		return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
+	@Override
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
 		return getPathIterator(at);
 	}
 
+	@Override
 	public Rectangle2D getBounds2D() {
 		double x1, y1, x2, y2;
 		int i = nPoints;
@@ -157,14 +170,18 @@ public class ArrayPath implements Shape {
 				i--;
 				double y = yPoints[i];
 				double x = xPoints[i];
-				if (x < x1)
+				if (x < x1) {
 					x1 = x;
-				if (y < y1)
+				}
+				if (y < y1) {
 					y1 = y;
-				if (x > x2)
+				}
+				if (x > x2) {
 					x2 = x;
-				if (y > y2)
+				}
+				if (y > y2) {
 					y2 = y;
+				}
 			}
 		} else {
 			x1 = y1 = x2 = y2 = 0.0f;
@@ -172,10 +189,12 @@ public class ArrayPath implements Shape {
 		return new Rectangle2D.Double(x1, y1, x2 - x1, y2 - y1);
 	}
 
+	@Override
 	public Rectangle getBounds() {
 		return getBounds2D().getBounds();
 	}
 
+	@Override
 	public PathIterator getPathIterator(AffineTransform t) {
 		double[] transformedXPoints = xPoints;
 		double[] transformedYPoints = yPoints;

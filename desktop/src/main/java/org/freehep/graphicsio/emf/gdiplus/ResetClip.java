@@ -19,11 +19,13 @@ public class ResetClip extends EMFPlusTag {
 		super(49, 1);
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		return new ResetClip();
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		// nop

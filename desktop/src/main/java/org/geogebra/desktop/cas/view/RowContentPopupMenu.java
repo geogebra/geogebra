@@ -113,6 +113,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	/**
 	 * handles the {@link ActionEvent}s
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		handleCopy(e);
 		handlePaste(e);

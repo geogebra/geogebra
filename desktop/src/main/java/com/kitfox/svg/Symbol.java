@@ -59,10 +59,12 @@ public class Symbol extends Group {
 	public Symbol() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -87,6 +89,7 @@ public class Symbol extends Group {
 		viewXform.translate(-viewBox.getX(), -viewBox.getY());
 	}
 
+	@Override
 	protected boolean outsideClip(Graphics2D g) throws SVGException {
 		Shape clip = g.getClip();
 		// g.getClipBounds(clipBounds);
@@ -99,6 +102,7 @@ public class Symbol extends Group {
 
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		AffineTransform oldXform = g.getTransform();
 		g.transform(viewXform);
@@ -108,11 +112,13 @@ public class Symbol extends Group {
 		g.setTransform(oldXform);
 	}
 
+	@Override
 	public Shape getShape() {
 		Shape shape = super.getShape();
 		return viewXform.createTransformedShape(shape);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		Rectangle2D rect = super.getBoundingBox();
 		return viewXform.createTransformedShape(rect).getBounds2D();
@@ -125,6 +131,7 @@ public class Symbol extends Group {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 		boolean changeState = super.updateTime(curTime);

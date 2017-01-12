@@ -59,10 +59,12 @@ public class AstRoot extends ScriptNode {
 		if (comments == null) {
 			this.comments = null;
 		} else {
-			if (this.comments != null)
+			if (this.comments != null) {
 				this.comments.clear();
-			for (Comment c : comments)
+			}
+			for (Comment c : comments) {
 				addComment(c);
+			}
 		}
 	}
 
@@ -149,13 +151,16 @@ public class AstRoot extends ScriptNode {
 	 */
 	public void checkParentLinks() {
 		this.visit(new NodeVisitor() {
+			@Override
 			public boolean visit(AstNode node) {
 				int type = node.getType();
-				if (type == Token.SCRIPT)
+				if (type == Token.SCRIPT) {
 					return true;
-				if (node.getParent() == null)
+				}
+				if (node.getParent() == null) {
 					throw new IllegalStateException("No parent for node: "
 							+ node + "\n" + node.toSource(0));
+				}
 				return true;
 			}
 		});

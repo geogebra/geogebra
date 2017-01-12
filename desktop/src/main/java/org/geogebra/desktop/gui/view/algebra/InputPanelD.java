@@ -117,11 +117,13 @@ public class InputPanelD extends JPanel
 		textComponent.addFocusListener(this);
 		textComponent.setFocusable(true);
 
-		if (keyListener != null)
+		if (keyListener != null) {
 			textComponent.addKeyListener(keyListener);
+		}
 
-		if (initText != null)
+		if (initText != null) {
 			textComponent.setText(initText);
+		}
 
 		// create the GUI
 
@@ -198,6 +200,7 @@ public class InputPanelD extends JPanel
 	 * @param str
 	 *            inserted string
 	 */
+	@Override
 	public void insertString(String str) {
 		textComponent.replaceSelection(str);
 
@@ -217,10 +220,12 @@ public class InputPanelD extends JPanel
 		}
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
 				!(e.getOppositeComponent() instanceof VirtualKeyboardD));
@@ -268,10 +273,11 @@ public class InputPanelD extends JPanel
 			// paint roll-over row
 			Point point = list.getMousePosition();
 			int mouseOver = point == null ? -1 : list.locationToIndex(point);
-			if (index == mouseOver)
+			if (index == mouseOver) {
 				bgColor = rolloverBackground;
-			else
+			} else {
 				bgColor = listBackground;
+			}
 			setBackground(bgColor);
 
 			return this;

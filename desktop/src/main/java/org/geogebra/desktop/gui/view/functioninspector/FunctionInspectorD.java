@@ -246,6 +246,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tableInterval.setModel(modelInterval);
 		tableInterval.getSelectionModel()
 				.addListSelectionListener(new ListSelectionListener() {
+					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						getModel().updateIntervalGeoVisiblity();
 					}
@@ -295,6 +296,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		btnHelp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -323,6 +325,7 @@ public class FunctionInspectorD extends FunctionInspector
 		btnAddColumn.addActionListener(this);
 	}
 
+	@Override
 	public void setLabels() {
 		LocalizationD loc = getAppD().getLocalization();
 		wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
@@ -389,6 +392,7 @@ public class FunctionInspectorD extends FunctionInspector
 	 * Updates the interval table. The max, min, roots, area etc. for the
 	 * current interval are calculated and put into the IntervalTable model.
 	 */
+	@Override
 	protected void updateIntervalTable() {
 
 		isChangingValue = true;
@@ -409,6 +413,7 @@ public class FunctionInspectorD extends FunctionInspector
 		isChangingValue = false;
 	}
 
+	@Override
 	public void addTableColumn(String name) {
 		modelXY.addColumn(name);
 		tableXY.setMyCellEditor(0);
@@ -418,8 +423,9 @@ public class FunctionInspectorD extends FunctionInspector
 	@Override
 	protected void removeColumn() {
 		int count = tableXY.getColumnCount();
-		if (count <= 2)
+		if (count <= 2) {
 			return;
+		}
 
 		getModel().removeColumn();
 		modelXY.setColumnCount(modelXY.getColumnCount() - 1);
@@ -432,6 +438,7 @@ public class FunctionInspectorD extends FunctionInspector
 	// Event Handlers
 	// ========================================================
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -488,12 +495,14 @@ public class FunctionInspectorD extends FunctionInspector
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextFieldD) {
 			((MyTextFieldD) e.getSource()).selectAll();
 		}
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
@@ -506,6 +515,7 @@ public class FunctionInspectorD extends FunctionInspector
 		wrappedDialog.setVisible(false);
 	}
 
+	@Override
 	public void reset() {
 		wrappedDialog.setVisible(false);
 	}
@@ -514,10 +524,12 @@ public class FunctionInspectorD extends FunctionInspector
 	// Table Selection Listener
 	// ====================================================
 
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 
-		if (e.getValueIsAdjusting() || isChangingValue)
+		if (e.getValueIsAdjusting() || isChangingValue) {
 			return;
+		}
 
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 		if (e.getSource() == tableXY.getSelectionModel()) {
@@ -531,6 +543,7 @@ public class FunctionInspectorD extends FunctionInspector
 	// Key Listeners
 	// ====================================================
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
@@ -564,30 +577,38 @@ public class FunctionInspectorD extends FunctionInspector
 
 	}
 
+	@Override
 	public void keyReleased(KeyEvent arg0) {
 	}
 
+	@Override
 	public void keyTyped(KeyEvent arg0) {
 	}
 
 	// Mouse Listeners
 	// =========================================
 
+	@Override
 	public void mouseClicked(MouseEvent arg0) {
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent arg0) {
 	}
 
+	@Override
 	public void mouseExited(MouseEvent arg0) {
 	}
 
+	@Override
 	public void mousePressed(MouseEvent arg0) {
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent arg0) {
 	}
 
+	@Override
 	public void updateFonts() {
 		AppD app = getAppD();
 		wrappedDialog.setFont(app.getPlainFont());
@@ -638,6 +659,7 @@ public class FunctionInspectorD extends FunctionInspector
 		JMenuItem mi = new JMenuItem(loc.getMenu("CopyToSpreadsheet"));
 		mi.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				doCopyToSpreadsheet();
 			}
@@ -664,6 +686,7 @@ public class FunctionInspectorD extends FunctionInspector
 		}
 	}
 
+	@Override
 	public void updateXYTable(boolean isTable) {
 		// reset table model and update the XYtable
 		tableXY.setCellEditable(-1, -1);
@@ -687,6 +710,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 	}
 
+	@Override
 	public void updateInterval(ArrayList<String> property,
 			ArrayList<String> value) {
 		// load the model with these pairs
@@ -698,6 +722,7 @@ public class FunctionInspectorD extends FunctionInspector
 		}
 	}
 
+	@Override
 	public void setXYValueAt(Double value, int row, int col) {
 		if (col < modelXY.getColumnCount() && row < modelXY.getRowCount()) {
 			modelXY.setValueAt(value == null ? null : getModel().format(value),
@@ -708,27 +733,32 @@ public class FunctionInspectorD extends FunctionInspector
 		}
 	}
 
+	@Override
 	public Object getXYValueAt(int row, int col) {
 		return modelXY.getValueAt(row, col);
 	}
 
+	@Override
 	public void setGeoName(String name) {
 		lblGeoName.setText(name);
 	}
 
+	@Override
 	public void changeTableSelection() {
 		updateXYTable();
 
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 
-		if (btnTable.isSelected() && tableXY.getSelectedRow() != 4)
+		if (btnTable.isSelected() && tableXY.getSelectedRow() != 4) {
 			tableXY.changeSelection(4, 0, false, false);
-		else if (!btnTable.isSelected() && tableXY.getSelectedRow() != 0)
+		} else if (!btnTable.isSelected() && tableXY.getSelectedRow() != 0) {
 			tableXY.changeSelection(0, 0, false, false);
+		}
 
 		tableXY.getSelectionModel().addListSelectionListener(this);
 	}
 
+	@Override
 	public void updateHighAndLow(boolean isAscending, boolean isLowSelected) {
 		if (isAscending) {
 			if (isLowSelected) {
@@ -742,12 +772,14 @@ public class FunctionInspectorD extends FunctionInspector
 		updateIntervalFields();
 	}
 
+	@Override
 	public void setStepText(String text) {
 		fldStep.removeActionListener(this);
 		fldStep.setText(text);
 		fldStep.addActionListener(this);
 	}
 
+	@Override
 	public GColor getColor(Colors id) {
 		Color color;
 		switch (id) {
@@ -771,10 +803,12 @@ public class FunctionInspectorD extends FunctionInspector
 		return GColorD.newColor(color);
 	}
 
+	@Override
 	public int getSelectedXYRow() {
 		return tableXY.getSelectedRow();
 	}
 
+	@Override
 	public void setStepVisible(boolean isVisible) {
 		lblStep.setVisible(isVisible);
 		fldStep.setVisible(isVisible);
@@ -788,6 +822,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tabPanel.addTab("Point", pointTabPanel);
 
 		tabPanel.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent evt) {
 				updateTabPanels();
 			}
@@ -829,11 +864,13 @@ public class FunctionInspectorD extends FunctionInspector
 		return tabPanel.getSelectedComponent() == intervalTabPanel;
 	}
 
+	@Override
 	public boolean hasFocus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent e) {
 		// TODO Auto-generated method stub
 
@@ -846,6 +883,7 @@ public class FunctionInspectorD extends FunctionInspector
 		super.changedNumberFormat();
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web

@@ -18,16 +18,19 @@ public abstract class QuadToCubicPathConstructor
 		super();
 	}
 
+	@Override
 	public void move(double x, double y) throws IOException {
 		currentX = x;
 		currentY = y;
 	}
 
+	@Override
 	public void line(double x, double y) throws IOException {
 		currentX = x;
 		currentY = y;
 	}
 
+	@Override
 	public void quad(double x1, double y1, double x2, double y2)
 			throws IOException {
 		double xctrl1 = x1 + (currentX - x1) / 3.;
@@ -41,12 +44,14 @@ public abstract class QuadToCubicPathConstructor
 		currentY = y2;
 	}
 
+	@Override
 	public void cubic(double x1, double y1, double x2, double y2, double x3,
 			double y3) throws IOException {
 		currentX = x3;
 		currentY = y3;
 	}
 
+	@Override
 	public void closePath(double x0, double y0) throws IOException {
 		currentX = 0;
 		currentY = 0;

@@ -29,6 +29,7 @@ public class ScaleViewportExtEx extends EMFTag {
 		this.yDenom = yDenom;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -38,6 +39,7 @@ public class ScaleViewportExtEx extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeLONG(xNum);
 		emf.writeLONG(xDenom);
@@ -45,6 +47,7 @@ public class ScaleViewportExtEx extends EMFTag {
 		emf.writeLONG(yDenom);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  xNum: " + xNum + "\n" + "  xDenom: "
 				+ xDenom + "\n" + "  yNum: " + yNum + "\n" + "  yDenom: "

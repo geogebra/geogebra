@@ -51,10 +51,12 @@ public class TTFHeadTable extends TTFVersionTable {
 
 	public short indexToLocFormat, glyphDataFormat;
 
+	@Override
 	public String getTag() {
 		return "head";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		readVersion();
 
@@ -88,23 +90,26 @@ public class TTFHeadTable extends TTFVersionTable {
 		lowestRecPPEM = ttf.readUShort();
 		fontDirectionHint = ttf.readShort();
 		indexToLocFormat = ttf.readShort();
-		if ((indexToLocFormat != ITLF_LONG) && (indexToLocFormat != ITLF_SHORT))
+		if ((indexToLocFormat != ITLF_LONG) && (indexToLocFormat != ITLF_SHORT)) {
 			System.err.println(
 					"Unknown value for indexToLocFormat: " + indexToLocFormat);
+		}
 		glyphDataFormat = ttf.readShort();
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString() + "\n" + "  magicNumber: 0x"
 				+ Integer.toHexString((int) magicNumber) + " ("
 				+ (magicNumber == 0x5f0f3cf5 ? "ok" : "wrong") + ")\n";
 		str += "  indexToLocFormat: " + indexToLocFormat + " ";
-		if (indexToLocFormat == ITLF_LONG)
+		if (indexToLocFormat == ITLF_LONG) {
 			str += " (long)\n";
-		else if (indexToLocFormat == ITLF_SHORT)
+		} else if (indexToLocFormat == ITLF_SHORT) {
 			str += "(short)\n";
-		else
+		} else {
 			str += "(illegal value)\n";
+		}
 		str += "  bbox: (" + xMin + "," + yMin + ") : (" + xMax + "," + yMax
 				+ ")";
 		return str;

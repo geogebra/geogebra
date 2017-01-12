@@ -48,9 +48,10 @@ public class KeywordLiteral extends AstNode {
 	public KeywordLiteral setType(int nodeType) {
 		if (!(nodeType == Token.THIS || nodeType == Token.NULL
 				|| nodeType == Token.TRUE || nodeType == Token.FALSE
-				|| nodeType == Token.DEBUGGER))
+				|| nodeType == Token.DEBUGGER)) {
 			throw new IllegalArgumentException(
 					"Invalid node type: " + nodeType);
+		}
 		type = nodeType;
 		return this;
 	}

@@ -71,6 +71,7 @@ public class UndoManagerD extends UndoManager {
 			return f;
 		}
 
+		@Override
 		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 				"don't need to check return value" })
 		public void delete() {
@@ -126,8 +127,9 @@ public class UndoManagerD extends UndoManager {
 			@Override
 			public void run() {
 				doStoreUndoInfo(currentUndoXML);
-				if (refresh)
+				if (refresh) {
 					restoreCurrentUndoInfo();
+				}
 			}
 		};
 		undoSaverThread.start();
@@ -142,6 +144,7 @@ public class UndoManagerD extends UndoManager {
 	synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
 		// avoid security problems calling from JavaScript ie setUndoPoint()
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
+			@Override
 			public Object run() {
 				try {
 
@@ -217,12 +220,14 @@ public class UndoManagerD extends UndoManager {
 			CASViewD casView = null;
 			DefaultListSelectionModel listSelModel = null;
 			if (app.getGuiManager() != null && app.getGuiManager().hasCasView()
-					&& app.getView(App.VIEW_CAS) instanceof CASViewD)
+					&& app.getView(App.VIEW_CAS) instanceof CASViewD) {
 				casView = (CASViewD) app.getView(App.VIEW_CAS);
+			}
 			if (casView != null && casView.getListSelModel() != null && casView
-					.getListSelModel() instanceof DefaultListSelectionModel)
+					.getListSelModel() instanceof DefaultListSelectionModel) {
 				listSelModel = (DefaultListSelectionModel) casView
 						.getListSelModel();
+			}
 
 			int anchorIndex = 0;
 			int leadIndex = 0;

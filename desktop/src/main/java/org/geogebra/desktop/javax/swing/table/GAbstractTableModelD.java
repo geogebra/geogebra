@@ -27,14 +27,17 @@ public abstract class GAbstractTableModelD implements GAbstractTableModel {
 
 	private class MyAbstractTableModel extends AbstractTableModel {
 
+		@Override
 		public int getRowCount() {
 			return wrapper.getRowCount();
 		}
 
+		@Override
 		public int getColumnCount() {
 			return wrapper.getColumnCount();
 		}
 
+		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			return wrapper.getValueAt(rowIndex, columnIndex);
 		}

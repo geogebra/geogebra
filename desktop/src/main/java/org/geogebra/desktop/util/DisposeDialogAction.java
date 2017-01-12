@@ -21,6 +21,7 @@ public class DisposeDialogAction extends AbstractAction {
 		this.dialog = dialog;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		dialog.dispose();
 	}

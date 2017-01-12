@@ -84,29 +84,36 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 		currentFont = graphics.currentFont;
 	}
 
+	@Override
 	public void setProperties(Properties newProperties) {
-		if (newProperties == null)
+		if (newProperties == null) {
 			return;
+		}
 		properties.setProperties(newProperties);
 	}
 
+	@Override
 	protected void initProperties(Properties defaults) {
 		properties = new UserProperties();
 		properties.setProperties(defaults);
 	}
 
+	@Override
 	protected Properties getProperties() {
 		return properties;
 	}
 
+	@Override
 	public String getProperty(String key) {
 		return properties.getProperty(key);
 	}
 
+	@Override
 	public Color getPropertyColor(String key) {
 		return properties.getPropertyColor(key);
 	}
 
+	@Override
 	public Rectangle getPropertyRectangle(String key) {
 		return properties.getPropertyRectangle(key);
 	}
@@ -115,36 +122,44 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 		return properties.getPropertyInsets(key);
 	}
 
+	@Override
 	public Dimension getPropertyDimension(String key) {
 		return properties.getPropertyDimension(key);
 	}
 
+	@Override
 	public int getPropertyInt(String key) {
 		return properties.getPropertyInt(key);
 	}
 
+	@Override
 	public double getPropertyDouble(String key) {
 		return properties.getPropertyDouble(key);
 	}
 
+	@Override
 	public boolean isProperty(String key) {
 		return properties.isProperty(key);
 	}
 
+	@Override
 	public String getCreator() {
 		return creator;
 	}
 
+	@Override
 	public void setCreator(String creator) {
 		if (creator != null) {
 			this.creator = creator;
 		}
 	}
 
+	@Override
 	public boolean isDeviceIndependent() {
 		return isDeviceIndependent;
 	}
 
+	@Override
 	public void setDeviceIndependent(boolean isDeviceIndependent) {
 		// this.isDeviceIndependent = isDeviceIndependent;
 	}
@@ -154,6 +169,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * 
 	 * @return current font
 	 */
+	@Override
 	public Font getFont() {
 		return currentFont;
 	}
@@ -164,9 +180,11 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param font
 	 *            to be set
 	 */
+	@Override
 	public void setFont(Font font) {
-		if (font == null)
+		if (font == null) {
 			return;
+		}
 
 		// FIXME: maybe add delayed setting
 		currentFont = font;
@@ -278,58 +296,69 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	private static final double bias = 0.5;
 
+	@Override
 	public void clearRect(int x, int y, int width, int height) {
-		clearRect((double) x + bias, (double) y + bias, (double) width,
-				(double) height);
+		clearRect(x + bias, y + bias, width,
+				height);
 	}
 
+	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
-		drawLine((double) x1 + bias, (double) y1 + bias, (double) x2 + bias,
-				(double) y2 + bias);
+		drawLine(x1 + bias, y1 + bias, x2 + bias,
+				y2 + bias);
 	}
 
+	@Override
 	public void drawRect(int x, int y, int width, int height) {
-		drawRect((double) x + bias, (double) y + bias, (double) width,
-				(double) height);
+		drawRect(x + bias, y + bias, width,
+				height);
 	}
 
+	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		fillRect((double) x, (double) y, (double) width, (double) height);
 	}
 
+	@Override
 	public void drawArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
-		drawArc((double) x + bias, (double) y + bias, (double) width,
-				(double) height, (double) startAngle, (double) arcAngle);
+		drawArc(x + bias, y + bias, width,
+				height, startAngle, arcAngle);
 	}
 
+	@Override
 	public void fillArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
 		fillArc((double) x, (double) y, (double) width, (double) height,
 				(double) startAngle, (double) arcAngle);
 	}
 
+	@Override
 	public void drawOval(int x, int y, int width, int height) {
-		drawOval((double) x + bias, (double) y + bias, (double) width,
-				(double) height);
+		drawOval(x + bias, y + bias, width,
+				height);
 	}
 
+	@Override
 	public void fillOval(int x, int y, int width, int height) {
 		fillOval((double) x, (double) y, (double) width, (double) height);
 	}
 
+	@Override
 	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
 			int arcHeight) {
-		drawRoundRect((double) x + bias, (double) y + bias, (double) width,
-				(double) height, (double) arcWidth, (double) arcHeight);
+		drawRoundRect(x + bias, y + bias, width,
+				height, arcWidth, arcHeight);
 	}
 
+	@Override
 	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
 			int arcHeight) {
 		fillRoundRect((double) x, (double) y, (double) width, (double) height,
 				(double) arcWidth, (double) arcHeight);
 	}
 
+	@Override
 	public void translate(int x, int y) {
 		translate((double) x, (double) y);
 	}
@@ -337,10 +366,12 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	/*--------------------------------------------------------------------------------
 	 | 8.1. stroke/linewidth
 	 *--------------------------------------------------------------------------------*/
+	@Override
 	public void setLineWidth(int width) {
 		setLineWidth((double) width);
 	}
 
+	@Override
 	public void setLineWidth(double width) {
 		Stroke stroke = getStroke();
 		if (stroke instanceof BasicStroke) {
@@ -357,14 +388,17 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 		}
 	}
 
+	@Override
 	public void drawString(String str, int x, int y) {
 		drawString(str, (double) x, (double) y);
 	}
 
+	@Override
 	public void drawString(String s, float x, float y) {
 		drawString(s, (double) x, (double) y);
 	}
 
+	@Override
 	public void drawString(AttributedCharacterIterator iterator, int x, int y) {
 		drawString(iterator, (float) x, (float) y);
 	}
@@ -490,6 +524,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param bannerColor
 	 *            color of the banner
 	 */
+	@Override
 	public void drawString(String str, double x, double y, int horizontal,
 			int vertical, boolean framed, Color frameColor, double frameWidth,
 			boolean banner, Color bannerColor) {
@@ -532,6 +567,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param bannerColor
 	 *            color of the banner
 	 */
+	@Override
 	public void drawString(TagString str, double x, double y, int horizontal,
 			int vertical, boolean framed, Color frameColor, double frameWidth,
 			boolean banner, Color bannerColor) {
@@ -552,16 +588,19 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	// ------------------ other wrapper methods ----------------
 
+	@Override
 	public void drawString(String str, double x, double y, int horizontal,
 			int vertical) {
 		drawString(str, x, y, horizontal, vertical, false, null, 0, false,
 				null);
 	}
 
+	@Override
 	public void drawString(TagString str, double x, double y) {
 		drawString(str, x, y, TEXT_LEFT, TEXT_BASELINE);
 	}
 
+	@Override
 	public void drawString(TagString str, double x, double y, int horizontal,
 			int vertical) {
 		drawString(str, x, y, horizontal, vertical, false, null, 0, false,
@@ -569,10 +608,12 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	/* 8.2. paint/color */
+	@Override
 	public int getColorMode() {
 		return colorMode;
 	}
 
+	@Override
 	public void setColorMode(int colorMode) {
 		this.colorMode = colorMode;
 	}
@@ -582,6 +623,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * 
 	 * @return background color
 	 */
+	@Override
 	public Color getBackground() {
 		return backgroundColor;
 	}
@@ -592,6 +634,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param color
 	 *            background color to be set
 	 */
+	@Override
 	public void setBackground(Color color) {
 		backgroundColor = color;
 	}
@@ -602,9 +645,11 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param color
 	 *            to be set
 	 */
+	@Override
 	public void setColor(Color color) {
-		if (color == null)
+		if (color == null) {
 			return;
+		}
 
 		currentColor = color;
 		currentPaint = color;
@@ -615,6 +660,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * 
 	 * @return the current color
 	 */
+	@Override
 	public Color getColor() {
 		return currentColor;
 	}
@@ -625,12 +671,15 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param paint
 	 *            to be set
 	 */
+	@Override
 	public void setPaint(Paint paint) {
-		if (paint == null)
+		if (paint == null) {
 			return;
+		}
 
-		if (!(paint instanceof Color))
+		if (!(paint instanceof Color)) {
 			currentColor = null;
+		}
 		currentPaint = paint;
 	}
 
@@ -639,6 +688,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * 
 	 * @return paint current paint
 	 */
+	@Override
 	public Paint getPaint() {
 		return currentPaint;
 	}
@@ -650,82 +700,99 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 */
 	protected Color getPrintColor(Color color) {
 		// shortcut if mode is COLOR for speed
-		if (colorMode == PrintColor.COLOR)
+		if (colorMode == PrintColor.COLOR) {
 			return color;
+		}
 
 		// otherwise...
 		PrintColor printColor = PrintColor.createPrintColor(color);
 		return printColor.getColor(colorMode);
 	}
 
+	@Override
 	public void rotate(double theta, double x, double y) {
 		translate(x, y);
 		rotate(theta);
 		translate(-x, -y);
 	}
 
+	@Override
 	public void drawArc(double x, double y, double width, double height,
 			double startAngle, double arcAngle) {
 		draw(new Arc2D.Double(x, y, width, height, startAngle, arcAngle,
 				Arc2D.OPEN));
 	}
 
+	@Override
 	public void drawLine(double x1, double y1, double x2, double y2) {
 		draw(new Line2D.Double(x1, y1, x2, y2));
 	}
 
+	@Override
 	public void drawOval(double x, double y, double width, double height) {
 		draw(new Ellipse2D.Double(x, y, width, height));
 	}
 
+	@Override
 	public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints) {
 		draw(createShape(xPoints, yPoints, nPoints, false, true));
 	}
 
+	@Override
 	public void drawPolyline(double[] xPoints, double[] yPoints, int nPoints) {
 		draw(createShape(xPoints, yPoints, nPoints, false));
 	}
 
+	@Override
 	public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
 		draw(createShape(xPoints, yPoints, nPoints, true, true));
 	}
 
+	@Override
 	public void drawPolygon(double[] xPoints, double[] yPoints, int nPoints) {
 		draw(createShape(xPoints, yPoints, nPoints, true));
 	}
 
+	@Override
 	public void drawRect(double x, double y, double width, double height) {
 		draw(new Rectangle2D.Double(x, y, width, height));
 	}
 
+	@Override
 	public void drawRoundRect(double x, double y, double width, double height,
 			double arcWidth, double arcHeight) {
 		draw(new RoundRectangle2D.Double(x, y, width, height, arcWidth,
 				arcHeight));
 	}
 
+	@Override
 	public void fillArc(double x, double y, double width, double height,
 			double startAngle, double arcAngle) {
 		fill(new Arc2D.Double(x, y, width, height, startAngle, arcAngle,
 				Arc2D.PIE));
 	}
 
+	@Override
 	public void fillOval(double x, double y, double width, double height) {
 		fill(new Ellipse2D.Double(x, y, width, height));
 	}
 
+	@Override
 	public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
 		fill(createShape(xPoints, yPoints, nPoints, true, false));
 	}
 
+	@Override
 	public void fillPolygon(double[] xPoints, double[] yPoints, int nPoints) {
 		fill(createShape(xPoints, yPoints, nPoints, true));
 	}
 
+	@Override
 	public void fillRect(double x, double y, double width, double height) {
 		fill(new Rectangle2D.Double(x, y, width, height));
 	}
 
+	@Override
 	public void fillRoundRect(double x, double y, double width, double height,
 			double arcWidth, double arcHeight) {
 		fill(new RoundRectangle2D.Double(x, y, width, height, arcWidth,
@@ -781,8 +848,9 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 					lastY = yPoints[i];
 				}
 			}
-			if (close)
+			if (close) {
 				path.closePath();
+			}
 		}
 		return path;
 	}

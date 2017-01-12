@@ -51,6 +51,7 @@ public class Horizontal extends PathCommand {
 	public Horizontal() {
 	}
 
+	@Override
 	public String toString() {
 		return "H " + x;
 	}
@@ -61,6 +62,7 @@ public class Horizontal extends PathCommand {
 	}
 
 	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	@Override
 	public void appendPath(GeneralPath path, BuildHistory hist) {
 		float offx = isRelative ? hist.lastPoint.x : 0f;
 		float offy = hist.lastPoint.y;
@@ -70,6 +72,7 @@ public class Horizontal extends PathCommand {
 		hist.setLastKnot(x + offx, offy);
 	}
 
+	@Override
 	public int getNumKnotsAdded() {
 		return 2;
 	}

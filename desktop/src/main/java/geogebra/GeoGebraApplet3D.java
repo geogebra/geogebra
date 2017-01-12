@@ -32,8 +32,9 @@ public class GeoGebraApplet3D extends GeoGebraApplet {
 	 */
 	@Override
 	public synchronized void initAppletImplementation() {
-		if (isAppletFullyLoaded())
+		if (isAppletFullyLoaded()) {
 			return;
+		}
 
 		// create delegate object that implements our applet's methods
 		AppletImplementation3D applImpl = new AppletImplementation3D(this);

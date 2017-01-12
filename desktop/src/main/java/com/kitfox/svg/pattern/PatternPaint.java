@@ -59,12 +59,14 @@ public class PatternPaint implements Paint {
 		this.xform = xform;
 	}
 
+	@Override
 	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds,
 			Rectangle2D userBounds, AffineTransform xform,
 			RenderingHints hints) {
 		return new PatternPaintContext(source, deviceBounds, xform, this.xform);
 	}
 
+	@Override
 	public int getTransparency() {
 		return source.getColorModel().getTransparency();
 	}

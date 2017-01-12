@@ -81,36 +81,43 @@ public class PatternTransformer implements ParserListener {
 	}
 
 	/** Extend this method to make your transformer modify the voice. */
+	@Override
 	public void voiceEvent(Voice voice) {
 		returnPattern.addElement(voice);
 	}
 
 	/** Extend this method to make your transformer modify the tempo. */
+	@Override
 	public void tempoEvent(Tempo tempo) {
 		returnPattern.addElement(tempo);
 	}
 
 	/** Extend this method to make your transformer modify the instrument. */
+	@Override
 	public void instrumentEvent(Instrument instrument) {
 		returnPattern.addElement(instrument);
 	}
 
 	/** Extend this method to make your transformer modify the layer. */
+	@Override
 	public void layerEvent(Layer layer) {
 		returnPattern.addElement(layer);
 	}
 
 	/** Extend this method to make your transformer modify the time. */
+	@Override
 	public void timeEvent(Time time) {
 		returnPattern.addElement(time);
 	}
 
 	/** Extend this method to make your transformer modify the time. */
+	@Override
 	public void keySignatureEvent(KeySignature keySig) {
 		returnPattern.addElement(keySig);
 	}
 
 	/** Extend this method to make your transformer modify the measure. */
+	@Override
 	public void measureEvent(Measure measure) {
 		returnPattern.addElement(measure);
 	}
@@ -119,6 +126,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the controller
 	 * messages.
 	 */
+	@Override
 	public void controllerEvent(Controller controller) {
 		returnPattern.addElement(controller);
 	}
@@ -127,6 +135,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the channel pressure
 	 * messages.
 	 */
+	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
 		returnPattern.addElement(channelPressure);
 	}
@@ -135,6 +144,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the polyphonic
 	 * pressure messages.
 	 */
+	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
 		returnPattern.addElement(polyphonicPressure);
 	}
@@ -143,6 +153,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the pitch bend
 	 * messages.
 	 */
+	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
 		returnPattern.addElement(pitchBend);
 	}
@@ -151,6 +162,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the note. Don't forget
 	 * to also extend sequentialNoteEvent and parallelNoteEvent.
 	 */
+	@Override
 	public void noteEvent(Note note) {
 		returnPattern.addElement(note);
 	}
@@ -159,6 +171,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the note. Don't forget
 	 * to also extend noteEvent and parallelNoteEvent.
 	 */
+	@Override
 	public void sequentialNoteEvent(Note note) {
 		returnPattern.addElement(note);
 	}
@@ -167,6 +180,7 @@ public class PatternTransformer implements ParserListener {
 	 * Extend this method to make your transformer modify the note. Don't forget
 	 * to also extend noteEvent and sequentialNoteEvent.
 	 */
+	@Override
 	public void parallelNoteEvent(Note note) {
 		returnPattern.addElement(note);
 	}

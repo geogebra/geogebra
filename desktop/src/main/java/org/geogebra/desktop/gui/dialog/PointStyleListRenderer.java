@@ -39,6 +39,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		setOpaque(true);
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 
@@ -118,8 +119,9 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 
 	public void getPath() {
 		// clear old path
-		if (gp != null)
+		if (gp != null) {
 			gp.reset();
+		}
 
 		// set point size
 		pointSize = 4;
@@ -154,16 +156,18 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			gp.lineTo((float) xR, (float) (yB + yUL) / 2);
 			gp.closePath();
 
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
 
 			double direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH)
+			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
 				direction = -1.0;
+			}
 
 			if (gp == null) {
 				gp = new GeneralPath();
@@ -178,16 +182,18 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 					(float) (coords[1] + direction * pointSize));
 			gp.closePath();
 
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 
 			direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST)
+			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
 				direction = -1.0;
+			}
 
 			if (gp == null) {
 				gp = new GeneralPath();
@@ -202,8 +208,9 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 					(float) coords[1]);
 			gp.closePath();
 
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
@@ -223,8 +230,9 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
 			line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
 
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_PLUS:
@@ -238,8 +246,9 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
 			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
 
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_CROSS:
@@ -253,13 +262,15 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			line1.setLine(xUL, yUL, xR, yB);
 			line2.setLine(xUL, yB, xR, yUL);
 
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			if (crossStrokes[pointSize] == null)
+			if (crossStrokes[pointSize] == null) {
 				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+			}
 			break;
 		}
 		// for circle points

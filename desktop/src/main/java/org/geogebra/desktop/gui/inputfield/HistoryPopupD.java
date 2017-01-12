@@ -82,9 +82,11 @@ public class HistoryPopupD implements ListSelectionListener {
 
 		private KeyListener[] listListeners;
 
+		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
 		}
 
+		@Override
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 			textField.removeKeyListener(keyListener);
 			for (KeyListener listener : textFieldKeyListeners) {
@@ -92,6 +94,7 @@ public class HistoryPopupD implements ListSelectionListener {
 			}
 		}
 
+		@Override
 		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 			// Remove key listeners and replace with own;
 			textFieldKeyListeners = textField.getKeyListeners();
@@ -143,17 +146,21 @@ public class HistoryPopupD implements ListSelectionListener {
 		// get the current history list and load it into the JList
 		ArrayList<String> list = textField.getHistory();
 
-		if (list.isEmpty())
+		if (list.isEmpty()) {
 			return;
+		}
 
 		model = new DefaultListModel();
 
-		if (isDownPopup)
-			for (int i = 0; i < list.size(); i++)
+		if (isDownPopup) {
+			for (int i = 0; i < list.size(); i++) {
 				model.addElement(list.get(list.size() - i - 1));
-		else
-			for (int i = 0; i < list.size(); i++)
+			}
+		} else {
+			for (int i = 0; i < list.size(); i++) {
 				model.addElement(list.get(i));
+			}
+		}
 
 		historyList.setModel(model);
 
@@ -181,10 +188,11 @@ public class HistoryPopupD implements ListSelectionListener {
 		// position the popup above/below the text field
 		// with small vertical offset to compensate for the shadow in upwards
 		// popups
-		if (isDownPopup)
+		if (isDownPopup) {
 			popup.show(textField, 0, textField.getPreferredSize().height);
-		else
+		} else {
 			popup.show(textField, 0, -popup.getPreferredSize().height - 4);
+		}
 
 	}
 
@@ -211,6 +219,7 @@ public class HistoryPopupD implements ListSelectionListener {
 	 * handles selection in the history popup; pastes the selected string into
 	 * the input field and hides the popup
 	 */
+	@Override
 	public void valueChanged(ListSelectionEvent evt) {
 		if (!evt.getValueIsAdjusting()) {
 			if (evt.getSource() == historyList) {
@@ -249,17 +258,19 @@ public class HistoryPopupD implements ListSelectionListener {
 
 		case VK_DOWN:
 			if (!isDownPopup && historyList
-					.getSelectedIndex() == historyList.getModel().getSize() - 1)
+					.getSelectedIndex() == historyList.getModel().getSize() - 1) {
 				hidePopup();
-			else
+			} else {
 				navigateRelative(+1);
+			}
 			break;
 
 		case VK_UP:
-			if (isDownPopup && historyList.getSelectedIndex() == 0)
+			if (isDownPopup && historyList.getSelectedIndex() == 0) {
 				hidePopup();
-			else
+			} else {
 				navigateRelative(-1);
+			}
 			break;
 
 		default:

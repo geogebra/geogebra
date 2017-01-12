@@ -97,58 +97,70 @@ public final class MidiRenderer extends ParserListenerAdapter {
 	// ParserListener methods
 	////////////////////////////
 
+	@Override
 	public void voiceEvent(Voice voice) {
 		this.eventManager.setCurrentTrack(voice.getVoice());
 	}
 
+	@Override
 	public void tempoEvent(Tempo tempo) {
 		byte[] threeTempoBytes = TimeFactor
 				.convertToThreeTempoBytes(tempo.getTempo());
 		this.eventManager.addMetaMessage(0x51, threeTempoBytes);
 	}
 
+	@Override
 	public void instrumentEvent(Instrument instrument) {
 		this.eventManager.addEvent(ShortMessage.PROGRAM_CHANGE,
 				instrument.getInstrument(), 0);
 	}
 
+	@Override
 	public void layerEvent(Layer layer) {
 		this.eventManager.setCurrentLayer(layer.getLayer());
 	}
 
+	@Override
 	public void timeEvent(Time time) {
 		this.eventManager.setTrackTimer(time.getTime());
 	}
 
+	@Override
 	public void measureEvent(Measure measure) {
 		// No MIDI is generated when a measure indicator is identified.
 	}
 
+	@Override
 	public void keySignatureEvent(KeySignature keySig) {
 		this.eventManager.addMetaMessage(0x59,
 				new byte[] { keySig.getKeySig(), keySig.getScale() });
 	}
 
+	@Override
 	public void controllerEvent(Controller controller) {
 		this.eventManager.addEvent(ShortMessage.CONTROL_CHANGE,
 				controller.getIndex(), controller.getValue());
 	}
 
+	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
 		this.eventManager.addEvent(ShortMessage.CHANNEL_PRESSURE,
 				channelPressure.getPressure());
 	}
 
+	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
 		this.eventManager.addEvent(ShortMessage.POLY_PRESSURE,
 				polyphonicPressure.getKey(), polyphonicPressure.getPressure());
 	}
 
+	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
 		this.eventManager.addEvent(ShortMessage.PITCH_BEND,
 				pitchBend.getBend()[0], pitchBend.getBend()[1]);
 	}
 
+	@Override
 	public void noteEvent(Note note) {
 		// Remember the current track time, so we can flip back to it
 		// if there are other notes to play in parallel
@@ -175,6 +187,7 @@ public final class MidiRenderer extends ParserListenerAdapter {
 		}
 	}
 
+	@Override
 	public void sequentialNoteEvent(Note note) {
 		long duration = note.getDuration();
 		if (note.isRest()) {
@@ -188,6 +201,7 @@ public final class MidiRenderer extends ParserListenerAdapter {
 		}
 	}
 
+	@Override
 	public void parallelNoteEvent(Note note) {
 		long duration = note.getDuration();
 		this.eventManager.setTrackTimer(this.initialNoteTime);

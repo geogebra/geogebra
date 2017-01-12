@@ -198,6 +198,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().login();
 			}
@@ -207,6 +208,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// do nothing
 			}
@@ -215,6 +217,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().logout();
 			}
@@ -268,9 +271,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	/**
 	 * Display the result of login events
 	 */
+	@Override
 	public void renderEvent(final BaseEvent event) {
 		SwingUtilities.invokeLater(new Runnable() {
 
+			@Override
 			public void run() {
 				doRenderEvent(event);
 			}
@@ -359,8 +364,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		// if (perspectivesMenu != null)
 		// perspectivesMenu.update();
 
-		if (!app.isApplet())
+		if (!app.isApplet()) {
 			windowMenu.update();
+		}
 
 		helpMenu.update();
 
@@ -569,8 +575,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		SingularWebService singularWS = App.getSingularWS();
 
 		if (singularWS != null
-				&& (v = singularWS.getSingularVersionString()) != null)
+				&& (v = singularWS.getSingularVersionString()) != null) {
 			sb.append(",<br>" + v);
+		}
 		sb.append(")<br>");
 
 		sb.append(GeoGebraConstants.BUILD_DATE);
@@ -599,6 +606,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 					private static final long serialVersionUID = 1L;
 
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 
 						copyDebugInfoToClipboard(app);
@@ -683,8 +691,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				app.showMessage(
 						app.getLocalization().getMenu("CannotOpenLogFile"));
 			} finally {
-				if (scanner != null)
+				if (scanner != null) {
 					scanner.close();
+				}
 			}
 			sb.append("\n");
 		}

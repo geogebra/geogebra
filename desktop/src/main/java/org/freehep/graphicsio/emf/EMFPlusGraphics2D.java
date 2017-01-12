@@ -89,6 +89,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	// FIXME
+	@Override
 	public FontRenderContext getFontRenderContext() {
 		// NOTE: not sure?
 		return new FontRenderContext(new AffineTransform(-1, 0, 0, 1, 0, 0),
@@ -145,6 +146,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		restorePaint = graphics.getPaint();
 	}
 
+	@Override
 	public void writeHeader() throws IOException {
 		ros = new BufferedOutputStream(ros);
 
@@ -180,6 +182,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		// os.writeTag(new SetPolyFillMode(EMFConstants.WINDING));
 	}
 
+	@Override
 	public void writeBackground() throws IOException {
 		if (isProperty(TRANSPARENT)) {
 			setBackground(null);
@@ -195,12 +198,14 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		}
 	}
 
+	@Override
 	public void writeTrailer() throws IOException {
 		// delete any remaining objects
 		for (;;) {
 			int handle = handleManager.highestHandleInUse();
-			if (handle < 0)
+			if (handle < 0) {
 				break;
+			}
 			// os.writeTag(new DeleteObject(handle));
 			handleManager.freeHandle(handle);
 		}
@@ -208,10 +213,12 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		os.writeTag(new EOF());
 	}
 
+	@Override
 	public void closeStream() throws IOException {
 		os.close();
 	}
 
+	@Override
 	public Graphics create() {
 		// Create a new graphics context from the current one.
 		try {
@@ -224,6 +231,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		return new EMFPlusGraphics2D(this, true);
 	}
 
+	@Override
 	public Graphics create(double x, double y, double width, double height) {
 		// Create a new graphics context from the current one.
 		try {
@@ -239,18 +247,22 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		return graphics;
 	}
 
+	@Override
 	protected void writeGraphicsSave() throws IOException {
 		os.writeTag(new Save(containerIndex.getInt()));
 		containerIndex.set(containerIndex.getInt() + 1);
 	}
 
+	@Override
 	protected void writeGraphicsRestore() throws IOException {
 		containerIndex.set(containerIndex.getInt() - 1);
 		os.writeTag(new Restore(containerIndex.getInt()));
-		if (restorePaint != null)
+		if (restorePaint != null) {
 			writePaint(restorePaint);
+		}
 	}
 
+	@Override
 	public void draw(Shape shape) {
 		try {
 			Stroke stroke = getStroke();
@@ -269,6 +281,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		}
 	}
 
+	@Override
 	public void fill(Shape shape) {
 		try {
 			os.writeTag(new GDIPlusObject(1, shape, false));
@@ -278,12 +291,14 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		}
 	}
 
+	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
 		writeWarning(getClass()
 				+ ": copyArea(int, int, int, int, int, int) not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	protected void writeImage(RenderedImage image, AffineTransform xform,
 			Color bkg) throws IOException {
 		// FIXME use BKG and xform
@@ -294,24 +309,29 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		writeGraphicsRestore();
 	}
 
+	@Override
 	protected void writeString(String string, double x, double y)
 			throws IOException {
 		// text is drawn as shapes
 	}
 
+	@Override
 	protected void writeTransform(AffineTransform t) throws IOException {
 		os.writeTag(new MultiplyWorldTransform(t, true));
 	}
 
+	@Override
 	protected void writeSetTransform(AffineTransform t) throws IOException {
 		os.writeTag(new SetWorldTransform(t));
 	}
 
+	@Override
 	protected void writeClip(Shape s) throws IOException {
 		os.writeTag(new GDIPlusObject(4, s, false));
 		os.writeTag(new SetClipPath(4, SetClipPath.INTERSECT));
 	}
 
+	@Override
 	protected void writeSetClip(Shape s) throws IOException {
 		if (s != null) {
 			os.writeTag(new GDIPlusObject(4, s, false));
@@ -321,56 +341,69 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		}
 	}
 
+	@Override
 	protected void writeWidth(float width) throws IOException {
 		// settings convert to shape
 	}
 
+	@Override
 	protected void writeCap(int cap) throws IOException {
 		// settings convert to shape
 	}
 
+	@Override
 	protected void writeJoin(int join) throws IOException {
 		// settings convert to shape
 	}
 
+	@Override
 	protected void writeMiterLimit(float limit) throws IOException {
 		// settings convert to shape
 	}
 
+	@Override
 	protected void writeDash(float[] dash, float phase) throws IOException {
 		// settings convert to shape
 	}
 
+	@Override
 	public void setPaintMode() {
 		writeWarning(getClass() + ": setPaintMode() not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	public void setXORMode(Color c1) {
 		writeWarning(getClass() + ": setXORMode(Color) not implemented.");
 		// Mostly unimplemented.
 	}
 
+	@Override
 	protected void writePaint(Color p) throws IOException {
 		os.writeTag(new GDIPlusObject(0, p));
 	}
 
+	@Override
 	protected void writePaint(GradientPaint p) throws IOException {
 		os.writeTag(new GDIPlusObject(0, p));
 	}
 
+	@Override
 	protected void writePaint(TexturePaint p) throws IOException {
 		os.writeTag(new GDIPlusObject(0, p));
 	}
 
+	@Override
 	protected void writePaint(Paint p) throws IOException {
 		os.writeTag(new GDIPlusObject(0, p));
 	}
 
+	@Override
 	protected void writeFont(Font font) throws IOException {
 		// text converts to shapes
 	}
 
+	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
 		writeWarning(
 				getClass() + ": getDeviceConfiguration() not implemented.");
@@ -378,6 +411,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		return null;
 	}
 
+	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
 		writeWarning(getClass()
 				+ ": hit(Rectangle, Shape, boolean) not implemented.");
@@ -385,15 +419,18 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		return false;
 	}
 
+	@Override
 	public void writeComment(String comment) throws IOException {
 		writeWarning(getClass() + ": writeComment(String) not implemented.");
 		// Write out the comment.
 	}
 
+	@Override
 	protected void writeWarning(String string) {
 		System.err.println(string);
 	}
 
+	@Override
 	public String toString() {
 		return "EMFPlusGraphics2D";
 	}

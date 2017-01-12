@@ -35,6 +35,7 @@ public class PolyDraw16 extends EMFTag implements EMFConstants {
 		this.types = types;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -44,6 +45,7 @@ public class PolyDraw16 extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 		emf.writeDWORD(points.length);
@@ -51,6 +53,7 @@ public class PolyDraw16 extends EMFTag implements EMFConstants {
 		emf.writeBYTE(types);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
 				+ "  #points: " + points.length;

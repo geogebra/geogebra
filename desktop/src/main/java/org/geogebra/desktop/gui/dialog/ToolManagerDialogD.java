@@ -98,8 +98,9 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 */
 	private void deleteTools(JList toolList, DefaultListModel listModel) {
 		Object[] sel = toolList.getSelectedValues();
-		if (sel == null || sel.length == 0)
+		if (sel == null || sel.length == 0) {
 			return;
+		}
 
 		// ARE YOU SURE ?
 		Object[] options = { loc.getMenu("DeleteTool"),
@@ -108,8 +109,9 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 				loc.getMenu("Tool.DeleteQuestion"), loc.getPlain("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[1]);
-		if (returnVal == 1)
+		if (returnVal == 1) {
 			return;
+		}
 
 		if (model.deleteTools(sel)) {
 			updateToolBar(listModel);
@@ -187,6 +189,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 
 			// action listener for buttone
 			ActionListener ac = new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					Object src = e.getSource();
 					if (src == btClose) {
@@ -222,9 +225,11 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 			// add selection listener for list
 			final ListSelectionModel selModel = toolList.getSelectionModel();
 			ListSelectionListener selListener = new ListSelectionListener() {
+				@Override
 				public void valueChanged(ListSelectionEvent e) {
-					if (selModel.getValueIsAdjusting())
+					if (selModel.getValueIsAdjusting()) {
 						return;
+					}
 
 					int[] selIndices = toolList.getSelectedIndices();
 					if (selIndices == null || selIndices.length != 1) {
@@ -240,10 +245,11 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 			selModel.addListSelectionListener(selListener);
 
 			// select first tool in list
-			if (toolsModel.size() > 0)
+			if (toolsModel.size() > 0) {
 				toolList.setSelectedIndex(0);
-			else
+			} else {
 				namePanel.init(null, null);
+			}
 
 			setResizable(true);
 			namePanel.setPreferredSize(new Dimension(400, 200));
@@ -266,8 +272,9 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 */
 	private void openTools(JList toolList) {
 		Object[] sel = toolList.getSelectedValues();
-		if (sel == null || sel.length == 0)
+		if (sel == null || sel.length == 0) {
 			return;
+		}
 
 		for (int i = 0; i < sel.length; i++) {
 			final Macro macro = (Macro) sel[i];
@@ -278,6 +285,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 					// avoid deadlock with current app
 					SwingUtilities.invokeLater(new Runnable() {
 
+						@Override
 						public void run() {
 							GeoGebraFrame newframe = ((GeoGebraFrame) app
 									.getFrame()).createNewWindow(null, macro);
@@ -374,29 +382,34 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 */
 	private void saveTools(JList toolList) {
 		Object[] sel = toolList.getSelectedValues();
-		if (sel == null || sel.length == 0)
+		if (sel == null || sel.length == 0) {
 			return;
+		}
 
 		File file = app.getGuiManager().showSaveDialog(
 				FileExtensions.GEOGEBRA_TOOL, null,
 				GeoGebraConstants.APPLICATION_NAME + " " + loc.getMenu("Tools"),
 				true, false);
-		if (file == null)
+		if (file == null) {
 			return;
+		}
 
 		// save selected macros
 		app.saveMacroFile(file, model.getAllTools(sel));
 	}
 
+	@Override
 	public void removeMacroFromToolbar(int i) {
 		app.getGuiManager().removeFromToolbarDefinition(i);
 	}
 
+	@Override
 	public void refreshCustomToolsInToolBar() {
 		app.getGuiManager().refreshCustomToolsInToolBar();
 
 	}
 
+	@Override
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		// create new exporter
 		GeoGebraTubeExportD exporter = new GeoGebraTubeExportD(app);

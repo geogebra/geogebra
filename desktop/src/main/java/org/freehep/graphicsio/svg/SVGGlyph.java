@@ -51,6 +51,7 @@ public class SVGGlyph {
 		this.glyphMetrics = glyphMetrics;
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer("<glyph ");
 

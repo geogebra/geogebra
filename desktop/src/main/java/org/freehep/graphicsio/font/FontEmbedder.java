@@ -125,6 +125,7 @@ public abstract class FontEmbedder extends FontIncluder {
 		return glyphs.getGlyphMetrics(i);
 	}
 
+	@Override
 	public void includeFont(Font font, CharTable charTable, String name)
 			throws IOException {
 

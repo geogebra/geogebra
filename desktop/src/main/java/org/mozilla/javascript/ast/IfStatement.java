@@ -96,8 +96,9 @@ public class IfStatement extends AstNode {
 	 */
 	public void setElsePart(AstNode elsePart) {
 		this.elsePart = elsePart;
-		if (elsePart != null)
+		if (elsePart != null) {
 			elsePart.setParent(this);
+		}
 	}
 
 	/**

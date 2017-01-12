@@ -34,15 +34,15 @@ public class TextValue extends JTextField implements KeyListener {
 		setText(s);
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 		// Accept only numerical characters
 		char c = e.getKeyChar();
 		if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE)
 				|| (c == KeyEvent.VK_DELETE) || (c == '.'))) {
-			if (c != '-' || !ALLOW_NEGATIVE)
+			if (c != '-' || !ALLOW_NEGATIVE) {
 				e.consume();
-			// Only one - in first position
-			else if (getText().indexOf('-') != -1 || getCaretPosition() != 0) {
+			} else if (getText().indexOf('-') != -1 || getCaretPosition() != 0) {
 				e.consume();
 			}
 		}
@@ -54,10 +54,12 @@ public class TextValue extends JTextField implements KeyListener {
 
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		//
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 		//
 	}

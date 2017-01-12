@@ -55,8 +55,9 @@ public class AppletSplashScreen implements ImageObserver {
 			// create splash screen image for fast drawing
 			width = parentApplet.getWidth();
 			height = parentApplet.getHeight();
-			if (width <= 0 || height <= 0)
+			if (width <= 0 || height <= 0) {
 				return;
+			}
 
 			splashScreenImage = parentApplet.createImage(width, height);
 			if (splashScreenImage != null) {
@@ -116,11 +117,13 @@ public class AppletSplashScreen implements ImageObserver {
 	 * Updates the progress image (animated gif) in the SplashScreen loading.
 	 * Implements ImageObserver.
 	 */
+	@Override
 	public boolean imageUpdate(Image img, int flags, int x, int y, int w,
 			int h) {
 		// stop after dispose() was called
-		if (dispose)
+		if (dispose) {
 			return false;
+		}
 
 		// repaint applet to update progress image
 		update();

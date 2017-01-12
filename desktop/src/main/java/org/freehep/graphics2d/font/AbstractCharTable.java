@@ -11,11 +11,13 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class AbstractCharTable implements CharTable {
 
+	@Override
 	public int toEncoding(char unicode) {
 		try {
 			String name = toName(unicode);
-			if (name == null)
+			if (name == null) {
 				return 0;
+			}
 			int enc = toEncoding(name);
 			if (enc > 255) {
 				Log.debug("toEncoding() returned illegal value for '" + name
@@ -28,10 +30,12 @@ public abstract class AbstractCharTable implements CharTable {
 		}
 	}
 
+	@Override
 	public String toName(char c) {
 		return toName(new Character(c));
 	}
 
+	@Override
 	public String toName(Integer enc) {
 		return toName(enc.intValue());
 	}

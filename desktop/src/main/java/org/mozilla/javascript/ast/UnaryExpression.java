@@ -91,8 +91,9 @@ public class UnaryExpression extends AstNode {
 	 *             if operator is not a valid Token code
 	 */
 	public void setOperator(int operator) {
-		if (!Token.isValidToken(operator))
+		if (!Token.isValidToken(operator)) {
 			throw new IllegalArgumentException("Invalid token: " + operator);
+		}
 		setType(operator);
 	}
 

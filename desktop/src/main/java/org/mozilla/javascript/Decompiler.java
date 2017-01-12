@@ -91,15 +91,17 @@ public class Decompiler {
 	}
 
 	void addToken(int token) {
-		if (!(0 <= token && token <= Token.LAST_TOKEN))
+		if (!(0 <= token && token <= Token.LAST_TOKEN)) {
 			throw new IllegalArgumentException();
+		}
 
 		append((char) token);
 	}
 
 	void addEOL(int token) {
-		if (!(0 <= token && token <= Token.LAST_TOKEN))
+		if (!(0 <= token && token <= Token.LAST_TOKEN)) {
 			throw new IllegalArgumentException();
+		}
 
 		append((char) token);
 		append((char) Token.EOL);
@@ -151,8 +153,9 @@ public class Decompiler {
 		} else {
 			// we can ignore negative values, bc they're already prefixed
 			// by NEG
-			if (lbits < 0)
+			if (lbits < 0) {
 				Kit.codeBug();
+			}
 
 			// will it fit in a char?
 			// this gives a short encoding for integer values up to 2^16.
@@ -201,8 +204,9 @@ public class Decompiler {
 
 	private void increaseSourceCapacity(int minimalCapacity) {
 		// Call this only when capacity increase is must
-		if (minimalCapacity <= sourceBuffer.length)
+		if (minimalCapacity <= sourceBuffer.length) {
 			Kit.codeBug();
+		}
 		int newCapacity = sourceBuffer.length * 2;
 		if (newCapacity < minimalCapacity) {
 			newCapacity = minimalCapacity;
@@ -213,8 +217,9 @@ public class Decompiler {
 	}
 
 	private String sourceToString(int offset) {
-		if (offset < 0 || sourceTop < offset)
+		if (offset < 0 || sourceTop < offset) {
 			Kit.codeBug();
+		}
 		return new String(sourceBuffer, offset, sourceTop - offset);
 	}
 
@@ -244,14 +249,17 @@ public class Decompiler {
 		}
 
 		int indent = properties.getInt(INITIAL_INDENT_PROP, 0);
-		if (indent < 0)
+		if (indent < 0) {
 			throw new IllegalArgumentException();
+		}
 		int indentGap = properties.getInt(INDENT_GAP_PROP, 4);
-		if (indentGap < 0)
+		if (indentGap < 0) {
 			throw new IllegalArgumentException();
+		}
 		int caseGap = properties.getInt(CASE_GAP_PROP, 2);
-		if (caseGap < 0)
+		if (caseGap < 0) {
 			throw new IllegalArgumentException();
+		}
 
 		StringBuilder result = new StringBuilder();
 		boolean justFunctionBody = (0 != (flags & Decompiler.ONLY_BODY_FLAG));
@@ -296,8 +304,9 @@ public class Decompiler {
 		if (!toSource) {
 			// add an initial newline to exactly match js.
 			result.append('\n');
-			for (int j = 0; j < indent; j++)
+			for (int j = 0; j < indent; j++) {
 				result.append(' ');
+			}
 		} else {
 			if (topFunctionType == FunctionNode.FUNCTION_EXPRESSION) {
 				result.append('(');
@@ -364,8 +373,9 @@ public class Decompiler {
 
 			case Token.LC:
 				++braceNesting;
-				if (Token.EOL == getNext(source, length, i))
+				if (Token.EOL == getNext(source, length, i)) {
 					indent += indentGap;
+				}
 				result.append('{');
 				break;
 
@@ -375,8 +385,9 @@ public class Decompiler {
 				 * don't print the closing RC if it closes the toplevel function
 				 * and we're called from decompileFunctionBody.
 				 */
-				if (justFunctionBody && braceNesting == 0)
+				if (justFunctionBody && braceNesting == 0) {
 					break;
+				}
 
 				result.append('}');
 				switch (getNext(source, length, i)) {
@@ -398,8 +409,9 @@ public class Decompiler {
 
 			case Token.RP:
 				result.append(')');
-				if (Token.LC == getNext(source, length, i))
+				if (Token.LC == getNext(source, length, i)) {
 					result.append(' ');
+				}
 				break;
 
 			case Token.LB:
@@ -411,8 +423,9 @@ public class Decompiler {
 				break;
 
 			case Token.EOL: {
-				if (toSource)
+				if (toSource) {
 					break;
+				}
 				boolean newLine = true;
 				if (!afterFirstEOL) {
 					afterFirstEOL = true;
@@ -449,12 +462,14 @@ public class Decompiler {
 					 */
 					else if (nextToken == Token.NAME) {
 						int afterName = getSourceStringEnd(source, i + 2);
-						if (source.charAt(afterName) == Token.COLON)
+						if (source.charAt(afterName) == Token.COLON) {
 							less = indentGap;
+						}
 					}
 
-					for (; less < indent; less++)
+					for (; less < indent; less++) {
 						result.append(' ');
+					}
 				}
 				break;
 			}
@@ -520,14 +535,16 @@ public class Decompiler {
 
 			case Token.BREAK:
 				result.append("break");
-				if (Token.NAME == getNext(source, length, i))
+				if (Token.NAME == getNext(source, length, i)) {
 					result.append(' ');
+				}
 				break;
 
 			case Token.CONTINUE:
 				result.append("continue");
-				if (Token.NAME == getNext(source, length, i))
+				if (Token.NAME == getNext(source, length, i)) {
 					result.append(' ');
+				}
 				break;
 
 			case Token.CASE:
@@ -540,8 +557,9 @@ public class Decompiler {
 
 			case Token.RETURN:
 				result.append("return");
-				if (Token.SEMI != getNext(source, length, i))
+				if (Token.SEMI != getNext(source, length, i)) {
 					result.append(' ');
+				}
 				break;
 
 			case Token.VAR:
@@ -622,12 +640,13 @@ public class Decompiler {
 				break;
 
 			case Token.COLON:
-				if (Token.EOL == getNext(source, length, i))
+				if (Token.EOL == getNext(source, length, i)) {
 					// it's the end of a label
 					result.append(':');
-				else
+				} else {
 					// it's the middle part of a ternary
 					result.append(" : ");
+				}
 				break;
 
 			case Token.OR:
@@ -788,8 +807,9 @@ public class Decompiler {
 
 		if (!toSource) {
 			// add that trailing newline if it's an outermost function.
-			if (!justFunctionBody)
+			if (!justFunctionBody) {
 				result.append('\n');
+			}
 		} else {
 			if (topFunctionType == FunctionNode.FUNCTION_EXPRESSION) {
 				result.append(')');

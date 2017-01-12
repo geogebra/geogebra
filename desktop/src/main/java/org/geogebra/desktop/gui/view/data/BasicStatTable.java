@@ -91,6 +91,7 @@ public class BasicStatTable extends JPanel
 	 * not valid, the result cells are set blank.
 	 * 
 	 */
+	@Override
 	public void updatePanel() {
 		statTable.setStatTable(getModel().getRowCount(),
 				getModel().getRowNames(), getModel().getColumnCount(),
@@ -119,48 +120,59 @@ public class BasicStatTable extends JPanel
 		return getModel().getAlgoClass(stat, frequencyData, geoRegression);
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);
 	}
 
+	@Override
 	public void setLabels() {
 		statTable.setLabels(getModel().getRowNames(),
 				getModel().getColumnNames());
 	}
 
+	@Override
 	public GeoList getDataSelected() {
 		return daView.getController().getDataSelected();
 	}
 
+	@Override
 	public GeoElement getRegressionModel() {
 		return daView.getRegressionModel();
 	}
 
+	@Override
 	public DataAnalysisModel.Regression getRegressionMode() {
 		return daView.getModel().getRegressionMode();
 	}
 
+	@Override
 	public boolean isValidData() {
 		return daView.getController().isValidData();
 	}
 
+	@Override
 	public void setValueAt(double value, int row, int col) {
 		statTable.getModel().setValueAt(daView.getModel().format(value), row,
 				col);
 	}
 
+	@Override
 	public boolean isViewValid() {
 		return daView == null || daView.getDataSource() == null;
 	}
 
+	@Override
 	public int getMode() {
 		return daView.getModel().getMode();
 	}
 
+	@Override
 	public GroupType groupType() {
 		return daView.groupType();
 	}
 
+	@Override
 	public boolean isNumericData() {
 		return daView.getDataSource().isNumericData();
 	}

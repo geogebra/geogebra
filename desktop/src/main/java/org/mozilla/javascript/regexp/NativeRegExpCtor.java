@@ -231,13 +231,15 @@ class NativeRegExpCtor extends BaseFunction {
 				id = Id_rightContext;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 		}
 		// #/generated#
 
-		if (id == 0)
+		if (id == 0) {
 			return super.findInstanceIdInfo(s);
+		}
 
 		int attr;
 		switch (id) {

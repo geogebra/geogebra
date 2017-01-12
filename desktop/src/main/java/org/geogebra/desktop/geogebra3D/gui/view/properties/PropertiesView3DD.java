@@ -47,7 +47,7 @@ public class PropertiesView3DD extends PropertiesViewD {
 			return euclidianPanel3D;
 
 		case EUCLIDIAN_FOR_PLANE:
-			EuclidianView view = (EuclidianView) app.getActiveEuclidianView();
+			EuclidianView view = app.getActiveEuclidianView();
 			if (!view.isViewForPlane()) {
 				view = app.getViewForPlaneVisible();
 			}

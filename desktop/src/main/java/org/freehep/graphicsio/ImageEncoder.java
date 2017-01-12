@@ -116,13 +116,15 @@ public abstract class ImageEncoder implements ImageConsumer {
 		encoding = true;
 		iox = null;
 		producer.startProduction(this);
-		while (encoding)
+		while (encoding) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 			}
-		if (iox != null)
+		}
+		if (iox != null) {
 			throw iox;
+		}
 	}
 
 	private boolean accumulate = false;
@@ -139,12 +141,14 @@ public abstract class ImageEncoder implements ImageConsumer {
 				accumulator = new int[width * height];
 			}
 		}
-		if (accumulate)
-			for (int row = 0; row < h; ++row)
+		if (accumulate) {
+			for (int row = 0; row < h; ++row) {
 				System.arraycopy(rgbPixels, row * scansize + off, accumulator,
 						(y + row) * width + x, w);
-		else
+			}
+		} else {
 			encodePixels(x, y, w, h, rgbPixels, off, scansize);
+		}
 	}
 
 	private void encodeFinish() throws IOException {
@@ -162,30 +166,36 @@ public abstract class ImageEncoder implements ImageConsumer {
 
 	// Methods from ImageConsumer.
 
+	@Override
 	public void setDimensions(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
+	@Override
 	public void setProperties(Hashtable props) {
 		this.props = props;
 	}
 
+	@Override
 	public void setColorModel(ColorModel model) {
 		// Ignore.
 	}
 
+	@Override
 	public void setHints(int hintflags) {
 		this.hintflags = hintflags;
 	}
 
+	@Override
 	public void setPixels(int x, int y, int w, int h, ColorModel model,
 			byte[] pixels, int off, int scansize) {
 		int[] rgbPixels = new int[w];
 		for (int row = 0; row < h; ++row) {
 			int rowOff = off + row * scansize;
-			for (int col = 0; col < w; ++col)
+			for (int col = 0; col < w; ++col) {
 				rgbPixels[col] = model.getRGB(pixels[rowOff + col] & 0xff);
+			}
 			try {
 				encodePixelsWrapper(x, y + row, w, 1, rgbPixels, 0, w);
 			} catch (IOException e) {
@@ -196,6 +206,7 @@ public abstract class ImageEncoder implements ImageConsumer {
 		}
 	}
 
+	@Override
 	public void setPixels(int x, int y, int w, int h, ColorModel model,
 			int[] pixels, int off, int scansize) {
 		if (model == rgbModel) {
@@ -210,8 +221,9 @@ public abstract class ImageEncoder implements ImageConsumer {
 			int[] rgbPixels = new int[w];
 			for (int row = 0; row < h; ++row) {
 				int rowOff = off + row * scansize;
-				for (int col = 0; col < w; ++col)
+				for (int col = 0; col < w; ++col) {
 					rgbPixels[col] = model.getRGB(pixels[rowOff + col]);
+				}
 				try {
 					encodePixelsWrapper(x, y + row, w, 1, rgbPixels, 0, w);
 				} catch (IOException e) {
@@ -223,11 +235,12 @@ public abstract class ImageEncoder implements ImageConsumer {
 		}
 	}
 
+	@Override
 	public void imageComplete(int status) {
 		producer.removeConsumer(this);
-		if (status == ImageConsumer.IMAGEABORTED)
+		if (status == ImageConsumer.IMAGEABORTED) {
 			iox = new IOException("image aborted");
-		else {
+		} else {
 			try {
 				encodeFinish();
 				encodeDone();

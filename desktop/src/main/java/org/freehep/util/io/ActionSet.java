@@ -52,8 +52,9 @@ public class ActionSet {
 	 */
 	public Action get(int actionCode) {
 		Action action = (Action) actions.get(Integer.valueOf(actionCode));
-		if (action == null)
+		if (action == null) {
 			action = defaultAction;
+		}
 		return action;
 	}
 

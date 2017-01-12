@@ -88,6 +88,7 @@ public class ExtLogFontW implements EMFConstants {
 		emf.writeWORD(0);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  LogFontW\n" + font.toString() + "\n"
 				+ "    fullname: " + fullName + "\n" + "    style: " + style

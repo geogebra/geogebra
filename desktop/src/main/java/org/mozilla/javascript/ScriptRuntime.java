@@ -94,6 +94,7 @@ public class ScriptRuntime {
 		 *            the array of arguments
 		 * @return the result of the call
 		 */
+		@Override
 		public Object call(Context cx, Scriptable scope, Scriptable thisObj,
 				Object[] args) {
 			Object[] nestedArgs = new Object[2];
@@ -172,8 +173,9 @@ public class ScriptRuntime {
 		functionProto.setPrototype(objectProto);
 
 		// Set the prototype of the object passed in if need be
-		if (scope.getPrototype() == null)
+		if (scope.getPrototype() == null) {
 			scope.setPrototype(objectProto);
+		}
 
 		// must precede NativeGlobal since it's needed therein
 		NativeError.init(scope, sealed);
@@ -358,12 +360,15 @@ public class ScriptRuntime {
 	 */
 	public static boolean toBoolean(Object val) {
 		for (;;) {
-			if (val instanceof Boolean)
+			if (val instanceof Boolean) {
 				return ((Boolean) val).booleanValue();
-			if (val == null || val == Undefined.instance)
+			}
+			if (val == null || val == Undefined.instance) {
 				return false;
-			if (val instanceof CharSequence)
+			}
+			if (val instanceof CharSequence) {
 				return ((CharSequence) val).length() != 0;
+			}
 			if (val instanceof Number) {
 				double d = ((Number) val).doubleValue();
 				return (d == d && d != 0.0);
@@ -379,8 +384,9 @@ public class ScriptRuntime {
 				}
 				// ECMA extension
 				val = ((Scriptable) val).getDefaultValue(BooleanClass);
-				if (val instanceof Scriptable)
+				if (val instanceof Scriptable) {
 					throw errorWithClassName("msg.primitive.expected", val);
+				}
 				continue;
 			}
 			warnAboutNonJSObject(val);
@@ -395,22 +401,29 @@ public class ScriptRuntime {
 	 */
 	public static double toNumber(Object val) {
 		for (;;) {
-			if (val instanceof Number)
+			if (val instanceof Number) {
 				return ((Number) val).doubleValue();
-			if (val == null)
+			}
+			if (val == null) {
 				return +0.0;
-			if (val == Undefined.instance)
+			}
+			if (val == Undefined.instance) {
 				return NaN;
-			if (val instanceof String)
+			}
+			if (val instanceof String) {
 				return toNumber((String) val);
-			if (val instanceof CharSequence)
+			}
+			if (val instanceof CharSequence) {
 				return toNumber(val.toString());
-			if (val instanceof Boolean)
+			}
+			if (val instanceof Boolean) {
 				return ((Boolean) val).booleanValue() ? 1 : +0.0;
+			}
 			if (val instanceof Scriptable) {
 				val = ((Scriptable) val).getDefaultValue(NumberClass);
-				if (val instanceof Scriptable)
+				if (val instanceof Scriptable) {
 					throw errorWithClassName("msg.primitive.expected", val);
+				}
 				continue;
 			}
 			warnAboutNonJSObject(val);
@@ -457,14 +470,15 @@ public class ScriptRuntime {
 		for (end = start; end < len; end++) {
 			char c = s.charAt(end);
 			int newDigit;
-			if ('0' <= c && c <= digitMax)
+			if ('0' <= c && c <= digitMax) {
 				newDigit = c - '0';
-			else if ('a' <= c && c < lowerCaseBound)
+			} else if ('a' <= c && c < lowerCaseBound) {
 				newDigit = c - 'a' + 10;
-			else if ('A' <= c && c < upperCaseBound)
+			} else if ('A' <= c && c < upperCaseBound) {
 				newDigit = c - 'A' + 10;
-			else
+			} else {
 				break;
+			}
 			sum = sum * radix + newDigit;
 		}
 		if (start == end) {
@@ -513,15 +527,17 @@ public class ScriptRuntime {
 
 				for (;;) {
 					if (bitShiftInChar == 1) {
-						if (start == end)
+						if (start == end) {
 							break;
+						}
 						digit = s.charAt(start++);
-						if ('0' <= digit && digit <= '9')
+						if ('0' <= digit && digit <= '9') {
 							digit -= '0';
-						else if ('a' <= digit && digit <= 'z')
+						} else if ('a' <= digit && digit <= 'z') {
 							digit -= 'a' - 10;
-						else
+						} else {
 							digit -= 'A' - 10;
+						}
 						bitShiftInChar = radix;
 					}
 					bitShiftInChar >>= 1;
@@ -537,8 +553,9 @@ public class ScriptRuntime {
 						break;
 					case FIRST_EXACT_53_BITS:
 						sum *= 2.0;
-						if (bit)
+						if (bit) {
 							sum += 1.0;
+						}
 						--exactBitsLimit;
 						if (exactBitsLimit == 0) {
 							bit53 = bit;
@@ -571,15 +588,17 @@ public class ScriptRuntime {
 				case ZEROS_AFTER_54:
 					// x1.1 -> x1 + 1 (round up)
 					// x0.1 -> x0 (round down)
-					if (bit54 & bit53)
+					if (bit54 & bit53) {
 						sum += 1.0;
+					}
 					sum *= factor;
 					break;
 				case MIXED_AFTER_54:
 					// x.100...1.. -> x + 1 (round up)
 					// x.0anything -> x (round down)
-					if (bit54)
+					if (bit54) {
 						sum += 1.0;
+					}
 					sum *= factor;
 					break;
 				}
@@ -604,8 +623,9 @@ public class ScriptRuntime {
 				return +0.0;
 			}
 			startChar = s.charAt(start);
-			if (!ScriptRuntime.isStrWhiteSpaceChar(startChar))
+			if (!ScriptRuntime.isStrWhiteSpaceChar(startChar)) {
 				break;
+			}
 			start++;
 		}
 
@@ -630,15 +650,18 @@ public class ScriptRuntime {
 
 		int end = len - 1;
 		char endChar;
-		while (ScriptRuntime.isStrWhiteSpaceChar(endChar = s.charAt(end)))
+		while (ScriptRuntime.isStrWhiteSpaceChar(endChar = s.charAt(end))) {
 			end--;
+		}
 		if (endChar == 'y') {
 			// check for "Infinity"
-			if (startChar == '+' || startChar == '-')
+			if (startChar == '+' || startChar == '-') {
 				start++;
-			if (start + 7 == end && s.regionMatches(start, "Infinity", 0, 8))
+			}
+			if (start + 7 == end && s.regionMatches(start, "Infinity", 0, 8)) {
 				return startChar == '-' ? Double.NEGATIVE_INFINITY
 						: Double.POSITIVE_INFINITY;
+			}
 			return NaN;
 		}
 		// A non-hexadecimal, non-infinity number:
@@ -649,8 +672,9 @@ public class ScriptRuntime {
 		for (int i = sub.length() - 1; i >= 0; i--) {
 			char c = sub.charAt(i);
 			if (('0' <= c && c <= '9') || c == '.' || c == 'e' || c == 'E'
-					|| c == '+' || c == '-')
+					|| c == '+' || c == '-') {
 				continue;
+			}
 			return NaN;
 		}
 		try {
@@ -666,8 +690,9 @@ public class ScriptRuntime {
 	 * pads the argument array out to the expected length, if necessary.
 	 */
 	public static Object[] padArguments(Object[] args, int count) {
-		if (count < args.length)
+		if (count < args.length) {
 			return args;
+		}
 
 		int i;
 		Object[] result = new Object[count];
@@ -691,8 +716,9 @@ public class ScriptRuntime {
 	 * same as 'escape.'
 	 */
 	public static String escapeString(String s, char escapeQuote) {
-		if (!(escapeQuote == '"' || escapeQuote == '\''))
+		if (!(escapeQuote == '"' || escapeQuote == '\'')) {
 			Kit.codeBug();
+		}
 		StringBuilder sb = null;
 
 		for (int i = 0, L = s.length(); i != L; ++i) {
@@ -770,13 +796,16 @@ public class ScriptRuntime {
 
 	static boolean isValidIdentifierName(String s) {
 		int L = s.length();
-		if (L == 0)
+		if (L == 0) {
 			return false;
-		if (!Character.isJavaIdentifierStart(s.charAt(0)))
+		}
+		if (!Character.isJavaIdentifierStart(s.charAt(0))) {
 			return false;
+		}
 		for (int i = 1; i != L; ++i) {
-			if (!Character.isJavaIdentifierPart(s.charAt(i)))
+			if (!Character.isJavaIdentifierPart(s.charAt(i))) {
 				return false;
+			}
 		}
 		return !TokenStream.isKeyword(s);
 	}
@@ -844,14 +873,18 @@ public class ScriptRuntime {
 					Integer.toString(base));
 		}
 
-		if (d != d)
+		if (d != d) {
 			return "NaN";
-		if (d == Double.POSITIVE_INFINITY)
+		}
+		if (d == Double.POSITIVE_INFINITY) {
 			return "Infinity";
-		if (d == Double.NEGATIVE_INFINITY)
+		}
+		if (d == Double.NEGATIVE_INFINITY) {
 			return "-Infinity";
-		if (d == 0.0)
+		}
+		if (d == 0.0) {
 			return "0";
+		}
 
 		if (base != 10) {
 			return DToA.JS_dtobasestr(base, d);
@@ -942,17 +975,23 @@ public class ScriptRuntime {
 						int intId = ((Integer) id).intValue();
 						value = thisObj.get(intId, thisObj);
 						if (value == Scriptable.NOT_FOUND)
+						 {
 							continue; // a property has been removed
-						if (i > 0)
+						}
+						if (i > 0) {
 							result.append(", ");
+						}
 						result.append(intId);
 					} else {
 						String strId = (String) id;
 						value = thisObj.get(strId, thisObj);
 						if (value == Scriptable.NOT_FOUND)
+						 {
 							continue; // a property has been removed
-						if (i > 0)
+						}
+						if (i > 0) {
 							result.append(", ");
+						}
 						if (ScriptRuntime.isValidIdentifierName(strId)) {
 							result.append(strId);
 						} else {
@@ -1066,8 +1105,9 @@ public class ScriptRuntime {
 
 		// Extension: Wrap as a LiveConnect object.
 		Object wrapped = cx.getWrapFactory().wrap(cx, scope, val, null);
-		if (wrapped instanceof Scriptable)
+		if (wrapped instanceof Scriptable) {
 			return (Scriptable) wrapped;
+		}
 		throw errorWithClassName("msg.invalid.type", val);
 	}
 
@@ -1138,17 +1178,20 @@ public class ScriptRuntime {
 	// convenience method
 	public static double toInteger(double d) {
 		// if it's NaN
-		if (d != d)
+		if (d != d) {
 			return +0.0;
+		}
 
 		if (d == 0.0 || d == Double.POSITIVE_INFINITY
-				|| d == Double.NEGATIVE_INFINITY)
+				|| d == Double.NEGATIVE_INFINITY) {
 			return d;
+		}
 
-		if (d > 0.0)
+		if (d > 0.0) {
 			return Math.floor(d);
-		else
+		} else {
 			return Math.ceil(d);
+		}
 	}
 
 	public static double toInteger(Object[] args, int index) {
@@ -1161,8 +1204,9 @@ public class ScriptRuntime {
 	 */
 	public static int toInt32(Object val) {
 		// short circuit for common integer values
-		if (val instanceof Integer)
+		if (val instanceof Integer) {
 			return ((Integer) val).intValue();
+		}
 
 		return toInt32(toNumber(val));
 	}
@@ -1284,7 +1328,9 @@ public class ScriptRuntime {
 				if (len > 1) {
 					c = str.charAt(1);
 					if (c == '0')
+					 {
 						return -1L; // "-0" is not an index
+					}
 					i = 1;
 					negate = true;
 				}
@@ -2138,8 +2184,9 @@ public class ScriptRuntime {
 		IdEnumeration x = (IdEnumeration) enumObj;
 		if (x.iterator != null) {
 			Object v = ScriptableObject.getProperty(x.iterator, "next");
-			if (!(v instanceof Callable))
+			if (!(v instanceof Callable)) {
 				return Boolean.FALSE;
+			}
 			Callable f = (Callable) v;
 			Context cx = Context.getContext();
 			try {
@@ -2169,12 +2216,16 @@ public class ScriptRuntime {
 			if (id instanceof String) {
 				String strId = (String) id;
 				if (!x.obj.has(strId, x.obj))
+				 {
 					continue; // must have been deleted
+				}
 				x.currentId = strId;
 			} else {
 				int intId = ((Number) id).intValue();
 				if (!x.obj.has(intId, x.obj))
+				 {
 					continue; // must have been deleted
+				}
 				x.currentId = x.enumNumbers ? (Object) (Integer.valueOf(intId))
 						: String.valueOf(intId);
 			}
@@ -2359,8 +2410,9 @@ public class ScriptRuntime {
 		if (!(value instanceof Callable)) {
 			Object noSuchMethod = ScriptableObject.getProperty(thisObj,
 					"__noSuchMethod__");
-			if (noSuchMethod instanceof Callable)
+			if (noSuchMethod instanceof Callable) {
 				value = new NoSuchMethodShim((Callable) noSuchMethod, property);
+			}
 		}
 
 		if (!(value instanceof Callable)) {
@@ -2389,8 +2441,9 @@ public class ScriptRuntime {
 			thisObj = ((Scriptable) f).getParentScope();
 		}
 		if (thisObj == null) {
-			if (cx.topCallScope == null)
+			if (cx.topCallScope == null) {
 				throw new IllegalStateException();
+			}
 			thisObj = cx.topCallScope;
 		}
 		if (thisObj.getParentScope() != null) {
@@ -2551,8 +2604,9 @@ public class ScriptRuntime {
 	 */
 	public static Object evalSpecial(Context cx, Scriptable scope,
 			Object thisArg, Object[] args, String filename, int lineNumber) {
-		if (args.length < 1)
+		if (args.length < 1) {
 			return Undefined.instance;
+		}
 		Object x = args[0];
 		if (!(x instanceof CharSequence)) {
 			if (cx.hasFeature(Context.FEATURE_STRICT_MODE)
@@ -2597,20 +2651,27 @@ public class ScriptRuntime {
 	 * The typeof operator
 	 */
 	public static String typeof(Object value) {
-		if (value == null)
+		if (value == null) {
 			return "object";
-		if (value == Undefined.instance)
+		}
+		if (value == Undefined.instance) {
 			return "undefined";
-		if (value instanceof ScriptableObject)
+		}
+		if (value instanceof ScriptableObject) {
 			return ((ScriptableObject) value).getTypeOf();
-		if (value instanceof Scriptable)
+		}
+		if (value instanceof Scriptable) {
 			return (value instanceof Callable) ? "function" : "object";
-		if (value instanceof CharSequence)
+		}
+		if (value instanceof CharSequence) {
 			return "string";
-		if (value instanceof Number)
+		}
+		if (value instanceof Number) {
 			return "number";
-		if (value instanceof Boolean)
+		}
+		if (value instanceof Boolean) {
 			return "boolean";
+		}
 		throw errorWithClassName("msg.invalid.type", value);
 	}
 
@@ -2620,8 +2681,9 @@ public class ScriptRuntime {
 	public static String typeofName(Scriptable scope, String id) {
 		Context cx = Context.getContext();
 		Scriptable val = bind(cx, scope, id);
-		if (val == null)
+		if (val == null) {
 			return "undefined";
+		}
 		return typeof(getObjectProp(val, id, cx));
 	}
 
@@ -2654,16 +2716,20 @@ public class ScriptRuntime {
 				return test;
 			}
 		}
-		if (val1 instanceof Scriptable)
+		if (val1 instanceof Scriptable) {
 			val1 = ((Scriptable) val1).getDefaultValue(null);
-		if (val2 instanceof Scriptable)
+		}
+		if (val2 instanceof Scriptable) {
 			val2 = ((Scriptable) val2).getDefaultValue(null);
-		if (!(val1 instanceof CharSequence) && !(val2 instanceof CharSequence))
-			if ((val1 instanceof Number) && (val2 instanceof Number))
+		}
+		if (!(val1 instanceof CharSequence) && !(val2 instanceof CharSequence)) {
+			if ((val1 instanceof Number) && (val2 instanceof Number)) {
 				return wrapNumber(((Number) val1).doubleValue()
 						+ ((Number) val2).doubleValue());
-			else
+			} else {
 				return wrapNumber(toNumber(val1) + toNumber(val2));
+			}
+		}
 		return new ConsString(toCharSequence(val1), toCharSequence(val2));
 	}
 
@@ -2863,8 +2929,9 @@ public class ScriptRuntime {
 		}
 		Scriptable s = (Scriptable) val;
 		Object result = s.getDefaultValue(typeHint);
-		if (result instanceof Scriptable)
+		if (result instanceof Scriptable) {
 			throw typeError0("msg.bad.default.value");
+		}
 		return result;
 	}
 
@@ -3057,8 +3124,9 @@ public class ScriptRuntime {
 		}
 
 		// for primitive values on LHS, return false
-		if (!(a instanceof Scriptable))
+		if (!(a instanceof Scriptable)) {
 			return false;
+		}
 
 		return ((Scriptable) b).hasInstance((Scriptable) a);
 	}
@@ -3072,8 +3140,9 @@ public class ScriptRuntime {
 		Scriptable proto = lhs.getPrototype();
 
 		while (proto != null) {
-			if (proto.equals(rhs))
+			if (proto.equals(rhs)) {
 				return true;
+			}
 			proto = proto.getPrototype();
 		}
 
@@ -3111,10 +3180,12 @@ public class ScriptRuntime {
 			d1 = ((Number) val1).doubleValue();
 			d2 = ((Number) val2).doubleValue();
 		} else {
-			if (val1 instanceof Scriptable)
+			if (val1 instanceof Scriptable) {
 				val1 = ((Scriptable) val1).getDefaultValue(NumberClass);
-			if (val2 instanceof Scriptable)
+			}
+			if (val2 instanceof Scriptable) {
 				val2 = ((Scriptable) val2).getDefaultValue(NumberClass);
+			}
 			if (val1 instanceof CharSequence && val2 instanceof CharSequence) {
 				return val1.toString().compareTo(val2.toString()) < 0;
 			}
@@ -3130,10 +3201,12 @@ public class ScriptRuntime {
 			d1 = ((Number) val1).doubleValue();
 			d2 = ((Number) val2).doubleValue();
 		} else {
-			if (val1 instanceof Scriptable)
+			if (val1 instanceof Scriptable) {
 				val1 = ((Scriptable) val1).getDefaultValue(NumberClass);
-			if (val2 instanceof Scriptable)
+			}
+			if (val2 instanceof Scriptable) {
 				val2 = ((Scriptable) val2).getDefaultValue(NumberClass);
+			}
 			if (val1 instanceof CharSequence && val2 instanceof CharSequence) {
 				return val1.toString().compareTo(val2.toString()) <= 0;
 			}
@@ -3180,10 +3253,12 @@ public class ScriptRuntime {
 
 	public static Object doTopCall(Callable callable, Context cx,
 			Scriptable scope, Scriptable thisObj, Object[] args) {
-		if (scope == null)
+		if (scope == null) {
 			throw new IllegalArgumentException();
-		if (cx.topCallScope != null)
+		}
+		if (cx.topCallScope != null) {
 			throw new IllegalStateException();
+		}
 
 		Object result;
 		cx.topCallScope = ScriptableObject.getTopLevelScope(scope);
@@ -3239,8 +3314,9 @@ public class ScriptRuntime {
 
 	public static void initScript(NativeFunction funObj, Scriptable thisObj,
 			Context cx, Scriptable scope, boolean evalScript) {
-		if (cx.topCallScope == null)
+		if (cx.topCallScope == null) {
 			throw new IllegalStateException();
+		}
 
 		int varCount = funObj.getParamAndVarCount();
 		if (varCount != 0) {
@@ -3280,8 +3356,9 @@ public class ScriptRuntime {
 	}
 
 	public static void enterActivationFunction(Context cx, Scriptable scope) {
-		if (cx.topCallScope == null)
+		if (cx.topCallScope == null) {
 			throw new IllegalStateException();
+		}
 		NativeCall call = (NativeCall) scope;
 		call.parentActivationCall = cx.currentActivationCall;
 		cx.currentActivationCall = call;
@@ -3296,8 +3373,9 @@ public class ScriptRuntime {
 	static NativeCall findFunctionActivation(Context cx, Function f) {
 		NativeCall call = cx.currentActivationCall;
 		while (call != null) {
-			if (call.function == f)
+			if (call.function == f) {
 				return call;
+			}
 			call = call.parentActivationCall;
 		}
 		return null;
@@ -3321,8 +3399,9 @@ public class ScriptRuntime {
 			if (lastCatchScope != null) {
 				NativeObject last = (NativeObject) lastCatchScope;
 				obj = last.getAssociatedValue(t);
-				if (obj == null)
+				if (obj == null) {
 					Kit.codeBug();
+				}
 				break getObj;
 			}
 
@@ -3711,10 +3790,11 @@ public class ScriptRuntime {
 		if (version >= Context.VERSION_1_4
 				|| version == Context.VERSION_DEFAULT) {
 			String msg = getMessage1("msg.deprec.ctor", name);
-			if (version == Context.VERSION_DEFAULT)
+			if (version == Context.VERSION_DEFAULT) {
 				Context.reportWarning(msg);
-			else
+			} else {
 				throw Context.reportRuntimeError(msg);
+			}
 		}
 	}
 
@@ -3777,6 +3857,7 @@ public class ScriptRuntime {
 	 * (synchronized) text parsing.
 	 */
 	private static class DefaultMessageProvider implements MessageProvider {
+		@Override
 		public String getMessage(String messageId, Object[] arguments) {
 			final String defaultResource = "org.mozilla.javascript.resources.Messages";
 
@@ -3941,8 +4022,9 @@ public class ScriptRuntime {
 	}
 
 	public static void setRegExpProxy(Context cx, RegExpProxy proxy) {
-		if (proxy == null)
+		if (proxy == null) {
 			throw new IllegalArgumentException();
+		}
 		cx.regExpProxy = proxy;
 	}
 
@@ -3961,14 +4043,16 @@ public class ScriptRuntime {
 
 	private static XMLLib currentXMLLib(Context cx) {
 		// Scripts should be running to access this
-		if (cx.topCallScope == null)
+		if (cx.topCallScope == null) {
 			throw new IllegalStateException();
+		}
 
 		XMLLib xmlLib = cx.cachedXMLLib;
 		if (xmlLib == null) {
 			xmlLib = XMLLib.extractFromScope(cx.topCallScope);
-			if (xmlLib == null)
+			if (xmlLib == null) {
 				throw new IllegalStateException();
+			}
 			cx.cachedXMLLib = xmlLib;
 		}
 
@@ -4038,22 +4122,25 @@ public class ScriptRuntime {
 	}
 
 	public static void storeUint32Result(Context cx, long value) {
-		if ((value >>> 32) != 0)
+		if ((value >>> 32) != 0) {
 			throw new IllegalArgumentException();
+		}
 		cx.scratchUint32 = value;
 	}
 
 	public static long lastUint32Result(Context cx) {
 		long value = cx.scratchUint32;
-		if ((value >>> 32) != 0)
+		if ((value >>> 32) != 0) {
 			throw new IllegalStateException();
+		}
 		return value;
 	}
 
 	private static void storeScriptable(Context cx, Scriptable value) {
 		// The previously stored scratchScriptable should be consumed
-		if (cx.scratchScriptable != null)
+		if (cx.scratchScriptable != null) {
 			throw new IllegalStateException();
+		}
 		cx.scratchScriptable = value;
 	}
 
@@ -4133,9 +4220,10 @@ public class ScriptRuntime {
 	public static Scriptable requireObjectCoercible(Scriptable val,
 			IdFunctionObject idFuncObj) {
 		Scriptable val1 = val.getParentScope() != null ? val : null;
-		if (val1 == null || val1 == Undefined.instance)
+		if (val1 == null || val1 == Undefined.instance) {
 			throw ScriptRuntime.typeError2("msg.called.null.or.undefined",
 					idFuncObj.getTag(), idFuncObj.getFunctionName());
+		}
 
 		return val1;
 	}

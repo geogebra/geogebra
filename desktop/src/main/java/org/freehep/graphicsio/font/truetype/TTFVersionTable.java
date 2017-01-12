@@ -20,6 +20,7 @@ public abstract class TTFVersionTable extends TTFTable {
 		minorVersion = ttf.readUShort();
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + " v" + majorVersion + "." + minorVersion;
 	}

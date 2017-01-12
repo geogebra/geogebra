@@ -84,6 +84,7 @@ class HelpMenuD extends BaseMenu {
 						app.getMenu("RealSense.Tutorial"), app.getEmptyIcon()) {
 					private static final long serialVersionUID = 1L;
 
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						app.getGuiManager()
 								.showURLinBrowser(App.REALSENSE_TUTORIAL);
@@ -97,6 +98,7 @@ class HelpMenuD extends BaseMenu {
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
 					app.getGuiManager().showURLinBrowser(
@@ -108,6 +110,7 @@ class HelpMenuD extends BaseMenu {
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					app.getGuiManager()
 							.showURLinBrowser(GeoGebraConstants.FORUM_URL);
@@ -118,6 +121,7 @@ class HelpMenuD extends BaseMenu {
 					app.getMenuIcon(GuiResourcesD.INFO)) {
 				private static final long serialVersionUID = 1L;
 
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					GeoGebraMenuBar.showAboutDialog(app);
 				}

@@ -47,8 +47,9 @@ final class Arguments extends IdScriptableObject {
 	}
 
 	private Object arg(int index) {
-		if (index < 0 || args.length <= index)
+		if (index < 0 || args.length <= index) {
 			return NOT_FOUND;
+		}
 		return args[index];
 	}
 
@@ -180,14 +181,16 @@ final class Arguments extends IdScriptableObject {
 					id = Id_caller;
 				}
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#
 
-		if (id == 0)
+		if (id == 0) {
 			return super.findInstanceIdInfo(s);
+		}
 
 		int attr;
 		switch (id) {
@@ -314,8 +317,9 @@ final class Arguments extends IdScriptableObject {
 						++offset;
 					}
 				}
-				if (offset != extraCount)
+				if (offset != extraCount) {
 					Kit.codeBug();
+				}
 			}
 		}
 		return ids;
@@ -341,8 +345,9 @@ final class Arguments extends IdScriptableObject {
 			return desc;
 		} else {
 			Scriptable scope = getParentScope();
-			if (scope == null)
+			if (scope == null) {
 				scope = this;
+			}
 			return buildDataDescriptor(scope, value, EMPTY);
 		}
 	}
@@ -354,12 +359,14 @@ final class Arguments extends IdScriptableObject {
 
 		double d = ScriptRuntime.toNumber(id);
 		int index = (int) d;
-		if (d != index)
+		if (d != index) {
 			return;
+		}
 
 		Object value = arg(index);
-		if (value == NOT_FOUND)
+		if (value == NOT_FOUND) {
 			return;
+		}
 
 		if (isAccessorDescriptor(desc)) {
 			removeArg(index);
@@ -367,8 +374,9 @@ final class Arguments extends IdScriptableObject {
 		}
 
 		Object newValue = getProperty(desc, "value");
-		if (newValue == NOT_FOUND)
+		if (newValue == NOT_FOUND) {
 			return;
+		}
 
 		replaceArg(index, newValue);
 

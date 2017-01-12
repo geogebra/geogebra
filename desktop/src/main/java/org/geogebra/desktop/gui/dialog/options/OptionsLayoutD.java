@@ -288,6 +288,7 @@ public class OptionsLayoutD extends OptionsLayout
 	 * 
 	 * @remark Do not call setLabels() here
 	 */
+	@Override
 	public void updateGUI() {
 
 		ckShowInputBar.setSelected(app.showAlgebraInput());
@@ -346,6 +347,7 @@ public class OptionsLayoutD extends OptionsLayout
 	/**
 	 * Values changed.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
@@ -411,6 +413,7 @@ public class OptionsLayoutD extends OptionsLayout
 	/**
 	 * Not implemented.
 	 */
+	@Override
 	public void focusGained(FocusEvent e) {
 		// nothing to do
 	}
@@ -418,6 +421,7 @@ public class OptionsLayoutD extends OptionsLayout
 	/**
 	 * Apply textfield changes.
 	 */
+	@Override
 	public void focusLost(FocusEvent e) {
 		// nothing to do
 
@@ -426,6 +430,7 @@ public class OptionsLayoutD extends OptionsLayout
 	/**
 	 * Update the language of the user interface.
 	 */
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		// input bar panel
@@ -459,24 +464,29 @@ public class OptionsLayoutD extends OptionsLayout
 
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return this.wrappedPanel;
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		this.wrappedPanel.setBorder(border);
 	}
 
+	@Override
 	public void applyModifications() {
 		// override this method to make the properties view apply modifications
 		// when panel changes
 	}
 
+	@Override
 	public void updateFont() {
 
 		Font font = app.getPlainFont();
@@ -508,6 +518,7 @@ public class OptionsLayoutD extends OptionsLayout
 		reinit();
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}

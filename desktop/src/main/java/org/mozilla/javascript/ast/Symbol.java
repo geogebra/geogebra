@@ -50,8 +50,9 @@ public class Symbol {
 	public void setDeclType(int declType) {
 		if (!(declType == Token.FUNCTION || declType == Token.LP
 				|| declType == Token.VAR || declType == Token.LET
-				|| declType == Token.CONST))
+				|| declType == Token.CONST)) {
 			throw new IllegalArgumentException("Invalid declType: " + declType);
+		}
 		this.declType = declType;
 	}
 

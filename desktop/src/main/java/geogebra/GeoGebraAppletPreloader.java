@@ -91,10 +91,11 @@ public class GeoGebraAppletPreloader extends JApplet {
 				try {
 					Object url = GeoGebraAppletPreloader.class.getResource(
 							"/org/geogebra/desktop/properties/plain.properties");
-					if (url != null)
+					if (url != null) {
 						System.out.println("done");
-					else
+					} else {
 						System.out.println("not found");
+					}
 				} catch (Exception e) {
 					System.out.println("not found");
 				} catch (Throwable e) {

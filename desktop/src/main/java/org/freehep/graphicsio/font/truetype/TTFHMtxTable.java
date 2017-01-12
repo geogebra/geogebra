@@ -17,10 +17,12 @@ public class TTFHMtxTable extends TTFTable {
 
 	public short[] leftSideBearing2;
 
+	@Override
 	public String getTag() {
 		return "hmtx";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		int numberOfHMetrics = ((TTFHHeaTable) getTable(
 				"hhea")).numberOfHMetrics;
@@ -36,19 +38,22 @@ public class TTFHMtxTable extends TTFTable {
 		leftSideBearing2 = ttf.readShortArray(numGlyphs - numberOfHMetrics);
 	}
 
+	@Override
 	public String toString() {
 		String str = super.toString();
 		str += "\n  hMetrics[" + advanceWidth.length + "] = {";
 		for (int i = 0; i < advanceWidth.length; i++) {
-			if (i % 8 == 0)
+			if (i % 8 == 0) {
 				str += "\n    ";
+			}
 			str += "(" + advanceWidth[i] + "," + leftSideBearing[i] + ") ";
 		}
 		str += "\n  }";
 		str += "\n  lsb[" + leftSideBearing2.length + "] = {";
 		for (int i = 0; i < leftSideBearing2.length; i++) {
-			if (i % 16 == 0)
+			if (i % 16 == 0) {
 				str += "\n    ";
+			}
 			str += leftSideBearing2[i] + " ";
 		}
 		str += "\n  }";

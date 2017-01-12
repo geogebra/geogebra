@@ -54,8 +54,9 @@ public class ReturnStatement extends AstNode {
 	 */
 	public void setReturnValue(AstNode returnValue) {
 		this.returnValue = returnValue;
-		if (returnValue != null)
+		if (returnValue != null) {
 			returnValue.setParent(this);
+		}
 	}
 
 	@Override

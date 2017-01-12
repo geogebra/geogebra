@@ -99,15 +99,17 @@ public class AlgebraInputTransferHandler extends TransferHandler
 									AlgebraViewTransferHandler.algebraViewFlavor);
 
 					// exit if empty list
-					if (list.size() == 0)
+					if (list.size() == 0) {
 						return false;
+					}
 
 					// if only one geo, get definition string
 					if (list.size() == 1) {
 						GeoElement geo = app.getKernel()
 								.lookupLabel(list.get(0));
-						if (geo != null)
+						if (geo != null) {
 							text = geo.getDefinitionForInputBar();
+						}
 					}
 
 					// if more than one geo, create list string
@@ -137,18 +139,22 @@ public class AlgebraInputTransferHandler extends TransferHandler
 		return null;
 	}
 
+	@Override
 	public Object getTransferData(DataFlavor flavor) {
 		return null;
 	}
 
+	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return supportedFlavors;
 	}
 
+	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		for (int i = 0; i < supportedFlavors.length; i++) {
-			if (supportedFlavors[i].equals(flavor))
+			if (supportedFlavors[i].equals(flavor)) {
 				return true;
+			}
 		}
 		return false;
 	}

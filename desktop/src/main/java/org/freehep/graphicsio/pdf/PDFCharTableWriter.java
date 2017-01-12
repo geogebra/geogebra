@@ -11,11 +11,13 @@ public class PDFCharTableWriter implements PDFRedundanceTracker.Writer {
 	private static PDFCharTableWriter ctw;
 
 	public static PDFCharTableWriter getInstance() {
-		if (ctw == null)
+		if (ctw == null) {
 			ctw = new PDFCharTableWriter();
+		}
 		return ctw;
 	}
 
+	@Override
 	public void writeObject(Object object, PDFRef ref, PDFWriter pdf)
 			throws IOException {
 

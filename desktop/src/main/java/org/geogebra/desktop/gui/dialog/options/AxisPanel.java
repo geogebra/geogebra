@@ -157,6 +157,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		add(crossPanel);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
@@ -212,10 +213,12 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		updatePanel();
 	}
 
+	@Override
 	public void itemStateChanged(ItemEvent e) {
 
-		if (e.getStateChange() != ItemEvent.SELECTED)
+		if (e.getStateChange() != ItemEvent.SELECTED) {
 			return;
+		}
 		Object source = e.getSource();
 		if (source == ncbTickDist) {
 			model.applyTickDistance(ncbTickDist.getValue());
@@ -268,10 +271,11 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbShowAxis.addActionListener(this);
 
 		tfCross.removeActionListener(this);
-		if (view.getDrawBorderAxes()[axis])
+		if (view.getDrawBorderAxes()[axis]) {
 			tfCross.setText("");
-		else
+		} else {
 			tfCross.setText("" + view.getAxesCross()[axis]);
+		}
 		tfCross.setEnabled(!view.getDrawBorderAxes()[axis]);
 		tfCross.addActionListener(this);
 		tfCross.addFocusListener(this);
@@ -290,15 +294,18 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		// (needed for textfields)
 		doActionPerformed(e.getSource());
 	}
 
+	@Override
 	public void setLabels() {
 		String strAxisEn = model.getAxisName();
 		this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
@@ -316,8 +323,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || "".equals(text))
+		if (text == null || "".equals(text)) {
 			return Double.NaN;
+		}
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 	}
 
@@ -349,18 +357,22 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		tfCross.setFont(font);
 	}
 
+	@Override
 	public void addTickItem(String item) {
 		cbTickStyle.addItem(item);
 	}
 
+	@Override
 	public void addAxisLabelItem(String item) {
 		cbAxisLabel.addItem(item);
 	}
 
+	@Override
 	public void addUnitLabelItem(String item) {
 		cbUnitLabel.addItem(item);
 	}
 
+	@Override
 	public void setCrossText(String text) {
 		tfCross.setText(text);
 	}

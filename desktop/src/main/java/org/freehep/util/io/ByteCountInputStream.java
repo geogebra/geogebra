@@ -45,6 +45,7 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 		len = 0;
 	}
 
+	@Override
 	public int read() throws IOException {
 		// original stream
 		if (index == -1) {
@@ -53,8 +54,9 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 		}
 
 		// end of buffer
-		if (size[index] <= 0)
+		if (size[index] <= 0) {
 			return -1;
+		}
 
 		// decrease counter
 		size[index]--;

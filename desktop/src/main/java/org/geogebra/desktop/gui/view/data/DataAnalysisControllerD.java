@@ -24,11 +24,13 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 	 * @param doRedefine
 	 *            if true then the internal GeoElements will be redefined.
 	 */
+	@Override
 	public void updateAllPanels(boolean doRedefine) {
 		view.getDataDisplayPanel1().getModel().updatePlot(doRedefine);
 
-		if (!getModel().isMultiVar() && view.getDataDisplayPanel2() != null)
+		if (!getModel().isMultiVar() && view.getDataDisplayPanel2() != null) {
 			view.getDataDisplayPanel2().getModel().updatePlot(doRedefine);
+		}
 
 		if (view.getStatisticsPanel() != null && getModel().showStatPanel()) {
 			view.getStatisticsPanel().updatePanel();
@@ -41,8 +43,9 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 
 	@Override
 	protected void updateRegressionPanel() {
-		if (view.getRegressionPanel() != null)
+		if (view.getRegressionPanel() != null) {
 			view.getRegressionPanel().updateRegressionPanel();
+		}
 
 	}
 

@@ -17,12 +17,14 @@ public class LanguageActionListener implements ActionListener {
 		this.app = app;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		app.setLanguage(AppD.getLocale(e.getActionCommand()));
 		// make sure axes labels are updated eg for Arabic
 		app.getEuclidianView1().updateBackground();
-		if (app.hasEuclidianView2EitherShowingOrNot(1))
+		if (app.hasEuclidianView2EitherShowingOrNot(1)) {
 			app.getEuclidianView2(1).updateBackground();
+		}
 		GeoGebraPreferencesD.getPref().saveDefaultLocale(app.getLocale());
 	}
 }

@@ -75,6 +75,7 @@ public class PatternSVG extends FillElement {
 	public PatternSVG() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -83,11 +84,13 @@ public class PatternSVG extends FillElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -244,6 +247,7 @@ public class PatternSVG extends FillElement {
 		}
 	}
 
+	@Override
 	public Paint getPaint(Rectangle2D bounds, AffineTransform xform) {
 		return texPaint;
 	}
@@ -255,6 +259,7 @@ public class PatternSVG extends FillElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Patterns don't change state
 		return false;

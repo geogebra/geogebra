@@ -66,6 +66,7 @@ public class Font extends SVGElement {
 	public Font() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -74,6 +75,7 @@ public class Font extends SVGElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
@@ -87,6 +89,7 @@ public class Font extends SVGElement {
 		}
 	}
 
+	@Override
 	public void loaderEndElement(SVGLoaderHelper helper)
 			throws SVGParseException {
 		super.loaderEndElement(helper);
@@ -96,6 +99,7 @@ public class Font extends SVGElement {
 		helper.universe.registerFont(this);
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -181,6 +185,7 @@ public class Font extends SVGElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Fonts can't change
 		return false;

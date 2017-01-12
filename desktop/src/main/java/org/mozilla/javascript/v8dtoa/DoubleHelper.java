@@ -63,8 +63,9 @@ public class DoubleHelper {
 	}
 
 	static int exponent(long d64) {
-		if (isDenormal(d64))
+		if (isDenormal(d64)) {
 			return kDenormalExponent;
+		}
 
 		int biased_e = (int) (((d64 & kExponentMask) >>> kSignificandSize)
 				& 0xffffffffL);

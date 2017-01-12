@@ -70,6 +70,7 @@ public class Tspan extends ShapeElement {
 	public Tspan() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -114,10 +115,12 @@ public class Tspan extends ShapeElement {
 	/**
 	 * Called during load process to add text scanned within a tag
 	 */
+	@Override
 	public void loaderAddText(SVGLoaderHelper helper, String text) {
 		this.text += text;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -193,7 +196,7 @@ public class Tspan extends ShapeElement {
 
 		FontFace fontFace = font.getFontFace();
 		int ascent = fontFace.getAscent();
-		float fontScale = fontSize / (float) ascent;
+		float fontScale = fontSize / ascent;
 
 		AffineTransform xform = new AffineTransform();
 
@@ -296,6 +299,7 @@ public class Tspan extends ShapeElement {
 		cursor.setLocation(cursorX, cursorY);
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		float cursorX = 0;
 		float cursorY = 0;
@@ -332,7 +336,7 @@ public class Tspan extends ShapeElement {
 
 		FontFace fontFace = font.getFontFace();
 		int ascent = fontFace.getAscent();
-		float fontScale = fontSize / (float) ascent;
+		float fontScale = fontSize / ascent;
 
 		AffineTransform oldXform = g.getTransform();
 		AffineTransform xform = new AffineTransform();
@@ -387,11 +391,13 @@ public class Tspan extends ShapeElement {
 		cursorX += (float) rect.getWidth();
 	}
 
+	@Override
 	public Shape getShape() {
 		return null;
 		// return shapeToParent(tspanShape);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() {
 		return null;
 		// return boundsToParent(tspanShape.getBounds2D());
@@ -404,6 +410,7 @@ public class Tspan extends ShapeElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// Tspan does not change
 		return false;

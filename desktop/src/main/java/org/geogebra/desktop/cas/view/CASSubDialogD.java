@@ -127,6 +127,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		replaceTable.getSelectionModel()
 				.addListSelectionListener(new ListSelectionListener() {
 
+					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						addRow(false);
 					}
@@ -136,8 +137,9 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED
-						&& e.getKeyChar() != '\t')
+						&& e.getKeyChar() != '\t') {
 					addRow(true);
+				}
 			}
 		});
 
@@ -213,23 +215,28 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		}
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent ae) {
 		Object src = ae.getSource();
 		replaceTable.clearSelection();
-		if (replaceTable.isEditing())
+		if (replaceTable.isEditing()) {
 			replaceTable.getCellEditor().stopCellEditing();
+		}
 		if (src instanceof JComponent) {
 			((JComponent) src).requestFocusInWindow();
 		}
 		if (src == btEval) {
-			if (apply(btEval.getActionCommand()))
+			if (apply(btEval.getActionCommand())) {
 				setVisible(false);
+			}
 		} else if (src == btSub) {
-			if (apply(btSub.getActionCommand()))
+			if (apply(btSub.getActionCommand())) {
 				setVisible(false);
+			}
 		} else if (src == btNumeric) {
-			if (apply(btNumeric.getActionCommand()))
+			if (apply(btNumeric.getActionCommand())) {
 				setVisible(false);
+			}
 		}
 	}
 
@@ -254,8 +261,9 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	 *            string to insert
 	 */
 	public void insertText(String inStr) {
-		if (inStr == null)
+		if (inStr == null) {
 			return;
+		}
 		TableCellEditor editor = replaceTable.getCellEditor();
 		if (editor != null && editor instanceof MathTextCellEditor) {
 			((MathTextCellEditor) editor).insertString(inStr);
@@ -289,25 +297,29 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 			});
 		}
 
+		@Override
 		public Object getCellEditorValue() {
 			return delegate.getText();
 		}
 
 		@Override
 		public boolean stopCellEditing() {
-			if (editing)
+			if (editing) {
 				fireEditingStopped();
+			}
 			editing = false;
 			return true;
 		}
 
 		@Override
 		public void cancelCellEditing() {
-			if (editing)
+			if (editing) {
 				fireEditingCanceled();
+			}
 			editing = false;
 		}
 
+		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value,
 				boolean isSelected, int row, int column) {
 			delegate.setText(value.toString());

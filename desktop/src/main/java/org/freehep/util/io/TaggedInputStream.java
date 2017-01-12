@@ -99,8 +99,9 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 	public Tag readTag() throws IOException {
 
 		tagHeader = readTagHeader();
-		if (tagHeader == null)
+		if (tagHeader == null) {
 			return null;
+		}
 
 		int size = (int) tagHeader.getLength();
 
@@ -157,8 +158,9 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 	public Action readAction() throws IOException {
 
 		ActionHeader header = readActionHeader();
-		if (header == null)
+		if (header == null) {
 			return null;
+		}
 
 		int size = (int) header.getLength();
 

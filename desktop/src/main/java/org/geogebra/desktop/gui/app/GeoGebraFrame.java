@@ -136,8 +136,9 @@ public class GeoGebraFrame extends JFrame
 	@Override
 	public void dispose() {
 		instances.remove(this);
-		if (this == activeInstance)
+		if (this == activeInstance) {
 			setActiveInstance(null);
+		}
 	}
 
 	public AppD getApplication() {
@@ -150,17 +151,20 @@ public class GeoGebraFrame extends JFrame
 
 	public int getInstanceNumber() {
 		for (int i = 0; i < instances.size(); i++) {
-			if (this == instances.get(i))
+			if (this == instances.get(i)) {
 				return i;
+			}
 		}
 		return -1;
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		setActiveInstance(this);
 		app.updateMenuWindow();
 	}
 
+	@Override
 	public void windowLostFocus(WindowEvent arg0) {
 
 		// fix for Mac OS bug: close open popups manually
@@ -209,8 +213,9 @@ public class GeoGebraFrame extends JFrame
 			super.setVisible(true);
 			app.getActiveEuclidianView().requestFocusInWindow();
 		} else {
-			if (!isShowing())
+			if (!isShowing()) {
 				return;
+			}
 
 			instances.remove(this);
 			GeoGebraPreferencesD.getPref().saveFileList();
@@ -232,6 +237,7 @@ public class GeoGebraFrame extends JFrame
 	/**
 	 * Provide temporary information about window size (for applet designers)
 	 */
+	@Override
 	public void componentResized(ComponentEvent e) {
 		if (System.currentTimeMillis() < born + 5000) {
 			return;
@@ -243,6 +249,7 @@ public class GeoGebraFrame extends JFrame
 		if (timer == null) {
 			timer = new Timer(3000, new ActionListener() {
 
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					String title = getPreferredTitle();
 					setTitle(title);
@@ -314,8 +321,9 @@ public class GeoGebraFrame extends JFrame
 			return;
 		}
 
-		if (AppD.MAC_OS)
+		if (AppD.MAC_OS) {
 			initMacSpecifics();
+		}
 
 		// set look and feel
 		if (args.containsArg("laf")) {
@@ -805,8 +813,9 @@ public class GeoGebraFrame extends JFrame
 	 * @return GeoGebra instance with file open or null
 	 */
 	public static GeoGebraFrame getInstanceWithFile(File file) {
-		if (file == null)
+		if (file == null) {
 			return null;
+		}
 
 		try {
 			String absPath = file.getCanonicalPath();
@@ -816,8 +825,9 @@ public class GeoGebraFrame extends JFrame
 
 				File currFile = app.getCurrentFile();
 				if (currFile != null) {
-					if (absPath.equals(currFile.getCanonicalPath()))
+					if (absPath.equals(currFile.getCanonicalPath())) {
 						return inst;
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -839,6 +849,7 @@ public class GeoGebraFrame extends JFrame
 		return dropTargetListener;
 	}
 
+	@Override
 	public int print(Graphics g, PageFormat pf, int pageIndex)
 			throws PrinterException {
 
@@ -895,6 +906,7 @@ public class GeoGebraFrame extends JFrame
 			}
 
 			SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 
 					String sliderName = args.getStringValue("slider");
@@ -922,29 +934,35 @@ public class GeoGebraFrame extends JFrame
 					case GeoElement.ANIMATION_DECREASING:
 						step = -num.getAnimationStep();
 						n = (int) ((max - min) / -step);
-						if (Kernel.isZero(((max - min) / -step) - n))
+						if (Kernel.isZero(((max - min) / -step) - n)) {
 							n++;
-						if (n == 0)
+						}
+						if (n == 0) {
 							n = 1;
+						}
 						val = max;
 						break;
 					case GeoElement.ANIMATION_OSCILLATING:
 						step = num.getAnimationStep();
 						n = (int) ((max - min) / step) * 2;
-						if (Kernel.isZero(((max - min) / step * 2) - n))
+						if (Kernel.isZero(((max - min) / step * 2) - n)) {
 							n++;
-						if (n == 0)
+						}
+						if (n == 0) {
 							n = 1;
+						}
 						val = min;
 						break;
 					default: // GeoElement.ANIMATION_INCREASING:
 						// GeoElement.ANIMATION_INCREASING_ONCE:
 						step = num.getAnimationStep();
 						n = (int) ((max - min) / step);
-						if (Kernel.isZero(((max - min) / step) - n))
+						if (Kernel.isZero(((max - min) / step) - n)) {
 							n++;
-						if (n == 0)
+						}
+						if (n == 0) {
 							n = 1;
+						}
 						val = min;
 					}
 
@@ -971,11 +989,13 @@ public class GeoGebraFrame extends JFrame
 
 						FrameCollector collector = new FrameCollector() {
 
+							@Override
 							public void addFrame(BufferedImage img) {
 								gifEncoder.addFrame(img);
 
 							}
 
+							@Override
 							public void finish() {
 								gifEncoder.finish();
 
@@ -1047,6 +1067,7 @@ public class GeoGebraFrame extends JFrame
 
 			// wait for EuclidianView etc to initialize before export
 			SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 
 					EuclidianViewInterfaceD ev = (EuclidianViewInterfaceD) app
@@ -1139,16 +1160,19 @@ public class GeoGebraFrame extends JFrame
 		}
 	}
 
+	@Override
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
 

@@ -79,6 +79,7 @@ public class Arc extends PathCommand {
 	}
 
 	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	@Override
 	public void appendPath(GeneralPath path, BuildHistory hist) {
 		float offx = isRelative ? hist.lastPoint.x : 0f;
 		float offy = isRelative ? hist.lastPoint.y : 0f;
@@ -91,6 +92,7 @@ public class Arc extends PathCommand {
 		hist.setLastKnot(x + offx, y + offy);
 	}
 
+	@Override
 	public int getNumKnotsAdded() {
 		return 6;
 	}
@@ -134,7 +136,7 @@ public class Arc extends PathCommand {
 
 		// Ensure radii are valid
 		if (rx == 0 || ry == 0) {
-			path.lineTo((float) x, (float) y);
+			path.lineTo(x, y);
 			return;
 		}
 
@@ -146,8 +148,9 @@ public class Arc extends PathCommand {
 
 		Arc2D arc = computeArc(x0, y0, rx, ry, angle, largeArcFlag, sweepFlag,
 				x, y);
-		if (arc == null)
+		if (arc == null) {
 			return;
+		}
 
 		AffineTransform t = AffineTransform.getRotateInstance(
 				Math.toRadians(angle), arc.getCenterX(), arc.getCenterY());
@@ -259,6 +262,7 @@ public class Arc extends PathCommand {
 		return arc;
 	}
 
+	@Override
 	public String toString() {
 		return "A " + rx + " " + ry + " " + xAxisRot + " " + largeArc + " "
 				+ sweep + " " + x + " " + y;

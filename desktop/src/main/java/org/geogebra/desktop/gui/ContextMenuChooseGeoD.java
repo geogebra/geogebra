@@ -185,6 +185,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			geoActionCmd(this.geo, selectedGeos, geos, view, loc);
 		}
@@ -223,6 +224,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		AbstractAction titleAction = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				if (selectedGeos.size() < 2) {

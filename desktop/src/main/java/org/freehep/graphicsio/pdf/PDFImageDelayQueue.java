@@ -92,8 +92,9 @@ public class PDFImageDelayQueue {
 
 				PDFStream img = pdf.openStream(entry.name);
 				img.entry("Subtype", pdf.name("Image"));
-				if (entry.maskName != null)
+				if (entry.maskName != null) {
 					img.entry("SMask", pdf.ref(entry.maskName));
+				}
 				img.image(entry.image, entry.bkg, encode);
 				pdf.close(img);
 
@@ -117,8 +118,9 @@ public class PDFImageDelayQueue {
 			for (Iterator i = imageList.iterator(); i.hasNext();) {
 				Entry entry = (Entry) i.next();
 				xobj.entry(entry.name, pdf.ref(entry.name));
-				if (entry.maskName != null)
+				if (entry.maskName != null) {
 					xobj.entry(entry.maskName, pdf.ref(entry.maskName));
+				}
 			}
 			pdf.close(xobj);
 		}

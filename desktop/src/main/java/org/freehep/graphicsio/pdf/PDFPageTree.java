@@ -24,6 +24,7 @@ public class PDFPageTree extends PDFPageBase {
 		pages.add(pdf.ref(name));
 	}
 
+	@Override
 	void close() throws IOException {
 		Object[] kids = new Object[pages.size()];
 		pages.copyInto(kids);

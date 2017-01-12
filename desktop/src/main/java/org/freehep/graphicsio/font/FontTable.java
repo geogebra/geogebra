@@ -71,6 +71,7 @@ public abstract class FontTable {
 			return written;
 		}
 
+		@Override
 		public String toString() {
 			return ref + "=" + font;
 		}
@@ -222,10 +223,12 @@ public abstract class FontTable {
 
 	private CharTable getEncodingTable(Font font) {
 		String fontname = font.getName().toLowerCase();
-		if (fontname.indexOf("symbol") >= 0)
+		if (fontname.indexOf("symbol") >= 0) {
 			return Lookup.getInstance().getTable("Symbol");
-		if (fontname.indexOf("zapfdingbats") >= 0)
+		}
+		if (fontname.indexOf("zapfdingbats") >= 0) {
 			return Lookup.getInstance().getTable("Zapfdingbats");
+		}
 		return getEncodingTable();
 	}
 

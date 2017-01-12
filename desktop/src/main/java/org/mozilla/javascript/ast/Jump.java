@@ -45,82 +45,107 @@ public class Jump extends AstNode {
 	}
 
 	public Jump getJumpStatement() {
-		if (type != Token.BREAK && type != Token.CONTINUE)
+		if (type != Token.BREAK && type != Token.CONTINUE) {
 			codeBug();
+		}
 		return jumpNode;
 	}
 
 	public void setJumpStatement(Jump jumpStatement) {
-		if (type != Token.BREAK && type != Token.CONTINUE)
+		if (type != Token.BREAK && type != Token.CONTINUE) {
 			codeBug();
-		if (jumpStatement == null)
+		}
+		if (jumpStatement == null) {
 			codeBug();
+		}
 		if (this.jumpNode != null)
+		 {
 			codeBug(); // only once
+		}
 		this.jumpNode = jumpStatement;
 	}
 
 	public Node getDefault() {
-		if (type != Token.SWITCH)
+		if (type != Token.SWITCH) {
 			codeBug();
+		}
 		return target2;
 	}
 
 	public void setDefault(Node defaultTarget) {
-		if (type != Token.SWITCH)
+		if (type != Token.SWITCH) {
 			codeBug();
-		if (defaultTarget.getType() != Token.TARGET)
+		}
+		if (defaultTarget.getType() != Token.TARGET) {
 			codeBug();
+		}
 		if (target2 != null)
+		 {
 			codeBug(); // only once
+		}
 		target2 = defaultTarget;
 	}
 
 	public Node getFinally() {
-		if (type != Token.TRY)
+		if (type != Token.TRY) {
 			codeBug();
+		}
 		return target2;
 	}
 
 	public void setFinally(Node finallyTarget) {
-		if (type != Token.TRY)
+		if (type != Token.TRY) {
 			codeBug();
-		if (finallyTarget.getType() != Token.TARGET)
+		}
+		if (finallyTarget.getType() != Token.TARGET) {
 			codeBug();
+		}
 		if (target2 != null)
+		 {
 			codeBug(); // only once
+		}
 		target2 = finallyTarget;
 	}
 
 	public Jump getLoop() {
-		if (type != Token.LABEL)
+		if (type != Token.LABEL) {
 			codeBug();
+		}
 		return jumpNode;
 	}
 
 	public void setLoop(Jump loop) {
-		if (type != Token.LABEL)
+		if (type != Token.LABEL) {
 			codeBug();
-		if (loop == null)
+		}
+		if (loop == null) {
 			codeBug();
+		}
 		if (jumpNode != null)
+		 {
 			codeBug(); // only once
+		}
 		jumpNode = loop;
 	}
 
 	public Node getContinue() {
-		if (type != Token.LOOP)
+		if (type != Token.LOOP) {
 			codeBug();
+		}
 		return target2;
 	}
 
 	public void setContinue(Node continueTarget) {
-		if (type != Token.LOOP)
+		if (type != Token.LOOP) {
 			codeBug();
-		if (continueTarget.getType() != Token.TARGET)
+		}
+		if (continueTarget.getType() != Token.TARGET) {
 			codeBug();
+		}
 		if (target2 != null)
+		 {
 			codeBug(); // only once
+		}
 		target2 = continueTarget;
 	}
 

@@ -141,16 +141,19 @@ public class SVGLoader extends DefaultHandler {
 		return sb.toString();
 	}
 
+	@Override
 	public void startDocument() throws SAXException {
 		// System.err.println("Start doc");
 
 		// buildStack.clear();
 	}
 
+	@Override
 	public void endDocument() throws SAXException {
 		// System.err.println("End doc");
 	}
 
+	@Override
 	public void startElement(String namespaceURI, String sName, String qName,
 			Attributes attrs) throws SAXException {
 		if (verbose) {
@@ -189,8 +192,9 @@ public class SVGLoader extends DefaultHandler {
 			SVGElement svgEle = (SVGElement) cls.newInstance();
 
 			SVGElement parent = null;
-			if (buildStack.size() != 0)
+			if (buildStack.size() != 0) {
 				parent = (SVGElement) buildStack.getLast();
+			}
 			svgEle.loaderStartElement(helper, attrs, parent);
 
 			buildStack.addLast(svgEle);
@@ -202,6 +206,7 @@ public class SVGLoader extends DefaultHandler {
 
 	}
 
+	@Override
 	public void endElement(String namespaceURI, String sName, String qName)
 			throws SAXException {
 		indent--;
@@ -218,8 +223,9 @@ public class SVGLoader extends DefaultHandler {
 		sName = sName.toLowerCase();
 
 		Object obj = nodeClasses.get(sName);
-		if (obj == null)
+		if (obj == null) {
 			return;
+		}
 
 		// Debug info tag depth
 		// for (int i = 0; i < buildStack.size(); i++) System.err.print(" ");
@@ -249,6 +255,7 @@ public class SVGLoader extends DefaultHandler {
 		}
 	}
 
+	@Override
 	public void characters(char buf[], int offset, int len)
 			throws SAXException {
 		if (skipNonSVGTagDepth != 0) {
@@ -262,6 +269,7 @@ public class SVGLoader extends DefaultHandler {
 		}
 	}
 
+	@Override
 	public void processingInstruction(String target, String data)
 			throws SAXException {
 		// Check for external style sheet

@@ -59,6 +59,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		return reference;
 	}
 
+	@Override
 	protected void openIncludeFont() throws IOException {
 
 		fontDict = pdf.openDictionary(reference);
@@ -81,9 +82,11 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		addAdditionalInitDicts();
 	}
 
+	@Override
 	protected void closeEmbedFont() {
 	}
 
+	@Override
 	protected void writeWidths(double[] widths) throws IOException {
 		Object[] widthsObj = new Object[256];
 		for (int i = 0; i < widthsObj.length; i++) {
@@ -92,6 +95,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		pdf.object(reference + "Widths", widthsObj);
 	}
 
+	@Override
 	protected void writeEncoding(CharTable charTable) throws IOException {
 		// writeEncoding(pdf, reference+"Encoding", charTable);
 	}

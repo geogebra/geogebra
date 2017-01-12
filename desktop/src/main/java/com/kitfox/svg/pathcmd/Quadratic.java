@@ -54,6 +54,7 @@ public class Quadratic extends PathCommand {
 	public Quadratic() {
 	}
 
+	@Override
 	public String toString() {
 		return "Q " + kx + " " + ky + " " + x + " " + y;
 	}
@@ -67,6 +68,7 @@ public class Quadratic extends PathCommand {
 	}
 
 	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	@Override
 	public void appendPath(GeneralPath path, BuildHistory hist) {
 		float offx = isRelative ? hist.lastPoint.x : 0f;
 		float offy = isRelative ? hist.lastPoint.y : 0f;
@@ -76,6 +78,7 @@ public class Quadratic extends PathCommand {
 		hist.setLastKnot(kx + offx, ky + offy);
 	}
 
+	@Override
 	public int getNumKnotsAdded() {
 		return 4;
 	}

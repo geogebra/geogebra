@@ -99,6 +99,7 @@ public class TitlePanel extends JPanel {
 		// .getPlain("Document info")));
 
 		ActionListener lst = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				fireTextFieldUpdate((JTextField) e.getSource());
 			}
@@ -175,15 +176,17 @@ public class TitlePanel extends JPanel {
 		boolean kernelChanged = false;
 
 		if (tf == titleField) {
-			if (text.equals(cons.getTitle()))
+			if (text.equals(cons.getTitle())) {
 				return;
+			}
 			cons.setTitle(text);
 			kernelChanged = true;
 		} else if (tf == authorField) {
 			kernelChanged = saveAuthor(tf.getText());
 		} else if (tf == dateField) {
-			if (text.equals(cons.getDate()))
+			if (text.equals(cons.getDate())) {
 				return;
+			}
 			cons.setDate(text);
 			kernelChanged = true;
 		}

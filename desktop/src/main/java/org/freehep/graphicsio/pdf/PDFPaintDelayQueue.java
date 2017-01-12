@@ -204,12 +204,14 @@ public class PDFPaintDelayQueue {
 		 */
 		// function.println("sin");
 		for (int i = 0; i < 3; i++) {
-			if (i < 2)
+			if (i < 2) {
 				function.println("dup");
+			}
 			function.println((c1[i] - c0[i]) + " mul");
 			function.println(c0[i] + " add");
-			if (i < 2)
+			if (i < 2) {
 				function.println("exch");
+			}
 		}
 
 		// function.println("pop 0.8 0.0 0.0");

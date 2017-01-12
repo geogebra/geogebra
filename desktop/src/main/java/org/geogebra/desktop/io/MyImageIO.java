@@ -52,9 +52,9 @@ public class MyImageIO {
 				.getAsTree("javax_imageio_1.0");
 		NodeList nl = destNodes.getElementsByTagName("Dimension");
 		IIOMetadataNode dim;
-		if ((nl != null) && (nl.getLength() > 0))
+		if ((nl != null) && (nl.getLength() > 0)) {
 			dim = (IIOMetadataNode) nl.item(0);
-		else {
+		} else {
 			dim = new IIOMetadataNode("Dimension");
 			destNodes.appendChild(dim);
 		}

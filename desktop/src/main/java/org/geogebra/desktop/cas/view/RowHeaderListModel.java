@@ -25,14 +25,17 @@ public class RowHeaderListModel extends AbstractListModel
 		size = table.getRowCount();
 	}
 
+	@Override
 	public int getSize() {
 		return size;
 	}
 
+	@Override
 	public Object getElementAt(int index) {
 		return Integer.toString(index + 1);
 	}
 
+	@Override
 	public void tableChanged(TableModelEvent e) {
 		int firstRow = e.getFirstRow();
 		int lastRow = e.getLastRow();

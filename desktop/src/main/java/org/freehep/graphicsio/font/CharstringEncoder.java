@@ -60,8 +60,9 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 	}
 
 	protected void writeCommand(int com) throws IOException {
-		if (com >= 31)
+		if (com >= 31) {
 			throw new IOException("Charstring command out of range: " + com);
+		}
 		out.write(com);
 	}
 
@@ -122,6 +123,7 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 		}
 	}
 
+	@Override
 	public void move(double x, double y) throws IOException {
 		switch (to(x, y)) {
 		case BOTH:
@@ -139,6 +141,7 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 		super.move(x, y);
 	}
 
+	@Override
 	public void line(double x, double y) throws IOException {
 		switch (to(x, y)) {
 		case BOTH:
@@ -156,6 +159,7 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 		super.line(x, y);
 	}
 
+	@Override
 	public void cubic(double x1, double y1, double x2, double y2, double x3,
 			double y3) throws IOException {
 		writePoint(x1, y1);
@@ -165,6 +169,7 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 		super.cubic(x1, y1, x2, y2, x3, y3);
 	}
 
+	@Override
 	public void closePath(double x0, double y0) throws IOException {
 		writeCommand(9);
 		super.closePath(x0, y0);

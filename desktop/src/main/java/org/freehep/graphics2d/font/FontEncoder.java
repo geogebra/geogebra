@@ -16,8 +16,9 @@ public class FontEncoder {
 	 * supplied table.
 	 */
 	public static String getEncodedString(String string, CharTable charTable) {
-		if (charTable == null)
+		if (charTable == null) {
 			return string;
+		}
 
 		StringBuffer s = new StringBuffer();
 		for (int i = 0; i < string.length(); i++) {

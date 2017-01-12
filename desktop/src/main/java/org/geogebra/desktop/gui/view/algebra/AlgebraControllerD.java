@@ -114,23 +114,29 @@ public class AlgebraControllerD extends AlgebraTreeController
 	// Drag and Drop
 	// =====================================================
 
+	@Override
 	public void dragDropEnd(DragSourceDropEvent e) {
 	}
 
+	@Override
 	public void dragEnter(DragSourceDragEvent e) {
 	}
 
+	@Override
 	public void dragExit(DragSourceEvent e) {
 	}
 
+	@Override
 	public void dragOver(DragSourceDragEvent e) {
 	}
 
+	@Override
 	public void dropActionChanged(DragSourceDragEvent e) {
 	}
 
 	private ArrayList<String> geoLabelList;
 
+	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
 		if (geoLabelList == null) {
@@ -170,20 +176,25 @@ public class AlgebraControllerD extends AlgebraTreeController
 			this.geoLabelList = geoLabelList;
 		}
 
+		@Override
 		public DataFlavor[] getTransferDataFlavors() {
 			return supportedFlavors;
 		}
 
+		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
-			if (flavor.equals(algebraViewFlavor))
+			if (flavor.equals(algebraViewFlavor)) {
 				return true;
+			}
 			return false;
 		}
 
+		@Override
 		public Object getTransferData(DataFlavor flavor)
 				throws UnsupportedFlavorException {
-			if (flavor.equals(algebraViewFlavor))
+			if (flavor.equals(algebraViewFlavor)) {
 				return geoLabelList;
+			}
 			throw new UnsupportedFlavorException(flavor);
 		}
 	}
@@ -204,19 +215,21 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	@Override
 	protected void highlight(EuclidianViewInterfaceCommon ev, GeoElement geo) {
-		if (ev.getMode() == EuclidianConstants.MODE_MOVE)
+		if (ev.getMode() == EuclidianConstants.MODE_MOVE) {
 			super.highlight(ev, geo);
-		else
+		} else {
 			ev.mouseMovedOver(geo);
+		}
 	}
 
 	@Override
 	protected void highlight(EuclidianViewInterfaceCommon ev,
 			ArrayList<GeoElement> geos) {
-		if (ev.getMode() == EuclidianConstants.MODE_MOVE)
+		if (ev.getMode() == EuclidianConstants.MODE_MOVE) {
 			super.highlight(ev, geos);
-		else
+		} else {
 			ev.mouseMovedOverList(geos);
+		}
 	}
 
 	@Override
@@ -226,8 +239,9 @@ public class AlgebraControllerD extends AlgebraTreeController
 		if ((mode == EuclidianConstants.MODE_MOVE
 				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER
 				|| geo == null) && !AppD.isControlDown(e) && !e.isShiftDown()) {
-			if (!setSelectedGeo(geo))
+			if (!setSelectedGeo(geo)) {
 				return true;
+			}
 
 		}
 		return false;

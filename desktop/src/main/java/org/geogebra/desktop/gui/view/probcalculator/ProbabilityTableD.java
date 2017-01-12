@@ -54,6 +54,7 @@ public class ProbabilityTableD extends ProbabilityTable
 
 	}
 
+	@Override
 	public void setTable(DIST distType, double[] parms, int xMin, int xMax) {
 
 		setIniting(true);
@@ -104,6 +105,7 @@ public class ProbabilityTableD extends ProbabilityTable
 
 
 
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 
 		JTable table = statTable.getTable();
@@ -111,8 +113,9 @@ public class ProbabilityTableD extends ProbabilityTable
 		int[] selRow = table.getSelectedRows();
 
 		// exit if initing or nothing selected
-		if (isIniting() || selRow.length == 0)
+		if (isIniting() || selRow.length == 0) {
 			return;
+		}
 
 		if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorViewD.PROB_INTERVAL) {
@@ -183,8 +186,9 @@ public class ProbabilityTableD extends ProbabilityTable
 					.removeListSelectionListener(this);
 
 			int lowIndex = lowValue - getXMin();
-			if (lowIndex < 0)
+			if (lowIndex < 0) {
 				lowIndex = 0;
+			}
 			int highIndex = highValue - getXMin();
 			// System.out.println("-------------");
 			// System.out.println(lowIndex + " , " + highIndex);

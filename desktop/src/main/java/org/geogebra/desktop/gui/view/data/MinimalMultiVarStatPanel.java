@@ -20,10 +20,12 @@ public class MinimalMultiVarStatPanel extends BasicStatTable
 		setModel(new MinimalMultiVarStatTableModel(app, this));
 	}
 
+	@Override
 	public String[] getDataTitles() {
 		return daView.getDataTitles();
 	}
 
+	@Override
 	public boolean isMinimalTable() {
 		// TODO Auto-generated method stub
 		return false;

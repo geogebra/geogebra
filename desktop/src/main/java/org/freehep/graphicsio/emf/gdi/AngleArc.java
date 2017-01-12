@@ -35,6 +35,7 @@ public class AngleArc extends EMFTag {
 		this.sweepAngle = sweepAngle;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -43,6 +44,7 @@ public class AngleArc extends EMFTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writePOINTL(center);
 		emf.writeDWORD(radius);
@@ -50,6 +52,7 @@ public class AngleArc extends EMFTag {
 		emf.writeFLOAT(sweepAngle);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  center: " + center + "\n"
 				+ "  radius: " + radius + "\n" + "  startAngle: " + startAngle

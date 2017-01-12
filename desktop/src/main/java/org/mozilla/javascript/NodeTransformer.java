@@ -50,8 +50,9 @@ public class NodeTransformer {
 		tree.flattenSymbolTable(!createScopeObjects);
 
 		// uncomment to print tree before transformation
-		if (Token.printTrees)
+		if (Token.printTrees) {
 			System.out.println(tree.toStringTree(tree));
+		}
 		boolean inStrictMode = tree instanceof AstRoot
 				&& ((AstRoot) tree).isInStrictMode();
 		transformCompilationUnit_r(tree, tree, tree, createScopeObjects,
@@ -158,7 +159,9 @@ public class NodeTransformer {
 				 * some LEAVEWITH nodes are necessary.
 				 */
 				if (!hasFinally)
+				 {
 					break; // skip the whole mess.
+				}
 				Node unwindBlock = null;
 				for (int i = loops.size() - 1; i >= 0; i--) {
 					Node n = (Node) loops.get(i);
@@ -205,8 +208,9 @@ public class NodeTransformer {
 			case Token.CONTINUE: {
 				Jump jump = (Jump) node;
 				Jump jumpStatement = jump.getJumpStatement();
-				if (jumpStatement == null)
+				if (jumpStatement == null) {
 					Kit.codeBug();
+				}
 
 				for (int i = loops.size();;) {
 					if (i == 0) {
@@ -277,8 +281,9 @@ public class NodeTransformer {
 					Node n = cursor;
 					cursor = cursor.getNext();
 					if (n.getType() == Token.NAME) {
-						if (!n.hasChildren())
+						if (!n.hasChildren()) {
 							continue;
+						}
 						Node init = n.getFirstChild();
 						n.removeChild(init);
 						n.setType(Token.BINDNAME);
@@ -287,8 +292,9 @@ public class NodeTransformer {
 					} else {
 						// May be a destructuring assignment already transformed
 						// to a LETEXPR
-						if (n.getType() != Token.LETEXPR)
+						if (n.getType() != Token.LETEXPR) {
 							throw Kit.codeBug();
+						}
 					}
 					Node pop = new Node(Token.EXPR_VOID, n, node.getLineno());
 					result.addChildToBack(pop);
@@ -322,15 +328,17 @@ public class NodeTransformer {
 						Node first = child.getFirstChild();
 						Node last = child.getLastChild();
 						if (first.getType() == Token.NAME
-								&& first.getString().equals("undefined"))
+								&& first.getString().equals("undefined")) {
 							child = last;
-						else if (last.getType() == Token.NAME
-								&& last.getString().equals("undefined"))
+						} else if (last.getType() == Token.NAME
+								&& last.getString().equals("undefined")) {
 							child = first;
+						}
 					}
 				}
-				if (child.getType() == Token.GETPROP)
+				if (child.getType() == Token.GETPROP) {
 					child.setType(Token.GETPROPNOWARN);
+				}
 				break;
 			}
 
@@ -419,8 +427,9 @@ public class NodeTransformer {
 					List<?> destructuringNames = (List<?>) current
 							.getProp(Node.DESTRUCTURING_NAMES);
 					Node c = current.getFirstChild();
-					if (c.getType() != Token.LET)
+					if (c.getType() != Token.LET) {
 						throw Kit.codeBug();
+					}
 					// Add initialization code to front of body
 					if (isExpression) {
 						body = new Node(Token.COMMA, c.getNext(), body);
@@ -440,8 +449,9 @@ public class NodeTransformer {
 					current = c.getFirstChild(); // should be a NAME, checked
 													// below
 				}
-				if (current.getType() != Token.NAME)
+				if (current.getType() != Token.NAME) {
 					throw Kit.codeBug();
+				}
 				list.add(ScriptRuntime.getIndexObject(current.getString()));
 				Node init = current.getFirstChild();
 				if (init == null) {
@@ -463,8 +473,9 @@ public class NodeTransformer {
 				if (current.getType() == Token.LETEXPR) {
 					// destructuring in let expr, e.g. let ([x, y] = [3, 4]) {}
 					Node c = current.getFirstChild();
-					if (c.getType() != Token.LET)
+					if (c.getType() != Token.LET) {
 						throw Kit.codeBug();
+					}
 					// Add initialization code to front of body
 					if (isExpression) {
 						body = new Node(Token.COMMA, c.getNext(), body);
@@ -477,8 +488,9 @@ public class NodeTransformer {
 					current = c.getFirstChild(); // should be a NAME, checked
 													// below
 				}
-				if (current.getType() != Token.NAME)
+				if (current.getType() != Token.NAME) {
 					throw Kit.codeBug();
+				}
 				Node stringNode = Node.newString(current.getString());
 				stringNode.setScope((Scope) scopeNode);
 				Node init = current.getFirstChild();
@@ -516,12 +528,14 @@ public class NodeTransformer {
 	private static Node addBeforeCurrent(Node parent, Node previous,
 			Node current, Node toAdd) {
 		if (previous == null) {
-			if (!(current == parent.getFirstChild()))
+			if (!(current == parent.getFirstChild())) {
 				Kit.codeBug();
+			}
 			parent.addChildToFront(toAdd);
 		} else {
-			if (!(current == previous.getNext()))
+			if (!(current == previous.getNext())) {
 				Kit.codeBug();
+			}
 			parent.addChildAfter(toAdd, previous);
 		}
 		return toAdd;
@@ -530,8 +544,9 @@ public class NodeTransformer {
 	private static Node replaceCurrent(Node parent, Node previous, Node current,
 			Node replacement) {
 		if (previous == null) {
-			if (!(current == parent.getFirstChild()))
+			if (!(current == parent.getFirstChild())) {
 				Kit.codeBug();
+			}
 			parent.replaceChild(current, replacement);
 		} else if (previous.next == current) {
 			// Check cachedPrev.next == current is necessary due to possible

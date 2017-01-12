@@ -218,8 +218,9 @@ public class ColorTable {
 
 	public Color lookupColor(String name) {
 		Object obj = colorTable.get(name.toLowerCase());
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 
 		return (Color) obj;
 	}
@@ -259,8 +260,9 @@ public class ColorTable {
 				retVal = new Color(rr, gg, bb);
 			} else {
 				Color lookupCol = ColorTable.instance().lookupColor(val);
-				if (lookupCol != null)
+				if (lookupCol != null) {
 					retVal = lookupCol;
+				}
 			}
 		}
 
@@ -280,8 +282,9 @@ public class ColorTable {
 				retVal |= ch - 'a' + 10;
 			} else if (ch >= 'A' && ch <= 'Z') {
 				retVal |= ch - 'A' + 10;
-			} else
+			} else {
 				throw new RuntimeException();
+			}
 		}
 
 		return retVal;

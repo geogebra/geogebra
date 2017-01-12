@@ -39,6 +39,7 @@ public class EMFPathConstructor extends QuadToCubicPathConstructor
 		this.curved = false;
 	}
 
+	@Override
 	public void move(double x, double y) throws IOException {
 		flush();
 		os.writeTag(new MoveToEx(new Point(toUnit(x), toUnit(y))));
@@ -68,18 +69,22 @@ public class EMFPathConstructor extends QuadToCubicPathConstructor
 		}
 	}
 
+	@Override
 	public void line(double x, double y) throws IOException {
-		if (curved && (pointIndex > 0))
+		if (curved && (pointIndex > 0)) {
 			flush();
+		}
 		curved = false;
 		addPoint(pointIndex++, x, y);
 		super.line(x, y);
 	}
 
+	@Override
 	public void cubic(double x1, double y1, double x2, double y2, double x3,
 			double y3) throws IOException {
-		if (!curved && (pointIndex > 0))
+		if (!curved && (pointIndex > 0)) {
 			flush();
+		}
 		curved = true;
 		addPoint(pointIndex++, x1, y1);
 		addPoint(pointIndex++, x2, y2);
@@ -87,12 +92,14 @@ public class EMFPathConstructor extends QuadToCubicPathConstructor
 		super.cubic(x1, y1, x2, y2, x3, y3);
 	}
 
+	@Override
 	public void closePath(double x0, double y0) throws IOException {
 		flush();
 		os.writeTag(new CloseFigure());
 		super.closePath(x0, y0);
 	}
 
+	@Override
 	public void flush() throws IOException {
 		if (curved) {
 			if (wide) {

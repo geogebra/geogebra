@@ -76,6 +76,7 @@ public final class Instrument implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("I[");
@@ -89,6 +90,7 @@ public final class Instrument implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("Instrument: instrument=");

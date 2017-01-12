@@ -57,8 +57,9 @@ public class MyResourceBundle extends PropertyResourceBundle
 
 		// base properties file
 		bundle = loadSingleBundleFile(name);
-		if (bundle == null)
+		if (bundle == null) {
 			return null;
+		}
 
 		// language properties file
 		String lang = locale.getLanguage();
@@ -69,8 +70,9 @@ public class MyResourceBundle extends PropertyResourceBundle
 
 		// load only non-English languages (English has already been loaded as
 		// base file)
-		if (!"en".equals(lang))
+		if (!"en".equals(lang)) {
 			temp = loadSingleBundleFile(fileNameLanguage);
+		}
 
 		if (temp != null) {
 			temp.setParent(bundle);

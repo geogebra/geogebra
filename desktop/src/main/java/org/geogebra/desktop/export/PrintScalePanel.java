@@ -77,24 +77,28 @@ public class PrintScalePanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		Runnable updateCm = new Runnable() {
+			@Override
 			public void run() {
 				fireTextFieldUpdate();
 			}
 		};
 
 		Runnable updateFixedSize = new Runnable() {
+			@Override
 			public void run() {
 				fireFixedSizeTextFieldUpdate();
 			}
 		};
 
 		Runnable updateWidth = new Runnable() {
+			@Override
 			public void run() {
 				fireWidthTextFieldUpdate();
 			}
 		};
 
 		Runnable updateHeight = new Runnable() {
+			@Override
 			public void run() {
 				fireHeightTextFieldUpdate();
 			}
@@ -126,6 +130,7 @@ public class PrintScalePanel extends JPanel {
 
 		exportMode.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				switchMode();
 
@@ -227,15 +232,18 @@ public class PrintScalePanel extends JPanel {
 		ret.setColumns(maxFracDigits);
 		ret.setHorizontalAlignment(SwingConstants.RIGHT);
 		FocusListener flst = new FocusListener() {
+			@Override
 			public void focusLost(FocusEvent e) {
 				run.run();
 			}
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				//
 			}
 		};
 		ActionListener al = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				run.run();
 			}

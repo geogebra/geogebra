@@ -149,8 +149,9 @@ public class ScriptNode extends Scope {
 	 * already been set.
 	 */
 	public void setBaseLineno(int lineno) {
-		if (lineno < 0 || this.lineno >= 0)
+		if (lineno < 0 || this.lineno >= 0) {
 			codeBug();
+		}
 		this.lineno = lineno;
 	}
 
@@ -160,8 +161,9 @@ public class ScriptNode extends Scope {
 
 	public void setEndLineno(int lineno) {
 		// One time action
-		if (lineno < 0 || endLineno >= 0)
+		if (lineno < 0 || endLineno >= 0) {
 			codeBug();
+		}
 		endLineno = lineno;
 	}
 
@@ -184,10 +186,12 @@ public class ScriptNode extends Scope {
 	 * @return the index of the function within its parent
 	 */
 	public int addFunction(FunctionNode fnNode) {
-		if (fnNode == null)
+		if (fnNode == null) {
 			codeBug();
-		if (functions == null)
+		}
+		if (functions == null) {
 			functions = new ArrayList<FunctionNode>();
+		}
 		functions.add(fnNode);
 		return functions.size() - 1;
 	}
@@ -208,17 +212,20 @@ public class ScriptNode extends Scope {
 	 * Called by IRFactory to add a RegExp to the regexp table.
 	 */
 	public void addRegExp(RegExpLiteral re) {
-		if (re == null)
+		if (re == null) {
 			codeBug();
-		if (regexps == null)
+		}
+		if (regexps == null) {
 			regexps = new ArrayList<RegExpLiteral>();
+		}
 		regexps.add(re);
 		re.putIntProp(REGEXP_PROP, regexps.size() - 1);
 	}
 
 	public int getIndexForNameNode(Node nameNode) {
-		if (variableNames == null)
+		if (variableNames == null) {
 			codeBug();
+		}
 		Scope node = nameNode.getScope();
 		Symbol symbol = node == null ? null
 				: node.getSymbol(((Name) nameNode).getIdentifier());
@@ -226,8 +233,9 @@ public class ScriptNode extends Scope {
 	}
 
 	public String getParamOrVarName(int index) {
-		if (variableNames == null)
+		if (variableNames == null) {
 			codeBug();
+		}
 		return variableNames[index];
 	}
 
@@ -236,26 +244,30 @@ public class ScriptNode extends Scope {
 	}
 
 	public int getParamAndVarCount() {
-		if (variableNames == null)
+		if (variableNames == null) {
 			codeBug();
+		}
 		return symbols.size();
 	}
 
 	public String[] getParamAndVarNames() {
-		if (variableNames == null)
+		if (variableNames == null) {
 			codeBug();
+		}
 		return variableNames;
 	}
 
 	public boolean[] getParamAndVarConst() {
-		if (variableNames == null)
+		if (variableNames == null) {
 			codeBug();
+		}
 		return isConsts;
 	}
 
 	void addSymbol(Symbol symbol) {
-		if (variableNames != null)
+		if (variableNames != null) {
 			codeBug();
+		}
 		if (symbol.getDeclType() == Token.LP) {
 			paramCount++;
 		}
@@ -312,8 +324,9 @@ public class ScriptNode extends Scope {
 	public void setCompilerData(Object data) {
 		assertNotNull(data);
 		// Can only call once
-		if (compilerData != null)
+		if (compilerData != null) {
 			throw new IllegalStateException();
+		}
 		compilerData = data;
 	}
 

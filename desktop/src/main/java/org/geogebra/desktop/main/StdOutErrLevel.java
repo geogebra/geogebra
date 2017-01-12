@@ -42,10 +42,12 @@ public class StdOutErrLevel extends Level {
 	 *             If unable to deserialize
 	 */
 	protected Object readResolve() throws ObjectStreamException {
-		if (this.intValue() == STDOUT.intValue())
+		if (this.intValue() == STDOUT.intValue()) {
 			return STDOUT;
-		if (this.intValue() == STDERR.intValue())
+		}
+		if (this.intValue() == STDERR.intValue()) {
 			return STDERR;
+		}
 		throw new InvalidObjectException("Unknown instance :" + this);
 	}
 

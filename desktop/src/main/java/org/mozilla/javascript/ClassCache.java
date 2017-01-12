@@ -112,10 +112,12 @@ public class ClassCache implements Serializable {
 	 * @see #clearCaches()
 	 */
 	public synchronized void setCachingEnabled(boolean enabled) {
-		if (enabled == cachingIsEnabled)
+		if (enabled == cachingIsEnabled) {
 			return;
-		if (!enabled)
+		}
+		if (!enabled) {
 			clearCaches();
+		}
 		cachingIsEnabled = enabled;
 	}
 

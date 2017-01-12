@@ -184,8 +184,9 @@ public class AnimatedGifEncoder {
 	 * @return true if succesful
 	 */
 	public boolean finish() {
-		if (!started)
+		if (!started) {
 			return false;
+		}
 		boolean ok = true;
 		started = false;
 		try {
@@ -253,14 +254,17 @@ public class AnimatedGifEncoder {
 	 *            int frame width.
 	 */
 	public void setSize(int w, int h) {
-		if (started && !firstFrame)
+		if (started && !firstFrame) {
 			return;
+		}
 		width = w;
 		height = h;
-		if (width < 1)
+		if (width < 1) {
 			width = 320;
-		if (height < 1)
+		}
+		if (height < 1) {
 			height = 240;
+		}
 		sizeSet = true;
 	}
 
@@ -273,8 +277,9 @@ public class AnimatedGifEncoder {
 	 * @return false if initial write failed.
 	 */
 	public boolean start(OutputStream os) {
-		if (os == null)
+		if (os == null) {
 			return false;
+		}
 		boolean ok = true;
 		closeStream = false;
 		out = os;
@@ -362,8 +367,9 @@ public class AnimatedGifEncoder {
 	 * 
 	 */
 	protected int findClosest(Color c) {
-		if (colorTab == null)
+		if (colorTab == null) {
 			return -1;
+		}
 		int r = c.getRed();
 		int g = c.getGreen();
 		int b = c.getBlue();
@@ -708,8 +714,9 @@ class NeuQuant {
 	public byte[] colorMap() {
 		byte[] map = new byte[3 * netsize];
 		int[] index = new int[netsize];
-		for (int i = 0; i < netsize; i++)
+		for (int i = 0; i < netsize; i++) {
 			index[network[i][3]] = i;
+		}
 		int k = 0;
 		for (int i = 0; i < netsize; i++) {
 			int j = index[i];
@@ -766,15 +773,17 @@ class NeuQuant {
 			/* smallval entry is now in position i */
 			if (smallval != previouscol) {
 				netindex[previouscol] = (startpos + i) >>> 1;
-				for (j = previouscol + 1; j < smallval; j++)
+				for (j = previouscol + 1; j < smallval; j++) {
 					netindex[j] = i;
+				}
 				previouscol = smallval;
 				startpos = i;
 			}
 		}
 		netindex[previouscol] = (startpos + maxnetpos) >>> 1;
-		for (j = previouscol + 1; j < 256; j++)
+		for (j = previouscol + 1; j < 256; j++) {
 			netindex[j] = maxnetpos; /* really 256 */
+		}
 	}
 
 	/*
@@ -787,8 +796,9 @@ class NeuQuant {
 		byte[] p;
 		int pix, lim;
 
-		if (lengthcount < minpicturebytes)
+		if (lengthcount < minpicturebytes) {
 			samplefac = 1;
+		}
 		alphadec = 30 + ((samplefac - 1) / 3);
 		p = thepicture;
 		pix = 0;
@@ -799,26 +809,29 @@ class NeuQuant {
 		radius = initradius;
 
 		rad = radius >> radiusbiasshift;
-		if (rad <= 1)
+		if (rad <= 1) {
 			rad = 0;
-		for (i = 0; i < rad; i++)
+		}
+		for (i = 0; i < rad; i++) {
 			radpower[i] = alpha
 					* (((rad * rad - i * i) * radbias) / (rad * rad));
+		}
 
 		// fprintf(stderr,"beginning 1D learning: initial radius=%d\n", rad);
 
-		if (lengthcount < minpicturebytes)
+		if (lengthcount < minpicturebytes) {
 			step = 3;
-		else if ((lengthcount % prime1) != 0)
+		} else if ((lengthcount % prime1) != 0) {
 			step = 3 * prime1;
-		else {
-			if ((lengthcount % prime2) != 0)
+		} else {
+			if ((lengthcount % prime2) != 0) {
 				step = 3 * prime2;
-			else {
-				if ((lengthcount % prime3) != 0)
+			} else {
+				if ((lengthcount % prime3) != 0) {
 					step = 3 * prime3;
-				else
+				} else {
 					step = 3 * prime4;
+				}
 			}
 		}
 
@@ -830,25 +843,30 @@ class NeuQuant {
 			j = contest(b, g, r);
 
 			altersingle(alpha, j, b, g, r);
-			if (rad != 0)
+			if (rad != 0) {
 				alterneigh(rad, j, b, g, r); /* alter neighbours */
+			}
 
 			pix += step;
-			if (pix >= lim)
+			if (pix >= lim) {
 				pix -= lengthcount;
+			}
 
 			i++;
-			if (delta == 0)
+			if (delta == 0) {
 				delta = 1;
+			}
 			if (i % delta == 0) {
 				alpha -= alpha / alphadec;
 				radius -= radius / radiusdec;
 				rad = radius >> radiusbiasshift;
-				if (rad <= 1)
+				if (rad <= 1) {
 					rad = 0;
-				for (j = 0; j < rad; j++)
+				}
+				for (j = 0; j < rad; j++) {
 					radpower[j] = alpha
 							* (((rad * rad - j * j) * radbias) / (rad * rad));
+				}
 			}
 		}
 		// fprintf(stderr,"finished 1D learning: final alpha=%f
@@ -876,20 +894,23 @@ class NeuQuant {
 			if (i < netsize) {
 				p = network[i];
 				dist = p[1] - g; /* inx key */
-				if (dist >= bestd)
+				if (dist >= bestd) {
 					i = netsize; /* stop iter */
-				else {
+				} else {
 					i++;
-					if (dist < 0)
+					if (dist < 0) {
 						dist = -dist;
+					}
 					a = p[0] - b;
-					if (a < 0)
+					if (a < 0) {
 						a = -a;
+					}
 					dist += a;
 					if (dist < bestd) {
 						a = p[2] - r;
-						if (a < 0)
+						if (a < 0) {
 							a = -a;
+						}
 						dist += a;
 						if (dist < bestd) {
 							bestd = dist;
@@ -901,20 +922,23 @@ class NeuQuant {
 			if (j >= 0) {
 				p = network[j];
 				dist = g - p[1]; /* inx key - reverse dif */
-				if (dist >= bestd)
+				if (dist >= bestd) {
 					j = -1; /* stop iter */
-				else {
+				} else {
 					j--;
-					if (dist < 0)
+					if (dist < 0) {
 						dist = -dist;
+					}
 					a = p[0] - b;
-					if (a < 0)
+					if (a < 0) {
 						a = -a;
+					}
 					dist += a;
 					if (dist < bestd) {
 						a = p[2] - r;
-						if (a < 0)
+						if (a < 0) {
 							a = -a;
+						}
 						dist += a;
 						if (dist < bestd) {
 							bestd = dist;
@@ -964,11 +988,13 @@ class NeuQuant {
 		int[] p;
 
 		lo = i - rad;
-		if (lo < -1)
+		if (lo < -1) {
 			lo = -1;
+		}
 		hi = i + rad;
-		if (hi > netsize)
+		if (hi > netsize) {
 			hi = netsize;
+		}
 
 		j = i + 1;
 		k = i - 1;
@@ -1036,15 +1062,18 @@ class NeuQuant {
 		for (i = 0; i < netsize; i++) {
 			n = network[i];
 			dist = n[0] - b;
-			if (dist < 0)
+			if (dist < 0) {
 				dist = -dist;
+			}
 			a = n[1] - g;
-			if (a < 0)
+			if (a < 0) {
 				a = -a;
+			}
 			dist += a;
 			a = n[2] - r;
-			if (a < 0)
+			if (a < 0) {
 				a = -a;
+			}
 			dist += a;
 			if (dist < bestd) {
 				bestd = dist;
@@ -1184,8 +1213,9 @@ class LZWEncoder {
 	// characters, flush the packet to disk.
 	void char_out(byte c, OutputStream outs) throws IOException {
 		accum[a_count++] = c;
-		if (a_count >= 254)
+		if (a_count >= 254) {
 			flush_char(outs);
+		}
 	}
 
 	// Clear out the hash table
@@ -1201,8 +1231,9 @@ class LZWEncoder {
 
 	// reset code table
 	void cl_hash(int hsize) {
-		for (int i = 0; i < hsize; ++i)
+		for (int i = 0; i < hsize; ++i) {
 			htab[i] = -1;
+		}
 	}
 
 	void compress(int init_bits, OutputStream outs) throws IOException {
@@ -1231,8 +1262,9 @@ class LZWEncoder {
 		ent = nextPixel();
 
 		hshift = 0;
-		for (fcode = hsize; fcode < 65536; fcode *= 2)
+		for (fcode = hsize; fcode < 65536; fcode *= 2) {
 			++hshift;
+		}
 		hshift = 8 - hshift; // set hash code range bound
 
 		hsize_reg = hsize;
@@ -1250,11 +1282,13 @@ class LZWEncoder {
 			} else if (htab[i] >= 0) // non-empty slot
 			{
 				disp = hsize_reg - i; // secondary hash (after G. Knott)
-				if (i == 0)
+				if (i == 0) {
 					disp = 1;
+				}
 				do {
-					if ((i -= disp) < 0)
+					if ((i -= disp) < 0) {
 						i += hsize_reg;
+					}
 
 					if (htab[i] == fcode) {
 						ent = codetab[i];
@@ -1267,8 +1301,9 @@ class LZWEncoder {
 			if (free_ent < maxmaxcode) {
 				codetab[i] = free_ent++; // code -> hashtable
 				htab[i] = fcode;
-			} else
+			} else {
 				cl_block(outs);
+			}
 		}
 		// Put out the final code.
 		output(ent, outs);
@@ -1304,8 +1339,9 @@ class LZWEncoder {
 	// Return the next pixel from the image
 	// ----------------------------------------------------------------------------
 	private int nextPixel() {
-		if (remaining == 0)
+		if (remaining == 0) {
 			return EOF;
+		}
 
 		--remaining;
 
@@ -1317,10 +1353,11 @@ class LZWEncoder {
 	void output(int code, OutputStream outs) throws IOException {
 		cur_accum &= masks[cur_bits];
 
-		if (cur_bits > 0)
+		if (cur_bits > 0) {
 			cur_accum |= (code << cur_bits);
-		else
+		} else {
 			cur_accum = code;
+		}
 
 		cur_bits += n_bits;
 
@@ -1338,10 +1375,11 @@ class LZWEncoder {
 				clear_flg = false;
 			} else {
 				++n_bits;
-				if (n_bits == maxbits)
+				if (n_bits == maxbits) {
 					maxcode = maxmaxcode;
-				else
+				} else {
 					maxcode = MAXCODE(n_bits);
+				}
 			}
 		}
 

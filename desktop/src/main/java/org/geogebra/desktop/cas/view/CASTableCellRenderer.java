@@ -25,6 +25,7 @@ public class CASTableCellRenderer extends CASTableCell
 		super(view);
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		Font casFont = view.getCASViewComponent().getFont();
@@ -44,8 +45,9 @@ public class CASTableCellRenderer extends CASTableCell
 						GColorD.getAwtColor(cell.getFontColor()));
 				this.getInputArea().setForeground(
 						GColorD.getAwtColor(cell.getFontColor()));
-			} else
+			} else {
 				setFont(casFont);
+			}
 			updateTableRowHeight(table, row);
 
 			// set inputPanel width to match table column width

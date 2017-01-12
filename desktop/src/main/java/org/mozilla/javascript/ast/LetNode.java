@@ -88,8 +88,9 @@ public class LetNode extends Scope {
 	 */
 	public void setBody(AstNode body) {
 		this.body = body;
-		if (body != null)
+		if (body != null) {
 			body.setParent(this);
+		}
 	}
 
 	/**

@@ -115,8 +115,9 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		// extract a String from the Transferable contents
 		transferString = DataImportD.convertTransferableToString(contents);
-		if (transferString == null)
+		if (transferString == null) {
 			return false;
+		}
 
 		isCSV = DataImportD.hasHTMLFlavor(contents);
 		// System.out.println("transfer string: " + transferString);
@@ -194,8 +195,9 @@ public class CopyPasteCutD extends CopyPasteCut {
 				contents.toString(), isCSV);
 
 		if (data != null) {
-			if (clearSpreadsheet)
+			if (clearSpreadsheet) {
 				deleteAll();
+			}
 			succ = pasteExternalMultiple(data, targetRange);
 		} else {
 			succ = false;
@@ -214,8 +216,9 @@ public class CopyPasteCutD extends CopyPasteCut {
 	private static String getExtension(String filename) {
 		if (filename != null) {
 			int i = filename.lastIndexOf('.');
-			if (i > 0 && i < filename.length() - 1)
+			if (i > 0 && i < filename.length() - 1) {
 				return StringUtil.toLowerCase(filename.substring(i + 1));
+			}
 		}
 		return null;
 	}

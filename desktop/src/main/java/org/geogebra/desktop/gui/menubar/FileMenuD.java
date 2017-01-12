@@ -173,8 +173,9 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		// End Export SubMenu
 
 		// DONE HERE WHEN APPLET
-		if (app.isApplet())
+		if (app.isApplet()) {
 			return;
+		}
 
 		// close
 		addSeparator();
@@ -206,6 +207,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		deleteAll = new AbstractAction(loc.getMenu("New"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 				app.fileNew();
@@ -217,6 +219,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -234,6 +237,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().save();
 			}
@@ -243,6 +247,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().saveAs();
 			}
@@ -253,6 +258,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				exportGeoGebraTubeAction.actionPerformed(e);
 			}
@@ -278,6 +284,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				loc.getMenu("DrawingPad") + " ...") {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				GeoGebraMenuBar.showPrintPreview(app);
 			}
@@ -287,6 +294,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.EXIT)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.exit();
 			}
@@ -296,6 +304,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.exitAll();
 			}
@@ -305,6 +314,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getGuiManager().openFile();
 			}
@@ -315,6 +325,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				// Check if javafx is available
@@ -347,6 +358,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.getSelectionManager().clearSelectedGeos(true, false);
 				app.updateSelection(false);
@@ -377,6 +389,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Thread runner = new Thread() {
@@ -411,6 +424,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				loc.getMenu("ExportAnimatedGIF") + " ...") {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -429,6 +443,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -447,6 +462,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				loc.getMenu("DrawingPagAsPGF") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -468,6 +484,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
+				@Override
 				@SuppressWarnings("unused")
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -489,6 +506,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -511,6 +529,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getMenuIcon(GuiResourcesD.TEXT_HTML)) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 
@@ -550,6 +569,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 
@@ -590,6 +610,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 	}
 
+	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof TubeAvailabilityCheckEvent) {
 			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;

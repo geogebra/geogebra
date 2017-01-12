@@ -50,6 +50,7 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 		os.println("</g><!-- " + s + " -->");
 	}
 
+	@Override
 	protected void writeSize(PrintWriter os) {
 
 		if (cmWidth > 0 && cmHeight > 0) {

@@ -83,6 +83,7 @@ public class LanguageDialog extends JDialog {
 		btnOK = new JButton();
 		btnOK.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
 			}
@@ -91,6 +92,7 @@ public class LanguageDialog extends JDialog {
 		btnCancel = new JButton();
 		btnCancel.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (app.getLocale() != oldLocale) {
 					app.setLocale(oldLocale);
@@ -205,9 +207,11 @@ public class LanguageDialog extends JDialog {
 		setFlagIconAction = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				EventQueue.invokeLater(new Runnable() {
+					@Override
 					public void run() {
 						setFlag();
 						setLabels();

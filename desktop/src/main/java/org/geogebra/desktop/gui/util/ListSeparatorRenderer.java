@@ -32,6 +32,7 @@ public class ListSeparatorRenderer extends JLabel implements ListCellRenderer {
 		separator = new JSeparator(SwingConstants.HORIZONTAL);
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		String str = (value == null) ? "" : value.toString();

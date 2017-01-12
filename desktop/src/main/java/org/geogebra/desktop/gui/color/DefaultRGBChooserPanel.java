@@ -77,9 +77,11 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		 * @param e
 		 *            The ChangeEvent.
 		 */
+		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (internalChange)
+			if (internalChange) {
 				return;
+			}
 			int color = R.getValue() << 16 | G.getValue() << 8 | B.getValue();
 
 			getColorSelectionModel().setSelectedColor(new Color(color));
@@ -96,9 +98,11 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		 * @param e
 		 *            The ChangeEvent.
 		 */
+		@Override
 		public void stateChanged(ChangeEvent e) {
-			if (internalChange)
+			if (internalChange) {
 				return;
+			}
 			int red = ((Number) RSpinner.getValue()).intValue();
 			int green = ((Number) GSpinner.getValue()).intValue();
 			int blue = ((Number) BSpinner.getValue()).intValue();
@@ -188,18 +192,24 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 
 		internalChange = true;
 
-		if (R != null)
+		if (R != null) {
 			R.setValue(red);
-		if (RSpinner != null)
+		}
+		if (RSpinner != null) {
 			RSpinner.setValue(Integer.valueOf(red));
-		if (G != null)
+		}
+		if (G != null) {
 			G.setValue(green);
-		if (GSpinner != null)
+		}
+		if (GSpinner != null) {
 			GSpinner.setValue(Integer.valueOf(green));
-		if (B != null)
+		}
+		if (B != null) {
 			B.setValue(blue);
-		if (BSpinner != null)
+		}
+		if (BSpinner != null) {
 			BSpinner.setValue(Integer.valueOf(blue));
+		}
 
 		internalChange = false;
 		setLabels();

@@ -51,26 +51,32 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 
 	// support for MenuElement interface
 
+	@Override
 	public Component getComponent() {
 		return this;
 	}
 
+	@Override
 	public MenuElement[] getSubElements() {
 		return new MenuElement[0];
 	}
 
+	@Override
 	public void menuSelectionChanged(boolean arg0) {
 	}
 
+	@Override
 	public void processKeyEvent(KeyEvent arg0, MenuElement[] arg1,
 			MenuSelectionManager arg2) {
 	}
 
+	@Override
 	public void processMouseEvent(MouseEvent arg0, MenuElement[] arg1,
 			MenuSelectionManager arg2) {
 
-		if (this.getSelectedIndex() >= latexArray.length)
+		if (this.getSelectedIndex() >= latexArray.length) {
 			return;
+		}
 
 		if (arg0.getID() == MouseEvent.MOUSE_RELEASED) {
 

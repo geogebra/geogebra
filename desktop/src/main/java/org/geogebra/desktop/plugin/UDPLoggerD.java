@@ -40,6 +40,7 @@ public class UDPLoggerD extends SensorLogger {
 		super(kernel);
 	}
 
+	@Override
 	public void closeSocket() {
 		if (dsocket != null) {
 			dsocket.close();
@@ -347,8 +348,9 @@ public class UDPLoggerD extends SensorLogger {
 						Log.debug("waiting");
 						dsocket.receive(packet);
 					} catch (IOException e) {
-						if (dsocket != null)
+						if (dsocket != null) {
 							dsocket.close();
+						}
 						dsocket = null;
 						Log.debug("logging failed");
 
@@ -404,8 +406,9 @@ public class UDPLoggerD extends SensorLogger {
 
 				}
 
-				if (dsocket != null)
+				if (dsocket != null) {
 					dsocket.close();
+				}
 				Log.debug("thread ending");
 			}
 

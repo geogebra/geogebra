@@ -12,6 +12,7 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	void setToolBarDefinition(String allTools);
 
+	@Override
 	String getToolbarDefinition();
 
 	File showSaveDialog(FileExtensions fileExtension, File currentFile,

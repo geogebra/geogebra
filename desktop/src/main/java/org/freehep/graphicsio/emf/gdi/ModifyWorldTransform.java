@@ -32,6 +32,7 @@ public class ModifyWorldTransform extends EMFTag implements EMFConstants {
 		this.mode = mode;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -40,11 +41,13 @@ public class ModifyWorldTransform extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeXFORM(transform);
 		emf.writeDWORD(mode);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  transform: " + transform + "\n"
 				+ "  mode: " + mode;

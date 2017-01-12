@@ -65,7 +65,7 @@ public final class Note implements JFugueElement {
 	 *            the numeric value of the note. C5 is 60.
 	 */
 	public Note(byte value) {
-		this(value, (long) 1);
+		this(value, 1);
 	}
 
 	/**
@@ -349,6 +349,7 @@ public final class Note implements JFugueElement {
 	 * 
 	 * @return the Music String for this element
 	 */
+	@Override
 	public String getMusicString() {
 		StringBuffer buffy = new StringBuffer();
 
@@ -386,6 +387,7 @@ public final class Note implements JFugueElement {
 	 * 
 	 * @version 4.0
 	 */
+	@Override
 	public String getVerifyString() {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("Note: value=");
@@ -547,38 +549,39 @@ public final class Note implements JFugueElement {
 	 * @return a MusicString fragment representing the duration
 	 */
 	public static String getStringForDuration(double decimalDuration) {
-		if (decimalDuration == 1.0)
+		if (decimalDuration == 1.0) {
 			return "w";
-		else if (decimalDuration == 0.75)
+		} else if (decimalDuration == 0.75) {
 			return "h.";
-		else if (decimalDuration == 0.5)
+		} else if (decimalDuration == 0.5) {
 			return "h";
-		else if (decimalDuration == 0.375)
+		} else if (decimalDuration == 0.375) {
 			return "q.";
-		else if (decimalDuration == 0.25)
+		} else if (decimalDuration == 0.25) {
 			return "q";
-		else if (decimalDuration == 0.1875)
+		} else if (decimalDuration == 0.1875) {
 			return "i.";
-		else if (decimalDuration == 0.125)
+		} else if (decimalDuration == 0.125) {
 			return "i";
-		else if (decimalDuration == 0.09375)
+		} else if (decimalDuration == 0.09375) {
 			return "s.";
-		else if (decimalDuration == 0.0625)
+		} else if (decimalDuration == 0.0625) {
 			return "s";
-		else if (decimalDuration == 0.046875)
+		} else if (decimalDuration == 0.046875) {
 			return "t.";
-		else if (decimalDuration == 0.03125)
+		} else if (decimalDuration == 0.03125) {
 			return "t";
-		else if (decimalDuration == 0.0234375)
+		} else if (decimalDuration == 0.0234375) {
 			return "x.";
-		else if (decimalDuration == 0.015625)
+		} else if (decimalDuration == 0.015625) {
 			return "x";
-		else if (decimalDuration == 0.01171875)
+		} else if (decimalDuration == 0.01171875) {
 			return "o.";
-		else if (decimalDuration == 0.0078125)
+		} else if (decimalDuration == 0.0078125) {
 			return "o";
-		else
+		} else {
 			return "/" + decimalDuration;
+		}
 	}
 
 	/**
@@ -599,38 +602,39 @@ public final class Note implements JFugueElement {
 	 */
 	public static double getDecimalForDuration(String stringDuration) {
 		String stringDuration2 = stringDuration.toLowerCase();
-		if (stringDuration2.equals("w"))
+		if (stringDuration2.equals("w")) {
 			return 1.0;
-		else if (stringDuration2.equals("h."))
+		} else if (stringDuration2.equals("h.")) {
 			return 0.75;
-		else if (stringDuration2.equals("h"))
+		} else if (stringDuration2.equals("h")) {
 			return 0.5;
-		else if (stringDuration2.equals("q."))
+		} else if (stringDuration2.equals("q.")) {
 			return 0.375;
-		else if (stringDuration2.equals("q"))
+		} else if (stringDuration2.equals("q")) {
 			return 0.25;
-		else if (stringDuration2.equals("i."))
+		} else if (stringDuration2.equals("i.")) {
 			return 0.1875;
-		else if (stringDuration2.equals("i"))
+		} else if (stringDuration2.equals("i")) {
 			return 0.125;
-		else if (stringDuration2.equals("s."))
+		} else if (stringDuration2.equals("s.")) {
 			return 0.09375;
-		else if (stringDuration2.equals("s"))
+		} else if (stringDuration2.equals("s")) {
 			return 0.0625;
-		else if (stringDuration2.equals("t."))
+		} else if (stringDuration2.equals("t.")) {
 			return 0.046875;
-		else if (stringDuration2.equals("t"))
+		} else if (stringDuration2.equals("t")) {
 			return 0.03125;
-		else if (stringDuration2.equals("x."))
+		} else if (stringDuration2.equals("x.")) {
 			return 0.0234375;
-		else if (stringDuration2.equals("x"))
+		} else if (stringDuration2.equals("x")) {
 			return 0.015625;
-		else if (stringDuration2.equals("o."))
+		} else if (stringDuration2.equals("o.")) {
 			return 0.01171875;
-		else if (stringDuration2.equals("o"))
+		} else if (stringDuration2.equals("o")) {
 			return 0.0078125;
-		else
+		} else {
 			return 0.0;
+		}
 	}
 
 	public static final String[] NOTES = new String[] { "C", "C#", "D", "Eb",

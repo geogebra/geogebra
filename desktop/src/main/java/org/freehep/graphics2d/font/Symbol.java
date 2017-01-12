@@ -965,28 +965,35 @@ public class Symbol extends AbstractCharTable {
 
 	}
 
+	@Override
 	public String toName(Character c) {
 		return ((String) unicodeToName.get(c));
 	}
 
+	@Override
 	public String toName(int enc) {
-		if (enc != 0)
+		if (enc != 0) {
 			return (encToName[enc]);
+		}
 		return (null);
 	}
 
+	@Override
 	public int toEncoding(String name) {
 		return (((Integer) (nameToEnc.get(name))).intValue());
 	}
 
+	@Override
 	public char toUnicode(String name) {
 		return (((Character) (nameToUnicode.get(name))).charValue());
 	}
 
+	@Override
 	public String getName() {
 		return ("Symbol");
 	}
 
+	@Override
 	public String getEncoding() {
 		return ("");
 	}

@@ -35,8 +35,9 @@ public final class OptFunctionNode {
 
 	void setDirectTargetIndex(int directTargetIndex) {
 		// One time action
-		if (directTargetIndex < 0 || this.directTargetIndex >= 0)
+		if (directTargetIndex < 0 || this.directTargetIndex >= 0) {
 			Kit.codeBug();
+		}
 		this.directTargetIndex = directTargetIndex;
 	}
 
@@ -67,8 +68,9 @@ public final class OptFunctionNode {
 	void setIsNumberVar(int varIndex) {
 		varIndex -= fnode.getParamCount();
 		// Can only be used with non-parameters
-		if (varIndex < 0)
+		if (varIndex < 0) {
 			Kit.codeBug();
+		}
 		if (numberVarFlags == null) {
 			int size = fnode.getParamAndVarCount() - fnode.getParamCount();
 			numberVarFlags = new boolean[size];
@@ -89,8 +91,9 @@ public final class OptFunctionNode {
 				throw Kit.codeBug();
 			}
 			index = fnode.getIndexForNameNode(node);
-			if (index < 0)
+			if (index < 0) {
 				throw Kit.codeBug();
+			}
 			n.putIntProp(Node.VARIABLE_PROP, index);
 		}
 		return index;

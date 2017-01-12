@@ -81,6 +81,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 		defaultTableModel.setValueAt(value, row, column);
 	}
 
+	@Override
 	public boolean hasFocus() {
 		Log.debug("unimplemented");
 		return false;
@@ -90,11 +91,13 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 		Log.debug("unimplemented");
 	}
 
+	@Override
 	public boolean isShowing() {
 		Log.debug("unimplemented");
 		return false;
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web

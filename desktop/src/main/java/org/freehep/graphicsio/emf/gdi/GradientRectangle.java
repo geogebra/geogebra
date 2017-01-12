@@ -26,11 +26,13 @@ public class GradientRectangle extends Gradient {
 		lowerRight = emf.readULONG();
 	}
 
+	@Override
 	public void write(EMFOutputStream emf) throws IOException {
 		emf.writeULONG(upperLeft);
 		emf.writeULONG(lowerRight);
 	}
 
+	@Override
 	public String toString() {
 		return "  GradientRectangle: " + upperLeft + ", " + lowerRight;
 	}

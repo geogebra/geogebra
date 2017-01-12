@@ -172,15 +172,17 @@ public final class NativeJSON extends IdScriptableObject {
 				for (Object p : keys) {
 					Object newElement = walk(cx, scope, reviver, val, p);
 					if (newElement == Undefined.instance) {
-						if (p instanceof Number)
+						if (p instanceof Number) {
 							val.delete(((Number) p).intValue());
-						else
+						} else {
 							val.delete((String) p);
+						}
 					} else {
-						if (p instanceof Number)
+						if (p instanceof Number) {
 							val.put(((Number) p).intValue(), val, newElement);
-						else
+						} else {
 							val.put((String) p, val, newElement);
+						}
 					}
 				}
 			}
@@ -302,12 +304,15 @@ public final class NativeJSON extends IdScriptableObject {
 					.getDefaultValue(ScriptRuntime.BooleanClass);
 		}
 
-		if (value == null)
+		if (value == null) {
 			return "null";
-		if (value.equals(Boolean.TRUE))
+		}
+		if (value.equals(Boolean.TRUE)) {
 			return "true";
-		if (value.equals(Boolean.FALSE))
+		}
+		if (value.equals(Boolean.FALSE)) {
 			return "false";
+		}
 
 		if (value instanceof CharSequence) {
 			return quote(value.toString());
@@ -338,8 +343,9 @@ public final class NativeJSON extends IdScriptableObject {
 			return "";
 		}
 		Iterator<Object> iter = objs.iterator();
-		if (!iter.hasNext())
+		if (!iter.hasNext()) {
 			return "";
+		}
 		StringBuilder builder = new StringBuilder(iter.next().toString());
 		while (iter.hasNext()) {
 			builder.append(delimiter).append(iter.next().toString());
@@ -513,8 +519,9 @@ public final class NativeJSON extends IdScriptableObject {
 				id = Id_stringify;
 				break L;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 		}
 		// #/generated#
 		return id;

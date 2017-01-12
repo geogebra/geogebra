@@ -624,8 +624,9 @@ public class TraceDialog extends javax.swing.JDialog
 		for (GeoElement geo : traceManager.getTraceGeoList()) {
 			traceGeoListModel.addElement(geo);
 		}
-		if (selectedGeo != null && traceGeoListModel.contains(selectedGeo))
+		if (selectedGeo != null && traceGeoListModel.contains(selectedGeo)) {
 			traceGeoList.setSelectedValue(selectedGeo, true);
+		}
 		traceGeoList.addListSelectionListener(this);
 	}
 
@@ -633,6 +634,7 @@ public class TraceDialog extends javax.swing.JDialog
 	// Event Listeners and Handlers
 	// ======================================================
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
 	}
@@ -727,6 +729,7 @@ public class TraceDialog extends javax.swing.JDialog
 	}
 
 	/** Listener for selection changes in the traceGeoList */
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// if(getSettings() != null) getSettings().debug(getSelectedGeo());
 		if (!e.getValueIsAdjusting()) {
@@ -735,6 +738,7 @@ public class TraceDialog extends javax.swing.JDialog
 	}
 
 	/** Listener for changes in geo selection */
+	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 
 		if (traceManager.isTraceGeo(geo)) {
@@ -793,8 +797,9 @@ public class TraceDialog extends javax.swing.JDialog
 	}
 
 	private SpreadsheetTraceSettings getSettings() {
-		if (traceGeoList.isSelectionEmpty())
+		if (traceGeoList.isSelectionEmpty()) {
 			return null;
+		}
 
 		return ((GeoElement) traceGeoList.getSelectedValue())
 				.getTraceSettings();
@@ -852,9 +857,11 @@ public class TraceDialog extends javax.swing.JDialog
 		return cr;
 	}
 
+	@Override
 	public void focusGained(FocusEvent arg0) {
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		// doActionPerformed(e.getSource());
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
@@ -890,8 +897,9 @@ public class TraceDialog extends javax.swing.JDialog
 				&& euclidianMode != EuclidianConstants.MODE_SELECTION_LISTENER
 				&& (mode == MODE_ADD || mode == MODE_LOCATE)) {
 			setMode(MODE_NORMAL);
-			if (isIniting)
+			if (isIniting) {
 				closeDialog();
+			}
 		}
 	}
 
@@ -914,25 +922,32 @@ public class TraceDialog extends javax.swing.JDialog
 		view.repaintView();
 	}
 
+	@Override
 	public void windowActivated(WindowEvent arg0) {
 	}
 
+	@Override
 	public void windowClosed(WindowEvent arg0) {
 	}
 
+	@Override
 	public void windowClosing(WindowEvent arg0) {
 		closeDialog();
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent arg0) {
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent arg0) {
 	}
 
+	@Override
 	public void windowIconified(WindowEvent arg0) {
 	}
 
+	@Override
 	public void windowOpened(WindowEvent arg0) {
 	}
 
@@ -956,12 +971,14 @@ public class TraceDialog extends javax.swing.JDialog
 			if (value != null) {
 				GeoElement geo = (GeoElement) value;
 				String text = geo.getLongDescriptionHTML(true, true);
-				if (text.length() < 100)
+				if (text.length() < 100) {
 					setText(text);
-				else
+				} else {
 					setText(geo.getNameDescriptionHTML(true, true));
-			} else
+				}
+			} else {
 				setText(" ");
+			}
 			return this;
 		}
 

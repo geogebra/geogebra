@@ -60,7 +60,7 @@ public abstract class TTFInput {
 	public final double readFixed() throws IOException {
 		int major = readShort();
 		int minor = readShort();
-		return (double) major + (double) minor / 16384d;
+		return major + minor / 16384d;
 	}
 
 	public final double readF2Dot14() throws IOException {
@@ -68,9 +68,10 @@ public abstract class TTFInput {
 		int minor = readByte();
 		int fraction = minor + ((major & 0x3f) << 8);
 		int mantissa = major >> 6;
-		if (mantissa >= 2)
+		if (mantissa >= 2) {
 			mantissa -= 4;
-		return (double) mantissa + (double) fraction / 16384d;
+		}
+		return mantissa + fraction / 16384d;
 	}
 
 	// ------------------------------------------------------------
@@ -140,15 +141,17 @@ public abstract class TTFInput {
 
 	public int[] readUShortArray(int n) throws IOException {
 		int[] temp = new int[n];
-		for (int i = 0; i < temp.length; i++)
+		for (int i = 0; i < temp.length; i++) {
 			temp[i] = readUShort();
+		}
 		return temp;
 	}
 
 	public short[] readShortArray(int n) throws IOException {
 		short[] temp = new short[n];
-		for (int i = 0; i < temp.length; i++)
+		for (int i = 0; i < temp.length; i++) {
 			temp[i] = readShort();
+		}
 		return temp;
 	}
 

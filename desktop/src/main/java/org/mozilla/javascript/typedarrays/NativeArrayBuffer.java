@@ -136,8 +136,9 @@ public class NativeArrayBuffer extends IdScriptableObject {
 
 	private static NativeArrayBuffer realThis(Scriptable thisObj,
 			IdFunctionObject f) {
-		if (!(thisObj instanceof NativeArrayBuffer))
+		if (!(thisObj instanceof NativeArrayBuffer)) {
 			throw incompatibleCallError(f);
+		}
 		return (NativeArrayBuffer) thisObj;
 	}
 
@@ -184,8 +185,9 @@ public class NativeArrayBuffer extends IdScriptableObject {
 				X = "constructor";
 				id = Id_constructor;
 			}
-			if (X != null && X != s && !X.equals(s))
+			if (X != null && X != s && !X.equals(s)) {
 				id = 0;
+			}
 			break L0;
 		}
 		// #/generated#

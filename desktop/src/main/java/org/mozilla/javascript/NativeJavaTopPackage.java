@@ -34,11 +34,13 @@ public class NativeJavaTopPackage extends NativeJavaPackage
 		super(true, "", loader);
 	}
 
+	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj,
 			Object[] args) {
 		return construct(cx, scope, args);
 	}
 
+	@Override
 	public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
 		ClassLoader loader = null;
 		if (args.length != 0) {
@@ -100,6 +102,7 @@ public class NativeJavaTopPackage extends NativeJavaPackage
 		}
 	}
 
+	@Override
 	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
 			Scriptable thisObj, Object[] args) {
 		if (f.hasTag(FTAG)) {
@@ -125,10 +128,13 @@ public class NativeJavaTopPackage extends NativeJavaPackage
 						: name.substring(offset, index);
 				Object prop = result.get(propName, result);
 				if (!(prop instanceof Scriptable))
+				 {
 					break; // fall through to error
+				}
 				result = (Scriptable) prop;
-				if (index == -1)
+				if (index == -1) {
 					return result;
+				}
 				offset = index + 1;
 			}
 		}

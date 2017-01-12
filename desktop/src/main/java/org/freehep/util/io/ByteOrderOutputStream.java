@@ -54,11 +54,13 @@ public class ByteOrderOutputStream extends BitOutputStream
 		return written;
 	}
 
+	@Override
 	public synchronized void write(int b) throws IOException {
 		super.write(b);
 		written++;
 	}
 
+	@Override
 	public void writeBoolean(boolean b) throws IOException {
 		if (b) {
 			write(1);
@@ -67,6 +69,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 		}
 	}
 
+	@Override
 	public void writeChar(int c) throws IOException {
 		if (little) {
 			write(c & 0xFF);
@@ -80,6 +83,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 	/**
 	 * Write a signed byte.
 	 */
+	@Override
 	public void writeByte(int b) throws IOException {
 
 		byteAlign();
@@ -135,6 +139,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 	/**
 	 * Write a signed short.
 	 */
+	@Override
 	public void writeShort(int s) throws IOException {
 
 		byteAlign();
@@ -200,6 +205,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 	/**
 	 * Write a signed integer.
 	 */
+	@Override
 	public void writeInt(int i) throws IOException {
 
 		if (little) {
@@ -268,6 +274,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 		}
 	}
 
+	@Override
 	public void writeLong(long l) throws IOException {
 		if (little) {
 			write((int) (l & 0xFF));
@@ -290,20 +297,24 @@ public class ByteOrderOutputStream extends BitOutputStream
 		}
 	}
 
+	@Override
 	public void writeFloat(float f) throws IOException {
 		writeInt(Float.floatToIntBits(f));
 	}
 
+	@Override
 	public void writeDouble(double d) throws IOException {
 		writeLong(Double.doubleToLongBits(d));
 	}
 
+	@Override
 	public void writeBytes(String s) throws IOException {
 		for (int i = 0; i < s.length(); i++) {
 			writeByte(s.charAt(i));
 		}
 	}
 
+	@Override
 	public void writeChars(String s) throws IOException {
 		for (int i = 0; i < s.length(); i++) {
 			writeChar(s.charAt(i));
@@ -322,6 +333,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 		writeUTF(s);
 	}
 
+	@Override
 	public void writeUTF(String s) throws IOException {
 		writeUTF(s, this);
 	}
@@ -370,8 +382,9 @@ public class ByteOrderOutputStream extends BitOutputStream
 			}
 		}
 
-		if (utflen > 65535)
+		if (utflen > 65535) {
 			throw new UTFDataFormatException();
+		}
 
 		byte[] bytearr = new byte[utflen + 2];
 		bytearr[count++] = (byte) ((utflen >>> 8) & 0xFF);

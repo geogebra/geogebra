@@ -174,8 +174,9 @@ public class PNGEncoder extends Object implements ImageObserver {
 	}
 
 	public void addText(String key, String value) {
-		if ((key == null) || (key.length() == 0))
+		if ((key == null) || (key.length() == 0)) {
 			key = "Comment";
+		}
 		keys.add(key.substring(0, Math.min(79, key.length())));
 		text.add(value);
 	}
@@ -195,6 +196,7 @@ public class PNGEncoder extends Object implements ImageObserver {
 	/** method to wait for image */
 	private int imageStatus;
 
+	@Override
 	public boolean imageUpdate(Image image, int flags, int x, int y, int width,
 			int height) {
 		imageStatus = flags;

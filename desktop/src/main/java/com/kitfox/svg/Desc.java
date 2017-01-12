@@ -52,6 +52,7 @@ public class Desc extends SVGElement {
 	public Desc() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -59,6 +60,7 @@ public class Desc extends SVGElement {
 	/**
 	 * Called during load process to add text scanned within a tag
 	 */
+	@Override
 	public void loaderAddText(SVGLoaderHelper helper, String text) {
 		this.text.append(text);
 	}
@@ -67,6 +69,7 @@ public class Desc extends SVGElement {
 		return text.toString();
 	}
 
+	@Override
 	public boolean updateTime(double curTime) {
 		return false;
 	}

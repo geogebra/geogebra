@@ -61,10 +61,12 @@ public class Ellipse extends ShapeElement {
 	public Ellipse() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -89,16 +91,19 @@ public class Ellipse extends ShapeElement {
 		ellipse.setFrame(cx - rx, cy - ry, rx * 2f, ry * 2f);
 	}
 
+	@Override
 	public void render(Graphics2D g) throws SVGException {
 		beginLayer(g);
 		renderShape(g, ellipse);
 		finishLayer(g);
 	}
 
+	@Override
 	public Shape getShape() {
 		return shapeToParent(ellipse);
 	}
 
+	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		return boundsToParent(includeStrokeInBounds(ellipse.getBounds2D()));
 	}
@@ -110,6 +115,7 @@ public class Ellipse extends ShapeElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 		boolean changeState = super.updateTime(curTime);

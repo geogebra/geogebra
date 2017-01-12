@@ -142,6 +142,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		this.ec = this.getEuclidianController();
 	}
 
+	@Override
 	public void setViewId(Kernel kernel) {
 		// get viewID from GuiManager
 		commonFields.setViewID(
@@ -200,6 +201,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 * Uses the values stored in the plotSettings field to update the features
 	 * of this EuclidianView (e.g. axes visibility)
 	 */
+	@Override
 	public void setEVParams() {
 		commonFields.setEVParams(this);
 	}
@@ -208,19 +210,23 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	// Component Listener
 	// ===========================================================
 
+	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// ignore
 	}
 
+	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// ignore
 	}
 
+	@Override
 	public void componentResized(ComponentEvent arg0) {
 		// make sure that we force a pixel buffer under the x-axis
 		setEVParams();
 	}
 
+	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// ignore
 	}
@@ -287,6 +293,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	private class MyMouseListener implements MouseListener {
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
 			// right click shows context menu
 			if (AppD.isRightClick(e)) {
@@ -296,22 +303,26 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			}
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			if (AppD.isRightClick(e)) {
 				e.consume();
 			}
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			if (AppD.isRightClick(e)) {
 				e.consume();
 			}
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent e) {
 			// ignore
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e) {
 			// ignore
 		}
@@ -323,11 +334,13 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	class MyMouseMotionListener implements MouseMotionListener {
 
+		@Override
 		public void mouseDragged(MouseEvent e) {
 			// ignore
 		}
 
 		/** handles mouse motion over the drag region */
+		@Override
 		public void mouseMoved(MouseEvent e) {
 			commonFields.setOverDragRegion(e.getPoint().y < 10);
 			setDefaultCursor();
@@ -425,6 +438,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			getApplication().getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				Thread runner = new Thread() {
@@ -465,6 +479,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			getApplication().getEmptyIcon()) {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			getApplication().getSelectionManager().clearSelectedGeos(true,
 					false);
@@ -492,28 +507,34 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 				DnDConstants.ACTION_COPY, this);
 	}
 
+	@Override
 	public void dragDropEnd(DragSourceDropEvent e) {
 		// clean up selection rectangle
 		plotPanelEV.setSelectionRectangle(null);
 		plotPanelEV.repaint();
 	}
 
+	@Override
 	public void dragEnter(DragSourceDragEvent e) {
 		// ignore
 	}
 
+	@Override
 	public void dragExit(DragSourceEvent e) {
 		// ignore
 	}
 
+	@Override
 	public void dragOver(DragSourceDragEvent e) {
 		// ignore
 	}
 
+	@Override
 	public void dropActionChanged(DragSourceDragEvent e) {
 		// ignore
 	}
 
+	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
 		if (commonFields.isOverDragRegion()) {
@@ -543,10 +564,12 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			// act = sampleAction;
 		}
 
+		@Override
 		public DataFlavor[] getTransferDataFlavors() {
 			return supportedFlavors;
 		}
 
+		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
 			for (int i = 0; i < supportedFlavors.length; i++) {
 				if (flavor.equals(supportedFlavors[i])) {
@@ -556,6 +579,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			return false;
 		}
 
+		@Override
 		public Object getTransferData(DataFlavor flavor)
 				throws UnsupportedFlavorException {
 			if (flavor.equals(plotPanelFlavor)) {
@@ -568,6 +592,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		}
 	}
 
+	@Override
 	public double getPixelOffset() {
 		return (30 * getApplication().getSmallFont().getSize()) / 12.0;
 	}

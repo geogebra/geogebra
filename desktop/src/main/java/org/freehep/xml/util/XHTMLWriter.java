@@ -43,6 +43,7 @@ public class XHTMLWriter extends XMLWriter {
 		this(w, "  ", "strict");
 	}
 
+	@Override
 	public void closeDoc() {
 		if (!closed) {
 			closeTag();
@@ -50,6 +51,7 @@ public class XHTMLWriter extends XMLWriter {
 		super.closeDoc();
 	}
 
+	@Override
 	public void printTag(String name) {
 		checkNameValid(name);
 		writer.print("<" + name);
@@ -57,6 +59,7 @@ public class XHTMLWriter extends XMLWriter {
 		writer.println(" />");
 	}
 
+	@Override
 	public void setAttribute(String name, boolean value) {
 		if (value) {
 			setAttribute(name, name);

@@ -38,8 +38,9 @@ public class CommandLineArguments {
 	public CommandLineArguments(String[] cmdArgs) {
 		args = new HashMap<String, String>();
 
-		if (cmdArgs == null)
+		if (cmdArgs == null) {
 			return;
+		}
 
 		// loop through arguments
 		for (int i = 0; i < cmdArgs.length; ++i) {

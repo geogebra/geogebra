@@ -16,39 +16,48 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 		impl = new QuadCurve2D.Double();
 	}
 
+	@Override
 	public void setCurve(double[] parpoints, int i) {
 		impl.setCurve(parpoints, i);
 	}
 
+	@Override
 	public boolean contains(double xTry, double yTry) {
 		return impl.contains(xTry, yTry);
 	}
 
+	@Override
 	public boolean intersects(double x, double y, double lengthX,
 			double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
+	@Override
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i, j, k, l);
 	}
 
+	@Override
 	public boolean contains(int x, int y) {
 		return impl.contains(x, y);
 	}
 
+	@Override
 	public GRectangleD getBounds() {
 		return new GRectangleD(impl.getBounds());
 	}
 
+	@Override
 	public GRectangle2D getBounds2D() {
 		return new GGenericRectangle2DD(impl.getBounds2D());
 	}
 
+	@Override
 	public boolean contains(GRectangle2D rectangle) {
 		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
+	@Override
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
@@ -59,14 +68,17 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
+	@Override
 	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
+	@Override
 	public Shape getAwtShape() {
 		return impl;
 	}
 
+	@Override
 	public void setCurve(double x1, double y1, double ctrlx, double ctrly,
 			double x2, double y2) {
 		impl.setCurve(x1, y1, ctrlx, ctrly, x2, y2);

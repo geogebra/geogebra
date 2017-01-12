@@ -58,8 +58,9 @@ public abstract class SecurityController {
 	 * @see #hasGlobal()
 	 */
 	public static void initGlobal(SecurityController controller) {
-		if (controller == null)
+		if (controller == null) {
 			throw new IllegalArgumentException();
+		}
 		if (global != null) {
 			throw new SecurityException(
 					"Cannot overwrite already installed global SecurityController");
@@ -148,6 +149,7 @@ public abstract class SecurityController {
 			final Callable callable, Scriptable scope, final Scriptable thisObj,
 			final Object[] args) {
 		return execWithDomain(cx, scope, new Script() {
+			@Override
 			public Object exec(Context cx, Scriptable scope) {
 				return callable.call(cx, scope, thisObj, args);
 			}

@@ -65,6 +65,7 @@ public class FullWidthLayout implements LayoutManager {
 	/**
 	 * @return The preferred size of the container.
 	 */
+	@Override
 	public Dimension preferredLayoutSize(Container parent) {
 		calculateSizes(parent);
 		sizeUnknown = false;
@@ -77,6 +78,7 @@ public class FullWidthLayout implements LayoutManager {
 	/**
 	 * @return The minimum size of the container.
 	 */
+	@Override
 	public Dimension minimumLayoutSize(Container parent) {
 		if (sizeUnknown) {
 			calculateSizes(parent);
@@ -91,6 +93,7 @@ public class FullWidthLayout implements LayoutManager {
 	/**
 	 * Layout components.
 	 */
+	@Override
 	public void layoutContainer(Container parent) {
 		Insets insets = parent.getInsets();
 
@@ -121,12 +124,14 @@ public class FullWidthLayout implements LayoutManager {
 	/**
 	 * Not implemented.
 	 */
+	@Override
 	public void addLayoutComponent(String name, Component comp) {
 	}
 
 	/**
 	 * Not implemented.
 	 */
+	@Override
 	public void removeLayoutComponent(Component comp) {
 	}
 

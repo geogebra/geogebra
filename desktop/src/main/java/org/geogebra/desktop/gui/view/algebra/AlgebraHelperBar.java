@@ -139,6 +139,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/**
 	 * React to button presses.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == toggleAuxiliary) {
 			app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
@@ -177,6 +178,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setText(loc.getMenu(sort.toString()));
 
 			mi.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					algebraView.setTreeMode(sort);
 					buildTreeModeMenu();
@@ -214,6 +216,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setText(modes[i]);
 			final int current = i;
 			mi.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					app.getKernel().setAlgebraStyle(current);
 					app.getKernel().updateConstruction();

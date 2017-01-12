@@ -82,6 +82,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 		return this;
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		handleModeNode(((Integer) value).intValue());
@@ -92,10 +93,11 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 	private void handleRootNode(DefaultMutableTreeNode node) {
 		setIcon(null);
 		Object ob = node.getUserObject();
-		if (ob != null)
+		if (ob != null) {
 			setText(ob.toString());
-		else
+		} else {
 			setText(app.getMenu("Toolbar"));
+		}
 	}
 
 	private void handleModeNode(int mode) {

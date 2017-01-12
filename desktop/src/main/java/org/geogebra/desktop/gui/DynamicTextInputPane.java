@@ -91,12 +91,14 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return focusedTextComponent;
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof JTextComponent) {
 			focusedTextComponent = (JTextComponent) e.getSource();
 		}
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
 	}
@@ -149,10 +151,11 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				int commaIndex = temp.lastIndexOf(',');
 				int bracketCount = 0;
 				for (int i = commaIndex + 1; i < temp.length(); i++) {
-					if (temp.charAt(i) == '[')
+					if (temp.charAt(i) == '[') {
 						bracketCount++;
-					else if (temp.charAt(i) == ']')
+					} else if (temp.charAt(i) == ']') {
 						bracketCount--;
+					}
 				}
 				if (bracketCount != 0 || commaIndex == -1) {
 					// no second argument
@@ -258,8 +261,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		super.setText("");
 
-		if (geo == null)
+		if (geo == null) {
 			return;
+		}
 
 		if (geo.isIndependent()) {
 			super.setText(geo.getTextString());
@@ -291,9 +295,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				DynamicTextField d = insertDynamicText(
 						((GeoElement) left).getLabel(tpl), -1, id);
 				d.getDocument().addDocumentListener(id);
-			} else if (left.isExpressionNode())
+			} else if (left.isExpressionNode()) {
 				splitString((ExpressionNode) left, id);
-			else if (left instanceof MyStringBuffer) {
+			} else if (left instanceof MyStringBuffer) {
 				insertString(-1, left.toString(tpl).replaceAll("\"", ""), null);
 			} else {
 				insertDynamicText(left.toString(tpl), -1, id);
@@ -317,9 +321,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				DynamicTextField d = insertDynamicText(
 						((GeoElement) left).getLabel(tpl), -1, id);
 				d.getDocument().addDocumentListener(id);
-			} else if (left.isExpressionNode())
+			} else if (left.isExpressionNode()) {
 				this.splitString((ExpressionNode) left, id);
-			else if (left instanceof MyStringBuffer) {
+			} else if (left instanceof MyStringBuffer) {
 				insertString(-1, left.toString(tpl).replaceAll("\"", ""), null);
 			} else {
 				insertDynamicText(left.toString(tpl), -1, id);
@@ -330,9 +334,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 					DynamicTextField d = insertDynamicText(
 							((GeoElement) right).getLabel(tpl), -1, id);
 					d.getDocument().addDocumentListener(id);
-				} else if (right.isExpressionNode())
+				} else if (right.isExpressionNode()) {
 					this.splitString((ExpressionNode) right, id);
-				else if (right instanceof MyStringBuffer) {
+				} else if (right instanceof MyStringBuffer) {
 					insertString(-1, right.toString(tpl).replaceAll("\"", ""),
 							null);
 				} else {
@@ -382,8 +386,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		@Override
 		protected synchronized void damage(Rectangle r) {
-			if (r == null)
+			if (r == null) {
 				return;
+			}
 			x = r.x;
 			y = r.y;
 			width = 4;
@@ -465,15 +470,18 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 			// document listener to update enclosing text pane
 			getDocument().addDocumentListener(new DocumentListener() {
+				@Override
 				public void changedUpdate(DocumentEvent e) {
 					// do nothing
 				}
 
+				@Override
 				public void insertUpdate(DocumentEvent e) {
 					thisPane.revalidate();
 					thisPane.repaint();
 				}
 
+				@Override
 				public void removeUpdate(DocumentEvent e) {
 					thisPane.revalidate();
 					thisPane.repaint();
@@ -530,6 +538,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 					app.getLocalization().getMenu("Value"));
 			item.setSelected(mode == MODE_VALUE);
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					mode = MODE_VALUE;
 					id.handleDocumentEvent();
@@ -542,6 +551,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 					app.getLocalization().getMenu("Definition"));
 			item.setSelected(mode == MODE_DEFINITION);
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					mode = MODE_DEFINITION;
 					id.handleDocumentEvent();

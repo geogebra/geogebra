@@ -26,6 +26,7 @@ public class AppletImplementation3D extends AppletImplementation {
 		super(applet);
 	}
 
+	@Override
 	protected AppD buildApplication(CommandLineArguments args,
 			boolean undoActive) {
 		return new App3D(args, this, undoActive);

@@ -121,20 +121,26 @@ public class DataImportD extends DataImport {
 						// quotes ""
 						boolean containsComma = false;
 						boolean appendQuotes = false;
-						for (int i = 0; i < data.length; i++)
-							if (data[i] == ',')
+						for (int i = 0; i < data.length; i++) {
+							if (data[i] == ',') {
 								containsComma = true;
+							}
+						}
 
 						if (containsComma && (data[0] != '"'
-								|| data[data.length - 1] != '"'))
+								|| data[data.length - 1] != '"')) {
 							appendQuotes = true;
+						}
 
-						if (appendQuotes)
+						if (appendQuotes) {
 							sbHTML.append('"');
-						for (int i = 0; i < data.length; i++)
+						}
+						for (int i = 0; i < data.length; i++) {
 							sbHTML.append(data[i]);
-						if (appendQuotes)
+						}
+						if (appendQuotes) {
 							sbHTML.append('"');
+						}
 					}
 				}
 
@@ -143,22 +149,25 @@ public class DataImportD extends DataImport {
 						MutableAttributeSet attrSet, int pos) {
 					if (tag == HTML.Tag.TABLE) {
 						// Application.debug("table");
-						if (foundTable)
+						if (foundTable) {
 							finished = true;
+						}
 						foundTable = true;
 						firstColumn = true;
 						sbHTML.setLength(0);
 					} else if (foundTable && tag == HTML.Tag.TR) {
 						// Application.debug("TR");
-						if (!firstColumn)
+						if (!firstColumn) {
 							sbHTML.append("\n");
+						}
 						firstInRow = true;
 						firstColumn = false;
 					} else if (foundTable
 							&& (tag == HTML.Tag.TD || tag == HTML.Tag.TH)) {
 						// Application.debug("TD");
-						if (!firstInRow)
+						if (!firstInRow) {
 							sbHTML.append(",");
+						}
 						firstInRow = false;
 					} else if (!foundTable) {
 						// Application.debug("TR without table");

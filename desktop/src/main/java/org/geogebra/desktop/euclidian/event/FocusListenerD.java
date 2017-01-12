@@ -14,12 +14,14 @@ public class FocusListenerD
 		setListenerClass(listener);
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		GFocusEventD event = GFocusEventD.wrapEvent(e);
 		wrapFocusGained(event);
 		event.release();
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		GFocusEventD event = GFocusEventD.wrapEvent(e);
 		wrapFocusLost(event);

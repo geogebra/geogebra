@@ -82,6 +82,7 @@ public abstract class WebViewDialog extends JDialog {
 
 		// Initialize the webView in a JavaFX-Thread
 		Platform.runLater(new Runnable() {
+			@Override
 			public void run() {
 				initWebView(fxPanel, startURL);
 			}
@@ -109,6 +110,7 @@ public abstract class WebViewDialog extends JDialog {
 		// Listen for successful page load to query the login result
 		webView.getEngine().getLoadWorker().stateProperty()
 				.addListener(new ChangeListener<State>() {
+					@Override
 					public void changed(ObservableValue<? extends State> ov,
 							State oldState, State newState) {
 						if (newState == State.SUCCEEDED) {
@@ -202,6 +204,7 @@ public abstract class WebViewDialog extends JDialog {
 		// Some links need to be opened in an external browser. Add a listener
 		// to handle this clicks.
 		EventListener listener = new EventListener() {
+			@Override
 			public void handleEvent(Event ev) {
 				String domEventType = ev.getType();
 				Log.debug("EventType: " + domEventType);

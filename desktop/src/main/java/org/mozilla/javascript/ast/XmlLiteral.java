@@ -57,8 +57,9 @@ public class XmlLiteral extends AstNode {
 	public void setFragments(List<XmlFragment> fragments) {
 		assertNotNull(fragments);
 		this.fragments.clear();
-		for (XmlFragment fragment : fragments)
+		for (XmlFragment fragment : fragments) {
 			addFragment(fragment);
+		}
 	}
 
 	/**

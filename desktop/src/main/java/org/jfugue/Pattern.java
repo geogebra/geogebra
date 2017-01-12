@@ -547,8 +547,9 @@ public class Pattern implements Serializable {
 				if (timeNumberString.indexOf("[") == -1) {
 					long timeNumber = Long.parseLong(timeNumberString);
 					long newTime = timeNumber + offsetTime;
-					if (newTime < 0)
+					if (newTime < 0) {
 						newTime = 0;
+					}
 					buffy.append("@" + newTime);
 				} else {
 					buffy.append(tokens[i]);
@@ -654,6 +655,7 @@ public class Pattern implements Serializable {
 	/**
 	 * @version 3.0
 	 */
+	@Override
 	public String toString() {
 		return getMusicString();
 	}

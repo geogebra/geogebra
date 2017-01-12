@@ -187,8 +187,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			} // if (else leave it to original)
 		} // if
 			// --- New code end
-		if (singleton == null)
+		if (singleton == null) {
 			singleton = new GeoGebraPreferencesD();
+		}
 		return singleton;
 	}// getPref();
 
@@ -220,9 +221,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		}
 		// then check if user allows
-		if (systemAllows && ggbPrefs != null)
+		if (systemAllows && ggbPrefs != null) {
 			return Boolean.valueOf(getPref().loadPreference(
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
+		}
 		// else don't allow
 		return false;
 	}
@@ -262,10 +264,11 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	public File getDefaultFilePath() {
 		File file = new File(getPref().loadPreference(APP_FILE_ + "1", ""));
-		if (file.exists())
+		if (file.exists()) {
 			return file.getParentFile();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	/**
@@ -277,8 +280,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		// image path
 		String pathName = getPref().loadPreference(APP_CURRENT_IMAGE_PATH,
 				null);
-		if (pathName != null)
+		if (pathName != null) {
 			return new File(pathName);
+		}
 		return null;
 	}
 
@@ -287,9 +291,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	public void saveDefaultImagePath(File imgPath) {
 		try {
-			if (imgPath != null)
+			if (imgPath != null) {
 				getPref().savePreference(APP_CURRENT_IMAGE_PATH,
 						imgPath.getCanonicalPath());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -303,8 +308,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public Locale getDefaultLocale() {
 		// language
 		String strLocale = getPref().loadPreference(APP_LOCALE, null);
-		if (strLocale != null)
+		if (strLocale != null) {
 			return AppD.getLocale(strLocale);
+		}
 		return null;
 	}
 
@@ -454,8 +460,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 				if (temp != null) {
 					ggbPrefs.remove(key + partCount);
 					partCount++;
-				} else
+				} else {
 					break;
+				}
 			}
 		}
 
@@ -522,15 +529,17 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 				}
 			}
 			bos.flush();
-			if (bos.size() > 0)
+			if (bos.size() > 0) {
 				ret = bos.toByteArray();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			ret = null;
 		}
 
-		if (ret != null)
+		if (ret != null) {
 			return ret;
+		}
 		return def;
 	}
 

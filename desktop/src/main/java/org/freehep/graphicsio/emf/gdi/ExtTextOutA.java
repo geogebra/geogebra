@@ -39,6 +39,7 @@ public class ExtTextOutA extends EMFTag implements EMFConstants {
 		this.text = text;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -47,6 +48,7 @@ public class ExtTextOutA extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 		emf.writeDWORD(mode);
@@ -55,6 +57,7 @@ public class ExtTextOutA extends EMFTag implements EMFConstants {
 		text.write(emf);
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
 				+ "  mode: " + mode + "\n" + "  xScale: " + xScale + "\n"

@@ -105,6 +105,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 		((EuclidianStyleBar) styleBar).resetFirstPaint();
 	}
 
+	@Override
 	protected final JComponent loadComponent() {
 		if (panel == null) {
 			panel = new JPanel(new BorderLayout());

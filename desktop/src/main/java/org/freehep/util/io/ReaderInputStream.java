@@ -30,16 +30,19 @@ public class ReaderInputStream extends InputStream {
 	}
 
 	// Note: here we may loose Unicode data.
+	@Override
 	public int read() throws IOException {
 		return reader.read() & 0xFF;
 	}
 
 	// Note: here we may loose Unicode data.
+	@Override
 	public int read(byte[] b) throws IOException {
 		return read(b, 0, b.length);
 	}
 
 	// Note: here we may loose Unicode data.
+	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		char c[] = new char[len];
 		int result = reader.read(c, 0, len);
@@ -49,14 +52,17 @@ public class ReaderInputStream extends InputStream {
 		return result;
 	}
 
+	@Override
 	public int available() throws IOException {
 		return 0;
 	}
 
+	@Override
 	public void close() throws IOException {
 		reader.close();
 	}
 
+	@Override
 	public void mark(int readAheadLimit) {
 		// Note: IOException ignored
 		try {
@@ -66,14 +72,17 @@ public class ReaderInputStream extends InputStream {
 		}
 	}
 
+	@Override
 	public boolean markSupported() {
 		return reader.markSupported();
 	}
 
+	@Override
 	public void reset() throws IOException {
 		reader.reset();
 	}
 
+	@Override
 	public long skip(long n) throws IOException {
 		return reader.skip(n);
 	}

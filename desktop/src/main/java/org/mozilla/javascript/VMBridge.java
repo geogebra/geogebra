@@ -134,8 +134,9 @@ public abstract class VMBridge {
 		if (obj instanceof Wrapper) {
 			Object unwrapped = ((Wrapper) obj).unwrap();
 			Iterator<?> iterator = null;
-			if (unwrapped instanceof Iterator)
+			if (unwrapped instanceof Iterator) {
 				iterator = (Iterator<?>) unwrapped;
+			}
 			return iterator;
 		}
 		return null;

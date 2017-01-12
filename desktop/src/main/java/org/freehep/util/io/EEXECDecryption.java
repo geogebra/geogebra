@@ -51,6 +51,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 		return plain;
 	}
 
+	@Override
 	public int read() throws IOException {
 		if (first) {
 			byte[] bytes = new byte[n];
@@ -59,8 +60,9 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 				int c = in.read();
 				bytes[i] = (byte) c;
 				if (!Character.isDigit((char) c) && !((c >= 'a') && (c <= 'f'))
-						&& !((c >= 'A') && (c <= 'F')))
+						&& !((c >= 'A') && (c <= 'F'))) {
 					notHex = true;
+				}
 			}
 			if (notHex) {
 				for (int i = 0; i < bytes.length; i++) {
@@ -88,12 +90,14 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 		}
 
 		int b = in.read();
-		if (b == -1)
+		if (b == -1) {
 			return -1;
-		else
+		} else {
 			return decrypt(b);
+		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		super.close();
 		in.close();

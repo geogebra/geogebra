@@ -165,6 +165,7 @@ public class PrintPreviewD extends JDialog {
 		JButton btnPrint = new JButton(app.getMenu("Print"),
 				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT));
 		lst = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -173,8 +174,9 @@ public class PrintPreviewD extends JDialog {
 							PrinterJob prnJob = PrinterJob.getPrinterJob();
 							prnJob.setPageable(book);
 
-							if (!prnJob.printDialog())
+							if (!prnJob.printDialog()) {
 								return;
+							}
 							setCursor(Cursor
 									.getPredefinedCursor(Cursor.WAIT_CURSOR));
 							justPreview = false;
@@ -202,6 +204,7 @@ public class PrintPreviewD extends JDialog {
 		m_cbScale = new JComboBox(scales);
 		m_cbScale.setSelectedItem(m_scale + "%");
 		lst = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -209,8 +212,9 @@ public class PrintPreviewD extends JDialog {
 						setCursor(
 								Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 						String str = m_cbScale.getSelectedItem().toString();
-						if (str.endsWith("%"))
+						if (str.endsWith("%")) {
 							str = str.substring(0, str.length() - 1);
+						}
 						str = str.trim();
 						int scale = 0;
 						try {
@@ -237,6 +241,7 @@ public class PrintPreviewD extends JDialog {
 				(m_orientation == PageFormat.PORTRAIT) ? 0 : 1);
 
 		lst = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -251,8 +256,9 @@ public class PrintPreviewD extends JDialog {
 
 						PrintPreviewD prev = PrintPreviewD.this;
 						int width = prev.getPreferredSize().width;
-						if (width > prev.getWidth())
+						if (width > prev.getWidth()) {
 							setSize(width, prev.getHeight());
+						}
 						setCursor(Cursor.getDefaultCursor());
 					}
 				};
@@ -268,12 +274,14 @@ public class PrintPreviewD extends JDialog {
 
 		DockPanelD focusedPanel = ((GuiManagerD) app.getGuiManager())
 				.getLayout().getDockManager().getFocusedPanel();
-		if (focusedPanel == null)
+		if (focusedPanel == null) {
 			m_cbView.setSelectedItem(loc.getMenu("AllViews"));
-		else
+		} else {
 			m_cbView.setSelectedItem(loc.getMenu(focusedPanel.getViewTitle()));
+		}
 
 		ActionListener lst_view = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					@Override
@@ -361,6 +369,7 @@ public class PrintPreviewD extends JDialog {
 		// title
 		TitlePanel titlePanel = new TitlePanel(app);
 		lst = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				kernelChanged = true;
 				Thread runner = new Thread() {
@@ -442,6 +451,7 @@ public class PrintPreviewD extends JDialog {
 		cbEVscalePanel.setSelected(view.isPrintScaleString());
 		cbEVscalePanel.addActionListener(lst);
 		cbEVscalePanel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				view.setPrintScaleString(cbEVscalePanel.isSelected());
 			}
@@ -622,8 +632,9 @@ public class PrintPreviewD extends JDialog {
 		}
 
 		for (int k = 0; k < comps.length; k++) {
-			if (!(comps[k] instanceof PagePreview))
+			if (!(comps[k] instanceof PagePreview)) {
 				continue;
+			}
 			PagePreview pp = (PagePreview) comps[k];
 			lengths[pp.getTarget()]++;
 			pp.update();
@@ -684,8 +695,9 @@ public class PrintPreviewD extends JDialog {
 
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
-			if (!(comps[k] instanceof PagePreview))
+			if (!(comps[k] instanceof PagePreview)) {
 				continue;
+			}
 			PagePreview pp = (PagePreview) comps[k];
 			pp.setPageFormat(pageFormat);
 		}
@@ -697,8 +709,9 @@ public class PrintPreviewD extends JDialog {
 
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
-			if (!(comps[k] instanceof PagePreview))
+			if (!(comps[k] instanceof PagePreview)) {
 				continue;
+			}
 			PagePreview pp = (PagePreview) comps[k];
 			pp.setScale(scale);
 		}
@@ -715,8 +728,9 @@ public class PrintPreviewD extends JDialog {
 		@Override
 		public Dimension getPreferredSize() {
 			int n = getComponentCount();
-			if (n == 0)
+			if (n == 0) {
 				return new Dimension(H_GAP, V_GAP);
+			}
 			Component comp = getComponent(0);
 			Dimension dc = comp.getPreferredSize();
 			int w = dc.width;
@@ -725,8 +739,9 @@ public class PrintPreviewD extends JDialog {
 			Dimension dp = getParent().getSize();
 			int nCol = Math.max((dp.width - H_GAP) / (w + H_GAP), 1);
 			int nRow = n / nCol;
-			if (nRow * nCol < n)
+			if (nRow * nCol < n) {
 				nRow++;
+			}
 
 			int ww = nCol * (w + H_GAP) + H_GAP;
 			int hh = nRow * (h + V_GAP) + V_GAP;
@@ -752,8 +767,9 @@ public class PrintPreviewD extends JDialog {
 			int y = ins.top + V_GAP;
 
 			int n = getComponentCount();
-			if (n == 0)
+			if (n == 0) {
 				return;
+			}
 			Component comp = getComponent(0);
 			Dimension dc = comp.getPreferredSize();
 			int w = dc.width;
@@ -762,14 +778,16 @@ public class PrintPreviewD extends JDialog {
 			Dimension dp = getParent().getSize();
 			int nCol = Math.max((dp.width - H_GAP) / (w + H_GAP), 1);
 			int nRow = n / nCol;
-			if (nRow * nCol < n)
+			if (nRow * nCol < n) {
 				nRow++;
+			}
 
 			int index = 0;
 			for (int k = 0; k < nRow; k++) {
 				for (int m = 0; m < nCol; m++) {
-					if (index >= n)
+					if (index >= n) {
 						return;
+					}
 					comp = getComponent(index++);
 					comp.setBounds(x, y, w, h);
 					x += w + H_GAP;
@@ -783,10 +801,12 @@ public class PrintPreviewD extends JDialog {
 		 * **************** Pageable interface ***************
 		 */
 
+		@Override
 		public int getNumberOfPages() {
 			return getComponentCount();
 		}
 
+		@Override
 		public PageFormat getPageFormat(int pageIndex)
 				throws IndexOutOfBoundsException {
 			try {
@@ -796,6 +816,7 @@ public class PrintPreviewD extends JDialog {
 			}
 		}
 
+		@Override
 		public Printable getPrintable(int pageIndex)
 				throws IndexOutOfBoundsException {
 			return m_target.get(0);

@@ -55,8 +55,9 @@ public class Label extends Jump {
 	 */
 	public void setName(String name) {
 		name = name == null ? null : name.trim();
-		if (name == null || "".equals(name))
+		if (name == null || "".equals(name)) {
 			throw new IllegalArgumentException("invalid label name");
+		}
 		this.name = name;
 	}
 

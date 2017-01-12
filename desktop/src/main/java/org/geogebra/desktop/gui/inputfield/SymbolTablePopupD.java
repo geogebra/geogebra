@@ -104,9 +104,11 @@ public class SymbolTablePopupD {
 
 	private class PopupListener implements PopupMenuListener {
 
+		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
 		}
 
+		@Override
 		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 
 			// remove text field key listeners and replace with our own;
@@ -117,6 +119,7 @@ public class SymbolTablePopupD {
 			textField.addKeyListener(keyListener);
 		}
 
+		@Override
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 			// return old key listeners to the text field
 			textField.removeKeyListener(keyListener);
@@ -225,8 +228,9 @@ public class SymbolTablePopupD {
 	}
 
 	public void handlePopupSelection() {
-		if (symbolTable.getSelectedValue() != null)
+		if (symbolTable.getSelectedValue() != null) {
 			textField.insertString((String) symbolTable.getSelectedValue());
+		}
 	}
 
 	public void handleSpecialKeys(KeyEvent keyEvent) {
@@ -256,15 +260,19 @@ public class SymbolTablePopupD {
 			int row = symbolTable.getSelectedRow();
 			int column = symbolTable.getSelectedColumn();
 			if (keyCode == KeyEvent.VK_RIGHT
-					&& column != symbolTable.getColumnCount() - 1)
+					&& column != symbolTable.getColumnCount() - 1) {
 				++column;
-			if (keyCode == KeyEvent.VK_LEFT && column >= 0)
+			}
+			if (keyCode == KeyEvent.VK_LEFT && column >= 0) {
 				--column;
+			}
 			if (keyCode == KeyEvent.VK_DOWN
-					&& row != symbolTable.getRowCount() - 1)
+					&& row != symbolTable.getRowCount() - 1) {
 				++row;
-			if (keyCode == KeyEvent.VK_UP && row >= 0)
+			}
+			if (keyCode == KeyEvent.VK_UP && row >= 0) {
 				--row;
+			}
 
 			symbolTable.changeSelection(row, column, false, false);
 			keyEvent.consume();

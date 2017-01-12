@@ -38,6 +38,7 @@ public class PatternListenerAdapter implements PatternListener {
 	 * @param pattern
 	 *            the fragment that has been added
 	 */
+	@Override
 	public void fragmentAdded(Pattern fragment) {
 	}
 }

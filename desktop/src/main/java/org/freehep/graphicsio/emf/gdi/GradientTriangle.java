@@ -28,12 +28,14 @@ public class GradientTriangle extends Gradient {
 		vertex3 = emf.readULONG();
 	}
 
+	@Override
 	public void write(EMFOutputStream emf) throws IOException {
 		emf.writeULONG(vertex1);
 		emf.writeULONG(vertex2);
 		emf.writeULONG(vertex3);
 	}
 
+	@Override
 	public String toString() {
 		return "  GradientTriangle: " + vertex1 + ", " + vertex2 + ", "
 				+ vertex3;

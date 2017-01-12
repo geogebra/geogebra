@@ -81,8 +81,9 @@ public class CatchClause extends AstNode {
 	 */
 	public void setCatchCondition(AstNode catchCondition) {
 		this.catchCondition = catchCondition;
-		if (catchCondition != null)
+		if (catchCondition != null) {
 			catchCondition.setParent(this);
+		}
 	}
 
 	/**

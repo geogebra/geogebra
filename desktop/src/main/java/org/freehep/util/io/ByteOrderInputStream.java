@@ -42,24 +42,29 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		little = littleEndian;
 	}
 
+	@Override
 	public void readFully(byte b[]) throws IOException {
 
 		readFully(b, 0, b.length);
 	}
 
+	@Override
 	public void readFully(byte b[], int off, int len) throws IOException {
 
-		if (len < 0)
+		if (len < 0) {
 			throw new IndexOutOfBoundsException();
+		}
 		int n = 0;
 		while (n < len) {
 			int count = read(b, off + n, len - n);
-			if (count < 0)
+			if (count < 0) {
 				throw new EOFException();
+			}
 			n += count;
 		}
 	}
 
+	@Override
 	public int skipBytes(int n) throws IOException {
 		int total = 0;
 		int cur = 0;
@@ -71,11 +76,13 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		return total;
 	}
 
+	@Override
 	public boolean readBoolean() throws IOException {
 		int b = readUnsignedByte();
 		return (b != 0);
 	}
 
+	@Override
 	public char readChar() throws IOException {
 		int b1 = readUnsignedByte();
 		int b2 = readUnsignedByte();
@@ -85,12 +92,14 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	/**
 	 * Read a signed byte.
 	 */
+	@Override
 	public byte readByte() throws IOException {
 
 		byteAlign();
 		int b = read();
-		if (b < 0)
+		if (b < 0) {
 			throw new EOFException();
+		}
 		return (byte) b;
 	}
 
@@ -109,8 +118,9 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		byte[] bytes = new byte[n];
 		for (int i = 0; i < n; i++) {
 			int b = read();
-			if (b < 0)
+			if (b < 0) {
 				throw new EOFException();
+			}
 			bytes[i] = (byte) b;
 		}
 		return bytes;
@@ -119,12 +129,14 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	/**
 	 * Read an unsigned byte.
 	 */
+	@Override
 	public int readUnsignedByte() throws IOException {
 
 		byteAlign();
 		int ub = read();
-		if (ub < 0)
+		if (ub < 0) {
 			throw new EOFException();
+		}
 		return ub;
 	}
 
@@ -143,8 +155,9 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		int[] bytes = new int[n];
 		for (int i = 0; i < n; i++) {
 			int ub = read();
-			if (ub < 0)
+			if (ub < 0) {
 				throw new EOFException();
+			}
 			bytes[i] = ub;
 		}
 		return bytes;
@@ -153,6 +166,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	/**
 	 * Read a signed short.
 	 */
+	@Override
 	public short readShort() throws IOException {
 
 		int i1 = readUnsignedByte();
@@ -181,6 +195,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	/**
 	 * Read an unsigned short.
 	 */
+	@Override
 	public int readUnsignedShort() throws IOException {
 
 		byteAlign();
@@ -210,6 +225,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	/**
 	 * Read a signed integer.
 	 */
+	@Override
 	public int readInt() throws IOException {
 
 		int i1 = readUnsignedByte();
@@ -273,6 +289,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		return ints;
 	}
 
+	@Override
 	public long readLong() throws IOException {
 		long i1 = readInt();
 		long i2 = readInt();
@@ -280,10 +297,12 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 				: (i1 << 32) + (i2 & 0xFFFFFFFFL);
 	}
 
+	@Override
 	public float readFloat() throws IOException {
 		return Float.intBitsToFloat(readInt());
 	}
 
+	@Override
 	public double readDouble() throws IOException {
 		return Double.longBitsToDouble(readLong());
 	}
@@ -291,6 +310,8 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public String readLine() throws IOException {
 		throw new IOException(
 				"ByteOrderInputStream.readLine() is deprecated and not implemented.");
@@ -307,6 +328,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		return readUTF();
 	}
 
+	@Override
 	public String readUTF() throws IOException {
 		return DataInputStream.readUTF(this);
 	}

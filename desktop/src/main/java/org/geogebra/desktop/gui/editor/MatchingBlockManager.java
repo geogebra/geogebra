@@ -427,6 +427,7 @@ public class MatchingBlockManager {
 		 * @param c
 		 *            the text component where to paint
 		 */
+		@Override
 		public void paint(Graphics g, int pos0, int pos1, Shape bounds,
 				JTextComponent c) {
 			try {

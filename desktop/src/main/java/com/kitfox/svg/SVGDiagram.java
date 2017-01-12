@@ -155,14 +155,16 @@ public class SVGDiagram implements Serializable {
 	// }
 
 	public float getWidth() {
-		if (root == null)
+		if (root == null) {
 			return 0;
+		}
 		return root.getDeviceWidth();
 	}
 
 	public float getHeight() {
-		if (root == null)
+		if (root == null) {
 			return 0;
+		}
 		return root.getDeviceHeight();
 	}
 
@@ -170,8 +172,9 @@ public class SVGDiagram implements Serializable {
 	 * Returns the viewing rectangle of this diagram in device coordinates.
 	 */
 	public Rectangle2D getViewRect(Rectangle2D rect) {
-		if (root != null)
+		if (root != null) {
 			return root.getDeviceRect(rect);
+		}
 		return rect;
 	}
 
@@ -213,8 +216,9 @@ public class SVGDiagram implements Serializable {
 	 * all attributes with track information.
 	 */
 	public void updateTime(double curTime) throws SVGException {
-		if (root == null)
+		if (root == null) {
 			return;
+		}
 		root.updateTime(curTime);
 	}
 

@@ -37,6 +37,7 @@ public class TriVertex {
 		emf.writeCOLOR16(color);
 	}
 
+	@Override
 	public String toString() {
 		return "[" + x + ", " + y + "] " + color;
 	}

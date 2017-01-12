@@ -18,6 +18,7 @@ public class EndPath extends EMFTag {
 		super(60, 1);
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 

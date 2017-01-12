@@ -35,10 +35,12 @@ public class TTFMaxPTable extends TTFVersionTable {
 
 	public int maxComponentDepth;
 
+	@Override
 	public String getTag() {
 		return "maxp";
 	}
 
+	@Override
 	public void readTable() throws IOException {
 		readVersion();
 
@@ -59,6 +61,7 @@ public class TTFMaxPTable extends TTFVersionTable {
 		maxComponentDepth = ttf.readUShort();
 	}
 
+	@Override
 	public String toString() {
 		return super.toString() + "\n" + "  numGlyphs: " + numGlyphs;
 	}

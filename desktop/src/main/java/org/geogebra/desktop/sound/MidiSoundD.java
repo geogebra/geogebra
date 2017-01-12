@@ -188,6 +188,7 @@ public class MidiSoundD implements MetaEventListener {
 	/**
 	 * Midi meta event listener that closes the sequencer at end of track.
 	 */
+	@Override
 	public void meta(MetaMessage event) {
 		// System.out.println("midi sound event " + event.getType());
 		if (event.getType() == END_OF_TRACK_MESSAGE) {

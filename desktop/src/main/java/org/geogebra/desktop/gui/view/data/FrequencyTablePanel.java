@@ -73,14 +73,17 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 		updateFonts(app.getPlainFont());
 	}
 
+	@Override
 	public void updatePanel() {
 		// do nothing
 	}
 
+	@Override
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);
 	}
 
+	@Override
 	public void setLabels() {
 		// statTable.setLabels(null, getColumnNames());
 	}

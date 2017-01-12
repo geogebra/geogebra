@@ -35,51 +35,61 @@ public class IndentPrintWriter extends PrintWriter {
 		this(w, 0);
 	}
 
+	@Override
 	public void print(boolean s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(char s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(char[] s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(double s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(float s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(int s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(long s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(Object s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void print(String s) {
 		doIndent();
 		super.print(s);
 	}
 
+	@Override
 	public void println() {
 		indented = false;
 		super.println();
@@ -88,11 +98,13 @@ public class IndentPrintWriter extends PrintWriter {
 	// all other println's are implemented by the superclass in terms of print's
 
 	private void doIndent() {
-		if (indented)
+		if (indented) {
 			return;
+		}
 		indented = true;
-		for (int i = 0; i < indent; i++)
+		for (int i = 0; i < indent; i++) {
 			super.print(indentString);
+		}
 	}
 
 	/**

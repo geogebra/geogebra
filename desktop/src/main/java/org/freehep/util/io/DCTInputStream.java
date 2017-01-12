@@ -35,6 +35,7 @@ public class DCTInputStream extends FilterInputStream {
 	 * 
 	 * @see java.io.FilterInputStream#read()
 	 */
+	@Override
 	public int read() throws IOException {
 		throw new IOException(
 				getClass() + ": read() not implemented, use readImage().");

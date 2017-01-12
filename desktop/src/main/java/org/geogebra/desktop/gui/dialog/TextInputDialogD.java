@@ -182,6 +182,7 @@ public class TextInputDialogD extends InputDialogD
 		undo = new UndoManager();
 		doc = editor.getDocument();
 		doc.addUndoableEditListener(new UndoableEditListener() {
+			@Override
 			public void undoableEditHappened(UndoableEditEvent e) {
 				undo.addEdit(e.getEdit());
 			}
@@ -191,6 +192,7 @@ public class TextInputDialogD extends InputDialogD
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (undo.canUndo()) {
@@ -208,6 +210,7 @@ public class TextInputDialogD extends InputDialogD
 
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (undo.canRedo()) {
@@ -231,6 +234,7 @@ public class TextInputDialogD extends InputDialogD
 	 * app.getGuiManager().setCurrentTextfield(this, true); }
 	 */
 
+	@Override
 	public void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw) {
 		this.startPoint = startPoint;
 		this.rw = rw;
@@ -469,6 +473,7 @@ public class TextInputDialogD extends InputDialogD
 		laTexButtonTitleMap.put("Space", menuItem);
 		menuItem.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				insertString(" \\; ");
 			}
@@ -482,8 +487,9 @@ public class TextInputDialogD extends InputDialogD
 	}
 
 	public void updateInsertLaTeXButtonLabels() {
-		if (!isBtnInsertLatexLoaded)
+		if (!isBtnInsertLatexLoaded) {
 			return;
+		}
 
 		for (Entry<String, JMenuItem> entry : laTexButtonTitleMap.entrySet()) {
 			String text = entry.getKey();
@@ -534,6 +540,7 @@ public class TextInputDialogD extends InputDialogD
 		// the editor
 		geoList.getSelectionModel()
 				.addListSelectionListener(new ListSelectionListener() {
+					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						if (!e.getValueIsAdjusting()) {
 							String label = (String) geoList.getSelectedValue();
@@ -634,15 +641,18 @@ public class TextInputDialogD extends InputDialogD
 	@Override
 	public void setLabels(String title) {
 
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
 
 		super.setLabels(title);
 
-		if (editHeader != null)
+		if (editHeader != null) {
 			editHeader.setText(loc.getMenu("Edit"));
-		if (previewHeader != null)
+		}
+		if (previewHeader != null) {
 			previewHeader.setText(loc.getMenu("Preview"));
+		}
 
 		// rebuild the symbol tables to catch localized symbols
 		buildInsertUnicodeButton();
@@ -685,10 +695,12 @@ public class TextInputDialogD extends InputDialogD
 			initString = "";
 			if (geo.isIndependent()) {
 				initString = geo.getTextString();
-				if (geo.getKernel().lookupLabel(initString) != null)
+				if (geo.getKernel().lookupLabel(initString) != null) {
 					initString = "\"" + initString + "\"";
-			} else
+				}
+			} else {
 				initString = geo.getDefinition(StringTemplate.defaultTemplate);
+			}
 			isLaTeX = geo.isLaTeX();
 		}
 		// ----------------------------------------------
@@ -766,11 +778,12 @@ public class TextInputDialogD extends InputDialogD
 								if (wrappedDialog.isShowing()) {
 									// text dialog window is used and open
 
-									if (isTextMode)// don't clear selected geos
-													// don't set mode
+									if (isTextMode) {
+										// don't set mode
 										setVisibleForTools(!finished);
-									else
+									} else {
 										setVisible(!finished);
+									}
 
 									if (isTextMode) {
 										app.setMode(
@@ -778,8 +791,9 @@ public class TextInputDialogD extends InputDialogD
 										return;
 									}
 								}
-								if (finished)
+								if (finished) {
 									app.setMode(EuclidianConstants.MODE_MOVE);
+								}
 
 							}
 						});
@@ -787,13 +801,14 @@ public class TextInputDialogD extends InputDialogD
 			}
 
 			else if (source == btCancel) {
-				if (wrappedDialog.isShowing())
+				if (wrappedDialog.isShowing()) {
 					setVisible(false);
-				else {
+				} else {
 					setGeoText(editGeo);
 				}
-				if (isTextMode)
+				if (isTextMode) {
 					app.setMode(EuclidianConstants.MODE_TEXT);
+				}
 			}
 
 			else if (source == cbLaTeX) {
@@ -831,8 +846,9 @@ public class TextInputDialogD extends InputDialogD
 		public void keyPressed(KeyEvent e) {
 			if ((e.isControlDown() || AppD.isControlDown(e))
 					&& e.getKeyCode() == KeyEvent.VK_SPACE) {
-				if (isLaTeX)
+				if (isLaTeX) {
 					inputPanel.insertString("\\:");
+				}
 			}
 
 			if ((e.isAltDown() || AppD.isAltDown(e))) {
@@ -901,15 +917,18 @@ public class TextInputDialogD extends InputDialogD
 			// find elem corresponding the text field
 			if (elem.getName().equals("component")) {
 				if (tf == (DynamicTextField) StyleConstants
-						.getComponent(elem.getAttributes()))
+						.getComponent(elem.getAttributes())) {
 					break;
+				}
 			}
 		}
 
-		if (isLeft)
+		if (isLeft) {
 			editor.setCaretPosition(i); // set caret: just before field
-		else
+		}
+		else {
 			editor.setCaretPosition(i + 1); // set caret: just after field
+		}
 
 		editor.requestFocus();
 	}
@@ -945,6 +964,7 @@ public class TextInputDialogD extends InputDialogD
 	// Document listener
 	// =============================================================
 
+	@Override
 	public void changedUpdate(DocumentEvent e) {
 		// do nothing
 	}
@@ -955,6 +975,7 @@ public class TextInputDialogD extends InputDialogD
 	 * @param e
 	 *            the event
 	 */
+	@Override
 	public void insertUpdate(DocumentEvent e) {
 		handleDocumentEvent();
 	}
@@ -965,6 +986,7 @@ public class TextInputDialogD extends InputDialogD
 	 * @param e
 	 *            the event
 	 */
+	@Override
 	public void removeUpdate(DocumentEvent e) {
 		handleDocumentEvent();
 	}
@@ -1000,8 +1022,9 @@ public class TextInputDialogD extends InputDialogD
 
 	public void handleDocumentEvent() {
 
-		if (handlingDocumentEventOff)
+		if (handlingDocumentEventOff) {
 			return;
+		}
 
 		editOccurred = true;
 		updatePreviewText();
@@ -1022,8 +1045,9 @@ public class TextInputDialogD extends InputDialogD
 
 	@Override
 	public void insertGeoElement(GeoElement geo1) {
-		if (geo1 == null)
+		if (geo1 == null) {
 			return;
+		}
 
 		insertDynamicText(geo1.getLabel(StringTemplate.defaultTemplate));
 
@@ -1068,6 +1092,7 @@ public class TextInputDialogD extends InputDialogD
 			kernel = app.getKernel();
 		}
 
+		@Override
 		public void processInput(String inputValue, ErrorHandler handler,
 				final AsyncOperation<Boolean> callback) {
 			if (inputValue == null || (editGeo != null && editGeo.isFixed())
@@ -1132,10 +1157,11 @@ public class TextInputDialogD extends InputDialogD
 								// setting
 								newText.setLaTeX(isLaTeX, true);
 
-								if (newText.getParentAlgorithm() != null)
+								if (newText.getParentAlgorithm() != null) {
 									newText.getParentAlgorithm().update();
-								else
+								} else {
 									newText.updateRepaint();
+								}
 
 								app.doAfterRedefine(newText);
 								callback.callback(obj != null);
@@ -1173,8 +1199,9 @@ public class TextInputDialogD extends InputDialogD
 					t.setLaTeX(isLaTeX, true);
 
 					// make sure for new LaTeX texts we get nice "x"s
-					if (isLaTeX)
+					if (isLaTeX) {
 						t.setSerifFont(true);
+					}
 
 					EuclidianViewInterfaceCommon activeView = kernel
 							.getApplication().getActiveEuclidianView();
@@ -1255,6 +1282,7 @@ public class TextInputDialogD extends InputDialogD
 		};
 	}
 
+	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
 		if (!isVisible) {
 			if (textPreviewer != null) {

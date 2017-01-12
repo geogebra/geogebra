@@ -93,11 +93,13 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Update the fonts used in the dialogs.
 	 */
 	public void updateFonts() {
-		if (functionInspector != null)
+		if (functionInspector != null) {
 			functionInspector.updateFonts();
+		}
 
-		if (textInputDialog != null)
+		if (textInputDialog != null) {
 			((TextInputDialogD) textInputDialog).updateFonts();
+		}
 
 		if (fileChooser != null) {
 			fileChooser.setFont(((AppD) app).getPlainFont());
@@ -114,17 +116,21 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 */
 	public void setLabels() {
 
-		if (functionInspector != null)
+		if (functionInspector != null) {
 			functionInspector.setLabels();
+		}
 
-		if (textInputDialog != null)
+		if (textInputDialog != null) {
 			((TextInputDialogD) textInputDialog).setLabels();
+		}
 
-		if (fileChooser != null)
+		if (fileChooser != null) {
 			updateJavaUILanguage();
+		}
 
-		if (dataSourceDialog != null)
+		if (dataSourceDialog != null) {
 			dataSourceDialog.setLabels();
+		}
 
 	}
 
@@ -192,8 +198,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void showRenameDialog(GeoElement geo, boolean storeUndo,
 			String initText, boolean selectInitText) {
-		if (!app.isRightClickEnabled())
+		if (!app.isRightClickEnabled()) {
 			return;
+		}
 
 		geo.setLabelVisible(true);
 		geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
@@ -545,8 +552,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 */
 	private void updateJavaUILanguage() {
 		// load properties jar file
-		if (currentLocale == ((AppD) app).getLocale())
+		if (currentLocale == ((AppD) app).getLocale()) {
 			return;
+		}
 
 		// update locale
 		currentLocale = ((AppD) app).getLocale();
@@ -604,7 +612,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	}
 
 	public TextInputDialog getTextInputDialog() {
-		return (TextInputDialog) textInputDialog;
+		return textInputDialog;
 	}
 
 	public DataSourceDialog getDataSourceDialog() {
@@ -615,6 +623,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * PropertyChangeListener implementation to handle file filter changes
 	 */
 	private class FileFilterChangedListener implements PropertyChangeListener {
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (getFileChooser().getFileFilter() instanceof MyFileFilter) {
 				String fileName = null;

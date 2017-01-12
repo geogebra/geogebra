@@ -27,18 +27,22 @@ public class GBasicStrokeD implements GBasicStroke {
 		impl = new BasicStroke((float) f);
 	}
 
+	@Override
 	public int getEndCap() {
 		return impl.getEndCap();
 	}
 
+	@Override
 	public double getMiterLimit() {
 		return impl.getMiterLimit();
 	}
 
+	@Override
 	public int getLineJoin() {
 		return impl.getLineJoin();
 	}
 
+	@Override
 	public GShape createStrokedShape(GShape shape) {
 		Shape shapeD = GGenericShapeD.getAwtShape(shape);
 		if (shapeD instanceof Path2D) {
@@ -52,10 +56,12 @@ public class GBasicStrokeD implements GBasicStroke {
 		return new GGenericShapeD(impl.createStrokedShape(shapeD));
 	}
 
+	@Override
 	public double getLineWidth() {
 		return impl.getLineWidth();
 	}
 
+	@Override
 	public double[] getDashArray() {
 		return AwtFactory.floatToDouble(impl.getDashArray());
 	}

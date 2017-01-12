@@ -148,25 +148,29 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 		revalidate();
 	}
 
+	@Override
 	public void showPopup() {
 
 		popup = newPerspectivePanel();
 		int horizontal;
-		if (isEastOrientation())
+		if (isEastOrientation()) {
 			horizontal = -popup.getPreferredSize().width;
-		else
+		} else {
 			horizontal = slimSidebarPanel.getPreferredSize().width;
+		}
 
 		int y = (slimSidebarPanel.getHeight() - popup.getPreferredSize().height)
 				/ 2;
 
 		popup.show(this, horizontal, y);
 
-		if (!popup.isVisible()) // setVisible() may have not worked if sidebar
-								// has mouse
+		if (!popup.isVisible()) {
+			// has mouse
 			popup.superSetVisible(true);
+		}
 	}
 
+	@Override
 	public void hidePopup() {
 		if (popup != null && popup.isVisible()) {
 			popup.superSetVisible(false);
@@ -174,13 +178,15 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	}
 
 	void togglePopup() {
-		if (popup == null || !popup.isVisible())
+		if (popup == null || !popup.isVisible()) {
 			showPopup();
-		else
+		} else {
 			popup.superSetVisible(false);
+		}
 
 	}
 
+	@Override
 	public void setLabels() {
 
 		// btnProperties.setToolTipText(app.getMenu("Layout"));
@@ -245,19 +251,23 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	// Getters/Setters
 	// ==============================
 
+	@Override
 	public boolean isShowButtonBar() {
 		return showButtonBar;
 	}
 
+	@Override
 	public void setShowButtonBar(boolean showButtonBar) {
 		this.showButtonBar = showButtonBar;
 		updateLayout();
 	}
 
+	@Override
 	public boolean isEastOrientation() {
 		return isEastOrientation;
 	}
 
+	@Override
 	public void setEastOrientation(boolean isEastOrientation) {
 		this.isEastOrientation = isEastOrientation;
 		setSidebarTriangle(popup != null && popup.isVisible());

@@ -23,7 +23,6 @@ import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -85,8 +84,9 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	 *            list of seleted cells
 	 */
 	public void setSelectedRows(ArrayList<GeoElement> targetGeos) {
-		if (targetGeos != null)
+		if (targetGeos != null) {
 			selectedRows = targetGeos;
+		}
 		updateStyleBar();
 	}
 
@@ -101,6 +101,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		updateStyleBar();
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
@@ -148,7 +149,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			((CASTableCellEditorD) casView.getConsoleTable().getCellEditor(i,
 					CASTableD.COL_CAS_CELLS)).setCaretPosition(pos);
 		} else if (source == btnShowKeyboard) {
-			if (((GuiManagerInterfaceD) app.getGuiManager()) != null) {
+			if ((app.getGuiManager()) != null) {
 				if (AppD.isVirtualKeyboardActive()
 						&& !((GuiManagerD) app.getGuiManager())
 								.showVirtualKeyboard()) {
@@ -222,10 +223,12 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	private void applyFontStyle(ArrayList<GeoElement> geos) {
 
 		int fontStyle = 0;
-		if (btnBold.isSelected())
+		if (btnBold.isSelected()) {
 			fontStyle += 1;
-		if (btnItalic.isSelected())
+		}
+		if (btnItalic.isSelected()) {
 			fontStyle += 2;
+		}
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			Log.debug(((GeoCasCell) geo).getGeoText());

@@ -213,9 +213,11 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			len++;
 		}
 
-		for (int i = 0; i < fractions.length - 1; i++)
-			if (fractions[i] == fractions[i + 1])
+		for (int i = 0; i < fractions.length - 1; i++) {
+			if (fractions[i] == fractions[i + 1]) {
 				len--;
+			}
+		}
 
 		this.fractions = new float[len];
 		Color[] loColors = new Color[len - 1];
@@ -276,13 +278,14 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		this.colorSpace = colorSpace;
 
 		// Setup an example Model, we may refine it later.
-		if (cm.getColorSpace() == lrgbmodel_A.getColorSpace())
+		if (cm.getColorSpace() == lrgbmodel_A.getColorSpace()) {
 			dataModel = lrgbmodel_A;
-		else if (cm.getColorSpace() == srgbmodel_A.getColorSpace())
+		} else if (cm.getColorSpace() == srgbmodel_A.getColorSpace()) {
 			dataModel = srgbmodel_A;
-		else
+		} else {
 			throw new IllegalArgumentException(
 					"Unsupported ColorSpace for interpolation");
+		}
 
 		calculateGradientFractions(loColors, hiColors);
 
@@ -353,22 +356,25 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			calculateMultipleArrayGradient(loColors, hiColors);
 			if ((cycleMethod == MultipleGradientPaint.REPEAT)
 					&& (gradients[0][0] != gradients[gradients.length
-							- 1][GRADIENT_SIZE_INDEX]))
+							- 1][GRADIENT_SIZE_INDEX])) {
 				hasDiscontinuity = true;
+			}
 		} else {
 			// fast method
 			calculateSingleArrayGradient(loColors, hiColors, Imin);
 			if ((cycleMethod == MultipleGradientPaint.REPEAT)
-					&& (gradient[0] != gradient[fastGradientArraySize]))
+					&& (gradient[0] != gradient[fastGradientArraySize])) {
 				hasDiscontinuity = true;
+			}
 		}
 
 		// Use the most 'economical' model (no alpha).
 		if ((transparencyTest >>> 24) == 0xff) {
-			if (dataModel.getColorSpace() == lrgbmodel_NA.getColorSpace())
+			if (dataModel.getColorSpace() == lrgbmodel_NA.getColorSpace()) {
 				dataModel = lrgbmodel_NA;
-			else if (dataModel.getColorSpace() == srgbmodel_NA.getColorSpace())
+			} else if (dataModel.getColorSpace() == srgbmodel_NA.getColorSpace()) {
 				dataModel = srgbmodel_NA;
+			}
 			model = dataModel;
 		}
 	}
@@ -521,8 +527,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		for (int i = 0; i < gradients.length; i++) {
 
 			// This interval will never actually be used (zero size)
-			if (normalizedIntervals[i] == 0)
+			if (normalizedIntervals[i] == 0) {
 				continue;
+			}
 
 			// create an array of the maximum theoretical size for each interval
 			gradients[i] = new int[GRADIENT_SIZE];
@@ -711,8 +718,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			if (isSimpleLookup) {
 				position *= gradient.length;
 				int idx1 = (int) (position);
-				if (idx1 + 1 < gradient.length)
+				if (idx1 + 1 < gradient.length) {
 					return gradient[idx1];
+				}
 
 				w = (int) ((position - idx1) * (1 << 16));
 				c1 = gradient[idx1];
@@ -731,8 +739,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 						// this is the interval we want.
 						int index = (int) delta;
 						if ((index + 1 < gradients[i].length)
-								|| (i + 1 < gradientsLength))
+								|| (i + 1 < gradientsLength)) {
 							return gradients[i][index];
+						}
 
 						w = (int) ((delta - index) * (1 << 16));
 						c1 = gradients[i][index];
@@ -827,16 +836,19 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	protected final int indexGradientAntiAlias(float position, float sz) {
 		// first, manipulate position value depending on the cycle method.
 		if (cycleMethod == MultipleGradientPaint.NO_CYCLE) {
-			if (DEBUG)
+			if (DEBUG) {
 				System.out.println("NO_CYCLE");
+			}
 			float p1 = position - (sz / 2);
 			float p2 = position + (sz / 2);
 
-			if (p1 >= 1)
+			if (p1 >= 1) {
 				return gradientOverflow;
+			}
 
-			if (p2 <= 0)
+			if (p2 <= 0) {
 				return gradientUnderflow;
+			}
 
 			int interior;
 			float top_weight = 0, bottom_weight = 0, frac;
@@ -854,8 +866,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 				bottom_weight = -p1 / sz;
 				frac = p2;
 				interior = getAntiAlias(0, true, p2, false, p2, 1);
-			} else
+			} else {
 				return getAntiAlias(p1, true, p2, false, sz, 1);
+			}
 
 			int norm = (int) ((1 << 16) * frac / sz);
 			int pA = (((interior >>> 20) & 0xFF0) * norm) >> 16;
@@ -898,22 +911,25 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			// trouble.
 			sz -= intSz;
 			weight = sz / (intSz + sz);
-			if (weight < 0.1)
+			if (weight < 0.1) {
 				// The part of the color from the location will be swamped
 				// by the averaged part of the gradient so just use the
 				// average color for the gradient.
 				return gradientAverage;
+			}
 		}
 
 		// So close to full gradient just use the average value...
-		if (sz > 0.99)
+		if (sz > 0.99) {
 			return gradientAverage;
+		}
 
 		// Go up and down from position by 1/2 sz.
 		float p1 = position - (sz / 2);
 		float p2 = position + (sz / 2);
-		if (DEBUG)
+		if (DEBUG) {
 			System.out.println("P1: " + p1 + " P2: " + p2);
+		}
 
 		// These indicate the direction to go from p1 and p2 when
 		// averaging...
@@ -921,23 +937,27 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		boolean p2_up = false;
 
 		if (cycleMethod == MultipleGradientPaint.REPEAT) {
-			if (DEBUG)
+			if (DEBUG) {
 				System.out.println("REPEAT");
+			}
 
 			// Get positions between -1 and 1
 			p1 = p1 - (int) p1;
 			p2 = p2 - (int) p2;
 
 			// force to be in rage 0-1.
-			if (p1 < 0)
+			if (p1 < 0) {
 				p1 += 1;
-			if (p2 < 0)
+			}
+			if (p2 < 0) {
 				p2 += 1;
+			}
 		}
 
 		else { // cycleMethod == MultipleGradientPaint.REFLECT
-			if (DEBUG)
+			if (DEBUG) {
 				System.out.println("REFLECT");
+			}
 
 			// take absolute values
 			// Note when we reflect we change sense of p1/2_up.
@@ -1000,8 +1020,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 
 			if (p1_up && !p2_up && (idx1 <= idx2)) {
 
-				if (idx1 == idx2)
+				if (idx1 == idx2) {
 					return gradient[idx1];
+				}
 
 				// Sum between idx1 and idx2.
 				for (i = idx1 + 1; i < idx2; i++) {
@@ -1061,20 +1082,22 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			bch = (bch * isz) >> 16;
 
 			// Clean up with the partial buckets at each end.
-			if (p1_up)
+			if (p1_up) {
 				norm = (int) ((1 - (p1 - idx1)) * isz);
-			else
+			} else {
 				norm = (int) ((p1 - idx1) * isz);
+			}
 			pix = gradient[idx1];
 			ach += (((pix >>> 20) & 0xFF0) * norm) >> 16;
 			rch += (((pix >>> 12) & 0xFF0) * norm) >> 16;
 			gch += (((pix >>> 4) & 0xFF0) * norm) >> 16;
 			bch += (((pix << 4) & 0xFF0) * norm) >> 16;
 
-			if (p2_up)
+			if (p2_up) {
 				norm = (int) ((1 - (p2 - idx2)) * isz);
-			else
+			} else {
 				norm = (int) ((p2 - idx2) * isz);
+			}
 			pix = gradient[idx2];
 			ach += (((pix >>> 20) & 0xFF0) * norm) >> 16;
 			rch += (((pix >>> 12) & 0xFF0) * norm) >> 16;
@@ -1101,8 +1124,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 					f1 = ((f1 / normalizedIntervals[i]) * GRADIENT_SIZE_INDEX);
 					// this is the interval we want.
 					idx1 = (int) f1;
-					if (i2 != -1)
+					if (i2 != -1) {
 						break;
+					}
 				}
 				if ((p2 < fractions[i + 1]) && (i2 == -1)) {
 					// this is the array we want
@@ -1112,8 +1136,9 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 					f2 = ((f2 / normalizedIntervals[i]) * GRADIENT_SIZE_INDEX);
 					// this is the interval we want.
 					idx2 = (int) f2;
-					if (i1 != -1)
+					if (i1 != -1) {
 						break;
+					}
 				}
 			}
 
@@ -1127,14 +1152,16 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 				f2 = idx2 = GRADIENT_SIZE_INDEX;
 			}
 
-			if (DEBUG)
+			if (DEBUG) {
 				System.out.println("I1: " + i1 + " Idx1: " + idx1 + " I2: " + i2
 						+ " Idx2: " + idx2);
+			}
 
 			// Simple case within one gradient array (so the average
 			// of the two idx gives us the true average of colors).
-			if ((i1 == i2) && (idx1 <= idx2) && p1_up && !p2_up)
+			if ((i1 == i2) && (idx1 <= idx2) && p1_up && !p2_up) {
 				return gradients[i1][(idx1 + idx2 + 1) >> 1];
+			}
 
 			// i1 != i2
 
@@ -1246,9 +1273,10 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			rch = (rch + 0x08) >> 4;
 			gch = (gch + 0x08) >> 4;
 			bch = (bch + 0x08) >> 4;
-			if (DEBUG)
+			if (DEBUG) {
 				System.out.println("Pix: [" + ach + ", " + rch + ", " + gch
 						+ ", " + bch + "]");
+			}
 		}
 
 		if (weight != 1) {
@@ -1277,7 +1305,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 
 		float input, output;
 
-		input = ((float) color) / 255.0f;
+		input = (color) / 255.0f;
 		if (input <= 0.04045f) {
 			output = input / 12.92f;
 		} else {
@@ -1296,7 +1324,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 
 		float input, output;
 
-		input = ((float) color) / 255.0f;
+		input = (color) / 255.0f;
 
 		if (input <= 0.0031308) {
 			output = input * 12.92f;
@@ -1310,6 +1338,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	}
 
 	/** Superclass getRaster... */
+	@Override
 	public final Raster getRaster(int x, int y, int w, int h) {
 		if (w == 0 || h == 0) {
 			return null;
@@ -1368,10 +1397,12 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			}
 		}
 		// Don't create rediculously small rasters...
-		if (w < 32)
+		if (w < 32) {
 			w = 32;
-		if (h < 32)
+		}
+		if (h < 32) {
 			h = 32;
+		}
 		return cm.createCompatibleWritableRaster(w, h);
 	}
 
@@ -1404,6 +1435,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	/**
 	 * Release the resources allocated for the operation.
 	 */
+	@Override
 	public final void dispose() {
 		if (saved != null) {
 			putCachedRaster(model, saved);
@@ -1414,6 +1446,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	/**
 	 * Return the ColorModel of the output.
 	 */
+	@Override
 	public final ColorModel getColorModel() {
 		return model;
 	}

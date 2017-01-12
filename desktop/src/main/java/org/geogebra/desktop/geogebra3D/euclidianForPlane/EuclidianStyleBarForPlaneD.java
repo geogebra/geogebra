@@ -62,8 +62,9 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 					.getCompanion();
 			companion.updateCenterAndOrientationRegardingView();
 			companion.updateScaleRegardingView();
-		} else
+		} else {
 			super.processSource(source, targetGeos);
+		}
 	}
 
 	@Override

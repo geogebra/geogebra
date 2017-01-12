@@ -195,6 +195,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public void insertUpdate(DocumentEvent ev) {
 			handleUpdate(ev);
 		}
@@ -202,6 +203,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public void removeUpdate(DocumentEvent ev) {
 			handleUpdate(ev);
 		}
@@ -209,6 +211,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public void changedUpdate(DocumentEvent e) {
 		}
 

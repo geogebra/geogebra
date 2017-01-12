@@ -49,14 +49,18 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 			super(94025);
 		}
 
+		@Override
 		public boolean isCompatibleValue(Object o) {
-			if (o.equals(VALUE_SYMBOL_BLIT_ON))
+			if (o.equals(VALUE_SYMBOL_BLIT_ON)) {
 				return true;
-			if (o.equals(VALUE_SYMBOL_BLIT_OFF))
+			}
+			if (o.equals(VALUE_SYMBOL_BLIT_OFF)) {
 				return true;
+			}
 			return false;
 		}
 
+		@Override
 		public String toString() {
 			return "Symbol Blitting enable key";
 		}
@@ -163,15 +167,19 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		setRenderingHint(KEY_SYMBOL_BLIT, VALUE_SYMBOL_BLIT_ON);
 	}
 
+	@Override
 	public void startExport() {
 	}
 
+	@Override
 	public void endExport() {
 	}
 
+	@Override
 	public void printComment(String comment) {
 	}
 
+	@Override
 	public Graphics create(double x, double y, double width, double height) {
 		PixelGraphics2D graphics = new PixelGraphics2D(this);
 		graphics.translate(x, y);
@@ -185,52 +193,63 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	// method on the underlying graphics context.
 	// //
 
+	@Override
 	public void clearRect(int x, int y, int width, int height) {
 		hostGraphics.clearRect(x, y, width, height);
 	}
 
+	@Override
 	public void clipRect(int x, int y, int width, int height) {
 		hostGraphics.clipRect(x, y, width, height);
 	}
 
+	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
 		hostGraphics.copyArea(x, y, width, height, dx, dy);
 	}
 
+	@Override
 	public Graphics create() {
 		return new PixelGraphics2D(this);
 	}
 
+	@Override
 	public void dispose() {
 		hostGraphics.dispose();
 	}
 
+	@Override
 	public void drawArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
 		hostGraphics.drawArc(x, y, width, height, startAngle, arcAngle);
 	}
 
+	@Override
 	public boolean drawImage(Image img, int x, int y, Color bgcolor,
 			ImageObserver observer) {
 		return hostGraphics.drawImage(img, x, y, getPrintColor(bgcolor),
 				observer);
 	}
 
+	@Override
 	public boolean drawImage(Image img, int x, int y, ImageObserver observer) {
 		return hostGraphics.drawImage(img, x, y, observer);
 	}
 
+	@Override
 	public boolean drawImage(Image img, int x, int y, int width, int height,
 			Color bgcolor, ImageObserver observer) {
 		return hostGraphics.drawImage(img, x, y, width, height,
 				getPrintColor(bgcolor), observer);
 	}
 
+	@Override
 	public boolean drawImage(Image img, int x, int y, int width, int height,
 			ImageObserver observer) {
 		return hostGraphics.drawImage(img, x, y, width, height, observer);
 	}
 
+	@Override
 	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
 			int sx1, int sy1, int sx2, int sy2, Color bgcolor,
 			ImageObserver observer) {
@@ -238,94 +257,116 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 				sy2, getPrintColor(bgcolor), observer);
 	}
 
+	@Override
 	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
 			int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
 		return hostGraphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2,
 				sy2, observer);
 	}
 
+	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
 		hostGraphics.drawLine(x1, y1, x2, y2);
 	}
 
+	@Override
 	public void drawOval(int x, int y, int width, int height) {
 		hostGraphics.drawOval(x, y, width, height);
 	}
 
+	@Override
 	public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints) {
 		hostGraphics.drawPolygon(xPoints, yPoints, nPoints);
 	}
 
+	@Override
 	public void drawPolygon(Polygon p) {
 		hostGraphics.drawPolygon(p);
 	}
 
+	@Override
 	public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints) {
 		hostGraphics.drawPolyline(xPoints, yPoints, nPoints);
 	}
 
+	@Override
 	public void drawRect(int x, int y, int width, int height) {
 		hostGraphics.drawRect(x, y, width, height);
 	}
 
+	@Override
 	public void drawString(String str, int x, int y) {
 		str = FontEncoder.getEncodedString(str, getFont().getName());
 		hostGraphics.drawString(str, x, y);
 	}
 
+	@Override
 	public void fillArc(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
 		hostGraphics.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 
+	@Override
 	public void fillOval(int x, int y, int width, int height) {
 		hostGraphics.fillOval(x, y, width, height);
 	}
 
+	@Override
 	public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints) {
 		hostGraphics.fillPolygon(xPoints, yPoints, nPoints);
 	}
 
+	@Override
 	public void fillPolygon(Polygon p) {
 		hostGraphics.fillPolygon(p);
 	}
 
+	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		hostGraphics.fillRect(x, y, width, height);
 	}
 
+	@Override
 	public void setLineWidth(double width) {
 		super.setLineWidth(width);
 		lineWidth = width;
 	}
 
+	@Override
 	public Shape getClip() {
 		return hostGraphics.getClip();
 	}
 
+	@Override
 	public Rectangle getClipBounds() {
 		return hostGraphics.getClipBounds();
 	}
 
+	@Override
 	public Rectangle getClipBounds(Rectangle r) {
 		return hostGraphics.getClipBounds(r);
 	}
 
+	@Override
 	public FontMetrics getFontMetrics(Font f) {
 		return hostGraphics.getFontMetrics(f);
 	}
 
+	@Override
 	public void setClip(int x, int y, int width, int height) {
 		hostGraphics.setClip(x, y, width, height);
 	}
 
+	@Override
 	public void setClip(Shape clip) {
 		hostGraphics.setClip(clip);
 	}
 
+	@Override
 	public void setFont(Font font) {
-		if (font == null)
+		if (font == null) {
 			return;
+		}
 
 		super.setFont(font);
 		if (font.getName().equals("Symbol")
@@ -336,24 +377,30 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		hostGraphics.setFont(font);
 	}
 
+	@Override
 	public void setColor(Color color) {
-		if (color == null)
+		if (color == null) {
 			return;
+		}
 
-		if (color.equals(getColor()))
+		if (color.equals(getColor())) {
 			return;
+		}
 
 		super.setColor(color);
 		hostGraphics.setColor(getPrintColor(color));
 		webColor = WebColor.create(color);
 	}
 
+	@Override
 	public void setPaint(Paint paint) {
-		if (paint == null)
+		if (paint == null) {
 			return;
+		}
 
-		if (paint.equals(getPaint()))
+		if (paint.equals(getPaint())) {
 			return;
+		}
 
 		if (paint instanceof Color) {
 			setColor((Color) paint);
@@ -363,14 +410,17 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		}
 	}
 
+	@Override
 	public void setPaintMode() {
 		hostGraphics.setPaintMode();
 	}
 
+	@Override
 	public void setXORMode(Color c1) {
 		hostGraphics.setXORMode(getPrintColor(c1));
 	}
 
+	@Override
 	public void translate(int x, int y) {
 		hostGraphics.translate(x, y);
 	}
@@ -381,135 +431,167 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	// underlying host graphics context.
 	// //
 
+	@Override
 	public void addRenderingHints(Map hints) {
 		hostGraphics.addRenderingHints(hints);
 	}
 
+	@Override
 	public void clip(Shape clip) {
 		hostGraphics.clip(clip);
 	}
 
+	@Override
 	public void draw(Shape s) {
 		hostGraphics.draw(s);
 	}
 
+	@Override
 	public void drawGlyphVector(GlyphVector g, float x, float y) {
 		hostGraphics.drawGlyphVector(g, x, y);
 	}
 
+	@Override
 	public void drawImage(BufferedImage img, BufferedImageOp op, int x, int y) {
 		hostGraphics.drawImage(img, op, x, y);
 	}
 
+	@Override
 	public boolean drawImage(Image img, AffineTransform xform,
 			ImageObserver obs) {
 		return hostGraphics.drawImage(img, xform, obs);
 	}
 
+	@Override
 	public void drawRenderableImage(RenderableImage img,
 			AffineTransform xform) {
 		hostGraphics.drawRenderableImage(img, xform);
 	}
 
+	@Override
 	public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
 		hostGraphics.drawRenderedImage(img, xform);
 	}
 
+	@Override
 	public void drawString(AttributedCharacterIterator iterator, float x,
 			float y) {
 		hostGraphics.drawString(iterator, x, y);
 	}
 
+	@Override
 	public void drawString(AttributedCharacterIterator iterator, int x, int y) {
 		hostGraphics.drawString(iterator, x, y);
 	}
 
+	@Override
 	public void drawString(String str, float x, float y) {
 		str = FontEncoder.getEncodedString(str, getFont().getName());
 		hostGraphics.drawString(str, x, y);
 	}
 
+	@Override
 	public void fill(Shape s) {
 		hostGraphics.fill(s);
 	}
 
+	@Override
 	public Composite getComposite() {
 		return hostGraphics.getComposite();
 	}
 
+	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
 		return hostGraphics.getDeviceConfiguration();
 	}
 
+	@Override
 	public FontRenderContext getFontRenderContext() {
 		return hostGraphics.getFontRenderContext();
 	}
 
+	@Override
 	public Object getRenderingHint(RenderingHints.Key hintKey) {
 		return hostGraphics.getRenderingHint(hintKey);
 	}
 
+	@Override
 	public RenderingHints getRenderingHints() {
 		return hostGraphics.getRenderingHints();
 	}
 
+	@Override
 	public Stroke getStroke() {
 		return hostGraphics.getStroke();
 	}
 
+	@Override
 	public AffineTransform getTransform() {
 		return hostGraphics.getTransform();
 	}
 
+	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
 		return hostGraphics.hit(rect, s, onStroke);
 	}
 
+	@Override
 	public void rotate(double theta) {
 		hostGraphics.rotate(theta);
 	}
 
+	@Override
 	public void rotate(double theta, double x, double y) {
 		hostGraphics.rotate(theta, x, y);
 	}
 
+	@Override
 	public void scale(double sx, double sy) {
 		hostGraphics.scale(sx, sy);
 	}
 
+	@Override
 	public void setBackground(Color color) {
 		super.setBackground(color);
 		hostGraphics.setBackground(getPrintColor(color));
 	}
 
+	@Override
 	public void setComposite(Composite comp) {
 		hostGraphics.setComposite(comp);
 	}
 
+	@Override
 	public void setRenderingHint(RenderingHints.Key hintKey, Object hintValue) {
 		hostGraphics.setRenderingHint(hintKey, hintValue);
 	}
 
+	@Override
 	public void setRenderingHints(Map hints) {
 		hostGraphics.setRenderingHints(hints);
 	}
 
+	@Override
 	public void setStroke(Stroke s) {
 		hostGraphics.setStroke(s);
 	}
 
+	@Override
 	public void setTransform(AffineTransform Tx) {
 		hostGraphics.setTransform(Tx);
 	}
 
+	@Override
 	public void shear(double shx, double shy) {
 		hostGraphics.shear(shx, shy);
 	}
 
+	@Override
 	public void transform(AffineTransform Tx) {
 		hostGraphics.transform(Tx);
 	}
 
+	@Override
 	public void translate(double tx, double ty) {
 		hostGraphics.translate(tx, ty);
 	}
@@ -520,22 +602,27 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	// calls to doubles.
 	// //
 
+	@Override
 	public void clearRect(double x, double y, double width, double height) {
 		clearRect((int) x, (int) y, (int) width, (int) height);
 	}
 
+	@Override
 	public void clipRect(double x, double y, double width, double height) {
 		clipRect((int) x, (int) y, (int) width, (int) height);
 	}
 
+	@Override
 	public void drawString(String str, double x, double y) {
 		drawString(str, (int) Math.round(x), (int) Math.round(y));
 	}
 
+	@Override
 	public void setClip(double x, double y, double width, double height) {
 		setClip(new Rectangle2D.Double(x, y, width, height));
 	}
 
+	@Override
 	public String toString() {
 		return "PixelGraphics2D[" + hostGraphics.toString() + "]";
 	}
@@ -552,6 +639,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	 * Implementation of createShape makes sure that the points are different by
 	 * at least one pixel.
 	 */
+	@Override
 	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
 			boolean close) {
 		return new ArrayPath(xPoints, yPoints, nPoints, close, resolution);

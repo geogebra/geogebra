@@ -91,10 +91,11 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
 			setText(text);
 
-			if (geo.doHighlighting())
+			if (geo.doHighlighting()) {
 				setBackground(AppD.COLOR_SELECTION);
-			else
+			} else {
 				setBackground(getBackgroundNonSelectionColor());
+			}
 
 			// ICONS
 			if (geo.isEuclidianVisible()) {

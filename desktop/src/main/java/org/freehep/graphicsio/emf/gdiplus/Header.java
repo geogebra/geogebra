@@ -30,6 +30,7 @@ public class Header extends EMFPlusTag {
 		this.flags = type;
 	}
 
+	@Override
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		Header tag = new Header();
@@ -41,6 +42,7 @@ public class Header extends EMFPlusTag {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, int flags, EMFOutputStream emf)
 			throws IOException {
 		emf.writeUINT(0xDBC01001);
@@ -49,6 +51,7 @@ public class Header extends EMFPlusTag {
 		emf.writeUINT(vDpi);
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer(super.toString());
 		sb.append("\n");

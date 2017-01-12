@@ -39,6 +39,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Voice
 	 */
+	@Override
 	public void voiceEvent(Voice voice) {
 	}
 
@@ -49,6 +50,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Tempo
 	 */
+	@Override
 	public void tempoEvent(Tempo tempo) {
 	}
 
@@ -59,6 +61,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Instrument
 	 */
+	@Override
 	public void instrumentEvent(Instrument instrument) {
 	}
 
@@ -69,6 +72,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Layer
 	 */
+	@Override
 	public void layerEvent(Layer layer) {
 	}
 
@@ -79,6 +83,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Measure
 	 */
+	@Override
 	public void measureEvent(Measure measure) {
 	}
 
@@ -89,6 +94,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Time
 	 */
+	@Override
 	public void timeEvent(Time time) {
 	}
 
@@ -99,6 +105,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see KeySignature
 	 */
+	@Override
 	public void keySignatureEvent(KeySignature keySig) {
 	}
 
@@ -108,6 +115,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 * @param controller
 	 *            the event that has been parsed
 	 */
+	@Override
 	public void controllerEvent(Controller controller) {
 	}
 
@@ -118,6 +126,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see ChannelPressure
 	 */
+	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
 	}
 
@@ -128,6 +137,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see PolyphonicPressure
 	 */
+	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
 	}
 
@@ -138,6 +148,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see PitchBend
 	 */
+	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
 	}
 
@@ -148,6 +159,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Note
 	 */
+	@Override
 	public void noteEvent(Note note) {
 	}
 
@@ -158,6 +170,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Note
 	 */
+	@Override
 	public void sequentialNoteEvent(Note note) {
 	}
 
@@ -168,6 +181,7 @@ public class ParserListenerAdapter implements ParserListener {
 	 *            the event that has been parsed
 	 * @see Note
 	 */
+	@Override
 	public void parallelNoteEvent(Note note) {
 	}
 }

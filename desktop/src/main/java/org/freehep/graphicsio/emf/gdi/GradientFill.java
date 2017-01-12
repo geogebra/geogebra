@@ -38,6 +38,7 @@ public class GradientFill extends EMFTag implements EMFConstants {
 		this.gradients = gradients;
 	}
 
+	@Override
 	public EMFTag read(int tagID, EMFInputStream emf, int len)
 			throws IOException {
 
@@ -60,6 +61,7 @@ public class GradientFill extends EMFTag implements EMFConstants {
 		return tag;
 	}
 
+	@Override
 	public void write(int tagID, EMFOutputStream emf) throws IOException {
 		emf.writeRECTL(bounds);
 		emf.writeDWORD(vertices.length);
@@ -73,6 +75,7 @@ public class GradientFill extends EMFTag implements EMFConstants {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer s = new StringBuffer();
 		s.append(super.toString() + "\n");

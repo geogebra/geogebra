@@ -54,8 +54,9 @@ public class StringLiteral extends AstNode {
 	 * Returns the string value, optionally including the enclosing quotes.
 	 */
 	public String getValue(boolean includeQuotes) {
-		if (!includeQuotes)
+		if (!includeQuotes) {
 			return value;
+		}
 		return quoteChar + value + quoteChar;
 	}
 

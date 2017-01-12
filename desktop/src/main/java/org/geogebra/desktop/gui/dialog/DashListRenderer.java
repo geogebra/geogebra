@@ -56,17 +56,20 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		}
 	}
 
+	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		if (isSelected)
+		if (isSelected) {
 			// setBackground(list.getSelectionBackground());
 			setBackground(Color.LIGHT_GRAY);
-		else
+		} else {
 			setBackground(list.getBackground());
+		}
 
 		nullValue = value == null;
-		if (nullValue)
+		if (nullValue) {
 			return this;
+		}
 
 		// value is an Integer with the line type's int value
 		int type = ((Integer) value).intValue();

@@ -91,14 +91,17 @@ public class OptionsPopup<T> {
 		// Suggest completions on text changes, store reference to listener
 		// object
 		documentListener = new DocumentListener() {
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 				showCompletion();
 			}
 
+			@Override
 			public void insertUpdate(DocumentEvent e) {
 				showCompletion();
 			}
 
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 				showCompletion();
 			}

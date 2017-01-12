@@ -203,9 +203,10 @@ public class ConstructionProtocolNavigationD
 			public void actionPerformed(ActionEvent e) {
 				// app.getGuiManager().showConstructionProtocol();
 				if (!app.getGuiManager()
-						.showView(App.VIEW_CONSTRUCTION_PROTOCOL))
+						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 					app.getGuiManager().setShowView(true,
 							App.VIEW_CONSTRUCTION_PROTOCOL);
+				}
 
 				// Checkbox of Construction protocol view will be checked in
 				// view menu
@@ -293,8 +294,9 @@ public class ConstructionProtocolNavigationD
 			}
 		}
 
-		if (prot.getCpPanel().isVisible())
+		if (prot.getCpPanel().isVisible()) {
 			prot.scrollToConstructionStep();
+		}
 
 		implPanel.setCursor(Cursor.getDefaultCursor());
 	}

@@ -128,8 +128,9 @@ class CodeGenerator extends Icode {
 			for (iter.start(); !iter.done(); iter.next()) {
 				String str = (String) iter.getKey();
 				int index = iter.getValue();
-				if (itsData.itsStringTable[index] != null)
+				if (itsData.itsStringTable[index] != null) {
 					Kit.codeBug();
+				}
 				itsData.itsStringTable[index] = str;
 			}
 		}
@@ -165,14 +166,16 @@ class CodeGenerator extends Icode {
 			itsData.literalIds = literalIds.toArray();
 		}
 
-		if (Token.printICode)
+		if (Token.printICode) {
 			Interpreter.dumpICode(itsData);
+		}
 	}
 
 	private void generateNestedFunctions() {
 		int functionCount = scriptOrFn.getFunctionCount();
-		if (functionCount == 0)
+		if (functionCount == 0) {
 			return;
+		}
 
 		InterpreterData[] array = new InterpreterData[functionCount];
 		for (int i = 0; i != functionCount; i++) {
@@ -189,8 +192,9 @@ class CodeGenerator extends Icode {
 
 	private void generateRegExpLiterals() {
 		int N = scriptOrFn.getRegexpCount();
-		if (N == 0)
+		if (N == 0) {
 			return;
+		}
 
 		Context cx = Context.getContext();
 		RegExpProxy rep = ScriptRuntime.checkRegExpProxy(cx);
@@ -306,8 +310,9 @@ class CodeGenerator extends Icode {
 			for (Jump caseNode = (Jump) child
 					.getNext(); caseNode != null; caseNode = (Jump) caseNode
 							.getNext()) {
-				if (caseNode.getType() != Token.CASE)
+				if (caseNode.getType() != Token.CASE) {
 					throw badTree(caseNode);
+				}
 				Node test = caseNode.getFirstChild();
 				addIcode(Icode_DUP);
 				stackChange(1);
@@ -750,8 +755,9 @@ class CodeGenerator extends Icode {
 			int index = -1;
 			// use typeofname if an activation frame exists
 			// since the vars all exist there instead of in jregs
-			if (itsInFunctionFlag && !itsData.itsNeedsActivation)
+			if (itsInFunctionFlag && !itsData.itsNeedsActivation) {
 				index = scriptOrFn.getIndexForNameNode(node);
+			}
 			if (index == -1) {
 				addStringOp(Icode_TYPEOFNAME, node.getString());
 				stackChange(1);
@@ -804,8 +810,9 @@ class CodeGenerator extends Icode {
 			break;
 
 		case Token.GETVAR: {
-			if (itsData.itsNeedsActivation)
+			if (itsData.itsNeedsActivation) {
 				Kit.codeBug();
+			}
 			int index = scriptOrFn.getIndexForNameNode(node);
 			addVarOp(Token.GETVAR, index);
 			stackChange(1);
@@ -813,8 +820,9 @@ class CodeGenerator extends Icode {
 			break;
 
 		case Token.SETVAR: {
-			if (itsData.itsNeedsActivation)
+			if (itsData.itsNeedsActivation) {
 				Kit.codeBug();
+			}
 			int index = scriptOrFn.getIndexForNameNode(child);
 			child = child.getNext();
 			visitExpression(child, 0);
@@ -823,8 +831,9 @@ class CodeGenerator extends Icode {
 			break;
 
 		case Token.SETCONSTVAR: {
-			if (itsData.itsNeedsActivation)
+			if (itsData.itsNeedsActivation) {
 				Kit.codeBug();
+			}
 			int index = scriptOrFn.getIndexForNameNode(child);
 			child = child.getNext();
 			visitExpression(child, 0);
@@ -977,8 +986,9 @@ class CodeGenerator extends Icode {
 		int childType = child.getType();
 		switch (childType) {
 		case Token.GETVAR: {
-			if (itsData.itsNeedsActivation)
+			if (itsData.itsNeedsActivation) {
 				Kit.codeBug();
+			}
 			int i = scriptOrFn.getIndexForNameNode(child);
 			addVarOp(Icode_VAR_INC_DEC, i);
 			addUint8(incrDecrMask);
@@ -1123,8 +1133,9 @@ class CodeGenerator extends Icode {
 
 	private void addGoto(Node target, int gotoOp) {
 		int label = getTargetLabel(target);
-		if (!(label < labelTableTop))
+		if (!(label < labelTableTop)) {
 			Kit.codeBug();
+		}
 		int targetPC = labelTable[label];
 
 		if (targetPC != -1) {
@@ -1165,24 +1176,27 @@ class CodeGenerator extends Icode {
 	private void addBackwardGoto(int gotoOp, int jumpPC) {
 		int fromPC = iCodeTop;
 		// Ensure that this is a jump backward
-		if (fromPC <= jumpPC)
+		if (fromPC <= jumpPC) {
 			throw Kit.codeBug();
+		}
 		addGotoOp(gotoOp);
 		resolveGoto(fromPC, jumpPC);
 	}
 
 	private void resolveForwardGoto(int fromPC) {
 		// Ensure that forward jump skips at least self bytecode
-		if (iCodeTop < fromPC + 3)
+		if (iCodeTop < fromPC + 3) {
 			throw Kit.codeBug();
+		}
 		resolveGoto(fromPC, iCodeTop);
 	}
 
 	private void resolveGoto(int fromPC, int jumpPC) {
 		int offset = jumpPC - fromPC;
 		// Ensure that jumps do not overlap
-		if (0 <= offset && offset <= 2)
+		if (0 <= offset && offset <= 2) {
 			throw Kit.codeBug();
+		}
 		int offsetSite = fromPC + 1;
 		if (offset != (short) offset) {
 			if (itsData.longJumps == null) {
@@ -1197,21 +1211,24 @@ class CodeGenerator extends Icode {
 	}
 
 	private void addToken(int token) {
-		if (!Icode.validTokenCode(token))
+		if (!Icode.validTokenCode(token)) {
 			throw Kit.codeBug();
+		}
 		addUint8(token);
 	}
 
 	private void addIcode(int icode) {
-		if (!Icode.validIcode(icode))
+		if (!Icode.validIcode(icode)) {
 			throw Kit.codeBug();
+		}
 		// Write negative icode as uint8 bits
 		addUint8(icode & 0xFF);
 	}
 
 	private void addUint8(int value) {
-		if ((value & ~0xFF) != 0)
+		if ((value & ~0xFF) != 0) {
 			throw Kit.codeBug();
+		}
 		byte[] array = itsData.itsICode;
 		int top = iCodeTop;
 		if (top == array.length) {
@@ -1222,8 +1239,9 @@ class CodeGenerator extends Icode {
 	}
 
 	private void addUint16(int value) {
-		if ((value & ~0xFFFF) != 0)
+		if ((value & ~0xFFFF) != 0) {
 			throw Kit.codeBug();
+		}
 		byte[] array = itsData.itsICode;
 		int top = iCodeTop;
 		if (top + 2 > array.length) {
@@ -1338,8 +1356,9 @@ class CodeGenerator extends Icode {
 	}
 
 	private void addIndexPrefix(int index) {
-		if (index < 0)
+		if (index < 0) {
 			Kit.codeBug();
+		}
 		if (index < 6) {
 			addIcode(Icode_REG_IND_C0 - index);
 		} else if (index <= 0xFF) {
@@ -1360,8 +1379,9 @@ class CodeGenerator extends Icode {
 		int top = exceptionTableTop;
 		int[] table = itsData.itsExceptionTable;
 		if (table == null) {
-			if (top != 0)
+			if (top != 0) {
 				Kit.codeBug();
+			}
 			table = new int[Interpreter.EXCEPTION_SLOT_SIZE * 2];
 			itsData.itsExceptionTable = table;
 		} else if (table.length == top) {
@@ -1382,8 +1402,9 @@ class CodeGenerator extends Icode {
 	private byte[] increaseICodeCapacity(int extraSize) {
 		int capacity = itsData.itsICode.length;
 		int top = iCodeTop;
-		if (top + extraSize <= capacity)
+		if (top + extraSize <= capacity) {
 			throw Kit.codeBug();
+		}
 		capacity *= 2;
 		if (top + extraSize > capacity) {
 			capacity = top + extraSize;
@@ -1417,7 +1438,8 @@ class CodeGenerator extends Icode {
 
 	private void releaseLocal(int localSlot) {
 		--localTop;
-		if (localSlot != localTop)
+		if (localSlot != localTop) {
 			Kit.codeBug();
+		}
 	}
 }

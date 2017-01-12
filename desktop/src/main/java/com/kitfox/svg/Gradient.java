@@ -75,6 +75,7 @@ abstract public class Gradient extends FillElement {
 	public Gradient() {
 	}
 
+	@Override
 	public String getTagName() {
 		return TAG_NAME;
 	}
@@ -83,6 +84,7 @@ abstract public class Gradient extends FillElement {
 	 * Called after the start element but before the end element to indicate
 	 * each child tag that has been processed
 	 */
+	@Override
 	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
 			throws SVGElementException {
 		super.loaderAddChild(helper, child);
@@ -93,6 +95,7 @@ abstract public class Gradient extends FillElement {
 		appendStop((Stop) child);
 	}
 
+	@Override
 	protected void build() throws SVGException {
 		super.build();
 
@@ -230,6 +233,7 @@ abstract public class Gradient extends FillElement {
 	 * @return - true if this node has changed state as a result of the time
 	 *         update
 	 */
+	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		// if (trackManager.getNumTracks() == 0) return false;
 		boolean stateChange = false;

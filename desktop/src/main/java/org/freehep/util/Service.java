@@ -52,16 +52,19 @@ public class Service {
 				String line = reader.readLine();
 				while (line != null) {
 					int ci = line.indexOf('#');
-					if (ci >= 0)
+					if (ci >= 0) {
 						line = line.substring(0, ci);
+					}
 					line = line.trim();
 					int si = line.indexOf(' ');
-					if (si >= 0)
+					if (si >= 0) {
 						line = line.substring(0, si);
+					}
 					line = line.trim();
 					if (line.length() > 0) {
-						if (!nameSet.contains(line))
+						if (!nameSet.contains(line)) {
 							nameSet.add(line);
+						}
 					}
 					line = reader.readLine();
 				}
@@ -69,10 +72,12 @@ public class Service {
 				Log.debug("Service: problem with: " + url);
 			} finally {
 				try {
-					if (input != null)
+					if (input != null) {
 						input.close();
-					if (reader != null)
+					}
+					if (reader != null) {
 						reader.close();
+					}
 				} catch (IOException ioe2) {
 					Log.debug("Service: problem with: " + url);
 				}

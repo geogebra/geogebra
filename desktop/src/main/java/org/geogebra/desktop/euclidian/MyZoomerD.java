@@ -26,6 +26,7 @@ public class MyZoomerD extends MyZoomer implements ActionListener {
 		return timer != null;
 	}
 
+	@Override
 	public synchronized void actionPerformed(ActionEvent e) {
 		step();
 	}

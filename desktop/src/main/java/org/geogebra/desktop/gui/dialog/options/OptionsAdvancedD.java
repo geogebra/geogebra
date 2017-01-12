@@ -267,8 +267,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		// get tooltipTimeouts from MyXMLHandler
 		tooltipTimeouts = new String[OptionsAdvancedD.tooltipTimeoutsLength()];
-		for (int i = 0; i < OptionsAdvancedD.tooltipTimeoutsLength() - 1; i++)
+		for (int i = 0; i < OptionsAdvancedD.tooltipTimeoutsLength() - 1; i++) {
 			tooltipTimeouts[i] = OptionsAdvancedD.tooltipTimeouts(i);
+		}
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
@@ -414,6 +415,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	 * 
 	 * @remark Do not call setLabels() here
 	 */
+	@Override
 	public void updateGUI() {
 
 		cbUseLocalDigits.setSelected(loc.isUsingLocalizedDigits());
@@ -558,6 +560,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	/**
 	 * Values changed.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
@@ -573,11 +576,12 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;
-			if (index == -1)
+			if (index == -1) {
 				app.setTooltipLanguage(null);
-			else
+			} else {
 				app.setTooltipLanguage(
 						getSupportedLocales().get(index).toString());
+			}
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbUseLocalLabels) {
@@ -627,18 +631,20 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 			app.getKernel().updateConstruction();
 		} else if (source == cbGUIFont) {
 			int index = cbGUIFont.getSelectedIndex();
-			if (index == 0)
+			if (index == 0) {
 				app.setGUIFontSize(-1); // default
-			else
+			} else {
 				app.setGUIFontSize(Util.menuFontSizes(index - 1));
+			}
 		} else if (source == cbKeyboardLanguage) {
 			int index = cbKeyboardLanguage.getSelectedIndex();
-			if (index == 0)
+			if (index == 0) {
 				settings.getKeyboard()
 						.setKeyboardLocale(app.getLocale().toString());
-			else
+			} else {
 				settings.getKeyboard().setKeyboardLocale(
 						KeyboardSettings.getLocale(index - 1));
+			}
 		} else if (source == cbKeyboardShowAutomatic) {
 			settings.getKeyboard().setShowKeyboardOnStart(
 					cbKeyboardShowAutomatic.isSelected());
@@ -674,6 +680,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	/**
 	 * Slider changed.
 	 */
+	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == slOpacity) {
 			settings.getKeyboard()
@@ -684,6 +691,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	/**
 	 * Not implemented.
 	 */
+	@Override
 	public void focusGained(FocusEvent e) {
 		//
 	}
@@ -691,6 +699,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	/**
 	 * Apply textfield changes.
 	 */
+	@Override
 	public void focusLost(FocusEvent e) {
 
 		changeWidthOrHeight(e.getSource());
@@ -723,6 +732,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	/**
 	 * Update the language of the user interface.
 	 */
+	@Override
 	public void setLabels() {
 		virtualKeyboardPanel.setBorder(
 				LayoutUtil.titleBorder(loc.getPlain("VirtualKeyboard")));
@@ -913,24 +923,29 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		cbTooltipTimeout.addActionListener(this);
 	}
 
+	@Override
 	public JPanel getWrappedPanel() {
 		return this.wrappedPanel;
 	}
 
+	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
 
 	}
 
+	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
 
+	@Override
 	public void applyModifications() {
 		// override this method to make the properties view apply modifications
 		// when panel changes
 	}
 
+	@Override
 	public void updateFont() {
 
 		Font font = app.getPlainFont();
@@ -991,6 +1006,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		cbGUIFont.setFont(font);
 	}
 
+	@Override
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}

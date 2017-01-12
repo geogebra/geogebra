@@ -52,9 +52,10 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
 
 	void init() {
 		synchronized (this) {
-			if (state == STATE_INITIALIZING)
+			if (state == STATE_INITIALIZING) {
 				throw new IllegalStateException(
 						"Recursive initialization for " + propertyName);
+			}
 			if (state == STATE_BEFORE_INIT) {
 				state = STATE_INITIALIZING;
 				// Set value now to have something to set in finally block if
@@ -71,8 +72,9 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
 	}
 
 	Object getValue() {
-		if (state != STATE_WITH_VALUE)
+		if (state != STATE_WITH_VALUE) {
 			throw new IllegalStateException(propertyName);
+		}
 		return initializedValue;
 	}
 
@@ -80,6 +82,7 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
 		if (privileged) {
 			return AccessController
 					.doPrivileged(new PrivilegedAction<Object>() {
+						@Override
 						public Object run() {
 							return buildValue0();
 						}
@@ -101,8 +104,9 @@ public final class LazilyLoadedCtor implements java.io.Serializable {
 					// cl has own static initializer which is expected
 					// to set the property on its own.
 					value = scope.get(propertyName, scope);
-					if (value != Scriptable.NOT_FOUND)
+					if (value != Scriptable.NOT_FOUND) {
 						return value;
+					}
 				}
 			} catch (InvocationTargetException ex) {
 				Throwable target = ex.getTargetException();

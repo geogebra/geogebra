@@ -119,13 +119,15 @@ public class UtilD extends Util {
 	 */
 	public static double getJavaVersion() {
 		String vm_version = System.getProperty("java.version");
-		if (vm_version == null)
+		if (vm_version == null) {
 			return Double.NaN;
+		}
 
-		if (vm_version.startsWith("1.4.2"))
+		if (vm_version.startsWith("1.4.2")) {
 			return 1.42;
-		else
+		} else {
 			vm_version = vm_version.substring(0, 3);
+		}
 		try {
 			return Double.parseDouble(vm_version);
 		} catch (Exception e) {
@@ -139,11 +141,13 @@ public class UtilD extends Util {
 	 * @return -1 if ob is not in a
 	 */
 	public static int arrayContains(Object[] a, Object ob) {
-		if (a == null)
+		if (a == null) {
 			return -1;
+		}
 		for (int i = 0; i < a.length; i++) {
-			if (a[i] == ob)
+			if (a[i] == ob) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -157,9 +161,9 @@ public class UtilD extends Util {
 		cont.addKeyListener(l);
 		Component[] comps = cont.getComponents();
 		for (int i = 0; i < comps.length; i++) {
-			if (comps[i] instanceof Container)
+			if (comps[i] instanceof Container) {
 				addKeyListenerToAll((Container) comps[i], l);
-			else {
+			} else {
 				comps[i].addKeyListener(l);
 			}
 		}
@@ -185,8 +189,9 @@ public class UtilD extends Util {
 			Log.error("problem loading " + filename);
 		} finally {
 			try {
-				if (ios != null)
+				if (ios != null) {
 					ios.close();
+				}
 			} catch (IOException e) {
 				Log.error("problem loading " + filename);
 			}
@@ -304,6 +309,7 @@ public class UtilD extends Util {
 	public static Comparator<File> getFileComparator() {
 		if (comparator == null) {
 			comparator = new Comparator<File>() {
+				@Override
 				public int compare(File itemA, File itemB) {
 
 					return itemA.getName().compareTo(itemB.getName());
@@ -317,6 +323,7 @@ public class UtilD extends Util {
 	public static String getIPAddress() {
 		return (String) AccessController
 				.doPrivileged(new PrivilegedAction<Object>() {
+					@Override
 					public Object run() {
 						try {
 							InetAddress addr = InetAddress.getLocalHost();
@@ -331,6 +338,7 @@ public class UtilD extends Util {
 
 	public static String getHostname() {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
+			@Override
 			public String run() {
 				try {
 					InetAddress addr = InetAddress.getLocalHost();

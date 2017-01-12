@@ -22,6 +22,7 @@ public class TTFNameTable extends TTFTable {
 	private String[][] name = new String[4][19]; // 18 NameIDs according to
 													// OpenType
 
+	@Override
 	public String getTag() {
 		return "name";
 	}
@@ -31,6 +32,7 @@ public class TTFNameTable extends TTFTable {
 	// PID = 1, EID = 0, LID = 0; -> Default Encoding (Mac-Roman-English)
 	// PID = 3, EID = 1, LID = 1033; -> UnicodeBig (Win-UGL-ENU)
 	// LID english, other languages ignored
+	@Override
 	public void readTable() throws IOException {
 
 		format = ttf.readUShort();
@@ -76,6 +78,7 @@ public class TTFNameTable extends TTFTable {
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer s = new StringBuffer();
 		s.append(super.toString() + "\n");

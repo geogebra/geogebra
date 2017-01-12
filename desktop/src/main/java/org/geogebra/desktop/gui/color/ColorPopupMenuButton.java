@@ -79,6 +79,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 				getSliderValue() / 100f, iconSize, colorSetType));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (this.hasSlider) {
 			Integer si = getSelectedIndex();
@@ -131,12 +132,13 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 
 	public void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
-		if (gc != null)
+		if (gc != null) {
 			this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
 					GColorD.getAwtColor(gc), null));
-		else
+		} else {
 			this.setIcon(GeoGebraIconD.createNullSymbolIcon(iconSize.width,
 					iconSize.height));
+		}
 	}
 
 	private String[] getToolTipArray() {
@@ -155,7 +157,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	private static ImageIcon[] getColorSwatchIcons(GColor[] colorArray,
 			float alpha, Dimension iconSize, int colorSetType) {
 		ImageIcon[] a = new ImageIcon[colorArray.length];
-		for (int i = 0; i < colorArray.length; i++)
+		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {
 				a[i] = GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
 						GColorD.getAwtColor(colorArray[i]), null);
@@ -163,6 +165,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 				a[i] = GeoGebraIconD.createNullSymbolIcon(iconSize.width,
 						iconSize.height);
 			}
+		}
 		return a;
 	}
 
