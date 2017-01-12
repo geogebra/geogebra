@@ -25,7 +25,6 @@
 
 package org.geogebra.ggbjdk.sun.awt.geom;
 
-import java.awt.geom.PathIterator;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -97,7 +96,7 @@ public abstract class Crossings {
         return cross;
     }
 
-    public static Crossings findCrossings(PathIterator pi,
+	public static Crossings findCrossings(GPathIterator pi,
                                           double xlo, double ylo,
                                           double xhi, double yhi)
     {
