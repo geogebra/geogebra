@@ -2330,4 +2330,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
+	public boolean isInputActive() {
+		return activeItem == inputPanelLatex;
+	}
 }

@@ -322,9 +322,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	void scrollToInputField() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView) {
-			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
-					.getDockManager().getPanel(App.VIEW_ALGEBRA)))
-					.scrollToBottom();
+			AlgebraDockPanelW dp = (AlgebraDockPanelW) (app.getGuiManager()
+					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
+			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			dp.scrollToActiveItem();
+			} else {
+				dp.scrollToBottom();
+			}
 		}
 	}
 

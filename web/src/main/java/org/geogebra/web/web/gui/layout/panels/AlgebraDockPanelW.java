@@ -1,9 +1,11 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraDockPanelW extends DockPanelW {
 
+	private static final int AUTOSCROLL_MARGIN = 10;
 	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
@@ -94,6 +97,18 @@ public class AlgebraDockPanelW extends DockPanelW {
 	}
 
 	/**
+	 * scrolls to a specific position of the panel
+	 * 
+	 * @param position
+	 *            to scroll to.
+	 */
+	public void scrollTo(int position) {
+		if (this.algebrap != null) {
+			this.algebrap.setVerticalScrollPosition(position);
+		}
+	}
+
+	/**
 	 * scrolls to the bottom of the panel
 	 */
 	public void scrollToBottom(){
@@ -107,4 +122,36 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 	}
 
+	/**
+	 * Scroll to the item that is selected.
+	 */
+	public void scrollToActiveItem() {
+		// if (aview.isInputActive()) {
+		// scrollToBottom();
+		// return;
+		// }
+
+		RadioTreeItem item = aview.getActiveTreeItem();
+		if (item == null) {
+			return;
+		}
+
+		int spH = algebrap.getOffsetHeight();
+		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+
+		int h = aview.getOffsetHeight();
+
+		int itemTop = item.getAbsoluteTop() - algebrap.getAbsoluteTop()
+				+ item.getOffsetHeight() + AUTOSCROLL_MARGIN;
+
+		int relTop = itemTop % (spH + kH);
+		Log.debug("[AVS] scrollpanel: " + spH + " item top: " + itemTop
+				+ " relative: " + relTop);
+
+		if (relTop > spH) {
+			Log.debug("[AVS] scrollolololllollllllllllllll");
+			scrollTo(itemTop);
+		}
+
+	}
 }
