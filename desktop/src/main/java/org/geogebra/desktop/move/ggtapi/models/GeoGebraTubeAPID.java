@@ -30,7 +30,9 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 	public GeoGebraTubeAPID(boolean beta, ClientInfo client) {
 		super(beta);
 		this.client = client;
-		HttpRequestD.ignoreSSL();
+
+		// just for testing (or certificate emergency)
+		// HttpRequestD.ignoreSSL();
 	}
 
 	@Override

@@ -160,6 +160,7 @@ public class HttpRequestD extends HttpRequest {
 	 * untrusted-certificate-for-ssl-https-connection
 	 */
 	public static void ignoreSSL() {
+		Log.error("****************************** ignoring SSL certificate");
 		TrustManager[] trustAllCerts = new TrustManager[] {
 				new X509TrustManager() {
 					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
