@@ -675,8 +675,14 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		addDummyDiv();
+		this.g2p.getCanvas().getElement().setAttribute("role", "status");
 		this.g2p.getCanvas().getElement().setAttribute("aria-live",
 				"polite");
+		this.g2p.getCanvas().getElement().setAttribute("aria-atomic",
+				"false");
+		this.g2p.getCanvas().getElement().setAttribute("aria-relevant",
+				"additions");
+
 
 	}
 
@@ -1280,11 +1286,11 @@ public class EuclidianViewW extends EuclidianView implements
 		// RootPanel.getBodyElement().focus();
 		// printFocusedElement();
 		// DOM.getElementById("ggbPage").focus();
-		// dummyDiv.getElement().focus();
+		dummyDiv.getElement().focus();
 		// printFocusedElement();
 		// g2p.getCanvas().getCanvasElement().blur();
 		// printFocusedElement();
-		// g2p.getCanvas().getCanvasElement().focus();
+		g2p.getCanvas().getCanvasElement().focus();
 		// printFocusedElement();
 
 		// g2p.setAltText(oldAltText);
