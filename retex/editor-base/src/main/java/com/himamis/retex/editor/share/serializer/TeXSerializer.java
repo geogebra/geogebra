@@ -409,4 +409,10 @@ public class TeXSerializer extends SerializerAdapter {
         }
         return false;
     }
+
+	public static String serialize(MathSequence ms, MetaModel model) {
+		StringBuilder b = new StringBuilder();
+		new TeXSerializer(model).serialize(ms, b);
+		return b.toString();
+	}
 }

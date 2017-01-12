@@ -35,10 +35,10 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -53,8 +53,12 @@ public class Test {
 		mathField.setFieldListener(new MathFieldListener() {
 
 			public void onEnter() {
+				System.out.println(mathField.getFormula().getRootComponent());
 				System.out.println(GeoGebraSerializer
 						.serialize(mathField.getFormula().getRootComponent()));
+				System.out.println(TeXSerializer.serialize(
+						mathField.getFormula().getRootComponent(),
+						mathField.getMetaModel()));
 				System.out.println(mathField.getCurrentWord());
 			}
 
@@ -102,16 +106,18 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("log_{()}");
+					.parse("f(x)=x^2");
 			mathField.setFormula(f);
-			mathField.getInternal().getCursorController()
-					.prevCharacter(mathField.getInternal().getEditorState());
-			mathField.getInternal()
-					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0));
-			mathField.getInternal().getInputController().removeCharacters(
-					mathField.getInternal().getEditorState(), 1, 0);
-			mathField.getInternal().update();
-			System.out.println(mathField.getCurrentWord());
+			/*
+			 * mathField.getInternal().getCursorController()
+			 * .prevCharacter(mathField.getInternal().getEditorState());
+			 * mathField.getInternal() .onKeyPressed(new
+			 * KeyEvent(KeyEvent.VK_LEFT, 0));
+			 * mathField.getInternal().getInputController().removeCharacters(
+			 * mathField.getInternal().getEditorState(), 1, 0);
+			 * mathField.getInternal().update();
+			 * System.out.println(mathField.getCurrentWord());
+			 */
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
