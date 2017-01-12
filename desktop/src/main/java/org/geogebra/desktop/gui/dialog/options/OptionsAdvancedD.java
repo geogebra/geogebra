@@ -497,7 +497,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		if (loc != null) {
 			// look for index in locale list and add 1 to compensate default
 			// entry
-			selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc) + 1;
+			selectedIndex = KeyboardSettings.indexOfLocale(loc) + 1;
 		}
 		// take care that this doesn't fire events by accident
 		cbKeyboardLanguage.removeActionListener(this);
@@ -638,7 +638,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 						.setKeyboardLocale(app.getLocale().toString());
 			else
 				settings.getKeyboard().setKeyboardLocale(
-						KeyboardSettings.supportedLocales.get(index - 1));
+						KeyboardSettings.getLocale(index - 1));
 		} else if (source == cbKeyboardShowAutomatic) {
 			settings.getKeyboard().setShowKeyboardOnStart(
 					cbKeyboardShowAutomatic.isSelected());
@@ -800,12 +800,12 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	 * first item in the list.
 	 */
 	private void setLabelsKeyboardLanguage() {
-		String[] languages = new String[KeyboardSettings.supportedLocales.size()
+		String[] languages = new String[KeyboardSettings.getLocaleCount()
 				+ 1];
 		languages[0] = loc.getPlain("Default");
 
-		for (int i = 0; i < KeyboardSettings.supportedLocales.size(); i++) {
-			Locale loc1 = new Locale(KeyboardSettings.supportedLocales.get(i));
+		for (int i = 0; i < KeyboardSettings.getLocaleCount(); i++) {
+			Locale loc1 = new Locale(KeyboardSettings.getLocale(i));
 
 			// eg want "Norwegian", not "Norwegian (Bokmal)" etc
 			languages[i + 1] = loc1.getDisplayLanguage(Locale.ENGLISH);
@@ -824,7 +824,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 			} else {
 				// look for index in locale list and add 1 to compensate default
 				// entry
-				selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc)
+				selectedIndex = KeyboardSettings.indexOfLocale(loc)
 						+ 1;
 			}
 		}

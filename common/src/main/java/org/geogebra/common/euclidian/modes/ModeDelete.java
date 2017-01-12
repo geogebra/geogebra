@@ -72,8 +72,8 @@ public class ModeDelete {
 			// delete tool should delete the object for dragging
 			// at whiteboard
 			// see MOW-97
-			if (!view.getApplication().has(Feature.ERASER)
-					|| ec.getMode() == EuclidianConstants.MODE_DELETE) {
+			if (view.getApplication().has(Feature.ERASER)
+					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoPenStroke) {
 				GeoPenStroke gps = (GeoPenStroke) geo;

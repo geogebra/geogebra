@@ -1349,13 +1349,13 @@ public class Polynomial implements Comparable<Polynomial> {
 				}
 			}
 			Variable[] pVariables = new Variable[variables.size()];
-			String debug = "";
+			StringBuilder debug = new StringBuilder();
 			for (int j = 0; j < vSize; ++j) {
 				pVariables[j] = aVariables[indices[j]];
-				debug += aVariables[indices[j]] + ",";
+				debug.append(aVariables[indices[j]] + ",");
 			}
-			if (!"".equals(debug)) {
-				debug = debug.substring(0, debug.length() - 1);
+			if (debug.length() > 0) {
+				debug.setLength(debug.length() - 1);
 			}
 			Log.debug("Checking variable permutation #" + permutation + ": "
 					+ debug);

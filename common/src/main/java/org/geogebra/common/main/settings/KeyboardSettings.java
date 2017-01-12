@@ -17,7 +17,7 @@ public class KeyboardSettings extends AbstractSettings {
 	/**
 	 * List of supported locales as strings, e.g. hu, en_GB
 	 */
-	public static final ArrayList<String> supportedLocales = new ArrayList<String>();
+	private static final ArrayList<String> supportedLocales = new ArrayList<String>();
 	static {
 		supportedLocales.add(Language.Arabic.locale); // Arabic
 
@@ -133,6 +133,18 @@ public class KeyboardSettings extends AbstractSettings {
 			}
 		}
 		Log.debug("Unsupported keyboard locale: " + string);
+	}
+
+	public static int getLocaleCount() {
+		return supportedLocales.size();
+	}
+
+	public static String getLocale(int i) {
+		return supportedLocales.get(i);
+	}
+
+	public static int indexOfLocale(String loc) {
+		return supportedLocales.indexOf(loc);
 	}
 
 }

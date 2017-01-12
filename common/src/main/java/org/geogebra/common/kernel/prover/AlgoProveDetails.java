@@ -214,49 +214,50 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					// Do not print unnecessary conditions:
 					if (ndgc.getReadability() > 0) {
 						ndgc.rewrite(cons);
-						String s = null;
+						StringBuilder s = null;
 
 						if (relTool) {
 							String cond = ndgc.getCondition();
 							if ("AreParallel".equals(cond)) {
 								// non-parallism in 2D means intersecting
 								// FIXME: this is not true for 3D
-								s = RelationNumerical.intersectString(
+								s = sb(RelationNumerical.intersectString(
 										ndgc.getGeos()[0], ndgc.getGeos()[1],
-										true, getLoc());
+										true, getLoc()));
 							} else if ("AreCollinear".equals(cond)) {
-								s = RelationNumerical
+								s = sb(RelationNumerical
 										.triangleNonDegenerateString(
 												(GeoPoint) ndgc.getGeos()[0],
 												(GeoPoint) ndgc.getGeos()[1],
 												(GeoPoint) ndgc.getGeos()[2],
-												getLoc());
+												getLoc()));
 							} else if ("AreEqual".equals(cond)) {
-								s = RelationNumerical.equalityString(
+								s = sb(RelationNumerical.equalityString(
 										ndgc.getGeos()[0], ndgc.getGeos()[1],
-										false, getLoc());
+										false, getLoc()));
 							} else if ("ArePerpendicular".equals(cond)) {
-								s = RelationNumerical.perpendicularString(
+								s = sb(RelationNumerical.perpendicularString(
 										(GeoLine) ndgc.getGeos()[0],
 										(GeoLine) ndgc.getGeos()[1], false,
-										getLoc());
+										getLoc()));
 							} else if ("AreCongruent".equals(cond)) {
-								s = RelationNumerical.congruentSegmentString(
+								s = sb(RelationNumerical.congruentSegmentString(
 										ndgc.getGeos()[0], ndgc.getGeos()[1],
-										false, getLoc());
+										false, getLoc()));
 							}
 						}
 						if (s == null || !relTool) {
 							GeoElement[] geos = ndgc.getGeos();
 							if (geos == null) { // formula with quantities
-								s = ndgc.getCondition();
+								s = sb(ndgc.getCondition());
 							} else {
-								s = getLoc().getCommand(ndgc.getCondition());
-								s += "[";
+								s = sb(getLoc()
+										.getCommand(ndgc.getCondition()));
+								s.append("[");
 								for (int i = 0; i < ndgc
 										.getGeos().length; ++i) {
 									if (i > 0) {
-										s += ',';
+										s.append(',');
 									}
 									/*
 									 * There can be a case when the underlying
@@ -269,19 +270,20 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 									 */
 									GeoElement geo = ndgc.getGeos()[i];
 									if (geo != null) {
-										s += ndgc.getGeos()[i].getLabelSimple();
+										s.append(ndgc.getGeos()[i]
+												.getLabelSimple());
 									} else {
-										s += Unicode.ellipsis;
+										s.append(Unicode.ellipsis);
 									}
 								}
-								s += "]";
+								s.append("]");
 								if (relTool) {
-									s = getLoc().getPlain("not") + " " + s;
+									s.insert(0, getLoc().getPlain("not") + " ");
 								}
 							}
 						}
 
-						ndgConditionText.setTextString(s);
+						ndgConditionText.setTextString(s.toString());
 						ndgConditionText.setLabelVisible(false);
 						ndgConditionText.setEuclidianVisible(false);
 						sortedSet.add(ndgConditionText);
@@ -317,6 +319,10 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		 */
 		Log.debug("OUTPUT for ProveDetails: " + list);
 
+	}
+
+	private static StringBuilder sb(String content) {
+		return content == null ? null : new StringBuilder(content);
 	}
 
 	@Override
