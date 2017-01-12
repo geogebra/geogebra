@@ -129,6 +129,13 @@ public class AlgoPolyLine extends AlgoElement {
 	}
 
 	/**
+	 * @return - true, if poly is pen stroke
+	 */
+	public boolean getIsPenStroke() {
+		return penStroke;
+	}
+
+	/**
 	 * Update point array of polygon using the given array list
 	 * 
 	 * @param pointList
@@ -189,6 +196,44 @@ public class AlgoPolyLine extends AlgoElement {
 		setOutputLength(1);
 		setOutput(0, poly);
 		setDependencies();
+	}
+
+	/**
+	 * method to update input points of poly (needed for pen stroke after
+	 * delete)
+	 */
+	public void updateInput() {
+		if (geoList != null) {
+
+			if (penStroke) {
+				// list as input
+				input = new GeoElement[2];
+				input[0] = geoList;
+				input[1] = new GeoBoolean(cons, true); // dummy to force
+														// PolyLine[list, true]
+			} else {
+				// list as input
+				input = new GeoElement[1];
+				input[0] = geoList;
+			}
+		} else {
+			input = new GeoElement[points.length + (penStroke ? 1 : 0)];
+			for (int i = 0; i < points.length; i++) {
+				input[i] = (GeoElement) points[i];
+			}
+
+			if (penStroke) {
+				input[points.length] = new GeoBoolean(cons, true); // dummy to
+																	// force
+																	// PolyLine[...,
+																	// true]
+			}
+
+		}
+		// set dependencies
+		for (int i = 0; i < input.length; i++) {
+			input[i].addAlgorithm(this);
+		}
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class ModeDelete {
 			// delete tool should delete the object for dragging
 			// at whiteboard
 			// see MOW-97
-			if (view.getApplication().has(Feature.ERASER)) {
+			if (!view.getApplication().has(Feature.ERASER)) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoPenStroke) {
 				GeoPenStroke gps = (GeoPenStroke) geo;
@@ -556,6 +556,9 @@ public class ModeDelete {
 						.setPointsList(pointList);
 				((AlgoPolyLine) gps.getParentAlgorithm()).update();
 				((AlgoPolyLine) gps.getParentAlgorithm()).setPointsList(null);
+				((AlgoPolyLine) gps.getParentAlgorithm()).updateInput();
+				((AlgoPolyLine) gps.getParentAlgorithm()).update();
+				gps.notifyUpdate();
 			}
 		}
 	}

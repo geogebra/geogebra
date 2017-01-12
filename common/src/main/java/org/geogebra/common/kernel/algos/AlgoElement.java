@@ -1130,7 +1130,8 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @return list of moveable input points
 	 */
 	public ArrayList<GeoPointND> getFreeInputPoints() {
-		if (freeInputPoints == null) {
+		if (freeInputPoints == null || (this instanceof AlgoPolyLine
+				&& ((AlgoPolyLine) this).getIsPenStroke())) {
 			freeInputPoints = new ArrayList<GeoPointND>(input.length);
 
 			// don't use free points from dependent algos with expression trees
