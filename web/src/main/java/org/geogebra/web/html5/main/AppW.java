@@ -3504,6 +3504,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			hiddenTextArea = $doc.createElement("textarea");
 			hiddenTextArea.id = 'hiddenCopyPasteTextArea';
 			hiddenTextArea.style.position = 'absolute';
+			hiddenTextArea.style.display = 'none';
 			hiddenTextArea.style.zIndex = '100';
 			hiddenTextArea.style.left = '-1000px';
 			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
