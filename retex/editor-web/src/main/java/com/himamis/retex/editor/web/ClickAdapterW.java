@@ -29,13 +29,18 @@ public class ClickAdapterW
 	private ClickListener handler;
 	private boolean pointerIsDown = false;
 	private Widget widget;
+	private MathFieldW field;
 
-	public ClickAdapterW(ClickListener handler) {
+	public ClickAdapterW(ClickListener handler, MathFieldW field) {
 		this.handler = handler;
+		this.field = field;
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		if (!field.isEnabled()) {
+			return;
+		}
 		SelectionBox.touchSelection = false;
 		handler.onPointerDown(event.getX(), event.getY());
 		Event.setCapture(widget.getElement());
@@ -44,6 +49,9 @@ public class ClickAdapterW
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		if (!field.isEnabled()) {
+			return;
+		}
 		SelectionBox.touchSelection = true;
 
 		handler.onPointerDown(getX(event), getY(event));
@@ -68,6 +76,9 @@ public class ClickAdapterW
 	}
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		if (!field.isEnabled()) {
+			return;
+		}
 		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
 		handler.onPointerUp(event.getX(), event.getY());
@@ -75,6 +86,9 @@ public class ClickAdapterW
 	}
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		if (!field.isEnabled()) {
+			return;
+		}
 		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
 		handler.onPointerUp(getX(event), getY(event));

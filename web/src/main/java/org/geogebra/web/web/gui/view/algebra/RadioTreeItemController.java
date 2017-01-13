@@ -194,7 +194,9 @@ public class RadioTreeItemController
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
-			item.adjustCaret(event.getClientX());
+			if (isEditing()) {
+				item.adjustCaret(event.getClientX(), event.getClientY());
+			}
 			if (isEditing() && !item.isInputTreeItem()) {
 				return;
 			}
@@ -240,6 +242,8 @@ public class RadioTreeItemController
 
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && canEditStart(event)) {
 			editOnTap(isEditing(), event);
+			// MOW-85 move to the very left
+			item.adjustCaret(event.getClientX(), event.getClientY());
 		}
 	}
 
@@ -354,7 +358,7 @@ public class RadioTreeItemController
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		if (isEditing()) {
-			item.adjustCaret(x);
+			item.adjustCaret(x, y);
 			return;
 		}
 		if (markForEdit()) {

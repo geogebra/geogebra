@@ -404,7 +404,7 @@ public class LatexTreeItem extends RadioTreeItem {
 	@Override
 	protected void updateAfterRedefine(boolean success) {
 		if (mf != null && success) {
-			mf.setFocus(false);
+			mf.setEnabled(false);
 		}
 		super.updateAfterRedefine(success);
 	}
@@ -444,7 +444,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		removeDummy();
 
 		renderLatex(text, true);
-		getMathField().setFocus(true);
+		getMathField().requestViewFocus();
 		app.getGlobalKeyDispatcher().setFocused(true);
 		canvas.addBlurHandler(getLatexController());
 		CancelEventTimer.keyboardSetVisible();
@@ -462,12 +462,9 @@ public class LatexTreeItem extends RadioTreeItem {
 	}
 
 	@Override
-	public void adjustCaret(int x) {
-		if (mf != null && mf.asWidget().getAbsoluteLeft()
-				+ mf.asWidget().getOffsetWidth() < x) {
-			mf.moveCaretLeftOrRight(true);
-		} else if (mf != null && mf.asWidget().getAbsoluteLeft() > x) {
-			mf.moveCaretLeftOrRight(false);
+	public void adjustCaret(int x, int y) {
+		if (mf != null) {
+			mf.adjustCaret(x, y);
 		}
 
 	}

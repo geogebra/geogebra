@@ -90,6 +90,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private KeyListener keyListener;
 	private boolean rightAltDown = false;
 	private boolean leftAltDown = false;
+	private boolean enabled = true;
 	private static Timer tick;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 
@@ -135,6 +136,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
+				if (!isEnabled()) {
+					return;
+				}
 				event.stopPropagation();
 				setFocus(true);
 				rightAltDown = false;
@@ -144,6 +148,17 @@ public class MathFieldW implements MathField, IsWidget {
 		}, MouseDownEvent.getType());
 
 		setKeyListener(wrap, keyListener);
+	}
+
+	protected boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean flag) {
+		this.enabled = flag;
+		if (!flag) {
+			setFocus(false);
+		}
 	}
 
 	@Override
@@ -165,7 +180,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		ClickAdapterW adapter = new ClickAdapterW(clickListener);
+		ClickAdapterW adapter = new ClickAdapterW(clickListener, this);
 		adapter.listenTo(html);
 	}
 
@@ -300,6 +315,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void requestViewFocus() {
+		setEnabled(true);
 		setFocus(true);
 	}
 
@@ -579,24 +595,28 @@ public class MathFieldW implements MathField, IsWidget {
 		return false;
 	}-*/;
 
-	public void moveCaretLeftOrRight(boolean right) {
-		if (right) {
-			mathFieldInternal.getCursorController();
-			CursorController
-					.lastField(mathFieldInternal.getEditorState());
-		} else {
-			mathFieldInternal.getCursorController();
-			CursorController
-					.firstField(mathFieldInternal.getEditorState());
-		}
-		// update even when cursor didn't change here
-		mathFieldInternal.update();
 
-	}
 
 	public void setFontSize(double size) {
 		this.mathFieldInternal.setSize(size);
 		this.mathFieldInternal.update();
+	}
+
+	public void adjustCaret(int absX, int absY) {
+		int x = absX - asWidget().getAbsoluteLeft();
+		int y = absY - asWidget().getAbsoluteTop();
+		if (x > asWidget().getOffsetWidth()) {
+
+			CursorController.lastField(mathFieldInternal.getEditorState());
+			mathFieldInternal.update();
+		} else if (x < 0) {
+
+			CursorController.firstField(mathFieldInternal.getEditorState());
+			mathFieldInternal.update();
+		}else {
+			mathFieldInternal.onPointerUp(x, y);
+		}
+
 	}
 
 }

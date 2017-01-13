@@ -65,7 +65,7 @@
 		<Open cas="{" tex="\begin{pmatrix} " />
 		<Close cas="}" tex=" \end{pmatrix}" />
 		<Field cas="," tex=" &amp; " />
-		<Row cas=";" tex=" \\ " />
+		<Row cas="," tex=" \\ " />
 	</Matrix>
 
 	<Characters>

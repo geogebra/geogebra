@@ -25,7 +25,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 
 	@Override
 	public void ensureEditing() {
-		mf.setFocus(true);
+		mf.requestViewFocus();
 
 	}
 
