@@ -190,7 +190,7 @@ public class RowHeaderPopupMenuW extends
 					toBeCopied = toBeCopied.substring(0,
 							toBeCopied.length() - 13);
 				}
-				CopyPasteCutW.copyToSystemClipboard(toBeCopied);
+				app.copyTextToSystemClipboard(toBeCopied);
 			}
 			break;
 		case COPY:
@@ -199,7 +199,7 @@ public class RowHeaderPopupMenuW extends
 			// and if this is the case, the formula ends by:
 			// \\ undefined \\
 			if (toBeCopied != null) {
-				CopyPasteCutW.copyToSystemClipboard(toBeCopied);
+				app.copyTextToSystemClipboard(toBeCopied);
 			}
 			break;
 		case COPY_INPUT:
@@ -208,7 +208,7 @@ public class RowHeaderPopupMenuW extends
 			// and if this is the case, the formula ends by:
 			// \\ undefined \\
 			if (toBeCopied != null) {
-				CopyPasteCutW.setClipboardContents(toBeCopied, null);
+				app.copyTextToSystemClipboard(toBeCopied);
 			}
 			break;
 		case PASTE:

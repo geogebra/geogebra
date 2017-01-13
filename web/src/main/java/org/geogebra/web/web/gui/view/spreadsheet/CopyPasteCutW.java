@@ -7,8 +7,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
-
-import com.google.gwt.dom.client.Element;
+import org.geogebra.web.html5.main.AppW;
 
 public class CopyPasteCutW extends CopyPasteCut {
 
@@ -111,7 +110,9 @@ public class CopyPasteCutW extends CopyPasteCut {
 			// is not crucial, and redundant/harmful in IE...
 			setInternalClipboardContents(new String(getCellBufferStr()));
 		} else {
-			setClipboardContents(new String(getCellBufferStr()), getFocusCallback());
+			((AppW) app).copyTextToSystemClipboard(
+					new String(getCellBufferStr()),
+					getFocusCallback());
 		}
 
 		// store copies of the actual geos in the internal buffer
@@ -263,38 +264,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 	}
 
 	/**
-	 * When using the default functionality of the browser,
-	 * getting/setting clipboard contents is solved quite well,
-	 * and it uses the external clipboard. Thus this method is
-	 * redundant in case it's called from copy or cut events,
-	 * maybe does the same thing twice in Internet Explorer.
-	 * 
-	 * However, we may call the same thing from GeoGebraWeb
-	 * context menu, and in that case the form of this method
-	 * is just Okay. Note that in order to make the
-	 * staticClipboardString function well from context menu,
-	 * we need to set it every case this method is called,
-	 * and every case the cut/paste events happen.  
-	 * 
-	 * @param value String
-	 */
-	public static void setClipboardContents(String value, Runnable onFocusChange) {
-		if (isChromeWebapp()) { // use chrome web app copy API
-			copyToSystemClipboardChromeWebapp(value);
-			if (onFocusChange != null) {
-				onFocusChange.run();
-			}
-		} else if (Browser.isInternetExplorer()) {
-			//App.debug("is IE");
-			copyToSystemClipboardIE(value);
-		}
-		// use internal clipboard too, every time
-		staticClipboardString = value;
-
-		copyToSystemClipboard(value);
-	}
-
-	/**
 	 * As copying to system clipboard is supposed to have done
 	 * @param value String
 	 */
@@ -307,73 +276,20 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// the function is defined in app.html
 		return $doc.isChromeWebapp();
 	}-*/;
-	
-	private static native Element getHiddenTextArea() /*-{
-		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteTextArea');
-		if (!hiddenTextArea) {
-			hiddenTextArea = $doc.createElement("textarea");
-			hiddenTextArea.id = 'hiddenCopyPasteTextArea';
-			hiddenTextArea.style.position = 'absolute';
-			hiddenTextArea.style.zIndex = '100';
-			hiddenTextArea.style.left = '-1000px';
-			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
-		}
-		//hiddenTextArea.value = '';
-		return hiddenTextArea;
-	}-*/;
-	
+
 	private static native String getSystemClipboardChromeWebapp() /*-{
-		var copyFrom = @org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
 		copyFrom.select();
 		$doc.execCommand('paste');
 		var contents = copyFrom.value;
 		return contents;
 	}-*/;
 
-	public static native void copyToSystemClipboardChromeWebapp(String value) /*-{
-		var copyFrom = @org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-		copyFrom.value = value;
-		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
-	
 	private static native String getSystemClipboardIE() /*-{
 		return $wnd.clipboardData.getData('Text');
 	}-*/;
 
 	public static native void copyToSystemClipboardIE(String value) /*-{
 		return $wnd.clipboardData.setData('Text', value);
-	}-*/;
-
-
-	/**
-	 * The code for this method is the same as:
-	 * CopyPasteCutW.copyToSystemClipboardChromeWebapp ... so its name suggests
-	 * that there is still some limitation to its use, even if it will work in
-	 * Firefox 41 ... problem is that it's harder to feature-detect
-	 * 
-	 * @param value
-	 *            String to copy to clipboard
-	 * @return whether the method returns successfully or fails
-	 */
-	public static native boolean copyToSystemClipboard(String value) /*-{
-		var copyFrom = $doc.getElementById('hiddenCopyPasteTextArea');
-		if (!copyFrom) {
-			copyFrom = $doc.createElement("textarea");
-			copyFrom.id = 'hiddenCopyPasteTextArea';
-			copyFrom.style.position = 'absolute';
-			copyFrom.style.zIndex = '100';
-			copyFrom.style.left = '-1000px';
-			copyFrom.style.width = '500px';
-			$doc.getElementsByTagName('body')[0].appendChild(copyFrom);
-		}
-		copyFrom.value = value;
-		copyFrom.select();
-		try {
-			$doc.execCommand('copy');
-		} catch (ex) {
-			return false;
-		}
-		return true;
 	}-*/;
 }

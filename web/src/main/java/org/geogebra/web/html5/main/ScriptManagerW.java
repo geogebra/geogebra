@@ -901,6 +901,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits+"");
 		};
 
+		api.copyTextToClipboard = function(text) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::copyTextToClipboard(Ljava/lang/String;)(text+"");
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 

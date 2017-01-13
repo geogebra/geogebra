@@ -1212,59 +1212,38 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return GeoGebraProfilerW.getMillisecondTimeNative();
 	}
 
-
-
-	@Override
-	public void copyBase64ToClipboard() {
-		String str = getGgbApi().getBase64();
-		if (Browser.isChromeWebApp()) {
-			copyBase64ToClipboardChromeWebAppCase(str);
-		} else {
-			// this usually opens a Window.prompt
-			copyBase64NonWebApp(str);
-		}
-	}
-
-	@Override
-	public void copyFullHTML5ExportToClipboard() {
-		String str = getFullHTML5ExportString();
-		if (Browser.isChromeWebApp()) {
-			copyBase64ToClipboardChromeWebAppCase(str);
-		} else {
-			// this usually opens a Window.prompt
-			copyBase64NonWebApp(str);
-		}
-	}
-
-	public native void copyBase64NonWebApp(String str) /*-{
-		var userAgent = $wnd.navigator.userAgent.toLowerCase();
-		if ((userAgent.indexOf('msie') > -1)
-				|| (userAgent.indexOf('trident') > -1)) {
-			// It is a good question what shall we do in Internet Explorer?
-			// Security settings may block clipboard, new browser tabs, window.prompt, alert
-			// Use a custom alert! but this does not seem to work either
-
-			//this.@org.geogebra.web.html5.main.GlobalKeyDispatcherW::showConfirmDialog(Ljava/lang/String;)(str);
-			// alternative, better than nothing, but not always working
-			//if ($wnd.clipboardData) {
-			//	$wnd.clipboardData.setData('Text', str);
-			//}
-
-			// then just do the same as in other cases, for now
-			if ($wnd.prompt) {
-				$wnd.prompt('Base64', str);
-			} else {
-				this.@org.geogebra.web.html5.main.AppW::showConfirmDialog(Ljava/lang/String;Ljava/lang/String;)("Base64", str);
-			}
-		} else {
-			// otherwise, we should do the following:
-			if ($wnd.prompt) {
-				$wnd.prompt('Base64', str);
-			} else {
-				this.@org.geogebra.web.html5.main.AppW::showConfirmDialog(Ljava/lang/String;Ljava/lang/String;)("Base64", str);
-			}
-		}
-	}-*/;
+	// public native void copyBase64NonWebApp(String str) /*-{
+	// var userAgent = $wnd.navigator.userAgent.toLowerCase();
+	// if ((userAgent.indexOf('msie') > -1)
+	// || (userAgent.indexOf('trident') > -1)) {
+	// // It is a good question what shall we do in Internet Explorer?
+	// // Security settings may block clipboard, new browser tabs,
+	// window.prompt, alert
+	// // Use a custom alert! but this does not seem to work either
+	//
+	// //this.@org.geogebra.web.html5.main.GlobalKeyDispatcherW::showConfirmDialog(Ljava/lang/String;)(str);
+	// // alternative, better than nothing, but not always working
+	// //if ($wnd.clipboardData) {
+	// // $wnd.clipboardData.setData('Text', str);
+	// //}
+	//
+	// // then just do the same as in other cases, for now
+	// if ($wnd.prompt) {
+	// $wnd.prompt('Base64', str);
+	// } else {
+	// this.@org.geogebra.web.html5.main.AppW::showConfirmDialog(Ljava/lang/String;Ljava/lang/String;)("Base64",
+	// str);
+	// }
+	// } else {
+	// // otherwise, we should do the following:
+	// if ($wnd.prompt) {
+	// $wnd.prompt('Base64', str);
+	// } else {
+	// this.@org.geogebra.web.html5.main.AppW::showConfirmDialog(Ljava/lang/String;Ljava/lang/String;)("Base64",
+	// str);
+	// }
+	// }
+	// }-*/;
 
 	public void copyBase64ToClipboardChromeWebAppCase(String str) {
 		// This should do nothing in webSimple!
@@ -2154,10 +2133,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (StringUtil.empty(lCookieValue)) {
 			lCookieValue = Cookies.getCookie("GeoGebraLangUI");
 		}
+
+		Storage localStorage = Storage.getLocalStorageIfSupported();
+
 		if (StringUtil.empty(lCookieValue)
-				&& Browser.supportsSessionStorage()) {
-			lCookieValue = Storage.getLocalStorageIfSupported()
-					.getItem("GeoGebraLangUI");
+				&& localStorage != null) {
+			lCookieValue = localStorage.getItem("GeoGebraLangUI");
 		}
 		if (StringUtil.empty(lCookieValue)) {
 			lCookieValue = Browser.navigatorLanguage();
@@ -3515,6 +3496,50 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public GeoGebraToPgf newGeoGebraToPgf() {
 		return new GeoGebraToPgfW(this);
+	}
+
+	public static native Element getHiddenTextArea() /*-{
+		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteTextArea');
+		if (!hiddenTextArea) {
+			hiddenTextArea = $doc.createElement("textarea");
+			hiddenTextArea.id = 'hiddenCopyPasteTextArea';
+			hiddenTextArea.style.position = 'absolute';
+			hiddenTextArea.style.zIndex = '100';
+			hiddenTextArea.style.left = '-1000px';
+			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
+		}
+		//hiddenTextArea.value = '';
+		return hiddenTextArea;
+	}-*/;
+
+	/**
+	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome, Firefox,
+	 * Edge
+	 * 
+	 * this method doesn't always work in Edge, Firefox as needs to be run from
+	 * eg button
+	 * 
+	 * @param value
+	 *            text to copy
+	 */
+	public static native void copyToSystemClipboardNative(String value) /*-{
+		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
+		copyFrom.value = value;
+		copyFrom.select();
+		$doc.execCommand('copy');
+	}-*/;
+
+	@Override
+	public void copyTextToSystemClipboard(String text) {
+		copyToSystemClipboardNative(text);
+	}
+
+	public void copyTextToSystemClipboard(String text, Runnable notify) {
+		copyToSystemClipboardNative(text);
+
+		if (notify != null) {
+			notify.run();
+		}
 	}
 
 }

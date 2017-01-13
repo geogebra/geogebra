@@ -3070,12 +3070,16 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * copy base64 of current .ggb file to clipboard
 	 */
-	public abstract void copyBase64ToClipboard();
+	public void copyBase64ToClipboard() {
+		copyTextToSystemClipboard(getGgbApi().getBase64());
+	}
 
 	/**
 	 * copy full HTML5 export for current .ggb file to clipboard
 	 */
-	public abstract void copyFullHTML5ExportToClipboard();
+	public void copyFullHTML5ExportToClipboard() {
+		copyTextToSystemClipboard(getFullHTML5ExportString());
+	}
 
 	public String getFullHTML5ExportString() {
 
@@ -4733,6 +4737,7 @@ public abstract class App implements UpdateSelection {
 	 * @return GeoGebraToPstricks object
 	 */
 	public GeoGebraToPstricks newGeoGebraToPstricks() {
+		// overridden in AppD, AppW
 		return null;
 	}
 
@@ -4741,6 +4746,7 @@ public abstract class App implements UpdateSelection {
 	 * @return GeoGebraToAsymptote object
 	 */
 	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
+		// overridden in AppD, AppW
 		return null;
 	}
 
@@ -4749,7 +4755,12 @@ public abstract class App implements UpdateSelection {
 	 * @return GeoGebraToPgf object
 	 */
 	public GeoGebraToPgf newGeoGebraToPgf() {
+		// overridden in AppD, AppW
 		return null;
+	}
+
+	public void copyTextToSystemClipboard(String text) {
+		// overridden in AppD, AppW
 	}
 
 }

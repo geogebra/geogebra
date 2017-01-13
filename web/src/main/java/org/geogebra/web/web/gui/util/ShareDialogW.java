@@ -4,13 +4,11 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.FileMenuW;
-import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.Callback;
@@ -256,8 +254,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						CopyToClipboard(GeoGebraConstants.TUBE_URL_SHORT
-								+ sharingKey, link);
+						app.copyTextToSystemClipboard(
+								GeoGebraConstants.TUBE_URL_SHORT + sharingKey);
 						link.selectAll();
 					}
 				});
@@ -267,18 +265,6 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		copyLinkPanel.add(copyToClipboardIcon);
 
 		return copyLinkPanel;
-	}
-
-	static boolean CopyToClipboard(String value, TextBox link) {
-		if (CopyPasteCutW.copyToSystemClipboard(value)) {
-			return true;
-		}
-
-		if (Browser.isInternetExplorer()) {
-			CopyPasteCutW.copyToSystemClipboardIE(value);
-			return true;
-		}
-		return false;
 	}
 
 	private VerticalPanel getEmailPanel() {

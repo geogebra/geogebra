@@ -2113,4 +2113,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
+	/**
+	 * 
+	 * @param text
+	 *            text to copy to system clipboard
+	 */
+	final public void copyTextToClipboard(String text) {
+		app.copyTextToSystemClipboard(text);
+	}
+
 }

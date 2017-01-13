@@ -43,7 +43,10 @@ public class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public void storeLanguage(String s) {
-		Storage.getLocalStorageIfSupported().setItem("GeoGebraLangUI", s);
+		Storage storage = Storage.getLocalStorageIfSupported();
+		if (storage != null) {
+			storage.setItem("GeoGebraLangUI", s);
+		}
 	}
 
 	@Override

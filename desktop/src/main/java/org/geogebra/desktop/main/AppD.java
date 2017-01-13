@@ -2313,18 +2313,23 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
+	public void copyTextToSystemClipboard(String text) {
+		Toolkit.getDefaultToolkit().getSystemClipboard()
+				.setContents(new StringSelection(text), null);
+	}
+
+
+	@Override
 	public void copyBase64ToClipboard() {
 
 		// don't include preview bitmap
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-				new StringSelection(getGgbApi().getBase64(false)), null);
+		copyTextToSystemClipboard(getGgbApi().getBase64(false));
 	}
 
 	@Override
 	public void copyFullHTML5ExportToClipboard() {
 
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-				new StringSelection(getFullHTML5ExportString()), null);
+		copyTextToSystemClipboard(getFullHTML5ExportString());
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {

@@ -487,7 +487,7 @@ public abstract class AppWFull extends AppW {
 	public final native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
 		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
 		// although it's strange that .contentEditable is not set to true
-		var copyFrom = @org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
 		copyFrom.value = str;
 		copyFrom.select();
 		$doc.execCommand('copy');
