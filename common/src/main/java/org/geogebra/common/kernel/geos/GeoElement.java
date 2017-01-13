@@ -505,6 +505,7 @@ public abstract class GeoElement extends ConstructionElement
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
+	private boolean isShape = false;
 	/********************************************************/
 
 	/**
@@ -6566,6 +6567,21 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public boolean isVariable() {
 		return false;
+	}
+
+	/**
+	 * @return is geo created with shape tool
+	 */
+	public boolean isShape() {
+		return isShape;
+	}
+
+	/**
+	 * @param isShape
+	 *            - true, if geo was created with shape tool
+	 */
+	public void setShape(boolean isShape) {
+		this.isShape = isShape;
 	}
 
 	@Override

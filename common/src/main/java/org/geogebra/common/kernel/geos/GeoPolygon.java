@@ -94,6 +94,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/** says if the polygon had created its segments itself (used for 3D) */
 	private boolean createSegments = true;
 
+	private boolean isShape = false;
+
 	/**
 	 * common constructor for 2D.
 	 * 
@@ -261,6 +263,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	final public void setPoints(GeoPointND[] points) {
 		setPoints(points, null, true);
 	}
+
 
 	/**
 	 * set the vertices to points (cs is only used for 3D stuff)
@@ -2703,4 +2706,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	}
 
+	@Override
+	public boolean isShape() {
+		return isShape;
+	}
+
+	/**
+	 * @param isShape
+	 *            - true, if geo was created with shape tool
+	 */
+	public void setIsShape(boolean isShape) {
+		this.isShape = isShape;
+	}
 }

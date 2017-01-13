@@ -43,6 +43,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
 															// rotation, ...
+	
+	private boolean isShape = false;
+
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
 	/** one tick */
@@ -888,5 +891,18 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	@Override
 	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
 		// used for GeoPoint3D
+	}
+
+	@Override
+	public boolean isShape() {
+		return isShape;
+	}
+
+	/**
+	 * @param isShape
+	 *            - true, if geo was created with shape tool
+	 */
+	public void setIsShape(boolean isShape) {
+		this.isShape = isShape;
 	}
 }
