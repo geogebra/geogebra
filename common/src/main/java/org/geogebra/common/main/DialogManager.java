@@ -58,7 +58,6 @@ public abstract class DialogManager {
 	 */
 	protected TextInputDialog textInputDialog;
 
-	protected boolean oldVal;
 
 	public DialogManager() {
 	}

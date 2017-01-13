@@ -182,7 +182,7 @@ public class ModeDelete {
 							}
 						}
 
-						populateAlgoUpdateSet((GeoPoint) dataPoints[i]);
+						populateAlgoUpdateSet(dataPoints[i]);
 
 						if (lastWasVisible && dataPoints[i].isDefined()) {
 							hasVisibleLine = true;
@@ -686,7 +686,7 @@ public class ModeDelete {
 							}
 						}
 
-						populateAlgoUpdateSet((GeoPoint) dataPoints[i]);
+						populateAlgoUpdateSet(dataPoints[i]);
 
 						if (lastWasVisible && dataPoints[i].isDefined()) {
 							hasVisibleLine = false;
@@ -744,7 +744,7 @@ public class ModeDelete {
 			dataPoints[i].setUndefined();
 			dataPoints[i].resetDefinition();
 		}
-		populateAlgoUpdateSet((GeoPoint) dataPoints[i]);
+		populateAlgoUpdateSet(dataPoints[i]);
 		newDataAndRealPoint.add(dataPoints);
 
 	}
@@ -829,7 +829,7 @@ public class ModeDelete {
 						(GeoPoint) dataPoints[i - 1]);
 				newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 						realPoints, 1, i, i - 1, i, i + 1, realCoords);
-				populateAlgoUpdateSet((GeoPoint) newDataAndRealPoint.get(0)[i]);
+				populateAlgoUpdateSet(newDataAndRealPoint.get(0)[i]);
 				index = i + 2;
 			}
 		}
@@ -875,7 +875,7 @@ public class ModeDelete {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 1, i, i - 1, i, i + 1, realCoords);
 					populateAlgoUpdateSet(
-							(GeoPoint) newDataAndRealPoint.get(0)[i - 1]);
+							newDataAndRealPoint.get(0)[i - 1]);
 					index = i + 2;
 				} else if (i - 2 > 0 && !dataPoints[i - 2].isDefined()
 						&& i + 2 < dataPoints.length
@@ -883,7 +883,7 @@ public class ModeDelete {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 1, i, i, i + 1, i + 2, realCoords);
 					populateAlgoUpdateSet(
-							(GeoPoint) newDataAndRealPoint.get(0)[i - 1]);
+							newDataAndRealPoint.get(0)[i - 1]);
 					index = i + 2;
 				} else if (i - 2 > 0 && !dataPoints[i - 2].isDefined()
 						&& i + 2 < dataPoints.length
@@ -891,13 +891,13 @@ public class ModeDelete {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 2, i, i, i + 1, i + 2, realCoords);
 					populateAlgoUpdateSet(
-							(GeoPoint) newDataAndRealPoint.get(0)[i - 1]);
+							newDataAndRealPoint.get(0)[i - 1]);
 					index = i + 3;
 				} else {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 1, i, i, i + 1, i + 2, realCoords);
 					populateAlgoUpdateSet(
-							(GeoPoint) newDataAndRealPoint.get(0)[i + 1]);
+							newDataAndRealPoint.get(0)[i + 1]);
 					index = i + 2;
 				}
 			}

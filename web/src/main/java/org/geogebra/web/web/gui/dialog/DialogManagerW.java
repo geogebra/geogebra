@@ -114,7 +114,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
 		final Construction cons = app.getKernel().getConstruction();
-		oldVal = cons.isSuppressLabelsActive();
+		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
@@ -172,7 +172,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
-		oldVal = cons.isSuppressLabelsActive();
+		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
@@ -253,7 +253,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
-
+		boolean oldVal = app.getKernel().getConstruction()
+				.isSuppressLabelsActive();
 		// avoid labeling of num
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
 				app.getKernel().getAlgebraProcessor(),

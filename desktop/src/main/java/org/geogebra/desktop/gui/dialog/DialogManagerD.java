@@ -312,7 +312,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
 		final Construction cons = app.getKernel().getConstruction();
-		oldVal = cons.isSuppressLabelsActive();
+		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(
@@ -435,7 +435,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			String initText, AsyncOperation callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
-		oldVal = cons.isSuppressLabelsActive();
+		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(
