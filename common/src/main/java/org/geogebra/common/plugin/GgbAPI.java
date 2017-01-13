@@ -2056,6 +2056,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	public String exportPGF() {
 		GeoGebraToPgf export = app.newGeoGebraToPgf();
+
+		if (export == null) {
+			// not implemented eg Android, iOS)
+			return "";
+		}
+
 		ExportFrameMinimal frame = new ExportFrameMinimal();
 		export.setFrame(frame);
 		export.generateAllCode();
@@ -2066,6 +2072,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	public String exportPSTricks() {
 		GeoGebraToPstricks export = app.newGeoGebraToPstricks();
+
+		if (export == null) {
+			// not implemented eg Android, iOS)
+			return "";
+		}
 		ExportFrameMinimal frame = new ExportFrameMinimal();
 		export.setFrame(frame);
 		export.generateAllCode();
@@ -2076,6 +2087,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	public String exportAsymptote() {
 		GeoGebraToAsymptote export = app.newGeoGebraToAsymptote();
+
+		if (export == null) {
+			// not implemented eg Android, iOS)
+			return "";
+		}
+
 		ExportFrameMinimal frame = new ExportFrameMinimal();
 		export.setFrame(frame);
 		export.generateAllCode();
