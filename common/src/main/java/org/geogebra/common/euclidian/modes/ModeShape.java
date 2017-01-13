@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.algos.AlgoPolygonRegular;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -283,6 +284,7 @@ public class ModeShape {
 			GeoElement[] geos = view.getKernel().getAlgebraProcessor()
 					.processConic(conicEqu, conicEqu.wrap());
 			geos[0].setLabelVisible(false);
+			((GeoConic) geos[0]).setIsShape(true);
 			geos[0].updateRepaint();
 			view.setShapeEllipse(null);
 			view.repaintView();
@@ -292,6 +294,7 @@ public class ModeShape {
 					null, points[0], points[1]);
 			GeoElement segment = algo.getOutput(0);
 			segment.setLabelVisible(false);
+			((GeoSegment) segment).setIsShape(true);
 			segment.updateRepaint();
 			view.setShapeLine(null);
 			view.repaintView();
@@ -352,6 +355,7 @@ public class ModeShape {
 		GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
 		// do not show segment labels
 		hideSegments(poly);
+		poly.setIsShape(true);
 		poly.setLabelVisible(false);
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
