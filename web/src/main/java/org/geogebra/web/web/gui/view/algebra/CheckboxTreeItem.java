@@ -76,6 +76,7 @@ public class CheckboxTreeItem extends LatexTreeItem {
 		}
 		// main.add(buttonPanel);
 		main.add(content);
+		main.add(controls);
 	}
 	
 	/**

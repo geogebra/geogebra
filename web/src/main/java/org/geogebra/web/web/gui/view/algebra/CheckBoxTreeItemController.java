@@ -3,8 +3,9 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.web.gui.inputfield.InputSuggestions;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -16,10 +17,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
  *
  */
 public class CheckBoxTreeItemController extends LatexTreeItemController {
-
-	private InputSuggestions sug;
-	private RetexKeyboardListener retexListener;
-	private boolean checkboxHit;
 
 	/**
 	 * @param item
@@ -33,15 +30,31 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
 
-		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
-			toggleCheckbox();
+		if (CancelEventTimer.cancelMouseEvent()
+				|| isMarbleHit(event)) {
+			return;
 		}
+
+		app.closePopups();
+	
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		handleAVItem(event);
-		item.updateButtonPanelPosition();
+		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
+			toggleCheckbox();
+		}
+
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				item.adjustStyleBar();
+			}
+		});
+
 	}
+
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
