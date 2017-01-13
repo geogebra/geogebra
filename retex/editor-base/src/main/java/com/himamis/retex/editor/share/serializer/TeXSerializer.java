@@ -198,15 +198,9 @@ public class TeXSerializer extends SerializerAdapter {
                 serialize(function.getArgument(1), stringBuilder);
                 stringBuilder.append("}^");
                 serialize(function.getArgument(2), stringBuilder);
-                boolean addBraces = currentBraces
-                        || (function.getArgument(3).hasOperator());
-                if (addBraces) {
-                    stringBuilder.append('(');
-                }
-                serialize(function.getArgument(3), stringBuilder);
-                if (addBraces) {
-                    stringBuilder.append(')');
-                }
+				boolean addBraces = function.getArgument(3).hasOperator();
+				addWithBraces(stringBuilder, function.getArgument(3),
+						addBraces);
 
             } else if ("nsum".equals(function.getName())
                     || "nprod".equals(function.getName())) {
@@ -216,15 +210,9 @@ public class TeXSerializer extends SerializerAdapter {
                 stringBuilder.append('=');
                 serialize(function.getArgument(1), stringBuilder);
                 stringBuilder.append('}');
-                boolean addBraces = currentBraces
-                        || (function.getArgument(2).hasOperator());
-                if (addBraces) {
-                    stringBuilder.append('(');
-                }
-                serialize(function.getArgument(2), stringBuilder);
-                if (addBraces) {
-                    stringBuilder.append(')');
-                }
+				boolean addBraces = function.getArgument(2).hasOperator();
+				addWithBraces(stringBuilder, function.getArgument(2),
+						addBraces);
 
             } else if ("int".equals(function.getName())) {
                 stringBuilder.append(function.getTexName());
@@ -235,14 +223,14 @@ public class TeXSerializer extends SerializerAdapter {
                 stringBuilder.append('{');
                 boolean addBraces = currentBraces;
                 if (addBraces) {
-                    stringBuilder.append('(');
+					stringBuilder.append("\\left(");
                 }
                 serialize(function.getArgument(2), stringBuilder);
                 // jmathtex v0.7: incompatibility
                 stringBuilder.append(" " + (jmathtex ? "\\nbsp" : "\\ ") + " d");
                 serialize(function.getArgument(3), stringBuilder);
                 if (addBraces) {
-                    stringBuilder.append(')');
+					stringBuilder.append("\\right)");
                 }
                 stringBuilder.append('}');
 
@@ -274,28 +262,17 @@ public class TeXSerializer extends SerializerAdapter {
                 serialize(function.getArgument(1), stringBuilder);
                 // jmathtex v0.7: incompatibility
                 stringBuilder.append("} " + (jmathtex ? "\\nbsp" : "\\ ") + " {");
-                boolean addBraces = currentBraces
-                        || (function.getArgument(2).hasOperator() && function
+				boolean addBraces = (function.getArgument(2).hasOperator()
+						&& function
                         .getParent().hasOperator());
-                if (addBraces) {
-                    stringBuilder.append('(');
-                }
-                serialize(function.getArgument(2), stringBuilder);
-                if (addBraces) {
-                    stringBuilder.append(')');
-                }
+				this.addWithBraces(stringBuilder, function.getArgument(0),
+						addBraces);
                 stringBuilder.append('}');
 
             } else if ("factorial".equals(function.getName())) {
-                boolean addBraces = currentBraces
-                        || function.getArgument(0).hasOperator();
-                if (addBraces) {
-                    stringBuilder.append('(');
-                }
-                serialize(function.getArgument(0), stringBuilder);
-                if (addBraces) {
-                    stringBuilder.append(')');
-                }
+				boolean addBraces = function.getArgument(0).hasOperator();
+				addWithBraces(stringBuilder, function.getArgument(0),
+						addBraces);
                 stringBuilder.append(function.getTexName());
             } else if ("'".equals(function.getName())) {
                 serialize(function.getArgument(0), stringBuilder);
@@ -346,7 +323,19 @@ public class TeXSerializer extends SerializerAdapter {
 		}
     }
 
-    @Override
+	private void addWithBraces(StringBuilder stringBuilder,
+			MathSequence argument, boolean addBraces) {
+		if (currentBraces || addBraces) {
+			stringBuilder.append("\\left(");
+		}
+		serialize(argument, stringBuilder);
+		if (currentBraces || addBraces) {
+			stringBuilder.append("\\right)");
+		}
+
+	}
+
+	@Override
     public void serialize(MathArray array, StringBuilder stringBuilder) {
 		if (!jmathtex && MetaModel.MATRIX.equals(array.getName())) {
             // jmathlib does not implement matrix
