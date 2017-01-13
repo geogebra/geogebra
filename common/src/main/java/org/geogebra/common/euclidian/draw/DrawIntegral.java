@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -223,5 +224,23 @@ public class DrawIntegral extends Drawable {
 	@Override
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBoundingBox() {
+		// TODO Auto-generated method stub
+		
 	}
 }

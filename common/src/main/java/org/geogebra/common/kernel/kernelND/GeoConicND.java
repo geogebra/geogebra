@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -136,6 +137,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	private GeoVec2D c = new GeoVec2D(kernel);
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
+
+	private GRectangle2D boundingBox = null;
+	private boolean isShape = false;
 
 	/**
 	 * 
@@ -4642,6 +4646,14 @@ public abstract class GeoConicND extends GeoQuadricND
 		this.toStringMode = GeoConicND.EQUATION_PARAMETRIC;
 		this.parameter = param;
 
+	}
+
+	public boolean isShape() {
+		return isShape;
+	}
+
+	public void setIsShape(boolean isShape) {
+		this.isShape = isShape;
 	}
 
 }

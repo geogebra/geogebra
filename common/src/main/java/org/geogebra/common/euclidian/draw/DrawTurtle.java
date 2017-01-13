@@ -22,6 +22,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -423,6 +424,24 @@ public class DrawTurtle extends Drawable {
 		// g2.setColor(Color.black);
 		// g2.draw(ellipse);
 
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBoundingBox() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**

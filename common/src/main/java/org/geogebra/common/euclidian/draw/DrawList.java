@@ -28,6 +28,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -1785,6 +1786,24 @@ public final class DrawList extends CanvasDrawable
 	 */
 	public void onMouseUp(int x, int y) {
 		drawOptions.onMouseUp(x, y);
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBoundingBox() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

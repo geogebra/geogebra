@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -56,6 +57,8 @@ public class DrawSegment extends Drawable implements Previewable {
 
 	// For drawing ticks
 	private GLine2D[] decoTicks;
+
+	private BoundingBox boundingBox;
 
 	/**
 	 * Creates new DrawSegment
@@ -112,6 +115,20 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 
 		update(A, B);
+		if (geo.isShape()) {
+			if (getBounds() != null) {
+				getBoundingBox().setRectangle(getBounds());
+				// for segment only two handler
+				boundingBox.getHandlers().get(0).setFrameFromCenter(
+						line.getX1(), line.getY1(), line.getX1() + 3,
+						line.getY1() + 3);
+				boundingBox.getHandlers().get(1).setFrameFromCenter(
+						line.getX2(), line.getY2(), line.getX2() + 3,
+						line.getY2() + 3);
+			} else {
+				getBoundingBox().setRectangle(null);
+			}
+		}
 	}
 
 	/**
@@ -579,6 +596,39 @@ public class DrawSegment extends Drawable implements Previewable {
 	 */
 	public void setIsVisible() {
 		isVisible = true;
+	}
+
+	/**
+	 * update bounding box construction
+	 */
+	@Override
+	public void updateBoundingBox() {
+		if (getBoundingBox().getRectangle() == null) {
+			if (geo.isShape() && getBounds() != null) {
+				boundingBox.setRectangle(getBounds());
+				// for segment only two handler
+				boundingBox.getHandlers().get(0).setFrameFromCenter(
+						line.getX1(),
+						line.getY1(), line.getX1() + 3, line.getY1() + 3);
+				boundingBox.getHandlers().get(1).setFrameFromCenter(
+						line.getX2(), line.getY2(), line.getX2() + 3,
+						line.getY2() + 3);
+			}
+		}
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		if (boundingBox == null) {
+			boundingBox = new BoundingBox(view);
+			boundingBox.setNrHandlers(2);
+		}
+		return boundingBox;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
 	}
 
 }

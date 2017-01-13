@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
@@ -455,6 +456,24 @@ public class DrawParametricCurve extends Drawable {
 
 	final private static boolean filling(CurveEvaluable curve) {
 		return !curve.isFunctionInX() && curve.toGeoElement().isFilled();
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBoundingBox() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

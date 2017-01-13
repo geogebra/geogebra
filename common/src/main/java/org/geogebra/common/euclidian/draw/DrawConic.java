@@ -30,6 +30,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -162,6 +163,8 @@ public class DrawConic extends Drawable implements Previewable {
 	private int previewMode, neededPrevPoints;
 	private boolean isPreview = false;
 	private boolean ignoreSingularities;
+
+	private BoundingBox boundingBox;
 
 	@Override
 	public GArea getShape() {
@@ -413,6 +416,14 @@ public class DrawConic extends Drawable implements Previewable {
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
+		}
+
+		if (geo.isShape()) {
+			if (getBounds() != null) {
+				getBoundingBox().setRectangle(getBounds());
+			} else {
+				getBoundingBox().setRectangle(null);
+			}
 		}
 	}
 
@@ -2000,4 +2011,30 @@ public class DrawConic extends Drawable implements Previewable {
 		this.ignoreSingularities = ignore;
 
 	}
+
+	/**
+	 * update bounding box construction
+	 */
+	@Override
+	public void updateBoundingBox() {
+		if (getBoundingBox().getRectangle() == null) {
+			if (geo.isShape() && getBounds() != null) {
+				boundingBox.setRectangle(getBounds());
+			}
+		}
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		if (boundingBox == null) {
+			boundingBox = new BoundingBox(view);
+		}
+		return boundingBox;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+
 }

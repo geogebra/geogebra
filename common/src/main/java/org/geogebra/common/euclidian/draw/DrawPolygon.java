@@ -19,6 +19,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -58,6 +59,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private ArrayList<GeoPointND> points;
 	private Coords[] extraCoords;
 
+	private BoundingBox boundingBox;
+
 	/**
 	 * Creates new DrawPolygon
 	 * 
@@ -70,12 +73,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
+
 		extraCoords = new Coords[8];
 		for (int i = 0; i < 8; i++) {
 			extraCoords[i] = new Coords(0, 0);
 		}
 		update();
-
 	}
 
 	private void calculateViewCorners() {
@@ -172,6 +175,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 				}
 			}
 
+		}
+		if (geo.isShape()) {
+			if (getBounds() != null) {
+				getBoundingBox().setRectangle(getBounds());
+			} else {
+				getBoundingBox().setRectangle(null);
+			}
 		}
 
 	}
@@ -733,4 +743,30 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 		return true;
 	}
+
+	/**
+	 * update bounding box construction
+	 */
+	@Override
+	public void updateBoundingBox() {
+		if (getBoundingBox().getRectangle() == null) {
+			if (geo.isShape() && getBounds() != null) {
+				boundingBox.setRectangle(getBounds());
+			}
+		}
+	}
+
+	@Override
+	public BoundingBox getBoundingBox() {
+		if (boundingBox == null) {
+			boundingBox = new BoundingBox(view);
+		}
+		return boundingBox;
+	}
+
+	@Override
+	public void setBoundingBox(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+
 }

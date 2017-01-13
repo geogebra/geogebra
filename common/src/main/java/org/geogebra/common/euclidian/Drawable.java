@@ -43,6 +43,8 @@ import org.geogebra.common.util.StringUtil;
  */
 public abstract class Drawable extends DrawableND {
 
+	private BoundingBox boundingBox;
+
 	private boolean forceNoFill;
 
 	/**
@@ -153,6 +155,22 @@ public abstract class Drawable extends DrawableND {
 	 *            referenced geo
 	 */
 	public abstract void setGeoElement(GeoElement geo);
+
+	/**
+	 * @return bounding box construction
+	 */
+	public abstract BoundingBox getBoundingBox();
+
+	/**
+	 * @param boundingBox
+	 *            - bounding box for selected drawable
+	 */
+	public abstract void setBoundingBox(BoundingBox boundingBox);
+
+	/**
+	 * update bounding box construction
+	 */
+	public abstract void updateBoundingBox();
 
 	@Override
 	public double getxLabel() {
