@@ -1,8 +1,11 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.web.html5.event.PointerEvent;
+import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -29,7 +32,15 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
-		toggleCheckbox();
+
+		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {
+			toggleCheckbox();
+		}
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
+				ZeroOffset.instance);
+		onPointerDown(wrappedEvent);
+		handleAVItem(event);
+		item.updateButtonPanelPosition();
 	}
 
 	@Override
