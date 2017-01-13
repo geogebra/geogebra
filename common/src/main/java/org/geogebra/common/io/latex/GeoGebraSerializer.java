@@ -84,19 +84,22 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(')');
 		} // Strict control of available functions is needed, so that SUM/ and
 			// Prod doesn't work
-		else if ("sum".equals(mathFunctionName)
-				|| "prod".equals(mathFunctionName)) {
-			stringBuilder.append(
-					"prod".equals(mathFunctionName) ? "Product" : "Sum");
-			stringBuilder.append("((");
-			serialize(mathFunction.getArgument(3), stringBuilder);
-			stringBuilder.append("),");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append(",");
-			serialize(mathFunction.getArgument(1), stringBuilder);
-			stringBuilder.append(",");
-			serialize(mathFunction.getArgument(2), stringBuilder);
-			stringBuilder.append(')');
+		else if ("sum".equals(mathFunctionName)) {
+			stringBuilder.append("Sum");
+			serializeArgs(mathFunction, stringBuilder,
+					new int[] { 3, 0, 1, 2 });
+		} else if ("prod".equals(mathFunctionName)) {
+			stringBuilder.append("Product");
+			serializeArgs(mathFunction, stringBuilder,
+					new int[] { 3, 0, 1, 2 });
+		} else if ("int".equals(mathFunctionName)) {
+			stringBuilder.append("Integral");
+			serializeArgs(mathFunction, stringBuilder,
+					new int[] { 2, 3, 0, 1 });
+		} else if ("lim".equals(mathFunctionName)) {
+			stringBuilder.append("Limit");
+			serializeArgs(mathFunction, stringBuilder,
+					new int[] { 2, 0, 1 });
 		}
 
 		/*
@@ -168,6 +171,16 @@ public class GeoGebraSerializer implements Serializer {
 			}
 			stringBuilder.append(')');
 		}
+	}
+
+	private static void serializeArgs(MathFunction mathFunction,
+			StringBuilder stringBuilder, int[] order) {
+		for (int i = 0; i < order.length; i++) {
+			stringBuilder.append(i == 0 ? "((" : ",(");
+			serialize(mathFunction.getArgument(order[i]), stringBuilder);
+			stringBuilder.append(")");
+		}
+		stringBuilder.append(")");
 	}
 
 	private static void maybeInsertTimes(MathFunction mathFunction,

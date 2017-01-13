@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -250,9 +251,11 @@ public class SelectionManager {
 		dispatchSelected(geo);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
-		((Drawable) kernel.getApplication()
-						.getActiveEuclidianView().getDrawableFor(geo))
-						.updateBoundingBox();
+		DrawableND dnd = kernel.getApplication().getActiveEuclidianView()
+				.getDrawableFor(geo);
+		if (dnd != null) {
+			dnd.updateBoundingBox();
+		}
 
 		if (repaint) {
 			kernel.notifyRepaint();

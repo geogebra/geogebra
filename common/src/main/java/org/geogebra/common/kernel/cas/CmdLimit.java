@@ -26,14 +26,14 @@ public class CmdLimit extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean ok;
+		boolean[] ok = new boolean[c.getArgumentNumber()];
 		GeoElement[] arg;
 		arg = resArgs(c);
 
 		switch (n) {
 		case 2:
-			if ((ok = arg[0].isGeoFunction())
-					&& (arg[1] instanceof GeoNumberValue)) {
+			if ((ok[0] = arg[0].isGeoFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				AlgoLimit algo = new AlgoLimit(cons, c.getLabel(),
 						(GeoFunction) arg[0], (GeoNumberValue) arg[1]);
@@ -41,8 +41,19 @@ public class CmdLimit extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c, ok ? arg[1] : arg[0]);
+			throw argErr(app, c, getBadArg(ok, arg));
+		case 3:
+			if ((ok[0] = arg[0].isGeoFunction())
+					&& (ok[1] = arg[0].isGeoFunction())
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
+				AlgoLimit algo = new AlgoLimit(cons, c.getLabel(),
+						(GeoFunction) arg[0], (GeoNumberValue) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+			throw argErr(app, c, getBadArg(ok, arg));
 			// more than one argument
 		default:
 			throw argNumErr(app, c, n);
