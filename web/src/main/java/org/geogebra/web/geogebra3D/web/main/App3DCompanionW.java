@@ -39,7 +39,8 @@ public class App3DCompanionW extends App3DCompanion {
 	        boolean panelSettings) {
 
 		// create dock panel
-		panel = new EuclidianDockPanelForPlaneW(app);
+		panel = new EuclidianDockPanelForPlaneW(app, viewId);
+		viewId++;
 		panel.loadComponent();
 		EuclidianViewForPlaneW view = new EuclidianViewForPlaneW(panel,
 		        new EuclidianControllerForPlaneW(app.getKernel()), plane,
@@ -111,11 +112,6 @@ public class App3DCompanionW extends App3DCompanion {
 				p.getView().getCompanion().doRemove();
 			}
 		}
-	}
-
-	@Override
-	public void resetEuclidianViewForPlaneIds() {
-		EuclidianDockPanelForPlaneW.resetIds();
 	}
 
 	/**

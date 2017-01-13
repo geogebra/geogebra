@@ -36,8 +36,8 @@ public class WebsocketLogger extends SensorLogger {
 			this.websocket_url = "ws:";
 
 		}
-		if (SensorLogger.appID != null && SensorLogger.appID.indexOf(".") > -1) {
-			this.websocket_url += SensorLogger.appID + ":8080";
+		if (appID != null && appID.indexOf(".") > -1) {
+			this.websocket_url += appID + ":8080";
 		} else {
 			if (secure) {
 				this.websocket_url += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL

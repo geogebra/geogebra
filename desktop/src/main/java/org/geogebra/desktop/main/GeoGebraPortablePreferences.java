@@ -96,8 +96,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 	private void loadPreferences() {
 		try { // debug("path: "+GeoGebraPreferences.PROPERTY_FILEPATH);
-			File propertyfile = new File(
-					GeoGebraPreferencesD.PROPERTY_FILEPATH);
+			File propertyfile = GeoGebraPreferencesD.getFile();
 			if (propertyfile.exists()) {
 				// path=propertyfile.getCanonicalPath();
 				BufferedInputStream fis = new BufferedInputStream(
@@ -118,8 +117,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		if (!get("read_only", "false").equals("true")) {
 			try {
 				BufferedOutputStream os = new BufferedOutputStream(
-						new FileOutputStream(new File(
-								GeoGebraPreferencesD.PROPERTY_FILEPATH)));
+						new FileOutputStream(GeoGebraPreferencesD.getFile()));
 				properties.store(os, COMMENT); // Application.debug("storePreferences():
 												// ");properties.list(System.out);
 				os.close();

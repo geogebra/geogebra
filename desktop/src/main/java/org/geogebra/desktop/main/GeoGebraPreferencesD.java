@@ -160,7 +160,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
 	/* Ulven 06.03.10 */
 
-	protected static String PROPERTY_FILEPATH = null; // full path, null: no
+	private static String PROPERTY_FILEPATH = null; // full path, null: no
 														// property file set
 
 	private static GeoGebraPreferencesD singleton;
@@ -666,5 +666,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	private String getDefaultPreferences(App app) {
 
 		return GeoGebraPreferencesXML.getXML(app);
+	}
+
+	public static File getFile() {
+		return new File(GeoGebraPreferencesD.PROPERTY_FILEPATH);
 	}
 }

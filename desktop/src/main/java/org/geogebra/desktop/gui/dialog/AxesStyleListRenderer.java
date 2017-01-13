@@ -17,20 +17,22 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * adapted from PointStyleListRenderer
  * 
  */
 
+@SuppressWarnings("rawtypes")
 public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Number of values
+	 */
 	public static final int MAX_ROW_COUNT = 5;
 	private int style = -1;
 
-	private static int WIDTH = 32;
-	private static int HEIGHT = 24;
+	private static final int IMG_WIDTH = 32;
+	private static final int IMG_HEIGHT = 24;
 	private int arrowSize = 5;
 	private int filledArrowLength = 10;
 
@@ -39,9 +41,12 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	private GeneralPath gp = new GeneralPath();
 	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
 
+	/**
+	 * Axis arrows renderer
+	 */
 	public AxesStyleListRenderer() {
 		setOpaque(true);
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		setPreferredSize(new Dimension(IMG_WIDTH, IMG_HEIGHT));
 	}
 
 	@Override
@@ -61,8 +66,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
@@ -83,65 +86,85 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		switch (style) {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
 
-			// left arrow
-			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
-			g2.draw(tempLine);
+			rightArrow(g2);
+			break;
 
-			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize,
-					HEIGHT / 2.0 + arrowSize);
-			g2.draw(tempLine);
 
-			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize,
-					HEIGHT / 2.0 - arrowSize);
-			g2.draw(tempLine);
-
-			// fall through
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
 		default:
+			leftArrow(g2);
+			rightArrow(g2);
+			break;
 
-			// right-arrow
-
-			tempLine.setLine(WIDTH, HEIGHT / 2.0, WIDTH - arrowSize,
-					HEIGHT / 2.0 + arrowSize);
-			g2.draw(tempLine);
-
-			tempLine.setLine(WIDTH, HEIGHT / 2.0, WIDTH - arrowSize,
-					HEIGHT / 2.0 - arrowSize);
-			g2.draw(tempLine);
-			// fall through
 		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
 			// just a line
-			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
+			tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
 			g2.draw(tempLine);
 			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
 
-			// left arrow (filled)
-			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
-			g2.draw(tempLine);
-
-			gp.reset();
-			gp.moveTo(0, HEIGHT / 2.0);
-			gp.lineTo(0 + filledArrowLength, HEIGHT / 2.0 + arrowSize);
-			gp.lineTo(0 + filledArrowLength, HEIGHT / 2.0 - arrowSize);
-
-			g2.fill(gp);
-
-			// fall through
+			filledLeftArrow(g2);
+			filledRightArrow(g2);
+			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
 
-			// right-arrow (filled)
-			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
-			g2.draw(tempLine);
-
-			gp.reset();
-			gp.moveTo(WIDTH, HEIGHT / 2.0);
-			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2.0 + arrowSize);
-			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2.0 - arrowSize);
-
-			g2.fill(gp);
+			filledRightArrow(g2);
 
 		}
+	}
+
+	private void filledLeftArrow(Graphics2D g2) {
+		// left arrow (filled)
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
+		g2.draw(tempLine);
+
+		gp.reset();
+		gp.moveTo(0, IMG_HEIGHT / 2.0);
+		gp.lineTo(0 + filledArrowLength, IMG_HEIGHT / 2.0 + arrowSize);
+		gp.lineTo(0 + filledArrowLength, IMG_HEIGHT / 2.0 - arrowSize);
+
+		g2.fill(gp);
+		
+	}
+
+	private void filledRightArrow(Graphics2D g2) {
+		// right-arrow (filled)
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
+		g2.draw(tempLine);
+
+		gp.reset();
+		gp.moveTo(IMG_WIDTH, IMG_HEIGHT / 2.0);
+		gp.lineTo(IMG_WIDTH - filledArrowLength, IMG_HEIGHT / 2.0 + arrowSize);
+		gp.lineTo(IMG_WIDTH - filledArrowLength, IMG_HEIGHT / 2.0 - arrowSize);
+
+		g2.fill(gp);
+
+	}
+
+	private void rightArrow(Graphics2D g2) {
+		tempLine.setLine(IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize,
+				IMG_HEIGHT / 2.0 + arrowSize);
+		g2.draw(tempLine);
+
+		tempLine.setLine(IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize,
+				IMG_HEIGHT / 2.0 - arrowSize);
+		g2.draw(tempLine);
+
+	}
+
+	private void leftArrow(Graphics2D g2) {
+		// left arrow
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
+		g2.draw(tempLine);
+
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
+				IMG_HEIGHT / 2.0 + arrowSize);
+		g2.draw(tempLine);
+
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
+				IMG_HEIGHT / 2.0 - arrowSize);
+		g2.draw(tempLine);
+		
 	}
 
 }

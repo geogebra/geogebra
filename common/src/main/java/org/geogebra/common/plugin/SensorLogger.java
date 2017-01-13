@@ -27,7 +27,7 @@ public abstract class SensorLogger {
 	 * port to receive UDP logging on
 	 */
 	public static int port = 7166;
-	public static String appID = "ABCD";
+	public String appID = "ABCD";
 	public boolean oldUndoActive = false;
 
 	public static enum Types {

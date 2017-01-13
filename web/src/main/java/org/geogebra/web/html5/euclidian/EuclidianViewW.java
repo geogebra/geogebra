@@ -84,7 +84,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianViewW extends EuclidianView implements
 		EuclidianViewWInterface, PrintableW {
 
-	public static int DELAY_UNTIL_MOVE_FINISH = 150;
+
 
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 30;
 
@@ -563,9 +563,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return this.g2p == null || g2p.getScale() <= 1 ? 15 : 30;
 	}
 
-	public static void resetDelay() {
-		DELAY_UNTIL_MOVE_FINISH = 150;
-	}
+
 
 	/*
 	 * public int getMaxProblemBisections() { return MAX_PROBLEM_BISECTIONS; }

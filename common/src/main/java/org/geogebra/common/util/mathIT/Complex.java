@@ -79,7 +79,7 @@ public class Complex {
 	 * Constant 1 &#8712; <span style="font-size:large;">&#8450;</span> in the
 	 * array representation.
 	 */
-	public static final double[] ONE_ = { 1., 0. };
+	static final double[] ONE_ = { 1., 0. };
 	/**
 	 * Constant i &#8712; <span style="font-size:large;">&#8450;</span> in the
 	 * array representation.

@@ -30,9 +30,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	 */
 	public static final int DEFAULT_WIDTH = 480;
 
-	// id of the first view
-	private static int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
-
 	private EuclidianViewForPlaneW view;
 
 	/** pcontent panel */
@@ -48,7 +45,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	 *            application
 	 * 
 	 */
-	public EuclidianDockPanelForPlaneW(App app) {
+	public EuclidianDockPanelForPlaneW(App app, int viewId) {
 		super(viewId, // view id
 		        "GraphicsViewForPlaneA", // view title
 		        ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
@@ -61,7 +58,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 
-		viewId++; // id of next view
 
 		// this.app = app;
 	}
@@ -107,13 +103,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	 */
 	public EuclidianViewForPlaneW getView() {
 		return view;
-	}
-
-	/**
-	 * reset views ids
-	 */
-	public static void resetIds() {
-		viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
 	@Override

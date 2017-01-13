@@ -58,6 +58,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
 	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
+	private static int DELAY_UNTIL_MOVE_FINISH = 150;
 
 	/**
 	 * flag for blocking the scaling of the axes
@@ -244,7 +245,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				GeoGebraProfiler.incrementMoveEventsIgnored();
 				if (wasWaiting) {
 					this.repaintTimer
-					        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
+							.schedule(DELAY_UNTIL_MOVE_FINISH);
 				}
 				return;
 			}
@@ -300,8 +301,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingMouseMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
 		GeoGebraProfiler.incrementDragTime(dragTime);
-		if (dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH) {
-			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+		if (dragTime > DELAY_UNTIL_MOVE_FINISH) {
+			DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
 
 		moveCounter++;
@@ -320,7 +321,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 
 		this.moveIfWaiting();
-		EuclidianViewW.resetDelay();
+		resetDelay();
 		event.stopPropagation();
 		longTouchManager.cancelTimer();
 		if (!comboBoxHit()) {
@@ -472,7 +473,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			GeoGebraProfiler.incrementMoveEventsIgnored();
 			if (wasWaiting) {
 				this.repaintTimer
-				        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
+						.schedule(DELAY_UNTIL_MOVE_FINISH);
 			}
 			if (ec.view.getMode() != EuclidianConstants.MODE_FREEHAND_SHAPE
 					&& ec.view.getMode() != EuclidianConstants.MODE_PEN) {
@@ -501,8 +502,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingTouchMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
 		GeoGebraProfiler.incrementDragTime(dragTime);
-		if (dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH) {
-			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+		if (dragTime > DELAY_UNTIL_MOVE_FINISH) {
+			DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
 
 		moveCounter++;
@@ -524,7 +525,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		this.moveIfWaiting();
-		EuclidianViewW.resetDelay();
+		resetDelay();
 		dragModeMustBeSelected = false;
 
 		// hide dialogs if they are open
@@ -698,5 +699,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public LongTouchManager getLongTouchManager() {
 		return longTouchManager;
+	}
+
+	public static void resetDelay() {
+		DELAY_UNTIL_MOVE_FINISH = 150;
 	}
 }
