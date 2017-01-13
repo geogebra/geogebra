@@ -150,6 +150,9 @@ public abstract class EuclidianView
 			.getPrototype().newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
 
+	// bounding box
+	protected BoundingBox boundingBox;
+
 	// shape tools
 	/**
 	 * preview shape for rectangle
@@ -2641,6 +2644,14 @@ public abstract class EuclidianView
 	}
 
 	/**
+	 * @param boundingBox
+	 *            - bounding box for select
+	 */
+	public void setBoundingBox(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+
+	/**
 	 * @param shapeRectangle
 	 *            - preview of rectangle for ShapeRectangle
 	 */
@@ -4092,6 +4103,13 @@ public abstract class EuclidianView
 	@Override
 	public GRectangle getSelectionRectangle() {
 		return selectionRectangle;
+	}
+
+	/**
+	 * @return boundingBox
+	 */
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
 	}
 
 	/**

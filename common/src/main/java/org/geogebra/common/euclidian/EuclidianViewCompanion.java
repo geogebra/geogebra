@@ -368,6 +368,11 @@ public class EuclidianViewCompanion {
 			view.drawZoomRectangle(g2);
 		}
 
+		// draw bounding box
+		if (view.getBoundingBox() != null) {
+			view.getBoundingBox().draw(g2);
+		}
+
 		// draw shape preview for shape tools
 		if (view.getShapeRectangle() != null) {
 			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,

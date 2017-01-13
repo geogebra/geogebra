@@ -6573,7 +6573,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return is geo created with shape tool
 	 */
 	public boolean isShape() {
-		return isShape;
+		return false;
 	}
 
 	/**

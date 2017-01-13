@@ -3815,6 +3815,7 @@ public abstract class EuclidianController {
 		startCollectingMinorRepaints();
 
 		selection.clearLists();
+		view.setBoundingBox(null);
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
@@ -8162,6 +8163,12 @@ public abstract class EuclidianController {
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
 			}
+		}
+
+		if (geo != null) {
+			view.setBoundingBox(
+					((Drawable) view.getDrawableFor(geo)).getBoundingBox());
+			view.repaintView();
 		}
 
 		Hits th = viewHits.getTopHits();
