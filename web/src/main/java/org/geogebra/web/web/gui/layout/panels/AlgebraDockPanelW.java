@@ -113,7 +113,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	 */
 	public void scrollToBottom(){
 		if (this.algebrap != null) {
-			// this.algebrap.scrollToBottom();
+			this.algebrap.scrollToBottom();
 		}
 	}
 

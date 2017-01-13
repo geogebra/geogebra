@@ -1208,6 +1208,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			}
 
+			getAlgebraDockPanel().scrollToBottom();
 
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
