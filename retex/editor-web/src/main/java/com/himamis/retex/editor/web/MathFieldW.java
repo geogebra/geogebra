@@ -553,7 +553,6 @@ public class MathFieldW implements MathField, IsWidget {
 			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
 			hiddenTextArea.style.position = 'absolute';
 			hiddenTextArea.style.zIndex = '-1';
-			hiddenTextArea.style.display = 'none';
 			hiddenTextArea.style.left = '-1000px';
 			hiddenTextArea.style.width = '10px';
 			hiddenTextArea.style.height = '10px';
