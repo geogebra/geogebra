@@ -26,7 +26,6 @@
 package org.geogebra.ggbjdk.sun.awt.geom;
 
 
-import java.awt.geom.PathIterator;
 import java.util.Vector;
 
 import org.geogebra.common.awt.GPathIterator;
@@ -133,7 +132,7 @@ public abstract class Curve {
             return 0;
         }
         double coords[] = new double[6];
-        if (pi.currentSegment(coords) != PathIterator.SEG_MOVETO) {
+        if (pi.currentSegment(coords) != GPathIterator.SEG_MOVETO) {
             throw new IllegalPathStateException("missing initial moveto "+
                                                 "in path definition");
         }
@@ -146,7 +145,7 @@ public abstract class Curve {
         int crossings = 0;
         while (!pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            case GPathIterator.SEG_MOVETO:
                 if (cury != movy) {
                     crossings += pointCrossingsForLine(px, py,
                                                        curx, cury,
@@ -155,7 +154,7 @@ public abstract class Curve {
                 movx = curx = coords[0];
                 movy = cury = coords[1];
                 break;
-            case PathIterator.SEG_LINETO:
+            case GPathIterator.SEG_LINETO:
                 endx = coords[0];
                 endy = coords[1];
                 crossings += pointCrossingsForLine(px, py,
@@ -164,7 +163,7 @@ public abstract class Curve {
                 curx = endx;
                 cury = endy;
                 break;
-            case PathIterator.SEG_QUADTO:
+            case GPathIterator.SEG_QUADTO:
                 endx = coords[2];
                 endy = coords[3];
                 crossings += pointCrossingsForQuad(px, py,
@@ -174,7 +173,7 @@ public abstract class Curve {
                 curx = endx;
                 cury = endy;
                 break;
-            case PathIterator.SEG_CUBICTO:
+            case GPathIterator.SEG_CUBICTO:
                 endx = coords[4];
                 endy = coords[5];
                 crossings += pointCrossingsForCubic(px, py,
@@ -185,7 +184,7 @@ public abstract class Curve {
                 curx = endx;
                 cury = endy;
                 break;
-            case PathIterator.SEG_CLOSE:
+            case GPathIterator.SEG_CLOSE:
                 if (cury != movy) {
                     crossings += pointCrossingsForLine(px, py,
                                                        curx, cury,
@@ -424,7 +423,7 @@ public abstract class Curve {
             return 0;
         }
         double coords[] = new double[6];
-        if (pi.currentSegment(coords) != PathIterator.SEG_MOVETO) {
+        if (pi.currentSegment(coords) != GPathIterator.SEG_MOVETO) {
             throw new IllegalPathStateException("missing initial moveto "+
                                                 "in path definition");
         }
@@ -435,7 +434,7 @@ public abstract class Curve {
         int crossings = 0;
         while (crossings != RECT_INTERSECTS && !pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            case GPathIterator.SEG_MOVETO:
                 if (curx != movx || cury != movy) {
                     crossings = rectCrossingsForLine(crossings,
                                                      rxmin, rymin,
@@ -448,7 +447,7 @@ public abstract class Curve {
                 movx = curx = coords[0];
                 movy = cury = coords[1];
                 break;
-            case PathIterator.SEG_LINETO:
+            case GPathIterator.SEG_LINETO:
                 endx = coords[0];
                 endy = coords[1];
                 crossings = rectCrossingsForLine(crossings,
@@ -459,7 +458,7 @@ public abstract class Curve {
                 curx = endx;
                 cury = endy;
                 break;
-            case PathIterator.SEG_QUADTO:
+            case GPathIterator.SEG_QUADTO:
                 endx = coords[2];
                 endy = coords[3];
                 crossings = rectCrossingsForQuad(crossings,
@@ -471,7 +470,7 @@ public abstract class Curve {
                 curx = endx;
                 cury = endy;
                 break;
-            case PathIterator.SEG_CUBICTO:
+            case GPathIterator.SEG_CUBICTO:
                 endx = coords[4];
                 endy = coords[5];
                 crossings = rectCrossingsForCubic(crossings,

@@ -26,7 +26,6 @@
 package org.geogebra.ggbjdk.java.awt.geom;
 
 
-import java.awt.geom.PathIterator;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Vector;
@@ -415,7 +414,7 @@ public class Area implements Shape, Cloneable, GArea {
      * closed subpath.  This method returns <code>true</code> if the
      * path contains 0 or 1 subpaths, or <code>false</code> if the path
      * contains more than 1 subpath.  The subpaths are counted by the
-     * number of {@link PathIterator#SEG_MOVETO SEG_MOVETO}  segments
+     * number of {@link GPathIterator#SEG_MOVETO SEG_MOVETO}  segments
      * that appear in the path.
      * @return    <code>true</code> if the <code>Area</code> is comprised
      * of a single basic geometry; <code>false</code> otherwise.
@@ -642,7 +641,7 @@ public class Area implements Shape, Cloneable, GArea {
     }
 
     /**
-     * Creates a {@link PathIterator} for the outline of this
+     * Creates a {@link GPathIterator} for the outline of this
      * <code>Area</code> object.  This <code>Area</code> object is unchanged.
      * @param at an optional <code>AffineTransform</code> to be applied to
      * the coordinates as they are returned in the iteration, or
