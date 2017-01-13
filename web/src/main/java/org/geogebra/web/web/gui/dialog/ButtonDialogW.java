@@ -60,7 +60,11 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
 		
 		String initString = model.getInitString();
-		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
+		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+
+			app.registerPopup(this);
+		}
 		tfCaption = ip.getTextComponent();
 		if (tfCaption != null) {
 			tfCaption.setAutoComplete(false);

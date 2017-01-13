@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -175,6 +176,11 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		inputPanel = new InputPanelW(initString, app, rows, columns,
 		        showSymbolPopupIcon/* , type */);
 		
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+
+			app.registerPopup(wrappedPopup);
+		}
+
 		// add key handler for ENTER if inputPanel uses a text field
 		if (inputPanel.getTextComponent() != null) {
 			inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);

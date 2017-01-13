@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -212,6 +213,10 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+
+			app.registerPopup(this);
+		}
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.showPopupSymbolButton(true);
