@@ -3531,10 +3531,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void copyTextToSystemClipboard(String text) {
+		Log.debug("copying to clipboard " + text);
 		copyToSystemClipboardNative(text);
 	}
 
 	public void copyTextToSystemClipboard(String text, Runnable notify) {
+		Log.debug("copying to clipboard " + text);
 		copyToSystemClipboardNative(text);
 
 		if (notify != null) {
