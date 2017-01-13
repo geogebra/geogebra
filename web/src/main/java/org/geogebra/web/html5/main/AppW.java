@@ -15,6 +15,9 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -86,6 +89,9 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
+import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
+import org.geogebra.web.html5.export.GeoGebraToPgfW;
+import org.geogebra.web.html5.export.GeoGebraToPstricksW;
 import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
@@ -3494,6 +3500,21 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public int getMaxSpreadsheetColumnsVisible() {
 		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
+	}
+
+	@Override
+	public GeoGebraToPstricks newGeoGebraToPstricks() {
+		return new GeoGebraToPstricksW(this);
+	}
+
+	@Override
+	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
+		return new GeoGebraToAsymptoteW(this);
+	}
+
+	@Override
+	public GeoGebraToPgf newGeoGebraToPgf() {
+		return new GeoGebraToPgfW(this);
 	}
 
 }

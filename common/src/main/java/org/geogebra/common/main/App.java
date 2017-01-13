@@ -27,6 +27,9 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Input3DConstants;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -4724,5 +4727,29 @@ public abstract class App implements UpdateSelection {
 	}
 
 	abstract public void invokeLater(Runnable runnable);
+
+	/**
+	 * 
+	 * @return GeoGebraToPstricks object
+	 */
+	public GeoGebraToPstricks newGeoGebraToPstricks() {
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return GeoGebraToAsymptote object
+	 */
+	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return GeoGebraToPgf object
+	 */
+	public GeoGebraToPgf newGeoGebraToPgf() {
+		return null;
+	}
 
 }

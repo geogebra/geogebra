@@ -120,6 +120,9 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -5425,6 +5428,21 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void invokeLater(Runnable runnable) {
 		SwingUtilities.invokeLater(runnable);
 
+	}
+	
+	@Override
+	public GeoGebraToPstricks newGeoGebraToPstricks() {
+		return new GeoGebraToPstricksD(this);
+	}
+
+	@Override
+	public GeoGebraToAsymptote newGeoGebraToAsymptote() {
+		return new GeoGebraToAsymptoteD(this);
+	}
+
+	@Override
+	public GeoGebraToPgf newGeoGebraToPgf() {
+		return new GeoGebraToPgfD(this);
 	}
 
 }

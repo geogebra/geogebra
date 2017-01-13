@@ -11,6 +11,10 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.export.pstricks.ExportFrameMinimal;
+import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.export.pstricks.GeoGebraToPgf;
+import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
@@ -2048,6 +2052,36 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public String getToolName(int mode) {
 		return app.getToolName(mode);
+	}
+
+	public String exportPGF() {
+		GeoGebraToPgf export = app.newGeoGebraToPgf();
+		ExportFrameMinimal frame = new ExportFrameMinimal();
+		export.setFrame(frame);
+		export.generateAllCode();
+
+		return frame.getCode();
+
+	}
+
+	public String exportPSTricks() {
+		GeoGebraToPstricks export = app.newGeoGebraToPstricks();
+		ExportFrameMinimal frame = new ExportFrameMinimal();
+		export.setFrame(frame);
+		export.generateAllCode();
+
+		return frame.getCode();
+
+	}
+
+	public String exportAsymptote() {
+		GeoGebraToAsymptote export = app.newGeoGebraToAsymptote();
+		ExportFrameMinimal frame = new ExportFrameMinimal();
+		export.setFrame(frame);
+		export.generateAllCode();
+
+		return frame.getCode();
+
 	}
 
 }
