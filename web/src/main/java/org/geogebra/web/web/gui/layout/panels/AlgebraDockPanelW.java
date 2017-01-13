@@ -1,12 +1,13 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -127,31 +128,44 @@ public class AlgebraDockPanelW extends DockPanelW {
 	 */
 	public void scrollToActiveItem() {
 
-		RadioTreeItem item = aview.getActiveTreeItem();
+		final RadioTreeItem item = aview.getActiveTreeItem();
 		if (item == null) {
 			return;
 		}
 
 		if (item.isInputTreeItem()) {
-			algebrap.scrollToBottom();
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+				public void execute() {
+
+					algebrap.scrollToBottom();
+				}
+			});
 			return;
 		}
 
-		int spH = algebrap.getOffsetHeight();
-		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-		int itemTop = item.getAbsoluteTop() - aview.getAbsoluteTop() - spH
-				+ item.getOffsetHeight() + AUTOSCROLL_MARGIN;
+			public void execute() {
+				int spH = algebrap.getOffsetHeight();
+				// int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+				int spTop = item.getAbsoluteTop() - aview.getAbsoluteTop();
+				int itemTop = spTop
+						- spH + item.getOffsetHeight() + AUTOSCROLL_MARGIN;
+				//
+				// int absTop = (spTop + algebrap.getVerticalScrollPosition())
+				// % (spH + kH);
+				//
+				// Log.debug(
+				// "[AVS] absTop: " + absTop + " scroll to: " + itemTop);
+				//
+				// if (spH < absTop) {
+				// Log.debug("[AVS] scrollolololllollllllllllllll");
+					scrollTo(itemTop);
+				// }
+			}
+		});
 
-
-		Log.debug("[AVS] scrollpanel: " + spH + " item top: " + itemTop);
-
-		// int relTop = itemTop % (spH + kH);
-
-		// if (relTop > spH) {
-		// Log.debug("[AVS] scrollolololllollllllllllllll");
-			scrollTo(itemTop);
-		// }
 
 	}
 }
