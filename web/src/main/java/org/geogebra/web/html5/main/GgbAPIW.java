@@ -829,36 +829,6 @@ public class GgbAPIW extends GgbAPI {
 		});
 	}
 
-	public String exportPGF() {
-		GeoGebraToPgfW export = new GeoGebraToPgfW(app);
-		ExportFrameMinimal frame = new ExportFrameMinimal();
-		export.setFrame(frame);
-		export.generateAllCode();
-
-		return frame.getCode();
-
-	}
-
-	public String exportPSTricks() {
-		GeoGebraToPstricksW export = new GeoGebraToPstricksW(app);
-		ExportFrameMinimal frame = new ExportFrameMinimal();
-		export.setFrame(frame);
-		export.generateAllCode();
-
-		return frame.getCode();
-
-	}
-
-	public String exportAsymptote() {
-		GeoGebraToAsymptoteW export = new GeoGebraToAsymptoteW(app);
-		ExportFrameMinimal frame = new ExportFrameMinimal();
-		export.setFrame(frame);
-		export.generateAllCode();
-
-		return frame.getCode();
-
-	}
-
 	/**
 	 * @param width
 	 *            setst the applet width

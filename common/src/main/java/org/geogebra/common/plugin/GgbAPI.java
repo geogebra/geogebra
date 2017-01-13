@@ -2054,7 +2054,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return app.getToolName(mode);
 	}
 
-	public String exportPGF() {
+	/**
+	 * 
+	 * @return current construction as PGF/Tikz
+	 */
+	final public String exportPGF() {
 		GeoGebraToPgf export = app.newGeoGebraToPgf();
 
 		if (export == null) {
@@ -2070,7 +2074,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
-	public String exportPSTricks() {
+	/**
+	 * 
+	 * @return current construction as PSTricks
+	 */
+	final public String exportPSTricks() {
 		GeoGebraToPstricks export = app.newGeoGebraToPstricks();
 
 		if (export == null) {
@@ -2085,7 +2093,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
-	public String exportAsymptote() {
+	/**
+	 * 
+	 * @return current construction as in Asymptote format
+	 */
+	final public String exportAsymptote() {
 		GeoGebraToAsymptote export = app.newGeoGebraToAsymptote();
 
 		if (export == null) {
