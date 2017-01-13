@@ -168,9 +168,4 @@ public abstract class DrawableND {
 		return true;
 	}
 
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

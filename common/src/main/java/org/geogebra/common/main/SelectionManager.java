@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -168,11 +166,6 @@ public class SelectionManager {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
 				geo.setSelected(false);
-				Drawable d = (Drawable) kernel.getApplication()
-						.getActiveEuclidianView().getDrawableFor(geo);
-				if (d != null && d.getBoundingBox() != null) {
-					d.getBoundingBox().resetBoundingBox();
-				}
 
 			}
 			selectedGeos.clear();
@@ -209,11 +202,6 @@ public class SelectionManager {
 		if (selectedGeos.remove(geo)) {
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
-			Drawable d = (Drawable) kernel.getApplication()
-					.getActiveEuclidianView().getDrawableFor(geo);
-			if (d != null && d.getBoundingBox() != null) {
-				d.getBoundingBox().resetBoundingBox();
-			}
 			if (updateSelection) {
 				updateSelection();
 			}
@@ -251,11 +239,6 @@ public class SelectionManager {
 		dispatchSelected(geo);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
-		DrawableND dnd = kernel.getApplication().getActiveEuclidianView()
-				.getDrawableFor(geo);
-		if (dnd != null) {
-			dnd.updateBoundingBox();
-		}
 
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -550,9 +533,6 @@ public class SelectionManager {
 		clearSelectedGeos(false);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
-		((Drawable) kernel.getApplication()
-						.getActiveEuclidianView().getDrawableFor(geo))
-						.updateBoundingBox();
 		kernel.notifyRepaint();
 
 		listener.updateSelection(false);
@@ -614,18 +594,10 @@ public class SelectionManager {
 			kernel.getApplication().getEventDispatcher()
 					.dispatchEvent(EventType.DESELECT, geo);
 			geo.setSelected(false);
-			Drawable d = (Drawable) kernel.getApplication()
-					.getActiveEuclidianView().getDrawableFor(geo);
-			if (d != null && d.getBoundingBox() != null) {
-				d.getBoundingBox().resetBoundingBox();
-			}
 		} else {
 			selectedGeos.add(geo);
 			dispatchSelected(geo);
 			geo.setSelected(true);
-			((Drawable) kernel.getApplication()
-							.getActiveEuclidianView().getDrawableFor(geo))
-							.updateBoundingBox();
 		}
 
 		if (repaint) {
