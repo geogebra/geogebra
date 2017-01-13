@@ -649,7 +649,7 @@ public class RadioTreeItemController
 				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 	}
 
-	private void handleAVItem(TouchStartEvent evt) {
+	protected void handleAVItem(TouchStartEvent evt) {
 		if (evt.getTouches().length() == 0) {
 			return;
 		}

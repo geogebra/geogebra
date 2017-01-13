@@ -204,18 +204,6 @@ public class ItemControls extends FlowPanel {
 	}
 
 	public void reposition() {
-		if (!radioTreeItem.app.has(Feature.AV_SCROLL)
-				|| radioTreeItem.app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-
-			if (radioTreeItem.first
-					&& !radioTreeItem.getAlgebraDockPanel().hasLongStyleBar()
-					&& !getController().isEditing()) {
-				addStyleName("avControlsWithSmallStyleBar");
-			} else {
-				removeStyleName("avControlsWithSmallStyleBar");
-			}
-			return;
-		}
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
