@@ -41,12 +41,16 @@ public class GColor implements GPaint {
 	public static final GColor LIGHTEST_GRAY = newColor(230, 230, 230);
 	/** LIGHT_GRAY */
 	public static final GColor LIGHT_GRAY = newColor(192, 192, 192);
+	/** GEOGEBRA_GRAY */
+	public static final GColor GEOGEBRA_GRAY = newColor(102, 102, 102);
 	/** GRAY */
 	public static final GColor GRAY = newColor(128, 128, 128);
 	/** DARK_GRAY */
 	public static final GColor DARK_GRAY = newColor(68, 68, 68);
 	/** PURPLE */
 	public static final GColor PURPLE = newColor(102, 102, 255);
+	/** GEOGEBRA_BLUE */
+	public static final GColor GEOGEBRA_BLUE = newColor(153, 153, 255);
 
 	private final int value;
 
