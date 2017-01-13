@@ -9,7 +9,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 
 /**
@@ -55,16 +54,26 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 
 	}
 
-
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		// event.stopPropagation();
+		event.stopPropagation();
+		app.closePopups();
+
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
+				ZeroOffset.instance);
+
+		onPointerDown(wrappedEvent);
+		handleAVItem(event);
+		toggleCheckbox();
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				item.adjustStyleBar();
+			}
+		});
 	}
 
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		event.stopPropagation();
-	}
 
 	private void toggleCheckbox() {
 		GeoBoolean bool = (GeoBoolean) item.geo;
