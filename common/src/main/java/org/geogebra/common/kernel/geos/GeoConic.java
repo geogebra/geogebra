@@ -19,14 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -37,7 +34,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -291,40 +287,12 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			} else {
 				setUndefined();
 			}
-		} else if (mirror.getType() == GeoConic.CONIC_PARALLEL_LINES) {
-			/* In the case the conic is a line we mirror about that line. */
-			/* This piece of code is same as in GeoPoint. TODO: unify. */
-			ArrayList<GeoPointND> ps = mirror.getPointsOnConic();
-			HashSet<GeoPointND> Ps = new HashSet<GeoPointND>();
-			for (GeoPointND p_ : ps) {
-				Ps.add(p_);
-			}
-			Iterator<GeoPointND> it = Ps.iterator();
-			GeoPointND P1 = it.next();
-			double P1inhomX = P1.getInhomX();
-			double P1inhomY = P1.getInhomY();
-			double P2inhomX;
-			double P2inhomY;
-			boolean found = false;
-			GeoPointND P2;
-			do {
-				P2 = it.next();
-				P2inhomX = P2.getInhomX();
-				P2inhomY = P2.getInhomY();
-				if (!(P1inhomX == P2inhomX && P1inhomY == P2inhomY)) {
-					found = true;
-				}
-			} while (!found);
-			/* In P1 and P2 we have two different points of that line. */
-			GeoLine g = new GeoLine(cons);
-			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, (GeoPoint) P1,
-					(GeoPoint) P2);
-			ajp.compute();
-			g = (GeoLine) ajp.getOutput(0);
-			/* g = Line[P1,P2] */
-			mirror(g);
-			/* g is not needed anymore, so we remove it. */
-			g.remove();
+		} else if (mirror.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
+			GeoLine line = mirror.getLines()[0];
+			mirror(line);
+
+		} else {
+			setUndefined();
 		}
 
 		setAffineTransform();

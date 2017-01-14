@@ -1390,7 +1390,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * 
 	 * @return true iff this conic is circle
 	 */
-	public boolean isCircle() {
+	public final boolean isCircle() {
 		return (type == CONIC_CIRCLE);
 	}
 
