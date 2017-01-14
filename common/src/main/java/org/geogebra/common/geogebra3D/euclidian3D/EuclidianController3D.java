@@ -417,6 +417,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		setMouseOrigin(point);
 
 		point.setWillingDirection(view3D.getHittingDirection());
+		point.setZScale(view3D.getZscale());
 	}
 
 	/**

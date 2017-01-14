@@ -889,10 +889,12 @@ public class GeoFunctionNVar extends GeoElement
 			Coords coords = P.getInhomCoordsInD3();
 			if (hasLastHitParameters()) {
 				int step = 0;
+				double zScale = Math.sqrt(P.getZScale());
 				do {
 					stepDicho();
 					step++;
-				} while (step < DICHO_MAX_STEP && isTooFar(xyzf[DICHO_MID]));
+				} while (step < DICHO_MAX_STEP
+						&& isTooFar(xyzf[DICHO_MID], zScale));
 
 				coords.setX(xyzf[DICHO_MID][0]);
 				coords.setY(xyzf[DICHO_MID][1]);
@@ -978,9 +980,9 @@ public class GeoFunctionNVar extends GeoElement
 
 	static private int DICHO_MAX_STEP = 20;
 
-	private static boolean isTooFar(double[] xyzf) {
+	final private static boolean isTooFar(double[] xyzf, double zScale) {
 		return !Kernel.isEqual(xyzf[2], xyzf[3],
-				Kernel.STANDARD_PRECISION_SQRT);
+				Kernel.STANDARD_PRECISION_SQRT / zScale);
 	}
 
 	/**

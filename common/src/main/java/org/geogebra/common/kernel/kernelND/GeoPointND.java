@@ -385,4 +385,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 *            changeable coord parent
 	 */
 	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp);
+
+	/**
+	 * 
+	 * @return current (3D) view zScale (if set)
+	 */
+	public double getZScale();
 }

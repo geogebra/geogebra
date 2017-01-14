@@ -837,6 +837,20 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return willingDirection != null && willingDirection.isDefined();
 	}
 
+	private double zScale = 1;
+
+	/**
+	 * set current zScale from this point (should be set from 3D view)
+	 * @param scale z scale
+	 */
+	public void setZScale(double scale) {
+		zScale = scale;
+	}
+
+	public double getZScale() {
+		return zScale;
+	}
+
 	// /////////////////////////////////////////////////////////
 	// COMMON STUFF
 

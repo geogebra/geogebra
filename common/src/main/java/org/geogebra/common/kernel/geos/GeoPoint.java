@@ -2836,4 +2836,8 @@ public class GeoPoint extends GeoVec3D
 	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
 		// used for GeoPoint3D
 	}
+	
+	public double getZScale() {
+		return 1;
+	}
 }
