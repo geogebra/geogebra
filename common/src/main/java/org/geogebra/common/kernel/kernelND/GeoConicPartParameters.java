@@ -126,6 +126,7 @@ public class GeoConicPartParameters {
 
 		// a circular arc through 3 points may degenerate
 		// to a segment or two rays
+		case GeoConicNDConstants.CONIC_LINE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			if (conic_part_type == GeoConicNDConstants.CONIC_PART_ARC
 					&& posOrientation) {

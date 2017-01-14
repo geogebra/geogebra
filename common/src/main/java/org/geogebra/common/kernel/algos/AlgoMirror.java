@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -347,7 +348,7 @@ public class AlgoMirror extends AlgoTransformation implements
 			return new GeoCurveCartesian(cons);
 		}
 		if (geo.isLimitedPath() && mirror == mirrorConic) {
-			return new GeoConicPart(cons, GeoConicPart.CONIC_PART_ARC);
+			return new GeoConicPart(cons, GeoConicNDConstants.CONIC_PART_ARC);
 		}
 		if (mirror instanceof GeoConic && geo instanceof GeoLine) {
 			return new GeoConic(cons);
@@ -403,6 +404,9 @@ public class AlgoMirror extends AlgoTransformation implements
 			setTransformedObject(((GeoSegment) a).getStartPoint(),
 					transformedPoint);
 			compute();
+			if (arc.getType() == GeoConicNDConstants.CONIC_LINE) {
+				arc.getLines()[0].setStartPoint(transformedPoint.copy());
+			}
 			// if start point itself is on path, transformed point may have
 			// wrong path param #2306
 			transformedPoint.removePath();
@@ -414,7 +418,9 @@ public class AlgoMirror extends AlgoTransformation implements
 			setTransformedObject(((GeoSegment) a).getEndPoint(),
 					transformedPoint);
 			compute();
-
+			if (arc.getType() == GeoConicNDConstants.CONIC_LINE) {
+				arc.getLines()[0].setEndPoint(transformedPoint.copy());
+			}
 			arc.pathChanged(transformedPoint);
 			double e = transformedPoint.getPathParameter().getT();
 			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2, true);

@@ -144,7 +144,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 				updateEllipse();
 				break;
-
+			case GeoConicNDConstants.CONIC_LINE:
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				updateParallelLines();
 				break;

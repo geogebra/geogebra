@@ -2632,6 +2632,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		case CONIC_PARALLEL_LINES:
 			parallelLines(mu); // coefficient mu unchanged
 			break;
+		case CONIC_LINE:
+			singleLine(mu); // coefficient mu unchanged
+			break;
 		}
 	}
 
@@ -3238,6 +3241,28 @@ public abstract class GeoConicND extends GeoQuadricND
 		// Application.debug("coeff : " + mu[0]);
 	}
 
+	protected final void singleLine(double[] mu1) {
+		type = GeoConicNDConstants.CONIC_LINE;
+
+		// set double line
+		getLines();
+		nx = -eigenvec[0].getY();
+		ny = eigenvec[0].getX();
+		temp1 = b.getX() * nx + b.getY() * ny;
+		lines[0].x = nx;
+		lines[0].y = ny;
+
+		// smallest change:
+		temp2 = mu1[0] - temp1;
+
+		lines[0].z = temp2;
+
+		setStartPointsForLines();
+
+		// Application.debug("parallel lines : " + lines[0] + ", " + lines[1]);
+		// Application.debug("coeff : " + mu[0]);
+	}
+
 	private void setStartPointsForLines() {
 		// make sure we have a start point to compute line parameter
 		if (startPoints == null) {
@@ -3252,6 +3277,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			lines[i].setStartPoint(null);
 			lines[i].getPointOnLine(startPoints[i]);
 			lines[i].setStartPoint(startPoints[i]);
+			
 		}
 
 	}

@@ -288,8 +288,10 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 				setUndefined();
 			}
 		} else if (mirror.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
+
 			GeoLine line = mirror.getLines()[0];
 			mirror(line);
+
 
 		} else {
 			setUndefined();
@@ -543,9 +545,14 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 */
 	public void fromLine(GeoLine line) {
 		lines = new GeoLine[2];
-		lines[0] = line;
-		lines[1] = line;
+		lines[0] = line.copy();
+		lines[1] = line.copy();
 		type = GeoConicNDConstants.CONIC_LINE;
+		eigenvec[0] = new GeoVec2D(kernel, -line.getY(), line.getX());
+		b = new GeoVec2D(kernel, line.getStartPoint().getInhomX(), line
+				.getStartPoint().getInhomY());
+		this.setMidpoint(b.getX(), b.getY());
+
 
 	}
 
