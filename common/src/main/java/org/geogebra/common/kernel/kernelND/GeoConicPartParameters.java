@@ -24,7 +24,7 @@ public class GeoConicPartParameters {
 
 	private double area, arcLength;
 	public double value;
-	public boolean value_defined;
+	private boolean value_defined;
 
 	private EllipticArcLength ellipticArcLength;
 	public boolean allowOutlyingIntersections = false;
@@ -44,7 +44,7 @@ public class GeoConicPartParameters {
 
 		value = cp.value;
 		area = cp.area;
-		value_defined = cp.value_defined;
+		setValueDefined(cp.isValueDefined());
 
 		keepTypeOnGeometricTransform = cp.keepTypeOnGeometricTransform;
 	}
@@ -61,8 +61,8 @@ public class GeoConicPartParameters {
 
 		double startParam = start;
 		double endParam = end;
-		value_defined = isDefined;
-		if (!value_defined) {
+		setValueDefined(isDefined);
+		if (!isValueDefined()) {
 			value = Double.NaN;
 			return;
 		}
@@ -97,7 +97,7 @@ public class GeoConicPartParameters {
 				value = r * r * paramExtent / 2.0; // area
 				area = value; // area
 			}
-			value_defined = !Double.isNaN(value) && !Double.isInfinite(value);
+			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -120,7 +120,7 @@ public class GeoConicPartParameters {
 				value = conic.getHalfAxis(0) * conic.getHalfAxis(1)
 						* paramExtent / 2.0;
 			}
-			value_defined = !Double.isNaN(value) && !Double.isInfinite(value);
+			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
 
 			break;
 
@@ -137,7 +137,7 @@ public class GeoConicPartParameters {
 					value = startPoint.distance(endPoint);
 				} else {
 					value = Double.POSITIVE_INFINITY;
-					value_defined = false;
+					setValueDefined(false);
 					break;
 				}
 				// bugfix end
@@ -145,11 +145,11 @@ public class GeoConicPartParameters {
 			} else { // sector or two rays
 				value = Double.POSITIVE_INFINITY; // area or length of rays
 			}
-			value_defined = true;
+			setValueDefined(true);
 			break;
 
 		default:
-			value_defined = false;
+			setValueDefined(false);
 			// Application.debug("GeoConicPart: unsupported conic part for conic
 			// type: "
 			// + type);
@@ -162,7 +162,7 @@ public class GeoConicPartParameters {
 	 * @return arc length / area as appropriate
 	 */
 	final public double getValue() {
-		if (!value_defined) {
+		if (!isValueDefined()) {
 			return Double.NaN;
 		}
 		return value;
@@ -174,7 +174,7 @@ public class GeoConicPartParameters {
 	 * @return arc length
 	 */
 	final public double getArcLength() {
-		if (!value_defined) {
+		if (!isValueDefined()) {
 			return Double.NaN;
 		}
 		return arcLength;
@@ -186,7 +186,7 @@ public class GeoConicPartParameters {
 	 * @return area
 	 */
 	final public double getArea() {
-		if (!value_defined) {
+		if (!isValueDefined()) {
 			return Double.NaN;
 		}
 		return area;
@@ -349,5 +349,13 @@ public class GeoConicPartParameters {
 		}
 
 		return false;
+	}
+
+	public boolean isValueDefined() {
+		return value_defined;
+	}
+
+	public void setValueDefined(boolean value_defined) {
+		this.value_defined = value_defined;
 	}
 }

@@ -505,7 +505,6 @@ public abstract class GeoElement extends ConstructionElement
 	/** set of all dependent algos sorted in topological order */
 	protected AlgorithmSet algoUpdateSet;
 
-	private boolean isShape = false;
 	/********************************************************/
 
 	/**
@@ -6576,13 +6575,7 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	public void setShape(boolean isShape) {
-		this.isShape = isShape;
-	}
+
 
 	@Override
 	final public boolean contains(final ExpressionValue ev) {

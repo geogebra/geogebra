@@ -215,12 +215,12 @@ public class GeoConicPart extends GeoConic
 
 	@Override
 	final public boolean isDefined() {
-		return parameters.value_defined;
+		return parameters.isValueDefined();
 	}
 
 	@Override
 	public void setUndefined() {
-		parameters.value_defined = false;
+		parameters.setValueDefined(false);
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class GeoConicPart extends GeoConic
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		if (parameters.value_defined) {
+		if (parameters.isValueDefined()) {
 			return kernel.format(parameters.value, tpl);
 		}
 		return kernel.format(Double.NaN, tpl);
@@ -450,7 +450,7 @@ public class GeoConicPart extends GeoConic
 
 	@Override
 	protected void pathChanged(Coords P, PathParameter pp) {
-		if (!parameters.value_defined) {
+		if (!parameters.isValueDefined()) {
 			P.setX(Double.NaN);
 			return;
 		}
@@ -903,7 +903,7 @@ public class GeoConicPart extends GeoConic
 	@Override
 	public void setParametersToSinglePoint() {
 		parameters.value = 0;
-		parameters.value_defined = true;
+		parameters.setValueDefined(true);
 
 	}
 
@@ -914,7 +914,7 @@ public class GeoConicPart extends GeoConic
 	public void fromLine(GeoLine line) {
 		super.fromLine(line);
 		parameters.value = 0;
-		parameters.value_defined = true;
+		parameters.setValueDefined(true);
 	}
 
 	@Override
