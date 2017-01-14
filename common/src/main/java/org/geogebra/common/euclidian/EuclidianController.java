@@ -8165,7 +8165,7 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if (geo != null) {
+		if (geo != null && view.getDrawableFor(geo) != null) {
 			view.setBoundingBox(
 					((Drawable) view.getDrawableFor(geo)).getBoundingBox());
 			view.repaintView();
