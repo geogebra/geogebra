@@ -461,7 +461,6 @@ public class SelectionTableD extends JTable {
 		int cellPrefHeight = 0;
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
-				table.getColumnModel().getColumn(c);
 				if (table.getValueAt(r, c) != null) {
 					cellPrefHeight = (int) table.getCellRenderer(r, c)
 							.getTableCellRendererComponent(table,
