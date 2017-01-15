@@ -3736,7 +3736,7 @@ class BodyCodegen {
 		cfw.addALoad(savedVariableObject);
 		cfw.addAStore(variableObjectLocal);
 
-		exceptionTypeToName(exceptionType);
+		String exceptionName = exceptionTypeToName(exceptionType);
 
 		cfw.add(ByteCode.GOTO, catchLabel);
 	}
@@ -3826,7 +3826,7 @@ class BodyCodegen {
 		 *            the label where all of the exception handling begins
 		 */
 		void setHandlers(int[] handlerLabels, int startLabel) {
-			getTop();
+			ExceptionInfo top = getTop();
 			for (int i = 0; i < handlerLabels.length; i++) {
 				if (handlerLabels[i] != 0) {
 					addHandler(i, handlerLabels[i], startLabel);
@@ -3965,12 +3965,14 @@ class BodyCodegen {
 
 		private class ExceptionInfo {
 			ExceptionInfo(Jump node, Node finallyBlock) {
+				this.node = node;
 				this.finallyBlock = finallyBlock;
 				handlerLabels = new int[EXCEPTION_MAX];
 				exceptionStarts = new int[EXCEPTION_MAX];
 				currentFinally = null;
 			}
 
+			Jump node;
 			Node finallyBlock;
 			int[] handlerLabels;
 			int[] exceptionStarts;

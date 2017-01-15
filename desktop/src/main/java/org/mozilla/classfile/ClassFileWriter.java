@@ -431,6 +431,7 @@ public class ClassFileWriter {
 		if (stackMapTableLength > 0) {
 			int stackMapTableAttrIndex = itsConstantPool
 					.addUtf8("StackMapTable");
+			int start = index;
 			index = putInt16(stackMapTableAttrIndex, codeAttribute, index);
 			index = stackMap.write(codeAttribute, index);
 		}
@@ -2599,6 +2600,7 @@ public class ClassFileWriter {
 		}
 
 		private int writeTypes(int[] types, int start) {
+			int startOffset = rawStackMapTop;
 			for (int i = start; i < types.length; i++) {
 				rawStackMapTop = writeType(types[i]);
 			}
