@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -670,7 +669,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		boolean wasSegmentHit = false;
 		// check if one of sides was hit
 		for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
-			DrawableND d = view.getDrawableFor((GeoSegment) geoSegmentND);
+			DrawableND d = view.getDrawableFor((GeoElement) geoSegmentND);
 			if (d != null && d instanceof DrawSegment
 					&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
 				wasSegmentHit = true;
