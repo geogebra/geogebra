@@ -42,8 +42,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-
 	private AppD app;
 	private CASViewD casView;
 

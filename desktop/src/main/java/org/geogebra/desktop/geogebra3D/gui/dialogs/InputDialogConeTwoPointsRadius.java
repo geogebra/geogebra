@@ -14,11 +14,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogConeTwoPointsRadius extends InputDialogRadiusD {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoPointND a, b;
 
 	/**

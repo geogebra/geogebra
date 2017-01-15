@@ -194,7 +194,6 @@ public class GraphicsUtil {
 		final int base = (db.getOffset()
 				+ sppsm.getOffset(wr.getMinX() - wr.getSampleModelTranslateX(),
 						wr.getMinY() - wr.getSampleModelTranslateY()));
-		int n = 0;
 		// Access the pixel data array
 		final int pixels[] = db.getBankData()[0];
 		for (int y = 0; y < wr.getHeight(); y++) {
@@ -227,7 +226,7 @@ public class GraphicsUtil {
 		final int base = (db.getOffset()
 				+ sppsm.getOffset(wr.getMinX() - wr.getSampleModelTranslateX(),
 						wr.getMinY() - wr.getSampleModelTranslateY()));
-		int pixel, a, aFP, n = 0;
+		int pixel, a, aFP;
 		// Access the pixel data array
 		final int pixels[] = db.getBankData()[0];
 		for (int y = 0; y < wr.getHeight(); y++) {

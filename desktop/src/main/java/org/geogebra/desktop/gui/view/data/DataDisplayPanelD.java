@@ -331,25 +331,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	}
 
 	/**
-	 * Updates the plot panel. Adds/removes additional panels as needed for the
-	 * current selected plot.
-	 */
-	private void updatePlotPanelLayout() {
-
-		metaPlotPanel.removeAll();
-		plotPanelSouth.removeAll();
-		plotPanelNorth.removeAll();
-		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
-
-		getModel().updatePlotPanelLayout();
-
-		metaPlotPanel.revalidate();
-		plotPanelSouth.revalidate();
-		plotPanelNorth.revalidate();
-
-	}
-
-	/**
 	 * Creates a display panel to hold an image, e.g. tabletext
 	 */
 	private void createImagePanel() {

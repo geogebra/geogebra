@@ -41,7 +41,6 @@ public class OFFReader {
 	private void parse(BufferedReader in, OFFHandler handler)
 			throws IOException, CSVException {
 
-		String[] aux;
 		String line = in.readLine();
 		handler.reset();
 		while (line != null) {

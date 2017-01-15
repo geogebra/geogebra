@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -481,15 +480,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	@Override
 	protected void updateSizeKeepDrawables() {
 		// not needed for 3D
-	}
-
-	private void createImage(GraphicsConfiguration gc) {
-		if (gc != null) {
-			bgImage = new GBufferedImageD(
-					gc.createCompatibleImage(getWidth(), getHeight()));
-			bgGraphics = bgImage.createGraphics();
-			setAntialiasing(bgGraphics);
-		}
 	}
 
 	// temp image

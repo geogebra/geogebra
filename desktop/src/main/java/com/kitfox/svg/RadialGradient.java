@@ -146,13 +146,10 @@ public class RadialGradient extends Gradient {
 
 		// Get current values for parameters
 		StyleAttribute sty = new StyleAttribute();
-		boolean shapeChange = false;
-
 		if (getPres(sty.setName("cx"))) {
 			float newVal = sty.getFloatValueWithUnits();
 			if (newVal != cx) {
 				cx = newVal;
-				shapeChange = true;
 			}
 		}
 
@@ -160,7 +157,6 @@ public class RadialGradient extends Gradient {
 			float newVal = sty.getFloatValueWithUnits();
 			if (newVal != cy) {
 				cy = newVal;
-				shapeChange = true;
 			}
 		}
 
@@ -168,7 +164,6 @@ public class RadialGradient extends Gradient {
 			float newVal = sty.getFloatValueWithUnits();
 			if (newVal != fx) {
 				fx = newVal;
-				shapeChange = true;
 			}
 		}
 
@@ -176,7 +171,6 @@ public class RadialGradient extends Gradient {
 			float newVal = sty.getFloatValueWithUnits();
 			if (newVal != fy) {
 				fy = newVal;
-				shapeChange = true;
 			}
 		}
 
@@ -184,7 +178,6 @@ public class RadialGradient extends Gradient {
 			float newVal = sty.getFloatValueWithUnits();
 			if (newVal != r) {
 				r = newVal;
-				shapeChange = true;
 			}
 		}
 

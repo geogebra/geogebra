@@ -65,17 +65,6 @@ public abstract class EasyAnticipatorListener extends ParserListenerAdapter {
 		// sleep(note.getDuration());
 	}
 
-	/** Duration is in PPQ, need to translate that into msec */
-	// TODO: Is duration ALWAYS in PPQ, or does it depend on sequenceTiming?
-	private void sleep(long durationInPPQ) {
-		try {
-			long msec = ((durationInPPQ / 4));
-			Thread.sleep(msec);
-		} catch (InterruptedException e) {
-			throw new JFugueException(JFugueException.ERROR_SLEEP);
-		}
-	}
-
 	public abstract void extendedNoteEvent(Voice voice, Instrument instrument,
 			Note note);
 }

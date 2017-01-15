@@ -730,15 +730,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	}
 
-	private void printSelectionParameters() {
-		Log.debug("----------------------------------");
-		Log.debug("minSelectionColumn = " + minSelectionColumn);
-		Log.debug("maxSelectionColumn = " + maxSelectionColumn);
-		Log.debug("minSelectionRow = " + minSelectionRow);
-		Log.debug("maxSelectionRow = " + maxSelectionRow);
-		Log.debug("----------------------------------");
-	}
-
 	/**
 	 * Sets the initial selection parameters to a single cell. Does this without
 	 * calling changeSelection, so it should only be used at startup.

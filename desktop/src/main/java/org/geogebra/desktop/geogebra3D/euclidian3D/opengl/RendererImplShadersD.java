@@ -62,13 +62,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	private int[] vboHandles;
 
-	private String loadTextFile(String file) {
-
-		return ((AppD) view3D.getApplication()).loadTextFile(
-				"/org/geogebra/desktop/geogebra3D/euclidian3D/opengl/shaders/"
-						+ file + ".txt");
-	}
-
 	@Override
 	final protected void compileShadersProgram() {
 
@@ -320,38 +313,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	@Override
 	final protected void glDisableVertexAttribArray(int attrib) {
 		jogl.getGL2ES2().glDisableVertexAttribArray(attrib);
-	}
-
-	final private void releaseVBOs() {
-		glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow
-															// release
-															// of
-															// vertex
-															// position
-															// memory
-		glDisableVertexAttribArray(GLSL_ATTRIB_COLOR); // Allow
-														// release
-														// of
-														// vertex
-														// color
-														// memory
-		glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL); // Allow
-														// release
-														// of
-														// vertex
-														// normal
-														// memory
-		glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE); // Allow
-															// release
-															// of
-															// vertex
-															// texture
-															// memory
-
-		glDeleteBuffers(4, vboHandles); // Release VBO,
-										// color and
-										// vertices, buffer
-										// GPU memory.
 	}
 
 	final private void glDeleteBuffers(int size, int[] buffers) {

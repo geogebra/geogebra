@@ -31,11 +31,6 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 
-	 */
 	protected EuclidianView view;
 
 	/**

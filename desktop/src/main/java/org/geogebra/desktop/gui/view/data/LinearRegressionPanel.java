@@ -18,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
@@ -94,14 +93,6 @@ public class LinearRegressionPanel extends JPanel
 			headerModel.addElement(rowLabels[i]);
 		}
 
-	}
-
-	private double evaluateExpression(String expr) {
-
-		NumberValue nv;
-		nv = kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);
-
-		return nv.getDouble();
 	}
 
 	class RowHeaderRenderer extends JLabel implements ListCellRenderer {

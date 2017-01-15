@@ -167,7 +167,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<EuclidianViewD>();
 	private ConstructionProtocolViewD constructionProtocolView;
 	private GeoGebraMenuBar menuBar;
-	private JMenuBar menuBar2;
 	private String strCustomToolbarDefinition;
 
 	private ToolbarContainer toolbarPanel;
@@ -1384,10 +1383,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// load image from transfer
 		try {
 
-			DataFlavor[] df = transfer.getTransferDataFlavors();
-			// for (int i = 0; i < df.length; i++) {
-			// App.error(df[i].getMimeType());
-			// }
+			transfer.getTransferDataFlavors();
 
 			DataFlavor htmlFlavor = new DataFlavor(
 					"text/html; document=all; class=java.lang.String; charset=Unicode");

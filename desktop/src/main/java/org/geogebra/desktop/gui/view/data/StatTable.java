@@ -440,13 +440,10 @@ public class StatTable extends JScrollPane {
 	public class MyRowHeader extends JList {
 		private static final long serialVersionUID = 1L;
 		JTable table;
-		private StatTable statTable;
-
 		public MyRowHeader(JTable table, String[] rowNames,
 				StatTable statTable) {
 			super(rowNames);
 			this.table = table;
-			this.statTable = statTable;
 			setCellRenderer(new RowHeaderRenderer(table));
 			setFixedCellHeight(table.getRowHeight());
 

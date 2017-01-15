@@ -904,15 +904,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	// Sliders
 	// ============================================================
 
-	private void setSliderDefaults() {
-		for (int i = 0; i < ProbabilityManager
-				.getParmCount(selectedDist); i++) {
-			// TODO: this is breaking the discrete distributions
-			// sliderArray[i].setValue((int)
-			// probManager.getDefaultParameterMap().get(selectedDist)[i]);
-		}
-	}
-
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (isIniting) {

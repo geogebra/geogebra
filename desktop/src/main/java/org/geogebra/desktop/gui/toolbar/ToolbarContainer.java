@@ -236,37 +236,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	private JPanel gridButtonPanel;
 
-	private void toggleHelpBar() {
-		MyDockPanel dp = new MyDockPanel();
-		ToolbarD myToolbar = new ToolbarD(app, dp);
-		lblTest.setIcon(app.getModeIcon(app.getMode()));
-		dp.setToolbarString("" + app.getMode());
-		myToolbar.buildGui();
-
-		showHelpBar = !showHelpBar;
-		this.remove(((BorderLayout) getLayout())
-				.getLayoutComponent(loc.borderWest()));
-		if (((BorderLayout) getLayout())
-				.getLayoutComponent(BorderLayout.CENTER) != null) {
-			this.remove(((BorderLayout) getLayout())
-					.getLayoutComponent(BorderLayout.CENTER));
-		}
-		if (showHelpBar) {
-			this.add(myToolbar, loc.borderWest());
-			this.add(getToolbarHelpPanel(), BorderLayout.CENTER);
-			this.revalidate();
-			updateHelpText();
-			toolbarHelpPanel.revalidate();
-			toolbarHelpPanel.repaint();
-		} else {
-			this.add(gluePanel, loc.borderWest());
-			this.revalidate();
-		}
-
-		this.revalidate();
-
-	}
-
 	private JPanel buildToolbarHelpPanel() {
 		// mode label
 		modeNameLabel = new JLabel();

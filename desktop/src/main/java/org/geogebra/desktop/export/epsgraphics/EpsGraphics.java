@@ -142,15 +142,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		setStroke(g.getStroke());
 	}
 
-	/**
-	 * This method is called to indicate that a particular method is not
-	 * supported yet. The stack trace is printed to the standard output.
-	 */
-	private static void methodNotSupported() {
-		throw new RuntimeException(
-				"Method not currently supported by EpsGraphics2D version "
-						+ VERSION);
-	}
+	
 
 	// ///////////// Specialist methods ///////////////////////
 

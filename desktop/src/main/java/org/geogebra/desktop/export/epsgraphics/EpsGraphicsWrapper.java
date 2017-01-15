@@ -204,10 +204,6 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 		return -1;
 	}
 
-	private static int getRenderingValue(Object value) {
-		return -1;
-	}
-
 	@Override
 	public void saveTransformation() {
 		transformationStack.add(new GAffineTransformD(

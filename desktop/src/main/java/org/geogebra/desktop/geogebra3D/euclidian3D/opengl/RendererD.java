@@ -770,14 +770,6 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	protected BufferedImage bi;
 
-	static private int getUnsigned(byte x) {
-		return x & 0x000000FF;
-		// if (x < 0){
-		// return -x + 128;
-		// }
-		// return x;
-	}
-
 	private BufferedImage[] equirectangularTilesLeft, equirectangularTilesRight;
 
 	@Override

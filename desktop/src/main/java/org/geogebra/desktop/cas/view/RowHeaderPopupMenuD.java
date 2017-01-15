@@ -23,8 +23,6 @@ import org.geogebra.desktop.main.AppD;
 public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		implements ActionListener {
 
-	private static final long serialVersionUID = -592258674730774706L;
-
 	private JList rowHeader;
 	private CASTableD table;
 	private JMenuItem cbUseAsText;

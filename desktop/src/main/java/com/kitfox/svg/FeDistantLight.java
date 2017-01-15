@@ -63,8 +63,6 @@ public class FeDistantLight extends FeLight {
 		super.build();
 
 		StyleAttribute sty = new StyleAttribute();
-		String strn;
-
 		if (getPres(sty.setName("azimuth"))) {
 			azimuth = sty.getFloatValueWithUnits();
 		}

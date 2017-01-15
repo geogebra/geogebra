@@ -176,7 +176,7 @@ public class SVGUniverse implements Serializable {
 		if (scheme.equals("data")) {
 			String path = imageURI.getRawSchemeSpecificPart();
 			int idx = path.indexOf(';');
-			String mime = path.substring(0, idx);
+			path.substring(0, idx);
 			String content = path.substring(idx + 1);
 
 			if (content.startsWith("base64")) {

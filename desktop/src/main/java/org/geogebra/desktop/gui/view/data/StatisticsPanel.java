@@ -44,7 +44,6 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	// panels
 	private BasicStatTable statTable;
 	private OneVarInferencePanelD oneVarInferencePanel;
-	private LinearRegressionPanel regressionPanel;
 	private TwoVarInferencePanel twoVarInferencePanel;
 	private ANOVATable anovaTable;
 	private MultiVarStatPanel minMVStatPanel;

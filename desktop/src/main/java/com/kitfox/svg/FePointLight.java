@@ -64,8 +64,6 @@ public class FePointLight extends FeLight {
 		super.build();
 
 		StyleAttribute sty = new StyleAttribute();
-		String strn;
-
 		if (getPres(sty.setName("x"))) {
 			x = sty.getFloatValueWithUnits();
 		}

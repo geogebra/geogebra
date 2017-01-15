@@ -25,9 +25,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class OptionsCASD extends OptionsCAS
 		implements OptionPanelD, ActionListener, SetLabels {
-	/** */
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Application object.
 	 */

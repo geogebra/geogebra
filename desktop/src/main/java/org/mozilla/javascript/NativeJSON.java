@@ -207,7 +207,6 @@ public final class NativeJSON extends IdScriptableObject {
 			this.gap = gap;
 			this.replacer = replacer;
 			this.propertyList = propertyList;
-			this.space = space;
 		}
 
 		Stack<Scriptable> stack = new Stack<Scriptable>();
@@ -215,8 +214,6 @@ public final class NativeJSON extends IdScriptableObject {
 		String gap;
 		Callable replacer;
 		List<Object> propertyList;
-		Object space;
-
 		Context cx;
 		Scriptable scope;
 	}

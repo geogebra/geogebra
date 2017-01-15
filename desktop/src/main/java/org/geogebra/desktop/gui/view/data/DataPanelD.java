@@ -334,10 +334,6 @@ public class DataPanelD extends JPanel
 
 	}
 
-	private void notifySelectionChange(int index, boolean isSelected) {
-		// statDialog.handleDataPanelSelectionChange(selectionList);
-	}
-
 	private static class Corner extends JPanel {
 		private static final long serialVersionUID = 1L;
 

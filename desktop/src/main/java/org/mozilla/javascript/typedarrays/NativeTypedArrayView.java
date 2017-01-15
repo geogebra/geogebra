@@ -571,9 +571,8 @@ public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 
 	@Override
 	public int hashCode() {
-		int hc = 0;
 		for (int i = 0; i < length; i++) {
-			hc += js_get(i).hashCode();
+			js_get(i).hashCode();
 		}
 		return 0;
 	}

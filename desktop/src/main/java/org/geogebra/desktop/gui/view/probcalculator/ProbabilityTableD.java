@@ -21,8 +21,6 @@ import org.geogebra.desktop.main.AppD;
 public class ProbabilityTableD extends ProbabilityTable
 		implements ListSelectionListener {
 
-	private static final long serialVersionUID = 1L;
-
 	private StatTable statTable;
 
 	private JPanel wrappedPanel;

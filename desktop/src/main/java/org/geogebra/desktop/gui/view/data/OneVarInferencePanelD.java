@@ -599,27 +599,4 @@ public class OneVarInferencePanelD extends JPanel
 		return b;
 	}
 
-	private JPanel blPanel(Component center, Component north, Component south,
-			Component west, Component east) {
-		JPanel p = new JPanel(new BorderLayout());
-		if (center != null) {
-			p.add(center, BorderLayout.CENTER);
-		}
-		if (north != null) {
-			p.add(north, BorderLayout.NORTH);
-		}
-		if (south != null) {
-			p.add(south, BorderLayout.SOUTH);
-		}
-		if (west != null) {
-			p.add(west, loc.borderWest());
-		}
-		if (east != null) {
-			p.add(east, loc.borderEast());
-		}
-
-		// p.setBackground(Color.white);
-		return p;
-	}
-
 }

@@ -528,9 +528,6 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 		int i, j; // indexing variables for FOR loops
 		int indexer = off - 1; // index variable for pixels array
 
-		// Size of a pixel in user space.
-		double pixSzSq = a00 * a00 + a01 * a01 + a10 * a10
-				+ a11 * a11;
 		double[] prevGs = new double[w + 1];
 		double deltaXSq, deltaYSq;
 		double solutionX, solutionY;

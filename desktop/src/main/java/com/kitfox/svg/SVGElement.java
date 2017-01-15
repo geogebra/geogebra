@@ -260,7 +260,7 @@ abstract public class SVGElement implements Serializable {
 		// Parse style string, if any
 		String style = attrs.getValue("style");
 		if (style != null) {
-			HashMap map = XMLParseUtil.parseStyle(style, inlineStyles);
+			XMLParseUtil.parseStyle(style, inlineStyles);
 		}
 
 		String base = attrs.getValue("xml:base");
@@ -756,7 +756,6 @@ abstract public class SVGElement implements Serializable {
 			tokens.addLast(matchPathCmd.group());
 		}
 
-		boolean defaultRelative = false;
 		LinkedList cmdList = new LinkedList();
 		char curCmd = 'Z';
 		while (tokens.size() != 0) {
@@ -855,7 +854,6 @@ abstract public class SVGElement implements Serializable {
 			}
 
 			cmdList.add(cmd);
-			defaultRelative = cmd.isRelative;
 		}
 
 		PathCommand[] retArr = new PathCommand[cmdList.size()];

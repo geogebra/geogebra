@@ -867,38 +867,6 @@ public class RendererShaders extends RendererD
 	 * }
 	 */
 
-	private void releaseVBOs() {
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_POSITION); // Allow
-																			// release
-																			// of
-																			// vertex
-																			// position
-																			// memory
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_COLOR); // Allow
-																		// release
-																		// of
-																		// vertex
-																		// color
-																		// memory
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_NORMAL); // Allow
-																			// release
-																			// of
-																			// vertex
-																			// normal
-																			// memory
-		jogl.getGL2ES2().glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE); // Allow
-																			// release
-																			// of
-																			// vertex
-																			// texture
-																			// memory
-
-		jogl.getGL2ES2().glDeleteBuffers(4, vboHandles, 0); // Release VBO,
-															// color and
-															// vertices, buffer
-															// GPU memory.
-	}
-
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
 

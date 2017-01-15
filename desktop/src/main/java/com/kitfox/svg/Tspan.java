@@ -381,7 +381,6 @@ public class Tspan extends ShapeElement {
 		float cursorX = 0;
 		float cursorY = 0;
 
-		int posPtr = 1;
 		FontRenderContext frc = g.getFontRenderContext();
 
 		Shape textShape = font.createGlyphVector(frc, text).getOutline(cursorX,

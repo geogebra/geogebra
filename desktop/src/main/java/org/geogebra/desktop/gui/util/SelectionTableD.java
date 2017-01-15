@@ -16,7 +16,6 @@ import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -457,14 +456,12 @@ public class SelectionTableD extends JTable {
 	 */
 	public int getMaxRowHeight(JTable table) {
 
-		TableColumn tableColumn;
-
 		// iterate through all cells
 		int maxPrefHeight = 0;
 		int cellPrefHeight = 0;
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
-				tableColumn = table.getColumnModel().getColumn(c);
+				table.getColumnModel().getColumn(c);
 				if (table.getValueAt(r, c) != null) {
 					cellPrefHeight = (int) table.getCellRenderer(r, c)
 							.getTableCellRendererComponent(table,

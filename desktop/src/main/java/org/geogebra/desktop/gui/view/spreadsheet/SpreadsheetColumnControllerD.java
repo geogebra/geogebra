@@ -563,7 +563,7 @@ public class SpreadsheetColumnControllerD
 			}
 
 			try {
-				Component c = getTableCellRendererComponent(table, value, false,
+				getTableCellRendererComponent(table, value, false,
 						false, -1, colIndex);
 
 				// layout.getLayoutComponent(app.borderWest()).getBounds(rect);

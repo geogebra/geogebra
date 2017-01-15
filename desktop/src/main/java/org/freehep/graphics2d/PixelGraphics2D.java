@@ -76,9 +76,6 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	// tag handler
 	protected GenericTagHandler tagHandler;
 
-	// fast symbol handling, FIXME: does not work for fillAndDraw
-	private static final int MAX_BLIT_SIZE = 32;
-
 	private static Map /* <color, Image[fill][symbol][size]> */ symbols;
 
 	private WebColor webColor;

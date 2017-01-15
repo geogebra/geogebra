@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.view.data;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -527,16 +526,6 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		graphPanel.add(vBox, BorderLayout.NORTH);
 		graphPanel.setBorder(BorderFactory.createEmptyBorder());
 
-	}
-
-	private static JComponent insetPanelRight(int inset, JComponent... comp) {
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
-		}
-		p.add(Box.createRigidArea(new Dimension(10, 0)));
-		p.setBorder(BorderFactory.createEmptyBorder(2, inset, 0, 0));
-		return p;
 	}
 
 	private static JComponent insetPanel(int inset, JComponent... comp) {

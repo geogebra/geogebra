@@ -2,27 +2,18 @@
 package org.geogebra.desktop.gui.view.algebra;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
@@ -236,52 +227,6 @@ public class InputPanelD extends JPanel
 		// popupTableButton.setVisible(flag);
 		// for(int i=0; i < symbolButton.length; i++)
 		// symbolButton[i].setVisible(false);
-	}
-
-	/**
-	 * custom cell renderer for the history list, draws grid lines and roll-over
-	 * effect
-	 *
-	 */
-	private static class HistoryListCellRenderer
-			extends DefaultListCellRenderer {
-
-		private static final long serialVersionUID = 1L;
-
-		private Color bgColor;
-		// private Color listSelectionBackground =
-		// MyTable.SELECTED_BACKGROUND_COLOR;
-		private Color listBackground = Color.white;
-		private Color rolloverBackground = Color.lightGray;
-		private Border gridBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						GColorD.getAwtColor(
-								GeoGebraColorConstants.TABLE_GRID_COLOR)),
-				BorderFactory.createEmptyBorder(2, 5, 2, 5));
-
-		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
-
-			super.getListCellRendererComponent(list, value, index, isSelected,
-					cellHasFocus);
-
-			setText((String) value);
-			setForeground(Color.black);
-			setBorder(gridBorder);
-
-			// paint roll-over row
-			Point point = list.getMousePosition();
-			int mouseOver = point == null ? -1 : list.locationToIndex(point);
-			if (index == mouseOver) {
-				bgColor = rolloverBackground;
-			} else {
-				bgColor = listBackground;
-			}
-			setBackground(bgColor);
-
-			return this;
-		}
 	}
 
 	/** end history list cell renderer **/

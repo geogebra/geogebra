@@ -29,8 +29,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBar
 		implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-
 	/** rounding button */
 	JButton btnRounding;
 

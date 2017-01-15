@@ -139,7 +139,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -4246,112 +4245,6 @@ BorderFactory.createTitledBorder(loc1
 
 		}
 
-	}
-
-	/**
-	 * panel to show a 2D view from a plane, polygon, etc.
-	 * 
-	 * @author mathieu
-	 */
-	@SuppressWarnings("unused")
-	private class ShowView2D extends JPanel implements ItemListener, SetLabels,
-			UpdateFonts, UpdateablePropertiesPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private Object[] geos; // currently selected geos
-		private JCheckBox cb2DView;
-
-		public ShowView2D() {
-			super(new FlowLayout(FlowLayout.LEFT));
-
-			// check boxes for show trace
-			cb2DView = new JCheckBox();
-			cb2DView.addItemListener(this);
-
-			// put it all together
-			add(cb2DView);
-		}
-
-		@Override
-		public void setLabels() {
-			cb2DView.setText(loc.getMenu("ViewFrom"));
-		}
-
-		@Override
-		public JPanel updatePanel(Object[] selGeos) {
-			this.geos = selGeos;
-			if (!checkGeos(selGeos)) {
-				return null;
-			}
-
-			cb2DView.removeItemListener(this);
-
-			// check if properties have same values
-			ViewCreator temp, geo0 = (ViewCreator) selGeos[0];
-			boolean equalVal = true;
-
-			for (int i = 0; i < selGeos.length; i++) {
-				temp = (ViewCreator) selGeos[i];
-				// same object visible value
-				if (geo0.hasView2DVisible() != temp.hasView2DVisible()) {
-					equalVal = false;
-				}
-			}
-
-			// set checkbox
-			if (equalVal) {
-				cb2DView.setSelected(geo0.hasView2DVisible());
-			} else {
-				cb2DView.setSelected(false);
-			}
-
-			cb2DView.addItemListener(this);
-			return this;
-		}
-
-		private boolean checkGeos(Object[] selGeos) {
-			for (int i = 0; i < selGeos.length; i++) {
-				GeoElement geo = (GeoElement) selGeos[i];
-				if (!(geo instanceof ViewCreator)) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		/**
-		 * listens to checkboxes and sets trace state
-		 */
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			ViewCreator geo;
-			Object source = e.getItemSelectable();
-
-			// absolute screen location flag changed
-			if (source == cb2DView) {
-				boolean flag = cb2DView.isSelected();
-				for (int i = 0; i < geos.length; i++) {
-					geo = (ViewCreator) geos[i];
-					geo.setView2DVisible(flag);
-				}
-
-				updateSelection(geos);
-			}
-		}
-
-		@Override
-		public void updateFonts() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 
 	/**

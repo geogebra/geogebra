@@ -17,12 +17,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -441,22 +437,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ev.updateBackground();
 
 		return appletPanel;
-	}
-
-	private class DoubleClickListener extends MouseAdapter {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() == 2) {
-				showFrame();
-			}
-		}
-	}
-
-	private class ButtonClickListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			showFrame();
-		}
 	}
 
 	private void showFrame() {

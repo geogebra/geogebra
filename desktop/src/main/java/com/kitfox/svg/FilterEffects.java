@@ -54,8 +54,6 @@ public class FilterEffects extends SVGElement {
 	public static final int FP_FILL_PAINT = 4;
 	public static final int FP_STROKE_PAINT = 5;
 	public static final int FP_CUSTOM = 5;
-	private int filterPrimitiveTypeIn;
-	private String filterPrimitiveRefIn;
 	float x = 0f;
 	float y = 0f;
 	float width = 1f;

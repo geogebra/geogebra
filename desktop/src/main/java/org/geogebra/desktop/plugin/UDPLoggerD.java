@@ -411,21 +411,6 @@ public class UDPLoggerD extends SensorLogger {
 				}
 				Log.debug("thread ending");
 			}
-
-			private float getInt(byte[] buffer1, int i) {
-				byte[] bytes = { buffer1[i], buffer1[i + 1], buffer1[i + 2],
-						buffer1[i + 3] };
-				return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
-						.getInt();
-			}
-
-			private double getDouble(byte[] buffer1, int i) {
-				byte[] bytes = { buffer1[i], buffer1[i + 1], buffer1[i + 2],
-						buffer1[i + 3], buffer1[i + 4], buffer1[i + 5],
-						buffer1[i + 6], buffer1[i + 7] };
-				return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
-						.getDouble();
-			}
 		};
 		thread.start();
 

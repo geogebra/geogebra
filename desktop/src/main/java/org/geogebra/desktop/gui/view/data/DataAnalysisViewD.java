@@ -138,12 +138,6 @@ public class DataAnalysisViewD extends JPanel
 		return stylebar;
 	}
 
-	private void createGUI() {
-
-		buildStatisticsPanel();
-
-	}
-
 	private void buildStatisticsPanel() {
 		if (statisticsPanel != null) {
 			// TODO handle any orphaned geo children of stat panel

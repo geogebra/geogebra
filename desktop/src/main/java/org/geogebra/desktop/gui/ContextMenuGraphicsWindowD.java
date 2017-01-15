@@ -34,11 +34,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		implements ActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private double px, py;
 	// private JMenuItem miStandardView, miProperties;
 

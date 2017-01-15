@@ -90,24 +90,6 @@ public final class StreamingPlayer {
 		parser.addParserListener(durationPatternTool);
 	}
 
-	private void openSequencer() {
-		if (getSequencer() == null) {
-			throw new JFugueException(
-					JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED);
-		}
-
-		// Open the sequencer, if it is not already open
-		if (!getSequencer().isOpen()) {
-			try {
-				getSequencer().open();
-			} catch (MidiUnavailableException e) {
-				throw new JFugueException(
-						JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION
-								+ e.getMessage());
-			}
-		}
-	}
-
 	/**
 	 * Closes MIDI resources - be sure to call this after play() has returned.
 	 */

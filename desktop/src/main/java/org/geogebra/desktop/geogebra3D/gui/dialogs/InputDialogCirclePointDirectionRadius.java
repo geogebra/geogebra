@@ -15,11 +15,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogCirclePointDirectionRadius extends InputDialogRadiusD {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoPointND geoPoint;
 
 	private GeoDirectionND forAxis;

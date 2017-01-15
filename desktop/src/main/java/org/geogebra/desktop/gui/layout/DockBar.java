@@ -3,21 +3,16 @@ package org.geogebra.desktop.gui.layout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.SystemColor;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.DockBarInterface;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -302,55 +297,5 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	// (experimental code)
 	// ==============================================================
 	private boolean fullScreen = false;
-
-	private void toggleFullScreen() {
-
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-		// GraphicsDevice[] gs = ge.getScreenDevices();
-		// Determine if full-screen mode is supported directly
-		if (gs.isFullScreenSupported()) {
-			Log.info("full screen mode supported");
-		} else {
-			Log.info("full screen mode not supported");
-		}
-
-		fullScreen = !fullScreen;
-		JFrame f = app.getFrame();
-		try {
-			if (fullScreen) { // Enter full-screen mode
-
-				Toolkit toolkit = Toolkit.getDefaultToolkit();
-				Dimension dim = toolkit.getScreenSize();
-				f.setResizable(true);
-
-				f.removeNotify();
-				f.setUndecorated(true);
-				f.addNotify();
-
-				gs.setFullScreenWindow(f);
-
-				f.setLocation(0, 0);
-				f.setSize(dim);
-				f.validate();
-
-			} else { // Return to normal windowed mode
-
-				gs.setFullScreenWindow(null);
-
-				f.removeNotify();
-				f.setUndecorated(false);
-				f.addNotify();
-				f.validate();
-
-			}
-		}
-
-		catch (Exception e) {
-			System.out.println("error: " + e.getMessage());
-		}
-
-	}
 
 }

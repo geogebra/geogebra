@@ -1,9 +1,6 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
-import javax.swing.SwingWorker;
-
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
@@ -35,24 +32,6 @@ public class LoginOperationD extends LogInOperation {
 
 		// Perform the API call in a background process
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
-	}
-
-	private class LoginTokenApprover extends SwingWorker<Void, BaseEvent> {
-		private String token;
-		private boolean automatic;
-
-		LoginTokenApprover(String token, boolean automatic) {
-			super();
-			this.token = token;
-			this.automatic = automatic;
-		}
-
-		@SuppressWarnings("synthetic-access")
-		@Override
-		public Void doInBackground() {
-			doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
-			return null;
-		}
 	}
 
 	private GeoGebraTubeAPID api;

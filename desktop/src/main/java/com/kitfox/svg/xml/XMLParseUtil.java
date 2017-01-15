@@ -483,7 +483,6 @@ public class XMLParseUtil {
 	public static URL getAttribURL(Element ele, String name, URL docRoot) {
 		String sval = ele.getAttribute(name);
 
-		URL url;
 		try {
 			return new URL(docRoot, sval);
 		} catch (Exception e) {

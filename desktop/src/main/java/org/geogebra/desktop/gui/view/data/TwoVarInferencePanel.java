@@ -242,28 +242,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		fld.addActionListener(this);
 	}
 
-	private void setTitleComboBoxes() {
-
-		cbTitle1.removeActionListener(this);
-		cbTitle2.removeActionListener(this);
-
-		cbTitle1.removeAllItems();
-		cbTitle2.removeAllItems();
-		String[] dataTitles = daView.getDataTitles();
-		if (dataTitles != null) {
-			for (int i = 0; i < dataTitles.length; i++) {
-				cbTitle1.addItem(dataTitles[i]);
-				cbTitle2.addItem(dataTitles[i]);
-			}
-		}
-		cbTitle1.setSelectedIndex(0);
-		cbTitle2.setSelectedIndex(1);
-
-		cbTitle1.addActionListener(this);
-		cbTitle2.addActionListener(this);
-
-	}
-
 	private void updateCBAlternativeHyp() {
 
 		cbAltHyp.removeActionListener(this);

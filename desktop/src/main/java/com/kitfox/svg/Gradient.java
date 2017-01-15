@@ -240,7 +240,6 @@ abstract public class Gradient extends FillElement {
 
 		// Get current values for parameters
 		StyleAttribute sty = new StyleAttribute();
-		boolean shapeChange = false;
 		String strn;
 
 		if (getPres(sty.setName("spreadMethod"))) {
