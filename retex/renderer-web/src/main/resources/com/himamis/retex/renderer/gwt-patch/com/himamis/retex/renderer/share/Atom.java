@@ -124,6 +124,7 @@ public abstract class Atom {
 	protected native Object nativeClone() /*-{
 		var r = {};
 
+		// https://github.com/gwtproject/gwt/issues/5067
 		// prevents to use same hash code
 		//GWT <=2.7: @com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(r);
 		@javaemul.internal.HashCodes::getObjectIdentityHashCode(*)(r);
