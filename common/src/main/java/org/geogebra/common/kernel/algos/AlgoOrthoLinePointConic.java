@@ -66,7 +66,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 			g[i] = new GeoLine(cons);
 			g[i].setStartPoint(P);
 			n[i] = new GeoNumeric(cons);
-			algoPoint[i] = new AlgoPointOnPath(cons, l, 0, 0, n[i]);
+			algoPoint[i] = new AlgoPointOnPath(cons, l, 0, 0, 0, n[i]);
 			cons.removeFromConstructionList(algoPoint[i]);
 			// algoPoint[i].remove();
 		}

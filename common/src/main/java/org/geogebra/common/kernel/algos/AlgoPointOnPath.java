@@ -43,19 +43,14 @@ public class AlgoPointOnPath extends AlgoElement
 		SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 
 	private Path path; // input
-	protected GeoPointND P; // output
+	/** output */
+	protected GeoPointND P;
 	private GeoNumberValue param;
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
 	private Variable variable;
 	private Variable[] botanaVars;
 
-	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
-			double y) {
-
-		this(cons, label, path, x, y, 0);
-
-	}
 
 	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
 			double y, double z) {
@@ -65,34 +60,10 @@ public class AlgoPointOnPath extends AlgoElement
 		P.setLabel(label);
 	}
 
-	/**
-	 * @author Tam
-	 * 
-	 *         for special cases of e.g. AlgoIntersectLineConic
-	 */
-	private void addIncidence() {
-		P.addIncidence((GeoElement) path, false);
-
-	}
-
-	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
-			double y, GeoNumberValue param) {
-
-		this(cons, label, path, x, y, 0, param);
-
-	}
-
-	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
-			double y, double z, GeoNumberValue param) {
-
-		this(cons, path, x, y, z, param);
-		P.setLabel(label);
-	}
-
-	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
+	public AlgoPointOnPath(Construction cons, Path path,
 			GeoNumberValue param) {
 
-		this(cons, path, x, y, 0, param);
+		this(cons, path, 0, 0, 0, param);
 
 	}
 
@@ -131,6 +102,16 @@ public class AlgoPointOnPath extends AlgoElement
 		} else {
 			P.setEuclidianVisible(false);
 		}
+	}
+
+	/**
+	 * @author Tam
+	 * 
+	 *         for special cases of e.g. AlgoIntersectLineConic
+	 */
+	private void addIncidence() {
+		P.addIncidence((GeoElement) path, false);
+
 	}
 
 	protected void createPoint(Path path, double x, double y, double z) {

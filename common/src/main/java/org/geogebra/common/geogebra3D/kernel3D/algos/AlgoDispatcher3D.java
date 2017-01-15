@@ -167,9 +167,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				coords.setX(coords.getX() + n.getDouble());
 			}
 			AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons,
-					pointLabel, algoCircle.getCircle(), coords.getX(),
+					algoCircle.getCircle(), coords.getX(),
 					coords.getY(), coords.getZ());
-
+			algoPoint.getP().setLabel(pointLabel);
 			// return segment and new point
 			GeoElement[] ret = { (GeoElement) getManager3D()
 					.Segment3D(segmentLabel, A, algoPoint.getP()),

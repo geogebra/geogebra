@@ -121,19 +121,18 @@ public class AlgoDispatcher {
 			boolean addToConstruction, boolean complex, boolean coords2D) {
 
 		AlgoPointOnPath algo;
-		if (!addToConstruction) {
-			algo = new AlgoPointOnPath(cons, path, x, y, 0, false);
-		} else {
-			algo = new AlgoPointOnPath(cons, label, path, x, y, 0);
-		}
+
+		algo = new AlgoPointOnPath(cons, path, x, y, 0, addToConstruction);
 
 		GeoPoint p = (GeoPoint) algo.getP();
 		if (complex) {
 			p.setMode(Kernel.COORD_COMPLEX);
-			p.update();
 		} else if (!coords2D) {
 			p.setCartesian3D();
-			p.update();
+		}
+
+		if (addToConstruction) {
+			p.setLabel(label);
 		}
 		return p;
 	}
@@ -150,24 +149,22 @@ public class AlgoDispatcher {
 		// try (0,0)
 		AlgoPointOnPath algo = null;
 		if (param == null) {
-			algo = new AlgoPointOnPath(cons, label, path, 0, 0);
+			algo = new AlgoPointOnPath(cons, path, 0, 0);
 		} else {
-			algo = new AlgoPointOnPath(cons, label, path, 0, 0, param);
+			algo = new AlgoPointOnPath(cons, path, param);
 		}
 		GeoPoint p = (GeoPoint) algo.getP();
 
 		// try (1,0)
 		if (!p.isDefined()) {
 			p.setCoords(1, 0, 1);
-			algo.update();
 		}
 
 		// try (random(),0)
 		if (!p.isDefined()) {
 			p.setCoords(Math.random(), 0, 1);
-			algo.update();
 		}
-
+		p.setLabel(label);
 		return p;
 	}
 
@@ -404,8 +401,9 @@ public class AlgoDispatcher {
 				n);
 		cons.removeFromConstructionList(algoCircle);
 		// place the new point on the circle
-		AlgoPointOnPath algoPoint = new AlgoPointOnPath(cons, pointLabel,
+		AlgoPointOnPath algoPoint = new AlgoPointOnPath(cons,
 				algoCircle.getCircle(), A.inhomX + n.getDouble(), A.inhomY);
+		algoPoint.getP().setLabel(pointLabel);
 
 		// return segment and new point
 		GeoElement[] ret = {

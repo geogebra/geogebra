@@ -241,7 +241,7 @@ public class Manager3D implements Manager3DInterface {
 			cons.setSuppressLabelCreation(true);
 
 		}
-		AlgoPoint3DOnPath algo = new AlgoPoint3DOnPath(cons, label, path, x, y,
+		AlgoPoint3DOnPath algo = new AlgoPoint3DOnPath(cons, path, x, y,
 				z);
 		GeoPoint3D p = (GeoPoint3D) algo.getP();
 		if (coords2D) {
@@ -249,7 +249,7 @@ public class Manager3D implements Manager3DInterface {
 		} else {
 			p.setCartesian3D();
 		}
-		p.update();
+		p.setLabel(label);
 		if (!addToConstruction) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
@@ -282,24 +282,22 @@ public class Manager3D implements Manager3DInterface {
 		// try (0,0,0)
 		AlgoPoint3DOnPath algo = null;
 		if (param == null) {
-			algo = new AlgoPoint3DOnPath(cons, label, path, 0, 0, 0);
+			algo = new AlgoPoint3DOnPath(cons, path, 0, 0, 0);
 		} else {
-			algo = new AlgoPoint3DOnPath(cons, label, path, 0, 0, 0, param);
+			algo = new AlgoPoint3DOnPath(cons, path, param);
 		}
-		GeoPoint3D p = (GeoPoint3D) algo.getP();
+		GeoPointND p = algo.getP();
 
 		// try (1,0,0)
 		if (!p.isDefined()) {
 			p.setCoords(1, 0, 0, 1);
-			algo.update();
 		}
 
 		// try (random(),0, 0)
 		if (!p.isDefined()) {
 			p.setCoords(Math.random(), 0, 0, 1);
-			algo.update();
 		}
-
+		p.setLabel(label);
 		return p;
 	}
 
@@ -1906,9 +1904,10 @@ public class Manager3D implements Manager3DInterface {
 		tmpCoords3.mulInside(radius.getDouble());
 		tmpCoords.setAdd3(center.getInhomCoordsInD(3), tmpCoords3);
 
-		AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons, null,
+		AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons,
 				algoCircle.getCircle(), tmpCoords.getX(), tmpCoords.getY(),
 				tmpCoords.getZ());
+		algoPoint.getP().setLabel(null);
 
 		// create solid
 		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(

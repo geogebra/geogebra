@@ -20,17 +20,16 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 
-	public AlgoPoint3DOnPath(Construction cons, String label, Path path,
+	public AlgoPoint3DOnPath(Construction cons, Path path,
 			double x, double y, double z) {
 
-		super(cons, label, path, x, y, z);
-
+		super(cons, path, x, y, z, true);
 	}
 
-	public AlgoPoint3DOnPath(Construction cons, String label, Path path,
-			double x, double y, double z, GeoNumberValue param) {
+	public AlgoPoint3DOnPath(Construction cons, Path path,
+			GeoNumberValue param) {
 
-		super(cons, label, path, x, y, param);
+		super(cons, path, param);
 	}
 
 	@Override
