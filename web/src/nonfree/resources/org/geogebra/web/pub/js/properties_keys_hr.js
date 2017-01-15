@@ -2340,7 +2340,7 @@ __GGB__keysVar.hr.menu = {
     "Portrait": "Portret",
     "PositiveDirectionOnly": "Samo pozitivni smjer",
     "PositiveValuesFollowTheView": "Pozitivne vrijednosti slijede prikaz",
-    "PossiblyGenerallyTrue": "(mo\u017eda vrijedi op\u0107enito)",
+    "PossiblyGenerallyTrue": "(mogu\u0107e vrijedi op\u0107enito)",
     "Power": "Potencijska",
     "Preferences": "Postavke",
     "PreferencesOfA": "Postavke - %0",
