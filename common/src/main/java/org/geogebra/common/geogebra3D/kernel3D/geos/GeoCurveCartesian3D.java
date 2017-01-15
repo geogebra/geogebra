@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
-import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -42,8 +41,8 @@ import org.geogebra.common.plugin.Operation;
  * @author mathieu
  * 
  */
-public class GeoCurveCartesian3D extends GeoCurveCartesianND
-		implements CurveEvaluable, RotateableND, Translateable,
+public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
+		RotateableND, Translateable,
 		MirrorableAtPlane, Transformable, Dilateable {
 
 	/**

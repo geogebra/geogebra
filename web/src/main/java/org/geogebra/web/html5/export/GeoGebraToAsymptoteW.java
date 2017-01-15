@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.export;
 
-import java.io.IOException;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
@@ -21,7 +19,7 @@ public class GeoGebraToAsymptoteW extends GeoGebraToAsymptote {
 
 		try {
 			return new MyGraphicsAs(ef, inequality);
-		} catch (IOException e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -29,8 +27,7 @@ public class GeoGebraToAsymptoteW extends GeoGebraToAsymptote {
 
 	class MyGraphicsAs extends MyGraphicsW {
 
-		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq)
-				throws IOException {
+		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq) {
 			super(geo, ineq);
 		}
 

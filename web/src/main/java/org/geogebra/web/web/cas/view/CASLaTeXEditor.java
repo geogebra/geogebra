@@ -10,7 +10,6 @@ import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -30,7 +29,8 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class CASLaTeXEditor extends SimplePanel
-		implements CASEditorW, MathKeyboardListener, AutoCompleteW,
+ implements CASEditorW,
+		MathKeyboardListener,
 		MathFieldListener {
 	InputSuggestions sug;
 	private MathFieldW mf;

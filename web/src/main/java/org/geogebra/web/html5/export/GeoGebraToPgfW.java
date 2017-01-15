@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.export;
 
-import java.io.IOException;
-
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -28,8 +26,7 @@ public class GeoGebraToPgfW extends GeoGebraToPgf {
 
 	class MyGraphicsPgfW extends MyGraphicsW {
 
-		public MyGraphicsPgfW(FunctionalNVar geo, Inequality ineq)
-				throws IOException {
+		public MyGraphicsPgfW(FunctionalNVar geo, Inequality ineq) {
 
 			super(geo, ineq);
 		}

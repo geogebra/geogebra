@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -33,7 +32,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InputDialogW extends InputDialog implements ClickHandler,
-        SetLabels, KeyUpHandler, ErrorHandler, KeyPressHandler {
+		SetLabels, KeyUpHandler, KeyPressHandler {
 
 	protected final AppW app;
 

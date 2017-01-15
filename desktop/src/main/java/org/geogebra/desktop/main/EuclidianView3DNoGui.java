@@ -5,15 +5,13 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.MyZoomer;
-import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
-public class EuclidianView3DNoGui extends EuclidianView3D
-		implements EuclidianView3DInterface {
+public class EuclidianView3DNoGui extends EuclidianView3D {
 
 	public EuclidianView3DNoGui(EuclidianController3D ec,
 			EuclidianSettings settings) {

@@ -10,9 +10,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.KeyUpHandler;
-
-public class InputDialogRotatePointW extends InputDialogRotateW implements KeyUpHandler {
+public class InputDialogRotatePointW extends InputDialogRotateW {
 
 
 	private GeoPointND[] points;
