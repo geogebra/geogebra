@@ -14,7 +14,7 @@ public class PlotterCompletingCursor {
 	public static final float END_DRAW = 2f;
 
 	static private float coeff = 30f, coeffCircle = 1.25f,
-			coeffCompleting = 1.25f, coeffCircleOut = 0.75f;
+			coeffCompleting = 1.25f;
 
 	public static final double WIDTH = 10;
 

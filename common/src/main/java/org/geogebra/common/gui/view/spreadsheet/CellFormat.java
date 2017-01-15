@@ -3,14 +3,12 @@ package org.geogebra.common.gui.view.spreadsheet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor.Direction;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
@@ -391,18 +389,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	// for debugging
-	private static void printMap(MyHashMap formatMap) {
-
-		Log.debug(" =========  map contents ==========");
-		for (Entry<GPoint, Object> entry : formatMap.entrySet()) {
-			GPoint key = entry.getKey();
-			Object value = entry.getValue();
-			Log.debug(" key: " + key.x + " , " + key.y + "  value: "
-					+ value.toString());
-		}
-
-	}
+	
 
 	// ========================================================
 	// Getters

@@ -207,10 +207,6 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 	}
 
-	private void setUndefined() {
-		getPolyhedron().setUndefined();
-	}
-
 	/*
 	 * @Override public int getRelatedModeID() { return
 	 * EuclidianConstants.MODE_NET; }

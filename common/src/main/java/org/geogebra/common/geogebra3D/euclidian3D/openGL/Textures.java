@@ -326,10 +326,6 @@ public class Textures {
 		renderer.setTextureLinear();
 	}
 
-	final private void setTextureNearest() {
-		renderer.setTextureNearest();
-	}
-
 	/**
 	 * 
 	 * @param index

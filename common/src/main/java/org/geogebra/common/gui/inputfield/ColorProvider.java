@@ -285,10 +285,6 @@ public class ColorProvider {
 			return groups.get(i);
 		}
 
-		public String getInput() {
-			return input;
-		}
-
 	}
 
 	private static class MyLabelParamRegExp {

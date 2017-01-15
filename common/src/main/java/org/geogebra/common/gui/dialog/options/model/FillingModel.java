@@ -215,17 +215,6 @@ public class FillingModel extends MultipleOptionsModel {
 		getFillingListener().setFillValue((int) Math.round(alpha * 100));
 	}
 
-	private void setSymbol(AlgoBarChart algo) {
-		int idx = getFillingListener().getSelectedBarIndex();
-		String symbol = null;
-		if (algo.getBarSymbol(idx) != null
-				&& !algo.getBarSymbol(idx).equals("")) {
-			symbol = algo.getBarSymbol(idx);
-		}
-
-		getFillingListener().selectSymbol(symbol);
-	}
-
 	private void updateBarFillTypePanel(AlgoBarChart algo) {
 		int idx = getFillingListener().getSelectedBarIndex();
 		FillType type = FillType.STANDARD;

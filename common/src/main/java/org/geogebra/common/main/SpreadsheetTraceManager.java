@@ -364,17 +364,6 @@ public class SpreadsheetTraceManager {
 	}
 
 	/**
-	 * Delete the elements of all trace columns, excluding headers. This is
-	 * called when a user resets the row limit.
-	 */
-	private void clearAllTraceColumns() {
-
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			clearGeoTraceColumns(geo);
-		}
-	}
-
-	/**
 	 * Delete the elements in the trace columns of a single geo.
 	 */
 	public void clearGeoTraceColumns(GeoElement geo) {

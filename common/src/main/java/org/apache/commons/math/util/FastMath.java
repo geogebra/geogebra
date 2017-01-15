@@ -77,9 +77,6 @@ public class FastMath {
 	private static final double F_5_6 = 5d / 6d;
 	/** Constant: {@value} . */
 	private static final double F_1_2 = 1d / 2d;
-	/** Constant: {@value} . */
-	private static final double F_1_4 = 1d / 4d;
-
 	/** StrictMath.log(Double.MAX_VALUE): {@value} */
 	private static final double LOG_MAX_VALUE = Math.log(Double.MAX_VALUE);
 

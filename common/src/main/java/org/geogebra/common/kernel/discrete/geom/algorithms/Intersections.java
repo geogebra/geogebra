@@ -340,32 +340,4 @@ public class Intersections {
 		return result;
 	}
 
-	private static void printQueue(PriorityQueue<Event> q) {
-		PriorityQueue<Event> tmp = new PriorityQueue<Event>(q);
-
-		System.out.println("QUEUE:");
-		System.out.println("----------------------------------");
-		while (!tmp.isEmpty()) {
-			Event e = tmp.poll();
-			System.out.println(e.toString());
-		}
-		System.out.println("----------------------------------");
-		System.out.println();
-	}
-
-	private static void printSweepLine(List<Segment2DEx> sweepLine) {
-
-		System.out.println("SWEEPLINE:");
-		System.out.println("----------------------------------");
-		for (Iterator it = sweepLine.iterator(); it.hasNext();) {
-
-			Segment2DEx s = (Segment2DEx) it.next();
-			System.out.println(s.getLeftEndPoint().toString() + " - "
-					+ s.getRightEndPoint().toString());
-
-		}
-		System.out.println("----------------------------------");
-		System.out.println();
-	}
-
 }

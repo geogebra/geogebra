@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -248,20 +247,6 @@ public abstract class DataAnalysisController {
 	}
 
 	protected abstract void updateRegressionPanel();
-
-	private void debugDataSelected() {
-		if (dataSelected == null) {
-			return;
-		}
-		Log.debug("==========================");
-		Log.debug("dataSelected: ");
-		for (int i = 0; i < dataSelected.size(); i++) {
-			Log.debug(dataSelected.get(i)
-					.toString(StringTemplate.defaultTemplate));
-		}
-		Log.debug("==========================");
-
-	}
 
 	/**
 	 * Gets the data titles from the source cells.

@@ -448,8 +448,6 @@ public enum Language {
 				localeGWT, locale, name, null, countries);
 	}
 
-	final private static String countryFromGeoIP = null;
-
 	/**
 	 * @param language
 	 *            2 letter language, eg en

@@ -499,8 +499,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	}
 
-	private static final double REDUCE_BOUNDS_FACTOR = 0.975;
-
 	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_SURFACE;

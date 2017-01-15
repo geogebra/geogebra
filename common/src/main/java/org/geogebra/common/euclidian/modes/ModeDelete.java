@@ -109,9 +109,6 @@ public class ModeDelete {
 					dataPoints = gps.getPoints();
 				}
 
-				// find out if this stroke is still visible
-				// after removing points
-				boolean hasVisibleLine = false;
 				boolean lastWasVisible = false;
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
@@ -185,7 +182,6 @@ public class ModeDelete {
 						populateAlgoUpdateSet(dataPoints[i]);
 
 						if (lastWasVisible && dataPoints[i].isDefined()) {
-							hasVisibleLine = true;
 						}
 						lastWasVisible = dataPoints[i].isDefined();
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {
@@ -611,9 +607,6 @@ public class ModeDelete {
 					dataPoints = gps.getPoints();
 				}
 
-				// find out if this stroke is still visible
-				// after removing points
-				boolean hasVisibleLine = false;
 				boolean lastWasVisible = false;
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
@@ -689,7 +682,6 @@ public class ModeDelete {
 						populateAlgoUpdateSet(dataPoints[i]);
 
 						if (lastWasVisible && dataPoints[i].isDefined()) {
-							hasVisibleLine = false;
 						}
 						lastWasVisible = dataPoints[i].isDefined();
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {

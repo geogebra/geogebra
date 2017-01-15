@@ -395,15 +395,6 @@ public class PolygonTriangulation {
 
 			return 0;
 		}
-
-		/**
-		 * convert it to GPoint2D.Double
-		 * 
-		 * @return (x,y) GPoint2D.Double
-		 */
-		public GPoint2D.Double toDouble() {
-			return new GPoint2D.Double(x, y);
-		}
 	}
 
 	protected Segment comparedSameOrientationSegment;
@@ -456,10 +447,6 @@ public class PolygonTriangulation {
 			}
 		}
 
-		public void equationNeedsUpdate() {
-			equationNeedsUpdate = true;
-		}
-
 		@Override
 		public String toString() {
 			if (leftPoint != null) {
@@ -470,15 +457,6 @@ public class PolygonTriangulation {
 				return leftPoint.name + rightPoint.name;
 			}
 			return "dummy";
-		}
-
-		public Point getFirstPoint() {
-			if (running == Running.LEFT) {
-				return rightPoint;
-			}
-
-			// running == Running.RIGHT
-			return leftPoint;
 		}
 
 		/**
@@ -581,8 +559,6 @@ public class PolygonTriangulation {
 
 		private boolean isClockWise;
 		private int apex;
-
-		private Iterator<Integer> iterator;
 
 		/**
 		 * 

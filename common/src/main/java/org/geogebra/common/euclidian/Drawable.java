@@ -43,8 +43,6 @@ import org.geogebra.common.util.StringUtil;
  */
 public abstract class Drawable extends DrawableND {
 
-	private BoundingBox boundingBox;
-
 	private boolean forceNoFill;
 
 	/**

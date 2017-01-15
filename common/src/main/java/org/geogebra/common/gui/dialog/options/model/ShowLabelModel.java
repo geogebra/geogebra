@@ -14,7 +14,6 @@ public class ShowLabelModel extends OptionsModel {
 
 	private Kernel kernel;
 
-	private static final long serialVersionUID = 1L;
 	private boolean showNameValue;
 	private IShowLabelListener listener;
 

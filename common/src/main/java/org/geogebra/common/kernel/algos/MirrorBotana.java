@@ -27,7 +27,7 @@ public class MirrorBotana {
 
 		if (mirrorLine instanceof GeoLine) {
 
-			GeoPoint P, Q;
+			GeoPoint P;
 			// if we want to mirror a line to a line
 			if (inGeo.isGeoLine()) {
 

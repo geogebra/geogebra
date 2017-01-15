@@ -60,10 +60,7 @@ import org.apache.commons.collections15.Transformer;
 public class LazyMap<K, V> extends AbstractMapDecorator<K, V>
 		implements Map<K, V> {
 
-	/**
-	 * Serialization version
-	 */
-	private static final long serialVersionUID = 7990956402564206740L;
+	
 
 	/**
 	 * The factory to use to construct elements

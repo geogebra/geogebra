@@ -23,8 +23,6 @@ public class DataImport {
 	 * CopyPasteCutD.copy()
 	 */
 	final static String decimalSeparator = ".";
-	final private static String groupingSeparator = ",";
-
 	/**
 	 * Parses external non-ggb data.
 	 * 

@@ -517,7 +517,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				.get(faceNumber);
 
 		if (linkSegNumber != -1) {
-			SegmentInfo linkSeg = segmentInfoList.get(linkSegNumber);
+			segmentInfoList.get(linkSegNumber);
 			int linkSegIndex;
 			// -1 until the link segment is found
 			for (linkSegIndex = 0; (currentPolygonSegList

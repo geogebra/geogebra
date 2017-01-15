@@ -59,11 +59,6 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 		implements Buffer<E> {
 
 	/**
-	 * Serialization vesrion
-	 */
-	private static final long serialVersionUID = -3482960336579541419L;
-
-	/**
 	 * The array of objects in the buffer.
 	 */
 	protected transient E[] buffer;

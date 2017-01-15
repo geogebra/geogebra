@@ -63,7 +63,6 @@ public class CopyPaste3D extends CopyPaste {
 					Iterator<GeoPolygon3D> polysit = ((GeoPolyhedron) geo)
 							.getPolygons().iterator();
 					GeoPolygon3D psnext;
-					GeoPointND[] pspoints;
 					while (polysit.hasNext()) {
 						psnext = polysit.next();
 						if (!geos.contains(psnext)

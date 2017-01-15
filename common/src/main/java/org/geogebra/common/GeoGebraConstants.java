@@ -52,12 +52,10 @@ public interface GeoGebraConstants {
 
 		NO_CAS("nc");
 
-		private boolean exam = false;
 		private String suffix;
 
 		Versions(String suffix, boolean exam) {
 			this.suffix = suffix;
-			this.exam = exam;
 		}
 
 		Versions(String suffix) {

@@ -31,7 +31,6 @@ public class StatisticsModel {
 
 	}
 
-	private static final long serialVersionUID = 1L;
 	// inference mode constants
 	public static final int SUMMARY_STATISTICS = 0;
 	// one var

@@ -24,11 +24,6 @@ import org.geogebra.common.plugin.script.Script;
 
 public class ButtonDialogModel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private GeoElement linkedGeo = null;
 	private boolean textField = false;
 

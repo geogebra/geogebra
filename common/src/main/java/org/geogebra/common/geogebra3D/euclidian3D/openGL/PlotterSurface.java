@@ -1527,14 +1527,6 @@ public class PlotterSurface {
 
 	}
 
-	private Coords calcNormal(float x, float y, float z) {
-		Coords v0 = new Coords(x, y, z, 0);
-		Coords v1 = function.evaluatePoint(x + 1e-9, y);
-		Coords v2 = function.evaluatePoint(x, y + 1e-9);
-
-		return v1.sub(v0).crossProduct(v2.sub(v0)).normalized();
-	}
-
 	private void drawQuad(int ui, int vi) {
 
 		drawTNV(ui, vi);

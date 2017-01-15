@@ -41,9 +41,6 @@ import org.apache.commons.collections15.BidiMap;
  */
 public class DualHashBidiMap<K, V> extends AbstractDualBidiMap<K, V> {
 
-	/** Ensure serialization compatibility */
-	private static final long serialVersionUID = 721969328361808L;
-
 	/**
 	 * Creates an empty <code>HashBidiMap</code>.
 	 */

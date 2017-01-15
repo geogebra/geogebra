@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.algos.AlgoSequence;
 import org.geogebra.common.kernel.algos.AlgoStepGraph;
 import org.geogebra.common.kernel.algos.AlgoStickGraph;
 import org.geogebra.common.kernel.algos.AlgoTake;
-import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -373,7 +372,7 @@ public abstract class ProbabilityCalculatorView
 
 		this.removeGeos();
 
-		String expr;
+		
 
 		// create low point
 
@@ -1719,12 +1718,6 @@ public abstract class ProbabilityCalculatorView
 
 	public void setRemoveFromConstruction(boolean removeFromConstruction) {
 		this.removeFromConstruction = removeFromConstruction;
-	}
-
-	private void removeFromConstructionList(ConstructionElement ce) {
-		if (removeFromConstruction) {
-			cons.removeFromConstructionList(ce);
-		}
 	}
 
 	private void removeFromAlgorithmList(AlgoElement algo) {

@@ -52,9 +52,6 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 	 */
 	public static final int DEFAULT_MAXIMUM_ITERATIONS = 100;
 
-	/** Serializable version identifier */
-	private static final long serialVersionUID = 7694577816772532779L;
-
 	/**
 	 * Construct a solver for the given function.
 	 *

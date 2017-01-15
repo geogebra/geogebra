@@ -418,9 +418,6 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	protected static class KeySet<K> extends View<K, Object, K>
 			implements Set<K> {
 
-		/** Serialization version */
-		private static final long serialVersionUID = -7107935777385040694L;
-
 		/**
 		 * Constructs a new view of the BidiMap.
 		 *
@@ -511,9 +508,6 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	protected static class Values<V> extends View<Object, V, V>
 			implements Set<V> {
 
-		/** Serialization version */
-		private static final long serialVersionUID = 4023777119829639864L;
-
 		/**
 		 * Constructs a new view of the BidiMap.
 		 *
@@ -603,9 +597,6 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	 */
 	protected static class EntrySet<K, V> extends View<K, V, Map.Entry<K, V>>
 			implements Set<Map.Entry<K, V>> {
-
-		/** Serialization version */
-		private static final long serialVersionUID = 4040410962603292348L;
 
 		/**
 		 * Constructs a new view of the BidiMap.

@@ -32,9 +32,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 public abstract class UnivariateRealIntegratorImpl
 		extends ConvergingAlgorithmImpl implements UnivariateRealIntegrator {
 
-	/** Serializable version identifier. */
-	private static final long serialVersionUID = 6248808456637441533L;
-
 	/** minimum number of iterations */
 	protected int minimalIterationCount;
 

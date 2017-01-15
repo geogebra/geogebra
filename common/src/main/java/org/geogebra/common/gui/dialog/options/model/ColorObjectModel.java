@@ -27,7 +27,6 @@ public class ColorObjectModel extends OptionsModel {
 
 	}
 
-	private static final long serialVersionUID = 1L;
 	public static final int ALL_BARS = 0;
 	private boolean allFillable;
 	private boolean hasBackground;

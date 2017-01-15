@@ -38,11 +38,6 @@ public class MathRuntimeException extends RuntimeException {
 	private final String pattern;
 
 	/**
-	 * Arguments used to build the message.
-	 */
-	private final Object[] arguments;
-
-	/**
 	 * Constructs a new <code>MathRuntimeException</code> with specified
 	 * formatted detail message. Message formatting is delegated to
 	 * {@link java.text.MessageFormat}.
@@ -55,7 +50,6 @@ public class MathRuntimeException extends RuntimeException {
 	public MathRuntimeException(final String pattern,
 			final Object... arguments) {
 		this.pattern = pattern;
-		this.arguments = (arguments == null) ? new Object[0] : arguments;
 	}
 
 	/**
@@ -69,7 +63,6 @@ public class MathRuntimeException extends RuntimeException {
 	public MathRuntimeException(final Throwable rootCause) {
 		super(rootCause);
 		this.pattern = getMessage();
-		this.arguments = new Object[0];
 	}
 
 	/**
@@ -89,7 +82,6 @@ public class MathRuntimeException extends RuntimeException {
 			final Object... arguments) {
 		super(rootCause);
 		this.pattern = pattern;
-		this.arguments = (arguments == null) ? new Object[0] : arguments;
 	}
 
 	public static IllegalArgumentException createIllegalArgumentException(

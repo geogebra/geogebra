@@ -49,9 +49,6 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 class ClassicalRungeKuttaStepInterpolator extends RungeKuttaStepInterpolator {
 
-	/** Serializable version identifier */
-	private static final long serialVersionUID = -6576285612589783992L;
-
 	/**
 	 * Simple constructor. This constructor builds an instance that is not
 	 * usable yet, the {@link RungeKuttaStepInterpolator#reinitialize} method

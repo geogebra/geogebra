@@ -39,9 +39,6 @@ import org.geogebra.common.util.Cloner;
 
 public class DummyStepInterpolator extends AbstractStepInterpolator {
 
-	/** Serializable version identifier. */
-	private static final long serialVersionUID = 1708010296707839488L;
-
 	/** Current derivative. */
 	private double[] currentDerivative;
 

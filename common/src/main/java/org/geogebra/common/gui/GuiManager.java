@@ -818,13 +818,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
 	}
 
-	private boolean isEuclidian12(Integer viewId) {
-		if (viewId == null) {
-			return true;
-		}
-		return viewId == App.VIEW_EUCLIDIAN || viewId == App.VIEW_EUCLIDIAN2;
-	}
-
 	public String refreshCustomToolsInToolBar(String initial) {
 		int macroCount = kernel.getMacroNumber();
 

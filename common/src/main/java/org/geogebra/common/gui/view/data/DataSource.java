@@ -24,8 +24,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DataSource {
 
-	private static final long serialVersionUID = 1L;
-
 	private GroupType defaultGroupType = GroupType.RAWDATA;
 	private final App app;
 	private final SelectionManager selection;

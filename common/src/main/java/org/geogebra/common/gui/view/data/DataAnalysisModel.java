@@ -55,8 +55,6 @@ public class DataAnalysisModel {
 		GColor createColor(int idx);
 	}
 
-	private static final long serialVersionUID = 1L;
-
 	// ggb
 	private App app;
 	private Kernel kernel;

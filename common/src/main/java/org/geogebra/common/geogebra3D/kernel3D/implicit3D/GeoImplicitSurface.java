@@ -772,17 +772,6 @@ public class GeoImplicitSurface extends GeoElement3D
 
 		public abstract void update();
 
-		@SuppressWarnings("unused")
-		public boolean hasSegment(Cube cube) {
-			int s = cube.sign(Cube.V0);
-			for (int i = 1; i < 8; i++) {
-				if (cube.sign(i) != s) {
-					return true;
-				}
-			}
-			return false;
-		}
-
 		public int config(Cube cube) {
 			int config = cube.sign(Cube.V7);
 			config = (config << 1) | cube.sign(Cube.V6);
@@ -1031,39 +1020,8 @@ public class GeoImplicitSurface extends GeoElement3D
 			return -1;
 		}
 
-		/**
-		 * Check whether edge between v1 and v2 intersect with the surface
-		 * 
-		 * @param v1
-		 *            first vertex
-		 * @param v2
-		 *            second vertex
-		 * @return true if they intersect with each other
-		 */
-		public boolean intersect(int v1, int v2) {
-			double e1 = eval(v1);
-			double e2 = eval(v2);
-			if (MyDouble.isFinite(e1) && MyDouble.isFinite(e2)) {
-				return (e1 <= 0.0 && e2 >= 0.0) || (e1 >= 0.0 && e2 <= 0.0);
-			}
-			return false;
-		}
-
 		public double eval(int vertex) {
 			return cache[vertex];
-		}
-
-		public double interpolate(int v1, int v2) {
-			int[] vv1 = VERTICES[v1];
-			int[] vv2 = VERTICES[v2];
-			if (vv1[0] == vv2[0]) {
-				if (vv1[1] == vv2[4]) {
-					return interpolate(eval(v1), eval(v2), coords[2],
-							coords[5]);
-				}
-				return interpolate(eval(v1), eval(v2), coords[1], coords[4]);
-			}
-			return interpolate(eval(v1), eval(v2), coords[0], coords[3]);
 		}
 
 		public static double interpolate(double fa, double fb, double p1,
@@ -1073,66 +1031,6 @@ public class GeoImplicitSurface extends GeoElement3D
 				return r * (p1 - p2) + p2;
 			}
 			return p2 + (p1 - p2) * 0.5;
-		}
-
-		public void setX1(double x1) {
-			if (set(0, x1)) {
-				invalidate(0, 1, 2, 3);
-			}
-		}
-
-		public double getX1() {
-			return coords[0];
-		}
-
-		public void setX2(double x2) {
-			if (set(3, x2)) {
-				invalidate(4, 5, 6, 7);
-			}
-		}
-
-		public double getX2() {
-			return coords[3];
-		}
-
-		public void setY1(double y1) {
-			if (set(1, y1)) {
-				invalidate(0, 1, 4, 5);
-			}
-		}
-
-		public double getY1() {
-			return coords[1];
-		}
-
-		public void setY2(double y2) {
-			if (set(4, y2)) {
-				invalidate(2, 3, 6, 7);
-			}
-		}
-
-		public double getY2() {
-			return coords[4];
-		}
-
-		public void setZ1(double z1) {
-			if (set(2, z1)) {
-				invalidate(0, 2, 4, 6);
-			}
-		}
-
-		public double getZ1() {
-			return coords[2];
-		}
-
-		public void setZ2(double z2) {
-			if (set(5, z2)) {
-				invalidate(1, 3, 5, 7);
-			}
-		}
-
-		public double getZ2() {
-			return coords[5];
 		}
 
 		private void invalidate(int a1, int a2, int a3, int a4) {

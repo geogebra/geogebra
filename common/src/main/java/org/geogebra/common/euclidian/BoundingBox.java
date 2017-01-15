@@ -17,7 +17,6 @@ import org.geogebra.common.factories.AwtFactory;
  */
 public class BoundingBox {
 
-	private EuclidianView view;
 	private EuclidianController ec;
 
 	private GRectangle2D rectangle;
@@ -29,7 +28,6 @@ public class BoundingBox {
 	 *            - euclidianView
 	 */
 	public BoundingBox(EuclidianView view) {
-		this.view = view;
 		this.ec = view.getEuclidianController();
 		handlers = new ArrayList<GEllipse2DDouble>();
 	}

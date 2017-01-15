@@ -20,11 +20,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Quaternion;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -138,64 +136,6 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 		}
 
-	}
-
-	private static class StationaryQuaternion {
-
-		private Quaternion startCoords = new Quaternion();
-		private long startTime;
-
-		public StationaryQuaternion() {
-			startCoords.setUndefined();
-		}
-
-		public void setQuaternion(Quaternion q, long time) {
-
-			if (startCoords.isDefined()) {
-				double distance = startCoords.distance(q);
-				// Log.debug("\n -- "+(distance * ((EuclidianView3D)
-				// ec.view).getScale()));
-				if (distance > 0.05) { // angle < 25.8degrees
-					startCoords.set(q);
-					startTime = time;
-					// Log.debug("\n -- startCoords =\n"+startCoords);
-				} else {
-					// Log.debug("\n -- same coords "+(time-startTime));
-				}
-			} else {
-				startCoords.set(q);
-				startTime = time;
-				// Log.debug("\n -- startCoords =\n"+startCoords);
-			}
-		}
-
-		/**
-		 * 
-		 * @param time
-		 *            current time
-		 * @return true if hit was long enough to process left release
-		 */
-		public boolean hasLongDelay(long time) {
-
-			if (startCoords.isDefined()) {
-				int delay = (int) ((time - startTime) / 100);
-				StringBuilder s = new StringBuilder();
-				for (int i = 0; i < 10 - delay; i++) {
-					s.append('=');
-				}
-				for (int i = 10 - delay; i <= 10; i++) {
-					s.append(' ');
-				}
-				s.append('|');
-				Log.error("\n rot delay : " + s);
-				if ((time - startTime) > 1000) {
-					startCoords.setUndefined(); // consume event
-					return true;
-				}
-			}
-
-			return false;
-		}
 	}
 
 	private static class StickyPoint implements Comparable<StickyPoint> {

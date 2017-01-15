@@ -33,8 +33,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	static private double[] INTERIOR_RADIUS_FACTOR = { 1, Math.sqrt(2),
 			Math.sqrt(3) };
 
-	static private int REDUCTION_LENGTH = 3;
-
 	/**
 	 * Common constructor
 	 * 
@@ -344,20 +342,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		setVertexWithBorder(x1, y1, z1, border, tmpCoords1);
 		setVertexWithBorder(x2, y2, z2, border, tmpCoords2);
 		brush.segment(tmpCoords1, tmpCoords2);
-	}
-
-	private boolean isNearestCorner(int x, int y, int z) {
-
-		if (x != nearestCornerX) {
-			return false;
-		}
-		if (y != nearestCornerY) {
-			return false;
-		}
-		if (z != nearestCornerZ) {
-			return false;
-		}
-		return true;
 	}
 
 	/**

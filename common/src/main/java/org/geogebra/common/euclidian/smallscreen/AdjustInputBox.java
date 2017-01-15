@@ -7,8 +7,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.util.debug.Log;
 
 public class AdjustInputBox extends AdjustButton {
-	private static final int MARGIN_X = 15;
-	private static final int MARGIN_Y = 5;
 	private GeoInputBox input;
 
 	public AdjustInputBox(GeoInputBox input, EuclidianView view) {

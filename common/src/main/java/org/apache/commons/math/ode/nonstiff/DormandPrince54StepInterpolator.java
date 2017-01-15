@@ -72,9 +72,6 @@ class DormandPrince54StepInterpolator extends RungeKuttaStepInterpolator {
 	/** Shampine (1986) Dense output, element 6. */
 	private static final double D6 = 69997945.0 / 29380423.0;
 
-	/** Serializable version identifier */
-	private static final long serialVersionUID = 4104157279605906956L;
-
 	/** First vector for interpolation. */
 	private double[] v1;
 

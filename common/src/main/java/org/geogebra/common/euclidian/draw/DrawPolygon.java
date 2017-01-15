@@ -30,8 +30,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -189,109 +187,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 
-	}
-
-	private void triangularize() {
-
-		PolygonTriangulation pt = poly.getPolygonTriangulation();
-		pt.clear();
-
-		Coords n = poly.getMainDirection();
-
-		calculateCorners();
-
-		pt.setCorners(extraCoords);
-
-		try {
-			// simplify the polygon and check if there are at least 3 points
-			// left
-			if (pt.updatePoints() > 2) {
-
-				// check if the polygon is convex
-				int length = poly.getPointsLength();
-
-				Coords[] vertices = new Coords[length
-						+ PolygonTriangulation.EXTRA_POINTS];
-				int j = 0;
-				for (int i = 0; i < poly.getPointsLength(); i++) {
-					vertices[i] = poly.getPointND(i).getCoords();
-					j++;
-				}
-
-				vertices[j] = poly.getPointND(0).getCoords();
-				j++;
-
-				for (int i = 0; i < PolygonTriangulation.CORNERS; i++) {
-					vertices[j] = extraCoords[i];
-					j++;
-				}
-
-				vertices[j] = extraCoords[0];
-				j++;
-
-				for (int i = 0; i < PolygonTriangulation.CORNERS; i++) {
-					vertices[j] = extraCoords[4 + i];
-					j++;
-				}
-
-				vertices[j] = extraCoords[4];
-				j++;
-
-				vertices[j] = extraCoords[0];
-
-				Convexity convexity = pt.checkIsConvex();
-				if (convexity != Convexity.NOT) {
-					boolean reverse = poly.getReverseNormalForDrawing()
-							^ (convexity == Convexity.CLOCKWISE);
-
-					drawPolygonConvex(n, vertices, poly.getPointsLength(),
-							reverse);
-				} else {
-					// set intersections (if needed) and divide the polygon into
-					// non self-intersecting polygons
-					pt.setIntersections();
-
-					// convert the set of polygons to triangle fans
-					pt.triangulate();
-
-					// compute 3D coords for intersections
-					pt.setCompleteVertices(vertices, poly.getCoordSys(),
-							poly.getPointsLength());
-					Coords[] verticesWithIntersections = pt.getCompleteVertices(
-							vertices, poly.getPointsLength());
-
-					// draw the triangle fans
-
-					// needs specific path for fans
-					if (gpTriangularize == null) {
-						gpTriangularize = new GeneralPathClipped(view);
-					} else {
-						gpTriangularize.reset();
-					}
-
-					for (TriangleFan triFan : pt.getTriangleFans()) {
-						// we need here verticesWithIntersections, for
-						// self-intersecting polygons
-						drawTriangleFan(n, verticesWithIntersections, triFan);
-					}
-
-					// create the shape
-					if (geo.isInverseFill()) {
-						setShape(AwtFactory.getPrototype()
-								.newArea(view.getBoundingPath()));
-						getShape().subtract(AwtFactory.getPrototype()
-								.newArea(gpTriangularize));
-					} else {
-						setShape(AwtFactory.getPrototype()
-								.newArea(gpTriangularize));
-					}
-				}
-
-			}
-		} catch (Exception e) {
-			Log.debug(e.getMessage());
-			e.printStackTrace();
-		}
 	}
 
 	private final void calculateCorners() {
@@ -727,20 +622,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 		setShape(AwtFactory.getPrototype().newArea(gp));
 		return super.getShape();
-	}
-
-	private boolean isAllPointsOnScreen() {
-		if (poly.getPoints() == null) {
-			return false;
-		}
-		for (GeoPointND p : poly.getPoints()) {
-			double x = view.toScreenCoordXd(p.getInhomX());
-			double y = view.toScreenCoordYd(p.getInhomY());
-			if (x < 0 || x > view.getWidth() || y < 0 || y > view.getHeight()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**

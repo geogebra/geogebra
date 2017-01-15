@@ -15,8 +15,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
-import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -104,41 +102,6 @@ public class ProverBotanasMethod {
 			}
 		}
 		return freePoints;
-	}
-
-	/*
-	 * We don't use this at the moment. It seemed to be useful to select the
-	 * best coordinates to fix from circle centers but finally there is no test
-	 * case for this at the moment to be convinced if this really helps in
-	 * speed.
-	 */
-	@SuppressWarnings("unused")
-	private static List<GeoElement> getCircleCenters(GeoElement statement) {
-		List<GeoElement> circleCenters = new ArrayList<GeoElement>();
-		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isGeoConic()) { /* this is probably a circle */
-				if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints
-						|| geo.getParentAlgorithm() instanceof AlgoCircleThreePoints) {
-					/* Search for the center point. */
-					Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
-							.getBotanaVars(geo);
-					Variable[] center = new Variable[2];
-					center[0] = vars[0];
-					center[1] = vars[1];
-					GeoElement centerGeo = botanaVarsInv
-							.get(Arrays.asList(center));
-					if (centerGeo != null) {
-						/*
-						 * it may be a virtual center (TODO: handle somehow)
-						 */
-						circleCenters.add(centerGeo);
-					}
-				}
-			}
-		}
-		return circleCenters;
 	}
 
 	/**

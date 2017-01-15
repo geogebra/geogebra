@@ -24,7 +24,6 @@ package org.geogebra.common.kernel.discrete.geom.algorithms;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
@@ -362,13 +361,6 @@ public class ConvexHull {
 	// return result;
 	//
 	// }
-
-	private static Point2D peekNTop(Deque<Point2D> s) {
-		Point2D top = s.pop();
-		Point2D result = s.peekFirst();
-		s.push(top);
-		return result;
-	}
 
 	public static List<Point2D> grahamsScan2(List<Point2D> points,
 			List<LogEvent> events) {

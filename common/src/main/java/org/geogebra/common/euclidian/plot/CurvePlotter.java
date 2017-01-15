@@ -39,11 +39,6 @@ public class CurvePlotter {
 	// // the curve is sampled at least at this many positions to plot it
 	// private static final int MIN_SAMPLE_POINTS = 5;
 
-	@SuppressWarnings("unused")
-	private static int countPoints = 0;
-	@SuppressWarnings("unused")
-	private static long countEvaluations = 0;
-
 	/** ways to overcome discontinuity */
 	public enum Gap {
 		/** draw a line */
@@ -85,8 +80,7 @@ public class CurvePlotter {
 	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		countPoints = 0;
-		countEvaluations = 0;
+		
 
 		// System.out.println("*** START plot: " +
 		// curve.toGeoElement().getLabel() + " in "+ t1 + ", " + t2);
@@ -154,7 +148,6 @@ public class CurvePlotter {
 
 		// evaluate for t1
 		curve.evaluateCurve(t1, eval);
-		countEvaluations++;
 		if (isUndefined(eval)) {
 			// Application.debug("Curve undefined at t = " + t1);
 			return plotProblemInterval(curve, t1, t2, intervalDepth,
@@ -165,7 +158,6 @@ public class CurvePlotter {
 
 		// evaluate for t2
 		curve.evaluateCurve(t2, eval);
-		countEvaluations++;
 		if (isUndefined(eval)) {
 			// Application.debug("Curve undefined at t = " + t2);
 			return plotProblemInterval(curve, t1, t2, intervalDepth,
@@ -205,7 +197,6 @@ public class CurvePlotter {
 
 		// init previous slope using (t1, t1 + min_step)
 		curve.evaluateCurve(t1 + divisors[LENGTH - 1], eval);
-		countEvaluations++;
 		double[] prevDiff = view.getOnScreenDiff(eval0, eval);
 
 		int top = 1;
@@ -251,8 +242,6 @@ public class CurvePlotter {
 				// evaluate curve for parameter t
 				curve.evaluateCurve(t, eval);
 				onScreen = view.isOnView(eval);
-				countEvaluations++;
-
 				// check for singularity:
 				// c(t) undefined; c(t-eps) and c(t+eps) both defined
 				if (isUndefined(eval)) {
@@ -464,11 +453,9 @@ public class CurvePlotter {
 
 		// c(t + eps)
 		curve.evaluateCurve(t + eps, eval);
-		countEvaluations++;
 		if (!isUndefined(eval)) {
 			// c(t - eps)
 			curve.evaluateCurve(t - eps, eval);
-			countEvaluations++;
 			if (!isUndefined(eval)) {
 				// SINGULARITY: c(t) undef, c(t-eps) and c(t+eps) defined
 				return true;// Math.abs(oldy - eval[1]) < 20 * eps;
@@ -557,7 +544,6 @@ public class CurvePlotter {
 		// left = c(t1)
 		double[] left = c.newDoubleArray();
 		c.evaluateCurve(t1, left);
-		countEvaluations++;
 		if (isUndefined(left)) {
 			// NaN or infinite: not continuous
 			return false;
@@ -566,7 +552,6 @@ public class CurvePlotter {
 		// right = c(t2)
 		double[] right = c.newDoubleArray();
 		c.evaluateCurve(t2, right);
-		countEvaluations++;
 		if (isUndefined(right)) {
 			// NaN or infinite: not continuous
 			return false;
@@ -585,7 +570,6 @@ public class CurvePlotter {
 		while (iterations++ < mnaxIterations && dist > eps) {
 			double m = (t1 + t2) / 2;
 			c.evaluateCurve(m, middle);
-			countEvaluations++;
 			double distLeft = c.distanceMax(left, middle);
 			double distRight = c.distanceMax(right, middle);
 
@@ -627,10 +611,8 @@ public class CurvePlotter {
 
 		// check first and last point in interval
 		curve.evaluateCurve(a, eval);
-		countEvaluations++;
 		boolean aDef = !isUndefined(eval);
 		curve.evaluateCurve(b, eval);
-		countEvaluations++;
 		boolean bDef = !isUndefined(eval);
 
 		// both end points defined

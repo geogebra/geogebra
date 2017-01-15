@@ -44,10 +44,6 @@ public class ImageCornerModel extends MultipleGeosModel {
 
 	}
 
-	private int indexOf(final String item) {
-		return choices.indexOf(item);
-	}
-
 	public int getCornerNumber() {
 		return cornerIdx < 2 ? (cornerIdx + 1) : (cornerIdx + 2);
 	}
