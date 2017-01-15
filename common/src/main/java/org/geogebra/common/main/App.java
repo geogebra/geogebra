@@ -3302,14 +3302,27 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
 
-	public Script createScript(ScriptType type, String scriptText,
+	/**
+	 * @param type
+	 *            JS or GGBScript
+	 * @param scriptText0
+	 *            possibly localized text
+	 * @param translate
+	 *            whether to convert from localized
+	 * @return sript object
+	 */
+	public Script createScript(ScriptType type, String scriptText0,
 			boolean translate) {
+		String scriptText = scriptText0;
 		if (type == ScriptType.GGBSCRIPT && translate) {
 			scriptText = GgbScript.localizedScript2Script(this, scriptText);
 		}
 		return type.newScript(this, scriptText);
 	}
 
+	/**
+	 * Attach GGBScript runner to event dispatcher
+	 */
 	public void startGeoScriptRunner() {
 		if (geoScriptRunner == null) {
 			geoScriptRunner = new GeoScriptRunner(this);

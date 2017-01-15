@@ -191,8 +191,8 @@ public class FunctionInspectorModel {
 		} else if (col == 1) {
 			return "y(x)";
 		} else {
-			col = extraColumnList.get(col - 2);
-			return col < columnNames.length ? columnNames[col] : "-";
+			int col2 = extraColumnList.get(col - 2);
+			return col2 < columnNames.length ? columnNames[col2] : "-";
 		}
 	}
 

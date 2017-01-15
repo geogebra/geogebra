@@ -191,15 +191,16 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	@Override
-	public void updateButtonPointCapture(int mode) {
-		if (mode > 3) {
+	public void updateButtonPointCapture(int captureMode) {
+		if (captureMode > 3) {
 			return;
 		}
-		if (mode == 3 || mode == 0)
+		int captureModeIndex = captureMode;
+		if (captureModeIndex == 3 || captureModeIndex == 0)
 		 {
-			mode = 3 - mode; // swap 0 and 3
+			captureModeIndex = 3 - captureModeIndex; // swap 0 and 3
 		}
-		btnPointCapture.setSelectedIndex(mode);
+		btnPointCapture.setSelectedIndex(captureModeIndex);
 	}
 
 	@Override

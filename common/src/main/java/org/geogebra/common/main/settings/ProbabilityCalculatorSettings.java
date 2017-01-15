@@ -8,9 +8,38 @@ import java.util.LinkedList;
  * Settings for the probability calculator view.
  */
 public class ProbabilityCalculatorSettings extends AbstractSettings {
-
+	/** distributions */
 	public enum DIST {
-		NORMAL, STUDENT, CHISQUARE, F, CAUCHY, EXPONENTIAL, GAMMA, WEIBULL, LOGISTIC, LOGNORMAL, ERLANG, BINOMIAL, PASCAL, HYPERGEOMETRIC, POISSON
+		/** normal */
+		NORMAL,
+		/** student */
+		STUDENT,
+		/** chi squares */
+		CHISQUARE,
+		/** f distribution */
+		F,
+		/** Cauchy */
+		CAUCHY,
+		/** exponential */
+		EXPONENTIAL,
+		/** gamma dist */
+		GAMMA,
+		/** weibull */
+		WEIBULL,
+		/** logistic */
+		LOGISTIC,
+		/** log-normal */
+		LOGNORMAL,
+		/** erlang */
+		ERLANG,
+		/** binomial */
+		BINOMIAL,
+		/** pascal */
+		PASCAL,
+		/** hypergeometric */
+		HYPERGEOMETRIC,
+		/** poisson */
+		POISSON
 	}
 
 	/*
@@ -29,7 +58,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * static final int DIST_HYPERGEOMETRIC = 13; public static final int
 	 * DIST_POISSON = 14;
 	 */
-
+	/** number of distributions */
 	public static final int distCount = DIST.values().length;
 
 	private double[] parameters = { 0.0d, 1.0d };
@@ -43,17 +72,27 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 
 	private double high;
 
+	/**
+	 * @param listeners
+	 *            listeners
+	 */
 	public ProbabilityCalculatorSettings(
 			LinkedList<SettingListener> listeners) {
 		super(listeners);
 	}
 
+	/**
+	 * Default constructor
+	 */
 	public ProbabilityCalculatorSettings() {
 		super();
 	}
 
 	/**
 	 * Sets the parameter array
+	 * 
+	 * @param parameters
+	 *            distribution paramaeters
 	 */
 	public void setParameters(double[] parameters) {
 		this.parameters = parameters;
@@ -69,12 +108,16 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 
 	/**
 	 * Sets the distribution type
+	 * 
+	 * @param distributionType
+	 *            dist type
 	 */
 	public void setDistributionType(DIST distributionType) {
 		if (distributionType == null) {
-			distributionType = DIST.NORMAL; // default guard
+			this.distributionType = DIST.NORMAL; // default guard
+		} else {
+			this.distributionType = distributionType;
 		}
-		this.distributionType = distributionType;
 		settingChanged();
 	}
 
@@ -87,6 +130,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 
 	/**
 	 * Sets the cumulative flag
+	 * 
+	 * @param isCumulative
+	 *            cumulative flag
 	 */
 	public void setCumulative(boolean isCumulative) {
 		this.isCumulative = isCumulative;
@@ -100,36 +146,60 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		return isCumulative;
 	}
 
+	/**
+	 * @param probMode
+	 *            mode (left / right / interval)
+	 */
 	public void setProbMode(int probMode) {
 		intervalSet = true;
 		this.probMode = probMode;
 		settingChanged();
 	}
 
+	/**
+	 * @param low
+	 *            lower bound
+	 */
 	public void setLow(double low) {
 		intervalSet = true;
 		this.low = low;
 		settingChanged();
 	}
 
+	/**
+	 * @param high
+	 *            upper bound
+	 */
 	public void setHigh(double high) {
 		intervalSet = true;
 		this.high = high;
 		settingChanged();
 	}
 
+	/**
+	 * @return whether low or high are set
+	 */
 	public boolean isIntervalSet() {
 		return intervalSet;
 	}
 
+	/**
+	 * @return mode (left, right, interval)
+	 */
 	public int getProbMode() {
 		return this.probMode;
 	}
 
+	/**
+	 * @return lower bound
+	 */
 	public double getLow() {
 		return this.low;
 	}
 
+	/**
+	 * @return upper bound
+	 */
 	public double getHigh() {
 		return this.high;
 	}

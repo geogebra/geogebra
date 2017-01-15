@@ -123,7 +123,8 @@ public class EuclidianOptionsModel {
 
 	}
 
-	public void applyTooltipMode(int mode) {
+	public void applyTooltipMode(int mode0) {
+		int mode = mode0;
 		if (mode == 0) {
 			mode = EuclidianStyleConstants.TOOLTIPS_ON;
 		} else if (mode == 1) {

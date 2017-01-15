@@ -161,13 +161,13 @@ public class TextOptionsModel extends OptionsModel {
 
 	}
 
-	public void applyFontSizeFromString(String percentStr) {
+	public void applyFontSizeFromString(String percentStr0) {
 		double multiplier;
-		if (percentStr == null) {
+		if (percentStr0 == null) {
 			// Cancel
 			return;
 		}
-		percentStr = percentStr.replaceAll("%", "");
+		String percentStr = percentStr0.replaceAll("%", "");
 
 		try {
 			multiplier = StringUtil.parseDouble(percentStr) / 100;

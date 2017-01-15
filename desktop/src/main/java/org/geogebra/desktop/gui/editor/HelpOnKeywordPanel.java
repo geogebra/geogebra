@@ -35,7 +35,7 @@ public class HelpOnKeywordPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static HelpOnKeywordPanel instance;
-	private static JTextArea textarea;
+	private JTextArea textarea;
 
 	/**
 	 * Default constructor
@@ -66,6 +66,12 @@ public class HelpOnKeywordPanel extends JPanel {
 			instance = new HelpOnKeywordPanel();
 		}
 
+		instance.init(app, command);
+
+		return instance;
+	}
+
+	private void init(AppD app, String command) {
 		String help = app.getLocalization().getCommand(
 				app.getReverseCommand(command) + Localization.syntaxStr);
 		String[] lines = help.split("\n");
@@ -73,14 +79,12 @@ public class HelpOnKeywordPanel extends JPanel {
 		for (int i = 0; i < lines.length; i++) {
 			cols = Math.max(cols, lines[i].length());
 		}
-
 		textarea.setText(help);
 		textarea.setFont(app.getPlainFont());
 		textarea.setRows(lines.length);
 		textarea.setColumns(cols);
-		instance.setPreferredSize(textarea.getMinimumSize());
-		instance.setSize(instance.getPreferredSize());
+		setPreferredSize(textarea.getMinimumSize());
+		setSize(getPreferredSize());
 
-		return instance;
 	}
 }

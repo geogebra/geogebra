@@ -100,20 +100,6 @@ public abstract class ScriptManager implements EventListener {
 		}
 	}
 
-	private static Object[] getArguments(Event evt) {
-		GeoElement geo = evt.target;
-		if (geo == null) {
-			return new Object[0];
-		}
-		String label = geo.getLabel(StringTemplate.defaultTemplate);
-		if (evt.type == EventType.RENAME) {
-			return new Object[] { geo.getOldLabel(), label };
-		} else if (evt.argument == null) {
-			return new Object[] { label };
-		}
-		return new Object[] { label, evt.argument };
-	}
-
 	private void callListeners(List<JsScript> listeners, Event evt) {
 		if (listeners.isEmpty()) {
 			return;
@@ -214,8 +200,7 @@ public abstract class ScriptManager implements EventListener {
 	 * name of the newly created object as a single argument.
 	 */
 	public synchronized void registerAddListener(String JSFunctionName) {
-		registerGlobalListener(addListeners, JSFunctionName,
-				"registerAddListener");
+		registerGlobalListener(addListeners, JSFunctionName);
 	}
 
 	/**
@@ -229,13 +214,12 @@ public abstract class ScriptManager implements EventListener {
 			app.getKernel().setUndoActive(true);
 			app.getKernel().initUndoInfo();
 		}
-		registerGlobalListener(storeUndoListeners, JSFunctionName,
-				"registerStoreUndoListener");
+		registerGlobalListener(storeUndoListeners, JSFunctionName);
 
 	}
 
 	private void registerGlobalListener(ArrayList<JsScript> listenerList,
-			String jSFunctionName, String string) {
+			String jSFunctionName) {
 		if (jSFunctionName == null || jSFunctionName.length() == 0) {
 			return;
 		}
@@ -268,8 +252,7 @@ public abstract class ScriptManager implements EventListener {
 	 * name of the deleted object as a single argument.
 	 */
 	public synchronized void registerRemoveListener(String JSFunctionName) {
-		registerGlobalListener(removeListeners, JSFunctionName,
-				"registerRemoveListener");
+		registerGlobalListener(removeListeners, JSFunctionName);
 	}
 
 	/**
@@ -291,8 +274,7 @@ public abstract class ScriptManager implements EventListener {
 	 * JSFunctionName is called using no arguments.
 	 */
 	public synchronized void registerClearListener(String JSFunctionName) {
-		registerGlobalListener(clearListeners, JSFunctionName,
-				"registerClearListener");
+		registerGlobalListener(clearListeners, JSFunctionName);
 	}
 
 	/**
@@ -314,8 +296,7 @@ public abstract class ScriptManager implements EventListener {
 	 * name of the deleted object as a single argument.
 	 */
 	public synchronized void registerRenameListener(String JSFunctionName) {
-		registerGlobalListener(renameListeners, JSFunctionName,
-				"registerRenameListener");
+		registerGlobalListener(renameListeners, JSFunctionName);
 	}
 
 	/**
@@ -337,8 +318,7 @@ public abstract class ScriptManager implements EventListener {
 	 * name of the updated object as a single argument.
 	 */
 	public synchronized void registerUpdateListener(String JSFunctionName) {
-		registerGlobalListener(updateListeners, JSFunctionName,
-				"registerUpdateListener");
+		registerGlobalListener(updateListeners, JSFunctionName);
 	}
 
 	/**
@@ -359,8 +339,7 @@ public abstract class ScriptManager implements EventListener {
 	 * name of the clicked object as a single argument.
 	 */
 	public synchronized void registerClickListener(String JSFunctionName) {
-		registerGlobalListener(clickListeners, JSFunctionName,
-				"registerUpdateListener");
+		registerGlobalListener(clickListeners, JSFunctionName);
 	}
 
 	/**
@@ -378,8 +357,7 @@ public abstract class ScriptManager implements EventListener {
 	 * Registers a JS function to be notified of client events.
 	 */
 	public synchronized void registerClientListener(String JSFunctionName) {
-		registerGlobalListener(clientListeners, JSFunctionName,
-				"registerClientListener");
+		registerGlobalListener(clientListeners, JSFunctionName);
 	}
 
 	public synchronized void unregisterClientListener(String JSFunctionName) {
@@ -396,16 +374,17 @@ public abstract class ScriptManager implements EventListener {
 	 * replaced.
 	 */
 	private synchronized HashMap<GeoElement, JsScript> registerObjectListener(
-			HashMap<GeoElement, JsScript> map, String objName,
+			HashMap<GeoElement, JsScript> map0, String objName,
 			String JSFunctionName) {
 		if (JSFunctionName == null || JSFunctionName.length() == 0) {
-			return map;
+			return map0;
 		}
 		GeoElement geo = app.getKernel().lookupLabel(objName);
 		if (geo == null) {
-			return map;
+			return map0;
 		}
 		initJavaScript();
+		HashMap<GeoElement, JsScript> map = map0;
 		if (map == null) {
 			map = new HashMap<GeoElement, JsScript>();
 		}
@@ -476,6 +455,7 @@ public abstract class ScriptManager implements EventListener {
 	public abstract void ggbOnInit();
 
 	public synchronized void initJavaScript() {
+		// overridden in platforms
 	}
 
 	abstract public void callJavaScript(String jsFunction, Object[] args);
