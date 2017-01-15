@@ -101,7 +101,8 @@ public class PerformanceTest implements EntryPoint {
 
 		GeoSegment a = new AlgoJoinPointsSegment(cons, "a", E, C).getSegment();
 
-		GeoPointND F = new AlgoPointOnPath(cons, "F", a, 5, 2).getP();
+		GeoPointND F = new AlgoPointOnPath(cons, a, 5, 2).getP();
+		F.setLabel("F");
 
 		AlgoPolygonRegular regPoly1 = new AlgoPolygonRegular(cons,
 		        new String[] { "poly1", "f", "c", "g", "h", "G", "H" }, F, C,

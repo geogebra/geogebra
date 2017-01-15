@@ -51,15 +51,6 @@ public class AlgoPointOnPath extends AlgoElement
 	private Variable variable;
 	private Variable[] botanaVars;
 
-
-	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
-			double y, double z) {
-
-		this(cons, path, x, y, z, true);
-
-		P.setLabel(label);
-	}
-
 	public AlgoPointOnPath(Construction cons, Path path,
 			GeoNumberValue param) {
 
