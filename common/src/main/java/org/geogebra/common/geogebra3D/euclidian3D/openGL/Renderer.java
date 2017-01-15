@@ -40,9 +40,6 @@ public abstract class Renderer {
 
 	protected RendererType type;
 
-	/** default text scale factor */
-	private static final float DEFAULT_TEXT_SCALE_FACTOR = 0.8f;
-
 	public static final int MOUSE_PICK_DEPTH = 10;
 
 	protected Drawable3D[] drawHits;
@@ -79,8 +76,7 @@ public abstract class Renderer {
 	// /////////////////
 	// dilation
 
-	private static final int DILATION_NONE = 0;
-	private static final int DILATION_HIGHLITED = 1;
+
 
 
 	// /////////////////
@@ -1631,9 +1627,6 @@ public abstract class Renderer {
 	public int right = 640;
 	public int bottom = 0;
 	public int top = 480;
-
-	/** factor for drawing more than between front and back */
-	private final static int DEPTH_FACTOR = 2;
 
 	public int getLeft() {
 		return left;

@@ -1190,14 +1190,14 @@ public class QuickHull3D {
 	}
 
 	protected void buildHull() {
-		int cnt = 0;
+		// int cnt = 0;
 		Vertex eyeVtx;
 
 		computeMaxAndMin();
 		createInitialSimplex();
 		while ((eyeVtx = nextPointToAdd()) != null) {
 			addPointToHull(eyeVtx);
-			cnt++;
+			// cnt++;
 			// LOG.debug("iteration " + cnt + " done");
 		}
 		reindexFacesAndVertices();
