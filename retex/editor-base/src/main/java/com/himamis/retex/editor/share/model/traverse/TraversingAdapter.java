@@ -12,7 +12,8 @@ import com.himamis.retex.editor.share.model.MathSequence;
  */
 public abstract class TraversingAdapter implements Traversing {
 
-    public MathComponent process(MathComponent mathComponent) {
+    @Override
+	public MathComponent process(MathComponent mathComponent) {
         if (mathComponent instanceof MathCharacter) {
             return processMathCharacter((MathCharacter) mathComponent);
         } else if (mathComponent instanceof MathContainer) {

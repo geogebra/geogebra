@@ -214,7 +214,8 @@ abstract public class MathContainer extends MathComponent {
         return 0;
     }
 
-    public MathComponent traverse(Traversing traversing) {
+    @Override
+	public MathComponent traverse(Traversing traversing) {
         MathComponent component = traversing.process(this);
         if (component != this) {
             return component;

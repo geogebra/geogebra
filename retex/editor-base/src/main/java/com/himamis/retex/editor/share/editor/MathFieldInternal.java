@@ -265,6 +265,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		return Math.sqrt(d * d + e * e);
 	}
 
+	@Override
 	public void onPointerUp(int x, int y) {
 
         if (scrollOccured) {
@@ -310,7 +311,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     }
 
-    public void onLongPress(int x, int y) {
+    @Override
+	public void onLongPress(int x, int y) {
         longPressOccured = true;
         if (!mathFormula.isEmpty()) {
             editorState.selectAll();
@@ -321,7 +323,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		mathField.requestViewFocus();
 	}
 
-    public void onScroll(int dx, int dy) {
+    @Override
+	public void onScroll(int dx, int dy) {
         if (!selectionMode) {
             mathField.scroll(dx, dy);
             scrollOccured = true;
@@ -384,6 +387,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		Collections.reverse(list2);
 	}
 
+	@Override
 	public void onPointerMove(int x, int y) {
 		if (!mousePositionChanged(x, y) && !selectionDrag) {
 			editorState.resetSelection();

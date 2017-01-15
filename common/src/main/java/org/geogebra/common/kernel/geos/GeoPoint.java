@@ -2837,6 +2837,7 @@ public class GeoPoint extends GeoVec3D
 		// used for GeoPoint3D
 	}
 	
+	@Override
 	public double getZScale() {
 		return 1;
 	}

@@ -136,6 +136,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		if (item.isInputTreeItem()) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+				@Override
 				public void execute() {
 
 					algebrap.scrollToBottom();
@@ -146,6 +147,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				int spH = algebrap.getOffsetHeight();
 				// int kH = (int) (app.getAppletFrame().getKeyboardHeight());

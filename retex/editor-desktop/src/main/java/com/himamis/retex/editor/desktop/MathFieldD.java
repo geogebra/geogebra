@@ -86,6 +86,7 @@ public class MathFieldD extends JLabel implements MathField {
 		this.setVerticalAlignment(SwingConstants.TOP);
 		Timer t = new Timer(500, new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				CursorBox.blink = !CursorBox.blink;
 				repaint();
@@ -143,25 +144,30 @@ public class MathFieldD extends JLabel implements MathField {
 		invalidate();
 	}
 
+	@Override
 	public MetaModel getMetaModel() {
 		return metaModel;
 	}
 
+	@Override
 	public void hideCopyPasteButtons() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean showKeyboard() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void showCopyPasteButtons() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void scroll(int dx, int dy) {
 		// TODO Auto-generated method stub
 
@@ -172,6 +178,7 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
+	@Override
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
 
@@ -191,6 +198,7 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
+	@Override
 	public void paste() {
 		Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
@@ -205,11 +213,13 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
+	@Override
 	public void debug(String string) {
 		System.out.println(string);
 
 	}
 
+	@Override
 	public void copy() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
@@ -223,6 +233,7 @@ public class MathFieldD extends JLabel implements MathField {
 		return mathFieldInternal.getFormula();
 	}
 
+	@Override
 	public boolean useCustomPaste() {
 		return false;
 	}

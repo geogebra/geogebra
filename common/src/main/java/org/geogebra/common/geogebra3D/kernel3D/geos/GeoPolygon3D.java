@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
-import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;

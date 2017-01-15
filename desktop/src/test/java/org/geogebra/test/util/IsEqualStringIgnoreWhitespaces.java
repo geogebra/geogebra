@@ -60,6 +60,7 @@ public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 		return trimmed;
 	}
 
+	@Override
 	public void describeTo(Description description) {
 		description.appendValue(expected);
 	}

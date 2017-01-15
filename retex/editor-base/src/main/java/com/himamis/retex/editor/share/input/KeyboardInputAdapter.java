@@ -148,7 +148,9 @@ public class KeyboardInputAdapter {
         }
 
         int i = 0;
-        while (i < adapters.size() && !adapters.get(i).test(input)) i++;
+        while (i < adapters.size() && !adapters.get(i).test(input)) {
+			i++;
+		}
 
         if (i < adapters.size()) {
             KeyboardAdapter adapter = adapters.get(i);

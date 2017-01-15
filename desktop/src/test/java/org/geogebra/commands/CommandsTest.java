@@ -48,8 +48,9 @@ public class CommandsTest extends Assert{
 			syntax = app.getLocalization().getCommand(cmdName + ".Syntax");
 			syntaxes = 0;
 			for (int i = 0; i < syntax.length(); i++) {
-				if (syntax.charAt(i) == '[')
+				if (syntax.charAt(i) == '[') {
 					syntaxes++;
+				}
 			}
 			String syntax3D = app.getLocalization().getCommand(
 					cmdName + ".Syntax3D");
@@ -57,8 +58,9 @@ public class CommandsTest extends Assert{
 				syntax += "\n" + syntax3D;
 			}
 			for (int i = 0; i < syntax3D.length(); i++) {
-				if (syntax3D.charAt(i) == '[')
+				if (syntax3D.charAt(i) == '[') {
 					syntaxes++;
+				}
 			}
 			System.out.println();
 			System.out.print(cmdName);

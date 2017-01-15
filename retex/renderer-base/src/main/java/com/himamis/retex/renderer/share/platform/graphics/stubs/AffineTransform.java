@@ -2128,7 +2128,7 @@ public class AffineTransform implements Cloneable, Transform {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
-    @SuppressWarnings("all")
+	@SuppressWarnings("all")
 	public Object clone(){
         return new AffineTransform(this);
     }

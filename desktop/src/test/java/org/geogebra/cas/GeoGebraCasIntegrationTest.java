@@ -79,8 +79,9 @@ public class GeoGebraCasIntegrationTest {
    */
   @AfterClass
   public static void handleLogs () {
-    if (!silent)
-      logger.handleLogs();
+    if (!silent) {
+		logger.handleLogs();
+	}
   }
 
   /**
@@ -229,10 +230,11 @@ public class GeoGebraCasIntegrationTest {
       if (result.matches(expectedPattern)) {
         return null;
       }
-      if (readablePattern != null)
-        return "\nExpected: " + readablePattern + "\ngot: " + result;
-      else
-        return "\nExpected: " + expectedPattern + "\ngot: ";
+      if (readablePattern != null) {
+		return "\nExpected: " + readablePattern + "\ngot: " + result;
+	} else {
+		return "\nExpected: " + expectedPattern + "\ngot: ";
+	}
     } catch (Throwable t) {
       return t.getClass().getName() + ":" + t.getMessage();
     }

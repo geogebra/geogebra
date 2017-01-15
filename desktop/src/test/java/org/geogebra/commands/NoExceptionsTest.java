@@ -122,8 +122,11 @@ public class NoExceptionsTest {
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
 			String syntax = app.getLocalization().getCommand(cmdName+".Syntax");
 			syntaxes = 0;
-			for(int i=0;i<syntax.length();i++)
-				if(syntax.charAt(i)=='[')syntaxes++;
+			for(int i=0;i<syntax.length();i++) {
+				if(syntax.charAt(i)=='[') {
+					syntaxes++;
+				}
+			}
 			System.out.println();
 			System.out.print(cmdName+" ");
 			
@@ -167,12 +170,14 @@ public class NoExceptionsTest {
 	public void selfTest() {
 		Method[] mtds = NoExceptionsTest.class.getMethods();
 		Set<String> methodNames = new TreeSet<String>();
-		for (int i = 0; i < mtds.length; i++)
+		for (int i = 0; i < mtds.length; i++) {
 			methodNames.add(mtds[i].getName());
+		}
 
 		mtds = CommandsTest.class.getMethods();
-		for (int i = 0; i < mtds.length; i++)
+		for (int i = 0; i < mtds.length; i++) {
 			methodNames.add(mtds[i].getName());
+		}
 		StringBuilder missing = new StringBuilder();
 		for (Commands a : Commands.values()) {
 			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name()) 

@@ -39,8 +39,9 @@ public class MetaModelParser {
 
     private static String getStringAttribute(String attrName, Element element) throws Exception {
         String attrValue = element.getAttribute(attrName);
-        if (attrValue == null || attrValue.length() == 0)
-            throw new Exception(element.getTagName() + " is null.");
+        if (attrValue == null || attrValue.length() == 0) {
+			throw new Exception(element.getTagName() + " is null.");
+		}
         return attrValue;
     }
 

@@ -847,6 +847,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		zScale = scale;
 	}
 
+	@Override
 	public double getZScale() {
 		return zScale;
 	}

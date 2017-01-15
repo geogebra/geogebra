@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;

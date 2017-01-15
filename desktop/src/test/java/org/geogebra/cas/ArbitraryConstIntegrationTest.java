@@ -65,8 +65,9 @@ public class ArbitraryConstIntegrationTest {
 	 */
 	@AfterClass
 	public static void handleLogs() {
-		if (!silent)
+		if (!silent) {
 			logger.handleLogs();
+		}
 	}
 
 	/**

@@ -25,6 +25,7 @@ public class TubeAPITest extends Assert {
 		final ArrayList<String> titles = new ArrayList<String>();
 		api.search("pythagoras", new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
 				for (Material m : result) {
@@ -33,6 +34,7 @@ public class TubeAPITest extends Assert {
 
 			}
 
+			@Override
 			public void onError(Throwable exception) {
 				exception.printStackTrace();
 

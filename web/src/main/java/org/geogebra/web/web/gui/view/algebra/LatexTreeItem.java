@@ -469,6 +469,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	}
 
+	@Override
 	public void updateFonts() {
 		if (mf != null) {
 			mf.setFontSize(getFontSize());

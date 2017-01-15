@@ -27,10 +27,10 @@
  */
 package com.himamis.retex.editor.share.model;
 
+import java.io.Serializable;
+
 import com.himamis.retex.editor.share.model.inspect.Inspectable;
 import com.himamis.retex.editor.share.model.traverse.Traversable;
-
-import java.io.Serializable;
 
 /**
  * This class represents abstract model element.

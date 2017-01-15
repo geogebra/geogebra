@@ -234,6 +234,7 @@ public class CAStestJSON {
 
 	private static Traversing getGGBVectAdder() {
 		return new Traversing() {
+			@Override
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev.unwrap() instanceof MyVecNDNode
 						&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {

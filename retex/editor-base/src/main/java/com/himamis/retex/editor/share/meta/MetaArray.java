@@ -108,10 +108,12 @@ public class MetaArray extends MetaComponent implements MetaGroup {
         return "Matrix".equals(tagName);
     }
 
+	@Override
 	public String getGroup() {
 		return tagName;
 	}
 
+	@Override
 	public MetaComponent getComponent(String componentName) {
 		// TODO Auto-generated method stub
 		return null;

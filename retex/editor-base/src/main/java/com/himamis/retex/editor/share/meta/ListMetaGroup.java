@@ -46,7 +46,8 @@ public class ListMetaGroup implements MetaGroup {
         this.components = components;
     }
 
-    public MetaComponent getComponent(String name) {
+    @Override
+	public MetaComponent getComponent(String name) {
         for (MetaComponent component : components) {
             if (component.getName().equals(name) || name.equals(component.getUnicode() + "")) {
                 return component;
@@ -59,11 +60,13 @@ public class ListMetaGroup implements MetaGroup {
         return components;
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return name;
     }
 
-    public String getGroup() {
+    @Override
+	public String getGroup() {
         return group;
     }
 

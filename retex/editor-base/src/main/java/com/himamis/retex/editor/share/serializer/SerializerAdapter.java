@@ -16,7 +16,8 @@ public abstract class SerializerAdapter implements Serializer {
     protected int currentOffset = 0;
     protected boolean currentBraces = true;
 
-    public String serialize(MathFormula formula) {
+    @Override
+	public String serialize(MathFormula formula) {
 		return serialize(formula, null, 0, null, null);
     }
     public String serialize(MathFormula formula, MathSequence currentField,
