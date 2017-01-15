@@ -439,7 +439,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      */
     @Override
 	public GRectangle2D getBounds2D() {
-        return (GRectangle2D) clone();
+        return (GRectangle2D) duplicate();
     }
 
     /**
@@ -733,8 +733,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		return contains((double)x, (double)y);
 	}
 	
-	@SuppressWarnings("all")
-	public Object clone() {
+	public Object duplicate() {
     	return new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
 

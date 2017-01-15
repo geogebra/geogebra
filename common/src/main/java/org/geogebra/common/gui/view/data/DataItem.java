@@ -456,7 +456,7 @@ public class DataItem {
 		list2.add(rangeCopy(list.get(0), removeHeaderCell));
 
 		for (int i = 1; i < list.size(); i++) {
-			list2.add(list.get(i).clone());
+			list2.add(list.get(i).duplicate());
 		}
 		return list2;
 	}
@@ -469,7 +469,7 @@ public class DataItem {
 	 * @return
 	 */
 	private static CellRange rangeCopy(CellRange cr, boolean removeHeaderCell) {
-		CellRange cr2 = cr.clone();
+		CellRange cr2 = cr.duplicate();
 		if (removeHeaderCell) {
 			cr2.setCellRange(cr.getMinColumn(), cr.getMinRow() + 1,
 					cr.getMaxColumn(), cr.getMaxRow());

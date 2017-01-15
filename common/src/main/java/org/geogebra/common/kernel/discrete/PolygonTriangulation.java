@@ -203,8 +203,7 @@ public class PolygonTriangulation {
 			this.id = id;
 		}
 
-		@SuppressWarnings("all")
-		public Point clone() {
+		public Point duplicate() {
 			Point ret = new Point(x, y, id);
 			ret.name = name;
 			return ret;
@@ -428,8 +427,7 @@ public class PolygonTriangulation {
 			this.orientation = orientation;
 		}
 
-		@SuppressWarnings("all")
-		public Segment clone() {
+		public Segment duplicate() {
 			return new Segment(orientation, leftPoint, rightPoint);
 		}
 
@@ -1357,7 +1355,7 @@ public class PolygonTriangulation {
 				Point currentPoint;
 				Point currentPointNew;
 				Point nextPoint = start;
-				Point nextPointNew = nextPoint.clone();
+				Point nextPointNew = nextPoint.duplicate();
 				Point startPointNew = nextPointNew;
 				// polygonPoints.add(nextPointNew);
 
@@ -1447,7 +1445,7 @@ public class PolygonTriangulation {
 
 					default:
 						segment.usable--;
-						Segment clone = segment.clone();
+						Segment clone = segment.duplicate();
 						clone.running = segment.running;
 						segment = clone;
 						break;
@@ -1455,7 +1453,7 @@ public class PolygonTriangulation {
 
 					// reconfigure segment to new points
 					if (running != Running.STOP) {
-						nextPointNew = nextPoint.clone();
+						nextPointNew = nextPoint.duplicate();
 					} else {
 						nextPointNew = startPointNew;
 						// error(nextPointNew.debugSegments());
@@ -1934,7 +1932,7 @@ public class PolygonTriangulation {
 						// debug("segment "+segment+" is diagonal, running left,
 						// keep point : "+nextPoint.name);
 						segment.usable--; // usable once less, clone it
-						Segment clone = segment.clone();
+						Segment clone = segment.duplicate();
 						clone.addToPoints();
 						clone.usable = segment.usable;
 					}
@@ -1948,7 +1946,7 @@ public class PolygonTriangulation {
 						// debug("segment "+segment+" is diagonal, running
 						// right, keep point : "+currentPoint.name);
 						segment.usable--; // usable once less, clone it
-						Segment clone = segment.clone();
+						Segment clone = segment.duplicate();
 						clone.addToPoints();
 						clone.usable = segment.usable;
 					}

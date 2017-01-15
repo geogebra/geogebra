@@ -498,8 +498,7 @@ public class Area implements Shape, GArea {
      * @return    Created clone object
      * @since 1.2
      */
-    @SuppressWarnings("all")
-	public Object clone() {
+	public Object duplicate() {
         return new Area(this);
     }
 

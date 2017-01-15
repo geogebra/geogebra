@@ -113,7 +113,7 @@ public abstract class Atom {
 		return type;
 	}
 
-	public Atom clone() {
+	public Atom duplicate() {
 		try {
 			return (Atom) nativeClone();
 		} catch (Exception e) {

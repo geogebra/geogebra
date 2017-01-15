@@ -3549,7 +3549,7 @@ public class AffineTransform implements GAffineTransform {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
-    @SuppressWarnings("all")	public Object clone() {
+    public Object duplicate() {
         return new AffineTransform(this);
     }
 

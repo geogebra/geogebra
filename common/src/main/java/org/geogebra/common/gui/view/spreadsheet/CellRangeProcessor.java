@@ -66,7 +66,7 @@ public class CellRangeProcessor {
 	public static ArrayList<CellRange> clone(ArrayList<CellRange> rangeList) {
 		ArrayList<CellRange> newList = new ArrayList<CellRange>();
 		for (CellRange cr : rangeList) {
-			newList.add(cr.clone());
+			newList.add(cr.duplicate());
 		}
 		return newList;
 	}

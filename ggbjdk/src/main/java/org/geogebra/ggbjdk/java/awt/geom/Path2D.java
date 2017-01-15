@@ -655,8 +655,7 @@ public abstract class Path2D implements Shape {
          * @see        java.lang.Cloneable
          * @since      1.6
          */
-        @SuppressWarnings("all")
-        public final Object clone() {
+        public final Object duplicate() {
             // Note: It would be nice to have this return Path2D
             // but one of our subclasses (GeneralPath) needs to
             // offer "public Object clone()" for backwards
@@ -1097,7 +1096,7 @@ public abstract class Path2D implements Shape {
      * @since 1.6
      */
     public final synchronized Shape createTransformedShape(GAffineTransform at) {
-        Path2D p2d = (Path2D) clone();
+        Path2D p2d = (Path2D) duplicate();
         if (at != null) {
             p2d.transform(at);
         }
@@ -1525,8 +1524,7 @@ public abstract class Path2D implements Shape {
      * @see        java.lang.Cloneable
      * @since      1.6
      */
-    @SuppressWarnings("all")
-	public abstract Object clone();
+	public abstract Object duplicate();
         // Note: It would be nice to have this return Path2D
         // but one of our subclasses (GeneralPath) needs to
         // offer "public Object clone()" for backwards

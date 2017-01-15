@@ -241,7 +241,7 @@ final public class CellRange {
 	 */
 	public CellRange getActualRange() {
 
-		CellRange adjustedCellRange = clone();
+		CellRange adjustedCellRange = duplicate();
 
 		if (minRow == -1 && maxRow == -1 && minColumn != -1) {
 			adjustedCellRange.minRow = 0;
@@ -524,7 +524,7 @@ final public class CellRange {
 	}
 
 	@SuppressWarnings("all")
-	final public CellRange clone() {
+	final public CellRange duplicate() {
 		CellRange cr = new CellRange(app);
 		cr.anchorColumn = anchorColumn;
 		cr.anchorRow = anchorRow;

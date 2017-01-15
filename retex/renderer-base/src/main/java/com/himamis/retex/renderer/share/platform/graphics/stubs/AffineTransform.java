@@ -2129,12 +2129,12 @@ public class AffineTransform implements Transform {
      * @since 1.2
      */
 	@SuppressWarnings("all")
-	public Object clone(){
+	public Object duplicate(){
         return new AffineTransform(this);
     }
 
     @Override
     public Transform createClone() {
-        return (AffineTransform) clone();
+        return (AffineTransform) duplicate();
     }
 }

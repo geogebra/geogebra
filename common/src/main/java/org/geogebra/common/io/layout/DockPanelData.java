@@ -309,8 +309,7 @@ final public class DockPanelData {
 	 * Clone this object. Required as dock panels would change the loaded
 	 * perspective automatically otherwise.
 	 */
-	@SuppressWarnings("all")
-	final public Object clone() {
+	final public Object duplicate() {
 		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame,
 				showStyleBar, frameBounds, embeddedDef, embeddedSize, plane);
 	}

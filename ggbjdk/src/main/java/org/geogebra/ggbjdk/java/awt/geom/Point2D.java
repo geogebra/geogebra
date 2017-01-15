@@ -86,8 +86,7 @@ public abstract class Point2D extends GPoint2D {
             this.y = y;
         }
         
-        @SuppressWarnings("all")
-		public Object clone() {
+ 		public Object duplicate() {
         	return new Double(x, y);
         }
 
