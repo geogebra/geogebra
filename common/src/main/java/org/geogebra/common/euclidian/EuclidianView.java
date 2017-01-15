@@ -64,6 +64,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2221,7 +2222,7 @@ public abstract class EuclidianView
 	}
 
 	@Override
-	final public DrawableND getDrawableFor(GeoElement geo) {
+	final public DrawableND getDrawableFor(GeoElementND geo) {
 		return DrawableMap.get(geo);
 	}
 

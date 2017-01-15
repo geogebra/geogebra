@@ -669,7 +669,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		boolean wasSegmentHit = false;
 		// check if one of sides was hit
 		for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
-			DrawableND d = view.getDrawableFor((GeoElement) geoSegmentND);
+			DrawableND d = view.getDrawableFor(geoSegmentND);
 			if (d != null && d instanceof DrawSegment
 					&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
 				wasSegmentHit = true;

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -179,7 +180,7 @@ public interface EuclidianViewInterfaceCommon
 	 *            geo
 	 * @return drawable for given geo
 	 */
-	public DrawableND getDrawableFor(GeoElement geo);
+	public DrawableND getDrawableFor(GeoElementND geo);
 
 	/**
 	 * 
