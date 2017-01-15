@@ -112,7 +112,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
  * @author Jim Graham
  * @since 1.2
  */
-public class AffineTransform implements Cloneable, Transform {
+public class AffineTransform implements Transform {
 
     /*
      * This constant is only useful for the cached type field.

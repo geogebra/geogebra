@@ -71,7 +71,7 @@ import org.geogebra.ggbjdk.sun.awt.geom.Curve;
  * @author Jim Graham
  * @since 1.6
  */
-public abstract class Path2D implements Shape, Cloneable {
+public abstract class Path2D implements Shape {
     /**
      * An even-odd winding rule for determining the interior of
      * a path.

@@ -46,7 +46,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * @author      Jim Graham
  * @since 1.2
  */
-public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
+public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
 
     /**
      * A quadratic parametric curve segment specified with

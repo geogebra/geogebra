@@ -37,7 +37,7 @@ package org.geogebra.ggbjdk.java.awt.geom;
  * @author      Jim Graham
  * @since 1.2
  */
-public abstract class Dimension2D implements Cloneable {
+public abstract class Dimension2D {
 
     /**
      * This is an abstract class that cannot be instantiated directly.

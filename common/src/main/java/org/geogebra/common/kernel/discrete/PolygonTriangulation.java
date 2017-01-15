@@ -186,7 +186,7 @@ public class PolygonTriangulation {
 	final static double POINT_DELTA = Kernel.STANDARD_PRECISION;
 	final static double ORIENTATION_DELTA = Kernel.STANDARD_PRECISION;
 
-	private class Point implements Comparable<Point>, Cloneable {
+	private class Point implements Comparable<Point> {
 		public double x, y;
 		public int id;
 		public String name;
@@ -411,7 +411,7 @@ public class PolygonTriangulation {
 
 	protected Segment comparedSameSegment;
 
-	private class Segment implements Comparable<Segment>, Cloneable {
+	private class Segment implements Comparable<Segment> {
 		double orientation;
 		Point leftPoint, rightPoint;
 		Segment above, below;

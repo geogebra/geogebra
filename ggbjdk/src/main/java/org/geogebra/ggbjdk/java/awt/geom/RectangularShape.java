@@ -43,7 +43,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * @author      Jim Graham
  * @since 1.2
  */
-public abstract class RectangularShape implements Shape, Cloneable {
+public abstract class RectangularShape implements Shape {
 
     /**
      * This is an abstract class that cannot be instantiated directly.

@@ -51,7 +51,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * @author      Jim Graham
  * @since 1.2
  */
-public abstract class Line2D implements Shape, Cloneable, GLine2D {
+public abstract class Line2D implements Shape, GLine2D {
 
     /**
      * A line segment specified with double coordinates.

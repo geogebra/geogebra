@@ -104,7 +104,7 @@ import org.geogebra.ggbjdk.sun.awt.geom.Curve;
  *
  * @since 1.2
  */
-public class Area implements Shape, Cloneable, GArea {
+public class Area implements Shape, GArea {
     private static Vector<?> EmptyCurves = new Vector<Object>();
 
     private Vector<?> curves;

@@ -41,7 +41,7 @@ import org.geogebra.common.awt.GPoint2D;
  * @author      Jim Graham
  * @since 1.2
  */
-public abstract class Point2D extends GPoint2D implements Cloneable {
+public abstract class Point2D extends GPoint2D {
 
     /**
      * The <code>Double</code> class defines a point specified in
