@@ -173,91 +173,36 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				Polynomial pointDistCircle = Polynomial.equidistant(vPoint[0],
 						vPoint[1], vcircle[0], vcircle[1], vcircle[2],
 						vcircle[3]);
-
-				// tangent point is on circle
-				if (pointDistCircle.isZero()) {
-					if (botanaVars == null) {
-						botanaVars = new Variable[6];
-						// T
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
-						// A - tangent point on circle
-						botanaVars[2] = vPoint[0];
-						botanaVars[3] = vPoint[1];
-						// C - A midpoint of OC
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
-					}
-
-					botanaPolynomials = new Polynomial[4];
-
-					Polynomial c1 = new Polynomial(botanaVars[4]);
-					Polynomial c2 = new Polynomial(botanaVars[5]);
-					Polynomial a1 = new Polynomial(vPoint[0]);
-					Polynomial a2 = new Polynomial(vPoint[1]);
-					Polynomial o1 = new Polynomial(vcircle[0]);
-					Polynomial o2 = new Polynomial(vcircle[1]);
-
-					// A midpoint of OC
-					botanaPolynomials[0] = new Polynomial(2).multiply(a1)
-							.subtract(o1).subtract(c1);
-					botanaPolynomials[1] = new Polynomial(2).multiply(a2)
-							.subtract(o2).subtract(c2);
-
-					// TA = AC
-					botanaPolynomials[2] = Polynomial.equidistant(botanaVars[0],
-							botanaVars[1], vPoint[0], vPoint[1], botanaVars[4],
-							botanaVars[5]);
-
-					// AT orthogonal OC
-					botanaPolynomials[3] = Polynomial.perpendicular(vPoint[0],
-							vPoint[1], botanaVars[0], botanaVars[1], vcircle[0],
-							vcircle[1], botanaVars[4], botanaVars[5]);
-
-				} else {
-					if (botanaVars == null) {
-						botanaVars = new Variable[6];
-						// T - tangent point of circle
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
-						// A
-						botanaVars[2] = vPoint[0];
-						botanaVars[3] = vPoint[1];
-						// M - midpoint of OE
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
-					}
-
-					botanaPolynomials = new Polynomial[4];
-
-					Polynomial m1 = new Polynomial(botanaVars[4]);
-					Polynomial m2 = new Polynomial(botanaVars[5]);
-					Polynomial e1 = new Polynomial(vPoint[0]);
-					Polynomial e2 = new Polynomial(vPoint[1]);
-					Polynomial o1 = new Polynomial(vcircle[0]);
-					Polynomial o2 = new Polynomial(vcircle[1]);
-
-					// M midpoint of EO
-					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
-							.subtract(o1).subtract(e1);
-					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
-							.subtract(o2).subtract(e2);
-
-					// MT = ME
-					botanaPolynomials[2] = Polynomial.equidistant(botanaVars[0],
-							botanaVars[1], botanaVars[4], botanaVars[5],
-							vPoint[0], vPoint[1]);
-
-					// OT = OB
-					botanaPolynomials[3] = Polynomial.equidistant(botanaVars[0],
-							botanaVars[1], vcircle[0], vcircle[1], vcircle[2],
-							vcircle[3]);
+				
+				if (botanaVars == null) {
+					botanaVars = new Variable[4];
+					// tangent point
+					botanaVars[0] = vPoint[0];
+					botanaVars[1] = vPoint[1];
+					// point on the tangent line
+					botanaVars[2] = new Variable();
+					botanaVars[3] = new Variable();
 				}
-				return botanaPolynomials;
 
+				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials[0] = pointDistCircle;
+				// rotating the center of vcircle
+				// around vpoint by 90 degrees
+				// to get a point on the tangent line
+				botanaPolynomials[1] = new Polynomial(botanaVars[1])
+						.subtract(new Polynomial(vcircle[1]))
+						.subtract(new Polynomial(botanaVars[2]))
+						.add(new Polynomial(botanaVars[0]));
+				botanaPolynomials[2] = new Polynomial(vcircle[0])
+						.subtract(new Polynomial(botanaVars[0]))
+						.subtract(new Polynomial(botanaVars[3]))
+						.add(new Polynomial(botanaVars[1]));
+				return botanaPolynomials;
 			}
+
 			throw new NoSymbolicParametersException();
 		}
+
 		if (c.isParabola()) {
 			GeoPoint point = this.getPoint();
 			GeoConic parabola = this.getConic();
