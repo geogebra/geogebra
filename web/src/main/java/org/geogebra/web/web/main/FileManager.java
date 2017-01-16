@@ -305,15 +305,29 @@ public abstract class FileManager implements FileManagerI {
 		        + Unicode.LeftToRightMark
 		        + " \\j"
 		        : "\\j \\F \\Y";
-		final String newTitle = mat.getTitle()
-		        + " ("
-		        + CmdGetTime.buildLocalizedDate(format, new Date(),
-		                app.getLocalization()) + ")";
-		this.rename(newTitle, mat, new Runnable() {
+		String newTitle = mat.getTitle();
+
+		// make sure there's room to add the date
+		if (newTitle.length() > 40) {
+			newTitle = newTitle.substring(0, 40);
+		}
+
+		// put date on end so the filename is different for the fork
+		newTitle = newTitle + " (" + CmdGetTime.buildLocalizedDate(format,
+					new Date(), app.getLocalization()) + ")";
+
+		// make doubly sure length isn't too long in all languages
+		if (newTitle.length() > 60) {
+			newTitle = newTitle.substring(0, 60);
+		}
+
+		final String newTitle2 = newTitle;
+
+		this.rename(newTitle2, mat, new Runnable() {
 
 			@Override
 			public void run() {
-				mat.setTitle(newTitle);
+				mat.setTitle(newTitle2);
 				mat.setId(0);
 				upload(mat);
 			}
