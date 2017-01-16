@@ -1276,6 +1276,7 @@ namespace giac {
 	  return tmpsto;
 	f=quotesubst(*it,makevecteur(x,y),makevecteur(tplus*x,tplus*y),contextptr);
 	f=recursive_normal(f-*it,contextptr);
+	purgenoassume(tplus,contextptr);
 	if (is_zero(f)){
 	  if (step_info)
 	    gprintf("Order 1 Homogeneous differential equation",vecteur(0),step_info,contextptr);
