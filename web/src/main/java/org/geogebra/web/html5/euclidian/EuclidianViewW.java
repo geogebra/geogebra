@@ -54,6 +54,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.DropEvent;
@@ -673,13 +675,13 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		addDummyDiv();
-		this.g2p.getCanvas().getElement().setAttribute("role", "status");
-		this.g2p.getCanvas().getElement().setAttribute("aria-live",
-				"polite");
-		this.g2p.getCanvas().getElement().setAttribute("aria-atomic",
-				"false");
-		this.g2p.getCanvas().getElement().setAttribute("aria-relevant",
-				"additions");
+		// this.g2p.getCanvas().getElement().setAttribute("role", "status");
+		// this.g2p.getCanvas().getElement().setAttribute("aria-live",
+		// "polite");
+		// this.g2p.getCanvas().getElement().setAttribute("aria-atomic",
+		// "true");
+		// this.g2p.getCanvas().getElement().setAttribute("aria-relevant",
+		// "text");
 
 
 	}
@@ -1263,6 +1265,14 @@ public class EuclidianViewW extends EuclidianView implements
 		// can't be tabbed, but can get the focus programmatically
 		dummyDiv.getElement().setTabIndex(-1);
 		RootPanel.get().add(dummyDiv);
+		dummyDiv.getElement().setAttribute("role", "status");
+		dummyDiv.getElement().setAttribute("aria-live", "polite");
+		dummyDiv.getElement().setAttribute("aria-atomic", "true");
+		dummyDiv.getElement().setAttribute("aria-relevant", "text");
+
+		dummyDiv.getElement().getStyle().setTop(-1000.0, Unit.PX);
+		dummyDiv.getElement().getStyle().setPosition(Position.ABSOLUTE);
+		// dummyDiv.getElement().setId("dummyDiv");
 	}
 
 	boolean temp = true;
@@ -1271,7 +1281,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public void readText(final String text) {
 		Log.debug("read text: " + text);
 		// String oldAltText = g2p.getAltText();
-		g2p.setAltText(text);
+		// g2p.setAltText(text);
+		dummyDiv.getElement().setInnerText(text);
 		
 		//if (temp) {
 		//	g2p.setAltText("this is a text for test");
