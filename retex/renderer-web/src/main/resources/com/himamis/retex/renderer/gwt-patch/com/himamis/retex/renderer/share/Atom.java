@@ -66,7 +66,7 @@ package com.himamis.retex.renderer.share;
  * 
  * @author Kurt Vermeulen
  */
-public abstract class Atom {
+public abstract class Atom implements Cloneable {
 
 	/**
 	 * The type of the atom (default value: ordinary atom)
@@ -113,7 +113,7 @@ public abstract class Atom {
 		return type;
 	}
 
-	public Atom duplicate() {
+	public Atom clone() {
 		try {
 			return (Atom) nativeClone();
 		} catch (Exception e) {
@@ -124,7 +124,6 @@ public abstract class Atom {
 	protected native Object nativeClone() /*-{
 		var r = {};
 
-		// https://github.com/gwtproject/gwt/issues/5067
 		// prevents to use same hash code
 		//GWT <=2.7: @com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(r);
 		@javaemul.internal.HashCodes::getObjectIdentityHashCode(*)(r);
