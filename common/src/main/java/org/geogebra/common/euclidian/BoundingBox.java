@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 
@@ -86,7 +87,7 @@ public class BoundingBox {
 		}
 		
 		// init handler list
-		for (int i = 0; i < nrHandlers; i++) {
+		for (int i = 0; i <= nrHandlers; i++) {
 			GEllipse2DDouble handler = AwtFactory.getPrototype()
 					.newEllipse2DDouble();
 			handlers.add(handler);
@@ -126,6 +127,12 @@ public class BoundingBox {
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
 				rectangle.getMaxX() + 3,
 					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 3);
+			// handler for rotation
+			handlers.get(8).setFrameFromCenter(
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2,
+					rectangle.getMaxY() + 15,
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
+					rectangle.getMaxY() + 15 + 3);
 		}
 
 	}
@@ -147,7 +154,15 @@ public class BoundingBox {
 			g2.draw(rectangle);
 		}
 		if (handlers != null && !handlers.isEmpty()) {
-			for (int i = 0; i < nrHandlers; i++) {
+			// join rotation handler and bounding box
+			GLine2D line = AwtFactory.getPrototype().newLine2D();
+			line.setLine((rectangle.getMinX() + rectangle.getMaxX()) / 2,
+					rectangle.getMaxY(),
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2,
+					rectangle.getMaxY() + 15);
+			g2.setColor(GColor.GEOGEBRA_GRAY);
+			g2.draw(line);
+			for (int i = 0; i <= nrHandlers; i++) {
 				g2.setPaint(GColor.GEOGEBRA_BLUE);
 				g2.fill(handlers.get(i));
 				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
@@ -158,6 +173,9 @@ public class BoundingBox {
 		}
 	}
 
+	/**
+	 * reset the parts of bounding box construction
+	 */
 	public void resetBoundingBox() {
 		rectangle = null;
 		handlers.clear();
