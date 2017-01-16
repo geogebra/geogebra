@@ -34,10 +34,23 @@ public class AdjustButton extends AdjustWidget {
 
 	@Override
 	public boolean isOnScreen() {
-		return Kernel.isEqual(x, origX) && Kernel.isEqual(y, origY)
-				&& x + width < view.getViewWidth()
-				&& y + height < view.getViewHeight();
+		return isXOnScreen() && isYOnScreen();
 	}
+
+	/**
+	 * @return if button is on screen horizontally.
+	 */
+	public boolean isXOnScreen() {
+		return Kernel.isEqual(x, origX) && x + width < view.getViewWidth();
+	}
+
+	/**
+	 * @return if button is on screen vertically.
+	 */
+	public boolean isYOnScreen() {
+		return Kernel.isEqual(y, origY) && y + height < view.getViewHeight();
+	}
+
 
 	@Override
 	public void apply() {
@@ -69,10 +82,10 @@ public class AdjustButton extends AdjustWidget {
 			changed = true;
 		}
 
-		if (y + height > viewHeight - MARGIN_Y) {
-			y = viewHeight - height - MARGIN_Y;
-			changed = true;
-		}
+		// if (y + height > viewHeight - MARGIN_Y) {
+		// y = viewHeight - height - MARGIN_Y;
+		// changed = true;
+		// }
 
 		if (changed) {
 			button.setAbsoluteScreenLoc((int) x, (int) y);
