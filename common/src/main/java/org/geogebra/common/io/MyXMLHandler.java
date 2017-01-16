@@ -3789,6 +3789,9 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("interpolate".equals(eName)) {
 					ok = handleInterpolate(attrs);
 					break;
+				} else if ("isShape".equals(eName)) {
+					ok = handleIsShape(attrs);
+					break;
 				}
 
 			case 'k':
@@ -4756,6 +4759,15 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleFixed(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setFixed(parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleIsShape(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setIsShape(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;

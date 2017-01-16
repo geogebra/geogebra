@@ -4677,6 +4677,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		return isShape;
 	}
 
+	@Override
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
 	}

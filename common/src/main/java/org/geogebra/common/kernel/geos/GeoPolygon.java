@@ -1987,6 +1987,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		getXMLvisualTags(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
+		getXMLisShapeTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		getScriptTags(sb);
@@ -2715,6 +2716,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @param isShape
 	 *            - true, if geo was created with shape tool
 	 */
+	@Override
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
 	}

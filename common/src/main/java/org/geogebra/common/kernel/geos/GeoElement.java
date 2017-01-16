@@ -6067,6 +6067,19 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * Appends isShape tag to given builder
+	 * 
+	 * @param sb
+	 *            string builder
+	 */
+	public void getXMLisShapeTag(final StringBuilder sb) {// package private
+		// was object created with shape tool
+		sb.append("\t<isShape val=\"");
+		sb.append(isShape());
+		sb.append("\"/>\n");
+	}
+
+	/**
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 * 
 	 * @param sb
@@ -6077,6 +6090,7 @@ public abstract class GeoElement extends ConstructionElement
 		getXMLvisualTags(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
+		getXMLisShapeTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		if (kernel.getSaveScriptsToXML()) {
@@ -6573,6 +6587,14 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isShape() {
 		return false;
+	}
+
+	/**
+	 * @param isShape
+	 *            - true, if geo was created with shape tool
+	 */
+	public void setIsShape(boolean isShape) {
+		// this.isShape = isShape;
 	}
 
 

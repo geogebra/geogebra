@@ -902,6 +902,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * @param isShape
 	 *            - true, if geo was created with shape tool
 	 */
+	@Override
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
 	}
