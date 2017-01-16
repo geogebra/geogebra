@@ -62,7 +62,7 @@ package com.himamis.retex.renderer.share;
  * 
  * @author Kurt Vermeulen
  */
-public abstract class Atom {
+public abstract class Atom implements Cloneable {
 
 	/**
 	 * The type of the atom (default value: ordinary atom)
@@ -106,7 +106,7 @@ public abstract class Atom {
 		return type;
 	}
 	
-	public Atom duplicate() {
+	public Atom clone() {
 		try {
 			return (Atom) super.clone();
 		} catch (Exception e) {
