@@ -130,6 +130,11 @@ public class GeoAssignment extends Assignment {
 
 		TreeSet<Result> partRes = new TreeSet<Result>();
 		while (possibleOutputPermutation != null && res != Result.CORRECT) {
+			if (!areOutputTypesOK(possibleOutputPermutation,
+					macro.getMacroOutput())) {
+				possibleOutputPermutation = outputPermutationUtil.next();
+				continue;
+			}
 			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(
 					possibleOutputPermutation, geoInspector);
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
@@ -140,6 +145,20 @@ public class GeoAssignment extends Assignment {
 			}
 			possibleOutputPermutation = outputPermutationUtil.next();
 		}
+	}
+
+	private static boolean areOutputTypesOK(
+			GeoElement[] possibleOutputPermutation,
+			GeoElement[] macroOutput) {
+		if (possibleOutputPermutation.length != macroOutput.length) {
+			return false;
+		}
+		for (int i = 0; i < possibleOutputPermutation.length; i++) {
+			if (!Test.canSet(possibleOutputPermutation[i], macroOutput[i])) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void checkPermutationsOfInputs(
