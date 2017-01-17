@@ -308,18 +308,14 @@ public abstract class FileManager implements FileManagerI {
 		String newTitle = mat.getTitle();
 
 		// make sure there's room to add the date
-		if (newTitle.length() > 40) {
-			newTitle = newTitle.substring(0, 40);
+		String suffix = " (" + CmdGetTime.buildLocalizedDate(format,
+				new Date(), app.getLocalization()) + ")";
+		if (newTitle.length() + suffix.length() > 60) {
+			newTitle = newTitle.substring(0, 60 - suffix.length());
 		}
 
 		// put date on end so the filename is different for the fork
-		newTitle = newTitle + " (" + CmdGetTime.buildLocalizedDate(format,
-					new Date(), app.getLocalization()) + ")";
-
-		// make doubly sure length isn't too long in all languages
-		if (newTitle.length() > 60) {
-			newTitle = newTitle.substring(0, 60);
-		}
+		newTitle = newTitle + suffix;
 
 		final String newTitle2 = newTitle;
 
