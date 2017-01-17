@@ -76,8 +76,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private FlowPanel mainPanel;
 	private TabPanel tabPanel;
 
-	// misc fields
-	private static final int tab = 5;
 	private boolean isUpdating = false;
 
 	private DataAnalysisModel daModel;

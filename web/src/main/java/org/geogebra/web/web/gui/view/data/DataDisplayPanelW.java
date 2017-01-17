@@ -321,20 +321,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	/**
-	 * Updates the plot panel. Adds/removes additional panels as needed for the
-	 * current selected plot.
-	 */
-	private void updatePlotPanelLayout() {
-
-		metaPlotPanel.clear();
-		plotPanelSouth.clear();
-		plotPanelNorth.clear();
-
-		metaPlotPanel.add(plotPanel.getComponent());
-		getModel().updatePlotPanelLayout();
-	}
-
-	/**
 	 * Creates a display panel to hold an image, e.g. tabletext
 	 */
 	private void createImagePanel() {

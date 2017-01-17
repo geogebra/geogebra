@@ -112,41 +112,6 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	// simplify method for taking log base 10 of x
 	private final static double k = 1 / Math.log(10);
 
-	private static double Log10(double x) {
-		if (x == 0) {
-			return 0;
-		} else {
-			return Math.log(x) * k;
-		}
-	}
-
-	private int resolveErrorSigDigit(double x, double dx) {
-		// dx should never be negative
-		dx = Math.abs(dx);
-		// make x +ve cause negative doesn't effect sigdigits
-		x = Math.abs(x);
-
-		// these circumstances errorsigdit does equal sigdigit, excluding
-		// infinity and Nan which are handled by format
-		if (dx == 0 || Double.isInfinite(dx) || Double.isNaN(dx) || dx >= x) {
-			return sigDigit;
-		}
-
-		// fail cases for log, method fails to handle
-		if (x == 0 || Double.isInfinite(x) || Double.isNaN(x)) {
-			return sigDigit;
-		}
-
-		// otherwise solve for cases when dx<x
-		int log = (int) Math.round(Log10(dx / x));// always will return negative
-												  // number
-		int errorsigdigit = sigDigit + log;
-		if (errorsigdigit < 1) {
-			return 1;
-		}
-		return errorsigdigit;
-	}
-
 	private static DecimalFormat getDecimalFormat(int sigDig) {
 		StringBuffer buffer = new StringBuffer("0.");
 		for (int i = 1; i < sigDig; i++) {

@@ -37,7 +37,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
@@ -206,11 +205,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				NodeList<Element> firstRow = tableRows.getItem(0)
 						.getElementsByTagName("td");
 
-				int sum = 0;
 				for (int i = 0; i < table.getColumnCount(); i++) {
 					int w = firstRow.getItem(i).getOffsetWidth();
 					headerTable.setColumnWidth(i, w + "px");
-					sum += w;
 				}
 
 				int tableWidth = table.getOffsetWidth();
@@ -640,89 +637,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}	
 
 
-	/*
-	 * Add a column to show end edit the caption.
-	 */
-	private Column<RowData, String> getColumnCaption() {
-
-		class MyTextInputCell extends TextInputCell {
-			private int focusedRow = -1;
-
-			public int getFocusedRow() {
-				return focusedRow;
-			}
-
-			@Override
-			public void render(Context context, String value, SafeHtmlBuilder sb) {
-				if (this.focusedRow == context.getIndex()) {
-					super.render(context, value, sb);
-				} else {
-					sb.appendHtmlConstant(value);
-				}
-
-			}
-
-			@Override
-			public void onBrowserEvent(Context context, Element parent,
-					String value, NativeEvent event,
-					ValueUpdater<String> valueUpdater) {
-
-				Log.debug("eventType: " + event.getType());
-
-				InputElement input = getInputElement(parent);
-				if (input != null) {
-					Element target = event.getEventTarget().cast();
-					if (input.isOrHasChild(target)) {
-						super.onBrowserEvent(context, parent, value, event,
-								valueUpdater);
-						return;
-					}
-				}
-
-				String eventType = event.getType();
-				if (BrowserEvents.FOCUS.equals(eventType)) {
-					focusedRow = context.getIndex();
-					// tableInit();
-				} else if (BrowserEvents.BLUR.equals(eventType)) {
-					focusedRow = -1;
-				}
-
-			}
-
-		}
-
-		final MyTextInputCell myCell = new MyTextInputCell();
-
-		Column<RowData, String> col = new Column<RowData, String>(
-myCell) {
-
-			@Override
-			public String getValue(RowData object) {
-				if (object.getIndex() == myCell.getFocusedRow() + 1) {
-					return object.getGeo().getCaptionSimple();
-				}
-				return object.getCaption();
-			}
-
-
-		};
-
-		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
-
-			@Override
-			public void update(int index, RowData object, String value) {
-				object.getGeo().setCaption(value);
-				data.initView();
-				tableInit();
-
-			}
-
-		});
-
-		return col;
-	}
-
-
 	public class MyEditCell extends EditTextCell {
 		private int focusedRow = -1;
 
@@ -770,58 +684,6 @@ myCell) {
 					valueUpdater);
 
 		}
-	}
-
-	private Column<RowData, String> getColumnCaption2() {
-
-		final MyEditCell editCell = new MyEditCell();
-
-		
-		Column<RowData, String> col = new Column<RowData, String>(editCell) {
-
-			@Override
-			public String getValue(RowData object) {
-				// ???
-				// Context context = new Context(object.getIndex(),
-				// table.getColumnIndex(this), table.getValueKey(object));
-				// boolean isEditing = editCell.isEditing(context, null, null);
-
-				// isEditing = (object.getIndex() == editCell.getFocusedRow() +
-				// 1);
-				// Log.debug(object.getIndex() + " == "
-				// + (editCell.getFocusedRow() + 1));
-
-				// if (isEditing) {
-
-				if (object.getIndex() == ((MyEditCell) getCell())
-						.getFocusedRow() + 1) {
-					String caption = object.getGeo().getCaptionSimple();
-					if (caption == null) {
-						caption = "";
-					}
-					return caption;
-				}
-				return object.getCaption();
-			}
-
-		};
-
-		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
-
-			@Override
-			public void update(int index, RowData object, String value) {
-				object.getGeo().setCaption(value);
-				data.initView();
-				tableInit();
-				object.getGeo().updateVisualStyleRepaint(GProperty.CAPTION);
-
-			}
-
-		});
-
-		table.setColumnWidth(col, 100, Unit.PX);
-
-		return col;
 	}
 
 	/*

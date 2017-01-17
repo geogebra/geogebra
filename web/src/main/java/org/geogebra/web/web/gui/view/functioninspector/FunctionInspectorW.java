@@ -36,7 +36,6 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -80,20 +79,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyCJButton btnRemoveColumn;
 
 	private int pointCount = 9;
-
-	private class RoundingCommand implements Command {
-		private int index;
-
-		public RoundingCommand(int idx) {
-			index = idx;
-		}
-
-		@Override
-		public void execute() {
-			getModel().applyDecimalPlaces(index);
-		}
-
-	}
 
 	/**
 	 * @param app

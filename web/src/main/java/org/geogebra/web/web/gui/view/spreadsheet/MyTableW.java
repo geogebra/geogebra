@@ -1059,12 +1059,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}
 
-		// check for change in anchor cell (for now this is minrow and mincol
-		// ...)
-		boolean changedAnchor = minSelectionColumn
-		        - newSelection.getMinColumn() != 0
-		        || minSelectionRow - newSelection.getMinRow() != 0;
-
 		// update internal selection variables
 		newSelection.setActualRange();
 		minSelectionRow = newSelection.getMinRow();
@@ -2355,7 +2349,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			defaultTableCellRenderer.updateColumnBorder(column);
 		}
 
-		HashMap<GPoint, Object> map = table.getCellFormatHandler()
+		table.getCellFormatHandler()
 				.getFormatMap(CellFormat.FORMAT_BORDER);
 
 	}

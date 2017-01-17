@@ -243,23 +243,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		fld.setText(daView.format(n));
 	}
 
-	private void setTitleComboBoxes() {
-
-		lbTitle1.clear();
-		lbTitle2.clear();
-		String[] dataTitles = daView.getDataTitles();
-		if (dataTitles != null) {
-			for (int i = 0; i < dataTitles.length; i++) {
-				lbTitle1.addItem(dataTitles[i]);
-				lbTitle2.addItem(dataTitles[i]);
-			}
-		}
-		lbTitle1.setSelectedIndex(0);
-		lbTitle2.setSelectedIndex(1);
-
-
-	}
-
 	private void updateCBAlternativeHyp() {
 
 		lbAltHyp.clear();

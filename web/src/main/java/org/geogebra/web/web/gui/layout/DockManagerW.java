@@ -1748,48 +1748,7 @@ public class DockManagerW extends DockManager {
 		return hasFullFocusSystem;
 	}
 	
-	/**
-	 * Return a string which can be used to debug the view tree.
-	 * @param depth
-	 * @param pane
-	 * @return
-	 */
-	private String getDebugTree(int depth, DockSplitPaneW pane) {
-		StringBuilder strBuffer = new StringBuilder();
-		
-		Widget leftComponent = pane.getLeftComponent();
-		Widget rightComponent = pane.getRightComponent();
-		
-		strBuffer.append(strRepeat("-", depth) + "[left]");
-		
-		if(leftComponent == null) {
-			strBuffer.append("null" + "\n");
-		} else if(leftComponent instanceof DockSplitPaneW) {
-			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPaneW)leftComponent));
-		} else {
-			strBuffer.append(leftComponent.toString() + "\n");
-		}
-		
-		strBuffer.append(strRepeat("-", depth) + "[right]");
-		
-		if(rightComponent == null) {
-			strBuffer.append("null" + "\n");
-		} else if(rightComponent instanceof DockSplitPaneW) {
-			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPaneW)rightComponent));
-		} else {
-			strBuffer.append(rightComponent.toString() + "\n");
-		}
-		
-		return strBuffer.toString();
-	}
 	
-	private static String strRepeat(String str, int times)	{
-		StringBuilder strBuffer = new StringBuilder();
-		for(int i = 0; i < times; ++i) {
-			strBuffer.append(str);
-		}
-		return strBuffer.toString();
-	}
 	
 	
 	// ===================================================================

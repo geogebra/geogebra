@@ -211,17 +211,6 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		add(viewButton);
 	}
 	
-	private int getNumberOfOpenViews() {
-		int numberOfOpenViews = 0;
-		for (ViewType e : Views.getAll()) {
-			if (app.supportsView(e.getID())
-					&& app.getGuiManager().showView(e.getID())) {
-				numberOfOpenViews++;
-			}
-		}
-		return numberOfOpenViews;
-	}
-
 	@Override
 	public void onViewsChanged() {
 	    if(viewButton != null){

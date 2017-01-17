@@ -110,10 +110,6 @@ public abstract class ComboBoxPanel extends OptionPanel
 	    return comboBox;
     }
 
-	private void setComboBox(ComboBoxW comboBox) {
-	    this.comboBox = comboBox;
-    }
-
 	@Override
 	public void clearItems() {
 		comboBox.getModel().clear();

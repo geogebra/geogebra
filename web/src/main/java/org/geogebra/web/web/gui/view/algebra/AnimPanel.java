@@ -75,18 +75,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		showSpeedValue(false);
 	}
 
-	private void doStyle() {
-		btnSpeedDown.setStyleName("avSpeedButton");
-		btnSpeedDown.addStyleName("slideIn");
-
-		btnSpeedUp.setStyleName("avSpeedButton");
-		btnSpeedUp.addStyleName("slideIn");
-
-		btnSpeedValue.addStyleName("speedValue");
-		btnSpeedValue.addStyleName("slideIn");
-
-	}
-
 	private void createPlayButton() {
 		btnPlay = new MyToggleButton2(
 				GuiResourcesSimple.INSTANCE.icons_play_circle(),

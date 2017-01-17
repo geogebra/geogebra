@@ -167,12 +167,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return stylebar;
 	}
 
-	private void createGUI() {
-
-		buildStatisticsPanel();
-
-	}
-
 	private void buildStatisticsPanel() {
 		if (statisticsPanel != null) {
 			// TODO handle any orphaned geo children of stat panel

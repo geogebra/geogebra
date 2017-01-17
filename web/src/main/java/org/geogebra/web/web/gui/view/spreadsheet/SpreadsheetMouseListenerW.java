@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -542,10 +541,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				int mouseY = getAbsoluteY(event);
 				GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
 
-				// save the selected cell position so it can be re-selected if
-				// needed
-				CellRange oldSelection = table.getSelectedCellRanges().get(0);
-
 				if (mouseCell == null) { // user has dragged outside the table,
 					                     // to
 					                     // left or above
@@ -695,21 +690,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			updateTableIsOverDot(event);
 
-			GPoint maxPoint = table.getMaxSelectionPixel(true);
-			GPoint minPoint = table.getMinSelectionPixel();
-			// check if over the DnD region and update accordingly
-			GPoint testPoint = table.getMinSelectionPixel();
-			if (testPoint != null) {
-				int minX = minPoint.getX();
-				int minY = minPoint.getY();
-				int maxX = maxPoint.getX();
-				int w = maxX - minX;
-				Rectangle2D dndRect = new Rectangle2D.Double(minX, minY - 2, w,
-				        4);
-				boolean overDnD = dndRect.contains(getAbsoluteX(event),
-				        getAbsoluteY(event));
-
-			}
+			table.getMaxSelectionPixel(true);
+			table.getMinSelectionPixel();
 		}
 
 	}

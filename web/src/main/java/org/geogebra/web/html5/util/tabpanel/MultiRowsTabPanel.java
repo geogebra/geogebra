@@ -46,10 +46,6 @@ public class MultiRowsTabPanel extends Composite
 		tabBar.selectTab(index);
 	}
 
-	private int getTabCount() {
-		return tabBar.getWidgetCount();
-	}
-
 	public MultiRowsTabBar getTabBar() {
 		return tabBar;
 	}

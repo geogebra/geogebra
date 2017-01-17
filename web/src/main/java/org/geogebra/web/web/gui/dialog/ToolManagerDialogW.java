@@ -88,10 +88,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			setItemText(idx, getMacroText(macro));
 
 		}
-		public String getMacroText(int index) {
-			return getMacroText(getMacro(index));
-		}
-
 		public void addMacro(Macro macro) {
 			macros.add(macro);
 			addItem(getMacroText(macro));
@@ -100,11 +96,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		public void insertMacro(Macro macro, int index) {
 			macros.add(index, macro);
 			insertItem(getMacroText(macro), index);
-		}
-
-		public void setMacro(Macro macro, int index) {
-			macros.set(index, macro);
-			setItemText(index, getMacroText(macro));
 		}
 
 		@Override

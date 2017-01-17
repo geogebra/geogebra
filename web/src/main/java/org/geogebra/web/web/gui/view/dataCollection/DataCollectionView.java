@@ -372,13 +372,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.sensorSettings.add(this.light);
 	}
 
-	private void addLoudness() {
-		this.loudness = new LoudnessSetting(this.app, this, "Loudness", "");
-		this.sensors.add(this.loudness);
-		this.sensorSettings.add(this.loudness);
-	}
-
-
 	/**
 	 * @param sensor
 	 *            which sensor

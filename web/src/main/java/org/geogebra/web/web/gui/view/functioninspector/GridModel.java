@@ -134,10 +134,8 @@ public class GridModel {
 
 	public void setHeaders(String[] names) {
 		headers.clear();
-		int col = 0;
 		for (String title: names) {
 			headers.add(title);
-			col++;
 		}
 		listener.setHeaders(names);
 

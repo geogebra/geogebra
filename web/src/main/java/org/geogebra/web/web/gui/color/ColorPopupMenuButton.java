@@ -143,19 +143,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 	}
 
-	private String[] getToolTipArray() {
-		String[] toolTipArray = new String[colorSet.length];
-		for (int i = 0; i < toolTipArray.length; i++) {
-			if (colorSet[i] == null) {
-				toolTipArray[i] = app.getMenu("Transparent");
-			} else {
-				toolTipArray[i] = GeoGebraColorConstants
-						.getGeogebraColorName(app, colorSet[i]);
-			}
-		}
-		return toolTipArray;
-	}
-
 	private static ImageOrText[] getColorSwatchIcons(GColor[] colorArray,
 			double alpha, GDimensionW iconSize) {
 		ImageOrText[] a = new ImageOrText[colorArray.length];

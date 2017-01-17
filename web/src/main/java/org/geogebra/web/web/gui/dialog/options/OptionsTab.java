@@ -984,10 +984,6 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
-		public void setMinValue() {
-			slider.setValue(AngleArcSizeModel.MIN_VALUE);
-		}
-
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);

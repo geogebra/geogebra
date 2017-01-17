@@ -10,10 +10,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
@@ -1145,23 +1143,6 @@ public abstract class KBBase extends PopupPanel {
 
 	public void setHasKeyboard(HasKeyboard hasKeyboard) {
 		this.hasKeyboard = hasKeyboard;
-	}
-
-	private ScriptLoadCallback createLanguageLoadedCallback(final String lang) {
-		return new ScriptLoadCallback() {
-
-			@Override
-			public void onLoad() {
-				updateKeys("lowerCase", lang);
-				setStyleName();
-			}
-
-			@Override
-			public void onError() {
-				Log.debug("keyboard not loaded");
-
-			}
-		};
 	}
 
 

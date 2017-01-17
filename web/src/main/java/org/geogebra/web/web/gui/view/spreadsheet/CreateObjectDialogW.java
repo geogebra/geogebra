@@ -419,12 +419,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		wrappedPopup.setVisible(isVisible);
 	}
 
-	@SuppressWarnings("unused")
-	private void closeDialog() {
-		coModel.close();
-		setVisible(false);
-	}
-
 	@Override
 	public void setName(String name) {
 		fldName.setText(name);
