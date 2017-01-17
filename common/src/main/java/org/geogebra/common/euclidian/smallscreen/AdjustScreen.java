@@ -29,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
 public class AdjustScreen {
 	private static final int HSLIDER_OVERLAP_THRESOLD = 25;
 	private static final int VSLIDER_OVERLAP_THRESOLD = 50;
-	private static final int BUTTON_GAP = 10;
+	private static final int BUTTON_Y_GAP = 10;
 	private EuclidianView view;
 	private App app;
 	private Kernel kernel;
@@ -83,7 +83,7 @@ public class AdjustScreen {
 			if (y1 == y2) {
 				return 0;
 			}
-			return Kernel.isGreater(y2, y1) ? -1 : 1;
+			return Kernel.isGreater(y1, y2) ? 1 : -1;
 		}
 	}
 
@@ -110,7 +110,7 @@ public class AdjustScreen {
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
 		checkOvelappingButtons();
-		checkOvelappingInputs();
+		// checkOvelappingInputs();
 		view.repaintView();
 	}
 
@@ -140,16 +140,16 @@ public class AdjustScreen {
 					inputBoxes.add(input);
 					ensure = true;
 				} else {
-					Log.debug("[AS] collecting buttons: " + geo);
 					GeoButton btn = (GeoButton) geo;
+					Log.debug("[AS] collecting buttons: " + buttonDetails(btn));
 					buttons.add(btn);
 					ensure = false;
 				}
 			}
 
-			if (ensure) {
-				ensureGeoOnScreen(geo);
-			}
+			// if (ensure) {
+			// ensureGeoOnScreen(geo);
+			// }
 		}
 
 	}
@@ -175,10 +175,10 @@ public class AdjustScreen {
 			}
 		}
 
-		if (adjust != null) {
-			adjust.apply();
-			view.update(geo);
-		}
+		// if (adjust != null) {
+		// adjust.apply();
+		// view.update(geo);
+		// }
 	}
 
 	private void checkOvelappingHSliders() {
@@ -231,50 +231,84 @@ public class AdjustScreen {
 		}
 	}
 
+	private void debugButtons() {
+		for (int idx = 0; idx < buttons.size(); idx++) {
+			GeoButton btn = buttons.get(idx);
+			Log.debug("[AS] " + idx + ". " + buttonDetails(btn));
+
+		}
+
+	}
+
+	private String buttonDetails(GeoButton btn) {
+		return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
+				+ btn.getAbsoluteScreenLocY() + ")";
+	}
+
 	private void checkOvelappingButtons() {
 		// No buttons at all.
 		if (buttons.size() < 1) {
 			return;
 		}
 
+		Log.debug("[AS] Buttons before sort:");
+		debugButtons();
 		Collections.sort(buttons, new ButtonComparator());
-		Log.debug("[AS] Buttons:");
-		GeoButton lastButton = buttons.get(0);
-		GeoButton lastVisibleButton = buttons.get(0);
-		for (int idx = 0; idx < buttons.size() - 1; idx++) {
-			GeoButton btn1 = buttons.get(idx);
+		Log.debug("[AS] ----------------------------");
+		Log.debug("[AS] Buttons after sort:");
+		debugButtons();
 
+		int idx = 0;
+		GeoButton lastButton = null;
+		GeoButton lastVisibleButton = null;
 
-			AdjustButton adjust = new AdjustButton(btn1, view);
-			if (!adjust.isOnScreen()) {
-				adjust.apply();
-				if (!adjust.isYOnScreen() && lastButton != null) {
-					btn1.setAbsoluteScreenLoc(btn1.getAbsoluteScreenLocX(),
-							lastButton.getAbsoluteScreenLocY()
-									+ lastButton.getHeight() + BUTTON_GAP);
-					lastButton = btn1;
-				}
-			} else {
-				lastButton = btn1;
-				lastVisibleButton = btn1;
-			}
-
-			Log.debug("[AS] " + btn1);
-		}
-
-		Log.debug("[AS] lastVisible: " + lastVisibleButton + " lastButton: "
-				+ lastButton);
-
-
-		int dY = lastButton.getAbsoluteScreenLocY() - view.getHeight();
-		for (int idx = 0; idx < buttons.size() - 1; idx++) {
+		while (idx < buttons.size() && lastVisibleButton == null) {
 			GeoButton btn = buttons.get(idx);
-			btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(),
-					btn.getAbsoluteScreenLocY() - dY);
+			if (!AdjustButton.isVerticallyOnScreen(btn, view)) {
+				lastVisibleButton = lastButton;
+			}
+			// gaps can be stored here
+			lastButton = btn;
+			idx++;
 		}
-	}
 
-	private void tileButtons(List<? extends GeoButton> buttonList) {
+		if (lastVisibleButton == null) {
+			// We are done. No buttons off-screen.
+			return;
+		}
+
+		int firstOffscreenIdx = idx - 1;
+		Log.debug(
+				"[AS] lastVisibleButton (" + (firstOffscreenIdx - 1) + "): "
+						+ buttonDetails(lastVisibleButton));
+
+		int lastVisibleY = lastVisibleButton.getAbsoluteScreenLocY()
+				+ lastVisibleButton.getHeight() + BUTTON_Y_GAP;
+		int y = lastVisibleY;
+		for (int i = firstOffscreenIdx; i < buttons.size(); i++) {
+			GeoButton btn = buttons.get(i);
+			int x = btn.getAbsoluteScreenLocX();
+			Log.debug("[AS] " + i + ". " + buttonDetails(btn)
+					+ " OFFSCREEN -> (" + x + ", " + y + ")");
+			btn.setAbsoluteScreenLoc(x, y);
+			y += btn.getHeight() + BUTTON_Y_GAP;
+		}
+
+		int dY = lastVisibleY - y;
+		Log.debug("[AS] dY: " + dY);
+	}
+ 
+ 	private boolean isButtonsOverlap(GeoButton btn1, GeoButton btn2) {
+ 	GRectangle rect1 = AwtFactory.getPrototype().newRectangle(btn1.getAbsoluteScreenLocX(),
+					btn1.getAbsoluteScreenLocY(),
+					btn1.getWidth(), btn1.getHeight());
+			GRectangle rect2 = AwtFactory.getPrototype().newRectangle(
+					btn2.getAbsoluteScreenLocX(), btn2.getAbsoluteScreenLocY(),
+					btn2.getWidth(), btn2.getHeight());
+			
+			return rect1.intersects(rect2)	|| rect2.intersects(rect1);
+		} 
+ 	private void tileButtons(List<? extends GeoButton> buttonList) {
 		if (buttonList.size() < 1) {
 			return;
 		}
@@ -332,7 +366,7 @@ public class AdjustScreen {
 				if (overlap) {
 					input2.setAbsoluteScreenLoc(input2.getAbsoluteScreenLocX(),
 							input1.getAbsoluteScreenLocY() + t1.getHeight()
-									+ BUTTON_GAP);
+									+ BUTTON_Y_GAP);
 					input2.update();
 				}
 			}

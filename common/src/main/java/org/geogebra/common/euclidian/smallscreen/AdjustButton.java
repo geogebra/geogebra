@@ -93,4 +93,11 @@ public class AdjustButton extends AdjustWidget {
 
 	}
 
+	public static boolean isVerticallyOnScreen(GeoButton btn,
+			EuclidianView view) {
+		int y = btn.getAbsoluteScreenLocY();
+		int height = btn.getHeight();
+		return y + height < view.getViewHeight();
+	}
+
 }
