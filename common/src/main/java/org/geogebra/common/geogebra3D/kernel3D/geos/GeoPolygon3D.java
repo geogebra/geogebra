@@ -581,8 +581,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		Coords res = null;
 		double param = 0;
 
+		// use auxiliary segment if no or not enough segments
 		GeoSegment3D segment = null;
-		if (segments == null) {
+		if (segments == null || segments.length < getPointsLength()) {
 			segment = new GeoSegment3D(cons);
 		}
 
