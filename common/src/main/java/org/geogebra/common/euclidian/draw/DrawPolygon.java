@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -40,7 +39,6 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -189,11 +187,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	}
 
-	private final void calculateCorners() {
-		calculateViewCorners();
-		calculateBounds();
-	}
-
 	private final void calculateBounds() {
 		double xmin = Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
@@ -240,30 +233,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		extraCoords[7].setY(ymax);
 	}
 
-	private void drawPolygonConvex(Coords n, Coords[] vertices, int length,
-			boolean reverse) {
-		Log.debug("[POLY] drawPolygonConvex");
-		Coords coordsApex = vertices[0];
-		coords[0] = coordsApex.getX();
-		coords[1] = coordsApex.getY();
-		view.toScreenCoords(coords);
-		double startX = coords[0];
-		double startY = coords[1];
-		gpTriangularize.moveTo(coords[0], coords[1]);
-		for (int i = length - 1; i < 0; i--) {
-			Coords coord = vertices[i];
-			coords[0] = coord.getX();
-			coords[1] = coord.getY();
-			view.toScreenCoords(coords);
-			gpTriangularize.lineTo(coords[0], coords[1]);
-		}
-
-		// we have to move back manually to apex since we may have new fan to
-		// draw
-		gpTriangularize.moveTo(startX, startY);
-
-	}
-
 	private double[][] fanCoords;
 
 	private static final int FAN_DELTA = 10;
@@ -272,54 +241,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return c[0] < -FAN_DELTA || c[1] < -FAN_DELTA
 				|| c[0] > view.getWidth() + FAN_DELTA
 				|| c[1] > view.getHeight() + FAN_DELTA;
-	}
-
-	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
-		Log.debug("[POLY] drawTriangleFan");
-
-		int size = triFan.size();
-
-		if (fanCoords == null || fanCoords.length < size) {
-			fanCoords = new double[size][];
-		}
-
-		// apex coords to screen, check it's inside
-		Coords coordsApex = v[triFan.getApexPoint()];
-		coords[0] = coordsApex.getX();
-		coords[1] = coordsApex.getY();
-		view.toScreenCoords(coords);
-		if (isOutView(coords)) {
-			return;
-		}
-
-		// fan coords to screen, check it's inside
-		for (int i = 0; i < size; i++) {
-			Coords coord = v[triFan.getVertexIndex(i)];
-			if (fanCoords[i] == null) {
-				fanCoords[i] = new double[2];
-			}
-			fanCoords[i][0] = coord.getX();
-			fanCoords[i][1] = coord.getY();
-			view.toScreenCoords(fanCoords[i]);
-			if (isOutView(fanCoords[i])) {
-				return;
-			}
-		}
-
-		// all vertices inside : draw
-
-		// start
-		gpTriangularize.moveTo(coords[0], coords[1]);
-
-		// fan
-		for (int i = 0; i < size; i++) {
-			gpTriangularize.lineTo(fanCoords[i][0], fanCoords[i][1]);
-		}
-
-		// we have to move back manually to apex since we may have new fan to
-		// draw
-		gpTriangularize.lineTo(coords[0], coords[1]);
-
 	}
 
 	private Coords getCoords(int i) {

@@ -42,15 +42,6 @@ abstract public class Manager {
 	// geogebra stuff
 	private EuclidianView3D view3D;
 
-	// coords stuff
-	/** when drawing a cylinder, clock vectors to describe a circle */
-	private Coords clockU = null;
-	private Coords clockV = null;
-	private Coords cylinderStart = null;
-	private Coords cylinderEnd = null;
-	private double cylinderThickness;
-	private double textureStart, textureEnd;
-
 	/**
 	 * create a manager for geometries
 	 * 

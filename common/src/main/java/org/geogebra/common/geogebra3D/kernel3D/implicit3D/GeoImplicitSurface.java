@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
@@ -1031,18 +1030,6 @@ public class GeoImplicitSurface extends GeoElement3D
 				return r * (p1 - p2) + p2;
 			}
 			return p2 + (p1 - p2) * 0.5;
-		}
-
-		private void invalidate(int a1, int a2, int a3, int a4) {
-			// Maybe cache required
-		}
-
-		private boolean set(int i, double v) {
-			if (!Kernel.isEqual(coords[i], v)) {
-				coords[i] = v;
-				return true;
-			}
-			return false;
 		}
 	}
 
