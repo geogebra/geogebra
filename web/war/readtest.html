@@ -1,0 +1,69 @@
+<html>
+<head>
+</head>
+
+
+<body>
+  
+  <script>
+    var odd = -1;
+
+    function getText(){
+    	odd++;
+	if(odd==3) odd =0;
+      return (odd == 0) ? "text 1 for test": (odd==1) ? "text 2 for test" : "this is the third text";
+
+    }
+
+    function changeText(n){
+        var newtext = getText();
+        document.getElementsByTagName("canvas")[n].innerHTML = newtext;
+        //document.getElementsByTagName("div")[n].innerHTML = newtext;
+    }
+
+    function changeDivText(){
+        document.getElementById("speakdiv").innerHTML = getText();
+    }
+
+    function changeDiv2Text(){
+        document.getElementsByTagName("div")[2].innerHTML = getText();
+    }
+
+
+  </script>
+  <canvas role="status" aria-live="polite" aria-atomic="true" aria-relevant="text" style="border: 1px solid red;" tabindex="3" onclick="changeText(0)" width="60px" height="40px">
+  </canvas>
+
+  <div role="status" aria-live="polite" aria-atomic="true" aria-relevant="text" tabindex="3" onclick="changeText(1)">
+    <canvas style="border: 1px solid red;" width="60px" height="40px">
+    </canvas>
+  </div>
+
+  <div id="speakdiv" role="status" aria-live="polite" aria-atomic="true" aria-relevant="text" tabindex="-1" onclick="changeDivText()">
+     test it
+  </div>
+
+<div tabindex="-1" role="status" aria-live="polite" aria-atomic="true" aria-relevant="text">Point C</div>
+
+  <br/><br/>
+
+  <div onclick="changeText(0)">
+     change text in 1st canvas
+  </div>
+
+  <div onclick="changeText(1)">
+     change text in 2nd canvas
+  </div>
+
+  <div onclick="changeDivText()">
+     change text in speakdiv
+  </div>
+
+  <div onclick="changeDiv2Text()">
+     change text in 2nd div
+  </div>
+
+</body>
+
+
+<html>
