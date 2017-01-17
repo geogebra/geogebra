@@ -257,14 +257,12 @@ public class ColorProvider {
 	private static class MyMatchResult {
 
 		int index;
-		String input;
 		List<String> groups;
 		private boolean isCommand;
 
 		public MyMatchResult(int index, String input, List<String> groups,
 				boolean isCommand) {
 			this.index = index;
-			this.input = input;
 			this.groups = groups;
 			setCommand(isCommand);
 		}

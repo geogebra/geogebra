@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 
 /**
  * Class for drawing surfaces.
@@ -23,7 +22,6 @@ public class PlotterSurface {
 	/** 2-var function */
 	private Functional2Var functional2Var;
 
-	private GeoFunctionNVar function;
 
 	/** domain for plotting */
 	private float uMin, uMax, vMin, vMax;
@@ -73,22 +71,6 @@ public class PlotterSurface {
 	public void start(Functional2Var fun, int old) {
 		index = manager.startNewList(old);
 		this.functional2Var = fun;
-		uMinFade = 0;
-		vMinFade = 0;
-		uMaxFade = 0;
-		vMaxFade = 0;
-
-	}
-
-	/**
-	 * start new surface
-	 * 
-	 * @param fun
-	 *            function
-	 */
-	public void start(GeoFunctionNVar fun, int old) {
-		index = manager.startNewList(old);
-		this.function = fun;
 		uMinFade = 0;
 		vMinFade = 0;
 		uMaxFade = 0;

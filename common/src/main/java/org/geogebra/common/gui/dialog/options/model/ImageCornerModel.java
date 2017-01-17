@@ -1,8 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -12,14 +9,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 
 public class ImageCornerModel extends MultipleGeosModel {
-	private List<String> choices;
 	private Kernel kernel;
 	private int cornerIdx;
 
 	public ImageCornerModel(App app) {
 		super(app);
 		kernel = app.getKernel();
-		choices = new ArrayList<String>();
 	}
 
 	@Override
