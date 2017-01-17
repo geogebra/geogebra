@@ -3036,12 +3036,14 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		switch (pointMoveMode) {
-		default:
 		case GeoPointND.MOVE_MODE_XY:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XY);
 			break;
 		case GeoPointND.MOVE_MODE_Z:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
+			break;
+		default:
+			// draw nothing
 			break;
 		}
 	}
