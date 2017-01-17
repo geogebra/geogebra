@@ -126,11 +126,11 @@ public class DrawSegment extends Drawable implements Previewable {
 						line.getX2(), line.getY2(), line.getX2() + 3,
 						line.getY2() + 3);
 				// handler for rotation
-				boundingBox.getHandlers().get(2).setFrameFromCenter(
-						(getBounds().getMinX() + getBounds().getMaxX()) / 2,
-						getBounds().getMaxY() + 15,
-						(getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
-						getBounds().getMaxY() + 15 + 3);
+				// boundingBox.getHandlers().get(2).setFrameFromCenter(
+				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
+				// getBounds().getMaxY() + 15,
+				// (getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
+				// getBounds().getMaxY() + 15 + 3);
 
 			} else {
 				getBoundingBox().setRectangle(null);
@@ -621,11 +621,11 @@ public class DrawSegment extends Drawable implements Previewable {
 						line.getX2(), line.getY2(), line.getX2() + 3,
 						line.getY2() + 3);
 				// handler for rotation
-				boundingBox.getHandlers().get(2).setFrameFromCenter(
-						(getBounds().getMinX() + getBounds().getMaxX()) / 2,
-						getBounds().getMaxY() + 15,
-						(getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
-						getBounds().getMaxY() + 15 + 3);
+				// boundingBox.getHandlers().get(2).setFrameFromCenter(
+				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
+				// getBounds().getMaxY() + 15,
+				// (getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
+				// getBounds().getMaxY() + 15 + 3);
 			}
 		}
 	}
