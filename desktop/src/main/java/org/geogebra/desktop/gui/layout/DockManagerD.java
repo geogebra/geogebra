@@ -1438,13 +1438,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		return hasFullFocusSystem;
 	}
 
-	private static String strRepeat(String str, int times) {
-		StringBuilder strBuffer = new StringBuilder();
-		for (int i = 0; i < times; ++i) {
-			strBuffer.append(str);
-		}
-		return strBuffer.toString();
-	}
+	
 
 	// ===================================================================
 	//

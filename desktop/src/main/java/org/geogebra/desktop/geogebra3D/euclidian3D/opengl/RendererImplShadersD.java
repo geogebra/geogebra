@@ -315,10 +315,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		jogl.getGL2ES2().glDisableVertexAttribArray(attrib);
 	}
 
-	final private void glDeleteBuffers(int size, int[] buffers) {
-		jogl.getGL2ES2().glDeleteBuffers(size, buffers, 0);
-	}
-
 	@Override
 	final protected void glDetachAndDeleteShader(Object program,
 			Object shader) {

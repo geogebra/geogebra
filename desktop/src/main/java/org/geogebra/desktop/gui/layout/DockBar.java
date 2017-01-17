@@ -292,10 +292,4 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 
 	}
 
-	// ==============================================================
-	// Full screen button
-	// (experimental code)
-	// ==============================================================
-	private boolean fullScreen = false;
-
 }

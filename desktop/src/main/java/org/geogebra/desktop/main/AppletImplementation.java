@@ -439,24 +439,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return appletPanel;
 	}
 
-	private void showFrame() {
-		Thread worker = new Thread() {
-			@Override
-			public void run() {
-
-				app.runningInFrame = true;
-
-				applet.setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-				doShowFrame();
-
-				applet.setCursor(Cursor.getDefaultCursor());
-			}
-		};
-		worker.start();
-	}
-
 	private synchronized void doShowFrame() {
 
 		// clear applet

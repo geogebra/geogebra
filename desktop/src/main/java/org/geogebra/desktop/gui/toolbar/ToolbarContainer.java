@@ -24,7 +24,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -41,7 +40,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.HelpDialog;
-import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -205,27 +203,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				|| orientation == SwingConstants.SOUTH)) {
 			add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			updateHelpText();
-		}
-
-	}
-
-	private static class MyDockPanel extends DockPanelD {
-
-		private static final long serialVersionUID = 1L;
-
-		public MyDockPanel() {
-			this(0, "", "1", false, 0);
-		}
-
-		public MyDockPanel(int id, String title, String toolbar,
-				boolean hasStyleBar, int menuOrder) {
-			super(id, title, toolbar, hasStyleBar, menuOrder);
-		}
-
-		@Override
-		protected JComponent loadComponent() {
-			// TODO Auto-generated method stub
-			return null;
 		}
 
 	}
