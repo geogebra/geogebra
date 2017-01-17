@@ -7,7 +7,6 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -90,7 +89,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		this.geo = geo;
 		this.inputHandler = handler;
-		this.initString = initString;
+		setInitString(initString);
 
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
 		        selectInitText, geo != null, geo != null, type);
@@ -126,7 +125,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		this.geo = geo;
 		this.inputHandler = handler;
-		this.initString = initString;
+		setInitString(initString);
 
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, geo != null, showApply,
 				DialogType.GeoGebraEditor);
@@ -172,7 +171,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		this.title = title;
 
 		// Create components to be displayed
-		inputPanel = new InputPanelW(initString, app, rows, columns,
+		inputPanel = new InputPanelW(getInitString(), app, rows, columns,
 		        showSymbolPopupIcon/* , type */);
 		
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
@@ -269,10 +268,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			processInputHandler(null);
 		} else if (source == btProperties && geo != null) {
 			setVisible(false);
-			tempArrayList.clear();
-			tempArrayList.add(geo);
-			app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-			        tempArrayList);
+			openProperties(app, geo);
 		} else if (source == btCancel) {
 			cancel();
 			resetMode();

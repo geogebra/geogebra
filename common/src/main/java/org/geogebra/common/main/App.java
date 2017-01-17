@@ -4023,7 +4023,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case CONVEX_HULL_3D:
-			return false;
+			return canary;
 
 		case DIFFERENT_AXIS_RATIO_3D:
 			return prerelease;

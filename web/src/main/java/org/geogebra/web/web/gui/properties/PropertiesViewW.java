@@ -490,7 +490,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void attachView() {
-		if (attached){
+		if (isAttached()) {
 			Log.debug("already attached");
 			return;
 		}
@@ -499,7 +499,7 @@ public class PropertiesViewW extends PropertiesView
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 		app.getKernel().getAnimatonManager().stopAnimation();
-		attached = true;
+		setAttached(true);
 	}
 
 	@Override
@@ -507,7 +507,7 @@ public class PropertiesViewW extends PropertiesView
 		kernel.detach(this);
 		clearView();
 		app.getKernel().getAnimatonManager().startAnimation();
-		attached = false;
+		setAttached(false);
 	}
 
 	@Override

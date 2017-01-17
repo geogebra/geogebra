@@ -55,7 +55,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		spDelay = new GSpinnerW();
 		
 		lbSteps = new Label();
-		this.viewID = viewID;
+		setViewID(viewID);
 		
 	}
 	
@@ -223,7 +223,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			// .getSafeUri());
 			// btPlay.setHTML(playImage.toString()+btPlayText);
 
-			if (isPlaying) {
+			if (isPlaying()) {
 				btPlay.getUpFace().setImage(playIcon);
 				btPlay.getUpHoveringFace().setImage(playIconHover);
 			} else {
@@ -268,7 +268,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			return;
 		}
 		else if (source == btPlay){
-			if (isPlaying){
+			if (isPlaying()) {
 				player.stopAnimation();
 			} else {
 				player = new AutomaticPlayer(playDelay);
@@ -328,7 +328,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		        	if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
 		        		stopAnimation();
 		        	}
-		        	if (isPlaying){
+					if (isPlaying()) {
 		        		timer.schedule((int) (playDelay * 1000));
 		        	}	                
                 }
@@ -340,7 +340,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 //			app.startDispatchingEventsTo(btPlay);
 			//TODO set cursor:wait
 			
-			isPlaying = true;
+			setPlaying(true);
 			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
 
@@ -357,7 +357,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
             
             // unblock application events
 //			app.stopDispatchingEvents();
-			isPlaying = false;
+			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
         }

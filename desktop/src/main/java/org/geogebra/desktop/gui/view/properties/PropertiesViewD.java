@@ -543,7 +543,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	public void attachView() {
-		if (attached) {
+		if (isAttached()) {
 			Log.debug("already attached");
 			return;
 		}
@@ -551,14 +551,14 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
-		attached = true;
+		setAttached(true);
 	}
 
 	@Override
 	public void detachView() {
 		kernel.detach(this);
 		clearView();
-		attached = false;
+		setAttached(false);
 	}
 
 	@Override

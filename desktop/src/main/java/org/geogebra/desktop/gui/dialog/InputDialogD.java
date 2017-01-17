@@ -40,7 +40,6 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -166,7 +165,7 @@ public class InputDialogD extends InputDialog
 		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
-		this.initString = initString;
+		this.setInitString(initString);
 		this.checkBox = checkBox;
 
 		// Build the essential GUI: a borderLayout panel with
@@ -242,7 +241,7 @@ public class InputDialogD extends InputDialog
 		wrappedDialog.setResizable(true);
 
 		// Create components to be displayed
-		inputPanel = new InputPanelD(initString, app, rows, columns,
+		inputPanel = new InputPanelD(getInitString(), app, rows, columns,
 				showSymbolPopupIcon, type);
 
 		sl = new GeoElementSelectionListener() {
@@ -442,10 +441,7 @@ public class InputDialogD extends InputDialog
 				cancel();
 			} else if (source == btProperties && geo != null) {
 				setVisible(false);
-				tempArrayList.clear();
-				tempArrayList.add(geo);
-				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-						tempArrayList);
+				openProperties(app, geo);
 
 			}
 		} catch (Exception ex) {
@@ -454,6 +450,7 @@ public class InputDialogD extends InputDialog
 		}
 		// setVisible(!finished);
 	}
+
 
 	protected void cancel() {
 		setVisible(false);

@@ -689,17 +689,17 @@ public class TextInputDialogD extends InputDialogD
 		// TODO: not sure if this old code is needed anymore
 		if (createText) {
 			// initString = " \"\" ";
-			initString = null;
+			setInitString(null);
 			isLaTeX = false;
 		} else {
-			initString = "";
+			setInitString("");
 			if (geo.isIndependent()) {
-				initString = geo.getTextString();
-				if (geo.getKernel().lookupLabel(initString) != null) {
-					initString = "\"" + initString + "\"";
+				setInitString(geo.getTextString());
+				if (geo.getKernel().lookupLabel(getInitString()) != null) {
+					setInitString("\"" + getInitString() + "\"");
 				}
 			} else {
-				initString = geo.getDefinition(StringTemplate.defaultTemplate);
+				setInitString(geo.getDefinition(StringTemplate.defaultTemplate));
 			}
 			isLaTeX = geo.isLaTeX();
 		}

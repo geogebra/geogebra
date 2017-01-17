@@ -38,7 +38,7 @@ public class AngleInputDialogW extends InputDialogW {
 					boolean autoComplete, InputHandler handler, boolean modal) {
 		super(modal, app);
 		inputHandler = handler;
-		this.initString = initString;
+		setInitString(initString);
 
 		// create radio buttons for "clockwise" and "counter clockwise"
 		String id = DOM.createUniqueId();

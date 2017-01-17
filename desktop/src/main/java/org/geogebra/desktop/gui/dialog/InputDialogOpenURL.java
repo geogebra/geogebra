@@ -12,7 +12,7 @@ public class InputDialogOpenURL extends InputDialogD {
 		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;
 
-		initString = "http://";
+		setInitString("http://");
 
 		// check if there's a string starting http:// already on the clipboard
 		// (quite likely!!)
@@ -20,7 +20,7 @@ public class InputDialogOpenURL extends InputDialogD {
 		if (clipboardString != null && (clipboardString.startsWith("http://")
 				|| clipboardString.startsWith("https://")
 				|| clipboardString.startsWith("www"))) {
-			initString = clipboardString;
+			setInitString(clipboardString);
 		}
 
 		createGUI(loc.getMenu("OpenWebpage"), loc.getMenu("EnterAppletAddress"),

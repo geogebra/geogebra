@@ -84,7 +84,7 @@ public class ConstructionProtocolNavigationD
 		implPanel = new JPanel();
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.viewID = viewID;
+		this.setViewID(viewID);
 		SpinnerModel model = new SpinnerNumberModel(2, // initial value
 				0.25, // min
 				10, // max
@@ -286,7 +286,7 @@ public class ConstructionProtocolNavigationD
 		} else if (source == btNext) {
 			prot.nextStep();
 		} else if (source == btPlay) {
-			if (isPlaying) {
+			if (isPlaying()) {
 				player.stopAnimation();
 			} else {
 				player = new AutomaticPlayer(playDelay);
@@ -347,7 +347,7 @@ public class ConstructionProtocolNavigationD
 		public synchronized void startAnimation() {
 			// dispatch events to play button
 			app.startDispatchingEventsTo(btPlay);
-			isPlaying = true;
+			setPlaying(true);
 			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
 			app.setWaitCursor();
@@ -364,7 +364,7 @@ public class ConstructionProtocolNavigationD
 
 			// unblock application events
 			app.stopDispatchingEvents();
-			isPlaying = false;
+			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
 			app.setDefaultCursor();

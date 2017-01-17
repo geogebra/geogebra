@@ -22,9 +22,9 @@ public abstract class ConstructionProtocolNavigation {
 	protected boolean showConsProtButton = true;
 
 	/** Indicates whether animation is on or off */
-	protected boolean isPlaying;
+	private boolean isPlaying;
 
-	protected int viewID;
+	private int viewID;
 
 	/**
 	 * Sets the visibility of the navigation bar.
@@ -113,5 +113,17 @@ public abstract class ConstructionProtocolNavigation {
 	 * set button to "pause" aspect
 	 */
 	abstract public void setButtonPause();
+
+	protected boolean isPlaying() {
+		return isPlaying;
+	}
+
+	protected void setPlaying(boolean isPlaying) {
+		this.isPlaying = isPlaying;
+	}
+
+	protected void setViewID(int viewID) {
+		this.viewID = viewID;
+	}
 
 }

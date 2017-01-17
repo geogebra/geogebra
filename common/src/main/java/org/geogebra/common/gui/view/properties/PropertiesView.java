@@ -31,7 +31,7 @@ import org.geogebra.common.util.debug.Log;
 public abstract class PropertiesView implements View {
 
 	protected Kernel kernel;
-	protected boolean attached;
+	private boolean attached;
 	protected App app;
 	protected final Localization loc;
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
@@ -483,6 +483,14 @@ public abstract class PropertiesView implements View {
 
 	protected void setObjectPanel(OptionsObject objectPanel) {
 		this.objectPanel = objectPanel;
+	}
+
+	protected boolean isAttached() {
+		return attached;
+	}
+
+	protected void setAttached(boolean attached) {
+		this.attached = attached;
 	}
 
 }
