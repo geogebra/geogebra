@@ -3,6 +3,7 @@ package org.geogebra.common.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -288,6 +289,14 @@ public abstract class ContextMenuGeoElement {
 			// maybe we killed siblings -> geos2 list shrinks
 			if (i < geos2.size()) {
 				GeoElement geo1 = geos2.get(i);
+				// clear bounding box if geo if is there any
+				if (geo1.isShape()) {
+					Drawable d = (Drawable) app.getActiveEuclidianView()
+							.getDrawableFor(geo1);
+					if (d != null) {
+						d.getBoundingBox().resetBoundingBox();
+					}
+				}
 				geo1.removeOrSetUndefinedIfHasFixedDescendent();
 			}
 		}
