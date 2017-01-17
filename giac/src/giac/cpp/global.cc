@@ -1667,7 +1667,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int FFTMUL_SIZE=100; 
   int FFTMUL_INT_MAXBITS=1024;
 #ifdef GIAC_GGB
-  int MAX_ALG_EXT_ORDER_SIZE = 4;
+  int MAX_ALG_EXT_ORDER_SIZE = 3;
 #else
   int MAX_ALG_EXT_ORDER_SIZE = 6;
 #endif
