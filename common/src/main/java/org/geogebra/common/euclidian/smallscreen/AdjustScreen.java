@@ -278,6 +278,8 @@ public class AdjustScreen {
 		}
 
 		int firstOffscreenIdx = idx - 1;
+		int lastVisibleIdx = firstOffscreenIdx - 1;
+
 		Log.debug(
 				"[AS] lastVisibleButton (" + (firstOffscreenIdx - 1) + "): "
 						+ buttonDetails(lastVisibleButton));
@@ -294,8 +296,18 @@ public class AdjustScreen {
 			y += btn.getHeight() + BUTTON_Y_GAP;
 		}
 
-		int dY = lastVisibleY - y;
+		int dY = y - lastVisibleY;
 		Log.debug("[AS] dY: " + dY);
+
+		for (int i = lastVisibleIdx; i < buttons.size(); i++) {
+			GeoButton btn = buttons.get(i);
+			int x1 = btn.getAbsoluteScreenLocX();
+			int y1 = btn.getAbsoluteScreenLocY() - dY;
+			Log.debug("[AS] " + i + ". " + buttonDetails(btn)
+					+ " PUSH UP");
+			btn.setAbsoluteScreenLoc(x1, y1);
+
+		}
 	}
  
  	private boolean isButtonsOverlap(GeoButton btn1, GeoButton btn2) {
