@@ -932,7 +932,7 @@ public class PolygonTriangulation {
 		int pointLengthMinus2 = -1;
 		double deltaSum = delta;
 
-		while (point1 != firstPoint && convex) {
+		while (point1 != firstPoint && convex && point2 != null) {
 			delta = point1.orientationToNext + Math.PI
 					- point2.orientationToNext;
 			if (delta < -Math.PI) {
