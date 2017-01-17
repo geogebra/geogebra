@@ -20,6 +20,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.AlgoMidpointND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -62,9 +63,12 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 		super(cons, segment);
 	}
 
+	private Coords tmpCoords;
+
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons) {
 
+		tmpCoords = new Coords(3);
 		return new GeoPoint3D(cons);
 	}
 
@@ -80,9 +84,9 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 
 	@Override
 	protected void computeMidCoords() {
-
-		getPoint().setCoords(getP().getInhomCoordsInD3()
-				.add(getQ().getInhomCoordsInD3()).mul(0.5));
+		tmpCoords.setAdd3(getP().getInhomCoordsInD3(),
+				getQ().getInhomCoordsInD3()).mulInside(0.5);
+		getPoint().setCoords(tmpCoords);
 	}
 
 }

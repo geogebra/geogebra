@@ -951,55 +951,6 @@ public class PlotterSurface {
 
 	}
 
-	// private static final void sphericalCoords(int ui, int vi, int longitude,
-	// int latitude, Coords n) {
-	//
-	// double u = ((double) ui / longitude) * 2 * Math.PI;
-	// double v = ((double) vi / latitude) * Math.PI / 2;
-	//
-	// n.setX(Math.cos(u) * Math.cos(v));
-	// n.setY(Math.sin(u) * Math.cos(v));
-	// n.setZ(Math.sin(v));
-	//
-	// }
-
-	/**
-	 * draws a disc
-	 * 
-	 * @param center
-	 * @param v1
-	 * @param v2
-	 * @param radius
-	 */
-	public void disc(Coords center, Coords v1, Coords v2, double radius) {
-		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
-
-		int longitude = manager.getLongitudeDefault();
-
-		Coords vn;
-
-		float dt = (float) 1 / longitude;
-		float da = (float) (2 * Math.PI * dt);
-
-		manager.texture(0, 0);
-		manager.normal(v1.crossProduct(v2));
-		manager.triangleFanApex(center);
-
-		float u = 1, v = 0;
-		vn = v1.mul(u).add(v2.mul(v));
-		manager.triangleFanVertex(center.add(vn.mul(radius)));
-
-		for (int i = 1; i <= longitude; i++) {
-			u = (float) Math.cos(i * da);
-			v = (float) Math.sin(i * da);
-
-			vn = v1.mul(u).add(v2.mul(v));
-			manager.triangleFanVertex(center.add(vn.mul(radius)));
-		}
-
-		manager.endGeometry();
-	}
-
 	/**
 	 * draws a parallelogram
 	 * 
@@ -1113,7 +1064,8 @@ public class PlotterSurface {
 		}
 
 		// first point
-		manager.triangleFanVertex(center.add(m));
+		tmpCoords3.setW(1);
+		manager.triangleFanVertex(tmpCoords3.setAdd3(center, m));
 
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cos(start + i * da);

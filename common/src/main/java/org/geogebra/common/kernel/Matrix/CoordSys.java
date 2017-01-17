@@ -1015,11 +1015,15 @@ public class CoordSys {
 
 		// translate origin matrix
 		Coords o = matrixOrthonormal.getOrigin();
-		Coords newOrigin = o.mul(r).add(point.mul(1 - r));
-		matrixOrthonormal.setOrigin(newOrigin);
+		tmpCoords1.setMul3(o, r);
+		tmpCoords2.setMul3(point, 1 - r);
+		tmpCoords1.setAdd3(tmpCoords1, tmpCoords2);
+		tmpCoords1.setW(1);
+		// Coords newOrigin = o.mul(r).add(point.mul(1 - r));
+		matrixOrthonormal.setOrigin(tmpCoords1);
 
 		// set original origin and vectors
-		setOrigin(newOrigin);
+		setOrigin(tmpCoords1);
 		if (r < 0) {
 			getVx().mulInside(-1);
 		}

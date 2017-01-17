@@ -536,66 +536,6 @@ abstract public class Manager {
 	abstract protected void pointSize(double size);
 
 	// ///////////////////////////////////////////
-	// COORDS METHODS
-	// ///////////////////////////////////////////
-
-	/**
-	 * set a cylinder coords regarding vector direction
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @param thickness
-	 * @param textureStart
-	 * @param textureEnd
-	 */
-	public void setCylinder(Coords p1, Coords p2, double thickness,
-			double textureStart, double textureEnd) {
-		cylinderStart = p1;
-		cylinderEnd = p2;
-		cylinderThickness = thickness;
-		this.textureStart = textureStart;
-		this.textureEnd = textureEnd;
-		Coords[] vn = p2.sub(p1).completeOrthonormal();
-		clockU = vn[0];
-		clockV = vn[1];
-	}
-
-	/**
-	 * translate the current cylinder
-	 * 
-	 * @param v
-	 */
-	public void translateCylinder(Coords v) {
-		cylinderStart = cylinderStart.add(v);
-		cylinderEnd = cylinderEnd.add(v);
-	}
-
-	/**
-	 * create a cylinder rule (for quad strip)
-	 * 
-	 * @param u
-	 * @param v
-	 * @param texturePos
-	 */
-	public void cylinderRule(double u, double v, double texturePos) {
-
-		// normal vector
-		Coords vn = clockV.mul(v).add(clockU.mul(u));
-		normal(vn.getX(), vn.getY(), vn.getZ());
-
-		// bottom vertex
-		texture(textureStart, texturePos);
-		vertex((cylinderStart.getX() + cylinderThickness * vn.getX()),
-				(cylinderStart.getY() + cylinderThickness * vn.getY()),
-				(cylinderStart.getZ() + cylinderThickness * vn.getZ()));
-		// top vertex
-		texture(textureEnd, texturePos);
-		vertex((cylinderEnd.getX() + cylinderThickness * vn.getX()),
-				(cylinderEnd.getY() + cylinderThickness * vn.getY()),
-				(cylinderEnd.getZ() + cylinderThickness * vn.getZ()));
-	}
-
-	// ///////////////////////////////////////////
 	// COLOR METHODS
 	// ///////////////////////////////////////////
 

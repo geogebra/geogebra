@@ -58,6 +58,8 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 	 */
 	protected abstract Coords getPoint();
 
+	private Coords vn1 = new Coords(3), vn2 = new Coords(3);
+
 	@Override
 	public final void compute() {
 
@@ -79,11 +81,10 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 		coordsys.addPoint(o);
 
 		// gets an ortho matrix with coord sys direction vector
-		Coords[] v = vz.completeOrthonormal();
-		// Application.debug("v0=\n"+v[0]+"\nv1=\n"+v[1]);
+		vz.completeOrthonormal3(vn1, vn2);
 
-		coordsys.addVectorWithoutCheckMadeCoordSys(v[0]);
-		coordsys.addVectorWithoutCheckMadeCoordSys(v[1]);
+		coordsys.addVectorWithoutCheckMadeCoordSys(vn1);
+		coordsys.addVectorWithoutCheckMadeCoordSys(vn2);
 
 		coordsys.makeOrthoMatrix(false, false);
 

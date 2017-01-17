@@ -58,15 +58,18 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 		return Commands.PlaneBisector;
 	}
 
+	private Coords normal = new Coords(3), point = new Coords(3);
+
 	@Override
 	protected Coords getNormal() {
-		return point2.getInhomCoordsInD3().sub(point1.getInhomCoordsInD3());
+		return normal.setSub3(point2.getInhomCoordsInD3(),
+				point1.getInhomCoordsInD3());
 	}
 
 	@Override
 	protected Coords getPoint() {
-		return point1.getInhomCoordsInD3().add(point2.getInhomCoordsInD3())
-				.mul(0.5);
+		return point.setAdd3(point1.getInhomCoordsInD3(),
+				point2.getInhomCoordsInD3()).mulInside(0.5);
 	}
 
 }

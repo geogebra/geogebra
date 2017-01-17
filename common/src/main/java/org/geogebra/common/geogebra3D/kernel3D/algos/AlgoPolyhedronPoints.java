@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
@@ -615,37 +614,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		for (int i = 0; i < outputPoints.size(); i++) {
 			getKernel().notifyUpdate(outputPoints.getElement(i));
 		}
-	}
-
-	/**
-	 * used for previewable of prism
-	 * 
-	 * @return the middle point of the bottom face (for prism)
-	 */
-	public Coords getBottomMiddlePoint() {
-		Coords ret = new Coords(4);
-
-		GeoPointND[] points = getBottomPoints();
-
-		for (int i = 0; i < points.length; i++) {
-			ret = ret.add(points[i].getInhomCoordsInD3());
-		}
-
-		return ret.mul((double) 1 / points.length);
-	}
-
-	/**
-	 * used for previewable of prism
-	 * 
-	 * @return the middle point of the top face (for prism)
-	 */
-	public Coords getTopMiddlePoint() {
-		Coords ret = new Coords(4);
-		for (int i = 0; i < outputPoints.size(); i++) {
-			ret = ret.add(outputPoints.getElement(i).getInhomCoordsInD3());
-		}
-
-		return ret.mul((double) 1 / outputPoints.size());
 	}
 
 	/**
