@@ -3878,7 +3878,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     return isnan(d);
 #endif
 #else
-#ifdef FIR_LINUX
+#if defined (FIR_LINUX) || defined (FIR_ANDROID)
     return ::isnan(d);
 #else
     return isnan(d);
@@ -3891,7 +3891,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     double x=0.0;
     return d==1.0/x || d==-1.0/x;
 #else
-#ifdef FIR_LINUX
+#if defined (FIR_LINUX) || defined (FIR_ANDROID)
     return ::isinf(d);
 #else
     return isinf(d);

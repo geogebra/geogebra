@@ -353,7 +353,7 @@ namespace giac {
       lvar(linear,indet);
       indet=vecteur(indet.begin()+lv.size(),indet.end());
       vecteur sols=linsolve(linear,indet,context0);
-      if (sols.size()!=indet.size() || is_undef(sols))
+      if (sols.size()!=indet.size() || is_undef(sols) || sols.empty())
 	return false;
       la_val=subst(la_val,indet,sols,false,context0);
       gen tmp=recursive_normal(subst(syst,indet,sols,false,context0),context0);
@@ -822,8 +822,8 @@ namespace giac {
 	  peval_xk_xn_zero(jt->fact,2,tmp); // should only depend on x2
 	  if (Tis_constant(tmp))
 	    constante=constante*pow(jt->fact,jt->mult);
-	  else 
-	    flcoeff0.push_back(tmp);
+	  //else 
+	  flcoeff0.push_back(tmp);
 	} // flcoeff0 contains the list of factors of lcoeff(pcur) evaled at 0
 	F0it=fx1x2.begin();
 	F0itend=fx1x2.end();
