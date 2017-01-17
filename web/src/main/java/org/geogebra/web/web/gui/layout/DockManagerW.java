@@ -12,7 +12,6 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -774,10 +773,6 @@ public class DockManagerW extends DockManager {
 		
 		panel.setVisible(true);
 		panel.setHidden(false);
-		// undo maximized state if another dock panel is to be shown
-		if(isMaximized) {
-			undoMaximize(false);
-		}
 		
 		// TODO causes any problems?
 		app.getGuiManager().attachView(panel.getViewId());
@@ -1748,77 +1743,9 @@ public class DockManagerW extends DockManager {
 		return hasFullFocusSystem;
 	}
 	
-	
-	
-	
-	// ===================================================================
-	//
-	// Temporary code for developing a maximize feature
-	// G. Sturr 4/4/2012
-	//
-	// ===================================================================
-	
-	/**
-	 * Perspective that stores the configuration just before a dock panel is
-	 * maximized. 
-	 */
-	private Perspective restorePerspective;
-	
-	/**
-	 * Flag to determine if the layout has been maximized, i.e. the layout
-	 * temporarily displays a single dock panel
-	 */
-	private boolean isMaximized = false;
+
 	private double kbHeight = 0;
-	
-	
-	/**
-	 * @return true if the dock panel layout has been maximized
-	 */
-	public boolean isMaximized(){
-		return isMaximized;
-	}
-	
-	/**
-	 * Undo a maximized layout.
-	 * 
-	 * @param doRestore
-	 *            if true, then attempt to restore the previous state
-	 */
-	public void undoMaximize(boolean doRestore) {
-		if (!isMaximized) {
-			return;
-		}
-		
-		isMaximized = false;
-		if (doRestore) {
-			
-			if (restorePerspective != null){
-				layout.applyPerspective(restorePerspective);
-			}
-			restorePerspective = null;
-		}
-	}
 
-
-	/**
-	 * Maximizes the layout.
-	 * 
-	 * @param dp
-	 *            the dock panel to maximize
-	 */
-	public void maximize(DockPanelW dp) {
-
-		restorePerspective = layout.createPerspective("tmp");
-		for (int i = 0; i < getPanels().length; i++) {
-			if (getPanels()[i] != dp) {
-				hide(getPanels()[i], false, false);
-			}
-		}
-		isMaximized = true;
-		//app.updateCenterPanel(true);
-		app.updateMenubar();
-	}
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){
 		showDockPanelListener.add(l);

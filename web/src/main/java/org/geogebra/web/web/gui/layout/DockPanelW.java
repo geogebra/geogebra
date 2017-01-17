@@ -1257,27 +1257,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return sb.toString();
 	}
 
-	/**
-	 * @return true if the layout has been maximized
-	 */
-	public boolean isMaximized() {
-		return dockManager.isMaximized();
-	}
-
-	/**
-	 * Toggles the panel between maximized and normal state
-	 */
-	public void toggleMaximize() {
-
-		if (isMaximized()) {
-			dockManager.undoMaximize(true);
-		} else {
-			dockManager.maximize(this);
-		}
-
-		updatePanel(true);
-	}
-
 	@Override
 	public String toString(String prefix) {
 		return "\n" + prefix + this.toString();
