@@ -2335,7 +2335,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void updateAllCellFormats() {
-		Log.debug("updateAllCellFormats");
 		for (int row = 0; row < getRowCount(); row++) {
 			for (int column = 0; column < getColumnCount(); column++) {
 				defaultTableCellRenderer.clearBorder(row, column);
@@ -2348,9 +2347,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		for (int column = 0; column < getColumnCount(); column++) {
 			defaultTableCellRenderer.updateColumnBorder(column);
 		}
-
-		table.getCellFormatHandler()
-				.getFormatMap(CellFormat.FORMAT_BORDER);
 
 	}
 

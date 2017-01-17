@@ -690,8 +690,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			updateTableIsOverDot(event);
 
-			table.getMaxSelectionPixel(true);
-			table.getMinSelectionPixel();
 		}
 
 	}
