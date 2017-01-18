@@ -96,7 +96,9 @@ public enum EventType {
 	/** Custom tool removed */
 	REMOVE_MACRO("removeMacro"),
 	/** Custom tool renamed */
-	RENAME_MACRO("renameMacro");
+	RENAME_MACRO("renameMacro"),
+	/** construction cleared */
+	CLEAR("clear");
 
 	private String eventName;
 

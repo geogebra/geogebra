@@ -68,6 +68,9 @@ public abstract class ScriptManager implements EventListener {
 		case RENAME:
 			callListeners(renameListeners, evt);
 			break;
+		case CLEAR:
+			callListeners(clearListeners, evt);
+			break;
 		case RELATION_TOOL:
 		case RENAME_COMPLETE:
 		case ADD_POLYGON:
