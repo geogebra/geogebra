@@ -30,6 +30,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -44,6 +45,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	public enum Help {
 		COMMAND, TOOL, GENERIC
+	}
+
+	final public View getConstructionProtocolData() {
+		ConstructionProtocolView view = getConstructionProtocolView();
+		if (view != null) {
+			return view.getData();
+		}
+		// eg Android
+		Log.debug("not implemented");
+		return null;
 	}
 
 	/**

@@ -441,14 +441,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public View getConstructionProtocolData() {
-
-		return ((ConstructionProtocolViewD) getConstructionProtocolView())
-				.getData();
-	}
-
-
-	@Override
 	public void startEditing(GeoElement geo) {
 		getAlgebraView().startEditItem(geo);
 	}
