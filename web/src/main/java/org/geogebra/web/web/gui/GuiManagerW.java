@@ -1184,7 +1184,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void attachConstructionProtocolView() {
-		Log.debug("unimplemented");
+		getConstructionProtocolView();
+		constructionProtocolView.getData().attachView();
 	}
 
 	@Override
@@ -1307,17 +1308,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachProbabilityCalculatorView() {
-		Log.debug("unimplemented");
+		getProbabilityCalculator();
+		probCalculator.detachView();
 	}
 
 	@Override
 	public void detachCasView() {
-		Log.debug("unimplemented");
+		if (casView != null) {
+			casView.detachView();
+		}
 	}
 
 	@Override
 	public void detachConstructionProtocolView() {
-		Log.debug("unimplemented");
+		if (constructionProtocolView != null) {
+			constructionProtocolView.getData().detachView();
+		}
 	}
 
 	@Override

@@ -762,6 +762,20 @@ public class ConstructionProtocolView {
 			scrollToConstructionStep();
 		}
 
+		final public void detachView() {
+			// only detach view if there are
+			// no registered navigation bars
+			if (isViewAttached && navigationBars.size() == 0) {
+				// clear view
+				rowList.clear();
+				geoMap.clear();
+				kernel.detach(this);
+				isViewAttached = false;
+
+				// side effect: go to last construction step
+				setConstructionStep(kernel.getLastConstructionStep());
+			}
+		}
 	}
 
 	public final void getXML(StringBuilder sb) {

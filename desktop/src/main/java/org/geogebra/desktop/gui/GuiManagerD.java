@@ -673,8 +673,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void attachConstructionProtocolView() {
 		getConstructionProtocolView();
-		((ConstructionTableDataD) (constructionProtocolView.getData()))
-				.attachView();
+		constructionProtocolView.getData().attachView();
 	}
 
 	@Override

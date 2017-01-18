@@ -920,20 +920,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return rowList.get(row).getGeo();
 		}
 
-		public void detachView() {
-			// only detach view if there are
-			// no registered navitagion bars
-			if (isViewAttached && navigationBars.size() == 0) {
-				// clear view
-				rowList.clear();
-				geoMap.clear();
-				kernel.detach(this);
-				isViewAttached = false;
-
-				// side effect: go to last construction step
-				setConstructionStep(kernel.getLastConstructionStep());
-			}
-		}
 
 		@Override
 		public void repaintView() {
