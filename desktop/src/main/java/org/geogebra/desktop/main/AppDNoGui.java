@@ -387,12 +387,6 @@ public class AppDNoGui extends App {
 				}
 
 				@Override
-				public void clearImage(String label) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
 				protected void exportPNGClipboard(boolean transparent, int DPI,
 						double exportScale, EuclidianView ev) {
 					// TODO Auto-generated method stub

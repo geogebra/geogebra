@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -486,8 +487,8 @@ public class NoExceptionsTest {
 		t("Corner[ gv, n1 ]");
 		t("Corner[ n1 ]");
 		t("Corner[ txt, n1 ]");
-		app.getGgbApi().drawToImage("img1", new double[]{0,100},
-				new double[]{0,100});
+		GeoImage ge = new GeoImage(app.getKernel().getConstruction());
+		ge.setLabel("img1");
 		t("Corner[ img1, n2 ]");
 
 	}

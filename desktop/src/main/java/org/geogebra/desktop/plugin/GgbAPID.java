@@ -34,8 +34,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.FileExtensions;
@@ -274,18 +272,6 @@ public class GgbAPID extends GgbAPIJre {
 			e.printStackTrace();
 			return null;
 		}
-	}
-
-	@Override
-	public void clearImage(String label) {
-		GeoElement ge = kernel.lookupLabel(label);
-
-		if (!ge.isGeoImage()) {
-			debug("Bad drawToImage arguments");
-			return;
-		}
-		((GeoImage) ge).clearFillImage();
-
 	}
 
 	/**

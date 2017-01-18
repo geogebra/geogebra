@@ -1,19 +1,15 @@
 package org.geogebra.desktop.main;
 
-import java.util.List;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.MyZoomerD;
 
@@ -190,13 +186,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			GColor penColor, int penLineStyle, int penSize) {
 		// TODO Auto-generated method stub
 
 	}

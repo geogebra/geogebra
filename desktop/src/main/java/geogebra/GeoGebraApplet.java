@@ -793,15 +793,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getGgbApi().isMoveable(objName);
 	}
 
-	@Override
-	public void drawToImage(String label, double[] x, double[] y) {
-		getGgbApi().drawToImage(label, x, y);
-	}
 
-	@Override
-	public void clearImage(String label) {
-		getGgbApi().clearImage(label);
-	}
 
 	@Override
 	public void uploadToGeoGebraTube() {

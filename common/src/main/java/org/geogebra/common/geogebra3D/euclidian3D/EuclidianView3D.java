@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -90,7 +89,6 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -4365,13 +4363,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public GGraphics2D getGraphicsForPen() {
 		return null;
-	}
-
-	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			GColor penColor, int penLineStyle, int penSize) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

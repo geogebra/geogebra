@@ -747,10 +747,6 @@ public interface JavaScriptAPI {
 
 	public void registerStoreUndoListener(String objName);
 
-	public void drawToImage(String label, double[] x, double[] y);
-
-	public void clearImage(String label);
-
 	/**
 	 * Gets the double value of the specified index of the list.
 	 * 

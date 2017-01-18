@@ -1,13 +1,10 @@
 package org.geogebra.web.html5.euclidian;
 
-import java.util.List;
-
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -19,7 +16,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -1107,13 +1103,6 @@ public class EuclidianViewW extends EuclidianView implements
 		g2p.setWidth(canvasWidth);
 		g2p.setHeight(canvasHeight);
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
-	}
-
-	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-	        GColor penColor, int penLineStyle, int penSize) {
-		Log.debug("doDrawPoints() unimplemented");
-
 	}
 
 	/* needed because set the id of canvas */

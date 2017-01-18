@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
@@ -178,23 +177,6 @@ public class GgbAPIW extends GgbAPI {
 		}
 		DrawEquationW.paintOnCanvas(geo, str, c, app.getFontSizeWeb());
 		return c.toDataUrl().substring("data:image/png;base64,".length());
-	}
-
-	@Override
-	public void drawToImage(String label, double[] x, double[] y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void clearImage(String label) {
-		GeoElement ge = kernel.lookupLabel(label);
-
-		if (!ge.isGeoImage()) {
-			debug("Bad drawToImage arguments");
-			return;
-		}
-		((GeoImage) ge).clearFillImage();
 	}
 
 	public void getGGB(boolean includeThumbnail, JavaScriptObject callback) {

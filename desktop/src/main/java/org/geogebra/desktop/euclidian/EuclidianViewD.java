@@ -21,12 +21,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.Transparency;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -40,7 +37,6 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -50,21 +46,14 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -78,8 +67,6 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.PrintPreviewD;
-import org.geogebra.desktop.factories.AwtFactoryD;
-import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
@@ -516,90 +503,6 @@ public class EuclidianViewD extends EuclidianView
 	@Override
 	public GGraphics2D getGraphicsForPen() {
 		return new GGraphics2DD((Graphics2D) evjpanel.getGraphics());
-
-	}
-
-	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			GColor penColor, int penLineStyle, int penSize) {
-		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = gi.getFillImage() == null ? null
-				: (BufferedImage) ((MyImageD) gi.getFillImage()).getImage();
-		boolean giNeedsInit = false;
-		if (penImage2 == null) {
-			giNeedsInit = true;
-			GraphicsEnvironment ge = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
-
-			GraphicsDevice gs = ge.getDefaultScreenDevice();
-
-			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			penImage2 = gc.createCompatibleImage(Math.max(300, getWidth()),
-					Math.max(getHeight(), 200), Transparency.BITMASK);
-		}
-		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
-
-		GGraphics2DD.setAntialiasing(g2d);
-
-		g2d.setStroke(((AwtFactoryD) AwtFactory.getPrototype())
-				.getAwtStroke(EuclidianStatic.getStroke(2 * penSize,
-						(penPoints2.size() <= 2)
-								? EuclidianStyleConstants.LINE_TYPE_FULL
-								: penLineStyle)));
-		g2d.setColor(GColorD.getAwtColor(penColor));
-
-		g2d.draw(pb.gp);
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-
-		app.refreshViews(); // clear trace
-		// TODO -- did we need the following line?
-		// ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
-
-		if (giNeedsInit) {
-			String fileName = ((AppD) app).createImage(new MyImageD(penImage2),
-					"penimage.png");
-			// Application.debug(fileName);
-			GeoImage geoImage = null;
-			// if (gi == null)
-			// geoImage = new GeoImage(app.getKernel().getConstruction());
-			// else
-			geoImage = gi;
-			geoImage.setImageFileName(fileName);
-			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			GeoPoint corner = (new GeoPoint(app.getKernel().getConstruction(),
-					null, ev.toRealWorldCoordX(0),
-					ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
-			GeoPoint corner2 = (new GeoPoint(app.getKernel().getConstruction(),
-					null, ev.toRealWorldCoordX(penImage2.getWidth()),
-					ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
-			corner.setLabelVisible(false);
-			corner2.setLabelVisible(false);
-			corner.update();
-			corner2.update();
-			// if (gi == null)
-			// geoImage.setLabel(null);
-			geoImage.setCorner(corner, 0);
-			geoImage.setCorner(corner2, 1);
-
-			// need 3 corner points if axes ratio isn't 1:1
-			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
-				GeoPoint corner4 = (new GeoPoint(
-						app.getKernel().getConstruction(), null,
-						ev.toRealWorldCoordX(0), ev.toRealWorldCoordY(0), 1.0));
-				corner4.setLabelVisible(false);
-				corner4.update();
-				geoImage.setCorner(corner4, 2);
-			}
-
-			geoImage.update();
-
-			GeoImage.updateInstances(app);
-
-		}
-
-		// doesn't work as all changes are in the image not the XML
-		// app.storeUndoInfo();
-		app.setUnsaved();
 
 	}
 
