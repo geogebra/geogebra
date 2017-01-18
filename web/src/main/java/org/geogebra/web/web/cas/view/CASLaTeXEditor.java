@@ -46,7 +46,7 @@ public class CASLaTeXEditor extends SimplePanel
 		this.table = table;
 		this.controller = controller;
 		Canvas canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(this, canvas, this);
+		mf = new MathFieldW(null, canvas, this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		setWidget(mf);
 

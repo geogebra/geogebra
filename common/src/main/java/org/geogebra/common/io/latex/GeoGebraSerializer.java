@@ -95,7 +95,7 @@ public class GeoGebraSerializer implements Serializer {
 		} else if ("int".equals(mathFunctionName)) {
 			stringBuilder.append("Integral");
 			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 2, 3, 0, 1 });
+					new int[] { 2, 0, 1 });
 		} else if ("lim".equals(mathFunctionName)) {
 			stringBuilder.append("Limit");
 			serializeArgs(mathFunction, stringBuilder,
