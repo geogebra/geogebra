@@ -401,8 +401,15 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			geo1.setEuclidianVisible(newVisibility);
+			// do not show bounding box if shape is not shown
+			if (!newVisibility && geo1.isShape()) {
+				Drawable d = (Drawable) app.getActiveEuclidianView()
+						.getDrawableFor(geo1);
+				if (d != null) {
+					d.getBoundingBox().resetBoundingBox();
+				}
+			}
 			geo1.updateRepaint();
-
 		}
 		app.storeUndoInfo();
 	}
