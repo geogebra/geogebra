@@ -79,7 +79,8 @@ public class AppWapplication extends AppWFull {
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		this.canvas = euclidianViewPanel.getCanvas();
 
-		initCoreObjects(undoActive, this);
+		initCoreObjects(this);
+		setUndoActive(undoActive);
 		// user authentication handling
 		String token = Location.getParameter("token");
 		initSignInEventFlow(new LoginOperationW(this),

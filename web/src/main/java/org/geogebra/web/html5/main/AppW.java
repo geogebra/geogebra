@@ -1713,7 +1713,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @param this_app
 	 *            app for creating kernel
 	 */
-	protected void initCoreObjects(final boolean undoActive, final App this_app) {
+	protected void initCoreObjects(final App this_app) {
 		kernel = newKernel(this_app);
 
 		// init settings
@@ -1736,7 +1736,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// have to delay it
 		// until the canvas is first drawn
 
-		setUndoActive(undoActive);
+
 		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
 		setViewsEnabled();
 	}

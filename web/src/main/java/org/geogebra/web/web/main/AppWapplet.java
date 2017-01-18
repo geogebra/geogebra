@@ -117,7 +117,7 @@ public class AppWapplet extends AppWFull {
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
-		initCoreObjects(undoActive, this);
+		initCoreObjects(this);
 		afterCoreObjectsInited();
 		resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement());

@@ -215,7 +215,7 @@ public class LoadFilePresenter {
 
 		app.updateToolBar();
 		app.focusLost(null, null);
-
+		app.setUndoActive(true);
 		if (p != null) {
 			if (!app.getArticleElement().getDataParamShowAppsPicker()) {
 				app.showStartTooltip(p.getDefaultID());

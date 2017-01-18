@@ -4045,7 +4045,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1121
 		case AV_PREVIEW:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
@@ -4108,7 +4108,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-798
 		case AV_SCROLL:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
@@ -4122,7 +4122,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		case MOBILE_DIALOG_WITH_NEW_KEYBOARD:
 			return prerelease;

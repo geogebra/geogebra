@@ -56,7 +56,8 @@ public class AppWsimple extends AppW {
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
-		initCoreObjects(undoActive, this);
+		initCoreObjects(this);
+		setUndoActive(undoActive);
 		afterCoreObjectsInited();
 		resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement());
