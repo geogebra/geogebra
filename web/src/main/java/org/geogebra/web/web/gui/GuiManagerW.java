@@ -100,6 +100,7 @@ import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
@@ -506,8 +507,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean isInputFieldSelectionListener() {
-		// TODO Auto-generated method stub
-		// Log.debug("unimplemented method");
 		return false;
 	}
 
@@ -599,9 +598,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public View getConstructionProtocolData() {
-		// Log.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return null;
+		return ((ConstructionProtocolViewW) getConstructionProtocolView())
+				.getData();
 	}
 
 	@Override
