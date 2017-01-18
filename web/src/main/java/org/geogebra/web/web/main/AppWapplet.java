@@ -210,9 +210,9 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 
-		if (!has(Feature.KEYBOARD_BEHAVIOUR) || !hasPopup()) {
-			frame.clear();	
-		}
+
+		frame.clear();
+
 
 		// showMenuBar should come from data-param,
 		// this is just a 'second line of defense'
