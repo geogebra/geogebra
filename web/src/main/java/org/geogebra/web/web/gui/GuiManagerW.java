@@ -1380,12 +1380,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public int getInputHelpPanelMinimumWidth() {
-		Log.debug("unimplemented");
-		return 0;
-	}
-
-	@Override
 	public boolean hasEuclidianView2(final int idx) {
 		if (!this.hasEuclidianView2EitherShowingOrNot(idx)) {
 			return false;

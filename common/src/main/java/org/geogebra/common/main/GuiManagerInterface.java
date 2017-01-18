@@ -270,8 +270,6 @@ public interface GuiManagerInterface {
 
 	public Object createFrame();
 
-	public int getInputHelpPanelMinimumWidth();
-
 	/**
 	 * 
 	 * @return id of view which is setting the active toolbar

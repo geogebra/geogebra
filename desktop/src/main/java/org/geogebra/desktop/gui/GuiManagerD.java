@@ -2798,7 +2798,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return wnd;
 	}
 
-	@Override
 	public synchronized void exitAll() {
 		ArrayList<GeoGebraFrame> insts = GeoGebraFrame.getInstances();
 		GeoGebraFrame[] instsCopy = new GeoGebraFrame[insts.size()];
@@ -3264,7 +3263,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		((AlgebraInputD) getAlgebraInput()).clear();
 	}
 
-	@Override
 	public int getInputHelpPanelMinimumWidth() {
 		return getInputHelpPanel().getMinimumSize().width;
 	}

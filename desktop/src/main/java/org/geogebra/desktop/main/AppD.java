@@ -2844,7 +2844,8 @@ public class AppD extends App implements KeyEventDispatcher {
 					.setRightComponent((getGuiManager()).getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane.setLastDividerLocation(
-						applicationSplitPane.getWidth() - (getGuiManager())
+						applicationSplitPane.getWidth()
+								- (((GuiManagerD) getGuiManager()))
 								.getInputHelpPanelMinimumWidth());
 			}
 			applicationSplitPane.setDividerLocation(
