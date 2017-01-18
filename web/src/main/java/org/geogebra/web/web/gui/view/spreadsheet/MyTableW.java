@@ -61,6 +61,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -1668,7 +1669,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 							w.setEnabled(false);
 							w.addDummyCursor(w.getCaretPosition());
 						}
+					} else if (app.has(Feature.KEYBOARD_BEHAVIOUR)){
+						//if keyboard doesn't enabled, inserts openkeyboard button if there is no in the SV yet
+						app.showKeyboard(w,false);
 					}
+						
 				}
 
 				// set height and position of the editor
