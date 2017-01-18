@@ -149,22 +149,30 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 			@Override
 			public void execute() {
-				int spH = algebrap.getOffsetHeight();
 				// int kH = (int) (app.getAppletFrame().getKeyboardHeight());
-				int spTop = item.getAbsoluteTop() - aview.getAbsoluteTop();
-				int itemTop = spTop
-						- spH + item.getOffsetHeight() + AUTOSCROLL_MARGIN;
 				//
-				// int absTop = (spTop + algebrap.getVerticalScrollPosition())
-				// % (spH + kH);
+				// int allH = algebrap.getOffsetHeight() + kH;
+				// int maxPos = algebrap.getMaximumVerticalScrollPosition();
+				// int itemTop = item.getAbsoluteTop() +
+				// - aview.getAbsoluteTop();
+				// int relTop = itemTop % (spH + kH);
+				// int scrollPos = itemTop
+				// - spH + item.getOffsetHeight() - kH + AUTOSCROLL_MARGIN;
 				//
-				// Log.debug(
-				// "[AVS] absTop: " + absTop + " scroll to: " + itemTop);
+				// Log.debug("[AVS] : sp height : " + spH);
+				// Log.debug("[AVS] : DOCK height : " + allH);
+				// Log.debug("[AVS] : max pos : " + maxPos);
 				//
-				// if (spH < absTop) {
+				// Log.debug("[AVS] : item top: " + itemTop);
+				// Log.debug("[AVS] : item rel. top: " + relTop);
+				// // Log.debug("[AVS] : scroll to: " + scrollPos);
+				//
+				// if (spH < relTop) {
 				// Log.debug("[AVS] scrollolololllollllllllllllll");
-					scrollTo(itemTop);
+				// scrollTo(scrollPos);
 				// }
+				// // }
+				algebrap.ensureVisible(item);
 			}
 		});
 
