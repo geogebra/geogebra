@@ -9,8 +9,8 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularValueDecomposition;
 import org.apache.commons.math.linear.SingularValueDecompositionImpl;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
@@ -378,9 +378,19 @@ public class EuclidianPen implements GTimerListener {
 	 *            graphics for pen
 	 */
 	public void doRepaintPreviewLine(GGraphics2D g2D) {
-		for (int i = 0; i < penPoints.size() - 1; i++) {
-			drawPenPreviewLine(g2D, penPoints.get(i), penPoints.get(i + 1));
+		if (penPoints.size() < 2) {
+			return;
 		}
+		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
+		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
+				lineDrawingStyle));
+		g2D.setColor(lineDrawingColor);
+		gp.moveTo(penPoints.get(0).x, penPoints.get(0).y);
+		for (int i = 1; i < penPoints.size() - 1; i++) {
+			gp.lineTo(penPoints.get(i).x, penPoints.get(i).y);
+
+		}
+		g2D.draw(gp);
 	}
 
 	/**
@@ -428,31 +438,35 @@ public class EuclidianPen implements GTimerListener {
 
 				GPoint p = new GPoint(locationX, locationY);
 				penPoints.add(p);
+				needsRepaint = true;
+				view.repaintView();
 				// draw a line between the initalPoint and the first point
-				drawPenPreviewLine(g2D, newPoint, p);
+				// drawPenPreviewLine(g2D, newPoint, p);
 			}
 			penPoints.add(newPoint);
 		} else {
 			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
-			drawPenPreviewLine(g2D, newPoint, lastPoint);
+			// drawPenPreviewLine(g2D, newPoint, lastPoint);
 			if (lastPoint.distance(newPoint) > 3) {
+				needsRepaint = true;
 				penPoints.add(newPoint);
+				view.repaintView();
 			}
 		}
 
 	}
 
-	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
-			GPoint point2) {
-		GLine2D line = AwtFactory.getPrototype().newLine2D();
-		line.setLine(point1.getX(), point1.getY(), point2.getX(),
-				point2.getY());
-		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
-				lineDrawingStyle));
-		g2D.setColor(lineDrawingColor);
-		g2D.fill(line);
-		g2D.draw(line);
-	}
+	// private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
+	// GPoint point2) {
+	// GLine2D line = AwtFactory.getPrototype().newLine2D();
+	// line.setLine(point1.getX(), point1.getY(), point2.getX(),
+	// point2.getY());
+	// g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
+	// lineDrawingStyle));
+	// g2D.setColor(lineDrawingColor);
+	// g2D.fill(line);
+	// g2D.draw(line);
+	// }
 
 	/**
 	 * Clean up the pen mode stuff, add points.
