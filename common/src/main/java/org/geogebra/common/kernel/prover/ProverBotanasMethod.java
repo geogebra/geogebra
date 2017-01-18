@@ -639,6 +639,8 @@ public class ProverBotanasMethod {
 					Polynomial botanaPolynomial = polyNode.getPoly();
 					/* Don't use this algo any longer. */
 					movingPoint.getConstruction().removeFromAlgorithmList(adn);
+					movingPoint.getConstruction()
+							.removeFromConstructionList(adn);
 					Log.debug("Hypothesis:");
 					polynomials.add(botanaPolynomial);
 					nHypotheses++;
