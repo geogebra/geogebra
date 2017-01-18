@@ -10,11 +10,10 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AutoCompleteDictionary;
-import org.geogebra.common.util.CommandInputField;
 import org.geogebra.common.util.TextObject;
 
 public interface AutoCompleteTextField
-		extends GeoElementSelectionListener, TextObject, CommandInputField {
+		extends GeoElementSelectionListener, TextObject {
 
 	void showPopupSymbolButton(boolean b);
 
@@ -94,5 +93,7 @@ public interface AutoCompleteTextField
 
 	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height);
+
+	public String getCommand();
 
 }
