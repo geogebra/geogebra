@@ -3400,7 +3400,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 
-		getGuiManager().exitAll();
+		((GuiManagerD) getGuiManager()).exitAll();
 	}
 
 	// returns true for YES or NO and false for CANCEL

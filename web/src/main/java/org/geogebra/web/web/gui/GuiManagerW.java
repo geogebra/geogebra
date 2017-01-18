@@ -93,6 +93,7 @@ import org.geogebra.web.web.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
+import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -1364,7 +1365,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showURLinBrowser(final String strURL) {
-		Log.debug("unimplemented");
+		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
+		popupBlockAvoider.openURL(strURL);
 	}
 
 	@Override
@@ -1381,13 +1383,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public int getInputHelpPanelMinimumWidth() {
 		Log.debug("unimplemented");
 		return 0;
-	}
-
-	@Override
-	public void exitAll() {
-		Log.debug("unimplemented");
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

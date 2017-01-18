@@ -250,8 +250,6 @@ public interface GuiManagerInterface {
 
 	public void showURLinBrowser(String strURL);
 
-	public void exitAll();
-
 	public void updateToolbar();
 
 	public boolean hasEuclidianView2(int idx);
