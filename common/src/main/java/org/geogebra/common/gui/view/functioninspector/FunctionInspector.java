@@ -320,25 +320,24 @@ public abstract class FunctionInspector
 	}
 
 	public void repaint() {
-		Log.debug("unimplemented");
+		//
 	}
 
 	@Override
 	public boolean isShowing() {
-		Log.debug("unimplemented");
+		//
 		return false;
 	}
 
 	@Override
 	public void startBatchUpdate() {
-		// TODO Auto-generated method stub
+		//
 
 	}
 
 	@Override
 	public void endBatchUpdate() {
-		// TODO Auto-generated method stub
-
+		//
 	}
 
 	public App getApp() {
