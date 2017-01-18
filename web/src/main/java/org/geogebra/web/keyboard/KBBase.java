@@ -947,7 +947,7 @@ public abstract class KBBase extends PopupPanel {
 		}
 
 		for (Entry<String, String> entry : accents.entrySet()) {
-			if (accents.get(entry.getValue()).equals(letter)) {
+			if (accents.get(entry.getKey()).equals(letter)) {
 				return entry.getKey();
 			}
 		}
