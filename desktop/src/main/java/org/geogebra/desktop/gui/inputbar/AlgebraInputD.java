@@ -437,7 +437,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());
-			app.showError(ee, inputField);
+			app.showGenericError(ee);
 			return;
 		} catch (MyError ee) {
 			inputField.addToHistory(getTextField().getText());

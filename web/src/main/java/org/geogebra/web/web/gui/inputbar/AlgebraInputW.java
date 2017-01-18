@@ -346,7 +346,7 @@ public class AlgebraInputW extends FlowPanel
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());
 			GOptionPaneW.setCaller(inputField.getTextBox());
-			app.showError(ee, inputField);
+			app.showGenericError(ee);
 			return;
 		} catch (MyError ee) {
 			inputField.addToHistory(getTextField().getText());

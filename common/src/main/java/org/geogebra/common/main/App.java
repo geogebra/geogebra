@@ -81,7 +81,6 @@ import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
-import org.geogebra.common.util.CommandInputField;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
@@ -96,6 +95,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Represents an application window, gives access to views and system stuff
  */
+@SuppressWarnings("javadoc")
 public abstract class App implements UpdateSelection {
 	/** Url for wiki article about functions */
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
@@ -1656,7 +1656,7 @@ public abstract class App implements UpdateSelection {
 		getErrorHandler().showCommandError(command, message);
 	}
 
-	public final void showError(Exception e, CommandInputField f) {
+	public final void showGenericError(Exception e) {
 		// can't work out anything better, just show "Invalid Input"
 		e.printStackTrace();
 		showError(getLocalization().getError("InvalidInput"));
@@ -1975,6 +1975,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
+	 * @param idx
+	 *            view index; 1 for EV2
 	 * @return EV2
 	 */
 	public EuclidianView getEuclidianView2(int idx) {
@@ -3173,7 +3175,7 @@ public abstract class App implements UpdateSelection {
 					+ (getDialogManager().hasFunctionInspector() ? "1" : "0"));
 		}
 		// TODO
-		sb.append(",'macro': " + (false ? "1" : "0"));
+		sb.append(",'macro': " + "0");
 		sb.append("};\n");
 
 		sb.append("var applet = new GGBApplet(parameters, '5.0', views);\n");
@@ -3440,11 +3442,6 @@ public abstract class App implements UpdateSelection {
 
 	public String getMenu(String key) {
 		return getLocalization().getMenu(key);
-	}
-
-	@Deprecated
-	public final ArrayList<GeoElement> getSelectedGeos() {
-		return null;
 	}
 
 	public SelectionManager getSelectionManager() {
@@ -3912,6 +3909,10 @@ public abstract class App implements UpdateSelection {
 	public void showPopUps() {
 	}
 
+	/**
+	 * @param query
+	 *            search query
+	 */
 	public void openSearch(String query) {
 		// TODO Auto-generated method stub
 	}
@@ -4117,7 +4118,7 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LOCAL_SAVE:
 			return prerelease;
 		case RETEX_EDITOR:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
