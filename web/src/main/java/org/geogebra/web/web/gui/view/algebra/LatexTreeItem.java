@@ -153,6 +153,9 @@ public class LatexTreeItem extends RadioTreeItem {
 
 
 	private void initMathField() {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
 		mf = new MathFieldW(latexItem, canvas,
 				getLatexController());
 		mf.setFontSize(getFontSize() + 1);

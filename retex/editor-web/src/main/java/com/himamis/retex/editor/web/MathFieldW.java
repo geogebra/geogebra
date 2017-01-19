@@ -48,6 +48,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -156,6 +157,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void setEnabled(boolean flag) {
 		this.enabled = flag;
+		if (parent != null && clip != null) {
+			parent.add(clip);
+		}
 		if (!flag) {
 			setFocus(false);
 		}
@@ -510,12 +514,15 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	Element el = null;
+
 	private TextArea wrap;
+	private SimplePanel clip;
 
 	private Element getHiddenTextArea() {
-		if (el == null) {
-			el = getHiddenTextAreaNative(instances.size());
+		if (clip == null) {
+			clip = new SimplePanel();
+			Element el = getHiddenTextAreaNative(instances.size(),
+					clip.getElement());
 			mathFieldInternal.debug("GWT connect");
 			wrap = TextArea.wrap(el);
 
@@ -535,30 +542,32 @@ public class MathFieldW implements MathField, IsWidget {
 
 				}
 			});
+			clip.setWidget(wrap);
 		}
 		if (parent != null) {
-			parent.add(wrap);
+			parent.add(clip);
 
 			}
 
-
-		return el;
+		return wrap.getElement();
 	}
 
-	private static native Element getHiddenTextAreaNative(int counter) /*-{
+	private static native Element getHiddenTextAreaNative(int counter,
+			Element clipDiv) /*-{
 		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea'
 				+ counter);
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
 			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
 			hiddenTextArea.style.zIndex = '-1';
-			hiddenTextArea.style.zIndex = -32000;
+			clipDiv.style.zIndex = -32000;
 			//* although clip is for absolute position, necessary! 
 			//* as it is deprecated, may cause CSS challenges later 
-			hiddenTextArea.style.clip = "rect(1em 1em 1em 1em)";
+			clipDiv.style.clip = "rect(1em 1em 1em 1em)";
 
 			//* top/left will be specified dynamically, depending on scrollbar 
-
+			clipDiv.style.width = "1px";
+			clipDiv.style.height = "1px";
 			hiddenTextArea.style.width = "1px";
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);

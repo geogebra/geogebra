@@ -4059,7 +4059,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1357
 		case AV_SINGLE_TAP_EDIT:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:

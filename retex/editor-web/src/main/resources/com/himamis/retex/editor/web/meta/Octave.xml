@@ -165,7 +165,7 @@
         </Function>
 
 		<!-- not yet implemented -
-		<Function name="nsum" cas="nsum" tex="\nsum" key="" img="nsum.png" desc="sum" >
+		<Function name="nsum" cas="nsum" tex="\nsum"  img="nsum.png" desc="sum" >
 			<Parameter name="v" type="string" order="0" />
 			<Parameter name="on" type="string" order="1" />
 			<Parameter name="x" type="number" order="2" />
@@ -195,7 +195,7 @@
 			<Parameter name="x" type="number" order="0" />
 		</Function> -->
 
-		<Function name="nint" cas="NaN" tex="\int" key="i" img="_nint.png" desc="integrate" >
+		<Function name="nint" cas="NaN" tex="\int" img="_nint.png" desc="integrate" >
 			<Parameter name="x" type="number" order="0" />
 			<Parameter name="v" type="string" order="1" />
 		</Function>
@@ -292,7 +292,7 @@
     </Operators>
 
 	<Symbols columns="12">
- 		<Symbol name="inf" cas="inf" tex="\infty" key="" code="49"  fontId="3" /> 	
+ 		<Symbol name="inf" cas="inf" tex="\infty"  code="49"  fontId="3" /> 	
 		<Symbol name="ii" cas="i" tex="\mathrm{i}" key="i" code="105" fontId="1" />
 		<Symbol name="jj" cas="j" tex="\mathrm{j}" key="j" code="106" fontId="1" />
 
@@ -301,24 +301,24 @@
 		<Symbol name="gamma" tex="\gamma" key="g" code="176" fontId="0" />
 		<Symbol name="delta" tex="\delta" key="d" code="177" fontId="0" />
 		<Symbol name="epsilon" tex="\epsilon" key="e" code="178" fontId="0" />
-		<Symbol name="vareps" tex="\varepsilon" key="" code="34" fontId="0" />
+		<Symbol name="vareps" tex="\varepsilon"  code="34" fontId="0" />
 		<Symbol name="zeta" tex="\zeta" key="z" code="179" fontId="0" />
 		<Symbol name="eta" tex="\eta" key="e" code="180" fontId="0" />
 		<Symbol name="theta" tex="\theta" key="t" code="181" fontId="0" />
-		<Symbol name="varth" tex="\vartheta" key="" code="35"  fontId="0" />
+		<Symbol name="varth" tex="\vartheta"  code="35"  fontId="0" />
 		<Symbol name="iota" tex="\iota" key="i" code="182" fontId="0" />
 		<Symbol name="kappa" tex="\kappa" key="k" code="183" fontId="0" />
 		<Symbol name="lambda" tex="\lambda" key="l" code="184" fontId="0" />
 		<Symbol name="mu" tex="\mu" key="m" code="185" fontId="0" />
 		<Symbol name="nu" tex="\nu" key="n" code="186" fontId="0" />
 		<Symbol name="xi" tex="\xi" key="x" code="187" fontId="0" />
-		<Symbol name="omicron" tex="\omicron" key="" code="111" fontId="0" />
+		<Symbol name="omicron" tex="\omicron"  code="111" fontId="0" />
 		<Symbol name="pi" tex="\pi" key="p" code="188" fontId="0" />
-		<Symbol name="varpi" tex="\varpi" key="" code="36"  fontId="0" />
+		<Symbol name="varpi" tex="\varpi"  code="36"  fontId="0" />
 		<Symbol name="rho" tex="\rho" key="r" code="189" fontId="0" />
-		<Symbol name="varrho" tex="\varrho" key="" code="37"  fontId="0" />
+		<Symbol name="varrho" tex="\varrho"  code="37"  fontId="0" />
 		<Symbol name="sigma" tex="\sigma" key="s" code="190" fontId="0" />
-		<Symbol name="varsigma" tex="\varsigma" key="" code="38"  fontId="0" />
+		<Symbol name="varsigma" tex="\varsigma"  code="38"  fontId="0" />
 		<Symbol name="tau" tex="\tau" key="t" code="191" fontId="0" />
 		<Symbol name="upsilon" tex="\upsilon" key="u" code="192" fontId="0" />
 		<Symbol name="phi" tex="\phi" key="f" code="193" fontId="0" />
@@ -339,22 +339,22 @@
 		<Symbol name="Psi" tex="\Psi" key="Y" code="170" fontId="1" img="_Psi.png" />
 		<Symbol name="Omega" tex="\Omega" key="O" code="173" fontId="1" img="_Omega.png" />
 
-		<Symbol name="nabla" cas="nabla" tex="\nabla" key="" code="114" fontId="3" img="nabla.png" />		
-		<Symbol name="hbar" tex="\hbar" key="" code="104"  fontId="0" img="hbar.png" /> 
- 		<Symbol name="ddagger" cas="ddagger" tex="\ddagger" key="" code="122"  fontId="3" img="ddagger.png" /> 
-		<Symbol name="paragraph" cas="paragraph" tex="\paragraph" key="" code="120" fontId="3" img="paragraph.png" />
+		<Symbol name="nabla" cas="nabla" tex="\nabla"  code="114" fontId="3" img="nabla.png" />		
+		<Symbol name="hbar" tex="\hbar"  code="104"  fontId="0" img="hbar.png" /> 
+ 		<Symbol name="ddagger" cas="ddagger" tex="\ddagger"  code="122"  fontId="3" img="ddagger.png" /> 
+		<Symbol name="paragraph" cas="paragraph" tex="\paragraph"  code="120" fontId="3" img="paragraph.png" />
 	</Symbols>
 
 	<Functions columns="6">
-		<Function name="sin" cas="sin" tex="sin" key="s" desc="sine">
+		<Function name="sin" cas="sin" tex="sin"  desc="sine">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
-		<Function name="cos" cas="cos" tex="cos" key="c" desc="cosine">
+		<Function name="cos" cas="cos" tex="cos"  desc="cosine">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
-		<Function name="tan" cas="tan" tex="tan" key="t" desc="tangent">
+		<Function name="tan" cas="tan" tex="tan"  desc="tangent">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
@@ -394,7 +394,7 @@
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
-		<Function name="ln" cas="log" tex="ln" key="l" desc="natural logarithm">
+		<Function name="ln" cas="log" tex="ln" desc="natural logarithm">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
@@ -402,39 +402,39 @@
 			<Parameter name="x" type="number" order="0" />
 		</Function> 
 
-		<Function name="exp" cas="exp" tex="exp" key="e" desc="exponential">
+		<Function name="exp" cas="exp" tex="exp" desc="exponential">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
 	<!-- Statistics -->
 
-		<Function name="corrcoef" key="" desc="correlation coefficient">
+		<Function name="corrcoef"  desc="correlation coefficient">
 			<Parameter name="x" type="number" order="0" />
 			<Parameter name="y" type="number" order="1" />
 		</Function>
 
-		<Function name="cov" key="" desc="covariance">
+		<Function name="cov"  desc="covariance">
 			<Parameter name="x" type="number" order="0" />
 			<Parameter name="y" type="number" order="1" />
 		</Function>
 
-		<Function name="median" key="" desc="median value">
+		<Function name="median"  desc="median value">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="mean" key="m" desc="mean value">
+		<Function name="mean"  desc="mean value">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="std" key="" desc="standard deviation">
+		<Function name="std"  desc="standard deviation">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="var" key="v" desc="variance">
+		<Function name="var"  desc="variance">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="cov" key="" desc="covariance">
+		<Function name="cov"  desc="covariance">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
@@ -471,57 +471,55 @@
 			<Parameter name="y" type="number" order="1" />
 		</Function> 
 
-		<Function name="rand" key="r" desc="random number">
-		</Function>
 
 	<!-- Matrix Operations -->
 
-		<Function name="eye" key="" desc="create n by m identity matrix">
+		<Function name="eye"  desc="create n by m identity matrix">
 			<Parameter name="n" type="integer" order="0" />
 			<Parameter name="m" type="integer" order="0" />
 		</Function>
 
-		<Function name="transpose" key="" desc="transpose a matrix">
+		<Function name="transpose"  desc="transpose a matrix">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="inverse" cas="inverse" key="i" desc="invert a square matrix">
+		<Function name="inverse" cas="inverse"  desc="invert a square matrix">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="det" key="d" desc="determinant of a matrix">
+		<Function name="det"  desc="determinant of a matrix">
 			<Parameter name="a" type="matrix" order="0" />
 		</Function>
 
-		<Function name="min" key="" desc="minimum value in a matrix">
+		<Function name="min"  desc="minimum value in a matrix">
 			<Parameter name="a" type="array, matrix" order="0" />
 		</Function>
 
-		<Function name="max" key="" desc="maximum value in a matrix">
+		<Function name="max"  desc="maximum value in a matrix">
 			<Parameter name="a" type="array, matrix" order="0" />
 		</Function>
 
-		<Function name="rows" key="" desc="returns number of rows">
+		<Function name="rows"  desc="returns number of rows">
 			<Parameter name="a" type="array, matrix" order="0" />
 		</Function>
 
-		<Function name="columns" key="" desc="returns number of columns">
+		<Function name="columns"  desc="returns number of columns">
 			<Parameter name="a" type="array, matrix" order="0" />
 		</Function>
 
 	<!-- Graphics Operations -->
 
-		<Function name="plot" key="" desc="2D plot">
+		<Function name="plot"  desc="2D plot">
 			<Parameter name="x" type="matrix" order="0" />
 			<Parameter name="y" type="matrix" order="1" />
 		</Function>
 
-		<Function name="meshgrid" key="" desc="grid for 3D mesh">
+		<Function name="meshgrid"  desc="grid for 3D mesh">
 			<Parameter name="x" type="matrix" order="0" />
 			<Parameter name="y" type="matrix" order="1" />
 		</Function>
 
-		<Function name="mesh" key="" desc="3D mesh">
+		<Function name="mesh"  desc="3D mesh">
 			<Parameter name="x" type="matrix" order="0" />
 			<Parameter name="y" type="matrix" order="1" />
 			<Parameter name="z" type="matrix" order="2" />

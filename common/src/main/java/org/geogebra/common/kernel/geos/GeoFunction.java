@@ -894,7 +894,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// make sure Freehand Functions have different entries in drop-down
 		// lists
 		if (this.isFreehandFunction()) {
-			return this.getLabel(tpl) + "(" + fun.getFunctionVariable() + ")";
+			return this.getLabel(tpl) + tpl.leftBracket()
+					+ fun.getFunctionVariable() + tpl.rightBracket();
 		}
 
 		if (fun != null && isDefined()) {
