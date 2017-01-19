@@ -216,18 +216,6 @@ public class AppWapplet extends AppWFull {
         			frame.remove(i);
         		}
         	}
-        	
-        	
-        	
-//            if (hasPopup()) {
-//                Widget parent = popups.get(0).getParent();
-//                frame.clear();
-//                if (parent != null && popups.get(0) instanceof HasKeyboardPopup && parent instanceof Panel) {
-//                    ((Panel) parent).add(popups.get(0));
-//                }
-//            } else {
-//            	frame.clear();
-//            }
         } else {
             frame.clear();
         }
