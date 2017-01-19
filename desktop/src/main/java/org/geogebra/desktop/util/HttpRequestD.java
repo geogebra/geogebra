@@ -1,6 +1,8 @@
 package org.geogebra.desktop.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -92,10 +94,11 @@ public class HttpRequestD extends HttpRequest {
 	 */
 	void sendRequestPostSync(String url, String post,
 			AjaxCallback callback) {
+		HttpURLConnection huc = null;
 		try {
 			URL u = new URL(url);
 			// Borrowed from http://www.exampledepot.com/egs/java.net/post.html:
-			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			huc = (HttpURLConnection) u.openConnection();
 			// Borrowed from
 			// http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
 			// uc.setRequestMethod("POST");
@@ -109,27 +112,7 @@ public class HttpRequestD extends HttpRequest {
 			osw.write(post);
 			osw.flush();
 
-			BufferedReader in = null;
-			try {
-				in = new BufferedReader(new InputStreamReader(
-						huc.getInputStream(), Charsets.UTF_8));
-				String s = "";
-				answer = in.readLine(); // the last line will never get a "\n"
-										// on
-				// its end
-				while ((s = in.readLine()) != null) {
-					if (!("".equals(answer))) {
-						// "\n"s, we
-						// ignore them
-						answer += "\n";
-					}
-					answer += s;
-				}
-			} finally {
-				if (in != null) {
-					in.close();
-				}
-			}
+			answer = readOutput(huc.getInputStream());
 			osw.close();
 
 			setResponseText(answer);
@@ -139,11 +122,47 @@ public class HttpRequestD extends HttpRequest {
 			}
 		} catch (Exception ex) {
 			processed = true;
+			String err = "";
+			try {
+				err = readOutput(huc.getErrorStream());
+			} catch (IOException e2) {
+				Log.warn("invalid HTTP stream");
+			}
 			if (callback != null) {
-				callback.onError("Connection error: " + ex.getMessage());
+				callback.onError(
+						"Connection error: " + ex.getMessage());
+				Log.error(err);
 			}
 			Log.error(ex.getMessage());
 		}
+	}
+
+	private String readOutput(InputStream inputStream)
+			throws IOException {
+		BufferedReader in = null;
+		String ans;
+		try {
+			in = new BufferedReader(
+					new InputStreamReader(inputStream,
+					Charsets.UTF_8));
+			String s = "";
+			ans = in.readLine(); // the last line will never get a "\n"
+									// on
+			// its end
+			while ((s = in.readLine()) != null) {
+				if (!("".equals(ans))) {
+					// "\n"s, we
+					// ignore them
+					ans += "\n";
+				}
+				ans += s;
+			}
+		} finally {
+			if (in != null) {
+				in.close();
+			}
+		}
+		return ans;
 	}
 
 	/**
