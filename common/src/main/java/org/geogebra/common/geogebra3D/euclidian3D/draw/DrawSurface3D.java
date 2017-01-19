@@ -354,6 +354,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// create root mesh
 			wireFrameStepU = 1;
 			wireFrameStepV = 1;
+			wireframeUniqueU = false;
+			wireframeUniqueV = false;
 
 			double uOverVFactor = uDelta / vDelta;
 			if (uOverVFactor > ROOT_MESH_INTERVALS_SPEED) {
@@ -372,29 +374,44 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double vMax = Double.NaN;
 
 			if (!Double.isNaN(uStep)) {
-				double factor = uN * uStep / uDelta;
-				// Log.debug("factor = " + factor);
-				if (factor > 1) {
-					wireFrameStepU = (int) Math.ceil(factor);
-				} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
-					int stepFactor = (int) Math.ceil(
-							ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE / factor);
-					// Log.debug("stepFactor = " + stepFactor);
-					uStep *= stepFactor;
+				if (uStep > uDelta) {
+					// we have maximum one wireframe line
+					wireframeUniqueU = true;
+					double uWireFrame = Math.ceil(uBorderMin / uStep) * uStep;
+					wireFrameStepU = (int) ((uN * (uBorderMax - uWireFrame))
+							/ uDelta);
+
+					uStep = uDelta / uN;
+					uMax = uWireFrame + uStep * wireFrameStepU;
+					if (wireFrameStepU == uN - 1) {
+						wireFrameStepU--;
+						uMax -= uStep;
+					}
+					uMin = uBorderMin;
+				} else {
+					double factor = uN * uStep / uDelta;
+					if (factor > 1) {
+						wireFrameStepU = (int) Math.ceil(factor);
+					} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
+						int stepFactor = (int) Math
+								.ceil(ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE
+										/ factor);
+						// Log.debug("stepFactor = " + stepFactor);
+						uStep *= stepFactor;
+					}
+					if (levelOfDetail == LevelOfDetail.QUALITY
+							&& wireFrameStepU == 1) {
+						wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+					}
+					uMax = Math.floor(uBorderMax / uStep) * uStep;
+					uMin = Math.ceil(uBorderMin / uStep) * uStep;
+					uDelta = uMax - uMin;
+					double ratio = uDelta / uStep;
+					int ratioInt = (int) Math.ceil(uDelta / uStep);
+					uN = (ratioInt + 1) * wireFrameStepU + 1;
+					// delta has to widened a bit to start at a correct tick
+					uDelta += (1 + 1.0 / wireFrameStepU) * uStep;
 				}
-				if (levelOfDetail == LevelOfDetail.QUALITY
-						&& wireFrameStepU == 1) {
-					wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				}
-				uMax = Math.floor(uBorderMax / uStep) * uStep;
-				uMin = Math.ceil(uBorderMin / uStep) * uStep;
-				uDelta = uMax - uMin;
-				double ratio = uDelta / uStep;
-				int ratioInt = (int) ratio;
-				double mod = ratio - ratioInt;
-				uN = (ratioInt + 1) * wireFrameStepU + 1;
-				// delta has to widened a bit to start at a correct tick
-				uDelta += (1 + (1.0 - mod) / wireFrameStepU) * uStep;
 			} else {
 				if (levelOfDetail == LevelOfDetail.QUALITY) {
 					wireFrameStepU *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
@@ -402,29 +419,42 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				}
 			}
 			if (!Double.isNaN(vStep)) {
-				double factor = vN * vStep / vDelta;
-				// Log.debug("factor = " + factor);
-				if (factor > 1) {
-					wireFrameStepV = (int) Math.ceil(factor);
-				} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
-					int stepFactor = (int) Math.ceil(
-							ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE / factor);
-					// Log.debug("stepFactor = " + stepFactor);
-					vStep *= stepFactor;
+				if (vStep > vDelta) {
+					// we have maximum one wireframe line
+					wireframeUniqueV = true;
+					double vWireFrame = Math.ceil(vBorderMin / vStep) * vStep;
+					wireFrameStepV = (int) ((vN * (vBorderMax - vWireFrame))
+							/ vDelta);
+					vStep = vDelta / vN;
+					vMax = vWireFrame + vStep * wireFrameStepV;
+					if (wireFrameStepV == vN - 1) {
+						wireFrameStepV--;
+						vMax -= vStep;
+					}
+					vMin = vBorderMin;
+				} else {
+					double factor = vN * vStep / vDelta;
+					if (factor > 1) {
+						wireFrameStepV = (int) Math.ceil(factor);
+					} else if (factor < ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE) {
+						int stepFactor = (int) Math
+								.ceil(ROOT_MESH_INTERVALS_MAX_FACTOR_INVERSE
+										/ factor);
+						// Log.debug("stepFactor = " + stepFactor);
+						vStep *= stepFactor;
+					}
+					if (levelOfDetail == LevelOfDetail.QUALITY
+							&& wireFrameStepV == 1) {
+						wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
+					}
+					vMax = Math.floor(vBorderMax / vStep) * vStep;
+					vMin = Math.ceil(vBorderMin / vStep) * vStep;
+					vDelta = vMax - vMin;
+					int ratioInt = (int) Math.ceil(vDelta / vStep);
+					vN = (ratioInt + 1) * wireFrameStepV + 1;
+					// delta has to widened a bit to start at a correct tick
+					vDelta += (1 + 1.0 / wireFrameStepV) * vStep;
 				}
-				if (levelOfDetail == LevelOfDetail.QUALITY
-						&& wireFrameStepV == 1) {
-					wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
-				}
-				vMax = Math.floor(vBorderMax / vStep) * vStep;
-				vMin = Math.ceil(vBorderMin / vStep) * vStep;
-				vDelta = vMax - vMin;
-				double ratio = vDelta / vStep;
-				int ratioInt = (int) ratio;
-				double mod = ratio - ratioInt;
-				vN = (ratioInt + 1) * wireFrameStepV + 1;
-				// delta has to widened a bit to start at a correct tick
-				vDelta += (1 + (1.0 - mod) / wireFrameStepV) * vStep;
 			} else {
 				if (levelOfDetail == LevelOfDetail.QUALITY) {
 					wireFrameStepV *= ROOT_MESH_INTERVALS_SPEED_TO_QUALITY_FACTOR;
@@ -844,6 +874,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// (we use short for array index shifting)
 	private short wireframeBorderU, wireframeBorderV;
 
+	// says if only one wireframe line is drawn
+	private boolean wireframeUniqueU, wireframeUniqueV;
+
 	// steps to draw wireframe
 	private int wireFrameStepU, wireFrameStepV;
 
@@ -852,10 +885,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double vBorderMax, int vN) {
 
 		if (wireframeNeeded()) {
-			wireframeBottomCorners = new Corner[(uN - 1) / wireFrameStepU
-					+ 2 * wireframeBorderU];
-			wireframeRightCorners = new Corner[(vN - 1) / wireFrameStepV
-					+ 2 * wireframeBorderV];
+			if (wireframeUniqueU) {
+				if (wireFrameStepU < 0) {
+					wireframeBottomCorners = new Corner[2 * wireframeBorderU];
+				} else {
+					wireframeBottomCorners = new Corner[1
+							+ 2 * wireframeBorderU];
+				}
+			} else {
+				wireframeBottomCorners = new Corner[(uN - 1) / wireFrameStepU
+						+ 2 * wireframeBorderU];
+			}
+			if (wireframeUniqueV) {
+				if (wireFrameStepV < 0) {
+					wireframeRightCorners = new Corner[2 * wireframeBorderV];
+				} else {
+					wireframeRightCorners = new Corner[1
+							+ 2 * wireframeBorderV];
+				}
+			} else {
+				wireframeRightCorners = new Corner[(vN - 1) / wireFrameStepV
+						+ 2 * wireframeBorderV];
+			}
 		}
 
 		Corner bottomRight = newCorner(uBorderMax, vBorderMax);
@@ -864,10 +915,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		int wireframeIndexU = 0, wireframeIndexV = 0,
 				wireFrameSetU = wireFrameStepU, wireFrameSetV = wireFrameStepV;
 		if (wireframeNeeded()) {
+			if (wireframeUniqueU) {
+				wireFrameSetU = 0;
+			}
 			if (wireframeBorderU == 1) { // draw edges
 				wireframeBottomCorners[0] = first;
 				wireframeIndexU = 1;
 				wireFrameSetU = 1;
+			}
+			if (wireframeUniqueV) {
+				wireFrameSetV = 0;
 			}
 			if (wireframeBorderV == 1) { // draw edges
 				wireframeRightCorners[0] = first;
@@ -884,7 +941,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				if (wireFrameSetU == wireFrameStepU) { // set wireframe
 					wireframeBottomCorners[wireframeIndexU] = right;
 					wireframeIndexU++;
-					wireFrameSetU = 1;
+					if (wireframeUniqueU) {
+						wireFrameSetU++;
+					} else {
+						wireFrameSetU = 1;
+					}
 				} else {
 					wireFrameSetU++;
 				}
@@ -905,7 +966,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				if (wireFrameSetV == wireFrameStepV) { // set wireframe
 					wireframeRightCorners[wireframeIndexV] = bottomRight;
 					wireframeIndexV++;
-					wireFrameSetV = 1;
+					if (wireframeUniqueV) {
+						wireFrameSetV++;
+					} else {
+						wireFrameSetV = 1;
+					}
 				} else {
 					wireFrameSetV++;
 				}
