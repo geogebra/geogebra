@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ScriptArea;
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ButtonDialogW extends DialogBoxW implements ClickHandler {
+public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboardPopup {
 
 	AutoCompleteTextFieldW tfCaption;
 	private FlowPanel btPanel;

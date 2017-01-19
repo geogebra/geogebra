@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.TextEditPanel;
@@ -15,7 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *         Creates an InputPanel for GeoGebraWeb
  * 
  */
-public class InputPanelW extends FlowPanel {
+public class InputPanelW extends FlowPanel implements HasKeyboardPopup {
 
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;

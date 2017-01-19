@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -48,7 +49,7 @@ import com.google.gwt.user.client.ui.PushButton;
  * visibility of a list of objects.
  */
 public class CheckboxCreationDialogW extends DialogBoxW implements
-		GeoElementSelectionListener {
+		GeoElementSelectionListener, HasKeyboardPopup {
 
 	private class GeoListBox extends ListBox {
 		private List<GeoElement> geos;

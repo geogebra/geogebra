@@ -22,6 +22,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
@@ -46,7 +47,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Web dialog for slider creation
  */
 public class SliderDialogW extends DialogBoxW
-implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
+implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboardPopup
 {
 	private Button btOK, btCancel;
 	private Label nameLabel;
