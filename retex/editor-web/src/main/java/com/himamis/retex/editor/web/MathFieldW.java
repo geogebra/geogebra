@@ -551,12 +551,16 @@ public class MathFieldW implements MathField, IsWidget {
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
 			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
-			hiddenTextArea.style.position = 'absolute';
 			hiddenTextArea.style.zIndex = '-1';
-			hiddenTextArea.style.left = '-1000px';
-			hiddenTextArea.style.width = '10px';
-			hiddenTextArea.style.height = '10px';
-			hiddenTextArea.style.top = '0px'; //prevent messed up scrolling in FF/IE
+			hiddenTextArea.style.zIndex = -32000;
+			//* although clip is for absolute position, necessary! 
+			//* as it is deprecated, may cause CSS challenges later 
+			hiddenTextArea.style.clip = "rect(1em 1em 1em 1em)";
+
+			//* top/left will be specified dynamically, depending on scrollbar 
+
+			hiddenTextArea.style.width = "1px";
+			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
 			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 					.test(window.navigator.userAgent)) {
