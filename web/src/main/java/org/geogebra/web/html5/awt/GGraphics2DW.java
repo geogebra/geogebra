@@ -973,8 +973,10 @@ public class GGraphics2DW implements GGraphics2D {
 		context.restoreTransform();
 	}
 
-	public void setAltText(String altStr) {
+	public boolean setAltText(String altStr) {
+		boolean ret = !(canvas.getElement().getInnerText() + "").equals(altStr);
 		canvas.getElement().setInnerText(altStr);
+		return ret;
 
 	}
 

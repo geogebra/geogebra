@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -129,6 +130,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	public void scrollToActiveItem() {
 
 		final RadioTreeItem item = aview.getActiveTreeItem();
+		Log.debug("SCROLLTO" + item);
 		if (item == null) {
 			return;
 		}

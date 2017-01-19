@@ -1167,7 +1167,9 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		if (alt instanceof GeoText) {
 			String altStr = ((GeoText) alt).getTextString();
-			g2p.setAltText(altStr);
+			if (g2p.setAltText(altStr)) {
+				this.readText(altStr);
+			}
 		}
 
 	}
