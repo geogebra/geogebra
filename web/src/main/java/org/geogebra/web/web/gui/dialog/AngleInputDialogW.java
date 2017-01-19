@@ -36,7 +36,7 @@ public class AngleInputDialogW extends InputDialogW {
 	 */
 	public AngleInputDialogW(AppW app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {
-		super(modal, app);
+		super(modal, app, true);
 		inputHandler = handler;
 		setInitString(initString);
 

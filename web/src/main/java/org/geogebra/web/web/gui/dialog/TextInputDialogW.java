@@ -57,7 +57,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	 */
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
             GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
-		super(false, (AppW) app2);
+		super(false, (AppW) app2, false);
 		this.startPoint = startPoint;
 		this.rw = rw;
 		dialogTitle = title;

@@ -11,6 +11,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -27,6 +28,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -53,10 +55,14 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	protected final Localization loc;
 	
-	public InputDialogW(boolean modal, AppW app) {
+	public InputDialogW(boolean modal, AppW app, boolean hasKeyboard){
 		this.app = app;
 		this.loc = app.getLocalization();
-		wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel());
+		if (hasKeyboard){
+			wrappedPopup = new DialogBoxKbW(false, modal, this, app.getPanel());	
+		} else {
+			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel());
+		}
 	}
 
 	public InputDialogW(AppW app, String message, String title,
@@ -85,7 +91,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			boolean modal, final boolean selectInitText, GeoElement geo,
 			DialogType type) {
 
-		this(modal, app);
+		this(modal, app, false);
 
 		this.geo = geo;
 		this.inputHandler = handler;
@@ -96,6 +102,14 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		centerAndFocus(selectInitText);
 
+	}
+	
+	private class DialogBoxKbW extends DialogBoxW implements HasKeyboardPopup{
+
+		public DialogBoxKbW(boolean b, boolean modal, InputDialogW inputDialogW, Panel panel) {
+			super(b, modal, inputDialogW, panel);
+		}
+		
 	}
 
 	protected void centerAndFocus(final boolean selectInitText) {
@@ -121,7 +135,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public InputDialogW(AppW app, String message, String title, String initString, boolean autoComplete,
 			InputHandler handler, GeoElement geo, boolean showApply) {
 
-		this(false, app);
+		this(false, app, false);
 
 		this.geo = geo;
 		this.inputHandler = handler;
