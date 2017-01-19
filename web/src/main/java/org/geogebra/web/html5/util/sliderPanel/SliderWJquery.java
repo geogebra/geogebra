@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -17,7 +19,8 @@ import com.google.gwt.user.client.ui.FocusWidget;
 /**
  * GWT wrapper for JQuery UI slider
  */
-public class SliderWJquery extends FocusWidget implements SliderWI {
+public class SliderWJquery extends FocusWidget
+		implements SliderWI, TouchMoveHandler {
 
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
@@ -41,6 +44,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		addMouseDownHandler(this);
 		addMouseMoveHandler(this);
 		addMouseUpHandler(this);
+		addTouchMoveHandler(this);
 	}
 
 	private native void setup(Element range1, double min, double max, double val)/*-{
@@ -173,6 +177,10 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	public void onMouseMove(MouseMoveEvent event) {
 
 		// event.stopPropagation();
+		slideValue();
+	}
+
+	private void slideValue() {
 		Double value = getValue();
 		if (curValue != null) {
 			slide(value);
@@ -187,5 +195,11 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 			currentSlider.stop();
 		}
 
+	}
+
+	public void onTouchMove(TouchMoveEvent event) {
+		event.stopPropagation();
+		event.preventDefault();
+		slideValue();
 	}
 }

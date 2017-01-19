@@ -78,6 +78,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 		slider.setForceControls(true);
 
+
 		boolean minHit = slider.sliderPanel != null
 				&& isWidgetHit(slider.getSlider().getWidget(0), x, y);
 		boolean maxHit = slider.sliderPanel != null

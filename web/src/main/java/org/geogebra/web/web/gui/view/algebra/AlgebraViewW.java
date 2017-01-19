@@ -1167,6 +1167,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					}
 				}
 
+
 			} else {
 				try {
 					parent.insertItem(pos, node);
@@ -1222,9 +1223,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				public void execute() {
 
 					inputPanelLatex.updateButtonPanelPosition();
+					getAlgebraDockPanel().scrollToBottom();
 				}
 			});
 		}
+
 
 	}
 

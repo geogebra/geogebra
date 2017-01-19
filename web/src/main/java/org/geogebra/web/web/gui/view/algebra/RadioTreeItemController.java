@@ -334,7 +334,7 @@ public class RadioTreeItemController
 			markForEdit = false;
 		}
 
-		if (item.isInputTreeItem()) {
+		if (item.isInputTreeItem() || item.isSliderItem()) {
 			event.preventDefault();
 		}
 		int x = EventUtil.getTouchOrClickClientX(event);

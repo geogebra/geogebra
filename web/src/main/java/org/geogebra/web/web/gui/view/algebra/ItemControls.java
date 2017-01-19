@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -200,6 +201,7 @@ public class ItemControls extends FlowPanel {
 
 		if (value) {
 			buildGUI();
+			Log.debug("Control repositionig. width: " + getOffsetWidth());
 		}
 	}
 
@@ -221,9 +223,13 @@ public class ItemControls extends FlowPanel {
 						+ getOffsetHeight() > algebraPanel.getOffsetHeight()
 								? sw : 0;
 
-				int value = margin + getOffsetWidth()
-						- (algebraPanel.getOffsetWidth() + scrollPos);
-				getElement().getStyle().setRight(value, Unit.PX);
+				int right = 0;
+				int itemWidth = radioTreeItem.getOffsetWidth();
+				int avWidth = radioTreeItem.getAV().getOffsetWidth();
+				if (avWidth < itemWidth) {
+					right = itemWidth - avWidth;
+				}
+				getElement().getStyle().setRight(right, Unit.PX);
 
 			}
 		});

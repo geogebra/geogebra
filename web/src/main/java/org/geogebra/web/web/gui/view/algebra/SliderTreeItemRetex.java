@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -159,8 +160,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		content.addStyleName("avSliderValue");
 
 		sliderPanel.setVisible(true);
-
 		controls.showAnimPanel();
+
 	}
 
 	private void updateColor() {
@@ -257,6 +258,16 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		sliderPanel.setVisible(visible);
 	}
 
+
+	@Override
+	public void selectItem(boolean selected) {
+		AlgebraDockPanelW dp = getAlgebraDockPanel();
+		if (first && !dp.hasLongStyleBar()) {
+			dp.showStyleBarPanel(!selected);
+		}
+		super.selectItem(true);
+
+	}
 
 	@Override
 	public void setAnimPanelVisible(boolean visible) {
