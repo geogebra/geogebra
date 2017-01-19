@@ -750,6 +750,9 @@ public class InputController {
         } else if (meta.isSymbol("" + ch)) {
             newSymbol(editorState, ch);
             handled = true;
+		} else if (ch == ',') { // multiplication cross char
+			comma(editorState);
+			handled = true;
         } else if (meta.isCharacter("" + ch)) {
             newCharacter(editorState, ch);
             handled = true;
@@ -757,7 +760,29 @@ public class InputController {
         return handled;
     }
 
-    private static boolean isArrayCloseKey(char key, EditorState editorState) {
+	private void comma(EditorState editorState) {
+		int idx = editorState.getCurrentOffset();
+		MathContainer field = editorState.getCurrentField();
+		if (field.getParent() instanceof MathArray && idx == field.size()
+				&& field.getParentIndex() < field.size()) {
+
+			MathSequence arg = (MathSequence) field.getParent()
+					.getArgument(field.getParentIndex() + 1);
+			if (arg != null) {
+				editorState.setCurrentField(arg);
+				editorState.setCurrentOffset(arg.size() - 1);
+				editorState.setSelectionStart(arg.getArgument(0));
+				editorState.setSelectionStart(arg.getArgument(arg.size() - 1));
+				return;
+			}
+
+		}
+
+		newCharacter(editorState, ',');
+
+	}
+
+	private static boolean isArrayCloseKey(char key, EditorState editorState) {
         MathContainer parent = editorState.getCurrentField().getParent();
         if (parent != null && parent instanceof MathArray) {
             MathArray array = (MathArray) parent;

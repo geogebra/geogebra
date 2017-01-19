@@ -35,6 +35,7 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -114,11 +115,14 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("f(x)=x^2");
+					.parse("Plane[<7>,<7>]");
 			mathField.setFormula(f);
+			for (int i = 0; i < 5; i++) {
+				mathField.getInternal()
+						.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0));
+			}
+			mathField.getInternal().update();
 			/*
-			 * mathField.getInternal().getCursorController()
-			 * .prevCharacter(mathField.getInternal().getEditorState());
 			 * mathField.getInternal() .onKeyPressed(new
 			 * KeyEvent(KeyEvent.VK_LEFT, 0));
 			 * mathField.getInternal().getInputController().removeCharacters(
