@@ -1126,7 +1126,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (newValue0 != null) {
 			String newValue = stopCommon(newValue0);
-
+			newValue = app.getKernel().getInputPreviewHelper()
+					.getInput(newValue);
 			// Formula Hacks ended.
 			if (geo != null) {
 
@@ -2163,6 +2164,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public void updateFonts() {
 		updateLineHeight();
+	}
+
+	/**
+	 * MathQuill = no math field -> false
+	 * 
+	 * Retex: TODO - do we ever want to hide retex on blur?
+	 * 
+	 * @return whether math field has focus.
+	 */
+	public boolean isMFfocused() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

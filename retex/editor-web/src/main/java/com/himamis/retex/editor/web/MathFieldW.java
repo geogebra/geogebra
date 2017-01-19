@@ -148,6 +148,7 @@ public class MathFieldW implements MathField, IsWidget {
 			}
 		}, MouseDownEvent.getType());
 
+
 		setKeyListener(wrap, keyListener);
 	}
 
@@ -451,7 +452,11 @@ public class MathFieldW implements MathField, IsWidget {
 	 */
 	protected void onFocusTimer() {
 		mathFieldInternal.update();
+		// first focus canvas to get the scrolling right
+		html.getElement().focus();
+		// after set focus to the keyboard listening element
 		wrap.getElement().focus();
+
 
 	}
 
@@ -559,7 +564,7 @@ public class MathFieldW implements MathField, IsWidget {
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
 			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
-			hiddenTextArea.style.zIndex = '-1';
+			hiddenTextArea.style.opacity = 0;
 			clipDiv.style.zIndex = -32000;
 			//* although clip is for absolute position, necessary! 
 			//* as it is deprecated, may cause CSS challenges later 

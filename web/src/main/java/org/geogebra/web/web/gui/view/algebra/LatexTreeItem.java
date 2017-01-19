@@ -480,4 +480,10 @@ public class LatexTreeItem extends RadioTreeItem {
 		super.updateFonts();
 	}
 
+	@Override
+	public boolean isMFfocused() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }
