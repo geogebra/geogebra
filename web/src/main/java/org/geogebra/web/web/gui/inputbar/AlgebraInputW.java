@@ -80,7 +80,7 @@ public class AlgebraInputW extends FlowPanel
 		app1.getGuiManager().addAlgebraInput(this);
 	}
 
-	private void initGUI() {
+	public void initGUI() {
 		clear();
 		inputPanel = new InputPanelW(null,app,0,true);
 

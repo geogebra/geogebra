@@ -865,7 +865,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void updateAlgebraInput() {
-		Log.debug("Implementation needed...");
+		if (algebraInput != null) {
+			algebraInput.initGUI();
+		}
 	}
 
 	public boolean hasInputHelpPanel() {
@@ -1057,24 +1059,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void showPropertiesViewSliderTab() {
 		Log.debug("unimplemented");
-	}
-
-	@Override
-	protected boolean loadURL_GGB(final String url) {
-		((AppWFull) app).loadURL_GGB(url);
-		return true;
-	}
-
-	@Override
-	protected boolean loadURL_base64(final String url) {
-		Log.debug("implementation needed");
-		return true;
-	}
-
-	@Override
-	protected boolean loadFromApplet(final String url) throws Exception {
-		Log.debug("implementation needed");
-		return false;
 	}
 
 	@Override

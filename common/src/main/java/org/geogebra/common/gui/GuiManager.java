@@ -211,7 +211,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 																	// file,
 				// however ends with ".ggb":
 				// http://www.geogebra.org/web/test42/?f=_circles5.ggb
-				loadURL_GGB(processedUrlString);
+				// loadURL_GGB(processedUrlString);
+				app.getGgbApi().openFile(processedUrlString);
 
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
@@ -282,11 +283,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 				}
 
 				Log.debug(processedUrlString);
-				success = loadURL_GGB(processedUrlString);
+				// success = loadURL_GGB(processedUrlString);
+				app.getGgbApi().openFile(processedUrlString);
 
 				// special case: urlString is actually a base64 encoded ggb file
 			} else if (processedUrlString.startsWith("UEs")) {
-				success = loadURL_base64(
+				success = true;
+				app.getGgbApi()
+						.setBase64(
 						processedUrlString.replace("\\/", "/"));
 
 				// special case: urlString is actually a GeoGebra XML file
@@ -295,11 +299,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 				success = getApp().loadXML(processedUrlString);
 
 				// 'standard' case: url with GeoGebra applet (Java or HTML5)
-			} else {
-				// try to load from GeoGebra applet
-				success = loadFromApplet(processedUrlString);
-				isMacroFile = processedUrlString.contains(".ggt");
 			}
+			// else {
+			// // try to load from GeoGebra applet
+			// success = loadFromApplet(processedUrlString);
+			// isMacroFile = processedUrlString.contains(".ggt");
+			// }
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -315,12 +320,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	protected abstract App getApp();
-
-	protected abstract boolean loadURL_GGB(String url) throws Exception;
-
-	protected abstract boolean loadURL_base64(String url) throws Exception;
-
-	protected abstract boolean loadFromApplet(String url) throws Exception;
 
 	/**
 	 * Attach a view which by using the view ID.

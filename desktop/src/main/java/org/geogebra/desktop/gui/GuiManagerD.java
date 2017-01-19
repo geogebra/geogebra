@@ -2444,33 +2444,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	protected boolean loadURL_GGB(String urlString) throws Exception {
-		URL url = getEscapedUrl(urlString);
-		return ((AppD) app).loadXML(url, false);
-	}
-
-	@Override
-	protected boolean loadURL_base64(String urlString) throws IOException {
-		byte[] zipFile = Base64.decode(urlString);
-		return ((AppD) app).loadXML(zipFile);
-	}
-
-	@Override
-	protected boolean loadFromApplet(String urlString) throws Exception {
-		URL url = getEscapedUrl(urlString);
-		boolean success = ((AppD) app).loadFromHtml(url);
-
-		// fallback: maybe some address like download.php?file=1234,
-		// e.g. the forum
-		if (!success) {
-			boolean isMacroFile = urlString.contains(".ggt");
-			success = ((AppD) app).loadXML(url, isMacroFile);
-		}
-
-		return success;
-	}
-
-	@Override
 	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
 		if (success && !isMacroFile
 				&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
