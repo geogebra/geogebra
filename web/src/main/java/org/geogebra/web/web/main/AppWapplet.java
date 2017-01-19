@@ -17,6 +17,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
@@ -198,7 +199,6 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void buildApplicationPanel() {
-
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()) {
 				useFullGui = true;
@@ -210,8 +210,27 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 
-
-		frame.clear();
+        if (has(Feature.KEYBOARD_BEHAVIOUR)) {        	 
+        	for(int i=frame.getWidgetCount()-1; i>=0; i--){
+        		if (!(frame.getWidget(i) instanceof HasKeyboardPopup)){
+        			frame.remove(i);
+        		}
+        	}
+        	
+        	
+        	
+//            if (hasPopup()) {
+//                Widget parent = popups.get(0).getParent();
+//                frame.clear();
+//                if (parent != null && popups.get(0) instanceof HasKeyboardPopup && parent instanceof Panel) {
+//                    ((Panel) parent).add(popups.get(0));
+//                }
+//            } else {
+//            	frame.clear();
+//            }
+        } else {
+            frame.clear();
+        }
 
 
 		// showMenuBar should come from data-param,
