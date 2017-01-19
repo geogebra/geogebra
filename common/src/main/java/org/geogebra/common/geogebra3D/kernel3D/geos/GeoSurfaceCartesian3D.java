@@ -279,16 +279,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	// /////////////////////////
 	// FUNCTIONAL2VAR
 
-	@Override
-	public Coords evaluatePoint(double u, double v) {
-		Coords p = new Coords(3);
-		tmp[0] = u;
-		tmp[1] = v;
-		for (int i = 0; i < 3; i++) {
-			p.set(i + 1, fun[i].evaluate(tmp));
-		}
-		return p;
-	}
 
 	/**
 	 * evaluate point at parameters u,v

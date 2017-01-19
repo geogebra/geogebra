@@ -173,16 +173,12 @@ public class DrawPoint3D extends Drawable3DCurves
 	// FUNCTION2VAR INTERFACE
 	// /////////////////////////////////
 
-	@Override
-	public Coords evaluatePoint(double u, double v) {
-
-		GeoPointND point = (GeoPointND) getGeoElement();
-
-		double r = point.getPointSize() / getView3D().getScale() * 1.5;
-		Coords n = new Coords(new double[] { Math.cos(u) * Math.cos(v) * r,
-				Math.sin(u) * Math.cos(v) * r, Math.sin(v) * r });
-
-		return n.add(point.getInhomCoordsInD3());
+	public void evaluatePoint(double u, double v, Coords point) {
+		GeoPointND geoPoint = (GeoPointND) getGeoElement();
+		double r = geoPoint.getPointSize() / getView3D().getScale() * 1.5;
+		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r,
+				Math.sin(v) * r, 1);
+		point.setAdd3(point, geoPoint.getInhomCoordsInD3());
 	}
 
 	@Override

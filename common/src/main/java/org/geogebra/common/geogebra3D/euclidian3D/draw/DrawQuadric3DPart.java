@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.geos.FromMeta;
@@ -28,12 +27,6 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 		return new double[] { quadric.getMinParameter(1),
 				quadric.getMaxParameter(1) };
-	}
-
-	@Override
-	protected void setSurfaceV(float min, float max, PlotterSurface surface) {
-		surface.setV(min, max);
-		surface.setNbV(3);
 	}
 
 	@Override

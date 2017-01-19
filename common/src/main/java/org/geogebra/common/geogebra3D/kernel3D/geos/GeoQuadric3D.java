@@ -1841,13 +1841,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// SURFACE (u,v)->(x,y,z) INTERFACE
 	// ///////////////////////////////////////
 
-	@Override
-	public Coords evaluatePoint(double u, double v) {
-		Coords ret = Coords.createInhomCoorsInD3();
-		evaluatePoint(u, v, ret);
-		return ret;
-	}
-
 	public void evaluatePoint(double u, double v, Coords point) {
 
 		switch (type) {
@@ -2422,12 +2415,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public Coords getPoint(double u, double v, Coords coords) {
-		coords.set(evaluatePoint(u, v));
+		evaluatePoint(u, v, coords);
 		return coords;
 	}
 
+	/**
+	 * 
+	 * @param u
+	 * @param v
+	 * @return
+	 * @deprecated use getPoint(double u, double v, Coords coords) instead
+	 */
+	@Deprecated
 	public Coords getPoint(double u, double v) {
-		return evaluatePoint(u, v);
+		return getPoint(u, v, new Coords(4));
 	}
 
 	/**

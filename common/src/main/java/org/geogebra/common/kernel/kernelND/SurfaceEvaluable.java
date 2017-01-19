@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 
 /**
@@ -26,15 +25,6 @@ public interface SurfaceEvaluable {
 		/** level of detail : quality */
 		QUALITY
 	}
-
-	/**
-	 * @param u
-	 *            first parameter
-	 * @param v
-	 *            second parameter
-	 * @return point for parameters u, v
-	 */
-	public Coords evaluatePoint(double u, double v);
 
 	/**
 	 * @param u

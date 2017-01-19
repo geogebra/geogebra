@@ -3076,11 +3076,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public Coords evaluatePoint(double u, double v) {
-		return new Coords(u, v, this.evaluateBoolean(u) ? 0 : Double.NaN);
-	}
-
-	@Override
 	public void evaluatePoint(double u, double v, Coords3 point) {
 		if (this.evaluateBoolean(u)) {
 			point.set(u, v, 0);

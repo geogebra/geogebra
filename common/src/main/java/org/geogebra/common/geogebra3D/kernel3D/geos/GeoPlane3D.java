@@ -453,12 +453,8 @@ public class GeoPlane3D extends GeoElement3D
 		return coordsys.getNormal();
 	}
 
-	@Override
-	public Coords evaluatePoint(double u, double v) {
-
-		return coordsys.getPointForDrawing(u, v);
-		// return coordsys.getPoint(u, v);
-
+	public void evaluatePoint(double u, double v, Coords point) {
+		coordsys.getPointForDrawing(u, v, point);
 	}
 
 	@Override

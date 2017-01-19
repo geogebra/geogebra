@@ -666,28 +666,6 @@ public class GeoFunctionNVar extends GeoElement
 
 	private double[] tmp = new double[2];
 
-	/**
-	 * used if 2-var function, for plotting
-	 * 
-	 * @param u
-	 *            x-coord
-	 * @param v
-	 *            y-coord
-	 * @return coords of the point (u,v,f(u,v))
-	 */
-	@Override
-	public Coords evaluatePoint(double u, double v) {
-
-		Coords p = new Coords(3);
-		tmp[0] = u;
-		tmp[1] = v;
-
-		p.set(1, u);
-		p.set(2, v);
-		p.set(3, evaluateForDrawSurface());
-		return p;
-	}
-
 	private double evaluateForDrawSurface() {
 		if (isBooleanFunction()) {
 			if (fun.evaluateBoolean(tmp)) {

@@ -163,10 +163,16 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		double segParameter = t - index;
 
 		// calc point for given parameter; must NOT doPathOrRegion
-		P.setCoords(seg.getPointCoords(segParameter), false);
+		if (tmpCoords == null) {
+			tmpCoords = new Coords(4);
+		}
+		seg.getPointCoords(segParameter, tmpCoords);
+		P.setCoords(tmpCoords, false);
 
 		pp.setT(t);
 	}
+
+	private Coords tmpCoords;
 
 	@Override
 	public void pointChanged(GeoPointND P) {

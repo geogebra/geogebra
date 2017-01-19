@@ -1481,8 +1481,8 @@ public class PlotterSurface {
 
 		float u = uMin + ui * du;
 		float v = vMin + vi * dv;
-		drawNV(functional2Var.evaluateNormal(u, v),
-				functional2Var.evaluatePoint(u, v));
+		functional2Var.evaluatePoint(u, v, tmpCoords2);
+		drawNV(functional2Var.evaluateNormal(u, v), tmpCoords2);
 	}
 
 	private Coords coords1 = new Coords(4);

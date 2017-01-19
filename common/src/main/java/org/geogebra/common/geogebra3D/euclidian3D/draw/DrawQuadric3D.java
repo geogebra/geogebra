@@ -872,48 +872,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
-	/**
-	 * @param min
-	 *            minimal parameter
-	 * @param max
-	 *            maximal parameter
-	 * @param surface
-	 *            plotter
-	 */
-	protected void setSurfaceV(float min, float max, PlotterSurface surface) {
-		float fade = (max - min) / 10f;
-
-		switch (((GeoQuadric3D) getGeoElement()).getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			surface.setV(min, max);
-			surface.setNbV(3);
-			surface.setVFading(fade, fade);
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-			if (min * max < 0) {
-				surface.setV(min, 0);
-				surface.setNbV(2);
-				surface.setVFading(fade, 0);
-				surface.draw();
-				surface.setV(0, max);
-				surface.setNbV(2);
-				surface.setVFading(0, fade);
-				surface.draw();
-			} else {
-				surface.setV(min, max);
-				surface.setNbV(3);
-				surface.setVFading(fade, fade);
-				surface.draw();
-			}
-			break;
-		}
-
-	}
-
 	private boolean updateNeededForNewScale(double s) {
 		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			return true;

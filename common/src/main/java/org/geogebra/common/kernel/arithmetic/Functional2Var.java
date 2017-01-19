@@ -13,15 +13,17 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public interface Functional2Var {
 
 	/**
-	 * return point for parameters (u,v)
+	 * set point for parameters (u,v)
 	 * 
 	 * @param u
 	 *            x-coord for evaluation
 	 * @param v
 	 *            y-coord for evaluation
-	 * @return point for parameters (u,v)
+	 * @param point
+	 *            for parameters (u,v)
+	 * 
 	 */
-	public Coords evaluatePoint(double u, double v);
+	public void evaluatePoint(double u, double v, Coords point);
 
 	/**
 	 * return normal vector at parameters (u,v) (return null if none)

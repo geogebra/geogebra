@@ -605,16 +605,12 @@ public class DrawConic3D extends Drawable3DCurves
 	// FUNCTION2VAR INTERFACE
 	// /////////////////////////////////
 
-	@Override
-	public Coords evaluatePoint(double u, double v) {
-
+	public void evaluatePoint(double u, double v, Coords point) {
 		GeoConicND conic = (GeoConicND) getGeoElement();
-
 		double r = conic.getLineThickness() / getView3D().getScale() * 1.5;
-		Coords n = new Coords(new double[] { Math.cos(u) * Math.cos(v) * r,
-				Math.sin(u) * Math.cos(v) * r, Math.sin(v) * r });
-
-		return n.add(conic.getMidpoint3D());
+		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r,
+				Math.sin(v) * r, 1);
+		point.setAdd3(point, conic.getMidpoint3D());
 	}
 
 	@Override

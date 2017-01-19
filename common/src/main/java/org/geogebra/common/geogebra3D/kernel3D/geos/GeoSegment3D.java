@@ -281,12 +281,16 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * 
 	 * @param parameter
 	 *            path parameter
-	 * @return coresponding coords
+	 * 
+	 * @param point
+	 *            set to point on segment at parameter
 	 */
-	public Coords getPointCoords(double parameter) {
-		return startPoint.getInhomCoordsInD3()
-				.add((endPoint.getInhomCoordsInD3()
-						.sub(startPoint.getInhomCoordsInD3())).mul(parameter));
+	public void getPointCoords(double parameter, Coords point) {
+		point.setSub3(endPoint.getInhomCoordsInD3(),
+				startPoint.getInhomCoordsInD3());
+		point.mulInside3(parameter);
+		point.setAdd3(startPoint.getInhomCoordsInD3(), point);
+		point.setW(1);
 	}
 
 	@Override
