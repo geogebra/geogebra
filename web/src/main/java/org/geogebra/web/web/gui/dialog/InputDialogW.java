@@ -91,7 +91,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			boolean modal, final boolean selectInitText, GeoElement geo,
 			DialogType type) {
 
-		this(modal, app, false);
+		this(modal, app, true);
 
 		this.geo = geo;
 		this.inputHandler = handler;
