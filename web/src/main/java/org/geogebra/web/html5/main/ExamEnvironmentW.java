@@ -14,6 +14,10 @@ public class ExamEnvironmentW extends ExamEnvironment {
     private App app;
     private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled, wasScreenOn;
 
+	/**
+	 * @param app
+	 *            application
+	 */
     public ExamEnvironmentW(App app) {
         super();
         this.app = app;
@@ -92,20 +96,32 @@ public class ExamEnvironmentW extends ExamEnvironment {
         checkScreenState.startRepeat();
     }
 
+	/**
+	 * @return whether task locking API is available
+	 */
     public static native boolean checkLockTaskAvailable() /*-{
-        return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
+		return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
 	}-*/;
 
+	/**
+	 * @return whether task is locked
+	 */
     public static native boolean checkTaskLocked() /*-{
-        return $wnd.GeoGebraExamAndroidJsBinder.checkTaskLocked();
+		return $wnd.GeoGebraExamAndroidJsBinder.checkTaskLocked();
 	}-*/;
 
+	/**
+	 * Lock task over API
+	 */
     public static native void startLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
 	}-*/;
 
+	/**
+	 * @return whether screen is inactive
+	 */
     public static native boolean isScreenOff() /*-{
-        return $wnd.GeoGebraExamAndroidJsBinder.isScreenOff();
+		return $wnd.GeoGebraExamAndroidJsBinder.isScreenOff();
 	}-*/;
 
 
@@ -122,35 +138,36 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
     public static native boolean setJavascriptTargetToNone() /*-{
-        return $wnd.GeoGebraExamAndroidJsBinder.setJavascriptTargetToNone();
-    }-*/;
+		return $wnd.GeoGebraExamAndroidJsBinder.setJavascriptTargetToNone();
+	}-*/;
 
     private static native boolean setJavascriptTargetToExamEnvironment() /*-{
-        return $wnd.GeoGebraExamAndroidJsBinder.setJavascriptTargetToExamEnvironment();
-    }-*/;
+		return $wnd.GeoGebraExamAndroidJsBinder
+				.setJavascriptTargetToExamEnvironment();
+	}-*/;
 
     private native void exportGeoGebraAndroidMethods() /*-{
-        var that = this;
-        $wnd.examEnvironment_airplaneModeTurnedOn = $entry(function() {
-          that.@org.geogebra.web.html5.main.ExamEnvironmentW::airplaneModeTurnedOn()();
-        });
-        $wnd.examEnvironment_airplaneModeTurnedOff = $entry(function() {
-          that.@org.geogebra.web.html5.main.ExamEnvironmentW::airplaneModeTurnedOff()();
-        });
-        $wnd.examEnvironment_wifiEnabled = $entry(function() {
-          that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiEnabled()();
-        });
-        $wnd.examEnvironment_wifiDisabled = $entry(function() {
-          that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiDisabled()();
-        });
-        $wnd.examEnvironment_bluetoothEnabled = $entry(function() {
-          that.@org.geogebra.web.html5.main.ExamEnvironmentW::bluetoothEnabled()();
-        });
-        $wnd.examEnvironment_bluetoothDisabled = $entry(function() {
-          that.@org.geogebra.web.html5.main.ExamEnvironmentW::bluetoothDisabled()();
-        });
+		var that = this;
+		$wnd.examEnvironment_airplaneModeTurnedOn = $entry(function() {
+			that.@org.geogebra.web.html5.main.ExamEnvironmentW::airplaneModeTurnedOn()();
+		});
+		$wnd.examEnvironment_airplaneModeTurnedOff = $entry(function() {
+			that.@org.geogebra.web.html5.main.ExamEnvironmentW::airplaneModeTurnedOff()();
+		});
+		$wnd.examEnvironment_wifiEnabled = $entry(function() {
+			that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiEnabled()();
+		});
+		$wnd.examEnvironment_wifiDisabled = $entry(function() {
+			that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiDisabled()();
+		});
+		$wnd.examEnvironment_bluetoothEnabled = $entry(function() {
+			that.@org.geogebra.web.html5.main.ExamEnvironmentW::bluetoothEnabled()();
+		});
+		$wnd.examEnvironment_bluetoothDisabled = $entry(function() {
+			that.@org.geogebra.web.html5.main.ExamEnvironmentW::bluetoothDisabled()();
+		});
 
-    }-*/;
+	}-*/;
 
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
@@ -219,6 +236,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
 
+	/**
+	 * Run this when unlocked task detected; notifies about cheating
+	 */
     public void taskUnlocked() {
         if (getStart() > 0) {
             if (wasTaskLocked) {
@@ -233,6 +253,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
 
+	/**
+	 * If task was previously unlocked, add cheating end to the log
+	 */
     public void taskLocked() {
         if (getStart() > 0) {
             if (!wasTaskLocked) {

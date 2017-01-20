@@ -569,11 +569,11 @@ public class MathFieldW implements MathField, IsWidget {
 			//* although clip is for absolute position, necessary! 
 			//* as it is deprecated, may cause CSS challenges later 
 			clipDiv.style.clip = "rect(1em 1em 1em 1em)";
-
 			//* top/left will be specified dynamically, depending on scrollbar 
 			clipDiv.style.width = "1px";
 			clipDiv.style.height = "1px";
 			hiddenTextArea.style.width = "1px";
+			hiddenTextArea.style.minHeight = 0;
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
 			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
