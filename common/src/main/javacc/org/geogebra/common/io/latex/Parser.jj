@@ -137,10 +137,17 @@ void mathContainer(MathContainer currentField) : {}
     )*
 }
 
-void mathAtom(MathContainer currentField) : {}
+void mathAtom(MathContainer currentField) : {
+    Token t = null;
+
+}
 {
 
-    (<SPACE>)* (
+    (<SPACE>)*    (t= <OPERATOR>)? {
+    if(t!=null)    {            currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+      }
+    }
+    (
         power(currentField)
     |
         superscript(currentField)

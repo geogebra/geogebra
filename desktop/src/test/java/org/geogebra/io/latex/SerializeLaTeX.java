@@ -55,6 +55,20 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testExponent() {
+		checkCannon("exp(-30)", "exp(-30)");
+		checkCannon(Unicode.EULER_STRING + "^-30", Unicode.EULER_STRING
+				+ "^(-30)");
+		checkCannon(Unicode.EULER_STRING + "^-30+1", Unicode.EULER_STRING
+				+ "^(-30)+1");
+		checkCannon(Unicode.EULER_STRING + Unicode.Superscript_Minus
+				+ Unicode.Superscript_1
+ + Unicode.Superscript_0,
+				Unicode.EULER_STRING + "^(-10)");
+
+	}
+
+	@Test
 	public void testPower() {
 		checkCannon("x ^ 2", "x^(2)");
 		checkCannon("x ^ 2 + 1", "x^(2)+1");
