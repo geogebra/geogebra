@@ -290,4 +290,9 @@ public class CursorController {
         return path;
     }
 
+	public void update() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

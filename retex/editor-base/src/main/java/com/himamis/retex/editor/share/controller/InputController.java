@@ -762,24 +762,46 @@ public class InputController {
 
 	private void comma(EditorState editorState) {
 		int idx = editorState.getCurrentOffset();
-		MathContainer field = editorState.getCurrentField();
-		if (field.getParent() instanceof MathArray && idx == field.size()
-				&& field.getParentIndex() < field.size()) {
-
-			MathSequence arg = (MathSequence) field.getParent()
-					.getArgument(field.getParentIndex() + 1);
-			if (arg != null) {
-				editorState.setCurrentField(arg);
-				editorState.setCurrentOffset(arg.size() - 1);
-				editorState.setSelectionStart(arg.getArgument(0));
-				editorState.setSelectionStart(arg.getArgument(arg.size() - 1));
-				return;
-			}
-
+		MathSequence field = editorState.getCurrentField();
+		System.out.println(field.getArgument(idx));
+		if (field.getArgument(idx) instanceof MathCharacter
+				&& ",".equals(field.getArgument(idx).toString())
+				&& doSelectNext(field, editorState, idx + 1)) {
+			return;
 		}
 
 		newCharacter(editorState, ',');
 
+	}
+
+	/**
+	 * @param args
+	 *            text of the form <arg1>,<arg2>
+	 * @param state
+	 *            current state
+	 * @param offset
+	 *            where to start looking
+	 * @return whether successfully selected
+	 */
+	public static boolean doSelectNext(MathSequence args, EditorState state,
+			int offset) {
+		int endchar = -1;
+		for (int i = offset + 1; i < args.size(); i++) {
+			if (args.getArgument(i) instanceof MathCharacter
+					&& ((MathCharacter) args.getArgument(i))
+							.getUnicode() == '>') {
+				endchar = i;
+				break;
+			}
+		}
+		if (endchar > 0) {
+			state.setCurrentField(args);
+			state.setSelectionStart(args.getArgument(offset));
+			state.setSelectionEnd(args.getArgument(endchar));
+			state.setCurrentOffset(endchar);
+			return true;
+		}
+		return false;
 	}
 
 	private static boolean isArrayCloseKey(char key, EditorState editorState) {

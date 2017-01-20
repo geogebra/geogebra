@@ -474,26 +474,17 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			MathComponent last = seq.getArgument(state.getCurrentOffset() - 1);
 			if (last instanceof MathArray && ((MathArray) last).size() > 0) {
 				MathSequence args = ((MathArray) last).getArgument(0);
-				int endchar = -1;
-				for (int i = 1; i < args.size(); i++) {
-					if (args.getArgument(i) instanceof MathCharacter
-							&& ((MathCharacter) args.getArgument(i))
-									.getUnicode() == '>') {
-						endchar = i;
-						break;
-					}
-				}
-				if (endchar > 0) {
-					state.setCurrentField(args);
-					state.setSelectionStart(args.getArgument(0));
-					state.setSelectionEnd(args.getArgument(endchar));
-					state.setCurrentOffset(endchar);
+				if (InputController.doSelectNext(args, state, 0)) {
 					update();
 				}
 			}
 		}
 
 	}
+
+
+
+
 
 	public void debug(String string) {
 		mathField.debug(string);

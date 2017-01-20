@@ -7,10 +7,19 @@ import javax.swing.Timer;
 
 import org.geogebra.common.util.GTimer;
 
+/**
+ * Desktop timer
+ */
 public class GTimerD implements GTimer, ActionListener {
 	private Timer timer;
 	private GTimerListener listener;
 
+	/**
+	 * @param listener
+	 *            action
+	 * @param delay
+	 *            delay to run (or between runs)
+	 */
 	public GTimerD(GTimerListener listener, int delay) {
 		this.listener = listener;
 		timer = new Timer(delay, this);

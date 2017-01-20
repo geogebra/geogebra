@@ -115,8 +115,9 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("Plane[<7>,<7>]");
+					.parse("");
 			mathField.setFormula(f);
+			insertString(mathField, "Plane[<7>,<7>]");
 			for (int i = 0; i < 5; i++) {
 				mathField.getInternal()
 						.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0));
@@ -136,6 +137,13 @@ public class Test {
 		}
 		//mathField.insertString("ggbmatrix(3,3)");
 		// mathField.insertString("Midpoint(<Point>, <Point>)");
+
+	}
+
+	private static void insertString(MathFieldD mf, String text) {
+		for (int i = 0; i < text.length(); i++) {
+			mf.getInternal().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+		}
 
 	}
 }
