@@ -104,7 +104,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	}
 	
-	private class DialogBoxKbW extends DialogBoxW implements HasKeyboardPopup{
+	private static class DialogBoxKbW extends DialogBoxW
+			implements HasKeyboardPopup {
 
 		public DialogBoxKbW(boolean b, boolean modal, InputDialogW inputDialogW, Panel panel) {
 			super(b, modal, inputDialogW, panel);

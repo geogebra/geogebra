@@ -124,7 +124,9 @@ public class HttpRequestD extends HttpRequest {
 			processed = true;
 			String err = "";
 			try {
-				err = readOutput(huc.getErrorStream());
+				if(huc!=null){
+					err = readOutput(huc.getErrorStream());
+				}
 			} catch (IOException e2) {
 				Log.warn("invalid HTTP stream");
 			}
@@ -137,32 +139,33 @@ public class HttpRequestD extends HttpRequest {
 		}
 	}
 
-	private String readOutput(InputStream inputStream)
+	private static String readOutput(InputStream inputStream)
 			throws IOException {
 		BufferedReader in = null;
-		String ans;
+		StringBuilder ans;
 		try {
 			in = new BufferedReader(
 					new InputStreamReader(inputStream,
 					Charsets.UTF_8));
 			String s = "";
-			ans = in.readLine(); // the last line will never get a "\n"
+			ans = new StringBuilder(in.readLine()); // the last line will never
+													// get a "\n"
 									// on
 			// its end
 			while ((s = in.readLine()) != null) {
 				if (!("".equals(ans))) {
 					// "\n"s, we
 					// ignore them
-					ans += "\n";
+					ans.append("\n");
 				}
-				ans += s;
+				ans.append(s);
 			}
 		} finally {
 			if (in != null) {
 				in.close();
 			}
 		}
-		return ans;
+		return ans.toString();
 	}
 
 	/**
