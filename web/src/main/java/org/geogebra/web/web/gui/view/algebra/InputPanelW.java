@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *         Creates an InputPanel for GeoGebraWeb
  * 
  */
-public class InputPanelW extends FlowPanel implements HasKeyboardPopup {
+public class InputPanelW extends FlowPanel{
 
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;
@@ -65,8 +65,6 @@ public class InputPanelW extends FlowPanel implements HasKeyboardPopup {
 
 			if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 				atf.enableGGBKeyboard();
-				// app.registerPopup(this); TODO do we need this? It kills input
-				// in properties view
 			}
 		}
 	}
