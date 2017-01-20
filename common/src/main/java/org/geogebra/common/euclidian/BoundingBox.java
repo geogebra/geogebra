@@ -180,4 +180,25 @@ public class BoundingBox {
 		handlers.clear();
 	}
 
+	/**
+	 * @param x
+	 *            - mouse event x
+	 * @param y
+	 *            - mouse event y
+	 * @return number of handler which was hit
+	 */
+	public int hitHandlers(int x, int y) {
+		int index = -1;
+		if (!handlers.isEmpty()) {
+			for (int i = 0; i < handlers.size(); i++) {
+				GRectangle2D rect = handlers.get(i).getBounds();
+				if (rect.contains(x, y)) {
+					// Log.debug("HANDLER NR:" + i);
+					return i;
+				}
+			}
+		}
+		return index;
+	}
+
 }
