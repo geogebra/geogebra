@@ -29,6 +29,7 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -522,6 +523,23 @@ public abstract class Drawable extends DrawableND {
 		return labelRectangle.contains(x, y);
 	}
 
+	/**
+	 * Was clicked at the handlers of bounding box? (mouse pointer location (x,y) in screen coords)
+	 * 
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
+	 * @return true if hit
+	 */
+	public int hitBoundingBoxHandler(int x, int y) {
+		int hit = -1;
+		if (getBoundingBox() != null) {
+			hit = getBoundingBox().hitHandlers(x, y);
+		}
+		return hit;
+	}
+
 	private boolean forcedLineType;
 
 	private HatchingHandler hatchingHandler;
@@ -765,6 +783,18 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public void updateForView() {
 		update();
+	}
+
+	/**
+	 * method to handle corner drag of bounding box to resize geo
+	 * 
+	 * @param e
+	 *            - mouse drag event
+	 * @param handlerNr
+	 *            - which corner was draged
+	 */
+	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+		// do nothing here
 	}
 
 }
