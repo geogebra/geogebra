@@ -68,7 +68,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons) {
 
-		tmpCoords = new Coords(3);
+		tmpCoords = new Coords(4);
 		return new GeoPoint3D(cons);
 	}
 
@@ -86,6 +86,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	protected void computeMidCoords() {
 		tmpCoords.setAdd3(getP().getInhomCoordsInD3(),
 				getQ().getInhomCoordsInD3()).mulInside(0.5);
+		tmpCoords.setW(1);
 		getPoint().setCoords(tmpCoords);
 	}
 
