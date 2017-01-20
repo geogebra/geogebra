@@ -30,6 +30,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipLine;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -642,6 +643,26 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	public void setBoundingBox(BoundingBox boundingBox) {
 		this.boundingBox = boundingBox;
+	}
+
+	@Override
+	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+		double dP1 = line.getP1().distance(e.getX(), e.getY());
+		double dP2 = line.getP2().distance(e.getX(), e.getY());
+		double realX = view.toRealWorldCoordX(e.getX());
+		double realY = view.toRealWorldCoordY(e.getY());
+
+		if (dP1 <= dP2) {
+				s.getStartPoint().setCoords(realX, realY, 1);
+		} else {
+				s.getEndPoint().setCoords(realX, realY, 1);
+		}
+
+		s.update();
+		s.updateRepaint();
+		s.getParentAlgorithm().update();
+		this.update();
+		view.repaintView();
 	}
 
 }

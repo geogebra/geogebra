@@ -229,6 +229,7 @@ public abstract class EuclidianController {
 	protected Furniture movedGeoButton;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
+	protected Drawable resizedShape = null;
 	protected MyDouble tempNum;
 	protected double rotationLastAngle;
 	protected ArrayList<GeoElement> translateableGeos;
@@ -470,6 +471,14 @@ public abstract class EuclidianController {
 			shapeMode = new ModeShape(view);
 		}
 		return shapeMode;
+	}
+
+	public Drawable getResizedShape() {
+		return resizedShape;
+	}
+
+	public void setResizedShape(Drawable resizedShape) {
+		this.resizedShape = resizedShape;
 	}
 
 	protected void createCompanions() {
@@ -7824,6 +7833,13 @@ public abstract class EuclidianController {
 
 			return;
 		}
+		
+		if (getResizedShape() != null) {
+			getResizedShape().updateByBoundingBoxCorner(event,
+					view.getHitHandlerNr());
+			stopCollectingMinorRepaints();
+			return;
+		}
 
 		altCopy = false;
 		// moveMode was set in mousePressed()
@@ -8114,6 +8130,11 @@ public abstract class EuclidianController {
 			startLoc = mouseLoc;
 			setDragCursor();
 			return;
+		}
+		
+		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
+		if (d != null) {
+			setResizedShape(d);
 		}
 
 		// find and set movedGeoElement
@@ -9647,6 +9668,11 @@ public abstract class EuclidianController {
 			}
 		} else {
 			wrapMouseReleasedND(event, true);
+		}
+
+		if (getResizedShape() != null) {
+			view.setHitHandlerNr(-1);
+			setResizedShape(null);
 		}
 	}
 
