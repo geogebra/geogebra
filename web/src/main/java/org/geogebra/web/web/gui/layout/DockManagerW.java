@@ -1802,7 +1802,7 @@ public class DockManagerW extends DockManager {
 			avPanel.onResize();
 		}
 
-		if (!app.has(Feature.ADJUST_VIEWS) || panelsMoved) {
+		if (!app.canResize() || panelsMoved) {
 			return;
 		}
 		calculateKeyboardHeight();

@@ -4100,11 +4100,12 @@ public abstract class App implements UpdateSelection {
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
 			return prerelease
-					&& Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
+			;// && Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease
+					|| Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-798
 		case AV_SCROLL:
@@ -4251,6 +4252,10 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		}
+	}
+
+	public boolean canResize() {
+		return !isApplet() && has(Feature.ADJUST_VIEWS);
 	}
 
 	/**
