@@ -198,7 +198,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public boolean isDrawable() {
 		return isDrawable || (getDrawAlgorithm() != getParentAlgorithm())
-				|| (isIndependent() && isLabelSet());
+				|| (isIndependent() && isLabelSet() && isSimple());
 	}
 
 	@Override

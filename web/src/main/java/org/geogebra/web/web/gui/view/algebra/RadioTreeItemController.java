@@ -709,6 +709,7 @@ public class RadioTreeItemController
 
 	public void removeGeo() {
 		item.geo.remove();
+		item.setText(""); // make sure the text is not resubmitted on focus lost
 		getAV().setActiveTreeItem(null);
 	}
 
