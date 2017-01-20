@@ -216,8 +216,11 @@ public class LatexTreeItem extends RadioTreeItem {
 			}
 		}
 		mf.setFocus(focus);
-		//canvas.setFocus(b);
-		app.adjustViews();
+
+		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+		if (getAlgebraDockPanel().getOffsetHeight() < kH) {
+			app.adjustViews();
+		}
 	}
 
 	@Override
