@@ -147,7 +147,6 @@ public class SelectionManager {
 	 *            whether all views need repainting afterwards
 	 */
 	public void clearSelectedGeos(boolean repaint) {
-		Log.printStacktrace("CLEAR" + repaint);
 		clearSelectedGeos(repaint, repaint);
 	}
 
