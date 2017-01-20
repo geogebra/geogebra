@@ -98,7 +98,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	static final int BROWSER_SCROLLBAR_WIDTH = 17;
 
-	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
+	protected static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(GColor.newColor(255, 255, 255, 0));
@@ -313,8 +313,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// if enabled, render with LaTeX
 
 		if (getLatexString(true, null) != null) {
-			setNeedsUpdate(true);
-			av.repaintView();
+			if (getAV().isLaTeXLoaded()) {
+				doUpdate();
+			} else {
+				setNeedsUpdate(true);
+				av.repaintView();
+			}
 
 		}
 		createAvexWidget();
@@ -357,7 +361,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// only for checkboxes
 	}
 
-	private String getLatexString(boolean MathQuill, Integer limit) {
+	protected String getLatexString(boolean MathQuill, Integer limit) {
 		return getLatexString(geo, MathQuill, limit);
 	}
 
@@ -432,7 +436,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private boolean isGeoFraction() {
+	protected boolean isGeoFraction() {
 		return geo instanceof GeoNumeric && geo.getDefinition() != null
 				&& geo.getDefinition().isFraction();
 	}
@@ -495,14 +499,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected boolean updateValuePanel() {
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
-		boolean fraction = isGeoFraction() && isSymbolicGeo();
-		latex = text != null || fraction;
-		return updateValuePanel(fraction
- ? geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplateMQ) : text);
-	}
+
 
 	private void addPrefixLabel(String text) {
 		final Label label = new Label(text);
@@ -514,7 +511,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		outputPanel.add(label);
 	}
 
-	private boolean updateValuePanel(String text) {
+	protected boolean updateValuePanel(String text) {
 		return updateValuePanel(geo, text);
 	}
 
@@ -566,10 +563,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	private boolean isSymbolicGeo() {
-		return (geo instanceof HasSymbolicMode
-				&& ((HasSymbolicMode) geo).isSymbolicMode());
-	}
+
 
 	private void buildItemContent() {
 		if (isDefinitionAndValue()) {
@@ -1113,6 +1107,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		controller.setEditing(false);
 
 		av.cancelEditItem();
+		getAV().setLaTeXLoaded();
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (btnClearInput != null && !app.has(Feature.AV_SINGLE_TAP_EDIT)) {

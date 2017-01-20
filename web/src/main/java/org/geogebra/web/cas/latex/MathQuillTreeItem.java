@@ -5,6 +5,7 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
@@ -346,6 +347,18 @@ public class MathQuillTreeItem extends RadioTreeItem
 		}
 	}
 
+	protected final boolean updateValuePanel() {
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		boolean fraction = isGeoFraction() && isSymbolicGeo();
+		latex = text != null || fraction;
+		return updateValuePanel(fraction ? geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplateMQ) : text);
+	}
+
+	protected boolean isSymbolicGeo() {
+		return (geo instanceof HasSymbolicMode
+				&& ((HasSymbolicMode) geo).isSymbolicMode());
+	}
 	@Override
 	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
 		if (definitionAndValue) {

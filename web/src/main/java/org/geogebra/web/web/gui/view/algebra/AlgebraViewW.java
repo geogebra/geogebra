@@ -1983,6 +1983,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
+	private boolean latexLoaded;
 
 	/*
 	 * private int resizedWidth;* Not used in Web so far. Will not work with
@@ -2336,5 +2337,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	public boolean isInputActive() {
 		return activeItem == inputPanelLatex;
+	}
+
+	public boolean isLaTeXLoaded() {
+		return latexLoaded;
+	}
+
+	public void setLaTeXLoaded() {
+		latexLoaded = true;
+
 	}
 }
