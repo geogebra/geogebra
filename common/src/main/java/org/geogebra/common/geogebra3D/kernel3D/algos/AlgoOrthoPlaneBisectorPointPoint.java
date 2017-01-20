@@ -58,7 +58,8 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 		return Commands.PlaneBisector;
 	}
 
-	private Coords normal = new Coords(3), point = new Coords(3);
+	private Coords normal = new Coords(4),
+			point = Coords.createInhomCoorsInD3();
 
 	@Override
 	protected Coords getNormal() {
