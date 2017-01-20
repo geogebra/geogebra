@@ -92,6 +92,7 @@ public class ScriptManagerW extends ScriptManager {
 	}
 	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {
+		try {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {
 			if (args != null && args.length > 2) {
@@ -110,17 +111,24 @@ public class ScriptManagerW extends ScriptManager {
 			return;
 		}
 		app.callAppletJavaScript(jsFunction, args);
+		} catch (Throwable t) {
+			Log.warn("Error in user script: " + t.getMessage());
+		}
 	}
 
 	@Override
 	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
-		if (jsFunction != null && jsFunction.length() > 0
-				&& jsFunction.charAt(0) <= '9') {
-			callListenerNative(this.api, jsFunction, toString(arg0),
-					toString(arg1));
-			return;
+		try {
+			if (jsFunction != null && jsFunction.length() > 0
+					&& jsFunction.charAt(0) <= '9') {
+				callListenerNative(this.api, jsFunction, toString(arg0),
+						toString(arg1));
+				return;
+			}
+			((AppW) app).callAppletJavaScript(jsFunction, arg0, arg1);
+		} catch (Throwable t) {
+			Log.warn("Error in user script: " + t.getMessage());
 		}
-		((AppW) app).callAppletJavaScript(jsFunction, arg0, arg1);
 	}
 
 	private native void callListenerNative(JavaScriptObject api2,
