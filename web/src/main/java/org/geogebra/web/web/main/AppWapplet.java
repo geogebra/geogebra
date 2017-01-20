@@ -212,6 +212,7 @@ public class AppWapplet extends AppWFull {
 
         if (has(Feature.KEYBOARD_BEHAVIOUR)) {        	 
         	for(int i=frame.getWidgetCount()-1; i>=0; i--){
+        		Log.debug(frame.getWidget(i).getClass());
         		if (!(frame.getWidget(i) instanceof HasKeyboardPopup)){
         			frame.remove(i);
         		}
