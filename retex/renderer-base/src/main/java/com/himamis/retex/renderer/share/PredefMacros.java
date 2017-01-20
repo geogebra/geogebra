@@ -129,6 +129,8 @@ public class PredefMacros {
 		NewCommandMacro.addNewCommand("L", "\\mathrm{\\polishlcross L}", 0);
 		NewCommandMacro.addNewCommand("l", "\\mathrm{\\polishlcross l}", 0);
 		NewCommandMacro.addNewCommand("Join", "\\mathop{\\rlap{\\ltimes}\\rtimes}", 0);
+		NewCommandMacro.addNewCommand("longdiv", "{\\overline{\\smash{)}#1}}", 1);
+
 	}
 
 	public static final Atom fcscore_macro(final String[] args) throws ParseException {
