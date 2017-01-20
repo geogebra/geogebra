@@ -107,6 +107,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
@@ -4515,7 +4516,7 @@ public abstract class EuclidianController {
 
 			// check if arc
 			if (conic.isGeoConicPart()) {
-				GeoConicPart conicPart = (GeoConicPart) conic;
+				GeoConicPartND conicPart = (GeoConicPartND) conic;
 				if (conicPart
 						.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC) {
 					clearSelections();

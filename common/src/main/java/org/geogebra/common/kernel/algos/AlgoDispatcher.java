@@ -738,7 +738,7 @@ public class AlgoDispatcher {
 	/**
 	 * Distance named label between point P and line g
 	 */
-	final public GeoNumeric Distance(String label, GeoPointND P, GeoElement g) {
+	final public GeoNumeric Distance(String label, GeoPointND P, GeoElementND g) {
 		AlgoDistancePointObject algo = new AlgoDistancePointObject(cons, label,
 				P, g);
 		GeoNumeric num = algo.getDistance();

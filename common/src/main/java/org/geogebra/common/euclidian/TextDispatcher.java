@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoArcLength;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -20,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -165,7 +165,7 @@ public class TextDispatcher {
 			}
 
 			if (P != null) {
-				((GeoElement) P).setAuxiliaryObject(true);
+				P.setAuxiliaryObject(true);
 				P.setEuclidianVisible(false);
 				P.updateRepaint();
 				try {
@@ -302,7 +302,7 @@ public class TextDispatcher {
 
 			Construction cons = kernel.getConstruction();
 			AlgoArcLength algo = new AlgoArcLength(cons, null,
-					(GeoConicPart) conic);
+					(GeoConicPartND) conic);
 			// cons.removeFromConstructionList(algo);
 			GeoNumeric arcLength = algo.getArcLength();
 
@@ -426,7 +426,7 @@ public class TextDispatcher {
 
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
 		GeoNumeric length = kernel.getAlgoDispatcher().Distance(null, point,
-				(GeoElement) line);
+				line);
 
 		// set startpoint of text to midpoint between point and line
 		GeoPointND midPoint = MidpointForDistance(point,
