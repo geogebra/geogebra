@@ -19,8 +19,8 @@ import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -28,7 +28,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 
-public class CASLaTeXEditor extends SimplePanel
+public class CASLaTeXEditor extends FlowPanel
  implements CASEditorW,
 		MathKeyboardListener,
 		MathFieldListener {
@@ -46,9 +46,9 @@ public class CASLaTeXEditor extends SimplePanel
 		this.table = table;
 		this.controller = controller;
 		Canvas canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(null, canvas, this);
+		mf = new MathFieldW(this, canvas, this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
-		setWidget(mf);
+		add(mf);
 
 	}
 
@@ -104,10 +104,15 @@ public class CASLaTeXEditor extends SimplePanel
 
 	@Override
 	public void setInput(String string) {
-		if (getWidget() != mf.asWidget()) {
+		if (getWidget(0) != mf.asWidget()) {
 			setWidget(mf.asWidget());
 		}
 		setText(string);
+
+	}
+
+	private void setWidget(Widget asWidget) {
+		insert(asWidget, 0);
 
 	}
 
@@ -241,7 +246,7 @@ public class CASLaTeXEditor extends SimplePanel
 
 	@Override
 	public void requestFocus() {
-		if (getWidget() != mf.asWidget()) {
+		if (getWidget(0) != mf.asWidget()) {
 			setWidget(mf.asWidget());
 		}
 		mf.requestViewFocus();
