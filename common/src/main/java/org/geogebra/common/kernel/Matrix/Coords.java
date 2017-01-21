@@ -2498,11 +2498,13 @@ public class Coords {
 	 * 
 	 * @param v
 	 *            value
+	 * @return this
 	 */
-	public void mulInside3(double v) {
+	public Coords mulInside3(double v) {
 		for (int i = 0; i < 3; i++) {
 			val[i] *= v;
 		}
+		return this;
 	}
 
 	/**

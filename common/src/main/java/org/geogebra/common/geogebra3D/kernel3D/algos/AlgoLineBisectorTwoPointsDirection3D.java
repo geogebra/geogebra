@@ -78,7 +78,7 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 		if (d.isZero()) {
 			line.setUndefined();
 		} else {
-			midpoint.setAdd(ca, cb).mulInside(0.5);
+			midpoint.setAdd3(ca, cb).mulInside3(0.5);
 			line.setCoord(midpoint, d);
 		}
 

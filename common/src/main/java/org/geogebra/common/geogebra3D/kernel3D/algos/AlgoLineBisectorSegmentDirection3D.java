@@ -74,7 +74,7 @@ public class AlgoLineBisectorSegmentDirection3D extends AlgoElement3D {
 			line.setUndefined();
 		} else {
 			midpoint.setAdd(segment.getStartInhomCoords(),
-					segment.getEndInhomCoords()).mulInside(0.5);
+					segment.getEndInhomCoords()).mulInside3(0.5);
 			line.setCoord(midpoint, d);
 		}
 

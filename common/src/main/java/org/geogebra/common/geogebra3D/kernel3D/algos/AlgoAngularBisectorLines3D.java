@@ -135,7 +135,7 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 
 		if (!vn.isDefined()) { // g and h are parallel
 			// first bisector is parallel to g and h
-			bisector[0].setCoord(tmpCoords.setAdd3(o1, o2).mulInside(0.5), v1);
+			bisector[0].setCoord(tmpCoords.setAdd3(o1, o2).mulInside3(0.5), v1);
 			// second bisector is undefined
 			bisector[1].setUndefined();
 		} else { // standard case: g and h are not parallel

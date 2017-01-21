@@ -158,7 +158,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 					return;
 				}
 
-				v.mulInside(1 / d);
+				v.mulInside3(1 / d);
 				double x = (d + (r1 * r1 - r2 * r2) / d) / 2;
 				o.setAdd3(o1, o.setMul(v, x));
 

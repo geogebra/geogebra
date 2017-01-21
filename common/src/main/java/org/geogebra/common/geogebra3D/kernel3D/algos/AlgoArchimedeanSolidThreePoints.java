@@ -232,7 +232,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		vnl.normalize();
 		v2l.setCrossProduct(vnl, v1l);
-		vnl.mulInside(l);
+		vnl.mulInside3(l);
 
 		// set matrix
 		matrix.setOrigin(o);
