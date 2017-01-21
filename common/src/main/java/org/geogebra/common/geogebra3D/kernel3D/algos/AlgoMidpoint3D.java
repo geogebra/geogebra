@@ -85,7 +85,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	@Override
 	protected void computeMidCoords() {
 		tmpCoords.setAdd3(getP().getInhomCoordsInD3(),
-				getQ().getInhomCoordsInD3()).mulInside(0.5);
+				getQ().getInhomCoordsInD3()).mulInside3(0.5);
 		getPoint().setCoords(tmpCoords);
 	}
 
