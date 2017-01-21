@@ -70,7 +70,7 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 	@Override
 	protected Coords getPoint() {
 		return point.setAdd3(point1.getInhomCoordsInD3(),
-				point2.getInhomCoordsInD3()).mulInside(0.5);
+				point2.getInhomCoordsInD3()).mulInside3(0.5);
 	}
 
 }
