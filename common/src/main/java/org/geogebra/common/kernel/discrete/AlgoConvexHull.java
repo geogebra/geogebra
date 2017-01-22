@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.geom.Point2D;
@@ -127,8 +128,8 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 		if (vl.size() == 1) {
 			Point2D p = vl.get(0);
-			al.add(new MyPoint(p.getX(), p.getY(), false));
-			al.add(new MyPoint(p.getX(), p.getY(), true));
+			al.add(new MyPoint(p.getX(), p.getY(), SegmentType.MOVE_TO));
+			al.add(new MyPoint(p.getX(), p.getY(), SegmentType.LINE_TO));
 			locus.setPoints(al);
 			locus.setDefined(true);
 			return;
@@ -144,7 +145,8 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 		for (int i = 0; i < jarvisResult.size(); i++) {
 			Point2D p = jarvisResult.get(i);
-			al.add(new MyPoint(p.getX(), p.getY(), i != 0));
+			al.add(new MyPoint(p.getX(), p.getY(), i != 0 ? SegmentType.LINE_TO
+					: SegmentType.MOVE_TO));
 
 		}
 
@@ -155,7 +157,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 		// close the polygon
 		Point2D p = jarvisResult.get(0);
-		al.add(new MyPoint(p.getX(), p.getY(), true));
+		al.add(new MyPoint(p.getX(), p.getY(), SegmentType.LINE_TO));
 
 		locus.setPoints(al);
 		locus.setDefined(true);

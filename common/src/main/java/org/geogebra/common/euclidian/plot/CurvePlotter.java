@@ -668,7 +668,7 @@ public class CurvePlotter {
 			if (p.isFinite()) {
 				if (gp.copyCoords(p, coords, transformSys)) {
 
-					if (p.lineTo && !linetofirst) {
+					if (p.getLineTo() && !linetofirst) {
 						gp.lineTo(coords);
 					} else {
 						gp.moveTo(coords);

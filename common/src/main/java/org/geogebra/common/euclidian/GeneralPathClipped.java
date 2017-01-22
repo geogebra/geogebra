@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -280,7 +281,7 @@ public class GeneralPathClipped implements GShape {
 			return;
 		}
 
-		MyPoint p = new MyPoint(x, y, true);
+		MyPoint p = new MyPoint(x, y, SegmentType.LINE_TO);
 		updateBounds(p);
 		pathPoints.ensureCapacity(pos + 1);
 		while (pathPoints.size() <= pos) {
@@ -297,7 +298,8 @@ public class GeneralPathClipped implements GShape {
 			return;
 		}
 
-		MyPoint p = new MyPoint(x, y, lineTo);
+		MyPoint p = new MyPoint(x, y, lineTo ? SegmentType.LINE_TO
+				: SegmentType.MOVE_TO);
 		updateBounds(p);
 		pathPoints.add(p);
 	}

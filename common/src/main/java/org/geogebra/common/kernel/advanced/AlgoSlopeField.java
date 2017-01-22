@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
 import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
@@ -272,8 +273,8 @@ public class AlgoSlopeField extends AlgoElement {
 						if (Kernel.isZero(denD)) {
 							if (Kernel.isZero(numD)) {
 								// just a dot
-								al.add(new MyPoint(xx, yy, false));
-								al.add(new MyPoint(xx, yy, true));
+								al.add(new MyPoint(xx, yy, SegmentType.MOVE_TO));
+								al.add(new MyPoint(xx, yy, SegmentType.LINE_TO));
 							} else {
 								// vertical line
 								drawLine(0, 1, length, xx, yy);
@@ -313,8 +314,8 @@ public class AlgoSlopeField extends AlgoElement {
 		double coeff = Math.sqrt(dx0 * dx0 + dyScaled * dyScaled);
 		double dx = dx0 * length / coeff;
 		double dy = dy0 * length / coeff;
-		al.add(new MyPoint(xx - dx, yy - dy, false));
-		al.add(new MyPoint(xx + dx, yy + dy, true));
+		al.add(new MyPoint(xx - dx, yy - dy, SegmentType.MOVE_TO));
+		al.add(new MyPoint(xx + dx, yy + dy, SegmentType.LINE_TO));
 
 	}
 

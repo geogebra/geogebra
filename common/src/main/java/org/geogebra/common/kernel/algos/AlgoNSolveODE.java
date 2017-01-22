@@ -11,6 +11,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -126,7 +127,8 @@ public class AlgoNSolveODE extends AlgoElement {
 		integrator.addStepHandler(stepHandler);
 
 		for (int i = 0; i < dim; i++) {
-			al[i].add(new MyPoint(startX.getDouble(), y0[i], false));
+			al[i].add(new MyPoint(startX.getDouble(), y0[i],
+					SegmentType.MOVE_TO));
 		}
 		try {
 			integrator.integrate(ode, t0, y0, endX.getDouble(), y0);
@@ -171,7 +173,7 @@ public class AlgoNSolveODE extends AlgoElement {
 			double[] y1 = interpolator.getInterpolatedState();
 
 			for (int i = 0; i < y1.length; i++) {
-				al[i].add(new MyPoint(t, y1[i], true));
+				al[i].add(new MyPoint(t, y1[i], SegmentType.LINE_TO));
 			}
 		}
 	};

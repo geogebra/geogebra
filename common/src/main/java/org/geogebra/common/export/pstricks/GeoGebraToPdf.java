@@ -296,7 +296,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			MyPoint mp = it.next();
 			double x = mp.x;
 			double y = mp.y;
-			boolean b = mp.lineTo;
+			boolean b = mp.getLineTo();
 			if (x > xmin && x < xmax && y > ymin && y < ymax) {
 				if (b && !first) {
 					code.append(" -- ");
@@ -305,7 +305,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				}
 				writePoint(x, y, code);
 				out = false;
-			} else if (!first && mp.lineTo && !out) {
+			} else if (!first && mp.getLineTo() && !out) {
 				out = true;
 				code.append(" -- ");
 				writePoint(x, y, code);

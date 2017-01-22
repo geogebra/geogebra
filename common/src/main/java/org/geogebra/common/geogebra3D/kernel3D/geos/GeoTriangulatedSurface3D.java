@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
@@ -98,13 +99,15 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 			vertices[current].x = p[0];
 			vertices[current].y = p[1];
 			vertices[current].z = p[2];
-			vertices[current].lineTo = counter != 0;
+			vertices[current].setLineTo(counter != 0);
 			normals[current].x = n[0];
 			normals[current].y = n[1];
 			normals[current].z = n[2];
 		} else {
-			vertices[current] = new MyPoint3D(p[0], p[1], p[2], counter != 0);
-			normals[current] = new MyPoint3D(n[0], n[1], n[2], false);
+			vertices[current] = new MyPoint3D(p[0], p[1], p[2],
+					counter != 0 ? SegmentType.LINE_TO : SegmentType.MOVE_TO);
+			normals[current] = new MyPoint3D(n[0], n[1], n[2],
+					SegmentType.MOVE_TO);
 		}
 		++current;
 		++counter;
@@ -192,7 +195,8 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		int size = src.length;
 		MyPoint3D[] pts = new MyPoint3D[size];
 		for (int i = 0; i < size; i++) {
-			pts[i] = new MyPoint3D(src[i].x, src[i].y, src[i].z, src[i].lineTo);
+			pts[i] = new MyPoint3D(src[i].x, src[i].y, src[i].z,
+					src[i].getSegmentType());
 		}
 		return pts;
 	}
@@ -281,7 +285,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 
 			next++;
 
-			if (next < size && !points[next].lineTo) {
+			if (next < size && !points[next].getLineTo()) {
 				next += 2;
 			}
 

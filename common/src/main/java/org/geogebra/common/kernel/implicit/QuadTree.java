@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -190,36 +191,40 @@ abstract class QuadTree {
 		// one or three corners are inside / outside
 		case T0001:
 			pts[0] = new MyPoint(x1,
-					GeoImplicitCurve.interpolate(bl, tl, y2, y1), false);
+ GeoImplicitCurve.interpolate(bl, tl, y2,
+					y1), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2),
-					y2, true);
+					y2, SegmentType.LINE_TO);
 			q1 = Math.min(Math.abs(bl), Math.abs(tl));
 			q2 = Math.min(Math.abs(bl), Math.abs(br));
 			break;
 
 		case T0010:
 			pts[0] = new MyPoint(x2,
-					GeoImplicitCurve.interpolate(br, tr, y2, y1), false);
+ GeoImplicitCurve.interpolate(br, tr, y2,
+					y1), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(br, bl, x2, x1),
-					y2, true);
+					y2, SegmentType.LINE_TO);
 			q1 = Math.min(Math.abs(br), Math.abs(tr));
 			q2 = Math.min(Math.abs(br), Math.abs(bl));
 			break;
 
 		case T0100:
 			pts[0] = new MyPoint(x2,
-					GeoImplicitCurve.interpolate(tr, br, y1, y2), false);
+ GeoImplicitCurve.interpolate(tr, br, y1,
+					y2), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tr, tl, x2, x1),
-					y1, true);
+					y1, SegmentType.LINE_TO);
 			q1 = Math.min(Math.abs(tr), Math.abs(br));
 			q2 = Math.min(Math.abs(tr), Math.abs(tl));
 			break;
 
 		case T0111:
 			pts[0] = new MyPoint(x1,
-					GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
+ GeoImplicitCurve.interpolate(tl, bl, y1,
+					y2), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2),
-					y1, true);
+					y1, SegmentType.LINE_TO);
 			q1 = Math.min(Math.abs(bl), Math.abs(tl));
 			q2 = Math.min(Math.abs(tl), Math.abs(tr));
 			break;
@@ -227,18 +232,20 @@ abstract class QuadTree {
 		// two consecutive corners are inside / outside
 		case T0011:
 			pts[0] = new MyPoint(x1,
-					GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
+ GeoImplicitCurve.interpolate(tl, bl, y1,
+					y2), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(x2,
-					GeoImplicitCurve.interpolate(tr, br, y1, y2), true);
+ GeoImplicitCurve.interpolate(tr, br, y1,
+					y2), SegmentType.LINE_TO);
 			q1 = Math.min(Math.abs(tl), Math.abs(bl));
 			q2 = Math.min(Math.abs(tr), Math.abs(br));
 			break;
 
 		case T0110:
 			pts[0] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2),
-					y1, false);
+					y1, SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2),
-					y2, true);
+					y2, SegmentType.LINE_TO);
 			q1 = Math.min(Math.abs(tl), Math.abs(tr));
 			q2 = Math.min(Math.abs(bl), Math.abs(br));
 			break;
@@ -337,19 +344,19 @@ abstract class QuadTree {
 		public PointList(MyPoint start, MyPoint end) {
 			this.start = start;
 			this.end = end;
-			this.start.lineTo = false;
-			this.end.lineTo = true;
+			this.start.setLineTo(false);
+			this.end.setLineTo(true);
 		}
 
 		public void mergeTo(PointList pl) {
 			this.pts.addLast(this.end);
 			if (pl == this) {
 				MyPoint startCopy = new MyPoint(this.start.x, this.start.y,
-						true);
+						SegmentType.LINE_TO);
 				this.pts.addLast(startCopy);
 				return;
 			}
-			pl.start.lineTo = true;
+			pl.start.setLineTo(true);
 			this.pts.addLast(pl.start);
 			this.end = pl.end;
 			int s1 = this.pts.size(), s2 = pl.pts.size();
@@ -373,14 +380,14 @@ abstract class QuadTree {
 		}
 
 		public void extendBack(MyPoint p) {
-			p.lineTo = false;
-			this.start.lineTo = true;
+			p.setLineTo(false);
+			this.start.setLineTo(true);
 			this.pts.addFirst(start);
 			this.start = p;
 		}
 
 		public void extendFront(MyPoint p) {
-			p.lineTo = true;
+			p.setLineTo(true);
 			this.pts.addLast(this.end);
 			this.end = p;
 		}

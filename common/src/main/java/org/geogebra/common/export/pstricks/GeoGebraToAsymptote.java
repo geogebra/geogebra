@@ -343,7 +343,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				} else if (first) { // don't draw connecting line
 					code.append("^^(");
 					first = false;
-				} else if (mp.lineTo) {
+				} else if (mp.getLineTo()) {
 					code.append("--(");
 				} else {
 					code.append("^^(");

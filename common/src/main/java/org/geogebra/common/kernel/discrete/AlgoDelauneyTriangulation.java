@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.delaunay.Delaunay_Triangulation;
 import org.geogebra.common.kernel.discrete.delaunay.Point_dt;
@@ -99,8 +100,10 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 
 			while (it2.hasNext()) {
 				MyLine line = it2.next();
-				al.add(new MyPoint(line.p1.getX(), line.p1.getY(), false));
-				al.add(new MyPoint(line.p2.getX(), line.p2.getY(), true));
+				al.add(new MyPoint(line.p1.getX(), line.p1.getY(),
+						SegmentType.MOVE_TO));
+				al.add(new MyPoint(line.p2.getX(), line.p2.getY(),
+						SegmentType.LINE_TO));
 			}
 
 			locus.setPoints(al);

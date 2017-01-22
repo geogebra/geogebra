@@ -307,7 +307,7 @@ public class AlgoLocusList extends AlgoElement {
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
 				insertPoint(actGeo.getPoints().get(j).x,
 						actGeo.getPoints().get(j).y,
-						(j == 0) ? false : actGeo.getPoints().get(j).lineTo);
+						(j == 0) ? false : actGeo.getPoints().get(j).getLineTo());
 			}
 			if (actGeo.getPointLength() > 0) {
 				foundDefined = true;

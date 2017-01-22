@@ -200,7 +200,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			if (mp.x > xmin && mp.x < xmax && mp.y > ymin && mp.y < ymax) {
 				String x = format(mp.x);
 				String y = format(mp.y);
-				boolean b = mp.lineTo;
+				boolean b = mp.getLineTo();
 				if (first) {
 					code.append("\\moveto(");
 					first = false;
@@ -214,7 +214,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				code.append(y);
 				code.append(")\n");
 				out = false;
-			} else if (!first && mp.lineTo && !out) {
+			} else if (!first && mp.getLineTo() && !out) {
 				out = true;
 				String x = format(mp.x);
 				String y = format(mp.y);

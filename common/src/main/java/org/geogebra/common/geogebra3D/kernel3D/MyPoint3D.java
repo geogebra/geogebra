@@ -17,6 +17,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -40,8 +41,8 @@ public class MyPoint3D extends MyPoint {
 	 * @param lineTo
 	 *            lineto flag
 	 */
-	public MyPoint3D(double x, double y, double z, boolean lineTo) {
-		super(x, y, lineTo);
+	public MyPoint3D(double x, double y, double z, SegmentType segmentType) {
+		super(x, y, segmentType);
 		this.z = z;
 	}
 
@@ -157,6 +158,6 @@ public class MyPoint3D extends MyPoint {
 	public MyPoint3D barycenter(double t, MyPoint point2) {
 		return new MyPoint3D((1 - t) * x + t * point2.x,
 				(1 - t) * y + t * point2.y, (1 - t) * z + t * point2.getZ(),
-				false);
+				SegmentType.MOVE_TO);
 	}
 }

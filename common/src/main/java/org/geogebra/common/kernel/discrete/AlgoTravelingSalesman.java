@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.tsp.TSP;
 import org.geogebra.common.kernel.discrete.tsp.TSPSolver;
@@ -67,7 +68,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 
 		// // join up
 		MyPoint n = nodes[0];
-		al.add(new MyPoint(n.getX(), n.getY(), true));
+		al.add(new MyPoint(n.getX(), n.getY(), SegmentType.LINE_TO));
 
 		locus.setPoints(al);
 		locus.setDefined(true);

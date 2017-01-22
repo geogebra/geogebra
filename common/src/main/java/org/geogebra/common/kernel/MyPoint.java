@@ -27,23 +27,8 @@ public class MyPoint extends GPoint2D implements Point {
 	/** y-coord */
 	public double y;
 	/** lineto flag */
-	public boolean lineTo = true;
+	private SegmentType lineTo = SegmentType.LINE_TO;
 
-	/**
-	 * Creates new MyPoint
-	 * 
-	 * @param x
-	 *            x-coord
-	 * @param y
-	 *            y-coord
-	 * @param lineTo
-	 *            lineto flag
-	 */
-	public MyPoint(double x, double y, boolean lineTo) {
-		this.x = x;
-		this.y = y;
-		this.lineTo = lineTo;
-	}
 
 	/**
 	 * Creates new empty MyPoint for cache
@@ -63,6 +48,22 @@ public class MyPoint extends GPoint2D implements Point {
 	public MyPoint(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	/**
+	 * Creates new MyPoint
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param lineTo
+	 *            lineto flag
+	 */
+	public MyPoint(double x, double y, SegmentType moveTo) {
+		this.x = x;
+		this.y = y;
+		this.lineTo = moveTo;
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 * @return lineTo flag
 	 */
 	public boolean getLineTo() {
-		return lineTo;
+		return lineTo == SegmentType.LINE_TO;
 	}
 
 	@Override
@@ -199,7 +200,8 @@ public class MyPoint extends GPoint2D implements Point {
 	 */
 	public MyPoint barycenter(double t, MyPoint point2) {
 		return new MyPoint((1 - t) * x + t * point2.x,
-				(1 - t) * y + t * point2.y, false);
+ (1 - t) * y + t
+				* point2.y, SegmentType.MOVE_TO);
 	}
 
 	/**
@@ -209,7 +211,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 *            whether this shoul be linto point
 	 */
 	public void setLineTo(boolean lineTo) {
-		this.lineTo = lineTo;
+		this.lineTo = lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 
 	}
 
@@ -221,13 +223,17 @@ public class MyPoint extends GPoint2D implements Point {
 	@Override
 	public boolean isActive() {
 		// reuse field "lineTo"
-		return lineTo;
+		return lineTo == SegmentType.LINE_TO;
 	}
 
 	@Override
 	public void setActive(boolean active) {
 		// re-use field "lineTo"
-		this.lineTo = active;
+		this.lineTo = active ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 
+	}
+
+	public SegmentType getSegmentType() {
+		return lineTo;
 	}
 }

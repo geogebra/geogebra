@@ -12,6 +12,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -174,7 +175,8 @@ public class AlgoSolveODE extends AlgoElement {
 		}
 		integrator.addStepHandler(stepHandler);
 
-		al.add(new MyPoint(x.getDouble(), y.getDouble(), false));
+		al.add(new MyPoint(x.getDouble(), y.getDouble(),
+ SegmentType.MOVE_TO));
 
 		double[] yy = new double[] { y.getDouble() }; // initial state
 		double[] yy2 = new double[] { x.getDouble(), y.getDouble() }; // initial
@@ -221,9 +223,9 @@ public class AlgoSolveODE extends AlgoElement {
 			// System.out.println(t + " " + y[0]);
 
 			if (!quotient) {
-				al.add(new MyPoint(t, y1[0], true));
+				al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));
 			} else {
-				al.add(new MyPoint(y1[0], y1[1], true));
+				al.add(new MyPoint(y1[0], y1[1], SegmentType.LINE_TO));
 			}
 
 		}

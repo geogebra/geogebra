@@ -288,7 +288,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			MyPoint locusPoint2 = myPointList.get(i + 1);
 
 			// not a line, just a move (eg Voronoi Diagram)
-			if (!locusPoint2.lineTo) {
+			if (!locusPoint2.getLineTo()) {
 				continue;
 			}
 

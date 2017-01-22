@@ -11,6 +11,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -176,7 +177,7 @@ public class AlgoIntegralODE extends AlgoElement {
 
 		integrator.addStepHandler(stepHandler);
 
-		al.add(new MyPoint(p.inhomX, p.inhomY, false));
+		al.add(new MyPoint(p.inhomX, p.inhomY, SegmentType.MOVE_TO));
 
 		double[] yy = new double[] { p.inhomY }; // initial state
 		double[] yy2 = new double[] { p.inhomX, p.inhomY }; // initial state
@@ -192,7 +193,7 @@ public class AlgoIntegralODE extends AlgoElement {
 					e.printStackTrace();
 				}
 
-				al.add(new MyPoint(p.inhomX, p.inhomY, false));
+				al.add(new MyPoint(p.inhomX, p.inhomY, SegmentType.MOVE_TO));
 			}
 
 			if (p.inhomX > xmin) {
@@ -213,7 +214,7 @@ public class AlgoIntegralODE extends AlgoElement {
 				e.printStackTrace();
 			}
 			// draw backwards
-			al.add(new MyPoint(p.inhomX, p.inhomY, false));
+			al.add(new MyPoint(p.inhomX, p.inhomY, SegmentType.MOVE_TO));
 			try {
 				integrator.integrate(ode, 0.0, yy2a, -n, yy2a);
 			} catch (Exception e) {
@@ -245,9 +246,9 @@ public class AlgoIntegralODE extends AlgoElement {
 			// System.out.println(t + " " + y[0]);
 
 			if (!quotient) {
-				al.add(new MyPoint(t, y[0], true));
+				al.add(new MyPoint(t, y[0], SegmentType.LINE_TO));
 			} else {
-				al.add(new MyPoint(y[0], y[1], true));
+				al.add(new MyPoint(y[0], y[1], SegmentType.LINE_TO));
 			}
 
 		}

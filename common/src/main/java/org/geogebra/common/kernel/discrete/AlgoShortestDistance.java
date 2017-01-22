@@ -8,6 +8,7 @@ import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -173,7 +174,8 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			n2.id.getInhomCoords(inhomLast);
 		}
 
-		MyPoint pt = new MyPoint(inhomLast[0], inhomLast[1], false);
+		MyPoint pt = new MyPoint(inhomLast[0], inhomLast[1],
+				SegmentType.MOVE_TO);
 		al.add(pt);
 
 		for (int i = 0; i < list.size(); i++) {
@@ -183,11 +185,11 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 			// nodes may not be in the right order, might need n1 or n2
 			if (inhom1[1] == inhomLast[1] && inhom1[0] == inhomLast[0]) {
-				pt = new MyPoint(inhom2[0], inhom2[1], true);
+				pt = new MyPoint(inhom2[0], inhom2[1], SegmentType.LINE_TO);
 				inhomLast[0] = inhom2[0];
 				inhomLast[1] = inhom2[1];
 			} else {
-				pt = new MyPoint(inhom1[0], inhom1[1], true);
+				pt = new MyPoint(inhom1[0], inhom1[1], SegmentType.LINE_TO);
 				inhomLast[0] = inhom1[0];
 				inhomLast[1] = inhom1[1];
 			}

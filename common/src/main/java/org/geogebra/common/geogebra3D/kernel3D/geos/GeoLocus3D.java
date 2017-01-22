@@ -16,6 +16,7 @@ import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathParameter;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoLocusND;
@@ -57,7 +58,8 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 	 *            true to draw a line to (x,y,z); false to only move to (x,y,z)
 	 */
 	public void insertPoint(double x, double y, double z, boolean lineTo) {
-		myPointList.add(new MyPoint3D(x, y, z, lineTo));
+		myPointList.add(new MyPoint3D(x, y, z, lineTo ? SegmentType.LINE_TO
+				: SegmentType.MOVE_TO));
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -135,7 +136,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		// boolean oldState = cons.isSuppressLabelsActive();
 		// cons.setSuppressLabelCreation(true);
 		// g.add(new GeoPoint(cons, null, x.getDouble(), y.getDouble(), 1.0));
-		al.add(new MyPoint(x.getDouble(), y.getDouble(), false));
+		al.add(new MyPoint(x.getDouble(), y.getDouble(), SegmentType.MOVE_TO));
 		// cons.setSuppressLabelCreation(oldState);
 
 		double[] yy2 = new double[] { y.getDouble(), yDot.getDouble() }; // initial
@@ -179,7 +180,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 			cons1.setSuppressLabelCreation(true);
 
 			// g.add(new GeoPoint(cons, null, t, y[0], 1.0));
-			al.add(new MyPoint(t, y1[0], true));
+			al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));
 
 			cons1.setSuppressLabelCreation(oldState);
 		}

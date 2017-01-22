@@ -7,6 +7,7 @@ import java.util.Iterator;
 import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -94,9 +95,11 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 				MyLink edge = it.next();
 
 				Coords coords = edge.n1.id.getInhomCoordsInD2();
-				al.add(new MyPoint(coords.get(1), coords.get(2), false));
+				al.add(new MyPoint(coords.get(1), coords.get(2),
+						SegmentType.MOVE_TO));
 				coords = edge.n2.id.getInhomCoordsInD2();
-				al.add(new MyPoint(coords.get(1), coords.get(2), true));
+				al.add(new MyPoint(coords.get(1), coords.get(2),
+						SegmentType.LINE_TO));
 
 			}
 
