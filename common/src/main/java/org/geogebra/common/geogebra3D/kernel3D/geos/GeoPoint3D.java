@@ -1220,7 +1220,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public void switchMoveMode(int mode) {
 
 		switch (moveMode) {
-		default:
 		case MOVE_MODE_XY:
 			moveMode = MOVE_MODE_Z;
 			break;
@@ -1233,6 +1232,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			} else {
 				moveMode = MOVE_MODE_XY;
 			}
+			break;
+		default:
+			// do nothing
 			break;
 		}
 	}
