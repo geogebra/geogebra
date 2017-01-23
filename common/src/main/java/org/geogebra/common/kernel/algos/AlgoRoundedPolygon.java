@@ -44,7 +44,8 @@ public class AlgoRoundedPolygon extends AlgoElement {
 			int j = i == points.length - 1 ? 0 : i + 1;
 			int k = j == points.length - 1 ? 0 : j + 1;
 			locus.insertPoint(cropX(j, i), cropY(j, i), SegmentType.LINE_TO);
-			locus.insertPoint(0, cropY(j, k), SegmentType.AUXILIARY);
+			locus.insertPoint(points[j].getInhomX(), points[j].getInhomY(),
+					SegmentType.AUXILIARY);
 			locus.insertPoint(cropX(j, k), cropY(j, k), SegmentType.ARC_TO);
 
 		}

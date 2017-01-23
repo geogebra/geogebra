@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1120,11 +1121,11 @@ public class PlotterBrush implements PathPlotter {
 	private Coords tmpDrawTo = Coords.createInhomCoorsInD3();
 
 	@Override
-	public void drawTo(double[] pos, boolean lineTo) {
+	public void drawTo(double[] pos, SegmentType lineTo) {
 
 		tmpDrawTo.set(pos);
 
-		drawTo(lineTo);
+		drawTo(lineTo == SegmentType.LINE_TO);
 	}
 
 	public void drawTo(double x, double y, double z, boolean lineTo) {
@@ -1150,7 +1151,7 @@ public class PlotterBrush implements PathPlotter {
 
 	@Override
 	public void lineTo(double[] pos) {
-		drawTo(pos, true);
+		drawTo(pos, SegmentType.LINE_TO);
 	}
 
 	@Override

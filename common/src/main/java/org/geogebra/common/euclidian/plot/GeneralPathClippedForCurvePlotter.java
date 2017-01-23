@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.Cloner;
@@ -34,22 +35,22 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	@Override
 	public void lineTo(double[] pos) {
-		drawTo(pos, true);
+		drawTo(pos, SegmentType.LINE_TO);
 	}
 
 	@Override
 	public void moveTo(double[] pos) {
-		drawTo(pos, false);
+		drawTo(pos, SegmentType.MOVE_TO);
 	}
 
 	@Override
-	public void drawTo(double[] pos, boolean lineTo) {
+	public void drawTo(double[] pos, SegmentType segmentType) {
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
-		drawTo(p[0], p[1], lineTo);
+		drawTo(p[0], p[1], segmentType);
 	}
 
-	private void drawTo(double x, double y, boolean lineTo) {
+	private void drawTo(double x, double y, SegmentType lineTo) {
 		GPoint2D point = getCurrentPoint();
 
 		// no points in path yet
@@ -65,18 +66,22 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 		// only add points that are more than MIN_PIXEL_DISTANCE
 		// from current location
-		if (!distant && lineTo == lineDrawn) {
+		boolean isLine = lineTo != SegmentType.MOVE_TO;
+		if (!distant && isLine == lineDrawn) {
 			return;
 		}
 
-		if (lineTo) {
-			lineTo(x, y);
+		if (isLine) {
+			addPoint(x, y, lineTo);
 			lineDrawn = true;
 		} else {
 			moveTo(x, y);
 			lineDrawn = false;
 		}
+	}
 
+	private void drawTo(double x, double y, boolean lineTo) {
+		drawTo(x, y, lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 
 /**
@@ -21,7 +22,7 @@ public interface PathPlotter {
 	 * @param lineTo
 	 *            says if we want line / move
 	 */
-	public void drawTo(double[] pos, boolean lineTo);
+	public void drawTo(double[] pos, SegmentType lineTo);
 
 	/**
 	 * Calls gp.lineTo(x, y) only if the current point is not already at this

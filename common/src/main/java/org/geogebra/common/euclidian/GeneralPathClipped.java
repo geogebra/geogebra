@@ -107,7 +107,7 @@ public class GeneralPathClipped implements GShape {
 			MyPoint curP = pathPoints.get(i);
 			/// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
 			if (curP != null) {
-				addToGeneralPath(curP, curP.getLineTo());
+				addToGeneralPath(curP, curP.getSegmentType());
 			} else {
 				Log.error("curP shouldn't be null here");
 			}
@@ -135,7 +135,7 @@ public class GeneralPathClipped implements GShape {
 			if (!curP.getLineTo() || prevP == null) {
 				// moveTo point, make sure it is only slightly outside screen
 				GPoint2D p = getPointCloseToScreen(curP.getX(), curP.getY());
-				addToGeneralPath(p, false);
+				addToGeneralPath(p, SegmentType.MOVE_TO);
 			} else {
 				// clip line at screen
 				addClippedLine(prevP, curP, viewRect);
@@ -154,7 +154,7 @@ public class GeneralPathClipped implements GShape {
 		// check if both points on screen
 		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
 			// draw line to point
-			addToGeneralPath(curP, true);
+			addToGeneralPath(curP, SegmentType.LINE_TO);
 			return;
 		}
 
@@ -176,21 +176,21 @@ public class GeneralPathClipped implements GShape {
 			}
 
 			// draw line to first clip point
-			addToGeneralPath(clippedPoints[first], true);
+			addToGeneralPath(clippedPoints[first], SegmentType.LINE_TO);
 			// draw line between clip points: this ensures high quality
 			// rendering
 			// which Java2D doesn't deliver with the regular float GeneralPath
 			// and huge coords
-			addToGeneralPath(clippedPoints[second], true);
+			addToGeneralPath(clippedPoints[second], SegmentType.LINE_TO);
 
 			// draw line to end point if not already there
 			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
-					true);
+					SegmentType.LINE_TO);
 		} else {
 			// line is off screen
 			// draw line to off screen end point
 			addToGeneralPath(getPointCloseToScreen(curP.getX(), curP.getY()),
-					true);
+					SegmentType.LINE_TO);
 		}
 	}
 
@@ -213,7 +213,9 @@ public class GeneralPathClipped implements GShape {
 		return AwtFactory.getPrototype().newPoint2D(x, y);
 	}
 
-	private void addToGeneralPath(GPoint2D q, boolean lineTo) {
+	private double auxX;
+	private double auxY;
+	private void addToGeneralPath(GPoint2D q, SegmentType lineTo) {
 		GPoint2D p = gp.getCurrentPoint();
 
 		/*
@@ -230,8 +232,17 @@ public class GeneralPathClipped implements GShape {
 		// if (!distant) {
 		// return;
 		// }
-
-		if (lineTo && p != null) {
+		if (lineTo == SegmentType.AUXILIARY) {
+			auxX = q.getX();
+			auxY = q.getY();
+		} else if (lineTo == SegmentType.ARC_TO && p != null) {
+			try {
+				gp.curveTo(auxX, auxY, auxX, auxY, q.getX(), q.getY());
+			} catch (Exception e) {
+				gp.moveTo(q.getX(), q.getY());
+			}
+		}
+		else if (lineTo == SegmentType.LINE_TO && p != null) {
 			try {
 				gp.lineTo(q.getX(), q.getY());
 			} catch (Exception e) {
@@ -293,7 +304,7 @@ public class GeneralPathClipped implements GShape {
 	/**
 	 * Adds point to point list and keeps track of largest coordinate.
 	 */
-	private void addPoint(double x, double y, SegmentType segmentType) {
+	protected final void addPoint(double x, double y, SegmentType segmentType) {
 		if (Double.isNaN(y)) {
 			return;
 		}
