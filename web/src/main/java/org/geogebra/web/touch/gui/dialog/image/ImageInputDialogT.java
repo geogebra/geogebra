@@ -165,6 +165,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.inputPanel.setWidget(this.cameraPanel);
 		PictureOptions pictureOptions = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
 		pictureOptions.setAllowEdit(false);
+		pictureOptions.setCorrectOrientation(true);
 		PhoneGapManager.getPhoneGap().getCamera().getPicture(
 				pictureOptions,
 				this.pictureCallback);
