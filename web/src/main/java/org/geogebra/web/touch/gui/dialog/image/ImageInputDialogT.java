@@ -114,7 +114,7 @@ public class ImageInputDialogT extends UploadImageDialog {
     public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == insertBtn) {
-			if (!location.isLabelSet()) {
+			if (location != null && !location.isLabelSet()) {
 				location.setLabel(null);
 	    	}
 			if (this.cameraIsActive && !"".equals(this.pictureFromCameraString)) {
