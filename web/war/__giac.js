@@ -1979,6 +1979,7 @@ var __giac = [ {},
 { cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(4)))^(1/4)]", result:"nroot((x + 1) / x\u2074,4)" },
 { cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(6)))^(1/6)]", result:"nroot((x + 1) / x\u2076,6)" },
 { cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(8)))^(1/8)]", result:"nroot((x + 1) / x\u2078,8)" },
+{ cat:"Angle", cmd:"Angle[10deg+20deg]", result:"30\u00B0" },
 // JSONEND
 //{ 
 // 
