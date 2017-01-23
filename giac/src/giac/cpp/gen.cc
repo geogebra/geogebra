@@ -872,6 +872,16 @@ namespace giac {
     subtype=0;
   }
 
+  gen::gen(ref_gen_user * sptr){
+#ifdef SMARTPTR64
+    * ((longlong * ) this) = longlong(sptr) << 16;
+#else
+    __USERptr = sptr;
+#endif
+    type = _USER;
+    subtype = 0;
+  }
+
   gen::gen(const eqwdata & g){
 #ifdef SMARTPTR64
       * ((longlong * ) this) = longlong(new ref_eqwdata(g)) << 16;
@@ -1017,6 +1027,39 @@ namespace giac {
     // COUT << *this << endl;
   }
 
+  // WARNING coerce *mptr to an int if possible, in this case delete mptr
+  // Pls do not use this constructor unless you know exactly what you do!!
+  bool ref_mpz_t2gen(ref_mpz_t * mptr,gen & g){
+    if (g.type>_DOUBLE_){
+      g=mptr;
+      return true;
+    }
+    int l=mpz_sizeinbase(mptr->z,2);
+    // if (l<17){
+    if (l<32){
+      g.type=_INT_;
+      g.subtype=0;
+      g.val = mpz_get_si(mptr->z);
+      // COUT << "Destruction by mpz_t * " << *mptr << endl;
+      return false;
+    }
+    else {
+      if (l>MPZ_MAXLOG2){
+	g.type=0;
+	g=(mpz_sgn(mptr->z)==-1)?minus_inf:plus_inf;
+	return false;
+      }
+#ifdef SMARTPTR64
+      * ((longlong * ) &g) = longlong(mptr) << 16;
+#else
+      g.__ZINTptr = mptr;
+#endif
+      g.type =_ZINT;
+      g.subtype=0;
+      return true;
+    }
+  }
+
   gen::gen(const my_mpz& z){
     int l=mpz_sizeinbase(z.ptr,2);
     if (l<32){
@@ -1052,8 +1095,9 @@ namespace giac {
 	  e.__ZINTptr
 #endif
 	  ){
-	if (e.ref_count()!=-1)
-	  ++(e.ref_count());
+	ref_count_t * rc=(ref_count_t *)&e.ref_count();
+	if (*rc!=-1)
+	  ++(*rc);
       }
     }
 #ifdef DOUBLEVAL
@@ -1344,279 +1388,229 @@ namespace giac {
   }
 #endif // BCD
 
-  gen::~gen() {  
-    if ( type>_DOUBLE_ && type!=_FLOAT_
-#if !defined SMARTPTR64 // || defined STATIC_BUILTIN_LEXER_FUNCTIONS
-	 && type!=_FUNC 
-#endif
-	 ){
-      if (ref_count()!=-1 && !--ref_count()){
-	switch (type) {
+  void gen::delete_gen() { 
+    switch (type) {
 #ifdef SMARTPTR64
-	case _ZINT: 
-	  delete (ref_mpz_t *) (* ((longlong * ) this) >> 16);
-	  break; 
-	case _REAL:  {
-	  ref_real_object * ptr=(ref_real_object *) (* ((longlong * ) this) >> 16);
+    case _ZINT: 
+      delete (ref_mpz_t *) (* ((longlong * ) this) >> 16);
+      break; 
+    case _REAL:  {
+      ref_real_object * ptr=(ref_real_object *) (* ((longlong * ) this) >> 16);
 #ifndef NO_RTTI
-	  if (dynamic_cast<real_interval *>(&ptr->r))
-	    delete (ref_real_interval *) ptr;
-	  else
+      if (dynamic_cast<real_interval *>(&ptr->r))
+	delete (ref_real_interval *) ptr;
+      else
 #endif
-	    delete ptr;
-	  break; 
-	}
-	case _CPLX: 
-	  delete (ref_complex *) (* ((longlong * ) this) >> 16);
-	  break; 
-	case _IDNT: 
-	  delete (ref_identificateur *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _VECT: 
-	  delete (ref_vecteur *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _SYMB: 
-	  delete (ref_symbolic *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _USER:
-	  delete (ref_gen_user *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _EXT: 
-	  delete (ref_algext *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _MOD: 
-	  delete (ref_modulo *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _POLY:
-	  delete (ref_polynome *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _FRAC:
-	  delete (ref_fraction *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _SPOL1:
-	  delete (ref_sparse_poly1 *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _STRNG:
-	  delete (ref_string *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _FUNC:
-	  delete (ref_unary_function_ptr *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _MAP:
-	  delete (ref_gen_map *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _EQW:
-	  delete (ref_eqwdata *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _GROB:
-	  delete (ref_grob *) (* ((longlong * ) this) >> 16);
-	  break;
-	case _POINTER_:
-	  if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
-	    fl_widget_delete_function(_POINTER_val);
-	  delete (ref_void_pointer *) (* ((longlong * ) this) >> 16);
-	  break;
+	delete ptr;
+      break; 
+    }
+    case _CPLX: 
+      delete (ref_complex *) (* ((longlong * ) this) >> 16);
+      break; 
+    case _IDNT: 
+      delete (ref_identificateur *) (* ((longlong * ) this) >> 16);
+      break;
+    case _VECT: 
+      delete (ref_vecteur *) (* ((longlong * ) this) >> 16);
+      break;
+    case _SYMB: 
+      delete (ref_symbolic *) (* ((longlong * ) this) >> 16);
+      break;
+    case _USER:
+      delete (ref_gen_user *) (* ((longlong * ) this) >> 16);
+      break;
+    case _EXT: 
+      delete (ref_algext *) (* ((longlong * ) this) >> 16);
+      break;
+    case _MOD: 
+      delete (ref_modulo *) (* ((longlong * ) this) >> 16);
+      break;
+    case _POLY:
+      delete (ref_polynome *) (* ((longlong * ) this) >> 16);
+      break;
+    case _FRAC:
+      delete (ref_fraction *) (* ((longlong * ) this) >> 16);
+      break;
+    case _SPOL1:
+      delete (ref_sparse_poly1 *) (* ((longlong * ) this) >> 16);
+      break;
+    case _STRNG:
+      delete (ref_string *) (* ((longlong * ) this) >> 16);
+      break;
+    case _FUNC:
+      delete (ref_unary_function_ptr *) (* ((longlong * ) this) >> 16);
+      break;
+    case _MAP:
+      delete (ref_gen_map *) (* ((longlong * ) this) >> 16);
+      break;
+    case _EQW:
+      delete (ref_eqwdata *) (* ((longlong * ) this) >> 16);
+      break;
+    case _GROB:
+      delete (ref_grob *) (* ((longlong * ) this) >> 16);
+      break;
+    case _POINTER_:
+      if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
+	fl_widget_delete_function(_POINTER_val);
+      delete (ref_void_pointer *) (* ((longlong * ) this) >> 16);
+      break;
 #else // SMARTPTR64
-	case _ZINT: 
-	  delete __ZINTptr;
-	  break; 
-	case _REAL: {
-	  ref_real_object * ptr=__REALptr;
+    case _ZINT: 
+      delete __ZINTptr;
+      break; 
+    case _REAL: {
+      ref_real_object * ptr=__REALptr;
 #ifndef NO_RTTI
-	  if (dynamic_cast<real_interval *>(&ptr->r))
-	    delete (ref_real_interval *) __REALptr;
-	  else
+      if (dynamic_cast<real_interval *>(&ptr->r))
+	delete (ref_real_interval *) __REALptr;
+      else
 #endif
-	    delete __REALptr;
-	  break; 
-	}
-	case _CPLX: 
-	  deletecomplex(__CPLXptr); // delete __CPLXptr;
-	  break; 
-	case _IDNT: 
-	  delete __IDNTptr;
-	  break;
-	case _VECT: 
-	  delete_ref_vecteur(__VECTptr); // delete __VECTptr;
-	  break;
-	case _SYMB: 
-	  deletesymbolic(__SYMBptr); // delete __SYMBptr;
-	  break;
-	case _USER:
-	  delete __USERptr;
-	  break;
-	case _EXT: 
-	  delete __EXTptr;
-	  break;
-	case _MOD: 
-	  delete __MODptr;
-	  break;
-	case _POLY:
-	  delete __POLYptr;
-	  break;
-	case _FRAC:
-	  delete __FRACptr;
-	  break;
-	case _SPOL1:
-	  delete __SPOL1ptr;
-	  break;
-	case _STRNG:
-	  delete __STRNGptr;
-	  break;
+	delete __REALptr;
+      break; 
+    }
+    case _CPLX: 
+      deletecomplex(__CPLXptr); // delete __CPLXptr;
+      break; 
+    case _IDNT: 
+      delete __IDNTptr;
+      break;
+    case _VECT: 
+      delete_ref_vecteur(__VECTptr); // delete __VECTptr;
+      break;
+    case _SYMB: 
+      deletesymbolic(__SYMBptr); // delete __SYMBptr;
+      break;
+    case _USER:
+      delete __USERptr;
+      break;
+    case _EXT: 
+      delete __EXTptr;
+      break;
+    case _MOD: 
+      delete __MODptr;
+      break;
+    case _POLY:
+      delete __POLYptr;
+      break;
+    case _FRAC:
+      delete __FRACptr;
+      break;
+    case _SPOL1:
+      delete __SPOL1ptr;
+      break;
+    case _STRNG:
+      delete __STRNGptr;
+      break;
 #ifdef SMARTPTR64
-	case _FUNC:
-	  delete __FUNCptr;
-	  break;
+    case _FUNC:
+      delete __FUNCptr;
+      break;
 #endif
-	case _MAP:
-	  delete __MAPptr;
-	  break;
-	case _EQW:
-	  delete __EQWptr;
-	  break;
-	case _GROB:
-	  delete __GROBptr;
-	  break;
-	case _POINTER_:
-	  if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
-	    fl_widget_delete_function(_POINTER_val);
-	  delete __POINTERptr;
-	  break;
+    case _MAP:
+      delete __MAPptr;
+      break;
+    case _EQW:
+      delete __EQWptr;
+      break;
+    case _GROB:
+      delete __GROBptr;
+      break;
+    case _POINTER_:
+      if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
+	fl_widget_delete_function(_POINTER_val);
+      delete __POINTERptr;
+      break;
 #endif // SMARTPTR64
-	default: 
+    default: 
 #ifndef NO_STDEXCEPT
-	  settypeerr(gettext("Gen Destructor"));
+      settypeerr(gettext("Gen Destructor"));
 #endif
-	  ;
-	}
+      ;
+    }    
+  }
+
+  void delete_ptr(signed char subtype,short int type_save,ref_mpz_t * ptr_save) {
+#if 0 // def COMPILE_FOR_STABILITY // commented (D.Alm) The call to delete_ptr() would sometimes get cancelled if ctrl_c was being set, which could cause the "Stopped by user interruption." exception somehow to be fired twice, with the second time not being caught properly by my exception handling code.
+    control_c();
+#endif
+    if (ptr_save && ptr_save->ref_count!=-1 && !--(ptr_save->ref_count)){
+      switch (type_save) {
+      case _ZINT: 
+	delete ptr_save;
+	break; 
+      case _REAL: {
+	ref_real_object * ptr=(ref_real_object *) ptr_save;
+#ifndef NO_RTTI
+	if (dynamic_cast<real_interval *>(&ptr->r))
+	  delete (ref_real_interval *) ptr;
+	else
+#endif
+	  delete ptr;
+	break; 
+      }
+      case _CPLX: 
+	deletecomplex((ref_complex *) ptr_save);
+	break; 
+      case _IDNT: 
+	delete (ref_identificateur *) ptr_save ;
+	break;
+      case _SYMB: 
+	deletesymbolic( (ref_symbolic *) ptr_save);
+	break;
+      case _USER: 
+	delete (ref_gen_user *) ptr_save;
+	break;
+      case _EXT: 
+	delete (ref_algext * ) ptr_save;
+	break;
+      case _MOD: 
+	delete (ref_modulo * ) ptr_save;
+	break;
+      case _VECT: 
+	delete_ref_vecteur((ref_vecteur *) ptr_save); // delete (ref_vecteur *) ptr_save;
+	break;
+      case _POLY:
+	delete (ref_polynome *) ptr_save;
+	break;
+      case _FRAC:
+	delete (ref_fraction *) ptr_save;
+	break;
+      case _SPOL1:
+	delete (ref_sparse_poly1 *) ptr_save;
+	break;
+      case _STRNG:
+	delete (ref_string *) ptr_save;
+	break;
+#ifdef SMARTPTR64
+      case _FUNC:
+	delete (ref_unary_function_ptr *) ptr_save;
+	break;
+#endif
+      case _MAP:
+	delete (ref_gen_map *) ptr_save;
+	break;
+      case _EQW:
+	delete (ref_eqwdata *) ptr_save;
+	break;
+      case _GROB:
+	delete (ref_grob *) ptr_save;
+	break;
+      case _POINTER_:
+	if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
+	  fl_widget_delete_function( ((ref_void_pointer *)ptr_save)->p);
+	delete (ref_void_pointer *) ptr_save;
+	break;
+      case _FLOAT_:
+	break;
+      default: 
+#ifndef NO_STDEXCEPT
+	settypeerr(gettext("Gen Operator ="));
+#endif
+	;
       }
     }
   }
 
-  gen & gen::operator = (const gen & a) { 
-    if (a.type>_DOUBLE_ && a.type!=_FLOAT_ 
-#if defined SMARTPTR64 
-	&& (*((longlong *) &a) >> 16)
-#if 0 // defined STATIC_BUILTIN_LEXER_FUNCTIONS
-	&& a.type!=_FUNC
-#endif
-#else
-	&& a.type!=_FUNC && a.__ZINTptr
-#endif
-	){
-      if (a.ref_count()!=-1)
-	++a.ref_count(); // increase ref count
-    }
-    register unsigned t=(type << _DECALAGE) | a.type;
-    if (!t){
-      subtype=a.subtype;
-      val=a.val;
-      return *this;
-    }
-    // Copy before deleting because the target might be embedded in a
-    // with a ptr_val.ref_count of a equals to 1
-    short int type_save=type; // short int subtype_save=subtype; 
-#ifdef SMARTPTR64
-    ref_mpz_t * ptr_save = (ref_mpz_t *) (* ((longlong * ) this) >> 16);
-#else
-    ref_mpz_t * ptr_save = __ZINTptr;
-#endif
-#ifdef DOUBLEVAL
-    _DOUBLE_val = a._DOUBLE_val;
-    subtype=a.subtype;
-#else
-    * ((longlong *) this) = *((longlong * ) &a);
-#endif
-#ifndef SMARTPTR64
-    __ZINTptr=a.__ZINTptr;
-#endif
-    type=a.type;
-    // Now we delete the target 
-    if ( type_save>_DOUBLE_ && type_save!=_FLOAT_
-#if !defined SMARTPTR64 // || defined STATIC_BUILTIN_LEXER_FUNCTIONS
-	 && type_save!=_FUNC 
-#endif
-	 ){
-#ifdef COMPILE_FOR_STABILITY
-      control_c();
-#endif
-      if (ptr_save && ptr_save->ref_count!=-1 && !--(ptr_save->ref_count)){
-	switch (type_save) {
-	case _ZINT: 
-	  delete ptr_save;
-	  break; 
-	case _REAL: {
-	  ref_real_object * ptr=(ref_real_object *) ptr_save;
-#ifndef NO_RTTI
-	  if (dynamic_cast<real_interval *>(&ptr->r))
-	    delete (ref_real_interval *) ptr;
-	  else
-#endif
-	    delete ptr;
-	  break; 
-	}
-	case _CPLX: 
-	  deletecomplex((ref_complex *) ptr_save);
-	  break; 
-	case _IDNT: 
-	  delete (ref_identificateur *) ptr_save ;
-	  break;
-	case _SYMB: 
-	  deletesymbolic( (ref_symbolic *) ptr_save);
-	  break;
-	case _USER: 
-	  delete (ref_gen_user *) ptr_save;
-	  break;
-	case _EXT: 
-	  delete (ref_algext * ) ptr_save;
-	  break;
-	case _MOD: 
-	  delete (ref_modulo * ) ptr_save;
-	  break;
-	case _VECT: 
-	  delete_ref_vecteur((ref_vecteur *) ptr_save); // delete (ref_vecteur *) ptr_save;
-	  break;
-	case _POLY:
-	  delete (ref_polynome *) ptr_save;
-	  break;
-	case _FRAC:
-	  delete (ref_fraction *) ptr_save;
-	  break;
-	case _SPOL1:
-	  delete (ref_sparse_poly1 *) ptr_save;
-	  break;
-	case _STRNG:
-	  delete (ref_string *) ptr_save;
-	  break;
-#ifdef SMARTPTR64
-	case _FUNC:
-	  delete (ref_unary_function_ptr *) ptr_save;
-	  break;
-#endif
-	case _MAP:
-	  delete (ref_gen_map *) ptr_save;
-	  break;
-	case _EQW:
-	  delete (ref_eqwdata *) ptr_save;
-	  break;
-	case _GROB:
-	  delete (ref_grob *) ptr_save;
-	  break;
-	case _POINTER_:
-	  if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
-	    fl_widget_delete_function( ((ref_void_pointer *)ptr_save)->p);
-	  delete (ref_void_pointer *) ptr_save;
-	  break;
-	default: 
-#ifndef NO_STDEXCEPT
-	  settypeerr(gettext("Gen Operator ="));
-#endif
-	  ;
-	}
-      }
-    }
-    return *this;
-  }
   
   double gen::to_double(GIAC_CONTEXT) const {
     if (type==_DOUBLE_)
@@ -2053,65 +2047,68 @@ namespace giac {
     case _SYMB:
       if (subtype==_SPREAD__SYMB)
 	return false;
-      if (_SYMBptr->sommet==at_plus || _SYMBptr->sommet==at_prod || _SYMBptr->sommet==at_pow || _SYMBptr->sommet==at_of || _SYMBptr->sommet==at_local || _SYMBptr->sommet==at_ifte || _SYMBptr->sommet==at_bloc){
-	int & elevel=eval_level(contextptr);
-	short int slevel=elevel;
-	bool is_ifte=this->is_symb_of_sommet(at_ifte);
-	// Check if we are not far from stack end
+      { 
+	unary_function_ptr & Sommet=_SYMBptr->sommet;
+	if (Sommet==at_plus || Sommet==at_prod || Sommet==at_pow || Sommet==at_of || Sommet==at_local || Sommet==at_ifte || Sommet==at_bloc){
+	  int & elevel=eval_level(contextptr);
+	  short int slevel=elevel;
+	  bool is_ifte=this->is_symb_of_sommet(at_ifte);
+	  // Check if we are not far from stack end
 #ifdef RTOS_THREADX
-	if ((void *)&slevel<= (void *)&mainThreadStack[2048]){
-	  if ((void *)&slevel<= (void *)&mainThreadStack[1024]){
-	    gensizeerr(gettext("Too many recursion levels"),evaled); // two many recursion levels
-	    return true;
-	  }
-	  evaled=nr_eval(*this,level,contextptr);
-	  return true;
-	}
-#else // rtos
-#if !defined(WIN32) && defined(HAVE_PTHREAD_H)
-	if (contextptr && thread_param_ptr(contextptr)->stackaddr){
-	  // CERR << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
-	  if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+65536){
-	    if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+8192){
+	  if ((void *)&slevel<= (void *)&mainThreadStack[2048]){
+	    if ((void *)&slevel<= (void *)&mainThreadStack[1024]){
 	      gensizeerr(gettext("Too many recursion levels"),evaled); // two many recursion levels
 	      return true;
 	    }
-	    *logptr(contextptr) << gettext("Running non recursive evaluator") << endl;
 	    evaled=nr_eval(*this,level,contextptr);
 	    return true;
 	  }
-	} else
-#endif // pthread
-	  {
-	    debug_struct * dbgptr=debug_ptr(contextptr);
-	    if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL){
-	      if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL+10){
-		gensizeerr(gettext("Too many recursions)"),evaled);
+#else // rtos
+#if !defined(WIN32) && defined(HAVE_PTHREAD_H)
+	  if (contextptr && thread_param_ptr(contextptr)->stackaddr){
+	    // CERR << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
+	    if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+65536){
+	      if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+8192){
+		gensizeerr(gettext("Too many recursion levels"),evaled); // two many recursion levels
 		return true;
 	      }
 	      *logptr(contextptr) << gettext("Running non recursive evaluator") << endl;
 	      evaled=nr_eval(*this,level,contextptr);
 	      return true;
 	    }
-	  }
+	  } else
+#endif // pthread
+	    {
+	      debug_struct * dbgptr=debug_ptr(contextptr);
+	      if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL){
+		if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL+10){
+		  gensizeerr(gettext("Too many recursions)"),evaled);
+		  return true;
+		}
+		*logptr(contextptr) << gettext("Running non recursive evaluator") << endl;
+		evaled=nr_eval(*this,level,contextptr);
+		return true;
+	      }
+	    }
 #endif // rtos
-	if (_SYMBptr->sommet==at_of || _SYMBptr->sommet==at_local || is_ifte || _SYMBptr->sommet==at_bloc){
-	  elevel=level;
-	  evaled=_SYMBptr->feuille; // FIXME must also set eval_level to level
+	  if (Sommet==at_of || Sommet==at_local || is_ifte || Sommet==at_bloc){
+	    elevel=level;
+	    evaled=_SYMBptr->feuille; // FIXME must also set eval_level to level
+	  }
+	  else {
+	    if (!_SYMBptr->feuille.in_eval(level,evaled,contextptr))
+	      evaled=_SYMBptr->feuille;
+	  }
+	  if (is_ifte)
+	    evaled=ifte(evaled,true,contextptr);
+	  else
+	    evaled=(*Sommet.ptr())(evaled,contextptr);
+	  elevel=slevel;
 	}
-	else {
-	  if (!_SYMBptr->feuille.in_eval(level,evaled,contextptr))
-	  evaled=_SYMBptr->feuille;
-	}
-	if (is_ifte)
-	  evaled=ifte(evaled,true,contextptr);
 	else
-	  evaled=(*_SYMBptr->sommet.ptr())(evaled,contextptr);
-	elevel=slevel;
+	  evaled=_SYMBptr->eval(level,contextptr);
+	return true;
       }
-      else
-	evaled=_SYMBptr->eval(level,contextptr);
-      return true;
     case _USER:
       return in_eval_user(*this,evaled,level,contextptr);
     case _MOD:
@@ -4167,36 +4164,62 @@ namespace giac {
     return res._VECTptr->empty()?0:res;
   }
 
-  gen operator_plus_eq(gen &a,const gen & b,GIAC_CONTEXT){
+  gen & operator_plus_eq(gen &a,const gen & b,GIAC_CONTEXT){
 #ifdef EMCC
     a=operator_plus(a,b,contextptr);
     return a;
 #endif
-    register unsigned t=(a.type<< _DECALAGE) | b.type;
-    if (t==_DOUBLE___DOUBLE_){
+    if (a.type==b.type){
+
+      if (a.type==_DOUBLE_){
 #ifdef DOUBLEVAL
-      return a._DOUBLE_val += b._DOUBLE_val;
+	a._DOUBLE_val += b._DOUBLE_val; return a;
 #else
-      *((double *) &a) += *((double *) &b);
-      a.type = _DOUBLE_;
-      return a;
-#endif
-    }
-    if (t==_FLOAT___FLOAT_){
-#ifdef DOUBLEVAL
-      return a._FLOAT_val += b._FLOAT_val;
-#else
-      *((giac_float *) &a) += *((giac_float *) &b);
-      a.type = _FLOAT_;
-      return a;
-#endif
-    }
-    if (!t){
-      longlong tmp=((longlong) a.val+b.val);
-      a.val=(int)tmp;
-      if (a.val==tmp)
+	*((double *) &a) += *((double *) &b);
+	a.type = _DOUBLE_;
 	return a;
-      return a=tmp;
+#endif
+      }
+      if (a.type==_FLOAT_){
+#ifdef DOUBLEVAL
+	a._FLOAT_val += b._FLOAT_val; return a;
+#else
+	*((giac_float *) &a) += *((giac_float *) &b);
+	a.type = _FLOAT_;
+	return a;
+#endif
+      }
+      if (a.type==_INT_){
+	longlong tmp=((longlong) a.val+b.val);
+	a.val=(int)tmp;
+	if (a.val==tmp)
+	  return a;
+	return a=tmp;
+      }
+      if (a.type==_ZINT && a.ref_count()==1){
+	mpz_t * ptr=a._ZINTptr;
+	mpz_add(*ptr,*ptr,*b._ZINTptr);
+	if (mpz_sizeinbase(*ptr,2)<32){
+	  return a=mpz_get_si(*ptr);
+	}
+	return a;
+      }
+      if (a.type==_VECT && a.subtype==_POLY1__VECT && a.ref_count()==1){
+	if (addgen_poly(a,b,true)._VECTptr->empty())
+	  a=0;
+	return a;
+      }
+    }
+    if (a.type==_ZINT && b.type==_INT_ && a.ref_count()==1){
+      mpz_t * ptr=a._ZINTptr;
+      if (b.val<0)
+	mpz_sub_ui(*ptr,*ptr,-b.val);
+      else
+	mpz_add_ui(*ptr,*ptr,b.val);
+      if (mpz_sizeinbase(*ptr,2)<32){
+	return a=gen(*ptr);
+      }
+      return a;
     }
     // if (!( (++control_c_counter) & control_c_counter_mask))
 #ifdef TIMEOUT
@@ -4206,34 +4229,7 @@ namespace giac {
       interrupted = true; ctrl_c=false;
       return a=gensizeerr(gettext("Stopped by user interruption.")); 
     }
-    // FIXME: move _POINTER type below _DOUBLE
-    if (a.type>_DOUBLE_ && a.type!=_FLOAT_ && a.ref_count()>1)
-      return a=operator_plus(a,b,contextptr);
-    switch ( t ) {
-    case _ZINT__ZINT:
-      mpz_add(*a._ZINTptr,*a._ZINTptr,*b._ZINTptr);
-      if (mpz_sizeinbase(*a._ZINTptr,2)<32){
-	return a=gen(*a._ZINTptr);
-      }
-      return a;
-    case _ZINT__INT_:
-      if (b.val<0)
-	mpz_sub_ui(*a._ZINTptr,*a._ZINTptr,-b.val);
-      else
-	mpz_add_ui(*a._ZINTptr,*a._ZINTptr,b.val);
-      if (mpz_sizeinbase(*a._ZINTptr,2)<32){
-	return a=gen(*a._ZINTptr);
-      }
-      return a;
-    case _VECT__VECT:
-      if (a.subtype==_POLY1__VECT){
-	if (addgen_poly(a,b,true)._VECTptr->empty())
-	  a=0;
-	return a;
-      }
-    default:
-      return a=operator_plus(a,b,contextptr);
-    }    
+    return a=operator_plus(a,b,contextptr);
   }
 
   static gen ck_evalf_double(const gen & g,GIAC_CONTEXT){
@@ -4394,6 +4390,10 @@ namespace giac {
 	}
       }
     default:
+      if (a.type==_INT_ && a.val==0)
+	return b;
+      if (b.type==_INT_ && b.val==0)
+	return a;
       if (is_undef(a))
 	return a;
       if (is_undef(b))
@@ -4464,7 +4464,7 @@ namespace giac {
     if (a.num.type==_POLY && b.num.type==_POLY && db.type==_POLY && da.type==_POLY)
       num=foisplus(*a.num._POLYptr,*db._POLYptr,*b.num._POLYptr,*da._POLYptr);
     else
-      num=(a.num*db+b.num*da);
+      num=foisplus(a.num,db,b.num,da) ; // (a.num*db+b.num*da);
     if (den.type==_FRAC){
       num=num * den._FRACptr->den;
       den=den._FRACptr->num;
@@ -4930,36 +4930,68 @@ namespace giac {
     return res._VECTptr->empty()?0:res;
   }
 
-  gen operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT){
+  gen & operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT){
 #ifdef EMCC
     a=operator_minus(a,b,contextptr);
     return a;
 #endif
-    register unsigned t=(a.type<< _DECALAGE) | b.type;
-    if (t==_DOUBLE___DOUBLE_){
-#ifdef DOUBLEVAL
-      return a._DOUBLE_val -= b._DOUBLE_val;
+    if (a.type==b.type){
+#ifdef SMARTPTR64
+      if (*(ulonglong *)&a==*(ulonglong *)&b && a.type<=_CPLX)
+	return a=0;
 #else
-      *((double *) &a) -= *((double *) &b);
-      a.type = _DOUBLE_;
-      return a;
+      if (&a==&b && a.type<=_CPLX)
+	return a=0;
 #endif
-    }
-    if (t==_FLOAT___FLOAT_){
+      if (a.type==_DOUBLE_){
 #ifdef DOUBLEVAL
-      return a._FLOAT_val -= b._FLOAT_val;
+	a._DOUBLE_val -= b._DOUBLE_val; return a;
 #else
-      *((double *) &a) -= *((double *) &b);
-      a.type = _FLOAT_;
-      return a;
-#endif
-    }
-    if (!t){
-      longlong tmp=((longlong) a.val-b.val);
-      a.val=(int)tmp;
-      if (a.val==tmp)
+	*((double *) &a) -= *((double *) &b);
+	a.type = _DOUBLE_;
 	return a;
-      return a=tmp;
+#endif
+      }
+      if (a.type==_FLOAT_){
+#ifdef DOUBLEVAL
+	a._FLOAT_val -= b._FLOAT_val; return a;
+#else
+	*((double *) &a) -= *((double *) &b);
+	a.type = _FLOAT_;
+	return a;
+#endif
+      }
+      if (a.type==_INT_){
+	longlong tmp=((longlong) a.val-b.val);
+	a.val=(int)tmp;
+	if (a.val==tmp)
+	  return a;
+	return a=tmp;
+      }
+      if (a.type==_ZINT && a.ref_count()==1){
+	mpz_t * ptr=a._ZINTptr;
+	mpz_sub(*ptr,*ptr,*b._ZINTptr);
+	if (mpz_sizeinbase(*ptr,2)<32){
+	  return a=mpz_get_si(*ptr);
+	}
+	return a;
+      }
+      if (a.type==_VECT && a.subtype==_POLY1__VECT && a.ref_count()==1){
+	if (subgen_poly(a,b,true)._VECTptr->empty())
+	  a=0;
+	return a;
+      }
+    }
+    if (a.type==_ZINT && b.type==_INT_ && a.ref_count()==1){
+      mpz_t * ptr=a._ZINTptr;
+      if (b.val>0)
+	mpz_sub_ui(*ptr,*ptr,b.val);
+      else
+	mpz_add_ui(*ptr,*ptr,-b.val);
+      if (mpz_sizeinbase(*ptr,2)<32){
+	return a=mpz_get_si(*ptr);
+      }
+      return a;
     }
     // if (!( (++control_c_counter) & control_c_counter_mask))
 #ifdef TIMEOUT
@@ -4969,34 +5001,7 @@ namespace giac {
       interrupted = true; ctrl_c=false;
       return a=gensizeerr(gettext("Stopped by user interruption.")); 
     }      
-    // FIXME: move _POINTER type below _DOUBLE
-    if (a.type>_DOUBLE_ && a.type!=_FLOAT_ && a.ref_count()>1)
-      return a=operator_minus(a,b,contextptr);
-    switch ( t ) {
-    case _ZINT__ZINT:
-      mpz_sub(*a._ZINTptr,*a._ZINTptr,*b._ZINTptr);
-      if (mpz_sizeinbase(*a._ZINTptr,2)<32){
-	return a=gen(*a._ZINTptr);
-      }
-      return a;
-    case _ZINT__INT_:
-      if (b.val>0)
-	mpz_sub_ui(*a._ZINTptr,*a._ZINTptr,b.val);
-      else
-	mpz_add_ui(*a._ZINTptr,*a._ZINTptr,-b.val);
-      if (mpz_sizeinbase(*a._ZINTptr,2)<32){
-	return a=gen(*a._ZINTptr);
-      }
-      return a;
-    case _VECT__VECT:
-      if (a.subtype==_POLY1__VECT){
-	if (subgen_poly(a,b,true)._VECTptr->empty())
-	  a=0;
-	return a;
-      }
-    default:
-      return a=operator_minus(a,b,contextptr);
-    }    
+    return a=operator_minus(a,b,contextptr);
   }
 
   gen operator_minus(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
@@ -5532,8 +5537,18 @@ namespace giac {
     tmp=a*b;
   }
 
+  bool is_int_zint_vecteur(const vecteur & m){
+    const_iterateur it=m.begin(),itend=m.end();
+    for (;it!=itend;++it){
+      int t=it->type;
+      if (t!=_INT_ && t!=_ZINT) return false;
+    }
+    return true;
+  }
+
   void type_operator_plus_times(const gen & a,const gen & b,gen & c){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
+#ifndef EMCC
     if (c.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
       c._DOUBLE_val += a._DOUBLE_val*b._DOUBLE_val;
@@ -5543,6 +5558,7 @@ namespace giac {
 #endif
       return ;
     }
+#endif
     if (c.type==_ZINT && c.ref_count()==1){
       switch (t){
       case _ZINT__ZINT:
@@ -5599,9 +5615,53 @@ namespace giac {
 	return;
       }
     }
+    if (c.type==_VECT && c.ref_count()==1 && a.type==_VECT && b.type==_VECT && a._VECTptr->size()<KARAMUL_SIZE && b._VECTptr->size()<KARAMUL_SIZE && is_int_zint_vecteur(*a._VECTptr) && is_int_zint_vecteur(*b._VECTptr) && is_int_zint_vecteur(*c._VECTptr)){
+      add_mulmodpoly(a._VECTptr->begin(),a._VECTptr->end(),b._VECTptr->begin(),b._VECTptr->end(),0,*c._VECTptr);
+      return;
+    }
     gen g;
     type_operator_times(a,b,g);
+    if (g.type==_ZINT)
+      swapgen(c,g);
     c += g;
+  }
+
+  void type_operator_minus_times(const gen & a,const gen & b,gen & c){
+    register unsigned t=(a.type<< _DECALAGE) | b.type;
+#ifndef EMCC
+    if (c.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
+#ifdef DOUBLEVAL
+      c._DOUBLE_val -= a._DOUBLE_val*b._DOUBLE_val;
+#else
+      *((double *) &c) -= (*((double *) &a)) * (*((double *) &b));
+      c.type = _DOUBLE_;
+#endif
+      return ;
+    }
+#endif
+    if (c.type==_ZINT && c.ref_count()==1){
+      switch (t){
+      case _ZINT__ZINT:
+	mpz_submul(*c._ZINTptr,*a._ZINTptr,*b._ZINTptr);
+	return;
+      case _ZINT__INT_:
+	if (b.val<0)
+	  mpz_addmul_ui(*c._ZINTptr,*a._ZINTptr,-b.val);
+	else
+	  mpz_submul_ui(*c._ZINTptr,*a._ZINTptr,b.val);
+	return;
+      case _INT___ZINT:
+	if (a.val<0){
+	  mpz_addmul_ui(*c._ZINTptr,*b._ZINTptr,-a.val);
+	}
+	else
+	  mpz_submul_ui(*c._ZINTptr,*b._ZINTptr,a.val);
+	return;
+      }      
+    }
+    gen g;
+    type_operator_times(a,b,g);
+    c -= g;
   }
 
   static gen double_times_frac(const gen & a,const fraction & b,GIAC_CONTEXT){
@@ -6974,7 +7034,7 @@ namespace giac {
   gen gen::inverse(GIAC_CONTEXT) const  { return inv(*this,contextptr); }
 
   static void inpow(const gen & base,unsigned long int exponent,gen & res){
-#if 1
+#if 0
     res=1;
     gen basepow=base;
     while (exponent){
@@ -7024,7 +7084,14 @@ namespace giac {
       e=new ref_mpz_t;
       mpz_pow_ui(e->z,*base._ZINTptr,exponent);
       return e;
-    case _CPLX: case _REAL: case _EXT: case _VECT: case _MOD: case _USER:
+    case _VECT:
+      if (base.subtype==_POLY1__VECT && base._VECTptr->size()<5){
+	vecteur res;
+	if (miller_pow(*base._VECTptr,exponent,res))
+	  return gen(res,_POLY1__VECT);
+      }
+      /* no break, _VECT handled by next case */
+    case _CPLX: case _REAL: case _EXT: case _MOD: case _USER:
       // gauss integer power
       if (!exponent){
 	if (ckmatrix(base))
@@ -7842,6 +7909,14 @@ namespace giac {
     case _INT_: case _ZINT: case _CPLX: case _DOUBLE_: case _FLOAT_:
       return change_subtype(is_zero(a,context0),_INT_BOOLEAN);
     default:
+      bool as=a.is_symb_of_sommet(at_superieur_strict);
+      bool ae=a.is_symb_of_sommet(at_superieur_egal);
+      if (as || ae){
+	gen f=a._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==2){
+	  return symbolic(ae?at_superieur_strict:at_superieur_egal,makesequence(f._VECTptr->back(),f._VECTptr->front()));
+	}
+      }
       return symb_not(a);
     }
   }
@@ -8419,7 +8494,7 @@ namespace giac {
     case _INT_: 
       return a.val==1; 
     case _ZINT: 
-      return (a==gen(1));
+      return mpz_cmp_si(*a._ZINTptr,1)==0;
     case _CPLX:
       return is_one(*a._CPLXptr) && is_zero(*(a._CPLXptr+1));
     case _DOUBLE_:
@@ -8448,7 +8523,7 @@ namespace giac {
     case _INT_: 
       return a.val==-1; 
     case _ZINT: 
-      return (a==gen(-1));
+      return mpz_cmp_si(*a._ZINTptr,-1)==0;
     case _CPLX:
       return (is_minus_one(*a._CPLXptr) && is_zero(*(a._CPLXptr+1),context0));
     case _DOUBLE_:
@@ -8654,6 +8729,8 @@ namespace giac {
 	      v.reserve(jtend-jt);
 	      for (;jt!=jtend;++jt)
 		v.push_back((*jt)[fin_it]);
+	      if (res.subtype==_MATRIX__VECT && !ckmatrix(v))
+		return v;
 	      return gen(v,res.subtype);
 	    }
 	  }
@@ -9110,7 +9187,7 @@ namespace giac {
       v.push_back(a);
       return new_ref_symbolic(symbolic(at_and,v));
     }
-    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((a.type==_IDNT) || (a.type==_SYMB)) )
+    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((b.type==_IDNT) || (b.type==_SYMB)) )
       return symb_and(a,b);
     if ( (a.type==_DOUBLE_) || (b.type==_DOUBLE_) )
       return 1.0;
@@ -9136,7 +9213,7 @@ namespace giac {
       v.push_back(a);
       return new_ref_symbolic(symbolic(at_ou,v));
     }
-    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((a.type==_IDNT) || (a.type==_SYMB)) )
+    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((b.type==_IDNT) || (b.type==_SYMB)) )
       return symb_ou(a,b);
     if ( (a.type==_DOUBLE_) || (b.type==_DOUBLE_) )
       return 1.0;
@@ -9933,6 +10010,7 @@ namespace giac {
       return g;
     }
     if (n.type==_POLY) {
+      return simplify3(n,d); // changed made 18 dec 2016 for speed
       polynome np(*n._POLYptr),dp(d,n._POLYptr->dim);
       polynome g(np.dim);
       g=simplify(np,dp);
@@ -10279,7 +10357,7 @@ namespace giac {
   }
 
   gen smod(const gen & a,const gen & b){
-    if (b==0)
+    if (b.type==_INT_ && b.val==0)
       return a;
     ref_mpz_t * rem;
     switch ( (a.type<< _DECALAGE) | b.type ) {
@@ -10295,9 +10373,19 @@ namespace giac {
     case _POLY__INT_: case _POLY__ZINT:
       return smod(*a._POLYptr,b);
     case _VECT__INT_: case _VECT__ZINT:
-      if (a.subtype==_POLY1__VECT)
-	return gen(trim(smod(*a._VECTptr,b),0),a.subtype);
-      return gen(smod(*a._VECTptr,b),a.subtype);
+      if (a.ref_count()==1){
+	smod(*a._VECTptr,b,*a._VECTptr);
+	if (a.subtype==_POLY1__VECT)
+	  *a._VECTptr=trim(*a._VECTptr,0);
+	return a;
+      }
+      {
+	gen res(new_ref_vecteur(*a._VECTptr),a.subtype);
+	smod(*res._VECTptr,b,*res._VECTptr);
+	if (a.subtype==_POLY1__VECT)
+	  *res._VECTptr=trim(*res._VECTptr,0);
+	return res;
+      }
     default: 
       if (a.type==_SYMB)
 	return smodSYMB(a,b);
@@ -12787,7 +12875,12 @@ namespace giac {
       if (calc_mode(contextptr)==1 && (is_inf(*this) || is_undef(*this)))
 	return "?";
       return _IDNTptr->print(contextptr);
-    case _SYMB:
+    case _SYMB: 
+      {
+	int d=depth(*this,0,print_max_depth);
+	if (d>=print_max_depth)
+	  return "Too many embeddings";
+      }
       if (is_inf(_SYMBptr->feuille)){
 	if (_SYMBptr->sommet==at_plus){
 	  if (

@@ -158,7 +158,7 @@ namespace giac {
 	  lrdm(*minmat[i]._VECTptr,m-1);
 	minmat=mtran(minmat);
 	matrice minred,pivots; gen det;
-	if (!modrref(minmat,minred,pivots,det,0,m,0,m+1,true,0,p,0))
+	if (!modrref(minmat,minred,pivots,det,0,m,0,m+1,true,0,p,false,0))
 	  return 0;
 	// Extract kernel from last column
 	vmin=vecteur(m+1,1);
@@ -443,12 +443,46 @@ namespace giac {
     }
   }
 
-  galois_field::galois_field(const gen p_,const gen & P_,const gen & x_,const gen & a_):p(p_),P(P_),x(x_),a(a_) {
-    reduce();
+  galois_field::galois_field(const gen p_,const gen & P_,const gen & x_,const gen & a_,bool doreduce):p(p_),P(P_),x(x_),a(a_) {
+    if (doreduce)
+      reduce();
   }
 
-  galois_field::galois_field(const galois_field & q):p(q.p),P(q.P),x(q.x),a(q.a) { 
-    reduce();
+  galois_field::galois_field(const galois_field & q,bool doreduce):p(q.p),P(q.P),x(q.x),a(q.a) { 
+    if (doreduce)
+      reduce();
+  }
+
+  void gf_add(const vecteur & a,const vecteur &b,int p,vecteur & c){
+    int n=a.size(),m=b.size();
+    if (n<m){
+      gf_add(b,a,p,c);
+      return;
+    }
+    c.reserve(n);
+    const_iterateur it=a.begin(),itend=a.end(),jt=b.begin();
+    if (n>m){
+      for (;n>m;--n,++it)
+	c.push_back(*it);
+    }
+    else {
+      for (;it!=itend;++it,++jt){
+	int j=it->val+jt->val;
+	j += (unsigned(j)>>31)*p; // make positive
+	j -= (unsigned((p>>1)-j)>>31)*p;
+	if (j){
+	  c.push_back(j);
+	  ++it;++jt;
+	  break;
+	}
+      }
+    }
+    for (;it!=itend;++it,++jt){
+      int j=it->val+jt->val;
+      j += (unsigned(j)>>31)*p; // make positive
+      j -= (unsigned((p>>1)-j)>>31)*p;
+      c.push_back(j);
+    }
   }
 
   gen galois_field::operator + (const gen & g) const { 
@@ -465,14 +499,18 @@ namespace giac {
       if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P))
 	return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
-	vecteur res;
-	environment * env=new environment;
-	env->modulo=p;
-	env->pn=env->modulo;
-	env->moduloon=true;
-	addmodpoly(*a._VECTptr,*gptr->a._VECTptr,env,res);
-	delete env;
-	return galois_field(p,P,x,res);
+	galois_field * gfptr=new galois_field(p,P,x,new ref_vecteur(0));
+	ref_gen_user * resptr=new ref_gen_user(*gfptr);
+	if (p.type==_INT_){
+	  gf_add(*a._VECTptr,*gptr->a._VECTptr,p.val,*gfptr->a._VECTptr);
+	  return resptr;
+	}
+	environment env;
+	env.modulo=p;
+	env.pn=env.modulo;
+	env.moduloon=true;
+	addmodpoly(*a._VECTptr,*gptr->a._VECTptr,&env,*gfptr->a._VECTptr);
+	return resptr; // galois_field(p,P,x,res,false);
       }
       return galois_field(p,P,x,a+gptr->a);
     }
@@ -481,8 +519,12 @@ namespace giac {
   }
 
   gen galois_field::operator - (const gen & g) const { 
-    if (is_integer(g))
-      return galois_field(p,P,x,a-g);
+    if (is_integer(g)){
+      gen tmp=a-g;
+      if (giac::is_zero(tmp))
+	return tmp;
+      return galois_field(p,P,x,tmp);
+    }
     if (g.type==_MOD){
       if (*(g._MODptr+1)!=p)
 	return gensizeerr(gettext("Incompatible characteristics"));
@@ -495,13 +537,12 @@ namespace giac {
 	return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
 	vecteur res;
-	environment * env=new environment;
-	env->modulo=p;
-	env->pn=env->modulo;
-	env->moduloon=true;
-	submodpoly(*a._VECTptr,*gptr->a._VECTptr,env,res);
-	delete env;
-	return galois_field(p,P,x,res);
+	environment env;
+	env.modulo=p;
+	env.pn=env.modulo;
+	env.moduloon=true;
+	submodpoly(*a._VECTptr,*gptr->a._VECTptr,&env,res);
+	return galois_field(p,P,x,res,false);
       }
       return galois_field(p,P,x,a-gptr->a);
     }
@@ -510,7 +551,7 @@ namespace giac {
   }
 
   gen galois_field::operator - () const { 
-    return galois_field(p,P,x,-a);
+    return galois_field(p,P,x,-a,true);
   }
 
   gen galois_field::operator / (const gen & g) const { 
@@ -547,15 +588,37 @@ namespace giac {
       if (gptr->p!=p || gptr->P!=P || P.type!=_VECT || is_undef(P) || is_undef(gptr->P))
 	return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
-	vecteur res;
-	environment * env=new environment;
-	env->modulo=p;
-	env->pn=env->modulo;
-	env->moduloon=true;
-	mulmodpoly(*a._VECTptr,*gptr->a._VECTptr,env,res);
-	res=operator_mod(res,*P._VECTptr,env),
-	delete env;
-	return galois_field(p,P,x,res);
+	if (p.type==_INT_ ){
+	  galois_field * gfptr=new galois_field(p,P,x,new ref_vecteur(0));
+	  ref_gen_user * resptr=new ref_gen_user(*gfptr);
+	  int m=p.val;
+	  vector<int> amod,bmod,ab,pmod;
+	  vecteur2vector_int(*a._VECTptr,0,amod);
+	  vecteur2vector_int(*gptr->a._VECTptr,0,bmod);
+	  vecteur2vector_int(*P._VECTptr,0,pmod);
+	  mulext(amod,bmod,pmod,m,ab);
+	  int absize=ab.size();
+	  int * i=&ab.front(),*iend=i+absize;
+	  for (;i<iend;++i){
+	    int j=*i;
+	    //j =smod(j,m);
+	    j += (unsigned(j)>>31)*m; // make positive
+	    j -= (unsigned((m>>1)-j)>>31)*m;
+	    *i=j;
+	  }
+	  // if (absize==1) return ab.front()?zero:makemod(ab.front(),p); // does not work chk_fhan12
+	  vector_int2vecteur(ab,*gfptr->a._VECTptr);
+	  return resptr; // galois_field(p,P,x,resdbg,false);
+	}
+	environment env;
+	env.modulo=p;
+	env.pn=env.modulo;
+	env.moduloon=true;
+	vecteur resdbg,quo;
+	mulmodpoly(*a._VECTptr,*gptr->a._VECTptr,&env,resdbg);
+	gen res(new_ref_vecteur(0));
+	DivRem(resdbg,*P._VECTptr,&env,quo,*res._VECTptr);
+	return galois_field(p,P,x,res,false);
       }
       return galois_field(p,P,x,a*gptr->a);
     }

@@ -862,6 +862,20 @@ namespace giac {
     gen i=cst_i;
     gen dx(svg_width/100);
     gen dy(svg_height/100);
+    switch (attr.type_point << 25){
+    case _POINT_LOSANGE:
+      return svg_segment(center-dx,center-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-i*dy,center+dx,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center+dx,center+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center+i*dy,center-dx,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    case _POINT_PLUS:
+      return svg_segment(center-dx,center+dx,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-i*dy,center+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    case _POINT_INVISIBLE:
+      return svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    case _POINT_CARRE:
+      return svg_segment(center-dx-i*dy,center+dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center+dx-i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center-dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    case _POINT_TRIANGLE:
+      return svg_segment(center-dx-i*dy,center-dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx-i*dy,center+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    case _POINT_POINT:
+      return svg_segment(center,center,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    }
     return svg_segment(center-dx-i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
   }
 

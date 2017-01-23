@@ -499,6 +499,7 @@ namespace giac {
     const char * dbgprint() const;
   };
 
+  void delete_ptr(signed char subtype,short int type_save,ref_mpz_t * ptr_save);
   // FIXME: for little-endian check if type/unused/subtype order is correct!
   class gen {
   public:
@@ -629,6 +630,7 @@ namespace giac {
     gen (const symbolic & s);
     gen (ref_symbolic * sptr);
     gen (const gen_user & g);
+    gen (ref_gen_user * sptr);
     gen (const real_object & g);
     gen (const real_interval & g);
     // Pls do not use this constructor unless you know exactly what you do
@@ -648,7 +650,20 @@ namespace giac {
     gen (const mpz_class &);
 #endif
     gen (const my_mpz &);
-    ~gen();
+    void delete_gen();
+    ~gen(){ 
+      if ( type>_DOUBLE_ && type!=_FLOAT_
+#if !defined SMARTPTR64 // || defined STATIC_BUILTIN_LEXER_FUNCTIONS
+	   && type!=_FUNC 
+#endif
+	   ){
+	// optimization for ref_count access must be checked in multi-thread
+	ref_count_t * rc=(ref_count_t *) & ref_count();
+	if (*rc!=-1 && !--*rc){
+	  delete_gen();
+	}
+      }
+    }
 
     bool in_eval(int level,gen & evaled,const context * contextptr) const;
     gen eval(int level,const context * contextptr) const;
@@ -658,7 +673,62 @@ namespace giac {
     // inline gen evalf() const { return evalf(DEFAULT_EVAL_LEVEL,context0); }
     gen evalf_double(int level,const context * contextptr) const ;
     gen evalf2double(int level,const context * contextptr) const;
-    gen & operator = (const gen & a);
+#if defined SMARTPTR64 
+    gen & operator = (const gen & a){
+      ulonglong al=*((ulonglong *) &a);
+      unsigned char atype=al&0x1f;
+      ulonglong tl=*((ulonglong *) this);
+      // Copy before deleting because the target might be embedded in a
+      // with a ptr_val.ref_count of a equals to 1
+      // short int type_save=type; // short int subtype_save=subtype; 
+      * ((longlong *) this) = al;
+      if (atype>_DOUBLE_ && atype!=_FLOAT_ 
+	  && (al >> 16)	){
+	ref_count_t * rc=(ref_count_t *)& ((ref_mpz_t *)(al>>16) )->ref_count;
+	if (*rc!=-1)
+	  ++(*rc); // increase ref count
+      }
+      // Now we delete the target 
+      if ( (tl &0x1f)>_DOUBLE_)
+	delete_ptr( (signed char) ((tl&0xff00)>>8),(tl &0x1f),(ref_mpz_t *) (tl >> 16));
+      return *this;
+    }
+    
+#else // SMARTPTR64
+    gen & operator = (const gen & a){
+      register unsigned t=(type << _DECALAGE) | a.type;
+      if (!t){
+	subtype=a.subtype;
+	val=a.val;
+	return *this;
+      }
+      if (a.type>_DOUBLE_ && a.type!=_FLOAT_ 
+	  && a.type!=_FUNC && a.__ZINTptr
+	  ){
+	ref_count_t * rc=(ref_count_t *)&a.ref_count();
+	if (*rc!=-1)
+	  ++(*rc); // increase ref count
+      }
+      // Copy before deleting because the target might be embedded in a
+      // with a ptr_val.ref_count of a equals to 1
+      short int type_save=type; // short int subtype_save=subtype; 
+      ref_mpz_t * ptr_save = __ZINTptr;
+#ifdef DOUBLEVAL
+      _DOUBLE_val = a._DOUBLE_val;
+      subtype=a.subtype;
+#else
+      * ((longlong *) this) = *((longlong * ) &a);
+#endif
+      __ZINTptr=a.__ZINTptr;
+      type=a.type;
+      // Now we delete the target 
+      if ( type_save>_DOUBLE_ && type_save!=_FLOAT_
+	   && type_save!=_FUNC 
+	   )
+	delete_ptr(subtype,type_save,ptr_save);
+      return *this;
+    }
+#endif // SMARTPTR64
     int to_int() const ;
     double to_double(const context * contextptr) const;
     bool is_vector_of_size(size_t n) const;
@@ -721,6 +791,7 @@ namespace giac {
     inline void * ref_POINTER_val() const ;
   };
 
+  bool ref_mpz_t2gen(ref_mpz_t * mptr,gen & g); // return true if mptr used in g
   gen change_subtype(const gen &g,int newsubtype);
   gen genfromstring(const std::string & s);
   // pointer to an int describing display mode for complex numbers
@@ -869,14 +940,14 @@ namespace giac {
   gen operator || (const gen & a,const gen & b);
   gen operator_plus (const gen & a,const gen & b,GIAC_CONTEXT);
   gen operator + (const gen & a,const gen & b);
-  gen operator_plus_eq (gen & a,const gen & b,GIAC_CONTEXT);
-  inline gen operator += (gen & a,const gen & b){ 
+  gen & operator_plus_eq (gen & a,const gen & b,GIAC_CONTEXT);
+  inline gen & operator += (gen & a,const gen & b){ 
     return operator_plus_eq(a,b,giac::context0);
   }
   Tfraction<gen> operator + (const Tfraction<gen> & a,const Tfraction<gen> & b); // specialization
   gen sym_add (const gen & a,const gen & b,GIAC_CONTEXT);
-  gen operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT);
-  inline gen operator -= (gen & a,const gen & b){ 
+  gen & operator_minus_eq (gen & a,const gen & b,GIAC_CONTEXT);
+  inline gen & operator -= (gen & a,const gen & b){ 
     return operator_minus_eq(a,b,giac::context0);
   }
   gen operator_minus (const gen & a,const gen & b,GIAC_CONTEXT);
@@ -903,7 +974,11 @@ namespace giac {
   inline wchar_t * wprint(const gen & g,GIAC_CONTEXT){ return g.wprint(contextptr); }
 
   inline void swapgen(gen & a,gen &b){
+#ifdef SMARTPTR64
+    std::swap<ulonglong>(* (ulonglong *)&a,* (ulonglong *)&b);
+#else
     gen tmp=a; a=b; b=tmp;
+#endif
   }
   gen algebraic_EXTension(const gen & a,const gen & v);
   gen ext_reduce(const gen & a, const gen & v);
@@ -925,6 +1000,7 @@ namespace giac {
   }
   */
   void type_operator_plus_times(const gen & a,const gen & b,gen & c);
+  void type_operator_minus_times(const gen & a,const gen & b,gen & c);
 
   inline void type_operator_plus_times_reduce(const gen & a,const gen & b,gen & c,int reduce){
     type_operator_plus_times(a,b,c);
@@ -1139,6 +1215,7 @@ namespace giac {
     volatile ref_count_t ref_count;
     gen_user * u;
     ref_gen_user(const gen_user & U):ref_count(1),u(U.memory_alloc()) {}
+    ref_gen_user(gen_user * U):ref_count(1),u(U) {}
     ~ref_gen_user() {delete u;}
   };
 

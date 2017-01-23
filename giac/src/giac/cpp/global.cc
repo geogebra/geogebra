@@ -1630,7 +1630,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int MODFACTOR_PRIMES =5;
   int NTL_MODGCD=50;
   int HENSEL_QUADRATIC_POWER=25;
-  int KARAMUL_SIZE=17;
+  int KARAMUL_SIZE=13;
   int INT_KARAMUL_SIZE=300;
   int FFTMUL_SIZE=100; 
   int FFTMUL_INT_MAXBITS=1024;
@@ -1662,7 +1662,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int MODFACTOR_PRIMES =5;
   int NTL_MODGCD=50;
   int HENSEL_QUADRATIC_POWER=25;
-  int KARAMUL_SIZE=17;
+  int KARAMUL_SIZE=13;
   int INT_KARAMUL_SIZE=300;
   int FFTMUL_SIZE=100; 
   int FFTMUL_INT_MAXBITS=1024;
@@ -3878,8 +3878,8 @@ extern "C" void Sleep(unsigned int miliSecond);
     return isnan(d);
 #endif
 #else
-#if defined (FIR_LINUX) || defined (FIR_ANDROID)
-    return ::isnan(d);
+#if defined(FIR_LINUX) || defined(FIR_ANDROID)
+    return std::isnan(d);
 #else
     return isnan(d);
 #endif
@@ -3891,8 +3891,8 @@ extern "C" void Sleep(unsigned int miliSecond);
     double x=0.0;
     return d==1.0/x || d==-1.0/x;
 #else
-#if defined (FIR_LINUX) || defined (FIR_ANDROID)
-    return ::isinf(d);
+#if defined(FIR_LINUX) || defined(FIR_ANDROID)
+    return std::isinf(d);
 #else
     return isinf(d);
 #endif

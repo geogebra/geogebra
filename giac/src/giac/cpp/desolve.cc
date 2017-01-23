@@ -1023,9 +1023,10 @@ namespace giac {
   }
 
   gen desolve_f(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,gen & fres,int step_info,GIAC_CONTEXT){
-    if (x_orig.type!=_VECT &&eval(x_orig,1,contextptr)!=x_orig)
+    // if x_orig.type==_VECT || y_orig.type==_VECT, they should be evaled
+    if (x_orig.type!=_VECT && eval(x_orig,1,contextptr)!=x_orig)
       return gensizeerr("Independant variable assigned. Run purge("+x_orig.print(contextptr)+")\n");
-    if (y_orig.type!=_VECT &&eval(y_orig,1,contextptr)!=y_orig)
+    if (y_orig.type!=_VECT && eval(y_orig,1,contextptr)!=y_orig)
       return gensizeerr("Dependant variable assigned. Run purge("+y_orig.print(contextptr)+")\n");
     gen x(x_orig);
     if ( (x_orig.type==_VECT) && (x_orig._VECTptr->size()==1) )
@@ -1077,6 +1078,8 @@ namespace giac {
     vx_var=save_vx;
     // Here f= f(derive(y,x),y) for a 1st order equation
     int n=diffeq_order(f,y);
+    if (n==0)
+      return solve(f,y,0,contextptr);
     if (n<=0)
       return gensizeerr(contextptr);
     vecteur v;
@@ -1259,7 +1262,7 @@ namespace giac {
 	if (is_zero(derive(fc,x,contextptr)) && is_zero(derive(fc,y,contextptr))){
 	  gen eff=subst(*it,y,y-fc*x,false,contextptr); // does not depend on x
 	  gen pr=integrate_without_lnabs(inv(eff+fc,contextptr),y,contextptr)+parameters.back();
-	  pr=subst(pr,y,y+fc*x,false,contextptr);	  
+	  pr=subst(pr,y,y+fc*x,false,contextptr);
 	  vecteur l1=lop(lvarx(pr,y),at_floor);
 	  if (!l1.empty()){
 	    vecteur l2(l1.size());

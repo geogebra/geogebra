@@ -174,6 +174,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_stddev;
   extern const unary_function_ptr * const  at_variance;
   extern const unary_function_ptr * const  at_lagrange;
+  extern const unary_function_ptr * const  at_interp;
   extern const unary_function_ptr * const  at_reorder;
   extern const unary_function_ptr * const  at_adjoint_matrix;
   extern const unary_function_ptr * const  at_equal2diff;

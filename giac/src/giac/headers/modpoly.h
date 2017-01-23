@@ -68,6 +68,8 @@ namespace giac {
   // high = high*x^n + low, size of low must be < n
   void mergemodpoly(modpoly & high,const modpoly & low,int n); 
   modpoly trim(const modpoly & p,environment * env);
+  void trim_inplace(modpoly & p);
+  bool trim(modpoly & v); // true if v is empty after trimming
   void rrdm(modpoly & p, int n);   // right redimension poly to degree n
 
   // ***************
@@ -91,6 +93,10 @@ namespace giac {
   // Use operator_times unless you know what you do
   void mulmodpoly(const modpoly & th, const gen & fact, modpoly & new_coord);
   void mulmodpoly(const modpoly & th, const gen & fact, environment * env, modpoly & new_coord);
+  void mulmodpoly_naive(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord);
+  void mulmodpoly_kara_naive(const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord,int seuil_kara);
+  // new_coord += a*b in place
+  void add_mulmodpoly(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord);
   // modpoly operator * (const modpoly & th, const gen & fact);
   modpoly operator_times (const modpoly & th, const gen & fact,environment * env);
   // commented otherwise int * gen might be interpreted as
@@ -191,6 +197,8 @@ namespace giac {
   void subresultant(const modpoly & P,const modpoly & Q,gen & res);
   int sizeinbase2(const gen & g);
   int sizeinbase2(const vecteur & v);
+  // multinomial power by Miller pure recurrence 
+  bool miller_pow(const modpoly & p_,unsigned m,modpoly & res);
 
   // Given [v_0 ... v_(2n-1)] (begin of the recurrence sequence) 
   // return [b_n...b_0] such that b_n*v_{n+k}+...+b_0*v_k=0
@@ -211,8 +219,15 @@ namespace giac {
   modpoly chinrem(const modpoly & p,const modpoly & q, const modpoly & pmod, const modpoly & qmod,environment * env);
   int ichinrem_inplace(dense_POLY1 &p,const std::vector<int> & q,const gen & pmod,int qmodval); // 0 error, 1 p changed, 2 p unchanged
   void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env);
+  // in-place modification and exact division if divexact==true
+  void divided_differences(const vecteur & x,vecteur & res,environment * env,bool divexact);
   void interpolate(const vecteur & x,const vecteur & y,modpoly & res,environment * env);
+  void interpolate_inplace(const vecteur & x,modpoly & res,environment * env);
   void mulpoly_interpolate(const polynome & p,const polynome & q,polynome & res,environment * env);
+  bool dotvecteur_interp(const vecteur & a,const vecteur &b,gen & res);
+  bool mmult_interp(const matrice & a,const matrice &b,matrice & res);
+  bool poly_pcar_interp(const matrice & a,vecteur & p,bool compute_pmin,GIAC_CONTEXT);
+  void polymat2matpoly(const vecteur & R,vecteur & res);
 
   // Fast Fourier Transform, f the poly sum_{j<n} f_j x^j, 
   // and w=[1,omega,...,omega^[m-1]] with m a multiple of n

@@ -46,6 +46,30 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
+  gen _fft_mult_size(const gen & args,GIAC_CONTEXT){
+    if (args.type==_VECT && args._VECTptr->empty())
+      return FFTMUL_SIZE;
+    if (args.type!=_INT_ || args.val<1)
+      return gensizeerr(contextptr);
+    return FFTMUL_SIZE=args.val;
+  }
+  static const char _fft_mult_size_s []="fft_mult_size";
+  static define_unary_function_eval (__fft_mult_size,&_fft_mult_size,_fft_mult_size_s);
+  define_unary_function_ptr5( at_fft_mult_size ,alias_at_fft_mult_size,&__fft_mult_size,0,true);
+
+  gen _min_proba_time(const gen & args,GIAC_CONTEXT){
+    if (args.type==_INT_ && args.val>=0)
+      return min_proba_time=args.val;
+    if (args.type==_DOUBLE_ && args._DOUBLE_val>=0)
+      return min_proba_time=args._DOUBLE_val;
+    if (args.type==_VECT && args._VECTptr->empty())
+      return min_proba_time;
+    return gensizeerr(contextptr);
+  }
+  static const char _min_proba_time_s []="min_proba_time";
+  static define_unary_function_eval (__min_proba_time,&_min_proba_time,_min_proba_time_s);
+  define_unary_function_ptr5( at_min_proba_time ,alias_at_min_proba_time,&__min_proba_time,0,true);
+
   // random modular number
   gen nrandom(environment * env){
     if (env->moduloon){
@@ -537,14 +561,18 @@ namespace giac {
       }
       if (inplace){ // in-place substraction
 	modpoly::iterator th=new_coord.begin();
-	for (;m>n;++th,--m)
-	  *th=-(*th);
-	if (env && env->moduloon)
+	if (env && env->moduloon){
+	  for (;m>n;++th,--m)
+	    *th=smod(-(*th),env->modulo);
 	  for (;m;++th_it,++th,--m)
 	    *th=smod((*th_it)-(*th), env->modulo);
-	else
+	}
+	else {
+	  for (;m>n;++th,--m)
+	    *th=-(*th);
 	  for (;m;++th_it,++th,--m)
 	    *th=(*th_it)-(*th);
+	}
 	return;
       }
       else { // copy new_coord to a temporary and call again Addmodpoly
@@ -562,8 +590,14 @@ namespace giac {
       trimming=true;
     else
       trimming=false;
-    for (;m>n;++other_it,--m)
-      new_coord.push_back(-*other_it);
+    if (env && env->moduloon){
+      for (;m>n;++other_it,--m)
+	new_coord.push_back(smod(-*other_it,env->modulo));
+    }
+    else {
+      for (;m>n;++other_it,--m)
+	new_coord.push_back(-*other_it);
+    }
     for (;n>m;++th_it,--n)
       new_coord.push_back(*th_it);
     if (env && env->moduloon)
@@ -711,7 +745,7 @@ namespace giac {
       }
 #endif
       for (;it!=itend;++it)
-	*it= (*it)*fact;
+	type_operator_times(*it,fact,*it); // *it= (*it)*fact;
     }
     else { // &th!=&new_coord
       new_coord.clear();
@@ -885,55 +919,149 @@ namespace giac {
     mpz_sub(*res,*res,prod);
   }
 
-  static void Muldense_POLY1(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord){
+  static void Muldense_POLY1(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord,int taille){
+    if (ita0==ita_end || itb0==itb_end){
+      new_coord.clear();
+      return;
+    }
     mpz_t prod;
     mpz_init(prod);
-    new_coord.clear();
-    if (ita0==ita_end || itb0==itb_end) return;
-    modpoly::const_iterator ita_begin=ita0,ita=ita0,itb=itb0;
+    new_coord.resize((ita_end-ita0)+(itb_end-itb0)-1);
+    modpoly::const_iterator ita_begin=ita0-1,ita=ita0,itb=itb0;
+    gen * target=&new_coord.front();
+    if (taille<128) 
+      taille=128; 
+    else {
+      taille=sizeinbase2(taille/128);
+      taille=(128 << taille);
+    }
+    ref_mpz_t * res = new ref_mpz_t(taille); 
     for ( ; ita!=ita_end; ++ita ){
-      ref_mpz_t * res = new ref_mpz_t; 
       modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
+      for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
 	add_mul(&res->z,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	if (ita_cur==ita_begin)
-	  break;
       }
-      if (env && env->moduloon)
-	new_coord.push_back(smod(gen(res),env->modulo));
-      else
-	new_coord.push_back(gen(res));	
+      if (env && env->moduloon){
+	*target=smod(gen(res),env->modulo);
+	res = new ref_mpz_t(taille); 
+      }
+      else {
+	// *target=res; 
+	if (ref_mpz_t2gen(res,*target))
+	  res = new ref_mpz_t(taille); 
+	else
+	  mpz_set_si(res->z,0);
+      }
+      ++target;
     }
     --ita;
     ++itb;
     for ( ; itb!=itb_end;++itb){
-      ref_mpz_t * res = new ref_mpz_t;
       modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
+      for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
 	add_mul(&res->z,prod,*ita_cur,*itb_cur); // res=res+((*ita_cur)) * ((*itb_cur));
-	if (ita_cur==ita_begin)
-	  break;
       }
-      if (env && env->moduloon)
-	new_coord.push_back(smod(gen(res),env->modulo));
-      else
-	new_coord.push_back(gen(res));	
+      if (env && env->moduloon){
+	*target=smod(gen(res),env->modulo);
+	res = new ref_mpz_t(taille); 
+      }
+      else {
+	// *target=res; 
+	if (ref_mpz_t2gen(res,*target))
+	  res = new ref_mpz_t(taille); 
+	else
+	  mpz_set_si(res->z,0);
+      }
+      ++target;
+    }
+    delete res;
+    mpz_clear(prod);
+  }
+
+  void add_mulmodpoly(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord){
+    if (ita0==ita_end || itb0==itb_end)
+      return;
+    bool same=ita0==itb0 && ita_end==itb_end;
+    mpz_t prod;
+    mpz_init(prod);
+    int ncs=new_coord.size();
+    int news=(ita_end-ita0)+(itb_end-itb0)-1;
+    if (ncs<news)
+      new_coord=mergevecteur(vecteur(news-ncs,0),new_coord);
+    modpoly::const_iterator ita_begin=ita0-1,ita=ita0,itb=itb0;
+    gen * target=&new_coord.front();
+    if (ncs>news)
+      target += (ncs-news);
+    for ( ; ita!=ita_end; ++ita,++target ){
+      if (!env && target->type==_ZINT && target->ref_count()==1){
+	mpz_t * resz=target->_ZINTptr;
+	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
+	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	}
+      }
+      else {
+	ref_mpz_t * res=new ref_mpz_t; 
+	mpz_t * resz=&res->z;
+	if (target->type==_INT_)
+	  mpz_set_si(*resz,target->val);
+	else
+	  mpz_set(*resz,*target->_ZINTptr);
+	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
+	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	}
+	if (env && env->moduloon)
+	  *target=smod(gen(res),env->modulo);
+	else
+	  *target=res;
+      }
+    }
+    --ita;
+    ++itb;
+    for ( ; itb!=itb_end;++itb,++target){
+      if (!env && target->type==_ZINT && target->ref_count()==1){
+	mpz_t * resz=target->_ZINTptr;
+	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
+	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	}
+      }
+      else {
+	ref_mpz_t * res=new ref_mpz_t; 
+	mpz_t * resz=&res->z;
+	if (target->type==_INT_)
+	  mpz_set_si(*resz,target->val);
+	else
+	  mpz_set(*resz,*target->_ZINTptr);
+	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
+	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	}
+	if (env && env->moduloon)
+	  *target=smod(gen(res),env->modulo);
+	else
+	  *target=res;
+      }
     }
     mpz_clear(prod);
   }
 
   // new_coord memory must be reserved, Mulmodpoly clears new_coord
-  static void Mulmodpolymod(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord){
+  static void Mulmodpolymod(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord,bool intcoeff,int taille,int seuil_kara){
     int a=int(ita_end-ita);
     int b=int(itb_end-itb);
     if (!b)
       return ;
-    if ( ( a <= KARAMUL_SIZE) || ( b <= KARAMUL_SIZE) ){
-      Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord);
+    if ( ( a <= seuil_kara) || ( b <= seuil_kara) ){
+      if (intcoeff)
+	Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord,taille);
+      else
+	mulmodpoly_naive(ita,ita_end,itb,itb_end,env,new_coord);
       return ;
     }
     if (a<b){
-      Mulmodpolymod(itb,itb_end,ita,ita_end,env,new_coord);
+      Mulmodpolymod(itb,itb_end,ita,ita_end,env,new_coord,intcoeff,taille,seuil_kara);
       return;
     }
     int mid=(a+1)/2;
@@ -941,25 +1069,26 @@ namespace giac {
     if (mid>=b){ // cut A in a/b+1 parts
       int nslices=a/b; // number of submultiplications -1
       ita_mid=ita+b;
-      Mulmodpolymod(itb,itb_end,ita,ita_mid,env,new_coord); // initialization
+      Mulmodpolymod(itb,itb_end,ita,ita_mid,env,new_coord,intcoeff,taille,seuil_kara); // initialization
       modpoly low;
       low.reserve(b*b);
       for (int i=1;i<nslices;i++){
 	ita=ita_mid;
 	ita_mid=ita_mid+b;
 	shiftmodpoly(new_coord,b);
-	Mulmodpolymod(itb,itb_end,ita,ita_mid,env,low);
+	Mulmodpolymod(itb,itb_end,ita,ita_mid,env,low,intcoeff,taille,seuil_kara);
 	addmodpoly(new_coord,low,env,new_coord);
       }
       // last multiplication
       mid=a%b;
       if (mid){
 	shiftmodpoly(new_coord,mid);
-	Mulmodpolymod(itb,itb_end,ita_mid,ita_end,env,low);
+	Mulmodpolymod(itb,itb_end,ita_mid,ita_end,env,low,intcoeff,taille,seuil_kara);
 	addmodpoly(new_coord,low,env,new_coord);	
       }
       return ;
     }
+    bool same=ita==itb && ita_end==itb_end;
     // cut A and B in two parts
     // A=A_low+x^mid*A_high, B=B_low+x^mid*B_high
     // A*B = A_low*B_low + x^[2*mid]* A_high*B_high
@@ -967,24 +1096,47 @@ namespace giac {
     modpoly lowlow, Aplus, Bplus, lowhigh;
     modpoly::const_iterator itb_mid=itb_end-mid;
     lowlow.reserve(3*mid);
-    Mulmodpolymod(ita_mid,ita_end,itb_mid,itb_end,env,lowlow);
+    Mulmodpolymod(ita_mid,ita_end,itb_mid,itb_end,env,lowlow,intcoeff,taille,seuil_kara);
     // COUT << "lowlow" << lowlow << endl;
     // new_coord.reserve(2*mid);
-    Mulmodpolymod(ita,ita_mid,itb,itb_mid,env,new_coord);
+    Mulmodpolymod(ita,ita_mid,itb,itb_mid,env,new_coord,intcoeff,taille,seuil_kara);
+#if 0
+    if (same){ 
+      // (a+bx)^2=a^2+2*a*b*x+b^2*x^2, slower because a*b is not a square
+      // a^2+b^2*x^2+((a+b)^2-a^2-b^2)*x is faster
+      mergemodpoly(new_coord,lowlow,2*mid);
+      Mulmodpolymod(ita,ita_mid,ita_mid,ita_end,env,lowhigh,intcoeff,taille,seuil_kara);
+      mulmodpoly(lowhigh,2,lowhigh);
+      shiftmodpoly(lowhigh,mid);
+      addmodpoly(new_coord,lowhigh,env,new_coord);
+      return;
+    }
+#endif
     // COUT << "new_coord" << new_coord << endl;
-    lowhigh.reserve(2*mid);
+    lowhigh.reserve(3*mid);
     Addmodpoly(ita,ita_mid,ita_mid,ita_end,env,Aplus);
-    Addmodpoly(itb,itb_mid,itb_mid,itb_end,env,Bplus);
     modpoly::const_iterator itap=Aplus.begin(),itap_end=Aplus.end();
-    modpoly::const_iterator itbp=Bplus.begin(),itbp_end=Bplus.end();
-    Mulmodpolymod(itap,itap_end,itbp,itbp_end,env,lowhigh);
+    if (same){
+      Mulmodpolymod(itap,itap_end,itap,itap_end,env,lowhigh,intcoeff,taille,seuil_kara);
+    }
+    else {
+      Addmodpoly(itb,itb_mid,itb_mid,itb_end,env,Bplus);
+      modpoly::const_iterator itbp=Bplus.begin(),itbp_end=Bplus.end();
+      Mulmodpolymod(itap,itap_end,itbp,itbp_end,env,lowhigh,intcoeff,taille,seuil_kara);
+    }
     // COUT << "lowhigh" << lowhigh << endl;
     submodpoly(lowhigh,new_coord,env,lowhigh);
     mergemodpoly(new_coord,lowlow,2*mid);
+#if 0
+    submodpoly(lowhigh,lowlow,env,lowhigh);
+    shiftmodpoly(lowhigh,mid);
+    addmodpoly(new_coord,lowhigh,env,new_coord);
+#else
     submodpoly(lowhigh,lowlow,env,lowlow);
     // COUT << "lowh-hh-ll" << lowlow << endl;
     shiftmodpoly(lowlow,mid);
     addmodpoly(new_coord,lowlow,env,new_coord);
+#endif
     // modpoly verif;
     // Muldense_POLY1(ita,ita_end,itb,itb_end,env,verif);
     // COUT << "newcoord" << new_coord << "=?" << verif << endl;
@@ -1124,7 +1276,7 @@ namespace giac {
     else {
       if ( //1 ||
 	   (!env || !env->moduloon || env->modulo.type==_INT_) 
-	   && as>FFTMUL_SIZE && bs>FFTMUL_SIZE
+	   && as>=FFTMUL_SIZE && bs>=FFTMUL_SIZE
 	   ){
 	// Check that all coeff are integers
 	for (;ita!=ita_end;++ita){
@@ -1150,10 +1302,11 @@ namespace giac {
 	ita=a.begin();
 	itb=b.begin();
       }
+      int taille=0;//sizeinbase2(a)+sizeinbase2(b);
       if ((as<=KARAMUL_SIZE) && (bs<=KARAMUL_SIZE))
-	Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord);
+	Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord,taille);
       else
-	Mulmodpolymod(ita,ita_end,itb,itb_end,env,new_coord);
+	Mulmodpolymod(ita,ita_end,itb,itb_end,env,new_coord,true,taille,KARAMUL_SIZE);
     }
   }
   
@@ -1184,11 +1337,264 @@ namespace giac {
     return res;
   }
 
+  bool unext(const modpoly & a,const gen & pmin,modpoly & res){
+    res=a;
+    iterateur it=res.begin(),itend=res.end();
+    for (;it!=itend;++it){
+      gen g=*it;
+      if (g.type==_FRAC)
+	return false;
+      if (g.type==_EXT){
+	if (*(g._EXTptr+1)!=pmin)
+	  return false;
+	g=*g._EXTptr;
+	if (g.type==_VECT)
+	  g.subtype=_POLY1__VECT;
+	*it=g;
+      }
+    }
+    return true;
+  }
+
+  void ext(modpoly & res,const gen & pmin){
+    iterateur it=res.begin(),itend=res.end();
+    for (;it!=itend;++it){
+      *it=ext_reduce(*it,pmin);
+    }
+  }
+
   void modularize(modpoly & a,const gen & m){
     iterateur it=a.begin(),itend=a.end();
     for (;it!=itend;++it){
       *it=makemod(*it,m);
     }
+  }
+
+  void mulmodpoly_naive(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord){
+    new_coord.clear();
+    if (ita==ita_end || itb==itb_end)
+      return;
+    modpoly::const_iterator ita_begin=ita;
+    if (ita==itb && ita_end==itb_end){
+      // square polynomial
+      // CERR << "square size " << ita_end-ita << endl;
+      for ( ; ita!=ita_end; ++ita ){
+	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+	gen res;
+	for (;itb_cur<ita_cur;--ita_cur,++itb_cur) {
+	  type_operator_plus_times(*ita_cur,*itb_cur,res);	  
+	}
+	if (res.type==_VECT && res.ref_count()==1) mulmodpoly(*res._VECTptr,2,*res._VECTptr); else 
+	  res = 2*res;
+	if (itb_cur==ita_cur)
+	  type_operator_plus_times(*ita_cur,*itb_cur,res);
+	new_coord.push_back(res);	
+      }
+      --ita;
+      ++itb;
+      for ( ; itb!=itb_end;++itb){
+	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+	gen res;
+	for (;itb_cur<ita_cur;--ita_cur,++itb_cur) {
+	  type_operator_plus_times(*ita_cur,*itb_cur,res);	  
+	}
+	if (res.type==_VECT && res.ref_count()==1) mulmodpoly(*res._VECTptr,2,*res._VECTptr); else 
+	  res = 2*res;
+	if (itb_cur==ita_cur)
+	  type_operator_plus_times(*ita_cur,*itb_cur,res);
+	new_coord.push_back(res);	
+      }
+      return;
+    }
+    // CERR << "non square size " << ita_end-ita << endl;
+    for ( ; ita!=ita_end; ++ita ){
+      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+      gen res;
+      for (;;) {
+	type_operator_plus_times(*ita_cur,*itb_cur,res);
+	//res += (*ita_cur)*(*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	if (ita_cur==ita_begin)
+	  break;
+	--ita_cur;
+	++itb_cur;
+	if (itb_cur==itb_end)
+	  break;
+      }
+      new_coord.push_back(res);	
+    }
+    --ita;
+    ++itb;
+    for ( ; itb!=itb_end;++itb){
+      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+      gen res;
+      for (;;) {
+	type_operator_plus_times(*ita_cur,*itb_cur,res);
+	//res += (*ita_cur)*(*itb_cur);
+	if (ita_cur==ita_begin)
+	  break;
+	--ita_cur;
+	++itb_cur;
+	if (itb_cur==itb_end)
+	  break;
+      }
+      new_coord.push_back(res);	
+    }
+  }
+
+  void mulmodpoly_kara_naive(const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord,int seuil_kara){
+    modpoly::const_iterator ita=a.begin(),ita_end=a.end(),itb=b.begin(),itb_end=b.end();
+    Mulmodpolymod(ita,ita_end,itb,itb_end,env,new_coord,false,0,seuil_kara); // sizeinbase2(a)+sizeinbase2(b));
+  }
+
+  // return true if v empty
+  bool trim(modpoly & v){
+    iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (*it!=0)
+	break;
+    }
+    if (it!=v.begin())
+      v.erase(v.begin(),it);
+    return v.empty();
+  }
+
+  // exchange outer and inner variable in source
+  void reorder(const modpoly & source,modpoly & target){
+    int ts=0,ss=source.size();
+    modpoly::const_iterator it=source.begin(),itend=source.end();
+    for (;it!=itend;++it)
+      ts=giacmax(ts,it->type==_VECT?it->_VECTptr->size():1);
+    target.resize(ts);
+    for (int i=0;i<ts;++i)
+      target[i]=gen(vecteur(ss),_POLY1__VECT);
+    for (int j=0;j<ss;++j){
+      gen g=source[j];
+      if (g.type!=_VECT){
+	(*target[0]._VECTptr)[j]=g;
+	continue;
+      }
+      vecteur & v =*g._VECTptr;
+      int vs=v.size();
+      int shift=ts-vs;
+      for (int i=0;i<vs;++i){
+	(*target[i+shift]._VECTptr)[j]=v[i];
+      }
+    }
+    for (int i=0;i<ts;++i){
+      if (trim(*target[i]._VECTptr))
+	target[i]=0;
+    }
+  }
+
+  // recursive 2d to 1d, inner variable must be of degree<n
+  bool to1d(const modpoly & p,modpoly & q,int n){
+    int ps=p.size();
+    q.reserve(ps*n);
+    for (int i=0;i<ps;++i){
+      gen pi=p[i];
+      if (pi.type!=_VECT){
+	for (int j=1;j<n;++j)
+	  q.push_back(0);
+	q.push_back(pi);
+	continue;
+      }
+      vecteur & v = *pi._VECTptr;
+      int vs=v.size();
+      if (vs>n) return false;
+      for (int j=vs;j<n;++j)
+	q.push_back(0);
+      for (int j=0;j<vs;++j)
+	q.push_back(v[j]);
+    }
+    return true;
+  }
+
+  void from1d(const modpoly & p,modpoly &q,int n){
+    int ps=p.size();
+    q.clear();
+    q.reserve((ps+n-1)/n);
+    int r=ps%n;
+    vecteur tmp;
+    tmp.reserve(n);
+    const_iterateur it=p.begin(),itend=p.end();
+    for (;r>0;++it,--r){
+      tmp.push_back(*it);
+    }
+    trim(tmp);
+    if (!tmp.empty())
+      q.push_back(tmp);
+    for (;it!=itend;){
+      tmp.clear();
+      for (r=n;r>0;++it,--r){
+	tmp.push_back(*it);
+      }
+      trim(tmp);
+      q.push_back(tmp.empty()?0:(tmp.size()==1?tmp.front():tmp));
+    }
+  }
+
+  // eval p[i] at x in q[i]
+  void horner2(const modpoly & p,const gen & x,modpoly & q){
+    int ps=p.size();
+    q.resize(ps);
+    for (int i=0;i<ps;++i){
+      gen pi=p[i];
+      if (pi.type!=_VECT)
+	q[i]=pi;
+      else
+	q[i]=horner(*pi._VECTptr,x,context0);
+    }
+  }
+
+  void mulmodpoly_interpolate(const modpoly & p,const modpoly & q,int n,modpoly & res){
+    modpoly px,qx,pqx;
+    vecteur X,Y;
+    int rs=p.size()+q.size()-1;
+    res.resize(rs);
+    if (debug_infolevel) 
+      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate horner " << endl;
+    for (int i=-n;i<=n;++i){
+      X.push_back(i);
+      if (debug_infolevel>1) 
+	CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate horner2 " << i << endl;
+      horner2(p,i,px);
+      if (debug_infolevel>1) 
+	CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate mult " << endl;
+      if (&p==&q){
+	mulmodpoly_kara_naive(px,px,0,pqx,20);
+#if 0
+	vecteur tmp; mulmodpoly(px,px,0,tmp); 	
+	if (tmp!=pqx) {
+	  ofstream of("bugfft");
+	  of << "p:=" << gen(px,_POLY1__VECT) << ":;" << endl;
+	  of << "correct p2 " << gen(pqx,_POLY1__VECT) << ":;" << endl;
+	  of << "wront p2 " << gen(tmp,_POLY1__VECT) << ":;" << endl;
+	  tmp=pqx-tmp;
+	  of << "difference" << tmp << endl;
+	}
+#endif
+      }
+      else {
+	horner2(q,i,qx);
+	mulmodpoly_kara_naive(px,qx,0,pqx,20);
+      }
+      Y.push_back(pqx);
+    }
+    if (debug_infolevel) 
+      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate reorder " << endl;
+    vecteur Yr;
+    reorder(Y,Yr);
+    if (debug_infolevel) 
+      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate rebuild " << endl;
+    for (int i=0;i<rs;++i){
+      vecteur y=gen2vecteur(Yr[i]);
+      if (y.size()<2*n+1)
+	y.insert(y.begin(),2*n+1-y.size(),0);
+      interpolate_inplace(X,y,0);
+      res[i]=y;
+    }
+    if (debug_infolevel) 
+      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate end " << endl;
   }
 
   void operator_times (const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord) {
@@ -1239,6 +1645,44 @@ namespace giac {
 #endif
     // Check that all coeff of a b are integers
     for (;ita!=ita_end;++ita){
+      if (ita->type==_EXT){
+	gen pmin=*(ita->_EXTptr+1);
+	modpoly aa,bb;
+	if (&a==&b && unext(a,pmin,aa)){
+#if 0
+	  if (pmin.type==_VECT && to1d(aa,bb,2*pmin._VECTptr->size()-3)){
+	    aa.clear();
+	    mulmodpoly_kara_naive(bb,bb,env,aa,KARAMUL_SIZE);
+	    //mulmodpoly(bb,bb,env,aa);
+	    from1d(aa,new_coord,2*pmin._VECTptr->size()-3);
+	    ext(new_coord,pmin);
+	    return;
+	  }
+#endif
+	  int n=-1;
+	  if (pmin.type==_VECT)
+	    n=pmin._VECTptr->size()-2;
+	  if (n>0 && aa.size()>=512)
+	    mulmodpoly_interpolate(aa,aa,n,new_coord);
+	  else
+	    mulmodpoly_kara_naive(aa,aa,env,new_coord,10);
+	  ext(new_coord,pmin);
+	  return;
+	}
+	if (unext(a,pmin,aa) && unext(b,pmin,bb)){
+	  if (0 && (aa.size()>=20 || bb.size()>=20)){
+	    modpoly A,B,C; // it's slower
+	    reorder(aa,A);
+	    reorder(bb,B);
+	    mulmodpoly_kara_naive(A,B,env,C,8);
+	    reorder(C,new_coord);
+	  }
+	  else
+	    mulmodpoly_kara_naive(aa,bb,env,new_coord,10);
+	  ext(new_coord,pmin);
+	  return;
+	}
+      }
       if (ita->type==_MOD && (ita->_MODptr+1)->type==_INT_){
 	environment e;
 	e.modulo=*(ita->_MODptr+1);
@@ -1262,45 +1706,11 @@ namespace giac {
       if (!itb->is_integer())
 	break;
     }
-    if (ita==ita_end && itb==itb_end){
+    if (ita==ita_end && itb==itb_end){ // integer coefficients
       mulmodpoly(a,b,env,new_coord);
       return;
     }
-    new_coord.clear();
-    ita=a.begin(); itb=b.begin();
-    if (ita==ita_end || itb==itb_end)
-      return;
-    modpoly::const_iterator ita_begin=ita;
-    for ( ; ita!=ita_end; ++ita ){
-      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      gen res;
-      for (;;) {
-	res += (*ita_cur)*(*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	if (ita_cur==ita_begin)
-	  break;
-	--ita_cur;
-	++itb_cur;
-	if (itb_cur==itb_end)
-	  break;
-      }
-      new_coord.push_back(res);	
-    }
-    --ita;
-    ++itb;
-    for ( ; itb!=itb_end;++itb){
-      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      gen res;
-      for (;;) {
-	res += (*ita_cur)*(*itb_cur);
-	if (ita_cur==ita_begin)
-	  break;
-	--ita_cur;
-	++itb_cur;
-	if (itb_cur==itb_end)
-	  break;
-      }
-      new_coord.push_back(res);	
-    }
+    mulmodpoly_kara_naive(a,b,env,new_coord,KARAMUL_SIZE);
   }
 
   // res=(*it) * ... (*(it_end-1))
@@ -1406,7 +1816,6 @@ namespace giac {
     if (p.empty())
       return p;
     modpoly::const_iterator it=p.begin(),itend=p.end();
-    gen n0( 0);
     if (env && env->moduloon)
       while ( (it!=itend) && (is_zero(smod(*it,env->modulo))) )
 	++it;
@@ -1423,25 +1832,36 @@ namespace giac {
     return new_coord;
   }
 
+  void trim_inplace(modpoly & p){
+    modpoly::iterator it=p.begin(),itend=p.end();
+    while ( (it!=itend) && (is_zero(*it)) )
+      ++it;
+    if (it!=p.begin())
+      p.erase(p.begin(),it);
+  }
+
   void divmodpoly(const modpoly & th, const gen & fact, modpoly & new_coord){
     if (is_one(fact)){
       if (&th!=&new_coord)
 	new_coord=th;
       return ;
     }
+    if (fact.type==_USER || fact.type==_EXT){
+      gen invfact=inv(fact,context0);
+      mulmodpoly(th,invfact,new_coord);
+      return;
+    }
+    if (&th==&new_coord){
+      modpoly::iterator it=new_coord.begin(),itend=new_coord.end();
+      for (;it!=itend;++it)
+	//  *it =iquo(*it,fact);
+	*it=rdiv(*it,fact,context0);
+    }
     else {
-      if (&th==&new_coord){
-	modpoly::iterator it=new_coord.begin(),itend=new_coord.end();
-	for (;it!=itend;++it)
-	  //  *it =iquo(*it,fact);
-	  *it=rdiv(*it,fact,context0);
-      }
-      else {
-	modpoly::const_iterator it=th.begin(),itend=th.end();
-	for (;it!=itend;++it)
-	  new_coord.push_back(rdiv(*it,fact,context0)); // was iquo
-	  // new_coord.push_back(iquo(*it,fact));
-      }
+      modpoly::const_iterator it=th.begin(),itend=th.end();
+      for (;it!=itend;++it)
+	new_coord.push_back(rdiv(*it,fact,context0)); // was iquo
+      // new_coord.push_back(iquo(*it,fact));
     }
   }
 
@@ -1536,8 +1956,28 @@ namespace giac {
     // make division of A*coeff by B*coeff and multiply R by coeff at the end
     modpoly B;
     gen coeff=other.front(),invcoeff;
+    bool invother=false;
+    if (coeff.type==_USER){
+      invother=true;
+      invcoeff=inv(coeff,context0);
+    }
+    if (coeff.type==_EXT){
+      gen coeff0=*coeff._EXTptr;
+      if (coeff0.type==_VECT){
+	for (int i=0;i<coeff0._VECTptr->size();++i){
+	  if ((*coeff0._VECTptr)[i].type==_USER){
+	    invcoeff=inv(coeff,context0);
+	    invother=true;
+	    break;
+	  }
+	}
+      }
+    }
     if (env && env->moduloon){
       invcoeff=invmod(coeff,env->modulo);
+      invother=true;
+    }
+    if (invother && !is_one(coeff)){
       mulmodpoly(th,invcoeff,env,rem); // rem=th*invcoeff;
       mulmodpoly(other,invcoeff,env,B); // B=other*invcoeff;
     }
@@ -1561,8 +2001,12 @@ namespace giac {
     modpoly::const_iterator B_beg=B.begin(),B_end=B.end();
     gen n0( 0),q;
     for (;a>=b;--a){
-      if (env && env->moduloon)
-	q=smod(*tmpend,env->modulo);
+      if (invother){
+	if (env && env->moduloon)
+	  q=smod(*tmpend,env->modulo);
+	else
+	  q=*tmpend;
+      }
       else {
 	q=rdiv(*tmpend,coeff,context0);
 	if (!allowrational){
@@ -1632,9 +2076,16 @@ namespace giac {
 	if (!is_zero(*tmpend))
 	  break;
       }
-      for (;tmpend!=tmp-1;--tmpend){
-	rem.push_back(*tmpend);
-      }      
+      if (invother && !is_one(coeff)){
+	for (;tmpend!=tmp-1;--tmpend){
+	  rem.push_back(*tmpend*coeff);
+	}      
+      }
+      else {
+	for (;tmpend!=tmp-1;--tmpend){
+	  rem.push_back(*tmpend);
+	}      
+      }
     }
     // COUT << "DivRem" << th << "-" << other << "*" << quo << "=" << rem << " " << th-other*quo << endl;
     delete [] tmp;
@@ -1797,6 +2248,47 @@ namespace giac {
     mulmod(B,invcoeff,m); // B=other*invcoeff;
     // copy rem to an array
     vector<int>::const_iterator remit=rem.begin();//,remend=rem.end();
+    if ((a-b+1)*double(m)*m<9e15){
+      longlong * tmp=(longlong *)alloca((a+1)*sizeof(longlong));
+      longlong * tmpend=&tmp[a];
+      longlong * tmpptr=tmpend; // tmpend points to the highest degree coeff of A
+      for (;tmpptr!=tmp-1;--tmpptr,++remit)
+	*tmpptr=*remit;
+      vector<int>::const_iterator B_beg=B.begin(),B_end=B.end();
+      int q;//n0(0),
+      for (;a>=b;--a){
+	q= *tmpend % m;
+	quo.push_back(q);
+	--tmpend;
+	// tmp <- tmp - q *B.shifted (if q!=0)
+	if (q) {
+	  tmpptr=tmpend;
+	  vector<int>::const_iterator itq=B_beg;
+	  ++itq; // first elements cancel
+	  for (;itq!=B_end;--tmpptr,++itq){ 
+	    *tmpptr = (*tmpptr -(longlong(q) * (*itq)));
+	  }
+	}
+      }
+      // trim rem and multiply by coeff, this will modularize rem as well
+      rem.clear();
+      // bool trimming=true;
+      for (;tmpend!=tmp-1;--tmpend){
+	if (*tmpend % m)
+	  break;   
+      }
+      if (coeff==1){
+	for (;tmpend!=tmp-1;--tmpend){
+	  rem.push_back( *tmpend %m);
+	} 
+      }
+      else {
+	for (;tmpend!=tmp-1;--tmpend){
+	  rem.push_back( ((*tmpend %m)*coeff) % m);
+	} 
+      }
+      return;
+    }
 #if defined VISUALC || defined BESTA_OS
     int * tmp=new int[a+1];
 #else
@@ -3206,7 +3698,7 @@ namespace giac {
 	    // Reduce linear system modulo modulo
 	    gen det; vecteur pivots; matrice mred;
 	    // CERR << "SPMOD " << CLOCK() << endl;
-	    if (!modrref(m,mred,pivots,det,0,int(m.size()),0,int(m.front()._VECTptr->size())-1,true,false,modulo,false))
+	    if (!modrref(m,mred,pivots,det,0,int(m.size()),0,int(m.front()._VECTptr->size())-1,true,false,modulo,false,false))
 	      return false;
 	    // CERR << "SPMODend " << CLOCK() << endl;
 	    if (!is_zero(det)){	      
@@ -4072,7 +4564,10 @@ namespace giac {
     }
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 D end, start division" << endl;
-    iquo(D,A.front()); // D = D/A.front();
+    if (is_integer(A.front())) 
+      iquo(D,A.front()); 
+    else 
+      D = D/A.front();
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 D ready" << endl;
     modpoly & Hd1=Hv.back();
@@ -4094,8 +4589,8 @@ namespace giac {
 #endif
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 D final division" << endl;
-    res=trim(res,0);
-    iquo(res,sd); // res=res/sd;
+    trim_inplace(res); // res=trim(res,0);
+    if (is_integer(sd)) iquo(res,sd); else res=res/sd;
     if (!res.empty() && res.front()==0)
       CERR << "err" << endl;
     if (debug_infolevel>3)
@@ -4104,12 +4599,27 @@ namespace giac {
       res=-res;
   }
 
+  void mulsmall(vector<int> & Q,int c,int m){
+    int * ptr=&Q.front(), * ptrend=ptr+Q.size();
+    for (;ptr!=ptrend;++ptr){
+      *ptr = (longlong(*ptr)*c)%m;
+    }
+  }
+
   // resultant of P and Q modulo m, modifies P and Q, 
   int resultant(vector<int> & P,vector<int> & Q,vector<int> & tmp1,vector<int> & tmp2,int m){
     longlong res=1;
     while (Q.size()>1){
+#if 1
+      int coeff=Q[0];
+      int invcoeff=invmod(coeff,m);
+      mulsmall(Q,invcoeff,m);
+      DivRem(P,Q,m,tmp1,tmp2);
+      res = (res*powmod(coeff,P.size()-1,m)) %m;
+#else
       DivRem(P,Q,m,tmp1,tmp2);
       res = (res*powmod(Q[0],P.size()-tmp2.size(),m)) %m;
+#endif
       if (P.size()%2==0 && Q.size()%2==0)
 	res = -res;
       P.swap(Q);
@@ -4197,8 +4707,33 @@ namespace giac {
     return smod(res,pim)*D;
   }
 
+  // resultant of P and Q, modifies P and Q, 
+  // suitable if coeffs are invertible without fraction
+  gen gf_ext_resultant(const vecteur & P0,const vecteur & Q0){
+    vecteur P(P0),Q(Q0),tmp1,tmp2;
+    gen res=1;
+    while (Q.size()>1){
+      gen coeff=Q[0];
+      gen invcoeff=inv(coeff,context0);
+      mulmodpoly(Q,invcoeff,Q);
+      DivRem(P,Q,0,tmp1,tmp2);
+      res = res*pow(coeff,int(P.size())-1);
+      if (P.size()%2==0 && Q.size()%2==0)
+	res = -res;
+      P.swap(Q);
+      Q.swap(tmp2);
+    }
+    if (Q.empty())
+      return 0;
+    res = (res*pow(Q[0],int(P.size())-1));
+    return res;
+  }
+
   void subresultant(const modpoly & P,const modpoly & Q,gen & res){
-    if (0 && P.size()>GIAC_PADIC && Q.size()>GIAC_PADIC && is_integer_vecteur(P) && is_integer_vecteur(Q)){
+    if (
+	//1 ||
+	(0 && P.size()>GIAC_PADIC && Q.size()>GIAC_PADIC && is_integer_vecteur(P) && is_integer_vecteur(Q))
+	){
       res=mod_resultant(P,Q,0.0); 
       // according to my tests ducos is faster (except for very small coefficients)
       return ;
@@ -4213,6 +4748,25 @@ namespace giac {
     if (e<=0){
       res=pow((e<0?0:Q[0]),d,context0);
       return;
+    }
+    for (int i=0;i<P.size();++i){
+      gen g=P[i];
+      if (g.type==_USER){
+	res=gf_ext_resultant(P,Q);
+	return;
+      }
+      if (g.type==_EXT){
+	gen h=*g._EXTptr;
+	if (h.type==_VECT){
+	  for (int j=0;j<h._VECTptr->size();++j){
+	    gen k=(*h._VECTptr)[j];
+	    if (k.type==_USER){
+	      res=gf_ext_resultant(P,Q);
+	      return;
+	    }
+	  }
+	}
+      }
     }
     gen sd(pow(Q[0],d-e,context0)),tmp;
     vecteur A(Q),a,B,C,quo;
@@ -4337,6 +4891,72 @@ namespace giac {
     gen m=min(L[0],R[0],context0);
     gen M=max(L[1],R[1],context0);
     return makevecteur(m,M);
+  }
+
+  /* set res to p^m
+     If   p(x) = sum_{i=0}^n p_i x^k
+     Then p(x)^m = sum_{k=0}^{m*n} a(m,k) x^k
+     a(m,0) = p_0^m, 
+     a(m,k) = 1/(k p_0) sum_{i=1}^min(n,k) p_i *((m+1)*i-k) *a(m,k-i),
+     does not work in non-0 characteristic
+  */
+  bool miller_pow(const modpoly & p_,unsigned m,modpoly & res){
+    if (p_.empty()){
+      res.clear();
+      return true;
+    }
+    // quichk check for 0 char
+    const_iterateur it=p_.begin(),itend=p_.end();
+    for (;it!=itend;++it){
+      gen g=*it;
+      int t=g.type;
+      while (t==_EXT || t==_POLY){
+	if (t==_EXT){ 
+	  if (g._EXTptr->type==_VECT && !g._EXTptr->_VECTptr->empty()){
+	    g=g._EXTptr->_VECTptr->front();
+	    t=g.type;
+	  }
+	  else return false;
+	}	  
+	if (t==_POLY){
+	  if (g._POLYptr->coord.empty())
+	    return false;
+	  g=g._POLYptr->coord.front().value;
+	  t=g.type;
+	}
+      }
+      if (t==_VECT || t==_MOD || t==_USER)
+	return false;
+    }
+    modpoly p(p_);
+    int shift=0;
+    for (;!p.empty() && is_zero(p.back());++shift)
+      p.pop_back();
+    reverse(p.begin(),p.end());
+    unsigned n=p.size()-1;
+    unsigned mn=n*m;
+    res.resize(mn+1);
+    gen p0=p[0],invp0;
+    if (p0.type==_VECT)
+      return false;
+    if (p0.type==_EXT || p0.type==_USER)
+      invp0=inv(p0,context0);
+    res[0]=pow(p0,int(m),context0);
+    for (unsigned k=1;k<=mn;++k){
+      unsigned end=k<n?k:n;
+      gen tmp;
+      for (unsigned i=1;i<=end;++i){
+	tmp += int((m+1)*i-k)*(p[i]*res[k-i]);
+      }
+      if (is_zero(invp0))
+	res[k]=tmp/(int(k)*p0);
+      else
+	res[k]=tmp*(invp0/int(k));
+    }
+    reverse(res.begin(),res.end());
+    if (shift)
+      res=mergevecteur(res,vecteur(m*shift,0));
+    return true;
   }
 
   gen horner(const modpoly & p,const gen & x,environment * env,bool simp){
@@ -4839,8 +5459,7 @@ namespace giac {
     return r;
   }
 
-  void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env){
-    res=y;
+  void divided_differences(const vecteur & x,vecteur & res,environment * env,bool divexact){
     int s=int(x.size());
     for (int k=1;k<s;++k){
       if (env && env->moduloon){
@@ -4850,10 +5469,28 @@ namespace giac {
       }
       else {
 	for (int j=s-1;j>=k;--j){
-	  res[j]=(res[j]-res[j-1])/(x[j]-x[j-k]);
+	  gen & g=res[j];
+	  operator_minus_eq(g,res[j-1],context0);
+	  gen dx(x[j]-x[j-k]);
+	  if (divexact && g.type==_ZINT && g.ref_count()==1 && dx.type==_INT_){
+	    mpz_t * z=g._ZINTptr;
+	    if (dx.val>0)
+	      mpz_divexact_ui(*z,*z,dx.val);
+	    else {
+	      mpz_divexact_ui(*z,*z,-dx.val);
+	      mpz_neg(*z,*z);
+	    }
+	  }
+	  else
+	    g=g/dx;
 	}
       }
     }
+  }
+
+  void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env){
+    res=y;
+    divided_differences(x,res,env,false);
   }
 
   void interpolate(const vecteur & x,const vecteur & y,modpoly & res,environment * env){
@@ -4872,6 +5509,24 @@ namespace giac {
 	gen & tmp = *it;
 	++it;
 	*it -= tmp*fact;
+	if (env && env->moduloon)
+	  *it=smod(*it,env->modulo);
+      }
+    }
+  }
+
+  void interpolate_inplace(const vecteur & x,modpoly & res,environment * env){
+    divided_differences(x,res,env,true);
+    unsigned s=unsigned(x.size());
+    int j=s-1;
+    reverse(res.begin(),res.end());
+    for (j--;j>=0;j--){
+      iterateur it=res.begin()+(s-2-j),itbeg=res.begin()-1;
+      const gen & fact = x[j];
+      for (;it!=itbeg;it-=2){
+	gen & tmp = *it;
+	++it;
+	type_operator_minus_times(tmp,fact,*it); // *it -= tmp*fact;
 	if (env && env->moduloon)
 	  *it=smod(*it,env->modulo);
       }
@@ -4906,6 +5561,331 @@ namespace giac {
     }
     interpolate(x,y,v,env);
     poly12polynome(v,s,res,s);
+  }
+
+  int vect_polynome2poly1(vecteur & A){
+    int dim=0;
+    for (size_t i=0;i<A.size();++i){
+      if (A[i].type==_POLY){
+	dim=A[i]._POLYptr->dim;
+	A[i]=gen(polynome2poly1(*A[i]._POLYptr,1),_POLY1__VECT);
+      }
+    }
+    return dim;
+  }
+
+  void vect_poly12polynome(vecteur & v,int dim){
+    iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (it->type==_VECT)
+	*it=poly12polynome(*it->_VECTptr,1,dim);
+    }
+  }
+
+  void mat_poly12polynome(matrice & A,int dim){
+    iterateur it=A.begin(),itend=A.end();
+    for (;it!=itend;++it){
+      if (it->type==_VECT)
+	vect_poly12polynome(*it->_VECTptr,dim);
+    }
+  }
+
+  void vect_horner(const vecteur & v,const gen & g,vecteur & res){
+    res=v;
+    iterateur it=res.begin(),itend=res.end();
+    for (;it!=itend;++it)
+      if (it->type==_VECT)
+	*it=horner(*it->_VECTptr,g);
+  }
+
+  // compute dotvecteur of a and b by interpolation if it would be faster
+  // 1-d interpolation cost : D*M+D^2
+  // where D=max(size(a[i])+size(b[i])-1), M=min(size(a),size(b))
+  // normal cost: sum_i(size(a[i])*size(b[i]))
+  // if a and b are of length n and degree n, interp cost is O(n^2)
+  // while normal cost is O(n^3)
+  // Beware: this is not interesting in characteristic 0 because
+  // we replace n-deg polynomials with integers of size n*ln(n)
+  bool dotvecteur_interp(const vecteur & a,const vecteur &b,gen & res){
+    if (a.empty() || b.empty()){
+      res=0; return true;
+    }
+    if (a.front().type==_POLY || b.front().type==_POLY){
+      vecteur A(a), B(b); int dim;
+      if (!(dim=vect_polynome2poly1(A)) || dim!=vect_polynome2poly1(B))
+	return false;
+      if (dotvecteur_interp(A,B,res)){
+	if (res.type==_VECT) res=poly12polynome(*res._VECTptr,1,dim);
+	return true;
+      }
+      return false;
+    }
+    if (a.front().type==_VECT || b.front().type==_VECT){
+      int D=0,M=giacmin(a.size(),b.size());
+      double interpcost=0.0,normalcost=0.0;
+      for (int i=0;i<M;++i){
+	int as=1,bs=1;
+	if (a[i].type==_VECT) as=a[i]._VECTptr->size();
+	if (b[i].type==_VECT) bs=b[i]._VECTptr->size();
+	if (D<as+bs-1) D=as+bs-1;
+	normalcost += as*bs;
+      }
+      if (normalcost<D*(M+D))
+	return false;
+      // now do the real work!
+      int shift=-D/2;
+      vecteur X(D),Y(D),A(M),B(M);
+      for (int j=0;j<D;++j){
+	X[j]=j-shift;
+	for (int i=0;i<M;++i){
+	  A[i]=horner(a[i],j-shift);
+	  B[i]=horner(b[i],j-shift);
+	}
+	Y[j]=dotvecteur(A,B);
+      }
+      vecteur R;
+      interpolate(X,Y,R,0);
+      res=R;
+      return true;
+    }
+    return false;
+  }
+
+  // R is a degree D-1 polynomial of MxN matrices, 
+  // rebuild a matrix of polynomials
+  void polymat2matpoly(const vecteur & R,vecteur & res){
+    if (R.empty()) return;
+    int M,N,D=R.size();
+    mdims(*R[0]._VECTptr,M,N);
+    // init res
+    res.resize(M);
+    for (int i=0;i<M;++i){
+      res[i]=vecteur(N);
+      vecteur & resi=*res[i]._VECTptr;
+      for (int j=0;j<N;++j)
+	resi[j]=vecteur(D);
+    }
+    // modify in place
+    for (int d=0;d<D;++d){
+      vecteur & md=*R[d]._VECTptr;
+      for (int i=0;i<M;++i){
+	vecteur & resi=*res[i]._VECTptr;
+	vecteur &mdi=*md[i]._VECTptr;
+	for (int j=0;j<N;++j){
+	  vecteur & resij=*resi[j]._VECTptr;
+	  resij[d]=mdi[j];
+	}
+      }
+    }
+    for (int i=0;i<M;++i){
+      vecteur & resi=*res[i]._VECTptr;
+      for (int j=0;j<N;++j){
+	trim(*resi[j]._VECTptr);
+      }
+    }
+  }
+
+  // warning b is already transposed
+  bool mmult_interp(const matrice & a,const matrice &b,matrice & res){
+    if (a.front()[0].type==_POLY || b.front()[0].type==_POLY){
+      matrice A(a), B(b);
+      int S=giacmin(A.size(),B.size()),dim=0;
+      for (int i=0;i<S;++i){
+	if (A[i].type!=_VECT || B[i].type!=_VECT) return false;
+	A[i]=*A[i]._VECTptr;
+	B[i]=*B[i]._VECTptr;
+	if (!(dim=vect_polynome2poly1(*A[i]._VECTptr)) || dim!=vect_polynome2poly1(*B[i]._VECTptr))
+	  return false;
+      }
+      if (mmult_interp(A,B,res)){
+	mat_poly12polynome(res,dim);
+	return true;
+      }
+      return false;
+    }
+    if (a.front()[0].type==_VECT || b.front()[0].type==_VECT){
+      // find required degree
+      int D=0,M=giacmin(a.size(),b.size()),N=0;
+      for (int i=0;i<M;++i){
+	gen ai=a[i],bi=b[i];
+	if (ai.type!=_VECT || bi.type!=_VECT)
+	  return false;
+	vecteur av=*ai._VECTptr,bv=*bi._VECTptr;
+	N=giacmin(av.size(),bv.size());
+	for (int j=0;j<N;++j){
+	  int as=1,bs=1;
+	  if (av[j].type==_VECT) as=av[j]._VECTptr->size();
+	  if (bv[j].type==_VECT) bs=bv[j]._VECTptr->size();
+	  if (D<as+bs-1) D=as+bs-1;
+	}
+      }
+      // do the real work!
+      int shift=D/2;
+      vecteur X(D),Y(D),A(M),B(M);
+      for (int j=0;j<D;++j){
+	X[j]=j-shift;
+	for (int i=0;i<M;++i){
+	  vecteur tmp;
+	  vect_horner(*a[i]._VECTptr,j-shift,tmp);
+	  A[i]=tmp;
+	  vect_horner(*b[i]._VECTptr,j-shift,tmp);
+	  B[i]=tmp;
+	}
+	vecteur tmp;
+	mmult_atranb(A,B,tmp);
+	Y[j]=tmp;
+      }
+      vecteur R;
+      interpolate(X,Y,R,0);
+      polymat2matpoly(R,res);
+      return true;
+    }
+    return false;
+  }
+
+  bool do_pcar_interp(const matrice & a,vecteur & p,bool compute_pmin,GIAC_CONTEXT){
+    if (a.front()[0].type==_POLY){
+      matrice A(a);
+      int S=A.size(),dim=0;
+      for (int i=0;i<S;++i){
+	if (A[i].type!=_VECT) return false;
+	A[i]=*A[i]._VECTptr;
+	if (!(dim=vect_polynome2poly1(*A[i]._VECTptr)))
+	  return false;
+      }
+      if (!do_pcar_interp(A,p,compute_pmin,contextptr))
+	return false;
+      vect_poly12polynome(p,dim);
+      return true;
+    }
+    if (a.front()[0].type==_VECT){
+      // find required number of interpolations
+      int D=0,M=a.size(),N=0;
+      for (int i=0;i<M;++i){
+	gen ai=a[i];
+	if (ai.type!=_VECT)
+	  return false;
+	vecteur av=*ai._VECTptr;
+	N=av.size();
+	for (int j=0;j<N;++j){
+	  int as=1;
+	  if (av[j].type==_VECT) as=av[j]._VECTptr->size();
+	  if (D<as-1) D=as-1;
+	}
+      }
+      int Dorig=D;
+      D = M*D+1;
+      // do the real work!
+      int shift=-D/2;
+      vecteur X(D),Y(D),A(M);
+      int resdegp1=M+1;
+      for (int j=0;j<D;++j,++shift){
+	for (int i=0;i<M;++i){
+	  vecteur tmp;
+	  vect_horner(*a[i]._VECTptr,shift,tmp);
+	  A[i]=tmp;
+	}
+	gen tmp;
+	if (compute_pmin)
+	  tmp=_pmin(A,contextptr);
+	else
+	  tmp=_pcar(A,contextptr);
+	if (tmp.type!=_VECT)
+	  return false;
+	int tmpd=tmp._VECTptr->size();
+	if (!j) resdegp1=tmpd;
+	if (tmpd==resdegp1){
+	  X[j]=shift;
+	  Y[j]=tmp;
+	  if (j==resdegp1*Dorig){
+	    D=j+1;
+	    break;
+	  }
+	  continue;
+	}
+	if (tmpd<resdegp1) // bad reduction, pmin degree is too small
+	  continue;
+	// tmpd>resdegp1, previous pmin were bad reduction, restart
+	j=0;
+	X[j]=shift;
+	Y[j]=tmp;
+      }
+      vecteur R;
+      X.resize(D); Y.resize(D); // early termination
+      // pmin(a)==0 because it's a matrix with polynomial coeffs 
+      // in the parameter of degree < D and it is 0 for D values
+      // of the parameter
+      interpolate(X,Y,R,0);
+      // R is a polynomial of pmins, we must rebuild a pmin of polynomials
+      // init res
+      vecteur & res=p;
+      res.resize(resdegp1);
+      for (int i=0;i<resdegp1;++i){
+	res[i]=gen(vecteur(D),_POLY1__VECT);
+      }
+      // modify in place
+      for (int d=0;d<D;++d){
+	if (R[d].type!=_VECT)
+	  continue;
+	vecteur & md=*R[d]._VECTptr;
+	int shift=resdegp1-md.size();
+	for (int i=shift;i<resdegp1;++i){
+	  vecteur & resi=*res[i]._VECTptr;
+	  resi[d]=md[i-shift];
+	}
+      }
+      for (int i=0;i<res.size();++i){
+	vecteur & resi=*res[i]._VECTptr;
+	trim(resi);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  bool poly_pcar_interp(const matrice & a,vecteur & p,bool compute_pmin,GIAC_CONTEXT){
+    if (a.empty()) return false;
+    if (a[0][0].type==_POLY || a[0][0].type==_VECT){
+      if (!do_pcar_interp(a,p,compute_pmin,contextptr))
+	return false;
+      return true;
+    }
+    vecteur lv=alg_lvar(a);
+    if (lv.empty())
+      return false;
+    matrice A=*(e2r(a,lv,contextptr)._VECTptr);
+    for (int i=0;i<A.size();++i){
+      gen Ai=A[i];
+      if (Ai.type!=_VECT) return false;
+      const_iterateur it=Ai._VECTptr->begin(),itend=Ai._VECTptr->end();
+      for (;it!=itend;++it){
+	if (it->type==_FRAC && it->_FRACptr->den.type==_POLY)
+	  return false;
+      }
+    }
+    // extract common denominator
+    vecteur Aflat; gen d;
+    aplatir(A,Aflat);
+    const_iterateur jt=Aflat.begin();
+    lcmdeno(Aflat,d,contextptr);
+    for (int i=0;i<A.size();++i){
+      gen Ai=A[i];
+      if (Ai.type!=_VECT) return false;
+      iterateur it=Ai._VECTptr->begin(),itend=Ai._VECTptr->end();
+      for (;it!=itend;++it,++jt){
+	*it=*jt;
+      }
+    }
+    if (!do_pcar_interp(A,p,compute_pmin,contextptr))
+      return false;
+    // eigenvalues of A are lambda/d, 
+    // we must scale p by d, leading coeff does not change, then /d, etc.
+    gen powd=1;
+    for (int i=0;i<p.size();++i){
+      p[i]=r2e(p[i]/powd,lv,contextptr);
+      powd=powd*d;
+    }
+    return true;
   }
 
   // Fast Fourier Transform, f the poly sum_{j<n} f_j x^j, 
@@ -6776,7 +7756,15 @@ namespace giac {
 	source += zsize;
 	continue; // coeff in p is 0
       }
-      int sign=ulonglong(*end)>>63; // 1 for neg, 0 for positive
+      // check previous for carry
+      longlong U=*end;
+      if (end>begin && U/(1<<nbits)==0){
+	*end=0;
+	--end;
+	*end += U*(1<<nbits);
+	U=*end;
+      }
+      int sign=ulonglong(U)>>63; // 1 for neg, 0 for positive
       ++end;
       if (sign){
 	for (;begin<end;++begin){
@@ -6784,6 +7772,7 @@ namespace giac {
 	}
       }
       // now make all coeff positive
+      longlong finalcarry=0; int finalpow2=0;      
       begin=source;
       for (;;){
 	if (*begin>=0){
@@ -6792,11 +7781,16 @@ namespace giac {
 	    break;
 	  continue;
 	}
-	longlong s=1+(ulonglong(-*begin)>>nbits2); 
+	longlong s=1+(ulonglong(-*begin)>>nbits); 
 	*begin += s*base;
 	++begin;
 	if (begin==end){
-	  CERR << "unexpected carry" << endl;
+	  if (end==source+zsize){
+	    CERR << "unexpected carry" << endl;
+	    break;
+	  }
+	  finalcarry=sign?s:-s;
+	  finalpow2=end-source;
 	  break;
 	}
 	*begin -= s;
@@ -6846,6 +7840,9 @@ namespace giac {
 	p[i]=mpz_get_si(z);
       else
 	p[i]=z;
+      if (finalcarry){
+	p[i] = p[i]+gen(finalcarry)*pow(plus_two,finalpow2*nbits,context0);
+      }
     }
     mpz_clear(z);
   }
@@ -7086,7 +8083,7 @@ namespace giac {
       // time required by ichinrem fft: 4+3*(nbits/32-4)*fft(rs)+C/2*(nbits/32)^2
       // where C*(nbits/32) is about fft(rs) for rs=2^19 and nbits around 200
       // -> FFTMUL_INT_MAXBITS around 1000
-      if ( //1 || 
+      if ( //1 ||        
 	  (//0 && 
 	    nbits>nthreads*FFTMUL_INT_MAXBITS)){
 	// add one more variable to convert long integer coefficients into that variable

@@ -4757,6 +4757,14 @@ namespace giac {
 	p=v[2]; m=v[3]; 
       }
     }
+    gen m1=findmod(p);
+    if (!is_zero(m1)){
+      if (is_zero(m))
+	m=m1;
+      else if (m1!=m)
+	return gensizeerr(contextptr);
+    }
+    p=unmod(p);
     if (s>=5)
       var=v[4];
     vecteur lv(1,var);
@@ -4994,8 +5002,10 @@ namespace giac {
     }
     vecteur vb(lvar(b));
     vecteur vab(lvar(makevecteur(a,b)));
-    if (vab.size()==va.size()+vb.size())
-      return symb_of(a,b);
+    if (vab.size()==va.size()+vb.size()){
+      if (va.size()!=1 || va.front().type!=_IDNT || lvarx(b,va.front()).empty())
+	return symb_of(a,b);
+    }
     if (!warn_implicit(a,b,contextptr))
       return gensizeerr("Invalid implicit multiplication for ("+ a.print(contextptr)+")(" + b.print(contextptr)+')');
     return a*b;

@@ -7510,7 +7510,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
     vecteur pivots; vector<int> maxrankcols; longlong idet;
     // CERR << K << endl;
-    smallmodrref(1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,true,0,true,-1);
     //CERR << K << "," << permutation << endl;
     typename vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
     vector<int> permu=perminv(permutation);
@@ -8025,7 +8025,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " rref " << K.size() << "x" << usedcount << " non0 " << sknon0 << " ratio " << (sknon0/K.size())/usedcount << " nulllines " << zerolines << endl;
     vecteur pivots; vector<int> maxrankcols; longlong idet;
     //CERR << K << endl;
-    smallmodrref(1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,true,0,true,-1);
     //CERR << K << "," << permutation << endl;
     typename vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
     vector<int> permu=perminv(permutation);
@@ -8451,7 +8451,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " rref " << K.size() << "x" << usedcount << endl;
     vecteur pivots; vector<int> permutation,maxrankcols; longlong idet;
     // CERR << K << endl;
-    smallmodrref(1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,true,0,true,-1);
     //CERR << K << endl;
     unsigned first0 = unsigned(pivots.size());
     if (first0<K.size() && (learning || !f4buchberger_info)){
@@ -11358,7 +11358,7 @@ namespace giac {
     }
     vecteur pivots; vector<int> permutation,maxrankcols; longlong idet;
     //CERR << M << endl;
-    smallmodrref(1,M,pivots,permutation,maxrankcols,idet,0,Gs,0,cols,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    smallmodrref(1,M,pivots,permutation,maxrankcols,idet,0,Gs,0,cols,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,true,0,true,-1);
     //CERR << M << endl;
     resmod.resize(res.size());
     for (unsigned i=0;i<Gs;++i){
@@ -11964,9 +11964,9 @@ namespace giac {
     }
 #if 0
     // vector< vector<modint> > Kcopy(K);
-    smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty(),0,!multimodular); // disable rref optimization in multi-modular mode otherwise cyclic92 fails
+    smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty(),0,!multimodular,0,-1); // disable rref optimization in multi-modular mode otherwise cyclic92 fails
 #else
-    smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,0/* lower reduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty()/* reset */,0,!multimodular); 
+    smallmodrref(th+1,K,pivots,permutation,maxrankcols,idet,0,int(K.size()),0,usedcount,0/* lower reduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/,permutation.empty()/* reset */,0,!multimodular,-1); 
     if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " rref_upper " << endl;
     smallmodrref_upper(K,0,int(K.size()),0,usedcount,env);

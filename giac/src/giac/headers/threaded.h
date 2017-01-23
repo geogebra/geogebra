@@ -164,6 +164,8 @@ namespace giac {
 
 
   bool is_zero(const std::vector<int> & v);
+  void mulsmall(const std::vector<int>::const_iterator & ita0,const std::vector<int>::const_iterator & ita_end,const std::vector<int>::const_iterator & itb0,const std::vector<int>::const_iterator & itb_end,int modulo,std::vector<int> & new_coord);
+  void mulext(const std::vector<int> & a,const std::vector<int> & b,const std::vector<int> & pmin,int modulo,std::vector<int> & res);
 
   // FIXME: put a #define in index.h if index_t=vector<int> and skip defs here
   // or make them as template
@@ -1124,17 +1126,25 @@ namespace giac {
       T * prod = new T[unsigned(u12+1)];
       for (u=0;u<=u12;++u)
 	prod[u]=T(0);
-      for (it1=it1beg;it1!=it1end;++it1){
-	g1=it1->g;
-	u1=it1->u;
-	if (is_zero(reduce)){
-	  for (it2=it2beg;it2!=it2end;++it2){
-	    type_operator_plus_times(g1,it2->g,prod[u1+it2->u]);
+      typename std::vector< T_unsigned<T,U> >::const_iterator slice_it2beg=it2beg,slice_it2end=it2end;
+      const int slice_size=60;
+      for (;slice_it2beg<slice_it2end;slice_it2beg=it2end){
+	it2beg=slice_it2beg;
+	it2end=it2beg+slice_size;
+	if (it2end>slice_it2end) 
+	  it2end=slice_it2end;
+	for (it1=it1beg;it1!=it1end;++it1){
+	  g1=it1->g;
+	  u1=it1->u;
+	  if (is_zero(reduce)){
+	    for (it2=it2beg;it2!=it2end;++it2){
+	      type_operator_plus_times(g1,it2->g,prod[u1+it2->u]);
+	    }
 	  }
-	}
-	else {
-	  for (it2=it2beg;it2!=it2end;++it2){
-	    type_operator_plus_times_reduce(g1,it2->g,prod[u1+it2->u],reduce);
+	  else {
+	    for (it2=it2beg;it2!=it2end;++it2){
+	      type_operator_plus_times_reduce(g1,it2->g,prod[u1+it2->u],reduce);
+	    }
 	  }
 	}
       }
@@ -1459,7 +1469,7 @@ namespace giac {
   template<class T,class U>
   struct threadmult_t {
     const std::vector< T_unsigned<T,U> > * v1ptr ;
-    std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator > * v2ptr;
+    std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator > * v1ptrs, * v2ptrs;
     std::vector< T_unsigned<T,U> > * vptr;
     U degdiv;
     unsigned current_deg;
@@ -1480,67 +1490,102 @@ namespace giac {
     argptr->clock=CLOCK();
     int reduce=argptr->reduce;
     const std::vector< T_unsigned<T,U> > * v1 = argptr->v1ptr;
-    std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator >  * v2ptr = argptr->v2ptr;
+    std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator >  * v2ptrs = argptr->v2ptrs;
     std::vector< T_unsigned<T,U> > & v = *argptr->vptr;
     typename std::vector< T_unsigned<T,U> >::const_iterator it1=v1->begin(),it1beg=v1->begin(),it1end=v1->end(),it2beg,it2,it2end;
     T g1,g;
     U u1,u2,u,degdiv=argptr->degdiv;
-    int d1=0,d2,v2deg=v2ptr->size()-2,d=argptr->current_deg;
+    int d1=0,d2,v2deg=v2ptrs->size()-2,v1deg=argptr->v1ptrs->size()-2,d=argptr->current_deg;
     T * prod=argptr->prod;
     if (prod){
-      for (;it1!=it1end;++it1){
-	u1=it1->u;
-	d1=u1/degdiv;
-	if (d1>d)
-	  continue;
-	d2=v2deg-(d-d1);
-	if (d2<0) // degree of d1 incompatible
-	  break;
-	g1=it1->g;
-	it2beg=(*v2ptr)[d2];
-	it2end=(*v2ptr)[d2+1];
+      for (int slice_d2=0;slice_d2<=v2deg;++slice_d2){
+	if (slice_d2>d) break;
+	d1=d-slice_d2;
+	if (d1>v1deg) continue;
+	it1beg=(*argptr->v1ptrs)[d1];
+	it1end=(*argptr->v1ptrs)[d1+1];
+	typename std::vector< T_unsigned<T,U> >::const_iterator slice_it2beg=(*v2ptrs)[slice_d2],slice_it2end=(*v2ptrs)[slice_d2+1];
+	const int slice_size=56;
+	for (; slice_it2beg<slice_it2end;slice_it2beg=it2end){
+	  it2beg=slice_it2beg;
+	  it2end=it2beg+slice_size;
+	  if (it2end>slice_it2end)
+	    it2end=slice_it2end;
+	  for (it1=it1beg;it1!=it1end;++it1){
+	    u1=it1->u;
+	    g1=it1->g;
 #if 1
-	if ((it1+3)<it1end && (it1+3)->u/degdiv == d1){
-	  // 4 monomials have same main degree: make the product simult
-	  T * prod0=prod+u1, * prod1=prod+(it1+1)->u,*prod2=prod+(it1+2)->u,*prod3=prod+(it1+3)->u;
-	  T g1_1=(it1+1)->g,g1_2=(it1+2)->g,g1_3=(it1+3)->g,g2;
-	  if (is_zero(reduce)){
-	    for (it2=it2beg;it2!=it2end;++it2){
-	      u2=it2->u;
-	      g2=it2->g;
-	      type_operator_plus_times(g1,g2,prod0[u2]); 
-	      type_operator_plus_times(g1_1,g2,prod1[u2]); 
-	      type_operator_plus_times(g1_2,g2,prod2[u2]); 
-	      type_operator_plus_times(g1_3,g2,prod3[u2]); 
+	    if ((it1+3)<it1end){
+	      // 4 monomials have same main degree: make the product simult
+	      T * prod0=prod+u1, * prod1=prod+(it1+1)->u,*prod2=prod+(it1+2)->u,*prod3=prod+(it1+3)->u;
+	      T g1_1=(it1+1)->g,g1_2=(it1+2)->g,g1_3=(it1+3)->g,g2;
+	      if (is_zero(reduce)){
+		it2end -= 4;
+		for (it2=it2beg;it2<=it2end;it2+=4){
+		  u2=it2->u;
+		  g2=it2->g;
+		  type_operator_plus_times(g1,g2,prod0[u2]); 
+		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
+		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
+		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  u2=(it2+1)->u;
+		  g2=(it2+1)->g;
+		  type_operator_plus_times(g1,g2,prod0[u2]); 
+		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
+		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
+		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  u2=(it2+2)->u;
+		  g2=(it2+2)->g;
+		  type_operator_plus_times(g1,g2,prod0[u2]); 
+		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
+		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
+		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		  u2=(it2+3)->u;
+		  g2=(it2+3)->g;
+		  type_operator_plus_times(g1,g2,prod0[u2]); 
+		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
+		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
+		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		}
+		it2end += 4;
+		for (;it2!=it2end;++it2){
+		  u2=it2->u;
+		  g2=it2->g;
+		  type_operator_plus_times(g1,g2,prod0[u2]); 
+		  type_operator_plus_times(g1_1,g2,prod1[u2]); 
+		  type_operator_plus_times(g1_2,g2,prod2[u2]); 
+		  type_operator_plus_times(g1_3,g2,prod3[u2]); 
+		}
+	      }
+	      else {
+		for (it2=it2beg;it2!=it2end;++it2){
+		  u2=it2->u;
+		  g2=it2->g;
+		  type_operator_plus_times_reduce(g1,g2,prod0[u2],reduce); 
+		  type_operator_plus_times_reduce(g1_1,g2,prod1[u2],reduce); 
+		  type_operator_plus_times_reduce(g1_2,g2,prod2[u2],reduce); 
+		  type_operator_plus_times_reduce(g1_3,g2,prod3[u2],reduce); 
+		}
+	      }
+	      it1 += 3;
+	      continue;
 	    }
-	  }
-	  else {
-	    for (it2=it2beg;it2!=it2end;++it2){
-	      u2=it2->u;
-	      g2=it2->g;
-	      type_operator_plus_times_reduce(g1,g2,prod0[u2],reduce); 
-	      type_operator_plus_times_reduce(g1_1,g2,prod1[u2],reduce); 
-	      type_operator_plus_times_reduce(g1_2,g2,prod2[u2],reduce); 
-	      type_operator_plus_times_reduce(g1_3,g2,prod3[u2],reduce); 
-	    }
-	  }
-	  it1 += 3;
-	  continue;
-	}
 #endif
-	T * prod0 = prod+u1;
-	if (is_zero(reduce)){
-	  for (it2=it2beg;it2!=it2end;++it2){
-	    type_operator_plus_times(g1,it2->g,prod0[it2->u]); 
-	    // prod_it->second += g; 
-	  }
-	}
-	else {
-	  for (it2=it2beg;it2!=it2end;++it2){
-	    type_operator_plus_times_reduce(g1,it2->g,prod0[it2->u],reduce); 
-	  }
-	}
-      }
+	    T * prod0 = prod+u1;
+	    if (is_zero(reduce)){
+	      for (it2=it2beg;it2!=it2end;++it2){
+		type_operator_plus_times(g1,it2->g,prod0[it2->u]); 
+		// prod_it->second += g; 
+	      }
+	    }
+	    else {
+	      for (it2=it2beg;it2!=it2end;++it2){
+		type_operator_plus_times_reduce(g1,it2->g,prod0[it2->u],reduce); 
+	      }
+	    }
+	  } // end it1 loop
+	} // end slice_it2 loop
+      } // end slice_degree2 loop
       argptr->clock = CLOCK() - argptr->clock;
       argptr->status=2;
       return &v; // not used, all is stored in prod
@@ -1566,8 +1611,8 @@ namespace giac {
 	d2=v2deg-(d-d1);
 	if (d2<0) // first partial degree too small
 	  continue;
-	it2=(*v2ptr)[d2]; // first monomial of second poly having a compatible partial degree
-	it2end=(*v2ptr)[d2+1];
+	it2=(*v2ptrs)[d2]; // first monomial of second poly having a compatible partial degree
+	it2end=(*v2ptrs)[d2+1];
 	if (it2==it2end)
 	  continue;
 	u2=it2->u;
@@ -1610,13 +1655,13 @@ namespace giac {
 	      u1=it1->u;
 	      d1=u1/degdiv;
 	      d2=v2deg-(d-d1);
-	      it2beg=(*v2ptr)[d2];
+	      it2beg=(*v2ptrs)[d2];
 	      it2=it2beg+it->second;
 	      type_operator_plus_times_reduce(it1->g,it2->g,g,reduce);
 	      // increment 2nd poly index of the elements of the top chain
 	      ++it->second;
 	      // check if it is still with a compatible partial degree
-	      if (it->second+it2beg-(*v2ptr)[d2+1]<0)
+	      if (it->second+it2beg-(*v2ptrs)[d2+1]<0)
 		nouveau.push_back(*it);
 	    }
 #ifdef USTL
@@ -1637,7 +1682,7 @@ namespace giac {
 	    u1=it1->u;
 	    d1=u1/degdiv;
 	    d2=v2deg-(d-d1);
-	    it2beg=(*v2ptr)[d2];
+	    it2beg=(*v2ptrs)[d2];
 	    u=u1+(it2beg+it->second)->u;
 	    // check if u is in the path to the root of the heap
 	    unsigned holeindex=heapend-heapbeg,parentindex;
@@ -1699,13 +1744,13 @@ namespace giac {
 	      u1=it1->u;
 	      d1=u1/degdiv;
 	      d2=v2deg-(d-d1);
-	      it2beg=(*v2ptr)[d2];
+	      it2beg=(*v2ptrs)[d2];
 	      it2=it2beg+it->second;
 	      type_operator_plus_times_reduce(it1->g,it2->g,g,reduce);
 	      // increment 2nd poly index of the elements of the top chain
 	      ++it->second;
 	      // check if it is still with a compatible partial degree
-	      if (it->second+it2beg-(*v2ptr)[d2+1]<0)
+	      if (it->second+it2beg-(*v2ptrs)[d2+1]<0)
 		nouveau.push_back(*it);
 	    }
 #ifdef USTL
@@ -1726,7 +1771,7 @@ namespace giac {
 	    u1=it1->u;
 	    d1=u1/degdiv;
 	    d2=v2deg-(d-d1);
-	    it2beg=(*v2ptr)[d2];
+	    it2beg=(*v2ptrs)[d2];
 	    u=u1+(it2beg+it->second)->u;
 	    // check if u is in the path to the root of the heap
 	    unsigned holeindex=heapend-heapbeg,parentindex;
@@ -1787,8 +1832,8 @@ namespace giac {
       if (d2<0) // degree of d1 incompatible
 	break;
       g1=it1->g;
-      it2beg=(*v2ptr)[d2];
-      it2end=(*v2ptr)[d2+1];
+      it2beg=(*v2ptrs)[d2];
+      it2end=(*v2ptrs)[d2+1];
       if (reduce){
 	for (it2=it2beg;it2!=it2end;++it2){
 	  u2=it2->u;
@@ -1878,7 +1923,7 @@ namespace giac {
     unsigned d2=v2.front().u/degdiv,deg1v=v1.front().u/degdiv+d2;
     int cur_deg=-1,prev_deg=d2;
     // initialize iterators to the degree beginning
-    std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator > v2it;
+    std::vector< typename std::vector< T_unsigned<T,U> >::const_iterator > v1it,v2it;
     typename std::vector< T_unsigned<T,U> >::const_iterator it=v2.begin(),itend=v2.end();
     for (v2it.push_back(it);it!=itend;++it){
       cur_deg=it->u/degdiv;
@@ -1894,6 +1939,21 @@ namespace giac {
     for (int i=prev_deg-1;i>=0;--i)
       v2it.push_back(it);
     v2it.push_back(it);
+    it=v1.begin();itend=v1.end(); prev_deg=v1.front().u/degdiv;
+    for (v1it.push_back(it);it!=itend;++it){
+      cur_deg=it->u/degdiv;
+      if (cur_deg==prev_deg)
+	continue;
+      for (int i=prev_deg-1;i>=cur_deg;--i){
+	v1it.push_back(it);
+	if (!i)
+	  break;
+      }
+      prev_deg=cur_deg;
+    }
+    for (int i=prev_deg-1;i>=0;--i)
+      v1it.push_back(it);
+    v1it.push_back(it);
     // degree of product wrt to the main variable
     // will launch deg1v+1 threads to compute each degree
     pthread_t tab[deg1v+1];
@@ -1911,7 +1971,8 @@ namespace giac {
       std::vector< vector_size32< std::pair<unsigned short,unsigned short> > >* vsmallindexptr=smallindex?(new std::vector< vector_size32< std::pair<unsigned short,unsigned short> > >(v1si)):0;
       for (;i>=0;--i){
 	arg[i].v1ptr=&v1;
-	arg[i].v2ptr=&v2it;
+	arg[i].v1ptrs=&v1it;
+	arg[i].v2ptrs=&v2it;
 	arg[i].vptr = new std::vector< T_unsigned<T,U> >;
 	if (i!=int(deg1v))
 	  arg[i].vptr->reserve(arg[i+1].vptr->size());
@@ -1947,7 +2008,8 @@ namespace giac {
       for (int j=0;i>=0 && j<nthreads;--i,++j){
 	in_progress.push_back(i);
 	arg[i].v1ptr=&v1;
-	arg[i].v2ptr=&v2it;
+	arg[i].v1ptrs=&v1it;
+	arg[i].v2ptrs=&v2it;
 	arg[i].vptr = new std::vector< T_unsigned<T,U> >;
 	arg[i].degdiv=degdiv;
 	arg[i].current_deg=i;
@@ -1988,7 +2050,8 @@ namespace giac {
 	      possible_size += arg[k].vptr->size();
 	      if (i>=0){
 		arg[i].v1ptr=&v1;
-		arg[i].v2ptr=&v2it;
+		arg[i].v1ptrs=&v1it;
+		arg[i].v2ptrs=&v2it;
 		arg[i].vptr = new std::vector< T_unsigned<T,U> >;
 		arg[i].vptr->reserve(arg[k].vptr->size());
 		arg[i].degdiv=degdiv;
@@ -2400,6 +2463,10 @@ namespace giac {
 	} // end if (!heap.empty())
 	if (is_zero(g))
 	  break;
+	if (is_zero(reduce) && !allowrational && !is_zero(g % binv)){
+	  delete [] heap;
+	  return 0;
+	}
 	// g=reduce?smod(g*binv,reduce):g/binv;
 	if (!is_zero(reduce))
 	  type_operator_reduce(g,binv,g,reduce);
@@ -2408,10 +2475,6 @@ namespace giac {
 	if (qmax && g>qmax){
 	  delete [] heap;
 	  return -1;
-	}
-	if (is_zero(reduce) && !allowrational && !is_zero(g % binv)){
-	  delete [] heap;
-	  return 0;
 	}
 	// FIXME check that heapu has all components>=bu, otherwise should be in remainder
 	// new quotient term

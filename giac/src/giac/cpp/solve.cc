@@ -3768,6 +3768,7 @@ namespace giac {
 	A.push_back(-x);
       }
       A=mtran(A);
+      //int c=int(A.front()._VECTptr->size());
       vecteur B=-mker(A,contextptr);
       if (is_undef(B) || B.empty())
 	return B;

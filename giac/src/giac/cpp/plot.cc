@@ -1217,7 +1217,9 @@ namespace giac {
 
   double max_nstep=2e4;
 
-  gen plotfunc(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_zmin, double function_zmax,int nstep,int jstep,bool showeq,const context * contextptr){
+  gen plotfunc(const gen & f_,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_zmin, double function_zmax,int nstep,int jstep,bool showeq,const context * contextptr){
+    gen f=when2piecewise(f_,contextptr);
+    f=Heavisidetopiecewise(f,contextptr); 
     double step=(function_xmax-function_xmin)/nstep;
     if (debug_infolevel)
       CERR << "plot " << f << " x=" << function_xmin << ".." << function_xmax << " " << step << endl;
@@ -1251,6 +1253,98 @@ namespace giac {
     }
 #ifndef GNUWINCE
     if (vars.type==_IDNT){ // function plot
+      gen a,b;
+      if (taille(f,100)<=100 && is_linear_wrt(f,vars,a,b,contextptr))	
+	return _segment(makesequence(function_xmin+cst_i*(a*function_xmin+b),function_xmax+cst_i*(a*function_xmax+b)),contextptr);
+      vecteur lpiece(lop(f,at_piecewise));
+      if (!lpiece.empty()) lpiece=lvarx(lpiece,vars);
+      if (!lpiece.empty()){
+	gen piece=lpiece.front();
+	gen & piecef=piece._SYMBptr->feuille;
+	if (piecef.type==_VECT){
+	  vecteur piecev=*piecef._VECTptr,res;
+	  // check conditions: they must be linear wrt x
+	  double function_xmin_save=function_xmin,function_xmax_save=function_xmax;
+	  int vs=int(piecev.size()),i;
+	  for (i=0;i<vs/2;++i){
+	    gen cond=piecev[2*i];
+	    if (is_equal(cond) || cond.is_symb_of_sommet(at_same)){
+	      *logptr(contextptr) << gettext("Assuming false condition ") << cond << endl;
+	      continue;
+	    }
+	    if (cond.is_symb_of_sommet(at_different)){
+	      *logptr(contextptr) << gettext("Assuming true condition ") << cond << endl;
+	      f=quotesubst(f,piece,piecev[2*i+1],contextptr);
+	      return plotfunc(f,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	    }
+	    bool unable=true;
+	    if (cond.is_symb_of_sommet(at_superieur_strict) || cond.is_symb_of_sommet(at_superieur_egal)){
+	      cond=cond._SYMBptr->feuille[0]-cond._SYMBptr->feuille[1];
+	      unable=false;
+	    }
+	    if (cond.is_symb_of_sommet(at_inferieur_strict) || cond.is_symb_of_sommet(at_inferieur_egal)){
+	      cond=cond._SYMBptr->feuille[1]-cond._SYMBptr->feuille[0];
+	      unable=false;
+	    }
+	    gen a,b,l;
+	    if (unable || !is_linear_wrt(cond,vars,a,b,contextptr))
+	      break;
+	    // check if a*x+b>0 on [borne_inf,borne_sup]
+	    l=-b/a;
+	    l=evalf_double(l,1,contextptr);
+	    if (l.type!=_DOUBLE_)
+	      break;
+	    bool positif=ck_is_greater(a,0,contextptr);
+	    gen tmp=quotesubst(f,piece,piecev[2*i+1],contextptr);
+	    if (ck_is_greater(l,function_xmax,contextptr)){
+	      // borne_inf < borne_sup <= l
+	      if (positif) // test is false, continue
+		continue;
+	      // test is true make the plot
+	      return plotfunc(tmp,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	    }
+	    if (ck_is_greater(function_xmin,l,contextptr)){
+	      // l <= borne_inf < borne_sup
+	      if (!positif) // test is false, continue
+		continue;
+	      // test is true we can compute the integral
+	      return plotfunc(tmp,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	    }
+	    // borne_inf<l<borne_sup
+	    if (positif){
+	      // make plot between l and borne_sup
+	      gen curres = plotfunc(tmp,vars,attributs,densityplot,l._DOUBLE_val,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	      if (curres.type==_VECT)
+		res = mergevecteur(res,*curres._VECTptr);
+	      else
+		res.push_back(curres);
+	      function_xmax=l._DOUBLE_val; // continue with plot from borne_inf to l
+	      continue;
+	    }
+	    // make plot between borne_inf and l
+	    gen curres=plotfunc(tmp,vars,attributs,densityplot,function_xmin,l._DOUBLE_val,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	    if (curres.type==_VECT)
+	      res = mergevecteur(res,*curres._VECTptr);
+	    else
+	      res.push_back(curres);
+	    function_xmin=l._DOUBLE_val; // continue with plot from l to borne_sup
+	  } // end loop on i
+	  if (i==vs/2){
+	    if (vs%2){
+	      f=quotesubst(f,piece,piecev[vs-1],contextptr);
+	      gen curres = plotfunc(f,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_zmin,function_zmax,nstep,jstep,showeq,contextptr);
+	      if (curres.type==_VECT)
+		res = mergevecteur(res,*curres._VECTptr);
+	      else
+		res.push_back(curres);
+	    }
+	    return res;
+	  } // end i==vs/2
+	  // restore xmin/xmax
+	  function_xmin=function_xmin_save;
+	  function_xmax=function_xmax_save;
+	} // end piecef.type==_VECT
+      } // end piecewise
       gen locvar(vars);
       locvar.subtype=0;
       gen y=quotesubst(f,vars,locvar,contextptr),yy;
@@ -7953,7 +8047,7 @@ namespace giac {
   gen _plot(const gen & g,const context * contextptr){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     gen var,res;
-    if (g.type!=_VECT && !is_algebraic_program(g,var,res) && !is_distribution(g))
+    if (g.type!=_VECT && !is_distribution(g) && !is_algebraic_program(g,var,res) )
       return _plotfunc(g,contextptr);
     vecteur v;
     gen g_(g);

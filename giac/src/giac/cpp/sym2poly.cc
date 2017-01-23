@@ -305,6 +305,7 @@ namespace giac {
 	}
       }
       else { // *it is an algebraic extension!
+#if 1
 	matrice ext_mat;
 	vecteur v,vt;
 	ext_mat.push_back(v);
@@ -313,6 +314,18 @@ namespace giac {
 	if (s>1 || (s==1 && !vt.front()._VECTptr->empty()) )
 	  ext_mat=mergevecteur(ext_mat,vt);
 	m=ext_glue_matrices(ext_mat,m);
+#else
+	vecteur vt;
+	alg_lvar(algebraic_argument(*it),vt);
+	if (vt==m) return;
+	matrice ext_mat;
+	vecteur v;
+	ext_mat.push_back(v);
+	int s=int(vt.size());
+	if (s>1 || (s==1 && !vt.front()._VECTptr->empty()) )
+	  ext_mat=mergevecteur(ext_mat,vt);
+	m=ext_glue_matrices(ext_mat,m);
+#endif
       }
     }
   }
@@ -320,7 +333,16 @@ namespace giac {
   vecteur alg_lvar(const gen & e){
     vecteur l;
     l.push_back(l); // insure a null line inside the matrix of alg_lvar
-    alg_lvar(e,l);
+    if (has_op(e,*at_rootof)){
+      vector<const unary_function_ptr *> vu;
+      vu.push_back(at_rootof); 
+      vector <gen_op_context> vv;
+      vv.push_back(_nop);
+      gen er=subst(e,vu,vv,false,context0);
+      alg_lvar(er,l);
+    }
+    else
+      alg_lvar(e,l);
     return l;
   }
 
@@ -415,12 +437,21 @@ namespace giac {
       return fraction(g,tmpmult); // g*tmpmult;
     }
     if (n.type==_POLY) {
-      polynome np(*n._POLYptr);
       gen l;
-      vector< monomial<gen> > :: const_iterator it=np.coord.begin(),itend=np.coord.end();
-      for (;it!=itend;++it)
+      vector< monomial<gen> > :: const_iterator it=n._POLYptr->coord.begin(),itend=n._POLYptr->coord.end();
+      if (it<itend-1){
+	l=gcd(it->value,(itend-1)->value,context0);
+	++it; --itend;
+      }
+      for (;it!=itend;++it){
 	l=gcd(l,it->value,context0);
+	if (is_one(l))
+	  return l;
+      }
       gen g=simplify3(l,d);
+      if (is_one(g))
+	return g;
+      polynome np(*n._POLYptr);
       np=np/g;
       n=np; 
       if (g.type>_DOUBLE_){
@@ -1720,6 +1751,12 @@ namespace giac {
     return 0;
   }
 
+  gen rootof_extract(const gen & e,GIAC_CONTEXT){
+    if (e.type==_VECT && e._VECTptr->size()==2)
+      return e._VECTptr->front()*symb_rootof(gen(makevecteur(1,0),_POLY1__VECT),e._VECTptr->back(),contextptr);
+    return symbolic(at_rootof,e);
+  }
+
   bool sym2r (const gen &e,const vecteur &l, int l_size,gen & num,gen & den,GIAC_CONTEXT){
     if (e.type<_POLY){
       num=e;
@@ -1741,7 +1778,16 @@ namespace giac {
     }
     bool totally_converted=true;
     vecteur lv,lvnum,lvden;
-    lvar(e,lv);
+    if (!l.empty() && l.front().type==_VECT && has_op(e,*at_rootof)){
+      vector<const unary_function_ptr *> vu;
+      vu.push_back(at_rootof); 
+      vector <gen_op_context> vv;
+      vv.push_back(rootof_extract);
+      gen er=subst(e,vu,vv,true,context0);
+      lvar(er,lv);
+    }
+    else
+      lvar(e,lv);
     if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr)){
       num=undef;
       return false;
@@ -1803,7 +1849,16 @@ namespace giac {
       l_size=int(l.size());
     gen num,den;
     vecteur lv,lvnum,lvden;
-    lvar(e,lv);
+    if (!l.empty() && l.front().type==_VECT && has_op(e,*at_rootof)){
+      vector<const unary_function_ptr *> vu;
+      vu.push_back(at_rootof); 
+      vector <gen_op_context> vv;
+      vv.push_back(rootof_extract);
+      gen er=subst(e,vu,vv,true,context0);
+      lvar(er,lv);
+    }
+    else
+      lvar(e,lv);
     if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr))
       return gensizeerr(contextptr);
     gen iext=find_iext(e,lvnum,contextptr);
@@ -3580,11 +3635,13 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_collect(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_collect,contextptr);
-    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2){
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2&& args._VECTptr->front().type!=_VECT){
       vecteur v(args._VECTptr->begin()+1,args._VECTptr->end());
       res=_symb2poly(args,contextptr);
-      res=_poly2symb(gen(mergevecteur(vecteur(1,res),v),_SEQ__VECT),contextptr);
-      return res;
+      if (res.type!=_FRAC){
+	res=_poly2symb(gen(mergevecteur(vecteur(1,res),v),_SEQ__VECT),contextptr);
+	return res;
+      }
     }
     res=factorcollect(args,false,contextptr);
     return res;
@@ -3624,7 +3681,11 @@ namespace giac {
     int s=int(v.size());
     if (s<2)
       toofewargs(_resultant_s);
-    if (s==2) v.push_back(vx_var);
+    if (s==2){
+      if (v[0].type==_POLY && v[1].type==_POLY)
+	return resultant(*v[0]._POLYptr,*v[1]._POLYptr);
+      v.push_back(vx_var);
+    }
     if (has_num_coeff(v))
       return _det(_sylvester(args,contextptr),contextptr); 
     if (v.back()==at_sylvester || v.back()==at_det)

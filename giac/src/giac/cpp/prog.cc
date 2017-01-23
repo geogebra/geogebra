@@ -105,7 +105,16 @@ namespace giac {
 	a=v.back();
       else
 	a=gen(vecteur(v.begin()+1,v.end()),g.subtype);
-      return symb_sto(a,v.front());
+      if (v.front().type==_IDNT)
+	return symb_sto(a,v.front());
+      if (v.front().type==_VECT){
+	vecteur w=*v.front()._VECTptr;
+	for (int i=0;i<w.size();++i){
+	  if (w[i].type!=_IDNT)
+	    return g;
+	}
+	return symb_sto(a,v.front());
+      }
     }
     return g;
   }
@@ -435,6 +444,23 @@ namespace giac {
   bool is_constant_idnt(const gen & g){
     return g==cst_pi || g==cst_euler_gamma || is_inf(g) || is_undef(g) || (g.type==_IDNT && strcmp(g._IDNTptr->id_name,"i")==0);
   }
+
+  bool warn_equal_in_prog=true;
+  gen _warn_equal_in_prog(const gen & g,GIAC_CONTEXT){
+    if (is_zero(g) && g.type!=_VECT){
+      warn_equal_in_prog=false;
+      return string2gen("Warning disabled",false);
+    }
+    if (is_one(g)){
+      warn_equal_in_prog=true;
+      return string2gen("Warning enabled",false);
+    }
+    return warn_equal_in_prog;
+  }
+  static const char _warn_equal_in_prog_s []="warn_equal_in_prog";
+  static define_unary_function_eval (__warn_equal_in_prog,&_warn_equal_in_prog,_warn_equal_in_prog_s);
+  define_unary_function_ptr5( at_warn_equal_in_prog ,alias_at_warn_equal_in_prog,&__warn_equal_in_prog,0,true);
+
   // Return the names of variables that are not local in g
   // and the equality that are not used (warning = instead of := )
   string check_local_assign(const gen & g,GIAC_CONTEXT){
@@ -452,7 +478,7 @@ namespace giac {
       if (f.type!=_VECT || f._VECTptr->size()!=2)
 	return res;
       res=check_local_assign(f._VECTptr->front(),contextptr);
-      return res.substr(0,res.size()-1)+gettext(" compiling ")+f._VECTptr->back().print(contextptr)+'\n';
+      return res.substr(0,res.size()-1)+"\n//"+gettext(" compiling ")+f._VECTptr->back().print(contextptr)+'\n';
     }
     if (!g.is_symb_of_sommet(at_program))
       return res;
@@ -474,8 +500,9 @@ namespace giac {
 	--i; --rs;
       }
     }
-    if (0 && !res1.empty()){ // disabled since it is now accepted
-      res += gettext("// Warning, assignation is :=, check these lines: ");
+    if (warn_equal_in_prog && !res1.empty()){ // syntax = for := is now accepted
+      res += gettext("// Warning, assignation is :=, check the lines below:\n");
+      res += "// (Run warn_equal_in_prog(0) to disable this warning)\n";
       const_iterateur it=res1.begin(),itend=res1.end();
       for (;it!=itend;++it){
 	res += it->print(contextptr);
@@ -3137,10 +3164,90 @@ namespace giac {
     return symb_rand(gen(v,_SEQ__VECT));
   }
 
+  void shuffle(vector<int> & temp,GIAC_CONTEXT){
+    int n=temp.size();
+    // source wikipedia Fisher-Yates shuffle article
+    for (int i=0;i<n-1;++i){
+      // j â† random integer such that i â‰¤ j < n
+      // exchange a[i] and a[j]
+      int j=i+(giac_rand(contextptr)/double(rand_max2))*(n-i);
+      std::swap(temp[i],temp[j]);
+    }
+  }
+
+  vector<int> rand_k_n(int k,int n,bool sorted,GIAC_CONTEXT){
+    if (k<=0 || n<=0)
+      return vector<int>(0);
+    if (//n>=65536 && 
+	k*double(k)<=n/4){
+      vector<int> t(k),ts(k); 
+      for (int essai=20;essai>=0;--essai){
+	int i;
+	for (i=0;i<k;++i)
+	  ts[i]=t[i]=giac_rand(contextptr)/double(rand_max2)*n;
+	sort(ts.begin(),ts.end());
+	for (i=1;i<k;++i){
+	  if (ts[i]==ts[i-1])
+	    break;
+	}
+	if (i==k)
+	  return sorted?ts:t;
+      }
+    }
+    if (k>=n/3 || (sorted && k*std::log(double(k))>n) ){
+      vector<int> t; t.reserve(k);
+      // (algorithm suggested by O. Garet)
+      while (n>0){
+	int r=giac_rand(contextptr)/double(rand_max2)*n;
+	if (r<n-k) // (n-k)/n=proba that the current n is not in the list
+	  --n;
+	else {
+	  --n;
+	  t.push_back(n);
+	  --k;
+	}
+      }
+      if (sorted)
+	reverse(t.begin(),t.end());
+      else
+	shuffle(t);
+      return t;
+    }
+    vector<bool> tab(n,true);
+    vector<int> v(k);
+    for (int j=0;j<k;++j){
+      int r=-1;
+      for (;;){
+	r=giac_rand(contextptr)/double(rand_max2)*n;
+	if (tab[r]) break;
+      }
+      v[j]=r;
+    }
+    if (sorted)
+      sort(v.begin(),v.end());
+    return v;
+  }
+  
+  vector<int> randperm(const int & n,GIAC_CONTEXT){
+    //renvoie une permutation au hasard de long n
+    vector<int> temp(n);
+    for (int k=0;k<n;k++) 
+      temp[k]=k;
+    shuffle(temp,contextptr);
+    return temp;
+  }
+
   static gen rand_n_in_list(int n,const vecteur & v,GIAC_CONTEXT){
     n=absint(n);
     if (signed(v.size())<n)
       return gendimerr(contextptr);
+#if 1
+    vector<int> w=rand_k_n(n,v.size(),false,contextptr);
+    vecteur res(n);
+    for (int i=0;i<n;++i)
+      res[i]=v[w[i]];
+    return res;
+#else
     // would be faster with randperm
     vecteur w(v);
     vecteur res;
@@ -3150,6 +3257,7 @@ namespace giac {
       w.erase(w.begin()+tmp);
     }
     return res;
+#endif
   }
   gen _rand(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
@@ -3167,6 +3275,8 @@ namespace giac {
       return _rand(args._FRACptr->num,contextptr)/args._FRACptr->den;
     if (args.type==_USER)
       return args._USERptr->rand(contextptr);
+    if (args.is_symb_of_sommet(at_rootof))
+      return vranm(1,args,contextptr)[0];
     int nd=is_distribution(args);
     if (nd==1 && args.type==_FUNC)
       return randNorm(contextptr);
@@ -3223,9 +3333,18 @@ namespace giac {
 	int m=v[1].val;
 	int M=v[2].val;
 	if (m>M){ int tmp=m; m=M; M=tmp; }
+#if 1
+	vector<int> v=rand_k_n(n,M-m+1,false,contextptr);
+	for (int i=0;i<n;++i)
+	  v[i] += m;
+	vecteur res;
+	vector_int2vecteur(v,res);
+	return res;
+#else
 	vecteur v;
 	for (int i=m;i<=M;++i) v.push_back(i);
 	return rand_n_in_list(n,v,contextptr);
+#endif
       }
     }
     if ( (args.type==_SYMB) && (args._SYMBptr->sommet==at_interval) ){
@@ -4664,7 +4783,7 @@ namespace giac {
       *logptr(contextptr) << gettext("Archiving ") << e << endl;
       archive(child_out,e,contextptr);
       archive(child_out,zero,contextptr);
-      child_out << "Debugging\n" << '¤' ;
+      child_out << "Debugging\n" << 'Â¤' ;
       child_out.close();
       kill_and_wait_sigusr2();
       ifstream child_in(cas_entree_name().c_str());
@@ -6486,6 +6605,7 @@ namespace giac {
       string s;
       while (!feof(f))
 	s += char(fgetc(f));
+      fclose(f);
       return string2gen(s,false);
     }
     if (args.type!=_STRNG)
@@ -7291,9 +7411,9 @@ namespace giac {
     archive(child_out,e,contextptr);
     archive(child_out,e,contextptr);
     if ( (args.type==_VECT) && (args._VECTptr->empty()) )
-      child_out << "User input requested\n" << '¤' ;
+      child_out << "User input requested\n" << 'Â¤' ;
     else
-      child_out << args << '¤' ;
+      child_out << args << 'Â¤' ;
     child_out.close();
     kill_and_wait_sigusr2();
     ifstream child_in(cas_entree_name().c_str());
@@ -8514,7 +8634,7 @@ namespace giac {
     "_u",
     "_yd",
     "_yr",
-    "_µ"
+    "_Âµ"
   };
 
   const char * const * const unitname_tab_end=unitname_tab+unitptr_tab_length;
@@ -8558,7 +8678,7 @@ namespace giac {
   gen _atm_unit(mksa_register("_atm",&__atm_unit));
   gen _au_unit(mksa_register("_au",&__au_unit));
   gen _Angstrom_unit(mksa_register("_Angstrom",&__Angstrom_unit));
-  gen _micron_unit(mksa_register("_µ",&__micron_unit));
+  gen _micron_unit(mksa_register("_Âµ",&__micron_unit));
   gen _b_unit(mksa_register("_b",&__b_unit));
   gen _bar_unit(mksa_register("_bar",&__bar_unit));
   gen _bbl_unit(mksa_register("_bbl",&__bbl_unit));

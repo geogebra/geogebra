@@ -5399,6 +5399,10 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	    }
 	  }
 	}
+	if (nb<0)
+	  *logptr(contextptr) << "Too many ]" << endl;
+	if (np<0)
+	  *logptr(contextptr) << "Too many )" << endl;
 	while (np<0 && i>=0 && s[i-1]==')'){
 	  --i;
 	  ++np;
@@ -5408,10 +5412,6 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	  ++nb;
 	}
 	s=s.substr(0,i);
-	if (nb<0)
-	  CERR << "Too many ]" << endl;
-	if (np<0)
-	  CERR << "Too many )" << endl;
 	if (nb>0){
 	  *logptr(contextptr) << "Warning adding " << nb << " ] at end of input" << endl;
 	  s=s+string(nb,']');

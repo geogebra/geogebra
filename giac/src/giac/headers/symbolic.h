@@ -43,6 +43,9 @@ namespace giac {
 
   // find the "size" of g but limited by max
   unsigned taille(const gen & g,unsigned max);
+  // find number of symbolic embeddings, limited to max, initial value add
+  unsigned depth(const gen & g,unsigned add,unsigned max);
+  extern int print_max_depth;
   extern bool print_rewrite_prod_inv;
   // try to rewrite arg the argument of a product as a fraction n/d
   bool rewrite_prod_inv(const gen & arg,gen & n,gen & d);

@@ -3548,10 +3548,11 @@ mpz_class smod(const mpz_class & a,int reduce){
   /* ************************************************* 
            MODULAR ALGEBRAIC EXTENSIONS GCD
      ************************************************* */
-  static void mulsmall(const vector<int>::const_iterator & ita0,const vector<int>::const_iterator & ita_end,const vector<int>::const_iterator & itb0,const vector<int>::const_iterator & itb_end,int modulo,vector<int> & new_coord){  
+  void mulsmall(const vector<int>::const_iterator & ita0,const vector<int>::const_iterator & ita_end,const vector<int>::const_iterator & itb0,const vector<int>::const_iterator & itb_end,int modulo,vector<int> & new_coord){  
     new_coord.clear();
     if (ita0==ita_end || itb0==itb_end)
       return;
+    new_coord.reserve((ita_end-ita0)+(itb_end-itb0)-1);
     vector<int>::const_iterator ita_begin=ita0,ita=ita0,itb=itb0;
     for ( ; ita!=ita_end; ++ita ){
       vector<int>::const_iterator ita_cur=ita,itb_cur=itb;
@@ -3582,7 +3583,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
 
   // res=a*b mod pmin,modulo
-  static void mulext(const vector<int> & a,const vector<int> & b,const vector<int> & pmin,int modulo,vector<int> & res){
+  void mulext(const vector<int> & a,const vector<int> & b,const vector<int> & pmin,int modulo,vector<int> & res){
     if (b.empty()){
       res.clear();
       return;
@@ -5587,7 +5588,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     if (!find_shift(vars,shift_vars))
       return false;
     coefft=*(coefft._EXTptr+1);
-    if (coefft.type!=_VECT || coefft._VECTptr->empty())
+    if (coefft.type!=_VECT || coefft._VECTptr->empty() || !is_integer_vecteur(*coefft._VECTptr))
       return false;
     vecteur & pminv=*coefft._VECTptr;
     gen pmin0=pminv.front();

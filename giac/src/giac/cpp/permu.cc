@@ -203,11 +203,79 @@ namespace giac {
   static define_unary_function_eval (__permuorder,&_permuorder,_permuorder_s);
   define_unary_function_ptr5( at_permuorder ,alias_at_permuorder,&__permuorder,0,true);
 
+  void shuffle(vector<int> & temp){
+    int n=temp.size();
+    // source wikipedia Fisher-Yates shuffle article
+    for (int i=0;i<n-1;++i){
+      // j ← random integer such that i ≤ j < n
+      // exchange a[i] and a[j]
+      int j=i+(std_rand()/(rand_max2+1.0))*(n-i);
+      std::swap(temp[i],temp[j]);
+    }
+  }
+
+  vector<int> rand_k_n(int k,int n,bool sorted){
+    if (k<=0 || n<=0)
+      return vector<int>(0);
+    if (//n>=65536 && 
+	k*double(k)<=n/4){
+      vector<int> t(k),ts(k); 
+      for (int essai=20;essai>=0;--essai){
+	int i;
+	for (i=0;i<k;++i)
+	  ts[i]=t[i]=std_rand()/(rand_max2+1.0)*n;
+	sort(ts.begin(),ts.end());
+	for (i=1;i<k;++i){
+	  if (ts[i]==ts[i-1])
+	    break;
+	}
+	if (i==k)
+	  return sorted?ts:t;
+      }
+    }
+    if (k>=n/3 || (sorted && k*std::log(double(k))>n) ){
+      vector<int> t; t.reserve(k);
+      // (algorithm suggested by O. Garet)
+      while (n>0){
+	int r=std_rand()/(rand_max2+1.0)*n;
+	if (r<n-k) // (n-k)/n=proba that the current n is not in the list
+	  --n;
+	else {
+	  --n;
+	  t.push_back(n);
+	  --k;
+	}
+      }
+      if (sorted)
+	reverse(t.begin(),t.end());
+      else
+	shuffle(t);
+      return t;
+    }
+    vector<bool> tab(n,true);
+    vector<int> v(k);
+    for (int j=0;j<k;++j){
+      int r=-1;
+      for (;;){
+	r=std_rand()/(rand_max2+1.0)*n;
+	if (tab[r]) break;
+      }
+      v[j]=r;
+    }
+    if (sorted)
+      sort(v.begin(),v.end());
+    return v;
+  }
+  
   vector<int> randperm(const int & n){
     //renvoie une permutation au hasard de long n
-    vector<int> p(n);
     vector<int> temp(n);
-    for (int k=0;k<n;k++) {temp[k]=k;}
+    for (int k=0;k<n;k++) temp[k]=k;
+#if 1
+    shuffle(temp);
+    return temp;
+#else
+    vector<int> p(n);
     //on chosit au hasard h et alors p[k]=temp[h]
     int m;
     m=n;
@@ -220,6 +288,7 @@ namespace giac {
       }
     }    
     return(p); 
+#endif
   }
   gen _randperm(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

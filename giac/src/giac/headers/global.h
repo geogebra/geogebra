@@ -290,7 +290,17 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 #ifdef TIMEOUT
   void control_c();
 #else
+#if 0
 #define control_c() if (ctrl_c) { interrupted = true; CERR << "Throwing exception for user interruption." << std::endl; throw(std::runtime_error("Stopped by user interruption.")); }
+#else
+#define control_c() if (ctrl_c) { \
+interrupted = true; \
+std::string source_path = __FILE__; \
+std::string source_filename = source_path.substr(source_path.find_last_of("/\\") + 1); \
+CERR << "Throwing exception for user interruption (" << source_filename << ":" << __LINE__ << ")" << std::endl; \
+throw(std::runtime_error("Stopped by user interruption.")); \
+}
+#endif
 #endif // TIMEOUT
 #endif // !NSPIRE, !FIR
 

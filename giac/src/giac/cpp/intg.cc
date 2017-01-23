@@ -5301,7 +5301,7 @@ namespace giac {
     vecteur resv; // contains the curve
     if (return_curve)
       resv.push_back(makevecteur(t0_e,y0v));
-#ifdef HAVE_LIBGSL
+#if 0 //def HAVE_LIBGSL
     if (!iscomplex && t0_e.type==_DOUBLE_ && t1_e.type==_DOUBLE_ && is_zero(im(tmp,contextptr))){
       double t0=t0_e._DOUBLE_val;
       double t1=t1_e._DOUBLE_val;

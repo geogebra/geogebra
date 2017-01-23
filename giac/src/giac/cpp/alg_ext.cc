@@ -332,7 +332,7 @@ namespace giac {
       vecteur & rem=*c._VECTptr;
       modpoly quo;
       environment env;
-      DivRem(*a._VECTptr,*v._VECTptr,&env,quo,rem);
+      DivRem(*a._VECTptr,*v._VECTptr,0,quo,rem);
       if (rem.empty()) return 0;
       if (rem.size()==1) return rem.front();
       return algebraic_EXTension(c,v);

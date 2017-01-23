@@ -307,7 +307,7 @@ namespace giac {
       }
       // Add coefficient of a and b
       gen sum=a_cur->coeff+b_cur->coeff;
-      if (res.empty() || (series_flags(contextptr) & 0x1) ){
+      if (sum.type>_POLY && sum.type!=_FRAC &&(res.empty() || (series_flags(contextptr) & 0x1) ) ){
 	//cerr << sum << " ";
 	sum=recursive_normal(remove_lnexp(sum,contextptr),contextptr);
 	//cerr << sum << endl;
@@ -345,9 +345,14 @@ namespace giac {
   bool pmul(const sparse_poly1 & a,const gen & b_orig, sparse_poly1 & res,GIAC_CONTEXT){
     gen b(b_orig);
     if (&a==&res){
+      if (is_one(b_orig)) return true;
       sparse_poly1::iterator it=res.begin(),itend=res.end();
-      for (;it!=itend;++it)
-	it->coeff = ratnormal(it->coeff * b,contextptr) ;
+      for (;it!=itend;++it){
+	gen g=it->coeff * b;
+	if (g.type>_POLY && g.type!=_FRAC) 
+	  g=ratnormal(g,contextptr) ;
+	it->coeff = g;
+      }
       return true;
     }
     sparse_poly1::const_iterator it=a.begin(),itend=a.end();
@@ -602,6 +607,7 @@ namespace giac {
       interrupted=ctrl_c=true;
       return false;
     }
+    //if (debug_infolevel) CERR << CLOCK()*1e-6 << " pdiv begin" <<endl;
     sparse_poly1 b(b_orig);
     ptruncate(b,ordre_orig,contextptr);
     if (b.empty()){
@@ -644,6 +650,16 @@ namespace giac {
       e_cur=rem.front().exponent-e0;
       res.push_back(monome(q_cur,e_cur));
       pshift(b,e_cur,bshift,contextptr);
+      sparse_poly1::iterator it=bshift.begin(),itend=bshift.end();
+      for (;it!=itend;++it){
+	if (is_undef(it->coeff))
+	  break;
+	if (ck_is_strictly_greater(it->exponent,ordre,contextptr)){
+	  it->coeff=undef;
+	  bshift.erase(it+1,itend);
+	  break;
+	}
+      }
       if (!pmul(-q_cur,bshift,bshift,contextptr))
 	return false;
       padd(rem,bshift,rem,contextptr);
@@ -658,7 +674,11 @@ namespace giac {
 
   sparse_poly1 spdiv(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT){
     sparse_poly1 res;
-    if (!pdiv(a,b,res,series_default_order(contextptr),contextptr))
+    gen og=min(porder(a),porder(b),contextptr);
+    int o=series_default_order(contextptr);
+    if (og.type==_INT_)
+      o=og.val;
+    if (!pdiv(a,b,res,o,contextptr))
       res=sparse_poly1(1,monome(1,undef));
     return res;
   }

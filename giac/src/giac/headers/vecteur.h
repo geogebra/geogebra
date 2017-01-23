@@ -229,6 +229,7 @@ namespace giac {
 
   // mmult assumes dimensions are correct
   void mmult(const matrice & a,const matrice & b,matrice &res);
+  void mmult_atranb(const matrice & a,const matrice & btran,matrice & res);
   matrice mmult(const matrice & a,const matrice & b);
   bool mmultck(const matrice & a,const matrice & b,matrice & res);
   matrice mmultck(const matrice & a,const matrice & b);
@@ -268,7 +269,8 @@ namespace giac {
     RREF_LAGRANGE=5
   };
   // For approx linear combination, anything ||<eps will be replaced by 0
-  void linear_combination(const gen & c1,const vecteur & v1,const gen & c2,const vecteur & v2,const gen & c,vecteur & v,double eps,int cstart=0);
+  void linear_combination(const gen & c1,const vecteur & v1,const gen & c2,const vecteur & v2,const gen & c,const gen & cinv,vecteur & v,double eps,int cstart=0);
+  gen exact_div(const gen & a,const gen & b);
 
   // row reduction from line l and column c to line lmax and column cmax
   // lmax and cmax are not included
@@ -293,19 +295,19 @@ namespace giac {
     std::vector<int> y,y1,y2,y3;
     std::vector<longlong> z,z1,z2,z3;
   };
-  bool in_modrref(const matrice & a, std::vector< std::vector<int> > & N,matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int modulo,int rref_or_det_or_lu,const gen & mult_by_det_mod_p,bool inverting,bool no_initial_mod,smallmodrref_temp_t * workptr=0);
+  bool in_modrref(const matrice & a, std::vector< std::vector<int> > & N,matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int modulo,int carac,int rref_or_det_or_lu,const gen & mult_by_det_mod_p,bool inverting,bool no_initial_mod,smallmodrref_temp_t * workptr);
   bool modrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,
-	       int fullreduction,int dont_swap_below,const gen & modulo,int rref_or_det_or_lu);
+	       int fullreduction,int dont_swap_below,const gen & modulo,bool ckprime,int rref_or_det_or_lu);
   bool mrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,GIAC_CONTEXT);
   bool modrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,const gen& modulo);
-  bool modrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,const gen & modulo,int rref_or_det_or_lu);
+  
 
   // finish full row reduction to echelon form if N is upper triangular
   // this is done from lmax-1 to l
   void smallmodrref_upper(std::vector< std::vector<int> > & N,int l,int lmax,int c,int cmax,int modulo);
   void free_null_lines(std::vector< std::vector<int> > & N,int l,int lmax,int c,int cmax);
 
-  void smallmodrref(int nthreads,std::vector< std::vector<int> > & N,vecteur & pivots,std::vector<int> & permutation,std::vector<int> & maxrankcols,longlong & idet,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int modulo,int rref_or_det_or_lu,bool reset=true,smallmodrref_temp_t * workptr=0,bool allow_block=true);
+  void smallmodrref(int nthreads,std::vector< std::vector<int> > & N,vecteur & pivots,std::vector<int> & permutation,std::vector<int> & maxrankcols,longlong & idet,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int modulo,int rref_or_det_or_lu,bool reset,smallmodrref_temp_t * workptr,bool allow_block,int carac);
   void doublerref(matrix_double & N,vecteur & pivots,std::vector<int> & permutation,std::vector<int> & maxrankcols,double & idet,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int rref_or_det_or_lu,double eps);
   void modlinear_combination(vecteur & v1,const gen & c2,const vecteur & v2,const gen & modulo,int cstart,int cend=0);
   void modlinear_combination(std::vector<int> & v1,int c2,const std::vector<int> & v2,int modulo,int cstart,int cend,bool pseudo);
@@ -371,9 +373,13 @@ namespace giac {
   gen _hessenberg(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_hessenberg ;
 
-  bool balance_krylov(matrix_double & H,std::vector<giac_double> & d,int niter=5,double cutoff=1e-8);
+  bool balance_krylov(const matrix_double & H,std::vector<giac_double> & d,int niter=5,double cutoff=1e-8);
   bool probabilistic_pmin(const matrice & m,vecteur & w,bool check,GIAC_CONTEXT);
-  bool mod_pcar(std::vector< std::vector<int> > & N,int modulo,bool & krylov,std::vector<int> & res,GIAC_CONTEXT);
+  vecteur mpcar_int(const matrice & A,bool krylov,GIAC_CONTEXT,bool compute_pmin);
+
+  void mod_pcar(std_matrix<gen> & N,vecteur & res,bool compute_pmin);
+  bool mod_pcar(const matrice & A,std::vector< std::vector<int> > & N,int modulo,bool & krylov,std::vector<int> & res,GIAC_CONTEXT,bool compute_pmin);
+  bool mod_pcar(std::vector< std::vector<int> > & N,int modulo,bool & krylov,std::vector<int> & res,GIAC_CONTEXT,bool compute_pmin);
   vecteur mpcar_hessenberg(const matrice & A,int modulo,GIAC_CONTEXT);
   gen _pcar_hessenberg(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pcar_hessenberg ;

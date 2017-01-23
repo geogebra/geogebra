@@ -58,11 +58,12 @@ namespace giac {
     gen x; // the name of the variable for construction
     gen a; // value as a vector polynomial or undef (whole field)
     virtual gen_user * memory_alloc() const { 
-      galois_field * ptr= new galois_field(*this);
+      galois_field * ptr= new galois_field(*this,false);
+      // if (a != smod(a,p) && smod(a,p))  CERR << "not reduced" << endl;
       return ptr; 
     }
-    galois_field(const galois_field & q);
-    galois_field(const gen p_,const gen & P_,const gen & x_,const gen & a_);
+    galois_field(const galois_field & q,bool doreduce=true);
+    galois_field(const gen p_,const gen & P_,const gen & x_,const gen & a_,bool doreduce=true);
     galois_field(const gen & g,bool primitive,GIAC_CONTEXT);
     void reduce(); // reduce a
     virtual gen operator + (const gen & g) const;
