@@ -1976,9 +1976,9 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric[atand(0.317)]", result:"17.58861508681\u00B0", round:"17.59\u00B0", notes:"GGB-1353" },
 { cat:"ComplexRoot", cmd:"ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]", result:"{-0.6454972243679 - 1.053972753436\u03AF, -0.6454972243679 + 1.053972753436\u03AF}", round:"{-0.65 - 1.05\u03AF, -0.65 + 1.05\u03AF}" },
 { cat:"SolveODE", cmd:"SolveODE[y''+2y'+y=1-2x,(0,2),(0,1/5)]", result:"y = (-4) / 5 x \u212F^(-x) - 2x - 3\u212F^(-x) + 5" },
-{ cat:"Simplfy", cmd:"Simplify[(((x)+(1))/((x)^(4)))^(1/4)]", result:"nroot((x + 1) / x\u2074,4)" },
-{ cat:"Simplfy", cmd:"Simplify[(((x)+(1))/((x)^(6)))^(1/6)]", result:"nroot((x + 1) / x\u2076,6)" },
-{ cat:"Simplfy", cmd:"Simplify[(((x)+(1))/((x)^(8)))^(1/8)]", result:"nroot((x + 1) / x\u2078,8)" },
+{ cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(4)))^(1/4)]", result:"nroot((x + 1) / x\u2074,4)" },
+{ cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(6)))^(1/6)]", result:"nroot((x + 1) / x\u2076,6)" },
+{ cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(8)))^(1/8)]", result:"nroot((x + 1) / x\u2078,8)" },
 // JSONEND
 //{ 
 // 
