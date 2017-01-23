@@ -163,8 +163,10 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.camera.addStyleDependentName("highlighted");
 		this.upload.removeStyleDependentName("highlighted");
 		this.inputPanel.setWidget(this.cameraPanel);
+		PictureOptions pictureOptions = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
+		pictureOptions.setAllowEdit(false);
 		PhoneGapManager.getPhoneGap().getCamera().getPicture(
-				new PictureOptions(ImageInputDialogT.PICTURE_QUALITY),
+				pictureOptions,
 				this.pictureCallback);
     }
 
