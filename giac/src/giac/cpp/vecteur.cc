@@ -10325,6 +10325,13 @@ namespace giac {
 	res.push_back(_rand(f,contextptr));
       return;
     }
+    if (f.type==_MOD){
+      gen fm=*(f._MODptr+1);
+      vranm(n,fm,res,contextptr);
+      for (int i=0;i<n;++i)
+	res[i]=makemod(res[i],fm);
+      return;
+    }
     if (f.type==_VECT){
       const vecteur & v = *f._VECTptr;
       int s=int(v.size());
