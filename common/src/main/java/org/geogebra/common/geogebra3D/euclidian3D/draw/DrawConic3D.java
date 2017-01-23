@@ -502,12 +502,15 @@ public class DrawConic3D extends Drawable3DCurves
 				}
 				break;
 
-			default:
 			case GeoConicNDConstants.CONIC_SINGLE_POINT:
 				if (getView3D().viewChangedByZoom()) {
 					// occurred
 					updateForItSelf();
 				}
+				break;
+
+			default:
+				// do nothing
 				break;
 			}
 		}
