@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3D;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -106,13 +105,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public Coords evaluateCurve3D(double t) {
 		return new Coords(fun[0].evaluate(t), fun[1].evaluate(t),
 				fun[2].evaluate(t), 1);
-	}
-
-	public Coords3D evaluateTangent3D(double t) {
-		updateDerivatives();
-		return new Coords3D(funD1[0].evaluate(t), funD1[1].evaluate(t),
-				funD1[2].evaluate(t), 1).normalize();
-
 	}
 
 	/**
