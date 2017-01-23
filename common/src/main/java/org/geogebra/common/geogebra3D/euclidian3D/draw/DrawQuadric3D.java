@@ -933,7 +933,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 			}
 			break;
-		default:
 		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
@@ -975,6 +974,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			break;
 
+		default:
+			// do nothing
+			break;
+
 		}
 
 	}
@@ -984,7 +987,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
-		default:
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			super.setWaitForUpdate();
 			break;
@@ -1006,6 +1008,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			initDrawLine(quadric);
 			drawLine.setWaitForUpdateVisualStyle(prop);
 			super.setWaitForUpdate();
+			break;
+
+		default:
+			// do nothing
 			break;
 		}
 
