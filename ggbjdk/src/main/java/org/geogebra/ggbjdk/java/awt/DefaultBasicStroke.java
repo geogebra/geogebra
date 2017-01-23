@@ -1807,12 +1807,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		void appendReverse(BufferedPath p) {
 			checkBuf(p.typeSize, p.pointSize);
-			// Skip last point, beacause it's the first point of the second path
+			// Skip last point, because it's the first point of the second path
 			for (int i = p.pointSize - 2; i >= 0; i -= 2) {
 				points[pointSize++] = p.points[i + 0];
 				points[pointSize++] = p.points[i + 1];
 			}
-			// Skip first type, beacuse it's always MOVETO
+			// Skip first type, because it's always MOVETO
 			int closeIndex = 0;
 			for (int i = p.typeSize - 1; i >= 0; i--) {
 				byte type = p.types[i];
