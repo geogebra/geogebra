@@ -46,23 +46,19 @@
 
 /* Modified by Calixte Denizet */
 
-
 package com.himamis.retex.renderer.share;
 
-
 /**
- * An abstract superclass for all logical mathematical constructions that can be
- * a part of a TeXFormula. All subclasses must implement the abstract
- * {@link #createBox(TeXEnvironment)} method that transforms this logical unit
- * into a concrete box (that can be painted). They also must define their type,
- * used for determining what glue to use between adjacent atoms in a
- * "row construction". That can be one single type by asigning one of the type
- * constants to the {@link #type} field. But they can also be defined as having
- * two types: a "left type" and a "right type". This can be done by implementing
- * the methods {@link #getLeftType()} and {@link #getRightType()}. The left type
- * will then be used for determining the glue between this atom and the previous
- * one (in a row, if any) and the right type for the glue between this atom and
- * the following one (in a row, if any).
+ * An abstract superclass for all logical mathematical constructions that can be a part of a
+ * TeXFormula. All subclasses must implement the abstract {@link #createBox(TeXEnvironment)} method
+ * that transforms this logical unit into a concrete box (that can be painted). They also must
+ * define their type, used for determining what glue to use between adjacent atoms in a
+ * "row construction". That can be one single type by asigning one of the type constants to the
+ * {@link #type} field. But they can also be defined as having two types: a "left type" and a
+ * "right type". This can be done by implementing the methods {@link #getLeftType()} and
+ * {@link #getRightType()}. The left type will then be used for determining the glue between this
+ * atom and the previous one (in a row, if any) and the right type for the glue between this atom
+ * and the following one (in a row, if any).
  * 
  * @author Kurt Vermeulen
  */
@@ -76,22 +72,20 @@ public abstract class Atom implements Cloneable {
 	public int type_limits = TeXConstants.SCRIPT_NOLIMITS;
 
 	public int alignment = -1;
-
+	
 	/**
-	 * Convert this atom into a {@link Box}, using properties set by "parent"
-	 * atoms, like the TeX style, the last used font, color settings, ...
+	 * Convert this atom into a {@link Box}, using properties set by "parent" atoms, like the TeX
+	 * style, the last used font, color settings, ...
 	 * 
-	 * @param env
-	 *            the current environment settings
+	 * @param env the current environment settings
 	 * @return the resulting box.
 	 */
 	public abstract Box createBox(TeXEnvironment env);
 
 	/**
-	 * Get the type of the leftermost child atom. Most atoms have no child
-	 * atoms, so the "left type" and the "right type" are the same: the atom's
-	 * type. This also is the default implementation. But Some atoms are
-	 * composed of child atoms put one after another in a horizontal row. These
+	 * Get the type of the leftermost child atom. Most atoms have no child atoms, so the "left type"
+	 * and the "right type" are the same: the atom's type. This also is the default implementation.
+	 * But Some atoms are composed of child atoms put one after another in a horizontal row. These
 	 * atoms must override this method.
 	 * 
 	 * @return the type of the leftermost child atom
@@ -101,38 +95,30 @@ public abstract class Atom implements Cloneable {
 	}
 
 	/**
-	 * Get the type of the rightermost child atom. Most atoms have no child
-	 * atoms, so the "left type" and the "right type" are the same: the atom's
-	 * type. This also is the default implementation. But Some atoms are
-	 * composed of child atoms put one after another in a horizontal row. These
-	 * atoms must override this method.
+	 * Get the type of the rightermost child atom. Most atoms have no child atoms, so the
+	 * "left type" and the "right type" are the same: the atom's type. This also is the default
+	 * implementation. But Some atoms are composed of child atoms put one after another in a
+	 * horizontal row. These atoms must override this method.
 	 * 
 	 * @return the type of the rightermost child atom
 	 */
 	public int getRightType() {
 		return type;
 	}
-
-	public Atom clone() {
-		try {
-			return (Atom) nativeClone();
-		} catch (Exception e) { 
-			return null;
-		}
+	
+	public abstract Atom duplicate();
+	
+	/**
+	 * used by duplicate()
+	 */
+	final protected Atom setFields(Atom atom) {
+		atom.type = type;
+		atom.type_limits = type_limits;
+		atom.alignment = alignment;
+		
+		return atom;
 	}
 
-	protected native Object nativeClone() /*-{
-		var r = {};
 
-		// prevents to use same hash code
-		//GWT <=2.7: @com.google.gwt.core.client.impl.Impl::getHashCode(Ljava/lang/Object;)(r);
-		@javaemul.internal.HashCodes::getObjectIdentityHashCode(*)(r);
-		var o = this;
-		for ( var i in o) {
-			if (!(i in r)) {
-				r[i] = o[i];
-			}
-		}
-		return r;
-	}-*/;
+
 }
