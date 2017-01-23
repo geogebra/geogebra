@@ -147,6 +147,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			switch (angle.getAngleStyle()) {
 
 			default:
+				break;
 			case NOTREFLEX:
 				if (angle.getRawAngle() > Math.PI) {
 					vn.mulInside3(-1);
