@@ -325,19 +325,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		type = QUADRIC_CONE;
 	}
 
-	public void set(Coords origin, Coords direction, double r, double min,
-			double max) {
-
-		switch (type) {
-		default:
-		case QUADRIC_CYLINDER:
-			setCylinder(origin, direction, r, min, max);
-			break;
-		case QUADRIC_CONE:
-			setCone(origin, direction, r, min, max);
-			break;
-		}
-	}
 
 	// ///////////////////////
 	// GEOELEMENT
