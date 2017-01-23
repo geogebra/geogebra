@@ -50,6 +50,11 @@ package com.himamis.retex.renderer.share;
  */
 public class tcaronAtom extends Atom {
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new tcaronAtom());
+	}
+
 	public tcaronAtom() {
 	}
 

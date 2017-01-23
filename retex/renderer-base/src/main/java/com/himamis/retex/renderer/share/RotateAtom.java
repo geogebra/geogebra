@@ -58,6 +58,21 @@ public class RotateAtom extends Atom {
 	private int xunit, yunit;
 	private double x, y;
 
+	@Override
+	final public Atom duplicate() {
+		RotateAtom ret = new RotateAtom();
+		ret.base = base;
+		ret.angle = angle;
+		ret.option = option;
+		ret.xunit = xunit;
+		ret.yunit = yunit;
+		ret.x = x;
+		ret.y = y;
+		
+		return setFields(ret);
+		
+	}
+
 	public RotateAtom(Atom base, String angle, String option) {
 		this.type = base.type;
 		this.base = base;
@@ -90,6 +105,9 @@ public class RotateAtom extends Atom {
 				this.y = 0;
 			}
 		}
+	}
+
+	private RotateAtom() {
 	}
 
 	@Override

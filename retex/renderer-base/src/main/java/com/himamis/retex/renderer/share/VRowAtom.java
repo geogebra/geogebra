@@ -61,6 +61,11 @@ public class VRowAtom extends Atom {
 	private SpaceAtom raise = new SpaceAtom(TeXConstants.UNIT_EX, 0, 0, 0);
 	protected boolean addInterline = false;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new VRowAtom(elements, raise, addInterline));
+	}
+
 	public VRowAtom() {
 		// empty
 	}
@@ -74,6 +79,13 @@ public class VRowAtom extends Atom {
 				elements.add(el);
 			}
 		}
+	}
+
+	private VRowAtom(LinkedList<Atom> elements, SpaceAtom raise, boolean addInterline) {
+		this.elements = elements;
+		this.raise = raise;
+		this.addInterline = addInterline;
+		
 	}
 
 	public void setAddInterline(boolean addInterline) {

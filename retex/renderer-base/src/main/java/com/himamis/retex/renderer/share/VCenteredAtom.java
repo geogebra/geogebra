@@ -55,6 +55,11 @@ public class VCenteredAtom extends Atom {
 	// atom to be centered vertically with respect to the axis
 	private final Atom atom;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new VCenteredAtom(atom));
+	}
+
 	public VCenteredAtom(Atom atom) {
 		this.atom = atom;
 	}

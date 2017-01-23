@@ -54,6 +54,11 @@ public class VdotsAtom extends Atom {
 	}
 
 	@Override
+	final public Atom duplicate() {
+		return setFields(new VdotsAtom());
+	}
+
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box dot = SymbolAtom.get("ldotp").createBox(env);
 		VerticalBox vb = new VerticalBox(dot, 0, TeXConstants.ALIGN_BOTTOM);

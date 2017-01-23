@@ -52,6 +52,11 @@ public class BoldAtom extends Atom {
 
 	private Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new BoldAtom(base));
+	}
+
 	public BoldAtom(Atom base) {
 		this.base = base;
 	}

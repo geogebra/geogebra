@@ -57,6 +57,11 @@ public class PhantomAtom extends Atom implements Row {
 	// dimensions to be taken into account
 	private boolean w = true, h = true, d = true;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new PhantomAtom(elements, w, h, d));
+	}
+
 	public PhantomAtom(Atom el) {
 		if (el == null) {
 			elements = new RowAtom();

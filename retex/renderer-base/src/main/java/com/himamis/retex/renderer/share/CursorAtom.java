@@ -5,6 +5,13 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 public class CursorAtom extends Atom {
 
 	private double height;
+	// foreground color
+	private final Color color;
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(new CursorAtom(color, height));
+	}
 
 	public CursorAtom(Color color, double height) {
 		super();
@@ -26,8 +33,6 @@ public class CursorAtom extends Atom {
 		return new CursorBox(cb, height, color);
 	}
 
-	// foreground color
-	private final Color color;
 
 
 

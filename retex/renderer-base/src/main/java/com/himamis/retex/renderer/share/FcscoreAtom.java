@@ -52,6 +52,11 @@ public class FcscoreAtom extends Atom {
 
 	private int N;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new FcscoreAtom(N));
+	}
+
 	public FcscoreAtom(int N) {
 		this.N = N;
 	}

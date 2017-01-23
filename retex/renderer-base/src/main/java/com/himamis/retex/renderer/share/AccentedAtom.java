@@ -63,6 +63,21 @@ public class AccentedAtom extends Atom {
 	// base atom
 	protected Atom base = null;
 	protected Atom underbase = null;
+	
+	@Override
+	final public Atom duplicate() {
+		return setFields(new AccentedAtom(base, accent, changeSize, acc, underbase));
+	}
+	
+	private AccentedAtom(Atom base, SymbolAtom accent, boolean changeSize, boolean acc, Atom underbase) {
+		this.base = base;
+		this.accent = accent;
+		this.changeSize = changeSize;
+		this.acc = acc;
+		this.underbase = underbase;
+	}
+
+
 
 	public AccentedAtom(Atom base, Atom accent) throws InvalidSymbolTypeException {
 		this.base = base;

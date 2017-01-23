@@ -45,6 +45,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXFormula.FontInfos;
 import com.himamis.retex.renderer.share.platform.FontAdapter;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
@@ -57,6 +58,11 @@ public class JavaFontRenderingAtom extends Atom {
 	private int type1;
 	private TeXFormula.FontInfos fontInfos;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new JavaFontRenderingAtom(str, type, fontInfos));
+	}
+
 	public JavaFontRenderingAtom(String str, int type) {
 		this.str = str;
 		this.type1 = type;
@@ -64,6 +70,11 @@ public class JavaFontRenderingAtom extends Atom {
 
 	public JavaFontRenderingAtom(String str, TeXFormula.FontInfos fontInfos) {
 		this(str, 0);
+		this.fontInfos = fontInfos;
+	}
+
+	private JavaFontRenderingAtom(String str, int type, FontInfos fontInfos) {
+		this(str, type);
 		this.fontInfos = fontInfos;
 	}
 

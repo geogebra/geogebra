@@ -52,6 +52,11 @@ public class IJAtom extends Atom {
 
 	private boolean upper;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new IJAtom(upper));
+	}
+
 	public IJAtom(boolean upper) {
 		this.upper = upper;
 	}

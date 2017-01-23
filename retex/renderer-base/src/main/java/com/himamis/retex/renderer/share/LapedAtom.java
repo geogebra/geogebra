@@ -53,6 +53,11 @@ public class LapedAtom extends Atom {
 	private Atom at;
 	private char type1;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new LapedAtom(at, type1));
+	}
+
 	public LapedAtom(Atom at, char type) {
 		this.at = at;
 		this.type1 = type;

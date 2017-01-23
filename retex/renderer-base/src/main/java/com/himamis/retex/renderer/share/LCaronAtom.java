@@ -52,6 +52,11 @@ public class LCaronAtom extends Atom {
 
 	private boolean upper;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new LCaronAtom(upper));
+	}
+
 	public LCaronAtom(boolean upper) {
 		this.upper = upper;
 	}

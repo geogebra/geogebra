@@ -52,6 +52,11 @@ public class TStrokeAtom extends Atom {
 
 	private boolean upper;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new TStrokeAtom(upper));
+	}
+
 	public TStrokeAtom(boolean upper) {
 		this.upper = upper;
 	}

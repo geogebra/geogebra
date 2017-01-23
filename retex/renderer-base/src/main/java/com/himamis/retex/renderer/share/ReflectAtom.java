@@ -52,6 +52,11 @@ public class ReflectAtom extends Atom {
 
 	private Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new ReflectAtom(base));
+	}
+
 	public ReflectAtom(Atom base) {
 		this.type = base.type;
 		this.base = base;

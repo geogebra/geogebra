@@ -50,7 +50,7 @@ package com.himamis.retex.renderer.share;
  */
 public class MultlineAtom extends Atom {
 
-	public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
+	final public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
 	public static final int MULTLINE = 0;
 	public static final int GATHER = 1;
 	public static final int GATHERED = 2;
@@ -58,6 +58,11 @@ public class MultlineAtom extends Atom {
 	private ArrayOfAtoms column;
 	private int type1;
 	private boolean isPartial;
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(new MultlineAtom(isPartial, column, type));
+	}
 
 	public MultlineAtom(boolean isPartial, ArrayOfAtoms column, int type) {
 		this.isPartial = isPartial;

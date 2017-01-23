@@ -53,8 +53,18 @@ public class MiddleAtom extends Atom {
 	public Atom base;
 	public Box box = new StrutBox(0, 0, 0, 0);
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new MiddleAtom(base, box));
+	}
+
 	public MiddleAtom(Atom at) {
 		base = at;
+	}
+
+	public MiddleAtom(Atom base, Box box) {
+		this.base = base;
+		this.box = box;
 	}
 
 	@Override

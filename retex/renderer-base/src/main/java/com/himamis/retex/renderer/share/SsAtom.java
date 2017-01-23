@@ -52,6 +52,11 @@ public class SsAtom extends Atom {
 
 	private Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new SsAtom(base));
+	}
+
 	public SsAtom(Atom base) {
 		this.base = base;
 	}

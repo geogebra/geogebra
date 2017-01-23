@@ -52,6 +52,11 @@ public class StrikeThroughAtom extends Atom {
 
 	private Atom at;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new StrikeThroughAtom(at));
+	}
+
 	public StrikeThroughAtom(Atom at) {
 		this.at = at;
 	}

@@ -53,6 +53,11 @@ public class OgonekAtom extends Atom {
 	private static final SymbolAtom ogonek = SymbolAtom.get("ogonek");
 	private Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new OgonekAtom(base));
+	}
+
 	public OgonekAtom(Atom base) {
 		this.base = base;
 	}

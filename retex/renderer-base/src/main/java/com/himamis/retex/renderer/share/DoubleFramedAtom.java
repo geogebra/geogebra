@@ -45,13 +45,24 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+
 /**
  * An atom representing a boxed base atom.
  */
 public class DoubleFramedAtom extends FBoxAtom {
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new DoubleFramedAtom(base, bg, line));
+	}
+
 	public DoubleFramedAtom(Atom base) {
 		super(base);
+	}
+
+	public DoubleFramedAtom(Atom base, Color bg, Color line) {
+		super(base, bg, line);
 	}
 
 	@Override

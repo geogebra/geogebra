@@ -53,7 +53,17 @@ public class HlineAtom extends Atom {
 	private double width;
 	private double shift;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new HlineAtom(width, shift));
+	}
+
 	public HlineAtom() {
+	}
+
+	private HlineAtom(double width, double shift) {
+		this.width = width;
+		this.shift = shift;
 	}
 
 	public void setWidth(double width) {

@@ -58,10 +58,27 @@ public class MulticolumnAtom extends Atom {
 	protected int afterVlines;
 	protected int row, col;
 
+	@Override
+	public Atom duplicate() {
+		MulticolumnAtom ret = new MulticolumnAtom();
+		ret.n = n;
+		ret.align = align;
+		ret.w = w;
+		ret.cols = cols;
+		ret.beforeVlines = beforeVlines;
+		ret.afterVlines = afterVlines;
+		ret.row = row;
+		ret.col = col;
+		return setFields(ret);
+	}
+
 	public MulticolumnAtom(int n, String align, Atom cols) {
 		this.n = n >= 1 ? n : 1;
 		this.cols = cols;
 		this.align = parseAlign(align);
+	}
+
+	protected MulticolumnAtom() {
 	}
 
 	public void setWidth(double w) {

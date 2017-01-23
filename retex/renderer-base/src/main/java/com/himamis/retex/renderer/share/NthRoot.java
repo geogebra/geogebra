@@ -61,6 +61,11 @@ public class NthRoot extends Atom {
 	// root atom to be put in the upper left corner above the root sign
 	private final Atom root;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new NthRoot(base, root));
+	}
+
 	public NthRoot(Atom base, Atom root) {
 		this.base = base == null ? new EmptyAtom() : base;
 		this.root = root == null ? new EmptyAtom() : root;

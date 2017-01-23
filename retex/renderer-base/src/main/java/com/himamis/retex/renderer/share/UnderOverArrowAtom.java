@@ -50,19 +50,33 @@ package com.himamis.retex.renderer.share;
  */
 public class UnderOverArrowAtom extends Atom {
 
-	private Atom base;
-	private boolean over, left = false, dble = false;
+	private final Atom base;
+	private final boolean over, left, dble;
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(new UnderOverArrowAtom(base, left, over, dble));
+	}
 
 	public UnderOverArrowAtom(Atom base, boolean left, boolean over) {
 		this.base = base;
 		this.left = left;
 		this.over = over;
+		this.dble = false;
+	}
+
+	private UnderOverArrowAtom(Atom base, boolean left, boolean over, boolean dble) {
+		this.base = base;
+		this.left = left;
+		this.over = over;
+		this.dble = dble;
 	}
 
 	public UnderOverArrowAtom(Atom base, boolean over) {
 		this.base = base;
 		this.over = over;
 		this.dble = true;
+		this.left = false;
 	}
 
 	@Override

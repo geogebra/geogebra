@@ -54,9 +54,32 @@ public class HdotsforAtom extends MulticolumnAtom {
 	private static final Atom thin = new SpaceAtom(TeXConstants.THINMUSKIP);
 	private double coeff;
 
+	@Override
+	final public Atom duplicate() {
+		
+		HdotsforAtom ret = new HdotsforAtom();
+		
+		ret.n = n;
+		ret.align = align;
+		ret.w = w;
+		ret.cols = cols;
+		ret.beforeVlines = beforeVlines;
+		ret.afterVlines = afterVlines;
+		ret.row = row;
+		ret.col = col;
+		
+		ret.coeff = coeff;
+
+		return setFields(ret);
+	}
+
 	public HdotsforAtom(int n, double coeff) {
 		super(n, "c", ldotp);
 		this.coeff = coeff;
+	}
+
+	private HdotsforAtom() {
+		super();
 	}
 
 	@Override

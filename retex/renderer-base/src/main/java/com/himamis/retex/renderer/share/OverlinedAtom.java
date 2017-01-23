@@ -54,6 +54,11 @@ public class OverlinedAtom extends Atom {
 	// base atom to be overlined
 	private final Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new OverlinedAtom(base));
+	}
+
 	public OverlinedAtom(Atom f) {
 		base = f;
 		type = TeXConstants.TYPE_ORDINARY;

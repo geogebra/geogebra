@@ -48,7 +48,12 @@ package com.himamis.retex.renderer.share;
 /**
  * An empty atom.
  */
-public class EmptyAtom extends Atom {
+final public class EmptyAtom extends Atom {
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(new EmptyAtom());
+	}
 
 	public EmptyAtom() {
 	}

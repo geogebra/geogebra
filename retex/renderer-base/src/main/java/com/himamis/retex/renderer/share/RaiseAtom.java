@@ -54,6 +54,11 @@ public class RaiseAtom extends Atom {
 	private int runit, hunit, dunit;
 	private double r, h, d;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new RaiseAtom(base, runit, r, hunit, h, dunit, d));
+	}
+
 	public RaiseAtom(Atom base, int runit, double r, int hunit, double h, int dunit, double d) {
 		this.base = base;
 		this.runit = runit;

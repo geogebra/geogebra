@@ -74,6 +74,17 @@ public class SymbolAtom extends CharSymbol {
 
 	private char unicode;
 
+	@Override
+	final public Atom duplicate() {
+		SymbolAtom ret = new SymbolAtom(name, delimiter);
+		
+		ret.unicode = unicode;
+		
+		ret.textSymbol = textSymbol;
+		
+		return setFields(ret);
+	}
+
 	static {
 		symbols = new TeXSymbolParser().readSymbols();
 
@@ -119,6 +130,11 @@ public class SymbolAtom extends CharSymbol {
 		}
 
 		delimiter = del;
+	}
+
+	public SymbolAtom(String name, boolean delimiter) {
+		this.delimiter = delimiter;
+		this.name = name;
 	}
 
 	public SymbolAtom setUnicode(char c) {

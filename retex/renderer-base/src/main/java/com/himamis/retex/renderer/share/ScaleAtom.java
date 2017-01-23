@@ -51,7 +51,12 @@ package com.himamis.retex.renderer.share;
 public class ScaleAtom extends Atom {
 
 	protected Atom base;
-	private double xscl, yscl;
+	protected double xscl, yscl;
+
+	@Override
+	public Atom duplicate() {
+		return setFields(new ScaleAtom(base, xscl, yscl));
+	}
 
 	public ScaleAtom(Atom base, double xscl, double yscl) {
 		this.type = base.type;

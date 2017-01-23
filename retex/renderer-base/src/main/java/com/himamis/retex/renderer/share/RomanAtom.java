@@ -52,6 +52,11 @@ public class RomanAtom extends Atom {
 
 	protected Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new RomanAtom(base));
+	}
+
 	public RomanAtom(Atom base) {
 		this.base = base;
 	}

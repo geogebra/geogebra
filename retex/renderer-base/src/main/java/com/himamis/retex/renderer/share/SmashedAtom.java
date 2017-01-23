@@ -53,6 +53,17 @@ public class SmashedAtom extends Atom {
 	private Atom at;
 	private boolean h = true, d = true;
 
+	@Override
+	final public Atom duplicate() {
+		SmashedAtom ret = new SmashedAtom();
+		
+		ret.at = at;
+		ret.h = h;
+		ret.d = d;
+		
+		return setFields(ret);
+	}
+
 	public SmashedAtom(Atom at, String opt) {
 		this.at = at;
 		if ("t".equals(opt)) {
@@ -60,6 +71,10 @@ public class SmashedAtom extends Atom {
 		} else if ("b".equals(opt)) {
 			h = false;
 		}
+	}
+
+	private SmashedAtom() {
+		// empty
 	}
 
 	@Override

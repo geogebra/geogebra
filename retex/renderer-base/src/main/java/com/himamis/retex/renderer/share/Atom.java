@@ -72,7 +72,7 @@ public abstract class Atom implements Cloneable {
 	public int type_limits = TeXConstants.SCRIPT_NOLIMITS;
 
 	public int alignment = -1;
-
+	
 	/**
 	 * Convert this atom into a {@link Box}, using properties set by "parent" atoms, like the TeX
 	 * style, the last used font, color settings, ...
@@ -106,11 +106,19 @@ public abstract class Atom implements Cloneable {
 		return type;
 	}
 	
-	public Atom clone() {
-		try {
-			return (Atom) super.clone();
-		} catch (Exception e) {
-			return null;
-		}
+	public abstract Atom duplicate();
+	
+	/**
+	 * used by duplicate()
+	 */
+	final protected Atom setFields(Atom atom) {
+		atom.type = type;
+		atom.type_limits = type_limits;
+		atom.alignment = alignment;
+		
+		return atom;
 	}
+
+
+
 }

@@ -52,7 +52,11 @@ public class RuleAtom extends Atom {
 
 	private int wunit, hunit, runit;
 	private double w, h, r;
-	private SpaceAtom width, height, raise;
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(new RuleAtom(wunit, w, hunit, h, runit, r));
+	}
 
 	public RuleAtom(int wunit, double width, int hunit, double height, int runit, double raise) {
 		this.wunit = wunit;

@@ -50,7 +50,12 @@ import com.himamis.retex.renderer.share.character.Character;
 /**
  * An atom representing whitespace. The dimension values can be set using different unit types.
  */
-public class LaTeXAtom extends Atom {
+final public class LaTeXAtom extends Atom {
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(new LaTeXAtom());
+	}
 
 	public LaTeXAtom() {
 	}

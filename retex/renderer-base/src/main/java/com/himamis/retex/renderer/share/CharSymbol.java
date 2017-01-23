@@ -56,7 +56,7 @@ public abstract class CharSymbol extends Atom {
 	 * Mrow will mark certain CharSymbol atoms as a text symbol. Msubsup wil use this property for a
 	 * certain spacing rule.
 	 */
-	private boolean textSymbol = false;
+	protected boolean textSymbol = false;
 
 	/**
 	 * Mark as text symbol (used by Dummy)

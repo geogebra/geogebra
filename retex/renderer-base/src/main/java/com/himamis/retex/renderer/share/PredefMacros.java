@@ -766,19 +766,19 @@ public class PredefMacros {
 	public static final Atom nolimits_macro(final TeXParser tp) throws ParseException {
 		Atom at = tp.getLastAtom();
 		at.type_limits = TeXConstants.SCRIPT_NOLIMITS;
-		return at.clone();
+		return at.duplicate();
 	}
 
 	public static final Atom limits_macro(final TeXParser tp) throws ParseException {
 		Atom at = tp.getLastAtom();
 		at.type_limits = TeXConstants.SCRIPT_LIMITS;
-		return at.clone();
+		return at.duplicate();
 	}
 
 	public static final Atom normal_macro(final TeXParser tp) throws ParseException {
 		Atom at = tp.getLastAtom();
 		at.type_limits = TeXConstants.SCRIPT_NORMAL;
-		return at.clone();
+		return at.duplicate();
 	}
 
 	public static final Atom left_macro(final TeXParser tp, final String[] args) throws ParseException {
@@ -1914,19 +1914,19 @@ public class PredefMacros {
 	}
 
 	public static final Atom int_macro() throws ParseException {
-		Atom integral = SymbolAtom.get("int").clone();
+		Atom integral = SymbolAtom.get("int").duplicate();
 		integral.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		return integral;
 	}
 
 	public static final Atom oint_macro() throws ParseException {
-		Atom integral = SymbolAtom.get("oint").clone();
+		Atom integral = SymbolAtom.get("oint").duplicate();
 		integral.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		return integral;
 	}
 
 	public static final Atom iint_macro() throws ParseException {
-		Atom integral = SymbolAtom.get("int").clone();
+		Atom integral = SymbolAtom.get("int").duplicate();
 		integral.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		RowAtom ra = new RowAtom(integral);
 		ra.add(new SpaceAtom(TeXConstants.UNIT_MU, -6f, 0f, 0f));
@@ -1936,7 +1936,7 @@ public class PredefMacros {
 	}
 
 	public static final Atom iiint_macro() throws ParseException {
-		Atom integral = SymbolAtom.get("int").clone();
+		Atom integral = SymbolAtom.get("int").duplicate();
 		integral.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		RowAtom ra = new RowAtom(integral);
 		ra.add(new SpaceAtom(TeXConstants.UNIT_MU, -6f, 0f, 0f));
@@ -1948,7 +1948,7 @@ public class PredefMacros {
 	}
 
 	public static final Atom iiiint_macro() throws ParseException {
-		Atom integral = SymbolAtom.get("int").clone();
+		Atom integral = SymbolAtom.get("int").duplicate();
 		integral.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		RowAtom ra = new RowAtom(integral);
 		ra.add(new SpaceAtom(TeXConstants.UNIT_MU, -6f, 0f, 0f));
@@ -1962,7 +1962,7 @@ public class PredefMacros {
 	}
 
 	public static final Atom idotsint_macro() throws ParseException {
-		Atom integral = SymbolAtom.get("int").clone();
+		Atom integral = SymbolAtom.get("int").duplicate();
 		integral.type_limits = TeXConstants.SCRIPT_NOLIMITS;
 		RowAtom ra = new RowAtom(integral);
 		ra.add(new SpaceAtom(TeXConstants.UNIT_MU, -1f, 0f, 0f));
@@ -1979,14 +1979,14 @@ public class PredefMacros {
 
 	public static final Atom lmoustache_macro() throws ParseException {
 		Atom at = new BigDelimiterAtom(
-				(SymbolAtom) SymbolAtom.get("lmoustache").clone(), 1);
+				(SymbolAtom) SymbolAtom.get("lmoustache").duplicate(), 1);
 		at.type = TeXConstants.TYPE_OPENING;
 		return at;
 	}
 
 	public static final Atom rmoustache_macro() throws ParseException {
 		Atom at = new BigDelimiterAtom(
-				(SymbolAtom) SymbolAtom.get("rmoustache").clone(), 1);
+				(SymbolAtom) SymbolAtom.get("rmoustache").duplicate(), 1);
 		at.type = TeXConstants.TYPE_CLOSING;
 		return at;
 	}

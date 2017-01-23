@@ -66,6 +66,11 @@ public class BigOperatorAtom extends Atom {
 	// whether limits should be drawn over and under the base (<-> as scripts)
 	private boolean limits = false;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new BigOperatorAtom(base, under, over, limits, limitsSet));
+	}
+
 	/**
 	 * Creates a new BigOperatorAtom from the given atoms. The default rules the positioning of the
 	 * limits will be applied.
@@ -94,6 +99,11 @@ public class BigOperatorAtom extends Atom {
 		this(base, under, over);
 		this.limits = limits;
 		limitsSet = true;
+	}
+
+	private BigOperatorAtom(Atom base, Atom under, Atom over, boolean limits, boolean limitsSet) {
+		this(base, under, over, limits);
+		this.limitsSet = limitsSet;
 	}
 
 	@Override

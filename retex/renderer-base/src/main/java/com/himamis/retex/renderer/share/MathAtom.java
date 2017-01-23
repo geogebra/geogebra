@@ -53,6 +53,11 @@ public class MathAtom extends Atom {
 	private int style = TeXConstants.STYLE_DISPLAY;
 	protected Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new MathAtom(base, style));
+	}
+
 	public MathAtom(Atom base, int style) {
 		this.base = base;
 		this.style = style;

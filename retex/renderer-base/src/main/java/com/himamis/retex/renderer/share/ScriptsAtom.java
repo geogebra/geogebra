@@ -64,6 +64,11 @@ public class ScriptsAtom extends Atom {
 	private final Atom superscript;
 	private int align = TeXConstants.ALIGN_LEFT;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new ScriptsAtom(base, subscript, superscript, align == TeXConstants.ALIGN_LEFT));
+	}
+
 	public ScriptsAtom(Atom base, Atom sub, Atom sup) {
 		this.base = base;
 		subscript = sub;

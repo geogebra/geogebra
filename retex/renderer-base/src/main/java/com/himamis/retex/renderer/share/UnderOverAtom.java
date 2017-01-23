@@ -71,6 +71,15 @@ public class UnderOverAtom extends Atom {
 	private final boolean underScriptSize;
 	private final boolean overScriptSize;
 
+	@Override
+	final public Atom duplicate() {
+		UnderOverAtom ret = new UnderOverAtom(base, under, over, underSpace,
+				overSpace, overUnit, underScriptSize, overScriptSize);
+		
+		
+		return setFields(ret);
+	}
+
 	public UnderOverAtom(Atom base, Atom underOver, int underOverUnit, double underOverSpace,
 			boolean underOverScriptSize, boolean over) {
 		// check if unit is valid
@@ -106,6 +115,19 @@ public class UnderOverAtom extends Atom {
 		SpaceAtom.checkUnit(overUnit);
 
 		// units valid
+		this.base = base;
+		this.under = under;
+		this.underSpace = underSpace;
+		this.underScriptSize = underScriptSize;
+		this.over = over;
+		this.overUnit = overUnit;
+		this.overSpace = overSpace;
+		this.overScriptSize = overScriptSize;
+	}
+
+	public UnderOverAtom(Atom base, Atom under, Atom over, double underSpace,
+			double overSpace, int overUnit, boolean underScriptSize,
+			boolean overScriptSize) {
 		this.base = base;
 		this.under = under;
 		this.underSpace = underSpace;

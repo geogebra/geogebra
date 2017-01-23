@@ -55,6 +55,19 @@ public class ResizeAtom extends Atom {
 	private double w, h;
 	private boolean keepaspectratio;
 
+	@Override
+	final public Atom duplicate() {
+		ResizeAtom ret = new ResizeAtom();
+		ret.base = base;
+		ret.wunit = wunit;
+		ret.hunit = hunit;
+		ret.w=w;
+		ret.h=h;
+		ret.keepaspectratio = keepaspectratio;
+		
+		return setFields(ret);
+	}
+
 	public ResizeAtom(Atom base, String ws, String hs, boolean keepaspectratio) {
 		this.type = base.type;
 		this.base = base;
@@ -73,6 +86,10 @@ public class ResizeAtom extends Atom {
 			this.hunit = (int) h[0];
 			this.h = h[1];
 		}
+	}
+
+	public ResizeAtom() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

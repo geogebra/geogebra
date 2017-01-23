@@ -53,6 +53,11 @@ public class BigDelimiterAtom extends Atom {
 	public SymbolAtom delim;
 	private int size;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new BigDelimiterAtom(delim, size));
+	}
+	
 	public BigDelimiterAtom(SymbolAtom delim, int size) {
 		this.delim = delim;
 		this.size = size;

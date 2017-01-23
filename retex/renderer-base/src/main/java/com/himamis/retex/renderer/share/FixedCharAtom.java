@@ -53,8 +53,18 @@ public class FixedCharAtom extends CharSymbol {
 
 	private final CharFont cf;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new FixedCharAtom(cf, textSymbol));
+	}
+
 	public FixedCharAtom(CharFont c) {
 		cf = c;
+	}
+
+	public FixedCharAtom(CharFont cf, boolean textSymbol) {
+		this.cf = cf;
+		this.textSymbol = textSymbol;
 	}
 
 	@Override

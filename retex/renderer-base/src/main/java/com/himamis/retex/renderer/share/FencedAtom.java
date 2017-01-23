@@ -69,6 +69,11 @@ public class FencedAtom extends Atom {
 	private SymbolAtom right = null;
 	private final List<MiddleAtom> middle;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new FencedAtom(base, left, middle, right));
+	}
+
 	/**
 	 * Creates a new FencedAtom from the given base and delimiters
 	 *

@@ -60,11 +60,11 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 @SuppressWarnings("javadoc")
 public class MatrixAtom extends Atom {
 
-	public static SpaceAtom hsep = new SpaceAtom(TeXConstants.UNIT_EM, 1f, 0.0f, 0.0f);
-	public static SpaceAtom semihsep = new SpaceAtom(TeXConstants.UNIT_EM, 0.5f, 0.0f, 0.0f);
-	public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1f, 0.0f);
-	public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
-	public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
+	final public static SpaceAtom hsep = new SpaceAtom(TeXConstants.UNIT_EM, 1f, 0.0f, 0.0f);
+	final public static SpaceAtom semihsep = new SpaceAtom(TeXConstants.UNIT_EM, 0.5f, 0.0f, 0.0f);
+	final public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1f, 0.0f);
+	final public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
+	final public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
 
 	public static final int ARRAY = 0;
 	public static final int MATRIX = 1;
@@ -85,7 +85,21 @@ public class MatrixAtom extends Atom {
 	private ArrayList<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
 	private ArrayList<Color> colors = new ArrayList<Color>();
 
-	private static SpaceAtom align = new SpaceAtom(TeXConstants.MEDMUSKIP);
+	final private static SpaceAtom align = new SpaceAtom(TeXConstants.MEDMUSKIP);
+
+	@Override
+	final public Atom duplicate() {
+		MatrixAtom ret = new MatrixAtom();
+		ret.matrix = matrix;
+		ret.position = position;
+		ret.vlines = vlines;
+		ret.isPartial = isPartial;
+		ret.spaceAround = spaceAround;
+		ret.rectangles = rectangles;
+		ret.colors = colors;
+		
+		return setFields(ret);
+	}
 
 	/**
 	 * Creates an empty matrix
@@ -159,6 +173,9 @@ public class MatrixAtom extends Atom {
 
 	public MatrixAtom(ArrayOfAtoms array, int type) {
 		this(false, array, type);
+	}
+
+	private MatrixAtom() {
 	}
 
 	private void parsePositions(StringBuilder opt) {

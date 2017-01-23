@@ -54,6 +54,11 @@ public class XArrowAtom extends Atom {
 	private Atom over, under;
 	private boolean left;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new XArrowAtom(over, under, left));
+	}
+
 	public XArrowAtom(Atom over, Atom under, boolean left) {
 		this.over = over;
 		this.under = under;

@@ -52,6 +52,11 @@ public class CedillaAtom extends Atom {
 
 	private Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new CedillaAtom(base));
+	}
+
 	public CedillaAtom(Atom base) {
 		this.base = base;
 	}

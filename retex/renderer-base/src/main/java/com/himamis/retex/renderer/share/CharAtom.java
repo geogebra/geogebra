@@ -58,6 +58,11 @@ public class CharAtom extends CharSymbol {
 	// text style (null means the default text style)
 	private String textStyle;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new CharAtom(c, textStyle, textSymbol));
+	}
+
 	/**
 	 * Creates a CharAtom that will represent the given character in the given text style. Null for
 	 * the text style means the default text style.
@@ -68,6 +73,11 @@ public class CharAtom extends CharSymbol {
 	public CharAtom(char c, String textStyle) {
 		this.c = c;
 		this.textStyle = textStyle;
+	}
+
+	public CharAtom(char c, String textStyle, boolean textSymbol) {
+		this(c, textStyle);
+		this.textSymbol = textSymbol;
 	}
 
 	@Override

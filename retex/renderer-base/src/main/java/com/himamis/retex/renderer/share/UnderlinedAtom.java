@@ -54,6 +54,11 @@ class UnderlinedAtom extends Atom {
 	// the base to be underlined
 	private final Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new UnderlinedAtom(base));
+	}
+
 	public UnderlinedAtom(Atom f) {
 		base = f;
 		type = TeXConstants.TYPE_ORDINARY; // for spacing rules

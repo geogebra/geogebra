@@ -50,6 +50,11 @@ package com.himamis.retex.renderer.share;
  */
 public class DdotsAtom extends Atom {
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new DdotsAtom());
+	}
+
 	public DdotsAtom() {
 	}
 

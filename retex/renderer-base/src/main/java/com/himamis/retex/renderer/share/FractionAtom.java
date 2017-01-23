@@ -74,6 +74,11 @@ public class FractionAtom extends Atom {
 	// whether the "defFactor" value should be used
 	private boolean defFactorSet = false;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new FractionAtom(numerator, denominator, unit, thickness, numAlign, denomAlign, defFactor, defFactorSet, noDefault));
+	}
+
 	/**
 	 * Uses the default thickness for the fraction line
 	 *
@@ -174,6 +179,15 @@ public class FractionAtom extends Atom {
 	 */
 	public FractionAtom(Atom num, Atom den, int unit, double t) {
 		this(num, den, true, unit, t);
+	}
+
+	private FractionAtom(Atom numerator, Atom denominator, int unit, double thickness, int numAlign,
+			int denomAlign, double defFactor, boolean defFactorSet, boolean noDefault) {
+		this(numerator, denominator, unit, thickness, numAlign,	denomAlign);
+		this.defFactor = defFactor;
+		this.defFactorSet = defFactorSet;
+		this.noDefault = noDefault;
+		
 	}
 
 	// Checks if the alignment constant is valid.

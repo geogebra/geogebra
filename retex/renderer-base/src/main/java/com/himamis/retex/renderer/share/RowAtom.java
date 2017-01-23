@@ -66,11 +66,11 @@ public class RowAtom extends Atom implements Row {
 	private Dummy previousAtom = null;
 
 	// set of atom types that make a previous bin atom change to ord
-	private static BitSet binSet;
+	final private static BitSet binSet;
 
 	// set of atom types that can possibly need a kern or, together with the
 	// previous atom, be replaced by a ligature
-	private static BitSet ligKernSet;
+	final private static BitSet ligKernSet;
 
 	static {
 		// fill binSet
@@ -90,6 +90,17 @@ public class RowAtom extends Atom implements Row {
 		ligKernSet.setBit(TeXConstants.TYPE_OPENING);
 		ligKernSet.setBit(TeXConstants.TYPE_CLOSING);
 		ligKernSet.setBit(TeXConstants.TYPE_PUNCTUATION);
+	}
+
+	@Override
+	final public Atom duplicate() {
+		RowAtom ret = new RowAtom();
+		
+		ret.elements = elements;
+		ret.lookAtLastAtom = lookAtLastAtom;
+		ret.previousAtom = previousAtom;
+		
+		return setFields(ret);
 	}
 
 	protected RowAtom() {

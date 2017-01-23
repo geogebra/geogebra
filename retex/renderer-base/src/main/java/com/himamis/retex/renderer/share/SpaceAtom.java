@@ -192,6 +192,22 @@ public class SpaceAtom extends Atom {
 	private int hUnit;
 	private int dUnit;
 
+	@Override
+	final public Atom duplicate() {
+		SpaceAtom ret = new SpaceAtom();
+		
+		ret.blankSpace = blankSpace;
+		ret.blankType = blankType;
+		ret.width = width;
+		ret.height = height;
+		ret.depth = depth;
+		ret.wUnit = wUnit;
+		ret.hUnit = hUnit;
+		ret.dUnit = dUnit;
+		
+		return setFields(ret);
+	}
+
 	public SpaceAtom() {
 		blankSpace = true;
 	}

@@ -66,10 +66,15 @@ public class ColorAtom extends Atom implements Row {
 	private final Color color;
 
 	// RowAtom for which the colorsettings apply
-	private final RowAtom elements;
+	protected final RowAtom elements;
 
 	static {
 		initColors();
+	}
+
+	@Override
+	public Atom duplicate() {
+		return setFields(new ColorAtom(elements, background, color));
 	}
 
 	/**
@@ -127,6 +132,14 @@ public class ColorAtom extends Atom implements Row {
 	@Override
 	public void setPreviousAtom(Dummy prev) {
 		elements.setPreviousAtom(prev);
+	}
+
+	protected Color getColor() {
+		return color;
+	}
+
+	protected Color getBackground() {
+		return color;
 	}
 
 	public static Color getColor(String s) {

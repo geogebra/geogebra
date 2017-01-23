@@ -67,6 +67,11 @@ public class OverUnderDelimiter extends Atom {
 	// whether the delimiter should be positioned above or under the base
 	private final boolean over;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new OverUnderDelimiter(base, script,symbol, kern, over));
+	}
+
 	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s, int kernUnit, double kern, boolean over)
 			throws InvalidUnitException {
 		type = TeXConstants.TYPE_INNER;
@@ -74,6 +79,16 @@ public class OverUnderDelimiter extends Atom {
 		this.script = script;
 		symbol = s;
 		this.kern = new SpaceAtom(kernUnit, 0, kern, 0);
+		this.over = over;
+	}
+
+	private OverUnderDelimiter(Atom base, Atom script, SymbolAtom s, SpaceAtom kern, boolean over)
+			throws InvalidUnitException {
+		type = TeXConstants.TYPE_INNER;
+		this.base = base;
+		this.script = script;
+		symbol = s;
+		this.kern = kern;
 		this.over = over;
 	}
 

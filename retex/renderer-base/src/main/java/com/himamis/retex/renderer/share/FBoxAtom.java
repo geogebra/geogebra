@@ -52,11 +52,16 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class FBoxAtom extends Atom {
 
-	public double INTERSPACE = 0.65;
+	final public double INTERSPACE = 0.65;
 
 	// base atom
 	protected final Atom base;
 	protected Color bg = null, line = null;
+
+	@Override
+	public Atom duplicate() {
+		return setFields(new FBoxAtom(base, bg, line));
+	}
 
 	public FBoxAtom(Atom base) {
 		if (base == null) {

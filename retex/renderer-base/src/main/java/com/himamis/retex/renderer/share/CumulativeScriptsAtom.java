@@ -54,6 +54,11 @@ public class CumulativeScriptsAtom extends Atom {
 	private RowAtom sup;
 	private RowAtom sub;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new CumulativeScriptsAtom(base, sub, sup));
+	}
+
 	public CumulativeScriptsAtom(Atom base, Atom sub, Atom sup) {
 		super();
 		if (base instanceof CumulativeScriptsAtom) {

@@ -52,6 +52,11 @@ public class SmallCapAtom extends Atom {
 
 	protected Atom base;
 
+	@Override
+	final public Atom duplicate() {
+		return setFields(new SmallCapAtom(base));
+	}
+
 	public SmallCapAtom(Atom base) {
 		this.base = base;
 	}
