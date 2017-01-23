@@ -387,7 +387,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						wireFrameStepU--;
 						uMax -= uStep;
 					}
-					uMin = uBorderMin;
+					// uMin = uBorderMin;
 				} else {
 					double factor = uN * uStep / uDelta;
 					if (factor > 1) {
@@ -406,7 +406,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					uMax = Math.floor(uBorderMax / uStep) * uStep;
 					uMin = Math.ceil(uBorderMin / uStep) * uStep;
 					uDelta = uMax - uMin;
-					double ratio = uDelta / uStep;
 					int ratioInt = (int) Math.ceil(uDelta / uStep);
 					uN = (ratioInt + 1) * wireFrameStepU + 1;
 					// delta has to widened a bit to start at a correct tick
@@ -431,7 +430,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						wireFrameStepV--;
 						vMax -= vStep;
 					}
-					vMin = vBorderMin;
+					// vMin = vBorderMin;
 				} else {
 					double factor = vN * vStep / vDelta;
 					if (factor > 1) {
