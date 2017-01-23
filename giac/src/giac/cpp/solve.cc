@@ -6017,8 +6017,12 @@ namespace giac {
 	      eq.erase(eq.begin()+i);
 	      for (unsigned j=0;j<sol.size();++j){
 		gen eq1=subst(eq,curvar,sol[j],false,contextptr),tmp;
-		if (eq1.type==_VECT && eq1._VECTptr->size()==1 && var.size()==1)
-		  tmp=solve(eq1._VECTptr->front(),var.front(),complexmode,contextptr);
+		if (var.size()==1){
+		  if (eq1.type==_VECT && eq1._VECTptr->size()==1)
+		    tmp=solve(eq1._VECTptr->front(),var.front(),complexmode,contextptr);
+		  else
+		    tmp=solve(eq1,var.front(),complexmode,contextptr);
+		}
 		else
 		  tmp=solve(eq1,var,complexmode,contextptr);
 		if (tmp.type==_VECT){
