@@ -2047,10 +2047,10 @@ namespace giac {
     if (!has_op(g,u))
       return vecteur(0);
     if (g.type==_SYMB) {
+      vecteur vrec=lop(g._SYMBptr->feuille,u);
       if (g._SYMBptr->sommet==u) 
-	return vecteur(1,g);
-      else
-	return lop(g._SYMBptr->feuille,u);
+	vrec.push_back(g);
+      return vrec;
     }
     if (g.type!=_VECT)
       return vecteur(0);
@@ -2066,10 +2066,10 @@ namespace giac {
     if (!has_op(g,*u))
       return vecteur(0);
     if (g.type==_SYMB) {
+      vecteur vrec=lop(g._SYMBptr->feuille,u);
       if (g._SYMBptr->sommet==u) 
-	return vecteur(1,g);
-      else
-	return lop(g._SYMBptr->feuille,u);
+	vrec.push_back(g);
+      return vrec;
     }
     if (g.type!=_VECT)
       return vecteur(0);

@@ -2026,9 +2026,20 @@ namespace giac {
     vecteur res;
     vecteur::const_iterator it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
-      // remove of if function is x
-      if (it->is_symb_of_sommet(at_of) && it->_SYMBptr->feuille[0]==x)
-	continue;
+      // remove at_of if the function of of is x
+      if (it->is_symb_of_sommet(at_of)){
+	gen g=it->_SYMBptr->feuille[0];
+	if (contains(g,x))
+	  continue;
+	vecteur l=lop(it->_SYMBptr->feuille[1],at_of);
+	int i;
+	for (i=0;i<l.size();++i){
+	  if (contains(l[i]._SYMBptr->feuille[0],x))
+	    break;
+	}
+	if (i<l.size())
+	  continue;
+      }
       // remove ^ if exponent does not depend on x
       if ( (it->type==_SYMB) 
 	   && ( (it->_SYMBptr->sommet==at_pow && !contains((*(it->_SYMBptr->feuille._VECTptr))[1],x)) ||
