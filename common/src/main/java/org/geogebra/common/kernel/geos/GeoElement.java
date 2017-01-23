@@ -5345,15 +5345,17 @@ public abstract class GeoElement extends ConstructionElement
 
 				String str = ((GeoText) geo).getTextString();
 
-				if (!StringUtil.containsLaTeX(str)) {
-					sb.append("\\text");
+				boolean containsLaTeX = StringUtil.containsLaTeX(str);
+				if (!containsLaTeX) {
+					sb.append("\\text{");
 				}
 
-				sb.append("{");
 				sb.append(Unicode.OPEN_DOUBLE_QUOTE);
 				sb.append(((GeoText) geo).getTextString());
 				sb.append(Unicode.CLOSE_DOUBLE_QUOTE);
-				sb.append("}");
+				if (!containsLaTeX) {
+					sb.append("}");
+				}
 			}
 		}
 

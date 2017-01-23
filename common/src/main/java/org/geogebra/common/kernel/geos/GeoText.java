@@ -391,10 +391,9 @@ public class GeoText extends GeoElement
 		} else if (printForm.equals(StringType.LATEX)) {
 
 			if (!StringUtil.containsLaTeX(str)) {
-				sbToString.append("\\text");
+				sbToString.append("\\text{");
 			}
 
-			sbToString.append("{");
 			sbToString.append(Unicode.OPEN_DOUBLE_QUOTE);
 
 		} else {
@@ -409,7 +408,9 @@ public class GeoText extends GeoElement
 			sbToString.append("}");
 		} else if (printForm.equals(StringType.LATEX)) {
 			sbToString.append(Unicode.CLOSE_DOUBLE_QUOTE);
-			sbToString.append("}");
+			if (!StringUtil.containsLaTeX(str)) {
+				sbToString.append("}");
+			}
 		} else {
 			sbToString.append('\"');
 		}
