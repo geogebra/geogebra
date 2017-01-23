@@ -251,7 +251,7 @@ public class GeneralPathClipped implements GShape {
 	 *            y-coord
 	 */
 	final public void moveTo(double x, double y) {
-		addPoint(x, y, false);
+		addPoint(x, y, SegmentType.MOVE_TO);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public class GeneralPathClipped implements GShape {
 	 *            y-coord
 	 */
 	final public void lineTo(double x, double y) {
-		addPoint(x, y, true);
+		addPoint(x, y, SegmentType.LINE_TO);
 	}
 
 	/**
@@ -293,13 +293,12 @@ public class GeneralPathClipped implements GShape {
 	/**
 	 * Adds point to point list and keeps track of largest coordinate.
 	 */
-	private void addPoint(double x, double y, boolean lineTo) {
+	private void addPoint(double x, double y, SegmentType segmentType) {
 		if (Double.isNaN(y)) {
 			return;
 		}
 
-		MyPoint p = new MyPoint(x, y, lineTo ? SegmentType.LINE_TO
-				: SegmentType.MOVE_TO);
+		MyPoint p = new MyPoint(x, y, segmentType);
 		updateBounds(p);
 		pathPoints.add(p);
 	}

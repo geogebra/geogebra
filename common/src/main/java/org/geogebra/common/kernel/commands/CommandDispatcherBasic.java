@@ -262,6 +262,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdDefined(kernel);
 		case Spline:
 			return new CmdSpline(kernel);
+			// case RoundedPolygon:
+			// return new CmdRoundedPolygon(kernel);
 		// case Nyquist:
 		// return new CmdNyquist(kernel);
 		case FormulaText:

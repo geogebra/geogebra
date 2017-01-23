@@ -1135,7 +1135,9 @@ public enum Commands implements CommandsConstants,
 
 	TrigSimplify(TABLE_FUNCTION),
 
-	TrigCombine(TABLE_FUNCTION);
+	TrigCombine(TABLE_FUNCTION),
+
+	RoundedPolygon(TABLE_ENGLISH);
 
 	private int table;
 

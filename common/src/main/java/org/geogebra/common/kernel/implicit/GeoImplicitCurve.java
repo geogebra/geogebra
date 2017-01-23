@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -731,9 +732,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 								- constant / xx, 1)) {
 
 					// add single point to locus
-					locus.insertPoint(px, py, false);
-					locus.insertPoint(px, py, true);
-					locus.insertPoint(px, py, false);
+					locus.insertPoint(px, py, SegmentType.MOVE_TO);
+					locus.insertPoint(px, py, SegmentType.LINE_TO);
+					locus.insertPoint(px, py, SegmentType.MOVE_TO);
 
 					Log.trace("Point (" + px + "," + py + ") inserted.");
 				}

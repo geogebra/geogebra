@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -329,7 +330,8 @@ public class AlgoLocusList extends AlgoElement {
 
 		// Application.debug("insertPoint: " + x + ", " + y + ", lineto: " +
 		// lineTo);
-		locus.insertPoint(x, y, lineTo);
+		locus.insertPoint(x, y, lineTo ? SegmentType.LINE_TO
+				: SegmentType.MOVE_TO);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -49,7 +50,8 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 		// Application.debug("insertPoint: " + x + ", " + y + ", lineto: " +
 		// lineTo);
-		((GeoLocus) locus).insertPoint(x, y, lineTo);
+		((GeoLocus) locus).insertPoint(x, y, lineTo ? SegmentType.LINE_TO
+				: SegmentType.MOVE_TO);
 		lastX = x;
 		lastY = y;
 		for (int i = 0; i < lastFarAway.length; i++) {

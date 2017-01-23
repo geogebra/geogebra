@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.Cloner;
@@ -662,13 +663,14 @@ public class CurvePlotter {
 
 		for (int i = 0; i < size; i++) {
 			MyPoint p = pointList.get(i);
-
 			// don't add infinite points
 			// otherwise hit-testing doesn't work
 			if (p.isFinite()) {
 				if (gp.copyCoords(p, coords, transformSys)) {
-
-					if (p.getLineTo() && !linetofirst) {
+					if (p.getSegmentType() == SegmentType.ARC_TO
+							&& !linetofirst) {
+						gp.lineTo(coords);
+					} else if (p.getLineTo() && !linetofirst) {
 						gp.lineTo(coords);
 					} else {
 						gp.moveTo(coords);
