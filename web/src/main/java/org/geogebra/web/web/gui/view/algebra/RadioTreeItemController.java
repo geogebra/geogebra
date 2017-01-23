@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.debug.Log;
@@ -191,6 +192,10 @@ public class RadioTreeItemController
 
 		Log.debug("[xx] mouseDown");
 
+		if (app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW)){
+			((AppW)app).getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_ALGEBRA);
+		}
+		
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
