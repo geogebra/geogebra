@@ -17,6 +17,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * adapted from PointStyleListRenderer
  * 
@@ -66,6 +68,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
@@ -83,29 +87,31 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		g2.setPaint(Color.BLACK);
 
 		g2.setStroke(borderStroke);
+
+		// line (represents the axis)
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
+		g2.draw(tempLine);
+
 		switch (style) {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
 
-			rightArrow(g2);
-			break;
-
-
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-		default:
 			leftArrow(g2);
+
+			// $FALL_THROUGH$
+		default:
+		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
 			rightArrow(g2);
 			break;
 
 		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
 			// just a line
-			tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
-			g2.draw(tempLine);
+			// do nothing
 			break;
+
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
 
 			filledLeftArrow(g2);
-			filledRightArrow(g2);
-			break;
+			// $FALL_THROUGH$
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
 
 			filledRightArrow(g2);
@@ -114,9 +120,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	private void filledLeftArrow(Graphics2D g2) {
-		// left arrow (filled)
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
-		g2.draw(tempLine);
 
 		gp.reset();
 		gp.moveTo(0, IMG_HEIGHT / 2.0);
@@ -128,9 +131,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	private void filledRightArrow(Graphics2D g2) {
-		// right-arrow (filled)
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
-		g2.draw(tempLine);
 
 		gp.reset();
 		gp.moveTo(IMG_WIDTH, IMG_HEIGHT / 2.0);
@@ -142,6 +142,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	private void rightArrow(Graphics2D g2) {
+
 		tempLine.setLine(IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize,
 				IMG_HEIGHT / 2.0 + arrowSize);
 		g2.draw(tempLine);
@@ -153,9 +154,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	private void leftArrow(Graphics2D g2) {
-		// left arrow
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, IMG_WIDTH, IMG_HEIGHT / 2.0);
-		g2.draw(tempLine);
 
 		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
 				IMG_HEIGHT / 2.0 + arrowSize);
