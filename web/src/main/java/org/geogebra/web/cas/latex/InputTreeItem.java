@@ -466,7 +466,6 @@ public class InputTreeItem extends MathQuillTreeItem
 				tim.schedule(500);
 			}
 		}
-		createErrorLabel();
 	}
 
 	/**

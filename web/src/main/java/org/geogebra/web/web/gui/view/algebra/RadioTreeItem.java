@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -38,6 +40,9 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -123,6 +128,51 @@ public abstract class RadioTreeItem extends AVTreeItem
 	/** Item controls like delete, play, etc */
 	protected ItemControls controls;
 
+	protected Canvas canvas;
+	private Canvas valCanvas;
+
+	String commandError;
+
+	protected String errorMessage;
+
+	protected String lastInput;
+
+	protected GeoElement geo;
+	protected Kernel kernel;
+	protected AppW app;
+	protected AlgebraView av;
+	protected boolean latex = false;
+
+	public FlowPanel latexItem;
+	private FlowPanel plainTextItem;
+
+	// GTextBox tb;
+	private boolean needsUpdate;
+
+	/** Clears input only when editing */
+	protected PushButton btnClearInput;
+
+	/**
+	 * this panel contains the marble (radio) button
+	 */
+	protected MarblePanel marblePanel;
+
+	protected FlowPanel sliderContent;
+
+	protected boolean definitionAndValue;
+
+	protected FlowPanel valuePanel;
+
+	protected FlowPanel definitionPanel;
+
+	protected FlowPanel outputPanel;
+
+	protected Localization loc;
+
+	private RadioTreeItemController controller;
+
+	private String lastTeX;
+
 
 	public class MarblePanel extends FlowPanel {
 		private Marble marble;
@@ -161,43 +211,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected GeoElement geo;
-	protected Kernel kernel;
-	protected AppW app;
-	protected AlgebraView av;
-	protected boolean latex = false;
-
-	public FlowPanel latexItem;
-	private FlowPanel plainTextItem;
-
-	// GTextBox tb;
-	private boolean needsUpdate;
-	protected Label errorLabel;
-
-	/** Clears input only when editing */
-	protected PushButton btnClearInput;
-
-
-	/**
-	 * this panel contains the marble (radio) button
-	 */
-	protected MarblePanel marblePanel;
-
-	protected FlowPanel sliderContent;
-
-
-
-	protected boolean definitionAndValue;
-
-	protected FlowPanel valuePanel;
-
-	protected FlowPanel definitionPanel;
-
-	protected FlowPanel outputPanel;
-
-	protected Localization loc;
-
-	private RadioTreeItemController controller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -456,17 +469,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return leftSide.equals(rightSide);
 	}
 	private boolean updateDefinitionPanel() {
-		if (latex || isGeoFraction()) {
+		if (lastInput != null) {
+			definitionFromTeX(lastTeX);
+		} else if (latex || isGeoFraction()) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
-			definitionPanel.clear();
-
-			canvas = latexToCanvas(text);
-			canvas.addStyleName("canvasDef");
-			if (geo == null) {
-				Log.debug("CANVAS to DEF");
-			}
-			definitionPanel.add(canvas);
+			definitionFromTeX(text);
 		} else if (geo != null) {
 
 			IndexHTMLBuilder sb = getBuilder(definitionPanel);
@@ -475,6 +483,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		}
 		return true;
+	}
+
+	private void definitionFromTeX(String text) {
+		definitionPanel.clear();
+
+		canvas = latexToCanvas(text);
+		canvas.addStyleName("canvasDef");
+		if (geo == null) {
+			Log.debug("CANVAS to DEF");
+		}
+		definitionPanel.add(canvas);
+
 	}
 
 	private boolean isSymbolicDiffers() {
@@ -571,7 +591,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				return;
 			}
 
-			if (geo.needToShowBothRowsInAV() && !isLatexTrivial()) {
+			if ((geo.needToShowBothRowsInAV() && !isLatexTrivial())
+					|| lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
 			} else {
@@ -905,20 +926,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected Canvas canvas;
-	private Canvas valCanvas;
+
 
 	protected abstract void renderLatex(String text0, Widget w,
 			boolean forceMQ);
 
 	protected void renderLatexCanvas(String text0, Element old) {
 
-			canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas,
-					getFontSize());
+		canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas, getFontSize());
 
-			if (canvas != null && content.getElement().isOrHasChild(old)) {
-				content.getElement().replaceChild(canvas.getCanvasElement(), old);
-			}
+		if (canvas != null && content.getElement().isOrHasChild(old)) {
+			content.getElement().replaceChild(canvas.getCanvasElement(), old);
+		}
 
 	}
 
@@ -1094,6 +1113,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElementND> callback) {
+		lastTeX = null;
+		lastInput = null;
 
 		styleEditor();
 
@@ -1127,6 +1148,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (geo != null) {
 
 				boolean redefine = !isMoveablePoint(geo);
+				RadioTreeItem.this.lastInput = newValue;
+				RadioTreeItem.this.lastTeX = RadioTreeItem.this
+						.getEditorLatex();
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true, getErrorHandler(true),
 						new AsyncOperation<GeoElementND>() {
@@ -1136,7 +1160,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
 								}
-								updateAfterRedefine(geo != null);
+								updateAfterRedefine(true);
 								if (callback != null) {
 									callback.callback(geo2);
 								}
@@ -1162,6 +1186,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// empty new value -- consider success to make sure focus goes away
 		updateAfterRedefine(newValue0 == null);
 	}
+
+	protected abstract String getEditorLatex();
 
 	/**
 	 * @param success
@@ -1237,19 +1263,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected void createErrorLabel() {
-		if (errorLabel == null) {
-			this.errorLabel = new Label();
-			errorLabel.setStyleName("algebraError");
-			main.add(errorLabel);
-		}
-	}
+
 
 	protected void clearErrorLabel() {
-		if (errorLabel != null) {
-			errorLabel.setText("");
-			errorLabel.setVisible(false);
-		}
+		commandError = null;
+		errorMessage = null;
 	}
 	/**
 	 * @param valid
@@ -1257,19 +1275,21 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            used)
 	 * @return error handler
 	 */
-	protected ErrorHandler getErrorHandler(final boolean valid) {
+	protected final ErrorHandler getErrorHandler(final boolean valid) {
 
-		createErrorLabel();
 
 		clearErrorLabel();
 		return new ErrorHandler(){
 
 			@Override
 			public void showError(String msg) {
-				if (!setErrorText(msg)) {
-					app.getDefaultErrorHandler().showError(msg);
+				RadioTreeItem.this.errorMessage = msg;
+				showCurrentError();
+				if (geo != null) {
+					geo.setUndefined();
+					geo.updateRepaint();
+					RadioTreeItem.this.updateAfterRedefine(true);
 				}
-				
 			}
 
 			@Override
@@ -1299,11 +1319,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 			@Override
-			public void showCommandError(String command, String message) {
-				if (!setErrorText(message)) {
-					app.getDefaultErrorHandler().showCommandError(command,
-							message);
-				}
+			public void showCommandError(final String command,
+					final String message) {
+				RadioTreeItem.this.commandError = command;
+				RadioTreeItem.this.errorMessage = message;
+				Log.printStacktrace("ERROR COMMAND" + command);
+				showCurrentError();
+
+							
+						
+
+					
+
 			}
 
 			@Override
@@ -1314,16 +1341,29 @@ public abstract class RadioTreeItem extends AVTreeItem
 		};
 	}
 
+	void showCurrentError() {
+		if (commandError != null) {
+			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					StringUtil.toHTMLString(errorMessage),
+					app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
+					ToolTipLinkType.Help, app, true);
+			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		} else if (errorMessage != null) {
+
+			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
+					true, app);
+
+		}
+	}
+
 	protected boolean setErrorText(String msg) {
 		if (StringUtil.empty(msg)) {
 			clearErrorLabel();
 			return true;
 		}
-		if (errorLabel != null) {
-			errorLabel.setText(msg);
-			errorLabel.setVisible(true);
-			return true;
-		}
+		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true,
+				app);
 		return false;
 	}
 
@@ -1890,10 +1930,25 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected final void insertHelpToggle() {
 		helpButtonPanel = new SimplePanel();
 		updateIcons(false);
+		ClickStartHandler.init(btnHelpToggle,
+				new ClickStartHandler(false, true) {
+
+					@Override
+					public void onClickStart(int x, int y,
+							PointerEventType type) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 		btnHelpToggle.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if (commandError != null || errorMessage != null) {
+					showCurrentError();
+					setShowInputHelpPanel(false);
+					return;
+				}
 				if (btnHelpToggle.isDown()) {
 					app.hideKeyboard();
 					Scheduler.get().scheduleDeferred(
@@ -1903,8 +1958,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 									setShowInputHelpPanel(true);
 									((InputBarHelpPanelW) app.getGuiManager()
 											.getInputHelpPanel())
-											.focusCommand(getCommand());
+													.focusCommand(
+															getCommand());
 								}
+
 							});
 				} else {
 					setShowInputHelpPanel(false);
@@ -2172,6 +2229,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 }
 
 

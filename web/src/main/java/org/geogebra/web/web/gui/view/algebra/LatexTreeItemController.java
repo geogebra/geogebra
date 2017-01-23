@@ -7,6 +7,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
@@ -72,7 +73,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			item.addDummyLabel();
 			return;
 		}
-
+		Log.debug("ENTER" + isEditing());
 		if (item.geo == null) {
 			if (StringUtil.empty(item.getText())) {
 				return;

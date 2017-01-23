@@ -45,7 +45,7 @@ public class ErrorHelper {
 			ErrorHandler handler) {
 		if (e.getcommandName() != null) {
 			String internal = loc
-					.getReverseCommand(handler.getCurrentCommand());
+					.getReverseCommand(e.getcommandName());
 			handler.showCommandError(internal, e.getLocalizedMessage());
 		} else {
 			handler.showError(e.getLocalizedMessage());

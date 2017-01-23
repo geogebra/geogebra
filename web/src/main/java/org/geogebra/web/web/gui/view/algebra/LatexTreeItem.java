@@ -25,6 +25,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
@@ -443,6 +444,9 @@ public class LatexTreeItem extends RadioTreeItem {
 	@Override
 	public boolean onEditStart(boolean substituteNumbers) {
 		String text = geo == null ? "" : geo.getDefinitionForEditor();
+		if (geo != null && !geo.isDefined() && lastInput != null) {
+			text = lastInput;
+		}
 		if (text == null || !app.has(Feature.RETEX_EDITOR)) {
 			return false;
 		}
@@ -487,6 +491,12 @@ public class LatexTreeItem extends RadioTreeItem {
 	public boolean isMFfocused() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	@Override
+	protected String getEditorLatex() {
+		return TeXSerializer.serialize(mf.getFormula().getRootComponent(),
+				mf.getMetaModel());
 	}
 
 }

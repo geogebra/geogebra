@@ -153,10 +153,13 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 	@Override
 	public String getLaTeX() {
-		// TODO atm needed for CAS only
-		return null;
+		return dollarFix(MathQuillHelper
+				.getActualEditedValue(latexItem.getElement(), true));
 	}
 
+	private static String dollarFix(String actualEditedValue) {
+		return actualEditedValue.replace("$", "\\$");
+	}
 
 	@Override
 	public void scrollCursorIntoView() {
@@ -645,5 +648,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 	}
 
+	@Override
+	protected String getEditorLatex() {
+		return this.getLaTeX();
+	}
 
 }

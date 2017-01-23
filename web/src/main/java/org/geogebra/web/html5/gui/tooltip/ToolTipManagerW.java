@@ -295,17 +295,30 @@ public class ToolTipManagerW {
 			// doesn't overlap with the toolbar
 		if (app.getToolbarPosition() == SwingConstants.SOUTH) {
 			style.setLeft(left * 1.5, Unit.PX);
-			style.setTop((app.getHeight() - (kb ? 250 : 70) - 50), Unit.PX);
+			style.setTop(
+					(app.getHeight() - (kb ? 250 : 70) - 50) - 20 * lines(text),
+					Unit.PX);
 			// Toolbar on top
 		} else {
 			style.setLeft(left, Unit.PX);
-			style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
+			style.setTop((app.getHeight() - (kb ? 250 : 70)) - 20 * lines(text),
+					Unit.PX);
 		}
 
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
 			scheduleHideBottom();
 		}
+	}
+
+	private int lines(String text) {
+		int lines = 0;
+		for (int i = 0; i < text.length(); i++) {
+			if ('\n' == text.charAt(i)) {
+				lines++;
+			}
+		}
+		return lines;
 	}
 
 	/**
