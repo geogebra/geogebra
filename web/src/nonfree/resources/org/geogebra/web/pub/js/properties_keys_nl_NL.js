@@ -915,7 +915,7 @@ __GGB__keysVar.nl_NL.command = {
     "Spearman.Syntax": "[ <Lijst met punten> ]\n[ <Lijst met getallen>, <Lijst met getallen> ]",
     "Sphere": "Bol",
     "Sphere.Syntax": "[ <Punt>, <Straal> ]\n[ <Punt>, <Punt> ]",
-    "Spline": "SplineInterpolatie",
+    "Spline": "Vrijevormkromme",
     "Spline.Syntax": "[ <Lijst met punten> ]\n[ <Lijst met punten>, <Orde \u2265 3> ]",
     "StartAnimation": "StartAnimatie",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Slider or Point>, <Slider or Point>, ... ]\n[ <Slider or Point>, <Slider or Point>, ..., <Boolean> ]",
