@@ -174,44 +174,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private String lastTeX;
 
 
-	public class MarblePanel extends FlowPanel {
-		private Marble marble;
-		private boolean selected = false;
-
-		public MarblePanel() {
-
-			marble = new Marble(RadioTreeItem.this);
-			marble.setStyleName("marble");
-			marble.setEnabled(geo.isEuclidianShowable()
-					&& (!app.isExam() || app.enableGraphing()));
-			marble.setChecked(geo.isEuclidianVisible());
-
-			addStyleName("marblePanel");
-			add(marble);
-			update();
-		}
-
-		public void setHighlighted(boolean selected) {
-			this.selected = selected;
-		}
-
-		public void update() {
-			marble.setEnabled(geo.isEuclidianShowable()
-					&& (!app.isExam() || app.enableGraphing()));
-
-			marble.setChecked(geo.isEuclidianVisible());
-
-			setHighlighted(selected);
-		}
-
-		public boolean isHit(int x, int y) {
-			return x > getAbsoluteLeft()
-					&& x < getAbsoluteLeft() + getOffsetWidth()
-					&& y < getAbsoluteTop() + getOffsetHeight();
-		}
-	}
-
-
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -347,7 +309,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
 
-		marblePanel = new MarblePanel();
+		marblePanel = new MarblePanel(this);
 		main.add(marblePanel);
 
 	}
