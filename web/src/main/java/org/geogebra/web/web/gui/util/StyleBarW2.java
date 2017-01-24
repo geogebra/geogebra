@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -68,7 +67,6 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
-			Log.debug("" + color);
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 				openPropertiesForColor(false);
 			} else {

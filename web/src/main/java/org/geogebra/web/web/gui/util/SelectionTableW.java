@@ -78,7 +78,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	
 	public void initSelectedItems(boolean[] si) {
 		selecteditems = si;
-		clearSelection();
+		clearSelection(0);
 		int row, column;
 		for (int i = 0; i < selecteditems.length; i++) {
 			if (selecteditems[i]) {
@@ -110,9 +110,9 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		}
 	}
 
-	private void clearSelection() {
-	   selectedColumn = 0;
-	   selectedRow = 0;
+	private void clearSelection(int def) {
+		selectedColumn = def;
+		selectedRow = 0;
 	   clearSelectedCells();
     }
 
@@ -148,7 +148,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 */
 	public void setSelectedIndex(int index){
 		if(index == -1){
-			this.clearSelection();
+			this.clearSelection(-1);
 			return;
 		}
 		int row = index / getColumnCount();
