@@ -469,4 +469,9 @@ public final class MyMath {
 	public static int max(int a, int b, int c) {
 		return Math.max(a, Math.max(b, c));
 	}
+
+	public static double angle(double dx1, double dy1, double dx2, double dy2) {
+		return Math.acos((dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
+				/ Math.hypot(dx2, dy2));
+	}
 }

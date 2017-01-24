@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -237,7 +238,16 @@ public class GeneralPathClipped implements GShape {
 			auxY = q.getY();
 		} else if (lineTo == SegmentType.ARC_TO && p != null) {
 			try {
-				gp.curveTo(auxX, auxY, auxX, auxY, q.getX(), q.getY());
+
+				double dx1 = (auxX - p.getX());
+				double dy1 = (auxY - p.getY());
+				double dx2 = (auxX - q.getX());
+				double dy2 = (auxY - q.getY());
+				double angle = MyMath.angle(dx1, dy1, dx2, dy2);
+				double cv = btan(Math.PI - angle) * Math.tan(angle / 2);
+				gp.curveTo(p.getX() + dx1 * cv, p.getY() + dy1 * cv, q.getX()
+						+ dx2 * cv, q.getY() + dy2 * cv, q.getX(), q.getY());
+
 			} catch (Exception e) {
 				gp.moveTo(q.getX(), q.getY());
 			}
@@ -251,6 +261,11 @@ public class GeneralPathClipped implements GShape {
 		} else {
 			gp.moveTo(q.getX(), q.getY());
 		}
+	}
+
+	private static double btan(double increment) {
+		increment /= 2.0;
+		return 4.0 / 3.0 * Math.sin(increment) / (1.0 + Math.cos(increment));
 	}
 
 	/**
@@ -303,6 +318,13 @@ public class GeneralPathClipped implements GShape {
 
 	/**
 	 * Adds point to point list and keeps track of largest coordinate.
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param segmentType
+	 *            path segment type
 	 */
 	protected final void addPoint(double x, double y, SegmentType segmentType) {
 		if (Double.isNaN(y)) {

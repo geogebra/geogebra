@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.CmdUnitOrthogonalVector;
 import org.geogebra.common.kernel.algos.CmdUnitVector;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -262,8 +263,9 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdDefined(kernel);
 		case Spline:
 			return new CmdSpline(kernel);
-		// case RoundedPolygon:
-		// return new CmdRoundedPolygon(kernel);
+		case RoundedPolygon:
+			return kernel.getApplication().has(Feature.ROUNDED_POLYGON) ? new CmdRoundedPolygon(
+					kernel) : null;
 		// case Nyquist:
 		// return new CmdNyquist(kernel);
 		case FormulaText:

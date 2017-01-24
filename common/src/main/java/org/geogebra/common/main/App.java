@@ -4246,6 +4246,8 @@ public abstract class App implements UpdateSelection {
 
 		case ERASER:
 			return prerelease;
+		case ROUNDED_POLYGON:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

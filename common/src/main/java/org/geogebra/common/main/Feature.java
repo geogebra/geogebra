@@ -208,6 +208,6 @@ public enum Feature {
 	SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW,
 
 	/** MOW-97 */
-	ERASER
+	ERASER, ROUNDED_POLYGON
 
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.MyMath;
 
 public class AlgoRoundedPolygon extends AlgoElement {
 
@@ -39,30 +40,43 @@ public class AlgoRoundedPolygon extends AlgoElement {
 	@Override
 	public void compute() {
 		locus.clearPoints();
-		locus.insertPoint(cropX(0, 1), cropY(0, 1), SegmentType.MOVE_TO);
+		locus.insertPoint(cropX(0, 1, tan(1, 0, points.length - 1)),
+				cropY(0, 1, tan(1, 0, points.length - 1)), SegmentType.MOVE_TO);
 		for (int i = 0; i < points.length; i++) {
 			int j = i == points.length - 1 ? 0 : i + 1;
 			int k = j == points.length - 1 ? 0 : j + 1;
-			locus.insertPoint(cropX(j, i), cropY(j, i), SegmentType.LINE_TO);
+			double cos = tan(i, j, k);
+			locus.insertPoint(cropX(j, i, cos), cropY(j, i, cos),
+					SegmentType.LINE_TO);
 			locus.insertPoint(points[j].getInhomX(), points[j].getInhomY(),
 					SegmentType.AUXILIARY);
-			locus.insertPoint(cropX(j, k), cropY(j, k), SegmentType.ARC_TO);
+			locus.insertPoint(cropX(j, k, cos), cropY(j, k, cos),
+					SegmentType.ARC_TO);
 
 		}
 
 		locus.setDefined(true);
 	}
 
-	private double cropX(int i, int j) {
-		return points[i].getInhomX()
-				+ (points[j].getInhomX() - points[i].getInhomX())
-				* radius.getDouble() / points[i].distance(points[j]);
+	private double tan(int i, int j, int k) {
+		double angle = MyMath.angle(
+				points[i].getInhomX() - points[j].getInhomX(),
+				points[i].getInhomY() - points[j].getInhomY(),
+				points[j].getInhomX() - points[k].getInhomX(),
+				points[j].getInhomY() - points[k].getInhomY());
+		return Math.abs(Math.tan(angle / 2));
 	}
 
-	private double cropY(int i, int j) {
+	private double cropX(int i, int j, double cos) {
+		return points[i].getInhomX()
+				+ (points[j].getInhomX() - points[i].getInhomX())
+				* radius.getDouble() / points[i].distance(points[j]) * cos;
+	}
+
+	private double cropY(int i, int j, double cos) {
 		return points[i].getInhomY()
 				+ (points[j].getInhomY() - points[i].getInhomY())
-				* radius.getDouble() / points[i].distance(points[j]);
+				* radius.getDouble() / points[i].distance(points[j]) * cos;
 	}
 
 	@Override
