@@ -81,4 +81,6 @@ public interface SymbolicParametersAlgo {
 	 *             if it is not possible to obtain an algebraic description
 	 */
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException;
+
+	public void remove();
 }
