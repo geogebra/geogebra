@@ -1625,7 +1625,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * Also prevents fixed cells from being edited.
 	 */
 	@Override
-	public boolean editCellAt(int row, int col) {
+	public boolean editCellAt(final int row, final int col) {
 
 		if (row < 0 || col < 0) {
 			return false;
@@ -1665,6 +1665,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
 					if (view.isKeyboardEnabled()) {
 						app.showKeyboard(w, true);
+						Scheduler.get().scheduleDeferred(new ScheduledCommand(){
+							@Override
+							public void execute() {
+								scrollRectToVisible(getCellRect(row, col,
+								        true));
+							}
+						});
+
 						if (Browser.isAndroid() || Browser.isIPad()) {
 							w.setEnabled(false);
 							w.addDummyCursor(w.getCaretPosition());
