@@ -876,9 +876,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			if (isBooleanFunction && !tpl.hasType(StringType.GEOGEBRA_XML)) {
 				stringBuilder.append(": ");
 			} else {
-				stringBuilder.append("(");
+				stringBuilder.append(tpl.leftBracket());
 				stringBuilder.append(var);
-				stringBuilder.append(") = ");
+				stringBuilder.append(tpl.rightBracket());
+				stringBuilder.append(" = ");
 			}
 		}
 	}
@@ -1369,9 +1370,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
-		sbToString.append("(");
+		sbToString.append(tpl.leftBracket());
 		sbToString.append(getVarString(tpl));
-		sbToString.append(")");
+		sbToString.append(tpl.rightBracket());
 		return sbToString.toString();
 	}
 
