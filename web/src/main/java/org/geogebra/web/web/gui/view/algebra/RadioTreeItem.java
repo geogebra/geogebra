@@ -18,6 +18,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.GuiManager.Help;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -171,7 +172,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private RadioTreeItemController controller;
 
-	private String lastTeX;
+	String lastTeX;
 
 
 	public void updateOnNextRepaint() {
@@ -621,9 +622,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 											// inequalities
 		}
 
-		if (previewGeo instanceof HasSymbolicMode) {
-			((HasSymbolicMode) previewGeo).setSymbolicMode(true, false);
-		}
+		InputHelper.updateSymbolicMode(previewGeo);
+
 		createDVPanels();
 		content.addStyleName("avPreview");
 		plainTextItem.clear();
@@ -1106,6 +1106,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			String newValue = stopCommon(newValue0);
 			newValue = app.getKernel().getInputPreviewHelper()
 					.getInput(newValue);
+			Log.debug("From preview" + newValue);
 			// Formula Hacks ended.
 			if (geo != null) {
 
@@ -1121,6 +1122,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 							public void callback(GeoElementND geo2) {
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
+									lastTeX = null;
+									lastInput = null;
 								}
 								updateAfterRedefine(true);
 								if (callback != null) {
@@ -1247,11 +1250,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			public void showError(String msg) {
 				RadioTreeItem.this.errorMessage = msg;
 				showCurrentError();
-				if (geo != null) {
-					geo.setUndefined();
-					geo.updateRepaint();
-					RadioTreeItem.this.updateAfterRedefine(true);
-				}
+				saveError();
+
 			}
 
 			@Override
@@ -1287,12 +1287,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				RadioTreeItem.this.errorMessage = message;
 				Log.printStacktrace("ERROR COMMAND" + command);
 				showCurrentError();
-
-							
-						
-
-					
-
+				saveError();
 			}
 
 			@Override
@@ -1301,6 +1296,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			
 		};
+	}
+
+	protected void saveError() {
+		if (geo != null) {
+			geo.setUndefined();
+			geo.updateRepaint();
+			RadioTreeItem.this.updateAfterRedefine(true);
+			if (marblePanel != null) {
+				marblePanel.updateIcons(true);
+			}
+		}
+
 	}
 
 	void showCurrentError() {
@@ -1539,7 +1546,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	// @Override
-	public App getApplication() {
+	public AppW getApplication() {
 		return app;
 	}
 
@@ -1818,6 +1825,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void updateIcons(boolean warning) {
+		Log.printStacktrace("UPDATE icons" + warning);
+		if (this.marblePanel != null) {
+			marblePanel.updateIcons(warning);
+		}
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
 		}

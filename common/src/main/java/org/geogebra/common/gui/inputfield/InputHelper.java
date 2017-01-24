@@ -65,19 +65,7 @@ public class InputHelper {
 			return;
 		}
 		for (int i = 0; i < geos.length; i++) {
-			if (geos[i] instanceof HasSymbolicMode) {
-				// start with numeric mode for simple fractions like 7/2
-				if (geos[i] instanceof GeoNumeric
-						&& geos[i].getDefinition() != null
-						&& geos[i].getDefinition().isSimpleFraction()) {
-					((HasSymbolicMode) geos[i]).setSymbolicMode(false,
-							geos[i] instanceof GeoText);
-				} else {
-					((HasSymbolicMode) geos[i]).setSymbolicMode(true,
-							geos[i] instanceof GeoText);
-				}
-				((HasSymbolicMode) geos[i]).updateRepaint();
-			}
+			updateSymbolicMode(geos[i]);
 			if (geos[i] instanceof GeoText) {
 				GeoText text = (GeoText) geos[i];
 				centerText(text, ev);
@@ -86,6 +74,35 @@ public class InputHelper {
 
 	}
 
+	/**
+	 * Sets the symbolic mode of the geo according to defaults (false for simple
+	 * fraction, true otherwise)
+	 * 
+	 * @param geo
+	 *            geo element
+	 */
+	public static void updateSymbolicMode(GeoElementND geo) {
+		if (geo instanceof HasSymbolicMode) {
+			// start with numeric mode for simple fractions like 7/2
+			if (geo instanceof GeoNumeric && geo.getDefinition() != null
+					&& geo.getDefinition().isSimpleFraction()) {
+				((HasSymbolicMode) geo).setSymbolicMode(false,
+						geo instanceof GeoText);
+			} else {
+				((HasSymbolicMode) geo).setSymbolicMode(true,
+						geo instanceof GeoText);
+			}
+			((HasSymbolicMode) geo).updateRepaint();
+		}
+
+	}
+
+	/**
+	 * @param text
+	 *            text
+	 * @param ev
+	 *            view to use for centering
+	 */
 	public static void centerText(GeoText text,
 			EuclidianViewInterfaceCommon ev) {
 		text.setAuxiliaryObject(false);
