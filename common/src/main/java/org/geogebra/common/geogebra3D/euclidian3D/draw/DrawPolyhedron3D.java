@@ -268,20 +268,16 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	public void updatePreview() {
 
 		if (previewBasisIsFinished) {
-			if (getView3D().showPyramidAndPrismPreviews()) {
-				getView3D().getCursor3D().updateCascade();
-			}
+			getView3D().getCursor3D().updateCascade();
 			return;
 		}
 
 		if (selectedPolygons.size() == 1) {
 			previewBasisIsFinished = true;
 
-			if (getView3D().showPyramidAndPrismPreviews()) {
+			Construction cons = getView3D().getKernel().getConstruction();
 
-				Construction cons = getView3D().getKernel().getConstruction();
-
-				switch (previewMode) {
+			switch (previewMode) {
 				default:
 				case EuclidianConstants.MODE_PYRAMID:
 					previewAlgo = new AlgoPolyhedronPointsPyramid(cons, null,
@@ -291,18 +287,18 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 					previewAlgo = new AlgoPolyhedronPointsPrism(cons, null,
 							selectedPolygons.get(0), getView3D().getCursor3D());
 					break;
-				}
-
-				// set visibilities
-				previewAlgo.removeOutputFromAlgebraView();
-				previewAlgo.removeOutputFromPicking();
-				previewAlgo.setOutputPointsEuclidianVisible(false);
-				previewAlgo.notifyUpdateOutputPoints();
-
-				// ensure correct drawing of visible parts of the previewable
-				previewAlgo.setOutputOtherEuclidianVisible(true);
-				previewAlgo.notifyUpdateOutputOther();
 			}
+
+			// set visibilities
+			previewAlgo.removeOutputFromAlgebraView();
+			previewAlgo.removeOutputFromPicking();
+			previewAlgo.setOutputPointsEuclidianVisible(false);
+			previewAlgo.notifyUpdateOutputPoints();
+
+			// ensure correct drawing of visible parts of the previewable
+			previewAlgo.setOutputOtherEuclidianVisible(true);
+			previewAlgo.notifyUpdateOutputOther();
+
 		} else {
 			drawPolygon3D.updatePreview();
 		}
@@ -357,17 +353,16 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		// dispose polygon preview
 		drawPolygon3D.disposePreview();
 
-		if (getView3D().showPyramidAndPrismPreviews()) {
-			// create polyhedron
-			GeoPointND[] points = new GeoPointND[selectedPoints.size() + 1];
-			for (int i = 0; i < selectedPoints.size(); i++) {
-				points[i] = selectedPoints.get(i);
-			}
-			points[selectedPoints.size()] = getView3D().getCursor3D();
+		// create polyhedron
+		GeoPointND[] points = new GeoPointND[selectedPoints.size() + 1];
+		for (int i = 0; i < selectedPoints.size(); i++) {
+			points[i] = selectedPoints.get(i);
+		}
+		points[selectedPoints.size()] = getView3D().getCursor3D();
 
-			Construction cons = getView3D().getKernel().getConstruction();
+		Construction cons = getView3D().getKernel().getConstruction();
 
-			switch (previewMode) {
+		switch (previewMode) {
 			default:
 			case EuclidianConstants.MODE_PYRAMID:
 				previewAlgo = new AlgoPolyhedronPointsPyramid(cons, null,
@@ -376,19 +371,18 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			case EuclidianConstants.MODE_PRISM:
 				previewAlgo = new AlgoPolyhedronPointsPrism(cons, null, points);
 				break;
-			}
-
-			// set visibilities
-			previewAlgo.removeOutputFromAlgebraView();
-			previewAlgo.removeOutputFromPicking();
-			previewAlgo.setOutputPointsEuclidianVisible(false);
-			previewAlgo.notifyUpdateOutputPoints();
-
-			// ensure correct drawing of visible parts of the previewable
-			previewAlgo.setOutputOtherEuclidianVisible(true);
-			previewAlgo.notifyUpdateOutputOther();
-
 		}
+
+		// set visibilities
+		previewAlgo.removeOutputFromAlgebraView();
+		previewAlgo.removeOutputFromPicking();
+		previewAlgo.setOutputPointsEuclidianVisible(false);
+		previewAlgo.notifyUpdateOutputPoints();
+
+		// ensure correct drawing of visible parts of the previewable
+		previewAlgo.setOutputOtherEuclidianVisible(true);
+		previewAlgo.notifyUpdateOutputOther();
+
 
 	}
 
