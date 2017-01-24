@@ -109,7 +109,8 @@ public class LatexTreeItem extends RadioTreeItem {
 
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && !(latexItem == null
 				|| isInputTreeItem() || isSliderItem())) {
-			latexItem.setHeight(getController().getEditHeigth() + "px");
+			latexItem.getElement().getStyle().setProperty("minHeight",
+					getController().getEditHeigth() + "px");
 		}
 
 		ensureCanvas();
