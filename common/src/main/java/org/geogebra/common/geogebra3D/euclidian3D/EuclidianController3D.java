@@ -4542,4 +4542,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 	}
 
+	@Override
+	protected boolean modeTriggersUndoOnDragGeo(int mode2) {
+		switch (mode2) {
+		case EuclidianConstants.MODE_PYRAMID:
+		case EuclidianConstants.MODE_PRISM:
+			return pyramidBasis == null && selPolygons() == 0;
+		}
+		return super.modeTriggersUndoOnDragGeo(mode2);
+	}
 }

@@ -459,6 +459,16 @@ public abstract class EuclidianController {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param mode2
+	 *            EV mode
+	 * @return true if the mode should trigger undo when dragging a geo
+	 */
+	protected boolean modeTriggersUndoOnDragGeo(int mode2) {
+		return true;
+	}
+
 	ModeDelete getDeleteMode() {
 		if (deleteMode == null && view != null) {
 			deleteMode = new ModeDelete(view);
@@ -9822,7 +9832,8 @@ public abstract class EuclidianController {
 			// check movedGeoElement.isLabelSet() to stop moving points
 			// in Probability Calculator triggering Undo
 			changedKernel = ((movedGeoElement != null)
-					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE);
+					&& movedGeoElement.isLabelSet()) && (moveMode != MOVE_NONE)
+					&& modeTriggersUndoOnDragGeo(mode);
 			movedGeoElement = null;
 			rotGeoElement = null;
 
