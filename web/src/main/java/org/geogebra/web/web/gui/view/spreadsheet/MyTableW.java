@@ -1915,7 +1915,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		});
 	}
 	
-	
+	/* 
+	 * Fits the content of spreadsheet for its header on the left.
+	 */
 	public void syncTableTop(){
 		scroller.syncTableTop();
 	}
