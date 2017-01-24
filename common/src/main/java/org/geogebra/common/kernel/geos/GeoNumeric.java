@@ -329,7 +329,9 @@ public class GeoNumeric extends GeoElement
 				sliderPos.y = 50 + 40 * count;
 			}
 			// make sure slider is visible on screen
-			sliderPos.y = (int) sliderPos.y / 400 * 10 + sliderPos.y % 400;
+			int height = Math.max(ev.getHeight() - 20, 400);
+			sliderPos.y = (int) sliderPos.y / height * 10
+					+ sliderPos.y % height;
 		} else {
 			sliderPos.x = -5;
 			sliderPos.y = 10 - count;
