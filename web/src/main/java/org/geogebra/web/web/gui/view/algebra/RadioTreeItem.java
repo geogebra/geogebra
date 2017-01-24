@@ -1125,6 +1125,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 									lastTeX = null;
 									lastInput = null;
 								}
+								if (marblePanel != null) {
+									marblePanel.updateIcons(false);
+								}
 								updateAfterRedefine(true);
 								if (callback != null) {
 									callback.callback(geo2);
