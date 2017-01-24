@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -1239,6 +1240,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		if (table != null) {
 			table.setSize(width, height);
 			table.repaintAll();
+			if(app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)){
+				table.syncTableTop();
+			}
 		}
 	}
 

@@ -1914,6 +1914,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		});
 	}
+	
+	
+	public void syncTableTop(){
+		scroller.syncTableTop();
+	}
 
 	public void setRowHeight(final int rowHeight) {
 

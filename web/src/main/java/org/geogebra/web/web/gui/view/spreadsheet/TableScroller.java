@@ -282,6 +282,10 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		rowHeader.setTop(t);
 		columnHeader.setLeft(l);
 	}
+	
+	public void syncTableTop(){
+		setVerticalScrollPosition(rowHeader.getTop());
+	}
 
 	/**
 	 * @param showHScrollBar

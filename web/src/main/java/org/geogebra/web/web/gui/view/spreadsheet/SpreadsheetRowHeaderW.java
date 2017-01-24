@@ -512,6 +512,10 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	public void setTop(int top) {
 		container.getElement().getStyle().setTop(top, Unit.PX);
 	}
+	
+	public int getTop(){
+		return container.getParent().getAbsoluteTop() - container.getAbsoluteTop();
+	}
 
 	public static class MyFocusPanel extends SimplePanel implements Focusable {
 
