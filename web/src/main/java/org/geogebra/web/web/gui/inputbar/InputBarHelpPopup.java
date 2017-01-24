@@ -18,7 +18,12 @@ public class InputBarHelpPopup extends GPopupPanel {
 	private ToggleButton toggleButton;
 
 	/**
-	 * @param app {@link AppW}
+	 * @param app
+	 *            {@link AppW}
+	 * @param field
+	 *            input field
+	 * @param className
+	 *            CSS class
 	 */
 	public InputBarHelpPopup(AppW app, AutoCompleteW field, String className) {
 		super(app.getPanel());

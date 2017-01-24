@@ -58,6 +58,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	/**
 	 * @param app
+	 *            application
 	 */
 	public InputBarHelpPanelW(AppW app) {
 
@@ -70,6 +71,10 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	}
 	
+	/**
+	 * @param field
+	 *            input field
+	 */
 	public void setInputField(AutoCompleteW field) {
 		this.inputField = field;
 	}
@@ -200,6 +205,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
+	/**
+	 * Hide the parent popup
+	 */
 	protected void hide() {
 		((InputBarHelpPopup) this.getParent()).hide();
 	}
@@ -228,6 +236,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	/**
 	 * Adjusts the panel size relative to the current application panel size
+	 * 
+	 * @param maxOffsetHeight
+	 *            max height
+	 * @param scale
+	 *            transform scale
 	 */
 	public void updateGUI(int maxOffsetHeight, double scale) {
 
@@ -250,6 +263,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	// Index Tree
 	// =================================================================
 
+	/**
+	 * Update commands tree
+	 */
 	public void setCommands() {
 
 		indexTree.clear();
@@ -381,6 +397,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	// Syntax Description
 	// =================================================================
 
+	/**
+	 * Update syntax panel
+	 */
 	protected void updateDetailPanel() {
 		syntaxPanel.clear();
 		if (getSelectedCommand() == null) {
@@ -481,9 +500,13 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		return syntax;
     }
 
-	void insertText(String s){
+	/**
+	 * @param text
+	 *            to be inserted into input field
+	 */
+	void insertText(String text) {
 		if (this.inputField != null) {
-			this.inputField.autocomplete(s);
+			this.inputField.autocomplete(text);
 			this.inputField.setFocus(true, true);
 		}
 	}

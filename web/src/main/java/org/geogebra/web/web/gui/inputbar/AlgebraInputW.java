@@ -80,6 +80,9 @@ public class AlgebraInputW extends FlowPanel
 		app1.getGuiManager().addAlgebraInput(this);
 	}
 
+	/**
+	 * Initialize the UI
+	 */
 	public void initGUI() {
 		clear();
 		inputPanel = new InputPanelW(null,app,0,true);
@@ -400,8 +403,7 @@ public class AlgebraInputW extends FlowPanel
 					helpPanel.focusCommand(
 							app2.getLocalization().getCommand(command));
 					input.getHelpToggle().getElement().setTitle(
-							app2
-.getLocalization().getError("InvalidInput"));
+							app2.getLocalization().getError("InvalidInput"));
 				}
 			}
 
