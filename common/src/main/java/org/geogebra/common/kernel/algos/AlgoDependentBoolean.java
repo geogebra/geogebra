@@ -149,29 +149,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	@Override
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
-			throw new NoSymbolicParametersException();
-		}
 
-		GeoElement left = (GeoElement) root.getLeft();
-		GeoElement right = (GeoElement) root.getRight();
-
-		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
-					right);
-			algo.getFreeVariables(variables);
-			algo.remove();
-			return;
-		}
-		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
-			algo.getFreeVariables(variables);
-			algo.remove();
-			return;
-		}
-		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
+		SymbolicParametersAlgo algo = getRootAlgo();
+		if (algo != null) {
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
@@ -182,29 +162,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
-		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
-			throw new NoSymbolicParametersException();
-		}
-
-		GeoElement left = (GeoElement) root.getLeft();
-		GeoElement right = (GeoElement) root.getRight();
-
-		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
-					right);
-			int[] ret = algo.getDegrees();
-			algo.remove();
-			return ret;
-		}
-		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
-			int[] ret = algo.getDegrees();
-			algo.remove();
-			return ret;
-		}
-		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
+		SymbolicParametersAlgo algo = getRootAlgo();
+		if (algo != null) {
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
@@ -217,39 +176,30 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		ExpressionNode root = bool.getDefinition();
-		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
-			throw new NoSymbolicParametersException();
-		}
 
-		GeoElement left = (GeoElement) root.getLeft();
-		GeoElement right = (GeoElement) root.getRight();
-
-		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
-					right);
+		SymbolicParametersAlgo algo = getRootAlgo();
+		if (algo != null) {
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
 		}
-		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
-			BigInteger[] ret = algo.getExactCoordinates(values);
-			algo.remove();
-			return ret;
-		}
-		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
-			BigInteger[] ret = algo.getExactCoordinates(values);
-			algo.remove();
-			return ret;
-		}
-
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		SymbolicParametersAlgo algo = getRootAlgo();
+		if (algo != null) {
+			Polynomial[] ret = algo.getPolynomials();
+			algo.remove();
+			return ret;
+		}
+
+		throw new NoSymbolicParametersException();
+	}
+
+	private SymbolicParametersAlgo getRootAlgo()
+			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement()) {
 			throw new NoSymbolicParametersException();
@@ -261,26 +211,21 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
 					right);
-			Polynomial[] ret = algo.getPolynomials();
-			algo.remove();
-			return ret;
+
+			return algo;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
-			Polynomial[] ret = algo.getPolynomials();
-			algo.remove();
-			return ret;
+
+			return algo;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
-			Polynomial[] ret = algo.getPolynomials();
-			algo.remove();
-			return ret;
+
+			return algo;
 		}
-
-		throw new NoSymbolicParametersException();
+		return null;
 	}
-
 	/**
 	 * fill the polynomial tree
 	 * 
