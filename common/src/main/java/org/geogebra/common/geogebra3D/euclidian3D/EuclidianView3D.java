@@ -74,6 +74,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -472,9 +473,9 @@ public abstract class EuclidianView3D extends EuclidianView
 			axis[i].setLabelVisible(true);
 			axisDrawable[i] = (DrawAxis3D) createDrawable((GeoElement) axis[i]);
 		}
-
+		Construction cons = kernel3D.getConstruction();
 		// clipping cube
-		clippingCube = kernel3D.getClippingCube();
+		clippingCube = (GeoClippingCube3D) cons.getClippingCube();
 		clippingCube.setEuclidianVisible(true);
 		clippingCube.setObjColor(GColor.GRAY);
 		clippingCube.setLineThickness(1);
@@ -483,7 +484,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				clippingCube);
 
 		// plane
-		xOyPlane = kernel3D.getXOYPlane();
+		xOyPlane = (GeoPlane3DConstant) cons.getXOYPlane();
 		xOyPlane.setEuclidianVisible(true);
 		xOyPlane.setGridVisible(true);
 		xOyPlane.setPlateVisible(true);

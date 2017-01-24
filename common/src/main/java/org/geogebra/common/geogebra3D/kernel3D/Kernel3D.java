@@ -25,7 +25,6 @@ import org.geogebra.common.geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluato
 import org.geogebra.common.geogebra3D.kernel3D.commands.AlgebraProcessor3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAxis3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCoords4D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
@@ -119,11 +118,6 @@ public class Kernel3D extends Kernel {
 	@Override
 	public GeoPlane3DConstant getXOYPlane() {
 		return (GeoPlane3DConstant) cons.getXOYPlane();
-	}
-
-	@Override
-	public GeoClippingCube3D getClippingCube() {
-		return (GeoClippingCube3D) cons.getClippingCube();
 	}
 
 	@Override

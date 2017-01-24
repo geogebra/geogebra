@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
  *
  */
 public class ConstructionCompanion {
-
+	/** construction */
 	protected Construction cons;
 
 	/**
@@ -30,18 +30,30 @@ public class ConstructionCompanion {
 		// nothing needed here
 	}
 
+	/**
+	 * @return z-axis (in 3D)
+	 */
 	public GeoAxisND getZAxis() {
 		return null;
 	}
 
+	/**
+	 * @return xOy plane (in 3D)
+	 */
 	public GeoDirectionND getXOYPlane() {
 		return null;
 	}
 
+	/**
+	 * @return space placeholder
+	 */
 	public GeoDirectionND getSpace() {
 		return null;
 	}
 
+	/**
+	 * @return clipping cube
+	 */
 	public GeoElement getClippingCube() {
 		return null;
 	}
@@ -53,19 +65,33 @@ public class ConstructionCompanion {
 		return new ConstructionDefaults(cons);
 	}
 
+	/**
+	 * init 3D geos
+	 */
 	protected void initGeoTables() {
-
+		// no 3D geos in 2D
 	}
 
+	/**
+	 * update z-axis name
+	 */
 	public void updateLocalAxesNames() {
-
+		// no z-axis in 2D
 	}
 
+	/**
+	 * @param geo
+	 *            geo element, xAxis or yAxis never as input
+	 * @return whether it's space, xYo plane
+	 */
 	public Constants isConstantElement(GeoElement geo) {
 
 		return Constants.NOT;
 	}
 
+	/**
+	 * @return whether it's 3D construction
+	 */
 	public boolean is3D() {
 		return false;
 	}

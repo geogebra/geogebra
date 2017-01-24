@@ -830,6 +830,19 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 	}
 
+	@Test
+	public void testIndexLookup() {
+		t("aa_{1}=1", "1");
+		t("aa_{1}+1", "2");
+		t("aa_1+1", "2");
+		t("ab_1=1", "1");
+		t("ab_{1}+1", "2");
+		t("ab_1+1", "2");
+		// overwrite
+		t("ab_1=3", "3");
+		t("ab_{1}+1", "4");
+	}
+
 	private String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
 				Unicode.Superscript_3 + "");

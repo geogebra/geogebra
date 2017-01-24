@@ -2246,8 +2246,25 @@ public class Construction {
 			n.setUndefined();
 			return n;
 		}
+		if (!fileLoading) {
+			if (label1.contains("_{")) {
+				label1 = label1.replace("_{", "_").substring(0,
+						label1.length() - 2);
+				geo = geoTableVarLookup(label1);
+				if (geo != null) {
+					return checkConstructionStep(geo);
+				}
+			} else if (label1.contains("_")) {
+				label1 = label1.replace("_", "_{") + "}";
+				geo = geoTableVarLookup(label1);
+				if (geo != null) {
+					return checkConstructionStep(geo);
+				}
+			}
+		}
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
+
 			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter
 					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) // ends
 																				// with

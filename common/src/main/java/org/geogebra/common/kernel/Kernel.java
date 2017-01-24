@@ -5482,11 +5482,6 @@ public class Kernel {
 		return null;
 	}
 
-	// for compatibility/interfacing with 3D
-	public GeoElement getClippingCube() {
-		return null;
-	}
-
 	public int getXmaxLength() {
 		return xmax.length;
 	}

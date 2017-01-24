@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Construction.Constants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -45,7 +46,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
-import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -131,18 +131,19 @@ public class CopyPaste {
 			} else if (ancestors.contains(app.getKernel().getYAxis())) {
 				geos.remove(i);
 			} else if (app.is3D()) {
+				Construction cons = app.getKernel().getConstruction();
 				if (ancestors.contains(app.getKernel().getXAxis3D())) {
 					geos.remove(i);
 				} else if (ancestors.contains(app.getKernel().getYAxis3D())) {
 					geos.remove(i);
 				} else if (ancestors.contains(app.getKernel().getZAxis3D())) {
 					geos.remove(i);
-				} else if (ancestors.contains(app.getKernel().getXOYPlane())) {
+				} else if (ancestors.contains(cons.getXOYPlane())) {
 					geos.remove(i);
 				} else if (ancestors
-						.contains(app.getKernel().getClippingCube())) {
+						.contains(cons.getClippingCube())) {
 					geos.remove(i);
-				} else if (ancestors.contains(app.getKernel().getSpace())) {
+				} else if (ancestors.contains(cons.getSpace())) {
 					geos.remove(i);
 				}
 			}
@@ -374,10 +375,8 @@ public class CopyPaste {
 			while (it.hasNext()) {
 				geo2 = it.next();
 				if (!ret.contains(geo2) && !geos.contains(geo2)
-						&& !(geo2 instanceof GeoAxisND)
-						&& (geo2 != geo2.getKernel().getXOYPlane())
-						&& (geo2 != geo2.getKernel().getClippingCube())
-						&& (geo2 != geo2.getKernel().getSpace())) {
+						&& geo2.getConstruction()
+								.isConstantElement(geo2) == Constants.NOT) {
 					ret.add(geo2);
 				}
 			}
