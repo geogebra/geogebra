@@ -2009,8 +2009,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			canvas.setVisible(true);
 		}
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-				if (app.has(Feature.AV_PREVIEW)) {
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && isInputTreeItem()) {
+			if (app.has(Feature.AV_PREVIEW)) {
 					content.insert(getClearInputButton(), 0);
 				} else {
 					content.add(getClearInputButton());
