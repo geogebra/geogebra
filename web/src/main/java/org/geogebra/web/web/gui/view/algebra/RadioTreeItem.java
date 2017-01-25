@@ -2184,6 +2184,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	/**
 	 * @param x
 	 *            click event x-coord
+	 * @param y
+	 *            click event y-coord
 	 */
 	public void adjustCaret(int x, int y) {
 		// only in JLM

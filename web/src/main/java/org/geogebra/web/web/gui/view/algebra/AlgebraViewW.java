@@ -2330,7 +2330,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-	private AlgebraDockPanelW getAlgebraDockPanel() {
+	/**
+	 * @return algebra dock panel
+	 */
+	AlgebraDockPanelW getAlgebraDockPanel() {
 		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}

@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.TextEditPanel;
@@ -153,7 +152,7 @@ public class InputPanelW extends FlowPanel{
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
 				public void execute() {
-					textAreaComponent.getTextArea().setFocus(true);
+					focusTextImmediate();
 				}
 			});
 
@@ -161,6 +160,13 @@ public class InputPanelW extends FlowPanel{
 
 	}
 	
+	/**
+	 * Move focus to textarea without sheduler
+	 */
+	protected void focusTextImmediate() {
+		textAreaComponent.getTextArea().setFocus(true);
+	}
+
 	@Override
     public void setVisible(boolean visible){
 		super.setVisible(visible);
@@ -180,6 +186,11 @@ public class InputPanelW extends FlowPanel{
 		textComponent.setEditable(b);
 	}
 	
+	/**
+	 * @param app
+	 *            application
+	 * @return new AutoCompleteTextField
+	 */
 	public static AutoCompleteTextFieldW newTextComponent(AppW app) {
 		return new InputPanelW(null, app, -1, false).getTextComponent();
 	}

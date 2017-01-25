@@ -263,8 +263,8 @@ public class GeneralPathClipped implements GShape {
 		}
 	}
 
-	private static double btan(double increment) {
-		increment /= 2.0;
+	private static double btan(double angle) {
+		double increment = angle / 2.0;
 		return 4.0 / 3.0 * Math.sin(increment) / (1.0 + Math.cos(increment));
 	}
 

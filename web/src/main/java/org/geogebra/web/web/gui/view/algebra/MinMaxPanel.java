@@ -29,6 +29,10 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Min/max setting for slider
+ *
+ */
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
@@ -66,6 +70,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 	/**
 	 * Sets the currently open min/max panel of AV.
+	 * 
+	 * @param panel
+	 *            current panel
 	 */
 	public void setOpenedMinMaxPanel(MinMaxPanel panel) {
 		openedMinMaxPanel = panel;
@@ -78,6 +85,14 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	static class AVField extends AutoCompleteTextFieldW {
 		private CancelListener listener;
 
+		/**
+		 * @param columns
+		 *            field width
+		 * @param app
+		 *            application
+		 * @param listener
+		 *            called on edit cancel
+		 */
 		public AVField(int columns, App app, CancelListener listener) {
 			super(columns, app);
 			this.listener = listener;
@@ -127,6 +142,10 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private Kernel kernel;
 	private App app;
 
+	/**
+	 * @param item
+	 *            parent tree item
+	 */
 	public MinMaxPanel(SliderTreeItemInterface item) {
 		this.sliderTreeItem = item;
 		num = (GeoNumeric) this.sliderTreeItem.getGeo();
@@ -166,12 +185,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 			@Override
 			public void onFocus(FocusEvent event) {
-				if (focusRequested) {
-					event.preventDefault();
-					event.stopPropagation();
-					return;
-				}
-				tfStep.selectAll();
+				stepFocused(event);
 			}
 		});
 
@@ -190,6 +204,23 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 	}
 
+	/**
+	 * @param event
+	 *            focus event in step field
+	 */
+	protected void stepFocused(FocusEvent event) {
+		if (focusRequested) {
+			event.preventDefault();
+			event.stopPropagation();
+			return;
+		}
+		tfStep.selectAll();
+
+	}
+
+	/**
+	 * Update UIfrom geo
+	 */
 	public void update() {
 		tfMin.setText(kernel.format(num.getIntervalMin(),
 				StringTemplate.editTemplate));
@@ -206,8 +237,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		lblStep.setText(app.getLocalization().getMenu("Step"));
 	}
 
-
-
+	/**
+	 * Show the panel
+	 */
 	public void show() {
 		num.setAnimating(false);
 		this.sliderTreeItem.expandSize(MINMAX_MIN_WIDHT);
@@ -218,13 +250,20 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		this.sliderTreeItem.setAnimPanelVisible(false);
 	}
 
-	public void hide(boolean restore) {
+	/**
+	 * @param restore
+	 *            whether to restore size
+	 */
+	private void hide(boolean restore) {
 		if (restore) {
 			this.sliderTreeItem.restoreSize();
 		}
 		hide();
 	}
 
+	/**
+	 * Hide the panel
+	 */
 	public void hide() {
 		this.sliderTreeItem.setSliderVisible(true);
 		this.sliderTreeItem.deferredResize();
@@ -317,7 +356,8 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 	}
 
-	private boolean selectAllOnFocus(AVField avField, MouseEvent event) {
+	private static boolean selectAllOnFocus(AVField avField,
+			MouseEvent<?> event) {
 		if (RadioTreeItemController.isWidgetHit(avField, event)) {
 			avField.selectAll();
 			return true;
@@ -325,19 +365,25 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		return false;
 	}
 
-	public boolean isKeepOpen() {
+	private boolean isKeepOpen() {
 		return keepOpen;
 	}
 
-	public void setKeepOpen(boolean keepOpen) {
+	private void setKeepOpen(boolean keepOpen) {
 		this.keepOpen = keepOpen;
 	}
 
+	/**
+	 * Focus min field
+	 */
 	public void setMinFocus() {
 		tfMin.requestFocus();
 		focusRequested = true;
 	}
 
+	/**
+	 * Focus max field
+	 */
 	public void setMaxFocus() {
 		tfMax.requestFocus();
 		focusRequested = true;

@@ -119,8 +119,8 @@ public class Marble extends SimplePanel
 	 * @param euclidianShowable
 	 *            whether the geo may be shown/hidden
 	 */
-	public void setEnabled(boolean show) {
-		if (!show) {
+	public void setEnabled(boolean euclidianShowable) {
+		if (!euclidianShowable) {
 			addStyleName("marbleHidden");
 		} else {
 			removeStyleName("marbleHidden");
