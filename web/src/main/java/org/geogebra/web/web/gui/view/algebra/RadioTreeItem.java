@@ -800,7 +800,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	protected void doUpdate() {
 		setNeedsUpdate(false);
-		Log.printStacktrace("[RTI] updating " + geo);
 		if (hasMarblePanel()) {
 			marblePanel.update();
 		}

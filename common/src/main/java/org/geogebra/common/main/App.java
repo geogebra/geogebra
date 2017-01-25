@@ -2417,8 +2417,14 @@ public abstract class App implements UpdateSelection {
 				if (text == null || "".equals(text)) {
 					text = geo0.getNameDescription();
 				}
-
-				getActiveEuclidianView().readText(text);
+				// MOW-137 if selection originated in AV we don't want to move
+				// focus to EV
+				if (getGuiManager() == null
+						|| getGuiManager().getLayout().getDockManager()
+								.getFocusedViewId() == getActiveEuclidianView()
+										.getViewID()) {
+					getActiveEuclidianView().readText(text);
+				}
 			}
 		}
 		

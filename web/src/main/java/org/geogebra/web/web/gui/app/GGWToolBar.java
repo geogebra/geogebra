@@ -624,6 +624,13 @@ pr.menu_header_undo(), null, 32);
 
 	}
 
+	/**
+	 * @param uri
+	 *            image URI
+	 * @param width
+	 *            size
+	 * @return image wrapped in no-dragging widget
+	 */
 	public NoDragImage getImage(ResourcePrototype uri, int width) {
 		return new NoDragImage(ImgResourceHelper.safeURI(uri), width);
 	}
@@ -713,6 +720,11 @@ pr.menu_header_undo(), null, 32);
 		
 	}
 
+	/**
+	 * @param mode
+	 *            app mode
+	 * @return toolbar icon resource
+	 */
 	protected static ResourcePrototype getImageURLNotMacro(int mode) {
 		switch (mode) {
 
