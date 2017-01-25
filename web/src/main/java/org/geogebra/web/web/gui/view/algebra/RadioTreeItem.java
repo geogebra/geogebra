@@ -2009,7 +2009,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			canvas.setVisible(true);
 		}
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && isInputTreeItem()) {
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			if (app.has(Feature.AV_PREVIEW)) {
 					content.insert(getClearInputButton(), 0);
 				} else {
@@ -2018,7 +2019,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (controls != null) {
 					controls.setVisible(false);
 				}
-
+			}
 			setLatexItemVisible(true);
 		}
 
