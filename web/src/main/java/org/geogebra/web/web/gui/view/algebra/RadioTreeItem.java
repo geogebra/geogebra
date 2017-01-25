@@ -1831,7 +1831,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void updateIcons(boolean warning) {
-		Log.printStacktrace("UPDATE icons" + warning);
 		if (this.marblePanel != null) {
 			marblePanel.updateIcons(warning);
 		}
@@ -2197,18 +2196,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public void updateFonts() {
 		updateLineHeight();
-	}
-
-	/**
-	 * MathQuill = no math field -> false
-	 * 
-	 * Retex: TODO - do we ever want to hide retex on blur?
-	 * 
-	 * @return whether math field has focus.
-	 */
-	public boolean isMFfocused() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

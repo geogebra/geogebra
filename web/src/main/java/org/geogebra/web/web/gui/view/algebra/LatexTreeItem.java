@@ -162,6 +162,7 @@ public class LatexTreeItem extends RadioTreeItem {
 				getLatexController());
 		mf.setFontSize(getFontSize() + 1);
 		mf.setPixelRatio(app.getPixelRatio());
+		mf.setOnBlur(getLatexController());
 	}
 
 	@Override
@@ -457,7 +458,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		renderLatex(text, true);
 		getMathField().requestViewFocus();
 		app.getGlobalKeyDispatcher().setFocused(true);
-		canvas.addBlurHandler(getLatexController());
+		// canvas.addBlurHandler(getLatexController());
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
 			@Override
@@ -486,12 +487,6 @@ public class LatexTreeItem extends RadioTreeItem {
 			mf.setFontSize(getFontSize());
 		}
 		super.updateFonts();
-	}
-
-	@Override
-	public boolean isMFfocused() {
-		// TODO Auto-generated method stub
-		return true;
 	}
 
 	@Override

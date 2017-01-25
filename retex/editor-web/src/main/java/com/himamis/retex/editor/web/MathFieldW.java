@@ -93,6 +93,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private boolean leftAltDown = false;
 	private boolean enabled = true;
 	private static Timer tick;
+	private BlurHandler onTextfieldBlur;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 
 	/**
@@ -451,11 +452,14 @@ public class MathFieldW implements MathField, IsWidget {
 	 * Make sure the HTML element has focus and update to render cursor
 	 */
 	protected void onFocusTimer() {
+		BlurHandler oldBlur = this.onTextfieldBlur;
+		onTextfieldBlur = null;
 		mathFieldInternal.update();
 		// first focus canvas to get the scrolling right
 		html.getElement().focus();
 		// after set focus to the keyboard listening element
 		wrap.getElement().focus();
+		onTextfieldBlur = oldBlur;
 
 
 	}
@@ -544,6 +548,9 @@ public class MathFieldW implements MathField, IsWidget {
 				@Override
 				public void onBlur(BlurEvent event) {
 					event.stopPropagation();
+					if (onTextfieldBlur != null) {
+						onTextfieldBlur.onBlur(event);
+					}
 
 				}
 			});
@@ -555,6 +562,10 @@ public class MathFieldW implements MathField, IsWidget {
 			}
 
 		return wrap.getElement();
+	}
+
+	public void setOnBlur(BlurHandler run) {
+		this.onTextfieldBlur = run;
 	}
 
 	private static native Element getHiddenTextAreaNative(int counter,

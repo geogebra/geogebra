@@ -49,9 +49,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (item.isMFfocused()) {
-			return;
-		}
+		item.onEnter(false);
 		if (item.isEmpty() && item.isInputTreeItem()) {
 			item.addDummyLabel();
 		}
