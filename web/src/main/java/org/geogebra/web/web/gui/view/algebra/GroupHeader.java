@@ -13,9 +13,24 @@ import com.google.gwt.user.client.ui.TreeItem;
 public class GroupHeader extends FlowPanel {
 	
 	protected GroupNameLabel il;
-	Image img;
+
 	protected OpenButton open;
 	private String label;
+
+	/**
+	 * @param selection
+	 *            selection manager
+	 * @param parent
+	 *            parent item
+	 * @param strlab
+	 *            localized name
+	 * @param key
+	 *            english name (for sorting)
+	 * @param showUrl
+	 *            image when open
+	 * @param hiddenUrl
+	 *            image when collapsed
+	 */
 	public GroupHeader(SelectionManager selection, TreeItem parent,
 			String strlab, String key, SafeUri showUrl, SafeUri hiddenUrl) {
 		
@@ -26,10 +41,14 @@ public class GroupHeader extends FlowPanel {
 		add(il = new GroupNameLabel(selection, parent, strlab));
 	}
 	
-	public class OpenButton extends SimplePanel
+	/**
+	 * Toggle button connected to tree item state
+	 *
+	 */
+	public static class OpenButton extends SimplePanel
 	{
 		private SafeUri showUrl, hiddenUrl;
-		
+		private Image img;
 		public OpenButton(SafeUri showUrl,SafeUri hiddenUrl,final TreeItem ti){
 			this.showUrl = showUrl;
 			this.hiddenUrl = hiddenUrl;
@@ -75,11 +94,6 @@ public class GroupHeader extends FlowPanel {
 			}
 			this.getElement().addClassName("algebraOpenButton");
 		}
-
-		public void setEnabled(boolean euclidianShowable) {
-		    // TODO Auto-generated method stub
-		    
-	    }
 
 	}
 

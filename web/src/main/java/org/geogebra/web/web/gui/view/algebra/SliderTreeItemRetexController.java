@@ -27,6 +27,10 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 	private SliderTreeItemRetex slider;
 
+	/**
+	 * @param item
+	 *            parent item
+	 */
 	public SliderTreeItemRetexController(SliderTreeItemRetex item) {
 		super(item);
 		slider = item;
@@ -35,7 +39,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	@Override
 	protected void onPointerUp(AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
-		if (slider.minMaxPanel.isVisible()) {
+		if (slider.getMinMax().isVisible()) {
 			return;
 		}
 		super.onPointerUp(event);
@@ -65,8 +69,8 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		evt.stopPropagation();
 
 		if ((isWidgetHit(slider.controls.getAnimPanel(), evt)
-				|| (slider.minMaxPanel != null
-						&& slider.minMaxPanel.isVisible())
+				|| (slider.getMinMax() != null
+						&& slider.getMinMax().isVisible())
 				|| isMarbleHit(evt))) {
 			return;
 		}
@@ -93,7 +97,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 		}
 
-		if (slider.minMaxPanel != null && slider.minMaxPanel.isVisible()) {
+		if (slider.getMinMax() != null && slider.getMinMax().isVisible()) {
 			slider.selectItem(true);
 			return false;
 		}
@@ -103,11 +107,11 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 			if (minHit || maxHit) {
 				stopEdit();
-				slider.minMaxPanel.show();
+				slider.getMinMax().show();
 				if (minHit) {
-					slider.minMaxPanel.setMinFocus();
+					slider.getMinMax().setMinFocus();
 				} else if (maxHit) {
-					slider.minMaxPanel.setMaxFocus();
+					slider.getMinMax().setMaxFocus();
 				}
 				getApp().getKernel().notifyRepaint();
 				return true;
@@ -161,12 +165,12 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	 */
 	boolean isAnotherMinMaxOpen() {
 		return (MinMaxPanel.getOpenedPanel() != null
-				&& MinMaxPanel.getOpenedPanel() != slider.minMaxPanel);
+				&& MinMaxPanel.getOpenedPanel() != slider.getMinMax());
 	}
 
 	private boolean isClickedOutMinMax(int x, int y) {
-		return (MinMaxPanel.getOpenedPanel() == slider.minMaxPanel
-				&& !isWidgetHit(slider.minMaxPanel, x, y));
+		return (MinMaxPanel.getOpenedPanel() == slider.getMinMax()
+				&& !isWidgetHit(slider.getMinMax(), x, y));
 	}
 
 	@Override
@@ -175,7 +179,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 			stopEdit();
 		}
 
-		slider.num.setValue(event.getValue());
+		slider.getNum().setValue(event.getValue());
 		slider.geo.updateCascade();
 
 		if (!slider.geo.isAnimating()) {

@@ -496,7 +496,8 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	@Override
 	protected String getEditorLatex() {
-		return TeXSerializer.serialize(mf.getFormula().getRootComponent(),
+		return mf == null ? null
+				: TeXSerializer.serialize(mf.getFormula().getRootComponent(),
 				mf.getMetaModel());
 	}
 

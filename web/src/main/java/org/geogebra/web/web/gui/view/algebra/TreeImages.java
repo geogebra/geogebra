@@ -5,6 +5,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Tree;
 
+/** Helper class to hide default tree images for collapse / expand */
 public class TreeImages implements Tree.Resources{
 
  @Override

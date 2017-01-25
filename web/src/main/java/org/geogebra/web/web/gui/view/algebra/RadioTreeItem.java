@@ -1114,6 +1114,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 				RadioTreeItem.this.lastInput = newValue;
 				RadioTreeItem.this.lastTeX = RadioTreeItem.this
 						.getEditorLatex();
+				if (RadioTreeItem.this.lastTeX == null) {
+					RadioTreeItem.this.lastInput = null;
+				}
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true, getErrorHandler(true),
 						new AsyncOperation<GeoElementND>() {

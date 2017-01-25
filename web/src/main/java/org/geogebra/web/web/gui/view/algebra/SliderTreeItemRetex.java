@@ -61,8 +61,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 			resize();
 		}
 	};
-	MinMaxPanel minMaxPanel;
-	GeoNumeric num;
+	private MinMaxPanel minMaxPanel;
+	private GeoNumeric num;
 
 	/**
 	 * Creates a SliderTreeItem for AV sliders
@@ -135,7 +135,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		Scheduler.get().scheduleDeferred(resizeCmd);
 	}
 
-	private void resize() {
+	/** update size */
+	void resize() {
 		if (getSlider() == null) {
 			return;
 		}
@@ -245,6 +246,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	/**
 	 * 
 	 * @param geo
+	 *            geo element
 	 * @return if geo matches to SliderTreeItem.
 	 */
 	public static boolean match(GeoElement geo) {
@@ -276,7 +278,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	@Override
 	public void setFocus(boolean b, boolean sv) {
-
+		// ignore
 	}
 
 	@Override
@@ -284,10 +286,17 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		return true;
 	}
 
+	/**
+	 * @return slider
+	 */
 	public SliderPanelW getSlider() {
 		return slider;
 	}
 
+	/**
+	 * @param slider
+	 *            slider
+	 */
 	public void setSlider(SliderPanelW slider) {
 		this.slider = slider;
 	}
@@ -300,5 +309,19 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	@Override
 	public void restoreSize() {
 		getAV().restoreWidth();
+	}
+
+	/**
+	 * @return number
+	 */
+	protected GeoNumeric getNum() {
+		return num;
+	}
+
+	/**
+	 * @return min/max panel
+	 */
+	public MinMaxPanel getMinMax() {
+		return this.minMaxPanel;
 	}
 }

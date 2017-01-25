@@ -35,9 +35,17 @@ import com.google.gwt.user.client.ui.TreeItem;
 public class GroupNameLabel extends Label
 	implements ClickHandler, MouseOverHandler, MouseOutHandler {
 
-	TreeItem par;
-	SelectionManager selection;
+	private TreeItem par;
+	private SelectionManager selection;
 
+	/**
+	 * @param selection
+	 *            selection manager
+	 * @param parent
+	 *            parent
+	 * @param strlab
+	 *            text
+	 */
 	public GroupNameLabel(SelectionManager selection, TreeItem parent,
 			String strlab) {
 		super(strlab);
