@@ -1114,6 +1114,46 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
+	private void addRadioTreeItem(TreeItem parent, RadioTreeItem node) {
+		// add node to model (alphabetically ordered)
+		int pos = getInsertPosition(parent, node.geo, treeMode);
+		if (pos == 0 && parent == rootOrder) {
+			node.setFirst(true);
+		}
+
+		if (pos >= parent.getChildCount()) {
+			if (treeMode == SortMode.LAYER) {
+				if (isAlgebraInputVisible()) {
+					removeItem(inputPanelTreeItem);
+				}
+				parent.addItem(node);
+				if (isAlgebraInputVisible()) {
+					super.addItem(inputPanelTreeItem);
+				}
+
+			} else {
+				parent.addItem(node);
+				if (parent.equals(rootOrder)) {
+					addItem(node);
+				}
+			}
+
+		} else {
+			try {
+				parent.insertItem(pos, node);
+				if (parent.equals(rootOrder)) {
+					insertItem(pos, node);
+				}
+			} catch (IndexOutOfBoundsException e) {
+				parent.addItem(node);
+				if (parent.equals(rootOrder)) {
+					addItem(node);
+				}
+			}
+		}
+
+	}
+
 	/**
 	 * adds a new node to the tree
 	 */
@@ -1127,7 +1167,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 		cancelEditItem();
-		// setActiveTreeItem(null);
+
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
@@ -1143,52 +1183,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			RadioTreeItem node = createAVItem(geo,
 					app.has(Feature.RETEX_EDITOR));
 
-			// add node to model (alphabetically ordered)
-			int pos = getInsertPosition(parent, geo, treeMode);
-			if (pos == 0 && parent == rootOrder) {
-				node.setFirst(true);
-			}
-		
+			addRadioTreeItem(parent, node);
 
-			if (pos >= parent.getChildCount()) {
-				if (treeMode == SortMode.LAYER) {
-					if (isAlgebraInputVisible()) {
-						removeItem(inputPanelTreeItem);
-					}
-					parent.addItem(node);
-					if (isAlgebraInputVisible()) {
-						super.addItem(inputPanelTreeItem);
-					}
-
-				} else {
-					parent.addItem(node);
-					if (parent.equals(rootOrder)) {
-						addItem(node);
-					}
-				}
-
-
-			} else {
-				try {
-					parent.insertItem(pos, node);
-					if (parent.equals(rootOrder)) {
-						insertItem(pos, node);
-					}
-				} catch (IndexOutOfBoundsException e) {
-					parent.addItem(node);
-					if (parent.equals(rootOrder)) {
-						addItem(node);
-					}
-				}
-			}
-
-			// setUserObject(node, geo);
-
-			// item is already added
-			if (node != null && !(node.isInputTreeItem())) {
-				// RadioTreeItem.as(node)
-				// .addDeleteButton(node);
-			}
+			// if (node != null && !node.isInputTreeItem()) {
+			// setActiveTreeItem(node);
+			// }
 
 			if (app.has(Feature.AV_SCROLL)) {
 				RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
@@ -1197,10 +1196,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
 			if (wasEmpty) {
-				// this is for the case "add" is called after
-				// the input panel exists; the other case
-				// is done elsewhere, when it is created...
-
 				// if adding new elements the first time,
 				// let's show the X signs in the input bar!
 				if (this.inputPanelLatex != null) {
@@ -1208,8 +1203,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 
 			}
-
-			getAlgebraDockPanel().scrollToBottom();
 
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
@@ -2168,7 +2161,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			activeItem.getController().stopEdit();
 			unselect(activeItem.getGeo());
 		}
-		repaintView();
+		// repaintView();
 	}
 
 	private void unselect(GeoElement geo) {

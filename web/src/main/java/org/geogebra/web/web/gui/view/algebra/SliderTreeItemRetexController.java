@@ -59,11 +59,6 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		onPointerMove(wrappedEvent);
 	}
 
-	// @Override
-	// public void onMouseOver(MouseOverEvent event) {
-	// return;
-	// }
-
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();

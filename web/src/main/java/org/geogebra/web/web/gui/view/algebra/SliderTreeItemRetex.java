@@ -267,7 +267,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		if (first && !dp.hasLongStyleBar()) {
 			dp.showStyleBarPanel(!selected);
 		}
-		super.selectItem(true);
+		super.selectItem(selected);
 
 	}
 
