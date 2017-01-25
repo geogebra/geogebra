@@ -147,6 +147,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 			switch (angle.getAngleStyle()) {
 
 			default:
+			case ANTICLOCKWISE:
+				//no adjustment
 				break;
 			case NOTREFLEX:
 				if (angle.getRawAngle() > Math.PI) {
@@ -205,8 +207,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 					}
 					brush.segment(center, tmpCoords.setAdd(center,
 							tmpCoords.setMul(v1, size)));
+					tmpCoords2.set(tmpCoords);
 					brush.segment(tmpCoords,
-							tmpCoords2.setAdd(tmpCoords, v2.mul(size)));
+							tmpCoords2.addInsideMul(v2, size));
 					brush.segment(tmpCoords.setAdd(center,
 							tmpCoords.setMul(v2, size)), tmpCoords2);
 					brush.segment(center, tmpCoords);
@@ -297,14 +300,6 @@ public class DrawAngle3D extends Drawable3DCurves {
 		}
 		drawCoords = new Coords[] { new Coords(4), new Coords(4),
 				new Coords(4) };
-	}
-
-	protected double getStart() {
-		return 0;
-	}
-
-	protected double getExtent() {
-		return 2 * Math.PI;
 	}
 
 	@Override
