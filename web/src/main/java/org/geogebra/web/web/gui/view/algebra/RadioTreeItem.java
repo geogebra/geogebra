@@ -800,6 +800,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	protected void doUpdate() {
 		setNeedsUpdate(false);
+		Log.printStacktrace("[RTI] updating " + geo);
 		if (hasMarblePanel()) {
 			marblePanel.update();
 		}
@@ -1689,6 +1690,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 	public void selectItem(boolean selected) {
+		// Log.printStacktrace("[RTI] selectItem: " + selected);
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			if (controls != null) {
 				controls.show(selected);
@@ -2009,7 +2011,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 				if (app.has(Feature.AV_PREVIEW)) {
 					content.insert(getClearInputButton(), 0);
 				} else {
@@ -2018,7 +2019,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (controls != null) {
 					controls.setVisible(false);
 				}
-			}
 
 			setLatexItemVisible(true);
 		}
