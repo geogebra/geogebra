@@ -221,12 +221,13 @@ public class CAStestJSON {
 					t.printStackTrace();
 				// }
 				if (i == expectedResult.length - 1) {
-					Assert.assertEquals(result,
+					Assert.assertEquals(
 							(expectedResult[0] == null ? "null"
 									: expectedResult[0].replaceAll("c_[0-9]+",
 											"c_0"))
 									+ " input:"
-							+ input);
+									+ input,
+							result);
 				}
 			}
 	    }

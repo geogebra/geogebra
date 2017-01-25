@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -199,6 +200,11 @@ public class AlgoSpline extends AlgoElement {
 			}
 			for (int j = degreeValue - 1; j > -1; j--) {
 				for (i = 0; i < dimension; i++) {
+					if (j == 0 && Kernel.isZero(
+							parameters[i][k + degreeValue - 1 - j],
+							Kernel.MAX_PRECISION)) {
+						continue;
+					}
 					nodes[i] = nodes[i].plus(new ExpressionNode(kernel,
 							parameters[i][k + degreeValue - 1 - j])
 									.multiplyR(fv.wrap().power(j)));
