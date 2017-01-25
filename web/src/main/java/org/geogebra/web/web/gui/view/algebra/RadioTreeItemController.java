@@ -223,17 +223,6 @@ public class RadioTreeItemController
 
 	}
 
-	private void updateSelectionByMode(boolean ctrl, boolean shift) {
-		int mode = app.getActiveEuclidianView().getMode();
-
-		if (mode == EuclidianConstants.MODE_MOVE
-				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
-
-			updateSelection(ctrl, shift);
-		}
-
-	}
-
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -561,9 +550,8 @@ public class RadioTreeItemController
 		if (enable && (!active || item.isInputTreeItem())) {
 			Log.debug("[AVTAP] single tap edit begins");
 			longTouchManager.cancelTimer();
-			// item.selectItem(true);
 			startEdit(wrappedEvent.isControlDown());
-			updateSelectionByMode(wrappedEvent.isControlDown(),
+			updateSelection(wrappedEvent.isControlDown(),
 					wrappedEvent.isShiftDown());
 		}
 
