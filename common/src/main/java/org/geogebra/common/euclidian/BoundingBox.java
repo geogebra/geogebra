@@ -82,6 +82,8 @@ public class BoundingBox {
 		if (handlers == null) {
 			handlers = new ArrayList<GEllipse2DDouble>();
 		}
+
+		handlers.clear();
 		
 		// init handler list
 		for (int i = 0; i < /* = */nrHandlers; i++) {
@@ -191,7 +193,6 @@ public class BoundingBox {
 			for (int i = 0; i < handlers.size(); i++) {
 				GRectangle2D rect = handlers.get(i).getBounds();
 				if (rect.contains(x, y)) {
-					// Log.debug("HANDLER NR:" + i);
 					return i;
 				}
 			}

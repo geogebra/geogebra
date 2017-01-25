@@ -7823,6 +7823,12 @@ public abstract class EuclidianController {
 	protected final void handleMouseDragged(boolean repaint,
 			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
+		if (getResizedShape() != null) {
+			getResizedShape().updateByBoundingBoxCorner(event,
+					view.getHitHandlerNr());
+			stopCollectingMinorRepaints();
+			return;
+		}
 		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
 			draggingBeyondThreshold = true;
 		}
@@ -7841,13 +7847,6 @@ public abstract class EuclidianController {
 			kernel.notifyRepaint();
 			stopCollectingMinorRepaints();
 
-			return;
-		}
-		
-		if (getResizedShape() != null) {
-			getResizedShape().updateByBoundingBoxCorner(event,
-					view.getHitHandlerNr());
-			stopCollectingMinorRepaints();
 			return;
 		}
 
@@ -8143,7 +8142,8 @@ public abstract class EuclidianController {
 		}
 		
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
-		if (d != null) {
+		// for now allow only corner handlers
+		if (d != null && view.getHitHandlerNr() < 4) {
 			setResizedShape(d);
 		}
 
@@ -8319,6 +8319,12 @@ public abstract class EuclidianController {
 			penDragged = true;
 			getPen().handleMouseDraggedForPenMode(event);
 			return;
+		}
+
+		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
+		// for now allow only corner handlers
+		if (d != null && view.getHitHandlerNr() < 4) {
+			setResizedShape(d);
 		}
 
 		DrawList dl = view.getOpenedComboBox();
@@ -9631,6 +9637,17 @@ public abstract class EuclidianController {
 		if (shapeMode(mode)) {
 			getShapeMode().handleMouseReleasedForShapeMode(event);
 			storeUndoInfo();
+			return;
+		}
+
+		if (getResizedShape() != null) {
+			if (getResizedShape() instanceof DrawConic) {
+				((DrawConic) getResizedShape())
+					.updateEllipseGeo(event);
+			}
+			storeUndoInfo();
+			setResizedShape(null);
+			view.setHitHandlerNr(-1);
 			return;
 		}
 

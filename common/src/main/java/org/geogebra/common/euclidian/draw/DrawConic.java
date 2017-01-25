@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipShape;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -48,6 +49,10 @@ import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoParabolaPointLine;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -60,7 +65,9 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -165,6 +172,10 @@ public class DrawConic extends Drawable implements Previewable {
 	private boolean ignoreSingularities;
 
 	private BoundingBox boundingBox;
+	private double fixCornerX = Double.MIN_VALUE, fixCornerY = Double.MIN_VALUE;
+	private boolean isCircle = false;
+	protected GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
+			.newEllipse2DDouble(0, 0, 0, 0);
 
 	@Override
 	public GArea getShape() {
@@ -421,8 +432,13 @@ public class DrawConic extends Drawable implements Previewable {
 		if (geo.isShape()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
+				if (Kernel.isEqual(getBoundingBox().getRectangle().getHeight(),
+						getBoundingBox().getRectangle().getWidth(), 2)) {
+					setIsCircle(true);
+				}
 			} else {
 				getBoundingBox().setRectangle(null);
+				setIsCircle(false);
 			}
 		}
 	}
@@ -2037,4 +2053,292 @@ public class DrawConic extends Drawable implements Previewable {
 		this.boundingBox = boundingBox;
 	}
 
+	/**
+	 * @return fixed x coord of corner
+	 */
+	public double getFixCornerX() {
+		return fixCornerX;
+	}
+
+	/**
+	 * @param fixCornerX
+	 *            - x coord of fixed corner
+	 */
+	public void setFixCornerX(double fixCornerX) {
+		this.fixCornerX = fixCornerX;
+	}
+
+	/**
+	 * @return fixed y coord of corner
+	 */
+	public double getFixCornerY() {
+		return fixCornerY;
+	}
+
+	/**
+	 * @param fixCornerY
+	 *            - y coord of fixed corner
+	 */
+	public void setFixCornerY(double fixCornerY) {
+		this.fixCornerY = fixCornerY;
+	}
+
+	/**
+	 * @return true if is circle
+	 */
+	public boolean isCircle() {
+		return isCircle;
+	}
+
+	/**
+	 * @param isCircle
+	 *            - if it is circle
+	 */
+	public void setIsCircle(boolean isCircle) {
+		this.isCircle = isCircle;
+	}
+
+	/**
+	 * @param hitHandlerNr
+	 *            - nr of handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateEllipse(int hitHandlerNr, AbstractEvent event) {
+		if (prewEllipse == null) {
+			prewEllipse = AwtFactory.getPrototype()
+				.newEllipse2DDouble(0, 0, 0, 0);
+		}
+
+		if (fixCornerX == Double.MIN_VALUE) {
+			switch (hitHandlerNr) {
+			case 0:
+				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				break;
+			case 1:
+				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				break;
+			case 2:
+				fixCornerX = getBoundingBox().getRectangle().getX();
+				break;
+			case 3:
+				fixCornerX = getBoundingBox().getRectangle().getX();
+				break;
+			default:
+				break;
+			}
+		}
+		if (fixCornerY == Double.MIN_VALUE) {
+			switch (hitHandlerNr) {
+			case 0:
+				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				break;
+			case 1:
+				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				break;
+			case 2:
+				fixCornerY = getBoundingBox().getRectangle().getY();
+				break;
+			case 3:
+				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				break;
+			default:
+				break;
+			}
+		}
+
+		int dx = (int) (event.getX() - fixCornerX);
+		int dy = (int) (event.getY() - fixCornerY);
+
+		int width = dx;
+		int height = dy;
+
+		if (height >= 0) {
+			if (width >= 0) {
+				if (isCircle) {
+					prewEllipse.setFrame(fixCornerX, fixCornerY, width,
+							width);
+				} else {
+					prewEllipse.setFrame(fixCornerX, fixCornerY, width,
+							height);
+				}
+			} else { // width < 0
+				if (isCircle) {
+					prewEllipse.setFrame(
+							fixCornerX + width, fixCornerY, -width,
+							-width);
+				} else {
+					prewEllipse.setFrame(
+							fixCornerX + width, fixCornerY, -width,
+							height);
+				}
+			}
+		} else { // height < 0
+			if (width >= 0) {
+				if (isCircle) {
+					prewEllipse.setFrame(fixCornerX, fixCornerY - width,
+							width, width);
+				} else {
+					prewEllipse.setFrame(fixCornerX, fixCornerY + height,
+							width, -height);
+				}
+			} else { // width < 0
+				if (isCircle) {
+					prewEllipse.setFrame(
+							fixCornerX + width, fixCornerY + width,
+							-width, -width);
+				} else {
+					prewEllipse.setFrame(
+							fixCornerX + width, fixCornerY + height,
+							-width, -height);
+				}
+			}
+		}
+
+		getBoundingBox().setRectangle(prewEllipse.getBounds());
+	}
+
+	@Override
+	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+		conic.setEuclidianVisible(false);
+		conic.updateRepaint();
+		updateEllipse(handlerNr, e);
+		view.setShapeEllipse(prewEllipse);
+		view.repaintView();
+	}
+
+	private double[] getEndPointRealCoords(AbstractEvent event) {
+		double[] coord = new double[2];
+		double startPointX = fixCornerX;
+		double startPointY = fixCornerY;
+
+		if (startPointX >= event.getX()) {
+			if (startPointY >= event.getY()) {
+				coord[0] = view.toRealWorldCoordX(
+						startPointX - getBoundingBox().getRectangle().getWidth());
+				coord[1] = view.toRealWorldCoordY(
+						startPointY - getBoundingBox().getRectangle().getWidth());
+			} else {
+				coord[0] = view.toRealWorldCoordX(
+						startPointX
+								- getBoundingBox().getRectangle().getWidth());
+				coord[1] = view.toRealWorldCoordY(
+						startPointY
+								+ getBoundingBox().getRectangle().getWidth());
+			}
+		} else {
+			if (startPointY >= event.getY()) {
+				coord[0] = view.toRealWorldCoordX(
+						startPointX
+								+ getBoundingBox().getRectangle().getWidth());
+				coord[1] = view.toRealWorldCoordY(
+						startPointY
+								- getBoundingBox().getRectangle().getWidth());
+			} else {
+				coord[0] = view.toRealWorldCoordX(
+						startPointX + getBoundingBox().getRectangle().getWidth());
+				coord[1] = view.toRealWorldCoordY(
+						startPointY
+								+ getBoundingBox().getRectangle().getWidth());
+			}
+		}
+		return coord;
+	}
+
+	/**
+	 * update geo of drawable
+	 * 
+	 * @param event
+	 *            - mouse event
+	 */
+	public void updateEllipseGeo(AbstractEvent event) {
+		Equation equ = getEquationOfConic(event);
+		equ.initEquation();
+		ValidExpression ve = equ.wrap();
+		ve.setLabel(conic.getLabelSimple());
+		try {
+			view.getKernel().getAlgebraProcessor().processValidExpression(ve);
+		} catch (MyError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		conic.setEuclidianVisible(true);
+		conic.setSelected(true);
+		conic.updateRepaint();
+		this.update();
+		view.setShapeEllipse(null);
+		setFixCornerX(Double.MIN_VALUE);
+		setFixCornerY(Double.MIN_VALUE);
+		view.repaintView();
+		 
+	}
+
+	private Equation getEquationOfConic(AbstractEvent event) {
+		// real coords
+		double startX = view
+				.toRealWorldCoordX(fixCornerX);
+		double startY = view
+				.toRealWorldCoordY(fixCornerY);
+
+		double endX, endY;
+		if (isCircle) {
+			double[] coords = getEndPointRealCoords(event);
+			endX = coords[0];
+			endY = coords[1];
+		} else {
+			endX = view.toRealWorldCoordX(event.getX());
+			endY = view.toRealWorldCoordY(event.getY());
+		}
+
+		// coords of center
+		double centerX = (startX + endX) / 2;
+		double centerY = (startY + endY) / 2;
+		// minor and major axis
+		double minAx = Math.hypot(centerX - centerX, centerY - endY);
+		double majAx = Math.hypot(centerX - endX, centerY - centerY);
+
+		// construct equation (x-center_x)^2 / b^2 + (y-center_y)^2 / a^2 = 1
+		FunctionVariable xx = new FunctionVariable(view.getKernel(), "x");
+		FunctionVariable yy = new FunctionVariable(view.getKernel(), "y");
+		ExpressionNode rhs = new ExpressionNode(view.getKernel(), 1);
+		ExpressionNode expCenterX = new ExpressionNode(view.getKernel(),
+				centerX);
+		ExpressionNode expCenterY = new ExpressionNode(view.getKernel(),
+				centerY);
+		ExpressionNode expA = new ExpressionNode(view.getKernel(), minAx);
+		ExpressionNode expB = new ExpressionNode(view.getKernel(), majAx);
+
+		ExpressionNode leftNumerator = new ExpressionNode(view.getKernel(), xx,
+				Operation.MINUS, expCenterX);
+		ExpressionNode leftNumeratorSqr = new ExpressionNode(view.getKernel(),
+				leftNumerator, Operation.POWER,
+				new ExpressionNode(view.getKernel(), 2));
+
+		ExpressionNode leftDenom = new ExpressionNode(view.getKernel(), expB,
+				Operation.POWER, new ExpressionNode(view.getKernel(), 2));
+
+		ExpressionNode leftLhs = new ExpressionNode(view.getKernel(),
+				leftNumeratorSqr, Operation.DIVIDE, leftDenom);
+
+		ExpressionNode rightNumerator = new ExpressionNode(view.getKernel(), yy,
+				Operation.MINUS, expCenterY);
+		ExpressionNode rightNumeatorSqr = new ExpressionNode(view.getKernel(),
+				rightNumerator, Operation.POWER,
+				new ExpressionNode(view.getKernel(), 2));
+
+		ExpressionNode rightDenom = new ExpressionNode(view.getKernel(), expA,
+				Operation.POWER, new ExpressionNode(view.getKernel(), 2));
+
+		ExpressionNode rightLhs = new ExpressionNode(view.getKernel(),
+				rightNumeatorSqr, Operation.DIVIDE, rightDenom);
+
+		ExpressionNode lhs = new ExpressionNode(view.getKernel(), leftLhs,
+				Operation.PLUS, rightLhs);
+		Equation equ = new Equation(view.getKernel(), lhs, rhs);
+
+		return equ;
+	}
 }
