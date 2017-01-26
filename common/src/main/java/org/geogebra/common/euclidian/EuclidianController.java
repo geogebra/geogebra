@@ -9641,10 +9641,7 @@ public abstract class EuclidianController {
 		}
 
 		if (getResizedShape() != null) {
-			if (getResizedShape() instanceof DrawConic) {
-				((DrawConic) getResizedShape())
-					.updateEllipseGeo(event);
-			}
+			getResizedShape().updateGeo(event);
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandlerNr(-1);

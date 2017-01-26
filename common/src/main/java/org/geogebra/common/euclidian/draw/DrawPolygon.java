@@ -15,6 +15,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GArea;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -25,6 +26,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -55,6 +57,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private Coords[] extraCoords;
 
 	private BoundingBox boundingBox;
+	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
+	private boolean isSquare = false;
+	protected GGeneralPath prewPolygon = AwtFactory.getPrototype()
+			.newGeneralPath();
 
 	/**
 	 * Creates new DrawPolygon
@@ -303,6 +309,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private boolean fillShape = false;
+
+	private boolean changed = false;
 
 	@Override
 	final public void draw(GGraphics2D g2) {
@@ -568,6 +576,187 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	public void setBoundingBox(BoundingBox boundingBox) {
 		this.boundingBox = boundingBox;
+	}
+
+	/**
+	 * @return fixed x coord of corner
+	 */
+	public double getFixCornerX() {
+		return fixCornerX;
+	}
+
+	/**
+	 * @param fixCornerX
+	 *            - x coord of fixed corner
+	 */
+	public void setFixCornerX(double fixCornerX) {
+		this.fixCornerX = fixCornerX;
+	}
+
+	/**
+	 * @return fixed y coord of corner
+	 */
+	public double getFixCornerY() {
+		return fixCornerY;
+	}
+
+	/**
+	 * @param fixCornerY
+	 *            - y coord of fixed corner
+	 */
+	public void setFixCornerY(double fixCornerY) {
+		this.fixCornerY = fixCornerY;
+	}
+
+	private boolean isTriangleShape() {
+		return poly.isShape() && poly.getPoints().length == 3;
+	}
+
+	/**
+	 * method to update points of poly after mouse release
+	 * 
+	 * @param event
+	 *            - mouse event
+	 */
+	@Override
+	public void updateGeo(AbstractEvent event) {
+		if (isTriangleShape()) {
+			updateRealPointsOfTriangle(event);
+		}
+		poly.updateCascade(true);
+		poly.getParentAlgorithm().update();
+		for (GeoSegmentND geoSeg : poly.getSegments()) {
+			geoSeg.getParentAlgorithm().update();
+		}
+		for (GeoPointND geoPoint : poly.getPoints()) {
+			geoPoint.update();
+		}
+		poly.setEuclidianVisible(true);
+		poly.updateRepaint();
+		this.update();
+		view.setShapePolygon(null);
+		view.setShapeRectangle(null);
+		setFixCornerX(Double.NaN);
+		setFixCornerY(Double.NaN);
+		view.repaintView();
+	}
+
+	@Override
+	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+		poly.setEuclidianVisible(false);
+		poly.updateRepaint();
+		if (isTriangleShape()) {
+			updateTriangle(handlerNr, e);
+		}
+		view.setShapePolygon(prewPolygon);
+		view.setShapeRectangle(prewPolygon.getBounds());
+		view.repaintView();
+	}
+
+	private void updateRealPointsOfTriangle(AbstractEvent event) {
+		int height = (int) (event.getY() - fixCornerY);
+
+		if (height >= 0) {
+			poly.getPoint(0).setCoords(
+					view.toRealWorldCoordX(fixCornerX),
+					view.toRealWorldCoordY(event.getY()), 1);
+			poly.getPoint(1).setCoords(view.toRealWorldCoordX(event.getX()),
+					view.toRealWorldCoordY(event.getY()), 1);
+			poly.getPoint(2).setCoords(
+					view.toRealWorldCoordX(
+							(fixCornerX + event.getX()) / 2.0),
+					view.toRealWorldCoordY(fixCornerY), 1);
+		} else {
+			poly.getPoint(0).setCoords(view.toRealWorldCoordX(
+							(fixCornerX + event.getX()) / 2.0),
+					view.toRealWorldCoordY(event.getY()), 1);
+			poly.getPoint(1).setCoords(view.toRealWorldCoordX(fixCornerX),
+					view.toRealWorldCoordY(fixCornerY), 1);
+			poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
+					view.toRealWorldCoordY(fixCornerY), 1);
+		}
+
+	}
+
+	/**
+	 * update the coords of triangle
+	 * 
+	 * @param hitHandlerNr
+	 *            - nr of handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateTriangle(int hitHandlerNr, AbstractEvent event) {
+		int pointsX[] = new int[3];
+		int pointsY[] = new int[3];
+
+		if (prewPolygon == null) {
+			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
+		}
+
+		if (Double.isNaN(fixCornerX)) {
+			switch (hitHandlerNr) {
+			case 0:
+				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				break;
+			case 1:
+				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				break;
+			case 2:
+				fixCornerX = getBoundingBox().getRectangle().getX();
+				break;
+			case 3:
+				fixCornerX = getBoundingBox().getRectangle().getX();
+				break;
+			default:
+				break;
+			}
+		}
+		if (Double.isNaN(fixCornerY)) {
+			switch (hitHandlerNr) {
+			case 0:
+				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				break;
+			case 1:
+				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				break;
+			case 2:
+				fixCornerY = getBoundingBox().getRectangle().getY();
+				break;
+			case 3:
+				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				break;
+			default:
+				break;
+			}
+		}
+
+		prewPolygon.reset();
+		int height = (int) (event.getY() - fixCornerY);
+
+		if (height >= 0) {
+			pointsX[0] = (int) fixCornerX;
+			pointsX[1] = event.getX();
+			pointsX[2] = (int) Math.round((fixCornerX + event.getX()) / 2.0f);
+			pointsY[0] = event.getY();
+			pointsY[1] = event.getY();
+			pointsY[2] = (int) fixCornerY;
+		} else {
+			pointsX[0] = (int) Math.round((fixCornerX + event.getX()) / 2.0f);
+			pointsX[1] = (int) fixCornerX;
+			pointsX[2] = event.getX();
+			pointsY[0] = event.getY();
+			pointsY[1] = (int) fixCornerY;
+			pointsY[2] = (int) fixCornerY;
+		}
+
+		prewPolygon.moveTo(pointsX[0], pointsY[0]);
+		for (int index = 1; index < pointsX.length; index++) {
+			prewPolygon.lineTo(pointsX[index], pointsY[index]);
+		}
+		prewPolygon.closePath();
+
+		getBoundingBox().setRectangle(prewPolygon.getBounds());
 	}
 
 }

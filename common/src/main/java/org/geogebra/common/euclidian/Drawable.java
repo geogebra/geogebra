@@ -791,9 +791,20 @@ public abstract class Drawable extends DrawableND {
 	 * @param e
 	 *            - mouse drag event
 	 * @param handlerNr
-	 *            - which corner was draged
+	 *            - which corner was dragged
 	 */
 	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+		// do nothing here
+	}
+
+	/**
+	 * method to update geoElement of drawable by drag of resize handlers of
+	 * boundingBox
+	 * 
+	 * @param e
+	 *            - mouse release event
+	 */
+	public void updateGeo(AbstractEvent e) {
 		// do nothing here
 	}
 

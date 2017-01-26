@@ -2251,7 +2251,8 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @param event
 	 *            - mouse event
 	 */
-	public void updateEllipseGeo(AbstractEvent event) {
+	@Override
+	public void updateGeo(AbstractEvent event) {
 		Equation equ = getEquationOfConic(event);
 		equ.initEquation();
 		ValidExpression ve = equ.wrap();
@@ -2273,7 +2274,6 @@ public class DrawConic extends Drawable implements Previewable {
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
 		view.repaintView();
-		 
 	}
 
 	private Equation getEquationOfConic(AbstractEvent event) {
