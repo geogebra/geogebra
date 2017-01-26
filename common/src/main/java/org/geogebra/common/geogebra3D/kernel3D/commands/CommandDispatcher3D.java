@@ -125,6 +125,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Focus:
 				return new CmdFocus3D(kernel);
 
+			case PerpendicularLine:
 			case OrthogonalLine:
 				return new CmdOrthogonalLine3D(kernel);
 
@@ -136,11 +137,14 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case AngularBisector:
 				return new CmdAngularBisector3D(kernel);
 
+			case PerpendicularVector:
 			case OrthogonalVector:
 				return new CmdOrthogonalVector3D(kernel);
 
+			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
 				return new CmdUnitOrthogonalVector3D(kernel);
+
 			case Direction:
 				return new CmdUnitVector3D(kernel, false);
 			case UnitVector:
