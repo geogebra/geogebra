@@ -312,6 +312,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
 		}
+		app.centerPopupWithKeyboard();
 		keyboardVisibilityChanging = false;
 
 	}

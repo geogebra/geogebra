@@ -99,6 +99,7 @@ import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -125,6 +126,7 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.dialog.InputDialogW.DialogBoxKbW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2389,6 +2391,18 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public void registerPopup(Widget widget) {
 		popups.add(widget);
+	}
+
+	public void centerPopupWithKeyboard() {
+		for(int i=0; i<popups.size(); i++){
+			Widget w = popups.get(i);
+			if (w instanceof HasKeyboardPopup) {
+				if (w instanceof DialogBoxKbW) {
+					((DialogBoxKbW) w)
+							.center(this.getAppletFrame().getKeyboardHeight());
+				}
+			}
+		}
 	}
 
 	@Override

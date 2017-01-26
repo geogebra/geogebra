@@ -554,6 +554,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 * already showing, then the popup is centered.
 	 */
 	public void center() {
+		center(0);
+	}
+
+	public void center(double keyboardHeight) {
 		boolean initiallyShowing = showing;
 		boolean initiallyAnimated = isAnimationEnabled;
 
@@ -573,9 +577,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		elem.getStyle().setPropertyPx("top", 0);
 
 		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
-		int top = (getRootPanel().getOffsetHeight() - getOffsetHeight()) >> 1;
+		int top = (getRootPanel().getOffsetHeight() - getOffsetHeight()
+				- (int) keyboardHeight) >> 1;
 		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
-
+		
 		if (!initiallyShowing) {
 			setAnimationEnabled(initiallyAnimated);
 			// Run the animation. The popup is already visible, so we can skip
@@ -600,6 +605,18 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	public String getGlassStyleName() {
 		return glassStyleName;
 	}
+	
+	private native int getKeyboardHeight()/*-{
+		//app.getAppletFrame().getKeyboardHeight();
+		var kb = document.getElementsByClassName("KeyBoard");
+		if (kb[0]) {
+			console.log(kb[0].clientHeight);
+			return kb[0].clientHeight;
+		} else {
+			console.log("0");
+			return 0;
+		}
+	}-*/;
 
 	/**
 	 * Gets the panel's offset height in pixels. Calls to

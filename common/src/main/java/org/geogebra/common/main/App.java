@@ -4251,6 +4251,9 @@ public abstract class App implements UpdateSelection {
 		case ROUNDED_POLYGON:
 			return prerelease;
 
+		case DIALOGS_OVERLAP_KEYBOARD:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
