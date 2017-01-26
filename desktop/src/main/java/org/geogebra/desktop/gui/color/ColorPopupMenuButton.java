@@ -145,7 +145,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		String[] toolTipArray = new String[colorSet.length];
 		for (int i = 0; i < toolTipArray.length; i++) {
 			if (colorSet[i] == null) {
-				toolTipArray[i] = app.getMenu("Transparent");
+				toolTipArray[i] = app.getLocalization().getMenu("Transparent");
 			} else {
 				toolTipArray[i] = GeoGebraColorConstants
 						.getGeogebraColorName(app, colorSet[i]);

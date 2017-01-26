@@ -863,7 +863,7 @@ public class DataSourcePanel extends JPanel
 			// one var data type
 
 			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
-					app.getMenu("Number"));
+					loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(new ActionListener() {
 				@Override
@@ -874,7 +874,7 @@ public class DataSourcePanel extends JPanel
 			});
 
 			final JCheckBoxMenuItem itemTypeText = new JCheckBoxMenuItem(
-					app.getMenu("Type.Text"));
+					loc.getMenu("Type.Text"));
 			itemTypeText.setSelected(var.getGeoClass() == GeoClass.TEXT);
 			itemTypeText.addActionListener(new ActionListener() {
 				@Override
@@ -895,7 +895,7 @@ public class DataSourcePanel extends JPanel
 			// source type
 
 			final JCheckBoxMenuItem itmRawData = new JCheckBoxMenuItem(
-					app.getMenu("RawData"));
+					loc.getMenu("RawData"));
 			itmRawData.setSelected(var.getGroupType() == GroupType.RAWDATA);
 			itmRawData.addActionListener(new ActionListener() {
 				@Override
@@ -909,7 +909,7 @@ public class DataSourcePanel extends JPanel
 			});
 
 			final JCheckBoxMenuItem itmFrequency = new JCheckBoxMenuItem(
-					app.getMenu("DataWithFrequency"));
+					loc.getMenu("DataWithFrequency"));
 			itmFrequency.setSelected(var.getGroupType() == GroupType.FREQUENCY);
 			itmFrequency.addActionListener(new ActionListener() {
 				@Override
@@ -923,7 +923,7 @@ public class DataSourcePanel extends JPanel
 			});
 
 			final JCheckBoxMenuItem itmClass = new JCheckBoxMenuItem(
-					app.getMenu("ClassWithFrequency"));
+					loc.getMenu("ClassWithFrequency"));
 			itmClass.setSelected(var.getGroupType() == GroupType.CLASS);
 			itmClass.addActionListener(new ActionListener() {
 				@Override
@@ -954,7 +954,7 @@ public class DataSourcePanel extends JPanel
 			// two var data type
 
 			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
-					app.getMenu("Number"));
+					loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(new ActionListener() {
 				@Override
@@ -984,7 +984,7 @@ public class DataSourcePanel extends JPanel
 			grp.add(itmNumeric);
 			grp.add(itmPoint);
 
-			subMenu = new JMenu(app.getMenu("DataType"));
+			subMenu = new JMenu(loc.getMenu("DataType"));
 			menu.add(subMenu);
 			subMenu.add(itmNumeric);
 			subMenu.add(itmPoint);
@@ -995,7 +995,7 @@ public class DataSourcePanel extends JPanel
 		// header as title
 
 		final JCheckBoxMenuItem itmHeader = new JCheckBoxMenuItem(
-				app.getMenu("UseHeaderAsTitle"));
+				loc.getMenu("UseHeaderAsTitle"));
 		itmHeader.setSelected(dataSource.enableHeader());
 		itmHeader.addActionListener(new ActionListener() {
 			@Override
@@ -1082,19 +1082,19 @@ public class DataSourcePanel extends JPanel
 	 * 
 	 * case DataAnalysisModel.MODE_ONEVAR: if (dataSource.getGroupType() ==
 	 * GroupType.RAWDATA) { columnCount = 1;
-	 * columnNameList.add(app.getMenu("Data")); } else if
+	 * columnNameList.add(loc.getMenu("Data")); } else if
 	 * (dataSource.getGroupType() == GroupType.FREQUENCY) { columnCount = 2;
-	 * columnNameList.add(app.getMenu("Data"));
-	 * columnNameList.add(app.getMenu("Frequency")); } else if
+	 * columnNameList.add(loc.getMenu("Data"));
+	 * columnNameList.add(loc.getMenu("Frequency")); } else if
 	 * (dataSource.getGroupType() == GroupType.CLASS) { columnCount = 2;
-	 * columnNameList.add(app.getMenu("Classes"));
-	 * columnNameList.add(app.getMenu("Frequency")); } break;
+	 * columnNameList.add(loc.getMenu("Classes"));
+	 * columnNameList.add(loc.getMenu("Frequency")); } break;
 	 * 
 	 * case DataAnalysisModel.MODE_REGRESSION: if (dataSource.isPointList()) {
-	 * columnCount = 1; columnNameList.add("(" + app.getMenu("Column.X") + "," +
-	 * app.getMenu("Column.Y") + ")"); } else { columnCount = 2;
-	 * columnNameList.add(app.getMenu("Column.X"));
-	 * columnNameList.add(app.getMenu("Column.Y")); } break;
+	 * columnCount = 1; columnNameList.add("(" + loc.getMenu("Column.X") + "," +
+	 * loc.getMenu("Column.Y") + ")"); } else { columnCount = 2;
+	 * columnNameList.add(loc.getMenu("Column.X"));
+	 * columnNameList.add(loc.getMenu("Column.Y")); } break;
 	 * 
 	 * case DataAnalysisModel.MODE_MULTIVAR:
 	 * 

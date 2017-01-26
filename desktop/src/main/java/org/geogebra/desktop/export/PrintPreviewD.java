@@ -155,14 +155,14 @@ public class PrintPreviewD extends JDialog {
 
 		loadPreferences();
 
-		setTitle(app.getMenu("PrintPreview"));
+		setTitle(loc.getMenu("PrintPreview"));
 		Cursor oldCursor = app.getMainComponent().getCursor();
 		app.getMainComponent()
 				.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		getContentPane().setLayout(new BorderLayout());
 
 		// print button
-		JButton btnPrint = new JButton(app.getMenu("Print"),
+		JButton btnPrint = new JButton(loc.getMenu("Print"),
 				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT));
 		lst = new ActionListener() {
 			@Override
@@ -234,8 +234,8 @@ public class PrintPreviewD extends JDialog {
 		m_cbScale.setEditable(false); // can be set true
 
 		// ORIENTATION combo box
-		String[] orients = { app.getMenu("Portrait"),
-				app.getMenu("Landscape") };
+		String[] orients = { loc.getMenu("Portrait"),
+				loc.getMenu("Landscape") };
 		m_cbOrientation = new JComboBox(orients);
 		m_cbOrientation.setSelectedIndex(
 				(m_orientation == PageFormat.PORTRAIT) ? 0 : 1);

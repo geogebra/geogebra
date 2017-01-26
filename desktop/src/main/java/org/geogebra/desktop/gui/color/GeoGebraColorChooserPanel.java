@@ -29,6 +29,7 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -263,9 +264,10 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * Set localized strings.
 	 */
 	public void setLabels() {
-		btnCustomColor.setToolTipText(app.getMenu("AddCustomColor"));
-		lblCustom.setText(app.getMenu("Other") + ":");
-		lblRecent.setText(app.getMenu("RecentColor") + ":");
+		Localization loc = app.getLocalization();
+		btnCustomColor.setToolTipText(loc.getMenu("AddCustomColor"));
+		lblCustom.setText(loc.getMenu("Other") + ":");
+		lblRecent.setText(loc.getMenu("RecentColor") + ":");
 	}
 
 	public void updateFonts() {

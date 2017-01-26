@@ -903,9 +903,9 @@ public class EuclidianStyleBarD extends JToolBar
 		// ========================================
 		// point capture button
 
-		String[] strPointCapturing = { app.getMenu("Labeling.automatic"),
-				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
-				app.getMenu("off") };
+		String[] strPointCapturing = { loc.getMenu("Labeling.automatic"),
+				loc.getMenu("SnapToGrid"), loc.getMenu("FixedToGrid"),
+				loc.getMenu("off") };
 
 		btnPointCapture = new PopupMenuButtonD(app, strPointCapturing, -1, 1,
 				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {

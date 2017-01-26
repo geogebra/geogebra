@@ -257,7 +257,7 @@ public class LanguageDialog extends JDialog {
 		setTitle(loc.getMenu("Language"));
 
 		btnCancel.setText(loc.getMenu("Cancel"));
-		btnOK.setText(app.getMenu("OK"));
+		btnOK.setText(loc.getMenu("OK"));
 	}
 
 }

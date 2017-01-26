@@ -19,6 +19,7 @@ import javax.swing.table.JTableHeader;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
@@ -74,13 +75,13 @@ public class LinearRegressionPanel extends JPanel
 	}
 
 	public void updateRegressionPanel() {
+		Localization loc = app.getLocalization();
+		String[] columnLabels = { loc.getMenu("Coefficient"),
+				loc.getMenu("StandardError.short"), loc.getMenu("TStatistic"),
+				loc.getMenu("Pvalue"), };
 
-		String[] columnLabels = { app.getMenu("Coefficient"),
-				app.getMenu("StandardError.short"), app.getMenu("TStatistic"),
-				app.getMenu("Pvalue"), };
-
-		String[] rowLabels = { app.getMenu("Intercept"),
-				app.getMenu("Slope"), };
+		String[] rowLabels = { loc.getMenu("Intercept"),
+				loc.getMenu("Slope"), };
 
 		model.setColumnCount(0);
 		for (int i = 0; i < columnLabels.length; i++) {

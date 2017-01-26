@@ -58,6 +58,7 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -408,9 +409,10 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	 * Sets the labels for the current locale.
 	 */
 	public void setLabels() {
-		redLabel.setText(app.getMenu("Red"));
-		greenLabel.setText(app.getMenu("Green"));
-		blueLabel.setText(app.getMenu("Blue"));
+		Localization loc = app.getLocalization();
+		redLabel.setText(loc.getMenu("Red"));
+		greenLabel.setText(loc.getMenu("Green"));
+		blueLabel.setText(loc.getMenu("Blue"));
 	}
 
 	/**

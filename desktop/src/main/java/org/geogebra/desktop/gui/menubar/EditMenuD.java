@@ -38,7 +38,7 @@ public class EditMenuD extends BaseMenu {
 	private JSeparator selectionSeparator, deleteSeparator;
 
 	public EditMenuD(AppD app) {
-		super(app, app.getLocalization().getMenu("Edit"));
+		super(app, "Edit");
 		selection = app.getSelectionManager();
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);

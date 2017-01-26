@@ -47,7 +47,7 @@ public class OptionsMenuD extends BaseMenu
 
 
 	public OptionsMenuD(AppD app) {
-		super(app, app.getMenu("Options"));
+		super(app, "Options");
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
@@ -99,7 +99,7 @@ public class OptionsMenuD extends BaseMenu
 
 			LanguageActionListener langListener = new LanguageActionListener(
 					app);
-			final JMenu submenuLang = new JMenu(app.getMenu("Language"));
+			final JMenu submenuLang = new JMenu(loc.getMenu("Language"));
 			submenuLang.setIcon(flagIcon);
 			addLanguageMenuItems(app, submenuLang, langListener);
 			add(submenuLang);
@@ -231,7 +231,7 @@ public class OptionsMenuD extends BaseMenu
 	@Override
 	protected void initActions() {
 		// display the options dialog
-		showOptionsAction = new AbstractAction(app.getMenu("Advanced") + " ...",
+		showOptionsAction = new AbstractAction(loc.getMenu("Advanced") + " ...",
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
@@ -245,7 +245,7 @@ public class OptionsMenuD extends BaseMenu
 
 		if (!app.isApplet()) {
 			// save settings
-			saveSettings = new AbstractAction(app.getMenu("Settings.Save"),
+			saveSettings = new AbstractAction(loc.getMenu("Settings.Save"),
 					app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
 				@SuppressWarnings("hiding")
 				public static final long serialVersionUID = 1L;
@@ -258,7 +258,7 @@ public class OptionsMenuD extends BaseMenu
 
 			// restore default settings
 			restoreDefaultSettings = new AbstractAction(
-					app.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
+					loc.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
 				@SuppressWarnings("hiding")
 				public static final long serialVersionUID = 1L;
 
@@ -387,7 +387,7 @@ public class OptionsMenuD extends BaseMenu
 				if (res != null) {
 					((JMenuItem) subMenu).setIcon(app.getMenuIcon(res));
 				}
-				((JMenuItem) subMenu).setText(app.getMenu(key));
+				((JMenuItem) subMenu).setText(loc.getMenu(key));
 				((JMenu) parentMenu).add((JMenuItem) subMenu);
 
 			}

@@ -435,7 +435,7 @@ public class OptionsLayoutD extends OptionsLayout
 		Localization loc = app.getLocalization();
 		// input bar panel
 		inputBarPanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("InputField")));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("InputField")));
 		ckShowInputBar.setText(loc.getMenu("Show"));
 		ckShowInputHelp.setText(loc.getMenu("CmdList"));
 		lblInputBarPosition.setText(loc.getMenu("Position"));

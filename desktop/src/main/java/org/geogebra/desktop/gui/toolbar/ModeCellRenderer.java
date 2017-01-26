@@ -96,13 +96,14 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 		if (ob != null) {
 			setText(ob.toString());
 		} else {
-			setText(app.getMenu("Toolbar"));
+			setText(app.getLocalization().getMenu("Toolbar"));
 		}
 	}
 
 	private void handleModeNode(int mode) {
 		if (mode == -1) {
-			setText("\u2500\u2500\u2500 " + app.getMenu("Separator"));
+			setText("\u2500\u2500\u2500 "
+					+ app.getLocalization().getMenu("Separator"));
 			setIcon(null);
 		} else {
 			setText(app.getToolName(mode));

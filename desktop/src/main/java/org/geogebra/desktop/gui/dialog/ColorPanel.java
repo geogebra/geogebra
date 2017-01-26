@@ -235,9 +235,9 @@ class ColorPanel extends JPanel
 	public void setLabels() {
 		Localization loc = this.propertiesPanelD.app.getLocalization();
 		previewLabel
-				.setText(this.propertiesPanelD.app.getMenu("Preview") + ": ");
+				.setText(loc.getMenu("Preview") + ": ");
 		opacityPanel.setBorder(BorderFactory.createTitledBorder(
-				this.propertiesPanelD.app.getMenu("Opacity")));
+				loc.getMenu("Opacity")));
 		this.propertiesPanelD.colChooser
 				.setLocale(this.propertiesPanelD.app.getLocale());
 		rbtnBackgroundColor.setText(loc.getMenu("BackgroundColor"));

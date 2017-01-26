@@ -88,7 +88,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 		// display the layout options dialog
 		showLayoutOptionsAction = new AbstractAction(
-				app.getMenu("Layout") + " ...",
+				loc.getMenu("Layout") + " ...",
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
@@ -126,7 +126,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			}
 		};
 
-		showAlgebraInputAction = new AbstractAction(app.getMenu("InputField")) {
+		showAlgebraInputAction = new AbstractAction(loc.getMenu("InputField")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

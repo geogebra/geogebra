@@ -33,6 +33,7 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -403,10 +404,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		if (actionList == null) {
 			actionList = new ArrayList<AbstractAction>();
-
+			Localization loc = getApplication().getLocalization();
 			if (exportToEVAction != null) {
 				exportToEVAction.putValue(Action.NAME,
-						getApplication().getMenu("CopyToGraphics"));
+						loc.getMenu("CopyToGraphics"));
 				exportToEVAction.putValue(Action.SMALL_ICON,
 						getApplication().getEmptyIcon());
 				actionList.add(exportToEVAction);
@@ -475,7 +476,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 * Action to export an image of the view to the clipboard.
 	 */
 	AbstractAction drawingPadToClipboardAction = new AbstractAction(
-			getApplication().getMenu("CopyToClipboard"),
+			getApplication().getLocalization().getMenu("CopyToClipboard"),
 			getApplication().getEmptyIcon()) {
 		private static final long serialVersionUID = 1L;
 

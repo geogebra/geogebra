@@ -176,7 +176,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 			final ToolNameIconPanelD namePanel = new ToolNameIconPanelD(app,
 					true);
 			namePanel.setBorder(
-					BorderFactory.createTitledBorder(app.getMenu("NameIcon")));
+					BorderFactory.createTitledBorder(loc.getMenu("NameIcon")));
 			panel.add(namePanel, BorderLayout.CENTER);
 
 			JPanel closePanel = new JPanel();

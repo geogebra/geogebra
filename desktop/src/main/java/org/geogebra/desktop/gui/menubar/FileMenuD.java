@@ -58,7 +58,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction exitAllAction;
 
 	public FileMenuD(AppD app) {
-		super(app, app.getLocalization().getMenu("File"));
+		super(app, "File");
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);

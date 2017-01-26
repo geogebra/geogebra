@@ -25,7 +25,7 @@ class ToolsMenuD extends BaseMenu {
 	 *            application
 	 */
 	public ToolsMenuD(AppD app) {
-		super(app, app.getMenu("Tools"));
+		super(app, "Tools");
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
@@ -58,7 +58,7 @@ class ToolsMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		toolbarConfigAction = new AbstractAction(
-				app.getMenu("Toolbar.Customize") + " ...", app.getEmptyIcon()) {
+				loc.getMenu("Toolbar.Customize") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -68,7 +68,7 @@ class ToolsMenuD extends BaseMenu {
 		};
 
 		showCreateToolsAction = new AbstractAction(
-				app.getMenu("Tool.CreateNew") + " ...",
+				loc.getMenu("Tool.CreateNew") + " ...",
 				app.getMenuIcon(GuiResourcesD.TOOL)) {
 			private static final long serialVersionUID = 1L;
 
@@ -80,7 +80,7 @@ class ToolsMenuD extends BaseMenu {
 		};
 
 		showManageToolsAction = new AbstractAction(
-				app.getMenu("Tool.Manage") + " ...",
+				loc.getMenu("Tool.Manage") + " ...",
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_PROPERTIES)) {
 			private static final long serialVersionUID = 1L;
 

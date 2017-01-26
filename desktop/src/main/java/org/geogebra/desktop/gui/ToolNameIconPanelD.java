@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.dialog.ToolManagerDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -74,6 +75,7 @@ public class ToolNameIconPanelD extends JPanel {
 	 */
 	public ToolNameIconPanelD(final AppD app, boolean edithappens) {
 		this.app = app;
+		Localization loc = app.getLocalization();
 		this.editHappens = edithappens;
 		GridBagLayout namePanelLayout = new GridBagLayout();
 		namePanelLayout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1, 0.0 };
@@ -96,7 +98,7 @@ public class ToolNameIconPanelD extends JPanel {
 					new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE,
 							new Insets(0, 0, 0, 10), 0, 0));
-			labelToolName.setText(app.getMenu("ToolName"));
+			labelToolName.setText(loc.getMenu("ToolName"));
 		}
 		{
 			JLabel labelCmdName = new JLabel();
@@ -104,7 +106,7 @@ public class ToolNameIconPanelD extends JPanel {
 					new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE,
 							new Insets(0, 0, 0, 10), 0, 0));
-			labelCmdName.setText(app.getMenu("CommandName"));
+			labelCmdName.setText(loc.getMenu("CommandName"));
 		}
 		{
 			JLabel labelToolHelp = new JLabel();
@@ -112,7 +114,7 @@ public class ToolNameIconPanelD extends JPanel {
 					new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 							GridBagConstraints.EAST, GridBagConstraints.NONE,
 							new Insets(0, 0, 0, 10), 0, 0));
-			labelToolHelp.setText(app.getMenu("ToolHelp"));
+			labelToolHelp.setText(loc.getMenu("ToolHelp"));
 		}
 		KeyListener kl = new KeyListener() {
 			@Override
@@ -132,7 +134,7 @@ public class ToolNameIconPanelD extends JPanel {
 		{
 			tfToolName = new MyTextFieldD(app);
 			int n = app.getKernel().getMacroNumber() + 1;
-			tfToolName.setText(app.getMenu("Tool") + n);
+			tfToolName.setText(loc.getMenu("Tool") + n);
 			add(tfToolName, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
 					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
 					new Insets(0, 0, 0, 0), 0, 0));
@@ -176,7 +178,7 @@ public class ToolNameIconPanelD extends JPanel {
 				new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
 						GridBagConstraints.CENTER, GridBagConstraints.NONE,
 						new Insets(0, 0, 0, 0), 0, 0));
-		btIconFile.setText(app.getMenu("Icon") + " ...");
+		btIconFile.setText(loc.getMenu("Icon") + " ...");
 		ActionListener ac = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -195,7 +197,7 @@ public class ToolNameIconPanelD extends JPanel {
 				new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
 						GridBagConstraints.WEST, GridBagConstraints.NONE,
 						new Insets(0, 0, 0, 0), 0, 0));
-		cbShowInToolBar.setText(app.getMenu("ShowInToolBar"));
+		cbShowInToolBar.setText(loc.getMenu("ShowInToolBar"));
 		cbShowInToolBar.setSelected(true);
 		ActionListener ac2 = new ActionListener() {
 			@Override
@@ -440,7 +442,7 @@ public class ToolNameIconPanelD extends JPanel {
 
 	private String defaultToolName() {
 		int n = app.getKernel().getMacroNumber() + 1;
-		return app.getMenu("Tool") + n;
+		return app.getLocalization().getMenu("Tool") + n;
 	}
 
 }

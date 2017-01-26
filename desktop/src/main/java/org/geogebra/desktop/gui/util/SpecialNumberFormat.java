@@ -87,7 +87,8 @@ public class SpecialNumberFormat implements ActionListener {
 	 * @return
 	 */
 	public JMenu createMenuDecimalPlaces() {
-		menuDecimalPlaces = new JMenu(app.getMenu("Rounding"));
+		menuDecimalPlaces = new JMenu(
+				app.getLocalization().getMenu("Rounding"));
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this, strDecimalSpaces,
@@ -148,7 +149,7 @@ public class SpecialNumberFormat implements ActionListener {
 			if ("---".equals(items[i])) {
 				menu.addSeparator();
 			} else {
-				String text = app.getMenu(items[i]);
+				String text = app.getLocalization().getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(app.getFontCanDisplayAwt(text));
 				if (i == selectedPos) {

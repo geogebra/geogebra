@@ -36,7 +36,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 	}
 
 	private void createGUI() {
-		setTitle(app.getMenu("OpenFromGeoGebraTube"));
+		setTitle(app.getLocalization().getMenu("OpenFromGeoGebraTube"));
 		setResizable(true);
 		getContentPane().setPreferredSize(new Dimension(700, 700));
 

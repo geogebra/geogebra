@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.layout;
 
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -88,7 +87,8 @@ public class PerspectivePanel extends JPopupMenu {
 		this.removeAll();
 
 		JMenuItem title = new JMenuItem("<html><font color = black>"
-				+ app.getMenu("CreateYourOwn") + "</font></html>");
+				+ app.getLocalization().getMenu("CreateYourOwn")
+				+ "</font></html>");
 		title.setIcon(GeoGebraIconD.createEmptyIcon(32, 32));
 		title.setFont(app.getBoldFont());
 		title.setEnabled(false);
@@ -128,9 +128,6 @@ public class PerspectivePanel extends JPopupMenu {
 			}
 		}
 
-		btnLanguage = new JButton(setLanguageAction);
-		btnLanguage.setMargin(new Insets(2, 2, 2, 2));
-		btnLanguage.setToolTipText(app.getMenu("Language"));
 
 		add(Box.createVerticalStrut(20));
 		// add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
@@ -143,7 +140,8 @@ public class PerspectivePanel extends JPopupMenu {
 			return;
 		}
 		JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-		tmpItem.setText(app.getMenu(Layout.getDefaultPerspectives(i).getId()));
+		tmpItem.setText(app.getLocalization()
+				.getMenu(Layout.getDefaultPerspectives(i).getId()));
 		tmpItem.setActionCommand("d" + i);
 
 		Icon ic;

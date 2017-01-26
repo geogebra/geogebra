@@ -45,7 +45,7 @@ public class AsymptoteFrame extends ExportFrame {
 		comboFontSizeMore
 				.setSelectedIndex(10 - Integer.parseInt(fontsizelist[0]));
 
-		setTitle(app.getMenu("GeogebraToAsymptoteExport"));
+		setTitle(loc.getMenu("GeogebraToAsymptoteExport"));
 		js.getViewport().add(textarea);
 		panel.setLayout(new GridBagLayout());
 		panel.add(labelXUnit,

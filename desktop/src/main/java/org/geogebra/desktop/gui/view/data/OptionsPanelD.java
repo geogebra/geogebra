@@ -296,7 +296,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		// create classes panel
 		classesPanel = new JPanel(new GridBagLayout());
 		classesPanel.setBorder(
-				BorderFactory.createTitledBorder(app.getMenu("FrequencyType")));
+				BorderFactory.createTitledBorder(loc.getMenu("FrequencyType")));
 		classesPanel.add(ckManual, c);
 		c.insets.top += 8; // vertical gap
 		classesPanel.add(lblClassRule, c);

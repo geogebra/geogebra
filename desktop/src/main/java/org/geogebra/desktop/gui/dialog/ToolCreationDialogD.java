@@ -253,7 +253,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		if (app.getMacro() != null) {
 			app.getFrame().setVisible(false);
 		}
-		app.showMessage(app.getMenu("Tool.CreationSuccess"));
+		app.showMessage(loc.getMenu("Tool.CreationSuccess"));
 
 		// hide and dispose dialog
 		setVisible(false);
@@ -418,7 +418,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 
 	private void initGUI() {
 		try {
-			setTitle(app.getMenu("Tool.CreateNew"));
+			setTitle(loc.getMenu("Tool.CreateNew"));
 			BorderLayout thisLayout = new BorderLayout();
 			getContentPane().setLayout(thisLayout);
 
@@ -444,7 +444,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 
 			// name & icon
 			namePanel = new ToolNameIconPanelD(app, false);
-			tabbedPane.addTab(app.getMenu("NameIcon"), null, namePanel, null);
+			tabbedPane.addTab(loc.getMenu("NameIcon"), null, namePanel, null);
 
 			app.setComponentOrientation(this);
 

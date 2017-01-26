@@ -25,7 +25,7 @@ public class ViewMenuD extends BaseMenu {
 	 *            layout
 	 */
 	public ViewMenuD(AppD app, LayoutD layout) {
-		super(app, app.getMenu("View"));
+		super(app, "View");
 
 		this.layout = layout;
 
@@ -64,7 +64,7 @@ public class ViewMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 
-		refreshAction = new AbstractAction(app.getMenu("Refresh"),
+		refreshAction = new AbstractAction(loc.getMenu("Refresh"),
 				new ImageIcon(app.getRefreshViewImage())) {
 			private static final long serialVersionUID = 1L;
 
@@ -74,7 +74,7 @@ public class ViewMenuD extends BaseMenu {
 			}
 		};
 
-		recomputeAllViews = new AbstractAction(app.getMenu("RecomputeAllViews"),
+		recomputeAllViews = new AbstractAction(loc.getMenu("RecomputeAllViews"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 

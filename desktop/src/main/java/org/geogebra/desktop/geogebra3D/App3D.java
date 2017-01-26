@@ -191,7 +191,8 @@ public class App3D extends AppD {
 	 * shows congratulations message for using realsense
 	 */
 	void showRealSenseCongratulations() {
-		showInput3DCongratulations(getMenu("RealSense.DetectedMessage"),
+		showInput3DCongratulations(
+				getLocalization().getMenu("RealSense.DetectedMessage"),
 				REALSENSE_TUTORIAL);
 	}
 
@@ -212,14 +213,16 @@ public class App3D extends AppD {
 	 * shows congratulations message for using zspace
 	 */
 	void showZSpaceCongratulations() {
-		showInput3DCongratulations(getMenu("ZSpace.DetectedMessage"),
+		showInput3DCongratulations(
+				getLocalization().getMenu("ZSpace.DetectedMessage"),
 				"http://www.geogebra.org/tutorial/zspace");
 
 	}
 
 	private void showInput3DCongratulations(final String message,
 			final String tutorialURL) {
-		showInput3DMessage(message, getMenu("OpenTutorial"), tutorialURL);
+		showInput3DMessage(message, getLocalization().getMenu("OpenTutorial"),
+				tutorialURL);
 	}
 
 	private void showInput3DMessage(final String message,

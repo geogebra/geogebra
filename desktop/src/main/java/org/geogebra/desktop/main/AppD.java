@@ -2602,7 +2602,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		final String text = loc.getMenu(key);
 
 		JOptionPane.showConfirmDialog(mainComp, text,
-				GeoGebraConstants.APPLICATION_NAME + " - " + getMenu("Help"),
+				GeoGebraConstants.APPLICATION_NAME + " - "
+						+ loc.getMenu("Help"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 
@@ -4320,7 +4321,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			public void run() {
 				JOptionPane.showConfirmDialog(mainComp, message,
 						GeoGebraConstants.APPLICATION_NAME + " - "
-								+ getMenu("Info"),
+								+ getLocalization().getMenu("Info"),
 						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -5452,10 +5453,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public GeoGebraToPgf newGeoGebraToPgf() {
 		return new GeoGebraToPgfD(this);
-	}
-
-	public String getMenu(String key) {
-		return getLocalization().getMenu(key);
 	}
 
 }

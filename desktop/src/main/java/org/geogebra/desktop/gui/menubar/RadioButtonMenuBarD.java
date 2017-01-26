@@ -41,7 +41,8 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 			if ("---".equals(items[i])) {
 				addSeparator();
 			} else {
-				String text = (changeText) ? app.getMenu(items[i]) : items[i];
+				String text = (changeText)
+						? app.getLocalization().getMenu(items[i]) : items[i];
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
 						app.getGUIFontSize()));

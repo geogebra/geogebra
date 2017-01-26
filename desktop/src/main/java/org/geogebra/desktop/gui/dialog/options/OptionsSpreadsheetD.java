@@ -161,18 +161,18 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 	public void setLabels() {
 
 		// TODO -- add labels as needed
-		cbShowFormulaBar.setText(app.getMenu("ShowInputField"));
-		cbShowGrid.setText(app.getMenu("ShowGridlines"));
-		cbShowColumnHeader.setText(app.getMenu("ShowColumnHeader"));
-		cbShowRowHeader.setText(app.getMenu("ShowRowHeader"));
-		cbShowHScrollbar.setText(app.getMenu("ShowHorizontalScrollbars"));
-		cbShowVScrollbar.setText(app.getMenu("ShowVerticalScrollbars"));
-		cbAllowSpecialEditor.setText(app.getMenu("UseButtonsAndCheckboxes"));
-		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
-		cbPrependCommands.setText(app.getMenu("RequireEquals"));
-		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
-		cbShowNavigation.setText(app.getMenu("NavigationBar"));
-		descriptionLabel.setText(app.getMenu("AlgebraDescriptions"));
+		cbShowFormulaBar.setText(loc.getMenu("ShowInputField"));
+		cbShowGrid.setText(loc.getMenu("ShowGridlines"));
+		cbShowColumnHeader.setText(loc.getMenu("ShowColumnHeader"));
+		cbShowRowHeader.setText(loc.getMenu("ShowRowHeader"));
+		cbShowHScrollbar.setText(loc.getMenu("ShowHorizontalScrollbars"));
+		cbShowVScrollbar.setText(loc.getMenu("ShowVerticalScrollbars"));
+		cbAllowSpecialEditor.setText(loc.getMenu("UseButtonsAndCheckboxes"));
+		cbAllowToolTips.setText(loc.getMenu("AllowTooltips"));
+		cbPrependCommands.setText(loc.getMenu("RequireEquals"));
+		cbEnableAutoComplete.setText(loc.getMenu("UseAutoComplete"));
+		cbShowNavigation.setText(loc.getMenu("NavigationBar"));
+		descriptionLabel.setText(loc.getMenu("AlgebraDescriptions"));
 		updateDescription();
 	}
 

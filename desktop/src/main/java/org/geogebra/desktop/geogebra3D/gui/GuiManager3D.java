@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -89,7 +90,9 @@ public class GuiManager3D extends GuiManagerD {
 		if (!super.initActions()) {
 			return false;
 		}
-		showAxes3DAction = new AbstractAction(getApp().getMenu("Axes"),
+		Localization loc = getApp().getLocalization();
+		showAxes3DAction = new AbstractAction(
+				loc.getMenu("Axes"),
 				(getApp()).getScaledIcon(GuiResourcesD.AXES)) {
 			private static final long serialVersionUID = 1L;
 
@@ -104,7 +107,8 @@ public class GuiManager3D extends GuiManagerD {
 			}
 		};
 
-		showGrid3DAction = new AbstractAction(getApp().getMenu("Grid"),
+		showGrid3DAction = new AbstractAction(
+				loc.getMenu("Grid"),
 				getApp().getScaledIcon(GuiResourcesD.GRID)) {
 			private static final long serialVersionUID = 1L;
 
@@ -119,7 +123,8 @@ public class GuiManager3D extends GuiManagerD {
 			}
 		};
 
-		showPlaneAction = new AbstractAction(getApp().getMenu("Plane"),
+		showPlaneAction = new AbstractAction(
+				loc.getMenu("Plane"),
 				(getApp()).getScaledIcon(GuiResources3D.PLANE)) {
 			private static final long serialVersionUID = 1L;
 

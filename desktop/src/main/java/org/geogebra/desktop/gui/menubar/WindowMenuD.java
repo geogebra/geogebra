@@ -23,7 +23,7 @@ class WindowMenuD extends BaseMenu {
 	private AbstractAction newWindowAction;
 
 	public WindowMenuD(AppD app) {
-		super(app, app.getMenu("Window"));
+		super(app, "Window");
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
@@ -101,7 +101,7 @@ class WindowMenuD extends BaseMenu {
 	 */
 	@Override
 	protected void initActions() {
-		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
+		newWindowAction = new AbstractAction(loc.getMenu("NewWindow"),
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
 			private static final long serialVersionUID = 1L;
 

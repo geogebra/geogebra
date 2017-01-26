@@ -29,7 +29,7 @@ class HelpMenuD extends BaseMenu {
 	 * @param app
 	 */
 	public HelpMenuD(AppD app) {
-		super(app, app.getMenu("Help"));
+		super(app, "Help");
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
@@ -73,15 +73,15 @@ class HelpMenuD extends BaseMenu {
 	protected void initActions() {
 		if (helpAction == null) {
 			helpAction = new HelpAction(app,
-					app.getMenuIcon(GuiResourcesD.HELP), app.getMenu("Manual"),
+					app.getMenuIcon(GuiResourcesD.HELP), loc.getMenu("Manual"),
 					App.WIKI_MANUAL);
 
-			tutorialAction = new HelpAction(app, null, app.getMenu("Tutorials"),
+			tutorialAction = new HelpAction(app, null, loc.getMenu("Tutorials"),
 					App.WIKI_TUTORIAL);
 
 			if (app.getInput3DType().equals(Input3D.PREFS_REALSENSE)) {
 				input3DTutorialAction = new AbstractAction(
-						app.getMenu("RealSense.Tutorial"), app.getEmptyIcon()) {
+						loc.getMenu("RealSense.Tutorial"), app.getEmptyIcon()) {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -94,7 +94,7 @@ class HelpMenuD extends BaseMenu {
 				input3DTutorialAction = null;
 			}
 
-			reportBugAction = new AbstractAction(app.getMenu("ReportBug"),
+			reportBugAction = new AbstractAction(loc.getMenu("ReportBug"),
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
@@ -106,7 +106,7 @@ class HelpMenuD extends BaseMenu {
 				}
 			};
 
-			forumAction = new AbstractAction(app.getMenu("GeoGebraForum"),
+			forumAction = new AbstractAction(loc.getMenu("GeoGebraForum"),
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
@@ -117,7 +117,7 @@ class HelpMenuD extends BaseMenu {
 				}
 			};
 
-			infoAction = new AbstractAction(app.getMenu("AboutLicense"),
+			infoAction = new AbstractAction(loc.getMenu("AboutLicense"),
 					app.getMenuIcon(GuiResourcesD.INFO)) {
 				private static final long serialVersionUID = 1L;
 

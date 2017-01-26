@@ -744,7 +744,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		opacityLabel.setText(loc.getMenu("Opacity") + ":");
 
 		guiFontsizePanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("FontSize")));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("FontSize")));
 		guiFontSizeLabel.setText(loc.getMenu("GUIFontSize") + ":");
 
 		tooltipPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Tooltips")));
@@ -757,22 +757,22 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		cbUseLocalLabels.setText(loc.getMenu("LocalizedLabels"));
 
 		angleUnitPanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("AngleUnit")));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("AngleUnit")));
 		angleUnitRadioDegree.setText(loc.getMenu("Degree"));
 		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
 
 		continuityPanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("Continuity")));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Continuity")));
 		continuityRadioOn.setText(loc.getMenu("on"));
 		continuityRadioOff.setText(loc.getMenu("off"));
 
 		usePathAndRegionParametersPanel.setBorder(LayoutUtil
-				.titleBorder(app.getMenu("UsePathAndRegionParameters")));
+				.titleBorder(loc.getMenu("UsePathAndRegionParameters")));
 		usePathAndRegionParametersRadioOn.setText(loc.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(loc.getMenu("off"));
 
 		rightAnglePanel.setBorder(
-				LayoutUtil.titleBorder(app.getMenu("RightAngleStyle")));
+				LayoutUtil.titleBorder(loc.getMenu("RightAngleStyle")));
 		rightAngleRadio1.setText(loc.getMenu(loc.getMenu("off")));
 		rightAngleRadio2.setText("\u25a1");
 		rightAngleRadio3.setText("\u2219");

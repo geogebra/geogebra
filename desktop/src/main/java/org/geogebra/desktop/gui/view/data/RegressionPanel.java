@@ -186,7 +186,7 @@ public class RegressionPanel extends JPanel
 
 		for (Regression r : Regression.values()) {
 
-			regressionLabels[r.ordinal()] = app.getMenu(r.getLabel());
+			regressionLabels[r.ordinal()] = loc.getMenu(r.getLabel());
 		}
 
 	}
@@ -214,10 +214,10 @@ public class RegressionPanel extends JPanel
 		cbRegression.setSelectedIndex(j);
 		cbRegression.addActionListener(al);
 		((TitledBorder) regressionPanel.getBorder())
-				.setTitle(app.getMenu("RegressionModel"));
-		lblEqn.setText(app.getMenu("Equation") + ":");
+				.setTitle(loc.getMenu("RegressionModel"));
+		lblEqn.setText(loc.getMenu("Equation") + ":");
 
-		lblEvaluate.setText(app.getMenu("Evaluate") + ": ");
+		lblEvaluate.setText(loc.getMenu("Evaluate") + ": ");
 
 	}
 

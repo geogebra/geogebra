@@ -60,9 +60,9 @@ public class TwoVarStatPanelD extends StatTable
 		// key = cell location for the combo box
 		// value = String[] to hold menu items plus label
 		HashMap<Point, String[]> cellMap = new HashMap<Point, String[]>();
-		titlesPlusLabel[titlesPlusLabel.length - 1] = app.getMenu("Sample1");
+		titlesPlusLabel[titlesPlusLabel.length - 1] = loc.getMenu("Sample1");
 		cellMap.put(new Point(0, 0), titlesPlusLabel.clone());
-		titlesPlusLabel[titlesPlusLabel.length - 1] = app.getMenu("Sample2");
+		titlesPlusLabel[titlesPlusLabel.length - 1] = loc.getMenu("Sample2");
 		cellMap.put(new Point(1, 0), titlesPlusLabel.clone());
 
 		// set the table combo boxes

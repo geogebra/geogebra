@@ -27,7 +27,7 @@ class PerspectivesMenuD extends BaseMenu {
 	 * @param layout
 	 */
 	public PerspectivesMenuD(AppD app, LayoutD layout) {
-		super(app, app.getMenu("Perspectives"));
+		super(app, "Perspectives");
 
 		this.layout = layout;
 
@@ -48,7 +48,7 @@ class PerspectivesMenuD extends BaseMenu {
 
 		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); ++i) {
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-			tmpItem.setText(app.getMenu(
+			tmpItem.setText(loc.getMenu(
 					"Perspective." + Layout.getDefaultPerspectives(i).getId()));
 			tmpItem.setIcon(app.getEmptyIcon());
 			tmpItem.setActionCommand("d" + i);

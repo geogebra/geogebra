@@ -153,12 +153,12 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 				}
 			}
 		});
-		final String[] comboFillText = { app.getMenu("None"),
-				app.getMenu("OnlyOpaqueFills"), app.getMenu("WithOpacityPen"),
-				app.getMenu("ByLayering") };
+		final String[] comboFillText = { loc.getMenu("None"),
+				loc.getMenu("OnlyOpaqueFills"), loc.getMenu("WithOpacityPen"),
+				loc.getMenu("ByLayering") };
 
 		comboFill = new JComboBox(comboFillText);
-		labelFill = new JLabel(app.getMenu("FillType") + ":");
+		labelFill = new JLabel(loc.getMenu("FillType") + ":");
 		// end changes
 		comboFontSize = new JComboBox(msg);
 		jcbPointSymbol.setSelected(true);
@@ -191,13 +191,13 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		});
 		js = new JScrollPane();
 		textarea = new JTextArea();
-		buttonSave = new JButton(app.getMenu("SaveAs"));
+		buttonSave = new JButton(loc.getMenu("SaveAs"));
 		buttonSave.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentFile = app.getGuiManager().showSaveDialog(fileExtension,
-						currentFile, fileExtensionMsg + app.getMenu("Files"),
+						currentFile, fileExtensionMsg + loc.getMenu("Files"),
 						true, false);
 				if (currentFile == null) {
 					return;

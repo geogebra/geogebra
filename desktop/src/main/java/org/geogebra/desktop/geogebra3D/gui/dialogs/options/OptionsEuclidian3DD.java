@@ -94,7 +94,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	@Override
 	protected void setTypePanelLabel() {
 		typePanel.setBorder(LayoutUtil.titleBorder(
-				loc.getMenu("GridType") + " : " + app.getMenu("Cartesian")));
+				loc.getMenu("GridType") + " : " + loc.getMenu("Cartesian")));
 	}
 
 	@Override
@@ -485,7 +485,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		projectionLabel[3].setText(loc.getMenu("Oblique") + ":");
 		tfObliqueAngleLabel.setText(loc.getMenu("Angle") + ":");
-		tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
+		tfObliqueFactorLabel.setText(loc.getMenu("Dilate.Factor") + ":");
 
 		projectionButtons.updateIcons();
 		projectionButtons.setSelected(((EuclidianView3D) view).getProjection());

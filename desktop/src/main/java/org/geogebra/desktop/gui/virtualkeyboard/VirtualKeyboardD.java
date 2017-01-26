@@ -564,7 +564,7 @@ public class VirtualKeyboardD extends JFrame
 			MathButton = new JToggleButton("\u222b");
 			updateMathButton();
 			MathButton.setMargin(new Insets(0, 0, 0, 0));
-			MathButton.setToolTipText(app.getMenu("Keyboard.Math"));
+			MathButton.setToolTipText(loc.getMenu("Keyboard.Math"));
 			MathButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -594,7 +594,7 @@ public class VirtualKeyboardD extends JFrame
 			NumericButton = new JToggleButton();
 			NumericButton
 					.setIcon(app.getScaledIcon(GuiResourcesD.CAS_KEYBOARD));
-			NumericButton.setToolTipText(app.getMenu("Keyboard.Numeric"));
+			NumericButton.setToolTipText(loc.getMenu("Keyboard.Numeric"));
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));
 			NumericButton.addActionListener(new ActionListener() {
@@ -626,7 +626,7 @@ public class VirtualKeyboardD extends JFrame
 			GreekButton = new JToggleButton("\u03b1");
 			updateGreekButton();
 			GreekButton.setMargin(new Insets(0, 0, 0, 0));
-			GreekButton.setToolTipText(app.getMenu("Keyboard.Greek"));
+			GreekButton.setToolTipText(loc.getMenu("Keyboard.Greek"));
 			GreekButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -654,7 +654,7 @@ public class VirtualKeyboardD extends JFrame
 
 			EnglishButton = new JToggleButton("a");
 			updateEnglishButton();
-			EnglishButton.setToolTipText(app.getMenu("Keyboard.Standard"));
+			EnglishButton.setToolTipText(loc.getMenu("Keyboard.Standard"));
 			EnglishButton.setMargin(new Insets(0, 0, 0, 0));
 			EnglishButton.addActionListener(new ActionListener() {
 				@Override
@@ -1185,7 +1185,7 @@ public class VirtualKeyboardD extends JFrame
 			}
 
 			if (text != null) {
-				text = app.getMenu("Symbol." + text);
+				text = loc.getMenu("Symbol." + text);
 			}
 		}
 

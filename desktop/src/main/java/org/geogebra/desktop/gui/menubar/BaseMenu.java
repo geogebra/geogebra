@@ -34,11 +34,11 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * Construct a new sub-menu and assign the application attribute.
 	 * 
 	 * @param app
-	 * @param text
+	 * @param key
 	 *            The title of this menu
 	 */
-	public BaseMenu(AppD app, String text) {
-		super(text);
+	public BaseMenu(AppD app, String key) {
+		super(app.getLocalization().getMenu(key));
 
 		this.app = app;
 		this.loc = app.getLocalization();

@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -45,7 +46,7 @@ public class DataSourceDialog extends JDialog
 	public DataSourceDialog(AppD app, int mode) {
 
 		// non-modal dialog
-		super(app.getFrame(), app.getMenu(""), false);
+		super(app.getFrame(), app.getLocalization().getMenu(""), false);
 
 		this.app = app;
 		this.mode = mode;
@@ -127,14 +128,14 @@ public class DataSourceDialog extends JDialog
 	}
 
 	public void setLabels() {
-
-		setTitle(app.getMenu(app.getMenu("DataSource")));
+		Localization loc = app.getLocalization();
+		setTitle(loc.getMenu("DataSource"));
 
 		lblTitle.setText(app.getToolName(mode));
 		lblTitle.setIcon(app.getModeIcon(mode));
 
-		btnCancel.setText(app.getMenu("Cancel"));
-		btnOK.setText(app.getMenu("Analyze"));
+		btnCancel.setText(loc.getMenu("Cancel"));
+		btnOK.setText(loc.getMenu("Analyze"));
 		dataSourcePanel.setLabels();
 	}
 
