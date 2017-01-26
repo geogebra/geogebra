@@ -680,8 +680,8 @@ public class RadioTreeItemController
 		} else {
 			if (!(separated || continous)) {
 				// single selection
-				selectionCtrl.clear();
-				getAV().updateSelection();
+				// selectionCtrl.clear();
+				// getAV().updateSelection();
 
 			}
 			selectionCtrl.select(geo, separated, continous);
