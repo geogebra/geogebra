@@ -128,11 +128,10 @@ public class UploadRequest implements Request {
 
 	@Override
 	public String toJSONString(ClientInfo client) {
-		if (client.getModel() == null) {
-			Log.warn("No model");
-		}
-		if (client.getModel().getLoggedInUser() == null) {
+		if (client.getModel() == null
+				|| client.getModel().getLoggedInUser() == null) {
 			Log.warn("No user.");
+			return null;
 		}
 		try {
 			// TODO for save we only need title
