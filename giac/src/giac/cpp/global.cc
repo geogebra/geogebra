@@ -4375,7 +4375,7 @@ unsigned int ConvertUTF8toUTF16 (
   // count number of bytes required to save g in a file
   static size_t countfunction(void const* p, size_t nbBytes,size_t NbElements, void *file)
   {
-    (*(unsigned *)file)+= nbBytes*NbElements;
+    (*(unsigned *)file)+= unsigned(nbBytes*NbElements);
     return nbBytes*NbElements;
   }
   unsigned archive_count(const gen & g,GIAC_CONTEXT){

@@ -2439,7 +2439,7 @@ namespace giac {
       if (v2.size()<rvarsize){
 	e=e2;
 	v=v2;
-	rvarsize=v2.size();
+	rvarsize=int(v2.size());
       }
     }
     vecteur rvar=v;
@@ -2761,7 +2761,7 @@ namespace giac {
     if (!has_nop_var(v)){
       // additional check for non integer powers
       v=lop(lvar(e),at_pow);
-      vecteur vx=lvarx(v,gen_x,contextptr);
+      vecteur vx=lvarx(v,gen_x);
       if (vx.empty() || vx==vecteur(1,gen_x))
 	return integrate_linearizable(e,gen_x,remains_to_integrate,intmode,contextptr);
       // second try with ^ rewritten as exp(ln)
@@ -2771,7 +2771,7 @@ namespace giac {
       if (!has_nop_var(v)){
 	// additional check for non integer powers
 	v=lop(lvar(etmp),at_pow);
-	vecteur vx=lvarx(v,gen_x,contextptr);
+	vecteur vx=lvarx(v,gen_x);
 	if (vx.empty() || vx==vecteur(1,gen_x))
 	  return integrate_linearizable(etmp,gen_x,remains_to_integrate,intmode,contextptr);
       }
@@ -4234,7 +4234,8 @@ namespace giac {
     return poly12polynome(v,1,P.dim);
   }
 
-  vecteur decalage(const polynome & A,const polynome & B){
+
+  vecteur decalage_(const polynome & A,const polynome & B){
     int s=A.dim;
     // find integer roots of resultant of A(x),B(x+t) with respect to x
     vecteur l(s);
@@ -4258,6 +4259,52 @@ namespace giac {
     polynome pres=*resu._POLYptr;
     // Make the list of the positive integer roots k in t of the resultant
     return iroots(pres);
+  }
+  // IMPROVE: eval A and B at other variables to detect possible integer roots
+  // then try gcd(A(x),B(x+t))
+  vecteur decalage(const polynome & A,const polynome & B){
+    int s=A.dim;
+    // if (s==1)
+      return decalage_(A,B);
+    vecteur l(s),L(s);
+    for (int i=0;i<s;++i)
+      l[i]=identificateur("x"+print_INT_(i));
+    gen a=r2e(A,l,context0);
+    gen b=r2e(B,l,context0);
+    gen t=identificateur("t");
+    L[0]=l[0];
+    gen a0=subst(a,l,L,false,context0);
+    L[0]=l[0]+t;
+    gen b0=subst(b,l,L,false,context0);
+    gen r=_resultant(makesequence(a0,b0,l[0]),context0);
+    if (is_zero(derive(r,t,context0))){
+      int essai=0;
+      for (;essai<s;++essai){
+	L=vranm(s,0,0); // find random evaluation
+	L[0]=l[0];
+	a0=subst(a,l,L,false,context0);
+	L[0]=l[0]+t;
+	b0=subst(b,l,L,false,context0);
+	r=_resultant(makesequence(a0,b0,l[0]),context0);
+	if (!is_zero(derive(r,t,context0)))
+	  break;
+      }
+      if (essai==s)
+	return decalage_(A,B);
+    }
+    r=e2r(r,vecteur(1,t),context0);
+    if (r.type!=_POLY)
+      return decalage_(A,B);
+    vecteur v=iroots(*r._POLYptr);
+    vecteur res;
+    for (int i=0;i<v.size();++i){
+      gen ti=v[i];
+      gen bti=subst(b,t,ti,false,context0);
+      gen g=gcd(a,bti,context0);
+      if (!is_zero(derive(g,l[0],context0)))
+	res.push_back(ti);
+    }
+    return res;
   }
 
   // Write a fraction A/B as E[P]/P*Q/E[R] where E[P]=subst(P,x,x+1)

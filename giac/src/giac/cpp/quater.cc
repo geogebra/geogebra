@@ -454,7 +454,7 @@ namespace giac {
   }
 
   void gf_add(const vecteur & a,const vecteur &b,int p,vecteur & c){
-    int n=a.size(),m=b.size();
+    int n=int(a.size()),m=int(b.size());
     if (n<m){
       gf_add(b,a,p,c);
       return;
@@ -597,7 +597,7 @@ namespace giac {
 	  vecteur2vector_int(*gptr->a._VECTptr,0,bmod);
 	  vecteur2vector_int(*P._VECTptr,0,pmod);
 	  mulext(amod,bmod,pmod,m,ab);
-	  int absize=ab.size();
+	  int absize=int(ab.size());
 	  int * i=&ab.front(),*iend=i+absize;
 	  for (;i<iend;++i){
 	    int j=*i;

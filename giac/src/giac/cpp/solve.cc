@@ -7082,7 +7082,7 @@ namespace giac {
 	    if (is_zero(lf[i])){
 	      index_t idx(lf.size());
 	      idx[i]=1;
-	      eqp.push_back(polynome(lf.size()));
+	      eqp.push_back(polynome(int(lf.size())));
 	      eqp.back().coord.push_back(monomial<gen>(1,idx));
 	    }
 	  }

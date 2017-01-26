@@ -6077,8 +6077,8 @@ namespace giac {
   }
 
   inline void special_mod(double & x,double c,modint d,modint env,double env2){
-    register modint2 y=x-c*d;
-    if (y<0) x = y+env2; else x=y;// if y is negative make it positive by adding env^2
+    register modint2 y=modint2(x-c*d);
+    if (y<0) x = double(y+env2); else x=double(y);// if y is negative make it positive by adding env^2
   }
 
   typedef char used_t;
@@ -6661,7 +6661,7 @@ namespace giac {
 #endif
     if (!res){
       for (;wt<wtend;++wt){
-	modint2 i=*wt;
+	modint2 i=modint2(*wt);
 	if (!i) continue;
 	*wt = 0;
 	i %= env;
@@ -6678,13 +6678,13 @@ namespace giac {
     }
 #if 1
     for (;wt<=wt1;++wt){
-      modint2 i=*wt;
+      modint2 i=modint2(*wt);
       if (!i){
-	++wt; i=*wt;
+	++wt; i=modint2(*wt);
 	if (!i){
-	  ++wt; i=*wt;
+	  ++wt; i=modint2(*wt);
 	  if (!i){
-	    ++wt; i=*wt;
+	    ++wt; i=modint2(*wt);
 	    if (!i)
 	      continue;
 	  }
@@ -6700,7 +6700,7 @@ namespace giac {
     }
 #endif
     for (;wt<wtend;++wt){
-      modint2 i=*wt;
+      modint2 i=modint2(*wt);
       if (!i) continue;
       *wt=0;
       i %= env;
@@ -8625,7 +8625,7 @@ namespace giac {
       res.dbgprint(); // instantiate dbgprint()
     int capa=512;
     if (f4buchberger_info)
-      capa=f4buchberger_info->capacity();
+      capa=int(f4buchberger_info->capacity());
     polymod<tdeg_t> TMP1(res.front().order,res.front().dim),TMP2(res.front().order,res.front().dim);
     vector< paire > B,BB;
     B.reserve(256); BB.reserve(256);
@@ -10575,7 +10575,7 @@ namespace giac {
     while (!H.empty()){
       // push root node of the heap in allf4buchberger
       heap_tt<tdeg_t> & current = *H.front().ptr;
-      if (current.u.total_degree(keyorder)>GBASISF4_MAX_TOTALDEG){
+      if (int(current.u.total_degree(keyorder))>GBASISF4_MAX_TOTALDEG){
 	CERR << "Error zcollect total degree too large" << current.u.total_degree(keyorder) << endl;
 	return false;
       }
@@ -12485,7 +12485,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	}
 	else
 	  sel1=0;
-	if (firstdeg>GBASISF4_MAX_TOTALDEG){
+	if (int(firstdeg)>GBASISF4_MAX_TOTALDEG){
 	  CERR << "Error zgbasis degree too large" << endl;
 	  return false;
 	}
@@ -12523,7 +12523,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	CERR << "pairs reduced " << B << " indices " << smallposv << endl;
       if (order.o!=_REVLEX_ORDER && smallposv.size()<=GBASISF4_BUCHBERGER){
 	// pairs not handled by f4
-	int modsize=resmod.size();
+	int modsize=int(resmod.size());
 	if (modsize<res.size())
 	  resmod.resize(res.size());
 	for (int i=0;i<int(G.size());++i){
@@ -13569,7 +13569,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  }
 	  else {
 	    if (!rur_compute(gbmod,lmtmp,lmmodradical,p.val,s,rurv)){
-	      ok=rur=0;
+		  ok = false; rur = 0;
 	      continue;
 	    }
 	    if (debug_infolevel)

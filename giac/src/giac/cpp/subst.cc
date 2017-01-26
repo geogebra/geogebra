@@ -2301,27 +2301,27 @@ namespace giac {
 	  gen g=vabs2[i];
 	  if (!g.is_symb_of_sommet(at_pow)){
 	    bases.push_back(g);
-	    base[i]=bases.size()-1;
+	    base[i]=int(bases.size()-1);
 	    expo[i]=1;
 	    continue;
 	  }
 	  gen b=g[1],e=g[2];
 	  if (!lop(b,at_pow).empty()){
 	    bases.push_back(g);
-	    base[i]=bases.size()-1;
+	    base[i]=int(bases.size()-1);
 	    expo[i]=1;
 	    continue;
 	  }
 	  if (e.type!=_FRAC || e._FRACptr->num!=1 || e._FRACptr->den.type!=_INT_){
 	    bases.push_back(g);
-	    base[i]=bases.size()-1;
+	    base[i]=int(bases.size()-1);
 	    expo[i]=1;
 	    continue;
 	  }
 	  int p=equalposcomp(bases,b);
 	  if (p==0){
 	    bases.push_back(b);
-	    base[i]=bases.size()-1;
+	    base[i]=int(bases.size()-1);
 	    expo[i]=e._FRACptr->den.val;
 	    continue;
 	  }

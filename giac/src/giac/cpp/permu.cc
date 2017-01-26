@@ -204,12 +204,12 @@ namespace giac {
   define_unary_function_ptr5( at_permuorder ,alias_at_permuorder,&__permuorder,0,true);
 
   void shuffle(vector<int> & temp){
-    int n=temp.size();
+    int n=int(temp.size());
     // source wikipedia Fisher-Yates shuffle article
     for (int i=0;i<n-1;++i){
       // j ← random integer such that i ≤ j < n
       // exchange a[i] and a[j]
-      int j=i+(std_rand()/(rand_max2+1.0))*(n-i);
+      int j=i+int((std_rand()/(rand_max2+1.0))*(n-i));
       std::swap(temp[i],temp[j]);
     }
   }
@@ -223,7 +223,7 @@ namespace giac {
       for (int essai=20;essai>=0;--essai){
 	int i;
 	for (i=0;i<k;++i)
-	  ts[i]=t[i]=std_rand()/(rand_max2+1.0)*n;
+	  ts[i]=t[i]=int(std_rand()/(rand_max2+1.0)*n);
 	sort(ts.begin(),ts.end());
 	for (i=1;i<k;++i){
 	  if (ts[i]==ts[i-1])
@@ -237,7 +237,7 @@ namespace giac {
       vector<int> t; t.reserve(k);
       // (algorithm suggested by O. Garet)
       while (n>0){
-	int r=std_rand()/(rand_max2+1.0)*n;
+	int r=int(std_rand()/(rand_max2+1.0)*n);
 	if (r<n-k) // (n-k)/n=proba that the current n is not in the list
 	  --n;
 	else {
@@ -257,7 +257,7 @@ namespace giac {
     for (int j=0;j<k;++j){
       int r=-1;
       for (;;){
-	r=std_rand()/(rand_max2+1.0)*n;
+	r=int(std_rand()/(rand_max2+1.0)*n);
 	if (tab[r]) break;
       }
       v[j]=r;

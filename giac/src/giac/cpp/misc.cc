@@ -1583,8 +1583,12 @@ namespace giac {
       aplatir(*g._VECTptr->front()._VECTptr,v);
       return l2norm(v,contextptr);      
     }
-    if (ckmatrix(g))
-      return _max(_SVL(g,contextptr)[1],contextptr);
+    if (ckmatrix(g)){
+      gen tmp=_SVL(g,contextptr);
+      if (tmp.type==_VECT && tmp._VECTptr->size()==2 && tmp._VECTptr->back().type==_VECT) 
+	tmp=tmp._VECTptr->back();
+      return _max(tmp,contextptr);
+    }
     v=*g._VECTptr;
     return l2norm(v,contextptr);
   }
@@ -6174,7 +6178,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       vecteur res;
       int pos=0;
       for (;;++pos){
-	pos=s.find(*a._STRNGptr,pos);
+	pos=int(s.find(*a._STRNGptr,pos));
 	if (pos<0 || pos>=s.size())
 	  break;
 	res.push_back(pos+shift);
@@ -6421,7 +6425,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     for (int i=int(v.size())-2;i>=0;--i){
       if (v[i]!=0){
 	a=v[i];
-	order=v.size()-i-1;
+	order=int(v.size())-i-1;
 	break;
       }
     }
@@ -6927,7 +6931,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   int step_param(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){
-    int c=complex_mode(contextptr),st=step_infolevel(contextptr),s=0;
+    bool c=complex_mode(contextptr); int st=step_infolevel(contextptr),s=0;
     step_infolevel(0,contextptr);
 #ifdef NO_STDEXCEPT
     s=step_param_(f,g,t,tmin,tmax,poi,tvi,printtvi,exactlegende,contextptr);
@@ -7309,7 +7313,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT){
-    int c=complex_mode(contextptr),st=step_infolevel(contextptr),s=0;
+    bool c=complex_mode(contextptr); int st=step_infolevel(contextptr),s=0;
     step_infolevel(0,contextptr);
 #ifdef NO_STDEXCEPT
     s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr);

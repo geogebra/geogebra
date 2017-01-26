@@ -9309,7 +9309,7 @@ namespace giac {
     return true;
 #else
     smallmodrref(1,res,pivots,permutation,rankcols,det_mod_p,0,s,0,2*s,
-		 2/* full reduction*/,0/*dont_swap_below*/,modulo,0/* rref */,true);
+		 2/* full reduction*/,0/*dont_swap_below*/,modulo,0/* rref */,true,0,false,-1);
     return remove_identity(res,modulo);
 #endif
   }
@@ -12017,7 +12017,7 @@ namespace giac {
 	  UN[i]=0;
 	  continue;
 	}
-	if (debug_infolevel>=2)
+	if (debug_infolevel>=3)
 	  CERR << "// i=" << i << " " << u <<endl;
 	// H[m+1]=tc*H[m+1]+uc*H[i] and H[i]=tn*H[i]-un*H[m+1];
 	linear_combination(uc,H[i],tc,H[m+1],v1,0,0.0); 
@@ -12257,10 +12257,10 @@ namespace giac {
 	  Hi[j]=0;
 	}
       }
-      if (debug_infolevel>=2){
-	CERR << "// qr iteration number " << niter << " " << endl;
+      if (debug_infolevel>=2)
+	CERR << CLOCK() << " qr iteration number " << niter << " " << endl;
+      if (debug_infolevel>=5)
 	H.dbgprint();
-      }
       // check if one subdiagonal element is sufficiently small, if so 
       // we can increase n1 or decrease n2 or split
       for (int i=n1;i<n2-1;++i){
@@ -12362,7 +12362,7 @@ namespace giac {
     vecteur SHIFT;
     for (int niter=0;n>1 && niter<maxiter;niter++){
       if (debug_infolevel>=2)
-	CERR << "// qr iteration number " << niter << endl;
+	CERR << CLOCK() << " qr iteration number " << niter << endl;
       shift=0;
       gen test=abs(H[n-1][n-2],contextptr);
       ratio=test/abs(H[n-1][n-1],contextptr);
@@ -15341,8 +15341,14 @@ namespace giac {
       svl.push_back(di);
       d[i]=vi;
     }
-    if (method==-2)
+    if (method==-2){
+      if (transposed){
+	int add0=M.size()-M.front()._VECTptr->size();
+	for (int i=0;i<add0;++i)
+	  svl.push_back(0);
+      }
       return svl;
+    }
     mmult(M,p,Mp);
 #if 0
     invs=d;
@@ -16889,7 +16895,7 @@ namespace giac {
 	tc=conj(t,contextptr);
 	norme=sqrt(u*uc+t*tc,contextptr);
 	un=u/norme; tn=t/norme; uc=conj(un,contextptr);	tc=conj(tn,contextptr); 
-	if (debug_infolevel>=2)
+	if (debug_infolevel>=3)
 	  CERR << "// i=" << i << " " << u <<endl;
 	// H[m]=un*H[i]+tn*H[m] and H[i]=tn*H[i]-un*H[m];
 	linear_combination(uc,H[i],tc,H[m],plus_one,1,v1,1e-12,0); 
@@ -18035,10 +18041,10 @@ namespace giac {
       return true;
     }
     for (int niter=0;n2-n1>2 && niter<maxiter;niter++){
-      if (debug_infolevel>=5){
-	CERR << "// qr iteration number " << niter << " " << endl;
+      if (debug_infolevel>=2)
+	CERR << CLOCK() << " qr iteration number " << niter << " " << endl;
+      if (debug_infolevel>=5)
 	H.dbgprint();
-      }
       // check if one subdiagonal element is sufficiently small, if so 
       // we can increase n1 or decrease n2 or split
       giac_double ratio,coeff=1;

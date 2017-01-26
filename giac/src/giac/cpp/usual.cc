@@ -3339,7 +3339,7 @@ namespace giac {
     }
     if (b.type==_IDNT){
       // typed variable name must end with _d (double) or _i (int)
-      int bl=strlen(b._IDNTptr->id_name);
+      int bl=int(strlen(b._IDNTptr->id_name));
       if (bl==1){
 	if (b._IDNTptr->id_name[0]=='O' && (series_flags(contextptr) & (1<<6)) )
 	  series_flags(contextptr) ^= (1<<6);
@@ -4797,7 +4797,7 @@ namespace giac {
     if (lv.size()==1)
       R=poly12polynome(res);
     else
-      R=poly12polynome(res,1,lv.size());
+      R=poly12polynome(res,1,int(lv.size()));
     if (modafter)
       modularize(R,m);
     gen Res=r2e(R,lv,contextptr)/pow(r2e(aad,lv,contextptr),n,contextptr);

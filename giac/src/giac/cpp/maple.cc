@@ -3059,7 +3059,7 @@ namespace giac {
       return _DOUBLE_;
     if (g.type==_IDNT){
       const char * ch =g._IDNTptr->id_name;
-      int s=strlen(ch);
+      int s=int(strlen(ch));
       if (s>=3 && ch[s-2]=='_') {
 	switch (ch[s-1]){
 	case 'i': case 'l':
@@ -3121,7 +3121,7 @@ namespace giac {
     if (g.type!=_IDNT)
       return 0;
     const char * ch=g._IDNTptr->id_name;
-    int cl=strlen(ch);
+    int cl=int(strlen(ch));
     if (cl>=3 && ch[cl-2]=='_'){
       switch (ch[cl-1]){
       case 'i':case 'l':
@@ -3151,7 +3151,7 @@ namespace giac {
       if (fvi.type!=_IDNT)
 	return "Invalid parameter "+fv[i].print(contextptr);
       const char * ch=fvi._IDNTptr->id_name;
-      int cl=strlen(ch);
+      int cl=int(strlen(ch));
       string vtype=cst?"const giac::gen & ":"giac::gen ";
       if (typeptr) *typeptr=0;
       if (cl>=3 && ch[cl-2]=='_'){
@@ -3348,7 +3348,7 @@ namespace giac {
 	}
       }
       else {
-	int nargs=f[0]._VECTptr->size();
+	int nargs=int(f[0]._VECTptr->size());
 	core = "if (g.type!=_VECT || g.subtype!=_SEQ__VECT || g._VECTptr->size()!="+print_INT_(nargs)+") return gendimerr(contextptr);\n";
 	core += "vecteur v = *g._VECTptr;";
 	for (int i=0;i<nargs;++i){

@@ -851,7 +851,7 @@ namespace giac {
 
   int nvar_total_degree(const index_m & v1,int n){
     index_t::const_iterator it1=v1.begin(),it1l=it1+n;
-    int d1,d2;
+    int d1;
     for (d1=0;it1<it1l;++it1){
       d1 += *it1;
     }

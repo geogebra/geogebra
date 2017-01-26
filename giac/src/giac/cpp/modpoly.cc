@@ -984,8 +984,8 @@ namespace giac {
     bool same=ita0==itb0 && ita_end==itb_end;
     mpz_t prod;
     mpz_init(prod);
-    int ncs=new_coord.size();
-    int news=(ita_end-ita0)+(itb_end-itb0)-1;
+    int ncs=int(new_coord.size());
+    int news=int((ita_end-ita0)+(itb_end-itb0)-1);
     if (ncs<news)
       new_coord=mergevecteur(vecteur(news-ncs,0),new_coord);
     modpoly::const_iterator ita_begin=ita0-1,ita=ita0,itb=itb0;
@@ -1460,10 +1460,10 @@ namespace giac {
 
   // exchange outer and inner variable in source
   void reorder(const modpoly & source,modpoly & target){
-    int ts=0,ss=source.size();
+    int ts=0,ss=int(source.size());
     modpoly::const_iterator it=source.begin(),itend=source.end();
     for (;it!=itend;++it)
-      ts=giacmax(ts,it->type==_VECT?it->_VECTptr->size():1);
+      ts=giacmax(ts,it->type==_VECT?int(it->_VECTptr->size()):1);
     target.resize(ts);
     for (int i=0;i<ts;++i)
       target[i]=gen(vecteur(ss),_POLY1__VECT);
@@ -1474,7 +1474,7 @@ namespace giac {
 	continue;
       }
       vecteur & v =*g._VECTptr;
-      int vs=v.size();
+      int vs=int(v.size());
       int shift=ts-vs;
       for (int i=0;i<vs;++i){
 	(*target[i+shift]._VECTptr)[j]=v[i];
@@ -1488,7 +1488,7 @@ namespace giac {
 
   // recursive 2d to 1d, inner variable must be of degree<n
   bool to1d(const modpoly & p,modpoly & q,int n){
-    int ps=p.size();
+    int ps=int(p.size());
     q.reserve(ps*n);
     for (int i=0;i<ps;++i){
       gen pi=p[i];
@@ -1499,7 +1499,7 @@ namespace giac {
 	continue;
       }
       vecteur & v = *pi._VECTptr;
-      int vs=v.size();
+      int vs=int(v.size());
       if (vs>n) return false;
       for (int j=vs;j<n;++j)
 	q.push_back(0);
@@ -1510,7 +1510,7 @@ namespace giac {
   }
 
   void from1d(const modpoly & p,modpoly &q,int n){
-    int ps=p.size();
+    int ps = int(p.size());
     q.clear();
     q.reserve((ps+n-1)/n);
     int r=ps%n;
@@ -1535,7 +1535,7 @@ namespace giac {
 
   // eval p[i] at x in q[i]
   void horner2(const modpoly & p,const gen & x,modpoly & q){
-    int ps=p.size();
+    int ps = int(p.size());
     q.resize(ps);
     for (int i=0;i<ps;++i){
       gen pi=p[i];
@@ -1549,7 +1549,7 @@ namespace giac {
   void mulmodpoly_interpolate(const modpoly & p,const modpoly & q,int n,modpoly & res){
     modpoly px,qx,pqx;
     vecteur X,Y;
-    int rs=p.size()+q.size()-1;
+    int rs=int(p.size()+q.size()-1);
     res.resize(rs);
     if (debug_infolevel) 
       CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate horner " << endl;
@@ -1589,7 +1589,7 @@ namespace giac {
     for (int i=0;i<rs;++i){
       vecteur y=gen2vecteur(Yr[i]);
       if (y.size()<2*n+1)
-	y.insert(y.begin(),2*n+1-y.size(),0);
+	y.insert(y.begin(),int(2*n+1-y.size()),0);
       interpolate_inplace(X,y,0);
       res[i]=y;
     }
@@ -1661,7 +1661,7 @@ namespace giac {
 #endif
 	  int n=-1;
 	  if (pmin.type==_VECT)
-	    n=pmin._VECTptr->size()-2;
+	    n=int(pmin._VECTptr->size())-2;
 	  if (n>0 && aa.size()>=512)
 	    mulmodpoly_interpolate(aa,aa,n,new_coord);
 	  else
@@ -2215,8 +2215,8 @@ namespace giac {
       // frequent case in euclidean algorithms
       longlong q0=(longlong(th[0])*invcoeff)%m;
       longlong q1= (( (th[1]-other[1]*q0)%m )*invcoeff)%m;
-      quo.push_back(q0);
-      quo.push_back(q1);
+      quo.push_back(int(q0));
+      quo.push_back(int(q1));
       // rem=th-other*q
       vector<int>::const_iterator at=th.begin()+2,bt=other.begin()+1,btend=other.end();
       bool push=false;
@@ -2227,14 +2227,14 @@ namespace giac {
 	  r %= m;
 	  push=push | r;
 	  if (push)
-	    rem.push_back(r);
+	    rem.push_back(int(r));
 	  return;
 	}
 	r -= q0*(*bt);
 	r %= m;
 	push=push | r;
 	if (push)
-	  rem.push_back(r);
+	  rem.push_back(int(r));
       }
     }
     rem=th;
@@ -3942,7 +3942,7 @@ namespace giac {
 	  // solve sylvester matrix * []=d
 	  matrice S=sylvester(p1,p2);
 	  S=mtran(S);
-	  int add=p1.size()+p2.size()-d.size()-2;
+	  int add=int(p1.size()+p2.size()-d.size()-2);
 	  v=mergevecteur(vecteur(add,0),d);
 	  u=linsolve(S,v,context0);
 	  gen D;
@@ -4026,7 +4026,7 @@ namespace giac {
 		gen D;
 		lcmdeno(u,D,context0);
 		d=multvecteur(D,d);
-		int p2s=p2.size()-1;
+		int p2s=int(p2.size()-1);
 		v=vecteur(u.begin()+p2s,u.end());
 		u=vecteur(u.begin(),u.begin()+p2s);
 		u=operator_times(u,polynome2poly1(P1,1),0);
@@ -4505,7 +4505,7 @@ namespace giac {
 
   // n=d-1-e, d=degree(Sd), e=degree(Sd1), Se=(lc(Sd1)^n*Sd1)/lc(Sd)^n
   void ducos_e(const modpoly & Sd,const gen & sd,const modpoly & Sd1,modpoly &Se){
-    int n=Sd.size()-Sd1.size()-1;
+    int n=int(Sd.size()-Sd1.size()-1);
     if (!n){
       Se=Sd1;
       return;
@@ -4524,7 +4524,7 @@ namespace giac {
 
   // compute S_{e-1}
   void ducos_e1(const modpoly & A,const modpoly & Sd1,const modpoly & Se,const gen & sd,modpoly & res){
-    int d=A.size()-1,e=Sd1.size()-1,dim=1;
+    int d=int(A.size())-1,e=int(Sd1.size())-1,dim=1;
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 begin d=" << d << endl;
     gen cd1(Sd1.front()),se(Se.front());
@@ -4572,7 +4572,7 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " ducos_e1 D ready" << endl;
     modpoly & Hd1=Hv.back();
     Hd1.push_back(0); // X*Hd1
-    int hd1=Hd1.size()-1-e;
+    int hd1=int(Hd1.size())-1-e;
     gen hd=hd1<0?0:Hd1[hd1];
 #if 1
     addmodpoly(Hd1,D,tmpv); 
@@ -4647,16 +4647,16 @@ namespace giac {
       if (c>m)
 	m=c;
     }
-    return m+(sizeinbase2(v.size())+1)/2;
+    return m+(sizeinbase2(int(v.size()))+1)/2;
   }
   gen mod_resultant(const modpoly & P,const modpoly & Q,double eps){
     // gen h2=4*pow(l2norm2(P),Q.size()-1)*pow(l2norm2(Q),P.size()-1);
-    int h=sizeinbase2(P)*(Q.size()-1)+sizeinbase2(Q)*(P.size()-1)+1;
+    int h=sizeinbase2(P)*(int(Q.size())-1)+sizeinbase2(Q)*(int(P.size())-1)+1;
     vector<int> p,q,tmp1,tmp2;
     gen D=1; // p-adic acceleration
     if (0 && P.size()>GIAC_PADIC && Q.size()>GIAC_PADIC){
       matrice S=sylvester(P,Q);
-      vecteur v=vranm(S.size(),0,context0);
+      vecteur v=vranm(int(S.size()),0,context0);
       vecteur u=linsolve(S,v,context0);
       lcmdeno(u,D,context0);
       h -= sizeinbase2(D);
@@ -4674,7 +4674,7 @@ namespace giac {
     int proba=0;
     int probamax=RAND_MAX;
     if (eps>0)
-      probamax=-std::log(eps)/30/std::log(2.0);
+      probamax=int(-std::log(eps)/30/std::log(2.0));
     while (h>sizeinbase2(pim) && proba<probamax){
       m=prevprime(m-1).val;
       vecteur2vector_int(P,m,p);
@@ -4738,7 +4738,7 @@ namespace giac {
       // according to my tests ducos is faster (except for very small coefficients)
       return ;
     }
-    int d=P.size()-1,e=Q.size()-1;
+    int d=int(P.size())-1,e=int(Q.size())-1;
     if (d<e){
       subresultant(Q,P,res);
       // adjust sign
@@ -4772,7 +4772,7 @@ namespace giac {
     vecteur A(Q),a,B,C,quo;
     PseudoDivRem(P,-Q,quo,B,tmp);
     for (unsigned step=0;;++step){
-      d=A.size()-1,e=B.size()-1;
+      d=int(A.size())-1,e=int(B.size())-1;
       if (B.empty()){
 	res=0;
 	return ;
@@ -4933,7 +4933,7 @@ namespace giac {
     for (;!p.empty() && is_zero(p.back());++shift)
       p.pop_back();
     reverse(p.begin(),p.end());
-    unsigned n=p.size()-1;
+    unsigned n=int(p.size())-1;
     unsigned mn=n*m;
     res.resize(mn+1);
     gen p0=p[0],invp0;
@@ -5621,12 +5621,12 @@ namespace giac {
       return false;
     }
     if (a.front().type==_VECT || b.front().type==_VECT){
-      int D=0,M=giacmin(a.size(),b.size());
+      int D=0,M=giacmin(int(a.size()),int(b.size()));
       double interpcost=0.0,normalcost=0.0;
       for (int i=0;i<M;++i){
 	int as=1,bs=1;
-	if (a[i].type==_VECT) as=a[i]._VECTptr->size();
-	if (b[i].type==_VECT) bs=b[i]._VECTptr->size();
+	if (a[i].type==_VECT) as=int(a[i]._VECTptr->size());
+	if (b[i].type==_VECT) bs=int(b[i]._VECTptr->size());
 	if (D<as+bs-1) D=as+bs-1;
 	normalcost += as*bs;
       }
@@ -5655,7 +5655,7 @@ namespace giac {
   // rebuild a matrix of polynomials
   void polymat2matpoly(const vecteur & R,vecteur & res){
     if (R.empty()) return;
-    int M,N,D=R.size();
+    int M,N,D=int(R.size());
     mdims(*R[0]._VECTptr,M,N);
     // init res
     res.resize(M);
@@ -5689,7 +5689,7 @@ namespace giac {
   bool mmult_interp(const matrice & a,const matrice &b,matrice & res){
     if (a.front()[0].type==_POLY || b.front()[0].type==_POLY){
       matrice A(a), B(b);
-      int S=giacmin(A.size(),B.size()),dim=0;
+      int S=giacmin(int(A.size()),int(B.size())),dim=0;
       for (int i=0;i<S;++i){
 	if (A[i].type!=_VECT || B[i].type!=_VECT) return false;
 	A[i]=*A[i]._VECTptr;
@@ -5705,17 +5705,17 @@ namespace giac {
     }
     if (a.front()[0].type==_VECT || b.front()[0].type==_VECT){
       // find required degree
-      int D=0,M=giacmin(a.size(),b.size()),N=0;
+      int D=0,M=giacmin(int(a.size()),int(b.size())),N=0;
       for (int i=0;i<M;++i){
 	gen ai=a[i],bi=b[i];
 	if (ai.type!=_VECT || bi.type!=_VECT)
 	  return false;
 	vecteur av=*ai._VECTptr,bv=*bi._VECTptr;
-	N=giacmin(av.size(),bv.size());
+	N=giacmin(int(av.size()),int(bv.size()));
 	for (int j=0;j<N;++j){
 	  int as=1,bs=1;
-	  if (av[j].type==_VECT) as=av[j]._VECTptr->size();
-	  if (bv[j].type==_VECT) bs=bv[j]._VECTptr->size();
+	  if (av[j].type==_VECT) as=int(av[j]._VECTptr->size());
+	  if (bv[j].type==_VECT) bs=int(bv[j]._VECTptr->size());
 	  if (D<as+bs-1) D=as+bs-1;
 	}
       }
@@ -5746,7 +5746,7 @@ namespace giac {
   bool do_pcar_interp(const matrice & a,vecteur & p,bool compute_pmin,GIAC_CONTEXT){
     if (a.front()[0].type==_POLY){
       matrice A(a);
-      int S=A.size(),dim=0;
+      int S=int(A.size()),dim=0;
       for (int i=0;i<S;++i){
 	if (A[i].type!=_VECT) return false;
 	A[i]=*A[i]._VECTptr;
@@ -5760,16 +5760,16 @@ namespace giac {
     }
     if (a.front()[0].type==_VECT){
       // find required number of interpolations
-      int D=0,M=a.size(),N=0;
+      int D=0,M=int(a.size()),N=0;
       for (int i=0;i<M;++i){
 	gen ai=a[i];
 	if (ai.type!=_VECT)
 	  return false;
 	vecteur av=*ai._VECTptr;
-	N=av.size();
+	N=int(av.size());
 	for (int j=0;j<N;++j){
 	  int as=1;
-	  if (av[j].type==_VECT) as=av[j]._VECTptr->size();
+	  if (av[j].type==_VECT) as=int(av[j]._VECTptr->size());
 	  if (D<as-1) D=as-1;
 	}
       }
@@ -5792,7 +5792,7 @@ namespace giac {
 	  tmp=_pcar(A,contextptr);
 	if (tmp.type!=_VECT)
 	  return false;
-	int tmpd=tmp._VECTptr->size();
+	int tmpd=int(tmp._VECTptr->size());
 	if (!j) resdegp1=tmpd;
 	if (tmpd==resdegp1){
 	  X[j]=shift;
@@ -5828,7 +5828,7 @@ namespace giac {
 	if (R[d].type!=_VECT)
 	  continue;
 	vecteur & md=*R[d]._VECTptr;
-	int shift=resdegp1-md.size();
+	int shift=resdegp1-int(md.size());
 	for (int i=shift;i<resdegp1;++i){
 	  vecteur & resi=*res[i]._VECTptr;
 	  resi[d]=md[i-shift];
@@ -5903,7 +5903,7 @@ namespace giac {
       fft(F,W,RES,m);
       if (debug_infolevel>2)
 	CERR << CLOCK()*1e-6 << " end fft int " << W.size() << " memory " << memory_usage()*1e-6 << "M" << endl;
-      unsigned n=RES.size();
+      unsigned n=unsigned(RES.size());
       res.clear();
       res.reserve(n);
       for (unsigned i=0;i<n;++i){
@@ -6100,7 +6100,7 @@ namespace giac {
       // prime size, slow discrete Fourier transform
       complex<double> *fj,*fend_=f+n-3,*fend=f+n;
       complex<double> * res=t;
-      for (unsigned i=0;i<n;++i){
+      for (int i=0;i<n;++i){
 	complex<double> tmp (0,0);
 	int pos=0,istep=i*step;
 	for (fj=f;fj<fend_;fj+=3){
@@ -6129,7 +6129,7 @@ namespace giac {
       // P(w^(kj+l))= Q_l ( (w^k)^j )
       // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
       unsigned long n2=n/k;
-      for (unsigned j=0;j<k;j++){
+      for (int j=0;j<k;j++){
 	// find Q[j]
 	complex<double> * Qj=t+n2*j;
 	for (unsigned i=0;i<n2;i++){
@@ -6148,7 +6148,7 @@ namespace giac {
       }
       // build fft
       for (unsigned i=0;i<n2;++i){
-	for (unsigned j=0;j<k;++j,++f)
+	for (int j=0;j<k;++j,++f)
 	  *f=t[n2*j+i];
       }
       return;
@@ -6241,7 +6241,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6278,7 +6278,7 @@ namespace giac {
   }  
 
   static void fft2p1nopermbefore( int *A, int n, int *W) {  
-    int i,n2;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 2013265921 ;
@@ -6292,7 +6292,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6351,7 +6351,7 @@ namespace giac {
   }  
 
   static void fft2p1nopermafter( int *A, int n, int *W) {  
-    int i,n2,t;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 2013265921 ;
@@ -6365,7 +6365,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6421,7 +6421,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+     int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6472,7 +6472,7 @@ namespace giac {
   }  
 
   static void fft2p2nopermbefore( int *A, int n, int *W) {  
-    int i,n2;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 1811939329 ;
@@ -6486,7 +6486,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6545,7 +6545,7 @@ namespace giac {
   }  
 
   static void fft2p2nopermafter( int *A, int n, int *W) {  
-    int i,n2,t;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 1811939329 ;
@@ -6559,7 +6559,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6615,7 +6615,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6688,7 +6688,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6725,7 +6725,7 @@ namespace giac {
   }  
 
   static void fft2p3nopermbefore( int *A, int n, int *W) {  
-    int i,n2;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 469762049; ;
@@ -6739,7 +6739,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6798,7 +6798,7 @@ namespace giac {
   }  
 
   static void fft2p3nopermafter( int *A, int n, int *W) {  
-    int i,n2,t;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 469762049 ;
@@ -6812,7 +6812,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6855,7 +6855,7 @@ namespace giac {
   }  
 
   static void fft2p4nopermbefore( int *A, int n, int *W) {  
-    int i,n2;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 2113929217; 
@@ -6869,7 +6869,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -6928,7 +6928,7 @@ namespace giac {
   }  
 
   static void fft2p4nopermafter( int *A, int n, int *W) {  
-    int i,n2,t;
+    int n2;
     if ( n==1 ) return;
     // if p is fixed, the code is about 2* faster
     const int p = 2113929217 ;
@@ -6942,7 +6942,7 @@ namespace giac {
       return;
     }
     if (n==2){
-      longlong f0=A[0],f1=A[1];
+      int f0=A[0],f1=A[1];
       A[0]=addmod(f0,f1,p);
       A[1]=submod(f0,f1,p);
       return;
@@ -7187,7 +7187,7 @@ namespace giac {
 
   // res=a*b mod p
   bool fft2mult(int ablinfnorm,const vector<int> & a,const vector<int> & b,vector<int> & res,int modulo,vector<int> & W,vector<int> & fftmult_p,vector<int> & fftmult_q,bool reverseatend,bool dividebyn,bool makeplus){
-    int as=a.size(),bs=b.size(),rs=as+bs-1;
+    int as=int(a.size()),bs=int(b.size()),rs=as+bs-1;
     int logrs=sizeinbase2(rs);
     if (logrs>25) return false;
     int n=(1u<<logrs);
@@ -7391,7 +7391,7 @@ namespace giac {
       // prime size, slow discrete Fourier transform
       int *fj,*fend_=f+n-3,*fend=f+n;
       int * res=t;
-      for (unsigned i=0;i<n;++i){
+      for (int i=0;i<n;++i){
 	int tmp (0);
 	int pos=0,istep=i*step;
 	for (fj=f;fj<fend_;fj+=3){
@@ -7420,7 +7420,7 @@ namespace giac {
       // P(w^(kj+l))= Q_l ( (w^k)^j )
       // with Q_l=P_1^(w^l)+w^(nk)*P_2^(w^l)+...
       unsigned long n2=n/k;
-      for (unsigned j=0;j<k;j++){
+      for (int j=0;j<k;j++){
 	// find Q[j]
 	int * Qj=t+n2*j;
 	for (unsigned i=0;i<n2;i++){
@@ -7439,7 +7439,7 @@ namespace giac {
       }
       // build fft
       for (unsigned i=0;i<n2;++i){
-	for (unsigned j=0;j<k;++j,++f)
+	for (int j=0;j<k;++j,++f)
 	  *f=t[n2*j+i];
       }
       return;
@@ -7473,7 +7473,7 @@ namespace giac {
 #if 1
     res=f;
     vector<int> tmp(w.size());
-    fft(&res.front(),res.size(),&w.front(),w.size(),&tmp.front(),modulo);
+    fft(&res.front(),int(res.size()),&w.front(),int(w.size()),&tmp.front(),modulo);
     return;
 #endif
     // longlong M=longlong(modulo)*modulo;
@@ -7516,7 +7516,7 @@ namespace giac {
 	  tmp = (tmp + longlong(f[j])*w[pos])%modulo;
 	  pos = (pos+i*step)%m;
 	}
-	res.push_back(tmp);
+	res.push_back(int(tmp));
       }
       return;
     }
@@ -7538,7 +7538,7 @@ namespace giac {
 	    tmp = (tmp+longlong(f[J*n2+i])*w[(J*j*n2*step)%m])%modulo;
 	  }
 	  tmp=(tmp*w[j*step*i])%modulo;
-	  Q[j][i]=tmp;
+	  Q[j][i]=int(tmp);
 	}
 	fft(Q[j],w,Qfft[j],modulo);
       }
@@ -8196,7 +8196,7 @@ namespace giac {
 	}
       }
       bound=bound_;
-      int ps=primes.size();
+      int ps=int(primes.size());
 #ifdef HAVE_LIBPTHREAD
       if (nthreads>1){
 	vector<pthread_t> tab(nthreads);

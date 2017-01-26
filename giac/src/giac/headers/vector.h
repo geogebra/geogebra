@@ -265,7 +265,7 @@ namespace std {
     void clear(){ 
       if (_taille>0 &&_begin_immediate_vect){
 	if (_taille!=immvector_max){
-	  for (unsigned i=0;i<_taille;++i)
+	  for (int i=0;i<_taille;++i)
 	    *(_begin_immediate_vect+i)=_Tp();
 	  _taille=immvector_max;
 	}

@@ -877,7 +877,7 @@ namespace giac {
     typename std::vector< monomial<T> >::const_iterator it=itend;
     --it;
     int n=it->index.front();
-    int d=it->index.size();
+    int d=int(it->index.size());
     tensor<T> res(d-1);
     for (;;){
       if (it==itbeg)

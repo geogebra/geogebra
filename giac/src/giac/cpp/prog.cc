@@ -3165,12 +3165,12 @@ namespace giac {
   }
 
   void shuffle(vector<int> & temp,GIAC_CONTEXT){
-    int n=temp.size();
+    int n=int(temp.size());
     // source wikipedia Fisher-Yates shuffle article
     for (int i=0;i<n-1;++i){
       // j ← random integer such that i ≤ j < n
       // exchange a[i] and a[j]
-      int j=i+(giac_rand(contextptr)/double(rand_max2))*(n-i);
+      int j=int(i+(giac_rand(contextptr)/double(rand_max2))*(n-i));
       std::swap(temp[i],temp[j]);
     }
   }
@@ -3184,7 +3184,7 @@ namespace giac {
       for (int essai=20;essai>=0;--essai){
 	int i;
 	for (i=0;i<k;++i)
-	  ts[i]=t[i]=giac_rand(contextptr)/double(rand_max2)*n;
+	  ts[i]=t[i]=int(giac_rand(contextptr)/double(rand_max2)*n);
 	sort(ts.begin(),ts.end());
 	for (i=1;i<k;++i){
 	  if (ts[i]==ts[i-1])
@@ -3198,7 +3198,7 @@ namespace giac {
       vector<int> t; t.reserve(k);
       // (algorithm suggested by O. Garet)
       while (n>0){
-	int r=giac_rand(contextptr)/double(rand_max2)*n;
+	int r=int(giac_rand(contextptr)/double(rand_max2)*n);
 	if (r<n-k) // (n-k)/n=proba that the current n is not in the list
 	  --n;
 	else {
@@ -3218,7 +3218,7 @@ namespace giac {
     for (int j=0;j<k;++j){
       int r=-1;
       for (;;){
-	r=giac_rand(contextptr)/double(rand_max2)*n;
+	r=int(giac_rand(contextptr)/double(rand_max2)*n);
 	if (tab[r]) break;
       }
       v[j]=r;
@@ -3242,7 +3242,7 @@ namespace giac {
     if (signed(v.size())<n)
       return gendimerr(contextptr);
 #if 1
-    vector<int> w=rand_k_n(n,v.size(),false,contextptr);
+    vector<int> w=rand_k_n(n,int(v.size()),false,contextptr);
     vecteur res(n);
     for (int i=0;i<n;++i)
       res[i]=v[w[i]];
@@ -5470,7 +5470,7 @@ namespace giac {
       {
         //grad
         //since end user sees val !=0 being radians, I have hijacked so 2 will be grad, 0 is deg, and anything else is radians
-        int val = v[3]._DOUBLE_val;
+        int val = int(v[3]._DOUBLE_val);
         if(val == 0)
           angle_mode(1, contextptr); //degrees if ==0
         else if(val == 2)
@@ -5811,7 +5811,7 @@ namespace giac {
 	    gen n= f._VECTptr->back()._FRACptr->num;
 	    if (d.val<0){ n=-n; d=-d;}
 	    gen zn=pow(z,n,contextptr),a,b;
-	    bool pos,done; // pos should be true after next call since zn is > 0
+	    bool pos; // pos should be true after next call since zn is > 0
 	    zint2simpldoublpos(zn,a,b,pos,d.val,contextptr);
 	    if (pos){
 	      if (0 && n==1)

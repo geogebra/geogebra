@@ -3867,7 +3867,7 @@ namespace giac {
       }
       else
 	v.push_back(f);
-      s=v.size();
+      s=int(v.size());
     }
     if (s<3)
       return gendimerr(contextptr);
@@ -7333,7 +7333,7 @@ namespace giac {
 	if (it->is_symb_of_sommet(at_pnt))
 	  p=est_element(a,*it,contextptr);
 	if (p)
-	  return 1+it-b._VECTptr->begin();
+	  return int(1+it-b._VECTptr->begin());
       }
       return 0;
     }
@@ -7369,7 +7369,7 @@ namespace giac {
     }
     if (b.type==_VECT && b.subtype==_GROUP__VECT && b._VECTptr->size()>2){
       vecteur v=*b._VECTptr;
-      int s=v.size();
+      int s=int(v.size());
       for (int i=1;i<s;++i){
 	gen c1=remove_at_pnt(v[i-1]);
 	gen c2=remove_at_pnt(v[i]);   
