@@ -26,6 +26,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -47,6 +48,7 @@ import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
@@ -72,6 +74,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * App with all the GUI
@@ -736,6 +739,19 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public GImageIconW wrapGetModeIcon(int mode) {
 		return new GImageIconW(GGWToolBar.getImageURL(mode, this));
+	}
+
+	@Override
+	public void centerPopupWithKeyboard() {
+		for (int i = 0; i < popups.size(); i++) {
+			Widget w = popups.get(i);
+			if (w instanceof HasKeyboardPopup) {
+				if (w instanceof DialogBoxKbW) {
+					((DialogBoxKbW) w)
+							.center(this.getAppletFrame().getKeyboardHeight());
+				}
+			}
+		}
 	}
 
 	@Override
