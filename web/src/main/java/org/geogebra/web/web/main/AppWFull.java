@@ -789,7 +789,7 @@ public abstract class AppWFull extends AppW {
 	 * @param ggburl
 	 *            ggb file URL
 	 */
-	public final void loadURL_GGB(String ggburl) {
+	public final static void loadURL_GGB(String ggburl) {
 		ViewW.fileLoader.getView().processFileName(ggburl);
 	}
 

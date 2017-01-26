@@ -24,7 +24,6 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;

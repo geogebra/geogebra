@@ -11,6 +11,11 @@ import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
  */
 public interface GDevice {
 
+	/**
+	 * @param app
+	 *            application
+	 * @return file manager
+	 */
 	public FileManager createFileManager(AppW app);
 
 	public void setMinWidth(GeoGebraAppFrame frame);
@@ -22,11 +27,27 @@ public interface GDevice {
 	 */
 	public boolean isOffline(AppW app);
 
+	/**
+	 * @param app
+	 *            application
+	 * @return image input dialog
+	 */
 	public UploadImageDialog getImageInputDialog(AppW app);
 
+	/**
+	 * @param app
+	 *            application
+	 * @return browser view
+	 */
 	public BrowseViewI createBrowseView(AppW app);
 
 	public ConstructionProtocolView getConstructionProtocolView(AppW app);
 
+	/**
+	 * @param width
+	 *            width in pixels
+	 * @param height
+	 *            height in pixels
+	 */
 	public void resizeView(int width, int height);
 }

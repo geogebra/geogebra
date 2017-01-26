@@ -72,9 +72,12 @@ public class FileManagerW extends FileManager {
 		String key = createKeyString(id, getApp().getKernel().getConstruction()
 		        .getTitle());
 		mat.setLocalID(id);
-
-		stockStore.setItem(key, mat.toJson().toString());
-		cb.onSaved(mat, true);
+		try {
+			stockStore.setItem(key, mat.toJson().toString());
+			cb.onSaved(mat, true);
+		} catch (Exception e) {
+			cb.onError();
+		}
 
 	}
 
