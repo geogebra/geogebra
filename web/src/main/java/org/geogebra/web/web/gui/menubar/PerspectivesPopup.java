@@ -100,7 +100,8 @@ public class PerspectivesPopup {
 		tutorialsRow.addStyleName("upperBorder");
 		contentPanel.add(tutorialsRow);
 
-		box.getCaption().setText(app.getMenu("CreateYourOwn"));
+		box.getCaption()
+				.setText(app.getLocalization().getMenu("CreateYourOwn"));
 
 	}
 

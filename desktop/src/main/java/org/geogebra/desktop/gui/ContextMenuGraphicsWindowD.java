@@ -103,7 +103,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	protected void addZoomMenu(EuclidianViewInterfaceCommon ev) {
-		JMenu zoomMenu = new JMenu(app.getMenu("Zoom"));
+		JMenu zoomMenu = new JMenu(loc.getMenu("Zoom"));
 		zoomMenu.setIcon(iconZoom);
 		zoomMenu.setBackground(wrappedPopup.getBackground());
 		addZoomItems(zoomMenu);
@@ -116,7 +116,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 	protected void addNavigationBar() {
 		AbstractAction showConstructionStep = new AbstractAction(
-				app.getMenu("NavigationBar")) {
+				loc.getMenu("NavigationBar")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

@@ -3761,7 +3761,7 @@ class ShowConditionPanel extends JPanel
 	@Override
 	public void setLabels() {
 		setBorder(BorderFactory.createTitledBorder(
-				kernel.getApplication().getMenu("Condition.ShowObject")));
+				kernel.getLocalization().getMenu("Condition.ShowObject")));
 	}
 
 	@Override
@@ -4204,7 +4204,7 @@ class GraphicsViewLocationPanel extends JPanel
 	@Override
 	public void setLabels() {
 		setBorder(BorderFactory.createTitledBorder(
-				kernel.getApplication().getMenu("Location")));
+				loc.getMenu("Location")));
 		cbGraphicsView.setText(loc.getMenu("DrawingPad"));
 		cbGraphicsView2.setText(loc.getMenu("DrawingPad2"));
 		cbGraphicsView3D.setText(loc.getMenu("GraphicsView3D"));

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -102,7 +103,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		});
 
 		regressionLabels = new String[Regression.values().length];
-		setRegressionLabels();
+		setRegressionLabels(app.getLocalization());
 		lbRegression = new ListBox();
 		for (String item: regressionLabels) {
 			lbRegression.addItem(item);
@@ -209,11 +210,11 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		fldOutputY.setText("");
 	}
 
-	private void setRegressionLabels() {
+	private void setRegressionLabels(Localization loc) {
 
 		for (Regression r : Regression.values()) {
 
-			regressionLabels[r.ordinal()] = app.getMenu(r.getLabel());
+			regressionLabels[r.ordinal()] = loc.getMenu(r.getLabel());
 		}
 
 	}
@@ -224,7 +225,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	@Override
 	public void setLabels() {
 		regressionLabels = new String[Regression.values().length];
-		setRegressionLabels();
+		Localization loc = app.getLocalization();
+		setRegressionLabels(loc);
 
 		// we need to remove old labels from combobox and we don't want the
 		// listener to
@@ -237,11 +239,11 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		}
 
 		lbRegression.setSelectedIndex(j);
-		regressionTitle.setText(app
+		regressionTitle.setText(loc
 				.getMenu("RegressionModel"));
-		lblEqn.setText(app.getMenu("Equation") + ":");
+		lblEqn.setText(loc.getMenu("Equation") + ":");
 
-		lblEvaluate.setText(app.getMenu("Evaluate") + ": ");
+		lblEvaluate.setText(loc.getMenu("Evaluate") + ": ");
 
 	}
 

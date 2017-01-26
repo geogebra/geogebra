@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.data;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -59,7 +60,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnExport = new MyToggleButton2(AppResources.INSTANCE.export());
 		btnExport.addClickHandler(this);
 
-		btnSwapXY = new MyToggleButton2(getSwapXYString());
+		btnSwapXY = new MyToggleButton2(getSwapXYString(app.getLocalization()));
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addClickHandler(this);
 		btnSwapXY.getElement().addClassName("daSwapXYButton");
@@ -152,15 +153,15 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		btnShowStatistics.setToolTipText(app.getMenu("ShowStatistics"));
-		btnShowData.setToolTipText(app.getMenu("ShowData"));
-		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
-		btnSwapXY.setText(getSwapXYString());
+		Localization loc = app.getLocalization();
+		btnShowStatistics.setToolTipText(loc.getMenu("ShowStatistics"));
+		btnShowData.setToolTipText(loc.getMenu("ShowData"));
+		btnShowPlot2.setToolTipText(loc.getMenu("ShowPlot2"));
+		btnSwapXY.setText(getSwapXYString(loc));
 	}
 
-	private String getSwapXYString() {
-		return app.getMenu("Column.X") + " \u21C6 "
-				+ app.getMenu("Column.Y");
+	private String getSwapXYString(Localization loc) {
+		return loc.getMenu("Column.X") + " \u21C6 " + loc.getMenu("Column.Y");
 	}
 
 	public void actionPerformed(Object source) {

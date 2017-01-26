@@ -345,7 +345,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		@Override
 		public void setLabels() {
-			title.setText(app.getMenu("Condition.ShowObject"));
+			title.setText(loc.getMenu("Condition.ShowObject"));
 
 		}
 
@@ -1184,7 +1184,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		@Override
 		public void setLabels() {
-			title.setText(app.getMenu("Location"));
+			title.setText(loc.getMenu("Location"));
 			cbGraphicsView.setText(localize("DrawingPad"));
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 			cbGraphicsView3D.setText(localize("GraphicsView3D"));

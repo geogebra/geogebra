@@ -15,6 +15,7 @@ import javax.swing.JPopupMenu;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -73,36 +74,37 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	}
 
 	private void initMenu() {
+		Localization loc = table.getApplication().getLocalization();
 		switch (clickedPanel) {
 		case OUTPUT:
 			JMenuItem copyItem = new JMenuItem(
-					table.getApplication().getMenu("Copy"));
+					loc.getMenu("Copy"));
 			copyItem.setActionCommand("copy");
 			copyItem.addActionListener(this);
 			add(copyItem);
 			addSeparator();
 
 			JMenuItem copyToLatexItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsLaTeX"));
+					loc.getMenu("CopyAsLaTeX"));
 			copyToLatexItem.setActionCommand("copyAsLatex");
 			copyToLatexItem.addActionListener(this);
 			add(copyToLatexItem);
 
 			JMenuItem copyToLibreOfficeItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsLibreOfficeFormula"));
+					loc.getMenu("CopyAsLibreOfficeFormula"));
 			copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
 			copyToLibreOfficeItem.addActionListener(this);
 			add(copyToLibreOfficeItem);
 
 			JMenuItem copyToImageItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsImage"));
+					loc.getMenu("CopyAsImage"));
 			copyToImageItem.setActionCommand("copyAsImage");
 			copyToImageItem.addActionListener(this);
 			add(copyToImageItem);
 			break;
 		case INPUT:
 			JMenuItem pasteItem = new JMenuItem(
-					table.getApplication().getMenu("Paste"));
+					loc.getMenu("Paste"));
 			pasteItem.setActionCommand("paste");
 			pasteItem.addActionListener(this);
 			add(pasteItem);

@@ -299,7 +299,8 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 		// dialog options
 		progressDialog = new JDialog();
-		progressDialog.setTitle(app.getMenu("UploadGeoGebraTube"));
+		progressDialog
+				.setTitle(app.getLocalization().getMenu("UploadGeoGebraTube"));
 		progressDialog.setResizable(false);
 		progressDialog.add(panel);
 

@@ -205,9 +205,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// Actions
 	private AbstractAction showAxesAction, showGridAction, undoAction,
 			redoAction;
+	private LocalizationD loc;
 
 	public GuiManagerD(AppD app) {
 		super(app);
+		this.loc = app.getLocalization();
 
 		// this flag prevents closing opened webpage without save (see #126)
 		htmlLoaded = false;
@@ -1555,7 +1557,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 										|| name.endsWith(".gif"));
 							}
 						});
-						fd.setTitle(app.getMenu("Load"));
+						fd.setTitle(loc.getMenu("Load"));
 
 						fd.toFront();
 						fd.setVisible(true);
@@ -1676,7 +1678,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					}
 				});
 
-				fd.setTitle(app.getMenu("Load"));
+				fd.setTitle(loc.getMenu("Load"));
 
 				fd.toFront();
 				fd.setVisible(true);
@@ -1752,11 +1754,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
 
-		Object[] options = { app.getMenu("Save"), app.getMenu("DontSave"),
-				app.getMenu("Cancel") };
+		Object[] options = { loc.getMenu("Save"), loc.getMenu("DontSave"),
+				loc.getMenu("Cancel") };
 		int returnVal = JOptionPane.showOptionDialog(comp,
-				app.getMenu("DoYouWantToSaveYourChanges"),
-				app.getMenu("CloseFile"), JOptionPane.DEFAULT_OPTION,
+				loc.getMenu("DoYouWantToSaveYourChanges"),
+				loc.getMenu("CloseFile"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE,
 
 				null, options, options[0]);
@@ -1824,7 +1826,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		String[] fileDescriptions;
 		fileExtensions = new FileExtensions[] { FileExtensions.GEOGEBRA };
 		fileDescriptions = new String[] { GeoGebraConstants.APPLICATION_NAME
-				+ " " + app.getMenu("Files") };
+				+ " " + loc.getMenu("Files") };
 		((AppD) app).needThumbnailFor3D();
 		File file = showSaveDialog(fileExtensions,
 				((AppD) app).getCurrentFile(), fileDescriptions, true, false);
@@ -1873,7 +1875,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			while (!done) {
 
 				NSSavePanel panel = new NSSavePanel();
-				String result = panel.saveDialog(app.getMenu("Save"),
+				String result = panel.saveDialog(loc.getMenu("Save"),
 						fileExtension.toString());
 				file = new File(result);
 				done = true;
@@ -1887,7 +1889,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				 * fd.setFilenameFilter(new FilenameFilter() { public boolean
 				 * accept(File dir, String name) { for (String s :
 				 * fileExtensions) { if (name.endsWith("." + s)) { return true;
-				 * } } return false; } }); fd.setTitle(app.getMenu("Save")); if
+				 * } } return false; } }); fd.setTitle(loc.getMenu("Save")); if
 				 * (selectedFile == null) { String str =
 				 * app.getPlain("UntitledConstruction"); int length =
 				 * str.length(); // Sandbox (when running the application
@@ -1999,7 +2001,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					// ask overwrite question
 
 					Object[] options = { getLocalization().getMenu("Overwrite"),
-							app.getMenu("DontOverwrite") };
+							loc.getMenu("DontOverwrite") };
 					int n = JOptionPane.showOptionDialog(
 							((AppD) app).getMainComponent(),
 							getLocalization().getPlain("OverwriteFile") + "\n"
@@ -2126,7 +2128,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 					}
 				});
-				fd.setTitle(app.getMenu("Load"));
+				fd.setTitle(loc.getMenu("Load"));
 
 				fd.toFront();
 				fd.setVisible(true);
@@ -2166,18 +2168,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			fileFilter.addExtension(FileExtensions.HTML);
 			fileFilter.addExtension(FileExtensions.HTM);
 			fileFilter.setDescription(
-					GeoGebraConstants.APPLICATION_NAME + app.getMenu("Files"));
+					GeoGebraConstants.APPLICATION_NAME + loc.getMenu("Files"));
 			fileChooser.resetChoosableFileFilters();
 			fileChooser.addChoosableFileFilter(fileFilter);
 
 			MyFileFilter insertFilter = new MyFileFilter();
 			insertFilter.addExtension(FileExtensions.GEOGEBRA);
-			insertFilter.setDescription(app.getMenu("InsertFile"));
+			insertFilter.setDescription(loc.getMenu("InsertFile"));
 			fileChooser.addChoosableFileFilter(insertFilter);
 
 			MyFileFilter templateFilter = new MyFileFilter();
 			templateFilter.addExtension(FileExtensions.GEOGEBRA);
-			templateFilter.setDescription(app.getMenu("ApplyTemplate"));
+			templateFilter.setDescription(loc.getMenu("ApplyTemplate"));
 			fileChooser.addChoosableFileFilter(templateFilter);
 
 			MyFileFilter offFilter = new MyFileFilter(FileExtensions.OFF);
@@ -2482,7 +2484,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return false;
 		}
 
-		showAxesAction = new AbstractAction(app.getMenu("Axes"),
+		showAxesAction = new AbstractAction(loc.getMenu("Axes"),
 				((AppD) app).getScaledIcon(GuiResourcesD.AXES)) {
 			private static final long serialVersionUID = 1L;
 
@@ -2493,7 +2495,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 		};
 
-		showGridAction = new AbstractAction(app.getMenu("Grid"),
+		showGridAction = new AbstractAction(loc.getMenu("Grid"),
 				((AppD) app).getScaledIcon(GuiResourcesD.GRID)) {
 			private static final long serialVersionUID = 1L;
 
@@ -2504,7 +2506,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 		};
 
-		undoAction = new AbstractAction(app.getMenu("Undo"),
+		undoAction = new AbstractAction(loc.getMenu("Undo"),
 				((AppD) app).getScaledIcon(GuiResourcesD.MENU_EDIT_UNDO)) {
 			private static final long serialVersionUID = 1L;
 
@@ -2515,7 +2517,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 		};
 
-		redoAction = new AbstractAction(app.getMenu("Redo"),
+		redoAction = new AbstractAction(loc.getMenu("Redo"),
 				((AppD) app).getScaledIcon(GuiResourcesD.MENU_EDIT_REDO)) {
 			private static final long serialVersionUID = 1L;
 

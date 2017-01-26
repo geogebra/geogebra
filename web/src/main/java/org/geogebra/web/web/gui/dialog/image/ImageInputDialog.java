@@ -43,7 +43,7 @@ public class ImageInputDialog extends UploadImageDialog {
 	public void setLabels() {
 		super.setLabels();
 		if(webcam != null){
-			webcam.setText(app.getMenu("Webcam"));
+			webcam.setText(app.getLocalization().getMenu("Webcam"));
 		}
 	}
 	

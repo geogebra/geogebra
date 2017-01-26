@@ -219,7 +219,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				"Filling.CurrentSymbol")
 				+ ":");
 		lblMsgSelected.setVisible(false);
-		lblSymbols = new Label(app.getMenu("Filling.Symbol") + ":");
+		lblSymbols = new Label(
+				app.getLocalization().getMenu("Filling.Symbol") + ":");
 		lblSymbols.setVisible(false);
 		lblSelectedSymbol = new Label();
 

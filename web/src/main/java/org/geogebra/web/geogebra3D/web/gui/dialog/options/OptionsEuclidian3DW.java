@@ -290,7 +290,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		@Override
 		protected void setGridTypeLabel() {
 			lblGridType.setText(loc.getMenu("GridType") + " : "
-			        + app.getMenu("Cartesian"));
+					+ loc.getMenu("Cartesian"));
 		}
 	}
 
@@ -605,7 +605,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			obliqueTitle.setText(loc.getMenu("Oblique"));
 			tfObliqueAngleLabel.setText(loc.getMenu("Angle") + ":");
-			tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
+			tfObliqueFactorLabel.setText(loc.getMenu("Dilate.Factor") + ":");
 
 		}
 

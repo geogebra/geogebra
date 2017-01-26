@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.GWTKeycodes;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -193,10 +194,10 @@ public class AlgebraInputW extends FlowPanel
 		if(app == null){
 			return;
 		}
-
+		Localization loc = app.getLocalization();
 
 		if (btnHelpToggle != null) {
-			btnHelpToggle.setTitle(app.getMenu("InputHelp"));
+			btnHelpToggle.setTitle(loc.getMenu("InputHelp"));
 		}
 
 		if (helpPopup != null) {
@@ -205,7 +206,7 @@ public class AlgebraInputW extends FlowPanel
 
 		inputField.setDictionary(false);
 		inputField.getTextField().getElement().setAttribute("placeholder",
-				app.getLocalization().getMenu("InputLabel") + Unicode.ellipsis);
+				loc.getMenu("InputLabel") + Unicode.ellipsis);
 	}
 
 	/**

@@ -18,6 +18,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -40,6 +41,8 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph,
 			btnBarGraph, btnExport, btnNormalOverlay;
 
+	private final LocalizationD loc;
+
 	/**
 	 * @param app
 	 *            application
@@ -52,6 +55,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		this.wrappedToolbar = new JToolBar();
 		this.probCalc = probCalc;
 		this.app = app;
+		this.loc = app.getLocalization();
 		wrappedToolbar.setFloatable(false);
 		createGUI();
 		updateLayout();
@@ -214,15 +218,15 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 	 * Updates localized labels
 	 */
 	public void setLabels() {
-		btnRounding.setText(app.getMenu("Rounding"));
-		btnExport.setToolTipText(app.getMenu("Export"));
-		btnLineGraph.setToolTipText(app.getMenu("LineGraph"));
+		btnRounding.setText(loc.getMenu("Rounding"));
+		btnExport.setToolTipText(loc.getMenu("Export"));
+		btnLineGraph.setToolTipText(loc.getMenu("LineGraph"));
 
-		btnStepGraph.setToolTipText(app.getMenu("StepGraph"));
-		btnBarGraph.setToolTipText(app.getMenu("BarChart"));
-		btnNormalOverlay.setToolTipText(app.getMenu("OverlayNormalCurve"));
+		btnStepGraph.setToolTipText(loc.getMenu("StepGraph"));
+		btnBarGraph.setToolTipText(loc.getMenu("BarChart"));
+		btnNormalOverlay.setToolTipText(loc.getMenu("OverlayNormalCurve"));
 
-		// btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+		// btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
 
 	}
 
@@ -315,7 +319,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 			if ("---".equals(items[i])) {
 				menu.addSeparator();
 			} else {
-				String text = app.getMenu(items[i]);
+				String text = loc.getMenu(items[i]);
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(((AppD) app).getFontCanDisplayAwt(text));
 				if (i == selectedPos) {

@@ -170,8 +170,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnIntervalLeft.setToolTipText(loc.getMenu("LeftProb"));
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
-		btnExport.setTitle(app.getMenu("Export"));
-		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
+		btnExport.setTitle(loc.getMenu("Export"));
+		btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
 					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
@@ -1055,7 +1055,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		MenuBar menu = new MenuBar(true);
 
 		if (!app.isApplet()) {
-			MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
+			MenuItem miToGraphich = new MenuItem(loc.getMenu("CopyToGraphics"),
 				new Command() {
 
 						@Override

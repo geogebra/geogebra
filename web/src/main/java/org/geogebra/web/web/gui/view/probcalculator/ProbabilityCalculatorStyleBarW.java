@@ -4,6 +4,7 @@ import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.GCheckBoxMenuItem;
@@ -62,15 +63,16 @@ public class ProbabilityCalculatorStyleBarW extends
 	 * Updates localized labels
 	 */
 	public void setLabels() {
-		btnRounding.setText(app.getMenu("Rounding"));
-		//btnExport.setTitle(app.getMenu("Export"));
-		btnLineGraph.setTitle(app.getMenu("LineGraph"));
+		Localization loc = app.getLocalization();
+		btnRounding.setText(loc.getMenu("Rounding"));
+		// btnExport.setTitle(loc.getMenu("Export"));
+		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
 
-		btnStepGraph.setTitle(app.getMenu("StepGraph"));
-		btnBarGraph.setTitle(app.getMenu("BarChart"));
-		//btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
+		btnStepGraph.setTitle(loc.getMenu("StepGraph"));
+		btnBarGraph.setTitle(loc.getMenu("BarChart"));
+		// btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 
-		// btnCumulative.setToolTipText(app.getMenu("Cumulative"));
+		// btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
 
 	}
 

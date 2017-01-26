@@ -487,7 +487,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void showLogOutDialog() {
-		Object[] options = { app.getMenu("SignOut"), loc.getMenu("Cancel") };
+		Object[] options = { loc.getMenu("SignOut"), loc.getMenu("Cancel") };
 		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
 				loc.getMenu("ReallySignOut"), loc.getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,

@@ -1,5 +1,6 @@
 package org.geogebra.web.web.util;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -34,14 +35,15 @@ public class SaveCallback {
 	 *            {@link AppW}
 	 */
 	public static void onSaved(AppW app, SaveState state, boolean isMacro) {
+		Localization loc = app.getLocalization();
 		if (!isMacro) {
 			app.setSaved();
 			if (app.getActiveMaterial() != null
 					&& !app.getActiveMaterial().getVisibility().equals("P")) {
-				String msg = app.getMenu("SavedSuccessfully");
+				String msg = loc.getMenu("SavedSuccessfully");
 				if (state == SaveState.FORKED) {
 					msg += "<br/>";
-					msg += app.getLocalization().getPlain("SeveralVersionsOf",
+					msg += loc.getPlain("SeveralVersionsOf",
 							app.getKernel().getConstruction().getTitle());
 				}
 				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
@@ -53,11 +55,11 @@ public class SaveCallback {
 						app.getAppletFrame().isKeyboardShowing());
 			} else {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						app.getMenu("SavedSuccessfully"), true, app);
+						loc.getMenu("SavedSuccessfully"), true, app);
 			}
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					app.getMenu("SavedSuccessfully"), true, app);
+					loc.getMenu("SavedSuccessfully"), true, app);
 		}
 	}
 

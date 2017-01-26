@@ -567,7 +567,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				if (geos.size() == 1 || GeoList
 						.getTraceModes(geos) != TraceModesEnum.NOT_TRACEABLE) {
 					cbItem = new JCheckBoxMenuItem(
-							app.getMenu("RecordToSpreadsheet"));
+							loc.getMenu("RecordToSpreadsheet"));
 					cbItem.setIcon(((AppD) app)
 							.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE));
 					cbItem.setSelected(getGeo().getSpreadsheetTrace());

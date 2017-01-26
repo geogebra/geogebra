@@ -3446,10 +3446,6 @@ public abstract class App implements UpdateSelection {
 
 	public abstract Localization getLocalization();
 
-	public String getMenu(String key) {
-		return getLocalization().getMenu(key);
-	}
-
 	public SelectionManager getSelectionManager() {
 		if (selection == null) {
 			selection = new SelectionManager(getKernel(), this);

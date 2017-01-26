@@ -305,7 +305,7 @@ pr.menu_header_undo(), null, 32);
 									null);
 						} else {
 							app.showMessage(exam.getLog(loc, settings),
-									app.getMenu("ExamSimpleCalc.long"), null,
+									loc.getMenu("ExamSimpleCalc.long"), null,
 									null);
 						}
 					}
@@ -314,7 +314,7 @@ pr.menu_header_undo(), null, 32);
 					app.showMessage(
 						app.getExam().getLog(app.getLocalization(),
 								app.getSettings()),
-							app.getMenu("exam_log_header") + " "
+							loc.getMenu("exam_log_header") + " "
 									+ app.getVersionString(),
 							null, null);
 				}

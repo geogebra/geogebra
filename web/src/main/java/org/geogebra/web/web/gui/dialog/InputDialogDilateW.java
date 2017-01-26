@@ -24,7 +24,8 @@ public class InputDialogDilateW extends InputDialogW {
 	public InputDialogDilateW(AppW app, String title, InputHandler handler,
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 	
-		super(app, app.getMenu("Dilate.Factor"), title, null, false, handler, false);
+		super(app, app.getLocalization().getMenu("Dilate.Factor"), title, null,
+				false, handler, false);
 		
 		inputHandler = handler;
 

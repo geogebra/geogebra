@@ -25,7 +25,8 @@ public class AsymptoteFrame extends ExportFrame {
 	 * @param ggb2asy
 	 */
 	public AsymptoteFrame(final GeoGebraToAsymptote ggb2asy) {
-		super(ggb2asy, ggb2asy.getApp().getMenu("GenerateCode"));
+		super(ggb2asy,
+				ggb2asy.getApp().getLocalization().getMenu("GenerateCode"));
 		fileExtension = FileExtensions.ASYMTOTE;
 		fileExtensionMsg = "Asymptote ";
 		initGui();

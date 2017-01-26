@@ -75,7 +75,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.options.setSourceType(PictureOptions.PICTURE_SOURCE_TYPE_SAVED_PHOTO_ALBUM);//.PICTURE_SOURCE_TYPE_PHOTO_LIBRARY);
 		
 		filePanel = new FlowPanel();
-		filePanel.add(chooseFromFile = new StandardButton(app.getMenu("ChooseFromFile")));
+		filePanel.add(chooseFromFile = new StandardButton(
+				app.getLocalization().getMenu("ChooseFromFile")));
 		chooseFromFile.addStyleName("gwt-Button");
 		chooseFromFile.addFastClickHandler(new FastClickHandler() {
 			

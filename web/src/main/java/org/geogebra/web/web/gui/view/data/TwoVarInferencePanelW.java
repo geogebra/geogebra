@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.data.TwoVarInferenceModel;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -45,6 +46,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private TwoVarInferenceModel model;
 	private boolean enablePooled;
 	private CheckBox ckPooled;
+	private Localization loc;
 	/**
 	 * Construct a TwoVarInference panel
 	 */
@@ -52,6 +54,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		
 		isIniting = true;
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.daView = view;
 		model = new TwoVarInferenceModel(app, this);
 
@@ -263,21 +266,21 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	@Override
 	public void setLabels() {
 
-		lblResultHeader.setText(app.getMenu("Result") + ": ");
+		lblResultHeader.setText(loc.getMenu("Result") + ": ");
 
-		lblTitle1.setText(app.getMenu("Sample1") + ": ");
-		lblTitle2.setText(app.getMenu("Sample2") + ": ");
+		lblTitle1.setText(loc.getMenu("Sample1") + ": ");
+		lblTitle2.setText(loc.getMenu("Sample2") + ": ");
 
-		lblNull.setText(app.getMenu("NullHypothesis") + ": ");
-		lblTailType.setText(app.getMenu("AlternativeHypothesis") + ": ");
+		lblNull.setText(loc.getMenu("NullHypothesis") + ": ");
+		lblTailType.setText(loc.getMenu("AlternativeHypothesis") + ": ");
 
 		// lblCI.setText("Interval Estimate");
-		lblConfLevel.setText(app.getMenu("ConfidenceLevel") + ": ");
+		lblConfLevel.setText(loc.getMenu("ConfidenceLevel") + ": ");
 
-		// btnCalc.setText(app.getMenu("Calculate"));
+		// btnCalc.setText(loc.getMenu("Calculate"));
 
-		ckEqualVariances.setText(app.getMenu("EqualVariance"));
-		ckPooled.setText(app.getMenu("Pooled"));
+		ckEqualVariances.setText(loc.getMenu("EqualVariance"));
+		ckPooled.setText(loc.getMenu("Pooled"));
 	}
 
 	@Override

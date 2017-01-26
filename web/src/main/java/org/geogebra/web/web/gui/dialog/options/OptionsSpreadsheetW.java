@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.dialog.options;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -129,20 +130,20 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	 */
 	@Override
 	public void setLabels() {
-
-		cbShowFormulaBar.setText(app.getMenu("ShowInputField"));
-		cbShowGrid.setText(app.getMenu("ShowGridlines"));
-		cbShowColumnHeader.setText(app.getMenu("ShowColumnHeader"));
-		cbShowRowHeader.setText(app.getMenu("ShowRowHeader"));
-		cbShowHScrollbar.setText(app.getMenu("ShowHorizontalScrollbars"));
-		cbShowVScrollbar.setText(app.getMenu("ShowVerticalScrollbars"));
-		cbAllowSpecialEditor.setText(app.getMenu("UseButtonsAndCheckboxes"));
-		cbAllowToolTips.setText(app.getMenu("AllowTooltips"));
-		cbPrependCommands.setText(app.getMenu("RequireEquals"));
-		cbEnableAutoComplete.setText(app.getMenu("UseAutoComplete"));
-		cbShowNavigation.setText(app.getMenu("NavigationBar"));
+		Localization loc = app.getLocalization();
+		cbShowFormulaBar.setText(loc.getMenu("ShowInputField"));
+		cbShowGrid.setText(loc.getMenu("ShowGridlines"));
+		cbShowColumnHeader.setText(loc.getMenu("ShowColumnHeader"));
+		cbShowRowHeader.setText(loc.getMenu("ShowRowHeader"));
+		cbShowHScrollbar.setText(loc.getMenu("ShowHorizontalScrollbars"));
+		cbShowVScrollbar.setText(loc.getMenu("ShowVerticalScrollbars"));
+		cbAllowSpecialEditor.setText(loc.getMenu("UseButtonsAndCheckboxes"));
+		cbAllowToolTips.setText(loc.getMenu("AllowTooltips"));
+		cbPrependCommands.setText(loc.getMenu("RequireEquals"));
+		cbEnableAutoComplete.setText(loc.getMenu("UseAutoComplete"));
+		cbShowNavigation.setText(loc.getMenu("NavigationBar"));
 		description.update();
-		descriptionLabel.setText(app.getMenu("AlgebraDescriptions"));
+		descriptionLabel.setText(loc.getMenu("AlgebraDescriptions"));
 	}
 
 	@Override

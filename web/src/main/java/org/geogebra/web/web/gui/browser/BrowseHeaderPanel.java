@@ -152,7 +152,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			optionsPanelContent.setStyleName("profileOptionsContent");
 			optionsPanel.add(optionsPanelContent);
 			
-			logoutButton = new StandardButton(app.getMenu("SignOut"));
+			logoutButton = new StandardButton(loc.getMenu("SignOut"));
 			logoutButton.addStyleName("logoutButton");
 			logoutButton.addStyleName("gwt-Button");
 			optionsPanelContent.add(logoutButton);
@@ -235,7 +235,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			this.signInButton.setText(loc.getMenu("SignIn"));
 		}
 		if(this.logoutButton != null){
-			this.logoutButton.setText(app.getMenu("SignOut"));
+			this.logoutButton.setText(loc.getMenu("SignOut"));
 		}
 		if(this.searchPanel != null){
 			this.searchPanel.setLabels();

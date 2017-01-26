@@ -264,7 +264,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private void createUserMenu() {
 		this.userMenu = new GMenuBar(true, "user");
 	    this.userMenu.addStyleName("GeoGebraMenuBar");
-	    this.userMenu.addItem(getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(), app.getMenu("SignOut"), true), true, new MenuCommand(app) {
+		this.userMenu.addItem(
+				getMenuBarHtml(
+						GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
+								.asString(),
+						app.getLocalization().getMenu("SignOut"), true),
+				true, new MenuCommand(app) {
 
 			@Override
             public void doExecute() {
@@ -276,7 +281,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private String getHTML(ImageResource img, String s){
 		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
 		return "<img src=\"" + img.getSafeUri().asString()
-		        + "\" draggable=\"false\"><span>" + app.getMenu(s) + "</span>";
+				+ "\" draggable=\"false\"><span>"
+				+ app.getLocalization().getMenu(s) + "</span>";
 	}
 	
 	private void createFileMenu() {
@@ -407,7 +413,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 
     private void addSignInMenu() {
-	    this.menuPanel.add(this.signInMenu, getHTML(GuiResources.INSTANCE.menu_icon_sign_in(), app.getMenu("SignIn")), true);
+		this.menuPanel.add(this.signInMenu,
+				getHTML(GuiResources.INSTANCE.menu_icon_sign_in(),
+						app.getLocalization().getMenu("SignIn")),
+				true);
     }
 
     private void addUserMenu() {

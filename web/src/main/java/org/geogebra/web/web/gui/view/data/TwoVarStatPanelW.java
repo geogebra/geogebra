@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel.TwoVarStatListener;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -51,9 +52,10 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 		// create an array of data titles for the table celll comboboxes
 		// the array includes and extra element to store the combo box label
 		String[] titles = statDialog.getDataTitles();
-		createListBoxCell(0, 0, app.getMenu("Sample1"), titles, 
+		Localization loc = app.getLocalization();
+		createListBoxCell(0, 0, loc.getMenu("Sample1"), titles,
 				model.getSelectedDataIndex0());
-		createListBoxCell(1, 0, app.getMenu("Sample2"), titles, 
+		createListBoxCell(1, 0, loc.getMenu("Sample2"), titles,
 				model.getSelectedDataIndex1());
 
 	}

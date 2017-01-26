@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplication;
@@ -117,10 +118,11 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * set labels
 	 */
 	public void setLabels() {
-		this.getCaption().setText(app.getMenu("RecoverUnsaved"));
-		this.infoText.setText(app.getMenu("UnsavedChangesFound"));
+		Localization loc = app.getLocalization();
+		this.getCaption().setText(loc.getMenu("RecoverUnsaved"));
+		this.infoText.setText(loc.getMenu("UnsavedChangesFound"));
 		this.deleteButton.setText(this.app.getLocalization().getPlain("Delete"));
-		this.recoverButton.setText(app.getMenu("Recover"));
+		this.recoverButton.setText(loc.getMenu("Recover"));
 	}
 	
 	@Override

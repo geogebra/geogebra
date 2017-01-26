@@ -141,7 +141,8 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void addSaveSettingsMenu(){
 		if (!app.isExam()) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-				.menu_icon_file_save().getSafeUri().asString(), getApp()
+					.menu_icon_file_save().getSafeUri().asString(),
+					getApp().getLocalization()
 				.getMenu("Settings.Save"), true),
 		        true, new MenuCommand(app) {
 			

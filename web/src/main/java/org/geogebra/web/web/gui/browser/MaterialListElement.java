@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -60,6 +61,7 @@ public class MaterialListElement extends FlowPanel implements
 	private TextBox renameTitleBox;
 	protected Material material;
 	protected final AppW app;
+	protected final Localization loc;
 	protected final GuiManagerW guiManager;
 	protected State state = State.Default;
 	Runnable editMaterial;
@@ -94,6 +96,7 @@ public class MaterialListElement extends FlowPanel implements
 	 */
 	public MaterialListElement(final Material m, final AppW app, boolean isLocal) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
 		this.isLocal = isLocal;
@@ -234,7 +237,8 @@ public class MaterialListElement extends FlowPanel implements
 				                        List<Material> parseResponse,
 				                        ArrayList<Chapter> meta) {
 					if (parseResponse.size() != 1) {
-						app.showError(app.getLocalization().getError("RenameFailed"));
+										app.showError(
+												loc.getError("RenameFailed"));
 						title.setText(oldTitle);
 					                } else {
 										Log.debug("RENAME local");
@@ -423,7 +427,7 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	private void initConfirmDeletePanel() {
-		this.confirm = new StandardButton(this.app.getLocalization().getPlain("Delete"));
+		this.confirm = new StandardButton(this.loc.getPlain("Delete"));
 		this.confirm.addStyleName("gwt-Button");
 		this.confirm.addStyleName("deleteButton");
 		this.confirm.addFastClickHandler(new FastClickHandler() {
@@ -433,7 +437,7 @@ public class MaterialListElement extends FlowPanel implements
 				onConfirmDelete();
 			}
 		});
-		this.cancel = new StandardButton(this.app.getLocalization().getPlain("Cancel"));
+		this.cancel = new StandardButton(this.loc.getPlain("Cancel"));
 		this.cancel.addStyleName("cancelButton");
 		this.cancel.addStyleName("gwt-Button");
 		this.cancel.addStyleName("minor");
@@ -482,7 +486,7 @@ public class MaterialListElement extends FlowPanel implements
 					                        false,
 					                        MaterialListElement.this.deleteCallback);
 					setVisible(true);
-					app.showError(app.getMenu("DeleteFailed"));
+							app.showError(loc.getMenu("DeleteFailed"));
 				}
 			});
 		} else {
@@ -581,12 +585,12 @@ public class MaterialListElement extends FlowPanel implements
 				return;
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					app.getMenu("Loading"), false, app);
+					loc.getMenu("Loading"), false, app);
 
 			loadGGBfromTube();
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					app.getMenu("Loading"), false, app);
+					loc.getMenu("Loading"), false, app);
 			if (!this.app.getFileManager().hasBase64(this.material)) {
 				loadGGBfromTube();
 			} else {
@@ -619,14 +623,14 @@ public class MaterialListElement extends FlowPanel implements
 									}
 									app.setActiveMaterial(material);
 								} else {
-									app.showError(app.getLocalization()
+									app.showError(loc
 											.getError("LoadFileFailed"));
 								}
 							}
 
 							@Override
 							public void onError(Throwable error) {
-							app.showError(app.getLocalization().getError(
+								app.showError(loc.getError(
 									"LoadFileFailed"));
 							}
 						});
@@ -689,22 +693,23 @@ public class MaterialListElement extends FlowPanel implements
 	 */
 	public void setLabels() {
 		if(this.deleteButton != null){
-				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
+			this.deleteButton.setText(loc.getPlain("Delete"));
 		}
 		if(this.cancel != null){
-				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+			this.cancel.setText(this.loc.getPlain("Cancel"));
 		}
 		if(this.confirm != null){
-				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
+			this.confirm.setText(this.loc.getPlain("Delete"));
 		}
 		if(this.editButton != null){
-			this.editButton.setText(app.getLocalization().getMenu("Edit"));
+			this.editButton.setText(loc.getMenu("Edit"));
 		}
 		if(this.viewButton != null){
-			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+			this.viewButton
+					.setText(loc.getMenu(getInsertWorksheetTitle(material)));
 		}
 		if (this.renameButton != null) {
-			this.renameButton.setText(app.getMenu("Rename"));
+			this.renameButton.setText(loc.getMenu("Rename"));
 		}
 
 	}

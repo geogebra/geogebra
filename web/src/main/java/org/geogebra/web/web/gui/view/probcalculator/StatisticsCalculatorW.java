@@ -126,12 +126,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	 * Update translation
 	 */
 	void setLabels() {
-		lblResult.setText(app.getMenu("Result"));
-		lblNull.setText(app.getMenu("NullHypothesis"));
-		lblTailType.setText(app.getMenu("AlternativeHypothesis"));
-		lblConfLevel.setText(app.getMenu("ConfidenceLevel"));
-		lblSigma.setText(app.getMenu("StandardDeviation.short"));
-		btnCalculate.setText(app.getMenu("Calculate"));
+		lblResult.setText(loc.getMenu("Result"));
+		lblNull.setText(loc.getMenu("NullHypothesis"));
+		lblTailType.setText(loc.getMenu("AlternativeHypothesis"));
+		lblConfLevel.setText(loc.getMenu("ConfidenceLevel"));
+		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
+		btnCalculate.setText(loc.getMenu("Calculate"));
 
 		switch (selectedProcedure) {
 
@@ -141,16 +141,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		case TMEAN2_CI:
 		case ZPROP2_TEST:
 		case ZPROP2_CI:
-			lblSampleHeader1.setText(app.getMenu("Sample1"));
+			lblSampleHeader1.setText(loc.getMenu("Sample1"));
 			break;
 
 		default:
-			lblSampleHeader1.setText(app.getMenu("Sample"));
+			lblSampleHeader1.setText(loc.getMenu("Sample"));
 		}
 
-		lblSampleHeader2.setText(app.getMenu("Sample2"));
+		lblSampleHeader2.setText(loc.getMenu("Sample2"));
 
-		ckPooled.setText(app.getMenu("Pooled"));
+		ckPooled.setText(loc.getMenu("Pooled"));
 
 		setHypParameterLabel();
 		setLabelStrings();
@@ -169,26 +169,29 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
-			lblHypParameter.setText(app.getMenu("HypothesizedMean.short") + " = ");
+			lblHypParameter
+					.setText(loc.getMenu("HypothesizedMean.short") + " = ");
 			break;
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
-			lblHypParameter.setText(app.getMenu("DifferenceOfMeans.short")+ " = ");
+			lblHypParameter
+					.setText(loc.getMenu("DifferenceOfMeans.short") + " = ");
 			break;
 
 		case ZPROP_TEST:
 			lblHypParameter
-					.setText(app.getMenu("HypothesizedProportion.short")+ " = ");
+					.setText(loc.getMenu("HypothesizedProportion.short")
+							+ " = ");
 			break;
 
 		case ZPROP2_TEST:
-			lblHypParameter.setText(app
+			lblHypParameter.setText(loc
 					.getMenu("DifferenceOfProportions.short")+ " = ");
 			break;
 
 		default:
-			lblHypParameter.setText(app.getMenu(""));
+			lblHypParameter.setText(loc.getMenu(""));
 		}
 	}
 

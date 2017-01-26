@@ -18,6 +18,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -111,10 +112,13 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	}
 
 	private void createSelectAnotherMenu(int mode) {
+		Localization localization = app.getLocalization();
 		if (mode == EuclidianConstants.MODE_MOVE) {
-			selectAnotherMenu = new JMenu(app.getMenu("SelectAnother"));
+			selectAnotherMenu = new JMenu(
+					localization.getMenu("SelectAnother"));
 		} else {
-			selectAnotherMenu = new JMenu(app.getMenu("PerformToolOn"));
+			selectAnotherMenu = new JMenu(
+					localization.getMenu("PerformToolOn"));
 		}
 		selectAnotherMenu.setIcon(((AppD) app).getEmptyIcon());
 		selectAnotherMenu.setBackground(getWrappedPopup().getBackground());

@@ -5454,4 +5454,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		return new GeoGebraToPgfD(this);
 	}
 
+	public String getMenu(String key) {
+		return getLocalization().getMenu(key);
+	}
+
 }

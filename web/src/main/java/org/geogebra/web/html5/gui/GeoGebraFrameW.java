@@ -147,21 +147,23 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				// get the last node that really contains an articleElement
 				for (int i = nodes.getLength() - 1; i >= 0; i--) {
 					ell = nodes.getItem(i);
-					Node elChild = ell.getChild(1);
-					if (elChild != null
-							&& Element.as(elChild).hasTagName("ARTICLE")) {
-						// found!!
-						if (elChild == el) {
-							// lastDummy!
-							if (lastDummy == null) {
-								tackleLastDummy(el);
+					for (int j = 0; j < ell.getChildCount(); j++) {
+						Node elChild = ell.getChild(j);
+						if (elChild != null
+								&& Element.as(elChild).hasTagName("ARTICLE")) {
+							// found!!
+							if (elChild == el) {
+								// lastDummy!
+								if (lastDummy == null) {
+									tackleLastDummy(el);
 
-								// if (firstDummy != null) {
-								// programFocusEvent(firstDummy, lastDummy);
-								// }
+									// if (firstDummy != null) {
+									// programFocusEvent(firstDummy, lastDummy);
+									// }
+								}
 							}
+							return;
 						}
-						break;
 					}
 				}
 

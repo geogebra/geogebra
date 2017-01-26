@@ -32,7 +32,8 @@ public class WindowMenuW extends MenuBar{
 		clearItems();
 		
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), app.getMenu("NewWindow"), true),
+				.empty().getSafeUri().asString(),
+				app.getLocalization().getMenu("NewWindow"), true),
 		        true, new Command() {
 			        @Override
 					public void execute() {

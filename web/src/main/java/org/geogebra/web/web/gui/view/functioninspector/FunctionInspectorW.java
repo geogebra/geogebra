@@ -614,7 +614,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		AppW appW = getAppW();
 
 		ImageOrText[] strOptions = new ImageOrText[] { new ImageOrText(
-		        appW.getMenu("CopyToSpreadsheet")) };
+				appW.getLocalization().getMenu("CopyToSpreadsheet")) };
 		btnOptions = new PopupMenuButtonW(appW, strOptions,
 		        strOptions.length, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
@@ -690,7 +690,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnAddColumn.setText("\u271A");
 
 		btnOptions.getMyTable().updateText(
-		        new ImageOrText[] { new ImageOrText(getAppW()
+				new ImageOrText[] { new ImageOrText(getAppW().getLocalization()
 		                .getMenu("CopyToSpreadsheet")) });
 		btnAddColumn.getMyTable().updateText(
 		        ImageOrText.convert(getModel().getColumnNames()));
