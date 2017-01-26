@@ -605,18 +605,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	public String getGlassStyleName() {
 		return glassStyleName;
 	}
-	
-	private native int getKeyboardHeight()/*-{
-		//app.getAppletFrame().getKeyboardHeight();
-		var kb = document.getElementsByClassName("KeyBoard");
-		if (kb[0]) {
-			console.log(kb[0].clientHeight);
-			return kb[0].clientHeight;
-		} else {
-			console.log("0");
-			return 0;
-		}
-	}-*/;
 
 	/**
 	 * Gets the panel's offset height in pixels. Calls to
