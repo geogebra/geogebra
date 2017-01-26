@@ -1283,36 +1283,36 @@ final class PredefinedCommands {
 		// return PredefMacros.jlmDynamic_macro(tp, args);
 		// }
 		// },
-		jlmExternalFont(1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmExternalFont_macro(args);
-			}
-		},
-		jlmText(1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmText_macro(args);
-			}
-		},
-		jlmTextit(1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmTextit_macro(args);
-			}
-		},
-		jlmTextbf(1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmTextbf_macro(args);
-			}
-		},
-		jlmTextitbf(1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmTextitbf_macro(args);
-			}
-		},
+		// jlmExternalFont(1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp, final String[] args) {
+		// return PredefMacros.jlmExternalFont_macro(args);
+		// }
+		// },
+		// jlmText(1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp, final String[] args) {
+		// return PredefMacros.jlmText_macro(args);
+		// }
+		// },
+		// jlmTextit(1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp, final String[] args) {
+		// return PredefMacros.jlmTextit_macro(args);
+		// }
+		// },
+		// jlmTextbf(1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp, final String[] args) {
+		// return PredefMacros.jlmTextbf_macro(args);
+		// }
+		// },
+		// jlmTextitbf(1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp, final String[] args) {
+		// return PredefMacros.jlmTextitbf_macro(args);
+		// }
+		// },
 //		DeclareMathSizes(4) {
 //			@Override
 //			public Object executeMacro(final TeXParser tp, final String[] args) {

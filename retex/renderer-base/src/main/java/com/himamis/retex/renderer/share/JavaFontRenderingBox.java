@@ -85,7 +85,8 @@ public class JavaFontRenderingBox extends Box {
 		LIGATURES_ON = fontAdapter.getTextAttributeValue("LIGATURES_ON");
 	}
 
-	public JavaFontRenderingBox(String str, int type, double size, Font f, boolean kerning) {
+	public JavaFontRenderingBox(String str, int type, double size, Font f,
+			boolean kerning) {
 		this.str = str;
 		this.size = size;
 
@@ -96,11 +97,12 @@ public class JavaFontRenderingBox extends Box {
 			f = f.deriveFont(map);
 		}
 
-		this.text = fontAdapter.createTextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
+		this.text = fontAdapter.createTextLayout(str, f.deriveFont(type),
+				TEMPGRAPHIC.getFontRenderContext());
 		Rectangle2D rect = text.getBounds();
 		this.height = (-rect.getY() * size / 10);
 		this.depth = (rect.getHeight() * size / 10) - this.height;
-		this.width =  ((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
+		this.width = ((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
 	}
 
 	public JavaFontRenderingBox(String str, int type, double size) {

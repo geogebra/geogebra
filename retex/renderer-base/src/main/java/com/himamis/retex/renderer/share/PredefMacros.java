@@ -50,7 +50,6 @@ import java.util.Map;
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
@@ -1503,27 +1502,31 @@ public class PredefMacros {
 //		}
 //	}
 
-	public static final Atom jlmExternalFont_macro(final String[] args)
-			throws ParseException {
-		JavaFontRenderingBox.setFont(args[1]);
-		return null;
-	}
-
-	public static final Atom jlmText_macro(final String[] args) throws ParseException {
-		return new JavaFontRenderingAtom(args[1], Font.PLAIN);
-	}
-
-	public static final Atom jlmTextit_macro(final String[] args) throws ParseException {
-		return new JavaFontRenderingAtom(args[1], Font.ITALIC);
-	}
-
-	public static final Atom jlmTextbf_macro(final String[] args) throws ParseException {
-		return new JavaFontRenderingAtom(args[1], Font.BOLD);
-	}
-
-	public static final Atom jlmTextitbf_macro(final String[] args) throws ParseException {
-		return new JavaFontRenderingAtom(args[1], Font.BOLD | Font.ITALIC);
-	}
+	// public static final Atom jlmExternalFont_macro(final String[] args)
+	// throws ParseException {
+	// JavaFontRenderingBox.setFont(args[1]);
+	// return null;
+	// }
+	//
+	// public static final Atom jlmText_macro(final String[] args) throws
+	// ParseException {
+	// return new JavaFontRenderingAtom(args[1], Font.PLAIN);
+	// }
+	//
+	// public static final Atom jlmTextit_macro(final String[] args) throws
+	// ParseException {
+	// return new JavaFontRenderingAtom(args[1], Font.ITALIC);
+	// }
+	//
+	// public static final Atom jlmTextbf_macro(final String[] args) throws
+	// ParseException {
+	// return new JavaFontRenderingAtom(args[1], Font.BOLD);
+	// }
+	//
+	// public static final Atom jlmTextitbf_macro(final String[] args) throws
+	// ParseException {
+	// return new JavaFontRenderingAtom(args[1], Font.BOLD | Font.ITALIC);
+	// }
 
 //	public static final Atom DeclareMathSizes_macro(final TeXParser tp, final String[] args)
 //			throws ParseException {
