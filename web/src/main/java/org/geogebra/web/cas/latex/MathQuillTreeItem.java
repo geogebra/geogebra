@@ -12,6 +12,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
@@ -651,6 +652,16 @@ public class MathQuillTreeItem extends RadioTreeItem
 	@Override
 	protected String getEditorLatex() {
 		return this.getLaTeX();
+	}
+
+	protected void renderLatexCanvas(String text0, Element old) {
+
+		canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas, getFontSize());
+
+		if (canvas != null && content.getElement().isOrHasChild(old)) {
+			content.getElement().replaceChild(canvas.getCanvasElement(), old);
+		}
+
 	}
 
 }

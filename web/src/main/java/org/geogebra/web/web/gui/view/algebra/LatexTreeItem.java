@@ -496,4 +496,12 @@ public class LatexTreeItem extends RadioTreeItem {
 				mf.getMetaModel());
 	}
 
+	@Override
+	protected void doUpdate() {
+		if (mf != null) {
+			mf.setEnabled(false);
+		}
+		super.doUpdate();
+	}
+
 }

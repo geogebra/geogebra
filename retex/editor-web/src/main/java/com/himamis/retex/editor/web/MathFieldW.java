@@ -95,6 +95,9 @@ public class MathFieldW implements MathField, IsWidget {
 	private static Timer tick;
 	private BlurHandler onTextfieldBlur;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	// can't be merged with instances.size because we sometimes remove an
+	// instance
+	private static int counter = 0;
 
 	/**
 	 * 
@@ -530,7 +533,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();
-			Element el = getHiddenTextAreaNative(instances.size(),
+			Element el = getHiddenTextAreaNative(counter++,
 					clip.getElement());
 			mathFieldInternal.debug("GWT connect");
 			wrap = TextArea.wrap(el);
@@ -572,6 +575,7 @@ public class MathFieldW implements MathField, IsWidget {
 			Element clipDiv) /*-{
 		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea'
 				+ counter);
+		console.trace(counter + ":" + hiddenTextArea);
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
 			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;

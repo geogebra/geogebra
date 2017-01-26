@@ -893,15 +893,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected abstract void renderLatex(String text0, Widget w,
 			boolean forceMQ);
 
-	protected void renderLatexCanvas(String text0, Element old) {
 
-		canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas, getFontSize());
-
-		if (canvas != null && content.getElement().isOrHasChild(old)) {
-			content.getElement().replaceChild(canvas.getCanvasElement(), old);
-		}
-
-	}
 
 
 
