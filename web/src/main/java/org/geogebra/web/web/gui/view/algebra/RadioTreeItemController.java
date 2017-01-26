@@ -548,11 +548,15 @@ public class RadioTreeItemController
 		}
 
 		if (enable && (!active || item.isInputTreeItem())) {
-			Log.debug("[AVTAP] single tap edit begins");
+			boolean shift = wrappedEvent.isShiftDown();
+			boolean ctrl = wrappedEvent.isControlDown();
+
 			longTouchManager.cancelTimer();
-			startEdit(wrappedEvent.isControlDown());
-			updateSelection(wrappedEvent.isControlDown(),
-					wrappedEvent.isShiftDown());
+			if (!shift && !ctrl) {
+				Log.debug("[AVTAP] single tap edit begins");
+				startEdit(false);
+			}
+			updateSelection(ctrl, shift);
 		}
 
 		return true;
