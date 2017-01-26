@@ -678,6 +678,12 @@ public class RadioTreeItemController
 			selectionCtrl.clear();
 			getAV().updateSelection();
 		} else {
+			if (!(separated || continous)) {
+				// single selection
+				selectionCtrl.clear();
+				getAV().updateSelection();
+
+			}
 			selectionCtrl.select(geo, separated, continous);
 			if (separated && !selectionCtrl.contains(geo)) {
 				selectionCtrl.setSelectHandled(true);
