@@ -90,7 +90,8 @@ run {
 
 }
 test {
-     ignoreFailures = true
+	systemProperty "materials.token", file(project.getProperty("materialsTokenPath")).getText();
+    ignoreFailures = true
 }
 
 findbugs{

@@ -33,10 +33,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 
-
-
-
-
 public class GeoGebraCasIntegrationTest {
   private static final String GermanSolve = "L\u00f6se";
 

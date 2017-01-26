@@ -367,6 +367,14 @@ public abstract class GeoGebraTubeAPI {
 				cb);
 	}
 
+	public void getUsersOwnMaterials(MaterialCallbackI cb) {
+		System.out.println(client.getModel().getUserId());
+		performRequest(
+				MaterialRequest.forUser(client.getModel().getUserId(), client)
+						.toJSONString(client),
+				cb);
+	}
+
 	/**
 	 * @param requestString
 	 *            json string representing the request

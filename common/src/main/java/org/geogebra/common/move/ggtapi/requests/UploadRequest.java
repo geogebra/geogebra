@@ -128,6 +128,12 @@ public class UploadRequest implements Request {
 
 	@Override
 	public String toJSONString(ClientInfo client) {
+		if (client.getModel() == null) {
+			Log.warn("No model");
+		}
+		if (client.getModel().getLoggedInUser() == null) {
+			Log.warn("No user.");
+		}
 		try {
 			// TODO for save we only need title
 			// request
@@ -186,6 +192,7 @@ public class UploadRequest implements Request {
 
 			return request.toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			Log.debug("problem building request: " + e.getMessage());
 			return null;
 		}
