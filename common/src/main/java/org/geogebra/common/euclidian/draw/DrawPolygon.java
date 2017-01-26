@@ -61,7 +61,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isSquare = false;
 	protected GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
-
+	protected GRectangle prewRect = AwtFactory.getPrototype().newRectangle(0, 0,
+			0, 0);
 	/**
 	 * Creates new DrawPolygon
 	 * 
@@ -79,6 +80,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		for (int i = 0; i < 8; i++) {
 			extraCoords[i] = new Coords(0, 0);
 		}
+
 		update();
 	}
 
@@ -180,11 +182,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (geo.isShape()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
-			} else {
-				getBoundingBox().setRectangle(null);
+				if (Kernel.isEqual(getBoundingBox().getRectangle().getHeight(),
+						getBoundingBox().getRectangle().getWidth(), 2)) {
+					setIsSquare(true);
+				}
 			}
 		}
-
 	}
 
 	private void createShape() {
@@ -608,10 +611,28 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.fixCornerY = fixCornerY;
 	}
 
+	/**
+	 * @return true if is square
+	 */
+	public boolean isSquare() {
+		return isSquare;
+	}
+
+	/**
+	 * @param isSquare
+	 *            - if it is square
+	 */
+	public void setIsSquare(boolean isSquare) {
+		this.isSquare = isSquare;
+	}
+
 	private boolean isTriangleShape() {
 		return poly.isShape() && poly.getPoints().length == 3;
 	}
 
+	private boolean isRectangleShape() {
+		return poly.isShape() && poly.getPoints().length == 4;
+	}
 	/**
 	 * method to update points of poly after mouse release
 	 * 
@@ -622,6 +643,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public void updateGeo(AbstractEvent event) {
 		if (isTriangleShape()) {
 			updateRealPointsOfTriangle(event);
+		} else if (isRectangleShape()) {
+			updateRealPointsOfRectangle();
 		}
 		poly.updateCascade(true);
 		poly.getParentAlgorithm().update();
@@ -647,9 +670,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 		poly.updateRepaint();
 		if (isTriangleShape()) {
 			updateTriangle(handlerNr, e);
+			view.setShapePolygon(prewPolygon);
+			view.setShapeRectangle(prewPolygon.getBounds());
+		} else if (isRectangleShape()) {
+			updateRectangle(handlerNr, e);
+			view.setShapeRectangle(prewRect);
 		}
-		view.setShapePolygon(prewPolygon);
-		view.setShapeRectangle(prewPolygon.getBounds());
 		view.repaintView();
 	}
 
@@ -675,7 +701,22 @@ public class DrawPolygon extends Drawable implements Previewable {
 			poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
 					view.toRealWorldCoordY(fixCornerY), 1);
 		}
+	}
 
+	private void updateRealPointsOfRectangle() {
+		double startPointX = view
+				.toRealWorldCoordX(getBoundingBox().getRectangle().getX());
+		double startPointY = view
+				.toRealWorldCoordY(getBoundingBox().getRectangle().getY());
+		double endPointX = view
+				.toRealWorldCoordX(getBoundingBox().getRectangle().getMaxX());
+		double endPointY = view
+				.toRealWorldCoordY(getBoundingBox().getRectangle().getMaxY());
+
+		poly.getPoint(0).setCoords(startPointX, startPointY, 1);
+		poly.getPoint(1).setCoords(endPointX, startPointY, 1);
+		poly.getPoint(2).setCoords(endPointX, endPointY, 1);
+		poly.getPoint(3).setCoords(startPointX, endPointY, 1);
 	}
 
 	/**
@@ -757,6 +798,106 @@ public class DrawPolygon extends Drawable implements Previewable {
 		prewPolygon.closePath();
 
 		getBoundingBox().setRectangle(prewPolygon.getBounds());
+	}
+
+	/**
+	 * update the coords of rectangle
+	 * 
+	 * @param hitHandlerNr
+	 *            - nr of handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateRectangle(int hitHandlerNr, AbstractEvent event) {
+		if (prewRect == null) {
+			prewRect = AwtFactory.getPrototype().newRectangle();
+		}
+	  
+		if (Double.isNaN(fixCornerX)) { 
+		  switch (hitHandlerNr) { 
+		  	case 0:
+			  fixCornerX = getBoundingBox().getRectangle().getMaxX(); 
+			  break; 
+		  	case 1:
+			  fixCornerX = getBoundingBox().getRectangle().getMaxX();
+			  break; 
+		  	case 2:
+				  fixCornerX = getBoundingBox().getRectangle().getX(); 
+				  break;
+		  	case 3:
+			  fixCornerX = getBoundingBox().getRectangle().getX();
+			  break; 
+		  	default:
+			  break; 
+		  } 
+		} 
+		
+		if (Double.isNaN(fixCornerY)) {
+			switch (hitHandlerNr) { 
+				case 0: 
+					fixCornerY = getBoundingBox().getRectangle().getMaxY(); 
+					break; 
+				case 1:
+					fixCornerY = getBoundingBox().getRectangle().getMinY(); 
+					break; 
+				case 2:
+					fixCornerY = getBoundingBox().getRectangle().getY(); 
+					break; 
+				case 3:
+					fixCornerY = getBoundingBox().getRectangle().getMaxY(); 
+					break; 
+				default:
+					break; 
+			} 
+		}
+	  
+	  int dx = (int) (event.getX() - fixCornerX); 
+	  int dy = (int) (event.getY() - fixCornerY);
+	  
+	  int width = dx; int height = dy;
+	  
+		if (height >= 0) {
+			if (width >= 0) {
+				prewRect.setLocation((int) fixCornerX, (int) fixCornerY);
+				if (isSquare) {
+					prewRect.setSize(width, width);
+				} else {
+					prewRect.setSize(width, height);
+				}
+			} else { // width < 0
+				prewRect.setLocation((int) fixCornerX + width,
+						(int) fixCornerY);
+				if (isSquare) {
+					prewRect.setSize(-width, -width);
+				} else {
+					prewRect.setSize(-width, height);
+				}
+			}
+		} else { // height < 0
+			if (width >= 0) {
+				if (isSquare) {
+					prewRect.setLocation((int) fixCornerX,
+							(int) fixCornerY - width);
+					prewRect.setSize(width, width);
+				} else {
+					prewRect.setLocation((int) fixCornerX,
+							(int) fixCornerY + height);
+					prewRect.setSize(width, -height);
+				}
+			} else { // width < 0
+				if (isSquare) {
+					prewRect.setLocation((int) fixCornerX + width,
+							(int) fixCornerY + width);
+					prewRect.setSize(-width, -width);
+				} else {
+					prewRect.setLocation((int) fixCornerX + width,
+							(int) fixCornerY + height);
+					prewRect.setSize(-width, -height);
+				}
+			}
+		}
+
+		getBoundingBox().setRectangle(prewRect.getBounds());
 	}
 
 }
