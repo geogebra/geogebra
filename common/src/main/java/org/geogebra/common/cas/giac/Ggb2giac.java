@@ -905,7 +905,7 @@ public class Ggb2giac {
 						// is better when returning degrees from inverse trig
 						"evalf(ggbnumans)" + "," +
 						// #4537
-						"evalf(regroup(normal(ggbnumans)))" + ")][1]");
+						"normal(evalf(regroup(ggbnumans)))" + ")][1]");
 
 		p("Numeric.2",
 				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],"
@@ -916,7 +916,7 @@ public class Ggb2giac {
 						// is better when returning degrees from inverse trig
 						"evalf(ggbnumans,%1)" + "," +
 						// #4537
-						"evalf(regroup(normal(ggbnumans)),%1)" + ")][1]");
+						"normal(evalf(regroup(ggbnumans),%1))" + ")][1]");
 
 		// using sub twice in opposite directions seems to fix #2198, though
 		// it's sort of magic
