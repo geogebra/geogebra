@@ -25,12 +25,6 @@ public class GraphicsFactoryAndroid extends GraphicsFactory {
 	}
 
 	@Override
-	public Image getImage(String path) {
-		// TODO Get image in graphics factory
-		return null;
-	}
-
-	@Override
 	public Transform createTransform() {
 		return new TransformA();
 	}

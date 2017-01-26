@@ -18,10 +18,6 @@
     return [[ImageI alloc] initWithWidth:width withHeight:height];
 }
 
-- (id <RXImage>)getImageWithNSString:(NSString *)path {
-    return nil;
-}
-
 - (id <RXTransform>)createTransform {
     return [[TransformI alloc] init];
 }
