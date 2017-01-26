@@ -68,11 +68,6 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 	}
 
 	@Override
-	public Image getImage(String path) {
-		throw new UnsupportedOperationException("Cannot load image from a path");
-	}
-
-	@Override
 	public Transform createTransform() {
 		return new TransformW();
 	}

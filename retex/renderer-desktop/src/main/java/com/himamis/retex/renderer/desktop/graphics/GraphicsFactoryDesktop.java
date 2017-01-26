@@ -74,17 +74,6 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 	}
 
 	@Override
-	public Image getImage(String path) {
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File(path));
-		} catch (IOException e) {
-			return null;
-		}
-		return new ImageD(img);
-	}
-
-	@Override
 	public Transform createTransform() {
 		return new TransformD();
 	}

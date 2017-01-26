@@ -88,7 +88,4 @@ public class Graphics {
 		return graphicsFactory.createTransform();
 	}
 
-	public Image loadImage(String path) {
-		return graphicsFactory.getImage(path);
-	}
 }

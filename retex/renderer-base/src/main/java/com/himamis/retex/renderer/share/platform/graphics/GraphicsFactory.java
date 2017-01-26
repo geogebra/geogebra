@@ -51,8 +51,6 @@ public abstract class GraphicsFactory {
 
 	public abstract Image createImage(int width, int height, int type);
 	
-	public abstract Image getImage(String path);
-
 	public abstract Transform createTransform();
 	
 }
