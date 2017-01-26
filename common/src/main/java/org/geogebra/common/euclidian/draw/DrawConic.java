@@ -172,7 +172,7 @@ public class DrawConic extends Drawable implements Previewable {
 	private boolean ignoreSingularities;
 
 	private BoundingBox boundingBox;
-	private double fixCornerX = Double.MIN_VALUE, fixCornerY = Double.MIN_VALUE;
+	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
 	private boolean isCircle = false;
 	protected GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble(0, 0, 0, 0);
@@ -2110,7 +2110,7 @@ public class DrawConic extends Drawable implements Previewable {
 				.newEllipse2DDouble(0, 0, 0, 0);
 		}
 
-		if (fixCornerX == Double.MIN_VALUE) {
+		if (Double.isNaN(fixCornerX)) {
 			switch (hitHandlerNr) {
 			case 0:
 				fixCornerX = getBoundingBox().getRectangle().getMaxX();
@@ -2128,7 +2128,7 @@ public class DrawConic extends Drawable implements Previewable {
 				break;
 			}
 		}
-		if (fixCornerY == Double.MIN_VALUE) {
+		if (Double.isNaN(fixCornerY)) {
 			switch (hitHandlerNr) {
 			case 0:
 				fixCornerY = getBoundingBox().getRectangle().getMaxY();
@@ -2270,8 +2270,8 @@ public class DrawConic extends Drawable implements Previewable {
 		conic.updateRepaint();
 		this.update();
 		view.setShapeEllipse(null);
-		setFixCornerX(Double.MIN_VALUE);
-		setFixCornerY(Double.MIN_VALUE);
+		setFixCornerX(Double.NaN);
+		setFixCornerY(Double.NaN);
 		view.repaintView();
 		 
 	}
