@@ -1129,17 +1129,23 @@ public abstract class Localization implements KeyboardLocale {
 	 * returned.
 	 */
 	protected Locale getClosestSupportedLocale(Locale locale) {
+		
 		int size = getSupportedLocales().size();
 
 		// try to find country and and language
 		String country = getCountry(locale);
 		String language = getLanguage(locale);
+		String variant = getVariant(locale);
 
 		if (country.length() > 0) {
 			for (int i = 0; i < size; i++) {
 				Locale loc = getSupportedLocales().get(i);
+
 				if (country.equals(getCountry(loc))
-						&& language.equals(getLanguage(loc))) {
+						&& language.equals(getLanguage(loc))
+						// needed for no_NO_NY
+						&& (!"no".equals(language)
+								|| variant.equals(getVariant(loc)))) {
 					// found supported country locale
 					return loc;
 				}
@@ -1170,6 +1176,10 @@ public abstract class Localization implements KeyboardLocale {
 	protected abstract String getLanguage(Locale locale);
 
 	protected abstract String getCountry(Locale locale);
+
+	protected String getVariant(Locale locale) {
+		return locale.getVariant();
+	}
 
 	/**
 	 * 
