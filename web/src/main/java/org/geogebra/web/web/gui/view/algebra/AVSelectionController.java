@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
@@ -223,6 +224,14 @@ public class AVSelectionController {
 
 	public boolean isSingleGeo() {
 		return selection.getSelectedGeos().size() == 1;
+	}
+
+	public boolean hasMultGeos() {
+		return selection.getSelectedGeos().size() > 1;
+	}
+
+	public List<GeoElement> getSelectedGeos() {
+		return selection.getSelectedGeos();
 	}
 
 	public boolean isEmpty() {

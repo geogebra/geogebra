@@ -2119,9 +2119,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Update highlighting of rows
 	 */
 	public void updateSelection() {
-		if (selectionCtrl.isMultiSelect()) {
-			return;
-		}
+		// if (selectionCtrl.isMultiSelect()) {
+		// return;
+		// }
 
 		if (selectionCtrl.isEmpty()) {
 			removeCloseButton();
@@ -2342,5 +2342,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void setLaTeXLoaded() {
 		latexLoaded = true;
 
+	}
+
+	/**
+	 * Gets the TreeItem associated with the geo.
+	 * 
+	 * @param geo
+	 *            the element to look for.
+	 * @return the TreeItem with the geo.
+	 */
+	public TreeItem getNode(GeoElement geo) {
+		return nodeTable.get(geo);
 	}
 }

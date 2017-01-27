@@ -393,12 +393,14 @@ public class RadioTreeItemController
 			}
 
 		}
-		if (app.getActiveEuclidianView()
-				.getMode() == EuclidianConstants.MODE_MOVE
-				|| app.getActiveEuclidianView()
-						.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
-			updateSelection(event.isControlDown(), event.isShiftDown());
-		}
+		updateSelection(event.isControlDown(), event.isShiftDown());
+
+		// if (app.getActiveEuclidianView()
+		// .getMode() == EuclidianConstants.MODE_MOVE
+		// || app.getActiveEuclidianView()
+		// .getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
+		// updateSelection(event.isControlDown(), event.isShiftDown());
+		// }
 
 	}
 
@@ -682,12 +684,6 @@ public class RadioTreeItemController
 			selectionCtrl.clear();
 			getAV().updateSelection();
 		} else {
-			if (!(separated || continous)) {
-				// single selection
-				// selectionCtrl.clear();
-				// getAV().updateSelection();
-
-			}
 			selectionCtrl.select(geo, separated, continous);
 			if (separated && !selectionCtrl.contains(geo)) {
 				selectionCtrl.setSelectHandled(true);
@@ -698,6 +694,7 @@ public class RadioTreeItemController
 
 		}
 	}
+
 
 	private AlgebraViewW getAV() {
 		return item.getAV();
@@ -723,6 +720,10 @@ public class RadioTreeItemController
 
 	public void setEditHeigth(int editHeigth) {
 		this.editHeigth = editHeigth - VERTICAL_PADDING;
+	}
+
+	public boolean hasMultiGeosSelected() {
+		return selectionCtrl.hasMultGeos();
 	}
 }
 

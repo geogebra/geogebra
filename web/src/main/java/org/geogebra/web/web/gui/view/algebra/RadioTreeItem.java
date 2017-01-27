@@ -1684,7 +1684,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// Log.printStacktrace("[RTI] selectItem: " + selected);
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			if (controls != null) {
-				controls.show(selected);
+				controls.show(
+						controller.hasMultiGeosSelected() ? false : selected);
 			}
 		} else {
 			toggleControls();
