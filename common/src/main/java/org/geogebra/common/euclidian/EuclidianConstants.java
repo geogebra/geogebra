@@ -797,7 +797,7 @@ public final class EuclidianConstants {
 
 		/** WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
-			return "ShapeLine";
+			return "Line";
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
 			return "ShapeTriangle";
 		case EuclidianConstants.MODE_SHAPE_SQUARE:
@@ -805,15 +805,15 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 			return "ShapeRectangle";
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
-			return "ShapeRectangleRoundEdges";
+			return "ShapeRoundedRectangle";
 		case EuclidianConstants.MODE_SHAPE_POLYGON:
 			return "ShapePolygon";
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 			return "ShapeFreeform";
 		case EuclidianConstants.MODE_SHAPE_CIRCLE:
-			return "ShapeCircle";
+			return "Circle";
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
-			return "ShapeEllipse";
+			return "Ellipse";
 
 		case EuclidianConstants.MODE_ERASER:
 			return "Eraser";
