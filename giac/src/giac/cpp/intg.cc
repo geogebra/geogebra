@@ -4264,7 +4264,7 @@ namespace giac {
   // then try gcd(A(x),B(x+t))
   vecteur decalage(const polynome & A,const polynome & B){
     int s=A.dim;
-    // if (s==1)
+    //if (s==1)
       return decalage_(A,B);
     vecteur l(s),L(s);
     for (int i=0;i<s;++i)
@@ -4914,7 +4914,7 @@ namespace giac {
 #endif
 	for (unsigned i=0;i<w.size();++i){
 	  if (is_integer(w[i]) && is_greater((v[3]-w[i])*(w[i]-v[2]),0,contextptr)) {
-	    gen v0w=subst(v0,v[1],w[i],false,contextptr);
+	    gen v0w=limit(v0,*v[1]._IDNTptr,w[i],0,contextptr);// gen v0w=subst(v0,v[1],w[i],false,contextptr);
 	    if (is_undef(v0w) || is_inf(v0w))
 	      return gensizeerr("Pole at "+w[i].print(contextptr));
 	  }
