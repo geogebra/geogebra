@@ -127,9 +127,13 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
-		setNotSyncedFileCount(this.stockStore.getLength(), events);
+		ArrayList<String> keys = new ArrayList<String>();
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
-			final String key = this.stockStore.key(i);
+			keys.add(this.stockStore.key(i));
+		}
+		setNotSyncedFileCount(keys.size(), events);
+		for (int i = 0; i < keys.size(); i++) {
+			final String key = keys.get(i);
 			if (key.startsWith(FILE_PREFIX)) {
 				final Material mat = JSONParserGGT
 				        .parseMaterial(this.stockStore.getItem(key));
@@ -194,7 +198,11 @@ public class FileManagerW extends FileManager {
 			public void handle(final String s) {
 				final Material mat = createMaterial(s,
 				        System.currentTimeMillis() / 1000);
-				stockStore.setItem(AUTO_SAVE_KEY, mat.toJson().toString());
+				try {
+					stockStore.setItem(AUTO_SAVE_KEY, mat.toJson().toString());
+				} catch (Exception e) {
+					Log.warn("Autosave failed");
+				}
 			}
 		};
 
@@ -283,8 +291,12 @@ public class FileManagerW extends FileManager {
 			key = FileManager.createKeyString(this.createID(),
 			        material.getTitle());
 		}
+		try {
 		this.stockStore.setItem(key, material.toJson().toString());
 		this.offlineIDs.add(material.getId());
+		} catch (Exception e) {
+			Log.warn("Updating local copy failed.");
+		}
 	}
 
 	

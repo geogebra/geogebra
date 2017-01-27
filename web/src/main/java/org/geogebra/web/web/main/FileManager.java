@@ -267,15 +267,12 @@ public abstract class FileManager implements FileManagerI {
 
 		if (event.isDelete()) {
 			delete(mat, true, dummyCallback);
-		}
- else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
+		} else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
 			// remove from local device
 			delete(mat, true, dummyCallback);
 
-		}
- else if (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp()) {
+		} else if (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp()) {
 
-				
 			getFromTube(mat);
 
 		} else {

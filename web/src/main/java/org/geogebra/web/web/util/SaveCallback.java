@@ -88,6 +88,12 @@ public class SaveCallback {
 	 * shows errorMessage "save file failed"
 	 */
 	public void onError() {
-		app.showError(app.getLocalization().getError("SaveFileFailed"));
+		if (state == SaveState.OK) {
+			app.getGgbApi().showTooltip(
+					app.getLocalization().getError("SaveLocalFileFailed"));
+		} else {
+			app.showError(app.getLocalization().getError("SaveFileFailed"));
+		}
+
 	}
 }
