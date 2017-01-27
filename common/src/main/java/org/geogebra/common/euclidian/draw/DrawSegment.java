@@ -641,11 +641,6 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void setBoundingBox(BoundingBox boundingBox) {
-		this.boundingBox = boundingBox;
-	}
-
-	@Override
 	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
 		double dP1 = line.getP1().distance(e.getX(), e.getY());
 		double dP2 = line.getP2().distance(e.getX(), e.getY());

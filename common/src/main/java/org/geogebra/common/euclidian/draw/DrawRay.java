@@ -396,12 +396,6 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void setBoundingBox(BoundingBox boundingBox) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void updateBoundingBox() {
 		// TODO Auto-generated method stub
 		

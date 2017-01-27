@@ -2048,11 +2048,6 @@ public class DrawConic extends Drawable implements Previewable {
 		return boundingBox;
 	}
 
-	@Override
-	public void setBoundingBox(BoundingBox boundingBox) {
-		this.boundingBox = boundingBox;
-	}
-
 	/**
 	 * @return fixed x coord of corner
 	 */

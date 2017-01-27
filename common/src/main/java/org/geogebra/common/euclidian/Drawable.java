@@ -161,12 +161,6 @@ public abstract class Drawable extends DrawableND {
 	public abstract BoundingBox getBoundingBox();
 
 	/**
-	 * @param boundingBox
-	 *            - bounding box for selected drawable
-	 */
-	public abstract void setBoundingBox(BoundingBox boundingBox);
-
-	/**
 	 * update bounding box construction
 	 */
 	public abstract void updateBoundingBox();

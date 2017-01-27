@@ -381,12 +381,6 @@ public class DrawInequality1Var extends Drawable {
 	}
 
 	@Override
-	public void setBoundingBox(BoundingBox boundingBox) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void updateBoundingBox() {
 		// TODO Auto-generated method stub
 		
