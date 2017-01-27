@@ -2002,7 +2002,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT) || isInputTreeItem()) {
 			if (app.has(Feature.AV_PREVIEW)) {
 					content.insert(getClearInputButton(), 0);
 				} else {
@@ -2011,6 +2011,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (controls != null) {
 					controls.setVisible(false);
 				}
+				adjustStyleBar();
 			}
 			setLatexItemVisible(true);
 		}
