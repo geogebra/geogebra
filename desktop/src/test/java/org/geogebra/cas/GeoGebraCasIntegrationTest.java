@@ -2366,7 +2366,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void NumericEvaluation_NumericEvaluation_TwoVariables_1 () {
-    t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]",
+		t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]",
+				"-0.6 * a^(3) + 1 * a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)",
 				"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b",
 				"-0.6 * a^(3) + a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)");
   }
