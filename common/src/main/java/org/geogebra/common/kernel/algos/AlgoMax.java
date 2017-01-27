@@ -24,16 +24,23 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 /**
  * Computes Max[a, b]
  * 
- * @author Markus Hohenwarterarea of conic c
+ * @author Markus Hohenwarterar
  */
 public class AlgoMax extends AlgoTwoNumFunction {
 
 	/**
 	 * Creates new max algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            first number
+	 * @param b
+	 *            second number
 	 */
-	public AlgoMax(Construction cons, String label, GeoNumberValue a,
+	public AlgoMax(Construction cons, GeoNumberValue a,
 			GeoNumberValue b) {
-		super(cons, label, a, b);
+		super(cons, a, b);
 	}
 
 	@Override

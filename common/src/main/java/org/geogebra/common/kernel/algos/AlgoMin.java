@@ -30,13 +30,15 @@ public class AlgoMin extends AlgoTwoNumFunction {
 
 	/**
 	 * Creates new min algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            first number
+	 * @param b
+	 *            second number
 	 */
-	public AlgoMin(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
-		super(cons, label, a, b);
-	}
-
-	AlgoMin(Construction cons, GeoNumberValue a, GeoNumberValue b) {
+	public AlgoMin(Construction cons, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, a, b);
 	}
 

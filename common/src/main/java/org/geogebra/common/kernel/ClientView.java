@@ -59,6 +59,9 @@ public interface ClientView extends View {
 
 	/**
 	 * Notify client that objects are about to pasted into the construction.
+	 * 
+	 * @param pasteXml
+	 *            XML of pasted construction
 	 */
 	public void pasteElms(String pasteXml);
 

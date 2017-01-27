@@ -34,9 +34,13 @@ public class AlgoMod extends AlgoTwoNumFunction {
 	 * Creates new mod algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param a
+	 *            dividend
 	 * @param b
+	 *            divisor
 	 */
 	public AlgoMod(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {

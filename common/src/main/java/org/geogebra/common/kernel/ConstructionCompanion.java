@@ -26,6 +26,9 @@ public class ConstructionCompanion {
 		this.cons = cons;
 	}
 
+	/**
+	 * Create 3D constant objects
+	 */
 	public void init() {
 		// nothing needed here
 	}

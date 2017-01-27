@@ -33,17 +33,9 @@ public class AlgoNormalize extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param geoList
-	 */
-	public AlgoNormalize(Construction cons, String label, GeoList geoList) {
-		this(cons, geoList);
-		normalList.setLabel(label);
-	}
-
-	/**
-	 * @param cons
-	 * @param geoList
+	 *            input data
 	 */
 	public AlgoNormalize(Construction cons, GeoList geoList) {
 		super(cons);
@@ -70,7 +62,7 @@ public class AlgoNormalize extends AlgoElement {
 	}
 
 	/**
-	 * @return
+	 * @return resulting list
 	 */
 	public GeoList getResult() {
 		return normalList;

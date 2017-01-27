@@ -7,6 +7,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * RoundedPolygon[points, radius]
+ * 
+ * @author Zbynek
+ *
+ */
 public class CmdRoundedPolygon extends CommandProcessor {
 
 	/**

@@ -36,10 +36,8 @@ public class CmdNormalize extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
-				AlgoNormalize algo = new AlgoNormalize(cons, c.getLabel(),
-						(GeoList) arg[0]);
-
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {
+						Normalize(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 
 			} else if (!(arg[0] instanceof VectorValue)) {
@@ -63,8 +61,9 @@ public class CmdNormalize extends CommandProcessor {
 	 * Normalize[list] Oana Niculaescu
 	 */
 	final private GeoList Normalize(String label, GeoList list) {
-		AlgoNormalize algo = new AlgoNormalize(cons, label, list);
+		AlgoNormalize algo = new AlgoNormalize(cons, list);
 		GeoList list2 = algo.getResult();
+		list2.setLabel(label);
 		return list2;
 	}
 

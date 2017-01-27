@@ -58,9 +58,9 @@ public class CmdMax extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				AlgoMax algo = new AlgoMax(cons, c.getLabel(),
+				AlgoMax algo = new AlgoMax(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

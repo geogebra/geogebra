@@ -58,9 +58,9 @@ public class CmdMin extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoMin algo = new AlgoMin(cons, c.getLabel(),
+				AlgoMin algo = new AlgoMin(cons,
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
