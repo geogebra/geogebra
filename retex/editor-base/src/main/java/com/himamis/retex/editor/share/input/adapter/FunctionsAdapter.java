@@ -1,14 +1,14 @@
 package com.himamis.retex.editor.share.input.adapter;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+
 import java.util.Arrays;
 import java.util.List;
-
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 public class FunctionsAdapter extends StringInput {
 
     private static final List<String> fnList = Arrays.asList("sin", "cos", "tan", "ln", "log",
-            "sinh", "cosh", "tanh", "arcsin", "arccos", "arctan");
+            "sinh", "cosh", "tanh", "arcsin", "arccos", "arctan", "sen", "tg");
 
     @Override
     public void commit(MathFieldInternal mfi, String input) {
