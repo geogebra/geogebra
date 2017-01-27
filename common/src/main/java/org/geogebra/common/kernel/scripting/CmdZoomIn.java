@@ -73,7 +73,9 @@ public class CmdZoomIn extends CmdScripting {
 			evs.setYminObject((GeoNumeric) arg[1], false);
 			evs.setYmaxObject((GeoNumeric) arg[3], true);
 			app.getActiveEuclidianView().repaintView();
-			return arg;
+			// don't return the args: don't need to delete them in case they are
+			// dynamic
+			return new GeoElement[0];
 
 		default:
 			throw argNumErr(app, c, n);
@@ -83,8 +85,8 @@ public class CmdZoomIn extends CmdScripting {
 	/**
 	 * @param arg
 	 *            arguments
-	 * @param cName
-	 *            command name
+	 * @param c
+	 *            command
 	 * @param factor
 	 *            zoom factor
 	 * @param proc

@@ -36,8 +36,8 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	/**
 	 * Return the second arg of the command as a double
 	 * 
-	 * @param cname
-	 *            the command name
+	 * @param c
+	 *            the command
 	 * @param args
 	 *            the resolved args
 	 * @return the second arg as a double
@@ -58,8 +58,8 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	/**
 	 * Actually perform the command on the turtle
 	 * 
-	 * @param cname
-	 *            the command name
+	 * @param c
+	 *            the command
 	 * @param args
 	 *            all the arguments (including the turtle)
 	 * @throws MyError
