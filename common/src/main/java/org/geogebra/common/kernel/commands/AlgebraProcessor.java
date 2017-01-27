@@ -2380,13 +2380,25 @@ public class AlgebraProcessor {
 			}
 		}
 		// s = t^2
-		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)
-				&& kernel.lookupLabel("X") == null
-				&& "X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
+		String singleLeftVariable = null;
+		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)) {
+			singleLeftVariable = lhs.toString(StringTemplate.defaultTemplate);
+			if (kernel.lookupLabel(singleLeftVariable) != null) {
+				singleLeftVariable = null;
+			}
+		}
+		if ("X".equals(singleLeftVariable)) {
 			return getParamProcessor().processXEquation(equ, info);
 		}
-		if (lhs instanceof Variable
-				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
+		if ("r".equals(singleLeftVariable)) {
+			try {
+				equ.getRHS().setLabel(equ.getLabel());
+				return processValidExpression(equ.getRHS());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if (singleLeftVariable != null && equ.getLabel() == null) {
 			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(), null,
 					equ);
 			if (c != null) {
