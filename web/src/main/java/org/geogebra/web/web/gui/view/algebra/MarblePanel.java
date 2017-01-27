@@ -1,11 +1,11 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.NoDragImage;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -81,13 +81,16 @@ public class MarblePanel extends FlowPanel {
 	public void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
-			btnHelpToggle.addClickHandler(new ClickHandler() {
+			ClickStartHandler.init(btnHelpToggle,
+					new ClickStartHandler(true, true) {
 
-				public void onClick(ClickEvent event) {
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
 					item.showCurrentError();
 
-				}
-			});
+						}
+					});
 		}
 		// if (!warning) {
 		// clearErrorLabel();
