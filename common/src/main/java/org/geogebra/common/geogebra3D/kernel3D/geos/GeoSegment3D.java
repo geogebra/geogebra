@@ -537,9 +537,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
-	public void setStandardStartPoint() {
+	public GeoPointND setStandardStartPoint() {
 		// TODO Auto-generated method stub
-
+		return startPoint;
 	}
 
 	@Override

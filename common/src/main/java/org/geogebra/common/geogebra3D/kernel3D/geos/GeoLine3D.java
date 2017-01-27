@@ -295,8 +295,10 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public void setStandardStartPoint() {
+	public GeoPointND setStandardStartPoint() {
 		// TODO Auto-generated method stub
+
+		return startPoint;
 
 	}
 

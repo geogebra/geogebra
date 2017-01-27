@@ -184,8 +184,10 @@ public interface GeoLineND extends GeoDirectionND {
 
 	/**
 	 * Initialize startpoint to the closest point to (0,0,0)
+	 * 
+	 * @return
 	 */
-	public void setStandardStartPoint();
+	public GeoPointND setStandardStartPoint();
 
 	/**
 	 * @param point

@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -549,8 +550,14 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		lines[1] = line.copy();
 		type = GeoConicNDConstants.CONIC_LINE;
 		eigenvec[0] = new GeoVec2D(kernel, -line.getY(), line.getX());
-		b = new GeoVec2D(kernel, line.getStartPoint().getInhomX(), line
-				.getStartPoint().getInhomY());
+
+		GeoPointND sp = line.getStartPoint();
+
+		if (sp == null) {
+			sp = line.setStandardStartPoint();
+		}
+
+		b = new GeoVec2D(kernel, sp.getInhomX(), sp.getInhomY());
 		this.setMidpoint(b.getX(), b.getY());
 
 
