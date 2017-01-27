@@ -369,12 +369,13 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public boolean isHit(int x, int y) {
-			return isVisible() && (rectTable.contains(x, y)
+			return isVisible()
+					&& ((rectTable != null && rectTable.contains(x, y))
 					|| (isScrollNeeded() && isControlHit(x, y)));
 		}
 
 		private boolean handleUpControl(int x, int y) {
-			if (isScrollNeeded() && rectUp.contains(x, y)) {
+			if (isScrollNeeded() && rectUp != null && rectUp.contains(x, y)) {
 				scrollMode = ScrollMode.UP;
 				dropDown.startScrollTimer(x, y);
 				scrollUp();
@@ -384,7 +385,8 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private boolean handleDownControl(int x, int y) {
-			if (isScrollNeeded() && rectDown.contains(x, y)) {
+			if (isScrollNeeded() && rectDown != null
+					&& rectDown.contains(x, y)) {
 				scrollMode = ScrollMode.DOWN;
 				dropDown.startScrollTimer(x, y);
 				scrollDown();
@@ -396,7 +398,8 @@ public final class DrawList extends CanvasDrawable
 
 		public boolean isControlHit(int x, int y) {
 			return isScrollNeeded()
-					&& (rectUp.contains(x, y) || rectDown.contains(x, y));
+					&& ((rectUp != null && rectUp.contains(x, y))
+							|| (rectDown != null && rectDown.contains(x, y)));
 		}
 
 		private void setHovered(OptionItem item) {
