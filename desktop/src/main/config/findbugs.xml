@@ -17,5 +17,20 @@
       <Match>
        <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
      </Match>
+     <Match>
+      <Package name="~org\.freehep.*" />
+    </Match>
+     <Match>
+      <Package name="~org\.jfugue.*" />
+    </Match>
+     <Match>
+      <Package name="~org\.mozilla.*" />
+    </Match>
+     <Match>
+      <Package name="~com\.kitfox.*" />
+    </Match>
+     <Match>
+      <Package name="org.geogebra.desktop.gui.editor" />
+    </Match>
      
 </FindBugsFilter>

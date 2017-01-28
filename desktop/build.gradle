@@ -99,16 +99,6 @@ findbugs{
      excludeFilter = file("src/main/config/findbugs.xml")
 }
 
-tasks.withType(FindBugs) {
-    exclude '**/org/freehep/**', '**/org/jfugue/**', '**/org/mozilla/**', '**/com/kitfox/**'
-    classes = classes.filter { 
-        !it.path.contains(new File("org/freehep/").path)  &&
-        !it.path.contains(new File("org/jfugue/").path) &&
-        !it.path.contains(new File("org/mozilla/").path) &&
-        !it.path.contains(new File("com/kitfox/").path)
-    }
-}
-
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
 gradle.projectsEvaluated {
     // include src from all dependent projects (compile dependency) in JaCoCo test report
