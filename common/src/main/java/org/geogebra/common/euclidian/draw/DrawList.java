@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.WeakOuter;
 
@@ -313,7 +312,7 @@ public final class DrawList extends CanvasDrawable
 						|| item.rect.intersects(rectDown)));
 
 				if (clip) {
-					Log.debug("CLIPPING");
+					// Log.debug("CLIPPING");
 					g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
 							(int) (rectDown.getY() - ctrlUpY));
 				}
@@ -641,8 +640,8 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
-			Log.debug("[!!] 1 tableHeight: " + tableHeight + " rowCount: "
-					+ rowCount);
+			// Log.debug("[!!] 1 tableHeight: " + tableHeight + " rowCount: "
+			// + rowCount);
 			if (isScrollNeeded()
 					&& (top + tableHeight + MARGIN <= viewHeight)) {
 				tableHeight += dimItem.getHeight();
@@ -690,13 +689,13 @@ public final class DrawList extends CanvasDrawable
 						(int) (rectDown.getWidth()),
 						(int) (rectDown.getHeight()));
 
-				Log.debug("top: " + top + " tableHeight: " + tableHeight
-						+ "viewHeight: " + viewOpt.getHeight());
-				Log.debug("bottom: "
-						+ (top + tableHeight + 2 * rectDown.getHeight())
-						+ "viewHeight: " + viewOpt.getHeight());
-				Log.debug("dimTable: " + dimTable.getHeight() + " down: "
-						+ (top + dimTable.getHeight() + rectDown.getHeight()));
+				// Log.debug("top: " + top + " tableHeight: " + tableHeight
+				// + "viewHeight: " + viewOpt.getHeight());
+				// Log.debug("bottom: "
+				// + (top + tableHeight + 2 * rectDown.getHeight())
+				// + "viewHeight: " + viewOpt.getHeight());
+				// Log.debug("dimTable: " + dimTable.getHeight() + " down: "
+				// + (top + dimTable.getHeight() + rectDown.getHeight()));
 			}
 
 		}
@@ -790,10 +789,10 @@ public final class DrawList extends CanvasDrawable
 				endIdx = maxItems;
 			}
 
-			Log.debug(
-					"[SCROLL] max: " + maxItems + " visible: " + visibleItems);
-			Log.debug("[SCROLL]" + "startIdx: " + startIdx + " endIdx: "
-					+ endIdx);
+			// Log.debug(
+			// "[SCROLL] max: " + maxItems + " visible: " + visibleItems);
+			// Log.debug("[SCROLL]" + "startIdx: " + startIdx + " endIdx: "
+			// + endIdx);
 
 			scrollNeeded = scrollNeeded && rowCount > 2;
 			if (scrollNeeded) {
