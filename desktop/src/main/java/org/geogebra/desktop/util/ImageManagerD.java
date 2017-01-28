@@ -162,7 +162,7 @@ public class ImageManagerD extends ImageManager {
 					FileExtensions.PNG);
 		}
 
-		Log.debug("retreiving filename = " + fileName);
+		// Log.debug("retrieving filename = " + fileName);
 		MyImageD ret = externalImageTable.get(fileName);
 		// Log.debug("(ret == null)" + (ret == null));
 		return ret;
