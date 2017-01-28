@@ -256,7 +256,7 @@ public final class DrawList extends CanvasDrawable
 			}
 			for (int col = 0; col < getColCount(); col++) {
 				for (int row = startRow; row < visibleRows; row++) {
-					if (idx < items.size()) {
+					if (idx > 0 && idx < items.size()) {
 						drawItem(col, row, items.get(idx));
 					}
 					idx++;
@@ -964,7 +964,7 @@ public final class DrawList extends CanvasDrawable
 				}
 			}
 
-			if (update) {
+			if (update && idx > 0 && idx < items.size()) {
 				hovered = items.get(idx);
 				selectedIndex = idx;
 				update();
