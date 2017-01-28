@@ -267,6 +267,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			}
 			throw new NoSymbolicParametersException();
 		}
+
 		if (c.isParabola()) {
 			GeoPoint point = this.getPoint();
 			GeoConic parabola = this.getConic();
@@ -274,6 +275,12 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			if (point != null && parabola != null) {
 				Variable[] vPoint = point.getBotanaVars(point);
 				Variable[] vparabola = parabola.getBotanaVars(parabola);
+
+				/*
+				 * FIXME: This piece of code does not check if the tangent point
+				 * is not a member of the parabola. See the check at the case of
+				 * the circle above and do something similar here.
+				 */
 
 				if (botanaVars == null) {
 					botanaVars = new Variable[4];
@@ -283,6 +290,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					// T - tangent point
 					botanaVars[2] = vPoint[0];
 					botanaVars[3] = vPoint[1];
+					// the line MT will be the tangent
 				}
 
 				botanaPolynomials = new Polynomial[2];
@@ -292,15 +300,16 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				// coordinates of focus point of parabola
 				Polynomial f1 = new Polynomial(vparabola[8]);
 				Polynomial f2 = new Polynomial(vparabola[9]);
-				// coordinates of T'
-				Polynomial t_1 = new Polynomial(vPoint[2]);
-				Polynomial t_2 = new Polynomial(vPoint[3]);
+				// coordinates of T' (feet point on the directrix for T)
+				Polynomial t_1 = new Polynomial(vparabola[2]);
+				Polynomial t_2 = new Polynomial(vparabola[3]);
 
 				// M midpoint of FT'
 				botanaPolynomials[0] = new Polynomial(2).multiply(m1)
 						.subtract(f1).subtract(t_1);
 				botanaPolynomials[1] = new Polynomial(2).multiply(m2)
 						.subtract(f2).subtract(t_2);
+
 
 				return botanaPolynomials;
 
@@ -315,6 +324,12 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			if (point != null && ellipse != null) {
 				Variable[] vPoint = point.getBotanaVars(point);
 				Variable[] vellipse = ellipse.getBotanaVars(ellipse);
+
+				/*
+				 * FIXME: This piece of code does not check if the tangent point
+				 * is not a member of the ellipse. See the check at the case of
+				 * the circle above and do something similar here.
+				 */
 
 				if (botanaVars == null) {
 					botanaVars = new Variable[6];
