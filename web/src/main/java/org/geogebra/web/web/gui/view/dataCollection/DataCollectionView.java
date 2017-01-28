@@ -29,7 +29,6 @@ import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.dataCollection.GeoListBox.DefaultEntries;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.AccSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.LightSetting;
-import org.geogebra.web.web.gui.view.dataCollection.Settings.LoudnessSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.MagFieldSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.OrientationSetting;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.ProxiSetting;
@@ -93,7 +92,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private OrientationSetting orientation;
 	private ProxiSetting proxi;
 	private LightSetting light;
-	private LoudnessSetting loudness;
+	// private LoudnessSetting loudness;
 
 	/** widgets which need translation */
 	private Label connectionLabel;
@@ -787,9 +786,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		case PROXIMITY:
 			this.proxi.setRealFrequency(freq);
 			break;
-		case LOUDNESS:
-			this.loudness.setRealFrequency(freq);
-			break;
+		// case LOUDNESS:
+		// this.loudness.setRealFrequency(freq);
+		// break;
 		}
 	}
 }
