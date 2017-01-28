@@ -249,14 +249,14 @@ public final class DrawList extends CanvasDrawable
 			int idx = getStartIdx();
 			int startRow = 0;
 			int visibleRows = rowCount;
-			if (isScrollNeeded() && idx > 0 && dragOffset != 0) {
+			if (isScrollNeeded() && idx >= 0 && dragOffset != 0) {
 				idx--;
 				startRow = -1;
 				visibleRows++;
 			}
 			for (int col = 0; col < getColCount(); col++) {
 				for (int row = startRow; row < visibleRows; row++) {
-					if (idx > 0 && idx < items.size()) {
+					if (idx >= 0 && idx < items.size()) {
 						drawItem(col, row, items.get(idx));
 					}
 					idx++;
@@ -964,7 +964,7 @@ public final class DrawList extends CanvasDrawable
 				}
 			}
 
-			if (update && idx > 0 && idx < items.size()) {
+			if (update && idx >= 0 && idx < items.size()) {
 				hovered = items.get(idx);
 				selectedIndex = idx;
 				update();
