@@ -4379,7 +4379,7 @@ namespace giac {
       y=p-giacmax(q,r);
       if (q>0){
 	vecteur vq=polynome2poly1(Q,1),vr=polynome2poly1(R,1);
-	gen ydeg=(vr[q-1]-vq[q-1])/qq;
+	gen ydeg=(vr[1]-vq[1])/qq;//gen ydeg=(vr[q-1]-vq[q-1])/qq;
 	if (ydeg.type==_INT_ && ydeg.val>y){
 	  y=ydeg.val;
 	  p=y+q-1;

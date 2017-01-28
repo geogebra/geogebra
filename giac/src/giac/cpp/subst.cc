@@ -2025,8 +2025,11 @@ namespace giac {
     g=tsimplify_common(g,contextptr);
     complex_mode(b,contextptr);
     int tg=taille(g,8*te); // since sin/cos are coded as exp(i*...)
-    if (tg>=8*te)
-      return e;
+    if (tg>=8*te){
+      g=gamma2factorial(e,contextptr);
+      g=simplifyfactorial(g,contextptr);
+      return g;
+    }
     return g;
   }
   gen _tsimplify(const gen & args,GIAC_CONTEXT){
