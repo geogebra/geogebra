@@ -4272,30 +4272,25 @@ namespace giac {
     gen a=r2e(A,l,context0);
     gen b=r2e(B,l,context0);
     gen t=identificateur("t");
+    gen r=_sylvester(makesequence(a,subst(b,l[0],l[0]+t,false,context0),l[0]),context0);
     L[0]=l[0];
-    gen a0=subst(a,l,L,false,context0);
-    L[0]=l[0]+t;
-    gen b0=subst(b,l,L,false,context0);
-    gen r=_resultant(makesequence(a0,b0,l[0]),context0);
-    if (is_zero(derive(r,t,context0))){
+    gen r0=_det(subst(r,l,L,false,context0),context0);
+    if (is_zero(derive(r0,t,context0))){
       int essai=0;
       for (;essai<s;++essai){
 	L=vranm(s,0,0); // find random evaluation
 	L[0]=l[0];
-	a0=subst(a,l,L,false,context0);
-	L[0]=l[0]+t;
-	b0=subst(b,l,L,false,context0);
-	r=_resultant(makesequence(a0,b0,l[0]),context0);
-	if (!is_zero(derive(r,t,context0)))
+	r0=_det(subst(r,l,L,false,context0),context0);
+	if (!is_zero(derive(r0,t,context0)))
 	  break;
       }
       if (essai==s)
 	return decalage_(A,B);
     }
-    r=e2r(r,vecteur(1,t),context0);
-    if (r.type!=_POLY)
+    r0=e2r(r0,vecteur(1,t),context0);
+    if (r0.type!=_POLY)
       return decalage_(A,B);
-    vecteur v=iroots(*r._POLYptr);
+    vecteur v=iroots(*r0._POLYptr);
     vecteur res;
     for (int i=0;i<v.size();++i){
       gen ti=v[i];
