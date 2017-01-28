@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
@@ -4413,7 +4414,13 @@ public class MyXMLHandler implements DocHandler {
 
 			} else if (isBoolean) {
 				GeoBoolean bool = (GeoBoolean) geo;
-				bool.setValue(parseBoolean(strVal));
+				/*
+				 * GGB-1372: use the recently computed value instead of the
+				 * saved one for the Prove command
+				 */
+				if (!(geo.getParentAlgorithm() instanceof AlgoProve)) {
+					bool.setValue(parseBoolean(strVal));
+				}
 				bool.setDefinition(oldDef);
 			} else if (geo.isGeoButton()) {
 				// XXX What's this javascript doing here? (Arnaud)

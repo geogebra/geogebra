@@ -168,7 +168,23 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 			return;
 		}
 		String inputFingerprintPrev = inputFingerprint;
+
 		setInputOutput();
+
+		/*
+		 * Not really sure if this is needed, but it cleans up the list of algos
+		 * and constructions:
+		 */
+		do {
+			cons.removeFromAlgorithmList(this);
+		} while (cons.getAlgoList().contains(this));
+		// Adding this again:
+		cons.addToAlgorithmList(this);
+		cons.removeFromConstructionList(this);
+		// Adding this again:
+		cons.addToConstructionList(this, true);
+		// TODO: consider moving setInputOutput() out from compute()
+
 		if (inputFingerprintPrev == null
 				|| !inputFingerprintPrev.equals(inputFingerprint)) {
 			Log.trace(inputFingerprintPrev + " -> " + inputFingerprint);
