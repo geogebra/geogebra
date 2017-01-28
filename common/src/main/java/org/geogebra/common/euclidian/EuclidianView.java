@@ -1885,7 +1885,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 							.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
-					if (getTextField().hasFocus()) {
+					if (getTextField() != null && getTextField().hasFocus()) {
 						Log.debug("TF geo: "
 								+ getTextField().getDrawTextField()
 										.getGeoElement() + " tf text "
