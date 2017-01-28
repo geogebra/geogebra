@@ -330,7 +330,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			return;
 		}
 
-		event.preventDefault();
 		event.stopPropagation();
 
 		if (!(selectAllOnFocus(tfMin, event)
@@ -347,7 +346,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			return;
 		}
 
-		event.preventDefault();
 		event.stopPropagation();
 
 		selectAllOnFocus(tfMin, event);
