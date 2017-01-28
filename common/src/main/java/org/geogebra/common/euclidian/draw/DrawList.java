@@ -419,7 +419,8 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private void drawHovered(boolean on) {
-			if (hovered != null) {
+			if (hovered != null && hovered.index > -1
+					&& hovered.index < items.size()) {
 				OptionItem item = items.get(hovered.index);
 				drawItem(item, on);
 			}
@@ -910,7 +911,7 @@ public final class DrawList extends CanvasDrawable
 				}
 
 				selectedIndex = startIdx;
-				if (selectedIndex < items.size()) {
+				if (selectedIndex > 0 && selectedIndex < items.size()) {
 					hovered = items.get(selectedIndex);
 				} else {
 					hovered = null;
