@@ -524,7 +524,7 @@ namespace giac {
   }
 
   void transpose_double(const matrix_double & a,int r0,int r1,int c0,int c1,matrix_double & at){
-    int L=a.size(),C=a.front().size();
+    int L=int(a.size()),C=int(a.front().size());
     if (r0<0) r0=0;
     if (r1<=r0)
       r1=L;
@@ -1596,7 +1596,7 @@ namespace giac {
     for (i=0;it!=itend;++i,++it){
       vector<giac_double>::const_iterator jt=it->begin(),jtend=it->end();
       for (j=0;jt!=jtend;++j,++jt){
-	int tmp=d[i]*(*jt)/d[j];
+	int tmp=int(d[i]*(*jt)/d[j]);
 	if (tmp<0) tmp=-tmp;
 	if (tmp>res)
 	  res=tmp;
@@ -1606,7 +1606,7 @@ namespace giac {
   }
 
   bool diagonal_mult(const vector<giac_double> & d,bool invert,const vector<giac_double> & source,vector<giac_double> & target){
-    int n=d.size();
+    int n=int(d.size());
     if (source.size()!=n) return false;
     target.resize(n);
     if (invert){
@@ -7652,7 +7652,7 @@ namespace giac {
 	    x=buf[6]; x -= coeff*nline[6]; x -= (x>>63)*modulo2; buf[6]=x; 
 	    y=buf[7]; y -= coeff*nline[7]; y -= (y>>63)*modulo2; buf[7]=y; 
 	  }
-	  for (C+=(buf-&buffer[C]);C<cmax;++C){
+	  for (C+=int(buf-&buffer[C]);C<cmax;++C){
 	    longlong & b=buffer[C] ;
 	    longlong x = b;
 	    x -= coeff*Nline[C];   
@@ -7675,7 +7675,7 @@ namespace giac {
 	    buf[6] -= coeff*nline[6];
 	    buf[7] -= coeff*nline[7];
 	  }
-	  for (C+=(buf-&buffer[C]);C<cmax;++C){
+	  for (C+=int(buf-&buffer[C]);C<cmax;++C){
 	    buffer[C] -= coeff*Nline[C];   
 	  }
 	}
@@ -8014,7 +8014,7 @@ namespace giac {
       int coeff;
       if (ludecomp) {
 	int tmp=N[ltemp][pivotcol] % modulo;
-	coeff = (N[ltemp][pivotcol] = (longlong(tmp)*pivotval) % modulo);
+	coeff = int(N[ltemp][pivotcol] = (longlong(tmp)*pivotval) % modulo);
       }
       else {
 	coeff = (N[ltemp][pivotcol] %= modulo);
@@ -10614,7 +10614,7 @@ namespace giac {
       if (ff.type==_VECT && !ff._VECTptr->empty()){
 	ff=ff._VECTptr->back();
 	if (ff.type==_VECT && !ff._VECTptr->empty()){
-	  int d=ff._VECTptr->size()-1;
+	  int d=int(ff._VECTptr->size())-1;
 	  for (int i=0;i<n;++i){
 	    gen g=vranm(d,0,contextptr);
 	    res.push_back(symb_rootof(g,ff,contextptr));
@@ -11429,7 +11429,7 @@ namespace giac {
   }
 
   void double_idn(matrix_double & P){
-    int cP=P.size();
+    int cP=int(P.size());
     for (int i=0;i<cP;++i){
       vector<giac_double> & Pi=P[i];
       if (Pi.size()!=cP) Pi.resize(cP);
@@ -11551,7 +11551,7 @@ namespace giac {
     }
 #endif // GIAC_HAS_STO_38
     int lastcol=std::min(n,cend);
-    double t,tn,tabs,u,un,norme;
+    double t,tn,u,un,norme;
     vector<double> coeffs; coeffs.reserve(lastcol*(2*n-lastcol));
     if (debug_infolevel)
       CERR << CLOCK() << " givens start" << endl;
@@ -12684,7 +12684,7 @@ namespace giac {
       longlong invakk1=invmod(akk1,modulo);
       for (int i=0;i<n;++i)
 	w[i]=(-invakk1*v[i])%modulo;
-      w[k+1]=invakk1;
+      w[k+1]=int(invakk1);
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " column" << k << endl;
       // column operations
@@ -12906,7 +12906,7 @@ namespace giac {
 	t=(t*N[m-i][m-i-1])%modulo;
 	longlong f=(t*N[m-i-1][m-1])%modulo;
 	const vector<int> & pmi=P[m-i-1];
-	int delta=P0.size()-pmi.size();
+	int delta=int(P0.size()-pmi.size());
 	int * target=&P0[delta];
 	const int * ptr=&pmi[0], * ptrend=ptr+pmi.size();
 	for (;ptr!=ptrend;++target,++ptr){
@@ -15343,7 +15343,7 @@ namespace giac {
     }
     if (method==-2){
       if (transposed){
-	int add0=M.size()-M.front()._VECTptr->size();
+	int add0=int(M.size()-M.front()._VECTptr->size());
 	for (int i=0;i<add0;++i)
 	  svl.push_back(0);
       }
@@ -16380,7 +16380,7 @@ namespace giac {
   void householder_mult(const std::vector<giac_double> & w,const matrix_double & H,vector<giac_double> & v,int k,bool is_k_hessenberg,int jstart,int jend,int deltarow=0,int cstart=0,int cend=0){
     int n=int(H.size())-deltarow;
     if (cend<=cstart)
-      cend=H.front().size();
+      cend=int(H.front().size());
     int c=cend-cstart;
     v.resize(c);
     for (int j=0;j<c;++j)
@@ -16836,7 +16836,7 @@ namespace giac {
       std_matrix_gen2std_matrix_giac_double(P,P1,true);
       // count 0 in H under the diagonal
       // if less than 20% Householder else Givens
-      int count1=0,count2=0,L=int(H.size()),C=H.front().size();
+      int count1=0,count2=0,L=int(H.size()),C=int(H.front().size());
       for (int i=1;i<L;++i){
 	const vector<giac_double> & Hi=H1[i];
 	for (int j=0;j<i && j<C;++count2,++j){
@@ -18100,7 +18100,7 @@ namespace giac {
     vector<giac_double> d;
     if (!balance_krylov(H,d,5,1e-8))
       return false;
-    int n1=0,n2=H.size();
+    int n1=0,n2=int(H.size());
     // compute d*H*d^-1: H_jk <- d_jj*H_jk/d_kk
     for (int j=n1;j<n2;++j){
       vector<giac_double> & Hj=H[j];

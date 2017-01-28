@@ -94,7 +94,7 @@ inline double giac_log(double d){
 
 #include <stdexcept>
 #include "help.h"
-#if !defined(GIAC_HAS_STO_38) // && !defined(ConnectivityKit) && !defined(BESTA_OS)
+#if 1 // !defined(GIAC_HAS_STO_38) // && !defined(ConnectivityKit) && !defined(BESTA_OS)
 #include "tinymt32.h"
 #endif
 
@@ -563,7 +563,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     parser_lexer _pl;
     int _prog_eval_level_val ;
     int _eval_level;
-#if defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
     unsigned int _rand_seed;
 #else
     tinymt32_t _rand_seed;
@@ -807,7 +807,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   // void eval_level(int b,GIAC_CONTEXT);
   thread_param * thread_param_ptr(const context * contextptr);
 
-#if defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
   unsigned int & rand_seed(GIAC_CONTEXT);
 #else
   tinymt32_t * rand_seed(GIAC_CONTEXT);

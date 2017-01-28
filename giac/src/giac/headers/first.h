@@ -246,7 +246,7 @@ typedef unsigned long long ulonglong;
 // #define PSEUDO_MOD accelerates cyclic* gbasis computation significantly
 // from int_multilinear_combination in vecteur.cc (from rref?)
 #ifdef FIR
-#if !(defined(BESTA_OS) || defined(WINDOWS))
+#if !(defined(BESTA_OS) || defined(WINDOWS) || defined(OSXIOS) || defined(FIR_LINUX) || defined(FIR_ANDROID))
 // was #if !(defined(IOS) || defined(__ANDROID__)) && !defined(OSX) && !defined(LINUX)
 #define PSEUDO_MOD 
 #endif

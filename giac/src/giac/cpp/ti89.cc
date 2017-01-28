@@ -2532,6 +2532,10 @@ namespace giac {
       return -exact_double(-d,eps);
     if (d > (1<<30) )
       return _floor(d,context0);
+    if (d==0)
+      return 0;
+    if (d<1)
+      return inv(exact_double(1/d,eps),context0);
     vector<int> res;
     double eps1(1+eps);
     for (;!interrupted;){

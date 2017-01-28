@@ -968,14 +968,14 @@ namespace giac {
     p.dim=ditend-ditbeg;
     p.coord.clear();
     p.coord.reserve(itend-it);
-    int u,U=v.size();
+    int u,U=int(v.size());
     index_t i(p.dim);
     int k;
     for (--itend;itend>=it;--itend){
       gen g=*itend;
       if (is_zero(g))
 	continue;
-      u=itend-it;
+      u=int(itend-it);
       for (k=p.dim-1,dit=ditbeg;dit!=ditend;++dit,--k){
 	i[k]=u % unsigned(*dit);
 	u = u/unsigned(*dit);
@@ -4811,7 +4811,7 @@ namespace giac {
       // solve sylvester matrix * []=d
       matrice S=sylvester(p1v,p2v);
       S=mtran(S);
-      int add=p1v.size()+p2v.size()-G.size()-2;
+      int add=int(p1v.size()+p2v.size()-G.size()-2);
       vecteur V=mergevecteur(vecteur(add,0),G);
       vecteur U=linsolve(S,V,context0);
       gen D;
@@ -4905,7 +4905,7 @@ namespace giac {
 	    lcmdeno(U,D,context0);
 	    G=multvecteur(D,G);
 	    poly12polynome(G,1,d);
-	    int p2s=p2v.size()-1;
+	    int p2s=int(p2v.size())-1;
 	    V=vecteur(U.begin()+p2s,U.end());
 	    poly12polynome(V,1,v);
 	    U=vecteur(U.begin(),U.begin()+p2s);

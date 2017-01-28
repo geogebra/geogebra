@@ -1174,13 +1174,13 @@ extern "C" void Sleep(unsigned int miliSecond);
       _eval_level=b;
   }
 
-#if defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
   static unsigned int _rand_seed=123457;
 #else
   static tinymt32_t _rand_seed;
 #endif
 
-#if defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
   unsigned int & rand_seed(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_rand_seed;
@@ -1214,7 +1214,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   int giac_rand(GIAC_CONTEXT){
-#if defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
+#if 0 // defined(GIAC_HAS_STO_38) || defined(ConnectivityKit)
     unsigned int & r = rand_seed(contextptr);
     // r = (2147483629*ulonglong(r)+ 2147483587)% 2147483647;
     r = unsigned ((1664525*ulonglong(r)+1013904223)%(ulonglong(1)<<31));
