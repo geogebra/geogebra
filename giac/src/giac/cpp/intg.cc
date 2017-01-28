@@ -4264,7 +4264,7 @@ namespace giac {
   // then try gcd(A(x),B(x+t))
   vecteur decalage(const polynome & A,const polynome & B){
     int s=A.dim;
-    //if (s==1)
+    if (s==1)
       return decalage_(A,B);
     vecteur l(s),L(s);
     for (int i=0;i<s;++i)
@@ -4299,7 +4299,7 @@ namespace giac {
     vecteur res;
     for (int i=0;i<v.size();++i){
       gen ti=v[i];
-      gen bti=subst(b,t,ti,false,context0);
+      gen bti=subst(b,l[0],l[0]+ti,false,context0);
       gen g=gcd(a,bti,context0);
       if (!is_zero(derive(g,l[0],context0)))
 	res.push_back(ti);
