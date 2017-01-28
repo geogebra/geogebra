@@ -214,10 +214,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-
-			app.registerPopup(this);
-		}
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.showPopupSymbolButton(true);
@@ -347,6 +343,14 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			}
 
 		}
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			if (flag) {
+				app.registerPopup(this);
+			} else {
+				app.unregisterPopup(this);
+			}
+		}
+
 		super.setVisible(flag);
 	}
 
