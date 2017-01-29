@@ -1158,7 +1158,11 @@ namespace giac {
     if ( (mys.feuille.type==_VECT) && (mys.feuille._VECTptr->empty()) )
       return string(provisoire_mbox_begin)+mys.sommet.ptr()->print(contextptr)+string("()")+string(provisoire_mbox_end);
     if ( (mys.feuille.type!=_VECT) || (mys.feuille._VECTptr->front().type==_VECT)){
-
+      if (mys.sommet==at_factorial){
+	if (mys.feuille.type==_SYMB)
+	  return "<mrow><mo>(</mo>" + gen2mathml(mys.feuille,contextptr) +"<mo>)</mo></mrow><mtext>!</mtext>";
+	return gen2mathml(mys.feuille,contextptr)+"<mtext>!</mtext>";
+      }
       if ((mys.sommet==at_neg) || (mys.sommet==at_plus)){
 	if (mys.feuille.type!=_SYMB) 
 	  return string("<mo>")+mys.sommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(mys.feuille,contextptr); 
@@ -1172,11 +1176,8 @@ namespace giac {
 	  + string("</mrow></mfrac>");
       }
       if (mys.sommet==at_pow) {
-
 	 return "<msup><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)+"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></msup>";
-      
-
-	 }
+      }
       return string(provisoire_mbox_begin) +mys.sommet.ptr()->print(contextptr)+ string(provisoire_mbox_end)
 	+ "<mrow><mo>(</mo>" + gen2mathml(mys.feuille,contextptr) +"<mo>)</mo></mrow>" ;
     }

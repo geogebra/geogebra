@@ -6394,6 +6394,7 @@ namespace giac {
 	  modrrefparam[j].inverting=false;
 	  modrrefparam[j].no_initial_mod=true;
 	  modrrefparam[j].mult_by_det_mod_p=1;
+	  modrrefparam[j].carac=-1;
 	  bool res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_modrref,(void *) &modrrefparam[j]);
 	  if (res)
 	    thread_modrref((void *)&modrrefparam[j]);	    

@@ -758,10 +758,10 @@ namespace giac {
     if (angle_radian(contextptr))
       return g;
     else if(angle_degree(contextptr))
-    return g*deg2rad_e;
+      return g*rad2deg_e;
     //grad
     else
-      return g*grad2rad_e;
+      return g*rad2grad_e;
   }
   define_partial_derivative_onearg_genop( D_at_atan," D_at_atan",&d_atan);
   static gen taylor_atan (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
@@ -2233,13 +2233,13 @@ namespace giac {
   }
   static gen d_asin(const gen & args,GIAC_CONTEXT){
     gen g=inv(recursive_normal(sqrt(1-pow(args,2),contextptr),contextptr),contextptr);
-    if (angle_radian(contextptr)) 
+    if (angle_radian(contextptr))
       return g;
     else if(angle_degree(contextptr))
-      return g*deg2rad_e;
+      return g*rad2deg_e;
     //grad
     else
-      return g*grad2rad_e;
+      return g*rad2grad_e;
   }
   static gen taylor_asin (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
     if (ordre<0)
@@ -2349,13 +2349,13 @@ namespace giac {
   }
   static gen d_acos(const gen & args,GIAC_CONTEXT){
     gen g= -inv(recursive_normal(sqrt(1-pow(args,2),contextptr),contextptr),contextptr);
-    if (angle_radian(contextptr)) 
+    if (angle_radian(contextptr))
       return g;
     else if(angle_degree(contextptr))
-      return g*deg2rad_e;
+      return g*rad2deg_e;
     //grad
     else
-      return g*grad2rad_e;
+      return g*rad2grad_e;
   }
   define_partial_derivative_onearg_genop( D_at_acos," D_at_acos",&d_acos);
   static gen taylor_acos (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){
