@@ -1549,7 +1549,7 @@ final public class GeoVec2D extends ValidExpression
 
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel1) {
-		// eg drivative of i
+		// eg derivative of i
 		// needed for plotting a(x, y) = abs(x + y i) in 3d
 		return (new MyDouble(kernel1, 0)).wrap();
 	}
