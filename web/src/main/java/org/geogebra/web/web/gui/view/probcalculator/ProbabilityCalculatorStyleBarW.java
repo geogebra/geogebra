@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.probcalculator;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -48,11 +49,11 @@ public class ProbabilityCalculatorStyleBarW extends
 	 * @param probCalc ProbabilityCalculatorViewW
 	 */
 	public ProbabilityCalculatorStyleBarW(App app, ProbabilityCalculatorViewW probCalc) {
+		super(app, probCalc);
 		this.wrappedToolbar = new MenuBar();
 		this.wrappedToolbar.addStyleName("ProbabilityCalculatorStyleBarW");
-		this.probCalc = probCalc;
-		this.app = app;
 		
+
 		createGUI();
 		updateLayout();
 		updateGUI();
@@ -63,7 +64,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	 * Updates localized labels
 	 */
 	public void setLabels() {
-		Localization loc = app.getLocalization();
+		Localization loc = getApp().getLocalization();
 		btnRounding.setText(loc.getMenu("Rounding"));
 		// btnExport.setTitle(loc.getMenu("Export"));
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
@@ -77,23 +78,23 @@ public class ProbabilityCalculatorStyleBarW extends
 	}
 
 	void updateGUI() {
-		btnLineGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
-				probCalc.getSelectedDist()));
-		btnStepGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
-				probCalc.getSelectedDist()));
-		btnBarGraph.setVisible(((ProbabilityCalculatorViewW) probCalc).getProbManager().isDiscrete(
-				probCalc.getSelectedDist()));
+		btnLineGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
+				getProbCalc().getSelectedDist()));
+		btnStepGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
+				getProbCalc().getSelectedDist()));
+		btnBarGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
+				getProbCalc().getSelectedDist()));
 
 		btnLineGraphHandler.removeHandler();
 		btnStepGraphHandler.removeHandler();
 		btnBarGraphHandler.removeHandler();
 
 		btnLineGraph
-				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_LINE);
+				.setSelected(getProbCalc().getGraphType() == ProbabilityCalculatorView.GRAPH_LINE);
 		btnStepGraph
-				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_STEP);
+				.setSelected(getProbCalc().getGraphType() == ProbabilityCalculatorView.GRAPH_STEP);
 		btnBarGraph
-				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_BAR);
+				.setSelected(getProbCalc().getGraphType() == ProbabilityCalculatorView.GRAPH_BAR);
 
 		//btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
 
@@ -108,12 +109,12 @@ public class ProbabilityCalculatorStyleBarW extends
 		buildOptionsButton();
 		
 		btnCumulative = new MyToggleButton2(AppResources.INSTANCE.cumulative_distribution());
-		btnCumulative.setSelected(probCalc.isCumulative());
+		btnCumulative.setSelected(getProbCalc().isCumulative());
 		btnCumulative.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				((ProbabilityCalculatorViewW) probCalc).setCumulative(!probCalc.isCumulative());
+				((ProbabilityCalculatorViewW) getProbCalc()).setCumulative(!getProbCalc().isCumulative());
 			}
 		});
 		
@@ -127,15 +128,15 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 		
 		btnGrid = new MyToggleButton2(StyleBarResources.INSTANCE.grid());
-		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
+		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
 		btnGrid.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				PlotSettings ps = probCalc.getPlotSettings();
+				PlotSettings ps = getProbCalc().getPlotSettings();
 				ps.showGrid = !ps.showGrid;
-				probCalc.setPlotSettings(ps);
-				probCalc.updatePlotSettings();
+				getProbCalc().setPlotSettings(ps);
+				getProbCalc().updatePlotSettings();
 			}
 		});
 		
@@ -170,8 +171,8 @@ public class ProbabilityCalculatorStyleBarW extends
 	 * Update the menu with the current number format.
 	 */
 	private void updateMenuDecimalPlaces(MyMenuBar menu) {
-		int printFigures = probCalc.getPrintFigures();
-		int printDecimals = probCalc.getPrintDecimals();
+		int printFigures = getProbCalc().getPrintFigures();
+		int printDecimals = getProbCalc().getPrintDecimals();
 
 		if (menu == null) {
 			return;
@@ -202,7 +203,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	private MyMenuBar createRoundingPopup() {
 		MyMenuBar menu = new MyMenuBar();
 		
-		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
+		String[] strDecimalSpaces = getApp().getLocalization().getRoundingMenu();
 		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
 				App.getStrDecimalSpacesAC(), 0);
 		
@@ -218,7 +219,7 @@ public class ProbabilityCalculatorStyleBarW extends
 			if ("---".equals(items[i])) {
 				//add separator with css
 			} else {
-				String text = app.getLocalization().getMenu(items[i]);
+				String text = getApp().getLocalization().getMenu(items[i]);
 				mi = new GRadioButtonMenuItem(text, actionCommands[i], "probstylebarradio");
 				if (i == selectedPos) {
 					mi.setSelected(true);
@@ -235,7 +236,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	public void updateLayout() {
 		wrappedToolbar.clearItems();
 
-		if (((ProbabilityCalculatorViewW) probCalc).isDistributionTabOpen()) {
+		if (((ProbabilityCalculatorViewW) getProbCalc()).isDistributionTabOpen()) {
 			// add(btnRounding);
 			// addSeparator();
 			// add(btnCumulative);
@@ -269,10 +270,10 @@ public class ProbabilityCalculatorStyleBarW extends
 		 				String decStr = cmd.substring(0, 2).trim();
 		 				int decimals = Integer.parseInt(decStr);
 		 				// Application.debug("decimals " + decimals);
-		 				((ProbabilityCalculatorViewW) probCalc).updatePrintFormat(decimals, -1);
+		 				((ProbabilityCalculatorViewW) getProbCalc()).updatePrintFormat(decimals, -1);
 	
 		 			} catch (Exception ex) {
-		 				app.showError(ex.toString());
+		 				getApp().showError(ex.toString());
 		 			}
 		 		}
 	
@@ -282,28 +283,30 @@ public class ProbabilityCalculatorStyleBarW extends
 		 				String decStr = cmd.substring(0, 2).trim();
 		 				int figures = Integer.parseInt(decStr);
 		 				// Application.debug("figures " + figures);
-		 				((ProbabilityCalculatorViewW) probCalc).updatePrintFormat(-1, figures);
+		 				((ProbabilityCalculatorViewW) getProbCalc()).updatePrintFormat(-1, figures);
 	
 		 			} catch (Exception ex) {
-		 				app.showError(ex.toString());
+		 				getApp().showError(ex.toString());
 		 			}
 		 		}
 		    }
 		} else if (event.getSource() == btnLineGraph) {
 			if (btnLineGraph.isSelected()) {
-				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_LINE);
+				getProbCalc()
+						.setGraphType(ProbabilityCalculatorView.GRAPH_LINE);
 			}
 		}
 
 		else if (event.getSource() == btnBarGraph) {
 			if (btnBarGraph.isSelected()) {
-				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_BAR);
+				getProbCalc().setGraphType(ProbabilityCalculatorView.GRAPH_BAR);
 			}
 		}
 
 		else if (event.getSource() == btnStepGraph) {
 			if (btnStepGraph.isSelected()) {
-				probCalc.setGraphType(ProbabilityCalculatorViewW.GRAPH_STEP);
+				getProbCalc()
+						.setGraphType(ProbabilityCalculatorView.GRAPH_STEP);
 			}
 		}
 

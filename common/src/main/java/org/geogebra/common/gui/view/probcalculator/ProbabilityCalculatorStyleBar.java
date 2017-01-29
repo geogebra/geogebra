@@ -10,11 +10,28 @@ import org.geogebra.common.main.App;
  */
 public abstract class ProbabilityCalculatorStyleBar {
 
-	protected App app;
+	private App app;
 
 	/** probabililty calculator */
-	protected ProbabilityCalculatorView probCalc;
+	private ProbabilityCalculatorView probCalc;
 
 	/** icon height in pixels */
 	protected int iconHeight = 18;
+
+	protected ProbabilityCalculatorStyleBar(App app,
+			ProbabilityCalculatorView probCalc) {
+		this.probCalc = probCalc;
+		this.app = app;
+	}
+	protected App getApp() {
+		return app;
+	}
+
+
+
+	protected ProbabilityCalculatorView getProbCalc() {
+		return probCalc;
+	}
+
+
 }

@@ -255,7 +255,6 @@ public abstract class EuclidianController {
 	protected int moveMode = MOVE_NONE;
 	protected Macro macro;
 	protected Test[] macroInput;
-	protected int defaultInitialDelay;
 	protected boolean toggleModeChangedKernel = false;
 	protected boolean altDown = false;
 	protected GeoElement rotGeoElement;

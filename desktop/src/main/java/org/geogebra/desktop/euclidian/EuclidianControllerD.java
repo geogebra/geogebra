@@ -35,14 +35,8 @@ import org.geogebra.desktop.main.AppD;
 public class EuclidianControllerD extends EuclidianController
 		implements EuclidianControllerListeners {
 
-	// protected GeoVec2D b;
-
-	// protected GeoSegment movedGeoSegment;
-
-	// protected MyPopupMenu popupMenu;
-
-	// boolean polygonRigid = false;
 	private int moveCounter = 0;
+	private int defaultInitialDelay;
 
 	/***********************************************
 	 * Creates new EuclidianController

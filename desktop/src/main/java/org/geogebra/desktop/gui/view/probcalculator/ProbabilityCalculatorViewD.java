@@ -89,6 +89,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private JTabbedPane tabbedPane;
 
 	private StatisticsCalculator statCalculator;
+	private int defaultDividerSize;
 
 	/*************************************************
 	 * 

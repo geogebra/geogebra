@@ -48,7 +48,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		if (bufSize > geoToPickSize) {
 			selectBuffer = createSelectBufferForPicking(bufSize);
 			drawHits = createDrawableListForPicking(bufSize);
-			oldGeoToPickSize = -1;
+			setOldGeoToPickSize(-1);
 		}
 
 		setGLForPicking();
@@ -83,7 +83,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 	protected void doPick() {
 
 		// Log.debug("geoToPickSize = "+geoToPickSize);
-		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer) {
+		if (geoToPickSize != getOldGeoToPickSize() || needsNewPickingBuffer) {
 			int bufSize = geoToPickSize * 3 + 1 + 20; // geoToPickSize * 3 due
 														// to pick as outline +
 														// surface + label
@@ -91,7 +91,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 														// to intersection curve
 			selectBuffer = createSelectBufferForPicking(bufSize);
 			drawHits = createDrawableListForPicking(bufSize);
-			oldGeoToPickSize = geoToPickSize;
+			setOldGeoToPickSize(geoToPickSize);
 			needsNewPickingBuffer = false;
 		}
 

@@ -110,7 +110,7 @@ public abstract class ProbabilityCalculatorView
 
 	private static final GColor COLOR_POINT = GColor.BLACK;
 
-	protected int defaultDividerSize;
+
 	public EuclidianView plotPanel;
 
 	protected ProbabilityTable table;
@@ -166,7 +166,6 @@ public abstract class ProbabilityCalculatorView
 	protected int printDecimals = 4, printFigures = -1;
 
 	// flags
-	protected boolean validProb;
 	protected boolean showProbGeos = true;
 	protected boolean showNormalOverlay = false;
 

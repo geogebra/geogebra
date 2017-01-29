@@ -1406,7 +1406,7 @@ public abstract class Renderer {
 	 * intersectionCurvesWaitForPick = true; }
 	 */
 
-	protected int oldGeoToPickSize;
+	private int oldGeoToPickSize;
 	protected int geoToPickSize = EuclidianView3D.DRAWABLES_NB;
 
 	/**
@@ -2295,6 +2295,14 @@ public abstract class Renderer {
 	final public void setNeedExportImage(boolean flag) {
 		// Log.printStacktrace("" + flag);
 		needExportImage = flag;
+	}
+
+	protected int getOldGeoToPickSize() {
+		return oldGeoToPickSize;
+	}
+
+	protected void setOldGeoToPickSize(int oldGeoToPickSize) {
+		this.oldGeoToPickSize = oldGeoToPickSize;
 	}
 
 }

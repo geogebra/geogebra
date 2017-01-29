@@ -38,16 +38,14 @@ import org.geogebra.desktop.main.AppD;
 public class EuclidianController3DD extends EuclidianController3D
 		implements EuclidianControllerListeners {
 
-	// protected GeoVec2D b;
 
-	// protected GeoSegment movedGeoSegment;
-
-	// protected MyPopupMenu popupMenu;
-
-	// boolean polygonRigid = false;
+	private int defaultInitialDelay;
 
 	/***********************************************
 	 * Creates new EuclidianController
+	 * 
+	 * @param kernel
+	 *            Kernel
 	 **********************************************/
 	public EuclidianController3DD(Kernel kernel) {
 		super(kernel.getApplication());

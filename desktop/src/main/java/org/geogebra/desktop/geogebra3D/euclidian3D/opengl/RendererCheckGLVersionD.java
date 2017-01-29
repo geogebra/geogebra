@@ -127,7 +127,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	private void initCheckShaders(GLAutoDrawable drawable) {
 		// reset picking
-		oldGeoToPickSize = -1;
+		setOldGeoToPickSize(-1);
 
 		// start init
 		String glInfo[] = RendererJogl.getGLInfos(drawable);
