@@ -13,16 +13,20 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
+import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -195,8 +199,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		ELIMINATE2("eliminate2",
 				"eliminate2(x,y):=eliminate(eliminate(x,y),y);");
-
+		/** function name */
 		final public String functionName;
+		/** definition string */
 		final public String definitionString;
 
 		InitFunctions(String functionName, String definitionString) {
@@ -392,12 +397,48 @@ public abstract class CASgiac implements CASGenericInterface {
 			return casParser.toGeoGebraString(casInput, tpl);
 		}
 
+		if (keepInput && (cell != null && cell.isSubstitute())) {
+			// assume keepinput was not treated in CAS
+			ExpressionValue substList = casInput.getTopLevelCommand()
+					.getArgument(1).unwrap();
+			ExpressionValue substArg = casInput.getTopLevelCommand()
+					.getArgument(0);
+			if (substList instanceof MyList) {
+				for (int i = 0; i < ((MyList) substList).size(); i++) {
+					substArg = subst(substArg, ((MyList) substList).getItem(i),
+							cell.getKernel());
+				}
+			} else {
+				substArg = subst(substArg, substList, cell.getKernel());
+			}
+			if (substArg != null) {
+				return casParser.toGeoGebraString(substArg, tpl);
+			}
+		}
+
 		// standard case
 		if (result == null || result.isEmpty()) {
 			return null;
 		}
 		return toGeoGebraString(result, arbconst, tpl, kernel);
 
+	}
+
+	private static ExpressionValue subst(ExpressionValue substArg,
+			ExpressionValue item0, Kernel kernel) {
+		ExpressionValue item = item0.unwrap();
+		if(item instanceof Equation){
+			ExpressionValue lhs = ((Equation) item).getLHS().unwrap();
+			if (lhs instanceof GeoDummyVariable || lhs instanceof Variable) {
+				ExpressionValue rhs = ((Equation) item).getRHS();
+				ExpressionValue copy = substArg.deepCopy(kernel);
+				copy.traverse(VariableReplacer.getReplacer(
+						lhs.toString(StringTemplate.defaultTemplate), rhs,
+						kernel));
+				return copy;
+			}
+		}
+		return null;
 	}
 
 	@Override

@@ -687,56 +687,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 				s2[i] = (parseNumberText(fldSampleStat2[i].getText()));
 			}
 
-			switch (selectedProcedure) {
-
-			default:
-				// do nothing
-				break;
-			case ZMEAN_TEST:
-			case ZMEAN_CI:
-			case TMEAN_TEST:
-			case TMEAN_CI:
-				sc.mean = s1[0];
-				sc.sd = s1[1];
-				sc.n = s1[2];
-				break;
-
-			case ZMEAN2_TEST:
-			case ZMEAN2_CI:
-			case TMEAN2_TEST:
-			case TMEAN2_CI:
-				sc.mean = s1[0];
-				sc.sd = s1[1];
-				sc.n = s1[2];
-				sc.mean2 = s2[0];
-				sc.sd2 = s2[1];
-				sc.n2 = s2[2];
-
-				// force the null hypothesis to zero
-				// TODO: allow non-zero values
-				// sc.nullHyp = 0;
-				break;
-
-			case ZPROP_TEST:
-			case ZPROP_CI:
-				sc.count = s1[0];
-				sc.n = s1[1];
-				break;
-
-			case ZPROP2_TEST:
-			case ZPROP2_CI:
-				sc.count = s1[0];
-				sc.n = s1[1];
-				sc.count2 = s2[0];
-				sc.n2 = s2[1];
-
-				// force the null hypothesis to zero
-				// TODO: allow non-zero values
-				// sc.nullHyp = 0;
-				break;
-			}
-
-			sc.validate();
+			updateCollectionProcedure();
 			setSampleFieldText();
 
 		} catch (NumberFormatException e) {

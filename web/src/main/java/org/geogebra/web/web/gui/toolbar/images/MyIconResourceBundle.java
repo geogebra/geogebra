@@ -495,7 +495,7 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	
 	//Whiteboard
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapeline.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_line.png")
 	ImageResource mode_shape_line_32();
 	
 	@Override
@@ -511,7 +511,7 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	ImageResource mode_shape_rectangle_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shaperectangleroundedges.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shaperoundedrectangle.png")
 	ImageResource mode_shape_rectangle_round_edges_32();
 	
 	@Override
@@ -523,11 +523,11 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	ImageResource mode_shape_freeform_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapecircle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_circle.png")
 	ImageResource mode_shape_circle_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapeellipse.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_ellipse.png")
 	ImageResource mode_shape_ellipse_32();
 	
 	@Override

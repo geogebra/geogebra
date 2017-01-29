@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
@@ -29,9 +28,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 
 public class GeoGebraCasIntegrationTest {
   private static final String GermanSolve = "L\u00f6se";
@@ -279,8 +276,8 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	// 100 seconds max per method tested
-	@Rule
-	public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
+	// @Rule
+	// public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
 
 
   // Self Test Section
