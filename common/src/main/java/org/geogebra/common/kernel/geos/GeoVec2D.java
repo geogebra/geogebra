@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -1544,6 +1545,13 @@ final public class GeoVec2D extends ValidExpression
 	@Override
 	public double[] getPointAsDouble() {
 		return new double[] { x, y, 0 };
+	}
+
+	@Override
+	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel1) {
+		// eg drivative of i
+		// needed for plotting a(x, y) = abs(x + y i) in 3d
+		return (new MyDouble(kernel1, 0)).wrap();
 	}
 
 }
