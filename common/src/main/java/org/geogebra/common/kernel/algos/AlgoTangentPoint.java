@@ -293,7 +293,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					// the line MT will be the tangent
 				}
 
-				botanaPolynomials = new Polynomial[2];
+				botanaPolynomials = new Polynomial[4];
 
 				Polynomial m1 = new Polynomial(botanaVars[0]);
 				Polynomial m2 = new Polynomial(botanaVars[1]);
@@ -301,15 +301,24 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				Polynomial f1 = new Polynomial(vparabola[8]);
 				Polynomial f2 = new Polynomial(vparabola[9]);
 				// coordinates of T' (feet point on the directrix for T)
-				Polynomial t_1 = new Polynomial(vparabola[2]);
-				Polynomial t_2 = new Polynomial(vparabola[3]);
+				Variable t_1 = new Variable();
+				Variable t_2 = new Variable();
+
+				Polynomial t_1p = new Polynomial(t_1);
+				Polynomial t_2p = new Polynomial(t_2);
 
 				// M midpoint of FT'
 				botanaPolynomials[0] = new Polynomial(2).multiply(m1)
-						.subtract(f1).subtract(t_1);
+						.subtract(f1).subtract(t_1p);
 				botanaPolynomials[1] = new Polynomial(2).multiply(m2)
-						.subtract(f2).subtract(t_2);
+						.subtract(f2).subtract(t_2p);
 
+				// T' is a feet point (we need to declare it)
+				botanaPolynomials[2] = Polynomial.collinear(t_1, t_2,
+						vparabola[4], vparabola[5], vparabola[6], vparabola[7]);
+				// TT' = TF
+				botanaPolynomials[3] = Polynomial.equidistant(t_1, t_2,
+						vPoint[0], vPoint[1], vparabola[8], vparabola[9]);
 
 				return botanaPolynomials;
 
