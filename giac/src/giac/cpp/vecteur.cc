@@ -6361,7 +6361,7 @@ namespace giac {
 	resptr[i][j]=vecteur(cmax);
       pivotsptr[i]=pivots;
       pivotsptr[i].reserve(a.size());
-      thread_modrref_t tmp={&a,&Nptr[i],&resptr[i],&pivotsptr[i],&work[i],0,1,l,lmax,c,cmax,fullreduction,dont_swap_below,0,rref_or_det_or_lu,inverting,false,false};
+      thread_modrref_t tmp={&a,&Nptr[i],&resptr[i],&pivotsptr[i],&work[i],0,1,l,lmax,c,cmax,fullreduction,dont_swap_below,0,-1,rref_or_det_or_lu,inverting,false,false};
       modrrefparam[i]=tmp;
     }
 #endif
@@ -6394,7 +6394,6 @@ namespace giac {
 	  modrrefparam[j].inverting=false;
 	  modrrefparam[j].no_initial_mod=true;
 	  modrrefparam[j].mult_by_det_mod_p=1;
-	  modrrefparam[j].carac=-1;
 	  bool res=pthread_create(&tab[j],(pthread_attr_t *) NULL,thread_modrref,(void *) &modrrefparam[j]);
 	  if (res)
 	    thread_modrref((void *)&modrrefparam[j]);	    
