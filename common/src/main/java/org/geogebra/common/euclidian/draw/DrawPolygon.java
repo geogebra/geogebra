@@ -51,7 +51,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private GeoPolygon poly;
 	private boolean isVisible, labelVisible;
 
-	private GeneralPathClipped gp, gpTriangularize;
+	private GeneralPathClipped gp;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 	private Coords[] extraCoords;
@@ -59,9 +59,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
 	private boolean isSquare = false;
-	protected GGeneralPath prewPolygon = AwtFactory.getPrototype()
+	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
-	protected GRectangle prewRect = AwtFactory.getPrototype().newRectangle(0, 0,
+	private GRectangle prewRect = AwtFactory.getPrototype().newRectangle(0, 0,
 			0, 0);
 	/**
 	 * Creates new DrawPolygon
@@ -82,34 +82,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 
 		update();
-	}
-
-	private void calculateViewCorners() {
-		extraCoords[0].setX(view.getXmin());
-		extraCoords[0].setY(view.getYmin());
-
-		extraCoords[1].setX(view.getXmax());
-		extraCoords[1].setY(view.getYmin());
-
-		extraCoords[2].setX(view.getXmax());
-		extraCoords[2].setY(view.getYmax());
-
-		extraCoords[3].setX(view.getXmin());
-		extraCoords[3].setY(view.getYmax());
-
-		// // set 0 to 1 values for test
-		// extraCoords[0].setX(0);
-		// extraCoords[0].setY(0);
-		//
-		// extraCoords[1].setX(1);
-		// extraCoords[1].setY(0);
-		//
-		// extraCoords[2].setX(1);
-		// extraCoords[2].setY(1);
-		//
-		// extraCoords[3].setX(0);
-		// extraCoords[3].setY(1);
-
 	}
 
 	/**
@@ -196,62 +168,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	}
 
-	private final void calculateBounds() {
-		double xmin = Double.MAX_VALUE;
-		double ymin = Double.MAX_VALUE;
-		double xmax = Double.MIN_VALUE;
-		double ymax = Double.MIN_VALUE;
-
-		for (int i = 0; i < poly.getPointsLength(); i++) {
-			double x = poly.getPointX(i);
-			double y = poly.getPointY(i);
-
-			if (x < xmin) {
-				xmin = x;
-			}
-
-			if (x > xmax) {
-				xmax = x;
-			}
-
-			if (y < ymin) {
-				ymin = y;
-			}
-			if (y > ymax) {
-				ymax = y;
-			}
-
-		}
-
-		xmin = xmin < extraCoords[0].getX() ? xmin : extraCoords[0].getX();
-		xmax = xmax > extraCoords[2].getX() ? xmax : extraCoords[2].getX();
-
-		ymin = ymin < extraCoords[0].getY() ? ymin : extraCoords[0].getY();
-		ymax = ymax > extraCoords[2].getY() ? ymax : extraCoords[2].getY();
-
-		extraCoords[4].setX(xmin);
-		extraCoords[4].setY(ymin);
-
-		extraCoords[5].setX(xmax);
-		extraCoords[5].setY(ymin);
-
-		extraCoords[6].setX(xmax);
-		extraCoords[6].setY(ymax);
-
-		extraCoords[7].setX(xmin);
-		extraCoords[7].setY(ymax);
-	}
-
-	private double[][] fanCoords;
-
-	private static final int FAN_DELTA = 10;
-
-	private boolean isOutView(double[] c) {
-		return c[0] < -FAN_DELTA || c[1] < -FAN_DELTA
-				|| c[0] > view.getWidth() + FAN_DELTA
-				|| c[1] > view.getHeight() + FAN_DELTA;
-	}
-
 	private Coords getCoords(int i) {
 		if (poly != null) {
 			return view.getCoordsForView(poly.getPoint3D(i));
@@ -312,8 +228,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private boolean fillShape = false;
-
-	private boolean changed = false;
 
 	@Override
 	final public void draw(GGraphics2D g2) {
