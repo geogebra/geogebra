@@ -1,11 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -16,7 +13,6 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class ItemControls extends FlowPanel {
 	/**
@@ -32,6 +28,10 @@ public class ItemControls extends FlowPanel {
 	/** animation controls */
 	protected AnimPanel animPanel;
 
+	/**
+	 * @param radioTreeItem
+	 *            parent item
+	 */
 	public ItemControls(RadioTreeItem radioTreeItem) {
 		this.radioTreeItem = radioTreeItem;
 		addStyleName("AlgebraViewObjectStylebar");
@@ -211,17 +211,18 @@ public class ItemControls extends FlowPanel {
 
 			@Override
 			public void execute() {
-				ScrollPanel algebraPanel = ((AlgebraDockPanelW) radioTreeItem.app
-						.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
-				int scrollPos = algebraPanel.getHorizontalScrollPosition();
+				// ScrollPanel algebraPanel = ((AlgebraDockPanelW)
+				// radioTreeItem.app
+				// .getGuiManager().getLayout().getDockManager()
+				// .getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
+				// int scrollPos = algebraPanel.getHorizontalScrollPosition();
 
 				// extra margin if vertical scrollbar is visible.
-				int sw = Browser.isTabletBrowser() ? 0
-						: RadioTreeItem.BROWSER_SCROLLBAR_WIDTH;
-				int margin = radioTreeItem.getAV().getOffsetHeight()
-						+ getOffsetHeight() > algebraPanel.getOffsetHeight()
-								? sw : 0;
+				// int sw = Browser.isTabletBrowser() ? 0
+				// : RadioTreeItem.BROWSER_SCROLLBAR_WIDTH;
+				// int margin = radioTreeItem.getAV().getOffsetHeight()
+				// + getOffsetHeight() > algebraPanel.getOffsetHeight()
+				// ? sw : 0;
 
 				int right = 0;
 				int itemWidth = radioTreeItem.getOffsetWidth();

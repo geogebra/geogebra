@@ -312,7 +312,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	// keep track of when <tab> was first pressed
 	// so we can return to that column when <enter> pressed
-	public static int tabReturnCol = -1;
+	private int tabReturnCol = -1;
 
 	public class SpreadsheetCellEditorKeyListener implements KeyEventsHandler {
 
@@ -413,7 +413,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				// Application.debug("UP");
 				stopCellEditing(0, -1, false);
 				// ?//e.consume();
-				tabReturnCol = -1;
+				setTabReturnCol(-1);
 				break;
 
 			case KeyCodes.KEY_TAB:
@@ -424,8 +424,8 @@ public class MyCellEditorW implements BaseCellEditor {
 				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right
-				if (tabReturnCol == -1) {
-					tabReturnCol = column;
+				if (getTabReturnCol() == -1) {
+					setTabReturnCol(column);
 				}
 				stopCellEditing(e.isShiftKeyDown() ? -1 : 1, 0, false);
 				e.preventDefault();
@@ -442,8 +442,8 @@ public class MyCellEditorW implements BaseCellEditor {
 				int bracketsIndex = text.indexOf("[]");
 				if (bracketsIndex == -1) {
 
-					if (tabReturnCol != -1) {
-						int colOffset = tabReturnCol - column;
+					if (getTabReturnCol() != -1) {
+						int colOffset = getTabReturnCol() - column;
 						stopCellEditing(colOffset, 1, true);
 					} else {
 
@@ -466,7 +466,7 @@ public class MyCellEditorW implements BaseCellEditor {
 					// ?//e.consume();
 				}
 
-				tabReturnCol = -1;
+				setTabReturnCol(-1);
 				break;
 
 			case KeyCodes.KEY_DOWN:
@@ -481,7 +481,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				}
 				// Application.debug("DOWN");
 				stopCellEditing(0, 1, false);
-				tabReturnCol = -1;
+				setTabReturnCol(-1);
 				break;
 
 			case KeyCodes.KEY_LEFT:
@@ -493,7 +493,7 @@ public class MyCellEditorW implements BaseCellEditor {
 				if (getCaretPosition() == 0) {
 					stopCellEditing(-1, 0, false);
 				}
-				tabReturnCol = -1;
+				setTabReturnCol(-1);
 				break;
 
 			case KeyCodes.KEY_RIGHT:
@@ -506,14 +506,14 @@ public class MyCellEditorW implements BaseCellEditor {
 					stopCellEditing(1, 0, false);
 				}
 
-				tabReturnCol = -1;
+				setTabReturnCol(-1);
 				break;
 
 			case KeyCodes.KEY_PAGEDOWN:
 			case KeyCodes.KEY_PAGEUP:
 				e.preventDefault();
 				// ?//e.consume();
-				tabReturnCol = -1;
+				setTabReturnCol(-1);
 				break;
 
 			// An F1 keypress causes the focus to be lost, so we
@@ -539,6 +539,22 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	public void allowAutoEdit() {
 		this.allowAutoEdit = true;
+
+	}
+
+	protected int getTabReturnCol() {
+		return tabReturnCol;
+	}
+
+	protected void setTabReturnCol(int tabReturnCol) {
+		this.tabReturnCol = tabReturnCol;
+	}
+
+	public void onEnter() {
+		if (tabReturnCol > -1) {
+			table.changeSelection(row, tabReturnCol, false);
+			setTabReturnCol(-1);
+		}
 
 	}
 

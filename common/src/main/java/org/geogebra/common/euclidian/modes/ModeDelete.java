@@ -181,8 +181,6 @@ public class ModeDelete {
 
 						populateAlgoUpdateSet(dataPoints[i]);
 
-						if (lastWasVisible && dataPoints[i].isDefined()) {
-						}
 						lastWasVisible = dataPoints[i].isDefined();
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {
 							hasVisiblePart = true;
@@ -681,8 +679,6 @@ public class ModeDelete {
 
 						populateAlgoUpdateSet(dataPoints[i]);
 
-						if (lastWasVisible && dataPoints[i].isDefined()) {
-						}
 						lastWasVisible = dataPoints[i].isDefined();
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {
 							hasVisiblePart = true;

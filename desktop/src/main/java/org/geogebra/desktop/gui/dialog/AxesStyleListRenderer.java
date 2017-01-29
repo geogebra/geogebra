@@ -17,8 +17,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * adapted from PointStyleListRenderer
  * 
@@ -68,8 +66,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
@@ -96,8 +92,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
 
 			leftArrow(g2);
-
-			// $FALL_THROUGH$
+			rightArrow(g2);
+			break;
 		default:
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
 			rightArrow(g2);
@@ -109,9 +105,9 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			break;
 
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-
 			filledLeftArrow(g2);
-			// $FALL_THROUGH$
+			filledRightArrow(g2);
+			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
 
 			filledRightArrow(g2);

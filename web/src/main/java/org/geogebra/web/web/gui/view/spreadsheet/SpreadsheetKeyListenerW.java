@@ -396,10 +396,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			break;
 
 		case KeyCodes.KEY_ENTER:// KeyEvent.VK_ENTER:
-			if (MyCellEditorW.tabReturnCol > -1) {
-				table.changeSelection(row, MyCellEditorW.tabReturnCol, false);
-				MyCellEditorW.tabReturnCol = -1;
-			}
+			editor.onEnter();
 
 			// fall through
 		case GWTKeycodes.KEY_PAGEDOWN:// KeyEvent.VK_PAGE_DOWN:
