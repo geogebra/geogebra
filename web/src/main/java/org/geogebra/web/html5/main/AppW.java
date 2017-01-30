@@ -3308,15 +3308,23 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return RootPanel.get();
 	}
 	
+	private Timer altTextTimer = new Timer(){
+
+		@Override
+		public void run() {
+			getEuclidianView1().setAltText();
+			if (hasEuclidianView2(1)) {
+				getEuclidianView2(1).setAltText();
+			}
+			if (isEuclidianView3Dinited()) {
+				((EuclidianViewWInterface) getEuclidianView3D()).setAltText();
+			}
+		}
+	};
+	
 	@Override
 	public void setAltText() {
-		getEuclidianView1().setAltText();
-		if (hasEuclidianView2(1)) {
-			getEuclidianView2(1).setAltText();
-		}
-		if (isEuclidianView3Dinited()) {
-			((EuclidianViewWInterface) getEuclidianView3D()).setAltText();
-		}
+		altTextTimer.schedule(300);
 	}
 
 	@Override
