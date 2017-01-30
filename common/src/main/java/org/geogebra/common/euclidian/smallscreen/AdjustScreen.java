@@ -109,9 +109,87 @@ public class AdjustScreen {
 		collectWidgets();
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
-		checkOvelappingButtons();
+		adjustButtons();
 		// checkOvelappingInputs();
 		view.repaintView();
+	}
+
+	void d(String msg) {
+		Log.debug("[lacBtn] " + msg);
+	}
+	private void adjustButtons() {
+		d("adjustButtons");
+		Collections.sort(buttons, new ButtonComparator());
+		int maxHeight = 0;
+		int idx = 0;
+		List<GeoButton> fixed = new ArrayList<GeoButton>();
+		List<GeoButton> moveable = new ArrayList<GeoButton>();
+
+		boolean multiCol = false;
+		while (!multiCol && idx < buttons.size()) {
+			GeoButton btn = buttons.get(idx);
+			maxHeight += btn.getHeight() + BUTTON_Y_GAP;
+			multiCol = view.getHeight() < maxHeight;
+			if (AdjustButton.isVerticallyOnScreen(btn, view)) {
+				fixed.add(btn);
+			} else {
+				moveable.add(btn);
+			}
+			idx++;
+		}
+
+		d("fixed: " + fixed.size() + " movable: " + moveable.size());
+		if (moveable.isEmpty()) {
+			// All buttons is on screen, nothing to do.
+			return;
+		}
+
+		if (multiCol) {
+			createMultiColumnButtons();
+			return;
+		}
+
+		GeoButton lastButton = buttons.get(buttons.size() - 1);
+
+		while (!AdjustButton.isVerticallyOnScreen(lastButton, view)) {
+			int lastFixedIdx = fixed.size() - 1;
+			GeoButton lastFixed = lastFixedIdx > 0 ? fixed.get(lastFixedIdx): null;
+			GeoButton last2ndFixed = fixed.size() > 1
+					? fixed.get(lastFixedIdx - 1)
+					:null;
+			int lastFixedY = lastFixed.getAbsoluteScreenLocY();
+			int h = lastFixed.getHeight() + BUTTON_Y_GAP;
+			int y = lastFixedY + h;
+			for (GeoButton btn : moveable) {
+				btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(), y);
+				int dy = btn.getHeight() + BUTTON_Y_GAP;
+				y += dy;
+				h += dy;
+			}
+			
+			int ySpace = last2ndFixed == null
+					? view.getHeight() - lastFixedY
+					: lastFixedY - last2ndFixed.getAbsoluteScreenLocY();
+
+			fixed.remove(lastFixedIdx);
+			moveable.add(lastFixed);
+
+			if (h < ySpace) {
+				for (GeoButton btn : moveable) {
+					btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(),
+							btn.getAbsoluteScreenLocY() - h);
+				}
+			} else {
+				fixed.remove(lastFixedIdx - 1);
+				moveable.add(0, last2ndFixed);
+			}
+
+		}
+	}
+
+	private void createMultiColumnButtons() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void collectWidgets() {
