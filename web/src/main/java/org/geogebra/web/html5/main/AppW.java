@@ -3324,7 +3324,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	
 	@Override
 	public void setAltText() {
-		altTextTimer.schedule(300);
+		altTextTimer.schedule(700);
 	}
 
 	@Override
