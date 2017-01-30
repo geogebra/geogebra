@@ -49,7 +49,7 @@ namespace giac {
     bool save_cv=complex_variables(contextptr);
     complex_variables(false,contextptr);
     gen res=integrate_gen(e,x,contextptr);
-    if (lop(res,at_abs).empty()){
+    if (lop(res,at_abs).empty() && lop(res,at_floor).empty()){
       complex_variables(save_cv,contextptr);
       return res;
     }

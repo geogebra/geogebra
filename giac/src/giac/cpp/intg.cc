@@ -1485,9 +1485,11 @@ namespace giac {
 	    else {
 	      tmpatan=atan(tmpatan,contextptr);
 	      if (xvar.is_symb_of_sommet(at_tan)){
-		// add residue
-		residue=r2e(it->fact.derivative().derivative(),l,contextptr);
-		residue=cst_pi*sign(residue,contextptr)*_floor((xvar._SYMBptr->feuille/cst_pi+plus_one_half),contextptr);
+		if (do_lnabs(contextptr)){
+		  // add residue
+		  residue=r2e(it->fact.derivative().derivative(),l,contextptr);
+		  residue=cst_pi*sign(residue,contextptr)*_floor((xvar._SYMBptr->feuille/cst_pi+plus_one_half),contextptr);
+		}
 	      }
 	      else {
 		// if xvar has a singularity at 0 e.g. xvar =x+1/x or x-1/x, 
@@ -5010,6 +5012,33 @@ namespace giac {
   static const char _Sum_s []="Sum";
   static define_unary_function_eval_quoted (__Sum,&_Sum,_Sum_s);
   define_unary_function_ptr5( at_Sum ,alias_at_Sum,&__Sum,_QUOTE_ARGUMENTS,true);
+
+  gen _wz_certificate(const gen & args,GIAC_CONTEXT) {
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen F,dF,G,n(n__IDNT_e),k(k__IDNT_e);
+    if (args.type==_VECT){
+      int s=args._VECTptr->size();
+      const vecteur & v=*args._VECTptr;
+      if (s==0 || s>4) return gensizeerr(contextptr);
+      if (s==1) F=v[0];
+      if (s==2) F=v[0]/v[1];
+      if (s==3){ F=v[0]; n=v[1]; k=v[2]; }
+      if (s==4){ F=v[0]/v[1]; n=v[2]; k=v[3]; }
+    }
+    else
+      F=args;
+    dF=simplify(subst(F,n,n+1,false,contextptr)-F,contextptr);
+    G=_sum(makesequence(dF,k),contextptr);
+    if (lop(G,at_sum).empty()){
+      gen R=G/subst(F,k,k-1,false,contextptr);
+      R=_eval(simplify(R,contextptr),contextptr);
+      return _factor(R,contextptr);
+    }
+    return 0;
+  }  
+  static const char _wz_certificate_s []="wz_certificate";
+  static define_unary_function_eval_quoted (__wz_certificate,&_wz_certificate,_wz_certificate_s);
+  define_unary_function_ptr5( at_wz_certificate ,alias_at_wz_certificate,&__wz_certificate,0,true);
 
   // sum does also what maple add does
   /*
