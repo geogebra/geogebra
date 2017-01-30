@@ -131,7 +131,7 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							Sum(c.getLabel(), wrapList, null,
-									new FunctionNvarFold()) };
+									new FunctionFold()) };
 					return ret;
 				}
 			} else if (arg[0].isGeoFunction()) {
@@ -141,7 +141,7 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							Sum(c.getLabel(), wrapList, null,
-									new FunctionFold()) };
+									new FunctionNvarFold()) };
 					return ret;
 				}
 			} else if (arg[0].isGeoText()) {
