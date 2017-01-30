@@ -1665,11 +1665,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
 					if (view.isKeyboardEnabled()) {
 						app.showKeyboard(w, true);
+						final GRectangle rect = getCellRect(row, col, true);
 						Scheduler.get().scheduleDeferred(new ScheduledCommand(){
 							@Override
 							public void execute() {
-								scrollRectToVisible(getCellRect(row, col,
-								        true));
+										scrollRectToVisible(rect);
 							}
 						});
 
