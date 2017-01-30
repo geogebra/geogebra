@@ -237,7 +237,8 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			// (coeff) * x^k
 			ExpressionValue partExp;
 			MyDouble coeffMyDouble = null;
-			if (Kernel.isEqual(coeff, 1.0) || Kernel.isEqual(coeff, -1.0)) {
+			if (Kernel.isEqual(coeff, 1.0)
+					|| (k < n - 1 && Kernel.isEqual(coeff, -1.0))) {
 				if (powerExp == null) {
 					partExp = new MyDouble(kernel, 1.0);
 				} else {
