@@ -1,8 +1,5 @@
 package com.himamis.retex.editor.share.input;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -11,6 +8,9 @@ import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringCharAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KeyboardInputAdapter {
 
@@ -111,10 +111,11 @@ public class KeyboardInputAdapter {
 
             @Override
             public boolean test(String input) {
-                return true;
+                return input.matches("[a-zA-Z]+");
             }
         };
 
+        adapters.add(commandAdapter);
     }
 
 	public static void insertString(final MathFieldInternal mMathFieldInternal,
