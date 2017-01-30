@@ -61,7 +61,6 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -1433,7 +1432,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 	protected GPoint getPixel(int column, int row, boolean min, boolean scaleOffset) {
 
-		if (column < 0 || row < 0) {
+		if (column < 0 || row < 0 || column >= this.getColumnCount()
+				|| row >= this.getRowCount()) {
 			return null;
 		}
 
