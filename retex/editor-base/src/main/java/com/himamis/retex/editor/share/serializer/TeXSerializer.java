@@ -27,6 +27,10 @@ public class TeXSerializer extends SerializerAdapter {
     private boolean jmathtex = true;
     private MetaModel metaModel;
 
+	/**
+	 * @param metaModel
+	 *            model
+	 */
     public TeXSerializer(MetaModel metaModel) {
         this.metaModel = metaModel;
     }
@@ -265,7 +269,7 @@ public class TeXSerializer extends SerializerAdapter {
 				boolean addBraces = (function.getArgument(2).hasOperator()
 						&& function
                         .getParent().hasOperator());
-				this.addWithBraces(stringBuilder, function.getArgument(0),
+				this.addWithBraces(stringBuilder, function.getArgument(2),
 						addBraces);
                 stringBuilder.append('}');
 
@@ -378,9 +382,8 @@ public class TeXSerializer extends SerializerAdapter {
         if (symbol.getArgument(i) instanceof MathCharacter) {
             return ((MathCharacter) symbol.getArgument(i)).getTexName()
                     .length();
-        } else {
-            return 2;
         }
+		return 2;
     }
 
     private static boolean isLatexFunction(String texName) {
@@ -399,6 +402,13 @@ public class TeXSerializer extends SerializerAdapter {
         return false;
     }
 
+	/**
+	 * @param ms
+	 *            sequence
+	 * @param model
+	 *            model
+	 * @return TeX representation of the sequence
+	 */
 	public static String serialize(MathSequence ms, MetaModel model) {
 		StringBuilder b = new StringBuilder();
 		new TeXSerializer(model).serialize(ms, b);
