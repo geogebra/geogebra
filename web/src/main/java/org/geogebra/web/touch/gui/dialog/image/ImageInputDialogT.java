@@ -1,6 +1,7 @@
 package org.geogebra.web.touch.gui.dialog.image;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -53,6 +54,10 @@ public class ImageInputDialogT extends UploadImageDialog {
 						"Couldn't open chosen image", true, (AppW) app);
 			}
 		};
+		
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			exportJavascriptMethods();
+		}
 	}
 
 	@Override
@@ -95,8 +100,18 @@ public class ImageInputDialogT extends UploadImageDialog {
 	 * Callback for file open button
 	 */
 	void openFromFileClicked() {
-		PhoneGapManager.getPhoneGap().getCamera().getPicture(options, this.pictureCallback);
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			openFromFileClickedNative();
+		}else{
+			PhoneGapManager.getPhoneGap().getCamera().getPicture(options, this.pictureCallback);
+		}
 	}
+	
+	private native void openFromFileClickedNative() /*-{
+		if ($wnd.android) {
+			$wnd.android.openFromFileClickedNative();
+		}
+	}-*/;
 	
 	@Override
 	protected void initActions() {
@@ -167,10 +182,21 @@ public class ImageInputDialogT extends UploadImageDialog {
 		PictureOptions pictureOptions = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
 		pictureOptions.setAllowEdit(false);
 		pictureOptions.setCorrectOrientation(true);
-		PhoneGapManager.getPhoneGap().getCamera().getPicture(
-				pictureOptions,
-				this.pictureCallback);
+
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			getCameraPictureNative();
+		}else{
+			PhoneGapManager.getPhoneGap().getCamera().getPicture(
+			pictureOptions,
+			this.pictureCallback);
+		}
     }
+
+	private native void getCameraPictureNative() /*-{
+		if ($wnd.android) {
+			$wnd.android.getCameraPictureNative();
+		}
+	}-*/;
 
 	/**
 	 * @param pictureBase64 String
@@ -196,6 +222,21 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.picturePanel.getElement().getStyle().setBackgroundImage("none");
 		this.pictureFromCameraString = "";
 		this.pictureFromFileString = "";
+	}
+	
+	private native void exportJavascriptMethods() /*-{
+		var that = this;
+		$wnd.imageInputDialogT_catchImage = $entry(function(data) {			
+			that.@org.geogebra.web.touch.gui.dialog.image.ImageInputDialogT::catchImage(Ljava/lang/String;)(data);
+		});
+	}-*/;
+	
+	/**
+	 * this method is called through js (see exportGeoGebraAndroidMethods())
+	 */
+	public void catchImage(String data) {
+		setPicturePreview(data);
+	
 	}
 
 }

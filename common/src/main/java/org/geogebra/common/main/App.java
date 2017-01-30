@@ -4254,6 +4254,9 @@ public abstract class App implements UpdateSelection {
 		case DIALOGS_OVERLAP_KEYBOARD:
 			return prerelease;
 
+		case TABLET_WITHOUT_CORDOVA:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
