@@ -287,6 +287,8 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null) {
 			return;
 		}
+		material.setModified(modified);
+		material.setSyncStamp(modified);
 		String key = localKey;
 		if (key == null) {
 			key = FileManager.createKeyString(this.createID(),

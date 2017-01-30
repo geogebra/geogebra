@@ -270,6 +270,7 @@ public class WinFileManager extends FileManager {
 	@Override
 	protected void updateFile(String key, long modified, Material material) {
 		material.setModified(modified);
+		material.setSyncStamp(modified);
 		String base64 = material.getBase64();
 		material.setBase64("");
 		nativeUpdateFile(material.getLocalID(), material.getTitle(), base64,
