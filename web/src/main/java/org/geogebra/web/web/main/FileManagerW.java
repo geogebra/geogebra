@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -91,10 +92,10 @@ public class FileManagerW extends FileManager {
 		int nextFreeID = 1;
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
-			if (key.startsWith(FileManager.FILE_PREFIX)) {
-				int fileID = FileManager.getIDFromKey(key);
+			if (key.startsWith(MaterialsManager.FILE_PREFIX)) {
+				int fileID = MaterialsManager.getIDFromKey(key);
 				if (fileID >= nextFreeID) {
-					nextFreeID = FileManager.getIDFromKey(key) + 1;
+					nextFreeID = MaterialsManager.getIDFromKey(key) + 1;
 				}
 			}
 		}
@@ -109,7 +110,7 @@ public class FileManagerW extends FileManager {
 
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
-			if (key.startsWith(FileManager.FILE_PREFIX)) {
+			if (key.startsWith(MaterialsManager.FILE_PREFIX)) {
 				Material mat = JSONParserGGT.parseMaterial(this.stockStore
 				        .getItem(key));
 				if (mat == null) {
@@ -185,7 +186,8 @@ public class FileManagerW extends FileManager {
 		int newID = createID();
 		mat.setLocalID(createID());
 		mat.setTitle(newTitle);
-		this.stockStore.setItem(FileManager.createKeyString(newID, newTitle),
+		this.stockStore.setItem(
+				MaterialsManager.createKeyString(newID, newTitle),
 		        mat.toJson().toString());
 	}
 
@@ -291,7 +293,7 @@ public class FileManagerW extends FileManager {
 		material.setSyncStamp(modified);
 		String key = localKey;
 		if (key == null) {
-			key = FileManager.createKeyString(this.createID(),
+			key = MaterialsManager.createKeyString(this.createID(),
 			        material.getTitle());
 		}
 		try {

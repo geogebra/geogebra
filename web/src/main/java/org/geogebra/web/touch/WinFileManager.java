@@ -3,6 +3,7 @@ package org.geogebra.web.touch;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -55,7 +56,8 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void rename(String newTitle, Material mat, Runnable callback) {
-		renameNative(FileManager.getFileKey(mat), newTitle, mat.getModified()
+		renameNative(MaterialsManager.getFileKey(mat), newTitle,
+				mat.getModified()
 		        + "", callback);
 
 	}
@@ -198,7 +200,7 @@ public class WinFileManager extends FileManager {
 				for (String key : jv.keySet()) {
 					Material mat = JSONParserGGT.prototype.toMaterial(
 							(JSONObject) jv.get(key));
-					mat.setLocalID(FileManager.getIDFromKey(key));
+						mat.setLocalID(MaterialsManager.getIDFromKey(key));
 					if (getApp().getLoginOperation().owns(mat)) {
 
 						sync(mat, events);
@@ -235,7 +237,7 @@ public class WinFileManager extends FileManager {
 			for (String key : jv.keySet()) {
 				Material mat = JSONParserGGT.prototype
 						.toMaterial((JSONObject) jv.get(key));
-				mat.setLocalID(FileManager.getIDFromKey(key));
+				mat.setLocalID(MaterialsManager.getIDFromKey(key));
 				this.addMaterial(mat);
 			}
 		} catch (Exception e) {
