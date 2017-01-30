@@ -120,7 +120,8 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.POINT);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							SumPoints(c.getLabel(), wrapList, null) };
+							Sum(c.getLabel(), wrapList, null,
+									new PointNDFold()) };
 					return ret;
 				}
 			} else if (arg[0].isGeoFunction()) {
@@ -129,7 +130,8 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.FUNCTION);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							SumFunctions(c.getLabel(), wrapList, null, true) };
+							Sum(c.getLabel(), wrapList, null,
+									new FunctionNvarFold()) };
 					return ret;
 				}
 			} else if (arg[0].isGeoFunction()) {
@@ -138,7 +140,8 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.FUNCTION_NVAR);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							SumFunctions(c.getLabel(), wrapList, null, false) };
+							Sum(c.getLabel(), wrapList, null,
+									new FunctionFold()) };
 					return ret;
 				}
 			} else if (arg[0].isGeoText()) {
@@ -147,7 +150,8 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.TEXT);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							SumList(c.getLabel(), wrapList, null) };
+							Sum(c.getLabel(), wrapList, null,
+									new TextFold()) };
 					return ret;
 				}
 			} else if (arg[0].isGeoList()) {
@@ -156,7 +160,8 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.LIST);
 				if (wrapList != null) {
 					GeoElement[] ret = {
-							SumList(c.getLabel(), wrapList, null) };
+							Sum(c.getLabel(), wrapList, null,
+									new ListFold()) };
 					return ret;
 				}
 			}
@@ -250,29 +255,6 @@ public class CmdSum extends CommandProcessor {
 		return ret;
 	}
 
-	/**
-	 * Sum[list of functions,n] Michael Borcherds
-	 */
-	final private GeoElement SumFunctions(String label, GeoList list,
-			GeoNumeric num, boolean oneVar) {
-		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
-				Operation.PLUS, oneVar ?
-
-						new FunctionFold() : new FunctionNvarFold());
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
-
-	/**
-	 * Sum[list of points,n] Michael Borcherds
-	 */
-	final private GeoElement SumPoints(String label, GeoList list,
-			GeoNumeric num) {
-		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
-				Operation.PLUS, new PointNDFold());
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
 
 	/**
 	 * Sum[list of text,n] Michael Borcherds
@@ -281,14 +263,6 @@ public class CmdSum extends CommandProcessor {
 			FoldComputer fold) {
 		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
 				Operation.PLUS, fold);
-		GeoElement ret = algo.getResult();
-		return ret;
-	}
-
-	final private GeoElement SumList(String label, GeoList list,
-			GeoNumeric num) {
-		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
-				Operation.PLUS, new ListFold());
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
