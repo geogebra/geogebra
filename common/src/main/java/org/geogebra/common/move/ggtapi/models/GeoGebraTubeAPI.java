@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -509,18 +508,8 @@ public abstract class GeoGebraTubeAPI {
 											.get("response");
 							Object items = responseObj.get("item");
 
-							if (items instanceof JSONArray) {
-								for (int i = 0; i < ((JSONArray) items)
-										.length(); i++) {
-									JSONParserGGT.prototype.addEvent(
-											(JSONObject) ((JSONArray) items)
-													.get(i),
-											events);
-								}
-							} else if (items instanceof JSONObject) {
-								JSONParserGGT.prototype
-										.addEvent((JSONObject) items, events);
-							}
+							JSONParserGGT.prototype.addEvents(events, items);
+
 							cb.onSync(events);
 						} catch (Exception e) {
 							Log.error("SYNC parse error" + e.getMessage());
@@ -535,6 +524,8 @@ public abstract class GeoGebraTubeAPI {
 					}
 				});
 	}
+
+
 
 	protected String getToken() {
 		return client.getModel().getLoginToken();

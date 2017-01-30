@@ -5,17 +5,37 @@ import java.util.List;
 
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * JSON parser for MAT reply objects
+ *
+ */
 public class JSONParserGGT {
+	/**
+	 * Parser instance
+	 */
 	public static final JSONParserGGT prototype = new JSONParserGGT();
 
+	/**
+	 * @param obj
+	 *            parsed material
+	 * @return material object
+	 */
 	public Material toMaterial(JSONObject obj) {
 		return toMaterial(obj, false);
 	}
 
+	/**
+	 * @param obj
+	 *            parsed data
+	 * @param setLocalValues
+	 *            whether to initialiye sznc timestamp and local ID
+	 * @return material
+	 */
 	public Material toMaterial(JSONObject obj, boolean setLocalValues) {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
@@ -74,7 +94,8 @@ public class JSONParserGGT {
 		return material;
 	}
 
-	private boolean getBoolean(JSONObject obj, String string, boolean def) {
+	private static boolean getBoolean(JSONObject obj, String string,
+			boolean def) {
 		if (!obj.has(string)) {
 			return def;
 		}
@@ -82,7 +103,7 @@ public class JSONParserGGT {
 		try {
 			str = obj.get(string);
 		} catch (Exception e) {
-
+			// ignore
 		}
 		if (str == null || "".equals(str)) {
 			return def;
@@ -90,7 +111,7 @@ public class JSONParserGGT {
 		return Boolean.parseBoolean(str.toString());
 	}
 
-	private String getString(JSONObject obj, String string) {
+	private static String getString(JSONObject obj, String string) {
 		if (!obj.has(string)) {
 			return "";
 		}
@@ -98,7 +119,7 @@ public class JSONParserGGT {
 		try {
 			str = obj.get(string);
 		} catch (Exception e) {
-
+			// ignore
 		}
 		if (str == null) {
 			return "";
@@ -106,7 +127,7 @@ public class JSONParserGGT {
 		return str.toString();
 	}
 
-	private int getInt(JSONObject obj, String string, int def) {
+	private static int getInt(JSONObject obj, String string, int def) {
 		if (!obj.has(string)) {
 			return def;
 		}
@@ -114,7 +135,7 @@ public class JSONParserGGT {
 		try {
 			str = obj.get(string);
 		} catch (Exception e) {
-
+			// ignore
 		}
 		if (str == null || "".equals(str)) {
 			return def;
@@ -122,7 +143,8 @@ public class JSONParserGGT {
 		return Integer.parseInt(str.toString());
 	}
 
-	public long getLong(JSONObject obj, String string, long def) {
+
+	private static long getLong(JSONObject obj, String string, long def) {
 		if (!obj.has(string)) {
 			return def;
 		}
@@ -130,7 +152,7 @@ public class JSONParserGGT {
 		try {
 			str = obj.get(string);
 		} catch (Exception e) {
-
+			// ignore
 		}
 		if (str == null || "".equals(str)) {
 			return def;
@@ -138,7 +160,8 @@ public class JSONParserGGT {
 		return Long.parseLong(str.toString());
 	}
 
-	private boolean getStringBoolean(JSONObject obj, String name, boolean def) {
+	private static boolean getStringBoolean(JSONObject obj, String name,
+			boolean def) {
 		if (!obj.has(name)) {
 			return def;
 		}
@@ -149,12 +172,13 @@ public class JSONParserGGT {
 				return def;
 			}
 		} catch (Exception e) {
-
+			// ignore
 		}
 		return "0".equals(value) ? false : true;
 	}
 
-	public void addEvent(JSONObject object, ArrayList<SyncEvent> events) {
+	private static void addEvent(JSONObject object,
+			ArrayList<SyncEvent> events) {
 
 		SyncEvent se = new SyncEvent(getInt(object, "id", 0),
 				getLong(object, "ts", 0));
@@ -186,6 +210,34 @@ public class JSONParserGGT {
 
 	}
 
+	/**
+	 * @param events
+	 *            output array of events
+	 * @param items
+	 *            parsed sync items
+	 * @throws JSONException
+	 *             for malformed JSON
+	 */
+	public void addEvents(ArrayList<SyncEvent> events, Object items)
+			throws JSONException {
+		if (items instanceof JSONArray) {
+			for (int i = 0; i < ((JSONArray) items).length(); i++) {
+				addEvent((JSONObject) ((JSONArray) items).get(i), events);
+			}
+		} else if (items instanceof JSONObject) {
+			addEvent((JSONObject) items, events);
+		}
+
+
+	}
+
+	/**
+	 * @param response
+	 *            JSON list of materials
+	 * @param result
+	 *            output array
+	 * @return book metadata
+	 */
 	public ArrayList<Chapter> parseResponse(String response,
 			ArrayList<Material> result) {
 		Object materialsArray = null;
@@ -264,7 +316,7 @@ public class JSONParserGGT {
 				ret.add(new Chapter(title, mats));
 			}
 		} catch (Throwable t) {
-
+			// ignore
 		}
 		return ret;
 	}
@@ -276,10 +328,22 @@ public class JSONParserGGT {
 		result.add(toMaterial(((JSONObject) obj)));
 	}
 
+	/**
+	 * @param item
+	 *            material JSON string
+	 * @return parsed material
+	 */
 	public static Material parseMaterial(String item) {
 		return parseMaterial(item, false);
 	}
 
+	/**
+	 * @param item
+	 *            material JSON string
+	 * @param setLocalValues
+	 *            whether to initialize sync timestamp and local ID
+	 * @return parsed material
+	 */
 	public static Material parseMaterial(String item, boolean setLocalValues) {
 		JSONObject mat = null;
 		try {

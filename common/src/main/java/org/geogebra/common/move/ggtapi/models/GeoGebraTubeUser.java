@@ -33,6 +33,12 @@ public class GeoGebraTubeUser extends BaseModel {
 		this.token = token;
 	}
 
+	/**
+	 * @param token
+	 *            login token
+	 * @param cookie
+	 *            login cookie
+	 */
 	public GeoGebraTubeUser(String token, String cookie) {
 		this.token = token;
 		this.cookie = cookie;
