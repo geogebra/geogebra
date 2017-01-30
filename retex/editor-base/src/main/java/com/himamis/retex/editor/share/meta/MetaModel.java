@@ -66,6 +66,11 @@ public class MetaModel {
 
     public MetaModel() {
         groups.add(new CharacterGroup());
+        groups.add(new FunctionGroup());
+    }
+
+    private static MetaArray getMetaArray(MetaGroup metaGroup, String name) {
+        return (MetaArray) metaGroup.getComponent(name);
     }
 
     /**
@@ -285,10 +290,6 @@ public class MetaModel {
         isFunctionOpenKey |= getMetaArray(metaGroup, MetaArray.REGULAR).getOpenKey() == key;
         isFunctionOpenKey |= getMetaArray(metaGroup, MetaArray.SQUARE).getOpenKey() == key;
         return isFunctionOpenKey;
-    }
-
-    private static MetaArray getMetaArray(MetaGroup metaGroup, String name) {
-        return (MetaArray) metaGroup.getComponent(name);
     }
 
     public boolean isArrayCloseKey(char key) {
