@@ -181,8 +181,7 @@ public enum Commands implements CommandsConstants,
 
 	Volume(TABLE_3D),
 
-	// see Feature.POLYGON_OPS
-	Difference(TABLE_ENGLISH),
+	Difference(TABLE_GEOMETRY),
 
 	// =============================================================
 	// text

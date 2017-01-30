@@ -21,8 +21,6 @@ public enum Feature {
 
 	CONTOUR_PLOT_COMMAND,
 
-	POLYGON_OPS,
-
 	LOG_AXES,
 
 	HIT_PARAMETRIC_SURFACE,

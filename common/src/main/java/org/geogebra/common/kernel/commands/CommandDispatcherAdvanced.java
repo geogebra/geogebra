@@ -113,8 +113,7 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdUnitVector(kernel, false);
 
 		case Difference:
-			return !kernel.getApplication().has(Feature.POLYGON_OPS) ? null
-					: new CmdDifference(kernel);
+			return new CmdDifference(kernel);
 
 		case TaylorPolynomial:
 		case TaylorSeries:
