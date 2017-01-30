@@ -111,7 +111,7 @@ public class KeyboardInputAdapter {
 
             @Override
             public boolean test(String input) {
-                return input.matches("[a-zA-Z]+");
+                return Character.areLetters(input);
             }
         };
 

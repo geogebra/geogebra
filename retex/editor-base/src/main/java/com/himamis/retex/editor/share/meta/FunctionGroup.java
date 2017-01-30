@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.meta;
 
+import com.himamis.retex.editor.share.input.Character;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,7 @@ public class FunctionGroup implements MetaGroup {
 
     private boolean acceptedFunction(String functionName) {
         // Accept only functions that consist of no special characters
-        return functionName.matches("[a-zA-Z]+");
+        return Character.areLetters(functionName);
     }
 
     private MetaComponent getMathComponent(String componentName) {
