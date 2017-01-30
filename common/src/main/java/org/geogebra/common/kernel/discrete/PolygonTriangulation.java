@@ -995,7 +995,7 @@ public class PolygonTriangulation {
 		segment2.addToPoints();
 		segment2.usable = segment.usable;
 		cutAfterComparisonToRight(segment2);
-		debug(segment2.leftPoint.debugSegments());
+		// debug(segment2.leftPoint.debugSegments());
 		return segment2;
 	}
 
