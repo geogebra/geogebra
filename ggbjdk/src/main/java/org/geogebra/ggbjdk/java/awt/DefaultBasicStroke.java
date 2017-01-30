@@ -1801,8 +1801,10 @@ public class DefaultBasicStroke implements GBasicStroke {
 			System.arraycopy(p.types, 0, types, typeSize, p.typeSize);
 			pointSize += p.pointSize;
 			typeSize += p.typeSize;
-			xLast = points[pointSize - 2];
-			yLast = points[pointSize - 1];
+			if (pointSize >= 2) {
+				xLast = points[pointSize - 2];
+				yLast = points[pointSize - 1];
+			}
 		}
 
 		void appendReverse(BufferedPath p) {
@@ -1826,8 +1828,10 @@ public class DefaultBasicStroke implements GBasicStroke {
 					types[typeSize++] = type;
 				}
 			}
-			xLast = points[pointSize - 2];
-			yLast = points[pointSize - 1];
+			if (pointSize >= 2) {
+				xLast = points[pointSize - 2];
+				yLast = points[pointSize - 1];
+			}
 		}
 
 		void join(BufferedPath p) {
