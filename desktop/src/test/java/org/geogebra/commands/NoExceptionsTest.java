@@ -1489,11 +1489,7 @@ public class NoExceptionsTest {
 		t("PolyLine[ Pt1, Pt3, Pt5 ]");
 	}
 
-	@Test
-	public void cmdPolynomial() {
-		t("Polynomial[ f1 ]");
-		t("Polynomial[ ptlist1 ]");
-	}
+
 
 	@Test
 	public void cmdPrimeFactors() {
@@ -2423,10 +2419,7 @@ public class NoExceptionsTest {
 		t("MatrixRank[{{1}}]");
 	}
 
-	@Test
-	public void cmdRandomPolynomial() {
-		t("RandomPolynomial[5,-10,10]");
-	}
+
 
 	@Test
 	public void cmdLeftSide() {

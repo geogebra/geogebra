@@ -830,6 +830,22 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdPolynomial() {
+		t("Polynomial[ sin(x) ]", "?");
+		t("Polynomial[ 1*x^2-1*x+1 ]", "x^(2) - x + 1");
+		t("Polynomial[ -x*(x+1)*(x-1) ]", "(-x^(3)) + x");
+		t("Polynomial[ {(1,1),(-1,1),(0,0) } ]", "x^(2)");
+		t("Polynomial[ {(1,0),(-1,2),(0,0) } ]", "x^(2) - x");
+	}
+
+	@Test
+	public void cmdRandomPolynomial() {
+		app.setRandomSeed(42);
+		t("RandomPolynomial[5,-1,1]",
+				"x^(5) - x^(4) + x^(3) - x^(2) - x + 1");
+	}
+
+	@Test
 	public void testIndexLookup() {
 		t("aa_{1}=1", "1");
 		t("aa_{1}+1", "2");
