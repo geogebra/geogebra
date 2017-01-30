@@ -1803,7 +1803,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Function.coth": "coth",
     "Function.csc": "csc",
     "Function.csch": "cosch",
-    "Function.fractionalPart": "parteFracion\xe1ria",
+    "Function.fractionalPart": "Partefracion\xe1ria",
     "Function.freehand": "M\xe3oLivre",
     "Function.imaginary": "Imagin\xe1rio",
     "Function.nroot": "nraiz",
