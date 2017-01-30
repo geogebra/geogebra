@@ -20,7 +20,7 @@ import org.geogebra.web.web.util.SaveCallback;
  *
  */
 public abstract class FileManager extends MaterialsManager {
-	private AppW app;
+	protected AppW app;
 	private Provider provider = Provider.TUBE;
 
 
