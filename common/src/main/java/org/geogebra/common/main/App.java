@@ -2415,7 +2415,7 @@ public abstract class App implements UpdateSelection {
 						.get(0);
 				String text = geo0.getCaptionSimple();
 				if (text == null || "".equals(text)) {
-					text = geo0.getNameDescription();
+					text = geo0.getAlgebraDescriptionDefault();
 				}
 				// MOW-137 if selection originated in AV we don't want to move
 				// focus to EV
