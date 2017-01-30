@@ -8,7 +8,8 @@ import java.util.List;
 public class FunctionsAdapter extends StringInput {
 
     private static final List<String> fnList = Arrays.asList("sin", "cos", "tan", "ln", "log",
-            "sinh", "cosh", "tanh", "arcsin", "arccos", "arctan", "sen", "tg");
+            "sinh", "cosh", "tanh", "asin", "acos", "atan", "arcsin", "arccos", "arctan", "sen",
+            "arcsen", "tg", "tgh", "senh");
 
     @Override
     public void commit(MathFieldInternal mfi, String input) {
