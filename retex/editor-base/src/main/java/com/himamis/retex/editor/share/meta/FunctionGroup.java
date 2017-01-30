@@ -11,6 +11,7 @@ import java.util.Map;
 public class FunctionGroup implements MetaGroup {
 
     private Map<String, MetaComponent> components = new HashMap<String, MetaComponent>();
+    private MetaParameter[] defaultParameters = new MetaParameter[]{new MetaParameter("x", 0)};
 
     @Override
     public String getName() {
@@ -45,6 +46,6 @@ public class FunctionGroup implements MetaGroup {
     }
 
     private MetaComponent createComponent(String componentName) {
-        return new MetaFunction(componentName, componentName, componentName, '\0', null);
+        return new MetaFunction(componentName, componentName, componentName, '\0', defaultParameters);
     }
 }
