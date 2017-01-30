@@ -1,6 +1,5 @@
 package org.geogebra.web.web.main;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -28,6 +27,10 @@ import com.google.gwt.http.client.URL;
 public class GeoGebraTubeExportW extends
         org.geogebra.common.export.GeoGebraTubeExport {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GeoGebraTubeExportW(App app) {
 		super(app);
 	}
@@ -36,7 +39,6 @@ public class GeoGebraTubeExportW extends
 	 * @param base64
 	 *            material base64
 	 * @return urlencoded POST fields
-	 * @throws IOException
 	 */
 	protected StringBuffer getPostData(String base64) {
 		Construction cons = app.getKernel().getConstruction();
@@ -67,11 +69,19 @@ public class GeoGebraTubeExportW extends
 		return stringBuffer;
 	}
 
-	protected void doUploadWorksheet(RequestBuilder rb, String postData,
+	/**
+	 * @param rb
+	 *            request builder
+	 * @param postData0
+	 *            worksheet metadata
+	 * @param pba
+	 *            helper to keep popup alive
+	 */
+	protected void doUploadWorksheet(RequestBuilder rb, String postData0,
 			final PopupBlockAvoider pba) {
 		// encode '+'
 		// for some reason encode(postData) doesn't work
-		postData = postData.replace("+", "%2B");
+		String postData = postData0.replace("+", "%2B");
 
 		try {
 			rb.sendRequest(postData, new RequestCallback() {
@@ -134,6 +144,12 @@ public class GeoGebraTubeExportW extends
 		}
 	}
 
+	/**
+	 * @param base64
+	 *            base64
+	 * @param pba
+	 *            helper to keep popup alive
+	 */
 	public void uploadWorksheetSimple(String base64, PopupBlockAvoider pba) {
 		this.macros = null;
 
@@ -163,6 +179,11 @@ public class GeoGebraTubeExportW extends
 
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
+	 * 
+	 * @param macrosIn
+	 *            macros
+	 * @param pba
+	 *            helper to keep popup alive
 	 */
 	public void uploadWorksheet(ArrayList<Macro> macrosIn, PopupBlockAvoider pba) {
 

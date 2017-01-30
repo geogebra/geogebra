@@ -18,6 +18,10 @@ public interface GDevice {
 	 */
 	public FileManager createFileManager(AppW app);
 
+	/**
+	 * @param frame
+	 *            app frame
+	 */
 	public void setMinWidth(GeoGebraAppFrame frame);
 
 	/**
@@ -41,6 +45,13 @@ public interface GDevice {
 	 */
 	public BrowseViewI createBrowseView(AppW app);
 
+	/**
+	 * TODO make this browser-dependent, not GDevice dependent
+	 * 
+	 * @param app
+	 *            application
+	 * @return construction protocol
+	 */
 	public ConstructionProtocolView getConstructionProtocolView(AppW app);
 
 	/**

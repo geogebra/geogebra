@@ -168,12 +168,12 @@ public abstract class GeoGebraTubeExport {
 	protected abstract void setEnabled(boolean b);
 
 	/**
-	 * @param app
+	 * @param app0
 	 *            determines whether we need TUBE_BETA flag
 	 * @return base upload URL for GeoGebraTube
 	 */
-	protected String getUploadURL(App app) {
-		if (app.has(Feature.TUBE_BETA)) {
+	public String getUploadURL(App app0) {
+		if (app0.has(Feature.TUBE_BETA)) {
 			return GeoGebraConstants.uploadURLBeta;
 		}
 
