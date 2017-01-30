@@ -2,6 +2,7 @@ package org.geogebra.web.touch;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -788,7 +789,7 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(AppW app) {
+	public void saveLoggedOut(App app) {
 		((DialogManagerW) app.getDialogManager()).showSaveDialog();
 	}
 
@@ -1061,8 +1062,8 @@ public class FileManagerT extends FileManager {
 	}
 	
 	@Override
-	public void export(final AppW app) {
-		app.getGgbApi().getBase64(true, new StringHandler() {
+	public void export(final App app) {
+		((AppW) app).getGgbApi().getBase64(true, new StringHandler() {
 
 			@Override
 			public void handle(String s) {
@@ -1080,7 +1081,8 @@ public class FileManagerT extends FileManager {
 	}-*/;
 
 	@Override
-	public void showExportAsPictureDialog(String url, String filename, AppW app) {
+	public void showExportAsPictureDialog(String url, String filename,
+			App app) {
 		exportImage(url, filename);
 		// TODO check if it really happened
 		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));

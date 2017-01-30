@@ -2,6 +2,7 @@ package org.geogebra.web.touch;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -48,7 +49,7 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(AppW app) {
+	public void saveLoggedOut(App app) {
 		((DialogManagerW) app.getDialogManager()).showSaveDialog();
 	}
 
@@ -283,7 +284,7 @@ public class WinFileManager extends FileManager {
 	}-*/;
 	
 	@Override
-	public void export(final AppW app) {
+	public void export(final App app) {
 		final String title1 = app.getExportTitle();
 		app.getGgbApi().showTooltip(app.getLocalization().getMenu("Saving"));
 		final StringHandler onFileDialogCancel = new StringHandler() {
@@ -305,7 +306,7 @@ public class WinFileManager extends FileManager {
 			}
 		};
 
-		app.getGgbApi().getBase64(true, new StringHandler(){
+		((AppW) app).getGgbApi().getBase64(true, new StringHandler() {
 
 			@Override
 			public void handle(final String data) {
@@ -359,7 +360,8 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void showExportAsPictureDialog(String url, String filename, AppW app) {
+	public void showExportAsPictureDialog(String url, String filename,
+			App app) {
 		exportImage(url, filename);
 		// TODO check if it really happened
 		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -35,7 +36,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
@@ -519,7 +519,7 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
-	public final FileManagerI getFileManager() {
+	public final MaterialsManagerI getFileManager() {
 		if (this.fm == null) {
 			this.fm = getDevice().createFileManager(this);
 		}

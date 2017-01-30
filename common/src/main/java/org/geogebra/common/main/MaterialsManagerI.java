@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.common.main;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
-public interface FileManagerI {
+public interface MaterialsManagerI {
 
 	void openMaterial(Material material);
 
@@ -32,9 +32,9 @@ public interface FileManagerI {
 
 	public void deleteAutoSavedFile();
 
-	boolean save(AppW app);
+	boolean save(App app);
 
-	void saveLoggedOut(AppW app);
+	void saveLoggedOut(App app);
 
 	boolean shouldKeep(int i);
 
@@ -42,7 +42,7 @@ public interface FileManagerI {
 
 	boolean isSyncing();
 
-	void export(AppW app);
+	void export(App app);
 
 	void exportImage(String url, String string);
 
@@ -50,7 +50,7 @@ public interface FileManagerI {
 
 	void nativeShare(String s, String string);
 
-	void showExportAsPictureDialog(String url, String filename, AppW app);
+	void showExportAsPictureDialog(String url, String filename, App app);
 
 	void refreshAutosaveTimestamp();
 }

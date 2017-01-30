@@ -7,6 +7,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
@@ -14,7 +15,6 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
@@ -371,7 +371,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			@Override
 			public void handle(String s) {
 				String title = app.getKernel().getConstruction().getTitle();
-				FileManagerI fm = app.getFileManager();
+				MaterialsManagerI fm = app.getFileManager();
 				fm.nativeShare(s, "".equals(title) ? "construction" : title);
 			}
 		};

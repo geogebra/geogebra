@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -16,7 +18,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -28,7 +29,7 @@ import org.geogebra.web.web.util.SaveCallback;
  * Manager for local file saving
  *
  */
-public abstract class FileManager implements FileManagerI {
+public abstract class FileManager implements MaterialsManagerI {
 	private AppW app;
 	private Provider provider = Provider.TUBE;
 	/** prefix for autosave items in storage */
@@ -295,7 +296,8 @@ public abstract class FileManager implements FileManagerI {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 		        app.getLocalization().getPlain("SeveralVersionsOfA",
 						mat.getTitle()), true, app);
-		Log.debug("SYNC fork: " + mat.getId());
+		Log.debug("SYNC fork: " + mat.getId() + "," + mat.getSyncStamp() + ","
+				+ mat.getTimestamp());
 		final String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
 		        + Unicode.LeftToRightMark
 		        + "\\F"
@@ -549,7 +551,8 @@ public abstract class FileManager implements FileManagerI {
 	}
 
 	@Override
-	public final boolean save(AppW appw) {
+	public final boolean save(App app1) {
+		AppW appw = (AppW) app1;
 		if (this.provider == Provider.LOCAL) {
 			((DialogManagerW) appw.getDialogManager()).showSaveDialog();
 		}

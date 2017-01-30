@@ -3,6 +3,7 @@ package org.geogebra.web.web.main;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
@@ -258,13 +259,13 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(AppW app) {
-		app.getGuiManager().exportGGB();
+	public void saveLoggedOut(App app) {
+		((AppW) app).getGuiManager().exportGGB();
 	}
 	
 	@Override
-	public void export(AppW app) {
-		app.getGuiManager().exportGGB();
+	public void export(App app) {
+		((AppW) app).getGuiManager().exportGGB();
 	}
 
 	@Override
@@ -302,9 +303,9 @@ public class FileManagerW extends FileManager {
 	
 	@Override
 	public void showExportAsPictureDialog(final String url, String filename,
-			final AppW app) {
+			final App app) {
 		Localization loc = getApp().getLocalization();
-		app.getGuiManager()
+		((AppW) app).getGuiManager()
 				.getOptionPane()
 				.showSaveDialog(getApp(), loc.getMenu("ExportAsPicture"),
 						filename + ".png", null,

@@ -2124,4 +2124,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.copyTextToSystemClipboard(text);
 	}
 
+	public void showTooltip(String menu) {
+		// TODO Auto-generated method stub
+	}
+
 }

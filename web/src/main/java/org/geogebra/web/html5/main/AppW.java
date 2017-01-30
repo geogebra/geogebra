@@ -54,6 +54,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -177,7 +178,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
 
-	protected FileManagerI fm;
+	protected MaterialsManagerI fm;
 	private Material activeMaterial;
 
 	protected final ArticleElement articleElement;
@@ -2692,9 +2693,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	/**
 	 * Overwritten for applets, full app and for touch
 	 * 
-	 * @return {@link FileManagerI}
+	 * @return {@link MaterialsManagerI}
 	 */
-	public FileManagerI getFileManager() {
+	public MaterialsManagerI getFileManager() {
 		return null;
 	}
 
