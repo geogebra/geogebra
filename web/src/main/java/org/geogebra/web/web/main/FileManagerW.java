@@ -73,12 +73,21 @@ public class FileManagerW extends FileManager {
 		}
 		String key = createKeyString(id, getApp().getKernel().getConstruction()
 		        .getTitle());
+		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
 			stockStore.setItem(key, mat.toJson().toString());
 			cb.onSaved(mat, true);
 		} catch (Exception e) {
 			cb.onError();
+		}
+
+	}
+
+	private void updateViewerId(Material mat) {
+		if (app.getLoginOperation() != null
+				&& app.getLoginOperation().getModel() != null) {
+			mat.setViewerID(app.getLoginOperation().getModel().getUserId());
 		}
 
 	}
@@ -117,7 +126,8 @@ public class FileManagerW extends FileManager {
 					mat = new Material(0, MaterialType.ggb);
 					mat.setTitle(getTitleFromKey(key));
 				}
-				if (filter.check(mat)) {
+				if (filter.check(mat)
+						&& app.getLoginOperation().mayView(mat)) {
 					addMaterial(mat);
 				}
 			}
@@ -279,7 +289,12 @@ public class FileManagerW extends FileManager {
 				.parseMaterial(this.stockStore
 		        .getItem(localID));
 		mat.setBase64(oldMat.getBase64());
-		this.stockStore.setItem(localID, mat.toJson().toString());
+		updateViewerId(mat);
+		try {
+			this.stockStore.setItem(localID, mat.toJson().toString());
+		} catch (Exception e) {
+			Log.warn("setting tube ID failed");
+		}
 		this.offlineIDs.add(mat.getId());
 
 	}
