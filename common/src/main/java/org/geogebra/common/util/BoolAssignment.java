@@ -107,6 +107,9 @@ public class BoolAssignment extends Assignment {
 
 	@Override
 	public String getAssignmentXML() {
+		if (getGeoBoolean() == null) {
+			return "";
+		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t<assignment booleanName=\"");
 		StringUtil.encodeXML(sb, getGeoBoolean().getLabelSimple());
@@ -117,6 +120,9 @@ public class BoolAssignment extends Assignment {
 		return sb.toString();
 	}
 
+	/**
+	 * @return update reference to Boolean geo
+	 */
 	public boolean update() {
 		GeoElement geo = kernel.lookupLabel(geoBoolean.getLabelSimple());
 		if (geo == null) {

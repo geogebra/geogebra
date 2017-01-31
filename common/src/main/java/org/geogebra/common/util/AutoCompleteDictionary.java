@@ -17,6 +17,9 @@ public interface AutoCompleteDictionary {
 	 */
 	public void addEntry(String s);
 
+	/**
+	 * @return word iterator
+	 */
 	public Iterator<String> getIterator();
 
 	/**
@@ -56,7 +59,15 @@ public interface AutoCompleteDictionary {
 	 */
 	public List<String> getCompletions(String s);
 
+	/**
+	 * @param cmdPrefix
+	 *            prefix
+	 * @return completions
+	 */
 	public List<String> getCompletionsKorean(String cmdPrefix);
 
+	/**
+	 * @return number of completions
+	 */
 	public int size();
 }

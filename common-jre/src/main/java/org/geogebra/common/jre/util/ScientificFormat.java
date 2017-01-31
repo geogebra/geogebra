@@ -7,7 +7,6 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.geogebra.common.util.DoubleWithError;
 import org.geogebra.common.util.ScientificFormatAdapter;
 
 /**
@@ -64,30 +63,9 @@ public class ScientificFormat extends Format
 		if (obj instanceof Number) {
 			String result = format(((Number) obj).doubleValue());
 			return toAppendTo.append(result);
-		} else if (obj instanceof DoubleWithError) {
-			DoubleWithError dwe = (DoubleWithError) obj;
-			toAppendTo.append(format(dwe.getValue()));
-			if (dwe.hasAsymmetricError()) {
-				toAppendTo.append(DoubleWithError.plus);
-				int errorSigDigit = resolveErrorSigDigit(dwe.getValue(),
-						dwe.getPlusError());
-				toAppendTo.append(format(dwe.getPlusError(), errorSigDigit));
-
-				toAppendTo.append(DoubleWithError.minus);
-				errorSigDigit = resolveErrorSigDigit(dwe.getValue(),
-						dwe.getMinError());
-				toAppendTo.append(format(dwe.getMinError(), errorSigDigit));
-			} else {
-				toAppendTo.append(DoubleWithError.plusorminus);
-				int errorSigDigit = resolveErrorSigDigit(dwe.getValue(),
-						dwe.getError());
-				toAppendTo.append(format(dwe.getError(), errorSigDigit));
-			}
-			return toAppendTo;
-		} else {
-			throw new IllegalArgumentException(
-					"Cannot format given Object as a Number");
 		}
+		throw new IllegalArgumentException(
+				"Cannot format given Object as a Number");
 	}
 
 	/**
