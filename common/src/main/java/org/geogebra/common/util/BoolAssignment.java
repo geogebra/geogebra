@@ -124,7 +124,9 @@ public class BoolAssignment extends Assignment {
 	 * @return update reference to Boolean geo
 	 */
 	public boolean update() {
-		GeoElement geo = kernel.lookupLabel(geoBoolean.getLabelSimple());
+		String initLabel = geoBoolean == null ? geoBooleanLabel
+				: geoBoolean.getLabelSimple();
+		GeoElement geo = kernel.lookupLabel(initLabel);
 		if (geo == null) {
 			geo = kernel.lookupLabel(geoBoolean.getOldLabel());
 			if (geo == null) {
