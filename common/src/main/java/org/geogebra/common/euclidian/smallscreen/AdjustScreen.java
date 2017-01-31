@@ -36,9 +36,8 @@ public class AdjustScreen {
 	private boolean enabled;
 	private List<GeoNumeric> hSliders = new ArrayList<GeoNumeric>();
 	private List<GeoNumeric> vSliders = new ArrayList<GeoNumeric>();
-	private List<GeoButton> buttons = new ArrayList<GeoButton>();
 	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
-
+	private LayoutButtons layoutButtons;
 	private static class HSliderComparator implements Comparator<GeoNumeric> {
 		public HSliderComparator() {
 			// TODO Auto-generated constructor stub
@@ -96,6 +95,7 @@ public class AdjustScreen {
 		app = view.getApplication();
 		kernel = app.getKernel();
 		enabled = true;// needsAdjusting();
+		layoutButtons = new LayoutButtons(view);
 	}
 
 	/**
@@ -109,93 +109,16 @@ public class AdjustScreen {
 		collectWidgets();
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
-		adjustButtons();
+		layoutButtons.apply();
 		// checkOvelappingInputs();
 		view.repaintView();
 	}
 
-	void d(String msg) {
-		Log.debug("[lacBtn] " + msg);
-	}
-	private void adjustButtons() {
-		d("adjustButtons");
-		Collections.sort(buttons, new ButtonComparator());
-		int maxHeight = 0;
-		int idx = 0;
-		List<GeoButton> fixed = new ArrayList<GeoButton>();
-		List<GeoButton> moveable = new ArrayList<GeoButton>();
-
-		boolean multiCol = false;
-		while (!multiCol && idx < buttons.size()) {
-			GeoButton btn = buttons.get(idx);
-			maxHeight += btn.getHeight() + BUTTON_Y_GAP;
-			multiCol = view.getHeight() < maxHeight;
-			if (AdjustButton.isVerticallyOnScreen(btn, view)) {
-				fixed.add(btn);
-			} else {
-				moveable.add(btn);
-			}
-			idx++;
-		}
-
-		d("fixed: " + fixed.size() + " movable: " + moveable.size());
-		if (moveable.isEmpty()) {
-			// All buttons is on screen, nothing to do.
-			return;
-		}
-
-		if (multiCol) {
-			createMultiColumnButtons();
-			return;
-		}
-
-		GeoButton lastButton = buttons.get(buttons.size() - 1);
-
-		while (!AdjustButton.isVerticallyOnScreen(lastButton, view)) {
-			int lastFixedIdx = fixed.size() - 1;
-			GeoButton lastFixed = lastFixedIdx > 0 ? fixed.get(lastFixedIdx): null;
-			GeoButton last2ndFixed = fixed.size() > 1
-					? fixed.get(lastFixedIdx - 1)
-					:null;
-			int lastFixedY = lastFixed.getAbsoluteScreenLocY();
-			int h = lastFixed.getHeight() + BUTTON_Y_GAP;
-			int y = lastFixedY + h;
-			for (GeoButton btn : moveable) {
-				btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(), y);
-				int dy = btn.getHeight() + BUTTON_Y_GAP;
-				y += dy;
-				h += dy;
-			}
-			
-			int ySpace = last2ndFixed == null
-					? view.getHeight() - lastFixedY
-					: lastFixedY - last2ndFixed.getAbsoluteScreenLocY();
-
-			fixed.remove(lastFixedIdx);
-			moveable.add(lastFixed);
-
-			if (h < ySpace) {
-				for (GeoButton btn : moveable) {
-					btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(),
-							btn.getAbsoluteScreenLocY() - h);
-				}
-			} else {
-				fixed.remove(lastFixedIdx - 1);
-				moveable.add(0, last2ndFixed);
-			}
-
-		}
-	}
-
-	private void createMultiColumnButtons() {
-		// TODO Auto-generated method stub
-
-	}
 
 	private void collectWidgets() {
 		hSliders.clear();
 		vSliders.clear();
-		buttons.clear();
+		layoutButtons.clear();
 		inputBoxes.clear();
 
 		Log.debug("[AS] collectWidgets()");
@@ -219,8 +142,7 @@ public class AdjustScreen {
 					ensure = true;
 				} else {
 					GeoButton btn = (GeoButton) geo;
-					Log.debug("[AS] collecting buttons: " + buttonDetails(btn));
-					buttons.add(btn);
+					layoutButtons.add(btn);
 					ensure = false;
 				}
 			}
@@ -308,86 +230,6 @@ public class AdjustScreen {
 			}
 		}
 	}
-
-	private void debugButtons() {
-		for (int idx = 0; idx < buttons.size(); idx++) {
-			GeoButton btn = buttons.get(idx);
-			Log.debug("[AS] " + idx + ". " + buttonDetails(btn));
-
-		}
-
-	}
-
-	private String buttonDetails(GeoButton btn) {
-		return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
-				+ btn.getAbsoluteScreenLocY() + ")";
-	}
-
-	private void checkOvelappingButtons() {
-		// No buttons at all.
-		if (buttons.size() < 1) {
-			return;
-		}
-
-		Log.debug("[AS] Buttons before sort:");
-		debugButtons();
-		Collections.sort(buttons, new ButtonComparator());
-		Log.debug("[AS] ----------------------------");
-		Log.debug("[AS] Buttons after sort:");
-		debugButtons();
-
-		int idx = 0;
-		GeoButton lastButton = null;
-		GeoButton lastVisibleButton = null;
-
-		while (idx < buttons.size() && lastVisibleButton == null) {
-			GeoButton btn = buttons.get(idx);
-			if (!AdjustButton.isVerticallyOnScreen(btn, view)) {
-				lastVisibleButton = lastButton;
-			}
-			// gaps can be stored here
-			lastButton = btn;
-			idx++;
-		}
-
-		if (lastVisibleButton == null) {
-			// We are done. No buttons off-screen.
-			return;
-		}
-
-		int firstOffscreenIdx = idx - 1;
-		int lastVisibleIdx = firstOffscreenIdx - 1;
-
-		Log.debug(
-				"[AS] lastVisibleButton (" + (firstOffscreenIdx - 1) + "): "
-						+ buttonDetails(lastVisibleButton));
-
-		int lastVisibleY = lastVisibleButton.getAbsoluteScreenLocY()
-				+ lastVisibleButton.getHeight() + BUTTON_Y_GAP;
-		int y = lastVisibleY;
-		for (int i = firstOffscreenIdx; i < buttons.size(); i++) {
-			GeoButton btn = buttons.get(i);
-			int x = btn.getAbsoluteScreenLocX();
-			Log.debug("[AS] " + i + ". " + buttonDetails(btn)
-					+ " OFFSCREEN -> (" + x + ", " + y + ")");
-			btn.setAbsoluteScreenLoc(x, y);
-			y += btn.getHeight() + BUTTON_Y_GAP;
-		}
-
-		int dY = y - lastVisibleY;
-		Log.debug("[AS] dY: " + dY);
-
-		for (int i = lastVisibleIdx; i < buttons.size(); i++) {
-			GeoButton btn = buttons.get(i);
-			int x1 = btn.getAbsoluteScreenLocX();
-			int y1 = btn.getAbsoluteScreenLocY() - dY;
-			Log.debug("[AS] " + i + ". " + buttonDetails(btn)
-					+ " PUSH UP");
-			btn.setAbsoluteScreenLoc(x1, y1);
-
-		}
-	}
- 
  	private boolean isButtonsOverlap(GeoButton btn1, GeoButton btn2) {
  	GRectangle rect1 = AwtFactory.getPrototype().newRectangle(btn1.getAbsoluteScreenLocX(),
 					btn1.getAbsoluteScreenLocY(),

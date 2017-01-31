@@ -79,6 +79,13 @@ public class LayoutButtons {
 	public void apply() {
 		sort();
 		divide();
+		// Log.debug("[LayoutButtons] after divide:");
+		// Log.debug("[LayoutButtons] fixeds");
+		// debugButtons(fixed);
+		//
+		// Log.debug("[LayoutButtons] moveables");
+		// debugButtons(moveable);
+		// Log.debug("[LayoutButtons] --------------------------");
 
 		if (moveable.isEmpty()) {
 			// All buttons is on screen, nothing to do.
@@ -90,12 +97,20 @@ public class LayoutButtons {
 			return;
 		}
 
+		int y = view.getHeight();
+
+		// for (GeoButton btn : moveable) {
+		// btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX() - 100, y);
+		// y += btn.getHeight() + Y_GAP;
+		// }
+
 		GeoButton lastFixed = getLastFixed();
 		int ySpace = view.getHeight() - (lastFixed == null ? Y_GAP
 				: lastFixed.getAbsoluteScreenLocY() + lastFixed.getHeight()
 						+ Y_GAP);
 
 		int h = getHeights(moveable);
+
 		while (ySpace < h && lastFixed != null) {
 			moveable.add(0, lastFixed);
 			fixed.remove(fixed.size() - 1);
@@ -104,6 +119,20 @@ public class LayoutButtons {
 			ySpace = view.getHeight() - (lastFixed == null ? Y_GAP
 					: lastFixed.getAbsoluteScreenLocY() + lastFixed.getHeight()
 							+ Y_GAP);
+		}
+
+		// Log.debug("[LayoutButtons] after apply:");
+		// Log.debug("[LayoutButtons] fixeds");
+		// debugButtons(fixed);
+		//
+		// Log.debug("[LayoutButtons] moveables");
+		// debugButtons(moveable);
+		// Log.debug("[LayoutButtons] ==========================");
+
+		y = view.getHeight() - getHeights(moveable);
+		for (GeoButton btn : moveable) {
+			btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(), y);
+			y += btn.getHeight() + Y_GAP;
 		}
 	}
 
