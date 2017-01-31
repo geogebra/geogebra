@@ -668,15 +668,6 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		addDummyDiv();
-		// this.g2p.getCanvas().getElement().setAttribute("role", "status");
-		// this.g2p.getCanvas().getElement().setAttribute("aria-live",
-		// "polite");
-		// this.g2p.getCanvas().getElement().setAttribute("aria-atomic",
-		// "true");
-		// this.g2p.getCanvas().getElement().setAttribute("aria-relevant",
-		// "text");
-
-
 	}
 
 	/**
@@ -1260,7 +1251,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		dummyDiv.getElement().getStyle().setTop(-1000.0, Unit.PX);
 		dummyDiv.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		// dummyDiv.getElement().setId("dummyDiv");
 	}
 
 	boolean temp = true;
@@ -1268,29 +1258,9 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void readText(final String text) {
 		Log.debug("read text: " + text);
-		// String oldAltText = g2p.getAltText();
-		// g2p.setAltText(text);
 		dummyDiv.getElement().setInnerText(text);
-		
-		//if (temp) {
-		//	g2p.setAltText("this is a text for test");
-		//} else {
-		//	g2p.setAltText("another text");
-		//}
-		//temp = !temp;
-
-
-		// RootPanel.getBodyElement().focus();
-		// printFocusedElement();
-		// DOM.getElementById("ggbPage").focus();
 		dummyDiv.getElement().focus();
-		// printFocusedElement();
-		// g2p.getCanvas().getCanvasElement().blur();
-		// printFocusedElement();
 		g2p.getCanvas().getCanvasElement().focus();
-		// printFocusedElement();
-
-		// g2p.setAltText(oldAltText);
 	}
 
 	public static native void printFocusedElement()/*-{
