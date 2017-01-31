@@ -687,9 +687,7 @@ public class OptionsTab extends FlowPanel {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					if (true) {// !slider.getValueIsAdjusting()) {
-						model.applyChanges(slider.getValue());
-					}
+					model.applyChanges(slider.getValue());
 				}
 			});
 		}
@@ -805,9 +803,7 @@ public class OptionsTab extends FlowPanel {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					if (true) {// !slider.getValueIsAdjusting()) {
-						model.applyThickness(thicknessSlider.getValue());
-					}
+					model.applyThickness(thicknessSlider.getValue());
 				}
 			});
 			opacitySliderLabel = new Label();

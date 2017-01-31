@@ -119,38 +119,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 
 		scrollPane.setStyleName("cpScrollPanel");
-		if (true) {
-			headerTable = new CellTable<RowData>();
-			headerTable.addStyleName("headerTable");
-			headerTable.addStyleName("cpTable");
-
-			holderPanel = new ScrollPanel();
-			final FlowPanel innerHolderPanel = new FlowPanel();
-			innerHolderPanel.add(headerTable);
-			holderPanel.add(innerHolderPanel);
-			holderPanel.addStyleName("cpHeaderHolderPanel");
-
-			cpPanel.add(holderPanel);
-
-			outerScrollPanel = new MyPanel(); // used for horizontal
-														// scrolling
-			outerScrollPanel.addStyleName("outerScrollPanel");
-			outerScrollPanel.add(cpPanel);
-			table.addStyleName("hiddenheader");
-
-			scrollPane.addScrollHandler(new ScrollHandler() {
-				@Override
-				public void onScroll(ScrollEvent event) {
-					int scrollPosition = scrollPane.getHorizontalScrollPosition();
-					if (innerHolderPanel.getOffsetWidth() < scrollPane
-							.getOffsetWidth() + scrollPosition) {
-						innerHolderPanel.setWidth((scrollPane.getOffsetWidth() + scrollPosition)
-								+ "px");
-					}
-					holderPanel.setHorizontalScrollPosition(scrollPosition);
-				}
-			});
-		}
+		addHeader();
 		cpPanel.add(scrollPane);
 		cpPanel.addStyleName("cpPanel");
 		
@@ -166,6 +135,42 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		initGUI();
 	}
 	
+	private void addHeader() {
+		headerTable = new CellTable<RowData>();
+		headerTable.addStyleName("headerTable");
+		headerTable.addStyleName("cpTable");
+
+		holderPanel = new ScrollPanel();
+		final FlowPanel innerHolderPanel = new FlowPanel();
+		innerHolderPanel.add(headerTable);
+		holderPanel.add(innerHolderPanel);
+		holderPanel.addStyleName("cpHeaderHolderPanel");
+
+		cpPanel.add(holderPanel);
+
+		outerScrollPanel = new MyPanel(); // used for horizontal
+											// scrolling
+		outerScrollPanel.addStyleName("outerScrollPanel");
+		outerScrollPanel.add(cpPanel);
+		table.addStyleName("hiddenheader");
+
+		scrollPane.addScrollHandler(new ScrollHandler() {
+			@Override
+			public void onScroll(ScrollEvent event) {
+				int scrollPosition = scrollPane.getHorizontalScrollPosition();
+				if (innerHolderPanel
+						.getOffsetWidth() < scrollPane.getOffsetWidth()
+								+ scrollPosition) {
+					innerHolderPanel.setWidth(
+							(scrollPane.getOffsetWidth() + scrollPosition)
+									+ "px");
+				}
+				holderPanel.setHorizontalScrollPosition(scrollPosition);
+			}
+		});
+
+	}
+
 	void initGUI() {
 
 		clearTable(headerTable);

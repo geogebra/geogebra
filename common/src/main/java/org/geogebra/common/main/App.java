@@ -1776,9 +1776,7 @@ public abstract class App implements UpdateSelection {
 
 		if (getGuiManager() != null) {
 			// save spreadsheetView settings
-			if (true) {// getGuiManager().hasSpreadsheetView()) {
-				getGuiManager().getSpreadsheetViewXML(sb, asPreference);
-			}
+			getGuiManager().getSpreadsheetViewXML(sb, asPreference);
 
 			// save ProbabilityCalculator settings
 			if (getGuiManager().hasProbabilityCalculator()) {

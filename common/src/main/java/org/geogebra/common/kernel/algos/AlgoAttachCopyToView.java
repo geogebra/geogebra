@@ -174,9 +174,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
 		}
-		if (inGeo.isGeoFunction()) {
-			// skip this
-		} else {
+		if (!inGeo.isGeoFunction()) {
 			outGeo.set(inGeo);
 		}
 
@@ -255,6 +253,10 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	}
 
+	/**
+	 * @param viewID2
+	 *            new EV ID (1 or 2)
+	 */
 	public void setEV(int viewID2) {
 		input[1].removeAlgorithm(this);
 		viewID = new GeoNumeric(cons, viewID2);

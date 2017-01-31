@@ -2769,18 +2769,9 @@ public abstract class GeoElement extends ConstructionElement
 			return null;
 		}
 
-		String retval = "";
+		final String body = toValueString(tpl);
+		return getAssignmentLHS(tpl) + " := " + body;
 
-		try {
-
-			final String body = toValueString(tpl);
-			retval = getAssignmentLHS(tpl) + " := " + body;
-
-		} finally {
-			// do nothing
-		}
-
-		return retval;
 	}
 
 	/**

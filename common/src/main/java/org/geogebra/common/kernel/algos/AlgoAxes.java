@@ -31,10 +31,26 @@ public class AlgoAxes extends AlgoAxesQuadricND {
 
 	private GeoPoint P;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 */
 	AlgoAxes(Construction cons, String label, GeoConic c) {
 		super(cons, label, c);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param c
+	 *            conic
+	 */
 	public AlgoAxes(Construction cons, String[] labels, GeoConic c) {
 		super(cons, labels, c);
 	}
