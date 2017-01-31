@@ -4165,7 +4165,6 @@ class GraphicsViewLocationPanel extends JPanel
 	private JCheckBox cbGraphicsView, cbGraphicsView2, cbGraphicsView3D,
 			cbGraphicsViewForPlane;
 
-	private Kernel kernel;
 	private AppD app;
 
 	private LocalizationD loc;
@@ -4179,7 +4178,6 @@ class GraphicsViewLocationPanel extends JPanel
 	public GraphicsViewLocationPanel(AppD app, PropertiesPanelD propPanel) {
 		this.app = app;
 		this.loc = app.getLocalization();
-		kernel = app.getKernel();
 		model = new ViewLocationModel(app, this);
 
 		cbGraphicsView = new JCheckBox();

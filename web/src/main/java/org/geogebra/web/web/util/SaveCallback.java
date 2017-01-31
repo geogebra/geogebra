@@ -19,7 +19,7 @@ public class SaveCallback {
 
 	public enum SaveState {
 		OK, FORKED, ERROR
-	};
+	}
 
 	/**
 	 * @param app
@@ -38,9 +38,16 @@ public class SaveCallback {
 		Localization loc = app.getLocalization();
 		if (!isMacro) {
 			app.setSaved();
+			String msg = state == SaveState.ERROR
+					? (app.getLocalization().getError("SaveAccountFailed")
+							+ "<br/>"
+							+ app.getLocalization()
+									.getError("SavedLocalCopySuccessfully"))
+					: loc.getMenu("SavedSuccessfully");
 			if (app.getActiveMaterial() != null
-					&& !app.getActiveMaterial().getVisibility().equals("P")) {
-				String msg = loc.getMenu("SavedSuccessfully");
+					&& !app.getActiveMaterial().getVisibility().equals("P")
+					&& state != SaveState.ERROR) {
+
 				if (state == SaveState.FORKED) {
 					msg += "<br/>";
 					msg += loc.getPlain("SeveralVersionsOf",
@@ -55,7 +62,7 @@ public class SaveCallback {
 						app.getAppletFrame().isKeyboardShowing());
 			} else {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						loc.getMenu("SavedSuccessfully"), true, app);
+						msg, true, app);
 			}
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(
@@ -90,7 +97,9 @@ public class SaveCallback {
 	public void onError() {
 		if (state == SaveState.OK) {
 			app.getGgbApi().showTooltip(
-					app.getLocalization().getError("SaveLocalFileFailed"));
+					app.getLocalization().getError("SavedToAccountSuccessfully")
+							+ "<br/>" +
+					app.getLocalization().getError("SaveLocalCopyFailed"));
 		} else {
 			app.showError(app.getLocalization().getError("SaveFileFailed"));
 		}

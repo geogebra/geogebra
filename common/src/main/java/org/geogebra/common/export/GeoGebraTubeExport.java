@@ -45,11 +45,6 @@ public abstract class GeoGebraTubeExport {
 	protected abstract void pack();
 
 	/**
-	 * Hides progress dialog.
-	 */
-	public abstract void hideDialog();
-
-	/**
 	 * returns a base64 encoded .ggb file
 	 * 
 	 * @throws IOException
@@ -65,11 +60,6 @@ public abstract class GeoGebraTubeExport {
 	 */
 	protected abstract String getBase64Tools(ArrayList<Macro> macros)
 			throws IOException;
-
-	/**
-	 * Shows a small dialog with a progress bar.
-	 */
-	protected abstract void showDialog();
 
 	/**
 	 * Storage container for uploading results.

@@ -271,7 +271,6 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	/**
 	 * Shows a small dialog with a progress bar.
 	 */
-	@Override
 	protected void showDialog() {
 		// initialize components
 		progressBar = new JProgressBar();
@@ -317,7 +316,6 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	/**
 	 * Hides progress dialog.
 	 */
-	@Override
 	public void hideDialog() {
 		progressDialog.setVisible(false);
 	}

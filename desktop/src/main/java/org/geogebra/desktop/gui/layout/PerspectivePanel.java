@@ -7,14 +7,12 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
-import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.desktop.gui.dialog.LanguageDialog;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -36,9 +34,8 @@ public class PerspectivePanel extends JPopupMenu {
 	protected LayoutD layout;
 
 	private DockBar dockBar;
-	private JButton btnLanguage;
 
-	private AbstractAction setLanguageAction, changePerspectiveAction;
+	private AbstractAction changePerspectiveAction;
 
 	/****************************************************
 	 * Constructs a PerspectivePanel
@@ -167,19 +164,6 @@ public class PerspectivePanel extends JPopupMenu {
 	 */
 	private void initActions() {
 
-		final String flagName = app.getFlagName();
-
-		setLanguageAction = new AbstractAction(null,
-				app.getScaledFlagIcon(flagName)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LanguageDialog d = new LanguageDialog(app);
-				d.setVisible(true);
-
-			}
-		};
 
 		changePerspectiveAction = new AbstractAction() {
 

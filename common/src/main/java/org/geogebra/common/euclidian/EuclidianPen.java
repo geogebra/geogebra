@@ -417,7 +417,6 @@ public class EuclidianPen implements GTimerListener {
 		// if (g2D == null) g2D = penImage.createGraphics();
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		GGraphics2D g2D = view.getGraphicsForPen();
 
 		if (minX > e.getX()) {
 			minX = e.getX();

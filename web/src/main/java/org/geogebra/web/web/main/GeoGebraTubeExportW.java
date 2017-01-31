@@ -116,7 +116,6 @@ public class GeoGebraTubeExportW extends
 							pba.openURL(
 									getUploadURL(app) + "/"
 									+ results.getUID());
-							hideDialog();
 						}
 					} else { // not Response.SC_OK
 						Log.debug("Upload failed. Response: #"
@@ -153,8 +152,6 @@ public class GeoGebraTubeExportW extends
 	public void uploadWorksheetSimple(String base64, PopupBlockAvoider pba) {
 		this.macros = null;
 
-		showDialog();
-
 		try {
 
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
@@ -188,8 +185,6 @@ public class GeoGebraTubeExportW extends
 	public void uploadWorksheet(ArrayList<Macro> macrosIn, PopupBlockAvoider pba) {
 
 		this.macros = macrosIn;
-
-		showDialog();
 
 		try {
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
@@ -247,14 +242,6 @@ public class GeoGebraTubeExportW extends
 		Log.debug("Unimplemented " + b);
 	}
 
-	/**
-	 * Shows a small dialog with a progress bar.
-	 */
-	@Override
-	protected void showDialog() {
-		Log.debug("Unimplemented");
-	}
-
 	@Override
 	protected void statusLabelSetText(String plain) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true,
@@ -263,14 +250,6 @@ public class GeoGebraTubeExportW extends
 
 	@Override
 	protected void pack() {
-		Log.debug("Unimplemented");
-	}
-
-	/**
-	 * Hides progress dialog.
-	 */
-	@Override
-	public void hideDialog() {
 		Log.debug("Unimplemented");
 	}
 
