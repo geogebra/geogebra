@@ -1533,7 +1533,7 @@ namespace giac {
 #if 0 // def COMPILE_FOR_STABILITY // commented (D.Alm) The call to delete_ptr() would sometimes get cancelled if ctrl_c was being set, which could cause the "Stopped by user interruption." exception somehow to be fired twice, with the second time not being caught properly by my exception handling code.
     control_c();
 #endif
-    if (ptr_save && ptr_save->ref_count!=-1 && !--(ptr_save->ref_count)){
+    if (ptr_save && type_save!=_FLOAT_&& ptr_save->ref_count!=-1 && !--(ptr_save->ref_count)){
       switch (type_save) {
       case _ZINT: 
 	delete ptr_save;
