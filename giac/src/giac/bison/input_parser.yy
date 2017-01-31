@@ -539,6 +539,11 @@ exp	: T_NUMBER		{$$ = $1;}
           const giac::context * contextptr = giac_yyget_extra(scanner);
            $$=symb_program_sto($4,zero*$4,symb_local($6,$7,contextptr),$2,false,contextptr); 
         }
+	| T_PROC symbol T_BEGIN_PAR suite T_END_PAR prg_suite T_BLOC_END { 
+          if ($7.type==_INT_ && $7.val && $7.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
+          const giac::context * contextptr = giac_yyget_extra(scanner);
+           $$=symb_program_sto($4,zero*$4,symb_bloc($6),$2,false,contextptr); 
+        }
 	| T_PROC symbol T_BEGIN_PAR suite T_END_PAR T_BLOC_BEGIN entete prg_suite T_BLOC_END { 
           if ($9.type==_INT_ && $9.val && $9.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
           const giac::context * contextptr = giac_yyget_extra(scanner);

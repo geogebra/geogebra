@@ -1456,11 +1456,13 @@ namespace giac {
   unsigned max_prettyprint_equation=5000;
   gen _mathml(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+#ifndef EMCC
     if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG && *((*g._VECTptr)[1]._STRNGptr)!="Done"){
       ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
       of << gen2mathmlfull(g._VECTptr->front(),contextptr) << endl;
       return plus_one;
     }
+#endif
     unsigned ta=taille(g,max_prettyprint_equation);
     if (ta>max_prettyprint_equation)
       return string2gen("Expression_too_large",false);
