@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -8,6 +9,7 @@ import org.geogebra.common.kernel.algos.AlgoMirror;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -90,7 +92,9 @@ public class AlgoMirror3D extends AlgoMirror {
 				&& mirror.isGeoElement3D()) {
 			return new GeoCurveCartesian3D(cons);
 		}
-
+		if (geo instanceof GeoFunctionNVar && mirror != mirrorPoint) {
+			return new GeoSurfaceCartesian3D(cons);
+		}
 		return super.getResultTemplate(geo);
 	}
 
@@ -107,6 +111,10 @@ public class AlgoMirror3D extends AlgoMirror {
 		if (inGeo instanceof GeoFunction && mirror.isGeoElement3D()) {
 			AlgoTransformation3D.toGeoCurveCartesian(kernel,
 					(GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
+		}
+		else if (inGeo instanceof GeoFunctionNVar && mirror != mirrorPoint) {
+			AlgoTransformation3D.toGeoSurfaceCartesian(kernel,
+					(GeoFunctionNVar) inGeo, (GeoSurfaceCartesian3D) outGeo);
 		} else {
 			super.setOutGeo();
 		}

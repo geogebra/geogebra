@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Region;
@@ -21,8 +22,11 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -36,7 +40,8 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
-		implements Functional2Var, Traceable, CasEvaluableFunction, Region {
+		implements Functional2Var, Traceable, CasEvaluableFunction, Region,
+		Mirrorable, MirrorableAtPlane {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -1204,6 +1209,34 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	@Override
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		// TODO
+	}
+
+	public void setFun(FunctionNVar[] fun) {
+		this.fun = fun;
+
+	}
+
+	public void mirror(Coords Q) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mirror(GeoLineND g) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void mirror(GeoCoordSys2D plane) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setStartParameter(double[] ds) {
+		this.startParam = ds;
+	}
+
+	public void setEndParameter(double[] ds) {
+		this.endParam = ds;
 	}
 
 }
