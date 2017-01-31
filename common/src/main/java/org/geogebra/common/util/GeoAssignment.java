@@ -30,6 +30,8 @@ public class GeoAssignment extends Assignment {
 	public final static String[] CHECK_OPERATIONS = { "==", "AreEqual",
 			"AreCongruent" };
 
+	private static final long TIMEOUT = (long) 1E4;
+
 	private String checkOp;
 
 	private Inspecting geoInspector;
@@ -129,7 +131,9 @@ public class GeoAssignment extends Assignment {
 		GeoElement[] possibleOutputPermutation = outputPermutationUtil.next();
 
 		TreeSet<Result> partRes = new TreeSet<Result>();
-		while (possibleOutputPermutation != null && res != Result.CORRECT) {
+		long startTime = System.currentTimeMillis();
+		while (possibleOutputPermutation != null && res != Result.CORRECT
+				&& System.currentTimeMillis() < startTime + TIMEOUT) {
 			if (!areOutputTypesOK(possibleOutputPermutation,
 					macro.getMacroOutput())) {
 				possibleOutputPermutation = outputPermutationUtil.next();
