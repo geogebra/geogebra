@@ -145,6 +145,9 @@ public class MathFieldW implements MathField, IsWidget {
 					return;
 				}
 				event.stopPropagation();
+				// prevent default to keep focus; also avoid dragging the whole
+				// editor
+				event.preventDefault();
 				setFocus(true);
 				rightAltDown = false;
 				leftAltDown = false;
