@@ -2767,6 +2767,11 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdReflect3D() {
+		t("Reflect[sin(x)+sin(y),x+y+z=0]");
+	}
+
+	@Test
 	public void localizationTest() {
 		Assert.assertNull(app.getLocalization().getReverseCommand("x"));
 	}

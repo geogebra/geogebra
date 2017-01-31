@@ -3197,6 +3197,7 @@ public abstract class GeoElement extends ConstructionElement
 	private void doSetLabel(final String newLabel) {
 		// needed for GGB-810
 		boolean addToConstr = true;
+		Log.printStacktrace(newLabel + "," + this);
 		if (cons.isFileLoading() && this instanceof GeoNumeric
 				&& newLabel.startsWith("c_")) {
 			GeoElement geo = cons.lookupLabel(newLabel);

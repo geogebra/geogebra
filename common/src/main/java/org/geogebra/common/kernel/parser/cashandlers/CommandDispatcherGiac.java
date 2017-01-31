@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.CmdIf;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -286,8 +287,8 @@ public class CommandDispatcherGiac {
 					a = args.getItem(0).evaluateDouble();
 					b = args.getItem(1).evaluateDouble();
 					double c = args.getItem(2).evaluateDouble();
-					GeoElement point = kernel.getManager3D().Point3D(null, a, b,
-							c, false);
+					GeoElementND point = kernel.getManager3D().Point3D(a, b, c,
+							false);
 					return new ExpressionNode(kernel, point);
 				default:
 					throw new CASException(

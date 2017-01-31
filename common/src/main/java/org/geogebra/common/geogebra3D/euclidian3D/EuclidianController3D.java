@@ -1337,6 +1337,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * get point and plane; create line through point parallel to plane
 	 * 
 	 * @param hits
+	 *            hits
+	 * @param selPreview
+	 *            whether this is for preview
 	 * @return plane created
 	 */
 	final protected GeoElement[] parallelPlane(Hits hits, boolean selPreview) {
@@ -1607,12 +1610,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 						// create new 3D point
 						Construction cons = kernel.getConstruction();
-						boolean oldMacroMode = cons.isSuppressLabelsActive();
-						cons.setSuppressLabelCreation(true);
 						GeoPoint3D newGeo = (GeoPoint3D) kernel.getManager3D()
-								.Point3D(null, replaceable.getInhomX(),
+								.Point3D(replaceable.getInhomX(),
 										replaceable.getInhomY(), 0, false);
-						cons.setSuppressLabelCreation(oldMacroMode);
 
 						try {
 							cons.replace(replaceable, newGeo);
@@ -3223,6 +3223,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return selection.getSelectedPlaneList().size();
 	}
 
+	/**
+	 * @return selected implicit surfaces
+	 */
 	final int selImplicitSurfaces() {
 		return getSelectedImplicitSurfaceList().size();
 	}

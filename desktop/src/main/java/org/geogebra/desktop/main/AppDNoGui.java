@@ -581,8 +581,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public MyXMLio createXMLio(Construction cons) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MyXMLioD(cons.getKernel(), cons);
 	}
 
 	@Override
