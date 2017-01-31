@@ -1,9 +1,9 @@
 package com.himamis.retex.editor.share.meta;
 
-import com.himamis.retex.editor.share.input.Character;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import com.himamis.retex.editor.share.input.Character;
 
 /**
  * Group of custom functions not described in the .xml file.
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class FunctionGroup implements MetaGroup {
 
-    private Map<String, MetaComponent> components = new HashMap<String, MetaComponent>();
+	private Map<String, MetaComponent> components = new HashMap<String, MetaComponent>();
     private MetaParameter[] defaultParameters = new MetaParameter[]{new MetaParameter("x", 0)};
 
     @Override
@@ -33,9 +33,9 @@ public class FunctionGroup implements MetaGroup {
         return null;
     }
 
-    private boolean acceptedFunction(String functionName) {
+	private static boolean acceptedFunction(String functionName) {
         // Accept only functions that consist of no special characters
-        return Character.areLetters(functionName);
+		return !"".equals(functionName) && Character.areLetters(functionName);
     }
 
     private MetaComponent getMathComponent(String componentName) {
