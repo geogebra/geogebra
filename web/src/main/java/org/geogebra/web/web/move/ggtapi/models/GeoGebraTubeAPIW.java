@@ -275,9 +275,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
     }
 
 
-	public void setClient(ClientInfo clientInfo) {
-		this.client = clientInfo;
 
-	}
 
 }

@@ -11,8 +11,13 @@ import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.SyncEvent;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.GeoGebraTubeAPID;
 import org.geogebra.desktop.util.LoggerD;
@@ -66,7 +71,7 @@ public class TubeAPITest extends Assert {
 	 */
 	public void testUpload() {
 
-		GeoGebraTubeAPID api = new GeoGebraTubeAPID(true, getAuthClient());
+		GeoGebraTubeAPID api = new GeoGebraTubeAPID(true, getAuthClient(null));
 		final ArrayList<String> titles = new ArrayList<String>();
 
 		api.uploadMaterial(0, "O", "testfile" + new Date() + Math.random(),
@@ -113,7 +118,7 @@ public class TubeAPITest extends Assert {
 	public void testDelete() {
 		testUpload();// ensure we have st to delete
 		final GeoGebraTubeAPID api = new GeoGebraTubeAPID(true,
-				getAuthClient());
+				getAuthClient(null));
 		final ArrayList<String> titles = new ArrayList<String>();
 
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
@@ -164,7 +169,38 @@ public class TubeAPITest extends Assert {
 		assertFalse("Wrong upload result: " + titles.get(0),
 				titles.get(0).contains("FAIL"));
 	}
-	private ClientInfo getClient() {
+
+	@Test
+	public void testSync() {
+		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
+		final ClientInfo client = getAuthClient(app.getLoginOperation());
+		app.getLoginOperation().getGeoGebraTubeAPI().setClient(client);
+		final TestMaterialsManager man = new TestMaterialsManager(
+				app);
+		Material mat = new Material(0, MaterialType.ggb);
+		mat.setTitle("test-sync-" + new Date() + Math.random());
+		mat.setBase64(circleBase64);
+		mat.setLanguage("en");
+		man.insertFile(mat);
+		app.getLoginOperation().getGeoGebraTubeAPI().sync(0,
+				new SyncCallback() {
+
+			public void onSync(ArrayList<SyncEvent> events) {
+				man.uploadUsersMaterials(events);
+
+			}
+		});
+		for (int i = 0; i < 20; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private static ClientInfo getClient() {
 		ClientInfo client = new ClientInfo();
 		// client.setModel((AuthenticationModel) this.model);
 		client.setType("desktop");
@@ -175,9 +211,11 @@ public class TubeAPITest extends Assert {
 		return client;
 	}
 
-	private ClientInfo getAuthClient() {
+	private static ClientInfo getAuthClient(LogInOperation op) {
 		ClientInfo client = getClient();
-		AuthenticationModel auth = new AuthenticationModelD();
+		AuthenticationModel auth = op != null ? op.getModel()
+				: new AuthenticationModelD();
+
 		Assert.assertNotNull("Token must be stored as materials.token",
 				System.getProperty("materials.token"));
 		GeoGebraTubeUser user = new GeoGebraTubeUser(

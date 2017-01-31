@@ -71,6 +71,9 @@ public class HttpRequestD extends HttpRequest {
 		}
 
 		else {
+			if (post == null) {
+				throw new IllegalArgumentException("Post may not be null");
+			}
 			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 
 				@Override

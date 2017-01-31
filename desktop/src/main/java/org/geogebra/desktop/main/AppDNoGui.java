@@ -61,6 +61,7 @@ import org.geogebra.desktop.geogebra3D.App3DCompanionD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
+import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.util.GTimerD;
@@ -89,6 +90,7 @@ public class AppDNoGui extends App {
 		Layout.initializeDefaultPerspectives(this, 0.2);
 		myXMLio = new MyXMLioD(kernel, kernel.getConstruction());
 		initEuclidianViews();
+		loginOperation = new LoginOperationD();
 
 	}
 

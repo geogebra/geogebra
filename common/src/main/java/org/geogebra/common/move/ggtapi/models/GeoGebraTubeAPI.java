@@ -530,4 +530,9 @@ public abstract class GeoGebraTubeAPI {
 	protected String getToken() {
 		return client.getModel().getLoginToken();
 	}
+
+	public void setClient(ClientInfo clientInfo) {
+		this.client = clientInfo;
+
+	}
 }
