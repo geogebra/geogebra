@@ -114,7 +114,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 					@Override
 					public GeoElement newElement() {
 						GeoElement segment = (GeoElement) outputPolygon
-								.getElement(0).createSegment(A, B, true);
+								.getElement(0).createSegment(cons, A, B, true);
 						segment.setAuxiliaryObject(true);
 						boolean segmentsVisible = false;
 						int size = outputSegments.size();

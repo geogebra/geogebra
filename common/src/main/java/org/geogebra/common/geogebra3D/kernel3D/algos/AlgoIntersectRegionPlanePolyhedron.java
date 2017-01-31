@@ -1082,7 +1082,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 							@Override
 							public GeoSegment3D newElement() {
 								GeoSegment3D segment = (GeoSegment3D) outputPolygons
-										.getElement(0).createSegment(
+										.getElement(0).createSegment(cons,
 												outputPoints.getElement(0),
 												outputPoints.getElement(0),
 												true);

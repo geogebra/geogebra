@@ -328,7 +328,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					public GeoSegment3D newElement() {
 						GeoSegment3D segment = (GeoSegment3D) outputPolygons
 								.getElement(0)
-								.createSegment(outputPoints.getElement(0),
+								.createSegment(cons, outputPoints.getElement(0),
 										outputPoints.getElement(0), true);
 						segment.setAuxiliaryObject(true);
 						segment.setViewFlags(inPoly0.getViewSet());

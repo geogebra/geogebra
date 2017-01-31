@@ -149,13 +149,14 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * @return the segment
 	 */
 	@Override
-	public GeoSegmentND createSegment(GeoPointND startPoint,
+	public GeoSegmentND createSegment(Construction cons1, GeoPointND startPoint,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
 		// if start and end points are both 2D, then use super method
 		if (!((GeoElement) startPoint).isGeoElement3D()
 				&& !((GeoElement) endPoint).isGeoElement3D()) {
-			return super.createSegment(startPoint, endPoint, euclidianVisible);
+			return super.createSegment(cons1, startPoint, endPoint,
+					euclidianVisible);
 		}
 
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
@@ -326,7 +327,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	public void setPointsAndSegmentsLength(int polyLength) {
 		setPointsLength(polyLength, null);
 		setPoints3DLength();
-		updateSegments();
+		updateSegments(cons);
 	}
 
 	/**
@@ -406,7 +407,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	public void setPointsAndSegments(GeoPointND[] geos) {
 		updatePointsND(geos);
 		updateCoordSys();
-		updateSegments();
+		updateSegments(cons);
 
 	}
 
@@ -1019,12 +1020,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	public void set(GeoElementND geo) {
+	public void set(GeoElementND geo, Construction cons1) {
 		if (geo.isGeoPolygon() && geo.isGeoElement3D()) {
 			reverseNormal = ((GeoPolygon3D) geo).reverseNormal;
 		}
 
-		super.set(geo);
+		super.set(geo, cons1);
 	}
 
 	/**

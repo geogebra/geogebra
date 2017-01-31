@@ -281,7 +281,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setCoordSys(cs);
 
 		if (createSegments) {
-			updateSegments();
+			updateSegments(cons);
 		}
 
 		// if (points != null) {
@@ -458,8 +458,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * Updates all segments of this polygon for its point array. Note that the
 	 * point array may be changed: this method makes sure that segments are
 	 * reused if possible.
+	 * 
+	 * @param cons1
+	 *            construction in which new segments are born
 	 */
-	public void updateSegments() {
+	public void updateSegments(Construction cons1) {
 		if (points == null) {
 			return;
 		}
@@ -498,7 +501,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		for (int i = segmentsArray.size(); i < points.length; i++) {
 			GeoPointND startPoint = points[i];
 			GeoPointND endPoint = points[(i + 1) % getPointsLength()];
-			GeoSegmentND segment = createSegment(startPoint, endPoint,
+			GeoSegmentND segment = createSegment(cons1, startPoint, endPoint,
 					euclidianVisible);
 			segment.getParentAlgorithm().setProtectedInput(true); // avoid
 																	// remove by
@@ -518,6 +521,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * return a segment joining startPoint and endPoint
 	 * 
+	 * @param cons1
+	 *            construction of the new segment
+	 * 
 	 * @param startPoint
 	 *            the start point
 	 * @param endPoint
@@ -526,10 +532,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            true to make the segment visible
 	 * @return the segment
 	 */
-	public GeoSegmentND createSegment(GeoPointND startPoint,
+	public GeoSegmentND createSegment(Construction cons1, GeoPointND startPoint,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
-		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons,
+		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons1,
 				(GeoPoint) startPoint, (GeoPoint) endPoint, this, false);
 		// cons.removeFromConstructionList(algoSegment);
 
@@ -590,7 +596,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void copyInternal(Construction cons1, GeoPolygon ret) {
 		ret.setPoints2D(GeoElement.copyPoints(cons1, getPoints()));
-		ret.set(this);
+		ret.set(this, cons1);
 	}
 
 	/**
@@ -607,8 +613,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private ArrayList<GeoPoint> pointsArray;
 
 	@Override
-	public void set(GeoElementND geo) {
+	public final void set(GeoElementND geo) {
 
+		set(geo, cons);
+	}
+
+	/**
+	 * @param geo
+	 *            template geo
+	 * @param cons1
+	 *            construction
+	 */
+	protected void set(GeoElementND geo, Construction cons1) {
 		GeoPolygon poly = (GeoPolygon) geo;
 		area = poly.area;
 
@@ -629,13 +645,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		updatePoints(poly.getPoints());
 
 		setCoordSysAndPoints3D(poly);
-		updateSegments();
+		updateSegments(cons1);
 		defined = poly.defined;
 
 		if (poly.hasChangeableCoordParentNumbers()) {
 			setChangeableCoordParent(poly.changeableCoordParent);
 		}
 		updateRegionCS();
+
 	}
 
 	/**
@@ -646,7 +663,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void setPointsAndSegments(GeoPointND[] geos) {
 		updatePoints(geos);
-		updateSegments();
+		updateSegments(cons);
 
 	}
 
@@ -671,7 +688,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void setPointsAndSegmentsLength(int polyLength) {
 		setPointsLength(polyLength, null);
-		updateSegments();
+		updateSegments(cons);
 	}
 
 	/**
@@ -2361,7 +2378,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private void updatePathRegion() {
 		updateRegionCS();
-		this.updateSegments();
+		this.updateSegments(cons);
 	}
 
 	@Override

@@ -319,7 +319,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 					public GeoSegment newElement() {
 						GeoSegment segment = (GeoSegment) outputPolygons
 								.getElement(0)
-								.createSegment(outputPoints.getElement(0),
+								.createSegment(cons, outputPoints.getElement(0),
 										outputPoints.getElement(0), true);
 						segment.setAuxiliaryObject(true);
 						segment.setViewFlags(inPoly0.getViewSet());
