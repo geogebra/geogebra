@@ -46,6 +46,10 @@ public class Material implements Comparable<Material>, Serializable {
 	 * URL to the author's profile in GeoGebraTube.
 	 */
 	private int author_id;
+	/**
+	 * Id of the person who stored material to local device
+	 */
+	private int viewerID;
 
 	/**
 	 * URL to the overview page of the material.
@@ -427,9 +431,11 @@ public class Material implements Comparable<Material>, Serializable {
 		putBoolean(ret, "inputbar", this.showInputbar);
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		putString(ret, "is3d", this.is3d ? "1" : "0");
+		putString(ret, "viewerID", viewerID + "");
 		if (storeLocalValues) {
 			putString(ret, "localID", localID + "");
 			putString(ret, "autoSaveTimestamp", autoSaveTimestamp + "");
+
 		}
 		return ret;
 	}
@@ -664,5 +670,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setElemcntApplet(int elemcntApplet) {
 		this.elemcntApplet = elemcntApplet;
+	}
+
+	public int getViewerID() {
+		return viewerID;
+	}
+
+	public void setViewerID(int int1) {
+		this.viewerID = int1;
 	}
 }

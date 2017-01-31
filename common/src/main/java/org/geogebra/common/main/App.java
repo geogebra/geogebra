@@ -3997,7 +3997,7 @@ public abstract class App implements UpdateSelection {
 		case KOREAN_KEYBOARD:
 			return prerelease;
 		case LOCALSTORAGE_FILES:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 		case POLYGON_TRIANGULATION:
 			return prerelease;
 

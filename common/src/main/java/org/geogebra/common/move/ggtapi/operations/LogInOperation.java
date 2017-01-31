@@ -173,4 +173,9 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		return mat.getAuthorID() <= 0
 				|| mat.getAuthorID() == getModel().getUserId();
 	}
+
+	public boolean mayView(Material mat) {
+		return mat.getViewerID() <= 0
+				|| mat.getViewerID() == getModel().getUserId();
+	}
 }
