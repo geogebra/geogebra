@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
@@ -19,19 +20,25 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
+import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Class for cartesian curves in 3D
@@ -41,8 +48,9 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		implements Functional2Var, Traceable, CasEvaluableFunction, Region,
-		Mirrorable, MirrorableAtPlane {
-
+		MirrorableAtPlane, Translateable, Dilateable, RotateableND {
+	private boolean isSurfaceOfRevolutionAroundOx = false;
+	private CoordMatrix4x4 tmpMatrix4x4;
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
 	 * 
@@ -1161,8 +1169,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		hasLastHitParameters = true;
 	}
 
-	private boolean isSurfaceOfRevolutionAroundOx = false;
-
 	/**
 	 * 
 	 * @return true if surface of revolution around Ox by definition
@@ -1213,23 +1219,95 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	public void setFun(FunctionNVar[] fun) {
 		this.fun = fun;
+		this.fun1 = null;
+		this.fun2 = null;
 
 	}
 
 	public void mirror(Coords Q) {
-		// TODO Auto-generated method stub
+		dilate(new MyDouble(kernel, -1.0), Q);
+	}
+
+	public void dilate(NumberValue ratio, Coords P) {
+		translate(P.mul(-1));
+		for (int i = 0; i < 3; i++) {
+			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
+			fun[i].setExpression(new ExpressionNode(kernel, ratio,
+					Operation.MULTIPLY, expr));
+		}
+		translate(P);
 
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void translate(Coords v) {
+
+		// current expressions
+		for (int i = 0; i < 3; i++) {
+			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
+			ExpressionNode trans = expr.plus(v.get(i + 1));
+			fun[i].setExpression(trans);
+		}
+
+	}
+
+	public void mirror(GeoLineND line) {
+		SurfaceTransform.mirror(fun, kernel, line);
 
 	}
 
 	public void mirror(GeoCoordSys2D plane) {
-		// TODO Auto-generated method stub
+		SurfaceTransform.mirror(fun, kernel, plane);
 
 	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S) {
+
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		SurfaceTransform.rotate(fun, kernel, r, S, tmpMatrix4x4);
+
+	}
+
+	@Override
+	public void rotate(NumberValue r) {
+
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		SurfaceTransform.rotate(fun, kernel, r, tmpMatrix4x4);
+
+	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S,
+			GeoDirectionND orientation) {
+
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+		SurfaceTransform.rotate(fun, kernel, r, S, orientation, tmpMatrix4x4);
+	}
+
+	// private void transform(CoordMatrix4x4 m) {
+	//
+	// SurfaceTransform.transform(fun, kernel, m);
+	//
+	// }
+
+	@Override
+	public void rotate(NumberValue r, GeoLineND line) {
+
+		if (tmpMatrix4x4 == null) {
+			tmpMatrix4x4 = new CoordMatrix4x4();
+		}
+
+		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
+
+	}
+
+
 
 	public void setStartParameter(double[] ds) {
 		this.startParam = ds;

@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -43,7 +42,7 @@ import org.geogebra.common.plugin.Operation;
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		RotateableND, Translateable,
 		MirrorableAtPlane, Transformable, Dilateable {
-
+	private CoordMatrix4x4 tmpMatrix4x4;
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
 	 * 
@@ -255,9 +254,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3(),
-				tmpMatrix4x4);
-		transform(tmpMatrix4x4);
+		SurfaceTransform.rotate(fun, kernel, r, S, tmpMatrix4x4);
 
 	}
 
@@ -267,8 +264,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
-		transform(tmpMatrix4x4);
+		SurfaceTransform.rotate(fun, kernel, r, tmpMatrix4x4);
 
 	}
 
@@ -279,36 +275,10 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(),
-				r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
-		transform(tmpMatrix4x4);
+		SurfaceTransform.rotate(fun, kernel, r, S, orientation, tmpMatrix4x4);
 	}
 
-	private void transform(CoordMatrix4x4 m) {
 
-		// current expressions
-		ExpressionNode[] expr = new ExpressionNode[3];
-		for (int i = 0; i < 3; i++) {
-			expr[i] = fun[i].deepCopy(kernel).getExpression();
-		}
-
-		for (int row = 0; row < 3; row++) {
-			MyDouble[] coeff = new MyDouble[4];
-			for (int i = 0; i < 4; i++) {
-				coeff[i] = new MyDouble(kernel, m.get(row + 1, i + 1));
-			}
-
-			ExpressionNode trans = new ExpressionNode(kernel, coeff[3]);
-			for (int i = 0; i < 3; i++) {
-				trans = trans.plus(expr[i].multiply(coeff[i]));
-			}
-
-			fun[row].setExpression(trans);
-		}
-
-	}
-
-	private CoordMatrix4x4 tmpMatrix4x4;
 
 	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
@@ -317,14 +287,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 
-		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(),
-				r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
-		transform(tmpMatrix4x4);
-
-	}
-
-	public void rotate(GeoLineND line, ExpressionValue r,
-			GeoSurfaceCartesian3D surface) {
+		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
 
 	}
 
@@ -679,17 +642,14 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	public void mirror(GeoLineND line) {
 
-		transform(CoordMatrix4x4.AxialSymetry(
-				line.getDirectionInD3().normalized(),
-				line.getStartInhomCoords()));
+		SurfaceTransform.mirror(fun, kernel, line);
 
 	}
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
 
-		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
-		transform(CoordMatrix4x4.PlaneSymetry(m.getVz(), m.getOrigin()));
+		SurfaceTransform.mirror(fun, kernel, plane);
 
 	}
 
