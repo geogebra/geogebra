@@ -821,9 +821,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (plainTextItem != null) {
 			updateFont(plainTextItem);
 		}
+	}
 
-
-
+	protected void doUpdateEnsureNoEditor() {
+		doUpdate();
+		if (!latex) {
+			content.clear();
+			content.add(getPlainTextItem());
+		}
 	}
 
 	protected void updateTextItems() {
@@ -1181,7 +1186,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (success) {
-			doUpdate();
+			doUpdateEnsureNoEditor();
 		}
 
 		if (!app.has(Feature.AV_SCROLL)) {
@@ -1201,7 +1206,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void cancelDV() {
 		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
-		doUpdate();
+		doUpdateEnsureNoEditor();
 	}
 
 
