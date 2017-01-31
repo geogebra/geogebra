@@ -40,13 +40,6 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 	
-	private native void exportJavascriptMethods() /*-{
-	var that = this;
-		$wnd.tabletFileManager_catchMetaDatas = $entry(function(data) {			
-			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatas(Ljava/lang/String;)(data);
-		});
-	}-*/;
-	
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
@@ -77,5 +70,49 @@ public class TabletFileManager extends FileManagerT {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	@Override
+    public void openMaterial(final Material material) {
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			openMaterialMaterial = material;
+			String fileName = getFileKey(material);
+			getBase64(fileName);
+		}else{
+			super.openMaterial(material);
+		}
+	}
+	
+	private Material openMaterialMaterial = null;
+	
+	private native void getBase64(String fileName) /*-{
+		if ($wnd.android) {
+			$wnd.android.getBase64(fileName);
+		}
+	}-*/;
+	
+	/**
+	 * this method is called through js (see exportJavascriptMethods())
+	 */
+	public void catchBase64(String data) {
+		openMaterialMaterial.setBase64(data);
+		doOpenMaterial(openMaterialMaterial);
+	}
+	
+	
+	
+	
+	
+	private native void exportJavascriptMethods() /*-{
+		var that = this;
+		$wnd.tabletFileManager_catchMetaDatas = $entry(function(data) {			
+			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatas(Ljava/lang/String;)(data);
+		});
+		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {			
+			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
+		});
+	}-*/;
+	
 
 }
