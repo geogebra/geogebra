@@ -28,7 +28,6 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -539,31 +538,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		 * DOM.releaseCapture(getElement()); } if (resize == true) { resize =
 		 * false; DOM.releaseCapture(getElement()); } break; }
 		 */
-	}
-
-	/**
-	 * Determines if the mouse cursor is at the bottom right position of the
-	 * Frame
-	 * 
-	 * @param event
-	 *            the cursor event
-	 * @return true if cursor is within a 10x10 frame on the bottom right
-	 *         position
-	 */
-	protected boolean isCursorAtResizePosition(Event event) {
-		int cursorY = DOM.eventGetClientY(event) + Window.getScrollTop();
-		int initialY = getAbsoluteTop();
-		int height = getOffsetHeight();
-
-		int cursorX = DOM.eventGetClientX(event) + Window.getScrollLeft();
-		int initialX = getAbsoluteLeft();
-		int width = getOffsetWidth();
-
-		if (((initialX + width - 10) < cursorX && cursorX <= (initialX + width))
-		        && ((initialY + height - 10) < cursorY && cursorY <= (initialY + height))) {
-			return true;
-		}
-		return false;
 	}
 
 	public static int getInstanceCount() {
