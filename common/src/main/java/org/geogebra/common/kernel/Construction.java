@@ -2834,10 +2834,6 @@ public class Construction {
 	 *            compatibility)
 	 */
 	public void addUsedType(GeoClass c) {
-		if (c == null) {
-			Log.error("serious error: addUsedType(null)");
-			return;
-		}
 		if (this.ignoringNewTypes) {
 			return;
 		}
