@@ -29,7 +29,7 @@ import javax.swing.text.html.StyleSheet;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.util.TextField;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.util.ListSeparatorRenderer;
@@ -50,11 +50,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	// =========================================
 	// GUI components
 	// =========================================
-
-	// text fields
-	private MyTextFieldD[] fldSampleStat1, fldSampleStat2;
-	private MyTextFieldD fldNullHyp, fldConfLevel, fldSigma;
-	private int fieldWidth = 6;
 
 	// labels
 	private JLabel[] lblSampleStat1, lblSampleStat2;
@@ -189,14 +184,14 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelSample1.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleHeader1));
 		for (int i = 0; i < lblSampleStat1.length; i++) {
 			panelSample1.add(LayoutUtil.flowPanelRight(4, 2, 0,
-					lblSampleStat1[i], fldSampleStat1[i]));
+					lblSampleStat1[i], (MyTextFieldD) fldSampleStat1[i]));
 		}
 
 		panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0, new JLabel(" "),
 				lblSampleHeader2));
 		for (int i = 0; i < lblSampleStat2.length; i++) {
 			panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0,
-					lblSampleStat2[i], fldSampleStat2[i]));
+					lblSampleStat2[i], (MyTextFieldD) fldSampleStat2[i]));
 		}
 
 		switch (selectedProcedure) {
@@ -213,13 +208,13 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			if (app.getLocalization().isRightToLeftReadingOrder()) {
 				// eg 1.1 = mu
 				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
-						Box.createHorizontalStrut(5), fldNullHyp,
+						Box.createHorizontalStrut(5), (MyTextFieldD) fldNullHyp,
 						lblHypParameter));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
 						Box.createHorizontalStrut(5), lblHypParameter,
-						fldNullHyp));
+						(MyTextFieldD) fldNullHyp));
 			}
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType,
 					btnLeft, btnRight, btnTwo));
@@ -234,7 +229,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		case ZPROP2_CI:
 
 			panelTestAndCI.add(
-					LayoutUtil.flowPanel(4, 2, 0, lblConfLevel, fldConfLevel));
+					LayoutUtil.flowPanel(4, 2, 0, lblConfLevel,
+							(MyTextFieldD) fldConfLevel));
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
 			break;
 		}
@@ -316,7 +312,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		fldNullHyp.addFocusListener(this);
 
 		lblConfLevel = new JLabel();
-		fldConfLevel = new MyTextFieldD((AppD) app);
+		fldConfLevel = (TextField) new MyTextFieldD((AppD) app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addActionListener(this);
 		fldConfLevel.addFocusListener(this);
@@ -332,7 +328,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			lblSampleStat1[i] = new JLabel();
 		}
 
-		fldSampleStat1 = new MyTextFieldD[3];
+		fldSampleStat1 = new TextField[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
 			fldSampleStat1[i] = new MyTextFieldD((AppD) app);
 			fldSampleStat1[i].setColumns(fieldWidth);
@@ -460,8 +456,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	private void setSampleFieldLabels() {
 
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setText(null);
-			lblSampleStat2[i].setText(null);
+			lblSampleStat1[i].setText("");
+			lblSampleStat2[i].setText("");
 		}
 
 		switch (selectedProcedure) {
@@ -519,78 +515,23 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 	}
 
-	private void setSampleFieldText() {
-
-		for (int i = 0; i < 3; i++) {
-			fldSampleStat1[i].removeActionListener(this);
-			fldSampleStat2[i].removeActionListener(this);
-			fldSampleStat1[i].setText(null);
-			fldSampleStat2[i].setText(null);
-		}
-
-		switch (selectedProcedure) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-		case TMEAN_TEST:
-		case TMEAN_CI:
-			fldSampleStat1[0].setText(format(sc.mean));
-			fldSampleStat1[1].setText(format(sc.sd));
-			fldSampleStat1[2].setText(format(sc.n));
-			break;
-
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
-			fldSampleStat1[0].setText(format(sc.mean));
-			fldSampleStat1[1].setText(format(sc.sd));
-			fldSampleStat1[2].setText(format(sc.n));
-			fldSampleStat2[0].setText(format(sc.mean2));
-			fldSampleStat2[1].setText(format(sc.sd2));
-			fldSampleStat2[2].setText(format(sc.n2));
-			break;
-
-		case ZPROP_TEST:
-		case ZPROP_CI:
-			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[1].setText(format(sc.n));
-			break;
-
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[1].setText(format(sc.n));
-			fldSampleStat2[0].setText(format(sc.count2));
-			fldSampleStat2[1].setText(format(sc.n2));
-			break;
-		}
-
-		for (int i = 0; i < 3; i++) {
-			fldSampleStat1[i].addActionListener(this);
-			fldSampleStat2[i].addActionListener(this);
-		}
-
-		fldConfLevel.setText(format(sc.level));
-		fldNullHyp.setText(format(sc.nullHyp));
-
-	}
-
 	private void updateGUI() {
 
 		setHypParameterLabel();
 		setSampleFieldLabels();
 		setSampleFieldText();
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
-			fldSampleStat1[i].setVisible(lblSampleStat1[i].getText() != null);
-			lblSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
-			fldSampleStat2[i].setVisible(lblSampleStat2[i].getText() != null);
+			lblSampleStat1[i]
+					.setVisible(isNotEmpty(lblSampleStat1[i].getText()));
+			fldSampleStat1[i]
+					.setVisible(isNotEmpty(lblSampleStat1[i].getText()));
+			lblSampleStat2[i]
+					.setVisible(isNotEmpty(lblSampleStat2[i].getText()));
+			fldSampleStat2[i]
+					.setVisible(isNotEmpty(lblSampleStat2[i].getText()));
 		}
 
-		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null));
+		lblSampleHeader2.setVisible((isNotEmpty(lblSampleStat2[0].getText())));
 
 		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
 				|| selectedProcedure == Procedure.TMEAN2_CI);
@@ -598,6 +539,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		setPanelLayout();
 		wrappedPanel.revalidate();
 
+	}
+
+	private boolean isNotEmpty(String s) {
+		return s != null && !"".equals(s);
 	}
 
 	private void setPanelLayout() {
@@ -674,60 +619,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		updateResult();
 	}
 
-	private double parseNumberText(String s) {
-
-		if (s == null || s.length() == 0) {
-			return Double.NaN;
-		}
-
-		try {
-			String inputText = s.trim();
-
-			// allow input such as sqrt(2)
-			NumberValue nv;
-			nv = cons.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(inputText, false);
-			return nv.getDouble();
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return Double.NaN;
-	}
-
-	@Override
-	protected void updateStatisticCollection() {
-		try {
-
-			sc.level = parseNumberText(fldConfLevel.getText());
-			sc.sd = parseNumberText(fldSigma.getText());
-			sc.nullHyp = parseNumberText(fldNullHyp.getText());
-
-			if (btnLeft.isSelected()) {
-				sc.tail = tail_left;
-			} else if (btnRight.isSelected()) {
-				sc.tail = tail_right;
-			} else {
-				sc.tail = tail_two;
-			}
-
-			for (int i = 0; i < s1.length; i++) {
-				s1[i] = (parseNumberText(fldSampleStat1[i].getText()));
-			}
-			for (int i = 0; i < s2.length; i++) {
-				s2[i] = (parseNumberText(fldSampleStat2[i].getText()));
-			}
-
-			updateCollectionProcedure();
-			setSampleFieldText();
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-
 	@Override
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextFieldD) {
@@ -790,6 +681,16 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	@Override
 	protected void resetCaret() {
 		resultPane.setCaretPosition(0);
+	}
+
+	@Override
+	protected boolean btnRightIsSelected() {
+		return btnRight.isSelected();
+	}
+
+	@Override
+	protected boolean btnLeftIsSelected() {
+		return btnLeft.isSelected();
 	}
 
 }

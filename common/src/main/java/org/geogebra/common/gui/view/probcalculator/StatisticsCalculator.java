@@ -8,8 +8,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.TextField;
 
 /**
  * @author gabor StatisticCalculator common superclass
@@ -21,6 +23,10 @@ public abstract class StatisticsCalculator {
 	protected StatisticsCalculatorProcessor statProcessor;
 	protected StatisticsCalculatorHTML statHTML;
 	protected Kernel kernel;
+	protected int fieldWidth = 6;
+
+	protected TextField fldSigma, fldNullHyp, fldConfLevel;
+	protected TextField[] fldSampleStat1, fldSampleStat2;
 
 	// =========================================
 	// Procedures
@@ -129,7 +135,119 @@ public abstract class StatisticsCalculator {
 
 	}
 
-	protected abstract void updateStatisticCollection();
+	private double parseNumberText(String s) {
+
+		if (s == null || s.length() == 0) {
+			return Double.NaN;
+		}
+
+		try {
+			String inputText = s.trim();
+
+			// allow input such as sqrt(2)
+			NumberValue nv;
+			nv = cons.getKernel().getAlgebraProcessor()
+					.evaluateToNumeric(inputText, false);
+			return nv.getDouble();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return Double.NaN;
+	}
+
+	final protected void updateStatisticCollection() {
+		try {
+
+			sc.level = parseNumberText(fldConfLevel.getText());
+			sc.sd = parseNumberText(fldSigma.getText());
+			sc.nullHyp = parseNumberText(fldNullHyp.getText());
+
+			if (btnLeftIsSelected()) {
+				sc.tail = tail_left;
+			} else if (btnRightIsSelected()) {
+				sc.tail = tail_right;
+			} else {
+				sc.tail = tail_two;
+			}
+
+			for (int i = 0; i < s1.length; i++) {
+				s1[i] = (parseNumberText(fldSampleStat1[i].getText()));
+			}
+			for (int i = 0; i < s2.length; i++) {
+				s2[i] = (parseNumberText(fldSampleStat2[i].getText()));
+			}
+
+			updateCollectionProcedure();
+			setSampleFieldText();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	final protected void setSampleFieldText() {
+
+		for (int i = 0; i < 3; i++) {
+			fldSampleStat1[i].removeActionListener(this);
+			fldSampleStat2[i].removeActionListener(this);
+			fldSampleStat1[i].setText("");
+			fldSampleStat2[i].setText("");
+		}
+
+		switch (selectedProcedure) {
+		default:
+			// do nothing
+			break;
+		case ZMEAN_TEST:
+		case ZMEAN_CI:
+		case TMEAN_TEST:
+		case TMEAN_CI:
+			fldSampleStat1[0].setText(format(sc.mean));
+			fldSampleStat1[1].setText(format(sc.sd));
+			fldSampleStat1[2].setText(format(sc.n));
+			break;
+
+		case ZMEAN2_TEST:
+		case ZMEAN2_CI:
+		case TMEAN2_TEST:
+		case TMEAN2_CI:
+			fldSampleStat1[0].setText(format(sc.mean));
+			fldSampleStat1[1].setText(format(sc.sd));
+			fldSampleStat1[2].setText(format(sc.n));
+			fldSampleStat2[0].setText(format(sc.mean2));
+			fldSampleStat2[1].setText(format(sc.sd2));
+			fldSampleStat2[2].setText(format(sc.n2));
+			break;
+
+		case ZPROP_TEST:
+		case ZPROP_CI:
+			fldSampleStat1[0].setText(format(sc.count));
+			fldSampleStat1[1].setText(format(sc.n));
+			break;
+
+		case ZPROP2_TEST:
+		case ZPROP2_CI:
+			fldSampleStat1[0].setText(format(sc.count));
+			fldSampleStat1[1].setText(format(sc.n));
+			fldSampleStat2[0].setText(format(sc.count2));
+			fldSampleStat2[1].setText(format(sc.n2));
+			break;
+		}
+
+		for (int i = 0; i < 3; i++) {
+			fldSampleStat1[i].addActionListener(this);
+			fldSampleStat2[i].addActionListener(this);
+		}
+
+		fldConfLevel.setText(format(sc.level));
+		fldNullHyp.setText(format(sc.nullHyp));
+
+	}
+	abstract protected boolean btnRightIsSelected();
+
+	abstract protected boolean btnLeftIsSelected();
 
 	protected abstract void resetCaret();
 

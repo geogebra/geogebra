@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
@@ -51,16 +50,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	private Label lblHypParameter;
 	private Label lblTailType;
 	
-	private AutoCompleteTextFieldW fldNullHyp;
-	private int fieldWidth = 6;
 	private Label lblConfLevel;
-	private AutoCompleteTextFieldW fldConfLevel;
 	private Label lblSigma;
-	private AutoCompleteTextFieldW fldSigma;
 	private Label[] lblSampleStat1;
-	private AutoCompleteTextFieldW[] fldSampleStat1;
 	private Label[] lblSampleStat2;
-	private AutoCompleteTextFieldW[] fldSampleStat2;
 	private FlowPanel panelControl;
 	private FlowPanel panelBasicProcedures;
 	private FlowPanel panelSample1;
@@ -295,65 +288,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		}
 	}
 
-	private void setSampleFieldText() {
-
-		for (int i = 0; i < 3; i++) {
-			//fldSampleStat1KeyHandlers[i].removeHandler();
-			//fldSampleStat2KeyHandlers[i].removeHandler();
-			fldSampleStat1[i].setText("");
-			fldSampleStat2[i].setText("");
-		}
-
-		switch (selectedProcedure) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-		case TMEAN_TEST:
-		case TMEAN_CI:
-			fldSampleStat1[0].setText(format(sc.mean));
-			fldSampleStat1[1].setText(format(sc.sd));
-			fldSampleStat1[2].setText(format(sc.n));
-			break;
-
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
-			fldSampleStat1[0].setText(format(sc.mean));
-			fldSampleStat1[1].setText(format(sc.sd));
-			fldSampleStat1[2].setText(format(sc.n));
-			fldSampleStat2[0].setText(format(sc.mean2));
-			fldSampleStat2[1].setText(format(sc.sd2));
-			fldSampleStat2[2].setText(format(sc.n2));
-			break;
-
-		case ZPROP_TEST:
-		case ZPROP_CI:
-			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[1].setText(format(sc.n));
-			break;
-
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			fldSampleStat1[0].setText(format(sc.count));
-			fldSampleStat1[1].setText(format(sc.n));
-			fldSampleStat2[0].setText(format(sc.count2));
-			fldSampleStat2[1].setText(format(sc.n2));
-			break;
-		}
-
-		//for (int i = 0; i < 3; i++) {
-			//fldSampleStat1KeyHandlers[i] = fldSampleStat1[i].addKeyUpHandler(this);
-			//fldSampleStat2KeyHandlers[i] = fldSampleStat2[i].addKeyUpHandler(this);
-		//}
-
-		fldConfLevel.setText(format(sc.level));
-		fldNullHyp.setText(format(sc.nullHyp));
-
-	}
-
 	private void updateGUI() {
 
 		setHypParameterLabel();
@@ -426,7 +360,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	   
 	   for (int i = 0; i < lblSampleStat1.length; i++) {
 			panelSample1.add(lblSampleStat1[i]);
-			panelSample1.add(fldSampleStat1[i]);
+			panelSample1.add((AutoCompleteTextFieldW) fldSampleStat1[i]);
 			panelSample1.add(new LineBreak());
 			//panelSample1.getElement().appendChild(Document.get().createBRElement());
 		}
@@ -436,7 +370,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	   
 	   for (int i = 0; i < lblSampleStat2.length; i++) {
 			panelSample2.add(lblSampleStat2[i]);
-			panelSample2.add(fldSampleStat2[i]);
+			panelSample2.add((AutoCompleteTextFieldW) fldSampleStat2[i]);
 			panelSample2.add(new LineBreak());
 			//panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
@@ -455,14 +389,14 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			if (app.getLocalization().isRightToLeftReadingOrder()) {
 				// eg 1.1 = mu
 				panelTestAndCI.add(lblNull);
-				panelTestAndCI.add(fldNullHyp);
+				panelTestAndCI.add((AutoCompleteTextFieldW) fldNullHyp);
 				panelTestAndCI.add(lblHypParameter);
 				//panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(lblHypParameter);
-				panelTestAndCI.add(fldNullHyp);
+				panelTestAndCI.add((AutoCompleteTextFieldW) fldNullHyp);
 				//panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 
 			}
@@ -484,7 +418,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		case ZPROP2_CI:
 
 			panelTestAndCI.add(lblConfLevel);
-			panelTestAndCI.add(fldConfLevel);
+			panelTestAndCI.add((AutoCompleteTextFieldW) fldConfLevel);
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
 			//panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
@@ -585,28 +519,28 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 		fldNullHyp = new AutoCompleteTextFieldW(app);
 		fldNullHyp.setColumns(fieldWidth);
-		fldNullHyp.addKeyUpHandler(this);
-		fldNullHyp.enableGGBKeyboard();
-		this.addInsertHandler(fldNullHyp);
-		addNextTabIndex(fldNullHyp);
+		((AutoCompleteTextFieldW) fldNullHyp).addKeyUpHandler(this);
+		((AutoCompleteTextFieldW) fldNullHyp).enableGGBKeyboard();
+		this.addInsertHandler((AutoCompleteTextFieldW) fldNullHyp);
+		addNextTabIndex((AutoCompleteTextFieldW) fldNullHyp);
 		
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
-		fldConfLevel.addKeyUpHandler(this);
-		fldConfLevel.enableGGBKeyboard();
-		this.addInsertHandler(fldConfLevel);
+		((AutoCompleteTextFieldW) fldConfLevel).addKeyUpHandler(this);
+		((AutoCompleteTextFieldW) fldConfLevel).enableGGBKeyboard();
+		this.addInsertHandler((AutoCompleteTextFieldW) fldConfLevel);
 
-		addNextTabIndex(fldConfLevel);
+		addNextTabIndex((AutoCompleteTextFieldW) fldConfLevel);
 		
 		lblSigma = new Label();
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
-		fldSigma.addKeyUpHandler(this);
-		fldSigma.enableGGBKeyboard();
-		this.addInsertHandler(fldSigma);
+		((AutoCompleteTextFieldW) fldSigma).addKeyUpHandler(this);
+		((AutoCompleteTextFieldW) fldSigma).enableGGBKeyboard();
+		this.addInsertHandler((AutoCompleteTextFieldW) fldSigma);
 		
-		addNextTabIndex(fldSigma);
+		addNextTabIndex((AutoCompleteTextFieldW) fldSigma);
 		
 		
 		lblSampleStat1 = new Label[3];
@@ -620,11 +554,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		for (int i = 0; i < fldSampleStat1.length; i++) {
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
-			fldSampleStat1[i].addKeyUpHandler(this);
-			fldSampleStat1[i].enableGGBKeyboard();
-			this.addInsertHandler(fldSampleStat1[i]);
+			((AutoCompleteTextFieldW) fldSampleStat1[i]).addKeyUpHandler(this);
+			((AutoCompleteTextFieldW) fldSampleStat1[i]).enableGGBKeyboard();
+			this.addInsertHandler((AutoCompleteTextFieldW) fldSampleStat1[i]);
 
-			addNextTabIndex(fldSampleStat1[i]);
+			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat1[i]);
 		}
 
 		lblSampleStat2 = new Label[3];
@@ -638,11 +572,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		for (int i = 0; i < fldSampleStat2.length; i++) {
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
-			fldSampleStat2[i].addKeyUpHandler(this);
-			fldSampleStat2[i].enableGGBKeyboard();
-			this.addInsertHandler(fldSampleStat2[i]);
+			((AutoCompleteTextFieldW) fldSampleStat2[i]).addKeyUpHandler(this);
+			((AutoCompleteTextFieldW) fldSampleStat2[i]).enableGGBKeyboard();
+			this.addInsertHandler((AutoCompleteTextFieldW) fldSampleStat2[i]);
 
-			addNextTabIndex(fldSampleStat2[i]);
+			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat2[i]);
 
 		}	    
 	    
@@ -664,61 +598,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		resultPane.getElement().setInnerHTML(str);
 	}
 	
-	@Override
-	protected void updateStatisticCollection() {
-		try {
-
-			sc.level = parseNumberText(fldConfLevel.getText());
-			sc.sd = parseNumberText(fldSigma.getText());
-			sc.nullHyp = parseNumberText(fldNullHyp.getText());
-
-			if (btnLeft.getValue()) {
-				sc.tail = tail_left;
-			} else if (btnRight.getValue()) {
-				sc.tail = tail_right;
-			} else {
-				sc.tail = tail_two;
-			}
-
-			for (int i = 0; i < s1.length; i++) {
-				s1[i] = (parseNumberText(fldSampleStat1[i].getText()));
-			}
-			for (int i = 0; i < s2.length; i++) {
-				s2[i] = (parseNumberText(fldSampleStat2[i].getText()));
-			}
-
-			updateCollectionProcedure();
-			setSampleFieldText();
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	private double parseNumberText(String s) {
-
-		if (s == null || s.length() == 0) {
-			return Double.NaN;
-		}
-		
-
-		try {
-			String inputText = s.trim();
-			
-
-			// allow input such as sqrt(2)
-			NumberValue nv;
-			nv = cons.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(inputText, false);
-			return nv.getDouble();
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return Double.NaN;
-	}
-
 	@Override
 	public void onChange(ChangeEvent event) {
 		selectedProcedure = mapNameToProcedure.get(cbProcedure.getValue(cbProcedure.getSelectedIndex()));
@@ -810,5 +689,15 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	@Override
 	protected void resetCaret() {
 		// not needed
+	}
+
+	@Override
+	protected boolean btnRightIsSelected() {
+		return btnRight.getValue();
+	}
+
+	@Override
+	protected boolean btnLeftIsSelected() {
+		return btnLeft.getValue();
 	}
 }

@@ -18,6 +18,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -27,8 +28,10 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.ColorProvider;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.TextField;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -46,7 +49,7 @@ import org.geogebra.desktop.main.AppD;
  */
 public class MyTextFieldD extends JTextField
 		implements ActionListener, FocusListener, VirtualKeyboardListener,
-		CaretListener, SetLabels, TextObject {
+		CaretListener, SetLabels, TextObject, TextField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -554,8 +557,28 @@ public class MyTextFieldD extends JTextField
 	}
 
 	@Override
-	public void wrapSetText(String s) {
-		// TODO Auto-generated method stub
+	public void wrapSetText(final String s) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				setText(s);
+			}
+		});
 
+	}
+
+	public void addActionListener(StatisticsCalculator sc) {
+		this.addActionListener((ActionListener) sc);
+
+	}
+
+	public void addFocusListener(StatisticsCalculator sc) {
+		this.addFocusListener((FocusListener) sc);
+
+	}
+
+	public void removeActionListener(
+			StatisticsCalculator statisticsCalculator) {
+		this.removeActionListener((ActionListener) statisticsCalculator);
 	}
 }
