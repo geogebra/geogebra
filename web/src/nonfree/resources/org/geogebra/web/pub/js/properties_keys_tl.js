@@ -1153,6 +1153,7 @@ __GGB__keysVar.tl.error = {
     "RenameFailed": "Hindi natuloy ang pagrename",
     "ReplaceFailed": "Hindi natuloy ang pagredefine",
     "SaveFileFailed": "Hindi natuloy ang pagsave",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Ang command name ay ginagamit na ng ibang tool",
     "Tool.CreationFailed": "Hindi magawa ang tool",
     "Tool.DeleteUsed": "Ang sumusunod na tools ay ginamit upang lumikha ng mga napiling objects at hindi maaaring tanggalin:",

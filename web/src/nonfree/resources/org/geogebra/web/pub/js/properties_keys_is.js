@@ -1153,6 +1153,7 @@ __GGB__keysVar.is.error = {
     "RenameFailed": "T\xf3kst ekki a\xf0 endurnefna",
     "ReplaceFailed": "T\xf3kst ekki a\xf0 endurskilgreina",
     "SaveFileFailed": "T\xf3kst ekki a\xf0 vista skr\xe1",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Nafn \xe1 skipun er uppteki\xf0 af \xf6\xf0ru verkf\xe6ri",
     "Tool.CreationFailed": "T\xf3kst ekki a\xf0 b\xfaa til verkf\xe6ri",
     "Tool.DeleteUsed": "Verkf\xe6ri er \xed notkun \xed myndsm\xed\xf0 og \xfev\xed ekki h\xe6gt a\xf0 ey\xf0a \xfev\xed",

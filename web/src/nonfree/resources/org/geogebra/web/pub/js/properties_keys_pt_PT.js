@@ -1153,6 +1153,7 @@ __GGB__keysVar.pt_PT.error = {
     "RenameFailed": "N\xe3o foi poss\xedvel renomear",
     "ReplaceFailed": "N\xe3o foi poss\xedvel redefinir",
     "SaveFileFailed": "N\xe3o foi poss\xedvel gravar",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "O nome do comando est\xe1 a ser utilizado por outra ferramenta",
     "Tool.CreationFailed": "N\xe3o foi poss\xedvel criar a ferramenta",
     "Tool.DeleteUsed": "A ferramenta n\xe3o pode ser apagada porque est\xe1 a ser utilizada na constru\xe7\xe3o",

@@ -1153,6 +1153,7 @@ __GGB__keysVar.nl.error = {
     "RenameFailed": "Wijzigen naam is mislukt",
     "ReplaceFailed": "Herdefini\xebren is mislukt",
     "SaveFileFailed": "Opslaan van het bestand is mislukt",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Commando naam wordt al voor een andere knop gebruikt",
     "Tool.CreationFailed": "Macro kon niet worden aangemaakt",
     "Tool.DeleteUsed": "Volgende macro's werden gebruikt om de geselecteerde objecten te cre\xebren en kunnen niet worden verwijderd",

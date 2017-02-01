@@ -1153,6 +1153,7 @@ __GGB__keysVar.ca.error = {
     "RenameFailed": "Error en el canvi de nom",
     "ReplaceFailed": "Error en la redifinici\xf3",
     "SaveFileFailed": "Error en desar el fitxer",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "El nom del comandament s'est\xe0 utilitzant per una altra eina",
     "Tool.CreationFailed": "No es pot crear l'eina",
     "Tool.DeleteUsed": "S'est\xe0 fent servir l'eina i no pot ser eliminada",

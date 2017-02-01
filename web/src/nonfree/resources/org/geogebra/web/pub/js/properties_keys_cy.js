@@ -1153,6 +1153,7 @@ __GGB__keysVar.cy.error = {
     "RenameFailed": "Wedi methu ailenwi.",
     "ReplaceFailed": "Wedi methu ailddiffinio",
     "SaveFileFailed": "Wedi methu cadw'r ffeil",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Defnyddir enw'r gorchymyn gan offeryn arall eisoes.",
     "Tool.CreationFailed": "Wedi methu creu'r offeryn.",
     "Tool.DeleteUsed": "Mae'r offeryn yn cael ei ddefnyddio i lunio ac ni ellir ei ddileu.",

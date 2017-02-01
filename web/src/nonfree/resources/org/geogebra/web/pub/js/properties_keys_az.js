@@ -1153,6 +1153,7 @@ __GGB__keysVar.az.error = {
     "RenameFailed": "Rename failed",
     "ReplaceFailed": "Redefinition failed",
     "SaveFileFailed": "Fayl\u0131 yadda saxlamaq m\xfcmk\xfcn olmad\u0131",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Command name is already used by another tool",
     "Tool.CreationFailed": "Tool could not be created",
     "Tool.DeleteUsed": "Se\xe7ilmi\u015f obyektl\u0259ri yaratmaq \xfc\xe7\xfcn a\u015fa\u011f\u0131dak\u0131 al\u0259tl\u0259rd\u0259n istifad\u0259 olunmu\u015fdur v\u0259 onlar\u0131 silm\u0259k m\xfcmk\xfcn deyil:",

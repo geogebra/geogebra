@@ -1153,6 +1153,7 @@ __GGB__keysVar.de_AT.error = {
     "RenameFailed": "Umbenennen fehlgeschlagen",
     "ReplaceFailed": "Umdefinieren fehlgeschlagen",
     "SaveFileFailed": "Speichern der Datei fehlgeschlagen",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Dieser Befehlsname wird bereits von einem anderen Werkzeug verwendet.",
     "Tool.CreationFailed": "Das Werkzeug konnte leider nicht erstellt werden.",
     "Tool.DeleteUsed": "Dieses Werkzeug wird in der Konstruktion verwendet und kann nicht gel\xf6scht werden.",

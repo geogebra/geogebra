@@ -1153,6 +1153,7 @@ __GGB__keysVar.cs.error = {
     "RenameFailed": "Nelze p\u0159ejmenovat",
     "ReplaceFailed": "Nelze p\u0159edefinovat",
     "SaveFileFailed": "Nelze ulo\u017eit",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "N\xe1zev p\u0159\xedkazu je ji\u017e pou\u017e\xedv\xe1n jin\xfdmi n\xe1stroji.",
     "Tool.CreationFailed": "N\xe1stroj nem\u016f\u017ee b\xfdt vytvo\u0159en.",
     "Tool.DeleteUsed": "N\xe1stroj je pou\u017eit v konstrukci a nem\u016f\u017ee b\xfdt odstran\u011bn:",

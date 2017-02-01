@@ -1153,6 +1153,7 @@ __GGB__keysVar.et.error = {
     "RenameFailed": "\xdcmbernimetamine eba\xf5nnestus",
     "ReplaceFailed": "\xdcmberdefineerimine eba\xf5nnestus",
     "SaveFileFailed": "Faili salvestamine eba\xf5nnestus",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "K\xe4su nimetus on juba kasutusel.",
     "Tool.CreationFailed": "T\xf6\xf6riista ei saa luua.",
     "Tool.DeleteUsed": "J\xe4rgnevaid t\xf6\xf6riistu kasutati valitud objektide loomisel ja neid ei saa kustutada:",

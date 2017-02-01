@@ -1153,6 +1153,7 @@ __GGB__keysVar.ro.error = {
     "RenameFailed": "Redenumirea a e\u015fuat",
     "ReplaceFailed": "Redefinirea a e\u015fuat",
     "SaveFileFailed": "Salvarea fi\u015fierului a e\u015fuat",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Numele de comand\u0103 este deja folosit de un alt instrument",
     "Tool.CreationFailed": "Instrumentul nu a putut fi creat",
     "Tool.DeleteUsed": "Urm\u0103toarele instrumente sunt utilizate \xeen construc\u0163ie \u015fi nu pot fi \u015fterse",

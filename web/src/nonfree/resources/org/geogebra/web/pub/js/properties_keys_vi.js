@@ -1153,6 +1153,7 @@ __GGB__keysVar.vi.error = {
     "RenameFailed": "\u0110\u1ed5i t\xean kh\xf4ng th\xe0nh c\xf4ng",
     "ReplaceFailed": "\u0110\u1ecbnh ngh\u0129a l\u1ea1i kh\xe1i ni\u1ec7m kh\xf4ng th\xe0nh c\xf4ng",
     "SaveFileFailed": "L\u01b0u t\u1eadp tin kh\xf4ng th\xe0nh c\xf4ng",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "C\xe2u l\u1ec7nh \u0111ang \u0111\u01b0\u1ee3c s\u1eed d\u1ee5ng b\u1edfi m\u1ed9t c\xf4ng c\u1ee5 kh\xe1c",
     "Tool.CreationFailed": "Kh\xf4ng t\u1ea1o \u0111\u01b0\u1ee3c c\xf4ng c\u1ee5",
     "Tool.DeleteUsed": "C\xf4ng c\u1ee5 \u0111ang \u0111\u01b0\u1ee3c s\u1eed d\u1ee5ng trong vi\u1ec7c d\u1ef1ng h\xecnh v\xe0 kh\xf4ng th\u1ec3 x\xf3a \u0111\u01b0\u1ee3c",

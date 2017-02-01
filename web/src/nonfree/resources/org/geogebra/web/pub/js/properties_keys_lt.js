@@ -1153,6 +1153,7 @@ __GGB__keysVar.lt.error = {
     "RenameFailed": "Nepavyko pakeisti pavadinimo",
     "ReplaceFailed": "Keitimas nepavyko",
     "SaveFileFailed": "Nepavyko i\u0161saugoti dokumento",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "\u0160is komandinis pavadinimas jau u\u017eimtas.",
     "Tool.CreationFailed": "Nepavyko sukurti \u012frankio.",
     "Tool.DeleteUsed": "\u012erankis panaudotas ir d\u0117l to negali b\u016bti pa\u0161alintas.",

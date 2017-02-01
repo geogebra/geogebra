@@ -1153,6 +1153,7 @@ __GGB__keysVar.es_ES.error = {
     "RenameFailed": "Error al renombrar.",
     "ReplaceFailed": "Error al redefinir.",
     "SaveFileFailed": "Error al guardar el archivo.",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Ese nombre de comando ya es utilizado por otra herramienta.",
     "Tool.CreationFailed": "No puede crearse la herramienta.",
     "Tool.DeleteUsed": "Las siguientes herramientas fueron usadas al crear los objetos seleccionados y no pueden ser eliminadas:",

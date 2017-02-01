@@ -1153,6 +1153,7 @@ __GGB__keysVar.lv.error = {
     "RenameFailed": "P\u0101rd\u0113v\u0113jiet failu",
     "ReplaceFailed": "P\u0101rdefin\u0113\u0161ana neizdev\u0101s",
     "SaveFileFailed": "Faila saglab\u0101\u0161ana neizdev\u0101s",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "\u0161is nosaukums jau tiek lietots citur",
     "Tool.CreationFailed": "R\u012bku nevar izveiot",
     "Tool.DeleteUsed": "Sekojo\u0161ie objekti tika izmantoti, lai izveidotu iez\u012bm\u0113tos objektus, un nevar tikt izdz\u0113sti:",

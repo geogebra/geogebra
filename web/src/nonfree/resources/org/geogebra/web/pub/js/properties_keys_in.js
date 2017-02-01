@@ -1153,6 +1153,7 @@ __GGB__keysVar.in.error = {
     "RenameFailed": "Penamaan ulang gagal",
     "ReplaceFailed": "Pendefinisian ulang gagal",
     "SaveFileFailed": "Penyimpanan berkas gagal",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Nama perintah telah digunakan oleh alat lainnya.",
     "Tool.CreationFailed": "Alat tidak dapat dibuat",
     "Tool.DeleteUsed": "Alat digunakan dalam konstruksi dan tidak dapat dihapus.",

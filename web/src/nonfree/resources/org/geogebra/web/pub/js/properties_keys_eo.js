@@ -1153,6 +1153,7 @@ __GGB__keysVar.eo.error = {
     "RenameFailed": "Rename failed",
     "ReplaceFailed": "Redefinition failed",
     "SaveFileFailed": "Saving file failed",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Komando-nomo estas jam uzata de alia ilo",
     "Tool.CreationFailed": "Ilo ne kreita",
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",

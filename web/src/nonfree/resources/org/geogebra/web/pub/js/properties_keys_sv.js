@@ -1153,6 +1153,7 @@ __GGB__keysVar.sv.error = {
     "RenameFailed": "Kunde inte ange nytt namn",
     "ReplaceFailed": "Omdefinieringen misslyckades",
     "SaveFileFailed": "Kunde inte spara filen",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Kommandot anv\xe4nds redan av ett annat verktyg",
     "Tool.CreationFailed": "Verktyget kunde inte skapas",
     "Tool.DeleteUsed": "Verktyget anv\xe4nds i konstruktionen och kan inte raderas",

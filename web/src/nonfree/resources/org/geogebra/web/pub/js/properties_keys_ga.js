@@ -1153,6 +1153,7 @@ __GGB__keysVar.ga.error = {
     "RenameFailed": "Rename failed",
     "ReplaceFailed": "Redefinition failed",
     "SaveFileFailed": "Saving file failed",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Command name is already used by another tool",
     "Tool.CreationFailed": "Tool could not be created",
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",

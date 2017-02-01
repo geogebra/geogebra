@@ -1153,6 +1153,7 @@ __GGB__keysVar.it.error = {
     "RenameFailed": "Impossibile rinominare",
     "ReplaceFailed": "Impossibile ridefinire",
     "SaveFileFailed": "Impossibile salvare il file",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Nome di comando gi\xe0 in uso per un altro strumento.",
     "Tool.CreationFailed": "Impossibile creare lo strumento.",
     "Tool.DeleteUsed": "I seguenti strumenti sono in uso nella costruzione e non possono essere eliminati:",

@@ -1153,6 +1153,7 @@ __GGB__keysVar.fi.error = {
     "RenameFailed": "Uudelleen nime\xe4minen ep\xe4onnistui",
     "ReplaceFailed": "Uudelleen m\xe4\xe4ritteleminen ep\xe4onnistui",
     "SaveFileFailed": "Tiedoston tallettaminen ep\xe4onnistui",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Komennon nimi on jo toisen ty\xf6kalun k\xe4yt\xf6ss\xe4",
     "Tool.CreationFailed": "Ty\xf6kalua ei voitu luoda",
     "Tool.DeleteUsed": "Seuraavia ty\xf6kaluja on k\xe4ytetty valittujen objektien luomisessa eik\xe4 niit\xe4 voida poistaa:",

@@ -1153,6 +1153,7 @@ __GGB__keysVar.no_NB.error = {
     "RenameFailed": "Fila kunne ikke f\xe5 nytt navn.",
     "ReplaceFailed": "Fila kunne ikke overskrives.",
     "SaveFileFailed": "Fila kunne ikke lagres.",
+    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Dette navnet er allerede brukt p\xe5 et annet verkt\xf8y.",
     "Tool.CreationFailed": "Verkt\xf8yet kunne ikke lages.",
     "Tool.DeleteUsed": "Disse verkt\xf8yene er brukte i figuren, og kan ikke slettes:",

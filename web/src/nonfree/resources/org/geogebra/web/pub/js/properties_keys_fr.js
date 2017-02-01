@@ -1153,6 +1153,7 @@ __GGB__keysVar.fr.error = {
     "RenameFailed": "Impossible de renommer",
     "ReplaceFailed": "Impossible de red\xe9finir",
     "SaveFileFailed": "Impossible de sauvegarder",
+    "SaveLocalFileFailed": "La sauvegarde locale du fichier a \xe9chou\xe9",
     "Tool.CommandNameTaken": "Le nom de la commande est d\xe9j\xe0 utilis\xe9 par un autre outil.",
     "Tool.CreationFailed": "L'outil n'a pas pu \xeatre cr\xe9\xe9.",
     "Tool.DeleteUsed": "L'outil, utilis\xe9 dans la construction, ne peut \xeatre effac\xe9.",
