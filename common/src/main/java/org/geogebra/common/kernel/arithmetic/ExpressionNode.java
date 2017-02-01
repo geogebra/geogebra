@@ -5852,8 +5852,8 @@ public class ExpressionNode extends ValidExpression
 		default:
 			break;
 		}
-		// TODO: evaluate basic operations here, but make sure errors a thwown
-		// wehen necessary
+		// TODO: evaluate basic operations here, but make sure errors are thrown
+		// when necessary
 		return super.evaluateDouble();
 	}
 
