@@ -60,9 +60,9 @@ public interface Manager3DInterface {
 	 */
 	public GeoPointND DependentPoint3D(ExpressionNode root, boolean addToCons);
 
-	public GeoElement DependentVector3D(String label, ExpressionNode root);
+	public GeoElement DependentVector3D(ExpressionNode root);
 
-	public GeoElement Vector3D(String label, double x, double y, double z);
+	public GeoElement Vector3D(double x, double y, double z);
 
 	/**
 	 * Vector named label from Point P to Q

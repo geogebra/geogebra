@@ -84,24 +84,19 @@ public class AlgoDispatcher {
 	}
 
 	/** Point label with cartesian coordinates (x,y) */
-	final public GeoPoint Point(String label, double x, double y,
+	final public GeoPoint Point(double x, double y,
 			boolean complex) {
 		int mode = complex ? Kernel.COORD_COMPLEX : Kernel.COORD_CARTESIAN;
 		GeoPoint p = new GeoPoint(cons, mode);
 		p.setCoords(x, y, 1.0);
-		p.setLabel(label); // invokes add()
 		return p;
 	}
 
-	/** Vector label with cartesian coordinates (x,y) */
-	final public GeoVector Vector(String label, double x, double y) {
-		GeoVector v = Vector(x, y);
-		v.setLabel(label); // invokes add()
-		return v;
-	}
 
 	public GeoVectorND Vector(String label) {
-		return Vector(label, 0, 0);
+		GeoVectorND ret = Vector(0, 0);
+		ret.setLabel(label);
+		return ret;
 	}
 
 	public GeoVectorND Vector() {

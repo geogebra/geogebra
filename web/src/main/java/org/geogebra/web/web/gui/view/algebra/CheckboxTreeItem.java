@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -62,8 +63,9 @@ public class CheckboxTreeItem extends LatexTreeItem {
 				getBuilder(getPlainTextItem()));
 		content.add(getPlainTextItem());
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
-
-		updateColor(getPlainTextItem());
+		if (!app.has(Feature.AV_TEXT_BLACK)) {
+			updateColor(getPlainTextItem());
+		}
 
 	}
 

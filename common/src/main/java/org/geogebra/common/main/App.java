@@ -4252,7 +4252,8 @@ public abstract class App implements UpdateSelection {
 
 		case TABLET_WITHOUT_CORDOVA:
 			return false;
-
+		case AV_TEXT_BLACK:
+			return prerelease;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

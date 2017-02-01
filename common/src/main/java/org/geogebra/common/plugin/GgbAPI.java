@@ -1155,6 +1155,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return 0;
 		}
+		if (geo.isAbsoluteScreenLocateable()) {
+			if (((AbsoluteScreenLocateable) geo).isAbsoluteScreenLocActive()) {
+				return ((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX();
+			}
+		}
 		return kernel.getExpressionNodeEvaluator().handleXcoord(geo,
 				Operation.XCOORD);
 
@@ -1170,7 +1175,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return 0;
 		}
-
+		if (geo.isAbsoluteScreenLocateable()) {
+			if (((AbsoluteScreenLocateable) geo).isAbsoluteScreenLocActive()) {
+				return ((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocY();
+			}
+		}
 		return kernel.getExpressionNodeEvaluator().handleYcoord(geo,
 				Operation.YCOORD);
 	}
@@ -2124,8 +2133,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.copyTextToSystemClipboard(text);
 	}
 
-	public void showTooltip(String menu) {
+	/**
+	 * @param text
+	 *            tooltip text
+	 */
+	public void showTooltip(String text) {
 		// TODO Auto-generated method stub
+	}
+
+	public boolean isTracing(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		return geo != null && geo.getTrace();
 	}
 
 }

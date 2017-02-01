@@ -179,6 +179,13 @@ public interface JavaScriptAPI {
 	public void setTrace(String objName, boolean flag);
 
 	/**
+	 * @param objName
+	 *            object name
+	 * @return whether the trace for given object is on
+	 */
+	public boolean isTracing(String objName);
+
+	/**
 	 * Shows or hides the label of the object with the given name in the
 	 * geometry window.
 	 */

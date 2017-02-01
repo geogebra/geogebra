@@ -9,6 +9,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
@@ -27,9 +28,12 @@ import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
+/**
+ * Web LaTeX helper class
+ */
 public class DrawEquationW extends DrawEquation {
 
-	static boolean scriptloaded = false;
+
  
 
 	private static Object initJLaTeXMath = null;
@@ -91,7 +95,6 @@ public class DrawEquationW extends DrawEquation {
 	public static void setPrintScale(double t) {
 		printScale = t;
 	}
-
 	/**
 	 * @param geo
 	 *            geo element, used for color and app
@@ -109,7 +112,35 @@ public class DrawEquationW extends DrawEquation {
 		if (geo == null) {
 			return c0 == null ? Canvas.createIfSupported() : c0;
 		}
+		AppW app = ((AppW) geo.getKernel().getApplication());
+		final GColor fgColor = app.has(Feature.AV_TEXT_BLACK) ? GColor.BLACK
+				: geo.getAlgebraColor();
+		return paintOnCanvas(app, text0, c0, fontSize, fgColor);
+	}
+
+	public static Canvas paintOnCanvasOutput(GeoElementND geo, String text0,
+			Canvas c0, int fontSize) {
+		if (geo == null) {
+			return c0 == null ? Canvas.createIfSupported() : c0;
+		}
+		AppW app = ((AppW) geo.getKernel().getApplication());
 		final GColor fgColor = geo.getAlgebraColor();
+		return paintOnCanvas(app, text0, c0, fontSize, fgColor);
+	}
+	/**
+	 * @param app
+	 *            has access to LaTeX and pixel ratio
+	 * @param text0
+	 *            LaTeX text
+	 * @param c0
+	 *            canvas (may be null)
+	 * @param fontSize
+	 *            font size
+	 * @return canvas
+	 */
+	public static Canvas paintOnCanvas(AppW app, String text0,
+			Canvas c0, int fontSize, final GColor fgColor) {
+
 		Canvas c = c0;
 		if (c == null) {
 			c = Canvas.createIfSupported();
@@ -118,7 +149,7 @@ public class DrawEquationW extends DrawEquation {
 					c.getCoordinateSpaceHeight());
 		}
 		JLMContext2d ctx = (JLMContext2d) c.getContext2d();
-		AppW app = ((AppW) geo.getKernel().getApplication());
+
 		app.getDrawEquation().checkFirstCall(app);
 		GFont font = AwtFactory.getPrototype().newFont("geogebra", GFont.PLAIN,
 				fontSize - 3);

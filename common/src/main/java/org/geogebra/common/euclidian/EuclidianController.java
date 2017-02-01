@@ -8585,9 +8585,11 @@ public abstract class EuclidianController {
 				GeoPointND q = algo.getInputPoints().get(1);
 				checkZooming();
 
-				GeoVector vec = getAlgoDispatcher().Vector(null, 0, 0);
+				GeoVector vec = getAlgoDispatcher().Vector(0, 0);
+
 				vec.setEuclidianVisible(false);
 				vec.setAuxiliaryObject(true);
+				vec.setLabel(null);
 				GeoElement[] pp = getAlgoDispatcher().Translate(null,
 						(GeoElement) p, vec);
 				GeoElement[] qq = getAlgoDispatcher().Translate(null,

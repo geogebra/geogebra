@@ -1041,4 +1041,8 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public String getToolName(int mode) {
 		return getGgbApi().getToolName(mode);
 	}
+
+	public boolean isTracing(String objName) {
+		return getGgbApi().isTracing(objName);
+	}
 }

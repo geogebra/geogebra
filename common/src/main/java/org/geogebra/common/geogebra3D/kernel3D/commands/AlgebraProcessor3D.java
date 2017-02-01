@@ -85,26 +85,27 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double y = p[1];
 			double z = p[2];
 			if (isVector) {
-				ret[0] = kernel.getManager3D().Vector3D(label, x, y, z);
+				ret[0] = kernel.getManager3D().Vector3D(x, y, z);
 			} else {
-				ret[0] = kernel.getManager3D().Point3D(label, x, y, z, false);
+				ret[0] = kernel.getManager3D().Point3D(x, y, z, false)
+						.toGeoElement();
 			}
 			ret[0].setDefinition(n);
+
 		} else {
 			if (isVector) {
-				ret[0] = kernel.getManager3D().DependentVector3D(label, n);
+				ret[0] = kernel.getManager3D().DependentVector3D(n);
 			} else {
 				ret[0] = kernel.getManager3D().DependentPoint3D(n, true)
 						.toGeoElement();
-				ret[0].setLabel(label);
 			}
+
 		}
 
 		if (mode == Kernel.COORD_SPHERICAL) {
 			((GeoVec4D) ret[0]).setMode(Kernel.COORD_SPHERICAL);
-			ret[0].updateRepaint();
 		}
-
+		ret[0].setLabel(label);
 		return ret;
 	}
 

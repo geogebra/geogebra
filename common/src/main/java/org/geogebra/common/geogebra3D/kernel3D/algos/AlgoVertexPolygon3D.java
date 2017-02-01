@@ -16,23 +16,48 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  */
 public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
-
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param p
+	 *            polygon
+	 */
 	public AlgoVertexPolygon3D(Construction cons, String[] labels, GeoPoly p) {
 		super(cons, labels, p);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param p
+	 *            polygon
+	 */
 	public AlgoVertexPolygon3D(Construction cons, GeoPoly p) {
 		super(cons, p);
 	}
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param p
+	 *            polygon
+	 * @param v
+	 *            vertex index
+	 */
 	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p,
 			GeoNumberValue v) {
 		super(cons, label, p, v);
 	}
 
 	@Override
-	public GeoPointND newGeoPoint(Construction cons) {
-		return new GeoPoint3D(cons);
+	public GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint3D(cons1);
 	}
 
 	@Override

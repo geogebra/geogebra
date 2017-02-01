@@ -323,6 +323,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.setTrace = function(objName, flag) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setTrace(Ljava/lang/String;Z)(objName,flag);
 		};
+		
+		api.isTracing = function(objName) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isTracing(Ljava/lang/String;)(objName);
+		};
 
 		api.setLabelVisible = function(objName, visible) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLabelVisible(Ljava/lang/String;Z)(objName,visible);

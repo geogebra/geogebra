@@ -175,7 +175,7 @@ public class GgbAPIW extends GgbAPI {
 					.getLaTeXInput(StringTemplate.latexTemplate) : geo
 					.toString(StringTemplate.latexTemplate);
 		}
-		DrawEquationW.paintOnCanvas(geo, str, c, app.getFontSizeWeb());
+		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSizeWeb());
 		return c.toDataUrl().substring("data:image/png;base64,".length());
 	}
 
@@ -259,10 +259,22 @@ public class GgbAPIW extends GgbAPI {
 
 	}
 
+	/**
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
+	 * @param callback
+	 *            callback
+	 */
 	public void getBase64(boolean includeThumbnail, StringHandler callback) {
 		getBase64(includeThumbnail, nativeCallback(callback));
 	}
 
+	/**
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
+	 * @param callback
+	 *            callback
+	 */
 	public void getMacrosBase64(boolean includeThumbnail, StringHandler callback) {
 		getMacrosBase64(includeThumbnail, nativeCallback(callback));
 	}

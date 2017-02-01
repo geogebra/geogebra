@@ -62,7 +62,7 @@ public class CASTableCellW extends VerticalPanel {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
 
-				c = DrawEquationW.paintOnCanvas(casCell, eqstring, null,
+				c = DrawEquationW.paintOnCanvasOutput(casCell, eqstring, null,
 						casCell.getKernel().getApplication().getFontSize() + 1);
 
 			} else {
@@ -228,7 +228,7 @@ public class CASTableCellW extends VerticalPanel {
 										.getFontSizeWeb(), Unit.PX);
 					this.outputPanel.add(this.commentLabel);
 				}
-				this.outputPanel.add(DrawEquationW.paintOnCanvas(casCell,
+				this.outputPanel.add(DrawEquationW.paintOnCanvasOutput(casCell,
 						eqstring, null, casCell.getKernel().getApplication()
 								.getFontSizeWeb() + 1));
 			}

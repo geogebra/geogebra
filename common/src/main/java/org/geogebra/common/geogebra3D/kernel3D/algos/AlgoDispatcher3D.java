@@ -279,7 +279,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	public GeoVectorND Vector3D(String label) {
-		return (GeoVectorND) getManager3D().Vector3D(label, 0, 0, 0);
+		GeoVectorND ret = (GeoVectorND) getManager3D().Vector3D(0, 0, 0);
+		ret.setLabel(label);
+		return ret;
 	}
 
 	public GeoVectorND Vector3D() {

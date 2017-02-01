@@ -149,19 +149,16 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	@Override
-	final public GeoVector3D DependentVector3D(String label,
-			ExpressionNode root) {
-		AlgoDependentVector3D algo = new AlgoDependentVector3D(cons, label,
-				root);
+	final public GeoVector3D DependentVector3D(ExpressionNode root) {
+		AlgoDependentVector3D algo = new AlgoDependentVector3D(cons, root);
 		GeoVector3D P = algo.getVector3D();
 		return P;
 	}
 
 	@Override
-	final public GeoVector3D Vector3D(String label, double x, double y,
+	final public GeoVector3D Vector3D(double x, double y,
 			double z) {
 		GeoVector3D v = new GeoVector3D(cons, x, y, z);
-		v.setLabel(label); // invokes add()
 		return v;
 	}
 

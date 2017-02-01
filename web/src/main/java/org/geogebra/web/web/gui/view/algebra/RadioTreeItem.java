@@ -276,8 +276,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		getPlainTextItem().addStyleName("sqrtFontFix");
 		getPlainTextItem().addStyleName("avPlainTextItem");
+		if (app.has(Feature.AV_TEXT_BLACK)) {
+			getElement().getStyle().setColor("black");
+		} else {
+			updateColor(getPlainTextItem());
+		}
 
-		updateColor(getPlainTextItem());
 		updateFont(getPlainTextItem());
 
 		styleContent();
@@ -287,8 +291,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content.add(getPlainTextItem());
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
-
-		if (getLatexString(true, null) != null) {
+		String ltx = getLatexString(true, null);
+		if (ltx != null) {
 			if (getAV().isLaTeXLoaded()) {
 				doUpdate();
 			} else {
@@ -366,6 +370,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildPlainTextItem() {
 		if (geo.isIndependent() && geo.getDefinition() == null) {
+			Log.debug("null definition");
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					getBuilder(getPlainTextItem()));
 		} else {
@@ -536,7 +541,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		valuePanel.add(new HTML(sb.toString()));
 		if (latex) {
-			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
+			valCanvas = DrawEquationW.paintOnCanvasOutput(geo1, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
 			valuePanel.clear();
@@ -553,7 +558,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-
+			Log.debug("CONTENT" + geo.needToShowBothRowsInAV() + ","
+					+ isLatexTrivial() + "," + lastTeX);
 			if ((geo.needToShowBothRowsInAV() && !isLatexTrivial())
 					|| lastTeX != null) {
 				buildItemWithTwoRows();
@@ -640,7 +646,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (!plain.equals(text) || forceLatex) {
 			// LaTeX
-			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
+			valCanvas = DrawEquationW.paintOnCanvasOutput(previewGeo, text,
+					valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
 			valuePanel.clear();
@@ -888,8 +895,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void updateItemColor() {
 		updateColor(getPlainTextItem());
-		if (isDefinitionAndValue() && definitionPanel != null) {
-			updateColor(definitionPanel);
+		if (isDefinitionAndValue()
+				&& definitionPanel != null) {
+			if (app.has(Feature.AV_TEXT_BLACK)) {
+				definitionPanel.getElement().getStyle()
+						.setColor("black");
+			} else {
+				updateColor(definitionPanel);
+			}
 		}
 	}
 

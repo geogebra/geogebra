@@ -444,9 +444,10 @@ public class EuclidianControllerCompanion {
 
 		ec.checkZooming(forPreviewable);
 
-		GeoPointND ret = ec.getAlgoDispatcher().Point(null,
+		GeoPointND ret = ec.getAlgoDispatcher().Point(
 				Kernel.checkDecimalFraction(ec.xRW),
 				Kernel.checkDecimalFraction(ec.yRW), complex);
+		ret.setLabel(null);
 		return ret;
 	}
 

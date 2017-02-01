@@ -3030,11 +3030,12 @@ public class AlgebraProcessor {
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector) {
-				ret[0] = kernel.getAlgoDispatcher().Vector(label, x, y);
+				ret[0] = kernel.getAlgoDispatcher().Vector(x, y);
 			} else {
-				ret[0] = kernel.getAlgoDispatcher().Point(label, x, y, complex);
+				ret[0] = kernel.getAlgoDispatcher().Point(x, y, complex);
 			}
 			ret[0].setDefinition(n);
+			ret[0].setLabel(label);
 		} else {
 			if (isVector) {
 				ret[0] = dependentVector(label, n);
