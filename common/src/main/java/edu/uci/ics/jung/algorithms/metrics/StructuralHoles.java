@@ -100,9 +100,8 @@ public class StructuralHoles<V, E> {
 
 		if (degree == 0) {
 			return 0;
-		} else {
-			return effectiveSize(v) / degree;
 		}
+		return effectiveSize(v) / degree;
 	}
 
 	/**

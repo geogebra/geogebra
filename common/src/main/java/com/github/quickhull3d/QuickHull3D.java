@@ -267,9 +267,8 @@ public class QuickHull3D {
 			claimed.delete(face.outside, end);
 			end.next = null;
 			return face.outside;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -1147,9 +1146,8 @@ public class QuickHull3D {
 				}
 			}
 			return eyeVtx;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	protected void addPointToHull(Vertex eyeVtx) {

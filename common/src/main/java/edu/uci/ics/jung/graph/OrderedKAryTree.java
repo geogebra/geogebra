@@ -252,9 +252,8 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 				throw new IllegalArgumentException("Tree already includes edge"
 						+ e + " with different endpoints "
 						+ edge_vpairs.get(e));
-			} else {
-				return false;
 			}
+			return false;
 		}
 
 		VertexData parent_data = vertex_data.get(parent);
@@ -269,9 +268,8 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 			throw new IllegalArgumentException(
 					"Parent " + parent + " already has a child at index "
 							+ index + " in this tree");
-		} else {
-			outedges.set(index, e);
 		}
+		outedges.set(index, e);
 		for (int i = 0; i < order; i++) {
 			if (outedges.get(i) == null) {
 				outedges.set(i, e);
@@ -587,10 +585,9 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 			vertex_data.put(vertex, new VertexData(null, 0));
 			this.height = 0;
 			return true;
-		} else {
-			throw new UnsupportedOperationException("Unless you are setting "
-					+ "the root, use addEdge() or addChild()");
 		}
+		throw new UnsupportedOperationException("Unless you are setting "
+				+ "the root, use addEdge() or addChild()");
 	}
 
 	/**
@@ -667,9 +664,8 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		E edge = findEdge(v1, v2);
 		if (edge == null) {
 			return Collections.emptySet();
-		} else {
-			return Collections.singleton(edge);
 		}
+		return Collections.singleton(edge);
 	}
 
 	/**

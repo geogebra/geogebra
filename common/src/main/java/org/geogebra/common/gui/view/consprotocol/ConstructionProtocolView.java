@@ -427,9 +427,8 @@ public class ConstructionProtocolView {
 			int pos = rowList.size() - 1;
 			if (pos >= 0) {
 				return rowList.get(pos).getIndex();
-			} else {
-				return 0;
 			}
+			return 0;
 		}
 
 		/**

@@ -266,9 +266,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		File file = new File(getPref().loadPreference(APP_FILE_ + "1", ""));
 		if (file.exists()) {
 			return file.getParentFile();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**

@@ -255,9 +255,8 @@ public class CSVParser {
 				String s = pending;
 				pending = null;
 				return new String[] { s };
-			} else {
-				return null;
 			}
+			return null;
 		}
 
 		List<String> tokensOnThisLine = new ArrayList<String>();

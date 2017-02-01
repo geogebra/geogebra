@@ -171,10 +171,9 @@ public class KleinbergSmallWorldGenerator<V, E>
 					int distance = v_dist + h_dist;
 					if (distance < 2) {
 						continue;
-					} else {
-						vertex_weights.put(getVertex(j, k), (float) Math
-								.pow(distance, -clustering_exponent));
 					}
+					vertex_weights.put(getVertex(j, k),
+							(float) Math.pow(distance, -clustering_exponent));
 				}
 			}
 

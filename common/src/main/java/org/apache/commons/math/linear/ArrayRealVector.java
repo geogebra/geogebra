@@ -310,16 +310,15 @@ public class ArrayRealVector extends AbstractRealVector
 	public RealVector add(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return add((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double[] out = Cloner.clone(data);
-			Iterator<Entry> it = v.sparseIterator();
-			Entry e;
-			while (it.hasNext() && (e = it.next()) != null) {
-				out[e.getIndex()] += e.getValue();
-			}
-			return new ArrayRealVector(out, false);
 		}
+		checkVectorDimensions(v);
+		double[] out = Cloner.clone(data);
+		Iterator<Entry> it = v.sparseIterator();
+		Entry e;
+		while (it.hasNext() && (e = it.next()) != null) {
+			out[e.getIndex()] += e.getValue();
+		}
+		return new ArrayRealVector(out, false);
 	}
 
 	/** {@inheritDoc} */
@@ -352,16 +351,15 @@ public class ArrayRealVector extends AbstractRealVector
 	public RealVector subtract(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return subtract((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double[] out = Cloner.clone(data);
-			Iterator<Entry> it = v.sparseIterator();
-			Entry e;
-			while (it.hasNext() && (e = it.next()) != null) {
-				out[e.getIndex()] -= e.getValue();
-			}
-			return new ArrayRealVector(out, false);
 		}
+		checkVectorDimensions(v);
+		double[] out = Cloner.clone(data);
+		Iterator<Entry> it = v.sparseIterator();
+		Entry e;
+		while (it.hasNext() && (e = it.next()) != null) {
+			out[e.getIndex()] -= e.getValue();
+		}
+		return new ArrayRealVector(out, false);
 	}
 
 	/** {@inheritDoc} */
@@ -647,14 +645,13 @@ public class ArrayRealVector extends AbstractRealVector
 			throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return ebeMultiply((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double[] out = Cloner.clone(data);
-			for (int i = 0; i < data.length; i++) {
-				out[i] *= v.getEntry(i);
-			}
-			return new ArrayRealVector(out, false);
 		}
+		checkVectorDimensions(v);
+		double[] out = Cloner.clone(data);
+		for (int i = 0; i < data.length; i++) {
+			out[i] *= v.getEntry(i);
+		}
+		return new ArrayRealVector(out, false);
 	}
 
 	/** {@inheritDoc} */
@@ -687,14 +684,13 @@ public class ArrayRealVector extends AbstractRealVector
 	public RealVector ebeDivide(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return ebeDivide((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double[] out = Cloner.clone(data);
-			for (int i = 0; i < data.length; i++) {
-				out[i] /= v.getEntry(i);
-			}
-			return new ArrayRealVector(out, false);
 		}
+		checkVectorDimensions(v);
+		double[] out = Cloner.clone(data);
+		for (int i = 0; i < data.length; i++) {
+			out[i] /= v.getEntry(i);
+		}
+		return new ArrayRealVector(out, false);
 	}
 
 	/** {@inheritDoc} */
@@ -745,16 +741,15 @@ public class ArrayRealVector extends AbstractRealVector
 	public double dotProduct(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return dotProduct((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double dot = 0;
-			Iterator<Entry> it = v.sparseIterator();
-			Entry e;
-			while (it.hasNext() && (e = it.next()) != null) {
-				dot += data[e.getIndex()] * e.getValue();
-			}
-			return dot;
 		}
+		checkVectorDimensions(v);
+		double dot = 0;
+		Iterator<Entry> it = v.sparseIterator();
+		Entry e;
+		while (it.hasNext() && (e = it.next()) != null) {
+			dot += data[e.getIndex()] * e.getValue();
+		}
+		return dot;
 	}
 
 	/** {@inheritDoc} */
@@ -817,15 +812,14 @@ public class ArrayRealVector extends AbstractRealVector
 	public double getDistance(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return getDistance((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double sum = 0;
-			for (int i = 0; i < data.length; ++i) {
-				final double delta = data[i] - v.getEntry(i);
-				sum += delta * delta;
-			}
-			return FastMath.sqrt(sum);
 		}
+		checkVectorDimensions(v);
+		double sum = 0;
+		for (int i = 0; i < data.length; ++i) {
+			final double delta = data[i] - v.getEntry(i);
+			sum += delta * delta;
+		}
+		return FastMath.sqrt(sum);
 	}
 
 	/** {@inheritDoc} */
@@ -868,15 +862,14 @@ public class ArrayRealVector extends AbstractRealVector
 	public double getL1Distance(RealVector v) throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return getL1Distance((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double sum = 0;
-			for (int i = 0; i < data.length; ++i) {
-				final double delta = data[i] - v.getEntry(i);
-				sum += FastMath.abs(delta);
-			}
-			return sum;
 		}
+		checkVectorDimensions(v);
+		double sum = 0;
+		for (int i = 0; i < data.length; ++i) {
+			final double delta = data[i] - v.getEntry(i);
+			sum += FastMath.abs(delta);
+		}
+		return sum;
 	}
 
 	/** {@inheritDoc} */
@@ -919,15 +912,14 @@ public class ArrayRealVector extends AbstractRealVector
 			throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return getLInfDistance((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			double max = 0;
-			for (int i = 0; i < data.length; ++i) {
-				final double delta = data[i] - v.getEntry(i);
-				max = FastMath.max(max, FastMath.abs(delta));
-			}
-			return max;
 		}
+		checkVectorDimensions(v);
+		double max = 0;
+		for (int i = 0; i < data.length; ++i) {
+			final double delta = data[i] - v.getEntry(i);
+			max = FastMath.max(max, FastMath.abs(delta));
+		}
+		return max;
 	}
 
 	/** {@inheritDoc} */
@@ -1017,17 +1009,16 @@ public class ArrayRealVector extends AbstractRealVector
 			throws IllegalArgumentException {
 		if (v instanceof ArrayRealVector) {
 			return outerProduct((ArrayRealVector) v);
-		} else {
-			checkVectorDimensions(v);
-			final int m = data.length;
-			final RealMatrix out = MatrixUtils.createRealMatrix(m, m);
-			for (int i = 0; i < data.length; i++) {
-				for (int j = 0; j < data.length; j++) {
-					out.setEntry(i, j, data[i] * v.getEntry(j));
-				}
-			}
-			return out;
 		}
+		checkVectorDimensions(v);
+		final int m = data.length;
+		final RealMatrix out = MatrixUtils.createRealMatrix(m, m);
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data.length; j++) {
+				out.setEntry(i, j, data[i] * v.getEntry(j));
+			}
+		}
+		return out;
 	}
 
 	/**
@@ -1075,9 +1066,8 @@ public class ArrayRealVector extends AbstractRealVector
 	public RealVector append(RealVector v) {
 		if (v instanceof ArrayRealVector) {
 			return new ArrayRealVector(this, (ArrayRealVector) v);
-		} else {
-			return new ArrayRealVector(this, v);
 		}
+		return new ArrayRealVector(this, v);
 	}
 
 	/**

@@ -191,9 +191,8 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix
 	public RealMatrix add(final RealMatrix m) throws IllegalArgumentException {
 		if (m instanceof Array2DRowRealMatrix) {
 			return add((Array2DRowRealMatrix) m);
-		} else {
-			return super.add(m);
 		}
+		return super.add(m);
 	}
 
 	/**
@@ -233,9 +232,8 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix
 			throws IllegalArgumentException {
 		if (m instanceof Array2DRowRealMatrix) {
 			return subtract((Array2DRowRealMatrix) m);
-		} else {
-			return super.subtract(m);
 		}
+		return super.subtract(m);
 	}
 
 	/**
@@ -275,9 +273,8 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix
 			throws IllegalArgumentException {
 		if (m instanceof Array2DRowRealMatrix) {
 			return multiply((Array2DRowRealMatrix) m);
-		} else {
-			return super.multiply(m);
 		}
+		return super.multiply(m);
 	}
 
 	/**

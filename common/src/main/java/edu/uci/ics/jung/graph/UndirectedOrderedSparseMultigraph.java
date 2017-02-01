@@ -63,9 +63,8 @@ public class UndirectedOrderedSparseMultigraph<V, E> extends
 		if (!containsVertex(vertex)) {
 			vertices.put(vertex, new LinkedHashSet<E>());
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

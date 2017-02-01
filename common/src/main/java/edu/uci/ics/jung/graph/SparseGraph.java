@@ -211,9 +211,8 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		endpoints = directed_edges.get(edge);
 		if (endpoints == null) {
 			return undirected_edges.get(edge);
-		} else {
-			return endpoints;
 		}
+		return endpoints;
 	}
 
 	@Override
@@ -231,18 +230,16 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 	public V getSource(E directed_edge) {
 		if (getEdgeType(directed_edge) == EdgeType.DIRECTED) {
 			return directed_edges.get(directed_edge).getFirst();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
 	public V getDest(E directed_edge) {
 		if (getEdgeType(directed_edge) == EdgeType.DIRECTED) {
 			return directed_edges.get(directed_edge).getSecond();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override
@@ -254,9 +251,8 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		V source = getSource(edge);
 		if (source != null) {
 			return source.equals(vertex);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override
@@ -268,9 +264,8 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		V dest = getDest(edge);
 		if (dest != null) {
 			return dest.equals(vertex);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override
@@ -341,9 +336,8 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 			vertex_maps.put(vertex, new HashMap[] { new HashMap<V, E>(),
 					new HashMap<V, E>(), new HashMap<V, E>() });
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

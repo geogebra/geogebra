@@ -129,13 +129,12 @@ public class Complex implements FieldElement<Complex>, Serializable {
 			}
 			double q = real / imaginary;
 			return FastMath.abs(imaginary) * FastMath.sqrt(1 + q * q);
-		} else {
-			if (real == 0.0) {
-				return FastMath.abs(imaginary);
-			}
-			double q = imaginary / real;
-			return FastMath.abs(real) * FastMath.sqrt(1 + q * q);
 		}
+		if (real == 0.0) {
+			return FastMath.abs(imaginary);
+		}
+		double q = imaginary / real;
+		return FastMath.abs(real) * FastMath.sqrt(1 + q * q);
 	}
 
 	/**
@@ -252,12 +251,11 @@ public class Complex implements FieldElement<Complex>, Serializable {
 			double denominator = c * q + d;
 			return createComplex((real * q + imaginary) / denominator,
 					(imaginary * q - real) / denominator);
-		} else {
-			double q = d / c;
-			double denominator = d * q + c;
-			return createComplex((imaginary * q + real) / denominator,
-					(imaginary - real * q) / denominator);
 		}
+		double q = d / c;
+		double denominator = d * q + c;
+		return createComplex((imaginary * q + real) / denominator,
+				(imaginary - real * q) / denominator);
 	}
 
 	/**
@@ -289,9 +287,8 @@ public class Complex implements FieldElement<Complex>, Serializable {
 			Complex rhs = (Complex) other;
 			if (rhs.isNaN()) {
 				return this.isNaN();
-			} else {
-				return (real == rhs.real) && (imaginary == rhs.imaginary);
 			}
+			return (real == rhs.real) && (imaginary == rhs.imaginary);
 		}
 		return false;
 	}
@@ -937,10 +934,9 @@ public class Complex implements FieldElement<Complex>, Serializable {
 		double t = FastMath.sqrt((FastMath.abs(real) + abs()) / 2.0);
 		if (real >= 0.0) {
 			return createComplex(t, imaginary / (2.0 * t));
-		} else {
-			return createComplex(FastMath.abs(imaginary) / (2.0 * t),
-					MathUtils.indicator(imaginary) * t);
 		}
+		return createComplex(FastMath.abs(imaginary) / (2.0 * t),
+				MathUtils.indicator(imaginary) * t);
 	}
 
 	/**

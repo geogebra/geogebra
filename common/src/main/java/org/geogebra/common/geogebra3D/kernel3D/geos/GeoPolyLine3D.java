@@ -345,10 +345,9 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			if (!normal.equalsForKernel(new Coords(0, 0, 0),
 					Kernel.STANDARD_PRECISION)) {
 				break;
-			} else {
-				direction2 = null;
-				normal = null;
 			}
+			direction2 = null;
+			normal = null;
 		}
 
 		if (direction2 == null || index2 == getNumPoints() - 1) {

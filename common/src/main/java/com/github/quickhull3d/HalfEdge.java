@@ -186,9 +186,8 @@ class HalfEdge {
 	public String getVertexString() {
 		if (tail() != null) {
 			return "" + tail().index + "-" + head().index;
-		} else {
-			return "?-" + head().index;
 		}
+		return "?-" + head().index;
 	}
 
 	/**
@@ -199,9 +198,8 @@ class HalfEdge {
 	public double length() {
 		if (tail() != null) {
 			return head().pnt.distance(tail().pnt);
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 
 	/**
@@ -212,9 +210,8 @@ class HalfEdge {
 	public double lengthSquared() {
 		if (tail() != null) {
 			return head().pnt.distanceSquared(tail().pnt);
-		} else {
-			return -1;
 		}
+		return -1;
 	}
 
 	// /**

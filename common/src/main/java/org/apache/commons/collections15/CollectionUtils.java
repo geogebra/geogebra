@@ -342,22 +342,20 @@ public class CollectionUtils {
 			final Collection<? extends E> b) {
 		if (a.size() != b.size()) {
 			return false;
-		} else {
-			Map mapa = getCardinalityMap(a);
-			Map mapb = getCardinalityMap(b);
-			if (mapa.size() != mapb.size()) {
+		}
+		Map mapa = getCardinalityMap(a);
+		Map mapb = getCardinalityMap(b);
+		if (mapa.size() != mapb.size()) {
+			return false;
+		}
+		Iterator it = mapa.keySet().iterator();
+		while (it.hasNext()) {
+			Object obj = it.next();
+			if (getFreq(obj, mapa) != getFreq(obj, mapb)) {
 				return false;
-			} else {
-				Iterator it = mapa.keySet().iterator();
-				while (it.hasNext()) {
-					Object obj = it.next();
-					if (getFreq(obj, mapa) != getFreq(obj, mapb)) {
-						return false;
-					}
-				}
-				return true;
 			}
 		}
+		return true;
 	}
 
 	// /**
@@ -888,9 +886,8 @@ public class CollectionUtils {
 				idx--;
 				if (idx == -1) {
 					return it.nextElement();
-				} else {
-					it.nextElement();
 				}
+				it.nextElement();
 			}
 		} else if (obj instanceof Iterator) {
 			return index((Iterator) obj, idx);
@@ -906,9 +903,8 @@ public class CollectionUtils {
 			idx--;
 			if (idx == -1) {
 				return iterator.next();
-			} else {
-				iterator.next();
 			}
+			iterator.next();
 		}
 		return iterator;
 	}

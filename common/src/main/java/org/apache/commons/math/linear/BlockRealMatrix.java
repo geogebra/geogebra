@@ -356,42 +356,39 @@ public class BlockRealMatrix extends AbstractRealMatrix
 			throws IllegalArgumentException {
 		if (m instanceof BlockRealMatrix) {
 			return add((BlockRealMatrix) m);
-		} else {
-
-			// safety check
-			MatrixUtils.checkAdditionCompatible(this, m);
-
-			final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
-
-			// perform addition block-wise, to ensure good cache behavior
-			int blockIndex = 0;
-			for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-				for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-
-					// perform addition on the current block
-					final double[] outBlock = out.blocks[blockIndex];
-					final double[] tBlock = blocks[blockIndex];
-					final int pStart = iBlock * BLOCK_SIZE;
-					final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
-					final int qStart = jBlock * BLOCK_SIZE;
-					final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
-					int k = 0;
-					for (int p = pStart; p < pEnd; ++p) {
-						for (int q = qStart; q < qEnd; ++q) {
-							outBlock[k] = tBlock[k] + m.getEntry(p, q);
-							++k;
-						}
-					}
-
-					// go to next block
-					++blockIndex;
-
-				}
-			}
-
-			return out;
-
 		}
+		// safety check
+		MatrixUtils.checkAdditionCompatible(this, m);
+
+		final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
+
+		// perform addition block-wise, to ensure good cache behavior
+		int blockIndex = 0;
+		for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
+			for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
+
+				// perform addition on the current block
+				final double[] outBlock = out.blocks[blockIndex];
+				final double[] tBlock = blocks[blockIndex];
+				final int pStart = iBlock * BLOCK_SIZE;
+				final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+				final int qStart = jBlock * BLOCK_SIZE;
+				final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+				int k = 0;
+				for (int p = pStart; p < pEnd; ++p) {
+					for (int q = qStart; q < qEnd; ++q) {
+						outBlock[k] = tBlock[k] + m.getEntry(p, q);
+						++k;
+					}
+				}
+
+				// go to next block
+				++blockIndex;
+
+			}
+		}
+
+		return out;
 	}
 
 	/**
@@ -431,42 +428,39 @@ public class BlockRealMatrix extends AbstractRealMatrix
 			throws IllegalArgumentException {
 		if (m instanceof BlockRealMatrix) {
 			return subtract((BlockRealMatrix) m);
-		} else {
-
-			// safety check
-			MatrixUtils.checkSubtractionCompatible(this, m);
-
-			final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
-
-			// perform subtraction block-wise, to ensure good cache behavior
-			int blockIndex = 0;
-			for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
-				for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
-
-					// perform subtraction on the current block
-					final double[] outBlock = out.blocks[blockIndex];
-					final double[] tBlock = blocks[blockIndex];
-					final int pStart = iBlock * BLOCK_SIZE;
-					final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
-					final int qStart = jBlock * BLOCK_SIZE;
-					final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
-					int k = 0;
-					for (int p = pStart; p < pEnd; ++p) {
-						for (int q = qStart; q < qEnd; ++q) {
-							outBlock[k] = tBlock[k] - m.getEntry(p, q);
-							++k;
-						}
-					}
-
-					// go to next block
-					++blockIndex;
-
-				}
-			}
-
-			return out;
-
 		}
+		// safety check
+		MatrixUtils.checkSubtractionCompatible(this, m);
+
+		final BlockRealMatrix out = new BlockRealMatrix(rows, columns);
+
+		// perform subtraction block-wise, to ensure good cache behavior
+		int blockIndex = 0;
+		for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
+			for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
+
+				// perform subtraction on the current block
+				final double[] outBlock = out.blocks[blockIndex];
+				final double[] tBlock = blocks[blockIndex];
+				final int pStart = iBlock * BLOCK_SIZE;
+				final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+				final int qStart = jBlock * BLOCK_SIZE;
+				final int qEnd = FastMath.min(qStart + BLOCK_SIZE, columns);
+				int k = 0;
+				for (int p = pStart; p < pEnd; ++p) {
+					for (int q = qStart; q < qEnd; ++q) {
+						outBlock[k] = tBlock[k] - m.getEntry(p, q);
+						++k;
+					}
+				}
+
+				// go to next block
+				++blockIndex;
+
+			}
+		}
+
+		return out;
 	}
 
 	/**
@@ -546,62 +540,59 @@ public class BlockRealMatrix extends AbstractRealMatrix
 			throws IllegalArgumentException {
 		if (m instanceof BlockRealMatrix) {
 			return multiply((BlockRealMatrix) m);
-		} else {
+		}
+		// safety check
+		MatrixUtils.checkMultiplicationCompatible(this, m);
 
-			// safety check
-			MatrixUtils.checkMultiplicationCompatible(this, m);
+		final BlockRealMatrix out = new BlockRealMatrix(rows,
+				m.getColumnDimension());
 
-			final BlockRealMatrix out = new BlockRealMatrix(rows,
-					m.getColumnDimension());
+		// perform multiplication block-wise, to ensure good cache behavior
+		int blockIndex = 0;
+		for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
 
-			// perform multiplication block-wise, to ensure good cache behavior
-			int blockIndex = 0;
-			for (int iBlock = 0; iBlock < out.blockRows; ++iBlock) {
+			final int pStart = iBlock * BLOCK_SIZE;
+			final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
 
-				final int pStart = iBlock * BLOCK_SIZE;
-				final int pEnd = FastMath.min(pStart + BLOCK_SIZE, rows);
+			for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
 
-				for (int jBlock = 0; jBlock < out.blockColumns; ++jBlock) {
+				final int qStart = jBlock * BLOCK_SIZE;
+				final int qEnd = FastMath.min(qStart + BLOCK_SIZE,
+						m.getColumnDimension());
 
-					final int qStart = jBlock * BLOCK_SIZE;
-					final int qEnd = FastMath.min(qStart + BLOCK_SIZE,
-							m.getColumnDimension());
+				// select current block
+				final double[] outBlock = out.blocks[blockIndex];
 
-					// select current block
-					final double[] outBlock = out.blocks[blockIndex];
-
-					// perform multiplication on current block
-					for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
-						final int kWidth = blockWidth(kBlock);
-						final double[] tBlock = blocks[iBlock * blockColumns
-								+ kBlock];
-						final int rStart = kBlock * BLOCK_SIZE;
-						int k = 0;
-						for (int p = pStart; p < pEnd; ++p) {
-							final int lStart = (p - pStart) * kWidth;
-							final int lEnd = lStart + kWidth;
-							for (int q = qStart; q < qEnd; ++q) {
-								double sum = 0;
-								int r = rStart;
-								for (int l = lStart; l < lEnd; ++l) {
-									sum += tBlock[l] * m.getEntry(r, q);
-									++r;
-								}
-								outBlock[k] += sum;
-								++k;
+				// perform multiplication on current block
+				for (int kBlock = 0; kBlock < blockColumns; ++kBlock) {
+					final int kWidth = blockWidth(kBlock);
+					final double[] tBlock = blocks[iBlock * blockColumns
+							+ kBlock];
+					final int rStart = kBlock * BLOCK_SIZE;
+					int k = 0;
+					for (int p = pStart; p < pEnd; ++p) {
+						final int lStart = (p - pStart) * kWidth;
+						final int lEnd = lStart + kWidth;
+						for (int q = qStart; q < qEnd; ++q) {
+							double sum = 0;
+							int r = rStart;
+							for (int l = lStart; l < lEnd; ++l) {
+								sum += tBlock[l] * m.getEntry(r, q);
+								++r;
 							}
+							outBlock[k] += sum;
+							++k;
 						}
 					}
-
-					// go to next block
-					++blockIndex;
-
 				}
+
+				// go to next block
+				++blockIndex;
+
 			}
-
-			return out;
-
 		}
+
+		return out;
 	}
 
 	/**

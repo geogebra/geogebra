@@ -93,9 +93,8 @@ public class SetHypergraph<V, H>
 			if (!attached.equals(new_endpoints)) {
 				throw new IllegalArgumentException("Edge " + hyperedge
 						+ " exists in this graph with endpoints " + attached);
-			} else {
-				return false;
 			}
+			return false;
 		}
 		edges.put(hyperedge, new_endpoints);
 		for (V v : to_attach) {
@@ -129,9 +128,8 @@ public class SetHypergraph<V, H>
 	public EdgeType getEdgeType(H edge) {
 		if (containsEdge(edge)) {
 			return EdgeType.UNDIRECTED;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	@Override

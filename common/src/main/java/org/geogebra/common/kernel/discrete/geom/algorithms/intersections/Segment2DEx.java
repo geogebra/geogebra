@@ -41,9 +41,8 @@ public class Segment2DEx extends Segment2D {
 		double x1 = p1.getX();
 		if (x0 < x1) {
 			return new LeftEndPoint(p0.getX(), p0.getY(), this);
-		} else {
-			return new LeftEndPoint(p1.getX(), p1.getY(), this);
 		}
+		return new LeftEndPoint(p1.getX(), p1.getY(), this);
 	}
 
 	public Point2D getRightEndPoint() {
@@ -53,8 +52,7 @@ public class Segment2DEx extends Segment2D {
 		double x1 = p1.getX();
 		if (x0 >= x1) {
 			return new RightEndPoint(p0.getX(), p0.getY(), this);
-		} else {
-			return new RightEndPoint(p1.getX(), p1.getY(), this);
 		}
+		return new RightEndPoint(p1.getX(), p1.getY(), this);
 	}
 }

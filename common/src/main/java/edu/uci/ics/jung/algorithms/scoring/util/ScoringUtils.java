@@ -40,9 +40,8 @@ public class ScoringUtils {
 			public Double transform(V input) {
 				if (inner_roots.contains(input)) {
 					return new Double(1.0 / inner_roots.size());
-				} else {
-					return 0.0;
 				}
+				return 0.0;
 			}
 		};
 
@@ -69,9 +68,8 @@ public class ScoringUtils {
 				if (inner_roots.contains(input)) {
 					return new HITS.Scores(1.0 / inner_roots.size(),
 							1.0 / inner_roots.size());
-				} else {
-					return new HITS.Scores(0.0, 0.0);
 				}
+				return new HITS.Scores(0.0, 0.0);
 			}
 		};
 		return distribution;

@@ -72,9 +72,8 @@ public class CloneTransformer<T> implements Transformer<T, T>, Serializable {
 		}
 		if (input instanceof GWTCloneable) {
 			return (T) ((GWTCloneable) input).duplicate();
-		} else {
-			throw new RuntimeException("Cloning is not supported for:" + input);
 		}
+		throw new RuntimeException("Cloning is not supported for:" + input);
 	}
 
 

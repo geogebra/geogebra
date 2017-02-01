@@ -94,9 +94,8 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic
 	public double getResult() {
 		if (n > 0) {
 			return value;
-		} else {
-			return Double.NaN;
 		}
+		return Double.NaN;
 	}
 
 	/**

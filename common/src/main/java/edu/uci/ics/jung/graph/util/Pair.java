@@ -133,9 +133,8 @@ public final class Pair<T> implements Collection<T>, Serializable {
 					|| (this.first != null && this.first.equals(otherFirst)))
 					&& (this.second == otherSecond || (this.second != null
 							&& this.second.equals(otherSecond)));
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

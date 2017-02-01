@@ -340,10 +340,9 @@ public final class GeoGebraLexer extends Lexer
 			int c = zzReader.read();
 			if (c == -1) {
 				return true;
-			} else {
-				zzBuffer[zzEndRead++] = (char) c;
-				return false;
 			}
+			zzBuffer[zzEndRead++] = (char) c;
+			return false;
 		}
 
 		// numRead < 0
@@ -522,9 +521,8 @@ public final class GeoGebraLexer extends Lexer
 						if (eof) {
 							zzInput = YYEOF;
 							break zzForAction;
-						} else {
-							zzInput = zzBufferL[zzCurrentPosL++];
 						}
+						zzInput = zzBufferL[zzCurrentPosL++];
 					}
 					zzInput = zzCMapL[zzInput];
 
@@ -6172,9 +6170,8 @@ public final class GeoGebraLexer extends Lexer
 					{
 						return GeoGebraLexerConstants.EOF;
 					}
-				} else {
-					zzScanError(ZZ_NO_MATCH);
 				}
+				zzScanError(ZZ_NO_MATCH);
 			}
 		}
 	}

@@ -192,9 +192,8 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 		verifySequence(min, initial, max);
 		if (isBracketing(min, initial, f)) {
 			return solve(f, min, initial);
-		} else {
-			return solve(f, initial, max);
 		}
+		return solve(f, initial, max);
 
 	}
 

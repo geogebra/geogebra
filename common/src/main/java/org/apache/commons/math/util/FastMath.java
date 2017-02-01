@@ -345,17 +345,15 @@ public class FastMath {
 				// Avoid overflow (MATH-905).
 				final double t = exp(0.5 * x);
 				return (0.5 * t) * t;
-			} else {
-				return 0.5 * exp(x);
 			}
+			return 0.5 * exp(x);
 		} else if (x < -20) {
 			if (x <= -LOG_MAX_VALUE) {
 				// Avoid overflow (MATH-905).
 				final double t = exp(-0.5 * x);
 				return (0.5 * t) * t;
-			} else {
-				return 0.5 * exp(-x);
 			}
+			return 0.5 * exp(-x);
 		}
 
 		final double hiPrec[] = new double[2];
@@ -419,17 +417,15 @@ public class FastMath {
 				// Avoid overflow (MATH-905).
 				final double t = exp(0.5 * x);
 				return (0.5 * t) * t;
-			} else {
-				return 0.5 * exp(x);
 			}
+			return 0.5 * exp(x);
 		} else if (x < -20) {
 			if (x <= -LOG_MAX_VALUE) {
 				// Avoid overflow (MATH-905).
 				final double t = exp(-0.5 * x);
 				return (-0.5 * t) * t;
-			} else {
-				return -0.5 * exp(-x);
 			}
+			return -0.5 * exp(-x);
 		}
 
 		if (x == 0) {
@@ -1013,12 +1009,11 @@ public class FastMath {
 			exp(x, 0.0, hiPrec);
 			if (x > 0.0) {
 				return -1.0 + hiPrec[0] + hiPrec[1];
-			} else {
-				final double ra = -1.0 + hiPrec[0];
-				double rb = -(ra + 1.0 - hiPrec[0]);
-				rb += hiPrec[1];
-				return ra + rb;
 			}
+			final double ra = -1.0 + hiPrec[0];
+			double rb = -(ra + 1.0 - hiPrec[0]);
+			rb += hiPrec[1];
+			return ra + rb;
 		}
 
 		double baseA;
@@ -1795,9 +1790,8 @@ public class FastMath {
 			}
 			if (y < 0.0) {
 				return 0.0;
-			} else {
-				return Double.POSITIVE_INFINITY;
 			}
+			return Double.POSITIVE_INFINITY;
 		}
 
 		if (y == Double.POSITIVE_INFINITY) {
@@ -1807,9 +1801,8 @@ public class FastMath {
 
 			if (x * x > 1.0) {
 				return Double.POSITIVE_INFINITY;
-			} else {
-				return 0.0;
 			}
+			return 0.0;
 		}
 
 		if (x == Double.NEGATIVE_INFINITY) {
@@ -1844,9 +1837,8 @@ public class FastMath {
 
 			if (x * x < 1.0) {
 				return Double.POSITIVE_INFINITY;
-			} else {
-				return 0.0;
 			}
+			return 0.0;
 		}
 
 		/* Handle special case x<0 */
@@ -1859,9 +1851,8 @@ public class FastMath {
 			if (y == (long) y) {
 				// If y is an integer
 				return ((long) y & 1) == 0 ? pow(-x, y) : -pow(-x, y);
-			} else {
-				return Double.NaN;
 			}
+			return Double.NaN;
 		}
 
 		/* Split y into ya and yb such that y = ya+yb */
@@ -3194,20 +3185,17 @@ public class FastMath {
 			if (invx == 0.0) { // X is infinite
 				if (x > 0) {
 					return y; // return +/- 0.0
-				} else {
-					return copySign(Math.PI, y);
 				}
+				return copySign(Math.PI, y);
 			}
 
 			if (x < 0.0 || invx < 0.0) {
 				if (y < 0.0 || invy < 0.0) {
 					return -Math.PI;
-				} else {
-					return Math.PI;
 				}
-			} else {
-				return result;
+				return Math.PI;
 			}
+			return result;
 		}
 
 		// y cannot now be zero
@@ -3748,33 +3736,31 @@ public class FastMath {
 				// no need to compute the mantissa, the number scales down to 0
 				return (sign == 0L) ? 0.0 : -0.0;
 			}
-		} else {
-			// we are really in the case n >= 1024
-			if (exponent == 0) {
+		}
+		// we are really in the case n >= 1024
+		if (exponent == 0) {
 
-				// the input number is subnormal, normalize it
-				while ((mantissa >>> 52) != 1) {
-					mantissa = mantissa << 1;
-					--scaledExponent;
-				}
-				++scaledExponent;
-				mantissa = mantissa & 0x000fffffffffffffL;
+			// the input number is subnormal, normalize it
+			while ((mantissa >>> 52) != 1) {
+				mantissa = mantissa << 1;
+				--scaledExponent;
+			}
+			++scaledExponent;
+			mantissa = mantissa & 0x000fffffffffffffL;
 
-				if (scaledExponent < 2047) {
-					return Double.longBitsToDouble(
-							sign | (((long) scaledExponent) << 52) | mantissa);
-				} else {
-					return (sign == 0L) ? Double.POSITIVE_INFINITY
-							: Double.NEGATIVE_INFINITY;
-				}
-
-			} else if (scaledExponent < 2047) {
+			if (scaledExponent < 2047) {
 				return Double.longBitsToDouble(
 						sign | (((long) scaledExponent) << 52) | mantissa);
-			} else {
-				return (sign == 0L) ? Double.POSITIVE_INFINITY
-						: Double.NEGATIVE_INFINITY;
 			}
+			return (sign == 0L) ? Double.POSITIVE_INFINITY
+					: Double.NEGATIVE_INFINITY;
+
+		} else if (scaledExponent < 2047) {
+			return Double.longBitsToDouble(
+					sign | (((long) scaledExponent) << 52) | mantissa);
+		} else {
+			return (sign == 0L) ? Double.POSITIVE_INFINITY
+					: Double.NEGATIVE_INFINITY;
 		}
 
 	}
@@ -3845,33 +3831,31 @@ public class FastMath {
 				// no need to compute the mantissa, the number scales down to 0
 				return (sign == 0) ? 0.0f : -0.0f;
 			}
-		} else {
-			// we are really in the case n >= 128
-			if (exponent == 0) {
+		}
+		// we are really in the case n >= 128
+		if (exponent == 0) {
 
-				// the input number is subnormal, normalize it
-				while ((mantissa >>> 23) != 1) {
-					mantissa = mantissa << 1;
-					--scaledExponent;
-				}
-				++scaledExponent;
-				mantissa = mantissa & 0x007fffff;
+			// the input number is subnormal, normalize it
+			while ((mantissa >>> 23) != 1) {
+				mantissa = mantissa << 1;
+				--scaledExponent;
+			}
+			++scaledExponent;
+			mantissa = mantissa & 0x007fffff;
 
-				if (scaledExponent < 255) {
-					return Float.intBitsToFloat(
-							sign | (scaledExponent << 23) | mantissa);
-				} else {
-					return (sign == 0) ? Float.POSITIVE_INFINITY
-							: Float.NEGATIVE_INFINITY;
-				}
-
-			} else if (scaledExponent < 255) {
+			if (scaledExponent < 255) {
 				return Float.intBitsToFloat(
 						sign | (scaledExponent << 23) | mantissa);
-			} else {
-				return (sign == 0) ? Float.POSITIVE_INFINITY
-						: Float.NEGATIVE_INFINITY;
 			}
+			return (sign == 0) ? Float.POSITIVE_INFINITY
+					: Float.NEGATIVE_INFINITY;
+
+		} else if (scaledExponent < 255) {
+			return Float
+					.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);
+		} else {
+			return (sign == 0) ? Float.POSITIVE_INFINITY
+					: Float.NEGATIVE_INFINITY;
 		}
 
 	}
@@ -3931,10 +3915,9 @@ public class FastMath {
 		if ((direction < d) ^ (sign == 0L)) {
 			return Double.longBitsToDouble(
 					sign | ((bits & 0x7fffffffffffffffL) + 1));
-		} else {
-			return Double.longBitsToDouble(
-					sign | ((bits & 0x7fffffffffffffffL) - 1));
 		}
+		return Double
+				.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) - 1));
 
 	}
 
@@ -3992,9 +3975,8 @@ public class FastMath {
 		final int sign = bits & 0x80000000;
 		if ((direction < f) ^ (sign == 0)) {
 			return Float.intBitsToFloat(sign | ((bits & 0x7fffffff) + 1));
-		} else {
-			return Float.intBitsToFloat(sign | ((bits & 0x7fffffff) - 1));
 		}
+		return Float.intBitsToFloat(sign | ((bits & 0x7fffffff) - 1));
 
 	}
 

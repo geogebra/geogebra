@@ -614,9 +614,8 @@ public class JSONObject {
 		Object object = get(name);
 		if (object instanceof JSONArray) {
 			return (JSONArray) object;
-		} else {
-			throw JSON.typeMismatch(name, object, "JSONArray");
 		}
+		throw JSON.typeMismatch(name, object, "JSONArray");
 	}
 
 	/**
@@ -640,9 +639,8 @@ public class JSONObject {
 		Object object = get(name);
 		if (object instanceof JSONObject) {
 			return (JSONObject) object;
-		} else {
-			throw JSON.typeMismatch(name, object, "JSONObject");
 		}
+		throw JSON.typeMismatch(name, object, "JSONObject");
 	}
 
 	/**

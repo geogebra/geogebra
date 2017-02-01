@@ -66,9 +66,8 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(),
 					new LinkedHashSet<E>()));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

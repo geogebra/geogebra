@@ -101,9 +101,8 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 						+ " already exists in this graph with endpoints "
 						+ existing_endpoints
 						+ " and cannot be added with endpoints " + endpoints);
-			} else {
-				return null;
 			}
+			return null;
 		}
 		return new_endpoints;
 	}
@@ -184,9 +183,8 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 		}
 		if (incident.getFirst() == incident.getSecond()) {
 			return 1;
-		} else {
-			return 2;
 		}
+		return 2;
 	}
 
 	@Override

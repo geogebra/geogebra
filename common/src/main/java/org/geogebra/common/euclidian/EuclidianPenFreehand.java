@@ -202,10 +202,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				return polygon != null;
 			}
 			return true;
-		} else {
-			resetInitialPoint();
-			return false;
 		}
+		resetInitialPoint();
+		return false;
 	}
 
 	private void resetParameters() {

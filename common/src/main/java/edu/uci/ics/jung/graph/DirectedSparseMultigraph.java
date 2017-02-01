@@ -99,9 +99,8 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			vertices.put(vertex,
 					new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

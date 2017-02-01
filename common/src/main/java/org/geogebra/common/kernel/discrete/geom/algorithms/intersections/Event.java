@@ -94,16 +94,13 @@ public class Event {
 			if (s1.equals(s2)) {
 				if (LineAndPointUtils.pointsAreEqual(p1, p2)) {
 					return true;
-				} else {
-					return false;
 				}
-			} else {
 				return false;
 			}
-
-		} else {
 			return false;
+
 		}
+		return false;
 	}
 
 	private boolean equalsForSegmentsIntersectionEvent(Event e) {
@@ -124,16 +121,13 @@ public class Event {
 					|| (sa1.equals(sb2) && sa2.equals(sb1))) {
 				if (LineAndPointUtils.pointsAreEqual(p1, p2)) {
 					return true;
-				} else {
-					return false;
 				}
-
-			} else {
 				return false;
+
 			}
-		} else {
 			return false;
 		}
+		return false;
 	}
 
 	@Override

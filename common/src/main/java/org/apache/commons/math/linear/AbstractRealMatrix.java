@@ -768,26 +768,25 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 		if (v instanceof ArrayRealVector) {
 			return new ArrayRealVector(
 					operate(((ArrayRealVector) v).getDataRef()), false);
-		} else {
-			final int nRows = getRowDimension();
-			final int nCols = getColumnDimension();
-			if (v.getDimension() != nCols) {
-				throw MathRuntimeException.createIllegalArgumentException(
-						LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-						v.getDimension(), nCols);
-			}
-
-			final double[] out = new double[nRows];
-			for (int row = 0; row < nRows; ++row) {
-				double sum = 0;
-				for (int i = 0; i < nCols; ++i) {
-					sum += getEntry(row, i) * v.getEntry(i);
-				}
-				out[row] = sum;
-			}
-
-			return new ArrayRealVector(out, false);
 		}
+		final int nRows = getRowDimension();
+		final int nCols = getColumnDimension();
+		if (v.getDimension() != nCols) {
+			throw MathRuntimeException.createIllegalArgumentException(
+					LocalizedFormats.VECTOR_LENGTH_MISMATCH, v.getDimension(),
+					nCols);
+		}
+
+		final double[] out = new double[nRows];
+		for (int row = 0; row < nRows; ++row) {
+			double sum = 0;
+			for (int i = 0; i < nCols; ++i) {
+				sum += getEntry(row, i) * v.getEntry(i);
+			}
+			out[row] = sum;
+		}
+
+		return new ArrayRealVector(out, false);
 	}
 
 	/** {@inheritDoc} */
@@ -822,28 +821,25 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 		if (v instanceof ArrayRealVector) {
 			return new ArrayRealVector(
 					preMultiply(((ArrayRealVector) v).getDataRef()), false);
-		} else {
-
-			final int nRows = getRowDimension();
-			final int nCols = getColumnDimension();
-			if (v.getDimension() != nRows) {
-				throw MathRuntimeException.createIllegalArgumentException(
-						LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-						v.getDimension(), nRows);
-			}
-
-			final double[] out = new double[nCols];
-			for (int col = 0; col < nCols; ++col) {
-				double sum = 0;
-				for (int i = 0; i < nRows; ++i) {
-					sum += getEntry(i, col) * v.getEntry(i);
-				}
-				out[col] = sum;
-			}
-
-			return new ArrayRealVector(out);
-
 		}
+		final int nRows = getRowDimension();
+		final int nCols = getColumnDimension();
+		if (v.getDimension() != nRows) {
+			throw MathRuntimeException.createIllegalArgumentException(
+					LocalizedFormats.VECTOR_LENGTH_MISMATCH, v.getDimension(),
+					nRows);
+		}
+
+		final double[] out = new double[nCols];
+		for (int col = 0; col < nCols; ++col) {
+			double sum = 0;
+			for (int i = 0; i < nRows; ++i) {
+				sum += getEntry(i, col) * v.getEntry(i);
+			}
+			out[col] = sum;
+		}
+
+		return new ArrayRealVector(out);
 	}
 
 	/** {@inheritDoc} */

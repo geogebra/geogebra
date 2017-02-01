@@ -155,9 +155,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 																			// "+file.toString());
 		if (file.exists()) {
 			return file.getParentFile();
-		} else {
-			return null;
 		}
+		return null;
 	}// getDefaultFilePath()
 
 	/**
@@ -169,9 +168,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		String pathName = properties.getProperty(APP_CURRENT_IMAGE_PATH, null);
 		if (pathName != null) {
 			return new File(pathName);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -197,9 +195,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		String strLocale = get(APP_LOCALE, null);
 		if (strLocale != null) {
 			return AppD.getLocale(strLocale);
-		} else {
-			return null;
 		}
+		return null;
 	}// getDefaultLocale()
 
 	/**
@@ -379,9 +376,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		}
 		if (b64 != null) {
 			return b64.toString();
-		} else {
-			return null;
 		}
+		return null;
 	}// getB64()
 
 	// /// ----- Debug ----- /////

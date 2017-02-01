@@ -330,9 +330,8 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	public double getArea() {
 		if (defined) {
 			return area;
-		} else {
-			return Double.NaN;
 		}
+		return Double.NaN;
 	}
 
 	// ////////////////////////////////

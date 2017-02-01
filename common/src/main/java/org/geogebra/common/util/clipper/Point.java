@@ -7,9 +7,8 @@ public abstract class Point<T extends Number & Comparable<T>> {
 		public static double getDeltaX(DoublePoint pt1, DoublePoint pt2) {
 			if (pt1.getY() == pt2.getY()) {
 				return Edge.HORIZONTAL;
-			} else {
-				return (pt2.getX() - pt1.getX()) / (pt2.getY() - pt1.getY());
 			}
+			return (pt2.getX() - pt1.getX()) / (pt2.getY() - pt1.getY());
 		}
 
 		public DoublePoint() {
@@ -139,14 +138,13 @@ public abstract class Point<T extends Number & Comparable<T>> {
 			} else {
 				return distanceFromLineSqrd(pt3, pt1, pt2) < distSqrd;
 			}
+		}
+		if (pt1.y > pt2.y == pt1.y < pt3.y) {
+			return distanceFromLineSqrd(pt1, pt2, pt3) < distSqrd;
+		} else if (pt2.y > pt1.y == pt2.y < pt3.y) {
+			return distanceFromLineSqrd(pt2, pt1, pt3) < distSqrd;
 		} else {
-			if (pt1.y > pt2.y == pt1.y < pt3.y) {
-				return distanceFromLineSqrd(pt1, pt2, pt3) < distSqrd;
-			} else if (pt2.y > pt1.y == pt2.y < pt3.y) {
-				return distanceFromLineSqrd(pt2, pt1, pt3) < distSqrd;
-			} else {
-				return distanceFromLineSqrd(pt3, pt1, pt2) < distSqrd;
-			}
+			return distanceFromLineSqrd(pt3, pt1, pt2) < distSqrd;
 		}
 	}
 

@@ -236,10 +236,9 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 		if (p < .5) {
 			// use mean
 			return mean;
-		} else {
-			// use max
-			return Double.MAX_VALUE;
 		}
+		// use max
+		return Double.MAX_VALUE;
 	}
 
 	/**
@@ -260,10 +259,9 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 		if (p < .5) {
 			// use 1/2 mean
 			return mean * .5;
-		} else {
-			// use mean
-			return mean;
 		}
+		// use mean
+		return mean;
 	}
 
 	/**

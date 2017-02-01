@@ -422,16 +422,13 @@ public class Percentile extends AbstractUnivariateStatistic
 		if (wBegin < wMiddle) {
 			if (wMiddle < wEnd) {
 				return middle;
-			} else {
-				return (wBegin < wEnd) ? inclusiveEnd : begin;
 			}
-		} else {
-			if (wBegin < wEnd) {
-				return begin;
-			} else {
-				return (wMiddle < wEnd) ? inclusiveEnd : middle;
-			}
+			return (wBegin < wEnd) ? inclusiveEnd : begin;
 		}
+		if (wBegin < wEnd) {
+			return begin;
+		}
+		return (wMiddle < wEnd) ? inclusiveEnd : middle;
 
 	}
 

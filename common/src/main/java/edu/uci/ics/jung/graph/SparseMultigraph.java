@@ -103,9 +103,8 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 			vertices.put(vertex,
 					new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

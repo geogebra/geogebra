@@ -199,10 +199,9 @@ public class JSONTokener {
 				if (builder == null) {
 					// a new string avoids leaking memory
 					return new String(in.substring(start, pos - 1));
-				} else {
-					builder.append(in, start, pos - 1);
-					return builder.toString();
 				}
+				builder.append(in, start, pos - 1);
+				return builder.toString();
 			}
 			if (c == '\\') {
 				if (pos == in.length()) {
@@ -291,9 +290,8 @@ public class JSONTokener {
 				if (longValue <= Integer.MAX_VALUE
 						&& longValue >= Integer.MIN_VALUE) {
 					return (int) longValue;
-				} else {
-					return longValue;
 				}
+				return longValue;
 			} catch (NumberFormatException e) {
 				/*
 				 * This only happens for integral numbers greater than
@@ -344,10 +342,9 @@ public class JSONTokener {
 			if (!(name instanceof String)) {
 				if (name == null) {
 					throw syntaxError("Names cannot be null");
-				} else {
-					throw syntaxError("Names must be strings, but " + name
-							+ " is of type " + name.getClass().getName());
 				}
+				throw syntaxError("Names must be strings, but " + name
+						+ " is of type " + name.getClass().getName());
 			}
 			/*
 			 * Expect the name/value separator to be either a colon ':', an
@@ -552,9 +549,8 @@ public class JSONTokener {
 		if (index != -1) {
 			pos = index;
 			return to;
-		} else {
-			return '\0';
 		}
+		return '\0';
 	}
 
 	/**

@@ -17,12 +17,10 @@ class Edge {
 		if (e2.current.getX() == e1.current.getX()) {
 			if (e2.top.getY() > e1.top.getY()) {
 				return e2.top.getX() < topX(e1, e2.top.getY());
-			} else {
-				return e1.top.getX() > topX(e2, e1.top.getY());
 			}
-		} else {
-			return e2.current.getX() < e1.current.getX();
+			return e1.top.getX() > topX(e2, e1.top.getY());
 		}
+		return e2.current.getX() < e1.current.getX();
 	}
 
 	static boolean slopesEqual(Edge e1, Edge e2) {
@@ -247,16 +245,15 @@ class Edge {
 				default:
 					return windCnt2 >= 0;
 				}
-			} else {
-				switch (pft2) {
-				case EVEN_ODD:
-				case NON_ZERO:
-					return windCnt2 != 0;
-				case POSITIVE:
-					return windCnt2 > 0;
-				default:
-					return windCnt2 < 0;
-				}
+			}
+			switch (pft2) {
+			case EVEN_ODD:
+			case NON_ZERO:
+				return windCnt2 != 0;
+			case POSITIVE:
+				return windCnt2 > 0;
+			default:
+				return windCnt2 < 0;
 			}
 		case XOR:
 			if (windDelta == 0) {
@@ -269,9 +266,8 @@ class Edge {
 				default:
 					return windCnt2 >= 0;
 				}
-			} else {
-				return true;
 			}
+			return true;
 		}
 		return true;
 	}
@@ -280,18 +276,16 @@ class Edge {
 			PolyFillType subjFillType) {
 		if (polyTyp == PolyType.SUBJECT) {
 			return clipFillType == PolyFillType.EVEN_ODD;
-		} else {
-			return subjFillType == PolyFillType.EVEN_ODD;
 		}
+		return subjFillType == PolyFillType.EVEN_ODD;
 	}
 
 	public boolean isEvenOddFillType(PolyFillType clipFillType,
 			PolyFillType subjFillType) {
 		if (polyTyp == PolyType.SUBJECT) {
 			return subjFillType == PolyFillType.EVEN_ODD;
-		} else {
-			return clipFillType == PolyFillType.EVEN_ODD;
 		}
+		return clipFillType == PolyFillType.EVEN_ODD;
 	}
 
 	public boolean isHorizontal() {

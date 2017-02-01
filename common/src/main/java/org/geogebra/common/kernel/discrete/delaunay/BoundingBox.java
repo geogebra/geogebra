@@ -153,11 +153,10 @@ public class BoundingBox {
 		}
 		if (isNull()) {
 			return new BoundingBox(other);
-		} else {
-			return new BoundingBox(Math.min(minx, other.minx),
-					Math.max(maxx, other.maxx), Math.min(miny, other.miny),
-					Math.max(maxy, other.maxy));
 		}
+		return new BoundingBox(Math.min(minx, other.minx),
+				Math.max(maxx, other.maxx), Math.min(miny, other.miny),
+				Math.max(maxy, other.maxy));
 	}
 
 	/**

@@ -279,14 +279,12 @@ public class ToolBarW extends FlowPanel
 			if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
 				isMobileToolbar = true;
 				return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
-			} else {
-				isMobileToolbar = false;
-				return new ModeToggleMenuW(app, menu, this, order);
 			}
-
-		} else {
+			isMobileToolbar = false;
 			return new ModeToggleMenuW(app, menu, this, order);
+
 		}
+		return new ModeToggleMenuW(app, menu, this, order);
 	}
 	
 	protected Vector<ToolbarItem> getToolbarVec() {

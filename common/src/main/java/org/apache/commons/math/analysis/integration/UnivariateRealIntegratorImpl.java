@@ -120,10 +120,9 @@ public abstract class UnivariateRealIntegratorImpl
 	public double getResult() throws IllegalStateException {
 		if (resultComputed) {
 			return result;
-		} else {
-			throw MathRuntimeException.createIllegalStateException(
-					LocalizedFormats.NO_RESULT_AVAILABLE);
 		}
+		throw MathRuntimeException.createIllegalStateException(
+				LocalizedFormats.NO_RESULT_AVAILABLE);
 	}
 
 	/**

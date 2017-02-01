@@ -1459,21 +1459,15 @@ public final class MathUtils {
 			if (mantissa == 0x000fffffffffffffL) {
 				return Double.longBitsToDouble(
 						sign | (exponent + 0x0010000000000000L));
-			} else {
-				return Double
-						.longBitsToDouble(sign | exponent | (mantissa + 1));
 			}
-		} else {
-			// we should decrease the mantissa
-			if (mantissa == 0L) {
-				return Double.longBitsToDouble(
-						sign | (exponent - 0x0010000000000000L)
-								| 0x000fffffffffffffL);
-			} else {
-				return Double
-						.longBitsToDouble(sign | exponent | (mantissa - 1));
-			}
+			return Double.longBitsToDouble(sign | exponent | (mantissa + 1));
 		}
+		// we should decrease the mantissa
+		if (mantissa == 0L) {
+			return Double.longBitsToDouble(sign
+					| (exponent - 0x0010000000000000L) | 0x000fffffffffffffL);
+		}
+		return Double.longBitsToDouble(sign | exponent | (mantissa - 1));
 	}
 
 	/**
@@ -1634,9 +1628,8 @@ public final class MathUtils {
 		} catch (NumberFormatException ex) {
 			if (Double.isInfinite(x)) {
 				return x;
-			} else {
-				return Double.NaN;
 			}
+			return Double.NaN;
 		}
 	}
 

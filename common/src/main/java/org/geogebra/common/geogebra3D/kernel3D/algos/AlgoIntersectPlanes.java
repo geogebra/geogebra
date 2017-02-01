@@ -154,12 +154,10 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 			if (Kernel.isZero(cs2.getOrigin().sub(cs1.getOrigin())
 					.dotproduct(cs1.getNormal()))) {
 				return RESULTCATEGORY_CONTAINED;
-			} else {
-				return RESULTCATEGORY_PARALLEL;
 			}
-		} else {
-			return RESULTCATEGORY_GENERAL;
+			return RESULTCATEGORY_PARALLEL;
 		}
+		return RESULTCATEGORY_GENERAL;
 	}
 
 	@Override

@@ -2565,17 +2565,15 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public int getMenuBarHeight() {
 		if (menuBar == null) {
 			return 0;
-		} else {
-			return ((JMenuBar) menuBar).getHeight();
 		}
+		return ((JMenuBar) menuBar).getHeight();
 	}
 
 	public int getAlgebraInputHeight() {
 		if (app.showAlgebraInput() && algebraInput != null) {
 			return algebraInput.getHeight();
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	public AbstractAction getShowAxesAction() {

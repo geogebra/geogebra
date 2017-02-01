@@ -139,10 +139,9 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 			this.root = vertex;
 			vertex_depths.put(vertex, 0);
 			return delegate.addVertex(vertex);
-		} else {
-			throw new UnsupportedOperationException(
-					"Unless you are setting the root, use addChild()");
 		}
+		throw new UnsupportedOperationException(
+				"Unless you are setting the root, use addChild()");
 	}
 
 	/**

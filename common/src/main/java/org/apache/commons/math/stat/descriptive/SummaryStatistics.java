@@ -215,9 +215,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	public double getMean() {
 		if (mean == meanImpl) {
 			return new Mean(secondMoment).getResult();
-		} else {
-			return meanImpl.getResult();
 		}
+		return meanImpl.getResult();
 	}
 
 	/**
@@ -253,9 +252,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
 	public double getVariance() {
 		if (varianceImpl == variance) {
 			return new Variance(secondMoment).getResult();
-		} else {
-			return varianceImpl.getResult();
 		}
+		return varianceImpl.getResult();
 	}
 
 	/**

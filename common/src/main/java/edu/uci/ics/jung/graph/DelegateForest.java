@@ -119,10 +119,9 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		V child = getDest(edge);
 		if (remove_subtree) {
 			return removeVertex(child);
-		} else {
-			delegate.removeEdge(edge);
-			return false;
 		}
+		delegate.removeEdge(edge);
+		return false;
 	}
 
 	/**

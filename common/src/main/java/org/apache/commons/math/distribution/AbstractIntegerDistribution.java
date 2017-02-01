@@ -95,10 +95,9 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 			return cumulativeProbability(((int) FastMath.floor(x0)) + 1,
 					(int) FastMath.floor(x1)); // don't want to count mass below
 												// x0
-		} else { // x0 is mathematical integer, so use as is
-			return cumulativeProbability((int) FastMath.floor(x0),
-					(int) FastMath.floor(x1));
 		}
+		return cumulativeProbability((int) FastMath.floor(x0),
+				(int) FastMath.floor(x1));
 	}
 
 	/**
@@ -134,9 +133,8 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
 		double fl = FastMath.floor(x);
 		if (fl == x) {
 			return this.probability((int) x);
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	/**

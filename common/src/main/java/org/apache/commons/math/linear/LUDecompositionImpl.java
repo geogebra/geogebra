@@ -231,14 +231,13 @@ public class LUDecompositionImpl implements LUDecomposition {
 	public double getDeterminant() {
 		if (singular) {
 			return 0;
-		} else {
-			final int m = pivot.length;
-			double determinant = even ? 1 : -1;
-			for (int i = 0; i < m; i++) {
-				determinant *= lu[i][i];
-			}
-			return determinant;
 		}
+		final int m = pivot.length;
+		double determinant = even ? 1 : -1;
+		for (int i = 0; i < m; i++) {
+			determinant *= lu[i][i];
+		}
+		return determinant;
 	}
 
 	/** {@inheritDoc} */
@@ -330,45 +329,42 @@ public class LUDecompositionImpl implements LUDecomposition {
 				throws IllegalArgumentException, InvalidMatrixException {
 			if (b instanceof ArrayRealVector) {
 				return solve((ArrayRealVector) b);
-			} else {
-
-				final int m = pivot.length;
-				if (b.getDimension() != m) {
-					throw MathRuntimeException.createIllegalArgumentException(
-							LocalizedFormats.VECTOR_LENGTH_MISMATCH,
-							b.getDimension(), m);
-				}
-				if (singular) {
-					throw new SingularMatrixException();
-				}
-
-				final double[] bp = new double[m];
-
-				// Apply permutations to b
-				for (int row = 0; row < m; row++) {
-					bp[row] = b.getEntry(pivot[row]);
-				}
-
-				// Solve LY = b
-				for (int col = 0; col < m; col++) {
-					final double bpCol = bp[col];
-					for (int i = col + 1; i < m; i++) {
-						bp[i] -= bpCol * lu[i][col];
-					}
-				}
-
-				// Solve UX = Y
-				for (int col = m - 1; col >= 0; col--) {
-					bp[col] /= lu[col][col];
-					final double bpCol = bp[col];
-					for (int i = 0; i < col; i++) {
-						bp[i] -= bpCol * lu[i][col];
-					}
-				}
-
-				return new ArrayRealVector(bp, false);
-
 			}
+			final int m = pivot.length;
+			if (b.getDimension() != m) {
+				throw MathRuntimeException.createIllegalArgumentException(
+						LocalizedFormats.VECTOR_LENGTH_MISMATCH,
+						b.getDimension(), m);
+			}
+			if (singular) {
+				throw new SingularMatrixException();
+			}
+
+			final double[] bp = new double[m];
+
+			// Apply permutations to b
+			for (int row = 0; row < m; row++) {
+				bp[row] = b.getEntry(pivot[row]);
+			}
+
+			// Solve LY = b
+			for (int col = 0; col < m; col++) {
+				final double bpCol = bp[col];
+				for (int i = col + 1; i < m; i++) {
+					bp[i] -= bpCol * lu[i][col];
+				}
+			}
+
+			// Solve UX = Y
+			for (int col = m - 1; col >= 0; col--) {
+				bp[col] /= lu[col][col];
+				final double bpCol = bp[col];
+				for (int i = 0; i < col; i++) {
+					bp[i] -= bpCol * lu[i][col];
+				}
+			}
+
+			return new ArrayRealVector(bp, false);
 		}
 
 		/**

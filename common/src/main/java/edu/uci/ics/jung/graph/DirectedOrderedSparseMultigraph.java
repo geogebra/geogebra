@@ -63,9 +63,8 @@ public class DirectedOrderedSparseMultigraph<V, E>
 			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(),
 					new LinkedHashSet<E>()));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

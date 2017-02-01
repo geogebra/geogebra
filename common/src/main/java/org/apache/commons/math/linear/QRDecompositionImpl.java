@@ -365,9 +365,8 @@ public class QRDecompositionImpl implements QRDecomposition {
 				throws IllegalArgumentException, InvalidMatrixException {
 			if (b instanceof ArrayRealVector) {
 				return solve((ArrayRealVector) b);
-			} else {
-				return new ArrayRealVector(solve(b.getData()), false);
 			}
+			return new ArrayRealVector(solve(b.getData()), false);
 		}
 
 		/**

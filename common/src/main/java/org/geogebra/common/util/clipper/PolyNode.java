@@ -54,9 +54,8 @@ class PolyNode {
 	public PolyNode getNext() {
 		if (!childs.isEmpty()) {
 			return childs.get(0);
-		} else {
-			return getNextSiblingUp();
 		}
+		return getNextSiblingUp();
 	}
 
 	private PolyNode getNextSiblingUp() {

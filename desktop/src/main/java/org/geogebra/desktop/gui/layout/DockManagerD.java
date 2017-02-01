@@ -619,9 +619,8 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				if (!(component instanceof DockSplitPane)) {
 					secondLastPos = locations[i];
 					break;
-				} else {
-					currentPane = (DockSplitPane) component;
 				}
+				currentPane = (DockSplitPane) component;
 			}
 
 			int size = panel.getEmbeddedSize();
@@ -1054,9 +1053,8 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		if (dockPanel != null && dockPanel.isVisible()) {
 			setFocusedPanel(dockPanel);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -1154,13 +1152,9 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 					if (panel == focusedDockPanel) {
 						break;
 					}
-
-					// change panel
-					else {
-						setFocusedPanel(panel);
-						changedFocus = true;
-						break;
-					}
+					setFocusedPanel(panel);
+					changedFocus = true;
+					break;
 				}
 			}
 		}
@@ -1218,29 +1212,28 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	private Iterator<DockPanelD> getForwardBackwardIterator(boolean forward) {
 		if (forward) {
 			return dockPanels.iterator();
-		} else {
-			final ListIterator<DockPanelD> original = dockPanels
-					.listIterator(dockPanels.size());
-
-			// we create our own iterator which iterates through our list in
-			// reversed order
-			return new Iterator<DockPanelD>() {
-				@Override
-				public void remove() {
-					original.remove();
-				}
-
-				@Override
-				public DockPanelD next() {
-					return original.previous();
-				}
-
-				@Override
-				public boolean hasNext() {
-					return original.hasPrevious();
-				}
-			};
 		}
+		final ListIterator<DockPanelD> original = dockPanels
+				.listIterator(dockPanels.size());
+
+		// we create our own iterator which iterates through our list in
+		// reversed order
+		return new Iterator<DockPanelD>() {
+			@Override
+			public void remove() {
+				original.remove();
+			}
+
+			@Override
+			public DockPanelD next() {
+				return original.previous();
+			}
+
+			@Override
+			public boolean hasNext() {
+				return original.hasPrevious();
+			}
+		};
 	}
 
 	/**

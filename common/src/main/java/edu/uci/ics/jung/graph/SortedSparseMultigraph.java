@@ -112,8 +112,7 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 					new Pair<Set<E>>(new TreeSet<E>(edge_comparator),
 							new TreeSet<E>(edge_comparator)));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }

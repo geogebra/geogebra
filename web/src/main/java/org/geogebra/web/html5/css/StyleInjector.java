@@ -133,39 +133,38 @@ public class StyleInjector {
 			if (numStyles < MAX_STYLE_SHEETS) {
 				// Just create a new style element and add it to the list
 				return createNewStyleSheet(contents);
-			} else {
-				/*
-				 * Find shortest style element to minimize re-parse time in the
-				 * general case.
-				 * 
-				 * We cache the lengths of the style sheets in order to avoid
-				 * expensive calls to retrieve their actual contents. Note that
-				 * if another module or script makes changes to the style sheets
-				 * that we are unaware of, the worst that will happen is that we
-				 * will choose a style sheet to append to that is not actually
-				 * of minimum size.
-				 * 
-				 * We also play safe by counting only the MAX_STYLE_SHEETS first
-				 * style sheets, just in case the limits are raised somehow
-				 * (e.g. if this implementation is used in IE10 which removes
-				 * --or significantly raises-- the limits.)
-				 */
-				int shortestLen = Integer.MAX_VALUE;
-				int shortestIdx = -1;
-				for (int i = 0; i < MAX_STYLE_SHEETS; i++) {
-					int len = styleSheetLengths[i];
-					if (len == 0) {
-						// Cache the length
-						len = styleSheetLengths[i] = getDocumentStyleSheetLength(i);
-					}
-					if (len <= shortestLen) {
-						shortestLen = len;
-						shortestIdx = i;
-					}
-				}
-				styleSheetLengths[shortestIdx] += contents.length();
-				return appendToStyleSheet(shortestIdx, contents, true);
 			}
+			/*
+			 * Find shortest style element to minimize re-parse time in the
+			 * general case.
+			 * 
+			 * We cache the lengths of the style sheets in order to avoid
+			 * expensive calls to retrieve their actual contents. Note that if
+			 * another module or script makes changes to the style sheets that
+			 * we are unaware of, the worst that will happen is that we will
+			 * choose a style sheet to append to that is not actually of minimum
+			 * size.
+			 * 
+			 * We also play safe by counting only the MAX_STYLE_SHEETS first
+			 * style sheets, just in case the limits are raised somehow (e.g. if
+			 * this implementation is used in IE10 which removes --or
+			 * significantly raises-- the limits.)
+			 */
+			int shortestLen = Integer.MAX_VALUE;
+			int shortestIdx = -1;
+			for (int i = 0; i < MAX_STYLE_SHEETS; i++) {
+				int len = styleSheetLengths[i];
+				if (len == 0) {
+					// Cache the length
+					len = styleSheetLengths[i] = getDocumentStyleSheetLength(i);
+				}
+				if (len <= shortestLen) {
+					shortestLen = len;
+					shortestIdx = i;
+				}
+			}
+			styleSheetLengths[shortestIdx] += contents.length();
+			return appendToStyleSheet(shortestIdx, contents, true);
 		}
 
 		@Override

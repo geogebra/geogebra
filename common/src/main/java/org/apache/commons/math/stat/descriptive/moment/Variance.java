@@ -181,9 +181,8 @@ public class Variance extends AbstractStorelessUnivariateStatistic
 		} else {
 			if (isBiasCorrected) {
 				return moment.m2 / (moment.n - 1d);
-			} else {
-				return moment.m2 / (moment.n);
 			}
+			return moment.m2 / (moment.n);
 		}
 	}
 

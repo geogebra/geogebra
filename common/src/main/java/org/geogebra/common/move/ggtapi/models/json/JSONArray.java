@@ -511,9 +511,8 @@ public class JSONArray {
 		Object object = get(index);
 		if (object instanceof JSONArray) {
 			return (JSONArray) object;
-		} else {
-			throw JSON.typeMismatch(index, object, "JSONArray");
 		}
+		throw JSON.typeMismatch(index, object, "JSONArray");
 	}
 
 	/**
@@ -537,9 +536,8 @@ public class JSONArray {
 		Object object = get(index);
 		if (object instanceof JSONObject) {
 			return (JSONObject) object;
-		} else {
-			throw JSON.typeMismatch(index, object, "JSONObject");
 		}
+		throw JSON.typeMismatch(index, object, "JSONObject");
 	}
 
 	/**

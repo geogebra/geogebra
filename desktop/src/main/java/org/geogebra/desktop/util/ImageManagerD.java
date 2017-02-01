@@ -242,9 +242,8 @@ public class ImageManagerD extends ImageManager {
 
 		if (hasAlpha) {
 			return toBufferedImage(image, Transparency.BITMASK);
-		} else {
-			return toBufferedImage(image, Transparency.OPAQUE);
 		}
+		return toBufferedImage(image, Transparency.OPAQUE);
 
 	}
 
@@ -325,10 +324,9 @@ public class ImageManagerD extends ImageManager {
 			int height) {
 		if (icon.getIconWidth() == width && icon.getIconHeight() == height) {
 			return icon;
-		} else {
-			Image scaledImage = getScaledImage(icon.getImage(), width, height);
-			return new ImageIcon(scaledImage);
 		}
+		Image scaledImage = getScaledImage(icon.getImage(), width, height);
+		return new ImageIcon(scaledImage);
 	}
 
 	public static Image getScaledImage(Image img, int width, int height) {

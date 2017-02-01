@@ -268,9 +268,8 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 			vertices.put(vertex, new Pair<Map<V, E>>(new HashMap<V, E>(),
 					new HashMap<V, E>()));
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

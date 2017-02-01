@@ -142,50 +142,11 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			 * GeoElement [] geos = {arc, points[0], points[1]}; return geos; }
 			 */
 		}
-		/*
-		 * else if (algoParent instanceof AlgoRayPointVector) { // transform
-		 * startpoint GeoPoint [] points = {getStartPoint()}; points =
-		 * t.transformPoints(points);
-		 * 
-		 * boolean oldSuppressLabelCreation = cons.isSuppressLabelsActive();
-		 * cons.setSuppressLabelCreation(true); AlgoDirection ad = new
-		 * AlgoDirection(cons,this); cons.removeFromAlgorithmList(ad); GeoVector
-		 * direction = ad.getVector(); if(t.isAffine()) {
-		 * 
-		 * direction = (GeoVector)t.doTransform(direction);
-		 * cons.setSuppressLabelCreation(oldSuppressLabelCreation);
-		 * 
-		 * // ray through transformed point with direction of transformed line
-		 * GeoElement ray = kernel.Ray(label, points[0], direction);
-		 * ray.setVisualStyleForTransformations(this); GeoElement [] geos = new
-		 * GeoElement[] {ray, points[0]}; return geos; }else { AlgoTranslate at
-		 * = new AlgoTranslate(cons,getStartPoint(),direction);
-		 * cons.removeFromAlgorithmList(at); GeoPoint thirdPoint = (GeoPoint)
-		 * at.getResult(); GeoPoint inf = new GeoPoint(cons);
-		 * inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
-		 * 
-		 * GeoPoint [] points2 = new GeoPoint[] {thirdPoint,inf}; points2 =
-		 * t.transformPoints(points2);
-		 * cons.setSuppressLabelCreation(oldSuppressLabelCreation);
-		 * AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons,
-		 * Transform.transformedGeoLabel(this), points[0],
-		 * points2[0],points2[1],GeoConicPart.CONIC_PART_ARC); GeoElement arc =
-		 * ae.getConicPart(); arc.setVisualStyleForTransformations(this);
-		 * GeoElement [] geos = {arc, points[0]}; return geos;
-		 * 
-		 * }
-		 * 
-		 * 
-		 * 
-		 * }
-		 */
-		else {
-			// create LINE
-			GeoElement transformedLine = t.getTransformedLine(this);
-			transformedLine.setLabel(label);
-			GeoElement[] ret = { transformedLine };
-			return ret;
-		}
+		// create LINE
+		GeoElement transformedLine = t.getTransformedLine(this);
+		transformedLine.setLabel(label);
+		GeoElement[] ret = { transformedLine };
+		return ret;
 	}
 
 	@Override
@@ -197,9 +158,8 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
 		if (allowOutlyingIntersections) {
 			return isOnFullLine(p.getCoordsInD3(), eps);
-		} else {
-			return isOnPath(p, eps);
 		}
+		return isOnPath(p, eps);
 	}
 
 	@Override

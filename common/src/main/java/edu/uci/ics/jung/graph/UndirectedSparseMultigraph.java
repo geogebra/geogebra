@@ -104,9 +104,8 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		if (!containsVertex(vertex)) {
 			vertices.put(vertex, new HashSet<E>());
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	@Override

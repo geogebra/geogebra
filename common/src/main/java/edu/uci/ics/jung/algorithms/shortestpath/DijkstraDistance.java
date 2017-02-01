@@ -257,9 +257,8 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 	protected Collection<E> getEdgesToCheck(V v) {
 		if (g instanceof Graph) {
 			return ((Graph<V, E>) g).getOutEdges(v);
-		} else {
-			return g.getIncidentEdges(v);
 		}
+		return g.getIncidentEdges(v);
 
 	}
 

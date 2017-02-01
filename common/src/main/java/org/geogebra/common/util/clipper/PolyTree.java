@@ -18,9 +18,8 @@ class PolyTree extends PolyNode {
 	public PolyNode getFirst() {
 		if (!childs.isEmpty()) {
 			return childs.get(0);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public int getTotalSize() {

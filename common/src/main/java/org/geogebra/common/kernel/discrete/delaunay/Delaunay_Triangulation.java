@@ -223,20 +223,18 @@ public class Delaunay_Triangulation {
 		if (triangle.isHalfplane()) {
 			if (d1 <= d2) {
 				return p1;
-			} else {
-				return p2;
 			}
-		} else {
-			Point_dt p3 = triangle.p3();
+			return p2;
+		}
+		Point_dt p3 = triangle.p3();
 
-			double d3 = p3.distance(pointToDelete);
-			if (d1 <= d2 && d1 <= d3) {
-				return p1;
-			} else if (d2 <= d1 && d2 <= d3) {
-				return p2;
-			} else {
-				return p3;
-			}
+		double d3 = p3.distance(pointToDelete);
+		if (d1 <= d2 && d1 <= d3) {
+			return p1;
+		} else if (d2 <= d1 && d2 <= d3) {
+			return p2;
+		} else {
+			return p3;
 		}
 	}
 
@@ -305,9 +303,8 @@ public class Delaunay_Triangulation {
 		}
 		if (counter >= 2) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	// update the neighbors of the addedTriangle and deletedTriangle

@@ -132,9 +132,8 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	public T peek() {
 		if (heap.size() > 0) {
 			return heap.elementAt(TOP);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**

@@ -233,13 +233,12 @@ public class RegExp {
 			}
 
 			return new MatchResult(matcher.start(), input, groups);
-		} else {
-			// No match
-			if (globalFlag) {
-				lastIndex = 0;
-			}
-			return null;
 		}
+		// No match
+		if (globalFlag) {
+			lastIndex = 0;
+		}
+		return null;
 	}
 
 	/**

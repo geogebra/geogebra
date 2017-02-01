@@ -125,9 +125,8 @@ public class UtilD extends Util {
 
 		if (vm_version.startsWith("1.4.2")) {
 			return 1.42;
-		} else {
-			vm_version = vm_version.substring(0, 3);
 		}
+		vm_version = vm_version.substring(0, 3);
 		try {
 			return Double.parseDouble(vm_version);
 		} catch (Exception e) {

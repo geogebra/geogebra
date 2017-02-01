@@ -758,30 +758,28 @@ public class DefaultClipper extends ClipperBase {
 			}
 			e.outIdx = outRec.Idx; // nb: do this after SetZ !
 			return newOp;
-		} else {
-
-			final OutRec outRec = polyOuts.get(e.outIdx);
-			// OutRec.Pts is the 'Left-most' point & OutRec.Pts.Prev is the
-			// 'Right-most'
-			final OutPt op = outRec.getPoints();
-			if (ToFront && pt.equals(op.getPt())) {
-				return op;
-			} else if (!ToFront && pt.equals(op.prev.getPt())) {
-				return op.prev;
-			}
-
-			final OutPt newOp = new OutPt();
-			newOp.idx = outRec.Idx;
-			newOp.setPt(new DoublePoint(pt));
-			newOp.next = op;
-			newOp.prev = op.prev;
-			newOp.prev.next = newOp;
-			op.prev = newOp;
-			if (ToFront) {
-				outRec.setPoints(newOp);
-			}
-			return newOp;
 		}
+		final OutRec outRec = polyOuts.get(e.outIdx);
+		// OutRec.Pts is the 'Left-most' point & OutRec.Pts.Prev is the
+		// 'Right-most'
+		final OutPt op = outRec.getPoints();
+		if (ToFront && pt.equals(op.getPt())) {
+			return op;
+		} else if (!ToFront && pt.equals(op.prev.getPt())) {
+			return op.prev;
+		}
+
+		final OutPt newOp = new OutPt();
+		newOp.idx = outRec.Idx;
+		newOp.setPt(new DoublePoint(pt));
+		newOp.next = op;
+		newOp.prev = op.prev;
+		newOp.prev.next = newOp;
+		op.prev = newOp;
+		if (ToFront) {
+			outRec.setPoints(newOp);
+		}
+		return newOp;
 	}
 
 	private void appendPolygon(Edge e1, Edge e2) {

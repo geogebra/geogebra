@@ -241,13 +241,11 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 			if (w_distance == null) {
 				if (ignore_missing) {
 					continue;
-				} else {
-					output.put(v, -1.0);
-					return null;
 				}
-			} else {
-				sum += w_distance.doubleValue();
+				output.put(v, -1.0);
+				return null;
 			}
+			sum += w_distance.doubleValue();
 		}
 		value = sum;
 		if (averaging) {
