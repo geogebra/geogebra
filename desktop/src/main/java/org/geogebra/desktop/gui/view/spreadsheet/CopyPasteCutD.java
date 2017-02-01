@@ -12,6 +12,7 @@ import java.net.URL;
 
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
+import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -139,7 +140,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
 
-			String[][] data = DataImportD.parseExternalData(app, transferString,
+			String[][] data = DataImport.parseExternalData(app, transferString,
 					isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 
@@ -191,7 +192,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		boolean succ = true;
 
-		String[][] data = DataImportD.parseExternalData(app,
+		String[][] data = DataImport.parseExternalData(app,
 				contents.toString(), isCSV);
 
 		if (data != null) {

@@ -24,6 +24,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.util.StandardButton;
@@ -77,7 +78,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.app.getNetworkOperation().getView().add(this);
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app),
-					!app.getArticleElement().isEnableUsageStats());
+					!ArticleElement.isEnableUsageStats());
 		}
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();

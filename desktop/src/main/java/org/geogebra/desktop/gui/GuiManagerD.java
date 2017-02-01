@@ -87,6 +87,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.awt.GColorD;
@@ -1990,7 +1991,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				// remove "*<>/\?|:
 				file = new File(file.getParent(),
-						UtilD.processFilename(file.getName()));
+						Util.processFilename(file.getName()));
 
 				// add file extension
 				file = addExtension(file, fileExtension);

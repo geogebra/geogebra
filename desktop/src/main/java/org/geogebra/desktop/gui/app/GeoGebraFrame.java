@@ -503,7 +503,7 @@ public class GeoGebraFrame extends JFrame
 			 * app.getEuclidianView().g2Dtemp, 0, 0, "x^{2}", g2d.getFont(),
 			 * false, Color.BLACK, Color.WHITE); } };
 			 */
-			Thread runner = wnd.createAppThread(app);
+			Thread runner = GeoGebraFrame.createAppThread(app);
 			runner.start();
 		}
 

@@ -7,6 +7,6 @@ public final class TSPSolver implements TSP {
 	@Override
 	public double solve(final Point[] points) {
 		final FLS fls = new FLS();
-		return fls.optimise(points);
+		return FLS.optimise(points);
 	}
 }

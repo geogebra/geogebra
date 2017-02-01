@@ -129,10 +129,10 @@ public class AppWapplet extends AppWFull {
 			// opening file -> this was inited before
 			if (getLoginOperation() == null) {
 				initSignInEventFlow(new LoginOperationW(this),
-					ae.isEnableUsageStats());
+						ArticleElement.isEnableUsageStats());
 			}
 		} else {
-			if (Browser.runningLocal() && ae.isEnableUsageStats()) {
+			if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
 						.checkAvailable(null);
 			}

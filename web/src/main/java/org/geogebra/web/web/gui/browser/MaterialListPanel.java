@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.debug.Log;
@@ -10,7 +11,6 @@ import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
-import org.geogebra.web.web.main.FileManager;
 import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
@@ -386,10 +386,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		for(final MaterialListElement matElem : this.materials) {
 			if (matElem.getMaterial().getId() > 0
 			        && matElem.getMaterial().getId() == material.getId()
-			        ||
- matElem.isLocal
-			        && FileManager.getFileKey(matElem.getMaterial()).equals(
-			                FileManager.getFileKey(material))) {
+					|| matElem.isLocal
+							&& MaterialsManager
+									.getFileKey(matElem.getMaterial())
+									.equals(MaterialsManager
+											.getFileKey(material))) {
 				return matElem;
 			}
 		}

@@ -577,7 +577,7 @@ public abstract class AppWFull extends AppW {
 		} else {
 			if (getLoginOperation() == null) {
 				this.initSignInEventFlow(new LoginOperationW(this),
-						getArticleElement().isEnableUsageStats());
+						ArticleElement.isEnableUsageStats());
 			}
 			toOpen = id;
 			Log.debug("created");

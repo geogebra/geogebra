@@ -1,17 +1,17 @@
 package org.geogebra.web.tablet;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
-import org.geogebra.web.web.main.FileManager;
 
 public class TabletFileManager extends FileManagerT {
 
@@ -60,7 +60,7 @@ public class TabletFileManager extends FileManagerT {
 	                mat.setTitle(getTitleFromKey(name));
                 }
 
-                mat.setLocalID(FileManager.getIDFromKey(name));
+				mat.setLocalID(MaterialsManager.getIDFromKey(name));
 
                 if (getFilesFilter.check(mat)) {
 	                addMaterial(mat);
@@ -106,10 +106,10 @@ public class TabletFileManager extends FileManagerT {
 	
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
-		$wnd.tabletFileManager_catchMetaDatas = $entry(function(data) {			
+		$wnd.tabletFileManager_catchMetaDatas = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatas(Ljava/lang/String;)(data);
 		});
-		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {			
+		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
 		});
 	}-*/;

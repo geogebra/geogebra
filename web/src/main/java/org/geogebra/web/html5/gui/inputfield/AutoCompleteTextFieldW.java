@@ -968,7 +968,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void onKeyPress(KeyPressEvent e) {
-		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 			e.stopPropagation();
 			return;
