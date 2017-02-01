@@ -27,7 +27,6 @@ import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -35,7 +34,6 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppletImplementationInterface;
 import org.geogebra.desktop.CommandLineArguments;
@@ -437,56 +435,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ev.updateBackground();
 
 		return appletPanel;
-	}
-
-	private synchronized void doShowFrame() {
-
-		// clear applet
-		Container cp = applet.getContentPane();
-		cp.removeAll();
-
-		JPanel p = new JPanel(new BorderLayout());
-		p.setBackground(Color.white);
-		JLabel label = new JLabel("GeoGebra "
-				+ app.getLocalization().getMenu("WindowOpened")
-				+ Unicode.ellipsis);
-		label.setFont(app.getPlainFont());
-		p.add(label, BorderLayout.CENTER);
-		cp.add(p);
-
-		// initialize the GeoGebra frame's UIG
-		initGeoGebraFrame();
-		applet.validate();
-
-		// show frame
-		wnd.setVisible(true);
-	}
-
-	private synchronized void initGeoGebraFrame() {
-		// build application panel
-		if (wnd == null) {
-			wnd = app.getFrame();
-		}
-
-		app.setFrame(wnd);
-		app.setShowMenuBar(true);
-		app.setShowAlgebraInput(true, false);
-		app.setUndoActive(true);
-		app.setShowToolBar(true, true);
-		app.setRightClickEnabled(true);
-
-		if ((customToolBar != null) && (customToolBar.length() > 0)) {
-			app.getGuiManager().setToolBarDefinition(customToolBar);
-		}
-
-		// just update layout if the layout was already visible
-		// (which isn't the case in button-only mode), see ticket #217
-		if (app.isUsingFullGui()) {
-			((GuiManagerD) app.getGuiManager()).updateLayout();
-		}
-
-		app.updateContentPane();
-		app.resetFonts();
 	}
 
 	public void showApplet() {

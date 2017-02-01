@@ -77,14 +77,5 @@ public class ComplexField implements Field<Complex>, Serializable {
 	}
 	// CHECKSTYLE: resume HideUtilityClassConstructor
 
-	/**
-	 * Handle deserialization of the singleton.
-	 * 
-	 * @return the singleton instance
-	 */
-	private static Object readResolve() {
-		// return the singleton instance
-		return LazyHolder.INSTANCE;
-	}
 
 }
