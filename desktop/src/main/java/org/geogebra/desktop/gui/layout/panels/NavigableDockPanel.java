@@ -12,6 +12,7 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 
+@SuppressWarnings("serial")
 public abstract class NavigableDockPanel extends DockPanelD {
 	private JPanel panel = null;
 	private ConstructionProtocolNavigationD consProtNav;

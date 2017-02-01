@@ -29,6 +29,7 @@ package org.apache.commons.collections15;
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:19 $
  * @since Commons Collections 2.1
  */
+@SuppressWarnings("serial")
 public class BufferUnderflowException extends NoSuchElementException {
 
 	/**

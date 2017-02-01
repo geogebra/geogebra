@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.io;
 
+@SuppressWarnings("serial")
 public class ConstructionException extends Exception {
 
 	public ConstructionException(String message) {

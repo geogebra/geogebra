@@ -24,6 +24,7 @@ package org.apache.commons.math.exception;
  * @version $Revision: 1061496 $ $Date: 2011-01-20 21:32:16 +0100 (jeu. 20 janv.
  *          2011) $
  */
+@SuppressWarnings("serial")
 public class MathIllegalStateException extends IllegalStateException
 		implements MathThrowable {
 

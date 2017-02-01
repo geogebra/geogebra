@@ -166,6 +166,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				});
 	}
 
+	@SuppressWarnings("serial")
 	public void initGUI() {
 		removeAll();
 		inputLabel = new JLabel();

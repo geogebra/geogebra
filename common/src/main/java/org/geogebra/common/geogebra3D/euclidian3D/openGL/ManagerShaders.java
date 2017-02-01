@@ -314,6 +314,7 @@ public class ManagerShaders extends Manager {
 	 * @author mathieu
 	 *
 	 */
+	@SuppressWarnings("serial")
 	public class GeometriesSet extends ArrayList<Geometry> {
 
 		protected Geometry currentGeometry;

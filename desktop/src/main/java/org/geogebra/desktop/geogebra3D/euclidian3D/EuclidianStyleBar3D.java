@@ -128,6 +128,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	private class PopupMenuButtonForView3D extends PopupMenuButtonD {
 
 		public PopupMenuButtonForView3D() {

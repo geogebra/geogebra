@@ -51,6 +51,7 @@ public class ToolCreationDialogModel {
 		initLists();
 	}
 
+	@SuppressWarnings("serial")
 	private void initLists() {
 		inputAddList = new ToolInputOutputList() {
 			private static final long serialVersionUID = 1L;

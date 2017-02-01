@@ -144,6 +144,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 * @author mathieu
 	 *
 	 */
+	@SuppressWarnings("serial")
 	private static class Vertices extends ArrayList<Coords>
 			implements Comparable<Vertices> {
 

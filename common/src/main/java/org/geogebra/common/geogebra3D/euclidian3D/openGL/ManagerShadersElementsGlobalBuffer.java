@@ -172,6 +172,7 @@ public class ManagerShadersElementsGlobalBuffer
 		return fanIndirectIndices;
 	}
 
+	@SuppressWarnings("serial")
 	protected class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
 		@Override
 		protected Geometry newGeometry(Type type) {

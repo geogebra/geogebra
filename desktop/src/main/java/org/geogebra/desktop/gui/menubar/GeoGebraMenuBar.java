@@ -192,6 +192,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	/**
 	 * Creates and adds the sign in button
 	 */
+	@SuppressWarnings("serial")
 	private void addSignIn() {
 		Localization loc = app.getLocalization();
 		signInAction = new AbstractAction(loc.getMenu("SignIn")) {

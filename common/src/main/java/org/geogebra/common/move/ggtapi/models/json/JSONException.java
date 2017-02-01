@@ -42,6 +42,7 @@ package org.geogebra.common.move.ggtapi.models.json;
  * }
  * </pre>
  */
+@SuppressWarnings("serial")
 public class JSONException extends Exception {
 	public JSONException(String s) {
 		super(s);

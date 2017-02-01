@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
+@SuppressWarnings("serial")
 public class ToolInputOutputList extends ArrayList<GeoElement> {
 
 	public ToolInputOutputList() {

@@ -553,6 +553,7 @@ public class PolygonTriangulation {
 	 * @author mathieu
 	 *
 	 */
+	@SuppressWarnings("serial")
 	public static class TriangleFan extends ArrayList<Integer> {
 
 		private boolean isClockWise;

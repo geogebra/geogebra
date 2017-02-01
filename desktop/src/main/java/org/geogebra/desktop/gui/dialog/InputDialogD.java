@@ -202,6 +202,7 @@ public class InputDialogD extends InputDialog
 	 * @param frame
 	 * @param modal
 	 */
+	@SuppressWarnings("serial")
 	protected InputDialogD(JFrame frame, boolean modal, LocalizationD loc) {
 		this.loc = loc;
 		this.wrappedDialog = new JDialog(frame, modal) {

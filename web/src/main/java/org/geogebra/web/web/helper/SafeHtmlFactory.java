@@ -15,6 +15,7 @@ public class SafeHtmlFactory {
 	 *            ImageResource for safehtml
 	 * @return The safehtml string of the image
 	 */
+	@SuppressWarnings("serial")
 	public static SafeHtml getImageHtml(final ImageResource imgres) {
 		return new SafeHtml() {
 

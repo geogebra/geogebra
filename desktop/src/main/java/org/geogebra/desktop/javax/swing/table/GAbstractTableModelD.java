@@ -25,6 +25,7 @@ public abstract class GAbstractTableModelD implements GAbstractTableModel {
 		return impl;
 	}
 
+	@SuppressWarnings("serial")
 	private class MyAbstractTableModel extends AbstractTableModel {
 
 		@Override

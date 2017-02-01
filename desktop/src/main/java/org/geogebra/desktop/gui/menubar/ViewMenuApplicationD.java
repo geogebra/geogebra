@@ -17,6 +17,7 @@ import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
+@SuppressWarnings("serial")
 public class ViewMenuApplicationD extends ViewMenuD {
 
 	private AbstractAction showKeyboardAction, showAlgebraInputAction;
@@ -176,6 +177,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	private class ShowViewAction extends AbstractAction {
 
 		private DockPanelD panel;

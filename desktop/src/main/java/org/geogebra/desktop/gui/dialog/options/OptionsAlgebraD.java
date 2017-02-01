@@ -108,6 +108,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 	 * @remark Do not use translations here, the option dialog will take care of
 	 *         calling setLabels()
 	 */
+	@SuppressWarnings("serial")
 	private void initGUI() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10, 1));

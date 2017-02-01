@@ -189,6 +189,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		}
 	}
 
+	@SuppressWarnings("serial")
 	private Corner newUpperLeftCorner() {
 
 		Corner upperLeftCorner = new Corner(); // use FlowLayout

@@ -6,6 +6,7 @@ import java.awt.datatransfer.Transferable;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
+@SuppressWarnings("serial")
 public class CASTransferHandler extends TransferHandler {
 
 	// supported data flavors

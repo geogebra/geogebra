@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
  * @author Matthias Meisinger
  * 
  */
+@SuppressWarnings("serial")
 public class Material implements Comparable<Material>, Serializable {
 
 	public enum Provider {
