@@ -237,7 +237,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		return this.func;
 	}
 
-	private double distanceSqr(Coords A, Coords B) {
+	private static double distanceSqr(Coords A, Coords B) {
 		double vx = A.getX() - B.getX();
 		double vy = A.getY() - B.getY();
 		return vx * vx + vy * vy;

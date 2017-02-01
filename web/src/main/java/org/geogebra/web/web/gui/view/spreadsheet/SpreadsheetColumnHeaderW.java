@@ -279,7 +279,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		return resizeColumn;
 	}
 	
-	private int getBoundary(PointerEventType eventType) {
+	private static int getBoundary(PointerEventType eventType) {
 		return eventType == PointerEventType.MOUSE ? 3 : 6;
 	}
 

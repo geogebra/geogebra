@@ -75,7 +75,7 @@ public class ResourceAvailability {
 		Assert.assertEquals(missing.toString(), missing.length(), 0);
 	}
 
-	private boolean hasFlag(Country country) {
+	private static boolean hasFlag(Country country) {
 		switch (country) {
 		case EastTimor:
 		case Yugoslavia:

@@ -77,7 +77,7 @@ public class CloneTransformer<T> implements Transformer<T, T>, Serializable {
 		}
 	}
 
-	private Object readResolve() {
+	private static Object readResolve() {
 		return INSTANCE;
 	}
 

@@ -360,7 +360,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	// GUI Utilities
 	// ============================================================
 
-	private JPanel flowPanel(Component... comp) {
+	private static JPanel flowPanel(Component... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);

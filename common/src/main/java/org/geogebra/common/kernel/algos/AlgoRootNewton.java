@@ -176,7 +176,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	 * Tries to find a valid domain for the given function around it's starting
 	 * value.
 	 */
-	private double[] getDomain(Function fun, double start) {
+	private static double[] getDomain(Function fun, double start) {
 		// arbitrary interval (used to depend on screen width)
 		return RealRootUtil.getDefinedInterval(fun, start - 0.5, start + 0.5);
 	}

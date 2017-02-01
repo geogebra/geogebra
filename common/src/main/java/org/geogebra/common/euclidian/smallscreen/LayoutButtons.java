@@ -73,12 +73,12 @@ public class LayoutButtons {
 		Collections.sort(all, comparatorY);
 	}
 
-	private String buttonDetails(GeoButton btn) {
+	private static String buttonDetails(GeoButton btn) {
 		return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
 				+ btn.getAbsoluteScreenLocY() + ")";
 	}
 
-	private void debugButtons(List<GeoButton> buttons) {
+	private static void debugButtons(List<GeoButton> buttons) {
 		for (int idx = 0; idx < buttons.size(); idx++) {
 			GeoButton btn = buttons.get(idx);
 			Log.debug("[LayoutButtons] " + idx + ". " + buttonDetails(btn));

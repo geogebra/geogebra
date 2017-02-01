@@ -18,7 +18,7 @@ public class AlgebraStyleTest extends Assert {
 
 
 
-	private void checkRows(String def, int rows) {
+	private static void checkRows(String def, int rows) {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false,
 				TestErrorHandler.INSTANCE, false, null);

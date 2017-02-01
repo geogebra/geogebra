@@ -170,7 +170,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 		popup.add(mi);
 	}
 
-	private void addSubItem(Object menu, Object item) {
+	private static void addSubItem(Object menu, Object item) {
 		Component mi = (Component) item;
 		mi.setBackground(bgColor);
 		((JMenu) menu).add(mi);

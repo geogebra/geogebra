@@ -111,7 +111,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 * @return a two element array containing the lower and upper bounds of the
 	 *         hypergeometric distribution.
 	 */
-	private int[] getDomain(int n, int m, int k) {
+	private static int[] getDomain(int n, int m, int k) {
 		return new int[] { getLowerDomain(n, m, k), getUpperDomain(m, k) };
 	}
 
@@ -155,7 +155,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the sample size.
 	 * @return the lowest domain value of the hypergeometric distribution.
 	 */
-	private int getLowerDomain(int n, int m, int k) {
+	private static int getLowerDomain(int n, int m, int k) {
 		return FastMath.max(0, m - (n - k));
 	}
 
@@ -199,7 +199,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the sample size.
 	 * @return the highest domain value of the hypergeometric distribution.
 	 */
-	private int getUpperDomain(int m, int k) {
+	private static int getUpperDomain(int m, int k) {
 		return FastMath.min(k, m);
 	}
 
@@ -247,7 +247,7 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the value at which the PMF is evaluated.
 	 * @return PMF for the distribution.
 	 */
-	private double probability(int n, int m, int k, int x) {
+	private static double probability(int n, int m, int k, int x) {
 		return FastMath.exp(MathUtils.binomialCoefficientLog(m, x)
 				+ MathUtils.binomialCoefficientLog(n - m, k - x)
 				- MathUtils.binomialCoefficientLog(n, k));
@@ -391,7 +391,8 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the sample size.
 	 * @return P(x0 &le; X &le; x1).
 	 */
-	private double innerCumulativeProbability(int x0, int x1, int dx, int n,
+	private static double innerCumulativeProbability(int x0, int x1, int dx,
+			int n,
 			int m, int k) {
 		double ret = probability(n, m, k, x0);
 		while (x0 != x1) {

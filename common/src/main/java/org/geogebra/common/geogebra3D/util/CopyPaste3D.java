@@ -265,13 +265,14 @@ public class CopyPaste3D extends CopyPaste {
 		}
 	}
 
-	private TreeSet<GeoElement> getAllIndependentPredecessors(GeoElement geo) {
+	private static TreeSet<GeoElement> getAllIndependentPredecessors(
+			GeoElement geo) {
 		TreeSet<GeoElement> ancestors = new TreeSet<GeoElement>();
 		geo.addPredecessorsToSet(ancestors, true);
 		return ancestors;
 	}
 
-	private boolean predecessorsCovered(GeoElementND ps2n,
+	private static boolean predecessorsCovered(GeoElementND ps2n,
 			TreeSet<GeoElement> ancestors) {
 		return ancestors.containsAll(
 				getAllIndependentPredecessors(ps2n.toGeoElement()));

@@ -1050,7 +1050,7 @@ public class DefaultClipper extends ClipperBase {
 	/**
 	 * modified to be compatible with double
 	 */
-	private boolean doHorzSegmentsOverlap(double seg1a, double seg1b,
+	private static boolean doHorzSegmentsOverlap(double seg1a, double seg1b,
 			double seg2a, double seg2b) {
 		if (seg1a > seg1b) {
 			final double tmp = seg1a;
@@ -1180,7 +1180,7 @@ public class DefaultClipper extends ClipperBase {
 
 	// ------------------------------------------------------------------------------
 
-	private boolean EdgesAdjacent(IntersectNode inode) {
+	private static boolean EdgesAdjacent(IntersectNode inode) {
 		return inode.edge1.nextInSEL == inode.Edge2
 				|| inode.edge1.prevInSEL == inode.Edge2;
 	}
@@ -1803,7 +1803,8 @@ public class DefaultClipper extends ClipperBase {
 	/**
 	 * modified to be compatible with double
 	 */
-	private void intersectPoint(Edge edge1, Edge edge2, DoublePoint[] ipV) {
+	private static void intersectPoint(Edge edge1, Edge edge2,
+			DoublePoint[] ipV) {
 		final DoublePoint ip = ipV[0] = new DoublePoint();
 
 		double b1, b2;
@@ -2530,7 +2531,7 @@ public class DefaultClipper extends ClipperBase {
 		}
 	}
 
-	private void updateOutPtIdxs(OutRec outrec) {
+	private static void updateOutPtIdxs(OutRec outrec) {
 		OutPt op = outrec.getPoints();
 		do {
 			op.idx = outrec.Idx;

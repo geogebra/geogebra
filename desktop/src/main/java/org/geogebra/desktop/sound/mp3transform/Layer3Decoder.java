@@ -622,7 +622,7 @@ final class Layer3Decoder {
 		}
 	}
 
-	private double getT43(int abv, double globalGain) {
+	private static double getT43(int abv, double globalGain) {
 		switch (abv) {
 		case 0:
 			return 0.0f;
@@ -1144,7 +1144,7 @@ final class Layer3Decoder {
 		}
 	}
 
-	private void fastInvMdct(double[] in, double[] out, int blockType) {
+	private static void fastInvMdct(double[] in, double[] out, int blockType) {
 		double t0, t1, t2, t3, t4, t5, t6, t7, t8, t9;
 		double t10, t11, t12, t13, t14, t15, t16, t17;
 		if (blockType == 2) {

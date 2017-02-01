@@ -4634,7 +4634,8 @@ public abstract class App implements UpdateSelection {
 				maxY);
 	}
 
-	final protected GBufferedImage getEuclidianViewExportImage(EuclidianView ev,
+	final static protected GBufferedImage getEuclidianViewExportImage(
+			EuclidianView ev,
 			double maxX, double maxY) {
 
 		double scale = Math.min(maxX / ev.getSelectedWidthInPixels(),

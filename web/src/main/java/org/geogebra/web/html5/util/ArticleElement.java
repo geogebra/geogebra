@@ -605,7 +605,7 @@ public final class ArticleElement extends Element {
 		return this.getAttribute("data-param-apiKey");
 	}
 
-	public boolean isEnableUsageStats() {
+	public static boolean isEnableUsageStats() {
 		return ((CASFactory) GWT.create(CASFactory.class)).isEnabled();
 	}
 

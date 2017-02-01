@@ -160,7 +160,7 @@ public abstract class FontEmbedder extends FontIncluder {
 		}
 	}
 
-	private Shape createUndefined() {
+	private static Shape createUndefined() {
 		GeneralPath ud = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 10);
 		ud.append(new Rectangle2D.Double(0, 0, FONT_SIZE, FONT_SIZE), false);
 		ud.append(new Rectangle2D.Double(FONT_SIZE / 20, FONT_SIZE / 20,

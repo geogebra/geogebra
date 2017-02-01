@@ -105,13 +105,13 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
-	private String getLocalizedTimeOnly(Localization loc, long time) {
+	private static String getLocalizedTimeOnly(Localization loc, long time) {
 		// eg "14:08:48"
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", new Date(time),
 				loc);
 	}
 
-	private String getLocalizedDateOnly(Localization loc, long time) {
+	private static String getLocalizedDateOnly(Localization loc, long time) {
 		// eg "Fri 23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
 		return CmdGetTime.buildLocalizedDate("\\D, \\j \\F \\Y", new Date(time),

@@ -1543,7 +1543,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		return path;
 	}
 
-	private Shape transformShape(AffineTransform at, Shape s) {
+	private static Shape transformShape(AffineTransform at, Shape s) {
 		if (s == null) {
 			return null;
 		}

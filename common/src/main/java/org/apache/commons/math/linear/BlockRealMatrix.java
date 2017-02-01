@@ -879,7 +879,8 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	 * @param dstStartColumn
 	 *            start column in the destination block
 	 */
-	private void copyBlockPart(final double[] srcBlock, final int srcWidth,
+	private static void copyBlockPart(final double[] srcBlock,
+			final int srcWidth,
 			final int srcStartRow, final int srcEndRow,
 			final int srcStartColumn, final int srcEndColumn,
 			final double[] dstBlock, final int dstWidth, final int dstStartRow,

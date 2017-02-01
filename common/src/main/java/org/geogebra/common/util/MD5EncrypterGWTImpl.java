@@ -152,7 +152,7 @@ public class MD5EncrypterGWTImpl {
 		return utftext.toString();
 	}
 
-	private int[] convertToWordArray(String string) {
+	private static int[] convertToWordArray(String string) {
 		int lWordCount;
 		int lMessageLength = string.length();
 		int lNumberOfWords_temp1 = lMessageLength + 8;
@@ -182,7 +182,7 @@ public class MD5EncrypterGWTImpl {
 		return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 	}
 
-	private int addUnsigned(int lX, int lY) {
+	private static int addUnsigned(int lX, int lY) {
 		int lX4, lY4, lX8, lY8, lResult;
 		lX8 = (lX & 0x80000000);
 		lY8 = (lY & 0x80000000);
@@ -201,19 +201,19 @@ public class MD5EncrypterGWTImpl {
 		return (lResult ^ lX8 ^ lY8);
 	}
 
-	private int F(int x, int y, int z) {
+	private static int F(int x, int y, int z) {
 		return (x & y) | ((~x) & z);
 	}
 
-	private int G(int x, int y, int z) {
+	private static int G(int x, int y, int z) {
 		return (x & z) | (y & (~z));
 	}
 
-	private int H(int x, int y, int z) {
+	private static int H(int x, int y, int z) {
 		return (x ^ y ^ z);
 	}
 
-	private int I(int x, int y, int z) {
+	private static int I(int x, int y, int z) {
 		return (y ^ (x | (~z)));
 	}
 
@@ -237,7 +237,7 @@ public class MD5EncrypterGWTImpl {
 		return addUnsigned(rotateLeft(a, s), b);
 	}
 
-	private String wordToHex(int lValue) {
+	private static String wordToHex(int lValue) {
 		StringBuilder WordToHexValue = new StringBuilder();
 		String WordToHexValue_temp = "";
 		int lByte, lCount;

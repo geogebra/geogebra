@@ -506,7 +506,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		setHovered(event.getRelativeElement(), false);
     }
 
-	private void setHovered(Element el, boolean hovered){
+	private static void setHovered(Element el, boolean hovered) {
 		if (hovered){
 			el.addClassName("hovered");
 		} else {

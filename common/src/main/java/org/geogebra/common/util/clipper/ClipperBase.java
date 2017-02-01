@@ -521,7 +521,7 @@ public abstract class ClipperBase implements Clipper {
 		return result;
 	}
 
-	private boolean equalsEdgeHorizontal(double d) {
+	private static boolean equalsEdgeHorizontal(double d) {
 		return MyDouble.exactEqual(d, Edge.HORIZONTAL);
 	}
 

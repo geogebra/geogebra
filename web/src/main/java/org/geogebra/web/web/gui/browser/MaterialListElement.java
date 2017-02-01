@@ -801,7 +801,7 @@ public class MaterialListElement extends FlowPanel implements
 		this.showListener = listener;
 	}
 
-	private String extractTitle(String key) {
+	private static String extractTitle(String key) {
 	    return key.substring(key.indexOf("_", key.indexOf("_")+1)+1);
     }
 

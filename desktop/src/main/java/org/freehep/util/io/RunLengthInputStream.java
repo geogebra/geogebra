@@ -85,7 +85,7 @@ public class RunLengthInputStream extends InputStream implements RunLength {
 		return true;
 	}
 
-	private boolean end(int b) {
+	private static boolean end(int b) {
 		if ((b < 0) || (b == EOD)) {
 			return true;
 		}

@@ -1418,7 +1418,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 	}
 
-	private boolean isTrigInv(String s) {
+	private static boolean isTrigInv(String s) {
 		return s.toLowerCase().contains("atan(")
 				|| s.toLowerCase().contains("acos(")
 				|| s.toLowerCase().contains("asin(");
@@ -2903,8 +2903,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 	}
 
-	private String getUnit(String[] units, double spaceTick, int xy) {
-		// TODO Auto-generated method stub
+	private static String getUnit(String[] units, double spaceTick, int xy) {
 		if (spaceTick == Math.PI / 2) {
 			return "\\pi/2";
 		}
@@ -2917,8 +2916,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		return units[xy];
 	}
 
-	private boolean hasMeasureUnit(String[] units, double spaceTick, int xy) {
-		// TODO Auto-generated method stub
+	private static boolean hasMeasureUnit(String[] units, double spaceTick,
+			int xy) {
 		return (units != null && units[xy] != null && units[xy].length() != 0)
 				|| spaceTick == Math.PI || spaceTick == Math.PI / 2;
 	}

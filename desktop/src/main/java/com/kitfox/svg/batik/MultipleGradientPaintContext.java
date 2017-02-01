@@ -598,7 +598,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 *            the output array of colors... assuming this is not null.
 	 *
 	 */
-	private void interpolate(int rgb1, int rgb2, int[] output) {
+	private static void interpolate(int rgb1, int rgb2, int[] output) {
 
 		int a1, r1, g1, b1, da, dr, dg, db; // color components
 
@@ -632,7 +632,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 * integer RGB triple, converts them from LinearRGB to SRGB, then recompacts
 	 * them into an int.
 	 */
-	private int convertEntireColorLinearRGBtoSRGB(int rgb) {
+	private static int convertEntireColorLinearRGBtoSRGB(int rgb) {
 
 		int a1, r1, g1, b1; // color components
 
@@ -656,7 +656,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 * integer RGB triple, converts them from LinearRGB to SRGB, then recompacts
 	 * them into an int.
 	 */
-	private int convertEntireColorSRGBtoLinearRGB(int rgb) {
+	private static int convertEntireColorSRGBtoLinearRGB(int rgb) {
 
 		int a1, r1, g1, b1; // color components
 

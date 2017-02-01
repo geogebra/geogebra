@@ -133,7 +133,7 @@ public class SVGLoader extends DefaultHandler {
 		helper = new SVGLoaderHelper(xmlBase, universe, diagram);
 	}
 
-	private String printIndent(int indent, String indentStrn) {
+	private static String printIndent(int indent, String indentStrn) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < indent; i++) {
 			sb.append(indentStrn);

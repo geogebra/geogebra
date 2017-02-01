@@ -127,7 +127,7 @@ abstract class QuadTree {
 		openList.clear();
 	}
 
-	private boolean equal(MyPoint q1, MyPoint q2) {
+	private static boolean equal(MyPoint q1, MyPoint q2) {
 		return Kernel.isEqual(q1.x, q2.x, 1e-10)
 				&& Kernel.isEqual(q1.y, q2.y, 1e-10);
 	}
@@ -327,7 +327,7 @@ abstract class QuadTree {
 	 * @return true if the edge connecting two vertices intersect with curve
 	 *         segment
 	 */
-	private int intersect(double c1, double c2) {
+	private static int intersect(double c1, double c2) {
 		if (c1 * c2 <= 0.0) {
 			return 1;
 		}

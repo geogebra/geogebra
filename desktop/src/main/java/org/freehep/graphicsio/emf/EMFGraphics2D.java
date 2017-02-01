@@ -803,7 +803,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		os.writeTag(new SelectObject(brushHandle));
 	}
 
-	private int toUnit(double d) {
+	private static int toUnit(double d) {
 		return (int) Math.floor(d * UNITS_PER_PIXEL * TWIPS);
 	}
 }

@@ -54,7 +54,7 @@ public class MultiRowsTabBar extends FlowPanel implements
 
 	}
 
-	private void setSelectionStyle(Widget item, boolean selected) {
+	private static void setSelectionStyle(Widget item, boolean selected) {
 		if (item != null) {
 			if (selected) {
 				item.addStyleName("gwt-TabBarItem-selected");

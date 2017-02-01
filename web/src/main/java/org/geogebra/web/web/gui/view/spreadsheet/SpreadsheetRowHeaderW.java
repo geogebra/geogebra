@@ -306,7 +306,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		return resizeRow;
 	}
 
-	private int getBoundary(PointerEventType eventType) {
+	private static int getBoundary(PointerEventType eventType) {
 		return eventType == PointerEventType.MOUSE ? 3 : 6;
 	}
 	

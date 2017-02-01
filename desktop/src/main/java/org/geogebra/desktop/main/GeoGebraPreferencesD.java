@@ -663,7 +663,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * @return Default preferences
 	 */
-	private String getDefaultPreferences(App app) {
+	private static String getDefaultPreferences(App app) {
 
 		return GeoGebraPreferencesXML.getXML(app);
 	}

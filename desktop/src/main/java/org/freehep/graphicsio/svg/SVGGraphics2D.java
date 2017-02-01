@@ -719,7 +719,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 * 
 	 * @return properties in svg style for the font
 	 */
-	private Properties getFontProperties(Font font) {
+	private static Properties getFontProperties(Font font) {
 		Properties result = new Properties();
 
 		// attribute for font properties
@@ -1097,7 +1097,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 * @param s
 	 *            SVG-Tag
 	 */
-	private String getTransformedString(AffineTransform t, String s) {
+	private static String getTransformedString(AffineTransform t, String s) {
 		StringBuffer result = new StringBuffer();
 
 		if ((t != null) && !t.isIdentity()) {
@@ -1191,7 +1191,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		return "#000000";
 	}
 
-	private String hexColor(Color c) {
+	private static String hexColor(Color c) {
 		String s1 = Integer.toHexString(c.getRed());
 		s1 = (s1.length() != 2) ? "0" + s1 : s1;
 

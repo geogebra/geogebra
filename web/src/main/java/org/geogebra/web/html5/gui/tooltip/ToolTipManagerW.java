@@ -311,7 +311,7 @@ public class ToolTipManagerW {
 		}
 	}
 
-	private int lines(String text) {
+	private static int lines(String text) {
 		int lines = 0;
 		for (int i = 0; i < text.length(); i++) {
 			if ('\n' == text.charAt(i)) {

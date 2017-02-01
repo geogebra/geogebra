@@ -257,7 +257,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	 * @param M
 	 * @return
 	 */
-	private boolean hugeForMatrix(double e12, double M[][]) {
+	private static boolean hugeForMatrix(double e12, double M[][]) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				// e12 is much bigger than any matrix entry
@@ -270,7 +270,7 @@ public class AlgoConicFivePoints extends AlgoElement
 		return false;
 	}
 
-	private boolean shouldInvert(double d) {
+	private static boolean shouldInvert(double d) {
 		return (!Kernel.isZero(d) && Math.abs(d) < MULTIPLIER_MIN)
 				|| Math.abs(d) > MULTIPLIER_MAX;
 	}

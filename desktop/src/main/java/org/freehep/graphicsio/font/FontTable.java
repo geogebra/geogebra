@@ -137,7 +137,7 @@ public abstract class FontTable {
 	 *            ist attributes are used
 	 * @return something like Helvetica[BOLD:1][ITALIC:0][UNDERLINE:1]
 	 */
-	private String getKey(Font font) {
+	private static String getKey(Font font) {
 		Map/* <TextAttribute,?> */ attributes = font.getAttributes();
 
 		StringBuffer result = new StringBuffer(font.getName());

@@ -206,14 +206,15 @@ public class CSVParser {
 		this.ignoreQuotations = ignoreQuotations;
 	}
 
-	private boolean anyCharactersAreTheSame(char separator, char quotechar,
+	private static boolean anyCharactersAreTheSame(char separator,
+			char quotechar,
 			char escape) {
 		return isSameCharacter(separator, quotechar)
 				|| isSameCharacter(separator, escape)
 				|| isSameCharacter(quotechar, escape);
 	}
 
-	private boolean isSameCharacter(char c1, char c2) {
+	private static boolean isSameCharacter(char c1, char c2) {
 		return c1 != NULL_CHARACTER && c1 == c2;
 	}
 

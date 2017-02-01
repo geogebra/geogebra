@@ -34,7 +34,7 @@ public class VersionComparator implements Comparator {
 		return 0;
 	}
 
-	private String replaceSpecials(String in) {
+	private static String replaceSpecials(String in) {
 		for (int i = 0; i < special.length; i++) {
 			int j = -special.length + i;
 			in = in.replaceAll(special[i], "." + j + ".");

@@ -439,7 +439,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		        && table.minSelectionColumn == table.maxSelectionColumn;
 	}
 
-	private boolean isRightClick(DomEvent<?> event) {
+	private static boolean isRightClick(DomEvent<?> event) {
 		if (EventUtil.isTouchEvent(event)) {
 			return false; // right click is handled by rightClickTimer
 		}

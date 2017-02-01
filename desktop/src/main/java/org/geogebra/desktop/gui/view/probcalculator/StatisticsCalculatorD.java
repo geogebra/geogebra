@@ -541,7 +541,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
-	private boolean isNotEmpty(String s) {
+	private static boolean isNotEmpty(String s) {
 		return s != null && !"".equals(s);
 	}
 

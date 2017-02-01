@@ -207,7 +207,7 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 		}
 	}
 
-	private ImageResource getSubMenuIcon(boolean isRTL) {
+	private static ImageResource getSubMenuIcon(boolean isRTL) {
 		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL()
 		        : GuiResources.INSTANCE.menuBarSubMenuIconLTR();
 	}

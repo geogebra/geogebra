@@ -22,7 +22,7 @@ public final class FLS {
 	 * this implementation currently reverses whatever subtour does not wrap
 	 * around -which could be the larger of the two.
 	 */
-	private void reverse(final Point[] x, final int from, final int to) {
+	private static void reverse(final Point[] x, final int from, final int to) {
 		for (int i = from, j = to; i < j; i++, j--) {
 			final Point tmp = x[i];
 			x[i] = x[j];
@@ -33,7 +33,7 @@ public final class FLS {
 	/**
 	 * a tour is a circle. wrap around.
 	 */
-	private int wrap(final int i, final int max) {
+	private static int wrap(final int i, final int max) {
 		return (max + i) % max;
 	}
 
@@ -53,7 +53,7 @@ public final class FLS {
 	 * longer edges, avoid 4 square root operations by comparing squares. this
 	 * results in a 40% speed up in this code.
 	 */
-	private double moveCost(final Point a, final Point b, final Point c,
+	private static double moveCost(final Point a, final Point b, final Point c,
 			final Point d) {
 
 		// original edges (ab) (cd)
@@ -77,7 +77,7 @@ public final class FLS {
 	/**
 	 * set active bits for 4 vertices making up edges ab, cd.
 	 */
-	private void activate(final Point a, final Point b, final Point c,
+	private static void activate(final Point a, final Point b, final Point c,
 			final Point d) {
 		a.setActive(true);
 		b.setActive(true);
@@ -92,7 +92,7 @@ public final class FLS {
 	 * (currentPoint,nextPoint) are compared to all over edges (c,d), starting
 	 * at (c=currentPoint+2, d=currentPoint+3) until an improvement is found.
 	 */
-	private double findMove(final int current, final Point currentPoint,
+	private static double findMove(final int current, final Point currentPoint,
 			final Point[] points, final int numCities) {
 
 		// previous and next city index and point object.
@@ -146,7 +146,7 @@ public final class FLS {
 	/**
 	 * optimise a tour. return a 2-Optimal tour.
 	 */
-	public double optimise(final Point[] points) {
+	public static double optimise(final Point[] points) {
 
 		// total tour distance
 		double best = distance(points);

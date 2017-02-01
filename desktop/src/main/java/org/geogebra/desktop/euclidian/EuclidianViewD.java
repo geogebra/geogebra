@@ -279,7 +279,7 @@ public class EuclidianViewD extends EuclidianView
 	 *            image file
 	 * @return cursor created from image
 	 */
-	private Cursor getCursorForImage(Image image) {
+	private static Cursor getCursorForImage(Image image) {
 		if (image == null) {
 			return null;
 		}

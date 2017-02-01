@@ -165,7 +165,7 @@ public abstract class DataAnalysisController {
 		loadDataPanelArray();
 	}
 
-	private boolean isValidList(ArrayList<GeoList> list) {
+	private static boolean isValidList(ArrayList<GeoList> list) {
 
 		if (list == null || list.size() == 0) {
 			return false;

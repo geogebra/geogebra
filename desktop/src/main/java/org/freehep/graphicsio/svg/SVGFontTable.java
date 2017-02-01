@@ -70,7 +70,7 @@ public class SVGFontTable {
 	 * @param font
 	 * @return GlyphVector using a default rendering context
 	 */
-	private SVGGlyph createGlyph(int c, Font font) {
+	private static SVGGlyph createGlyph(int c, Font font) {
 		GlyphVector glyphVector = font.createGlyphVector(
 				// flipping is done by SVGGlyph
 				new FontRenderContext(null, true, true),
@@ -250,7 +250,7 @@ public class SVGFontTable {
 	 * @param font
 	 * @return font based on the parameter
 	 */
-	private Font untransform(Font font) {
+	private static Font untransform(Font font) {
 		// replace font family
 		Map /* <TextAttribute, ?> */ attributes = font.getAttributes();
 

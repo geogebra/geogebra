@@ -156,7 +156,8 @@ public abstract class GeoGebraTubeAPI {
 	 *            cookie (for web)
 	 * @return The JSONObject that contains the request.
 	 */
-	protected final String buildTokenLoginRequest(String token, String cookie) {
+	protected static final String buildTokenLoginRequest(String token,
+			String cookie) {
 		JSONObject requestJSON = new JSONObject();
 		JSONObject apiJSON = new JSONObject();
 		JSONObject loginJSON = new JSONObject();

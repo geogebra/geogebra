@@ -347,7 +347,7 @@ public class ColorProvider {
 			index = 0;
 		}
 
-		private char getClosingBracket(String openingBracket) {
+		private static char getClosingBracket(String openingBracket) {
 			if ("[".equals(openingBracket)) {
 				return ']';
 			}

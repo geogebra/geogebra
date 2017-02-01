@@ -82,7 +82,7 @@ public class BigFractionField implements Field<BigFraction>, Serializable {
 	 * 
 	 * @return the singleton instance
 	 */
-	private Object readResolve() {
+	private static Object readResolve() {
 		// return the singleton instance
 		return LazyHolder.INSTANCE;
 	}

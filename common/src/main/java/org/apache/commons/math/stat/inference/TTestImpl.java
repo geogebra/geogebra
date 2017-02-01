@@ -1283,7 +1283,7 @@ public class TTestImpl implements TTest {
 	 * @exception IllegalArgumentException
 	 *                if significance level is out of bounds
 	 */
-	private void checkSignificanceLevel(final double alpha)
+	private static void checkSignificanceLevel(final double alpha)
 			throws IllegalArgumentException {
 		if ((alpha <= 0) || (alpha > 0.5)) {
 			throw MathRuntimeException.createIllegalArgumentException(
@@ -1300,7 +1300,7 @@ public class TTestImpl implements TTest {
 	 * @exception IllegalArgumentException
 	 *                if there is not enough sample data
 	 */
-	private void checkSampleData(final double[] data)
+	private static void checkSampleData(final double[] data)
 			throws IllegalArgumentException {
 		if ((data == null) || (data.length < 2)) {
 			throw MathRuntimeException.createIllegalArgumentException(
@@ -1317,7 +1317,7 @@ public class TTestImpl implements TTest {
 	 * @exception IllegalArgumentException
 	 *                if there is not enough sample data
 	 */
-	private void checkSampleData(final StatisticalSummary stat)
+	private static void checkSampleData(final StatisticalSummary stat)
 			throws IllegalArgumentException {
 		if ((stat == null) || (stat.getN() < 2)) {
 			throw MathRuntimeException.createIllegalArgumentException(

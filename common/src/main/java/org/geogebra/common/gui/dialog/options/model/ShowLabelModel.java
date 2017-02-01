@@ -53,7 +53,7 @@ public class ShowLabelModel extends OptionsModel {
 		listener.update(equalLabelVal, equalLabelMode);
 	}
 
-	private boolean isDropDownList(GeoElement geo) {
+	private static boolean isDropDownList(GeoElement geo) {
 		return (geo.isGeoList() && ((GeoList) geo).drawAsComboBox());
 
 	}

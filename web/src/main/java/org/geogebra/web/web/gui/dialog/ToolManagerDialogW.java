@@ -59,7 +59,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			macros = new ArrayList<Macro>();
 		}
 
-		private String getMacroText(Macro macro) {
+		private static String getMacroText(Macro macro) {
 			return macro.getToolName() + ": " + macro.getNeededTypesString();
 		}
 

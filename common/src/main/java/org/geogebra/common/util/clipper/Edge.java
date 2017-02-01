@@ -365,7 +365,7 @@ class Edge {
 		}
 	}
 
-	private boolean isEdgeHorizontal(double d) {
+	private static boolean isEdgeHorizontal(double d) {
 		return MyDouble.exactEqual(d, Edge.HORIZONTAL);
 	}
 

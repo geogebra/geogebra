@@ -38,7 +38,7 @@ public class OFFReader {
 
 	}
 
-	private void parse(BufferedReader in, OFFHandler handler)
+	private static void parse(BufferedReader in, OFFHandler handler)
 			throws IOException, CSVException {
 
 		String line = in.readLine();

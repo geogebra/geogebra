@@ -155,7 +155,7 @@ public class OneWayAnovaImpl implements OneWayAnova {
 	 * @throws MathException
 	 *             if an error occurs computing the Anova stats
 	 */
-	private AnovaStats anovaStats(Collection<double[]> categoryData)
+	private static AnovaStats anovaStats(Collection<double[]> categoryData)
 			throws IllegalArgumentException, MathException {
 
 		// check if we have enough categories

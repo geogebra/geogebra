@@ -135,7 +135,8 @@ public class ViewPanelContainer extends SimplePanel implements
 		style.setOverflowY(Overflow.HIDDEN);
 	}
 
-	private ViewPanelWithStylebar createViewPanelWithStylebar(AbstractView view) {
+	private static ViewPanelWithStylebar createViewPanelWithStylebar(
+			AbstractView view) {
 		ViewPanelWithStylebar viewPanel = new ViewPanelWithStylebar();
 		viewPanel.setPanel(view.getViewPanel());
 		viewPanel.setStyleBar(view.getStyleBar());

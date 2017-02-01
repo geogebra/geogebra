@@ -154,7 +154,7 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	 *            matrix to check
 	 * @return true if matrix is symmetric
 	 */
-	private boolean isSymmetric(final RealMatrix matrix) {
+	private static boolean isSymmetric(final RealMatrix matrix) {
 		final int rows = matrix.getRowDimension();
 		final int columns = matrix.getColumnDimension();
 		final double eps = 10 * rows * columns * MathUtils.EPSILON;

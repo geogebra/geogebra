@@ -169,7 +169,7 @@ public class SVGRoot extends Group {
 		prepareViewport();
 	}
 
-	private boolean contains(String text, String find) {
+	private static boolean contains(String text, String find) {
 		return (text.indexOf(find) != -1);
 	}
 

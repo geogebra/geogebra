@@ -325,7 +325,7 @@ public class Covariance {
 	 * @param matrix
 	 *            matrix to check
 	 */
-	private void checkSufficientData(final RealMatrix matrix) {
+	private static void checkSufficientData(final RealMatrix matrix) {
 		int nRows = matrix.getRowDimension();
 		int nCols = matrix.getColumnDimension();
 		if (nRows < 2 || nCols < 2) {

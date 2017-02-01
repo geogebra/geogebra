@@ -113,7 +113,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		} // try-catch
 	}// loadPreferences
 
-	private void storePreferences() {
+	private static void storePreferences() {
 		if (!get("read_only", "false").equals("true")) {
 			try {
 				BufferedOutputStream os = new BufferedOutputStream(
@@ -349,15 +349,14 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 	// / --- Private --- ///
 	// get/set with check
-	private final String get(String key, String def) {
+	private static String get(String key, String def) {
 		if (properties != null) {
 			return properties.getProperty(key, def);
-		} else {
-			return ERROR;
-		} // if
+		}
+		return ERROR;
 	}// get()
 
-	public final void set(String key, String val) {
+	public static final void set(String key, String val) {
 		if (properties != null) {
 			properties.setProperty(key, val);
 		}
@@ -368,7 +367,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	// Just a thought:
 	// b64=...<b64 encoding of current model..
 	// Might be useful for some...
-	private String getB64(AppD app) {
+	private static String getB64(AppD app) {
 		StringBuffer b64 = null;
 		try {
 			b64 = new StringBuffer();

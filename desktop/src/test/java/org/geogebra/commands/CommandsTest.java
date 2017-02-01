@@ -167,7 +167,7 @@ public class CommandsTest extends Assert{
 		t("(1..2,1..2)", "{(1, 1), (2, 2)}");
 	}
 
-	private GeoElement get(String label) {
+	private static GeoElement get(String label) {
 		return app.getKernel().lookupLabel(label);
 	}
 
@@ -388,7 +388,7 @@ public class CommandsTest extends Assert{
 		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
 
-	private void ti(String in, String out) {
+	private static void ti(String in, String out) {
 		testSyntax(in.replace("i", Unicode.IMAGINARY),
 				new String[] { out.replace("i", Unicode.IMAGINARY) }, app, ap,
 				StringTemplate.xmlTemplate);
@@ -649,14 +649,14 @@ public class CommandsTest extends Assert{
 				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)",
 						"1", "1", "1", "1" }, StringTemplate.editTemplate);
 	}
-	private String indices(String string) {
+
+	private static String indices(String string) {
 		return string.replace("^2", Unicode.Superscript_2 + "");
 	}
 
-	private String eval(String string) {
+	private static String eval(String string) {
 		return ap.evaluateToNumeric(string, true)
-.toValueString(
-				StringTemplate.editTemplate);
+				.toValueString(StringTemplate.editTemplate);
 	}
 
 	@Test
@@ -679,7 +679,7 @@ public class CommandsTest extends Assert{
 		platonicTest("Dodecahedron", 108, dodeca);
 	}
 
-	private void platonicTest(String string, int deg, String[] dodeca) {
+	private static void platonicTest(String string, int deg, String[] dodeca) {
 		t(string + "[(1;" + deg + "deg),(0,0)]", dodeca,
 				StringTemplate.editTemplate);
 		t(string + "[(1;" + deg + "deg),(0,0),(1,0)]", dodeca,
@@ -873,7 +873,7 @@ public class CommandsTest extends Assert{
 		t("ab_{1}+1", "4");
 	}
 
-	private String unicode(String theSpline) {
+	private static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
 				Unicode.Superscript_3 + "");
 	}

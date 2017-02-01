@@ -544,7 +544,8 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	}
 
 
-	private double adjustedPValue(double p, double testStatistic, String tail){
+	private static double adjustedPValue(double p, double testStatistic,
+			String tail) {
 
 		// two sided test
 		if(tail.equals(tail_two)) {

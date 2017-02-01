@@ -1204,7 +1204,7 @@ public class QuickHull3D {
 		// LOG.debug("hull done");
 	}
 
-	private void markFaceVertices(Face face, int mark) {
+	private static void markFaceVertices(Face face, int mark) {
 		HalfEdge he0 = face.getFirstEdge();
 		HalfEdge he = he0;
 		do {

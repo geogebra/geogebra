@@ -613,7 +613,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		}
 	}
 
-	private String handleSpecialChar(String s) {
+	private static String handleSpecialChar(String s) {
 		return s.replaceAll(" ", "\\\\;");
 	}
 

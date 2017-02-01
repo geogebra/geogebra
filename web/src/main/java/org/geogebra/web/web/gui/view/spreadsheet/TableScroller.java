@@ -38,7 +38,8 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 * method is applicable to height also. The code assumes that
 	 * parentWidth/childWidth are positive and childAt can be negative.
 	 */
-	private int positionAdjustment(int parentWidth, int childWidth, int childAt) {
+	private static int positionAdjustment(int parentWidth, int childWidth,
+			int childAt) {
 
 		// App.debug("parent width = " + parentWidth);
 		// App.debug("child width = " + childWidth);

@@ -522,7 +522,7 @@ public class GeoGebraFrame extends JFrame
 		return wnd;
 	}
 
-	private AppThread createAppThread(AppD app) {
+	private static AppThread createAppThread(AppD app) {
 		return new AppThread(app);
 	}
 
@@ -571,7 +571,7 @@ public class GeoGebraFrame extends JFrame
 		 */
 		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 				"don't need to check return value of mkdirs() or delete()" })
-		private void downloadGeoGebraJars() throws IOException {
+		private static void downloadGeoGebraJars() throws IOException {
 			ZipInputStream zis = null;
 			try {
 				// Creating working directory:

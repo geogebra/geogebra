@@ -452,7 +452,8 @@ public class Percentile extends AbstractUnivariateStatistic
 	 *            initial index of the pivot
 	 * @return index of the pivot after partition
 	 */
-	private int partition(final double[] work, final int begin, final int end,
+	private static int partition(final double[] work, final int begin,
+			final int end,
 			final int pivot) {
 
 		final double value = work[pivot];
@@ -494,7 +495,7 @@ public class Percentile extends AbstractUnivariateStatistic
 	 * @param end
 	 *            index after the last element of the slice to sort
 	 */
-	private void insertionSort(final double[] work, final int begin,
+	private static void insertionSort(final double[] work, final int begin,
 			final int end) {
 		for (int j = begin + 1; j < end; j++) {
 			final double saved = work[j];

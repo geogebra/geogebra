@@ -2103,7 +2103,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 	}
 
-	private void setPointSize(GeoPointND point, int size) {
+	private static void setPointSize(GeoPointND point, int size) {
 		if (size > 0) {
 			point.setEuclidianVisibleIfNoConditionToShowObject(true);
 			point.setPointSize(size);

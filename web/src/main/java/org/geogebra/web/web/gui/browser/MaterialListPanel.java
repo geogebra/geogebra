@@ -187,7 +187,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		}
 	}
 
-	private Material findMaterial(List<Material> matList, int id) {
+	private static Material findMaterial(List<Material> matList, int id) {
 		for (int i = 0; i < matList.size(); i++) {
 			if (matList.get(i).getId() == id) {
 				return matList.get(i);

@@ -784,7 +784,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return DRAW_PICK_ORDER_SURFACE;
 	}
 
-	private boolean wireframeNeeded() {
+	private static boolean wireframeNeeded() {
 		return true;
 	}
 
@@ -1014,7 +1014,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	protected int notDrawn;
 
-	private void splitRootMesh(Corner first) {
+	private static void splitRootMesh(Corner first) {
 
 		Corner nextAbove, nextLeft;
 

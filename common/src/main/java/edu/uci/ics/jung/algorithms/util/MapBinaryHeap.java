@@ -240,7 +240,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * @return the index of the left child of the element at index
 	 *         <code>i</code> of the heap
 	 */
-	private int lChild(int i) {
+	private static int lChild(int i) {
 		return (i << 1) + 1;
 	}
 
@@ -252,7 +252,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * @return the index of the right child of the element at index
 	 *         <code>i</code> of the heap
 	 */
-	private int rChild(int i) {
+	private static int rChild(int i) {
 		return (i << 1) + 2;
 	}
 
@@ -263,7 +263,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	 * @param i
 	 * @return the index of the parent of the element at index i of the heap
 	 */
-	private int parent(int i) {
+	private static int parent(int i) {
 		return (i - 1) >> 1;
 	}
 

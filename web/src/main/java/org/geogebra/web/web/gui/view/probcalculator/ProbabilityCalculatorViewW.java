@@ -1021,7 +1021,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		});
     }
 
-	private void setTextBoxMaxLength(TextBox textBox, int maxLength) {
+	private static void setTextBoxMaxLength(TextBox textBox, int maxLength) {
 
 		Log.debug("[LIMIT] tf " + maxLength);
 		textBox.setMaxLength(maxLength);

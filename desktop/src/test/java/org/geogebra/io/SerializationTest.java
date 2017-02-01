@@ -76,7 +76,7 @@ public class SerializationTest {
 
 	}
 
-	private void tcl(String string, String string2) {
+	private static void tcl(String string, String string2) {
 		AlgebraProcessor ap =app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result =  ap.processAlgebraCommand(string, false);
 		Assert.assertTrue(result[0] instanceof GeoFunction);

@@ -230,7 +230,8 @@ public class AdjustScreen {
 			}
 		}
 	}
- 	private boolean isButtonsOverlap(GeoButton btn1, GeoButton btn2) {
+
+	private static boolean isButtonsOverlap(GeoButton btn1, GeoButton btn2) {
  	GRectangle rect1 = AwtFactory.getPrototype().newRectangle(btn1.getAbsoluteScreenLocX(),
 					btn1.getAbsoluteScreenLocY(),
 					btn1.getWidth(), btn1.getHeight());

@@ -113,7 +113,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		
 	} 
 
-	private FlowPanel createDataSourcePanel() {
+	private static FlowPanel createDataSourcePanel() {
 
 //		btnDataSource = new MyToggleButton2(AppResources.INSTANCE.a);
 //		btnDataSource.addClickHandler(this);
@@ -160,7 +160,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnSwapXY.setText(getSwapXYString(loc));
 	}
 
-	private String getSwapXYString(Localization loc) {
+	private static String getSwapXYString(Localization loc) {
 		return loc.getMenu("Column.X") + " \u21C6 " + loc.getMenu("Column.Y");
 	}
 

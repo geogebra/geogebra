@@ -228,7 +228,7 @@ public class StatTableW extends FlowPanel {
 	       }
 		}
 
-		private void toggleSelection(Element parentRow) {
+		private static void toggleSelection(Element parentRow) {
 	        if (parentRow.hasClassName("selected")) {
 		    	   parentRow.removeClassName("selected");
 		       } else {

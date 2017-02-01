@@ -344,7 +344,7 @@ public class EuclidianViewCompanion {
 		view.setLockedAxesRatio(evs.getLockedAxesRatio());
 	}
 
-	private boolean isNaN(GeoNumberValue axisNumberingDistance) {
+	private static boolean isNaN(GeoNumberValue axisNumberingDistance) {
 		return axisNumberingDistance == null
 				|| Double.isNaN(axisNumberingDistance.getDouble());
 	}

@@ -127,7 +127,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	}
 
-	private void debug(String msg) {
+	private static void debug(String msg) {
 		Log.debug(PREFIX + " " + msg);
 
 	}

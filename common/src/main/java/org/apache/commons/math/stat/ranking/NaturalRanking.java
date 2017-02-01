@@ -240,7 +240,7 @@ public class NaturalRanking implements RankingAlgorithm {
 	 *            input array
 	 * @return array with NaN-valued entries removed
 	 */
-	private IntDoublePair[] removeNaNs(IntDoublePair[] ranks) {
+	private static IntDoublePair[] removeNaNs(IntDoublePair[] ranks) {
 		if (!containsNaNs(ranks)) {
 			return ranks;
 		}
@@ -272,7 +272,7 @@ public class NaturalRanking implements RankingAlgorithm {
 	 * @param value
 	 *            the value to replace NaNs with
 	 */
-	private void recodeNaNs(IntDoublePair[] ranks, double value) {
+	private static void recodeNaNs(IntDoublePair[] ranks, double value) {
 		for (int i = 0; i < ranks.length; i++) {
 			if (Double.isNaN(ranks[i].getValue())) {
 				ranks[i] = new IntDoublePair(value, ranks[i].getPosition());
@@ -287,7 +287,7 @@ public class NaturalRanking implements RankingAlgorithm {
 	 *            array to be searched for NaNs
 	 * @return true iff ranks contains one or more NaNs
 	 */
-	private boolean containsNaNs(IntDoublePair[] ranks) {
+	private static boolean containsNaNs(IntDoublePair[] ranks) {
 		for (int i = 0; i < ranks.length; i++) {
 			if (Double.isNaN(ranks[i].getValue())) {
 				return true;
@@ -363,7 +363,8 @@ public class NaturalRanking implements RankingAlgorithm {
 	 * @param value
 	 *            value to set
 	 */
-	private void fill(double[] data, List<Integer> tiesTrace, double value) {
+	private static void fill(double[] data, List<Integer> tiesTrace,
+			double value) {
 		Iterator<Integer> iterator = tiesTrace.iterator();
 		while (iterator.hasNext()) {
 			data[iterator.next()] = value;
@@ -379,7 +380,8 @@ public class NaturalRanking implements RankingAlgorithm {
 	 * @param nanPositions
 	 *            list of index values to set to <code>Double.NaN</code>
 	 */
-	private void restoreNaNs(double[] ranks, List<Integer> nanPositions) {
+	private static void restoreNaNs(double[] ranks,
+			List<Integer> nanPositions) {
 		if (nanPositions.size() == 0) {
 			return;
 		}
@@ -397,7 +399,7 @@ public class NaturalRanking implements RankingAlgorithm {
 	 *            array to search for <code>NaNs</code>
 	 * @return list of indexes i such that <code>ranks[i] = NaN</code>
 	 */
-	private List<Integer> getNanPositions(IntDoublePair[] ranks) {
+	private static List<Integer> getNanPositions(IntDoublePair[] ranks) {
 		ArrayList<Integer> out = new ArrayList<Integer>();
 		for (int i = 0; i < ranks.length; i++) {
 			if (Double.isNaN(ranks[i].getValue())) {

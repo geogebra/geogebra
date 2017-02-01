@@ -450,7 +450,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	    loadingAnimation.show();
     }
 
-	private PopupPanel createLoadingAnimation() {
+	private static PopupPanel createLoadingAnimation() {
 	    PopupPanel anim = new PopupPanel();
 	    anim.addStyleName("loadinganimation");
 		anim.add(

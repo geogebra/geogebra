@@ -1380,7 +1380,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * returns false if quadric's matrix is the zero matrix or has infinite or
 	 * NaN values
 	 */
-	final private boolean checkDefined() {
+	final static private boolean checkDefined() {
 
 		/*
 		 * boolean allZero = true; double maxCoeffAbs = 0;

@@ -440,7 +440,7 @@ public class Material implements Comparable<Material>, Serializable {
 		return ret;
 	}
 
-	private void putBoolean(JSONObject ret, String key, boolean val) {
+	private static void putBoolean(JSONObject ret, String key, boolean val) {
 		if (val) {
 			try {
 				ret.put(key, Boolean.valueOf(val));
@@ -451,7 +451,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 	}
 
-	private void putString(JSONObject ret, String key, String value) {
+	private static void putString(JSONObject ret, String key, String value) {
 		if (value != null) {
 			try {
 				ret.put(key, value);

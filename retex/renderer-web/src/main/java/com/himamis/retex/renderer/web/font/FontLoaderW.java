@@ -67,7 +67,7 @@ public class FontLoaderW implements FontLoader {
 		return font;
 	}
 
-	private String extractFileName(String filePathName) {
+	private static String extractFileName(String filePathName) {
 		if (filePathName == null) {
 			return null;
 		}
@@ -86,7 +86,7 @@ public class FontLoaderW implements FontLoader {
 		return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0);
 	}
 
-	private String getPrefix(Object fontInt) {
+	private static String getPrefix(Object fontInt) {
 		String prefix = "";
 		if (CyrillicRegistration.class.equals(fontInt)) {
 			prefix = "cyrillic/";

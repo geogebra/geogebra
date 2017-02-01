@@ -267,7 +267,7 @@ public class Delaunay_Triangulation {
 
 	// checks if the 2 triangles shares a segment
 	// by Doron Ganel & Eyal Roth(2009)
-	private boolean shareSegment(Triangle_dt t1, Triangle_dt t2) {
+	private static boolean shareSegment(Triangle_dt t1, Triangle_dt t2) {
 		int counter = 0;
 		Point_dt t1P1 = t1.p1();
 		Point_dt t1P2 = t1.p2();
@@ -313,7 +313,7 @@ public class Delaunay_Triangulation {
 	// update the neighbors of the addedTriangle and deletedTriangle
 	// we assume the 2 triangles share a segment
 	// by Doron Ganel & Eyal Roth(2009)
-	private void updateNeighbor(Triangle_dt addedTriangle,
+	private static void updateNeighbor(Triangle_dt addedTriangle,
 			Triangle_dt deletedTriangle, Point_dt pointToDelete) {
 		Point_dt delA = deletedTriangle.p1();
 		Point_dt delB = deletedTriangle.p2();
@@ -384,7 +384,7 @@ public class Delaunay_Triangulation {
 	// update the neighbors of the 2 added Triangle s
 	// we assume the 2 triangles share a segment
 	// by Doron Ganel & Eyal Roth(2009)
-	private void updateNeighbor(Triangle_dt addedTriangle1,
+	private static void updateNeighbor(Triangle_dt addedTriangle1,
 			Triangle_dt addedTriangle2) {
 		Point_dt A1 = addedTriangle1.p1();
 		Point_dt B1 = addedTriangle1.p2();
@@ -607,7 +607,7 @@ public class Delaunay_Triangulation {
 	// the other two points of the triangle will be to the left and to the right
 	// of the segment
 	// by Doron Ganel & Eyal Roth(2009)
-	private Point_dt findDiagonal(Triangle_dt triangle, Point_dt point) {
+	private static Point_dt findDiagonal(Triangle_dt triangle, Point_dt point) {
 		Point_dt p1 = triangle.p1();
 		Point_dt p2 = triangle.p2();
 		Point_dt p3 = triangle.p3();
@@ -1270,7 +1270,8 @@ public class Delaunay_Triangulation {
 	 * By: Doron Ganel & Eyal Roth
 	 * 
 	 */
-	private Triangle_dt findTriangle(Vector<Point_dt> pointsVec, Point_dt p) {
+	private static Triangle_dt findTriangle(Vector<Point_dt> pointsVec,
+			Point_dt p) {
 		Point_dt[] arrayPoints = new Point_dt[pointsVec.size()];
 		pointsVec.toArray(arrayPoints);
 

@@ -153,7 +153,7 @@ public class GBufferedImageW implements GBufferedImage {
 		return canv;
 	}
 
-	private Canvas makeCanvas() {
+	private static Canvas makeCanvas() {
 		return Canvas.createIfSupported();
 	}
 

@@ -229,7 +229,7 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 	 *            the exponent; special case m == 1.0 is the harmonic series
 	 * @return the nth generalized harmonic number
 	 */
-	private double generalizedHarmonic(final int n, final double m) {
+	private static double generalizedHarmonic(final int n, final double m) {
 		double value = 0;
 		for (int k = n; k > 0; --k) {
 			value += 1.0 / FastMath.pow(k, m);

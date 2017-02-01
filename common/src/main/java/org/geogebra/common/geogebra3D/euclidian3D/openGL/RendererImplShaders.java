@@ -1046,7 +1046,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		attribPointers();
 	}
 
-	final protected void setPredefinedAttributes() {
+	final static protected void setPredefinedAttributes() {
 		// Associate attribute ids with the attribute names inside
 		// the vertex shader.
 		GLSL_ATTRIB_POSITION = 0;

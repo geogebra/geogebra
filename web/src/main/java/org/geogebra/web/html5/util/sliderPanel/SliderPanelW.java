@@ -138,7 +138,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 
 	}
 
-	private void setUIStyle(Element elem, GColor color) {
+	private static void setUIStyle(Element elem, GColor color) {
 		GColor c = color.deriveWithAlpha(102);
 		Style style = Dom.querySelectorForElement(elem,
 				"ui-state-default").getStyle();

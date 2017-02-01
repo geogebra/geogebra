@@ -2690,7 +2690,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return ret.toString();
 	}
 
-	private String wrapLink(String string) {
+	private static String wrapLink(String string) {
 		return "<a href=\"" + GeoGebraConstants.GEOGEBRA_WEBSITE
 				+ "\" target=\"_blank\" >" + string + "</a>";
 	}

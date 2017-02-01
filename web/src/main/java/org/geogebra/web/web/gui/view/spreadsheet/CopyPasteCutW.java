@@ -267,7 +267,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 	 * As copying to system clipboard is supposed to have done
 	 * @param value String
 	 */
-	private void setInternalClipboardContents(String value) {
+	private static void setInternalClipboardContents(String value) {
 		staticClipboardString = value;
 	}
 

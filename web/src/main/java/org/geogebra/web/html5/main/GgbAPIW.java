@@ -725,7 +725,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	private void addImageToArchive(String filePath, String fileName,
+	private static void addImageToArchive(String filePath, String fileName,
 			String url, FileExtensions ext, MyImageW img,
 			Map<String, String> archive) {
 		if (ext.equals(FileExtensions.SVG)) {
@@ -754,7 +754,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	private String convertImgToPng(MyImageW img) {
+	private static String convertImgToPng(MyImageW img) {
 		String url;
 		Canvas cv = Canvas.createIfSupported();
 		cv.setCoordinateSpaceWidth(img.getWidth());
@@ -769,7 +769,7 @@ public class GgbAPIW extends GgbAPI {
 		return url;
 	}
 
-	private void addSvgToArchive(String fileName, MyImageW img,
+	private static void addSvgToArchive(String fileName, MyImageW img,
 			Map<String, String> archive) {
 		ImageElement svg = img.getImage();
 
@@ -791,7 +791,7 @@ public class GgbAPIW extends GgbAPI {
 		archive.put(fileName, svgAsXML);
 	}
 
-	private void addImageToZip(String filename, String base64img,
+	private static void addImageToZip(String filename, String base64img,
 			Map<String, String> archive) {
 		archive.put(filename, base64img);
 	}

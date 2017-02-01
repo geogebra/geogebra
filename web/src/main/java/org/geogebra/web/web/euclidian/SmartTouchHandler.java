@@ -56,7 +56,7 @@ public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler,
 
 	}
 
-	private double distance(Touch touch1, Touch touch2) {
+	private static double distance(Touch touch1, Touch touch2) {
 		return MyMath.length(touch1.getClientX() - touch2.getClientX(),
 		        touch1.getClientY() - touch2.getClientY());
 	}

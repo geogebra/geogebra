@@ -73,7 +73,7 @@ public class ResourceLoaderW implements ResourceLoader {
 
 	}
 
-	private String getPath(Class<?> clazz) {
+	private static String getPath(Class<?> clazz) {
 		if (CyrillicRegistration.class.equals(clazz)) {
 			return "cyrillic/";
 	}

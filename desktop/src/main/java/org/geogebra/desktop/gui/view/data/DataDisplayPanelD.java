@@ -743,7 +743,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 				getModel().getSettings());
 	}
 
-	private void showCardPanel(JPanel panel, String id) {
+	private static void showCardPanel(JPanel panel, String id) {
 		((CardLayout) panel.getLayout()).show(panel, id);
 	}
 

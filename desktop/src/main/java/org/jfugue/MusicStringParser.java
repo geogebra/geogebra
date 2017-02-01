@@ -706,7 +706,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNoteOctave(String s, int slen, int index,
+	private static int parseNoteOctave(String s, int slen, int index,
 			NoteContext context) {
 		// Don't parse an octave for a rest or a numeric note
 		if (context.isRest || context.isNumericNote) {

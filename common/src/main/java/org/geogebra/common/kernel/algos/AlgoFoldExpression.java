@@ -78,7 +78,7 @@ public class AlgoFoldExpression extends AlgoElement {
 		resultFun.setLabel(label);
 	}
 
-	private FoldComputer getComputer(GeoElement expression) {
+	private static FoldComputer getComputer(GeoElement expression) {
 		switch (expression.getGeoClassType()) {
 		case POINT:
 		case POINT3D:

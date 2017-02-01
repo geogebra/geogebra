@@ -50,7 +50,7 @@ public class UDPLoggerD extends SensorLogger {
 		}
 	}
 
-	private float getFloat(byte[] buffer1, int i) {
+	private static float getFloat(byte[] buffer1, int i) {
 		byte[] bytes = { buffer1[i], buffer1[i + 1], buffer1[i + 2],
 				buffer1[i + 3] };
 		return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();

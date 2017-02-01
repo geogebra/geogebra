@@ -1330,7 +1330,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		widget.getElement().setAttribute("actionCommand", actionCommand);
 	}
 
-	private String getActionCommand(Widget widget) {
+	private static String getActionCommand(Widget widget) {
 		return widget.getElement().getAttribute("actionCommand");
 	}
 

@@ -2833,7 +2833,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
-	private void exponent(StringBuilder sb, int i0) {
+	private static void exponent(StringBuilder sb, int i0) {
 		int i = i0;
 		String index = "";
 		if (i < 0) {

@@ -531,7 +531,7 @@ public class StatGeo {
 	 * @return Preferred bar width = half of the minimum width between
 	 *         consecutive values in the given list.
 	 */
-	private double getPreferredBarWidth(GeoList list) {
+	private static double getPreferredBarWidth(GeoList list) {
 
 		double w = 1;
 		for (int i = 0; i < list.size() - 1; i++) {

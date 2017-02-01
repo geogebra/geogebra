@@ -376,7 +376,7 @@ public class SVGUniverse implements Serializable {
 	 * @return Uncompressed stream of SVG data
 	 * @throws java.io.IOException
 	 */
-	private InputStream createDocumentInputStream(InputStream is)
+	private static InputStream createDocumentInputStream(InputStream is)
 			throws IOException {
 		BufferedInputStream bin = new BufferedInputStream(is);
 		bin.mark(2);

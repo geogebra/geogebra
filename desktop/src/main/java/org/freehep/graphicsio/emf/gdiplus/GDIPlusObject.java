@@ -239,7 +239,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		return sb.toString();
 	}
 
-	private Paint readBrush(EMFInputStream emf) throws IOException {
+	private static Paint readBrush(EMFInputStream emf) throws IOException {
 		emf.readUINT(); // magic word
 		int brushType = emf.readUINT();
 		switch (brushType) {
@@ -271,7 +271,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		return Color.BLACK;
 	}
 
-	private void writeBrush(EMFOutputStream emf, Paint brush)
+	private static void writeBrush(EMFOutputStream emf, Paint brush)
 			throws IOException {
 		emf.writeUINT(0xDBC01001);
 		if (brush instanceof Color) {
@@ -333,7 +333,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		emf.writeFLOAT((float) transform.getTranslateY());
 	}
 
-	private void writeImage(EMFOutputStream emf, RenderedImage image)
+	private static void writeImage(EMFOutputStream emf, RenderedImage image)
 			throws IOException {
 		emf.writeUINT(0xDBC01001);
 		emf.writeUINT(IMAGE_TYPE_BITMAP);

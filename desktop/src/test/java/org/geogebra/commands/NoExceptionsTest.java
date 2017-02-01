@@ -192,7 +192,7 @@ public class NoExceptionsTest {
 		Assert.assertEquals("", missing.toString());
 	}
 
-	private boolean betaCommand(Commands a) {
+	private static boolean betaCommand(Commands a) {
 		return a == Commands.MatrixPlot ||
 				a== Commands.DensityPlot || a==Commands.ContourPlot
 				|| a==Commands.Nyquist || a==Commands.Polyhedron;

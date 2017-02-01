@@ -309,7 +309,8 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     /**
      * Returns a rect string.
      */
-    private String getRectString(int top, int right, int bottom, int left) {
+		private static String getRectString(int top, int right, int bottom,
+				int left) {
       return "rect(" + top + "px, " + right + "px, " + bottom + "px, " + left
           + "px)";
     }
