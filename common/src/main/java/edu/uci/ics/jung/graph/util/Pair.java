@@ -118,7 +118,6 @@ public final class Pair<T> implements Collection<T>, Serializable {
 		return second;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (o == this) {

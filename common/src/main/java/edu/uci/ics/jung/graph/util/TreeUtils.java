@@ -57,7 +57,6 @@ public class TreeUtils {
 	 *             if a new tree of the same type cannot be created
 	 * @throws IllegalAccessException
 	 */
-	@SuppressWarnings("unchecked")
 	public static <V, E> Tree<V, E> getSubTree(Forest<V, E> forest, V root) {
 		if (!forest.containsVertex(root)) {
 			throw new IllegalArgumentException(

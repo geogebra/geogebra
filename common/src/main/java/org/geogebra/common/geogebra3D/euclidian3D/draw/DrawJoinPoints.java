@@ -198,7 +198,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	// //////////////////////////////
 	// Previewable interface
 
-	@SuppressWarnings("unchecked")
 	private ArrayList selectedPoints;
 
 	/**
@@ -208,7 +207,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * @param selectedPoints
 	 * @param geo
 	 */
-	@SuppressWarnings("unchecked")
 	public DrawJoinPoints(EuclidianView3D a_view3D, ArrayList selectedPoints,
 			GeoElement geo) {
 

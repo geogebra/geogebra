@@ -289,7 +289,6 @@ public class ColorProvider {
 
 		RegExp regExp = RegExp.compile(LABEL_PARAM);
 		String input;
-		@SuppressWarnings("hiding")
 		String text;
 		int index;
 

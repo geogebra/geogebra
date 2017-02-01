@@ -85,7 +85,6 @@ public class AlgoRootInterval extends AlgoElement {
 		rootPoint.setCoords(calcRoot(), 0.0, 1.0);
 	}
 
-	@SuppressWarnings("deprecation")
 	final double calcRoot() {
 		if (!(f.isDefined() && aGeo.isDefined() && bGeo.isDefined())) {
 			return Double.NaN;

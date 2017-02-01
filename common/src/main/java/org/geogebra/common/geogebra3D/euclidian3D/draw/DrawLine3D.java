@@ -144,7 +144,6 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 * @param a_view3D
 	 * @param selectedPoints
 	 */
-	@SuppressWarnings("unchecked")
 	public DrawLine3D(EuclidianView3D a_view3D, ArrayList selectedPoints) {
 
 		super(a_view3D, selectedPoints,

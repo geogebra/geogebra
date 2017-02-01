@@ -232,7 +232,6 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 				botanaVars[0] = new Variable();
 				botanaVars[1] = new Variable();
 			}
-			@SuppressWarnings("unused")
 			Variable[] fv = g.getBotanaVars(g);
 			botanaPolynomials = new Polynomial[2];
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2],

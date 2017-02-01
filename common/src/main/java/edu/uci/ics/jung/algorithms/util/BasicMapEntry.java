@@ -40,7 +40,6 @@ public class BasicMapEntry<K, V> implements Map.Entry<K, V> {
 		return oldValue;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Map.Entry)) {

@@ -379,7 +379,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	/** segments of the polygon preview */
 	private ArrayList<DrawSegment3D> segments;
 
-	@SuppressWarnings("unchecked")
 	private ArrayList<ArrayList<GeoPointND>> segmentsPoints;
 
 	private boolean isPreview = false;

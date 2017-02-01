@@ -90,7 +90,6 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		showLayoutOptionsAction = new AbstractAction(
 				loc.getMenu("Layout") + " ...",
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
-			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
 			@Override

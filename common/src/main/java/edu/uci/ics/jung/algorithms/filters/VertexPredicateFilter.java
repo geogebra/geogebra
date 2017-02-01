@@ -41,7 +41,6 @@ public class VertexPredicateFilter<V, E> implements Filter<V, E> {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Graph<V, E> transform(Graph<V, E> g) {
 		Graph<V, E> filtered;
 		try {

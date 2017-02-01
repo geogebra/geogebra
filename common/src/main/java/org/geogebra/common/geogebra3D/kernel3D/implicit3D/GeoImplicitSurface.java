@@ -928,7 +928,6 @@ public class GeoImplicitSurface extends GeoElement3D
 	// ...|./......................|./
 	// ...7/___________10__________6/
 	//
-	@SuppressWarnings("unused")
 	private static class Cube {
 
 		public static final int X1 = 0x00;

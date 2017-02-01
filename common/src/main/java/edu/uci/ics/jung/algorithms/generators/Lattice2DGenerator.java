@@ -104,7 +104,6 @@ public class Lattice2DGenerator<V, E> implements GraphGenerator<V, E> {
 	 * @see edu.uci.ics.jung.algorithms.generators.GraphGenerator#create()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public Graph<V, E> create() {
 		int vertex_count = row_count * col_count;
 		Graph<V, E> graph = graph_factory.create();

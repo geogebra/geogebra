@@ -58,7 +58,6 @@ public class DrawVector3D extends DrawJoinPoints {
 	 * @param view3D
 	 * @param selectedPoints
 	 */
-	@SuppressWarnings("unchecked")
 	public DrawVector3D(EuclidianView3D view3D, ArrayList selectedPoints) {
 
 		super(view3D, selectedPoints,

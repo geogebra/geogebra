@@ -6,7 +6,6 @@ package edu.uci.ics.jung.graph.util;
  * <code>equals</code>.
  */
 public class Context<G, E> {
-	@SuppressWarnings("unchecked")
 	private static Context instance = new Context();
 
 	/**
@@ -39,7 +38,6 @@ public class Context<G, E> {
 		return graph.hashCode() ^ element.hashCode();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Context)) {

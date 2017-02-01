@@ -317,7 +317,6 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Collection<E> getEdges(EdgeType edgeType) {
 		if (edgeType == EdgeType.DIRECTED) {
 			return Collections.unmodifiableSet(this.directedEdges);

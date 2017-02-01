@@ -190,10 +190,8 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 				{ evEval / 2, eEval, fEval }, { guEval / 2, fEval, gEval } };
 
 		matrix1.setSubMatrix(m1, 0, 0);
-		@SuppressWarnings("deprecation")
 		double det1 = matrix1.getDeterminant();
 		matrix2.setSubMatrix(m2, 0, 0);
-		@SuppressWarnings("deprecation")
 		double det2 = matrix2.getDeterminant();
 
 		double denomSqrt = eEval * gEval - fEval * fEval;

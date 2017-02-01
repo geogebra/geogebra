@@ -118,7 +118,6 @@ public class DrawRay3D extends DrawCoordSys1D {
 	 * @param a_view3D
 	 * @param selectedPoints
 	 */
-	@SuppressWarnings("unchecked")
 	public DrawRay3D(EuclidianView3D a_view3D, ArrayList selectedPoints) {
 
 		super(a_view3D, selectedPoints,
