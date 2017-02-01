@@ -253,12 +253,12 @@ public class Gamma {
 			ContinuedFraction cf = new ContinuedFraction() {
 
 				@Override
-				protected double getA(int n, double x) {
-					return ((2.0 * n) + 1.0) - a + x;
+				protected double getA(int n, double x1) {
+					return ((2.0 * n) + 1.0) - a + x1;
 				}
 
 				@Override
-				protected double getB(int n, double x) {
+				protected double getB(int n, double x1) {
 					return n * (a - n);
 				}
 			};

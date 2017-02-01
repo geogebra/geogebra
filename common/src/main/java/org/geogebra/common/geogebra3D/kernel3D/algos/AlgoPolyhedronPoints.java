@@ -429,11 +429,11 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		if (bottom != null) {
 			polyhedron.addPolygonLinked(bottom);
 		} else {
-			GeoPointND[] bottomPoints = getBottomPoints();
+			GeoPointND[] bottomPoints1 = getBottomPoints();
 
 			polyhedron.startNewFace();
-			for (int i = 0; i < bottomPoints.length; i++) {
-				polyhedron.addPointToCurrentFace(bottomPoints[i]);
+			for (int i = 0; i < bottomPoints1.length; i++) {
+				polyhedron.addPointToCurrentFace(bottomPoints1[i]);
 			}
 			polyhedron.endCurrentFace();
 		}

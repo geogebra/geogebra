@@ -281,7 +281,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 			@Override
 			public void onClick(Widget source) {
-				getAppW().getGuiManager().openHelp("Function_Inspector_Tool");
+				app.getGuiManager().openHelp("Function_Inspector_Tool");
 			}
 		});
 	}
@@ -303,7 +303,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
-		tableInterval = new InspectorTableW(getAppW(), 2);
+		tableInterval = new InspectorTableW(app, 2);
 		modelInterval = tableInterval.getModel();
 		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();
@@ -392,7 +392,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createXYtable() {
-		tableXY = new InspectorTableW(getAppW(), 2);
+		tableXY = new InspectorTableW(app, 2);
 		modelXY = tableXY.getModel();
 		modelXY.setHeaders(DEFAULT_XY_HEADERS);
 		// modelXY.setRowCount(pointCount);
@@ -418,7 +418,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
     private void createStep() {
 	    lblStep = new Label();
-		InputPanelW stepPanel = new InputPanelW(null, getAppW(), -1, false);
+		InputPanelW stepPanel = new InputPanelW(null, app, -1, false);
 		fldStep = stepPanel.getTextComponent();
 
 		fldStep.addKeyHandler(new KeyHandler() {
@@ -451,7 +451,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createBtnAddColumn() {
-		btnAddColumn = new PopupMenuButtonW(getAppW(),
+		btnAddColumn = new PopupMenuButtonW(app,
 		        ImageOrText.convert(getModel().getColumnNames()), -1, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 			@Override
@@ -474,7 +474,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		lblGeoName = new Label(getModel().getTitleString());
 
 		lblInterval = new Label();
-		InputPanelW lowPanel = new InputPanelW(null, getAppW(), -1, false);
+		InputPanelW lowPanel = new InputPanelW(null, app, -1, false);
 		fldLow = lowPanel.getTextComponent();
 		fldLow.setColumns(6);
 
@@ -497,7 +497,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 		});
 
-		InputPanelW highPanel = new InputPanelW(null, getAppW(), -1, false);
+		InputPanelW highPanel = new InputPanelW(null, app, -1, false);
 		fldHigh = highPanel.getTextComponent();
 		fldHigh.setColumns(6);
 
@@ -554,10 +554,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	}
 
-	AppW getAppW() {
-		return (AppW) getApp();
-	}
-
 	@Override
 	protected void updatePointsTab() {
 		Log.debug("UPDATE POINTS TAB");
@@ -611,11 +607,10 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void createOptionsButton() {
-		AppW appW = getAppW();
 
 		ImageOrText[] strOptions = new ImageOrText[] { new ImageOrText(
-				appW.getLocalization().getMenu("CopyToSpreadsheet")) };
-		btnOptions = new PopupMenuButtonW(appW, strOptions,
+				app.getLocalization().getMenu("CopyToSpreadsheet")) };
+		btnOptions = new PopupMenuButtonW((AppW) app, strOptions,
 		        strOptions.length, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
@@ -656,7 +651,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	public void setLabels() {
 		debug("setLabels");
-		Localization loc = getAppW().getLocalization();
+		Localization loc = app.getLocalization();
 		// wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
 		lblStep.setText(loc.getMenu("Step") + ":");
 		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
@@ -690,7 +685,8 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnAddColumn.setText("\u271A");
 
 		btnOptions.getMyTable().updateText(
-				new ImageOrText[] { new ImageOrText(getAppW().getLocalization()
+				new ImageOrText[] { new ImageOrText(
+						app.getLocalization()
 		                .getMenu("CopyToSpreadsheet")) });
 		btnAddColumn.getMyTable().updateText(
 		        ImageOrText.convert(getModel().getColumnNames()));

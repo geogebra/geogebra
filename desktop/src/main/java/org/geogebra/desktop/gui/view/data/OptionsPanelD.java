@@ -276,15 +276,15 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		c.anchor = GridBagConstraints.LINE_START;
 
 		// tab = tab-like constraint
-		GridBagConstraints tab = (GridBagConstraints) c.clone();
-		tab.insets = new Insets(0, 20, 0, 0);
+		GridBagConstraints tab1 = (GridBagConstraints) c.clone();
+		tab1.insets = new Insets(0, 20, 0, 0);
 
 		// create frequency type panel
 		freqPanel = new JPanel(new GridBagLayout());
 		freqPanel.add(ckCumulative, c);
-		freqPanel.add(rbFreq, tab);
-		freqPanel.add(rbRelative, tab);
-		freqPanel.add(rbNormalized, tab);
+		freqPanel.add(rbFreq, tab1);
+		freqPanel.add(rbRelative, tab1);
+		freqPanel.add(rbNormalized, tab1);
 
 		// create show panel
 		showPanel = new JPanel(new GridBagLayout());
@@ -301,8 +301,8 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		c.insets.top += 8; // vertical gap
 		classesPanel.add(lblClassRule, c);
 		c.insets.top -= 8; // undo vertical gap
-		classesPanel.add(rbLeftRule, tab);
-		classesPanel.add(rbRightRule, tab);
+		classesPanel.add(rbLeftRule, tab1);
+		classesPanel.add(rbRightRule, tab1);
 		layoutHistogramPanel();
 
 	}

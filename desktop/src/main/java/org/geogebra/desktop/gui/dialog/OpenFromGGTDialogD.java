@@ -43,8 +43,8 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 		String url = app.getOpenFromGGTOperation()
 				.generateOpenFromGGTURL(OpenFromGGTOperation.APP_TYPE.DESKTOP);
 
-		JFXPanel fxPanel = createWebView(url);
-		add(fxPanel);
+		JFXPanel fxPanel1 = createWebView(url);
+		add(fxPanel1);
 
 		pack();
 		setLocationRelativeTo(app.getFrame());

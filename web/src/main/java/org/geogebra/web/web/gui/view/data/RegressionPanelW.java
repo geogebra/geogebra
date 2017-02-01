@@ -225,7 +225,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	@Override
 	public void setLabels() {
 		regressionLabels = new String[Regression.values().length];
-		Localization loc = app.getLocalization();
 		setRegressionLabels(loc);
 
 		// we need to remove old labels from combobox and we don't want the

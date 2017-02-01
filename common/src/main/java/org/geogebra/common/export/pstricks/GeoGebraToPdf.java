@@ -282,7 +282,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	@Override
 	protected void drawLocus(GeoLocus g) {
 		ArrayList<MyPoint> ll = g.getPoints();
-		Iterator<MyPoint> it = ll.iterator();
+		Iterator<MyPoint> it1 = ll.iterator();
 		startBeamer(code);
 		code.append("\\draw");
 		String s = lineOptionCode(g, true);
@@ -292,8 +292,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		code.append(s);
 		boolean first = true;
 		boolean out = false;
-		while (it.hasNext()) {
-			MyPoint mp = it.next();
+		while (it1.hasNext()) {
+			MyPoint mp = it1.next();
 			double x = mp.x;
 			double y = mp.y;
 			boolean b = mp.getLineTo();
@@ -326,11 +326,11 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		double y = algo.getA().getDouble();
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();
-		double min = lf[0];
+		double min1 = lf[0];
 		double q1 = lf[1];
 		double med = lf[2];
 		double q3 = lf[3];
-		double max = lf[4];
+		double max1 = lf[4];
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw ");
 		String s = lineOptionCode(geo, true);
@@ -339,14 +339,14 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 		codeFilledObject.append(s);
 		// Min vertical bar
-		writePoint(min, y - height, codeFilledObject);
+		writePoint(min1, y - height, codeFilledObject);
 		codeFilledObject.append("-- ");
-		writePoint(min, y + height, codeFilledObject);
+		writePoint(min1, y + height, codeFilledObject);
 		codeFilledObject.append(" ");
 		// Max vertical bar
-		writePoint(max, y - height, codeFilledObject);
+		writePoint(max1, y - height, codeFilledObject);
 		codeFilledObject.append("-- ");
-		writePoint(max, y + height, codeFilledObject);
+		writePoint(max1, y + height, codeFilledObject);
 		codeFilledObject.append(" ");
 		// Med vertical bar
 		writePoint(med, y - height, codeFilledObject);
@@ -354,14 +354,14 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		writePoint(med, y + height, codeFilledObject);
 		// Min-q1 horizontal
 		codeFilledObject.append(" ");
-		writePoint(min, y, codeFilledObject);
+		writePoint(min1, y, codeFilledObject);
 		codeFilledObject.append("-- ");
 		writePoint(q1, y, codeFilledObject);
 		// q3-max
 		codeFilledObject.append(" ");
 		writePoint(q3, y, codeFilledObject);
 		codeFilledObject.append("-- ");
-		writePoint(max, y, codeFilledObject);
+		writePoint(max1, y, codeFilledObject);
 		codeFilledObject.append(";\n");
 		if (isBeamer) {
 			codeFilledObject.append("  ");
@@ -382,27 +382,27 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	protected void drawSumTrapezoidal(GeoNumeric geo) {
 		AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo
 				.getParentAlgorithm();
-		int n = algo.getIntervals();
+		int n1 = algo.getIntervals();
 		double[] y = algo.getValues();
 		double[] x = algo.getLeftBorder();
 		// Trapezoidal sum
 		startBeamer(codeFilledObject);
-		for (int i = 0; i < n; i++) {
+		for (int i1 = 0; i1 < n1; i1++) {
 
 			codeFilledObject.append("\\draw");
 			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				codeFilledObject.append("[" + s + "] ");
 			}
-			writePoint(x[i], 0, codeFilledObject);
+			writePoint(x[i1], 0, codeFilledObject);
 			codeFilledObject.append(" -- ");
-			writePoint(x[i + 1], 0, codeFilledObject);
+			writePoint(x[i1 + 1], 0, codeFilledObject);
 			codeFilledObject.append(" -- ");
-			writePoint(x[i + 1], y[i + 1], codeFilledObject);
+			writePoint(x[i1 + 1], y[i1 + 1], codeFilledObject);
 			codeFilledObject.append(" -- ");
-			writePoint(x[i], y[i], codeFilledObject);
+			writePoint(x[i1], y[i1], codeFilledObject);
 			codeFilledObject.append(" -- cycle;\n");
-			if (i != n - 1 && isBeamer) {
+			if (i1 != n1 - 1 && isBeamer) {
 				codeFilledObject.append("  ");
 			}
 		}
@@ -413,22 +413,22 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	protected void drawSumUpperLower(GeoNumeric geo) {
 		AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo
 				.getParentAlgorithm();
-		int n = algo.getIntervals();
-		double step = algo.getStep();
+		int n1 = algo.getIntervals();
+		double step1 = algo.getStep();
 		double[] y = algo.getValues();
 		double[] x = algo.getLeftBorder();
 		startBeamer(codeFilledObject);
-		for (int i = 0; i < n; i++) {
+		for (int i1 = 0; i1 < n1; i1++) {
 			codeFilledObject.append("\\draw");
 			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				codeFilledObject.append("[" + s + "] ");
 			}
-			writePoint(x[i], 0, codeFilledObject);
+			writePoint(x[i1], 0, codeFilledObject);
 			codeFilledObject.append(" rectangle ");
-			writePoint(x[i] + step, y[i], codeFilledObject);
+			writePoint(x[i1] + step1, y[i1], codeFilledObject);
 			codeFilledObject.append(";\n");
-			if (i != -1 && isBeamer) {
+			if (i1 != -1 && isBeamer) {
 				codeFilledObject.append("  ");
 			}
 		}
@@ -777,8 +777,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			if (s.length() != 0) {
 				codeFilledObject.append("[" + s + "] ");
 			}
-			for (int i = 0; i < 4; i++) {
-				writePoint(x[2 * i], x[2 * i + 1], codeFilledObject);
+			for (int i1 = 0; i1 < 4; i1++) {
+				writePoint(x[2 * i1], x[2 * i1 + 1], codeFilledObject);
 				codeFilledObject.append(" -- ");
 			}
 			codeFilledObject.append("cycle; \n");
@@ -946,8 +946,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	@Override
 	protected void drawSlider(GeoNumeric geo) {
 		boolean horizontal = geo.isSliderHorizontal();
-		double max = geo.getIntervalMax();
-		double min = geo.getIntervalMin();
+		double max1 = geo.getIntervalMax();
+		double min1 = geo.getIntervalMin();
 		double value = geo.getValue();
 		double width = geo.getSliderWidth();
 		double x = geo.getSliderX();
@@ -965,7 +965,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		String label = StringUtil.toLaTeXString(geo.getLabelDescription(),
 				true);
 		geoPoint.setLabel(label);
-		double param = (value - min) / (max - min);
+		double param = (value - min1) / (max1 - min1);
 		geoPoint.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 		geoPoint.setLabelVisible(geo.isLabelVisible());
 		if (horizontal) {
@@ -1025,8 +1025,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			code.append(s);
 		}
 		GeoPointND[] points = geo.getPoints();
-		for (int i = 0; i < points.length; i++) {
-			Coords coords = points[i].getCoordsInD2();
+		for (int i1 = 0; i1 < points.length; i1++) {
+			Coords coords = points[i1].getCoordsInD2();
 			double x = coords.getX(), y = coords.getY(), z = coords.getZ();
 			x = x / z;
 			y = y / z;
@@ -1130,8 +1130,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				if (!st.startsWith("$")) {
 					code.append("$");
 				}
-				for (int i = 0; i < st.length(); i++) {
-					char uCode = st.charAt(i);
+				for (int i1 = 0; i1 < st.length(); i1++) {
+					char uCode = st.charAt(i1);
 					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode,
@@ -1142,8 +1142,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			// Replace all backslash symbol with \textbackslash
 			else {
 				st = st.replaceAll("\\\\", "\\\\textbackslash ");
-				for (int i = 0; i < st.length(); i++) {
-					char uCode = st.charAt(i);
+				for (int i1 = 0; i1 < st.length(); i1++) {
+					char uCode = st.charAt(i1);
 					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode, "\\$\\\\"
@@ -1855,14 +1855,14 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			// i = 2*k is quadratic number
 			// make parabola big enough: k*p >= 2*x0 -> 2*k >= 4*x0/p
 			x0 = 4 * x0 / p;
-			int i = 4;
+			int i1 = 4;
 			int k2 = 16;
 			while (k2 < x0) {
-				i += 2;
-				k2 = i * i;
+				i1 += 2;
+				k2 = i1 * i1;
 			}
 			// x0 = k2/2 * p; // x = k*p
-			x0 = i * p; // y = sqrt(2k p^2) = i p
+			x0 = i1 * p; // y = sqrt(2k p^2) = i p
 			angle = Math.toDegrees(Math.atan2(eigenvecY, eigenvecX)) - 90;
 
 			startBeamer(code);
@@ -2453,8 +2453,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				String name = geo.getLabelDescription();
 				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
 					String nameSym = name;
-					for (int i = 0; i < name.length(); i++) {
-						char uCode = name.charAt(i);
+					for (int i1 = 0; i1 < name.length(); i1++) {
+						char uCode = name.charAt(i1);
 						if (UnicodeTeX.getMap().containsKey(uCode)) {
 							nameSym = nameSym.replaceAll("\\" + uCode, "\\$\\\\"
 									+ UnicodeTeX.getMap().get(uCode) + "\\$");
@@ -2621,23 +2621,23 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					} else {
 						// case pi
 						if (!unit.contains("2")) {
-							for (int i = xstartInt; i < x1; i++) {
-								if (i != 0) {
+							for (int i1 = xstartInt; i1 < x1; i1++) {
+								if (i1 != 0) {
 									codeBeginDoc.append("\\draw[shift={("
-											+ (i * Math.PI) + ",0)},color=");
+											+ (i1 * Math.PI) + ",0)},color=");
 									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[below] {");
-									if (i == -1) {
+									if (i1 == -1) {
 										codeBeginDoc.append(
 												footnotesize("-" + unit));
 									} else {
-										if (i == 1) {
+										if (i1 == 1) {
 											codeBeginDoc
 													.append(footnotesize(unit));
 										} else {
 											codeBeginDoc.append(
-													footnotesize(i + unit));
+													footnotesize(i1 + unit));
 										}
 									}
 									codeBeginDoc.append("};\n");
@@ -2645,23 +2645,23 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 							}
 						} else {
 							// case pi/2
-							for (int i = xstartInt; i < x1; i++) {
-								if (i != 0) {
+							for (int i1 = xstartInt; i1 < x1; i1++) {
+								if (i1 != 0) {
 									codeBeginDoc.append("\\draw[shift={("
-											+ (i * Math.PI / 2)
+											+ (i1 * Math.PI / 2)
 											+ ",0)},color=");
 									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[below] {");
-									if (i == -1) {
+									if (i1 == -1) {
 										codeBeginDoc.append(
 												footnotesize("-" + unit));
 									} else {
-										if (i == 1) {
+										if (i1 == 1) {
 											codeBeginDoc
 													.append(footnotesize(unit));
 										} else {
-											Fraction f = new Fraction(i, 2);
+											Fraction f = new Fraction(i1, 2);
 											if (f.doubleValue() == -1) {
 												codeBeginDoc.append(
 														footnotesize("-\\pi"));
@@ -2789,23 +2789,23 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					} else {
 						// case pi
 						if (!unit.contains("2")) {
-							for (int i = ystartInt; i < y1; i++) {
-								if (i != 0) {
+							for (int i1 = ystartInt; i1 < y1; i1++) {
+								if (i1 != 0) {
 									codeBeginDoc.append("\\draw[shift={(0,"
-											+ (i * Math.PI) + ")},color=");
+											+ (i1 * Math.PI) + ")},color=");
 									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[left] {");
-									if (i == -1) {
+									if (i1 == -1) {
 										codeBeginDoc.append(
 												footnotesize("-" + unit));
 									} else {
-										if (i == 1) {
+										if (i1 == 1) {
 											codeBeginDoc
 													.append(footnotesize(unit));
 										} else {
 											codeBeginDoc.append(
-													footnotesize(i + unit));
+													footnotesize(i1 + unit));
 										}
 									}
 									codeBeginDoc.append("};\n");
@@ -2813,22 +2813,22 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 							}
 						} else {
 							// case pi/2
-							for (int i = ystartInt; i < y1; i++) {
-								if (i != 0) {
+							for (int i1 = ystartInt; i1 < y1; i1++) {
+								if (i1 != 0) {
 									codeBeginDoc.append("\\draw[shift={(0,"
-											+ (i * Math.PI / 2) + ")},color=");
+											+ (i1 * Math.PI / 2) + ")},color=");
 									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[left] {");
-									if (i == -1) {
+									if (i1 == -1) {
 										codeBeginDoc.append(
 												footnotesize("-" + unit));
 									} else {
-										if (i == 1) {
+										if (i1 == 1) {
 											codeBeginDoc
 													.append(footnotesize(unit));
 										} else {
-											Fraction f = new Fraction(i, 2);
+											Fraction f = new Fraction(i1, 2);
 											if (f.doubleValue() == -1) {
 												codeBeginDoc.append(
 														footnotesize("-\\pi"));
@@ -3197,12 +3197,12 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			s = "[" + s + "] ";
 		}
 		str.append(s);
-		for (int i = 0; i < path.length; i++) {
-			Coords coords = path[i].getInhomCoords();
+		for (int i1 = 0; i1 < path.length; i1++) {
+			Coords coords = path[i1].getInhomCoords();
 			double x1 = coords.getX();
 			double y1 = coords.getY();
 			writePoint(x1, y1, str);
-			if (i != path.length - 1) {
+			if (i1 != path.length - 1) {
 				str.append("-- ");
 			}
 		}
@@ -3255,40 +3255,40 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			codeFilledObject.append(" -- ");
 			writePoint(x[0] + width / 2, y[0], codeFilledObject);
 			codeFilledObject.append(";\n");
-			for (int i = 0; i < length - 1; i++) {
+			for (int i1 = 0; i1 < length - 1; i1++) {
 				codeFilledObject.append("\\draw");
 				s = lineOptionCode(g, true);
 				if (s.length() != 0) {
 					codeFilledObject.append("[" + s + "] ");
 				}
-				writePoint(x[i] + width / 2, y[i], codeFilledObject);
+				writePoint(x[i1] + width / 2, y[i1], codeFilledObject);
 				codeFilledObject.append(" -- ");
-				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
+				writePoint(x[i1 + 1] + width / 2, y[i1], codeFilledObject);
 				codeFilledObject.append(";\n");
 				codeFilledObject.append("\\draw");
 				s = lineOptionCode(g, true);
 				if (s.length() != 0) {
 					codeFilledObject.append("[" + s + "] ");
 				}
-				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
+				writePoint(x[i1 + 1] + width / 2, y[i1], codeFilledObject);
 				codeFilledObject.append(" -- ");
-				writePoint(x[i + 1] + width / 2, y[i + 1], codeFilledObject);
+				writePoint(x[i1 + 1] + width / 2, y[i1 + 1], codeFilledObject);
 				codeFilledObject.append(";\n");
 			}
 		} else {
-			for (int i = 0; i < length; i++) {
-				barNumber = i + 1;
+			for (int i1 = 0; i1 < length; i1++) {
+				barNumber = i1 + 1;
 				codeFilledObject.append("\\draw");
 				String s = lineOptionCode(g, true);
 				if (s.length() != 0) {
 					codeFilledObject.append("[" + s + "] ");
 				}
-				writePoint(x[i], 0, codeFilledObject);
+				writePoint(x[i1], 0, codeFilledObject);
 				codeFilledObject.append(" rectangle ");
 				if (x.length == length) {
-					writePoint(x[i] + width, y[i], codeFilledObject);
+					writePoint(x[i1] + width, y[i1], codeFilledObject);
 				} else {
-					writePoint(x[i + 1], y[i], codeFilledObject);
+					writePoint(x[i1 + 1], y[i1], codeFilledObject);
 				}
 				codeFilledObject.append(";\n");
 			}
@@ -3333,20 +3333,20 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				.evaluate(curves[0].getMinParameter());
 		double x = xprec;
 		fill.append("\\pgfmoveto{\\pgfxy(" + x + "," + y + ")}");
-		for (int i = 0; i < curves.length; i++) {
-			p = curves[i].getMinParameter();
-			y = curves[i].getFunY().evaluate(curves[i].getMinParameter());
+		for (int i1 = 0; i1 < curves.length; i1++) {
+			p = curves[i1].getMinParameter();
+			y = curves[i1].getFunY().evaluate(curves[i1].getMinParameter());
 			yprec = y;
 			if (Math.abs(y) < 0.001) {
 				y = yprec = 0;
 			}
-			double step = (curves[i].getMaxParameter()
-					- curves[i].getMinParameter()) / 200;
-			xprec = curves[i].getFunX().evaluate(curves[i].getMinParameter());
+			double step1 = (curves[i1].getMaxParameter()
+					- curves[i1].getMinParameter()) / 200;
+			xprec = curves[i1].getFunX().evaluate(curves[i1].getMinParameter());
 			x = xprec;
-			for (; p <= curves[i].getMaxParameter(); p += step) {
-				y = curves[i].getFunY().evaluate(p);
-				x = curves[i].getFunX().evaluate(p);
+			for (; p <= curves[i1].getMaxParameter(); p += step1) {
+				y = curves[i1].getFunY().evaluate(p);
+				x = curves[i1].getFunX().evaluate(p);
 				if (Math.abs(y) < 0.001) {
 					y = 0;
 				}
@@ -3428,8 +3428,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				precY = coords[1];
 				path.next();
 			}
-			int i = code.lastIndexOf(")");
-			code.delete(i + 1, code.length());
+			int i1 = code.lastIndexOf(")");
+			code.delete(i1 + 1, code.length());
 			code.append(";\n");
 			break;
 		}

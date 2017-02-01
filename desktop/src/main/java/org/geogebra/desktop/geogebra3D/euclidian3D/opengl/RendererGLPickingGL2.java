@@ -192,15 +192,15 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 																		// (for
 																		// 3D
 																		// input)
-						PickingType type;
+						PickingType type1;
 						if (num >= labelLoop) {
-							type = PickingType.LABEL;
+							type1 = PickingType.LABEL;
 						} else if (num >= pointAndCurvesLoop) {
-							type = PickingType.POINT_OR_CURVE;
+							type1 = PickingType.POINT_OR_CURVE;
 						} else {
-							type = PickingType.SURFACE;
+							type1 = PickingType.SURFACE;
 						}
-						hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
+						hits3D.addDrawable3D(drawHits[num], type1, zNear, zFar);
 						// Log.debug("\n"+drawHits[num].getGeoElement()+"\nzFar
 						// = "+zFar+"\nmouse z ="+((GPointWithZ)
 						// mouse).getZ());

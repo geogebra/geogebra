@@ -471,13 +471,13 @@ public abstract class ProbabilityCalculatorView
 			double firstX = ((GeoNumeric) discreteValueList.get(0)).getDouble();
 			MyDouble offset = new MyDouble(kernel, 1d - firstX + 0.5);
 
-			ExpressionNode low = new ExpressionNode(kernel, lowPoint,
+			ExpressionNode low1 = new ExpressionNode(kernel, lowPoint,
 					Operation.XCOORD, null);
-			ExpressionNode high = new ExpressionNode(kernel, highPoint,
+			ExpressionNode high1 = new ExpressionNode(kernel, highPoint,
 					Operation.XCOORD, null);
-			ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low,
+			ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low1,
 					Operation.PLUS, offset);
-			ExpressionNode highPlusOffset = new ExpressionNode(kernel, high,
+			ExpressionNode highPlusOffset = new ExpressionNode(kernel, high1,
 					Operation.PLUS, offset);
 
 			AlgoDependentNumber xLow;
@@ -596,15 +596,15 @@ public abstract class ProbabilityCalculatorView
 				GeoBoolean f = new GeoBoolean(cons);
 				f.setValue(false);
 
-				ExpressionNode low = new ExpressionNode(kernel, lowPoint,
+				ExpressionNode low1 = new ExpressionNode(kernel, lowPoint,
 						Operation.XCOORD, null);
-				ExpressionNode high = new ExpressionNode(kernel, highPoint,
+				ExpressionNode high1 = new ExpressionNode(kernel, highPoint,
 						Operation.XCOORD, null);
 
-				AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low,
+				AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low1,
 						false);
 				cons.removeFromConstructionList(xLow);
-				AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high,
+				AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high1,
 						false);
 				cons.removeFromConstructionList(xHigh);
 
@@ -1271,23 +1271,23 @@ public abstract class ProbabilityCalculatorView
 				expr = "Take[" + discreteProbListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElementND intervalProbList = createGeoFromString(expr,
+				GeoElementND intervalProbList1 = createGeoFromString(expr,
 						false);
-				newGeoList.add(intervalProbList);
+				newGeoList.add(intervalProbList1);
 
 				expr = "Take[" + discreteValueListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElementND intervalValueList = createGeoFromString(expr,
+				GeoElementND intervalValueList1 = createGeoFromString(expr,
 						false);
-				newGeoList.add(intervalValueList);
+				newGeoList.add(intervalValueList1);
 
 				if (graphType == GRAPH_LINE) {
-					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
-							+ intervalProbList.getLabel(tpl) + ",0]";
+					expr = "BarChart[" + intervalValueList1.getLabel(tpl) + ","
+							+ intervalProbList1.getLabel(tpl) + ",0]";
 				} else {
-					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
-							+ intervalProbList.getLabel(tpl) + ",1]";
+					expr = "BarChart[" + intervalValueList1.getLabel(tpl) + ","
+							+ intervalProbList1.getLabel(tpl) + ",1]";
 				}
 
 				GeoElementND discreteIntervalGraphCopy = createGeoFromString(

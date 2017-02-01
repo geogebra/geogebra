@@ -154,9 +154,9 @@ public class AlgoClasses extends AlgoElement {
 				classList.setUndefined();
 			}
 
-			double width = (maxGeoValue - minGeoValue) / n;
+			double width1 = (maxGeoValue - minGeoValue) / n;
 			for (int i = 0; i < n; i++) {
-				classList.addNumber(minGeoValue + i * width, null);
+				classList.addNumber(minGeoValue + i * width1, null);
 			}
 			classList.addNumber(maxGeoValue, null);
 

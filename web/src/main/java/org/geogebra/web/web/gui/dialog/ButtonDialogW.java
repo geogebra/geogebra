@@ -120,12 +120,12 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
                     }
 					
 					public GeoElement getGeo(String text) {
-						TreeSet<GeoElement> sortedSet = app.getKernel()
+						TreeSet<GeoElement> sortedSet1 = app.getKernel()
 						        .getConstruction()
 						        .getGeoSetNameDescriptionOrder();
-						Iterator<GeoElement> it = sortedSet.iterator();
-						while (it.hasNext()) {
-							GeoElement geo = it.next();
+						Iterator<GeoElement> it1 = sortedSet1.iterator();
+						while (it1.hasNext()) {
+							GeoElement geo = it1.next();
 							if (text.equals(geo
 							        .toString(StringTemplate.defaultTemplate))) {
 								return geo;

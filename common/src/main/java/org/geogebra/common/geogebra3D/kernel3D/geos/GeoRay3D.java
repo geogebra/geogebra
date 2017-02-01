@@ -113,13 +113,13 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public GeoElement[] createTransformedObject(Transform t, String label) {
-		AlgoElement algoParent = keepTypeOnGeometricTransform
+		AlgoElement algoParent1 = keepTypeOnGeometricTransform
 				? getParentAlgorithm() : null;
 
 		// CREATE RAY
-		if (algoParent instanceof AlgoJoinPoints3D && t.isAffine()) {
+		if (algoParent1 instanceof AlgoJoinPoints3D && t.isAffine()) {
 			// transform points
-			AlgoJoinPoints3D algo = (AlgoJoinPoints3D) algoParent;
+			AlgoJoinPoints3D algo = (AlgoJoinPoints3D) algoParent1;
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			// if(t.isAffine()){

@@ -192,13 +192,13 @@ public class AlgoNSolveODE extends AlgoElement {
 
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
-			double input[] = new double[dim + 1];
-			input[0] = t;
+			double input1[] = new double[dim + 1];
+			input1[0] = t;
 			for (int i = 0; i < dim; i++) {
-				input[i + 1] = y[i];
+				input1[i + 1] = y[i];
 			}
 			for (int i = 0; i < dim; i++) {
-				yDot[i] = ((FunctionalNVar) fun1.get(i)).evaluate(input);
+				yDot[i] = ((FunctionalNVar) fun1.get(i)).evaluate(input1);
 			}
 		}
 

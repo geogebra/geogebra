@@ -372,7 +372,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 
 		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
-		App app = getApp();
 		if (app.getEuclidianView1() == ev) {
 			app.getSettings().getEuclidian(1).setShowAxes(!bothAxesShown,
 					!bothAxesShown);
@@ -397,7 +396,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public void showGridCmd() {
 		// get ev with focus
 		EuclidianView ev = getActiveEuclidianView();
-		App app = getApp();
 		if (app.getEuclidianView1() == ev) {
 			app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
 

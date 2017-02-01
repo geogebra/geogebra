@@ -1769,20 +1769,20 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
 				}
-				int n = (int) Math.round(p1.getDouble());
+				int n1 = (int) Math.round(p1.getDouble());
 				double p = p2.getDouble();
-				dist = new BinomialDistributionImpl(n, p);
+				dist = new BinomialDistributionImpl(n1, p);
 				first = 0;
-				last = n;
+				last = n1;
 				break;
 
 			case BARCHART_PASCAL:
 				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
 				}
-				n = (int) Math.round(p1.getDouble());
+				n1 = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
-				dist = new PascalDistributionImpl(n, p);
+				dist = new PascalDistributionImpl(n1, p);
 
 				first = 0;
 				last = (int) Math.max(1, (kernel).getXmax() + 1);
@@ -1791,12 +1791,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				if (!(p1geo.isDefined() && p2geo.isDefined())) {
 					return false;
 				}
-				n = (int) Math.round(p1.getDouble());
+				n1 = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
-				dist = new ZipfDistributionImpl(n, p);
+				dist = new ZipfDistributionImpl(n1, p);
 
 				first = 0;
-				last = n;
+				last = n1;
 				break;
 			case BARCHART_POISSON:
 				if (!p1geo.isDefined()) {

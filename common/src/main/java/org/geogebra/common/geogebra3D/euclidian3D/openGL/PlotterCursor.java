@@ -507,11 +507,11 @@ public class PlotterCursor {
 		color(gray, gray, gray, alpha);
 
 		int latitude = 8;
-		int r = 15;
+		int r1 = 15;
 
 		float d = (float) (0.5 * Math.PI / latitude);
 
-		float rcjp = r;
+		float rcjp = r1;
 		float z3 = 0;
 
 		for (int j = 0; j < latitude; j++) {
@@ -521,10 +521,10 @@ public class PlotterCursor {
 			float y2 = 0f;
 			float z1 = z3;
 
-			rcjp = (float) (r * Math.cos((j + 1) * d));
+			rcjp = (float) (r1 * Math.cos((j + 1) * d));
 			float x3 = rcjp;
 			float y3 = 0f;
-			z3 = (float) (r * Math.sin((j + 1) * d));
+			z3 = (float) (r1 * Math.sin((j + 1) * d));
 
 			for (int i = 0; i < 4 * latitude; i++) {
 

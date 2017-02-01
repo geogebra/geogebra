@@ -60,7 +60,7 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	// compute parabola with focus F and line l
 	@Override
 	public final void compute() {
-		parabola.setParabola((GeoPoint) F, (GeoLine) l);
+		parabola.setParabola((GeoPoint) F, (GeoLine) line);
 	}
 
 	@Override
@@ -87,12 +87,12 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 			return botanaPolynomials;
 		}
 
-		GeoPoint F = (GeoPoint) this.F;
-		GeoLine l = (GeoLine) this.l;
+		GeoPoint F1 = (GeoPoint) this.F;
+		GeoLine l1 = (GeoLine) this.line;
 
-		if (F != null && l != null) {
-			Variable[] vF = F.getBotanaVars(F);
-			Variable[] vl = l.getBotanaVars(l);
+		if (F1 != null && l1 != null) {
+			Variable[] vF = F1.getBotanaVars(F1);
+			Variable[] vl = l1.getBotanaVars(l1);
 
 			if (botanaVars == null) {
 				botanaVars = new Variable[10];
@@ -115,7 +115,7 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 						+ botanaVars[0] + "," + botanaVars[1]
 						+ ") implicitly introduces feet point (" + botanaVars[2]
 						+ "," + botanaVars[3] + ") on directrix "
-						+ l.getLabelSimple());
+						+ l1.getLabelSimple());
 			}
 
 			botanaPolynomials = new Polynomial[3];

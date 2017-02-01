@@ -368,10 +368,10 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 			/** {@inheritDoc} */
 			@Override
 			public void start(final int rows, final int columns,
-					final int startRow, final int endRow, final int startColumn,
-					final int endColumn) {
-				this.startRow1 = startRow;
-				this.startColumn1 = startColumn;
+					final int startRow1, final int endRow1,
+					final int startColumn1, final int endColumn1) {
+				this.startRow1 = startRow1;
+				this.startColumn1 = startColumn1;
 			}
 
 			/** {@inheritDoc} */

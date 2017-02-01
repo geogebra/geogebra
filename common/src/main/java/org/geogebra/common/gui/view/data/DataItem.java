@@ -598,14 +598,14 @@ public class DataItem {
 				break;
 
 			case CLASS:
-				Double[] leftBorder = getLeftBorder();
+				Double[] leftBorder1 = getLeftBorder();
 				// System.out.println("=====> " + Arrays.toString(leftBorder));
 
 				// load the array into the column
-				for (int i = 0; i < leftBorder.length - 1; i++) {
-					if (i < leftBorder.length && leftBorder[i] != null) {
-						String interval = leftBorder[i] + " - "
-								+ leftBorder[i + 1];
+				for (int i = 0; i < leftBorder1.length - 1; i++) {
+					if (i < leftBorder1.length && leftBorder1[i] != null) {
+						String interval = leftBorder1[i] + " - "
+								+ leftBorder1[i + 1];
 						strList.add(i, interval);
 					} else {
 						strList.add(i, " ");

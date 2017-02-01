@@ -35,7 +35,7 @@ public class SpreadsheetModeProcessor {
 		}
 
 		boolean isOK = true;
-		GeoElement targetCell = null;
+		GeoElement targetCell1 = null;
 		CellRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
@@ -52,10 +52,10 @@ public class SpreadsheetModeProcessor {
 				}
 				// create new targetCell
 				if (isOK) {
-					targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell.setLabel(GeoElementSpreadsheet
+					targetCell1 = new GeoNumeric(kernel.getConstruction(), 0);
+					targetCell1.setLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(maxColumn, row));
-					createAutoFunctionCell(targetCell, new CellRange(app,
+					createAutoFunctionCell(targetCell1, new CellRange(app,
 							cr.getMinColumn(), row, maxColumn - 1, row));
 				}
 			}
@@ -79,13 +79,13 @@ public class SpreadsheetModeProcessor {
 							.getSpreadsheetCellName(col, maxRow);
 					GeoElement cell = kernel.lookupLabel(cellName);
 					if (cell == null) {
-						targetCell = new GeoNumeric(kernel.getConstruction(),
+						targetCell1 = new GeoNumeric(kernel.getConstruction(),
 								0);
-						targetCell.setLabel(cellName);
+						targetCell1.setLabel(cellName);
 					} else {
-						targetCell = cell;
+						targetCell1 = cell;
 					}
-					createAutoFunctionCell(targetCell, new CellRange(app, col,
+					createAutoFunctionCell(targetCell1, new CellRange(app, col,
 							cr.getMinRow(), col, maxRow - 1));
 				}
 			}

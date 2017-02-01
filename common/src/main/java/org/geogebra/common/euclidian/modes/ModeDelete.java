@@ -109,7 +109,6 @@ public class ModeDelete {
 					dataPoints = gps.getPoints();
 				}
 
-				boolean lastWasVisible = false;
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
@@ -181,7 +180,6 @@ public class ModeDelete {
 
 						populateAlgoUpdateSet(dataPoints[i]);
 
-						lastWasVisible = dataPoints[i].isDefined();
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {
 							hasVisiblePart = true;
 						}
@@ -605,7 +603,6 @@ public class ModeDelete {
 					dataPoints = gps.getPoints();
 				}
 
-				boolean lastWasVisible = false;
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
@@ -679,7 +676,6 @@ public class ModeDelete {
 
 						populateAlgoUpdateSet(dataPoints[i]);
 
-						lastWasVisible = dataPoints[i].isDefined();
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {
 							hasVisiblePart = true;
 						}

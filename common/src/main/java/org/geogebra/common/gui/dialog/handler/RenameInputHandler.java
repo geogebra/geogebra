@@ -32,18 +32,18 @@ public class RenameInputHandler implements InputHandler {
 	@Override
 	public void processInput(String inputValue, ErrorHandler handler,
 			AsyncOperation<Boolean> callback) {
-		GeoElementND geo = this.geo;
+		GeoElementND geo1 = this.geo;
 
 		if (inputValue == null) {
 			callback.callback(false);
 			return;
 		}
 
-		if (inputValue.equals(geo.getLabel(StringTemplate.defaultTemplate))) {
+		if (inputValue.equals(geo1.getLabel(StringTemplate.defaultTemplate))) {
 			callback.callback(true);
 			return;
 		}
-		if (!LabelManager.checkName(geo, inputValue)) {
+		if (!LabelManager.checkName(geo1, inputValue)) {
 			app.showError("InvalidInput", inputValue);
 			callback.callback(false);
 			return;
@@ -56,7 +56,7 @@ public class RenameInputHandler implements InputHandler {
 
 			newLabel = checkFreeLabel(kernel, newLabel);
 
-			if (geo.rename(newLabel) && storeUndo) {
+			if (geo1.rename(newLabel) && storeUndo) {
 				app.storeUndoInfo();
 			}
 

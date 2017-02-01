@@ -145,7 +145,6 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		} else if ("copyAsImage".equals(ac)) {
 			ImageIcon latexIcon = new ImageIcon();
-			AppD app = (AppD) table.getApplication();
 			Font latexFont = new Font(app.getPlainFont().getName(),
 					app.getPlainFont().getStyle(),
 					app.getPlainFont().getSize() - 1);

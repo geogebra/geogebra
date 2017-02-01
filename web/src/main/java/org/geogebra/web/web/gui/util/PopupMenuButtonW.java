@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.util;
 import java.util.HashMap;
 
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -64,7 +65,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param mode
 	 *            {@link SelectionTableW}
 	 */
-	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode) {
 		this(app, data, rows, columns, mode, true, false, null);
 	}
@@ -87,7 +88,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param lineStyleMap0
 	 *            maps item index to line style
 	 */
-	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
 		this(app, data, rows, columns, mode, hasTable, hasSlider, null,
@@ -115,12 +116,12 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param lineStyleMap0
 	 *            maps item index to line style
 	 */
-	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, boolean[] selected,
 			HashMap<Integer, Integer> lineStyleMap0) {
 		super();
-		this.app = app;
+		this.app = (AppW) app;
 		this.hasTable = hasTable;
 		this.lineStyleMap = lineStyleMap0;
 		if (selected != null) {

@@ -230,8 +230,8 @@ public class HistoryPopupD implements ListSelectionListener {
 	}
 
 	private void undoPopupChange() {
-		DefaultListModel model = (DefaultListModel) historyList.getModel();
-		textField.setText((String) model.getElementAt(model.size() - 1));
+		DefaultListModel model1 = (DefaultListModel) historyList.getModel();
+		textField.setText((String) model1.getElementAt(model1.size() - 1));
 	}
 
 	public void handleMouseClick(MouseEvent e) {

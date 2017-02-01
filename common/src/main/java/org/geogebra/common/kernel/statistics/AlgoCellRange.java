@@ -237,12 +237,12 @@ public class AlgoCellRange extends AlgoElement {
 	 */
 	private ArrayList<GeoElement> initCellRangeList(GPoint startCoords,
 			GPoint endCoords) {
-		ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> listItems1 = new ArrayList<GeoElement>();
 
 		// check if we have valid spreadsheet coordinates
 		boolean validRange = startCoords != null && endCoords != null;
 		if (!validRange) {
-			return listItems;
+			return listItems1;
 		}
 
 		// min and max column and row of range
@@ -270,7 +270,7 @@ public class AlgoCellRange extends AlgoElement {
 				}
 
 				// we got the cell object, add it to the list
-				listItems.add(geo);
+				listItems1.add(geo);
 				maxExistingCol = colIndex;
 				maxExistingRow = rowIndex; // we want max existing row in max
 											// col
@@ -281,7 +281,7 @@ public class AlgoCellRange extends AlgoElement {
 			}
 		}
 
-		return listItems;
+		return listItems1;
 	}
 
 	public GeoList getList() {
@@ -309,12 +309,12 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	public GPoint[] getRectangle() {
-		GPoint startCoords = GeoElementSpreadsheet
+		GPoint startCoords1 = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startCell);
-		GPoint endCoords = GeoElementSpreadsheet
+		GPoint endCoords1 = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(endCell);
 
-		GPoint[] ret = { startCoords, endCoords };
+		GPoint[] ret = { startCoords1, endCoords1 };
 		return ret;
 	}
 

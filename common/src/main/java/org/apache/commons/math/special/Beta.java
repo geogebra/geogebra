@@ -144,23 +144,23 @@ public class Beta {
 			ContinuedFraction fraction = new ContinuedFraction() {
 
 				@Override
-				protected double getB(int n, double x) {
-					double ret;
+				protected double getB(int n, double x1) {
+					double ret1;
 					double m;
 					if (n % 2 == 0) { // even
 						m = n / 2.0;
-						ret = (m * (b - m) * x)
+						ret1 = (m * (b - m) * x1)
 								/ ((a + (2 * m) - 1) * (a + (2 * m)));
 					} else {
 						m = (n - 1.0) / 2.0;
-						ret = -((a + m) * (a + b + m) * x)
+						ret1 = -((a + m) * (a + b + m) * x1)
 								/ ((a + (2 * m)) * (a + (2 * m) + 1.0));
 					}
-					return ret;
+					return ret1;
 				}
 
 				@Override
-				protected double getA(int n, double x) {
+				protected double getA(int n, double x1) {
 					return 1.0;
 				}
 			};

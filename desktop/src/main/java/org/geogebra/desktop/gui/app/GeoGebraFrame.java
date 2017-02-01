@@ -250,7 +250,7 @@ public class GeoGebraFrame extends JFrame
 			timer = new Timer(3000, new ActionListener() {
 
 				@Override
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e1) {
 					String title = getPreferredTitle();
 					setTitle(title);
 

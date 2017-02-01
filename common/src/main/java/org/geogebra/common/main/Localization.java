@@ -1177,6 +1177,7 @@ public abstract class Localization implements KeyboardLocale {
 
 	protected abstract String getCountry(Locale locale);
 
+	@SuppressWarnings("unused")
 	protected String getVariant(Locale locale) {
 		return "";
 	}

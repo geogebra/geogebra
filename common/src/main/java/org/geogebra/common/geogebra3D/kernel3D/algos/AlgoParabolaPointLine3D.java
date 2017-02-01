@@ -59,8 +59,8 @@ public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
 	public final void compute() {
 
 		Coords Fc = F.getInhomCoordsInD3();
-		Coords lo = l.getStartInhomCoords().getInhomCoordsInSameDimension();
-		Coords ld = l.getDirectionInD3();
+		Coords lo = line.getStartInhomCoords().getInhomCoordsInSameDimension();
+		Coords ld = line.getDirectionInD3();
 
 		CoordSys cs = parabola.getCoordSys();
 		cs.resetCoordSys();

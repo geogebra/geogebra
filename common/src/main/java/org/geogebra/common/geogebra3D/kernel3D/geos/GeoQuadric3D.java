@@ -2670,19 +2670,19 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
 
-		GeoPoint3D p = (GeoPoint3D) P;
+		GeoPoint3D p1 = (GeoPoint3D) P;
 
 		RegionParameters rp = P.getRegionParameters();
 		rp.setRegionType(type);
 
 		if (type == QUADRIC_SINGLE_POINT) {
-			p.setCoords(getMidpoint3D(), false);
-			p.updateCoords();
+			p1.setCoords(getMidpoint3D(), false);
+			p1.updateCoords();
 			return;
 		}
 
 		if (type == QUADRIC_PLANE) {
-			p.updateCoords2D(planes[0], true);
+			p1.updateCoords2D(planes[0], true);
 			P.updateCoordsFrom2D(false, planes[0].getCoordSys());
 			rp.setT1(PathNormalizer.inverseInfFunction(rp.getT1()));
 			return;
@@ -2704,10 +2704,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			rp.setT1(lastHitParameters[0]);
 			rp.setT2(lastHitParameters[1]);
 			rp.setNormal(evaluateNormal(rp.getT1(), rp.getT2()));
-			evaluatePoint(rp.getT1(), rp.getT2(), p.getCoords());
-			p.updateCoords();
-			p.setWillingCoordsUndefined();
-			p.setWillingDirectionUndefined();
+			evaluatePoint(rp.getT1(), rp.getT2(), p1.getCoords());
+			p1.updateCoords();
+			p1.setWillingCoordsUndefined();
+			p1.setWillingDirectionUndefined();
 			resetLastHitParameters();
 		} else {
 
@@ -2716,21 +2716,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 				Coords coords, direction;
 
-				if (p.hasWillingCoords()) { // use willing coords
-					coords = p.getWillingCoords();
+				if (p1.hasWillingCoords()) { // use willing coords
+					coords = p1.getWillingCoords();
 				} else {
 					// use real coords
-					coords = p.getCoords();
+					coords = p1.getCoords();
 				}
 
 				GeoPlane3D plane = planes[0];
 				CoordMatrix planeMatrix = plane.getCoordSys()
 						.getMatrixOrthonormal();
-				if (!p.hasWillingDirection()) { // use normal direction for
+				if (!p1.hasWillingDirection()) { // use normal direction for
 					// projection
 					direction = planeMatrix.getVz();
 				} else { // use willing direction for projection
-					direction = p.getWillingDirection();
+					direction = p1.getWillingDirection();
 				}
 
 				coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
@@ -2742,7 +2742,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				if (!Kernel.isZero(tmpCoords.getZ())) {
 					plane = planes[1];
 					planeMatrix = plane.getCoordSys().getMatrixOrthonormal();
-					if (!p.hasWillingDirection()) { // use normal direction for
+					if (!p1.hasWillingDirection()) { // use normal direction for
 						// projection
 						direction = planeMatrix.getVz();
 					}
@@ -2754,31 +2754,31 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					t1Shift = 2;
 				}
 
-				p.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY(),
+				p1.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY(),
 						new Coords(4)), false);
 				rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
 						+ t1Shift);
 				rp.setT2(tmpCoords.getY());
 				rp.setNormal(plane.getDirectionInD3());
 
-				p.setWillingCoordsUndefined();
-				p.setWillingDirectionUndefined();
+				p1.setWillingCoordsUndefined();
+				p1.setWillingDirectionUndefined();
 
 				return;
 			}
 
 			Coords willingCoords;
-			if (p.hasWillingCoords()) {
-				willingCoords = p.getWillingCoords().copyVector();
-				p.setWillingCoordsUndefined();
+			if (p1.hasWillingCoords()) {
+				willingCoords = p1.getWillingCoords().copyVector();
+				p1.setWillingCoordsUndefined();
 			} else {
 				willingCoords = P.getCoordsInD3();
 			}
 
 			Coords willingDirection;
-			if (p.hasWillingDirection()) {
-				willingDirection = p.getWillingDirection().copyVector();
-				p.setWillingDirectionUndefined();
+			if (p1.hasWillingDirection()) {
+				willingDirection = p1.getWillingDirection().copyVector();
+				p1.setWillingDirectionUndefined();
 			} else {
 				willingDirection = getDirectionToCenter(willingCoords);
 			}
@@ -2789,8 +2789,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			rp.setT1(coords[1].get(1));
 			rp.setT2(coords[1].get(2));
 			rp.setNormal(evaluateNormal(coords[1].get(1), coords[1].get(2)));
-			p.setCoords(coords[0], false);
-			p.updateCoords();
+			p1.setCoords(coords[0], false);
+			p1.updateCoords();
 		}
 
 	}
@@ -2815,17 +2815,17 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 		}
 
-		GeoPoint3D p = (GeoPoint3D) P;
+		GeoPoint3D p1 = (GeoPoint3D) P;
 
 		if (type == QUADRIC_SINGLE_POINT) {
-			p.setCoords(getMidpoint3D(), false);
-			p.updateCoords();
+			p1.setCoords(getMidpoint3D(), false);
+			p1.updateCoords();
 			return;
 		}
 
 		Coords coords = getPointInRegion(rp.getT1(), rp.getT2());
-		p.setCoords(coords, false);
-		p.updateCoords();
+		p1.setCoords(coords, false);
+		p1.updateCoords();
 
 	}
 

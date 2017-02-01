@@ -85,13 +85,14 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 	 */
 	@Override
 	protected JComponent createFocusPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new BorderLayout());
 
 		// add title label
-		panel.add(super.createFocusPanel(), app.getLocalization().borderWest());
+		panel1.add(super.createFocusPanel(),
+				app.getLocalization().borderWest());
 
-		return panel;
+		return panel1;
 	}
 
 	@Override

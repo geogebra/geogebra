@@ -500,7 +500,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 	@Override
 	public void setLabels() {
-		Localization loc = app.getLocalization();
 		// titled borders
 		lbClassTitle.setText(loc.getMenu("Classes"));
 		lbShowTitle.setText(loc.getMenu("Show"));

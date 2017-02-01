@@ -56,9 +56,9 @@ public class DrawConic3D extends Drawable3DCurves
 	@Override
 	public void drawGeometry(Renderer renderer) {
 
-		GeoConicND conic = (GeoConicND) getGeoElement();
+		GeoConicND conic1 = (GeoConicND) getGeoElement();
 
-		switch (conic.getType()) {
+		switch (conic1.getType()) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -609,11 +609,11 @@ public class DrawConic3D extends Drawable3DCurves
 	// /////////////////////////////////
 
 	public void evaluatePoint(double u, double v, Coords point) {
-		GeoConicND conic = (GeoConicND) getGeoElement();
-		double r = conic.getLineThickness() / getView3D().getScale() * 1.5;
+		GeoConicND conic1 = (GeoConicND) getGeoElement();
+		double r = conic1.getLineThickness() / getView3D().getScale() * 1.5;
 		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r,
 				Math.sin(v) * r, 1);
-		point.setAdd3(point, conic.getMidpoint3D());
+		point.setAdd3(point, conic1.getMidpoint3D());
 	}
 
 	@Override
@@ -955,8 +955,8 @@ public class DrawConic3D extends Drawable3DCurves
 				}
 				p3d.projectLine(hitting.origin, hitting.direction, project,
 						parameters); // check distance to hitting line
-				double d = getView3D().getScaledDistance(p3d, project);
-				if (d <= conic.getLineThickness() + hitting.getThreshold()) {
+				double d1 = getView3D().getScaledDistance(p3d, project);
+				if (d1 <= conic.getLineThickness() + hitting.getThreshold()) {
 					double z = -parameters[0];
 					double dz = conic.getLineThickness()
 							/ getView3D().getScale();

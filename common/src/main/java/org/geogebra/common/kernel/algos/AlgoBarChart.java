@@ -1190,28 +1190,28 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 	@Override
 	public DrawInformationAlgo copy() {
-		int N = this.getIntervals();
+		int N1 = this.getIntervals();
 		switch (this.getType()) {
 		case TYPE_BARCHART_EXPRESSION:
 			return new AlgoBarChart(cons,
 					(GeoNumberValue) getA().deepCopy(kernel),
 					(GeoNumberValue) getB().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-					N);
+					N1);
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 			return new AlgoBarChart(kernel.getConstruction(),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-					N);
+					N1);
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
 			return new AlgoBarChart(cons,
 					(GeoNumberValue) getA().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-					N);
+					N1);
 		default: // TYPE_BARCHART_RAWDATA
 			return new AlgoBarChart(cons,
 					(GeoNumberValue) widthGeo.deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-					N);
+					N1);
 		}
 	}
 

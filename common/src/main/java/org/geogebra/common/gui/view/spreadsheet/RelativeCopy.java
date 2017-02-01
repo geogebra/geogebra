@@ -1078,7 +1078,7 @@ public class RelativeCopy {
 
 			@Override
 			public boolean onUndefinedVariables(String string,
-					AsyncOperation<String[]> callback) {
+					AsyncOperation<String[]> callback1) {
 				return false;
 			}
 

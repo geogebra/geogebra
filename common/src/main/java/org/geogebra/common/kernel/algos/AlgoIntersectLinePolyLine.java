@@ -108,10 +108,10 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				p.setCoords(0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectLinePolyLine.this);
-				return p;
+				GeoPoint p1 = new GeoPoint(cons);
+				p1.setCoords(0, 0, 1);
+				p1.setParentAlgorithm(AlgoIntersectLinePolyLine.this);
+				return p1;
 			}
 		});
 	}

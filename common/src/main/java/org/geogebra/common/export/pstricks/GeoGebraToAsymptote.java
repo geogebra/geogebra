@@ -3024,8 +3024,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
 		if (grayscale) {
 			String colorname = "";
-			int grayscale = (red + green + blue) / 3;
-			c = GColor.newColor(grayscale, grayscale, grayscale);
+			int grayscale1 = (red + green + blue) / 3;
+			c = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(c)) {
 				colorname = customColor.get(c).toString();
 			} else {
@@ -3033,7 +3033,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				// "pen XXXXXX = rgb(0,0,0); pen YYYYYY = rgb(1,1,1);"
 				// Compact:
 				// "pen XXXXXX = rgb(0,0,0), YYYYYY = rgb(1,1,1);"
-				colorname = createCustomColor(grayscale, grayscale, grayscale);
+				colorname = createCustomColor(grayscale1, grayscale1,
+						grayscale1);
 				if (!compact) {
 					codeColors.append("pen ");
 				} else {
@@ -3041,9 +3042,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				}
 				codeColors.append(colorname);
 				packSpace(codeColors, "=");
-				codeColors.append("rgb(" + format(grayscale / 255d) + ","
-						+ format(grayscale / 255d) + ","
-						+ format(grayscale / 255d) + ")");
+				codeColors.append("rgb(" + format(grayscale1 / 255d) + ","
+						+ format(grayscale1 / 255d) + ","
+						+ format(grayscale1 / 255d) + ")");
 				if (!compact) {
 					codeColors.append("; ");
 				}
@@ -3119,12 +3120,13 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		blue = (int) (255 * (1 - opacity) + blue * opacity);
 		if (grayscale) {
 			String colorname = "";
-			int grayscale = (red + green + blue) / 3;
-			tempc = GColor.newColor(grayscale, grayscale, grayscale);
+			int grayscale1 = (red + green + blue) / 3;
+			tempc = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(tempc)) {
 				colorname = customColor.get(tempc).toString();
 			} else {
-				colorname = createCustomColor(grayscale, grayscale, grayscale);
+				colorname = createCustomColor(grayscale1, grayscale1,
+						grayscale1);
 				if (!compact) {
 					codeColors.append("pen ");
 				} else {
@@ -3132,9 +3134,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				}
 				codeColors.append(colorname);
 				packSpace(codeColors, "=");
-				codeColors.append("rgb(" + format(grayscale / 255d) + ","
-						+ format(grayscale / 255d) + ","
-						+ format(grayscale / 255d) + ")");
+				codeColors.append("rgb(" + format(grayscale1 / 255d) + ","
+						+ format(grayscale1 / 255d) + ","
+						+ format(grayscale1 / 255d) + ")");
 				if (!compact) {
 					codeColors.append("; ");
 				}

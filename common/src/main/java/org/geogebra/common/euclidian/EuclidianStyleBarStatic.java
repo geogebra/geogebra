@@ -244,9 +244,9 @@ public class EuclidianStyleBarStatic {
 					new AsyncOperation<GeoElementND>() {
 
 						@Override
-						public void callback(GeoElementND newGeo) {
-							app.doAfterRedefine(newGeo);
-							newGeo.updateRepaint();
+						public void callback(GeoElementND newGeo1) {
+							app.doAfterRedefine(newGeo1);
+							newGeo1.updateRepaint();
 
 						}
 					});

@@ -463,7 +463,7 @@ class MyJToggleButton extends JToggleButton
 			if (showMenuTimer == null) {
 				showMenuTimer = new Timer(1000, new ActionListener() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent e1) {
 						menu.setPopupVisible(true);
 						showMenuTimer.stop();
 

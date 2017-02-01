@@ -1004,22 +1004,22 @@ public class AlgoIntersectRegionPlanePolyhedron
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons, true);
-						p.setParentAlgorithm(
+						GeoPolygon3D p1 = new GeoPolygon3D(cons, true);
+						p1.setParentAlgorithm(
 								AlgoIntersectRegionPlanePolyhedron.this);
 						if (outputPolygons.size() > 0) {
-							p.setAllVisualProperties(
+							p1.setAllVisualProperties(
 									outputPolygons.getElement(0), false);
 						}
-						p.setViewFlags(getFirstInput().getViewSet());
-						p.setVisibleInView3D(getFirstInput());
-						p.setVisibleInViewForPlane(getFirstInput());
-						p.setNotFixedPointsLength(true);
-						p.setOrthoNormalRegionCS();
+						p1.setViewFlags(getFirstInput().getViewSet());
+						p1.setVisibleInView3D(getFirstInput());
+						p1.setVisibleInViewForPlane(getFirstInput());
+						p1.setNotFixedPointsLength(true);
+						p1.setOrthoNormalRegionCS();
 						if (hasLabels) {
-							p.setInitLabelsCalled(true);
+							p1.setInitLabelsCalled(true);
 						}
-						return p;
+						return p1;
 					}
 				});
 

@@ -43,7 +43,7 @@ public abstract class FunctionInspector
 
 	private boolean isChangingValue;
 
-	private App app;
+	protected App app;
 	private GeoElementSelectionListener sl;
 
 	/***************************************************************
@@ -180,11 +180,11 @@ public abstract class FunctionInspector
 	public void setInspectorVisible(boolean isVisible) {
 		if (isVisible) {
 			Log.debug("setInspectorVisible(true)");
-			getApp().getKernel().attach(this);
+			app.getKernel().attach(this);
 		} else {
 			Log.debug("setInspectorVisible(false)");
-			getApp().getKernel().detach(this);
-			getApp().getSelectionManager().removeSelectionListener(sl);
+			app.getKernel().detach(this);
+			app.getSelectionManager().removeSelectionListener(sl);
 			getModel().clearGeoList();
 		}
 	}
@@ -338,10 +338,6 @@ public abstract class FunctionInspector
 	@Override
 	public void endBatchUpdate() {
 		//
-	}
-
-	public App getApp() {
-		return app;
 	}
 
 	public void setApp(App app) {

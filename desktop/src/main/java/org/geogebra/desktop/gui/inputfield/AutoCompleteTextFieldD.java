@@ -815,7 +815,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);
-			Localization loc = app.getLocalization();
 			String syntaxString;
 			String suffix = Localization.syntaxStr;
 			if (isCASInput) {
@@ -971,7 +970,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 */
 	private void showCommandHelp(String cmd, boolean cas) {
 		// show help for current command (current word)
-		Localization loc = app.getLocalization();
 		String help = cas ? loc.getCommandSyntaxCAS(cmd)
 				: loc.getCommandSyntax(cmd);
 

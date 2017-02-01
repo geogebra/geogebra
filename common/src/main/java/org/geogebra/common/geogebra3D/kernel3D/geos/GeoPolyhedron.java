@@ -718,7 +718,7 @@ public class GeoPolyhedron extends GeoElement3D
 			ConstructionElementCycle key = entry.getKey();
 
 			// stores points names and find the first
-			String label = null;
+			String label1 = null;
 			int labelUsability = 0;
 
 			String[] points = new String[key.size()];
@@ -771,10 +771,10 @@ public class GeoPolyhedron extends GeoElement3D
 					}
 				}
 
-				label = sb.toString();
+				label1 = sb.toString();
 			}
 
-			polygons.get(entry.getValue()).setLabel(label);
+			polygons.get(entry.getValue()).setLabel(label1);
 		}
 	}
 

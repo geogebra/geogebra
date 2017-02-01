@@ -1427,8 +1427,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 */
 	protected void setToolTips() {
 
-		Localization loc = app.getLocalization();
-
 		setAxesAndGridToolTips(loc);
 		btnStandardView.setToolTipText(loc
 		        .getPlainTooltip("stylebar.ViewDefault"));

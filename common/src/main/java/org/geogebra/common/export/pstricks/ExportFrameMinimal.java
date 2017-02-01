@@ -68,8 +68,8 @@ public class ExportFrameMinimal implements ExportSettings {
 	}
 
 	@Override
-	public void write(StringBuilder code) {
-		this.code = code;
+	public void write(StringBuilder code1) {
+		this.code = code1;
 	}
 
 	public String getCode() {

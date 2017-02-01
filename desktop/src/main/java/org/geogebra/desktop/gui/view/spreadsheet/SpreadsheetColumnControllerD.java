@@ -488,10 +488,10 @@ public class SpreadsheetColumnControllerD
 				Object value, boolean isSelected, boolean hasFocus,
 				int rowIndex, int colIndex) {
 
-			MyTableD table;
+			MyTableD table1;
 
 			if (table0 instanceof MyTableD) {
-				table = (MyTableD) table0;
+				table1 = (MyTableD) table0;
 			} else {
 				return null;
 			}
@@ -500,12 +500,12 @@ public class SpreadsheetColumnControllerD
 
 			lblHeader.setText(value.toString());
 
-			if (table.getSelectionType() == MyTableInterface.ROW_SELECT) {
+			if (table1.getSelectionType() == MyTableInterface.ROW_SELECT) {
 				setBackground(defaultBackground);
 			} else {
-				if (table.selectedColumnSet.contains(colIndex)
-						|| (colIndex >= table.minSelectionColumn
-								&& colIndex <= table.maxSelectionColumn)) {
+				if (table1.selectedColumnSet.contains(colIndex)
+						|| (colIndex >= table1.minSelectionColumn
+								&& colIndex <= table1.maxSelectionColumn)) {
 					setBackground(MyTableD.SELECTED_BACKGROUND_COLOR_HEADER);
 				} else {
 					setBackground(defaultBackground);

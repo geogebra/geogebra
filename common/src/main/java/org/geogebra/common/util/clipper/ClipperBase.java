@@ -123,9 +123,9 @@ public abstract class ClipperBase implements Clipper {
 		}
 
 		// create a new edge array ...
-		final List<Edge> edges = new ArrayList<Edge>(highI + 1);
+		final List<Edge> edges1 = new ArrayList<Edge>(highI + 1);
 		for (int i = 0; i <= highI; i++) {
-			edges.add(new Edge());
+			edges1.add(new Edge());
 		}
 
 		boolean IsFlat = true;
@@ -133,18 +133,18 @@ public abstract class ClipperBase implements Clipper {
 		// 1. Basic (first) edge initialization ...
 
 		// edges.get( 1 ).setCurrent( new LongPoint( pg.get( 1 ) ) );
-		edges.get(1).setCurrent(new DoublePoint(pg.get(1)));
+		edges1.get(1).setCurrent(new DoublePoint(pg.get(1)));
 		rangeTest(pg.get(0));
 		rangeTest(pg.get(highI));
-		initEdge(edges.get(0), edges.get(1), edges.get(highI), pg.get(0));
-		initEdge(edges.get(highI), edges.get(0), edges.get(highI - 1),
+		initEdge(edges1.get(0), edges1.get(1), edges1.get(highI), pg.get(0));
+		initEdge(edges1.get(highI), edges1.get(0), edges1.get(highI - 1),
 				pg.get(highI));
 		for (int i = highI - 1; i >= 1; --i) {
 			rangeTest(pg.get(i));
-			initEdge(edges.get(i), edges.get(i + 1), edges.get(i - 1),
+			initEdge(edges1.get(i), edges1.get(i + 1), edges1.get(i - 1),
 					pg.get(i));
 		}
-		Edge eStart = edges.get(0);
+		Edge eStart = edges1.get(0);
 
 		// 2. Remove duplicate vertices, and (when closed) collinear edges ...
 
@@ -240,11 +240,11 @@ public abstract class ClipperBase implements Clipper {
 				e = e.next;
 			}
 			insertLocalMinima(locMin);
-			this.edges.add(edges);
+			this.edges.add(edges1);
 			return true;
 		}
 
-		this.edges.add(edges);
+		this.edges.add(edges1);
 		boolean leftBoundIsForward;
 		Edge EMin = null;
 

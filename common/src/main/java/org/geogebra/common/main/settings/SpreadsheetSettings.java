@@ -565,8 +565,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		if (!asPreference) {
 
 			// column widths
-			HashMap<Integer, Integer> widthMap = getWidthMap();
-			for (Entry<Integer, Integer> entry : widthMap.entrySet()) {
+			HashMap<Integer, Integer> widthMap1 = getWidthMap();
+			for (Entry<Integer, Integer> entry : widthMap1.entrySet()) {
 				Integer col = entry.getKey();
 				int colWidth = entry.getValue();
 				if (colWidth != preferredColumnWidth()) {
@@ -576,8 +576,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 			}
 
 			// row heights
-			HashMap<Integer, Integer> heightMap = getHeightMap();
-			for (Entry<Integer, Integer> entry : heightMap.entrySet()) {
+			HashMap<Integer, Integer> heightMap1 = getHeightMap();
+			for (Entry<Integer, Integer> entry : heightMap1.entrySet()) {
 				Integer row = entry.getKey();
 				int rowHeight = entry.getValue();
 				if (rowHeight != preferredRowHeight()) {

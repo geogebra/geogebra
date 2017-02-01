@@ -1018,7 +1018,6 @@ public class FunctionInspectorModel {
 
 	public void copyPointsToSpreadsheet(int colCount, int rowCount) {
 
-		Construction cons = app.getKernel().getConstruction();
 		GeoElement geo = null;
 
 		int targetColumn = app.getSpreadsheetTableModel()
@@ -1043,7 +1042,6 @@ public class FunctionInspectorModel {
 	}
 
 	public void copyIntervalsToSpreadsheet(int colCount, int rowCount) {
-		Construction cons = app.getKernel().getConstruction();
 		GeoElement geo = null;
 		int targetColumn = app.getSpreadsheetTableModel()
 				.getHighestUsedColumn();

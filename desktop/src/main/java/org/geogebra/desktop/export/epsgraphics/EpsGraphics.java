@@ -901,9 +901,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
-		GLine2D line = AwtFactory.getPrototype().newLine2D();
-		line.setLine(x1, y1, x2, y2);
-		draw(line);
+		GLine2D line1 = AwtFactory.getPrototype().newLine2D();
+		line1.setLine(x1, y1, x2, y2);
+		draw(line1);
 	}
 
 	/**
@@ -985,31 +985,31 @@ abstract public class EpsGraphics implements GGraphics2D {
 		appendStroke();
 		append("newpath");
 
-		GLine2D line = AwtFactory.getPrototype().newLine2D();
-		line.setLine(x + radius, y, x + width - radius, y);
-		draw(line, null, true);
+		GLine2D line1 = AwtFactory.getPrototype().newLine2D();
+		line1.setLine(x + radius, y, x + width - radius, y);
+		draw(line1, null, true);
 
 		GQuadCurve2D arc = AwtFactory.getPrototype().newQuadCurve2D();
 		arc.setCurve(x + width - radius, y, x + width, y, x + width,
 				y + radius);
 		draw(arc, null, true);
 
-		line.setLine(x + width, y + radius, x + width, y + height - radius);
-		draw(line, null, true);
+		line1.setLine(x + width, y + radius, x + width, y + height - radius);
+		draw(line1, null, true);
 
 		arc.setCurve(x + width, y + height - radius, x + width, y + height,
 				x + width - radius, y + height);
 		draw(arc, null, true);
 
-		line.setLine(x + width - radius, y + height, x + radius, y + height);
-		draw(line, null, true);
+		line1.setLine(x + width - radius, y + height, x + radius, y + height);
+		draw(line1, null, true);
 
 		arc.setCurve(x + radius, y + height, x, y + height, x,
 				y + height - radius);
 		draw(arc, null, true);
 
-		line.setLine(x, y + height - radius, x, y + radius);
-		draw(line, null, true);
+		line1.setLine(x, y + height - radius, x, y + radius);
+		draw(line1, null, true);
 
 		arc.setCurve(x, y + radius, x, y, x + radius, y);
 		draw(arc, null, true);

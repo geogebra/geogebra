@@ -13,7 +13,6 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
@@ -42,7 +41,6 @@ public class AngleInputDialogW extends InputDialogW {
 
 		// create radio buttons for "clockwise" and "counter clockwise"
 		String id = DOM.createUniqueId();
-		Localization loc = app.getLocalization();
 		rbCounterClockWise = new RadioButton(id,
 				loc.getMenu("counterClockwise"));
 		rbClockWise = new RadioButton(id, loc.getMenu("clockwise"));

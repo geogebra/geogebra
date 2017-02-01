@@ -1111,10 +1111,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * of euclidianView
 	 */
 	public void toggleDrawingPadPopup(Component invoker, Point p) {
-		GPoint loc = new GPoint(p.x, p.y);
+		GPoint loc1 = new GPoint(p.x, p.y);
 		if (drawingPadpopupMenu == null
 				|| !drawingPadpopupMenu.getWrappedPopup().isVisible()) {
-			showDrawingPadPopup(invoker, loc);
+			showDrawingPadPopup(invoker, loc1);
 			return;
 		}
 
@@ -1186,9 +1186,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 */
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
-		GPoint loc = new GPoint(p.x, p.y);
+		GPoint loc1 = new GPoint(p.x, p.y);
 		if (popupMenu == null || !popupMenu.getWrappedPopup().isVisible()) {
-			showPopupMenu(geos, invoker, loc);
+			showPopupMenu(geos, invoker, loc1);
 			return;
 		}
 
@@ -1232,19 +1232,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
 
-			GeoPoint loc = new GeoPoint(cons);
+			GeoPoint loc1 = new GeoPoint(cons);
 			GeoPoint loc2 = new GeoPoint(cons);
 
 			for (int i = 0; i < fileName.length; i++) {
 				// create corner points (bottom right/left)
-				loc = new GeoPoint(cons);
+				loc1 = new GeoPoint(cons);
 				loc2 = new GeoPoint(cons);
 
-				loc.setCoords(ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
+				loc1.setCoords(ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
 						ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
-				loc.setLabel(null);
-				loc.setLabelVisible(false);
-				loc.update();
+				loc1.setLabel(null);
+				loc1.setLabelVisible(false);
+				loc1.update();
 
 				loc2.setCoords(ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
 						ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
@@ -1254,14 +1254,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
-				geoImage.setCorner(loc, 0);
+				geoImage.setCorner(loc1, 0);
 				geoImage.setCorner(loc2, 1);
 				geoImage.setLabel(null);
 
 				GeoImage.updateInstances(app);
 			}
 			// make sure only the last image will be selected
-			GeoElement[] geos = { geoImage, loc, loc2 };
+			GeoElement[] geos = { geoImage, loc1, loc2 };
 			app.getActiveEuclidianView().getEuclidianController()
 					.clearSelections();
 			app.getActiveEuclidianView().getEuclidianController()
@@ -3284,8 +3284,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			GeoGebraFrame frame = (GeoGebraFrame) ((AppD) app).getFrame();
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
-
-		LocalizationD loc = ((AppD) app).getLocalization();
 
 		Object[] options = { loc.getMenu("CreateSliders"),
 				loc.getMenu("Cancel") };

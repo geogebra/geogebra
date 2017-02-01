@@ -1367,7 +1367,7 @@ public class PlotterSurface {
 
 		int longitude = manager.getLongitudeDefault();
 
-		Coords m;
+		Coords m1;
 
 		float dt = (float) (tMax - tMin) / longitude;
 
@@ -1376,23 +1376,24 @@ public class PlotterSurface {
 		// first point on the branch
 		u = (float) Math.cosh(tMin);
 		v = (float) Math.sinh(tMin);
-		m = v1.mul(a * u).add(v2.mul(b * v));
+		m1 = v1.mul(a * u).add(v2.mul(b * v));
 
 		// center of the fan is midpoint of branch ends
 		u = (float) Math.cosh(tMax);
 		v = (float) Math.sinh(tMax);
 		manager.triangleFanApex(
-				center.add((m.add(v1.mul(a * u).add(v2.mul(b * v)))).mul(0.5)));
+				center.add(
+						(m1.add(v1.mul(a * u).add(v2.mul(b * v)))).mul(0.5)));
 
 		// first point
-		manager.triangleFanVertex(center.add(m));
+		manager.triangleFanVertex(center.add(m1));
 
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cosh(tMin + i * dt);
 			v = (float) Math.sinh(tMin + i * dt);
 
-			m = v1.mul(a * u).add(v2.mul(b * v));
-			manager.triangleFanVertex(center.add(m));
+			m1 = v1.mul(a * u).add(v2.mul(b * v));
+			manager.triangleFanVertex(center.add(m1));
 		}
 
 		manager.endGeometry();
@@ -1425,7 +1426,7 @@ public class PlotterSurface {
 
 		int longitude = manager.getLongitudeDefault();
 
-		Coords m;
+		Coords m1;
 
 		float dt = (float) (tMax - tMin) / longitude;
 
@@ -1436,25 +1437,25 @@ public class PlotterSurface {
 		t = tMin;
 		u = (float) (p * t * t / 2);
 		v = (float) (p * t);
-		m = v1.mul(u).add(v2.mul(v));
+		m1 = v1.mul(u).add(v2.mul(v));
 
 		// center of the fan is midpoint of branch ends
 		t = tMax;
 		u = (float) (p * t * t / 2);
 		v = (float) (p * t);
 		manager.triangleFanApex(
-				center.add((m.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));
+				center.add((m1.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));
 
 		// first point
-		manager.triangleFanVertex(center.add(m));
+		manager.triangleFanVertex(center.add(m1));
 
 		for (int i = 1; i <= longitude; i++) {
 			t = tMin + i * dt;
 			u = (float) (p * t * t / 2);
 			v = (float) (p * t);
 
-			m = v1.mul(u).add(v2.mul(v));
-			manager.triangleFanVertex(center.add(m));
+			m1 = v1.mul(u).add(v2.mul(v));
+			manager.triangleFanVertex(center.add(m1));
 		}
 
 		manager.endGeometry();

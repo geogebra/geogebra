@@ -207,13 +207,13 @@ public class SetHypergraph<V, H>
 			return null;
 		}
 
-		Collection<H> edges = new ArrayList<H>();
+		Collection<H> edges1 = new ArrayList<H>();
 		for (H h : getIncidentEdges(v1)) {
 			if (isIncident(v2, h)) {
-				edges.add(h);
+				edges1.add(h);
 			}
 		}
-		return Collections.unmodifiableCollection(edges);
+		return Collections.unmodifiableCollection(edges1);
 	}
 
 	@Override

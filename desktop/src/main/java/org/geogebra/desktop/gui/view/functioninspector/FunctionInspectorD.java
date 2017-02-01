@@ -118,7 +118,7 @@ public class FunctionInspectorD extends FunctionInspector
 	}
 
 	private AppD getAppD() {
-		return (AppD) getApp();
+		return app;
 	}
 
 	// ======================================================
@@ -223,7 +223,6 @@ public class FunctionInspectorD extends FunctionInspector
 	protected void createGUIElements() {
 
 		// create XY table
-		final AppD app = getAppD();
 		tableXY = new InspectorTable(app, this, minRows,
 				InspectorTable.TYPE_XY);
 		modelXY = new DefaultTableModel();
@@ -610,7 +609,6 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	public void updateFonts() {
-		AppD app = getAppD();
 		wrappedDialog.setFont(app.getPlainFont());
 		tableXY.setFont(app.getPlainFont());
 		tableInterval.setFont(app.getPlainFont());
@@ -640,7 +638,6 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	protected void createOptionsButton() {
-		AppD app = getAppD();
 		if (btnOptions == null) {
 			btnOptions = new PopupMenuButtonD(app);
 			btnOptions.setKeepVisible(true);

@@ -125,15 +125,15 @@ public class FitRealFunction implements
 	 */
 	@Override
 	public final double[] gradient(double x, double[] pars) {
-		double oldf, newf;
+		double oldf, newf1;
 		double deltap = 1.0E-5;// 1E-10 and 1E-15 is far too small, keep E-5
 								// until search algo is made
 		double[] gradient = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
 			oldf = value(x, pars);
 			pars[i] += deltap;
-			newf = value(x, pars);
-			gradient[i] = (newf - oldf) / deltap;
+			newf1 = value(x, pars);
+			gradient[i] = (newf1 - oldf) / deltap;
 			pars[i] -= deltap;
 		} // for all parameters
 		return gradient;

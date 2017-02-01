@@ -270,10 +270,10 @@ public class GGraphics2DW implements GGraphics2D {
 								public void onLoad() {
 							        currentPaint = new GTexturePaintW(
 							                (GTexturePaintW) paint);
-							        CanvasPattern ptr = context.createPattern(
+									CanvasPattern ptr1 = context.createPattern(
 							                bi.getImageElement(),
 							                Repetition.REPEAT);
-							        context.setFillStyle(ptr);
+									context.setFillStyle(ptr1);
 							        color = null;
 						        }
 					        });

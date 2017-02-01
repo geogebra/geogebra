@@ -8,6 +8,7 @@ import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
@@ -63,9 +64,9 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	/*****************************************************
 	 * @param app
 	 */
-	public TextEditPanel(AppW app) {
+	public TextEditPanel(App app) {
 		super();
-		this.app = app;
+		this.app = (AppW) app;
 		loc = app.getLocalization();
 
 		dTProcessor = new DynamicTextProcessor(app);

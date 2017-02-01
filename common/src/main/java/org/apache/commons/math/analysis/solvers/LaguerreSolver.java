@@ -378,7 +378,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 			throws MaxIterationsExceededException, FunctionEvaluationException {
 
 		int n = coefficients.length - 1;
-		int iterationCount = 0;
+		int iterationCount1 = 0;
 		if (n < 1) {
 			throw MathRuntimeException.createIllegalArgumentException(
 					LocalizedFormats.NON_POSITIVE_POLYNOMIAL_DEGREE, n);
@@ -403,11 +403,11 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 				c[j] = newc;
 				newc = oldc.add(newc.multiply(root[i]));
 			}
-			iterationCount += this.iterationCount;
+			iterationCount1 += this.iterationCount;
 		}
 
 		resultComputed = true;
-		this.iterationCount = iterationCount;
+		this.iterationCount = iterationCount1;
 		return root;
 	}
 

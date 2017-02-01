@@ -76,10 +76,10 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoPoint3D newElement() {
-				GeoPoint3D p = new GeoPoint3D(cons);
-				p.setCoords(0, 0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectLinePolygon3D.this);
-				return p;
+				GeoPoint3D p1 = new GeoPoint3D(cons);
+				p1.setCoords(0, 0, 0, 1);
+				p1.setParentAlgorithm(AlgoIntersectLinePolygon3D.this);
+				return p1;
 			}
 		});
 	}
@@ -121,15 +121,15 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 		// TODO: move these to intersectLinePolyline3D
 
-		GeoPolygon p = (GeoPolygon) hasSegments;
+		GeoPolygon p1 = (GeoPolygon) hasSegments;
 
 		// check if the line is contained by the polygon plane
-		switch (AlgoIntersectCS1D2D.getConfigLinePlane(g, p)) {
+		switch (AlgoIntersectCS1D2D.getConfigLinePlane(g, p1)) {
 		case GENERAL: // intersect line/interior of polygon
-			intersectionsCoordsGeneral(p, newCoords);
+			intersectionsCoordsGeneral(p1, newCoords);
 			break;
 		case CONTAINED: // intesect line/segments
-			intersectionsCoordsContained(p, newCoords);
+			intersectionsCoordsContained(p1, newCoords);
 			break;
 		case PARALLEL: // no intersection
 			break;

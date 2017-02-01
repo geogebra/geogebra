@@ -634,21 +634,21 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// the least SSE
 	private final int findNumberOfHalfPeriods(int k, int xmin, int xmax) {
 		double min_error = Double.MAX_VALUE;
-		double error;
-		double period, c;
+		double error1;
+		double period, c1;
 		int n = 0, best = 0;
 		for (int i = 1; i <= k; i++) {
 			n = 2 * i - 1; // number of halfperiods
 			period = Math.abs(xd[xmax] - xd[xmin]) * 2.0 / n;
-			c = TWO_PI / period;
-			error = beta2(xd, yd, a, b, c, PI / 2.0d - c * xd[xmax]); // debug("halfperiod:
+			c1 = TWO_PI / period;
+			error1 = beta2(xd, yd, a, b, c1, PI / 2.0d - c1 * xd[xmax]); // debug("halfperiod:
 																		// n, c,
 																		// error:
 																		// "+n+"
 																		// "+c+"
 																		// "+error);
-			if (error < min_error) {
-				min_error = error;
+			if (error1 < min_error) {
+				min_error = error1;
 				best = n;
 			} // if better
 		} // for all actual frequencies

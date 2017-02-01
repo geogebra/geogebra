@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.functioninspector.GridModel.DataCell;
 import org.geogebra.web.web.gui.view.functioninspector.GridModel.IGridListener;
@@ -27,7 +27,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	private KeyHandler keyHandler;
 	private BlurHandler blurHandler;
 	
-	public InspectorTableW(AppW app, int col) {
+	public InspectorTableW(App app, int col) {
 		super();
 		setStyleName("inspectorTable");
 		setWidth("100%");

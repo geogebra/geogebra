@@ -137,14 +137,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 			return false;
 		}
 
-		GeoVectorND v = (GeoVectorND) geo;
+		GeoVectorND v1 = (GeoVectorND) geo;
 
-		if (!(isFinite() && v.isFinite())) {
+		if (!(isFinite() && v1.isFinite())) {
 			return false;
 		}
 
 		Coords c1 = getCoords();
-		Coords c2 = v.getCoordsInD3();
+		Coords c2 = v1.getCoordsInD3();
 
 		return Kernel.isEqual(c1.getX(), c2.getX())
 				&& Kernel.isEqual(c1.getY(), c2.getY())
@@ -154,9 +154,9 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 
 	@Override
 	final public boolean isInfinite() {
-		Coords v = getCoords();
-		return Double.isInfinite(v.getX()) || Double.isInfinite(v.getY())
-				|| Double.isInfinite(v.getZ());
+		Coords v1 = getCoords();
+		return Double.isInfinite(v1.getX()) || Double.isInfinite(v1.getY())
+				|| Double.isInfinite(v1.getZ());
 	}
 
 	@Override

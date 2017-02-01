@@ -232,7 +232,7 @@ public abstract class EquationGenericConic extends EquationElement {
 
 	protected void setEllipseHyperbola(EquationPoint B, EquationPoint C,
 			EquationExpression a) {
-		EquationExpression[] matrix = new EquationExpression[6];
+		EquationExpression[] matrix1 = new EquationExpression[6];
 
 		EquationExpression b1 = B.getX();
 		EquationExpression b2 = B.getY();
@@ -253,23 +253,23 @@ public abstract class EquationGenericConic extends EquationElement {
 		EquationExpression asq = sqr(a);
 		EquationExpression afo = sqr(asq);
 
-		matrix[0] = times(four, diff(a2, diff1), sum(a2, diff1));
+		matrix1[0] = times(four, diff(a2, diff1), sum(a2, diff1));
 
-		matrix[3] = times(four, diff1, diff2).getOpposite();
+		matrix1[3] = times(four, diff1, diff2).getOpposite();
 
-		matrix[1] = times(four, diff(a2, diff2), sum(a2, diff2));
+		matrix1[1] = times(four, diff(a2, diff2), sum(a2, diff2));
 
-		matrix[4] = times(two,
+		matrix1[4] = times(two,
 				diff(times(asq4, sum(b1, c1)), times(diff1, sqsumdiff)))
 						.getOpposite();
-		matrix[5] = times(two,
+		matrix1[5] = times(two,
 				diff(times(asq4, sum(b2, c2)), times(diff2, sqsumdiff)))
 						.getOpposite();
 
-		matrix[2] = diff(
+		matrix1[2] = diff(
 				times(EquationNumericValue.from(8.0), asq, sum(sqsumb, sqsumc)),
 				sqr(sqsumdiff), times(EquationNumericValue.from(16.0), afo));
 
-		this.setMatrix(matrix);
+		this.setMatrix(matrix1);
 	}
 }

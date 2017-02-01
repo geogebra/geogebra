@@ -295,16 +295,16 @@ public class MyTextFieldD extends JTextField
 		}
 
 		// insert the string
-		int pos = getCaretPosition();
+		int pos1 = getCaretPosition();
 		String oldText = getText();
 		StringBuilder sb = new StringBuilder();
-		sb.append(oldText.substring(0, pos));
+		sb.append(oldText.substring(0, pos1));
 		sb.append(text);
-		sb.append(oldText.substring(pos));
+		sb.append(oldText.substring(pos1));
 		setText(sb.toString());
 
 		// reset the caret position
-		setCaretPosition(pos + text.length());
+		setCaretPosition(pos1 + text.length());
 
 		// make sure AutoComplete works
 		if (this instanceof AutoCompleteTextFieldD) {

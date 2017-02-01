@@ -551,7 +551,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 				item.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
 				item.addActionListener(new ActionListener() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent e1) {
 						((GuiManagerD) app.getGuiManager())
 								.openCommandHelp(rollOverCommand);
 					}

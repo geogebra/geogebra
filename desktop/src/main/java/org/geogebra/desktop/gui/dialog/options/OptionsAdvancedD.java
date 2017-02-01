@@ -495,11 +495,11 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		// .setSelected(app.getKernel().getInverseTrigReturnsAngle());
 
 		int selectedIndex = 0;
-		String loc = settings.getKeyboard().getKeyboardLocale();
-		if (loc != null) {
+		String loc1 = settings.getKeyboard().getKeyboardLocale();
+		if (loc1 != null) {
 			// look for index in locale list and add 1 to compensate default
 			// entry
-			selectedIndex = KeyboardSettings.indexOfLocale(loc) + 1;
+			selectedIndex = KeyboardSettings.indexOfLocale(loc1) + 1;
 		}
 		// take care that this doesn't fire events by accident
 		cbKeyboardLanguage.removeActionListener(this);
@@ -828,13 +828,13 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		int selectedIndex = cbKeyboardLanguage.getSelectedIndex();
 
 		if (selectedIndex == -1) {
-			String loc = settings.getKeyboard().getKeyboardLocale();
-			if (loc == null) {
+			String loc1 = settings.getKeyboard().getKeyboardLocale();
+			if (loc1 == null) {
 				selectedIndex = 0;
 			} else {
 				// look for index in locale list and add 1 to compensate default
 				// entry
-				selectedIndex = KeyboardSettings.indexOfLocale(loc)
+				selectedIndex = KeyboardSettings.indexOfLocale(loc1)
 						+ 1;
 			}
 		}

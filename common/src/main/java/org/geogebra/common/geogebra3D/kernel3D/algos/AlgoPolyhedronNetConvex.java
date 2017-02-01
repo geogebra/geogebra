@@ -110,9 +110,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				new elementFactory<GeoPolyhedronNet>() {
 					@Override
 					public GeoPolyhedronNet newElement() {
-						GeoPolyhedronNet p = new GeoPolyhedronNet(cons);
-						p.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
-						return p;
+						GeoPolyhedronNet p1 = new GeoPolyhedronNet(cons);
+						p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
+						return p1;
 					}
 				});
 
@@ -456,12 +456,12 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
 			@Override
 			public GeoPoint3D newElement() {
-				GeoPoint3D p = new GeoPoint3D(cons);
-				p.setCoords(0, 0, 0, 1);
-				p.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
-				getNet().addPointCreated(p);
-				p.setLabelVisible(false);
-				return p;
+				GeoPoint3D p1 = new GeoPoint3D(cons);
+				p1.setCoords(0, 0, 0, 1);
+				p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
+				getNet().addPointCreated(p1);
+				p1.setLabelVisible(false);
+				return p1;
 			}
 		});
 	}
@@ -663,9 +663,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons);
+						GeoPolygon3D p1 = new GeoPolygon3D(cons);
 						// p.setParentAlgorithm(AlgoPolyhedron.this);
-						return p;
+						return p1;
 					}
 				});
 	}

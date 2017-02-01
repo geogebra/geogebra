@@ -9,6 +9,7 @@ import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.Browser;
@@ -57,9 +58,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private TextPreviewPanelW previewer;
 	private Localization loc;
 	private Label previewLabel, latexLabel;
-	public TextEditAdvancedPanel(AppW app, ITextEditPanel editPanel) {
+
+	public TextEditAdvancedPanel(App app, ITextEditPanel editPanel) {
 		super(30, Unit.PX);
-		this.app = app;
+		this.app = (AppW) app;
 		this.editPanel = editPanel;
 		loc = app.getLocalization();
 

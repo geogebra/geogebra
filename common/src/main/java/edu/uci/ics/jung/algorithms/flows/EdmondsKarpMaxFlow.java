@@ -201,17 +201,17 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 
 		for (E e : mOriginalGraph.getEdges()) {
 
-			V source = mOriginalGraph.getSource(e);
+			V source1 = mOriginalGraph.getSource(e);
 			V destination = mOriginalGraph.getDest(e);
-			if (mSinkPartitionNodes.contains(source)
+			if (mSinkPartitionNodes.contains(source1)
 					&& mSinkPartitionNodes.contains(destination)) {
 				continue;
 			}
-			if (mSourcePartitionNodes.contains(source)
+			if (mSourcePartitionNodes.contains(source1)
 					&& mSourcePartitionNodes.contains(destination)) {
 				continue;
 			}
-			if (mSinkPartitionNodes.contains(source)
+			if (mSinkPartitionNodes.contains(source1)
 					&& mSourcePartitionNodes.contains(destination)) {
 				continue;
 			}
@@ -273,12 +273,12 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 			}
 			residualCapacityMap.put(edge, capacity);
 
-			V source = mFlowGraph.getSource(edge);
+			V source1 = mFlowGraph.getSource(edge);
 			V destination = mFlowGraph.getDest(edge);
 
-			if (mFlowGraph.isPredecessor(source, destination) == false) {
+			if (mFlowGraph.isPredecessor(source1, destination) == false) {
 				E backEdge = edgeFactory.create();
-				mFlowGraph.addEdge(backEdge, destination, source,
+				mFlowGraph.addEdge(backEdge, destination, source1,
 						EdgeType.DIRECTED);
 				residualCapacityMap.put(backEdge, 0);
 			}

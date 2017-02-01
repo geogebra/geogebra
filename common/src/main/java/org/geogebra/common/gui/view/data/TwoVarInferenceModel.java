@@ -365,20 +365,18 @@ public class TwoVarInferenceModel {
 
 			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 					/ (n1 + n2 - 2);
-			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+			double se1 = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
 			tDist = new TDistributionImpl(
 					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
-			return a * se;
+			return a * se1;
 
-		} else {
-
-			double se = Math.sqrt((v1 / n1) + (v2 / n2));
-			tDist = new TDistributionImpl(
-					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
-			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
-			return a * se;
 		}
+		double se = Math.sqrt((v1 / n1) + (v2 / n2));
+		tDist = new TDistributionImpl(
+				getDegreeOfFreedom(v1, v2, n1, n2, pooled));
+		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
+		return a * se;
 
 	}
 

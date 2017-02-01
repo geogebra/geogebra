@@ -227,14 +227,14 @@ public final class GeoGebraLexer extends Lexer
 	@Override
 	public int getKeyword(int pos, boolean strict) {
 		Element line = elem.getElement(elem.getElementIndex(pos));
-		int end = line.getEndOffset();
+		int end1 = line.getEndOffset();
 		int tok = -1;
 		start = line.getStartOffset();
 		int startL = start;
 		int s = -1;
 
 		try {
-			yyreset(new StringReader(doc.getText(start, end - start)));
+			yyreset(new StringReader(doc.getText(start, end1 - start)));
 			if (!strict) {
 				pos++;
 			}

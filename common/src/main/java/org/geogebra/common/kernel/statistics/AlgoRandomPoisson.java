@@ -110,7 +110,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		}
 
 		double b = 0.931 + +2.53 * Math.sqrt(mu);
-		double a = -0.059 + 0.02438 * b;
+		double a1 = -0.059 + 0.02438 * b;
 		double v_r = 0.9277 - 3.6224 / (b - 2);
 
 		double us = 0;
@@ -123,7 +123,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 				double u = kernel.getApplication().getRandomNumber() - 0.5;
 				v = kernel.getApplication().getRandomNumber();
 				us = 0.5 - Math.abs(u);
-				k = (int) Math.floor((2 * a / us + b) * u + mu + 0.43);
+				k = (int) Math.floor((2 * a1 / us + b) * u + mu + 0.43);
 				if (us >= 0.07 && v < v_r) {
 					return k;
 				}
@@ -132,9 +132,9 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 			double alpha = 1.1239 + 1.1328 / (b - 3.4);
 			double lnmu = Math.log(mu);
 
-			v = v * alpha / (a / (us * us) + b);
+			v = v * alpha / (a1 / (us * us) + b);
 
-			if (Math.log(v * alpha / (a / us / us + b)) <= -mu + k * lnmu
+			if (Math.log(v * alpha / (a1 / us / us + b)) <= -mu + k * lnmu
 					- logOfKFactorial(k)) {
 				return k;
 			}

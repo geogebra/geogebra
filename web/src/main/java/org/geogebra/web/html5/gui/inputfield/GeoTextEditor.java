@@ -6,6 +6,7 @@ import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextElement.DynamicTextType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -62,9 +63,9 @@ public class GeoTextEditor extends RichTextArea {
 	 * @param app
 	 * @param editPanel
 	 */
-	public GeoTextEditor(AppW app, ITextEditPanel editPanel) {
+	public GeoTextEditor(App app, ITextEditPanel editPanel) {
 
-		this.app = app;
+		this.app = (AppW) app;
 		this.editPanel = editPanel;
 
 		formatter = getFormatter();

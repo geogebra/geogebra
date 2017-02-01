@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoParabolaPointLineND extends AlgoElement {
 
 	protected GeoPointND F; // input
-	protected GeoLineND l; // input
+	protected GeoLineND line; // input
 	protected GeoConicND parabola; // output
 
 	public AlgoParabolaPointLineND(Construction cons, String label,
@@ -47,7 +47,7 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 			GeoLineND l) {
 		super(cons);
 		this.F = F;
-		this.l = l;
+		this.line = l;
 		parabola = newGeoConic(cons);
 		setInputOutput(); // for AlgoElement
 
@@ -71,7 +71,7 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = (GeoElement) F;
-		input[1] = (GeoElement) l;
+		input[1] = (GeoElement) line;
 
 		super.setOutputLength(1);
 		super.setOutput(0, parabola);
@@ -89,7 +89,7 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 
 	// Made public for LocusEqu
 	public GeoLineND getLine() {
-		return l;
+		return line;
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		return getLoc().getPlain("ParabolaWithFocusAandDirectrixB",
-				F.getLabel(tpl), l.getLabel(tpl));
+				F.getLabel(tpl), line.getLabel(tpl));
 
 	}
 

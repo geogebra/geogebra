@@ -323,9 +323,9 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (edgeType == EdgeType.DIRECTED) {
 			return Collections.unmodifiableSet(this.directedEdges);
 		} else if (edgeType == EdgeType.UNDIRECTED) {
-			Collection<E> edges = new HashSet<E>(getEdges());
-			edges.removeAll(directedEdges);
-			return edges;
+			Collection<E> edges1 = new HashSet<E>(getEdges());
+			edges1.removeAll(directedEdges);
+			return edges1;
 		} else {
 			return Collections.EMPTY_SET;
 		}

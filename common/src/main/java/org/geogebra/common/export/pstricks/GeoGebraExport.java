@@ -1280,8 +1280,8 @@ public abstract class GeoGebraExport {
 		double ggbYUnit = euclidianView.getYscale();
 		double fontUnits = ggbSize / ggbYUnit;
 		// Now, on the output, calculate the size in centimeter
-		double yunit = frame.getYUnit();
-		double sizeCM = fontUnits * yunit;
+		double yunit1 = frame.getYUnit();
+		double sizeCM = fontUnits * yunit1;
 		// 1cm=1/2.54 in
 		// 1 in=72.27pt
 		// new size in pt:

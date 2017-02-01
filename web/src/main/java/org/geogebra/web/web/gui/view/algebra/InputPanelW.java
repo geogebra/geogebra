@@ -1,9 +1,9 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.view.algebra.DialogType;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.TextEditPanel;
 
 import com.google.gwt.core.client.Scheduler;
@@ -31,7 +31,7 @@ public class InputPanelW extends FlowPanel{
 	 * @param autoComplete
 	 *            whether to allow autocomplete
 	 */
-	public InputPanelW(String initText, AppW app, int columns,
+	public InputPanelW(String initText, App app, int columns,
 	        boolean autoComplete) {
 		super();
 		//setHorizontalAlignment(ALIGN_CENTER);
@@ -54,7 +54,7 @@ public class InputPanelW extends FlowPanel{
 	 * @param showSymbolPopupIcon
 	 *            whether to show symbol icon
 	 */
-	public InputPanelW(String initText, AppW app, int rows, int columns,
+	public InputPanelW(String initText, App app, int rows, int columns,
 	        boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon,
 				DialogType.GeoGebraEditor);
@@ -82,7 +82,7 @@ public class InputPanelW extends FlowPanel{
 	 * @param type
 	 *            dialog type
 	 */
-	public InputPanelW(String initText, AppW app, int rows, int columns,
+	public InputPanelW(String initText, App app, int rows, int columns,
 			boolean showSymbolPopupIcon,
 			DialogType type) {
 
@@ -191,7 +191,7 @@ public class InputPanelW extends FlowPanel{
 	 *            application
 	 * @return new AutoCompleteTextField
 	 */
-	public static AutoCompleteTextFieldW newTextComponent(AppW app) {
+	public static AutoCompleteTextFieldW newTextComponent(App app) {
 		return new InputPanelW(null, app, -1, false).getTextComponent();
 	}
 }

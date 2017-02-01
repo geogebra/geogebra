@@ -53,7 +53,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -426,7 +425,6 @@ public class TraceDialog extends javax.swing.JDialog
 	}
 
 	public void setLabels() {
-		Localization loc = app.getLocalization();
 		setTitle(loc.getMenu("RecordToSpreadsheet"));
 
 		lblStartRow.setText(loc.getMenu("StartRow") + ": ");
@@ -621,8 +619,8 @@ public class TraceDialog extends javax.swing.JDialog
 
 		traceGeoList.removeListSelectionListener(this);
 		traceGeoListModel.clear();
-		for (GeoElement geo : traceManager.getTraceGeoList()) {
-			traceGeoListModel.addElement(geo);
+		for (GeoElement geo1 : traceManager.getTraceGeoList()) {
+			traceGeoListModel.addElement(geo1);
 		}
 		if (selectedGeo != null && traceGeoListModel.contains(selectedGeo)) {
 			traceGeoList.setSelectedValue(selectedGeo, true);
@@ -780,10 +778,10 @@ public class TraceDialog extends javax.swing.JDialog
 
 	/** Remove a geo from the traceGeoCollection and update the dialog. */
 	private void removeTrace() {
-		GeoElement geo = (GeoElement) traceGeoList.getSelectedValue();
-		traceManager.removeSpreadsheetTraceGeo(geo);
-		geo.setSpreadsheetTrace(false);
-		geo.setTraceSettings(null);
+		GeoElement geo1 = (GeoElement) traceGeoList.getSelectedValue();
+		traceManager.removeSpreadsheetTraceGeo(geo1);
+		geo1.setSpreadsheetTrace(false);
+		geo1.setTraceSettings(null);
 
 		updateTraceGeoList();
 		if (!traceGeoListModel.isEmpty()) {

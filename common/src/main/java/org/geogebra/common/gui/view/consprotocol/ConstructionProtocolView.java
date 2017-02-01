@@ -128,10 +128,10 @@ public class ConstructionProtocolView {
 			 * that, we calculate the index for the current and the previous row
 			 * and check if they are equal.
 			 */
-			int index;
+			int index1;
 			int prevIndex;
 
-			index = (rowNumber < 0) ? -1
+			index1 = (rowNumber < 0) ? -1
 					: /* data. */getConstructionIndex(rowNumber);
 			prevIndex = (rowNumber < 1) ? -1 : /* data. */
 					getConstructionIndex(rowNumber - 1);
@@ -150,7 +150,7 @@ public class ConstructionProtocolView {
 				m = geo.getRelatedModeID();
 			}
 
-			if (m != -1 && index != prevIndex) {
+			if (m != -1 && index1 != prevIndex) {
 				toolbarIcon = getModeIcon(m); // app.wrapGetModeIcon(m);
 			} else {
 				toolbarIcon = null;
