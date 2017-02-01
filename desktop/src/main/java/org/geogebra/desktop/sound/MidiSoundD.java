@@ -201,7 +201,7 @@ public class MidiSoundD implements MetaEventListener {
 	 * 
 	 */
 	public void playSequenceNote(final int note, final double duration,
-			final int instrument, final int velocity) {
+			final int instrument) {
 
 		tickPosition = 0;
 		String str = "[" + note + "]/" + Double.toString(duration);

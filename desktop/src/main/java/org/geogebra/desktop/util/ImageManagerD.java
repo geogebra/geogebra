@@ -349,10 +349,9 @@ public class ImageManagerD extends ImageManager {
 		return fileName;
 	}
 
-	public ImageResourceD getToolImageResource(String modeText,
-			boolean force64) {
+	public ImageResourceD getToolImageResource(String modeText) {
 		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
-		String path = getToolbarIconPath(force64) + filename;
+		String path = getToolbarIconPath() + filename;
 		return new ImageResourceDImpl(path);
 	}
 
@@ -362,7 +361,7 @@ public class ImageManagerD extends ImageManager {
 				null);
 	}
 
-	public String getToolbarIconPath(boolean forse64) {
+	public String getToolbarIconPath() {
 		if (getMaxIconSize() <= 32) {
 			return "/org/geogebra/common/icons_toolbar/p32/";
 		}

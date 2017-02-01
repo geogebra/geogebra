@@ -3391,7 +3391,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		String modeStr = StringUtil
 				.toLowerCase(EuclidianConstants.getModeTextSimple(mode));
 		return ((AppD) app).getImageManager().createImage(((AppD) app)
-				.getImageManager().getToolImageResource(modeStr, true), app);
+				.getImageManager().getToolImageResource(modeStr), app);
 	}
 
 	@Override

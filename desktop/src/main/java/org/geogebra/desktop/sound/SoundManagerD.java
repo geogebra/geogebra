@@ -77,7 +77,7 @@ public class SoundManagerD implements SoundManager {
 	private FunctionSoundD getFunctionSound() {
 		if (functionSound == null) {
 			try {
-				functionSound = new FunctionSoundD(app);
+				functionSound = new FunctionSoundD();
 			} catch (Exception e) {
 				Log.error("Problem in getFunctionSound(): " + e.getMessage());
 			}
@@ -103,8 +103,7 @@ public class SoundManagerD implements SoundManager {
 		try {
 			stopCurrentSound();
 			currentSoundType = SOUNDTYPE_MIDI;
-			getMidiSound().playSequenceNote(note, duration, instrument,
-					velocity);
+			getMidiSound().playSequenceNote(note, duration, instrument);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

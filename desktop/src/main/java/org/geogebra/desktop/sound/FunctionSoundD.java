@@ -10,7 +10,6 @@ import javax.sound.sampled.SourceDataLine;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.FunctionSound;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.main.AppD;
 
 /**
  * Class for playing function-generated sounds.
@@ -33,7 +32,7 @@ public final class FunctionSoundD extends FunctionSound
 	 * 
 	 * @throws Exception
 	 */
-	public FunctionSoundD(AppD app) throws Exception {
+	public FunctionSoundD() throws Exception {
 		super();
 
 		if (!initStreamingAudio(getSampleRate(), getBitDepth())) {

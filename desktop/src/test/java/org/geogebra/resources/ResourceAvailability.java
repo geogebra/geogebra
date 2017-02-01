@@ -66,7 +66,7 @@ public class ResourceAvailability {
 					|| "FreehandCircle".equals(modeText)) {
 				continue;
 			}
-			ImageResourceD res = man.getToolImageResource(modeText, false);
+			ImageResourceD res = man.getToolImageResource(modeText);
 			URL url = ResourceAvailability.class.getResource(res.getFilename());
 			if (url == null) {
 				missing.append(modeText + ",");

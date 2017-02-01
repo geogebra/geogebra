@@ -57,7 +57,7 @@ public class CASTransferHandler extends TransferHandler {
 	/**
 	 * Perform the actual import. This demo only supports drag and drop.
 	 */
-	public boolean importData(JComponent comp, DataFlavor flavor[]) {
+	public boolean importData() {
 		return true;
 	}
 

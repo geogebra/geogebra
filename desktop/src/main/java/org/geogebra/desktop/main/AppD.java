@@ -2042,7 +2042,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
-				imageManager.getToolImageResource(modeText, false),
+				imageManager.getToolImageResource(modeText),
 				borderColor);
 
 		/*
