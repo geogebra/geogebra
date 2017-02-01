@@ -193,12 +193,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 		if (ensureCanvas()) {
 			main.clear();
-			if (geo == null) {
-				insertHelpToggle();
-
-			} else {
-				main.add(this.marblePanel);
-			}
+			main.add(this.marblePanel);
 
 			if (isInputTreeItem()) {
 				appendCanvas();

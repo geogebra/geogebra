@@ -1,11 +1,14 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -16,7 +19,7 @@ public class MarblePanel extends FlowPanel {
 	private Marble marble;
 	private boolean selected = false;
 	/** warning triangle / help button */
-	ToggleButton btnHelpToggle;
+	private ToggleButton btnHelpToggle;
 	/** av item */
 	RadioTreeItem item;
 
@@ -29,10 +32,15 @@ public class MarblePanel extends FlowPanel {
 		marble = new Marble(item);
 		marble.setStyleName("marble");
 		marble.setEnabled(shouldShowMarble());
-		marble.setChecked(item.geo.isEuclidianVisible());
+
 
 		addStyleName("marblePanel");
-		add(marble);
+		if (item.getGeo() != null) {
+			marble.setChecked(item.geo.isEuclidianVisible());
+			add(marble);
+		} else {
+			updateIcons(false);
+		}
 		update();
 	}
 
@@ -50,13 +58,13 @@ public class MarblePanel extends FlowPanel {
 	public void update() {
 		marble.setEnabled(shouldShowMarble());
 
-		marble.setChecked(item.geo.isEuclidianVisible());
+		marble.setChecked(item.geo != null && item.geo.isEuclidianVisible());
 
 		setHighlighted(selected);
 	}
 
 	private boolean shouldShowMarble() {
-		return item.geo.isEuclidianShowable()
+		return item.geo != null && item.geo.isEuclidianShowable()
 				&& (!item.getApplication().isExam()
 						|| item.getApplication().enableGraphing());
 	}
@@ -79,25 +87,20 @@ public class MarblePanel extends FlowPanel {
 	 *            whether warning triangle should be visible
 	 */
 	public void updateIcons(boolean warning) {
-		if (btnHelpToggle == null) {
-			btnHelpToggle = new ToggleButton();
-			ClickStartHandler.init(btnHelpToggle,
-					new ClickStartHandler(true, true) {
-
-						@Override
-						public void onClickStart(int x, int y,
-								PointerEventType type) {
-					item.showCurrentError();
-
-						}
-					});
-		}
+		initHelpToggle();
 		// if (!warning) {
 		// clearErrorLabel();
 		// }
 		if (warning) {
 			remove(marble);
 			add(btnHelpToggle);
+			addStyleName("error");
+			removeStyleName("help");
+		}
+		else if (item.getController().isEditing() || item.geo == null) {
+			remove(marble);
+			add(btnHelpToggle);
+			removeStyleName("error");
 			addStyleName("error");
 		} else {
 			add(marble);
@@ -119,4 +122,50 @@ public class MarblePanel extends FlowPanel {
 				24));
 
 	}
+
+	private void initHelpToggle() {
+		if (btnHelpToggle == null) {
+			btnHelpToggle = new ToggleButton();
+			ClickStartHandler.init(btnHelpToggle,
+					new ClickStartHandler(true, true) {
+
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							Log.debug("BLOCK ENTER");
+							if (item.showCurrentError()) {
+								return;
+							}
+
+							if (getBtnHelpToggle().isDown()) {
+								item.app.hideKeyboard();
+								Scheduler.get().scheduleDeferred(
+										new Scheduler.ScheduledCommand() {
+											@Override
+											public void execute() {
+												item.setShowInputHelpPanel(
+														true);
+												((InputBarHelpPanelW) item.app
+														.getGuiManager()
+														.getInputHelpPanel())
+																.focusCommand(
+																		item.getCommand());
+											}
+
+										});
+							} else {
+								item.setShowInputHelpPanel(false);
+							}
+						}
+					});
+		}
+	}
+
+	/**
+	 * @return help button
+	 */
+	public ToggleButton getBtnHelpToggle() {
+		return btnHelpToggle;
+	}
+
 }

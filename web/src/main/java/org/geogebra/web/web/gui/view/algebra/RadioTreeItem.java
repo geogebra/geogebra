@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -38,12 +37,10 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -79,7 +76,6 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -111,8 +107,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	static final String CLEAR_COLOR_STR_BORDER = GColor
 			.getColorString(GColor.newColor(220, 220, 220));
 	Boolean stylebarShown;
-	/** Help button */
-	ToggleButton btnHelpToggle;
 	/** Help popup */
 	protected InputBarHelpPopup helpPopup;
 	/** label "Input..." */
@@ -1326,7 +1320,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	void showCurrentError() {
+	boolean showCurrentError() {
 		if (commandError != null) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
@@ -1334,12 +1328,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 					app.getGuiManager().getHelpURL(Help.COMMAND, commandError),
 					ToolTipLinkType.Help, app, true);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
-		} else if (errorMessage != null) {
+			return true;
+		}
+
+		if (errorMessage != null) {
 
 			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
 					true, app);
+			return true;
 
 		}
+		return false;
 	}
 
 	protected boolean setErrorText(String msg) {
@@ -1388,8 +1387,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 				});
 
-				if (btnHelpToggle != null) {
-					helpPopup.setBtnHelpToggle(btnHelpToggle);
+				if (marblePanel != null) {
+					helpPopup.setBtnHelpToggle(marblePanel.getBtnHelpToggle());
 				}
 			} else if (helpPopup.getWidget() == null) {
 				helpPanel = (InputBarHelpPanelW) app.getGuiManager()
@@ -1835,8 +1834,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public abstract void handleFKey(int key, GeoElement geo1);
 
 	@Override
-	public ToggleButton getHelpToggle() {
-		return this.btnHelpToggle;
+	public Widget getHelpToggle() {
+		return this.marblePanel;
 	}
 
 
@@ -1846,24 +1845,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (this.marblePanel != null) {
 			marblePanel.updateIcons(warning);
 		}
-		if (btnHelpToggle == null) {
-			btnHelpToggle = new ToggleButton();
-		}
-		if (!warning) {
-			clearErrorLabel();
-		}
-		btnHelpToggle.getUpFace().setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
-						: GuiResources.INSTANCE.icon_help()).getSafeUri()
-								.asString(),
-				24));
-		// new
-		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
-		btnHelpToggle.getDownFace().setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
-						: GuiResources.INSTANCE.icon_help()).getSafeUri()
-								.asString(),
-				24));
 
 	}
 
@@ -1876,18 +1857,21 @@ public abstract class RadioTreeItem extends AVTreeItem
 						? scale : 1;
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
-								(btnHelpToggle.getAbsoluteLeft()
+								(marblePanel.getBtnHelpToggle().getAbsoluteLeft()
 										- app.getAbsLeft()
-										+ btnHelpToggle.getOffsetWidth())
+										+ marblePanel.getBtnHelpToggle()
+												.getOffsetWidth())
 										* renderScale
 										+ "px");
 				int maxOffsetHeight;
 				int totalHeight = (int) app.getHeight();
-				int toggleButtonTop = (int) ((btnHelpToggle.getParent()
+				int toggleButtonTop = (int) ((marblePanel.getBtnHelpToggle()
+						.getParent()
 						.getAbsoluteTop() - (int) app.getAbsTop()) / scale);
 				if (toggleButtonTop < totalHeight / 2) {
 					int top = (toggleButtonTop
-							+ btnHelpToggle.getParent().getOffsetHeight());
+							+ marblePanel.getBtnHelpToggle().getParent()
+									.getOffsetHeight());
 					maxOffsetHeight = totalHeight - top;
 					helpPopup.getElement().getStyle().setProperty("top",
 							top * renderScale + "px");
@@ -1917,53 +1901,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	private SimplePanel helpButtonPanel;
+
 	protected final void insertHelpToggle() {
 		helpButtonPanel = new SimplePanel();
 		updateIcons(false);
-		ClickStartHandler.init(btnHelpToggle,
-				new ClickStartHandler(false, true) {
-
-					@Override
-					public void onClickStart(int x, int y,
-							PointerEventType type) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-		btnHelpToggle.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (commandError != null || errorMessage != null) {
-					showCurrentError();
-					setShowInputHelpPanel(false);
-					return;
-				}
-				if (btnHelpToggle.isDown()) {
-					app.hideKeyboard();
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
-								@Override
-								public void execute() {
-									setShowInputHelpPanel(true);
-									((InputBarHelpPanelW) app.getGuiManager()
-											.getInputHelpPanel())
-													.focusCommand(
-															getCommand());
-								}
-
-							});
-				} else {
-					setShowInputHelpPanel(false);
-				}
-
-			}
-
-		});
-		helpButtonPanel.setStyleName("avHelpButtonParent");
-		helpButtonPanel.setWidget(btnHelpToggle);
-		btnHelpToggle.addStyleName("algebraHelpButton");
-		main.insert(helpButtonPanel, 0);
+		if (marblePanel == null) {
+			this.addMarble();
+		}
+		main.insert(marblePanel, 0);
 
 	}
 
