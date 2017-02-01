@@ -445,10 +445,10 @@ public class Coords {
 	 *            number of end row
 	 * @return vector with rows between start and end
 	 * 
-	 * @deprecated create vector and use {@link #setSubVector(Coords, int, int)}
-	 *             instead
+	 *         deprecated create vector and use
+	 *         {@link #setSubVector(Coords, int, int)} instead
 	 */
-	@Deprecated
+
 	public Coords subVector(int start, int end) {
 		int r = end - start + 1;
 		Coords result = new Coords(r);
@@ -490,10 +490,10 @@ public class Coords {
 	 *            number of the row to remove
 	 * @return vector composed of this without the row number row
 	 * 
-	 * @deprecated create vector and use {@link #setSubVector(Coords, int)}
-	 *             instead
+	 *         deprecated create vector and use
+	 *         {@link #setSubVector(Coords, int)} instead
 	 */
-	@Deprecated
+
 	public Coords subVector(int row) {
 		int r = rows;
 		Coords result = new Coords(r - 1);
@@ -601,10 +601,10 @@ public class Coords {
 	 *            vector multiplied with
 	 * @return vector resulting of the cross product
 	 * 
-	 * @deprecated create vector and use
-	 *             {@link #setCrossProduct(Coords, Coords)} instead
+	 *         deprecated create vector and use
+	 *         {@link #setCrossProduct(Coords, Coords)} instead
 	 */
-	@Deprecated
+
 	final public Coords crossProduct(Coords v) {
 
 		Coords ret = new Coords(3);
@@ -619,10 +619,10 @@ public class Coords {
 	 * @param v
 	 * @return 4-length vector equal to cross product this ^ v
 	 * 
-	 * @deprecated create vector and use
-	 *             {@link #setCrossProduct(Coords, Coords)} instead
+	 *         deprecated create vector and use
+	 *         {@link #setCrossProduct(Coords, Coords)} instead
 	 */
-	@Deprecated
+
 	final public Coords crossProduct4(Coords v) {
 
 		Coords ret = new Coords(4);
@@ -800,10 +800,10 @@ public class Coords {
 	 *            check if one of the result coord is near to 1 (for Kernel)
 	 * @return this normalized
 	 * 
-	 * @deprecated create vector and use {@link #setNormalized(Coords, boolean)}
-	 *             instead
+	 *         deprecated create vector and use
+	 *         {@link #setNormalized(Coords, boolean)} instead
 	 */
-	@Deprecated
+
 	public Coords normalized(boolean checkOneDirection) {
 		Coords ret = new Coords(getLength());
 		calcNorm();
@@ -1467,9 +1467,10 @@ public class Coords {
 	 *            vector subtracted
 	 * @return this-v
 	 * 
-	 * @deprecated create vector and use {@link #setSub(Coords, Coords)} instead
+	 *         deprecated create vector and use {@link #setSub(Coords, Coords)}
+	 *         instead
 	 */
-	@Deprecated
+
 	public Coords sub(Coords v) {
 		int i;
 		Coords result = new Coords(rows);
@@ -1534,9 +1535,10 @@ public class Coords {
 	 * 
 	 * @return {x1/xn,x2/xn,...,x(n-1)/xn}
 	 * 
-	 * @deprecated create vector and use {@link #setInhomCoords(Coords)} instead
+	 *         deprecated create vector and use {@link #setInhomCoords(Coords)}
+	 *         instead
 	 */
-	@Deprecated
+
 	public Coords getInhomCoords() {
 		int r = rows;
 		Coords result = new Coords(r - 1);
@@ -1578,10 +1580,10 @@ public class Coords {
 	 * 
 	 * @return {x1/xn,x2/xn,...,x(n-1)/xn,1}
 	 * 
-	 * @deprecated create vector and use
-	 *             {@link #setInhomCoordsInSameDimension(Coords)} instead
+	 *         deprecated create vector and use
+	 *         {@link #setInhomCoordsInSameDimension(Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getInhomCoordsInSameDimension() {
 
 		int r = rows;
@@ -1643,9 +1645,10 @@ public class Coords {
 	 * 
 	 * @return {x1/xn,x2/xn,...,1}
 	 * 
-	 * @deprecated create vector and use {@link #setCoordsLast1(Coords)} instead
+	 *         deprecated create vector and use {@link #setCoordsLast1(Coords)}
+	 *         instead
 	 */
-	@Deprecated
+
 	public Coords getCoordsLast1() {
 		int len = getLength();
 		Coords result = new Coords(len);
@@ -1685,11 +1688,10 @@ public class Coords {
 
 	/**
 	 * 
-	 * @return this with (n-1) coord removed
-	 * @deprecated create vector and use {@link #setProjectInfDim(Coords)}
-	 *             instead
+	 * @return this with (n-1) coord removed deprecated create vector and use
+	 *         {@link #setProjectInfDim(Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords projectInfDim() {
 		int len = getLength();
 		Coords result = new Coords(len - 1);
@@ -1823,10 +1825,10 @@ public class Coords {
 	 * an array v of two vectors {v[0], v[1]} (rows=4) so that (this, v[0],
 	 * v[1]) is a right-handed orthonormal system.
 	 * 
-	 * @deprecated create vectors and use
-	 *             {@link #completeOrthonormal(Coords, Coords)} instead
+	 * deprecated create vectors and use
+	 * {@link #completeOrthonormal(Coords, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords[] completeOrthonormal() {
 		Coords vn1 = new Coords(4);
 
@@ -1972,10 +1974,10 @@ public class Coords {
 	 * @param v
 	 * @return
 	 * 
-	 * @deprecated create vector and use {@link #setAdd(Coords, Coords)} or
-	 *             {@link #setAdd3(Coords, Coords)} instead
+	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
+	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords add(Coords v) {
 
 		Coords result = new Coords(rows);
@@ -2022,10 +2024,10 @@ public class Coords {
 	 * @param v
 	 * @return
 	 * 
-	 * @deprecated create vector and use {@link #setAdd(Coords, Coords)} or
-	 *             {@link #setAdd3(Coords, Coords) instead
+	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
+	 *         or {@link #setAdd3(Coords, Coords) instead
 	 */
-	@Deprecated
+
 	public Coords addSmaller(Coords v) {
 		Coords result = new Coords(rows);
 
@@ -2080,9 +2082,10 @@ public class Coords {
 	 * @param val0
 	 * @return
 	 * 
-	 * @deprecated create vector and use {@link #setMul(Coords, double)} instead
+	 * 		deprecated create vector and use {@link #setMul(Coords, double)}
+	 *         instead
 	 */
-	@Deprecated
+
 	public Coords mul(double val0) {
 
 		Coords result = new Coords(rows);
@@ -2252,10 +2255,10 @@ public class Coords {
 	 * @param coordsND
 	 * @return
 	 * 
-	 * @deprecated create 3 rows vector and use
-	 *             {@link #setCoordsIn2DView(Coords)} instead
+	 * 		deprecated create 3 rows vector and use
+	 *         {@link #setCoordsIn2DView(Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getCoordsIn2DView() {
 
 		int dim = rows - 1;

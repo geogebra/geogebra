@@ -283,64 +283,6 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	/**
-	 * update the faces regarding vertices and faces description
-	 * 
-	 * @deprecated since version 4.9.10.0
-	 */
-	@Deprecated
-	public void updateFacesDeprecated() {
-
-		Log.debug("old file version");
-
-		// create missing faces
-		for (Entry<ConstructionElementCycle, Integer> currentFacePair : polygonsIndex
-				.entrySet()) {
-
-			currentFace = currentFacePair.getKey();
-
-			// if a polygons already corresponds to the face description, then
-			// pass it
-			if (polygons.containsKey(currentFacePair.getValue())) {
-				continue;
-			}
-
-			// vertices of the face
-			GeoPointND[] p = new GeoPointND[currentFace.size()];
-
-			// edges linked to the face
-			GeoSegmentND[] s = new GeoSegmentND[currentFace.size()];
-
-			Iterator<ConstructionElement> it2 = currentFace.iterator();
-			GeoPointND endPoint = (GeoPointND) it2.next();
-			int j = 0;
-			p[j] = endPoint; // first point for the polygon
-			GeoPointND firstPoint = endPoint;
-			for (; it2.hasNext();) {
-				// creates edges
-				GeoPointND startPoint = endPoint;
-				endPoint = (GeoPointND) it2.next();
-				s[j] = createSegment(startPoint, endPoint);
-
-				// points for the polygon
-				j++;
-				p[j] = endPoint;
-
-			}
-			// last segment
-			s[j] = createSegment(endPoint, firstPoint);
-
-			/*
-			 * String st = "poly : "; for (int i = 0; i < p.length; i++) st +=
-			 * p[i].getLabel(); Application.debug(st);
-			 */
-
-			GeoPolygon3D polygon = createPolygon(p,
-					polygonsIndex.get(currentFace));
-			polygon.setSegments(s);
-		}
-	}
-
-	/**
 	 * creates a polygon corresponding to the index
 	 * 
 	 * @param index

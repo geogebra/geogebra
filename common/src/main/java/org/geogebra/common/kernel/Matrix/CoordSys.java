@@ -173,17 +173,17 @@ public class CoordSys {
 	}
 
 	/**
-	 * @deprecated use {@link #getPoint(double, double, Coords)} instead
+	 * deprecated use {@link #getPoint(double, double, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getPoint(double x, double y) {
 		return matrixOrthonormal.getOrigin().add(getVector(x, y));
 	}
 
 	/**
-	 * @deprecated use {@link #getPoint(double, double, double, Coords)} instead
+	 * deprecated use {@link #getPoint(double, double, double, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getPoint(double x, double y, double z) {
 		if (Kernel.isZero(z)) {
 			return getVector(x, y);
@@ -200,10 +200,10 @@ public class CoordSys {
 
 	/**
 	 * 
-	 * @deprecated use {@link #getPointForDrawing(double, double, Coords)}
-	 *             instead
+	 * deprecated use {@link #getPointForDrawing(double, double, Coords)}
+	 * instead
 	 */
-	@Deprecated
+
 	public Coords getPointForDrawing(double x, double y) {
 		return drawingMatrix.mul(new Coords(x, y, 0, 1));
 	}
@@ -218,9 +218,9 @@ public class CoordSys {
 
 	/**
 	 * 
-	 * @deprecated use {@link #getPoint(double, Coords)} instead
+	 * deprecated use {@link #getPoint(double, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getPoint(double x) {
 		return getOrigin().add(getVx().mul(x));
 	}
@@ -231,9 +231,9 @@ public class CoordSys {
 
 	/**
 	 * 
-	 * @deprecated use {@link #getVector(Coords, Coords)} instead
+	 * deprecated use {@link #getVector(Coords, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getVector(Coords coords2D) {
 		return getVector(coords2D.getX(), coords2D.getY());
 	}
@@ -244,9 +244,9 @@ public class CoordSys {
 
 	/**
 	 * 
-	 * @deprecated use {@link #getVector(double, double, Coords)} instead
+	 * deprecated use {@link #getVector(double, double, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords getVector(double x, double y) {
 		return matrixOrthonormal.getVx().mul(x)
 				.add(matrixOrthonormal.getVy().mul(y));

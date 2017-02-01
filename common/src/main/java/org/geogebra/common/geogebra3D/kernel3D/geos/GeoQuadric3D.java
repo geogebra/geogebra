@@ -2423,10 +2423,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * 
 	 * @param u
 	 * @param v
-	 * @return
-	 * @deprecated use getPoint(double u, double v, Coords coords) instead
+	 * @return deprecated use getPoint(double u, double v, Coords coords)
+	 *         instead
 	 */
-	@Deprecated
 	public Coords getPoint(double u, double v) {
 		return getPoint(u, v, new Coords(4));
 	}

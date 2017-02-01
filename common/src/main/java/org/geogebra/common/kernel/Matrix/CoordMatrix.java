@@ -684,10 +684,10 @@ public class CoordMatrix {
 	 *            vector
 	 * @return resulting vector
 	 * 
-	 * @deprecated create result vector and use
-	 *             {@link Coords#setMul(CoordMatrix, Coords)} instead
+	 *         deprecated create result vector and use
+	 *         {@link Coords#setMul(CoordMatrix, Coords)} instead
 	 */
-	@Deprecated
+
 	public Coords mul(Coords v) {
 
 		Coords result = new Coords(getRows());
@@ -903,9 +903,10 @@ public class CoordMatrix {
 	 *            vector
 	 * @return solving vector
 	 * 
-	 * @deprecated create result and use {@link #solve(Coords, Coords)} instead
+	 *         deprecated create result and use {@link #solve(Coords, Coords)}
+	 *         instead
 	 */
-	@Deprecated
+
 	public Coords solve(Coords v) {
 
 		Coords sol = new Coords(v.getLength());
