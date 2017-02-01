@@ -10,8 +10,10 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
+import org.geogebra.web.web.util.SaveCallback;
 
 public class TabletFileManager extends FileManagerT {
 
@@ -48,23 +50,22 @@ public class TabletFileManager extends FileManagerT {
 		JSONTokener tokener = new JSONTokener(data);
 		try {
 			JSONArray arr = new JSONArray(tokener);
-			for (int i = 0; i < arr.length(); i+=2){
-				String name = (String) arr.get(i);
-				JSONObject metaDatas = (JSONObject) arr.get(i+1);
-				Material mat = JSONParserGGT.prototype.toMaterial(metaDatas);
-				
-                if (mat == null) {
-	                mat = new Material(
-	                        0,
-	                        MaterialType.ggb);
-	                mat.setTitle(getTitleFromKey(name));
-                }
+			String name = (String) arr.get(0);
+			JSONObject metaDatas = (JSONObject) arr.get(1);
+			Material mat = JSONParserGGT.prototype.toMaterial(metaDatas);
 
-				mat.setLocalID(MaterialsManager.getIDFromKey(name));
+			if (mat == null) {
+				mat = new Material(
+						0,
+						MaterialType.ggb);
+				mat.setTitle(getTitleFromKey(name));
+			}
 
-                if (getFilesFilter.check(mat)) {
-	                addMaterial(mat);
-                }
+			mat.setLocalID(MaterialsManager.getIDFromKey(name));
+
+			if (getFilesFilter.check(mat)) {
+				addMaterial(mat);
+				Log.debug("add material: "+name+", id: "+mat.getLocalID());
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -78,6 +79,7 @@ public class TabletFileManager extends FileManagerT {
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
 			openMaterialMaterial = material;
 			String fileName = getFileKey(material);
+			Log.debug("openMaterial: "+fileName+", id: "+material.getLocalID());
 			getBase64(fileName);
 		}else{
 			super.openMaterial(material);
@@ -101,8 +103,40 @@ public class TabletFileManager extends FileManagerT {
 	}
 	
 	
+	private SaveCallback saveCallback;
+	private Material saveFileMaterial;	
 	
+	@Override
+	public void saveFile(final String base64, final long modified,
+			 final SaveCallback cb) {
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			saveCallback = cb;
+			saveFileMaterial = createMaterial("", modified);
+			saveFileMaterial.setBase64("");
+			saveFileNative(getApp().getLocalID(), getTitleWithoutReservedCharacters(getApp()
+			        .getKernel().getConstruction().getTitle()),base64, saveFileMaterial.toJson().toString());
+		}else{
+			super.saveFile(base64, modified, cb);
+		}
+	}
 	
+	/**
+	 * this method is called through js (see exportJavascriptMethods())
+	 */
+	public void catchSaveFileResult(String result) {
+		if ("1".equals(result)){
+			saveCallback.onSaved(saveFileMaterial, true);
+		}else{
+			saveCallback.onError();
+		}
+	}
+			
+	
+	private native void saveFileNative(int id, String title, String base64, String metaDatas) /*-{
+		if ($wnd.android) {
+			$wnd.android.saveFile(id, title, base64, metaDatas);
+		}
+	}-*/;
 	
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
@@ -111,6 +145,9 @@ public class TabletFileManager extends FileManagerT {
 		});
 		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
+		});
+		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(data) {			
+			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(Ljava/lang/String;)(data);
 		});
 	}-*/;
 	

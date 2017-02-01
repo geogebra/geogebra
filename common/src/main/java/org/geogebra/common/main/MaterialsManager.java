@@ -36,12 +36,30 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 		sb.append(FILE_PREFIX);
 		sb.append(matID);
 		sb.append('_');
+		appendTitleWithoutReservedCharacters(title, sb);
+		return sb.toString();
+	}
+
+	/**
+	 * Remove all reserved characters from a ggb file title
+	 * 
+	 * @param title
+	 *            title for ggb file
+	 * @return title without reserved characters
+	 */
+	public static String getTitleWithoutReservedCharacters(String title) {
+		StringBuilder sb = new StringBuilder(title.length());
+		appendTitleWithoutReservedCharacters(title, sb);
+		return sb.toString();
+	}
+
+	private static void appendTitleWithoutReservedCharacters(String title,
+			StringBuilder sb) {
 		for (int i = 0; i < title.length(); i++) {
 			if (reservedCharacters.indexOf(title.charAt(i)) == -1) {
 				sb.append(title.charAt(i));
 			}
 		}
-		return sb.toString();
 	}
 
 	/**
