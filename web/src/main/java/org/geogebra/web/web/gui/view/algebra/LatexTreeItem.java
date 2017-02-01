@@ -39,6 +39,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	private MathFieldW mf;
 
+
 	/**
 	 * @param geo0
 	 *            geo element
@@ -99,8 +100,6 @@ public class LatexTreeItem extends RadioTreeItem {
 		// }
 		//
 		// }
-		Log.debug("RENDERING LATEX");
-		// // // Log.debug(REFX + "renderLatex 2");
 
 		// latexItem.addStyleName("avTextItem");
 		// TODO updateColor(latexItem);
@@ -141,7 +140,6 @@ public class LatexTreeItem extends RadioTreeItem {
 	 */
 	protected boolean ensureCanvas() {
 		if (canvas == null) {
-			Log.debug("CANVAS IS NULL");
 			canvas = Canvas.createIfSupported();
 			initMathField();
 			return true;
@@ -232,7 +230,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	@Override
 	public void onEnter(final boolean keepFocus) {
-		getLatexController().onEnter(keepFocus);
+		getLatexController().onEnter(keepFocus && !softEnter);
 	}
 
 
@@ -497,6 +495,12 @@ public class LatexTreeItem extends RadioTreeItem {
 			mf.setEnabled(false);
 		}
 		super.doUpdate();
+	}
+
+	@Override
+	public void preventBlur() {
+		((LatexTreeItemController) getController()).preventBlur();
+
 	}
 
 }

@@ -364,7 +364,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildPlainTextItem() {
 		if (geo.isIndependent() && geo.getDefinition() == null) {
-			Log.debug("null definition");
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					getBuilder(getPlainTextItem()));
 		} else {
@@ -552,8 +551,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-			Log.debug("CONTENT" + geo.needToShowBothRowsInAV() + ","
-					+ isLatexTrivial() + "," + lastTeX);
 			if ((geo.needToShowBothRowsInAV() && !isLatexTrivial())
 					|| lastTeX != null) {
 				buildItemWithTwoRows();
@@ -949,7 +946,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 	public void setItemWidth(int width) {
 		if (getOffsetWidth() != width) {
-			// Log.debug("setItemWidth: " + width);
 			if (isInputTreeItem()) {
 				getWidget().getElement().getParentElement().getStyle()
 						.setWidth(width, Unit.PX);
@@ -1110,7 +1106,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			String newValue = stopCommon(newValue0);
 			newValue = app.getKernel().getInputPreviewHelper()
 					.getInput(newValue);
-			Log.debug("From preview" + newValue);
 			// Formula Hacks ended.
 			if (geo != null) {
 
@@ -1295,7 +1290,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 					final String message) {
 				RadioTreeItem.this.commandError = command;
 				RadioTreeItem.this.errorMessage = message;
-				Log.printStacktrace("ERROR COMMAND" + command);
 				showCurrentError();
 				saveError();
 			}
@@ -2155,6 +2149,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		updateLineHeight();
 	}
 
+	public boolean softEnter;
+
+	public void preventBlur() {
+		// TODO Auto-generated method stub
+
+	}
 }
 
 

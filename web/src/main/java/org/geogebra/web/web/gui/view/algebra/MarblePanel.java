@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -132,8 +131,9 @@ public class MarblePanel extends FlowPanel {
 						@Override
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
-							Log.debug("BLOCK ENTER");
+							item.preventBlur();
 							if (item.showCurrentError()) {
+								item.requestFocus();
 								return;
 							}
 
