@@ -481,9 +481,9 @@ final class Layer3Decoder {
 				blockNumber = 5;
 			}
 		}
-		for (int x = 0; x < 45; x++) {
+		for (int x1 = 0; x1 < 45; x1++) {
 			// TODO: why 45, not 54?
-			scaleFactorBuffer[x] = 0;
+			scaleFactorBuffer[x1] = 0;
 		}
 		for (int i = 0, m = 0; i < 4; i++) {
 			int len = Constants.NR_OF_SFB_BLOCK[blockNumber][blockTypeNumber][i];

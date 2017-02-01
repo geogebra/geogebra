@@ -197,8 +197,7 @@ public class JSONObject {
 	 * from the given object. Names that aren't present in {@code copyFrom} will
 	 * be skipped.
 	 */
-	public JSONObject(JSONObject copyFrom, String[] names)
-			throws JSONException {
+	public JSONObject(JSONObject copyFrom, String[] names) {
 		this();
 		for (String name : names) {
 			Object value = copyFrom.opt(name);
@@ -660,7 +659,7 @@ public class JSONObject {
 	 * array contains null for names that aren't mapped. This method returns
 	 * null if {@code names} is either null or empty.
 	 */
-	public JSONArray toJSONArray(JSONArray names) throws JSONException {
+	public JSONArray toJSONArray(JSONArray names) {
 		JSONArray result = new JSONArray();
 		if (names == null) {
 			return null;

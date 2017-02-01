@@ -1,7 +1,5 @@
 package org.geogebra.desktop.export.pstricks;
 
-import java.io.IOException;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.export.pstricks.GeoGebraToPdf;
@@ -28,18 +26,12 @@ public class GeoGebraToPdfD extends GeoGebraToPdf {
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
-		try {
-			return new MyGraphicsPdf(ef, inequality);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
+		return new MyGraphicsPdf(ef, inequality);
 	}
 
 	class MyGraphicsPdf extends MyGraphicsD {
 
-		public MyGraphicsPdf(FunctionalNVar geo, Inequality ineq)
-				throws IOException {
+		public MyGraphicsPdf(FunctionalNVar geo, Inequality ineq) {
 
 			super(geo, ineq);
 		}

@@ -1,7 +1,5 @@
 package org.geogebra.desktop.export.pstricks;
 
-import java.io.IOException;
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
@@ -19,18 +17,12 @@ public class GeoGebraToAsymptoteD extends GeoGebraToAsymptote {
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
 
-		try {
-			return new MyGraphicsAs(ef, inequality);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return new MyGraphicsAs(ef, inequality);
 	}
 
 	class MyGraphicsAs extends MyGraphicsD {
 
-		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq)
-				throws IOException {
+		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq) {
 			super(geo, ineq);
 		}
 

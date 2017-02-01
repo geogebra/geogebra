@@ -16,12 +16,7 @@ public class GeoGebraToPstricksD extends GeoGebraToPstricks {
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality) {
-		try {
-			return new MyGraphicsPstricks(ef, inequality);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
+		return new MyGraphicsPstricks(ef, inequality);
 	}
 
 	class MyGraphicsPstricks extends MyGraphicsD {

@@ -108,9 +108,9 @@ public class Decoder {
 		if (!initialized) {
 			double scaleFactor = 32700.0f;
 			int mode = header.mode();
-			int channels = mode == Header.MODE_SINGLE_CHANNEL ? 1 : 2;
+			int channels1 = mode == Header.MODE_SINGLE_CHANNEL ? 1 : 2;
 			filter1 = new SynthesisFilter(0, scaleFactor);
-			if (channels == 2) {
+			if (channels1 == 2) {
 				filter2 = new SynthesisFilter(1, scaleFactor);
 			}
 			initialized = true;
@@ -123,8 +123,9 @@ public class Decoder {
 		writeBuffer();
 	}
 
-	protected void initOutputBuffer(SourceDataLine line, int numberOfChannels) {
-		this.line = line;
+	protected void initOutputBuffer(SourceDataLine line1,
+			int numberOfChannels) {
+		this.line = line1;
 		channels = numberOfChannels;
 		for (int i = 0; i < channels; i++) {
 			bufferPointer[i] = i + i;
@@ -144,7 +145,7 @@ public class Decoder {
 		bufferPointer[channel] = p;
 	}
 
-	protected void writeBuffer() throws IOException {
+	protected void writeBuffer() {
 		if (line != null) {
 			line.write(buffer, 0, bufferPointer[0]);
 		}
@@ -162,11 +163,11 @@ public class Decoder {
 
 		Decoder decoder = new Decoder();
 		Bitstream stream = new Bitstream(in);
-		SourceDataLine line = null;
+		SourceDataLine line1 = null;
 		int error = 0;
 		for (int frame = 0; !stop && frame < frameCount; frame++) {
 			if (pause) {
-				line.stop();
+				line1.stop();
 				while (pause && !stop) {
 					try {
 						Thread.sleep(100);
@@ -174,8 +175,8 @@ public class Decoder {
 						// ignore
 					}
 				}
-				line.flush();
-				line.start();
+				line1.flush();
+				line1.start();
 			}
 			try {
 				Header header = stream.readFrame();
@@ -183,30 +184,31 @@ public class Decoder {
 					break;
 				}
 				if (decoder.channels == 0) {
-					int channels = (header.mode() == Header.MODE_SINGLE_CHANNEL)
+					int channels1 = (header
+							.mode() == Header.MODE_SINGLE_CHANNEL)
 							? 1 : 2;
 					float sampleRate = header.frequency();
 					int sampleSize = 16;
 					AudioFormat format = new AudioFormat(
 							AudioFormat.Encoding.PCM_SIGNED, sampleRate,
-							sampleSize, channels, channels * (sampleSize / 8),
+							sampleSize, channels1, channels1 * (sampleSize / 8),
 							sampleRate, true);
 					// big endian
 					SourceDataLine.Info info = new DataLine.Info(
 							SourceDataLine.class, format);
-					line = (SourceDataLine) AudioSystem.getLine(info);
+					line1 = (SourceDataLine) AudioSystem.getLine(info);
 					if (BENCHMARK) {
-						decoder.initOutputBuffer(null, channels);
+						decoder.initOutputBuffer(null, channels1);
 					} else {
-						decoder.initOutputBuffer(line, channels);
+						decoder.initOutputBuffer(line1, channels1);
 					}
 					// TODO sometimes the line can not be opened (maybe not
 					// enough system resources?): display error message
 					// System.out.println(line.getFormat().toString());
-					line.open(format);
-					line.start();
+					line1.open(format);
+					line1.start();
 				}
-				while (line.available() < 100) {
+				while (line1.available() < 100) {
 					Thread.yield();
 					Thread.sleep(200);
 				}
@@ -227,10 +229,10 @@ public class Decoder {
 			Log.debug("errors: " + error);
 		}
 		in.close();
-		if (line != null) {
-			line.stop();
-			line.close();
-			line = null;
+		if (line1 != null) {
+			line1.stop();
+			line1.close();
+			line1 = null;
 		}
 	}
 
