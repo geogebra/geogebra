@@ -80,8 +80,8 @@ public class AlgoMacro extends AlgoElement
 	 *            input objects
 	 */
 	public AlgoMacro(Construction cons, String[] labels, Macro macro,
-			GeoElement[] input) {
-		super(cons);
+			GeoElement[] input, boolean add) {
+		super(cons, add);
 
 		this.input = input;
 		this.macro = macro;
@@ -106,23 +106,24 @@ public class AlgoMacro extends AlgoElement
 			cons.registerEuclidianViewCE(this);
 		}
 
-		GeoElement.setLabels(labels, getOutput());
-
-		// we hide objects that are hidden in macro construction, but
-		// we want to do this only with 4.0 macros
-		if (macro.isCopyCaptionsAndVisibility()) {
-			for (int i = 0; i < macroOutput.length; i++) {
-				if (!macroOutput[i].isSetEuclidianVisible()) {
-					getOutput(i).setEuclidianVisible(false);
-					getOutput(i).update();
+		if (add) {
+			GeoElement.setLabels(labels, getOutput());
+			// we hide objects that are hidden in macro construction, but
+			// we want to do this only with 4.0 macros
+			if (macro.isCopyCaptionsAndVisibility()) {
+				for (int i = 0; i < macroOutput.length; i++) {
+					if (!macroOutput[i].isSetEuclidianVisible()) {
+						getOutput(i).setEuclidianVisible(false);
+						getOutput(i).update();
+					}
 				}
-			}
-		} else {
-			// for <=3.2 macros hide all angles
-			for (int i = 0; i < macroOutput.length; i++) {
-				if (macroOutput[i] instanceof GeoAngle) {
-					getOutput(i).setEuclidianVisible(false);
-					getOutput(i).update();
+			} else {
+				// for <=3.2 macros hide all angles
+				for (int i = 0; i < macroOutput.length; i++) {
+					if (macroOutput[i] instanceof GeoAngle) {
+						getOutput(i).setEuclidianVisible(false);
+						getOutput(i).update();
+					}
 				}
 			}
 		}

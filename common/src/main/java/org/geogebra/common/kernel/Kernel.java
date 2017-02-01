@@ -4513,7 +4513,7 @@ public class Kernel {
 	final public GeoElement[] useMacro(String[] labels, Macro macro,
 			GeoElement[] input) {
 		try {
-			AlgoMacro algo = new AlgoMacro(cons, labels, macro, input);
+			AlgoMacro algo = new AlgoMacro(cons, labels, macro, input, true);
 			return algo.getOutput();
 		} catch (Exception e) {
 			e.printStackTrace();

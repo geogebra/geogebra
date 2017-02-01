@@ -1246,6 +1246,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// }
 	// }-*/;
 
+	/**
+	 * @param str
+	 *            string to copy
+	 */
 	public void copyBase64ToClipboardChromeWebAppCase(String str) {
 		// This should do nothing in webSimple!
 	}

@@ -10,10 +10,19 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TreeItem;
 
+/**
+ * AV group header
+ */
 public class GroupHeader extends FlowPanel {
 	
+	/**
+	 * label
+	 */
 	protected GroupNameLabel il;
 
+	/**
+	 * +/- button
+	 */
 	protected OpenButton open;
 	private String label;
 
@@ -49,6 +58,15 @@ public class GroupHeader extends FlowPanel {
 	{
 		private SafeUri showUrl, hiddenUrl;
 		private Image img;
+
+		/**
+		 * @param showUrl
+		 *            image for open button
+		 * @param hiddenUrl
+		 *            image for close button
+		 * @param ti
+		 *            parent item
+		 */
 		public OpenButton(SafeUri showUrl,SafeUri hiddenUrl,final TreeItem ti){
 			this.showUrl = showUrl;
 			this.hiddenUrl = hiddenUrl;
@@ -68,18 +86,25 @@ public class GroupHeader extends FlowPanel {
 
 		/**
 		 * set background-images via HTML
+		 * 
+		 * @param url
+		 *            image url
 		 */
-		public void setImage(String text)
+		public void setImage(String url)
 		{
 			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
 			if(img == null){
-				img = new Image(text);
+				img = new Image(url);
 				this.add(img);
 			}else{
-				img.setUrl(text);
+				img.setUrl(url);
 			}
 		}
 
+		/**
+		 * @param value
+		 *            whether it's open
+		 */
 		public void setChecked(boolean value)
 		{
 			if (value)
@@ -97,15 +122,26 @@ public class GroupHeader extends FlowPanel {
 
 	}
 
+	/**
+	 * @param string
+	 *            set group name
+	 */
 	public void setText(String string) {
 	    il.setText(string);
 	    
     }
 
+	/**
+	 * @param value
+	 *            whether it's open
+	 */
 	public void setChecked(boolean value) {
 		open.setChecked(value);
 	}
 
+	/**
+	 * @return sort key
+	 */
 	public String getLabel() {
 		return label;
 	}

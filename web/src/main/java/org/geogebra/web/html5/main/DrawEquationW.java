@@ -84,17 +84,33 @@ public class DrawEquationW extends DrawEquation {
 	 */
 	private static double printScale = 1;
 
+	/**
+	 * @param t
+	 *            print scale
+	 */
 	public static void setPrintScale(double t) {
 		printScale = t;
 	}
 
+	/**
+	 * @param geo
+	 *            geo element, used for color and app
+	 * @param text0
+	 *            LaTeX text
+	 * @param c0
+	 *            canvas (may be null)
+	 * @param fontSize
+	 *            font size
+	 * @return canvas
+	 */
 	public static Canvas paintOnCanvas(GeoElementND geo, String text0,
-			Canvas c,
+			Canvas c0,
 			int fontSize) {
 		if (geo == null) {
-			return c == null ? Canvas.createIfSupported() : c;
+			return c0 == null ? Canvas.createIfSupported() : c0;
 		}
 		final GColor fgColor = geo.getAlgebraColor();
+		Canvas c = c0;
 		if (c == null) {
 			c = Canvas.createIfSupported();
 		} else {

@@ -132,6 +132,7 @@ public class GeoAssignment extends Assignment {
 
 		TreeSet<Result> partRes = new TreeSet<Result>();
 		long startTime = System.currentTimeMillis();
+		double macroCons = 0;
 		while (possibleOutputPermutation != null && res != Result.CORRECT
 				&& System.currentTimeMillis() < startTime + TIMEOUT) {
 			if (!areOutputTypesOK(possibleOutputPermutation,
@@ -144,11 +145,14 @@ public class GeoAssignment extends Assignment {
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
-				checkPermutationsOfInputs(possibleOutputPermutation, partRes,
+				macroCons += checkPermutationsOfInputs(
+						possibleOutputPermutation, partRes,
 						possibleInputGeos);
 			}
 			possibleOutputPermutation = outputPermutationUtil.next();
 		}
+		Log.debug(macro.getCommandName() + ":"
+				+ (System.currentTimeMillis() - startTime) + "," + macroCons);
 	}
 
 	private static boolean areOutputTypesOK(
@@ -165,7 +169,7 @@ public class GeoAssignment extends Assignment {
 		return true;
 	}
 
-	private void checkPermutationsOfInputs(
+	private double checkPermutationsOfInputs(
 			GeoElement[] possibleOutputPermutation, TreeSet<Result> partRes,
 			TreeSet<GeoElement> possibleInputGeos) {
 		boolean isTypeCheckNeeded = uniqueInputTypes.size() > 1;
@@ -176,10 +180,15 @@ public class GeoAssignment extends Assignment {
 
 		input = inputPermutationUtil.next();
 		boolean solutionFound = false;
+		double ret = 0;
 		while (input != null && !solutionFound) {
 			partRes.clear();
 			if (!isTypeCheckNeeded || areTypesOK(input)) {
-				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input);
+				double d = input[0].getKernel().getApplication().getMillisecondTime(); 
+				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input,
+						false);
+				ret += input[0].getKernel().getApplication()
+						.getMillisecondTime() - d;
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length
 						&& (!partRes.contains(Result.WRONG)); i++) {
@@ -212,6 +221,7 @@ public class GeoAssignment extends Assignment {
 			input = inputPermutationUtil.next();
 
 		}
+		return ret;
 	}
 
 	private void checkEqualityOfGeos(GeoElement[] input, GeoElement macroOutput,
@@ -241,6 +251,7 @@ public class GeoAssignment extends Assignment {
 		callsToEqual++;
 		int j = 0;
 		if (partRes.contains(Result.CORRECT)) {
+			Log.debug("randomizing...");
 			while (j < input.length
 					&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
 				if (input[j].isRandomizable()) {

@@ -53,7 +53,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Button;
@@ -970,7 +969,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// do we have to create the parent node?
 			if (parent == null) {
 				String layerStr = loc.getPlain("LayerA", layer + "");
-				parent = new AVTreeItem(SafeHtmlUtils.fromString(layerStr));
+				parent = new AVTreeItem(new InlineLabel(layerStr));
 
 				setUserObject(parent, layerStr, layer + "");
 
@@ -1780,7 +1779,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
-		if (styleBar != null) {
+		if (styleBar != null && geo.isLabelSet()) {
 			styleBar.update(geo);
 		}
 	}

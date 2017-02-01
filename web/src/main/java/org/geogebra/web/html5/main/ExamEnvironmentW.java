@@ -137,6 +137,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
         super.exit();
     }
 
+	/**
+	 * @return set target to none
+	 */
     public static native boolean setJavascriptTargetToNone() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.setJavascriptTargetToNone();
 	}-*/;
@@ -324,6 +327,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
         super.addCheatingWindowsLeft(time);
     }
 
+	/**
+	 * Callback for screen going off
+	 */
     public void screenOff() {
         if (getStart() > 0) {
             if (wasScreenOn) {
@@ -338,6 +344,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
 
+	/**
+	 * Callback for screen going on
+	 */
     public void screenOn() {
         if (getStart() > 0) {
             if (!wasScreenOn) {

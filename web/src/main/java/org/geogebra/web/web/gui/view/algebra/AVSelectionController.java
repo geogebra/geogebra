@@ -11,10 +11,23 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
+/**
+ * Selection controller for AV
+ * 
+ * @author Laszlo
+ */
 public class AVSelectionController {
+	/** Selection mode */
 	public enum SelectMode {
-		Single, Toggle, Continuous, None
-	};
+		/** single select */
+		Single,
+		/** ctrl-select */
+		Toggle,
+		/** shift-select */
+		Continuous,
+		/** none */
+		None
+	}
 
 	private GeoElement selectedGeo;
 	private GeoElement lastSelectedGeo;
@@ -23,6 +36,10 @@ public class AVSelectionController {
 	private boolean selectHandled;
 	private SelectMode lastMode;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public AVSelectionController(App app) {
 		this.app = app;
 		selection = app.getSelectionManager();
@@ -80,7 +97,7 @@ public class AVSelectionController {
 
 	private void continuous(GeoElement geo0, TreeSet<GeoElement> geoSet,
 			boolean direction) {
-		ensureClearLastSelection(geo0);
+		ensureClearLastSelection();
 
 		GeoElement geoFrom = direction ? geo0 : getLastSelectedGeo();
 		GeoElement geoTo = direction ? getLastSelectedGeo() : geo0;
@@ -98,7 +115,7 @@ public class AVSelectionController {
 		boolean aux2 = getLastSelectedGeo().isAuxiliaryObject();
 		boolean ind2 = getLastSelectedGeo().isIndependent();
 
-		ensureClearLastSelection(geo);
+		ensureClearLastSelection();
 
 		if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 			Iterator<GeoElement> it = app.getKernel().getConstruction()
@@ -144,7 +161,7 @@ public class AVSelectionController {
 
 	}
 
-	private void ensureClearLastSelection(GeoElement geo) {
+	private void ensureClearLastSelection() {
 		if (lastMode != SelectMode.Continuous || lastMode != SelectMode.None) {
 			selection.clearSelectedGeos();
 		}
@@ -192,22 +209,39 @@ public class AVSelectionController {
 		}
 	}
 
+	/**
+	 * @return last selected geo
+	 */
 	public GeoElement getLastSelectedGeo() {
 		return lastSelectedGeo;
 	}
 
+	/**
+	 * @param lastSelectedGeo
+	 *            last selected geo
+	 */
 	public void setLastSelectedGeo(GeoElement lastSelectedGeo) {
 		this.lastSelectedGeo = lastSelectedGeo;
 	}
 
+	/**
+	 * @return currently selected geo
+	 */
 	public GeoElement getSelectedGeo() {
 		return selectedGeo;
 	}
 
+	/**
+	 * @param selectedGeo
+	 *            currently selected geo
+	 */
 	public void setSelectedGeo(GeoElement selectedGeo) {
 		this.selectedGeo = selectedGeo;
 	}
 
+	/**
+	 * Clear global selection
+	 */
 	public void clear() {
 		selection.clearSelectedGeos();
 	}
@@ -217,44 +251,70 @@ public class AVSelectionController {
 	 * @return if a multiselect is happening (with Shift or Control)
 	 */
 	public boolean isMultiSelect() {
-		GlobalKeyDispatcherW gk = (GlobalKeyDispatcherW) app
-				.getGlobalKeyDispatcher();
-		return gk.getControlDown();
+
+		return GlobalKeyDispatcherW.getControlDown();
 	}
 
+	/**
+	 * @return !hasMultGeos()
+	 */
 	public boolean isSingleGeo() {
 		return selection.getSelectedGeos().size() == 1;
 	}
 
+	/**
+	 * @return whether more than 1 geo selected
+	 */
 	public boolean hasMultGeos() {
 		return selection.getSelectedGeos().size() > 1;
 	}
 
+	/**
+	 * @return selected geos
+	 */
 	public List<GeoElement> getSelectedGeos() {
 		return selection.getSelectedGeos();
 	}
 
+	/**
+	 * @return whether some geos are selected
+	 */
 	public boolean isEmpty() {
 		return selection.getSelectedGeos().isEmpty();
 	}
 
+	/**
+	 * @return whether selection of UI is in sync
+	 */
 	public boolean isSelectHandled() {
 		return selectHandled;
 	}
 
+	/**
+	 * @param selectHandled
+	 *            whether selection of UI is in sync
+	 */
 	public void setSelectHandled(boolean selectHandled) {
 		this.selectHandled = selectHandled;
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether geo is selected
+	 */
 	public boolean contains(GeoElement geo) {
 		return selection.getSelectedGeos().contains(geo);
 	}
 
+	/**
+	 * @return last selection mode
+	 */
 	public SelectMode getLastMode() {
 		return lastMode;
 	}
 
-	public void setLastMode(SelectMode lastMode) {
+	private void setLastMode(SelectMode lastMode) {
 		this.lastMode = lastMode;
 	}
 }

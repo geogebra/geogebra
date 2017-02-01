@@ -3,22 +3,27 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * General AV item (group header or radio item)
+ */
 public class AVTreeItem extends TreeItem {
 
+	/**
+	 * Empty item
+	 */
 	public AVTreeItem() {
 		super();
 	}
 
+	/**
+	 * @param w
+	 *            item content
+	 */
 	public AVTreeItem(Widget w) {
 		super(w);
-	}
-
-	public AVTreeItem(SafeHtml safeHtml) {
-		super(safeHtml);
 	}
 
 	@Override
