@@ -169,6 +169,7 @@ public class KeyEvent {
 	 * Constant for the open bracket key, "["
 	 */
 	public static final int VK_OPEN_BRACKET = 0x5B;
+	public static final int VK_OPEN_PAREN = 0x39;
 
 	/**
 	 * Constant for the back slash key, "\"

@@ -229,8 +229,7 @@ public class MathFieldW implements MathField, IsWidget {
 		html2.addDomHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				int code = event.getNativeEvent().getKeyCode();
-				code = fixCode(code);
+				int code = fixCode(event.getNativeEvent());
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -257,9 +256,8 @@ public class MathFieldW implements MathField, IsWidget {
 				if (isLeftAlt(event.getNativeEvent())) {
 					leftAltDown = true;
 				}
-				int code = event.getNativeEvent().getKeyCode();
 
-				code = fixCode(code);
+				int code = fixCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -281,26 +279,44 @@ public class MathFieldW implements MathField, IsWidget {
 	 *            native event
 	 * @return whether this is right alt up/down event
 	 */
-	public static native boolean isRightAlt(NativeEvent nativeEvent) /*-{
-		return nativeEvent.code == "AltRight";
+	public static boolean isRightAlt(NativeEvent nativeEvent) {
+		return checkCode(nativeEvent, "AltRight");
+	}
+
+	private static native boolean checkCode(NativeEvent evt,
+			String check) /*-{
+		return evt.code == check;
 	}-*/;
 
+	private static native boolean checkNativeKey(NativeEvent evt,
+			String check) /*-{
+		return evt.key == check;
+	}-*/;
 	/**
 	 * @param nativeEvent
 	 *            native event
 	 * @return whether this is left alt up/down event
 	 */
-	public static native boolean isLeftAlt(NativeEvent nativeEvent) /*-{
-		return nativeEvent.code == "AltLeft";
-	}-*/;
+	public static boolean isLeftAlt(NativeEvent nativeEvent) {
+		return checkCode(nativeEvent, "AltLeft");
+	}
 
-	protected int fixCode(int code) {
-		switch (code) {
-		case 46:
+	protected int fixCode(NativeEvent evt) {
+		if (evt.getKeyCode() == 46) {
 			return KeyEvent.VK_DELETE;
 		}
-		return code;
+		if (checkNativeKey(evt, "[")) {
+			return KeyEvent.VK_OPEN_BRACKET;
+		}
+		if (checkNativeKey(evt, "{")) {
+			return KeyEvent.VK_OPEN_BRACKET;
+		}
+
+
+		return evt.getKeyCode();
+
 	}
+
 
 	@Override
 	public native void debug(String string) /*-{

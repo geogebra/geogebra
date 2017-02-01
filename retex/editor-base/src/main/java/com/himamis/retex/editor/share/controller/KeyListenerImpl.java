@@ -87,6 +87,9 @@ public class KeyListenerImpl {
 			return true;
 		case KeyEvent.VK_SHIFT:
 			return false;
+		case KeyEvent.VK_OPEN_BRACKET:
+		case KeyEvent.VK_OPEN_PAREN:
+			return false;
 		default:
 			InputController.deleteSelection(editorState);
 			return false;

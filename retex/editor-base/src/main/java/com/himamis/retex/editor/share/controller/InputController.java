@@ -57,8 +57,8 @@ public class InputController {
         int currentOffset = editorState.getCurrentOffset();
         MetaArray meta = metaModel.getArray(arrayOpenKey);
         MathArray array = new MathArray(meta, size);
-		ArrayList<MathComponent> removed = cut(currentField, currentOffset);
-        currentField.addArgument(currentOffset, array);
+		ArrayList<MathComponent> removed = cut(currentField, currentOffset,
+				editorState, array);
 
         // add sequence
         MathSequence field = new MathSequence();
@@ -389,16 +389,42 @@ public class InputController {
 		for (int j = removed.size() - 1; j >= 0; j--) {
 			MathComponent o = removed.get(j);
 			int idx = parentIndex + (removed.size() - j);
-			System.out.println(idx + ":" + o);
 			parent.addArgument(idx, o);
 		}
 
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
-			int currentOffset) {
-		// TODO Auto-generated method stub
+			int currentOffset, EditorState st, MathArray array) {
+
+		int end = currentField.size() - 1;
+		int start = currentOffset;
+
+		if (st.getCurrentField() == currentField
+				&& st.getSelectionEnd() != null) {
+			end = currentField.indexOf(st.getSelectionEnd());
+			start = currentField.indexOf(st.getSelectionStart());
+			if (end < 0 || start < 0) {
+				end = currentField.size() - 1;
+				start = 0;
+
+			}
+
+			System.out.println("END" + currentField);
+		}
 		ArrayList<MathComponent> removed = new ArrayList<MathComponent>();
+		for (int i = end; i >= start; i--) {
+			removed.add(currentField.getArgument(i));
+			currentField.removeArgument(i);
+		}
+		currentField.addArgument(start, array);
+		return removed;
+	}
+
+	private static ArrayList<MathComponent> cut(MathSequence currentField,
+			int currentOffset) {
+		ArrayList<MathComponent> removed = new ArrayList<MathComponent>();
+
 		for (int i = currentField.size() - 1; i >= currentOffset; i--) {
 			removed.add(currentField.getArgument(i));
 			currentField.removeArgument(i);
@@ -712,7 +738,9 @@ public class InputController {
         if (ch == 8 || ch == 127 || ch == 27) {
             return true;
         }
-        deleteSelection(editorState);
+		if (ch != '(' && ch != '{' && ch != '[') {
+			deleteSelection(editorState);
+		}
         MetaModel meta = editorState.getMetaModel();
         if (isArrayCloseKey(ch, editorState) || ch == InputController.FUNCTION_CLOSE_KEY) {
             endField(editorState, ch);
