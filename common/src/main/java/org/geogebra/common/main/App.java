@@ -4239,6 +4239,9 @@ public abstract class App implements UpdateSelection {
 		case SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW:
 			return prerelease;
 
+		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
+			return prerelease;
+
 		case ERASER:
 			return prerelease;
 		case ROUNDED_POLYGON:

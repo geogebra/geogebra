@@ -205,6 +205,11 @@ public enum Feature {
 	 */
 	SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW,
 
+	/**
+	 * GGB-1529
+	 */
+	SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME,
+
 	/** MOW-97 */
 	ERASER, ROUNDED_POLYGON,
 

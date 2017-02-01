@@ -253,6 +253,9 @@ public class AppWapplet extends AppWFull {
 				&& this.getToolbarPosition() == SwingConstants.SOUTH) {
 			frame.attachToolbar(this);
 		}
+		if(has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+			frame.attachKeyboardButton();
+		}
 		frame.attachGlass();
 	}
 

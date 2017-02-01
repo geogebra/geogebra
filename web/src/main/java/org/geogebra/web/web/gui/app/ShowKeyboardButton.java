@@ -1,12 +1,15 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -14,6 +17,7 @@ import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,7 +40,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link Element}
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-			final DockManagerW dm, Widget parent) {
+			final DockManagerW dm, Widget parent, AppW app) {
 
 		this.parent = parent;
 		this.addStyleName("openKeyboardButton");
@@ -44,8 +48,15 @@ public class ShowKeyboardButton extends SimplePanel {
 		        .keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
 
-		if (parent instanceof DockPanelW) {
-			((DockPanelW) parent).addSouth(this);
+		//TODO: app paramater used only for feature checking so this can be removed later
+		if (app!= null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+			if (listener instanceof ComplexPanel){
+				((ComplexPanel)listener).add(this);
+			}
+		} else {
+			if (parent instanceof DockPanelW) {
+				((DockPanelW) parent).addSouth(this);
+			}				
 		}
 		ClickStartHandler.init(ShowKeyboardButton.this, new ClickStartHandler(
 		        true, true) {

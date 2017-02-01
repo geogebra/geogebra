@@ -265,7 +265,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 			if (dockPanelKB != null) {
 				showKeyboardButton = new ShowKeyboardButton(this, dm,
-						dockPanelKB);
+						dockPanelKB, app);
 				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
 

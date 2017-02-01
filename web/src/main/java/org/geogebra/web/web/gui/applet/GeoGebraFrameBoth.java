@@ -39,6 +39,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Frame for applets with GUI
@@ -52,6 +53,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
 	private boolean keyboardVisibilityChanging;
+	private final SimplePanel kbButtonSpace = new SimplePanel();
 
 	/**
 	 * @param factory
@@ -62,6 +64,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf) {
 		super(laf);
 		this.factory = factory;
+		kbButtonSpace.addStyleName("kbButtonSpace");
+		this.add(kbButtonSpace);
 	}
 
 	@Override
@@ -69,6 +73,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf);
 		getArticleMap().put(article.getId(), application);
+		
+		if (app!= null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+			kbButtonSpace.addStyleName("kbButtonSpace");
+			this.add(kbButtonSpace);
+		}
+		
 		this.glass = new DockGlassPaneW(new GDimensionW(
 				article.getDataParamWidth(), article.getDataParamHeight()));
 		this.add(glass);
@@ -152,6 +162,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private DockPanelW dockPanelKB;
+	private ShowKeyboardButton keyboardButton;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
@@ -372,7 +383,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 			if (dockPanelKB != null) {
 				showKeyboardButton = new ShowKeyboardButton(this, dm,
-						dockPanelKB);
+						dockPanelKB, app);
 				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
 
@@ -380,22 +391,32 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		if (showKeyboardButton != null) {
 			if(app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW)){
-				DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
-						.getDockManager();
-				DockPanelW newDockPanelKB = dm.getPanelForKeyboard();
-				if(dockPanelKB != newDockPanelKB){
-					dockPanelKB.setKeyBoardButton(null);
-					showKeyboardButton.removeFromParent();
-					dockPanelKB = newDockPanelKB;
-					showKeyboardButton = new ShowKeyboardButton(this, dm,
-							dockPanelKB);
-					dockPanelKB.setKeyBoardButton(showKeyboardButton);
+				if(app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+					this.setKeyboardButton(showKeyboardButton);
+				} else {
+					DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+							.getDockManager();
+					DockPanelW newDockPanelKB = dm.getPanelForKeyboard();
+					if(dockPanelKB != newDockPanelKB){
+						dockPanelKB.setKeyBoardButton(null);
+						showKeyboardButton.removeFromParent();
+						dockPanelKB = newDockPanelKB;
+						showKeyboardButton = new ShowKeyboardButton(this, dm,
+								dockPanelKB, app);
+						dockPanelKB.setKeyBoardButton(showKeyboardButton);
+					}
 				}
 			}
 			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
 		}
 	}
 
+	private void setKeyboardButton(ShowKeyboardButton button){
+		//this.keyboardButton = button;
+		//kbButtonSpace.add(button);
+		this.add(showKeyboardButton);
+	}
+	
 	private boolean appNeedsKeyboard() {
 		return (app.showAlgebraInput() && app.getInputPosition() == InputPosition.algebraView)
 				|| (app.showView(App.VIEW_CAS));
@@ -594,5 +615,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
 		}
+	}
+
+	public void attachKeyboardButton() {
+		if(showKeyboardButton != null){
+			add(this.showKeyboardButton);
+		}
+		
 	}
 }
