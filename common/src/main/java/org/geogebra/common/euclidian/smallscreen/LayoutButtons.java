@@ -171,6 +171,9 @@ public class LayoutButtons {
 		}
 
 		x = view.getWidth() - getWidths(moveable);
+		if (x < 0) {
+			return;
+		}
 		for (GeoButton btn : moveable) {
 			btn.setAbsoluteScreenLoc(x, btn.getAbsoluteScreenLocY());
 			x += btn.getWidth() + X_GAP;
