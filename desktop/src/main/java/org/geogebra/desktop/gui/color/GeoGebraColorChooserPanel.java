@@ -380,12 +380,6 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			setMaximumSize(getPreferredSize());
 		}
 
-		@Deprecated
-		@Override
-		public boolean isFocusTraversable() {
-			return false;
-		}
-
 		protected void initValues() {
 		}
 
