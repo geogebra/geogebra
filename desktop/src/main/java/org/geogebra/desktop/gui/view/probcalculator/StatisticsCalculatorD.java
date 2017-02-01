@@ -312,7 +312,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		fldNullHyp.addFocusListener(this);
 
 		lblConfLevel = new JLabel();
-		fldConfLevel = (TextField) new MyTextFieldD((AppD) app);
+		fldConfLevel = new MyTextFieldD((AppD) app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addActionListener(this);
 		fldConfLevel.addFocusListener(this);

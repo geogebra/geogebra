@@ -78,11 +78,13 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		GeoLocusND<T> locus = (GeoLocusND<T>) geo;
-		defined = locus.defined;
+		if (geo instanceof GeoLocusND) {
+			GeoLocusND<T> locus = (GeoLocusND<T>) geo;
+			defined = locus.defined;
 
-		myPointList.clear();
-		myPointList.addAll(locus.myPointList);
+			myPointList.clear();
+			myPointList.addAll(locus.myPointList);
+		}
 	}
 
 	/**

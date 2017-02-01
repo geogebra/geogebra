@@ -1053,7 +1053,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean save() {
-		return ((AppW) app).getFileManager().save((AppW) app);
+		return ((AppW) app).getFileManager().save(app);
 	}
 
 	@Override
@@ -2035,7 +2035,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			save();
 		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
 			this.uploadWaiting = false;
-			((AppW) app).getFileManager().saveLoggedOut((AppW) app);
+			((AppW) app).getFileManager().saveLoggedOut(app);
 		}
 	}
 
