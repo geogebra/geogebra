@@ -260,10 +260,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the new number of successes.
 	 * @throws IllegalArgumentException
 	 *             if <code>num</code> is negative.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setNumberOfSuccesses(int num) {
 		setNumberOfSuccessesInternal(num);
 	}
@@ -291,10 +291,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the new population size.
 	 * @throws IllegalArgumentException
 	 *             if <code>size</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setPopulationSize(int size) {
 		setPopulationSizeInternal(size);
 	}
@@ -322,10 +322,10 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
 	 *            the new sample size.
 	 * @throws IllegalArgumentException
 	 *             if <code>size</code> is negative.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setSampleSize(int size) {
 		setSampleSizeInternal(size);
 	}

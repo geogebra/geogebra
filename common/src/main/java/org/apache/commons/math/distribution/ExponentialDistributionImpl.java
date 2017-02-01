@@ -82,10 +82,10 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 	 *            the new mean.
 	 * @throws IllegalArgumentException
 	 *             if <code>mean</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setMean(double mean) {
 		setMeanInternal(mean);
 	}
@@ -122,10 +122,10 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
 	 * @param x
 	 *            The point at which the density should be computed.
 	 * @return The pdf at point x.
-	 * @deprecated - use density(double)
+	 * deprecated - use density(double)
 	 */
 	@Override
-	@Deprecated
+	
 	public double density(Double x) {
 		return density(x.doubleValue());
 	}

@@ -50,9 +50,9 @@ public interface BinomialDistribution extends IntegerDistribution {
 	 * 
 	 * @param trials
 	 *            the new number of trials.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setNumberOfTrials(int trials);
 
 	/**
@@ -60,8 +60,8 @@ public interface BinomialDistribution extends IntegerDistribution {
 	 * 
 	 * @param p
 	 *            the new probability of success.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setProbabilityOfSuccess(double p);
 }

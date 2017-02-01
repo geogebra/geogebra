@@ -41,9 +41,9 @@ public class TTestImpl implements TTest {
 	/**
 	 * Distribution used to compute inference statistics.
 	 * 
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	private TDistribution distribution;
 
 	/**
@@ -60,9 +60,9 @@ public class TTestImpl implements TTest {
 	 * @param t
 	 *            distribution used to compute inference statistics.
 	 * @since 1.2
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	public TTestImpl(TDistribution t) {
 		super();
 		setDistribution(t);
@@ -1268,9 +1268,9 @@ public class TTestImpl implements TTest {
 	 * @param value
 	 *            the new distribution
 	 * @since 1.2
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	public void setDistribution(TDistribution value) {
 		distribution = value;
 	}

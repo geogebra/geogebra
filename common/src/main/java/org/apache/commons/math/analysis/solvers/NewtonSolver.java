@@ -43,12 +43,12 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 	 * 
 	 * @param f
 	 *            function to solve.
-	 * @deprecated as of 2.0 the function to solve is passed as an argument to
+	 * deprecated as of 2.0 the function to solve is passed as an argument to
 	 *             the {@link #solve(UnivariateRealFunction, double, double)} or
 	 *             {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	public NewtonSolver(DifferentiableUnivariateRealFunction f) {
 		super(f, 100, 1E-6);
 	}
@@ -56,16 +56,16 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 	/**
 	 * Construct a solver.
 	 * 
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	public NewtonSolver() {
 		super(100, 1E-6);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double solve(final double min, final double max)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
 		return solve(f, min, max);
@@ -73,7 +73,7 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double solve(final double min, final double max,
 			final double startValue)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -123,10 +123,10 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 	 *             if an error occurs evaluating the function or derivative
 	 * @throws IllegalArgumentException
 	 *             if min is not less than max
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
 	@Override
-	@Deprecated
+	
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -182,10 +182,10 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 	 * @throws IllegalArgumentException
 	 *             if startValue is not between min and max or if function is
 	 *             not a {@link DifferentiableUnivariateRealFunction} instance
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
 	@Override
-	@Deprecated
+	
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max, final double startValue)
 			throws MaxIterationsExceededException, FunctionEvaluationException {

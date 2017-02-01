@@ -37,9 +37,9 @@ public interface GammaDistribution
 	 * 
 	 * @param alpha
 	 *            the new shape parameter.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setAlpha(double alpha);
 
 	/**
@@ -54,9 +54,9 @@ public interface GammaDistribution
 	 * 
 	 * @param beta
 	 *            the new scale parameter.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setBeta(double beta);
 
 	/**

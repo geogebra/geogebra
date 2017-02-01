@@ -35,11 +35,11 @@ import org.apache.commons.math.MathException;
  *            include a <code>density(double)<code> method.
  *            </p>
  *
- * @deprecated to be removed in math 3.0
+ * deprecated to be removed in math 3.0
  * @version $Revision: 1042336 $ $Date: 2010-12-05 13:40:48 +0100 (dim. 05 dec.
  *          2010) $
  */
-@Deprecated
+
 public interface HasDensity<P> {
 
 	/**

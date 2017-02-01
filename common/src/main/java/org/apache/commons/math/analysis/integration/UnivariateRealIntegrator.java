@@ -80,11 +80,11 @@ public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
 	 * @throws IllegalArgumentException
 	 *             if min > max or the endpoints do not satisfy the requirements
 	 *             specified by the integrator
-	 * @deprecated replaced by
+	 * deprecated replaced by
 	 *             {@link #integrate(UnivariateRealFunction, double, double)}
 	 *             since 2.0
 	 */
-	@Deprecated
+	
 	double integrate(double min, double max) throws ConvergenceException,
 			FunctionEvaluationException, IllegalArgumentException;
 

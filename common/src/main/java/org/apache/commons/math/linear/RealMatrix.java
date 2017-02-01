@@ -545,38 +545,38 @@ public interface RealMatrix extends AnyMatrix {
 	 * @return inverse matrix
 	 * @throws InvalidMatrixException
 	 *             if this is not invertible
-	 * @deprecated as of release 2.0, replaced by <code>
+	 * deprecated as of release 2.0, replaced by <code>
 	 * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
 	 * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
 	 * getSolver()}.{@link DecompositionSolver#getInverse()
 	 * getInverse()}</code>
 	 */
-	@Deprecated
+	
 	RealMatrix inverse() throws InvalidMatrixException;
 
 	/**
 	 * Returns the determinant of this matrix.
 	 *
 	 * @return determinant
-	 * @deprecated as of release 2.0, replaced by <code>
+	 * deprecated as of release 2.0, replaced by <code>
 	 * {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
 	 * new LUDecompositionImpl(m)}.{@link LUDecomposition#getDeterminant()
 	 * getDeterminant()}</code>
 	 */
-	@Deprecated
+	
 	double getDeterminant();
 
 	/**
 	 * Is this a singular matrix?
 	 * 
 	 * @return true if the matrix is singular
-	 * @deprecated as of release 2.0, replaced by the boolean negation of <code>
+	 * deprecated as of release 2.0, replaced by the boolean negation of <code>
 	 *             {@link LUDecompositionImpl#LUDecompositionImpl(RealMatrix)
 	 * new LUDecompositionImpl(m)}.{@link LUDecomposition#getSolver()
 	 * getSolver()}.{@link DecompositionSolver#isNonSingular()
 	 * isNonSingular()}</code>
 	 */
-	@Deprecated
+	
 	boolean isSingular();
 
 	/**
@@ -1072,10 +1072,10 @@ public interface RealMatrix extends AnyMatrix {
 	 *             if this.rowDimension != b.length
 	 * @throws InvalidMatrixException
 	 *             if this matrix is not square or is singular
-	 * @deprecated as of release 2.0, replaced by
+	 * deprecated as of release 2.0, replaced by
 	 *             {@link DecompositionSolver#solve(double[])}
 	 */
-	@Deprecated
+	
 	double[] solve(double[] b)
 			throws IllegalArgumentException, InvalidMatrixException;
 
@@ -1092,10 +1092,10 @@ public interface RealMatrix extends AnyMatrix {
 	 *             if this.rowDimension != row dimension
 	 * @throws InvalidMatrixException
 	 *             if this matrix is not square or is singular
-	 * @deprecated as of release 2.0, replaced by
+	 * deprecated as of release 2.0, replaced by
 	 *             {@link DecompositionSolver#solve(RealMatrix)}
 	 */
-	@Deprecated
+	
 	RealMatrix solve(RealMatrix b)
 			throws IllegalArgumentException, InvalidMatrixException;
 

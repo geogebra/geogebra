@@ -37,9 +37,9 @@ public interface ExponentialDistribution
 	 * 
 	 * @param mean
 	 *            the new mean.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setMean(double mean);
 
 	/**

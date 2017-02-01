@@ -47,12 +47,12 @@ public abstract class UnivariateRealIntegratorImpl
 	/**
 	 * The integrand function.
 	 *
-	 * @deprecated as of 2.0 the integrand function is passed as an argument to
+	 * deprecated as of 2.0 the integrand function is passed as an argument to
 	 *             the
 	 *             {@link #integrate(UnivariateRealFunction, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	protected UnivariateRealFunction f;
 
 	/**
@@ -64,12 +64,12 @@ public abstract class UnivariateRealIntegratorImpl
 	 *            maximum number of iterations
 	 * @throws IllegalArgumentException
 	 *             if f is null or the iteration limits are not valid
-	 * @deprecated as of 2.0 the integrand function is passed as an argument to
+	 * deprecated as of 2.0 the integrand function is passed as an argument to
 	 *             the
 	 *             {@link #integrate(UnivariateRealFunction, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	protected UnivariateRealIntegratorImpl(final UnivariateRealFunction f,
 			final int defaultMaximalIterationCount)
 			throws IllegalArgumentException {

@@ -136,11 +136,11 @@ public class MathRuntimeException extends RuntimeException {
 	 *            format arguments
 	 * @return built exception
 	 * @since 2.2
-	 * @deprecated in 2.2. Please use
+	 * deprecated in 2.2. Please use
 	 *             {@link org.apache.commons.math.exception.MathUnsupportedOperationException}
 	 *             instead.
 	 */
-	@Deprecated
+	
 	public static UnsupportedOperationException createUnsupportedOperationException(
 			final String pattern, final Object... arguments) {
 		return new UnsupportedOperationException() {

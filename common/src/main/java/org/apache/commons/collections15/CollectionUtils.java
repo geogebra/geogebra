@@ -743,7 +743,7 @@ public class CollectionUtils {
 	/**
 	 * Adds all elements in the iteration to the given collection.
 	 * 
-	 * @deprecated Replaced by {@link Collection#addAll(java.util.Collection<?
+	 * deprecated Replaced by {@link Collection#addAll(java.util.Collection<?
 	 *             extends E>)}
 	 *
 	 * @param collection
@@ -753,7 +753,7 @@ public class CollectionUtils {
 	 * @throws NullPointerException
 	 *             if the collection or iterator is null
 	 */
-	@Deprecated
+	
 	public static <E> void addAll(Collection<E> collection,
 			Iterator<? extends E> iterator) {
 		while (iterator.hasNext()) {
@@ -764,7 +764,7 @@ public class CollectionUtils {
 	/**
 	 * Adds all elements in the enumeration to the given collection.
 	 * 
-	 * @deprecated Replaced by {@link Collection#addAll(java.util.Collection<?
+	 * deprecated Replaced by {@link Collection#addAll(java.util.Collection<?
 	 *             extends E>)}
 	 *
 	 * @param collection
@@ -774,7 +774,7 @@ public class CollectionUtils {
 	 * @throws NullPointerException
 	 *             if the collection or enumeration is null
 	 */
-	@Deprecated
+	
 	public static <E> void addAll(Collection<E> collection,
 			Enumeration<? extends E> enumeration) {
 		while (enumeration.hasMoreElements()) {
@@ -822,10 +822,10 @@ public class CollectionUtils {
 	 *            the index to get
 	 * @throws IndexOutOfBoundsException
 	 * @throws ArrayIndexOutOfBoundsException
-	 * @deprecated use {@link #get(Object, int)} instead. Will be removed in
+	 * deprecated use {@link #get(Object, int)} instead. Will be removed in
 	 *             v4.0
 	 */
-	@Deprecated
+	
 	public static Object index(Object obj, int idx) {
 		return index(obj, Integer.valueOf(idx));
 	}
@@ -855,10 +855,10 @@ public class CollectionUtils {
 	 * @return the object at the specified index
 	 * @throws IndexOutOfBoundsException
 	 * @throws ArrayIndexOutOfBoundsException
-	 * @deprecated use {@link #get(Object, int)} instead. Will be removed in
+	 * deprecated use {@link #get(Object, int)} instead. Will be removed in
 	 *             v4.0
 	 */
-	@Deprecated
+	
 	public static Object index(Object obj, Object index) {
 		if (obj instanceof Map) {
 			Map map = (Map) obj;
@@ -1187,7 +1187,7 @@ public class CollectionUtils {
 	 * @param type
 	 *            the type of objects which may be added to the collection
 	 * @return a typed collection backed by the specified collection
-	 * @deprecated Obsoleted by Java 1.5 Generics.
+	 * deprecated Obsoleted by Java 1.5 Generics.
 	 */
 	// public static <E> Collection<E> typedCollection(Collection<E> collection,
 	// Class<E> type) {

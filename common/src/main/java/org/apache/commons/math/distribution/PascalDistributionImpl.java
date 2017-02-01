@@ -86,10 +86,10 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 *            the new number of successes
 	 * @throws IllegalArgumentException
 	 *             if <code>successes</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setNumberOfSuccesses(int successes) {
 		setNumberOfSuccessesInternal(successes);
 	}
@@ -117,10 +117,10 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
 	 *            the new probability of success
 	 * @throws IllegalArgumentException
 	 *             if <code>p</code> is not a valid probability.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setProbabilityOfSuccess(double p) {
 		setProbabilityOfSuccessInternal(p);
 	}

@@ -277,9 +277,9 @@ public interface RealVector {
 	 * @param d
 	 *            Operator value.
 	 * @return a mapped copy of the vector.
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapPow(double d);
 
 	/**
@@ -288,18 +288,18 @@ public interface RealVector {
 	 * @param d
 	 *            Operator value.
 	 * @return the mapped vector.
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapPowToSelf(double d);
 
 	/**
 	 * Map the {@link Math#exp(double)} function to each entry.
 	 *
 	 * @return a mapped copy of the vector.
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapExp();
 
 	/**
@@ -307,9 +307,9 @@ public interface RealVector {
 	 * changed in-place.
 	 *
 	 * @return the mapped vector.
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapExpToSelf();
 
 	/**
@@ -317,9 +317,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapExpm1();
 
 	/**
@@ -329,9 +329,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapExpm1ToSelf();
 
 	/**
@@ -339,9 +339,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapLog();
 
 	/**
@@ -351,9 +351,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapLogToSelf();
 
 	/**
@@ -361,9 +361,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapLog10();
 
 	/**
@@ -373,9 +373,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapLog10ToSelf();
 
 	/**
@@ -383,9 +383,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapLog1p();
 
 	/**
@@ -395,9 +395,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapLog1pToSelf();
 
 	/**
@@ -405,9 +405,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCosh();
 
 	/**
@@ -417,9 +417,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCoshToSelf();
 
 	/**
@@ -427,9 +427,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSinh();
 
 	/**
@@ -439,9 +439,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSinhToSelf();
 
 	/**
@@ -449,9 +449,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapTanh();
 
 	/**
@@ -461,9 +461,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapTanhToSelf();
 
 	/**
@@ -471,9 +471,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCos();
 
 	/**
@@ -483,9 +483,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCosToSelf();
 
 	/**
@@ -493,9 +493,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSin();
 
 	/**
@@ -505,9 +505,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSinToSelf();
 
 	/**
@@ -515,9 +515,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapTan();
 
 	/**
@@ -527,9 +527,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapTanToSelf();
 
 	/**
@@ -537,9 +537,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAcos();
 
 	/**
@@ -549,9 +549,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAcosToSelf();
 
 	/**
@@ -559,9 +559,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAsin();
 
 	/**
@@ -571,9 +571,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAsinToSelf();
 
 	/**
@@ -581,9 +581,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAtan();
 
 	/**
@@ -593,9 +593,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAtanToSelf();
 
 	/**
@@ -603,9 +603,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapInv();
 
 	/**
@@ -615,9 +615,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapInvToSelf();
 
 	/**
@@ -625,9 +625,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAbs();
 
 	/**
@@ -637,9 +637,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapAbsToSelf();
 
 	/**
@@ -647,9 +647,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSqrt();
 
 	/**
@@ -659,9 +659,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSqrtToSelf();
 
 	/**
@@ -669,9 +669,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCbrt();
 
 	/**
@@ -681,9 +681,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCbrtToSelf();
 
 	/**
@@ -691,9 +691,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCeil();
 
 	/**
@@ -703,9 +703,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapCeilToSelf();
 
 	/**
@@ -713,9 +713,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapFloor();
 
 	/**
@@ -725,9 +725,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapFloorToSelf();
 
 	/**
@@ -735,9 +735,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapRint();
 
 	/**
@@ -747,9 +747,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapRintToSelf();
 
 	/**
@@ -757,9 +757,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSignum();
 
 	/**
@@ -769,9 +769,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapSignumToSelf();
 
 	/**
@@ -779,9 +779,9 @@ public interface RealVector {
 	 * 
 	 * @return a vector containing the result of applying the function to each
 	 *         entry
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapUlp();
 
 	/**
@@ -791,9 +791,9 @@ public interface RealVector {
 	 * </p>
 	 * 
 	 * @return for convenience, return this
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	RealVector mapUlpToSelf();
 
 	/**

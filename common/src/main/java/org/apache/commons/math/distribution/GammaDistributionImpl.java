@@ -151,10 +151,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 	 *            the new shape parameter.
 	 * @throws IllegalArgumentException
 	 *             if <code>alpha</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setAlpha(double alpha) {
 		setAlphaInternal(alpha);
 	}
@@ -192,10 +192,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 	 *            the new scale parameter.
 	 * @throws IllegalArgumentException
 	 *             if <code>newBeta</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setBeta(double newBeta) {
 		setBetaInternal(newBeta);
 	}
@@ -248,10 +248,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
 	 * @param x
 	 *            The point at which the density should be computed.
 	 * @return The pdf at point x.
-	 * @deprecated
+	 * deprecated
 	 */
 	@Override
-	@Deprecated
+	
 	public double density(Double x) {
 		return density(x.doubleValue());
 	}

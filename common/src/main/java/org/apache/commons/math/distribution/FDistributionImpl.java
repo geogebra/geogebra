@@ -225,10 +225,10 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 *            the new numerator degrees of freedom.
 	 * @throws IllegalArgumentException
 	 *             if <code>degreesOfFreedom</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
 		setNumeratorDegreesOfFreedomInternal(degreesOfFreedom);
 	}
@@ -267,10 +267,10 @@ public class FDistributionImpl extends AbstractContinuousDistribution
 	 *            the new denominator degrees of freedom.
 	 * @throws IllegalArgumentException
 	 *             if <code>degreesOfFreedom</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setDenominatorDegreesOfFreedom(double degreesOfFreedom) {
 		setDenominatorDegreesOfFreedomInternal(degreesOfFreedom);
 	}

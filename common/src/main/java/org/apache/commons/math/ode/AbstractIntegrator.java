@@ -458,9 +458,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 	 *            manager containing the user-defined handlers
 	 * @return a new manager containing all the user-defined handlers plus a
 	 *         dedicated manager triggering a stop event at entTime
-	 * @deprecated as of 2.2, this method is not used any more
+	 * deprecated as of 2.2, this method is not used any more
 	 */
-	@Deprecated
+	
 	protected CombinedEventsManager addEndTimeChecker(final double startTime,
 			final double endTime, final CombinedEventsManager manager) {
 		CombinedEventsManager newManager = new CombinedEventsManager();
@@ -479,9 +479,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 	/**
 	 * Specialized event handler to stop integration.
 	 * 
-	 * @deprecated as of 2.2, this class is not used anymore
+	 * deprecated as of 2.2, this class is not used anymore
 	 */
-	@Deprecated
+	
 	private static class EndTimeChecker implements EventHandler {
 
 		/** Desired end time. */

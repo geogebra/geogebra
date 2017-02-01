@@ -25,10 +25,10 @@ import org.apache.commons.math.ConvergenceException;
  * @version $Revision: 1044015 $ $Date: 2010-12-09 17:06:26 +0100 (jeu. 09 dec.
  *          2010) $
  * @since 1.2
- * @deprecated in 2.2 (to be removed in 3.0).
+ * deprecated in 2.2 (to be removed in 3.0).
  */
 
-@Deprecated
+
 public class OptimizationException extends ConvergenceException {
 
 	/** Serializable version identifier. */
@@ -42,10 +42,10 @@ public class OptimizationException extends ConvergenceException {
 	 *            format specifier (to be translated)
 	 * @param parts
 	 *            to insert in the format (no translation)
-	 * @deprecated as of 2.2 replaced by
+	 * deprecated as of 2.2 replaced by
 	 *             {@link #OptimizationException(Localizable, Object...)}
 	 */
-	@Deprecated
+	
 	public OptimizationException(String specifier, Object... parts) {
 		super(specifier, parts);
 	}

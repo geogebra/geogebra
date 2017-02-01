@@ -47,9 +47,9 @@ public interface NormalDistribution
 	 * 
 	 * @param mean
 	 *            for this distribution
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setMean(double mean);
 
 	/**
@@ -64,9 +64,9 @@ public interface NormalDistribution
 	 * 
 	 * @param sd
 	 *            standard deviation for this distribution
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setStandardDeviation(double sd);
 
 	/**

@@ -84,10 +84,10 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 	 *            the new number of trials.
 	 * @throws IllegalArgumentException
 	 *             if <code>trials</code> is not a valid number of trials.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setNumberOfTrials(int trials) {
 		setNumberOfTrialsInternal(trials);
 	}
@@ -115,10 +115,10 @@ public class BinomialDistributionImpl extends AbstractIntegerDistribution
 	 *            the new probability of success.
 	 * @throws IllegalArgumentException
 	 *             if <code>p</code> is not a valid probability.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setProbabilityOfSuccess(double p) {
 		setProbabilityOfSuccessInternal(p);
 	}

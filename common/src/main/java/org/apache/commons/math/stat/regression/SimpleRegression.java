@@ -108,10 +108,10 @@ public class SimpleRegression implements Serializable {
 	 * @param t
 	 *            the distribution used to compute inference statistics.
 	 * @since 1.2
-	 * @deprecated in 2.2 (to be removed in 3.0). Please use the
+	 * deprecated in 2.2 (to be removed in 3.0). Please use the
 	 *             {@link #SimpleRegression(int) other constructor} instead.
 	 */
-	@Deprecated
+	
 	public SimpleRegression(TDistribution t) {
 		super();
 		setDistribution(t);
@@ -685,9 +685,9 @@ public class SimpleRegression implements Serializable {
 	 * @param value
 	 *            the new distribution
 	 * @since 1.2
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	public void setDistribution(TDistribution value) {
 		distribution = value;
 

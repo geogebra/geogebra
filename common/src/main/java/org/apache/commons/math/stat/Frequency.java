@@ -115,9 +115,9 @@ public class Frequency implements Serializable {
 	 * @throws IllegalArgumentException
 	 *             if <code>v</code> is not Comparable, or is not comparable
 	 *             with previous entries
-	 * @deprecated use {@link #addValue(Comparable)} instead
+	 * deprecated use {@link #addValue(Comparable)} instead
 	 */
-	@Deprecated
+	
 	public void addValue(Object v) {
 		if (v instanceof Comparable<?>) {
 			addValue((Comparable<?>) v);
@@ -175,9 +175,9 @@ public class Frequency implements Serializable {
 	 *
 	 * @param v
 	 *            the value to add.
-	 * @deprecated to be removed in math 3.0
+	 * deprecated to be removed in math 3.0
 	 */
-	@Deprecated
+	
 	public void addValue(Integer v) {
 		addValue(Long.valueOf(v.longValue()));
 	}
@@ -244,9 +244,9 @@ public class Frequency implements Serializable {
 	 * @param v
 	 *            the value to lookup.
 	 * @return the frequency of v.
-	 * @deprecated replaced by {@link #getCount(Comparable)} as of 2.0
+	 * deprecated replaced by {@link #getCount(Comparable)} as of 2.0
 	 */
-	@Deprecated
+	
 	public long getCount(Object v) {
 		return getCount((Comparable<?>) v);
 	}
@@ -332,9 +332,9 @@ public class Frequency implements Serializable {
 	 * @param v
 	 *            the value to lookup
 	 * @return the proportion of values equal to v
-	 * @deprecated replaced by {@link #getPct(Comparable)} as of 2.0
+	 * deprecated replaced by {@link #getPct(Comparable)} as of 2.0
 	 */
-	@Deprecated
+	
 	public double getPct(Object v) {
 		return getPct((Comparable<?>) v);
 	}
@@ -405,9 +405,9 @@ public class Frequency implements Serializable {
 	 * @param v
 	 *            the value to lookup.
 	 * @return the proportion of values equal to v
-	 * @deprecated replaced by {@link #getCumFreq(Comparable)} as of 2.0
+	 * deprecated replaced by {@link #getCumFreq(Comparable)} as of 2.0
 	 */
-	@Deprecated
+	
 	public long getCumFreq(Object v) {
 		return getCumFreq((Comparable<?>) v);
 	}
@@ -523,9 +523,9 @@ public class Frequency implements Serializable {
 	 * @param v
 	 *            the value to lookup
 	 * @return the proportion of values less than or equal to v
-	 * @deprecated replaced by {@link #getCumPct(Comparable)} as of 2.0
+	 * deprecated replaced by {@link #getCumPct(Comparable)} as of 2.0
 	 */
-	@Deprecated
+	
 	public double getCumPct(Object v) {
 		return getCumPct((Comparable<?>) v);
 

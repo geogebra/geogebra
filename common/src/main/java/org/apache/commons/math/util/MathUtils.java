@@ -457,14 +457,14 @@ public final class MathUtils {
 	 * @param y
 	 *            second value
 	 * @return {@code true} if the values are equal.
-	 * @deprecated as of 2.2 his method considers that {@code NaN == NaN}. In
+	 * deprecated as of 2.2 his method considers that {@code NaN == NaN}. In
 	 *             release 3.0, the semantics will change in order to comply
 	 *             with IEEE754 where it is specified that {@code NaN != NaN}.
 	 *             New methods have been added for those cases wher the old
 	 *             semantics is useful (see e.g.
 	 *             {@link #equalsIncludingNaN(float,float) equalsIncludingNaN}.
 	 */
-	@Deprecated
+	
 	public static boolean equals(float x, float y) {
 		return (Float.isNaN(x) && Float.isNaN(y)) || x == y;
 	}
@@ -591,7 +591,7 @@ public final class MathUtils {
 	 *            second array
 	 * @return true if the values are both null or have same dimension and equal
 	 *         elements.
-	 * @deprecated as of 2.2 this method considers that {@code NaN == NaN}. In
+	 * deprecated as of 2.2 this method considers that {@code NaN == NaN}. In
 	 *             release 3.0, the semantics will change in order to comply
 	 *             with IEEE754 where it is specified that {@code NaN != NaN}.
 	 *             New methods have been added for those cases where the old
@@ -599,7 +599,7 @@ public final class MathUtils {
 	 *             {@link #equalsIncludingNaN(float[],float[])
 	 *             equalsIncludingNaN}.
 	 */
-	@Deprecated
+	
 	public static boolean equals(float[] x, float[] y) {
 		if ((x == null) || (y == null)) {
 			return !((x == null) ^ (y == null));
@@ -1431,12 +1431,12 @@ public final class MathUtils {
 	 *            smaller than d)
 	 * @return the next machine representable number in the specified direction
 	 * @since 1.2
-	 * @deprecated as of 2.2, replaced by
+	 * deprecated as of 2.2, replaced by
 	 *             {@link FastMath#nextAfter(double, double)} which handles
 	 *             Infinities differently, and returns direction if d and
 	 *             direction compare equal.
 	 */
-	@Deprecated
+	
 	public static double nextAfter(double d, double direction) {
 
 		// handling of some important special cases
@@ -1482,9 +1482,9 @@ public final class MathUtils {
 	 *            power of two by which d should be multiplied
 	 * @return d &times; 2<sup>scaleFactor</sup>
 	 * @since 2.0
-	 * @deprecated as of 2.2, replaced by {@link FastMath#scalb(double, int)}
+	 * deprecated as of 2.2, replaced by {@link FastMath#scalb(double, int)}
 	 */
-	@Deprecated
+	
 	public static double scalb(final double d, final int scaleFactor) {
 		return FastMath.scalb(d, scaleFactor);
 	}
@@ -2354,11 +2354,11 @@ public final class MathUtils {
 	 *            Whether the order should be strict
 	 * @throws NonMonotonousSequenceException
 	 *             if the array is not sorted.
-	 * @deprecated as of 2.2 (please use the new
+	 * deprecated as of 2.2 (please use the new
 	 *             {@link #checkOrder(double[],OrderDirection,boolean)
 	 *             checkOrder} method). To be removed in 3.0.
 	 */
-	@Deprecated
+	
 	public static void checkOrder(double[] val, int dir, boolean strict) {
 		if (dir > 0) {
 			checkOrder(val, OrderDirection.INCREASING, strict);

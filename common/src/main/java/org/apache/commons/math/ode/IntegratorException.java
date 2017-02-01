@@ -40,10 +40,10 @@ public class IntegratorException extends MathException {
 	 *            format specifier (to be translated)
 	 * @param parts
 	 *            to insert in the format (no translation)
-	 * @deprecated as of 2.2 replaced by
+	 * deprecated as of 2.2 replaced by
 	 *             {@link #IntegratorException(Localizable, Object...)}
 	 */
-	@Deprecated
+	
 	public IntegratorException(final String specifier, final Object... parts) {
 		super(specifier, parts);
 	}

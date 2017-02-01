@@ -31,9 +31,9 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr.
  *          2011) $
- * @deprecated in 2.2 (to be removed in 3.0).
+ * deprecated in 2.2 (to be removed in 3.0).
  */
-@Deprecated
+
 public abstract class UnivariateRealSolverImpl extends ConvergingAlgorithmImpl
 		implements UnivariateRealSolver {
 
@@ -55,12 +55,12 @@ public abstract class UnivariateRealSolverImpl extends ConvergingAlgorithmImpl
 	/**
 	 * The function to solve.
 	 * 
-	 * @deprecated as of 2.0 the function to solve is passed as an argument to
+	 * deprecated as of 2.0 the function to solve is passed as an argument to
 	 *             the {@link #solve(UnivariateRealFunction, double, double)} or
 	 *             {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	protected UnivariateRealFunction f;
 
 	/**
@@ -74,12 +74,12 @@ public abstract class UnivariateRealSolverImpl extends ConvergingAlgorithmImpl
 	 *            maximum number of iterations
 	 * @throws IllegalArgumentException
 	 *             if f is null or the defaultAbsoluteAccuracy is not valid
-	 * @deprecated as of 2.0 the function to solve is passed as an argument to
+	 * deprecated as of 2.0 the function to solve is passed as an argument to
 	 *             the {@link #solve(UnivariateRealFunction, double, double)} or
 	 *             {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	protected UnivariateRealSolverImpl(final UnivariateRealFunction f,
 			final int defaultMaximalIterationCount,
 			final double defaultAbsoluteAccuracy) {

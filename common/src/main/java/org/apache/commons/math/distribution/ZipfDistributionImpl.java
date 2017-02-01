@@ -78,10 +78,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 	 *            the number of elements
 	 * @exception IllegalArgumentException
 	 *                if n &le; 0
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setNumberOfElements(final int n) {
 		setNumberOfElementsInternal(n);
 	}
@@ -124,10 +124,10 @@ public class ZipfDistributionImpl extends AbstractIntegerDistribution
 	 *            the exponent
 	 * @exception IllegalArgumentException
 	 *                if s &le; 0.0
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setExponent(final double s) {
 		setExponentInternal(s);
 	}

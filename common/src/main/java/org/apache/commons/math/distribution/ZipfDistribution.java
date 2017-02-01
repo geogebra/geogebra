@@ -48,9 +48,9 @@ public interface ZipfDistribution extends IntegerDistribution {
 	 *            the number of elements
 	 * @throws IllegalArgumentException
 	 *             if n &le; 0
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setNumberOfElements(int n);
 
 	/**
@@ -69,8 +69,8 @@ public interface ZipfDistribution extends IntegerDistribution {
 	 *            the exponent
 	 * @throws IllegalArgumentException
 	 *             if s &le; 0.0
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setExponent(double s);
 }

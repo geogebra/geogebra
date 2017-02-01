@@ -85,11 +85,11 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 	 * @throws IllegalArgumentException
 	 *             if min > max or the endpoints do not satisfy the requirements
 	 *             specified by the solver
-	 * @deprecated replaced by
+	 * deprecated replaced by
 	 *             {@link #solve(UnivariateRealFunction, double, double)} since
 	 *             2.0
 	 */
-	@Deprecated
+	
 	double solve(double min, double max)
 			throws ConvergenceException, FunctionEvaluationException;
 
@@ -117,9 +117,9 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 	 *             if min > max or the endpoints do not satisfy the requirements
 	 *             specified by the solver
 	 * @since 2.0
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	double solve(UnivariateRealFunction f, double min, double max)
 			throws ConvergenceException, FunctionEvaluationException;
 
@@ -146,11 +146,11 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 	 * @throws IllegalArgumentException
 	 *             if min > max or the arguments do not satisfy the requirements
 	 *             specified by the solver
-	 * @deprecated replaced by
+	 * deprecated replaced by
 	 *             {@link #solve(UnivariateRealFunction, double, double, double)}
 	 *             since 2.0
 	 */
-	@Deprecated
+	
 	double solve(double min, double max, double startValue)
 			throws ConvergenceException, FunctionEvaluationException,
 			IllegalArgumentException;
@@ -181,9 +181,9 @@ public interface UnivariateRealSolver extends ConvergingAlgorithm {
 	 *             if min > max or the arguments do not satisfy the requirements
 	 *             specified by the solver
 	 * @since 2.0
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	double solve(UnivariateRealFunction f, double min, double max,
 			double startValue) throws ConvergenceException,
 			FunctionEvaluationException, IllegalArgumentException;

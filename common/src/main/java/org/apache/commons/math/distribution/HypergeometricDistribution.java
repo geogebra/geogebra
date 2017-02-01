@@ -59,9 +59,9 @@ public interface HypergeometricDistribution extends IntegerDistribution {
 	 * 
 	 * @param num
 	 *            the new number of successes.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setNumberOfSuccesses(int num);
 
 	/**
@@ -69,9 +69,9 @@ public interface HypergeometricDistribution extends IntegerDistribution {
 	 * 
 	 * @param size
 	 *            the new population size.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setPopulationSize(int size);
 
 	/**
@@ -79,8 +79,8 @@ public interface HypergeometricDistribution extends IntegerDistribution {
 	 * 
 	 * @param size
 	 *            the new sample size.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setSampleSize(int size);
 }

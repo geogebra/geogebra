@@ -39,10 +39,10 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	/**
 	 * Cached LU solver.
 	 * 
-	 * @deprecated as of release 2.0, since all methods using this are
+	 * deprecated as of release 2.0, since all methods using this are
 	 *             deprecated
 	 */
-	@Deprecated
+	
 	private DecompositionSolver lu;
 
 	/**
@@ -681,7 +681,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public RealMatrix inverse() throws InvalidMatrixException {
 		if (lu == null) {
 			lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
@@ -691,7 +691,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double getDeterminant() throws InvalidMatrixException {
 		return new LUDecompositionImpl(this, MathUtils.SAFE_MIN)
 				.getDeterminant();
@@ -705,7 +705,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public boolean isSingular() {
 		if (lu == null) {
 			lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();
@@ -1023,7 +1023,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double[] solve(final double[] b)
 			throws IllegalArgumentException, InvalidMatrixException {
 		if (lu == null) {
@@ -1034,7 +1034,7 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public RealMatrix solve(final RealMatrix b)
 			throws IllegalArgumentException, InvalidMatrixException {
 		if (lu == null) {
@@ -1064,9 +1064,9 @@ public abstract class AbstractRealMatrix implements RealMatrix {
 	 *
 	 * @throws InvalidMatrixException
 	 *             if the matrix is non-square or singular.
-	 * @deprecated as of release 2.0, replaced by {@link LUDecomposition}
+	 * deprecated as of release 2.0, replaced by {@link LUDecomposition}
 	 */
-	@Deprecated
+	
 	public void luDecompose() throws InvalidMatrixException {
 		if (lu == null) {
 			lu = new LUDecompositionImpl(this, MathUtils.SAFE_MIN).getSolver();

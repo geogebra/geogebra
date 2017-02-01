@@ -37,9 +37,9 @@ public interface ChiSquaredDistribution
 	 * 
 	 * @param degreesOfFreedom
 	 *            the new degrees of freedom.
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setDegreesOfFreedom(double degreesOfFreedom);
 
 	/**

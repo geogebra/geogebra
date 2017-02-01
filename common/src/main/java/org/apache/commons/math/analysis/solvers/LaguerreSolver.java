@@ -45,9 +45,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	/**
 	 * polynomial function to solve.
 	 * 
-	 * @deprecated as of 2.0 the function is not stored anymore in the instance
+	 * deprecated as of 2.0 the function is not stored anymore in the instance
 	 */
-	@Deprecated
+	
 	private final PolynomialFunction p;
 
 	/**
@@ -57,12 +57,12 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *            function to solve
 	 * @throws IllegalArgumentException
 	 *             if function is not polynomial
-	 * @deprecated as of 2.0 the function to solve is passed as an argument to
+	 * deprecated as of 2.0 the function to solve is passed as an argument to
 	 *             the {@link #solve(UnivariateRealFunction, double, double)} or
 	 *             {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	public LaguerreSolver(UnivariateRealFunction f)
 			throws IllegalArgumentException {
 		super(f, 100, 1E-6);
@@ -77,9 +77,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	/**
 	 * Construct a solver.
 	 * 
-	 * @deprecated in 2.2 (to be removed in 3.0)
+	 * deprecated in 2.2 (to be removed in 3.0)
 	 */
-	@Deprecated
+	
 	public LaguerreSolver() {
 		super(100, 1E-6);
 		p = null;
@@ -89,17 +89,17 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 * Returns a copy of the polynomial function.
 	 *
 	 * @return a fresh copy of the polynomial function
-	 * @deprecated as of 2.0 the function is not stored anymore within the
+	 * deprecated as of 2.0 the function is not stored anymore within the
 	 *             instance.
 	 */
-	@Deprecated
+	
 	public PolynomialFunction getPolynomialFunction() {
 		return new PolynomialFunction(p.getCoefficients());
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double solve(final double min, final double max)
 			throws ConvergenceException, FunctionEvaluationException {
 		return solve(p, min, max);
@@ -107,7 +107,7 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double solve(final double min, final double max,
 			final double initial)
 			throws ConvergenceException, FunctionEvaluationException {
@@ -169,10 +169,10 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if an error occurs evaluating the function
 	 * @throws IllegalArgumentException
 	 *             if any parameters are invalid
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
 	@Override
-	@Deprecated
+	
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max, final double initial)
 			throws ConvergenceException, FunctionEvaluationException {
@@ -256,10 +256,10 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if an error occurs evaluating the function
 	 * @throws IllegalArgumentException
 	 *             if any parameters are invalid
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
 	@Override
-	@Deprecated
+	
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max)
 			throws ConvergenceException, FunctionEvaluationException {
@@ -340,9 +340,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if an error occurs evaluating the function
 	 * @throws IllegalArgumentException
 	 *             if any parameters are invalid
-	 * @deprecated in 2.2.
+	 * deprecated in 2.2.
 	 */
-	@Deprecated
+	
 	public Complex[] solveAll(double coefficients[], double initial)
 			throws ConvergenceException, FunctionEvaluationException {
 
@@ -370,9 +370,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if an error occurs evaluating the function
 	 * @throws IllegalArgumentException
 	 *             if any parameters are invalid
-	 * @deprecated in 2.2.
+	 * deprecated in 2.2.
 	 */
-	@Deprecated
+	
 	public Complex[] solveAll(Complex coefficients[], Complex initial)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
 
@@ -426,9 +426,9 @@ public class LaguerreSolver extends UnivariateRealSolverImpl {
 	 *             if an error occurs evaluating the function
 	 * @throws IllegalArgumentException
 	 *             if any parameters are invalid
-	 * @deprecated in 2.2.
+	 * deprecated in 2.2.
 	 */
-	@Deprecated
+	
 	public Complex solve(Complex coefficients[], Complex initial)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
 

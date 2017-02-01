@@ -175,10 +175,10 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @param median
 	 *            for this distribution
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setMedian(double median) {
 		setMedianInternal(median);
 	}
@@ -200,10 +200,10 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
 	 *            scale parameter for this distribution
 	 * @throws IllegalArgumentException
 	 *             if <code>sd</code> is not positive.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setScale(double s) {
 		setScaleInternal(s);
 	}

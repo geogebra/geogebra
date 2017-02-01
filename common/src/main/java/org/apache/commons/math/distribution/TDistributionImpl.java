@@ -85,10 +85,10 @@ public class TDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @param degreesOfFreedom
 	 *            the new degrees of freedom.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setDegreesOfFreedom(double degreesOfFreedom) {
 		setDegreesOfFreedomInternal(degreesOfFreedom);
 	}

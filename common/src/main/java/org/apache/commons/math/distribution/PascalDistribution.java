@@ -60,9 +60,9 @@ public interface PascalDistribution extends IntegerDistribution {
 	 *
 	 * @param successes
 	 *            the new number of successes
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setNumberOfSuccesses(int successes);
 
 	/**
@@ -70,8 +70,8 @@ public interface PascalDistribution extends IntegerDistribution {
 	 *
 	 * @param p
 	 *            the new probability of success
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setProbabilityOfSuccess(double p);
 }

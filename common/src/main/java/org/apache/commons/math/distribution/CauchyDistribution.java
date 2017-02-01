@@ -53,9 +53,9 @@ public interface CauchyDistribution extends ContinuousDistribution {
 	 * 
 	 * @param median
 	 *            for this distribution
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setMedian(double median);
 
 	/**
@@ -63,8 +63,8 @@ public interface CauchyDistribution extends ContinuousDistribution {
 	 * 
 	 * @param s
 	 *            scale parameter for this distribution
-	 * @deprecated as of v2.1
+	 * deprecated as of v2.1
 	 */
-	@Deprecated
+	
 	void setScale(double s);
 }

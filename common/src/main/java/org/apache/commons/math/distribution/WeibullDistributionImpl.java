@@ -200,10 +200,10 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @param alpha
 	 *            the new shape parameter value.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setShape(double alpha) {
 		setShapeInternal(alpha);
 		invalidateParameterDependentMoments();
@@ -228,10 +228,10 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @param beta
 	 *            the new scale parameter value.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setScale(double beta) {
 		setScaleInternal(beta);
 		invalidateParameterDependentMoments();

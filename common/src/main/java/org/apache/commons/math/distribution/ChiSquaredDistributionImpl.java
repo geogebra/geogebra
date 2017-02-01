@@ -64,10 +64,10 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 *            the underlying gamma distribution used to compute
 	 *            probabilities.
 	 * @since 1.2
-	 * @deprecated as of 2.1 (to avoid possibly inconsistent state, the
+	 * deprecated as of 2.1 (to avoid possibly inconsistent state, the
 	 *             "GammaDistribution" will be instantiated internally)
 	 */
-	@Deprecated
+	
 	public ChiSquaredDistributionImpl(double df, GammaDistribution g) {
 		super();
 		setGammaInternal(g);
@@ -99,10 +99,10 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 * 
 	 * @param degreesOfFreedom
 	 *            the new degrees of freedom.
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setDegreesOfFreedom(double degreesOfFreedom) {
 		setDegreesOfFreedomInternal(degreesOfFreedom);
 	}
@@ -133,10 +133,10 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 * @param x
 	 *            The point at which the density should be computed.
 	 * @return The pdf at point x.
-	 * @deprecated
+	 * deprecated
 	 */
 	@Override
-	@Deprecated
+	
 	public double density(Double x) {
 		return density(x.doubleValue());
 	}
@@ -274,9 +274,9 @@ public class ChiSquaredDistributionImpl extends AbstractContinuousDistribution
 	 * @param g
 	 *            the new distribution.
 	 * @since 1.2 made public
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
-	@Deprecated
+	
 	public void setGamma(GammaDistribution g) {
 		setGammaInternal(g);
 	}

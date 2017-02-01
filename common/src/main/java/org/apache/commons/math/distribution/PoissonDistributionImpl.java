@@ -147,10 +147,10 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 * @throws IllegalArgumentException
 	 *             if p &le; 0
 	 * @since 1.2
-	 * @deprecated as of 2.1 (to avoid possibly inconsistent state, the
+	 * deprecated as of 2.1 (to avoid possibly inconsistent state, the
 	 *             "NormalDistribution" will be instantiated internally)
 	 */
-	@Deprecated
+	
 	public PoissonDistributionImpl(double p, NormalDistribution z) {
 		super();
 		setNormalAndMeanInternal(z, p);
@@ -174,10 +174,10 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 *            the Poisson mean value
 	 * @throws IllegalArgumentException
 	 *             if p &le; 0
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
 	@Override
-	@Deprecated
+	
 	public void setMean(double p) {
 		setNormalAndMeanInternal(normal, p);
 	}
@@ -309,9 +309,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
 	 * @param value
 	 *            the new distribution
 	 * @since 1.2
-	 * @deprecated as of 2.1 (class will become immutable in 3.0)
+	 * deprecated as of 2.1 (class will become immutable in 3.0)
 	 */
-	@Deprecated
+	
 	public void setNormal(NormalDistribution value) {
 		setNormalAndMeanInternal(value, mean);
 	}

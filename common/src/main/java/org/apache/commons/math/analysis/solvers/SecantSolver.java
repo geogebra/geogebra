@@ -50,12 +50,12 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	 * 
 	 * @param f
 	 *            function to solve.
-	 * @deprecated as of 2.0 the function to solve is passed as an argument to
+	 * deprecated as of 2.0 the function to solve is passed as an argument to
 	 *             the {@link #solve(UnivariateRealFunction, double, double)} or
 	 *             {@link UnivariateRealSolverImpl#solve(UnivariateRealFunction, double, double, double)}
 	 *             method.
 	 */
-	@Deprecated
+	
 	public SecantSolver(UnivariateRealFunction f) {
 		super(f, 100, 1E-6);
 	}
@@ -63,16 +63,16 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	/**
 	 * Construct a solver.
 	 * 
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
-	@Deprecated
+	
 	public SecantSolver() {
 		super(100, 1E-6);
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double solve(final double min, final double max)
 			throws ConvergenceException, FunctionEvaluationException {
 		return solve(f, min, max);
@@ -80,7 +80,7 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 
 	/** {@inheritDoc} */
 	@Override
-	@Deprecated
+	
 	public double solve(final double min, final double max,
 			final double initial)
 			throws ConvergenceException, FunctionEvaluationException {
@@ -136,10 +136,10 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	 * @throws IllegalArgumentException
 	 *             if min is not less than max or the signs of the values of the
 	 *             function at the endpoints are not opposites
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
 	@Override
-	@Deprecated
+	
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max, final double initial)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
@@ -191,10 +191,10 @@ public class SecantSolver extends UnivariateRealSolverImpl {
 	 * @throws IllegalArgumentException
 	 *             if min is not less than max or the signs of the values of the
 	 *             function at the endpoints are not opposites
-	 * @deprecated in 2.2 (to be removed in 3.0).
+	 * deprecated in 2.2 (to be removed in 3.0).
 	 */
 	@Override
-	@Deprecated
+	
 	public double solve(final UnivariateRealFunction f, final double min,
 			final double max)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
