@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
@@ -199,11 +200,11 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		btnNormalOverlay.removeActionListener(this);
 
 		btnLineGraph.setSelected(getProbCalc()
-				.getGraphType() == ProbabilityCalculatorViewD.GRAPH_LINE);
+				.getGraphType() == ProbabilityCalculatorView.GRAPH_LINE);
 		btnStepGraph.setSelected(getProbCalc()
-				.getGraphType() == ProbabilityCalculatorViewD.GRAPH_STEP);
+				.getGraphType() == ProbabilityCalculatorView.GRAPH_STEP);
 		btnBarGraph.setSelected(getProbCalc()
-				.getGraphType() == ProbabilityCalculatorViewD.GRAPH_BAR);
+				.getGraphType() == ProbabilityCalculatorView.GRAPH_BAR);
 
 		btnNormalOverlay.setSelected(getProbCalc().isShowNormalOverlay());
 		btnNormalOverlay.setVisible(getProbCalc().isOverlayDefined());
@@ -367,19 +368,21 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 		else if (e.getSource() == btnLineGraph) {
 			if (btnLineGraph.isSelected()) {
-				getProbCalc().setGraphType(ProbabilityCalculatorViewD.GRAPH_LINE);
+				getProbCalc()
+						.setGraphType(ProbabilityCalculatorView.GRAPH_LINE);
 			}
 		}
 
 		else if (e.getSource() == btnBarGraph) {
 			if (btnBarGraph.isSelected()) {
-				getProbCalc().setGraphType(ProbabilityCalculatorViewD.GRAPH_BAR);
+				getProbCalc().setGraphType(ProbabilityCalculatorView.GRAPH_BAR);
 			}
 		}
 
 		else if (e.getSource() == btnStepGraph) {
 			if (btnStepGraph.isSelected()) {
-				getProbCalc().setGraphType(ProbabilityCalculatorViewD.GRAPH_STEP);
+				getProbCalc()
+						.setGraphType(ProbabilityCalculatorView.GRAPH_STEP);
 			}
 		}
 

@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -407,7 +406,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		if (continuous) {
 			// continous constructions may need several parameter run throughs
 			// to draw all parts of the locus
-			max_runs = GeoLocus.MAX_PATH_RUNS;
+			max_runs = GeoLocusND.MAX_PATH_RUNS;
 		} else {
 			max_runs = 1;
 		}

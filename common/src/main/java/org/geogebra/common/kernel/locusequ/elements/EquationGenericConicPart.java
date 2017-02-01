@@ -8,6 +8,7 @@ import static org.geogebra.common.kernel.locusequ.arith.EquationArithHelper.time
 
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.locusequ.EquationList;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.kernel.locusequ.arith.EquationExpression;
@@ -40,7 +41,7 @@ public abstract class EquationGenericConicPart extends EquationGenericConic {
 	 */
 	public boolean isArc() {
 		return ((GeoConicPart) this.getResult())
-				.getConicPartType() == GeoConicPart.CONIC_PART_ARC;
+				.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC;
 	}
 
 	/**
@@ -48,7 +49,7 @@ public abstract class EquationGenericConicPart extends EquationGenericConic {
 	 */
 	public boolean isSector() {
 		return ((GeoConicPart) this.getResult())
-				.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR;
+				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
 	}
 
 	/**

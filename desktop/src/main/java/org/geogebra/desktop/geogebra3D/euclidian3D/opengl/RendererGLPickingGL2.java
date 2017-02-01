@@ -3,6 +3,8 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
+import javax.media.opengl.GL2;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -13,7 +15,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 public class RendererGLPickingGL2 extends RendererGL2 {
 
@@ -148,7 +149,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 	private void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop,
 			int labelLoop) {
 
-		int hits = jogl.getGL2().glRenderMode(GLlocal.GL_RENDER); // Switch To
+		int hits = jogl.getGL2().glRenderMode(GL2.GL_RENDER); // Switch To
 																	// Render
 																	// Mode,
 																	// Find Out

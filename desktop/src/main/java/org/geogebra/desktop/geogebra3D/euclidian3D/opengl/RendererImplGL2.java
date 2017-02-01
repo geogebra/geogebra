@@ -4,6 +4,11 @@ import java.awt.Component;
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2ES1;
+import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2GL3;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
+import javax.media.opengl.fixedfunc.GLMatrixFunc;
 import javax.media.opengl.glu.GLU;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -19,7 +24,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**
  * Renderer implementation using GL2 (no shaders)
@@ -128,9 +132,11 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setLightPosition(float[] values) {
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, values,
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
+				GLLightingFunc.GL_POSITION, values,
 				0);
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, values,
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
+				GLLightingFunc.GL_POSITION, values,
 				0);
 	}
 
@@ -138,14 +144,18 @@ public class RendererImplGL2 extends RendererImpl
 	public void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
 			float ambiant1, float diffuse1) {
 
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT,
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
+				GLLightingFunc.GL_AMBIENT,
 				new float[] { ambiant0, ambiant0, ambiant0, 1.0f }, 0);
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE,
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
+				GLLightingFunc.GL_DIFFUSE,
 				new float[] { diffuse0, diffuse0, diffuse0, 1.0f }, 0);
 
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT,
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
+				GLLightingFunc.GL_AMBIENT,
 				new float[] { ambiant1, ambiant1, ambiant1, 1.0f }, 0);
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE,
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
+				GLLightingFunc.GL_DIFFUSE,
 				new float[] { diffuse1, diffuse1, diffuse1, 1.0f }, 0);
 	}
 
@@ -160,33 +170,31 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void setLight(int light) {
 		if (light == 0) {
-			getGL().glDisable(GLlocal.GL_LIGHT1);
-			getGL().glEnable(GLlocal.GL_LIGHT0);
+			getGL().glDisable(GLLightingFunc.GL_LIGHT1);
+			getGL().glEnable(GLLightingFunc.GL_LIGHT0);
 		} else {
-			getGL().glDisable(GLlocal.GL_LIGHT0);
-			getGL().glEnable(GLlocal.GL_LIGHT1);
+			getGL().glDisable(GLLightingFunc.GL_LIGHT0);
+			getGL().glEnable(GLLightingFunc.GL_LIGHT1);
 		}
 	}
 
 	@Override
 	public void setColorMaterial() {
-		jogl.getGL2().glColorMaterial(GLlocal.GL_FRONT_AND_BACK,
-				GLlocal.GL_AMBIENT_AND_DIFFUSE);
-		getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
+		jogl.getGL2().glColorMaterial(GL.GL_FRONT_AND_BACK,
+				GLLightingFunc.GL_AMBIENT_AND_DIFFUSE);
+		getGL().glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 	}
 
 	@Override
 	public void setLightModel() {
-		jogl.getGL2().glShadeModel(GLlocal.GL_SMOOTH);
-		jogl.getGL2().glLightModeli(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,
-				GLlocal.GL_TRUE);
-		jogl.getGL2().glLightModelf(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,
-				GLlocal.GL_TRUE);
+		jogl.getGL2().glShadeModel(GLLightingFunc.GL_SMOOTH);
+		jogl.getGL2().glLightModeli(GL2ES1.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
+		jogl.getGL2().glLightModelf(GL2ES1.GL_LIGHT_MODEL_TWO_SIDE, GL.GL_TRUE);
 	}
 
 	@Override
 	public void setAlphaFunc() {
-		jogl.getGL2().glAlphaFunc(GLlocal.GL_NOTEQUAL, 0);// pixels with alpha=0
+		jogl.getGL2().glAlphaFunc(GL.GL_NOTEQUAL, 0);// pixels with alpha=0
 															// are not drawn
 		// jogl.getGL2().glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with
 		// alpha=0 are not drawn
@@ -197,12 +205,12 @@ public class RendererImplGL2 extends RendererImpl
 		jogl.getGL2().glViewport(0, 0, renderer.getWidth(),
 				renderer.getHeight());
 
-		jogl.getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
+		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_PROJECTION);
 		jogl.getGL2().glLoadIdentity();
 
 		renderer.setProjectionMatrix();
 
-		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
+		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 	}
 
 	@Override
@@ -220,21 +228,21 @@ public class RendererImplGL2 extends RendererImpl
 		// projection for real 2D
 		jogl.getGL2().glViewport(0, 0, w, h);
 
-		jogl.getGL2().glMatrixMode(GLlocal.GL_PROJECTION);
+		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_PROJECTION);
 		jogl.getGL2().glLoadIdentity();
 		getGLU().gluOrtho2D(0, w, h, 0);
 
-		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
+		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 		jogl.getGL2().glLoadIdentity();
 
-		jogl.getGL2().glEnable(GLlocal.GL_STENCIL_TEST);
+		jogl.getGL2().glEnable(GL.GL_STENCIL_TEST);
 
 		// draw stencil pattern
 		jogl.getGL2().glStencilMask(0xFF);
-		jogl.getGL2().glClear(GLlocal.GL_STENCIL_BUFFER_BIT); // needs mask=0xFF
+		jogl.getGL2().glClear(GL.GL_STENCIL_BUFFER_BIT); // needs mask=0xFF
 
 		// no multisample here to prevent ghosts
-		jogl.getGL2().glDisable(GLlocal.GL_MULTISAMPLE);
+		jogl.getGL2().glDisable(GL.GL_MULTISAMPLE);
 
 		// data for stencil : one line = 0, one line = 1, etc.
 
@@ -274,15 +282,15 @@ public class RendererImplGL2 extends RendererImpl
 
 		for (int y = 0; y < h / 2; y++) {
 			jogl.getGL2().glRasterPos2i(0, 2 * y + y0);
-			jogl.getGL2().glDrawPixels(w, 1, GLlocal.GL_STENCIL_INDEX,
-					GLlocal.GL_UNSIGNED_BYTE, data);
+			jogl.getGL2().glDrawPixels(w, 1, GL2ES2.GL_STENCIL_INDEX,
+					GL.GL_UNSIGNED_BYTE, data);
 		}
 
 		// current mask for stencil test
 		jogl.getGL2().glStencilMask(0x00);
 
 		// back to multisample
-		jogl.getGL2().glEnable(GLlocal.GL_MULTISAMPLE);
+		jogl.getGL2().glEnable(GL.GL_MULTISAMPLE);
 
 		renderer.waitForSetStencilLines = false;
 
@@ -368,13 +376,13 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	final public void enableTextures() {
-		getGL().glEnable(GLlocal.GL_TEXTURE_2D);
+		getGL().glEnable(GL.GL_TEXTURE_2D);
 	}
 
 	@Override
 	final public void disableTextures() {
 		// bindTexture(-1);
-		getGL().glDisable(GLlocal.GL_TEXTURE_2D);
+		getGL().glDisable(GL.GL_TEXTURE_2D);
 
 	}
 
@@ -411,7 +419,7 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void drawSurfacesOutline() {
 
-		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
+		jogl.getGL2().glPolygonMode(GL.GL_BACK, GL2GL3.GL_LINE);
 		renderer.setLineWidth(5f);
 
 		renderer.setCullFaceFront();
@@ -431,14 +439,13 @@ public class RendererImplGL2 extends RendererImpl
 		enableLighting();
 		renderer.setCullFaceBack();
 
-		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_FILL);
+		jogl.getGL2().glPolygonMode(GL.GL_BACK, GL2GL3.GL_FILL);
 
 	}
 
-	private static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
-			GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2,
-			GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4,
-			GLlocal.GL_CLIP_PLANE5 };
+	private static final int[] GL_CLIP_PLANE = { GL2ES1.GL_CLIP_PLANE0,
+			GL2ES1.GL_CLIP_PLANE1, GL2ES1.GL_CLIP_PLANE2, GL2ES1.GL_CLIP_PLANE3,
+			GL2ES1.GL_CLIP_PLANE4, GL2ES1.GL_CLIP_PLANE5 };
 
 	@Override
 	public void enableClipPlanes() {
@@ -470,23 +477,23 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void enableLighting() {
 		if (view3D.getUseLight()) {
-			getGL().glEnable(GLlocal.GL_LIGHTING);
+			getGL().glEnable(GLLightingFunc.GL_LIGHTING);
 		}
 	}
 
 	@Override
 	public void disableLighting() {
 		if (view3D.getUseLight()) {
-			getGL().glDisable(GLlocal.GL_LIGHTING);
+			getGL().glDisable(GLLightingFunc.GL_LIGHTING);
 		}
 	}
 
 	@Override
 	public void initLighting() {
 		if (view3D.getUseLight()) {
-			getGL().glEnable(GLlocal.GL_LIGHTING);
+			getGL().glEnable(GLLightingFunc.GL_LIGHTING);
 		} else {
-			getGL().glDisable(GLlocal.GL_LIGHTING);
+			getGL().glDisable(GLLightingFunc.GL_LIGHTING);
 		}
 	}
 
@@ -584,12 +591,12 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setCullFaceFront() {
-		getGL().glCullFace(GLlocal.GL_FRONT);
+		getGL().glCullFace(GL.GL_FRONT);
 	}
 
 	@Override
 	public void setCullFaceBack() {
-		getGL().glCullFace(GLlocal.GL_BACK);
+		getGL().glCullFace(GL.GL_BACK);
 	}
 
 	@Override
@@ -753,21 +760,21 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setBufferLeft() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_LEFT);
 		// zspace seems to be swapped
 		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
 	}
 
 	@Override
 	public void setBufferRight() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_RIGHT);
 		// zspace seems to be swapped
 		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
 	}
 
 	@Override
 	public void setStencilFunc(int value) {
-		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
+		getGL().glStencilFunc(GL.GL_EQUAL, value, 0xFF);
 	}
 
 	@Override
@@ -817,32 +824,32 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void enableAlphaTest() {
-		glEnable(GLlocal.GL_ALPHA_TEST);
+		glEnable(GL2ES1.GL_ALPHA_TEST);
 	}
 
 	@Override
 	public void disableAlphaTest() {
-		glDisable(GLlocal.GL_ALPHA_TEST);
+		glDisable(GL2ES1.GL_ALPHA_TEST);
 	}
 
 	@Override
 	public final void enableMultisample() {
-		glEnable(GLlocal.GL_MULTISAMPLE);
+		glEnable(GL.GL_MULTISAMPLE);
 	}
 
 	@Override
 	public final void disableMultisample() {
-		glDisable(GLlocal.GL_MULTISAMPLE);
+		glDisable(GL.GL_MULTISAMPLE);
 	}
 
 	@Override
 	public int getGL_BLEND() {
-		return GLlocal.GL_BLEND;
+		return GL.GL_BLEND;
 	}
 
 	@Override
 	public int getGL_CULL_FACE() {
-		return GLlocal.GL_CULL_FACE;
+		return GL.GL_CULL_FACE;
 	}
 
 	@Override
@@ -852,27 +859,27 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public int getGL_COLOR_BUFFER_BIT() {
-		return GLlocal.GL_COLOR_BUFFER_BIT;
+		return GL.GL_COLOR_BUFFER_BIT;
 	}
 
 	@Override
 	public int getGL_DEPTH_BUFFER_BIT() {
-		return GLlocal.GL_DEPTH_BUFFER_BIT;
+		return GL.GL_DEPTH_BUFFER_BIT;
 	}
 
 	@Override
 	public int getGL_DEPTH_TEST() {
-		return GLlocal.GL_DEPTH_TEST;
+		return GL.GL_DEPTH_TEST;
 	}
 
 	@Override
 	protected void bindFramebuffer(Object id) {
-		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, (Integer) id);
+		getGL().glBindFramebuffer(GL.GL_FRAMEBUFFER, (Integer) id);
 	}
 
 	@Override
 	protected void bindRenderbuffer(Object id) {
-		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, (Integer) id);
+		getGL().glBindRenderbuffer(GL.GL_RENDERBUFFER, (Integer) id);
 	}
 
 	@Override
@@ -887,22 +894,22 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	protected void textureParametersNearest() {
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
+				GL.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
+				GL.GL_NEAREST);
 	}
 
 	@Override
 	protected void textureImage2DForBuffer(int width, int height) {
-		getGL().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA, width,
-				height, 0, GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, null);
+		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0,
+				GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, null);
 	}
 
 	@Override
 	protected void renderbufferStorage(int width, int height) {
-		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
-				GLlocal.GL_DEPTH_COMPONENT, width, height);
+		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER,
+				GL2ES2.GL_DEPTH_COMPONENT, width, height);
 	}
 
 	private int[] tmp = new int[1];
@@ -921,18 +928,18 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	protected void framebuffer(Object colorId, Object depthId) {
-		getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
-				GLlocal.GL_COLOR_ATTACHMENT0, GLlocal.GL_TEXTURE_2D,
+		getGL().glFramebufferTexture2D(GL.GL_FRAMEBUFFER,
+				GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D,
 				(Integer) colorId, 0);
-		getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
-				GLlocal.GL_DEPTH_ATTACHMENT, GLlocal.GL_RENDERBUFFER,
+		getGL().glFramebufferRenderbuffer(GL.GL_FRAMEBUFFER,
+				GL.GL_DEPTH_ATTACHMENT, GL.GL_RENDERBUFFER,
 				(Integer) depthId);
 	}
 
 	@Override
 	protected boolean checkFramebufferStatus() {
 		return getGL().glCheckFramebufferStatus(
-				GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
+				GL.GL_FRAMEBUFFER) == GL.GL_FRAMEBUFFER_COMPLETE;
 	}
 
 }

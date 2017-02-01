@@ -139,18 +139,18 @@ public class UploadRequest implements Request {
 			JSONObject request = new JSONObject();
 
 			JSONObject api = new JSONObject();
-			api.put("-api", this.API);
+			api.put("-api", UploadRequest.API);
 
 			// login
 			JSONObject login = new JSONObject();
-			login.put("-type", this.GGB);
+			login.put("-type", UploadRequest.GGB);
 			login.put("-token",
 					client.getModel().getLoggedInUser().getLoginToken());
 			api.put("login", login);
 
 			// task
 			JSONObject task = new JSONObject();
-			task.put("-type", this.TASK);
+			task.put("-type", UploadRequest.TASK);
 
 			if (this.uniqueID != 0) {
 				// ID

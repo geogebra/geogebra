@@ -21,6 +21,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
+import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -590,7 +591,7 @@ public class GGraphics2DW implements GGraphics2D {
 		if (shape instanceof GeneralPath) {
 			GeneralPath gp = (GeneralPath) shape;
 			int rule = gp.getWindingRule();
-			if (rule == GeneralPath.WIND_EVEN_ODD) {
+			if (rule == Path2D.WIND_EVEN_ODD) {
 				context.fill("evenodd");
 			} else {
 				// context.fill("") differs between browsers

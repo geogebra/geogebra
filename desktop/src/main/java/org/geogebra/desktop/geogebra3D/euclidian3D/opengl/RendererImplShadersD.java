@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ShortBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2GL3;
 import javax.media.opengl.fixedfunc.GLLightingFunc;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -20,7 +22,6 @@ import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -381,31 +382,31 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	final protected int getGL_FRONT() {
-		return GLlocal.GL_FRONT;
+		return GL.GL_FRONT;
 	}
 
 	@Override
 	final protected int getGL_BACK() {
-		return GLlocal.GL_BACK;
+		return GL.GL_BACK;
 	}
 
 	@Override
 	public void setBufferLeft() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_LEFT);
 		// zspace seems to be swapped
 		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
 	}
 
 	@Override
 	public void setBufferRight() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_RIGHT);
 		// zspace seems to be swapped
 		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
 	}
 
 	@Override
 	public void setStencilFunc(int value) {
-		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
+		getGL().glStencilFunc(GL.GL_EQUAL, value, 0xFF);
 	}
 
 	@Override
@@ -450,22 +451,22 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	public final void enableMultisample() {
-		glEnable(GLlocal.GL_MULTISAMPLE);
+		glEnable(GL.GL_MULTISAMPLE);
 	}
 
 	@Override
 	public final void disableMultisample() {
-		glDisable(GLlocal.GL_MULTISAMPLE);
+		glDisable(GL.GL_MULTISAMPLE);
 	}
 
 	@Override
 	public int getGL_BLEND() {
-		return GLlocal.GL_BLEND;
+		return GL.GL_BLEND;
 	}
 
 	@Override
 	public int getGL_CULL_FACE() {
-		return GLlocal.GL_CULL_FACE;
+		return GL.GL_CULL_FACE;
 	}
 
 	@Override
@@ -475,27 +476,27 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	public int getGL_COLOR_BUFFER_BIT() {
-		return GLlocal.GL_COLOR_BUFFER_BIT;
+		return GL.GL_COLOR_BUFFER_BIT;
 	}
 
 	@Override
 	public int getGL_DEPTH_BUFFER_BIT() {
-		return GLlocal.GL_DEPTH_BUFFER_BIT;
+		return GL.GL_DEPTH_BUFFER_BIT;
 	}
 
 	@Override
 	public int getGL_DEPTH_TEST() {
-		return GLlocal.GL_DEPTH_TEST;
+		return GL.GL_DEPTH_TEST;
 	}
 
 	@Override
 	protected void bindFramebuffer(Object id) {
-		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, (Integer) id);
+		getGL().glBindFramebuffer(GL.GL_FRAMEBUFFER, (Integer) id);
 	}
 
 	@Override
 	protected void bindRenderbuffer(Object id) {
-		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, (Integer) id);
+		getGL().glBindRenderbuffer(GL.GL_RENDERBUFFER, (Integer) id);
 	}
 
 	@Override
@@ -510,22 +511,22 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	protected void textureParametersNearest() {
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
+				GL.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
+				GL.GL_NEAREST);
 	}
 
 	@Override
 	protected void textureImage2DForBuffer(int width, int height) {
-		getGL().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA, width,
-				height, 0, GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, null);
+		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0,
+				GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, null);
 	}
 
 	@Override
 	protected void renderbufferStorage(int width, int height) {
-		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
-				GLlocal.GL_DEPTH_COMPONENT, width, height);
+		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER,
+				GL2ES2.GL_DEPTH_COMPONENT, width, height);
 	}
 
 	private int[] tmp = new int[1];
@@ -544,18 +545,18 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	protected void framebuffer(Object colorId, Object depthId) {
-		getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
-				GLlocal.GL_COLOR_ATTACHMENT0, GLlocal.GL_TEXTURE_2D,
+		getGL().glFramebufferTexture2D(GL.GL_FRAMEBUFFER,
+				GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D,
 				(Integer) colorId, 0);
-		getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
-				GLlocal.GL_DEPTH_ATTACHMENT, GLlocal.GL_RENDERBUFFER,
+		getGL().glFramebufferRenderbuffer(GL.GL_FRAMEBUFFER,
+				GL.GL_DEPTH_ATTACHMENT, GL.GL_RENDERBUFFER,
 				(Integer) depthId);
 	}
 
 	@Override
 	protected boolean checkFramebufferStatus() {
 		return getGL().glCheckFramebufferStatus(
-				GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
+				GL.GL_FRAMEBUFFER) == GL.GL_FRAMEBUFFER_COMPLETE;
 	}
 
 }

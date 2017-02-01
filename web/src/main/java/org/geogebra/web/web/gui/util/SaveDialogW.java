@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -725,7 +726,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null && !"".equals(consTitle)
 				&& !isMacro()) {
-			if (consTitle.startsWith(FileManager.FILE_PREFIX)) {
+			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
 			this.title.setText(consTitle);

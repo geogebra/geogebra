@@ -234,9 +234,9 @@ public final class JavascriptLexer extends Lexer
 
 			return tok;
 		} catch (BadLocationException e) {
-			return JavascriptLexerConstants.DEFAULT;
+			return LexerConstants.DEFAULT;
 		} catch (IOException e) {
-			return JavascriptLexerConstants.DEFAULT;
+			return LexerConstants.DEFAULT;
 		}
 	}
 
@@ -8707,7 +8707,7 @@ public final class JavascriptLexer extends Lexer
 			case 39:
 				break;
 			case 3: {
-				return JavascriptLexerConstants.DEFAULT;
+				return LexerConstants.DEFAULT;
 			}
 			case 40:
 				break;
@@ -8780,7 +8780,7 @@ public final class JavascriptLexer extends Lexer
 			case 51:
 				break;
 			case 9: {
-				return JavascriptLexerConstants.WHITE;
+				return LexerConstants.WHITE;
 			}
 			case 52:
 				break;
@@ -8800,7 +8800,7 @@ public final class JavascriptLexer extends Lexer
 			case 55:
 				break;
 			case 8: {
-				return JavascriptLexerConstants.TAB;
+				return LexerConstants.TAB;
 			}
 			case 56:
 				break;

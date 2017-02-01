@@ -545,7 +545,7 @@ public abstract class CopyPasteCut {
 
 		// Let the trace manager know about the delete
 		// TODO add SelectAll
-		if (selectionType == MyTable.COLUMN_SELECT) {
+		if (selectionType == MyTableInterface.COLUMN_SELECT) {
 			app.getTraceManager().handleColumnDelete(column1, column2);
 		} else {
 			app.getTraceManager().handleColumnDelete(column1, row1, column2,

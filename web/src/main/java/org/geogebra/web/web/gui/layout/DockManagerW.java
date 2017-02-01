@@ -21,9 +21,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-//import org.geogebra.web.html5.openjdk.awt.geom.Rectangle;
-import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -401,10 +400,10 @@ public class DockManagerW extends DockManager {
 				//set dividers for application 
 				windowWidth = app.getOWidth();
 				windowHeight = app.getOHeight();
-				windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
+				windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
 				if (app.showAlgebraInput()
 				        && app.getInputPosition() != InputPosition.algebraView) {
-					windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
+					windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
 				}
 
 				rootPane.clear();

@@ -92,15 +92,15 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		height = ggb.getYmax() - ggb.getYmin();
 		listenKey = new ListenKey();
 		textXUnit = new TextValue(this, String.valueOf(ggb.getXunit()), false,
-				this.TEXT_XUNIT);
+				ExportFrame.TEXT_XUNIT);
 		textYUnit = new TextValue(this, String.valueOf(ggb.getYunit()), false,
-				this.TEXT_YUNIT);
+				ExportFrame.TEXT_YUNIT);
 		textwidth = new TextValue(this, String.valueOf(width), false,
-				this.TEXT_WIDTH);
+				ExportFrame.TEXT_WIDTH);
 		textheight = new TextValue(this, String.valueOf(height), false,
-				this.TEXT_HEIGHT);
+				ExportFrame.TEXT_HEIGHT);
 		textXmin = new TextValue(this, String.valueOf(ggb.getXmin()), true,
-				this.TEXT_XMIN);
+				ExportFrame.TEXT_XMIN);
 		textXmax = new TextValue(this, String.valueOf(ggb.getxmax()), true,
 				TEXT_XMAX);
 		textYmin = new TextValue(this, String.valueOf(ggb.getymin()), true,

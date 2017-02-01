@@ -6,8 +6,12 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2ES1;
+import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
 import javax.media.opengl.glu.GLU;
 
 import org.geogebra.common.awt.GBufferedImage;
@@ -18,7 +22,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.util.FrameCollector;
@@ -118,17 +121,17 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	protected void clearColorBuffer() {
-		getGL().glClear(GLlocal.GL_COLOR_BUFFER_BIT);
+		getGL().glClear(GL.GL_COLOR_BUFFER_BIT);
 	}
 
 	@Override
 	protected void clearDepthBuffer() {
-		getGL().glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
+		getGL().glClear(GL.GL_DEPTH_BUFFER_BIT);
 	}
 
 	@Override
 	protected void setStencilFunc(int value) {
-		getGL().glStencilFunc(GLlocal.GL_EQUAL, value, 0xFF);
+		getGL().glStencilFunc(GL.GL_EQUAL, value, 0xFF);
 	}
 
 	@Override
@@ -275,7 +278,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		setGL(drawable);
 
 		// check openGL version
-		final String version = getGL().glGetString(GLlocal.GL_VERSION);
+		final String version = getGL().glGetString(GL.GL_VERSION);
 
 		// Check For VBO support
 		final boolean VBOsupported = getGL()
@@ -294,24 +297,23 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	protected void setDepthFunc() {
-		getGL().glDepthFunc(GLlocal.GL_LEQUAL); // less or equal for
+		getGL().glDepthFunc(GL.GL_LEQUAL); // less or equal for
 												// transparency
 	}
 
 	@Override
 	protected void enablePolygonOffsetFill() {
-		getGL().glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
+		getGL().glEnable(GL.GL_POLYGON_OFFSET_FILL);
 	}
 
 	@Override
 	protected void setBlendFunc() {
-		getGL().glBlendFunc(GLlocal.GL_SRC_ALPHA,
-				GLlocal.GL_ONE_MINUS_SRC_ALPHA);
+		getGL().glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override
 	protected void enableNormalNormalized() {
-		getGL().glEnable(GLlocal.GL_NORMALIZE);
+		getGL().glEnable(GLLightingFunc.GL_NORMALIZE);
 	}
 
 	/**
@@ -517,52 +519,52 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	public void enableCulling() {
-		getGL().glEnable(GLlocal.GL_CULL_FACE);
+		getGL().glEnable(GL.GL_CULL_FACE);
 	}
 
 	@Override
 	public void disableCulling() {
-		getGL().glDisable(GLlocal.GL_CULL_FACE);
+		getGL().glDisable(GL.GL_CULL_FACE);
 	}
 
 	@Override
 	public void setCullFaceFront() {
-		getGL().glCullFace(GLlocal.GL_FRONT);
+		getGL().glCullFace(GL.GL_FRONT);
 	}
 
 	@Override
 	public void setCullFaceBack() {
-		getGL().glCullFace(GLlocal.GL_BACK);
+		getGL().glCullFace(GL.GL_BACK);
 	}
 
 	@Override
 	public void disableBlending() {
-		getGL().glDisable(GLlocal.GL_BLEND);
+		getGL().glDisable(GL.GL_BLEND);
 	}
 
 	@Override
 	public void enableBlending() {
-		getGL().glEnable(GLlocal.GL_BLEND);
+		getGL().glEnable(GL.GL_BLEND);
 	}
 
 	@Override
 	final public void enableMultisample() {
-		getGL().glEnable(GLlocal.GL_MULTISAMPLE);
+		getGL().glEnable(GL.GL_MULTISAMPLE);
 	}
 
 	@Override
 	final public void disableMultisample() {
-		getGL().glDisable(GLlocal.GL_MULTISAMPLE);
+		getGL().glDisable(GL.GL_MULTISAMPLE);
 	}
 
 	@Override
 	public void enableAlphaTest() {
-		getGL().glEnable(GLlocal.GL_ALPHA_TEST);
+		getGL().glEnable(GL2ES1.GL_ALPHA_TEST);
 	}
 
 	@Override
 	public void disableAlphaTest() {
-		getGL().glDisable(GLlocal.GL_ALPHA_TEST);
+		getGL().glDisable(GL2ES1.GL_ALPHA_TEST);
 	}
 
 	@Override
@@ -577,12 +579,12 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	public void enableDepthTest() {
-		getGL().glEnable(GLlocal.GL_DEPTH_TEST);
+		getGL().glEnable(GL.GL_DEPTH_TEST);
 	}
 
 	@Override
 	public void disableDepthTest() {
-		getGL().glDisable(GLlocal.GL_DEPTH_TEST);
+		getGL().glDisable(GL.GL_DEPTH_TEST);
 	}
 
 	@Override
@@ -617,7 +619,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	protected void disableStencilLines() {
-		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
+		getGL().glDisable(GL.GL_STENCIL_TEST);
 		waitForDisableStencilLines = false;
 	}
 
@@ -647,7 +649,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		updateFBOBuffers();
 
 		// bind the buffer
-		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
+		getGL().glBindFramebuffer(GL.GL_FRAMEBUFFER, fboID);
 
 		// store view values
 		oldRight = right;
@@ -671,7 +673,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		setView(0, 0, oldRight - oldLeft, oldTop - oldBottom);
 
 		// unbind the framebuffer ...
-		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+		getGL().glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
 	}
 
 	@Override
@@ -702,23 +704,22 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	private void updateFBOBuffers() {
 
 		// image texture
-		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
-		getGL().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA,
-				fboWidth, fboHeight, 0, GLlocal.GL_RGBA,
-				GLlocal.GL_UNSIGNED_BYTE, null);
+		getGL().glBindTexture(GL.GL_TEXTURE_2D, fboColorTextureID);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
+				GL.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
+				GL.GL_NEAREST);
+		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, fboWidth,
+				fboHeight, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, null);
 
-		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
+		getGL().glBindTexture(GL.GL_TEXTURE_2D, 0);
 
 		// depth buffer
-		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, fboDepthTextureID);
-		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
-				GLlocal.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
+		getGL().glBindRenderbuffer(GL.GL_RENDERBUFFER, fboDepthTextureID);
+		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER,
+				GL2ES2.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
 
-		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, 0);
+		getGL().glBindRenderbuffer(GL.GL_RENDERBUFFER, 0);
 
 	}
 
@@ -743,21 +744,21 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			// allocate the framebuffer object ...
 			getGL().glGenFramebuffers(1, result, 0);
 			fboID = result[0];
-			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
+			getGL().glBindFramebuffer(GL.GL_FRAMEBUFFER, fboID);
 
 			// attach the textures to the framebuffer
-			getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
-					GLlocal.GL_COLOR_ATTACHMENT0, GLlocal.GL_TEXTURE_2D,
+			getGL().glFramebufferTexture2D(GL.GL_FRAMEBUFFER,
+					GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D,
 					fboColorTextureID, 0);
-			getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
-					GLlocal.GL_DEPTH_ATTACHMENT, GLlocal.GL_RENDERBUFFER,
+			getGL().glFramebufferRenderbuffer(GL.GL_FRAMEBUFFER,
+					GL.GL_DEPTH_ATTACHMENT, GL.GL_RENDERBUFFER,
 					fboDepthTextureID);
 
-			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+			getGL().glBindFramebuffer(GL.GL_FRAMEBUFFER, 0);
 
 			// check if frame buffer is complete
 			if (getGL().glCheckFramebufferStatus(
-					GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE) {
+					GL.GL_FRAMEBUFFER) != GL.GL_FRAMEBUFFER_COMPLETE) {
 				Log.error("Frame buffer is not complete");
 				fboID = -1;
 			}
@@ -868,8 +869,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			int width = right - left;
 			int height = top - bottom;
 			FloatBuffer buffer = FloatBuffer.allocate(3 * width * height);
-			getGL().glReadPixels(0, 0, width, height, GLlocal.GL_RGB,
-					GLlocal.GL_FLOAT, buffer);
+			getGL().glReadPixels(0, 0, width, height, GL.GL_RGB, GL.GL_FLOAT,
+					buffer);
 			float[] pixels = buffer.array();
 
 			bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -908,14 +909,14 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	protected void setBufferLeft() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_LEFT);
 		// zspace seems to be swapped
 		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
 	}
 
 	@Override
 	protected void setBufferRight() {
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+		jogl.getGL2().glDrawBuffer(GL2GL3.GL_BACK_RIGHT);
 		// zspace seems to be swapped
 		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
 	}

@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -197,7 +197,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			/*Style s = grid.getCellFormatter().getElement(0, colIndex)
 			        .getStyle();*/
 
-			if (table.getSelectionType() == MyTable.ROW_SELECT) {
+			if (table.getSelectionType() == MyTableInterface.ROW_SELECT) {
 				//setBgColorIfNeeded(s, defaultBackground);
 				updateCellSelection(false, colIndex);
 			} else {
@@ -411,8 +411,9 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 				}
 
 				// otherwise handle column selection
-				if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
-					table.setSelectionType(MyTable.COLUMN_SELECT);
+				if (table
+						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
+					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
 					// ?//if (table.getTableHeader() != null) {
 					// ?// table.getTableHeader().requestFocusInWindow();
 					// ?//}
@@ -464,8 +465,9 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			        || p.getX() < table.minSelectionColumn
 			        || p.getX() > table.maxSelectionColumn) {
 				// switch to column selection mode and select column
-				if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
-					table.setSelectionType(MyTable.COLUMN_SELECT);
+				if (table
+						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
+					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
 				}
 
 				// selectNone();

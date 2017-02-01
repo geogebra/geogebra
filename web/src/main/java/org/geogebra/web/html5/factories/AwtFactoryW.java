@@ -26,12 +26,14 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
 import org.geogebra.ggbjdk.java.awt.geom.Area;
 import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
+import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Point2D;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -113,13 +115,13 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GGeneralPath newGeneralPath() {
 		// default winding rule changed for ggb50 (for Polygons) #3983
-		return new GeneralPath(GeneralPath.WIND_EVEN_ODD);
+		return new GeneralPath(Path2D.WIND_EVEN_ODD);
 	}
 
 	@Override
 	public GBasicStroke newMyBasicStroke(double f) {
-		return new GBasicStrokeW(f, GBasicStrokeW.CAP_ROUND,
-				GBasicStrokeW.JOIN_ROUND);
+		return new GBasicStrokeW(f, DefaultBasicStroke.CAP_ROUND,
+				DefaultBasicStroke.JOIN_ROUND);
 	}
 
 	@Override

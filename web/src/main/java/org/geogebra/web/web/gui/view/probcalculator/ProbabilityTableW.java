@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
@@ -136,7 +137,8 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			return;
 		}
 
-		if(getProbCalc().getProbMode() == ProbabilityCalculatorViewW.PROB_INTERVAL){	
+		if (getProbCalc()
+				.getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
 			//System.out.println(Arrays.toString(selectedRow));
 			String lowStr = table.getValueAt(selRow[0], 0);
 			String highStr = table.getValueAt(selRow[selRow.length-1], 0);
@@ -145,7 +147,8 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			//System.out.println(low + " , " + high);
 			((ProbabilityCalculatorViewW) getProbCalc()).setInterval(low,high);
 		}
-		else if(getProbCalc().getProbMode() == ProbabilityCalculatorViewW.PROB_LEFT){
+		else if (getProbCalc()
+				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = statTable.getTable().getValueAt(1, 0);
 			String highStr = statTable.getTable().getValueAt(selRow[selRow.length-1], 0);
 			int low = Integer.parseInt(lowStr);
@@ -168,7 +171,8 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			}
 			//table.getSelectionModel().addListSelectionListener(this);
 		}
-		else if(getProbCalc().getProbMode() == ProbabilityCalculatorViewW.PROB_RIGHT){
+		else if (getProbCalc()
+				.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
 			String lowStr = statTable.getTable().getValueAt(selRow[0], 0);
 			int maxRow = statTable.getTable().getRowCount()-1;
 			String highStr = statTable.getTable().getValueAt(maxRow, 0);

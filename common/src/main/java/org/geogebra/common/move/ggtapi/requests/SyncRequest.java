@@ -36,18 +36,18 @@ public class SyncRequest implements Request {
 			JSONObject request = new JSONObject();
 
 			JSONObject api = new JSONObject();
-			api.put("-api", this.API);
+			api.put("-api", SyncRequest.API);
 
 			// login
 			JSONObject login = new JSONObject();
-			login.put("-type", this.GGB);
+			login.put("-type", SyncRequest.GGB);
 			login.put("-token",
 					client.getModel().getLoggedInUser().getLoginToken());
 			api.put("login", login);
 
 			// task
 			JSONObject task = new JSONObject();
-			task.put("-type", this.TASK);
+			task.put("-type", SyncRequest.TASK);
 
 			// type
 			task.put("timestamp", this.timestamp + "");

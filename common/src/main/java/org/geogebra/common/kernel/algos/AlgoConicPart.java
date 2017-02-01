@@ -14,9 +14,9 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
@@ -43,7 +43,7 @@ public abstract class AlgoConicPart extends AlgoElement {
 	@Override
 	public Commands getClassName() {
 		switch (type) {
-		case GeoConicPart.CONIC_PART_ARC:
+		case GeoConicNDConstants.CONIC_PART_ARC:
 			return Commands.Arc;
 		default:
 			return Commands.Sector;

@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.geogebra3D.input3D.Input3D;
+import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
@@ -256,7 +256,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	public String getInput3DType() {
 		return getPref().loadPreference(GeoGebraPreferencesD.INPUT_3D,
-				Input3D.PREFS_NONE);
+				Input3DConstants.PREFS_NONE);
 	}
 
 	/**

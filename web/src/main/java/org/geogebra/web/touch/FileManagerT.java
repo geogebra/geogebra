@@ -3,6 +3,7 @@ package org.geogebra.web.touch;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -326,7 +327,8 @@ public class FileManagerT extends FileManager {
 											                mat.setTitle(getTitleFromKey(key));
 										                }
 										                final Material mat1 = mat;
-										                mat1.setLocalID(FileManager
+																mat1.setLocalID(
+																		MaterialsManager
 										                        .getIDFromKey(key));
 
 										                if (filter.check(mat1)) {
@@ -365,7 +367,7 @@ public class FileManagerT extends FileManager {
 	        final Runnable callback) {
 		Log.debug("RENAME" + mat.getTitle() + "->" + newTitle);
 
-		final String newKey = FileManager.createKeyString(mat.getLocalID(),
+		final String newKey = MaterialsManager.createKeyString(mat.getLocalID(),
 		        newTitle);
 		final String oldKey = getFileKey(mat);
 		Log.debug("RENAME local fn" + oldKey + "," + mat.getModified());
@@ -555,7 +557,7 @@ public class FileManagerT extends FileManager {
 		if (getApp().getLocalID() == -1) {
 			getApp().setLocalID(localID);
 		}
-		final String key = FileManager.createKeyString(localID, getApp()
+		final String key = MaterialsManager.createKeyString(localID, getApp()
 		        .getKernel().getConstruction().getTitle());
 		getGgbFile(key + FILE_EXT, createIfNotExist,
 		        new Callback<FileEntry, FileError>() {
@@ -614,8 +616,9 @@ public class FileManagerT extends FileManager {
 								                        0,
 								                        fileEntry.getName()
 								                                .indexOf("."));
-								        if (key.startsWith(FileManager.FILE_PREFIX)) {
-									        int fileID = FileManager
+												if (key.startsWith(
+														MaterialsManager.FILE_PREFIX)) {
+													int fileID = MaterialsManager
 									                .getIDFromKey(key);
 									        if (fileID >= nextFreeID) {
 										        nextFreeID = fileID + 1;
@@ -728,7 +731,8 @@ public class FileManagerT extends FileManager {
 									                        String result) {
 																final Material mat = JSONParserGGT
 										                        .parseMaterial(result);
-										                mat.setLocalID(FileManager
+																mat.setLocalID(
+																		MaterialsManager
 										                        .getIDFromKey(key));
 
 										                sync(mat, events);
@@ -918,7 +922,7 @@ public class FileManagerT extends FileManager {
 
 				@Override
 				public void onSuccess(Integer id) {
-					String key2 = FileManager.createKeyString(id,
+					String key2 = MaterialsManager.createKeyString(id,
 					        material.getTitle());
 					updateFile(key2, modified, material);
 				}
@@ -936,9 +940,10 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(final FileWriter writer) {
 						        writer.write(material.getBase64());
 						        material.setModified(modified);
-						        material.setLocalID(FileManager
+										material.setLocalID(MaterialsManager
 						                .getIDFromKey(key));
-						        String newKey = FileManager.createKeyString(
+										String newKey = MaterialsManager
+												.createKeyString(
 						                material.getLocalID(),
 						                material.getTitle());
 						        if (key.equals(newKey)) {
@@ -949,7 +954,7 @@ public class FileManagerT extends FileManager {
 							        String newTitle = material.getTitle();
 											Log.debug("incoming rename "
 													+ newTitle);
-							        material.setTitle(FileManager
+											material.setTitle(MaterialsManager
 							                .getTitleFromKey(key));
 							        material.setSyncStamp(material
 							                .getModified());
@@ -1016,7 +1021,8 @@ public class FileManagerT extends FileManager {
 
 				@Override
 				public void onSuccess(Integer id) {
-					final String keyString = FileManager.createKeyString(id,
+					final String keyString = MaterialsManager
+							.createKeyString(id,
 					        keyStem);
 					getGgbFile(keyString + FILE_EXT, createIfNotExist,
 							new Callback<FileEntry, FileError>() {

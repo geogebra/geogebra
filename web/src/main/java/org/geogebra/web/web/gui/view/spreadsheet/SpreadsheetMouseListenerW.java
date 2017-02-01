@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -234,8 +235,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void changeSelection(GPoint point, boolean extend) {
-		if (table.getSelectionType() != MyTable.CELL_SELECT) {
-			table.setSelectionType(MyTable.CELL_SELECT);
+		if (table.getSelectionType() != MyTableInterface.CELL_SELECT) {
+			table.setSelectionType(MyTableInterface.CELL_SELECT);
 		}
 		table.changeSelection(point, extend);
 	}

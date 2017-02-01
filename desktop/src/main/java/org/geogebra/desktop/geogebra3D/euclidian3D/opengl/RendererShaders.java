@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -29,8 +30,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -149,8 +148,10 @@ public class RendererShaders extends RendererD
 
 		// Create GPU shader handles
 		// OpenGL ES retuns a index id to be stored for future reference.
-		vertShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_VERTEX_SHADER);
-		fragShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
+		vertShader = jogl.getGL2ES2()
+				.glCreateShader(javax.media.opengl.GL2ES2.GL_VERTEX_SHADER);
+		fragShader = jogl.getGL2ES2()
+				.glCreateShader(javax.media.opengl.GL2ES2.GL_FRAGMENT_SHADER);
 
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
@@ -165,14 +166,15 @@ public class RendererShaders extends RendererD
 
 		// Check compile status.
 		int[] compiled = new int[1];
-		jogl.getGL2ES2().glGetShaderiv(vertShader, GL2ES2.GL_COMPILE_STATUS,
+		jogl.getGL2ES2().glGetShaderiv(vertShader,
+				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(vertShader,
-					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0],
@@ -195,14 +197,15 @@ public class RendererShaders extends RendererD
 		jogl.getGL2ES2().glCompileShader(fragShader);
 
 		// Check compile status.
-		jogl.getGL2ES2().glGetShaderiv(fragShader, GL2ES2.GL_COMPILE_STATUS,
+		jogl.getGL2ES2().glGetShaderiv(fragShader,
+				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Fragment shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv(fragShader,
-					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0],
@@ -431,12 +434,12 @@ public class RendererShaders extends RendererD
 	@Override
 	public void bindBufferForIndices(GPUBuffer buffer) {
 		// Select the VBO, GPU memory data
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER,
 				((GPUBufferD) buffer).get());
 	}
 
 	final private void bindBuffer(GPUBuffer buffer) {
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER,
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER,
 				((GPUBufferD) buffer).get());
 	}
 
@@ -469,7 +472,7 @@ public class RendererShaders extends RendererD
 	 *            size
 	 */
 	private void vertexAttribPointer(int attrib, int size) {
-		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL2ES2.GL_FLOAT,
+		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL.GL_FLOAT,
 				false, 0, 0);
 	}
 
@@ -643,7 +646,7 @@ public class RendererShaders extends RendererD
 		}
 
 		// Select the VBO, GPU memory data, to use for normals
-		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ARRAY_BUFFER, vboNormals);
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ARRAY_BUFFER, vboNormals);
 		int numBytes = length * 12; // 4 bytes per float * * 3 coords per normal
 		glBufferData(numBytes, fbNormals);
 
@@ -1023,7 +1026,7 @@ public class RendererShaders extends RendererD
 
 	@Override
 	protected void setColorMaterial() {
-		getGL().glEnable(GLlocal.GL_COLOR_MATERIAL);
+		getGL().glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 
 	}
 

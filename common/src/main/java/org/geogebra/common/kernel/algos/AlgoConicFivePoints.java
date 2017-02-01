@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -131,7 +132,7 @@ public class AlgoConicFivePoints extends AlgoElement
 		for (int j = 0; j < firstList.size(); j++) {
 			if (firstList.get(j).isGeoConic()) {
 				GeoConic p = (GeoConic) firstList.get(j);
-				if (p.getType() == GeoConic.CONIC_PARABOLA) {
+				if (p.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
 					criticalCase = true;
 					for (int i = 1; i < 5; i++) {
 						if (!P[i].getIncidenceList().contains(p)) {

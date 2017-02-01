@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.data;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -30,7 +31,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	 * @param statDialog
 	 */
 	public DataAnalysisStyleBarW(AppW app, DataAnalysisViewW statDialog) {
-		super(app, AppW.VIEW_DATA_ANALYSIS);
+		super(app, App.VIEW_DATA_ANALYSIS);
 		this.daView = statDialog;
 		this.app = app;
 	//	this.setFloatable(false);

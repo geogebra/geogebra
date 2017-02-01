@@ -1,9 +1,10 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import javax.media.opengl.GL2;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 /**
  * 
@@ -67,13 +68,13 @@ public class ManagerGLList extends ManagerD {
 		// generates a new list
 		int ret = genLists(1);
 
-		getJogl().getGL2().glNewList(ret, GLlocal.GL_COMPILE);
+		getJogl().getGL2().glNewList(ret, GL2.GL_COMPILE);
 
 		return ret;
 	}
 
 	private void newList(int index) {
-		getJogl().getGL2().glNewList(index, GLlocal.GL_COMPILE);
+		getJogl().getGL2().glNewList(index, GL2.GL_COMPILE);
 	}
 
 	@Override

@@ -43,6 +43,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
@@ -140,7 +141,7 @@ public class App3D extends AppD {
 				Log.debug("RealSense: Session successfully created");
 
 				// save in prefs
-				setInput3DType(Input3D.PREFS_REALSENSE);
+				setInput3DType(Input3DConstants.PREFS_REALSENSE);
 
 				// show message
 				showRealSenseCongratulations();
@@ -164,7 +165,7 @@ public class App3D extends AppD {
 				Log.debug("zSpace: successfully detected");
 
 				// save in prefs
-				setInput3DType(Input3D.PREFS_ZSPACE);
+				setInput3DType(Input3DConstants.PREFS_ZSPACE);
 
 				// show message
 				showZSpaceCongratulations();
@@ -180,7 +181,7 @@ public class App3D extends AppD {
 
 	private void runThreadForCheckInput3D() {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
-				&& getInput3DType().equals(Input3D.PREFS_NONE)) {
+				&& getInput3DType().equals(Input3DConstants.PREFS_NONE)) {
 			Log.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D(this);
 			t.start();
@@ -382,7 +383,7 @@ public class App3D extends AppD {
 				if (e.getType() == Input3DExceptionType.INSTALL) {
 					// reset 3D input type, guessing 3d input has been
 					// uninstalled
-					setInput3DType(Input3D.PREFS_NONE);
+					setInput3DType(Input3DConstants.PREFS_NONE);
 				} else if (e.getType() == Input3DExceptionType.NOT_UP_TO_DATE) {
 					showRealSenseNotUpToDate(e.getMessage());
 				}

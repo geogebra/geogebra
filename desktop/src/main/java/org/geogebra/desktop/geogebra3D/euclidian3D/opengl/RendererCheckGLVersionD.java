@@ -6,8 +6,10 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -17,7 +19,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.util.FrameCollector;
@@ -108,7 +109,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		setGL(drawable);
 
 		// check openGL version
-		final String version = getGL().glGetString(GLlocal.GL_VERSION);
+		final String version = getGL().glGetString(GL.GL_VERSION);
 
 		// Check For VBO support
 		final boolean VBOsupported = getGL()
@@ -206,10 +207,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	}
 
-	protected static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
-			GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2,
-			GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4,
-			GLlocal.GL_CLIP_PLANE5 };
+	protected static final int[] GL_CLIP_PLANE = { GL2ES1.GL_CLIP_PLANE0,
+			GL2ES1.GL_CLIP_PLANE1, GL2ES1.GL_CLIP_PLANE2, GL2ES1.GL_CLIP_PLANE3,
+			GL2ES1.GL_CLIP_PLANE4, GL2ES1.GL_CLIP_PLANE5 };
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
@@ -366,24 +366,23 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	@Override
 	protected void setDepthFunc() {
-		getGL().glDepthFunc(GLlocal.GL_LEQUAL); // less or equal for
+		getGL().glDepthFunc(GL.GL_LEQUAL); // less or equal for
 												// transparency
 	}
 
 	@Override
 	protected void enablePolygonOffsetFill() {
-		getGL().glEnable(GLlocal.GL_POLYGON_OFFSET_FILL);
+		getGL().glEnable(GL.GL_POLYGON_OFFSET_FILL);
 	}
 
 	@Override
 	protected void setBlendFunc() {
-		getGL().glBlendFunc(GLlocal.GL_SRC_ALPHA,
-				GLlocal.GL_ONE_MINUS_SRC_ALPHA);
+		getGL().glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override
 	protected void enableNormalNormalized() {
-		getGL().glEnable(GLlocal.GL_NORMALIZE);
+		getGL().glEnable(GLLightingFunc.GL_NORMALIZE);
 	}
 
 	/**
@@ -512,7 +511,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	@Override
 	protected void disableStencilLines() {
-		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
+		getGL().glDisable(GL.GL_STENCIL_TEST);
 		waitForDisableStencilLines = false;
 	}
 
@@ -615,8 +614,8 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 			int width = right - left;
 			int height = top - bottom;
 			FloatBuffer buffer = FloatBuffer.allocate(3 * width * height);
-			getGL().glReadPixels(0, 0, width, height, GLlocal.GL_RGB,
-					GLlocal.GL_FLOAT, buffer);
+			getGL().glReadPixels(0, 0, width, height, GL.GL_RGB, GL.GL_FLOAT,
+					buffer);
 			float[] pixels = buffer.array();
 
 			bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

@@ -116,7 +116,7 @@ public class ProbabilityTableD extends ProbabilityTable
 		}
 
 		if (getProbCalc()
-				.getProbMode() == ProbabilityCalculatorViewD.PROB_INTERVAL) {
+				.getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
 			// System.out.println(Arrays.toString(selectedRow));
 			String lowStr = (String) table.getModel().getValueAt(selRow[0], 0);
 			String highStr = (String) table.getModel()
@@ -126,7 +126,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			// System.out.println(low + " , " + high);
 			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
 		} else if (getProbCalc()
-				.getProbMode() == ProbabilityCalculatorViewD.PROB_LEFT) {
+				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = (String) statTable.getTable().getModel()
 					.getValueAt(0, 0);
 			String highStr = (String) statTable.getTable().getModel()

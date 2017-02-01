@@ -26,7 +26,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
@@ -144,7 +144,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 			setText((value == null) ? "" : value.toString());
 
-			if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
+			if (table.getSelectionType() == MyTableInterface.COLUMN_SELECT) {
 				setBackground(defaultBackground);
 			} else {
 				if (table.selectedRowSet.contains(index)
@@ -257,8 +257,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				// G.STURR 2010-1-29
-				if (table.getSelectionType() != MyTable.ROW_SELECT) {
-					table.setSelectionType(MyTable.ROW_SELECT);
+				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
+					table.setSelectionType(MyTableInterface.ROW_SELECT);
 					requestFocusInWindow();
 				}
 
@@ -302,8 +302,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 					|| p.getX() > table.maxSelectionColumn) {
 
 				// switch to row selection mode and select row
-				if (table.getSelectionType() != MyTable.ROW_SELECT) {
-					table.setSelectionType(MyTable.ROW_SELECT);
+				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
+					table.setSelectionType(MyTableInterface.ROW_SELECT);
 				}
 
 				table.setRowSelectionInterval(p.getY(), p.getY());

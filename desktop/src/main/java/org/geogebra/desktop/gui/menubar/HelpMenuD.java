@@ -4,11 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.geogebra3D.input3D.Input3D;
+import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
@@ -79,7 +80,7 @@ class HelpMenuD extends BaseMenu {
 			tutorialAction = new HelpAction(app, null, loc.getMenu("Tutorials"),
 					App.WIKI_TUTORIAL);
 
-			if (app.getInput3DType().equals(Input3D.PREFS_REALSENSE)) {
+			if (app.getInput3DType().equals(Input3DConstants.PREFS_REALSENSE)) {
 				input3DTutorialAction = new AbstractAction(
 						loc.getMenu("RealSense.Tutorial"), app.getEmptyIcon()) {
 					private static final long serialVersionUID = 1L;
@@ -135,9 +136,9 @@ class HelpMenuD extends BaseMenu {
 		if (helpAction == null) {
 			return;
 		}
-		helpAction.putValue(AbstractAction.SMALL_ICON,
+		helpAction.putValue(Action.SMALL_ICON,
 				app.getMenuIcon(GuiResourcesD.HELP));
-		infoAction.putValue(AbstractAction.SMALL_ICON,
+		infoAction.putValue(Action.SMALL_ICON,
 				app.getMenuIcon(GuiResourcesD.INFO));
 
 	}

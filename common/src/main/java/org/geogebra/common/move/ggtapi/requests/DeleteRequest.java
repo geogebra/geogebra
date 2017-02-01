@@ -29,18 +29,18 @@ public class DeleteRequest implements Request {
 		try {
 			JSONObject request = new JSONObject();
 			JSONObject api = new JSONObject();
-			api.put("-api", this.API);
+			api.put("-api", DeleteRequest.API);
 
 			// login
 			JSONObject login = new JSONObject();
-			login.put("-type", this.TYPE);
+			login.put("-type", DeleteRequest.TYPE);
 			login.put("-token",
 					client.getModel().getLoggedInUser().getLoginToken());
 			api.put("login", login);
 
 			// task
 			JSONObject task = new JSONObject();
-			task.put("-type", this.TASK);
+			task.put("-type", DeleteRequest.TASK);
 
 			// ID
 			task.put("id", Integer.toString(this.material.getId()));

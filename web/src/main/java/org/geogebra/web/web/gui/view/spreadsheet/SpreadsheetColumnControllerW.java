@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -122,8 +122,9 @@ public class SpreadsheetColumnControllerW implements
 					}
 
 					// otherwise handle column selection
-					if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
-						table.setSelectionType(MyTable.COLUMN_SELECT);
+					if (table
+							.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
+						table.setSelectionType(MyTableInterface.COLUMN_SELECT);
 						//?//if (table.getTableHeader() != null) {
 						//?//	table.getTableHeader().requestFocusInWindow();
 						//?//}
@@ -179,8 +180,9 @@ public class SpreadsheetColumnControllerW implements
 					|| p.getX() < table.minSelectionColumn
 					|| p.getX() > table.maxSelectionColumn) {
 				// switch to column selection mode and select column
-				if (table.getSelectionType() != MyTable.COLUMN_SELECT) {
-					table.setSelectionType(MyTable.COLUMN_SELECT);
+				if (table
+						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
+					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
 				}
 
 				// selectNone();

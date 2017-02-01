@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.algos.AlgoConicPart;
 import org.geogebra.common.kernel.algos.EquationElementInterface;
 import org.geogebra.common.kernel.algos.EquationScopeInterface;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -128,7 +127,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	@Override
 	public Commands getClassName() {
 		switch (type) {
-		case GeoConicPart.CONIC_PART_ARC:
+		case GeoConicNDConstants.CONIC_PART_ARC:
 			return Commands.CircleArc;
 		default:
 			return Commands.CircleSector;
@@ -138,7 +137,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	@Override
 	public int getRelatedModeID() {
 		switch (type) {
-		case GeoConicPart.CONIC_PART_ARC:
+		case GeoConicNDConstants.CONIC_PART_ARC:
 			return EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS;
 		default:
 			return EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS;

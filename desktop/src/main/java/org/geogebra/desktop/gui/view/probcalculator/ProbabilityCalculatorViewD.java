@@ -652,11 +652,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			probMode = PROB_LEFT;
 		} else {
 			if (btnIntervalLeft.isSelected()) {
-				probMode = this.PROB_LEFT;
+				probMode = ProbabilityCalculatorView.PROB_LEFT;
 			} else if (btnIntervalBetween.isSelected()) {
-				probMode = this.PROB_INTERVAL;
+				probMode = ProbabilityCalculatorView.PROB_INTERVAL;
 			} else {
-				probMode = this.PROB_RIGHT;
+				probMode = ProbabilityCalculatorView.PROB_RIGHT;
 			}
 		}
 		this.getPlotDimensions();

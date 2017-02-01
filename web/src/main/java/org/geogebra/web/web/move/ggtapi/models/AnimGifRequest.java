@@ -35,7 +35,7 @@ public class AnimGifRequest implements Request {
 		JSONObject api = new JSONObject();
 		StringBuilder params = new StringBuilder();
 		try {
-			api.put("-api", this.API);
+			api.put("-api", AnimGifRequest.API);
 
 			// login
 			// JSONObject login = new JSONObject();
