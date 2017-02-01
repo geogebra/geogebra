@@ -1,13 +1,17 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoRandom;
 import org.geogebra.common.kernel.algos.AlgoRandomFixed;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -33,7 +37,17 @@ public class CmdRandom extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+		case 0:
 
+			GeoNumeric num = new GeoNumeric(cons, 0);
+			cons.addRandomGeo(num);
+			num.setValue(app.getRandomNumber());
+			AlgoDependentNumber adn = new AlgoDependentNumber(cons,
+					new ExpressionNode(kernelA, num,
+							Operation.RANDOM, null),
+					false);
+			adn.getOutput(0).setLabel(c.getLabel());
+			return adn.getOutput();
 		case 3:
 			arg = resArgs(c);
 			if (arg[2] instanceof BooleanValue) {

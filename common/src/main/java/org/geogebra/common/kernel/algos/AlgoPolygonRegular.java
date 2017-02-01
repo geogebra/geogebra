@@ -51,13 +51,13 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 	}
 
 	@Override
-	protected GeoPolygon newGeoPolygon(Construction cons) {
-		return new GeoPolygon(cons);
+	protected GeoPolygon newGeoPolygon(Construction cons1) {
+		return new GeoPolygon(cons1);
 	}
 
 	@Override
-	protected GeoElement newGeoPoint(Construction cons) {
-		GeoPoint newPoint = new GeoPoint(cons);
+	protected GeoElement newGeoPoint(Construction cons1) {
+		GeoPoint newPoint = new GeoPoint(cons1);
 		newPoint.setCoords(0, 0, 1);
 		return newPoint;
 	}
