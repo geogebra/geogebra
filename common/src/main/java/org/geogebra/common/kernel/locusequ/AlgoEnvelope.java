@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -21,7 +22,10 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -164,6 +168,193 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	}
 
 	private String getImplicitPoly() throws Throwable {
+		if (!movingPoint.getKernel().getApplication()
+				.has(Feature.ENVELOPE_VIA_BOTANA)) {
+			return getImplicitPolyOld();
+		}
+
+		String locusLib = SingularWebService.getLocusLib();
+
+		/*
+		 * First we create a virtual locus point on the path object. This is
+		 * done with AlgoPointOnPath. Then we retrieve the corresponding
+		 * equation to this virtual locus point.
+		 */
+
+		GeoPoint locusPoint = new GeoPoint(cons);
+		AlgoPointOnPath apop = new AlgoPointOnPath(cons, (Path) path, 1, 1);
+		locusPoint.setParentAlgorithm(apop);
+		/*
+		 * Now we collect all the restriction equations except for the linear
+		 * itself. This is exactly the same as in AlgoLocusEquation.
+		 */
+		AlgebraicStatement as = AlgoLocusEquation
+				.translateConstructionAlgebraically(locusPoint,
+				movingPoint, false, this);
+		Polynomial[] lpPolys = ((SymbolicParametersBotanaAlgo) locusPoint)
+				.getBotanaPolynomials(locusPoint);
+		// It is safe to remove the virtual locus point here.
+
+		locusPoint.remove();
+
+		/*
+		 * The equation is not yet in the form we want: the last two variables
+		 * should be changed to x and y.
+		 */
+		String varx = as.curveVars[0].toString();
+		String vary = as.curveVars[1].toString();
+
+		// Now we do the replacement for the last equation (obtained for the
+		// path):
+		String[] lastS = new String[lpPolys.length];
+		int i;
+		for (i = 0; i < lpPolys.length; i++) {
+			String eq = lpPolys[i].toString();
+			eq = eq.replaceAll(varx, "x");
+			eq = eq.replaceAll(vary, "y");
+			lastS[i++] = eq;
+		}
+		// We collect the used x1,x2,... variables (their order is not
+		// relevant):
+
+		Polynomial[] allPolys = new Polynomial[as.getPolynomials().size()];
+		Iterator<Polynomial> it = as.getPolynomials().iterator();
+		i = 0;
+		while (it.hasNext()) {
+			Polynomial poly = it.next();
+			allPolys[i] = poly;
+			i++;
+		}
+		HashSet<org.geogebra.common.kernel.prover.polynomial.Variable> otherVars = Polynomial
+				.getVars(allPolys);
+		otherVars.remove(as.curveVars[0]);
+		otherVars.remove(as.curveVars[1]);
+		int otherVarsNo = otherVars.size();
+
+		StringBuilder vars = new StringBuilder();
+		String allVars = Polynomial.getVarsAsCommaSeparatedString(allPolys,
+				null, null) + ",";
+		allVars = allVars.replaceAll(varx + ",", "");
+		allVars = allVars.replaceAll(vary + ",", "");
+
+		// trim closing ","
+		vars.append(allVars.substring(0, allVars.length() - 1));
+
+		// Obtaining polynomials:
+		String polys = Polynomial.getPolysAsCommaSeparatedString(allPolys);
+
+		StringBuilder script = new StringBuilder();
+
+		// Constructing the script.
+		// Single points [y-A,x-B] are returned in the form (x-B)^2+(y-A)^2.
+		// Empty envelopes are drawn as 0=-1.
+		// Multiple curves are drawn as products of the curves.
+
+		if (locusLib.length() == 0) {
+			// If there is no Singular support with the Groebner cover package,
+			// then we use Giac
+			// and construct the Jacobi matrix on our own. Here we use two Giac
+			// calls, one for
+			// the Jacobian and one for the elimination.
+			script.append("[[");
+			script.append("m:=[").append(polys).append("]],[J:=det_minor(");
+			Iterator<org.geogebra.common.kernel.prover.polynomial.Variable> it1 = otherVars
+					.iterator();
+			i = 0;
+			while (it1.hasNext()) {
+				i++;
+				it1.next();
+				script.append("[");
+				Iterator<org.geogebra.common.kernel.prover.polynomial.Variable> it2 = otherVars
+						.iterator();
+				int j = 0;
+				while (it2.hasNext()) {
+					j++;
+					script.append(
+							"diff(m[" + (i - 1) + "]," + it2.next() + ")");
+					if (j != otherVarsNo) {
+						script.append(",");
+					}
+				}
+				script.append("]");
+				if (i != otherVarsNo) {
+					script.append(",");
+				}
+			}
+			script.append(")]][1][0]");
+
+			Log.trace(
+					"Input to giac (compute det of Jacobi matrix): " + script);
+			GeoGebraCAS cas = (GeoGebraCAS) locusPoint.getKernel()
+					.getGeoGebraCAS();
+			try {
+				String det = cas.getCurrentCAS().evaluateRaw(script.toString());
+				if ("?".equals(det)) {
+					Log.debug("Cannot compute det of Jacobi matrix (yet?)");
+					return null;
+				}
+				/* Replacing variables. */
+				det = det.replaceAll(varx, "x").replaceAll(vary, "y");
+				polys = polys.replaceAll(varx, "x").replaceAll(vary, "y");
+
+				Log.trace("Output from giac (compute det of Jacobi matrix): "
+						+ det);
+				String script2 = cas.getCurrentCAS().createLocusEquationScript(
+						polys + "," + det, vars + ",x,y", vars.toString());
+
+				Log.trace("Input to giac: " + script2);
+				String result = cas.getCurrentCAS().evaluateRaw(script2);
+				return result;
+
+			} catch (Exception ex) {
+				Log.debug("Cannot compute envelope (yet?)");
+				return null;
+			}
+
+		}
+
+		// Constructing the Singular script. This code contains a modified
+		// version
+		// of Francisco Botana's locusdgto() and envelopeto() procedures in the
+		// grobcov library.
+		// I.e. we no longer use these two commands, but locusto(), locus() and
+		// locusdg() only.
+		// We use one single Singular call instead of two (as above for Giac).
+		script.append("proc mylocusdgto(list L) {" + "poly p=1;"
+				+ "int i; int j; int k;"
+				+ "for(i=1;i<=size(L);i++) { if(L[i][3]<>\"Degenerate\")"
+				+ " { if(size(L[i][1])>1) {p=p*((L[i][1][1])^2+(L[i][1][2])^2);}"
+				+ "else {p=p*L[i][1][1];}" + "} } return(p); }");
+		script.append("proc myenvelopeto (list GG) {" + "list GGG;"
+				+ "if (GG[1][2][1]<>1) { GGG=delete(GG,1); }"
+				+ "else { GGG=GG; };" + "string SLo=locusto(locus(GGG));"
+				+ "if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0 and find(SLo,\"Special\") == 0)"
+				+ "{ return(1); }"
+				+ "else { return(mylocusdgto(locus(GGG))); } }");
+		script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + vars)
+				.append("),dp;short=0;ideal m=");
+		script.append(polys);
+		script.append(";poly D=det(jacob(m));ideal S=" + polys
+				+ ",D;list e=myenvelopeto(grobcov(S));");
+		// This trick is required to push the result polynomial to the new ring
+		// world:
+		script.append("string ex=\"poly p=\" + string(e[1]);");
+		script.append("ring rr=0,(x,y),dp;");
+		script.append("execute(ex);");
+		// Now we obtain the coefficients (see exactly the same code for locus
+		// equation):
+		script.append(
+				"sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),")
+				.append("coeffs(coeffs(p,x),y));");
+		Log.trace("Input to singular: " + script);
+		String result = App.getSingularWS().directCommand(script.toString());
+		Log.trace("Output from singular: " + result);
+		// Temporary workaround by creating dummy factor:
+		result = "{{" + result + "},{1," + result + "}}";
+		return result;
+	}
+
+	private String getImplicitPolyOld() throws Throwable {
 
 		String locusLib = SingularWebService.getLocusLib();
 

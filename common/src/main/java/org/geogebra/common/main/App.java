@@ -4065,6 +4065,10 @@ public abstract class App implements UpdateSelection {
 		case EXPLICIT_LOCUS_VIA_BOTANA:
 			return true;
 
+		// GGB-1361
+		case ENVELOPE_VIA_BOTANA:
+			return prerelease;
+
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
 			return prerelease

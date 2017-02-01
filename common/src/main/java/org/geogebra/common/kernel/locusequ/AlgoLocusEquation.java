@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -334,12 +335,28 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		return Commands.LocusEquation;
 	}
 
-	private String getImplicitPoly(boolean implicit) throws Throwable {
+	/**
+	 * Create algebraic equations of the construction to prepare computing a
+	 * locus or envelope equation.
+	 * 
+	 * @param tracer
+	 *            the locus point
+	 * @param mover
+	 *            the moving point
+	 * @param implicit
+	 *            if the locus equation is implicit
+	 * @param callerAlgo
+	 *            the caller Algo
+	 * @return the object which describes the construction algebraically
+	 */
+	public static AlgebraicStatement translateConstructionAlgebraically(
+			GeoElement tracer, GeoElement mover, boolean implicit,
+			AlgoElement callerAlgo) {
 		Prover p = UtilFactory.getPrototype().newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
 				: ProverEngine.LOCUS_EXPLICIT);
 		AlgebraicStatement as = new AlgebraicStatement(
-				implicit ? implicitLocus : locusPoint, movingPoint, p);
+				tracer, mover, p);
 		ProofResult proofresult = as.getResult();
 		if (proofresult == ProofResult.PROCESSING
 				|| proofresult == ProofResult.UNKNOWN) {
@@ -350,21 +367,20 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			Log.debug("Cannot compute implicit curve: " + proofresult);
 			return null;
 		}
-		Set<Set<Polynomial>> eliminationIdeal;
 
-		HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
+		as.substitutions = new HashMap<Variable, Long>();
 		List<GeoElement> freePoints = ProverBotanasMethod
-				.getFreePoints(implicit ? implicitLocus : locusPoint);
+				.getFreePoints(tracer);
 		if (!implicit) {
-			freePoints.add(locusPoint);
+			freePoints.add(tracer);
 		}
-		if (!freePoints.contains(movingPoint)) {
-			freePoints.add(movingPoint);
+		if (!freePoints.contains(mover)) {
+			freePoints.add(mover);
 		}
 
 		/* axis and fixed slope line support */
-		Kernel k = movingPoint.getKernel();
-		Iterator<GeoElement> geos = (implicit ? implicitLocus : locusPoint)
+		Kernel k = mover.getKernel();
+		Iterator<GeoElement> geos = (tracer)
 				.getAllPredecessors().iterator();
 		while (geos.hasNext()) {
 			GeoElement geo = geos.next();
@@ -444,7 +460,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			if (implicit) {
 				condition = true;
 			} else {
-				condition = geo != locusPoint;
+				condition = geo != tracer;
 			}
 			if (condition && algo instanceof AlgoPointOnPath) {
 				/*
@@ -464,15 +480,14 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		 * considered free if they are not changed while the mover moves.
 		 */
 		Iterator<GeoElement> it = freePoints.iterator();
-		String vx = "", vy = "";
 		while (it.hasNext()) {
 			GeoElement freePoint = it.next();
-			freePoint.addToUpdateSetOnly(this);
+			freePoint.addToUpdateSetOnly(callerAlgo);
 			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
 					.getBotanaVars(freePoint);
-			boolean condition = !movingPoint.equals(freePoint);
+			boolean condition = !mover.equals(freePoint);
 			if (!implicit) {
-				condition &= !locusPoint.equals(freePoint);
+				condition &= !tracer.equals(freePoint);
 			}
 			if (condition) {
 				boolean createX = true;
@@ -485,8 +500,15 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 				 */
 				if (ae != null && ae instanceof AlgoPointOnPath
 						&& ae.input[0] instanceof GeoLine) {
-					Polynomial[] symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
-							.getBotanaPolynomials(freePoint);
+					Polynomial[] symPolys;
+					try {
+						symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
+								.getBotanaPolynomials(freePoint);
+					} catch (NoSymbolicParametersException e) {
+						Log.debug(
+								"An error occured during obtaining symbolic parameters");
+						return null;
+					}
 					int i = 1;
 					for (Polynomial symPoly : symPolys) {
 						as.addPolynomial(symPoly);
@@ -551,26 +573,38 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			} else {
 				condition = true;
 				if (!implicit) {
-					condition = locusPoint.equals(freePoint);
+					condition = tracer.equals(freePoint);
 				}
 				if (condition) {
-					vx = vars[0].toString();
-					vy = vars[1].toString();
 					vars[0].setFree(true);
 					vars[1].setFree(true);
+					as.curveVars = vars;
 				} else {
 					vars[0].setFree(false);
 					vars[1].setFree(false);
 				}
 			}
 		}
+		return as;
+	}
+
+	private String getImplicitPoly(boolean implicit) throws Throwable {
+		AlgebraicStatement as = translateConstructionAlgebraically(
+				implicit ? implicitLocus : locusPoint, movingPoint, implicit,
+				this);
+		if (as == null) {
+			Log.debug("Cannot compute locus equation (yet?)");
+			return null;
+		}
+		Set<Set<Polynomial>> eliminationIdeal;
+		Kernel k = movingPoint.getKernel();
 
 		eliminationIdeal = Polynomial
 				.eliminate(
 						as.getPolynomials()
 								.toArray(new Polynomial[as.getPolynomials()
 										.size()]),
-						substitutions, k, 0, false, true);
+						as.substitutions, k, 0, false, true);
 
 		// We implicitly assume that there is one equation here as result.
 		Polynomial result = null;
@@ -590,11 +624,13 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		// Replacing variables to have x and y instead of vx and vy:
 		String implicitCurveString = result.toString();
-		if (!"".equals(vx)) {
-			implicitCurveString = implicitCurveString.replaceAll(vx, "x");
+		if (as.curveVars[0] != null) {
+			implicitCurveString = implicitCurveString
+					.replaceAll(as.curveVars[0].toString(), "x");
 		}
-		if (!"".equals(vy)) {
-			implicitCurveString = implicitCurveString.replaceAll(vy, "y");
+		if (as.curveVars[1] != null) {
+			implicitCurveString = implicitCurveString
+					.replaceAll(as.curveVars[1].toString(), "y");
 		}
 		Log.trace("Implicit locus equation: " + implicitCurveString);
 

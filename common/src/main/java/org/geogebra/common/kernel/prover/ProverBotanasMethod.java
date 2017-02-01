@@ -306,6 +306,17 @@ public class ProverBotanasMethod {
 		 * on a path.
 		 */
 		int maxFixcoords = -1;
+
+		/**
+		 * A map of substitutions, used only in locus equations and envelopes.
+		 */
+		public HashMap<Variable, Long> substitutions;
+		/**
+		 * The variables for x and y, used only in locus equations and
+		 * envelopes.
+		 */
+		public Variable[] curveVars = new Variable[2];
+
 		/**
 		 * The result of the proof (even if no computation was done). Sometimes
 		 * it can be predicted without any further computations.
@@ -532,12 +543,21 @@ public class ProverBotanasMethod {
 									&& geoProver
 											.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
 								/*
-								 * Skip this object for now: it is a point on a
-								 * path. Its coordinates will be used directly
-								 * (with substitution) or---for the moving
-								 * point---the numerical poly will be used.
+								 * Is this an Envelope command with geo on the
+								 * virtual path? In this case we should not
+								 * change to the numerical approach.
 								 */
-								useThisPoly = false;
+								if (!algo.equals(
+										geoStatement.getParentAlgorithm())) {
+									/*
+									 * Skip this object for now: it is a point
+									 * on a path. Its coordinates will be used
+									 * directly (with substitution) or---for the
+									 * moving point---the numerical poly will be
+									 * used.
+									 */
+									useThisPoly = false;
+								}
 							}
 							if (geo.equals(numerical)) {
 								// don't create the symbolic equation for a
