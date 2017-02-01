@@ -380,9 +380,9 @@ public class OptionsLayoutD extends OptionsLayout
 
 		// input bar settings
 		else if (source == rbInputBarNorth) {
-			app.setShowInputTop(true, true);
+			app.setInputPosition(InputPosition.top, true);
 		} else if (source == rbInputBarSouth) {
-			app.setShowInputTop(false, true);
+			app.setInputPosition(InputPosition.bottom, true);
 		} else if (source == ckShowInputBar) {
 			app.setShowAlgebraInput(ckShowInputBar.isSelected(), true);
 		} else if (source == ckShowInputHelp) {

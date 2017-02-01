@@ -2810,33 +2810,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @deprecated use setInputPositon instead
-	 *
-	 *             Changes input position between bottom and top
-	 *
-	 *             if the actual position is AlgebraView, the position will be
-	 *             changed to bottom or top (according to the flag)
-	 *
-	 * @param flag
-	 *            whether input should be on top
-	 * @param update
-	 *            whether layout update is needed afterwards
-	 */
-	@Deprecated
-	public void setShowInputTop(boolean flag, boolean update) {
-		if (flag && showInputTop == InputPosition.top
-				|| !flag && showInputTop == InputPosition.bottom) {
-			return;
-		}
-
-		showInputTop = flag ? InputPosition.top : InputPosition.bottom;
-
-		if (update && !isIniting()) {
-			updateApplicationLayout();
-		}
-	}
-
-	/**
 	 * Changes input position between bottom and top
 	 *
 	 * @param flag

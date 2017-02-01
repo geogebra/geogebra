@@ -97,7 +97,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 * Deletes all selected tools that are not used in the construction.
 	 */
 	private void deleteTools(JList toolList, DefaultListModel listModel) {
-		Object[] sel = toolList.getSelectedValues();
+		Object[] sel = toolList.getSelectedValuesList().toArray();
 		if (sel == null || sel.length == 0) {
 			return;
 		}
@@ -271,7 +271,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 *            Tools to be opened
 	 */
 	private void openTools(JList toolList) {
-		Object[] sel = toolList.getSelectedValues();
+		Object[] sel = toolList.getSelectedValuesList().toArray();
 		if (sel == null || sel.length == 0) {
 			return;
 		}
@@ -371,7 +371,8 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 		Thread runner = new Thread() {
 			@Override
 			public void run() {
-				model.uploadToGeoGebraTube(toolList.getSelectedValues());
+				model.uploadToGeoGebraTube(
+						toolList.getSelectedValuesList().toArray());
 			}
 		};
 		runner.start();
@@ -381,7 +382,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 	 * Saves all selected tools in a new file.
 	 */
 	private void saveTools(JList toolList) {
-		Object[] sel = toolList.getSelectedValues();
+		Object[] sel = toolList.getSelectedValuesList().toArray();
 		if (sel == null || sel.length == 0) {
 			return;
 		}

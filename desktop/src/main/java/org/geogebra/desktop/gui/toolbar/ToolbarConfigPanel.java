@@ -270,7 +270,7 @@ public class ToolbarConfigPanel extends JPanel
 			childIndex++;
 
 			boolean didInsert = false;
-			Object[] tools = toolList.getSelectedValues();
+			Object[] tools = toolList.getSelectedValuesList().toArray();
 			for (int i = 0; i < tools.length; i++) {
 				// check if too is already there
 				Integer modeInt = (Integer) tools[i];
