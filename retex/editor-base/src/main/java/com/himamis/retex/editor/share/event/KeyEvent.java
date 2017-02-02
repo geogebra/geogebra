@@ -143,6 +143,8 @@ public class KeyEvent {
 	private int keyModifiers;
 	private char unicodeKeyChar;
 
+	private int action;
+
 	public KeyEvent(int keyCode) {
 		this(keyCode, 0);
 	}
@@ -157,6 +159,12 @@ public class KeyEvent {
 		this.unicodeKeyChar = unicodeKeyChar;
 	}
 
+	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar,
+			int action) {
+		this(keyCode, keyModifiers, unicodeKeyChar);
+		this.action = action;
+	}
+
 	public int getKeyCode() {
 		return keyCode;
 	}
@@ -167,5 +175,14 @@ public class KeyEvent {
 	
 	public char getUnicodeKeyChar() {
 		return unicodeKeyChar;
+	}
+
+	/**
+	 * Android only
+	 * 
+	 * @return UP / DOWN / MULTIPLE / ?
+	 */
+	public int getAction() {
+		return action;
 	}
 }
