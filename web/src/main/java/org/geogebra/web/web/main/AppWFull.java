@@ -38,7 +38,6 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.URL;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
@@ -552,7 +551,7 @@ public abstract class AppWFull extends AppW {
 	protected final void initGoogleDriveEventFlow() {
 
 		googleDriveOperation = new GoogleDriveOperationW(this);
-		String state = URL.getQueryParameterAsString("state");
+		String state = Location.getParameter("state");
 		if (getNetworkOperation().isOnline() && state != null
 				&& !"".equals(state)) {
 			googleDriveOperation.initGoogleDriveApi();

@@ -71,8 +71,6 @@ public class Tablet implements EntryPoint {
 		CustomElements.registerGeoGebraWebElement();
 		exportGGBElementRenderer();
 
-		// setLocaleToQueryParam();
-
 		run();
 
 		// phoneGap.initializePhoneGap();

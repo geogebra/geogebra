@@ -41,7 +41,6 @@ public class WebSimple implements EntryPoint {
 		exportGGBElementRenderer();
 
 		// WebStatic.currentGUI = checkIfNeedToLoadGUI();
-		// setLocaleToQueryParam();
 
 		// if (WebStatic.currentGUI.equals(GuiToLoad.VIEWER)) {
 		// we dont want to parse out of the box sometimes...

@@ -1273,7 +1273,6 @@ public class EuclidianViewW extends EuclidianView implements
 			// if this is the last to blur, and tabPressed
 			// is true, i.e. want to select another applet,
 			// let's go back to the first one!
-			// but how?? maybe better than jQuery:
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
 				public void execute() {

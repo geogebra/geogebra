@@ -12,7 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.JSON;
-import org.geogebra.web.html5.util.URL;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.move.googledrive.events.GoogleDriveLoadedEvent;
 import org.geogebra.web.web.move.googledrive.events.GoogleLogOutEvent;
@@ -24,6 +23,7 @@ import org.geogebra.web.web.util.SaveCallback.SaveState;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.user.client.Window.Location;
 
 /**
  * @author gabor
@@ -548,7 +548,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	private void checkIfOpenedFromGoogleDrive() {
-		String state = URL.getQueryParameterAsString("state");
+		String state = Location.getParameter("state");
 		Log.debug(state);
 		if (state != null && !"".equals(state)) {
 			googleDriveURL = JSON.parse(state);
