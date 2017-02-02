@@ -44,6 +44,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	public static final String CLASS_NAME = "AlgoEnvelope";
 	private GeoImplicit geoPoly;
 	private GeoElement[] efficientInput, standardInput;
+	private String efficientInputFingerprint;
 
 	/**
 	 * Constructor.
@@ -129,6 +130,28 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		setOutput(0, this.geoPoly.toGeoElement());
 
 		setEfficientDependencies(standardInput, efficientInput);
+
+		// Removing extra algos manually:
+		Construction c = movingPoint.getConstruction();
+		do {
+			c.removeFromAlgorithmList(this);
+		} while (c.getAlgoList().contains(this));
+		// Adding this again:
+		c.addToAlgorithmList(this);
+		// TODO: consider moving setInputOutput() out from compute()
+
+		efficientInputFingerprint = fingerprint(efficientInput);
+	}
+
+	private static String fingerprint(GeoElement[] input) {
+		StringBuilder ret = new StringBuilder();
+		int size = input.length;
+		for (int i = 0; i < size; ++i) {
+			ret.append(input[i]
+					.getAlgebraDescription(StringTemplate.defaultTemplate));
+			ret.append(",");
+		}
+		return ret.toString();
 	}
 
 	/**
@@ -145,10 +168,37 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 */
 	@Override
 	public void compute() {
+		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			efficientInputFingerprint = null;
+			return;
+		}
+		String efficientInputFingerprintPrev = efficientInputFingerprint;
+		setInputOutput();
+		if (efficientInputFingerprintPrev == null
+				|| !efficientInputFingerprintPrev
+						.equals(efficientInputFingerprint)) {
+			Log.trace(efficientInputFingerprintPrev + " -> "
+					+ efficientInputFingerprint);
+			initialCompute();
+		}
+	}
+
+	private void initialCompute() {
+		computeEnvelope();
+	}
+
+	/**
+	 * Compute the locus equation curve and put into geoPoly.
+	 * 
+	 * @param implicit
+	 *            if the computation will be done for an implicit locus
+	 */
+	public void computeEnvelope() {
 		String result = null;
 		try {
 			result = getImplicitPoly();
 		} catch (Throwable ex) {
+			ex.printStackTrace();
 			Log.debug("Cannot compute implicit curve (yet?)");
 		}
 
@@ -158,6 +208,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 				this.geoPoly.setCoeff(cas.getCurrentCAS()
 						.getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();
+
 				// Timeout => set undefined
 			} catch (Exception e) {
 				this.geoPoly.setUndefined();
@@ -165,6 +216,37 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		} else {
 			this.geoPoly.setUndefined();
 		}
+	}
+
+	/**
+	 * Set up dependencies for the input and output objects.
+	 */
+	protected void setInputOutputEnvelope() {
+
+		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		inSet.add(this.movingPoint);
+		Iterator<GeoElement> it = this.path.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isIndependent() || geo.isPointOnPath()) {
+				inSet.add(geo);
+			}
+		}
+		inSet.remove(movingPoint);
+
+		efficientInput = new GeoElement[inSet.size()];
+		efficientInput = inSet.toArray(efficientInput);
+
+		standardInput = new GeoElement[2];
+		standardInput[0] = this.path;
+		standardInput[1] = this.movingPoint;
+
+		setOutputLength(1);
+		setOutput(0, this.geoPoly.toGeoElement());
+
+		setEfficientDependencies(standardInput, efficientInput);
+		efficientInputFingerprint = fingerprint(efficientInput);
+
 	}
 
 	private String getImplicitPoly() throws Throwable {
