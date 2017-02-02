@@ -1897,7 +1897,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
-				if (!RadioTreeItem.as(node).enterEditMode(false)) {
+				RadioTreeItem ri = RadioTreeItem.as(node);
+				expandWidth(ri.getWidthForEdit());
+				if (!ri.enterEditMode(false)) {
 					cancelEditItem();
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}
