@@ -598,7 +598,6 @@ public class MathQuillTreeItem extends RadioTreeItem
 					if (!keepFocus) {
 						setText("");
 					}
-					updateLineHeight();
 				}
 
 			};

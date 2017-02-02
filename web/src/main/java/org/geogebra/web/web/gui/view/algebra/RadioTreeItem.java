@@ -74,7 +74,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
@@ -1218,22 +1217,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected abstract void blurEditor();
 
-	private static final int HORIZONTAL_BORDER_HEIGHT = 2;
-
 	private static final int MARGIN_RESIZE = 50;
-
-	/**
-	 * Make sure the line height of the help icon fits the line height of the
-	 * rest
-	 */
-	protected void updateLineHeight() {
-		if (helpButtonPanel != null) {
-			this.helpButtonPanel.getElement().getStyle().setLineHeight(
-					content.getOffsetHeight() - HORIZONTAL_BORDER_HEIGHT,
-					Unit.PX);
-		}
-
-	}
 
 
 
@@ -1900,10 +1884,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private SimplePanel helpButtonPanel;
-
 	protected final void insertHelpToggle() {
-		helpButtonPanel = new SimplePanel();
 		updateIcons(false);
 		if (marblePanel == null) {
 			this.addMarble();
@@ -1947,7 +1928,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			setLatexItemVisible(false);
 		}
-		updateLineHeight();
 	}
 
 	private void setLatexItemVisible(boolean b) {
@@ -2152,7 +2132,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void updateFonts() {
-		updateLineHeight();
+		// only in JLM
 	}
 
 	public boolean softEnter;

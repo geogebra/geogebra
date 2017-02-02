@@ -250,7 +250,6 @@ public class LatexTreeItem extends RadioTreeItem {
 			}
 		}
 		updatePreview();
-		updateLineHeight();
 	}
 	@Override
 	public void setLabels() {
@@ -281,7 +280,6 @@ public class LatexTreeItem extends RadioTreeItem {
 		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
-		updateLineHeight();
 		onCursorMove();
 	}
 
@@ -461,7 +459,6 @@ public class LatexTreeItem extends RadioTreeItem {
 			}
 		});
 
-		updateLineHeight();
 		return true;
 
 	}

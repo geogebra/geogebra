@@ -129,6 +129,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		addHistoryPopup(true);
 
 		insertHelpToggle();
+		marblePanel.updateIcons(false);
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
@@ -567,7 +568,6 @@ public class InputTreeItem extends MathQuillTreeItem
 	public void setText(String s) {
 		removeDummy();
 		editor.setText(s, false);
-		updateLineHeight();
 		updatePreview();
 	}
 
@@ -794,7 +794,6 @@ public class InputTreeItem extends MathQuillTreeItem
 	@Override
 	public void typing(boolean heuristic) {
 		if (heuristic) {
-			updateLineHeight();
 			app.closePerspectivesPopup();
 		}
 		if (!app.has(Feature.AV_INPUT_BUTTON_COVER) && plusButton != null) {
@@ -865,7 +864,6 @@ public class InputTreeItem extends MathQuillTreeItem
 				CancelEventTimer.keyboardSetVisible();
 			}
 		});
-		updateLineHeight();
 		return true;
 	}
 
