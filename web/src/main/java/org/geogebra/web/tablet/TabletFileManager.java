@@ -131,7 +131,6 @@ public class TabletFileManager extends FileManagerT {
 				int id = Integer.parseInt(idString);
 				saveFileMaterial.setLocalID(id);
 				saveCallback.onSaved(saveFileMaterial, true);
-				addMaterial(saveFileMaterial);
 			}catch(NumberFormatException e){
 				Log.debug("error parsing material id: "+idString+", message: "+e.getMessage());
 			}
