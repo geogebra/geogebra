@@ -2283,9 +2283,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            The width to expand.
 	 */
 	public void expandWidth(int width) {
-		if (getOriginalWidth() != null) {
+		Log.debug("[AVSIZE] expanding width");
+
+		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
 		}
+
 
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
@@ -2295,17 +2298,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		int currentWidth = avDockPanel.asWidget().getOffsetWidth();
-
-		if (currentWidth < width) {
+		if (originalWidth == null) {
 			setOriginalWidth(currentWidth);
-			Log.debug("[AVSIZE] expanding width to " + width);
-
-			splitPane.setWidgetSize(avDockPanel, width);
-			avDockPanel.deferredOnResize();
-
-		} else {
-			// setOriginalWidth(null);
 		}
+
+
+		int w = Kernel.isGreater(width, originalWidth) ? width : originalWidth;
+
+		Log.debug("[AVSIZE] expanding width to " + w);
+		splitPane.setWidgetSize(avDockPanel, w);
+		avDockPanel.deferredOnResize();
 	}
 
 	/**

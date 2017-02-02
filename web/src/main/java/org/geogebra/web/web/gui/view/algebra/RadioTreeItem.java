@@ -1220,6 +1220,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private static final int HORIZONTAL_BORDER_HEIGHT = 2;
 
+	private static final int MARGIN_RESIZE = 50;
+
 	/**
 	 * Make sure the line height of the help icon fits the line height of the
 	 * rest
@@ -1416,6 +1418,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected int getWidthForEdit() {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			return content.getOffsetWidth() + MARGIN_RESIZE;
+		}
 		int appWidth = (int) app.getWidth();
 		if (appWidth < 1) {// for case app is not part of DOM
 			appWidth = 600;
