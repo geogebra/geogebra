@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.controller;
 import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.editor.MathField;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;
@@ -739,7 +740,13 @@ public class InputController {
 				}
 
 				editorState.setCurrentOffset(start);
+				// in most cases no impact; goes to parent node when whole
+				// formula selected
+				if (parent instanceof MathSequence) {
+					editorState.setCurrentField((MathSequence) parent);
+				}
 			}
+
 		}
 		editorState.resetSelection();
 		return nonempty;
@@ -749,7 +756,8 @@ public class InputController {
     public boolean handleChar(EditorState editorState, char ch) {
         boolean handled = false;
         // backspace, delete and escape are handled for key down
-        if (ch == 8 || ch == 127 || ch == 27) {
+		if (ch == KeyEvent.VK_BACK_SPACE || ch == KeyEvent.VK_DELETE
+				|| ch == KeyEvent.VK_ESCAPE) {
             return true;
         }
 		if (ch != '(' && ch != '{' && ch != '[') {

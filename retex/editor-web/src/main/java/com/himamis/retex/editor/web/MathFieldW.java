@@ -311,6 +311,9 @@ public class MathFieldW implements MathField, IsWidget {
 		if (checkNativeKey(evt, "{")) {
 			return KeyEvent.VK_OPEN_BRACKET;
 		}
+		if (checkNativeKey(evt, "(")) {
+			return KeyEvent.VK_OPEN_PAREN;
+		}
 
 
 		return evt.getKeyCode();
