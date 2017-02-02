@@ -1254,6 +1254,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			@Override
 			public void showError(String msg) {
 				RadioTreeItem.this.errorMessage = msg;
+
+				RadioTreeItem.this.commandError = null;
+
 				showCurrentError();
 				saveError();
 
@@ -1354,7 +1357,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            true to show input help
 	 */
 	public void setShowInputHelpPanel(boolean show) {
-
 		if (show) {
 			if (!av.isEditItem()) {
 				ensureEditing();
@@ -1834,8 +1836,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
-	@Override
-	public void updateIcons(boolean warning) {
+	private void updateIcons(boolean warning) {
 		if (this.marblePanel != null) {
 			marblePanel.updateIcons(warning);
 		}
@@ -2154,6 +2155,23 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void preventBlur() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setError(String error) {
+		this.errorMessage = error;
+
+		this.commandError = null;
+
+		if (marblePanel != null) {
+			marblePanel.updateIcons(error != null);
+		}
+	}
+
+	public void setCommandError(String command) {
+		this.commandError = command;
+		if (marblePanel != null) {
+			marblePanel.updateIcons(true);
+		}
 	}
 }
 

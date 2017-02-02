@@ -77,7 +77,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			item.addDummyLabel();
 			return;
 		}
-
+		item.setShowInputHelpPanel(false);
 		if (item.geo == null) {
 			if (StringUtil.empty(item.getText())) {
 				return;

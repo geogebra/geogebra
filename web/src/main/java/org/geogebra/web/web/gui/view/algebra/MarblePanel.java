@@ -132,11 +132,13 @@ public class MarblePanel extends FlowPanel {
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
 							item.preventBlur();
+							item.requestFocus();
 							if (item.showCurrentError()) {
-								item.requestFocus();
+
 								return;
 							}
-
+							// getBtnHelpToggle()
+							// .setDown(!getBtnHelpToggle().isDown());
 							if (getBtnHelpToggle().isDown()) {
 								item.app.hideKeyboard();
 								Scheduler.get().scheduleDeferred(

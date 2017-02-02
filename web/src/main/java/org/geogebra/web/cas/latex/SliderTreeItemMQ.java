@@ -20,7 +20,6 @@ import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.gui.view.algebra.MinMaxPanel;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.SliderTreeItemInterface;
-import org.geogebra.web.web.gui.view.algebra.SliderTreeItemMQController;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -297,6 +296,10 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	public void restoreSize() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Widget getAnimPanel() {
+		return controls.getAnimPanel();
 	}
 
 }

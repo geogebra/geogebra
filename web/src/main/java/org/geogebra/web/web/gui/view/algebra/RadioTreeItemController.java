@@ -108,7 +108,7 @@ public class RadioTreeItemController
 		return false;
 	}
 
-	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
+	protected static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
 		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
 
 	}

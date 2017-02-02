@@ -75,6 +75,9 @@ public class ItemControls extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Show animation panel
+	 */
 	public void showAnimPanel() {
 		showAnimPanel(true);
 	}

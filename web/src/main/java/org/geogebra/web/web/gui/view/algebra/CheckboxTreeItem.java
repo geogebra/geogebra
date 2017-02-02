@@ -8,12 +8,20 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * ReTeX based implementation of AV checkbox
+ *
+ */
 public class CheckboxTreeItem extends LatexTreeItem {
 	/**
 	 * checkbox displaying boolean variables
 	 */
 	CheckBox checkBox = null;
 
+	/**
+	 * @param geo0
+	 *            boolean geo
+	 */
 	public CheckboxTreeItem(GeoElement geo0) {
 		super(geo0);
 	}
@@ -82,8 +90,8 @@ public class CheckboxTreeItem extends LatexTreeItem {
 	}
 	
 	/**
-	 * 
 	 * @param geo
+	 *            element
 	 * @return if geo matches to CheckboxTreeItem.
 	 */
 	public static boolean match(GeoElement geo) {

@@ -1,11 +1,12 @@
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.cas.latex.SliderTreeItemMQ;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.web.gui.view.algebra.MinMaxPanel;
+import org.geogebra.web.web.gui.view.algebra.RadioTreeItemController;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -55,7 +56,7 @@ public class SliderTreeItemMQController extends RadioTreeItemController
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if ((isWidgetHit(slider.controls.getAnimPanel(), evt)
+		if ((isWidgetHit(slider.getAnimPanel(), evt)
 				|| (slider.getMinMaxPanel() != null
 						&& slider.getMinMaxPanel().isVisible())
 				|| isMarbleHit(evt))) {
@@ -143,9 +144,9 @@ public class SliderTreeItemMQController extends RadioTreeItemController
 		}
 
 		slider.getNum().setValue(event.getValue());
-		slider.geo.updateCascade();
+		slider.getGeo().updateCascade();
 
-		if (!slider.geo.isAnimating()) {
+		if (!slider.getGeo().isAnimating()) {
 			if (isAnotherMinMaxOpen()) {
 				MinMaxPanel.closeMinMaxPanel();
 			}

@@ -8,13 +8,7 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public interface HasHelpButton {
 
-	/**
-	 * Update the icon to info / error
-	 * 
-	 * @param error
-	 *            whether error should be shown
-	 */
-	void updateIcons(boolean error);
+
 
 	/**
 	 * @return command at caret
@@ -25,5 +19,19 @@ public interface HasHelpButton {
 	 * @return help toggle button
 	 */
 	UIObject getHelpToggle();
+
+	/**
+	 * Update the icon to info / error
+	 * 
+	 * @param msg
+	 *            input error
+	 */
+	void setError(String msg);
+
+	/**
+	 * @param command
+	 *            command name of error
+	 */
+	void setCommandError(String command);
 
 }

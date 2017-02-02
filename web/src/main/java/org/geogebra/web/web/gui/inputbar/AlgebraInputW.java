@@ -139,8 +139,7 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 
-	@Override
-	public void updateIcons(boolean warning) {
+	private void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
 		}
@@ -375,8 +374,7 @@ public class AlgebraInputW extends FlowPanel
 
 			@Override
 			public void showError(String msg) {
-
-				input.updateIcons(msg != null);
+				input.setError(msg);
 				input.getHelpToggle().getElement().setTitle(msg == null
 						? app2.getLocalization().getMenu("InputHelp")
 						: msg);
@@ -396,7 +394,7 @@ public class AlgebraInputW extends FlowPanel
 
 			@Override
 			public void showCommandError(String command, String message) {
-				input.updateIcons(true);
+				input.setCommandError(command);
 				if (((GuiManagerW) app2.getGuiManager())
 						.hasInputHelpPanel()) {
 					InputBarHelpPanelW helpPanel = ((GuiManagerW) app2
@@ -562,6 +560,14 @@ public class AlgebraInputW extends FlowPanel
 	@Override
 	public ToggleButton getHelpToggle() {
 		return this.btnHelpToggle;
+	}
+
+	public void setError(String msg) {
+		updateIcons(msg != null);
+	}
+
+	public void setCommandError(String command) {
+		updateIcons(true);
 	}
 
 }
