@@ -58,7 +58,7 @@ public class InputController {
         MetaArray meta = metaModel.getArray(arrayOpenKey);
         MathArray array = new MathArray(meta, size);
 		ArrayList<MathComponent> removed = cut(currentField, currentOffset,
-				editorState, array);
+				editorState, array, true);
 
         // add sequence
         MathSequence field = new MathSequence();
@@ -241,16 +241,26 @@ public class InputController {
     }
 
     /**
-     * Insert symbol.
-     */
+	 * Insert symbol.
+	 * 
+	 * @param editorState
+	 *            state
+	 * @param sy
+	 *            char
+	 */
     public void newSymbol(EditorState editorState, char sy) {
         MetaCharacter meta = metaModel.getSymbol("" + sy);
         newCharacter(editorState, meta);
     }
 
     /**
-     * Insert character.
-     */
+	 * Insert character.
+	 * 
+	 * @param editorState
+	 *            state
+	 * @param ch
+	 *            char
+	 */
     public void newCharacter(EditorState editorState, char ch) {
         MetaCharacter meta = metaModel.getCharacter("" + ch);
         newCharacter(editorState, meta);
@@ -395,13 +405,17 @@ public class InputController {
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
-			int currentOffset, EditorState st, MathArray array) {
+			int currentOffset, EditorState st, MathArray array, boolean rec) {
 
 		int end = currentField.size() - 1;
 		int start = currentOffset;
 
 		if (st.getCurrentField() == currentField
 				&& st.getSelectionEnd() != null) {
+			if (st.getSelectionEnd().getParent() == null && rec) {
+				return cut((MathSequence) st.getSelectionEnd(),
+						0, st, array, false);
+			}
 			end = currentField.indexOf(st.getSelectionEnd());
 			start = currentField.indexOf(st.getSelectionStart());
 			if (end < 0 || start < 0) {

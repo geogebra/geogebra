@@ -72,12 +72,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	private ArrayList<ToolBarW> toolbars;
 	AppW app;
 	ToolBarW toolBar;
-	//panel which contains the toolbar and undo-redo buttons.
+	/** panel which contains the toolbar and undo-redo buttons. */
 	FlowPanel toolBarPanel;
-	//panel for toolbar (without undo-redo buttons)
+	/** panel for toolbar (without undo-redo buttons) */
 	ScrollPanel toolBPanel;
 	// ScrollPanel ;
-	// panel for mobile submenu view
+	/** panel for mobile submenu view */
 	FlowPanel submenuPanel;
 	ScrollPanel submenuScrollPanel;
 	boolean inited = false;
@@ -87,7 +87,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton;
 	private StandardButton openMenuButton;
-	// private PushButton openSearchButton, openMenuButton;
+	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
 	private boolean redoPossible = false;

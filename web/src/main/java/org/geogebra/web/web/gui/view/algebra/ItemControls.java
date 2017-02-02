@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 
+/**
+ * Item action bar
+ *
+ */
 public class ItemControls extends FlowPanel {
 	/**
 	 * 
@@ -69,20 +73,17 @@ public class ItemControls extends FlowPanel {
 
 	}
 
+	/**
+	 * @param value
+	 *            whether to show animation panel
+	 */
 	public void showAnimPanel(boolean value) {
 		if (hasAnimPanel()) {
 			animPanel.setVisible(value);
 		}
 	}
 
-	/**
-	 * Show animation panel
-	 */
-	public void showAnimPanel() {
-		showAnimPanel(true);
-	}
-
-	public void buildGUI() {
+	private void buildGUI() {
 		radioTreeItem.setFirst(radioTreeItem.first);
 		clear();
 		if (radioTreeItem.geo.isAnimatable()) {
@@ -95,17 +96,16 @@ public class ItemControls extends FlowPanel {
 			updateAnimPanel();
 			showAnimPanel(true);
 		} else {
-			hideAnimPanel();
+			showAnimPanel(false);
 		}
 
 		add(getDeleteButton());
 
 	}
 
-	public void hideAnimPanel() {
-		showAnimPanel(false);
-	}
-
+	/**
+	 * 
+	 */
 	protected void createAnimPanel() {
 		animPanel = radioTreeItem.geo.isAnimatable()
 				? new AnimPanel(radioTreeItem)
@@ -113,16 +113,27 @@ public class ItemControls extends FlowPanel {
 
 	}
 
+	/**
+	 * Update animation panel
+	 */
 	public void updateAnimPanel() {
 		if (hasAnimPanel()) {
 			animPanel.update();
 		}
 	}
 
+	/**
+	 * @return animation panel
+	 */
 	public AnimPanel getAnimPanel() {
 		return animPanel;
 	}
 
+	/**
+	 * @param showX
+	 *            whether to show x button
+	 * @return whether this is shown (when single geo selected)
+	 */
 	public boolean update(boolean showX) {
 		radioTreeItem.setFirst(radioTreeItem.first);
 
@@ -165,18 +176,27 @@ public class ItemControls extends FlowPanel {
 		return ret;
 	}
 
+	/**
+	 * Remove animation panel
+	 */
 	public void removeAnimPanel() {
 		if (hasAnimPanel()) {
 			remove(animPanel);
 		}
 	}
 
+	/**
+	 * Reset animation panel
+	 */
 	public void reset() {
 		if (hasAnimPanel()) {
 			animPanel.reset();
 		}
 	}
 
+	/**
+	 * @return whether animation panel exists
+	 */
 	public boolean hasAnimPanel() {
 		return animPanel != null;
 	}
@@ -189,6 +209,12 @@ public class ItemControls extends FlowPanel {
 		super.setVisible(b);
 	}
 
+	/**
+	 * Called when item selected, shows the x button in edit mode
+	 * 
+	 * @param value
+	 *            whether this is the only selected item
+	 */
 	public void show(boolean value) {
 		if (!radioTreeItem.app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
@@ -208,6 +234,9 @@ public class ItemControls extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Update position
+	 */
 	public void reposition() {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -239,6 +268,9 @@ public class ItemControls extends FlowPanel {
 		});
 	}
 
+	/**
+	 * @return controller
+	 */
 	RadioTreeItemController getController() {
 		return this.radioTreeItem.getController();
 	}

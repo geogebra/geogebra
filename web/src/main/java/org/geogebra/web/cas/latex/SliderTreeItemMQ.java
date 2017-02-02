@@ -165,7 +165,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 		getSliderPanel().setVisible(true);
 
-		controls.showAnimPanel();
+		controls.showAnimPanel(true);
 	}
 
 	private void updateColor() {
