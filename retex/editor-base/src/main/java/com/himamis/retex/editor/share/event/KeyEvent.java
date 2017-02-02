@@ -54,7 +54,11 @@ public class KeyEvent {
 	 */
 	public static final int META_DOWN_MASK = 1 << 8;
 
-
+	// these 4 used in Android
+	public static final int ACTION_DOWN = 0; 
+	public static final int ACTION_UP = 1; 
+	public static final int ACTION_MULTIPLE = 2; 
+	public static final int ACTION_UNKNOWN = -1;
 
 	public static final int VK_ENTER = '\n';
 	public static final int VK_BACK_SPACE = '\b';
