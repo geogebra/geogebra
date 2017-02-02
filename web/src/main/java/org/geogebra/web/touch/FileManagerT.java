@@ -569,9 +569,10 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
 						        writer.write(base64);
-						        createMetaData(key,
-						                createMaterial("", modified)
-, cb);
+						        Material mat = createMaterial("", modified);
+						        // ensure material has the correct local id
+						        mat.setLocalID(app.getLocalID());
+						        createMetaData(key, mat , cb);
 					        }
 
 					        @Override
