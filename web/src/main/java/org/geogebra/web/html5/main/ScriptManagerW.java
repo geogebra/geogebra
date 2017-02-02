@@ -34,6 +34,9 @@ public class ScriptManagerW extends ScriptManager {
 		}
 	}-*/;
 
+	/**
+	 * Run global ggbOnInit without parameters
+	 */
 	public static native void ggbOnInitStatic() /*-{
 		if (typeof $wnd.ggbOnInit === 'function')
 			$wnd.ggbOnInit();
@@ -377,6 +380,22 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.getColor = function(objName) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getColor(Ljava/lang/String;)(objName);
+		};
+		
+		api.getPenColor = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPenColor()();
+		};
+		
+		api.getPenSize = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPenSize()();
+		};
+		
+		api.setPenSize = function(size) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPenSize(I)(size);
+		};
+		
+		api.setPenColor = function(red,green,blue) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPenColor(III)(red,green,blue);
 		};
 
 		api.getFilling = function(objName) {
