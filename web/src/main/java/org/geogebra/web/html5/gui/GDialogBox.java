@@ -67,28 +67,33 @@ import com.google.gwt.user.client.ui.Widget;
  * <li>.gwt-DialogBox .dialogTopLeftInner { the inner element of the cell }</li>
  * <li>.gwt-DialogBox .dialogTopCenter { the top center cell, where the caption
  * is located }</li>
- * <li>.gwt-DialogBox .dialogTopCenterInner { the inner element of the cell }</li>
+ * <li>.gwt-DialogBox .dialogTopCenterInner { the inner element of the cell }
+ * </li>
  * <li>.gwt-DialogBox .dialogTopRight { the top right cell }</li>
- * <li>.gwt-DialogBox .dialogTopRightInner { the inner element of the cell }</li>
+ * <li>.gwt-DialogBox .dialogTopRightInner { the inner element of the cell }
+ * </li>
  * <li>.gwt-DialogBox .dialogMiddleLeft { the middle left cell }</li>
- * <li>.gwt-DialogBox .dialogMiddleLeftInner { the inner element of the cell }</li>
+ * <li>.gwt-DialogBox .dialogMiddleLeftInner { the inner element of the cell }
+ * </li>
  * <li>.gwt-DialogBox .dialogMiddleCenter { the middle center cell, where the
  * content is located }</li>
  * <li>.gwt-DialogBox .dialogMiddleCenterInner { the inner element of the cell }
  * </li>
  * <li>.gwt-DialogBox .dialogMiddleRight { the middle right cell }</li>
- * <li>.gwt-DialogBox .dialogMiddleRightInner { the inner element of the cell }</li>
+ * <li>.gwt-DialogBox .dialogMiddleRightInner { the inner element of the cell }
+ * </li>
  * <li>.gwt-DialogBox .dialogBottomLeft { the bottom left cell }</li>
- * <li>.gwt-DialogBox .dialogBottomLeftInner { the inner element of the cell }</li>
+ * <li>.gwt-DialogBox .dialogBottomLeftInner { the inner element of the cell }
+ * </li>
  * <li>.gwt-DialogBox .dialogBottomCenter { the bottom center cell }</li>
  * <li>.gwt-DialogBox .dialogBottomCenterInner { the inner element of the cell }
  * </li>
  * <li>.gwt-DialogBox .dialogBottomRight { the bottom right cell }</li>
- * <li>.gwt-DialogBox .dialogBottomRightInner { the inner element of the cell }</li>
+ * <li>.gwt-DialogBox .dialogBottomRightInner { the inner element of the cell }
+ * </li>
  * </ul>
  * <p>
- * <h3>Example</h3>
- * {@example com.google.gwt.examples.DialogBoxExample}
+ * <h3>Example</h3> {@example com.google.gwt.examples.DialogBoxExample}
  * </p>
  * 
  * <h3>Use in UiBinder Templates</h3>
@@ -137,15 +142,15 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 @SuppressWarnings("deprecation")
-public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
-		HasSafeHtml, MouseListener {
+public class GDialogBox extends GDecoratedPopupPanel
+		implements HasHTML, HasSafeHtml, MouseListener {
 	/**
 	 * Set of characteristic interfaces supported by the {@link DialogBox}
 	 * caption.
 	 *
 	 */
-	public interface Caption extends HasAllMouseHandlers, HasHTML, HasSafeHtml,
-			IsWidget {
+	public interface Caption
+			extends HasAllMouseHandlers, HasHTML, HasSafeHtml, IsWidget {
 
 		public void onAttach();
 
@@ -413,9 +418,9 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 				return;
 			}
 
-			setPopupPosition(absX - dragStartX
-					- getRootPanel().getAbsoluteLeft(), absY - dragStartY
-					- getRootPanel().getAbsoluteTop());
+			setPopupPosition(
+					absX - dragStartX - getRootPanel().getAbsoluteLeft(),
+					absY - dragStartY - getRootPanel().getAbsoluteTop());
 		}
 	}
 
@@ -590,8 +595,8 @@ public class GDialogBox extends GDecoratedPopupPanel implements HasHTML,
 	private boolean isCaptionEvent(NativeEvent event) {
 		EventTarget target = event.getEventTarget();
 		if (Element.is(target)) {
-			return getCellElement(0, 1).getParentElement().isOrHasChild(
-					Element.as(target));
+			return getCellElement(0, 1).getParentElement()
+					.isOrHasChild(Element.as(target));
 		}
 		return false;
 	}
