@@ -10916,6 +10916,9 @@ namespace giac {
     ref_mpz_t * e = new ref_mpz_t;
     if (i<j)
       return e;
+#ifdef mpz_bin_uiui
+    mpz_bin_uiui(e->z,i,j);
+#else
     mpz_set_ui(e->z,1);
     for (unsigned long int k=i;k>i-j;--k)
       mpz_mul_ui(e->z,e->z,k);
@@ -10924,6 +10927,7 @@ namespace giac {
     mpz_fac_ui(tmp,j);
     mpz_fdiv_q(e->z,e->z,tmp);
     mpz_clear(tmp);
+#endif
     return e;
   }
 

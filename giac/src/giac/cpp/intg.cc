@@ -4894,14 +4894,16 @@ namespace giac {
 	gen v0=eval(v[0],1,contextptr);
 	if (is_undef(v0)) 
 	  v0=v[0];
-	w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
+	if (!has_num_coeff(v0))
+	  w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
 #else
-	gen v0=v[0];
+	  gen v0=v[0];
 	try {
 #ifndef EMCC
 	  v0=eval(v[0],1,contextptr);
 #endif
-	  w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
+	  if (!has_num_coeff(v0))
+	    w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
 	} catch (std::runtime_error & e){
 	  v0=v[0];
 	}
