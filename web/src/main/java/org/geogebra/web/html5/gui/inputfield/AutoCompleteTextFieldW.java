@@ -18,7 +18,6 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
-import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,7 +29,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.TextField;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -89,7 +87,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
 		KeyDownHandler, KeyUpHandler, KeyPressHandler,
 		ValueChangeHandler<String>, SelectionHandler<Suggestion>,
-		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF, TextField {
+		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -1879,21 +1877,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public GeoInputBox getInputBox() {
 		return geoUsedForInputBox;
-	}
-
-	public void addActionListener(StatisticsCalculator sc) {
-		// not needed in web
-
-	}
-
-	public void addFocusListener(StatisticsCalculator sc) {
-		// not needed in web
-
-	}
-
-	public void removeActionListener(StatisticsCalculator sc) {
-		// not needed in web
-
 	}
 
 }

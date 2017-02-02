@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.TextField;
+import org.geogebra.common.util.TextObject;
 
 /**
  * @author gabor StatisticCalculator common superclass
@@ -25,8 +25,8 @@ public abstract class StatisticsCalculator {
 	protected Kernel kernel;
 	protected int fieldWidth = 6;
 
-	protected TextField fldSigma, fldNullHyp, fldConfLevel;
-	protected TextField[] fldSampleStat1, fldSampleStat2;
+	protected TextObject fldSigma, fldNullHyp, fldConfLevel;
+	protected TextObject[] fldSampleStat1, fldSampleStat2;
 
 	// =========================================
 	// Procedures
@@ -190,8 +190,8 @@ public abstract class StatisticsCalculator {
 	final protected void setSampleFieldText() {
 
 		for (int i = 0; i < 3; i++) {
-			fldSampleStat1[i].removeActionListener(this);
-			fldSampleStat2[i].removeActionListener(this);
+			removeActionListener(fldSampleStat1[i]);
+			removeActionListener(fldSampleStat2[i]);
 			fldSampleStat1[i].setText("");
 			fldSampleStat2[i].setText("");
 		}
@@ -237,14 +237,25 @@ public abstract class StatisticsCalculator {
 		}
 
 		for (int i = 0; i < 3; i++) {
-			fldSampleStat1[i].addActionListener(this);
-			fldSampleStat2[i].addActionListener(this);
+			addActionListener(fldSampleStat1[i]);
+			addActionListener(fldSampleStat2[i]);
 		}
 
 		fldConfLevel.setText(format(sc.level));
 		fldNullHyp.setText(format(sc.nullHyp));
 
 	}
+
+	protected void addActionListener(TextObject textObject) {
+		// not needed in web
+
+	}
+
+	protected void removeActionListener(TextObject textObject) {
+		// not needed in web
+
+	}
+
 	abstract protected boolean btnRightIsSelected();
 
 	abstract protected boolean btnLeftIsSelected();

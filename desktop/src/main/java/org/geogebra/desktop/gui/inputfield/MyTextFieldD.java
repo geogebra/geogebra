@@ -28,10 +28,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.ColorProvider;
-import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.TextField;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -49,7 +47,7 @@ import org.geogebra.desktop.main.AppD;
  */
 public class MyTextFieldD extends JTextField
 		implements ActionListener, FocusListener, VirtualKeyboardListener,
-		CaretListener, SetLabels, TextObject, TextField {
+		CaretListener, SetLabels, TextObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -567,18 +565,5 @@ public class MyTextFieldD extends JTextField
 
 	}
 
-	public void addActionListener(StatisticsCalculator sc) {
-		this.addActionListener((ActionListener) sc);
 
-	}
-
-	public void addFocusListener(StatisticsCalculator sc) {
-		this.addFocusListener((FocusListener) sc);
-
-	}
-
-	public void removeActionListener(
-			StatisticsCalculator statisticsCalculator) {
-		this.removeActionListener((ActionListener) statisticsCalculator);
-	}
 }

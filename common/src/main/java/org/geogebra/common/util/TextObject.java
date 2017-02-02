@@ -6,4 +6,11 @@ public interface TextObject {
 	void setText(String s);
 
 	void wrapSetText(String s);
+
+	void setColumns(int fieldWidth);
+
+
+	void setVisible(boolean b);
+
+	void setEditable(boolean b);
 }
