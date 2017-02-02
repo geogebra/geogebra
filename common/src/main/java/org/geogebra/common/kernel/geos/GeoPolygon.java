@@ -2420,7 +2420,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return false;
 		}
 		// polygon[list]
-		if (getParentAlgorithm().getInput().length < 3) {
+		if (getParentAlgorithm() == null
+				|| getParentAlgorithm().getInput().length < 3) {
 			return false;
 		}
 		return true;

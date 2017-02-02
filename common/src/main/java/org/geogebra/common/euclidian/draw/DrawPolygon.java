@@ -941,9 +941,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	}
 
-	private void drawPolygonConvex(Coords n, Coords[] vertices, int length,
+	private void drawPolygonConvex(Coords[] vertices, int length,
 			boolean reverse) {
-		Log.debug("[POLY] drawPolygonConvex");
+		Log.debug("[POLY] drawPolygonConvex: " + reverse);
 		Coords coordsApex = vertices[0];
 		coords[0] = coordsApex.getX();
 		coords[1] = coordsApex.getY();
@@ -970,7 +970,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		PolygonTriangulation pt = poly.getPolygonTriangulation();
 		pt.clear();
 
-		Coords n = poly.getMainDirection();
 
 		calculateCorners();
 
@@ -989,6 +988,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 				int j = 0;
 				for (int i = 0; i < poly.getPointsLength(); i++) {
 					vertices[i] = poly.getPointND(i).getCoords();
+					if (!Kernel.isZero(vertices[i].getZ())) {
+						return;
+					}
 					j++;
 				}
 
@@ -1018,8 +1020,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 					boolean reverse = poly.getReverseNormalForDrawing()
 							^ (convexity == Convexity.CLOCKWISE);
 
-					drawPolygonConvex(n, vertices, poly.getPointsLength(),
-							reverse);
+					drawPolygonConvex(vertices, poly.getPointsLength(),						reverse);
+
 				} else {
 					// set intersections (if needed) and divide the polygon into
 					// non self-intersecting polygons
@@ -1046,7 +1048,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 					for (TriangleFan triFan : pt.getTriangleFans()) {
 						// we need here verticesWithIntersections, for
 						// self-intersecting polygons
-						drawTriangleFan(n, verticesWithIntersections, triFan);
+						drawTriangleFan(verticesWithIntersections, triFan);
 					}
 
 					// create the shape
@@ -1078,7 +1080,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				|| c[1] > view.getHeight() + FAN_DELTA;
 	}
 
-	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
+	private void drawTriangleFan(Coords[] v, TriangleFan triFan) {
 		Log.debug("[POLY] drawTriangleFan");
 
 		int size = triFan.size();
