@@ -57,7 +57,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 class VerticalBox extends Box {
 
 	private double leftMostPos = Double.MAX_VALUE;
-	private double rightMostPos = Double.MIN_VALUE;
+	private double rightMostPos = -Double.MAX_VALUE;
 
 	public VerticalBox() {
 	}
