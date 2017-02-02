@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
-import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -190,8 +189,6 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	/**
 	 * Compute the locus equation curve and put into geoPoly.
 	 * 
-	 * @param implicit
-	 *            if the computation will be done for an implicit locus
 	 */
 	public void computeEnvelope() {
 		String result = null;
@@ -273,10 +270,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		AlgebraicStatement as = AlgoLocusEquation
 				.translateConstructionAlgebraically(locusPoint,
 				movingPoint, false, this);
-		Polynomial[] lpPolys = ((SymbolicParametersBotanaAlgo) locusPoint)
-				.getBotanaPolynomials(locusPoint);
 		// It is safe to remove the virtual locus point here.
-
 		locusPoint.remove();
 
 		/*
@@ -286,22 +280,11 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		String varx = as.curveVars[0].toString();
 		String vary = as.curveVars[1].toString();
 
-		// Now we do the replacement for the last equation (obtained for the
-		// path):
-		String[] lastS = new String[lpPolys.length];
-		int i;
-		for (i = 0; i < lpPolys.length; i++) {
-			String eq = lpPolys[i].toString();
-			eq = eq.replaceAll(varx, "x");
-			eq = eq.replaceAll(vary, "y");
-			lastS[i++] = eq;
-		}
 		// We collect the used x1,x2,... variables (their order is not
 		// relevant):
-
 		Polynomial[] allPolys = new Polynomial[as.getPolynomials().size()];
 		Iterator<Polynomial> it = as.getPolynomials().iterator();
-		i = 0;
+		int i = 0;
 		while (it.hasNext()) {
 			Polynomial poly = it.next();
 			allPolys[i] = poly;
