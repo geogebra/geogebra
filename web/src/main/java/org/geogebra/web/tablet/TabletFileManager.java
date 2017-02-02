@@ -123,11 +123,18 @@ public class TabletFileManager extends FileManagerT {
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
-	public void catchSaveFileResult(String result) {
-		if ("1".equals(result)){
-			saveCallback.onSaved(saveFileMaterial, true);
-		}else{
+	public void catchSaveFileResult(String idString) {
+		if (idString == null || "0".equals(idString)){
 			saveCallback.onError();
+		}else{
+			try{
+				int id = Integer.parseInt(idString);
+				saveFileMaterial.setLocalID(id);
+				saveCallback.onSaved(saveFileMaterial, true);
+				addMaterial(saveFileMaterial);
+			}catch(NumberFormatException e){
+				Log.debug("error parsing material id: "+idString+", message: "+e.getMessage());
+			}
 		}
 	}
 			
