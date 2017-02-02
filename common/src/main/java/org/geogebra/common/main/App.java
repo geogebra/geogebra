@@ -4041,10 +4041,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ANALYTICS:
 			return true;
 
-		// MOB-668
-		case MOBILE_SET_MODE_IN_TOOLBAR_FROM_APP:
-			return true;
-
 		case DATA_COLLECTION:
 			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
 				return true;
