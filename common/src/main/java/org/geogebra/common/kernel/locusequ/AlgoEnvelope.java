@@ -290,11 +290,6 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			allPolys[i] = poly;
 			i++;
 		}
-		HashSet<org.geogebra.common.kernel.prover.polynomial.Variable> otherVars = Polynomial
-				.getVars(allPolys);
-		otherVars.remove(as.curveVars[0]);
-		otherVars.remove(as.curveVars[1]);
-		int otherVarsNo = otherVars.size();
 
 		StringBuilder vars = new StringBuilder();
 		String allVars = Polynomial.getVarsAsCommaSeparatedString(allPolys,
@@ -322,31 +317,11 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			// calls, one for
 			// the Jacobian and one for the elimination.
 			script.append("[[");
-			script.append("m:=[").append(polys).append("]],[J:=det_minor(");
-			Iterator<org.geogebra.common.kernel.prover.polynomial.Variable> it1 = otherVars
-					.iterator();
-			i = 0;
-			while (it1.hasNext()) {
-				i++;
-				it1.next();
-				script.append("[");
-				Iterator<org.geogebra.common.kernel.prover.polynomial.Variable> it2 = otherVars
-						.iterator();
-				int j = 0;
-				while (it2.hasNext()) {
-					j++;
-					script.append(
-							"diff(m[" + (i - 1) + "]," + it2.next() + ")");
-					if (j != otherVarsNo) {
-						script.append(",");
-					}
-				}
-				script.append("]");
-				if (i != otherVarsNo) {
-					script.append(",");
-				}
-			}
-			script.append(")]][1][0]");
+			String varlist = "[" + varx + "," + vary + "]";
+			script.append("m:=[").append(polys)
+					.append("]],[J:=jacobi_simplifier(m," + varlist
+							+ ")],[jacobi_det(J," + varlist + ")]]");
+			script.append("[2][0]");
 
 			Log.trace(
 					"Input to giac (compute det of Jacobi matrix): " + script);
@@ -378,6 +353,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		}
 
+		/* FIXME or REMOVEME, this is probably not working at the moment. */
 		// Constructing the Singular script. This code contains a modified
 		// version
 		// of Francisco Botana's locusdgto() and envelopeto() procedures in the

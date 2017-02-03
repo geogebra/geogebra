@@ -198,7 +198,20 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * buggy eliminate)
 		 */
 		ELIMINATE2("eliminate2",
-				"eliminate2(x,y):=eliminate(eliminate(x,y),y);");
+				"eliminate2(x,y):=eliminate(eliminate(x,y),y);"),
+		/**
+		 * Helps simplifying the input when computing the Jacobian matrix in the
+		 * Envelope command. Input: a list of polynomials and a list of
+		 * variables which will not be used as derivatives. Output: another list
+		 * of polynomials (a shorter list) which does not contain the linear
+		 * ones and equivalent with the input.
+		 */
+		JACOBI_SIMPLIFIER("jacobi_simplifier", "jacobi_simplifier(polys,excludevars):=begin local ii, linvars, nextvars, degrees, pos, vars, linvar; vars:=lvar(polys); /* print(polys,vars); */ linvars:=[]; for ii from 0 to size(polys)-1 do degrees:=degree(polys[ii],vars); /* print(linvars,polys[ii],degrees); */ if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) linvars:=append(linvars, linvar); end; od if (size(linvars)>0) return jacobi_simplifier(eliminate(polys,linvars),excludevars); else return polys; end"),
+		/**
+		 * Compute the Jacobian matrix of the polys with respect to excludevars.
+		 */
+		JACOBI_DET("jacobi_det", "jacobi_det(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end")
+		;
 		/** function name */
 		final public String functionName;
 		/** definition string */
