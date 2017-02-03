@@ -326,9 +326,9 @@ public class ScriptManagerW extends ScriptManager {
 		api.setTrace = function(objName, flag) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setTrace(Ljava/lang/String;Z)(objName,flag);
 		};
-		
+
 		api.isTracing = function(objName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isTracing(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isTracing(Ljava/lang/String;)(objName);
 		};
 
 		api.setLabelVisible = function(objName, visible) {
@@ -381,19 +381,19 @@ public class ScriptManagerW extends ScriptManager {
 		api.getColor = function(objName) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getColor(Ljava/lang/String;)(objName);
 		};
-		
+
 		api.getPenColor = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPenColor()();
 		};
-		
+
 		api.getPenSize = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPenSize()();
 		};
-		
+
 		api.setPenSize = function(size) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPenSize(I)(size);
 		};
-		
+
 		api.setPenColor = function(red,green,blue) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPenColor(III)(red,green,blue);
 		};
