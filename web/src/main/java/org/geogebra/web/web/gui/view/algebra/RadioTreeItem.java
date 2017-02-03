@@ -342,7 +342,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			Integer limit) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
-				|| !geo1.isDefined()) {
+				|| !geo1.isDefined()  || !geo1.isLaTeXDrawableGeo()) {
 			return null;
 		}
 
@@ -568,7 +568,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		String text = isGeoFraction() ? getTextForEditing(false, StringTemplate.latexTemplate)
+	 	             : getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 		if (latex) {
 			definitionPanel.addStyleName("avDefinition");
