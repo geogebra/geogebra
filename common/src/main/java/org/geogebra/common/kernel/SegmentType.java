@@ -1,6 +1,19 @@
 package org.geogebra.common.kernel;
 
+/**
+ * Type of point for general path drawing
+ */
 public enum SegmentType {
-	LINE_TO, MOVE_TO, ARC_TO, AUXILIARY
+	/** lineto */
+	LINE_TO,
+	/** moveto */
+	MOVE_TO,
+	/**
+	 * curveto using aux point as intersection of tangents, assumes angle <=
+	 * pi/2
+	 */
+	ARC_TO,
+	/** aux point for arc_to */
+	AUXILIARY
 
 }

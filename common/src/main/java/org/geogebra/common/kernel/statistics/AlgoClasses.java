@@ -24,6 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Algo for Classes[]
+ *
+ */
 public class AlgoClasses extends AlgoElement {
 
 	private GeoList dataList; // input
@@ -35,13 +39,18 @@ public class AlgoClasses extends AlgoElement {
 
 	// for compute
 
-	public AlgoClasses(Construction cons, String label, GeoList dataList,
-			GeoNumeric start, GeoNumeric width, GeoNumeric numClasses) {
-
-		this(cons, dataList, start, width, numClasses);
-		classList.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param dataList
+	 *            data
+	 * @param start
+	 *            first class start
+	 * @param width
+	 *            class width
+	 * @param numClasses
+	 *            number of classes
+	 */
 	public AlgoClasses(Construction cons, GeoList dataList, GeoNumeric start,
 			GeoNumeric width, GeoNumeric numClasses) {
 		super(cons);
@@ -86,6 +95,9 @@ public class AlgoClasses extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return class list
+	 */
 	public GeoList getResult() {
 		return classList;
 	}

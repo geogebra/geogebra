@@ -33,8 +33,8 @@ public class CmdChiSquaredTest extends CommandProcessor {
 		case 1:
 			if (arg[0].isGeoList() && ((GeoList) arg[0]).isMatrix()) {
 				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons,
-						c.getLabel(), (GeoList) arg[0]);
-
+						(GeoList) arg[0], null);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
@@ -44,8 +44,8 @@ public class CmdChiSquaredTest extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
 				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons,
-						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1]);
-
+						(GeoList) arg[0], (GeoList) arg[1]);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

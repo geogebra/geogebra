@@ -27,7 +27,7 @@ public class MyPoint extends GPoint2D implements Point {
 	/** y-coord */
 	public double y;
 	/** lineto flag */
-	private SegmentType lineTo = SegmentType.LINE_TO;
+	private SegmentType segmentType = SegmentType.LINE_TO;
 
 
 	/**
@@ -57,13 +57,13 @@ public class MyPoint extends GPoint2D implements Point {
 	 *            x-coord
 	 * @param y
 	 *            y-coord
-	 * @param lineTo
+	 * @param segmentType
 	 *            lineto flag
 	 */
-	public MyPoint(double x, double y, SegmentType moveTo) {
+	public MyPoint(double x, double y, SegmentType segmentType) {
 		this.x = x;
 		this.y = y;
-		this.lineTo = moveTo;
+		this.segmentType = segmentType;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 * @return lineTo flag
 	 */
 	public boolean getLineTo() {
-		return lineTo == SegmentType.LINE_TO;
+		return segmentType == SegmentType.LINE_TO;
 	}
 
 	@Override
@@ -211,7 +211,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 *            whether this shoul be linto point
 	 */
 	public void setLineTo(boolean lineTo) {
-		this.lineTo = lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
+		this.segmentType = lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 
 	}
 
@@ -223,17 +223,20 @@ public class MyPoint extends GPoint2D implements Point {
 	@Override
 	public boolean isActive() {
 		// reuse field "lineTo"
-		return lineTo == SegmentType.LINE_TO;
+		return segmentType == SegmentType.LINE_TO;
 	}
 
 	@Override
 	public void setActive(boolean active) {
 		// re-use field "lineTo"
-		this.lineTo = active ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
+		this.segmentType = active ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 
 	}
 
+	/**
+	 * @return segment type
+	 */
 	public SegmentType getSegmentType() {
-		return lineTo;
+		return segmentType;
 	}
 }

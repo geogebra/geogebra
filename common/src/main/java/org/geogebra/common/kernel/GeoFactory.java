@@ -220,6 +220,13 @@ public class GeoFactory {
 		return new GeoConic(cons);
 	}
 
+	/**
+	 * @param dimension
+	 *            curve dimension
+	 * @param cons
+	 *            construction
+	 * @return cartesian curve
+	 */
 	public GeoCurveCartesianND newCurve(int dimension, Construction cons) {
 		return new GeoCurveCartesian(cons);
 	}

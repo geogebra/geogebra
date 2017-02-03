@@ -35,18 +35,15 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	private double p, testStat;
 	private ChiSquaredDistribution chisquared = null;
 
-	public AlgoChiSquaredTest(Construction cons, String label,
-			GeoList geoList) {
-		this(cons, geoList, null);
-		result.setLabel(label);
-	}
-
-	public AlgoChiSquaredTest(Construction cons, String label, GeoList geoList,
-			GeoList geoList2) {
-		this(cons, geoList, geoList2);
-		result.setLabel(label);
-	}
-
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            first list or matrix
+	 * @param geoList2
+	 *            second list
+	 */
 	public AlgoChiSquaredTest(Construction cons, GeoList geoList,
 			GeoList geoList2) {
 		super(cons);
@@ -81,6 +78,9 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoList getResult() {
 		return result;
 	}
