@@ -34,6 +34,7 @@ import javax.swing.JTextField;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.Util;
 import org.geogebra.desktop.gui.dialog.ToolManagerDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -402,7 +403,7 @@ public class ToolNameIconPanelD extends JPanel {
 				image = new MyImageD(bi);
 				app.addExternalImage(fileName, image);
 			}
-			iconFileName = fileName;
+			iconFileName = Util.checkImageExtension(fileName);
 			labelIcon.setIcon(new ImageIcon(image.getImage()));
 		} else {
 			labelIcon.setIcon(app.getToolIcon(null));

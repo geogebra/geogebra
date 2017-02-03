@@ -1,9 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.Util;
 
 /**
  * Handles fill image of GeoElement
@@ -36,20 +34,8 @@ public abstract class GeoElementGraphicsAdapter {
 	 *            new filename
 	 */
 	public void setImageFileNameOnly(String fn) {
-		FileExtensions ext = StringUtil.getFileExtension(fn);
 
-		if (!ext.isAllowedImage() && !"".equals(fn)) {
-
-			// all bitmaps (except JPG) saved as PNG
-			// eg .TIFF/.TIF/.BMP
-			imageFileName = StringUtil.changeFileExtension(fn,
-					FileExtensions.PNG);
-			Log.debug(
-					"changing image extension " + ext + " -> " + imageFileName);
-		} else {
-
-			imageFileName = fn;
-		}
+		imageFileName = Util.checkImageExtension(fn);
 	}
 
 	/**

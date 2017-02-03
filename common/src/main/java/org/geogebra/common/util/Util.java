@@ -12,6 +12,8 @@
 
 package org.geogebra.common.util;
 
+import org.geogebra.common.util.debug.Log;
+
 public class Util {
 
 	/**
@@ -88,5 +90,31 @@ public class Util {
 	 */
 	public static int getValidFontSize(int fontSize) {
 		return getNextHigestNumberInSortedList(fontSize, MENU_FONT_SIZES);
+	}
+
+	/**
+	 * @param fn
+	 *            filename to check
+	 * @return filename with extension changed eg ".gif" -> ".png"
+	 */
+	public static String checkImageExtension(String fn) {
+
+		String ret;
+
+		FileExtensions ext = StringUtil.getFileExtension(fn);
+
+		if (!ext.isAllowedImage() && !"".equals(fn)) {
+
+			// all bitmaps (except JPG) saved as PNG
+			// eg .TIFF/.TIF/.BMP
+			ret = StringUtil.changeFileExtension(fn, FileExtensions.PNG);
+			Log.debug(
+					"changing image extension " + ext + " -> " + ret);
+		} else {
+
+			ret = fn;
+		}
+
+		return ret;
 	}
 }
