@@ -625,13 +625,15 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public EuclidianView getActiveEuclidianView() {
 
-		EuclidianDockPanelAbstract focusedEuclidianPanel = layout
-				.getDockManager().getFocusedEuclidianPanel();
+		if (layout != null && layout.getDockManager() != null) {
+			EuclidianDockPanelAbstract focusedEuclidianPanel = layout
+					.getDockManager().getFocusedEuclidianPanel();
 
-		if (focusedEuclidianPanel != null) {
-			return focusedEuclidianPanel.getEuclidianView();
+			if (focusedEuclidianPanel != null) {
+				return focusedEuclidianPanel.getEuclidianView();
+			}
 		}
-		return (app).getEuclidianView1();
+		return app.getEuclidianView1();
 	}
 
 	@Override
