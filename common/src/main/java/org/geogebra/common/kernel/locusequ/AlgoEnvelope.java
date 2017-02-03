@@ -319,7 +319,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			script.append("[[");
 			String varlist = "[" + varx + "," + vary + "]";
 			script.append("m:=[").append(polys)
-					.append("]],[J:=jacobi_simplifier(m," + varlist
+					.append("]],[J:=jacobi_prepare(m," + varlist
 							+ ")],[jacobi_det(J," + varlist + ")]]");
 			script.append("[2][0]");
 

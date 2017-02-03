@@ -204,11 +204,20 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Envelope command. Input: a list of polynomials and a list of
 		 * variables which will not be used as derivatives. Output: another list
 		 * of polynomials (a shorter list) which does not contain the linear
-		 * ones and equivalent with the input.
+		 * ones and equivalent with the input. Note that
+		 * op(solve(polys[ii],linvar)[0])[1] is required in GeoGebra mode, in
+		 * standard Giac here solve(polys[ii],linvar)[0] should be written.
+		 * 
+		 * The algorithm finds the polys which have one variable and it is
+		 * linear. After solving such a poly=0 equation, the solution will be
+		 * substituted into all other polys. After doing this for all one
+		 * variable linear polys recursively, the resulted polys will be used in
+		 * the Jacobian matrix in jacobi_det().
 		 */
-		JACOBI_SIMPLIFIER("jacobi_simplifier", "jacobi_simplifier(polys,excludevars):=begin local ii, linvars, nextvars, degrees, pos, vars, linvar; vars:=lvar(polys); /* print(polys,vars); */ linvars:=[]; for ii from 0 to size(polys)-1 do degrees:=degree(polys[ii],vars); /* print(linvars,polys[ii],degrees); */ if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) linvars:=append(linvars, linvar); end; od if (size(linvars)>0) return jacobi_simplifier(eliminate(polys,linvars),excludevars); else return polys; end"),
+		JACOBI_PREPARE("jacobi_prepare", "jacobi_prepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii],linvar)[0])[1]; polys:=remove(0,subs(polys,[linvar],[substval])); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
-		 * Compute the Jacobian matrix of the polys with respect to excludevars.
+		 * Compute the Jacobian determinant of the polys with respect to
+		 * excludevars.
 		 */
 		JACOBI_DET("jacobi_det", "jacobi_det(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end")
 		;
