@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
@@ -544,20 +545,6 @@ public class EquationSolver implements EquationSolverInterface {
 		PolyFunction polyFunc = new PolyFunction(eqn);
 		PolyFunction derivFunc = polyFunc.getDerivative();
 
-		/*
-		 * double estx = 0; try { estx = rootPolisher.newtonRaphson(polyFunc,
-		 * LAGUERRE_START); Application.debug("newton estx: " + estx); if
-		 * (Double.isNaN(estx)) { estx = LAGUERRE_START; Application.debug(
-		 * "corrected estx: " + estx); } } catch (Exception e) {}
-		 */
-
-		// calc roots with Laguerre method
-
-		/*
-		 * old code using Flanagan library //ComplexPoly poly = new
-		 * ComplexPoly(eqn); //Complex [] complexRoots = poly.roots(false, new
-		 * Complex(LAGUERRE_START, 0)); // don't polish here
-		 */
 
 		Complex[] complexRoots = null;
 		try {
@@ -565,6 +552,8 @@ public class EquationSolver implements EquationSolverInterface {
 				laguerreSolver = new LaguerreSolver();
 			}
 			complexRoots = laguerreSolver.solveAll(eqn, LAGUERRE_START);
+		} catch (MaxIterationsExceededException e) {
+			Log.warn("Too many iterations. Degree: " + eqn.length);
 		} catch (Exception e) {
 			Log.error("EquationSolver.LaguerreSolver: "
 					+ e.getLocalizedMessage());
@@ -644,12 +633,13 @@ public class EquationSolver implements EquationSolverInterface {
 								.newInstance();
 						rootFinderBrent = fact.newBrentSolver();
 					}
-
-					double brentRoot = rootFinderBrent
-							.solve(new RealRootAdapter(derivFunc), left, right);
-					if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
-							.abs(polyFunc.evaluate(root))) {
-						root = brentRoot;
+					if (left < right) {
+						double brentRoot = rootFinderBrent.solve(
+								new RealRootAdapter(derivFunc), left, right);
+						if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
+								.abs(polyFunc.evaluate(root))) {
+							root = brentRoot;
+						}
 					}
 					// System.out.println(" find extremum successfull: " +
 					// root);

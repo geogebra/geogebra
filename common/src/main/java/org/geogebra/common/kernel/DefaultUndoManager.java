@@ -3,25 +3,44 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
+/**
+ * String based undo manager
+ * 
+ * @author Balazs
+ */
 public class DefaultUndoManager extends UndoManager {
 
+	/**
+	 * Wrapper around string
+	 */
     static protected class DefaultAppState implements AppState {
         private String xml;
 
+		/**
+		 * @param xml
+		 *            wrapped XML
+		 */
         DefaultAppState(String xml) {
             this.xml = xml;
         }
 
+		/**
+		 * @return wrapped XML
+		 */
         public String getXml() {
             return xml;
         }
 
         @Override
         public void delete() {
-
+			// overridden in subclases
         }
     }
 
+	/**
+	 * @param cons
+	 *            construction
+	 */
     public DefaultUndoManager(Construction cons) {
         super(cons);
         iterator = undoInfoList.listIterator();
@@ -34,6 +53,7 @@ public class DefaultUndoManager extends UndoManager {
 
     @Override
     public void storeUndoInfoAfterPasteOrAdd() {
+		// overridden in subclases
     }
 
     @Override

@@ -38,8 +38,6 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 	 *            probability of success
 	 * @param c
 	 *            value of random variable
-	 * @param isCumulative
-	 *            cumulative
 	 */
 	public AlgoBinomialDistList(Construction cons, String label,
 			GeoNumberValue a, GeoNumberValue b, GeoList c) {
