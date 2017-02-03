@@ -215,6 +215,7 @@ public class GeoGebraSerializer implements Serializer {
 			}
 			stringBuilder.deleteCharAt(stringBuilder.length() - field.length());
 			stringBuilder.append(close);
+System.out.println("**"+close+"**");
 			stringBuilder.append(row);
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - row.length());
