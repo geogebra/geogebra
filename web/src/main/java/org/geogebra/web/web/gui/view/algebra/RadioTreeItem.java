@@ -342,7 +342,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			Integer limit) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
-				|| !geo1.isDefined() || !geo1.isLaTeXDrawableGeo()) {
+				|| !geo1.isDefined()) {
 			return null;
 		}
 
@@ -568,9 +568,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
-		String text = isGeoFraction()
-				? getTextForEditing(false, StringTemplate.latexTemplate)
-				: getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 		if (latex) {
 			definitionPanel.addStyleName("avDefinition");
@@ -1626,12 +1624,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return main;
 	}
 
-
-
-
-
-
-
 	@Override
 	public void onResize() {
 		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
@@ -1641,8 +1633,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		updateButtonPanelPosition();
 	}
-
-
 
 	public boolean isItemSelected() {
 		return selectedItem;
@@ -2139,7 +2129,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public void preventBlur() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void setError(String error) {

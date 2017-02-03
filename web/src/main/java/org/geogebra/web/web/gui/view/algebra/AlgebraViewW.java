@@ -1261,6 +1261,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void clearView() {
 		nodeTable.clear();
+		latexLoaded = false;
 		clearTree();
 		if (inputPanelLatex != null) {
 			inputPanelLatex.setText("");
@@ -1539,8 +1540,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (appletHack) {
 			if (!isNodeTableEmpty()) {
-				AutoCompleteTextFieldW.showSymbolButtonIfExists(
-						inputPanelLatex, true);
+				AutoCompleteTextFieldW.showSymbolButtonIfExists(inputPanelLatex,
+						true);
 			} else {
 				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 			}
@@ -2334,14 +2335,26 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
+	/**
+	 * @return whether active element is the input row
+	 */
 	public boolean isInputActive() {
 		return activeItem == inputPanelLatex;
 	}
 
+	/**
+	 * Flag to determine whether we can render elements as LaTeX synchronously.
+	 * When false, render as text temporarily.
+	 * 
+	 * @return whether LaTeX is already loaded
+	 */
 	public boolean isLaTeXLoaded() {
 		return latexLoaded;
 	}
 
+	/**
+	 * Notify that LaTeX was loaded
+	 */
 	public void setLaTeXLoaded() {
 		latexLoaded = true;
 

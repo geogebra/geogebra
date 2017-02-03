@@ -2080,6 +2080,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return
 	 */
 	public Drawable getBoundingBoxHandlerHit(GPoint p, PointerEventType type) {
+		if(p==null){
+			return null;
+		}
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();

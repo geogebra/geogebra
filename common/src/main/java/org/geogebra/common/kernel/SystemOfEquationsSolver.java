@@ -153,7 +153,9 @@ public class SystemOfEquationsSolver {
 				}
 			}
 		}
-
+		if (xs.size() > res.length) {
+			return 0;
+		}
 		for (int i = 0; i < xs.size(); i++) {
 			res[i][0] = xs.get(i);
 			res[i][1] = ys.get(i);

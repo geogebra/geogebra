@@ -1035,12 +1035,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		param2[5] = Bmatrix[2]; // constant
 
 		double[][] res = new double[4][2];
-
 		// Solving system of equations
 		solnr = sysSolver.solveSystemOfQuadraticEquations(param1, param2, res,
 				eps);
 
-		if (solnr == -1) {
+		if (solnr == -1 || solnr > res.length) {
 			return false;
 		}
 
