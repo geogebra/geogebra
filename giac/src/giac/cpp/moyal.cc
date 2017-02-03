@@ -3418,8 +3418,10 @@ namespace giac {
       a=0;
     if (nd==9)
       b=1;
-    if (nd==12)
+    if (nd==12){
       a=1;
+      b=10;
+    }
     if (nd==2 || nd==3 || nd==4 || nd==12)
       return false;
     return true;

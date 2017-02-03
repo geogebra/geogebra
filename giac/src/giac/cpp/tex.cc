@@ -1080,8 +1080,11 @@ namespace giac {
   static void zoom(double &m,double & M,double d){
     double x_center=(M+m)/2;
     double dx=(M-m);
-    if (dx==0)
-      dx=1;
+    if (dx==0){
+      dx=std::abs(M);
+      if (dx==0)
+	dx=1;
+    }
     dx *= d/2;
     m = x_center - dx;
     M = x_center + dx;
@@ -1089,6 +1092,14 @@ namespace giac {
 
   void autoscaleminmax(vector<double> & v,double & m,double & M,bool fullview){
     int s=int(v.size());
+    if (s==0){
+      v.push_back(0);
+      ++s;
+    }
+    if (s==1){
+      v.push_back(v.front());
+      ++s;
+    }
     if (s>1){    
       sort(v.begin(),v.end());
       m=v[s/10];

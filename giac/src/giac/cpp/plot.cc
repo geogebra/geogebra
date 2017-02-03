@@ -1255,7 +1255,7 @@ namespace giac {
     if (vars.type==_IDNT){ // function plot
       gen a,b;
       if (taille(f,100)<=100 && is_linear_wrt(f,vars,a,b,contextptr))	
-	return _segment(makesequence(function_xmin+cst_i*(a*function_xmin+b),function_xmax+cst_i*(a*function_xmax+b)),contextptr);
+	return put_attributs(_segment(makesequence(function_xmin+cst_i*(a*function_xmin+b),function_xmax+cst_i*(a*function_xmax+b)),contextptr),attributs,contextptr);
       vecteur lpiece(lop(f,at_piecewise));
       if (!lpiece.empty()) lpiece=lvarx(lpiece,vars);
       if (!lpiece.empty()){
