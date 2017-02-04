@@ -13,6 +13,7 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
@@ -99,6 +100,38 @@ public class ProverBotanasMethod {
 			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
 				/* this is a free point */
 				freePoints.add(geo);
+			}
+		}
+		return freePoints;
+	}
+
+	/**
+	 * Compute predecessor free points of an element, used for locus/envelope.
+	 * Works similarly like getFreePoints(), but geos whose parent is
+	 * AlgoDynamicCoordinates will be used as free points and their predecessors
+	 * can be ignored.
+	 * 
+	 * @param geo
+	 *            input geo
+	 * @return list of free points
+	 */
+	public static HashSet<GeoElement> getLocusFreePoints(GeoElement geo) {
+		HashSet<GeoElement> freePoints = new HashSet<GeoElement>();
+		AlgoElement algo = geo.getParentAlgorithm();
+		if (algo != null) {
+			for (GeoElement g : algo.getInput()) {
+				AlgoElement a = g.getParentAlgorithm();
+				if (g.isGeoPoint() && a == null) {
+					/* this is a free point */
+					freePoints.add(g);
+				} else if (g.isGeoPoint()
+						&& a instanceof AlgoDynamicCoordinates) {
+					/* this will be considered as a free point */
+					freePoints.add(g);
+				} else {
+					/* find recursively the parents */
+					freePoints.addAll(getLocusFreePoints(g));
+				}
 			}
 		}
 		return freePoints;

@@ -6,7 +6,6 @@ package org.geogebra.common.kernel.locusequ;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -369,8 +368,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 
 		as.substitutions = new HashMap<Variable, Long>();
-		List<GeoElement> freePoints = ProverBotanasMethod
-				.getFreePoints(tracer);
+		HashSet<GeoElement> freePoints = ProverBotanasMethod
+				.getLocusFreePoints(tracer);
 		if (!implicit) {
 			freePoints.add(tracer);
 		}

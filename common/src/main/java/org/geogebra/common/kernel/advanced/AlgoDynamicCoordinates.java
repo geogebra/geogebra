@@ -126,17 +126,20 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		if (botanaVars != null) {
 			return botanaVars;
 		}
-		botanaVars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
+		// botanaVars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
+		botanaVars = new Variable[2];
+		botanaVars[0] = new Variable(true);
+		botanaVars[1] = new Variable(true);
 		return botanaVars;
 	}
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (botanaPolynomials != null) {
-			return botanaPolynomials;
-		}
-		botanaPolynomials = ((SymbolicParametersBotanaAlgo) P)
-				.getBotanaPolynomials(P);
-		return botanaPolynomials;
+		return null;
+		/*
+		 * if (botanaPolynomials != null) { return botanaPolynomials; }
+		 * botanaPolynomials = ((SymbolicParametersBotanaAlgo) P)
+		 * .getBotanaPolynomials(P); return botanaPolynomials;
+		 */
 	}
 }
