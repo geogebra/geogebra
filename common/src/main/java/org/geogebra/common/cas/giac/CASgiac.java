@@ -340,12 +340,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (rtrimmed.startsWith("\"")) {
 			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)
 					&& !rtrimmed.startsWith("\"X=")) {
-				// eg
-				// "Index outside range : 5, vector size is 3, syntax
-				// compatibility mode xcas Error: Invalid dimension"
-				// assume error
-				Log.debug("message from giac (assuming error) " + result);
-				result = "?";
+				// eg results from ScientificText[12345] in web
+				// do nothing
+				
+				// we used to do this, but Giac errors now all (should) contain GIAC_ERROR
+				//result = "?";
 			} else { // this is a special string output (only for the prover at
 						// the moment)
 				result = result.substring(1, result.length() - 1); // removing
