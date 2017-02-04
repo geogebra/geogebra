@@ -112,18 +112,19 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 	 * @return angle between 0 and PI
 	 */
 	protected static final double acos(double c) {
-		if (Kernel.isEqual(c, 1)) { // case where c is a bit more than 1
+		// case where c is a bit more than 1
+		if (Kernel.isEqual(c, 1) && c > 1) {
 			return 0;
 		}
 
-		if (Kernel.isEqual(c, -1)) { // case where c is a bit less than -1
+		// case where c is a bit less than -1
+		if (Kernel.isEqual(c, -1) && c < -1) {
 			return Math.PI;
 		}
 
 		return Math.acos(c);
 
 	}
-
 	/**
 	 * @param v1
 	 *            first vector
