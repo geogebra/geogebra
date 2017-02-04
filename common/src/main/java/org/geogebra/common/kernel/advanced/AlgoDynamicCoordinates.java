@@ -16,22 +16,30 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  *
  * @author Michael
  */
 public class AlgoDynamicCoordinates extends AlgoElement
-		implements AlgoDynamicCoordinatesInterface {
+		implements AlgoDynamicCoordinatesInterface,
+		SymbolicParametersBotanaAlgo {
 
 	private GeoNumberValue x, y; // input
 	private GeoPoint P; // input
 	private GeoPoint M; // output
+	private Variable[] botanaVars;
+	private Polynomial[] botanaPolynomials;
 
 	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
 			GeoNumberValue x, GeoNumberValue y) {
@@ -112,5 +120,23 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		 * indeed fully implemented. FIXME
 		 */
 		return true;
+	}
+
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		if (botanaVars != null) {
+			return botanaVars;
+		}
+		botanaVars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		botanaPolynomials = ((SymbolicParametersBotanaAlgo) P)
+				.getBotanaPolynomials(P);
+		return botanaPolynomials;
 	}
 }
