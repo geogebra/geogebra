@@ -6149,15 +6149,20 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 
   gen _is_polynomial(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    vecteur v = gen2vecteur(args);
+    vecteur v;
+    if (args.type==_VECT && args.subtype!=_SEQ__VECT)
+      v=vecteur(1,args);
+    else
+      v=gen2vecteur(args);
     if (v.empty())
       return gensizeerr(contextptr);
     if (v.size()==1)
       v.push_back(ggb_var(args));
-    if (v.size()>2)
-      return gendimerr(contextptr);
-    vecteur lv=lvarxwithinv(v,v[1],contextptr);
-    return lv.size()<2;
+    gen tmp=apply(v,equal2diff);
+    vecteur lv=lvarxwithinv(tmp,v[1],contextptr);
+    gen res=lv.size()<2?1:0;
+    res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _is_polynomial_s []="is_polynomial";
   static define_unary_function_eval (__is_polynomial,&_is_polynomial,_is_polynomial_s);
@@ -7466,6 +7471,20 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _printf_s []="printf";
   static define_unary_function_eval (__printf,&_printf,_printf_s);
   define_unary_function_ptr5( at_printf ,alias_at_printf,&__printf,0,true);
+
+  gen _sech(const gen & args,GIAC_CONTEXT){
+    return inv(cosh(args,contextptr),contextptr);
+  }
+  static const char _sech_s []="sech";
+  static define_unary_function_eval (__sech,&_sech,_sech_s);
+  define_unary_function_ptr5( at_sech ,alias_at_sech,&__sech,0,true);
+
+  gen _csch(const gen & args,GIAC_CONTEXT){
+    return inv(sinh(args,contextptr),contextptr);
+  }
+  static const char _csch_s []="csch";
+  static define_unary_function_eval (__csch,&_csch,_csch_s);
+  define_unary_function_ptr5( at_csch ,alias_at_csch,&__csch,0,true);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

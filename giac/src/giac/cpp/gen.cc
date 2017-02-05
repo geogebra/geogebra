@@ -3818,12 +3818,17 @@ namespace giac {
     case _FLOAT_:
       return fabs(a._FLOAT_val);
     case _VECT:
+      if (a.subtype==_POINT__VECT || a.subtype==_GGBVECT)
+	return _l2norm(a,contextptr);
       return _VECTabs(*a._VECTptr,contextptr);
     case _IDNT:
       return idnt_abs(a,contextptr);
     case _SYMB:
-      if (a.is_symb_of_sommet(at_pnt))
+      if (a.is_symb_of_sommet(at_pnt)){
+	if (is3d(a))
+	  return _l2norm(_coordonnees(a,contextptr),contextptr);
 	return abs(_affixe(a,contextptr),contextptr);
+      }
       return symb_abs(*a._SYMBptr,contextptr);
     case _USER:
       return a._USERptr->abs(contextptr);
