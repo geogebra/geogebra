@@ -25,36 +25,155 @@ public interface GWTKeycodes {
 	 *         -char-codes-key-codes
 	 */
 
-	public static final int KEY_MINUS = 189;
 
-	public static final int KEY_EQUALS = 187;
 
-	public static final int KEY_BACK_QUOTE = 223;
 
-	public static final int KEY_LEFT_SQUARE_BRACKET = 219;
-	public static final int KEY_RIGHT_SQUARE_BRACKET = 221;
 
-	public static final int KEY_PERIOD = 190;
-	public static final int KEY_COMMA = 188;
-	public static final int KEY_SEMICOLON = 186;
-	public static final int KEY_APOSTROPHE = 192;
-	public static final int KEY_HASH = 222;
-	public static final int KEY_SLASH = 191;
-	public static final int KEY_BACKSLASH = 220;
-	public static final int KEY_NUMPADASTERISK = 106;
-	public static final int KEY_NUMPADSLASH = 111;
-	public static final int KEY_WINDOWS = 91; // also META on Mac
 
-	public static final int KEY_CLEAR = 12;
-
+	/**
+	 * Key code for Windows key on Firefox Linux ???
+	 */
+	// public static final int KEY_WIN_KEY_FF_LINUX = 0;
+	/**
+	 * Undefined key code.
+	 */
 	public static final int KEY_UNDEFINED = 0;
-
-	// on numeric keypad
-	public static final int KEY_DECIMAL_POINT = 110;
-
-	// on numeric keypad in eg Germany
-	public static final int KEY_DECIMAL_COMMA = 108;
-
+	/**
+	 * Key code for Mac enter key
+	 */
+	public static final int KEY_MAC_ENTER = 3;
+	/**
+	 * Backspace key code.
+	 */
+	public static final int KEY_BACKSPACE = 8;
+	/**
+	 * Tab key code.
+	 */
+	public static final int KEY_TAB = 9;
+	/**
+	 * Key code for insert key (Also num lock on FF,Safari Mac).
+	 */
+	public static final int KEY_NUM_CENTER = 12;
+	/**
+	 * Clear key code.
+	 */
+	public static final int KEY_CLEAR = 12;
+	/**
+	 * Enter key code.
+	 */
+	public static final int KEY_ENTER = 13;
+	/**
+	 * Shift key code.
+	 */
+	public static final int KEY_SHIFT = 16;
+	/**
+	 * Control key code.
+	 */
+	public static final int KEY_CTRL = 17;
+	/**
+	 * Alt key code.
+	 */
+	public static final int KEY_ALT = 18;
+	/**
+	 * Key code for pause key
+	 */
+	public static final int KEY_PAUSE = 19;
+	/**
+	 * Key code for caps lock key
+	 */
+	public static final int KEY_CAPS_LOCK = 20;
+	/**
+	 * Escape key code.
+	 */
+	public static final int KEY_ESCAPE = 27;
+	/**
+	 * Key code for space
+	 */
+	public static final int KEY_SPACE = 32;
+	/**
+	 * Home key code (Also numeric keypad north west).
+	 */
+	public static final int KEY_PAGEUP = 33;
+	/**
+	 * Right arrow key code (Also numeric keypad east).
+	 */
+	public static final int KEY_PAGEDOWN = 34;
+	/**
+	 * End key code (Also numeric keypad south west).
+	 */
+	public static final int KEY_END = 35;
+	/**
+	 * Page up key code (Also numeric keypad north east).
+	 */
+	public static final int KEY_HOME = 36;
+	/**
+	 * Left key code (Also numeric keypad west).
+	 */
+	public static final int KEY_LEFT = 37;
+	/**
+	 * Up Arrow key code (Also numeric keypad north).
+	 */
+	public static final int KEY_UP = 38;
+	/**
+	 * Page down key code (Also numeric keypad south east).
+	 */
+	public static final int KEY_RIGHT = 39;
+	/**
+	 * Down arrow code (Also numeric keypad down).
+	 */
+	public static final int KEY_DOWN = 40;
+	/**
+	 * Key code for print key
+	 */
+	public static final int KEY_PRINT_SCREEN = 44;
+	/**
+	 * Key code for insert key (Also numeric keyboard insert).
+	 */
+	public static final int KEY_INSERT = 45; // also NUM_INSERT
+	/**
+	 * Delete key code (also numeric keypad delete).
+	 */
+	public static final int KEY_DELETE = 46;
+	/**
+	 * Key code number 0
+	 */
+	public static final int KEY_ZERO = 48;
+	/**
+	 * Key code number 1
+	 */
+	public static final int KEY_ONE = 49;
+	/**
+	 * Key code number 2
+	 */
+	public static final int KEY_TWO = 50;
+	/**
+	 * Key code number 3
+	 */
+	public static final int KEY_THREE = 51;
+	/**
+	 * Key code number 4
+	 */
+	public static final int KEY_FOUR = 52;
+	/**
+	 * Key code number 5
+	 */
+	public static final int KEY_FIVE = 53;
+	/**
+	 * Key code number 6
+	 */
+	public static final int KEY_SIX = 54;
+	/**
+	 * Key code number 7
+	 */
+	public static final int KEY_SEVEN = 55;
+	/**
+	 * Key code number 8
+	 */
+	public static final int KEY_EIGHT = 56;
+	/**
+	 * Key code number 9
+	 */
+	public static final int KEY_NINE = 57;
 	/**
 	 * Key code for A
 	 */
@@ -159,48 +278,18 @@ public interface GWTKeycodes {
 	 * Key code for Z
 	 */
 	public static final int KEY_Z = 90;
-
 	/**
-	 * Key code number 0
+	 * Key code for left windows key or meta.
 	 */
-	public static final int KEY_ZERO = 48;
+	public static final int KEY_WIN_KEY_LEFT_META = 91;
 	/**
-	 * Key code number 1
+	 * Key code for right windows key.
 	 */
-	public static final int KEY_ONE = 49;
+	public static final int KEY_WIN_KEY_RIGHT = 92;
 	/**
-	 * Key code number 2
+	 * Key code for context menu key.
 	 */
-	public static final int KEY_TWO = 50;
-	/**
-	 * Key code number 3
-	 */
-	public static final int KEY_THREE = 51;
-	/**
-	 * Key code number 4
-	 */
-	public static final int KEY_FOUR = 52;
-	/**
-	 * Key code number 5
-	 */
-	public static final int KEY_FIVE = 53;
-	/**
-	 * Key code number 6
-	 */
-	public static final int KEY_SIX = 54;
-	/**
-	 * Key code number 7
-	 */
-	public static final int KEY_SEVEN = 55;
-	/**
-	 * Key code number 8
-	 */
-	public static final int KEY_EIGHT = 56;
-	/**
-	 * Key code number 9
-	 */
-	public static final int KEY_NINE = 57;
-
+	public static final int KEY_CONTEXT_MENU = 93;
 	/**
 	 * Key code for number 0 on numeric keyboard
 	 */
@@ -250,6 +339,11 @@ public interface GWTKeycodes {
 	 */
 	public static final int KEY_NUM_PLUS = 107;
 	/**
+	 * Key code for comma on numeric keyboard replaces KEY_NUM_PERIOD in eg
+	 * Germany
+	 */
+	public static final int KEY_NUM_COMMA = 108;
+	/**
 	 * Key code for minus on numeric keyboard
 	 */
 	public static final int KEY_NUM_MINUS = 109;
@@ -261,77 +355,6 @@ public interface GWTKeycodes {
 	 * Key code for division on numeric keyboard
 	 */
 	public static final int KEY_NUM_DIVISION = 111;
-	/**
-	 * Alt key code.
-	 */
-	public static final int KEY_ALT = 18;
-
-	/**
-	 * Backspace key code.
-	 */
-	public static final int KEY_BACKSPACE = 8;
-	/**
-	 * Control key code.
-	 */
-	public static final int KEY_CTRL = 17;
-
-	/**
-	 * Delete key code (also numeric keypad delete).
-	 */
-	public static final int KEY_DELETE = 46;
-
-	/**
-	 * Down arrow code (Also numeric keypad down).
-	 */
-	public static final int KEY_DOWN = 40;
-
-	/**
-	 * End key code (Also numeric keypad south west).
-	 */
-	public static final int KEY_END = 35;
-
-	/**
-	 * Enter key code.
-	 */
-	public static final int KEY_ENTER = 13;
-	/**
-	 * Escape key code.
-	 */
-	public static final int KEY_ESCAPE = 27;
-	/**
-	 * Home key code (Also numeric keypad north west).
-	 */
-	public static final int KEY_HOME = 36;
-	/**
-	 * Left key code (Also numeric keypad west).
-	 */
-	public static final int KEY_LEFT = 37;
-	/**
-	 * Page down key code (Also numeric keypad south east).
-	 */
-	public static final int KEY_PAGEDOWN = 34;
-	/**
-	 * Page up key code (Also numeric keypad north east).
-	 */
-	public static final int KEY_PAGEUP = 33;
-	/**
-	 * Right arrow key code (Also numeric keypad east).
-	 */
-	public static final int KEY_RIGHT = 39;
-	/**
-	 * Shift key code.
-	 */
-	public static final int KEY_SHIFT = 16;
-
-	/**
-	 * Tab key code.
-	 */
-	public static final int KEY_TAB = 9;
-	/**
-	 * Up Arrow key code (Also numeric keypad north).
-	 */
-	public static final int KEY_UP = 38;
-
 	/**
 	 * Key code for F1
 	 */
@@ -381,67 +404,6 @@ public interface GWTKeycodes {
 	 */
 	public static final int KEY_F12 = 123;
 	/**
-	 * Key code for Windows key on Firefox Linux
-	 */
-	public static final int KEY_WIN_KEY_FF_LINUX = 0;
-	/**
-	 * Key code for Mac enter key
-	 */
-	public static final int KEY_MAC_ENTER = 3;
-	/**
-	 * Key code for pause key
-	 */
-	public static final int KEY_PAUSE = 19;
-	/**
-	 * Key code for caps lock key
-	 */
-	public static final int KEY_CAPS_LOCK = 20;
-	/**
-	 * Key code for space
-	 */
-	public static final int KEY_SPACE = 32;
-
-	/**
-	 * Key code for print key
-	 */
-	public static final int KEY_PRINT_SCREEN = 44;
-	/**
-	 * Key code for insert key (Also numeric keyboard insert).
-	 */
-	public static final int KEY_INSERT = 45; // also NUM_INSERT
-
-	/**
-	 * Key code for insert key (Also num lock on FF,Safari Mac).
-	 */
-	public static final int KEY_NUM_CENTER = 12;
-
-	/**
-	 * Key code for left windows key.
-	 */
-	public static final int KEY_WIN_KEY = 224;
-
-	/**
-	 * Key code for left windows key or meta.
-	 */
-	public static final int KEY_WIN_KEY_LEFT_META = 91;
-
-	/**
-	 * Key code for right windows key.
-	 */
-	public static final int KEY_WIN_KEY_RIGHT = 92;
-	/**
-	 * Key code for context menu key.
-	 */
-	public static final int KEY_CONTEXT_MENU = 93;
-	/**
-	 * Key code for {@link KeyCodes#KEY_WIN_KEY_LEFT_META} that Firefox fires
-	 * for the meta key.
-	 */
-	public static final int KEY_MAC_FF_META = 224; // Firefox (Gecko) fires this
-													// for the meta key instead
-													// of 91
-
-	/**
 	 * Key code for num lock.
 	 */
 	public static final int KEY_NUMLOCK = 144;
@@ -458,5 +420,29 @@ public interface GWTKeycodes {
 	 * Key code for last OS specific media key (like volume).
 	 */
 	public static final int KEY_LAST_MEDIA_KEY = 183;
+	public static final int KEY_SEMICOLON = 186;
+	public static final int KEY_EQUALS = 187;
+	public static final int KEY_COMMA = 188;
+	public static final int KEY_MINUS = 189;
+	public static final int KEY_PERIOD = 190;
+	public static final int KEY_SLASH = 191;
+	public static final int KEY_APOSTROPHE = 192;
+	public static final int KEY_LEFT_SQUARE_BRACKET = 219;
+	public static final int KEY_BACKSLASH = 220;
+	public static final int KEY_RIGHT_SQUARE_BRACKET = 221;
+	public static final int KEY_HASH = 222;
+	public static final int KEY_BACK_QUOTE = 223;
+	/**
+	 * Key code for left windows key. See KEY_WIN_KEY_LEFT_META
+	 */
+	// public static final int KEY_WIN_KEY = 224;
+	/**
+	 * Key code for {@link KeyCodes#KEY_WIN_KEY_LEFT_META} that Firefox fires
+	 * for the meta key.
+	 */
+	public static final int KEY_MAC_FF_META = 224; // Firefox (Gecko) fires this
+													// for the meta key instead
+													// of 91
+
 
 }

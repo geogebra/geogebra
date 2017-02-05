@@ -177,13 +177,13 @@ public enum KeyCodes {
 
 	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, -1),
 
-	WINDOWS(JavaKeyCodes.VK_WINDOWS, GWTKeycodes.KEY_WINDOWS),
+	WINDOWS(JavaKeyCodes.VK_WINDOWS, GWTKeycodes.KEY_WIN_KEY_LEFT_META),
 
 	BACKSLASH(JavaKeyCodes.VK_BACK_SLASH, GWTKeycodes.KEY_BACKSLASH),
 
 	SLASH(JavaKeyCodes.VK_SLASH, GWTKeycodes.KEY_SLASH),
 
-	NUMPADSLASH(JavaKeyCodes.VK_DIVIDE, GWTKeycodes.KEY_NUMPADSLASH),
+	NUMPADSLASH(JavaKeyCodes.VK_DIVIDE, GWTKeycodes.KEY_NUM_DIVISION),
 
 	COMMA(JavaKeyCodes.VK_COMMA, GWTKeycodes.KEY_COMMA),
 
@@ -193,14 +193,14 @@ public enum KeyCodes {
 
 	HASH(JavaKeyCodes.VK_NUMBER_SIGN, GWTKeycodes.KEY_HASH),
 
-	NUMPADASTERISK(JavaKeyCodes.VK_MULTIPLY, GWTKeycodes.KEY_NUMPADASTERISK),
+	NUMPADASTERISK(JavaKeyCodes.VK_MULTIPLY, GWTKeycodes.KEY_NUM_MULTIPLY),
 
-	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK, GWTKeycodes.KEY_NUMPADASTERISK),
+	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK, GWTKeycodes.KEY_NUMLOCK),
 
 	/**
 	 * Mac Meta/Apple, same keycode as Windows key in GWT
 	 */
-	META(JavaKeyCodes.VK_META, GWTKeycodes.KEY_WINDOWS),
+	META(JavaKeyCodes.VK_META, GWTKeycodes.KEY_WIN_KEY_LEFT_META),
 
 	/**
 	 * middle key of NumPad (with NumLock off)
@@ -209,9 +209,9 @@ public enum KeyCodes {
 
 	PERIOD(JavaKeyCodes.VK_PERIOD, GWTKeycodes.KEY_PERIOD),
 
-	DECIMALPOINT(JavaKeyCodes.VK_DECIMAL, GWTKeycodes.KEY_DECIMAL_POINT),
+	DECIMALPOINT(JavaKeyCodes.VK_DECIMAL, GWTKeycodes.KEY_NUM_PERIOD),
 
-	DECIMALCOMMA(JavaKeyCodes.VK_SEPARATOR, GWTKeycodes.KEY_DECIMAL_COMMA),
+	DECIMALCOMMA(JavaKeyCodes.VK_SEPARATOR, GWTKeycodes.KEY_NUM_COMMA),
 
 	UNKNOWN(JavaKeyCodes.VK_UNDEFINED, GWTKeycodes.KEY_UNDEFINED);
 
