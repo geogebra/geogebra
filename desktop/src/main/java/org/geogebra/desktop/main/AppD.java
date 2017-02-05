@@ -3177,7 +3177,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return fontManager.getPlainFont();
 	}
 
-	@Deprecated
 	@Override
 	final public GFont getPlainFontCommon() {
 		return new GFontD(fontManager.getPlainFont());

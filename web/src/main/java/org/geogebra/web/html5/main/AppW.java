@@ -2244,7 +2244,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// FONTS
 	// ============================================
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public GFont getPlainFontCommon() {
 		return new GFontW("normal");
