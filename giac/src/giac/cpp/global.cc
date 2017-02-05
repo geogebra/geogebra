@@ -4821,6 +4821,7 @@ unsigned int ConvertUTF8toUTF16 (
     "cpartfrac",
     "curve",
     "developper",
+    "domain",
     "element",
     "evalc",
     "expand",

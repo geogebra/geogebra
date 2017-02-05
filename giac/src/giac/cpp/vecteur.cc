@@ -15318,29 +15318,32 @@ namespace giac {
     int s=int(d.size());
     gen svdmax2=d[s-1][s-1];
     gen eps=epsilon(contextptr);
+    int smallsvl=0;
 #if 1
     gen smalleps=(s*s)*eps*svdmax2;
 #else
-    int small=0;
     for (int i=0;i<s-1;++i){
       if (is_greater(sqrt(eps,contextptr)*svdmax2,d[i][i],contextptr))
-	++small;
+	++smallsvl;
       else
 	break;
     }
-    gen smalleps=s*pow(eps,inv(small?small:1,contextptr),contextptr)*svdmax2;
+    gen smalleps=s*pow(eps,inv(smallsvl?smallsvl:1,contextptr),contextptr)*svdmax2;
 #endif
     for (int i=0;i<s;++i){
       vecteur vi=*d[i]._VECTptr;
       gen & di=vi[i];
       di=re(di,contextptr);
       // replace this value by 0 if it is small
-      if (is_greater(smalleps,di,contextptr)) 
-	di=0.0;
+      if (is_greater(smalleps,di,contextptr)) {
+	di=0.0; smallsvl++;
+      }
       di=sqrt(di,contextptr);
       svl.push_back(di);
       d[i]=vi;
     }
+     if (smallsvl)
+       *logptr(contextptr) << "Warning, ill-conditionned matrix, " << smallsvl << " small singular values were replaced by 0. Result is probably wrong." << endl;    
     if (method==-2){
       if (transposed){
 	int add0=int(M.size()-M.front()._VECTptr->size());
