@@ -2012,7 +2012,6 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * In Desktop gives current font, in Web creates a new one
 	 */
-	@Deprecated
 	public abstract GFont getPlainFontCommon();
 
 	public boolean isExporting() {
