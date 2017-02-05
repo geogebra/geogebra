@@ -2762,7 +2762,7 @@ public class ExpressionNode extends ValidExpression
 				break;
 			case GIAC:
 				// ggbabs needed for eg abs((-1,2,3))
-				sb.append("ggbabs(");
+				sb.append("abs(");
 				sb.append(leftStr);
 				sb.append(")");
 				break;

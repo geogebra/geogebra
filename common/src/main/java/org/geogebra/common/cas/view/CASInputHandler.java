@@ -427,17 +427,17 @@ public class CASInputHandler {
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()
 						.evaluateRaw(
-								"ispolynomial2("
+								"is_polynomial(["
 										+ equList.getListElement(0).toString(
 												StringTemplate.giacTemplate)
 										+ ","
 										+ equList.getListElement(1).toString(
 												StringTemplate.giacTemplate)
-										+ ")");
+										+ "])");
 			}
 			// use NSolve tool with one equation
 			else {
-				casResult = cas.getCurrentCAS().evaluateRaw("ispolynomial("
+				casResult = cas.getCurrentCAS().evaluateRaw("is_polynomial("
 						+ expandValidExp.toString(StringTemplate.giacTemplate)
 						+ ")");
 			}
