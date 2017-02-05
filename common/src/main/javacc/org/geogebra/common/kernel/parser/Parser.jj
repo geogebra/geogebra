@@ -252,7 +252,7 @@ TOKEN :  {
   | < SUPERSCRIPT_MINUS: "\u207b" >
   | < POWER:    ("^" | "**" | "\u02C6") >  
     // dot operators for multiplication sign
-  | < MULTIPLY: ("*" | "\u22c5" | "\u2219") >
+  | < MULTIPLY: ("*" | "\u22c5" | "\u2219" | "\u00D7") >
   | < VECTORPRODUCT: "\u2297" >
   | < DIVIDE:   ("/" | "\u00f7") >
   | < FACTORIAL: "!" >  

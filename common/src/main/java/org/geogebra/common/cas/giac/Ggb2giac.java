@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 
 /***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ] is
@@ -996,11 +997,15 @@ public class Ggb2giac {
 		// default 15, like Input Bar version
 		p("ScientificText.1",
 				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
-						+ "[ggbstans:=evalf(ggbstinput / 10^ggbstpower, 15) + \" * 10^ \" + ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
+						+ "[ggbstans:=evalf(ggbstinput / 10^ggbstpower, 15) + \" "
+						+ Unicode.MULTIPLY
+						+ " 10^ \" + ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		p("ScientificText.2",
 				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
-						+ "[ggbstans:=evalf(ggbstinput / 10^ggbstpower, %1) + \" * 10^ \" + ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
+						+ "[ggbstans:=evalf(ggbstinput / 10^ggbstpower, %1) + \" "
+						+ Unicode.MULTIPLY
+						+ " 10^ \" + ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		p("SD.1", "normal(stddev(%0))");
 
