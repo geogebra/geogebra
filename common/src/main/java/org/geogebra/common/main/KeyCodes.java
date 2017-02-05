@@ -81,53 +81,53 @@ public enum KeyCodes {
 
 	F12(JavaKeyCodes.VK_F12, GWTKeycodes.KEY_F11),
 
-	K0(JavaKeyCodes.VK_0, GWTKeycodes.KEY_0),
+	K0(JavaKeyCodes.VK_0, GWTKeycodes.KEY_ZERO),
 
-	K1(JavaKeyCodes.VK_1, GWTKeycodes.KEY_1),
+	K1(JavaKeyCodes.VK_1, GWTKeycodes.KEY_ONE),
 
-	K2(JavaKeyCodes.VK_2, GWTKeycodes.KEY_2),
+	K2(JavaKeyCodes.VK_2, GWTKeycodes.KEY_TWO),
 
-	K3(JavaKeyCodes.VK_3, GWTKeycodes.KEY_3),
+	K3(JavaKeyCodes.VK_3, GWTKeycodes.KEY_THREE),
 
-	K4(JavaKeyCodes.VK_4, GWTKeycodes.KEY_4),
+	K4(JavaKeyCodes.VK_4, GWTKeycodes.KEY_FOUR),
 
-	K5(JavaKeyCodes.VK_5, GWTKeycodes.KEY_5),
+	K5(JavaKeyCodes.VK_5, GWTKeycodes.KEY_FIVE),
 
-	K6(JavaKeyCodes.VK_6, GWTKeycodes.KEY_6),
+	K6(JavaKeyCodes.VK_6, GWTKeycodes.KEY_SIX),
 
-	K7(JavaKeyCodes.VK_7, GWTKeycodes.KEY_7),
+	K7(JavaKeyCodes.VK_7, GWTKeycodes.KEY_SEVEN),
 
-	K8(JavaKeyCodes.VK_8, GWTKeycodes.KEY_8),
+	K8(JavaKeyCodes.VK_8, GWTKeycodes.KEY_EIGHT),
 
-	K9(JavaKeyCodes.VK_9, GWTKeycodes.KEY_9),
+	K9(JavaKeyCodes.VK_9, GWTKeycodes.KEY_NINE),
 
-	NUMPAD0(JavaKeyCodes.VK_NUMPAD0, GWTKeycodes.KEY_NUMPAD0),
+	NUMPAD0(JavaKeyCodes.VK_NUMPAD0, GWTKeycodes.KEY_NUM_ZERO),
 
-	NUMPAD1(JavaKeyCodes.VK_NUMPAD1, GWTKeycodes.KEY_NUMPAD1),
+	NUMPAD1(JavaKeyCodes.VK_NUMPAD1, GWTKeycodes.KEY_NUM_ONE),
 
-	NUMPAD2(JavaKeyCodes.VK_NUMPAD2, GWTKeycodes.KEY_NUMPAD2),
+	NUMPAD2(JavaKeyCodes.VK_NUMPAD2, GWTKeycodes.KEY_NUM_TWO),
 
-	NUMPAD3(JavaKeyCodes.VK_NUMPAD3, GWTKeycodes.KEY_NUMPAD3),
+	NUMPAD3(JavaKeyCodes.VK_NUMPAD3, GWTKeycodes.KEY_NUM_THREE),
 
-	NUMPAD4(JavaKeyCodes.VK_NUMPAD4, GWTKeycodes.KEY_NUMPAD4),
+	NUMPAD4(JavaKeyCodes.VK_NUMPAD4, GWTKeycodes.KEY_NUM_FOUR),
 
-	NUMPAD5(JavaKeyCodes.VK_NUMPAD5, GWTKeycodes.KEY_NUMPAD5),
+	NUMPAD5(JavaKeyCodes.VK_NUMPAD5, GWTKeycodes.KEY_NUM_FIVE),
 
-	NUMPAD6(JavaKeyCodes.VK_NUMPAD6, GWTKeycodes.KEY_NUMPAD6),
+	NUMPAD6(JavaKeyCodes.VK_NUMPAD6, GWTKeycodes.KEY_NUM_SIX),
 
-	NUMPAD7(JavaKeyCodes.VK_NUMPAD7, GWTKeycodes.KEY_NUMPAD7),
+	NUMPAD7(JavaKeyCodes.VK_NUMPAD7, GWTKeycodes.KEY_NUM_SEVEN),
 
-	NUMPAD8(JavaKeyCodes.VK_NUMPAD8, GWTKeycodes.KEY_NUMPAD8),
+	NUMPAD8(JavaKeyCodes.VK_NUMPAD8, GWTKeycodes.KEY_NUM_EIGHT),
 
-	NUMPAD9(JavaKeyCodes.VK_NUMPAD9, GWTKeycodes.KEY_NUMPAD9),
+	NUMPAD9(JavaKeyCodes.VK_NUMPAD9, GWTKeycodes.KEY_NUM_NINE),
 
 	MINUS(JavaKeyCodes.VK_MINUS, GWTKeycodes.KEY_MINUS),
 
-	SUBTRACT(JavaKeyCodes.VK_SUBTRACT, GWTKeycodes.KEY_NUMPADMINUS),
+	SUBTRACT(JavaKeyCodes.VK_SUBTRACT, GWTKeycodes.KEY_NUM_MINUS),
 
-	PLUS(JavaKeyCodes.VK_PLUS, GWTKeycodes.KEY_NUMPADPLUS),
+	PLUS(JavaKeyCodes.VK_PLUS, GWTKeycodes.KEY_NUM_PLUS),
 
-	ADD(JavaKeyCodes.VK_ADD, GWTKeycodes.KEY_NUMPADPLUS),
+	ADD(JavaKeyCodes.VK_ADD, GWTKeycodes.KEY_NUM_PLUS),
 
 	EQUALS(JavaKeyCodes.VK_EQUALS, GWTKeycodes.KEY_EQUALS),
 

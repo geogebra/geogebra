@@ -662,34 +662,34 @@ public class GlobalKeyDispatcherW extends
 		case GWTKeycodes.KEY_R:
 			return Unicode.SQUARE_ROOT + "";
 
-		case GWTKeycodes.KEY_1:
+		case GWTKeycodes.KEY_ONE:
 			return Unicode.Superscript_1 + "";
 
-		case GWTKeycodes.KEY_2:
+		case GWTKeycodes.KEY_TWO:
 			return Unicode.Superscript_2 + "";
 
-		case GWTKeycodes.KEY_3:
+		case GWTKeycodes.KEY_THREE:
 			return Unicode.Superscript_3 + "";
 
-		case GWTKeycodes.KEY_4:
+		case GWTKeycodes.KEY_FOUR:
 			return Unicode.Superscript_4 + "";
 
-		case GWTKeycodes.KEY_5:
+		case GWTKeycodes.KEY_FIVE:
 			return Unicode.Superscript_5 + "";
 
-		case GWTKeycodes.KEY_6:
+		case GWTKeycodes.KEY_SIX:
 			return Unicode.Superscript_6 + "";
 
-		case GWTKeycodes.KEY_7:
+		case GWTKeycodes.KEY_SEVEN:
 			return Unicode.Superscript_7 + "";
 
-		case GWTKeycodes.KEY_8:
+		case GWTKeycodes.KEY_EIGHT:
 			return Unicode.Superscript_8 + "";
 
-		case GWTKeycodes.KEY_9:
+		case GWTKeycodes.KEY_NINE:
 			return Unicode.Superscript_9 + "";
 
-		case GWTKeycodes.KEY_0:
+		case GWTKeycodes.KEY_ZERO:
 			return Unicode.Superscript_0 + "";
 
 		case GWTKeycodes.KEY_MINUS:

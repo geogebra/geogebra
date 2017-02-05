@@ -1255,16 +1255,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			e.stopPropagation();
 			break;
 
-		case GWTKeycodes.KEY_0:
-		case GWTKeycodes.KEY_1:
-		case GWTKeycodes.KEY_2:
-		case GWTKeycodes.KEY_3:
-		case GWTKeycodes.KEY_4:
-		case GWTKeycodes.KEY_5:
-		case GWTKeycodes.KEY_6:
-		case GWTKeycodes.KEY_7:
-		case GWTKeycodes.KEY_8:
-		case GWTKeycodes.KEY_9:
+		case GWTKeycodes.KEY_ZERO:
+		case GWTKeycodes.KEY_ONE:
+		case GWTKeycodes.KEY_TWO:
+		case GWTKeycodes.KEY_THREE:
+		case GWTKeycodes.KEY_FOUR:
+		case GWTKeycodes.KEY_FIVE:
+		case GWTKeycodes.KEY_SIX:
+		case GWTKeycodes.KEY_SEVEN:
+		case GWTKeycodes.KEY_EIGHT:
+		case GWTKeycodes.KEY_NINE:
 			if (e.isControlKeyDown() && e.isShiftKeyDown()) {
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			}
