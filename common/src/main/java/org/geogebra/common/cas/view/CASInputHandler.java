@@ -443,7 +443,7 @@ public class CASInputHandler {
 			}
 
 			// case it is not
-			if ("false".equals(casResult)) {
+			if ("0".equals(casResult) || "false".equals(casResult)) {
 				ValidExpression ve = cellValue.getEvalVE();
 				HashSet<GeoElement> vars = ve.getVariables();
 				if (!vars.isEmpty()) {
