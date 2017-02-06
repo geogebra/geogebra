@@ -293,7 +293,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					app.showPerspectivesPopup();
 				}
 				if(app.has(Feature.KEYBOARD_BEHAVIOUR)){
-					textField.setFocus(true, true);
+					if(textField!=null){
+						textField.setFocus(true, true);
+					}
 				}
 			}
 		});
