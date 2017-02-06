@@ -1892,7 +1892,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void addDummyLabel() {
-		Log.debug("loooooooooofaszt");
 		if (dummyLabel == null) {
 			dummyLabel = new Label(
 					loc.getMenu("InputLabel") + Unicode.ellipsis);
