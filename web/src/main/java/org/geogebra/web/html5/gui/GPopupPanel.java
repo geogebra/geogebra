@@ -28,6 +28,7 @@ import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -582,6 +583,15 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				- (int) keyboardHeight) >> 1;
 		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
 		
+		//keyboardheight variable can be >0 at this point only if has(Feature.DIALOGS_OVERLAP_KEYBOARD) so this is used instead of checking feature flag here
+		if (keyboardHeight > 0){  
+			if (top < 0){
+				int paddings = 30; //TODO: get sum of top and bottom paddings
+				this.getElement().getStyle().setHeight(getRootPanel().getOffsetHeight() - keyboardHeight-30, Unit.PX);
+				getElement().getStyle().setProperty("overflow", "overlay");
+			}
+		}
+				
 		if (!initiallyShowing) {
 			setAnimationEnabled(initiallyAnimated);
 			// Run the animation. The popup is already visible, so we can skip
