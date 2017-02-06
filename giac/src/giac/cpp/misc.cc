@@ -7492,11 +7492,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (args.type==_IDNT)
       return symbolic(at_ggbalt,args);
     if (args.is_symb_of_sommet(at_pnt)){
-      gen x=remove_at_pnt(x);
+      gen x=remove_at_pnt(args);
       if (x.type==_VECT && x.subtype==_POINT__VECT && x._VECTptr->size()==3 ){
 	vecteur v=*x._VECTptr;
 	return arg(sqrt(pow(v[0],2,contextptr)+pow(v[1],2,contextptr),contextptr)+cst_i*v[2],contextptr);
       }
+      if (args.type==_SYMB && equalposcomp(not_point_sommets,args._SYMBptr->sommet))
+	return undef;
+      return 0;
     }
     return undef;
   }
