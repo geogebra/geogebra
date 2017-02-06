@@ -2395,7 +2395,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		popups.add(widget);
 	}
 
-	public void centerPopupWithKeyboard() {
+	public void centerAndResizePopups() {
 		// to be overridden in AppWFull
 	}
 

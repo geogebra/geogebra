@@ -28,7 +28,6 @@ import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -558,8 +557,21 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	public void center() {
 		center(0);
 	}
+	
+	public void centerAndResize(double keyboardHeight){
+		
+		int top = center(keyboardHeight);
+		if (top <= 0){
+			int paddings = 30; //TODO: get sum of top and bottom paddings
+			this.getElement().getStyle().setHeight(getRootPanel().getOffsetHeight() - keyboardHeight -paddings, Unit.PX);
+			getElement().getStyle().setProperty("overflow", "overlay");
+		}
+		else {
+			this.getElement().getStyle().clearHeight();
+		}
+	}
 
-	public void center(double keyboardHeight) {
+	public int center(double keyboardHeight) {
 		boolean initiallyShowing = showing;
 		boolean initiallyAnimated = isAnimationEnabled;
 
@@ -582,15 +594,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		int top = (getRootPanel().getOffsetHeight() - getOffsetHeight()
 				- (int) keyboardHeight) >> 1;
 		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
-		
-		//keyboardheight variable can be >0 at this point only if has(Feature.DIALOGS_OVERLAP_KEYBOARD) so this is used instead of checking feature flag here
-		if (keyboardHeight > 0){  
-			if (top < 0){
-				int paddings = 30; //TODO: get sum of top and bottom paddings
-				this.getElement().getStyle().setHeight(getRootPanel().getOffsetHeight() - keyboardHeight-30, Unit.PX);
-				getElement().getStyle().setProperty("overflow", "overlay");
-			}
-		}
 				
 		if (!initiallyShowing) {
 			setAnimationEnabled(initiallyAnimated);
@@ -605,6 +608,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				setVisible(true);
 			}
 		}
+		
+		return top;
 	}
 
 	/**
@@ -1394,7 +1399,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				int distanceFromWindowLeft = left - windowLeft;
 
 				// If there is not enough space for the overflow of the popup's
-				// width to the right of hte text box, and there IS enough space
+				// width to the right of the text box, and there IS enough space
 				// for the
 				// overflow to the left of the text box, then right-align the
 				// popup.

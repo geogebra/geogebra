@@ -742,7 +742,7 @@ public abstract class AppWFull extends AppW {
 	}
 
 	@Override
-	public void centerPopupWithKeyboard() {
+	public void centerAndResizePopups() {
 		if(!has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
 			return;
 		}
@@ -751,7 +751,7 @@ public abstract class AppWFull extends AppW {
 			if (w instanceof HasKeyboardPopup) {
 				if (w instanceof DialogBoxW) {
 					((DialogBoxW) w)
-							.center(this.getAppletFrame().getKeyboardHeight());
+							.centerAndResize(this.getAppletFrame().getKeyboardHeight());
 				}
 			}
 		}

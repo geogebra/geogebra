@@ -79,7 +79,7 @@ public class DialogBoxW extends GDialogBox {
 			@Override
 			public void onResize(ResizeEvent event) {
 				if (DialogBoxW.this.isShowing()) {
-					center();
+					centerAndResize(0);
 				}
 			}
 		});
