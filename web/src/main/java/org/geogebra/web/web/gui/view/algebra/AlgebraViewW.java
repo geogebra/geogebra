@@ -1577,11 +1577,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			hideAlgebraInput();
 			return;
 		}
+		Integer inputWidth = null;
 		if (isAlgebraInputVisible()) {
 			// note that hideAlgebraInput just does this
 			// hideAlgebraInput();
 			// except it also makes this null, no problem
 			// ... or? still preferring to be safe
+			inputWidth = inputPanelLatex.getWidget().getElement()
+					.getParentElement().getClientWidth();
 			super.removeItem(inputPanelTreeItem);
 
 			// inputPanel.removeFromParent();//?
@@ -1629,6 +1632,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				app.getAppletFrame().showKeyboardOnFocus();
 			}
 
+		}
+		if (inputWidth != null) {
+			inputPanelLatex.setItemWidth(inputWidth);
 		}
 		updateFonts();
 	}
@@ -1979,6 +1985,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
 	private boolean latexLoaded;
+	private boolean resizedByUser;
 
 	/*
 	 * private int resizedWidth;* Not used in Web so far. Will not work with
@@ -2042,12 +2049,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (maxItemWidth == 0) {
 				maxItemWidth = resizedWidth;
 			}
-			if (resizedWidth > maxItemWidth) {
+			if (isResizedByUser() && resizedWidth > maxItemWidth) {
+				maxItemWidth = resizedWidth;
 				setWidths(resizedWidth);
+
 			}
 			if (activeItem != null) {
 				activeItem.updateButtonPanelPosition();
 			}
+			setResizedByUser(true);
+
 			return;
 		}
 
@@ -2069,6 +2080,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			}
 		}
+
 	}
 
 	/**
@@ -2275,8 +2287,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return the max item width.
 	 */
 	public int getMaxItemWidth() {
-		return maxItemWidth > getOffsetWidth() ? maxItemWidth
-				: getOffsetWidth();
+		int avWidth = getAlgebraDockPanel().getOffsetWidth();
+		Log.debug("[AV] dock panel width: " + avWidth + " maxItemWidth: "
+				+ maxItemWidth);
+		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
 
 	/**
@@ -2293,6 +2307,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 
+		setResizedByUser(false);
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
 		if (splitPane == null || splitPane
@@ -2306,7 +2321,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 
-		int w = Kernel.isGreater(width, originalWidth) ? width : originalWidth;
+		final int w = Kernel.isGreater(width, originalWidth) ? width
+				: originalWidth;
 
 		Log.debug("[AVSIZE] expanding width to " + w);
 		splitPane.setWidgetSize(avDockPanel, w);
@@ -2369,5 +2385,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public TreeItem getNode(GeoElement geo) {
 		return nodeTable.get(geo);
+	}
+
+	public boolean isResizedByUser() {
+		return resizedByUser;
+	}
+
+	public void setResizedByUser(boolean resizedByUser) {
+		this.resizedByUser = resizedByUser;
 	}
 }
