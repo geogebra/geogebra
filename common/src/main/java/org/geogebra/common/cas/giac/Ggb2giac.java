@@ -130,7 +130,7 @@ public class Ggb2giac {
 
 		// also in ExpressionNode for crossed-circle
 		p("Cross.2",
-				"[[[ggbcrossarg0:=%0], [ggbcrossarg1:=%1]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
+				"[[[ggbcrossarg0:=%0], [ggbcrossarg1:=%1]],when(is_3dpoint(ggbcrossarg0)||is_3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
 
 		// changed to give approximate answer (consistent with Input Bar)
 		// needed for eg ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]
@@ -187,7 +187,7 @@ public class Ggb2giac {
 		p("Determinant.1", "when(size(lname(%0))==0,det(%0),det_minor(%0))");
 
 		p("Dimension.1",
-				"[[ggbdimarg:=%0], when(ggbdimarg[0]=='pnt',when(is3dpoint(ggbdimarg),3,2),dim(ggbdimarg))][1]");
+				"[[ggbdimarg:=%0], when(ggbdimarg[0]=='pnt',when(is_3dpoint(ggbdimarg),3,2),dim(ggbdimarg))][1]");
 		p("Div.2",
 				"[[[ggbdivarg0:=%0],[ggbdivarg1:=%1]],if type(ggbdivarg0)==DOM_INT && type(ggbdivarg1)==DOM_INT then iquo(ggbdivarg0,ggbdivarg1) else quo(ggbdivarg0,ggbdivarg1,x) fi][1]");
 		p("Division.2",
@@ -1155,7 +1155,7 @@ public class Ggb2giac {
 						// translate point about vector
 						+ "when ( (ggbtrsarg0)[0] == 'pnt' , "
 						// translate 2d point
-						+ "when ( !is3dpoint(ggbtrsarg0) ,"
+						+ "when ( !is_3dpoint(ggbtrsarg0) ,"
 						// vector as point
 						+ "when ( (ggbtrsarg1)[0] == 'pnt' ,"
 						+ "translation(vector(ggbtrsarg1),ggbtrsarg0) ,"
@@ -1489,7 +1489,8 @@ public class Ggb2giac {
 		// don't want normal(), eg Line[(a,b),(c,d)]
 		// X=point(xcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),ycoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),zcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)))
 		p("Line.2", "[[ggblinearg0:=%0],[ggblinearg1:=%1],"
-				+ "when(is3dpoint(ggblinearg0)," + "when(ggblinearg1[0]=='pnt',"
+				+ "when(is_3dpoint(ggblinearg0),"
+				+ "when(ggblinearg1[0]=='pnt',"
 				// case Line[3dPoint,3dPoint]
 				+ "regroup(equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
 				// case Line[3dPoint,Vect]
@@ -1555,7 +1556,7 @@ public class Ggb2giac {
 
 		p("Vector.1",
 				// "point(convert(coordinates(%0),25))");
-				"when(is3dpoint(%0)," +
+				"when(is_3dpoint(%0)," +
 				// 3D
 				// "ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
 						"ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]" + ","
@@ -1569,7 +1570,7 @@ public class Ggb2giac {
 						// complex
 						"ggbvect[re(%0),im(%0)]" + ")))");
 
-		p("Vector.2", "when(is3dpoint(%0)||is3dpoint(%1)," +
+		p("Vector.2", "when(is_3dpoint(%0)||is_3dpoint(%1)," +
 		// 3D points
 		// "ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1],
 		// ((%1)[1])[2]-((%0)[1])[2] ]"+
@@ -1585,7 +1586,7 @@ public class Ggb2giac {
 		p("OrthogonalVector.1", "convert([[0,-1],[1,0]]*(%0),25)");
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST && size(%0) != 2,?,"
-						+ "when(is3dpoint(%0),?,"
+						+ "when(is_3dpoint(%0),?,"
 						// vector given as point or list
 						+ "when( subtype(%0) == 27 || (%0)[0] == 'pnt' || type(%0) == DOM_LIST,"
 						// case UnitOrthogonalVector[Vector]

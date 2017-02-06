@@ -2252,12 +2252,9 @@ public class ExpressionNode extends ValidExpression
 					"im", tpl, loc, false);
 			break;
 		case FRACTIONAL_PART:
-			// trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
-			// Giac: problem with fPart, use custom definition instead, see
-			// CASgiacW
 			trig(kernel, left, leftStr, sb, "<todo/>",
 					"\\operatorname{fractionalPart}", "", "fractionalPart",
-					"fractionalPart", "fractionalPart", tpl, loc, false);
+					"fractionalPart", "fPart", tpl, loc, false);
 			break;
 		case ZETA:
 			switch (stringType) {
@@ -2761,7 +2758,9 @@ public class ExpressionNode extends ValidExpression
 				sb.append('}');
 				break;
 			case GIAC:
-				// ggbabs needed for eg abs((-1,2,3))
+				// Giac's abs() now works for Vectors
+				// so this is OK
+				// (used to be custom ggbabs() function)
 				sb.append("abs(");
 				sb.append(leftStr);
 				sb.append(")");

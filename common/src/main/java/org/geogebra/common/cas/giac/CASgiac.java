@@ -80,25 +80,13 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * used for sorting output of Solve/Solutions/NSolve/NSolutions sort()
 		 * doesn't work for list of lists null -> always sent (used by other
 		 * definitions)
-		 */
-		SORT(null,
-				"ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)))"),
-
-		/**
 		 * 
+		 * now implemtented natively in Giac. This is just for reference /
+		 * testing
 		 */
-		// SECH("sech", "sech(x):=1/cosh(x)"),
+		// SORT(null,
+		// "ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)))"),
 
-		/**
-		 * 
-		 */
-		// CSCH("csch", "csch(x):=1/sinh(x)"),
-
-		/**
-		 * Giac's fPart has problems, so use this
-		 * http://wiki.geogebra.org/en/FractionalPart_Function
-		 */
-		FRACTIONAL_PART("fractionalPart", "fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)))"),
 
 		/**
 		 * these both give 3 // @size(point(1,2,3)[1]) gives 3
@@ -107,11 +95,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * null -> always sent (used by other definitions)
 		 */
-		IS_3D_POINT(null,
-				"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false)"),
-		// /**
-		// * check whether a is polynomial special cases like y^2=1 also handled
-		// */
+		// IS_3D_POINT(null,
+		// "is_3dpoint(x):=when(size(x[1])==3 &&
+		// subtype(x[1])==20,true,false)"),
+		/**
+		 * check whether a is polynomial special cases like y^2=1 also handled
+		 * now implemtented natively in Giac. This is just for reference /
+		 * testing
+		 */
 		// IS_POLYNOMIAL("ispolynomial",
 		// "ispolynomial(a):=when(a[0] == '=' ,is_polynomial(a[1]) &&
 		// is_polynomial(a[2]),"
@@ -124,25 +115,27 @@ public abstract class CASgiac implements CASGenericInterface {
 		// "ispolynomial2(a,b):= is_polynomial(a) && is_polynomial(b)"),
 
 		/**
-		 * 
+		 * now implemtented natively in Giac. This is just for reference /
+		 * testing
 		 */
-		GGBALT("ggbalt", "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
-				+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))"),
+		// GGBALT("ggbalt", "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
+		// +
+		// "when(x[0]=='pnt',when(is_3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))"),
 
 		/** xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac */
 		XCOORD("xcoord",
-				"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
+				"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
 		/**
 		 * altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 		 */
 		YCOORD("ycoord",
-				"ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))"),
+				"ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))"),
 
 		/**
 		 * make sure z((1,2)) = 0
 		 */
 		ZCOORD("zcoord",
-				"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
+				"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
 
 		/**
 		 * unicode0176u passes unaltered through Giac then gets decoded to
@@ -173,7 +166,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		DEG_ATAN2("atan2d",
 				"atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
 
-		/** subtype 27 is ggbvect[] */
+		/**
+		 * subtype 27 is ggbvect[]
+		 * 
+		 * abs() in Giac now works for vectors so this isn't needed
+		 * 
+		 */
 		// ABS("ggbabs",
 		// "ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST &&
 		// subtype(x)==27),l2norm(x),abs(x))"),
