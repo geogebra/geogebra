@@ -1547,6 +1547,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 		showAlgebraInput(forceKeyboard);
+
 	}
 
 	private RadioTreeItem createInputPanel() {
@@ -1558,6 +1559,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void setShowAlgebraInput(boolean show) {
 		if (show) {
+			setUserWidth(getOffsetWidth());
 			showAlgebraInput(false);
 		} else {
 			hideAlgebraInput();
@@ -1631,8 +1633,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}else if(suggestKeyboard){
 				app.getAppletFrame().showKeyboardOnFocus();
 			}
-
-		}
+			}
 		if (inputWidth != null) {
 			inputPanelLatex.setItemWidth(inputWidth);
 		}
