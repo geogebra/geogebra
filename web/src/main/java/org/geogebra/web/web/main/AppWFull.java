@@ -46,6 +46,7 @@ import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
@@ -742,11 +743,14 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void centerPopupWithKeyboard() {
+		if(!has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			return;
+		}
 		for (int i = 0; i < popups.size(); i++) {
 			Widget w = popups.get(i);
 			if (w instanceof HasKeyboardPopup) {
-				if (w instanceof DialogBoxKbW) {
-					((DialogBoxKbW) w)
+				if (w instanceof DialogBoxW) {
+					((DialogBoxW) w)
 							.center(this.getAppletFrame().getKeyboardHeight());
 				}
 			}
