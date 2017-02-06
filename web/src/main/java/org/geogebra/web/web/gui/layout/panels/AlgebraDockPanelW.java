@@ -4,6 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
@@ -88,6 +89,15 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
+		DockSplitPaneW split = getParentSplitPane();
+		if (split.isForcedLayout()) {
+			Log.debug("[AVR] resize by user (forcedLayout)");
+			if (aview != null) {
+				aview.setUserWidth(getOffsetWidth());
+			}
+		} else {
+			Log.debug("[AVR] resize from code");
+		}
 		if (aview != null) {
 			aview.resize();
 		}

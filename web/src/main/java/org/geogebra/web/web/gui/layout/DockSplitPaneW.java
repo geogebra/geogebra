@@ -42,6 +42,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 			onResize();
 		}
 	};
+	private boolean forcedLayout = false;
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -653,5 +654,21 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 				setDividerLocation(0.5);
 			}
 		}
+	}
+
+	@Override
+	public void forceLayout() {
+		setForcedLayout(true);
+		super.forceLayout();
+		setForcedLayout(false);
+
+	}
+
+	public boolean isForcedLayout() {
+		return forcedLayout;
+	}
+
+	public void setForcedLayout(boolean forcedLayout) {
+		this.forcedLayout = forcedLayout;
 	}
 }

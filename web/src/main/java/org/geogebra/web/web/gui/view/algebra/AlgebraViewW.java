@@ -1727,12 +1727,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
 			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-				// if (getActiveTreeItem().isInputTreeItem()
-				// && getActiveTreeItem().isEmpty()) {
-				// // GGB-1431
-				//
-				// return;
-				// }
 				getActiveTreeItem().onEnter(false);
 			} else if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 				getActiveTreeItem().stopEditing(null, null);
@@ -1841,6 +1835,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 			return;
 		}
+
+
 		// open Object Properties for eg GeoImages
 		// also for GeoPenStroke
 		if (!geo.isAlgebraViewEditable()) {
@@ -1884,10 +1880,27 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				RadioTreeItem ri = RadioTreeItem.as(node);
-				expandWidth(ri.getWidthForEdit());
+				expandAVToItem(ri);
 				ri.enterEditMode(geo.isPointOnPath() || geo.isPointInRegion());
 			}
 		}
+	}
+
+	private void expandAVToItem(RadioTreeItem ri) {
+		int currentWidth = getOffsetWidth();
+		int editedWidth = ri.getWidthForEdit();
+		int expanded = editedWidth;
+		Log.debug("[AVR] edited: " + editedWidth + " user: " + userWidth
+				+ "avWidth: " + currentWidth);
+		if (editedWidth < userWidth) {
+			expanded = userWidth;
+		} else {
+			expanded = editedWidth;
+		}
+
+		expandWidth(expanded);
+		setWidths(expanded);
+
 	}
 
 	private void redefine(GeoElement geo) {
@@ -1905,7 +1918,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				RadioTreeItem ri = RadioTreeItem.as(node);
-				expandWidth(ri.getWidthForEdit());
+				expandAVToItem(ri);
 				if (!ri.enterEditMode(false)) {
 					cancelEditItem();
 					app.getDialogManager().showRedefineDialog(geo, true);
@@ -1985,7 +1998,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
 	private boolean latexLoaded;
-	private boolean resizedByUser;
+	private boolean userResize = true;
+	private int userWidth;
 
 	/*
 	 * private int resizedWidth;* Not used in Web so far. Will not work with
@@ -2044,12 +2058,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// setOriginalWidth(null);
 		}
 		
+
 		if (app.has(Feature.AV_SCROLL)) {
 			int resizedWidth = getOffsetWidth();
 			if (maxItemWidth == 0) {
 				maxItemWidth = resizedWidth;
 			}
-			if (isResizedByUser() && resizedWidth > maxItemWidth) {
+			if (resizedWidth > maxItemWidth) {
 				maxItemWidth = resizedWidth;
 				setWidths(resizedWidth);
 
@@ -2057,7 +2072,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (activeItem != null) {
 				activeItem.updateButtonPanelPosition();
 			}
-			setResizedByUser(true);
+
 
 			return;
 		}
@@ -2082,6 +2097,32 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 	}
+
+	/**
+	 * AV DockPanel resizing rules:
+	 * 
+	 * maxItemWith: the longest item width.
+	 * 
+	 * avWidth: the current width of AV dock panel.
+	 * 
+	 * userWidth: the width that user sets using the splitter.
+	 * 
+	 * editedWidth: width of the current edited item.
+	 * 
+	 * 
+	 * width of InputTreeItem must be maxItemWidth when it is not on focus, to
+	 * preserve its 'blue line' border. On focus its width must be avWidth
+	 * userWidth should change only if user changes it.
+	 * 
+	 * Expanding AV dock panel
+	 *
+	 * When user starts to edit an item, AV dock panel should be resized to:
+	 * 
+	 * - avWidth: if the avWidth is less than the edited item's width
+	 * 
+	 * - userWidth: if userWidth is greater than both editedWidth and avWidth
+	 * 
+	 */
 
 	/**
 	 * Sets each tree item to a specific width
@@ -2301,13 +2342,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public void expandWidth(int width) {
 		Log.debug("[AVSIZE] expanding width");
-
 		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
 		}
 
 
-		setResizedByUser(false);
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
 		if (splitPane == null || splitPane
@@ -2315,14 +2354,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		int currentWidth = avDockPanel.asWidget().getOffsetWidth();
-		if (originalWidth == null) {
-			setOriginalWidth(currentWidth);
-		}
 
-
-		final int w = Kernel.isGreater(width, originalWidth) ? width
-				: originalWidth;
+		final int w = width;
 
 		Log.debug("[AVSIZE] expanding width to " + w);
 		splitPane.setWidgetSize(avDockPanel, w);
@@ -2333,13 +2366,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Restores AV original size before editing, if it has been expanded.
 	 */
 	public void restoreWidth() {
-		Integer w = getOriginalWidth();
+		Integer w = userWidth;
 		if (w != null) {
 			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 			Log.debug("[AVSIZE] restoring width to " + w);
 			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
 			avDockPanel.deferredOnResize();
-			setOriginalWidth(null);
 		}
 	}
 
@@ -2387,11 +2419,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return nodeTable.get(geo);
 	}
 
-	public boolean isResizedByUser() {
-		return resizedByUser;
+	public int getUserWidth() {
+		return userWidth;
 	}
 
-	public void setResizedByUser(boolean resizedByUser) {
-		this.resizedByUser = resizedByUser;
+	public void setUserWidth(int userWidth) {
+		stopCurrentEditor();
+		this.userWidth = userWidth;
 	}
+
 }
