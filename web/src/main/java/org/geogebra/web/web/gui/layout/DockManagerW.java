@@ -1870,8 +1870,8 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
-		double avHeight = kbHeight + ((AlgebraViewW) app.getAlgebraView())
-				.getInputTreeItem().getOffsetHeight();
+		AlgebraViewW av = ((AlgebraViewW) app.getAlgebraView());
+		double avHeight = kbHeight + av.getInputTreeItem().getOffsetHeight();
 
 		double portraitDivider = avHeight / app.getHeight();
 

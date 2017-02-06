@@ -93,7 +93,8 @@ public class AlgebraDockPanelW extends DockPanelW {
 		if (split.isForcedLayout()) {
 			Log.debug("[AVR] resize by user (forcedLayout)");
 			if (aview != null) {
-				aview.setUserWidth(getOffsetWidth());
+				int w = getOffsetWidth();
+				aview.setUserWidth(w);
 			}
 		} else {
 			Log.debug("[AVR] resize from code");
