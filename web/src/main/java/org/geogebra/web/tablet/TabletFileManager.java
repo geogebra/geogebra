@@ -1,11 +1,14 @@
 package org.geogebra.web.tablet;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
+import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -143,6 +146,21 @@ public class TabletFileManager extends FileManagerT {
 			$wnd.android.saveFile(id, title, base64, metaDatas);
 		}
 	}-*/;
+	
+	
+	
+	
+	@Override
+	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			//TODO ?
+			Log.debug("uploadUsersMaterials");
+		} else {
+			super.uploadUsersMaterials(events);
+		}
+		
+	}
+		
 	
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
