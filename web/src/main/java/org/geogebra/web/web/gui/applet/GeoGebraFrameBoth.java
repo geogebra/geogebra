@@ -268,7 +268,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param textField
 	 *            keyboard listener
 	 */
-	void addKeyboard(MathKeyboardListener textField) {
+	void addKeyboard(final MathKeyboardListener textField) {
 		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = true;
@@ -292,6 +292,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				if (showPerspectivesPopup) {
 					app.showPerspectivesPopup();
 				}
+				textField.setFocus(true, true);
 			}
 		});
 	}
