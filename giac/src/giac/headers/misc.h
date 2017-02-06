@@ -167,6 +167,7 @@ namespace giac {
   vecteur gen2continued_fraction(const gen & g,int n,GIAC_CONTEXT);
   gen float2rational(double d_orig,double eps,GIAC_CONTEXT);
 
+  extern const unary_function_ptr * const  at_ggbalt;
   extern const unary_function_ptr * const  at_preval;
   extern const unary_function_ptr * const  at_dotprod;
   extern const unary_function_ptr * const  at_mean;

@@ -3100,6 +3100,14 @@ namespace giac {
       return args._VECTptr->front();
     if (args.type==_VECT&& args.subtype!=_POINT__VECT)
       return apply(args,contextptr,_abscisse);
+    if (args.type==_IDNT)
+      return symbolic(at_abscisse,args);
+    if (is_equal(args)){
+      gen tmp=equal2diff(args),a,b;
+      if (is_linear_wrt(tmp,x__IDNT_e,a,b,contextptr) && a!=0)
+	return -b/a;
+      return gensizeerr(contextptr);
+    }
     gen g=remove_at_pnt(args);
     if (g.type==_VECT && g._VECTptr->size()>=2){
       if (g.subtype==_VECTOR__VECT)
@@ -3118,6 +3126,14 @@ namespace giac {
       return args._VECTptr->back();
     if (args.type==_VECT && args.subtype!=_POINT__VECT)
       return apply(args,contextptr,_ordonnee);
+    if (args.type==_IDNT)
+      return symbolic(at_ordonnee,args);
+    if (is_equal(args)){
+      gen tmp=equal2diff(args),a,b;
+      if (is_linear_wrt(tmp,y__IDNT_e,a,b,contextptr) && a!=0)
+	return -b/a;
+      return gensizeerr(contextptr);
+    }
     gen g=remove_at_pnt(args);
     if (g.type==_VECT && g._VECTptr->size()>=2){
       if (g.subtype==_VECTOR__VECT)
@@ -3134,6 +3150,14 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args.subtype!=_POINT__VECT)
       return apply(args,contextptr,_cote);
+    if (args.type==_IDNT)
+      return symbolic(at_cote,args);
+    if (is_equal(args)){
+      gen tmp=equal2diff(args),a,b;
+      if (is_linear_wrt(tmp,z__IDNT_e,a,b,contextptr) && a!=0)
+	return -b/a;
+      return gensizeerr(contextptr);
+    }
     gen g=remove_at_pnt(args);
     if (g.type==_VECT && g._VECTptr->size()>=3)
       return (*g._VECTptr)[2];
@@ -14069,6 +14093,17 @@ namespace giac {
   static const char _est_rectangle_s []="is_rectangle";
   static define_unary_function_eval (__est_rectangle,&giac::_est_rectangle,_est_rectangle_s);
   define_unary_function_ptr5( at_est_rectangle ,alias_at_est_rectangle,&__est_rectangle,0,true);
+
+  gen _is_3dpoint(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen g=remove_at_pnt(args);
+    g=(g.type==_VECT && g.subtype==_POINT__VECT && g._VECTptr->size()==3)?1:0;
+    g.subtype=_INT_BOOLEAN;
+    return g;
+  }
+  static const char _is_3dpoint_s []="is_3dpoint";
+  static define_unary_function_eval (__is_3dpoint,&giac::_is_3dpoint,_is_3dpoint_s);
+  define_unary_function_ptr5( at_is_3dpoint ,alias_at_is_3dpoint,&__is_3dpoint,0,true);
 
   //=(c-a)*(d-b)/((c-b)*(d-a))= birapport de 4 complexes ou points a,b,c,d
   gen _birapport(const gen & args,GIAC_CONTEXT){

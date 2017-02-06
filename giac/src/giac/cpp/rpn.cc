@@ -1881,7 +1881,8 @@ namespace giac {
     else {
       if (is_positive(-g,contextptr))
 	return _ceil(g,contextptr);
-      return symbolic(at_when,makesequence(symbolic(at_superieur_egal,makesequence(g,0)),symbolic(at_floor,g),symbolic(at_ceil,g)));
+      gen sg=sign(g,contextptr);
+      return sg*_floor(g*sg,contextptr);//symbolic(at_when,makesequence(symbolic(at_superieur_egal,makesequence(g,0)),symbolic(at_floor,g),symbolic(at_ceil,g)));
     }
   }
   static const char _INT_s[]="IP";

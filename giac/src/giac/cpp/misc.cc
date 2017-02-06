@@ -7486,6 +7486,34 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__csch,&_csch,_csch_s);
   define_unary_function_ptr5( at_csch ,alias_at_csch,&__csch,0,true);
 
+  // ggb function for latitude of a 3-d point
+  // was ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))
+  gen _ggbalt(const gen & args,GIAC_CONTEXT){
+    if (args.type==_IDNT)
+      return symbolic(at_ggbalt,args);
+    if (args.is_symb_of_sommet(at_pnt)){
+      gen x=remove_at_pnt(x);
+      if (x.type==_VECT && x.subtype==_POINT__VECT && x._VECTptr->size()==3 ){
+	vecteur v=*x._VECTptr;
+	return arg(sqrt(pow(v[0],2,contextptr)+pow(v[1],2,contextptr),contextptr)+cst_i*v[2],contextptr);
+      }
+    }
+    return undef;
+  }
+  static const char _ggbalt_s []="ggbalt";
+  static define_unary_function_eval (__ggbalt,&_ggbalt,_ggbalt_s);
+  define_unary_function_ptr5( at_ggbalt ,alias_at_ggbalt,&__ggbalt,0,true);
+
+  // ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)))
+  gen _ggbsort(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->empty() || args._VECTptr->front().type==_VECT) return args;
+    return _sort(args,contextptr);
+  }
+  static const char _ggbsort_s []="ggbsort";
+  static define_unary_function_eval (__ggbsort,&_ggbsort,_ggbsort_s);
+  define_unary_function_ptr5( at_ggbsort ,alias_at_ggbsort,&__ggbsort,0,true);
+
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
