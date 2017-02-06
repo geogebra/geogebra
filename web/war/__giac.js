@@ -1983,7 +1983,7 @@ var __giac = [ {},
 { cat:"Simplify", cmd:"Simplify[(((x)+(1))/((x)^(8)))^(1/8)]", result:"nroot((x + 1) / x\u2078,8)" },
 { cat:"Angle", cmd:"Angle[10deg+20deg]", result:"30\u00B0" },
 { cat:"Numeric", cmd:"Numeric[121V^2 m 3.14159265359 (0.0004 / W / omega)]", round:"0.15V\u00B2 m / (W omega)", result:"0.1520530844338V\u00B2 m / (W omega)", notes:"want a single number at start"},
-{ cat:"ScientificText", cmd:"ScientificText[123456]", result:"1.23456000000000 (10\u2075)" },
+{ cat:"Evaluate", cmd:"ScientificText[123456]", result:"1.23456000000000 (10\u2075)" },
 // JSONEND
 //{ 
 // 
