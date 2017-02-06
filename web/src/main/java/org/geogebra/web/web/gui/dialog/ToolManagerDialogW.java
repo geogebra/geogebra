@@ -364,7 +364,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		app.setWaitCursor();
 		// for (Macro macro : toolList.getSelectedMacros()) {
 		app.storeMacro(toolList.getSelectedMacro(), false);
-		Window.open(Window.Location.getHref(), "", "");
+		((AppW) app).getFileManager().open(Window.Location.getHref(), "", "");
 
 		app.setDefaultCursor();
 		hide();

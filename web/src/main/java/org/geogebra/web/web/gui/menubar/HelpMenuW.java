@@ -56,7 +56,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 			
 	    	@Override
 	    	public void doExecute() {
-						Window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
+	    		((AppW) app).getFileManager().open(GeoGebraConstants.FORUM_URL, "_blank", "");
 				
             }
 	    });
@@ -70,7 +70,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 			
 	    	@Override
 	    	public void doExecute() {
-		        Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
+	    		((AppW) app).getFileManager().open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
             }
 	    });
 	    
@@ -82,7 +82,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    	
 					@Override
 					public void doExecute() {
-						Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL
+						((AppW) app).getFileManager().open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL
 								+ "&version=" + app.getVersionString()
 								+ "&date=" + GeoGebraConstants.BUILD_DATE,
 								"_blank",

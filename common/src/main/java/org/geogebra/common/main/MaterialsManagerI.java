@@ -53,4 +53,18 @@ public interface MaterialsManagerI {
 	void showExportAsPictureDialog(String url, String filename, App app);
 
 	void refreshAutosaveTimestamp();
+
+	/**
+	 * Opens a new browser window. The "name" and "features" arguments are
+	 * specified <a href=
+	 * 'https://developer.mozilla.org/en-US/docs/Web/API/window.open'>here</a>.
+	 *
+	 * @param url
+	 *            the URL that the new window will display
+	 * @param name
+	 *            the name of the window (e.g. "_blank")
+	 * @param features
+	 *            the features to be enabled/disabled on this window
+	 */
+	public void open(String url, String name, String features);
 }

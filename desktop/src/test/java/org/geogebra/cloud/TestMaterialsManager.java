@@ -8,6 +8,7 @@ import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public class TestMaterialsManager extends MaterialsManager {
@@ -199,6 +200,11 @@ public class TestMaterialsManager extends MaterialsManager {
 			}
 		}
 		return nextFreeID;
+	}
+	
+	
+	public void open(String url, String name, String features){
+		// TODO: implement this?
 	}
 
 }

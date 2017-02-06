@@ -1322,7 +1322,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	protected void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
-			Window.open(helpURL, "_blank", "");
+			((AppW) app).getFileManager().open(helpURL, "_blank", "");
 		} catch (final MyError e) {
 			app.showError(e);
 		} catch (final Exception e) {

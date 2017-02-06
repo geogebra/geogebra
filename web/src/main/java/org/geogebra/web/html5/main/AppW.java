@@ -2291,7 +2291,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
-		Window.open(pageUrl, "_blank", "");
+		getFileManager().open(pageUrl, "_blank", "");
 		Log.debug("opening: " + pageUrl);
 
 		// assume showURLinBrowserWaiterFixedDelay is called before

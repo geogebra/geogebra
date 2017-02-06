@@ -15,6 +15,8 @@ import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.util.SaveCallback;
 
+import com.google.gwt.user.client.Window;
+
 /**
  * Manager for local file saving
  *
@@ -228,5 +230,9 @@ public abstract class FileManager extends MaterialsManager {
 			$wnd.android.share(base64, title, 'ggb');
 		}
 	}-*/;
+	
+	public void open(String url, String name, String features){
+		Window.open(url, name, features);
+	}
 
 }

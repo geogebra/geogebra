@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
@@ -37,7 +38,7 @@ public class WindowMenuW extends MenuBar{
 		        true, new Command() {
 			        @Override
 					public void execute() {
-						Window.open(Window.Location.getHref(), "_blank", "");
+			        	((AppW) app).getFileManager().open(Window.Location.getHref(), "_blank", "");
 			        }
 		        });
 		
