@@ -23,6 +23,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsDefaults;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -84,6 +85,9 @@ public class OptionsDefaultsD extends OptionsDefaults
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
 	private DefaultMutableTreeNode listNode, inequalitiesNode, functionNVarNode;
+
+	// polyhedra, cylinders, cones etc
+	private DefaultMutableTreeNode solidsNode;
 
 	private JButton defaultsButton;
 
@@ -218,7 +222,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 		listNode = new DefaultMutableTreeNode();
 		inequalitiesNode = new DefaultMutableTreeNode();
 		functionNVarNode = new DefaultMutableTreeNode();
-
+		solidsNode = new DefaultMutableTreeNode();
 		rootNode.add(pointsNode);
 		pointsNode.add(pointsFreeNode);
 		pointsNode.add(pointsDepNode);
@@ -235,6 +239,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 		rootNode.add(conicSectorNode);
 		rootNode.add(functionNode);
 		rootNode.add(functionNVarNode);
+		rootNode.add(solidsNode);
 		rootNode.add(polygonNode);
 		rootNode.add(locusNode);
 		rootNode.add(textNode);
@@ -277,6 +282,8 @@ public class OptionsDefaultsD extends OptionsDefaults
 		typeToNode.put(functionNode, ConstructionDefaults.DEFAULT_FUNCTION);
 		typeToNode.put(functionNVarNode,
 				ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
+		typeToNode.put(solidsNode,
+				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
 		typeToNode.put(polylineNode, ConstructionDefaults.DEFAULT_POLYLINE);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
@@ -339,6 +346,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 		conicSectorNode.setUserObject(loc.getMenu("Sector"));
 		functionNode.setUserObject(loc.getMenu("Function"));
 		functionNVarNode.setUserObject(loc.getMenu("MultivariableFunction"));
+		solidsNode.setUserObject(loc.getMenu("Solids"));
 		polygonNode.setUserObject(loc.getMenu("Polygon"));
 		polylineNode.setUserObject(loc.getMenu("PolyLine"));
 		locusNode.setUserObject(loc.getMenu("Locus"));
