@@ -275,10 +275,6 @@ public class MetaModel {
         this.defaultMatrixRows = defaultMatrixRows;
     }
 
-	public void addGroup(MetaGroup metaGroup) {
-        groups.add(metaGroup);
-    }
-
     public boolean isArrayOpenKey(char key) {
         ListMetaGroup metaGroup = (ListMetaGroup) getGroup(ARRAYS);
         for (MetaComponent metaComponent : metaGroup.getComponents()) {
