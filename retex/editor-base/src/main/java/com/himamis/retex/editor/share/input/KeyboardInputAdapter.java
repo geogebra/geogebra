@@ -128,27 +128,21 @@ public class KeyboardInputAdapter {
 
 	public static void insertString(final MathFieldInternal mMathFieldInternal,
 			String text) {
-
 		boolean oldCreateFrac = mMathFieldInternal.getInputController()
 				.getCreateFrac();
 		mMathFieldInternal.getInputController().setCreateFrac(false);
-		StringBuilder cSB = new StringBuilder(1);
-		for (int i = 0; i < text.length(); i++) {
+        StringBuilder stringBuilder = new StringBuilder(1);
+        for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			// org.geogebra.common.util.debug.Log.debug("char #"+i+">"+c+"<");
 			if (KeyboardInputAdapter.isValidChar(c)) {
-				cSB.setLength(0);
-				cSB.append(c);
-				// org.geogebra.common.util.debug.Log.debug("-- > type: "+
-				// Character.getType(c));
-				KeyboardInputAdapter.onKeyboardInput(mMathFieldInternal,
-						cSB.toString());
-			}
+                stringBuilder.setLength(0);
+                stringBuilder.append(c);
+                KeyboardInputAdapter.onKeyboardInput(mMathFieldInternal,
+                        stringBuilder.toString());
+            }
 		}
 		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
 		mMathFieldInternal.onInsertString();
-
-
 	}
 
     public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
