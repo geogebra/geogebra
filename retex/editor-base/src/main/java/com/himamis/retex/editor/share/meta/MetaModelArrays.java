@@ -1,8 +1,5 @@
 package com.himamis.retex.editor.share.meta;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.himamis.retex.editor.share.meta.MetaArray.APOSTROPHES;
 import static com.himamis.retex.editor.share.meta.MetaArray.ARRAY;
 import static com.himamis.retex.editor.share.meta.MetaArray.CLOSE;
@@ -14,6 +11,9 @@ import static com.himamis.retex.editor.share.meta.MetaArray.OPEN;
 import static com.himamis.retex.editor.share.meta.MetaArray.REGULAR;
 import static com.himamis.retex.editor.share.meta.MetaArray.ROW;
 import static com.himamis.retex.editor.share.meta.MetaArray.SQUARE;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class MetaModelArrays {
 
@@ -73,7 +73,7 @@ class MetaModelArrays {
         arrayComponents.add(createArrayComponent(OPEN, "{", "\\begin{pmatrix} "));
         arrayComponents.add(createArrayComponent(CLOSE, "}", " \\end{pmatrix}"));
         arrayComponents.add(createArrayComponent(FIELD, ",", " & "));
-        arrayComponents.add(createArrayComponent(ROW, ";", " \\\\ "));
+		arrayComponents.add(createArrayComponent(ROW, ",", " \\\\ "));
 
         return new MetaArray(MATRIX, MATRIX, arrayComponents);
     }

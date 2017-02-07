@@ -9,11 +9,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.Resource;
 
 
 public class SerializeLaTeX {
@@ -23,8 +21,7 @@ public class SerializeLaTeX {
 	@BeforeClass
 	public static void prepare() {
 		FactoryProvider.INSTANCE = new FactoryProviderDesktop();
-		MetaModel m = new MetaModelParser().parse(new Resource().loadResource(
-				"/com/himamis/retex/editor/desktop/meta/Octave.xml"));
+		MetaModel m = new MetaModel();
 		parser = new Parser(m);
 		serializer = new GeoGebraSerializer();
 	}

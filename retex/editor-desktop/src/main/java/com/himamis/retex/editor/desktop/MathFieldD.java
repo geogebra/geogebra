@@ -52,23 +52,19 @@ import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.Resource;
 
 public class MathFieldD extends JLabel implements MathField {
 	
 	private static final MetaModel metaModel;
 	
 	static {
-		metaModel = new MetaModelParser()
-				.parse(new Resource().loadResource(
-						"/com/himamis/retex/editor/desktop/meta/Octave.xml"));
+		metaModel = new MetaModel();
 	}
 
 	private static final long serialVersionUID = 1L;
