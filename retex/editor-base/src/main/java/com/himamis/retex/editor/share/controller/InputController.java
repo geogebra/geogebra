@@ -780,7 +780,7 @@ public class InputController {
 		} else if (mCreateFrac && ch == '^') {
             newScript(editorState, "^");
             handled = true;
-        } else if (ch == '_') {
+		} else if (mCreateFrac && ch == '_') {
             newScript(editorState, "_");
             handled = true;
         } else if (mCreateFrac && ch == '/') { // slash used in android ggb keyboard

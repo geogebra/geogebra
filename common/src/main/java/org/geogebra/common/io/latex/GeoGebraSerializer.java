@@ -63,7 +63,8 @@ public class GeoGebraSerializer implements Serializer {
 		} else if ("_".equals(mathFunction.getName())) {
 			stringBuilder.append(mathFunctionName + '{');
 			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append('}');
+			// a_{1}sin(x) should be a_{1} sin(x)
+			stringBuilder.append("} ");
 		} else if ("frac".equals(mathFunctionName)) {
 			stringBuilder.append('(');
 			serialize(mathFunction.getArgument(0), stringBuilder);
