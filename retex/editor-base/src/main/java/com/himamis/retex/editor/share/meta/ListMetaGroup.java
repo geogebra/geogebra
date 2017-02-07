@@ -42,8 +42,8 @@ public class ListMetaGroup implements MetaGroup {
 
     ListMetaGroup(String name, String group, List<MetaComponent> components) {
         this.name = name;
-        this.group = group;
         this.components = components;
+        this.group = group;
     }
 
     @Override
@@ -66,8 +66,7 @@ public class ListMetaGroup implements MetaGroup {
     }
 
     @Override
-	public String getGroup() {
+    public String getGroup() {
         return group;
     }
-
 }

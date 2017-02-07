@@ -1,11 +1,11 @@
 package com.himamis.retex.editor.share.meta;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.renderer.share.platform.ParserAdapter;
 import com.himamis.retex.renderer.share.platform.parser.Element;
 import com.himamis.retex.renderer.share.platform.parser.Node;
 import com.himamis.retex.renderer.share.platform.parser.NodeList;
+
+import java.util.ArrayList;
 
 /**
  * Created by Balazs on 8/26/2015.
@@ -65,16 +65,6 @@ public class MetaModelParser {
             throw new Exception(element.getTagName() + " has invalid value.");
         }
         return res;
-    }
-
-    public MetaModel parse(Object file) {
-        Element root = parserAdapter.createParserAndParseFile(file, true, true);
-        // keyboard input, characters and operators
-        try {
-            return parseComponents(root);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static MetaCharacter parseArrayElement(Element element) throws Exception {
@@ -185,18 +175,12 @@ public class MetaModelParser {
         } catch (Exception e) {
         }
 
-        int code = 0;
-        try {
-            code = getIntAttribute(CODE, element);
-        } catch (Exception e) {
-        }
-
         try {
             unicode = getCharAttribute(UNICODE, element);
         } catch (Exception e) {
         }
 
-        MetaSymbol metaSymbol = new MetaSymbol(name, cas, tex, key, (char) code, unicode, type);
+        MetaSymbol metaSymbol = new MetaSymbol(name, cas, tex, key, unicode, type);
 
         return metaSymbol;
     }
@@ -346,5 +330,15 @@ public class MetaModelParser {
 			}
         }
         return metaModel;
+    }
+
+    public MetaModel parse(Object file) {
+        Element root = parserAdapter.createParserAndParseFile(file, true, true);
+        // keyboard input, characters and operators
+        try {
+            return parseComponents(root);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -51,12 +51,9 @@ public class MetaModel {
     public static final String OPERATORS = "Operators";
     public static final String SYMBOLS = "Symbols";
     public static final String FUNCTIONS = "Functions";
-    /* Array and matrix elements. */
-    static final String OPEN = "Open";
-    static final String CLOSE = "Close";
-    static final String FIELD = "Field";
-    static final String ROW = "Row";
-
+    private final static MetaModelArrays arrays = new MetaModelArrays();
+    private final static MetaModelFunctions functions = new MetaModelFunctions();
+    private final static MetaModelSymbols symbols = new MetaModelSymbols();
     private ArrayList<MetaGroup> groups = new ArrayList<MetaGroup>();
 
     private int defaultArraySize = 1;
@@ -67,6 +64,15 @@ public class MetaModel {
     public MetaModel() {
         groups.add(new CharacterGroup());
         groups.add(new FunctionGroup());
+
+        groups.add(arrays.createArraysGroup());
+        groups.add(arrays.createMatrixGroup());
+
+        groups.add(functions.createGeneralFunctionsGroup());
+        groups.add(functions.createFunctions());
+
+        groups.add(symbols.createOperators());
+        groups.add(symbols.createSymbols());
     }
 
     private static MetaArray getMetaArray(MetaGroup metaGroup, String name) {

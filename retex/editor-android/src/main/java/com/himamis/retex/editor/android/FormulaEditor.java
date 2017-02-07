@@ -26,7 +26,6 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.parser.Parser;
@@ -37,38 +36,32 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public class FormulaEditor extends View implements MathField {
 
-    protected static MetaModel sMetaModel;
-
+    private final static int CURSOR_MARGIN = 5;
+    // min-max values for cursor color
+    private final static int CURSOR_MIN_RED = 222;
+    private final static int CURSOR_MAX_GREEN_BLUE = 128;
+    protected static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
-
     private TeXIcon mTeXIcon;
     private Graphics2DA mGraphics;
-
     private float mSize = 20;
     private int mBackgroundColor = Color.TRANSPARENT;
     private ColorA mForegroundColor = new ColorA(Color.BLACK);
     private int mType = TeXFormula.SERIF;
     private String mText;
-
     private float mScale;
-
     private float mMinHeight;
-
     private Parser mParser;
-
-    public void debug(String message) {
-        //System.out.println(message);
-    }
-
-    @Override
-    public boolean useCustomPaste() {
-        return false;
-    }
+    private int iconWidth;
+    private Canvas mHiddenCanvas;
+    private Bitmap mHiddenBitmap;
+    private int mHiddenBitmapW = -1;
+    private int mHiddenBitmapH = -1;
+    private int mShiftX = 0;
 
     public FormulaEditor(Context context) {
         super(context);
@@ -85,6 +78,15 @@ public class FormulaEditor extends View implements MathField {
         super(context, attrs, defStyleAttr);
         readAttributes(context, attrs, defStyleAttr);
         init();
+    }
+
+    public void debug(String message) {
+        //System.out.println(message);
+    }
+
+    @Override
+    public boolean useCustomPaste() {
+        return false;
     }
 
     private void readAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -106,7 +108,6 @@ public class FormulaEditor extends View implements MathField {
 
     protected void init() {
         initFactoryProvider();
-        initMetaModel();
         setFocusable(true);
         setFocusableInTouchMode(true);
 
@@ -115,9 +116,7 @@ public class FormulaEditor extends View implements MathField {
         mMathFieldInternal = new MathFieldInternal(this);
         mMathFieldInternal.setSize(mSize * mScale);
         mMathFieldInternal.setType(mType);
-        if (!isInEditMode()) {
-            mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
-        }
+        mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
     }
 
     private float getMinHeigth() {
@@ -133,14 +132,6 @@ public class FormulaEditor extends View implements MathField {
     private void initFactoryProvider() {
         if (FactoryProvider.INSTANCE == null) {
             FactoryProvider.INSTANCE = new FactoryProviderAndroid(getContext().getAssets());
-        }
-    }
-
-    private void initMetaModel() {
-        if (!isInEditMode()) {
-            if (sMetaModel == null) {
-                sMetaModel = new MetaModelParser().parse(new Resource().loadResource("Octave.xml"));
-            }
         }
     }
 
@@ -289,14 +280,11 @@ public class FormulaEditor extends View implements MathField {
         mTeXIcon.paintIcon(null, mGraphics, shiftX, y);
     }
 
-
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         if (w != oldw) {
             updateShiftX();
         }
     }
-
-    private int iconWidth;
 
     public void fireInputChangedEvent() {
         // implemented in AlgebraInput
@@ -311,7 +299,6 @@ public class FormulaEditor extends View implements MathField {
     public void copy() {
 
     }
-
 
     private void updateShiftX() {
 
@@ -388,7 +375,6 @@ public class FormulaEditor extends View implements MathField {
 
     }
 
-
     public void scroll(int dx, int dy) {
         if (isEmpty()) {
             return;
@@ -406,26 +392,12 @@ public class FormulaEditor extends View implements MathField {
         repaint();
     }
 
-    private final static int CURSOR_MARGIN = 5;
-
-    // min-max values for cursor color
-    private final static int CURSOR_MIN_RED = 222;
-    private final static int CURSOR_MAX_GREEN_BLUE = 128;
-
     /**
      * @return current shift in x for drawing the formula
      */
     public int getShiftX() {
         return mShiftX;
     }
-
-    private Canvas mHiddenCanvas;
-    private Bitmap mHiddenBitmap;
-    private int mHiddenBitmapW = -1;
-    private int mHiddenBitmapH = -1;
-
-
-    private int mShiftX = 0;
 
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
@@ -505,6 +477,13 @@ public class FormulaEditor extends View implements MathField {
         editorState.setCurrentOffset(formulaEditorState.currentOffset);
     }
 
+    public void hideCopyPasteButtons() {
+        // implemented in ReTeXInput
+    }
+
+    public boolean isEmpty() {
+        return mMathFieldInternal.isEmpty();
+    }
 
     static class FormulaEditorState extends BaseSavedState {
 
@@ -542,14 +521,5 @@ public class FormulaEditor extends View implements MathField {
             out.writeInt(currentOffset);
         }
 
-    }
-
-    public void hideCopyPasteButtons() {
-        // implemented in ReTeXInput
-    }
-
-
-    public boolean isEmpty() {
-        return mMathFieldInternal.isEmpty();
     }
 }

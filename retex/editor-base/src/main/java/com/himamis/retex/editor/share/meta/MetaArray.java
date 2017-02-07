@@ -35,6 +35,16 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     public static final String REGULAR = "regular";
     public static final String SQUARE = "square";
     public static final String APOSTROPHES = "apostrophes";
+    public static final String LINE = "line";
+
+    /* Array and matrix elements. */
+    static final String OPEN = "Open";
+    static final String CLOSE = "Close";
+    static final String FIELD = "Field";
+    static final String ROW = "Row";
+
+    static final String ARRAY = "Array";
+    static final String MATRIX = "Matrix";
 
     private MetaComponent open;
     private MetaComponent close;
@@ -48,13 +58,6 @@ public class MetaArray extends MetaComponent implements MetaGroup {
         setupComponents(metaComponents);
     }
 
-    private void setupComponents(List<MetaComponent> metaComponents) {
-        open = getComponent(metaComponents, MetaModel.OPEN);
-        close = getComponent(metaComponents, MetaModel.CLOSE);
-        field = getComponent(metaComponents, MetaModel.FIELD);
-        row = getComponent(metaComponents, MetaModel.ROW);
-    }
-
     private static MetaComponent getComponent(List<MetaComponent> metaComponents, String name) {
         for (MetaComponent metaComponent : metaComponents) {
             if (metaComponent.getName().equals(name)) {
@@ -62,6 +65,13 @@ public class MetaArray extends MetaComponent implements MetaGroup {
             }
         }
 		return new MetaComponent(name, "", "", (char) 0, (char) 0);
+    }
+
+    private void setupComponents(List<MetaComponent> metaComponents) {
+        open = getComponent(metaComponents, OPEN);
+        close = getComponent(metaComponents, CLOSE);
+        field = getComponent(metaComponents, FIELD);
+        row = getComponent(metaComponents, ROW);
     }
 
     public MetaComponent getOpen() {
@@ -96,27 +106,22 @@ public class MetaArray extends MetaComponent implements MetaGroup {
         return row.getKey();
     }
 
-    public String getTagName() {
-        return tagName;
-    }
-
     public boolean isArray() {
-        return "Array".equals(tagName);
+        return ARRAY.equals(tagName);
     }
 
     public boolean isMatrix() {
-        return "Matrix".equals(tagName);
+        return MATRIX.equals(tagName);
     }
 
-	@Override
-	public String getGroup() {
-		return tagName;
-	}
+    @Override
+    public String getGroup() {
+        return getName();
+    }
 
-	@Override
-	public MetaComponent getComponent(String componentName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public MetaComponent getComponent(String componentName) {
+        return null;
+    }
 
 }

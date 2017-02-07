@@ -34,27 +34,7 @@ package com.himamis.retex.editor.share.meta;
  */
 public class MetaSymbol extends MetaCharacter {
 
-    private String description;
-    private char code;
-
-    MetaSymbol(String name, String casName, String texName, char key, char code, char unicode, int type) {
+    MetaSymbol(String name, String casName, String texName, char key, char unicode, int type) {
         super(name, casName, texName, key, unicode, type);
-        this.code = code;
-        this.description = casName;
     }
-
-    /**
-     * ASCII code for symbol.
-     */
-    public char getCode() {
-        return code;
-    }
-
-    /**
-     * Description.
-     */
-    public String getDescription() {
-        return description;
-    }
-
 }
