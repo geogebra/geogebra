@@ -199,13 +199,14 @@ public class GDecoratorPanel extends SimplePanel {
 	 *            the cell index
 	 * @return the Element at the given row and cell
 	 */
-	protected com.google.gwt.user.client.Element getCellElement(int row,
+	protected Element getCellElement(int row,
 			int cell) {
 		Element tr = DOM.getChild(tbody, row);
 		Element td = DOM.getChild(tr, cell);
 		return DOM.asOld(DOM.getFirstChild(td));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected com.google.gwt.user.client.Element getContainerElement() {
 		return DOM.asOld(containerElem);
