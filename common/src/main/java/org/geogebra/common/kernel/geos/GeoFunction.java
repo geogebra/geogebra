@@ -1488,7 +1488,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 
 		GeoFunction geoFun = (GeoFunction) geo;
-
+		if (differAt(this, geoFun, 0) || differAt(this, geoFun, 1)) {
+			return false;
+		}
 		PolyFunction poly1 = getFunction()
 				.expandToPolyFunction(getFunctionExpression(), false, true);
 		if (poly1 != null) {
@@ -1505,6 +1507,18 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// eg x^2 + 0*sin(x) == x^2
 		// so check with CAS (SLOW)
 		return isDifferenceZeroInCAS(geo);
+	}
+
+	private static boolean differAt(GeoFunction f1, GeoFunction f2, double x) {
+		double v1 = f1.evaluate(x);
+		double v2 = f2.evaluate(x);
+		if (!MyDouble.isFinite(v2) || Math.abs(v1) > 1E8) {
+			return false;
+		}
+		if (!MyDouble.isFinite(v2) || Math.abs(v2) > 1E8) {
+			return false;
+		}
+		return !Kernel.isEqual(v1, v2, Kernel.MIN_PRECISION);
 	}
 
 	/**
