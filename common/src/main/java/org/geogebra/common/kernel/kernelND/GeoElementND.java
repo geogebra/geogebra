@@ -11,16 +11,20 @@ the Free Software Foundation.
 */
 package org.geogebra.common.kernel.kernelND;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
@@ -541,5 +545,35 @@ public interface GeoElementND extends ExpressionValue {
 	void setLoadedLabel(String label);
 
 	void setScripting(GeoElement value);
+
+	boolean isGeoList();
+
+	boolean isGeoBoolean();
+
+	boolean hasChangeableCoordParentNumbers();
+
+	boolean isGeoPlane();
+
+	Coords getMainDirection();
+
+	public ArrayList<GeoPointND> getFreeInputPoints(
+			final EuclidianViewInterfaceSlim view);
+
+	boolean isTranslateable();
+
+	boolean isMoveable(EuclidianViewInterfaceSlim view);
+
+	boolean isGeoInputBox();
+
+	void recordChangeableCoordParentNumbers(EuclidianView view);
+
+	boolean hasMoveableInputPoints(EuclidianViewInterfaceSlim view);
+
+	boolean isChangeable();
+
+	boolean moveObject(Coords rwTransVec, Coords position, Coords viewDirection,
+			ArrayList<GeoElementND> moveObjectsUpdateList, EuclidianView view);
+
+	boolean isGeoImplicitCurve();
 
 }
