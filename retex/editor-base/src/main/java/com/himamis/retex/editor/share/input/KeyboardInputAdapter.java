@@ -46,40 +46,48 @@ public class KeyboardInputAdapter {
         adapters.add(new FunctionAdapter("log_{10}", "log10"));
         adapters.add(new FunctionAdapter("random"));
         adapters.add(new FunctionAdapter("nroot"));
-        adapters.add(new StringInput() {
+        adapters.add(new StringInput("\u00B2") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
                 typeCharacter(mfi, '^');
                 typeCharacter(mfi, '2');
                 mfi.getCursorController().nextCharacter(mfi.getEditorState());
             }
-
-            @Override
-            public boolean test(String input) {
-                return "\u00B2".equals(input);
-            }
         });
-        adapters.add(new StringInput() {
+        adapters.add(new StringInput("\u221A") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
                 commitFunction(mfi, "sqrt");
             }
-
-            @Override
-            public boolean test(String input) {
-                return "\u221A".equals(input);
-            }
         });
-        adapters.add(new StringInput() {
+        adapters.add(new StringInput(e + "^") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
                 typeCharacter(mfi, e);
                 typeCharacter(mfi, '^');
             }
-
+        });
+        adapters.add(new StringInput("logb") {
             @Override
-            public boolean test(String input) {
-                return (e + "^").equals(input);
+            public void commit(MathFieldInternal mfi, String input) {
+                typeCharacter(mfi, 'l');
+                typeCharacter(mfi, 'o');
+                typeCharacter(mfi, 'g');
+                typeCharacter(mfi, '_');
+            }
+        });
+        adapters.add(new StringInput("10^") {
+            @Override
+            public void commit(MathFieldInternal mfi, String input) {
+                typeCharacter(mfi, '1');
+                typeCharacter(mfi, '0');
+                typeCharacter(mfi, '^');
+            }
+        });
+        adapters.add(new StringInput("a_n") {
+            @Override
+            public void commit(MathFieldInternal mfi, String input) {
+                typeCharacter(mfi, '_');
             }
         });
 
