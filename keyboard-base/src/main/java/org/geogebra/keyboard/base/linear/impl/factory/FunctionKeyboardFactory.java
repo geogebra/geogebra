@@ -33,41 +33,41 @@ public class FunctionKeyboardFactory {
     public LinearKeyboard createFunctionKeyboard() {
         LinearKeyboardImpl functionKeyboard = new LinearKeyboardImpl();
 
-        RowImpl row = functionKeyboard.nextRow(8.8f);
-        addTranslateInputCommandButton(row, "Function.sin", "Function.sin", 1.4f);
-        addTranslateInputCommandButton(row, "Function.cos", "Function.cos", 1.4f);
-        addTranslateInputCommandButton(row, "Function.tan", "Function.tan", 1.4f);
-        addButton(row, createEmptySpace(0.6f));
+        RowImpl row = functionKeyboard.nextRow(9.2f);
+        addTranslateInputCommandButton(row, "Function.sin", "Function.sin", 1.66f);
+        addTranslateInputCommandButton(row, "Function.cos", "Function.cos", 1.66f);
+        addTranslateInputCommandButton(row, "Function.tan", "Function.tan", 1.66f);
+        addButton(row, createEmptySpace(0.2f));
         addInputButton(row, "%");
         addInputButton(row, "!");
         addInputButton(row, "$");
         addInputButton(row, DEGREE);
 
-        row = functionKeyboard.nextRow(8.8f);
-        addTranslateInputCommandButton(row, "Function.asin", "Function.asin", 1.4f);
-        addTranslateInputCommandButton(row, "Function.acos", "Function.acos", 1.4f);
-        addTranslateInputCommandButton(row, "Function.atan", "Function.atan", 1.4f);
-        addButton(row, createEmptySpace(0.6f));
+        row = functionKeyboard.nextRow(9.2f);
+        addTranslateInputCommandButton(row, "Function.asin", "Function.asin", 1.66f);
+        addTranslateInputCommandButton(row, "Function.acos", "Function.acos", 1.66f);
+        addTranslateInputCommandButton(row, "Function.atan", "Function.atan", 1.66f);
+        addButton(row, createEmptySpace(0.2f));
         addInputButton(row, "{");
         addInputButton(row, "}");
         addInputButton(row, ";");
         addInputButton(row, ":=");
 
-        row = functionKeyboard.nextRow(8.8f);
+        row = functionKeyboard.nextRow(9.2f);
         addInputButton(row, "ln", 1.4f);
-        addConstantInputButton(row, RESOURCE_LOG_10, "log_{10}", 1.4f);
-        addConstantInputButton(row, RESOURCE_LOG_B, "logb", 1.4f);
-        addButton(row, createEmptySpace(0.6f));
+        addConstantInputButton(row, RESOURCE_LOG_10, "log_{10}", 1.66f);
+        addConstantInputButton(row, RESOURCE_LOG_B, "logb", 1.66f);
+        addButton(row, createEmptySpace(0.2f));
         addInputCommandButton(row, "d/dx", "Derivative", 1.0f);
         addInputCommandButton(row, INTEGRAL, "Integral", 1.0f);
         addInputButton(row, "i");
         addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
 
-        row = functionKeyboard.nextRow(8.8f);
-        addConstantInputButton(row, RESOURCE_E_X, "e^x", 1.4f);
-        addConstantInputButton(row, RESOURCE_10_X, "10^x", 1.4f);
-        addConstantInputButton(row, RESOURCE_N_ROOT, "nroot", 1.4f);
-        addButton(row, createEmptySpace(0.6f));
+        row = functionKeyboard.nextRow(9.2f);
+        addConstantInputButton(row, RESOURCE_E_X, "e^x", 1.66f);
+        addConstantInputButton(row, RESOURCE_10_X, "10^x", 1.66f);
+        addConstantInputButton(row, RESOURCE_N_ROOT, "nroot", 1.66f);
+        addButton(row, createEmptySpace(0.2f));
         addConstantInputButton(row, RESOURCE_A_N, "a_n");
         addConstantCustomButton(row, RESOURCE_LEFT_ARROW, ACTION_LEFT);
         addConstantCustomButton(row, RESOURCE_RIGHT_ARROW, ACTION_RIGHT);
