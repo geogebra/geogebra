@@ -585,7 +585,7 @@ __GGB__keysVar.no_NB.command = {
     "NSolveODE.Syntax": "[ <Liste med deriverte>, <Innledende x-koordinat>, <Liste med innledende y-koordinater>, <Avsluttende x-koordinat> ]",
     "Name": "Navn",
     "Name.Syntax": "[ <Objekt> ]",
-    "Net": "Nett",
+    "Net": "BrettUt",
     "Net.Syntax": "[ <Polyeder>, <Tall> ]\n[ <Polyeder>, <Tall>, <Flate>, <Sidekant>, <Sidekant> ]",
     "NextPrime": "NestePrimtall",
     "NextPrime.Syntax": "[ <Tall> ]",
