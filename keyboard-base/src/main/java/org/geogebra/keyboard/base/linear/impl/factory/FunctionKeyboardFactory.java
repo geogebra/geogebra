@@ -9,6 +9,7 @@ import static org.geogebra.keyboard.base.ButtonConstants.ACTION_LEFT;
 import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RETURN;
 import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RIGHT;
 import static org.geogebra.keyboard.base.ButtonConstants.DEGREE;
+import static org.geogebra.keyboard.base.ButtonConstants.EULER;
 import static org.geogebra.keyboard.base.ButtonConstants.INTEGRAL;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_10_X;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_A_N;
@@ -65,7 +66,7 @@ public class FunctionKeyboardFactory {
         addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
 
         row = functionKeyboard.nextRow(9.2f);
-        addConstantInputButton(row, RESOURCE_E_X, "e^x", width);
+        addConstantInputButton(row, RESOURCE_E_X, EULER + "^", width);
         addConstantInputButton(row, RESOURCE_10_X, "10^x", width);
         addConstantInputButton(row, RESOURCE_N_ROOT, "nroot", width);
         addButton(row, createEmptySpace(0.2f));
