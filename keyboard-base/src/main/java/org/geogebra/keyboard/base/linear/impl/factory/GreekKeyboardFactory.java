@@ -44,6 +44,7 @@ public class GreekKeyboardFactory {
     private static final String TAU = "\u03C4";
     private static final String UPSILON = "\u03C5";
     private static final String PHI = "\u03C6";
+    private static final String PHI_VARIATION = "\u03D5";
     private static final String CHI = "\u03C7";
     private static final String PSI = "\u03C8";
     private static final String OMEGA = "\u03C9";
@@ -52,7 +53,7 @@ public class GreekKeyboardFactory {
         LinearKeyboardImpl greekKeyboard = new LinearKeyboardImpl();
 
         RowImpl row = greekKeyboard.nextRow(10.0f);
-        addInputButton(row, PHI);
+        addInputButton(row, PHI_VARIATION);
         addInputButton(row, SIGMA_SPECIAL);
         addInputButton(row, EPSILON);
         addInputButton(row, RHO);
