@@ -30,6 +30,7 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -486,6 +487,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 											.setOnScreenKeyboardTextField(ml);
 									ml.setFocus(true, true);
 									ml.ensureEditing();
+									if (app.getGuiManager().hasAlgebraView()) {
+										AlgebraViewW av = (AlgebraViewW) app
+												.getAlgebraView();
+										av.setDefaultUserWidth();
+									}
 
 								}
 							}.schedule(500);

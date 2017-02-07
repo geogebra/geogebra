@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * The static methods of this class should be used to check for duplicated
  * events (e.g. TouchStart and MouseDown) and to prevent that one event is
@@ -14,6 +16,8 @@ public class CancelEventTimer {
 	private static long lastBlurEvent = 0;
 
 	private static boolean blurEnabled;
+
+	private static long avRestoreWidthEvent = 0;
 
 	/**
 	 * amount of time (ms) in which all mouse events are ignored after a touch
@@ -32,6 +36,12 @@ public class CancelEventTimer {
 	 * event
 	 */
 	public static final int TIME_BETWEEN_BLUR_AND_CLICK = 500;
+
+	/**
+	 * amount of time (ms) in which AV width restoring is canceled.
+	 * 
+	 */
+	private static final long TIME_BEFORE_RESTORING_AV_WIDTH = 500;
 
 	/**
 	 * called at the end of any touch event
@@ -90,4 +100,20 @@ public class CancelEventTimer {
 	public static boolean cancelKeyboardHide() {
 		return System.currentTimeMillis() - lastKeyboardEvent < TIME_BEFORE_HIDING_KEYBOARD;
 	}
+
+	/**
+	 * called after Algebra View should restore its original width (after
+	 * editing an item)
+	 */
+	public static void avRestoreWidth() {
+		Log.debug("[RS]  avRestoreWidth()");
+		avRestoreWidthEvent = System.currentTimeMillis();
+	}
+
+	public static boolean cancelAVRestoreWidth() {
+		Log.debug("[RS]  cancelAVRestoreWidth()");
+		return System.currentTimeMillis()
+				- avRestoreWidthEvent < TIME_BEFORE_RESTORING_AV_WIDTH;
+	}
+
 }

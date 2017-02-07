@@ -1560,7 +1560,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void setShowAlgebraInput(boolean show) {
 		if (show) {
-			setUserWidth(getOffsetWidth());
 			showAlgebraInput(false);
 		} else {
 			hideAlgebraInput();
@@ -1736,6 +1735,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				getActiveTreeItem().onEnter(false);
 			}
 		}
+
 	}
 
 	/**
@@ -1815,6 +1815,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public void cancelEditItem() {
 		editItem = false;
 		setAnimationEnabled(true);
+
 	}
 
 	@Override
@@ -2237,6 +2238,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			cancelEditItem();
 			stopCurrentEditor();
+			restoreWidth();
+
 			return;
 		}
 
@@ -2368,13 +2371,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Restores AV original size before editing, if it has been expanded.
 	 */
 	public void restoreWidth() {
-		Integer w = userWidth;
-		if (w != null) {
-			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-			Log.debug("[AVSIZE] restoring width to " + w);
-			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
-			avDockPanel.deferredOnResize();
+		if (CancelEventTimer.cancelAVRestoreWidth()) {
+			return;
 		}
+
+		int w = userWidth;
+		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+		Log.debug("[RS] to " + w);
+		avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
+		avDockPanel.deferredOnResize();
+
 	}
 
 	/**
@@ -2426,8 +2432,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	public void setUserWidth(int userWidth) {
-		resetItems(false);
 		this.userWidth = userWidth;
 	}
 
+	public void setDefaultUserWidth() {
+		setUserWidth(getOffsetWidth());
+	}
 }

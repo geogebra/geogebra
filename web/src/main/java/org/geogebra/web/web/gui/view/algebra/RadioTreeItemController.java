@@ -184,7 +184,7 @@ public class RadioTreeItemController
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
-
+		CancelEventTimer.avRestoreWidth();
 		if (CancelEventTimer.cancelMouseEvent()
 				|| isMarbleHit(event)) {
 			return;
