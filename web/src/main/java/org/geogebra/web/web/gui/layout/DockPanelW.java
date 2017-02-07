@@ -8,6 +8,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -1467,10 +1468,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 				app.getGuiManager().updatePropertiesViewStylebar();
 			}
 		}
-
-		// hide the keyboard-button, when the view is closed
-		if (keyboardButton != null && !visible) {
-			keyboardButton.hide();
+		
+		
+		if(!app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+			// hide the keyboard-button, when the view is closed
+			if (keyboardButton != null && !visible) {
+				keyboardButton.hide();
+			}
 		}
 
 		if (app.getGuiManager() != null) {
