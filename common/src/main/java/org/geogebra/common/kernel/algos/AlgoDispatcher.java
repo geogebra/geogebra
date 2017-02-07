@@ -1769,13 +1769,13 @@ public class AlgoDispatcher {
 	/**
 	 * translate geoTrans by vector v
 	 */
-	final public GeoElement[] Translate(String label, GeoElement geoTrans,
+	final public GeoElement[] Translate(String label, GeoElementND geoTrans,
 			GeoVec3D v) {
 		Transform t = new TransformTranslate(cons, v);
 		return t.transform(geoTrans, label);
 	}
 
-	public GeoElement[] TranslateND(String label, GeoElement geoTrans,
+	public GeoElement[] TranslateND(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
 		return Translate(label, geoTrans, (GeoVec3D) v);
 	}

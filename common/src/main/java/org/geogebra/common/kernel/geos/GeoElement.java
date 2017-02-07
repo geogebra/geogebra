@@ -4565,7 +4565,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if this object is dependent on geo.
 	 */
 	@Override
-	final public boolean isChildOf(final GeoElement geo) {
+	final public boolean isChildOf(final GeoElementND geo) {
 		if ((geo == null) || isIndependent()) {
 			return false;
 		}
@@ -4579,7 +4579,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            other geo
 	 * @return true if this object is dependent on other geo.
 	 */
-	final public boolean isChildOrEqual(final GeoElement geo) {
+	final public boolean isChildOrEqual(final GeoElementND geo) {
 		return (this == geo) || isChildOf(geo);
 	}
 

@@ -519,7 +519,7 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isGeoCurveCartesian();
 
-	boolean isChildOf(GeoElement autoCreateGeo);
+	boolean isChildOf(GeoElementND autoCreateGeo);
 
 	void setAllVisualProperties(GeoElement value, boolean b);
 

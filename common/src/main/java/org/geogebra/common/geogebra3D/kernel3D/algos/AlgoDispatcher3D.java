@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -292,7 +293,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoElement[] TranslateND(String label, GeoElement geoTrans,
+	public GeoElement[] TranslateND(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
 		return getManager3D().Translate3D(label, geoTrans, v);
 	}

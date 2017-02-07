@@ -1338,7 +1338,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void doSingleHighlighting(GeoElement geo) {
+	public final void doSingleHighlighting(GeoElement geo) {
 		if (geo == null) {
 			return;
 		}
@@ -2349,7 +2349,7 @@ public abstract class EuclidianController {
 			GeoPointND point = getAlgoDispatcher().IntersectLines(null,
 					lines[0], lines[1]);
 			checkCoordCartesian(point);
-			return new GeoElement[] { (GeoElement) point };
+			return new GeoElementND[] { point };
 		}
 		// two conics
 		else if (selConics() >= 2) {
@@ -2626,7 +2626,7 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final GeoElement[] parallel(Hits hits, boolean selPreview) {
+	protected final GeoElementND[] parallel(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -2642,7 +2642,7 @@ public abstract class EuclidianController {
 		}
 
 		if (selPoints() == 1) {
-			GeoElement[] ret = { null };
+			GeoElementND[] ret = { null };
 			if (selVectors() == 1) {
 				// fetch selected point and vector
 				GeoPointND[] points = getSelectedPointsND();
@@ -2650,9 +2650,9 @@ public abstract class EuclidianController {
 				// create new line
 				checkZooming();
 
-				if (((GeoElement) points[0]).isGeoElement3D()
-						|| ((GeoElement) vectors[0]).isGeoElement3D()) {
-					ret[0] = (GeoElement) getKernel().getManager3D()
+				if (points[0].isGeoElement3D()
+						|| vectors[0].isGeoElement3D()) {
+					ret[0] = getKernel().getManager3D()
 							.Line3D(null, points[0], vectors[0]);
 				} else {
 					ret[0] = getAlgoDispatcher().Line(null,
@@ -2664,9 +2664,8 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
-				if (((GeoElement) points[0]).isGeoElement3D()
-						|| ((GeoElement) lines[0]).isGeoElement3D()) {
-					ret[0] = (GeoElement) getKernel().getManager3D()
+				if (points[0].isGeoElement3D() || lines[0].isGeoElement3D()) {
+					ret[0] = getKernel().getManager3D()
 							.Line3D(null, points[0], lines[0]);
 				} else {
 					ret[0] = getAlgoDispatcher().Line(null,
@@ -2736,7 +2735,7 @@ public abstract class EuclidianController {
 				GeoElement[] ret = { null };
 				// no defined line through a point and orthogonal to a vector in
 				// 3D
-				if (((GeoElement) points[0]).isGeoElement3D()) {
+				if (points[0].isGeoElement3D()) {
 					return null;
 				}
 				checkZooming();
@@ -2901,9 +2900,8 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 			checkZooming();
 
-			if (((GeoElement) points[0]).isGeoElement3D()
-					|| ((GeoElement) points[1]).isGeoElement3D()
-					|| ((GeoElement) points[2]).isGeoElement3D()) {
+			if (points[0].isGeoElement3D() || points[1].isGeoElement3D()
+					|| points[2].isGeoElement3D()) {
 				ret[0] = kernel.getManager3D().Circle3D(null, points[0],
 						points[1], points[2]);
 			} else {
@@ -3856,7 +3854,7 @@ public abstract class EuclidianController {
 
 			// replace point with point it was dragged to
 			if (hits.containsGeoPoint()
-					&& ((GeoElement) movedGeoPoint).hasChildren()) {
+					&& movedGeoPoint.hasChildren()) {
 				try {
 					this.kernel.getConstruction().replace(
 							(GeoElement) movedGeoPoint,
@@ -3946,13 +3944,12 @@ public abstract class EuclidianController {
 				Path paths[] = getSelectedPaths();
 				GeoPointND[] points = getSelectedPointsND();
 
-				if (((GeoElement) paths[0]).isChildOf((GeoElement) points[0])) {
+				if (paths[0].isChildOf(points[0])) {
 					return false;
 				}
 
-				if (((GeoElement) paths[0]).isGeoPolygon()
-						|| (((GeoElement) paths[0]).isGeoConic()
-								&& (((GeoConicND) paths[0])
+				if (paths[0].isGeoPolygon()
+						|| (paths[0].isGeoConic() && (((GeoConicND) paths[0])
 										.getLastHitType() == HitType.ON_FILLING))) {
 
 					checkZooming();
@@ -3984,8 +3981,7 @@ public abstract class EuclidianController {
 				Region regions[] = getSelectedRegions();
 				GeoPointND[] points = getSelectedPointsND();
 
-				if (!((GeoElement) regions[0])
-						.isChildOf((GeoElement) points[0])) {
+				if (!regions[0].isChildOf(points[0])) {
 
 					checkZooming();
 					GeoPointND ret = getAlgoDispatcher().attach(points[0],
@@ -4670,7 +4666,7 @@ public abstract class EuclidianController {
 		return textDispatcher;
 	}
 
-	protected final GeoElement[] distance(Hits hits, boolean selPreview) {
+	protected final GeoElementND[] distance(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -4729,7 +4725,7 @@ public abstract class EuclidianController {
 			GeoSegmentND[] segments = getSelectedSegmentsND();
 
 			// length
-			GeoElement seg = (GeoElement) segments[0];
+			GeoElementND seg = segments[0];
 			if (seg.isLabelVisible()) {
 				seg.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			} else {
@@ -4737,7 +4733,7 @@ public abstract class EuclidianController {
 			}
 			segments[0].setLabelVisible(true);
 			segments[0].updateRepaint();
-			GeoElement[] ret = { seg };
+			GeoElementND[] ret = { seg };
 			return ret; // return this not null because the kernel has
 			// changed
 		}
@@ -5075,7 +5071,7 @@ public abstract class EuclidianController {
 						// check if region is opaque
 						if (region
 								.getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE) {
-							hits.removeGeosAfter((GeoElement) region);
+							hits.removeGeosAfter(region);
 						}
 
 						boolean sideInHits = false;
@@ -7688,7 +7684,7 @@ public abstract class EuclidianController {
 				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 	}
 
-	protected boolean isMoveButtonExpected(GeoElement geo) {
+	protected boolean isMoveButtonExpected(GeoElementND geo) {
 		if (!geo.isGeoButton()) {
 			return false;
 		}
@@ -7698,7 +7694,7 @@ public abstract class EuclidianController {
 				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
 	}
 
-	protected boolean isMoveTextFieldExpected(GeoElement geo) {
+	protected boolean isMoveTextFieldExpected(GeoElementND geo) {
 		if (!geo.isGeoInputBox()) {
 			return false;
 		}
@@ -8587,10 +8583,8 @@ public abstract class EuclidianController {
 				vec.setEuclidianVisible(false);
 				vec.setAuxiliaryObject(true);
 				vec.setLabel(null);
-				GeoElement[] pp = getAlgoDispatcher().Translate(null,
-						(GeoElement) p, vec);
-				GeoElement[] qq = getAlgoDispatcher().Translate(null,
-						(GeoElement) q, vec);
+				GeoElement[] pp = getAlgoDispatcher().Translate(null, p, vec);
+				GeoElement[] qq = getAlgoDispatcher().Translate(null, q, vec);
 				AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(),
 						null, (GeoPointND) pp[0], (GeoPointND) qq[0]);
 				setTranslateStart(topHit, vec);
@@ -8618,8 +8612,8 @@ public abstract class EuclidianController {
 					null, movedGeoPoint, p);
 
 			// make sure vector looks the same when translated
-			((GeoPoint) movedGeoPoint).setEuclidianVisible(false);
-			((GeoPoint) movedGeoPoint).update();
+			movedGeoPoint.setEuclidianVisible(false);
+			movedGeoPoint.update();
 			p.setEuclidianVisible(false);
 			p.update();
 			newVecAlgo.getGeoElements()[0]
@@ -11094,7 +11088,7 @@ public abstract class EuclidianController {
 					view.toRealWorldCoordY(event.getY()), 1);
 		} else {
 			for (int i = hits.size() - 1; i >= 0; i--) {
-				if (hits.get(i).isChildOf((GeoElement) movedGeoPoint)) {
+				if (hits.get(i).isChildOf(movedGeoPoint)) {
 					hits.remove(i);
 				}
 			}

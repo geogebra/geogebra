@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
@@ -318,7 +319,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @param geo
 	 *            last geo
 	 */
-	final public void removeGeosAfter(GeoElement geo) {
+	final public void removeGeosAfter(GeoElementND geo) {
 		for (int i = size() - 1; i >= 0 && get(i) != geo; i--) {
 			remove(i);
 		}

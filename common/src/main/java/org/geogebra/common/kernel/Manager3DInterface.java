@@ -830,7 +830,7 @@ public interface Manager3DInterface {
 	/**
 	 * translate geoTrans by vector v
 	 */
-	public GeoElement[] Translate3D(String label, GeoElement geoTrans,
+	public GeoElement[] Translate3D(String label, GeoElementND geoTrans,
 			GeoVectorND v);
 
 	public Geo3DVecInterface newGeo3DVec(double double1, double double2,

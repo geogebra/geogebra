@@ -1947,7 +1947,7 @@ public class Manager3D implements Manager3DInterface {
 	 ********************************************************************/
 
 	@Override
-	final public GeoElement[] Translate3D(String label, GeoElement geoTrans,
+	final public GeoElement[] Translate3D(String label, GeoElementND geoTrans,
 			GeoVectorND v) {
 		Transform t = new TransformTranslate3D(cons, v);
 		return t.transform(geoTrans, label);

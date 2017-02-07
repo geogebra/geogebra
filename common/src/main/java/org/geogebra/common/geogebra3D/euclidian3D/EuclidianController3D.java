@@ -617,8 +617,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		ret.update();
 
-		// view3D.addToHits3D((GeoElement) ret);
-
 		setMovedGeoPoint(point3D);
 
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
@@ -894,9 +892,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * points = getSelectedPointsND();
 	 * 
 	 * boolean point3D = false; for (int i=0; i<points.length && !point3D; i++)
-	 * point3D = point3D || ((GeoElement) points[i]).isGeoElement3D(); if
-	 * (point3D) kernel.getManager3D().Polygon3D(null, points); else
-	 * kernel.Polygon(null, getSelectedPointsND()); }
+	 * point3D = point3D || (points[i]).isGeoElement3D(); if (point3D)
+	 * kernel.getManager3D().Polygon3D(null, points); else kernel.Polygon(null,
+	 * getSelectedPointsND()); }
 	 */
 
 	protected void circleOrSphere(GeoNumberValue num) {
@@ -1319,8 +1317,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selGeos() == 1) { // clear selection
 			GeoElement geo = getSelectedGeos()[0];
 
-			// GeoElement geo = (GeoElement) hits.get(0);
-			// Application.debug(view3D.hasMouse());
 			Coords vn = geo.getMainDirection();
 			if (vn != null) {
 				if (view3D.hasMouse()) {
@@ -1857,7 +1853,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * switch (mode) { case EuclidianView3D.MODE_VIEW_IN_FRONT_OF:
 	 * //Application.debug("ici"); Hits hits = view.getHits().getTopHits();
-	 * if(!hits.isEmpty()){ GeoElement geo = (GeoElement)
+	 * if(!hits.isEmpty()){ GeoElementND geo =
 	 * view.getHits().getTopHits().get(0); Coords vn = geo.getMainDirection();
 	 * if (vn!=null){
 	 * view3D.setRotAnimation(view3D.getCursor3D().getDrawingMatrix().getVz());
@@ -2413,9 +2409,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				// we can only have at most one polygon
 				/*
 				 * ((Hits3D)goodHits).removeAllPolygonsButOne(); if
-				 * (!(goodHits.size()>=2) ||
-				 * !((GeoElement)goodHits.get(0)).isGeoConic() ||
-				 * !((GeoElement)goodHits.get(1)).isGeoConic())
+				 * (!(goodHits.size()>=2) || !(goodHits.get(0)).isGeoConic() ||
+				 * !(goodHits.get(1)).isGeoConic())
 				 * ((Hits3D)goodHits).removeAllPolygonsAndQuadricsButOne();
 				 */
 
@@ -3055,9 +3050,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Application.debug(hits);
 		// for (int j=0; j<hits.size(); ++j) {
-		// System.out.print(((GeoElement)hits.get(j)).isPickable()? "pickable "
+		// System.out.print((hits.get(j)).isPickable()? "pickable "
 		// : "non-pickable");
-		// System.out.println(((GeoElement)hits.get(j)).getObjectColor());
+		// System.out.println((hits.get(j)).getObjectColor());
 		// }
 
 		if (hits.size() == 0) {
@@ -3937,7 +3932,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoCoordSys[] cs = getSelectedCS2D();
 				// create new line
-				return new GeoElement[] { (GeoElement) getKernel()
+				return new GeoElementND[] { getKernel()
 						.getManager3D().OrthogonalLine3D(null, points[0],
 								(GeoCoordSys2D) cs[0]) };
 			} else if (selLines() == 1) {
@@ -3945,7 +3940,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoLineND[] lines = getSelectedLinesND();
 				// create new line
-				return new GeoElement[] { (GeoElement) getKernel()
+				return new GeoElementND[] {
+						getKernel()
 						.getManager3D().OrthogonalLine3D(null, points[0],
 								lines[0], kernel.getSpace()) };
 			}
@@ -4050,7 +4046,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoCoordSys2D plane = (GeoCoordSys2D) getSelectedCS2D()[0];
 				GeoCoordSys2D mirror = plane;
 
-				if (((GeoElement) plane).isGeoConic()) { // no override for
+				if (plane.isGeoConic()) { // no override for
 															// mirror at circle
 					plane = kernel.getManager3D().Plane3D(mirror);
 				}
