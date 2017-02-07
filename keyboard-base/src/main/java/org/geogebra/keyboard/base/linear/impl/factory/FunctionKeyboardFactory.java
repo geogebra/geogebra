@@ -67,7 +67,7 @@ public class FunctionKeyboardFactory {
 
         row = functionKeyboard.nextRow(9.2f);
         addConstantInputButton(row, RESOURCE_E_X, EULER + "^", width);
-        addConstantInputButton(row, RESOURCE_10_X, "10^x", width);
+        addConstantInputButton(row, RESOURCE_10_X, "10^", width);
         addConstantInputButton(row, RESOURCE_N_ROOT, "nroot", width);
         addButton(row, createEmptySpace(0.2f));
         addConstantInputButton(row, RESOURCE_A_N, "a_n");
