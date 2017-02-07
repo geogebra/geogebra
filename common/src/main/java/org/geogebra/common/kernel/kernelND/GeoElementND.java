@@ -571,9 +571,11 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isChangeable();
 
-	boolean moveObject(Coords rwTransVec, Coords position, Coords viewDirection,
-			ArrayList<GeoElementND> moveObjectsUpdateList, EuclidianView view);
 
 	boolean isGeoImplicitCurve();
+
+	boolean hasIndexLabel();
+
+	boolean isLimitedPath();
 
 }

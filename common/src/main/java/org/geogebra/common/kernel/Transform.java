@@ -29,7 +29,7 @@ public abstract class Transform {
 	 *            source geo
 	 * @return label for transformed geo
 	 */
-	public static String transformedGeoLabel(GeoElement geo) {
+	public static String transformedGeoLabel(GeoElementND geo) {
 		if (geo.isGeoFunction()) {
 			if (geo.isLabelSet() && !geo.hasIndexLabel()) {
 				return geo.getFreeLabel(geo.getLabelSimple());
@@ -80,7 +80,8 @@ public abstract class Transform {
 	 * @return transformed geo
 	 */
 
-	public GeoElement[] transform(GeoElement geo, String transformedLabel) {
+	public final GeoElement[] transform(GeoElementND geo,
+			String transformedLabel) {
 		String label = transformedLabel;
 
 		// for geo with parent algorithm that handles the transformation
@@ -120,7 +121,7 @@ public abstract class Transform {
 		// standard case
 		GeoElement ret = doTransform(geo);
 		ret.setLabel(label);
-		ret.setVisualStyleForTransformations(geo);
+		ret.setVisualStyleForTransformations(geo.toGeoElement());
 		GeoElement[] geos = { ret };
 		return geos;
 

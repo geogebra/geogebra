@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -490,6 +491,7 @@ public class EuclidianControllerCompanion {
 	/**
 	 * 
 	 * @param clockwise
+	 *            input orientation
 	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it
 	 *         in the view (used for EuclidianViewForPlane)
 	 */
@@ -546,10 +548,10 @@ public class EuclidianControllerCompanion {
 	 *            conic
 	 * @return polar line
 	 */
-	protected GeoElement polarLine(GeoPointND P, GeoConicND c) {
+	protected GeoElementND polarLine(GeoPointND P, GeoConicND c) {
 		AlgoPolarLine algo = new AlgoPolarLine(ec.kernel.getConstruction(),
 				null, c, P);
-		return (GeoElement) algo.getLine();
+		return algo.getLine();
 	}
 
 	/**

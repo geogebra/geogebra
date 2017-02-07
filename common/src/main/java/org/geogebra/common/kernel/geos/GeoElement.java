@@ -1598,7 +1598,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            source geo
 	 */
 	@Override
-	public void setVisualStyleForTransformations(final GeoElement geo) {
+	public final void setVisualStyleForTransformations(final GeoElement geo) {
 		setVisualStyle(geo);
 		setFixed(false);
 		updateVisualStyle(GProperty.COMBINED);

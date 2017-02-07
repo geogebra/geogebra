@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -500,12 +501,12 @@ public class EuclidianControllerFor3DCompanion
 	}
 
 	@Override
-	protected GeoElement polarLine(GeoPointND P, GeoConicND c) {
+	protected GeoElementND polarLine(GeoPointND P, GeoConicND c) {
 
 		if (P.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoPolarLine3D algo = new AlgoPolarLine3D(
 					ec.kernel.getConstruction(), null, c, P);
-			return (GeoElement) algo.getLine();
+			return algo.getLine();
 		}
 
 		return super.polarLine(P, c);

@@ -2024,8 +2024,7 @@ public abstract class EuclidianController {
 	protected GeoElement[] join() {
 		GeoPointND[] points = getSelectedPointsND();
 		GeoElement[] ret = { null };
-		if (((GeoElement) points[0]).isGeoElement3D()
-				|| ((GeoElement) points[1]).isGeoElement3D()) {
+		if (points[0].isGeoElement3D() || points[1].isGeoElement3D()) {
 			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
 					points[1]);
 		} else {
@@ -2042,8 +2041,7 @@ public abstract class EuclidianController {
 	protected GeoElement[] ray() {
 		GeoPointND[] points = getSelectedPointsND();
 		GeoElement[] ret = { null };
-		if (((GeoElement) points[0]).isGeoElement3D()
-				|| ((GeoElement) points[1]).isGeoElement3D()) {
+		if (points[0].isGeoElement3D() || points[1].isGeoElement3D()) {
 			ret[0] = getKernel().getManager3D()
 					.Ray3D(null, points[0], points[1]).toGeoElement();
 		} else {
@@ -2103,8 +2101,7 @@ public abstract class EuclidianController {
 	protected GeoElement vector(GeoPointND a, GeoPointND b) {
 		checkZooming();
 
-		if (((GeoElement) a).isGeoElement3D()
-				|| ((GeoElement) b).isGeoElement3D()) {
+		if (a.isGeoElement3D() || b.isGeoElement3D()) {
 			return kernel.getManager3D().Vector3D(null, a, b);
 		}
 		return getAlgoDispatcher().Vector(null, (GeoPoint) a, (GeoPoint) b);
@@ -2276,7 +2273,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected GeoElement[] intersect(Hits intersectHits, boolean selPreview) {
+	protected GeoElementND[] intersect(Hits intersectHits, boolean selPreview) {
 
 		Hits hits = intersectHits;
 		// obscure bug: intersection of x=0 and (x-1)^2+(y-1)^=1 can intersect
@@ -2357,7 +2354,7 @@ public abstract class EuclidianController {
 		// two conics
 		else if (selConics() >= 2) {
 			GeoConicND[] conics = getSelectedConicsND();
-			GeoElement[] ret = { null };
+			GeoElementND[] ret = { null };
 			if (singlePointWanted) {
 				checkZooming();
 
@@ -2365,7 +2362,7 @@ public abstract class EuclidianController {
 						(GeoConic) conics[0], (GeoConic) conics[1], xRW, yRW);
 				checkCoordCartesian((GeoPointND) ret[0]);
 			} else {
-				ret = (GeoElement[]) getAlgoDispatcher().IntersectConics(null,
+				ret = getAlgoDispatcher().IntersectConics(null,
 						conics[0], conics[1]);
 				for (int i = 0; i < ret.length; i++) {
 					checkCoordCartesian((GeoPointND) ret[i]);
@@ -2399,7 +2396,7 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selConics() >= 1)) {
 			GeoConicND[] conic = getSelectedConicsND();
 			GeoLineND[] line = getSelectedLinesND();
-			GeoElement[] ret = { null };
+			GeoElementND[] ret = { null };
 			checkZooming();
 
 			if (singlePointWanted) {
@@ -2407,7 +2404,7 @@ public abstract class EuclidianController {
 						(GeoLine) line[0], (GeoConic) conic[0], xRW, yRW);
 				checkCoordCartesian((GeoPointND) ret[0]);
 			} else {
-				ret = (GeoElement[]) getAlgoDispatcher()
+				ret = getAlgoDispatcher()
 						.IntersectLineConic(null, line[0], conic[0]);
 				for (int i = 0; i < ret.length; i++) {
 					checkCoordCartesian((GeoPointND) ret[i]);
@@ -2707,7 +2704,7 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected GeoElement[] orthogonal(Hits hits, boolean selPreview) {
+	protected GeoElementND[] orthogonal(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -2718,7 +2715,7 @@ public abstract class EuclidianController {
 
 	}
 
-	final protected GeoElement[] orthogonal(Hits hits, boolean hitPoint,
+	final protected GeoElementND[] orthogonal(Hits hits, boolean hitPoint,
 			boolean selPreview) {
 
 		if (!hitPoint) {
@@ -3163,7 +3160,7 @@ public abstract class EuclidianController {
 		return true;
 	}
 
-	protected final GeoElement[] polarLine(Hits hits, boolean selPreview) {
+	protected final GeoElementND[] polarLine(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -3184,7 +3181,7 @@ public abstract class EuclidianController {
 		}
 
 		if (selConics() == 1) {
-			GeoElement[] ret = { null };
+			GeoElementND[] ret = { null };
 			if (selPoints() == 1) {
 				GeoConicND[] conics = getSelectedConicsND();
 				GeoPointND[] points = getSelectedPointsND();
@@ -4988,10 +4985,10 @@ public abstract class EuclidianController {
 		return ((GeoElement) movedGeoPoint);
 	}
 
-	public void setMovedGeoPoint(GeoElement geo) {
+	public void setMovedGeoPoint(GeoElementND geo) {
 		movedGeoPoint = (GeoPointND) geo;
 
-		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
+		AlgoElement algo = movedGeoPoint.getParentAlgorithm();
 		if (algo instanceof AlgoDynamicCoordinatesInterface) {
 			movedGeoPoint = ((AlgoDynamicCoordinatesInterface) algo)
 					.getParentPoint();
@@ -5076,13 +5073,13 @@ public abstract class EuclidianController {
 					if (region != null) {
 
 						// check if region is opaque
-						if (((GeoElement) region)
+						if (region
 								.getAlphaValue() > MAX_TRANSPARENT_ALPHA_VALUE) {
 							hits.removeGeosAfter((GeoElement) region);
 						}
 
 						boolean sideInHits = false;
-						if (((GeoElement) region).isGeoPolygon()) {
+						if (region.isGeoPolygon()) {
 							GeoSegmentND[] sides = ((GeoPolygon) region)
 									.getSegments();
 
@@ -5115,7 +5112,7 @@ public abstract class EuclidianController {
 								}
 							}
 
-						} else if (((GeoElement) region).isGeoConic()) {
+						} else if (region.isGeoConic()) {
 							if (createNewPointInRegionPossible(
 									(GeoConicND) region)) {
 								createPoint = true;
@@ -5412,7 +5409,7 @@ public abstract class EuclidianController {
 			final AsyncOperation<Boolean> callback, boolean selectionPreview) {
 
 		Boolean changedKernel = false;
-		GeoElement[] ret = null;
+		GeoElementND[] ret = null;
 
 		switch (mode) {
 		// case EuclidianConstants.MODE_VISUAL_STYLE:
@@ -5763,7 +5760,7 @@ public abstract class EuclidianController {
 				selectionPreview);
 	}
 
-	final protected boolean endOfSwitchModeForProcessMode(GeoElement[] ret,
+	final protected boolean endOfSwitchModeForProcessMode(GeoElementND[] ret,
 			boolean changedKernel, AsyncOperation<Boolean> callback,
 			boolean selPreview) {
 		memorizeJustCreatedGeosAfterProcessMode(ret, selPreview);
@@ -5779,7 +5776,7 @@ public abstract class EuclidianController {
 		return changedKernel;
 	}
 
-	protected void memorizeJustCreatedGeosAfterProcessMode(GeoElement[] ret,
+	protected void memorizeJustCreatedGeosAfterProcessMode(GeoElementND[] ret,
 			boolean selPreview) {
 		if (ret != null) {
 			memorizeJustCreatedGeos(ret);
@@ -5981,7 +5978,7 @@ public abstract class EuclidianController {
 				Kernel.checkDecimalFraction(xRW - transformCoordsOffset[0]),
 				Kernel.checkDecimalFraction(yRW - transformCoordsOffset[1]),
 				1.0);
-		((GeoElement) movedGeoPoint).updateCascade();
+		movedGeoPoint.updateCascade();
 
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -7038,7 +7035,7 @@ public abstract class EuclidianController {
 			// get vector for first point
 			AlgoElement algo = null;
 			if (pts != null && pts[0] != null) {
-				algo = ((GeoElement) pts[0]).getParentAlgorithm();
+				algo = pts[0].getParentAlgorithm();
 			}
 			if (algo instanceof AlgoTranslate) {
 				GeoElement[] input = algo.getInput();
@@ -7048,7 +7045,7 @@ public abstract class EuclidianController {
 
 					// now check other points are translated by the same vector
 					for (int i = 1; i < pts.length; i++) {
-						algo = ((GeoElement) pts[i]).getParentAlgorithm();
+						algo = pts[i].getParentAlgorithm();
 						if (!(algo instanceof AlgoTranslate)) {
 							sameVector = false;
 							break;
@@ -8638,7 +8635,7 @@ public abstract class EuclidianController {
 				// the vertices move together
 				vec = createVectorForTranslation(null);
 				vec.setEuclidianVisible(false);
-				((GeoElement) vec).setAuxiliaryObject(true);
+				vec.setAuxiliaryObject(true);
 			} else {
 				vec = createVectorForTranslation();
 			}
