@@ -36,7 +36,7 @@ public class GreekKeyboardFactory {
     private static final String MU = "\u03BC";
     private static final String NU = "\u03BD";
     private static final String XI = "\u03BE";
-    private static final String OMICORN = "\u03BF";
+    private static final String OMICRON = "\u03BF";
     private static final String PI = "\u03C0";
     private static final String RHO = "\u03C1";
     private static final String SIGMA_SPECIAL = "\u03C2";
@@ -61,7 +61,7 @@ public class GreekKeyboardFactory {
         addInputButton(row, UPSILON);
         addInputButton(row, THETA);
         addInputButton(row, IOTA);
-        addInputButton(row, OMICORN);
+        addInputButton(row, OMICRON);
         addInputButton(row, PI);
 
         row = greekKeyboard.nextRow(10.0f);
