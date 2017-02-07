@@ -8,6 +8,8 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -160,6 +162,18 @@ public class MarblePanel extends FlowPanel {
 							}
 						}
 					});
+
+			// when clicked, this steals focus
+			// => we need to push focus to parent item
+			btnHelpToggle.addFocusHandler(new FocusHandler() {
+
+				public void onFocus(FocusEvent event) {
+					item.setFocus(true, true);
+					event.preventDefault();
+					event.stopPropagation();
+
+				}
+			});
 		}
 	}
 

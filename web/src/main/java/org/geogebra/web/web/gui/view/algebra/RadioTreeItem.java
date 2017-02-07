@@ -533,7 +533,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		valuePanel.clear();
 
-		if (latex && geo != null && geo.isLaTeXDrawableGeo()) {
+		if (latex && geo != null
+				&& (geo.isLaTeXDrawableGeo() || isGeoFraction())) {
 			valCanvas = DrawEquationW.paintOnCanvasOutput(geo1, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");

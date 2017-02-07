@@ -452,7 +452,8 @@ public class GlobalKeyDispatcherW extends
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		Log.debug("KEY pressed::"
-				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()));
+				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()) + " in "
+				+ getActive());
 		setDownKeys(event);
 		// AbstractApplication.debug("onkeydown");
 
@@ -515,6 +516,11 @@ public class GlobalKeyDispatcherW extends
 		}
 
 	}
+
+	private native String getActive() /*-{
+		return $doc.activeElement ? $doc.activeElement.tagName + "."
+				+ $doc.activeElement.className : "?";
+	}-*/;
 
 	private static boolean preventBrowserCtrl(KeyCodes kc) {
 		return kc == KeyCodes.S || kc == KeyCodes.O;

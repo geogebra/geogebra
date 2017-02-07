@@ -290,6 +290,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 				// ----
 			}
+			break;
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
 
