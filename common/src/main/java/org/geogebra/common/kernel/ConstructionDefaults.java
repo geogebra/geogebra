@@ -114,6 +114,8 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_IMAGE = 110;
 	/** default boolean */
 	public static final int DEFAULT_BOOLEAN = 120;
+	/** default polyhedron type (also used for limited quadrics) */
+	public static final int DEFAULT_POLYHEDRON = 3300;
 
 	/** default */
 	public static final int DEFAULT_LIST = 130;

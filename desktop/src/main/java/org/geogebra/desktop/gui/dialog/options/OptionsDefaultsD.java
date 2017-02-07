@@ -23,7 +23,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import org.geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsDefaults;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -283,7 +282,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 		typeToNode.put(functionNVarNode,
 				ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
 		typeToNode.put(solidsNode,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
 		typeToNode.put(polylineNode, ConstructionDefaults.DEFAULT_POLYLINE);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);

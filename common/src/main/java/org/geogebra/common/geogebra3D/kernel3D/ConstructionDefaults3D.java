@@ -40,8 +40,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default plane 3D type */
 	public static final int DEFAULT_PLANE3D = 3200;
 
-	/** default polyhedron type (also used for limited quadrics) */
-	public static final int DEFAULT_POLYHEDRON = 3300;
 	/** default quadric type */
 	public static final int DEFAULT_QUADRIC = 3301;
 
