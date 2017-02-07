@@ -191,7 +191,7 @@ public class ExamDialog {
 		btnHelp.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ToolTipManagerW.openWindow("https://www.geogebra.org/tutorial/exam");
+				app.getFileManager().open("https://www.geogebra.org/tutorial/exam");
 			}
 		});
 	}

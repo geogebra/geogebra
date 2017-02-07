@@ -206,5 +206,9 @@ public class TestMaterialsManager extends MaterialsManager {
 	public void open(String url, String name, String features){
 		// TODO: implement this?
 	}
+	
+	public void open(String url){
+		// TODO: implement this?
+	}
 
 }

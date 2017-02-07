@@ -151,7 +151,7 @@ public class PerspectivesPopup {
 					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
 							+ app.getLocalization().getLocaleStr() + "/";
 					// TODO check if online
-					ToolTipManagerW.openWindow(URL);
+					app.getFileManager().open(URL);
 					event.stopPropagation();
 				}
 			});
@@ -176,7 +176,7 @@ public class PerspectivesPopup {
 					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
 							+ app.getLocalization().getLocaleStr() + "/";
 					// TODO check if online
-					ToolTipManagerW.openWindow(URL);
+					app.getFileManager().open(URL);
 				}
 				box.hide();
 			}

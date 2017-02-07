@@ -234,5 +234,13 @@ public abstract class FileManager extends MaterialsManager {
 	public void open(String url, String name, String features){
 		Window.open(url, name, features);
 	}
+	
+	public void open(String url){
+		openNative(url);
+	}
+	
+	native private static void openNative(String url)/*-{
+		$wnd.open(url);
+	}-*/;
 
 }

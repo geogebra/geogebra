@@ -66,6 +66,8 @@ public class ToolTipManagerW {
 		 */
 		ViewSavedFile;
 	}
+	
+	private AppW app;
 
 	private SimplePanel tipPanel;
 	private HTML tipHTML;
@@ -198,8 +200,8 @@ public class ToolTipManagerW {
 	 * Open current help URL in browser / webview
 	 */
 	protected void openHelp() {
-		if (helpURL != null) {
-			openWindow(helpURL);
+		if (helpURL != null && app != null) {
+			app.getFileManager().open(helpURL);
 			hideAllToolTips();
 		}
 
@@ -240,6 +242,9 @@ public class ToolTipManagerW {
 		if (blockToolTip || app == null) {
 			return;
 		}
+		
+		this.app = app;
+		
 		bottomInfoTipPanel.removeFromParent();
 		app.getPanel().add(bottomInfoTipPanel);
 		bottomInfoTipHTML.setHTML(text);
@@ -361,15 +366,6 @@ public class ToolTipManagerW {
 
 	}
 
-	/**
-	 * Opens Link in a new window
-	 * 
-	 * @param url
-	 *            that should be opened
-	 */
-	native public static void openWindow(String url)/*-{
-		$wnd.open(url);
-	}-*/;
 
 	/**
 	 * Hide the bottom tooltip
