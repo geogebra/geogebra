@@ -73,13 +73,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class MathFieldW implements MathField, IsWidget {
 
-	private static final MetaModel metaModel;
-
-	static {
-		metaModel = new MetaModelParser().parse(new Resource().loadResource(
-				"/com/himamis/retex/editor/desktop/meta/Octave.xml"));
-	}
-
+	protected static MetaModel sMetaModel = new MetaModel();
 
 	private MathFieldInternal mathFieldInternal;
 	private Canvas html;
@@ -122,7 +116,7 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
-		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
+		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		if (tick == null) {
 			tick = new Timer() {
 
@@ -362,7 +356,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public MetaModel getMetaModel() {
-		return metaModel;
+		return sMetaModel;
 	}
 	@Override
 	public void repaint() {

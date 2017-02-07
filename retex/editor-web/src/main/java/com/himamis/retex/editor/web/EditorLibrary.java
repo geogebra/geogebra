@@ -44,12 +44,10 @@
 package com.himamis.retex.editor.web;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.himamis.retex.editor.web.xml.XmlResourcesEditor;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
-import com.himamis.retex.renderer.web.resources.ResourceLoaderW;
 
 public class EditorLibrary implements EntryPoint {
 
@@ -58,9 +56,6 @@ public class EditorLibrary implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		ResourceLoaderW.addResource(
-				"/com/himamis/retex/editor/desktop/meta/Octave.xml",
-				XmlResourcesEditor.INSTANCE.octave());
 		FactoryProvider.INSTANCE = new FactoryProviderGWT();
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;

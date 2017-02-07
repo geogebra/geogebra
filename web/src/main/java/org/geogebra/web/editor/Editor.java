@@ -18,21 +18,16 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.editor.web.xml.XmlResourcesEditor;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
-import com.himamis.retex.renderer.web.resources.ResourceLoaderW;
 
 public class Editor implements EntryPoint, MathFieldListener {
 	private JlmEditorLib library;
 	private Opentype opentype;
 	@Override
 	public void onModuleLoad() {
-		ResourceLoaderW.addResource(
-				"/com/himamis/retex/editor/desktop/meta/Octave.xml",
-				XmlResourcesEditor.INSTANCE.octave());
 		FactoryProvider.INSTANCE = new FactoryProviderGWT();
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;
