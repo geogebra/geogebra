@@ -173,6 +173,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
+	private double proportion = Double.NaN;
 	private boolean isCircle = false;
 	protected GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble(0, 0, 0, 0);
@@ -2093,18 +2094,7 @@ public class DrawConic extends Drawable implements Previewable {
 		this.isCircle = isCircle;
 	}
 
-	/**
-	 * @param hitHandlerNr
-	 *            - nr of handler was hit
-	 * @param event
-	 *            - mouse event
-	 */
-	protected void updateEllipse(int hitHandlerNr, AbstractEvent event) {
-		if (prewEllipse == null) {
-			prewEllipse = AwtFactory.getPrototype()
-				.newEllipse2DDouble(0, 0, 0, 0);
-		}
-
+	private void fixCornerCoords(int hitHandlerNr) {
 		if (Double.isNaN(fixCornerX)) {
 			switch (hitHandlerNr) {
 			case 0:
@@ -2141,6 +2131,26 @@ public class DrawConic extends Drawable implements Previewable {
 				break;
 			}
 		}
+		if (Double.isNaN(proportion)) {
+			proportion = getBoundingBox().getRectangle().getWidth()
+					/ getBoundingBox().getRectangle().getHeight();
+		}
+
+	}
+
+	/**
+	 * @param hitHandlerNr
+	 *            - nr of handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateEllipse(int hitHandlerNr, AbstractEvent event) {
+		if (prewEllipse == null) {
+			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
+					0);
+		}
+
+		fixCornerCoords(hitHandlerNr);
 
 		int dx = (int) (event.getX() - fixCornerX);
 		int dy = (int) (event.getY() - fixCornerY);
@@ -2155,7 +2165,7 @@ public class DrawConic extends Drawable implements Previewable {
 							width);
 				} else {
 					prewEllipse.setFrame(fixCornerX, fixCornerY, width,
-							height);
+							(int) (width / proportion));
 				}
 			} else { // width < 0
 				if (isCircle) {
@@ -2165,7 +2175,7 @@ public class DrawConic extends Drawable implements Previewable {
 				} else {
 					prewEllipse.setFrame(
 							fixCornerX + width, fixCornerY, -width,
-							height);
+							(int) (-width / proportion));
 				}
 			}
 		} else { // height < 0
@@ -2174,8 +2184,9 @@ public class DrawConic extends Drawable implements Previewable {
 					prewEllipse.setFrame(fixCornerX, fixCornerY - width,
 							width, width);
 				} else {
-					prewEllipse.setFrame(fixCornerX, fixCornerY + height,
-							width, -height);
+					int newHeight = (int) (width / proportion);
+					prewEllipse.setFrame(fixCornerX, fixCornerY - newHeight,
+							width, newHeight);
 				}
 			} else { // width < 0
 				if (isCircle) {
@@ -2183,9 +2194,10 @@ public class DrawConic extends Drawable implements Previewable {
 							fixCornerX + width, fixCornerY + width,
 							-width, -width);
 				} else {
+					int newHeight = (int) (-width / proportion);
 					prewEllipse.setFrame(
-							fixCornerX + width, fixCornerY + height,
-							-width, -height);
+							fixCornerX + width, fixCornerY - newHeight, -width,
+							newHeight);
 				}
 			}
 		}
@@ -2209,32 +2221,53 @@ public class DrawConic extends Drawable implements Previewable {
 
 		if (startPointX >= event.getX()) {
 			if (startPointY >= event.getY()) {
-				coord[0] = view.toRealWorldCoordX(
-						startPointX - getBoundingBox().getRectangle().getWidth());
-				coord[1] = view.toRealWorldCoordY(
+				coord[0] = view.toRealWorldCoordX(startPointX
+						- getBoundingBox().getRectangle().getWidth());
+				if (isCircle) {
+					coord[1] = view.toRealWorldCoordY(
 						startPointY - getBoundingBox().getRectangle().getWidth());
+				} else {
+					coord[1] = view.toRealWorldCoordY(
+							getBoundingBox().getRectangle().getMinY());
+				}
 			} else {
 				coord[0] = view.toRealWorldCoordX(
 						startPointX
 								- getBoundingBox().getRectangle().getWidth());
-				coord[1] = view.toRealWorldCoordY(
+				if (isCircle) {
+					coord[1] = view.toRealWorldCoordY(
 						startPointY
 								+ getBoundingBox().getRectangle().getWidth());
+				} else {
+					coord[1] = view.toRealWorldCoordY(
+							getBoundingBox().getRectangle().getMaxY());
+				}
 			}
 		} else {
 			if (startPointY >= event.getY()) {
 				coord[0] = view.toRealWorldCoordX(
 						startPointX
 								+ getBoundingBox().getRectangle().getWidth());
-				coord[1] = view.toRealWorldCoordY(
+				if (isCircle) {
+					coord[1] = view.toRealWorldCoordY(
 						startPointY
 								- getBoundingBox().getRectangle().getWidth());
+				} else {
+					coord[1] = view.toRealWorldCoordY(
+							getBoundingBox().getRectangle().getMinY());
+				}
 			} else {
 				coord[0] = view.toRealWorldCoordX(
 						startPointX + getBoundingBox().getRectangle().getWidth());
-				coord[1] = view.toRealWorldCoordY(
+				if (isCircle) {
+					coord[1] = view.toRealWorldCoordY(
 						startPointY
 								+ getBoundingBox().getRectangle().getWidth());
+		
+				} else {
+					coord[1] = view.toRealWorldCoordY(
+							getBoundingBox().getRectangle().getMaxY());
+				}
 			}
 		}
 		return coord;
@@ -2279,14 +2312,9 @@ public class DrawConic extends Drawable implements Previewable {
 				.toRealWorldCoordY(fixCornerY);
 
 		double endX, endY;
-		if (isCircle) {
-			double[] coords = getEndPointRealCoords(event);
-			endX = coords[0];
-			endY = coords[1];
-		} else {
-			endX = view.toRealWorldCoordX(event.getX());
-			endY = view.toRealWorldCoordY(event.getY());
-		}
+		double[] coords = getEndPointRealCoords(event);
+		endX = coords[0];
+		endY = coords[1];
 
 		// coords of center
 		double centerX = (startX + endX) / 2;
