@@ -87,7 +87,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		// SORT(null,
 		// "ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)))"),
 
-
 		/**
 		 * these both give 3 // @size(point(1,2,3)[1]) gives 3
 		 * // @size(point((-(5))+(ggbtmpvark),(-(5))+(ggbtmpvark))[1]) gives 3
@@ -123,19 +122,16 @@ public abstract class CASgiac implements CASGenericInterface {
 		// "when(x[0]=='pnt',when(is_3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))"),
 
 		/** xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac */
-		XCOORD("xcoord",
-				"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
+		XCOORD("xcoord", "xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
 		/**
 		 * altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 		 */
-		YCOORD("ycoord",
-				"ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))"),
+		YCOORD("ycoord", "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))"),
 
 		/**
 		 * make sure z((1,2)) = 0
 		 */
-		ZCOORD("zcoord",
-				"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
+		ZCOORD("zcoord", "zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
 
 		/**
 		 * unicode0176u passes unaltered through Giac then gets decoded to
@@ -163,8 +159,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * degree sign in GeoGebra needed for
 		 * "return angle from inverse trig function" see ExpressionNode.degFix()
 		 */
-		DEG_ATAN2("atan2d",
-				"atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
+		DEG_ATAN2("atan2d", "atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
 
 		/**
 		 * subtype 27 is ggbvect[]
@@ -179,25 +174,21 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * check list before equation to avoid out of bounds. flatten helps for
 		 * {} and {{{0}}}
 		 */
-		IS_ZERO("ggb_is_zero",
-				"ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])))"),
+		IS_ZERO("ggb_is_zero", "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])))"),
 		/**
 		 * convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
 		 */
-		PRIM_POLY("primpoly",
-				"primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
+		PRIM_POLY("primpoly", "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
 		/**
 		 * strange why sommet(-x)!='-' (so we do an ugly hack here, FIXME)
 		 */
-		FACTOR_SQR_FREE("factorsqrfree",
-				"factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
+		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
 		/**
 		 * remove zeroes or linear dependencies from a list (workaround for
 		 * buggy eliminate)
 		 */
-		ELIMINATE2("eliminate2",
-				"eliminate2(x,y):=eliminate(eliminate(x,y),y);"),
+		ELIMINATE2("eliminate2", "eliminate2(x,y):=eliminate(eliminate(x,y),y);"),
 		/**
 		 * Helps simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -218,8 +209,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars.
 		 */
-		JACOBI_DET("jacobi_det", "jacobi_det(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end")
-		;
+		JACOBI_DET("jacobi_det", "jacobi_det(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end");
 		/** function name */
 		final public String functionName;
 		/** definition string */
@@ -276,9 +266,10 @@ public abstract class CASgiac implements CASGenericInterface {
 					&& !rtrimmed.startsWith("\"X=")) {
 				// eg results from ScientificText[12345] in web
 				// do nothing
-				
-				// we used to do this, but Giac errors now all (should) contain GIAC_ERROR
-				//result = "?";
+
+				// we used to do this, but Giac errors now all (should) contain
+				// GIAC_ERROR
+				// result = "?";
 			} else { // this is a special string output (only for the prover at
 						// the moment)
 				result = result.substring(1, result.length() - 1); // removing
@@ -382,7 +373,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	private static ExpressionValue subst(ExpressionValue substArg,
 			ExpressionValue item0, Kernel kernel) {
 		ExpressionValue item = item0.unwrap();
-		if(item instanceof Equation){
+		if (item instanceof Equation) {
 			ExpressionValue lhs = ((Equation) item).getLHS().unwrap();
 			if (lhs instanceof GeoDummyVariable || lhs instanceof Variable) {
 				ExpressionValue rhs = ((Equation) item).getRHS();
