@@ -552,7 +552,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * Set standard start point (closest to (0,0)). Needed for path parameter to
 	 * work correctly.
 	 * 
-	 * @return
+	 * @return start point
 	 */
 	@Override
 	public final GeoPointND setStandardStartPoint() {

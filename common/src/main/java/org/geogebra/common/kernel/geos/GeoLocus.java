@@ -50,8 +50,8 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	 *            x-coord
 	 * @param y
 	 *            y-coord
-	 * @param lineTo
-	 *            true to draw a line to (x,y); false to only move to (x,y)
+	 * @param segmentType
+	 *            used segment type
 	 */
 	public void insertPoint(double x, double y, SegmentType segmentType) {
 		myPointList.add(new MyPoint(x, y, segmentType));

@@ -2262,6 +2262,8 @@ public class GeoPoint extends GeoVec3D
 	 *            animated point
 	 * @param path
 	 *            animation path
+	 * @param parent
+	 *            parent list for list animations
 	 * @return whether the value of this number was changed
 	 */
 	static public GeoElementND doAnimationStep(double frameRate, GeoPointND p,

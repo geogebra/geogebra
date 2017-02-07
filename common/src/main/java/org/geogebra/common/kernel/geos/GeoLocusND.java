@@ -76,6 +76,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	abstract protected GeoLocusND<T> newGeoLocus();
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo instanceof GeoLocusND) {
@@ -359,6 +360,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	}
 
+	/**
+	 * @param P
+	 *            point
+	 * @param pp
+	 *            path parameter
+	 */
 	public void pathChanged(Coords P, PathParameter pp) {
 		int n = (int) Math.floor(pp.t);
 

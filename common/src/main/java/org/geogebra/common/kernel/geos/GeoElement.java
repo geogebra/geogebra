@@ -7248,14 +7248,20 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	final public boolean isDifferenceZeroInCAS(final GeoElement f) {
 		// use CAS to check f - g = 0
+		String myFormula = getFormulaString(StringTemplate.defaultTemplate,
+				true);
+		String otherFormula = f.getFormulaString(StringTemplate.defaultTemplate,
+				true);
+		if (myFormula.equals(otherFormula)) {
+			return true;
+		}
 		try {
 			final StringBuilder diffSb = new StringBuilder();
 			diffSb.append("Simplify[");
-			diffSb.append(
-					getFormulaString(StringTemplate.defaultTemplate, true));
+
+			diffSb.append(myFormula);
 			diffSb.append("-(");
-			diffSb.append(
-					f.getFormulaString(StringTemplate.defaultTemplate, true));
+			diffSb.append(otherFormula);
 			diffSb.append(")]");
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString(),
 					null);
