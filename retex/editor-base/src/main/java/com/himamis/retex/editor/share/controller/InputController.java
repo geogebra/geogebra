@@ -58,14 +58,13 @@ public class InputController {
         int currentOffset = editorState.getCurrentOffset();
         MetaArray meta = metaModel.getArray(arrayOpenKey);
         MathArray array = new MathArray(meta, size);
-		ArrayList<MathComponent> removed = cut(currentField, currentOffset,
+		ArrayList<MathComponent> removed = cut(currentField, currentOffset, -1,
 				editorState, array, true);
 
         // add sequence
         MathSequence field = new MathSequence();
         array.setArgument(0, field);
 		insertReverse(field, -1, removed);
-		System.out.println(field);
         for (int i = 1; i < size; i++) {
             // add sequence
 			array.setArgument(i, new MathSequence());
@@ -406,17 +405,27 @@ public class InputController {
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
-			int currentOffset, EditorState st, MathArray array, boolean rec) {
+			int from, int to, EditorState st, MathArray array,
+			boolean rec) {
 
-		int end = currentField.size() - 1;
-		int start = currentOffset;
+		int end = to < 0 ? currentField.size() - 1 : to;
+		int start = from;
 
 		if (st.getCurrentField() == currentField
 				&& st.getSelectionEnd() != null) {
+			// the root is selected
 			if (st.getSelectionEnd().getParent() == null && rec) {
 				return cut((MathSequence) st.getSelectionEnd(),
-						0, st, array, false);
+						0, -1, st, array, false);
 			}
+			// deep selection, e.g. a fraction
+			if (st.getSelectionEnd().getParent() != currentField && rec) {
+				return cut((MathSequence) st.getSelectionEnd().getParent(),
+						st.getSelectionStart().getParentIndex(),
+						st.getSelectionEnd().getParentIndex(),
+						st, array, false);
+			}
+			// simple case: a part of sequence is selected
 			end = currentField.indexOf(st.getSelectionEnd());
 			start = currentField.indexOf(st.getSelectionStart());
 			if (end < 0 || start < 0) {
@@ -425,7 +434,6 @@ public class InputController {
 
 			}
 
-			System.out.println("END" + currentField);
 		}
 		ArrayList<MathComponent> removed = new ArrayList<MathComponent>();
 		for (int i = end; i >= start; i--) {
@@ -516,7 +524,6 @@ public class InputController {
 				currentField.getParent().size() == 1) {
 
             MathArray parent = (MathArray) currentField.getParent();
-			System.out.println(parent.getOpenKey());
             delContaner(editorState, parent, parent.getArgument(0));
 
             // if parent is 1DArray or Vector and cursor is at the beginning of intermediate the field
@@ -813,7 +820,6 @@ public class InputController {
 	private void comma(EditorState editorState) {
 		int idx = editorState.getCurrentOffset();
 		MathSequence field = editorState.getCurrentField();
-		System.out.println(field.getArgument(idx));
 		if (field.getArgument(idx) instanceof MathCharacter
 				&& ",".equals(field.getArgument(idx).toString())
 				&& doSelectNext(field, editorState, idx + 1)) {

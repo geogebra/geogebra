@@ -93,6 +93,12 @@ public class EditorState {
 		extendSelection(cursorField);
 	}
 
+	/**
+	 * Extends selection to include a field
+	 * 
+	 * @param cursorField
+	 *            newly selected field
+	 */
 	public void extendSelection(MathComponent cursorField) {
 
 		if (selectionAnchor == null) {
@@ -140,12 +146,20 @@ public class EditorState {
 
 	}
 
+	/**
+	 * Select the whole formula
+	 */
 	public void selectAll() {
 		currentSelStart = getRootComponent();
 		currentSelEnd = currentSelStart;
 		anchor(true);
 	}
 
+	/**
+	 * @param left
+	 *            whether to search left
+	 * @return field directly left or right to the caret
+	 */
 	public MathComponent getCursorField(boolean left) {
 		return getCurrentField().getArgument(
 				Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
@@ -153,7 +167,8 @@ public class EditorState {
 	}
 
 	private static boolean contains(MathContainer commonParent,
-			MathComponent cursorField) {
+			MathComponent cursorField0) {
+		MathComponent cursorField = cursorField0;
 		while (cursorField != null) {
 			if (cursorField == commonParent) {
 				return true;
@@ -163,6 +178,9 @@ public class EditorState {
 		return false;
 	}
 
+	/**
+	 * Reset selection start/end/anchor pointers (NOT the caret)
+	 */
 	public void resetSelection() {
 
 		selectionAnchor = null;
