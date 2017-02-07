@@ -607,26 +607,60 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private void updateRealPointsOfTriangle(AbstractEvent event) {
+		int width = (int) (event.getX() - fixCornerX);
 		int height = (int) (event.getY() - fixCornerY);
 
 		if (height >= 0) {
-			poly.getPoint(0).setCoords(
-					view.toRealWorldCoordX(fixCornerX),
-					view.toRealWorldCoordY(event.getY()), 1);
-			poly.getPoint(1).setCoords(view.toRealWorldCoordX(event.getX()),
-					view.toRealWorldCoordY(event.getY()), 1);
-			poly.getPoint(2).setCoords(
-					view.toRealWorldCoordX(
-							(fixCornerX + event.getX()) / 2.0),
-					view.toRealWorldCoordY(fixCornerY), 1);
+			if (width >= 0) {
+				poly.getPoint(0).setCoords(view.toRealWorldCoordX(fixCornerX),
+						view.toRealWorldCoordY(
+								(int) (fixCornerY + width / proportion)),
+						1);
+				poly.getPoint(1).setCoords(view.toRealWorldCoordX(event.getX()),
+						view.toRealWorldCoordY(
+								(int) (fixCornerY + width / proportion)),
+						1);
+				poly.getPoint(2).setCoords(
+						view.toRealWorldCoordX(
+								(fixCornerX + event.getX()) / 2.0),
+						view.toRealWorldCoordY(fixCornerY), 1);
+			} else {
+				poly.getPoint(0).setCoords(view.toRealWorldCoordX(fixCornerX),
+						view.toRealWorldCoordY(
+								(int) (fixCornerY - width / proportion)),
+						1);
+				poly.getPoint(1).setCoords(view.toRealWorldCoordX(event.getX()),
+						view.toRealWorldCoordY(
+								(int) (fixCornerY - width / proportion)),
+						1);
+				poly.getPoint(2).setCoords(
+						view.toRealWorldCoordX(
+								(fixCornerX + event.getX()) / 2.0),
+						view.toRealWorldCoordY(fixCornerY), 1);
+			}
 		} else {
-			poly.getPoint(0).setCoords(view.toRealWorldCoordX(
+			if (width >= 0) {
+				poly.getPoint(0).setCoords(view.toRealWorldCoordX(
 							(fixCornerX + event.getX()) / 2.0),
-					view.toRealWorldCoordY(event.getY()), 1);
-			poly.getPoint(1).setCoords(view.toRealWorldCoordX(fixCornerX),
+						view.toRealWorldCoordY(
+								(int) (fixCornerY - width / proportion)),
+						1);
+				poly.getPoint(1).setCoords(view.toRealWorldCoordX(fixCornerX),
 					view.toRealWorldCoordY(fixCornerY), 1);
-			poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
+				poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
 					view.toRealWorldCoordY(fixCornerY), 1);
+			} else {
+				poly.getPoint(0).setCoords(
+						view.toRealWorldCoordX(
+								(fixCornerX + event.getX()) / 2.0),
+						view.toRealWorldCoordY(
+								(int) (fixCornerY + width / proportion)),
+						1);
+				poly.getPoint(1).setCoords(view.toRealWorldCoordX(fixCornerX),
+						view.toRealWorldCoordY(fixCornerY), 1);
+				poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
+						view.toRealWorldCoordY(fixCornerY), 1);
+			}
 		}
 	}
 
@@ -722,22 +756,32 @@ public class DrawPolygon extends Drawable implements Previewable {
 		fixCornerCoords(hitHandlerNr);
 
 		prewPolygon.reset();
+		int width = (int) (event.getX() - fixCornerX);
 		int height = (int) (event.getY() - fixCornerY);
 
 		if (height >= 0) {
 			pointsX[0] = (int) fixCornerX;
 			pointsX[1] = event.getX();
 			pointsX[2] = (int) Math.round((fixCornerX + event.getX()) / 2.0f);
-			pointsY[0] = event.getY();
-			pointsY[1] = event.getY();
 			pointsY[2] = (int) fixCornerY;
+			if (width >= 0) {
+				pointsY[0] = (int) (fixCornerY + width / proportion);
+				pointsY[1] = (int) (fixCornerY + width / proportion);
+			} else {
+				pointsY[0] = (int) (fixCornerY - width / proportion);
+				pointsY[1] = (int) (fixCornerY - width / proportion);
+			}
 		} else {
 			pointsX[0] = (int) Math.round((fixCornerX + event.getX()) / 2.0f);
 			pointsX[1] = (int) fixCornerX;
 			pointsX[2] = event.getX();
-			pointsY[0] = event.getY();
 			pointsY[1] = (int) fixCornerY;
 			pointsY[2] = (int) fixCornerY;
+			if (width >= 0) {
+				pointsY[0] = (int) (fixCornerY - width / proportion);
+			} else {
+				pointsY[0] = (int) (fixCornerY + width / proportion);
+			}
 		}
 
 		prewPolygon.moveTo(pointsX[0], pointsY[0]);
