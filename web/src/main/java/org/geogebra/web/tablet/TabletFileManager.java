@@ -169,6 +169,14 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 	
+	public void open(String url){
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			openUrlInBrowser(url, "", "");
+		} else {
+			super.open(url);
+		}
+	}
+	
 	private native void openUrlInBrowser(String url, String name, String features) /*-{
 		if ($wnd.android) {
 			$wnd.android.openUrlInBrowser(url, name, features);
