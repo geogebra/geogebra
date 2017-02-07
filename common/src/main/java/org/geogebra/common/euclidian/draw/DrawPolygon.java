@@ -65,6 +65,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
+	private double proportion = Double.NaN;
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
@@ -695,6 +696,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 				break;
 			}
 		}
+		if (Double.isNaN(proportion)) {
+			proportion = getBoundingBox().getRectangle().getWidth()
+					/ getBoundingBox().getRectangle().getHeight();
+		}
 
 	}
 
@@ -770,7 +775,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				if (isSquare) {
 					prewRect.setSize(width, width);
 				} else {
-					prewRect.setSize(width, height);
+					prewRect.setSize(width, (int) (width / proportion));
 				}
 			} else { // width < 0
 				prewRect.setLocation((int) fixCornerX + width,
@@ -778,7 +783,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				if (isSquare) {
 					prewRect.setSize(-width, -width);
 				} else {
-					prewRect.setSize(-width, height);
+					prewRect.setSize(-width, (int) (-width / proportion));
 				}
 			}
 		} else { // height < 0
@@ -788,9 +793,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 							(int) fixCornerY - width);
 					prewRect.setSize(width, width);
 				} else {
+					int newHeight = (int) (width / proportion);
 					prewRect.setLocation((int) fixCornerX,
-							(int) fixCornerY + height);
-					prewRect.setSize(width, -height);
+							(int) fixCornerY - newHeight);
+					prewRect.setSize(width, newHeight);
 				}
 			} else { // width < 0
 				if (isSquare) {
@@ -798,9 +804,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 							(int) fixCornerY + width);
 					prewRect.setSize(-width, -width);
 				} else {
+					int newHeight = (int) (-width / proportion);
 					prewRect.setLocation((int) fixCornerX + width,
-							(int) fixCornerY + height);
-					prewRect.setSize(-width, -height);
+							(int) fixCornerY - newHeight);
+					prewRect.setSize(-width, newHeight);
 				}
 			}
 		}
