@@ -352,7 +352,8 @@ public class MathQuillTreeItem extends RadioTreeItem
 	}
 
 	protected final boolean updateValuePanel() {
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+				true);
 		boolean fraction = isGeoFraction() && isSymbolicGeo();
 		latex = text != null || fraction;
 		return updateValuePanel(fraction ? geo.getLaTeXAlgebraDescription(true,

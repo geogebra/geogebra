@@ -284,7 +284,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content.add(getPlainTextItem());
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
-		String ltx = getLatexString(true, null);
+		String ltx = getLatexString(true, null, true);
 		if (ltx != null) {
 			if (getAV().isLaTeXLoaded()) {
 				doUpdate();
@@ -334,15 +334,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// only for checkboxes
 	}
 
-	protected String getLatexString(boolean MathQuill, Integer limit) {
-		return getLatexString(geo, MathQuill, limit);
+	protected final String getLatexString(boolean MathQuill, Integer limit,
+			boolean output) {
+		return getLatexString(geo, MathQuill, limit, output);
 	}
 
 	private String getLatexString(GeoElement geo1, boolean MathQuill,
-			Integer limit) {
+			Integer limit, boolean output) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
-						&& !isDefinitionAndValue())
-				|| !geo1.isDefined()  || !geo1.isLaTeXDrawableGeo()) {
+				&& !isDefinitionAndValue()) || !geo1.isDefined()
+				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
 
@@ -421,7 +422,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		String text = getTextForEditing(false, StringTemplate.latexTemplate);
 		String[] eq = text.split("=");
-
+		if (eq.length < 2) {
+			return false;
+		}
 		String leftSide = eq[0].trim();
 		String rightSide = eq[1].replaceFirst("\\\\left", "")
 				.replaceFirst("\\\\right", "").replaceAll(" ", "");
@@ -529,15 +532,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 		valuePanel.clear();
-		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-		geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
-		valuePanel.add(new HTML(sb.toString()));
-		if (latex) {
+
+		if (latex && geo != null && geo.isLaTeXDrawableGeo()) {
 			valCanvas = DrawEquationW.paintOnCanvasOutput(geo1, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
 			valuePanel.clear();
 			valuePanel.add(valCanvas);
+		} else {
+			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+			geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
+			valuePanel.add(new HTML(sb.toString()));
 		}
 
 		return true;
@@ -568,8 +573,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
-		String text = isGeoFraction() ? getTextForEditing(false, StringTemplate.latexTemplate)
-	 	             : getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+				false);
 		latex = text != null;
 		if (latex) {
 			definitionPanel.addStyleName("avDefinition");
@@ -655,7 +660,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void buildItemWithSingleRow() {
 
 		// LaTeX
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+				true);
 		latex = text != null;
 
 
@@ -839,7 +845,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				|| isDefinitionAndValue()) {
 			String text = "";
 			if (geo != null) {
-				text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
+				text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+						true);
 				latexAfterEdit = (text != null);
 			} else {
 				latexAfterEdit = true;
@@ -883,13 +890,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	private void updateItemColor() {
-		updateColor(getPlainTextItem());
-		if (isDefinitionAndValue()
-				&& definitionPanel != null) {
-			if (app.has(Feature.AV_TEXT_BLACK)) {
-				definitionPanel.getElement().getStyle()
-						.setColor("black");
-			} else {
+		if (app.has(Feature.AV_TEXT_BLACK)) {
+			if (isDefinitionAndValue() && this.valuePanel != null) {
+				updateColor(getPlainTextItem());
+			}
+			if (isDefinitionAndValue() && definitionPanel != null) {
+				definitionPanel.getElement().getStyle().setColor("black");
+			}
+		} else {
+			updateColor(getPlainTextItem());
+			if (isDefinitionAndValue() && definitionPanel != null) {
 				updateColor(definitionPanel);
 			}
 		}
@@ -2048,10 +2058,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void setPixelRatio(double pixelRatio) {
 		// only for LaTeX tree item
 
-	}
-
-	public boolean isLatex() {
-		return latex;
 	}
 
 	public boolean isSliderItem() {
