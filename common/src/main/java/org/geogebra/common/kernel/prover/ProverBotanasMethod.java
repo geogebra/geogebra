@@ -1,13 +1,21 @@
 package org.geogebra.common.kernel.prover;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -66,16 +74,16 @@ public class ProverBotanasMethod {
 		if (botanaVarsInv == null) {
 			botanaVarsInv = new HashMap<List<Variable>, GeoElement>();
 		}
-        for (GeoElement geo : statement.getAllPredecessors()) {
-            if (!(geo instanceof GeoNumeric)) {
-                Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
-                        .getBotanaVars(geo);
-                if (vars != null) {
-                    List<Variable> varsList = Arrays.asList(vars);
-                    botanaVarsInv.put(varsList, geo);
-                }
-            }
-        }
+		for (GeoElement geo : statement.getAllPredecessors()) {
+			if (!(geo instanceof GeoNumeric)) {
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+						.getBotanaVars(geo);
+				if (vars != null) {
+					List<Variable> varsList = Arrays.asList(vars);
+					botanaVarsInv.put(varsList, geo);
+				}
+			}
+		}
 	}
 
 	/**
@@ -87,12 +95,12 @@ public class ProverBotanasMethod {
 	 */
 	public static List<GeoElement> getFreePoints(GeoElement statement) {
 		List<GeoElement> freePoints = new ArrayList<GeoElement>();
-        for (GeoElement geo : statement.getAllPredecessors()) {
-            if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
-                /* this is a free point */
-                freePoints.add(geo);
-            }
-        }
+		for (GeoElement geo : statement.getAllPredecessors()) {
+			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
+				/* this is a free point */
+				freePoints.add(geo);
+			}
+		}
 		return freePoints;
 	}
 
@@ -137,7 +145,8 @@ public class ProverBotanasMethod {
 	 * 
 	 * @return the NDG polynomials (in denial form)
 	 */
-	private static Polynomial[] create3FreePointsNeverCollinearNDG(Prover prover) {
+	private static Polynomial[] create3FreePointsNeverCollinearNDG(
+			Prover prover) {
 		/* Creating the set of free points first: */
 		List<GeoElement> freePoints = getFreePoints(prover.getStatement());
 		int setSize = freePoints.size();
@@ -151,9 +160,9 @@ public class ProverBotanasMethod {
 		}
 		GeoElement[] geos = new GeoElement[setSize];
 		int i = 0;
-        for (GeoElement freePoint : freePoints) {
-            geos[i++] = freePoint;
-        }
+		for (GeoElement freePoint : freePoints) {
+			geos[i++] = freePoint;
+		}
 		ndgc.setGeos(geos);
 		Arrays.sort(ndgc.getGeos());
 		prover.addNDGcondition(ndgc);
@@ -164,53 +173,53 @@ public class ProverBotanasMethod {
 		i = 0;
 		/* Creating the set of triplets: */
 		HashSet<HashSet<GeoElement>> triplets = new HashSet<HashSet<GeoElement>>();
-        for (GeoElement geo1 : freePoints) {
-            for (GeoElement geo2 : freePoints) {
-                if (!geo1.isEqual(geo2)) {
-                    for (GeoElement geo3 : freePoints) {
-                        if (!geo1.isEqual(geo3) && !geo2.isEqual(geo3)) {
-                            HashSet<GeoElement> triplet = new HashSet<GeoElement>();
-                            triplet.add(geo1);
-                            triplet.add(geo2);
-                            triplet.add(geo3);
-                            /*
-                             * Only the significantly new triplets will be
+		for (GeoElement geo1 : freePoints) {
+			for (GeoElement geo2 : freePoints) {
+				if (!geo1.isEqual(geo2)) {
+					for (GeoElement geo3 : freePoints) {
+						if (!geo1.isEqual(geo3) && !geo2.isEqual(geo3)) {
+							HashSet<GeoElement> triplet = new HashSet<GeoElement>();
+							triplet.add(geo1);
+							triplet.add(geo2);
+							triplet.add(geo3);
+							/*
+							 * Only the significantly new triplets will be
 							 * processed:
 							 */
-                            if (!triplets.contains(triplet)) {
-                                triplets.add(triplet);
-                                Variable[] fv1 = ((SymbolicParametersBotanaAlgo) geo1)
-                                        .getBotanaVars(geo1);
-                                Variable[] fv2 = ((SymbolicParametersBotanaAlgo) geo2)
-                                        .getBotanaVars(geo2);
-                                Variable[] fv3 = ((SymbolicParametersBotanaAlgo) geo3)
-                                        .getBotanaVars(geo3);
-                                /* Creating the polynomial for collinearity: */
-                                Polynomial p = Polynomial.collinear(fv1[0],
-                                        fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
-                                Log.info("Forcing non-collinearity for points "
-                                        + geo1.getLabelSimple() + ", "
-                                        + geo2.getLabelSimple() + " and "
-                                        + geo3.getLabelSimple());
+							if (!triplets.contains(triplet)) {
+								triplets.add(triplet);
+								Variable[] fv1 = ((SymbolicParametersBotanaAlgo) geo1)
+										.getBotanaVars(geo1);
+								Variable[] fv2 = ((SymbolicParametersBotanaAlgo) geo2)
+										.getBotanaVars(geo2);
+								Variable[] fv3 = ((SymbolicParametersBotanaAlgo) geo3)
+										.getBotanaVars(geo3);
+								/* Creating the polynomial for collinearity: */
+								Polynomial p = Polynomial.collinear(fv1[0],
+										fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
+								Log.info("Forcing non-collinearity for points "
+										+ geo1.getLabelSimple() + ", "
+										+ geo2.getLabelSimple() + " and "
+										+ geo3.getLabelSimple());
 								/*
 								 * Rabinowitsch trick for prohibiting
 								 * collinearity:
 								 */
-                                ret[i] = p
-                                        .multiply(
-                                                new Polynomial(new Variable()))
-                                        .subtract(new Polynomial(1));
+								ret[i] = p
+										.multiply(
+												new Polynomial(new Variable()))
+										.subtract(new Polynomial(1));
 								/*
 								 * FIXME: this always introduces an extra
 								 * variable, shouldn't do
 								 */
-                                i++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+								i++;
+							}
+						}
+					}
+				}
+			}
+		}
 		return ret;
 	}
 
@@ -226,7 +235,8 @@ public class ProverBotanasMethod {
 	 *            number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
 	 */
-	private static HashMap<Variable, Long> fixValues(Prover prover, int coords) {
+	private static HashMap<Variable, Long> fixValues(Prover prover,
+			int coords) {
 
 		long[] fixCoords = { 0, 0, 0, 1 };
 
@@ -700,7 +710,7 @@ public class ProverBotanasMethod {
 		 *            numerical object
 		 * @return equation as string
 		 */
-        String getFormulaString(GeoElement numerical) {
+		String getFormulaString(GeoElement numerical) {
 
 			return numerical.getFormulaString(
 					StringTemplate.giacTemplateInternal, true);
@@ -814,38 +824,38 @@ public class ProverBotanasMethod {
 							// list of polynomial factors
 							ArrayList<Polynomial> polyListOfFactors = new ArrayList<Polynomial>();
 							if (!polyIsConst) {
-                                for (String factor : factors) {
-                                    // parse factors into expression
-                                    ValidExpression resultVE = (geoStatement
-                                            .getKernel().getGeoGebraCAS())
-                                            .getCASparser()
-                                            .parseGeoGebraCASInputAndResolveDummyVars(
-                                                    factor,
-                                                    geoStatement
-                                                            .getKernel(),
-                                                    null);
-                                    PolynomialNode polyRoot = new PolynomialNode();
-                                    // build polynomial to parsed expression
-                                    ((AlgoDependentBoolean) algo)
-                                            .buildPolynomialTree(
-                                                    (ExpressionNode) resultVE,
-                                                    polyRoot);
-                                    ((AlgoDependentBoolean) algo)
-                                            .expressionNodeToPolynomial(
-                                                    (ExpressionNode) resultVE,
-                                                    polyRoot);
-                                    while (polyRoot.getPoly() == null) {
-                                        ((AlgoDependentBoolean) algo)
-                                                .expressionNodeToPolynomial(
-                                                        (ExpressionNode) resultVE,
-                                                        polyRoot);
-                                    }
-                                    // add polynomial to list of polys
-                                    Polynomial poly = polyRoot.getPoly();
-                                    if (poly != null) {
-                                        polyListOfFactors.add(poly);
-                                    }
-                                }
+								for (String factor : factors) {
+									// parse factors into expression
+									ValidExpression resultVE = (geoStatement
+											.getKernel().getGeoGebraCAS())
+													.getCASparser()
+													.parseGeoGebraCASInputAndResolveDummyVars(
+															factor,
+															geoStatement
+																	.getKernel(),
+															null);
+									PolynomialNode polyRoot = new PolynomialNode();
+									// build polynomial to parsed expression
+									((AlgoDependentBoolean) algo)
+											.buildPolynomialTree(
+													(ExpressionNode) resultVE,
+													polyRoot);
+									((AlgoDependentBoolean) algo)
+											.expressionNodeToPolynomial(
+													(ExpressionNode) resultVE,
+													polyRoot);
+									while (polyRoot.getPoly() == null) {
+										((AlgoDependentBoolean) algo)
+												.expressionNodeToPolynomial(
+														(ExpressionNode) resultVE,
+														polyRoot);
+									}
+									// add polynomial to list of polys
+									Polynomial poly = polyRoot.getPoly();
+									if (poly != null) {
+										polyListOfFactors.add(poly);
+									}
+								}
 							}
 
 							for (Polynomial p : polyListOfFactors) {
@@ -962,17 +972,17 @@ public class ProverBotanasMethod {
 				}
 				ProverSettings proverSettings = ProverSettings.get();
 				Log.debug("Thesis equations (non-denied ones):");
-                for (Polynomial[] statement : statements) {
-                    for (int j = 0; j < statement.length - minus; ++j) {
-                        Log.debug((k + 1) + ". " + statement[j]);
-                        polynomials.add(statement[j]);
-                        if (proverSettings.captionAlgebra) {
-                            geoStatement.addCaptionBotanaPolynomial(
-                                    statement[j].toTeX());
-                        }
-                        k++;
-                    }
-                }
+				for (Polynomial[] statement : statements) {
+					for (int j = 0; j < statement.length - minus; ++j) {
+						Log.debug((k + 1) + ". " + statement[j]);
+						polynomials.add(statement[j]);
+						if (proverSettings.captionAlgebra) {
+							geoStatement.addCaptionBotanaPolynomial(
+									statement[j].toTeX());
+						}
+						k++;
+					}
+				}
 
 				if (geoProver
 						.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
@@ -999,14 +1009,13 @@ public class ProverBotanasMethod {
 				 * FIXME: this always introduces an extra variable, shouldn't
 				 * do.
 				 */
-                for (Polynomial[] statement : statements) {
-                    Polynomial factor = (statement[statement.length
-                            - 1]);
-                    Log.debug("(" + factor + ")*" + z + "-1");
-                    factor = factor.multiply(new Polynomial(z))
-                            .subtract(new Polynomial(1));
-                    spoly = spoly.multiply(factor);
-                }
+				for (Polynomial[] statement : statements) {
+					Polynomial factor = (statement[statement.length - 1]);
+					Log.debug("(" + factor + ")*" + z + "-1");
+					factor = factor.multiply(new Polynomial(z))
+							.subtract(new Polynomial(1));
+					spoly = spoly.multiply(factor);
+				}
 				polynomials.add(spoly);
 				Log.debug("that is,");
 				Log.debug((k + 1) + ". " + spoly);
@@ -1018,7 +1027,7 @@ public class ProverBotanasMethod {
 				Log.debug(
 						"Unsuccessful run, statement is UNKNOWN at the moment");
 				result = ProofResult.UNKNOWN;
-            }
+			}
 
 		}
 
@@ -1054,8 +1063,8 @@ public class ProverBotanasMethod {
 					&& proverSettings.freePointsNeverCollinear != null
 					&& proverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
-                Collections.addAll(polynomials, create3FreePointsNeverCollinearNDG(
-                        prover));
+				Collections.addAll(polynomials,
+						create3FreePointsNeverCollinearNDG(prover));
 			}
 		}
 	}
@@ -1092,7 +1101,8 @@ public class ProverBotanasMethod {
 
 		/* The NDG conditions (automatically created): */
 		if (proverSettings.freePointsNeverCollinear == null) {
-            proverSettings.freePointsNeverCollinear = !App.singularWSisAvailable();
+			proverSettings.freePointsNeverCollinear = !App
+					.singularWSisAvailable();
 		}
 
 		AlgebraicStatement as = new AlgebraicStatement(statement, null, prover);
@@ -1279,9 +1289,9 @@ public class ProverBotanasMethod {
 					}
 				}
 				if (found) {
-                    for (NDGCondition aBestNdgSet : bestNdgSet) {
-                        prover.addNDGcondition(aBestNdgSet);
-                    }
+					for (NDGCondition aBestNdgSet : bestNdgSet) {
+						prover.addNDGcondition(aBestNdgSet);
+					}
 				}
 			}
 			/*
@@ -1357,8 +1367,7 @@ public class ProverBotanasMethod {
 		Prover p = UtilFactory.getPrototype().newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
 				: ProverEngine.LOCUS_EXPLICIT);
-		AlgebraicStatement as = new AlgebraicStatement(
-				tracer, mover, p);
+		AlgebraicStatement as = new AlgebraicStatement(tracer, mover, p);
 		ProofResult proofresult = as.getResult();
 		if (proofresult == ProofResult.PROCESSING
 				|| proofresult == ProofResult.UNKNOWN) {
@@ -1382,205 +1391,203 @@ public class ProverBotanasMethod {
 
 		/* axis and fixed slope line support */
 		Kernel k = mover.getKernel();
-        for (GeoElement geo : (tracer)
-                .getAllPredecessors()) {
-            if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
+		for (GeoElement geo : (tracer).getAllPredecessors()) {
+			if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
 
-                Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
-                        .getBotanaVars(geo);
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+						.getBotanaVars(geo);
 
-                GeoLine l = (GeoLine) geo;
+				GeoLine l = (GeoLine) geo;
 
 				/*
-                 * a0/a1*x+b0/b1*y+c0/c1=0, that is:
+				 * a0/a1*x+b0/b1*y+c0/c1=0, that is:
 				 * a0*b1*c1*x+a1*b0*c1*y+a1*b1*c0=0
 				 */
-                Coords P = l.getCoords();
-                long[] a = k.doubleToRational(P.get(1));
-                long[] b = k.doubleToRational(P.get(2));
-                long[] c = k.doubleToRational(P.get(3));
+				Coords P = l.getCoords();
+				long[] a = k.doubleToRational(P.get(1));
+				long[] b = k.doubleToRational(P.get(2));
+				long[] c = k.doubleToRational(P.get(3));
 
-                // Setting up two equations for the two points:
-                Polynomial a0 = new Polynomial((int) a[0]);
-                Polynomial a1 = new Polynomial((int) a[1]);
-                Polynomial b0 = new Polynomial((int) b[0]);
-                Polynomial b1 = new Polynomial((int) b[1]);
-                Polynomial c0 = new Polynomial((int) c[0]);
-                Polynomial c1 = new Polynomial((int) c[1]);
-                Polynomial xp = new Polynomial(vars[0]);
-                Polynomial yp = new Polynomial(vars[1]);
-                Polynomial xq = new Polynomial(vars[2]);
-                Polynomial yq = new Polynomial(vars[3]);
+				// Setting up two equations for the two points:
+				Polynomial a0 = new Polynomial((int) a[0]);
+				Polynomial a1 = new Polynomial((int) a[1]);
+				Polynomial b0 = new Polynomial((int) b[0]);
+				Polynomial b1 = new Polynomial((int) b[1]);
+				Polynomial c0 = new Polynomial((int) c[0]);
+				Polynomial c1 = new Polynomial((int) c[1]);
+				Polynomial xp = new Polynomial(vars[0]);
+				Polynomial yp = new Polynomial(vars[1]);
+				Polynomial xq = new Polynomial(vars[2]);
+				Polynomial yq = new Polynomial(vars[3]);
 
-                Polynomial ph = a0.multiply(b1).multiply(c1).multiply(xp)
-                        .add(a1.multiply(b0).multiply(c1).multiply(yp))
-                        .add(a1.multiply(b1).multiply(c0));
-                as.addPolynomial(ph);
-                Log.debug("Extra poly 1 for " + l.getLabelSimple() + ": " + ph);
-                ph = a0.multiply(b1).multiply(c1).multiply(xq)
-                        .add(a1.multiply(b0).multiply(c1).multiply(yq))
-                        .add(a1.multiply(b1).multiply(c0));
-                as.addPolynomial(ph);
-                Log.debug("Extra poly 2 for " + l.getLabelSimple() + ": " + ph);
+				Polynomial ph = a0.multiply(b1).multiply(c1).multiply(xp)
+						.add(a1.multiply(b0).multiply(c1).multiply(yp))
+						.add(a1.multiply(b1).multiply(c0));
+				as.addPolynomial(ph);
+				Log.debug("Extra poly 1 for " + l.getLabelSimple() + ": " + ph);
+				ph = a0.multiply(b1).multiply(c1).multiply(xq)
+						.add(a1.multiply(b0).multiply(c1).multiply(yq))
+						.add(a1.multiply(b1).multiply(c0));
+				as.addPolynomial(ph);
+				Log.debug("Extra poly 2 for " + l.getLabelSimple() + ": " + ph);
 
-                if (a[0] != 0) {
-                    /*
+				if (a[0] != 0) {
+					/*
 					 * This equation is not horizontal, so y can be arbitrarily
 					 * chosen. Let's choose y=0 and y=1 for the 2 points.
 					 */
-                    ph = yp;
-                    as.addPolynomial(ph);
-                    Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
-                            + ph);
-                    ph = yq.subtract(new Polynomial(1));
-                    Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
-                            + ph);
-                    as.addPolynomial(ph);
-                } else {
+					ph = yp;
+					as.addPolynomial(ph);
+					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
+							+ ph);
+					ph = yq.subtract(new Polynomial(1));
+					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
+							+ ph);
+					as.addPolynomial(ph);
+				} else {
 					/*
 					 * This equation is horizontal, so x can be arbitrarily
 					 * chosen. Let's choose x=0 and x=1 for the 2 points.
 					 */
-                    ph = xp;
-                    as.addPolynomial(ph);
-                    Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
-                            + ph);
-                    ph = xq.subtract(new Polynomial(1));
-                    as.addPolynomial(ph);
-                    Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
-                            + ph);
-                }
-                // These coordinates are no longer free.
-                for (int i = 0; i < 4; i++) {
-                    vars[i].setFree(false);
-                }
-            }
-            AlgoElement algo = geo.getParentAlgorithm();
-            boolean condition;
-            condition = implicit || geo != tracer;
-            if (condition && algo instanceof AlgoPointOnPath) {
+					ph = xp;
+					as.addPolynomial(ph);
+					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
+							+ ph);
+					ph = xq.subtract(new Polynomial(1));
+					as.addPolynomial(ph);
+					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
+							+ ph);
+				}
+				// These coordinates are no longer free.
+				for (int i = 0; i < 4; i++) {
+					vars[i].setFree(false);
+				}
+			}
+			AlgoElement algo = geo.getParentAlgorithm();
+			boolean condition;
+			condition = implicit || geo != tracer;
+			if (condition && algo instanceof AlgoPointOnPath) {
 				/*
 				 * We need to add handle all points which are on a path like
 				 * free points (that is, substitution of their coordinates will
 				 * be performed later), unless this point is the locus point.
 				 */
-                if (!freePoints.contains(geo)) {
-                    freePoints.add(geo);
-                }
-            }
-        }
+				if (!freePoints.contains(geo)) {
+					freePoints.add(geo);
+				}
+			}
+		}
 
 		/* free point support */
 		/*
 		 * Note that sometimes free points can be on a path, but they are
 		 * considered free if they are not changed while the mover moves.
 		 */
-        for (GeoElement freePoint : freePoints) {
-            freePoint.addToUpdateSetOnly(callerAlgo);
-            Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
-                    .getBotanaVars(freePoint);
-            boolean condition = !mover.equals(freePoint);
-            if (!implicit) {
-                condition &= !tracer.equals(freePoint);
-            }
-            if (condition) {
-                boolean createX = true;
-                boolean createY = true;
-                AlgoElement ae = freePoint.getParentAlgorithm();
-                /*
+		for (GeoElement freePoint : freePoints) {
+			freePoint.addToUpdateSetOnly(callerAlgo);
+			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
+					.getBotanaVars(freePoint);
+			boolean condition = !mover.equals(freePoint);
+			if (!implicit) {
+				condition &= !tracer.equals(freePoint);
+			}
+			if (condition) {
+				boolean createX = true;
+				boolean createY = true;
+				AlgoElement ae = freePoint.getParentAlgorithm();
+				/*
 				 * If this "free" point is on a path, then its path may be
 				 * important to be kept as a symbolic object for consistency.
 				 * Let's do that if the path is linear.
 				 */
-                if (ae != null && ae instanceof AlgoPointOnPath
-                        && ae.input[0] instanceof GeoLine) {
-                    Polynomial[] symPolys;
-                    try {
-                        symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
-                                .getBotanaPolynomials(freePoint);
-                    } catch (NoSymbolicParametersException e) {
-                        Log.debug(
-                                "An error occured during obtaining symbolic parameters");
-                        return null;
-                    }
-                    int i = 1;
-                    for (Polynomial symPoly : symPolys) {
-                        as.addPolynomial(symPoly);
-                        Log.debug("Extra symbolic poly " + i + " for "
-                                + freePoint.getLabelSimple() + ": " + symPoly);
-                    }
-                    double[] dir = new double[2];
-                    ((GeoLine) ae.input[0]).getDirection(dir);
-                    if (dir[0] == 0.0) {
+				if (ae != null && ae instanceof AlgoPointOnPath
+						&& ae.input[0] instanceof GeoLine) {
+					Polynomial[] symPolys;
+					try {
+						symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
+								.getBotanaPolynomials(freePoint);
+					} catch (NoSymbolicParametersException e) {
+						Log.debug(
+								"An error occured during obtaining symbolic parameters");
+						return null;
+					}
+					int i = 1;
+					for (Polynomial symPoly : symPolys) {
+						as.addPolynomial(symPoly);
+						Log.debug("Extra symbolic poly " + i + " for "
+								+ freePoint.getLabelSimple() + ": " + symPoly);
+					}
+					double[] dir = new double[2];
+					((GeoLine) ae.input[0]).getDirection(dir);
+					if (dir[0] == 0.0) {
 						/* vertical */
-                        vars[0].setFree(false);
-                        vars[1].setFree(true);
-                        createX = false;
-                    } else {
+						vars[0].setFree(false);
+						vars[1].setFree(true);
+						createX = false;
+					} else {
 						/* horizontal */
-                        vars[0].setFree(true);
-                        vars[1].setFree(false);
-                        createY = false;
-                    }
-                }
-                long[] q = new long[2]; // P and Q for P/Q
-                if (createX) {
-                    double x = ((GeoPoint) freePoint).getInhomX();
+						vars[0].setFree(true);
+						vars[1].setFree(false);
+						createY = false;
+					}
+				}
+				long[] q = new long[2]; // P and Q for P/Q
+				if (createX) {
+					double x = ((GeoPoint) freePoint).getInhomX();
 					/*
 					 * Use the fraction P/Q according to the current kernel
 					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
 					 */
-                    if ((x % 1) == 0) { // integer
-                        q[0] = (long) x;
-                        q[1] = 1L;
-                    } else { // fractional
-                        q = k.doubleToRational(x);
-                    }
-                    vars[0].setFree(false);
-                    Polynomial ph = new Polynomial((int) q[0])
-                            .subtract(new Polynomial(vars[0])
-                                    .multiply(new Polynomial((int) q[1])));
-                    as.addPolynomial(ph);
-                    Log.debug("Extra poly for x of "
-                            + freePoint.getLabelSimple() + ": " + ph);
-                }
-                if (createY) {
-                    double y = ((GeoPoint) freePoint).getInhomY();
+					if ((x % 1) == 0) { // integer
+						q[0] = (long) x;
+						q[1] = 1L;
+					} else { // fractional
+						q = k.doubleToRational(x);
+					}
+					vars[0].setFree(false);
+					Polynomial ph = new Polynomial((int) q[0])
+							.subtract(new Polynomial(vars[0])
+									.multiply(new Polynomial((int) q[1])));
+					as.addPolynomial(ph);
+					Log.debug("Extra poly for x of "
+							+ freePoint.getLabelSimple() + ": " + ph);
+				}
+				if (createY) {
+					double y = ((GeoPoint) freePoint).getInhomY();
 					/*
 					 * Use the fraction P/Q according to the current kernel
 					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
 					 */
-                    if ((y % 1) == 0) { // integer
-                        q[0] = (long) y;
-                        q[1] = 1L;
-                    } else { // fractional
-                        q = k.doubleToRational(y);
-                    }
-                    vars[1].setFree(false);
-                    Polynomial ph = new Polynomial((int) q[0])
-                            .subtract(new Polynomial(vars[1])
-                                    .multiply(new Polynomial((int) q[1])));
-                    as.addPolynomial(ph);
-                    Log.debug("Extra poly for y of "
-                            + freePoint.getLabelSimple() + ": " + ph);
-                }
-            } else {
-                condition = true;
-                if (!implicit) {
-                    condition = tracer.equals(freePoint);
-                }
-                if (condition) {
-                    vars[0].setFree(true);
-                    vars[1].setFree(true);
-                    as.curveVars = vars;
-                } else {
-                    vars[0].setFree(false);
-                    vars[1].setFree(false);
-                }
-            }
-        }
+					if ((y % 1) == 0) { // integer
+						q[0] = (long) y;
+						q[1] = 1L;
+					} else { // fractional
+						q = k.doubleToRational(y);
+					}
+					vars[1].setFree(false);
+					Polynomial ph = new Polynomial((int) q[0])
+							.subtract(new Polynomial(vars[1])
+									.multiply(new Polynomial((int) q[1])));
+					as.addPolynomial(ph);
+					Log.debug("Extra poly for y of "
+							+ freePoint.getLabelSimple() + ": " + ph);
+				}
+			} else {
+				condition = true;
+				if (!implicit) {
+					condition = tracer.equals(freePoint);
+				}
+				if (condition) {
+					vars[0].setFree(true);
+					vars[1].setFree(true);
+					as.curveVars = vars;
+				} else {
+					vars[0].setFree(false);
+					vars[1].setFree(false);
+				}
+			}
+		}
 		return as;
 	}
-
 
 }
