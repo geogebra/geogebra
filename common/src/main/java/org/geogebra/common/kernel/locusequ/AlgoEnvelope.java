@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
+import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.main.App;
@@ -267,7 +268,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		 * Now we collect all the restriction equations except for the linear
 		 * itself. This is exactly the same as in AlgoLocusEquation.
 		 */
-		AlgebraicStatement as = AlgoLocusEquation
+		AlgebraicStatement as = ProverBotanasMethod
 				.translateConstructionAlgebraically(locusPoint,
 				movingPoint, false, this);
 		// It is safe to remove the virtual locus point here.
