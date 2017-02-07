@@ -2499,6 +2499,18 @@ public class AlgebraProcessor {
 				return processFunction(fun,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
+			if ("z".equals(lhsStr)
+					&& !equ.getRHS().containsFreeFunctionVariable("z")
+					&& kernel.lookupLabel("z") == null) {
+				FunctionVariable x = new FunctionVariable(kernel, "x");
+				FunctionVariable y = new FunctionVariable(kernel, "y");
+				FunctionNVar fun = new FunctionNVar(equ.getRHS(),
+						new FunctionVariable[] { x, y });
+				// try to use label of equation
+				fun.setLabel(equ.getLabel());
+				return processFunctionNVar(fun,
+						new EvalInfo(!cons.isSuppressLabelsActive()));
+			}
 			return processImplicitPoly(equ, def);
 		}
 
