@@ -47,6 +47,7 @@ package com.himamis.retex.renderer.share;
 
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.Cancel.Type;
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.Graphics;
@@ -1473,6 +1474,11 @@ public class PredefMacros {
 	public static final Atom colorbox_macro(final TeXParser tp, final String[] args) throws ParseException {
 		Color c = ColorAtom.getColor(args[1]);
 		return new FBoxAtom(new TeXFormula(tp, args[2]).root, c, c);
+	}
+
+	public static final Atom cancel_macro(final TeXParser tp,
+			final String[] args, Type type) throws ParseException {
+		return new CancelAtom(new TeXFormula(tp, args[1]).root, type);
 	}
 
 	public static final Atom fcolorbox_macro(final TeXParser tp, final String[] args) throws ParseException {

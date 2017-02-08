@@ -45,6 +45,8 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.Cancel.Type;
+
 final class PredefinedCommands {
 
 	static {
@@ -1203,6 +1205,30 @@ final class PredefinedCommands {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
 				return PredefMacros.colorbox_macro(tp, args);
+			}
+		},
+		// * eg \cancel{10} */
+		cancel(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.cancel_macro(tp, args, Type.SLASH);
+			}
+		},
+		// * eg \bcancel{10} */
+		bcancel(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.cancel_macro(tp, args, Type.BACKSLASH);
+			}
+		},
+		// * eg \xcancel{10} */
+		xcancel(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.cancel_macro(tp, args, Type.CROSS);
 			}
 		},
 		fcolorbox(3) {
