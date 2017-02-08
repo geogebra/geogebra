@@ -667,4 +667,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
+	public void insertFunction(String text) {
+		mathFieldInternal.insertFunction(text);
+
+	}
+
 }

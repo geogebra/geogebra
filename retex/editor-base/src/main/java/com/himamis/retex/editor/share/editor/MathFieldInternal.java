@@ -528,4 +528,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 	}
 
+	public void insertFunction(String text) {
+		inputController.newFunction(editorState, text);
+		if (listener != null) {
+			listener.onKeyTyped();
+		}
+	}
+
 }

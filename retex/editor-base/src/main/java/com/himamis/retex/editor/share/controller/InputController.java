@@ -133,7 +133,6 @@ public class InputController {
      * @param name function
      */
     public void newFunction(EditorState editorState, String name, int initial) {
-		System.out.println(name);
         MathSequence currentField = editorState.getCurrentField();
         int currentOffset = editorState.getCurrentOffset();
         // add extra braces for sqrt, nthroot and fraction
@@ -166,7 +165,7 @@ public class InputController {
             MetaFunction meta = metaModel.getFunction(name);
             function = new MathFunction(meta);
         }
-
+		mathField.debug("INSERT FN " + name + editorState.getSelectionEnd());
         // add sequences
         for (int i = 0; i < function.size(); i++) {
             MathSequence field = new MathSequence();
@@ -175,9 +174,7 @@ public class InputController {
 
         // pass characters for fraction and factorial only
 		if ("frac".equals(name)) {
-			System.out.println("cut frac?");
 			if (editorState.getSelectionEnd() != null) {
-				System.out.println("cut frac");
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1,
 						editorState,
@@ -191,6 +188,17 @@ public class InputController {
 				return;
 			}
 			ArgumentHelper.passArgument(editorState, function);
+		} else {
+			if (editorState.getSelectionEnd() != null) {
+				ArrayList<MathComponent> removed = cut(currentField,
+						currentOffset, -1, editorState, function, true);
+				MathSequence field = new MathSequence();
+				function.setArgument(0, field);
+				insertReverse(field, -1, removed);
+				editorState.resetSelection();
+				editorState.incCurrentOffset();
+				return;
+			}
         }
         currentOffset = editorState.getCurrentOffset();
         currentField.addArgument(currentOffset, function);

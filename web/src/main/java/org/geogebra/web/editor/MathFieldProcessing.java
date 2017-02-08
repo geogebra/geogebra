@@ -2,6 +2,7 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 
@@ -50,8 +51,16 @@ public class MathFieldProcessing implements KeyboardListener {
 		}
 		else if (text.equals(Unicode.DIVIDE)) {
 			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '/'));
+		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
+			mf.insertFunction("sqrt");
 		} else {
-			for (int i = 0; i < text.length(); i++) {
+			int length = text.length();
+			if (length > 1 && Character.isLetter(text.charAt(0))) {
+				mf.insertFunction(text);
+				return;
+			}
+			Log.debug("TYPED" + text);
+			for (int i = 0; i < length; i++) {
 				mf.getKeyListener()
 						.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
 			}
