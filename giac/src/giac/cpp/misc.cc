@@ -6515,6 +6515,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     step_infolevel(st,contextptr);
     if (cx.type!=_VECT || cy.type!=_VECT){
       *logptr(contextptr) << "Unable to find critical points" << endl;
+      purgenoassume(t,contextptr);
       return 0;
     }
     vecteur c=mergevecteur(*cx._VECTptr,*cy._VECTptr),infl;
@@ -6531,6 +6532,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     comprim(c);
     if (!lidnt(evalf(c,1,contextptr)).empty()){
       *logptr(contextptr) << "Infinite number of critical points. Try with optional argument " << t << "=tmin..tmax" << endl;
+      purgenoassume(t,contextptr);
       return 0;
     }
     it=c.begin();itend=c.end();
@@ -6719,8 +6721,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvx.push_back(tmax0);
     comprim(tvx);
     gen tmp=_sort(tvx,contextptr);
-    if (tmp.type!=_VECT)
+    if (tmp.type!=_VECT){
+      purgenoassume(t,contextptr);
       return 0;
+    }
     tvx=*tmp._VECTptr;
     int pos=equalposcomp(tvx,minus_inf);
     if (pos){
@@ -6779,8 +6783,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  }
 	}
       }
-      if (is_zero(dfx) || is_zero(dgx))
+      if (is_zero(dfx) || is_zero(dgx)){
+	purgenoassume(t,contextptr);
 	return 0;
+      }
       if (is_strictly_positive(dfx,contextptr)){
 #if defined NSPIRE || defined NSPIRE_NEWLIB || defined HAVE_WINT_T
 	tvif.push_back(string2gen("↑",false));
@@ -6932,6 +6938,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       *logptr(contextptr) << tvi << endl;
 #endif
     // finished!
+    purgenoassume(t,contextptr);
     return 1 + (periode!=1);
   }
 
@@ -7025,11 +7032,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     step_infolevel(st,contextptr);
     if (c.type!=_VECT){
       *logptr(contextptr) << "Unable to find critical points" << endl;
+      purgenoassume(x,contextptr);
       return 0;
     }
 #endif
     if (!lidnt(evalf(c,1,contextptr)).empty()){
       *logptr(contextptr) << "Infinite number of critical points. Try with optional argument " << x << "=xmin..xmax" << endl;
+      purgenoassume(x,contextptr);
       return 0;
     }
     it=c._VECTptr->begin();itend=c._VECTptr->end();
@@ -7172,8 +7181,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvx.push_back(xmax0);
     comprim(tvx);
     gen tmp=_sort(tvx,contextptr);
-    if (tmp.type!=_VECT)
+    if (tmp.type!=_VECT){
+      purgenoassume(x,contextptr);
       return 0;
+    }
     tvx=*tmp._VECTptr;
     int pos=equalposcomp(tvx,minus_inf);
     if (pos){
@@ -7221,8 +7232,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  }
 	}
       }
-      if (is_zero(dfx))
+      if (is_zero(dfx)){
+	purgenoassume(x,contextptr);
 	return 0;
+      }
       if (is_strictly_positive(dfx,contextptr)){
 #if defined NSPIRE || defined NSPIRE_NEWLIB || defined HAVE_WINT_T
 	tvif.push_back(string2gen("↑",false));
@@ -7314,6 +7327,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       *logptr(contextptr) << tvi << endl;
 #endif
     // finished!
+    purgenoassume(x,contextptr);
     return 1 + (periode!=0);
   }
 

@@ -1863,6 +1863,7 @@ namespace giac {
       }
       if (listvars.size()!=1)
 	return vecteur(1,gensizeerr(gettext("Unable to isolate ")+gen(listvars).print(contextptr)+gettext(" solving equation ")+expr.print(contextptr)));
+      vecteur assumedvars;
       for (int i=0;i<s;++i){
 	gen lsvar=ls[3*i+2];
 	gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
@@ -1870,8 +1871,10 @@ namespace giac {
 	  continue;
 	substin.push_back(lsvar);
 	gen tmp("c__"+print_intvar_counter(contextptr),contextptr);
-	if (!(ls[3*i+1].val %2))
+	if (!(ls[3*i+1].val %2)){
 	  assumesymbolic(symb_superieur_egal(tmp,0),0,contextptr); 
+	  assumedvars.push_back(tmp);
+	}
 	listvars.push_back(tmp);
 	substout.push_back(tmp);
 	equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls3i);
@@ -1920,6 +1923,7 @@ namespace giac {
 	  *logptr(contextptr) << gettext("Warning, solutions were not checked!") << endl;
 	res=fullres;
       }
+      purgenoassume(assumedvars,contextptr);
       return res;
     }
     lv=lvarx(expr,x);
