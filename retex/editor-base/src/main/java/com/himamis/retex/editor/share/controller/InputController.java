@@ -133,6 +133,7 @@ public class InputController {
      * @param name function
      */
     public void newFunction(EditorState editorState, String name, int initial) {
+		System.out.println(name);
         MathSequence currentField = editorState.getCurrentField();
         int currentOffset = editorState.getCurrentOffset();
         // add extra braces for sqrt, nthroot and fraction
@@ -173,8 +174,23 @@ public class InputController {
         }
 
         // pass characters for fraction and factorial only
-        if ("frac".equals(name) /*|| "factorial".equals(name)*/) {
-            ArgumentHelper.passArgument(editorState, function);
+		if ("frac".equals(name)) {
+			System.out.println("cut frac?");
+			if (editorState.getSelectionEnd() != null) {
+				System.out.println("cut frac");
+				ArrayList<MathComponent> removed = cut(currentField,
+						currentOffset, -1,
+						editorState,
+						function, true);
+				MathSequence field = new MathSequence();
+				function.setArgument(0, field);
+				insertReverse(field, -1, removed);
+				editorState.resetSelection();
+				editorState.setCurrentField(function.getArgument(1));
+				editorState.setCurrentOffset(0);
+				return;
+			}
+			ArgumentHelper.passArgument(editorState, function);
         }
         currentOffset = editorState.getCurrentOffset();
         currentField.addArgument(currentOffset, function);
@@ -405,7 +421,7 @@ public class InputController {
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
-			int from, int to, EditorState st, MathArray array,
+			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
 		int end = to < 0 ? currentField.size() - 1 : to;
@@ -767,7 +783,7 @@ public class InputController {
 				|| ch == KeyEvent.VK_ESCAPE) {
             return true;
         }
-		if (ch != '(' && ch != '{' && ch != '[') {
+		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|') {
 			deleteSelection(editorState);
 		}
         MetaModel meta = editorState.getMetaModel();

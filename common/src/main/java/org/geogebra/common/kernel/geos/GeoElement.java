@@ -739,7 +739,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return label mode (name, value, name + value, caption)
 	 */
 	@Override
-	public int getLabelMode() {
+	public final int getLabelMode() {
 		return labelMode;
 	}
 
@@ -1615,9 +1615,9 @@ public abstract class GeoElement extends ConstructionElement
 	public void setVisualStyle(final GeoElement geo) {
 
 		// label style
-		labelVisible = geo.labelVisible;
-		setLabelMode(geo.labelMode);
-		tooltipMode = geo.tooltipMode;
+		labelVisible = geo.getLabelVisible();
+		setLabelMode(geo.getLabelMode());
+		tooltipMode = geo.getTooltipMode();
 
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()) {
@@ -1630,10 +1630,10 @@ public abstract class GeoElement extends ConstructionElement
 		// line thickness and line type:
 		// note: line thickness in Drawable is calculated as lineThickness /
 		// 2.0f
-		setLineThickness(geo.lineThickness);
-		setLineType(geo.lineType);
-		setLineTypeHidden(geo.lineTypeHidden);
-		setDecorationType(geo.decorationType);
+		setLineThickness(geo.getLineThickness());
+		setLineType(geo.getLineType());
+		setLineTypeHidden(geo.getLineTypeHidden());
+		setDecorationType(geo.getDecorationType());
 		setLineOpacity(geo.getLineOpacity());
 
 		// set whether it's an auxilliary object
@@ -2167,7 +2167,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return tooltip mode
 	 */
-	public int getTooltipMode() {
+	public final int getTooltipMode() {
 		return tooltipMode;
 	}
 
@@ -6220,7 +6220,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return the line type for hidden parts
 	 */
-	public int getLineTypeHidden() {
+	final public int getLineTypeHidden() {
 		return lineTypeHidden;
 	}
 
@@ -8470,7 +8470,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return decoration type, eg 3 lines
 	 */
-	public int getDecorationType() {
+	public final int getDecorationType() {
 		return decorationType;
 	}
 

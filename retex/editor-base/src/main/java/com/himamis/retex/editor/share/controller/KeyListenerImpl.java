@@ -91,7 +91,7 @@ public class KeyListenerImpl {
 		case KeyEvent.VK_OPEN_PAREN:
 			return false;
 		default:
-			InputController.deleteSelection(editorState);
+			// InputController.deleteSelection(editorState);
 			return false;
         }
     }
