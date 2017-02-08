@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.LowerCaseDictionary;
 
@@ -176,5 +177,15 @@ public class InputBarHelpPanel {
 
 	public TreeMap<String, Integer> getCategories() {
 		return mCategoryNameToTableIndex;
+	}
+
+	public Collection<String> getCommandsFromCategory(int category) {
+		if (category == CommandsConstants.MATH_FUNC_INDEX) {
+			return getMathFunc();
+		}
+		if (category == CommandsConstants.ALL_COMMANDS_INDEX) {
+			return getAllCommands();
+		}
+		return getCommands(category);
 	}
 }
