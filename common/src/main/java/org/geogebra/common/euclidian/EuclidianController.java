@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
+import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -7816,7 +7817,14 @@ public abstract class EuclidianController {
 			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
 		if (getResizedShape() != null) {
-			switch (view.getHitHandlerNr()) {
+			int nrHandler = view.getHitHandlerNr();
+			// we have only 2 handlers for segment
+			// needs special handling
+			if (getResizedShape() instanceof DrawSegment) {
+				nrHandler = ((DrawSegment) getResizedShape())
+						.getHandlerNr(mouseLoc);
+			}
+			switch (nrHandler) {
 			case 0:
 			case 2:
 				view.setCursor(EuclidianCursor.RESIZE_NWSE);
@@ -8146,7 +8154,13 @@ public abstract class EuclidianController {
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		// for now allow only corner handlers
 		if (d != null && view.getHitHandlerNr() < 4) {
-			switch (view.getHitHandlerNr()) {
+			int nrHandler = view.getHitHandlerNr();
+			// we have only 2 handlers for segment
+			// needs special handling
+			if (d instanceof DrawSegment) {
+				nrHandler = ((DrawSegment) d).getHandlerNr(mouseLoc);
+			}
+			switch (nrHandler) {
 			case 0:
 			case 2:
 				view.setCursor(EuclidianCursor.RESIZE_NWSE);
@@ -8336,7 +8350,13 @@ public abstract class EuclidianController {
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
 		// for now allow only corner handlers
 		if (d != null && view.getHitHandlerNr() < 4) {
-			switch (view.getHitHandlerNr()) {
+			int nrHandler = view.getHitHandlerNr();
+			// we have only 2 handlers for segment
+			// needs special handling
+			if (d instanceof DrawSegment) {
+				nrHandler = ((DrawSegment) d).getHandlerNr(mouseLoc);
+			}
+			switch (nrHandler) {
 			case 0:
 			case 2:
 				view.setCursor(EuclidianCursor.RESIZE_NWSE);

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -658,6 +659,36 @@ public class DrawSegment extends Drawable implements Previewable {
 		s.getParentAlgorithm().update();
 		this.update();
 		view.repaintView();
+	}
+
+	/**
+	 * method to get number of handler for mouse location
+	 * 
+	 * @param mouseLoc
+	 *            - current mouse location
+	 * @return number of handler for mouse location
+	 */
+	public int getHandlerNr(GPoint mouseLoc) {
+		if (Kernel.isEqual(getBoundingBox().getRectangle().getMinX(),
+				mouseLoc.x)) {
+			// upper left corner
+			if (Kernel.isEqual(getBoundingBox().getRectangle().getMinY(),
+					mouseLoc.y, 3)) {
+				return 0;
+			}
+			// bottom left corner
+			return 1;
+		} else if (Kernel.isEqual(getBoundingBox().getRectangle().getMaxX(),
+				mouseLoc.x, 3)) {
+			// upper right corner
+			if (Kernel.isEqual(getBoundingBox().getRectangle().getMinY(),
+					mouseLoc.y, 3)) {
+				return 3;
+			}
+			// bottom right corner
+			return 2;
+		}
+		return -1;
 	}
 
 }
