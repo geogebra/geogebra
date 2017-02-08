@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.prover;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -108,22 +109,20 @@ public class NDGDetector {
 				boolean qFormula = true;
 				Kernel kernel = statement.getKernel();
 
-				TreeMap<Term, Long> tm1 = p.getTerms();
+				TreeMap<Term, BigInteger> tm1 = p.getTerms();
 				ExpressionNode lhs = new ExpressionNode(kernel, 0);
 				ExpressionNode rhs = new ExpressionNode(kernel, 0);
 				/* are there any expressions on boths sides? */
 				boolean lt = false;
 				boolean rt = false;
 
-				outerloop: for (Entry<Term, Long> entry : tm1.entrySet()) { // e.g.
-																			// 5*v1^3*v2
-
-					Term t1 = entry.getKey();
-					Long coeff = entry.getValue(); // e.g. 5
-					long absCoeff = Math.abs(coeff);
+				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
+					BigInteger coeff = tm1.get(t1); // e.g. 5
+			
 					/* always use the absolute value */
-					ExpressionNode c = new ExpressionNode(kernel, absCoeff);
-
+					ExpressionNode c = new ExpressionNode(kernel,
+							coeff.abs().longValue()); // FIXME
+					
 					TreeMap<Variable, Integer> tm2 = t1.getTerm();
 					ExpressionNode en = new ExpressionNode(kernel, 1);
 					/* e.g. v1->3, v2->1 */
@@ -159,7 +158,7 @@ public class NDGDetector {
 						en = en.multiply(bases.get(g));
 					}
 
-					if (coeff > 0) {
+					if (coeff.compareTo(BigInteger.ZERO) > 0) {
 						lhs = lhs.plus(c.multiply(en));
 						lt = true;
 					} else {
@@ -472,3 +471,4 @@ public class NDGDetector {
 		return null;
 	}
 }
+

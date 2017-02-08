@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -722,6 +723,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 
+
 	/**
 	 * Create a script which eliminates variables from a set of polynomials.
 	 * 
@@ -733,22 +735,25 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            if the output consists of more polynomials, consider the
 	 *            intersections of them as points with real coordinates and
 	 *            convert them to a single product
+	 * @param scale
+	 * 			  the size of a unit on the screen in pixels 	
 	 * 
 	 * @return the Giac program which creates the output ideal
 	 */
 	@Override
 	public String createEliminateScript(String polys, String elimVars,
-			boolean oneCurve) {
+			boolean oneCurve, double scale) {
 		if (!oneCurve) {
 			return "primpoly(eliminate2([" + polys + "],revlist([" + elimVars
 					+ "])))";
 		}
 
-		/*
-		 * FIXME. Compute FAKE_PRECISION from the kernel precision instead of
-		 * using a fix number here by obtaining kernel.getPrintDecimals().
-		 */
-		String FAKE_PRECISION = "10000";
+		// expression is some change on scale
+		double expression = scale * scale;
+		
+		String PRECISION = Integer.toString((int) expression);
+		PRECISION = "10000";
+		Log.debug("PRECISION = " + PRECISION);
 		String retval;
 		/*
 		 * Exact approach. This will not work if there are irrationals since
@@ -772,9 +777,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		retval = "primpoly([[ee:=eliminate2([" + polys + "],revlist(["
 				+ elimVars
 				+ "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
-				+ FAKE_PRECISION + ")/" + FAKE_PRECISION + ";"
+				+ PRECISION + ")/" + PRECISION + ";"
 				+ "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2));"
-				+ "od ee:=[lcm(denom(coeff(gg)))*gg]; end],ee][3])";
+				+ "od ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end],ee][3])";
 		return retval;
 	}
 

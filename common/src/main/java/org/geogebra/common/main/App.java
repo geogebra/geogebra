@@ -199,7 +199,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/** Singular web service (CAS) */
-	private static SingularWebService singularWS;
+	public static SingularWebService singularWS;
 
 	protected boolean useFullAppGui = false;
 	private static String CASVersionString = "";

@@ -281,17 +281,17 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
-			int coeff = (int) expNode.getLeft().evaluateDouble();
+			long coeff = (int) expNode.getLeft().evaluateDouble();
 			polyNode.getLeft().setPoly(new Polynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble
 				&& polyNode.getRight().getPoly() == null) {
-			int coeff = (int) expNode.getRight().evaluateDouble();
+			long coeff = (int) expNode.getRight().evaluateDouble();
 			polyNode.getRight().setPoly(new Polynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
-			int coeff = (int) expNode.getLeft().evaluateDouble();
+			long coeff = (int) expNode.getLeft().evaluateDouble();
 			Variable v = getVariable(expNode.getRight()
 					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {
@@ -414,19 +414,19 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					}
 				}
 				if (expNode.getRight() instanceof MySpecialDouble) {
-					Double d = expNode.getRight().evaluateDouble();
-					int i;
+					double d = expNode.getRight().evaluateDouble();
+					BigInteger i;
 					// simplify the polynomial if in expression is product of
 					// numbers
 					if (polyNode.getLeft().getPoly() != null
 							&& polyNode.getLeft().getPoly().isConstant()) {
 						switch (polyNode.getOperation()) {
 						case MULTIPLY:
-							i = (int) (polyNode.getLeft().getPoly()
-									.getConstant() * d);
+							i = polyNode.getLeft().getPoly()
+									.getConstant().multiply(new BigInteger(Long.toString((long) d)));
 							break;
 						case DIVIDE:
-							i = 1;
+							i = BigInteger.ONE;
 							break;
 						default:
 							throw new NoSymbolicParametersException();
@@ -441,9 +441,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					// than multiply the coefficient with 10^n
 					if (nrOfMaxDecimals != 0
 							&& expNode.getOperation() != Operation.POWER) {
-						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+						i = new BigInteger(Long.toString(((long) (d * Math.pow(10, nrOfMaxDecimals)))));
 					} else {
-						i = d.intValue();
+						i = new BigInteger(Long.toString(((long) d)));
 					}
 					polyNode.getRight().setPoly(new Polynomial(i));
 				}
@@ -808,7 +808,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					.toString(StringTemplate.giacTemplate);
 		}
 		String[] splitedStr = rootStr.split(",");
-		rootStr = splitedStr[0].substring(28, splitedStr[0].length() - 2);
+		/* This 24 is hardcoded, it is the length of "[when(ggbIsZero(simplify((" which is the beginning of rootStr. FIXME */
+		rootStr = splitedStr[0].substring(24, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
 		strForGiac.append("eliminate([" + rootStr + "=0");
 		StringBuilder labelsStr = new StringBuilder();

@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -692,19 +693,20 @@ public class AlgoDependentNumber extends AlgoElement
 					}
 				}
 				if (expNode.getRight() instanceof MySpecialDouble) {
-					Double d = expNode.getRight().evaluateDouble();
-					int i;
+					// see also AlgoDependentBoolean
+					double d = expNode.getRight().evaluateDouble();
+					BigInteger i;
 					// simplify the polynomial if in expression is product of
 					// numbers
 					if (polyNode.getLeft().getPoly() != null
 							&& polyNode.getLeft().getPoly().isConstant()) {
 						switch (polyNode.getOperation()) {
 						case MULTIPLY:
-							i = (int) (polyNode.getLeft().getPoly()
-									.getConstant() * d);
+							i = polyNode.getLeft().getPoly()
+							.getConstant().multiply(new BigInteger(Long.toString((long) d)));
 							break;
 						case DIVIDE:
-							i = 1;
+							i = BigInteger.ONE;
 							break;
 						default:
 							throw new NoSymbolicParametersException();
@@ -719,9 +721,9 @@ public class AlgoDependentNumber extends AlgoElement
 					// than multiply the coefficient with 10^n
 					if (nrOfMaxDecimals != 0
 							&& expNode.getOperation() != Operation.POWER) {
-						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+						i = new BigInteger(Long.toString(((long) (d * Math.pow(10, nrOfMaxDecimals)))));
 					} else {
-						i = d.intValue();
+						i = new BigInteger(Long.toString(((long) d)));
 					}
 					polyNode.getRight().setPoly(new Polynomial(i));
 				}
