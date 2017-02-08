@@ -159,20 +159,12 @@ public class JavaKeyCodes {
 	public static final int VK_ADD = 0x6B;
 
 	/**
-	 * This constant is obsolete, and is included only for backwards
-	 * compatibility.
-	 * 
-	 * @see #VK_SEPARATOR
-	 */
-	public static final int VK_SEPARATER = 0x6C;
-
-	/**
 	 * Constant for the Numpad Separator key. ie decimal comma eg German
 	 * keyboards
 	 * 
 	 * @since 1.4
 	 */
-	public static final int VK_SEPARATOR = VK_SEPARATER;
+	public static final int VK_SEPARATOR = 0x6C;
 
 	public static final int VK_SUBTRACT = 0x6D;
 	public static final int VK_DECIMAL = 0x6E; // decimal point on numeric
