@@ -427,13 +427,13 @@ public class CASInputHandler {
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()
 						.evaluateRaw(
-								"ggbis_polynomial(["
+								"ggbis_polynomial("
 										+ equList.getListElement(0).toString(
 												StringTemplate.giacTemplate)
-										+ ","
+										+ ") && ggbis_polynomial("
 										+ equList.getListElement(1).toString(
 												StringTemplate.giacTemplate)
-										+ "])");
+										+ ")");
 			}
 			// use NSolve tool with one equation
 			else {
