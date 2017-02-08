@@ -1889,7 +1889,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-	private void expandAVToItem(RadioTreeItem ri) {
+	void expandAVToItem(RadioTreeItem ri) {
 		int currentWidth = getOffsetWidth();
 		int editedWidth = ri.getWidthForEdit();
 		int expanded = editedWidth;
@@ -2238,7 +2238,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			cancelEditItem();
 			stopCurrentEditor();
-			restoreWidth();
+			restoreWidth(false);
 
 			return;
 		}
@@ -2362,7 +2362,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		final int w = width;
 
-		Log.debug("[AVSIZE] expanding width to " + w);
 		splitPane.setWidgetSize(avDockPanel, w);
 		avDockPanel.deferredOnResize();
 	}
@@ -2370,14 +2369,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Restores AV original size before editing, if it has been expanded.
 	 */
-	public void restoreWidth() {
-		if (CancelEventTimer.cancelAVRestoreWidth()) {
+	public void restoreWidth(boolean force) {
+		if (!force && CancelEventTimer.cancelAVRestoreWidth()) {
 			return;
 		}
 
 		int w = userWidth;
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-		Log.debug("[RS] to " + w);
 		avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
 		avDockPanel.deferredOnResize();
 

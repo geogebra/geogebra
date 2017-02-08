@@ -143,8 +143,10 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 		int width = getAV().getOffsetWidth() - 2 * marblePanel.getOffsetWidth()
 				+ SLIDER_EXT;
-		getSlider().setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
-				: width);
+		slider.setWidth(width);
+		// getSlider().setWidth(width < DEFAULT_SLIDER_WIDTH ?
+		// DEFAULT_SLIDER_WIDTH
+		// : width);
 	}
 
 	private void createMinMaxPanel() {
@@ -308,7 +310,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	@Override
 	public void restoreSize() {
-		getAV().restoreWidth();
+		getAV().restoreWidth(false);
 	}
 
 	/**

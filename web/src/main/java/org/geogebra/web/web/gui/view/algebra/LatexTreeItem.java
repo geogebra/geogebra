@@ -178,7 +178,11 @@ public class LatexTreeItem extends RadioTreeItem {
 			if (focus) {
 				content.addStyleName("scrollableTextBox");
 				if (isInputTreeItem()) {
-					setItemWidth(getAV().getOffsetWidth());
+					if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+						getAV().restoreWidth(true);
+					} else {
+						setItemWidth(getAV().getOffsetWidth());
+					}
 				}
 			} else {
 				if (isInputTreeItem()) {
