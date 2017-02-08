@@ -1787,17 +1787,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-	private GeoElement[] previewGeos = null;
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (!app.has(Feature.AV_PREVIEW)) {
 			return;
 		}
 
-		previewGeos = geos;
-
-		if (previewGeos != null) {
-			for (GeoElement geo : previewGeos) {
+		if (geos != null) {
+			for (GeoElement geo : geos) {
 				inputPanelLatex.previewValue(geo);
 				Log.debug("AVPreview: " + geo.getAlgebraDescriptionDefault());
 			}
