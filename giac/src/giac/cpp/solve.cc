@@ -645,7 +645,12 @@ namespace giac {
 	}
       }
 #if 1
-      *logptr(contextptr) << gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+e.print(contextptr) << gettext(", switching to approx. solutions") << endl;
+      string msg=gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+e.print(contextptr);
+      if (calc_mode(contextptr)==1){
+	v.push_back(undef); // (string2gen(msg,false));
+	return;
+      }
+      *logptr(contextptr) << msg+gettext(", switching to approx. solutions") << endl;
       gen a=_fsolve(makesequence(e,x),contextptr);
       if (a.type==_VECT)
 	v=mergevecteur(v,*a._VECTptr);
