@@ -11,8 +11,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.cas.singularws.SingularWebService;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SingularWSSettings;
@@ -968,11 +968,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		for (Variable v : pVariables) {
 			vars += v + ",";
 		}
-		if (vars != "") {
-			vars = vars.substring(0, vars.length() - 1);
-		}
-		
 		if (!"".equals(vars)) {
+			vars = vars.substring(0, vars.length() - 1);
 			ret.append(vars);
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);
@@ -1004,7 +1001,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				vars += "*";
 			}
 		}
-		if (vars != "")
+		if (!"".equals(vars))
 			ret.append(vars);
 		else
 			ret.append(dummyVar);
@@ -1227,7 +1224,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				pVariables[j] = aVariables[indices[j]];
 				debug += aVariables[indices[j]] + ",";
 			}
-			if (debug != "") {
+			if (!"".equals(debug)) {
 				debug = debug.substring(0, debug.length()-1);
 			}
 			Log.debug("Checking variable permutation #" + permutation + ": " + debug);

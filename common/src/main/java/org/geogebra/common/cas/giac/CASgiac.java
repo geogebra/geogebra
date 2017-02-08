@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
