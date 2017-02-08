@@ -178,6 +178,7 @@ public class LatexTreeItem extends RadioTreeItem {
 			if (focus) {
 				content.addStyleName("scrollableTextBox");
 				if (isInputTreeItem()) {
+					MinMaxPanel.closeMinMaxPanel();
 					if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 						getAV().restoreWidth(true);
 					} else {

@@ -2432,7 +2432,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	public void setUserWidth(int userWidth) {
+		MinMaxPanel.closeMinMaxPanel();
 		this.userWidth = userWidth;
+
 	}
 
 	public void setDefaultUserWidth() {
