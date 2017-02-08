@@ -36,7 +36,6 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		implements SliderTreeItemInterface {
 
 	private static final int SLIDER_EXT = 15;
-	private static final int DEFAULT_SLIDER_WIDTH = 100;
 
 
 	/**
@@ -329,4 +328,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		return this.minMaxPanel;
 	}
 
+	@Override
+	protected int getWidthForEdit() {
+		return MinMaxPanel.MINMAX_MIN_WIDHT;
+	}
 }

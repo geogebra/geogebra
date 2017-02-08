@@ -484,6 +484,7 @@ public class RadioTreeItemController
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		selectionCtrl.clear();
 		ev.resetMode();
+
 		if (!item.hasGeo() || ctrl) {
 			return;
 		}
@@ -538,6 +539,7 @@ public class RadioTreeItemController
 			return false;
 		}
 
+
 		markForEdit = false;
 		boolean enable = true;
 		if ((item.isSliderItem()
@@ -576,6 +578,7 @@ public class RadioTreeItemController
 	private boolean markForEdit() {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			if (markForEdit) {
+
 				return true;
 			}
 			markForEdit = true;
@@ -585,6 +588,7 @@ public class RadioTreeItemController
 		return false;
 
 	}
+
 
 	@Override
 	public void handleLongTouch(int x, int y) {

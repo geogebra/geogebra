@@ -76,7 +76,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
 
 		slider.setForceControls(true);
-
+		slider.expandSize(slider.getWidthForEdit());
 
 		boolean minHit = slider.sliderPanel != null
 				&& isWidgetHit(slider.getSlider().getWidget(0), x, y);
@@ -170,6 +170,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Double> event) {
+		slider.expandSize(slider.getWidthForEdit());
 		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
 			stopEdit();
 		}

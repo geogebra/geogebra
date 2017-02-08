@@ -130,7 +130,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 	private SliderTreeItemInterface sliderTreeItem;
-	private static final int MINMAX_MIN_WIDHT = 326;
+	public static final int MINMAX_MIN_WIDHT = 326;
 	private AVField tfMin;
 	private AVField tfMax;
 	private AVField tfStep;
