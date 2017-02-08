@@ -2,7 +2,6 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 
@@ -47,10 +46,16 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void insertString(String text) {
 		if (text.equals(KeyboardConstants.A_POWER_X)) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '^'));
+			mf.insertFunction("^");
+		}
+		else if (text.equals(Unicode.Superscript_2 + "")) {
+			mf.insertFunction("^");
+			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '2'));
+			mf.getKeyListener()
+					.onKeyPressed(new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
 		}
 		else if (text.equals(Unicode.DIVIDE)) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '/'));
+			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
 			mf.insertFunction("sqrt");
 		} else {
@@ -59,7 +64,6 @@ public class MathFieldProcessing implements KeyboardListener {
 				mf.insertFunction(text);
 				return;
 			}
-			Log.debug("TYPED" + text);
 			for (int i = 0; i < length; i++) {
 				mf.getKeyListener()
 						.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
