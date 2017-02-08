@@ -176,7 +176,6 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
     workingDir file(warDirRel)
     args '-logLevel', 'INFO',
         '-codeServerPort', '9997',
-        '-bindAddress', '192.168.0.16',
         '-port', '8888',
         '-superDevMode',
         '-war', file(warDirRel),
