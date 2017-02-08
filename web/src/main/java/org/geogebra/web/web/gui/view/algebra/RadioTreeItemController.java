@@ -349,6 +349,12 @@ public class RadioTreeItemController
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
 			getAV().resetItems(false);
+		} else {
+			if (getAV().getInputTreeItem() != null) {
+				getAV().getInputTreeItem().getController().stopEdit();
+
+			}
+
 		}
 
 		int x = EventUtil.getTouchOrClickClientX(event);
