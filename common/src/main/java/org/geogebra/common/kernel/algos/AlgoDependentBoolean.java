@@ -808,7 +808,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					.toString(StringTemplate.giacTemplate);
 		}
 		String[] splitedStr = rootStr.split(",");
-		/* This 24 is hardcoded, it is the length of "[when(ggbIsZero(simplify((" which is the beginning of rootStr. FIXME */
+		/*
+		 * This 24 is hardcoded, it is the length of "[when(ggbIsZero(simplify"
+		 * which is the beginning of rootStr. FIXME
+		 */
 		rootStr = splitedStr[0].substring(24, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
 		strForGiac.append("eliminate([" + rootStr + "=0");
@@ -865,7 +868,11 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					.toString(StringTemplate.giacTemplate);
 		}
 		String[] splitedStr = rootStr.split(",");
-		rootStr = splitedStr[0].substring(28, splitedStr[0].length() - 2);
+		/*
+		 * This 24 is hardcoded, it is the length of "[when(ggbIsZero(simplify"
+		 * which is the beginning of rootStr. FIXME
+		 */
+		rootStr = splitedStr[0].substring(24, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
 		strForGiac.append("eliminate([" + rootStr + "=0");
 		StringBuilder labelsStr = new StringBuilder();
