@@ -2069,9 +2069,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 			if (resizedWidth > maxItemWidth) {
 				maxItemWidth = resizedWidth;
-				setWidths(resizedWidth);
 
 			}
+
+			setWidths(resizedWidth);
+
 			if (activeItem != null) {
 				activeItem.updateButtonPanelPosition();
 			}
