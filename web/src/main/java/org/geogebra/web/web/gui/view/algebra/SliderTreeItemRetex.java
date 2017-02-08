@@ -305,7 +305,9 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	@Override
 	public void expandSize(int width) {
-		getAV().expandWidth(width);
+		if (getAV().getOffsetWidth() < width) {
+			getAV().expandWidth(width);
+		}
 	}
 
 	@Override
@@ -326,4 +328,5 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	public MinMaxPanel getMinMax() {
 		return this.minMaxPanel;
 	}
+
 }
