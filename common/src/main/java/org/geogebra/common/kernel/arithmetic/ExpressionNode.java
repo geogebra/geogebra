@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -1789,7 +1790,7 @@ public class ExpressionNode extends ValidExpression
 			} else {
 
 				if (tpl.getStringType().isGiac()) {
-					sb.append("when(ggb\\_is\\_zero(simplify(");
+					sb.append("when(" + CustomFunctions.IS_ZERO + "(simplify(");
 					tpl.append(sb, leftStr, left, operation);
 					sb.append("-(");
 					tpl.append(sb, rightStr, right, operation);

@@ -84,12 +84,12 @@ public abstract class CASgiacJre extends CASgiac {
 		gen g = new gen(initString, C);
 		g.eval(1, C);
 
-		InitFunctions[] init = InitFunctions.values();
+		CustomFunctions[] init = CustomFunctions.values();
 
 		// Log.debug("exp = " + exp);
 
 		for (int i = 0; i < init.length; i++) {
-			InitFunctions function = init[i];
+			CustomFunctions function = init[i];
 
 			// send only necessary init commands
 			if (function.functionName == null

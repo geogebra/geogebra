@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -427,17 +428,19 @@ public class CASInputHandler {
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()
 						.evaluateRaw(
-								"ggbis_polynomial("
+								CustomFunctions.GGBIS_POLYNOMIAL + "("
 										+ equList.getListElement(0).toString(
 												StringTemplate.giacTemplate)
-										+ ") && ggbis_polynomial("
+										+ ") && "
+										+ CustomFunctions.GGBIS_POLYNOMIAL + "("
 										+ equList.getListElement(1).toString(
 												StringTemplate.giacTemplate)
 										+ ")");
 			}
 			// use NSolve tool with one equation
 			else {
-				casResult = cas.getCurrentCAS().evaluateRaw("ggbis_polynomial("
+				casResult = cas.getCurrentCAS()
+						.evaluateRaw(CustomFunctions.GGBIS_POLYNOMIAL + "("
 						+ expandValidExp.toString(StringTemplate.giacTemplate)
 						+ ")");
 			}
@@ -644,7 +647,8 @@ public class CASInputHandler {
 				try {
 					StringBuilder inputStr = new StringBuilder();
 					// check if input is polynomial
-					inputStr.append("ggbis_polynomial(");
+					inputStr.append(CustomFunctions.GGBIS_POLYNOMIAL);
+					inputStr.append("(");
 					inputStr.append(selCellValue.getOutputValidExpression()
 							.toString(StringTemplate.giacTemplate));
 					inputStr.append(")");

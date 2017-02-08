@@ -66,7 +66,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// public final static String closeString = "caseval(\"close geogebra\")";
 	// public final static String closeStringWeb = "close geogebra";
 
-	public static enum InitFunctions {
+	public static enum CustomFunctions {
 		/**
 		 * 
 		 */
@@ -81,7 +81,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * doesn't work for list of lists null -> always sent (used by other
 		 * definitions)
 		 * 
-		 * now implemtented natively in Giac. This is just for reference /
+		 * now implemented natively in Giac. This is just for reference /
 		 * testing
 		 */
 		// SORT(null,
@@ -99,7 +99,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		// subtype(x[1])==20,true,false)"),
 		/**
 		 * check whether a is polynomial special cases like y^2=1 also handled
-		 * now implemtented natively in Giac. This is just for reference /
+		 * now implemented natively in Giac. This is just for reference /
 		 * testing
 		 */
 		// IS_POLYNOMIAL("ispolynomial",
@@ -116,10 +116,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		/**
 		 * NOTE: works for max 2 variable
 		 */
-		GGBIS_POLYNOMIAL("ggbis_polynomial", "ggbis_polynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
+		GGBIS_POLYNOMIAL("ggbisPolynomial", "ggbisPolynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
 
 		/**
-		 * now implemtented natively in Giac. This is just for reference /
+		 * now implemented natively in Giac. This is just for reference /
 		 * testing
 		 */
 		// GGBALT("ggbalt", "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
@@ -178,8 +178,13 @@ public abstract class CASgiac implements CASGenericInterface {
 		/**
 		 * check list before equation to avoid out of bounds. flatten helps for
 		 * {} and {{{0}}}
+		 * 
+		 * used for EQUAL_BOOLEAN in ExpressionNode
+		 * sb.append("when(ggb\\_is\\_zero(simplify(");
+		 * 
+		 * eg sin(x)^2+cos(x)^2==1
 		 */
-		IS_ZERO("ggb_is_zero", "ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])))"),
+		IS_ZERO("ggbIsZero", "ggbIsZero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]=='pnt' && x[1] == ggbvect[0,0,0])))"),
 		/**
 		 * convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
@@ -220,9 +225,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		/** definition string */
 		final public String definitionString;
 
-		InitFunctions(String functionName, String definitionString) {
+		CustomFunctions(String functionName, String definitionString) {
 			this.functionName = functionName;
 			this.definitionString = definitionString;
+		}
+
+		@Override
+		public String toString() {
+			return functionName;
 		}
 
 	}
