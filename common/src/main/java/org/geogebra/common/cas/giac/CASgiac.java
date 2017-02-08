@@ -180,7 +180,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * {} and {{{0}}}
 		 * 
 		 * used for EQUAL_BOOLEAN in ExpressionNode
-		 * sb.append("when(ggb\\_is\\_zero(simplify(");
+		 * sb.append("when(ggbIsZero(simplify(");
 		 * 
 		 * eg sin(x)^2+cos(x)^2==1
 		 */
@@ -212,14 +212,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * linear. After solving such a poly=0 equation, the solution will be
 		 * substituted into all other polys. After doing this for all one
 		 * variable linear polys recursively, the resulted polys will be used in
-		 * the Jacobian matrix in jacobi_det().
+		 * the Jacobian matrix in jacobiDet().
 		 */
-		JACOBI_PREPARE("jacobi_prepare", "jacobi_prepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii],linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
+		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii],linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars.
 		 */
-		JACOBI_DET("jacobi_det", "jacobi_det(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end");
+		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end");
 		/** function name */
 		final public String functionName;
 		/** definition string */

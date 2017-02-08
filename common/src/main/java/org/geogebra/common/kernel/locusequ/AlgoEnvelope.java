@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
@@ -320,8 +321,9 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			script.append("[[");
 			String varlist = "[" + varx + "," + vary + "]";
 			script.append("m:=[").append(polys)
-					.append("]],[J:=jacobi_prepare(m," + varlist
-							+ ")],[jacobi_det(J," + varlist + ")]]");
+					.append("]],[J:=" + CustomFunctions.JACOBI_PREPARE + "(m,"
+							+ varlist + ")],[" + CustomFunctions.JACOBI_DET
+							+ "(J," + varlist + ")]]");
 			script.append("[2][0]");
 
 			Log.trace(
