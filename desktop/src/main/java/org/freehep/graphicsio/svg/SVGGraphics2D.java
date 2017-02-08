@@ -639,9 +639,9 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 					new WriterOutputStream(writer));
 			b64.write(imageBytes);
 			b64.finish();
-			b64.close();
 
 			result.append(writer.toString());
+			b64.close();
 		}
 
 		result.append("\">");
