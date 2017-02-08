@@ -348,6 +348,7 @@ public class RadioTreeItemController
 		Log.debug("[xx] touchStart");
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
+			getAV().resetItems(false);
 		}
 
 		int x = EventUtil.getTouchOrClickClientX(event);
@@ -356,7 +357,7 @@ public class RadioTreeItemController
 			item.adjustCaret(x, y);
 			return;
 		}
-		if (markForEdit()) {
+		if (markForEdit() && !item.isInputTreeItem()) {
 			return;
 		}
 		// Do NOT prevent default, kills scrolling on touch
