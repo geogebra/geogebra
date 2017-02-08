@@ -80,9 +80,7 @@ public class GeoConicPartParameters {
 		// handle conic types
 		switch (conic.getType()) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
-			paramStart = Kernel.convertToAngleValue(startParam);
-			paramEnd = Kernel.convertToAngleValue(endParam);
-			setExtentEllipse();
+			setExtentEllipse(startParam, endParam);
 
 			double r = conic.getHalfAxis(0);
 			arcLength = r * paramExtent;
@@ -98,9 +96,7 @@ public class GeoConicPartParameters {
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			paramStart = Kernel.convertToAngleValue(startParam);
-			paramEnd = Kernel.convertToAngleValue(endParam);
-			setExtentEllipse();
+			setExtentEllipse(startParam, endParam);
 
 			if (ellipticArcLength == null) {
 				ellipticArcLength = new EllipticArcLength(conic);
@@ -151,7 +147,9 @@ public class GeoConicPartParameters {
 		}
 	}
 
-	private void setExtentEllipse() {
+	private void setExtentEllipse(double startParam, double endParam) {
+		paramStart = Kernel.convertToAngleValue(startParam);
+		paramEnd = Kernel.convertToAngleValue(endParam);
 		paramExtent = paramEnd - paramStart;
 		if (paramExtent < 0) {
 			paramExtent += Kernel.PI_2;

@@ -33,19 +33,33 @@ public interface GeoConicPartND {
 	 */
 	public int getConicPartType();
 
+	/**
+	 * @return start parameter
+	 */
 	public double getParameterStart();
 
+	/**
+	 * @return end parameter
+	 */
 	public double getParameterEnd();
 
+	/**
+	 * @return parameter extent
+	 */
 	public double getParameterExtent();
 
+	/**
+	 * @return orientation
+	 */
 	public boolean positiveOrientation();
 
 	/**
 	 * super method
 	 * 
 	 * @param P
+	 *            point
 	 * @param pp
+	 *            path parameter
 	 */
 	public void superPointChanged(Coords P, PathParameter pp);
 

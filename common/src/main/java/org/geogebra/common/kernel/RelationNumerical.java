@@ -425,10 +425,8 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b,
 			GeoSegmentND c) {
 		/* Checking if the objects/lengths are equal. */
-		if (Kernel.isEqual(((NumberValue) a).getDouble(),
-				((NumberValue) b).getDouble())
-				&& Kernel.isEqual(((NumberValue) b).getDouble(),
-						((NumberValue) c).getDouble())) {
+		if (Kernel.isEqual(a.getDouble(), b.getDouble())
+				&& Kernel.isEqual(b.getDouble(), c.getDouble())) {
 			if (a.isEqual(b) && b.isEqual(c)) {
 				register(true, null, equalityString((GeoElement) a,
 						(GeoElement) b, (GeoElement) c, true));

@@ -17,6 +17,9 @@ public interface GeoPolyhedronInterface extends GeoElementND {
 
 	/**
 	 * calc pseudo centroid coords (based on segments average)
+	 * 
+	 * @param coords
+	 *            output coords
 	 */
 	public void pseudoCentroid(Coords coords);
 }

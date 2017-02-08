@@ -64,12 +64,24 @@ public interface CurveEvaluable {
 	 */
 	public double[] getDefinedInterval(double a, double b);
 
+	/**
+	 * @return whether this curve is tracing
+	 */
 	public boolean getTrace();
 
+	/**
+	 * @return whether this curve is closed
+	 */
 	public boolean isClosedPath();
 
+	/**
+	 * @return whether this is a function of x
+	 */
 	public boolean isFunctionInX();
 
+	/**
+	 * @return cast to geo OR cast parent to geo
+	 */
 	public GeoElement toGeoElement();
 
 }

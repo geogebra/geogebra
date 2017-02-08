@@ -91,7 +91,7 @@ public abstract class GeoQuadricND extends GeoElement
 
 	/** mu TODO better javadoc */
 	protected double[] mu = new double[2];
-
+	/** flag for intersect(quadric, quadric) */
 	protected boolean isIntersection;
 
 	/**
@@ -107,6 +107,10 @@ public abstract class GeoQuadricND extends GeoElement
 		this(c, dimension, false);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoQuadricND(Construction c) {
 		super(c);
 	}
@@ -133,16 +137,20 @@ public abstract class GeoQuadricND extends GeoElement
 		createFields(dimension);
 	}
 
-	protected void createFields(int dimension) {
-		this.dimension = dimension;
-		matrixDim = (dimension + 1) * (dimension + 2) / 2;
+	/**
+	 * @param dim
+	 *            conic dimension
+	 */
+	protected void createFields(int dim) {
+		this.dimension = dim;
+		matrixDim = (dim + 1) * (dim + 2) / 2;
 		matrix = new double[matrixDim];
-		halfAxes = new double[dimension];
-		midpoint = new Coords(dimension + 1);
-		midpoint.set(dimension + 1, 1);
+		halfAxes = new double[dim];
+		midpoint = new Coords(dim + 1);
+		midpoint.set(dim + 1, 1);
 
-		eigenval = new double[dimension + 1];
-		mu = new double[dimension];
+		eigenval = new double[dim + 1];
+		mu = new double[dim];
 	}
 
 	@Override
@@ -223,6 +231,10 @@ public abstract class GeoQuadricND extends GeoElement
 		setMatrixFromEigen(0);
 	}
 
+	/**
+	 * @param m21
+	 *            element (4,1) of diagonalized matrix
+	 */
 	protected final void setMatrixFromEigen(double m21) {
 
 		if (tmpEigenMatrix == null) {
@@ -403,8 +415,10 @@ public abstract class GeoQuadricND extends GeoElement
 	}
 
 	/**
-	 * @param coords
-	 *            coords of midpoint
+	 * @param coord1
+	 *            x-coord of midpoint
+	 * @param coord2
+	 *            y-coord of midpoint
 	 */
 	protected void setMidpoint(double coord1, double coord2) {
 
@@ -413,6 +427,10 @@ public abstract class GeoQuadricND extends GeoElement
 
 	}
 
+	/**
+	 * @param coords
+	 *            coords of midpoint
+	 */
 	protected void setMidpoint(double[] coords) {
 		midpoint.set(coords);
 

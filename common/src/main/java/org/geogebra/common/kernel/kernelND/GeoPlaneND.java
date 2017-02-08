@@ -38,6 +38,11 @@ public interface GeoPlaneND extends GeoCoordSys2D {
 	@Override
 	public Coords[] getNormalProjection(Coords coords);
 
+	/**
+	 * @param h3d
+	 *            other plane
+	 * @return distance
+	 */
 	public double distanceWithSign(GeoPlaneND h3d);
 
 }

@@ -58,11 +58,24 @@ public interface GeoVectorND
 	/**
 	 * 
 	 * @param x
+	 *            x-coord
 	 * @param y
-	 * @param w
+	 *            y-coord
+	 * @param z
+	 *            z-coord
 	 */
-	public void setCoords(double x, double y, double w);
+	public void setCoords(double x, double y, double z);
 
+	/**
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 * @param w
+	 *            inhomogenous w for 3D vectors
+	 */
 	public void setCoords(double x, double y, double z, double w);
 
 }

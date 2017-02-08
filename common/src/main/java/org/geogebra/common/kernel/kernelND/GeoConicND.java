@@ -3241,6 +3241,10 @@ public abstract class GeoConicND extends GeoQuadricND
 		// Application.debug("coeff : " + mu[0]);
 	}
 
+	/**
+	 * @param mu1
+	 *            sqrt(-eigenval[0] / eigenval[1])
+	 */
 	protected final void singleLine(double[] mu1) {
 		type = GeoConicNDConstants.CONIC_LINE;
 
