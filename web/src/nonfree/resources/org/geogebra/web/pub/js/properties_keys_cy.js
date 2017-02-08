@@ -2635,6 +2635,7 @@ __GGB__keysVar.cy.menu = {
     "SnapToGrid": "Gosod i'r Grid",
     "SnapToObjects": "Snapio i wrthrychau",
     "SnapToPoints": "Snapio i bwyntiau",
+    "Solids": "Solids",
     "Solution": "Datrysiad",
     "Solution.Help": "Datrysiad un hafaliad neu fwy",
     "Solve": "Datrys",

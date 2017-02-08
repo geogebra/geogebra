@@ -2635,6 +2635,7 @@ __GGB__keysVar.tr.menu = {
     "SnapToGrid": "Izgaraya S\u0131\xe7ra",
     "SnapToObjects": "Nesnelere S\u0131\xe7ra",
     "SnapToPoints": "Noktalara S\u0131\xe7ra",
+    "Solids": "Solids",
     "Solution": "\xc7\xf6z\xfcm",
     "Solution.Help": "Bir veya daha fazla denklemin \xe7\xf6z\xfcm\xfcn\xfc bulur",
     "Solve": "\xc7\xf6z",

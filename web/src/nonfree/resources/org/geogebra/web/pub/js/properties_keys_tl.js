@@ -2635,6 +2635,7 @@ __GGB__keysVar.tl.menu = {
     "SnapToGrid": "Snap to Grid",
     "SnapToObjects": "Snap to Objects",
     "SnapToPoints": "Snap to Points",
+    "Solids": "Solids",
     "Solution": "Solution",
     "Solution.Help": "Naghahanap ng solutions ng isa o higit pang equations",
     "Solve": "Solve",

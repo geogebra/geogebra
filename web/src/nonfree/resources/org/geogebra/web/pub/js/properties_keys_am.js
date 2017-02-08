@@ -2635,6 +2635,7 @@ __GGB__keysVar.am.menu = {
     "SnapToGrid": "\u12e8\u1270\u1308\u1293\u1299 \u1218\u1235\u1218\u122e\u127d \u130d\u1320\u121d",
     "SnapToObjects": "Snap to Objects",
     "SnapToPoints": "Snap to Points",
+    "Solids": "Solids",
     "Solution": "\u1218\u134d\u1275\u1204",
     "Solution.Help": "\u12a0\u1295\u12f5 \u12c8\u12ed\u121d \u12a8\u12da\u12eb \u1260\u120b\u12ed \u12a5\u12a9\u120d\u12ee\u123e\u127d\u1295 \u1218\u134d\u1275\u1214 \u12a0\u130d\u129d",
     "Solve": "\u134d\u1273",

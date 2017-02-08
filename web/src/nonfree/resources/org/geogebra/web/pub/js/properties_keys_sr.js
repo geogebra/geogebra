@@ -2635,6 +2635,7 @@ __GGB__keysVar.sr.menu = {
     "SnapToGrid": "Ve\u017ei za mre\u017eu",
     "SnapToObjects": "Ve\u017ei za objekte",
     "SnapToPoints": "Ve\u017ei za ta\u010dke",
+    "Solids": "Solids",
     "Solution": "Re\u0161enje",
     "Solution.Help": "Nalazi re\u0161enje jedne ili vi\u0161e jedna\u010dina",
     "Solve": "Re\u0161i",

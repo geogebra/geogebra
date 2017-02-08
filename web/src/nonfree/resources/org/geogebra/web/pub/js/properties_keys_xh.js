@@ -2635,6 +2635,7 @@ __GGB__keysVar.xh.menu = {
     "SnapToGrid": "YisaNgephanyazo kwiGrid",
     "SnapToObjects": "YisaNgephanyazo kwiZintoEziphathekayo",
     "SnapToPoints": "YisaNgephanyazo kuMachaphaza",
+    "Solids": "Solids",
     "Solution": "Isisombululo",
     "Solution.Help": "iFumana isisombululo sesivakalisi sibesinye okanye ngaphezulu",
     "Solve": "Sombulula",

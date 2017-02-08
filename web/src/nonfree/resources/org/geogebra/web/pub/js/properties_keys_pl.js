@@ -2635,6 +2635,7 @@ __GGB__keysVar.pl.menu = {
     "SnapToGrid": "Przyci\u0105gaj do punkt\xf3w kratowych",
     "SnapToObjects": "Przyci\u0105gaj do obiekt\xf3w",
     "SnapToPoints": "Przyci\u0105gaj do punkt\xf3w",
+    "Solids": "Solids",
     "Solution": "Rozwi\u0105zanie",
     "Solution.Help": "Znajduje rozwi\u0105zanie jednego lub wi\u0119cej r\xf3wna\u0144",
     "Solve": "Rozwi\u0105\u017c",

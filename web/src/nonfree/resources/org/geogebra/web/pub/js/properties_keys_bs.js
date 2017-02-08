@@ -2635,6 +2635,7 @@ __GGB__keysVar.bs.menu = {
     "SnapToGrid": "Poravnanje s mre\u017eom",
     "SnapToObjects": "Poravnanje s figurama",
     "SnapToPoints": "Poravnanje s ta\u010dkama",
+    "Solids": "Solids",
     "Solution": "Rje\u0161enje",
     "Solution.Help": "Nalazi rje\u0161enja jedne ili vi\u0161e jedna\u010dina/jednad\u017ebi",
     "Solve": "Rije\u0161i",

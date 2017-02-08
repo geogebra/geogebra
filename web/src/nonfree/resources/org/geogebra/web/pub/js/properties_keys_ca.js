@@ -2635,6 +2635,7 @@ __GGB__keysVar.ca.menu = {
     "SnapToGrid": "Ajustats a la graella",
     "SnapToObjects": "Ajusta a objectes",
     "SnapToPoints": "Ajusta a punts",
+    "Solids": "Solids",
     "Solution": "Soluci\xf3",
     "Solution.Help": "Troba les solucions d\u2019una o m\xe9s equacions",
     "Solve": "Resol",

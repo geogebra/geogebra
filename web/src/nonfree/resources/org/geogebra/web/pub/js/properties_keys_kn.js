@@ -2635,6 +2635,7 @@ __GGB__keysVar.kn.menu = {
     "SnapToGrid": "Snap to Grid",
     "SnapToObjects": "Snap to Objects",
     "SnapToPoints": "Snap to Points",
+    "Solids": "Solids",
     "Solution": "\u0caa\u0cb0\u0cbf\u0cb9\u0cbe\u0cb0",
     "Solution.Help": "Finds solutions of one or more equations",
     "Solve": "\u0caa\u0cb0\u0cbf\u0cb9\u0cbe\u0cb0 \u0c95\u0c82\u0ca1\u0cc1\u0cb9\u0cbf\u0ca1\u0cbf",

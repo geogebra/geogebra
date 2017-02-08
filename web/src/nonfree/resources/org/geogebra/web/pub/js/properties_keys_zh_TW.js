@@ -2635,6 +2635,7 @@ __GGB__keysVar.zh_TW.menu = {
     "SnapToGrid": "\u5438\u9644\u81f3\u683c\u7dda",
     "SnapToObjects": "\u5438\u9644\u81f3\u7269\u4ef6",
     "SnapToPoints": "\u5438\u9644\u81f3\u9ede",
+    "Solids": "Solids",
     "Solution": "\u89e3",
     "Solution.Help": "\u6c42\u51fa\u4e00\u500b\u6216\u6578\u500b\u65b9\u7a0b\u5f0f\u7684\u89e3",
     "Solve": "\u6c42\u89e3",

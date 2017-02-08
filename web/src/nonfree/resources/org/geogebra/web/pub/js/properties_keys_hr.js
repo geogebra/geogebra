@@ -2635,6 +2635,7 @@ __GGB__keysVar.hr.menu = {
     "SnapToGrid": "Hvatanje za \u010dvorove",
     "SnapToObjects": "Hvatanje za objekte",
     "SnapToPoints": "Hvatanje za to\u010dke",
+    "Solids": "Solids",
     "Solution": "Rje\u0161enje",
     "Solution.Help": "Nalazi rje\u0161enja jedne ili vi\u0161e jednad\u017ebi",
     "Solve": "Rije\u0161i",

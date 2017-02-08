@@ -2635,6 +2635,7 @@ __GGB__keysVar.es_UY.menu = {
     "SnapToGrid": "Ajusta a cuadr\xedcula",
     "SnapToObjects": "Ajusta a objetos",
     "SnapToPoints": "Ajustar a puntos",
+    "Solids": "Solids",
     "Solution": "Soluci\xf3n",
     "Solution.Help": "Soluci\xf3n de una o m\xe1s ecuaciones",
     "Solve": "Resuelve",

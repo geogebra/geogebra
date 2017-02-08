@@ -2635,6 +2635,7 @@ __GGB__keysVar.vi.menu = {
     "SnapToGrid": "Ch\u1ee5p l\u01b0\u1edbi",
     "SnapToObjects": "Ch\u1ee5p c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng",
     "SnapToPoints": "Ch\u1ee5p c\xe1c \u0111i\u1ec3m",
+    "Solids": "Solids",
     "Solution": "Nghi\u1ec7m",
     "Solution.Help": "T\xecm nghi\u1ec7m cho 1 ho\u1eb7c nhi\u1ec1u ph\u01b0\u01a1ng tr\xecnh",
     "Solve": "Gi\u1ea3i",

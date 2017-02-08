@@ -2635,6 +2635,7 @@ __GGB__keysVar.is.menu = {
     "SnapToGrid": "Fella a\xf0 grind",
     "SnapToObjects": "Fella a\xf0 hlut",
     "SnapToPoints": "Fella a\xf0 punktum",
+    "Solids": "Solids",
     "Solution": "Lausn",
     "Solution.Help": "Finnur lausnir \xe1 einni e\xf0a fleiri j\xf6fnum",
     "Solve": "Lausn",

@@ -2635,6 +2635,7 @@ __GGB__keysVar.it.menu = {
     "SnapToGrid": "Sugli incroci della griglia",
     "SnapToObjects": "Blocca sugli oggetti",
     "SnapToPoints": "Blocca sui punti",
+    "Solids": "Solidi",
     "Solution": "Soluzione",
     "Solution.Help": "Determina le soluzioni di una o pi\xf9 equazioni",
     "Solve": "Risolvi",

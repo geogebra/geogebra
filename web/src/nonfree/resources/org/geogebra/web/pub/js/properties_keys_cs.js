@@ -2635,6 +2635,7 @@ __GGB__keysVar.cs.menu = {
     "SnapToGrid": "P\u0159ichytit k m\u0159\xed\u017ece",
     "SnapToObjects": "P\u0159ichytit k objekt\u016fm",
     "SnapToPoints": "P\u0159ichytit k bod\u016fm",
+    "Solids": "T\u011blesa",
     "Solution": "\u0158e\u0161en\xed",
     "Solution.Help": "Naj\xedt \u0159e\u0161en\xed jedn\xe9 nebo v\xedce rovnic",
     "Solve": "Vy\u0159e\u0161it",

@@ -2635,6 +2635,7 @@ __GGB__keysVar.sl.menu = {
     "SnapToGrid": "Prileganje mre\u017ei",
     "SnapToObjects": "Prileganje objektom",
     "SnapToPoints": "Prileganje to\u010dkam",
+    "Solids": "Solids",
     "Solution": "Re\u0161itev",
     "Solution.Help": "Poi\u0161\u010di re\u0161itve ene ali ve\u010dih ena\u010db",
     "Solve": "Re\u0161i",

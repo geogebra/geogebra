@@ -2635,6 +2635,7 @@ __GGB__keysVar.et.menu = {
     "SnapToGrid": "Haaratakse ruudustikku",
     "SnapToObjects": "Haara objekte",
     "SnapToPoints": "Haara punkte",
+    "Solids": "Solids",
     "Solution": "Lahend",
     "Solution.Help": "Leiab \xfche v\xf5i mitme v\xf5rrandi lahendid",
     "Solve": "Lahenda",

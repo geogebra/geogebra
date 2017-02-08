@@ -2635,6 +2635,7 @@ __GGB__keysVar.eo.menu = {
     "SnapToGrid": "Kapti per krado",
     "SnapToObjects": "Snap to Objects",
     "SnapToPoints": "Snap to Points",
+    "Solids": "Solids",
     "Solution": "Solvo",
     "Solution.Help": "Finds solutions of one or more equations",
     "Solve": "Solvi",

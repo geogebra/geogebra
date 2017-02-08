@@ -2635,6 +2635,7 @@ __GGB__keysVar.fi.menu = {
     "SnapToGrid": "Tartu koordinaatistoon",
     "SnapToObjects": "Tartu objektiin",
     "SnapToPoints": "Tartu pisteisiin",
+    "Solids": "Solids",
     "Solution": "Ratkaise",
     "Solution.Help": "Etsii ratkaisun yhdelle tai useammalle yht\xe4l\xf6lle",
     "Solve": "Ratkaise",

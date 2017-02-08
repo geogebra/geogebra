@@ -2635,6 +2635,7 @@ __GGB__keysVar.sq.menu = {
     "SnapToGrid": "Shpejt-kalim ne Rrjete",
     "SnapToObjects": "Shpejt-kalim ne Objekte",
     "SnapToPoints": "Shpejt-kalim ne Pika",
+    "Solids": "Solids",
     "Solution": "Zgjidhje",
     "Solution.Help": "Gjej zgjidhjet e nje ose me shume ekuacioneve",
     "Solve": "Zgjidh",

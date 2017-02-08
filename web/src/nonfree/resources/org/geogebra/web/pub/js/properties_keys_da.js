@@ -2635,6 +2635,7 @@ __GGB__keysVar.da.menu = {
     "SnapToGrid": "Fang til gitter",
     "SnapToObjects": "Fang til objekter",
     "SnapToPoints": "Fang til punkter",
+    "Solids": "Solids",
     "Solution": "L\xf8sning",
     "Solution.Help": "Angiver l\xf8sninger til en eller flere ligninger",
     "Solve": "Beregn",

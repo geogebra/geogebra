@@ -2635,6 +2635,7 @@ __GGB__keysVar.ms.menu = {
     "SnapToGrid": "Snap ke Grid",
     "SnapToObjects": "Snap ke Objek-objek",
     "SnapToPoints": "Snap ke Titik-titik",
+    "Solids": "Solids",
     "Solution": "Penyelesaian",
     "Solution.Help": "Cari penyelesaian-penyelesaian untuk satu atau lebih persamaan",
     "Solve": "Selesaikan",

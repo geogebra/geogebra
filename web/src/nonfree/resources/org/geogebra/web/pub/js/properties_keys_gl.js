@@ -2635,6 +2635,7 @@ __GGB__keysVar.gl.menu = {
     "SnapToGrid": "Axusta \xe1 cuadr\xedcula",
     "SnapToObjects": "Axusta aos obxectos",
     "SnapToPoints": "Axusta aos puntos",
+    "Solids": "Solids",
     "Solution": "Soluci\xf3n",
     "Solution.Help": "Acha as soluci\xf3ns dunha ou m\xe1is ecuaci\xf3ns",
     "Solve": "Resolve",

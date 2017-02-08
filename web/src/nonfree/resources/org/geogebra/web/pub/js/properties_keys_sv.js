@@ -2635,6 +2635,7 @@ __GGB__keysVar.sv.menu = {
     "SnapToGrid": "F\xe4st vid rutn\xe4t",
     "SnapToObjects": "F\xe4st vid objekt",
     "SnapToPoints": "F\xe4st vid punkter",
+    "Solids": "Solids",
     "Solution": "L\xf6sning",
     "Solution.Help": "Hittar l\xf6sningar till en eller flera ekvationer",
     "Solve": "L\xf6s",

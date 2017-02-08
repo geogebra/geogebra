@@ -2635,6 +2635,7 @@ __GGB__keysVar.ja.menu = {
     "SnapToGrid": "\u30b0\u30ea\u30c3\u30c9\u306b\u5bc4\u305b\u308b",
     "SnapToObjects": "\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306b\u5bc4\u305b\u308b",
     "SnapToPoints": "\u70b9\u306b\u5bc4\u305b\u308b",
+    "Solids": "Solids",
     "Solution": "\u89e3",
     "Solution.Help": "\uff08\u9023\u7acb\uff09\u65b9\u7a0b\u5f0f\u306e\u89e3\u3092\u6c42\u3081\u308b",
     "Solve": "\u89e3\u304f",

@@ -2635,6 +2635,7 @@ __GGB__keysVar.hu_gm.menu = {
     "SnapToGrid": "R\xe1cshoz illeszt",
     "SnapToObjects": "Alakzatokhoz illeszt",
     "SnapToPoints": "Pontokhoz illeszt",
+    "Solids": "Solids",
     "Solution": "Megold\xe1s",
     "Solution.Help": "Egy vagy t\xf6bb egyenlet megold\xe1sainak megad\xe1se",
     "Solve": "Megold",

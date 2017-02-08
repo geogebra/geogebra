@@ -2635,6 +2635,7 @@ __GGB__keysVar.lv.menu = {
     "SnapToGrid": "Piesaist\u012bt restojumam",
     "SnapToObjects": "Piesaist\u012bt objektiem",
     "SnapToPoints": "Piesaist\u012bt punktiem",
+    "Solids": "Solids",
     "Solution": "Risin\u0101jums",
     "Solution.Help": "Atrast risin\u0101jumu vienam vai vair\u0101kiem vien\u0101dojumiem",
     "Solve": "Atrisin\u0101t",

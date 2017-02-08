@@ -2635,6 +2635,7 @@ __GGB__keysVar.fr.menu = {
     "SnapToGrid": "Approch\xe9 de la Grille",
     "SnapToObjects": "Coller aux objets",
     "SnapToPoints": "Coller aux points",
+    "Solids": "Solides",
     "Solution": "Solution",
     "Solution.Help": "Cherche les solutions d'une ou plusieurs \xe9quations",
     "Solve": "R\xe9soudre",

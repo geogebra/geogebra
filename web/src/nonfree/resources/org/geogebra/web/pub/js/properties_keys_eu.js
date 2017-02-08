@@ -2635,6 +2635,7 @@ __GGB__keysVar.eu.menu = {
     "SnapToGrid": "Doitu Lauki-Sarera",
     "SnapToObjects": "Doitu Objektuetara",
     "SnapToPoints": "Doitu Puntuetara",
+    "Solids": "Solids",
     "Solution": "Soluzioa",
     "Solution.Help": "Ekuazio bat edo gehiagoren soluzioak bilatzen ditu",
     "Solve": "Ebatzi",

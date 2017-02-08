@@ -2635,6 +2635,7 @@ __GGB__keysVar.no_NB.menu = {
     "SnapToGrid": "Styr mot rutenettet",
     "SnapToObjects": "Styr mot objekt",
     "SnapToPoints": "Styr mot punkt",
+    "Solids": "Solids",
     "Solution": "L\xf8sning",
     "Solution.Help": "Finner l\xf8sninger for en eller flere likninger",
     "Solve": "L\xf8s",

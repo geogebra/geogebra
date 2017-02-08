@@ -2635,6 +2635,7 @@ __GGB__keysVar.ko.menu = {
     "SnapToGrid": "\uaca9\uc790\uc5d0 \ubd99\uae30",
     "SnapToObjects": "\ub300\uc0c1\uc5d0 \ubd99\uae30",
     "SnapToPoints": "\uc810\uc5d0 \ubd99\uae30",
+    "Solids": "Solids",
     "Solution": "\ud574",
     "Solution.Help": "\ud558\ub098 \uc774\uc0c1\uc758 \ubc29\uc815\uc2dd\uc758 \ud574\ub97c \ucc3e\uc544\uc90d\ub2c8\ub2e4.",
     "Solve": "\ud480\uae30",

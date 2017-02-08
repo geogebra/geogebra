@@ -2635,6 +2635,7 @@ __GGB__keysVar.de_AT.menu = {
     "SnapToGrid": "An Koordinatengitter fangen",
     "SnapToObjects": "AnObjekt fangen",
     "SnapToPoints": "An Punkt fangen",
+    "Solids": "Solids",
     "Solution": "L\xf6sung",
     "Solution.Help": "Finden Sie L\xf6sungen f\xfcr eine oder mehrere Gleichungen.",
     "Solve": "L\xf6se",

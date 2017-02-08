@@ -2635,6 +2635,7 @@ __GGB__keysVar.ro.menu = {
     "SnapToGrid": "Ata\u015feaz\u0103 la gril\u0103",
     "SnapToObjects": "Ata\u015feaz\u0103 la obiecte",
     "SnapToPoints": "Ata\u015feaz\u0103 la puncte",
+    "Solids": "Solids",
     "Solution": "Solu\u0163ie",
     "Solution.Help": "G\u0103se\u015fte solu\u0163iile unei sau mai multor ecua\u0163ii",
     "Solve": "Rezolv\u0103",

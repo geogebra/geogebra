@@ -2635,6 +2635,7 @@ __GGB__keysVar.lt.menu = {
     "SnapToGrid": "Pritraukti prie tinklelio",
     "SnapToObjects": "Pritraukti prie objekt\u0173",
     "SnapToPoints": "Pritraukti prie ta\u0161k\u0173",
+    "Solids": "Solids",
     "Solution": "Sprendinys",
     "Solution.Help": "Surasti sprendinius vienai ar daugiau lyg\u010di\u0173",
     "Solve": "Spr\u0119sti",

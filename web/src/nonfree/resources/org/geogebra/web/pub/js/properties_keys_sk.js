@@ -2635,6 +2635,7 @@ __GGB__keysVar.sk.menu = {
     "SnapToGrid": "Prichyti\u0165 k mrie\u017eke",
     "SnapToObjects": "Prichyti\u0165 k objektu",
     "SnapToPoints": "Prichyti\u0165 k bodu",
+    "Solids": "Solids",
     "Solution": "Rie\u0161enie",
     "Solution.Help": "N\xe1js\u0165 rie\u0161enie rovnice alebo s\xfastavy rovn\xedc",
     "Solve": "Rie\u0161i\u0165",

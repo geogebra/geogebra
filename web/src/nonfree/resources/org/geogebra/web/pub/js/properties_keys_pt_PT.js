@@ -2635,6 +2635,7 @@ __GGB__keysVar.pt_PT.menu = {
     "SnapToGrid": "Ajustar \xe0 Grelha",
     "SnapToObjects": "Ajustar aos Objetos",
     "SnapToPoints": "Ajustar aos Pontos",
+    "Solids": "Solids",
     "Solution": "Solu\xe7\xe3o",
     "Solution.Help": "Encontra solu\xe7\xf5es de uma ou mais equa\xe7\xf5es",
     "Solve": "Resolver",
