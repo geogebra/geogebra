@@ -7816,6 +7816,16 @@ public abstract class EuclidianController {
 			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
 		if (getResizedShape() != null) {
+			switch (view.getHitHandlerNr()) {
+			case 0:
+			case 2:
+				view.setCursor(EuclidianCursor.RESIZE_NWSE);
+				break;
+			case 1:
+			case 3:
+				view.setCursor(EuclidianCursor.RESIZE_NESW);
+				break;
+			}
 			getResizedShape().updateByBoundingBoxCorner(event,
 					view.getHitHandlerNr());
 			stopCollectingMinorRepaints();
@@ -8136,6 +8146,16 @@ public abstract class EuclidianController {
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		// for now allow only corner handlers
 		if (d != null && view.getHitHandlerNr() < 4) {
+			switch (view.getHitHandlerNr()) {
+			case 0:
+			case 2:
+				view.setCursor(EuclidianCursor.RESIZE_NWSE);
+				break;
+			case 1:
+			case 3:
+				view.setCursor(EuclidianCursor.RESIZE_NESW);
+				break;
+			}
 			setResizedShape(d);
 		}
 
@@ -8316,6 +8336,16 @@ public abstract class EuclidianController {
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
 		// for now allow only corner handlers
 		if (d != null && view.getHitHandlerNr() < 4) {
+			switch (view.getHitHandlerNr()) {
+			case 0:
+			case 2:
+				view.setCursor(EuclidianCursor.RESIZE_NWSE);
+				break;
+			case 1:
+			case 3:
+				view.setCursor(EuclidianCursor.RESIZE_NESW);
+				break;
+			}
 			setResizedShape(d);
 		}
 
@@ -9628,6 +9658,7 @@ public abstract class EuclidianController {
 
 		if (shapeMode(mode)) {
 			getShapeMode().handleMouseReleasedForShapeMode(event);
+			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
 			return;
 		}
