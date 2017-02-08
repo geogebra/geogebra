@@ -114,6 +114,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		// "ispolynomial2(a,b):= is_polynomial(a) && is_polynomial(b)"),
 
 		/**
+		 * NOTE: works for max 2 variable
+		 */
+		GGBIS_POLYNOMIAL("ggbis_polynomial", "ggbis_polynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
+
+		/**
 		 * now implemtented natively in Giac. This is just for reference /
 		 * testing
 		 */

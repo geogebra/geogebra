@@ -427,7 +427,7 @@ public class CASInputHandler {
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()
 						.evaluateRaw(
-								"is_polynomial(["
+								"ggbis_polynomial(["
 										+ equList.getListElement(0).toString(
 												StringTemplate.giacTemplate)
 										+ ","
@@ -437,7 +437,7 @@ public class CASInputHandler {
 			}
 			// use NSolve tool with one equation
 			else {
-				casResult = cas.getCurrentCAS().evaluateRaw("is_polynomial("
+				casResult = cas.getCurrentCAS().evaluateRaw("ggbis_polynomial("
 						+ expandValidExp.toString(StringTemplate.giacTemplate)
 						+ ")");
 			}
@@ -644,7 +644,7 @@ public class CASInputHandler {
 				try {
 					StringBuilder inputStr = new StringBuilder();
 					// check if input is polynomial
-					inputStr.append("is_polynomial(");
+					inputStr.append("ggbis_polynomial(");
 					inputStr.append(selCellValue.getOutputValidExpression()
 							.toString(StringTemplate.giacTemplate));
 					inputStr.append(")");
