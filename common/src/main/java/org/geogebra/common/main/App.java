@@ -4765,4 +4765,27 @@ public abstract class App implements UpdateSelection {
 		// overridden in AppD, AppW
 	}
 
+
+	////////////////////////////////////////////////////
+	// last commands selected from help (used in Android & iOS native)
+	////////////////////////////////////////////////////
+
+	private ArrayList<String> mLastCommandsSelectedFromHelp;
+
+	public void addToLastCommandsSelectedFromHelp(String commandName) {
+		if (mLastCommandsSelectedFromHelp == null) {
+			mLastCommandsSelectedFromHelp = new ArrayList<String>();
+		}
+		// remove if already in it
+		mLastCommandsSelectedFromHelp.remove(commandName);
+		mLastCommandsSelectedFromHelp.add(commandName);
+
+	}
+
+	public ArrayList<String> getLastCommandsSelectedFromHelp() {
+		return mLastCommandsSelectedFromHelp;
+	}
+
+
+
 }
