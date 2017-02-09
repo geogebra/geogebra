@@ -573,24 +573,24 @@ public class InputController {
 				if (currentField.getParentIndex() == 1
 						&& currentField.size() == 0) {
 					int size = parent.getArgument(0).size();
-					delContaner(editorState, parent, parent.getArgument(0));
+					delContainer(editorState, parent, parent.getArgument(0));
 					// move after included characters
 					editorState.addCurrentOffset(size);
 					// if first operand is empty sequence
 				} else if (currentField.getParentIndex() == 1
 						&& parent.getArgument(0).size() == 0) {
-					delContaner(editorState, parent, currentField);
+					delContainer(editorState, parent, currentField);
 				}
 
 			} else if (metaModel.isGeneral(parent.getName())) {
 				if (currentField.getParentIndex() == parent.getInsertIndex()) {
-					delContaner(editorState, parent, currentField);
+					delContainer(editorState, parent, currentField);
 				}
 
 				// not a fraction, and cursor is right after the sign
 			} else {
 				if (currentField.getParentIndex() == 0) {
-					delContaner(editorState, parent, currentField);
+					delContainer(editorState, parent, currentField);
 				}
 			}
 
@@ -599,7 +599,7 @@ public class InputController {
 				&& currentField.getParent().size() == 1) {
 
 			MathArray parent = (MathArray) currentField.getParent();
-			delContaner(editorState, parent, parent.getArgument(0));
+			delContainer(editorState, parent, parent.getArgument(0));
 
 			// if parent is 1DArray or Vector and cursor is at the beginning of
 			// intermediate the field
@@ -641,7 +641,7 @@ public class InputController {
 				if (currentField.getParentIndex() == 0
 						&& parent.getArgument(1).size() == 0) {
 					int size = parent.getArgument(0).size();
-					delContaner(editorState, parent, currentField);
+					delContainer(editorState, parent, currentField);
 					// move after included characters
 					editorState.addCurrentOffset(size);
 
@@ -649,7 +649,7 @@ public class InputController {
 					// sequence
 				} else if (currentField.getParentIndex() == 0
 						&& (currentField).size() == 0) {
-					delContaner(editorState, parent, parent.getArgument(1));
+					delContainer(editorState, parent, parent.getArgument(1));
 				}
 			}
 
@@ -659,7 +659,7 @@ public class InputController {
 				&& currentField.size() == 0) {
 			MathArray parent = (MathArray) currentField.getParent();
 			int size = parent.getArgument(0).size();
-			delContaner(editorState, parent, parent.getArgument(0));
+			delContainer(editorState, parent, parent.getArgument(0));
 			// move after included characters
 			editorState.addCurrentOffset(size);
 
@@ -692,24 +692,58 @@ public class InputController {
 	public void bkspCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		if (currentOffset > 0) {
-			editorState.getCurrentField().delArgument(currentOffset - 1);
-			editorState.decCurrentOffset();
+			if (editorState.getCurrentField()
+					.getArgument(currentOffset - 1) instanceof MathArray) {
+
+				MathArray parent = (MathArray) editorState.getCurrentField()
+						.getArgument(currentOffset - 1);
+
+				extendBrackets(parent, editorState);
+			} else {
+				editorState.getCurrentField().delArgument(currentOffset - 1);
+				editorState.decCurrentOffset();
+			}
 		} else {
 			bkspContainer(editorState);
 		}
 	}
 
-	public static void delCharacter(EditorState editorState) {
+	private static void extendBrackets(MathArray array,
+			EditorState editorState) {
+		int currentOffset = array.getParentIndex() + 1;
+		MathContainer currentField = array.getParent();
+		MathSequence lastArg = array.getArgument(array.size() - 1);
+		int oldSize = lastArg.size();
+		while (currentField.size() > currentOffset) {
+
+			MathComponent component = currentField.getArgument(currentOffset);
+			currentField.delArgument(currentOffset);
+			lastArg.addArgument(lastArg.size(), component);
+		}
+		editorState.setCurrentField(lastArg);
+		editorState.setCurrentOffset(oldSize);
+
+	}
+
+	public void delCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
-			currentField.delArgument(currentOffset);
+
+				CursorController.nextCharacter(editorState);
+				bkspCharacter(editorState);
+
 		} else {
-			delContainer(editorState);
+			if (currentField.getParent() instanceof MathArray) {
+				extendBrackets((MathArray) currentField.getParent(),
+						editorState);
+			} else {
+				delContainer(editorState);
+			}
 		}
 	}
 
-	private static void delContaner(EditorState editorState,
+	private static void delContainer(EditorState editorState,
 			MathContainer container, MathSequence operand) {
 		if (container.getParent() instanceof MathSequence) {
 			// when parent is sequence

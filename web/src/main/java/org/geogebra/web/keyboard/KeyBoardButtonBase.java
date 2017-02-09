@@ -113,7 +113,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param caption
 	 *            text of the button (also used as new feedback)
 	 */
-	public void setCaption(String caption) {
+	public final void setCaption(String caption) {
 		setCaption(caption, caption);
 	}
 

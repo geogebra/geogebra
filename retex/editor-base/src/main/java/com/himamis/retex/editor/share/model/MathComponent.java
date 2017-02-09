@@ -78,4 +78,10 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
      */
     abstract public MathComponent copy();
 
+	public MathComponent wrap() {
+		MathSequence seq = new MathSequence();
+		seq.addArgument(this);
+		return seq;
+	}
+
 }

@@ -12,7 +12,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 public class CursorController {
 
     /** Next character -> key. */
-	public boolean nextCharacter(EditorState editorState) {
+	public static boolean nextCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
         if (currentOffset < currentField.size() &&
@@ -76,11 +76,12 @@ public class CursorController {
         editorState.setCurrentOffset(component.size());
     }
 
-	public boolean nextField(EditorState editorState) {
+	public static boolean nextField(EditorState editorState) {
 		return nextField(editorState, editorState.getCurrentField());
     }
 
-	public boolean nextField(EditorState editorState, MathContainer component) {
+	public static boolean nextField(EditorState editorState,
+			MathContainer component) {
         // retrieve parent
         MathContainer container = component.getParent();
         int current = component.getParentIndex();

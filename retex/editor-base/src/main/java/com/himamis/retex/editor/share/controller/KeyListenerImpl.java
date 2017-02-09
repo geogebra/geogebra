@@ -77,7 +77,7 @@ public class KeyListenerImpl {
 			return true;
 		case KeyEvent.VK_DELETE:
 			if (!InputController.deleteSelection(editorState)) {
-				InputController.delCharacter(editorState);
+				inputController.delCharacter(editorState);
 			}
 			return true;
 		case KeyEvent.VK_BACK_SPACE:

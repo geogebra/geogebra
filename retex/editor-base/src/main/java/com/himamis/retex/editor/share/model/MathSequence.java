@@ -128,4 +128,8 @@ public class MathSequence extends MathContainer {
 		}
 	}
 
+	public MathComponent wrap() {
+		return this;
+	}
+
 }

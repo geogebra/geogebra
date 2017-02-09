@@ -59,7 +59,7 @@ public class MathFieldProcessing implements KeyboardListener {
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
 			mf.insertFunction("sqrt");
 		}
-		if (text.equals("log")) {
+		else if (text.equals("log")) {
 			mf.insertFunction("log10");
 		} else {
 			int length = text.length();

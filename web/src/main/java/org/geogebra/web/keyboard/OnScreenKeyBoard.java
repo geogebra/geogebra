@@ -264,13 +264,12 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 				// e.g. for "sin^-1" only "sin" is translated
 				captionPlain = captionPlain.substring(0,
 						captionPlain.lastIndexOf("^-1"));
-				// always use the English output (e.g. "arcsin")
+				// localize feedback and caption independently
 				b.setCaption(loc.getFunction(captionPlain) + "^-1",
 						loc.getFunction("a" + captionPlain));
 			} else {
-				// use language specific output
-				b.setCaption(loc.getFunction(captionPlain),
-						loc.getFunction(captionPlain));
+				// same feedback and caption
+				b.setCaption(loc.getFunction(captionPlain));
 			}
 		}
 		if (processField != null) {
