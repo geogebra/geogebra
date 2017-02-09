@@ -14,6 +14,8 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -102,11 +104,16 @@ public class PropertiesStyleBarW extends
 				app.getGuiManager().showView(App.VIEW_CAS));
     }
 
-
-
-	private void buildGUI() {
-		
-		MenuBar toolbar = new MenuBar(true);
+	
+	private void buildGUI() {	
+		MenuBar toolbar = new MenuBar(true){
+			 @Override
+			  public void onBrowserEvent(Event event) {
+				 if(DOM.eventGetType(event) != Event.ONMOUSEOVER){
+					 super.onBrowserEvent(event);
+				 }
+			 }		
+		};
 		toolbar.setStyleName("menuProperties");
 		
 		buttonMap = new HashMap<OptionType, MenuItem>();
