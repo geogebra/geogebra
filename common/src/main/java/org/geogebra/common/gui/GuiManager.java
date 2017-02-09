@@ -769,7 +769,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		switch (type) {
 		case COMMAND:
-			pageName = app.getEnglishCommand(pageName);
+			pageName = app.getLocalization().getEnglishCommand(pageName);
 			urlSB.append("/cmd/");
 			urlSB.append(pageName);
 			break;
