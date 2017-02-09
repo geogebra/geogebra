@@ -56,8 +56,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private Label angleSliderTitle;
 	private Label distanceSliderTitle;
 
-	private FlowPanel opacityPanel, hatchFillPanel, imagePanel, anglePanel,
-			distancePanel;
+	private FlowPanel opacityPanel, hatchFillPanel, imagePanel, anglePanel;
 	private Label lblSelectedSymbol;
 	private Label lblMsgSelected;
 	private Button btnOpenFile;
@@ -72,7 +71,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	ListBox lbFillType;
 	CheckBox cbFillInverse;
-	private FlowPanel mainWidget;
 	private FlowPanel fillTypePanel;
 	private Label fillTypeTitle;
 	private FlowPanel btnPanel;
@@ -179,7 +177,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		model = model0;
 		model.setListener(this);
 		setModel(model);
-		mainWidget = new FlowPanel();
+		FlowPanel mainWidget = new FlowPanel();
 		fillTypePanel = new FlowPanel();
 		fillTypePanel.setStyleName("optionsPanel");
 		fillTypeTitle = new Label();
@@ -272,7 +270,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		anglePanel.add(angleSlider);
 
 		distanceSliderTitle = new Label();
-		distancePanel = new FlowPanel();
+		FlowPanel distancePanel = new FlowPanel();
 		distancePanel.setStyleName("optionsPanelIndent");
 		distancePanel.add(distanceSliderTitle);
 		distancePanel.add(distanceSlider);

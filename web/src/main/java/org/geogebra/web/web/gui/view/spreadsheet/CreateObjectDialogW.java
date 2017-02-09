@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class CreateObjectDialogW extends InputDialogW implements
 		 ICreateObjectListener {
 
-	private MyTableW table;
 	private CreateObjectModel coModel;
 	private Label lblObject, lblName;
 
@@ -61,7 +60,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 	ListBox cbLeftRightOrder;
 	private CardPanel cards;
 	private Label lblPreview;
-	private FlowPanel namePanel;
 	private FlowPanel optionPane;
 	//private DefaultListModel model;
 	private ListBox typeList;
@@ -80,7 +78,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
 
 		super(false, app, false);
-		this.table = (MyTableW) view.getSpreadsheetTable();
+		MyTableW table = (MyTableW) view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
 		coModel.setSelectedCellRanges(table.selectedCellRanges);
@@ -193,7 +191,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 			optionPane.add(typePanel);
 		}
 
-		namePanel = new FlowPanel();
+		FlowPanel namePanel = new FlowPanel();
 		namePanel.add(lblName);
 		namePanel.add(fldName);
 

@@ -47,7 +47,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private RadioButton rbRelative, rbNormalized, rbFreq, rbLeftRule,
 			rbRightRule;
 	private Label lblFreqType, lblOverlay, lblClassRule;
-	private FlowPanel freqPanel, showPanel, dimPanel;
+	private FlowPanel freqPanel, showPanel;
 	private Label lbClassTitle, lbFreqTitle, lbShowTitle, lbDimTitle;
 	// graph panel GUI
 	private CheckBox ckAutoWindow, ckShowGrid;
@@ -451,7 +451,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		graphOptionsPanel.add(ckAutoWindow);
 
 		// create window dimensions panel
-		dimPanel = new FlowPanel();
+		FlowPanel dimPanel = new FlowPanel();
 		dimPanel.add(LayoutUtilW.panelRow(lblXMin, fldXMin));
 		dimPanel.add(LayoutUtilW.panelRow(lblXMax, fldXMax));
 		dimPanel.add(LayoutUtilW.panelRow(lblXInterval, fldXInterval));

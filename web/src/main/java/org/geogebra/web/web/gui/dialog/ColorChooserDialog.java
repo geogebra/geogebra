@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 
 	private ColorChooserW colorChooserW; 
-	private FlowPanel mainWidget;
 	private Button btnOk;
 	private Button btnCancel;
 	private Button btnReset;
@@ -37,7 +36,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		colorChooserW.enableBackgroundColorPanel(false);
 		colorChooserW.setSelectedColor(originalColor);
 		setSelectedColor(originalColor);
-		mainWidget = new FlowPanel();
+		FlowPanel mainWidget = new FlowPanel();
 		mainWidget.add(colorChooserW);
 		FlowPanel btnPanel = new FlowPanel();
 		btnOk = new Button();

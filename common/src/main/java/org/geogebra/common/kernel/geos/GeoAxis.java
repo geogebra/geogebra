@@ -28,7 +28,6 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoAxis extends GeoLine implements GeoAxisND {
 
-	private GeoPoint origin;
 	private int type;
 
 	/**
@@ -42,7 +41,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	public GeoAxis(Construction cons, int type) {
 		super(cons);
 		this.type = type;
-		origin = new GeoPoint(cons);
+		GeoPoint origin = new GeoPoint(cons);
 		origin.setCoords(0, 0, 1);
 		setStartPoint(origin);
 

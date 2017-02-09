@@ -38,7 +38,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 
 //	private FlowPanel searchPanel;
 	private TextBox query;
-	private final FastButton searchButton;
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
 	private NetworkOperation op;
@@ -81,9 +80,10 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 			}
 		});
 
-		this.searchButton = new StandardButton(BrowseResources.INSTANCE.search());
-		this.searchButton.addStyleName("searchButton");
-		this.searchButton.addFastClickHandler(new FastClickHandler() {
+		StandardButton searchButton = new StandardButton(
+				BrowseResources.INSTANCE.search());
+		searchButton.addStyleName("searchButton");
+		searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
 				doSearch();
@@ -100,7 +100,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 			}
 		});
 
-		this.add(this.searchButton);
+		this.add(searchButton);
 		this.add(this.query);
 		this.add(this.cancelButton);
 		

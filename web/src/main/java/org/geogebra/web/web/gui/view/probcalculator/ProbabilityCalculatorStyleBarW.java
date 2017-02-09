@@ -33,11 +33,9 @@ public class ProbabilityCalculatorStyleBarW extends
 	private MenuBar wrappedToolbar;
 	private MenuItem btnRounding;
 	private MyMenuBar roundingPopup;
-	private MyToggleButton2 btnCumulative;
 	private GCheckBoxMenuItem btnLineGraph;
 	private GCheckBoxMenuItem btnStepGraph;
 	private GCheckBoxMenuItem btnBarGraph;
-	private MyToggleButton2 btnGrid;
 	//private MenuItem btnExport;
 	//private GCheckBoxMenuItem btnNormalOverlay;
 	private HandlerRegistration btnLineGraphHandler;
@@ -77,6 +75,9 @@ public class ProbabilityCalculatorStyleBarW extends
 
 	}
 
+	/**
+	 * Update UI
+	 */
 	void updateGUI() {
 		btnLineGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
 				getProbCalc().getSelectedDist()));
@@ -108,7 +109,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		wrappedToolbar.clearItems();
 		buildOptionsButton();
 		
-		btnCumulative = new MyToggleButton2(AppResources.INSTANCE.cumulative_distribution());
+		MyToggleButton2 btnCumulative = new MyToggleButton2(
+				AppResources.INSTANCE.cumulative_distribution());
 		btnCumulative.setSelected(getProbCalc().isCumulative());
 		btnCumulative.addClickHandler(new ClickHandler() {
 			
@@ -127,7 +129,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()), false);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 		
-		btnGrid = new MyToggleButton2(StyleBarResources.INSTANCE.grid());
+		MyToggleButton2 btnGrid = new MyToggleButton2(
+				StyleBarResources.INSTANCE.grid());
 		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
 		btnGrid.addClickHandler(new ClickHandler() {
 			
@@ -233,6 +236,9 @@ public class ProbabilityCalculatorStyleBarW extends
 	    
     }
 
+	/**
+	 * Update layout
+	 */
 	public void updateLayout() {
 		wrappedToolbar.clearItems();
 

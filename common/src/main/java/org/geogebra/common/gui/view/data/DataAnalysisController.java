@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.data;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -19,7 +18,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class DataAnalysisController {
 
-	private Kernel kernel;
 	private Construction cons;
 	// private DataAnalysisModel view;
 	private StatGeo statGeo;
@@ -39,12 +37,11 @@ public abstract class DataAnalysisController {
 	 * Constructs a StatDialogController
 	 * 
 	 * @param app
-	 * @param statDialog
+	 *            application
 	 */
 	public DataAnalysisController(App app) {
 
-		this.kernel = app.getKernel();
-		this.cons = kernel.getConstruction();
+		this.cons = app.getKernel().getConstruction();
 	}
 
 	// ==========================================

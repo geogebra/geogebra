@@ -41,17 +41,23 @@ public class ScriptInputPanelW extends FlowPanel implements
 	private FlowPanel inputPanel;
 	private ScriptArea textArea;
 	private FlowPanel btPanel;
-	private String inputText;
+	
 	/**
 	 * Input Dialog for a GeoButton object
 	 * 
 	 * @param app
-	 * @param title
+	 *            application
 	 * @param geo
+	 *            element
 	 * @param cols
+	 *            number of columns
 	 * @param rows
+	 *            number of rows
 	 * @param updateScript
+	 *            whether this is for update script
 	 * @param forceJavaScript
+	 *            whether to only allow JS
+	 * 
 	 */
 	public ScriptInputPanelW(AppW app, GeoElement geo,
 			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
@@ -138,7 +144,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 
 	private void processInput() {
-		inputText = textArea.getText();
+		String inputText = textArea.getText();
 		model.processInput(inputText, new AsyncOperation<Boolean>() {
 
 			@Override

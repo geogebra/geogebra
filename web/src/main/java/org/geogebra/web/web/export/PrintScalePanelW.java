@@ -46,7 +46,6 @@ public class PrintScalePanelW extends FlowPanel {
 
 	private PrintScaleModes mode = PrintScaleModes.SIZEINCM;
 
-	private String jcbItemScaleInCentimeter;
 	private String jcbItemFixedSize;
 
 	/**
@@ -82,7 +81,7 @@ public class PrintScalePanelW extends FlowPanel {
 		tfScale2 = getNumberField(updateCm);
 		tfScaleFixed = getNumberField(updateFixedSize);
 
-		jcbItemScaleInCentimeter = loc.getPlain("ScaleInCentimeter")
+		String jcbItemScaleInCentimeter = loc.getPlain("ScaleInCentimeter")
 				+ ":";
 		jcbItemFixedSize = loc.getPlain("FixedSize") + ":";
 

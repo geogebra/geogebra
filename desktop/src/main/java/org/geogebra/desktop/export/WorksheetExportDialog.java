@@ -56,13 +56,9 @@ public class WorksheetExportDialog extends JDialog {
 
 	JButton uploadButton;
 
-	private JButton helpButton;
 	boolean kernelChanged = false;
 	MyTextFieldD titleField;
-	private TitlePanel titlePanel;
 
-	// private JTabbedPane modeSwitch;
-	private JPanel modeUploadPanel;
 
 	private LocalizationD loc;
 
@@ -83,7 +79,7 @@ public class WorksheetExportDialog extends JDialog {
 	private void initGUI() {
 
 		// title, author, date
-		titlePanel = new TitlePanel(app);
+		TitlePanel titlePanel = new TitlePanel(app);
 		ActionListener kernelChangedListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +98,7 @@ public class WorksheetExportDialog extends JDialog {
 			}
 		});
 
-		helpButton = new JButton(loc.getMenu("Help"));
+		JButton helpButton = new JButton(loc.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app,
 				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
 				App.WIKI_EXPORT_WORKSHEET);
@@ -141,7 +137,7 @@ public class WorksheetExportDialog extends JDialog {
 		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		buttonPanel.add(cancelButton);
 
-		modeUploadPanel = createUploadPanel();
+		JPanel modeUploadPanel = createUploadPanel();
 
 		// init text of text areas
 		Construction cons = kernel.getConstruction();

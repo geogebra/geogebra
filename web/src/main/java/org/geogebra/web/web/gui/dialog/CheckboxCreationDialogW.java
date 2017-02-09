@@ -134,8 +134,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	}
 	private AutoCompleteTextFieldW tfCaption;
 	private Button btOK, btCancel;
-	private PushButton btnRemove;
-	private FlowPanel optionPane, btPanel;
+	private FlowPanel optionPane;
 	private GeoListBox gbObjects;
 	private GeoAttachedListBox gbList;
 	
@@ -226,7 +225,8 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
-		btnRemove = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
+		PushButton btnRemove = new PushButton(
+				new Image(AppResources.INSTANCE.delete_small()));
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		
@@ -261,7 +261,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			}
 		});
 		
-		btPanel = new FlowPanel();
+		FlowPanel btPanel = new FlowPanel();
 		btPanel.setStyleName("DialogButtonPanel");
 
 		btPanel.add(btOK);

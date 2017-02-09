@@ -29,7 +29,10 @@ public abstract class ProbabilityCalculatorStyleBar {
 
 
 
-	protected ProbabilityCalculatorView getProbCalc() {
+	/**
+	 * @return probability calculator
+	 */
+	public ProbabilityCalculatorView getProbCalc() {
 		return probCalc;
 	}
 

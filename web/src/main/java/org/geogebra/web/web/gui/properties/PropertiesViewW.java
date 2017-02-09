@@ -47,9 +47,6 @@ public class PropertiesViewW extends PropertiesView
 	private OptionsLayoutW layoutPanel;
 	private OptionsAlgebraW algebraPanel;
 	
-	// current OptionPanel
-	private OptionPanelW optionPanel;
-
 	private PropertiesStyleBarW styleBar;
 
 	private Label notImplemented;
@@ -423,7 +420,7 @@ public class PropertiesViewW extends PropertiesView
 	public void setOptionPanel(OptionType type, int subType) {
 		optionType = type;
 		contentsPanel.clear();
-		optionPanel = getOptionPanel(type, subType);
+		OptionPanelW optionPanel = getOptionPanel(type, subType);
 		updateAVvisible(true);
 		Widget wPanel = optionPanel.getWrappedPanel();
 		notImplemented.setText(getTypeString(type) + " - Not implemented");

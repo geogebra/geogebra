@@ -43,7 +43,6 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 	private GeoLocus locus; // output
 	private ArrayList<MyPoint> al;
 	private ArrayList<Point2D> vl;
-	private int size;
 
 	/**
 	 * @param cons
@@ -88,7 +87,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 	@Override
 	public void compute() {
 
-		size = inputList.size();
+		int size = inputList.size();
 		if (!inputList.isDefined() || size == 0) {
 			locus.setUndefined();
 			return;

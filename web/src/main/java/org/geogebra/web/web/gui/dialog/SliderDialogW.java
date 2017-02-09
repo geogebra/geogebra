@@ -50,7 +50,6 @@ public class SliderDialogW extends DialogBoxW
 implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboardPopup
 {
 	private Button btOK, btCancel;
-	private Label nameLabel;
 	private AutoCompleteTextFieldW tfLabel;
 	private RadioButton rbNumber, rbAngle, rbInteger;
 	private SliderPanelW sliderPanel;
@@ -81,7 +80,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 	 */
 	public SliderDialogW(final AppW app, int x, int y) {
 		super(false, true, null, app.getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		//super(app.getFrame(), false);
@@ -160,8 +159,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
 		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		
-//		FlowPanel namePanel = new FlowPanel();
-		nameLabel = new Label(loc.getMenu("Name"));
+		Label nameLabel = new Label(loc.getMenu("Name"));
 		nameWidget.add(nameLabel);
 		
 		tfLabel = new AutoCompleteTextFieldW(-1, app);

@@ -101,8 +101,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private OptionsTab basicTab;
 
 	//Basic
-	private NamePanel namePanel;
-	private CheckboxPanel showObjectPanel;
 	LabelPanel labelPanel;
 
 
@@ -112,12 +110,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	// FillingPanel fillingPanel;
 
 	//Advanced
-	private ShowConditionPanel showConditionPanel;
 	final boolean isDefaults;
-	private ColorFunctionPanel colorFunctionPanel;
-	private LayerPanel layerPanel;
-	private TooltipPanel tooltipPanel;
-	private ViewLocationPanel graphicsViewLocationPanel;
 
 	List<OptionsTab> tabs;
 
@@ -1301,7 +1294,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		CheckboxPanel animatingPanel = null;
 		CheckboxPanel bgImagePanel = null;
 		ReflexAnglePanel reflexAnglePanel = null;
-		namePanel = new NamePanel(); 
+		NamePanel namePanel = new NamePanel();
 		if (!isDefaults) {
 			basicTab.add(namePanel);
 		}
@@ -1310,7 +1303,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		basicTab.add(checkboxPanel);
 
 
-		showObjectPanel = new ShowObjectPanel();   
+		CheckboxPanel showObjectPanel = new ShowObjectPanel();
 		checkboxPanel.add(showObjectPanel.getWidget());
 
 
@@ -1437,14 +1430,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private OptionsTab addAdvancedTab() {
 		OptionsTab tab = makeOptionsTab("Advanced");
-		showConditionPanel = new ShowConditionPanel();
-		colorFunctionPanel = new ColorFunctionPanel();
-		layerPanel = new LayerPanel();
-		tooltipPanel = new TooltipPanel();
+		ShowConditionPanel showConditionPanel = new ShowConditionPanel();
+		ColorFunctionPanel colorFunctionPanel = new ColorFunctionPanel();
+		LayerPanel layerPanel = new LayerPanel();
+		TooltipPanel tooltipPanel = new TooltipPanel();
 		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(
 				"SelectionAllowed", loc,
 				new SelectionAllowedModel(null, app));
-		graphicsViewLocationPanel = new ViewLocationPanel();
+		ViewLocationPanel graphicsViewLocationPanel = new ViewLocationPanel();
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);

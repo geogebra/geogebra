@@ -126,8 +126,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private ScrollPanel spFrequencyTable;
 
-
-	private FlowPanel mainPanel;
 	private int oldWidth;
 	private int oldHeight;
 	private DataAnalysisViewW daView;
@@ -263,7 +261,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		// =======================================
 		// put all the panels together
 
-		mainPanel = new FlowPanel();
+		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.setStyleName("dataDisplayMain");
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel);

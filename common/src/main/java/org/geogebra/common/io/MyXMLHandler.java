@@ -208,7 +208,6 @@ public class MyXMLHandler implements DocHandler {
 	/** construction */
 	protected Construction cons;
 
-	private Construction origCons;
 	private Parser parser, origParser;
 
 	// List of LocateableExpPair objects
@@ -346,8 +345,7 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	public MyXMLHandler(Kernel kernel, Construction cons) {
 		origKernel = kernel;
-		origCons = cons;
-		origParser = new GParser(origKernel, origCons);
+		origParser = new GParser(origKernel, cons);
 		app = origKernel.getApplication();
 		loc = app.getLocalization();
 		initKernelVars();

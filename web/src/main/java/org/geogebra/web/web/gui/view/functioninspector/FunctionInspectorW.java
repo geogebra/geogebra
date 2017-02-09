@@ -72,7 +72,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private Label lblGeoName, lblStep, lblInterval;
 	AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
-	private InspectorTableW tableXY, tableInterval;
+	private InspectorTableW tableXY;
 	private GridModel modelXY, modelInterval;
 
 	PopupMenuButtonW btnAddColumn;
@@ -303,7 +303,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	@Override
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
-		tableInterval = new InspectorTableW(app, 2);
+		InspectorTableW tableInterval = new InspectorTableW(app, 2);
 		modelInterval = tableInterval.getModel();
 		intervalTab.add(tableInterval);
 		FlowPanel toolBar = new FlowPanel();

@@ -95,8 +95,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private static final int MAX_TITLE_LENGTH = 60;
 	/** application */
 	protected AppW app;
-	private FlowPanel contentPanel;
-	private VerticalPanel p;
 	/** title box */
 	protected TextBox title;
 	private StandardButton dontSaveButton;
@@ -127,7 +125,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		this.app = app;
@@ -135,14 +133,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);
 		// this.saveCallback = new SaveCallback(this.app);
-		this.contentPanel = new FlowPanel();
-		this.add(this.contentPanel);
+		FlowPanel contentPanel = new FlowPanel();
+		this.add(contentPanel);
 
 		this.getCaption().setText(loc.getMenu("Save"));
-		this.p = new VerticalPanel();
-		this.p.add(getTitelPanel());
-		this.p.add(getButtonPanel());
-		this.contentPanel.add(p);
+		VerticalPanel p = new VerticalPanel();
+		p.add(getTitelPanel());
+		p.add(getButtonPanel());
+		contentPanel.add(p);
 		this.saveType = MaterialType.ggb;
 
 		addCancelButton();

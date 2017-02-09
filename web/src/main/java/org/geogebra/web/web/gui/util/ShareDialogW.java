@@ -36,10 +36,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 	protected AppW app;
 	private VerticalPanel contentPanel;
-	private TabLayoutPanel tabPanel;
-	private VerticalPanel linkPanel;
 	private HorizontalPanel iconPanel;
-	private HorizontalPanel copyLinkPanel;
 	private VerticalPanel emailPanel;
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private Button btSendMail, btCancel;
@@ -68,7 +65,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	}
 
 	private TabLayoutPanel getTabPanel() {
-		tabPanel = new TabLayoutPanel(30, Unit.PX);
+		TabLayoutPanel tabPanel = new TabLayoutPanel(30, Unit.PX);
 		tabPanel.addStyleName("GeoGebraTabLayout");
 
 		tabPanel.add(getLinkPanel(), loc.getMenu("Link"));
@@ -80,7 +77,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	}
 
 	private VerticalPanel getLinkPanel() {
-		linkPanel = new VerticalPanel();
+		VerticalPanel linkPanel = new VerticalPanel();
 		linkPanel.addStyleName("GeoGebraLinkPanel");
 
 		linkPanel.add(new Label(""));
@@ -244,7 +241,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	}-*/;
 
 	private HorizontalPanel getCopyLinkPanel() {
-		copyLinkPanel = new HorizontalPanel();
+		HorizontalPanel copyLinkPanel = new HorizontalPanel();
 		copyLinkPanel.addStyleName("GeoGebraCopyLinkPanel");
 
 		// Label lblLink = new Label(loc.getMenu("Link") + ": ");

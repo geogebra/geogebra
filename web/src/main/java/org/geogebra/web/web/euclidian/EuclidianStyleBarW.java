@@ -100,8 +100,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// button-specific fields
 	// TODO: create button classes so these become internal
 
-	private HashMap<Integer, Integer> lineStyleMap;
-	private HashMap<Integer, Integer> pointStyleMap;
 	private ArrayList<GeoElement> activeGeoList;
 	private boolean visible;
 
@@ -146,18 +144,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// init handling of default geos
 		createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
-
-		// init button-specific fields
-		// TODO: put these in button classes
-		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
-			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
-		}
-
-		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
-			lineStyleMap.put(EuclidianView.getLineType(i), i);
-		}
 
 		initGUI();
 		isIniting = false;

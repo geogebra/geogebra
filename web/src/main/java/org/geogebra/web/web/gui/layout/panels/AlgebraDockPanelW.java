@@ -90,7 +90,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	@Override
 	public void onResize() {
 		DockSplitPaneW split = getParentSplitPane();
-		if (split.isForcedLayout()) {
+		if (split != null && split.isForcedLayout()) {
 			Log.debug("[AVR] resize by user (forcedLayout)");
 			if (aview != null) {
 				int w = getOffsetWidth();

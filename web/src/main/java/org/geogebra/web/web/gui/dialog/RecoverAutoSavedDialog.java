@@ -23,7 +23,6 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	private Button deleteButton = new Button();
 	private Button recoverButton = new Button();
 	private VerticalPanel dialogPanel;
-	private FlowPanel buttonContainer;
 	private Label infoText;
 	private String materialJSON;
 	
@@ -33,7 +32,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 */
 	public RecoverAutoSavedDialog(AppWFull app) {
 		super(app.getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		this.addStyleName("RecoverAutoSavedDialog");
@@ -69,12 +68,12 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 		this.initDeleteButton();
 		this.initRecoverButton();
 
-		this.buttonContainer = new FlowPanel();
-		this.buttonContainer.addStyleName("buttonPanel");
-		this.buttonContainer.add(this.recoverButton);
-		this.buttonContainer.add(this.deleteButton);
+		FlowPanel buttonContainer = new FlowPanel();
+		buttonContainer.addStyleName("buttonPanel");
+		buttonContainer.add(this.recoverButton);
+		buttonContainer.add(this.deleteButton);
 
-		this.dialogPanel.add(this.buttonContainer);
+		this.dialogPanel.add(buttonContainer);
 	}
 	
 	private void initRecoverButton() {

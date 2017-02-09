@@ -130,12 +130,9 @@ public class GeoCasCell extends GeoElement
 
 	// twin geo, e.g. GeoCasCell m := 8 creates GeoNumeric m = 8
 	private GeoElement twinGeo;
-	private GeoElement lastOutputEvaluationGeo;
 	private boolean firstComputeOutput;
 	private boolean ignoreTwinGeoUpdate;
 
-	// internal command names used in the input expression
-	private HashSet<Command> commands;
 	private String assignmentVar;
 	private boolean includesRowReferences;
 	private boolean includesNumericCommand;
@@ -827,7 +824,7 @@ public class GeoCasCell extends GeoElement
 		}
 
 		// get all command names
-		commands = new HashSet<Command>();
+		HashSet<Command> commands = new HashSet<Command>();
 		ve.traverse(CommandCollector.getCollector(commands));
 		if (commands.isEmpty()) {
 			commands = null;
@@ -1923,7 +1920,8 @@ public class GeoCasCell extends GeoElement
 		setEquationMode();
 
 		// silent evaluation of output in GeoGebra
-		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
+		GeoElement lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE,
+				allowFunction);
 
 		// Log.debug(lastOutputEvaluationGeo);
 

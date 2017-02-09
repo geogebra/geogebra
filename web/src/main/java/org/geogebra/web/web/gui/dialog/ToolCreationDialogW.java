@@ -61,9 +61,6 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	private ListBox outputAddLB, outputLB;
 	private ListBox inputAddLB, inputLB;
 	private ToolNameIconPanelW toolNameIconPanel;
-	private Button btRemove;
-	private Button btDown;
-	private Button btUp;
 	private AsyncOperation<Macro> returnHandler;
 	private Localization loc;
 
@@ -216,17 +213,17 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	}
 
 	private VerticalPanel createListUpDownRemovePanel() {
-		btUp = new Button("\u25b2");
+		Button btUp = new Button("\u25b2");
 		btUp.setTitle(loc.getMenu("Up"));
 		btUp.addClickHandler(this);
 		btUp.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		btDown = new Button("\u25bc");
+		Button btDown = new Button("\u25bc");
 		btDown.setTitle(loc.getMenu("Down"));
 		btDown.addClickHandler(this);
 		btDown.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		btRemove = new Button("\u2718");
+		Button btRemove = new Button("\u2718");
 		btRemove.setTitle(loc.getMenu("Remove"));
 		btRemove.addClickHandler(this);
 		btRemove.getElement().getStyle().setMargin(3, Style.Unit.PX);

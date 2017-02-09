@@ -51,7 +51,6 @@ public class MaterialListElement extends FlowPanel implements
 	}
 	
 	private FlowPanel materialElementContent;
-	private SimplePanel previewPicturePanel;
 	private FlowPanel background;
 	protected FlowPanel infoPanel;
 	protected boolean isLocal;
@@ -299,9 +298,9 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	private void addPreviewPicture() {
-		this.previewPicturePanel = new SimplePanel();
-		this.previewPicturePanel.addStyleName("fileImage");
-		this.previewPicturePanel.addDomHandler(new ClickHandler() {
+		SimplePanel previewPicturePanel = new SimplePanel();
+		previewPicturePanel.addStyleName("fileImage");
+		previewPicturePanel.addDomHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -321,8 +320,8 @@ public class MaterialListElement extends FlowPanel implements
 		
 		setPictureAsBackground();
 		
-		this.previewPicturePanel.add(background);
-		this.materialElementContent.add(this.previewPicturePanel);
+		previewPicturePanel.add(background);
+		this.materialElementContent.add(previewPicturePanel);
 
 		addSyncDecoration();
 	}

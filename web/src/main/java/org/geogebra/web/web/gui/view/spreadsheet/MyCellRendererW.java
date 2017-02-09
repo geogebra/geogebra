@@ -46,8 +46,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	// Cell formats
 	private CellFormat formatHandler;
-	private Integer alignment = -1;
-	private Integer fontStyle;
 
 
 	// Cell geo
@@ -77,7 +75,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		//cellPoint.setLocation(column, row);
 
 		// Font style
-		fontStyle = (Integer) formatHandler.getCellFormat(column, row,
+		Integer fontStyle = (Integer) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_FONTSTYLE);
 		s.setFontSize(app.getFontSizeWeb(), Unit.PX);
 		if (fontStyle == null) {
@@ -110,7 +108,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 
 		// Alignment
-		alignment = (Integer) formatHandler.getCellFormat(column, row,
+		Integer alignment = (Integer) formatHandler.getCellFormat(column, row,
 		        CellFormat.FORMAT_ALIGN);
 		if (alignment != null) {
 			s.setProperty("textAlign",
