@@ -1602,9 +1602,11 @@ var __giac = [ {},
 { cat:"Derivative", cmd:"Derivative[(t,sin(t))]", result:"(1,cos(t))" },
 { cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[{1,2}]", result:"((-2) / sqrt(5), 1 / sqrt(5))" },
 { cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[{1,2,3}]", result:"?" },
+{ cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[(1,2,3)]", result:"?" },
 { cat:"UnitPerpendicularVector", cmd:"UnitPerpendicularVector[{a,b,c}]", result:"?" },
 { cat:"PerpendicularVector", cmd:"PerpendicularVector[{1,2}]", result:"(-2,1)" },
 { cat:"PerpendicularVector", cmd:"PerpendicularVector[{1,2,3}]", result:"?" },
+{ cat:"PerpendicularVector", cmd:"PerpendicularVector[(1,2,3)]", result:"?" },
 { cat:"UnitVector", cmd:"UnitVector[{1,2}]", result:"{1 / sqrt(5), 2 / sqrt(5)}" },
 { cat:"UnitVector", cmd:"UnitVector[{1,2,3}]", result:"{1 / sqrt(14), 2 / sqrt(14), 3 / sqrt(14)}" },
 { cat:"Evaluate", cmd:"Evaluate[alt((1,2))]", result:"0", notes:"#5110" },
@@ -1984,6 +1986,8 @@ var __giac = [ {},
 { cat:"Angle", cmd:"Angle[10deg+20deg]", result:"30\u00B0" },
 { cat:"Numeric", cmd:"Numeric[121V^2 m 3.14159265359 (0.0004 / W / omega)]", round:"0.15V\u00B2 m / (W omega)", result:"0.1520530844338V\u00B2 m / (W omega)", notes:"want a single number at start"},
 { cat:"Evaluate", cmd:"ScientificText[123456]", result:"1.23456000000000 (10\u2075)|OR|1.23456 (10\u2075)|OR|1.23 (10\u2075)" },
+{ cat:"Solve", cmd:"Solve[ln(exp(x)+1)=x]", result:"{?}", notes:"make sure numeric solver doesn't kick in! http://dev.geogebra.org/trac/changeset/51896"},
+
 // JSONEND
 //{ 
 // 

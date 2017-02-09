@@ -1583,7 +1583,8 @@ public class Ggb2giac {
 				// numbers
 				"ggbvect[%0,%1]" + "))");
 
-		p("OrthogonalVector.1", "convert([[0,-1],[1,0]]*(%0),25)");
+		p("OrthogonalVector.1",
+				"when(is_3dpoint(%0),?,convert([[0,-1],[1,0]]*(%0),25))");
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST && size(%0) != 2,?,"
 						+ "when(is_3dpoint(%0),?,"
