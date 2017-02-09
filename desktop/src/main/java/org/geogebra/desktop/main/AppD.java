@@ -2564,23 +2564,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc.getLocale();
 	}
 
-	// @Override
-	// final public String getEnglishCommand(String key) {
-	//
-	// if (rbcommandEnglish == null) {
-	// rbcommandEnglish = MyResourceBundle
-	// .createBundle(LocalizationD.RB_COMMAND, Locale.ENGLISH);
-	// }
-	//
-	// ((LocalizationJre) loc).test(rbcommandEnglish);
-	//
-	// try {
-	// return rbcommandEnglish.getString(key);
-	// } catch (Exception e) {
-	// return key;
-	// }
-	// }
-
 	final public String getEnglishMenu(String key) {
 
 		if (rbmenuEnglish == null) {
