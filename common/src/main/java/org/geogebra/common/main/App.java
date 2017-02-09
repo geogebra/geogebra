@@ -3941,11 +3941,6 @@ public abstract class App implements UpdateSelection {
 
 	public abstract boolean isSelectionRectangleAllowed();
 
-	final public String getEnglishCommand(String key) {
-
-		return getLocalization().getEnglishCommand(key);
-
-	}
 	public final boolean has(Feature f) {
 
 		switch (f) {
