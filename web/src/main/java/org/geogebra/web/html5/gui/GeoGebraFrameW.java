@@ -46,8 +46,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/** The application */
 	public AppW app;
 
-	private boolean resize = false;
-	private boolean move = false;
 	private static int counter = 1;
 	/**
 	 * Splash Dialog to get it work quickly
@@ -513,33 +511,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		/*
-		 * if (app == null || !app.getUseFullGui()){ return; } final int
-		 * eventType = DOM.eventGetType(event);
-		 * 
-		 * switch (eventType) { case Event.ONMOUSEOVER: if
-		 * (isCursorAtResizePosition(event)) {
-		 * DOM.setStyleAttribute(getElement(), "cursor", "se-resize"); } else {
-		 * DOM.setStyleAttribute(getElement(), "cursor", "default"); } break;
-		 * case Event.ONMOUSEDOWN: if (isCursorAtResizePosition(event)) { if
-		 * (resize == false) { resize = true; DOM.setCapture(getElement()); } }
-		 * break; case Event.ONMOUSEMOVE: if (resize == true) { int width =
-		 * DOM.eventGetClientX(event) + Window.getScrollLeft(); int height =
-		 * DOM.eventGetClientY(event) + Window.getScrollTop(); int initialY =
-		 * getAbsoluteTop(); int initialX = getAbsoluteLeft(); width -=
-		 * initialX; height -= initialY;
-		 * 
-		 * setPixelSize(width, height); if (app.getGuiManager() != null) {
-		 * app.getGuiManager().resize(width, height); } } else if (move == true)
-		 * { // move is always false; if it will be true, the following thing
-		 * should be tested: // note that eventGetClientX needs
-		 * Window.getScrollLeft added RootPanel.get().setWidgetPosition(this,
-		 * DOM.eventGetClientX(event) + Window.getScrollLeft(),
-		 * DOM.eventGetClientY(event) + Window.getScrollTop()); } break; case
-		 * Event.ONMOUSEUP: if (move == true) { move = false;
-		 * DOM.releaseCapture(getElement()); } if (resize == true) { resize =
-		 * false; DOM.releaseCapture(getElement()); } break; }
-		 */
+		// do nothing
 	}
 
 	public static int getInstanceCount() {
