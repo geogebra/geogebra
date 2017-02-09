@@ -570,6 +570,9 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	
 	public void centerAndResize(double keyboardHeight){
 		
+		if (hasOverlapFeature){
+			this.getElement().getStyle().clearHeight();
+		}
 		int top = center(keyboardHeight);
 		if (!hasOverlapFeature){
 			return;
@@ -578,9 +581,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			int paddings = 30; //TODO: get sum of top and bottom paddings
 			this.getElement().getStyle().setHeight(getRootPanel().getOffsetHeight() - keyboardHeight -paddings, Unit.PX);
 			getElement().getStyle().setProperty("overflow", "overlay");
-		}
-		else {
-			this.getElement().getStyle().clearHeight();
 		}
 	}
 

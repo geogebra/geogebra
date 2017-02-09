@@ -261,6 +261,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// TODO too expensive
 		app.updateViewSizes();
 		keyBoard.resetKeyboardState();
+		app.centerAndResizePopups();
 	}
 
 	/**
