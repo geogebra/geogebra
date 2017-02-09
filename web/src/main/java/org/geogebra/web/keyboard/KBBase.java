@@ -616,17 +616,21 @@ public abstract class KBBase extends PopupPanel {
 
 		// fill second row
 		index++;
-		KeyBoardButtonBase button = addButton(loc.getFunction("sin")
-				+ "^-1", "arcsin", index, functions);
+		KeyBoardButtonBase button;
+		button = addButton(loc.getFunction("sin") + "^-1",
+				loc.getFunction("asin"), index,
+				functions);
 		button.addStyleName("supScript");
 		updateButton.put(button, "sin" + "^-1");
 
-		button = addButton(loc.getFunction("cos") + "^-1", "arccos",
+		button = addButton(loc.getFunction("cos") + "^-1",
+				loc.getFunction("acos"),
 				index, functions);
 		button.addStyleName("supScript");
 		updateButton.put(button, "cos" + "^-1");
 
-		button = addButton(loc.getFunction("tan") + "^-1", "arctan",
+		button = addButton(loc.getFunction("tan") + "^-1",
+				loc.getFunction("atan"),
 				index, functions);
 		button.addStyleName("supScript");
 		updateButton.put(button, "tan" + "^-1");

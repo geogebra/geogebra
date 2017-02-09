@@ -20,7 +20,10 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 	/**
 	 * should not be called; use getInstance instead
 	 * 
-	 * @param appW
+	 * @param app
+	 *            application
+	 * @param korean
+	 *            if korean layout should be supported
 	 */
 	public OnScreenKeyBoard(HasKeyboard app, boolean korean) {
 		super(true);
@@ -40,6 +43,12 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 
 	}
 
+	/**
+	 * @param gwtLang
+	 *            language
+	 * @param language
+	 *            language description
+	 */
 	public void addSupportedLocale(Language gwtLang, String language) {
 		supportedLocales.put(gwtLang.localeGWT, language);
 	}
@@ -256,10 +265,12 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 				captionPlain = captionPlain.substring(0,
 						captionPlain.lastIndexOf("^-1"));
 				// always use the English output (e.g. "arcsin")
-				b.setCaption(loc.getFunction(captionPlain) + "^-1", false);
+				b.setCaption(loc.getFunction(captionPlain) + "^-1",
+						loc.getFunction("a" + captionPlain));
 			} else {
 				// use language specific output
-				b.setCaption(loc.getFunction(captionPlain), true);
+				b.setCaption(loc.getFunction(captionPlain),
+						loc.getFunction(captionPlain));
 			}
 		}
 		if (processField != null) {
