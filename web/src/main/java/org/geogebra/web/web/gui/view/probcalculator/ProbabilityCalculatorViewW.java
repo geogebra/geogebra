@@ -903,8 +903,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 					// handle inverse probability
 					else if (source == fldResult.getTextBox()) {
-						update = false;
 						if (value < 0 || value > 1) {
+							update = false;
 							updateGUI();
 						} else {
 							if (probMode == PROB_LEFT) {
