@@ -58,7 +58,8 @@ public class DrawVector3D extends DrawJoinPoints {
 	 * @param view3D
 	 * @param selectedPoints
 	 */
-	public DrawVector3D(EuclidianView3D view3D, ArrayList selectedPoints) {
+	public DrawVector3D(EuclidianView3D view3D,
+			ArrayList<GeoPointND> selectedPoints) {
 
 		super(view3D, selectedPoints,
 				new GeoVector3D(view3D.getKernel().getConstruction()));

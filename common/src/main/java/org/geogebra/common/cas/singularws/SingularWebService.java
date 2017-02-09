@@ -37,12 +37,6 @@ public class SingularWebService {
 	private final static int CONNECTION_SPEED_NO_TESTS = 3;
 	private final static int CONNECTION_SPEED_THRESHOLD = 100;
 
-	/**
-	 * Creates a Singular webservice connection handler
-	 */
-	public SingularWebService() {
-	}
-
 	private String swsCommandResult(String command) throws Throwable {
 		return swsCommandResult(command, "");
 	}

@@ -41,12 +41,12 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer) {
-
+		// nothing to do
 	}
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-
+		// nothing to do
 	}
 
 	@Override
@@ -56,6 +56,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
+		// nothing to do
 	}
 
 	@Override
@@ -120,25 +121,25 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	/**
 	 * 
-	 * @param basis
+	 * @param extBasis
 	 *            polygon
-	 * @param height
+	 * @param extHeight
 	 *            altitude
 	 * @return new algo from polygon and height
 	 */
-	abstract protected AlgoForExtrusion getAlgo(GeoPolygon basis,
-			GeoNumeric height);
+	abstract protected AlgoForExtrusion getAlgo(GeoPolygon extBasis,
+			GeoNumeric extHeight);
 
 	/**
 	 * 
-	 * @param basis
+	 * @param extBasis
 	 *            conic
-	 * @param height
+	 * @param extHeight
 	 *            altitude
 	 * @return new algo from polygon and height
 	 */
-	abstract protected AlgoForExtrusion getAlgo(GeoConicND basis,
-			GeoNumeric height);
+	abstract protected AlgoForExtrusion getAlgo(GeoConicND extBasis,
+			GeoNumeric extHeight);
 
 	@Override
 	public void updatePreview() {
@@ -200,6 +201,9 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	}
 
+	/**
+	 * Creates the polyhedron
+	 */
 	public void createPolyhedron() {
 		((EuclidianController3D) getView3D().getEuclidianController())
 				.setHandledGeo(null);
@@ -254,17 +258,25 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	private CreatePolyhedronCallback callback;
 
-	private static class CreatePolyhedronCallback
+	/**
+	 * Callback after height is entered
+	 *
+	 */
+	static class CreatePolyhedronCallback
 			extends AsyncOperation<GeoNumberValue> {
 
 		private GeoElement basis;
 		private EuclidianView3D view;
 		private ExtrusionComputer extrusionComputer;
 
-		public CreatePolyhedronCallback() {
-			super();
-		}
-
+		/**
+		 * @param basis
+		 *            polyhedron / quadric basis
+		 * @param view
+		 *            view
+		 * @param extrusionComputer
+		 *            conifier / extruder
+		 */
 		public void set(GeoElement basis, EuclidianView3D view,
 				ExtrusionComputer extrusionComputer) {
 			this.basis = basis;

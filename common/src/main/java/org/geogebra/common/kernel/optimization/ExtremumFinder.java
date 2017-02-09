@@ -79,9 +79,6 @@ public class ExtremumFinder {
 
 	private int MAX_ITERATIONS = 100;
 
-	public ExtremumFinder() {
-	}
-
 	public void setMaxIterations(int iterations) {
 		MAX_ITERATIONS = iterations;
 	}

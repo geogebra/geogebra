@@ -326,10 +326,6 @@ public class ProbabilityCalculatorStyleBarW extends
 	
 	private static class MyMenuBar extends MenuBar {
 		
-		public MyMenuBar() {
-			super();
-		}
-		
 		public Object[] getMenuItems() {
 			return super.getItems().toArray();
 		}

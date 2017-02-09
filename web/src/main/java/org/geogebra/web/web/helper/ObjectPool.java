@@ -6,10 +6,6 @@ public class ObjectPool {
 
 	private GGWMenuBar ggwMenubar;
 
-	public ObjectPool() {
-
-	}
-
 	public GGWMenuBar getGgwMenubar() {
 		return ggwMenubar;
 	}

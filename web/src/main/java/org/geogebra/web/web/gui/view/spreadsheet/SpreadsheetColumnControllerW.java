@@ -427,65 +427,7 @@ public class SpreadsheetColumnControllerW implements
 	// Renderer Class
 	// =========================================================
 
-	protected static class ColumnHeaderRenderer {
 
-		/*private JLabel lblHeader;
-		private JButton btnTrace;
-		private BorderLayout layout;
-
-		private ImageIcon traceIcon = app
-				.getImageIcon("spreadsheettrace_button.gif");
-		private ImageIcon traceRollOverIcon = app
-				.getImageIcon("spreadsheettrace_hover.gif");*/
-
-		public ColumnHeaderRenderer() {
-
-			/*lblHeader = new JLabel();
-			lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
-			this.add(lblHeader, BorderLayout.CENTER);
-
-			btnTrace = new JButton();
-			btnTrace.setBorderPainted(false);
-
-			setOpaque(true);*/
-			/*setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-					MyTableD.HEADER_GRID_COLOR));
-
-			layout = (BorderLayout) this.getLayout();*/
-		}
-
-		/**
-		 * Returns true if the given mouse location (in local coordinates of the
-		 * header component) is over a trace button.
-		 * 
-		 * @param colIndex
-		 * @param loc
-		 * @param value
-		 * @return
-		 */
-		/*public boolean isOverTraceButton(int colIndex, java.awt.Point loc,
-				Object value) {
-
-			if (!app.getTraceManager().isTraceColumn(colIndex)) {
-				return false;
-			}
-
-			try {
-				Component c = getTableCellRendererComponent(table, value,
-						false, false, -1, colIndex);
-
-				// layout.getLayoutComponent(BorderLayout.WEST).getBounds(rect);
-				btnTrace.getBounds(rect);
-
-				// loc.toString() + "  :  " +
-				// rect.toString());
-				return rect.contains(loc);
-			} catch (Exception e) {
-				// e.printStackTrace();
-			}
-			return false;
-		}*/
-	}
 
 	@Override
 	public void onDoubleClick(DoubleClickEvent event) {

@@ -21,7 +21,9 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 	 * common constructor
 	 * 
 	 * @param a_view3D
+	 *            3D view
 	 * @param cs1D
+	 *            line
 	 */
 	public DrawCoordSys1D(EuclidianView3D a_view3D, GeoElement cs1D) {
 
@@ -32,6 +34,7 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 	 * common constructor for previewable
 	 * 
 	 * @param a_view3d
+	 *            view
 	 */
 	public DrawCoordSys1D(EuclidianView3D a_view3d) {
 		super(a_view3d);
@@ -42,10 +45,14 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 	 * constructor for previewable
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param selectedPoints
+	 *            preview points
 	 * @param geo
+	 *            preview line
 	 */
-	public DrawCoordSys1D(EuclidianView3D a_view3D, ArrayList selectedPoints,
+	public DrawCoordSys1D(EuclidianView3D a_view3D,
+			ArrayList<GeoPointND> selectedPoints,
 			GeoElement geo) {
 		super(a_view3D, selectedPoints, geo);
 	}

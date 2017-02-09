@@ -126,13 +126,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		private String initialText;
 
 		/**
-		 * Creates new listener
-		 */
-		public InputFieldListener() {
-			// TODO Auto-generated constructor stub
-		}
-
-		/**
 		 * @param e
 		 *            focus event
 		 */
@@ -179,14 +172,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	public class InputFieldKeyListener implements KeyHandler {
 
 		/**
-		 * Creates new listener
-		 */
-		public InputFieldKeyListener() {
-			// TODO Auto-generated constructor stub
-		}
-
-		/**
-		 * Handles new chracter
+		 * Handles new character
 		 * 
 		 * @param e
 		 *            key event

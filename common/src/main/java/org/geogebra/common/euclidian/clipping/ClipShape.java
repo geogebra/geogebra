@@ -236,9 +236,6 @@ public class ClipShape {
 	static class LFunction implements Function {
 		private double slope, intercept;
 
-		public LFunction() {
-		}
-
 		/**
 		 * Defines this linear function.
 		 * 
@@ -277,9 +274,6 @@ public class ClipShape {
 	/** A quadratic function */
 	static class QFunction implements Function {
 		private double a, b, c;
-
-		public QFunction() {
-		}
 
 		@Override
 		public String toString() {
@@ -326,9 +320,6 @@ public class ClipShape {
 	/** A cubic function */
 	static class CFunction implements Function {
 		private double a, b, c, d;
-
-		public CFunction() {
-		}
 
 		@Override
 		public String toString() {

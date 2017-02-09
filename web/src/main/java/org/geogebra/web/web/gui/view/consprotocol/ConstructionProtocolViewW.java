@@ -520,9 +520,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 
 	private static class Base64ImageCell extends AbstractCell<String> {
-		public Base64ImageCell() {
-			super();
-		}
 
 		@Override
 		public void render(Context context, String value, SafeHtmlBuilder sb) {

@@ -198,16 +198,20 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	// //////////////////////////////
 	// Previewable interface
 
-	private ArrayList selectedPoints;
+	private ArrayList<GeoPointND> selectedPoints;
 
 	/**
 	 * constructor for previewable
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param selectedPoints
+	 *            preview points
 	 * @param geo
+	 *            line
 	 */
-	public DrawJoinPoints(EuclidianView3D a_view3D, ArrayList selectedPoints,
+	public DrawJoinPoints(EuclidianView3D a_view3D,
+			ArrayList<GeoPointND> selectedPoints,
 			GeoElement geo) {
 
 		super(a_view3D);
@@ -223,7 +227,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	@Override
 	public void updateMousePos(double xRW, double yRW) {
-
+		// nothing to do in 3D
 	}
 
 	@Override
@@ -235,13 +239,13 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		}
 
 		if (selectedPoints.size() == 2) {
-			GeoPointND firstPoint = (GeoPointND) selectedPoints.get(0);
-			GeoPointND secondPoint = (GeoPointND) selectedPoints.get(1);
+			GeoPointND firstPoint = selectedPoints.get(0);
+			GeoPointND secondPoint = selectedPoints.get(1);
 			setPreviewableCoords(firstPoint, secondPoint);
 			getGeoElement().setEuclidianVisible(true);
 			// setWaitForUpdate();
 		} else if (selectedPoints.size() == 1) {
-			GeoPointND firstPoint = (GeoPointND) selectedPoints.get(0);
+			GeoPointND firstPoint = selectedPoints.get(0);
 			GeoPointND secondPoint = getView3D().getCursor3D();
 			setPreviewableCoords(firstPoint, secondPoint);
 			getGeoElement().setEuclidianVisible(true);

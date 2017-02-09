@@ -783,13 +783,6 @@ public interface Traversing {
 			return tree;
 		}
 
-		/**
-		 * Collect undefined variables by sliders
-		 * 
-		 */
-		public CollectUndefinedVariables() {
-		}
-
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 
@@ -875,13 +868,6 @@ public interface Traversing {
 		 */
 		public ArrayList<FunctionVariable> getResult() {
 			return al;
-		}
-
-		/**
-		 * Collect undefined variables by sliders
-		 * 
-		 */
-		public CollectFunctionVariables() {
 		}
 
 		@Override

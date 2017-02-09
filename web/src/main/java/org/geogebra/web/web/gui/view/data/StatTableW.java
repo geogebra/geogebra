@@ -171,10 +171,6 @@ public class StatTableW extends FlowPanel {
 		private boolean allowCellEdith;
 		private int firstRow = 0;
 
-		public MyTable() {
-	        super();
-        }
-
 		public void setHeaderCells(String[] columnNames) {
 	        if (columnNames != null) {
 	        	firstRow = 0;

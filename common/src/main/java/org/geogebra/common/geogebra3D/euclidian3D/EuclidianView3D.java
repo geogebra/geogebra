@@ -2402,8 +2402,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public Previewable createPreviewLine(ArrayList selectedPoints) {
+	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
 
 		return new DrawLine3D(this, selectedPoints);
 

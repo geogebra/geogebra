@@ -1766,8 +1766,6 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private static class RecoSegment {
-		public RecoSegment() {
-		}
 
 		int startpt = 0, endpt = 0;
 		double xcenter = 0, ycenter = 0, angle = 0, radius = 0;
@@ -1777,8 +1775,6 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private static class Inertia {
-		public Inertia() {
-		}
 
 		double mass = 0;
 		double sx = 0;

@@ -55,9 +55,6 @@ final public class EmptyAtom extends Atom {
 		return setFields(new EmptyAtom());
 	}
 
-	public EmptyAtom() {
-	}
-
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new StrutBox(0, 0, 0, 0);

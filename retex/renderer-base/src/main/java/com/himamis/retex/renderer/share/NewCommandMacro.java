@@ -55,9 +55,6 @@ public class NewCommandMacro implements Macro {
 	protected static HashMap<String, String> macrocode = new HashMap<String, String>();
 	protected static HashMap<String, String> macroreplacement = new HashMap<String, String>();
 
-	public NewCommandMacro() {
-	}
-
 	public static void addNewCommand(String name, String code, int nbargs) throws ParseException {
 		// if (macrocode.get(name) != null)
 		// throw new ParseException("Command " + name +

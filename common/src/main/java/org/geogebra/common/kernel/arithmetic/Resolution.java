@@ -17,13 +17,6 @@ public class Resolution implements ExpressionValue {
 	private int listDepth = 0;
 
 	/**
-	 * New resolution
-	 */
-	public Resolution() {
-
-	}
-
-	/**
 	 * @param listDepth
 	 *            depth of nested lists
 	 */

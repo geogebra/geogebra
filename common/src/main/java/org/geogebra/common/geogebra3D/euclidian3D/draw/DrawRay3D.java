@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 
 /**
@@ -118,7 +119,8 @@ public class DrawRay3D extends DrawCoordSys1D {
 	 * @param a_view3D
 	 * @param selectedPoints
 	 */
-	public DrawRay3D(EuclidianView3D a_view3D, ArrayList selectedPoints) {
+	public DrawRay3D(EuclidianView3D a_view3D,
+			ArrayList<GeoPointND> selectedPoints) {
 
 		super(a_view3D, selectedPoints,
 				new GeoRay3D(a_view3D.getKernel().getConstruction()));
