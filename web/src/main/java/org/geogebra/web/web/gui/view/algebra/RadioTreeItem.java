@@ -535,7 +535,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (latex && geo != null
 				&& (geo.isLaTeXDrawableGeo() || isGeoFraction())) {
-			valCanvas = DrawEquationW.paintOnCanvasOutput(geo1, text, valCanvas,
+			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
 			valuePanel.clear();
@@ -641,7 +641,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (!plain.equals(text) || forceLatex) {
 			// LaTeX
-			valCanvas = DrawEquationW.paintOnCanvasOutput(previewGeo, text,
+			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text,
 					valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
@@ -892,9 +892,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void updateItemColor() {
 		if (app.has(Feature.AV_TEXT_BLACK)) {
-			if (isDefinitionAndValue() && this.valuePanel != null) {
-				updateColor(getPlainTextItem());
-			}
 			if (isDefinitionAndValue() && definitionPanel != null) {
 				definitionPanel.getElement().getStyle().setColor("black");
 			}

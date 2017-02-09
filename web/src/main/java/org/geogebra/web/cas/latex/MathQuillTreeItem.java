@@ -310,7 +310,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 		}
 		latexItem.clear();
 		latexItem.addStyleName("avTextItem");
-		updateColor(latexItem);
+		if (!app.has(Feature.AV_TEXT_BLACK)) {
+			updateColor(latexItem);
+		}
 
 		content.clear();
 
@@ -388,7 +390,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 		}
 		latexItem.clear();
 		latexItem.addStyleName("avTextItem");
-		updateColor(latexItem);
+		if (!app.has(Feature.AV_TEXT_BLACK)) {
+			updateColor(latexItem);
+		}
 
 		content.clear();
 
@@ -536,8 +540,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 			final String latexx, final AsyncOperation<Object> cb,
 			final boolean keepFocus) {
 
-		// TODO: move to InputTreeItem? Wouldn't help much...
-
+		getAV().setLaTeXLoaded();
 		String newValue = newValue0;
 		if (newValue0 != null) {
 			newValue = stopCommon(newValue);

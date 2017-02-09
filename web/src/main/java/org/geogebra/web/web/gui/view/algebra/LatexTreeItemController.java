@@ -84,6 +84,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			if (StringUtil.empty(item.getText())) {
 				return;
 			}
+			item.getAV().setLaTeXLoaded();
 			createGeoFromInput(keepFocus);
 			return;
 		}

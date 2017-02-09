@@ -2,6 +2,7 @@ package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -60,8 +61,9 @@ public class CheckboxTreeItemMQ extends MathQuillTreeItem {
 		geo.getAlgebraDescriptionTextOrHTMLDefault(
 				getBuilder(getPlainTextItem()));
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
-
-		updateColor(getPlainTextItem());
+		if (!app.has(Feature.AV_TEXT_BLACK)) {
+			updateColor(getPlainTextItem());
+		}
 
 	}
 

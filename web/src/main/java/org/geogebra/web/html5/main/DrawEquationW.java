@@ -118,6 +118,17 @@ public class DrawEquationW extends DrawEquation {
 		return paintOnCanvas(app, text0, c0, fontSize, fgColor);
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @param text0
+	 *            text
+	 * @param c0
+	 *            canvas or null
+	 * @param fontSize
+	 *            font size
+	 * @return canvas
+	 */
 	public static Canvas paintOnCanvasOutput(GeoElementND geo, String text0,
 			Canvas c0, int fontSize) {
 		if (geo == null) {
@@ -127,6 +138,7 @@ public class DrawEquationW extends DrawEquation {
 		final GColor fgColor = geo.getAlgebraColor();
 		return paintOnCanvas(app, text0, c0, fontSize, fgColor);
 	}
+	
 	/**
 	 * @param app
 	 *            has access to LaTeX and pixel ratio
@@ -136,6 +148,8 @@ public class DrawEquationW extends DrawEquation {
 	 *            canvas (may be null)
 	 * @param fontSize
 	 *            font size
+	 * @param fgColor
+	 *            color
 	 * @return canvas
 	 */
 	public static Canvas paintOnCanvas(AppW app, String text0,
