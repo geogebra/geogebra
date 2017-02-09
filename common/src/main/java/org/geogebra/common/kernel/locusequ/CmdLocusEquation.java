@@ -84,6 +84,14 @@ public class CmdLocusEquation extends CommandProcessor {
 
 	/**
 	 * locus equation for Q dependent on P.
+	 * 
+	 * @param label
+	 *            output label
+	 * @param locusPoint
+	 *            generating point
+	 * @param movingPoint
+	 *            moving point
+	 * @return implicit locus curve
 	 */
 	final public GeoImplicit locusEquation(String label, GeoPoint locusPoint,
 			GeoPoint movingPoint) {
@@ -101,6 +109,14 @@ public class CmdLocusEquation extends CommandProcessor {
 
 	/**
 	 * locus equation for computing implicit locus
+	 * 
+	 * @param label
+	 *            output label
+	 * @param implicitLocus
+	 *            generating point or condition
+	 * @param movingPoint
+	 *            moving point
+	 * @return implicit locus curve
 	 */
 	final public GeoImplicit locusEquation(String label,
 			GeoElement implicitLocus, GeoPoint movingPoint) {

@@ -8,12 +8,18 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * Help menu
+ */
 public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	private MenuItem tutorials, forum, manual, about, bug;
 	
+	/**
+	 * @param app
+	 *            application
+	 */
 	public HelpMenuW(final App app)  {
 
 		super(true, "help");

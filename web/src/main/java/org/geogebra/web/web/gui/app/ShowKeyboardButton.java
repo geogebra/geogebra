@@ -9,7 +9,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
-import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -38,6 +37,8 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link DockManagerW}
 	 * @param parent
 	 *            {@link Element}
+	 * @param app
+	 *            app
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
 			final DockManagerW dm, Widget parent, AppW app) {
@@ -131,6 +132,9 @@ public class ShowKeyboardButton extends SimplePanel {
 
 	}
 
+	/**
+	 * Hide the button
+	 */
 	public void hide() {
 		setVisible(false);
 	}

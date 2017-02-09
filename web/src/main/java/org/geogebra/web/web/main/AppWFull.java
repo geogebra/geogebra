@@ -48,7 +48,6 @@ import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;

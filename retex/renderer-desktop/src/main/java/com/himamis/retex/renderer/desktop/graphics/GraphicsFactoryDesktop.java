@@ -43,12 +43,6 @@
  */
 package com.himamis.retex.renderer.desktop.graphics;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;

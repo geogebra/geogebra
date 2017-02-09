@@ -5,7 +5,6 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
@@ -49,7 +48,7 @@ public class PerspectivesPopup {
 			}
 		};
 		
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			box.setOverlapFeature(true);
 		}
 		
@@ -183,25 +182,38 @@ public class PerspectivesPopup {
 					// TODO check if online
 					app.getFileManager().open(URL);
 				}
-				box.hide();
+				closePerspectivesPopup();
 			}
 		}, ClickEvent.getType());
 
 		return rowPanel;
 	}
 
+	/**
+	 * @return perspective index
+	 */
 	public int getActivePerspective() {
 		return activePerspective;
 	}
 
+	/**
+	 * @param index
+	 *            perspective index
+	 */
 	public void setActivePerspective(int index) {
 		activePerspective = index;
 	}
 
+	/**
+	 * Close the popup
+	 */
 	public void closePerspectivesPopup() {
 		box.hide();
 	}
 
+	/**
+	 * @return whether popup is showing
+	 */
 	public boolean isShowing() {
 		return box.isShowing();
 	}

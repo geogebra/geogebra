@@ -3,37 +3,26 @@
  */
 package org.geogebra.common.kernel.locusequ;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoPointOnPath;
-import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
-import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.Prover;
-import org.geogebra.common.util.Prover.ProofResult;
-import org.geogebra.common.util.Prover.ProverEngine;
 import org.geogebra.common.util.debug.Log;
 
 /**
