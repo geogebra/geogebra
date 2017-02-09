@@ -1,12 +1,15 @@
 package org.geogebra.common.jre.main;
 
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * common jre localization
@@ -342,6 +345,100 @@ public abstract class LocalizationJre extends Localization {
 	@Override
 	protected String getVariant(Locale locale) {
 		return locale.getVariant();
+	}
+
+	public void test(ResourceBundle rbcommandEnglish) {
+		String internalName = "LineBisector";
+		Commands toTest = Commands.stringToCommand(internalName);
+		Log.debug("toTest = " + toTest + " " + toTest.getClass());
+
+		for (Commands c : Commands.values()) {
+			Commands cInternal = Commands.englishToInternal(c);
+
+			Log.debug(c.name() + " " + cInternal + " " + toTest + " "
+					+ internalName);
+
+			if (toTest.equals(cInternal)
+					&& !c.name().equals(cInternal.toString())) {
+				Log.debug("English name is " + c.name());
+				return;
+			}
+		}
+
+		Log.debug("nothing found, English name must be " + internalName);
+
+		if (true)
+			return;
+
+		// internalName = "CircularSector";
+		// cInt = Commands.stringToCommand(internalName);
+		// Log.debug("cInt = " + cInt + " " + cInt.getClass());
+
+		Iterator<String> it2 = rbcommand.keySet().iterator();
+		boolean done = false;
+		while (it2.hasNext()) {
+			String internalName2 = it2.next();
+			if (internalName2.indexOf(".Syntax") == -1) {
+				Commands c = Commands.stringToCommand(internalName2);
+				if (c == null) {
+					// Log.debug("null lookup: internalName2 = " +
+					// internalName2);
+				}
+				Commands cInt = Commands.englishToInternal(c);
+
+
+				if (toTest == cInt) {
+					// Log.debug("OK: " + cInt.name() + " " + c.name());
+					done = true;
+					break;
+				}
+			}
+
+		}
+
+		if (!done) {
+			Log.error("not OK" + toTest.getClass());
+		}
+
+
+	}
+
+	public void test2(ResourceBundle rbcommandEnglish) {
+		Iterator<String> it = rbcommand.keySet().iterator();
+
+		while (it.hasNext()) {
+			String internalName = it.next();
+			if (internalName.indexOf(".Syn") == -1) {
+				String englishName = rbcommandEnglish.getString(internalName);
+				if (!englishName.equals(internalName)) {
+					Log.debug(englishName + " " + internalName);
+				}
+
+				Commands cEng = Commands.stringToCommand(englishName);
+				Commands toTest = Commands.englishToInternal(cEng);
+
+				Iterator<String> it2 = rbcommand.keySet().iterator();
+				boolean done = false;
+				while (it2.hasNext()) {
+					String internalName2 = it2.next();
+					Commands cInt = Commands.stringToCommand(internalName2);
+
+					if (toTest == cInt) {
+						Log.debug("OK: " + cInt);
+						done = true;
+						break;
+					}
+
+				}
+
+				if (!done) {
+					Log.error("not OK" + cEng.getClass() + " "
+							+ toTest.getClass());
+				}
+
+			}
+		}
+
 	}
 
 }

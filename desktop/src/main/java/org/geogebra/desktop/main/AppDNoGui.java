@@ -638,12 +638,6 @@ public class AppDNoGui extends App {
 	}
 
 	@Override
-	public String getEnglishCommand(String command) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void closePopups() {
 		// TODO Auto-generated method stub
 

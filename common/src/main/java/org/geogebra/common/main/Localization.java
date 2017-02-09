@@ -1211,4 +1211,28 @@ public abstract class Localization implements KeyboardLocale {
 		}
 		return "East";
 	}
+
+	public String getEnglishCommand(String internalName) {
+		// String internalName = "LineBisector";
+		Commands toTest = Commands.stringToCommand(internalName);
+		// Log.debug("toTest = " + toTest + " " + toTest.getClass());
+
+		for (Commands c : Commands.values()) {
+			Commands cInternal = Commands.englishToInternal(c);
+
+			// Log.debug(c.name() + " " + cInternal + " " + toTest + " "
+			// + internalName);
+
+			if (toTest.equals(cInternal)
+					&& !c.name().equals(cInternal.toString())) {
+				Log.debug(
+						"English name for " + internalName + " is " + c.name());
+				return c.name();
+			}
+		}
+
+		Log.debug("nothing found, English name must be " + internalName);
+
+		return internalName;
+	}
 }

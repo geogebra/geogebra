@@ -273,7 +273,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// RESOURCE fields
 	// ==============================================================
 
-	private ResourceBundle rbcommandEnglish, rbmenuEnglish;
+	private ResourceBundle rbmenuEnglish;
 
 	private final LocalizationD loc;
 
@@ -2564,20 +2564,22 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc.getLocale();
 	}
 
-	@Override
-	final public String getEnglishCommand(String key) {
-
-		if (rbcommandEnglish == null) {
-			rbcommandEnglish = MyResourceBundle
-					.createBundle(LocalizationD.RB_COMMAND, Locale.ENGLISH);
-		}
-
-		try {
-			return rbcommandEnglish.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
+	// @Override
+	// final public String getEnglishCommand(String key) {
+	//
+	// if (rbcommandEnglish == null) {
+	// rbcommandEnglish = MyResourceBundle
+	// .createBundle(LocalizationD.RB_COMMAND, Locale.ENGLISH);
+	// }
+	//
+	// ((LocalizationJre) loc).test(rbcommandEnglish);
+	//
+	// try {
+	// return rbcommandEnglish.getString(key);
+	// } catch (Exception e) {
+	// return key;
+	// }
+	// }
 
 	final public String getEnglishMenu(String key) {
 

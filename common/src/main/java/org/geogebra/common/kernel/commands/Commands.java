@@ -952,6 +952,12 @@ public enum Commands implements CommandsConstants,
 
 	CircularArc(TABLE_ENGLISH),
 
+	Sxx(TABLE_ENGLISH),
+
+	Syy(TABLE_ENGLISH),
+
+	Sxy(TABLE_ENGLISH),
+
 	Side(TABLE_ENGLISH),
 
 	DelaunayTriangulation(TABLE_ENGLISH),
@@ -1150,6 +1156,12 @@ public enum Commands implements CommandsConstants,
 
 	public static Commands englishToInternal(Commands comm) {
 		switch (comm) {
+		case Sxx:
+			return SXX;
+		case Syy:
+			return SYY;
+		case Sxy:
+			return SXY;
 		case CircularArc:
 			return CircleArc;
 		case CircularSector:
@@ -1221,6 +1233,18 @@ public enum Commands implements CommandsConstants,
 	@Override
 	public String getCommand() {
 		return name();
+	}
+
+	public static Commands stringToCommand(String str) {
+
+		for (Commands c : Commands.values()) {
+			if (c.getCommand().equals(str)) {
+				return c;
+			}
+		}
+
+		return null;
+
 	}
 
 }

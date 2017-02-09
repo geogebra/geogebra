@@ -634,16 +634,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return super.getReverseCommand(command);
 	}
 
-	@Override
-	public String getEnglishCommand(String pageName) {
-		loc.initCommand();
-		// String ret = commandConstants
-		// .getString(crossReferencingPropertiesKeys(pageName));
-		// if (ret != null)
-		// return ret;
-		return pageName;
-	}
-
 	public void loadGgbFile(HashMap<String, String> archiveContent)
 	        throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
