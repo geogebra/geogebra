@@ -82,7 +82,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private Label lblMeanSigma;
 	/** control panel */
 	FlowPanel controlPanel;
-	private ScheduledCommand exportToEVAction;
+	/** export action */
+	ScheduledCommand exportToEVAction;
 	/** plot panel */
 	FlowPanel plotPanelPlus;
 	private FlowPanel plotPanelOptions;
@@ -120,9 +121,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 			@Override
 		public void onSelection(SelectionEvent<Integer> event) {
-			if (styleBar != null) {
-				styleBar.updateLayout();
-			}
+				updateStylebarLayout();
 		   }
 	   });
 	   
@@ -131,12 +130,22 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   setLabels();
 	   
 	   attachView();
-	   settingsChanged(app.getSettings().getProbCalcSettings());
+		settingsChanged(getApp().getSettings().getProbCalcSettings());
 	   
 	   
 	   isIniting = false;
     }
 	
+	/**
+	 * Updates stylebar layout
+	 */
+	protected void updateStylebarLayout() {
+		if (styleBar != null) {
+			styleBar.updateLayout();
+		}
+
+	}
+
 	@Override
 	public void setLabels() {
 
@@ -207,8 +216,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				return value.get(key);
 			}
 			
-			public void putValue(String key, Object value) {
-				this.value.put(key, value);
+			public void putValue(String key, Object val) {
+				this.value.put(key, val);
 			}
 			
 			@Override
@@ -219,8 +228,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			
 				// if null ID then use EV1 unless shift is down, then use EV2
 				if (euclidianViewID == null) {
-					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2(1)
-							.getViewID() : app.getEuclidianView1().getViewID();
+					euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
+							? getApp().getEuclidianView2(1).getViewID()
+							: getApp().getEuclidianView1().getViewID();
 				}
 
 				// do the export
@@ -262,7 +272,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    plotPanelOptions = new FlowPanel();
 	    plotPanelOptions.setStyleName("plotPanelOptions");
 	    plotPanelOptions.add(lblMeanSigma);
-		if (!app.isExam()) {
+		if (!getApp().isExam()) {
 			plotPanelOptions.add(btnExport);
 		}
 	    plotPanelOptions.add(btnNormalOverlay);
@@ -419,12 +429,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    btnNormalOverlay.addClickHandler(new ClickHandler() {
 			@Override
             public void onClick(ClickEvent event) {
-				setShowNormalOverlay(btnNormalOverlay.isSelected());
-				updateAll();
+				onOverlayClicked();
             }
 	    });
     }
 	
+	/**
+	 * Overlay button action
+	 */
+	protected void onOverlayClicked() {
+		setShowNormalOverlay(btnNormalOverlay.isSelected());
+		updateAll();
+
+	}
+
 	/**
 	 * @return the wrapper panel of this view
 	 */
@@ -772,9 +790,15 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   return probManager;
     }
 
-	public void updatePrintFormat(int printDecimals, int printFigures) {
-		this.printDecimals = printDecimals;
-		this.printFigures = printFigures;
+	/**
+	 * @param decimals
+	 *            decimals
+	 * @param figures
+	 *            significant digits
+	 */
+	public void updatePrintFormat(int decimals, int figures) {
+		this.printDecimals = decimals;
+		this.printFigures = figures;
 		updateGUI();
 		updateDiscreteTable();
     }
@@ -793,23 +817,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
         }
 		
 		@Override
-        public void onResize() {
+		public final void onResize() {
 			//int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 50;
-			int width = mainSplitPane.getOffsetWidth() - ((ProbabilityTableW) table).getWrappedPanel().getOffsetWidth() - 5;
-			if (width > 0) { 
-				plotPanel.setPreferredSize(new GDimensionW(width, PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
-				plotPanel.repaintView();
-				plotPanel.getEuclidianController().calculateEnvironment();
-				controlPanel.setWidth(width + "px");
-				plotPanelPlus.setWidth(width + "px");
-			}
-			
-			int height = probCalcPanel.getOffsetHeight() - 20;
-			if (height > 0) {
-				((ProbabilityTableW) table).getWrappedPanel().setPixelSize(
-						((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() + 25, height);
-				//((ProbabilityTableW) table).getWrappedPanel().setHeight(height + "px");
-			}
+			tabResized();
 
 		}
 
@@ -819,13 +829,44 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		@Override
 		public void onClick(ClickEvent event) {
-			app.setActiveView(App.VIEW_PROBABILITY_CALCULATOR);
+			getApp();
+			getApp().setActiveView(App.VIEW_PROBABILITY_CALCULATOR);
 		}
 	}
 
+	/**
+	 * @return plot panel view
+	 */
 	public EuclidianViewW getPlotPanelEuclidianView() {
 	    return (EuclidianViewW) plotPanel;
     }
+
+	/**
+	 * Tab resize callback
+	 */
+	public void tabResized() {
+		int width = mainSplitPane.getOffsetWidth()
+				- ((ProbabilityTableW) table).getWrappedPanel().getOffsetWidth()
+				- 5;
+		if (width > 0) {
+			plotPanel.setPreferredSize(new GDimensionW(width,
+					PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
+			plotPanel.repaintView();
+			plotPanel.getEuclidianController().calculateEnvironment();
+			controlPanel.setWidth(width + "px");
+			plotPanelPlus.setWidth(width + "px");
+		}
+
+		int height = probCalcPanel.getOffsetHeight() - 20;
+		if (height > 0) {
+			((ProbabilityTableW) table).getWrappedPanel()
+					.setPixelSize(((ProbabilityTableW) table).getStatTable()
+							.getTable().getOffsetWidth() + 25, height);
+			// ((ProbabilityTableW) table).getWrappedPanel().setHeight(height +
+			// "px");
+		}
+
+	}
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -863,6 +904,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   
     }
 	
+	/**
+	 * @param source
+	 *            changed source
+	 * @param intervalCheck
+	 *            true if triggered by enter/blur
+	 */
 	void doTextFieldActionPerformed(TextBox source, boolean intervalCheck) {
 		if (isIniting) {
 			return;
@@ -910,6 +957,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 					else if (source == fldResult.getTextBox()) {
 						update = false;
 						if (value < 0 || value > 1) {
+							if (!intervalCheck) {
+								updateLowHigh();
+								return;
+							}
 							updateGUI();
 						} else {
 							if (probMode == PROB_LEFT) {
@@ -951,7 +1002,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
-		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+		if (getApp().has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
 			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
 				@Override
 				public void onInsert(String text) {
@@ -998,16 +1049,19 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		return false;
 	}
 
+	/**
+	 * Resize callback
+	 */
 	public void onResize() {
 		// in most cases it is enough to updatePlotSettings, but when
 		// setPersective is called early
 		// during Win8 app initialization, we also need to update the tabbed
 		// pane and make the whole process deferred
-		app.invokeLater(new Runnable() {
+		getApp().invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				tabbedPane.onResize();
+				tabResized();
 				updatePlotSettings();
 			}
 		});
@@ -1046,7 +1100,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		MenuBar menu = new MenuBar(true);
 
-		if (!app.isApplet()) {
+		if (!getApp().isApplet()) {
 			MenuItem miToGraphich = new MenuItem(loc.getMenu("CopyToGraphics"),
 				new Command() {
 
@@ -1067,9 +1121,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						public void execute() {
 							String url = ((EuclidianViewW) plotPanel)
 									.getExportImageDataUrl(3, true);
-							((FileManagerW) ((AppW) app).getFileManager())
+							((FileManagerW) ((AppW) getApp()).getFileManager())
 									.showExportAsPictureDialog(url,
-											app.getExportTitle(), app);
+											getApp().getExportTitle(),
+											getApp());
 						}
 					});
 			menu.addItem(miAsPicture);
@@ -1083,6 +1138,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnExport.removeStyleName("gwt-MenuBar");
 		btnExport.addStyleName("gwt-ToggleButton");
 		btnExport.addStyleName("MyToggleButton");
+	}
+
+	/**
+	 * @return application
+	 */
+	protected App getApp() {
+		return app;
 	}
 
 }
