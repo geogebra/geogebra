@@ -19,6 +19,8 @@ import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
@@ -28,18 +30,33 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 
+/**
+ * ReTeX editor for CAS
+ *
+ */
 public class CASLaTeXEditor extends FlowPanel
  implements CASEditorW,
 		MathKeyboardListener,
 		MathFieldListener {
+	/** suggestions */
 	InputSuggestions sug;
 	private MathFieldW mf;
+	/** keyboard connector */
 	RetexKeyboardListener retexListener;
 	private AppW app;
 	private CASTableW table;
 	private CASTableControllerW controller;
 	private boolean autocomplete = true;
+	private Widget dummy;
 
+	/**
+	 * @param table
+	 *            table
+	 * @param app
+	 *            application
+	 * @param controller
+	 *            controller
+	 */
 	public CASLaTeXEditor(CASTableW table, final AppW app,
 			final CASTableControllerW controller) {
 		this.app = app;
@@ -48,7 +65,16 @@ public class CASLaTeXEditor extends FlowPanel
 		Canvas canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(this, canvas, this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
+		mf.setOnBlur(new BlurHandler() {
+
+			public void onBlur(BlurEvent event) {
+				setFocus(false, true);
+
+			}
+		});
 		add(mf);
+		dummy = new Label(
+				app.getLocalization().getMenu("InputLabel") + Unicode.ellipsis);
 
 	}
 
@@ -149,9 +175,10 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
+
+		remove(focus ? dummy : mf);
 		setWidget(focus ? mf.asWidget()
-				: new Label(app.getLocalization().getMenu("InputLabel")
-						+ Unicode.ellipsis));
+				: dummy);
 		mf.setFocus(focus);
 
 	}
