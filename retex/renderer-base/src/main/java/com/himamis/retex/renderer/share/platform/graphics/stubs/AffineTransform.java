@@ -374,11 +374,11 @@ public class AffineTransform implements Transform {
      * the convention that the state of "this" transform is unshifted and
      * the state of the "other" or "argument" transform is shifted (HI).
      */
-    private static final int HI_SHIFT = 3;
-    private static final int HI_IDENTITY = APPLY_IDENTITY << HI_SHIFT;
-    private static final int HI_TRANSLATE = APPLY_TRANSLATE << HI_SHIFT;
-    private static final int HI_SCALE = APPLY_SCALE << HI_SHIFT;
-    private static final int HI_SHEAR = APPLY_SHEAR << HI_SHIFT;
+	// private static final int HI_SHIFT = 3;
+	// private static final int HI_IDENTITY = APPLY_IDENTITY << HI_SHIFT;
+	// private static final int HI_TRANSLATE = APPLY_TRANSLATE << HI_SHIFT;
+	// private static final int HI_SCALE = APPLY_SCALE << HI_SHIFT;
+	// private static final int HI_SHEAR = APPLY_SHEAR << HI_SHIFT;
 
     /**
      * The X coordinate scaling element of the 3x3

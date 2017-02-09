@@ -22,14 +22,9 @@ public class InputController {
 	public static final char DELIMITER_KEY = ';';
 
 	private MetaModel metaModel;
-	private CursorController cursorController;
-	private ArgumentHelper argumentHelper;
 
-	public InputController(MetaModel metaModel,
-			CursorController cursorController) {
+	public InputController(MetaModel metaModel) {
 		this.metaModel = metaModel;
-		this.cursorController = cursorController;
-		this.argumentHelper = new ArgumentHelper();
 	}
 
 	final static private char getLetter(MathComponent component)

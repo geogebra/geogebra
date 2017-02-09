@@ -14,7 +14,6 @@ package org.geogebra.desktop.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -35,7 +34,6 @@ public class LaTeXPreviewerPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private static final int INSET = 3;
-	private static final Rectangle NULLRECT = new Rectangle(0, 0, 0, 0);
 
 	private static final int defaultSize = 15;
 

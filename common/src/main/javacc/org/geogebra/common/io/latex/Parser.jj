@@ -10,7 +10,6 @@ public class Parser {
     private MetaModel metaModel;
     private EditorState editorState;
     private ArgumentHelper argumentHelper;
-    private CursorController cursorController;
     private InputController inputController;
 
 
@@ -19,8 +18,7 @@ public class Parser {
         this.metaModel = metaModel;
         this.editorState = new EditorState(metaModel);
         this.argumentHelper = new ArgumentHelper();
-        this.cursorController = new CursorController();
-        this.inputController = new InputController(metaModel, cursorController);
+        this.inputController = new InputController(metaModel);
     }
 
     private static MathComponent convertSuperscriptToNormal(MetaModel metaModel, char sup) {

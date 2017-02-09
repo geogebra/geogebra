@@ -54,7 +54,6 @@ public class ScaleBox extends Box {
 
 	private Box box;
 	private double xscl, yscl;
-	private double factor = 1;
 
 	public ScaleBox(Box b, double xscl, double yscl) {
 		this.box = b;
@@ -68,7 +67,6 @@ public class ScaleBox extends Box {
 
 	public ScaleBox(Box b, double factor) {
 		this(b, factor, factor);
-		this.factor = factor;
 	}
 
 	@Override

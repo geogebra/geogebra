@@ -17,7 +17,6 @@ import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
@@ -27,14 +26,12 @@ public class LinearRegressionPanel extends JPanel
 		implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
-	private Kernel kernel;
 	private DefaultTableModel model;
 	private DefaultListModel headerModel;
 
 	public LinearRegressionPanel(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
-		kernel = app.getKernel();
 
 		this.setOpaque(true);
 		this.setBackground(Color.WHITE);

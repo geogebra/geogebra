@@ -66,7 +66,6 @@ public class JavaFontRenderingBox extends Box {
 
 	private static Font font;
 
-	private String str;
 	private TextLayout text;
 	private double size;
 	private static TextAttribute KERNING;
@@ -87,7 +86,6 @@ public class JavaFontRenderingBox extends Box {
 
 	public JavaFontRenderingBox(String str, int type, double size, Font f,
 			boolean kerning) {
-		this.str = str;
 		this.size = size;
 
 		if (kerning && KERNING != null) {

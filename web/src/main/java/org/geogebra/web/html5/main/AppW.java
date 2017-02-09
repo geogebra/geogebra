@@ -2,8 +2,6 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -166,7 +164,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
 	private HashMap<String, String> currentFile = null;
-	private LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private int localID = -1;

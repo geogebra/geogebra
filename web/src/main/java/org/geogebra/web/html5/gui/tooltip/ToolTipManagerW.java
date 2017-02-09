@@ -84,7 +84,7 @@ public class ToolTipManagerW {
 	/** last mouse y coord */
 	int mouseY = 0;
 
-	private Timer timer, bottomTimer;
+	private Timer timer;
 	private boolean blockToolTip = true;
 
 	/**

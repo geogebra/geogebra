@@ -39,7 +39,6 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	private GeoPoint P; // input
 	private GeoPoint M; // output
 	private Variable[] botanaVars;
-	private Polynomial[] botanaPolynomials;
 
 	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
 			GeoNumberValue x, GeoNumberValue y) {
