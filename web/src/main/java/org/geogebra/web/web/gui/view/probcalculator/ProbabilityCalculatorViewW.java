@@ -652,10 +652,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 					}
 
 		tabbedPane.deferredOnResize();
-		// set low/high interval field values
-		fldLow.setText("" + format(getLow()));
-		// fldLow.setCaretPosition(0);
-		fldHigh.setText("" + format(getHigh()));
+		updateLowHigh();
 		// fldHigh.setCaretPosition(0);
 		fldResult.setText(probability >= 0 ? "" + format(probability) : "?");
 		// fldResult.setCaretPosition(0);
@@ -675,6 +672,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnIntervalRight.setValue(probMode == PROB_RIGHT);
 
 		btnNormalOverlay.setValue(isShowNormalOverlay());
+	}
+
+	private void updateLowHigh() {
+		// set low/high interval field values
+		fldLow.setText("" + format(getLow()));
+		// fldLow.setCaretPosition(0);
+		fldHigh.setText("" + format(getHigh()));
+
 	}
 
 	@Override
@@ -903,8 +908,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 					// handle inverse probability
 					else if (source == fldResult.getTextBox()) {
+						update = false;
 						if (value < 0 || value > 1) {
-							update = false;
 							updateGUI();
 						} else {
 							if (probMode == PROB_LEFT) {
@@ -913,6 +918,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 							if (probMode == PROB_RIGHT) {
 								setLow(inverseProbability(1 - value));
 							}
+							updateLowHigh();
 							setXAxisPoints();
 						}
 					} else {
