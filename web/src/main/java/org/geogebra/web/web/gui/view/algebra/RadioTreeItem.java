@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.GuiManager.Help;
+import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;

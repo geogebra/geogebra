@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
