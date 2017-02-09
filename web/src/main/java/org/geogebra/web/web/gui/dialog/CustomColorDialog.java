@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -144,6 +145,9 @@ public class CustomColorDialog extends DialogBoxW {
 
 	public CustomColorDialog(App app, ICustomColor listener) {
 		super(((AppW) app).getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 		this.listener = listener;
 		loc = app.getLocalization();
 		setWidget(mainWidget = new FlowPanel());

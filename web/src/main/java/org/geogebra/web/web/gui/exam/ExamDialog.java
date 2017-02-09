@@ -56,6 +56,11 @@ public class ExamDialog {
 		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		box = new DialogBoxW(false, true, null, app.getPanel());
+		
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			box.setOverlapFeature(true);
+		}
+		
 		VerticalPanel mainWidget = new VerticalPanel();
 		FlowPanel btnPanel = new FlowPanel();
 		FlowPanel cbxPanel = new FlowPanel();

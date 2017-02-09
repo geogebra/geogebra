@@ -63,6 +63,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		} else {
 			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel());
 		}
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			wrappedPopup.setOverlapFeature(true);
+		}
 	}
 
 	public InputDialogW(AppW app, String message, String title,

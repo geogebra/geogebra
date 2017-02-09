@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
@@ -74,6 +75,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 */
 	public ExerciseBuilderDialog(App app) {
 		super(false, false, null, ((AppW) app).getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 
 		this.app = (AppW) app;
 		this.loc = app.getLocalization();

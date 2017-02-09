@@ -150,6 +150,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public ToolManagerDialogW(AppW app) {
 		super(app.getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 		setModal(true);
 		model = new ToolManagerDialogModel(app, this);
 

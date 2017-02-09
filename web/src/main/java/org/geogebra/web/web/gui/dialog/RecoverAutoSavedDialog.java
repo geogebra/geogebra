@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.main.AppWFull;
@@ -32,6 +33,9 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 */
 	public RecoverAutoSavedDialog(AppWFull app) {
 		super(app.getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 		this.addStyleName("RecoverAutoSavedDialog");
 		this.app = app;
 		initGUI();

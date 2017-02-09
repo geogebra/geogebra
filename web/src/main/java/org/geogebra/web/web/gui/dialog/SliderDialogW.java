@@ -81,6 +81,9 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 	 */
 	public SliderDialogW(final AppW app, int x, int y) {
 		super(false, true, null, app.getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 		//super(app.getFrame(), false);
 		this.app = app;
 		this.loc = app.getLocalization();

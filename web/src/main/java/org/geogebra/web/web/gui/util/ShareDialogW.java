@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -49,6 +50,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.setGlassEnabled(true);

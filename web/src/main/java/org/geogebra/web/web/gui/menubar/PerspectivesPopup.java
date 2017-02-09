@@ -48,6 +48,11 @@ public class PerspectivesPopup {
 						Math.max(0, (int) (app.getHeight() / 2 - 250)));
 			}
 		};
+		
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			box.setOverlapFeature(true);
+		}
+		
 		box.setGlassEnabled(false);
 
 		this.contentPanel = new FlowPanel();

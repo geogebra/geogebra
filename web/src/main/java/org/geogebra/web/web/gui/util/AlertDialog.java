@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 
@@ -33,6 +34,9 @@ public class AlertDialog extends DialogBoxW {
 	 */
 	public AlertDialog(App app) {
 		super(((AppW) app).getPanel());
+		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+			setOverlapFeature(true);
+		}
 		setWidget(container = new VerticalPanel());
 		HorizontalPanel textPanel = new HorizontalPanel();
 		textPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);

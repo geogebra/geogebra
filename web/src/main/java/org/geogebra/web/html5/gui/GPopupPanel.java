@@ -468,6 +468,9 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 	private final Panel root;
 
+	//temporary variable for checking feature flag
+	private boolean hasOverlapFeature = false;
+
 	/**
 	 * Creates an empty popup panel. A child widget must be added to it before
 	 * it is shown.
@@ -520,6 +523,13 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		this(autoHide, root);
 		this.modal = modal;
 	}
+	
+	/**
+	 * temporary function to set feature flag
+	 */
+	public void setOverlapFeature(boolean b){
+		hasOverlapFeature = b;
+	}
 
 	/**
 	 * Mouse events that occur within an autoHide partner will not hide a panel
@@ -561,6 +571,9 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	public void centerAndResize(double keyboardHeight){
 		
 		int top = center(keyboardHeight);
+		if (!hasOverlapFeature){
+			return;
+		}
 		if (top <= 0){
 			int paddings = 30; //TODO: get sum of top and bottom paddings
 			this.getElement().getStyle().setHeight(getRootPanel().getOffsetHeight() - keyboardHeight -paddings, Unit.PX);

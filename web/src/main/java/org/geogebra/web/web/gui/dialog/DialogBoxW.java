@@ -26,6 +26,7 @@ public class DialogBoxW extends GDialogBox {
 	
 	private ErrorHandler eh;
 	FastButton cancelButton;
+	//private boolean hasOverlapFeature;
 
 
 	/**
@@ -79,6 +80,7 @@ public class DialogBoxW extends GDialogBox {
 			@Override
 			public void onResize(ResizeEvent event) {
 				if (DialogBoxW.this.isShowing()) {
+					//keyboard will be closed after resizing, so its height can be 0 in centerAndResize function
 					centerAndResize(0);
 				}
 			}
