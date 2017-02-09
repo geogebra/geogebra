@@ -283,4 +283,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		return input != null && input.equals(validInput);
 	}
 
+	/**
+	 * Clears preview.
+	 */
+	public void clear() {
+		setInput("", null);
+	}
 }

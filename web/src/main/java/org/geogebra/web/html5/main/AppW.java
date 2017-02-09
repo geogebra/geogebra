@@ -1012,6 +1012,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			return;
 		}
 
+		kernel.getInputPreviewHelper().clear();
 		clearInputBar();
 
 
