@@ -188,4 +188,12 @@ public class InputBarHelpPanel {
 		}
 		return getCommands(category);
 	}
+
+	public String getMathFunctionsTitle() {
+		return mApp.getLocalization().getMenu("MathematicalFunctions");
+	}
+
+	public String getAllCommandsTitle() {
+		return mApp.getLocalization().getMenu("AllCommands");
+	}
 }
