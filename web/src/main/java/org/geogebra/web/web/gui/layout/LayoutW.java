@@ -32,6 +32,9 @@ public class LayoutW extends Layout implements SettingListener {
 	
 	/**
 	 * instantiates layout for Web
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public LayoutW(App app) {
 		initializeDefaultPerspectives(app, 0.2);

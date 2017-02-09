@@ -28,8 +28,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * A panel that adds user-positioned splitters between each of its child
  * widgets.
@@ -133,110 +131,123 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
 
     @Override
-		@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-				"missing break is deliberate" })
     public void onBrowserEvent(Event event) {
-      if (!impl.shouldHandleEvent(event, mouseDown)) {
-        return;
-      }
-      Element splitter = null;
-      switch (event.getTypeInt()) {
+			if (!impl.shouldHandleEvent(event, mouseDown)) {
+				return;
+			}
+			Element splitter = null;
+			switch (event.getTypeInt()) {
 			default:
 				// do nothing
 				break;
-        case Event.ONTOUCHSTART:
-          splitter = impl.getSplitterElement();
-          splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+			case Event.ONTOUCHSTART:
+				splitter = impl.getSplitterElement();
+				splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+				startDrag(event);
+				break;
+			case Event.ONMOUSEDOWN:
+				startDrag(event);
+				break;
 
-				// fall through
-        case Event.ONMOUSEDOWN:
-          if (splitPanel.hasSplittersFrozen()) {
-					event.preventDefault();
-          	break;
-          }
-          mouseDown = true;
+			case Event.ONTOUCHEND:
+				splitter = impl.getSplitterElement();
+				splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+				endDrag(event);
+				break;
+			case Event.ONMOUSEUP:
+				endDrag(event);
+				break;
 
-          /*
-           * Resize glassElem to take up the entire scrollable window area,
-           * which is the greater of the scroll size and the client size.
-           */
-          int width = Math.max(Window.getClientWidth(),
-              Document.get().getScrollWidth());
-          int height = Math.max(Window.getClientHeight(),
-              Document.get().getScrollHeight());
-          glassElem.getStyle().setHeight(height, Unit.PX);
-          glassElem.getStyle().setWidth(width, Unit.PX);
-          Document.get().getBody().appendChild(glassElem);
-
-          offset = getEventPosition(event) - getAbsolutePosition();
-          Event.setCapture(getElement());
-          event.preventDefault();
-          break;
-
-        case Event.ONTOUCHEND:
-          splitter = impl.getSplitterElement();
-          splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
-        case Event.ONMOUSEUP:
-          if (splitPanel.hasSplittersFrozen()) {
-          	event.preventDefault();
-            break;
-          }
-          mouseDown = false;
-
-          glassElem.removeFromParent();
-
-          // Handle double-clicks.
-          // Fake them since the double-click event aren't fired.
-          if (this.toggleDisplayAllowed) {
-            double now = Duration.currentTimeMillis();
-            if (now - this.lastClick < DOUBLE_CLICK_TIMEOUT) {
-              now = 0;
-              LayoutData layout = (LayoutData) target.getLayoutData();
-              if (layout.size == 0) {
-                // Restore the old size.
-                setAssociatedWidgetSize(layout.oldSize);
-              } else {
-                /*
-                 * Collapse to size 0. We change the size instead of hiding the
-                 * widget because hiding the widget can cause issues if the
-                 * widget contains a flash component.
-                 */
-                layout.oldSize = layout.size;
-                setAssociatedWidgetSize(0);
-              }
-            }
-            this.lastClick = now;
-          }
-
-          Event.releaseCapture(getElement());
-          event.preventDefault();
-          break;
-
-        case Event.ONMOUSEMOVE:
-        case Event.ONTOUCHMOVE:
-          if (splitPanel.hasSplittersFrozen()) {
+			case Event.ONMOUSEMOVE:
+			case Event.ONTOUCHMOVE:
+				if (splitPanel.hasSplittersFrozen()) {
 					event.preventDefault();
 					splitter = impl.getSplitterElement();
 					splitter.addClassName("disabled");
 					break;
-          }
-          if (mouseDown) {
-            int size;
-            if (reverse) {
-              size = getTargetPosition() + getTargetSize() - getSplitterSize()
-                  - getEventPosition(event) + offset;
-            } else {
-              size = getEventPosition(event) - getTargetPosition() - offset;
-            }
-            ((LayoutData) target.getLayoutData()).hidden = false;
-            setAssociatedWidgetSize(size);
-            event.preventDefault();
-          }
-          break;
-      }
+				}
+				if (mouseDown) {
+					int size;
+					if (reverse) {
+						size = getTargetPosition() + getTargetSize()
+								- getSplitterSize() - getEventPosition(event)
+								+ offset;
+					} else {
+						size = getEventPosition(event) - getTargetPosition()
+								- offset;
+					}
+					((LayoutData) target.getLayoutData()).hidden = false;
+					setAssociatedWidgetSize(size);
+					event.preventDefault();
+				}
+				break;
+			}
     }
 
-    public void setMinSize(int minSize) {
+		private void endDrag(Event event) {
+			if (splitPanel.hasSplittersFrozen()) {
+				event.preventDefault();
+				return;
+			}
+			mouseDown = false;
+
+			getGlassElem().removeFromParent();
+
+			// Handle double-clicks.
+			// Fake them since the double-click event aren't fired.
+			if (this.toggleDisplayAllowed) {
+				double now = Duration.currentTimeMillis();
+				if (now - this.lastClick < DOUBLE_CLICK_TIMEOUT) {
+					now = 0;
+					LayoutData layout = (LayoutData) target.getLayoutData();
+					if (layout.size == 0) {
+						// Restore the old size.
+						setAssociatedWidgetSize(layout.oldSize);
+					} else {
+						/*
+						 * Collapse to size 0. We change the size instead of
+						 * hiding the widget because hiding the widget can cause
+						 * issues if the widget contains a flash component.
+						 */
+						layout.oldSize = layout.size;
+						setAssociatedWidgetSize(0);
+					}
+				}
+				this.lastClick = now;
+			}
+
+			Event.releaseCapture(getElement());
+			event.preventDefault();
+
+		}
+
+		private void startDrag(Event event) {
+			if (splitPanel.hasSplittersFrozen()) {
+				event.preventDefault();
+				return;
+			}
+			mouseDown = true;
+
+			/*
+			 * Resize glassElem to take up the entire scrollable window area,
+			 * which is the greater of the scroll size and the client size.
+			 */
+			int width = Math.max(Window.getClientWidth(),
+					Document.get().getScrollWidth());
+			int height = Math.max(Window.getClientHeight(),
+					Document.get().getScrollHeight());
+			Element glass = getGlassElem();
+			glass.getStyle().setHeight(height, Unit.PX);
+			glass.getStyle().setWidth(width, Unit.PX);
+			Document.get().getBody().appendChild(glass);
+
+			offset = getEventPosition(event) - getAbsolutePosition();
+			Event.setCapture(getElement());
+			event.preventDefault();
+
+		}
+
+		public void setMinSize(int minSize) {
       this.minSize = minSize;
       LayoutData layout = (LayoutData) target.getLayoutData();
 
@@ -360,12 +371,40 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
   private final int splitterSize;
   private double zoom;
-  protected boolean frozen;
 
-  /**
-   * Construct a new {@link SplitLayoutPanel} with the default splitter size of
-   * 8px.
-   */
+	/**
+	 * @return glass pane
+	 */
+	static Element getGlassElem() {
+		if (glassElem == null) {
+			glassElem = Document.get().createDivElement();
+			glassElem.getStyle().setPosition(Position.ABSOLUTE);
+			glassElem.getStyle().setTop(0, Unit.PX);
+			glassElem.getStyle().setLeft(0, Unit.PX);
+			glassElem.getStyle().setMargin(0, Unit.PX);
+			glassElem.getStyle().setPadding(0, Unit.PX);
+			glassElem.getStyle().setBorderWidth(0, Unit.PX);
+
+			// We need to set the background color or mouse events will go right
+			// through the glassElem. If the SplitPanel contains an iframe, the
+			// iframe will capture the event and the slider will stop moving.
+			glassElem.getStyle().setProperty("background", "white");
+			glassElem.getStyle().setOpacity(0.0);
+		}
+		return glassElem;
+	}
+
+	/**
+	 * @return whether splitter id frozen; override in subclasses
+	 */
+	public boolean hasSplittersFrozen() {
+		return false;
+	}
+
+	/**
+	 * Construct a new {@link SplitLayoutPanel} with the default splitter size
+	 * of 8px.
+	 */
   public ZoomSplitLayoutPanel(double zoom) {
     this(DEFAULT_SPLITTER_SIZE, zoom);
   }
@@ -381,21 +420,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     this.splitterSize = splitterSize;
     setStyleName("gwt-SplitLayoutPanel");
     this.zoom = zoom;
-    if (glassElem == null) {
-      glassElem = Document.get().createDivElement();
-      glassElem.getStyle().setPosition(Position.ABSOLUTE);
-      glassElem.getStyle().setTop(0, Unit.PX);
-      glassElem.getStyle().setLeft(0, Unit.PX);
-      glassElem.getStyle().setMargin(0, Unit.PX);
-      glassElem.getStyle().setPadding(0, Unit.PX);
-      glassElem.getStyle().setBorderWidth(0, Unit.PX);
 
-      // We need to set the background color or mouse events will go right
-      // through the glassElem. If the SplitPanel contains an iframe, the
-      // iframe will capture the event and the slider will stop moving.
-      glassElem.getStyle().setProperty("background", "white");
-      glassElem.getStyle().setOpacity(0.0);
-    }
   }
 
   /**
@@ -405,19 +430,6 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
    */
   public int getSplitterSize() {
     return splitterSize;
-  }
-
-  /**
-   * This method will have to be overridden if we want an applet-wide effect
-   * Static might not be perfect if there are more applets on one page.
-   * @return whether the splitters are frozen
-   */
-  public boolean hasSplittersFrozen() {
-	return frozen;
-  }
-
-  public void setSplittersFrozen(boolean frozeSplitters) {
-	this.frozen = frozeSplitters;
   }
 
   @Override
