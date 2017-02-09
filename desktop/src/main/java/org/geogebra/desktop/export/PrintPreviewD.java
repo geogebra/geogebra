@@ -44,6 +44,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -375,10 +376,17 @@ public class PrintPreviewD extends JDialog {
 				Thread runner = new Thread() {
 					@Override
 					public void run() {
-						setCursor(
-								Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						updatePages();
-						setCursor(Cursor.getDefaultCursor());
+						SwingUtilities.invokeLater(new Runnable() {
+
+							public void run() {
+								setCursor(Cursor.getPredefinedCursor(
+										Cursor.WAIT_CURSOR));
+								updatePages();
+								setCursor(Cursor.getDefaultCursor());
+
+							}
+						});
+
 					}
 				};
 				runner.start();

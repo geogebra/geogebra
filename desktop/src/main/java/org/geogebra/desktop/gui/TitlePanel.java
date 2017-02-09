@@ -26,6 +26,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -105,8 +107,11 @@ public class TitlePanel extends JPanel {
 			}
 		};
 		titleField.addActionListener(lst);
+		addDocListener(titleField);
 		authorField.addActionListener(lst);
+		addDocListener(authorField);
 		dateField.addActionListener(lst);
+		addDocListener(dateField);
 
 		FocusAdapter focusListener = new FocusAdapter() {
 			@Override
@@ -117,6 +122,27 @@ public class TitlePanel extends JPanel {
 		titleField.addFocusListener(focusListener);
 		authorField.addFocusListener(focusListener);
 		dateField.addFocusListener(focusListener);
+	}
+
+	private void addDocListener(final JTextField authorField2) {
+		authorField2.getDocument().addDocumentListener(new DocumentListener() {
+
+			public void insertUpdate(DocumentEvent e) {
+				fireTextFieldUpdate(authorField2);
+
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				fireTextFieldUpdate(authorField2);
+
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				fireTextFieldUpdate(authorField2);
+
+			}
+		});
+
 	}
 
 	public void updateData() {
