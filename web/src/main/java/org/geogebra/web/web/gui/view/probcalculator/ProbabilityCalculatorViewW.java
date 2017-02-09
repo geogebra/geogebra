@@ -626,65 +626,56 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	@Override
     protected void updateGUI() {
 		// set visibility and text of the parameter labels and fields
-				for (int i = 0; i < maxParameterCount; ++i) {
+		for (int i = 0; i < maxParameterCount; ++i) {
 
-					boolean hasParm = i < ProbabilityManager.getParmCount(selectedDist);
+			boolean hasParm = i < ProbabilityManager.getParmCount(selectedDist);
 
-					lblParameterArray[i].setVisible(hasParm);
-					fldParameterArray[i].setVisible(hasParm);
+			lblParameterArray[i].setVisible(hasParm);
+			fldParameterArray[i].setVisible(hasParm);
 
-					// hide sliders for now ... need to work out slider range for each
-					// parm (tricky)
-					// sliderArray[i].setVisible(false);
+			// hide sliders for now ... need to work out slider range for each
+			// parm (tricky)
+			// sliderArray[i].setVisible(false);
 
-					if (hasParm) {
-						// set label
-						lblParameterArray[i].setVisible(true);
-						lblParameterArray[i].setText(getParameterLabels()[selectedDist
-								.ordinal()][i]);
-						// set field
-						//fldParameterArray[i].removeActionListener(this);
-						fldParameterArray[i].setText("" + format(parameters[i]));
-						//fldParameterArray[i].setCaretPosition(0); //calls onblur every time it set
-						//fldParameterArray[i].addActionListener(this);
+			if (hasParm) {
+				// set label
+				lblParameterArray[i].setVisible(true);
+				lblParameterArray[i].setText(getParameterLabels()[selectedDist
+						.ordinal()][i]);
+				// set field
+				// fldParameterArray[i].removeActionListener(this);
+				fldParameterArray[i].setText("" + format(parameters[i]));
+				// fldParameterArray[i].setCaretPosition(0); //calls onblur
+				// every time it set
+				// fldParameterArray[i].addActionListener(this);
+			}
 					}
-				}
 
 		tabbedPane.deferredOnResize();
-				// set low/high interval field values
-				fldLow.setText("" + format(getLow()));
-				//fldLow.setCaretPosition(0);
-				fldHigh.setText("" + format(getHigh()));
-				//fldHigh.setCaretPosition(0);
+		// set low/high interval field values
+		fldLow.setText("" + format(getLow()));
+		// fldLow.setCaretPosition(0);
+		fldHigh.setText("" + format(getHigh()));
+		// fldHigh.setCaretPosition(0);
 		fldResult.setText(probability >= 0 ? "" + format(probability) : "?");
-				//fldResult.setCaretPosition(0);
+		// fldResult.setCaretPosition(0);
 		fldResult
-		        .setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
+				.setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
 
-				// set distribution combo box
-				//comboDistribution.removeActionListener(this);
+		// set distribution combo box
 		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
 				.equals(getDistributionMap().get(selectedDist))) {
-					comboDistribution
-							.setSelectedIndex(ListBoxApi.getIndexOf(getDistributionMap().get(selectedDist), comboDistribution));
+			comboDistribution.setSelectedIndex(ListBoxApi.getIndexOf(
+					getDistributionMap().get(selectedDist), comboDistribution));
 		}
-				//comboDistribution.addActionListener(this);
 
-				//btnIntervalLeft.removeActionListener(this);
-				//btnIntervalBetween.removeActionListener(this);
-				//btnIntervalRight.removeActionListener(this);
+		btnCumulative.setValue(isCumulative);
+		btnIntervalLeft.setValue(probMode == PROB_LEFT);
+		btnIntervalBetween.setValue(probMode == PROB_INTERVAL);
+		btnIntervalRight.setValue(probMode == PROB_RIGHT);
 
-				
-				btnCumulative.setValue(isCumulative);
-				btnIntervalLeft.setValue(probMode == PROB_LEFT);
-				btnIntervalBetween.setValue(probMode == PROB_INTERVAL);
-				btnIntervalRight.setValue(probMode == PROB_RIGHT);				
-				//btnIntervalLeft.addActionListener(this);
-				//btnIntervalBetween.addActionListener(this);
-				//btnIntervalRight.addActionListener(this);
-				
-				btnNormalOverlay.setValue(isShowNormalOverlay());
-    }
+		btnNormalOverlay.setValue(isShowNormalOverlay());
+	}
 
 	@Override
 	public void onChange(ChangeEvent event) {
@@ -867,87 +858,82 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   
     }
 	
-	void doTextFieldActionPerformed(TextBox source,
-	        boolean intervalCheck) {
+	void doTextFieldActionPerformed(TextBox source, boolean intervalCheck) {
 		if (isIniting) {
 			return;
 		}
 		try {
-
+	
 			String inputText = source.getText().trim();
 			boolean update = true;
 			if (!"".equals(inputText)) {
 				int dotIndex = inputText.indexOf('.');
-					
+
 				if (dotIndex == inputText.length() - 1) {
-						int d = getPrintDecimals() < 4 ? 4 : getPrintDecimals();
-						setTextBoxMaxLength(source, inputText.length() + d);
+					int d = getPrintDecimals() < 4 ? 4 : getPrintDecimals();
+					setTextBoxMaxLength(source, inputText.length() + d);
 				} else if (dotIndex == -1 || dotIndex >= source.getCursorPos()) {
 					// "unlimit" it
 					setTextBoxMaxLength(source, Integer.MAX_VALUE);
-					}
-
+				}
 
 				if ((inputText.charAt(inputText.length() - 1) != '.')
-						&& (dotIndex == -1 || (inputText
-								.charAt(inputText.length() - 1) != '0'))
-			        && !"-".equals(inputText)) {
-			// Double value = Double.parseDouble(source.getText());
+						&& (dotIndex == -1 || (inputText.charAt(inputText
+								.length() - 1) != '0'))
+						&& !"-".equals(inputText)) {
+					// Double value = Double.parseDouble(source.getText());
 
-				// allow input such as sqrt(2)
-				NumberValue nv;
-				nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
-							!intervalCheck);
+					// allow input such as sqrt(2)
+					NumberValue nv;
+					nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+							inputText, !intervalCheck);
 					if (nv == null) {
 						return;
 					}
 					double value = nv.getDouble();
 
-				if (source == fldLow.getTextBox()) {
+					if (source == fldLow.getTextBox()) {
 
 						checkBounds(value, intervalCheck, false);
-				}
+					}
 
-				else if (source == fldHigh.getTextBox()) {
+					else if (source == fldHigh.getTextBox()) {
 						checkBounds(value, intervalCheck, true);
-				}
-
+					}
 	
-				// handle inverse probability
-				else if (source == fldResult.getTextBox()) {
+					// handle inverse probability
+					else if (source == fldResult.getTextBox()) {
 						update = false;
-					if (value < 0 || value > 1) {
-						updateGUI();
-					} else {
-						if (probMode == PROB_LEFT) {
-							setHigh(inverseProbability(value));
-						}
-						if (probMode == PROB_RIGHT) {
-							setLow(inverseProbability(1 - value));
-						}
-						setXAxisPoints();
-					}
-				} else {
-					// handle parameter entry
-					for (int i = 0; i < parameters.length; ++i) {
-						if (source == fldParameterArray[i].getTextBox()) {
-	
-							if (isValidParameter(value, i)) {
-								parameters[i] = value;
-								updateAll();
+						if (value < 0 || value > 1) {
+							updateGUI();
+						} else {
+							if (probMode == PROB_LEFT) {
+								setHigh(inverseProbability(value));
 							}
-	
+							if (probMode == PROB_RIGHT) {
+								setLow(inverseProbability(1 - value));
+							}
+							setXAxisPoints();
+						}
+					} else {
+						// handle parameter entry
+						for (int i = 0; i < parameters.length; ++i) {
+							if (source == fldParameterArray[i].getTextBox()) {
+
+								if (isValidParameter(value, i)) {
+									parameters[i] = value;
+									updateAll();
+								}
+
+							}
 						}
 					}
-				}
 					if (intervalCheck) {
 						updateIntervalProbability();
 						if (update) {
 							updateGUI();
 						}
-					} else {
 					}
-
 
 				}
 
