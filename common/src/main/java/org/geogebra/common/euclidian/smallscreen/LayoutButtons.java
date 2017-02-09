@@ -96,8 +96,9 @@ public class LayoutButtons {
 	}
 
 	public void apply() {
-		applyVertically();
 		applyHorizontally();
+		applyVertically();
+
 	}
 
 	private void applyVertically() {
@@ -142,8 +143,9 @@ public class LayoutButtons {
 	private void applyHorizontally() {
 		sortX();
 		divideX();
-		Log.debug("[LayoutButtons] applyHorizontally");
+		Log.debug("[LayoutButtons] fixed");
 		debugButtons(fixed);
+		Log.debug("[LayoutButtons] movable");
 		debugButtons(moveable);
 		if (moveable.isEmpty()) {
 			// All buttons is on screen, nothing to do.
@@ -172,7 +174,7 @@ public class LayoutButtons {
 
 		x = view.getWidth() - getWidths(moveable);
 		if (x < 0) {
-			return;
+			x = 0;
 		}
 		for (GeoButton btn : moveable) {
 			btn.setAbsoluteScreenLoc(x, btn.getAbsoluteScreenLocY());
