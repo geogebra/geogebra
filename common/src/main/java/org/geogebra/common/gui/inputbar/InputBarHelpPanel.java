@@ -169,6 +169,16 @@ public class InputBarHelpPanel {
 		return mSubDict[i];
 	}
 
+	public LowerCaseDictionary getCategoryDictionary(int category) {
+		if (category == CommandsConstants.MATH_FUNC_INDEX) {
+			return getMathFuncDictionary();
+		}
+		if (category == CommandsConstants.ALL_COMMANDS_INDEX) {
+			return getDictionary();
+		}
+		return getSubDictionary(category);
+	}
+
 	public String getCategoryName(int i) {
 		return mApp.getKernel().getAlgebraProcessor().getSubCommandSetName(i);
 	}
