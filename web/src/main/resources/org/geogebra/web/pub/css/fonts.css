@@ -13,3 +13,11 @@
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'mathsans';
+    src: url('../font/mathsans.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}

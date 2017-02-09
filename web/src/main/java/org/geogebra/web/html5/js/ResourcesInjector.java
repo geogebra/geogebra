@@ -5,6 +5,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.keyboard.KeyboardResources;
+import org.geogebra.web.web.helper.ResourcesInjectorReTeX;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -28,7 +29,7 @@ public class ResourcesInjector {
 
 	/**
 	 */
-	public static void injectResources() {
+	public static void injectResources(boolean forceReTeX) {
 		if (resourcesInjected) {
 			return;
 		}
@@ -43,7 +44,8 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
 
 		if (INSTANCE == null) {
-			INSTANCE = GWT.create(ResourcesInjector.class);
+			INSTANCE = forceReTeX ? new ResourcesInjectorReTeX()
+					: (ResourcesInjector) GWT.create(ResourcesInjector.class);
 		}
 		INSTANCE.injectResourcesGUI();
 

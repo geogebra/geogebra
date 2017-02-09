@@ -107,7 +107,7 @@ public class Web implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		ResourcesInjector.injectResources();
+		ResourcesInjector.injectResources(false);
 
 		exportArticleTagRenderer();
 		// export other methods if needed
@@ -141,7 +141,7 @@ public class Web implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		ResourcesInjector.injectResources();
+		ResourcesInjector.injectResources(false);
 		createGeoGebraAppFrame(new BrowserDevice());
 		// }
 

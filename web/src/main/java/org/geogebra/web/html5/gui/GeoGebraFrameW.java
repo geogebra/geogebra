@@ -437,7 +437,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		ResourcesInjector.injectResources();
+		ResourcesInjector
+				.injectResources("true".equals(ae.getDataParamPrerelease())
+						|| "canary".equals(ae.getDataParamPrerelease()));
 		// More testing is needed how can we use
 		// createApplicationSimple effectively
 		// if (ae.getDataParamGuiOff())
