@@ -43,10 +43,6 @@ import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
 
-	public enum Help {
-		COMMAND, TOOL, GENERIC
-	}
-
 	final public View getConstructionProtocolData() {
 		ConstructionProtocolView view = getConstructionProtocolView();
 		if (view != null) {

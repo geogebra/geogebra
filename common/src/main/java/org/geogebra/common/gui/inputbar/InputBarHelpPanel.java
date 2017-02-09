@@ -1,15 +1,16 @@
 package org.geogebra.common.gui.inputbar;
 
+import org.geogebra.common.gui.GuiManager;
+import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.LowerCaseDictionary;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
-import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.LowerCaseDictionary;
 
 public class InputBarHelpPanel {
 
@@ -21,6 +22,7 @@ public class InputBarHelpPanel {
 	private LowerCaseDictionary[] mSubDict;
 	private TreeMap<String, Integer> mCategoryNameToTableIndex;
 	private Collection<String>[] mCommands;
+	private StringBuilder mStringBuilder;
 
 	public InputBarHelpPanel(App app) {
 		super();
@@ -195,5 +197,44 @@ public class InputBarHelpPanel {
 
 	public String getAllCommandsTitle() {
 		return mApp.getLocalization().getMenu("AllCommands");
+	}
+
+	public String getURLForCommand(String command, String urlCaller) {
+
+		// safety check
+		if (command == null || command.length() == 0) {
+			return null;
+		}
+
+		if (mStringBuilder == null) {
+			mStringBuilder = new StringBuilder();
+		} else {
+			mStringBuilder.setLength(0);
+		}
+
+		// check if math func
+		if (command.contains("(")) {
+//			Log.debug("math func");
+			String mathFuncHelpURL = mApp.getGuiManager().getHelpURL(GuiManager.Help.GENERIC, App.WIKI_OPERATORS);
+
+			mStringBuilder.append(mathFuncHelpURL);
+			mStringBuilder.append(urlCaller);
+			String ret = mStringBuilder.toString();
+//			Log.debug("math func: " + command + ", url: " + mathFuncHelpURL + ", url with caller: " + ret);
+			return ret.replaceAll(" ", "%20");
+		}
+
+		// regular command
+		String internal = mApp.getReverseCommand(command);
+		String url = mApp.getGuiManager().getHelpURL(GuiManager.Help.COMMAND, internal);
+
+		mStringBuilder.setLength(0);
+		mStringBuilder.append(url);
+		mStringBuilder.append(urlCaller);
+
+		String ret = mStringBuilder.toString();
+//		Log.debug("command " + command + ", internal: " + internal + ", url: " + url + ", url with caller: " + ret);
+		return ret.replaceAll(" ", "%20");
+
 	}
 }

@@ -43,6 +43,10 @@ import org.geogebra.common.util.AsyncOperation;
 
 public interface GuiManagerInterface {
 
+	public enum Help {
+		COMMAND, TOOL, GENERIC
+	}
+
 	public void updateMenubar();
 
 	public void updateMenubarSelection();
@@ -349,4 +353,6 @@ public interface GuiManagerInterface {
 	public void refreshCustomToolsInToolBar();
 
 	public void getExtraViewsXML(StringBuilder sb);
+
+	public String getHelpURL(Help type, String pageName);
 }
