@@ -126,12 +126,18 @@ public abstract class CASgiac implements CASGenericInterface {
 		// +
 		// "when(x[0]=='pnt',when(is_3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))"),
 
-		/** xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac */
-		XCOORD("xcoord", "xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
+		/**
+		 * xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac
+		 * 
+		 * check for type(evalf(a)) needed as type(exact(-2.24)+i*exact(-1.54))
+		 * gives DOM_RAT
+		 * 
+		 */
+		XCOORD("xcoord", "xcoord(a):=when(type(evalf(a))==DOM_COMPLEX, real(a), when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0]))))"),
 		/**
 		 * altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 		 */
-		YCOORD("ycoord", "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))"),
+		YCOORD("ycoord", "ycoord(a):=when(type(evalf(a))==DOM_COMPLEX, im(a), when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1]))))"),
 
 		/**
 		 * make sure z((1,2)) = 0
