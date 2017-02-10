@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.desktop.gui.view.Gridable;
+import org.geogebra.desktop.main.AppD;
 
 public class PrintGridable implements Printable {
 
@@ -38,6 +39,7 @@ public class PrintGridable implements Printable {
 	protected int[] rowHeights;
 	private double scale;
 	private int titleOffset;
+	private PrintPreviewD printPreview;
 
 	public PrintGridable(Gridable g) {
 		this.gridable = g;
@@ -51,8 +53,8 @@ public class PrintGridable implements Printable {
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 
-		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
-
+		int pageIndex = gridable.getApplication().getPrintPreview().adjustIndex(pageIndex0);
+		
 		double pWidth = pageFormat.getImageableWidth();
 		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;
 

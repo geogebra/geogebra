@@ -1256,7 +1256,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 
-		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
+		int pageIndex = ((AppD)kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
+
 
 		if (!isViewAttached) {
 			data.clearView();

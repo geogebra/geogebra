@@ -187,6 +187,7 @@ import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
+import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPgfD;
 import org.geogebra.desktop.export.pstricks.GeoGebraToPstricksD;
@@ -5290,6 +5291,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private ScheduledFuture<?> handler;
 
+	private PrintPreviewD printPreview;
+
 	@Override
 	public void schedulePreview(Runnable scheduledPreview) {
 
@@ -5437,6 +5440,14 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public GeoGebraToPgf newGeoGebraToPgf() {
 		return new GeoGebraToPgfD(this);
+	}
+
+	public void setPrintPreview(PrintPreviewD printPreviewD) {
+		printPreview = printPreviewD;		
+	}
+	
+	public PrintPreviewD getPrintPreview(){
+		return printPreview;
 	}
 
 }

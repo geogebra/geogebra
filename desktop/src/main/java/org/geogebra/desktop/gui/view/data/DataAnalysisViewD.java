@@ -666,7 +666,8 @@ public class DataAnalysisViewD extends JPanel
 
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
-		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
+		int pageIndex = ((AppD)kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
+
 		if (pageIndex > 0) {
 			return (NO_SUCH_PAGE);
 		}

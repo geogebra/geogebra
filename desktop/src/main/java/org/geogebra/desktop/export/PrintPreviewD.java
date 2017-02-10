@@ -82,7 +82,7 @@ public class PrintPreviewD extends JDialog {
 	protected transient ActionListener lst;
 
 	protected boolean kernelChanged = false;
-	private static boolean justPreview = true;
+	private boolean justPreview = true;
 	private static int[] targetPages;
 
 	private Book book;
@@ -134,6 +134,7 @@ public class PrintPreviewD extends JDialog {
 		// happened.
 		super(app.getFrame(), true);
 		this.app = app;
+		app.setPrintPreview(this);
 
 	}
 
@@ -831,8 +832,8 @@ public class PrintPreviewD extends JDialog {
 		}
 	}
 
-	public static int adjustIndex(int pageIndex0) {
-		if (!PrintPreviewD.justPreview) {
+	public int adjustIndex(int pageIndex0) {
+		if (!justPreview) {
 			return PrintPreviewD.computePageIndex(pageIndex0);
 		}
 		return pageIndex0;
