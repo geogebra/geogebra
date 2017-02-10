@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
@@ -28,6 +27,7 @@ import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -96,6 +96,8 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class RadioTreeItem extends AVTreeItem
 		implements MathKeyboardListener, 
 		AutoCompleteW, RequiresResize, HasHelpButton {
+
+	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 
 	static final int BROWSER_SCROLLBAR_WIDTH = 17;
 
@@ -1413,8 +1415,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()
 					&& definitionPanel != null
 					&& definitionPanel.getWidget(0) != null) {
-				return definitionPanel.getWidget(0).getOffsetWidth()
-						+ controls.getOffsetWidth() + MARGIN_RESIZE;
+				return marblePanel.getOffsetWidth()
+						+ definitionPanel.getWidget(0).getOffsetWidth()
+						+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
+						+ MARGIN_RESIZE;
 			}
 
 			return content.getOffsetWidth() + MARGIN_RESIZE;
