@@ -1410,6 +1410,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected int getWidthForEdit() {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()
+					&& definitionPanel != null
+					&& definitionPanel.getWidget(0) != null) {
+				return definitionPanel.getWidget(0).getOffsetWidth()
+						+ controls.getOffsetWidth() + MARGIN_RESIZE;
+			}
+
 			return content.getOffsetWidth() + MARGIN_RESIZE;
 		}
 		int appWidth = (int) app.getWidth();
