@@ -124,14 +124,17 @@ public class DrawIntegralFunctions extends Drawable {
 
 		// for DrawParametricCurve.plotCurve to work with special values,
 		// these changes are needed (also filter out out of screen integrals)
-		// see #1234
+		// see TRAC-1036
 		aRW = Math.max(aRW, view.getXmin() - clipX);
 		if (aRW > view.getXmax() + clipX) {
+			// make invisible to prevent NPE on draw
+			isVisible = false;
 			return;
 		}
 
 		bRW = Math.min(bRW, view.getXmax() + clipX);
 		if (bRW < view.getXmin() - clipX) {
+			isVisible = false;
 			return;
 		}
 
@@ -175,9 +178,9 @@ public class DrawIntegralFunctions extends Drawable {
 				g2.setStroke(selStroke);
 				g2.draw(gp);
 			}
-
-			fill(g2, gp); // fill using default/hatching/image as
-							// appropriate
+			if (gp != null) {
+				fill(g2, gp); // fill using default/hatching/image as
+			} // appropriate
 
 			if (objStroke.getLineWidth() > 0) {
 				g2.setPaint(getObjectColor());

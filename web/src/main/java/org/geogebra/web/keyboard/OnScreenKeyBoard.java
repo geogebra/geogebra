@@ -40,15 +40,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 
 	}
 
-	/**
-	 * @param gwtLang
-	 *            language
-	 * @param language
-	 *            language description
-	 */
-	public void addSupportedLocale(Language gwtLang, String language) {
-		supportedLocales.put(gwtLang.localeGWT, language);
-	}
+
 
 	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {

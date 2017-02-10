@@ -46,7 +46,7 @@ public abstract class KBBase extends PopupPanel {
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
 	 * ca - es, de_AT - de
 	 */
-	public final static HashMap<String, String> supportedLocales = new HashMap<String, String>();
+	private final static HashMap<String, String> supportedLocales = new HashMap<String, String>();
 	static {
 
 		// supportedLocales.put(Language.Arabic.localeGWT, "ar");
@@ -1230,6 +1230,16 @@ public abstract class KBBase extends PopupPanel {
 
 	public void setHasKeyboard(HasKeyboard hasKeyboard) {
 		this.hasKeyboard = hasKeyboard;
+	}
+
+	/**
+	 * @param gwtLang
+	 *            language
+	 * @param language
+	 *            language description
+	 */
+	public final void addSupportedLocale(Language gwtLang, String language) {
+		supportedLocales.put(gwtLang.localeGWT, language);
 	}
 
 
