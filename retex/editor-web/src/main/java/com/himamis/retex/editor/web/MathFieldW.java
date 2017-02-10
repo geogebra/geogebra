@@ -86,6 +86,8 @@ public class MathFieldW implements MathField, IsWidget {
 	private boolean enabled = true;
 	private static Timer tick;
 	private BlurHandler onTextfieldBlur;
+
+	private int bottomOffset;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -103,6 +105,7 @@ public class MathFieldW implements MathField, IsWidget {
 	public MathFieldW(Panel parent, Canvas canvas,
 			MathFieldListener listener) {
 		html = canvas;
+		bottomOffset = 0;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		getHiddenTextArea();
@@ -170,7 +173,8 @@ public class MathFieldW implements MathField, IsWidget {
 		this.lastIcon = icon;
 
 
-		ctx.getCanvas().getStyle().setHeight(icon.getIconHeight() + 15,
+		ctx.getCanvas().getStyle().setHeight(
+				icon.getIconHeight() + bottomOffset,
 				Unit.PX);
 
 		ctx.getCanvas().getStyle().setWidth(icon.getIconWidth() + 30, Unit.PX);
@@ -365,14 +369,15 @@ public class MathFieldW implements MathField, IsWidget {
 		if (lastIcon == null) {
 			return;
 		}
-		ctx.getCanvas()
-				.setHeight((int) ((lastIcon.getIconHeight() + 15) * ratio));
+		int height = (int) ((lastIcon.getIconHeight() + bottomOffset) * ratio);
+		ctx.getCanvas().setHeight(height);
+		parent.setHeight(height + "px");
 		ctx.getCanvas()
 				.setWidth((int) ((lastIcon.getIconWidth() + 30) * ratio));
 		ctx.setFillStyle("rgb(255,255,255)");
 		((JLMContext2d) ctx).scale2(ratio, ratio);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
-				lastIcon.getIconHeight() + 15);
+				lastIcon.getIconHeight() + bottomOffset);
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 
 	}
@@ -599,10 +604,12 @@ public class MathFieldW implements MathField, IsWidget {
 			//* as it is deprecated, may cause CSS challenges later 
 			clipDiv.style.clip = "rect(1em 1em 1em 1em)";
 			//* top/left will be specified dynamically, depending on scrollbar
-			clipDiv.style.display = "inline";
+			//clipDiv.style.display = "inline";
 			clipDiv.style.width = "1px";
 			clipDiv.style.height = "1px";
 			hiddenTextArea.style.width = "1px";
+			hiddenTextArea.style.padding = 0;
+			hiddenTextArea.style.border = 0;
 			hiddenTextArea.style.minHeight = 0;
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);

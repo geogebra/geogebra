@@ -732,7 +732,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 	private void updateFont(Widget w) {
-		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
+		int size = app.has(Feature.RETEX_EDITOR) ? app.getFontSizeWeb() + 2
+				: app.getFontSizeWeb();
+		w.getElement().getStyle().setFontSize(size, Unit.PX);
 
 	}
 
@@ -1917,6 +1919,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 					loc.getMenu("InputLabel") + Unicode.ellipsis);
 			dummyLabel.addStyleName("avDummyLabel");
 		}
+		updateFont(dummyLabel);
 		if (canvas != null) {
 			canvas.setVisible(false);
 		}
