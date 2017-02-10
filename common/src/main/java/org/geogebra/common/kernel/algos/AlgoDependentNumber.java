@@ -318,7 +318,9 @@ public class AlgoDependentNumber extends AlgoElement
 		try {
 			String giacOutput = cas.getCurrentCAS().evaluateRaw(strForGiac);
 
-			giacOutput = giacOutput.substring(1, giacOutput.length() - 1);
+			giacOutput = giacOutput.substring(1, giacOutput.length() - 1)
+					.replaceAll("ggbtmpvar2", "");
+			// also decrypting variable names
 
 			ValidExpression resultVE = (getKernel().getGeoGebraCAS())
 					.getCASparser().parseGeoGebraCASInputAndResolveDummyVars(
@@ -763,8 +765,12 @@ public class AlgoDependentNumber extends AlgoElement
 		while (it.hasNext()) {
 			GeoSegment currSeg = it.next();
 			labelsStr.append(",ggbtmpvar" + currSeg.getLabelSimple());
+			/*
+			 * Use encrypted variable names here to prevent Giac translating
+			 * them later to certain constants like e or i.
+			 */
 			strForGiac.append("," + "ggbtmpvar" + currSeg.getLabelSimple() + "="
-					+ currSeg.getLabelSimple());
+					+ "ggbtmpvar2" + currSeg.getLabelSimple());
 		}
 		strForGiac.append("],[");
 		strForGiac.append(labelsStr + "])");
