@@ -109,9 +109,10 @@ public class PropertiesStyleBarW extends
 		final MenuBar toolbar = new MenuBar(true) {
 			@Override
 			public void onBrowserEvent(Event event) {
-				super.onBrowserEvent(event);
-
-				if (DOM.eventGetType(event) == Event.ONFOCUS) {
+				// by default first click gives focus, second click executes: we
+				// want execute on first click
+				if (DOM.eventGetType(event) == Event.ONMOUSEDOWN
+						|| DOM.eventGetType(event) == Event.ONTOUCHSTART) {
 					MenuItem item = this.getSelectedItem();
 					if (item != null) {
 						item.getScheduledCommand().execute();
@@ -121,6 +122,7 @@ public class PropertiesStyleBarW extends
 		};
 		
 		toolbar.setStyleName("menuProperties");	
+		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
 		toolbar.setFocusOnHoverEnabled(false);
 		
 		buttonMap = new HashMap<OptionType, MenuItem>();
@@ -140,14 +142,10 @@ public class PropertiesStyleBarW extends
 				toolbar.addItem(btn);
 				buttonMap.put(type, btn);
 
-				if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
-					//toolbar.addSeparator();
-				}
+
 			}
 		}
-		//if(!((AppW) app).getLAF().isSmart()){
 			this.getWrappedPanel().add(toolbar);
-	//	}
 	    
     }
 	
