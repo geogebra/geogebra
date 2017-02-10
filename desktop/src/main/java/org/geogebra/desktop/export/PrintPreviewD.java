@@ -83,7 +83,7 @@ public class PrintPreviewD extends JDialog {
 
 	protected boolean kernelChanged = false;
 	private boolean justPreview = true;
-	private static int[] targetPages;
+	private int[] targetPages;
 
 	private Book book;
 
@@ -605,7 +605,7 @@ public class PrintPreviewD extends JDialog {
 		}
 	}
 
-	public static int computePageIndex(int pageIndex) {
+	public int computePageIndex(int pageIndex) {
 		for (int i = 0; i < targetPages.length
 				&& targetPages[i] <= pageIndex; i++) {
 			pageIndex -= targetPages[i];
@@ -834,7 +834,7 @@ public class PrintPreviewD extends JDialog {
 
 	public int adjustIndex(int pageIndex0) {
 		if (!justPreview) {
-			return PrintPreviewD.computePageIndex(pageIndex0);
+			return computePageIndex(pageIndex0);
 		}
 		return pageIndex0;
 	}
