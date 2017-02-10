@@ -28,9 +28,14 @@ public abstract class CASView implements Editing, SetLabels {
 	public static final String TOOLBAR_DEFINITION = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 | 1009 || 6";
 	private GeoGebraCAS cas;
 	/** kernel */
-	protected Kernel kernel;
+	final protected Kernel kernel;
 	/** input handler */
-	protected CASInputHandler casInputHandler;
+	private CASInputHandler casInputHandler;
+
+	public CASView(Kernel kernel2) {
+		kernel = kernel2;
+		getCAS();
+	}
 
 	/**
 	 * @return CAS table
@@ -544,6 +549,10 @@ public abstract class CASView implements Editing, SetLabels {
 		CASTable table = getConsoleTable();
 		table.stopEditing();
 
+	}
+
+	protected void setCasInputHandler(CASInputHandler casInputHandler) {
+		this.casInputHandler = casInputHandler;
 	}
 
 }

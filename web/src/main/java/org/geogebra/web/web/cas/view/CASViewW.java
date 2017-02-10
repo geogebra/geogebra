@@ -36,11 +36,11 @@ public class CASViewW extends CASView implements PrintableW {
 	 *            application
 	 */
 	public CASViewW(final AppW app) {
+		super(app.getKernel());
 		component = new CASComponentW();
-		kernel = app.getKernel();
 		this.app = app;
 
-		getCAS();
+
 
 		// CAS input/output cells
 		CASTableControllerW ml = new CASTableControllerW(this, app);
@@ -49,7 +49,7 @@ public class CASViewW extends CASView implements PrintableW {
 		// SelectionHandler.disableTextSelectInternal(component.getElement(),
 		// true);
 		// input handler
-		casInputHandler = new CASInputHandler(this);
+		setCasInputHandler(new CASInputHandler(this));
 
 		component.addDomHandler(ml, MouseDownEvent.getType());
 		component.addDomHandler(ml, MouseUpEvent.getType());

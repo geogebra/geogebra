@@ -68,11 +68,11 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	 *            application
 	 */
 	public CASViewD(final AppD app) {
+		super(app.getKernel());
 		component = new CASComponent();
-		kernel = app.getKernel();
 		this.app = app;
 		listSelModel = new DefaultListSelectionModel();
-		getCAS();
+
 
 		// CAS input/output cells
 		createCASTable();
@@ -106,7 +106,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(scrollPaneListener());
 		// input handler
-		casInputHandler = new CASInputHandler(this);
+		setCasInputHandler(new CASInputHandler(this));
 
 		// addFocusListener(this);
 
