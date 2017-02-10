@@ -109,6 +109,7 @@ public class PropertiesStyleBarW extends
 		final MenuBar toolbar = new MenuBar(true) {
 			@Override
 			public void onBrowserEvent(Event event) {
+				super.onBrowserEvent(event);
 				// by default first click gives focus, second click executes: we
 				// want execute on first click
 				if (DOM.eventGetType(event) == Event.ONMOUSEDOWN
