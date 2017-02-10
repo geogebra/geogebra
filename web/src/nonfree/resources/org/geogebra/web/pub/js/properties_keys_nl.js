@@ -2635,7 +2635,7 @@ __GGB__keysVar.nl.menu = {
     "SnapToGrid": "Rooster magnetisch",
     "SnapToObjects": "Vastmaken aan objecten",
     "SnapToPoints": "Vastmaken aan punten",
-    "Solids": "Solids",
+    "Solids": "Lichamen",
     "Solution": "Oplossing",
     "Solution.Help": "Geef de oplossing van \xe9\xe9n of meerdere vergelijkingen",
     "Solve": "Oplossen",
