@@ -163,7 +163,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private DockPanelW dockPanelKB;
-	private ShowKeyboardButton keyboardButton;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {

@@ -110,12 +110,11 @@ public class PropertiesStyleBarW extends
 			@Override
 			public void onBrowserEvent(Event event) {
 				super.onBrowserEvent(event);
-				switch (DOM.eventGetType(event)) {
-					case Event.ONFOCUS: {
-						MenuItem item = this.getSelectedItem();
-						if (item != null) {
-							item.getScheduledCommand().execute();
-						}
+
+				if (DOM.eventGetType(event) == Event.ONFOCUS) {
+					MenuItem item = this.getSelectedItem();
+					if (item != null) {
+						item.getScheduledCommand().execute();
 					}
 				}
 			}

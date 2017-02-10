@@ -1,8 +1,5 @@
 package org.geogebra.web.keyboard;
 
-import java.util.ArrayList;
-import java.util.Map.Entry;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -188,96 +185,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 		}
 	}
 
-	/**
-	 * updates the keys to the given language
-	 * 
-	 * @param updateSection
-	 *            "lowerCase" or "shiftDown"
-	 * @param language
-	 *            String
-	 */
-	@Override
-	protected void updateKeys(String updateSection, String language) {
-		// update letter keys
 
-		ArrayList<KeyBoardButtonBase> buttons = this.letters.getButtons();
-
-		int key = 0;
-
-		boolean upperCase = "shiftDown".equals(updateSection);
-		int offset = upperCase ? 1 : 0;
-
-
-		String[] keys;
-		if (supportedLocales
-				.containsKey("ko") || !loc.getLocaleStr().startsWith("ko")) {
-			keys = new String[] { loc.getKeyboardRow(1), loc.getKeyboardRow(2),
-					// first key is shift, so need " " otherwise 'z' is hidden
-					"  " + loc.getKeyboardRow(3) };
-		} else {
-			keys = new String[] { "qQwWeErRtTyYuUiIoOpP",
-					"aAsSdDfFgGhHjJkKlL''", "zZxXcCvVbBnNmM" };
-		}
-
-		if (Language.Greek.localeGWT.equals(language)) {
-			keys = keysGreek;
-		}
-
-		for (int row = 0; row <= 2; row++) {
-			for (int i = 0; i < KEY_PER_ROW; i++) {
-
-				KeyBoardButtonBase button = buttons.get(key++);
-
-				if (!(button instanceof KeyBoardButtonFunctionalBase)) {
-
-					String newCaption = "";
-
-					int index = 2 * i + offset;
-
-					// not all 12 keys are used in all languages
-					if (index < keys[row].length()) {
-						newCaption = "" + keys[row].charAt(2 * i + offset);
-					}
-
-					if ("".equals(newCaption)) {
-						button.setVisible(false);
-						button.getElement().getParentElement()
-								.addClassName("hidden");
-					} else {
-						button.setVisible(true);
-						button.getElement().getParentElement()
-								.removeClassName("hidden");
-						button.setCaption(newCaption);
-					}
-				}
-
-			}
-		}
-
-
-		// update e.g. button with sin/cos/tan according to the new language
-		for (Entry<KeyBoardButtonBase, String> entry : updateButton
-				.entrySet()) {
-			KeyBoardButtonBase b = entry.getKey();
-			String captionPlain = entry.getValue();
-			if (captionPlain.endsWith("^-1")) {
-				// e.g. for "sin^-1" only "sin" is translated
-				captionPlain = captionPlain.substring(0,
-						captionPlain.lastIndexOf("^-1"));
-				// localize feedback and caption independently
-				b.setCaption(loc.getFunction(captionPlain) + "^-1",
-						loc.getFunction("a" + captionPlain));
-			} else {
-				// same feedback and caption
-				b.setCaption(loc.getFunction(captionPlain));
-			}
-		}
-		if (processField != null) {
-			processField.updateForNewLanguage(loc);
-		}
-
-		checkStyle();
-	}
 
 	@Override
 	public void show() {

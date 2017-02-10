@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.prover;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -145,7 +146,7 @@ public class ProverBotanasMethod {
 	 * 
 	 * @return the NDG polynomials (in denial form)
 	 */
-	private static Polynomial[] create3FreePointsNeverCollinearNDG(
+	static Polynomial[] create3FreePointsNeverCollinearNDG(
 			Prover prover) {
 		/* Creating the set of free points first: */
 		List<GeoElement> freePoints = getFreePoints(prover.getStatement());
@@ -208,7 +209,8 @@ public class ProverBotanasMethod {
 								ret[i] = p
 										.multiply(
 												new Polynomial(new Variable()))
-										.subtract(new Polynomial(1));
+										.subtract(
+												new Polynomial(BigInteger.ONE));
 								/*
 								 * FIXME: this always introduces an extra
 								 * variable, shouldn't do
@@ -735,7 +737,7 @@ public class ProverBotanasMethod {
 						if (((GeoBoolean) geoStatement).getBoolean()) {
 							statements[0][0] = new Polynomial(0);
 						} else {
-							statements[0][0] = new Polynomial(1);
+							statements[0][0] = new Polynomial(BigInteger.ONE);
 						}
 					} else {
 						Log.debug(
@@ -998,7 +1000,7 @@ public class ProverBotanasMethod {
 				 */
 				Log.debug(
 						"Thesis reductio ad absurdum (denied statement), product of factors:");
-				Polynomial spoly = new Polynomial(1);
+				Polynomial spoly = new Polynomial(BigInteger.ONE);
 				Variable z = new Variable();
 				/*
 				 * It is OK to use the same variable for each factor since it is
@@ -1013,7 +1015,7 @@ public class ProverBotanasMethod {
 					Polynomial factor = (statement[statement.length - 1]);
 					Log.debug("(" + factor + ")*" + z + "-1");
 					factor = factor.multiply(new Polynomial(z))
-							.subtract(new Polynomial(1));
+							.subtract(new Polynomial(BigInteger.ONE));
 					spoly = spoly.multiply(factor);
 				}
 				polynomials.add(spoly);
@@ -1440,7 +1442,7 @@ public class ProverBotanasMethod {
 					as.addPolynomial(ph);
 					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
 							+ ph);
-					ph = yq.subtract(new Polynomial(1));
+					ph = yq.subtract(new Polynomial(BigInteger.ONE));
 					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
 							+ ph);
 					as.addPolynomial(ph);
@@ -1453,7 +1455,7 @@ public class ProverBotanasMethod {
 					as.addPolynomial(ph);
 					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
 							+ ph);
-					ph = xq.subtract(new Polynomial(1));
+					ph = xq.subtract(new Polynomial(BigInteger.ONE));
 					as.addPolynomial(ph);
 					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
 							+ ph);

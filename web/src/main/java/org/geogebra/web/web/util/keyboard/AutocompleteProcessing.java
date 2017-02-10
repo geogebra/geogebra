@@ -118,4 +118,14 @@ public class AutocompleteProcessing implements KeyboardListener {
 	public AutoCompleteTextFieldW getField() {
 		return field;
 	}
+
+	public void onKeyboardClosed() {
+		if (isSVCell()) {
+			if (field.getApp().getGuiManager() != null) {
+				field.getApp().getGuiManager().getSpreadsheetView()
+						.setKeyboardEnabled(false);
+			}
+		}
+
+	}
 }

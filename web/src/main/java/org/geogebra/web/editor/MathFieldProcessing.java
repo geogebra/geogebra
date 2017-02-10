@@ -122,4 +122,9 @@ public class MathFieldProcessing implements KeyboardListener {
 		return mf;
 	}
 
+	public void onKeyboardClosed() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

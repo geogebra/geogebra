@@ -79,4 +79,6 @@ public interface KeyboardListener {
 	void endEditing();
 
 	Object getField();
+
+	void onKeyboardClosed();
 }

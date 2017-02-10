@@ -841,11 +841,11 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the parameters for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
 	 */
 	static String substitutionsString(HashMap<Variable, Long> substitutions) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		Iterator<Variable> it = substitutions.keySet().iterator();
 		while (it.hasNext()) {
 			Variable v = it.next();
-			ret += "," + v.toString() + "," + substitutions.get(v);
+			ret.append("," + v.toString() + "," + substitutions.get(v));
 		}
 		if (ret.length()>0)
 			return ret.substring(1);
@@ -964,13 +964,12 @@ public class Polynomial implements Comparable<Polynomial> {
 		StringBuilder ret = new StringBuilder("ring ");
 		ret.append(ringVariable);
 		ret.append("=0,(");
-		String vars = "";
+		StringBuilder vars = new StringBuilder();
 		for (Variable v : pVariables) {
-			vars += v + ",";
+			vars.append(v + ",");
 		}
-		if (!"".equals(vars)) {
-			vars = vars.substring(0, vars.length() - 1);
-			ret.append(vars);
+		if (vars.length() > 0) {
+			ret.append(vars.substring(0, vars.length() - 1));
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);
 			}
@@ -993,18 +992,19 @@ public class Polynomial implements Comparable<Polynomial> {
 		ret.append(idealVariable);
 		ret.append(",");
 
-		vars = "";
+		vars = new StringBuilder();
 		Iterator<Variable> dependentVariablesIterator = dependentVariables.iterator();
 		while (dependentVariablesIterator.hasNext()){
-			vars += dependentVariablesIterator.next();
+			vars.append(dependentVariablesIterator.next());
 			if (dependentVariablesIterator.hasNext()){
-				vars += "*";
+				vars.append("*");
 			}
 		}
-		if (!"".equals(vars))
+		if (vars.length() > 0) {
 			ret.append(vars);
-		else
+		} else {
 			ret.append(dummyVar);
+		}
 		
 		ret.append(");");
 
@@ -1039,7 +1039,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
 		String solvableResult, solvableProgram;
 		
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		kernel.getApplication();
+		SingularWebService singularWS = App.getSingularWS();
 
 		if (singularWS != null && singularWS.isAvailable()) {
 			
@@ -1180,7 +1181,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		String elimResult, elimProgram;
 		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		kernel.getApplication();
+		SingularWebService singularWS = App.getSingularWS();
 
 		if (singularWS != null && singularWS.isAvailable() && factorized) {
 

@@ -1879,4 +1879,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return geoUsedForInputBox;
 	}
 
+	/**
+	 * @return app
+	 */
+	public AppW getApp() {
+		return app;
+	}
+
 }

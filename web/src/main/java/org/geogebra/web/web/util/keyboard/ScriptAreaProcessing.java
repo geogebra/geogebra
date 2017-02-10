@@ -128,4 +128,9 @@ public class ScriptAreaProcessing implements KeyboardListener {
 		return field;
 	}
 
+	public void onKeyboardClosed() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

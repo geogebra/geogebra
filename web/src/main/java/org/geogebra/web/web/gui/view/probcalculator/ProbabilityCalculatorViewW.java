@@ -829,7 +829,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		@Override
 		public void onClick(ClickEvent event) {
-			getApp();
 			getApp().setActiveView(App.VIEW_PROBABILITY_CALCULATOR);
 		}
 	}

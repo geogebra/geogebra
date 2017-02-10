@@ -116,14 +116,15 @@ public class NDGDetector {
 				boolean lt = false;
 				boolean rt = false;
 
-				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
-					BigInteger coeff = tm1.get(t1); // e.g. 5
+				outerloop: for (Entry<Term, BigInteger> entry : tm1
+						.entrySet()) { // e.g. 5*v1^3*v2
+					BigInteger coeff = entry.getValue(); // e.g. 5
 			
 					/* always use the absolute value */
 					ExpressionNode c = new ExpressionNode(kernel,
 							coeff.abs().longValue()); // FIXME
 					
-					TreeMap<Variable, Integer> tm2 = t1.getTerm();
+					TreeMap<Variable, Integer> tm2 = entry.getKey().getTerm();
 					ExpressionNode en = new ExpressionNode(kernel, 1);
 					/* e.g. v1->3, v2->1 */
 
