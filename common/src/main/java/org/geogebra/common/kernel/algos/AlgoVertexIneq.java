@@ -344,7 +344,6 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamXLinear(Inequality a, Inequality b, int i, int j) {
-		Log.debug(new Throwable().getStackTrace()[0].getMethodName());
 		initHelpers();
 
 		GeoLine bl = b.getLineBorder();
@@ -519,9 +518,20 @@ public class AlgoVertexIneq extends AlgoElement {
 			setHelper(i, j, new AlgoIntersectLineConic(cons, a.getLineBorder(),
 					b.getConicBorder()));
 		} else {
-			helpers[i][j].compute();
+			updateHelper(i, j, b.getConicBorder(), a.getLineBorder());
 		}
 		addVertices(helpers[i][j], false);
+	}
+
+	private void updateHelper(int i, int j, GeoElement first, GeoElement second) {
+		if (helpers[i][j].getInput(0) != first) {
+			helpers[i][j].getInput(0).set(first);
+		}
+		if (helpers[i][j].getInput(1) != second) {
+			helpers[i][j].getInput(1).set(second);
+		}
+		helpers[i][j].compute();
+
 	}
 
 	private void setHelper(int i, int j, AlgoElement algo) {
