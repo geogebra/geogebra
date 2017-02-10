@@ -1271,10 +1271,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 *            bar number
 	 * @return -1 if not set, otherwise alpha (between 0 and 1)
 	 */
-	public float getBarAlpha(int numBar) {
+	public double getBarAlpha(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null && hm.get(1) != null) {
-			return ((Float) hm.get(1)).floatValue();
+			return ((Double) hm.get(1)).doubleValue();
 		}
 		return -1;
 	}
@@ -1409,7 +1409,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 						+ "\" />\n");
 			}
 
-			float barAlpha = getBarAlpha(i);
+			double barAlpha = getBarAlpha(i);
 			if (barAlpha != -1) {
 				sb.append("\t\t<tag key=\"barAlpha\"" + " barNumber=\"" + i
 						+ "\" value=\"" + barAlpha + "\" />\n");

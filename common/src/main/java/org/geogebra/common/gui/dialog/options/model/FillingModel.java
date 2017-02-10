@@ -207,7 +207,7 @@ public class FillingModel extends MultipleOptionsModel {
 		double alpha = alpha0;
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx != 0) {
-			float barAlpha = algo.getBarAlpha(idx);
+			double barAlpha = algo.getBarAlpha(idx);
 			if (barAlpha != -1) {
 				alpha = barAlpha;
 			}
