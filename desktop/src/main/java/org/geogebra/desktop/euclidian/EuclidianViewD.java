@@ -66,7 +66,6 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
-import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
@@ -189,6 +188,9 @@ public class EuclidianViewD extends EuclidianView
 				&& (prefSize.height > MIN_HEIGHT);
 	}
 
+	/**
+	 * Switch to drag cursor
+	 */
 	public void setDragCursor() {
 
 		if (getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
@@ -228,6 +230,9 @@ public class EuclidianViewD extends EuclidianView
 		setCursor(getCursorForImage(GuiResourcesD.CURSOR_GRABBING));
 	}
 
+	/**
+	 * Switch to hit cursor
+	 */
 	public void setHitCursor() {
 		if (defaultCursor == null) {
 			setCursor(Cursor.getDefaultCursor());
@@ -236,6 +241,9 @@ public class EuclidianViewD extends EuclidianView
 		}
 	}
 
+	/**
+	 * Switch to default cursor
+	 */
 	public void setDefaultCursor() {
 		if (defaultCursor == null) {
 			setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
@@ -268,6 +276,11 @@ public class EuclidianViewD extends EuclidianView
 		setDefaultCursor();
 	}
 
+	/**
+	 * @param name
+	 *            cursor resource
+	 * @return cursor
+	 */
 	protected Cursor getCursorForImage(ImageResourceD name) {
 
 		return getCursorForImage(getApplication().getInternalImage(name));
@@ -305,6 +318,17 @@ public class EuclidianViewD extends EuclidianView
 		return null;
 	}
 
+	/**
+	 * @param g2d
+	 *            graphics
+	 * @param scaleString
+	 *            title
+	 * @param pageFormat
+	 *            format
+	 * @param app
+	 *            application
+	 * @return height
+	 */
 	public static int printTitle(Graphics2D g2d, String scaleString,
 			PageFormat pageFormat, AppD app) {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
@@ -398,6 +422,8 @@ public class EuclidianViewD extends EuclidianView
 	 *            graphics
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
+	 * @param exportType
+	 *            export type
 	 */
 	public void exportPaint(Graphics2D g2d, double scale,
 			ExportType exportType) {
@@ -886,15 +912,23 @@ public class EuclidianViewD extends EuclidianView
 		return new MyZoomerD(this);
 	}
 
+	/**
+	 * @return whether to print scalestring
+	 */
 	public boolean isPrintScaleString() {
 		return printScaleString;
 	}
 
+	/**
+	 * 
+	 * @param printScaleString
+	 *            whether to print scalestring
+	 */
 	public void setPrintScaleString(boolean printScaleString) {
 		this.printScaleString = printScaleString;
 	}
 
-	public String getScaleString() {
+	private String getScaleString() {
 		if (isPrintScaleString()) {
 			Localization loc = getApplication().getLocalization();
 			StringBuilder sb = new StringBuilder(
