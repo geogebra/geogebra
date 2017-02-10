@@ -82,4 +82,9 @@ public class FactoryProviderGWT extends FactoryProvider {
 		return new ResourceLoaderFactoryGWT();
 	}
 
+	@Override
+	public native void debug(String string) /*-{
+		$wnd.console && $wnd.console.log("[ReTeX] " + string);
+	}-*/;
+
 }

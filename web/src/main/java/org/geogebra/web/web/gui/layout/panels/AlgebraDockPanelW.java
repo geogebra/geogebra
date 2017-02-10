@@ -141,7 +141,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 	public void scrollToActiveItem() {
 
 		final RadioTreeItem item = aview.getActiveTreeItem();
-		Log.debug("SCROLLTO" + item);
 		if (item == null) {
 			return;
 		}

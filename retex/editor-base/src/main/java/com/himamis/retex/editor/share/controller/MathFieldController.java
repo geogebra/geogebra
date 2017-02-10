@@ -11,6 +11,7 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
 
 public class MathFieldController {
@@ -70,7 +71,7 @@ public class MathFieldController {
 			TeXIcon renderer = texFormula.new TeXIconBuilder()
 					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 					.setType(type).build();
-
+			renderer.setInsets(new Insets(1, 1, 1, 1));
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
 		} catch (Exception e) {

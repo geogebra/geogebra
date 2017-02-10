@@ -105,4 +105,9 @@ public abstract class FactoryProvider {
 		}
 		return resourceLoaderFactory;
 	}
+
+	public void debug(String string) {
+		System.out.println("[ReTeX] " + string);
+
+	}
 }

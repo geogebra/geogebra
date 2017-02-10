@@ -158,7 +158,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		}
 		mf = new MathFieldW(latexItem, canvas,
 				getLatexController());
-		mf.setFontSize(getFontSize() + 1);
+		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setOnBlur(getLatexController());
 	}
