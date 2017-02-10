@@ -98,7 +98,7 @@ PARSER_END(Parser)
     | < NROOT : "nroot" >
     | < COMMA : "," >
     | < SPACE : " " >
-    | < OPERATOR : ["*","+","-","/"] >
+    | < OPERATOR : ["*","+","-","/","="] >
     | < ELSE : ~[] >
 }
 

@@ -41,7 +41,9 @@ public class TeXSerializer extends SerializerAdapter {
 		if (mathCharacter == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
-		if ("@".equals(mathCharacter.getName())) {
+		if ("=".equals(mathCharacter.getName())) {
+			stringBuilder.append("\\,=\\,");
+		} else if ("@".equals(mathCharacter.getName())) {
 			stringBuilder.append((jmathtex ? "\\@" : "@") + " ");
 		} else if (" ".equals(mathCharacter.getName())) {
             stringBuilder.append((jmathtex ? "\\nbsp" : "\\ ") + " ");
