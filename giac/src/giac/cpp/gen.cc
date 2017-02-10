@@ -3955,7 +3955,7 @@ namespace giac {
     case _USER:
       return a._USERptr->arg(contextptr);
     case _FRAC:
-      return arg(a._FRACptr->num,contextptr)-arg(a._FRACptr->den,contextptr);
+      return arg(a._FRACptr->num*conj(a._FRACptr->den,contextptr),contextptr);
     default:
       return gentypeerr(gettext("Arg"));
     }
@@ -15123,7 +15123,7 @@ namespace giac {
 	S="gl3d "+print_INT_(n);
 	return S.c_str();
       }
-#endif
+#endif // GIAC_GGB
       bool fullview=true;
       vector<double> vx,vy,vz;
       double window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax;
@@ -15141,7 +15141,7 @@ namespace giac {
 	  else
 	    return hw/60.0;
 	});
-#endif
+#endif // GIAC_GGB
       //CERR << gwidth << endl;
       if (ratio<gratio/3 || ratio>3*gratio) ortho=false; else ortho=true;
       if (ortho){
@@ -15165,7 +15165,7 @@ namespace giac {
       S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,&C)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
       return S.c_str();
     }
-#endif
+#endif // EMCC
     if (calc_mode(&C)==1 && !lop(g,at_rootof).empty())
       g=evalf(g,1,&C);
     if (has_undef_stringerr(g,S))
