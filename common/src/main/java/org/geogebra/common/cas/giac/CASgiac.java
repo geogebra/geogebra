@@ -1099,7 +1099,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected String postProcess(String s) {
 
-		if (s.indexOf("GIAC_ERROR:") > -1) {
+		// #5099 / TRAC-3566
+		// catch "dotvecteur Error: Invalid dimension"
+		// and "GIAC_ERROR:"
+		// (small bug in giac.js, not all errors have GIAC_ERROR:
+		if (StringUtil.toLowerCase(s).indexOf("error:") > -1) {
 			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error:
 			// Bad Argument Value
 			Log.debug("error from Giac: " + s);
