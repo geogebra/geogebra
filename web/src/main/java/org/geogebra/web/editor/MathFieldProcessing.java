@@ -47,19 +47,16 @@ public class MathFieldProcessing implements KeyboardListener {
 	public void insertString(String text) {
 		if (text.equals(KeyboardConstants.A_POWER_X)) {
 			mf.insertFunction("^");
-		}
-		else if (text.equals(Unicode.Superscript_2 + "")) {
+		} else if (text.equals(Unicode.Superscript_2 + "")) {
 			mf.insertFunction("^");
 			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '2'));
-			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
-		}
-		else if (text.equals(Unicode.DIVIDE)) {
+			mf.getKeyListener().onKeyPressed(
+					new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
+		} else if (Unicode.DIVIDE.equals(text)) {
 			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
 			mf.insertFunction("sqrt");
-		}
-		else if (text.equals("log")) {
+		} else if ("log".equals(text)) {
 			mf.insertFunction("log10");
 		} else {
 			int length = text.length();
@@ -68,8 +65,8 @@ public class MathFieldProcessing implements KeyboardListener {
 				return;
 			}
 			for (int i = 0; i < length; i++) {
-				mf.getKeyListener()
-						.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+				mf.getKeyListener().onKeyTyped(
+						new KeyEvent(0, 0, text.charAt(i)));
 			}
 		}
 

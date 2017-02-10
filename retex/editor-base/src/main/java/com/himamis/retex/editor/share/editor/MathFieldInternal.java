@@ -529,7 +529,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	public void insertFunction(String text) {
-		inputController.newFunction(editorState, text);
+		inputController.newFunction(editorState, text, "frac".equals(text) ? 1
+				: 0);
 		if (listener != null) {
 			listener.onKeyTyped();
 		}
