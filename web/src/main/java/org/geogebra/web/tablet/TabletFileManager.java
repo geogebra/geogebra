@@ -182,6 +182,30 @@ public class TabletFileManager extends FileManagerT {
 			$wnd.android.openUrlInBrowser(url, name, features);
 		}
 	}-*/;
+	
+	
+	
+	
+	@Override
+	public void rename(final String newTitle, final Material mat,
+	        final Runnable callback) {
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			final String newKey = MaterialsManager.createKeyString(mat.getLocalID(),
+					newTitle);
+			final String oldKey = getFileKey(mat);
+			mat.setBase64("");
+			mat.setTitle(newTitle);
+			renameNative(oldKey, newKey, mat.toJson().toString());
+		} else {
+			super.rename(newTitle, mat, callback);
+		}		
+	}
+	
+	private native void renameNative(String oldKey, String newKey, String metaData) /*-{
+		if ($wnd.android) {
+			$wnd.android.rename(oldKey, newKey, metaData);
+		}
+	}-*/;
 		
 	
 	private native void exportJavascriptMethods() /*-{
