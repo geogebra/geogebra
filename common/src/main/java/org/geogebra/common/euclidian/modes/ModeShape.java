@@ -404,6 +404,7 @@ public class ModeShape {
 	}
 
 	private GeoPoint[] getRealPointsOfFreeFormPolygon() {
+		pointListFreePoly.remove(pointListFreePoly.size() - 1);
 		GeoPoint[] realPoints = new GeoPoint[pointListFreePoly.size()];
 		int i = 0;
 		for (GPoint gPoint : pointListFreePoly) {
