@@ -380,70 +380,17 @@ public class AlgoDependentNumber extends AlgoElement
 	private void traverseExpression(ExpressionNode node)
 			throws NoSymbolicParametersException {
 		// Log.debug(node.toString());
-		if (node.getLeft() != null && node.getLeft().isGeoElement()
-				&& node.getLeft() instanceof GeoSegment) {
-			// if segment was given with command, eg. Segment[A,B]
-			// set new name for segment (which giac will use later)
-			Variable currentVar = new Variable();
-			/*
-			 * This is voodoo magic here. We may need a different solution
-			 * rather than playing with the label. TODO.
-			 */
-			boolean suppress = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(false);
-			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
-				GeoSegment left = (GeoSegment) node.getLeft();
-				left.setLabel(currentVar.toString());
-				left.setAuxiliaryObject(true);
-				left.setEuclidianVisible(false);
-				left.update();
-			}
-			cons.setSuppressLabelCreation(suppress);
-
-			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
-					(GeoSegment) node.getLeft(), currentVar);
-			searchSegVarPair(pair);
-			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
+		if (node.getLeft() != null && ((node.getLeft().isGeoElement()
+				&& node.getLeft() instanceof GeoSegment)
+				|| node.getLeft() instanceof GeoDummyVariable)) {
+			processNode(node.getLeft());
 		}
 		if (node.getRight() != null && ((node.getRight().isGeoElement()
 				&& node.getRight() instanceof GeoSegment)
 				|| node.getRight() instanceof GeoDummyVariable)) {
-			// if segment was given with command, eg. Segment[A,B]
-			// set new name for segment (which giac will use later)
-			ExpressionValue right = node.getRight();
-			GeoSegment s = null;
-
-			if (right instanceof GeoDummyVariable) {
-				GeoDummyVariable v = (GeoDummyVariable) node.getRight();
-				GeoElement e = v.getElementWithSameName();
-				if (e instanceof GeoSegment) {
-					s = (GeoSegment) e;
-				}
-			} else if (right instanceof GeoSegment) {
-				s = (GeoSegment) right;
-			}
-
-			if (s != null) {
-				Variable currentVar = new Variable();
-				/*
-				 * This is voodoo magic here. We may need a different solution
-				 * rather than playing with the label. TODO.
-				 */
-				boolean suppress = cons.isSuppressLabelsActive();
-				cons.setSuppressLabelCreation(false);
-				if (s.getLabelSimple() == null) {
-					s.setLabel(currentVar.toString());
-					s.setAuxiliaryObject(true);
-					s.setEuclidianVisible(false);
-					s.update();
-				}
-				cons.setSuppressLabelCreation(suppress);
-				Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
-						s, currentVar);
-				searchSegVarPair(pair);
-				allSegmentsFromExpression.add(s);
-			}
+			processNode(node.getRight());
 		}
+
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getLeft());
 		}
@@ -467,6 +414,39 @@ public class AlgoDependentNumber extends AlgoElement
 		if (node.getRight() instanceof MyDouble
 				&& node.getLeft().isExpressionNode()) {
 			return;
+		}
+	}
+
+	private void processNode(ExpressionValue ev) {
+		GeoSegment s = null;
+		if (ev instanceof GeoDummyVariable) {
+			GeoDummyVariable v = (GeoDummyVariable) ev;
+			GeoElement e = v.getElementWithSameName();
+			if (e instanceof GeoSegment) {
+				s = (GeoSegment) e;
+			}
+		} else if (ev instanceof GeoSegment) {
+			s = (GeoSegment) ev;
+		}
+		if (s != null) {
+			Variable currentVar = new Variable();
+			/*
+			 * This is voodoo magic here. We may need a different solution
+			 * rather than playing with the label. TODO.
+			 */
+			boolean suppress = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(false);
+			if (s.getLabelSimple() == null) {
+				s.setLabel(currentVar.toString());
+				s.setAuxiliaryObject(true);
+				s.setEuclidianVisible(false);
+				s.update();
+			}
+			cons.setSuppressLabelCreation(suppress);
+			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
+					s, currentVar);
+			searchSegVarPair(pair);
+			allSegmentsFromExpression.add(s);
 		}
 	}
 
