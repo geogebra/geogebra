@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegular;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
@@ -66,6 +67,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
 	private double proportion = Double.NaN;
+	private double oldWidth = Double.NaN, oldHeight = Double.NaN;
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
@@ -528,6 +530,22 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	/**
+	 * @param oldWidth
+	 *            - old width of bounding box
+	 */
+	public void setOldWidth(double oldWidth) {
+		this.oldWidth = oldWidth;
+	}
+
+	/**
+	 * @param oldHeight
+	 *            - old height of bounding box
+	 */
+	public void setOldHeight(double oldHeight) {
+		this.oldHeight = oldHeight;
+	}
+
+	/**
 	 * @return true if is square
 	 */
 	public boolean isSquare() {
@@ -556,6 +574,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 				&& poly.getParentAlgorithm() instanceof AlgoPolygonRegular;
 	}
 
+	private boolean isFreePolygonShape() {
+		return poly.isShape() && poly.getParentAlgorithm() != null
+				&& poly.getParentAlgorithm() instanceof AlgoPolygon;
+	}
+
 	/**
 	 * method to update points of poly after mouse release
 	 * 
@@ -568,7 +591,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateRealPointsOfTriangle(event);
 		} else if (isRectangleShape()) {
 			updateRealPointsOfRectangle();
-		} else if (isPentagonShape()) {
+		} else if (isPentagonShape() || isFreePolygonShape()) {
 			updateRealPointsOfPolygon();
 		}
 		poly.updateCascade(true);
@@ -586,6 +609,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		view.setShapeRectangle(null);
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
+		setOldWidth(Double.NaN);
+		setOldHeight(Double.NaN);
 		view.repaintView();
 	}
 
@@ -601,6 +626,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 			view.setShapeRectangle(prewRect);
 		} else if (isPentagonShape()) {
 			updatePentagon(handlerNr, e);
+			view.setShapePolygon(prewPolygon);
+		} else if (isFreePolygonShape()) {
+			updateFreePolygon(handlerNr, e);
 			view.setShapePolygon(prewPolygon);
 		}
 		view.repaintView();
@@ -734,7 +762,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 			proportion = getBoundingBox().getRectangle().getWidth()
 					/ getBoundingBox().getRectangle().getHeight();
 		}
-
+		if (Double.isNaN(oldWidth)) {
+			oldWidth = getBoundingBox().getRectangle().getWidth();
+		}
+		if (Double.isNaN(oldHeight)) {
+			oldHeight = getBoundingBox().getRectangle().getHeight();
+		}
 	}
 
 	/**
@@ -892,6 +925,64 @@ public class DrawPolygon extends Drawable implements Previewable {
 			pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
 					radius, 5, Math.PI / 2);
 		}
+
+		prewPolygon.moveTo(pointsX[0], pointsY[0]);
+		for (int index = 1; index < pointsX.length; index++) {
+			prewPolygon.lineTo(pointsX[index], pointsY[index]);
+		}
+		prewPolygon.closePath();
+
+		getBoundingBox().setRectangle(prewPolygon.getBounds());
+	}
+
+	/**
+	 * update the coords of free polygon
+	 * 
+	 * @param hitHandlerNr
+	 *            - nr of handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateFreePolygon(int hitHandlerNr, AbstractEvent event) {
+		double pointsX[] = new double[poly.getPointsLength()];
+		double pointsY[] = new double[poly.getPointsLength()];
+
+		if (prewPolygon == null) {
+			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
+		}
+
+		fixCornerCoords(hitHandlerNr);
+
+		int newWidth = (int) (event.getX() - fixCornerX);
+		int newHeight = (int) (newWidth * oldHeight / oldWidth);
+
+		double ratioWidth = newWidth / oldWidth;
+		double ratioHeight = newHeight / oldHeight;
+
+		double[] currCoords = new double[6];
+		GPathIterator it = gp.getPathIterator(null);
+		int i = poly.getPointsLength();
+		while (!it.isDone() && i > 0) {
+			i--;
+			it.currentSegment(currCoords);
+			// bottom or top right corner was moved
+			if (newHeight >= 0) {
+				pointsX[i] = fixCornerX
+						+ (currCoords[0] - fixCornerX) * ratioWidth;
+				pointsY[i] = fixCornerY
+						+ (currCoords[1] - fixCornerY) * ratioHeight;
+			}
+			// bottom or top left corner was moved
+			else {
+				pointsX[i] = fixCornerX
+						- (currCoords[0] - fixCornerX) * ratioWidth;
+				pointsY[i] = fixCornerY
+						- (currCoords[1] - fixCornerY) * ratioHeight;
+			}
+			it.next();
+		}
+
+		prewPolygon.reset();
 
 		prewPolygon.moveTo(pointsX[0], pointsY[0]);
 		for (int index = 1; index < pointsX.length; index++) {
