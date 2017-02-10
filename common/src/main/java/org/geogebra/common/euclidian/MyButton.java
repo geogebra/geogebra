@@ -101,7 +101,7 @@ public class MyButton implements Observer {
 		if (hasText) {
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), g, geoButton, font,
+						view.getApplication(), geoButton, font,
 						getCaption());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
@@ -323,7 +323,7 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), g, geoButton, font,
+						view.getApplication(), geoButton, font,
 						getCaption());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
@@ -344,7 +344,7 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), g, geoButton, font,
+						view.getApplication(), geoButton, font,
 						getCaption());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
