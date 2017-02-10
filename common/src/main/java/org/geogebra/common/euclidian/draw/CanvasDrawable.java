@@ -49,13 +49,13 @@ public abstract class CanvasDrawable extends Drawable {
 		return app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text,
 				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
 				false, false, null);
-	};
+	}
 
-	public static GDimension measureLatex(App app, GGraphics2D g2,
+	public static GDimension measureLatex(App app,
 			GeoElement geo0, GFont font, String text) {
 		return app.getDrawEquation().measureEquation(app, geo0,
 				Integer.MIN_VALUE, Integer.MIN_VALUE, text, font, false);
-	};
+	}
 
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,
 			String text) {
@@ -210,15 +210,11 @@ public abstract class CanvasDrawable extends Drawable {
 		return labelFont;
 	}
 
-	public void setLabelFont(GFont labelFont) {
+	private void setLabelFont(GFont labelFont) {
 		this.labelFont = labelFont;
 	}
 
-	public GPoint getLabelSize() {
-		return labelSize;
-	}
-
-	public void setLabelSize(GPoint labelSize) {
+	private void setLabelSize(GPoint labelSize) {
 		this.labelSize = labelSize;
 	}
 

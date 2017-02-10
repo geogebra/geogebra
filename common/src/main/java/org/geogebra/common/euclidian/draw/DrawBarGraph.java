@@ -236,7 +236,7 @@ public class DrawBarGraph extends Drawable {
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			try {

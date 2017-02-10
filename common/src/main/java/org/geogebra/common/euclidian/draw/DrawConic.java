@@ -175,7 +175,7 @@ public class DrawConic extends Drawable implements Previewable {
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
 	private double proportion = Double.NaN;
 	private boolean isCircle = false;
-	protected GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
+	private GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble(0, 0, 0, 0);
 
 	@Override
