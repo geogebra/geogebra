@@ -1421,7 +1421,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 						+ MARGIN_RESIZE;
 			}
 
-			return content.getOffsetWidth() + MARGIN_RESIZE;
+			return marblePanel.getOffsetWidth() + content.getOffsetWidth()
+					+ MARGIN_RESIZE;
 		}
 		int appWidth = (int) app.getWidth();
 		if (appWidth < 1) {// for case app is not part of DOM
