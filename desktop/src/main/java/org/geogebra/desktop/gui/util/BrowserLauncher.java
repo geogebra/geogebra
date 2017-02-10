@@ -86,7 +86,9 @@ public class BrowserLauncher {
 					}
 				}
 				if (browser == null) {
-					throw new Exception("Could not find web browser");
+					Log.error("Could not find web browser");
+					return;
+
 				}
 				Log.debug("Using browser " + browser);
 				Runtime.getRuntime().exec(new String[] { browser, url });

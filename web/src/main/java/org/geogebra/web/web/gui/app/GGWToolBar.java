@@ -54,9 +54,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class GGWToolBar extends Composite implements RequiresResize,
 		ToolBarInterface, SetLabels {
 
-	private static final int MENU_ICONS_WIDTH = 200;
-	private static final int UNDO_ICONS_WIDTH = 90;
-
 	static private ToolbarResources myIconResourceBundle = ((ImageFactory) GWT
 			.create(ImageFactory.class)).getToolbarResources();
 	
@@ -70,7 +67,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}
 
 	private ArrayList<ToolBarW> toolbars;
+	/** application */
 	AppW app;
+	/** toolbar */
 	ToolBarW toolBar;
 	/** panel which contains the toolbar and undo-redo buttons. */
 	FlowPanel toolBarPanel;
@@ -79,8 +78,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	// ScrollPanel ;
 	/** panel for mobile submenu view */
 	FlowPanel submenuPanel;
-	ScrollPanel submenuScrollPanel;
-	boolean inited = false;
+	private ScrollPanel submenuScrollPanel;
+	private boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
 	
@@ -90,7 +89,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
-	private boolean redoPossible = false;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -105,10 +103,17 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		initWidget(toolBarPanel);
 	}
 
+	/**
+	 * @return whether init was alreadz called
+	 */
 	public boolean isInited() {
 		return inited;
 	}
 	
+	/**
+	 * @param viewID
+	 *            view ID
+	 */
 	public void setActiveToolbar(Integer viewID){
 		if (activeToolbar.equals(viewID)) {
 			return;
@@ -175,6 +180,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 
 
+	/**
+	 * Update class name for south/north toolbar
+	 * 
+	 * @param toolbarPosition
+	 *            SwingConstants.SOUTH or SwingConstants.SOUTH
+	 */
 	public void updateClassname(int toolbarPosition) {
 		if (toolbarPosition == SwingConstants.SOUTH) {
 			removeStyleName("toolbarPanelNorth");
@@ -664,6 +675,7 @@ pr.menu_header_undo(), null, 32);
 	 * GUI after all toolbar changes were made.
 	 * 
 	 * @param toolbar
+	 *            toolbar
 	 */
 	public void addToolbar(ToolBarW toolbar) {
 		toolbars.add(toolbar);
@@ -687,6 +699,13 @@ pr.menu_header_undo(), null, 32);
 		return getImageURL(mode, app);
 	}
 	
+	/**
+	 * @param mode
+	 *            tool / mode
+	 * @param app
+	 *            app
+	 * @return tool image URL
+	 */
 	public static String getImageURL(int mode, AppW app) {
 		
 
@@ -1269,6 +1288,11 @@ pr.menu_header_undo(), null, 32);
 
 	}
 
+	/**
+	 * @param appWidth
+	 *            total width
+	 * @return number of icons we can fit in toolbar
+	 */
 	public int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
 		if (app.isUndoRedoEnabled()) {
@@ -1318,6 +1342,10 @@ pr.menu_header_undo(), null, 32);
 		return openMenuButton.getElement();
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public static void set1rstMode(AppW app) {
 		if (app.getToolbar() == null) {
 			return;
@@ -1337,6 +1365,9 @@ pr.menu_header_undo(), null, 32);
 		toolBar.closeAllSubmenu();
 	}
 
+	/**
+	 * @return toolbar panel
+	 */
 	public FlowPanel getToolBarPanel() {
 		return toolBarPanel;
 	}

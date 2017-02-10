@@ -799,7 +799,8 @@ public class ExpandConic {
 		if(!"{0,0,0,0,0,0,0}".equals(cycloCheck) ){
 			acyc.add(name);
 			if(!name.endsWith("A") && !name.endsWith("B") && !name.endsWith("C")){
-				throw new Error("not cyclic"+name+":"+cycloCheck);
+				throw new IllegalStateException(
+						"not cyclic" + name + ":" + cycloCheck);
 			}
 		}
 		

@@ -39,10 +39,10 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	 * Sets the significant digits, maximum allowable width and number
 	 * formatting style (SciNote == true for Pure formatting).
 	 */
-	public ScientificFormat(int sigDigit, int maxWidth, boolean SciNote) {
+	public ScientificFormat(int sigDigit, int maxWidth, boolean sciNote) {
 		setSigDigits(sigDigit);
 		setMaxWidth(maxWidth);
-		setScientificNotationStyle(SciNote);
+		setScientificNotationStyle(sciNote);
 	}
 
 	/**
@@ -108,9 +108,6 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 	public void setScientificNotationStyle(boolean sciNote) {
 		this.sciNote = sciNote;
 	}
-
-	// simplify method for taking log base 10 of x
-	private final static double k = 1 / Math.log(10);
 
 	private static DecimalFormat getDecimalFormat(int sigDig) {
 		StringBuffer buffer = new StringBuffer("0.");

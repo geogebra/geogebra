@@ -74,8 +74,11 @@ public class FontInfo {
 
 		@Override
 		public boolean equals(Object o) {
-			CharCouple lig = (CharCouple) o;
-			return left == lig.left && right == lig.right;
+			if (!(o instanceof CharCouple)) {
+				return false;
+			}
+			CharCouple ligo = (CharCouple) o;
+			return left == ligo.left && right == ligo.right;
 		}
 
 		@Override
@@ -91,7 +94,6 @@ public class FontInfo {
 	private Font font;
 	private final Object base;
 	private final String path;
-	private final String fontName;
 
 	private final Map<CharCouple, Character> lig = new HashMap<CharCouple, Character>();
 	private final Map<CharCouple, Double> kern = new HashMap<CharCouple, Double>();
@@ -118,13 +120,13 @@ public class FontInfo {
 	protected final String ttVersion;
 	protected final String itVersion;
 
-	public FontInfo(int fontId, Object base, String path, String fontName, int unicode, double xHeight,
+	public FontInfo(int fontId, Object base, String path, int unicode,
+			double xHeight,
 			double space, double quad, String boldVersion, String romanVersion, String ssVersion,
 			String ttVersion, String itVersion) {
 		this.fontId = fontId;
 		this.base = base;
 		this.path = path;
-		this.fontName = fontName;
 		this.xHeight = xHeight;
 		this.space = space;
 		this.quad = quad;

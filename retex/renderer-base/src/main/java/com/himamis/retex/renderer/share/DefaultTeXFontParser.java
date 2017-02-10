@@ -284,7 +284,8 @@ public class DefaultTeXFontParser {
 		String path = name.substring(0, name.lastIndexOf("/") + 1) + fontName;
 
 		// create FontInfo-object
-		FontInfo info = new FontInfo(Font_ID.indexOf(fontId), base, path, fontName, unicode, xHeight, space,
+		FontInfo info = new FontInfo(Font_ID.indexOf(fontId), base, path,
+				unicode, xHeight, space,
 				quad, bold, roman, ss, tt, it);
 
 		if (skewChar != -1) {

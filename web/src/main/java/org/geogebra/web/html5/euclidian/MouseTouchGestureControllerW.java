@@ -65,18 +65,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	protected boolean moveAxesAllowed = true;
 
-	private int previousMode = -1;
 
 	private LongTouchManager longTouchManager;
 
-	/**
-	 * whether to keep the actual tool after successfully constructing an
-	 * element (if set to true) or to change back to the move tool (if set to
-	 * false)
-	 */
-	public boolean USE_STICKY_TOOLS = true;
-
-	private boolean actualSticky = false;
 
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return style;

@@ -108,10 +108,6 @@ public class TeXFormula {
 	// point-to-pixel conversion
 	final public static double PIXELS_PER_POINT = 1f;
 
-	// used as second index in "delimiterNames" table (over or under)
-	private static final int OVER_DEL = 0;
-	private static final int UNDER_DEL = 1;
-
 	// for comparing doubles with 0
 	protected static final double PREC = 0.0000001f;
 

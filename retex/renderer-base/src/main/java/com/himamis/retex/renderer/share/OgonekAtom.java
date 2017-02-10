@@ -50,7 +50,6 @@ package com.himamis.retex.renderer.share;
  */
 public class OgonekAtom extends Atom {
 
-	private static final SymbolAtom ogonek = SymbolAtom.get("ogonek");
 	private Atom base;
 
 	@Override
