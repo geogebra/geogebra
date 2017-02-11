@@ -17,13 +17,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPart;
-import org.geogebra.common.kernel.algos.EquationElementInterface;
-import org.geogebra.common.kernel.algos.EquationScopeInterface;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -253,13 +250,6 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	public boolean isLocusEquable() {
 		return true;
 	}
-
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnCircleArc(geo, this, scope);
-	}
-
 	@Override
 	public GeoConicPart3D getConicPart() {
 		return (GeoConicPart3D) super.getConicPart();

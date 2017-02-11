@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -287,12 +286,6 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 	@Override
 	public boolean isLocusEquable() {
 		return true;
-	}
-
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnIntersectSingle(geo, this, scope);
 	}
 
 	@Override

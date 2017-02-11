@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
@@ -453,12 +452,6 @@ public class AlgoMirror extends AlgoTransformation implements
 	@Override
 	public boolean isLocusEquable() {
 		return true;
-	}
-
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnMirror(geo, this, scope);
 	}
 
 	@Override

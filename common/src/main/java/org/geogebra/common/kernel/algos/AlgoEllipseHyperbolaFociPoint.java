@@ -23,9 +23,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -81,17 +79,6 @@ public class AlgoEllipseHyperbolaFociPoint
 	@Override
 	public boolean isLocusEquable() {
 		return true;
-	}
-
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-
-		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
-			return LocusEquation.eqnHyperbolaFociPoint(geo, this, scope);
-		}
-
-		return LocusEquation.eqnEllipseFociPoint(geo, this, scope);
 	}
 
 	// ///////////////////////////////

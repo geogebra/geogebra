@@ -28,7 +28,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.PointPair;
 import org.geogebra.common.kernel.PointPairList;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
@@ -1548,12 +1547,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	@Override
 	public boolean isLocusEquable() {
 		return true;
-	}
-
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnIntersectConics(geo, this, scope);
 	}
 
 	/**

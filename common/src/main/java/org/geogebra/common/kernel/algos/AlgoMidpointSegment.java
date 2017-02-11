@@ -24,7 +24,6 @@ import java.util.HashSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -250,12 +249,6 @@ public class AlgoMidpointSegment extends AlgoElement
 	@Override
 	public boolean isLocusEquable() {
 		return true;
-	}
-
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnMidpointSegment(geo, this, scope);
 	}
 
 }

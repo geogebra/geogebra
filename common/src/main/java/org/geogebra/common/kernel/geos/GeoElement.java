@@ -61,7 +61,6 @@ import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
-import org.geogebra.common.kernel.algos.EquationElementInterface;
 import org.geogebra.common.kernel.algos.TableAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -78,7 +77,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
@@ -8472,15 +8470,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public final int getDecorationType() {
 		return decorationType;
-	}
-
-	/**
-	 * @param scope
-	 *            equation scope
-	 * @return equation for LocusEquation
-	 */
-	public EquationElementInterface buildEquationElement(EquationScope scope) {
-		return null;
 	}
 
 	/**

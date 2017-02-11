@@ -23,9 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.AlgoMidpointND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -204,9 +202,4 @@ public class AlgoMidpoint extends AlgoMidpointND
 		return true;
 	}
 
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnMidpoint(geo, this, scope);
-	}
 }

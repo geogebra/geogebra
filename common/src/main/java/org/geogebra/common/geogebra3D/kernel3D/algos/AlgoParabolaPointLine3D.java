@@ -20,13 +20,9 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoParabolaPointLineND;
-import org.geogebra.common.kernel.algos.EquationElementInterface;
-import org.geogebra.common.kernel.algos.EquationScopeInterface;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -83,9 +79,4 @@ public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
 		return true;
 	}
 
-	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
-			EquationScopeInterface scope) {
-		return LocusEquation.eqnParabolaPointLine(geo, this, scope);
-	}
 }
