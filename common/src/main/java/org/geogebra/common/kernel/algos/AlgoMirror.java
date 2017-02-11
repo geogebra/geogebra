@@ -22,7 +22,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
@@ -56,7 +55,7 @@ import org.geogebra.common.util.MyMath;
  * @author Markus
  */
 public class AlgoMirror extends AlgoTransformation implements
-		RestrictionAlgoForLocusEquation, SymbolicParametersBotanaAlgo {
+		SymbolicParametersBotanaAlgo {
 
 	protected Mirrorable out;
 	protected GeoElement inGeo;

@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PointPairList;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -46,7 +45,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @author Markus
  */
 public class AlgoIntersectLineConic extends AlgoIntersect implements
-		SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
+		SymbolicParametersBotanaAlgo {
 	/** input line */
 	protected GeoLine g;
 	/** input conic */

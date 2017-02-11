@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PointPair;
 import org.geogebra.common.kernel.PointPairList;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.SystemOfEquationsSolver;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -53,7 +52,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Markus Hohenwarter
  */
 public class AlgoIntersectConics extends AlgoIntersect implements
-		SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
+		SymbolicParametersBotanaAlgo {
 
 	/**
 	 * number of old distances that are used to compute the mean distance change

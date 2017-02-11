@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -39,7 +38,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 public class AlgoPointOnPath extends AlgoElement
 		implements FixedPathRegionAlgo, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
+		SymbolicParametersBotanaAlgo {
 
 	private Path path; // input
 	/** output */
@@ -411,7 +410,6 @@ public class AlgoPointOnPath extends AlgoElement
 		return botanaVars;
 	}
 
-	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}

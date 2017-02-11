@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +18,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * Single intersection point
  */
 public class AlgoIntersectSingle extends AlgoIntersect implements
-		RestrictionAlgoForLocusEquation, SymbolicParametersBotanaAlgo {
+		SymbolicParametersBotanaAlgo {
 
 	// input
 	private AlgoIntersect algo;

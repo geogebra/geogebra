@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.AlgoMidpointND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -37,8 +36,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @author Markus
  */
 public class AlgoMidpoint extends AlgoMidpointND
-		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
-		RestrictionAlgoForLocusEquation {
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;

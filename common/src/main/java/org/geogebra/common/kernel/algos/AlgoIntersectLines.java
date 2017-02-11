@@ -25,7 +25,6 @@ import java.util.HashSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -43,8 +42,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @author Markus
  */
 public class AlgoIntersectLines extends AlgoIntersectAbstract
-		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
-		RestrictionAlgoForLocusEquation {
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoLine g, h; // input
 	private GeoPoint S; // output
