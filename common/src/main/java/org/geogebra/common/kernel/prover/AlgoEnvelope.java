@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.locusequ;
+package org.geogebra.common.kernel.prover;
 
 import java.util.Iterator;
 import java.util.TreeSet;

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.advanced.CmdEnvelope;
+import org.geogebra.common.kernel.advanced.CmdLocusEquation;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
@@ -13,8 +15,6 @@ import org.geogebra.common.kernel.algos.EquationScopeInterface;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.locusequ.CmdEnvelope;
-import org.geogebra.common.kernel.locusequ.CmdLocusEquation;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.kernel.locusequ.elements.EquationAngularBisectorLines;
 import org.geogebra.common.kernel.locusequ.elements.EquationAngularBisectorPoints;

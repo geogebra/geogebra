@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.locusequ;
+package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.main.MyError;
 
 /**
