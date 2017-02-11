@@ -74,7 +74,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 	}
 
 	public void initPopup(AppW app, ArrayList<GeoElement> geos) {
-		this.geos = geos;
+		this.setGeos(geos);
 		setGeo(geos.get(0));
 
 		wrappedPopup.clearItems();
@@ -176,8 +176,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			        && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable
-				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++) {
-					showRecordToSpreadsheet &= geos.get(i)
+				for (int i = 1; i < getGeos().size() && showRecordToSpreadsheet; i++) {
+					showRecordToSpreadsheet &= getGeos().get(i)
 					        .isSpreadsheetTraceable();
 				}
 
@@ -287,7 +287,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		}
 
 		// Rename
-		if (geos.size() == 1 && app.letRename() && getGeo().isRenameable()) {
+		if (getGeos().size() == 1 && app.letRename() && getGeo().isRenameable()) {
 			addAction(
 			        new Command() {
 
@@ -301,7 +301,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					loc.getMenu("Rename"));
 		}
 
-		if (geos.size() == 1 && getGeo() instanceof TextValue
+		if (getGeos().size() == 1 && getGeo() instanceof TextValue
 		        && !getGeo().isTextCommand() && !getGeo().isFixed()) {
 			addAction(
 			        new Command() {

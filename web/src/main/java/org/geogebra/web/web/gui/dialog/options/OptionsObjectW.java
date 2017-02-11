@@ -102,7 +102,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	//Basic
 	LabelPanel labelPanel;
-
+	AppW app;
 
 	//Color picker
 
@@ -383,7 +383,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			// NAME PANEL
 
 			// non auto complete input panel
-			inputPanelName = new InputPanelW(null, (AppW) app, 1, -1, true);
+			inputPanelName = new InputPanelW(null, app, 1, -1, true);
 			tfName = inputPanelName.getTextComponent();
 			tfName.setAutoComplete(false);
 			tfName.addFocusListener(new FocusListenerW(this){
@@ -1217,7 +1217,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	
 
 	AppW getAppW() {
-		return (AppW) app;
+		return app;
 	}
 
 	private TextOptionsModel textModel;
@@ -1534,8 +1534,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	public void updateIfInSelection(GeoElement geo) {
 
-		if (selection != null && selection.size() == 1
-				&& selection.contains(geo)) {
+		if (getSelection() != null && getSelection().size() == 1
+				&& getSelection().contains(geo)) {
 			updateGUI();
 		}
 	}
@@ -1548,7 +1548,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
     }
 
 	public void updateSelection(ArrayList<GeoElement> geos) {
-		selection = geos;
+		setSelection(geos);
 		update(geos);
 
 	}

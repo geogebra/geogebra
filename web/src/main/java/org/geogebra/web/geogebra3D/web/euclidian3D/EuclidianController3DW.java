@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
@@ -101,7 +100,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		// RealSense.initIfSupported(this);
 		// RealSense.createInstance();
 
-		tempNum = new MyDouble(kernel);
 	}
 
 	@Override

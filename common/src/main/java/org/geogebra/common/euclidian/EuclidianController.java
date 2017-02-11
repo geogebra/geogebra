@@ -231,7 +231,7 @@ public abstract class EuclidianController {
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
-	protected MyDouble tempNum;
+	private MyDouble tempNum;
 	protected double rotationLastAngle;
 	protected ArrayList<GeoElement> translateableGeos;
 	protected Coords translationVec;
@@ -5940,7 +5940,9 @@ public abstract class EuclidianController {
 		double newAngle = Math.atan2(yRW - rotationCenter.inhomY,
 				xRW - rotationCenter.inhomX);
 		double angle = newAngle - rotationLastAngle;
-
+		if (tempNum == null) {
+			tempNum = new MyDouble(kernel);
+		}
 		tempNum.set(angle);
 		if (rotGeoElement.isChangeable()) {
 			((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);

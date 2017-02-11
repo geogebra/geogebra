@@ -74,12 +74,12 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		// store copies of the actual geos in the internal buffer
 		if (skipGeoCopy) {
-			cellBufferGeo = null;
+			setCellBufferGeo(null);
 		} else {
 			sourceColumn1 = column1;
 			sourceRow1 = row1;
-			cellBufferGeo = RelativeCopy.getValues(app, column1, row1, column2,
-					row2);
+			setCellBufferGeo(RelativeCopy.getValues(app, column1, row1, column2,
+					row2));
 		}
 	}
 
@@ -129,7 +129,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		boolean doInternalPaste = getCellBufferStr() != null
 				&& transferString.equals(getCellBufferStr().toString());
 
-		if (doInternalPaste && cellBufferGeo != null) {
+		if (doInternalPaste && getCellBufferGeo() != null) {
 
 			// use the internal field cellBufferGeo to paste geo copies
 			// with relative cell references

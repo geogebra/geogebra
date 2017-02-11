@@ -23,7 +23,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.main.AppD;
 
@@ -51,7 +50,6 @@ public class EuclidianControllerD extends EuclidianController
 		// for tooltip manager
 		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
 
-		tempNum = new MyDouble(kernel);
 	}
 
 	@Override

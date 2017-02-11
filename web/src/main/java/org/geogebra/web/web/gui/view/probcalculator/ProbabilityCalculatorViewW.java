@@ -167,8 +167,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		setDistributionComboBoxMenu();
 
-		if (table != null) {
-			((ProbabilityTableW) table).setLabels();
+		if (getTable() != null) {
+			((ProbabilityTableW) getTable()).setLabels();
 		}
 		if (styleBar != null) {
 			styleBar.setLabels();
@@ -267,7 +267,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private void createLayoutPanels() {
 		//control panel
 	    createControlPanel();
-	    plotPanel = new PlotPanelEuclidianViewW(kernel, exportToEVAction);
+	    setPlotPanel(new PlotPanelEuclidianViewW(kernel, exportToEVAction));
 	    
 	    plotPanelOptions = new FlowPanel();
 	    plotPanelOptions.setStyleName("plotPanelOptions");
@@ -281,10 +281,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    plotPanelPlus = new FlowPanel();
 	    plotPanelPlus.addStyleName("PlotPanelPlus");
 	    plotPanelPlus.add(plotPanelOptions);
-	    plotPanelPlus.add(((PlotPanelEuclidianViewW)plotPanel).getComponent());
+		plotPanelPlus.add(getPlotPanel().getComponent());
 	    
 	    //table panel
-	    table  = new ProbabilityTableW(app, this);
+	    setTable(new ProbabilityTableW(app, this));
 	    //tablePanel = new FlowPanel();
 	    //tablePanel.add(((ProbabilityTableW)table).getWrappedPanel());    
     }
@@ -607,7 +607,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		btnNormalOverlay.setVisible(isOverlayDefined());
 		lblMeanSigma.setText(getMeanSigma());
-		plotPanel.repaintView();
+		getPlotPanel().repaintView();
 
 		//wrapperPanel.repaint();
 
@@ -615,11 +615,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 	private void addRemoveTable(boolean showTable) {
 		if (showTable) {
-			plotSplitPane.add(((ProbabilityTableW)table).getWrappedPanel());
+			plotSplitPane.add(((ProbabilityTableW)getTable()).getWrappedPanel());
 			tabbedPane.onResize();
 			//plotSplitPane.setDividerSize(defaultDividerSize);
 		} else {
-			plotSplitPane.remove(((ProbabilityTableW)table).getWrappedPanel());
+			plotSplitPane.remove(((ProbabilityTableW)getTable()).getWrappedPanel());
 			tabbedPane.onResize();
 			//plotSplitPane.setDividerSize(0);
 		}
@@ -627,7 +627,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
     protected void plotPanelUpdateSettings(PlotSettings settings) {
-		((PlotPanelEuclidianViewW) plotPanel).commonFields.updateSettings(((PlotPanelEuclidianViewW) plotPanel), plotSettings);
+		getPlotPanel().commonFields
+				.updateSettings(getPlotPanel(), plotSettings);
 	}
 
 	@Override
@@ -636,10 +637,15 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
-		((ProbabilityTableW) table).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
+		((ProbabilityTableW) getTable()).setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
 		tabbedPane.onResize();
 		
     }
+
+	@Override
+	public PlotPanelEuclidianViewW getPlotPanel() {
+		return (PlotPanelEuclidianViewW) super.getPlotPanel();
+	}
 
 	@Override
     protected void updateGUI() {
@@ -837,7 +843,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * @return plot panel view
 	 */
 	public EuclidianViewW getPlotPanelEuclidianView() {
-	    return (EuclidianViewW) plotPanel;
+		return getPlotPanel();
     }
 
 	/**
@@ -845,21 +851,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	public void tabResized() {
 		int width = mainSplitPane.getOffsetWidth()
-				- ((ProbabilityTableW) table).getWrappedPanel().getOffsetWidth()
+				- ((ProbabilityTableW) getTable()).getWrappedPanel().getOffsetWidth()
 				- 5;
 		if (width > 0) {
-			plotPanel.setPreferredSize(new GDimensionW(width,
+			getPlotPanel().setPreferredSize(new GDimensionW(width,
 					PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
-			plotPanel.repaintView();
-			plotPanel.getEuclidianController().calculateEnvironment();
+			getPlotPanel().repaintView();
+			getPlotPanel().getEuclidianController().calculateEnvironment();
 			controlPanel.setWidth(width + "px");
 			plotPanelPlus.setWidth(width + "px");
 		}
 
 		int height = probCalcPanel.getOffsetHeight() - 20;
 		if (height > 0) {
-			((ProbabilityTableW) table).getWrappedPanel()
-					.setPixelSize(((ProbabilityTableW) table).getStatTable()
+			((ProbabilityTableW) getTable()).getWrappedPanel()
+					.setPixelSize(((ProbabilityTableW) getTable()).getStatTable()
 							.getTable().getOffsetWidth() + 25, height);
 			// ((ProbabilityTableW) table).getWrappedPanel().setHeight(height +
 			// "px");
@@ -1118,7 +1124,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 						@Override
 						public void execute() {
-							String url = ((EuclidianViewW) plotPanel)
+							String url = ((EuclidianViewW) getPlotPanel())
 									.getExportImageDataUrl(3, true);
 							((FileManagerW) ((AppW) getApp()).getFileManager())
 									.showExportAsPictureDialog(url,

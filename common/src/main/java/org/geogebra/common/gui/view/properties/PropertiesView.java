@@ -190,8 +190,8 @@ public abstract class PropertiesView implements View {
 		case ALGEBRA:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("Algebra"));
 		case OBJECTS:
-			return objectPanel == null ? loc.getMenu("Objects")
-					: objectPanel.getSelectionDescription();
+			return objectPanel == null ? loc.getMenu("Objects") : objectPanel
+					.getSelectionDescription(loc);
 		case LAYOUT:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Layout"));
 		}

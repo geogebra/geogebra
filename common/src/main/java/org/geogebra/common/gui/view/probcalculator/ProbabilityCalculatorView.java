@@ -111,22 +111,22 @@ public abstract class ProbabilityCalculatorView
 	private static final GColor COLOR_POINT = GColor.BLACK;
 
 
-	public EuclidianView plotPanel;
+	private EuclidianView plotPanel;
 
-	protected ProbabilityTable table;
-	// enable/disable integral ---- use for testing
+	private ProbabilityTable table;
+	/** enable/disable integral ---- use for testing */
 	protected boolean hasIntegral = true;
 
-	// selected distribution mode
+	/** selected distribution mode */
 	protected DIST selectedDist = DIST.NORMAL; // default: startup with normal
 												// distribution
 
 	// distribution fields
 	private String[][] parameterLabels;
-	protected final static int maxParameterCount = 3; // maximum number of
-														// parameters allowed
-														// for a
-														// distribution
+	/**
+	 * maximum number of parameters allowed for a distribution
+	 */
+	protected final static int maxParameterCount = 3;
 	protected double[] parameters;
 	protected boolean isCumulative = false;
 
@@ -222,7 +222,7 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * Returns the maximum value in the discrete value list.
 	 * 
-	 * @return
+	 * @return maximum value in the discrete value list.
 	 */
 	public int getDiscreteXMax() {
 		if (discreteValueList != null) {
@@ -236,7 +236,7 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * Returns the minimum value in the discrete value list.
 	 * 
-	 * @return
+	 * @return minimum value in the discrete value list.
 	 */
 	public int getDiscreteXMin() {
 		if (discreteValueList != null) {
@@ -760,8 +760,8 @@ public abstract class ProbabilityCalculatorView
 
 	private void hideGeoFromViews(GeoElement geo) {
 		// add the geo to our view and remove it from EV
-		geo.addView(plotPanel.getViewID());
-		plotPanel.add(geo);
+		geo.addView(getPlotPanel().getViewID());
+		getPlotPanel().add(geo);
 		geo.removeView(App.VIEW_EUCLIDIAN);
 		app.getEuclidianView1().remove(geo);
 	}
@@ -948,12 +948,12 @@ public abstract class ProbabilityCalculatorView
 
 		lowPoint.setCoords(getLow(), 0.0, 1.0);
 		highPoint.setCoords(getHigh(), 0.0, 1.0);
-		plotPanel.repaint();
+		getPlotPanel().repaint();
 		GeoElement.updateCascade(pointList, getTempSet(), false);
 		tempSet.clear();
 
 		if (probManager.isDiscrete(selectedDist)) {
-			table.setSelectionByRowValue((int) getLow(), (int) getHigh());
+			getTable().setSelectionByRowValue((int) getLow(), (int) getHigh());
 		}
 
 		isSettingAxisPoints = false;
@@ -964,7 +964,7 @@ public abstract class ProbabilityCalculatorView
 			pointList.clear();
 		}
 		clearPlotGeoList();
-		plotPanel.clearView();
+		getPlotPanel().clearView();
 	}
 
 	/**
@@ -1422,7 +1422,7 @@ public abstract class ProbabilityCalculatorView
 					updateIntervalProbability();
 					updateGUI();
 					if (probManager.isDiscrete(selectedDist)) {
-						table.setSelectionByRowValue((int) getLow(),
+						getTable().setSelectionByRowValue((int) getLow(),
 								(int) getHigh());
 					}
 				} else {
@@ -1436,7 +1436,7 @@ public abstract class ProbabilityCalculatorView
 					updateIntervalProbability();
 					updateGUI();
 					if (probManager.isDiscrete(selectedDist)) {
-						table.setSelectionByRowValue((int) getLow(),
+						getTable().setSelectionByRowValue((int) getLow(),
 								(int) getHigh());
 					}
 				} else {
@@ -1917,4 +1917,20 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	public abstract ProbabilityManager getProbManager();
+
+	public EuclidianView getPlotPanel() {
+		return plotPanel;
+	}
+
+	public void setPlotPanel(EuclidianView plotPanel) {
+		this.plotPanel = plotPanel;
+	}
+
+	protected ProbabilityTable getTable() {
+		return table;
+	}
+
+	protected void setTable(ProbabilityTable table) {
+		this.table = table;
+	}
 }

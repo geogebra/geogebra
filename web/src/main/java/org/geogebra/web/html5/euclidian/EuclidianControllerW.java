@@ -13,7 +13,6 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -105,7 +104,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		super(kernel.getApplication());
 		setKernel(kernel);
 
-		tempNum = new MyDouble(kernel);
 	}
 
 	@Override

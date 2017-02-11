@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -74,6 +75,7 @@ public class CASparser implements CASParserInterface {
 		try {
 			return parser.parseGeoGebraCAS(exp, cell);
 		} catch (ParseException e) {
+			Log.debug(exp);
 			c = new CASException(e);
 			c.setKey("InvalidInput");
 			throw c;

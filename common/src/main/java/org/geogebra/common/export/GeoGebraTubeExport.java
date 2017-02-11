@@ -23,7 +23,7 @@ public abstract class GeoGebraTubeExport {
 	public App app;
 	private Localization loc;
 
-	protected ArrayList<Macro> macros;
+	private ArrayList<Macro> macros;
 
 	/**
 	 * Constructs a new instance of the GeoGebraTube exporter.
@@ -117,13 +117,13 @@ public abstract class GeoGebraTubeExport {
 	protected StringBuilder getPostData() throws IOException {
 		Construction cons = app.getKernel().getConstruction();
 
-		boolean isConstruction = (macros == null);
+		boolean isConstruction = (getMacros() == null);
 
 		// build post query
 		StringBuilder sb = new StringBuilder();
 		sb.append("data=");
 		sb.append(encode(
-				isConstruction ? getBase64String() : getBase64Tools(macros)));
+				isConstruction ? getBase64String() : getBase64Tools(getMacros())));
 
 		sb.append("&type=");
 		sb.append(isConstruction ? "ggb" : "ggt");
@@ -176,5 +176,13 @@ public abstract class GeoGebraTubeExport {
 
 	public void setLoc(Localization loc) {
 		this.loc = loc;
+	}
+
+	protected ArrayList<Macro> getMacros() {
+		return macros;
+	}
+
+	protected void setMacros(ArrayList<Macro> macros) {
+		this.macros = macros;
 	}
 }

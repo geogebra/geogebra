@@ -43,13 +43,13 @@ public class GeoGebraTubeExportW extends
 	protected StringBuffer getPostData(String base64) {
 		Construction cons = app.getKernel().getConstruction();
 
-		boolean isConstruction = (macros == null);
+		boolean isConstruction = (getMacros() == null);
 
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("data=");
-		stringBuffer.append(encode(macros == null ? base64
-		        : getBase64Tools(macros)));
+		stringBuffer.append(encode(getMacros() == null ? base64
+		        : getBase64Tools(getMacros())));
 
 		stringBuffer.append("&type=");
 		stringBuffer.append(isConstruction ? "ggb" : "ggt");
@@ -150,7 +150,7 @@ public class GeoGebraTubeExportW extends
 	 *            helper to keep popup alive
 	 */
 	public void uploadWorksheetSimple(String base64, PopupBlockAvoider pba) {
-		this.macros = null;
+		this.setMacros(null);
 
 		try {
 
@@ -184,7 +184,7 @@ public class GeoGebraTubeExportW extends
 	 */
 	public void uploadWorksheet(ArrayList<Macro> macrosIn, PopupBlockAvoider pba) {
 
-		this.macros = macrosIn;
+		this.setMacros(macrosIn);
 
 		try {
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,

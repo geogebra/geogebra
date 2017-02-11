@@ -99,7 +99,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	 */
 	public void uploadWorksheet(ArrayList<Macro> macrosIn) {
 
-		this.macros = macrosIn;
+		this.setMacros(macrosIn);
 
 		showDialog();
 

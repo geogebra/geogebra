@@ -69,7 +69,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		this.loc = invokerLocation;
 		this.selectedGeos = selectedGeos;
-		this.geos = geos;
+		this.setGeos(geos);
 		this.view = view;
 
 		GeoElement geoSelected = selectedGeos.get(0);
@@ -137,7 +137,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		@Override
 		public void execute() {
-			geoActionCmd(this.geo, selectedGeos, geos, view, loc);
+			geoActionCmd(this.geo, selectedGeos, getGeos(), view, loc);
 		}
 
 	}

@@ -79,7 +79,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		createSelectAnotherMenu(view.getMode());
 
 		this.loc = invokerLocation;
-		this.geos = geos;
+		this.setGeos(geos);
 
 		GeoElement geoSelected = selectedGeos.get(0);
 
@@ -186,7 +186,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			geoActionCmd(this.geo, selectedGeos, geos, view, loc);
+			geoActionCmd(this.geo, selectedGeos, getGeos(), view, loc);
 		}
 
 	}

@@ -95,7 +95,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	public ContextMenuGeoElementD(AppD app, ArrayList<GeoElement> geos,
 			Point location) {
 		this(app);
-		this.geos = geos;
+		this.setGeos(geos);
 		setGeo(geos.get(0));
 
 		String title;
@@ -564,8 +564,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 					&& getGeo().hasSpreadsheetTraceModeTraceable()) {
 
 				// if multiple geos selected, check if recordable as a list
-				if (geos.size() == 1 || GeoList
-						.getTraceModes(geos) != TraceModesEnum.NOT_TRACEABLE) {
+				if (getGeos().size() == 1 || GeoList
+						.getTraceModes(getGeos()) != TraceModesEnum.NOT_TRACEABLE) {
 					cbItem = new JCheckBoxMenuItem(
 							loc.getMenu("RecordToSpreadsheet"));
 					cbItem.setIcon(((AppD) app)
@@ -671,7 +671,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		// Rename
-		if (geos.size() == 1 && app.letRename() && getGeo().isRenameable()) {
+		if (getGeos().size() == 1 && app.letRename() && getGeo().isRenameable()) {
 			addAction(new AbstractAction(loc.getMenu("Rename"),
 					((AppD) app).getScaledIcon(GuiResourcesD.RENAME)) {
 				private static final long serialVersionUID = 1L;
@@ -685,7 +685,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 		// EDITING
 		// EDIT Text in special dialog
-		if (geos.size() == 1 && getGeo() instanceof TextValue
+		if (getGeos().size() == 1 && getGeo() instanceof TextValue
 				&& !getGeo().isTextCommand() && !getGeo().isFixed()) {
 			addAction(new AbstractAction(loc.getMenu("Edit"),
 					((AppD) app).getScaledIcon(GuiResourcesD.EDIT)) {
@@ -816,11 +816,11 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	@Override
 	public void recordToSpreadSheetCmd() {
 		GeoElement geoRecordToSpreadSheet;
-		if (geos.size() == 1) {
+		if (getGeos().size() == 1) {
 			geoRecordToSpreadSheet = getGeo();
 		} else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.List(null, geos, false);
+					.List(null, getGeos(), false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 		}
 

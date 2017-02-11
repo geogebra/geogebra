@@ -40,7 +40,7 @@ public abstract class ContextMenuGeoElement {
 			1.0 / 200.0, 1.0 / 100.0, 1.0 / 50.0, 1.0 / 20.0, 1.0 / 10.0,
 			1.0 / 5.0, 1.0 / 2.0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000 };
 	/** selected elements */
-	protected ArrayList<GeoElement> geos;
+	private ArrayList<GeoElement> geos;
 	/** current element */
 	private String geoLabel;
 	/** application */
@@ -310,7 +310,7 @@ public abstract class ContextMenuGeoElement {
 			return ret;
 		}
 
-		return geos;
+		return getGeos();
 	}
 
 	public void editCmd() {
@@ -549,6 +549,12 @@ public abstract class ContextMenuGeoElement {
 
 	protected void setGeo(GeoElement geo) {
 		this.geoLabel = geo.getLabelSimple();
+	}
+	protected ArrayList<GeoElement> getGeos() {
+		return geos;
+	}
+	protected void setGeos(ArrayList<GeoElement> geos) {
+		this.geos = geos;
 	}
 
 }

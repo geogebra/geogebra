@@ -47,6 +47,7 @@ public class OptionsObjectD extends OptionsObject
 	private JSplitPane splitPane;
 	private JScrollPane listScroller;
 	private JPanel wrappedPanel;
+	private AppD app;
 
 	/**
 	 * Creates new PropertiesDialog.
@@ -55,7 +56,6 @@ public class OptionsObjectD extends OptionsObject
 	 *            parent frame
 	 */
 	public OptionsObjectD(AppD app) {
-
 		this.app = app;
 		// build GUI
 		initGUI();
@@ -82,14 +82,14 @@ public class OptionsObjectD extends OptionsObject
 		// PROPERTIES PANEL
 		if (colChooser == null) {
 			// init color chooser
-			colChooser = new GeoGebraColorChooser((AppD) app);
+			colChooser = new GeoGebraColorChooser(app);
 		}
 
 		// check for null added otherwise you get two listeners for the
 		// colChooser
 		// when a file is loaded
 		if (propPanel == null) {
-			propPanel = new PropertiesPanelD((AppD) app, colChooser, false);
+			propPanel = new PropertiesPanelD(app, colChooser, false);
 			propPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		}
 
@@ -170,6 +170,10 @@ public class OptionsObjectD extends OptionsObject
 		}
 	}
 
+	/**
+	 * @param visible
+	 *            whether to show this
+	 */
 	public void setVisible(boolean visible) {
 		if (visible) {
 			setVisibleWithGeos(null);
@@ -228,7 +232,7 @@ public class OptionsObjectD extends OptionsObject
 	 */
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
-		selection = geos;
+		setSelection(geos);
 		propPanel.updateSelection(geos.toArray());
 	}
 
@@ -257,8 +261,8 @@ public class OptionsObjectD extends OptionsObject
 		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains =
 		// "+(selection!=null
 		// && selection.contains(geo)));
-		if (selection != null && selection.size() == 1
-				&& selection.contains(geo)) {
+		if (getSelection() != null && getSelection().size() == 1
+				&& getSelection().contains(geo)) {
 			// propPanel.updateSelection(selection.toArray()); //TODO update
 			// only first tab, set flag to others
 			propPanel.updateOneGeoDefinition(geo);
@@ -272,8 +276,8 @@ public class OptionsObjectD extends OptionsObject
 	 *            element to be renamed
 	 */
 	public void rename(GeoElement geo) {
-		if (selection != null && selection.size() == 1
-				&& selection.contains(geo)) {
+		if (getSelection() != null && getSelection().size() == 1
+				&& getSelection().contains(geo)) {
 			propPanel.updateOneGeoName(geo);
 		}
 	}

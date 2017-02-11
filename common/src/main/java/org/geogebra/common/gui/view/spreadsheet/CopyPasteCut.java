@@ -29,13 +29,16 @@ public abstract class CopyPasteCut {
 	/**
 	 * Stores copied cell geos as GeoElement[columns][rows]
 	 */
-	protected GeoElement[][] cellBufferGeo;
+	private GeoElement[][] cellBufferGeo;
 
 	/**
-	 * Records the first row and first column of the current cell range copy
-	 * source
+	 * Records the first row of the current cell range copy source
 	 */
-	protected int sourceColumn1, sourceRow1;
+	protected int sourceColumn1;
+	/**
+	 * Records the first column of the current cell range copy source
+	 */
+	protected int sourceRow1;
 
 	/**
 	 * Stores construction index values while performing a paste
@@ -163,8 +166,8 @@ public abstract class CopyPasteCut {
 		Construction cons = kernel.getConstruction();
 		try {
 
-			int columnStep = cellBufferGeo.length;
-			int rowStep = cellBufferGeo[0].length;
+			int columnStep = getCellBufferGeo().length;
+			int rowStep = getCellBufferGeo()[0].length;
 			int maxColumn = column2;
 			int maxRow = row2;
 
@@ -223,11 +226,11 @@ public abstract class CopyPasteCut {
 	 */
 	public boolean pasteInternal(int column1, int row1, int maxColumn,
 			int maxRow) throws Exception {
-		int width = cellBufferGeo.length;
+		int width = getCellBufferGeo().length;
 		if (width == 0) {
 			return false;
 		}
-		int height = cellBufferGeo[0].length;
+		int height = getCellBufferGeo()[0].length;
 		if (height == 0) {
 			return false;
 		}
@@ -266,7 +269,7 @@ public abstract class CopyPasteCut {
 			tableModel.setColumnCount(x4 + 1);
 		}
 
-		GeoElement[][] values1 = cellBufferGeo;// RelativeCopy.getValues(table,
+		GeoElement[][] values1 = getCellBufferGeo();// RelativeCopy.getValues(table,
 												// x1, y1, x2, y2);
 		try {
 			for (int x = x1; x <= x2; ++x) {
@@ -621,6 +624,14 @@ public abstract class CopyPasteCut {
 	 */
 	protected void setCellBufferStr(StringBuilder cellBufferStr) {
 		this.cellBufferStr = cellBufferStr;
+	}
+
+	protected GeoElement[][] getCellBufferGeo() {
+		return cellBufferGeo;
+	}
+
+	protected void setCellBufferGeo(GeoElement[][] cellBufferGeo) {
+		this.cellBufferGeo = cellBufferGeo;
 	}
 
 	private static Comparator comparator;

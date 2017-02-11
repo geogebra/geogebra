@@ -184,11 +184,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			controlPanel.setMinimumSize(controlPanel.getPreferredSize());
 
 			// plot panel (extension of EuclidianView)
-			plotPanel = new PlotPanelEuclidianViewD(app.getKernel(),
-					exportToEVAction);
-			((PlotPanelEuclidianViewD) plotPanel).setMouseEnabled(true, true);
-			((PlotPanelEuclidianViewD) plotPanel).setMouseMotionEnabled(true);
-			((EuclidianViewInterfaceD) plotPanel)
+			setPlotPanel(new PlotPanelEuclidianViewD(app.getKernel(),
+					exportToEVAction));
+			getPlotPanel().setMouseEnabled(true, true);
+			getPlotPanel().setMouseMotionEnabled(true);
+			((EuclidianViewInterfaceD) getPlotPanel())
 					.setBorder(BorderFactory.createEmptyBorder());
 
 			// plot label panel
@@ -199,17 +199,17 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			plotLabelPanel.setBackground(Color.white);
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
-			plotPanelPlus.add(((EuclidianViewInterfaceD) plotPanel).getJPanel(),
+			plotPanelPlus.add(((EuclidianViewInterfaceD) getPlotPanel()).getJPanel(),
 					BorderLayout.CENTER);
 			plotPanelPlus.add(plotLabelPanel, BorderLayout.SOUTH);
 
 			// table panel
-			table = new ProbabilityTableD((AppD) app, this);
-			((ProbabilityTableD) table).getWrappedPanel()
+			setTable(new ProbabilityTableD((AppD) app, this));
+			((ProbabilityTableD) getTable()).getWrappedPanel()
 					.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
 							SystemColor.controlShadow));
 			tablePanel = new JPanel(new BorderLayout());
-			tablePanel.add(((ProbabilityTableD) table).getWrappedPanel(),
+			tablePanel.add(((ProbabilityTableD) getTable()).getWrappedPanel(),
 					BorderLayout.CENTER);
 
 		} catch (Exception e) {
@@ -388,8 +388,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		GuiManagerD.setFontRecursive(this.wrapperPanel, font);
 		lblDist.setFont(((AppD) app).getItalicFont());
 		lblProb.setFont(((AppD) app).getItalicFont());
-		plotPanel.updateFonts();
-		((ProbabilityTableD) table).updateFonts(font);
+		getPlotPanel().updateFonts();
+		((ProbabilityTableD) getTable()).updateFonts(font);
 		((StatisticsCalculatorD) statCalculator).updateFonts(font);
 		btnCumulative.setIcon(((AppD) app)
 				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
@@ -465,7 +465,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 
 		else if (source == btnExport) {
-			JPopupMenu menu = ((PlotPanelEuclidianViewD) plotPanel)
+			JPopupMenu menu = getPlotPanel()
 					.getContextMenu();
 			menu.show(btnExport,
 					-menu.getPreferredSize().width + btnExport.getWidth(),
@@ -791,7 +791,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
-		table.setTable(selectedDist, parameters,
+		getTable().setTable(selectedDist, parameters,
 				firstXLastX[0], firstXLastX[1]);
 	}
 
@@ -838,8 +838,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		setDistributionComboBoxMenu();
 
-		if (table != null) {
-			((ProbabilityTableD) table).setLabels();
+		if (getTable() != null) {
+			((ProbabilityTableD) getTable()).setLabels();
 		}
 		if (styleBar != null) {
 			styleBar.setLabels();
@@ -925,8 +925,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		((PlotPanelEuclidianViewD) plotPanel).commonFields.updateSettings(
-				((PlotPanelEuclidianViewD) plotPanel), plotSettings);
+		getPlotPanel().commonFields.updateSettings((getPlotPanel()),
+				plotSettings);
 	}
 
 	// ============================================================
@@ -965,8 +965,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 	};
 
+	@Override
 	public PlotPanelEuclidianViewD getPlotPanel() {
-		return (PlotPanelEuclidianViewD) plotPanel;
+		return (PlotPanelEuclidianViewD) super.getPlotPanel();
 	}
 
 	/**

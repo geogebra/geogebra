@@ -1819,7 +1819,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public EuclidianViewW getPlotPanelEuclidanView() {
-		return (EuclidianViewW) probCalculator.plotPanel;
+		return (EuclidianViewW) probCalculator.getPlotPanel();
 	}
 
 	public boolean isConsProtNavigationPlayButtonVisible() {
@@ -1909,7 +1909,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			}
 		}
 		if (hasProbabilityCalculator()) {
-			((ProbabilityCalculatorViewW) getProbabilityCalculator()).plotPanel
+			((ProbabilityCalculatorViewW) getProbabilityCalculator()).getPlotPanel()
 			        .getEuclidianController().calculateEnvironment();
 		}
 	}
