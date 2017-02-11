@@ -1993,9 +1993,9 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[arg(random() - \u03AF random()) < 0]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[arg(-random() - \u03AF random()) < 0]", result:"true" },
 { cat:"Numeric", cmd:"Numeric[arg(-1.56+1.22 \u03AF )]", result:"2.477892272215", round:"2.48" },
-{ cat:"Numeric", cmd:"Numeric[arg(+1.56+1.22 \u03AF )]", result:"0.6637003813744", round:"0.664" },
-{ cat:"Numeric", cmd:"Numeric[arg(+1.56-1.22 \u03AF )]", result:"-0.6637003813744", round:"-0.664" },
-{ cat:"Numeric", cmd:"Numeric[arg(-1.56-1.22 \u03AF )]", result:"-2.477892272215", round:"-0.248" },
+{ cat:"Numeric", cmd:"Numeric[arg(+1.56+1.22 \u03AF )]", result:"0.6637003813744", round:"0.66" },
+{ cat:"Numeric", cmd:"Numeric[arg(+1.56-1.22 \u03AF )]", result:"-0.6637003813744", round:"-0.66" },
+{ cat:"Numeric", cmd:"Numeric[arg(-1.56-1.22 \u03AF )]", result:"-2.477892272215", round:"-0.25" },
 
 
 // JSONEND
