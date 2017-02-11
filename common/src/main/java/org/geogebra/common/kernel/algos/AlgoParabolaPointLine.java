@@ -62,11 +62,6 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}

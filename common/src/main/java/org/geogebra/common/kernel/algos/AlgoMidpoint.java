@@ -195,9 +195,4 @@ public class AlgoMidpoint extends AlgoMidpointND
 
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

@@ -288,9 +288,4 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

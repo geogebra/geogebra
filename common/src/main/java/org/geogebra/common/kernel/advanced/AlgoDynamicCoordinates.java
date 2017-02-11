@@ -109,18 +109,6 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return true;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		/*
-		 * This is just a workaround to allow the
-		 * A=DynamicCoordinates[A',round(x(A')),round(y(A'))] trick (see
-		 * http://tube.geogebra.org/material/simple/id/128631#material/150977).
-		 * For a complete solution here we should analyze the formula if it is
-		 * indeed fully implemented. FIXME
-		 */
-		return true;
-	}
-
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars != null) {
 			return botanaVars;

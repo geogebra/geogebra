@@ -1822,11 +1822,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return null;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return false;
-	}
-
 	/**
 	 * Check for undefined inputs, may be overridden
 	 * 

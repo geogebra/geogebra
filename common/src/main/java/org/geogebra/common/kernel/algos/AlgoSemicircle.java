@@ -165,11 +165,6 @@ public class AlgoSemicircle extends AlgoElement
 		conicPart.setParameters(alpha, beta, true);
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
 	// ///////////////////////////////

@@ -263,11 +263,6 @@ public class AlgoLineBisectorSegment extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
 	// ///////////////////////////////

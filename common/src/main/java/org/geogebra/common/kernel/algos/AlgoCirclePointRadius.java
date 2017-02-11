@@ -100,11 +100,6 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}

@@ -500,11 +500,6 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public void calcArea() {
 
 		// more accurate method for 2D

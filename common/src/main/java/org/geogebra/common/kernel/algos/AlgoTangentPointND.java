@@ -189,11 +189,6 @@ public abstract class AlgoTangentPointND extends AlgoElement
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo != c) {
 			return null;

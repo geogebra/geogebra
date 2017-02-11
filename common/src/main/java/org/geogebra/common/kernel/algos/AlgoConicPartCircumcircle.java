@@ -80,11 +80,6 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircleThreePoints();

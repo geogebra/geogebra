@@ -49,11 +49,6 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 		return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
 	// ///////////////////////////////

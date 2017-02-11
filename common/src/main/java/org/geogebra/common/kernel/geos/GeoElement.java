@@ -8365,12 +8365,6 @@ public abstract class GeoElement extends ConstructionElement
 		return new ExpressionNode(getKernel(), this);
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return this.getParentAlgorithm() != null
-				&& this.getParentAlgorithm().isLocusEquable();
-	}
-
 	/**
 	 * @return whether to show pin in stylebar/geo context menu
 	 */

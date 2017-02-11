@@ -100,11 +100,6 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 		return null;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
 	// ///////////////////////////////

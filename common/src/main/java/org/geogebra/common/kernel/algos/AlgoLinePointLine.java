@@ -249,9 +249,4 @@ public class AlgoLinePointLine extends AlgoElement
 		throw new NoSymbolicParametersException();
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

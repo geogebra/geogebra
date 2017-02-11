@@ -491,11 +491,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public void calcArea() {
 		GeoPointND[] points2d = poly.getPoints();
 

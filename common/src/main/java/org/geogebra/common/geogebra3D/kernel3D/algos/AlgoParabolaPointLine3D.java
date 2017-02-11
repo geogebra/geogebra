@@ -74,9 +74,4 @@ public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
 		parabola.setParabola(y0);
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

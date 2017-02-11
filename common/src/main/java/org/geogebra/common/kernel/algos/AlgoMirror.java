@@ -449,11 +449,6 @@ public class AlgoMirror extends AlgoTransformation implements
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public double getAreaScaleFactor() {
 		return -1;
 	}

@@ -242,9 +242,4 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		throw new NoSymbolicParametersException();
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

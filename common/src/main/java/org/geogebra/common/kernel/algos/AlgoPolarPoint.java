@@ -48,10 +48,4 @@ public class AlgoPolarPoint extends AlgoPolarPointND {
 		c.polarPoint((GeoLine) line, (GeoPoint) polar);
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		// TODO: can probably be implemented
-		return false;
-	}
-
 }

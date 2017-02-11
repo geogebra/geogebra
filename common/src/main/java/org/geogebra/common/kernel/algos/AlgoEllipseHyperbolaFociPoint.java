@@ -76,11 +76,6 @@ public class AlgoEllipseHyperbolaFociPoint
 		return (GeoPoint) C;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
 	// ///////////////////////////////

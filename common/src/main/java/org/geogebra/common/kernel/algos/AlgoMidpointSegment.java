@@ -244,9 +244,4 @@ public class AlgoMidpointSegment extends AlgoElement
 
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

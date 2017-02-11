@@ -248,11 +248,6 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}

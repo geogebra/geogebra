@@ -328,9 +328,4 @@ public class AlgoCircleThreePoints extends AlgoElement
 		return botanaParams.getPolynomials(getInput());
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

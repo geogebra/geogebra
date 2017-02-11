@@ -283,11 +283,6 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
-	@Override
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}

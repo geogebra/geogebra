@@ -301,11 +301,6 @@ public abstract class ConstructionElement
 
 	public abstract String toString(GTemplate tpl);
 
-	/**
-	 * @return true iff this element can be used in locus equation construction.
-	 */
-	public abstract boolean isLocusEquable();
-
 	protected Localization getLoc() {
 		return cons.getKernel().getLocalization();
 	}

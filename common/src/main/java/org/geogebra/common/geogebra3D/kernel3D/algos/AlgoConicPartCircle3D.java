@@ -247,10 +247,6 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	}
 
 	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-	@Override
 	public GeoConicPart3D getConicPart() {
 		return (GeoConicPart3D) super.getConicPart();
 	}

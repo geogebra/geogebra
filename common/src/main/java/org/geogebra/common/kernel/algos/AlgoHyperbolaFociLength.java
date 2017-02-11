@@ -48,11 +48,6 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 		return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
 	// ///////////////////////////////

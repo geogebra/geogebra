@@ -215,9 +215,4 @@ public class AlgoJoinPoints extends AlgoElement
 		return null;
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }

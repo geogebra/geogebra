@@ -62,9 +62,4 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 		c.diameterLine(v, (GeoLine) diameter);
 	}
 
-	@Override
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }
