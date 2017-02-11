@@ -1813,7 +1813,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * 
 	 */
 	@Override
-	public float getExerciseFraction() {
+	public double getExerciseFraction() {
 		Exercise ex = kernel.getExercise();
 		ex.checkExercise();
 		return ex.getFraction();

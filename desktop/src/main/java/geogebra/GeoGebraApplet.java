@@ -858,7 +858,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	@Override
-	public float getExerciseFraction() {
+	public double getExerciseFraction() {
 		return getGgbApi().getExerciseFraction();
 	}
 

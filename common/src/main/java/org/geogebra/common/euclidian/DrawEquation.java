@@ -150,7 +150,7 @@ public abstract class DrawEquation {
 			final String text, final GFont font, final boolean serif,
 			final Color fgColor, final Color bgColor,
 			final boolean useCache, final Integer maxWidth,
-			final Float lineSpace) {
+			final Double lineSpace) {
 		// TODO uncomment when \- works
 		// text=addPossibleBreaks(text);
 
@@ -234,7 +234,7 @@ public abstract class DrawEquation {
 	}
 
 	public TeXIcon createIcon(String text, Color fgColor, GFont font, int style,
-			Integer maxWidth, Float lineSpace, App app) {
+			Integer maxWidth, Double lineSpace, App app) {
 		checkFirstCall(app);
 		TeXFormula formula;
 		TeXIcon icon;
@@ -249,7 +249,7 @@ public abstract class DrawEquation {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, TeXConstants.UNIT_CM,
 						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, lineSpace.floatValue());
+						TeXConstants.UNIT_CM, lineSpace.doubleValue());
 			}
 		} catch (final MyError e) {
 			// e.printStackTrace();
@@ -305,7 +305,7 @@ public abstract class DrawEquation {
 	final public GDimension measureEquationJLaTeXMath(final App app,
 			final GeoElement geo, final int x, final int y, final String text,
 			final GFont font, final boolean serif, final Integer maxWidth,
-			final Float lineSpace) {
+			final Double lineSpace) {
 
 		checkFirstCall(app);
 		GColor fgColor = GColor.BLACK;
@@ -324,7 +324,7 @@ public abstract class DrawEquation {
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, TeXConstants.UNIT_CM,
 						maxWidth.intValue(), TeXConstants.ALIGN_LEFT,
-						TeXConstants.UNIT_CM, lineSpace.floatValue());
+						TeXConstants.UNIT_CM, lineSpace.doubleValue());
 			}
 		} catch (final MyError e) {
 			// e.printStackTrace();

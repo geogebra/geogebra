@@ -92,13 +92,13 @@ public class Exercise {
 	 * 
 	 * @return the sum of fractions for all assignments
 	 */
-	public float getFraction() {
-		float fractionsumplus = 0;
-		float fractionsumminus = 0;
+	public double getFraction() {
+		double fractionsumplus = 0;
+		double fractionsumminus = 0;
 		Assignment singleCorrect = null;
 		double stdPrecision = Kernel.STANDARD_PRECISION;
 		for (Assignment assignment : assignments) {
-			float assignmenFraction = assignment.getFraction();
+			double assignmenFraction = assignment.getFraction();
 
 			if (assignmenFraction >= 0) {
 				if (assignmenFraction >= 1 - stdPrecision) {
@@ -109,7 +109,7 @@ public class Exercise {
 				fractionsumminus += assignmenFraction;
 			}
 		}
-		float fraction = 0;
+		double fraction = 0;
 		if (singleCorrect != null || fractionsumplus >= 1 - stdPrecision) {
 			fraction = 1;
 		} else {

@@ -769,7 +769,7 @@ public interface JavaScriptAPI {
 
 	public int getCASObjectNumber();
 
-	public float getExerciseFraction();
+	public double getExerciseFraction();
 
 	public String getVersion();
 

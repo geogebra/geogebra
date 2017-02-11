@@ -62,7 +62,7 @@ public abstract class Assignment {
 	 * The fractions for the Results. Each Result may have any fraction between
 	 * -100 and 100 (i.e. -1 and 1)
 	 */
-	protected HashMap<Result, Float> fractionForResult;
+	protected HashMap<Result, Double> fractionForResult;
 	/**
 	 * The hints for the Results. There may or may not be a hint set for a
 	 * particular result.
@@ -85,7 +85,7 @@ public abstract class Assignment {
 	 *            Kernel
 	 */
 	public Assignment(Kernel kernel) {
-		fractionForResult = new HashMap<Result, Float>();
+		fractionForResult = new HashMap<Result, Double>();
 		hintForResult = new HashMap<Result, String>();
 		res = Result.UNKNOWN;
 		this.kernel = kernel;
@@ -107,8 +107,8 @@ public abstract class Assignment {
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
 	 */
-	public float getFraction() {
-		float fraction = 0f;
+	public double getFraction() {
+		double fraction = 0;
 		if (fractionForResult.containsKey(res)) {
 			fraction = fractionForResult.get(res);
 		} else if (res == Result.CORRECT) {
@@ -155,7 +155,7 @@ public abstract class Assignment {
 	 *            the fraction in the interval [-1,1] which should be used for
 	 *            the result (will do nothing if fraction is not in [-1,1])
 	 */
-	public void setFractionForResult(Result result, float f) {
+	public void setFractionForResult(Result result, double f) {
 		if (-1 <= f && f <= 1) {
 			fractionForResult.put(result, f);
 		}
@@ -168,8 +168,8 @@ public abstract class Assignment {
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
 	 */
-	public float getFractionForResult(Result result) {
-		float frac = 0f;
+	public double getFractionForResult(Result result) {
+		double frac = 0;
 		if (fractionForResult.containsKey(result)) {
 			frac = fractionForResult.get(result);
 		} else if (result == Result.CORRECT) {
@@ -247,7 +247,7 @@ public abstract class Assignment {
 		if (hasHint() || hasFraction()) {
 			for (Result res1 : Result.values()) {
 				String hint = hintForResult.get(res1);
-				Float fraction = fractionForResult.get(res1);
+				Double fraction = fractionForResult.get(res1);
 				if (hint != null && !hint.isEmpty() || fraction != null) {
 					sb.append("\t\t<result name=\"");
 					StringUtil.encodeXML(sb, res1.toString());

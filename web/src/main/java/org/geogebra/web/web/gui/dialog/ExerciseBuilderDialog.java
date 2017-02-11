@@ -293,7 +293,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 						.evaluateToNumeric(fractions.getText(), true);
 				if(num!=null){
 					assignment.setFractionForResult(res,
-							(float) (num.getDouble() * 0.01));
+							(num.getDouble() * 0.01));
 					fractions.setText(
 							num.toValueString(StringTemplate.defaultTemplate));
 				}

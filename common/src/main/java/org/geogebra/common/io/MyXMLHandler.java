@@ -2235,8 +2235,8 @@ public class MyXMLHandler implements DocHandler {
 		if (tmp_showSpreadsheet && tmp_showAlgebra) {
 			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
 					? width : height);
-			float relative1 = (float) tmp_sp2 / total;
-			float relative2 = (float) tmp_sp1 / (total - tmp_sp2);
+			double relative1 = (double) tmp_sp2 / total;
+			double relative2 = (double) tmp_sp1 / (total - tmp_sp2);
 			spXml = new DockSplitPaneData[] {
 					new DockSplitPaneData("", relative1, splitOrientation),
 					new DockSplitPaneData(
