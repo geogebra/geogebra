@@ -42,12 +42,6 @@ public enum Feature {
 
 	HANDWRITING,
 
-	/** GGB-641 */
-	EXPLICIT_LOCUS_VIA_BOTANA,
-
-	/** GGB-1361 */
-	ENVELOPE_VIA_BOTANA,
-
 	AV_DEFINITION_AND_VALUE,
 
 	/** MOB-321 */

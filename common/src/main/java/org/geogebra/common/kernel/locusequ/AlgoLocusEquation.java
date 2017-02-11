@@ -3,7 +3,6 @@
  */
 package org.geogebra.common.kernel.locusequ;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -18,11 +17,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -34,7 +31,6 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	private GeoImplicit geoPoly;
 	private GeoElement[] efficientInput, standardInput;
 	private String efficientInputFingerprint;
-	private EquationSystem old_system = null; // for caching
 	private GeoElement implicitLocus = null;
 
 	/**
@@ -187,130 +183,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	}
 
 	private void initialCompute() {
-		if (implicitLocus != null) {
-			computeExplicitImplicit(true);
-			return;
-		}
-
-		if (implicitLocus == null && movingPoint.getKernel().getApplication()
-				.has(Feature.EXPLICIT_LOCUS_VIA_BOTANA)) {
-			computeExplicitImplicit(false);
-			return;
-		}
-
-		EquationSystem system = getOriginalIdeal();
-		/*
-		 * geoPoly is set to undefined until the CAS is loaded properly. On
-		 * loading a GGB file geoPoly may be, however, defined, but later it
-		 * will be set to undefined until the CAS is loaded. In the desktop
-		 * platform the CAS is loading quickly, but in the web its loading may
-		 * be slower: this is why we need to check if geoPoly is already defined
-		 * or not. When geoPoly is defined, it can be the same as in a previous
-		 * update when a dragging event was started. In many cases dragging will
-		 * not change the equation system, hence it is unnecessary to recompute
-		 * elimination in the CAS. For this purpose we simply store the previous
-		 * equation system in the old_system variable.
-		 */
-		if (this.geoPoly.isDefined() && system != null
-				&& system.looksSame(old_system)) {
-			// do nothing: the system has not been changed, thus we use the
-			// cache
-			return; // avoid the heavy computation
-		}
-		old_system = system;
-
-		if (system != null) {
-			EquationTranslator<StringBuilder> trans = new CASTranslator(kernel);
-			try {
-				this.geoPoly.setCoeff(trans.eliminateSystem(system)); // eliminateSystem()
-																		// is
-																		// heavy
-				this.geoPoly.setDefined();
-
-				// Timeout or other error => set undefined
-			} catch (Exception e) {
-				this.geoPoly.setUndefined();
-			}
-		} else {
-			this.geoPoly.setUndefined();
-		}
-	}
-
-	private EquationSystem getOriginalIdeal() {
-		EquationScope scope = new EquationScope(locusPoint, movingPoint);
-		GeoPoint[] points = EquationHelpers
-				.getDependentPredecessorPointsForElement(locusPoint);
-
-		EquationPoint pequ;
-
-		EquationList restrictions = new EquationList();
-		AlgoElement algo;
-
-		Set<AlgoElement> visitedAlgos = new HashSet<AlgoElement>();
-
-		// TODO some algos are done more than once.
-		for (GeoPoint p : points) {
-			pequ = scope.getPoint(p);
-			if (!pequ.isIndependent()) {
-				addAlgoIfNotVisited(restrictions, p.getParentAlgorithm(), scope,
-						visitedAlgos);
-
-				if (p.getParentAlgorithm() != null
-						&& !p.getParentAlgorithm().isLocusEquable()) {
-					Log.info("Non-algebraic or unimplemented dependent point: "
-							+ p.getParentAlgorithm());
-					return null;
-				}
-				for (Object predObj : p.getAllPredecessors()) {
-					GeoElement pred = (GeoElement) predObj;
-					Log.trace("Considering " + pred);
-					if (pred.getParentAlgorithm() != null
-							&& !pred.getParentAlgorithm().isLocusEquable()) {
-						Log.info("Non-algebraic or unimplemented predecessor: "
-								+ pred.getParentAlgorithm());
-						return null;
-					}
-				}
-
-				// restrictions.addAll(scope.getRestrictionsFromAlgo(p.getParentAlgorithm()));
-				for (Object algoObj : p.getAlgorithmList()) {
-					algo = (AlgoElement) algoObj;
-					addAlgoIfNotVisited(restrictions, algo, scope,
-							visitedAlgos);
-					// restrictions.addAll(scope.getRestrictionsFromAlgo(algo));
-				}
-			}
-		}
-
-		for (EquationAuxiliarSymbolicPoint p : scope
-				.getAuxiliarSymbolicPoints()) {
-			restrictions.addAll(p.getRestrictions());
-		}
-
-		return new EquationSystem(restrictions, scope);
-	}
-
-	/**
-	 * Just static so it cannot modify any instance variables.
-	 * 
-	 * @param restrictions
-	 * @param algo
-	 * @param scope
-	 * @param visitedAlgos
-	 */
-	private static void addAlgoIfNotVisited(EquationList restrictions,
-			AlgoElement algo, EquationScope scope,
-			Set<AlgoElement> visitedAlgos) {
-		if (!visitedAlgos.contains(algo)) {
-			visitedAlgos.add(algo);
-			EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-			Log.debug("Visiting algo " + algo.getOutput()[0]
-					.toString(StringTemplate.defaultTemplate));
-			for (Equation eq : eqs) {
-				Log.debug(" -> " + eq.toString() + " == 0");
-			}
-			restrictions.addAll(eqs);
-		}
+		computeExplicitImplicit(implicitLocus != null);
 	}
 
 	/*
