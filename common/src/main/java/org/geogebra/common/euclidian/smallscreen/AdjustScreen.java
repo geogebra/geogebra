@@ -160,20 +160,20 @@ public class AdjustScreen {
 		}
 		Log.debug("[AS]  ensureGeoOnScreen geo: " + geo);
 
-		AdjustWidget adjust = null;
-		if (geo.isGeoNumeric()) {
-			GeoNumeric number = (GeoNumeric) geo;
-			if (number.isSlider()) {
-				adjust = new AdjustSlider(number, view);
-			}
-		} else if (geo.isGeoButton()) {
-			if (geo.isGeoInputBox()) {
-				adjust = new AdjustInputBox((GeoInputBox) geo, view);
-			} else {
-				Log.debug("[AS] AdjustButton for " + geo);
-				adjust = new AdjustButton((GeoButton) geo, view);
-			}
-		}
+		// AdjustWidget adjust = null;
+		// if (geo.isGeoNumeric()) {
+		// GeoNumeric number = (GeoNumeric) geo;
+		// if (number.isSlider()) {
+		// adjust = new AdjustSlider(number, view);
+		// }
+		// } else if (geo.isGeoButton()) {
+		// if (geo.isGeoInputBox()) {
+		// adjust = new AdjustInputBox((GeoInputBox) geo, view);
+		// } else {
+		// Log.debug("[AS] AdjustButton for " + geo);
+		// adjust = new AdjustButton((GeoButton) geo, view);
+		// }
+		// }
 
 		// if (adjust != null) {
 		// adjust.apply();

@@ -25,7 +25,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 	
 	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
 		super(false, true, null, app.getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		this.app = app;

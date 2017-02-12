@@ -151,7 +151,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	public CheckboxCreationDialogW(AppW app, GPoint loc2,
 			GeoBoolean geoBoolean) {
 		super(false, false, null, app.getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		this.app = app;

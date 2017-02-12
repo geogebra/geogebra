@@ -145,7 +145,7 @@ public class CustomColorDialog extends DialogBoxW {
 
 	public CustomColorDialog(App app, ICustomColor listener) {
 		super(((AppW) app).getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		this.listener = listener;

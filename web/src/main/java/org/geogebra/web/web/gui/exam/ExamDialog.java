@@ -9,7 +9,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamEnvironmentW;
 import org.geogebra.web.web.css.GuiResources;
@@ -57,7 +56,7 @@ public class ExamDialog {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		box = new DialogBoxW(false, true, null, app.getPanel());
 		
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			box.setOverlapFeature(true);
 		}
 		

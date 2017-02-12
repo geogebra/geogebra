@@ -34,7 +34,7 @@ public class AlertDialog extends DialogBoxW {
 	 */
 	public AlertDialog(App app) {
 		super(((AppW) app).getPanel());
-		if(app!=null && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
 		setWidget(container = new VerticalPanel());
