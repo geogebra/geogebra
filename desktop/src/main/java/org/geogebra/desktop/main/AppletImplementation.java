@@ -26,7 +26,6 @@ import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JApplet;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -69,7 +68,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	Color bgColor, borderColor;
 	private String fileStr, customToolBar;
 	private int maxIconSize;
-	private JFrame wnd;
 	public int width, height;
 	// public static URL codeBase=null;
 	// public static URL documentBase=null;
@@ -125,11 +123,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		kernel = null;
 		ev = null;
 
-		if (wnd != null) {
-			// see GeoGebraFrame.dispose()
-			wnd.dispose();
-			wnd = null;
-		}
 	}
 
 	/**
@@ -443,8 +436,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 			public void run() {
 				applet.setCursor(
 						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-				wnd.setVisible(false); // hide frame
 
 				reinitGUI();
 
