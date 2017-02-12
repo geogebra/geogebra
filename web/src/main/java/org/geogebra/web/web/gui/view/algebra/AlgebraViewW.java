@@ -1998,7 +1998,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
 	private boolean latexLoaded;
-	private boolean userResize = true;
 	private int userWidth;
 
 	/*

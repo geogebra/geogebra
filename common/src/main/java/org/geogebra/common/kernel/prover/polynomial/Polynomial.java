@@ -1236,14 +1236,15 @@ public class Polynomial implements Comparable<Polynomial> {
 				}
 			}
 			Variable[] pVariables = new Variable[variables.size()];
-			String debug = "";
+			StringBuilder debug = new StringBuilder();
 			for (int j = 0; j < vSize; ++j) {
 				pVariables[j] = aVariables[indices[j]];
-				debug += aVariables[indices[j]] + ",";
+				debug.append(aVariables[indices[j]]);
+				if (j < vSize - 1) {
+					debug.append(",");
+				}
 			}
-			if (!"".equals(debug)) {
-				debug = debug.substring(0, debug.length()-1);
-			}
+
 			Log.debug("Checking variable permutation #" + permutation + ": " + debug);
 			it = dependentVariables.iterator();
 			for (int j = vSize; j < variables.size(); ++j) {
