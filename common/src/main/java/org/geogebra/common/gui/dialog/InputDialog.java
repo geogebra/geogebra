@@ -15,12 +15,12 @@ import org.geogebra.common.util.AsyncOperation;
 public abstract class InputDialog implements ErrorHandler {
 
 	private String initString;
-	protected InputHandler inputHandler;
+	private InputHandler inputHandler;
 	protected String inputText = null;
 	protected ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
 
 	protected void processInputHandler(AsyncOperation<Boolean> callback) {
-		inputHandler.processInput(inputText, this, callback);
+		getInputHandler().processInput(inputText, this, callback);
 	}
 
 	protected void openProperties(App app, GeoElement geo) {
@@ -37,5 +37,13 @@ public abstract class InputDialog implements ErrorHandler {
 
 	protected void setInitString(String initString) {
 		this.initString = initString;
+	}
+
+	protected InputHandler getInputHandler() {
+		return inputHandler;
+	}
+
+	protected void setInputHandler(InputHandler inputHandler) {
+		this.inputHandler = inputHandler;
 	}
 }

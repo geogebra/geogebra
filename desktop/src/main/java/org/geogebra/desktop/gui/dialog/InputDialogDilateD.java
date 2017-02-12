@@ -35,7 +35,7 @@ public class InputDialogDilateD extends InputDialogD {
 		super(app.getFrame(), false, app.getLocalization());
 
 		this.app = app;
-		inputHandler = handler;
+		setInputHandler(handler);
 
 		this.points = points;
 		this.selGeos = selGeos;
@@ -79,7 +79,7 @@ public class InputDialogDilateD extends InputDialogD {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		inputHandler.processInput(inputPanel.getText(), this,
+		getInputHandler().processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override
@@ -88,7 +88,7 @@ public class InputDialogDilateD extends InputDialogD {
 						if (ok) {
 							DialogManager
 									.doDilate(kernel,
-											((NumberInputHandler) inputHandler)
+											((NumberInputHandler) getInputHandler())
 													.getNum(),
 											points, selGeos, ec);
 						}

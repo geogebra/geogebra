@@ -42,7 +42,7 @@ public abstract class Renderer {
 
 	public static final int MOUSE_PICK_DEPTH = 10;
 
-	protected Drawable3D[] drawHits;
+	private Drawable3D[] drawHits;
 	protected int pickingLoop;
 
 	// other
@@ -1429,8 +1429,8 @@ public abstract class Renderer {
 
 	}
 
-	protected static Drawable3D[] createDrawableListForPicking(int bufSize) {
-		return new Drawable3D[bufSize];
+	protected void createDrawableListForPicking(int bufSize) {
+		drawHits = new Drawable3D[bufSize];
 	}
 
 	abstract protected void setGLForPicking();
@@ -2303,6 +2303,10 @@ public abstract class Renderer {
 
 	protected void setOldGeoToPickSize(int oldGeoToPickSize) {
 		this.oldGeoToPickSize = oldGeoToPickSize;
+	}
+
+	protected Drawable3D getDrawHit(int num) {
+		return drawHits[num];
 	}
 
 }

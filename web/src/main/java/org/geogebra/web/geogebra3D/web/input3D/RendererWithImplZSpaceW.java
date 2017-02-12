@@ -35,7 +35,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			// glContext = (WebGLRenderingContext) webGLCanvas
 			// .getContext("webgl");
 			glContext = getBufferedContextNoPDB(webGLCanvas.getElement());
-			((RendererImplShadersW) rendererImpl).setGL(glContext);
+			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
 		if (glContext == null) {
 			Window.alert("Sorry, Your Browser doesn't support WebGL!");

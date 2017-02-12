@@ -121,7 +121,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		Log.debug("openGL version : " + version + ", vbo supported : "
 				+ VBOsupported);
 
-		rendererImpl.initFBO();
+		getRendererImpl().initFBO();
 
 		init();
 	}
@@ -193,9 +193,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		}
 
 		if (type == RendererType.SHADER) {
-			rendererImpl = new RendererImplShadersD(this, view3D, jogl);
+			setRendererImpl(new RendererImplShadersD(this, view3D, jogl));
 		} else {
-			rendererImpl = new RendererImplGL2(this, view3D, jogl);
+			setRendererImpl(new RendererImplGL2(this, view3D, jogl));
 		}
 
 	}
@@ -216,7 +216,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		// DO NOT REMOVE THE METHOD HERE -- NEEDED TO AVOID ERRORS IN
 		// INSTALLED/PORTABLE VERSIONS
 		setGL(drawable);
-		rendererImpl.dispose();
+		getRendererImpl().dispose();
 	}
 
 	@Override
@@ -297,7 +297,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 				gifEncoder.finish();
 
 				Log.debug("GIF export finished");
-				rendererImpl.endNeedExportImage();
+				getRendererImpl().endNeedExportImage();
 
 			} else {
 				export_num.setValue(export_val);
@@ -318,7 +318,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 				Toolkit.getDefaultToolkit().getSystemClipboard()
 						.setContents(imgSel, null);
 			}
-			rendererImpl.endNeedExportImage();
+			getRendererImpl().endNeedExportImage();
 
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
@@ -333,7 +333,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 			}
 
 			view3D.getApplication().uploadToGeoGebraTube();
-			rendererImpl.endNeedExportImage();
+			getRendererImpl().endNeedExportImage();
 
 			break;
 
@@ -344,7 +344,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 					// call write to file
 					((EuclidianView3DD) view3D).writeExportImage();
 				}
-				rendererImpl.endNeedExportImage();
+				getRendererImpl().endNeedExportImage();
 			}
 			break;
 		}
@@ -361,7 +361,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
 					null);
 		}
-		rendererImpl.endNeedExportImage();
+		getRendererImpl().endNeedExportImage();
 	}
 
 	@Override
@@ -646,12 +646,12 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	@Override
 	final public void enableTextures2D() {
-		rendererImpl.glEnable(GL.GL_TEXTURE_2D);
+		getRendererImpl().glEnable(GL.GL_TEXTURE_2D);
 	}
 
 	@Override
 	final public void disableTextures2D() {
-		rendererImpl.glDisable(GL.GL_TEXTURE_2D);
+		getRendererImpl().glDisable(GL.GL_TEXTURE_2D);
 	}
 
 	@Override

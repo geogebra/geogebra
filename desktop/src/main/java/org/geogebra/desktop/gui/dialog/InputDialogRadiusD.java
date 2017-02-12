@@ -67,7 +67,7 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		inputHandler.processInput(inputPanel.getText(), this,
+		getInputHandler().processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override
@@ -76,7 +76,7 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 
 						if (ok) {
 							GeoElement circle = createOutput(
-									((NumberInputHandler) inputHandler)
+									((NumberInputHandler) getInputHandler())
 											.getNum());
 							GeoElement[] geos = { circle };
 							app.storeUndoInfoAndStateForModeStarting();

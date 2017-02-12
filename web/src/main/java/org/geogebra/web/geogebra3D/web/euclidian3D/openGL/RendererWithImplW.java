@@ -42,7 +42,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 		webGLCanvas = Canvas.createIfSupported();
 
-		rendererImpl = new RendererImplShadersW(this, view3D);
+		setRendererImpl(new RendererImplShadersW(this, view3D));
 
 		createGLContext(false);
 
@@ -50,7 +50,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 		Window.addCloseHandler(new CloseHandler<Window>() {
 			@Override
 			public void onClose(CloseEvent<Window> event) {
-				rendererImpl.dispose();
+				getRendererImpl().dispose();
 			}
 		});
 
@@ -195,7 +195,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 		} else {
 			glContext = (WebGLRenderingContext) webGLCanvas
 					.getContext("experimental-webgl");
-			((RendererImplShadersW) rendererImpl).setGL(glContext);
+			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
 		if (glContext == null) {
 			Window.alert("Sorry, Your Browser doesn't support WebGL!");
@@ -287,7 +287,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 	 */
 	protected void createAlphaTexture(DrawLabel3D label, ImageElement image,
 			GBufferedImageW bimg) {
-		((RendererImplShadersW) rendererImpl).createAlphaTexture(label, image,
+		((RendererImplShadersW) getRendererImpl()).createAlphaTexture(label, image,
 				bimg);
 	}
 

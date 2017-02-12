@@ -123,7 +123,7 @@ public class AdjustScreen {
 
 		Log.debug("[AS] collectWidgets()");
 		for (GeoElement geo : kernel.getConstruction().getGeoTable().values()) {
-			boolean ensure = false;
+			// boolean ensure = false;
 			if (geo instanceof GeoNumeric) {
 				GeoNumeric num = (GeoNumeric) geo;
 				if (num.isSlider()) {
@@ -132,18 +132,18 @@ public class AdjustScreen {
 					} else {
 						vSliders.add(num);
 					}
-					ensure = true;
+					// ensure = true;
 				}
 			} else if (geo.isGeoButton()) {
 				if (geo.isGeoInputBox()) {
 					Log.debug("[AS] collecting inputbox: " + geo);
 					GeoInputBox input = (GeoInputBox) geo;
 					inputBoxes.add(input);
-					ensure = true;
+					// ensure = true;
 				} else {
 					GeoButton btn = (GeoButton) geo;
 					layoutButtons.add(btn);
-					ensure = false;
+					// ensure = false;
 				}
 			}
 

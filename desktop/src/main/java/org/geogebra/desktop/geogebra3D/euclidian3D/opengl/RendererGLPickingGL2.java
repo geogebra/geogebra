@@ -48,7 +48,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		// Drawable3D[] drawHits=createDrawableListForPicking(bufSize);
 		if (bufSize > geoToPickSize) {
 			selectBuffer = createSelectBufferForPicking(bufSize);
-			drawHits = createDrawableListForPicking(bufSize);
+			createDrawableListForPicking(bufSize);
 			setOldGeoToPickSize(-1);
 		}
 
@@ -91,7 +91,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 														// TODO remove "+20" due
 														// to intersection curve
 			selectBuffer = createSelectBufferForPicking(bufSize);
-			drawHits = createDrawableListForPicking(bufSize);
+			createDrawableListForPicking(bufSize);
 			setOldGeoToPickSize(geoToPickSize);
 			needsNewPickingBuffer = false;
 		}
@@ -176,7 +176,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 
 				if (hits3D == null) { // just update z min/max values for the
 										// drawable
-					drawHits[num].setZPick(zNear, zFar);
+					getDrawHit(num).setZPick(zNear, zFar);
 				} else { // if for hits array, some checks are done
 							// Log.debug("\n"+drawHits[num].getGeoElement());
 					if (!view3D.getCompanion()
@@ -200,7 +200,8 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 						} else {
 							type1 = PickingType.SURFACE;
 						}
-						hits3D.addDrawable3D(drawHits[num], type1, zNear, zFar);
+						hits3D.addDrawable3D(getDrawHit(num), type1, zNear,
+								zFar);
 						// Log.debug("\n"+drawHits[num].getGeoElement()+"\nzFar
 						// = "+zFar+"\nmouse z ="+((GPointWithZ)
 						// mouse).getZ());

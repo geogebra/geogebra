@@ -42,7 +42,7 @@ public class AngleInputDialogD extends InputDialogD {
 			boolean modal) {
 		super(app.getFrame(), modal, app.getLocalization());
 		this.app = app;
-		inputHandler = handler;
+		setInputHandler(handler);
 		this.setInitString(initString);
 
 		// create radio buttons for "clockwise" and "counter clockwise"
@@ -86,7 +86,7 @@ public class AngleInputDialogD extends InputDialogD {
 					inputText = "-(" + inputText + ")";
 				}
 
-				inputHandler.processInput(inputText, this,
+				getInputHandler().processInput(inputText, this,
 						new AsyncOperation<Boolean>() {
 
 							@Override

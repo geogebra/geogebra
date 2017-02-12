@@ -154,7 +154,7 @@ public class TextInputDialogD extends InputDialogD
 		this.rw = rw;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
-		inputHandler = new TextInputHandler();
+		setInputHandler(new TextInputHandler());
 		isIniting = true;
 
 		// build input dialog GUI
@@ -768,7 +768,7 @@ public class TextInputDialogD extends InputDialogD
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				isLaTeX = cbLaTeX.isSelected();
 				editOccurred = false;
-				inputHandler.processInput(editor.buildGeoGebraString(isLaTeX),
+				getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX),
 						this, new AsyncOperation<Boolean>() {
 
 							@Override
@@ -1008,7 +1008,7 @@ public class TextInputDialogD extends InputDialogD
 	public void applyModifications() {
 		if (editOccurred) {
 			editOccurred = false;// do this first to ensure no circular call
-			inputHandler.processInput(editor.buildGeoGebraString(isLaTeX), this,
+			getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX), this,
 					new AsyncOperation<Boolean>() {
 
 						@Override

@@ -27,7 +27,7 @@ public class InputDialogDilateW extends InputDialogW {
 		super(app, app.getLocalization().getMenu("Dilate.Factor"), title, null,
 				false, handler, false);
 		
-		inputHandler = handler;
+		setInputHandler(handler);
 
 		this.points = points;
 		this.selGeos = selGeos;
@@ -60,7 +60,7 @@ public class InputDialogDilateW extends InputDialogW {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		inputHandler.processInput(inputPanel.getText(), this,
+		getInputHandler().processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override
@@ -70,7 +70,7 @@ public class InputDialogDilateW extends InputDialogW {
 						if (ok) {
 							DialogManager
 									.doDilate(kernel,
-											((NumberInputHandler) inputHandler)
+											((NumberInputHandler) getInputHandler())
 													.getNum(),
 											points, selGeos, ec);
 						}

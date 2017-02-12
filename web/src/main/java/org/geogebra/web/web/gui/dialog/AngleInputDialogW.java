@@ -36,7 +36,7 @@ public class AngleInputDialogW extends InputDialogW {
 	public AngleInputDialogW(AppW app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {
 		super(modal, app, true);
-		inputHandler = handler;
+		setInputHandler(handler);
 		setInitString(initString);
 
 		// create radio buttons for "clockwise" and "counter clockwise"
@@ -85,7 +85,7 @@ public class AngleInputDialogW extends InputDialogW {
 					inputTextWithSign = "-(" + inputTextWithSign + ")";
 				}
 
-				inputHandler.processInput(inputTextWithSign, this,
+				getInputHandler().processInput(inputTextWithSign, this,
 						new AsyncOperation<Boolean>() {
 
 							@Override

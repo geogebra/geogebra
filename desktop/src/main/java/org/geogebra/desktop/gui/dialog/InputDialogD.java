@@ -164,7 +164,7 @@ public class InputDialogD extends InputDialog
 		this(app.getFrame(), modal, app.getLocalization());
 		this.app = app;
 		this.geo = geo;
-		this.inputHandler = handler;
+		this.setInputHandler(handler);
 		this.setInitString(initString);
 		this.checkBox = checkBox;
 

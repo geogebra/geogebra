@@ -90,7 +90,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 			inputText = "-(" + inputText + ")";
 		}
 		
-		inputHandler.processInput(inputText, this,
+		getInputHandler().processInput(inputText, this,
 				new AsyncOperation<Boolean>() {
 
 					@Override
@@ -107,7 +107,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 
 							DialogManager.doAngleFixed(kernel, segments, points,
 									selGeos,
-									((NumberInputHandler) inputHandler)
+									((NumberInputHandler) getInputHandler())
 											.getNum(),
 									rbClockWise.getValue(), ec);
 

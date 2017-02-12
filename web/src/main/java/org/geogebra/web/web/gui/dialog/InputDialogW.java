@@ -97,7 +97,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		this(modal, app, true);
 
 		this.geo = geo;
-		this.inputHandler = handler;
+		this.setInputHandler(handler);
 		setInitString(initString);
 
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
@@ -142,7 +142,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		this(false, app, false);
 
 		this.geo = geo;
-		this.inputHandler = handler;
+		this.setInputHandler(handler);
 		setInitString(initString);
 
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, geo != null, showApply,

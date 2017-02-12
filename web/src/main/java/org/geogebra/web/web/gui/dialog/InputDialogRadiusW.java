@@ -56,14 +56,14 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		inputHandler.processInput(inputPanel.getText(), this,
+		getInputHandler().processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
-							GeoElement circle = createOutput(((NumberInputHandler) inputHandler)
+							GeoElement circle = createOutput(((NumberInputHandler) getInputHandler())
 									.getNum());
 							GeoElement[] geos = { circle };
 							app.storeUndoInfoAndStateForModeStarting();

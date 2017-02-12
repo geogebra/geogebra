@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public abstract class RendererWithImpl extends Renderer
 		implements RendererShadersInterface {
 
-	protected RendererImpl rendererImpl;
+	private RendererImpl rendererImpl;
 
 	/**
 	 * basic constructor
@@ -787,5 +787,13 @@ public abstract class RendererWithImpl extends Renderer
 	@Override
 	protected void setExportImageDimension(int w, int h) {
 		rendererImpl.setExportImageDimension(w, h);
+	}
+
+	protected RendererImpl getRendererImpl() {
+		return rendererImpl;
+	}
+
+	protected void setRendererImpl(RendererImpl rendererImpl) {
+		this.rendererImpl = rendererImpl;
 	}
 }

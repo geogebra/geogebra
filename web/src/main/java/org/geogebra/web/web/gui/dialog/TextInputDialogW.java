@@ -66,7 +66,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
 //		textInputDialog = this;
-		inputHandler = new TextInputHandler();
+		setInputHandler(new TextInputHandler());
 
 //		isIniting = true;		
 
