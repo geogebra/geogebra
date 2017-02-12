@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -191,18 +192,19 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial add(final Polynomial poly) {
 		TreeMap<Term, BigInteger> result = new TreeMap<Term, BigInteger>(terms);
 		TreeMap<Term, BigInteger> terms2 = poly.getTerms();
-		Iterator<Term> it = terms2.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it = terms2.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t = it.next();
+			Entry<Term, BigInteger> entry = it.next();
+			Term t = entry.getKey();
 			if (terms.containsKey(t)) {
 				BigInteger coefficient = terms.get(t).add(terms2.get(t));
 				if (coefficient == BigInteger.ZERO) {
 					result.remove(t);
 				} else {
-					result.put(t, terms.get(t).add(terms2.get(t)));
+					result.put(t, terms.get(t).add(entry.getValue()));
 				}
 			} else {
-				result.put(t, terms2.get(t));
+				result.put(t, entry.getValue());
 			}
 		}
 		return new Polynomial(result);
@@ -215,10 +217,11 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial negate() {
 		TreeMap<Term, BigInteger> result = new TreeMap<Term, BigInteger>();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it = terms.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t = it.next();
-			result.put(t, BigInteger.ZERO.subtract(terms.get(t)));
+			Entry<Term, BigInteger> entry = it.next();
+			Term t = entry.getKey();
+			result.put(t, BigInteger.ZERO.subtract(entry.getValue()));
 		}
 		return new Polynomial(result);
 	}
@@ -256,14 +259,18 @@ public class Polynomial implements Comparable<Polynomial> {
 		
 		TreeMap<Term, BigInteger> result = new TreeMap<Term, BigInteger>();
 		TreeMap<Term, BigInteger> terms2 = poly.getTerms();
-		Iterator<Term> it1 = terms.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it1 = terms.entrySet().iterator();
 		while (it1.hasNext()) {
-			Term t1 = it1.next();
-			Iterator<Term> it2 = terms2.keySet().iterator();
+			Entry<Term, BigInteger> entry1 = it1.next();
+			Term t1 = entry1.getKey();
+			Iterator<Entry<Term, BigInteger>> it2 = terms2.entrySet()
+					.iterator();
 			while (it2.hasNext()) {
-				Term t2 = it2.next();
+				Entry<Term, BigInteger> entry2 = it2.next();
+				Term t2 = entry2.getKey();
 				Term product = t1.times(t2);
-				BigInteger productCoefficient = terms.get(t1).multiply(terms2.get(t2));
+				BigInteger productCoefficient = entry1.getValue()
+						.multiply(entry2.getValue());
 				if (result.containsKey(product)) {
 					BigInteger sum = result.get(product).add(productCoefficient);
 					if (sum == BigInteger.ZERO) {
@@ -336,13 +343,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it = terms.entrySet().iterator();
 		if (!it.hasNext()) {
 			return "0";
 		}
 		while (it.hasNext()) {
-			Term t = it.next();
-			BigInteger c = terms.get(t);
+			Entry<Term, BigInteger> entry = it.next();
+			Term t = entry.getKey();
+			BigInteger c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
 				if (c != BigInteger.ONE)
 					sb.append(c + "*");
@@ -361,13 +369,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public String toTeX() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it = terms.entrySet().iterator();
 		if (!it.hasNext()) {
 			return "0";
 		}
 		while (it.hasNext()) {
-			Term t = it.next();
-			BigInteger c = terms.get(t);
+			Entry<Term, BigInteger> entry = it.next();
+			Term t = entry.getKey();
+			BigInteger c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
 				if (c != BigInteger.ONE) {
 					// c != -1
@@ -693,22 +702,25 @@ public class Polynomial implements Comparable<Polynomial> {
 			
 		TreeMap<Term, BigInteger> result = new TreeMap<Term, BigInteger>();
 
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it = terms.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t1 = it.next();
+			Entry<Term, BigInteger> entry = it.next();
+			Term t1 = entry.getKey();
 			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(t1.getTerm());
 			BigInteger product = BigInteger.ONE;
-			Iterator<Variable> itSubst = substitutions.keySet().iterator();
+			Iterator<Entry<Variable, Long>> itSubst = substitutions.entrySet()
+					.iterator();
 			while (itSubst.hasNext()) {
-				Variable variable = itSubst.next();
+				Entry<Variable, Long> entrySubst = itSubst.next();
+				Variable variable = entrySubst.getKey();
 				Integer exponent = term.get(variable);
 				if (exponent != null) {
 					product = product.multiply(BigInteger.valueOf(
-							substitutions.get(variable)).pow(exponent));
+							entrySubst.getValue()).pow(exponent));
 					term.remove(variable);
 				}
 			}
-			product = product.multiply(terms.get(t1));
+			product = product.multiply(entry.getValue());
 			Term t = new Term(term);
 			if (result.containsKey(t)) {
 				BigInteger sum = result.get(t).add(product);
@@ -744,9 +756,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial substitute(Variable oldVar, Variable newVar) {
 
 		TreeMap<Term, BigInteger> result = new TreeMap<Term, BigInteger>();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, BigInteger>> it = terms.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t1 = it.next();
+			Entry<Term, BigInteger> entry = it.next();
+			Term t1 = entry.getKey();
 			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(
 					t1.getTerm());
 			Integer oldExponent = term.get(oldVar);
@@ -760,7 +773,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				term.remove(oldVar);
 				term.put(newVar, oldExponent + newExponent);
 			}
-			BigInteger coeff = terms.get(t1);
+			BigInteger coeff = entry.getValue();
 			Term t = new Term(term);
 			result.put(t, coeff);
 		}
@@ -842,10 +855,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	static String substitutionsString(HashMap<Variable, Long> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Variable> it = substitutions.keySet().iterator();
+		Iterator<Entry<Variable, Long>> it = substitutions.entrySet()
+				.iterator();
 		while (it.hasNext()) {
-			Variable v = it.next();
-			ret.append("," + v.toString() + "," + substitutions.get(v));
+			Entry<Variable, Long> entry = it.next();
+			Variable v = entry.getKey();
+			ret.append("," + v.toString() + "," + entry.getValue());
 		}
 		if (ret.length()>0)
 			return ret.substring(1);
