@@ -148,8 +148,8 @@ class MetaModelSymbols {
         symbols.add(createSymbol("varsigma", "\\varsigma", '\u03c2'));
         symbols.add(createSymbol("tau", "\\tau", '\u03c4'));
         symbols.add(createSymbol("upsilon", "\\upsilon", '\u03c5'));
-        symbols.add(createSymbol("phi", "\\phi", '\u03c6'));
-        symbols.add(createSymbol("varphi", "\\varphi", '\u03d5'));
+        symbols.add(createSymbol("phi", "\\phi", '\u03d5'));
+        symbols.add(createSymbol("varphi", "\\varphi", '\u03c6'));
         symbols.add(createSymbol("chi", "\\chi", '\u03c7'));
         symbols.add(createSymbol("psi", "\\psi", '\u03c8'));
         symbols.add(createSymbol("omega", "\\omega", '\u03c9'));
