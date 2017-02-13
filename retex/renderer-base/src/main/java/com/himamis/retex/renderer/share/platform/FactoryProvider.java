@@ -106,7 +106,7 @@ public abstract class FactoryProvider {
 		return resourceLoaderFactory;
 	}
 
-	public void debug(String string) {
+	public void debug(Object string) {
 		System.out.println("[ReTeX] " + string);
 
 	}

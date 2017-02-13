@@ -377,8 +377,8 @@ public class MathFieldW implements MathField, IsWidget {
 		if (lastIcon == null) {
 			return;
 		}
-		int height = (int) ((lastIcon.getIconHeight() + bottomOffset) * ratio);
-		ctx.getCanvas().setHeight(height);
+		int height = lastIcon.getIconHeight() + bottomOffset;
+		ctx.getCanvas().setHeight(((int) (height * ratio)));
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		ctx.getCanvas()
@@ -394,10 +394,6 @@ public class MathFieldW implements MathField, IsWidget {
 	private native void debug(boolean blink) /*-{
 		$wnd.console.log(blink);
 	}-*/;
-
-	// private native void trace(String txt) /*-{
-	// $wnd.console.trace(txt);
-	// }-*/;
 
 	@Override
 	public boolean hasFocus() {
@@ -603,7 +599,6 @@ public class MathFieldW implements MathField, IsWidget {
 			Element clipDiv) /*-{
 		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea'
 				+ counter);
-		console.trace(counter + ":" + hiddenTextArea);
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
 			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
@@ -667,6 +662,9 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	public void adjustCaret(int absX, int absY) {
+		if (SelectionBox.touchSelection) {
+			return;
+		}
 		int x = absX - asWidget().getAbsoluteLeft();
 		int y = absY - asWidget().getAbsoluteTop();
 		if (x > asWidget().getOffsetWidth()) {

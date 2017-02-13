@@ -83,8 +83,20 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	@Override
-	public native void debug(String string) /*-{
+	public void debug(Object string) {
+		if (string instanceof Throwable) {
+			debugN((Throwable) string);
+		} else {
+			debugN(string + "");
+		}
+	}
+
+	private native void debugN(String string) /*-{
 		$wnd.console && $wnd.console.log("[ReTeX] " + string);
+	}-*/;
+
+	private native void debugN(Throwable string) /*-{
+		$wnd.console && $wnd.console.log("[ReTeX]", string);
 	}-*/;
 
 }

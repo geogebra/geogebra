@@ -30,6 +30,7 @@ public class ClickAdapterW
 	private boolean pointerIsDown = false;
 	private Widget widget;
 	private MathFieldW field;
+	private long lastTouchDown;
 
 	public ClickAdapterW(ClickListener handler, MathFieldW field) {
 		this.handler = handler;
@@ -38,7 +39,8 @@ public class ClickAdapterW
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (!field.isEnabled()) {
+		if (!field.isEnabled()
+				|| lastTouchDown > System.currentTimeMillis() - 200) {
 			return;
 		}
 		SelectionBox.touchSelection = false;
@@ -53,10 +55,12 @@ public class ClickAdapterW
 			return;
 		}
 		SelectionBox.touchSelection = true;
+		event.preventDefault();
 
 		handler.onPointerDown(getX(event), getY(event));
 		Event.setCapture(widget.getElement());
 		this.pointerIsDown = true;
+		lastTouchDown = System.currentTimeMillis();
 	}
 
 	private static int getX(TouchEvent<?> event) {
@@ -76,7 +80,7 @@ public class ClickAdapterW
 	}
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		if (!field.isEnabled()) {
+		if (!field.isEnabled() || SelectionBox.touchSelection) {
 			return;
 		}
 		Event.releaseCapture(widget.getElement());
