@@ -1264,6 +1264,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		nodeTable.clear();
 		latexLoaded = false;
 		clearTree();
+		activeItem = null;
 		if (inputPanelLatex != null) {
 			inputPanelLatex.setText("");
 		}
@@ -2217,6 +2218,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			activeItem.getController().stopEdit();
 			unselect(activeItem.getGeo());
 		}
+		// repaintView();
+	}
+
+	public void clearActiveItem() {
+		activeItem = null;
 		// repaintView();
 	}
 
