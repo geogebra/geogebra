@@ -78,8 +78,8 @@ public class GreekKeyboardFactory {
         addButton(row, createEmptySpace(0.5f));
 
         row = greekKeyboard.nextRow(10.0f);
-        addConstantCustomButton(row, RESOURCE_CAPS_LOCK, ACTION_CAPS_LOCK);
-        addButton(row, createEmptySpace(0.5f));
+        addConstantCustomButton(row, RESOURCE_CAPS_LOCK, ACTION_CAPS_LOCK, 1.2f);
+        addButton(row, createEmptySpace(0.3f));
         addInputButton(row, ZETA);
         addInputButton(row, CHI);
         addInputButton(row, PSI);
@@ -87,8 +87,8 @@ public class GreekKeyboardFactory {
         addInputButton(row, BETA);
         addInputButton(row, NU);
         addInputButton(row, MU);
-        addButton(row, createEmptySpace(0.5f));
-        addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
+        addButton(row, createEmptySpace(0.3f));
+        addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE, 1.2f);
 
         row = greekKeyboard.nextRow(10.0f);
         addInputButton(row, ",");

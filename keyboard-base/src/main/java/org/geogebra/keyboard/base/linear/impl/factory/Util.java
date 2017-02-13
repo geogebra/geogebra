@@ -75,8 +75,12 @@ class Util {
         addConstantInputButton(row, name, action, 1.0f);
     }
 
+    static void addConstantCustomButton(RowImpl row, String resourceName, String action, float weight) {
+        row.addButton(createCustomConstantButton(resourceName, action, weight));
+    }
+
     static void addConstantCustomButton(RowImpl row, String resourceName, String action) {
-        row.addButton(createCustomConstantButton(resourceName, action, 1.0f));
+        addConstantCustomButton(row, resourceName, action, 1.0f);
     }
 
     static void addTranslateInputButton(RowImpl row, String translate, String input, float weight) {
