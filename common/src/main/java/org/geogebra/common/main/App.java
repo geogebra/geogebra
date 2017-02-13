@@ -3942,7 +3942,8 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean isSelectionRectangleAllowed();
 
 	public final boolean has(Feature f) {
-
+		boolean v6 = Versions.WEB_FOR_DESKTOP.equals(getVersion())
+				|| Versions.WINDOWS_STORE.equals(getVersion());
 		switch (f) {
 
 		// leave as prerelease
@@ -4010,7 +4011,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1121
 		case AV_PREVIEW:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease || v6;
 
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
@@ -4024,7 +4025,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1357
 		case AV_SINGLE_TAP_EDIT:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease || v6;
 
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
@@ -4062,11 +4063,11 @@ public abstract class App implements UpdateSelection {
 		// GGB-1288
 		case ADJUST_VIEWS:
 			return prerelease
-					|| Versions.WEB_FOR_DESKTOP.equals(getVersion());
+					|| v6;
 
 		// GGB-798
 		case AV_SCROLL:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease || v6;
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
@@ -4076,11 +4077,11 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LOCAL_SAVE:
 			return prerelease;
 		case RETEX_EDITOR:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease || v6;
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease || v6;
 
 		case MOBILE_DIALOG_WITH_NEW_KEYBOARD:
 			return prerelease;
