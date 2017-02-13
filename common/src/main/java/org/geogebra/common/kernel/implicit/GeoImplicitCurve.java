@@ -680,7 +680,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	/**
 	 * Updates the path of the curve.
 	 */
-	public void updatePath() {
+	synchronized public void updatePath() {
 		if (!calcPath) {
 			return;
 		}
