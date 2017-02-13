@@ -235,7 +235,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setMovedGeoPoint(GeoElementND geo) {
 
 		movedGeoPoint = (GeoPointND) geo;
-		((EuclidianView3D) view).setPointDecorations(movedGeoPoint);
+		((EuclidianView3D) getView()).setPointDecorations(movedGeoPoint);
 
 		AlgoElement algo = movedGeoPoint.getParentAlgorithm();
 		if (algo instanceof AlgoDynamicCoordinatesInterface) {
@@ -1589,7 +1589,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 
-		((EuclidianView3D) view).setPointDecorations(null);
+		((EuclidianView3D) getView()).setPointDecorations(null);
 
 		if (isModeForMovingPoint(mode)) {
 			if (freePointJustCreated) {
@@ -1647,9 +1647,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 							switchPointMoveMode();
 						}
 					}
-					((EuclidianView3D) view).getCursor3D()
+					((EuclidianView3D) getView()).getCursor3D()
 							.setMoveMode(movedGeoPoint.getMoveMode());
-					((EuclidianView3D) view).setDefaultCursorWillBeHitCursor();
+					((EuclidianView3D) getView())
+							.setDefaultCursorWillBeHitCursor();
 				}
 			}
 		}
@@ -1767,7 +1768,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// flag in XML
 			kernel.getConstruction().setIgnoringNewTypes(true);
 
-			((EuclidianView3D) view).updateCursor3D();
+			((EuclidianView3D) getView()).updateCursor3D();
 			super.processMouseMoved(mouseEvent);
 
 			kernel.getConstruction().setIgnoringNewTypes(false);
@@ -1878,7 +1879,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 		temporaryMode = true;
 		oldMode = mode; // remember current mode
-		view.setMode(EuclidianConstants.MODE_ROTATEVIEW);
+		getView().setMode(EuclidianConstants.MODE_ROTATEVIEW);
 		switchModeForMousePressed(event);
 	}
 
@@ -1891,8 +1892,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// remembers mouse location
 		startLoc = mouseLoc;
-		view.rememberOrigins();
-		view.setCursor(EuclidianCursor.DEFAULT);
+		getView().rememberOrigins();
+		getView().setCursor(EuclidianCursor.DEFAULT);
 
 		timeOld = app.getMillisecondTime();
 		xOld = startLoc.x;
@@ -1915,10 +1916,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// Log.debug("animatedRotSpeed=" + animatedRotSpeed + "\nxOld = " + xOld
 		// + "\nx=" + x);
 		xOld = x;
-		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
+		getView().setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
 				mouseLoc.y - startLoc.y, MOVE_ROTATE_VIEW);
 		viewRotationOccured = true;
-		view.repaintView();
+		getView().repaintView();
 		return true;
 	}
 
@@ -1936,7 +1937,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected boolean processReleaseForRotate3D(PointerEventType type) {
 
 		if (temporaryMode) {
-			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
+			getView().setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
 			temporaryMode = false;
 			if (!dontClearSelection) {
 				clearSelections();
@@ -1947,10 +1948,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (viewRotationOccured) {
 			viewRotationOccured = false;
 			setViewHits(type);
-			// Application.debug("hits"+view.getHits().toString());
-			((EuclidianView3D) view).updateCursor3D();
+			// Application.debug("hits"+getView().getHits().toString());
+			((EuclidianView3D) getView()).updateCursor3D();
 
-			view.setCursor(EuclidianCursor.HIT);
+			getView().setCursor(EuclidianCursor.HIT);
 			app.storeUndoInfo();
 
 			setRotContinueAnimation();
@@ -1964,7 +1965,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	protected void setRotContinueAnimation() {
-		((EuclidianView3D) view).setRotContinueAnimation(
+		((EuclidianView3D) getView()).setRotContinueAnimation(
 				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
 
@@ -2174,26 +2175,26 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
 		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			hits.removePolygons();
 			createNewPoint(hits, true, true, true, true, false);
 			break;
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			hits.removePolygons();
 			createNewPoint(hits, false, false, true);
 			break;
 
 		case EuclidianConstants.MODE_PLANE:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			break;
 
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			hits.removePolygons();
 			createNewPoint(hits, true, false, false, true, false);
 			break;
@@ -2201,7 +2202,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
 			// Application.debug(hits.toString());
@@ -2212,7 +2213,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_TETRAHEDRON:
 		case EuclidianConstants.MODE_CUBE:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			// hits.removePolygons();
 			boolean createPointAnywhere = false;
 			if (selCS2D() == 1 || selPoints() != 0) { // create point anywhere
@@ -2238,7 +2239,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			if (selPolygons() == 1 || hits.getPolyCount() == 0) {
 				createNewPoint(hits, true, true, true, true, false);
 			} else {
@@ -2254,7 +2255,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			hits.removePolygons();
 			if (hits.size() == 0) {
 				createNewPoint(hits, false, true, true);
@@ -2265,11 +2266,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 		case EuclidianConstants.MODE_VOLUME:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			break;
 		case EuclidianConstants.MODE_NET:
 			setViewHits(type);
-			hits = view.getHits();
+			hits = getView().getHits();
 			break;
 		default:
 			super.switchModeForMousePressedND(e);
@@ -2325,7 +2326,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void showDrawingPadPopup(GPoint mouseLoc1) {
-		app.getGuiManager().showDrawingPadPopup3D(view, mouseLoc1);
+		app.getGuiManager().showDrawingPadPopup3D(getView(), mouseLoc1);
 	}
 
 	// /////////////////////////////////////////
@@ -3366,7 +3367,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * switch (moveMode) { case MOVE_VIEW: default:
 	 * view3D.setMoveCursor();//setZoomCursor
 	 * view3D.setScale(view3D.getXscale()+r*10); view3D.updateMatrix();
-	 * view.setHits(mouseLoc); ((EuclidianView3D) view).updateCursor3D();
+	 * view.setHits(mouseLoc); ((EuclidianView getView().ew).updateCursor3D();
 	 * view3D.setHitCursor(); //((Kernel3D) getKernel()).notifyRepaint();
 	 * 
 	 * break;
@@ -3601,12 +3602,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// Application.debug(moveMode);
 		if (moveMode == MOVE_POINT && view3D
 				.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_ALREADY) {
-			return view.getHits().containsGeoPoint(); // if a point is under the
+			return getView().getHits().containsGeoPoint(); // if a point is
+															// under the
 														// mouse, don't try to
 														// find another hit
 		}
 
-		Hits hits = view.getHits();
+		Hits hits = getView().getHits();
 
 		if (hits.isEmpty()) {
 			return false;
@@ -4308,7 +4310,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		if (app.has(Feature.DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW)) {
-			GeoElement geoLabel = view.getLabelHitCheckRefresh(mouseLoc,
+			GeoElement geoLabel = getView().getLabelHitCheckRefresh(mouseLoc,
 					event.getType());
 			if (geoLabel != null) {
 				return false;
@@ -4396,10 +4398,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void hidePreviewForPhone() {
-		if (!(view.getPreviewDrawable() instanceof DrawPolyLine3D)
-				&& !(view.getPreviewDrawable() instanceof DrawPolygon3D)
-				&& !(view.getPreviewDrawable() instanceof DrawPolyhedron3D)) {
-			view.setPreview(null);
+		if (!(getView().getPreviewDrawable() instanceof DrawPolyLine3D)
+				&& !(getView().getPreviewDrawable() instanceof DrawPolygon3D)
+				&& !(getView().getPreviewDrawable() instanceof DrawPolyhedron3D)) {
+			getView().setPreview(null);
 		}
 	}
 

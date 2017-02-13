@@ -135,8 +135,8 @@ public class EuclidianController3DD extends EuclidianController3D
 	@Override
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
-		if (view != null) {
-			view.updateSize();
+		if (getView() != null) {
+			getView().updateSize();
 		}
 	}
 

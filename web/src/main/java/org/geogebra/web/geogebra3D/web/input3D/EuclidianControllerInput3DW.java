@@ -60,7 +60,7 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 	}
 
 	private void processRightRelease() {
-		((EuclidianView3D) view).setRotContinueAnimation(
+		((EuclidianView3D) getView()).setRotContinueAnimation(
 				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
 

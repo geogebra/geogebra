@@ -59,7 +59,6 @@ public class EuclidianControllerD extends EuclidianController
 
 	@Override
 	public void setView(EuclidianView view) {
-		// void setView(EuclidianView view) {
 		this.view = view;
 	}
 
@@ -174,7 +173,7 @@ public class EuclidianControllerD extends EuclidianController
 	@Override
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
-		view.updateSize();
+		getView().updateSize();
 	}
 
 	@Override

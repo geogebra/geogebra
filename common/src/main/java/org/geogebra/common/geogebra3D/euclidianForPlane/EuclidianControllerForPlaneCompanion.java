@@ -51,7 +51,7 @@ public class EuclidianControllerForPlaneCompanion
 
 	private Coords getCoordsFromView(double x, double y) {
 		Coords c = new Coords(4);
-		ec.view.getCompanion().getCoordsFromView(x, y, c);
+		ec.getView().getCompanion().getCoordsFromView(x, y, c);
 		return c;
 	}
 
@@ -83,7 +83,8 @@ public class EuclidianControllerForPlaneCompanion
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 
 		GeoPointND ret = ec.kernel.getManager3D().Point3DIn(null,
-				ec.view.getPlaneContaining(), coords, !forPreviewable, false);
+				ec.getView().getPlaneContaining(), coords, !forPreviewable,
+				false);
 		return ret;
 	}
 
@@ -105,7 +106,8 @@ public class EuclidianControllerForPlaneCompanion
 
 	@Override
 	protected void processModeLock(GeoPointND point) {
-		Coords coords = ec.view.getCoordsForView(point.getInhomCoordsInD3());
+		Coords coords = ec.getView().getCoordsForView(
+				point.getInhomCoordsInD3());
 		ec.xRW = coords.getX();
 		ec.yRW = coords.getY();
 	}
@@ -114,7 +116,7 @@ public class EuclidianControllerForPlaneCompanion
 	protected void processModeLock(Path path) {
 		GeoPointND p = createNewPoint(true, path, false);
 		((GeoElement) p).update();
-		Coords coords = ec.view.getCoordsForView(p.getInhomCoordsInD3());
+		Coords coords = ec.getView().getCoordsForView(p.getInhomCoordsInD3());
 		ec.xRW = coords.getX();
 		ec.yRW = coords.getY();
 	}
@@ -124,7 +126,7 @@ public class EuclidianControllerForPlaneCompanion
 			ArrayList<GeoElement> list) {
 		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 		for (GeoElement geo : list) {
-			if (ec.view.isMoveable(geo)) {
+			if (ec.getView().isMoveable(geo)) {
 				ret.add(geo);
 			}
 		}
@@ -133,7 +135,7 @@ public class EuclidianControllerForPlaneCompanion
 
 	@Override
 	public boolean viewOrientationForClockwise(boolean clockwise) {
-		return ((EuclidianViewForPlaneCompanion) ec.view.getCompanion())
+		return ((EuclidianViewForPlaneCompanion) ec.getView().getCompanion())
 				.viewOrientationForClockwise(clockwise);
 	}
 
@@ -142,7 +144,7 @@ public class EuclidianControllerForPlaneCompanion
 			GeoPointND Q) {
 
 		return ec.kernel.getManager3D().Rotate3D(null, geoRot, phi, Q,
-				ec.view.getDirection());
+				ec.getView().getDirection());
 
 	}
 

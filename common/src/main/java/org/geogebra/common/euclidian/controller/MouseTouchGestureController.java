@@ -123,23 +123,25 @@ public class MouseTouchGestureController {
 				return;
 			}
 			double newRatioY = this.scale * (y1 - y2) / ec.oldDistance;
-			ec.view.setCoordSystem(ec.view.getXZero(), ec.view.getYZero(),
-					ec.view.getXscale(), newRatioY);
+			ec.getView().setCoordSystem(ec.getView().getXZero(),
+					ec.getView().getYZero(), ec.getView().getXscale(),
+					newRatioY);
 			break;
 		case zoomX:
 			if (this.scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
 			double newRatioX = this.scale * (x1 - x2) / ec.oldDistance;
-			ec.view.setCoordSystem(ec.view.getXZero(), ec.view.getYZero(),
-					newRatioX, ec.view.getYscale());
+			ec.getView().setCoordSystem(ec.getView().getXZero(),
+					ec.getView().getYZero(), newRatioX,
+					ec.getView().getYscale());
 			break;
 		case circle3Points:
 			double dist = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = dist / ec.oldDistance;
 			int i = 0;
 
-			for (GeoPointND p : scaleConic.getFreeInputPoints(ec.view)) {
+			for (GeoPointND p : scaleConic.getFreeInputPoints(ec.getView())) {
 				double newX = midpoint[0]
 						+ (originalPointX[i] - midpoint[0]) * scale;
 				double newY = midpoint[1]
@@ -155,7 +157,7 @@ public class MouseTouchGestureController {
 			this.scale = dist2P / ec.oldDistance;
 
 			// index 0 is the midpoint, index 1 is the point on the circle
-			GeoPointND p = scaleConic.getFreeInputPoints(ec.view).get(1);
+			GeoPointND p = scaleConic.getFreeInputPoints(ec.getView()).get(1);
 			double newX = midpoint[0]
 					+ (originalPointX[1] - midpoint[0]) * scale;
 			double newY = midpoint[1]
@@ -197,15 +199,17 @@ public class MouseTouchGestureController {
 			Coords oldStart = firstFingerTouch.getCoords();
 			Coords oldEnd = secondFingerTouch.getCoords();
 			if (firstTouchIsAttachedToStartPoint) {
-				firstFingerTouch.setCoords(ec.view.toRealWorldCoordX(x1d),
-						ec.view.toRealWorldCoordY(y1d), 1);
-				secondFingerTouch.setCoords(ec.view.toRealWorldCoordX(x2d),
-						ec.view.toRealWorldCoordY(y2d), 1);
+				firstFingerTouch.setCoords(ec.getView().toRealWorldCoordX(x1d),
+						ec.getView().toRealWorldCoordY(y1d), 1);
+				secondFingerTouch.setCoords(
+						ec.getView().toRealWorldCoordX(x2d), ec.getView()
+								.toRealWorldCoordY(y2d), 1);
 			} else {
-				secondFingerTouch.setCoords(ec.view.toRealWorldCoordX(x1d),
-						ec.view.toRealWorldCoordY(y1d), 1);
-				firstFingerTouch.setCoords(ec.view.toRealWorldCoordX(x2d),
-						ec.view.toRealWorldCoordY(y2d), 1);
+				secondFingerTouch.setCoords(
+						ec.getView().toRealWorldCoordX(x1d), ec.getView()
+								.toRealWorldCoordY(y1d), 1);
+				firstFingerTouch.setCoords(ec.getView().toRealWorldCoordX(x2d),
+						ec.getView().toRealWorldCoordY(y2d), 1);
 			}
 
 			// set line through the two finger touches
@@ -256,8 +260,8 @@ public class MouseTouchGestureController {
 
 			if (MyMath.length(oldCenterX - centerX,
 					oldCenterY - centerY) > MIN_MOVE) {
-				ec.view.rememberOrigins();
-				ec.view.translateCoordSystemInPixels(centerX - oldCenterX,
+				ec.getView().rememberOrigins();
+				ec.getView().translateCoordSystemInPixels(centerX - oldCenterX,
 						centerY - oldCenterY, 0,
 						EuclidianConstants.MODE_TRANSLATEVIEW);
 
@@ -280,15 +284,17 @@ public class MouseTouchGestureController {
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		this.scaleConic = null;
 
-		ec.view.setHits(new GPoint((int) x1, (int) y1), PointerEventType.TOUCH);
+		ec.getView().setHits(new GPoint((int) x1, (int) y1),
+				PointerEventType.TOUCH);
 		// needs to be copied, because the reference is changed in the next step
 		Hits hits1 = new Hits();
-		for (GeoElement geo : ec.view.getHits()) {
+		for (GeoElement geo : ec.getView().getHits()) {
 			hits1.add(geo);
 		}
 
-		ec.view.setHits(new GPoint((int) x2, (int) y2), PointerEventType.TOUCH);
-		Hits hits2 = ec.view.getHits();
+		ec.getView().setHits(new GPoint((int) x2, (int) y2),
+				PointerEventType.TOUCH);
+		Hits hits2 = ec.getView().getHits();
 
 		oldCenterX = (int) (x1 + x2) / 2;
 		oldCenterY = (int) (y1 + y2) / 2;
@@ -296,11 +302,11 @@ public class MouseTouchGestureController {
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
 			this.multitouchMode = MultitouchMode.zoomY;
 			ec.oldDistance = y1 - y2;
-			this.scale = ec.view.getYscale();
+			this.scale = ec.getView().getYscale();
 		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
 			this.multitouchMode = MultitouchMode.zoomX;
 			ec.oldDistance = x1 - x2;
-			this.scale = ec.view.getXscale();
+			this.scale = ec.getView().getXscale();
 		} else if (hits1.size() > 0 && hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)
 				&& hits1.get(0) instanceof GeoConic
@@ -309,13 +315,13 @@ public class MouseTouchGestureController {
 			this.scaleConic = (GeoConic) hits1.get(0);
 			// TODO: select scaleConic
 
-			if (scaleConic.getFreeInputPoints(ec.view) == null
+			if (scaleConic.getFreeInputPoints(ec.getView()) == null
 					&& scaleConic.isCircle()) {
 				this.multitouchMode = MultitouchMode.circleFormula;
 				this.originalRadius = scaleConic.getHalfAxis(0);
-			} else if (scaleConic.getFreeInputPoints(ec.view).size() >= 3) {
+			} else if (scaleConic.getFreeInputPoints(ec.getView()).size() >= 3) {
 				this.multitouchMode = MultitouchMode.circle3Points;
-			} else if (scaleConic.getFreeInputPoints(ec.view).size() == 2) {
+			} else if (scaleConic.getFreeInputPoints(ec.getView()).size() == 2) {
 				this.multitouchMode = MultitouchMode.circle2Points;
 			} else if (scaleConic
 					.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
@@ -337,7 +343,8 @@ public class MouseTouchGestureController {
 					scaleConic.getMidpoint().getY() };
 
 			ArrayList<GeoPointND> points = scaleConic
-					.getFreeInputPoints(ec.view);
+.getFreeInputPoints(ec
+					.getView());
 			this.originalPointX = new double[points.size()];
 			this.originalPointY = new double[points.size()];
 			for (int i = 0; i < points.size(); i++) {
@@ -351,12 +358,12 @@ public class MouseTouchGestureController {
 			this.multitouchMode = MultitouchMode.moveLine;
 			lineToMove = (GeoLine) hits1.get(0);
 
-			GeoPoint touch1 = new GeoPoint(ec.kernel.getConstruction(),
-					ec.view.toRealWorldCoordX(x1),
-					ec.view.toRealWorldCoordY(y1), 1);
-			GeoPoint touch2 = new GeoPoint(ec.kernel.getConstruction(),
-					ec.view.toRealWorldCoordX(x2),
-					ec.view.toRealWorldCoordY(y2), 1);
+			GeoPoint touch1 = new GeoPoint(ec.kernel.getConstruction(), ec
+					.getView().toRealWorldCoordX(x1), ec.getView()
+					.toRealWorldCoordY(y1), 1);
+			GeoPoint touch2 = new GeoPoint(ec.kernel.getConstruction(), ec
+					.getView().toRealWorldCoordX(x2), ec.getView()
+					.toRealWorldCoordY(y2), 1);
 
 			firstTouchIsAttachedToStartPoint = setFirstTouchToStartPoint(touch1,
 					touch2);

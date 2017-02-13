@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
@@ -34,7 +36,7 @@ import org.geogebra.common.kernel.roots.RealRootUtil;
  * of this function must exist.
  */
 public class AlgoRootNewton extends AlgoIntersectAbstract {
-
+	/** max iterations for newton method */
 	public static final int MAX_ITERATIONS = 100;
 
 	private GeoFunction f; // input, g for intersection of functions
@@ -45,6 +47,16 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	private NewtonSolver rootFinderNewton;
 	private BrentSolver rootFinderBrent;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 * @param start
+	 *            start value
+	 */
 	public AlgoRootNewton(Construction cons, String label, GeoFunction f,
 			GeoNumberValue start) {
 		super(cons);
@@ -60,6 +72,12 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		rootPoint.setLabel(label);
 	}
 
+	/**
+	 * Constructor for extending algos
+	 * 
+	 * @param cons
+	 *            construction
+	 */
 	AlgoRootNewton(Construction cons) {
 		super(cons);
 	}
@@ -81,6 +99,9 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		setDependencies();
 	}
 
+	/**
+	 * @return root
+	 */
 	public GeoPoint getRootPoint() {
 		return rootPoint;
 	}
@@ -98,7 +119,14 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		}
 	}
 
-	public final double calcRoot(Function fun, double start) {
+	/**
+	 * @param fun
+	 *            function
+	 * @param startX
+	 *            start x-value
+	 * @return root
+	 */
+	public final double calcRoot(Function fun, double startX) {
 		double root = Double.NaN;
 		if (rootFinderBrent == null) {
 			rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);
@@ -111,26 +139,34 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			double step = 1;
 
 			root = rootFinderBrent.solve(MAX_ITERATIONS,
-					new RealRootAdapter(fun), start - step, start + step,
-					start);
+					new RealRootAdapter(fun), startX - step, startX + step,
+					startX);
 			if (checkRoot(fun, root)) {
 				// System.out.println("1. Brent worked: " + root);
 				return root;
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+			root = Double.NaN;
+		} catch (MaxIterationsExceededException e) {
+			root = Double.NaN;
+		} catch (FunctionEvaluationException e) {
 			root = Double.NaN;
 		}
 
 		// try Brent method on valid interval around start
-		double[] borders = getDomain(fun, start);
+		double[] borders = getDomain(fun, startX);
 		try {
 			root = rootFinderBrent.solve(MAX_ITERATIONS,
-					new RealRootAdapter(fun), borders[0], borders[1], start);
+					new RealRootAdapter(fun), borders[0], borders[1], startX);
 			if (checkRoot(fun, root)) {
 				// System.out.println("2. Brent worked: " + root);
 				return root;
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
+			root = Double.NaN;
+		} catch (MaxIterationsExceededException e) {
+			root = Double.NaN;
+		} catch (FunctionEvaluationException e) {
 			root = Double.NaN;
 		}
 
@@ -138,11 +174,12 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		RealRootDerivFunction derivFun = fun.getRealRootDerivFunction();
 		if (derivFun != null) {
 			// check if fun(start) is defined
-			double eval = fun.evaluate(start);
+			double eval = fun.evaluate(startX);
+			double start1 = startX;
 			if (Double.isNaN(eval) || Double.isInfinite(eval)) {
 				// shift left border slightly right
 				borders[0] = 0.9 * borders[0] + 0.1 * borders[1];
-				start = (borders[0] + borders[1]) / 2;
+				start1 = (borders[0] + borders[1]) / 2;
 			}
 
 			if (rootFinderNewton == null) {
@@ -152,12 +189,16 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			try {
 				root = rootFinderNewton.solve(MAX_ITERATIONS,
 						new RealRootDerivAdapter(derivFun), borders[0],
-						borders[1], start);
+						borders[1], start1);
 				if (checkRoot(fun, root)) {
 					// System.out.println("Newton worked: " + root);
 					return root;
 				}
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
+				root = Double.NaN;
+			} catch (MaxIterationsExceededException e) {
+				root = Double.NaN;
+			} catch (FunctionEvaluationException e) {
 				root = Double.NaN;
 			}
 		}

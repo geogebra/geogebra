@@ -290,11 +290,12 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 		// process highest difference
 		if (2 * centerDiff > zoomDiff) {
-			view.rememberOrigins();
-			view.setCoordSystemFromMouseMove(centerX - oldCenterX3D, centerY
+			getView().rememberOrigins();
+			getView().setCoordSystemFromMouseMove(centerX - oldCenterX3D,
+					centerY
 					- oldCenterY3D, EuclidianController.MOVE_ROTATE_VIEW);
 			viewRotationOccured = true;
-			view.repaintView();
+			getView().repaintView();
 
 			// update values
 			oldCenterX3D = centerX;

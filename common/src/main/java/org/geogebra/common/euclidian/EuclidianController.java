@@ -5321,7 +5321,7 @@ public abstract class EuclidianController {
 				public void callback(GeoNumberValue num) {
 					if (num == null) {
 						// no success: reset mode
-						view.resetMode();
+						getView().resetMode();
 						if (callback2 != null) {
 							callback2.callback(false);
 						}

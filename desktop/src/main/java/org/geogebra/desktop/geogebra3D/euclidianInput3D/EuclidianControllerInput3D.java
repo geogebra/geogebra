@@ -174,7 +174,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private boolean isNotMovingView = true;
 
 	private void processRightRelease() {
-		((EuclidianView3D) view).setRotContinueAnimation(
+		((EuclidianView3D) getView()).setRotContinueAnimation(
 				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
 

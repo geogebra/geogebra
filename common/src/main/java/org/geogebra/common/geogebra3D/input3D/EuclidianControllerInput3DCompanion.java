@@ -53,7 +53,7 @@ public class EuclidianControllerInput3DCompanion extends
 	}
 
 	private EuclidianViewInput3DCompanion getViewCompanion() {
-		return (EuclidianViewInput3DCompanion) ec.view.getCompanion();
+		return (EuclidianViewInput3DCompanion) ec.getView().getCompanion();
 	}
 
 
@@ -64,7 +64,7 @@ public class EuclidianControllerInput3DCompanion extends
 			return super.createNewFreePoint(complex);
 		}
 
-		GeoPoint3D point3D = ((EuclidianView3D) ec.view).getCursor3D();
+		GeoPoint3D point3D = ((EuclidianView3D) ec.getView()).getCursor3D();
 		point3D.setPath(null);
 		point3D.setRegion(null);
 
@@ -77,15 +77,16 @@ public class EuclidianControllerInput3DCompanion extends
 			} else {
 				beamLength = 400;
 			}
-			beamLength /= ((EuclidianView3D) ec.view).getScale();
+			beamLength /= ((EuclidianView3D) ec.getView()).getScale();
 			getViewCompanion()
 					.getStylusBeamEnd(coords,
 					beamLength);
 			getView().setZNearest(-beamLength);
 		} else {
-			coords = ((EuclidianView3D) ec.view).getPickPoint(ec.getMouseLoc())
+			coords = ((EuclidianView3D) ec.getView()).getPickPoint(
+					ec.getMouseLoc())
 					.copyVector();
-			((EuclidianView3D) ec.view).toSceneCoords3D(coords);
+			((EuclidianView3D) ec.getView()).toSceneCoords3D(coords);
 		}
 		checkPointCapturingXYThenZ(coords);
 		point3D.setCoords(coords);
@@ -108,7 +109,7 @@ public class EuclidianControllerInput3DCompanion extends
 			} else {
 				v.set(input3D.getMouse3DPosition()
 						.sub(input3D.getStartMouse3DPosition()));
-				((EuclidianView3D) ec.view).toSceneCoords3D(v);
+				((EuclidianView3D) ec.getView()).toSceneCoords3D(v);
 			}
 
 			Coords coords = movedGeoPointStartCoords.add(v);
@@ -121,7 +122,7 @@ public class EuclidianControllerInput3DCompanion extends
 					&& !ec.movedGeoPoint.hasPath()
 					&& !ec.movedGeoPoint.hasRegion()) {
 				// update point decorations
-				((EuclidianView3D) ec.view).updatePointDecorations();
+				((EuclidianView3D) ec.getView()).updatePointDecorations();
 			}
 
 			if (input3D.hasCompletedGrabbingDelay()) {
@@ -260,7 +261,7 @@ public class EuclidianControllerInput3DCompanion extends
 	private TreeSet<StickyPointForDirection> stickyPointsForDirection;
 
 	private boolean stickToPoints() {
-		return ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+		return ec.getView().getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 	}
 
 	@Override
@@ -277,7 +278,7 @@ public class EuclidianControllerInput3DCompanion extends
 			} else {
 				v.set(input3D.getMouse3DPosition()
 						.sub(input3D.getStartMouse3DPosition()));
-				((EuclidianView3D) ec.view).toSceneCoords3D(v);
+				((EuclidianView3D) ec.getView()).toSceneCoords3D(v);
 			}
 
 			final GeoPlane3D plane = movedGeoPlane;
@@ -305,7 +306,7 @@ public class EuclidianControllerInput3DCompanion extends
 					stickyPoints.add(sp);
 				}
 
-				double scale = ((EuclidianView3D) ec.view).getScale();
+				double scale = ((EuclidianView3D) ec.getView()).getScale();
 				Coords origin = null, secondPoint = null, thirdPoint = null;
 				int step = 0;
 

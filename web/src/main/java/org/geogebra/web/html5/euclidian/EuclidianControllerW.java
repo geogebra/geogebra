@@ -160,7 +160,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		if ((app.getGuiManager() != null)
-		        && (getEvNo() != EuclidianView.EVNO_GENERAL || (view instanceof EuclidianViewForPlaneInterface))) {
+				&& (getEvNo() != EuclidianView.EVNO_GENERAL || (getView() instanceof EuclidianViewForPlaneInterface))) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
@@ -232,7 +232,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			mtg.setComboboxFocused(false);
 		}
 		if ((app.getGuiManager() != null)
-		        && (getEvNo() != EuclidianView.EVNO_GENERAL || (view instanceof EuclidianViewForPlaneInterface))) {
+				&& (getEvNo() != EuclidianView.EVNO_GENERAL || (getView() instanceof EuclidianViewForPlaneInterface))) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
@@ -277,8 +277,8 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (isComboboxFocused()) {
 			// Log.info("isComboboxFocused!");
 			this.draggingOccured = false;
-			view.setHits(mouseLoc, type);
-			Hits hits = view.getHits().getTopHits();
+			getView().setHits(mouseLoc, type);
+			Hits hits = getView().getHits().getTopHits();
 			if (!hits.isEmpty()) {
 				GeoElement hit = hits.get(0);
 				if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
@@ -293,7 +293,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			return true;
 		}
 		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
-		return view.textfieldClicked(x, y, type);
+		return getView().textfieldClicked(x, y, type);
 	}
 
 	@Override
@@ -363,7 +363,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		ArrayList<GeoElement> geos = selectedGeos1 != null
 		        && selectedGeos1.isEmpty() ? getAppSelectedGeos()
 		        : selectedGeos1;
-		app.getGuiManager().showPopupMenu(geos, view, mouseLoc);
+		app.getGuiManager().showPopupMenu(geos, getView(), mouseLoc);
 	}
 
 	/**

@@ -77,7 +77,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * recalculates cached styles concerning browser environment
 	 */
 	public void calculateEnvironment() {
-		if (ec.view == null) {
+		if (ec.getView() == null) {
 			return;
 		}
 		style = new EnvironmentStyleW();
@@ -87,15 +87,15 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		style.setScaleY(app.getArticleElement().getScaleY());
 		style.setScrollLeft(Window.getScrollLeft());
 		style.setScrollTop(Window.getScrollTop());
-		ec.view.setPixelRatio(app.getPixelRatio());
+		ec.getView().setPixelRatio(app.getPixelRatio());
 
 	}
 
 	private double getEnvWidthScale() {
-		if (ec.view == null) {
+		if (ec.getView() == null) {
 			return 1;
 		}
-		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
+		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.getView();
 		if (v.getG2P().getOffsetWidth() != 0) {
 			return v.getG2P().getCoordinateSpaceWidth()
 					/ (double) v.getG2P().getOffsetWidth();
@@ -104,7 +104,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	private double getEnvHeightScale() {
-		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
+		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.getView();
 		if (v.getG2P().getOffsetHeight() != 0) {
 			return v.getG2P().getCoordinateSpaceHeight()
 					/ (double) v.getG2P().getOffsetHeight();
@@ -115,7 +115,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private int getEnvXoffset() {
 		// return EuclidianViewXOffset;
 		// the former solution doesn't update on scrolling
-		return (((EuclidianViewWInterface) ec.view).getAbsoluteLeft()
+		return (((EuclidianViewWInterface) ec.getView()).getAbsoluteLeft()
 				- Window.getScrollLeft());
 
 	}
@@ -129,7 +129,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private int getEnvYoffset() {
 		// return EuclidianViewYOffset;
 		// the former solution doesn't update on scrolling
-		return ((EuclidianViewWInterface) ec.view).getAbsoluteTop()
+		return ((EuclidianViewWInterface) ec.getView()).getAbsoluteTop()
 		        - Window.getScrollTop();
 	}
 
@@ -428,14 +428,14 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		                                                    // scrollTop; see
 		                                                    // ticket #4049
 
-		int ex = ((EuclidianViewWInterface) ec.view).getAbsoluteLeft();
-		int ey = ((EuclidianViewWInterface) ec.view).getAbsoluteTop();
-		int eWidth = ((EuclidianViewWInterface) ec.view).getWidth();
-		int eHeight = ((EuclidianViewWInterface) ec.view).getHeight();
+		int ex = ((EuclidianViewWInterface) ec.getView()).getAbsoluteLeft();
+		int ey = ((EuclidianViewWInterface) ec.getView()).getAbsoluteTop();
+		int eWidth = ((EuclidianViewWInterface) ec.getView()).getWidth();
+		int eHeight = ((EuclidianViewWInterface) ec.getView()).getHeight();
 		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
 			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
-		((EuclidianViewWInterface) ec.view).resetMsZoomer();
+		((EuclidianViewWInterface) ec.getView()).resetMsZoomer();
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		ec.wrapMouseExited(e);
 		e.release();
@@ -466,8 +466,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				this.repaintTimer
 						.schedule(DELAY_UNTIL_MOVE_FINISH);
 			}
-			if (ec.view.getMode() != EuclidianConstants.MODE_FREEHAND_SHAPE
-					&& ec.view.getMode() != EuclidianConstants.MODE_PEN) {
+			if (ec.getView().getMode() != EuclidianConstants.MODE_FREEHAND_SHAPE
+					&& ec.getView().getMode() != EuclidianConstants.MODE_PEN) {
 				return;
 			}
 		}
@@ -565,19 +565,19 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		ec.wrapMousePressed(event);
 		// hide PopUp if no hits was found.
-		if (ec.view.getHits().isEmpty() && ec.view.hasStyleBar()) {
-			ec.view.getStyleBar().hidePopups();
+		if (ec.getView().getHits().isEmpty() && ec.getView().hasStyleBar()) {
+			ec.getView().getStyleBar().hidePopups();
 		}
 		event.release();
 	}
 
 	private boolean comboBoxHit() {
-		if (ec.view.getHits() == null) {
+		if (ec.getView().getHits() == null) {
 			return false;
 		}
 		int i = 0;
-		while (i < ec.view.getHits().size()) {
-			GeoElement hit = ec.view.getHits().get(i++);
+		while (i < ec.getView().getHits().size()) {
+			GeoElement hit = ec.getView().getHits().get(i++);
 			if (hit instanceof GeoList && ((GeoList) hit).drawAsComboBox()) {
 				return true;
 			}
@@ -600,7 +600,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public boolean hitResetIcon() {
 		return app.showResetIcon()
-		        && ((ec.mouseLoc.y < 20) && (ec.mouseLoc.x > (ec.view
+				&& ((ec.mouseLoc.y < 20) && (ec.mouseLoc.x > (ec.getView()
 		                .getViewWidth() - 18)));
 	}
 
@@ -621,7 +621,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
-		return ec.view.textfieldClicked(x, y, type) || isComboboxFocused();
+		return ec.getView().textfieldClicked(x, y, type) || isComboboxFocused();
 	}
 
 	public boolean isComboboxFocused() {
@@ -680,7 +680,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int getEvID() {
-		return ec.view.getViewID();
+		return ec.getView().getViewID();
 	}
 
 	@Override
