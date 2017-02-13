@@ -177,6 +177,7 @@ task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
     args '-logLevel', 'INFO',
         '-codeServerPort', '9997',
         '-port', '8888',
+        '-bindAddress', project.findProperty("gbind") ?: '127.0.0.1',
         '-superDevMode',
         '-war', file(warDirRel),
         devModule
