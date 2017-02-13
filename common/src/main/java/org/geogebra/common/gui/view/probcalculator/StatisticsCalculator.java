@@ -13,6 +13,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.TextObject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author gabor StatisticCalculator common superclass
  */
@@ -23,7 +25,7 @@ public abstract class StatisticsCalculator {
 	protected StatisticsCalculatorProcessor statProcessor;
 	protected StatisticsCalculatorHTML statHTML;
 	protected Kernel kernel;
-	protected int fieldWidth = 6;
+	final static protected int fieldWidth = 6;
 
 	protected TextObject fldSigma, fldNullHyp, fldConfLevel;
 	protected TextObject[] fldSampleStat1, fldSampleStat2;
@@ -68,6 +70,8 @@ public abstract class StatisticsCalculator {
 	// Getters/Setters
 	// =========================================
 
+	@SuppressFBWarnings({ "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
+			"false positive, used in web and desktop" })
 	public StatisticsCalculator(App app) {
 		this.loc = app.getLocalization();
 		this.app = app;
@@ -309,6 +313,8 @@ public abstract class StatisticsCalculator {
 		}
 	}
 
+	@SuppressFBWarnings({ "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
+			"false positive, used in web and desktop" })
 	protected void setLabelStrings() {
 
 		strMean = loc.getMenu("Mean");

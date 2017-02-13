@@ -91,7 +91,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 
 
-	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
 
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
@@ -301,8 +300,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		((SpreadsheetTableModelW) tableModel)
 		        .setChangeListener(new MyTableModelListener());
 
-		// relative copy
-		relativeCopy = new RelativeCopy(kernel);
 		copyPasteCut = new CopyPasteCutW(app);
 
 		/*
