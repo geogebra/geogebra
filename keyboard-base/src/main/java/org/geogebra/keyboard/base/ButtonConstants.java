@@ -28,6 +28,7 @@ public class ButtonConstants {
     public static final String RESOURCE_N_ROOT = "nroot";
     public static final String RESOURCE_A_N = "a_n";
     public static final String RESOURCE_CAPS_LOCK = "caps_lock";
+    public static final String RESOURCE_INTEGRAL = "integral";
 
 
     public static final String ACTION_BACKSPACE = "backspace";

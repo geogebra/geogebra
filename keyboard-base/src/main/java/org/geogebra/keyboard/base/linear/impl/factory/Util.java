@@ -90,4 +90,8 @@ class Util {
     static void addInputCommandButton(RowImpl row, String name, String translateInput, float weight) {
         row.addButton(new WeightedButtonImpl(name, ResourceType.TEXT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
     }
+
+    static void addConstantInputCommandButton(RowImpl row, String resource, String translateInput, float weight) {
+        row.addButton(new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
+    }
 }
