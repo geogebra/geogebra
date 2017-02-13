@@ -31,6 +31,9 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBar
 		implements ActionListener {
 
+	/** icon height in pixels */
+	private int iconHeight = 18;
+
 	/** rounding button */
 	JButton btnRounding;
 

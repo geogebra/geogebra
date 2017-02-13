@@ -15,9 +15,6 @@ public abstract class ProbabilityCalculatorStyleBar {
 	/** probabililty calculator */
 	private ProbabilityCalculatorView probCalc;
 
-	/** icon height in pixels */
-	protected int iconHeight = 18;
-
 	protected ProbabilityCalculatorStyleBar(App app,
 			ProbabilityCalculatorView probCalc) {
 		this.probCalc = probCalc;

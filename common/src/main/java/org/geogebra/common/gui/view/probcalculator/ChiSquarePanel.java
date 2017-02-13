@@ -47,6 +47,17 @@ public abstract class ChiSquarePanel {
 		return sc;
 	}
 
+	/**
+	 * added partly to kill findbugs warning about loc being unused
+	 * 
+	 * @param s
+	 *            key
+	 * @return translation
+	 */
+	protected String getMenu(String s) {
+		return loc.getMenu(s);
+	}
+
 
 
 }

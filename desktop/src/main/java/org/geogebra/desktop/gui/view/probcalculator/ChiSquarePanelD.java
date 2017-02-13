@@ -64,16 +64,16 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	}
 
 	public void setLabels() {
-		lblRows.setText(loc.getMenu("Rows"));
-		lblColumns.setText(loc.getMenu("Columns"));
-		ckExpected.setText(loc.getMenu("ExpectedCount"));
-		ckChiDiff.setText(loc.getMenu("ChiSquaredContribution"));
-		ckRowPercent.setText(loc.getMenu("RowPercent"));
-		ckColPercent.setText(loc.getMenu("ColumnPercent"));
+		lblRows.setText(getMenu("Rows"));
+		lblColumns.setText(getMenu("Columns"));
+		ckExpected.setText(getMenu("ExpectedCount"));
+		ckChiDiff.setText(getMenu("ChiSquaredContribution"));
+		ckRowPercent.setText(getMenu("RowPercent"));
+		ckColPercent.setText(getMenu("ColumnPercent"));
 
 		if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
-			cell[0][1].setLabelText(0, loc.getMenu("ObservedCount"));
-			cell[0][2].setLabelText(0, loc.getMenu("ExpectedCount"));
+			cell[0][1].setLabelText(0, getMenu("ObservedCount"));
+			cell[0][2].setLabelText(0, getMenu("ExpectedCount"));
 		}
 
 	}
