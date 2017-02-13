@@ -678,7 +678,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		tabbedPane.deferredOnResize();
 		updateLowHigh();
 		// fldHigh.setCaretPosition(0);
-		fldResult.setText(probability >= 0 ? "" + format(probability) : "?");
+		fldResult.setText(getProbabilityText());
 		// fldResult.setCaretPosition(0);
 		fldResult
 				.setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
@@ -697,6 +697,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		btnNormalOverlay.setValue(isShowNormalOverlay());
 	}
+
 
 	private void updateLowHigh() {
 		// set low/high interval field values

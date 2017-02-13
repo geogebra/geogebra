@@ -1471,6 +1471,13 @@ public abstract class ProbabilityCalculatorView
 		return probManager.inverseProbability(selectedDist, prob, parameters);
 	}
 
+	/**
+	 * @return probability formatted as String
+	 */
+	protected String getProbabilityText() {
+		return probability >= 0 ? format(probability) : "?";
+	}
+
 	protected void updateIntervalProbability() {
 		probability = intervalProbability();
 		if (probmanagerIsDiscrete()) {

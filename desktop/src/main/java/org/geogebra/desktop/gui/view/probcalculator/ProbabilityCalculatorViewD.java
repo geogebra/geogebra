@@ -611,7 +611,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		fldLow.setCaretPosition(0);
 		fldHigh.setText("" + format(getHigh()));
 		fldHigh.setCaretPosition(0);
-		fldResult.setText("" + format(probability));
+		fldResult.setText(getProbabilityText());
 		fldResult.setCaretPosition(0);
 
 		// set distribution combo box
