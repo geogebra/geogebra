@@ -414,18 +414,14 @@ public class EuclidianController3DCompanion
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
 	private void hitRegion(GeoPoint3D point3D) {
-		if (ec3D.view3D.getRenderer()
-				.useLogicalPicking()) {
-			DrawableND d = ec3D.view3D
-					.getDrawableND((GeoElement) point3D.getRegion());
-			if (d != null) {
-				Hitting hitting = ec3D.view3D
-						.getRenderer().getHitting();
-				hitting.setOriginDirectionThreshold(point3D.getWillingCoords(),
-						point3D.getWillingDirection(), App.DEFAULT_THRESHOLD);
-				// try to set the parameters from drawable hit process
-				((Drawable3D) d).hit(hitting);
-			}
+		DrawableND d = ec3D.view3D
+				.getDrawableND((GeoElement) point3D.getRegion());
+		if (d != null) {
+			Hitting hitting = ec3D.view3D.getRenderer().getHitting();
+			hitting.setOriginDirectionThreshold(point3D.getWillingCoords(),
+					point3D.getWillingDirection(), App.DEFAULT_THRESHOLD);
+			// try to set the parameters from drawable hit process
+			((Drawable3D) d).hit(hitting);
 		}
 	}
 

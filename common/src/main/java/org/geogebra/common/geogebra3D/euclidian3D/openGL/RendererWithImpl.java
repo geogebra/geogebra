@@ -88,18 +88,8 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected void setGLForPicking() {
-		// not used anymore
-	}
-
-	@Override
 	final protected void pushSceneMatrix() {
 		rendererImpl.pushSceneMatrix();
-	}
-
-	@Override
-	final public void glLoadName(int loop) {
-		rendererImpl.glLoadName(loop);
 	}
 
 	@Override
@@ -179,16 +169,6 @@ public abstract class RendererWithImpl extends Renderer
 	final public void disableTextures() {
 		rendererImpl.disableTextures();
 
-	}
-
-	@Override
-	final protected void doPick() {
-		// no need here
-	}
-
-	@Override
-	final public boolean useLogicalPicking() {
-		return true;
 	}
 
 	@Override

@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -592,107 +591,6 @@ public class Drawable3DLists {
 				.iterator(); d.hasNext();) {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawClippedSurfacesForHiding(renderer);
-		}
-
-	}
-
-	private static void drawListForPickingPointOrCurve(Renderer renderer,
-			Drawable3DList list) {
-		for (Iterator<Drawable3D> iter = list.iterator(); iter.hasNext();) {
-			Drawable3D d = iter.next();
-			renderer.pick(d, PickingType.POINT_OR_CURVE);
-		}
-	}
-
-	private static void drawListForPickingSurface(Renderer renderer,
-			Drawable3DList list) {
-		for (Iterator<Drawable3D> iter = list.iterator(); iter.hasNext();) {
-			Drawable3D d = iter.next();
-			renderer.pick(d, PickingType.SURFACE);
-		}
-	}
-
-	/**
-	 * draw points and curves to pick them
-	 * 
-	 * @param renderer
-	 *            opengl context
-	 */
-	public void drawForPickingPointsAndCurves(Renderer renderer) {
-		drawForPickingPointsAndCurves(renderer, null);
-	}
-
-	private void drawForPickingPointsAndCurves(Renderer renderer,
-			DrawList3D parent) {
-
-		renderer.disableCulling();
-
-		drawListForPickingPointOrCurve(renderer,
-				lists[Drawable3D.DRAW_TYPE_DEFAULT]);
-		drawListForPickingPointOrCurve(renderer,
-				lists[Drawable3D.DRAW_TYPE_POINTS]);
-		drawListForPickingPointOrCurve(renderer,
-				lists[Drawable3D.DRAW_TYPE_CURVES]);
-
-		if (containsClippedCurves()) {
-			renderer.enableClipPlanesIfNeeded();
-			drawListForPickingPointOrCurve(renderer,
-					lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]);
-			renderer.disableClipPlanesIfNeeded();
-		}
-
-		renderer.enableCulling();
-		renderer.setCullFaceBack();
-
-		// lists
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
-				.iterator(); d.hasNext();) {
-			((DrawList3D) d.next()).getDrawable3DLists()
-					.drawForPickingPointsAndCurves(renderer);
-		}
-
-	}
-
-	/**
-	 * draw surfaces to pick them
-	 * 
-	 * @param renderer
-	 *            opengl context
-	 */
-	public void drawForPickingSurfaces(Renderer renderer) {
-
-		renderer.disableCulling();
-
-		drawListForPickingSurface(renderer,
-				lists[Drawable3D.DRAW_TYPE_SURFACES]);
-		drawListForPickingSurface(renderer,
-				lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]);
-
-		renderer.enableCulling();
-
-		renderer.setCullFaceFront();
-		drawListForPickingSurface(renderer,
-				lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);
-		renderer.setCullFaceBack();
-		drawListForPickingSurface(renderer,
-				lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);
-
-		renderer.disableCulling();
-
-		if (containsClippedSurfacesInclLists()) {
-			renderer.enableClipPlanesIfNeeded();
-			drawListForPickingSurface(renderer,
-					lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]);
-			renderer.disableClipPlanesIfNeeded();
-		}
-
-		renderer.enableCulling();
-
-		// lists
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
-				.iterator(); d.hasNext();) {
-			((DrawList3D) d.next()).getDrawable3DLists()
-					.drawForPickingSurfaces(renderer);
 		}
 
 	}

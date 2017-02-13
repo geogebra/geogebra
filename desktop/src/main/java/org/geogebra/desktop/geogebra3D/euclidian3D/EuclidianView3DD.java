@@ -54,7 +54,6 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.geogebra3D.euclidian3D.printer3D.ExportToPrinter3DD;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.Mouse3DEventD;
 import org.geogebra.desktop.io.MyImageIO;
@@ -127,13 +126,12 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		// lines below for testing
 
-		// return new RendererCheckGLVersionD(this, !app.isApplet(),
-		// RendererType.SHADER);
+//		 return new RendererCheckGLVersionD(this, !app.isApplet(),
+//		 RendererType.SHADER);
 
-		// return new RendererCheckGLVersionD(this, !app.isApplet(),
-		// RendererType.GL2);
+//		 return new RendererCheckGLVersionD(this, !app.isApplet(),
+//		 RendererType.GL2);
 
-		// return new RendererGLPickingGL2(this, !app.isApplet());
 
 		// we don't want shaders with win os < vista
 		if (!app.isApplet() && !AppD.WINDOWS_VISTA_OR_EARLIER) {
@@ -141,7 +139,8 @@ public class EuclidianView3DD extends EuclidianView3D
 		}
 
 		if (app.useShaders()) {
-			return new RendererShadersElements(this, canUseCanvas());
+			return new RendererCheckGLVersionD(this, !app.isApplet(),
+					RendererType.SHADER);
 		}
 
 		return new RendererCheckGLVersionD(this, canUseCanvas(),

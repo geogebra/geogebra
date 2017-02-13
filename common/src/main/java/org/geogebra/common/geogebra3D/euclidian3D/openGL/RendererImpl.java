@@ -61,8 +61,6 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	public abstract void resetMatrix();
 
-	public abstract void glLoadName(int loop);
-
 	public abstract void updateOrthoValues();
 
 	public abstract void enableTextures();

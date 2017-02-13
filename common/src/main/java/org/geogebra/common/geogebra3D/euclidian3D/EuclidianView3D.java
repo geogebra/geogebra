@@ -61,7 +61,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -2229,20 +2228,14 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setHits(GPoint p, PointerEventType type) {
-		// empty method : setHits3D() used instead
-		// OR comment setHits3D() for shaders
-
-		if (renderer.useLogicalPicking()) {
-			renderer.setHits(p, getCapturingThreshold(type));
-			if (type == PointerEventType.TOUCH
-					&& hitsEmptyOrOnlyContainsXOYPlane()) {
-				renderer.setHits(p, getCapturingThresholdForTouch(type));
-			}
-
-			hasMouse = true;
-			updateCursor3D();
+		renderer.setHits(p, getCapturingThreshold(type));
+		if (type == PointerEventType.TOUCH
+				&& hitsEmptyOrOnlyContainsXOYPlane()) {
+			renderer.setHits(p, getCapturingThresholdForTouch(type));
 		}
 
+		hasMouse = true;
+		updateCursor3D();
 	}
 
 	private boolean hitsEmptyOrOnlyContainsXOYPlane() {
@@ -2275,18 +2268,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public Hits3D getHits3D() {
 		return hits;
-	}
-
-	/**
-	 * sets the 3D hits regarding point location
-	 *
-	 * @param p
-	 *            point location
-	 */
-	public void setHits3D(GPoint p) {
-		if (!renderer.useLogicalPicking()) {
-			renderer.setHits(p, 0);
-		}
 	}
 
 	@Override
@@ -3569,19 +3550,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return pointDecorations;
 	}
 
-
-	/**
-	 * draw for picking view's drawables (plane and axis)
-	 *
-	 * @param renderer1
-	 */
-	public void drawForPicking(Renderer renderer1) {
-		renderer1.pick(xOyPlaneDrawable, PickingType.SURFACE);
-		for (int i = 0; i < 3; i++) {
-			renderer1.pick(axisDrawable[i], PickingType.POINT_OR_CURVE);
-		}
-	}
-
 	/**
 	 * draw ticks on axis
 	 *
@@ -4320,14 +4288,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	final public GColor getBackgroundCommon() {
 		return getBackground();
-	}
-
-	public void addOneGeoToPick() {
-		renderer.addOneGeoToPick();
-	}
-
-	public void removeOneGeoToPick() {
-		renderer.removeOneGeoToPick();
 	}
 
 	@Override

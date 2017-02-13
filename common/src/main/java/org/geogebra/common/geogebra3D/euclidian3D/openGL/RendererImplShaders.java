@@ -610,12 +610,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	}
 
-	@Override
-	public void glLoadName(int loop) {
-		// not used with shaders
-
-	}
-
 	private float[] eyeOrDirection = new float[4];
 
 	@Override

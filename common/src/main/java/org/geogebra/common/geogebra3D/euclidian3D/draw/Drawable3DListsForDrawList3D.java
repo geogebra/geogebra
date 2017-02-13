@@ -10,8 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
  */
 public class Drawable3DListsForDrawList3D extends Drawable3DLists {
 
-	private EuclidianView3D view3D;
-
 	/**
 	 * constructor
 	 * 
@@ -21,25 +19,7 @@ public class Drawable3DListsForDrawList3D extends Drawable3DLists {
 	 */
 	public Drawable3DListsForDrawList3D(EuclidianView3D view3D) {
 		super();
-		this.view3D = view3D;
 	}
 
-	@Override
-	public void add(Drawable3D drawable) {
-		super.add(drawable);
-		if (!(drawable instanceof DrawList3D)) {
-			view3D.addOneGeoToPick();
-		}
-	}
-
-	@Override
-	protected void remove(Drawable3D drawable) {
-
-		super.remove(drawable);
-		if (drawable != null && !(drawable instanceof DrawList3D)) {
-			view3D.removeOneGeoToPick();
-		}
-
-	}
 
 }

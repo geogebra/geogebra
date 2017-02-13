@@ -126,11 +126,6 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	public void glLoadName(int loop) {
-		jogl.getGL2().glLoadName(loop);
-	}
-
-	@Override
 	public void setLightPosition(float[] values) {
 		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
 				GLLightingFunc.GL_POSITION, values,

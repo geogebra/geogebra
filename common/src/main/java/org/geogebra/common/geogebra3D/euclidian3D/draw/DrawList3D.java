@@ -344,20 +344,6 @@ public class DrawList3D extends Drawable3D {
 
 	}
 
-	/**
-	 * remove all geos to pick counter
-	 */
-	public void removeAllGeosToPick() {
-		for (int i = 0; i < drawables.size(); i++) {
-			DrawableND d = drawables.get(i);
-			if (d instanceof DrawList3D) {
-				((DrawList3D) d).removeAllGeosToPick();
-			} else {
-				getView3D().removeOneGeoToPick();
-			}
-		}
-	}
-
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		for (DrawableND d : drawables) {

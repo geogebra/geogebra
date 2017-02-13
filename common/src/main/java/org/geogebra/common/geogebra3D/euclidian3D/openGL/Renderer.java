@@ -42,9 +42,6 @@ public abstract class Renderer {
 
 	public static final int MOUSE_PICK_DEPTH = 10;
 
-	private Drawable3D[] drawHits;
-	protected int pickingLoop;
-
 	// other
 	public Drawable3DListsForView drawable3DLists;
 
@@ -73,20 +70,6 @@ public abstract class Renderer {
 	/** simple arrows */
 	static final public int ARROW_TYPE_SIMPLE = 1;
 
-	// /////////////////
-	// dilation
-
-
-
-
-	// /////////////////
-	// for picking
-
-	protected GPoint mouse;
-	protected boolean waitForPick = false;
-	public static final int PICKING_MODE_OBJECTS = 0;
-	public static final int PICKING_MODE_LABELS = 1;
-	protected int pickingMode = PICKING_MODE_OBJECTS;
 
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
@@ -190,11 +173,6 @@ public abstract class Renderer {
 				.updateInput3D();
 
 		useShaderProgram();
-
-		// picking
-		if (waitForPick) {
-			doPick();
-		}
 
 		// clip planes
 		if (waitForUpdateClipPlanes) {
@@ -1360,25 +1338,9 @@ public abstract class Renderer {
 	 * getGL().glPopMatrix(); }
 	 */
 
-	// ////////////////////////////////////
-	// picking
 
-	/**
-	 * sets the mouse locations to (x,y) and asks for picking.
-	 * 
-	 * @param x
-	 *            x-coordinate of the mouse
-	 * @param y
-	 *            y-coordinate of the mouse
-	 */
-	public void setMouseLoc(GPoint p, int pickingMode) {
-		mouse = p;
 
-		this.pickingMode = pickingMode;
 
-		// on next rending, a picking will be done : see doPick()
-		waitForPick = true;
-	}
 
 	/**
 	 * set hits for mouse location
@@ -1399,58 +1361,7 @@ public abstract class Renderer {
 	 */
 	abstract public GeoElement getLabelHit(GPoint mouseLoc);
 
-	/*
-	 * private boolean intersectionCurvesWaitForPick = false;
-	 * 
-	 * public void setIntersectionCurvesWaitForPick(){
-	 * intersectionCurvesWaitForPick = true; }
-	 */
-
-	private int oldGeoToPickSize;
-	protected int geoToPickSize = EuclidianView3D.DRAWABLES_NB;
-
-	/**
-	 * add one geo to pick count
-	 */
-	public void addOneGeoToPick() {
-		geoToPickSize++;
-		// Log.debug("geoToPickSize++ ("+geoToPickSize+")");
-	}
-
-	/**
-	 * removes one geo to pick count
-	 */
-	public void removeOneGeoToPick() {
-		geoToPickSize--;
-		// Log.debug("geoToPickSize-- ("+geoToPickSize+")");
-		/*
-		 * if (geoToPickSize<0) App.printStacktrace("");
-		 */
-
-	}
-
-	protected void createDrawableListForPicking(int bufSize) {
-		drawHits = new Drawable3D[bufSize];
-	}
-
-	abstract protected void setGLForPicking();
-
 	abstract protected void pushSceneMatrix();
-
-	protected boolean intersectsMouse3D(double zNear, double zFar,
-			double mouseZ) {
-		// Log.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
-		return mouseZ - MOUSE_PICK_DEPTH < zNear
-				&& mouseZ + MOUSE_PICK_DEPTH > zFar;
-
-	}
-
-	protected boolean needsNewPickingBuffer = true;
-
-	/**
-	 * does the picking to sets which objects are under the mouse coordinates.
-	 */
-	protected abstract void doPick();
 
 	public enum PickingType {
 		POINT_OR_CURVE, SURFACE, LABEL
@@ -1461,52 +1372,6 @@ public abstract class Renderer {
 	 * DISPLAY LOOP
 	 */
 	abstract public void pickIntersectionCurves();
-
-	abstract public void glLoadName(int loop);
-
-	public void pick(Drawable3D d, PickingType type) {
-		pick(d, false, type);
-	}
-
-	public void pick(Drawable3D d, boolean intersection, PickingType type) {
-		// Log.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits
-		// length="+drawHits.length);
-		// Application.debug("1");
-		glLoadName(pickingLoop);// Application.debug("2");
-		Drawable3D ret = d.drawForPicking(this, intersection, type);
-		// Log.debug(pickingLoop+": "+ret);
-		if (ret != null) {
-			// Log.debug("---"+ret.getGeoElement());
-			drawHits[pickingLoop] = ret;// Application.debug("4");
-			pickingLoop++;// Application.debug("5");
-		}
-	}
-
-	public void pickLabel(Drawable3D d) {
-		glLoadName(pickingLoop);
-		if (d.drawLabelForPicking(this)) {
-			// Log.debug(""+d.getGeoElement());
-			drawHits[pickingLoop] = d;
-			pickingLoop++;
-		}
-	}
-
-	public double getScreenZFromPickingDepth(double z) {
-		double d = getVisibleDepth() / 2.0;
-		// return
-		// (perspNear*(z-(perspFar-perspNear)))/((perspFar-perspNear)*(z-eyeToScreenDistance));
-
-		if (view3D.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC
-				|| view3D
-						.getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
-			return d * (1 - z);
-		}
-
-		return eyeToScreenDistance[EYE_LEFT]
-				* (z - 1 - d / eyeToScreenDistance[EYE_LEFT])
-				/ (z - 1 - eyeToScreenDistance[EYE_LEFT] / d)
-				- view3D.getScreenZOffset();
-	}
 
 	// ////////////////////////////////
 	// LIGHTS
@@ -2193,9 +2058,6 @@ public abstract class Renderer {
 		// reset euclidian view
 		view3D.reset();
 
-		// reset picking buffer
-		needsNewPickingBuffer = true;
-
 		// ensure that animation is on (needed when undocking/docking 3D view)
 		resumeAnimator();
 
@@ -2255,12 +2117,6 @@ public abstract class Renderer {
 
 	/**
 	 * 
-	 * @return true if it uses logical picking instead of GL picking
-	 */
-	abstract public boolean useLogicalPicking();
-
-	/**
-	 * 
 	 * @return true if it uses shaders
 	 */
 	abstract public boolean useShaders();
@@ -2295,18 +2151,6 @@ public abstract class Renderer {
 	final public void setNeedExportImage(boolean flag) {
 		// Log.printStacktrace("" + flag);
 		needExportImage = flag;
-	}
-
-	protected int getOldGeoToPickSize() {
-		return oldGeoToPickSize;
-	}
-
-	protected void setOldGeoToPickSize(int oldGeoToPickSize) {
-		this.oldGeoToPickSize = oldGeoToPickSize;
-	}
-
-	protected Drawable3D getDrawHit(int num) {
-		return drawHits[num];
 	}
 
 }

@@ -30,18 +30,6 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		this.view3D = view3D;
 	}
 
-	@Override
-	public void add(Drawable3D drawable) {
-
-		super.add(drawable);
-
-		if (drawable.getGeoElement() != null
-				&& drawable.getGeoElement().isPickable()) {
-			view3D.addOneGeoToPick();
-			listForPicking.add(drawable);
-		}
-
-	}
 
 	@Override
 	protected void remove(Drawable3D drawable) {
@@ -52,25 +40,11 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		if (drawable != null) {
 			if (drawable.getGeoElement() != null
 					&& drawable.getGeoElement().isPickable()) {
-				if (drawable instanceof DrawList3D) {
-					((DrawList3D) drawable).removeAllGeosToPick();
-				} else {
-					view3D.removeOneGeoToPick();
-				}
-				listForPicking.remove(drawable);
 				drawable.removeFromGL();
 			}
-
 		}
-
 	}
 
-	@Override
-	public void clear() {
-
-		super.clear();
-		listForPicking.clear();
-	}
 
 	@Override
 	public void drawHiddenTextured(Renderer renderer) {
@@ -112,33 +86,6 @@ public class Drawable3DListsForView extends Drawable3DLists {
 
 	}
 
-	@Override
-	public void drawForPickingPointsAndCurves(Renderer renderer) {
-
-		super.drawForPickingPointsAndCurves(renderer);
-
-		renderer.disableCulling();
-
-		view3D.drawForPicking(renderer);
-
-		renderer.enableCulling();
-		renderer.setCullFaceBack();
-
-	}
-
-	/**
-	 * draw objects labels to pick them
-	 * 
-	 * @param renderer
-	 *            opengl context
-	 */
-	public void drawLabelForPicking(Renderer renderer) {
-
-		for (Drawable3D d : listForPicking) {
-			renderer.pickLabel(d);
-		}
-
-	}
 
 	/**
 	 * enlarge min and max values to enclose all objects

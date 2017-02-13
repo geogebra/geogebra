@@ -210,12 +210,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 		if (extrusionComputer != null) {
 
-			// clear current selections : remove basis polygon from selections
-			// (will be re-introduced, due to draw loop)
-			if (!getView3D().getRenderer().useLogicalPicking()) {
-				getView3D().getEuclidianController().clearSelections();
-			}
-
 			// add current height to selected numeric (will be used on next
 			// EuclidianView3D::rightPrism() call)
 			Hits hits = new Hits();

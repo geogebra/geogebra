@@ -1729,8 +1729,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {
 
-		view3D.setHits3D(mouseLoc);
-
 		// for next mouse move process
 		setMouseMovedEvent(e);
 		mouseMoved = true;
@@ -2006,11 +2004,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
 			ret = extrusionOrConify(hits, selectionPreview);
-			if (!view3D.getRenderer().useLogicalPicking() && ret != null) {
-				// we need to init hits since if users immediately clicks,
-				// it will still use the old basis
-				view3D.getHits3D().init();
-			}
 			break;
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
