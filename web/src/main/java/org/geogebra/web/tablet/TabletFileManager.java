@@ -208,6 +208,56 @@ public class TabletFileManager extends FileManagerT {
 	}-*/;
 		
 	
+	
+	private Runnable deleteOnSuccess;
+	private Material deleteMaterial;
+	
+	@Override
+	public void delete(final Material mat, boolean permanent,
+	        final Runnable onSuccess) {
+		
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			if (!permanent) {
+				mat.setDeleted(true);
+				mat.setBase64("");
+				overwriteMetaDataNative(getFileKey(mat), mat.toJson().toString());
+				return;
+			}
+
+			deleteMaterial = mat;
+			deleteOnSuccess = onSuccess;		
+			deleteNative(getFileKey(mat));
+		}else{
+			super.delete(mat, permanent, onSuccess);
+		}
+
+	}
+	
+	private native void overwriteMetaDataNative(String key, String metaData)/*-{
+		if ($wnd.android) {
+			$wnd.android.overwriteMetaData(key, metaData);
+		}
+	}-*/;
+	
+	private native void deleteNative(String key) /*-{
+		if ($wnd.android) {
+			$wnd.android.deleteGgb(key);
+		}
+	}-*/;
+	
+	/**
+	 * this method is called through js (see exportJavascriptMethods())
+	 */
+	public void catchDeleteResult(String result) {
+		if (result == null || "0".equals(result)){
+			return;
+		}		
+		removeFile(deleteMaterial);
+		deleteOnSuccess.run();
+	}
+	
+	
+	
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
 		$wnd.tabletFileManager_catchMetaDatas = $entry(function(data) {
@@ -218,6 +268,9 @@ public class TabletFileManager extends FileManagerT {
 		});
 		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(data) {			
 			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(Ljava/lang/String;)(data);
+		});
+		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data) {			
+			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;)(data);
 		});
 	}-*/;
 	
