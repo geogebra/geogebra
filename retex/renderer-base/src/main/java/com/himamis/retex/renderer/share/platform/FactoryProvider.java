@@ -51,7 +51,7 @@ import com.himamis.retex.renderer.share.platform.resources.ResourceLoaderFactory
 
 public abstract class FactoryProvider {
 	
-	public static FactoryProvider INSTANCE;
+	private static FactoryProvider INSTANCE;
 	
 	private GeomFactory geomFactory;
 	private FontFactory fontFactory;
