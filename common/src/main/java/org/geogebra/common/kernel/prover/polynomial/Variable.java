@@ -12,20 +12,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class Variable implements Comparable<Variable> {
-	private static int n = 0;
-	// private static int nextAvailableNumber = 0;
-	// private static HashMap<String,Integer> nameToId;
-	private static HashMap<Integer, Variable> twins;
+	private int n = 0;
+	// private int nextAvailableNumber = 0;
+	// private HashMap<String,Integer> nameToId;
+	private HashMap<Integer, Variable> twins = new HashMap<Integer, Variable>();
 	private boolean isFree = false;
 
 	private GeoElement parent;
 	// private final String name;
 	private final int id;
-
-	static {
-		// nameToId = new HashMap<String, Integer>();
-		twins = new HashMap<Integer, Variable>();
-	}
 
 	/**
 	 * Creates a new variable
