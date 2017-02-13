@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -29,6 +30,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -52,6 +54,7 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -78,7 +81,6 @@ public class FunctionInspectorD extends FunctionInspector
 		FocusListener {
 
 	// ggb fields
-	private AppD app;
 	private JDialog wrappedDialog;
 
 	// color constants
@@ -118,7 +120,7 @@ public class FunctionInspectorD extends FunctionInspector
 	}
 
 	private AppD getAppD() {
-		return app;
+		return (AppD) app;
 	}
 
 	// ======================================================
@@ -223,7 +225,7 @@ public class FunctionInspectorD extends FunctionInspector
 	protected void createGUIElements() {
 
 		// create XY table
-		tableXY = new InspectorTable(app, this, minRows,
+		tableXY = new InspectorTable(getAppD(), this, minRows,
 				InspectorTable.TYPE_XY);
 		modelXY = new DefaultTableModel();
 		modelXY.addColumn("x");
@@ -237,7 +239,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tableXY.setMyCellEditor(0);
 
 		// create interval table
-		tableInterval = new InspectorTable(app, this, minRows,
+		tableInterval = new InspectorTable(getAppD(), this, minRows,
 				InspectorTable.TYPE_INTERVAL);
 		modelInterval = new DefaultTableModel();
 		modelInterval.setColumnCount(2);
@@ -252,31 +254,29 @@ public class FunctionInspectorD extends FunctionInspector
 				});
 
 		lblGeoName = new JLabel(getModel().getTitleString());
-		lblGeoName.setFont(app.getBoldFont());
+		lblGeoName.setFont(getAppD().getBoldFont());
 
 		lblStep = new JLabel();
-		fldStep = new MyTextFieldD(app);
+		fldStep = makeTextField(app);
 		fldStep.addActionListener(this);
 		fldStep.addFocusListener(this);
 		fldStep.setColumns(6);
 
 		lblInterval = new JLabel();
-		fldLow = new MyTextFieldD(app);
+		fldLow = makeTextField(app);
 		fldLow.addActionListener(this);
 		fldLow.addFocusListener(this);
 		fldLow.setColumns(6);
-		fldHigh = new MyTextFieldD(app);
+		fldHigh = makeTextField(app);
 		fldHigh.addActionListener(this);
 		fldHigh.addFocusListener(this);
 		fldHigh.setColumns(6);
 
-		btnOscCircle = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.OSCULATING_CIRCLE));
-		btnTangent = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.TANGENT_LINE));
-		btnXYSegments = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.XY_SEGMENTS));
-		btnTable = new JToggleButton(app.getScaledIcon(GuiResourcesD.XY_TABLE));
+		btnOscCircle = new JToggleButton();
+		btnTangent = new JToggleButton();
+		btnXYSegments = new JToggleButton();
+		btnTable = new JToggleButton();
+
 
 		btnOscCircle.addActionListener(this);
 		btnTangent.addActionListener(this);
@@ -293,7 +293,7 @@ public class FunctionInspectorD extends FunctionInspector
 		btnRemoveColumn = new JButton();
 		btnRemoveColumn.addActionListener(this);
 
-		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
+		btnHelp = new JButton();
 		btnHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -308,7 +308,7 @@ public class FunctionInspectorD extends FunctionInspector
 			}
 		});
 		btnHelp.setFocusable(false);
-
+		updateIcons();
 		createBtnAddColumn();
 	}
 
@@ -609,15 +609,20 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	public void updateFonts() {
-		wrappedDialog.setFont(app.getPlainFont());
-		tableXY.setFont(app.getPlainFont());
-		tableInterval.setFont(app.getPlainFont());
-		MyTextFieldD dummyField = new MyTextFieldD(app);
+		Font font = getAppD().getPlainFont();
+		wrappedDialog.setFont(font);
+		tableXY.setFont(font);
+		tableInterval.setFont(font);
+		MyTextFieldD dummyField = makeTextField(app);
 		tableXY.setRowHeight(dummyField.getPreferredSize().height);
 		tableInterval.setRowHeight(dummyField.getPreferredSize().height);
 		updateIcons();
 
-		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
+		GuiManagerD.setFontRecursive(wrappedDialog, font);
+	}
+
+	private MyTextFieldD makeTextField(App app) {
+		return new MyTextFieldD((AppD) app);
 	}
 
 	@Override
@@ -639,10 +644,11 @@ public class FunctionInspectorD extends FunctionInspector
 	@Override
 	protected void createOptionsButton() {
 		if (btnOptions == null) {
-			btnOptions = new PopupMenuButtonD(app);
+			btnOptions = new PopupMenuButtonD(getAppD());
 			btnOptions.setKeepVisible(true);
 			btnOptions.setStandardButton(true);
-			btnOptions.setFixedIcon(app.getScaledIcon(GuiResourcesD.TOOL));
+			btnOptions
+					.setFixedIcon(getAppD().getScaledIcon(GuiResourcesD.TOOL));
 			btnOptions.setDownwardPopup(true);
 		}
 
@@ -890,13 +896,20 @@ public class FunctionInspectorD extends FunctionInspector
 		if (app == null || btnOscCircle == null) {
 			return;
 		}
-		btnOscCircle
-				.setIcon(app.getScaledIcon(GuiResourcesD.OSCULATING_CIRCLE));
-		btnTangent.setIcon(app.getScaledIcon(GuiResourcesD.TANGENT_LINE));
-		btnXYSegments.setIcon(app.getScaledIcon(GuiResourcesD.XY_SEGMENTS));
-		btnTable.setIcon(app.getScaledIcon(GuiResourcesD.XY_TABLE));
-		btnHelp.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
-		btnOptions.setFixedIcon(app.getScaledIcon(GuiResourcesD.TOOL));
+		
+		getScaledIcon(btnOscCircle, GuiResourcesD.OSCULATING_CIRCLE);
+		getScaledIcon(btnTangent, GuiResourcesD.TANGENT_LINE);
+		getScaledIcon(btnXYSegments, GuiResourcesD.XY_SEGMENTS);
+		getScaledIcon(btnTable, GuiResourcesD.XY_TABLE);
+		getScaledIcon(btnHelp, GuiResourcesD.HELP);
+		if (btnOptions != null) {
+			btnOptions
+					.setFixedIcon(getAppD().getScaledIcon(GuiResourcesD.TOOL));
+		}
 
+	}
+
+	private void getScaledIcon(AbstractButton target, GuiResourcesD tool) {
+		target.setIcon(getAppD().getScaledIcon(tool));
 	}
 }

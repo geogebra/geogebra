@@ -731,7 +731,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param shape
 	 *            the shape to set
 	 */
-	public void setShape(GArea shape) {
+	public final void setShape(GArea shape) {
 		this.shape = shape;
 	}
 
