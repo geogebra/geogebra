@@ -181,18 +181,35 @@ public class BoundingBox {
 	}
 
 	/**
+	 * 
+	 * @param threshold
+	 *            controller threshold
+	 * @return distance threshold to select a point
+	 */
+	public static final int getSelectionThreshold(int threshold) {
+		return threshold + 12;
+	}
+
+	/**
 	 * @param x
 	 *            - mouse event x
 	 * @param y
 	 *            - mouse event y
+	 * @param hitThreshold
+	 *            - threshold
 	 * @return number of handler which was hit
 	 */
-	public int hitHandlers(int x, int y) {
+	public int hitHandlers(int x, int y, int hitThreshold) {
 		int index = -1;
 		if (!handlers.isEmpty()) {
 			for (int i = 0; i < handlers.size(); i++) {
-				GRectangle2D rect = handlers.get(i).getBounds();
-				if (rect.contains(x, y)) {
+				GEllipse2DDouble point = handlers.get(i);
+				int r = getSelectionThreshold(hitThreshold);
+				double dx = point.getBounds().getX()
+						+ point.getBounds().getWidth() / 2 - x;
+				double dy = point.getBounds().getY()
+						+ point.getBounds().getHeight() / 2 - y;
+				if (dx < r && dx > -r && dx * dx + dy * dy <= r * r) {
 					return i;
 				}
 			}

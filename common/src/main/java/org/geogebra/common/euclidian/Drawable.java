@@ -525,12 +525,15 @@ public abstract class Drawable extends DrawableND {
 	 *            mouse x-coord
 	 * @param y
 	 *            mouse y-coord
+	 * @param hitThreshold
+	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y) {
+	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y,
+			int hitThreshold) {
 		int hit = -1;
 		if (getBoundingBox() != null) {
-			hit = getBoundingBox().hitHandlers(x, y);
+			hit = getBoundingBox().hitHandlers(x, y, hitThreshold);
 		}
 		switch (hit) {
 		case 0:
