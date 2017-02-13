@@ -60,8 +60,8 @@ public class LaTeXView extends View {
     }
 
     private void initFactoryProvider() {
-        if (FactoryProvider.INSTANCE == null) {
-            FactoryProvider.INSTANCE = new FactoryProviderAndroid(getContext().getAssets());
+        if (FactoryProvider.getInstance() == null) {
+            FactoryProvider.setInstance(new FactoryProviderAndroid(getContext().getAssets()));
         }
     }
 
