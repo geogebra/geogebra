@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -615,20 +616,21 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+	public void updateByBoundingBoxCorner(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
 		poly.setEuclidianVisible(false);
 		poly.updateRepaint();
 		if (isTriangleShape()) {
-			updateTriangle(handlerNr, e);
+			updateTriangle(handler, e);
 			view.setShapePolygon(prewPolygon);
 		} else if (isRectangleShape()) {
-			updateRectangle(handlerNr, e);
+			updateRectangle(handler, e);
 			view.setShapeRectangle(prewRect);
 		} else if (isPentagonShape()) {
-			updatePentagon(handlerNr, e);
+			updatePentagon(handler, e);
 			view.setShapePolygon(prewPolygon);
 		} else if (isFreePolygonShape()) {
-			updateFreePolygon(handlerNr, e);
+			updateFreePolygon(handler, e);
 			view.setShapePolygon(prewPolygon);
 		}
 		view.repaintView();
@@ -721,38 +723,30 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private void fixCornerCoords(int hitHandlerNr) {
+	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
 		if (Double.isNaN(fixCornerX)) {
-			switch (hitHandlerNr) {
-			case 0:
+			switch (hitHandler) {
+			case BOTTOM_LEFT:
+			case TOP_LEFT:
 				fixCornerX = getBoundingBox().getRectangle().getMaxX();
 				break;
-			case 1:
-				fixCornerX = getBoundingBox().getRectangle().getMaxX();
-				break;
-			case 2:
-				fixCornerX = getBoundingBox().getRectangle().getX();
-				break;
-			case 3:
-				fixCornerX = getBoundingBox().getRectangle().getX();
+			case TOP_RIGHT:
+			case BOTTOM_RIGHT:
+				fixCornerX = getBoundingBox().getRectangle().getMinX();
 				break;
 			default:
 				break;
 			}
 		}
 		if (Double.isNaN(fixCornerY)) {
-			switch (hitHandlerNr) {
-			case 0:
+			switch (hitHandler) {
+			case TOP_LEFT:
+			case TOP_RIGHT:
 				fixCornerY = getBoundingBox().getRectangle().getMaxY();
 				break;
-			case 1:
+			case BOTTOM_LEFT:
+			case BOTTOM_RIGHT:
 				fixCornerY = getBoundingBox().getRectangle().getMinY();
-				break;
-			case 2:
-				fixCornerY = getBoundingBox().getRectangle().getY();
-				break;
-			case 3:
-				fixCornerY = getBoundingBox().getRectangle().getMaxY();
 				break;
 			default:
 				break;
@@ -773,12 +767,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * update the coords of triangle
 	 * 
-	 * @param hitHandlerNr
-	 *            - nr of handler was hit
+	 * @param hitHandler
+	 *            - handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updateTriangle(int hitHandlerNr, AbstractEvent event) {
+	protected void updateTriangle(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
 		int pointsX[] = new int[3];
 		int pointsY[] = new int[3];
 
@@ -786,7 +781,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
 		}
 
-		fixCornerCoords(hitHandlerNr);
+		fixCornerCoords(hitHandler);
 
 		prewPolygon.reset();
 		int width = (int) (event.getX() - fixCornerX);
@@ -829,17 +824,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * update the coords of rectangle
 	 * 
-	 * @param hitHandlerNr
-	 *            - nr of handler was hit
+	 * @param hitHandler
+	 *            - of handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updateRectangle(int hitHandlerNr, AbstractEvent event) {
+	protected void updateRectangle(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
 		if (prewRect == null) {
 			prewRect = AwtFactory.getPrototype().newRectangle();
 		}
 	  
-		fixCornerCoords(hitHandlerNr);
+		fixCornerCoords(hitHandler);
 	  
 	  int dx = (int) (event.getX() - fixCornerX); 
 	  int dy = (int) (event.getY() - fixCornerY);
@@ -895,12 +891,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * update the coords of pentagon
 	 * 
-	 * @param hitHandlerNr
-	 *            - nr of handler was hit
+	 * @param hitHandler
+	 *            - handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updatePentagon(int hitHandlerNr, AbstractEvent event) {
+	protected void updatePentagon(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
 		int pointsX[];
 		int pointsY[];
 
@@ -908,7 +905,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
 		}
 
-		fixCornerCoords(hitHandlerNr);
+		fixCornerCoords(hitHandler);
 
 		prewPolygon.reset();
 		int height = (int) (event.getY() - fixCornerY);
@@ -938,12 +935,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 	/**
 	 * update the coords of free polygon
 	 * 
-	 * @param hitHandlerNr
-	 *            - nr of handler was hit
+	 * @param hitHandler
+	 *            - handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updateFreePolygon(int hitHandlerNr, AbstractEvent event) {
+	protected void updateFreePolygon(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
 		double pointsX[] = new double[poly.getPointsLength()];
 		double pointsY[] = new double[poly.getPointsLength()];
 
@@ -951,7 +949,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
 		}
 
-		fixCornerCoords(hitHandlerNr);
+		fixCornerCoords(hitHandler);
 
 		int newWidth = (int) (event.getX() - fixCornerX);
 		int newHeight = (int) (newWidth * oldHeight / oldWidth);

@@ -32,6 +32,7 @@ import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -175,6 +176,9 @@ public class DrawConic extends Drawable implements Previewable {
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
 	private double proportion = Double.NaN;
 	private boolean isCircle = false;
+	/**
+	 * preview of ellipse during resize with drag
+	 */
 	private GEllipse2DDouble prewEllipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble(0, 0, 0, 0);
 
@@ -2094,19 +2098,15 @@ public class DrawConic extends Drawable implements Previewable {
 		this.isCircle = isCircle;
 	}
 
-	private void fixCornerCoords(int hitHandlerNr) {
+	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
 		if (Double.isNaN(fixCornerX)) {
-			switch (hitHandlerNr) {
-			case 0:
+			switch (hitHandler) {
+			case BOTTOM_LEFT:
+			case TOP_LEFT:
 				fixCornerX = getBoundingBox().getRectangle().getMaxX();
 				break;
-			case 1:
-				fixCornerX = getBoundingBox().getRectangle().getMaxX();
-				break;
-			case 2:
-				fixCornerX = getBoundingBox().getRectangle().getX();
-				break;
-			case 3:
+			case TOP_RIGHT:
+			case BOTTOM_RIGHT:
 				fixCornerX = getBoundingBox().getRectangle().getX();
 				break;
 			default:
@@ -2114,18 +2114,14 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 		}
 		if (Double.isNaN(fixCornerY)) {
-			switch (hitHandlerNr) {
-			case 0:
+			switch (hitHandler) {
+			case TOP_LEFT:
+			case TOP_RIGHT:
 				fixCornerY = getBoundingBox().getRectangle().getMaxY();
 				break;
-			case 1:
+			case BOTTOM_LEFT:
+			case BOTTOM_RIGHT:
 				fixCornerY = getBoundingBox().getRectangle().getMinY();
-				break;
-			case 2:
-				fixCornerY = getBoundingBox().getRectangle().getY();
-				break;
-			case 3:
-				fixCornerY = getBoundingBox().getRectangle().getMaxY();
 				break;
 			default:
 				break;
@@ -2139,18 +2135,19 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	/**
-	 * @param hitHandlerNr
-	 *            - nr of handler was hit
+	 * @param hitHandler
+	 *            - handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updateEllipse(int hitHandlerNr, AbstractEvent event) {
+	protected void updateEllipse(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
 		if (prewEllipse == null) {
 			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
 					0);
 		}
 
-		fixCornerCoords(hitHandlerNr);
+		fixCornerCoords(hitHandler);
 
 		int dx = (int) (event.getX() - fixCornerX);
 		int dy = (int) (event.getY() - fixCornerY);
@@ -2206,10 +2203,11 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+	public void updateByBoundingBoxCorner(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
 		conic.setEuclidianVisible(false);
 		conic.updateRepaint();
-		updateEllipse(handlerNr, e);
+		updateEllipse(handler, e);
 		view.setShapeEllipse(prewEllipse);
 		view.repaintView();
 	}

@@ -151,7 +151,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// bounding box
 	protected BoundingBox boundingBox;
-	private int hitHandlerNr = -1;
+	private EuclidianBoundingBoxHandler hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 
 	// shape tools
 	/**
@@ -812,18 +812,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return nr of handler that was hit
+	 * @return handler that was hit
 	 */
-	public int getHitHandlerNr() {
-		return hitHandlerNr;
+	public EuclidianBoundingBoxHandler getHitHandler() {
+		return hitHandler;
 	}
 
 	/**
-	 * @param hitHandlerNr
-	 *            - nr of handler that was hit
+	 * @param hitHandler
+	 *            - handler that was hit
 	 */
-	public void setHitHandlerNr(int hitHandlerNr) {
-		this.hitHandlerNr = hitHandlerNr;
+	public void setHitHandler(EuclidianBoundingBoxHandler hitHandler) {
+		this.hitHandler = hitHandler;
 	}
 
 	private void setSizeListeners() {
@@ -2086,8 +2086,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			hitHandlerNr = d.hitBoundingBoxHandler(p.x, p.y);
-			if (hitHandlerNr > -1) {
+			hitHandler = d.hitBoundingBoxHandler(p.x, p.y);
+			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					return d;

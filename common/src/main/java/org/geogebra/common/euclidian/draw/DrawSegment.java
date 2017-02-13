@@ -27,6 +27,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
@@ -642,7 +643,8 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+	public void updateByBoundingBoxCorner(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
 		double dP1 = line.getP1().distance(e.getX(), e.getY());
 		double dP2 = line.getP2().distance(e.getX(), e.getY());
 		double realX = view.toRealWorldCoordX(e.getX());
@@ -668,27 +670,27 @@ public class DrawSegment extends Drawable implements Previewable {
 	 *            - current mouse location
 	 * @return number of handler for mouse location
 	 */
-	public int getHandlerNr(GPoint mouseLoc) {
+	public EuclidianBoundingBoxHandler getHandler(GPoint mouseLoc) {
 		if (Kernel.isEqual(getBoundingBox().getRectangle().getMinX(),
 				mouseLoc.x)) {
 			// upper left corner
 			if (Kernel.isEqual(getBoundingBox().getRectangle().getMinY(),
 					mouseLoc.y, 3)) {
-				return 0;
+				return EuclidianBoundingBoxHandler.TOP_LEFT;
 			}
 			// bottom left corner
-			return 1;
+			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
 		} else if (Kernel.isEqual(getBoundingBox().getRectangle().getMaxX(),
 				mouseLoc.x, 3)) {
 			// upper right corner
 			if (Kernel.isEqual(getBoundingBox().getRectangle().getMinY(),
 					mouseLoc.y, 3)) {
-				return 3;
+				return EuclidianBoundingBoxHandler.TOP_RIGHT;
 			}
 			// bottom right corner
-			return 2;
+			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
 		}
-		return -1;
+		return EuclidianBoundingBoxHandler.UNDEFINED;
 	}
 
 }

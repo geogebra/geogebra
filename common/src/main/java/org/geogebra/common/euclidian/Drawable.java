@@ -518,20 +518,33 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * Was clicked at the handlers of bounding box? (mouse pointer location (x,y) in screen coords)
+	 * Was clicked at the handlers of bounding box? (mouse pointer location
+	 * (x,y) in screen coords)
 	 * 
 	 * @param x
 	 *            mouse x-coord
 	 * @param y
 	 *            mouse y-coord
-	 * @return true if hit
+	 * @return bounding box handler
 	 */
-	public int hitBoundingBoxHandler(int x, int y) {
+	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y) {
 		int hit = -1;
 		if (getBoundingBox() != null) {
 			hit = getBoundingBox().hitHandlers(x, y);
 		}
-		return hit;
+		switch (hit) {
+		case 0:
+			return EuclidianBoundingBoxHandler.TOP_LEFT;
+		case 1:
+			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
+		case 2:
+			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
+		case 3:
+			return EuclidianBoundingBoxHandler.TOP_RIGHT;
+
+		default:
+			return EuclidianBoundingBoxHandler.UNDEFINED;
+		}
 	}
 
 	private boolean forcedLineType;
@@ -784,10 +797,11 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @param e
 	 *            - mouse drag event
-	 * @param handlerNr
+	 * @param handler
 	 *            - which corner was dragged
 	 */
-	public void updateByBoundingBoxCorner(AbstractEvent e, int handlerNr) {
+	public void updateByBoundingBoxCorner(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
 		// do nothing here
 	}
 
