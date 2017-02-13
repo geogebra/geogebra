@@ -547,7 +547,7 @@ public class AlgebraInputW extends FlowPanel
 	 * @return whether this has focus
 	 */
 	public boolean hasFocus(){
-		return this.focused || AutoCompleteTextFieldW.showSymbolButtonFocused;
+		return this.focused || AutoCompleteTextFieldW.isShowSymbolButtonFocused();
 	}
 
 	/**

@@ -557,7 +557,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public void onPointerEventStart(AbstractEvent event) {
-		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)
+		if ((!AutoCompleteTextFieldW.isShowSymbolButtonFocused())
 		        && (!ec.isTextfieldHasFocus())) {
 			dragModeMustBeSelected = true;
 			dragModeIsRightClick = event.isRightClick();

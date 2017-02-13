@@ -142,7 +142,7 @@ public abstract class Transform {
 		String polyLabel = null;
 		if (label == null) {
 			if (((GeoElement) oldPoly).isLabelSet()) {
-				polyLabel = transformedGeoLabel((GeoElement) oldPoly);
+				polyLabel = transformedGeoLabel(oldPoly);
 			}
 		} else {
 			polyLabel = label;
@@ -203,8 +203,8 @@ public abstract class Transform {
 		// dilate all points
 		GeoPointND[] newPoints = new GeoPointND[points.length];
 		for (int i = 0; i < points.length; i++) {
-			String pointLabel = transformedGeoLabel((GeoElement) points[i]);
-			newPoints[i] = (GeoPointND) transform((GeoElement) points[i],
+			String pointLabel = transformedGeoLabel(points[i]);
+			newPoints[i] = (GeoPointND) transform(points[i],
 					pointLabel)[0];
 			((GeoElement) newPoints[i])
 					.setVisualStyleForTransformations((GeoElement) points[i]);

@@ -120,7 +120,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	ToggleButton showSymbolButton = null;
 	private SymbolTablePopupW tablePopup;
 	private boolean showSymbolTableIcon = false;
-	public static boolean showSymbolButtonFocused = false;
+	private static boolean showSymbolButtonFocused = false;
 
 	/**
 	 * Flag to determine if text must start with "=" to activate autoComplete;
@@ -245,7 +245,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// set it as focused anyway, because it is needed
 					// before the real focus and blur events take place
 					showSymbolButton.addStyleName("ShowSymbolButtonFocused");
-					showSymbolButtonFocused = true;
+					setShowSymbolButtonFocused(true);
 				}
 				super.onBrowserEvent(event);
 
@@ -272,7 +272,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			@Override
 			public void onBlur(BlurEvent event) {
 				showSymbolButton.removeStyleName("ShowSymbolButtonFocused");
-				showSymbolButtonFocused = false;
+				setShowSymbolButtonFocused(false);
 				// TODO: make it disappear when blurred
 				// to a place else than the textfield?
 			}
@@ -1884,6 +1884,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public AppW getApp() {
 		return app;
+	}
+
+	public static boolean isShowSymbolButtonFocused() {
+		return showSymbolButtonFocused;
+	}
+
+	public static void setShowSymbolButtonFocused(boolean showSymbolButtonFocused) {
+		AutoCompleteTextFieldW.showSymbolButtonFocused = showSymbolButtonFocused;
 	}
 
 }

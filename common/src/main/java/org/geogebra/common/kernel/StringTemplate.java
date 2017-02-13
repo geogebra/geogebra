@@ -133,7 +133,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		latexTemplateJLM.setType(StringType.LATEX);
 	}
-
+	/**
+	 * LaTeX template for CAS; like LaTeX template but do not substitute
+	 * 3.1415926535 by pi
+	 */
 	public static final StringTemplate latexTemplateCAS = new StringTemplate(
 			"latexTemplate");
 	static {
@@ -413,6 +416,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testTemplate.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
 	}
+	/**
+	 * No localized digits, max precision
+	 */
 	public static final StringTemplate testTemplateJSON = new StringTemplate(
 			"testTemplate");
 	static {
@@ -446,6 +452,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 		this.name = name;
 	}
 
+	/**
+	 * @param left
+	 *            left subtree
+	 * @param right
+	 *            right subtree
+	 * @param leftStr
+	 *            left subtree as string
+	 * @param rightStr
+	 *            right subtree as string
+	 * @param valueForm
+	 *            whether to show values rather than names
+	 * @param loc
+	 *            localization
+	 * @return left*right as string
+	 */
 	protected String mathQuillMultiply(ExpressionValue left,
 			ExpressionValue right, String leftStr, String rightStr,
 			boolean valueForm, Localization loc) {
@@ -1133,10 +1154,28 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return stringType.isGiac();
 	}
 
+	/**
+	 * @param v
+	 *            expression value
+	 * @return whether it's a vector (2D or 3D)
+	 */
 	protected boolean isNDvector(ExpressionValue v) {
 		return v.evaluatesToNonComplex2DVector() || v.evaluatesTo3DVector();
 	}
 
+	/**
+	 * @param l
+	 *            left subtree
+	 * @param r
+	 *            right subtree
+	 * @param leftStr
+	 *            left subtree as string
+	 * @param rightStr
+	 *            right subtree as string
+	 * @param valueForm
+	 *            whether to show values rather than names
+	 * @return l+r as string
+	 */
 	public String plusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();

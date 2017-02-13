@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Event to be handled by EventListener
+ * 
+ * @author Arnaud
+ */
 public class Event {
+	/** event type */
 	public final EventType type;
+	/** primary target */
 	public final GeoElement target;
+	/** generic argument, e.g. macro name */
 	public final String argument;
+	/** secondary target */
 	public final ArrayList<GeoElement> targets;
 	private boolean alwaysDispatched;
 
