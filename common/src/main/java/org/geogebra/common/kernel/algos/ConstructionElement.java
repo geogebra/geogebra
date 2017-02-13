@@ -37,7 +37,7 @@ public abstract class ConstructionElement
 
 	private int constIndex = -1; // index in construction list
 
-	private long ceIDcounter = 1;
+	private static long ceIDcounter = 1;
 	private long ceID; // creation ID of this ConstructionElement, used for
 						// sorting
 
