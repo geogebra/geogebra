@@ -53,7 +53,7 @@ public class GreekKeyboardFactory {
         LinearKeyboardImpl greekKeyboard = new LinearKeyboardImpl();
 
         RowImpl row = greekKeyboard.nextRow(10.0f);
-        addInputButton(row, PHI_VARIATION);
+        addInputButton(row, PHI);
         addInputButton(row, SIGMA_SPECIAL);
         addInputButton(row, EPSILON);
         addInputButton(row, RHO);
@@ -69,7 +69,7 @@ public class GreekKeyboardFactory {
         addInputButton(row, ALPHA);
         addInputButton(row, SIGMA);
         addInputButton(row, DELTA);
-        addInputButton(row, PHI);
+        addInputButton(row, PHI_VARIATION);
         addInputButton(row, GAMMA);
         addInputButton(row, ETA);
         addInputButton(row, XI);
