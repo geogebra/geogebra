@@ -28,8 +28,8 @@ public class SingularWebService {
 	private String wsHost = SingularWSSettings.getSingularWebServiceRemoteURL();
 	private Boolean available;
 
-	private static String locusLib = "";
-	private static boolean fastConn;
+	private String locusLib = "";
+	private boolean fastConn;
 
 	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcovG",
 			"grobcovF2m", "grobcovC1", "grobcovC0" };
@@ -301,7 +301,7 @@ public class SingularWebService {
 	 * 
 	 * @return the name of the auxiliary Groebner cover library
 	 */
-	public static String getLocusLib() {
+	public String getLocusLib() {
 		return locusLib;
 	}
 
@@ -311,7 +311,7 @@ public class SingularWebService {
 	 * 
 	 * @return locus command
 	 */
-	public static String getLocusCommand() {
+	public String getLocusCommand() {
 		if (locusLib.endsWith("F2m") || locusLib.endsWith("G")) {
 			return "locusdg";
 		}

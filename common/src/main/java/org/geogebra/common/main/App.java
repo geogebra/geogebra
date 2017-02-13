@@ -199,7 +199,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/** Singular web service (CAS) */
-	private static SingularWebService singularWS;
+	private SingularWebService singularWS;
 
 	protected boolean useFullAppGui = false;
 	private static String CASVersionString = "";
@@ -210,7 +210,7 @@ public abstract class App implements UpdateSelection {
 	 * array is for x-axis, second for y-axis
 	 */
 	protected final boolean[] showAxes = { true, true };
-	/** whether axes should be logarithmci when EV is created */
+	/** whether axes should be logarithmic when EV is created */
 	protected final boolean[] logAxes = { false, false };
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
@@ -443,7 +443,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Initializes SingularWS
 	 */
-	public static void initializeSingularWS() {
+	public void initializeSingularWS() {
 		singularWS = new SingularWebService();
 		singularWS.enable();
 		if (singularWS.isAvailable()) {
@@ -457,7 +457,7 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	public static SingularWebService getSingularWS() {
+	public SingularWebService getSingularWS() {
 		return singularWS;
 	}
 
@@ -4701,18 +4701,18 @@ public abstract class App implements UpdateSelection {
 		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	}
 
-	public static boolean singularWSisAvailable() {
+	public boolean singularWSisAvailable() {
 		return singularWS != null && singularWS.isAvailable();
 	}
 
-	public static String singularWSgetTranslatedCASCommand(String s) {
+	public String singularWSgetTranslatedCASCommand(String s) {
 		if (singularWS == null) {
 			return null;
 		}
 		return singularWS.getTranslatedCASCommand(s);
 	}
 
-	public static String singularWSdirectCommand(String s) throws Throwable {
+	public String singularWSdirectCommand(String s) throws Throwable {
 		if (singularWS == null) {
 			return null;
 		}

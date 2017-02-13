@@ -15,7 +15,6 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
@@ -1054,7 +1053,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
 		String solvableResult, solvableProgram;
 		
-		SingularWebService singularWS = App.getSingularWS();
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
 
 		if (singularWS != null && singularWS.isAvailable()) {
 			
@@ -1066,7 +1065,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				Log.trace(solvableProgram + " -> singular");
 			try {
-				solvableResult = App.singularWSdirectCommand(solvableProgram);
+				solvableResult = singularWS.directCommand(solvableProgram);
 				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
 					Log.trace("singular -> " + solvableResult.length()
 							+ " bytes");
@@ -1195,7 +1194,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		String elimResult, elimProgram;
 		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
-		SingularWebService singularWS = App.getSingularWS();
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
 
 		if (singularWS != null && singularWS.isAvailable() && factorized) {
 
@@ -1259,7 +1258,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				Log.trace(elimProgram + " -> singular");
 			try {
-				elimResult = App.singularWSdirectCommand(elimProgram);
+				elimResult = singularWS.directCommand(elimProgram);
 				if (elimResult == null) {
 					return null;
 				}
@@ -1331,7 +1330,6 @@ public class Polynomial implements Comparable<Polynomial> {
 			return PolynomialParser.parseFactoredPolynomialSet(
 					elimResult, variables);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			Log.debug("Cannot parse: " + elimResult);
 			e.printStackTrace();
 		}

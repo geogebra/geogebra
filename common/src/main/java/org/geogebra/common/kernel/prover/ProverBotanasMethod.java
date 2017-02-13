@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -1096,15 +1095,16 @@ public class ProverBotanasMethod {
 		}
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
-		SingularWebService singularWS = App.getSingularWS();
+		SingularWebService singularWS = prover.getConstruction()
+				.getApplication().getSingularWS();
 		if (singularWS == null || (!singularWS.isAvailable())) {
 			proverSettings.transcext = false;
 		}
 
 		/* The NDG conditions (automatically created): */
 		if (proverSettings.freePointsNeverCollinear == null) {
-			proverSettings.freePointsNeverCollinear = !App
-					.singularWSisAvailable();
+			proverSettings.freePointsNeverCollinear = !prover.getConstruction()
+					.getApplication().singularWSisAvailable();
 		}
 
 		AlgebraicStatement as = new AlgebraicStatement(statement, null, prover);
@@ -1145,7 +1145,8 @@ public class ProverBotanasMethod {
 										 * Giac cannot permute the variables at
 										 * the moment.
 										 */
-			if (App.singularWSisAvailable()) {
+			if (prover.getConstruction().getApplication()
+					.singularWSisAvailable()) {
 				/*
 				 * TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)! to
 				 * prevent unneeded computations:

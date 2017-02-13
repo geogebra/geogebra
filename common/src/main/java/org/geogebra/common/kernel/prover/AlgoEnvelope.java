@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
-import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
@@ -18,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -241,7 +239,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	}
 
 	private String getImplicitPoly() throws Throwable {
-		String locusLib = SingularWebService.getLocusLib();
+		String locusLib = kernel.getApplication().getSingularWS().getLocusLib();
 
 		/*
 		 * First we create a virtual locus point on the path object. This is
@@ -378,7 +376,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 				"sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),")
 				.append("coeffs(coeffs(p,x),y));");
 		Log.trace("Input to singular: " + script);
-		String result = App.getSingularWS().directCommand(script.toString());
+		String result = kernel.getApplication().getSingularWS()
+				.directCommand(script.toString());
 		Log.trace("Output from singular: " + result);
 		// Temporary workaround by creating dummy factor:
 		result = "{{" + result + "},{1," + result + "}}";

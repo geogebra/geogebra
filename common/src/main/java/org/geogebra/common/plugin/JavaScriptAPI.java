@@ -779,7 +779,7 @@ public interface JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 *            wheter geogebra-web applet rightclick enabled or not
+	 *            whether geogebra-web applet rightclick enabled or not
 	 */
 	public void enableRightClick(boolean enable);
 

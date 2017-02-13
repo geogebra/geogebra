@@ -758,7 +758,7 @@ public abstract class Prover {
 	/**
 	 * The full GeoGebra construction, containing all geos and algos.
 	 */
-	protected Construction getConstruction() {
+	public Construction getConstruction() {
 		return construction;
 	}
 }
