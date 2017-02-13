@@ -25,7 +25,7 @@ import org.geogebra.common.main.settings.Settings;
  */
 public abstract class App3DCompanion extends AppCompanion {
 	// id of the first view
-	protected int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
+	private int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 
 	/**
 	 * Constructor
@@ -267,6 +267,10 @@ public abstract class App3DCompanion extends AppCompanion {
 	@Override
 	public final void resetEuclidianViewForPlaneIds() {
 		viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
+	}
+
+	public int incViewID() {
+		return viewId++;
 	}
 
 }

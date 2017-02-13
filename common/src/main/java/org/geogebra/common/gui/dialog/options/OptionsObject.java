@@ -13,7 +13,6 @@ public abstract class OptionsObject {
 	protected static final int MIN_WIDTH = 500;
 	protected static final int MIN_HEIGHT = 300;
 	protected GeoElement geoAdded = null;
-	protected boolean firstTime = true;
 	private ArrayList<GeoElement> selection;
 	private StringBuilder sb = new StringBuilder();
 

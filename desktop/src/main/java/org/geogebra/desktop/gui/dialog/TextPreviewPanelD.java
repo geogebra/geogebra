@@ -74,8 +74,8 @@ public class TextPreviewPanelD extends TextPreviewer {
 		if (previewGeo.isLaTeX()) {
 			// LaTex geo, use dummy ImageIcon
 
-			GeoGebraIconD.drawLatexImageIcon((AppD) app, testIcon,
-					previewGeo.getTextString(), ((AppD) app).getPlainFont(),
+			GeoGebraIconD.drawLatexImageIcon((AppD) getApp(), testIcon,
+					previewGeo.getTextString(), ((AppD) getApp()).getPlainFont(),
 					true, Color.black, null);
 			// System.out.println("=============> " + testIcon.getIconHeight() +
 			// " : " + testIcon.getIconWidth());
@@ -88,7 +88,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 			// Plain text geo, use dummy JTextArea
 
 			// set font and line spacing (guessing at this value)
-			dummyText.setFont(((AppD) app).getPlainFont());
+			dummyText.setFont(((AppD) getApp()).getPlainFont());
 			MutableAttributeSet set = new SimpleAttributeSet();
 			StyleConstants.setLineSpacing(set, 1);
 			// StyleConstants.setSpaceBelow(set, (float) 0.5);

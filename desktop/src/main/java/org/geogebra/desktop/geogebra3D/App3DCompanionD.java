@@ -43,8 +43,7 @@ public class App3DCompanionD extends App3DCompanion {
 				evSettings);
 
 		// create dock panel
-		panel = new EuclidianDockPanelForPlaneD((AppD) app, view, viewId);
-		viewId++;
+		panel = new EuclidianDockPanelForPlaneD((AppD) app, view, incViewID());
 
 		view.setPanelID(panel.getViewId());
 

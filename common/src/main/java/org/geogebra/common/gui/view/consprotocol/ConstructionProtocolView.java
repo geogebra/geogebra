@@ -350,7 +350,7 @@ public class ConstructionProtocolView {
 
 	public class ConstructionTableData implements View, SetLabels {
 
-		protected ConstructionTableData ctData = this;
+
 
 		public final ColumnData columns[] = {
 				new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
@@ -368,7 +368,7 @@ public class ConstructionProtocolView {
 		protected ArrayList<RowData> rowList;
 		protected HashMap<GeoElement, RowData> geoMap;
 		protected int columnsCount = columns.length;
-		protected boolean notifyUpdateCalled;
+		private boolean notifyUpdateCalled;
 		private SetLabels gui;
 
 		public ConstructionTableData(SetLabels gui) {
@@ -740,7 +740,7 @@ public class ConstructionProtocolView {
 		}
 
 		public void updateAll() {
-			Log.debug("updateAll - unimplemented");
+			// platform dependent, TODO move this to view
 		}
 
 		public void notifyAddAll(int lastConstructionStep) {
@@ -774,6 +774,10 @@ public class ConstructionProtocolView {
 				// side effect: go to last construction step
 				setConstructionStep(kernel.getLastConstructionStep());
 			}
+		}
+
+		protected boolean isNotifyUpdateCalled() {
+			return notifyUpdateCalled;
 		}
 	}
 

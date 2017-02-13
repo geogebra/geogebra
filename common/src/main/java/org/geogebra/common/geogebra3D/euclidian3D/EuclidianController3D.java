@@ -1788,8 +1788,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		Previewable previewDrawable = null;
 
-		// maybe set previously by MODE_INTERSECTION_CURVE
-		hideIntersection = false;
 
 		// Log.debug(mode);
 
@@ -2997,7 +2995,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		 */
 
 		if (resultedGeo == null) {
-			hideIntersection = true;
 			view3D.setPreview(null);
 			goodHits = null;
 			return;
@@ -3039,7 +3036,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		if (resultedGeo == null) {
-			hideIntersection = true;
 			view3D.setPreview(null);
 			return;
 		}
@@ -3056,7 +3052,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// }
 
 		if (hits.size() == 0) {
-			hideIntersection = true;
 			return;
 		}
 
@@ -3081,12 +3076,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 								&& getMetaIfJustOne(hits.get(
 										1)) == resultedIntersectionCurve.geo1))) {
 			addToGoodHits(hits.get(0));
-			hideIntersection = true;
 			return;
 		}
 
 		// else, we show the intersection, and add A,B to highligtedgeos
-		hideIntersection = false;
 
 		addToGoodHits(hits.get(0));
 		addToGoodHits(hits.get(1));

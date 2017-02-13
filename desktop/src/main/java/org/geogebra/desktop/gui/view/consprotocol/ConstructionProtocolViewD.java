@@ -887,6 +887,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	public class ConstructionTableDataD extends ConstructionTableData {
 
 		protected MyGAbstractTableModel ctDataImpl;
+		protected ConstructionTableData ctData = this;
 
 		public ConstructionTableDataD(SetLabels gui) {
 			super(gui);
@@ -1093,7 +1094,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public void updateAll() {
-			if (notifyUpdateCalled) {
+			if (isNotifyUpdateCalled()) {
 				return;
 			}
 			int size = rowList.size();

@@ -30,8 +30,7 @@ public class AlgebraController {
 	protected Kernel kernel;
 	protected App app;
 	protected SelectionManager selection;
-	protected AlgebraView view;
-	protected GeoElement lastSelectedGeo = null;
+	private AlgebraView view;
 
 	// private GeoVector tempVec;
 	// private boolean kernelChanged;
@@ -162,5 +161,9 @@ public class AlgebraController {
 		}
 
 		return geos != null;
+	}
+
+	protected AlgebraView getView() {
+		return view;
 	}
 }

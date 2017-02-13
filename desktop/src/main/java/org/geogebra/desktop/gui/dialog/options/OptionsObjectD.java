@@ -147,14 +147,6 @@ public class OptionsObjectD extends OptionsObject
 		setViewActive(true);
 
 		if (!wrappedPanel.isShowing()) {
-			// pack and center on first showing
-			if (firstTime) {
-				// TODO ---- is this needed?
-				// pack();
-				// setLocationRelativeTo(app.getMainComponent());
-				firstTime = false;
-			}
-
 			// ensure min size
 			Dimension dim = wrappedPanel.getSize();
 			if (dim.width < MIN_WIDTH) {

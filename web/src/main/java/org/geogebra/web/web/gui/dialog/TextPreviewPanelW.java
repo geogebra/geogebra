@@ -67,16 +67,16 @@ public class TextPreviewPanelW extends TextPreviewer {
 		boolean isLatex = previewGeo.isLaTeX();
 		boolean serif = previewGeo.isSerifFont();
 		
-		int size = (int) (previewGeo.getFontSizeMultiplier() * app
+		int size = (int) (previewGeo.getFontSizeMultiplier() * getApp()
 		        .getFontSize());
-		GFont textFont = app.getFontCommon(serif, previewGeo.getFontStyle(),
+		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(),
 		        size);
 		
 		
 		GRectangle rect;
 		if (isLatex) {
 		
-			rect = EuclidianStatic.drawMultilineLaTeX(app,
+			rect = EuclidianStatic.drawMultilineLaTeX(getApp(),
 					ev.getTempGraphics2D(textFont), previewGeo,
 					ev.getTempGraphics2D(textFont), textFont, GColor.BLACK,
 					GColor.WHITE,
@@ -84,7 +84,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 			
 		} else {
 			
-			rect = EuclidianStatic.drawMultiLineText(app,
+			rect = EuclidianStatic.drawMultiLineText(getApp(),
 					previewGeo.getTextString(), 0, 0, ((EuclidianViewW) ev).g2p,
 					serif, textFont);
 		}

@@ -55,7 +55,7 @@ public class AlgebraControllerW extends AlgebraController
 
 
 	private void mousePressed(AbstractEvent e) {
-		view.cancelEditItem();
+		getView().cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
 
 		// RIGHT CLICK
@@ -108,7 +108,7 @@ public class AlgebraControllerW extends AlgebraController
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.instance);
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
 		
-		if (el == ((AlgebraViewW) view).getElement()) {
+		if (el == ((AlgebraViewW) getView()).getElement()) {
 			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY());
 		}
 		CancelEventTimer.touchEventOccured();
@@ -126,7 +126,7 @@ public class AlgebraControllerW extends AlgebraController
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
 		
-		if (el == ((AlgebraViewW) view).getElement()) {
+		if (el == ((AlgebraViewW) getView()).getElement()) {
 			longTouchManager.scheduleTimer(this, e.getX(), e.getY());
 		}
 		mousePressed(e);

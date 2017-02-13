@@ -31,6 +31,7 @@ public class AlgebraTreeController extends AlgebraController
 	/** tree */
 	private AlgebraTree tree;
 	private boolean skipSelection;
+	private GeoElement lastSelectedGeo = null;
 
 	/**
 	 * Creator

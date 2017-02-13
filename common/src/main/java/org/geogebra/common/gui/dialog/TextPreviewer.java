@@ -38,7 +38,7 @@ public abstract class TextPreviewer {
 
 	protected EuclidianView ev;
 	protected Kernel kernel;
-	protected App app;
+	private App app;
 
 	private GeoText previewGeoIndependent, previewGeoDependent;
 
@@ -55,7 +55,7 @@ public abstract class TextPreviewer {
 		this.kernel = kernel;
 		this.cons = kernel.getConstruction();
 		this.ev = getEuclidianView();
-		this.app = kernel.getApplication();
+		this.setApp(kernel.getApplication());
 
 		// set EV display properties
 		removeEVMouseListeners();
@@ -331,6 +331,14 @@ public abstract class TextPreviewer {
 
 		geo.setAbsoluteScreenLocActive(true);
 		geo.setAbsoluteScreenLoc(xInset, yInset);
+	}
+
+	protected App getApp() {
+		return app;
+	}
+
+	protected void setApp(App app) {
+		this.app = app;
 	}
 
 }

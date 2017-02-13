@@ -71,7 +71,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 			app.updateSelection(false);
 			ev.resetMode();
 			if (geo != null && !AppD.isControlDown(e)) {
-				view.startEditItem(geo);
+				getView().startEditItem(geo);
 			}
 			return true;
 		}
@@ -80,12 +80,12 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	@Override
 	protected boolean viewIsEditing() {
-		return view.isEditItem();
+		return getView().isEditItem();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		view.cancelEditItem();
+		getView().cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
 			GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
@@ -100,13 +100,13 @@ public class AlgebraControllerD extends AlgebraTreeController
 	public void setTree(AlgebraTree tree) {
 		super.setTree(tree);
 		if (tree instanceof AlgebraViewD) {
-			this.view = (AlgebraViewD) tree;
+			this.setView((AlgebraViewD) tree);
 		}
 	}
 
 	protected void enableDnD() {
 		ds = new DragSource();
-		ds.createDefaultDragGestureRecognizer((AlgebraViewD) view,
+		ds.createDefaultDragGestureRecognizer((AlgebraViewD) getView(),
 				DnDConstants.ACTION_COPY_OR_MOVE, this);
 	}
 

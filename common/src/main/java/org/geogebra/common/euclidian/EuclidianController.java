@@ -202,7 +202,6 @@ public abstract class EuclidianController {
 	public double xRW;
 	public double yRW;
 	public GeoPointND movedGeoPoint;
-	public boolean hideIntersection = false;
 	public GeoElement resultedGeo;
 	public boolean draggingBeyondThreshold = false;
 	public Kernel kernel;
@@ -324,10 +323,7 @@ public abstract class EuclidianController {
 	 * y-coordinates of the points that define scaleConic
 	 */
 	protected double[] originalPointY;
-	/**
-	 * threshold for moving in case of a multitouch-event (pixel)
-	 */
-	protected int MIN_MOVE;
+
 	protected Object detachFrom;
 	protected boolean freehandModePrepared = false;
 	protected long lastMousePressedTime;
@@ -11591,10 +11587,6 @@ public abstract class EuclidianController {
 
 	public void setMovePosition(GPoint pos) {
 		movePosition = pos;
-	}
-
-	public void setMIN_MOVE(int value) {
-		MIN_MOVE = value;
 	}
 
 	/**
