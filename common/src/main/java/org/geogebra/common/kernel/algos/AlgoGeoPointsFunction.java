@@ -242,16 +242,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		points = temp;
 	}// removePoint(int pos)
 
-	// * //--- SNIP (after debugging and testing) -------------------------
-	// / --- Test interface --- ///
-
-	// Needed for script testing of children
-	public AlgoGeoPointsFunction(Construction cons) {
-		super(cons);
-	}// Test Constructor
-
-	// */ //--- SNIP end ---------------------------------------
-
 	protected void updateInterval() {
 		EuclidianViewInterfaceCommon ev = this.kernel.getApplication()
 				.getActiveEuclidianView();

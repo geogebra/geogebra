@@ -658,26 +658,6 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// / =============== To comment out when final
 	// =============================================== ///
 
-	/*
-	 * //SNIP START--------------------------------- private final static
-	 * boolean DEBUG=true; private final static void debug(String s) { if(DEBUG)
-	 * { System.out.print("\nFitSin:   "); System.out.println(s); }//if()
-	 * }//debug()
-	 * 
-	 * ///// ----- Test Interface ----- ///// //Test implementation from outside
-	 * Ggb //with datapoints in x[] and y[] public static boolean
-	 * runTest(double[] x,double[] y){ //compute() did not run, have to make a a
-	 * separate RegressionMath: regMath = new RegressionMath(); //RegressionMath
-	 * should be cleaned up with only static! xd=x;yd=y; findParameters();
-	 * sinus_Reg(); return error; }//runtTest(x,y,a,b,c,sse,i)
-	 * 
-	 * //Return the latest calculations: public static double getA(){return a;}
-	 * public static double getB(){return b;} public static double getC(){return
-	 * c;} public static double getD(){return d;} public static int
-	 * getIterations(){return iterations;} public static double getSSE(){return
-	 * beta2(xd,yd,a,b,c,d);}
-	 */// SNIP END--------------------------------------
-
 	@Override
 	public double[] getCoeffs() {
 		double[] ret = { a, b, c, d };

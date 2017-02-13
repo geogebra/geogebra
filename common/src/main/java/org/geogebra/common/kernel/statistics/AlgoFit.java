@@ -211,6 +211,5 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-	// --- SNIP --- ///
 
 }

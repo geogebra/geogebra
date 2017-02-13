@@ -299,19 +299,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		return Math.abs((vxRight - vx) / dx) < 1E-4;
 	}
 
-	// * //--- SNIP (after debugging and testing) -------------------------
-	// / --- Test interface --- ///
-	// Running testcases from external testscript Test_Extremum.bsh from plugin
-	// scriptrunner.
-
-	// Test constructor:
-	public AlgoExtremumMulti(Construction cons) {
-		super(cons);
-
-	}// Test constructor
-
-	// */ //--- SNIP end ---------------------------------------
-
 	@Override
 	public boolean euclidianViewUpdate() {
 		compute();

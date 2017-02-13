@@ -598,24 +598,4 @@ public final class RegressionMath {
 	// / --- DEBUG --- /// !!! Remember to comment out calls before distribution
 	// !!!
 
-	/*
-	 * //---SNIP START---
-	 * 
-	 * // Debug of 2D array public static void aprint(double[][] a){ int
-	 * cols=a.length; int rows=a[0].length; for(int r=0;r<rows;r++){ for(int
-	 * c=0;c<cols;c++){ System.out.print(a[c][r]+" "); }// System.out.println();
-	 * }// }//aprint()
-	 * 
-	 * //debug of 1D array public static void aprint(double[] a){ for(int
-	 * i=0;i<a.length;i++){ System.out.println(a[i]+"  "); } }//
-	 * 
-	 * // Differences between Jama and Apache Solution // Outside GeoGebra the
-	 * diffs are <E-14 // In GeoGebra other rounding results in diffs <E-10 //
-	 * Jama is twice as fast if small datasets and degrees, // Apache about the
-	 * same if things get big... public static void diff(double[] a, double[]
-	 * b){ int size=Math.min(a.length,b.length); double dif=0.0d; for(int
-	 * i=0;i<size;i++){ dif=a[i]-b[i]; if(dif>1.0E-10){ //System.out.println(
-	 * "TOO BIG DIFFERENCE???");} System.out.println(Math.abs(dif)); }//if too
-	 * big diff }//for all data }//diff
-	 */// --- SNIP END
 }// class RegressionMath

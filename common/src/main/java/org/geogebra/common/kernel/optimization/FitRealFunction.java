@@ -226,6 +226,5 @@ public class FitRealFunction implements
 		return mydoubles;
 	}
 
-	// --- SNIP --- ///
 
 }// Class FitRealFunction

@@ -278,9 +278,6 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 		set(TOOLS_FILE_GGT, macrostring);
 
-		// just an idea, might be useful?
-		set("b64", getB64(app));
-
 		// Force writing, "flush": //properties.list(System.out);
 		storePreferences();
 	}// saveXMLPreferences(Application)
@@ -358,39 +355,5 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			properties.setProperty(key, val);
 		}
 	}// set()
-
-	// --- SNIP ---------------------------------------------------
-
-	// Just a thought:
-	// b64=...<b64 encoding of current model..
-	// Might be useful for some...
-	private static String getB64(AppD app) {
-		StringBuffer b64 = null;
-		try {
-			b64 = new StringBuffer();
-			java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-			app.getXMLio().writeGeoGebraFile(baos, false);
-			b64.append(Base64.encodeToString(baos.toByteArray(), false));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (b64 != null) {
-			return b64.toString();
-		}
-		return null;
-	}// getB64()
-
-	// /// ----- Debug ----- /////
-
-	// For use in debugging plugin scripts:
-	public static Properties getProperties() {
-		return properties;
-	}
-
-	// public final static void main(String[] args) {
-	// GeoGebraPreferencesD gp = GeoGebraPortablePreferences.getPref();
-	// }
-
-	// --- SNIP ---------------------------------------------------
 
 }// class GeoGebraPortablePreferences

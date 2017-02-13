@@ -541,30 +541,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		}
 	}// getPoints()
 
-	/*
-	 * //SNIP START==========================Comment out in
-	 * release======================================================= private
-	 * final static void debug(String s) { if(DEBUG) { System.out.print(
-	 * "\nAlgoFitLogistic:   "); System.out.println(s); }//if() }//debug()
-	 * 
-	 * 
-	 * 
-	 * ///// ----- Test Interface ----- /////
-	 * 
-	 * //Test hook for testing of implementation from outside Ggb with
-	 * datapoints in x[] and y[] public static boolean runTest(double[]
-	 * x,double[] y){ //compute() did not run, have to make a a separate
-	 * RegressionMath: regMath = new RegressionMath(); //RegressionMath shold be
-	 * cleaned up with only static! xd=x;yd=y; size=xd.length; //compute() did
-	 * not run, not set... findParameters(); Logistic_Reg(); return error;
-	 * }//runtTest(x,y)
-	 * 
-	 * public static double getA(){return a;} public static double getB(){return
-	 * b;} public static double getC(){return c;} public static int
-	 * getIterations(){return iterations;}
-	 */// SNIP
-		// END==========================================================================================================
-
 	@Override
 	public double[] getCoeffs() {
 		double[] ret = { a, b, c };
