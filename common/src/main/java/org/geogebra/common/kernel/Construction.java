@@ -75,6 +75,7 @@ public class Construction {
 	}
 
 	private ConstructionCompanion companion;
+	private long ceIDcounter = 1;
 
 	/**
 	 * Creates a new Construction.
@@ -3588,6 +3589,10 @@ public class Construction {
 	 */
 	public boolean is3D() {
 		return companion.is3D();
+	}
+
+	public long getNextCeIDcounter() {
+		return ceIDcounter++;
 	}
 
 }
