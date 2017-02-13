@@ -62,7 +62,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	private GeoNumberValue left; // input
 	private GeoNumberValue right; // input
 	private GeoPoint E; // output
-	private static double xres; // static x for test interface
+	private double xres;
 
 	public AlgoExtremumNumerical(Construction cons, String label,
 			GeoFunctionable function, GeoNumberValue left,
@@ -241,15 +241,5 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		// debug("iterations: "+iterations+"point: ("+max+","+y+")"+"in
 		// intervall: <"+left.getDouble()+","+right.getDouble()+">");
 	}// compute()
-
-	// * //--- SNIP (after debugging and testing) -------------------------
-	// / --- Test interface --- ///
-	// Running testcases from external testscript Test_Extremum.bsh from plugin
-	// scriptrunner.
-	public final static double getX() {
-		return xres;
-	}// getX()
-
-	// */ //--- SNIP end ---------------------------------------
 
 }// class AlgoExtremumNumerical
