@@ -27,7 +27,7 @@ public class BasicTest {
 
 	@BeforeClass
 	public static void setFactory() {
-		FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+		FactoryProvider.setInstance(new FactoryProviderDesktop());
 	}
 	
 	@Test

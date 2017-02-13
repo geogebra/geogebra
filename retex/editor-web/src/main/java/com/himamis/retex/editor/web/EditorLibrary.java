@@ -56,7 +56,7 @@ public class EditorLibrary implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		FactoryProvider.INSTANCE = new FactoryProviderGWT();
+		FactoryProvider.setInstance(new FactoryProviderGWT());
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);

@@ -59,7 +59,7 @@ public class FontAdapter {
 	private final TextAttributeProvider textAttributeProvider;
 
 	public FontAdapter() {
-		fontFactory = FactoryProvider.INSTANCE.getFontFactory();
+		fontFactory = FactoryProvider.getInstance().getFontFactory();
 		fontLoader = fontFactory.createFontLoader();
 		textAttributeProvider = fontFactory.createTextAttributeProvider();
 	}

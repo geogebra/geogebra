@@ -499,7 +499,7 @@ public class MatrixAtom extends Atom {
 								: Hsep[j].getWidth();
 						double thickness = env.getTeXFont()
 								.getDefaultRuleThickness(env.getStyle());
-						rectangles.add(FactoryProvider.INSTANCE
+							rectangles.add(FactoryProvider.getInstance()
 								.getGeomFactory()
 								.createRectangle2D(
 										hb.getWidth()

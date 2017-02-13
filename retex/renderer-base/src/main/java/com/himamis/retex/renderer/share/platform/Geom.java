@@ -54,7 +54,7 @@ public class Geom {
 	private final GeomFactory geomFactory;
 
 	public Geom() {
-		geomFactory = FactoryProvider.INSTANCE.getGeomFactory();
+		geomFactory = FactoryProvider.getInstance().getGeomFactory();
 	}
 
 	public Rectangle2D createRectangle2D(double x, double y, double w, double h) {

@@ -68,7 +68,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 	public Rectangle2D measureGlyph(String c) {
 		JsArrayNumber obj = JavaScriptObject.createArray(4).cast();
 		measureNative(c, obj);
-		Rectangle2D ret = FactoryProvider.INSTANCE.getGeomFactory()
+		Rectangle2D ret = FactoryProvider.getInstance().getGeomFactory()
 				.createRectangle2D(obj.get(0), obj.get(1),
 						obj.get(2) - obj.get(0), obj.get(3) - obj.get(1));
 		return ret;

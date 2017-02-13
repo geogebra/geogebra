@@ -51,7 +51,8 @@ public class Resource {
 	private final ResourceLoader resourceLoader;
 
 	public Resource() {
-		resourceLoader = FactoryProvider.INSTANCE.createResourceLoaderFactory().createResourceLoader();
+		resourceLoader = FactoryProvider.getInstance()
+				.createResourceLoaderFactory().createResourceLoader();
 	}
 
 	public Object loadResource(String path) throws ResourceParseException {

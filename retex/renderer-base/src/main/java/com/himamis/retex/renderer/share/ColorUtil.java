@@ -52,7 +52,8 @@ import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 
 public abstract class ColorUtil {
 
-	private static final GraphicsFactory GRAPHICS_FACTORY = FactoryProvider.INSTANCE.getGraphicsFactory();
+	private static final GraphicsFactory GRAPHICS_FACTORY = FactoryProvider
+			.getInstance().getGraphicsFactory();
 
 	public static final Color RED = GRAPHICS_FACTORY.createColor(255, 0, 0);
 	public static final Color BLACK = GRAPHICS_FACTORY.createColor(0, 0, 0);

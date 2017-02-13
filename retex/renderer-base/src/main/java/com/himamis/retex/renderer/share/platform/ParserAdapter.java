@@ -54,7 +54,7 @@ public class ParserAdapter {
 	private final ParserFactory parserFactory;
 	
 	public ParserAdapter() {
-		parserFactory = FactoryProvider.INSTANCE.getParserFactory();
+		parserFactory = FactoryProvider.getInstance().getParserFactory();
 	}
 	
 	public Parser createParser() {

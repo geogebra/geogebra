@@ -20,7 +20,7 @@ public class SerializeLaTeX {
 
 	@BeforeClass
 	public static void prepare() {
-		FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+		FactoryProvider.setInstance(new FactoryProviderDesktop());
 		MetaModel m = new MetaModel();
 		parser = new Parser(m);
 		serializer = new GeoGebraSerializer();

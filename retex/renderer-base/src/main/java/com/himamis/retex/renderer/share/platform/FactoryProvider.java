@@ -110,4 +110,12 @@ public abstract class FactoryProvider {
 		System.out.println("[ReTeX] " + string);
 
 	}
+
+	public static void setInstance(FactoryProvider factory) {
+		INSTANCE = factory;
+	}
+
+	public static FactoryProvider getInstance() {
+		return INSTANCE;
+	}
 }

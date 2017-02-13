@@ -25,7 +25,7 @@ public class SelectionBox extends Box {
 		content.draw(g2, x, y);
 		Stroke old = g2.getStroke();
 
-		g2.setStroke(FactoryProvider.INSTANCE.getGraphicsFactory()
+		g2.setStroke(FactoryProvider.getInstance().getGraphicsFactory()
 				.createBasicStroke(1, 0, 0, 1));
 
 		SelectionBox.startX = g2.getTransform().getScaleX() * x
@@ -45,10 +45,10 @@ public class SelectionBox extends Box {
 		g2.saveTransformation();
 
 		g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
-		g2.draw(FactoryProvider.INSTANCE.getGeomFactory().createLine2D(
+			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
 				DIAMETER * x, DIAMETER * y - DIAMETER * content.height,
 				DIAMETER * x, DIAMETER * y + DIAMETER * content.depth));
-		g2.draw(FactoryProvider.INSTANCE.getGeomFactory().createLine2D(
+			g2.draw(FactoryProvider.getInstance().getGeomFactory().createLine2D(
 				DIAMETER * (x + content.width),
 				DIAMETER * y - DIAMETER * content.height,
 				DIAMETER * (x + content.width),

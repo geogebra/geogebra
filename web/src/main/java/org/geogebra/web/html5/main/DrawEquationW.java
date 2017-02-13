@@ -66,7 +66,7 @@ public class DrawEquationW extends DrawEquation {
 			icon.paintIcon(new HasForegroundColor() {
 				@Override
 				public Color getForegroundColor() {
-					return FactoryProvider.INSTANCE.getGraphicsFactory()
+				return FactoryProvider.getInstance().getGraphicsFactory()
 							.createColor(fgColor.getRed(), fgColor.getGreen(),
 									fgColor.getBlue());
 				}
@@ -78,8 +78,8 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	private static void ensureJLMFactoryExists() {
-		if (FactoryProvider.INSTANCE == null) {
-			FactoryProvider.INSTANCE = new FactoryProviderGWT();
+		if (FactoryProvider.getInstance() == null) {
+			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 	}
 
@@ -187,7 +187,7 @@ public class DrawEquationW extends DrawEquation {
 		icon.paintIcon(new HasForegroundColor() {
 			@Override
 			public Color getForegroundColor() {
-				return FactoryProvider.INSTANCE.getGraphicsFactory()
+				return FactoryProvider.getInstance().getGraphicsFactory()
 						.createColor(fgColor.getRed(), fgColor.getGreen(),
 								fgColor.getBlue());
 			}

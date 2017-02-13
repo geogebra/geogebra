@@ -33,7 +33,8 @@ public class TableBox extends Box {
 					continue;
 				}
 				g2.setColor(colors.get(i));
-				Rectangle2D rect = FactoryProvider.INSTANCE.getGeomFactory()
+				Rectangle2D rect = FactoryProvider.getInstance()
+						.getGeomFactory()
 						.createRectangle2D(
 								rectangles.get(i).getX() + x,
 								rectangles.get(i).getY() + y - (height + depth)

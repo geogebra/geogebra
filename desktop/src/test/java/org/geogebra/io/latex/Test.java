@@ -46,7 +46,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 public class Test {
 
 	static {
-		FactoryProvider.INSTANCE = new FactoryProviderDesktop();
+		FactoryProvider.setInstance(new FactoryProviderDesktop());
 	}
 
 	public static void main(String[] args) {

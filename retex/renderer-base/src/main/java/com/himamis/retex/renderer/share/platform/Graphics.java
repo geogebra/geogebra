@@ -54,7 +54,7 @@ public class Graphics {
 	private final GraphicsFactory graphicsFactory;
 
 	public Graphics() {
-		graphicsFactory = FactoryProvider.INSTANCE.getGraphicsFactory();
+		graphicsFactory = FactoryProvider.getInstance().getGraphicsFactory();
 	}
 
 	public Color createColor(int r, int g, int b) {
