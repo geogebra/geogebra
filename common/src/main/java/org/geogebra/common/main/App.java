@@ -3969,7 +3969,7 @@ public abstract class App implements UpdateSelection {
 		case LOCALSTORAGE_FILES:
 			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 		case POLYGON_TRIANGULATION:
-			return prerelease;
+			return false;
 
 		case TOOL_EDITOR:
 			return prerelease;
