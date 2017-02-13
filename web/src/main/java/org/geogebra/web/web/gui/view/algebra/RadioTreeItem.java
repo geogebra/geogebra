@@ -610,19 +610,21 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 		valuePanel.clear();
+		outputPanel.clear();
 	}
 
 	public void previewValue(GeoElement previewGeo) {
 		if (!app.has(Feature.AV_PREVIEW)) {
 			return;
 		}
-		String text = "";
+		if (!previewGeo.needToShowBothRowsInAV()) {
+			clearPreview();
+			return;
+		}
 		boolean forceLatex = false;
 		if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
 				|| previewGeo.isGeoFunctionBoolean()) {
 			forceLatex = true;
-			text += previewGeo.getLabelDelimiter();// = for functions, : for
-											// inequalities
 		}
 
 		InputHelper.updateSymbolicMode(previewGeo);
@@ -637,10 +639,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		String plain = sb.toString();
-		text += previewGeo
-				.getAlgebraDescription(StringTemplate.latexTemplate)
-				.replace("undefined", "");
 
+		String text = previewGeo
+				.getAlgebraDescription(StringTemplate.latexTemplate)
+				.replace("undefined", "").trim();
+		if (!StringUtil.empty(text)
+				&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
+			text = text.substring(1);
+		}
+		Log.debug("PREVIEW:" + text);
 		if (!plain.equals(text) || forceLatex) {
 			// LaTeX
 			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text,
@@ -650,6 +657,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			valuePanel.clear();
 			valuePanel.add(valCanvas);
 		}
+		addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
+				? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX);
 
 		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
 			outputPanel.add(valuePanel);
@@ -694,22 +703,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	//
-	// private Label getDefinitionPrefixLabel() {
-	// final Label lblDefinition = new Label(getOutputPrefix());
-	// if (app.has(Feature.FRACTIONS)) {
-	// ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
-	//
-	// @Override
-	// public void onClickStart(int x, int y, PointerEventType type) {
-	// toggleSymbolic(lblDefinition);
-	//
-	// }
-	// });
-	// }
-	// updateColor(lblDefinition);
-	// return lblDefinition;
-	// }
 
 	/**
 	 * 

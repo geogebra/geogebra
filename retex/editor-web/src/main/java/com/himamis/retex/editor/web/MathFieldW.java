@@ -33,6 +33,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -105,7 +106,7 @@ public class MathFieldW implements MathField, IsWidget {
 	public MathFieldW(Panel parent, Canvas canvas,
 			MathFieldListener listener) {
 		html = canvas;
-		bottomOffset = 0;
+		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		getHiddenTextArea();
@@ -154,10 +155,17 @@ public class MathFieldW implements MathField, IsWidget {
 		setKeyListener(wrap, keyListener);
 	}
 
+	/**
+	 * @return whether the field can repaint and accept events
+	 */
 	protected boolean isEnabled() {
 		return enabled;
 	}
 
+	/**
+	 * @param flag
+	 *            whether the field can repaint and accept events
+	 */
 	public void setEnabled(boolean flag) {
 		this.enabled = flag;
 		if (parent != null && clip != null) {
@@ -372,6 +380,7 @@ public class MathFieldW implements MathField, IsWidget {
 		int height = (int) ((lastIcon.getIconHeight() + bottomOffset) * ratio);
 		ctx.getCanvas().setHeight(height);
 		parent.setHeight(height + "px");
+		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		ctx.getCanvas()
 				.setWidth((int) ((lastIcon.getIconWidth() + 30) * ratio));
 		ctx.setFillStyle("rgb(255,255,255)");
