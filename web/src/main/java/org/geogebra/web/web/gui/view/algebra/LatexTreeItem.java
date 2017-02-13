@@ -63,7 +63,7 @@ public class LatexTreeItem extends RadioTreeItem {
 			}
 		}
 		getWidget().addStyleName("latexEditor");
-		content.addStyleName("avPreview");
+		content.addStyleName("noPreview");
 		renderLatex("", false);
 	}
 

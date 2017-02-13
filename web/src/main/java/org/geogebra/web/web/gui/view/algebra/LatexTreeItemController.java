@@ -213,6 +213,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 						});
 
 				item.setText("");
+				item.removeOutput();
 
 			}
 

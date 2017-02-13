@@ -605,7 +605,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (!app.has(Feature.AV_PREVIEW)) {
 			return;
 		}
-
+		content.removeStyleName("avPreview");
+		content.addStyleName("noPreview");
 		if (valuePanel == null) {
 			return;
 		}
@@ -621,6 +622,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			clearPreview();
 			return;
 		}
+		content.removeStyleName("noPreview");
+		content.addStyleName("avPreview");
 		boolean forceLatex = false;
 		if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
 				|| previewGeo.isGeoFunctionBoolean()) {
@@ -647,7 +650,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
 			text = text.substring(1);
 		}
-		Log.debug("PREVIEW:" + text);
 		if (!plain.equals(text) || forceLatex) {
 			// LaTeX
 			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text,
@@ -1923,6 +1925,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// dummyLabel.getElement().removeFromParent();
 		// }
 		content.insert(dummyLabel, 0);
+		removeOutput();
 		// }
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
@@ -2160,6 +2163,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (marblePanel != null) {
 			marblePanel.updateIcons(true);
 		}
+	}
+
+	public void removeOutput() {
+		if (outputPanel != null) {
+			outputPanel.removeFromParent();
+		}
+
 	}
 }
 
