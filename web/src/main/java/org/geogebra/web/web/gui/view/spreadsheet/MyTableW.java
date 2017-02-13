@@ -146,10 +146,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	// Dragging vars
 	protected boolean isDragingDot = false;
-	protected int dragingToRow = -1;
-	protected int dragingToColumn = -1;
-	protected int dragingToRowOld = -1;
-	protected int dragingToColumnOld = -1;
+	protected int draggingToRow = -1;
+	protected int draggingToColumn = -1;
 	protected boolean isOverDot = false;
 	protected boolean isDragging = false;
 
@@ -159,13 +157,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected boolean isEditing = false;
 
 
-
-	protected int editRow = -1;
-	protected int editColumn = -1;
-
-	// Keep track of ctrl-down. This is needed in some
-	// selection methods that do not receive key events.
-	protected boolean metaDown = false;
 
 	boolean repaintAll = false;// sometimes only the repainting of
 	                           // borders/background is needed
@@ -198,8 +189,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// protected Cursor handCursor = Cursor
 	// .getPredefinedCursor(Cursor.HAND_CURSOR);
 	// protected Cursor grabbingCursor, grabCursor;
-
-	protected MyTable table;
 
 	protected Grid ssGrid;
 
@@ -251,7 +240,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		app = view.getApplication();
 		kernel = app.getKernel();
-		this.table = this;
 		this.tableModel = tableModel;
 		this.view = view;
 
@@ -1658,8 +1646,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			switch (getCellEditorType(row, col)) {
 			case DEFAULT:
 				isEditing = true;
-				editRow = row;
-				editColumn = col;
 
 				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor(
 				        row, col)).getTableCellEditorWidget(this, ob, false,
@@ -1791,8 +1777,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// hide the editor
 		positionEditorPanel(false, 0, 0);
-		editRow = -1;
-		editColumn = -1;
 		if (!editNext) {
 			view.requestFocus();
 		}
@@ -2433,29 +2417,29 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		GPoint point1 = new GPoint(0, 0);
 		GPoint point2 = new GPoint(0, 0);
 
-		if (dragingToRow != -1 && dragingToColumn != -1) {
+		if (draggingToRow != -1 && draggingToColumn != -1) {
 
 			// -|1|-
 			// 2|-|3
 			// -|4|-
 			boolean visible = true;
-			if (dragingToColumn < minSelectionColumn) { // 2
-				point1 = getPixel(dragingToColumn, minSelectionRow, true);
+			if (draggingToColumn < minSelectionColumn) { // 2
+				point1 = getPixel(draggingToColumn, minSelectionRow, true);
 				point2 = getPixel(minSelectionColumn - 1, maxSelectionRow,
 				        false);
 
-			} else if (dragingToRow > maxSelectionRow) { // 4
+			} else if (draggingToRow > maxSelectionRow) { // 4
 				point1 = getPixel(minSelectionColumn, maxSelectionRow + 1, true);
-				point2 = getPixel(maxSelectionColumn, dragingToRow, false);
+				point2 = getPixel(maxSelectionColumn, draggingToRow, false);
 
-			} else if (dragingToRow < minSelectionRow) { // 1
-				point1 = getPixel(minSelectionColumn, dragingToRow, true);
+			} else if (draggingToRow < minSelectionRow) { // 1
+				point1 = getPixel(minSelectionColumn, draggingToRow, true);
 				point2 = getPixel(maxSelectionColumn, minSelectionRow - 1,
 				        false);
 
-			} else if (dragingToColumn > maxSelectionColumn) { // 3
+			} else if (draggingToColumn > maxSelectionColumn) { // 3
 				point1 = getPixel(maxSelectionColumn + 1, minSelectionRow, true);
-				point2 = getPixel(dragingToColumn, maxSelectionRow, false);
+				point2 = getPixel(draggingToColumn, maxSelectionRow, false);
 			} else {
 				visible = false;
 			}

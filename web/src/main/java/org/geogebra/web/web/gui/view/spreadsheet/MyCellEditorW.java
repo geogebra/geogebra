@@ -29,7 +29,6 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	protected Kernel kernel;
 	protected AppW app;
-	protected SpreadsheetViewW view;
 
 	protected GeoElementND value;
 	protected MyTableW table;
@@ -71,7 +70,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		this.controller = controller;
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
-		this.view = view;
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
 		        (AppW) kernel.getApplication(), false, keyListener, false);
