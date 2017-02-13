@@ -640,6 +640,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 		int width = (int) (event.getX() - fixCornerX);
 		int height = (int) (event.getY() - fixCornerY);
 
+		if (Double.isNaN(fixCornerX) || Double.isNaN(fixCornerY)
+				|| Double.isNaN(proportion)) {
+			return;
+		}
+
 		if (height >= 0) {
 			if (width >= 0) {
 				poly.getPoint(0).setCoords(view.toRealWorldCoordX(fixCornerX),

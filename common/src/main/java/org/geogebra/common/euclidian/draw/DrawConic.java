@@ -2280,17 +2280,20 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public void updateGeo(AbstractEvent event) {
 		Equation equ = getEquationOfConic(event);
-		equ.initEquation();
-		ValidExpression ve = equ.wrap();
-		ve.setLabel(conic.getLabelSimple());
-		try {
-			view.getKernel().getAlgebraProcessor().processValidExpression(ve);
-		} catch (MyError e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		if (equ != null) {
+			equ.initEquation();
+			ValidExpression ve = equ.wrap();
+			ve.setLabel(conic.getLabelSimple());
+			try {
+				view.getKernel().getAlgebraProcessor()
+						.processValidExpression(ve);
+			} catch (MyError e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		conic.setEuclidianVisible(true);
 		conic.setSelected(true);
@@ -2313,7 +2316,12 @@ public class DrawConic extends Drawable implements Previewable {
 		double[] coords = getEndPointRealCoords(event);
 		endX = coords[0];
 		endY = coords[1];
-
+		
+		if (Double.isNaN(startX) || Double.isNaN(startY) || Double.isNaN(endX) 
+				|| Double.isNaN(endY)) {
+			return null;
+		}
+		
 		// coords of center
 		double centerX = (startX + endX) / 2;
 		double centerY = (startY + endY) / 2;
