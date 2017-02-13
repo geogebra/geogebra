@@ -398,10 +398,10 @@ public class PropertiesViewW extends PropertiesView
 			// do nothing
 			break;
 		case EUCLIDIAN:
-			euclidianPanel.setSelectedTab(selectedTab);
+			euclidianPanel.setSelectedTab(getSelectedTab());
 			break;
 		case EUCLIDIAN2:
-			euclidianPanel2.setSelectedTab(selectedTab);
+			euclidianPanel2.setSelectedTab(getSelectedTab());
 			break;
 		}
 	}

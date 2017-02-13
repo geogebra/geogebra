@@ -425,6 +425,13 @@ public abstract class PropertiesView implements View {
 		}
 	}
 
+	/**
+	 * @return selected tab index
+	 */
+	protected int getSelectedTab() {
+		return selectedTab;
+	}
+
 	abstract protected void setOptionPanelWithoutCheck(OptionType type);
 
 	protected OptionType getTypeFromFocusedViewId(int id) {

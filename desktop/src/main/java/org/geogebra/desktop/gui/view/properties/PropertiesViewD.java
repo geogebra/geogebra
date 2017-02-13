@@ -773,10 +773,10 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			// do nothing
 			break;
 		case EUCLIDIAN:
-			euclidianPanel.setSelectedTab(selectedTab);
+			euclidianPanel.setSelectedTab(getSelectedTab());
 			break;
 		case EUCLIDIAN2:
-			euclidianPanel2.setSelectedTab(selectedTab);
+			euclidianPanel2.setSelectedTab(getSelectedTab());
 			break;
 		}
 	}
