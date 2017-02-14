@@ -161,6 +161,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Charsets;
@@ -780,7 +781,7 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) ["
 							+ proverSettings.proverTimeout + "]\n"
 							+ "      maxterms:NUMBER\tset the maximal number of terms ["
-							+ proverSettings.maxTerms
+							+ proverSettings.getMaxTerms()
 							+ "] (OpenGeoProver only)\n"
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
 							+ proverSettings.proverMethod
@@ -837,7 +838,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxesFlags,
 			boolean showGridFlags) {
-		return new EuclidianViewD(euclidianController, showAxesFlags,
+		return new EuclidianViewD(getEuclidianController(), showAxesFlags,
 				showGridFlags, getSettings().getEuclidian(1));
 	}
 
@@ -1146,7 +1147,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 		if ("maxTerms".equalsIgnoreCase(str[0])) {
-			proverSettings.maxTerms = Integer.parseInt(str[1]);
+			proverSettings.setMaxTerms(Integer.parseInt(str[1]));
 			return;
 		}
 		if ("method".equalsIgnoreCase(str[0])) {
@@ -4339,11 +4340,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public ScriptManagerD getScriptManager() {
-		if (scriptManager == null) {
-			scriptManager = new ScriptManagerD(this);
-		}
-		return (ScriptManagerD) scriptManager;
+	protected ScriptManager newScriptManager() {
+		return new ScriptManagerD(this);
 	}
 
 	// **************************************************************************
@@ -4537,7 +4535,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void evalJavaScript(App app, String script, String arg)
 			throws Exception {
-		getScriptManager().evalJavaScript(app, script, arg);
+		((ScriptManagerD) getScriptManager()).evalJavaScript(app, script, arg);
 	}
 
 	@Override

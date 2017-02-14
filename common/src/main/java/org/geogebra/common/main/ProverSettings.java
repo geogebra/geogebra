@@ -17,7 +17,7 @@ public class ProverSettings {
 	/**
 	 * Maximal number of allowed terms. Used by OpenGeoProver at the moment.
 	 */
-	public int maxTerms = 10000;
+	private int maxTerms = 10000;
 	/**
 	 * Sub-engine in the defined engine. Used by OpenGeoProver/Recio at the
 	 * moment.
@@ -57,6 +57,14 @@ public class ProverSettings {
 			INSTANCE = new ProverSettings();
 		}
 		return INSTANCE;
+	}
+
+	public void setMaxTerms(int max) {
+		maxTerms = max;
+	}
+
+	public int getMaxTerms() {
+		return maxTerms;
 	}
 
 }

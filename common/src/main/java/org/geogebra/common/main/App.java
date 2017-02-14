@@ -313,7 +313,7 @@ public abstract class App implements UpdateSelection {
 	/** Euclidian view */
 	protected EuclidianView euclidianView;
 	/** Euclidian view's controller */
-	protected EuclidianController euclidianController;
+	private EuclidianController euclidianController;
 	/** selection listener */
 	protected GeoElementSelectionListener currentSelectionListener;
 	/**
@@ -1016,7 +1016,17 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return script manager
 	 */
-	public abstract ScriptManager getScriptManager();
+	public ScriptManager getScriptManager() {
+		if (scriptManager == null) {
+			scriptManager = newScriptManager();
+		}
+		return scriptManager;
+	}
+
+	protected ScriptManager newScriptManager() {
+		// TODO Implement in iOS
+		return null;
+	}
 
 	/**
 	 * Get the event dispatcher, which dispatches events objects that manage
@@ -4774,6 +4784,9 @@ public abstract class App implements UpdateSelection {
 		return mLastCommandsSelectedFromHelp;
 	}
 
+	protected EuclidianController getEuclidianController() {
+		return euclidianController;
+	}
 
 
 }

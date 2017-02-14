@@ -446,7 +446,7 @@ public class App3D extends AppD {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1) {
-		return new EuclidianViewFor3DD(euclidianController, showAxes1,
+		return new EuclidianViewFor3DD(getEuclidianController(), showAxes1,
 				showGrid1, 1, getSettings().getEuclidian(1));
 	}
 

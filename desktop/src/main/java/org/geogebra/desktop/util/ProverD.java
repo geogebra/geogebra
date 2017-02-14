@@ -108,7 +108,7 @@ public class ProverD extends Prover {
 					.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
 		}
 		inputObject.setTimeOut(proverSettings.proverTimeout);
-		inputObject.setMaxTerms(proverSettings.maxTerms);
+		inputObject.setMaxTerms(proverSettings.getMaxTerms());
 		if (isReturnExtraNDGs()) {
 			inputObject.setReportFormat(
 					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);

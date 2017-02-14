@@ -400,11 +400,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public ScriptManager getScriptManager() {
-		if (scriptManager == null) {
-			scriptManager = new ScriptManagerW(this);
-		}
-		return scriptManager;
+	protected ScriptManager newScriptManager() {
+		return new ScriptManagerW(this);
 	}
 
 	// ================================================
@@ -1994,7 +1991,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			boolean showEvGrid) {
 
 		return euclidianView = newEuclidianView(euclidianViewPanel,
-				euclidianController, showEvAxes, showEvGrid, 1,
+				getEuclidianController(), showEvAxes, showEvGrid, 1,
 				getSettings().getEuclidian(1));
 	}
 
