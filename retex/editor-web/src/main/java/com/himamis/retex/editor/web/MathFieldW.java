@@ -603,7 +603,7 @@ public class MathFieldW implements MathField, IsWidget {
 			clipDiv.style.display = "inline";
 			clipDiv.style.width = "1px";
 			clipDiv.style.height = "1px";
-			clipDiv.style.className = "textAreaClip";
+			clipDiv.className = "textAreaClip";
 			hiddenTextArea.style.width = "1px";
 			hiddenTextArea.style.padding = 0;
 			hiddenTextArea.style.border = 0;
