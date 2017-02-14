@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLocus3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -22,6 +21,7 @@ import org.geogebra.common.kernel.algos.AlgoLocusSliderND;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.MyMath;
 
 /**
  * locus line for Q dependent on P
@@ -69,17 +69,17 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 	}
 
 	@Override
-	protected void createStartPos(Construction cons) {
-		startQPos = new GeoPoint3D(cons);
+	protected void createStartPos(Construction cons1) {
+		startQPos = new GeoPoint3D(cons1);
 	}
 
 	@Override
-	protected GeoLocus3D newGeoLocus(Construction cons) {
-		return new GeoLocus3D(cons);
+	protected GeoLocus3D newGeoLocus(Construction cons1) {
+		return new GeoLocus3D(cons1);
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle) {
+	protected boolean distanceOK(GeoPointND point, double[] min, double[] max) {
 
 		Coords coords = point.getInhomCoordsInD3();
 
@@ -92,28 +92,29 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 		double minX = lastX;
 		double minY = lastY;
 		double minZ = lastZ;
-		double lengthX = coords.getX() - lastX;
-		double lengthY = coords.getY() - lastY;
-		double lengthZ = coords.getY() - lastZ;
+
+		double maxX = coords.getX();
+		double maxY = coords.getY();
+		double maxZ = coords.getZ();
 		if (coords.getX() < minX) {
 			minX = coords.getX();
+			maxX = lastX;
 		}
 		if (coords.getY() < minY) {
 			minY = coords.getY();
+			maxY = lastY;
 		}
 		if (coords.getZ() < minZ) {
 			minZ = coords.getZ();
+			maxZ = lastZ;
 		}
-		if (lengthX < 0) {
-			lengthX = -lengthX;
+		if (min.length == 2) {
+			return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
+					|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
 		}
-		if (lengthY < 0) {
-			lengthY = -lengthY;
-		}
-		if (lengthZ < 0) {
-			lengthZ = -lengthZ;
-		}
-		return !rectangle.intersects(minX, minY, lengthX, lengthY);
+		return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
+				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1])
+				|| !MyMath.intervalsIntersect(minZ, maxZ, min[2], max[2]);
 		// TODO
 	}
 

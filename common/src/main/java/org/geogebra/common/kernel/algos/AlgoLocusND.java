@@ -818,14 +818,19 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 *            rectangle
 	 * @return if distance ok for the point in this rectangle
 	 */
-	abstract protected boolean distanceOK(GeoPointND Q, GRectangle2D rectangle);
+	abstract protected boolean distanceOK(GeoPointND Q, double[] min,
+			double[] max);
 
 	private boolean distanceOK(GeoPointND Q) {
 		boolean[] distanceOK = { false, false, false };
 
 		for (int i = 0; i < distanceOK.length; i++) {
 			if (lastFarAway[i] && isFarAway(Q, i)) {
-				distanceOK[i] = distanceOK(Q, nearToScreenRect[i]);
+				distanceOK[i] = distanceOK(Q,
+						new double[] { nearToScreenRect[i].getMinX(),
+								nearToScreenRect[i].getMinY() }, new double[] {
+								nearToScreenRect[i].getMaxX(),
+								nearToScreenRect[i].getMaxY() });
 			} else {
 				distanceOK[i] = distanceSmall(Q, false);
 			}

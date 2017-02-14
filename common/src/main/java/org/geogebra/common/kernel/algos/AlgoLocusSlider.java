@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -22,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.MyMath;
 
 /**
  * locus line for Q dependent on P where P is a slider
@@ -67,7 +67,7 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND QND, GRectangle2D rec) {
+	protected boolean distanceOK(GeoPointND QND, double[] min, double[] max) {
 		GeoPoint Q = (GeoPoint) QND;
 		// if last point Q' was far away and Q is far away
 		// then the distance is probably OK (return true),
@@ -75,23 +75,24 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 		// except if the rectangle of the segment Q'Q
 		// intersects the near to screen rectangle
 		// (it will probably not be on the screen anyway)
+
 		double minX = lastX;
 		double minY = lastY;
-		double lengthX = Q.inhomX - lastX;
-		double lengthY = Q.inhomY - lastY;
-		if (Q.inhomX < minX) {
-			minX = Q.inhomX;
+
+		double maxX = Q.inhomX;
+		double maxY = Q.inhomY;
+		if (Q.getInhomX() < minX) {
+			minX = Q.getInhomX();
+			maxX = lastX;
 		}
-		if (Q.inhomY < minY) {
-			minY = Q.inhomY;
+		if (Q.getInhomY() < minY) {
+			minY = Q.getInhomY();
+			maxY = lastY;
 		}
-		if (lengthX < 0) {
-			lengthX = -lengthX;
-		}
-		if (lengthY < 0) {
-			lengthY = -lengthY;
-		}
-		return !rec.intersects(minX, minY, lengthX, lengthY);
+
+		return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
+				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
+
 
 	}
 

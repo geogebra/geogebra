@@ -72,7 +72,7 @@ public class OptionsCASD extends OptionsCAS
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10, 1));
 
-		cbTimeout = new JComboBox(OptionsCAS.cbTimeoutOptions);
+		cbTimeout = new JComboBox(OptionsCAS.getTimeoutOptions());
 		cbTimeout.addActionListener(this);
 
 		timeoutLabel = new JLabel();

@@ -474,4 +474,10 @@ public final class MyMath {
 		return Math.acos((dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
 				/ Math.hypot(dx2, dy2));
 	}
+
+	public static boolean intervalsIntersect(double s1, double e1, double s2,
+			double e2) {
+		return (s1 <= s2 && s2 <= e1) || (s1 <= e2 && e2 <= e1)
+				|| (s2 <= s1 && s1 <= e2);
+	}
 }

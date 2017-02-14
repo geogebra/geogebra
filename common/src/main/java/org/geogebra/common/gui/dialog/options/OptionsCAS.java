@@ -1,9 +1,11 @@
 package org.geogebra.common.gui.dialog.options;
 
+import java.util.Arrays;
+
 public abstract class OptionsCAS {
 
 	/** available CAS timeout options (will be reused in OptionsCAS) */
-	final protected static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
+	final private static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 	/**
 	 * @param integer
@@ -17,6 +19,10 @@ public abstract class OptionsCAS {
 			}
 		}
 		return cbTimeoutOptions[0];
+	}
+
+	public static Integer[] getTimeoutOptions() {
+		return Arrays.copyOf(cbTimeoutOptions, cbTimeoutOptions.length);
 	}
 
 }

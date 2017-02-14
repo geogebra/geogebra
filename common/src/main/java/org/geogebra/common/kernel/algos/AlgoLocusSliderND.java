@@ -580,7 +580,11 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		for (int i = 0; i < distanceOK.length; i++) {
 			if (lastFarAway[i] && isFarAway(Q, i)) {
-				distanceOK[i] = distanceOK(Q, nearToScreenRect[i]);
+				distanceOK[i] = distanceOK(Q,
+						new double[] { nearToScreenRect[i].getMinX(),
+								nearToScreenRect[i].getMinY() }, new double[] {
+								nearToScreenRect[i].getMaxX(),
+								nearToScreenRect[i].getMaxY() });
 			} else {
 				distanceOK[i] = distanceSmall(Q, false);
 			}
@@ -598,7 +602,8 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	abstract protected boolean isFarAway(GeoPointND point, int i);
 
 	protected abstract boolean distanceOK(GeoPointND qcopy2,
-			GRectangle2D nearToScreenRect3);
+ double[] min,
+			double[] max);
 
 	/**
 	 * Calls Pcopy.updateCascade() to compute Qcopy. For non-continous
