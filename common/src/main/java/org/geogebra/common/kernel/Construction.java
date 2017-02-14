@@ -76,7 +76,7 @@ public class Construction {
 
 	private ConstructionCompanion companion;
 	private long ceIDcounter = 1;
-	private int nextVariableID = 0;
+	private int nextVariableID = 1;
 
 	/**
 	 * Creates a new Construction.
