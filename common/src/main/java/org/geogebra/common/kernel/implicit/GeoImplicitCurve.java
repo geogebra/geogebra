@@ -1936,7 +1936,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void preventPathCreation() {
+	public synchronized void preventPathCreation() {
 		calcPath = false;
 
 	}
