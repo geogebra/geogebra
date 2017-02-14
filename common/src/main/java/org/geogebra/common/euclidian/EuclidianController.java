@@ -6517,7 +6517,8 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean switchModeForMouseReleased(int evMode, Hits hitsReleased,
-			boolean kernelChanged, boolean controlDown, PointerEventType type) {
+			boolean kernelChanged, boolean controlDown, PointerEventType type,
+			boolean runScripts) {
 		Hits hits = hitsReleased;
 		boolean changedKernel = kernelChanged;
 		boolean focusNeeded = true;
@@ -6614,7 +6615,9 @@ public abstract class EuclidianController {
 						// ggb3D : geo1 may be null if it's axes or xOy plane
 						if (geo1 != null) {
 							focusNeeded = false;
-							runScriptsIfNeeded(geo1);
+							if (runScripts) {
+								runScriptsIfNeeded(geo1);
+							}
 						}
 					}
 				}
@@ -9924,7 +9927,7 @@ public abstract class EuclidianController {
 			// we want to be able to select multiple objects using the selection
 			// rectangle)
 			changedKernel = switchModeForMouseReleased(mode, hits,
-					changedKernel, control, type);
+					changedKernel, control, type, mayFocus);
 		}
 
 		startCollectingMinorRepaints();

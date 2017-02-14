@@ -2276,7 +2276,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean switchModeForMouseReleased(int releaseMode, Hits hits,
-			boolean changedKernel, boolean control, PointerEventType type) {
+			boolean changedKernel, boolean control, PointerEventType type,
+			boolean runScripts) {
 		switch (releaseMode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return true;
@@ -2304,7 +2305,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return true;
 		default:
 			return super.switchModeForMouseReleased(releaseMode, hits,
-					changedKernel, control, type);
+					changedKernel, control, type, runScripts);
 
 		}
 
