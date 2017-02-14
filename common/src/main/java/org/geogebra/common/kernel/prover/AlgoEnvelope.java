@@ -297,18 +297,21 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// Empty envelopes are drawn as 0=-1.
 		// Multiple curves are drawn as products of the curves.
 
+		String varlist = varx + "," + vary;
+
 		if (locusLib.length() == 0) {
-			// If there is no Singular support with the Groebner cover package,
-			// then we use Giac
-			// and construct the Jacobi matrix on our own. Here we use two Giac
-			// calls, one for
-			// the Jacobian and one for the elimination.
+			/*
+			 * If there is no Singular support with the Groebner cover package,
+			 * then we use Giac and construct the Jacobi matrix on our own. Here
+			 * we use two Giac calls, one for the Jacobian and one for the
+			 * elimination. Actually, this code is faster than Singular because
+			 * of local execution and faster Jacobian computation.
+			 */
 			script.append("[[");
-			String varlist = "[" + varx + "," + vary + "]";
 			script.append("m:=[").append(polys)
-					.append("]],[J:=" + CustomFunctions.JACOBI_PREPARE + "(m,"
-							+ varlist + ")],[" + CustomFunctions.JACOBI_DET
-							+ "(J," + varlist + ")]]");
+					.append("]],[J:=" + CustomFunctions.JACOBI_PREPARE + "(m,["
+							+ varlist + "])],[" + CustomFunctions.JACOBI_DET
+							+ "(J,[" + varlist + "])]]");
 			script.append("[2][0]");
 
 			Log.trace(
@@ -341,14 +344,19 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		}
 
-		/* FIXME or REMOVEME, this is probably not working at the moment. */
-		// Constructing the Singular script. This code contains a modified
-		// version
-		// of Francisco Botana's locusdgto() and envelopeto() procedures in the
-		// grobcov library.
-		// I.e. we no longer use these two commands, but locusto(), locus() and
-		// locusdg() only.
-		// We use one single Singular call instead of two (as above for Giac).
+		/*
+		 * Constructing the Singular script. This code contains a modified
+		 * version of Francisco Botana's locusdgto() and envelopeto() procedures
+		 * in the grobcov library. I.e. we no longer use these two commands, but
+		 * locusto(), locus() and locusdg() only. We use one single Singular
+		 * call instead of two (as above for Giac). Computation of the Jacobian
+		 * is maybe slower here.
+		 * 
+		 * At the moment this code is here for backward compatibility only. It
+		 * is not used in the web version and be invoked only by forcing
+		 * SingularWS on startup. TODO: Consider implementing Singular's grobcov
+		 * library in Giac---it may produce better envelopes.
+		 */
 		script.append("proc mylocusdgto(list L) {" + "poly p=1;"
 				+ "int i; int j; int k;"
 				+ "for(i=1;i<=size(L);i++) { if(L[i][3]<>\"Degenerate\")"
@@ -360,27 +368,34 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 				+ "if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0 and find(SLo,\"Special\") == 0)"
 				+ "{ return(1); }"
 				+ "else { return(mylocusdgto(locus(GGG))); } }");
-		script.append("LIB \"" + locusLib + ".lib\";ring r=(0,x,y),(" + vars)
+		script.append("LIB \"" + locusLib + ".lib\";ring r=(0," + varlist
+				+ "),(" + vars)
 				.append("),dp;short=0;ideal m=");
 		script.append(polys);
 		script.append(";poly D=det(jacob(m));ideal S=" + polys
 				+ ",D;list e=myenvelopeto(grobcov(S));");
-		// This trick is required to push the result polynomial to the new ring
-		// world:
+		/*
+		 * This trick is required to push the result polynomial to the new ring
+		 * world:
+		 */
 		script.append("string ex=\"poly p=\" + string(e[1]);");
-		script.append("ring rr=0,(x,y),dp;");
+		script.append("ring rr=0,(" + varlist + "),dp;");
 		script.append("execute(ex);");
-		// Now we obtain the coefficients (see exactly the same code for locus
-		// equation):
+		/*
+		 * Now we obtain the coefficients (see exactly the same code for locus
+		 * equation):
+		 */
 		script.append(
-				"sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),")
-				.append("coeffs(coeffs(p,x),y));");
+				"sprintf(\"%s,%s,%s\",size(coeffs(p," + varx
+						+ ")),size(coeffs(p," + vary + ")),")
+				.append("coeffs(coeffs(p," + varx + ")," + vary + "));");
 		Log.trace("Input to singular: " + script);
 		String result = kernel.getApplication().getSingularWS()
 				.directCommand(script.toString());
 		Log.trace("Output from singular: " + result);
 		// Temporary workaround by creating dummy factor:
 		result = "{{" + result + "},{1," + result + "}}";
+		// because it is not factorized.
 		return result;
 	}
 
