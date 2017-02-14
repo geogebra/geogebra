@@ -796,6 +796,11 @@ public class RendererImplGL2 extends RendererImpl
 	public void setPolygonOffset(float factor, float units) {
 		getGL().glPolygonOffset(factor, units);
 	}
+	
+	@Override
+	public void setLayer(int layer){
+		setPolygonOffset(-layer * 0.05f, -layer * 10);
+	}
 
 	@Override
 	public void genTextures2D(int number, int[] index) {

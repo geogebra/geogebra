@@ -177,6 +177,8 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	abstract public void setPolygonOffset(float factor, float units);
 
+	abstract public void setLayer(int layer);
+
 	abstract public void genTextures2D(int number, int[] index);
 
 	abstract public void bindTexture(int index);

@@ -503,16 +503,8 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final public void setLayer(float l) {
-
-		// 0<=l<10
-		// l2-l1>=1 to see something
-		// l=l/3f;
-		// getGL().glPolygonOffset(-l * 0.05f, -l * 10);
-		rendererImpl.setPolygonOffset(-l * 0.05f, -l * 10);
-		// getGL().glPolygonOffset(-l*0.75f, -l*0.5f);
-
-		// getGL().glPolygonOffset(-l, 0);
+	final public void setLayer(int l) {
+		rendererImpl.setLayer(l);
 	}
 
 	@Override

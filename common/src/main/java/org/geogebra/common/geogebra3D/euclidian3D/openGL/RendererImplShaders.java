@@ -42,6 +42,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object normalLocation; // one normal for all vertices
 	protected Object textureTypeLocation; // textures
 	protected Object dashValuesLocation; // values for dash
+	protected Object layerLocation; // layer value
 
 	protected GPUBuffer vboVertices;
 	protected GPUBuffer vboColors;
@@ -870,6 +871,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 		// clip planes
 		setClipPlanesToShader();
+
+		// layer
+		initLayer();
 	}
 
 	@Override
@@ -1050,6 +1054,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// label rendering
 		labelRenderingLocation = glGetUniformLocation("labelRendering");
 		labelOriginLocation = glGetUniformLocation("labelOrigin");
+		
+		// layer
+		layerLocation = glGetUniformLocation("layer");
 	}
 
 	@Override
@@ -1094,6 +1101,22 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void disableAlphaTest() {
 		// done by shader
+	}
+
+	@Override
+	public void setLayer(int layer) {
+		if (layer == currentLayer) {
+			return;
+		}
+		currentLayer = layer;
+		glUniform1i(layerLocation, currentLayer);
+	}
+
+	private int currentLayer;
+
+	final private void initLayer() {
+		currentLayer = 0;
+		glUniform1i(enableClipPlanesLocation, 0);
 	}
 
 }

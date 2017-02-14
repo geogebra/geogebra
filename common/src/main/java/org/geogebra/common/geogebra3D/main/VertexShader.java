@@ -12,27 +12,20 @@ public class VertexShader {
 			+ "precision mediump int;    // GLSL ES section 4.5.2\n"
 			+ "#endif \n";
 
-	final private static String shiny = ""
+	final private static String inUniform =
 			// in -- uniform
-			+ "uniform mat4    matrix;\n"
-			// + "//uniform mat3 normalMatrix; // no need since light position
-			// is model view system based\n"
-			+ "uniform vec3	lightPosition;\n"
+			"uniform mat4 matrix;\n" + "uniform vec3	lightPosition;\n"
+					+ "uniform vec4	eyePosition;\n"
+					+ "uniform vec2	ambiantDiffuse;\n"
+					+ "uniform int	enableLight;\n" + "uniform int	culling;\n"
+					+ "uniform vec4	color;\n" + "uniform vec3	normal;\n"
+					+ "uniform vec4	center;\n"
+					+ "uniform int	labelRendering;\n"
+					+ "uniform vec3 labelOrigin;\n" + "uniform int	layer;\n";
 
-			+ "uniform vec4	eyePosition;\n" + "uniform vec2	ambiantDiffuse;\n"
-			+ "uniform int		enableLight;\n"
-
-			+ "uniform int		culling;\n"
-
-			+ "uniform vec4	color;\n"
-
-			+ "uniform vec3	normal;\n"
-
-			+ "uniform vec4	center;\n"
-
-			+ "uniform int labelRendering;\n"
-
-			+ "uniform vec3 labelOrigin;\n"
+	final private static String shiny =
+			// in -- uniform
+			inUniform
 
 			// in -- attributes
 			+ "attribute vec3  attribute_Position;  \n"
@@ -61,6 +54,10 @@ public class VertexShader {
 			+ "  	position = attribute_Position;\n"
 
 			+ "  }\n" + "  gl_Position = matrix * vec4(position, 1.0); \n"
+					+ "  if (layer != 0){ // set layer a z-shift \n"
+					+ "      float fLayer = float(layer);\n"
+					+ "      gl_Position.z = gl_Position.z - 0.0004 * fLayer; \n"
+					+ "  } \n"
 			+ "  if (labelRendering == 1){ // use special origin for labels\n"
 			+ "      realWorldCoords = labelOrigin;\n"
 
@@ -122,26 +119,7 @@ public class VertexShader {
 
 			+ "}";
 
-	private static String regular = "//in -- uniform\n"
-			+ "uniform mat4    matrix;  \n"
-			// + "//uniform mat3 normalMatrix; // no need since light position
-			// is model view system based\n"
-			+ "uniform vec3	lightPosition;\n"
-
-			+ "uniform vec4	eyePosition;\n" + "uniform vec2	ambiantDiffuse;\n"
-			+ "uniform int		enableLight;\n"
-
-			+ "uniform int		culling;\n"
-
-			+ "uniform vec4	color;\n"
-
-			+ "uniform vec3	normal;\n"
-
-			+ "uniform vec4	center;\n"
-
-			+ "uniform int labelRendering;\n"
-
-			+ "uniform vec3 labelOrigin;\n"
+	private static String regular = inUniform
 
 			// in -- attributes
 

@@ -1122,7 +1122,7 @@ public abstract class Renderer {
 	 * @param l
 	 *            the layer
 	 */
-	abstract public void setLayer(float l);
+	abstract public void setLayer(int l);
 
 	// drawing matrix
 
