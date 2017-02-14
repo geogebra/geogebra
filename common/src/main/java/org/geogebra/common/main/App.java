@@ -313,7 +313,7 @@ public abstract class App implements UpdateSelection {
 	/** Euclidian view */
 	protected EuclidianView euclidianView;
 	/** Euclidian view's controller */
-	private EuclidianController euclidianController;
+	protected EuclidianController euclidianController;
 	/** selection listener */
 	protected GeoElementSelectionListener currentSelectionListener;
 	/**
