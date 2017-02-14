@@ -1116,7 +1116,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	final private void initLayer() {
 		currentLayer = 0;
-		glUniform1i(enableClipPlanesLocation, 0);
+		glUniform1i(layerLocation, 0);
 	}
 
 }
