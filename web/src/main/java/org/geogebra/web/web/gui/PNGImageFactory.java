@@ -7,11 +7,16 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
 import com.google.gwt.core.shared.GWT;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Provides access to PNG image resources
  * 
  * @author Zbynek
  */
+
+@SuppressFBWarnings({ "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+		"tb and pr should be static" })
 public class PNGImageFactory implements ImageFactory {
 	private static ToolbarResources tb;
 
