@@ -1432,4 +1432,9 @@ public class GeoFunctionNVar extends GeoElement
 		return super.needToShowBothRowsInAV();
 	}
 
+	@Override
+	public boolean isMoveable() {
+		return false;
+	}
+
 }
