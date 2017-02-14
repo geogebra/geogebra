@@ -17,11 +17,11 @@ import org.geogebra.common.main.Feature;
  */
 public abstract class RendererImplShaders extends RendererImpl {
 
-	static public int GLSL_ATTRIB_POSITION;
-	static public int GLSL_ATTRIB_COLOR;
-	static public int GLSL_ATTRIB_NORMAL;
-	static public int GLSL_ATTRIB_TEXTURE;
-	static public int GLSL_ATTRIB_INDEX;
+	final static public int GLSL_ATTRIB_POSITION = 0;
+	final static public int GLSL_ATTRIB_COLOR = 1;
+	final static public int GLSL_ATTRIB_NORMAL = 2;
+	final static public int GLSL_ATTRIB_TEXTURE = 3;
+	final static public int GLSL_ATTRIB_INDEX = 4;
 
 	final static protected int TEXTURE_TYPE_NONE = 0;
 	final static protected int TEXTURE_TYPE_FADING = 1;
@@ -1062,8 +1062,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glAttachShader(vertShader);
 		glAttachShader(fragShader);
 
-		setPredefinedAttributes();
-
 		glBindAttribLocation(GLSL_ATTRIB_POSITION, "attribute_Position");
 		glBindAttribLocation(GLSL_ATTRIB_NORMAL, "attribute_Normal");
 		glBindAttribLocation(GLSL_ATTRIB_COLOR, "attribute_Color");
@@ -1074,16 +1072,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setShaderLocations();
 		createVBOs();
 		attribPointers();
-	}
-
-	final static protected void setPredefinedAttributes() {
-		// Associate attribute ids with the attribute names inside
-		// the vertex shader.
-		GLSL_ATTRIB_POSITION = 0;
-		GLSL_ATTRIB_COLOR = 1;
-		GLSL_ATTRIB_NORMAL = 2;
-		GLSL_ATTRIB_TEXTURE = 3;
-		GLSL_ATTRIB_INDEX = 4;
 	}
 
 	abstract protected void compileShadersProgram();

@@ -4197,10 +4197,7 @@ public abstract class App implements UpdateSelection {
 			return true; // 5.0.294
 
 			//EXAM-10
-			case EXAM_ANDROID_CHECK_SCREEN_STATE:
-				return true;
-
-		case WEB_GL_USE_DEFAULT_ATTRIBS:
+		case EXAM_ANDROID_CHECK_SCREEN_STATE:
 			return true;
 
 		case READ_OBJECT_NAME_AT_SELECTING:

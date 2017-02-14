@@ -188,8 +188,6 @@ public enum Feature {
 	 */
 	EXAM_ANDROID_CHECK_SCREEN_STATE,
 
-	WEB_GL_USE_DEFAULT_ATTRIBS,
-
 	/**
 	 * GGB-1374
 	 */

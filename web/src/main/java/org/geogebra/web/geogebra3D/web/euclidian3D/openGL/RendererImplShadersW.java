@@ -12,7 +12,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
@@ -136,21 +135,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		// use the program
 		glContext.useProgram((WebGLProgram) shaderProgram);
 
-		if (view3D.getApplication().has(Feature.WEB_GL_USE_DEFAULT_ATTRIBS)) {
-			Log.debug("WebGL: use default attribs");
-		} else {
-			// attributes : note that vertex shader must use it, otherwise
-			// getAttribLocation will return -1 (undefined)
-			GLSL_ATTRIB_POSITION = getAttribLocation("attribute_Position");
-			GLSL_ATTRIB_NORMAL = getAttribLocation("attribute_Normal");
-			GLSL_ATTRIB_COLOR = getAttribLocation("attribute_Color");
-			GLSL_ATTRIB_TEXTURE = getAttribLocation("attribute_Texture");
-
-			Log.debug("vertexPositionAttribute=" + GLSL_ATTRIB_POSITION + ","
-					+ "normalAttribute=" + GLSL_ATTRIB_NORMAL + ","
-					+ "colorAttribute=" + GLSL_ATTRIB_COLOR + ","
-					+ "textureAttribute=" + GLSL_ATTRIB_TEXTURE);
-		}
 	}
 
 	private int getAttribLocation(String name) {
