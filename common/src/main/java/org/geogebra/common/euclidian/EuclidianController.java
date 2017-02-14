@@ -561,6 +561,25 @@ public abstract class EuclidianController {
 		GeoElement.moveObjects(pastePreviewSelected, translationVec,
 				tmpCoordsL3, null, view);
 	}
+	
+	private void setPastePreviewPosition() {
+		if (translationVec == null) {
+			translationVec = new Coords(2);
+		}
+		double middleX = view.toRealWorldCoordX(view.getWidth() / 2);
+		double middleY = view.toRealWorldCoordY(view.getHeight() / 2);
+		translationVec.setX(middleX - getStartPointX());
+		translationVec.setY(middleY - getStartPointY());
+		setStartPointLocation(middleX, middleY);
+		if (tmpCoordsL3 == null) {
+			tmpCoordsL3 = new Coords(3);
+		}
+		tmpCoordsL3.setX(middleX);
+		tmpCoordsL3.setY(middleY);
+		tmpCoordsL3.setZ(0);
+		GeoElement.moveObjects(pastePreviewSelected, translationVec,
+				tmpCoordsL3, null, view);
+	}
 
 	public final void setPastePreviewSelected() {
 
@@ -694,11 +713,8 @@ public abstract class EuclidianController {
 			persistentStickyPointList = new ArrayList<GeoPointND>();
 			persistentStickyPointList.addAll(view.getStickyPointList());
 
-			if (mouseLoc != null) {
-				transformCoords();
-				updatePastePreviewPosition();
-				kernel.notifyRepaint();
-			}
+			setPastePreviewPosition();
+			kernel.notifyRepaint();
 		}
 	}
 
@@ -6802,12 +6818,6 @@ public abstract class EuclidianController {
 
 		// previewable will be updated in refreshHighlighting
 		if (view.getPreviewDrawable() != null) {
-			repaintNeeded = true;
-		}
-
-		if ((pastePreviewSelected != null) && !pastePreviewSelected.isEmpty()) {
-			transformCoords();
-			updatePastePreviewPosition();
 			repaintNeeded = true;
 		}
 
