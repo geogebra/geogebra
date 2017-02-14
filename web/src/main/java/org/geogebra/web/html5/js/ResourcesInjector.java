@@ -27,6 +27,9 @@ public class ResourcesInjector {
 	private static ResourcesInjector INSTANCE;
 
 	/**
+	 * @param forceReTeX
+	 *            whether to force retex only style (=exclude MQ)
+	 * 
 	 */
 	public static void injectResources(boolean forceReTeX) {
 		if (resourcesInjected) {

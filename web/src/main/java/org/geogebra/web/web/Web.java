@@ -141,7 +141,7 @@ public class Web implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		ResourcesInjector.injectResources(false);
+
 		createGeoGebraAppFrame(new BrowserDevice());
 		// }
 
@@ -160,8 +160,10 @@ public class Web implements EntryPoint {
 	 * @return frame
 	 */
 	protected static GeoGebraAppFrame createGeoGebraAppFrame(GDevice device) {
+		GLookAndFeel laf = Web.getLAF(ArticleElement.getGeoGebraMobileTags());
+		ResourcesInjector.injectResources(laf.forceReTeX());
 		return new GeoGebraAppFrame(
-				Web.getLAF(ArticleElement.getGeoGebraMobileTags()), device,
+				laf, device,
 				(AppletFactory) GWT.create(AppletFactory.class));
 	}
 

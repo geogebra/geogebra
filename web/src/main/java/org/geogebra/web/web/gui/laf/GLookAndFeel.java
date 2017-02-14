@@ -209,4 +209,11 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return "GeoGebra";
 	}
 
+	/**
+	 * @return whether to exclude MQ
+	 */
+	public boolean forceReTeX() {
+		return false;
+	}
+
 }
