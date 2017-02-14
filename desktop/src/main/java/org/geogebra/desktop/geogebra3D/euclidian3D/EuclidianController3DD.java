@@ -175,7 +175,7 @@ public class EuclidianController3DD extends EuclidianController3D
 	@Override
 	public boolean refreshHighlighting(Hits hits, boolean control) {
 
-		if (AppD.getShiftDown()) {
+		if (((AppD) app).getShiftDown()) {
 			return false;
 		}
 

@@ -624,7 +624,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// update the selection list
 
-		if (!AppD.getControlDown()) {
+		if (!app.getControlDown()) {
 			selectedCellRanges.clear();
 			selectedColumnSet.clear();
 			selectedRowSet.clear();
@@ -1818,7 +1818,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 			try {
 				getSpreadsheetModeProcessor().performAutoFunctionCreation(
-						selectedCellRanges.get(0), AppD.getShiftDown());
+						selectedCellRanges.get(0), app.getShiftDown());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

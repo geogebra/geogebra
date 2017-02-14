@@ -26,7 +26,7 @@ public abstract class SensorLogger {
 	/**
 	 * port to receive UDP logging on
 	 */
-	public static int port = 7166;
+	public int port = 7166;
 	public String appID = "ABCD";
 	public boolean oldUndoActive = false;
 

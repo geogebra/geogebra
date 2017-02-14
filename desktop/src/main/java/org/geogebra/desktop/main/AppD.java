@@ -4053,14 +4053,14 @@ public class AppD extends App implements KeyEventDispatcher {
 	// global controlDown, shiftDown flags
 	// Application.dispatchKeyEvent sets these on every keyEvent.
 
-	private static boolean controlDown = false;
-	private static boolean shiftDown = false;
+	private boolean controlDown = false;
+	private boolean shiftDown = false;
 
-	public static boolean getControlDown() {
+	public boolean getControlDown() {
 		return controlDown;
 	}
 
-	public static boolean getShiftDown() {
+	public boolean getShiftDown() {
 		return shiftDown;
 	}
 

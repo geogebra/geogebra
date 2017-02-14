@@ -363,7 +363,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			// ==========================================
 			// hidden switch to toggle native/crossPlatform LAF
-			if (AppD.getControlDown() && AppD.getShiftDown()) {
+			if (app.getControlDown() && app.getShiftDown()) {
 				AppD.toggleCrossPlatformLAF();
 				SwingUtilities.updateComponentTreeUI(app.getFrame());
 				app.getFrame().pack();

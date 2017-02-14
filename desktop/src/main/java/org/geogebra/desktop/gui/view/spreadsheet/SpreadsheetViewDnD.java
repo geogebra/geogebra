@@ -215,7 +215,7 @@ public class SpreadsheetViewDnD
 				AlgebraViewTransferHandler.algebraViewFlavor)) {
 
 			// if modifier key down, open a dialog to get user drop options
-			if (AppD.getShiftDown() || AppD.getControlDown()) {
+			if (app.getShiftDown() || app.getControlDown()) {
 				DialogCopyToSpreadsheet id = new DialogCopyToSpreadsheet(app,
 						this);
 				id.setVisible(true);

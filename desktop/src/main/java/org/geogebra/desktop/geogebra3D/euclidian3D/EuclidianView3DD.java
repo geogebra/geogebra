@@ -524,7 +524,7 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	@Override
 	protected boolean getShiftDown() {
-		return AppD.getShiftDown();
+		return ((AppD) app).getShiftDown();
 	}
 
 	@Override

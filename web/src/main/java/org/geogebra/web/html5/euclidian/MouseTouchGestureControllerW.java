@@ -58,7 +58,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
 	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
-	private static int DELAY_UNTIL_MOVE_FINISH = 150;
+	private int DELAY_UNTIL_MOVE_FINISH = 150;
 
 	/**
 	 * flag for blocking the scaling of the axes
@@ -692,7 +692,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return longTouchManager;
 	}
 
-	public static void resetDelay() {
+	public void resetDelay() {
 		DELAY_UNTIL_MOVE_FINISH = 150;
 	}
 }

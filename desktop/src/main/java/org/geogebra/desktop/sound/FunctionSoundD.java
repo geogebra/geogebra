@@ -24,8 +24,8 @@ public final class FunctionSoundD extends FunctionSound
 	private SoundThread soundThread;
 
 	// streaming audio fields
-	private static AudioFormat af;
-	private static SourceDataLine sdl;
+	private AudioFormat af;
+	private SourceDataLine sdl;
 
 	/**
 	 * Constructs instance of FunctionSound

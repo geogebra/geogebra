@@ -62,7 +62,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	private GeoNumberValue left; // input
 	private GeoNumberValue right; // input
 	private GeoPoint E; // output
-	private double xres;
 
 	public AlgoExtremumNumerical(Construction cons, String label,
 			GeoFunctionable function, GeoNumberValue left,
@@ -199,7 +198,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 			max = (l + r) / 2;
 			diff = Math.abs(r - l);
 		} // while not finished
-		xres = max; // use middle value in last interval
 
 		// Save some repetitive calculations:
 		double y = f.evaluate(max);
