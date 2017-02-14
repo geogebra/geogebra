@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class Variable implements Comparable<Variable> {
-	private int n = 0;
+	private static int n = 0;
 	// private int nextAvailableNumber = 0;
 	// private HashMap<String,Integer> nameToId;
 	private HashMap<Integer, Variable> twins = new HashMap<Integer, Variable>();
