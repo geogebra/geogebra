@@ -221,8 +221,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 			if (botanaVars == null) {
 				botanaVars = new Variable[4]; // storing 2 new variables, plus
 												// the coordinates of P
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(kernel);
+				botanaVars[1] = new Variable(kernel);
 				botanaVars[2] = vP[0];
 				botanaVars[3] = vP[1];
 				Log.trace("Orthogonal line at " + P.getLabelSimple() + " to "

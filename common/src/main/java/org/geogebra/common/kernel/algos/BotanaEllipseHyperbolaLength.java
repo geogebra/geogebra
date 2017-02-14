@@ -86,10 +86,10 @@ public class BotanaEllipseHyperbolaLength {
 			botanaVars[2] = centerBotanaVars2[0];
 			botanaVars[3] = centerBotanaVars2[1];
 			// point on circle
-			botanaVars[4] = new Variable();
-			botanaVars[5] = new Variable();
+			botanaVars[4] = new Variable(F1.getKernel());
+			botanaVars[5] = new Variable(F1.getKernel());
 			// radius
-			botanaVars[6] = new Variable();
+			botanaVars[6] = new Variable(F1.getKernel());
 		}
 
 		botanaPolynomials = new Polynomial[2];

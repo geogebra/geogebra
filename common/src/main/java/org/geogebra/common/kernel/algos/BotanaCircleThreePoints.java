@@ -20,8 +20,8 @@ public class BotanaCircleThreePoints {
 		if (botanaVars == null) {
 			botanaVars = new Variable[4];
 			// Virtual center:
-			botanaVars[0] = new Variable();
-			botanaVars[1] = new Variable();
+			botanaVars[0] = new Variable(input[0].getKernel());
+			botanaVars[1] = new Variable(input[0].getKernel());
 			// Point on the circle:
 			botanaVars[2] = circle1vars[0];
 			botanaVars[3] = circle1vars[1];

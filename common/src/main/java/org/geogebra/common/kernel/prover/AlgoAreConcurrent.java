@@ -232,8 +232,8 @@ public class AlgoAreConcurrent extends AlgoElement
 			v[2] = inputLine3.getBotanaVars(inputLine3);
 
 			Variable[] nv = new Variable[2]; // new point for collinearity
-			nv[0] = new Variable();
-			nv[1] = new Variable();
+			nv[0] = new Variable(kernel);
+			nv[1] = new Variable(kernel);
 
 			// We need three collinearities with an extra point.
 			botanaPolynomials = new Polynomial[1][3];

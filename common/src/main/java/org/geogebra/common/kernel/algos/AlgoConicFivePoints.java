@@ -337,7 +337,7 @@ public class AlgoConicFivePoints extends AlgoElement
 			botanaVars = new Variable[8];
 			/* x,y,a,b,c,d,e,f */
 			for (int i = 0; i < 8; i++) {
-				botanaVars[i] = new Variable();
+				botanaVars[i] = new Variable(kernel);
 			}
 		}
 		Variable x = botanaVars[0];

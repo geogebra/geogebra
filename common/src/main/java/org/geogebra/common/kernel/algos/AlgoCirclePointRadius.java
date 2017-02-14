@@ -128,8 +128,8 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 				botanaVars[0] = centerBotanaVars[0];
 				botanaVars[1] = centerBotanaVars[1];
 				// point C on the circle
-				botanaVars[2] = new Variable();
-				botanaVars[3] = new Variable();
+				botanaVars[2] = new Variable(kernel);
+				botanaVars[3] = new Variable(kernel);
 			}
 			GeoPoint A = s.getStartPoint();
 			GeoPoint B = s.getEndPoint();
@@ -167,10 +167,10 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 			botanaVars[0] = centerBotanaVars[0];
 			botanaVars[1] = centerBotanaVars[1];
 			// point on circle
-			botanaVars[2] = new Variable();
-			botanaVars[3] = new Variable();
+			botanaVars[2] = new Variable(kernel);
+			botanaVars[3] = new Variable(kernel);
 			// radius
-			botanaVars[4] = new Variable();
+			botanaVars[4] = new Variable(kernel);
 		}
 
 		Polynomial[] extraPolys = null;

@@ -185,8 +185,8 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 						botanaVars[0] = vPoint[0];
 						botanaVars[1] = vPoint[1];
 						// point on the tangent line
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(kernel);
+						botanaVars[3] = new Variable(kernel);
 					}
 
 					botanaPolynomials = new Polynomial[3];
@@ -209,14 +209,14 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				if (botanaVars == null) {
 					botanaVars = new Variable[6];
 					// T - tangent point of circle
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
+					botanaVars[0] = new Variable(kernel);
+					botanaVars[1] = new Variable(kernel);
 					// A
 					botanaVars[2] = vPoint[0];
 					botanaVars[3] = vPoint[1];
 					// M - midpoint of OE
-					botanaVars[4] = new Variable();
-					botanaVars[5] = new Variable();
+					botanaVars[4] = new Variable(kernel);
+					botanaVars[5] = new Variable(kernel);
 				}
 
 				botanaPolynomials = new Polynomial[4];
@@ -263,8 +263,8 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
 						// M - midpoint of FT'
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(kernel);
+						botanaVars[1] = new Variable(kernel);
 						// T - tangent point
 						botanaVars[2] = vPoint[0];
 						botanaVars[3] = vPoint[1];
@@ -279,8 +279,8 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					Polynomial f1 = new Polynomial(vparabola[8]);
 					Polynomial f2 = new Polynomial(vparabola[9]);
 					// coordinates of T' (feet point on the directrix for T)
-					Variable t_1 = new Variable();
-					Variable t_2 = new Variable();
+					Variable t_1 = new Variable(kernel);
+					Variable t_2 = new Variable(kernel);
 
 					Polynomial t_1p = new Polynomial(t_1);
 					Polynomial t_2p = new Polynomial(t_2);
@@ -322,14 +322,14 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					if (botanaVars == null) {
 						botanaVars = new Variable[6];
 						// M - tangent point
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(kernel);
+						botanaVars[1] = new Variable(kernel);
 						// T - point on ellipse/hyperbola
 						botanaVars[2] = vPoint[0];
 						botanaVars[3] = vPoint[1];
 						// D
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[4] = new Variable(kernel);
+						botanaVars[5] = new Variable(kernel);
 					}
 
 					botanaPolynomials = new Polynomial[4];

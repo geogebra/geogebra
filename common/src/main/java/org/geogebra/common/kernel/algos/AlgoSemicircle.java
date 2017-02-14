@@ -207,8 +207,8 @@ public class AlgoSemicircle extends AlgoElement
 			Variable[] centerVars = new Variable[2];
 
 			circle1vars = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);
-			centerVars[0] = new Variable();
-			centerVars[1] = new Variable();
+			centerVars[0] = new Variable(kernel);
+			centerVars[1] = new Variable(kernel);
 
 			botanaVars = new Variable[4];
 			// Center:

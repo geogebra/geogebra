@@ -2721,8 +2721,8 @@ public class GeoPoint extends GeoVec3D
 		if (algoParent == null) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[2];
-				botanaVars[0] = new Variable(true);
-				botanaVars[1] = new Variable(true);
+				botanaVars[0] = new Variable(kernel, true);
+				botanaVars[1] = new Variable(kernel, true);
 				Log.trace("Free point " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}

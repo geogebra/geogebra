@@ -816,8 +816,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 					 * one will be created by the other geo's algo):
 					 */
 					botanaVarsThis = new Variable[2];
-					botanaVarsThis[0] = new Variable();
-					botanaVarsThis[1] = new Variable();
+					botanaVarsThis[0] = new Variable(kernel);
+					botanaVarsThis[1] = new Variable(kernel);
 					botanaVars.put(geo, botanaVarsThis);
 				}
 
@@ -866,7 +866,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 								.sqrDistance(botanaVarsThis[0],
 										botanaVarsThis[1], botanaVarsOther[0],
 										botanaVarsOther[1])
-								.multiply(new Polynomial(new Variable())))
+								.multiply(new Polynomial(new Variable(kernel))))
 										.subtract(new Polynomial(1));
 						found = true;
 					}
@@ -899,7 +899,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 							- 1] = (Polynomial.sqrDistance(botanaVarsThis[0],
 									botanaVarsThis[1], botanaVarsOther[0],
 									botanaVarsOther[1])
-									.multiply(new Polynomial(new Variable())))
+									.multiply(new Polynomial(
+											new Variable(kernel))))
 											.subtract(new Polynomial(1));
 				}
 
@@ -929,8 +930,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 					botanaVarsThis = botanaVars.get(geo);
 				} else {
 					botanaVarsThis = new Variable[2];
-					botanaVarsThis[0] = new Variable();
-					botanaVarsThis[1] = new Variable();
+					botanaVarsThis[0] = new Variable(kernel);
+					botanaVarsThis[1] = new Variable(kernel);
 					botanaVars.put(geo, botanaVarsThis);
 				}
 

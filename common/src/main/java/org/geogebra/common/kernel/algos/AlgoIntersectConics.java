@@ -1396,8 +1396,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			} else {
 				// Intersection point (we create only one):
 				botanaVarsThis = new Variable[2];
-				botanaVarsThis[0] = new Variable();
-				botanaVarsThis[1] = new Variable();
+				botanaVarsThis[0] = new Variable(kernel);
+				botanaVarsThis[1] = new Variable(kernel);
 				botanaVars.put(geo, botanaVarsThis);
 			}
 
@@ -1442,7 +1442,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 					botanaPolynomialsThis[2 + excludePoint] = (Polynomial
 							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
 									botanaVarsOther[0], botanaVarsOther[1])
-							.multiply(new Polynomial(new Variable())))
+							.multiply(new Polynomial(new Variable(kernel))))
 									.subtract(new Polynomial(1));
 					found = true;
 				}
@@ -1477,7 +1477,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 								.sqrDistance(botanaVarsThis[0],
 										botanaVarsThis[1], botanaVarsOther[0],
 										botanaVarsOther[1])
-								.multiply(new Polynomial(new Variable())))
+								.multiply(new Polynomial(new Variable(kernel))))
 										.subtract(new Polynomial(1));
 			}
 
@@ -1501,8 +1501,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		} else {
 			// Intersection point (we create only one):
 			botanaVarsThis = new Variable[2];
-			botanaVarsThis[0] = new Variable();
-			botanaVarsThis[1] = new Variable();
+			botanaVarsThis[0] = new Variable(kernel);
+			botanaVarsThis[1] = new Variable(kernel);
 			botanaVars.put(geo, botanaVarsThis);
 		}
 		if (botanaPolynomials == null) {

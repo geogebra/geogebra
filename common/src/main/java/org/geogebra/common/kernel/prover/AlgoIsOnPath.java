@@ -131,8 +131,8 @@ public class AlgoIsOnPath extends AlgoElement
 					if (botanaVars == null) {
 						botanaVars = new Variable[2];
 						// T - projection of P to directrix
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(kernel);
+						botanaVars[1] = new Variable(kernel);
 					}
 
 					Variable[] fv1 = new Variable[2];
@@ -199,8 +199,8 @@ public class AlgoIsOnPath extends AlgoElement
 						e_1 = new Polynomial(fv2[2]);
 						e_2 = new Polynomial(fv2[3]);
 					} else {
-						e_1 = new Polynomial(new Variable());
-						e_2 = new Polynomial(new Variable());
+						e_1 = new Polynomial(new Variable(kernel));
+						e_2 = new Polynomial(new Variable(kernel));
 					}
 					Polynomial d1 = new Polynomial(fv2[2]);
 					Polynomial d2 = new Polynomial(fv2[3]);

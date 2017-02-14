@@ -200,8 +200,8 @@ public class AlgoRotatePoint extends AlgoTransformation
 			if (botanaVars == null) {
 				botanaVars = new Variable[8];
 				// A' - rotation point
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(kernel);
+				botanaVars[1] = new Variable(kernel);
 				// A - point around the rotation is processed
 				botanaVars[2] = vA[0];
 				botanaVars[3] = vA[1];
@@ -209,9 +209,9 @@ public class AlgoRotatePoint extends AlgoTransformation
 				botanaVars[4] = vB[0];
 				botanaVars[5] = vB[1];
 				// t1 = sqrt(3)
-				botanaVars[6] = new Variable();
+				botanaVars[6] = new Variable(kernel);
 				// t2 = sqrt(2)
-				botanaVars[7] = new Variable();
+				botanaVars[7] = new Variable(kernel);
 			}
 
 			/*

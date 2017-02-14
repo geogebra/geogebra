@@ -248,10 +248,10 @@ public class AlgoLineBisectorSegment extends AlgoElement
 
 			if (botanaVars == null) {
 				botanaVars = new Variable[4]; // storing 4 new variables (C, D)
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
-				botanaVars[2] = new Variable();
-				botanaVars[3] = new Variable();
+				botanaVars[0] = new Variable(kernel);
+				botanaVars[1] = new Variable(kernel);
+				botanaVars[2] = new Variable(kernel);
+				botanaVars[3] = new Variable(kernel);
 			}
 
 			botanaPolynomials = SymbolicParameters

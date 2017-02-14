@@ -135,13 +135,13 @@ public class AlgoEllipseHyperbolaFociPoint
 				if (botanaVars == null) {
 					botanaVars = new Variable[12];
 					// P - point of ellipse
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
+					botanaVars[0] = new Variable(kernel);
+					botanaVars[1] = new Variable(kernel);
 					// auxiliary variables for distances
-					botanaVars[2] = new Variable();
-					botanaVars[3] = new Variable();
-					botanaVars[4] = new Variable();
-					botanaVars[5] = new Variable();
+					botanaVars[2] = new Variable(kernel);
+					botanaVars[3] = new Variable(kernel);
+					botanaVars[4] = new Variable(kernel);
+					botanaVars[5] = new Variable(kernel);
 					// A - focus point
 					botanaVars[6] = vA[0];
 					botanaVars[7] = vA[1];
@@ -201,13 +201,13 @@ public class AlgoEllipseHyperbolaFociPoint
 				if (botanaVars == null) {
 					botanaVars = new Variable[12];
 					// P - point of hyperbola
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
+					botanaVars[0] = new Variable(kernel);
+					botanaVars[1] = new Variable(kernel);
 					// auxiliary variables
-					botanaVars[2] = new Variable();
-					botanaVars[3] = new Variable();
-					botanaVars[4] = new Variable();
-					botanaVars[5] = new Variable();
+					botanaVars[2] = new Variable(kernel);
+					botanaVars[3] = new Variable(kernel);
+					botanaVars[4] = new Variable(kernel);
+					botanaVars[5] = new Variable(kernel);
 					// A
 					botanaVars[6] = vA[0];
 					botanaVars[7] = vA[1];

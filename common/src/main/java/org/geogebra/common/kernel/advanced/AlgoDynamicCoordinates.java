@@ -115,8 +115,8 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		}
 		// botanaVars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
 		botanaVars = new Variable[2];
-		botanaVars[0] = new Variable(true);
-		botanaVars[1] = new Variable(true);
+		botanaVars[0] = new Variable(kernel, true);
+		botanaVars[1] = new Variable(kernel, true);
 		return botanaVars;
 	}
 

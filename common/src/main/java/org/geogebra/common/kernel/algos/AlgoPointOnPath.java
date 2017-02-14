@@ -292,8 +292,8 @@ public class AlgoPointOnPath extends AlgoElement
 		if (input[0] != null && input[0] instanceof GeoLine) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[2];
-				botanaVars[0] = new Variable(true);
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(kernel, true);
+				botanaVars[1] = new Variable(kernel);
 			}
 			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
 					.getBotanaVars(input[0]); // 4 variables
@@ -307,8 +307,8 @@ public class AlgoPointOnPath extends AlgoElement
 			if (((GeoConic) input[0]).isCircle()) {
 				if (botanaVars == null) {
 					botanaVars = new Variable[2];
-					botanaVars[0] = new Variable(true);
-					botanaVars[1] = new Variable();
+					botanaVars[0] = new Variable(kernel, true);
+					botanaVars[1] = new Variable(kernel);
 				}
 				Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]); // 4 variables
@@ -324,11 +324,11 @@ public class AlgoPointOnPath extends AlgoElement
 				if (botanaVars == null) {
 					botanaVars = new Variable[4];
 					// point P on parabola
-					botanaVars[0] = new Variable(true);
-					botanaVars[1] = new Variable();
+					botanaVars[0] = new Variable(kernel, true);
+					botanaVars[1] = new Variable(kernel);
 					// T- projection of P on AB
-					botanaVars[2] = new Variable();
-					botanaVars[3] = new Variable();
+					botanaVars[2] = new Variable(kernel);
+					botanaVars[3] = new Variable(kernel);
 				}
 				Variable[] vparabola = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]);
@@ -356,12 +356,12 @@ public class AlgoPointOnPath extends AlgoElement
 				if (botanaVars == null) {
 					botanaVars = new Variable[4];
 					// P - point on ellipse/hyperbola
-					botanaVars[0] = new Variable(true);
-					botanaVars[1] = new Variable();
+					botanaVars[0] = new Variable(kernel, true);
+					botanaVars[1] = new Variable(kernel);
 					// distances between point on ellipse/hyperbola
 					// and foci points
-					botanaVars[2] = new Variable();
-					botanaVars[3] = new Variable();
+					botanaVars[2] = new Variable(kernel);
+					botanaVars[3] = new Variable(kernel);
 				}
 
 				Variable[] vellipse = ((SymbolicParametersBotanaAlgo) input[0])

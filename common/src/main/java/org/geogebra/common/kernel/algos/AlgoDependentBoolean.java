@@ -469,7 +469,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
 				((GeoSegment) node.getLeft())
-						.setLabel(new Variable().toString());
+						.setLabel(new Variable(kernel).toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
@@ -479,7 +479,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
 				((GeoSegment) node.getRight())
-						.setLabel(new Variable().toString());
+						.setLabel(new Variable(kernel).toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
@@ -748,7 +748,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		for (GeoSegment segment : allSegmentsFromExpression) {
 			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
 			if (botanaVars[index] == null) {
-				botanaVars[index] = new Variable();
+				botanaVars[index] = new Variable(kernel);
 			}
 			// collect substitution of segments with variables
 			Entry<GeoElement, Variable> subst = new AbstractMap.SimpleEntry<GeoElement, Variable>(

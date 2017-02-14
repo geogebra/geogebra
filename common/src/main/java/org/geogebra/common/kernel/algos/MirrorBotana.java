@@ -40,17 +40,17 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[8];
 						// P' - mirror of P
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// Q' - mirror of Q
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 						// V1 - auxiliary point
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[4] = new Variable(geo.getKernel());
+						botanaVars[5] = new Variable(geo.getKernel());
 						// V2 - auxiliary point
-						botanaVars[6] = new Variable();
-						botanaVars[7] = new Variable();
+						botanaVars[6] = new Variable(geo.getKernel());
+						botanaVars[7] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[8];
@@ -128,14 +128,14 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[6];
 						// C'
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// V
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 						// N
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[4] = new Variable(geo.getKernel());
+						botanaVars[5] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[6];
@@ -197,24 +197,24 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[12];
 						// A' - mirror of center
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// B' - mirror of point on circle
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 						// V - midpoint of center and mirror of center
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[4] = new Variable(geo.getKernel());
+						botanaVars[5] = new Variable(geo.getKernel());
 						// T - midpoint of point on circle and mirror of point
 						// on circle
-						botanaVars[6] = new Variable();
-						botanaVars[7] = new Variable();
+						botanaVars[6] = new Variable(geo.getKernel());
+						botanaVars[7] = new Variable(geo.getKernel());
 						// N1 - AN1 orthogonal CD
-						botanaVars[8] = new Variable();
-						botanaVars[9] = new Variable();
+						botanaVars[8] = new Variable(geo.getKernel());
+						botanaVars[9] = new Variable(geo.getKernel());
 						// N2 - BN2 orthogonal CD
-						botanaVars[10] = new Variable();
-						botanaVars[11] = new Variable();
+						botanaVars[10] = new Variable(geo.getKernel());
+						botanaVars[11] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[12];
@@ -301,38 +301,38 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[22];
 						// P' - point at parabola
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// T' - projection of P' at directirx
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 						// A' - mirror of star point of directrix
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[4] = new Variable(geo.getKernel());
+						botanaVars[5] = new Variable(geo.getKernel());
 						// B' - mirror of end point of directrix
-						botanaVars[6] = new Variable();
-						botanaVars[7] = new Variable();
+						botanaVars[6] = new Variable(geo.getKernel());
+						botanaVars[7] = new Variable(geo.getKernel());
 						// F' - mirror of focus point
-						botanaVars[8] = new Variable();
-						botanaVars[9] = new Variable();
+						botanaVars[8] = new Variable(geo.getKernel());
+						botanaVars[9] = new Variable(geo.getKernel());
 						// V1 - midpoint of AA'
-						botanaVars[10] = new Variable();
-						botanaVars[11] = new Variable();
+						botanaVars[10] = new Variable(geo.getKernel());
+						botanaVars[11] = new Variable(geo.getKernel());
 						// V2 - midpoint of BB'
-						botanaVars[12] = new Variable();
-						botanaVars[13] = new Variable();
+						botanaVars[12] = new Variable(geo.getKernel());
+						botanaVars[13] = new Variable(geo.getKernel());
 						// V3 - midpoint of CC'
-						botanaVars[14] = new Variable();
-						botanaVars[15] = new Variable();
+						botanaVars[14] = new Variable(geo.getKernel());
+						botanaVars[15] = new Variable(geo.getKernel());
 						// N1 - AN1 orthogonal M1M2 (mirror line)
-						botanaVars[16] = new Variable();
-						botanaVars[17] = new Variable();
+						botanaVars[16] = new Variable(geo.getKernel());
+						botanaVars[17] = new Variable(geo.getKernel());
 						// N2 - BN2 orthogonal M1M2
-						botanaVars[18] = new Variable();
-						botanaVars[19] = new Variable();
+						botanaVars[18] = new Variable(geo.getKernel());
+						botanaVars[19] = new Variable(geo.getKernel());
 						// N3 - CN3 orthogonal M1M2
-						botanaVars[20] = new Variable();
-						botanaVars[21] = new Variable();
+						botanaVars[20] = new Variable(geo.getKernel());
+						botanaVars[21] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[21];
@@ -492,8 +492,8 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[2];
 						// A' - mirror of point
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[2];
@@ -527,11 +527,11 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
 						// A' - mirror of start point
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// B' - mirror of end point
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[4];
@@ -575,11 +575,11 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
 						// A' - mirror of center
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// B' - mirror of point on the circle
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[4];
@@ -623,20 +623,20 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[10];
 						// P' - mirror of point on parabola
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// T' - mirror of projection point of P' at A'B'
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 						// A' - mirror of start point of directrix
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[4] = new Variable(geo.getKernel());
+						botanaVars[5] = new Variable(geo.getKernel());
 						// B' - mirror of end point of directrix
-						botanaVars[6] = new Variable();
-						botanaVars[7] = new Variable();
+						botanaVars[6] = new Variable(geo.getKernel());
+						botanaVars[7] = new Variable(geo.getKernel());
 						// F' - mirror of focus point
-						botanaVars[8] = new Variable();
-						botanaVars[9] = new Variable();
+						botanaVars[8] = new Variable(geo.getKernel());
+						botanaVars[9] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[13];
@@ -732,11 +732,11 @@ public class MirrorBotana {
 						if (botanaVars == null) {
 							botanaVars = new Variable[4];
 							// A' - mirror of the center point
-							botanaVars[0] = new Variable();
-							botanaVars[1] = new Variable();
+							botanaVars[0] = new Variable(geo.getKernel());
+							botanaVars[1] = new Variable(geo.getKernel());
 							// C' - mirror of the point at circle
-							botanaVars[2] = new Variable();
-							botanaVars[3] = new Variable();
+							botanaVars[2] = new Variable(geo.getKernel());
+							botanaVars[3] = new Variable(geo.getKernel());
 						}
 
 						botanaPolynomials = new Polynomial[4];
@@ -768,22 +768,22 @@ public class MirrorBotana {
 						if (botanaVars == null) {
 							botanaVars = new Variable[12];
 							// P' - mirror of second point on ellipse
-							botanaVars[0] = new Variable();
-							botanaVars[1] = new Variable();
+							botanaVars[0] = new Variable(geo.getKernel());
+							botanaVars[1] = new Variable(geo.getKernel());
 							// auxiliary variables
-							botanaVars[2] = new Variable();
-							botanaVars[3] = new Variable();
-							botanaVars[4] = new Variable();
-							botanaVars[5] = new Variable();
+							botanaVars[2] = new Variable(geo.getKernel());
+							botanaVars[3] = new Variable(geo.getKernel());
+							botanaVars[4] = new Variable(geo.getKernel());
+							botanaVars[5] = new Variable(geo.getKernel());
 							// A' - mirror of first focus point
-							botanaVars[6] = new Variable();
-							botanaVars[7] = new Variable();
+							botanaVars[6] = new Variable(geo.getKernel());
+							botanaVars[7] = new Variable(geo.getKernel());
 							// B' - mirror of second focus point
-							botanaVars[8] = new Variable();
-							botanaVars[9] = new Variable();
+							botanaVars[8] = new Variable(geo.getKernel());
+							botanaVars[9] = new Variable(geo.getKernel());
 							// C' - mirror of point on ellipse
-							botanaVars[10] = new Variable();
-							botanaVars[11] = new Variable();
+							botanaVars[10] = new Variable(geo.getKernel());
+							botanaVars[11] = new Variable(geo.getKernel());
 						}
 
 						botanaPolynomials = new Polynomial[13];
@@ -882,22 +882,22 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[12];
 						// P' - mirror of second point at hyperbola
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// auxiliary variables
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
-						botanaVars[4] = new Variable();
-						botanaVars[5] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
+						botanaVars[4] = new Variable(geo.getKernel());
+						botanaVars[5] = new Variable(geo.getKernel());
 						// A' - mirror of first focus point
-						botanaVars[6] = new Variable();
-						botanaVars[7] = new Variable();
+						botanaVars[6] = new Variable(geo.getKernel());
+						botanaVars[7] = new Variable(geo.getKernel());
 						// B' - mirror of second focus point
-						botanaVars[8] = new Variable();
-						botanaVars[9] = new Variable();
+						botanaVars[8] = new Variable(geo.getKernel());
+						botanaVars[9] = new Variable(geo.getKernel());
 						// C' - mirror of second point at hyperbola
-						botanaVars[10] = new Variable();
-						botanaVars[11] = new Variable();
+						botanaVars[10] = new Variable(geo.getKernel());
+						botanaVars[11] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[13];
@@ -1000,8 +1000,8 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[8];
 						// B' - mirror of point
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// B - point to mirror
 						botanaVars[2] = vP[0];
 						botanaVars[3] = vP[1];
@@ -1063,11 +1063,11 @@ public class MirrorBotana {
 					if (botanaVars == null) {
 						botanaVars = new Variable[4];
 						// A' - center of mirrored circle
-						botanaVars[0] = new Variable();
-						botanaVars[1] = new Variable();
+						botanaVars[0] = new Variable(geo.getKernel());
+						botanaVars[1] = new Variable(geo.getKernel());
 						// B' - mirror of point of circle (B)
-						botanaVars[2] = new Variable();
-						botanaVars[3] = new Variable();
+						botanaVars[2] = new Variable(geo.getKernel());
+						botanaVars[3] = new Variable(geo.getKernel());
 					}
 
 					botanaPolynomials = new Polynomial[4];

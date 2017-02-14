@@ -207,7 +207,8 @@ public class ProverBotanasMethod {
 								 */
 								ret[i] = p
 										.multiply(
-												new Polynomial(new Variable()))
+												new Polynomial(new Variable(
+														geo1.getKernel())))
 										.subtract(
 												new Polynomial(BigInteger.ONE));
 								/*
@@ -1000,7 +1001,7 @@ public class ProverBotanasMethod {
 				Log.debug(
 						"Thesis reductio ad absurdum (denied statement), product of factors:");
 				Polynomial spoly = new Polynomial(BigInteger.ONE);
-				Variable z = new Variable();
+				Variable z = new Variable(geoStatement.getKernel());
 				/*
 				 * It is OK to use the same variable for each factor since it is
 				 * enough to find one counterexample only for one of the theses.

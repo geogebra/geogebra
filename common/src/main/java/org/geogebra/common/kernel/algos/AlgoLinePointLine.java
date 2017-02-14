@@ -231,8 +231,8 @@ public class AlgoLinePointLine extends AlgoElement
 			if (botanaVars == null) {
 				botanaVars = new Variable[4]; // storing 2 new variables, plus
 												// the coordinates of P
-				botanaVars[0] = new Variable(); // d1
-				botanaVars[1] = new Variable(); // d2
+				botanaVars[0] = new Variable(kernel); // d1
+				botanaVars[1] = new Variable(kernel); // d2
 				botanaVars[2] = vP[0];
 				botanaVars[3] = vP[1];
 			}

@@ -271,7 +271,7 @@ public class AlgoDependentNumber extends AlgoElement
 		if (botanaVars == null) {
 			botanaVars = new Variable[segVarPairs.size() + 1];
 			// variable for the expression
-			botanaVars[0] = new Variable();
+			botanaVars[0] = new Variable(kernel);
 			if (!segVarPairs.isEmpty()) {
 				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
 						.iterator();
@@ -416,7 +416,7 @@ public class AlgoDependentNumber extends AlgoElement
 			s = (GeoSegment) ev;
 		}
 		if (s != null) {
-			Variable currentVar = new Variable();
+			Variable currentVar = new Variable(kernel);
 			/*
 			 * This is voodoo magic here. We may need a different solution
 			 * rather than playing with the label. TODO.

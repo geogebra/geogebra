@@ -1785,7 +1785,7 @@ public class GeoNumeric extends GeoElement
 		if (algoParent == null) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[1];
-				botanaVars[0] = new Variable(true);
+				botanaVars[0] = new Variable(kernel, true);
 				Log.debug("Variable " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + ")");
 			}

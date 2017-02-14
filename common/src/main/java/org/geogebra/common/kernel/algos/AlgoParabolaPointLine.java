@@ -84,11 +84,11 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 			if (botanaVars == null) {
 				botanaVars = new Variable[10];
 				// P
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(kernel);
+				botanaVars[1] = new Variable(kernel);
 				// T
-				botanaVars[2] = new Variable();
-				botanaVars[3] = new Variable();
+				botanaVars[2] = new Variable(kernel);
+				botanaVars[3] = new Variable(kernel);
 				// A
 				botanaVars[4] = vl[0];
 				botanaVars[5] = vl[1];

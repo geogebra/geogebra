@@ -234,8 +234,8 @@ public class AlgoMidpointSegment extends AlgoElement
 
 		if (botanaVars == null) {
 			botanaVars = new Variable[2];
-			botanaVars[0] = new Variable();
-			botanaVars[1] = new Variable();
+			botanaVars[0] = new Variable(kernel);
+			botanaVars[1] = new Variable(kernel);
 		}
 
 		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q,

@@ -268,8 +268,8 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 			if (botanaVars == null) {
 				botanaVars = new Variable[4];
 				// M
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(kernel);
+				botanaVars[1] = new Variable(kernel);
 				// A
 				botanaVars[2] = vC[0];
 				botanaVars[3] = vC[1];

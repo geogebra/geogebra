@@ -1806,10 +1806,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (hasFixedSlope()) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[4];
-				botanaVars[0] = new Variable(true);
-				botanaVars[1] = new Variable(true);
-				botanaVars[2] = new Variable(true);
-				botanaVars[3] = new Variable(true);
+				botanaVars[0] = new Variable(kernel, true);
+				botanaVars[1] = new Variable(kernel, true);
+				botanaVars[2] = new Variable(kernel, true);
+				botanaVars[3] = new Variable(kernel, true);
 				// we substitute them in AlgoLocusEquation, not here
 			}
 			return botanaVars;

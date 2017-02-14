@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.prover.polynomial;
 
 import java.util.HashMap;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -12,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class Variable implements Comparable<Variable> {
-	private static int n = 0;
 	// private int nextAvailableNumber = 0;
 	// private HashMap<String,Integer> nameToId;
 	private HashMap<Integer, Variable> twins = new HashMap<Integer, Variable>();
@@ -25,12 +25,11 @@ public class Variable implements Comparable<Variable> {
 	/**
 	 * Creates a new variable
 	 */
-	public Variable() {
-		n++;
+	public Variable(Kernel kernel) {
 		// nextAvailableNumber++;
 		// name = "v".concat(Integer.toString(nextAvailableNumber));
 		// nameToId.put(name,n);
-		id = n;
+		id = kernel.getConstruction().getNextVariableID();
 	}
 
 	/**
@@ -39,8 +38,8 @@ public class Variable implements Comparable<Variable> {
 	 * @param free
 	 *            true if the Variable is a free variable
 	 */
-	public Variable(boolean free) {
-		this();
+	public Variable(Kernel kernel, boolean free) {
+		this(kernel);
 		isFree = free;
 	}
 
@@ -51,7 +50,7 @@ public class Variable implements Comparable<Variable> {
 	 *            the GeoElement which defines the variable
 	 */
 	public Variable(GeoElement parent) {
-		this();
+		this(parent.getKernel());
 		this.parent = parent;
 	}
 

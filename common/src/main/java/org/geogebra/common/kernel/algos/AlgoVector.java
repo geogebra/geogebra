@@ -286,8 +286,8 @@ public class AlgoVector extends AlgoElement
 			if (botanaVars == null) {
 				botanaVars = new Variable[6];
 				// vector u
-				botanaVars[0] = new Variable();
-				botanaVars[1] = new Variable();
+				botanaVars[0] = new Variable(kernel);
+				botanaVars[1] = new Variable(kernel);
 				// P
 				botanaVars[2] = vP[0];
 				botanaVars[3] = vP[1];

@@ -345,11 +345,11 @@ public class AlgoAreCongruent extends AlgoElement
 				// auxiliary points
 				Variable[] auxVars = new Variable[4];
 				// P - first auxiliary point
-				auxVars[0] = new Variable();
-				auxVars[1] = new Variable();
+				auxVars[0] = new Variable(kernel);
+				auxVars[1] = new Variable(kernel);
 				// P' - second auxiliary point
-				auxVars[2] = new Variable();
-				auxVars[3] = new Variable();
+				auxVars[2] = new Variable(kernel);
+				auxVars[3] = new Variable(kernel);
 
 				// We want to prove, that the distance between foci points and
 				// directrixes are equal
