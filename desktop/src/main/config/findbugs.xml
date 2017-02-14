@@ -32,5 +32,17 @@
      <Match>
       <Package name="org.geogebra.desktop.gui.editor" />
     </Match>
+     <Match>
+      <Class name="~org.geogebra.desktop.SplashWindow.*" />
+      <Or>
+	     <Bug pattern="MWN_MISMATCHED_NOTIFY" />	
+		<Bug pattern="NN_NAKED_NOTIFY" />
+		<Bug pattern="IS2_INCONSISTENT_SYNC" />		
+      </Or>
+    </Match>
+    <Match>
+      <Class name="~org.geogebra.desktop.gui.util.OOMLConverter" />
+	   <Bug pattern="DMI_HARDCODED_ABSOLUTE_FILENAME" />	
+    </Match>
      
 </FindBugsFilter>

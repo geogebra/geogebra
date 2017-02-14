@@ -27,6 +27,7 @@ import org.geogebra.desktop.gui.app.MyFileFilter;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
+import org.geogebra.desktop.gui.util.OOMLConverter;
 import org.geogebra.desktop.util.UtilD;
 
 /**
@@ -254,13 +255,12 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			} else {
 				blockEnd = html.indexOf("</m:oMathPara>") + 14;
 			}
-			app.getGgbApi().evalCommand(
+			String mathml = OOMLConverter
+					.oomlToMathml(html.substring(blockBegin, blockEnd)
+							.replace('\n', ' ').replace('\r', ' '));
+			app.getGgbApi().evalCommand(mathml);	
 
-					((GuiManagerD) app.getGuiManager())
-							.oomlToMathml(html.substring(blockBegin, blockEnd)
-									.replace('\n', ' ').replace('\r', ' ')));
-
-		}
+			}
 	}
 
 	@Override
