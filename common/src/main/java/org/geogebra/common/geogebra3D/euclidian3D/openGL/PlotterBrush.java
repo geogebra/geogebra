@@ -108,10 +108,13 @@ public class PlotterBrush implements PathPlotter {
 	protected final static int LATITUDES = 8;
 
 	/**
-	 * pre-calculated cosinus and sinus
+	 * pre-calculated cosinus
 	 */
-	final protected static double[] COSINUS = new double[LATITUDES + 1];
-	final protected static double[] SINUS = new double[LATITUDES + 1];
+	final static double[] COSINUS = new double[LATITUDES + 1];
+	/**
+	 * pre-calculated sinus
+	 */
+	final static double[] SINUS = new double[LATITUDES + 1];
 
 	static {
 		for (int i = 0; i <= LATITUDES; i++) {

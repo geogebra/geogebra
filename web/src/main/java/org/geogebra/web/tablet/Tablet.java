@@ -29,10 +29,6 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
 /**
- * @author apa
- *
- */
-/**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Tablet implements EntryPoint {

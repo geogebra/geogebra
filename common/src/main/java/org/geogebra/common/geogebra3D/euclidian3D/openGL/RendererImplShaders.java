@@ -323,6 +323,42 @@ public abstract class RendererImplShaders extends RendererImpl {
 		return texturesEnabled;
 	}
 
+	/**
+	 * dash values for shaders
+	 */
+	public static final float[][] DASH_SHADERS_VALUES = {
+			// coeff, a, b, c
+			// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
+			// if (x > a || (x > b && x <= c)) then discard
+			{ 2.0f, 0.5f, -1f, -1f }, // {true, false, true, false}, //
+										// DASH_SHORT
+			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
+										// DASH_LONG_HIDDEN
+			{ 4.0f, 0.5f, -1f, -1f }, // {true, false, true, false, true, false,
+										// true, false}, // DASH_DOTTED
+			{ 2.0f, 0.25f, -1f, -1f }, // {true, false, false, false, true,
+										// false, false, false}, //
+										// DASH_DOTTED_HIDDEN
+			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
+										// DASH_NONE_HIDDEN
+			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
+										// DASH_SHORT_HIDDEN
+			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
+										// DASH_LONG
+			{ 1.0f, 12f / 16f, 7f / 16f, 11f / 16f }, // {true,true,true,true,
+														// true,true,true,false,
+														// false,false,false,true,
+														// false,false,false,false},
+														// // DASH_DOTTED_DASHED
+			{ 1.0f, 12f / 16f, 3f / 16f, 11f / 16f }, // {false,false,true,true,
+														// true,false,false,false,
+														// false,false,false,true,
+														// false,false,false,false}
+														// //
+														// DASH_DOTTED_DASHED_HIDDEN
+
+	};
+
 	@Override
 	public void setDashTexture(int index) {
 		if (currentDash == index) {
@@ -336,7 +372,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 			enableTextures();
 			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
 			glUniform1fv(dashValuesLocation, 4,
-					Textures.DASH_SHADERS_VALUES[index - 1]);
+					DASH_SHADERS_VALUES[index - 1]);
 		}
 	}
 
