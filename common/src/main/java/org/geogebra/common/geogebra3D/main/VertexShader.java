@@ -23,6 +23,11 @@ public class VertexShader {
 					+ "uniform int	labelRendering;\n"
 					+ "uniform vec3 labelOrigin;\n" + "uniform int	layer;\n";
 
+	final private static String layers = "  if (layer != 0){ // set layer a z-shift \n"
+			+ "      float fLayer = float(layer);\n"
+			+ "      gl_Position.z = gl_Position.z - 0.0004 * fLayer; \n"
+			+ "  } \n";
+
 	final private static String shiny =
 			// in -- uniform
 			inUniform
@@ -54,10 +59,7 @@ public class VertexShader {
 			+ "  	position = attribute_Position;\n"
 
 			+ "  }\n" + "  gl_Position = matrix * vec4(position, 1.0); \n"
-					+ "  if (layer != 0){ // set layer a z-shift \n"
-					+ "      float fLayer = float(layer);\n"
-					+ "      gl_Position.z = gl_Position.z - 0.0004 * fLayer; \n"
-					+ "  } \n"
+					+ layers
 			+ "  if (labelRendering == 1){ // use special origin for labels\n"
 			+ "      realWorldCoords = labelOrigin;\n"
 
@@ -119,7 +121,7 @@ public class VertexShader {
 
 			+ "}";
 
-	private static String regular = inUniform
+	final private static String regular = inUniform
 
 			// in -- attributes
 
@@ -148,6 +150,7 @@ public class VertexShader {
 			+ "  	position = attribute_Position;\n"
 
 			+ "  }\n" + "  gl_Position = matrix * vec4(position, 1.0); \n"
+			+ layers
 			+ "  if (labelRendering == 1){ // use special origin for labels\n"
 			+ "      realWorldCoords = labelOrigin;\n"
 
