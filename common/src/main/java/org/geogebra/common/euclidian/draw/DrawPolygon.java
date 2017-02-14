@@ -957,6 +957,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		fixCornerCoords(hitHandler);
 
 		int newWidth = (int) (event.getX() - fixCornerX);
+		int height = (int) (event.getY() - fixCornerY);
 		int newHeight = (int) (newWidth * oldHeight / oldWidth);
 
 		double ratioWidth = newWidth / oldWidth;
@@ -969,18 +970,32 @@ public class DrawPolygon extends Drawable implements Previewable {
 			i--;
 			it.currentSegment(currCoords);
 			// bottom or top right corner was moved
-			if (newHeight >= 0) {
-				pointsX[i] = fixCornerX
+			if (height >= 0) {
+				if (newWidth >= 0) {
+					pointsX[i] = fixCornerX
 						+ (currCoords[0] - fixCornerX) * ratioWidth;
-				pointsY[i] = fixCornerY
+					pointsY[i] = fixCornerY
 						+ (currCoords[1] - fixCornerY) * ratioHeight;
+				} else {
+					pointsX[i] = fixCornerX
+							- (currCoords[0] - fixCornerX) * (ratioWidth);
+					pointsY[i] = fixCornerY
+							- (currCoords[1] - fixCornerY) * (ratioHeight);
+				}
 			}
 			// bottom or top left corner was moved
 			else {
-				pointsX[i] = fixCornerX
-						- (currCoords[0] - fixCornerX) * ratioWidth;
-				pointsY[i] = fixCornerY
-						- (currCoords[1] - fixCornerY) * ratioHeight;
+				if (newWidth >= 0) {
+					pointsX[i] = fixCornerX
+							- (currCoords[0] - fixCornerX) * (ratioWidth);
+					pointsY[i] = fixCornerY
+							- (currCoords[1] - fixCornerY) * (ratioHeight);
+				} else {
+					pointsX[i] = fixCornerX
+							+ (currCoords[0] - fixCornerX) * ratioWidth;
+					pointsY[i] = fixCornerY
+							+ (currCoords[1] - fixCornerY) * ratioHeight;
+				}
 			}
 			it.next();
 		}
