@@ -218,7 +218,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 			}
 
 		};
-		ErrorHandler err = item.getErrorHandler(valid);
+		// keepFocus==false: this was called from blur, don't use modal slider
+		// dialog
+		ErrorHandler err = item.getErrorHandler(valid && keepFocus);
 		err.resetError();
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,

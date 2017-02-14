@@ -17,7 +17,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
@@ -76,8 +75,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 	private void createColorBtn() {
 
-		final GDimensionW colorIconSize = new GDimensionW(20, ICON_HEIGHT);
-		btnColor = new ColorPopupMenuButton(app, colorIconSize,
+		btnColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 			@Override
@@ -138,6 +136,10 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		btnColor.setEnableTable(true);
 	}
 
+	/**
+	 * @param selectedItem
+	 *            selected element
+	 */
 	public void update(GeoElement selectedItem) {
 
 		this.selectedEntry = selectedItem;

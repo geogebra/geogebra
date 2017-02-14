@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -90,9 +89,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnUseAsText.addClickHandler(this);
 		btnUseAsText.addStyleName("btnUseAsText");
 
-		final GDimensionW textColorIconSize = new GDimensionW(20, ICON_HEIGHT);
-		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
-		        ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+		btnTextColor = new ColorPopupMenuButton(app,
+				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			@Override
 			public void update(Object[] geos) {

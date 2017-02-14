@@ -27,7 +27,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -773,8 +772,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createColorBtn() {
 
-		final GDimensionW colorIconSize = new GDimensionW(20, ICON_HEIGHT);
-		btnColor = new ColorPopupMenuButton(app, colorIconSize,
+		btnColor = new ColorPopupMenuButton(app,
 		        ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 			@Override
@@ -860,9 +858,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createBgColorBtn() {
 
-		final GDimensionW bgColorIconSize = new GDimensionW(20, ICON_HEIGHT);
-
-		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
+		btnBgColor = new ColorPopupMenuButton(app,
 		        ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
 
 			@Override
@@ -926,9 +922,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextColorBtn() {
-		final GDimensionW textColorIconSize = new GDimensionW(24, ICON_HEIGHT);
 
-		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
+		btnTextColor = new ColorPopupMenuButton(app,
 		        ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			private GColor geoColor;

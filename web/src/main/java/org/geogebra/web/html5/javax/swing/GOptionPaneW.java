@@ -7,6 +7,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GDialogBox;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,7 +32,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * by the JOptionPane class.
  * 
  */
-public class GOptionPaneW extends GDialogBox implements ClickHandler {
+public class GOptionPaneW extends GDialogBox
+		implements ClickHandler, HasKeyboardPopup {
 
 	private App app;
 	private String title, message, initialSelectionValue;

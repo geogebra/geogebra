@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
@@ -87,10 +86,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(),
 		        this);
 
-		final GDimensionW bgColorIconSize = new GDimensionW(ICON_SIZE,
-		        ICON_SIZE);
-
-		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
+		btnBgColor = new ColorPopupMenuButton(app,
 		        ColorPopupMenuButton.COLORSET_BGCOLOR, false);
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(false);

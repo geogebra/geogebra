@@ -413,7 +413,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		}
 
 		final ImageOrText[] iconArray = new ImageOrText[iconList.size()];
-		iconArray[0] = GeoGebraIconW.createNullSymbolIcon(24, 24);
+		iconArray[0] = GeoGebraIconW.createNullSymbolIcon();
 		for (int i = 1; i < iconArray.length; i++) {
 			iconArray[i] = new ImageOrText(iconList.get(i));
 		}

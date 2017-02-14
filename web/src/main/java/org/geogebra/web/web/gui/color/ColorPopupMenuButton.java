@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
@@ -15,10 +14,15 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
+/**
+ * Color popup for stylebar
+ *
+ */
 public class ColorPopupMenuButton extends PopupMenuButtonW
 		implements ClickHandler {
-
+	/** foreground */
 	public static final int COLORSET_DEFAULT = 0;
+	/** background */
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;
 	private GColor[] colorSet;
@@ -27,24 +31,19 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 
 	private boolean enableTable;
 	private boolean hasSlider;
-	private GDimensionW iconSize;
 
 	/**
 	 * @param app
 	 *            {@link AppW}
-	 * @param iconSize
-	 *            {@link GDimensionW}
 	 * @param colorSetType
 	 *            {@code int}
 	 * @param hasSlider
 	 *            {@code boolean}
 	 */
-	public ColorPopupMenuButton(AppW app, GDimensionW iconSize,
-			int colorSetType, boolean hasSlider) {
+	public ColorPopupMenuButton(AppW app, int colorSetType, boolean hasSlider) {
 
 		super(app, createDummyIcons(10), -1, 5, SelectionTable.MODE_ICON);
 		this.app = app;
-		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
 		colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
@@ -77,9 +76,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		showSlider(hasSlider);
 	}
 
+	/**
+	 * Update the table
+	 */
 	protected void updateColorTable() {
 		getMyTable().populateModel(getColorSwatchIcons(colorSet,
-				getSliderValue() / 100f, iconSize));
+				getSliderValue() / 100f));
 	}
 
 	@Override
@@ -130,21 +132,26 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 	}
 
+	/**
+	 * @param alpha
+	 *            opacity
+	 * @param gc
+	 *            base color
+	 */
 	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
 			this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
 			this.getElement().getStyle().setBorderColor(gc.toString());
 		} else {
-			this.setIcon(GeoGebraIconW.createNullSymbolIcon(iconSize.getWidth(),
-					iconSize.getHeight()));
+			this.setIcon(GeoGebraIconW.createNullSymbolIcon());
 			this.getElement().getStyle()
 					.setBorderColor(GColor.BLACK.toString());
 		}
 	}
 
 	private static ImageOrText[] getColorSwatchIcons(GColor[] colorArray,
-			double alpha, GDimensionW iconSize) {
+			double alpha) {
 		ImageOrText[] a = new ImageOrText[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {
@@ -186,10 +193,17 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 	}
 
+	/**
+	 * @return whether table is enabled (otherwise just slider)
+	 */
 	public boolean isEnableTable() {
 		return enableTable;
 	}
 
+	/**
+	 * @param enableTable
+	 *            whether table is enabled (otherwise just slider)
+	 */
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);

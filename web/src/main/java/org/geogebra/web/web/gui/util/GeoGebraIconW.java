@@ -4,12 +4,10 @@ package org.geogebra.web.web.gui.util;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.resources.client.ImageResource;
 
 public class GeoGebraIconW extends BasicIcons{
@@ -115,24 +113,9 @@ public class GeoGebraIconW extends BasicIcons{
 	}
 	
 	/**
-	 * @param width
-	 *            {@code int}
-	 * @param height
-	 *            {@code int}
-	 * @return {@link ImageOrText}
+	 * @return {@link ImageOrText} Empty icon
 	 */
-	public static ImageOrText createNullSymbolIcon(int width, int height){
-
-		Canvas c = getTmpCanvas(width, height);
-
-		GGraphics2DW g2 = new GGraphics2DW(c);
-
-		g2.setPaint(GColor.GRAY);
-		// draw a rectangle with an x inside
-		g2.drawRect(3, 3, width-6, height-6);
-		int k = 7;
-		g2.drawLine(k, k, width-k, height-k);
-		g2.drawLine(k, height-k, width-k, k );
+	public static ImageOrText createNullSymbolIcon() {
 		return new ImageOrText();
 	}
 
