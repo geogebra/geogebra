@@ -38,7 +38,7 @@ public abstract class Renderer {
 		SHADER, GL2, NOT_SPECIFIED
 	}
 
-	protected RendererType type;
+	private RendererType type;
 
 	public static final int MOUSE_PICK_DEPTH = 10;
 
@@ -336,8 +336,8 @@ public abstract class Renderer {
 
 	public boolean exportImageForThumbnail = false;
 
-	protected boolean exportImageEquirectangular = false;
-	protected double exportImageEquirectangularAngle = 0;
+	private boolean exportImageEquirectangular = false;
+	private double exportImageEquirectangularAngle = 0;
 
 	/** max latitude viewed -- must be factor of 9 */
 	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
@@ -1821,14 +1821,14 @@ public abstract class Renderer {
 	public double obliqueY;
 	private Coords obliqueOrthoDirection; // direction "orthogonal" to the
 											// screen (i.e. not visible)
-	public ExportType exportType = ExportType.NONE;
-	public int export_n;
-	public double export_val;
-	public double export_min;
-	public double export_max;
-	public double export_step;
-	public int export_i;
-	public AnimationExportSlider export_num;
+	private ExportType exportType = ExportType.NONE;
+	private int export_n;
+	private double export_val;
+	private double export_min;
+	private double export_max;
+	private double export_step;
+	private int export_i;
+	private AnimationExportSlider export_num;
 
 	public void updateProjectionObliqueValues() {
 		double angle = Math.toRadians(view3D.getProjectionObliqueAngle());
@@ -2151,6 +2151,66 @@ public abstract class Renderer {
 	final public void setNeedExportImage(boolean flag) {
 		// Log.printStacktrace("" + flag);
 		needExportImage = flag;
+	}
+
+	protected ExportType getExportType() {
+		return exportType;
+	}
+
+	protected AnimationExportSlider getExportNum() {
+		return export_num;
+	}
+
+	protected double getExportVal() {
+		return export_val;
+	}
+
+	protected double getExportMax() {
+		return export_max;
+	}
+
+	protected double getExportMin() {
+		return export_min;
+	}
+
+	protected int getExportI() {
+		return export_i;
+	}
+
+	protected double getExportN() {
+		return export_n;
+	}
+
+	protected double getExportStep() {
+		return export_step;
+	}
+
+	protected RendererType getType() {
+		return type;
+	}
+
+	protected void setType(RendererType t) {
+		type = t;
+	}
+
+	protected void setExportVal(ExportType t) {
+		exportType = t;
+	}
+
+	protected void setExportStep(double step) {
+		export_step = step;
+	}
+
+	protected void setExportVal(double val) {
+		export_val = val;
+	}
+
+	protected void setExportI(int i) {
+		export_i = i;
+	}
+
+	protected void setExportType(ExportType type) {
+		exportType = type;
 	}
 
 }

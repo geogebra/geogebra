@@ -114,7 +114,7 @@ public abstract class Prover {
 	 * Maximal time to be spent in the prover subsystem
 	 */
 	/* input */
-	protected int timeout = 5;
+	private int timeout = 5;
 	private ProverEngine engine = ProverEngine.AUTO;
 
 	private Construction construction;
@@ -436,6 +436,16 @@ public abstract class Prover {
 	 */
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
+	}
+
+	/**
+	 * Sets the maximal time spent in the Prover for the given proof.
+	 * 
+	 * @param timeout
+	 *            The timeout in seconds
+	 */
+	public int getTimeout() {
+		return timeout;
 	}
 
 	/**

@@ -59,7 +59,8 @@ public class ProverD extends Prover {
 			} catch (InterruptedException e) {
 				return;
 			}
-			if (((System.currentTimeMillis() - startTime) > timeout * 1000L)
+			if (((System.currentTimeMillis() - startTime) > getTimeout()
+					* 1000L)
 					&& t.isAlive()) {
 				Log.debug("Prover timeout");
 				t.interrupt();

@@ -146,7 +146,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 		// this is abstract method: don't create old GL / shaders here
 
-		if (type == RendererType.NOT_SPECIFIED) {
+		if (getType() == RendererType.NOT_SPECIFIED) {
 			if (isGL2ES2) {
 				try {
 					// retrieving version, which should be first char, e.g.
@@ -158,10 +158,10 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 					if (versionInt < 3) {
 						// GL 1.x: can't use shaders
 						// GL 2.x so GLSL < 1.3: not supported
-						type = RendererType.GL2;
+						setType(RendererType.GL2);
 					} else if (versionInt >= 4) {
 						// GL 4.x or above: can use shaders (GLSL >= 4.0)
-						type = RendererType.SHADER;
+						setType(RendererType.SHADER);
 					} else {
 						// GL 3.x so GLSL < 1.3: not supported
 						if (version.length > 1) {
@@ -169,28 +169,28 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 							Log.debug("==== GL minor version is " + versionInt);
 							if (versionInt < 3) {
 								// GL 3.0 -- 3.2 so GLSL < 3.3: not supported
-								type = RendererType.GL2;
+								setType(RendererType.GL2);
 							} else {
 								// GL 3.3: can use shaders (GLSL = 3.3)
-								type = RendererType.SHADER;
+								setType(RendererType.SHADER);
 							}
 						} else {
 							// probably GL 3.0 so GLSL = 1.3: not supported
-							type = RendererType.GL2;
+							setType(RendererType.GL2);
 						}
 					}
 				} catch (Exception e) {
 					// exception: don't use shaders
-					type = RendererType.GL2;
+					setType(RendererType.GL2);
 				}
 			} else {
 				// not GL2ES2 capable
 				Log.debug("==== not GL2ES2 capable");
-				type = RendererType.GL2;
+				setType(RendererType.GL2);
 			}
 		}
 
-		if (type == RendererType.SHADER) {
+		if (getType() == RendererType.SHADER) {
 			setRendererImpl(new RendererImplShadersD(this, view3D, jogl));
 		} else {
 			setRendererImpl(new RendererImplGL2(this, view3D, jogl));
@@ -260,7 +260,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		drawScene();
 
 		if (((EuclidianView3DD) view3D).hasPrinter()) {
-			if (type == RendererType.SHADER) {
+			if (getType() == RendererType.SHADER) {
 				((EuclidianView3DD) view3D).exportToPrinter3D();
 			}
 		}
@@ -269,9 +269,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 	@Override
 	protected final void exportImage() {
 
-		switch (exportType) {
+		switch (getExportType()) {
 		case ANIMATEDGIF:
-			Log.debug("Exporting frame: " + export_i);
+			Log.debug("Exporting frame: " + getExportI());
 
 			setExportImage();
 			if (bi == null) {
@@ -280,31 +280,31 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 				gifEncoder.addFrame(bi);
 			}
 
-			export_val += export_step;
+			setExportVal(getExportVal() + getExportStep());
 
-			if (export_val > export_max + 0.00000001
-					|| export_val < export_min - 0.00000001) {
-				export_val -= 2 * export_step;
-				export_step *= -1;
+			if (getExportVal() > getExportMax() + 0.00000001
+					|| getExportVal() < getExportMin() - 0.00000001) {
+				setExportVal(getExportVal() - 2 * getExportStep());
+				setExportStep(getExportStep() * -1);
 			}
 
-			export_i++;
+			setExportI(getExportI() + 1);
 
-			if (export_i >= export_n) {
-				exportType = ExportType.NONE;
+			if (getExportI() >= getExportN()) {
+				setExportType(ExportType.NONE);
 				gifEncoder.finish();
 
 				Log.debug("GIF export finished");
 				getRendererImpl().endNeedExportImage();
 
 			} else {
-				export_num.setValue(export_val);
-				export_num.updateRepaint();
+				getExportNum().setValue(getExportVal());
+				getExportNum().updateRepaint();
 			}
 			break;
 
 		case CLIPBOARD:
-			exportType = ExportType.NONE;
+			setExportType(ExportType.NONE);
 			Log.debug("Exporting to clipboard");
 
 			setExportImage();
@@ -320,7 +320,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
-			exportType = ExportType.NONE;
+			setExportType(ExportType.NONE);
 			Log.debug("Uploading to GeoGebraTube");
 
 			setExportImage();
@@ -654,7 +654,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	@Override
 	public void updateProjectionObliqueValues() {
-		if (type == RendererType.GL2) {
+		if (getType() == RendererType.GL2) {
 			updateOrthoValues();
 		}
 		super.updateProjectionObliqueValues();
