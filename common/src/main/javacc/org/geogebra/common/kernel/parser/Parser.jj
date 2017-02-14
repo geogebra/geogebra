@@ -853,13 +853,19 @@ ValidExpression expressionOrEquation():
 {
   	ExpressionNode en;
     ExpressionNode rhs = null;
+    ExpressionNode rrhs = null;
 }
 { 
      en = expressionnode()
       (  <EQUAL> rhs = expressionnode()
+        (  <EQUAL> rrhs = expressionnode()
             
+      	)?    
       )?
-  {                
+  {
+    if(rrhs!=null)    {
+      return kernel.getAlgebraProcessor().intersectCommand(new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs));    }
+            
     return  rhs == null ? en : new Equation(kernel, en, rhs);           
   }
 }

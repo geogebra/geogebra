@@ -3067,6 +3067,18 @@ public class AlgebraProcessor {
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
+
+		return processCommand(intersectCommand(x, y), new EvalInfo(true));
+	}
+
+	/**
+	 * @param x
+	 *            first equation
+	 * @param y
+	 *            second equation
+	 * @return intersection line as command
+	 */
+	public Command intersectCommand(ExpressionValue x, ExpressionValue y) {
 		if (y.unwrap() instanceof Equation && x.unwrap() instanceof Equation) {
 			boolean yHasZ = ((Equation) y.unwrap())
 					.containsFreeFunctionVariable("z");
@@ -3085,7 +3097,7 @@ public class AlgebraProcessor {
 		Command inter = new Command(kernel, "Intersect", false);
 		inter.addArgument(x.wrap());
 		inter.addArgument(y.wrap());
-		return processCommand(inter, new EvalInfo(true));
+		return inter;
 	}
 
 	/**
