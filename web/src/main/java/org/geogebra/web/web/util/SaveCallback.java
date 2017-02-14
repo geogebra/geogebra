@@ -40,7 +40,7 @@ public class SaveCallback {
 			app.setSaved();
 			String msg = state == SaveState.ERROR
 					? (app.getLocalization().getError("SaveAccountFailed")
-							+ "<br/>"
+							+ "\n"
 							+ app.getLocalization()
 									.getError("SavedLocalCopySuccessfully"))
 					: loc.getMenu("SavedSuccessfully");
@@ -98,7 +98,7 @@ public class SaveCallback {
 		if (state == SaveState.OK) {
 			app.getGgbApi().showTooltip(
 					app.getLocalization().getError("SavedToAccountSuccessfully")
-							+ "<br/>" +
+							+ "\n" +
 					app.getLocalization().getError("SaveLocalCopyFailed"));
 		} else {
 			app.showError(app.getLocalization().getError("SaveFileFailed"));

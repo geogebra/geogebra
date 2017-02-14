@@ -210,12 +210,6 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	@Override
-	public void debug(String string) {
-		System.out.println(string);
-
-	}
-
-	@Override
 	public void copy() {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();

@@ -48,6 +48,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -72,6 +73,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	private boolean selectionDrag;
 
 	private MathFieldListener listener;
+
+	private boolean enterPressed;
+
+	private Runnable enterCallback;
 
     public MathFieldInternal(MathField mathField) {
         this.mathField = mathField;
@@ -163,6 +168,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public boolean onKeyPressed(KeyEvent keyEvent) {
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (listener != null) {
+				this.enterPressed = true;
 				listener.onEnter();
 				return true;
 			}
@@ -196,6 +202,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
     public boolean onKeyReleased(KeyEvent keyEvent) {
+		enterPressed = false;
+		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
+			FactoryProvider.getInstance()
+					.debug(keyEvent.getKeyCode() + ":" + enterCallback);
+			if (enterCallback != null) {
+				enterCallback.run();
+				enterCallback = null;
+				return true;
+			}
+		}
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
 				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
 		if (alt) {
@@ -482,15 +498,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	}
 
-
-
-
-
-	public void debug(String string) {
-		mathField.debug(string);
-
-	}
-
 	public String copy() {
 		if(listener!=null){
 			getInputController();
@@ -514,7 +521,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 		reverse(path);
 		for (int i : path) {
-			debug("" + i);
+			FactoryProvider.getInstance().debug("" + i);
 		}
 		if (listener != null) {
 			listener.onInsertString();
@@ -534,6 +541,15 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		if (listener != null) {
 			listener.onKeyTyped();
 		}
+	}
+
+	public void checkEnterReleased(Runnable r) {
+		if (this.enterPressed) {
+			this.enterCallback = r;
+		} else {
+			r.run();
+		}
+
 	}
 
 }

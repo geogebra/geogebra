@@ -1659,6 +1659,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public boolean checkAutoCreateSliders(final String s,
 			final AsyncOperation<String[]> callback) {
+		Log.printStacktrace("SLIDERS");
 		if (!((AppW) app).enableGraphing()) {
 			callback.callback(null);
 			return false;

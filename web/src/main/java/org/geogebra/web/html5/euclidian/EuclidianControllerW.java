@@ -112,11 +112,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void setView(EuclidianView view) {
-		this.view = view;
-	}
-
-	@Override
 	public void onGestureChange(GestureChangeEvent event) {
 		mtg.onGestureChange(event);
 	}

@@ -20,7 +20,6 @@ import java.awt.event.MouseWheelEvent;
 import javax.swing.ToolTipManager;
 
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
@@ -55,11 +54,6 @@ public class EuclidianControllerD extends EuclidianController
 	@Override
 	public AppD getApplication() {
 		return (AppD) app;
-	}
-
-	@Override
-	public void setView(EuclidianView view) {
-		this.view = view;
 	}
 
 	@Override

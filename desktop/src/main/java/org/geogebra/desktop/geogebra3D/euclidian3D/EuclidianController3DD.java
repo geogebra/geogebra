@@ -62,7 +62,7 @@ public class EuclidianController3DD extends EuclidianController3D
 
 	@Override
 	public void setView(EuclidianView view) {
-		this.view = view;
+		super.setView(view);
 		setView3D(view);
 	}
 

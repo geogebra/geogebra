@@ -10,6 +10,7 @@ import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -502,6 +503,35 @@ public class LatexTreeItem extends RadioTreeItem {
 	@Override
 	public void preventBlur() {
 		((LatexTreeItemController) getController()).preventBlur();
+
+	}
+
+	@Override
+	protected boolean showSliderDialog(final String string,
+			final AsyncOperation<String[]> callback) {
+		Runnable r = new Runnable() {
+
+			@Override
+			public void run() {
+				app.getGuiManager().checkAutoCreateSliders(string,
+						new AsyncOperation<String[]>() {
+
+							@Override
+							public void callback(String[] obj) {
+								callback.callback(obj);
+								mf.setOnBlur(getLatexController());
+							}
+						});
+
+			}
+		};
+		if (mf != null) {
+			mf.setOnBlur(null);
+			mf.checkEnterReleased(r);
+		} else {
+			r.run();
+		}
+		return false;
 
 	}
 

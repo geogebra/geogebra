@@ -1263,8 +1263,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				if (valid) {
-					return app.getGuiManager().checkAutoCreateSliders(string,
-							callback);
+					return showSliderDialog(string, callback);
 				} else if (app.getLocalization()
 						.getReverseCommand(getCurrentCommand()) != null) {
 					setShowInputHelpPanel(true);
@@ -1295,6 +1294,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			
 		};
+	}
+
+	protected boolean showSliderDialog(String string,
+			AsyncOperation<String[]> callback) {
+		return app.getGuiManager().checkAutoCreateSliders(string, callback);
+
 	}
 
 	protected void saveError() {

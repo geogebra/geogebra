@@ -324,13 +324,6 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-
-	@Override
-	public native void debug(String string) /*-{
-		$wnd.console.log(string);
-
-	}-*/;
-
 	protected int getModifiers(
 			com.google.gwt.event.dom.client.KeyEvent<?> event) {
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
@@ -559,7 +552,6 @@ public class MathFieldW implements MathField, IsWidget {
 			clip = new SimplePanel();
 			Element el = getHiddenTextAreaNative(counter++,
 					clip.getElement());
-			mathFieldInternal.debug("GWT connect");
 			wrap = TextArea.wrap(el);
 
 			wrap.addFocusHandler(new FocusHandler() {
@@ -683,6 +675,16 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void insertFunction(String text) {
 		mathFieldInternal.insertFunction(text);
+
+	}
+
+	public void checkEnterReleased(Runnable r) {
+		mathFieldInternal.checkEnterReleased(r);
+
+	}
+
+	public void blur() {
+		this.wrap.setFocus(false);
 
 	}
 

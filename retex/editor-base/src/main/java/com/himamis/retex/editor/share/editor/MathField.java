@@ -78,7 +78,5 @@ public interface MathField {
 
 	void copy();
 
-	void debug(String string);
-
 	boolean useCustomPaste();
 }

@@ -206,7 +206,7 @@ public abstract class EuclidianController {
 	public boolean draggingBeyondThreshold = false;
 	public Kernel kernel;
 	public GPoint mouseLoc;
-	public EuclidianView view;
+	private EuclidianView view;
 	public EuclidianPen pen;
 	public double oldDistance;
 	protected double xTemp;
@@ -11605,7 +11605,9 @@ public abstract class EuclidianController {
 	 * @param view
 	 *            view
 	 */
-	public abstract void setView(EuclidianView view);
+	public void setView(EuclidianView view) {
+		this.view = view;
+	}
 
 	public GPoint getMovePosition() {
 		return movePosition;
@@ -11651,11 +11653,11 @@ public abstract class EuclidianController {
 		}
 
 		public void run() {
-			for (int i = 1; i < view.getHits().size(); i++) {
-				if (!isValid(view.getHits().get(i))) {
+			for (int i = 1; i < getView().getHits().size(); i++) {
+				if (!isValid(getView().getHits().get(i))) {
 					return;
 				}
-				view.getHits().remove(i);
+				getView().getHits().remove(i);
 			}
 		}
 
