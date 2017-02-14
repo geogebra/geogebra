@@ -1023,10 +1023,7 @@ public abstract class App implements UpdateSelection {
 		return scriptManager;
 	}
 
-	protected ScriptManager newScriptManager() {
-		// TODO Implement in iOS
-		return null;
-	}
+	abstract protected ScriptManager newScriptManager();
 
 	/**
 	 * Get the event dispatcher, which dispatches events objects that manage

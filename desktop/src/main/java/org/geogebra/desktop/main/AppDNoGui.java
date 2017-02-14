@@ -168,11 +168,8 @@ public class AppDNoGui extends App {
 	}
 
 	@Override
-	public ScriptManager getScriptManager() {
-		if (scriptManager == null) {
-			scriptManager = new ScriptManagerD(this);
-		}
-		return scriptManager;
+	protected ScriptManager newScriptManager() {
+		return new ScriptManagerD(this);
 	}
 
 	@Override
@@ -729,4 +726,5 @@ public class AppDNoGui extends App {
 		SwingUtilities.invokeLater(runnable);
 
 	}
+
 }
