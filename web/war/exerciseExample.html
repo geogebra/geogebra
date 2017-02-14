@@ -174,7 +174,7 @@ function check() {
     // if a part of the result has a fraction of 1 ignore the other results
     var singleCorrectIgnoreOthers = false;
     for (key in exresult) {
-        if (0.999 < exresult[key].fraction) {
+        if (0.999 &lt; exresult[key].fraction) {
             singleCorrectIgnoreOthers = true;
             var feedback = document.createElement("p");
             if (exresult[key].hint != "") {

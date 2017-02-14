@@ -506,13 +506,10 @@ public class DataDisplayPanelW extends FlowPanel implements
     }
 
 	protected void exportToEV() {
-		Integer euclidianViewID = null ;
-		// if null ID then use EV1 unless shift is down, then use EV2
-		if (euclidianViewID == null) {
-			euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app
-					.getEuclidianView2(1).getViewID() : app
-					.getEuclidianView1().getViewID();
-		}
+		// use EV1 unless shift is down, then use EV2
+		int euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
+				? app.getEuclidianView2(1).getViewID()
+				: app.getEuclidianView1().getViewID();
 
 		// do the export
 		getModel().exportGeosToEV(euclidianViewID);

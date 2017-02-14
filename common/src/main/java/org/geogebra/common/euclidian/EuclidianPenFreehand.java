@@ -192,14 +192,14 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				// true if all the points are GeoPoints, otherwise the
 				// original Polygon will not be deleted
 				polygon.remove();
-				if(expected == ShapeType.rigidPolygon){
-						this.app.getKernel().rigidPolygon(null,
+				if (expected == ShapeType.rigidPolygon) {
+					this.app.getKernel().rigidPolygon(null,
 							list.toArray(new GeoPoint[0]));
-				}else{
-						this.app.getKernel().vectorPolygon(null,
+				} else {
+					this.app.getKernel().vectorPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				}
-				return polygon != null;
+				return true;
 			}
 			return true;
 		}

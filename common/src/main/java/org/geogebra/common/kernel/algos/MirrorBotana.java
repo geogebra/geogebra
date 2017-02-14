@@ -121,7 +121,6 @@ public class MirrorBotana {
 				P = (GeoPoint) inGeo;
 				GeoLine l = (GeoLine) mirrorLine;
 
-				if (P != null && l != null) {
 					Variable[] vP = P.getBotanaVars(P);
 					Variable[] vL = l.getBotanaVars(l);
 
@@ -182,15 +181,13 @@ public class MirrorBotana {
 							botanaVars[4], botanaVars[5]);
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror circle to line
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
 				GeoConic circle = (GeoConic) inGeo;
 				GeoLine l = (GeoLine) mirrorLine;
 
-				if (circle != null && l != null) {
+
 					Variable[] vCircle = circle.getBotanaVars(circle);
 					Variable[] vl = l.getBotanaVars(l);
 
@@ -286,15 +283,13 @@ public class MirrorBotana {
 							botanaVars[10], botanaVars[11]);
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
+
 			}
 			// mirror parabola about line
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isParabola()) {
 				GeoConic parabola = (GeoConic) inGeo;
 				GeoLine l = (GeoLine) mirrorLine;
 
-				if (parabola != null && l != null) {
 					Variable[] vparabola = parabola.getBotanaVars(parabola);
 					Variable[] vl = l.getBotanaVars(l);
 
@@ -470,8 +465,6 @@ public class MirrorBotana {
 
 					return botanaPolynomials;
 
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// invalid object to reflect about line
 			throw new NoSymbolicParametersException();
@@ -485,7 +478,6 @@ public class MirrorBotana {
 				GeoPoint P1 = (GeoPoint) inGeo;
 				GeoPoint P2 = (GeoPoint) mirrorPoint;
 
-				if (P1 != null && P2 != null) {
 					Variable[] vP1 = P1.getBotanaVars(P1);
 					Variable[] vP2 = P2.getBotanaVars(P2);
 
@@ -512,15 +504,12 @@ public class MirrorBotana {
 							.subtract(a2).subtract(a_2);
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror line about point
 			else if (inGeo.isGeoLine()) {
 				GeoLine l = (GeoLine) inGeo;
 				GeoPoint P = (GeoPoint) mirrorPoint;
 
-				if (l != null && P != null) {
 					Variable[] vl = l.getBotanaVars(l);
 					Variable[] vP = P.getBotanaVars(P);
 
@@ -560,15 +549,12 @@ public class MirrorBotana {
 							.subtract(b_2.subtract(p2));
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror circle about point
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isCircle()) {
 				GeoConic circle = (GeoConic) inGeo;
 				GeoPoint P = (GeoPoint) mirrorPoint;
 
-				if (circle != null && P != null) {
 					Variable[] vCircle = circle.getBotanaVars(circle);
 					Variable[] vP = P.getBotanaVars(P);
 
@@ -608,8 +594,6 @@ public class MirrorBotana {
 							.subtract(b_2.subtract(p2));
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror parabola about point
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isParabola()) {
@@ -617,7 +601,6 @@ public class MirrorBotana {
 				GeoConic parabola = (GeoConic) inGeo;
 				GeoPoint P = (GeoPoint) mirrorPoint;
 
-				if (parabola != null && P != null) {
 					Variable[] vparabola = parabola.getBotanaVars(parabola);
 					Variable[] vP = P.getBotanaVars(P);
 					if (botanaVars == null) {
@@ -713,15 +696,12 @@ public class MirrorBotana {
 							botanaVars[6], botanaVars[7]);
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror ellipse about point
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isEllipse()) {
 				GeoConic ellipse = (GeoConic) inGeo;
 				GeoPoint P = (GeoPoint) mirrorPoint;
 
-				if (ellipse != null && P != null) {
 					Variable[] vellipse = ellipse.getBotanaVars(ellipse);
 					Variable[] vP = P.getBotanaVars(P);
 
@@ -867,15 +847,12 @@ public class MirrorBotana {
 
 					}
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror hyperbola about point
 			else if (inGeo.isGeoConic() && ((GeoConic) inGeo).isHyperbola()) {
 				GeoConic hyperbola = (GeoConic) inGeo;
 				GeoPoint P = (GeoPoint) mirrorPoint;
 
-				if (hyperbola != null && P != null) {
 					Variable[] vhyperbola = hyperbola.getBotanaVars(hyperbola);
 					Variable[] vP = P.getBotanaVars(P);
 
@@ -979,8 +956,6 @@ public class MirrorBotana {
 							.subtract(e2.multiply(e2));
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// invalid object to reflect about point
 			throw new NoSymbolicParametersException();
@@ -993,7 +968,6 @@ public class MirrorBotana {
 				GeoPoint P = (GeoPoint) inGeo;
 				GeoConic c = (GeoConic) mirrorCircle;
 
-				if (P != null && c != null) {
 					Variable[] vP = P.getBotanaVars(P);
 					Variable[] vc = c.getBotanaVars(c);
 
@@ -1041,8 +1015,6 @@ public class MirrorBotana {
 							.add((o2.subtract(b_2)).multiply(denominator));
 
 					return botanaPolynomials;
-				}
-				throw new NoSymbolicParametersException();
 			}
 			// mirror line about circle
 			else if (inGeo.isGeoLine()) {
@@ -1055,7 +1027,6 @@ public class MirrorBotana {
 				GeoConic circle = (GeoConic) inGeo;
 				GeoConic mirrorcircle = (GeoConic) mirrorCircle;
 
-				if (circle != null && mirrorcircle != null) {
 					Variable[] vcircle = circle.getBotanaVars(circle);
 					Variable[] vmirrorcircle = mirrorcircle
 							.getBotanaVars(mirrorcircle);
@@ -1125,8 +1096,6 @@ public class MirrorBotana {
 
 					return botanaPolynomials;
 
-				}
-				throw new NoSymbolicParametersException();
 
 			} else {
 				// invalid object to mirror about circle
