@@ -477,6 +477,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 								@Override
 								public void run() {
+
+									if (app.getGuiManager().hasAlgebraView()) {
+										AlgebraViewW av = (AlgebraViewW) app
+												.getAlgebraView();
+										// av.clearActiveItem();
+										av.setDefaultUserWidth();
+									}
+
 									DockManagerW dm = (DockManagerW) app
 											.getGuiManager().getLayout()
 											.getDockManager();
@@ -485,13 +493,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 											.getKeyboardListener();
 									((GuiManagerW) app.getGuiManager())
 											.setOnScreenKeyboardTextField(ml);
+
 									ml.setFocus(true, true);
 									ml.ensureEditing();
-									if (app.getGuiManager().hasAlgebraView()) {
-										AlgebraViewW av = (AlgebraViewW) app
-												.getAlgebraView();
-										av.setDefaultUserWidth();
-									}
 
 								}
 							}.schedule(500);
@@ -502,6 +506,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					this.showKeyboardButton(null);
 					app.getGuiManager().getOnScreenKeyboard(null, this)
 							.showOnFocus();
+					app.adjustScreen(true);
 				}
 
 			} else if (app != null && app.isKeyboardNeeded()) {

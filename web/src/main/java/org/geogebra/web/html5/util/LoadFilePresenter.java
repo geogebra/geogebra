@@ -224,7 +224,7 @@ public class LoadFilePresenter {
 		}
 
 		// no Feature.ADJUST_VIEWS: returns false.
-		boolean portrait = app.adjustViews();
+		boolean portrait = app.adjustViews(false);
 
 		if (app.getArticleElement().getDataParamShowAppsPicker()
 				&& app.getExam() == null && !portrait) {

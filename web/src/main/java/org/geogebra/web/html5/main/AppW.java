@@ -255,7 +255,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		}
 
-		adjustViews();
+		adjustViews(true);
 	}
 
 	@Override
@@ -1009,7 +1009,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 
-		adjustViews();
+		adjustViews(false);
 	}
 
 	/**

@@ -100,13 +100,20 @@ public class AdjustScreen {
 
 	/**
 	 * Collect widgets, ensures they are on the screen and does not overlap.
+	 * 
+	 * @param reset
 	 */
-	public void apply() {
+	public void apply(boolean reset) {
 		if (!enabled) {
 			return;
 		}
 
-		collectWidgets();
+		if (reset) {
+			reset();
+		} else {
+			collectWidgets();
+		}
+
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
 		layoutButtons.apply();
@@ -141,9 +148,12 @@ public class AdjustScreen {
 					inputBoxes.add(input);
 					// ensure = true;
 				} else {
-					GeoButton btn = (GeoButton) geo;
-					layoutButtons.add(btn);
-					// ensure = false;
+					if (!layoutButtons.isCollected()) {
+						Log.debug("[AS] collecting buttons: " + geo);
+						GeoButton btn = (GeoButton) geo;
+						layoutButtons.add(btn);
+					}
+
 				}
 			}
 
@@ -151,9 +161,13 @@ public class AdjustScreen {
 			// ensureGeoOnScreen(geo);
 			// }
 		}
+		layoutButtons.setCollected(true);
 
 	}
 
+	public void reset() {
+		layoutButtons.reset();
+	}
 	private void ensureGeoOnScreen(GeoElement geo) {
 		if (!app.has(Feature.ADJUST_WIDGETS)) {
 			return;

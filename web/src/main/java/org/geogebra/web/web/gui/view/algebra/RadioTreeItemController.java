@@ -521,7 +521,6 @@ public class RadioTreeItemController
 	}
 
 	public void stopEdit() {
-
 		if (!editing) {
 			return;
 		}

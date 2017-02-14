@@ -287,6 +287,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 * Clears preview.
 	 */
 	public void clear() {
+		input = "";
+		validInput = "";
+		previewGeos = null;
 		setInput("", null);
 	}
 }

@@ -220,7 +220,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
 		if (getAlgebraDockPanel().getOffsetHeight() < kH) {
-			app.adjustViews();
+			app.adjustViews(true);
 		}
 	}
 

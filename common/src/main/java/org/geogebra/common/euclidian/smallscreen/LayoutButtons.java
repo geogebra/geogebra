@@ -13,6 +13,7 @@ import org.geogebra.common.util.debug.Log;
 public class LayoutButtons {
 	private static final int Y_GAP = 5;
 	private static final int X_GAP = 5;
+	private List<GeoButton> originals = new ArrayList<GeoButton>();
 	private List<GeoButton> all = new ArrayList<GeoButton>();
 	private List<GeoButton> fixed = new ArrayList<GeoButton>();
 	private List<GeoButton> moveable = new ArrayList<GeoButton>();
@@ -22,6 +23,9 @@ public class LayoutButtons {
 
 	private boolean multiColumn;
 	private int sumOfHeight;
+
+	// Buttons should be collected only once.
+	private boolean collected = false;
 
 	private static class ButtonComparator implements Comparator<GeoButton> {
 		private boolean vertical;
@@ -56,13 +60,24 @@ public class LayoutButtons {
 	}
 
 	public void add(GeoButton button) {
-		all.add(button);
+		originals.add(button);
 	}
 
+	public void reset() {
+		Log.debug("[LayoutButtons] reset ");
+		for (GeoButton btn : originals) {
+			if (btn.getOrigX() != null) {
+				btn.setAbsoluteScreenLoc(btn.getOrigX(), btn.getOrigY());
+
+			}
+		}
+	}
 	public void clear() {
 		all.clear();
 		fixed.clear();
 		moveable.clear();
+
+
 	}
 
 	protected void sortX() {
@@ -78,7 +93,8 @@ public class LayoutButtons {
 				+ btn.getAbsoluteScreenLocY() + ")";
 	}
 
-	private static void debugButtons(List<GeoButton> buttons) {
+	private static void debugButtons(String msg, List<GeoButton> buttons) {
+		Log.debug("[LayoutButtons] " + msg);
 		for (int idx = 0; idx < buttons.size(); idx++) {
 			GeoButton btn = buttons.get(idx);
 			Log.debug("[LayoutButtons] " + idx + ". " + buttonDetails(btn));
@@ -96,10 +112,21 @@ public class LayoutButtons {
 	}
 
 	public void apply() {
+		all.clear();
+		all.addAll(originals);
+
+		debugButtons("initial: ", all);
+
 		applyHorizontally();
+
+		debugButtons("after horizontally: ", all);
+
 		applyVertically();
 
+		debugButtons("after vertically: ", all);
+
 	}
+
 
 	private void applyVertically() {
 		sortY();
@@ -143,10 +170,6 @@ public class LayoutButtons {
 	private void applyHorizontally() {
 		sortX();
 		divideX();
-		Log.debug("[LayoutButtons] fixed");
-		debugButtons(fixed);
-		Log.debug("[LayoutButtons] movable");
-		debugButtons(moveable);
 		if (moveable.isEmpty()) {
 			// All buttons is on screen, nothing to do.
 			return;
@@ -213,7 +236,7 @@ public class LayoutButtons {
 		while (!multiColumn && idx < all.size()) {
 			GeoButton btn = all.get(idx);
 			sumOfHeight += btn.getHeight() + Y_GAP;
-			multiColumn = view.getHeight() < sumOfHeight;
+			// multiColumn = view.getHeight() < sumOfHeight;
 			if (isVerticallyOnScreen(btn)) {
 				fixed.add(btn);
 			} else {
@@ -250,6 +273,17 @@ public class LayoutButtons {
 		int y = btn.getAbsoluteScreenLocY();
 		int height = btn.getHeight();
 		return y + height < view.getViewHeight();
+	}
+
+	public boolean isCollected() {
+		return collected;
+	}
+
+	public void setCollected(boolean collected) {
+		if (originals.isEmpty()) {
+			return;
+		}
+		this.collected = collected;
 	}
 
 }

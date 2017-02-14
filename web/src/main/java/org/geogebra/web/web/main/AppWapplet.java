@@ -418,7 +418,7 @@ public class AppWapplet extends AppWFull {
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
-		adjustViews();
+		adjustViews(false);
 		kernel.notifyScreenChanged();
 
 	}

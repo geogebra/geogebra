@@ -302,7 +302,7 @@ public abstract class GlobalKeyDispatcher {
 			if (!fromSpreadsheet) {
 				consumed = app.handleSpaceKey();
 			}
-			app.adjustViews();
+			app.adjustViews(true);
 
 			break;
 

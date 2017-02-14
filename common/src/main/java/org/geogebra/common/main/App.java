@@ -1528,6 +1528,7 @@ public abstract class App implements UpdateSelection {
 
 	private boolean isAutoSaved = false;
 	private AdjustViews adjustViews = null;
+	private AdjustScreen adjustScreen = null;
 
 	public final boolean isAutoSaved() {
 		return isAutoSaved;
@@ -4620,12 +4621,15 @@ public abstract class App implements UpdateSelection {
 		// used in android
 	}
 
-	public void adjustScreen() {
+	public void adjustScreen(boolean reset) {
 		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
 			return;
 		}
-		final AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
-		as.apply();
+		if (adjustScreen == null) {
+			adjustScreen = new AdjustScreen(getActiveEuclidianView());
+		}
+
+		adjustScreen.apply(reset);
 	}
 
 	/**
@@ -4634,7 +4638,7 @@ public abstract class App implements UpdateSelection {
 	 * 
 	 * @return if screen became portrait or not.
 	 */
-	public boolean adjustViews() {
+	public boolean adjustViews(boolean reset) {
 		if (!has(Feature.ADJUST_VIEWS)) {
 			return false;
 		}
@@ -4644,7 +4648,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		adjustViews.apply();
-		adjustScreen();
+		adjustScreen(reset);
 
 		return adjustViews.isPortait();
 	}

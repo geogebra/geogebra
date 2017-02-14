@@ -133,7 +133,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected String lastInput;
 
-	protected GeoElement geo;
+	protected GeoElement geo = null;
 	protected Kernel kernel;
 	protected AppW app;
 	protected AlgebraView av;

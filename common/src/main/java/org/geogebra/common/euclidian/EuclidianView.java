@@ -527,7 +527,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return settings.getPointCapturingMode();
 		}
 		return pointCapturingMode;
-
 	}
 
 	/**
@@ -5949,7 +5948,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private void adjustObjects() {
 		if (app.has(Feature.ADJUST_WIDGETS) && screenChanged) {
-			app.adjustScreen();
+			app.adjustScreen(true);
 			screenChanged = false;
 			repaint();
 		}
