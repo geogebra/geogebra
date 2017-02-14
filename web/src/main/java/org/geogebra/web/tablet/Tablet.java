@@ -34,7 +34,7 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 public class Tablet implements EntryPoint {
 
 	// zum testen von private zu public
-	public static GeoGebraAppFrame appFrame;
+	private static GeoGebraAppFrame appFrame;
 
 
 	/**
@@ -88,6 +88,9 @@ public class Tablet implements EntryPoint {
 		}
 	}
 
+	/**
+	 * (Android) back button handler
+	 */
 	public static void goBack() {
 		if (appFrame != null && appFrame.app != null) {
 			if (appFrame.isBrowserShowing()) {
@@ -117,6 +120,9 @@ public class Tablet implements EntryPoint {
 
 	}
 
+	/**
+	 * Load in applet mode
+	 */
 	public static void loadAppletAsync() {
 		// GWT.runAsync(new RunAsyncCallback() {
 
@@ -156,6 +162,9 @@ public class Tablet implements EntryPoint {
 				.create(TabletLookAndFeel.class)).getFrameStyleName());
 	}
 
+	/**
+	 * Export the extension renderer method
+	 */
 	native void exportArticleTagRenderer() /*-{
    		$wnd.GGW_ext.render = $entry(@org.geogebra.web.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
    	}-*/;
@@ -169,6 +178,12 @@ public class Tablet implements EntryPoint {
 		return (typeof $wnd.GGW_ext !== "undefined");
 	}-*/;
 
+	/**
+	 * @param el
+	 *            article element
+	 * @param clb
+	 *            rendering finished callback
+	 */
 	public static void renderArticleElement(final Element el,
 	        JavaScriptObject clb) {
 		GeoGebraFrameBoth.renderArticleElement(el,
@@ -215,6 +230,10 @@ public class Tablet implements EntryPoint {
 		}
 	}-*/;
 
+	/**
+	 * @param geoGebraMobileTags
+	 *            article elements
+	 */
 	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
 		GeoGebraFrameBoth.main(geoGebraMobileTags,
 		        (AppletFactory) GWT.create(AppletFactory.class),

@@ -7,6 +7,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.googlecode.gwtphonegap.client.log.shared.PhoneGapLogService;
 import com.googlecode.gwtphonegap.client.log.shared.PhoneGapLogServiceAsync;
 
+/**
+ * Override some random Cordova stuff to avoid huge compile logs
+ * 
+ * @author Zbynek
+ *
+ */
 public class DummyService
 		implements PhoneGapLogService, PhoneGapLogServiceAsync {
 
