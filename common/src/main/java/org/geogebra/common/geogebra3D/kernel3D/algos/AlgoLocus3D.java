@@ -28,19 +28,41 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
-	double[] maxZdist, farZmin, farZmax;
+	private double[] maxZdist, farZmin, farZmax;
 
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 * @param min_steps
+	 *            min number of steps
+	 * @param registerCE
+	 *            whether to listen to zoom/pan
+	 */
 	public AlgoLocus3D(Construction cons, GeoPointND Q, GeoPointND P,
 			int min_steps, boolean registerCE) {
 		super(cons, Q, P, min_steps, registerCE);
 	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 */
 	public AlgoLocus3D(Construction cons, String label, GeoPointND Q,
 			GeoPointND P) {
 		super(cons, label, Q, P);
 	}
+
 
 	@Override
 	protected void createMaxDistances() {
@@ -75,25 +97,22 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	}
 
 	@Override
-	protected void createStartPos(Construction cons) {
-		startQPos = new GeoPoint3D(cons);
+	protected void createStartPos(Construction cons1) {
+		startQPos = new GeoPoint3D(cons1);
 
 		if (movingPoint.isGeoElement3D()) {
-			startPPos = new GeoPoint3D(cons);
+			startPPos = new GeoPoint3D(cons1);
 		} else {
-			startPPos = new GeoPoint(cons);
+			startPPos = new GeoPoint(cons1);
 		}
 	}
 
 	@Override
-	protected GeoLocus3D newGeoLocus(Construction cons) {
-		return new GeoLocus3D(cons);
+	protected GeoLocus3D newGeoLocus(Construction cons1) {
+		return new GeoLocus3D(cons1);
 	}
 
-	public AlgoLocus3D(Construction cons, String label, GeoPoint Q,
-			GeoPoint P) {
-		super(cons, label, Q, P);
-	}
+
 
 	@Override
 	protected boolean isFarAway(GeoPointND point, int i) {
@@ -102,8 +121,9 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND point, double[] min, double[] max) {
-
+	protected boolean distanceOK(GeoPointND point, int i) {
+		double[] min = { farXmin[i], farYmin[i], farZmin[i] };
+		double[] max = { farXmax[i], farYmax[i], farZmax[i] };
 		Coords coords = point.getInhomCoordsInD3();
 
 		// if last point Q' was far away and Q is far away
@@ -131,13 +151,11 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 			minZ = coords.getZ();
 			maxZ = lastZ;
 		}
-		if (min.length == 2) {
-			return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
-					|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
-		}
-		return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
-				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1])
-				|| !MyMath.intervalsIntersect(minZ, maxZ, min[2], max[2]);
+		boolean ok2d = !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
+				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
+		return i < 2 ? ok2d
+				: (ok2d || !MyMath.intervalsIntersect(minZ, maxZ, min[2],
+						max[2]));
 	}
 
 	@Override

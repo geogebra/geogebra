@@ -56,7 +56,9 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND point, double[] min, double[] max) {
+	protected boolean distanceOK(GeoPointND point, int i) {
+		double[] min = { this.farXmin[i], farYmin[i] };
+		double[] max = { this.farXmax[i], farYmax[i] };
 		GRectangle2D rectangle = AwtFactory.getPrototype().newRectangle2D();
 		rectangle.setRect(min[0], min[1], max[0] - min[0], max[1] - min[1]);
 		GeoPoint Q = (GeoPoint) point;

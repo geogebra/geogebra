@@ -67,7 +67,9 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND QND, double[] min, double[] max) {
+	protected boolean distanceOK(GeoPointND QND, int i) {
+		double[] min = { farXmin[i], farYmin[i] };
+		double[] max = { farXmax[i], farYmax[i] };
 		GeoPoint Q = (GeoPoint) QND;
 		// if last point Q' was far away and Q is far away
 		// then the distance is probably OK (return true),

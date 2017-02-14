@@ -16,9 +16,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
@@ -74,10 +72,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			farYmin = new double[3], farYmax = new double[3];
 
 	// private Line2D.Double tempLine = new Line2D.Double();
-	private GRectangle2D[] nearToScreenRect = {
-			AwtFactory.getPrototype().newRectangle2D(),
-			AwtFactory.getPrototype().newRectangle2D(),
-			AwtFactory.getPrototype().newRectangle2D() };
 
 	private boolean continuous;
 	protected boolean[] lastFarAway = { false, false, false };
@@ -814,23 +808,18 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 * 
 	 * @param Q
 	 *            point
-	 * @param rectangle
-	 *            rectangle
+	 * @param i
+	 *            view index
 	 * @return if distance ok for the point in this rectangle
 	 */
-	abstract protected boolean distanceOK(GeoPointND Q, double[] min,
-			double[] max);
+	abstract protected boolean distanceOK(GeoPointND Q, int i);
 
 	private boolean distanceOK(GeoPointND Q) {
 		boolean[] distanceOK = { false, false, false };
 
 		for (int i = 0; i < distanceOK.length; i++) {
 			if (lastFarAway[i] && isFarAway(Q, i)) {
-				distanceOK[i] = distanceOK(Q,
-						new double[] { nearToScreenRect[i].getMinX(),
-								nearToScreenRect[i].getMinY() }, new double[] {
-								nearToScreenRect[i].getMaxX(),
-								nearToScreenRect[i].getMaxY() });
+				distanceOK[i] = distanceOK(Q, i);
 			} else {
 				distanceOK[i] = distanceSmall(Q, false);
 			}
@@ -916,8 +905,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		setMaxDistances(i);
 
 		// near to screen rectangle
-		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i],
-				farXmax[i] - farXmin[i], farYmax[i] - farYmin[i]);
 		return changed;
 		// Log.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" --
 		// "+xmax[i]+","+ymax[i]);

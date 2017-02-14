@@ -28,10 +28,20 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
-	double[] maxZdist, farZmin, farZmax;
+	private double[] maxZdist, farZmin, farZmax;
 
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 */
 	public AlgoLocusSlider3D(Construction cons, String label, GeoPointND Q,
 			GeoNumeric P) {
 		super(cons, label, Q, P);
@@ -79,8 +89,9 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND point, double[] min, double[] max) {
-
+	protected boolean distanceOK(GeoPointND point, int i) {
+		double[] min = { farXmin[i], farYmin[i], farZmin[i] };
+		double[] max = { farXmax[i], farYmax[i], farZmax[i] };
 		Coords coords = point.getInhomCoordsInD3();
 
 		// if last point Q' was far away and Q is far away
@@ -108,14 +119,12 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 			minZ = coords.getZ();
 			maxZ = lastZ;
 		}
-		if (min.length == 2) {
-			return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
-					|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
-		}
-		return !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
-				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1])
-				|| !MyMath.intervalsIntersect(minZ, maxZ, min[2], max[2]);
-		// TODO
+
+		boolean ok2d = !MyMath.intervalsIntersect(minX, maxX, min[0], max[0])
+				|| !MyMath.intervalsIntersect(minY, maxY, min[1], max[1]);
+		return i < 2 ? ok2d
+				: (ok2d || !MyMath.intervalsIntersect(minZ, maxZ, min[2],
+						max[2]));
 	}
 
 	@Override
