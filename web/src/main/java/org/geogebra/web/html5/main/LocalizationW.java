@@ -181,11 +181,6 @@ public final class LocalizationW extends Localization {
 	}
 
 	@Override
-	public void setTooltipFlag() {
-		// secondary languages not supported in HTML5
-	}
-
-	@Override
 	public String reverseGetColor(String locColor) {
 		String str = StringUtil.removeSpaces(StringUtil.toLowerCase(locColor));
 

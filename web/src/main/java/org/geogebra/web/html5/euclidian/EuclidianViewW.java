@@ -1024,7 +1024,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void setDragCursor() {
-		if (this.app.useTransparentCursorWhenDragging) {
+		if (this.app.useTransparentCursorWhenDragging()) {
 			setCursorClass("cursor_transparent");
 		} else {
 			setCursorClass("cursor_drag");

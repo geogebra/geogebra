@@ -2355,7 +2355,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public String getToolTooltipHTML(int mode) {
 		String toolTipHtml = super.getToolTooltipHTML(mode);
-		getLocalization().clearTooltipFlag();
 		return toolTipHtml;
 	}
 

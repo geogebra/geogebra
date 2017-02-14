@@ -18,6 +18,7 @@ public abstract class LocalizationJre extends Localization {
 
 	private Locale tooltipLocale = null;
 	protected App app;
+	private boolean tooltipFlag = false;
 
 	/**
 	 * @param dimension
@@ -44,6 +45,14 @@ public abstract class LocalizationJre extends Localization {
 		if (tooltipLocale != null) {
 			tooltipFlag = true;
 		}
+	}
+
+	/**
+	 * Stop forcing usage of tooltip locale for translations
+	 */
+	@Override
+	final public void clearTooltipFlag() {
+		tooltipFlag = false;
 	}
 
 	@Override

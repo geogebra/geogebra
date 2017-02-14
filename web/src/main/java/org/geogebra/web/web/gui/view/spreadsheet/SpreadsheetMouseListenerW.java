@@ -682,9 +682,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			// set tooltip with geo's description
 			if (geo != null & view.getAllowToolTips()) {
-				app.getLocalization().setTooltipFlag();
 				table.setToolTipText(geo.getLongDescriptionHTML(true, true));
-				app.getLocalization().clearTooltipFlag();
 			} else {
 				table.setToolTipText(null);
 			}

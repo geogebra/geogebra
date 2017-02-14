@@ -197,7 +197,7 @@ public class EuclidianViewD extends EuclidianView
 			setGrabbingCursor();
 		}
 
-		else if (getApplication().useTransparentCursorWhenDragging) {
+		else if (getApplication().useTransparentCursorWhenDragging()) {
 			setCursor(getApplication().getTransparentCursor());
 		} else {
 			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

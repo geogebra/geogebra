@@ -240,7 +240,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * whether transparent cursor should be used while dragging
 	 */
-	public boolean useTransparentCursorWhenDragging = false;
+	private boolean useTransparentCursorWhenDragging = false;
 	/**
 	 * Script manager
 	 */
@@ -4788,5 +4788,8 @@ public abstract class App implements UpdateSelection {
 		return euclidianController;
 	}
 
+	final public boolean useTransparentCursorWhenDragging() {
+		return useTransparentCursorWhenDragging;
+	}
 
 }

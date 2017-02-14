@@ -538,7 +538,6 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	public boolean hasListeners() {
-		// TODO Auto-generated method stub
 		if (updateListenerMap != null && updateListenerMap.size() > 0) {
 			return true;
 		}

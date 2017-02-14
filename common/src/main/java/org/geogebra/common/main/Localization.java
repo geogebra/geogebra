@@ -20,7 +20,6 @@ public abstract class Localization implements KeyboardLocale {
 	/** syntax suffix for keys in command bundle */
 	public final static String syntaxStr = ".Syntax";
 	/** used when a secondary language is being used for tooltips. */
-	protected boolean tooltipFlag = false;
 	private String[] fontSizeStrings = null;
 
 	protected Locale currentLocale = Locale.ENGLISH;
@@ -1015,13 +1014,18 @@ public abstract class Localization implements KeyboardLocale {
 	 * used to force properties to be read from secondary (tooltip) language if
 	 * one has been selected
 	 */
-	public abstract void setTooltipFlag();
+	public void setTooltipFlag() {
+		// overridden in LocalizationJre
+		// nothing to do in web etc
+	}
 
 	/**
-	 * Stop forcing usage of tooltip locale for translations
+	 * used to stop forcing properties to be read from secondary (tooltip)
+	 * language if one has been selected
 	 */
 	public void clearTooltipFlag() {
-		tooltipFlag = false;
+		// overridden in LocalizationJre
+		// nothing to do in web etc
 	}
 
 	/**
@@ -1235,4 +1239,5 @@ public abstract class Localization implements KeyboardLocale {
 
 		return internalName;
 	}
+
 }
