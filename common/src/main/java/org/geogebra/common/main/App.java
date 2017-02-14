@@ -1016,7 +1016,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return script manager
 	 */
-	public ScriptManager getScriptManager() {
+	final public ScriptManager getScriptManager() {
 		if (scriptManager == null) {
 			scriptManager = newScriptManager();
 		}
