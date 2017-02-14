@@ -1400,7 +1400,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private void setText(int start, int end, String text) {
 		// clear selection if there is one
 		if (start != end) {
-			String oldText = getText();
+			String oldText = getText(true);
 			StringBuilder sb = new StringBuilder();
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));
@@ -1409,7 +1409,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 
 		int pos = getCaretPosition();
-		String oldText = getText();
+		String oldText = getText(true);
 		StringBuilder sb = new StringBuilder();
 		sb.append(oldText.substring(0, pos));
 		sb.append(text);
@@ -1465,7 +1465,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public String getText() {
-		return textField.getText();
+		String text = textField.getText();
+		int cpos = getCaretPosition();
+		return text.substring(0, cpos) + text.substring(cpos + 1);
+	}
+
+	public String getText(boolean withDummyCursor) {
+		if (withDummyCursor) {
+			return textField.getText();
+		}
+		return getText();
 	}
 
 	@Override

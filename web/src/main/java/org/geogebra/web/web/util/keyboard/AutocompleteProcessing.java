@@ -85,7 +85,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 			}
 			break;
 		case right:
-			if (caretPos < field.getText().length()) {
+			if (caretPos < field.getText(true).length()) {
 				field.setCaretPosition(caretPos + 1);
 			}
 			break;
