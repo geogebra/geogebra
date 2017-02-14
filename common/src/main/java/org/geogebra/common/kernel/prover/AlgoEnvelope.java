@@ -353,7 +353,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		 * is maybe slower here.
 		 * 
 		 * At the moment this code is here for backward compatibility only. It
-		 * is not used in the web version and be invoked only by forcing
+		 * is not used in the web version and can be invoked only by forcing
 		 * SingularWS on startup. TODO: Consider implementing Singular's grobcov
 		 * library in Giac---it may produce better envelopes.
 		 */
@@ -393,9 +393,12 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		String result = kernel.getApplication().getSingularWS()
 				.directCommand(script.toString());
 		Log.trace("Output from singular: " + result);
-		// Temporary workaround by creating dummy factor:
+		/* Temporary workaround by creating dummy factor: */
 		result = "{{" + result + "},{1," + result + "}}";
-		// because it is not factorized.
+		/*
+		 * because the output is not factorized (that is, it may not produce
+		 * nice plots in some cases.
+		 */
 		return result;
 	}
 
