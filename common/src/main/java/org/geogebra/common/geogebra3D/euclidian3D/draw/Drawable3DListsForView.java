@@ -15,8 +15,6 @@ public class Drawable3DListsForView extends Drawable3DLists {
 
 	private EuclidianView3D view3D;
 
-	private Drawable3DList listForPicking;
-
 	/**
 	 * constructor
 	 * 
@@ -26,7 +24,6 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public Drawable3DListsForView(EuclidianView3D view3D) {
 		super();
 
-		listForPicking = new Drawable3DList();
 		this.view3D = view3D;
 	}
 
