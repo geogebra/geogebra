@@ -122,14 +122,19 @@ public class ShowKeyboardButton extends SimplePanel {
 	 * @param textField
 	 *            {@link Widget} to receive the text input
 	 */
-	public void show(boolean show, MathKeyboardListener textField) {
+	public void show(boolean show, MathKeyboardListener textField,
+			boolean hasOneKeyboardButtonFeature) {
 
-		if (show && parent.isVisible()) {
+		if (show && (parent.isVisible() || hasOneKeyboardButtonFeature)) {
 			setVisible(true);
 		} else {
 			setVisible(false);
 		}
 
+	}
+
+	public void show(boolean show, MathKeyboardListener textField) {
+		show(show, textField, false);
 	}
 
 	/**
