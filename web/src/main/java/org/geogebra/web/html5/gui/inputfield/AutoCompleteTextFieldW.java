@@ -1000,7 +1000,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				return;
 			}
 		}
-
+		if (MathFieldW.checkCode(e.getNativeEvent(), "NumpadDecimal")) {
+			e.preventDefault();
+			insertString(".");
+			return;
+		}
 		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
 				|| ch == ']')) {
 			// super.keyTyped(e);

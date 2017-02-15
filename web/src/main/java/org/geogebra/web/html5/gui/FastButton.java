@@ -54,6 +54,9 @@ public abstract class FastButton extends CustomButton {
 	private boolean isActive;
 	private List<FastClickHandler> handlers;
 
+	/**
+	 * New fast button
+	 */
 	public FastButton() {
 		setStyleName("button");
 		// Sink Click and Touch Events
@@ -68,6 +71,10 @@ public abstract class FastButton extends CustomButton {
 
 	}
 
+	/**
+	 * @param active
+	 *            whether it's enabled
+	 */
 	public void setActive(boolean active) {
 		if (active) {
 			onEnablePressStyle();
@@ -77,6 +84,9 @@ public abstract class FastButton extends CustomButton {
 		this.isActive = active;
 	}
 
+	/**
+	 * @return whether it's enabled
+	 */
 	public boolean isActive() {
 		return this.isActive;
 	}
@@ -84,6 +94,9 @@ public abstract class FastButton extends CustomButton {
 	/**
 	 * Use this method in the same way you would use addClickHandler or
 	 * addDomHandler
+	 * 
+	 * @param handler
+	 *            handler
 	 * 
 	 */
 	public void addFastClickHandler(FastClickHandler handler) {
@@ -263,8 +276,7 @@ public abstract class FastButton extends CustomButton {
 	}
 
 	/**
-	 * 
-	 * @param event
+	 * Notify all handlers
 	 */
 	protected void fireFastClickEvent() {
 

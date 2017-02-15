@@ -67,6 +67,7 @@ import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -223,7 +224,7 @@ public class MathFieldW implements MathField, IsWidget {
 				} else {
 					keyListener.onKeyTyped(
 							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
-									event.getCharCode()));
+									getChar(event.getNativeEvent())));
 					event.stopPropagation();
 					event.preventDefault();
 				}
@@ -268,7 +269,9 @@ public class MathFieldW implements MathField, IsWidget {
 				// need to prevent sdefault for arrows to kill keypress
 				// (otherwise strange chars appear in Firefox). Backspace/delete
 				// also need killing.
-				if (code == 8 || code == 27 || handled) {
+				// also kill events while left alt down: alt+e, alt+d working in
+				// browser
+				if (code == 8 || code == 27 || handled || leftAltDown) {
 					event.preventDefault();
 				}
 				event.stopPropagation();
@@ -287,7 +290,7 @@ public class MathFieldW implements MathField, IsWidget {
 		return checkCode(nativeEvent, "AltRight");
 	}
 
-	private static native boolean checkCode(NativeEvent evt,
+	public static native boolean checkCode(NativeEvent evt,
 			String check) /*-{
 		return evt.code == check;
 	}-*/;
@@ -309,6 +312,9 @@ public class MathFieldW implements MathField, IsWidget {
 		if (evt.getKeyCode() == 46) {
 			return KeyEvent.VK_DELETE;
 		}
+		if (evt.getKeyCode() == 44) {
+			return KeyEvent.VK_DELETE;
+		}
 		if (checkNativeKey(evt, "[")) {
 			return KeyEvent.VK_OPEN_BRACKET;
 		}
@@ -318,6 +324,7 @@ public class MathFieldW implements MathField, IsWidget {
 		if (checkNativeKey(evt, "(")) {
 			return KeyEvent.VK_OPEN_PAREN;
 		}
+
 
 
 		return evt.getKeyCode();
@@ -333,6 +340,10 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
+		FactoryProvider.getInstance().debug(nativeEvent.getKeyCode());
+		if (MathFieldW.checkCode(nativeEvent, "NumpadDecimal")) {
+			return '.';
+		}
 		return (char) nativeEvent.getCharCode();
 	}
 
