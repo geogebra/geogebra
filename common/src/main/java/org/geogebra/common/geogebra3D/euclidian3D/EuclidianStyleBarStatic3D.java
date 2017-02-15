@@ -55,23 +55,23 @@ public class EuclidianStyleBarStatic3D {
 
 		// cylinders, cones
 		defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 
 		// polyhedrons
 		defaultGeoMap.put(EuclidianConstants.MODE_PYRAMID,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_TETRAHEDRON,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 		defaultGeoMap.put(EuclidianConstants.MODE_CUBE,
-				ConstructionDefaults3D.DEFAULT_POLYHEDRON);
+				ConstructionDefaults.DEFAULT_POLYHEDRON);
 
 		// net
 		defaultGeoMap.put(EuclidianConstants.MODE_NET,

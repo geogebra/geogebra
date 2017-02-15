@@ -349,7 +349,6 @@ public abstract class AbstractDualBidiMap<K, V> implements BidiMap<K, V> {
 	/**
 	 * Inner class View.
 	 */
-	@SuppressWarnings("serial")
 	protected static abstract class View<K, V, E>
 			extends AbstractCollectionDecorator<E> {
 

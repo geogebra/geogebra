@@ -177,7 +177,6 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		}
 	}
 
-	@SuppressWarnings("serial")
 	private class ShowViewAction extends AbstractAction {
 
 		private DockPanelD panel;

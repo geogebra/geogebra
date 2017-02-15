@@ -1238,7 +1238,8 @@ public abstract class KBBase extends PopupPanel {
 	 * @param language
 	 *            language description
 	 */
-	public final void addSupportedLocale(Language gwtLang, String language) {
+	public final static void addSupportedLocale(Language gwtLang,
+			String language) {
 		supportedLocales.put(gwtLang.localeGWT, language);
 	}
 

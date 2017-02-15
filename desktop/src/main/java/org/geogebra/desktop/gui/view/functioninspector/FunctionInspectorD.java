@@ -621,7 +621,7 @@ public class FunctionInspectorD extends FunctionInspector
 		GuiManagerD.setFontRecursive(wrappedDialog, font);
 	}
 
-	private MyTextFieldD makeTextField(App app) {
+	private static MyTextFieldD makeTextField(App app) {
 		return new MyTextFieldD((AppD) app);
 	}
 
