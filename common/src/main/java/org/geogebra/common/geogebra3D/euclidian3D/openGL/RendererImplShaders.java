@@ -327,7 +327,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	/**
 	 * dash values for shaders
 	 */
-	public static final float[][] DASH_SHADERS_VALUES = {
+	private static final float[][] DASH_SHADERS_VALUES = {
 			// coeff, a, b, c
 			// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
 			// if (x > a || (x > b && x <= c)) then discard
