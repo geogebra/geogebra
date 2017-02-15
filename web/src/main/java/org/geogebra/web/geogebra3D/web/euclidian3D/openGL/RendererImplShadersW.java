@@ -137,10 +137,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	}
 
-	private int getAttribLocation(String name) {
-		return glContext.getAttribLocation((WebGLProgram) shaderProgram, name);
-	}
-
 	@Override
 	final protected Object glGetUniformLocation(String name) {
 		return glContext.getUniformLocation((WebGLProgram) shaderProgram,

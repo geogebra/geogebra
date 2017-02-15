@@ -161,6 +161,7 @@ public class TabletFileManager extends FileManagerT {
 		
 	}
 	
+	@Override
 	public void open(String url, String name, String features){
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
 			openUrlInBrowser(url, name, features);
@@ -169,6 +170,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 	
+	@Override
 	public void open(String url){
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
 			openUrlInBrowser(url, "", "");
@@ -266,10 +268,10 @@ public class TabletFileManager extends FileManagerT {
 		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
 		});
-		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(data) {			
+		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(Ljava/lang/String;)(data);
 		});
-		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data) {			
+		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;)(data);
 		});
 	}-*/;

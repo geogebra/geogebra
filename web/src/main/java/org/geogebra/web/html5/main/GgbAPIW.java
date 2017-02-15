@@ -905,6 +905,7 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAppletFrame().remove();
 	}
 
+	@Override
 	public void showTooltip(String tooltip) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false,
 				(AppW) app);
