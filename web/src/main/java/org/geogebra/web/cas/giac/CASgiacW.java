@@ -187,4 +187,8 @@ public class CASgiacW extends CASgiac {
 		return casLoaded;
 	}
 
+	public boolean externalCAS() {
+		return Browser.externalCAS();
+	}
+
 }

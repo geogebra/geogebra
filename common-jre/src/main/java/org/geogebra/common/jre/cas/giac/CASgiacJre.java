@@ -300,4 +300,8 @@ public abstract class CASgiacJre extends CASgiac {
 		}
 	}
 
+	public boolean externalCAS() {
+		return true;
+	}
+
 }

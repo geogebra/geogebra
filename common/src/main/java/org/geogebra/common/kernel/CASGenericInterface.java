@@ -186,4 +186,9 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	boolean isLoaded();
 
+	/**
+	 * @return true if using Giac/JNI, false for giac.js
+	 */
+	boolean externalCAS();
+
 }
