@@ -17,9 +17,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
@@ -77,10 +75,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			farYmax = new double[3];
 
 	// private Line2D.Double tempLine = new Line2D.Double();
-	protected GRectangle2D[] nearToScreenRect = new GRectangle2D[] {
-			AwtFactory.getPrototype().newRectangle2D(),
-			AwtFactory.getPrototype().newRectangle2D(),
-			AwtFactory.getPrototype().newRectangle2D() };
 
 	private boolean continuous;
 	protected boolean lastFarAway[] = { false, false, false };

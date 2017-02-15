@@ -789,9 +789,6 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 class MyCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
 
-	public MyCellRenderer() {
-
-	}
 
 	/*
 	 * This is the only method defined by ListCellRenderer. We just reconfigure

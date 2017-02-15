@@ -142,7 +142,7 @@ public class Riemann {
 			return exp(result);
 		}
 		// 2^s pi^(s-1) Gamma(1-s) sin(pi s/2):
-		result = gamma(Complex.subtract(ONE_, s));
+		result = gamma(subtract(ONE_, s));
 		result = multiply(result, sin(multiply(PI / 2, s)));
 		result = multiply(result, power(PI, subtract(s, ONE_)));
 		result = multiply(result, power(2, s));

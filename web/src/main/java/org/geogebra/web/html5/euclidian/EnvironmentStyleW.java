@@ -11,9 +11,6 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	private int scrollLeft;
 	private int scrollTop;
 
-	public EnvironmentStyleW() {
-	}
-
 	/**
 	 * @return the scaleX
 	 */

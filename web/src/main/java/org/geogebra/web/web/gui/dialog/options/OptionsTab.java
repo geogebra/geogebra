@@ -825,11 +825,8 @@ public class OptionsTab extends FlowPanel {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					if (true) {// !slider.getValueIsAdjusting()) {
-						int value = (int) ((opacitySlider.getValue() / 100.0)
-								* 255);
-						model.applyOpacity(value);
-					}
+					int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
+					model.applyOpacity(value);
 				}
 			});
 
@@ -904,13 +901,8 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
-			if (true) {
-				btnLineStyle.selectLineType(type);
+			btnLineStyle.selectLineType(type);
 
-			}
-			// else {
-			// btnLineStyle.setSelectedIndex(-1);
-			// }
 		}
 
 		@Override

@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mathieu
  *
  */
+@SuppressWarnings("javadoc")
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	private AxisTab zAxisTab;
@@ -95,7 +96,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings().setUseLight(
+					get3dview().getSettings()
+							.setUseLight(
 					        cbUseLight.getValue());
 					view.repaintView();
 				}
@@ -117,7 +119,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setYAxisVertical(cbYAxisVertical
+					get3dview().setYAxisVertical(cbYAxisVertical
 					        .getValue());
 					view.repaintView();
 				}
@@ -157,7 +159,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setUseClippingCube(cbUseClipping
+					get3dview().setUseClippingCube(cbUseClipping
 					        .getValue());
 					view.repaintView();
 				}
@@ -167,7 +169,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setShowClippingCube(cbShowClipping
+					get3dview().setShowClippingCube(cbShowClipping
 					        .getValue());
 					view.repaintView();
 				}
@@ -191,7 +193,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings()
+					get3dview().getSettings()
 					        .setClippingReduction(
 					                GeoClippingCube3D.REDUCTION_SMALL);
 					view.repaintView();
@@ -202,7 +204,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings()
+					get3dview().getSettings()
 					        .setClippingReduction(
 					                GeoClippingCube3D.REDUCTION_MEDIUM);
 					view.repaintView();
@@ -213,7 +215,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings()
+					get3dview().getSettings()
 					        .setClippingReduction(
 					                GeoClippingCube3D.REDUCTION_LARGE);
 					view.repaintView();
@@ -227,16 +229,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 */
 		public void update3DProperties() {
 
-			cbYAxisVertical.setValue(((EuclidianView3D) view)
+			cbYAxisVertical.setValue(get3dview()
 			        .getYAxisVertical());
 
-			cbUseLight.setValue(((EuclidianView3D) view).getUseLight());
+			cbUseLight.setValue(get3dview().getUseLight());
 
-			cbUseClipping.setValue(((EuclidianView3D) view).useClippingCube());
+			cbUseClipping.setValue(get3dview().useClippingCube());
 			cbShowClipping
-			        .setValue(((EuclidianView3D) view).showClippingCube());
+.setValue(get3dview().showClippingCube());
 
-			int flag = ((EuclidianView3D) view).getClippingReduction();
+			int flag = get3dview().getClippingReduction();
 			radioClippingSmall
 			        .setValue(flag == GeoClippingCube3D.REDUCTION_SMALL);
 			radioClippingMedium
@@ -271,11 +273,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		return new GridTab3D();
 	}
 
-	private class GridTab3D extends GridTab {
-
-		public GridTab3D() {
-			super();
-		}
+	class GridTab3D extends GridTab {
 
 		@Override
 		protected void addGridType(FlowPanel gridTickAnglePanel) {
@@ -332,7 +330,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					buttons[i].addClickHandler(this);
 				}
 
-				buttonSelected = ((EuclidianView3D) view).getProjection();
+				buttonSelected = get3dview().getProjection();
 				buttons[buttonSelected].setDown(true);
 			}
 
@@ -344,14 +342,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			public void onClick(ClickEvent event) {
 				MyToggleButton2 source = (MyToggleButton2) event.getSource();
 
-				if (source == buttons[((EuclidianView3D) view).getProjection()]) {
+				if (source == buttons[get3dview().getProjection()]) {
 					source.setDown(true);
 					return;
 				}
 
 				for (int i = 0; i < buttons.length; i++) {
 					if (buttons[i].equals(source)) {
-						((EuclidianView3D) view).getSettings().setProjection(i);
+						get3dview().getSettings().setProjection(i);
 						view.repaintView();
 						buttons[i].setDown(true);
 					} else {
@@ -433,7 +431,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setGlassesGrayScaled(cbGlassesGray
+					get3dview().setGlassesGrayScaled(cbGlassesGray
 					        .getValue());
 					view.repaintView();
 				}
@@ -443,7 +441,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view)
+					get3dview()
 					        .setGlassesShutDownGreen(cbGlassesShutDownGreen
 					                .getValue());
 					view.repaintView();
@@ -523,12 +521,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					val = min;
 					tfPersp.setText("" + val);
 				}
-				((EuclidianView3D) view).getSettings()
+				get3dview().getSettings()
 				        .setProjectionPerspectiveEyeDistance(val);
 				view.repaintView();
 			} catch (NumberFormatException e) {
 				tfPersp.setText(""
-				        + (int) ((EuclidianView3D) view)
+						+ (int) get3dview()
 				                .getProjectionPerspectiveEyeDistance());
 			}
 		}
@@ -540,11 +538,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					val = 0;
 					tfGlassesEyeSep.setText("" + val);
 				}
-				((EuclidianView3D) view).getSettings().setEyeSep(val);
+				get3dview().getSettings().setEyeSep(val);
 				view.repaintView();
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""
-				        + (int) ((EuclidianView3D) view).getEyeSep());
+ + (int) get3dview().getEyeSep());
 			}
 		}
 
@@ -553,13 +551,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				double val = Double.parseDouble(tfObliqueAngle.getText());
 				if (!Double.isNaN(val)) {
 
-					((EuclidianView3D) view).getSettings()
+					get3dview().getSettings()
 					        .setProjectionObliqueAngle(val);
 					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueAngle.setText(""
-				        + ((EuclidianView3D) view).getProjectionObliqueAngle());
+						+ get3dview().getProjectionObliqueAngle());
 			}
 		}
 
@@ -571,13 +569,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 						val = 0;
 						tfObliqueFactor.setText("" + val);
 					}
-					((EuclidianView3D) view).setProjectionObliqueFactor(val);
+					get3dview().setProjectionObliqueFactor(val);
 					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueFactor
 				        .setText(""
-				                + ((EuclidianView3D) view)
+						+ get3dview()
 				                        .getProjectionObliqueFactor());
 			}
 		}
@@ -614,18 +612,18 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 */
 		public void updateGUI() {
 			tfPersp.setText(""
-			        + (int) ((EuclidianView3D) view)
+					+ (int) get3dview()
 			                .getProjectionPerspectiveEyeDistance());
 			tfGlassesEyeSep.setText(""
-			        + (int) ((EuclidianView3D) view).getEyeSep());
-			cbGlassesGray.setValue(((EuclidianView3D) view)
+ + (int) get3dview().getEyeSep());
+			cbGlassesGray.setValue(get3dview()
 			        .isGlassesGrayScaled());
-			cbGlassesShutDownGreen.setValue(((EuclidianView3D) view)
+			cbGlassesShutDownGreen.setValue(get3dview()
 			        .isGlassesShutDownGreen());
 			tfObliqueAngle.setText(""
-			        + ((EuclidianView3D) view).getProjectionObliqueAngle());
+ + get3dview().getProjectionObliqueAngle());
 			tfObliqueFactor.setText(""
-			        + ((EuclidianView3D) view).getProjectionObliqueFactor());
+					+ get3dview().getProjectionObliqueFactor());
 
 		}
 	}
@@ -641,6 +639,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 	public OptionsEuclidian3DW(AppW app, EuclidianViewInterfaceCommon view) {
 		super(app, view);
 
+	}
+
+	public EuclidianView3D get3dview() {
+		// TODO Auto-generated method stub
+		return (EuclidianView3D) view;
 	}
 
 	@Override

@@ -337,7 +337,7 @@ public abstract class Renderer {
 	public boolean exportImageForThumbnail = false;
 
 	private boolean exportImageEquirectangular = false;
-	private double exportImageEquirectangularAngle = 0;
+	// private double exportImageEquirectangularAngle = 0;
 
 	/** max latitude viewed -- must be factor of 9 */
 	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;

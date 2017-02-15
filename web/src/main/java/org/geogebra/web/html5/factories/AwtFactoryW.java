@@ -61,8 +61,6 @@ import com.google.gwt.core.client.Scheduler;
  */
 public class AwtFactoryW extends AwtFactory {
 
-	public AwtFactoryW() {
-	}
 
 	@Override
 	public GAffineTransform newAffineTransform() {

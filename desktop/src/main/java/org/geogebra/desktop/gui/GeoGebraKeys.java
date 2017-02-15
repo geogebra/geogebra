@@ -26,10 +26,6 @@ public class GeoGebraKeys implements KeyListener {
 	private boolean altPressed;
 
 
-	public GeoGebraKeys() {
-		// nothing to do
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
