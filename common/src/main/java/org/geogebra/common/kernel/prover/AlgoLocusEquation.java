@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -17,7 +18,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.util.debug.Log;
@@ -246,14 +246,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		// This piece of code has been directly copied from CASgiac.java:
 		StringBuilder script = new StringBuilder();
 		script.append("[[aa:=").append(implicitCurveString).append("],")
-				.append("[bb:=coeffs(factorsqrfree(aa),x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
+				.append("[bb:=coeffs(" + CustomFunctions.FACTOR_SQR_FREE
+						+ "(aa),x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
 				.append("cc:=append(cc,ee); od; od],") // cc][6]");
 				// Add the coefficients for the factors also to improve
 				// visualization:
-				.append("[ff:=factors(factorsqrfree(aa))], [ccf:=[size(ff)/2]], ")
+				.append("[ff:=factors(" + CustomFunctions.FACTOR_SQR_FREE
+						+ "(aa))], [ccf:=[size(ff)/2]], ")
 				.append("[for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffs(aaf,x); sx:=size(bb);")
 				.append(" sy:=size(coeffs(aaf,y)); ccf:=append(ccf,sx,sy);")
 				.append(" for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd);")

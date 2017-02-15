@@ -295,6 +295,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		 * -1 ] would be undefined (log(-1) - log(-2)) Integral[ 1/x^2, -1, 1 ]
 		 * would be defined (-2)
 		 */
+		Log.error("XX" + evaluateNumerically + " "
+				+ f.isPolynomialFunction(false));
 		if (!f.includesFreehandOrData()) {
 			if (algoCAS instanceof AlgoIntegral
 					&& !((AlgoIntegral) algoCAS).isComputedSymbolically()) {
@@ -311,6 +313,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 				}
 			} else if (symbIntegral != null && symbIntegral.isDefined()
 					&& !this.evaluateNumerically) {
+				Log.error("special" + evaluateNumerically);
 				computeSpecial();
 				return;
 			}

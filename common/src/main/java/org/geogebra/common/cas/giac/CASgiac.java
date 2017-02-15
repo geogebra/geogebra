@@ -620,13 +620,15 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		StringBuilder script = new StringBuilder();
 
-		String eliminateCommand = "eliminate2([" + constructRestrictions + "],["
+		String eliminateCommand = CustomFunctions.ELIMINATE2 + "(["
+				+ constructRestrictions + "],["
 				+ varsToEliminate + "])";
 
 		return script.append("[").append("[aa:=").append(eliminateCommand)
 				.append("],").
 				// Creating a matrix from the output to satisfy Sergio:
-				append("[bb:=coeffs(factorsqrfree(aa[0]),x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
+				append("[bb:=coeffs(" + CustomFunctions.FACTOR_SQR_FREE
+						+ "(aa[0]),x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
@@ -634,7 +636,8 @@ public abstract class CASgiac implements CASGenericInterface {
 				// See CASTranslator.createSingularScript for more details.
 				// Add the coefficients for the factors also to improve
 				// visualization:
-				.append("[ff:=factors(factorsqrfree(aa[0]))], [ccf:=[size(ff)/2]], ")
+				.append("[ff:=factors(" + CustomFunctions.FACTOR_SQR_FREE
+						+ "(aa[0]))], [ccf:=[size(ff)/2]], ")
 				.append("[for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffs(aaf,x); sx:=size(bb);")
 				.append(" sy:=size(coeffs(aaf,y)); ccf:=append(ccf,sx,sy);")
 				.append(" for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd);")
@@ -712,7 +715,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * .toString();
 		 */
 
-		String eliminateCommand = "eliminate2([" + polys + "],revlist(["
+		String eliminateCommand = CustomFunctions.ELIMINATE2 + "([" + polys
+				+ "],revlist(["
 				+ elimVars + "]))";
 
 		return script.append("[" + "[ff:=\"\"],[aa:=").append(eliminateCommand)
@@ -749,8 +753,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	public String createEliminateScript(String polys, String elimVars,
 			boolean oneCurve, double scale) {
 		if (!oneCurve) {
-			return "primpoly(eliminate2([" + polys + "],revlist([" + elimVars
-					+ "])))";
+			return CustomFunctions.PRIM_POLY + "(" + CustomFunctions.ELIMINATE2
+					+ "([" + polys
+					+ "],revlist([" + elimVars + "])))";
 		}
 
 		// expression is some change on scale
@@ -779,8 +784,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * approximation. TODO: Check how giac implements fsolve and use a
 		 * different method if needed (and available).
 		 */
-		retval = "primpoly([[ee:=eliminate2([" + polys + "],revlist(["
-				+ elimVars
+		retval = CustomFunctions.PRIM_POLY + "([[ee:="
+				+ CustomFunctions.ELIMINATE2 + "([" + polys
+				+ "],revlist([" + elimVars
 				+ "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
 				+ PRECISION + ")/" + PRECISION + ";"
 				+ "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2));"
