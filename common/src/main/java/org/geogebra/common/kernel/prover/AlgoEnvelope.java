@@ -5,6 +5,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
@@ -239,7 +240,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	}
 
 	private String getImplicitPoly() throws Throwable {
-		String locusLib = kernel.getApplication().getSingularWS().getLocusLib();
+		SingularWebService sws = kernel.getApplication().getSingularWS();
+		String locusLib = sws == null ? "" : sws.getLocusLib();
 
 		/*
 		 * First we create a virtual locus point on the path object. This is

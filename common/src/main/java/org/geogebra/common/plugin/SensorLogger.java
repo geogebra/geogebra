@@ -26,7 +26,7 @@ public abstract class SensorLogger {
 	/**
 	 * port to receive UDP logging on
 	 */
-	public int port = 7166;
+	private int port = 7166;
 	public String appID = "ABCD";
 	public boolean oldUndoActive = false;
 
@@ -121,6 +121,10 @@ public abstract class SensorLogger {
 
 	protected SensorLogger(Kernel kernel) {
 		this.kernel = kernel;
+	}
+
+	protected int getUDPPort() {
+		return port;
 	}
 	public abstract boolean startLogging();
 

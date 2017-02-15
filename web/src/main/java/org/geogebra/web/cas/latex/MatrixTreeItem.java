@@ -61,19 +61,19 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 				mde.stopPropagation();
 
 				if (specialPopup != null) {
-					if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
+					if (EuclidianStyleBarW.getCurrentPopup() != specialPopup
 							|| !app.wasPopupJustClosed()) {
-						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-							EuclidianStyleBarW.CURRENT_POP_UP.hide();
+						if (EuclidianStyleBarW.getCurrentPopup() != null) {
+							EuclidianStyleBarW.getCurrentPopup().hide();
 						}
-						EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
+						EuclidianStyleBarW.setCurrentPopup(specialPopup);
 
 						app.registerPopup(specialPopup);
 						specialPopup.showRelativeTo(pButton);
 						specialPopup.getFocusPanel().getElement().focus();
 					} else {
 						specialPopup.setVisible(false);
-						EuclidianStyleBarW.CURRENT_POP_UP = null;
+						EuclidianStyleBarW.setCurrentPopup(null);
 					}
 				}
 			}
@@ -107,8 +107,8 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 			@Override
 			public void hide() {
 				super.hide();
-				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
-					EuclidianStyleBarW.CURRENT_POP_UP = null;
+				if (EuclidianStyleBarW.getCurrentPopup().equals(this)) {
+					EuclidianStyleBarW.setCurrentPopup(null);
 				}
 			}
 		};
@@ -131,7 +131,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 				ce.stopPropagation();
 				ce.preventDefault();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				appendRow();
 			}
@@ -147,7 +147,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 				ce.stopPropagation();
 				ce.preventDefault();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				removeLastRow();
 			}
@@ -163,7 +163,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 				ce.stopPropagation();
 				ce.preventDefault();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				appendColumn();
 			}
@@ -179,7 +179,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 				ce.stopPropagation();
 				ce.preventDefault();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				removeLastColumn();
 			}

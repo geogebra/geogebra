@@ -566,8 +566,8 @@ public abstract class EuclidianController {
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
-		double middleX = view.toRealWorldCoordX(view.getWidth() / 2);
-		double middleY = view.toRealWorldCoordY(view.getHeight() / 2);
+		double middleX = view.toRealWorldCoordX(view.getWidth() / 2.0);
+		double middleY = view.toRealWorldCoordY(view.getHeight() / 2.0);
 		translationVec.setX(middleX - getStartPointX());
 		translationVec.setY(middleY - getStartPointY());
 		setStartPointLocation(middleX, middleY);

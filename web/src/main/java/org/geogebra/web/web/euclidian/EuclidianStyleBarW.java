@@ -80,7 +80,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		NONE, UPDATE, UPDATE_STYLE
 	}
 
-	public static ButtonPopupMenu CURRENT_POP_UP = null;
+	private static ButtonPopupMenu currentPopup = null;
 	private EuclidianController ec;
 	protected EuclidianView ev;
 	private Construction cons;
@@ -205,8 +205,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			return;
 		}
 
-		if (CURRENT_POP_UP != null) {
-			CURRENT_POP_UP.hide();
+		if (getCurrentPopup() != null) {
+			getCurrentPopup().hide();
 		}
 
 		updateStyleBar();
@@ -1330,8 +1330,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	@Override
 	public void hidePopups() {
-		if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-			EuclidianStyleBarW.CURRENT_POP_UP.hide();
+		if (EuclidianStyleBarW.getCurrentPopup() != null) {
+			EuclidianStyleBarW.getCurrentPopup().hide();
 		}
 	}
 
@@ -1436,5 +1436,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	public void reinit() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static ButtonPopupMenu getCurrentPopup() {
+		return currentPopup;
+	}
+
+	public static void setCurrentPopup(ButtonPopupMenu currentPopup) {
+		EuclidianStyleBarW.currentPopup = currentPopup;
 	}
 }

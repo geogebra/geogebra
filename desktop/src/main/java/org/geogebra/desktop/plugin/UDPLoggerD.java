@@ -257,7 +257,7 @@ public class UDPLoggerD extends SensorLogger {
 				dsocket.close();
 			}
 
-			dsocket = new DatagramSocket(port);
+			dsocket = new DatagramSocket(getUDPPort());
 
 			// Don't block more than 3 sec...
 			// useful in case the datagram flow stops,

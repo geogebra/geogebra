@@ -175,8 +175,8 @@ public class PopupMenuButtonW extends MyCJButton
 			@Override
 			public void hide() {
 				super.hide();
-				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
-					EuclidianStyleBarW.CURRENT_POP_UP = null;
+				if (EuclidianStyleBarW.getCurrentPopup().equals(this)) {
+					EuclidianStyleBarW.setCurrentPopup(null);
 				}
 			}
 		};
@@ -188,19 +188,19 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	void handleClick() {
 		onClickAction();
-		if (EuclidianStyleBarW.CURRENT_POP_UP != myPopup
+		if (EuclidianStyleBarW.getCurrentPopup() != myPopup
 		        || !app.wasPopupJustClosed()) {
-			if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-				EuclidianStyleBarW.CURRENT_POP_UP.hide();
+			if (EuclidianStyleBarW.getCurrentPopup() != null) {
+				EuclidianStyleBarW.getCurrentPopup().hide();
 			}
-			EuclidianStyleBarW.CURRENT_POP_UP = myPopup;
+			EuclidianStyleBarW.setCurrentPopup(myPopup);
 
 			app.registerPopup(myPopup);
 			myPopup.showRelativeTo(getWidget());
 			myPopup.getFocusPanel().getElement().focus();
 		} else {
 			myPopup.setVisible(false);
-			EuclidianStyleBarW.CURRENT_POP_UP = null;
+			EuclidianStyleBarW.setCurrentPopup(null);
 		}
 	}
 	

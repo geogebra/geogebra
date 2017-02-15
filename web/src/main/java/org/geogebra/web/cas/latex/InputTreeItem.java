@@ -206,19 +206,19 @@ public class InputTreeItem extends MathQuillTreeItem
 					// event.preventDefault();
 
 					if (specialPopup != null) {
-						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
+						if (EuclidianStyleBarW.getCurrentPopup() != specialPopup
 								|| !app.wasPopupJustClosed()) {
-							if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-								EuclidianStyleBarW.CURRENT_POP_UP.hide();
+							if (EuclidianStyleBarW.getCurrentPopup() != null) {
+								EuclidianStyleBarW.getCurrentPopup().hide();
 							}
-							EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
+							EuclidianStyleBarW.setCurrentPopup(specialPopup);
 
 							app.registerPopup(specialPopup);
 							specialPopup.showRelativeTo(plusButton);
 							specialPopup.getFocusPanel().getElement().focus();
 						} else {
 							specialPopup.setVisible(false);
-							EuclidianStyleBarW.CURRENT_POP_UP = null;
+							EuclidianStyleBarW.setCurrentPopup(null);
 						}
 					}
 				}
@@ -241,8 +241,8 @@ public class InputTreeItem extends MathQuillTreeItem
 			@Override
 			public void hide() {
 				super.hide();
-				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
-					EuclidianStyleBarW.CURRENT_POP_UP = null;
+				if (EuclidianStyleBarW.getCurrentPopup().equals(this)) {
+					EuclidianStyleBarW.setCurrentPopup(null);
 				}
 			}
 		};
@@ -265,7 +265,7 @@ public class InputTreeItem extends MathQuillTreeItem
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				// TODO: only create it in the input bar!!!
 				final GeoFunction fun = CondFunctionTreeItem
@@ -294,7 +294,7 @@ public class InputTreeItem extends MathQuillTreeItem
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				// TODO: only create it in the input bar!!!
 				final GeoList mat = MatrixTreeItem
@@ -331,7 +331,7 @@ public class InputTreeItem extends MathQuillTreeItem
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
 				specialPopup.setVisible(false);
-				EuclidianStyleBarW.CURRENT_POP_UP = null;
+				EuclidianStyleBarW.setCurrentPopup(null);
 
 				// TODO: only create it in the input bar!!!
 				final GeoCurveCartesianND curve = ParCurveTreeItem

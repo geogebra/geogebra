@@ -1287,8 +1287,10 @@ public class Polynomial implements Comparable<Polynomial> {
 						.createEliminateFactorizedScript(polys, elimVars);
 			} else {
 				EuclidianView ev = kernel.getLastAttachedEV();
-				double xscale = ev.getXscale();
-				double yscale = ev.getYscale();
+				double xscale = ev == null ? EuclidianView.SCALE_STANDARD : ev
+						.getXscale();
+				double yscale = ev == null ? EuclidianView.SCALE_STANDARD : ev
+						.getYscale();
 				double scale = xscale < yscale ? xscale : yscale;
 				elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
 						elimVars, oneCurve, scale);
