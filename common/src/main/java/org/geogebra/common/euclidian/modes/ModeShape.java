@@ -182,21 +182,30 @@ public class ModeShape {
 		}
 
 		GeoPoint startPoint = new GeoPoint(view.getKernel().getConstruction(),
-				startPointX, startPointY, 1);
+				null, startPointX, startPointY, 1);
+		startPoint.setEuclidianVisible(false);
+		startPoint.updateRepaint();
 		points[0] = startPoint;
 
 		GeoPoint leftPoint = new GeoPoint(view.getKernel().getConstruction(),
-				endPointX, startPointY, 1);
+				null, endPointX, startPointY, 1);
+		leftPoint.setEuclidianVisible(false);
+		leftPoint.updateRepaint();
 		points[1] = leftPoint;
 
 		GeoPoint endPoint = new GeoPoint(view.getKernel().getConstruction(),
-				endPointX, endPointY, 1);
+				null, endPointX, endPointY, 1);
+		endPoint.setEuclidianVisible(false);
+		endPoint.updateRepaint();
 		points[2] = endPoint;
 
 		GeoPoint rightPoint = new GeoPoint(view.getKernel().getConstruction(),
-				startPointX, endPointY, 1);
+				null, startPointX, endPointY, 1);
+		rightPoint.setEuclidianVisible(false);
+		rightPoint.updateRepaint();
 		points[3] = rightPoint;
 
+		view.repaintView();
 		return points;
 	}
 
