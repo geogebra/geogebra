@@ -4215,6 +4215,9 @@ public abstract class App implements UpdateSelection {
 		case ROUNDED_POLYGON:
 			return prerelease;
 
+		case CONTEXT_MENU:
+			return prerelease;
+
 		case DIALOGS_OVERLAP_KEYBOARD:
 			return prerelease;
 

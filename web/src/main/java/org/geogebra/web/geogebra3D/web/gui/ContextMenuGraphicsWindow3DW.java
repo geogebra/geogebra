@@ -79,7 +79,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				.axes().getSafeUri().asString(), loc.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString,
 				((GuiManager3DW) app.getGuiManager()).getShowAxes3DAction(),
-				true);
+				true, app);
 		cbShowAxes.setSelected(((EuclidianView3DW) app.getEuclidianView3D())
 		        .axesAreAllVisible());
 		getWrappedPopup().addItem(cbShowAxes);
@@ -88,7 +88,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				.getSafeUri().asString(), loc.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction(),
-				true);
+				true, app);
 		cbShowGrid.setSelected(((Kernel3D) app.getKernel()).getXOYPlane()
 		        .isGridVisible());
 		getWrappedPopup().addItem(cbShowGrid);
@@ -97,7 +97,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				.plane().getSafeUri().asString(), loc.getMenu("Plane"));
 		GCheckBoxMenuItem cbShowPlane = new GCheckBoxMenuItem(htmlString,
 				((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction(),
-				true);
+				true, app);
 		cbShowPlane.setSelected(((Kernel3D) app.getKernel()).getXOYPlane()
 		        .isPlateVisible());
 		getWrappedPopup().addItem(cbShowPlane);

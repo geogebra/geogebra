@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -122,7 +123,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 		        || (getGeo().isSpreadsheetTraceable() && app.getGuiManager() != null && app
 		                .getGuiManager().showView(App.VIEW_SPREADSHEET))) {
 			GCheckBoxMenuItem cbItem;
-			if (getGeo().isEuclidianShowable()
+			if (!(app.has(Feature.WHITEBOARD_APP)
+					&& app.has(Feature.CONTEXT_MENU))
+					&& getGeo().isEuclidianShowable()
 			        && getGeo().getShowObjectCondition() == null
 			        && (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
@@ -134,12 +137,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						showObjectCmd();
 					}
-				}, true);
+						}, true, app);
 				cbItem.setSelected(getGeo().isSetEuclidianVisible());
 				wrappedPopup.addItem(cbItem);
 
 			}
-
 			if (getGeo().isLabelShowable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.mode_showhidelabel_16()
@@ -150,7 +152,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						showLabelCmd();
 					}
-				}, true);
+						}, true, app);
 				cbItem.setSelected(isLabelShown());
 				wrappedPopup.addItem(cbItem);
 			}
@@ -167,7 +169,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 							public void execute() {
 						        traceCmd();
 					        }
-						}, true);
+						}, true, app);
 				cbItem.setSelected(((Traceable) getGeo()).getTrace());
 				wrappedPopup.addItem(cbItem);
 			}
@@ -193,7 +195,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 									// Log.debug("not ported yet
 									// recordToSpreadSheetCmd();");
 						}
-					}, true);
+							}, true, app);
 					cbItem.setSelected(getGeo().getSpreadsheetTrace());
 					wrappedPopup.addItem(cbItem);
 				}
@@ -208,7 +210,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					public void execute() {
 						animationCmd();
 					}
-				}, true);
+						}, true, app);
 				cbItem.setSelected(((Animatable) getGeo()).isAnimating()
 				        && app.getKernel().getAnimatonManager().isRunning());
 				wrappedPopup.addItem(cbItem);
@@ -227,7 +229,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 							public void execute() {
 						        showObjectAuxiliaryCmd();
 					        }
-						}, true);
+						}, true, app);
 				cbItem.setSelected(getGeo().isAuxiliaryObject());
 				wrappedPopup.addItem(cbItem);
 
@@ -245,7 +247,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					public void execute() {
 						fixObjectCmd();
 					}
-				}, true);
+						}, true, app);
 				cbItem.setSelected(getGeo().isFixed());
 				wrappedPopup.addItem(cbItem);
 			} else if (getGeo().isGeoNumeric()) {
@@ -261,7 +263,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 								public void execute() {
 							        fixObjectNumericCmd(num);
 						        }
-							}, true);
+							}, true, app);
 					cbItem.setSelected(num.isSliderFixed());
 					wrappedPopup.addItem(cbItem);
 				}
@@ -275,7 +277,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					public void execute() {
 						fixCheckboxCmd();
 					}
-				}, true);
+						}, true, app);
 				cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed());
 				wrappedPopup.addItem(cbItem);
 			}
@@ -367,7 +369,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				public void execute() {
 							pinCmd(pinned);
 				}
-					}, true);
+					}, true, app);
 			cbItem.setSelected(pinned);
 			//
 			// final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(

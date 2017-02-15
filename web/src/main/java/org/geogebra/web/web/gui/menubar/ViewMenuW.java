@@ -136,7 +136,7 @@ public class ViewMenuW extends GMenuBar {
 						};
 						timer.schedule(0);
 					}
-				}, true);
+				}, true, app);
 		addItem(inputBarItem.getMenuItem());
 
 		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
@@ -155,7 +155,7 @@ public class ViewMenuW extends GMenuBar {
 									id);
 				}
 			}
-		}, true);
+				}, true, app);
 		addItem(consProtNav.getMenuItem());
 
 
@@ -175,7 +175,7 @@ public class ViewMenuW extends GMenuBar {
 									.showView(App.VIEW_DATA_COLLECTION));
 							app.toggleMenu();
 						}
-					}, true);
+					}, true, app);
 			if (!app.isExam()) {
 			addItem(dataCollection.getMenuItem());
 			}
@@ -195,7 +195,7 @@ public class ViewMenuW extends GMenuBar {
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),
 						app.getLocalization().getMenu(e.getKey()), true),
-				true);
+				true, app);
 		newItem.setCommand(new MenuCommand(app) {
 
 			@Override

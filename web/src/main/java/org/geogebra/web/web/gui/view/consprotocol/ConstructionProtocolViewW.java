@@ -420,7 +420,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				};
 
 				GCheckBoxMenuItem columnItem = new GCheckBoxMenuItem(
-						data.columns[j].getTranslatedTitle(), com, true);
+						data.columns[j].getTranslatedTitle(), com, true, app);
 				columnItem.setSelected(data.columns[j].isVisible());
 				popupMenu.addItem(columnItem);
 			}
@@ -440,7 +440,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 								.getConstruction().showOnlyBreakpoints());
 					}
 
-				}, true);
+				}, true, app);
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction()
 				.showOnlyBreakpoints());
 		popupMenu.addItem(miShowOnlyBreakpoints);

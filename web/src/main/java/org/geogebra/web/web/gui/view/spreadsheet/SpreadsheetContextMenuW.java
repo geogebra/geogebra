@@ -81,7 +81,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
-				getCommand(cmdString), true);
+				getCommand(cmdString), true, app);
 		cbItem.setSelected(isSelected);
 		popup.addItem(cbItem);
 	}

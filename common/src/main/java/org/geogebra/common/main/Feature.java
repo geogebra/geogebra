@@ -206,6 +206,9 @@ public enum Feature {
 	/** MOW-97 */
 	ERASER, ROUNDED_POLYGON,
 
+	/** MOW-175 */
+	CONTEXT_MENU,
+
 	/** GGB- 1501 */
 	DIALOGS_OVERLAP_KEYBOARD,
 
