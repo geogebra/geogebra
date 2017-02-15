@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Single intersection point
@@ -34,8 +34,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 	private GeoPoint[] parentOutput;
 	private int idx;
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/**
 	 * Creates algo for single intersection close to given point
@@ -283,12 +283,12 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {

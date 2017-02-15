@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -38,8 +38,8 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 		implements SymbolicParametersBotanaAlgo {
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	public AlgoParabolaPointLine(Construction cons, String label, GeoPointND F,
 			GeoLineND l) {
@@ -62,12 +62,12 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
@@ -78,17 +78,17 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 		GeoLine l1 = (GeoLine) this.line;
 
 		if (F1 != null && l1 != null) {
-			Variable[] vF = F1.getBotanaVars(F1);
-			Variable[] vl = l1.getBotanaVars(l1);
+			PVariable[] vF = F1.getBotanaVars(F1);
+			PVariable[] vl = l1.getBotanaVars(l1);
 
 			if (botanaVars == null) {
-				botanaVars = new Variable[10];
+				botanaVars = new PVariable[10];
 				// P
-				botanaVars[0] = new Variable(kernel);
-				botanaVars[1] = new Variable(kernel);
+				botanaVars[0] = new PVariable(kernel);
+				botanaVars[1] = new PVariable(kernel);
 				// T
-				botanaVars[2] = new Variable(kernel);
-				botanaVars[3] = new Variable(kernel);
+				botanaVars[2] = new PVariable(kernel);
+				botanaVars[3] = new PVariable(kernel);
 				// A
 				botanaVars[4] = vl[0];
 				botanaVars[5] = vl[1];
@@ -105,18 +105,18 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 						+ l1.getLabelSimple());
 			}
 
-			botanaPolynomials = new Polynomial[3];
+			botanaPolynomials = new PPolynomial[3];
 
 			// |FP| = |PT|
-			botanaPolynomials[0] = Polynomial.equidistant(vF[0], vF[1],
+			botanaPolynomials[0] = PPolynomial.equidistant(vF[0], vF[1],
 					botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3]);
 
 			// A,T,B collinear
-			botanaPolynomials[1] = Polynomial.collinear(vl[0], vl[1], vl[2],
+			botanaPolynomials[1] = PPolynomial.collinear(vl[0], vl[1], vl[2],
 					vl[3], botanaVars[2], botanaVars[3]);
 
 			// PT orthogonal AB
-			botanaPolynomials[2] = Polynomial.perpendicular(botanaVars[0],
+			botanaPolynomials[2] = PPolynomial.perpendicular(botanaVars[0],
 					botanaVars[1], botanaVars[2], botanaVars[3], vl[0], vl[1],
 					vl[2], vl[3]);
 

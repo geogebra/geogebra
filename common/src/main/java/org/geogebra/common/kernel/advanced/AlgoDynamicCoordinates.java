@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -38,7 +38,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	private GeoNumberValue x, y; // input
 	private GeoPoint P; // input
 	private GeoPoint M; // output
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 
 	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
 			GeoNumberValue x, GeoNumberValue y) {
@@ -109,18 +109,18 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return true;
 	}
 
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars != null) {
 			return botanaVars;
 		}
 		// botanaVars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
-		botanaVars = new Variable[2];
-		botanaVars[0] = new Variable(kernel, true);
-		botanaVars[1] = new Variable(kernel, true);
+		botanaVars = new PVariable[2];
+		botanaVars[0] = new PVariable(kernel, true);
+		botanaVars[1] = new PVariable(kernel, true);
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;
 		/*

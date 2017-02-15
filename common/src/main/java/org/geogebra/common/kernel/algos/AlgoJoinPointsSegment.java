@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -50,8 +50,8 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	private GeoPolygon poly; // for polygons
 
-	private Variable[] botanaVars;
-	private Polynomial[] polynomials;
+	private PVariable[] botanaVars;
+	private PPolynomial[] polynomials;
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoJoinPointsSegment(Construction cons, String label, GeoPoint P,
@@ -213,7 +213,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars != null) {
 			return botanaVars;
 		}
@@ -222,7 +222,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines/segments are only created when a third
 		// point is lying on them, too:
@@ -235,7 +235,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			P.getFreeVariables(variables);
@@ -259,7 +259,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			BigInteger[] coords1 = P.getExactCoordinates(values);
@@ -272,15 +272,15 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 		if (P != null && Q != null) {
-			Polynomial[] coords1 = P.getPolynomials();
-			Polynomial[] coords2 = Q.getPolynomials();
+			PPolynomial[] coords1 = P.getPolynomials();
+			PPolynomial[] coords2 = Q.getPolynomials();
 			if (coords1 != null && coords2 != null) {
-				polynomials = Polynomial.crossProduct(coords1, coords2);
+				polynomials = PPolynomial.crossProduct(coords1, coords2);
 
 				return polynomials;
 			}

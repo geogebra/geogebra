@@ -46,9 +46,9 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.PolynomialNode;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Term;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PTerm;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -62,8 +62,8 @@ public class AlgoDependentNumber extends AlgoElement
 
 	private GeoNumberValue number; // output
 
-	private Variable[] botanaVars;
-	private Polynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
 	/*
 	 * Rewrite formulas appearing in other geos to contain GeoGebra definitions.
 	 * E.g. when entering a+2b, convert this formula to Segment[A,B] +
@@ -73,7 +73,7 @@ public class AlgoDependentNumber extends AlgoElement
 	private boolean rewriteFormula = true;
 
 	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<GeoSegment>();
-	private ArrayList<Entry<GeoElement, Variable>> segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();
+	private ArrayList<Entry<GeoElement, PVariable>> segVarPairs = new ArrayList<Entry<GeoElement, PVariable>>();
 	private int nrOfMaxDecimals = 0;
 
 	/**
@@ -243,7 +243,7 @@ public class AlgoDependentNumber extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
@@ -254,12 +254,12 @@ public class AlgoDependentNumber extends AlgoElement
 	 * @param vars
 	 *            the used Botana variables in the expression to be built
 	 */
-	public void setBotanaVars(Variable[] vars) {
+	public void setBotanaVars(PVariable[] vars) {
 		botanaVars = vars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
@@ -270,15 +270,15 @@ public class AlgoDependentNumber extends AlgoElement
 		traverseExpression(definition);
 
 		if (botanaVars == null) {
-			botanaVars = new Variable[segVarPairs.size() + 1];
+			botanaVars = new PVariable[segVarPairs.size() + 1];
 			// variable for the expression
-			botanaVars[0] = new Variable(kernel);
+			botanaVars[0] = new PVariable(kernel);
 			if (!segVarPairs.isEmpty()) {
-				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+				Iterator<Entry<GeoElement, PVariable>> it = segVarPairs
 						.iterator();
 				int k = 1;
 				while (it.hasNext()) {
-					Entry<GeoElement, Variable> curr = it.next();
+					Entry<GeoElement, PVariable> curr = it.next();
 					botanaVars[k] = curr.getValue();
 					k++;
 				}
@@ -322,20 +322,20 @@ public class AlgoDependentNumber extends AlgoElement
 				expressionNodeToPolynomial((ExpressionNode) resultVE, polyNode);
 			}
 
-			botanaPolynomials = new Polynomial[botanaVars.length];
+			botanaPolynomials = new PPolynomial[botanaVars.length];
 			botanaPolynomials[0] = polyNode.getPoly();
 
 			if (!segVarPairs.isEmpty()) {
-				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+				Iterator<Entry<GeoElement, PVariable>> it = segVarPairs
 						.iterator();
 				int k = 1;
 				while (it.hasNext()) {
-					Entry<GeoElement, Variable> curr = it.next();
-					Variable[] currBotVars = ((GeoSegment) curr.getKey())
+					Entry<GeoElement, PVariable> curr = it.next();
+					PVariable[] currBotVars = ((GeoSegment) curr.getKey())
 							.getBotanaVars(geo);
-					Polynomial seg = new Polynomial(curr.getValue());
+					PPolynomial seg = new PPolynomial(curr.getValue());
 					botanaPolynomials[k] = seg.multiply(seg)
-							.subtract(Polynomial.sqrDistance(currBotVars[0],
+							.subtract(PPolynomial.sqrDistance(currBotVars[0],
 									currBotVars[1], currBotVars[2],
 									currBotVars[3]));
 					k++;
@@ -345,15 +345,15 @@ public class AlgoDependentNumber extends AlgoElement
 			allSegmentsFromExpression = new HashSet<GeoSegment>();
 			// remove variables as geoSegment names
 			if (rewriteFormula && !segVarPairs.isEmpty()) {
-					Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+					Iterator<Entry<GeoElement, PVariable>> it = segVarPairs
 							.iterator();
 					while (it.hasNext()) {
-						Entry<GeoElement, Variable> curr = it.next();
+						Entry<GeoElement, PVariable> curr = it.next();
 						GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
 						currGeoSeg.setLabelSet(false);
 					}
 			}
-			segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();
+			segVarPairs = new ArrayList<Entry<GeoElement, PVariable>>();
 
 			return botanaPolynomials;
 
@@ -417,7 +417,7 @@ public class AlgoDependentNumber extends AlgoElement
 			s = (GeoSegment) ev;
 		}
 		if (s != null) {
-			Variable currentVar = new Variable(kernel);
+			PVariable currentVar = new PVariable(kernel);
 			/*
 			 * This is voodoo magic here. We may need a different solution
 			 * rather than playing with the label. TODO.
@@ -431,19 +431,19 @@ public class AlgoDependentNumber extends AlgoElement
 				s.update();
 			}
 			cons.setSuppressLabelCreation(suppress);
-			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
+			Entry<GeoElement, PVariable> pair = new AbstractMap.SimpleEntry<GeoElement, PVariable>(
 					s, currentVar);
 			searchSegVarPair(pair);
 			allSegmentsFromExpression.add(s);
 		}
 	}
 
-	private void searchSegVarPair(Entry<GeoElement, Variable> pair) {
+	private void searchSegVarPair(Entry<GeoElement, PVariable> pair) {
 		if (!segVarPairs.isEmpty()) {
-			Iterator<Entry<GeoElement, Variable>> it = segVarPairs.iterator();
+			Iterator<Entry<GeoElement, PVariable>> it = segVarPairs.iterator();
 			int k = 0;
 			while (it.hasNext()) {
-				Entry<GeoElement, Variable> curr = it.next();
+				Entry<GeoElement, PVariable> curr = it.next();
 				if (curr.getKey().equals(pair.getKey())
 						&& curr.getValue().equals(pair.getValue())) {
 					break;
@@ -487,14 +487,14 @@ public class AlgoDependentNumber extends AlgoElement
 		}
 		if (polyNode.getLeft() != null && polyNode.getRight() == null
 				&& polyNode.getOperation() == Operation.NO_OPERATION) {
-			Polynomial leftPoly = polyNode.getLeft().getPoly();
+			PPolynomial leftPoly = polyNode.getLeft().getPoly();
 			polyNode.setPoly(leftPoly);
 		}
 		if (polyNode.getLeft() != null && polyNode.getLeft().getPoly() != null
 				&& polyNode.getRight() != null
 				&& polyNode.getRight().getPoly() != null) {
-			Polynomial leftPoly = polyNode.getLeft().getPoly();
-			Polynomial rightPoly = polyNode.getRight().getPoly();
+			PPolynomial leftPoly = polyNode.getLeft().getPoly();
+			PPolynomial rightPoly = polyNode.getRight().getPoly();
 			switch (polyNode.getOperation()) {
 			case PLUS:
 				polyNode.setPoly(leftPoly.add(rightPoly));
@@ -508,7 +508,7 @@ public class AlgoDependentNumber extends AlgoElement
 			case POWER:
 				Long pow = polyNode.getRight().evaluateLong();
 				if (pow != null) {
-					Polynomial poly = leftPoly;
+					PPolynomial poly = leftPoly;
 					for (Integer i = 1; i < pow; i++) {
 						poly = poly.multiply(leftPoly);
 					}
@@ -532,21 +532,21 @@ public class AlgoDependentNumber extends AlgoElement
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
 			int coeff = (int) expNode.getLeft().evaluateDouble();
-			polyNode.getLeft().setPoly(new Polynomial(coeff));
+			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble
 				&& polyNode.getRight().getPoly() == null) {
 			int coeff = (int) expNode.getRight().evaluateDouble();
-			polyNode.getRight().setPoly(new Polynomial(coeff));
+			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
 			int coeff = (int) expNode.getLeft().evaluateDouble();
-			Variable v = getVarOfGeoDummy(expNode.getRight()
+			PVariable v = getVarOfGeoDummy(expNode.getRight()
 					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {
-				Term t = new Term(v);
-				polyNode.setPoly(new Polynomial(coeff, t));
+				PTerm t = new PTerm(v);
+				polyNode.setPoly(new PPolynomial(coeff, t));
 				return;
 			}
 		}
@@ -613,7 +613,7 @@ public class AlgoDependentNumber extends AlgoElement
 			} else {
 				i = d.intValue();
 			}
-			polyNode.setPoly(new Polynomial(i));
+			polyNode.setPoly(new PPolynomial(i));
 			return;
 		}
 		polyNode.setOperation(expNode.getOperation());
@@ -624,7 +624,7 @@ public class AlgoDependentNumber extends AlgoElement
 						polyNode.getLeft());
 			} else {
 				if (expNode.getLeft() instanceof GeoDummyVariable) {
-					polyNode.getLeft().setPoly(new Polynomial(getVarOfGeoDummy(
+					polyNode.getLeft().setPoly(new PPolynomial(getVarOfGeoDummy(
 							((GeoDummyVariable) expNode.getLeft()).toString(
 									StringTemplate.defaultTemplate))));
 				}
@@ -641,7 +641,7 @@ public class AlgoDependentNumber extends AlgoElement
 					} else {
 						i = d.longValue();
 					}
-					polyNode.getLeft().setPoly(new Polynomial(i));
+					polyNode.getLeft().setPoly(new PPolynomial(i));
 				}
 			}
 
@@ -654,7 +654,7 @@ public class AlgoDependentNumber extends AlgoElement
 			} else {
 				if (expNode.getRight() instanceof GeoDummyVariable) {
 					try {
-						polyNode.getRight().setPoly(new Polynomial(
+						polyNode.getRight().setPoly(new PPolynomial(
 								getVarOfGeoDummy(((GeoDummyVariable) expNode
 										.getRight()).toString(
 												StringTemplate.defaultTemplate))));
@@ -681,7 +681,7 @@ public class AlgoDependentNumber extends AlgoElement
 						default:
 							throw new NoSymbolicParametersException();
 						}
-						polyNode.setPoly(new Polynomial(i));
+						polyNode.setPoly(new PPolynomial(i));
 						return;
 					}
 					// if in the expression exists rational number with n
@@ -695,22 +695,22 @@ public class AlgoDependentNumber extends AlgoElement
 					} else {
 						i = new BigInteger(Long.toString(((long) d)));
 					}
-					polyNode.getRight().setPoly(new Polynomial(i));
+					polyNode.getRight().setPoly(new PPolynomial(i));
 				}
 			}
 		}
 	}
 
-	private Variable getVarOfGeoDummy(String str) {
-		for (Variable variable : botanaVars) {
+	private PVariable getVarOfGeoDummy(String str) {
+		for (PVariable variable : botanaVars) {
 			if (variable.getName().equals(str)) {
 				return variable;
 			}
 		}
 		// It's possible that the variable is in segVarPairs.
-		Iterator<Entry<GeoElement, Variable>> it = segVarPairs.iterator();
+		Iterator<Entry<GeoElement, PVariable>> it = segVarPairs.iterator();
 		while (it.hasNext()) {
-			Entry<GeoElement, Variable> e = it.next();
+			Entry<GeoElement, PVariable> e = it.next();
 			GeoElement ge = e.getKey();
 			if (ge.getLabelSimple().equals(str)) {
 				return e.getValue();

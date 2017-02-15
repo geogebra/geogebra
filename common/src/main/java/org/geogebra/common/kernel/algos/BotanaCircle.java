@@ -1,18 +1,18 @@
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class BotanaCircle {
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 
-	public Variable[] getBotanaVars(GeoElementND P, GeoElementND M) {
+	public PVariable[] getBotanaVars(GeoElementND P, GeoElementND M) {
 		if (botanaVars == null) {
-			Variable[] circle1vars, centerVars;
+			PVariable[] circle1vars, centerVars;
 			circle1vars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
 			centerVars = ((SymbolicParametersBotanaAlgo) M).getBotanaVars(M);
 
-			botanaVars = new Variable[4];
+			botanaVars = new PVariable[4];
 			// Center:
 			botanaVars[0] = centerVars[0];
 			botanaVars[1] = centerVars[1];

@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.prover;
 
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.plugin.Operation;
 
 public class PolynomialNode {
 
 	private PolynomialNode left;
 	private PolynomialNode right;
-	private Polynomial poly;
+	private PPolynomial poly;
 	private Operation operation;
 
 	public PolynomialNode(PolynomialNode left, PolynomialNode right,
@@ -44,11 +44,11 @@ public class PolynomialNode {
 		this.operation = operation;
 	}
 
-	public void setPoly(Polynomial poly) {
+	public void setPoly(PPolynomial poly) {
 		this.poly = poly;
 	}
 
-	public Polynomial getPoly() {
+	public PPolynomial getPoly() {
 		return poly;
 	}
 

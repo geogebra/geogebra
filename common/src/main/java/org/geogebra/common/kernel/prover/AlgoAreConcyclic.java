@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Decides if the points are concyclic. Can be embedded into the Prove command
@@ -32,8 +32,8 @@ public class AlgoAreConcyclic extends AlgoElement
 	private GeoPoint inputPoint4; // input
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[] polynomials;
-	private Polynomial[][] botanaPolynomials;
+	private PPolynomial[] polynomials;
+	private PPolynomial[][] botanaPolynomials;
 
 	/**
 	 * Tests if four points are concyclic
@@ -126,7 +126,7 @@ public class AlgoAreConcyclic extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
 				&& inputPoint4 != null) {
@@ -256,7 +256,7 @@ public class AlgoAreConcyclic extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
 				&& inputPoint4 != null) {
@@ -299,18 +299,18 @@ public class AlgoAreConcyclic extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
 				&& inputPoint4 != null) {
-			Polynomial[] coords1 = inputPoint1.getPolynomials();
-			Polynomial[] coords2 = inputPoint2.getPolynomials();
-			Polynomial[] coords3 = inputPoint3.getPolynomials();
-			Polynomial[] coords4 = inputPoint4.getPolynomials();
-			polynomials = new Polynomial[1];
-			Polynomial[][] matrix = new Polynomial[4][4];
+			PPolynomial[] coords1 = inputPoint1.getPolynomials();
+			PPolynomial[] coords2 = inputPoint2.getPolynomials();
+			PPolynomial[] coords3 = inputPoint3.getPolynomials();
+			PPolynomial[] coords4 = inputPoint4.getPolynomials();
+			polynomials = new PPolynomial[1];
+			PPolynomial[][] matrix = new PPolynomial[4][4];
 			matrix[0][0] = coords1[0].multiply(coords1[2]);
 			matrix[0][1] = coords1[1].multiply(coords1[2]);
 			matrix[0][2] = coords1[0].multiply(coords1[0])
@@ -335,7 +335,7 @@ public class AlgoAreConcyclic extends AlgoElement
 					.add(coords4[1].multiply(coords4[1]));
 			matrix[3][3] = coords4[2].multiply(coords4[2]);
 
-			polynomials[0] = Polynomial.det4(matrix);
+			polynomials[0] = PPolynomial.det4(matrix);
 
 			return polynomials;
 		}
@@ -343,45 +343,45 @@ public class AlgoAreConcyclic extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
 				&& inputPoint4 != null) {
-			Variable[] coords1 = inputPoint1.getBotanaVars(inputPoint1);
-			Variable[] coords2 = inputPoint2.getBotanaVars(inputPoint2);
-			Variable[] coords3 = inputPoint3.getBotanaVars(inputPoint3);
-			Variable[] coords4 = inputPoint4.getBotanaVars(inputPoint4);
-			botanaPolynomials = new Polynomial[1][1];
-			Polynomial[][] matrix = new Polynomial[4][4];
+			PVariable[] coords1 = inputPoint1.getBotanaVars(inputPoint1);
+			PVariable[] coords2 = inputPoint2.getBotanaVars(inputPoint2);
+			PVariable[] coords3 = inputPoint3.getBotanaVars(inputPoint3);
+			PVariable[] coords4 = inputPoint4.getBotanaVars(inputPoint4);
+			botanaPolynomials = new PPolynomial[1][1];
+			PPolynomial[][] matrix = new PPolynomial[4][4];
 
-			matrix[0][0] = new Polynomial(coords1[0]);
-			matrix[0][1] = new Polynomial(coords1[1]);
+			matrix[0][0] = new PPolynomial(coords1[0]);
+			matrix[0][1] = new PPolynomial(coords1[1]);
 			matrix[0][2] = matrix[0][0].multiply(matrix[0][0])
 					.add(matrix[0][1].multiply(matrix[0][1]));
-			matrix[0][3] = new Polynomial(BigInteger.ONE);
+			matrix[0][3] = new PPolynomial(BigInteger.ONE);
 
-			matrix[1][0] = new Polynomial(coords2[0]);
-			matrix[1][1] = new Polynomial(coords2[1]);
+			matrix[1][0] = new PPolynomial(coords2[0]);
+			matrix[1][1] = new PPolynomial(coords2[1]);
 			matrix[1][2] = matrix[1][0].multiply(matrix[1][0])
 					.add(matrix[1][1].multiply(matrix[1][1]));
-			matrix[1][3] = new Polynomial(BigInteger.ONE);
+			matrix[1][3] = new PPolynomial(BigInteger.ONE);
 
-			matrix[2][0] = new Polynomial(coords3[0]);
-			matrix[2][1] = new Polynomial(coords3[1]);
+			matrix[2][0] = new PPolynomial(coords3[0]);
+			matrix[2][1] = new PPolynomial(coords3[1]);
 			matrix[2][2] = matrix[2][0].multiply(matrix[2][0])
 					.add(matrix[2][1].multiply(matrix[2][1]));
-			matrix[2][3] = new Polynomial(BigInteger.ONE);
+			matrix[2][3] = new PPolynomial(BigInteger.ONE);
 
-			matrix[3][0] = new Polynomial(coords4[0]);
-			matrix[3][1] = new Polynomial(coords4[1]);
+			matrix[3][0] = new PPolynomial(coords4[0]);
+			matrix[3][1] = new PPolynomial(coords4[1]);
 			matrix[3][2] = matrix[3][0].multiply(matrix[3][0])
 					.add(matrix[3][1].multiply(matrix[3][1]));
-			matrix[3][3] = new Polynomial(BigInteger.ONE);
+			matrix[3][3] = new PPolynomial(BigInteger.ONE);
 
-			botanaPolynomials[0][0] = Polynomial.det4(matrix);
+			botanaPolynomials[0][0] = PPolynomial.det4(matrix);
 
 			return botanaPolynomials;
 		}

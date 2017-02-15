@@ -29,8 +29,8 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -51,8 +51,8 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	private boolean infiniteB;
 	private int index;
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/**
 	 * Creates new AlgoAngularBisectorLines
@@ -302,12 +302,12 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -321,30 +321,30 @@ public class AlgoAngularBisectorLines extends AlgoElement
 			 * We need to compute this.B symbolically since it is not computed
 			 * automatically in this class.
 			 */
-			Variable[] varsB, varsLg, varsLh;
+			PVariable[] varsB, varsLg, varsLh;
 			varsB = (this.B).getBotanaVars(this.B);
 			varsLg = lg.getBotanaVars(lg);
 			varsLh = lh.getBotanaVars(lh);
-			Polynomial[] polysB = (this.B).getBotanaPolynomials(this.B);
+			PPolynomial[] polysB = (this.B).getBotanaPolynomials(this.B);
 
 			if (polysB == null) {
 				// if already exists, let's use it, if not, create a new one
-				polysB = new Polynomial[2];
-				polysB[0] = Polynomial.collinear(varsB[0], varsB[1], varsLg[0],
+				polysB = new PPolynomial[2];
+				polysB[0] = PPolynomial.collinear(varsB[0], varsB[1], varsLg[0],
 						varsLg[1], varsLg[2], varsLg[3]);
-				polysB[1] = Polynomial.collinear(varsB[0], varsB[1], varsLh[0],
+				polysB[1] = PPolynomial.collinear(varsB[0], varsB[1], varsLh[0],
 						varsLh[1], varsLh[2], varsLh[3]);
 			}
 
-			Variable[] vA = new Variable[2];
+			PVariable[] vA = new PVariable[2];
 			vA[0] = varsLg[0];
 			vA[1] = varsLg[1];
-			Variable[] vB = new Variable[2];
+			PVariable[] vB = new PVariable[2];
 			vB[0] = varsLh[0];
 			vB[1] = varsLh[1];
-			Variable[] vC = varsB;
+			PVariable[] vC = varsB;
 
-			botanaPolynomials = new Polynomial[4];
+			botanaPolynomials = new PPolynomial[4];
 			botanaPolynomials[2] = polysB[0];
 			botanaPolynomials[3] = polysB[1];
 
@@ -352,46 +352,46 @@ public class AlgoAngularBisectorLines extends AlgoElement
 			// AlgoAngularBisectorPoints
 
 			if (botanaVars == null) {
-				botanaVars = new Variable[4];
+				botanaVars = new PVariable[4];
 				// M
-				botanaVars[0] = new Variable(kernel);
-				botanaVars[1] = new Variable(kernel);
+				botanaVars[0] = new PVariable(kernel);
+				botanaVars[1] = new PVariable(kernel);
 				// A
 				botanaVars[2] = vC[0];
 				botanaVars[3] = vC[1];
 			}
 
-			Polynomial a1 = new Polynomial(vA[0]);
-			Polynomial a2 = new Polynomial(vA[1]);
-			Polynomial b1 = new Polynomial(vB[0]);
-			Polynomial b2 = new Polynomial(vB[1]);
-			Polynomial c1 = new Polynomial(vC[0]);
-			Polynomial c2 = new Polynomial(vC[1]);
-			Polynomial m1 = new Polynomial(botanaVars[0]); // d1
-			Polynomial m2 = new Polynomial(botanaVars[1]); // d2
+			PPolynomial a1 = new PPolynomial(vA[0]);
+			PPolynomial a2 = new PPolynomial(vA[1]);
+			PPolynomial b1 = new PPolynomial(vB[0]);
+			PPolynomial b2 = new PPolynomial(vB[1]);
+			PPolynomial c1 = new PPolynomial(vC[0]);
+			PPolynomial c2 = new PPolynomial(vC[1]);
+			PPolynomial m1 = new PPolynomial(botanaVars[0]); // d1
+			PPolynomial m2 = new PPolynomial(botanaVars[1]); // d2
 
 			// A,M,B collinear (needed for easing computations)
-			botanaPolynomials[0] = Polynomial.collinear(vA[0], vA[1], vB[0],
+			botanaPolynomials[0] = PPolynomial.collinear(vA[0], vA[1], vB[0],
 					vB[1], botanaVars[0], botanaVars[1]);
 
 			// (b1-c1)*(c1-d1)
-			Polynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
+			PPolynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
 			// (b2-c2)*(c2-d2)
-			Polynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
+			PPolynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
 			// (a1-c1)^2+(a2-c2)^2
-			Polynomial p3 = (Polynomial.sqr(a1.subtract(c1)))
-					.add(Polynomial.sqr(a2.subtract(c2)));
+			PPolynomial p3 = (PPolynomial.sqr(a1.subtract(c1)))
+					.add(PPolynomial.sqr(a2.subtract(c2)));
 			// (a1-c1)*(c1-d1)
-			Polynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
+			PPolynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
 			// (a2-c2)*(c2-d2)
-			Polynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
+			PPolynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
 			// (b1-c1)^2+(b2-c2)^2
-			Polynomial p6 = Polynomial.sqr(b1.subtract(c1))
-					.add(Polynomial.sqr(b2.subtract(c2)));
+			PPolynomial p6 = PPolynomial.sqr(b1.subtract(c1))
+					.add(PPolynomial.sqr(b2.subtract(c2)));
 			// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
 			// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
-			botanaPolynomials[1] = Polynomial.sqr((p1.add(p2))).multiply(p3)
-					.subtract(Polynomial.sqr(p4.add(p5)).multiply(p6));
+			botanaPolynomials[1] = PPolynomial.sqr((p1.add(p2))).multiply(p3)
+					.subtract(PPolynomial.sqr(p4.add(p5)).multiply(p6));
 
 			return botanaPolynomials;
 		}

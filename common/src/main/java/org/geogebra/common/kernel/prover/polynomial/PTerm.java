@@ -12,14 +12,14 @@ import java.util.TreeMap;
  * @author Simon Weitzhofer
  * 
  */
-public class Term implements Comparable<Term> {
-	private TreeMap<Variable, Integer> variables;
+public class PTerm implements Comparable<PTerm> {
+	private TreeMap<PVariable, Integer> variables;
 
 	/**
 	 * creates the 1 term
 	 */
-	public Term() {
-		variables = new TreeMap<Variable, Integer>();
+	public PTerm() {
+		variables = new TreeMap<PVariable, Integer>();
 	}
 
 	/**
@@ -28,8 +28,8 @@ public class Term implements Comparable<Term> {
 	 * @param t
 	 *            the term to copy
 	 */
-	public Term(final Term t) {
-		variables = new TreeMap<Variable, Integer>(t.getTerm());
+	public PTerm(final PTerm t) {
+		variables = new TreeMap<PVariable, Integer>(t.getTerm());
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class Term implements Comparable<Term> {
 	 * @param variables
 	 *            The map
 	 */
-	Term(final TreeMap<Variable, Integer> variables) {
+	PTerm(final TreeMap<PVariable, Integer> variables) {
 		this.variables = variables;
 	}
 
@@ -49,8 +49,8 @@ public class Term implements Comparable<Term> {
 	 * @param variable
 	 *            the variable
 	 */
-	public Term(final Variable variable) {
-		variables = new TreeMap<Variable, Integer>();
+	public PTerm(final PVariable variable) {
+		variables = new TreeMap<PVariable, Integer>();
 		variables.put(variable, 1);
 	}
 
@@ -62,8 +62,8 @@ public class Term implements Comparable<Term> {
 	 * @param exponent
 	 *            the exponent
 	 */
-	public Term(final Variable variable, final int exponent) {
-		variables = new TreeMap<Variable, Integer>();
+	public PTerm(final PVariable variable, final int exponent) {
+		variables = new TreeMap<PVariable, Integer>();
 		variables.put(variable, exponent);
 	}
 
@@ -74,21 +74,21 @@ public class Term implements Comparable<Term> {
 	 *            the other term
 	 * @return the product
 	 */
-	public Term times(final Term term) {
-		TreeMap<Variable, Integer> productTerm = new TreeMap<Variable, Integer>(
+	public PTerm times(final PTerm term) {
+		TreeMap<PVariable, Integer> productTerm = new TreeMap<PVariable, Integer>(
 				variables);
 
-		TreeMap<Variable, Integer> variables2 = term.getTerm();
-		Iterator<Variable> it = term.getTerm().keySet().iterator();
+		TreeMap<PVariable, Integer> variables2 = term.getTerm();
+		Iterator<PVariable> it = term.getTerm().keySet().iterator();
 		while (it.hasNext()) {
-			Variable vp = it.next();
+			PVariable vp = it.next();
 			if (variables.containsKey(vp)) {
 				productTerm.put(vp, variables.get(vp) + variables2.get(vp));
 			} else {
 				productTerm.put(vp, variables2.get(vp));
 			}
 		}
-		return new Term(productTerm);
+		return new PTerm(productTerm);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return the map
 	 */
-	public TreeMap<Variable, Integer> getTerm() {
+	public TreeMap<PVariable, Integer> getTerm() {
 		return variables;
 	}
 
@@ -105,17 +105,17 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return the variable with the highest order
 	 */
-	public Variable getHighestVariable() {
+	public PVariable getHighestVariable() {
 		return variables.lastKey();
 	}
 
 	@Override
-	public int compareTo(Term o) {
+	public int compareTo(PTerm o) {
 		if (this == o) {
 			return 0;
 		}
 
-		TreeMap<Variable, Integer> t = o.getTerm();
+		TreeMap<PVariable, Integer> t = o.getTerm();
 		if (t.isEmpty()) {
 			if (variables.isEmpty()) {
 				return 0;
@@ -126,7 +126,7 @@ public class Term implements Comparable<Term> {
 			return -1;
 		}
 
-		Variable variablesLastKey = variables.lastKey(), tLastKey = t.lastKey();
+		PVariable variablesLastKey = variables.lastKey(), tLastKey = t.lastKey();
 
 		int compare = variablesLastKey.compareTo(tLastKey);
 
@@ -140,9 +140,9 @@ public class Term implements Comparable<Term> {
 		}
 
 		do {
-			SortedMap<Variable, Integer> variablesSub = variables
+			SortedMap<PVariable, Integer> variablesSub = variables
 					.headMap(variablesLastKey);
-			SortedMap<Variable, Integer> oSub = t.headMap(tLastKey);
+			SortedMap<PVariable, Integer> oSub = t.headMap(tLastKey);
 			if (variablesSub.isEmpty()) {
 				if (oSub.isEmpty()) {
 					return 0;
@@ -166,8 +166,8 @@ public class Term implements Comparable<Term> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Term) {
-			return this.compareTo((Term) o) == 0;
+		if (o instanceof PTerm) {
+			return this.compareTo((PTerm) o) == 0;
 		}
 		return super.equals(o);
 	}
@@ -175,10 +175,10 @@ public class Term implements Comparable<Term> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<Entry<Variable, Integer>> it = variables.entrySet().iterator();
+		Iterator<Entry<PVariable, Integer>> it = variables.entrySet().iterator();
 		while (it.hasNext()) {
-			Entry<Variable, Integer> entry = it.next();
-			Variable fv = entry.getKey();
+			Entry<PVariable, Integer> entry = it.next();
+			PVariable fv = entry.getKey();
 			sb.append("*");
 			sb.append(fv);
 			int power = entry.getValue();
@@ -200,10 +200,10 @@ public class Term implements Comparable<Term> {
 	 */
 	public String toTeX() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<Entry<Variable, Integer>> it = variables.entrySet().iterator();
+		Iterator<Entry<PVariable, Integer>> it = variables.entrySet().iterator();
 		while (it.hasNext()) {
-			Entry<Variable, Integer> entry = it.next();
-			Variable fv = entry.getKey();
+			Entry<PVariable, Integer> entry = it.next();
+			PVariable fv = entry.getKey();
 			sb.append(fv.toTeX());
 			int power = entry.getValue();
 			if (power > 1) {
@@ -218,11 +218,11 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return the set of variables
 	 */
-	public HashSet<Variable> getVars() {
-		HashSet<Variable> v = new HashSet<Variable>();
-		Iterator<Variable> it = variables.keySet().iterator();
+	public HashSet<PVariable> getVars() {
+		HashSet<PVariable> v = new HashSet<PVariable>();
+		Iterator<PVariable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
-			Variable fv = it.next();
+			PVariable fv = it.next();
 			v.add(fv);
 		}
 		return v;
@@ -246,12 +246,12 @@ public class Term implements Comparable<Term> {
 	 *            the divisor
 	 * @return true if g divides f and false otherwise
 	 */
-	public static boolean divides(final Term f, final Term g) {
-		TreeMap<Variable, Integer> termG = g.getTerm();
-		Iterator<Entry<Variable, Integer>> itG = termG.entrySet().iterator();
+	public static boolean divides(final PTerm f, final PTerm g) {
+		TreeMap<PVariable, Integer> termG = g.getTerm();
+		Iterator<Entry<PVariable, Integer>> itG = termG.entrySet().iterator();
 		while (itG.hasNext()) {
-			Entry<Variable, Integer> entry = itG.next();
-			Variable var = entry.getKey();
+			Entry<PVariable, Integer> entry = itG.next();
+			PVariable var = entry.getKey();
 			Integer powF = f.getTerm().get(var);
 			if (powF == null || powF.intValue() < entry.getValue().intValue()) {
 				return false;

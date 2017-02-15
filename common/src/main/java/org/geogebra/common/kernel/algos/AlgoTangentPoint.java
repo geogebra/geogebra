@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Two tangents through point P to conic section c
@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 public class AlgoTangentPoint extends AlgoTangentPointND
 		implements SymbolicParametersBotanaAlgo {
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	public AlgoTangentPoint(Construction cons, String[] labels, GeoPointND P,
 			GeoConicND c) {
@@ -150,12 +150,12 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		/*
@@ -170,77 +170,77 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			GeoConic circle = this.getConic();
 
 			if (point != null && circle != null) {
-				Variable[] vPoint = point.getBotanaVars(point);
-				Variable[] vcircle = circle.getBotanaVars(circle);
+				PVariable[] vPoint = point.getBotanaVars(point);
+				PVariable[] vcircle = circle.getBotanaVars(circle);
 
-				Polynomial pointDistCircle = Polynomial.equidistant(vPoint[0],
+				PPolynomial pointDistCircle = PPolynomial.equidistant(vPoint[0],
 						vPoint[1], vcircle[0], vcircle[1], vcircle[2],
 						vcircle[3]);
 
 				// is tangent point on circle?
 				if (isIntersectionPointIncident()) {
 					if (botanaVars == null) {
-						botanaVars = new Variable[4];
+						botanaVars = new PVariable[4];
 						// tangent point
 						botanaVars[0] = vPoint[0];
 						botanaVars[1] = vPoint[1];
 						// point on the tangent line
-						botanaVars[2] = new Variable(kernel);
-						botanaVars[3] = new Variable(kernel);
+						botanaVars[2] = new PVariable(kernel);
+						botanaVars[3] = new PVariable(kernel);
 					}
 
-					botanaPolynomials = new Polynomial[3];
+					botanaPolynomials = new PPolynomial[3];
 					botanaPolynomials[0] = pointDistCircle;
 					// rotating the center of vcircle
 					// around vpoint by 90 degrees
 					// to get a point on the tangent line
-					botanaPolynomials[1] = new Polynomial(botanaVars[1])
-							.subtract(new Polynomial(vcircle[1]))
-							.subtract(new Polynomial(botanaVars[2]))
-							.add(new Polynomial(botanaVars[0]));
-					botanaPolynomials[2] = new Polynomial(vcircle[0])
-							.subtract(new Polynomial(botanaVars[0]))
-							.subtract(new Polynomial(botanaVars[3]))
-							.add(new Polynomial(botanaVars[1]));
+					botanaPolynomials[1] = new PPolynomial(botanaVars[1])
+							.subtract(new PPolynomial(vcircle[1]))
+							.subtract(new PPolynomial(botanaVars[2]))
+							.add(new PPolynomial(botanaVars[0]));
+					botanaPolynomials[2] = new PPolynomial(vcircle[0])
+							.subtract(new PPolynomial(botanaVars[0]))
+							.subtract(new PPolynomial(botanaVars[3]))
+							.add(new PPolynomial(botanaVars[1]));
 					return botanaPolynomials;
 
 				}
 
 				if (botanaVars == null) {
-					botanaVars = new Variable[6];
+					botanaVars = new PVariable[6];
 					// T - tangent point of circle
-					botanaVars[0] = new Variable(kernel);
-					botanaVars[1] = new Variable(kernel);
+					botanaVars[0] = new PVariable(kernel);
+					botanaVars[1] = new PVariable(kernel);
 					// A
 					botanaVars[2] = vPoint[0];
 					botanaVars[3] = vPoint[1];
 					// M - midpoint of OE
-					botanaVars[4] = new Variable(kernel);
-					botanaVars[5] = new Variable(kernel);
+					botanaVars[4] = new PVariable(kernel);
+					botanaVars[5] = new PVariable(kernel);
 				}
 
-				botanaPolynomials = new Polynomial[4];
+				botanaPolynomials = new PPolynomial[4];
 
-				Polynomial m1 = new Polynomial(botanaVars[4]);
-				Polynomial m2 = new Polynomial(botanaVars[5]);
-				Polynomial e1 = new Polynomial(vPoint[0]);
-				Polynomial e2 = new Polynomial(vPoint[1]);
-				Polynomial o1 = new Polynomial(vcircle[0]);
-				Polynomial o2 = new Polynomial(vcircle[1]);
+				PPolynomial m1 = new PPolynomial(botanaVars[4]);
+				PPolynomial m2 = new PPolynomial(botanaVars[5]);
+				PPolynomial e1 = new PPolynomial(vPoint[0]);
+				PPolynomial e2 = new PPolynomial(vPoint[1]);
+				PPolynomial o1 = new PPolynomial(vcircle[0]);
+				PPolynomial o2 = new PPolynomial(vcircle[1]);
 
 				// M midpoint of EO
-				botanaPolynomials[0] = new Polynomial(2).multiply(m1)
+				botanaPolynomials[0] = new PPolynomial(2).multiply(m1)
 						.subtract(o1).subtract(e1);
-				botanaPolynomials[1] = new Polynomial(2).multiply(m2)
+				botanaPolynomials[1] = new PPolynomial(2).multiply(m2)
 						.subtract(o2).subtract(e2);
 
 				// MT = ME
-				botanaPolynomials[2] = Polynomial.equidistant(botanaVars[0],
+				botanaPolynomials[2] = PPolynomial.equidistant(botanaVars[0],
 						botanaVars[1], botanaVars[4], botanaVars[5], vPoint[0],
 						vPoint[1]);
 
 				// OT = OB
-				botanaPolynomials[3] = Polynomial.equidistant(botanaVars[0],
+				botanaPolynomials[3] = PPolynomial.equidistant(botanaVars[0],
 						botanaVars[1], vcircle[0], vcircle[1], vcircle[2],
 						vcircle[3]);
 				return botanaPolynomials;
@@ -254,49 +254,49 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			GeoConic parabola = this.getConic();
 
 			if (point != null && parabola != null) {
-				Variable[] vPoint = point.getBotanaVars(point);
-				Variable[] vparabola = parabola.getBotanaVars(parabola);
+				PVariable[] vPoint = point.getBotanaVars(point);
+				PVariable[] vparabola = parabola.getBotanaVars(parabola);
 
 				// is tangent point on the parabola?
 				if (isIntersectionPointIncident()) {
 
 					if (botanaVars == null) {
-						botanaVars = new Variable[4];
+						botanaVars = new PVariable[4];
 						// M - midpoint of FT'
-						botanaVars[0] = new Variable(kernel);
-						botanaVars[1] = new Variable(kernel);
+						botanaVars[0] = new PVariable(kernel);
+						botanaVars[1] = new PVariable(kernel);
 						// T - tangent point
 						botanaVars[2] = vPoint[0];
 						botanaVars[3] = vPoint[1];
 						// the line MT will be the tangent
 					}
 
-					botanaPolynomials = new Polynomial[4];
+					botanaPolynomials = new PPolynomial[4];
 
-					Polynomial m1 = new Polynomial(botanaVars[0]);
-					Polynomial m2 = new Polynomial(botanaVars[1]);
+					PPolynomial m1 = new PPolynomial(botanaVars[0]);
+					PPolynomial m2 = new PPolynomial(botanaVars[1]);
 					// coordinates of focus point of parabola
-					Polynomial f1 = new Polynomial(vparabola[8]);
-					Polynomial f2 = new Polynomial(vparabola[9]);
+					PPolynomial f1 = new PPolynomial(vparabola[8]);
+					PPolynomial f2 = new PPolynomial(vparabola[9]);
 					// coordinates of T' (feet point on the directrix for T)
-					Variable t_1 = new Variable(kernel);
-					Variable t_2 = new Variable(kernel);
+					PVariable t_1 = new PVariable(kernel);
+					PVariable t_2 = new PVariable(kernel);
 
-					Polynomial t_1p = new Polynomial(t_1);
-					Polynomial t_2p = new Polynomial(t_2);
+					PPolynomial t_1p = new PPolynomial(t_1);
+					PPolynomial t_2p = new PPolynomial(t_2);
 
 					// M midpoint of FT'
-					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
+					botanaPolynomials[0] = new PPolynomial(2).multiply(m1)
 							.subtract(f1).subtract(t_1p);
-					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
+					botanaPolynomials[1] = new PPolynomial(2).multiply(m2)
 							.subtract(f2).subtract(t_2p);
 
 					// T' is a feet point (we need to declare it)
-					botanaPolynomials[2] = Polynomial.collinear(t_1, t_2,
+					botanaPolynomials[2] = PPolynomial.collinear(t_1, t_2,
 							vparabola[4], vparabola[5], vparabola[6],
 							vparabola[7]);
 					// TT' = TF
-					botanaPolynomials[3] = Polynomial.equidistant(t_1, t_2,
+					botanaPolynomials[3] = PPolynomial.equidistant(t_1, t_2,
 							vPoint[0], vPoint[1], vparabola[8], vparabola[9]);
 
 					return botanaPolynomials;
@@ -313,50 +313,50 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			GeoConic ellipse = this.getConic();
 
 			if (point != null && ellipse != null) {
-				Variable[] vPoint = point.getBotanaVars(point);
-				Variable[] vellipse = ellipse.getBotanaVars(ellipse);
+				PVariable[] vPoint = point.getBotanaVars(point);
+				PVariable[] vellipse = ellipse.getBotanaVars(ellipse);
 
 				// is tangent point on the ellipse/hyperbola?
 				if (isIntersectionPointIncident()) {
 
 					if (botanaVars == null) {
-						botanaVars = new Variable[6];
+						botanaVars = new PVariable[6];
 						// M - tangent point
-						botanaVars[0] = new Variable(kernel);
-						botanaVars[1] = new Variable(kernel);
+						botanaVars[0] = new PVariable(kernel);
+						botanaVars[1] = new PVariable(kernel);
 						// T - point on ellipse/hyperbola
 						botanaVars[2] = vPoint[0];
 						botanaVars[3] = vPoint[1];
 						// D
-						botanaVars[4] = new Variable(kernel);
-						botanaVars[5] = new Variable(kernel);
+						botanaVars[4] = new PVariable(kernel);
+						botanaVars[5] = new PVariable(kernel);
 					}
 
-					botanaPolynomials = new Polynomial[4];
+					botanaPolynomials = new PPolynomial[4];
 
-					Polynomial m1 = new Polynomial(botanaVars[0]);
-					Polynomial m2 = new Polynomial(botanaVars[1]);
+					PPolynomial m1 = new PPolynomial(botanaVars[0]);
+					PPolynomial m2 = new PPolynomial(botanaVars[1]);
 					// coordinates of second focus point of ellipse/hyperbola
-					Polynomial f21 = new Polynomial(vellipse[8]);
-					Polynomial f22 = new Polynomial(vellipse[9]);
+					PPolynomial f21 = new PPolynomial(vellipse[8]);
+					PPolynomial f22 = new PPolynomial(vellipse[9]);
 					// coordinates of D
-					Polynomial d1 = new Polynomial(botanaVars[4]);
-					Polynomial d2 = new Polynomial(botanaVars[5]);
+					PPolynomial d1 = new PPolynomial(botanaVars[4]);
+					PPolynomial d2 = new PPolynomial(botanaVars[5]);
 
 					// F_1,T,D collinear
-					botanaPolynomials[0] = Polynomial.collinear(vellipse[6],
+					botanaPolynomials[0] = PPolynomial.collinear(vellipse[6],
 							vellipse[7], vPoint[0], vPoint[1], botanaVars[4],
 							botanaVars[5]);
 
 					// F_2T = TD
-					botanaPolynomials[1] = Polynomial.equidistant(vellipse[8],
+					botanaPolynomials[1] = PPolynomial.equidistant(vellipse[8],
 							vellipse[9], vPoint[0], vPoint[1], botanaVars[4],
 							botanaVars[5]);
 
 					// M midpoint of F_2D
-					botanaPolynomials[2] = new Polynomial(2).multiply(m1)
+					botanaPolynomials[2] = new PPolynomial(2).multiply(m1)
 							.subtract(f21).subtract(d1);
-					botanaPolynomials[3] = new Polynomial(2).multiply(m2)
+					botanaPolynomials[3] = new PPolynomial(2).multiply(m2)
 							.subtract(f22).subtract(d2);
 
 					return botanaPolynomials;

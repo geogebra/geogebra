@@ -40,8 +40,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -71,8 +71,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 **/
 	ArrayList<GeoPoint> newPoints;
 
-	private HashMap<GeoElementND, Polynomial[]> botanaPolynomials;
-	private HashMap<GeoElementND, Variable[]> botanaVars;
+	private HashMap<GeoElementND, PPolynomial[]> botanaPolynomials;
+	private HashMap<GeoElementND, PVariable[]> botanaVars;
 
 	private GeoConic degConic;
 	private GeoLine tempLine;
@@ -1370,15 +1370,15 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * commonize.
 	 */
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars.get(geo);
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
-			Polynomial[] ret = botanaPolynomials.get(geo);
+			PPolynomial[] ret = botanaPolynomials.get(geo);
 			if (ret != null) {
 				return ret;
 			}
@@ -1387,17 +1387,17 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// Special cases first.
 
 		if (A != null && B != null && A.isCircle() && B.isCircle()) {
-			Variable[] botanaVarsThis = new Variable[2];
+			PVariable[] botanaVarsThis = new PVariable[2];
 			if (botanaVars == null) {
-				botanaVars = new HashMap<GeoElementND, Variable[]>();
+				botanaVars = new HashMap<GeoElementND, PVariable[]>();
 			}
 			if (botanaVars.containsKey(geo)) {
 				botanaVarsThis = botanaVars.get(geo);
 			} else {
 				// Intersection point (we create only one):
-				botanaVarsThis = new Variable[2];
-				botanaVarsThis[0] = new Variable(kernel);
-				botanaVarsThis[1] = new Variable(kernel);
+				botanaVarsThis = new PVariable[2];
+				botanaVarsThis[0] = new PVariable(kernel);
+				botanaVarsThis[1] = new PVariable(kernel);
 				botanaVars.put(geo, botanaVarsThis);
 			}
 
@@ -1417,18 +1417,18 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				excludePoint = 1;
 			}
 
-			Polynomial[] botanaPolynomialsThis = null;
+			PPolynomial[] botanaPolynomialsThis = null;
 			/*
 			 * Force a criterion that the two intersection points must differ:
 			 * See page 150 in Zoltan's diss, 1st paragraph. TODO: This is very
 			 * ugly.
 			 */
-			Variable[] botanaVarsOther = new Variable[2];
-			Iterator<Entry<GeoElementND, Variable[]>> it = botanaVars.entrySet()
+			PVariable[] botanaVarsOther = new PVariable[2];
+			Iterator<Entry<GeoElementND, PVariable[]>> it = botanaVars.entrySet()
 					.iterator();
 			boolean found = false;
 			while (it.hasNext()) {
-				Entry<GeoElementND, Variable[]> entry = it.next();
+				Entry<GeoElementND, PVariable[]> entry = it.next();
 				GeoElementND otherGeo = entry.getKey();
 				/*
 				 * This should be at most one element. There is one element if
@@ -1437,32 +1437,32 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				 * will not create any polynomials here (yet).
 				 */
 				if (!otherGeo.equals(geo)) {
-					botanaPolynomialsThis = new Polynomial[3 + excludePoint];
+					botanaPolynomialsThis = new PPolynomial[3 + excludePoint];
 					botanaVarsOther = entry.getValue();
-					botanaPolynomialsThis[2 + excludePoint] = (Polynomial
+					botanaPolynomialsThis[2 + excludePoint] = (PPolynomial
 							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
 									botanaVarsOther[0], botanaVarsOther[1])
-							.multiply(new Polynomial(new Variable(kernel))))
-									.subtract(new Polynomial(1));
+							.multiply(new PPolynomial(new PVariable(kernel))))
+									.subtract(new PPolynomial(1));
 					found = true;
 				}
 			}
 			if (!found) {
-				botanaPolynomialsThis = new Polynomial[2 + excludePoint];
+				botanaPolynomialsThis = new PPolynomial[2 + excludePoint];
 			}
 
-			Variable[] vA = A.getBotanaVars(A); // 4 variables from the first
+			PVariable[] vA = A.getBotanaVars(A); // 4 variables from the first
 												// circle
-			Variable[] vB = B.getBotanaVars(B); // 4 variables from the first
+			PVariable[] vB = B.getBotanaVars(B); // 4 variables from the first
 												// circle
 
-			botanaPolynomialsThis[0] = Polynomial.equidistant(vA[2], vA[3],
+			botanaPolynomialsThis[0] = PPolynomial.equidistant(vA[2], vA[3],
 					vA[0], vA[1], botanaVarsThis[0], botanaVarsThis[1]);
-			botanaPolynomialsThis[1] = Polynomial.equidistant(vB[2], vB[3],
+			botanaPolynomialsThis[1] = PPolynomial.equidistant(vB[2], vB[3],
 					vB[0], vB[1], botanaVarsThis[0], botanaVarsThis[1]);
 
 			if (botanaPolynomials == null) {
-				botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
+				botanaPolynomials = new HashMap<GeoElementND, PPolynomial[]>();
 			}
 
 			/*
@@ -1473,12 +1473,12 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				botanaVarsOther = ((GeoPoint) (preexistPoints.get(0)))
 						.getBotanaVars((preexistPoints.get(0)));
 				botanaPolynomialsThis[botanaPolynomialsThis.length
-						- 1] = (Polynomial
+						- 1] = (PPolynomial
 								.sqrDistance(botanaVarsThis[0],
 										botanaVarsThis[1], botanaVarsOther[0],
 										botanaVarsOther[1])
-								.multiply(new Polynomial(new Variable(kernel))))
-										.subtract(new Polynomial(1));
+								.multiply(new PPolynomial(new PVariable(kernel))))
+										.subtract(new PPolynomial(1));
 			}
 
 			botanaPolynomials.put(geo, botanaPolynomialsThis);
@@ -1492,32 +1492,32 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		}
 
 		/* General case */
-		Variable[] botanaVarsThis = new Variable[2];
+		PVariable[] botanaVarsThis = new PVariable[2];
 		if (botanaVars == null) {
-			botanaVars = new HashMap<GeoElementND, Variable[]>();
+			botanaVars = new HashMap<GeoElementND, PVariable[]>();
 		}
 		if (botanaVars.containsKey(geo)) {
 			botanaVarsThis = botanaVars.get(geo);
 		} else {
 			// Intersection point (we create only one):
-			botanaVarsThis = new Variable[2];
-			botanaVarsThis[0] = new Variable(kernel);
-			botanaVarsThis[1] = new Variable(kernel);
+			botanaVarsThis = new PVariable[2];
+			botanaVarsThis[0] = new PVariable(kernel);
+			botanaVarsThis[1] = new PVariable(kernel);
 			botanaVars.put(geo, botanaVarsThis);
 		}
 		if (botanaPolynomials == null) {
 
 			if (A != null && B != null) {
 
-				Polynomial[] conic1Polys = A.getBotanaPolynomials(A);
-				Variable[] conic1Vars = A.getBotanaVars(A);
-				Polynomial[] conic2Polys = B.getBotanaPolynomials(B);
-				Variable[] conic2Vars = B.getBotanaVars(B);
+				PPolynomial[] conic1Polys = A.getBotanaPolynomials(A);
+				PVariable[] conic1Vars = A.getBotanaVars(A);
+				PPolynomial[] conic2Polys = B.getBotanaPolynomials(B);
+				PVariable[] conic2Vars = B.getBotanaVars(B);
 
 				int conic1PolysNo = conic1Polys.length;
 				int conic2PolysNo = conic2Polys.length;
 
-				Polynomial[] botanaPolynomialsThis = new Polynomial[conic1PolysNo
+				PPolynomial[] botanaPolynomialsThis = new PPolynomial[conic1PolysNo
 						+ conic2PolysNo];
 
 				for (int i = 0; i < conic1PolysNo; i++) {
@@ -1532,7 +1532,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				}
 
 				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
+					botanaPolynomials = new HashMap<GeoElementND, PPolynomial[]>();
 				}
 				botanaPolynomials.put(geo, botanaPolynomialsThis);
 

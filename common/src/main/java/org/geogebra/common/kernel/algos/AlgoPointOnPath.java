@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class AlgoPointOnPath extends AlgoElement
 		implements FixedPathRegionAlgo, SymbolicParametersAlgo,
@@ -44,10 +44,10 @@ public class AlgoPointOnPath extends AlgoElement
 	/** output */
 	protected GeoPointND P;
 	private GeoNumberValue param;
-	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-	private Variable variable;
-	private Variable[] botanaVars;
+	private PPolynomial[] polynomials;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable variable;
+	private PVariable[] botanaVars;
 
 	public AlgoPointOnPath(Construction cons, Path path,
 			GeoNumberValue param) {
@@ -181,7 +181,7 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
@@ -189,7 +189,7 @@ public class AlgoPointOnPath extends AlgoElement
 		if (input[0] instanceof GeoLine) {
 			((SymbolicParametersAlgo) input[0]).getFreeVariables(variables);
 			if (variable == null) {
-				variable = new Variable((GeoElement) P);
+				variable = new PVariable((GeoElement) P);
 			}
 			variables.add(variable);
 			return;
@@ -217,7 +217,7 @@ public class AlgoPointOnPath extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
@@ -255,7 +255,7 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
@@ -264,18 +264,18 @@ public class AlgoPointOnPath extends AlgoElement
 		}
 		if (path instanceof GeoLine) {
 			if (variable == null) {
-				variable = new Variable((GeoElement) P);
+				variable = new PVariable((GeoElement) P);
 			}
-			polynomials = new Polynomial[3];
-			Polynomial[] line = ((SymbolicParametersAlgo) input[0])
+			polynomials = new PPolynomial[3];
+			PPolynomial[] line = ((SymbolicParametersAlgo) input[0])
 					.getPolynomials();
-			polynomials[0] = line[2].multiply(new Polynomial(variable));
+			polynomials[0] = line[2].multiply(new PPolynomial(variable));
 			polynomials[1] = line[2].multiply(
-					(new Polynomial(1)).subtract(new Polynomial(variable)));
+					(new PPolynomial(1)).subtract(new PPolynomial(variable)));
 			polynomials[2] = line[0]
-					.multiply((new Polynomial(variable)).negate())
-					.add(line[1].multiply((new Polynomial(variable))
-							.subtract(new Polynomial(1))));
+					.multiply((new PPolynomial(variable)).negate())
+					.add(line[1].multiply((new PPolynomial(variable))
+							.subtract(new PPolynomial(1))));
 			return polynomials;
 
 		}
@@ -283,7 +283,7 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -291,14 +291,14 @@ public class AlgoPointOnPath extends AlgoElement
 
 		if (input[0] != null && input[0] instanceof GeoLine) {
 			if (botanaVars == null) {
-				botanaVars = new Variable[2];
-				botanaVars[0] = new Variable(kernel, true);
-				botanaVars[1] = new Variable(kernel);
+				botanaVars = new PVariable[2];
+				botanaVars[0] = new PVariable(kernel, true);
+				botanaVars[1] = new PVariable(kernel);
 			}
-			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
+			PVariable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
 					.getBotanaVars(input[0]); // 4 variables
-			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2],
+			botanaPolynomials = new PPolynomial[1];
+			botanaPolynomials[0] = PPolynomial.collinear(fv[0], fv[1], fv[2],
 					fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;
 		}
@@ -306,46 +306,46 @@ public class AlgoPointOnPath extends AlgoElement
 		if (input[0] != null && input[0] instanceof GeoConic) {
 			if (((GeoConic) input[0]).isCircle()) {
 				if (botanaVars == null) {
-					botanaVars = new Variable[2];
-					botanaVars[0] = new Variable(kernel, true);
-					botanaVars[1] = new Variable(kernel);
+					botanaVars = new PVariable[2];
+					botanaVars[0] = new PVariable(kernel, true);
+					botanaVars[1] = new PVariable(kernel);
 				}
-				Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
+				PVariable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]); // 4 variables
-				botanaPolynomials = new Polynomial[1];
+				botanaPolynomials = new PPolynomial[1];
 				// If this new point is D, and ABC is already a triangle with
 				// the circumcenter O,
 				// then here we must claim that e.g. AO=OD:
-				botanaPolynomials[0] = Polynomial.equidistant(fv[2], fv[3],
+				botanaPolynomials[0] = PPolynomial.equidistant(fv[2], fv[3],
 						fv[0], fv[1], botanaVars[0], botanaVars[1]);
 				return botanaPolynomials;
 			}
 			if (((GeoConic) input[0]).isParabola()) {
 				if (botanaVars == null) {
-					botanaVars = new Variable[4];
+					botanaVars = new PVariable[4];
 					// point P on parabola
-					botanaVars[0] = new Variable(kernel, true);
-					botanaVars[1] = new Variable(kernel);
+					botanaVars[0] = new PVariable(kernel, true);
+					botanaVars[1] = new PVariable(kernel);
 					// T- projection of P on AB
-					botanaVars[2] = new Variable(kernel);
-					botanaVars[3] = new Variable(kernel);
+					botanaVars[2] = new PVariable(kernel);
+					botanaVars[3] = new PVariable(kernel);
 				}
-				Variable[] vparabola = ((SymbolicParametersBotanaAlgo) input[0])
+				PVariable[] vparabola = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]);
-				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials = new PPolynomial[3];
 
 				// FP = PT
-				botanaPolynomials[0] = Polynomial.equidistant(vparabola[8],
+				botanaPolynomials[0] = PPolynomial.equidistant(vparabola[8],
 						vparabola[9], botanaVars[0], botanaVars[1],
 						botanaVars[2], botanaVars[3]);
 
 				// A,T,B collinear
-				botanaPolynomials[1] = Polynomial.collinear(vparabola[4],
+				botanaPolynomials[1] = PPolynomial.collinear(vparabola[4],
 						vparabola[5], botanaVars[2], botanaVars[3],
 						vparabola[6], vparabola[7]);
 
 				// PT orthogonal AB
-				botanaPolynomials[2] = Polynomial.perpendicular(botanaVars[0],
+				botanaPolynomials[2] = PPolynomial.perpendicular(botanaVars[0],
 						botanaVars[1], botanaVars[2], botanaVars[3],
 						vparabola[4], vparabola[5], vparabola[6], vparabola[7]);
 
@@ -354,46 +354,46 @@ public class AlgoPointOnPath extends AlgoElement
 			if (((GeoConic) input[0]).isEllipse()
 					|| ((GeoConic) input[0]).isHyperbola()) {
 				if (botanaVars == null) {
-					botanaVars = new Variable[4];
+					botanaVars = new PVariable[4];
 					// P - point on ellipse/hyperbola
-					botanaVars[0] = new Variable(kernel, true);
-					botanaVars[1] = new Variable(kernel);
+					botanaVars[0] = new PVariable(kernel, true);
+					botanaVars[1] = new PVariable(kernel);
 					// distances between point on ellipse/hyperbola
 					// and foci points
-					botanaVars[2] = new Variable(kernel);
-					botanaVars[3] = new Variable(kernel);
+					botanaVars[2] = new PVariable(kernel);
+					botanaVars[3] = new PVariable(kernel);
 				}
 
-				Variable[] vellipse = ((SymbolicParametersBotanaAlgo) input[0])
+				PVariable[] vellipse = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]);
 
 				if (input[0]
 						.getParentAlgorithm() instanceof AlgoConicFivePoints) {
-					botanaPolynomials = new Polynomial[2];
-					botanaPolynomials[0] = new Polynomial(vellipse[0])
-							.subtract(new Polynomial(botanaVars[0]));
-					botanaPolynomials[1] = new Polynomial(vellipse[1])
-							.subtract(new Polynomial(botanaVars[1]));
+					botanaPolynomials = new PPolynomial[2];
+					botanaPolynomials[0] = new PPolynomial(vellipse[0])
+							.subtract(new PPolynomial(botanaVars[0]));
+					botanaPolynomials[1] = new PPolynomial(vellipse[1])
+							.subtract(new PPolynomial(botanaVars[1]));
 					return botanaPolynomials;
 				}
 
-				botanaPolynomials = new Polynomial[3];
+				botanaPolynomials = new PPolynomial[3];
 
-				Polynomial e_1 = new Polynomial(botanaVars[2]);
-				Polynomial e_2 = new Polynomial(botanaVars[3]);
-				Polynomial d1 = new Polynomial(vellipse[2]);
-				Polynomial d2 = new Polynomial(vellipse[3]);
+				PPolynomial e_1 = new PPolynomial(botanaVars[2]);
+				PPolynomial e_2 = new PPolynomial(botanaVars[3]);
+				PPolynomial d1 = new PPolynomial(vellipse[2]);
+				PPolynomial d2 = new PPolynomial(vellipse[3]);
 
 				// d1+d2 = e1'+e2'
 				botanaPolynomials[0] = d1.add(d2).subtract(e_1).subtract(e_2);
 
 				// e1'^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[1] = Polynomial.sqrDistance(botanaVars[0],
+				botanaPolynomials[1] = PPolynomial.sqrDistance(botanaVars[0],
 						botanaVars[1], vellipse[6], vellipse[7])
 						.subtract(e_1.multiply(e_1));
 
 				// e2'^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[2] = Polynomial.sqrDistance(botanaVars[0],
+				botanaPolynomials[2] = PPolynomial.sqrDistance(botanaVars[0],
 						botanaVars[1], vellipse[8], vellipse[9])
 						.subtract(e_2.multiply(e_2));
 
@@ -406,7 +406,7 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 

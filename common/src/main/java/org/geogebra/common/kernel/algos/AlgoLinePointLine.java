@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -47,9 +47,9 @@ public class AlgoLinePointLine extends AlgoElement
 	private GeoPoint P; // input
 	private GeoLine l; // input
 	private GeoLine g; // output
-	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] polynomials;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/** Creates new AlgoLinePointLine */
 	public AlgoLinePointLine(Construction cons, String label, GeoPoint P,
@@ -137,7 +137,7 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 
 		if (P != null && l != null) {
@@ -168,7 +168,7 @@ public class AlgoLinePointLine extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 
 		if (P != null && l != null) {
@@ -186,16 +186,16 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 
 		if (polynomials != null) {
 			return polynomials;
 		}
 
 		if (P != null && l != null) {
-			Polynomial[] coordsP = P.getPolynomials();
-			Polynomial[] coordsl = l.getPolynomials();
-			polynomials = new Polynomial[3];
+			PPolynomial[] coordsP = P.getPolynomials();
+			PPolynomial[] coordsl = l.getPolynomials();
+			polynomials = new PPolynomial[3];
 			polynomials[0] = coordsl[0].multiply(coordsP[2]);
 			polynomials[1] = coordsl[1].multiply(coordsP[2]);
 			polynomials[2] = coordsl[0].multiply(coordsP[0])
@@ -207,39 +207,39 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (P != null && l != null) {
-			Variable[] vP = P.getBotanaVars(P); // c1,c2
-			Polynomial c1 = new Polynomial(vP[0]);
-			Polynomial c2 = new Polynomial(vP[1]);
-			Variable[] vL = l.getBotanaVars(l); // a1,a2,b1,b2
-			Polynomial a1 = new Polynomial(vL[0]);
-			Polynomial a2 = new Polynomial(vL[1]);
-			Polynomial b1 = new Polynomial(vL[2]);
-			Polynomial b2 = new Polynomial(vL[3]);
+			PVariable[] vP = P.getBotanaVars(P); // c1,c2
+			PPolynomial c1 = new PPolynomial(vP[0]);
+			PPolynomial c2 = new PPolynomial(vP[1]);
+			PVariable[] vL = l.getBotanaVars(l); // a1,a2,b1,b2
+			PPolynomial a1 = new PPolynomial(vL[0]);
+			PPolynomial a2 = new PPolynomial(vL[1]);
+			PPolynomial b1 = new PPolynomial(vL[2]);
+			PPolynomial b2 = new PPolynomial(vL[3]);
 
 			if (botanaVars == null) {
-				botanaVars = new Variable[4]; // storing 2 new variables, plus
+				botanaVars = new PVariable[4]; // storing 2 new variables, plus
 												// the coordinates of P
-				botanaVars[0] = new Variable(kernel); // d1
-				botanaVars[1] = new Variable(kernel); // d2
+				botanaVars[0] = new PVariable(kernel); // d1
+				botanaVars[1] = new PVariable(kernel); // d2
 				botanaVars[2] = vP[0];
 				botanaVars[3] = vP[1];
 			}
-			Polynomial d1 = new Polynomial(botanaVars[0]);
-			Polynomial d2 = new Polynomial(botanaVars[1]);
+			PPolynomial d1 = new PPolynomial(botanaVars[0]);
+			PPolynomial d2 = new PPolynomial(botanaVars[1]);
 
-			botanaPolynomials = new Polynomial[2];
+			botanaPolynomials = new PPolynomial[2];
 			// d1=c1+(b1-a1), d2=c2+(b2-a2) => d1-c1-b1+a1, d2-c2-b2+a2
 			botanaPolynomials[0] = ((d1.subtract(c1)).subtract(b1)).add(a1);
 			botanaPolynomials[1] = ((d2.subtract(c2)).subtract(b2)).add(a2);

@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Decides if the objects are equal. Can be embedded into the Prove command to
@@ -36,7 +36,7 @@ public class AlgoAreEqual extends AlgoElement
 	private GeoElement inputElement2; // input
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[][] botanaPolynomials;
+	private PPolynomial[][] botanaPolynomials;
 
 	/**
 	 * Tests if two objects are equal
@@ -119,7 +119,7 @@ public class AlgoAreEqual extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -127,18 +127,18 @@ public class AlgoAreEqual extends AlgoElement
 
 		if (inputElement1 instanceof GeoPoint
 				&& inputElement2 instanceof GeoPoint) {
-			botanaPolynomials = new Polynomial[2][1];
+			botanaPolynomials = new PPolynomial[2][1];
 
-			Variable[] v1 = new Variable[2];
-			Variable[] v2 = new Variable[2];
+			PVariable[] v1 = new PVariable[2];
+			PVariable[] v2 = new PVariable[2];
 			v1 = ((GeoPoint) inputElement1).getBotanaVars(inputElement1); // A=(x1,y1)
 			v2 = ((GeoPoint) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
 
 			// We want to prove: 1) x1-x2==0, 2) y1-y2==0
-			botanaPolynomials[0][0] = new Polynomial(v1[0])
-					.subtract(new Polynomial(v2[0]));
-			botanaPolynomials[1][0] = new Polynomial(v1[1])
-					.subtract(new Polynomial(v2[1]));
+			botanaPolynomials[0][0] = new PPolynomial(v1[0])
+					.subtract(new PPolynomial(v2[0]));
+			botanaPolynomials[1][0] = new PPolynomial(v1[1])
+					.subtract(new PPolynomial(v2[1]));
 			return botanaPolynomials;
 		}
 
@@ -150,17 +150,17 @@ public class AlgoAreEqual extends AlgoElement
 
 		if (inputElement1 instanceof GeoLine
 				&& inputElement2 instanceof GeoLine) {
-			botanaPolynomials = new Polynomial[2][1];
+			botanaPolynomials = new PPolynomial[2][1];
 
-			Variable[] v1 = new Variable[4];
-			Variable[] v2 = new Variable[4];
+			PVariable[] v1 = new PVariable[4];
+			PVariable[] v2 = new PVariable[4];
 			v1 = ((GeoLine) inputElement1).getBotanaVars(inputElement1); // AB
 			v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
 
 			// We want to prove: 1) ABC collinear, 2) ABD collinear
-			botanaPolynomials[0][0] = Polynomial.collinear(v1[0], v1[1], v1[2],
+			botanaPolynomials[0][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
 					v1[3], v2[0], v2[1]);
-			botanaPolynomials[1][0] = Polynomial.collinear(v1[0], v1[1], v1[2],
+			botanaPolynomials[1][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
 					v1[3], v2[2], v2[3]);
 			return botanaPolynomials;
 		}
@@ -169,50 +169,50 @@ public class AlgoAreEqual extends AlgoElement
 				&& inputElement2 instanceof GeoConic) {
 			if (((GeoConic) inputElement1).isCircle()
 					&& ((GeoConic) inputElement2).isCircle()) {
-				botanaPolynomials = new Polynomial[2][1];
+				botanaPolynomials = new PPolynomial[2][1];
 
-				Variable[] v1 = new Variable[4];
-				Variable[] v2 = new Variable[4];
+				PVariable[] v1 = new PVariable[4];
+				PVariable[] v2 = new PVariable[4];
 				// circle with center A and point B
 				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
 				// circle with center C and point D
 				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
 
 				// We want to prove: 1) |AC|^2 = 0, 2) |AB|^2 = |CD|^2
-				botanaPolynomials[0][0] = Polynomial.sqrDistance(v1[0], v1[1],
+				botanaPolynomials[0][0] = PPolynomial.sqrDistance(v1[0], v1[1],
 						v2[0], v2[1]);
-				botanaPolynomials[1][0] = Polynomial
+				botanaPolynomials[1][0] = PPolynomial
 						.sqrDistance(v1[0], v1[1], v1[2], v1[3])
-						.subtract(Polynomial.sqrDistance(v2[0], v2[1], v2[2],
+						.subtract(PPolynomial.sqrDistance(v2[0], v2[1], v2[2],
 								v2[3]));
 				return botanaPolynomials;
 			}
 
 			if (((GeoConic) inputElement1).isParabola()
 					&& ((GeoConic) inputElement2).isParabola()) {
-				botanaPolynomials = new Polynomial[4][1];
+				botanaPolynomials = new PPolynomial[4][1];
 
-				Variable[] v1 = new Variable[10];
-				Variable[] v2 = new Variable[10];
+				PVariable[] v1 = new PVariable[10];
+				PVariable[] v2 = new PVariable[10];
 
 				v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
 				v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
 
 				// We want to prove: 1) A, B, A' coll. 2) A, B, B' coll. 3) F=F'
 				// f1 = f'1
-				botanaPolynomials[0][0] = new Polynomial(v1[8])
-						.subtract(new Polynomial(v2[8]));
+				botanaPolynomials[0][0] = new PPolynomial(v1[8])
+						.subtract(new PPolynomial(v2[8]));
 
 				// f2 = f'2
-				botanaPolynomials[1][0] = new Polynomial(v1[9])
-						.subtract(new Polynomial(v2[9]));
+				botanaPolynomials[1][0] = new PPolynomial(v1[9])
+						.subtract(new PPolynomial(v2[9]));
 
 				// A, B, A'
-				botanaPolynomials[2][0] = Polynomial.collinear(v1[4], v1[5],
+				botanaPolynomials[2][0] = PPolynomial.collinear(v1[4], v1[5],
 						v1[6], v1[7], v2[4], v2[5]);
 
 				// A, B, B'
-				botanaPolynomials[3][0] = Polynomial.collinear(v1[4], v1[5],
+				botanaPolynomials[3][0] = PPolynomial.collinear(v1[4], v1[5],
 						v1[6], v1[7], v2[6], v2[7]);
 
 				return botanaPolynomials;
@@ -229,9 +229,9 @@ public class AlgoAreEqual extends AlgoElement
 			GeoPoint A = (GeoPoint) algo1.input[0];
 			GeoPoint B = (GeoPoint) algo1.input[1];
 			GeoPoint C = (GeoPoint) algo1.input[2];
-			Variable[] vA = A.getBotanaVars(A);
-			Variable[] vB = B.getBotanaVars(B);
-			Variable[] vC = C.getBotanaVars(C);
+			PVariable[] vA = A.getBotanaVars(A);
+			PVariable[] vB = B.getBotanaVars(B);
+			PVariable[] vC = C.getBotanaVars(C);
 
 			AlgoAnglePoints algo2 = (AlgoAnglePoints) inputElement2
 					.getParentAlgorithm();
@@ -239,17 +239,17 @@ public class AlgoAreEqual extends AlgoElement
 			GeoPoint D = (GeoPoint) algo2.input[0];
 			GeoPoint E = (GeoPoint) algo2.input[1];
 			GeoPoint F = (GeoPoint) algo2.input[2];
-			Variable[] vD = D.getBotanaVars(D);
-			Variable[] vE = E.getBotanaVars(E);
-			Variable[] vF = F.getBotanaVars(F);
+			PVariable[] vD = D.getBotanaVars(D);
+			PVariable[] vE = E.getBotanaVars(E);
+			PVariable[] vF = F.getBotanaVars(F);
 
-			botanaPolynomials = new Polynomial[3][1];
+			botanaPolynomials = new PPolynomial[3][1];
 			// We want to prove: 1) A = D 2) B = E 3) C = F
-			botanaPolynomials[0][0] = Polynomial.sqrDistance(vA[0], vA[1],
+			botanaPolynomials[0][0] = PPolynomial.sqrDistance(vA[0], vA[1],
 					vD[0], vD[0]);
-			botanaPolynomials[1][0] = Polynomial.sqrDistance(vB[0], vB[1],
+			botanaPolynomials[1][0] = PPolynomial.sqrDistance(vB[0], vB[1],
 					vE[0], vE[1]);
-			botanaPolynomials[2][0] = Polynomial.sqrDistance(vC[0], vC[1],
+			botanaPolynomials[2][0] = PPolynomial.sqrDistance(vC[0], vC[1],
 					vF[0], vF[1]);
 			return botanaPolynomials;
 
@@ -263,10 +263,10 @@ public class AlgoAreEqual extends AlgoElement
 				&& (inputElement2.getParentAlgorithm())
 						.getRelatedModeID() == EuclidianConstants.MODE_DISTANCE) {
 			// We check whether their length are equal.
-			botanaPolynomials = new Polynomial[1][1];
+			botanaPolynomials = new PPolynomial[1][1];
 
-			Variable[] v1 = new Variable[4];
-			Variable[] v2 = new Variable[4];
+			PVariable[] v1 = new PVariable[4];
+			PVariable[] v2 = new PVariable[4];
 			// get coordinates of the start and end points
 			v1 = ((SymbolicParametersBotanaAlgo) inputElement1
 					.getParentAlgorithm()).getBotanaVars(inputElement1); // AB
@@ -276,18 +276,18 @@ public class AlgoAreEqual extends AlgoElement
 			// We want to prove: d(AB)=d(CD) =>
 			// (a1-b1)^2+(a2-b2)^2=(c1-d1)^2+(c2-d2)^2
 			// => (a1-b1)^2+(a2-b2)^2-(c1-d1)^2-(c2-d2)^2
-			Polynomial a1 = new Polynomial(v1[0]);
-			Polynomial a2 = new Polynomial(v1[1]);
-			Polynomial b1 = new Polynomial(v1[2]);
-			Polynomial b2 = new Polynomial(v1[3]);
-			Polynomial c1 = new Polynomial(v2[0]);
-			Polynomial c2 = new Polynomial(v2[1]);
-			Polynomial d1 = new Polynomial(v2[2]);
-			Polynomial d2 = new Polynomial(v2[3]);
-			botanaPolynomials[0][0] = ((Polynomial.sqr(a1.subtract(b1))
-					.add(Polynomial.sqr(a2.subtract(b2))))
-							.subtract(Polynomial.sqr(c1.subtract(d1))))
-									.subtract(Polynomial.sqr(c2.subtract(d2)));
+			PPolynomial a1 = new PPolynomial(v1[0]);
+			PPolynomial a2 = new PPolynomial(v1[1]);
+			PPolynomial b1 = new PPolynomial(v1[2]);
+			PPolynomial b2 = new PPolynomial(v1[3]);
+			PPolynomial c1 = new PPolynomial(v2[0]);
+			PPolynomial c2 = new PPolynomial(v2[1]);
+			PPolynomial d1 = new PPolynomial(v2[2]);
+			PPolynomial d2 = new PPolynomial(v2[3]);
+			botanaPolynomials[0][0] = ((PPolynomial.sqr(a1.subtract(b1))
+					.add(PPolynomial.sqr(a2.subtract(b2))))
+							.subtract(PPolynomial.sqr(c1.subtract(d1))))
+									.subtract(PPolynomial.sqr(c2.subtract(d2)));
 
 			return botanaPolynomials;
 		}
@@ -340,15 +340,15 @@ public class AlgoAreEqual extends AlgoElement
 			AlgoDependentNumber adn = new AlgoDependentNumber(
 					n1.getConstruction(), en, false, null, false, false);
 			// Obtain the polynomials
-			Polynomial[] result = adn.getBotanaPolynomials(n1); // n1 unused
+			PPolynomial[] result = adn.getBotanaPolynomials(n1); // n1 unused
 			int no = result.length;
-			botanaPolynomials = new Polynomial[1][no + 1];
+			botanaPolynomials = new PPolynomial[1][no + 1];
 			for (int i = 0; i < no; ++i) {
 				botanaPolynomials[0][i + 1] = result[i];
 			}
-			Variable[] botanaVars = adn.getBotanaVars(n1); // n1 unused
+			PVariable[] botanaVars = adn.getBotanaVars(n1); // n1 unused
 			// Add the equation var=0 to the polynomial list
-			botanaPolynomials[0][0] = new Polynomial(botanaVars[0]);
+			botanaPolynomials[0][0] = new PPolynomial(botanaVars[0]);
 			// This AlgoDependentNumber is not needed anymore
 			n1.getConstruction().removeFromAlgorithmList(adn);
 			return botanaPolynomials;
@@ -365,31 +365,31 @@ public class AlgoAreEqual extends AlgoElement
 						.getRelatedModeID() == EuclidianConstants.MODE_AREA) {
 
 			// get botanaVars of points of first polygon
-			Variable[] v1 = ((SymbolicParametersBotanaAlgo) inputElement1
+			PVariable[] v1 = ((SymbolicParametersBotanaAlgo) inputElement1
 					.getParentAlgorithm()).getBotanaVars(inputElement1);
 			// get botanaVars of points of first polygon
-			Variable[] v2 = ((SymbolicParametersBotanaAlgo) inputElement2
+			PVariable[] v2 = ((SymbolicParametersBotanaAlgo) inputElement2
 					.getParentAlgorithm()).getBotanaVars(inputElement2);
 
 			// add areas of triangles in first polygon
-			Polynomial det1sum = Polynomial.area(v1[0], v1[1], v1[2], v1[3],
+			PPolynomial det1sum = PPolynomial.area(v1[0], v1[1], v1[2], v1[3],
 					v1[4], v1[5]);
 			for (int i = 4; i < v1.length - 3; i = i + 2) {
-				det1sum = det1sum.add(Polynomial.area(v1[0], v1[1], v1[i],
+				det1sum = det1sum.add(PPolynomial.area(v1[0], v1[1], v1[i],
 						v1[i + 1], v1[i + 2], v1[i + 3]));
 			}
 
 			// add areas of triangles in second polygon
-			Polynomial det2sum = Polynomial.area(v2[0], v2[1], v2[2], v2[3],
+			PPolynomial det2sum = PPolynomial.area(v2[0], v2[1], v2[2], v2[3],
 					v2[4], v2[5]);
 			for (int i = 4; i < v2.length - 3; i = i + 2) {
-				det2sum = det2sum.add(Polynomial.area(v2[0], v2[1], v2[i],
+				det2sum = det2sum.add(PPolynomial.area(v2[0], v2[1], v2[i],
 						v2[i + 1], v2[i + 2], v2[i + 3]));
 			}
 
-			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = (Polynomial.sqr(det1sum))
-					.subtract(Polynomial.sqr(det2sum));
+			botanaPolynomials = new PPolynomial[1][1];
+			botanaPolynomials[0][0] = (PPolynomial.sqr(det1sum))
+					.subtract(PPolynomial.sqr(det2sum));
 
 			return botanaPolynomials;
 		}

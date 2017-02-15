@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Decides if the points are collinear. Can be embedded into the Prove command
@@ -30,8 +30,8 @@ public class AlgoAreCollinear extends AlgoElement
 	private GeoPointND inputPoint1, inputPoint2, inputPoint3; // input
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[] polynomials;
-	private Polynomial[][] botanaPolynomials;
+	private PPolynomial[] polynomials;
+	private PPolynomial[][] botanaPolynomials;
 
 	/**
 	 * Creates a new AlgoAreCollinear function
@@ -97,7 +97,7 @@ public class AlgoAreCollinear extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
@@ -130,7 +130,7 @@ public class AlgoAreCollinear extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
@@ -154,17 +154,17 @@ public class AlgoAreCollinear extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
-			Polynomial[] coords1 = getInputPoint1().getPolynomials();
-			Polynomial[] coords2 = getInputPoint2().getPolynomials();
-			Polynomial[] coords3 = getInputPoint3().getPolynomials();
-			polynomials = new Polynomial[1];
+			PPolynomial[] coords1 = getInputPoint1().getPolynomials();
+			PPolynomial[] coords2 = getInputPoint2().getPolynomials();
+			PPolynomial[] coords3 = getInputPoint3().getPolynomials();
+			polynomials = new PPolynomial[1];
 			polynomials[0] = coords1[0].multiply(coords2[1])
 					.multiply(coords3[2])
 					.add(coords2[0].multiply(coords3[1]).multiply(coords1[2]))
@@ -182,7 +182,7 @@ public class AlgoAreCollinear extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -191,12 +191,12 @@ public class AlgoAreCollinear extends AlgoElement
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
 
-			Variable[] fv1 = getInputPoint1().getBotanaVars(getInputPoint1());
-			Variable[] fv2 = getInputPoint2().getBotanaVars(getInputPoint2());
-			Variable[] fv3 = getInputPoint3().getBotanaVars(getInputPoint3());
+			PVariable[] fv1 = getInputPoint1().getBotanaVars(getInputPoint1());
+			PVariable[] fv2 = getInputPoint2().getBotanaVars(getInputPoint2());
+			PVariable[] fv3 = getInputPoint3().getBotanaVars(getInputPoint3());
 
-			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1],
+			botanaPolynomials = new PPolynomial[1][1];
+			botanaPolynomials[0][0] = PPolynomial.collinear(fv1[0], fv1[1],
 					fv2[0], fv2[1], fv3[0], fv3[1]);
 			return botanaPolynomials;
 

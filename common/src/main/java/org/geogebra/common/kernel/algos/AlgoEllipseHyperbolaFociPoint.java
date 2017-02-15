@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -41,8 +41,8 @@ public class AlgoEllipseHyperbolaFociPoint
 		extends AlgoEllipseHyperbolaFociPointND
 		implements SymbolicParametersBotanaAlgo {
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	public AlgoEllipseHyperbolaFociPoint(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, final int type) {
@@ -96,12 +96,12 @@ public class AlgoEllipseHyperbolaFociPoint
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -114,15 +114,15 @@ public class AlgoEllipseHyperbolaFociPoint
 			GeoPoint Q = getC2d();
 
 			if (F1 != null && F2 != null && Q != null) {
-				Variable[] vA = F1.getBotanaVars(F1);
-				Variable[] vB = F2.getBotanaVars(F2);
-				Variable[] vC = Q.getBotanaVars(Q);
+				PVariable[] vA = F1.getBotanaVars(F1);
+				PVariable[] vB = F2.getBotanaVars(F2);
+				PVariable[] vC = Q.getBotanaVars(Q);
 
 				// if the 2 focus points are equal
 				// handle the ellipse as a circle
 				if (vA[0] == vB[0] && vA[1] == vB[1]) {
 					if (botanaVars == null) {
-						botanaVars = new Variable[4];
+						botanaVars = new PVariable[4];
 						// A - center
 						botanaVars[0] = vA[0];
 						botanaVars[1] = vA[1];
@@ -133,15 +133,15 @@ public class AlgoEllipseHyperbolaFociPoint
 					return botanaPolynomials;
 				}
 				if (botanaVars == null) {
-					botanaVars = new Variable[12];
+					botanaVars = new PVariable[12];
 					// P - point of ellipse
-					botanaVars[0] = new Variable(kernel);
-					botanaVars[1] = new Variable(kernel);
+					botanaVars[0] = new PVariable(kernel);
+					botanaVars[1] = new PVariable(kernel);
 					// auxiliary variables for distances
-					botanaVars[2] = new Variable(kernel);
-					botanaVars[3] = new Variable(kernel);
-					botanaVars[4] = new Variable(kernel);
-					botanaVars[5] = new Variable(kernel);
+					botanaVars[2] = new PVariable(kernel);
+					botanaVars[3] = new PVariable(kernel);
+					botanaVars[4] = new PVariable(kernel);
+					botanaVars[5] = new PVariable(kernel);
 					// A - focus point
 					botanaVars[6] = vA[0];
 					botanaVars[7] = vA[1];
@@ -153,33 +153,33 @@ public class AlgoEllipseHyperbolaFociPoint
 					botanaVars[11] = vC[1];
 				}
 
-				botanaPolynomials = new Polynomial[5];
+				botanaPolynomials = new PPolynomial[5];
 
-				Polynomial d1 = new Polynomial(botanaVars[2]);
-				Polynomial d2 = new Polynomial(botanaVars[3]);
-				Polynomial e1 = new Polynomial(botanaVars[4]);
-				Polynomial e2 = new Polynomial(botanaVars[5]);
+				PPolynomial d1 = new PPolynomial(botanaVars[2]);
+				PPolynomial d2 = new PPolynomial(botanaVars[3]);
+				PPolynomial e1 = new PPolynomial(botanaVars[4]);
+				PPolynomial e2 = new PPolynomial(botanaVars[5]);
 
 				// d1+d2 = e1+e2
 				botanaPolynomials[0] = d1.add(d2).subtract(e1).subtract(e2);
 
 				// d1^2=Polynomial.sqrDistance(a1,a2,c1,c2)
-				botanaPolynomials[1] = Polynomial
+				botanaPolynomials[1] = PPolynomial
 						.sqrDistance(vA[0], vA[1], vC[0], vC[1])
 						.subtract(d1.multiply(d1));
 
 				// d2^2=Polynomial.sqrDistance(b1,b2,c1,c2)
-				botanaPolynomials[2] = Polynomial
+				botanaPolynomials[2] = PPolynomial
 						.sqrDistance(vB[0], vB[1], vC[0], vC[1])
 						.subtract(d2.multiply(d2));
 
 				// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[3] = Polynomial
+				botanaPolynomials[3] = PPolynomial
 						.sqrDistance(vA[0], vA[1], botanaVars[0], botanaVars[1])
 						.subtract(e1.multiply(e1));
 
 				// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[4] = Polynomial
+				botanaPolynomials[4] = PPolynomial
 						.sqrDistance(vB[0], vB[1], botanaVars[0], botanaVars[1])
 						.subtract(e2.multiply(e2));
 
@@ -194,20 +194,20 @@ public class AlgoEllipseHyperbolaFociPoint
 			GeoPoint Q = getC2d();
 
 			if (F1 != null && F2 != null && Q != null) {
-				Variable[] vA = F1.getBotanaVars(F1);
-				Variable[] vB = F2.getBotanaVars(F2);
-				Variable[] vC = Q.getBotanaVars(Q);
+				PVariable[] vA = F1.getBotanaVars(F1);
+				PVariable[] vB = F2.getBotanaVars(F2);
+				PVariable[] vC = Q.getBotanaVars(Q);
 
 				if (botanaVars == null) {
-					botanaVars = new Variable[12];
+					botanaVars = new PVariable[12];
 					// P - point of hyperbola
-					botanaVars[0] = new Variable(kernel);
-					botanaVars[1] = new Variable(kernel);
+					botanaVars[0] = new PVariable(kernel);
+					botanaVars[1] = new PVariable(kernel);
 					// auxiliary variables
-					botanaVars[2] = new Variable(kernel);
-					botanaVars[3] = new Variable(kernel);
-					botanaVars[4] = new Variable(kernel);
-					botanaVars[5] = new Variable(kernel);
+					botanaVars[2] = new PVariable(kernel);
+					botanaVars[3] = new PVariable(kernel);
+					botanaVars[4] = new PVariable(kernel);
+					botanaVars[5] = new PVariable(kernel);
 					// A
 					botanaVars[6] = vA[0];
 					botanaVars[7] = vA[1];
@@ -219,33 +219,33 @@ public class AlgoEllipseHyperbolaFociPoint
 					botanaVars[11] = vC[1];
 				}
 
-				botanaPolynomials = new Polynomial[5];
+				botanaPolynomials = new PPolynomial[5];
 
-				Polynomial d1 = new Polynomial(botanaVars[2]);
-				Polynomial d2 = new Polynomial(botanaVars[3]);
-				Polynomial e1 = new Polynomial(botanaVars[4]);
-				Polynomial e2 = new Polynomial(botanaVars[5]);
+				PPolynomial d1 = new PPolynomial(botanaVars[2]);
+				PPolynomial d2 = new PPolynomial(botanaVars[3]);
+				PPolynomial e1 = new PPolynomial(botanaVars[4]);
+				PPolynomial e2 = new PPolynomial(botanaVars[5]);
 
 				// d1-d2 = e1-e2
 				botanaPolynomials[0] = d1.subtract(d2).subtract(e1).add(e2);
 
 				// d1^2=Polynomial.sqrDistance(a1,a2,c1,c2)
-				botanaPolynomials[1] = Polynomial
+				botanaPolynomials[1] = PPolynomial
 						.sqrDistance(vA[0], vA[1], vC[0], vC[1])
 						.subtract(d1.multiply(d1));
 
 				// d2^2=Polynomial.sqrDistance(b1,b2,c1,c2)
-				botanaPolynomials[2] = Polynomial
+				botanaPolynomials[2] = PPolynomial
 						.sqrDistance(vB[0], vB[1], vC[0], vC[1])
 						.subtract(d2.multiply(d2));
 
 				// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[3] = Polynomial
+				botanaPolynomials[3] = PPolynomial
 						.sqrDistance(vA[0], vA[1], botanaVars[0], botanaVars[1])
 						.subtract(e1.multiply(e1));
 
 				// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[4] = Polynomial
+				botanaPolynomials[4] = PPolynomial
 						.sqrDistance(vB[0], vB[1], botanaVars[0], botanaVars[1])
 						.subtract(e2.multiply(e2));
 				return botanaPolynomials;

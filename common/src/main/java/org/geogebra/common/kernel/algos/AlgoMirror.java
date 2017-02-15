@@ -46,8 +46,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -454,7 +454,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (mirrorBotana == null) {
 			mirrorBotana = new MirrorBotana();
 		}
@@ -462,7 +462,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (mirrorBotana == null) {
 			mirrorBotana = new MirrorBotana();

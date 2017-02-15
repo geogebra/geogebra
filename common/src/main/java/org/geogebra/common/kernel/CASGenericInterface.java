@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.settings.SettingListener;
 
 /**
@@ -165,7 +165,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return the program code
 	 */
 	public String createGroebnerSolvableScript(
-			HashMap<Variable, Long> substitutions, String polys,
+			HashMap<PVariable, Long> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext);
 
 	/**

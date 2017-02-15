@@ -28,8 +28,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -40,7 +40,7 @@ public class AlgoDependentPoint extends AlgoElement
 
 	private GeoPoint P; // output
 
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 	private GeoVec2D temp;
 
 	/**
@@ -142,7 +142,7 @@ public class AlgoDependentPoint extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		GeoElement left = (GeoElement) P.getDefinition().getLeft();
 		// GeoElement right = (GeoElement) root.getRight();
 		if (left != null) {
@@ -153,7 +153,7 @@ public class AlgoDependentPoint extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;
 	}

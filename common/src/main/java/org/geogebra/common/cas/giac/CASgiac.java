@@ -28,8 +28,8 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.plugin.Operation;
@@ -396,7 +396,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		ExpressionValue item = item0.unwrap();
 		if (item instanceof Equation) {
 			ExpressionValue lhs = ((Equation) item).getLHS().unwrap();
-			if (lhs instanceof GeoDummyVariable || lhs instanceof Variable) {
+			if (lhs instanceof GeoDummyVariable || lhs instanceof PVariable) {
 				ExpressionValue rhs = ((Equation) item).getRHS();
 				ExpressionValue copy = substArg.deepCopy(kernel);
 				copy.traverse(VariableReplacer.getReplacer(
@@ -796,7 +796,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	@Override
 	public String createGroebnerSolvableScript(
-			HashMap<Variable, Long> substitutions, String polys,
+			HashMap<PVariable, Long> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext) {
 		/*
 		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
@@ -837,7 +837,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			ret += ",[" + substParams + "])";
 		}
 
-		String vars = freeVars + Polynomial.addLeadingComma(dependantVars);
+		String vars = freeVars + PPolynomial.addLeadingComma(dependantVars);
 
 		// ret += ",[" + vars + "],revlex)],(degree(" +
 		// idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][2]";
@@ -857,12 +857,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *         Taken from prover.Polynomial, one character difference. Maybe
 	 *         commonize.
 	 */
-	static String substitutionsString(HashMap<Variable, Long> substitutions) {
+	static String substitutionsString(HashMap<PVariable, Long> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<Variable, Long>> it = substitutions.entrySet()
+		Iterator<Entry<PVariable, Long>> it = substitutions.entrySet()
 				.iterator();
 		while (it.hasNext()) {
-			Entry<Variable, Long> v = it.next();
+			Entry<PVariable, Long> v = it.next();
 			ret.append(",");
 			ret.append(v.getKey().toString());
 			ret.append("=");

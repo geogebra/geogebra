@@ -41,8 +41,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -62,7 +62,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class ProverBotanasMethod {
 
-	private static HashMap<List<Variable>, GeoElement> botanaVarsInv;
+	private static HashMap<List<PVariable>, GeoElement> botanaVarsInv;
 
 	/**
 	 * Inverse mapping of botanaVars for a given statement.
@@ -72,14 +72,14 @@ public class ProverBotanasMethod {
 	 */
 	private static void updateBotanaVarsInv(GeoElement statement) {
 		if (botanaVarsInv == null) {
-			botanaVarsInv = new HashMap<List<Variable>, GeoElement>();
+			botanaVarsInv = new HashMap<List<PVariable>, GeoElement>();
 		}
 		for (GeoElement geo : statement.getAllPredecessors()) {
 			if (!(geo instanceof GeoNumeric)) {
-				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+				PVariable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 						.getBotanaVars(geo);
 				if (vars != null) {
-					List<Variable> varsList = Arrays.asList(vars);
+					List<PVariable> varsList = Arrays.asList(vars);
 					botanaVarsInv.put(varsList, geo);
 				}
 			}
@@ -145,7 +145,7 @@ public class ProverBotanasMethod {
 	 * 
 	 * @return the NDG polynomials (in denial form)
 	 */
-	static Polynomial[] create3FreePointsNeverCollinearNDG(
+	static PPolynomial[] create3FreePointsNeverCollinearNDG(
 			Prover prover) {
 		/* Creating the set of free points first: */
 		List<GeoElement> freePoints = getFreePoints(prover.getStatement());
@@ -168,7 +168,7 @@ public class ProverBotanasMethod {
 		prover.addNDGcondition(ndgc);
 
 		/* The output will contain $\binom{n}{3}$ elements: */
-		Polynomial[] ret = new Polynomial[setSize * (setSize - 1)
+		PPolynomial[] ret = new PPolynomial[setSize * (setSize - 1)
 				* (setSize - 2) / 6];
 		i = 0;
 		/* Creating the set of triplets: */
@@ -188,14 +188,14 @@ public class ProverBotanasMethod {
 							 */
 							if (!triplets.contains(triplet)) {
 								triplets.add(triplet);
-								Variable[] fv1 = ((SymbolicParametersBotanaAlgo) geo1)
+								PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) geo1)
 										.getBotanaVars(geo1);
-								Variable[] fv2 = ((SymbolicParametersBotanaAlgo) geo2)
+								PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) geo2)
 										.getBotanaVars(geo2);
-								Variable[] fv3 = ((SymbolicParametersBotanaAlgo) geo3)
+								PVariable[] fv3 = ((SymbolicParametersBotanaAlgo) geo3)
 										.getBotanaVars(geo3);
 								/* Creating the polynomial for collinearity: */
-								Polynomial p = Polynomial.collinear(fv1[0],
+								PPolynomial p = PPolynomial.collinear(fv1[0],
 										fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
 								Log.info("Forcing non-collinearity for points "
 										+ geo1.getLabelSimple() + ", "
@@ -207,10 +207,10 @@ public class ProverBotanasMethod {
 								 */
 								ret[i] = p
 										.multiply(
-												new Polynomial(new Variable(
+												new PPolynomial(new PVariable(
 														geo1.getKernel())))
 										.subtract(
-												new Polynomial(BigInteger.ONE));
+												new PPolynomial(BigInteger.ONE));
 								/*
 								 * FIXME: this always introduces an extra
 								 * variable, shouldn't do
@@ -237,7 +237,7 @@ public class ProverBotanasMethod {
 	 *            number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
 	 */
-	private static HashMap<Variable, Long> fixValues(Prover prover,
+	private static HashMap<PVariable, Long> fixValues(Prover prover,
 			int coords) {
 
 		long[] fixCoords = { 0, 0, 0, 1 };
@@ -250,14 +250,14 @@ public class ProverBotanasMethod {
 			fixedPoints.add(ge);
 		}
 
-		HashMap<Variable, Long> ret = new HashMap<Variable, Long>();
+		HashMap<PVariable, Long> ret = new HashMap<PVariable, Long>();
 
 		Iterator<GeoElement> it = fixedPoints.iterator();
 		GeoElement[] geos = new GeoElement[2];
 		int i = 0, j = 0;
 		while (it.hasNext() && i < 2 && j < coords) {
 			GeoElement geo = it.next();
-			Variable[] fv = ((SymbolicParametersBotanaAlgo) geo)
+			PVariable[] fv = ((SymbolicParametersBotanaAlgo) geo)
 					.getBotanaVars(geo);
 			geos[i] = geo;
 			ret.put(fv[0], fixCoords[j]);
@@ -300,7 +300,7 @@ public class ProverBotanasMethod {
 		 * The set of polynomials which are the translations of the geometric
 		 * hypotheses and the thesis. The thesis is stored reductio ad absurdum.
 		 */
-		public Set<Polynomial> polynomials;
+		public Set<PPolynomial> polynomials;
 		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
@@ -315,7 +315,7 @@ public class ProverBotanasMethod {
 		/**
 		 * @return the polynomials
 		 */
-		public Set<Polynomial> getPolynomials() {
+		public Set<PPolynomial> getPolynomials() {
 			return polynomials;
 		}
 
@@ -325,7 +325,7 @@ public class ProverBotanasMethod {
 		 * @param p
 		 *            the polynomial to be added
 		 */
-		public void addPolynomial(Polynomial p) {
+		public void addPolynomial(PPolynomial p) {
 			polynomials.add(p);
 		}
 
@@ -339,12 +339,12 @@ public class ProverBotanasMethod {
 		/**
 		 * A map of substitutions, used only in locus equations and envelopes.
 		 */
-		public HashMap<Variable, Long> substitutions;
+		public HashMap<PVariable, Long> substitutions;
 		/**
 		 * The variables for x and y, used only in locus equations and
 		 * envelopes.
 		 */
-		public Variable[] curveVars = new Variable[2];
+		public PVariable[] curveVars = new PVariable[2];
 
 		/**
 		 * The result of the proof (even if no computation was done). Sometimes
@@ -386,7 +386,7 @@ public class ProverBotanasMethod {
 		}
 
 		private void setHypotheses(GeoElement movingPoint) {
-			polynomials = new HashSet<Polynomial>();
+			polynomials = new HashSet<PPolynomial>();
 			int nHypotheses = 0;
 			TreeSet<GeoElement> predecessors = new TreeSet<GeoElement>();
 			TreeSet<GeoElement> allPredecessors = geoStatement
@@ -481,7 +481,7 @@ public class ProverBotanasMethod {
 								 * handling GeoGebra3D's definition for xy-plane
 								 */
 								Log.debug(description + " /* free point */");
-								Variable[] v;
+								PVariable[] v;
 								v = ((SymbolicParametersBotanaAlgo) geo)
 										.getBotanaVars(geo);
 								if (proverSettings.captionAlgebra) {
@@ -495,7 +495,7 @@ public class ProverBotanasMethod {
 								}
 							}
 						}
-						Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)
+						PPolynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)
 								.getBotanaPolynomials(geo);
 
 						/*
@@ -556,7 +556,7 @@ public class ProverBotanasMethod {
 
 						if (geoPolys != null) {
 							if (geo instanceof GeoPoint) {
-								Variable[] v;
+								PVariable[] v;
 								v = ((SymbolicParametersBotanaAlgo) geo)
 										.getBotanaVars(geo);
 								Log.debug("// Constrained point "
@@ -600,7 +600,7 @@ public class ProverBotanasMethod {
 							}
 							if (useThisPoly) {
 								Log.debug("Hypotheses:");
-								for (Polynomial p : geoPolys) {
+								for (PPolynomial p : geoPolys) {
 									polynomials.add(p);
 									nHypotheses++;
 									Log.debug((nHypotheses) + ". " + p);
@@ -633,7 +633,7 @@ public class ProverBotanasMethod {
 			Log.debug("Processing numerical object");
 			if (numerical != null) {
 				try {
-					Variable[] vars = ((SymbolicParametersBotanaAlgo) movingPoint)
+					PVariable[] vars = ((SymbolicParametersBotanaAlgo) movingPoint)
 							.getBotanaVars(movingPoint);
 					String strForGiac = getFormulaString(numerical);
 					Kernel kernel = geoStatement.kernel;
@@ -685,7 +685,7 @@ public class ProverBotanasMethod {
 						adn.expressionNodeToPolynomial(en, polyNode);
 					}
 					/* Finally we obtain the Botana polynomial. */
-					Polynomial botanaPolynomial = polyNode.getPoly();
+					PPolynomial botanaPolynomial = polyNode.getPoly();
 					/* Don't use this algo any longer. */
 					movingPoint.getConstruction().removeFromAlgorithmList(adn);
 					movingPoint.getConstruction()
@@ -726,18 +726,18 @@ public class ProverBotanasMethod {
 				 * set will be negated.
 				 */
 
-				Polynomial[][] statements;
+				PPolynomial[][] statements;
 				AlgoElement ae = geoStatement.getParentAlgorithm();
 				if (ae != null) {
 					statements = ((SymbolicParametersBotanaAlgoAre) ae)
 							.getBotanaPolynomials();
 				} else {
-					statements = new Polynomial[1][1];
+					statements = new PPolynomial[1][1];
 					if (geoStatement instanceof GeoBoolean) {
 						if (((GeoBoolean) geoStatement).getBoolean()) {
-							statements[0][0] = new Polynomial(0);
+							statements[0][0] = new PPolynomial(0);
 						} else {
-							statements[0][0] = new Polynomial(BigInteger.ONE);
+							statements[0][0] = new PPolynomial(BigInteger.ONE);
 						}
 					} else {
 						Log.debug(
@@ -824,7 +824,7 @@ public class ProverBotanasMethod {
 								polyIsConst = true; // poly is a number
 							}
 							// list of polynomial factors
-							ArrayList<Polynomial> polyListOfFactors = new ArrayList<Polynomial>();
+							ArrayList<PPolynomial> polyListOfFactors = new ArrayList<PPolynomial>();
 							if (!polyIsConst) {
 								for (String factor : factors) {
 									// parse factors into expression
@@ -853,14 +853,14 @@ public class ProverBotanasMethod {
 														polyRoot);
 									}
 									// add polynomial to list of polys
-									Polynomial poly = polyRoot.getPoly();
+									PPolynomial poly = polyRoot.getPoly();
 									if (poly != null) {
 										polyListOfFactors.add(poly);
 									}
 								}
 							}
 
-							for (Polynomial p : polyListOfFactors) {
+							for (PPolynomial p : polyListOfFactors) {
 								NDGCondition ndgc = new NDGDetector(geoProver,
 										null).detect(p);
 								if (ndgc != null) {
@@ -906,12 +906,12 @@ public class ProverBotanasMethod {
 												polyRoot);
 							}
 							/* get distance polynomials */
-							ArrayList<Polynomial> extraPolys = ((AlgoDependentBoolean) algo)
+							ArrayList<PPolynomial> extraPolys = ((AlgoDependentBoolean) algo)
 									.getExtraPolys();
-							statements = new Polynomial[1][extraPolys.size()
+							statements = new PPolynomial[1][extraPolys.size()
 									+ 1];
 							int index = 0;
-							for (Polynomial p : extraPolys) {
+							for (PPolynomial p : extraPolys) {
 								statements[0][index] = p;
 								index++;
 							}
@@ -921,8 +921,8 @@ public class ProverBotanasMethod {
 						}
 						/* case giac result was empty */
 						else {
-							statements = new Polynomial[1][1];
-							statements[0][0] = new Polynomial(0);
+							statements = new PPolynomial[1][1];
+							statements[0][0] = new PPolynomial(0);
 						}
 					} catch (Throwable e) {
 						Log.debug(
@@ -974,7 +974,7 @@ public class ProverBotanasMethod {
 				}
 				ProverSettings proverSettings = ProverSettings.get();
 				Log.debug("Thesis equations (non-denied ones):");
-				for (Polynomial[] statement : statements) {
+				for (PPolynomial[] statement : statements) {
 					for (int j = 0; j < statement.length - minus; ++j) {
 						Log.debug((k + 1) + ". " + statement[j]);
 						polynomials.add(statement[j]);
@@ -1000,8 +1000,8 @@ public class ProverBotanasMethod {
 				 */
 				Log.debug(
 						"Thesis reductio ad absurdum (denied statement), product of factors:");
-				Polynomial spoly = new Polynomial(BigInteger.ONE);
-				Variable z = new Variable(geoStatement.getKernel());
+				PPolynomial spoly = new PPolynomial(BigInteger.ONE);
+				PVariable z = new PVariable(geoStatement.getKernel());
 				/*
 				 * It is OK to use the same variable for each factor since it is
 				 * enough to find one counterexample only for one of the theses.
@@ -1011,11 +1011,11 @@ public class ProverBotanasMethod {
 				 * FIXME: this always introduces an extra variable, shouldn't
 				 * do.
 				 */
-				for (Polynomial[] statement : statements) {
-					Polynomial factor = (statement[statement.length - 1]);
+				for (PPolynomial[] statement : statements) {
+					PPolynomial factor = (statement[statement.length - 1]);
 					Log.debug("(" + factor + ")*" + z + "-1");
-					factor = factor.multiply(new Polynomial(z))
-							.subtract(new Polynomial(BigInteger.ONE));
+					factor = factor.multiply(new PPolynomial(z))
+							.subtract(new PPolynomial(BigInteger.ONE));
 					spoly = spoly.multiply(factor);
 				}
 				polynomials.add(spoly);
@@ -1120,7 +1120,7 @@ public class ProverBotanasMethod {
 		}
 
 		/* Set substitutions. */
-		HashMap<Variable, Long> substitutions = null;
+		HashMap<PVariable, Long> substitutions = null;
 		int fixcoords;
 		if (prover.isReturnExtraNDGs()) {
 			fixcoords = proverSettings.useFixCoordinatesProveDetails;
@@ -1137,7 +1137,7 @@ public class ProverBotanasMethod {
 
 		if (prover.isReturnExtraNDGs()) {
 			/* START OF PROVEDETAILS. */
-			Set<Set<Polynomial>> eliminationIdeal;
+			Set<Set<PPolynomial>> eliminationIdeal;
 			NDGDetector ndgd = new NDGDetector(prover, substitutions);
 
 			boolean found = false;
@@ -1161,16 +1161,16 @@ public class ProverBotanasMethod {
 			}
 			while (!found && permutation < MAX_PERMUTATIONS) {
 
-				eliminationIdeal = Polynomial.eliminate(
+				eliminationIdeal = PPolynomial.eliminate(
 						as.polynomials
-								.toArray(new Polynomial[as.polynomials.size()]),
+								.toArray(new PPolynomial[as.polynomials.size()]),
 						substitutions, statement.getKernel(), permutation++,
 						true, false);
 				if (eliminationIdeal == null) {
 					return ProofResult.UNKNOWN;
 				}
 
-				Iterator<Set<Polynomial>> ndgSet = eliminationIdeal.iterator();
+				Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
 
 				List<HashSet<GeoPoint>> xEqualSet = new ArrayList<HashSet<GeoPoint>>();
 				xEqualSet.add(new HashSet<GeoPoint>());
@@ -1190,10 +1190,10 @@ public class ProverBotanasMethod {
 					 * All NDGs must be translatable into human readable form.
 					 */
 					boolean readable = true;
-					Set<Polynomial> thisNdgSet = ndgSet.next();
-					Iterator<Polynomial> ndg = thisNdgSet.iterator();
+					Set<PPolynomial> thisNdgSet = ndgSet.next();
+					Iterator<PPolynomial> ndg = thisNdgSet.iterator();
 					while (ndg.hasNext() && readable) {
-						Polynomial poly = ndg.next();
+						PPolynomial poly = ndg.next();
 						if (poly.isZero()) {
 
 							/*
@@ -1310,9 +1310,9 @@ public class ProverBotanasMethod {
 
 			/* START OF PROVE. */
 		} else {
-			ExtendedBoolean solvable = Polynomial.solvable(
+			ExtendedBoolean solvable = PPolynomial.solvable(
 					as.polynomials
-							.toArray(new Polynomial[as.polynomials.size()]),
+							.toArray(new PPolynomial[as.polynomials.size()]),
 					substitutions, statement.getKernel(),
 					proverSettings.transcext);
 			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
@@ -1383,7 +1383,7 @@ public class ProverBotanasMethod {
 			return null;
 		}
 
-		as.substitutions = new HashMap<Variable, Long>();
+		as.substitutions = new HashMap<PVariable, Long>();
 		HashSet<GeoElement> freePoints = ProverBotanasMethod
 				.getLocusFreePoints(tracer);
 		if (!implicit) {
@@ -1398,7 +1398,7 @@ public class ProverBotanasMethod {
 		for (GeoElement geo : (tracer).getAllPredecessors()) {
 			if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
 
-				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+				PVariable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 						.getBotanaVars(geo);
 
 				GeoLine l = (GeoLine) geo;
@@ -1413,18 +1413,18 @@ public class ProverBotanasMethod {
 				long[] c = k.doubleToRational(P.get(3));
 
 				// Setting up two equations for the two points:
-				Polynomial a0 = new Polynomial((int) a[0]);
-				Polynomial a1 = new Polynomial((int) a[1]);
-				Polynomial b0 = new Polynomial((int) b[0]);
-				Polynomial b1 = new Polynomial((int) b[1]);
-				Polynomial c0 = new Polynomial((int) c[0]);
-				Polynomial c1 = new Polynomial((int) c[1]);
-				Polynomial xp = new Polynomial(vars[0]);
-				Polynomial yp = new Polynomial(vars[1]);
-				Polynomial xq = new Polynomial(vars[2]);
-				Polynomial yq = new Polynomial(vars[3]);
+				PPolynomial a0 = new PPolynomial((int) a[0]);
+				PPolynomial a1 = new PPolynomial((int) a[1]);
+				PPolynomial b0 = new PPolynomial((int) b[0]);
+				PPolynomial b1 = new PPolynomial((int) b[1]);
+				PPolynomial c0 = new PPolynomial((int) c[0]);
+				PPolynomial c1 = new PPolynomial((int) c[1]);
+				PPolynomial xp = new PPolynomial(vars[0]);
+				PPolynomial yp = new PPolynomial(vars[1]);
+				PPolynomial xq = new PPolynomial(vars[2]);
+				PPolynomial yq = new PPolynomial(vars[3]);
 
-				Polynomial ph = a0.multiply(b1).multiply(c1).multiply(xp)
+				PPolynomial ph = a0.multiply(b1).multiply(c1).multiply(xp)
 						.add(a1.multiply(b0).multiply(c1).multiply(yp))
 						.add(a1.multiply(b1).multiply(c0));
 				as.addPolynomial(ph);
@@ -1444,7 +1444,7 @@ public class ProverBotanasMethod {
 					as.addPolynomial(ph);
 					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
 							+ ph);
-					ph = yq.subtract(new Polynomial(BigInteger.ONE));
+					ph = yq.subtract(new PPolynomial(BigInteger.ONE));
 					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
 							+ ph);
 					as.addPolynomial(ph);
@@ -1457,7 +1457,7 @@ public class ProverBotanasMethod {
 					as.addPolynomial(ph);
 					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
 							+ ph);
-					ph = xq.subtract(new Polynomial(BigInteger.ONE));
+					ph = xq.subtract(new PPolynomial(BigInteger.ONE));
 					as.addPolynomial(ph);
 					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
 							+ ph);
@@ -1489,7 +1489,7 @@ public class ProverBotanasMethod {
 		 */
 		for (GeoElement freePoint : freePoints) {
 			freePoint.addToUpdateSetOnly(callerAlgo);
-			Variable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
+			PVariable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
 					.getBotanaVars(freePoint);
 			boolean condition = !mover.equals(freePoint);
 			if (!implicit) {
@@ -1506,7 +1506,7 @@ public class ProverBotanasMethod {
 				 */
 				if (ae != null && ae instanceof AlgoPointOnPath
 						&& ae.input[0] instanceof GeoLine) {
-					Polynomial[] symPolys;
+					PPolynomial[] symPolys;
 					try {
 						symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
 								.getBotanaPolynomials(freePoint);
@@ -1516,7 +1516,7 @@ public class ProverBotanasMethod {
 						return null;
 					}
 					int i = 1;
-					for (Polynomial symPoly : symPolys) {
+					for (PPolynomial symPoly : symPolys) {
 						as.addPolynomial(symPoly);
 						Log.debug("Extra symbolic poly " + i + " for "
 								+ freePoint.getLabelSimple() + ": " + symPoly);
@@ -1549,9 +1549,9 @@ public class ProverBotanasMethod {
 						q = k.doubleToRational(x);
 					}
 					vars[0].setFree(false);
-					Polynomial ph = new Polynomial((int) q[0])
-							.subtract(new Polynomial(vars[0])
-									.multiply(new Polynomial((int) q[1])));
+					PPolynomial ph = new PPolynomial((int) q[0])
+							.subtract(new PPolynomial(vars[0])
+									.multiply(new PPolynomial((int) q[1])));
 					as.addPolynomial(ph);
 					Log.debug("Extra poly for x of "
 							+ freePoint.getLabelSimple() + ": " + ph);
@@ -1569,9 +1569,9 @@ public class ProverBotanasMethod {
 						q = k.doubleToRational(y);
 					}
 					vars[1].setFree(false);
-					Polynomial ph = new Polynomial((int) q[0])
-							.subtract(new Polynomial(vars[1])
-									.multiply(new Polynomial((int) q[1])));
+					PPolynomial ph = new PPolynomial((int) q[0])
+							.subtract(new PPolynomial(vars[1])
+									.multiply(new PPolynomial((int) q[1])));
 					as.addPolynomial(ph);
 					Log.debug("Extra poly for y of "
 							+ freePoint.getLabelSimple() + ": " + ph);

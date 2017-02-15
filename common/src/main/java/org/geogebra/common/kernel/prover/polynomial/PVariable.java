@@ -12,10 +12,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @author Damien Desfontaines
  *
  */
-public class Variable implements Comparable<Variable> {
+public class PVariable implements Comparable<PVariable> {
 	// private int nextAvailableNumber = 0;
 	// private HashMap<String,Integer> nameToId;
-	private HashMap<Integer, Variable> twins = new HashMap<Integer, Variable>();
+	private HashMap<Integer, PVariable> twins = new HashMap<Integer, PVariable>();
 	private boolean isFree = false;
 
 	private GeoElement parent;
@@ -25,7 +25,7 @@ public class Variable implements Comparable<Variable> {
 	/**
 	 * Creates a new variable
 	 */
-	public Variable(Kernel kernel) {
+	public PVariable(Kernel kernel) {
 		// nextAvailableNumber++;
 		// name = "v".concat(Integer.toString(nextAvailableNumber));
 		// nameToId.put(name,n);
@@ -38,7 +38,7 @@ public class Variable implements Comparable<Variable> {
 	 * @param free
 	 *            true if the Variable is a free variable
 	 */
-	public Variable(Kernel kernel, boolean free) {
+	public PVariable(Kernel kernel, boolean free) {
 		this(kernel);
 		isFree = free;
 	}
@@ -49,7 +49,7 @@ public class Variable implements Comparable<Variable> {
 	 * @param parent
 	 *            the GeoElement which defines the variable
 	 */
-	public Variable(GeoElement parent) {
+	public PVariable(GeoElement parent) {
 		this(parent.getKernel());
 		this.parent = parent;
 	}
@@ -73,7 +73,7 @@ public class Variable implements Comparable<Variable> {
 	 * @param fv
 	 *            the variable to copy
 	 */
-	protected Variable(Variable fv) {
+	protected PVariable(PVariable fv) {
 		// name = fv.getName();
 		id = fv.getId();
 	}
@@ -93,7 +93,7 @@ public class Variable implements Comparable<Variable> {
 	}
 
 	@Override
-	public int compareTo(Variable v) {
+	public int compareTo(PVariable v) {
 		int vId = v.getId();
 		if (id < vId) {
 			return 1;
@@ -106,8 +106,8 @@ public class Variable implements Comparable<Variable> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Variable) {
-			return id == ((Variable) o).getId();
+		if (o instanceof PVariable) {
+			return id == ((PVariable) o).getId();
 		}
 		return super.equals(o);
 	}
@@ -142,7 +142,7 @@ public class Variable implements Comparable<Variable> {
 	 * 
 	 * @return the Variable
 	 */
-	public Variable getTwin() {
+	public PVariable getTwin() {
 		return twins.get(id);
 	}
 
@@ -152,7 +152,7 @@ public class Variable implements Comparable<Variable> {
 	 * @param twin
 	 *            the Variable. Is null if there is no twin.
 	 */
-	public void setTwin(Variable twin) {
+	public void setTwin(PVariable twin) {
 		twins.put(id, twin);
 	}
 

@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Semicircle defined by two points A and B (start and end point).
@@ -38,8 +38,8 @@ public class AlgoSemicircle extends AlgoElement
 	private GeoPoint M; // midpoint of AB
 	private GeoConic conic;
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/**
 	 * Creates new semicircle algoritm
@@ -191,26 +191,26 @@ public class AlgoSemicircle extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 
 		if (botanaVars == null) {
-			Variable[] circle1vars;
-			Variable[] centerVars = new Variable[2];
+			PVariable[] circle1vars;
+			PVariable[] centerVars = new PVariable[2];
 
 			circle1vars = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);
-			centerVars[0] = new Variable(kernel);
-			centerVars[1] = new Variable(kernel);
+			centerVars[0] = new PVariable(kernel);
+			centerVars[1] = new PVariable(kernel);
 
-			botanaVars = new Variable[4];
+			botanaVars = new PVariable[4];
 			// Center:
 			botanaVars[0] = centerVars[0];
 			botanaVars[1] = centerVars[1];

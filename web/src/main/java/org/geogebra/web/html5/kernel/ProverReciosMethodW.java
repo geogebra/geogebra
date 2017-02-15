@@ -10,8 +10,8 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.Prover.ProofResult;
@@ -25,13 +25,13 @@ import org.geogebra.common.util.debug.Log;
 public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 	@Override
-	protected final ProofResult computeNd(HashSet<Variable> freeVariables,
-			HashMap<Variable, BigInteger> values, int deg,
+	protected final ProofResult computeNd(HashSet<PVariable> freeVariables,
+			HashMap<PVariable, BigInteger> values, int deg,
 			SymbolicParameters s, AlgebraicStatement as) {
 		int n = freeVariables.size();
 
-		Variable[] variables = new Variable[n];
-		Iterator<Variable> it = freeVariables.iterator();
+		PVariable[] variables = new PVariable[n];
+		Iterator<PVariable> it = freeVariables.iterator();
 		for (int i = 0; i < n; i++) {
 			variables[i] = it.next();
 		}
@@ -69,16 +69,16 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 			if (as != null) {
 				// use Botana's method
-				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-				for (Entry<Variable, BigInteger> entry : values.entrySet()) {
+				HashMap<PVariable, Long> substitutions = new HashMap<PVariable, Long>();
+				for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 
-					Variable v = entry.getKey();
+					PVariable v = entry.getKey();
 
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, entry.getValue().longValue());
 				}
-				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
-						.toArray(new Polynomial[as.polynomials.size()]),
+				ExtendedBoolean solvable = PPolynomial.solvable(as.polynomials
+						.toArray(new PPolynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana #" + nrOfTests + ": "

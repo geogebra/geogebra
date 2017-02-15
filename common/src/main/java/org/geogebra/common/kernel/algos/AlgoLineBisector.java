@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class AlgoLineBisector extends AlgoElement
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
@@ -36,9 +36,9 @@ public class AlgoLineBisector extends AlgoElement
 
 	// temp
 	private GeoPoint midPoint;
-	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] polynomials;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/** Creates new AlgoLineBisector */
 	public AlgoLineBisector(Construction cons, String label, GeoPoint A,
@@ -119,7 +119,7 @@ public class AlgoLineBisector extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (A != null && B != null) {
 			A.getFreeVariables(variables);
@@ -149,7 +149,7 @@ public class AlgoLineBisector extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (A != null && B != null) {
 			BigInteger[] coords1 = A.getExactCoordinates(values);
@@ -182,22 +182,22 @@ public class AlgoLineBisector extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 		if (A != null && B != null) {
-			Polynomial[] coords1 = A.getPolynomials();
-			Polynomial[] coords2 = B.getPolynomials();
+			PPolynomial[] coords1 = A.getPolynomials();
+			PPolynomial[] coords2 = B.getPolynomials();
 
-			polynomials = new Polynomial[3];
+			polynomials = new PPolynomial[3];
 			// 2 az bz (-az bx + ax bz)
-			polynomials[0] = (new Polynomial(2)).multiply(coords1[2])
+			polynomials[0] = (new PPolynomial(2)).multiply(coords1[2])
 					.multiply(coords2[2])
 					.multiply(coords1[0].multiply(coords2[2])
 							.subtract(coords2[0].multiply(coords1[2])));
 			// 2 az bz (-az by + ay bz)
-			polynomials[1] = (new Polynomial(2)).multiply(coords1[2])
+			polynomials[1] = (new PPolynomial(2)).multiply(coords1[2])
 					.multiply(coords2[2])
 					.multiply(coords1[1].multiply(coords2[2])
 							.subtract(coords2[1].multiply(coords1[2])));
@@ -217,27 +217,27 @@ public class AlgoLineBisector extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (A != null && B != null) {
-			Variable[] vA = A.getBotanaVars(A);
-			Variable[] vB = B.getBotanaVars(B);
+			PVariable[] vA = A.getBotanaVars(A);
+			PVariable[] vB = B.getBotanaVars(B);
 
 			if (botanaVars == null) {
-				botanaVars = new Variable[4]; // storing 4 new variables (C, D)
-				botanaVars[0] = new Variable(kernel);
-				botanaVars[1] = new Variable(kernel);
-				botanaVars[2] = new Variable(kernel);
-				botanaVars[3] = new Variable(kernel);
+				botanaVars = new PVariable[4]; // storing 4 new variables (C, D)
+				botanaVars[0] = new PVariable(kernel);
+				botanaVars[1] = new PVariable(kernel);
+				botanaVars[2] = new PVariable(kernel);
+				botanaVars[3] = new PVariable(kernel);
 			}
 
 			botanaPolynomials = SymbolicParameters

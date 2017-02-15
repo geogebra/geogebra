@@ -47,8 +47,8 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -65,7 +65,7 @@ public class GeoNumeric extends GeoElement
 		Animatable, HasExtendedAV, SymbolicParametersBotanaAlgo,
 		HasSymbolicMode, AnimationExportSlider, Evaluate2Var {
 
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 
 	/** eg boxplot */
 	public static final int DEFAULT_THICKNESS = 2;
@@ -1775,7 +1775,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
@@ -1784,8 +1784,8 @@ public class GeoNumeric extends GeoElement
 
 		if (algoParent == null) {
 			if (botanaVars == null) {
-				botanaVars = new Variable[1];
-				botanaVars[0] = new Variable(kernel, true);
+				botanaVars = new PVariable[1];
+				botanaVars[0] = new PVariable(kernel, true);
 				Log.debug("Variable " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + ")");
 			}
@@ -1795,7 +1795,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {

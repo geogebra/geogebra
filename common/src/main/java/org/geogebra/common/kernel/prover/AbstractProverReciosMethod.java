@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.Prover;
@@ -75,7 +75,7 @@ public abstract class AbstractProverReciosMethod {
 			}
 		}
 
-		HashSet<Variable> variables = new HashSet<Variable>();
+		HashSet<PVariable> variables = new HashSet<PVariable>();
 
 		if (!B) {
 			try {
@@ -89,7 +89,7 @@ public abstract class AbstractProverReciosMethod {
 			Iterator<GeoElement> it = freePoints.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
-				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+				PVariable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 						.getBotanaVars(geo);
 				variables.add(vars[0]);
 				variables.add(vars[1]);
@@ -110,12 +110,12 @@ public abstract class AbstractProverReciosMethod {
 
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
 		// all other variables are stored in freeVariables
-		Iterator<Variable> it = variables.iterator();
-		HashMap<Variable, BigInteger> values = new HashMap<Variable, BigInteger>();
-		TreeSet<Variable> fixedVariables = new TreeSet<Variable>(
-				new Comparator<Variable>() {
+		Iterator<PVariable> it = variables.iterator();
+		HashMap<PVariable, BigInteger> values = new HashMap<PVariable, BigInteger>();
+		TreeSet<PVariable> fixedVariables = new TreeSet<PVariable>(
+				new Comparator<PVariable>() {
 					@Override
-					public int compare(Variable v1, Variable v2) {
+					public int compare(PVariable v1, PVariable v2) {
 						String nameV1, nameV2;
 						if (v1.getParent() == null
 								|| (nameV1 = v1.getParent().getLabel(
@@ -139,9 +139,9 @@ public abstract class AbstractProverReciosMethod {
 						return compareNames;
 					}
 				});
-		HashSet<Variable> freeVariables = new HashSet<Variable>();
+		HashSet<PVariable> freeVariables = new HashSet<PVariable>();
 		while (it.hasNext()) {
-			Variable fv = it.next();
+			PVariable fv = it.next();
 			if (fv.getTwin() == null || !variables.contains(fv.getTwin())) {
 				freeVariables.add(fv);
 				continue;
@@ -153,7 +153,7 @@ public abstract class AbstractProverReciosMethod {
 		int nrOfFixedPoints = 0;
 		GeoElement fixedElement1 = null, fixedElement2 = null;
 		while (it.hasNext()) {
-			Variable var;
+			PVariable var;
 			if (nrOfFixedPoints == 0) {
 				var = it.next();
 				values.put(var, BigInteger.ZERO);
@@ -215,20 +215,20 @@ public abstract class AbstractProverReciosMethod {
 
 	}
 
-	private static ProofResult compute0d(HashMap<Variable, BigInteger> values,
+	private static ProofResult compute0d(HashMap<PVariable, BigInteger> values,
 			SymbolicParameters s, AlgebraicStatement as) {
 		if (as != null) {
 			// use Botana's method
-			HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-			for (Entry<Variable, BigInteger> entry : values.entrySet()) {
-				Variable v = entry.getKey();
+			HashMap<PVariable, Long> substitutions = new HashMap<PVariable, Long>();
+			for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
+				PVariable v = entry.getKey();
 				// FIXME: Change Long in Variable to BigInteger
 				substitutions.put(v, entry.getValue().longValue());
 			}
 			ProverSettings proverSettings = ProverSettings.get();
-			ExtendedBoolean solvable = Polynomial.solvable(
+			ExtendedBoolean solvable = PPolynomial.solvable(
 					as.polynomials
-							.toArray(new Polynomial[as.polynomials.size()]),
+							.toArray(new PPolynomial[as.polynomials.size()]),
 					substitutions, as.geoStatement.getKernel(),
 					proverSettings.transcext);
 			Log.debug("Recio meets Botana:" + substitutions);
@@ -250,24 +250,24 @@ public abstract class AbstractProverReciosMethod {
 		return ProofResult.TRUE;
 	}
 
-	private static ProofResult compute1d(final HashSet<Variable> freeVariables,
-			final HashMap<Variable, BigInteger> values, final int deg,
+	private static ProofResult compute1d(final HashSet<PVariable> freeVariables,
+			final HashMap<PVariable, BigInteger> values, final int deg,
 			final SymbolicParameters s, AlgebraicStatement as) {
-		Variable variable = freeVariables.iterator().next();
+		PVariable variable = freeVariables.iterator().next();
 		for (int i = 1; i <= deg + 2; i++) {
 			values.put(variable, BigInteger.valueOf(i));
 			if (as != null) {
 				// use Botana's method
-				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-				for (Entry<Variable, BigInteger> entry : values.entrySet()) {
-					Variable v = entry.getKey();
+				HashMap<PVariable, Long> substitutions = new HashMap<PVariable, Long>();
+				for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
+					PVariable v = entry.getKey();
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, entry.getValue().longValue());
 				}
 				ProverSettings proverSettings = ProverSettings.get();
-				ExtendedBoolean solvable = Polynomial.solvable(
+				ExtendedBoolean solvable = PPolynomial.solvable(
 						as.polynomials
-								.toArray(new Polynomial[as.polynomials.size()]),
+								.toArray(new PPolynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						proverSettings.transcext);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
@@ -291,11 +291,11 @@ public abstract class AbstractProverReciosMethod {
 		return ProofResult.TRUE;
 	}
 
-	private static ProofResult compute2d(final HashSet<Variable> freeVariables,
-			final HashMap<Variable, BigInteger> values, final int deg,
+	private static ProofResult compute2d(final HashSet<PVariable> freeVariables,
+			final HashMap<PVariable, BigInteger> values, final int deg,
 			final SymbolicParameters s, AlgebraicStatement as) {
-		Variable[] variables = new Variable[freeVariables.size()];
-		Iterator<Variable> it = freeVariables.iterator();
+		PVariable[] variables = new PVariable[freeVariables.size()];
+		Iterator<PVariable> it = freeVariables.iterator();
 		for (int i = 0; i < variables.length; i++) {
 			variables[i] = it.next();
 		}
@@ -312,16 +312,16 @@ public abstract class AbstractProverReciosMethod {
 
 				if (as != null) {
 					// use Botana's method
-					HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-					for (Entry<Variable, BigInteger> entry : values
+					HashMap<PVariable, Long> substitutions = new HashMap<PVariable, Long>();
+					for (Entry<PVariable, BigInteger> entry : values
 							.entrySet()) {
-						Variable v = entry.getKey();
+						PVariable v = entry.getKey();
 						// FIXME: Change Long in Variable to BigInteger
 						substitutions.put(v, entry.getValue().longValue());
 					}
-					ExtendedBoolean solvable = Polynomial.solvable(
+					ExtendedBoolean solvable = PPolynomial.solvable(
 							as.polynomials.toArray(
-									new Polynomial[as.polynomials.size()]),
+									new PPolynomial[as.polynomials.size()]),
 							substitutions, as.geoStatement.getKernel(),
 							ProverSettings.get().transcext);
 					Log.debug("Recio meets Botana: #" + caseno + " "
@@ -368,8 +368,8 @@ public abstract class AbstractProverReciosMethod {
 	 */
 
 	protected abstract ProofResult computeNd(
-			final HashSet<Variable> freeVariables,
-			final HashMap<Variable, BigInteger> values, final int deg,
+			final HashSet<PVariable> freeVariables,
+			final HashMap<PVariable, BigInteger> values, final int deg,
 			final SymbolicParameters s, AlgebraicStatement as);
 
 	/**

@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -57,8 +57,8 @@ public class AlgoConicFivePoints extends AlgoElement
 	private double e1, e2;
 	private GeoVec3D[] line;
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	public AlgoConicFivePoints(Construction cons, String label,
 			GeoPointND[] inputP) {
@@ -318,12 +318,12 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -334,75 +334,75 @@ public class AlgoConicFivePoints extends AlgoElement
 		 * coordinates of the input points.
 		 */
 		if (botanaVars == null) {
-			botanaVars = new Variable[8];
+			botanaVars = new PVariable[8];
 			/* x,y,a,b,c,d,e,f */
 			for (int i = 0; i < 8; i++) {
-				botanaVars[i] = new Variable(kernel);
+				botanaVars[i] = new PVariable(kernel);
 			}
 		}
-		Variable x = botanaVars[0];
-		Variable y = botanaVars[1];
-		Variable a = botanaVars[2];
-		Variable b = botanaVars[3];
-		Variable c = botanaVars[4];
-		Variable d = botanaVars[5];
-		Variable e = botanaVars[6];
-		Variable f = botanaVars[7];
-		botanaPolynomials = new Polynomial[6];
+		PVariable x = botanaVars[0];
+		PVariable y = botanaVars[1];
+		PVariable a = botanaVars[2];
+		PVariable b = botanaVars[3];
+		PVariable c = botanaVars[4];
+		PVariable d = botanaVars[5];
+		PVariable e = botanaVars[6];
+		PVariable f = botanaVars[7];
+		botanaPolynomials = new PPolynomial[6];
 		/* one for the curve and 5 for the constraints */
-		Polynomial xp = new Polynomial(x);
-		Polynomial yp = new Polynomial(y);
-		Polynomial xx = Polynomial.sqr(xp);
-		Polynomial yy = Polynomial.sqr(yp);
-		Polynomial xy = xp.multiply(yp);
-		Polynomial ap = new Polynomial(a);
-		Polynomial bp = new Polynomial(b);
-		Polynomial cp = new Polynomial(c);
-		Polynomial dp = new Polynomial(d);
-		Polynomial ep = new Polynomial(e);
-		Polynomial fp = new Polynomial(f);
+		PPolynomial xp = new PPolynomial(x);
+		PPolynomial yp = new PPolynomial(y);
+		PPolynomial xx = PPolynomial.sqr(xp);
+		PPolynomial yy = PPolynomial.sqr(yp);
+		PPolynomial xy = xp.multiply(yp);
+		PPolynomial ap = new PPolynomial(a);
+		PPolynomial bp = new PPolynomial(b);
+		PPolynomial cp = new PPolynomial(c);
+		PPolynomial dp = new PPolynomial(d);
+		PPolynomial ep = new PPolynomial(e);
+		PPolynomial fp = new PPolynomial(f);
 		botanaPolynomials[0] = ap.multiply(xx).add(bp.multiply(yy))
 				.add(cp.multiply(xy)).add(dp.multiply(xp)).add(ep.multiply(yp))
 				.add(fp);
 		AlgoElement ae = geo.getParentAlgorithm();
 
 		GeoPoint PA = (GeoPoint) ae.input[0];
-		Polynomial Ax = new Polynomial(PA.getBotanaVars(PA)[0]);
-		Polynomial Ay = new Polynomial(PA.getBotanaVars(PA)[1]);
-		botanaPolynomials[1] = ap.multiply(Polynomial.sqr(Ax))
-				.add(bp.multiply(Polynomial.sqr(Ay)))
+		PPolynomial Ax = new PPolynomial(PA.getBotanaVars(PA)[0]);
+		PPolynomial Ay = new PPolynomial(PA.getBotanaVars(PA)[1]);
+		botanaPolynomials[1] = ap.multiply(PPolynomial.sqr(Ax))
+				.add(bp.multiply(PPolynomial.sqr(Ay)))
 				.add(cp.multiply(Ax).multiply(Ay)).add(dp.multiply(Ax))
 				.add(ep.multiply(Ay)).add(fp);
 
 		GeoPoint PB = (GeoPoint) ae.input[1];
-		Polynomial Bx = new Polynomial(PB.getBotanaVars(PB)[0]);
-		Polynomial By = new Polynomial(PB.getBotanaVars(PB)[1]);
-		botanaPolynomials[2] = ap.multiply(Polynomial.sqr(Bx))
-				.add(bp.multiply(Polynomial.sqr(By)))
+		PPolynomial Bx = new PPolynomial(PB.getBotanaVars(PB)[0]);
+		PPolynomial By = new PPolynomial(PB.getBotanaVars(PB)[1]);
+		botanaPolynomials[2] = ap.multiply(PPolynomial.sqr(Bx))
+				.add(bp.multiply(PPolynomial.sqr(By)))
 				.add(cp.multiply(Bx).multiply(By)).add(dp.multiply(Bx))
 				.add(ep.multiply(By)).add(fp);
 
 		GeoPoint PC = (GeoPoint) ae.input[2];
-		Polynomial Cx = new Polynomial(PC.getBotanaVars(PC)[0]);
-		Polynomial Cy = new Polynomial(PC.getBotanaVars(PC)[1]);
-		botanaPolynomials[3] = ap.multiply(Polynomial.sqr(Cx))
-				.add(bp.multiply(Polynomial.sqr(Cy)))
+		PPolynomial Cx = new PPolynomial(PC.getBotanaVars(PC)[0]);
+		PPolynomial Cy = new PPolynomial(PC.getBotanaVars(PC)[1]);
+		botanaPolynomials[3] = ap.multiply(PPolynomial.sqr(Cx))
+				.add(bp.multiply(PPolynomial.sqr(Cy)))
 				.add(cp.multiply(Cx).multiply(Cy)).add(dp.multiply(Cx))
 				.add(ep.multiply(Cy)).add(fp);
 
 		GeoPoint PD = (GeoPoint) ae.input[3];
-		Polynomial Dx = new Polynomial(PD.getBotanaVars(PD)[0]);
-		Polynomial Dy = new Polynomial(PD.getBotanaVars(PD)[1]);
-		botanaPolynomials[4] = ap.multiply(Polynomial.sqr(Dx))
-				.add(bp.multiply(Polynomial.sqr(Dy)))
+		PPolynomial Dx = new PPolynomial(PD.getBotanaVars(PD)[0]);
+		PPolynomial Dy = new PPolynomial(PD.getBotanaVars(PD)[1]);
+		botanaPolynomials[4] = ap.multiply(PPolynomial.sqr(Dx))
+				.add(bp.multiply(PPolynomial.sqr(Dy)))
 				.add(cp.multiply(Dx).multiply(Dy)).add(dp.multiply(Dx))
 				.add(ep.multiply(Dy)).add(fp);
 
 		GeoPoint PE = (GeoPoint) ae.input[4];
-		Polynomial Ex = new Polynomial(PE.getBotanaVars(PE)[0]);
-		Polynomial Ey = new Polynomial(PE.getBotanaVars(PE)[1]);
-		botanaPolynomials[5] = ap.multiply(Polynomial.sqr(Ex))
-				.add(bp.multiply(Polynomial.sqr(Ey)))
+		PPolynomial Ex = new PPolynomial(PE.getBotanaVars(PE)[0]);
+		PPolynomial Ey = new PPolynomial(PE.getBotanaVars(PE)[1]);
+		botanaPolynomials[5] = ap.multiply(PPolynomial.sqr(Ex))
+				.add(bp.multiply(PPolynomial.sqr(Ey)))
 				.add(cp.multiply(Ex).multiply(Ey)).add(dp.multiply(Ex))
 				.add(ep.multiply(Ey)).add(fp);
 

@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * 
@@ -49,10 +49,10 @@ public class AlgoTranslate extends AlgoTransformation
 	protected GeoElement inGeo;
 	protected GeoElement outGeo;
 	protected GeoElement v; // input
-	private Polynomial[] polynomials;
+	private PPolynomial[] polynomials;
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/**
 	 * Creates labeled translation algo
@@ -177,7 +177,7 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			((SymbolicParametersAlgo) inGeo).getFreeVariables(variables);
@@ -208,7 +208,7 @@ public class AlgoTranslate extends AlgoTransformation
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo)
@@ -227,16 +227,16 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
+			PPolynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) v)
+			PPolynomial[] coords2 = ((SymbolicParametersAlgo) v)
 					.getPolynomials();
-			polynomials = new Polynomial[3];
+			polynomials = new PPolynomial[3];
 			polynomials[0] = coords1[0].multiply(coords2[2])
 					.add(coords2[0].multiply(coords1[2]));
 			polynomials[1] = coords1[1].multiply(coords2[2])
@@ -253,12 +253,12 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
@@ -270,14 +270,14 @@ public class AlgoTranslate extends AlgoTransformation
 
 		if (P != null && v != null) {
 
-			Variable[] vP = P.getBotanaVars(P);
-			Variable[] vv = u.getBotanaVars(u);
+			PVariable[] vP = P.getBotanaVars(P);
+			PVariable[] vv = u.getBotanaVars(u);
 
 			if (botanaVars == null) {
-				botanaVars = new Variable[6];
+				botanaVars = new PVariable[6];
 				// A'
-				botanaVars[0] = new Variable(kernel);
-				botanaVars[1] = new Variable(kernel);
+				botanaVars[0] = new PVariable(kernel);
+				botanaVars[1] = new PVariable(kernel);
 				// P
 				botanaVars[2] = vP[0];
 				botanaVars[3] = vP[1];
@@ -286,14 +286,14 @@ public class AlgoTranslate extends AlgoTransformation
 				botanaVars[5] = vv[1];
 			}
 
-			botanaPolynomials = new Polynomial[2];
+			botanaPolynomials = new PPolynomial[2];
 
-			Polynomial p1 = new Polynomial(vP[0]);
-			Polynomial p2 = new Polynomial(vP[1]);
-			Polynomial u1 = new Polynomial(vv[0]);
-			Polynomial u2 = new Polynomial(vv[1]);
-			Polynomial p_1 = new Polynomial(botanaVars[0]);
-			Polynomial p_2 = new Polynomial(botanaVars[1]);
+			PPolynomial p1 = new PPolynomial(vP[0]);
+			PPolynomial p2 = new PPolynomial(vP[1]);
+			PPolynomial u1 = new PPolynomial(vv[0]);
+			PPolynomial u2 = new PPolynomial(vv[1]);
+			PPolynomial p_1 = new PPolynomial(botanaVars[0]);
+			PPolynomial p_2 = new PPolynomial(botanaVars[1]);
 
 			botanaPolynomials[0] = p1.add(u1).subtract(p_1);
 			botanaPolynomials[1] = p2.add(u2).subtract(p_2);

@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -271,17 +271,17 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		// We collect the used x1,x2,... variables (their order is not
 		// relevant):
-		Polynomial[] allPolys = new Polynomial[as.getPolynomials().size()];
-		Iterator<Polynomial> it = as.getPolynomials().iterator();
+		PPolynomial[] allPolys = new PPolynomial[as.getPolynomials().size()];
+		Iterator<PPolynomial> it = as.getPolynomials().iterator();
 		int i = 0;
 		while (it.hasNext()) {
-			Polynomial poly = it.next();
+			PPolynomial poly = it.next();
 			allPolys[i] = poly;
 			i++;
 		}
 
 		StringBuilder vars = new StringBuilder();
-		String allVars = Polynomial.getVarsAsCommaSeparatedString(allPolys,
+		String allVars = PPolynomial.getVarsAsCommaSeparatedString(allPolys,
 				null, null) + ",";
 		allVars = allVars.replaceAll(varx + ",", "");
 		allVars = allVars.replaceAll(vary + ",", "");
@@ -290,7 +290,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		vars.append(allVars.substring(0, allVars.length() - 1));
 
 		// Obtaining polynomials:
-		String polys = Polynomial.getPolysAsCommaSeparatedString(allPolys);
+		String polys = PPolynomial.getPolysAsCommaSeparatedString(allPolys);
 
 		StringBuilder script = new StringBuilder();
 

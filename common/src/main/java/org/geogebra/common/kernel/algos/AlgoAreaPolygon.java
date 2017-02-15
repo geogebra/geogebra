@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Computes the area of a polygon
@@ -41,7 +41,7 @@ public class AlgoAreaPolygon extends AlgoElement
 	private GeoPolygon polygon; // input
 	private GeoNumeric area; // output
 
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 
 	public AlgoAreaPolygon(Construction cons, String label,
 			GeoPolygon polygon) {
@@ -92,12 +92,12 @@ public class AlgoAreaPolygon extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		GeoPointND[] pointsOfPolygon = polygon.getPoints();
 		if (botanaVars == null) {
-			botanaVars = new Variable[pointsOfPolygon.length * 2];
+			botanaVars = new PVariable[pointsOfPolygon.length * 2];
 			for (int i = 0; i < pointsOfPolygon.length; i++) {
-				Variable[] currentPointBotanavars = ((GeoPoint) pointsOfPolygon[i])
+				PVariable[] currentPointBotanavars = ((GeoPoint) pointsOfPolygon[i])
 						.getBotanaVars(pointsOfPolygon[i]);
 				botanaVars[2 * i] = currentPointBotanavars[0];
 				botanaVars[2 * i + 1] = currentPointBotanavars[1];
@@ -107,7 +107,7 @@ public class AlgoAreaPolygon extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;
 	}

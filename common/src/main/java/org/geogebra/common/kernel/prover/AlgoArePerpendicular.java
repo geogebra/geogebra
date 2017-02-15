@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -32,8 +32,8 @@ public class AlgoArePerpendicular extends AlgoElement
 	private GeoLine inputLine2; // input
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[] polynomials;
-	private Polynomial[][] botanaPolynomials;
+	private PPolynomial[] polynomials;
+	private PPolynomial[][] botanaPolynomials;
 
 	/**
 	 * Tests if two lines are perpendicular
@@ -113,7 +113,7 @@ public class AlgoArePerpendicular extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			inputLine1.getFreeVariables(variables);
@@ -138,7 +138,7 @@ public class AlgoArePerpendicular extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
@@ -155,17 +155,17 @@ public class AlgoArePerpendicular extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		Log.debug(polynomials);
 		if (polynomials != null) {
 			return polynomials;
 		}
 		if (inputLine1 != null && inputLine2 != null) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
+			PPolynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
 					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
+			PPolynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getPolynomials();
-			polynomials = new Polynomial[1];
+			polynomials = new PPolynomial[1];
 			polynomials[0] = coords1[0].multiply(coords2[0])
 					.add(coords1[1].multiply(coords2[1]));
 
@@ -175,19 +175,19 @@ public class AlgoArePerpendicular extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (inputLine1 != null && inputLine2 != null) {
-			Variable[] v1 = ((SymbolicParametersBotanaAlgo) inputLine1)
+			PVariable[] v1 = ((SymbolicParametersBotanaAlgo) inputLine1)
 					.getBotanaVars(inputLine1); // (a1,a2,b1,b2)
-			Variable[] v2 = ((SymbolicParametersBotanaAlgo) inputLine2)
+			PVariable[] v2 = ((SymbolicParametersBotanaAlgo) inputLine2)
 					.getBotanaVars(inputLine2); // (c1,c2,d1,d2)
 
-			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = Polynomial.perpendicular(v1[0], v1[1],
+			botanaPolynomials = new PPolynomial[1][1];
+			botanaPolynomials[0][0] = PPolynomial.perpendicular(v1[0], v1[1],
 					v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);
 			return botanaPolynomials;
 		}

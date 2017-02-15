@@ -28,8 +28,8 @@ import org.geogebra.common.kernel.kernelND.AlgoMidpointND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -38,9 +38,9 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 public class AlgoMidpoint extends AlgoMidpointND
 		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
-	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] polynomials;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	public AlgoMidpoint(Construction cons, String label, GeoPoint P,
 			GeoPoint Q) {
@@ -96,7 +96,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
@@ -129,7 +129,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
@@ -146,31 +146,31 @@ public class AlgoMidpoint extends AlgoMidpointND
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
 		if (P != null && Q != null) {
-			Polynomial[] pP = P.getPolynomials();
-			Polynomial[] pQ = Q.getPolynomials();
-			polynomials = new Polynomial[3];
+			PPolynomial[] pP = P.getPolynomials();
+			PPolynomial[] pQ = Q.getPolynomials();
+			polynomials = new PPolynomial[3];
 			polynomials[0] = pP[0].multiply(pQ[2]).add(pQ[0].multiply(pP[2]));
 			polynomials[1] = pP[1].multiply(pQ[2]).add(pQ[1].multiply(pP[2]));
-			polynomials[2] = pP[2].multiply(pQ[2]).multiply(new Polynomial(2));
+			polynomials[2] = pP[2].multiply(pQ[2]).multiply(new PPolynomial(2));
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -184,9 +184,9 @@ public class AlgoMidpoint extends AlgoMidpointND
 		}
 
 		if (botanaVars == null) {
-			botanaVars = new Variable[2];
-			botanaVars[0] = new Variable(kernel);
-			botanaVars[1] = new Variable(kernel);
+			botanaVars = new PVariable[2];
+			botanaVars[0] = new PVariable(kernel);
+			botanaVars[1] = new PVariable(kernel);
 		}
 
 		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q,

@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -205,22 +205,22 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
-		Set<Set<Polynomial>> eliminationIdeal;
+		Set<Set<PPolynomial>> eliminationIdeal;
 		Kernel k = movingPoint.getKernel();
 
-		eliminationIdeal = Polynomial
+		eliminationIdeal = PPolynomial
 				.eliminate(
 						as.getPolynomials()
-								.toArray(new Polynomial[as.getPolynomials()
+								.toArray(new PPolynomial[as.getPolynomials()
 										.size()]),
 						as.substitutions, k, 0, false, true);
 
 		// We implicitly assume that there is one equation here as result.
-		Polynomial result = null;
-		Iterator<Set<Polynomial>> it1 = eliminationIdeal.iterator();
+		PPolynomial result = null;
+		Iterator<Set<PPolynomial>> it1 = eliminationIdeal.iterator();
 		if (it1.hasNext()) {
-			Set<Polynomial> results1 = it1.next();
-			Iterator<Polynomial> it2 = results1.iterator();
+			Set<PPolynomial> results1 = it1.next();
+			Iterator<PPolynomial> it2 = results1.iterator();
 			if (it2.hasNext()) {
 				result = it2.next();
 			}

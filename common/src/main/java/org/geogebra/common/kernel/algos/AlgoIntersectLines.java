@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -46,9 +46,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 
 	private GeoLine g, h; // input
 	private GeoPoint S; // output
-	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] polynomials;
+	private PPolynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoIntersectLines(Construction cons, String label, GeoLine g,
@@ -143,7 +143,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
@@ -171,7 +171,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
@@ -185,7 +185,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
@@ -193,21 +193,21 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
-			Polynomial[] coords1 = g.getPolynomials();
-			Polynomial[] coords2 = h.getPolynomials();
-			polynomials = Polynomial.crossProduct(coords1, coords2);
+			PPolynomial[] coords1 = g.getPolynomials();
+			PPolynomial[] coords2 = h.getPolynomials();
+			polynomials = PPolynomial.crossProduct(coords1, coords2);
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -225,16 +225,16 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract
 		if (g != null
 				&& h != null /* && !g.isGeoSegment() && !h.isGeoSegment() */) {
 			if (botanaVars == null) {
-				botanaVars = new Variable[2];
-				botanaVars[0] = new Variable(kernel);
-				botanaVars[1] = new Variable(kernel);
+				botanaVars = new PVariable[2];
+				botanaVars[0] = new PVariable(kernel);
+				botanaVars[1] = new PVariable(kernel);
 			}
-			Variable[] fv = g.getBotanaVars(g);
-			botanaPolynomials = new Polynomial[2];
-			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2],
+			PVariable[] fv = g.getBotanaVars(g);
+			botanaPolynomials = new PPolynomial[2];
+			botanaPolynomials[0] = PPolynomial.collinear(fv[0], fv[1], fv[2],
 					fv[3], botanaVars[0], botanaVars[1]);
 			fv = h.getBotanaVars(h);
-			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2],
+			botanaPolynomials[1] = PPolynomial.collinear(fv[0], fv[1], fv[2],
 					fv[3], botanaVars[0], botanaVars[1]);
 
 			return botanaPolynomials;

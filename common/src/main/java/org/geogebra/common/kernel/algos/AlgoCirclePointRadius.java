@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * 
@@ -40,8 +40,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		AlgoCirclePointRadiusInterface, SymbolicParametersBotanaAlgo {
 
-	private Variable[] botanaVars;
-	private Polynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
 
 	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			GeoNumberValue r) {
@@ -100,12 +100,12 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -122,30 +122,30 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 			 */
 			GeoSegment s = (GeoSegment) this.getInput(1);
 			if (botanaVars == null) {
-				Variable[] centerBotanaVars = P.getBotanaVars(P);
-				botanaVars = new Variable[4];
+				PVariable[] centerBotanaVars = P.getBotanaVars(P);
+				botanaVars = new PVariable[4];
 				// center P
 				botanaVars[0] = centerBotanaVars[0];
 				botanaVars[1] = centerBotanaVars[1];
 				// point C on the circle
-				botanaVars[2] = new Variable(kernel);
-				botanaVars[3] = new Variable(kernel);
+				botanaVars[2] = new PVariable(kernel);
+				botanaVars[3] = new PVariable(kernel);
 			}
 			GeoPoint A = s.getStartPoint();
 			GeoPoint B = s.getEndPoint();
-			Variable[] ABotanaVars = A.getBotanaVars(A);
-			Variable[] BBotanaVars = B.getBotanaVars(B);
+			PVariable[] ABotanaVars = A.getBotanaVars(A);
+			PVariable[] BBotanaVars = B.getBotanaVars(B);
 
-			botanaPolynomials = new Polynomial[2];
+			botanaPolynomials = new PPolynomial[2];
 			// C-P == B-A <=> C-P-B+A == 0
-			botanaPolynomials[0] = new Polynomial(botanaVars[2])
-					.subtract(new Polynomial(botanaVars[0]))
-					.subtract(new Polynomial(BBotanaVars[0]))
-					.add(new Polynomial(ABotanaVars[0]));
-			botanaPolynomials[1] = new Polynomial(botanaVars[3])
-					.subtract(new Polynomial(botanaVars[1]))
-					.subtract(new Polynomial(BBotanaVars[1]))
-					.add(new Polynomial(ABotanaVars[1]));
+			botanaPolynomials[0] = new PPolynomial(botanaVars[2])
+					.subtract(new PPolynomial(botanaVars[0]))
+					.subtract(new PPolynomial(BBotanaVars[0]))
+					.add(new PPolynomial(ABotanaVars[0]));
+			botanaPolynomials[1] = new PPolynomial(botanaVars[3])
+					.subtract(new PPolynomial(botanaVars[1]))
+					.subtract(new PPolynomial(BBotanaVars[1]))
+					.add(new PPolynomial(ABotanaVars[1]));
 			// done for both coordinates!
 			return botanaPolynomials;
 		}
@@ -161,44 +161,44 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		}
 
 		if (botanaVars == null) {
-			Variable[] centerBotanaVars = P.getBotanaVars(P);
-			botanaVars = new Variable[5];
+			PVariable[] centerBotanaVars = P.getBotanaVars(P);
+			botanaVars = new PVariable[5];
 			// center
 			botanaVars[0] = centerBotanaVars[0];
 			botanaVars[1] = centerBotanaVars[1];
 			// point on circle
-			botanaVars[2] = new Variable(kernel);
-			botanaVars[3] = new Variable(kernel);
+			botanaVars[2] = new PVariable(kernel);
+			botanaVars[3] = new PVariable(kernel);
 			// radius
-			botanaVars[4] = new Variable(kernel);
+			botanaVars[4] = new PVariable(kernel);
 		}
 
-		Polynomial[] extraPolys = null;
+		PPolynomial[] extraPolys = null;
 		if (num.getParentAlgorithm() instanceof AlgoDependentNumber) {
 			extraPolys = num.getBotanaPolynomials(num);
-			botanaPolynomials = new Polynomial[extraPolys.length + 1];
+			botanaPolynomials = new PPolynomial[extraPolys.length + 1];
 		} else {
-			botanaPolynomials = new Polynomial[1];
+			botanaPolynomials = new PPolynomial[1];
 		}
 
 		/*
 		 * Note that we read the Botana variables just after reading the Botana
 		 * polynomials since the variables are set after the polys are set.
 		 */
-		Variable[] radiusBotanaVars = num.getBotanaVars(num);
+		PVariable[] radiusBotanaVars = num.getBotanaVars(num);
 		int k = 0;
 		// r^2
-		Polynomial sqrR = Polynomial.sqr(new Polynomial(radiusBotanaVars[0]));
+		PPolynomial sqrR = PPolynomial.sqr(new PPolynomial(radiusBotanaVars[0]));
 		// define radius
 		if (extraPolys != null) {
-			botanaPolynomials = new Polynomial[extraPolys.length + 1];
+			botanaPolynomials = new PPolynomial[extraPolys.length + 1];
 			for (k = 0; k < extraPolys.length; k++) {
 				botanaPolynomials[k] = extraPolys[k];
 			}
 		}
 
 		// define circle
-		botanaPolynomials[k] = Polynomial.sqrDistance(botanaVars[0],
+		botanaPolynomials[k] = PPolynomial.sqrDistance(botanaVars[0],
 				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
 
 		return botanaPolynomials;

@@ -6,18 +6,18 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class BotanaEllipseHyperbolaLength {
-	private Variable[] botanaVars;
-	private Polynomial[] botanaPolynomials;
+	private PVariable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
 
-	public Variable[] getVars() {
+	public PVariable[] getVars() {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoPointND focus1,
+	public PPolynomial[] getBotanaPolynomials(GeoPointND focus1,
 			GeoPointND focus2, GeoNumberValue length)
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -76,9 +76,9 @@ public class BotanaEllipseHyperbolaLength {
 		}
 
 		if (botanaVars == null) {
-			Variable[] centerBotanaVars = F1.getBotanaVars(F1);
-			Variable[] centerBotanaVars2 = F2.getBotanaVars(F2);
-			botanaVars = new Variable[7];
+			PVariable[] centerBotanaVars = F1.getBotanaVars(F1);
+			PVariable[] centerBotanaVars2 = F2.getBotanaVars(F2);
+			botanaVars = new PVariable[7];
 			// center
 			botanaVars[0] = centerBotanaVars[0];
 			botanaVars[1] = centerBotanaVars[1];
@@ -86,14 +86,14 @@ public class BotanaEllipseHyperbolaLength {
 			botanaVars[2] = centerBotanaVars2[0];
 			botanaVars[3] = centerBotanaVars2[1];
 			// point on circle
-			botanaVars[4] = new Variable(F1.getKernel());
-			botanaVars[5] = new Variable(F1.getKernel());
+			botanaVars[4] = new PVariable(F1.getKernel());
+			botanaVars[5] = new PVariable(F1.getKernel());
 			// radius
-			botanaVars[6] = new Variable(F1.getKernel());
+			botanaVars[6] = new PVariable(F1.getKernel());
 		}
 
-		botanaPolynomials = new Polynomial[2];
-		Polynomial[] extraPolys = null;
+		botanaPolynomials = new PPolynomial[2];
+		PPolynomial[] extraPolys = null;
 		if (num.getParentAlgorithm() instanceof AlgoDependentNumber) {
 			extraPolys = num.getBotanaPolynomials(num);
 		}
@@ -101,13 +101,13 @@ public class BotanaEllipseHyperbolaLength {
 		 * Note that we read the Botana variables just after reading the Botana
 		 * polynomials since the variables are set after the polys are set.
 		 */
-		Variable[] radiusBotanaVars = num.getBotanaVars(num);
+		PVariable[] radiusBotanaVars = num.getBotanaVars(num);
 		int k = 0;
 		// r^2
-		Polynomial sqrR = Polynomial.sqr(new Polynomial(radiusBotanaVars[0]));
+		PPolynomial sqrR = PPolynomial.sqr(new PPolynomial(radiusBotanaVars[0]));
 		// define radius
 		if (extraPolys != null) {
-			botanaPolynomials = new Polynomial[extraPolys.length + 1];
+			botanaPolynomials = new PPolynomial[extraPolys.length + 1];
 			for (k = 0; k < extraPolys.length; k++) {
 				botanaPolynomials[k] = extraPolys[k];
 			}
@@ -115,13 +115,13 @@ public class BotanaEllipseHyperbolaLength {
 		// ((A-(x,y))^2+(B-(x,y))^2-100)^2=4*(B-(x,y))^2*(A-(x,y))^2
 		// define circle
 		// botanaPolynomials[k] =;
-		Polynomial f1distSq = Polynomial.sqrDistance(botanaVars[0],
+		PPolynomial f1distSq = PPolynomial.sqrDistance(botanaVars[0],
 				botanaVars[1], botanaVars[4], botanaVars[5]);
-		Polynomial f2distSq = Polynomial.sqrDistance(botanaVars[2],
+		PPolynomial f2distSq = PPolynomial.sqrDistance(botanaVars[2],
 				botanaVars[3], botanaVars[4], botanaVars[5]);
-		Polynomial lhs = Polynomial.sqr(f1distSq.add(f2distSq).subtract(sqrR));
-		Polynomial rhs = f1distSq.multiply(f2distSq)
-				.multiply(new Polynomial(4));
+		PPolynomial lhs = PPolynomial.sqr(f1distSq.add(f2distSq).subtract(sqrR));
+		PPolynomial rhs = f1distSq.multiply(f2distSq)
+				.multiply(new PPolynomial(4));
 		botanaPolynomials[k] = lhs.subtract(rhs);
 
 		return botanaPolynomials;

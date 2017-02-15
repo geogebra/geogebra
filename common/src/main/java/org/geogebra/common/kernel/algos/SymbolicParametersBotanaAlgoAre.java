@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 
 /**
  * This interface describes the symbolic parameters of algorithms for the Botana
@@ -20,6 +20,6 @@ public interface SymbolicParametersBotanaAlgoAre {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException;
 }

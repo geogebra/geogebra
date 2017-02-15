@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * This interface describes the symbolic parameters of algorithms
@@ -32,7 +32,7 @@ public interface SymbolicParametersAlgo {
 	 *             thrown if no symbolic parameters are available.
 	 * 
 	 */
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException;
 
 	/**
@@ -70,7 +70,7 @@ public interface SymbolicParametersAlgo {
 	 *             coordinates
 	 */
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException;
 
 	/**
@@ -80,7 +80,7 @@ public interface SymbolicParametersAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain an algebraic description
 	 */
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException;
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException;
 
 	public void remove();
 }

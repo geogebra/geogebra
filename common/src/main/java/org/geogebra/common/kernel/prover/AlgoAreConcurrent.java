@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Decides if the lines are concurrent. Can be embedded into the Prove command
@@ -30,8 +30,8 @@ public class AlgoAreConcurrent extends AlgoElement
 	private GeoLine inputLine1, inputLine2, inputLine3; // input
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[] polynomials;
-	private Polynomial[][] botanaPolynomials;
+	private PPolynomial[] polynomials;
+	private PPolynomial[][] botanaPolynomials;
 
 	/**
 	 * Creates a new AlgoAreConcurrent function
@@ -118,7 +118,7 @@ public class AlgoAreConcurrent extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if ((inputLine1 instanceof GeoSegment)
 				|| (inputLine2 instanceof GeoSegment)
@@ -159,7 +159,7 @@ public class AlgoAreConcurrent extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if ((inputLine1 instanceof GeoSegment)
 				|| (inputLine2 instanceof GeoSegment)
@@ -187,7 +187,7 @@ public class AlgoAreConcurrent extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
@@ -197,10 +197,10 @@ public class AlgoAreConcurrent extends AlgoElement
 			throw new NoSymbolicParametersException();
 		}
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
-			Polynomial[] coords1 = inputLine1.getPolynomials();
-			Polynomial[] coords2 = inputLine2.getPolynomials();
-			Polynomial[] coords3 = inputLine3.getPolynomials();
-			polynomials = new Polynomial[1];
+			PPolynomial[] coords1 = inputLine1.getPolynomials();
+			PPolynomial[] coords2 = inputLine2.getPolynomials();
+			PPolynomial[] coords3 = inputLine3.getPolynomials();
+			polynomials = new PPolynomial[1];
 			polynomials[0] = coords1[0].multiply(coords2[1])
 					.multiply(coords3[2])
 					.add(coords2[0].multiply(coords3[1]).multiply(coords1[2]))
@@ -218,7 +218,7 @@ public class AlgoAreConcurrent extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -226,19 +226,19 @@ public class AlgoAreConcurrent extends AlgoElement
 
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
 
-			Variable[][] v = new Variable[3][4];
+			PVariable[][] v = new PVariable[3][4];
 			v[0] = inputLine1.getBotanaVars(inputLine1);
 			v[1] = inputLine2.getBotanaVars(inputLine2);
 			v[2] = inputLine3.getBotanaVars(inputLine3);
 
-			Variable[] nv = new Variable[2]; // new point for collinearity
-			nv[0] = new Variable(kernel);
-			nv[1] = new Variable(kernel);
+			PVariable[] nv = new PVariable[2]; // new point for collinearity
+			nv[0] = new PVariable(kernel);
+			nv[1] = new PVariable(kernel);
 
 			// We need three collinearities with an extra point.
-			botanaPolynomials = new Polynomial[1][3];
+			botanaPolynomials = new PPolynomial[1][3];
 			for (int i = 0; i < 3; ++i) {
-				botanaPolynomials[0][i] = Polynomial.collinear(v[i][0], v[i][1],
+				botanaPolynomials[0][i] = PPolynomial.collinear(v[i][0], v[i][1],
 						v[i][2], v[i][3], nv[0], nv[1]);
 			}
 

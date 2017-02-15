@@ -32,8 +32,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -45,8 +45,8 @@ public class AlgoJoinPoints extends AlgoElement
 
 	private GeoPoint P, Q; // input
 	private GeoLine g; // output
-	private Polynomial[] polynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[] polynomials;
+	private PVariable[] botanaVars;
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoJoinPoints(Construction cons, String label, GeoPoint P,
@@ -141,7 +141,7 @@ public class AlgoJoinPoints extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			P.getFreeVariables(variables);
@@ -165,7 +165,7 @@ public class AlgoJoinPoints extends AlgoElement
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			BigInteger[] coords1 = P.getExactCoordinates(values);
@@ -178,15 +178,15 @@ public class AlgoJoinPoints extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
 		}
 		if (P != null && Q != null) {
-			Polynomial[] coords1 = P.getPolynomials();
-			Polynomial[] coords2 = Q.getPolynomials();
+			PPolynomial[] coords1 = P.getPolynomials();
+			PPolynomial[] coords2 = Q.getPolynomials();
 			if (coords1 != null && coords2 != null) {
-				polynomials = Polynomial.crossProduct(coords1, coords2);
+				polynomials = PPolynomial.crossProduct(coords1, coords2);
 				Log.debug("polys(" + g.getLabelSimple() + "): "
 						+ polynomials[0].toString() + ","
 						+ polynomials[1].toString() + ","
@@ -199,7 +199,7 @@ public class AlgoJoinPoints extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars != null) {
 			return botanaVars;
 		}
@@ -208,7 +208,7 @@ public class AlgoJoinPoints extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines are only created when a third point is
 		// lying on them, too:

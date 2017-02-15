@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * Decides if the point lies on a path. Currently only point/line check is
@@ -30,8 +30,8 @@ public class AlgoIsOnPath extends AlgoElement
 	private Path inputPath;
 
 	private GeoBoolean outputBoolean; // output
-	private Polynomial[][] botanaPolynomials;
-	private Variable[] botanaVars;
+	private PPolynomial[][] botanaPolynomials;
+	private PVariable[] botanaVars;
 
 	/**
 	 * Creates a new AlgoIsOnPath function
@@ -91,12 +91,12 @@ public class AlgoIsOnPath extends AlgoElement
 	/**
 	 * @return botana vars
 	 */
-	public Variable[] getBotanaVars() {
+	public PVariable[] getBotanaVars() {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -105,56 +105,56 @@ public class AlgoIsOnPath extends AlgoElement
 		if (inputPoint != null && inputPath != null) {
 			if (inputPath instanceof GeoLine) {
 
-				Variable[] fv1 = new Variable[2];
-				Variable[] fv2 = new Variable[4];
+				PVariable[] fv1 = new PVariable[2];
+				PVariable[] fv2 = new PVariable[4];
 				fv1 = inputPoint.getBotanaVars(inputPoint);
 				fv2 = ((GeoLine) inputPath).getBotanaVars(inputPath);
 
-				botanaPolynomials = new Polynomial[1][1];
-				botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1],
+				botanaPolynomials = new PPolynomial[1][1];
+				botanaPolynomials[0][0] = PPolynomial.collinear(fv1[0], fv1[1],
 						fv2[0], fv2[1], fv2[2], fv2[3]);
 				return botanaPolynomials;
 			} else if (inputPath instanceof GeoConic) {
 				if (((GeoConic) inputPath).isCircle()) {
-					Variable[] fv1 = new Variable[2];
-					Variable[] fv2 = new Variable[4];
+					PVariable[] fv1 = new PVariable[2];
+					PVariable[] fv2 = new PVariable[4];
 					fv1 = inputPoint.getBotanaVars(inputPoint);
 					fv2 = ((GeoConic) inputPath)
 							.getBotanaVars(inputPath);
 
-					botanaPolynomials = new Polynomial[1][1];
-					botanaPolynomials[0][0] = Polynomial.equidistant(fv1[0],
+					botanaPolynomials = new PPolynomial[1][1];
+					botanaPolynomials[0][0] = PPolynomial.equidistant(fv1[0],
 							fv1[1], fv2[0], fv2[1], fv2[2], fv2[3]);
 					return botanaPolynomials;
 				}
 				if (((GeoConic) inputPath).isParabola()) {
 					if (botanaVars == null) {
-						botanaVars = new Variable[2];
+						botanaVars = new PVariable[2];
 						// T - projection of P to directrix
-						botanaVars[0] = new Variable(kernel);
-						botanaVars[1] = new Variable(kernel);
+						botanaVars[0] = new PVariable(kernel);
+						botanaVars[1] = new PVariable(kernel);
 					}
 
-					Variable[] fv1 = new Variable[2];
-					Variable[] fv2 = new Variable[10];
+					PVariable[] fv1 = new PVariable[2];
+					PVariable[] fv2 = new PVariable[10];
 					fv1 = inputPoint.getBotanaVars(inputPoint);
 					fv2 = ((GeoConic) inputPath)
 							.getBotanaVars(inputPath);
 
-					botanaPolynomials = new Polynomial[1][3];
+					botanaPolynomials = new PPolynomial[1][3];
 
 					// |FP| = |PT|
-					botanaPolynomials[0][0] = Polynomial.equidistant(fv2[8],
+					botanaPolynomials[0][0] = PPolynomial.equidistant(fv2[8],
 							fv2[9], fv1[0], fv1[1], botanaVars[0],
 							botanaVars[1]);
 
 					// A,T,B collinear
-					botanaPolynomials[0][1] = Polynomial.collinear(fv2[4],
+					botanaPolynomials[0][1] = PPolynomial.collinear(fv2[4],
 							fv2[5], botanaVars[0], botanaVars[1], fv2[6],
 							fv2[7]);
 
 					// PT orthogonal AB
-					botanaPolynomials[0][2] = Polynomial.perpendicular(fv1[0],
+					botanaPolynomials[0][2] = PPolynomial.perpendicular(fv1[0],
 							fv1[1], botanaVars[0], botanaVars[1], fv2[4],
 							fv2[5], fv2[6], fv2[7]);
 
@@ -165,24 +165,24 @@ public class AlgoIsOnPath extends AlgoElement
 
 					if (botanaVars == null && ((GeoElement) inputPoint)
 							.getParentAlgorithm() != null) {
-						botanaVars = new Variable[4];
+						botanaVars = new PVariable[4];
 						botanaVars = ((SymbolicParametersBotanaAlgo) ((GeoElement) inputPoint)
 								.getParentAlgorithm())
 										.getBotanaVars(inputPoint);
 					}
 
-					Variable[] fv1 = new Variable[4];
-					Variable[] fv2 = new Variable[12];
+					PVariable[] fv1 = new PVariable[4];
+					PVariable[] fv2 = new PVariable[12];
 					// botana variables of input point
 					fv1 = inputPoint.getBotanaVars(inputPoint);
 					// botana variables of input path
 					fv2 = ((GeoConic) inputPath)
 							.getBotanaVars(inputPath);
 
-					botanaPolynomials = new Polynomial[1][3];
+					botanaPolynomials = new PPolynomial[1][3];
 
-					Polynomial e_1 = new Polynomial();
-					Polynomial e_2 = new Polynomial();
+					PPolynomial e_1 = new PPolynomial();
+					PPolynomial e_2 = new PPolynomial();
 					AlgoElement algoParent = ((GeoElement) inputPoint)
 							.getParentAlgorithm();
 					// case input point is point on ellipse/hyperbola
@@ -191,31 +191,31 @@ public class AlgoIsOnPath extends AlgoElement
 									.getPath()).isEllipse()
 									|| ((GeoConic) ((AlgoPointOnPath) algoParent)
 											.getPath()).isHyperbola())) {
-						e_1 = new Polynomial(botanaVars[2]);
-						e_2 = new Polynomial(botanaVars[3]);
+						e_1 = new PPolynomial(botanaVars[2]);
+						e_2 = new PPolynomial(botanaVars[3]);
 					}
 					// case input point is point from ellipses definition
 					else if (fv1[0].equals(fv2[10]) && fv1[1].equals(fv2[11])) {
-						e_1 = new Polynomial(fv2[2]);
-						e_2 = new Polynomial(fv2[3]);
+						e_1 = new PPolynomial(fv2[2]);
+						e_2 = new PPolynomial(fv2[3]);
 					} else {
-						e_1 = new Polynomial(new Variable(kernel));
-						e_2 = new Polynomial(new Variable(kernel));
+						e_1 = new PPolynomial(new PVariable(kernel));
+						e_2 = new PPolynomial(new PVariable(kernel));
 					}
-					Polynomial d1 = new Polynomial(fv2[2]);
-					Polynomial d2 = new Polynomial(fv2[3]);
+					PPolynomial d1 = new PPolynomial(fv2[2]);
+					PPolynomial d2 = new PPolynomial(fv2[3]);
 
 					// d1+d2 = e1'+e2'
 					botanaPolynomials[0][0] = d1.add(d2).subtract(e_1)
 							.subtract(e_2);
 
 					// e1'^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-					botanaPolynomials[0][1] = Polynomial
+					botanaPolynomials[0][1] = PPolynomial
 							.sqrDistance(fv2[6], fv2[7], fv1[0], fv1[1])
 							.subtract(e_1.multiply(e_1));
 
 					// e2'^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-					botanaPolynomials[0][2] = Polynomial
+					botanaPolynomials[0][2] = PPolynomial
 							.sqrDistance(fv2[8], fv2[9], fv1[0], fv1[1])
 							.subtract(e_2.multiply(e_2));
 

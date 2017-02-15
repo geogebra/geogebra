@@ -55,8 +55,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -98,7 +98,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private static boolean KEEP_LEADING_SIGN = true;
 	private static final String[] vars = { "x", "y" };
 
-	private Variable[] botanaVars; // only for an axis or a fixed slope line
+	private PVariable[] botanaVars; // only for an axis or a fixed slope line
 
 	/**
 	 * Creates new line
@@ -1740,7 +1740,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -1761,7 +1761,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -1772,7 +1772,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
@@ -1798,18 +1798,18 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaVars(this);
 		}
 		if (hasFixedSlope()) {
 			if (botanaVars == null) {
-				botanaVars = new Variable[4];
-				botanaVars[0] = new Variable(kernel, true);
-				botanaVars[1] = new Variable(kernel, true);
-				botanaVars[2] = new Variable(kernel, true);
-				botanaVars[3] = new Variable(kernel, true);
+				botanaVars = new PVariable[4];
+				botanaVars[0] = new PVariable(kernel, true);
+				botanaVars[1] = new PVariable(kernel, true);
+				botanaVars[2] = new PVariable(kernel, true);
+				botanaVars[3] = new PVariable(kernel, true);
 				// we substitute them in AlgoLocusEquation, not here
 			}
 			return botanaVars;
@@ -1818,7 +1818,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)

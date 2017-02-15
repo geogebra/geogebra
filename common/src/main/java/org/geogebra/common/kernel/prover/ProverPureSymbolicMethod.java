@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.prover;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.debug.Log;
@@ -44,8 +44,8 @@ public class ProverPureSymbolicMethod {
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement
 					.getParentAlgorithm();
 			try {
-				Polynomial[] poly = statementSymbolic.getPolynomials();
-				for (Polynomial polynomial : poly) {
+				PPolynomial[] poly = statementSymbolic.getPolynomials();
+				for (PPolynomial polynomial : poly) {
 					Log.debug(polynomial);
 					if (!polynomial.isZero()) {
 						return ProofResult.FALSE;

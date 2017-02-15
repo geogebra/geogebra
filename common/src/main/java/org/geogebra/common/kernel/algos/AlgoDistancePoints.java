@@ -28,8 +28,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  *
@@ -41,7 +41,7 @@ public class AlgoDistancePoints extends AlgoElement
 	private GeoPointND P, Q; // input
 	private GeoNumeric dist; // output
 
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 
 	public AlgoDistancePoints(Construction cons, GeoPointND P, GeoPointND Q) {
 		super(cons);
@@ -107,12 +107,12 @@ public class AlgoDistancePoints extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		return botanaVars;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
 		GeoPoint P1 = (GeoPoint) P;
@@ -120,11 +120,11 @@ public class AlgoDistancePoints extends AlgoElement
 
 		if (P1 != null && P2 != null) {
 
-			Variable[] vP1 = P1.getBotanaVars(P1);
-			Variable[] vP2 = P2.getBotanaVars(P2);
+			PVariable[] vP1 = P1.getBotanaVars(P1);
+			PVariable[] vP2 = P2.getBotanaVars(P2);
 
 			if (botanaVars == null) {
-				botanaVars = new Variable[4];
+				botanaVars = new PVariable[4];
 				botanaVars[0] = vP1[0];
 				botanaVars[1] = vP1[1];
 				botanaVars[2] = vP2[0];

@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class GeoPlane3DConstant extends GeoPlane3D
 		implements SymbolicParametersBotanaAlgo {
@@ -85,13 +85,13 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// TODO Auto-generated method stub
 		return null;

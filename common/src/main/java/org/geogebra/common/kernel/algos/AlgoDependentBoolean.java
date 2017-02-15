@@ -49,9 +49,9 @@ import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.AlgoIsOnPath;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.PolynomialNode;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Term;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PTerm;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -63,11 +63,11 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
 
 	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<GeoSegment>();
-	private Variable[] botanaVars;
-	private ArrayList<Polynomial> extraPolys = new ArrayList<Polynomial>();
+	private PVariable[] botanaVars;
+	private ArrayList<PPolynomial> extraPolys = new ArrayList<PPolynomial>();
 	private int nrOfMaxDecimals;
 	// substitution list of segments with variables
-	private ArrayList<Map.Entry<GeoElement, Variable>> varSubstListOfSegs;
+	private ArrayList<Map.Entry<GeoElement, PVariable>> varSubstListOfSegs;
 
 	private GeoBoolean bool; // output
 
@@ -147,7 +147,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 
 		SymbolicParametersAlgo algo = getRootAlgo();
@@ -174,7 +174,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+			HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 
 		SymbolicParametersAlgo algo = getRootAlgo();
@@ -187,10 +187,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		SymbolicParametersAlgo algo = getRootAlgo();
 		if (algo != null) {
-			Polynomial[] ret = algo.getPolynomials();
+			PPolynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
 		}
@@ -243,8 +243,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		if (polyNode.getLeft().getPoly() != null
 				&& polyNode.getRight().getPoly() != null) {
-			Polynomial leftPoly = polyNode.getLeft().getPoly();
-			Polynomial rightPoly = polyNode.getRight().getPoly();
+			PPolynomial leftPoly = polyNode.getLeft().getPoly();
+			PPolynomial rightPoly = polyNode.getRight().getPoly();
 			switch (polyNode.getOperation()) {
 			case PLUS:
 				polyNode.setPoly(leftPoly.add(rightPoly));
@@ -258,7 +258,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			case POWER:
 				Long pow = polyNode.getRight().evaluateLong();
 				if (pow != null) {
-					Polynomial poly = leftPoly;
+					PPolynomial poly = leftPoly;
 					for (Integer i = 1; i < pow; i++) {
 						poly = poly.multiply(leftPoly);
 					}
@@ -282,28 +282,28 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
 			long coeff = (int) expNode.getLeft().evaluateDouble();
-			polyNode.getLeft().setPoly(new Polynomial(coeff));
+			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble
 				&& polyNode.getRight().getPoly() == null) {
 			long coeff = (int) expNode.getRight().evaluateDouble();
-			polyNode.getRight().setPoly(new Polynomial(coeff));
+			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
 			long coeff = (int) expNode.getLeft().evaluateDouble();
-			Variable v = getVariable(expNode.getRight()
+			PVariable v = getVariable(expNode.getRight()
 					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {
-				Term t = new Term(v);
-				polyNode.setPoly(new Polynomial(coeff, t));
+				PTerm t = new PTerm(v);
+				polyNode.setPoly(new PPolynomial(coeff, t));
 				return;
 			}
 		}
 	}
 
 	// get Variable with given name
-	private Variable getVariable(String varStr) {
+	private PVariable getVariable(String varStr) {
 		if (botanaVars != null) {
 			for (int i = 0; i < botanaVars.length; i++) {
 				if (varStr.equals(botanaVars[i].getName())) {
@@ -364,7 +364,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			} else {
 				i = d.intValue();
 			}
-			polyNode.setPoly(new Polynomial(i));
+			polyNode.setPoly(new PPolynomial(i));
 			return;
 		}
 		polyNode.setOperation(expNode.getOperation());
@@ -376,7 +376,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			} else {
 				if (expNode.getLeft() instanceof GeoDummyVariable) {
 					polyNode.getLeft()
-							.setPoly(new Polynomial(
+							.setPoly(new PPolynomial(
 									getBotanaVar(expNode.getLeft().toString(
 											StringTemplate.defaultTemplate))));
 				}
@@ -393,7 +393,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					} else {
 						i = d.intValue();
 					}
-					polyNode.getLeft().setPoly(new Polynomial(i));
+					polyNode.getLeft().setPoly(new PPolynomial(i));
 				}
 			}
 
@@ -406,7 +406,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			} else {
 				if (expNode.getRight() instanceof GeoDummyVariable) {
 					try {
-						polyNode.getRight().setPoly(new Polynomial(
+						polyNode.getRight().setPoly(new PPolynomial(
 								getBotanaVar(expNode.getRight().toString(
 										StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
@@ -431,7 +431,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 						default:
 							throw new NoSymbolicParametersException();
 						}
-						polyNode.setPoly(new Polynomial(i));
+						polyNode.setPoly(new PPolynomial(i));
 						return;
 					}
 					// if in the expression exists rational number with n
@@ -445,14 +445,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					} else {
 						i = new BigInteger(Long.toString(((long) d)));
 					}
-					polyNode.getRight().setPoly(new Polynomial(i));
+					polyNode.getRight().setPoly(new PPolynomial(i));
 				}
 			}
 		}
 	}
 
-	private Variable getBotanaVar(String str) {
-		for (Variable variable : botanaVars) {
+	private PVariable getBotanaVar(String str) {
+		for (PVariable variable : botanaVars) {
 			if (variable.getName().equals(str)) {
 				return variable;
 			}
@@ -469,7 +469,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
 				((GeoSegment) node.getLeft())
-						.setLabel(new Variable(kernel).toString());
+						.setLabel(new PVariable(kernel).toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
@@ -479,7 +479,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
 				((GeoSegment) node.getRight())
-						.setLabel(new Variable(kernel).toString());
+						.setLabel(new PVariable(kernel).toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
@@ -509,7 +509,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	@Override
-	public Polynomial[][] getBotanaPolynomials()
+	public PPolynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
 
@@ -569,13 +569,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
 						right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
+				PPolynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.PARALLEL)) {
 				AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
+				PPolynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
 			}
@@ -587,7 +587,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 						&& ((GeoElement) root.getLeft()).getParentAlgorithm()
 								.getRelatedModeID() == EuclidianConstants.MODE_AREA) {
 					AlgoAreEqual algo = new AlgoAreEqual(cons, left, right);
-					Polynomial[][] ret = algo.getBotanaPolynomials();
+					PPolynomial[][] ret = algo.getBotanaPolynomials();
 					cons.removeFromConstructionList(algo);
 					algo.setProtectedInput(true);
 					if (leftWasDist) {
@@ -601,7 +601,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					return ret;
 				}
 				AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
+				PPolynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				algo.setProtectedInput(true);
 				if (leftWasDist) {
@@ -617,7 +617,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			if (root.getOperation().equals(Operation.IS_ELEMENT_OF)) {
 				AlgoIsOnPath algo = new AlgoIsOnPath(cons, (GeoPoint) left,
 						(Path) right);
-				Polynomial[][] ret = algo.getBotanaPolynomials();
+				PPolynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
 			}
@@ -683,7 +683,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 							&& rootCopy.getLeft() instanceof MyDouble))
 					&& rootCopy.getOperation()
 							.equals(Operation.EQUAL_BOOLEAN)) {
-				Polynomial[][] ret = null;
+				PPolynomial[][] ret = null;
 				return ret;
 			}
 
@@ -710,7 +710,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				e.printStackTrace();
 			}
 
-			Polynomial[][] ret = null;
+			PPolynomial[][] ret = null;
 			return ret;
 
 		}
@@ -739,26 +739,26 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		String[] labels = new String[allSegmentsFromExpression.size()];
 		extraPolys.clear();
 		if (botanaVars == null) {
-			botanaVars = new Variable[allSegmentsFromExpression.size()];
+			botanaVars = new PVariable[allSegmentsFromExpression.size()];
 		}
 		if (varSubstListOfSegs == null) {
-			varSubstListOfSegs = new ArrayList<Entry<GeoElement, Variable>>();
+			varSubstListOfSegs = new ArrayList<Entry<GeoElement, PVariable>>();
 		}
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
 			labels[index] = segment.getLabel(StringTemplate.giacTemplate);
 			if (botanaVars[index] == null) {
-				botanaVars[index] = new Variable(kernel);
+				botanaVars[index] = new PVariable(kernel);
 			}
 			// collect substitution of segments with variables
-			Entry<GeoElement, Variable> subst = new AbstractMap.SimpleEntry<GeoElement, Variable>(
+			Entry<GeoElement, PVariable> subst = new AbstractMap.SimpleEntry<GeoElement, PVariable>(
 					segment, botanaVars[index]);
 			if (!varSubstListOfSegs.isEmpty()) {
-				Iterator<Entry<GeoElement, Variable>> it = varSubstListOfSegs
+				Iterator<Entry<GeoElement, PVariable>> it = varSubstListOfSegs
 						.iterator();
 				int k = 0;
 				while (it.hasNext()) {
-					Entry<GeoElement, Variable> curr = it.next();
+					Entry<GeoElement, PVariable> curr = it.next();
 					if (curr.getKey().equals(segment)
 							&& curr.getValue().equals(botanaVars[index])) {
 						break;
@@ -771,10 +771,10 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			} else {
 				varSubstListOfSegs.add(subst);
 			}
-			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
-			Polynomial s = new Polynomial(botanaVars[index]);
-			Polynomial currPoly = s.multiply(s)
-					.subtract(Polynomial.sqrDistance(thisSegBotanaVars[0],
+			PVariable[] thisSegBotanaVars = segment.getBotanaVars(segment);
+			PPolynomial s = new PPolynomial(botanaVars[index]);
+			PPolynomial currPoly = s.multiply(s)
+					.subtract(PPolynomial.sqrDistance(thisSegBotanaVars[0],
 							thisSegBotanaVars[1], thisSegBotanaVars[2],
 							thisSegBotanaVars[3]));
 			extraPolys.add(currPoly);
@@ -892,14 +892,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	/**
 	 * @return distance polynomials
 	 */
-	public ArrayList<Polynomial> getExtraPolys() {
+	public ArrayList<PPolynomial> getExtraPolys() {
 		return extraPolys;
 	}
 
 	/**
 	 * @return substitution list of segments with variables
 	 */
-	public ArrayList<Entry<GeoElement, Variable>> getVarSubstListOfSegs() {
+	public ArrayList<Entry<GeoElement, PVariable>> getVarSubstListOfSegs() {
 		return varSubstListOfSegs;
 	}
 

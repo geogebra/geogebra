@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class AlgoAreaPoints extends AlgoElement
 		implements SymbolicParametersBotanaAlgo {
@@ -35,7 +35,7 @@ public class AlgoAreaPoints extends AlgoElement
 	protected GeoPointND[] P; // input
 	protected GeoNumeric area; // output
 
-	private Variable[] botanaVars;
+	private PVariable[] botanaVars;
 
 	public AlgoAreaPoints(Construction cons, String label, GeoPointND[] P) {
 		this(cons, P);
@@ -103,12 +103,12 @@ public class AlgoAreaPoints extends AlgoElement
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		GeoPointND[] points = getPoints();
 		if (botanaVars == null) {
-			botanaVars = new Variable[points.length * 2];
+			botanaVars = new PVariable[points.length * 2];
 			for (int i = 0; i < points.length; i++) {
-				Variable[] currentPointBotanavars = ((GeoPoint) points[i])
+				PVariable[] currentPointBotanavars = ((GeoPoint) points[i])
 						.getBotanaVars(points[i]);
 				botanaVars[2 * i] = currentPointBotanavars[0];
 				botanaVars[2 * i + 1] = currentPointBotanavars[1];
@@ -118,7 +118,7 @@ public class AlgoAreaPoints extends AlgoElement
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		// TODO Auto-generated method stub
 		return null;

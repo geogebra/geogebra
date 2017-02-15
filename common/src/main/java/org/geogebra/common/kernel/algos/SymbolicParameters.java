@@ -7,8 +7,8 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * This class provides all symbolic information necessary for the provers.
@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  */
 public class SymbolicParameters {
 
-	private HashSet<Variable> variables;
+	private HashSet<PVariable> variables;
 	private SymbolicParametersAlgo spa;
 
 	/**
@@ -143,7 +143,7 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic parameters can be obtained
 	 */
-	public HashSet<Variable> getFreeVariables()
+	public HashSet<PVariable> getFreeVariables()
 			throws NoSymbolicParametersException {
 		if (variables == null) {
 			initFreeVariables();
@@ -162,7 +162,7 @@ public class SymbolicParameters {
 	 *             thrown if it is not possible to obtain the exact coordinates
 	 */
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		return spa.getExactCoordinates(values);
 	}
@@ -195,7 +195,7 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException
 	 */
 	private void initFreeVariables() throws NoSymbolicParametersException {
-		variables = new HashSet<Variable>();
+		variables = new HashSet<PVariable>();
 		spa.getFreeVariables(variables);
 	}
 
@@ -264,9 +264,9 @@ public class SymbolicParameters {
 	 *            Two EV points
 	 * @return List of Botana variables (4 elements)
 	 */
-	public static Variable[] addBotanaVarsJoinPoints(GeoElementND[] input) {
-		Variable[] botanaVars = new Variable[4];
-		Variable[] line1vars, line2vars;
+	public static PVariable[] addBotanaVarsJoinPoints(GeoElementND[] input) {
+		PVariable[] botanaVars = new PVariable[4];
+		PVariable[] line1vars, line2vars;
 		line1vars = ((SymbolicParametersBotanaAlgo) input[0])
 				.getBotanaVars(input[0]);
 		line2vars = ((SymbolicParametersBotanaAlgo) input[1])
@@ -289,20 +289,20 @@ public class SymbolicParameters {
 	 *            Botana variables for the new point (midpoint)
 	 * @return the polynomials (2 elements)
 	 */
-	public static Polynomial[] botanaPolynomialsMidpoint(GeoElement P,
-			GeoElement Q, Variable[] botanaVars) {
-		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
-		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars(Q);
-		Polynomial[] botanaPolynomials = new Polynomial[2];
+	public static PPolynomial[] botanaPolynomialsMidpoint(GeoElement P,
+			GeoElement Q, PVariable[] botanaVars) {
+		PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
+		PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars(Q);
+		PPolynomial[] botanaPolynomials = new PPolynomial[2];
 		// 2*m1-a1-b1, 2*m2-a2-b2
-		botanaPolynomials[0] = (new Polynomial(2))
-				.multiply(new Polynomial(botanaVars[0]))
-				.subtract(new Polynomial(fv1[0]))
-				.subtract(new Polynomial(fv2[0]));
-		botanaPolynomials[1] = (new Polynomial(2))
-				.multiply(new Polynomial(botanaVars[1]))
-				.subtract(new Polynomial(fv1[1]))
-				.subtract(new Polynomial(fv2[1]));
+		botanaPolynomials[0] = (new PPolynomial(2))
+				.multiply(new PPolynomial(botanaVars[0]))
+				.subtract(new PPolynomial(fv1[0]))
+				.subtract(new PPolynomial(fv2[0]));
+		botanaPolynomials[1] = (new PPolynomial(2))
+				.multiply(new PPolynomial(botanaVars[1]))
+				.subtract(new PPolynomial(fv1[1]))
+				.subtract(new PPolynomial(fv2[1]));
 		return botanaPolynomials;
 	}
 
@@ -321,24 +321,24 @@ public class SymbolicParameters {
 	 *            Botana variables for the 2 new points (4 variables)
 	 * @return the polynomials (4 elements)
 	 */
-	public static Polynomial[] botanaPolynomialsLineBisector(Variable Ax,
-			Variable Ay, Variable Bx, Variable By, Variable[] botanaVars) {
-		Polynomial[] botanaPolynomials = new Polynomial[4];
+	public static PPolynomial[] botanaPolynomialsLineBisector(PVariable Ax,
+			PVariable Ay, PVariable Bx, PVariable By, PVariable[] botanaVars) {
+		PPolynomial[] botanaPolynomials = new PPolynomial[4];
 
-		Polynomial a1 = new Polynomial(Ax);
-		Polynomial a2 = new Polynomial(Ay);
+		PPolynomial a1 = new PPolynomial(Ax);
+		PPolynomial a2 = new PPolynomial(Ay);
 
-		Polynomial c1 = new Polynomial(botanaVars[0]);
-		Polynomial c2 = new Polynomial(botanaVars[1]);
-		Polynomial d1 = new Polynomial(botanaVars[2]);
-		Polynomial d2 = new Polynomial(botanaVars[3]);
+		PPolynomial c1 = new PPolynomial(botanaVars[0]);
+		PPolynomial c2 = new PPolynomial(botanaVars[1]);
+		PPolynomial d1 = new PPolynomial(botanaVars[2]);
+		PPolynomial d2 = new PPolynomial(botanaVars[3]);
 
 		// C will be the midpoint of AB
 		// 2*c1-a1-b1, 2*c2-a2-b2
-		botanaPolynomials[0] = (new Polynomial(2)).multiply(c1)
-				.subtract(new Polynomial(Ax)).subtract(new Polynomial(Bx));
-		botanaPolynomials[1] = (new Polynomial(2)).multiply(c2)
-				.subtract(new Polynomial(Ay)).subtract(new Polynomial(By));
+		botanaPolynomials[0] = (new PPolynomial(2)).multiply(c1)
+				.subtract(new PPolynomial(Ax)).subtract(new PPolynomial(Bx));
+		botanaPolynomials[1] = (new PPolynomial(2)).multiply(c2)
+				.subtract(new PPolynomial(Ay)).subtract(new PPolynomial(By));
 
 		// D will be the rotation of A around C by 90 degrees
 		// d2=c2+(c1-a1), d1=c1-(c2-a2) => d2-c2-c1+a1, d1-c1+c2-a2

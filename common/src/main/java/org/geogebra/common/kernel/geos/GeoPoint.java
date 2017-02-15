@@ -71,8 +71,8 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
-import org.geogebra.common.kernel.prover.polynomial.Polynomial;
-import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -116,8 +116,8 @@ public class GeoPoint extends GeoVec3D
 	public double inhomY;
 	private boolean isInfinite, isDefined;
 	private boolean showUndefinedInAlgebraView = true;
-	private Variable variableCoordinate1 = null, variableCoordinate2 = null;
-	private Variable[] botanaVars;
+	private PVariable variableCoordinate1 = null, variableCoordinate2 = null;
+	private PVariable[] botanaVars;
 
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
@@ -2617,16 +2617,16 @@ public class GeoPoint extends GeoVec3D
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
 
 		// if this is a free point
 		if (algoParent == null) {
 			if (variableCoordinate1 == null) {
-				variableCoordinate1 = new Variable(this);
+				variableCoordinate1 = new PVariable(this);
 			}
 			if (variableCoordinate2 == null) {
-				variableCoordinate2 = new Variable(this);
+				variableCoordinate2 = new PVariable(this);
 			}
 			variableCoordinate1.setTwin(variableCoordinate2);
 			variableCoordinate2.setTwin(variableCoordinate1);
@@ -2671,7 +2671,7 @@ public class GeoPoint extends GeoVec3D
 
 	@Override
 	public BigInteger[] getExactCoordinates(
-			final HashMap<Variable, BigInteger> values)
+			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (algoParent == null) {
 			BigInteger[] result = new BigInteger[3];
@@ -2691,17 +2691,17 @@ public class GeoPoint extends GeoVec3D
 	}
 
 	@Override
-	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
 		// if this is a free point
 		if (algoParent == null) {
 			if (variableCoordinate1 == null) {
-				variableCoordinate1 = new Variable(this);
+				variableCoordinate1 = new PVariable(this);
 			}
 			if (variableCoordinate2 == null) {
-				variableCoordinate2 = new Variable(this);
+				variableCoordinate2 = new PVariable(this);
 			}
-			Polynomial[] ret = { new Polynomial(variableCoordinate1),
-					new Polynomial(variableCoordinate2), new Polynomial(1) };
+			PPolynomial[] ret = { new PPolynomial(variableCoordinate1),
+					new PPolynomial(variableCoordinate2), new PPolynomial(1) };
 			return ret;
 		}
 		if (algoParent instanceof SymbolicParametersAlgo) {
@@ -2711,7 +2711,7 @@ public class GeoPoint extends GeoVec3D
 	}
 
 	@Override
-	public Variable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
@@ -2720,9 +2720,9 @@ public class GeoPoint extends GeoVec3D
 
 		if (algoParent == null) {
 			if (botanaVars == null) {
-				botanaVars = new Variable[2];
-				botanaVars[0] = new Variable(kernel, true);
-				botanaVars[1] = new Variable(kernel, true);
+				botanaVars = new PVariable[2];
+				botanaVars[0] = new PVariable(kernel, true);
+				botanaVars[1] = new PVariable(kernel, true);
 				Log.trace("Free point " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}
@@ -2732,7 +2732,7 @@ public class GeoPoint extends GeoVec3D
 	}
 
 	@Override
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
