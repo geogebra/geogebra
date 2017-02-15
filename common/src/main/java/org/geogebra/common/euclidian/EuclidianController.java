@@ -6735,6 +6735,33 @@ public abstract class EuclidianController {
 				tempArrayList.add(geo);
 				hits = tempArrayList;
 			}
+			if (view.getBoundingBox() != null && geo == null) {
+				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc,
+						event.getType());
+				if (d != null) {
+					EuclidianBoundingBoxHandler nrHandler = view
+							.getHitHandler();
+					// we have only 2 handlers for segment
+					// needs special handling
+					if (d instanceof DrawSegment) {
+						nrHandler = ((DrawSegment) d)
+								.getHandler(mouseLoc);
+					}
+					switch (nrHandler) {
+					case TOP_LEFT:
+					case BOTTOM_RIGHT:
+						view.setCursor(EuclidianCursor.RESIZE_NWSE);
+						break;
+					case BOTTOM_LEFT:
+					case TOP_RIGHT:
+						view.setCursor(EuclidianCursor.RESIZE_NESW);
+						break;
+					default:
+						break;
+					}
+					return;
+				}
+			}
 		}
 
 		if (hits.isEmpty()) {
