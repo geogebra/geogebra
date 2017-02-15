@@ -78,7 +78,7 @@ public class CheckboxTreeItem extends LatexTreeItem {
 	}
 
 	@Override
-	void addAVEXWidget(Widget w) {
+	protected void addAVEXWidget(Widget w) {
 		main.clear();
 		main.add(marblePanel);
 		if (checkBox != null) {
