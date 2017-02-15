@@ -688,6 +688,28 @@ public abstract class EuclidianController {
 								view.toRealWorldCoordY(((Furniture) geo)
 										.getAbsoluteScreenLocY() + 30));
 						firstMoveable = false;
+					} else if (geo instanceof GeoConic) {
+						if (((GeoConic) geo).isCircle()) {
+							((GeoConic) geo).setCircle(new GeoPoint(
+									kernel.getConstruction(),
+									view.toRealWorldCoordX(
+											view.getWidth() / 2.0),
+									view.toRealWorldCoordY(
+											view.getHeight() / 2.0),
+									1), ((GeoConic) geo).getCircleRadius());
+						} else if (((GeoConic) geo).isEllipse()) {
+							((GeoConic) geo).translate(
+									view.toRealWorldCoordX(
+											view.getWidth() / 2.0)
+											- ((GeoConic) geo).getMidpoint()
+													.getX(),
+									view.toRealWorldCoordY(
+											view.getHeight() / 2.0)
+											- ((GeoConic) geo)
+															.getMidpoint()
+													.getY());
+							geo.updateRepaint();
+						}
 					}
 				}
 			}
