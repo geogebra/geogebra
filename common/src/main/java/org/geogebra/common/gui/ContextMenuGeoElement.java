@@ -557,4 +557,16 @@ public abstract class ContextMenuGeoElement {
 		this.geos = geos;
 	}
 
+	protected void cutCmd() {
+		app.getCopyPaste().copyToXML(app,
+				app.getSelectionManager().getSelectedGeos(), false);
+		deleteCmd();
+
+	}
+
+	protected void duplicateCmd() {
+		app.getCopyPaste().copyToXML(app,
+				app.getSelectionManager().getSelectedGeos(), false);
+		app.getCopyPaste().pasteFromXML(app, false);
+	}
 }

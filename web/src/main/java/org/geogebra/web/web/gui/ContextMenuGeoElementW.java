@@ -21,8 +21,10 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.html5.AttachedToDOM;
@@ -114,7 +116,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 		addForAllItems();
 	}
 
+	private boolean isWhiteboard() {
+		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+	}
+
 	private void addForAllItems() {
+		if (isWhiteboard()) {
+		addCopyPaste();
+		wrappedPopup.addSeparator();
+		}
 		// SHOW, HIDE
 
 		// G.Sturr 2010-5-14: allow menu to show spreadsheet trace for
@@ -319,7 +329,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		}
 
 		// DELETE
-		if (app.letDelete() && !getGeo().isFixed()) {
+		if (app.letDelete() && !getGeo().isFixed() && !isWhiteboard()) {
 			addAction(
 			        new Command() {
 
@@ -354,6 +364,69 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					loc.getMenu("Properties"));
 		}
 
+	}
+
+	private void addCopyPaste() {
+		final SelectionManager selection = app.getSelectionManager();
+		addAction(new Command() {
+
+			public void execute() {
+				app.setWaitCursor();
+				cutCmd();
+				app.setDefaultCursor();
+			}
+		}, null, loc.getMenu("Cut"));
+
+		addAction(new Command() {
+
+			public void execute() {
+				if (!selection.getSelectedGeos().isEmpty()) {
+					app.setWaitCursor();
+					app.getCopyPaste().copyToXML(app,
+							selection.getSelectedGeos(), false);
+					// initActions(); // app.updateMenubar(); - it's needn't to
+					// // update the all menubar here
+					app.setDefaultCursor();
+				}
+			}
+		}, MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_copy()
+				.getSafeUri().asString(), loc.getMenu("Copy"), true),
+				loc.getMenu("Copy"));
+
+		addAction(new Command() {
+
+			public void execute() {
+				app.setWaitCursor();
+				duplicateCmd();
+				app.setDefaultCursor();
+
+			}
+		}, null, loc.getMenu("Duplicate"));
+
+		addAction(new Command() {
+
+			public void execute() {
+				if (!app.getCopyPaste().isEmpty()) {
+					app.setWaitCursor();
+					app.getCopyPaste().pasteFromXML(app, false);
+					app.setDefaultCursor();
+				}
+			}
+		}, MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_paste()
+				.getSafeUri().asString(), loc.getMenu("Paste"), true),
+				loc.getMenu("Paste"));
+
+		if (app.letDelete() && !getGeo().isFixed()) {
+
+			addAction(new Command() {
+
+				public void execute() {
+					deleteCmd();
+				}
+			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.delete_small()
+					.getSafeUri().asString(),
+					loc.getMenu("Delete"), true), loc.getMenu("Delete"));
+		}
 	}
 
 	private void addPin() {
