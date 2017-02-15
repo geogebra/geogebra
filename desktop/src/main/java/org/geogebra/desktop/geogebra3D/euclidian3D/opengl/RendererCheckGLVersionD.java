@@ -338,7 +338,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		default:
 			if (needExportImage) {
 				setExportImage();
-				if (!exportImageForThumbnail) {
+				if (!getExportImageForThumbnail()) {
 					// call write to file
 					((EuclidianView3DD) view3D).writeExportImage();
 				}

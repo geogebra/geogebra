@@ -5002,10 +5002,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	@Override
 	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		if (kimberlingw != null) {
-			return kimberlingw;
+		if (getKimberlingw() != null) {
+			return getKimberlingw();
 		}
-		return (kimberlingw = new AlgoKimberlingWeights());
+		return (setKimberlingw(new AlgoKimberlingWeights()));
 	}
 
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
@@ -5017,10 +5017,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **
 	@Override
 	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		if (cubicw != null) {
-			return cubicw;
+		if (getCubicw() != null) {
+			return getCubicw();
 		}
-		return (cubicw = new AlgoCubicSwitch());
+		return (setCubicw(new AlgoCubicSwitch()));
 	}
 
 	// ** DON'T PUT IN COMMON OTHERWISE WEB PROJECT DOESN'T GET SPLIT UP **

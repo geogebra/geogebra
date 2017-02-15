@@ -1351,15 +1351,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public AlgoKimberlingWeightsInterface getAlgoKimberlingWeights() {
-		if (kimberlingw != null) {
-			return kimberlingw;
+		if (getKimberlingw() != null) {
+			return getKimberlingw();
 		}
 
 		GWT.runAsync(new RunAsyncCallback() {
 			@Override
 			public void onSuccess() {
-				kimberlingw = new AlgoKimberlingWeights();
-				setKimberlingWeightFunction(kimberlingw);
+				setKimberlingw(new AlgoKimberlingWeights());
+				setKimberlingWeightFunction(getKimberlingw());
 				getKernel().updateConstruction();
 			}
 
@@ -1368,7 +1368,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				Log.warn("AlgoKimberlingWeights loading failure");
 			}
 		});
-		return kimberlingw;
+		return getKimberlingw();
 	}
 
 	public native void setKimberlingWeightFunction(
@@ -1392,15 +1392,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public AlgoCubicSwitchInterface getAlgoCubicSwitch() {
-		if (cubicw != null) {
-			return cubicw;
+		if (getCubicw() != null) {
+			return getCubicw();
 		}
 
 		GWT.runAsync(new RunAsyncCallback() {
 			@Override
 			public void onSuccess() {
-				cubicw = new AlgoCubicSwitch();
-				setCubicSwitchFunction(cubicw);
+				setCubicw(new AlgoCubicSwitch());
+				setCubicSwitchFunction(getCubicw());
 				getKernel().updateConstruction();
 			}
 
@@ -1409,7 +1409,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				Log.debug("AlgoKimberlingWeights loading failure");
 			}
 		});
-		return cubicw;
+		return getCubicw();
 	}
 
 	public native void setCubicSwitchFunction(AlgoCubicSwitchInterface cubicw) /*-{

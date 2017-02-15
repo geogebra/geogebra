@@ -235,8 +235,8 @@ public abstract class App implements UpdateSelection {
 	 * @see EuclidianStyleConstants#RIGHT_ANGLE_STYLE_NONE
 	 */
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-	public AlgoKimberlingWeightsInterface kimberlingw = null;
-	public AlgoCubicSwitchInterface cubicw = null;
+	private AlgoKimberlingWeightsInterface kimberlingw = null;
+	private AlgoCubicSwitchInterface cubicw = null;
 	/**
 	 * whether transparent cursor should be used while dragging
 	 */
@@ -4788,6 +4788,24 @@ public abstract class App implements UpdateSelection {
 
 	final public boolean useTransparentCursorWhenDragging() {
 		return useTransparentCursorWhenDragging;
+	}
+
+	public AlgoKimberlingWeightsInterface getKimberlingw() {
+		return kimberlingw;
+	}
+
+	public AlgoKimberlingWeightsInterface setKimberlingw(AlgoKimberlingWeightsInterface kimberlingw) {
+		this.kimberlingw = kimberlingw;
+		return kimberlingw;
+	}
+
+	public AlgoCubicSwitchInterface getCubicw() {
+		return cubicw;
+	}
+
+	public AlgoCubicSwitchInterface setCubicw(AlgoCubicSwitchInterface cubicw) {
+		this.cubicw = cubicw;
+		return cubicw;
 	}
 
 }

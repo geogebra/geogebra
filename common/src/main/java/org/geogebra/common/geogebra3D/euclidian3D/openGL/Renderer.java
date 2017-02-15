@@ -334,7 +334,7 @@ public abstract class Renderer {
 
 	public boolean needExportImage = false;
 
-	public boolean exportImageForThumbnail = false;
+	private boolean exportImageForThumbnail = false;
 
 	private boolean exportImageEquirectangular = false;
 	// private double exportImageEquirectangularAngle = 0;
@@ -395,6 +395,13 @@ public abstract class Renderer {
 
 	private void setExportImageForThumbnail(boolean flag) {
 		exportImageForThumbnail = flag;
+	}
+
+	/**
+	 * @return whether exported image is for thumbnail
+	 */
+	protected boolean getExportImageForThumbnail() {
+		return exportImageForThumbnail;
 	}
 
 	/**

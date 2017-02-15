@@ -74,7 +74,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	 * @param panel
 	 *            current panel
 	 */
-	public void setOpenedMinMaxPanel(MinMaxPanel panel) {
+	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
 		openedMinMaxPanel = panel;
 	}
 
