@@ -76,7 +76,6 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param coeff
 	 *            the constant
 	 */
-	@Deprecated
 	public Polynomial(final long coeff) {
 		this(new BigInteger(Long.toString(coeff)), new Term());
 	}
@@ -173,7 +172,6 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param t
 	 *            the term
 	 */
-	@Deprecated
 	public Polynomial(final long coeff, final Term t) {
 		this();
 		if (coeff != 0)

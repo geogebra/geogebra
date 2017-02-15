@@ -52,7 +52,6 @@ public class PolynomialNode {
 		return poly;
 	}
 
-	@Deprecated
 	public Long evaluateLong() {
 		return this.poly.getConstant().longValue();
 	}
