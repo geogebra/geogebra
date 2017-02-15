@@ -608,7 +608,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid), true, callback);
+							getErrorHandler(valid, keepFocus), true, callback);
 
 		} catch (Exception ee) {
 			// TODO: better exception handling

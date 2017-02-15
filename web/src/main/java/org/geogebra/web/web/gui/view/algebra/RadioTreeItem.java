@@ -1077,9 +1077,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content.addStyleName("scrollableTextBox");
 
 	}
-
-	public void stopEditing(String newValue0,
+	public final void stopEditing(String newValue0,
 			final AsyncOperation<GeoElementND> callback) {
+		stopEditing(newValue0, callback, true);
+	}
+
+	public final void stopEditing(String newValue0,
+			final AsyncOperation<GeoElementND> callback,
+			boolean allowSliderDialog) {
 		lastTeX = null;
 		lastInput = null;
 
@@ -1108,9 +1113,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (newValue0 != null) {
-			String newValue = stopCommon(newValue0);
-			newValue = app.getKernel().getInputPreviewHelper()
-					.getInput(newValue);
+			String rawInput = stopCommon(newValue0);
+			String newValue = app.getKernel().getInputPreviewHelper()
+					.getInput(rawInput);
+			boolean valid = rawInput != null && rawInput.equals(newValue);
 			// Formula Hacks ended.
 			if (geo != null) {
 
@@ -1122,7 +1128,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 					RadioTreeItem.this.lastInput = null;
 				}
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
-						redefine, true, getErrorHandler(true),
+						redefine, true,
+						getErrorHandler(valid, allowSliderDialog),
 						new AsyncOperation<GeoElementND>() {
 
 							@Override
@@ -1237,7 +1244,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            used)
 	 * @return error handler
 	 */
-	protected final ErrorHandler getErrorHandler(final boolean valid) {
+	protected final ErrorHandler getErrorHandler(final boolean valid,
+			final boolean allowSliders) {
 
 
 		clearErrorLabel();
@@ -1245,7 +1253,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			@Override
 			public void showError(String msg) {
-				RadioTreeItem.this.errorMessage = msg;
+				RadioTreeItem.this.errorMessage = valid ? msg
+						: loc.getError("InvalidInput");
 
 				RadioTreeItem.this.commandError = null;
 
@@ -1262,7 +1271,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				if (valid) {
+				if (allowSliders && valid) {
 					return showSliderDialog(string, callback);
 				} else if (app.getLocalization()
 						.getReverseCommand(getCurrentCommand()) != null) {

@@ -103,7 +103,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 					obj.update();
 				}
 			}
-		});
+		}, keepFocus);
 	}
 	@Override
 	public void onEnter() {
@@ -111,7 +111,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			sug.needsEnterForSuggestion();
 			return;
 		}
-		onEnter(!item.hasGeo());
+		onEnter(true);
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		};
 		// keepFocus==false: this was called from blur, don't use modal slider
 		// dialog
-		ErrorHandler err = item.getErrorHandler(valid && keepFocus);
+		ErrorHandler err = item.getErrorHandler(valid, keepFocus);
 		err.resetError();
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,
