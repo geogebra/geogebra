@@ -8,10 +8,18 @@ import org.geogebra.web.keyboard.KeyboardListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.web.MathFieldW;
 
+/**
+ * Virtual keyboard bindings for ReTeX
+ *
+ */
 public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
 
+	/**
+	 * @param mf
+	 *            math input field
+	 */
 	public MathFieldProcessing(MathFieldW mf) {
 		this.mf = mf;
 	}
@@ -60,7 +68,8 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.insertFunction("log10");
 		} else {
 			int length = text.length();
-			if (length > 1 && Character.isLetter(text.charAt(0))) {
+			if (length > 1 && Character.isLetter(text.charAt(0))
+					&& !text.contains("[")) {
 				mf.insertFunction(text);
 				return;
 			}
@@ -96,6 +105,10 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	/**
+	 * @param text
+	 *            text to be inserted
+	 */
 	public void autocomplete(String text) {
 		this.mf.deleteCurrentWord();
 		insertString(text);
