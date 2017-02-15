@@ -4,6 +4,7 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -77,6 +78,11 @@ public class AlgebraInputW extends FlowPanel
 		this.app = app1;
 		//AG I dont think we need this app.removeTraversableKeys(this);
 		addStyleName("AlgebraInput");
+
+		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
+			addStyleName("AlgebraInput2");
+		}
+
 		initGUI();
 		app1.getGuiManager().addAlgebraInput(this);
 	}
