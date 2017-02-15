@@ -1540,7 +1540,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 
-	void addAVEXWidget(Widget w) {
+	protected void addAVEXWidget(Widget w) {
 		main.add(w);
 	}
 

@@ -199,7 +199,8 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	}
 
 
-	void addAVEXWidget(Widget w) {
+	@Override
+	protected void addAVEXWidget(Widget w) {
 		if (getSliderPanel() == null) {
 			return;
 		}

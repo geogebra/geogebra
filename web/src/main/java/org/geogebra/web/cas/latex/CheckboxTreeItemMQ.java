@@ -67,7 +67,8 @@ public class CheckboxTreeItemMQ extends MathQuillTreeItem {
 
 	}
 
-	void addAVEXWidget(Widget w) {
+	@Override
+	protected void addAVEXWidget(Widget w) {
 		main.clear();
 		main.add(marblePanel);
 		if (checkBox != null) {
