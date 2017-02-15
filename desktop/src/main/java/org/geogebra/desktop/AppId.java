@@ -31,7 +31,7 @@ public class AppId {
 		if (GetCurrentProcessExplicitAppUserModelID(r).longValue() == 0) {
 			final Pointer p = r.getValue();
 
-			return p.getString(0, true); // here we leak native memory by
+			return p.getWideString(0); // here we leak native memory by
 											// lazyness
 		}
 		return "N/A";
