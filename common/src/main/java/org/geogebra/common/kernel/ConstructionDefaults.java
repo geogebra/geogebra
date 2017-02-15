@@ -123,7 +123,7 @@ public class ConstructionDefaults {
 	private static final GColor[] colorSequence = new GColor[] {
 			GeoGebraColorConstants.GGB_GREEN, GeoGebraColorConstants.GGB_RED,
 			GColor.BLUE, GeoGebraColorConstants.GGB_ORANGE,
-			GeoGebraColorConstants.GGB_PURPLE, GColor.BLACK,
+			GeoGebraColorConstants.GGB_PURPLE,
 			GeoGebraColorConstants.GGB_GRAY, GeoGebraColorConstants.GGB_BROWN };
 
 	// DEFAULT COLORs

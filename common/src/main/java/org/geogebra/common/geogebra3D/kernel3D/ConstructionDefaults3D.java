@@ -167,6 +167,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		surface.setLineThickness(1);
 		surface.setDefaultGeoType(DEFAULT_SURFACECARTESIAN3D);
+		surface.setAutoColor(true);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 		cons.setIgnoringNewTypes(false);
 	}
