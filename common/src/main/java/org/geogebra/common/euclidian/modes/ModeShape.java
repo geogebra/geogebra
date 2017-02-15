@@ -498,12 +498,18 @@ public class ModeShape {
 		double startX = view.toRealWorldCoordX(dragStartPoint.getX());
 		double startY = view.toRealWorldCoordY(dragStartPoint.getY());
 		GeoPoint startPoint = new GeoPoint(view.getKernel().getConstruction(),
+				null,
 				startX, startY, 1);
+		startPoint.setEuclidianVisible(false);
+		startPoint.updateRepaint();
 
 		double endX = view.toRealWorldCoordX(event.getX());
 		double endY = view.toRealWorldCoordY(event.getY());
 		GeoPoint endPoint = new GeoPoint(view.getKernel().getConstruction(),
+				null,
 				endX, endY, 1);
+		endPoint.setEuclidianVisible(false);
+		endPoint.updateRepaint();
 
 		points[0] = startPoint;
 		points[1] = endPoint;
