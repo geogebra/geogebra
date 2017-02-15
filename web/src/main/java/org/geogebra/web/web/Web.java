@@ -11,7 +11,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
@@ -62,7 +61,6 @@ public class Web implements EntryPoint {
 
 		GeoGebraProfiler.getInstance().profile();
 
-		CustomElements.registerGeoGebraWebElement();
 		WebSimple.registerSuperdevExceptionHandler();
 		exportGGBElementRenderer();
 

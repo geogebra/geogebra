@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -396,7 +397,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		ExpressionValue item = item0.unwrap();
 		if (item instanceof Equation) {
 			ExpressionValue lhs = ((Equation) item).getLHS().unwrap();
-			if (lhs instanceof GeoDummyVariable || lhs instanceof PVariable) {
+			if (lhs instanceof GeoDummyVariable || lhs instanceof Variable) {
 				ExpressionValue rhs = ((Equation) item).getRHS();
 				ExpressionValue copy = substArg.deepCopy(kernel);
 				copy.traverse(VariableReplacer.getReplacer(

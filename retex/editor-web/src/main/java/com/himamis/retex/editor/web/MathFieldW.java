@@ -395,10 +395,6 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	private native void debug(boolean blink) /*-{
-		$wnd.console.log(blink);
-	}-*/;
-
 	@Override
 	public boolean hasFocus() {
 		return focused;

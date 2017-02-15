@@ -46,7 +46,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/** The application */
 	public AppW app;
 
-	private static int counter = 1;
 	/**
 	 * Splash Dialog to get it work quickly
 	 */
@@ -62,7 +61,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrameW(GLookAndFeelI laf) {
 		super();
-		this.frameID = counter++;
 		this.laf = laf;
 		instances.add(this);
 		activeInstance = this;
@@ -702,10 +700,4 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
-	/**
-	 * @return frame ID, unused
-	 */
-	public int getFrameID() {
-		return frameID;
-	}
 }

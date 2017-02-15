@@ -8,7 +8,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -64,7 +63,6 @@ public class Tablet implements EntryPoint {
 
 		GeoGebraProfiler.getInstance().profile();
 
-		CustomElements.registerGeoGebraWebElement();
 		exportGGBElementRenderer();
 
 		run();

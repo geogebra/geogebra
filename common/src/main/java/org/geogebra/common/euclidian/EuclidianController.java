@@ -65,8 +65,10 @@ import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.AlgoVertexConic;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
@@ -8496,15 +8498,14 @@ public abstract class EuclidianController {
 				// types
 				if (mode == EuclidianConstants.MODE_SLIDER) {
 					if (view.getHits().size() != 1) {
-						HitsFilter filter = new HitsFilter() {
+						filterHits(new Inspecting() {
 
-							@Override
-							public boolean isValid(GeoElement geo) {
-								return geo.isGeoNumeric()
-										&& ((GeoNumeric) geo).isSlider();
+							public boolean check(ExpressionValue v) {
+								return v instanceof GeoNumeric
+										&& ((GeoNumeric) v).isSlider();
 							}
-						};
-						filter.run();
+						});
+								
 
 					}
 
@@ -8515,14 +8516,13 @@ public abstract class EuclidianController {
 				} else if ((mode == EuclidianConstants.MODE_BUTTON_ACTION)
 						|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)) {
 					if (view.getHits().size() != 1) {
-						HitsFilter filter = new HitsFilter() {
+						filterHits(new Inspecting() {
 
-							@Override
-							public boolean isValid(GeoElement geo) {
-								return geo instanceof GeoButton;
+							public boolean check(ExpressionValue v) {
+								return v instanceof GeoButton;
 							}
-						};
-						filter.run();
+						});
+								
 					}
 
 					if (view.getHits().size() > 0
@@ -8531,14 +8531,13 @@ public abstract class EuclidianController {
 					}
 				} else if (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX) {
 					if (view.getHits().size() != 1) {
-						HitsFilter filter = new HitsFilter() {
+						filterHits(new Inspecting() {
 
-							@Override
-							public boolean isValid(GeoElement geo) {
-								return geo.isGeoBoolean();
+							public boolean check(ExpressionValue v) {
+								return v instanceof GeoBoolean;
 							}
-						};
-						filter.run();
+						});
+
 					}
 
 					if (!(view.getHits().size() > 0
@@ -10268,8 +10267,6 @@ public abstract class EuclidianController {
 						selection.clearSelectedGeos(false); // repaint will be
 						// done next step
 						selection.addSelectedGeos(hits, true);
-					} else {
-						// selection.addSelectedGeo(hits.get(0));
 					}
 
 					if (canShowPopupMenu()) {
@@ -11697,22 +11694,15 @@ public abstract class EuclidianController {
 		view
 	}
 
-	private abstract class HitsFilter {
-		public HitsFilter() {
-		}
-
-		public void run() {
+	private void filterHits(Inspecting filter) {
 			for (int i = 1; i < getView().getHits().size(); i++) {
-				if (!isValid(getView().getHits().get(i))) {
+			if (!filter.check(getView().getHits().get(i))) {
 					return;
 				}
 				getView().getHits().remove(i);
 			}
-		}
-
-		public abstract boolean isValid(GeoElement geo);
-
 	}
+
 
 	public MouseTouchGestureController getEuclidianTouchGestureListener() {
 		return null;

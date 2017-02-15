@@ -150,33 +150,6 @@ public class ScientificFormat extends Format
 		return Math.log(x) * k;
 	}
 
-	private int resolveErrorSigDigit(double x0, double dx0) {
-		// dx should never be negative
-		double dx = Math.abs(dx0);
-		// make x +ve cause negative doesn't effect sigdigits
-		double x = Math.abs(x0);
-
-		// these circumstances errorsigdit does equal sigdigit, excluding
-		// infinity and Nan which are handled by format
-		if (dx == 0 || Double.isInfinite(dx) || Double.isNaN(dx) || dx >= x) {
-			return sigDigit;
-		}
-
-		// fail cases for log, method fails to handle
-		if (x == 0 || Double.isInfinite(x) || Double.isNaN(x)) {
-			return sigDigit;
-		}
-
-		// otherwise solve for cases when dx<x
-		int log = (int) Math.round(Log10(dx / x));// always will return negative
-													// number
-		int errorsigdigit = sigDigit + log;
-		if (errorsigdigit < 1) {
-			return 1;
-		}
-		return errorsigdigit;
-	}
-
 	private static DecimalFormat getDecimalFormat(int sigDig) {
 		StringBuffer buffer = new StringBuffer("0.");
 		for (int i = 1; i < sigDig; i++) {

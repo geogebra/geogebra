@@ -83,7 +83,6 @@ public abstract class ColorUtil {
 		return GRAPHICS_FACTORY.createColor((i >> 16) & 0xFF, (i >> 8) & 0xFF, i & 0xFF);
 	}
 
-	public static StringBuilder sb = new StringBuilder("#");
 
 //	public static String encode(Color color) {
 //		int colorInt = color.getColor();
@@ -96,13 +95,5 @@ public abstract class ColorUtil {
 //		return sb.toString();
 //	}
 
-	private static String pad(String hex) {
-		if (hex.length() == 0) {
-			return "00";
-		} else if (hex.length() == 1) {
-			return "0" + hex;
-		}
-		return hex;
-	}
 
 }
