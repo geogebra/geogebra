@@ -172,13 +172,18 @@ public class Kernel {
 	/**
 	 * CAS variable handling
 	 * 
+	 * so ggb variable "a" is sent to Giac as "ggbtmpvara" which is then
+	 * converted back to "a" when the result comes back from Giac
+	 * 
 	 * must start with a letter before 'x' so that variable ordering works in
 	 * Giac
 	 * 
-	 * If this is changed, it also needs changing
-	 * 
 	 */
 	public static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
+	/**
+	 * used in the Prover
+	 */
+	public static final String TMP_VARIABLE_PREFIX2 = TMP_VARIABLE_PREFIX + "2";
 
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
@@ -2742,7 +2747,6 @@ public class Kernel {
 	 */
 	final public static String removeCASVariablePrefix(final String str,
 			final String replace) {
-		// e.g. "ggbtmpvar1a" is changed to "a"
 		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
 		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595,
 		// #1616

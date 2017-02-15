@@ -621,7 +621,8 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			if (cmdName != null && !cmdName.startsWith("ggbtmpvar")) {
+			if (cmdName != null
+					&& !cmdName.startsWith(Kernel.TMP_VARIABLE_PREFIX)) {
 				e.printStackTrace();
 				Log.error(
 						"CommandDispatcherGiac: error when processing command: "

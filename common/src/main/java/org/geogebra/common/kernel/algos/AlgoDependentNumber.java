@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -306,7 +307,7 @@ public class AlgoDependentNumber extends AlgoElement
 			String giacOutput = cas.getCurrentCAS().evaluateRaw(strForGiac);
 
 			giacOutput = giacOutput.substring(1, giacOutput.length() - 1)
-					.replaceAll("ggbtmpvar2", "");
+					.replaceAll(Kernel.TMP_VARIABLE_PREFIX2, "");
 			// also decrypting variable names
 
 			ValidExpression resultVE = (getKernel().getGeoGebraCAS())
@@ -726,18 +727,31 @@ public class AlgoDependentNumber extends AlgoElement
 		strForGiac.append("eliminate([" + str);
 		StringBuilder labelsStr = new StringBuilder();
 		Iterator<GeoSegment> it = allSegmentsFromExpression.iterator();
-		labelsStr.append("ggbtmpvar" + botanaVars[0].toString());
-		strForGiac.append("," + "ggbtmpvar" + botanaVars[0].toString() + "="
-				+ botanaVars[0].toString());
+
+		labelsStr.append(Kernel.TMP_VARIABLE_PREFIX);
+		labelsStr.append(botanaVars[0].toString());
+
+		strForGiac.append(",");
+		strForGiac.append(Kernel.TMP_VARIABLE_PREFIX);
+		strForGiac.append(botanaVars[0].toString());
+		strForGiac.append("=");
+		strForGiac.append(botanaVars[0].toString());
+
 		while (it.hasNext()) {
 			GeoSegment currSeg = it.next();
-			labelsStr.append(",ggbtmpvar" + currSeg.getLabelSimple());
+			labelsStr.append(",");
+			labelsStr.append(Kernel.TMP_VARIABLE_PREFIX);
+			labelsStr.append(currSeg.getLabelSimple());
 			/*
 			 * Use encrypted variable names here to prevent Giac translating
 			 * them later to certain constants like e or i.
 			 */
-			strForGiac.append("," + "ggbtmpvar" + currSeg.getLabelSimple() + "="
-					+ "ggbtmpvar2" + currSeg.getLabelSimple());
+			strForGiac.append(",");
+			strForGiac.append(Kernel.TMP_VARIABLE_PREFIX);
+			strForGiac.append(currSeg.getLabelSimple());
+			strForGiac.append("=");
+			strForGiac.append(Kernel.TMP_VARIABLE_PREFIX2);
+			strForGiac.append(currSeg.getLabelSimple());
 		}
 		strForGiac.append("],[");
 		strForGiac.append(labelsStr + "])");
