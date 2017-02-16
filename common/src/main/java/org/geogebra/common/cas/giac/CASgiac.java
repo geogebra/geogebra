@@ -283,22 +283,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		Log.debug("input = " + input);
 
 		String rtrimmed = result.trim();
-		if (rtrimmed.startsWith("\"")) {
-			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)
-					&& !rtrimmed.startsWith("\"X=")) {
-				// eg results from ScientificText[12345] in web
-				// do nothing
-
-				// we used to do this, but Giac errors now all (should) contain
-				// GIAC_ERROR
-				// result = "?";
-			} else { // this is a special string output (only for the prover at
-						// the moment)
+		if (rtrimmed.startsWith("\"") && rtrimmed.endsWith("\"")) {
 				result = result.substring(1, result.length() - 1); // removing
-																	// \" from
-																	// left and
-																	// right
-			}
 		}
 
 		Log.debug("result = " + result);
@@ -760,9 +746,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		// expression is some change on scale
-		double expression = scale * scale;
+		double exp = scale * scale;
 		
-		String PRECISION = Integer.toString((int) expression);
+		String PRECISION = Integer.toString((int) exp);
 		PRECISION = "10000";
 		Log.debug("PRECISION = " + PRECISION);
 		String retval;
