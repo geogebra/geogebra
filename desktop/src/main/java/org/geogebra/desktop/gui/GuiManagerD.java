@@ -163,7 +163,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private String strCustomToolbarDefinition;
 
 	private ToolbarContainer toolbarPanel;
-	private boolean htmlLoaded;// see #126
 
 	private LayoutD layout;
 
@@ -204,8 +203,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		super(app);
 		this.loc = app.getLocalization();
 
-		// this flag prevents closing opened webpage without save (see #126)
-		htmlLoaded = false;
 		lastFilenameOfSaveDialog = null;
 		dialogManagerFactory = new DialogManagerD.Factory();
 	}
@@ -2274,7 +2271,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public synchronized void doOpenFiles(File[] files,
 			boolean allowOpeningInThisInstance, FileExtensions extension) {
-		htmlLoaded = false;
 		// there are selected files
 		if (files != null) {
 			File file;
@@ -2334,7 +2330,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						// load HTML file with applet param ggbBase64
 						// if we loaded from GGB, we don't want to overwrite old
 						// file
-						htmlLoaded = loadBase64File(file);
+						loadBase64File(file);
 					} else if (FileExtensions.OFF.equals(ext)) {
 						loadOffFile(file);
 					} else {

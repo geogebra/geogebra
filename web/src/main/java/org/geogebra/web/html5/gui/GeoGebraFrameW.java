@@ -39,7 +39,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
 
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<GeoGebraFrameW>();
-	private static GeoGebraFrameW activeInstance;
 
 
 
@@ -50,7 +49,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Splash Dialog to get it work quickly
 	 */
 	public SplashDialog splash;
-	private int frameID;
 
 	private static SpanElement firstDummy = null;
 	private static SpanElement lastDummy = null;
@@ -63,18 +61,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		super();
 		this.laf = laf;
 		instances.add(this);
-		activeInstance = this;
 		addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
 		        | Event.ONMOUSEUP | Event.ONMOUSEOVER);
 	}
-
-	protected static native void programFocusEvent(Element firstd, Element lastd) /*-{
-		// this might be needed in case of tabbing by TAB key (more applets)
-		firstd.onfocus = function(evnt) {
-			lastd.focus();
-		};
-	}-*/;
 
 	protected static void tackleFirstDummy(Element parentElement) {
 		firstDummy = DOM.createSpan().cast();
@@ -90,6 +80,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		parentElement.appendChild(lastDummy);
 	}
 
+	/**
+	 * @return map article id -&gt; article
+	 */
 	public static HashMap<String, AppW> getArticleMap() {
 		return articleMap;
 	}
@@ -113,32 +106,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			Log.debug(nodes.getLength() + " scalers found");
 			// so "nodes" is meaning something else here actually
 			if (nodes.getLength() > 0) {
-				// get the first node that really contains an articleElement
-				for (int i = 0; i < nodes.getLength(); i++) {
-					ell = nodes.getItem(i);
+				// no need to get the first node with articleElement
 
-					Node elChild = Element.as(ell.getChild(1));
-					Log.debug(elChild);
-					if (elChild != null
-							&& Element.as(elChild).hasTagName("ARTICLE")) {
-						// found!!
-						// if (elChild == el) {
-						// Log.debug("first article");
-						// // firstDummy!
-						// // now we can create dummy elements before & after
-						// // each applet
-						// // with tabindex 10000, for ticket #5158
-						// if (firstDummy == null) {
-						// tackleFirstDummy(el);
-						//
-						// if (lastDummy != null) {
-						// programFocusEvent(firstDummy, lastDummy);
-						// }
-						// }
-						// }
-						break;
-					}
-				}
 				// get the last node that really contains an articleElement
 				for (int i = nodes.getLength() - 1; i >= 0; i--) {
 					ell = nodes.getItem(i);
@@ -151,10 +120,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 								// lastDummy!
 								if (lastDummy == null) {
 									tackleLastDummy(el);
-
-									// if (firstDummy != null) {
-									// programFocusEvent(firstDummy, lastDummy);
-									// }
 								}
 							}
 							return;

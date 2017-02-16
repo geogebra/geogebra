@@ -98,13 +98,6 @@ public class TeXFormula {
 	public static final int ROMAN = 8;
 	public static final int TYPEWRITER = 16;
 
-	// table for putting delimiters over and under formula's,
-	// indexed by constants from "TeXConstants"
-	private static final String[][] delimiterNames = { { "lbrace", "rbrace" }, { "lsqbrack", "rsqbrack" },
-			{ "lbrack", "rbrack" }, { "downarrow", "downarrow" }, { "uparrow", "uparrow" },
-			{ "updownarrow", "updownarrow" }, { "Downarrow", "Downarrow" }, { "Uparrow", "Uparrow" },
-			{ "Updownarrow", "Updownarrow" }, { "vert", "vert" }, { "Vert", "Vert" } };
-
 	// point-to-pixel conversion
 	final public static double PIXELS_PER_POINT = 1f;
 

@@ -519,7 +519,7 @@ public class LatexTreeItem extends RadioTreeItem {
 							@Override
 							public void callback(String[] obj) {
 								callback.callback(obj);
-								mf.setOnBlur(getLatexController());
+								listenToBlur();
 							}
 						});
 
@@ -533,6 +533,13 @@ public class LatexTreeItem extends RadioTreeItem {
 		}
 		return false;
 
+	}
+	
+	/**
+	 * Start listening to blur events
+	 */
+	protected void listenToBlur(){
+		mf.setOnBlur(getLatexController());
 	}
 
 }

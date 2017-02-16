@@ -21,20 +21,48 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public interface SliderTreeItemInterface {
+	/**
+	 * Cancel event listener
+	 *
+	 */
 	interface CancelListener {
+		/**
+		 * Callback for ESC key
+		 */
 		void cancel();
 	}
 
+	/**
+	 * @return slider geo
+	 */
 	GeoElement getGeo();
 
+	/**
+	 * @param width
+	 *            new width
+	 */
 	void expandSize(int width);
 
+	/**
+	 * @param visible
+	 *            whether to show the slider
+	 */
 	void setSliderVisible(boolean visible);
 
 
+	/**
+	 * @param visible
+	 *            whether to show animation panel
+	 */
 	void setAnimPanelVisible(boolean visible);
 
+	/**
+	 * Restore panel size
+	 */
 	void restoreSize();
 
+	/**
+	 * Resize after delay
+	 */
 	void deferredResize();
 }
