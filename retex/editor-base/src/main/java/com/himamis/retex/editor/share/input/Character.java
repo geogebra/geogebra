@@ -42,9 +42,22 @@ public class Character {
                 (c >= '\uffa1' && c <= '\uffdc');
     }
 
+    public static boolean isLetterOrDigit(char c) {
+        return java.lang.Character.isDigit(c) || isLetter(c);
+    }
+
     public static boolean areLetters(String string) {
         for (int i = 0; i < string.length(); i++) {
             if (!isLetter(string.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean areLettersOrDigits(String string) {
+        for (int i = 0; i < string.length(); i++) {
+            if (!isLetterOrDigit(string.charAt(i))) {
                 return false;
             }
         }

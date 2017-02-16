@@ -119,7 +119,7 @@ public class KeyboardInputAdapter {
 
             @Override
             public boolean test(String input) {
-                return Character.areLetters(input);
+                return Character.areLettersOrDigits(input);
             }
         };
 
