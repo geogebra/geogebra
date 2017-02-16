@@ -225,6 +225,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,
 						true, callback);
+		if (!keepFocus) {
+			item.setFocus(false, false);
+		}
 
 	}
 

@@ -213,7 +213,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		if (focus) {
 			canvas.setVisible(true);
 		} else {
-			if (geo == null) {
+			if (geo == null && errorMessage == null) {
 				addDummyLabel();
 			}
 		}
@@ -236,7 +236,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	@Override
 	public void onEnter(final boolean keepFocus) {
-		getLatexController().onEnter(keepFocus && !softEnter);
+		getLatexController().onEnter(keepFocus);
 	}
 
 

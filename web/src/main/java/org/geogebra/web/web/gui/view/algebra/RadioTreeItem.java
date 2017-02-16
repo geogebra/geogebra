@@ -1275,10 +1275,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 					return showSliderDialog(string, callback);
 				} else if (app.getLocalization()
 						.getReverseCommand(getCurrentCommand()) != null) {
-					setShowInputHelpPanel(true);
-					((InputBarHelpPanelW) app.getGuiManager()
-							.getInputHelpPanel()).focusCommand(
-									getCommand());
+					showCommandError(app.getLocalization()
+							.getReverseCommand(getCurrentCommand()), null);
 
 					return false;
 				}
@@ -2155,8 +2153,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void updateFonts() {
 		// only in JLM
 	}
-
-	public boolean softEnter;
 
 	public void preventBlur() {
 		// TODO Auto-generated method stub
