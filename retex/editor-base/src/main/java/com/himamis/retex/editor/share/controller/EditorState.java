@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -229,6 +230,18 @@ public class EditorState {
 
 	public MathComponent getSelectionAnchor() {
 		return selectionAnchor;
+	}
+
+	public boolean isInsideQuotes() {
+		MathContainer fieldParent = currentField;
+		while (fieldParent != null) {
+			if (fieldParent instanceof MathArray
+					&& ((MathArray) fieldParent).getOpenKey() == '"') {
+				return true;
+			}
+			fieldParent = fieldParent.getParent();
+		}
+		return false;
 	}
 
 }

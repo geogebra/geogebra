@@ -874,8 +874,16 @@ public class InputController {
 
 	}
 
+	/**
+	 * @param editorState
+	 *            current state
+	 * @param ch
+	 *            single char
+	 * @return whether it was handled
+	 */
 	public boolean handleChar(EditorState editorState, char ch) {
 		boolean handled = false;
+		boolean allowFrac = mCreateFrac && !editorState.isInsideQuotes();
 		// backspace, delete and escape are handled for key down
 		if (ch == KeyEvent.VK_BACK_SPACE || ch == KeyEvent.VK_DELETE
 				|| ch == KeyEvent.VK_ESCAPE) {
@@ -892,17 +900,17 @@ public class InputController {
 		} else if (meta.isFunctionOpenKey(ch)) {
 			newBraces(editorState, ch);
 			handled = true;
-		} else if (mCreateFrac && ch == '^') {
+		} else if (allowFrac && ch == '^') {
 			newScript(editorState, "^");
 			handled = true;
-		} else if (mCreateFrac && ch == '_') {
+		} else if (allowFrac && ch == '_') {
 			newScript(editorState, "_");
 			handled = true;
-		} else if (mCreateFrac && ch == '/') { // slash used in android ggb
+		} else if (allowFrac && ch == '/') { // slash used in android ggb
 												// keyboard
 			newFunction(editorState, "frac", 1);
 			handled = true;
-		} else if (mCreateFrac && ch == 47) { // simple / char
+		} else if (allowFrac && ch == 47) { // simple / char
 			newFunction(editorState, "frac", 1);
 			handled = true;
 		} else if (ch == 8730) { // square root char
