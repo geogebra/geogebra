@@ -3,10 +3,8 @@ package org.geogebra.web.web.gui.view;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
@@ -14,50 +12,49 @@ import com.google.gwt.resources.client.ResourcePrototype;
  */
 public class Views {
 
-	final static PerspectiveResources perspectiveResources = ((ImageFactory) GWT
-			.create(ImageFactory.class)).getPerspectiveResources();
+
 
 
 	public static enum ViewType {
 		/**
 		 * 
 		 */
-		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", perspectiveResources
+		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", PerspectiveResources.INSTANCE
 				.menu_icon_algebra()),
 		/**
 		 * 
 		 */
-		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", perspectiveResources
+		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", PerspectiveResources.INSTANCE
 				.menu_icon_graphics()),
 		/**
 		 * 
 		 */
-		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", perspectiveResources
+		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", PerspectiveResources.INSTANCE
 				.menu_icon_graphics2()),
 		/**
 		 * 
 		 */
 		GRAPHICS_3D(App.VIEW_EUCLIDIAN3D, "GraphicsView3D",
-				perspectiveResources.menu_icon_graphics3D()),
+				PerspectiveResources.INSTANCE.menu_icon_graphics3D()),
 		/**
 		 * 
 		 */
-		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", perspectiveResources
+		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", PerspectiveResources.INSTANCE
 				.menu_icon_spreadsheet()),
 		/**
 		 * 
 		 */
-		CAS(App.VIEW_CAS, "CAS", perspectiveResources.menu_icon_cas()),
+		CAS(App.VIEW_CAS, "CAS", PerspectiveResources.INSTANCE.menu_icon_cas()),
 		/**
 		 * 
 		 */
 		PROBABILITY(App.VIEW_PROBABILITY_CALCULATOR, "ProbabilityCalculator",
-				perspectiveResources.menu_icon_probability()),
+				PerspectiveResources.INSTANCE.menu_icon_probability()),
 		/**
 		 * 
 		 */
 		CONSTRUCTION_PROTOCOL(App.VIEW_CONSTRUCTION_PROTOCOL,
-				"ConstructionProtocol", perspectiveResources
+				"ConstructionProtocol", PerspectiveResources.INSTANCE
 						.menu_icon_construction_protocol());
 
 		private int id;
