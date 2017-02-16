@@ -8340,8 +8340,16 @@ public abstract class EuclidianController {
 		view.repaintView();
 	}
 
-	abstract protected void setDynamicStylebarVisible(boolean visible,
-			GRectangle2D gRectangle2D);
+	/**
+	 * @param visible
+	 *            whether to show
+	 * @param gRectangle2D
+	 *            position
+	 */
+	protected void setDynamicStylebarVisible(boolean visible,
+			GRectangle2D gRectangle2D) {
+		// Floating stylebar not supported
+	}
 
 	protected boolean shouldCancelDrag() {
 		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY
