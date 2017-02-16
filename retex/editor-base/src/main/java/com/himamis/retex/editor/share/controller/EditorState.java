@@ -167,6 +167,17 @@ public class EditorState {
 						getCurrentField().size() - 1)));
 	}
 
+	public String getSelectedText() {
+		StringBuilder sb = new StringBuilder();
+		if (currentSelStart != null && currentSelEnd != null) {
+			for (int i = currentSelStart.getParentIndex(); i <= currentSelEnd
+					.getParentIndex(); i++) {
+				sb.append(currentSelStart.getParent().getArgument(i));
+			}
+		}
+		return sb.toString();
+	}
+
 	private static boolean contains(MathContainer commonParent,
 			MathComponent cursorField0) {
 		MathComponent cursorField = cursorField0;

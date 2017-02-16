@@ -14,6 +14,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class InputController {
 
@@ -103,6 +104,7 @@ public class InputController {
 	 */
 	public void newBraces(EditorState editorState, char ch) {
 		String casName = ArgumentHelper.readCharacters(editorState);
+		FactoryProvider.getInstance().debug(casName + "CAS NAME");
 		if (ch == FUNCTION_OPEN_KEY && metaModel.isGeneral(casName)) {
 			delCharacters(editorState, casName.length());
 			newFunction(editorState, casName);
@@ -112,6 +114,23 @@ public class InputController {
 			newFunction(editorState, casName);
 
 		} else {
+			String selText = editorState.getSelectedText().trim();
+			if(editorState.getSelectionStart() instanceof MathCharacter){
+				if (selText.startsWith("<") && selText.endsWith(">")) {
+
+					deleteSelection(editorState);
+					MetaArray meta = metaModel.getArray(ch);
+					MathArray array = new MathArray(meta, 1);
+					MathSequence seq = new MathSequence();
+					array.setArgument(0, seq);
+					editorState.getCurrentField()
+							.addArgument(editorState.getCurrentOffset(), array);
+					editorState.setCurrentField(seq);
+					editorState.setCurrentOffset(0);
+					return;
+
+				}
+			}
 			// TODO brace type
 			newArray(editorState, 1, ch);
 		}

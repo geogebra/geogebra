@@ -1,10 +1,10 @@
 package com.himamis.retex.editor.share.meta;
 
+import static com.himamis.retex.editor.share.meta.MetaCharacter.OPERATOR;
+import static com.himamis.retex.editor.share.meta.MetaCharacter.SYMBOL;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.himamis.retex.editor.share.meta.MetaSymbol.OPERATOR;
-import static com.himamis.retex.editor.share.meta.MetaSymbol.SYMBOL;
 
 class MetaModelSymbols {
 
@@ -62,6 +62,8 @@ class MetaModelSymbols {
         operators.add(createOperator("!"));
         operators.add(createOperator(":"));
         operators.add(createOperator("="));
+		operators.add(createOperator("<"));
+		operators.add(createOperator(">"));
 
         operators.add(createOperator("percent", "\\%", '%'));
         operators.add(createOperator("dollar", "\\$", '$'));

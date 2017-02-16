@@ -84,9 +84,15 @@ public class ArgumentHelper {
         StringBuilder stringBuilder = new StringBuilder();
         int offset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
+		if (currentField.getArgument(offset) instanceof MathCharacter
+				&& ((MathCharacter) currentField.getArgument(offset))
+						.isOperator()) {
+			return "";
+		}
         while (offset > 0 && currentField.getArgument(offset - 1) instanceof MathCharacter) {
 
-            MathCharacter character = (MathCharacter) currentField.getArgument(offset - 1);
+			MathCharacter character = (MathCharacter) currentField
+					.getArgument(offset - 1);
             if (character.isOperator() || character.isSymbol()) {
                 break;
             }
