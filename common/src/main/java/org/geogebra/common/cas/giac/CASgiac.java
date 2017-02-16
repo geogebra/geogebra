@@ -212,7 +212,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * variables which will not be used as derivatives. Output: another list
 		 * of polynomials (a shorter list) which does not contain the linear
 		 * ones and equivalent with the input. Note that
-		 * op(solve(polys[ii],linvar)[0])[1] is required in GeoGebra mode, in
+		 * op(solve(polys[ii]=0,linvar)[0])[1] is required in GeoGebra mode, in
 		 * standard Giac here solve(polys[ii],linvar)[0] should be written.
 		 * 
 		 * The algorithm finds the polys which have one variable and it is
@@ -221,7 +221,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * variable linear polys recursively, the resulted polys will be used in
 		 * the Jacobian matrix in jacobiDet().
 		 */
-		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii],linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
+		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars.
