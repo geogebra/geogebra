@@ -64,4 +64,6 @@ public interface EuclidianStyleBar {
 	public void resetFirstPaint();
 
 	void reinit();
+
+	void setPosition(double[] newPos);
 }

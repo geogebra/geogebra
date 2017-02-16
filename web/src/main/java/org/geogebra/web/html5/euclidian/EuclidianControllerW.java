@@ -432,8 +432,11 @@ public class EuclidianControllerW extends EuclidianController implements
 		// .getDockManager();
 		// ((DockPanelW) dm.getPanel(dm.getFocusedEuclidianPanel().getViewId()))
 		// . ();
-		// this.getView().getStyleBar().
-		Log.debug("setStylebarVisible - ECW");
+		double[] newPos = new double[2];
+		newPos[0] = gRectangle2D.getMaxX();
+		newPos[1] = gRectangle2D.getMinY();
+		// this.getView().toScreenCoords(newPos);
+		this.getView().getStyleBar().setPosition(newPos);
 		((AppW) app).setAllowStyleBar(visible);		
 	}
 }

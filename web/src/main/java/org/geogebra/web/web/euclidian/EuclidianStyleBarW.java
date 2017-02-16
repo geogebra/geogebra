@@ -1445,4 +1445,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	public static void setCurrentPopup(ButtonPopupMenu currentPopup) {
 		EuclidianStyleBarW.currentPopup = currentPopup;
 	}
+
+	public void setPosition(double[] newPos) {
+		Log.debug("newpos: " + newPos[0] + " " + newPos[1]);
+		// this.getElement().getStyle().setPosition(Position.ABSOLUTE);
+		// newPos[0] -= 1870;
+		// this.getElement().getStyle().setLeft(newPos[0], Unit.PX);
+		// this.getElement().getStyle().setTop(newPos[1], Unit.PX);
+	}
 }

@@ -1791,4 +1791,8 @@ public class EuclidianStyleBarD extends JToolBar
 		setLabels();
 	}
 
+	public void setPosition(double[] screenCoords) {
+		// TODO Auto-generated method stub
+
+	}
 }
