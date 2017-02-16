@@ -204,8 +204,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     public boolean onKeyReleased(KeyEvent keyEvent) {
 		enterPressed = false;
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
-			FactoryProvider.getInstance()
-					.debug(keyEvent.getKeyCode() + ":" + enterCallback);
 			if (enterCallback != null) {
 				enterCallback.run();
 				enterCallback = null;

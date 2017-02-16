@@ -8,11 +8,18 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
+/**
+ * Widget representing the CAS View
+ *
+ */
 public class CASComponentW extends ScrollPanel implements ScrollHandler,
         NativePreviewHandler {
 
 	private boolean scrollHappened;
 
+	/**
+	 * New CAS component
+	 */
 	public CASComponentW() {
 		this.getElement().setClassName("casView");
 		addScrollHandler(this);

@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -37,7 +38,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class CASLaTeXEditor extends FlowPanel
  implements CASEditorW,
 		MathKeyboardListener,
-		MathFieldListener {
+		MathFieldListener, BlurHandler {
 	/** suggestions */
 	InputSuggestions sug;
 	private MathFieldW mf;
@@ -65,19 +66,20 @@ public class CASLaTeXEditor extends FlowPanel
 		Canvas canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(this, canvas, this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
-		mf.setOnBlur(new BlurHandler() {
-
-			public void onBlur(BlurEvent event) {
-				setFocus(false, true);
-
-			}
-		});
+		mf.setOnBlur(this);
 		add(mf);
 		dummy = new Label(
 				app.getLocalization().getMenu("InputLabel") + Unicode.ellipsis);
 
 	}
 
+	public void onBlur(BlurEvent event) {
+		// autocommitting empty text produces $1
+		if (!isSuggesting() && !StringUtil.empty(getText())) {
+			this.onEnter(false);
+		}
+
+	}
 	@Override
 	public int getInputSelectionEnd() {
 		// TODO Auto-generated method stub
@@ -200,7 +202,7 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void setAutocomplete(boolean b) {
-		this.autocomplete = true;
+		this.autocomplete = b;
 
 	}
 

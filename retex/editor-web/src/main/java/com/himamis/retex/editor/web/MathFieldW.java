@@ -67,7 +67,6 @@ import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -88,6 +87,8 @@ public class MathFieldW implements MathField, IsWidget {
 	private boolean enabled = true;
 	private static Timer tick;
 	private BlurHandler onTextfieldBlur;
+	private Timer focuser;
+	private boolean pasteInstalled = false;
 
 	private int bottomOffset;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
@@ -340,7 +341,6 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
-		FactoryProvider.getInstance().debug(nativeEvent.getKeyCode());
 		if (MathFieldW.checkCode(nativeEvent, "NumpadDecimal")) {
 			return '.';
 		}
@@ -443,8 +443,7 @@ public class MathFieldW implements MathField, IsWidget {
 		return this.mathFieldInternal.getFormula();
 	}
 
-	private Timer focuser;
-	private boolean pasteInstalled = false;
+
 	public void setFocus(boolean focus) {
 		if (focus) {
 			startBlink();
