@@ -79,8 +79,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public PPolynomial(final long coeff) {
 		this(new BigInteger(Long.toString(coeff)), new PTerm());
 	}
-
-
 	
 	/**
 	 * Creates a polynomial which contains only one variable
@@ -106,21 +104,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		if (coeff != BigInteger.ZERO)
 			terms.put(new PTerm(variable), coeff);
 	}
-	/**
-	 * Creates the polynomial coeff*variable
-	 * 
-	 * @param coeff
-	 *            the coefficient
-	 * @param variable
-	 *            the variable
-	 */
-	@Deprecated
-	public PPolynomial(final long coeff, final PVariable variable) {
-		this();
-		if (coeff != 0)
-			terms.put(new PTerm(variable), new BigInteger(Long.toString(coeff)));
-	}
-
 
 	/**
 	 * Creates the polynomial coeff*(variable^power)
@@ -163,22 +146,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		if (coeff != BigInteger.ZERO)
 			terms.put(t, coeff);
 	}
-	
-	/**
-	 * Creates the polynomial coeff*t
-	 * 
-	 * @param coeff
-	 *            the coefficient
-	 * @param t
-	 *            the term
-	 */
-	public PPolynomial(final long coeff, final PTerm t) {
-		this();
-		if (coeff != 0)
-			terms.put(t, new BigInteger(Long.toString(coeff)));
-	}
-	
-	
+
 	/**
 	 * Returns the sum of the polynomial plus another polynomial.
 	 * 

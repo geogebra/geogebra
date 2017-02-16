@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -282,17 +283,20 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
-			long coeff = (int) expNode.getLeft().evaluateDouble();
+			BigInteger coeff = new BigDecimal(
+					expNode.getLeft().evaluateDouble()).toBigInteger();
 			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble
 				&& polyNode.getRight().getPoly() == null) {
-			long coeff = (int) expNode.getRight().evaluateDouble();
+			BigInteger coeff = new BigDecimal(
+					expNode.getRight().evaluateDouble()).toBigInteger();
 			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
-			long coeff = (int) expNode.getLeft().evaluateDouble();
+			BigInteger coeff = new BigDecimal(
+					expNode.getLeft().evaluateDouble()).toBigInteger();
 			PVariable v = getVariable(expNode.getRight()
 					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {
@@ -355,15 +359,19 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			default:
 				throw new NoSymbolicParametersException();
 			}
-			int i;
+			BigInteger i;
 			// if in the expression exists rational number with n decimals
 			// (if there's more than one rational number, then n is the max of
 			// decimal numbers)
 			// than multiply the coefficient with 10^n
 			if (nrOfMaxDecimals != 0) {
-				i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+				i = new BigDecimal(d * Math.pow(10, nrOfMaxDecimals))
+						.toBigInteger();
+				Log.error(
+						"Possible numerical error in converting formula coefficients to integer");
+				/* TODO: check if this conversion is really correct */
 			} else {
-				i = d.intValue();
+				i = new BigDecimal(d).toBigInteger();
 			}
 			polyNode.setPoly(new PPolynomial(i));
 			return;

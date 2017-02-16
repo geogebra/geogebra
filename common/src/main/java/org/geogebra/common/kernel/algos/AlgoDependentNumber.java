@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -345,13 +346,13 @@ public class AlgoDependentNumber extends AlgoElement
 			allSegmentsFromExpression = new HashSet<GeoSegment>();
 			// remove variables as geoSegment names
 			if (rewriteFormula && !segVarPairs.isEmpty()) {
-					Iterator<Entry<GeoElement, PVariable>> it = segVarPairs
-							.iterator();
-					while (it.hasNext()) {
-						Entry<GeoElement, PVariable> curr = it.next();
-						GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
-						currGeoSeg.setLabelSet(false);
-					}
+				Iterator<Entry<GeoElement, PVariable>> it = segVarPairs
+						.iterator();
+				while (it.hasNext()) {
+					Entry<GeoElement, PVariable> curr = it.next();
+					GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
+					currGeoSeg.setLabelSet(false);
+				}
 			}
 			segVarPairs = new ArrayList<Entry<GeoElement, PVariable>>();
 
@@ -532,17 +533,20 @@ public class AlgoDependentNumber extends AlgoElement
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
-			int coeff = (int) expNode.getLeft().evaluateDouble();
+			BigInteger coeff = new BigDecimal(
+					expNode.getLeft().evaluateDouble()).toBigInteger();
 			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble
 				&& polyNode.getRight().getPoly() == null) {
-			int coeff = (int) expNode.getRight().evaluateDouble();
+			BigInteger coeff = new BigDecimal(
+					expNode.getRight().evaluateDouble()).toBigInteger();
 			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
-			int coeff = (int) expNode.getLeft().evaluateDouble();
+			BigInteger coeff = new BigDecimal(
+					expNode.getLeft().evaluateDouble()).toBigInteger();
 			PVariable v = getVarOfGeoDummy(expNode.getRight()
 					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {
@@ -604,18 +608,22 @@ public class AlgoDependentNumber extends AlgoElement
 			default:
 				throw new NoSymbolicParametersException();
 			}
-			int i;
+			BigInteger i;
 			// if in the expression exists rational number with n decimals
 			// (if there's more than one rational number, then n is the max of
 			// decimal numbers)
 			// than multiply the coefficient with 10^n
 			if (nrOfMaxDecimals != 0) {
-				i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+				i = new BigDecimal(d * Math.pow(10, nrOfMaxDecimals))
+						.toBigInteger();
+				Log.error(
+						"Possible numerical error in converting formula coefficients to integer");
+				/* TODO: check if this conversion is really correct */
 			} else {
-				i = d.intValue();
-			}
+				i = new BigDecimal(d).toBigInteger();
 			polyNode.setPoly(new PPolynomial(i));
 			return;
+			}
 		}
 		polyNode.setOperation(expNode.getOperation());
 		if (expNode.getLeft() != null) {
@@ -631,21 +639,23 @@ public class AlgoDependentNumber extends AlgoElement
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
 					Double d = expNode.getLeft().evaluateDouble();
-					long i;
-					// if in the expression exists rational number with n
-					// decimals
-					// (if there's more than one rational number, then n is the
-					// max of decimal numbers)
+					BigInteger i;
+					// if in the expression exists rational number with n decimals
+					// (if there's more than one rational number, then n is the max of
+					// decimal numbers)
 					// than multiply the coefficient with 10^n
 					if (nrOfMaxDecimals != 0) {
-						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
+						i = new BigDecimal(d * Math.pow(10, nrOfMaxDecimals))
+								.toBigInteger();
+						Log.error(
+								"Possible numerical error in converting formula coefficients to integer");
+						/* TODO: check if this conversion is really correct */
 					} else {
-						i = d.longValue();
+						i = new BigDecimal(d).toBigInteger();
 					}
 					polyNode.getLeft().setPoly(new PPolynomial(i));
 				}
 			}
-
 		}
 		if (expNode.getRight() != null) {
 			polyNode.setRight(new PolynomialNode());
