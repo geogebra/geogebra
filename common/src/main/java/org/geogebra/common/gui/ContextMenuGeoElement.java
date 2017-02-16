@@ -280,7 +280,7 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-	public void deleteCmd() {
+	public void deleteCmd(boolean isCut) {
 
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 
@@ -295,6 +295,13 @@ public abstract class ContextMenuGeoElement {
 							.getDrawableFor(geo1);
 					if (d != null) {
 						d.getBoundingBox().resetBoundingBox();
+					}
+				}
+				if (isCut) {
+					if (geo1.getParentAlgorithm() != null) {
+						for (GeoElement ge : geo1.getParentAlgorithm().input) {
+							ge.removeOrSetUndefinedIfHasFixedDescendent();
+						}
 					}
 				}
 				geo1.removeOrSetUndefinedIfHasFixedDescendent();
@@ -560,7 +567,7 @@ public abstract class ContextMenuGeoElement {
 	protected void cutCmd() {
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
-		deleteCmd();
+		deleteCmd(true);
 
 	}
 

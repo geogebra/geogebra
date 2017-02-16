@@ -709,7 +709,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					deleteCmd();
+					deleteCmd(false);
 				}
 			});
 		}

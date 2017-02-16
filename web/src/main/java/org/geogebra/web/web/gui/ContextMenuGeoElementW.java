@@ -335,7 +335,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 				        @Override
 						public void execute() {
-					        deleteCmd();
+							deleteCmd(false);
 				        }
 			        },
 			        MainMenu.getMenuBarHtml(AppResources.INSTANCE
@@ -421,7 +421,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(new Command() {
 
 				public void execute() {
-					deleteCmd();
+					deleteCmd(false);
 				}
 			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.delete_small()
 					.getSafeUri().asString(),
