@@ -19,6 +19,7 @@ import java.awt.event.MouseWheelEvent;
 
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -190,6 +191,13 @@ public class EuclidianController3DD extends EuclidianController3D
 
 	@Override
 	public void closePopups(int x, int y, PointerEventType type) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void setDynamicStylebarVisible(boolean visible,
+			GRectangle2D gRectangle2D) {
 		// TODO Auto-generated method stub
 
 	}

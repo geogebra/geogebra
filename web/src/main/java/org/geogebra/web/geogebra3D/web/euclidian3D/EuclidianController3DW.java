@@ -1,5 +1,6 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
@@ -366,6 +368,14 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public void closePopups(int x, int y, PointerEventType type) {
 		// TODO Auto-generated method stub
 
+	}
+
+
+	@Override
+	protected void setDynamicStylebarVisible(boolean visible,
+			GRectangle2D gRectangle2D) {
+		Log.debug("setstlyebar visible: " + visible
+				+ " in EuclidianController3DW");
 	}
 
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -18,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -421,6 +423,18 @@ public class EuclidianControllerW extends EuclidianController implements
 		PointerEvent wrap = new PointerEvent(x, y, type, mtg);
 		((AppW) app).closePopups(wrap.getX(), wrap.getY());
 
+	}
+
+	@Override
+	protected void setDynamicStylebarVisible(boolean visible,
+			GRectangle2D gRectangle2D) {
+		// DockManager dm = ((AppW) app).getGuiManager().getLayout()
+		// .getDockManager();
+		// ((DockPanelW) dm.getPanel(dm.getFocusedEuclidianPanel().getViewId()))
+		// . ();
+		// this.getView().getStyleBar().
+		Log.debug("setStylebarVisible - ECW");
+		((AppW) app).setAllowStyleBar(visible);		
 	}
 }
 

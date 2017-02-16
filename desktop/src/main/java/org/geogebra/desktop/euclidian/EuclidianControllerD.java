@@ -19,6 +19,7 @@ import java.awt.event.MouseWheelEvent;
 
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
@@ -200,6 +201,13 @@ public class EuclidianControllerD extends EuclidianController
 		evjpanel.addMouseListener(this);
 		evjpanel.addMouseWheelListener(this);
 		evjpanel.addComponentListener(this);
+	}
+
+	@Override
+	protected void setDynamicStylebarVisible(boolean visible,
+			GRectangle2D gRectangle2D) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

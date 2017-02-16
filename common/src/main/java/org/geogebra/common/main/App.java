@@ -4233,6 +4233,10 @@ public abstract class App implements UpdateSelection {
 			return false;
 		case AV_TEXT_BLACK:
 			return true;
+			
+		case DYNAMIC_STYLEBAR:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

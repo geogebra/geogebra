@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
@@ -122,6 +123,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
@@ -133,6 +135,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -3867,6 +3870,9 @@ public abstract class EuclidianController {
 
 		selection.clearLists();
 		view.setBoundingBox(null);
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			Log.debug("removeStylebar");
+		}
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
@@ -8291,8 +8297,13 @@ public abstract class EuclidianController {
 		}
 
 		if (geo != null && view.getDrawableFor(geo) != null) {
-			view.setBoundingBox(
-					((Drawable) view.getDrawableFor(geo)).getBoundingBox());
+			BoundingBox boundingBox = ((Drawable) view.getDrawableFor(geo))
+					.getBoundingBox();
+			view.setBoundingBox(boundingBox);
+			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+				Log.debug("drawstylebar");
+				setDynamicStylebarVisible(true, boundingBox.getRectangle());
+			}
 			view.repaintView();
 		}
 
@@ -8328,6 +8339,9 @@ public abstract class EuclidianController {
 
 		view.repaintView();
 	}
+
+	abstract protected void setDynamicStylebarVisible(boolean visible,
+			GRectangle2D gRectangle2D);
 
 	protected boolean shouldCancelDrag() {
 		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY

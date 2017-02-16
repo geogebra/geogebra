@@ -215,6 +215,9 @@ public enum Feature {
 	/** related to EXAM-9 */
 	TABLET_WITHOUT_CORDOVA,
 
-	AV_TEXT_BLACK
+	AV_TEXT_BLACK,
+
+	/** MOV-169 */
+	DYNAMIC_STYLEBAR
 
 }
