@@ -506,6 +506,7 @@ public class AlgoDependentNumber extends AlgoElement
 				polyNode.setPoly(leftPoly.multiply(rightPoly));
 				break;
 			case POWER:
+				/* It must fit in Long. If not, it will take forever. */
 				Long pow = polyNode.getRight().evaluateLong();
 				if (pow != null) {
 					PPolynomial poly = leftPoly;
