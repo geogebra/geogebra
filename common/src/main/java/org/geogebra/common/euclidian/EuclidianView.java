@@ -5524,6 +5524,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private DrawList openedComboBox = null;
 
 	protected ViewTextField viewTextField;
+	private EuclidianStyleBar dynamicStyleBar;
 
 	/**
 	 * sets the option panel for gui update
@@ -5651,9 +5652,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * 
-	 * @return new euclidian style bar
+	 * @return new dynamic style bar
 	 */
 	abstract protected EuclidianStyleBar newEuclidianStyleBar();
+
+	@Override
+	final public EuclidianStyleBar getDynamicStyleBar() {
+		if (dynamicStyleBar == null) {
+			dynamicStyleBar = newDynamicStyleBar();
+		}
+
+		return dynamicStyleBar;
+	}
+
+	/**
+	 * 
+	 * @return new euclidian style bar
+	 */
+	abstract protected EuclidianStyleBar newDynamicStyleBar();
 
 	public long getLastRepaintTime() {
 		return 0;

@@ -49,6 +49,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
+import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
@@ -1004,6 +1005,12 @@ public class EuclidianViewD extends EuclidianView
 	public void readText(String text) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected EuclidianStyleBar newDynamicStyleBar() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

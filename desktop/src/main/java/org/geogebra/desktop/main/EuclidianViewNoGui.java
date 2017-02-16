@@ -225,4 +225,10 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	}
 
+	@Override
+	protected EuclidianStyleBar newDynamicStyleBar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

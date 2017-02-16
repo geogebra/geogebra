@@ -973,6 +973,11 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
+	protected EuclidianStyleBar newDynamicStyleBar() {
+		return app.getGuiManager().newDynamicStylebar(this);
+	}
+
+	@Override
 	final protected void drawAnimationButtons(final GGraphics2D g2) {
 
 		// draw button in focused EV only

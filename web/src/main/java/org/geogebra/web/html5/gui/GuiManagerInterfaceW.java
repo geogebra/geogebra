@@ -75,6 +75,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev, int viewID);
 
+	public EuclidianStyleBar newDynamicStylebar(EuclidianView ev);
+
 	public String getMenuBarHtml(ImageResource imgRes, String name, boolean b);
 
 	public void recalculateEnvironments();

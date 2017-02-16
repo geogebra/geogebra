@@ -66,6 +66,7 @@ import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
 import org.geogebra.web.web.cas.view.RowHeaderPopupMenuW;
+import org.geogebra.web.web.euclidian.DynamicStyleBar;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -1891,6 +1892,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public EuclidianStyleBar newEuclidianStylebar(final EuclidianView ev,
 	        int viewID) {
 		return new EuclidianStyleBarW(ev, viewID);
+	}
+
+	@Override
+	public EuclidianStyleBar newDynamicStylebar(final EuclidianView ev) {
+		return new DynamicStyleBar(ev);
 	}
 
 	@Override

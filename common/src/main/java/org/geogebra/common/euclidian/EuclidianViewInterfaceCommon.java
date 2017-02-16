@@ -685,6 +685,11 @@ public interface EuclidianViewInterfaceCommon
 	public EuclidianStyleBar getStyleBar();
 
 	/**
+	 * @return dynamic style bar
+	 */
+	public EuclidianStyleBar getDynamicStyleBar();
+
+	/**
 	 * Updates highlighting of animation buttons.
 	 * 
 	 * @param b
