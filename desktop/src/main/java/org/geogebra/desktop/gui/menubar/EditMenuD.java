@@ -302,7 +302,7 @@ public class EditMenuD extends BaseMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				app.deleteSelectedObjects();
+				app.deleteSelectedObjects(false);
 			}
 		};
 

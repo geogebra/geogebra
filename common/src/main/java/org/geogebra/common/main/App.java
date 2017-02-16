@@ -1100,12 +1100,20 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Deletes selected objects
 	 */
-	public void deleteSelectedObjects() {
+	public void deleteSelectedObjects(boolean isCut) {
 		if (letDelete()) {
 			Object[] geos = selection.getSelectedGeos().toArray();
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
 				if (!geo.isFixed()) {
+					if (isCut) {
+						if (geo.getParentAlgorithm() != null) {
+							for (GeoElement ge : geo
+									.getParentAlgorithm().input) {
+								ge.removeOrSetUndefinedIfHasFixedDescendent();
+							}
+						}
+					}
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
 			}

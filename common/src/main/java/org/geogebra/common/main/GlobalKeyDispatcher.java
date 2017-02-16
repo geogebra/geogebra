@@ -825,7 +825,7 @@ public abstract class GlobalKeyDispatcher {
 		app.setWaitCursor();
 		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
 		if (cut) {
-			app.deleteSelectedObjects();
+			app.deleteSelectedObjects(cut);
 		}
 		app.updateMenubar();
 		app.setDefaultCursor();
@@ -1213,7 +1213,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			// DELETE selected objects
 			if (!app.isApplet() || app.isRightClickEnabled()) {
-				app.deleteSelectedObjects();
+				app.deleteSelectedObjects(false);
 				return true;
 			}
 
@@ -1228,7 +1228,7 @@ public abstract class GlobalKeyDispatcher {
 			// for ctrl too
 			if (!isControlDown
 					&& (!app.isApplet() || app.isRightClickEnabled())) {
-				app.deleteSelectedObjects();
+				app.deleteSelectedObjects(false);
 				return true;
 			}
 			break;

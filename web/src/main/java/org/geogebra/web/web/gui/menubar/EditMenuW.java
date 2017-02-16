@@ -220,7 +220,7 @@ public class EditMenuW extends GMenuBar {
 
 				@Override
 				public void doExecute() {
-					app.deleteSelectedObjects();
+							app.deleteSelectedObjects(false);
 				}
 			});
 		}
