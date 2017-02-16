@@ -223,6 +223,7 @@ public class ViewMenuW extends GMenuBar {
 				timer.schedule(0);
 			}
 		});
+		newItem.setForceCheckbox(true);
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());
 	}

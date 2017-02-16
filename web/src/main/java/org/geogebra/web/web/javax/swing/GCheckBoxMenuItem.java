@@ -22,6 +22,7 @@ public class GCheckBoxMenuItem {
 	private App app;
 	private boolean isHtml;
 	String text;
+	private boolean forceCheckbox = false;
 	// public GCheckBoxMenuItem(SafeHtml html, final ScheduledCommand cmd) {
 	// super(html, cmd);
 	// checkBox = new CheckBox(html);
@@ -50,13 +51,12 @@ public class GCheckBoxMenuItem {
 
 		itemPanel = new HorizontalPanel();
 
-		if (!toggle) {
-			checkBox = new CheckBox();
-			itemPanel.add(checkBox);
-		}
-
+		checkBox = new CheckBox();
+		itemPanel.add(checkBox);
+		checkBox.setVisible(!isToggleMenu());
 		setText(text);
 	}
+
 
 
 	public GCheckBoxMenuItem(String text, final ScheduledCommand cmd,
@@ -71,7 +71,7 @@ public class GCheckBoxMenuItem {
 	}
 	public void setSelected(boolean sel) {
 		selected = sel;
-		if (toggle) {
+		if (isToggleMenu()) {
 			itemPanel.clear();
 			String txt = app.getLocalization()
 					.getPlain(selected ? "ON" : "OFF");
@@ -83,12 +83,16 @@ public class GCheckBoxMenuItem {
 		menuItem.setHTML(itemPanel.toString());
 	}
 
+	private boolean isToggleMenu() {
+		return toggle && !forceCheckbox;
+	}
+
 	/**
 	 * 
 	 * @return true if check box is checked
 	 */
 	public boolean isSelected() {
-		return toggle ? selected : checkBox.getValue();
+		return isToggleMenu() ? selected : checkBox.getValue();
 	}
 
 	public MenuItem getMenuItem() {
@@ -101,5 +105,14 @@ public class GCheckBoxMenuItem {
 		} else {
 			itemPanel.add(new Label(text));
 		}
+	}
+
+	public boolean isForceCheckbox() {
+		return forceCheckbox;
+	}
+
+	public void setForceCheckbox(boolean forceCheckbox) {
+		this.forceCheckbox = forceCheckbox;
+		checkBox.setVisible(!isToggleMenu());
 	}
 }
