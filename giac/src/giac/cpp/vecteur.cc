@@ -3514,7 +3514,7 @@ namespace giac {
     }
   }
   
-#ifndef GIAC_HAS_STO_38
+#if 1 // ndef GIAC_HAS_STO_38
   const int mmult_double_blocksize=45; // 2*45^2*sizeof(double)= a little less than 32K
   int mmult_int_blocksize=60; // 2*60^2*sizeof(int)= a little less than 32K
   gen _blockmatrix_mult_size(const gen & args,GIAC_CONTEXT){
@@ -4508,7 +4508,7 @@ namespace giac {
     if (matrice2std_matrix_double(a,ad,true) && matrice2std_matrix_double(btran,btrand,true)){
       int resrows=mrows(a);
       int rescols=mrows(btran);
-#ifndef GIAC_HAS_STO_38
+#if 1 // ndef GIAC_HAS_STO_38
       int n;
       if (!ad.empty() && resrows>=2*mmult_double_blocksize && rescols>=2*mmult_double_blocksize && (n=ad.front().size())>=mmult_double_blocksize){
 	if (n>=CALL_LAPACK && resrows>=CALL_LAPACK && rescols>=CALL_LAPACK){
@@ -4695,7 +4695,7 @@ namespace giac {
     int at=a_.front()[0].type,bt=btran.front()[0].type;
     // if ( ( (at==_POLY && bt==_POLY) || (at==_VECT && bt==_VECT) ) && mmult_interp(a_,btran,res) ) return ;
 #endif
-#ifndef BCD // creating a copy of the matrices take too much memory and slows down on Aspen
+#if 1 // ndef BCD // creating a copy of the matrices take too much memory and slows down on Aspen
     if ( (has_num_coeff(a_) || has_num_coeff(btran)) && mmult_double(a_,btran,res))
       return;
 #endif

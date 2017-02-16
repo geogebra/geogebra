@@ -1411,8 +1411,12 @@ namespace giac {
     }
     switch (e.type){
     case _IDNT:
-      if (*e._IDNTptr==x && !equalposcomp(find_excluded(x,contextptr),zero))
-	addtolvar(zero,v);
+      if (*e._IDNTptr==x){ 
+	vecteur newv(1,0);
+	solve_ckrange(x,newv,isolate_mode,contextptr);
+	if (!newv.empty())
+	  addtolvar(zero,v);
+      }
       return;
     case _SYMB:
       if ( e._SYMBptr->sommet==at_pow && ck_is_strictly_positive(e._SYMBptr->feuille._VECTptr->back(),contextptr) ){

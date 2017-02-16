@@ -3008,9 +3008,12 @@ namespace giac {
       vecteur v(args._VECTptr->begin(),args._VECTptr->begin()+s);
       if (s<1)
 	return gendimerr(contextptr);
-      if (has_i(v)){
+      if (has_i(v) || ckmatrix(v)){
 	for (int i=0;i<s;++i){
-	  v[i]=pnt_attrib(v[i],attributs,contextptr);
+	  if (v[i].type==_VECT)
+	    v[i]=put_attributs(_point(v[i],contextptr),attributs,contextptr);
+	  else
+	    v[i]=pnt_attrib(v[i],attributs,contextptr);
 	}
 	if (s==1)
 	  return v[0];

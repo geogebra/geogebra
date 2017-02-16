@@ -3730,7 +3730,7 @@ namespace giac {
     i6 = i6*h;
     gen err1=_l2norm(i30-i14,contextptr);
     gen err2=_l2norm(i30-i6,contextptr);
-    if (is_zero(err1) || is_zero(err2))
+    if (is_exactly_zero(err1) || is_exactly_zero(err2))
       err=0;
     else {
       // check if err1 and err2 corresponds to errors in h^14 and h^6

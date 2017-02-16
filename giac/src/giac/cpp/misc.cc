@@ -7351,13 +7351,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     vecteur v(g.type==_VECT && g.subtype==_SEQ__VECT?*g._VECTptr:vecteur(1,g));
     int s=int(v.size());
 #ifdef EMCC
-    bool plot=true;
+    int plot=1;
 #else
-    bool plot=false;
+    int plot=0;
 #endif
     bool return_tabvar=false,return_equation=false,return_coordonnees=false;
     if (s && v[s-1]==at_plot){
-      plot=true;
+      plot=2;
       v.pop_back();
       --s;
     }
@@ -7458,7 +7458,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       p=funcplotfunc(gen(w,_SEQ__VECT),false,contextptr);
     if (plot){
       poi=mergevecteur(poi,gen2vecteur(p));
-      return gen(poi,_SEQ__VECT);
+      if (plot==2)
+	return gen(poi,_SEQ__VECT);
+      if (plot==1)
+	return tvi; // gprintf("%gen",makevecteur(gen(poi,_SEQ__VECT)),1,contextptr);
     }
     else {
       *logptr(contextptr) << (param?"plotparam(":"plotfunc(") << gen(w,_SEQ__VECT) << ')' <<"\nInside Xcas you can see the function with Cfg>Show>DispG." <<  endl;
