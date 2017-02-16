@@ -13,6 +13,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.view.Views;
 import org.geogebra.web.web.gui.view.Views.ViewType;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 
 import com.google.gwt.user.client.Timer;
@@ -204,6 +205,7 @@ public class ViewMenuW extends GMenuBar {
 
 				if (e.getID() == App.VIEW_ALGEBRA && !shown) {
 					app.setInputPosition(InputPosition.algebraView, true);
+					((AlgebraViewW) app.getAlgebraView()).setDefaultUserWidth();
 				}
 				app.getGuiManager().setShowView(!shown, e.getID());
 				newItem.setSelected(app.getGuiManager().showView(e.getID()));

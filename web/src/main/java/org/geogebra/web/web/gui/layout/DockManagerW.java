@@ -1817,7 +1817,7 @@ public class DockManagerW extends DockManager {
 		});
 	}
 
-	private static double landscapeRatio(double width) {
+	public static double landscapeRatio(double width) {
 		if (width < 300) {
 			return 2.0 / 3.0;
 		}
