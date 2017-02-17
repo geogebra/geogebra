@@ -23,6 +23,12 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 	/**
 	 * @param c
 	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param p
+	 *            polyhedron
+	 * @param v
+	 *            index
 	 */
 	public AlgoPolyhedronNetPrism(Construction c, String[] labels,
 			GeoPolyhedron p, NumberValue v) {
@@ -92,8 +98,9 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 	private Coords pp1;
 
 	@Override
-	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
-
+	public void compute(double fUnsigned, GeoPolygon bottomPolygon,
+			Coords[] points) {
+		double f = fUnsigned;
 		if (pp1 == null) {
 			pp1 = new Coords(4);
 		}

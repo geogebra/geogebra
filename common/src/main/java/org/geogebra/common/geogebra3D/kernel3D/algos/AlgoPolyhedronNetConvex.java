@@ -39,7 +39,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
 
-	private static class SegmentInfo {
+	static class SegmentInfo {
 		int segmentParent1;
 		int segmentParent2;
 		int pointIndex1 = -1;
@@ -47,7 +47,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		boolean userCut = false;
 	}
 
-	private static class PolygonInfoElement {
+	static class PolygonInfoElement {
 		int linkSegNumber;
 		int rank;
 		int segShift;
@@ -242,10 +242,10 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	/**
 	 * 
-	 * @param p
+	 * @param p1
 	 *            : polyhedron
 	 */
-	private boolean makeNetMap(GeoPolyhedron p) {
+	private boolean makeNetMap(GeoPolyhedron p1) {
 
 		netMap.clear();
 		polygonInfo.clear();
@@ -253,7 +253,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		// create the netmap of the polyhedron
 		// each polygon is referred to its father number (-1 if it has no
 		// father) and then its sons if it has any
-		GeoPolygon[] polygonList = p.getFaces();
+		GeoPolygon[] polygonList = p1.getFaces();
 		for (int iP = 0; iP < polygonList.length; iP++) {
 			ArrayList<Integer> linkedPolygonList = new ArrayList<Integer>();
 			netMap.add(linkedPolygonList);
@@ -377,8 +377,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	private Coords projCoord;
 
-	private ArrayList<Integer> rotateFace(int iFace, double f) {
-
+	private ArrayList<Integer> rotateFace(int iFace, double fUnsigned) {
+		double f = fUnsigned;
 		ArrayList<Integer> pointsToRotate = new ArrayList<Integer>();
 
 		// recursive call

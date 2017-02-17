@@ -1406,11 +1406,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return true;
 	}
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param quadric
+	 *            original quadric
+	 */
 	public GeoQuadric3D(GeoQuadric3D quadric) {
 		this(quadric.getConstruction());
 		set(quadric);
 	}
 
+	/**
+	 * @return midpoint
+	 */
 	public Coords getMidpointND() {
 		return getMidpoint3D();
 	}
@@ -1481,6 +1490,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
+	/**
+	 * Cone
+	 * 
+	 * @param origin
+	 *            base origin
+	 * @param direction
+	 *            axis direction
+	 * @param eigen
+	 *            base eigenvector
+	 * @param r
+	 *            major semiaxis
+	 * @param r2
+	 *            minor semiaxis
+	 */
 	public void setCone(Coords origin, Coords direction, Coords eigen, double r,
 			double r2) {
 
@@ -1530,8 +1553,16 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
-	public void setCylinder(GeoPointND origin, Coords direction, double r) {
-
+	/**
+	 * @param origin
+	 *            base origin
+	 * @param direction
+	 *            axis direction
+	 * @param r0
+	 *            radius
+	 */
+	public void setCylinder(GeoPointND origin, Coords direction, double r0) {
+		double r = r0;
 		// check midpoint
 		defined = ((GeoElement) origin).isDefined() && !origin.isInfinite();
 
@@ -1550,13 +1581,43 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
+	/**
+	 * Elliptical cylinder
+	 * 
+	 * @param origin
+	 *            base origin
+	 * @param direction
+	 *            axis direction
+	 * @param eigen
+	 *            base eigenvector
+	 * @param r
+	 *            major semiaxis
+	 * @param r2
+	 *            minor semiaxis
+	 */
 	public void setCylinder(Coords origin, Coords direction, Coords eigen,
 			double r, double r2) {
-		setCylinder(origin, direction, eigen, r, r2, QUADRIC_CYLINDER, 1);
+		setCylinder(origin, direction, eigen, r, r2, 1);
 	}
 
+	/**
+	 * Hyperbolic or elliptic cylinder
+	 * 
+	 * @param origin
+	 *            base origin
+	 * @param direction
+	 *            axis direction
+	 * @param eigen
+	 *            base eigenvector
+	 * @param r
+	 *            major semiaxis
+	 * @param r2
+	 *            minor semiaxis
+	 * @param sgn
+	 *            -1 for hyp, 1 for elliptic
+	 */
 	public void setCylinder(Coords origin, Coords direction, Coords eigen,
-			double r, double r2, int type, double sgn) {
+			double r, double r2, double sgn) {
 
 		// set center
 		setMidpoint(origin.get());
@@ -1583,18 +1644,43 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
-		this.type = type;
+		this.type = sgn > 0 ? QUADRIC_CYLINDER : QUADRIC_HYPERBOLIC_CYLINDER;
 	}
 
+	/**
+	 * Hyperbolic cylinder
+	 * 
+	 * @param origin
+	 *            base origin
+	 * @param direction
+	 *            axis direction
+	 * @param eigen
+	 *            base eigenvector
+	 * @param r
+	 *            major semiaxis
+	 * @param r2
+	 *            minor semiaxis
+	 */
 	public void setHyperbolicCylinder(Coords origin, Coords direction,
 			Coords eigen, double r, double r2) {
 
-		setCylinder(origin, direction, eigen, r, r2,
-				QUADRIC_HYPERBOLIC_CYLINDER, -1);
+		setCylinder(origin, direction, eigen, r, r2, -1);
 	}
 
+	/**
+	 * Parabolic cylinder
+	 * 
+	 * @param origin
+	 *            base origin
+	 * @param direction
+	 *            axis direction
+	 * @param eigen
+	 *            base eigenvector
+	 * @param r2
+	 *            parameter
+	 */
 	public void setParabolicCylinder(Coords origin, Coords direction,
-			Coords eigen, double r, double r2) {
+			Coords eigen, double r2) {
 
 		// set center
 		setMidpoint(origin.get());

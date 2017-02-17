@@ -23,6 +23,12 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	/**
 	 * @param c
 	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param p
+	 *            polyhedron
+	 * @param v
+	 *            index
 	 */
 	public AlgoPolyhedronNetPyramid(Construction c, String[] labels,
 			GeoPolyhedron p, NumberValue v) {
