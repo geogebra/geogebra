@@ -1153,7 +1153,6 @@ __GGB__keysVar.sl.error = {
     "RenameFailed": "Preimenovanje ni uspelo",
     "ReplaceFailed": "Predefiniranje ni uspelo",
     "SaveFileFailed": "Shranjevanje ni uspelo",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Ime ukaza \u017ee uporablja drugo orodje",
     "Tool.CreationFailed": "Orodja ni mogo\u010de narediti",
     "Tool.DeleteUsed": "Orodje je uporabljeno v konstrukciji in ga ni mogo\u010de zbrisati",

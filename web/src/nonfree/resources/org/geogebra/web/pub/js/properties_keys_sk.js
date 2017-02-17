@@ -1153,7 +1153,6 @@ __GGB__keysVar.sk.error = {
     "RenameFailed": "Pomenovanie ne\xfaspe\u0161n\xe9",
     "ReplaceFailed": "Znovudefinovanie ne\xfaspe\u0161n\xe9",
     "SaveFileFailed": "Ulo\u017eenie s\xfaboru ne\xfaspe\u0161n\xe9",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "N\xe1zov pr\xedkazu je pou\u017e\xedvan\xfd in\xfdm n\xe1strojom",
     "Tool.CreationFailed": "Nie je mo\u017en\xe9 vytvori\u0165 n\xe1stroj",
     "Tool.DeleteUsed": "N\xe1stroj je pou\u017e\xedvan\xfd v kon\u0161trukci\xed a nie je mo\u017en\xe9 ho zmaza\u0165",

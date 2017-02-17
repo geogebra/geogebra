@@ -1153,7 +1153,6 @@ __GGB__keysVar.kn.error = {
     "RenameFailed": "\u0cae\u0cb0\u0cc1\u0ca8\u0cbe\u0cae\u0c95\u0cb0\u0ca3 \u0cb5\u0cbf\u0cab\u0cb2\u0cb5\u0cbe\u0c97\u0cbf\u0ca6\u0cc6",
     "ReplaceFailed": "\u0caa\u0cc1\u0ca8\u0cb0\u0ccd\u0ca8\u0cbf\u0cb0\u0cc2\u0caa\u0ca3\u0cc6 \u0cb5\u0cbf\u0cab\u0cb2\u0cb5\u0cbe\u0c97\u0cbf\u0ca6\u0cc6",
     "SaveFileFailed": "\u0c95\u0ca1\u0ca4\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0c89\u0cb3\u0cbf\u0cb8\u0cc1\u0cb5\u0cb2\u0ccd\u0cb2\u0cbf \u0cb5\u0cbf\u0cab\u0cb2\u0cb5\u0cbe\u0c97\u0cbf\u0ca6\u0cc6",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Command name is already used by another tool",
     "Tool.CreationFailed": "\u0c89\u0caa\u0c95\u0cb0\u0ca3\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca8\u0cbf\u0cb0\u0ccd\u0cae\u0cbf\u0cb8\u0cb2\u0cc1 \u0cb8\u0cbe\u0ca7\u0ccd\u0caf\u0cb5\u0cbe\u0c97\u0cbf\u0cb2\u0ccd\u0cb2",
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",

@@ -1153,7 +1153,6 @@ __GGB__keysVar.hr.error = {
     "RenameFailed": "Preimenovanje nije uspjelo",
     "ReplaceFailed": "Redefiniranje nije uspjelo",
     "SaveFileFailed": "Spremanje nije uspjelo",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Ime naredbe je ve\u0107 iskori\u0161teno za drugi alat",
     "Tool.CreationFailed": "Alat nije mogao biti izra\u0111en",
     "Tool.DeleteUsed": "Sljede\u0107i alati su kori\u0161teni u konstrukciji i ne mogu biti obrisani:",

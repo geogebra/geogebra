@@ -1153,7 +1153,6 @@ __GGB__keysVar.zh_TW.error = {
     "RenameFailed": "\u7121\u6cd5\u91cd\u65b0\u547d\u540d",
     "ReplaceFailed": "\u7121\u6cd5\u91cd\u65b0\u5b9a\u7fa9",
     "SaveFileFailed": "\u7121\u6cd5\u5132\u5b58\u6a94\u6848",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "\u6307\u4ee4\u540d\u7a31\u548c\u5176\u4ed6\u5de5\u5177\u91cd\u8907",
     "Tool.CreationFailed": "\u7121\u6cd5\u88fd\u4f5c\u51fa\u5de5\u5177",
     "Tool.DeleteUsed": "\u4f5c\u5716\u4e2d\u6709\u7528\u5230\u6b64\u5de5\u5177\uff0c\u6240\u4ee5\u7121\u6cd5\u522a\u9664",

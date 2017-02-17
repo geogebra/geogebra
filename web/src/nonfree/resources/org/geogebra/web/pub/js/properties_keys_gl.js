@@ -1153,7 +1153,6 @@ __GGB__keysVar.gl.error = {
     "RenameFailed": "Erro ao renomear",
     "ReplaceFailed": "Erro ao redefinir",
     "SaveFileFailed": "Erro ao gardar o ficheiro",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "O nome do comando xa est\xe1 a ser usado por outra ferramenta",
     "Tool.CreationFailed": "A ferramenta non pode ser creada",
     "Tool.DeleteUsed": "A ferramenta est\xe1 a ser empregrada na construci\xf3n e non se pode eliminar",

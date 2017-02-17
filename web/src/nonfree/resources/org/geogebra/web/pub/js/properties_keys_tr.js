@@ -1153,7 +1153,6 @@ __GGB__keysVar.tr.error = {
     "RenameFailed": "Ad de\u011fi\u015ftirme ba\u015far\u0131s\u0131z oldu",
     "ReplaceFailed": "Yeniden tan\u0131mlama ba\u015far\u0131s\u0131z oldu",
     "SaveFileFailed": "Dosyay\u0131 kaydetme ba\u015far\u0131s\u0131z oldu",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Komut ismi hali haz\u0131rda ba\u015fka bir ara\xe7 taraf\u0131ndan kullan\u0131lmaktad\u0131r",
     "Tool.CreationFailed": "Ara\xe7 olu\u015fturulamad\u0131",
     "Tool.DeleteUsed": "A\u015fa\u011f\u0131daki ara\xe7lar, se\xe7ilen nesnelerin olu\u015fturulmas\u0131nda kullan\u0131lm\u0131\u015ft\u0131r ve silinemezler:",

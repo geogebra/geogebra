@@ -1153,7 +1153,6 @@ __GGB__keysVar.pl.error = {
     "RenameFailed": "Zmiana nazwy nie powiod\u0142a si\u0119",
     "ReplaceFailed": "Ponowne zdefiniowanie nie powiod\u0142o si\u0119",
     "SaveFileFailed": "Zapis pliku nie powi\xf3d\u0142 si\u0119",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Ta nazwa polecenia jest ju\u017c u\u017cyta w innym narz\u0119dziu",
     "Tool.CreationFailed": "Narz\u0119dzie nie mog\u0142o by\u0107 stworzone",
     "Tool.DeleteUsed": "Narz\u0119dzie u\u017cyte w konstrukcji nie mo\u017ce by\u0107 usuni\u0119te",

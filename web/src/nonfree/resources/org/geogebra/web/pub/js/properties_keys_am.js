@@ -1153,7 +1153,6 @@ __GGB__keysVar.am.error = {
     "RenameFailed": "\u12f3\u130d\u121d \u1235\u12eb\u121c \u12a0\u120d\u1270\u1233\u12ab\u121d",
     "ReplaceFailed": "\u12f3\u130d\u121d \u1218\u1260\u12e8\u1295 \u12a0\u120d\u1270\u127b\u1208\u121d",
     "SaveFileFailed": "\u134b\u12ed\u120d \u121b\u1235\u1240\u1218\u1325 \u12a0\u120d\u1230\u122b\u121d",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Command name is already used by another tool",
     "Tool.CreationFailed": "\u1218\u1223\u122a\u12eb \u120a\u1348\u1320\u122d \u12a0\u120d\u1270\u127b\u1208\u121d",
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",

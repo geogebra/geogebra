@@ -1153,7 +1153,6 @@ __GGB__keysVar.ca_XV.error = {
     "RenameFailed": "S'ha produ\xeft un error en el canvi de nom",
     "ReplaceFailed": "S'ha produ\xeft un error en la redefinici\xf3",
     "SaveFileFailed": "S'ha produ\xeft un error en guardar el fitxer",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Ja hi ha una ferramenta que utilitza este nom d'orde",
     "Tool.CreationFailed": "No s'ha pogut crear la ferramenta",
     "Tool.DeleteUsed": "S'est\xe0 fent servir la ferramenta i no pot ser eliminada",

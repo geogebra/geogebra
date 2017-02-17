@@ -1153,7 +1153,6 @@ __GGB__keysVar.bn.error = {
     "RenameFailed": "\u09aa\u09c1\u09a8\u0983\u09a8\u09be\u09ae\u0995\u09b0\u09a3 \u09ac\u09cd\u09af\u09b0\u09cd\u09a5 \u09b9\u09df\u09c7\u099b\u09c7",
     "ReplaceFailed": "Redefinition failed",
     "SaveFileFailed": "\u09ab\u09be\u0987\u09b2 \u09b8\u0982\u09b0\u0995\u09cd\u09b7\u09a3 \u09ac\u09cd\u09af\u09b0\u09cd\u09a5 \u09b9\u09df\u09c7\u099b\u09c7",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Command name is already used by another tool",
     "Tool.CreationFailed": "Tool could not be created",
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",

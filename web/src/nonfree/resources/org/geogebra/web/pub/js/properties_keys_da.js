@@ -1153,7 +1153,6 @@ __GGB__keysVar.da.error = {
     "RenameFailed": "Filen kunne ikke f\xe5 nyt navn",
     "ReplaceFailed": "Filen kunne ikke overskrives",
     "SaveFileFailed": "Filen kunne ikke gemmes",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Navnet er allerede brugt af et andet v\xe6rkt\xf8j",
     "Tool.CreationFailed": "V\xe6rkt\xf8jet kunne ikke laves",
     "Tool.DeleteUsed": "V\xe6rkt\xf8jet er brugt i konstruktionen og kan ikke slettes",

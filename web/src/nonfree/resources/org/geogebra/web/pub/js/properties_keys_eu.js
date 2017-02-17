@@ -1153,7 +1153,6 @@ __GGB__keysVar.eu.error = {
     "RenameFailed": "Errorea berriro izendatzean",
     "ReplaceFailed": "Errorea berriro definitzean",
     "SaveFileFailed": "Errorea artxiboa gordetzean",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Komandoaren izena beste tresna batena da.",
     "Tool.CreationFailed": "Tresna ezin da sortu.",
     "Tool.DeleteUsed": "Tresna hauek hautatutako objektuak eraikitzeko erabili dira eta ezin dira ezabatu:",

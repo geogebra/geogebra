@@ -1153,7 +1153,6 @@ __GGB__keysVar.sq.error = {
     "RenameFailed": "Riemertimi deshtoi",
     "ReplaceFailed": "Ripercaktimi deshtoi",
     "SaveFileFailed": "Ruajtja e dokumentit deshtoi",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Emri komandes tashme eshte perdorur nga mjet tjeter.",
     "Tool.CreationFailed": "Mjeti nuk mund te krijohej.",
     "Tool.DeleteUsed": "Mjeti eshte perdorur ne ndertim dhe nuk mund te fshihej.",

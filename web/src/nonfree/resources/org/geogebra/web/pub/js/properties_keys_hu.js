@@ -1153,7 +1153,6 @@ __GGB__keysVar.hu.error = {
     "RenameFailed": "\xc1tnevez\xe9s sikertelen",
     "ReplaceFailed": "\xdajradefini\xe1l\xe1s sikertelen",
     "SaveFileFailed": "F\xe1jl ment\xe9se sikertelen",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "A parancsnevet egy m\xe1sik eszk\xf6z m\xe1r haszn\xe1lja",
     "Tool.CreationFailed": "Eszk\xf6z l\xe9trehoz\xe1sa sikertelen",
     "Tool.DeleteUsed": "A k\xf6vetkez\u0151 eszk\xf6z\xf6k nem t\xf6r\xf6lhet\u0151k, mert a kijel\xf6lt alakzatok l\xe9trehoz\xe1sakor fel lettek haszn\xe1lva:",

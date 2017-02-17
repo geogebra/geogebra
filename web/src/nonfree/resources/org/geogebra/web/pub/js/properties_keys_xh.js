@@ -1153,7 +1153,6 @@ __GGB__keysVar.xh.error = {
     "RenameFailed": "Utshintsho lwegama aluphumelelanga",
     "ReplaceFailed": "Uhlaziyo lwentsingiselo aluphumelelanga",
     "SaveFileFailed": "Ifayile ayigcinekanga",
-    "SaveLocalFileFailed": "Saving file locally failed",
     "Tool.CommandNameTaken": "Igama lomyalelo selisetyenziswa sesinye isixhobo",
     "Tool.CreationFailed": "Isixhobo asikwazanga kwakhiwa",
     "Tool.DeleteUsed": "Kusetyenziswe ezizixhobo ukwakha izinto ezikhethiweyo kwaye azikwazikucinywa:",
