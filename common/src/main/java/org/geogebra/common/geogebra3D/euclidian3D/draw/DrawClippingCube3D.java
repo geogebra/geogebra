@@ -354,7 +354,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	@Override
 	protected void updateForView() {
-
+		// nothing to do
 	}
 
 	@Override
@@ -451,19 +451,21 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 	private static double[] updateInterval(double[] minmax, double v1,
 			double v2) {
-
+		double vMin, vMax;
 		if (v1 > v2) {
-			double v = v1;
-			v1 = v2;
-			v2 = v;
+			vMax = v1;
+			vMin = v2;
+		} else {
+			vMax = v2;
+			vMin = v1;
 		}
 
-		if (v1 > minmax[0]) {
-			minmax[0] = v1;
+		if (vMin > minmax[0]) {
+			minmax[0] = vMin;
 		}
 
-		if (v2 < minmax[1]) {
-			minmax[1] = v2;
+		if (vMax < minmax[1]) {
+			minmax[1] = vMax;
 		}
 
 		return minmax;

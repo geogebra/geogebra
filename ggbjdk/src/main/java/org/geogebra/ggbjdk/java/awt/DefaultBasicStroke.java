@@ -1444,18 +1444,16 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Dasher class provides dashing for particular dash style
 	 */
-	class Dasher {
+	static class Dasher {
 
 		double pos;
 		boolean close, visible, first;
 		double dash1[];
-		double phase;
 		int index;
 		DashIterator iter;
 
 		Dasher(double dash[], double phase) {
 			this.dash1 = dash;
-			this.phase = phase;
 			index = 0;
 			pos = phase;
 			visible = true;

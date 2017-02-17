@@ -175,16 +175,19 @@ public class Point extends Point2D implements java.io.Serializable {
     }
 
     /**
-     * Moves this point to the specified location in the
-     * {@code (x,y)} coordinate plane. This method
-     * is identical with <code>setLocation(int,&nbsp;int)</code>.
-     * @param       x the X coordinate of the new location
-     * @param       y the Y coordinate of the new location
-     * @see         java.awt.Component#setLocation(int, int)
-     */
-    public void move(int x, int y) {
-        this.x = x;
-        this.y = y;
+	 * Moves this point to the specified location in the {@code (x,y)}
+	 * coordinate plane. This method is identical with
+	 * <code>setLocation(int,&nbsp;int)</code>.
+	 * 
+	 * @param x1
+	 *            the X coordinate of the new location
+	 * @param y1
+	 *            the Y coordinate of the new location
+	 * @see java.awt.Component#setLocation(int, int)
+	 */
+	public void move(int x1, int y1) {
+		this.x = x1;
+		this.y = y1;
     }
 
     /**
@@ -215,8 +218,8 @@ public class Point extends Point2D implements java.io.Serializable {
      */
     @Override
 	public boolean equals(Object obj) {
-        if (obj instanceof GPoint) {
-            GPoint pt = (GPoint)obj;
+		if (obj instanceof Point) {
+			Point pt = (Point) obj;
             return (x == pt.x) && (y == pt.y);
         }
         return super.equals(obj);
