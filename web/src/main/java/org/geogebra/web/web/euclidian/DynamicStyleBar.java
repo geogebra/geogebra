@@ -22,7 +22,19 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	@Override
 	public void setPosition(double[] newPos) {
+
+		// Calculates the x param. of distance between the start of dynamic
+		// stylebar and the three dot button.
+		boolean oldVisible = this.isVisible();
+		this.setVisible(true);
+		this.getElement().getStyle().setTop(-10000, Unit.PX);
+		int move = this.getViewButton().getAbsoluteLeft()
+				- this.getAbsoluteLeft();
+		this.setVisible(oldVisible);
+
+		newPos[0] -= move;
 		Log.debug("newpos: " + newPos[0] + " " + newPos[1]);
+
 		this.getElement().getStyle().setLeft(newPos[0], Unit.PX);
 		this.getElement().getStyle().setTop(newPos[1], Unit.PX);
 	}
