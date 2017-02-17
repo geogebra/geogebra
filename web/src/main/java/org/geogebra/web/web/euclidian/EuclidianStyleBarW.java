@@ -41,8 +41,6 @@ import org.geogebra.web.web.gui.util.PointStylePopup;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -1449,9 +1447,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	public void setPosition(double[] newPos) {
-		Log.debug("newpos: " + newPos[0] + " " + newPos[1]);
-		this.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		this.getElement().getStyle().setLeft(newPos[0], Unit.PX);
-		this.getElement().getStyle().setTop(newPos[1], Unit.PX);
+		//used only in DynamicStyleBar class
 	}
 }
