@@ -2861,7 +2861,7 @@ public class ExpressionNode extends ValidExpression
 				MathmlTemplate.mathml(sb, "<alt/>", leftStr, null);
 				break;
 			case LATEX:
-				sb.append("\\alt \\left( ");
+				sb.append("\\operatorname{alt} \\left( ");
 				sb.append(leftStr);
 				sb.append("\\right)");
 				break;
