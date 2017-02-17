@@ -178,7 +178,7 @@ public class AlgoIteration extends AlgoElement {
 		double offset = Math
 				.round(((GeoList) startValueGeo).get(1).evaluateDouble());
 		for (int i = 0; i < iterations; i++) {
-			val = fNVar.evaluate(val, offset + i);
+			val = fNVar.evaluate(offset + i, val);
 		}
 		((GeoNumeric) result).setValue(val);
 	}
