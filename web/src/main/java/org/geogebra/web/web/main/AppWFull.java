@@ -238,7 +238,7 @@ public abstract class AppWFull extends AppW {
 	 * @param run
 	 *            localization callback
 	 */
-	public void afterLocalizationLoaded(Runnable run) {
+	public final void afterLocalizationLoaded(Runnable run) {
 		if (localizationLoaded) {
 			run.run();
 		} else {
@@ -427,6 +427,7 @@ public abstract class AppWFull extends AppW {
 	 */
 	@Override
 	public void examWelcome(){
+		Log.printStacktrace("EXAM DIALOG");
 		if (isExam() && getExam().getStart() < 0) {
 			this.closePerspectivesPopup();
 
