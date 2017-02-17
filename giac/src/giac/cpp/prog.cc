@@ -5902,7 +5902,7 @@ namespace giac {
     }
     if (!v.empty() && (f==at_inferieur_strict || f==at_inferieur_strict_sort)){
       // check integer or double vector
-      if (v.front().type==_INT_ && is_integer_vecteur(v)){
+      if (v.front().type==_INT_ && is_integer_vecteur(v,true)){
 	// find min/max
 	vector<int> w(vecteur_2_vector_int(v));
 	int m=giacmin(w),M=giacmax(w);
