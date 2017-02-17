@@ -40,7 +40,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			setTitle(loc.getMenu("DrawingPad"));
 		}
-
+		addPasteItem();
 		addAxesAndGridCheckBoxes();
 
 		addNavigationBar();
@@ -295,6 +295,15 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			zoomYaxis(Double.parseDouble(command));
 		} catch (Exception ex) {
 		}
+	}
+
+	@Override
+	protected void updateEditItems() {
+		if (!isWhiteboard()) {
+			return;
+		}
+
+		updatePasteItem();
 	}
 
 }

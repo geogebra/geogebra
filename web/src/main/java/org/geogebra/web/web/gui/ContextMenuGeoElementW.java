@@ -121,7 +121,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 		addForAllItems();
 	}
 
-	private boolean isWhiteboard() {
+	protected boolean isWhiteboard() {
 		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
 	}
 
@@ -426,19 +426,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			}
 		}, null, loc.getMenu("Duplicate"));
 
-		mnuPaste = addAction(new Command() {
-
-			public void execute() {
-				if (!app.getCopyPaste().isEmpty()) {
-					app.setWaitCursor();
-					app.getCopyPaste().pasteFromXML(app, false);
-					app.setDefaultCursor();
-				}
-			}
-		}, MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_paste()
-				.getSafeUri().asString(), loc.getMenu("Paste"), true),
-				loc.getMenu("Paste"));
-
+		addPasteItem();
+		
 		mnuDelete = addAction(new Command() {
 
 				public void execute() {
@@ -451,14 +440,33 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		updateEditItems();
 	}
 
-	private void updateEditItems() {
+	protected void addPasteItem() {
+		mnuPaste = addAction(new Command() {
+
+			public void execute() {
+				if (!app.getCopyPaste().isEmpty()) {
+					app.setWaitCursor();
+					app.getCopyPaste().pasteFromXML(app, false);
+					app.setDefaultCursor();
+				}
+			}
+		}, MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_edit_paste()
+				.getSafeUri().asString(), loc.getMenu("Paste"), true),
+				loc.getMenu("Paste"));
+	}
+
+	protected void updatePasteItem() {
+		mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
+	}
+
+	protected void updateEditItems() {
 		if (!isWhiteboard()) {
 			return;
 		}
 
 		boolean canDelete = app.letDelete() && !getGeo().isFixed();
 		mnuCut.setEnabled(canDelete);
-		mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
+		updatePasteItem();
 		mnuDelete.setEnabled(canDelete);
 	}
 
