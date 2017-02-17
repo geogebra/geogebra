@@ -46,6 +46,17 @@ public class AlgoTaylorSeries extends AlgoElement {
 
 	/**
 	 * Creates new Taylor series for function f about the point x=a of order n.
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function
+	 * @param a
+	 *            start value
+	 * @param n
+	 *            degree
 	 */
 	public AlgoTaylorSeries(Construction cons, String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue n) {
@@ -81,6 +92,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoFunction getPolynomial() {
 		return g;
 	}

@@ -1,11 +1,13 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.AlgoTextElement;
 import org.geogebra.common.kernel.algos.AlgoListElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -43,6 +45,15 @@ public class CmdElement extends CommandProcessor {
 						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getElement() };
+				return ret;
+			}
+			if ((ok[0] = arg[0].isGeoText())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
+				AlgoTextElement algo = new AlgoTextElement(cons, c.getLabel(),
+						(GeoText) arg[0], (GeoNumberValue) arg[1]);
+
+				GeoElement[] ret = { algo.getText() };
 				return ret;
 			}
 			throw argErr(app, c, getBadArg(ok, arg));

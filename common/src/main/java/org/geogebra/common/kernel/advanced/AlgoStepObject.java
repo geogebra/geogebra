@@ -25,17 +25,25 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Returns the name of a GeoElement as a GeoText.
+ * Returns the construction step of a GeoElement
  * 
  * @author Markus
  */
 public class AlgoStepObject extends AlgoElement {
 
 	private GeoElement inputGeo; // input
-	protected GeoNumeric num; // output
+	private GeoNumeric num; // output
 
 	// private Construction cons;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputGeo
+	 *            geo
+	 */
 	public AlgoStepObject(Construction cons, String label,
 			GeoElement inputGeo) {
 		super(cons);
@@ -66,6 +74,9 @@ public class AlgoStepObject extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return construction step of the geo
+	 */
 	public GeoNumeric getResult() {
 		return num;
 	}

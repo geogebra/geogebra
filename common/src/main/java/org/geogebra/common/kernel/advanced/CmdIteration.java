@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -53,19 +52,19 @@ public class CmdIteration extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if (app.has(Feature.ITERATION_LIST_DOUBLE)) {
-				if ((ok[0] = (arg[0].isGeoFunctionNVar()
-						&& ((GeoFunctionNVar) arg[0]).isFun2Var()))
-						&& (ok[1] = arg[1] instanceof GeoList)
-						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-					AlgoIteration algo = new AlgoIteration(cons, c.getLabel(),
-							(GeoFunctionNVar) arg[0], (GeoList) arg[1],
-							(GeoNumberValue) arg[2]);
 
-					GeoElement[] ret = { algo.getResult() };
-					return ret;
-				}
+			if ((ok[0] = (arg[0].isGeoFunctionNVar()
+					&& ((GeoFunctionNVar) arg[0]).isFun2Var()))
+					&& (ok[1] = arg[1] instanceof GeoList)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+				AlgoIteration algo = new AlgoIteration(cons, c.getLabel(),
+						(GeoFunctionNVar) arg[0], (GeoList) arg[1],
+						(GeoNumberValue) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
 			}
+
 			throw argErr(app, c, getBadArg(ok, arg));
 		default:
 			GeoElement arg1 = null;

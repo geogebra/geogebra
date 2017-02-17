@@ -37,6 +37,16 @@ public class AlgoTextElement extends AlgoElement {
 	private GeoElement numGeo;
 	private GeoText textOut; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param text
+	 *            input text
+	 * @param num
+	 *            index
+	 */
 	public AlgoTextElement(Construction cons, String label, GeoText text,
 			GeoNumberValue num) {
 		super(cons);
@@ -69,8 +79,11 @@ public class AlgoTextElement extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoText getText() {
-		return text;
+		return textOut;
 	}
 
 	@Override

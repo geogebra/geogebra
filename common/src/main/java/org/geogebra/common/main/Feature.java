@@ -101,7 +101,6 @@ public enum Feature {
 	/** GGB-798 */
 	AV_SCROLL,
 
-	ITERATION_LIST_DOUBLE,
 
 	/** MOB-885 */
 	MOBILE_PROGRESS_DIALOG_CANCEL,

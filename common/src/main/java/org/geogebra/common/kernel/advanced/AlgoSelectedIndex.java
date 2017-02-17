@@ -20,14 +20,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * n-th element of a GeoList object.
+ * Selected index of a GeoList object.
  * 
- * Note: the type of the returned GeoElement object is determined by the type of
- * the first list element. If the list is initially empty, a GeoNumeric object
- * is created for element.
- * 
- * @author Markus Hohenwarter
- * @version 15-07-2007
  */
 
 public class AlgoSelectedIndex extends AlgoElement {
@@ -39,8 +33,11 @@ public class AlgoSelectedIndex extends AlgoElement {
 	 * Creates new selected index algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param geoList
+	 *            list
 	 */
 	public AlgoSelectedIndex(Construction cons, String label, GeoList geoList) {
 		super(cons);

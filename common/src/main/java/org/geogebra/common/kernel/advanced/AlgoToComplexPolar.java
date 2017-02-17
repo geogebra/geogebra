@@ -12,6 +12,11 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 
+/**
+ * Converts number, list, vector or point to complex number or polar
+ * vector/point
+ *
+ */
 public class AlgoToComplexPolar extends AlgoElement {
 	private int coordStyle;
 	private GeoPoint inPoint;
@@ -21,6 +26,16 @@ public class AlgoToComplexPolar extends AlgoElement {
 	private GeoVector outVector;
 	private GeoNumberValue inNumber;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoPoint
+	 *            input point
+	 * @param coordStyle
+	 *            Kernel.COORD_COMPLEX or COORD_POLAR
+	 */
 	public AlgoToComplexPolar(Construction cons, String label,
 			GeoPoint geoPoint, int coordStyle) {
 		super(cons);
@@ -29,6 +44,16 @@ public class AlgoToComplexPolar extends AlgoElement {
 		init(coordStyle, outPoint, label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            input list
+	 * @param coordStyle
+	 *            Kernel.COORD_COMPLEX or COORD_POLAR
+	 */
 	public AlgoToComplexPolar(Construction cons, String label, GeoList geoList,
 			int coordStyle) {
 		super(cons);
@@ -37,14 +62,34 @@ public class AlgoToComplexPolar extends AlgoElement {
 		init(coordStyle, outPoint, label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoNum
+	 *            input number
+	 * @param coordStyle
+	 *            Kernel.COORD_COMPLEX or COORD_POLAR
+	 */
 	public AlgoToComplexPolar(Construction cons, String label,
-			GeoNumberValue geoList, int coordStyle) {
+			GeoNumberValue geoNum, int coordStyle) {
 		super(cons);
-		inNumber = geoList;
+		inNumber = geoNum;
 		outPoint = new GeoPoint(cons);
 		init(coordStyle, outPoint, label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoVector
+	 *            input vector
+	 * @param coordStyle
+	 *            Kernel.COORD_COMPLEX or COORD_POLAR
+	 */
 	public AlgoToComplexPolar(Construction cons, String label,
 			GeoVector geoVector, int coordStyle) {
 		super(cons);
