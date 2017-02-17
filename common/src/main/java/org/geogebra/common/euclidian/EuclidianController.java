@@ -3871,7 +3871,7 @@ public abstract class EuclidianController {
 		selection.clearLists();
 		view.setBoundingBox(null);
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			setDynamicStylebarVisible(false, null);
+			setDynamicStylebarVisible(false);
 		}
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
@@ -8302,7 +8302,8 @@ public abstract class EuclidianController {
 			view.setBoundingBox(boundingBox);
 			if (app.has(Feature.DYNAMIC_STYLEBAR) && boundingBox != null) {
 				Log.debug("drawstylebar");
-				setDynamicStylebarVisible(true, boundingBox.getRectangle());
+				setDynamicStyleBarPosition(boundingBox.getRectangle());
+				setDynamicStylebarVisible(true);
 			}
 			view.repaintView();
 		}
@@ -8343,11 +8344,16 @@ public abstract class EuclidianController {
 	/**
 	 * @param visible
 	 *            whether to show
+	 */
+	protected void setDynamicStylebarVisible(boolean visible) {
+		// Floating stylebar not supported
+	}
+
+	/**
 	 * @param gRectangle2D
 	 *            position
 	 */
-	protected void setDynamicStylebarVisible(boolean visible,
-			GRectangle2D gRectangle2D) {
+	protected void setDynamicStyleBarPosition(GRectangle2D gRectangle2D) {
 		// Floating stylebar not supported
 	}
 
