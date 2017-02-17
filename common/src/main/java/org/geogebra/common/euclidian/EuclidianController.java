@@ -3871,7 +3871,9 @@ public abstract class EuclidianController {
 		selection.clearLists();
 		view.setBoundingBox(null);
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			setDynamicStylebarVisible(false);
+			if (this.getView().hasDynamicStyleBar()) {
+				setDynamicStylebarVisible(false);
+			}
 		}
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
