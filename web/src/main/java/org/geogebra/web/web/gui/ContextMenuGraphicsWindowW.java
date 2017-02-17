@@ -40,7 +40,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			setTitle(loc.getMenu("DrawingPad"));
 		}
+
 		addPasteItem();
+
 		addAxesAndGridCheckBoxes();
 
 		addNavigationBar();
