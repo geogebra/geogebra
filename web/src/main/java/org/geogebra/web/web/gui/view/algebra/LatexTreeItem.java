@@ -336,7 +336,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	@Override
 	public void cancelEditing() {
-		// TODO Auto-generated method stub
+		this.stopEditing(null, null);
 
 	}
 

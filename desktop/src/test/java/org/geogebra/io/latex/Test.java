@@ -104,6 +104,11 @@ public class Test {
 						GeoGebraSerializer.reparse(mathField.getFormula()));
 
 			}
+
+			public boolean onEscape() {
+				// TODO Auto-generated method stub
+				return false;
+			}
 		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));

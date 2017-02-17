@@ -372,4 +372,9 @@ public class CASLaTeXEditor extends FlowPanel
 
 	}
 
+	public boolean onEscape() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

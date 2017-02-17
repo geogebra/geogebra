@@ -136,4 +136,9 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	}
 
+	public boolean onEscape() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

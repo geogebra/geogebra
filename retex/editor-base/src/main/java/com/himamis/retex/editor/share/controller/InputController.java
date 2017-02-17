@@ -547,24 +547,27 @@ public class InputController {
 	 * Insert symbol.
 	 */
 	public void escSymbol(EditorState editorState) {
-		String name = ArgumentHelper.readCharacters(editorState);
-		while (name.length() > 0) {
-			if (metaModel.isSymbol(name)) {
-				delCharacters(editorState, name.length());
-				MetaCharacter meta = metaModel.getSymbol(name);
-				newCharacter(editorState, meta);
-				break;
-
-			} else if (metaModel.isOperator(name)) {
-				delCharacters(editorState, name.length());
-				MetaCharacter meta = metaModel.getOperator(name);
-				newCharacter(editorState, meta);
-				break;
-
-			} else {
-				name = name.substring(1, name.length());
-			}
-		}
+		editorState.getRootComponent().clearArguments();
+		editorState.setCurrentField(editorState.getRootComponent());
+		editorState.setCurrentOffset(0);
+		// String name = ArgumentHelper.readCharacters(editorState);
+		// while (name.length() > 0) {
+		// if (metaModel.isSymbol(name)) {
+		// delCharacters(editorState, name.length());
+		// MetaCharacter meta = metaModel.getSymbol(name);
+		// newCharacter(editorState, meta);
+		// break;
+		//
+		// } else if (metaModel.isOperator(name)) {
+		// delCharacters(editorState, name.length());
+		// MetaCharacter meta = metaModel.getOperator(name);
+		// newCharacter(editorState, meta);
+		// break;
+		//
+		// } else {
+		// name = name.substring(1, name.length());
+		// }
+		// }
 	}
 
 	/**

@@ -317,4 +317,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 		t.schedule(200);
 
 	}
+
+	public boolean onEscape() {
+		if (item.geo != null) {
+			item.cancelEditing();
+			return true;
+		}
+		return false;
+	}
 }

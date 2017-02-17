@@ -18,4 +18,6 @@ public interface MathFieldListener {
 	public String serialize(MathSequence selectionText);
 
 	public void onInsertString();
+
+	public boolean onEscape();
 }
