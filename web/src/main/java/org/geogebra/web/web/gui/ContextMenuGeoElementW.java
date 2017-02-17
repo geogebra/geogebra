@@ -46,6 +46,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	protected GPopupMenuW wrappedPopup;
 	protected Localization loc;
+	private MenuItem mnuCopy;
+	private MenuItem mnuCut;
+	private MenuItem mnuDuplicate;
+	private MenuItem mnuPaste;
+	private MenuItem mnuDelete;
 
 	/**
 	 * Creates new context menu
@@ -122,8 +127,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	private void addForAllItems() {
 		if (isWhiteboard()) {
-		addCopyPaste();
-		wrappedPopup.addSeparator();
+			addEditItems();
+			wrappedPopup.addSeparator();
 		}
 		// SHOW, HIDE
 
@@ -363,12 +368,30 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							loc.getMenu("Properties")),
 					loc.getMenu("Properties"));
 		}
+		if (isWhiteboard()) {
+			wrappedPopup.addSeparator();
+			addOtherEllipseMenu();
+		}
 
 	}
 
-	private void addCopyPaste() {
-		final SelectionManager selection = app.getSelectionManager();
+	private void addOtherEllipseMenu() {
 		addAction(new Command() {
+
+			@Override
+			public void execute() {
+				// TODO
+			}
+		}, MainMenu.getMenuBarHtml(null, loc.getMenu("Other")),
+				loc.getMenu("Other"));
+	}
+
+	private void addEditItems() {
+		if (!isWhiteboard()) {
+			return;
+		}
+		final SelectionManager selection = app.getSelectionManager();
+		mnuCut = addAction(new Command() {
 
 			public void execute() {
 				app.setWaitCursor();
@@ -377,7 +400,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			}
 		}, null, loc.getMenu("Cut"));
 
-		addAction(new Command() {
+		mnuCopy = addAction(new Command() {
 
 			public void execute() {
 				if (!selection.getSelectedGeos().isEmpty()) {
@@ -393,7 +416,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				.getSafeUri().asString(), loc.getMenu("Copy"), true),
 				loc.getMenu("Copy"));
 
-		addAction(new Command() {
+		mnuDuplicate = addAction(new Command() {
 
 			public void execute() {
 				app.setWaitCursor();
@@ -403,7 +426,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			}
 		}, null, loc.getMenu("Duplicate"));
 
-		addAction(new Command() {
+		mnuPaste = addAction(new Command() {
 
 			public void execute() {
 				if (!app.getCopyPaste().isEmpty()) {
@@ -416,9 +439,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				.getSafeUri().asString(), loc.getMenu("Paste"), true),
 				loc.getMenu("Paste"));
 
-		if (app.letDelete() && !getGeo().isFixed()) {
-
-			addAction(new Command() {
+		mnuDelete = addAction(new Command() {
 
 				public void execute() {
 					deleteCmd(false);
@@ -426,7 +447,19 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			}, MainMenu.getMenuBarHtml(AppResources.INSTANCE.delete_small()
 					.getSafeUri().asString(),
 					loc.getMenu("Delete"), true), loc.getMenu("Delete"));
+
+		updateEditItems();
+	}
+
+	private void updateEditItems() {
+		if (!isWhiteboard()) {
+			return;
 		}
+
+		boolean canDelete = app.letDelete() && !getGeo().isFixed();
+		mnuCut.setEnabled(canDelete);
+		mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
+		mnuDelete.setEnabled(canDelete);
 	}
 
 	private void addPin() {
@@ -804,11 +837,12 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 	}
 
 	public void show(Canvas c, int x, int y) {
-
+		updateEditItems();
 		wrappedPopup.show(c, x, y);
 	}
 
 	public void show(GPoint p) {
+		updateEditItems();
 		wrappedPopup.show(p);
 	}
 
