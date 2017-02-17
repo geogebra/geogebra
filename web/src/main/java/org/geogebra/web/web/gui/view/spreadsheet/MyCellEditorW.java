@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.web.MathFieldW;
 
 //import geogebra.web.gui.virtualkeyboard.VirtualKeyboard;
 
@@ -358,7 +359,12 @@ public class MyCellEditorW implements BaseCellEditor {
 		public void onKeyPress(KeyPressEvent e) {
 			// iOS: we do receive the event but nothing is actually printed
 			// because focus moved from dummy textarea into editor
-
+			if (MathFieldW.checkCode(e.getNativeEvent(), "NumpadDecimal")) {
+				autoCompleteTextField.insertString(".");
+				e.preventDefault();
+				e.stopPropagation();
+				return;
+			}
 			final String charcode = e.getCharCode() + "";
 			if (MyCellEditorW.this.allowAutoEdit) {
 				app.invokeLater(new Runnable() {
