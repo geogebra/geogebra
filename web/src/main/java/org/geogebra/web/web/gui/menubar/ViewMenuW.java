@@ -138,6 +138,7 @@ public class ViewMenuW extends GMenuBar {
 						timer.schedule(0);
 					}
 				}, true, app);
+		inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
 
 		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
@@ -157,6 +158,8 @@ public class ViewMenuW extends GMenuBar {
 				}
 			}
 				}, true, app);
+		consProtNav.setForceCheckbox(true);
+
 		addItem(consProtNav.getMenuItem());
 
 
@@ -177,6 +180,7 @@ public class ViewMenuW extends GMenuBar {
 							app.toggleMenu();
 						}
 					}, true, app);
+			dataCollection.setForceCheckbox(true);
 			if (!app.isExam()) {
 			addItem(dataCollection.getMenuItem());
 			}
