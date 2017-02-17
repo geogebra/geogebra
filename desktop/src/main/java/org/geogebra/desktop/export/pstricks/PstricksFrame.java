@@ -129,7 +129,7 @@ public class PstricksFrame extends ExportFrame {
 		js.setPreferredSize(new Dimension(400, 400));
 		getContentPane().add(panel);
 		centerOnScreen();
-		setVisible(true);
+
 	}
 
 	// end changes.

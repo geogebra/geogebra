@@ -44,9 +44,9 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
 			exportPSTricksAction, exportAsymptoteAction, exportPDFaction;
-
+	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
-
+	/** share item */
 	AbstractAction exportGeoGebraTubeAction;
 
 	private AbstractAction drawingPadToClipboardAction;
@@ -57,6 +57,10 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 	private AbstractAction exitAllAction;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public FileMenuD(AppD app) {
 		super(app, "File");
 
@@ -444,11 +448,10 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
 					GeoGebraToPstricksD export = new GeoGebraToPstricksD(app);
-					new PstricksFrame(export);
+					new PstricksFrame(export).setVisible(true);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {

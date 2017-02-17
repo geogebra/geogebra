@@ -144,6 +144,7 @@ import org.geogebra.desktop.util.UtilD;
  * This is done to be able to put class files of geogebra.gui.* packages into a
  * separate gui jar file.
  */
+@SuppressWarnings("javadoc")
 public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	private final static boolean USE_COMPRESSED_VIEW = true;
@@ -1339,8 +1340,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * @param transfer
 	 * @return fileName of image stored in imageManager
 	 */
-	public String[] getImageFromTransferable(Transferable transfer) {
-
+	@SuppressWarnings("unchecked")
+	public String[] getImageFromTransferable(Transferable transfer0) {
+		Transferable transfer = transfer0;
 		BufferedImage img = null;
 		String fileName = null;
 		ArrayList<String> nameList = new ArrayList<String>();
@@ -1515,8 +1517,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * 
 	 * @return fileName of image stored in imageManager
 	 */
-	public String getImageFromFile(File imageFile) {
-
+	public String getImageFromFile(File imageFile0) {
+		File imageFile = imageFile0;
 		MyImageD img = new MyImageD();
 		String fileName = null;
 		try {
@@ -1834,9 +1836,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public File showSaveDialog(FileExtensions fileExtension, File selectedFile,
+	public File showSaveDialog(FileExtensions fileExtension, File selectedFile0,
 			String fileDescription, boolean promptOverwrite, boolean dirsOnly) {
-
+		File selectedFile = selectedFile0;
 		if (selectedFile == null) {
 			selectedFile = removeExtension(((AppD) app).getCurrentFile());
 		}
@@ -1848,9 +1850,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public File showSaveDialog(final FileExtensions[] fileExtensions,
-			File selectedFile, String[] fileDescriptions,
+			File selectedFile0, String[] fileDescriptions,
 			boolean promptOverwrite, boolean dirsOnly) {
 		boolean done = false;
+		File selectedFile = selectedFile0;
 		File file = null;
 
 		if (fileExtensions == null || fileExtensions.length == 0
@@ -2402,9 +2405,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	// See http://stackoverflow.com/questions/6198894/java-encode-url for an
 	// explanation
-	public static URL getEscapedUrl(String url) throws Exception {
-		if (url.startsWith("www")) {
-			url = "http://" + url;
+	public static URL getEscapedUrl(String url0) throws Exception {
+		String url;
+		if (url0.startsWith("www")) {
+			url = "http://" + url0;
+		} else {
+			url = url0;
 		}
 		URL u = new URL(url);
 		return new URI(u.getProtocol(), u.getAuthority(), u.getPath(),
@@ -3083,9 +3089,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public void loadImage(GeoPoint loc, Object transfer, boolean fromClipboard,
+	public void loadImage(GeoPoint corner, Object transfer,
+			boolean fromClipboard,
 			EuclidianView ev) {
-		loadImage(loc, fromClipboard, (Transferable) transfer, ev);
+		loadImage(corner, fromClipboard, (Transferable) transfer, ev);
 
 	}
 
@@ -3097,7 +3104,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * 
 	 * @return whether a new image was created or not
 	 */
-	public boolean loadImage(GeoPoint loc, boolean fromClipboard,
+	public boolean loadImage(GeoPoint corner, boolean fromClipboard,
 			Transferable transfer, EuclidianView ev) {
 		app.setWaitCursor();
 
@@ -3126,17 +3133,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				app.setDefaultCursor();
 				return true;
 			}
-			if (!loc.isLabelSet()) {
-				loc.setLabel(null);
+			if (!corner.isLabelSet()) {
+				corner.setLabel(null);
 			}
 
 			for (int i = 0; i < fileName.length; i++) {
 				GeoPoint point1;
 				if (i == 0) {
-					point1 = loc;
+					point1 = corner;
 				} else {
 					point1 = new GeoPoint(app.getKernel().getConstruction());
-					point1.setCoordsFromPoint(loc);
+					point1.setCoordsFromPoint(corner);
 					point1.setLabel(null);
 				}
 
@@ -3209,7 +3216,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void showPSTricksExport() {
 		GeoGebraToPstricks export = new GeoGebraToPstricksD(app);
-		new PstricksFrame(export);
+		new PstricksFrame(export).setVisible(true);
 
 	}
 
