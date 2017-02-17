@@ -5666,6 +5666,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * @return whether dynamic stylebar exists
+	 */
+	public final boolean hasDynamicStyleBar() {
+		return dynamicStyleBar != null;
+	}
+
+	/**
 	 * 
 	 * @return new euclidian style bar
 	 */

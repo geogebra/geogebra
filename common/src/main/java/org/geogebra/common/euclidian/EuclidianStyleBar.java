@@ -66,4 +66,7 @@ public interface EuclidianStyleBar {
 	void reinit();
 
 	void setPosition(double[] newPos);
+
+	void setVisible(boolean b);
+
 }

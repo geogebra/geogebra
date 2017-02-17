@@ -427,16 +427,19 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	protected void setDynamicStylebarVisible(boolean visible,
 			GRectangle2D gRectangle2D) {
-		// DockManager dm = ((AppW) app).getGuiManager().getLayout()
-		// .getDockManager();
-		// ((DockPanelW) dm.getPanel(dm.getFocusedEuclidianPanel().getViewId()))
-		// . ();
-		double[] newPos = new double[2];
-		newPos[0] = gRectangle2D.getMaxX();
-		newPos[1] = gRectangle2D.getMinY();
-		// this.getView().toScreenCoords(newPos);
-		this.getView().getDynamicStyleBar().setPosition(newPos);
-		((AppW) app).setAllowStyleBar(visible);		
+
+		if (visible) {
+			double[] newPos = new double[2];
+			newPos[0] = gRectangle2D.getMaxX();
+			newPos[1] = gRectangle2D.getMinY();
+			// this.getView().toScreenCoords(newPos);
+			this.getView().getDynamicStyleBar().setPosition(newPos);
+			this.getView().getDynamicStyleBar().setVisible(true);
+
+			// ((AppW) app).setAllowStyleBar(visible);
+		} else if (this.getView().hasDynamicStyleBar()) {
+			this.getView().getDynamicStyleBar().setVisible(false);
+		}
 	}
 }
 
