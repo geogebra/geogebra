@@ -1,6 +1,5 @@
 package org.geogebra.desktop.main;
 
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
@@ -28,13 +27,6 @@ public class EuclidianController3DNoGui extends EuclidianController3D {
 	@Override
 	public void setView(EuclidianView view) {
 		super.setView3D(view);
-
-	}
-
-	@Override
-	protected void setDynamicStylebarVisible(boolean visible,
-			GRectangle2D gRectangle2D) {
-		// TODO Auto-generated method stub
 
 	}
 
