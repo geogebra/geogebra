@@ -182,12 +182,14 @@ public class MathFieldW implements MathField, IsWidget {
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
 
-
-		ctx.getCanvas().getStyle().setHeight(
-				icon.getIconHeight() + bottomOffset,
+		double height = roundUp(icon.getIconHeight() + bottomOffset);
+		ctx.getCanvas().getStyle().setHeight(height,
 				Unit.PX);
 
-		ctx.getCanvas().getStyle().setWidth(icon.getIconWidth() + 30, Unit.PX);
+		ctx.getCanvas().getStyle()
+				.setWidth(roundUp(icon.getIconWidth() + 30), Unit.PX);
+		parent.setHeight(height + "px");
+		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		repaintWeb();
 	}
 
@@ -381,18 +383,28 @@ public class MathFieldW implements MathField, IsWidget {
 		if (lastIcon == null) {
 			return;
 		}
-		int height = lastIcon.getIconHeight() + bottomOffset;
-		ctx.getCanvas().setHeight(((int) (height * ratio)));
-		parent.setHeight(height + "px");
-		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
-		ctx.getCanvas()
-				.setWidth((int) ((lastIcon.getIconWidth() + 30) * ratio));
+		final double height = roundUp(lastIcon.getIconHeight() + bottomOffset);
+		final double width = roundUp(lastIcon.getIconWidth() + 30);
+		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
+		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
+
+
+
 		ctx.setFillStyle("rgb(255,255,255)");
 		((JLMContext2d) ctx).scale2(ratio, ratio);
-		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
-				lastIcon.getIconHeight() + bottomOffset);
+		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 
+	}
+
+	/**
+	 * 
+	 * for ratio 1.5 and w=5 CSS width we would get 7.5 coord space width; round
+	 * up to 8
+	 */
+	private double roundUp(int w) {
+
+		return Math.ceil(w * ratio) / ratio;
 	}
 
 	@Override
