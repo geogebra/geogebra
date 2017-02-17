@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraDockPanelW extends DockPanelW {
 
-	private static final int AUTOSCROLL_MARGIN = 10;
 	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;

@@ -123,7 +123,7 @@ public class EuclidianStatic {
 
 		return AwtFactory.getPrototype().newBasicStroke(width, endCap,
 				standardStroke.getLineJoin(), standardStroke.getMiterLimit(),
-				dash, 0.0f);
+				dash);
 	}
 
 	/*

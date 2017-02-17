@@ -155,9 +155,9 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
-			double miterLimit, double[] dash, double f) {
+			double miterLimit, double[] dash) {
 		BasicStroke s = new BasicStroke((float) width, endCap, lineJoin,
-				(float) miterLimit, doubleToFloat(dash), (float) f);
+				(float) miterLimit, doubleToFloat(dash), 0f);
 		return new GBasicStrokeD(s);
 	}
 

@@ -1596,7 +1596,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	final static double dash1[] = { 2.0 };
 	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
-			GBasicStrokeW.CAP_BUTT, GBasicStrokeW.JOIN_MITER, 10.0, dash1, 0.0);
+			GBasicStrokeW.CAP_BUTT, GBasicStrokeW.JOIN_MITER, 10.0, dash1);
 
 	/**
 	 * @param point

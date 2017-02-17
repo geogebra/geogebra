@@ -387,7 +387,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 		return new GBasicStrokeW(context.getLineWidth(),
 		        GBasicStrokeW.getCap(context.getLineCap()),
-		        GBasicStrokeW.getJoin(context.getLineJoin()), 0, dash_array, 0);
+				GBasicStrokeW.getJoin(context.getLineJoin()), 0, dash_array);
 	}
 
 	@Override

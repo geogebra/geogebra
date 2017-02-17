@@ -124,8 +124,8 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
-			double miterLimit, double[] dash, double f) {
-		return new GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash, f);
+			double miterLimit, double[] dash) {
+		return new GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash);
 	}
 
 	@Override

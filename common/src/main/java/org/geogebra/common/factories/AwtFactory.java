@@ -77,7 +77,7 @@ public abstract class AwtFactory {
 	public abstract GBasicStroke newBasicStroke(double f, int cap, int join);
 
 	public abstract GBasicStroke newBasicStroke(double width, int endCap,
-			int lineJoin, double miterLimit, double[] dash, double f);
+			int lineJoin, double miterLimit, double[] dash);
 
 	public abstract GBasicStroke newBasicStroke(double f);
 

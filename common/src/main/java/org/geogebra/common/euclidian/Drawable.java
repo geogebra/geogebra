@@ -628,14 +628,14 @@ public abstract class Drawable extends DrawableND {
 			double width = lineThickness / 2.0;
 			objStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), objStroke.getDashArray(), 0);
+					objStroke.getMiterLimit(), objStroke.getDashArray());
 			decoStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), decoStroke.getDashArray(), 0);
+					objStroke.getMiterLimit(), decoStroke.getDashArray());
 			selStroke = AwtFactory.getPrototype().newBasicStroke(
 					width + EuclidianStyleConstants.SELECTION_ADD,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), selStroke.getDashArray(), 0);
+					objStroke.getMiterLimit(), selStroke.getDashArray());
 
 		}
 	}

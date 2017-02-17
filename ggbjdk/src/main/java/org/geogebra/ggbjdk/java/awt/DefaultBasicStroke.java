@@ -51,11 +51,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 	double dash[];
 
 	/**
-	 * Stroke dash phase
-	 */
-	double dashPhase;
-
-	/**
 	 * The temporary pre-calculated values
 	 */
 	double curveDelta;
@@ -85,11 +80,11 @@ public class DefaultBasicStroke implements GBasicStroke {
 	Dasher dasher;
 
 	public DefaultBasicStroke() {
-		this(1.0, CAP_SQUARE, JOIN_MITER, 10.0, null, 0.0);
+		this(1.0, CAP_SQUARE, JOIN_MITER, 10.0, null);
 	}
 
 	public DefaultBasicStroke(double width, int cap, int join, double miterLimit,
-			double[] dash, double dashPhase) {
+			double[] dash) {
 		if (width < 0) {
 			// awt.133=Negative width
 			throw new IllegalArgumentException(("Negative width awt.133")); //$NON-NLS-1$
@@ -108,11 +103,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 					("miterLimit less than 1.0 awt.136")); //$NON-NLS-1$
 		}
 		if (dash != null) {
-			if (dashPhase < 0.0) {
-				// awt.137=Negative dashPhase
-				throw new IllegalArgumentException(
-						("Negative dashPhase awt.137")); //$NON-NLS-1$
-			}
 			if (dash.length == 0) {
 				// awt.138=Zero dash length
 				throw new IllegalArgumentException(("Zero dash length awt.138")); //$NON-NLS-1$
@@ -138,19 +128,18 @@ public class DefaultBasicStroke implements GBasicStroke {
 		this.join = join;
 		this.miterLimit = miterLimit;
 		this.dash = dash;
-		this.dashPhase = dashPhase;
 	}
 
 	public DefaultBasicStroke(double width, int cap, int join, double miterLimit) {
-		this(width, cap, join, miterLimit, null, 0.0);
+		this(width, cap, join, miterLimit, null);
 	}
 
 	public DefaultBasicStroke(double width, int cap, int join) {
-		this(width, cap, join, 10.0, null, 0.0);
+		this(width, cap, join, 10.0, null);
 	}
 
 	public DefaultBasicStroke(double width) {
-		this(width, CAP_SQUARE, JOIN_MITER, 10, null, 0);
+		this(width, CAP_SQUARE, JOIN_MITER, 10, null);
 	}
 
 	@Override
@@ -176,10 +165,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 	@Override
 	public double[] getDashArray() {
 		return dash;
-	}
-
-	public double getDashPhase() {
-		return dashPhase;
 	}
 
 	/*
@@ -328,7 +313,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 					closeDashedShape();
 				}
 
-				dasher = new Dasher(dash, dashPhase);
+				dasher = new Dasher(dash, 0);
 				lp.clean();
 				rp.clean();
 				sp = null;

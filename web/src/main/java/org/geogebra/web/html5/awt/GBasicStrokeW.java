@@ -17,8 +17,8 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 	private int lineCap = CAP_BUTT;
 
 	public GBasicStrokeW(double width, int cap, int join, double miterLimit,
-			double[] dash, double dashPhase) {
-		super(width, cap, join, miterLimit, dash, dashPhase);
+			double[] dash) {
+		super(width, cap, join, miterLimit, dash);
 	}
 
 	public GBasicStrokeW(double width, int cap, int join, double miterLimit) {
