@@ -301,10 +301,8 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
      * <p>
      * This method is included for completeness, to parallel the
      * <code>getBounds</code> method of
-     * {@link Component}.
      * @return    a new <code>Rectangle</code>, equal to the
      * bounding <code>Rectangle</code> for this <code>Rectangle</code>.
-     * @see       java.awt.Component#getBounds
      * @see       #setBounds(Rectangle)
      * @see       #setBounds(int, int, int, int)
      * @since     1.1
@@ -331,7 +329,6 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
      * <code>setBounds</code> method of <code>Component</code>.
      * @param r the specified <code>Rectangle</code>
      * @see       #getBounds
-     * @see       java.awt.Component#setBounds(java.awt.Rectangle)
      * @since     1.1
      */
     public void setBounds(Rectangle r) {
@@ -459,9 +456,9 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
      * @see       #setLocation(int, int)
      * @since     1.1
      */
-    public Point getLocation() {
-        return new Point(x, y);
-    }
+	// public Point getLocation() {
+	// return new Point(x, y);
+	// }
 
     /**
      * Moves this <code>Rectangle</code> to the specified location.
@@ -474,9 +471,9 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
      * @see       #getLocation
      * @since     1.1
      */
-    public void setLocation(Point p) {
-        setLocation(p.x, p.y);
-    }
+	// public void setLocation(Point p) {
+	// setLocation(p.x, p.y);
+	// }
 
     /**
      * Moves this <code>Rectangle</code> to the specified location.
@@ -1302,6 +1299,11 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
         }
         return super.equals(obj);
     }
+
+	@Override
+	public int hashCode() {
+		return x << 24 + y << 16 + width << 8 + height;
+	}
 
     /**
      * Returns a <code>String</code> representing this

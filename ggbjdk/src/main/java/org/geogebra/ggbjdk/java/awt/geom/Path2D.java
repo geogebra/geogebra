@@ -25,7 +25,6 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -37,57 +36,49 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.ggbjdk.sun.awt.geom.Curve;
 
 /**
- * The {@code Path2D} class provides a simple, yet flexible
- * shape which represents an arbitrary geometric path.
- * It can fully represent any path which can be iterated by the
- * {@link PathIterator} interface including all of its segment
- * types and winding rules and it implements all of the
- * basic hit testing methods of the {@link Shape} interface.
+ * The {@code Path2D} class provides a simple, yet flexible shape which
+ * represents an arbitrary geometric path. It can fully represent any path which
+ * can be iterated by the {@link GPathIterator} interface including all of its
+ * segment types and winding rules and it implements all of the basic hit
+ * testing methods of the {@link Shape} interface.
  * <p>
- * Use {@link Path2D.Float} when dealing with data that can be represented
- * and used with floating point precision.  Use {@link Path2D.Double}
- * for data that requires the accuracy or range of double precision.
+ * Use {@link Path2D.Float} when dealing with data that can be represented and
+ * used with floating point precision. Use {@link Path2D.Double} for data that
+ * requires the accuracy or range of double precision.
  * <p>
- * {@code Path2D} provides exactly those facilities required for
- * basic construction and management of a geometric path and
- * implementation of the above interfaces with little added
- * interpretation.
- * If it is useful to manipulate the interiors of closed
- * geometric shapes beyond simple hit testing then the
- * {@link Area} class provides additional capabilities
- * specifically targeted at closed figures.
- * While both classes nominally implement the {@code Shape}
- * interface, they differ in purpose and together they provide
- * two useful views of a geometric shape where {@code Path2D}
- * deals primarily with a trajectory formed by path segments
- * and {@code Area} deals more with interpretation and manipulation
- * of enclosed regions of 2D geometric space.
+ * {@code Path2D} provides exactly those facilities required for basic
+ * construction and management of a geometric path and implementation of the
+ * above interfaces with little added interpretation. If it is useful to
+ * manipulate the interiors of closed geometric shapes beyond simple hit testing
+ * then the {@link Area} class provides additional capabilities specifically
+ * targeted at closed figures. While both classes nominally implement the
+ * {@code Shape} interface, they differ in purpose and together they provide two
+ * useful views of a geometric shape where {@code Path2D} deals primarily with a
+ * trajectory formed by path segments and {@code Area} deals more with
+ * interpretation and manipulation of enclosed regions of 2D geometric space.
  * <p>
- * The {@link PathIterator} interface has more detailed descriptions
- * of the types of segments that make up a path and the winding rules
- * that control how to determine which regions are inside or outside
- * the path.
+ * The {@link GPathIterator} interface has more detailed descriptions of the
+ * types of segments that make up a path and the winding rules that control how
+ * to determine which regions are inside or outside the path.
  *
  * @author Jim Graham
  * @since 1.6
  */
 public abstract class Path2D implements Shape {
     /**
-     * An even-odd winding rule for determining the interior of
-     * a path.
-     *
-     * @see PathIterator#WIND_EVEN_ODD
-     * @since 1.6
-     */
+	 * An even-odd winding rule for determining the interior of a path.
+	 *
+	 * @see GPathIterator#WIND_EVEN_ODD
+	 * @since 1.6
+	 */
 	public static final int WIND_EVEN_ODD = GPathIterator.WIND_EVEN_ODD;
 
     /**
-     * A non-zero winding rule for determining the interior of a
-     * path.
-     *
-     * @see PathIterator#WIND_NON_ZERO
-     * @since 1.6
-     */
+	 * A non-zero winding rule for determining the interior of a path.
+	 *
+	 * @see GPathIterator#WIND_NON_ZERO
+	 * @since 1.6
+	 */
 	public static final int WIND_NON_ZERO = GPathIterator.WIND_NON_ZERO;
 
     // For code simplicity, copy these constants to our namespace
@@ -151,7 +142,7 @@ public abstract class Path2D implements Shape {
      *
      * @since 1.6
      */
-    public static class Double extends Path2D implements Serializable {
+	public static class Double extends Path2D {
         transient double doubleCoords[];
 
         /**
@@ -624,20 +615,20 @@ public abstract class Path2D implements Shape {
         }
 
         /**
-         * {@inheritDoc}
-         * <p>
-         * The iterator for this class is not multi-threaded safe,
-         * which means that the {@code Path2D} class does not
-         * guarantee that modifications to the geometry of this
-         * {@code Path2D} object do not affect any iterations of
-         * that geometry that are already in process.
-         *
-         * @param at an {@code AffineTransform}
-         * @return a new {@code PathIterator} that iterates along the boundary
-         *         of this {@code Shape} and provides access to the geometry
-         *         of this {@code Shape}'s outline
-         * @since 1.6
-         */
+		 * {@inheritDoc}
+		 * <p>
+		 * The iterator for this class is not multi-threaded safe, which means
+		 * that the {@code Path2D} class does not guarantee that modifications
+		 * to the geometry of this {@code Path2D} object do not affect any
+		 * iterations of that geometry that are already in process.
+		 *
+		 * @param at
+		 *            an {@code AffineTransform}
+		 * @return a new {@code GPathIterator} that iterates along the boundary
+		 *         of this {@code Shape} and provides access to the geometry of
+		 *         this {@code Shape}'s outline
+		 * @since 1.6
+		 */
         @Override
 		public final GPathIterator getPathIterator(GAffineTransform at) {
             if (at == null) {
@@ -664,137 +655,8 @@ public abstract class Path2D implements Shape {
             return new Path2D.Double(this);
         }
 
-        /*
-         * JDK 1.6 serialVersionUID
-         */
-        private static final long serialVersionUID = 1826762518450014216L;
 
-        /**
-         * Writes the default serializable fields to the
-         * {@code ObjectOutputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
-         *
-         * @serialData
-         * <a name="Path2DSerialData"><!-- --></a>
-         * <ol>
-         * <li>The default serializable fields.
-         * There are no default serializable fields as of 1.6.
-         * <li>followed by
-         * a byte indicating the storage type of the original object
-         * as a hint (SERIAL_STORAGE_DBL_ARRAY)
-         * <li>followed by
-         * an integer indicating the number of path segments to follow (NP)
-         * or -1 to indicate an unknown number of path segments follows
-         * <li>followed by
-         * an integer indicating the total number of coordinates to follow (NC)
-         * or -1 to indicate an unknown number of coordinates follows
-         * (NC should always be even since coordinates always appear in pairs
-         *  representing an x,y pair)
-         * <li>followed by
-         * a byte indicating the winding rule
-         * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
-         *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
-         * <li>followed by
-         * {@code NP} (or unlimited if {@code NP < 0}) sets of values consisting of
-         * a single byte indicating a path segment type
-         * followed by one or more pairs of float or double
-         * values representing the coordinates of the path segment
-         * <li>followed by
-         * a byte indicating the end of the path (SERIAL_PATH_END).
-         * </ol>
-         * <p>
-         * The following byte value constants are used in the serialized form
-         * of {@code Path2D} objects:
-         * <table>
-         * <tr>
-         * <th>Constant Name</th>
-         * <th>Byte Value</th>
-         * <th>Followed by</th>
-         * <th>Description</th>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_STORAGE_FLT_ARRAY}</td>
-         * <td>0x30</td>
-         * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of floats.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_STORAGE_DBL_ARRAY}</td>
-         * <td>0x31</td>
-         * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of doubles.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_FLT_MOVETO}</td>
-         * <td>0x40</td>
-         * <td>2 floats</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_FLT_LINETO}</td>
-         * <td>0x41</td>
-         * <td>2 floats</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_FLT_QUADTO}</td>
-         * <td>0x42</td>
-         * <td>4 floats</td>
-         * <td>A {@link #quadTo quadTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_FLT_CUBICTO}</td>
-         * <td>0x43</td>
-         * <td>6 floats</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_DBL_MOVETO}</td>
-         * <td>0x50</td>
-         * <td>2 doubles</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_DBL_LINETO}</td>
-         * <td>0x51</td>
-         * <td>2 doubles</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_DBL_QUADTO}</td>
-         * <td>0x52</td>
-         * <td>4 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_DBL_CUBICTO}</td>
-         * <td>0x53</td>
-         * <td>6 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_SEG_CLOSE}</td>
-         * <td>0x60</td>
-         * <td></td>
-         * <td>A {@link #closePath closePath} path segment.</td>
-         * </tr>
-         * <tr>
-         * <td>{@code SERIAL_PATH_END}</td>
-         * <td>0x61</td>
-         * <td></td>
-         * <td>There are no more path segments following.</td>
-         * </table>
-         *
-         * @since 1.6
-         */
-//        private void writeObject(java.io.ObjectOutputStream s)
-//            throws java.io.IOException
-//        {
-//            super.writeObject(s, true);
-//        }
+
 
         /**
          * Reads the default serializable fields from the
@@ -958,28 +820,26 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Appends the geometry of the specified
-     * {@link PathIterator} object
-     * to the path, possibly connecting the new geometry to the existing
-     * path segments with a line segment.
-     * If the {@code connect} parameter is {@code true} and the
-     * path is not empty then any initial {@code moveTo} in the
-     * geometry of the appended {@code Shape} is turned into a
-     * {@code lineTo} segment.
-     * If the destination coordinates of such a connecting {@code lineTo}
-     * segment match the ending coordinates of a currently open
-     * subpath then the segment is omitted as superfluous.
-     * The winding rule of the specified {@code Shape} is ignored
-     * and the appended geometry is governed by the winding
-     * rule specified for this path.
-     *
-     * @param pi the {@code PathIterator} whose geometry is appended to
-     *           this path
-     * @param connect a boolean to control whether or not to turn an initial
-     *                {@code moveTo} segment into a {@code lineTo} segment
-     *                to connect the new geometry to the existing path
-     * @since 1.6
-     */
+	 * Appends the geometry of the specified GPathIterator object to the path,
+	 * possibly connecting the new geometry to the existing path segments with a
+	 * line segment. If the {@code connect} parameter is {@code true} and the
+	 * path is not empty then any initial {@code moveTo} in the geometry of the
+	 * appended {@code Shape} is turned into a {@code lineTo} segment. If the
+	 * destination coordinates of such a connecting {@code lineTo} segment match
+	 * the ending coordinates of a currently open subpath then the segment is
+	 * omitted as superfluous. The winding rule of the specified {@code Shape}
+	 * is ignored and the appended geometry is governed by the winding rule
+	 * specified for this path.
+	 *
+	 * @param pi
+	 *            the {@code GPathIterator} whose geometry is appended to this
+	 *            path
+	 * @param connect
+	 *            a boolean to control whether or not to turn an initial
+	 *            {@code moveTo} segment into a {@code lineTo} segment to
+	 *            connect the new geometry to the existing path
+	 * @since 1.6
+	 */
     public abstract void append(GPathIterator pi, boolean connect);
 
     /**
@@ -1113,20 +973,23 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Tests if the specified coordinates are inside the closed
-     * boundary of the specified {@link PathIterator}.
-     * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(double, double)} method.
-     *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @return {@code true} if the specified coordinates are inside the
-     *         specified {@code PathIterator}; {@code false} otherwise
-     * @since 1.6
-     */
+	 * Tests if the specified coordinates are inside the closed boundary of the
+	 * specified {@link GPathIterator}.
+	 * <p>
+	 * This method provides a basic facility for implementors of the
+	 * {@link Shape} interface to implement support for the
+	 * {@link Shape#contains(double, double)} method.
+	 *
+	 * @param pi
+	 *            the specified {@code GPathIterator}
+	 * @param x
+	 *            the specified X coordinate
+	 * @param y
+	 *            the specified Y coordinate
+	 * @return {@code true} if the specified coordinates are inside the
+	 *         specified {@code GPathIterator}; {@code false} otherwise
+	 * @since 1.6
+	 */
     public static boolean contains(GPathIterator pi, double x, double y) {
         if (x * 0.0 + y * 0.0 == 0.0) {
             /* N * 0.0 is 0.0 only if N is finite.
@@ -1146,19 +1009,21 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Tests if the specified {@link Point2D} is inside the closed
-     * boundary of the specified {@link PathIterator}.
-     * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(Point2D)} method.
-     *
-     * @param pi the specified {@code PathIterator}
-     * @param p the specified {@code Point2D}
-     * @return {@code true} if the specified coordinates are inside the
-     *         specified {@code PathIterator}; {@code false} otherwise
-     * @since 1.6
-     */
+	 * Tests if the specified {@link Point2D} is inside the closed boundary of
+	 * the specified {@link GPathIterator}.
+	 * <p>
+	 * This method provides a basic facility for implementors of the
+	 * {@link Shape} interface to implement support for the
+	 * {@link Shape#contains(Point2D)} method.
+	 *
+	 * @param pi
+	 *            the specified {@code GPathIterator}
+	 * @param p
+	 *            the specified {@code Point2D}
+	 * @return {@code true} if the specified coordinates are inside the
+	 *         specified {@code GPathIterator}; {@code false} otherwise
+	 * @since 1.6
+	 */
     public static boolean contains(GPathIterator pi, Point2D p) {
         return contains(pi, p.getX(), p.getY());
     }
@@ -1198,36 +1063,39 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Tests if the specified rectangular area is entirely inside the
-     * closed boundary of the specified {@link PathIterator}.
-     * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(double, double, double, double)} method.
-     * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
-     *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @param w the width of the specified rectangular area
-     * @param h the height of the specified rectangular area
-     * @return {@code true} if the specified {@code PathIterator} contains
-     *         the specified rectangular area; {@code false} otherwise.
-     * @since 1.6
-     */
+	 * Tests if the specified rectangular area is entirely inside the closed
+	 * boundary of the specified {@link GPathIterator}.
+	 * <p>
+	 * This method provides a basic facility for implementors of the
+	 * {@link Shape} interface to implement support for the
+	 * {@link Shape#contains(double, double, double, double)} method.
+	 * <p>
+	 * This method object may conservatively return false in cases where the
+	 * specified rectangular area intersects a segment of the path, but that
+	 * segment does not represent a boundary between the interior and exterior
+	 * of the path. Such segments could lie entirely within the interior of the
+	 * path if they are part of a path with a {@link #WIND_NON_ZERO} winding
+	 * rule or if the segments are retraced in the reverse direction such that
+	 * the two sets of segments cancel each other out without any exterior area
+	 * falling between them. To determine whether segments represent true
+	 * boundaries of the interior of the path would require extensive
+	 * calculations involving all of the segments of the path and the winding
+	 * rule and are thus beyond the scope of this implementation.
+	 *
+	 * @param pi
+	 *            the specified {@code GPathIterator}
+	 * @param x
+	 *            the specified X coordinate
+	 * @param y
+	 *            the specified Y coordinate
+	 * @param w
+	 *            the width of the specified rectangular area
+	 * @param h
+	 *            the height of the specified rectangular area
+	 * @return {@code true} if the specified {@code GPathIterator} contains the
+	 *         specified rectangular area; {@code false} otherwise.
+	 * @since 1.6
+	 */
     public static boolean contains(GPathIterator pi,
                                    double x, double y, double w, double h)
     {
@@ -1252,33 +1120,33 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Tests if the specified {@link Rectangle2D} is entirely inside the
-     * closed boundary of the specified {@link PathIterator}.
-     * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(Rectangle2D)} method.
-     * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
-     *
-     * @param pi the specified {@code PathIterator}
-     * @param r a specified {@code Rectangle2D}
-     * @return {@code true} if the specified {@code PathIterator} contains
-     *         the specified {@code Rectangle2D}; {@code false} otherwise.
-     * @since 1.6
-     */
+	 * Tests if the specified {@link Rectangle2D} is entirely inside the closed
+	 * boundary of the specified {@link GPathIterator}.
+	 * <p>
+	 * This method provides a basic facility for implementors of the
+	 * {@link Shape} interface to implement support for the
+	 * {@link Shape#contains(Rectangle2D)} method.
+	 * <p>
+	 * This method object may conservatively return false in cases where the
+	 * specified rectangular area intersects a segment of the path, but that
+	 * segment does not represent a boundary between the interior and exterior
+	 * of the path. Such segments could lie entirely within the interior of the
+	 * path if they are part of a path with a {@link #WIND_NON_ZERO} winding
+	 * rule or if the segments are retraced in the reverse direction such that
+	 * the two sets of segments cancel each other out without any exterior area
+	 * falling between them. To determine whether segments represent true
+	 * boundaries of the interior of the path would require extensive
+	 * calculations involving all of the segments of the path and the winding
+	 * rule and are thus beyond the scope of this implementation.
+	 *
+	 * @param pi
+	 *            the specified {@code GPathIterator}
+	 * @param r
+	 *            a specified {@code Rectangle2D}
+	 * @return {@code true} if the specified {@code GPathIterator} contains the
+	 *         specified {@code Rectangle2D}; {@code false} otherwise.
+	 * @since 1.6
+	 */
     public static boolean contains(GPathIterator pi, Rectangle2D r) {
         return contains(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
@@ -1349,37 +1217,39 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Tests if the interior of the specified {@link PathIterator}
-     * intersects the interior of a specified set of rectangular
-     * coordinates.
-     * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#intersects(double, double, double, double)} method.
-     * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
-     *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @param w the width of the specified rectangular coordinates
-     * @param h the height of the specified rectangular coordinates
-     * @return {@code true} if the specified {@code PathIterator} and
-     *         the interior of the specified set of rectangular
-     *         coordinates intersect each other; {@code false} otherwise.
-     * @since 1.6
-     */
+	 * Tests if the interior of the specified {@link GPathIterator} intersects
+	 * the interior of a specified set of rectangular coordinates.
+	 * <p>
+	 * This method provides a basic facility for implementors of the
+	 * {@link Shape} interface to implement support for the
+	 * {@link Shape#intersects(double, double, double, double)} method.
+	 * <p>
+	 * This method object may conservatively return true in cases where the
+	 * specified rectangular area intersects a segment of the path, but that
+	 * segment does not represent a boundary between the interior and exterior
+	 * of the path. Such a case may occur if some set of segments of the path
+	 * are retraced in the reverse direction such that the two sets of segments
+	 * cancel each other out without any interior area between them. To
+	 * determine whether segments represent true boundaries of the interior of
+	 * the path would require extensive calculations involving all of the
+	 * segments of the path and the winding rule and are thus beyond the scope
+	 * of this implementation.
+	 *
+	 * @param pi
+	 *            the specified {@code GPathIterator}
+	 * @param x
+	 *            the specified X coordinate
+	 * @param y
+	 *            the specified Y coordinate
+	 * @param w
+	 *            the width of the specified rectangular coordinates
+	 * @param h
+	 *            the height of the specified rectangular coordinates
+	 * @return {@code true} if the specified {@code GPathIterator} and the
+	 *         interior of the specified set of rectangular coordinates
+	 *         intersect each other; {@code false} otherwise.
+	 * @since 1.6
+	 */
     public static boolean intersects(GPathIterator pi,
                                      double x, double y, double w, double h)
     {
@@ -1404,33 +1274,33 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-     * Tests if the interior of the specified {@link PathIterator}
-     * intersects the interior of a specified {@link Rectangle2D}.
-     * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#intersects(Rectangle2D)} method.
-     * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
-     *
-     * @param pi the specified {@code PathIterator}
-     * @param r the specified {@code Rectangle2D}
-     * @return {@code true} if the specified {@code PathIterator} and
-     *         the interior of the specified {@code Rectangle2D}
-     *         intersect each other; {@code false} otherwise.
-     * @since 1.6
-     */
+	 * Tests if the interior of the specified {@link GPathIterator} intersects
+	 * the interior of a specified {@link Rectangle2D}.
+	 * <p>
+	 * This method provides a basic facility for implementors of the
+	 * {@link Shape} interface to implement support for the
+	 * {@link Shape#intersects(Rectangle2D)} method.
+	 * <p>
+	 * This method object may conservatively return true in cases where the
+	 * specified rectangular area intersects a segment of the path, but that
+	 * segment does not represent a boundary between the interior and exterior
+	 * of the path. Such a case may occur if some set of segments of the path
+	 * are retraced in the reverse direction such that the two sets of segments
+	 * cancel each other out without any interior area between them. To
+	 * determine whether segments represent true boundaries of the interior of
+	 * the path would require extensive calculations involving all of the
+	 * segments of the path and the winding rule and are thus beyond the scope
+	 * of this implementation.
+	 *
+	 * @param pi
+	 *            the specified {@code GPathIterator}
+	 * @param r
+	 *            the specified {@code Rectangle2D}
+	 * @return {@code true} if the specified {@code GPathIterator} and the
+	 *         interior of the specified {@code Rectangle2D} intersect each
+	 *         other; {@code false} otherwise.
+	 * @since 1.6
+	 */
     public static boolean intersects(GPathIterator pi, Rectangle2D r) {
         return intersects(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }

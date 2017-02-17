@@ -1602,9 +1602,11 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.2
      */
     @Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void scale(double sx, double sy) {
-        int state = this.state;
-        switch (state) {
+		int state1 = this.state;
+		switch (state1) {
         default:
             stateError();
             /* NOTREACHED */
@@ -1619,16 +1621,16 @@ public class AffineTransform implements GAffineTransform {
             m01 *= sy;
             m10 *= sx;
             if (m01 == 0 && m10 == 0) {
-                state &= APPLY_TRANSLATE;
+				state1 &= APPLY_TRANSLATE;
                 if (m00 == 1.0 && m11 == 1.0) {
-                    this.type = (state == APPLY_IDENTITY
+					this.type = (state1 == APPLY_IDENTITY
                                  ? TYPE_IDENTITY
                                  : TYPE_TRANSLATION);
                 } else {
-                    state |= APPLY_SCALE;
+					state1 |= APPLY_SCALE;
                     this.type = TYPE_UNKNOWN;
                 }
-                this.state = state;
+				this.state = state1;
             }
             return;
         case (APPLY_SCALE | APPLY_TRANSLATE):
@@ -1636,8 +1638,8 @@ public class AffineTransform implements GAffineTransform {
             m00 *= sx;
             m11 *= sy;
             if (m00 == 1.0 && m11 == 1.0) {
-                this.state = (state &= APPLY_TRANSLATE);
-                this.type = (state == APPLY_IDENTITY
+				this.state = (state1 &= APPLY_TRANSLATE);
+				this.type = (state1 == APPLY_IDENTITY
                              ? TYPE_IDENTITY
                              : TYPE_TRANSLATION);
             } else {
@@ -1649,7 +1651,7 @@ public class AffineTransform implements GAffineTransform {
             m00 = sx;
             m11 = sy;
             if (sx != 1.0 || sy != 1.0) {
-                this.state = state | APPLY_SCALE;
+				this.state = state1 | APPLY_SCALE;
                 this.type = TYPE_UNKNOWN;
             }
             return;
@@ -2207,6 +2209,8 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.2
      */
     @Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void concatenate(GAffineTransform Tx0) {
     	
     	AffineTransform Tx = (AffineTransform) Tx0;
