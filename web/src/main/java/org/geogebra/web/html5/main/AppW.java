@@ -1911,7 +1911,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// other things are handled in subclasses of AppW
 		// anyAppHasFocus = false;
 		if (el != null) {
-			lastActiveElement = el;
+			setLastActive(el);
 		}
 	}
 
@@ -1926,7 +1926,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// this is used through the super keyword
 		// anyAppHasFocus = true;
 		if (el != null) {
-			lastActiveElement = el;
+			setLastActive(el);
 		}
 	}
 
@@ -2589,10 +2589,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// should happen on ENTER
 		Element ret = nativeLoseFocus(articleElement);
 		if (ret != null) {
-			lastActiveElement = ret;
-			anyAppHasFocus = false;
+			setLastActive(ret);
+			setAnyAppFocused(false);
 			getGlobalKeyDispatcher().setFocused(false);
 		}
+	}
+
+	private static void setAnyAppFocused(boolean b) {
+		anyAppHasFocus = b;
 	}
 
 	/**
@@ -3547,6 +3551,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (notify != null) {
 			notify.run();
 		}
+	}
+
+	private static void setLastActive(Element e) {
+		lastActiveElement = e;
 	}
 
 }

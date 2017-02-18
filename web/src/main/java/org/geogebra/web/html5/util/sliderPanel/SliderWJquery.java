@@ -164,9 +164,14 @@ public class SliderWJquery extends FocusWidget
 	public void onMouseDown(MouseDownEvent event) {
 		if (event.getNativeButton() != NativeEvent.BUTTON_RIGHT) {	
 			event.stopPropagation();
-			currentSlider = this;
+			setCurrentSlider(this);
 		}
 		// curValue = getValue();
+	}
+
+	private static void setCurrentSlider(SliderWJquery sliderWJquery) {
+		currentSlider = sliderWJquery;
+
 	}
 
 	private void slide(double val) {

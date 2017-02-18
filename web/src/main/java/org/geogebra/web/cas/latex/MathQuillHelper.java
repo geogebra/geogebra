@@ -1450,6 +1450,10 @@ public class MathQuillHelper extends LaTeXHelper {
 
 	@Override
 	public void setFontSize(int size) {
+		setFontSizeStatic(size);
+	}
+
+	private static void setFontSizeStatic(int size) {
 		if (mqSize == null) {
 			mqSize = StyleInjector.createElementGGB();
 
@@ -1461,6 +1465,7 @@ public class MathQuillHelper extends LaTeXHelper {
 
 		Document.get().getElementsByTagName("head").getItem(0)
 				.appendChild(mqSize);
+
 	}
 
 	@Override

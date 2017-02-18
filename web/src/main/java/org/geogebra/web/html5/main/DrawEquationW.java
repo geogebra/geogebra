@@ -206,6 +206,11 @@ public class DrawEquationW extends DrawEquation {
 
 	@Override
 	public void checkFirstCall(App app) {
+		checkFirstCallStatic();
+
+	}
+
+	private static void checkFirstCallStatic() {
 		ensureJLMFactoryExists();
 		if (initJLaTeXMath == null) {
 
