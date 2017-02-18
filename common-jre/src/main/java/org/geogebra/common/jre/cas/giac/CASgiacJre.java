@@ -12,11 +12,6 @@ import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.ConstructionElement;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -207,61 +202,7 @@ public abstract class CASgiacJre extends CASgiac {
 	 */
 	List<AsynchronousCommand> queue = new LinkedList<AsynchronousCommand>();
 
-	private Thread casThread;
 
-	@Override
-	@SuppressWarnings("unused")
-	public void evaluateGeoGebraCASAsync(final AsynchronousCommand cmd) {
-		Log.debug("about to start thread");
-		if (!queue.contains(cmd)) {
-			queue.add(cmd);
-		}
-		final GeoCasCell cell = null;
-		if (casThread == null || !casThread.isAlive()) {
-			casThread = new Thread() {
-				@Override
-				public void run() {
-					Log.debug("thread is starting");
-					while (queue.size() > 0) {
-						AsynchronousCommand command = queue.get(0);
-						String input = command.getCasInput();
-						String result;
-						ValidExpression inVE = null;
-						// remove before evaluating to ensure we don't ignore
-						// new requests meanwhile
-						if (queue.size() > 0) {
-							queue.remove(0);
-						}
-						try {
-							inVE = casParser.parseGeoGebraCASInput(input, null);
-							// TODO: arbconst()
-							result = evaluateGeoGebraCAS(inVE,
-									new MyArbitraryConstant(
-											(ConstructionElement) command),
-									StringTemplate.defaultTemplate, cell,
-									// take kernel from cmd, in case macro
-									// kernel matters (?)
-									cmd.getKernel());
-							CASAsyncFinished(inVE, result, null, command, input,
-									cell);
-						} catch (Throwable exception) {
-							Log.debug("exception handling ...");
-							exception.printStackTrace();
-							result = "";
-							CASAsyncFinished(inVE, result, exception, command,
-									input, cell);
-						}
-					}
-					Log.debug("thread is quitting");
-				}
-			};
-		}
-		if (AsynchronousCommand.USE_ASYNCHRONOUS && !casThread.isAlive()) {
-			casThread.start();
-		} else {
-			casThread.run();
-		}
-	}
 
 	/**
 	 * @author michael

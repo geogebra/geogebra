@@ -3,7 +3,6 @@ package org.geogebra.web.cas.giac;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.Evaluate;
 import org.geogebra.common.cas.giac.CASgiac;
-import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -169,11 +168,6 @@ public class CASgiacW extends CASgiac {
 		});
 	}
 
-	@Override
-	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
-		// TODO Auto-generated method stub
-
-	}
 
 
 	@Override

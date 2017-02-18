@@ -12,6 +12,9 @@
        <Match>
        <Bug pattern="NM_METHOD_NAMING_CONVENTION" />
      </Match>
-     
+     <Match>
+       <Bug pattern="RV_RETURN_VALUE_IGNORED_INFERRED" />
+       <Class name="org.geogebra.common.jre.cas.giac.CASgiacJre"/>
+     </Match>
      
 </FindBugsFilter>

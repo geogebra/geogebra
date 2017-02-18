@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -997,12 +996,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
-	@Override
-	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
-		if (app.getSettings().getCasSettings().isEnabled()) {
-			getCurrentCAS().evaluateGeoGebraCASAsync(c);
-		}
-	}
 
 	@Override
 	public Set<String> getAvailableCommandNames() {

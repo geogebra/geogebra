@@ -62,14 +62,6 @@ public interface CASGenericInterface extends SettingListener {
 	public abstract String evaluateRaw(final String exp) throws Throwable;
 
 	/**
-	 * Call CAS asynchronously
-	 * 
-	 * @param c
-	 *            command that should receive the result
-	 */
-	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
-
-	/**
 	 * Appends list start marker to the builder (eg {)
 	 * 
 	 * @param sbCASCommand

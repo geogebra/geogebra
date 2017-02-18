@@ -46,9 +46,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	protected GPopupMenuW wrappedPopup;
 	protected Localization loc;
-	private MenuItem mnuCopy;
+	// private MenuItem mnuCopy;
 	private MenuItem mnuCut;
-	private MenuItem mnuDuplicate;
+	// private MenuItem mnuDuplicate;
 	private MenuItem mnuPaste;
 	private MenuItem mnuDelete;
 
@@ -400,7 +400,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			}
 		}, null, loc.getMenu("Cut"));
 
-		mnuCopy = addAction(new Command() {
+		addAction(
+				new Command() {
 
 			public void execute() {
 				if (!selection.getSelectedGeos().isEmpty()) {
@@ -416,7 +417,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				.getSafeUri().asString(), loc.getMenu("Copy"), true),
 				loc.getMenu("Copy"));
 
-		mnuDuplicate = addAction(new Command() {
+		addAction(new Command() {
 
 			public void execute() {
 				app.setWaitCursor();

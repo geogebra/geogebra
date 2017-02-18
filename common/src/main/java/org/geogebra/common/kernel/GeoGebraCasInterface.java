@@ -142,11 +142,6 @@ public interface GeoGebraCasInterface {
 			final ArrayList<ExpressionNode> args, final boolean symbolic,
 			StringTemplate tpl);
 
-	/**
-	 * @param c
-	 *            Asynchronous command
-	 */
-	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
 
 	// String toAssignment(final GeoElement geoElement, final StringTemplate
 	// tpl);

@@ -2981,21 +2981,6 @@ public class Kernel {
 		return result;
 	}
 
-	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
-		String result = null;
-		String exp = c.getCasInput();
-		if (c.useCacheing() && hasCasCache()) {
-			result = getCasCache().get(exp);
-			if (result != null) {
-				// caching worked
-				c.handleCASoutput(result, exp.hashCode());
-				return;
-			}
-		}
-
-		// evaluate in GeoGebraCAS
-		getGeoGebraCAS().evaluateGeoGebraCASAsync(c);
-	}
 
 	public void putToCasCache(String exp, String result) {
 		getCasCache().put(exp, result);
