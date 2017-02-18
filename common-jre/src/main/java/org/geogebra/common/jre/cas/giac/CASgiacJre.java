@@ -3,6 +3,10 @@ package org.geogebra.common.jre.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
+
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiac;
@@ -13,20 +17,11 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
-
 public abstract class CASgiacJre extends CASgiac {
 
-	/**
-	 * application
-	 */
-	protected App app;
 
 	/**
 	 * @param casParser
@@ -37,7 +32,6 @@ public abstract class CASgiacJre extends CASgiac {
 	public CASgiacJre(CASparser casParser, Kernel k) {
 		super(casParser);
 
-		this.app = k.getApplication();
 
 
 	}

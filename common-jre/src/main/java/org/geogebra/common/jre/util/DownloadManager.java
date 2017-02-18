@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.jre.util;
 
 import java.io.BufferedInputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
@@ -77,22 +78,26 @@ public class DownloadManager {
 				out.write(buf, 0, len);
 			}
 			out.close();
-			dest.setLastModified(srcConnection.getLastModified());
+			boolean ok = dest.setLastModified(srcConnection.getLastModified());
+			if (!ok) {
+				Log.warn("Problem downloading " + src);
+			}
 			in.close();
 		} catch (Exception e) {
-			try {
-				in.close();
-			} catch (Exception ex) {
-				Log.error(ex.toString());
-			}
-			try {
-				out.close();
-			} catch (Exception ex) {
-				Log.error(ex.toString());
-			}
-			// dest.delete();
+			closeSilent(in);
+			closeSilent(out);
 
 			throw e;
+		}
+	}
+
+	public static void closeSilent(Closeable c) {
+		try {
+			if (c != null) {
+				c.close();
+			}
+		} catch (Exception ex) {
+			Log.error(ex.toString());
 		}
 	}
 

@@ -118,13 +118,12 @@ import org.geogebra.common.awt.GRectangle2D;
  * @author      Sami Shaio
  * @since 1.0
  */
-public class Rectangle extends Rectangle2D    implements Shape, GRectangle
+public class Rectangle extends Rectangle2D implements GRectangle
 {
 
     /**
      * The X coordinate of the upper-left corner of the <code>Rectangle</code>.
      *
-     * @serial
      * @see #setLocation(int, int)
      * @see #getLocation()
      * @since 1.0
@@ -134,7 +133,6 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
     /**
      * The Y coordinate of the upper-left corner of the <code>Rectangle</code>.
      *
-     * @serial
      * @see #setLocation(int, int)
      * @see #getLocation()
      * @since 1.0
@@ -143,7 +141,6 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
 
     /**
      * The width of the <code>Rectangle</code>.
-     * @serial
      * @see #setSize(int, int)
      * @see #getSize()
      * @since 1.0
@@ -153,7 +150,6 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
     /**
      * The height of the <code>Rectangle</code>.
      *
-     * @serial
      * @see #setSize(int, int)
      * @see #getSize()
      * @since 1.0
@@ -1302,7 +1298,7 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
 
 	@Override
 	public int hashCode() {
-		return x << 24 + y << 16 + width << 8 + height;
+		return (x << 15) + (y << 10) + (width << 5) + height;
 	}
 
     /**

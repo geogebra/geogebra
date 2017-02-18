@@ -535,7 +535,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 *
 	 */
-	protected interface XMLStreamJre extends XMLStream {
+	protected static interface XMLStreamJre extends XMLStream {
 		/**
 		 * @return reader
 		 * @throws Exception
@@ -545,6 +545,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 		/**
 		 * @throws Exception
+		 *             when closing goes wrong
 		 */
 		public void closeReader() throws Exception;
 	}
@@ -552,7 +553,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 *
 	 */
-	protected class XMLStreamStringJre implements XMLStreamJre {
+	protected static class XMLStreamStringJre implements XMLStreamJre {
 
 		private String str;
 		private StringReader rs;
@@ -584,7 +585,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 *
 	 */
-	protected class XMLStreamInputStream implements XMLStreamJre {
+	protected static class XMLStreamInputStream implements XMLStreamJre {
 
 		private InputStream is;
 		private InputStreamReader reader;
