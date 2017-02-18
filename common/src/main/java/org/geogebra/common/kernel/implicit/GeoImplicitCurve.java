@@ -320,7 +320,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private void updateCoeff(Equation eqn) {
 		eqn.initEquation();
 		Polynomial lhs = eqn.getNormalForm();
-		if (eqn.mayBePolynomial()) {
+		if (eqn.isPolynomial()) {
 			setCoeff(lhs.getCoeff());
 		} else {
 			resetCoeff();
@@ -334,7 +334,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private void updateCoeffSquarefree(Equation eqn, int factor) {
 		eqn.initEquation();
 		Polynomial lhs = eqn.getNormalForm();
-		if (eqn.mayBePolynomial()) {
+		if (eqn.isPolynomial()) {
 			setCoeffSquarefree(lhs.getCoeff(), factor);
 		} else {
 			coeffSquarefree = null;
