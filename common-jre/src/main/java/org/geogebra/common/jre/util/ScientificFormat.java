@@ -140,16 +140,6 @@ public class ScientificFormat extends Format
 		this.sciNote = sciNote;
 	}
 
-	// simplify method for taking log base 10 of x
-	private final static double k = 1 / Math.log(10);
-
-	private static double Log10(double x) {
-		if (x == 0) {
-			return 0;
-		}
-		return Math.log(x) * k;
-	}
-
 	private static DecimalFormat getDecimalFormat(int sigDig) {
 		StringBuffer buffer = new StringBuffer("0.");
 		for (int i = 1; i < sigDig; i++) {
