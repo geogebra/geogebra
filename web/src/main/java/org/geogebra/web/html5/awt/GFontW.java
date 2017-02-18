@@ -3,8 +3,6 @@ package org.geogebra.web.html5.awt;
 import org.geogebra.common.awt.GFont;
 
 public class GFontW extends GFont {
-	public static final int BOLD = 1;
-	public static final int ITALIC = 2;
 	private static final String NORMAL_STR = "normal";
 	private static final String BOLD_STR = "bold";
 	private static final String ITALIC_STR = "italic";
@@ -138,8 +136,8 @@ public class GFontW extends GFont {
 	}
 
 	@Override
-	public GFont deriveFont(int plain2, double fontSize) {
-		return deriveFont(plain2, (int) fontSize);
+	public GFont deriveFont(int plain2, double fontSize1) {
+		return deriveFont(plain2, (int) fontSize1);
 	}
 
 	@Override
