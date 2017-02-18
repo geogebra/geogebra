@@ -61,28 +61,28 @@ public abstract class Line2D implements Shape, GLine2D {
         /**
          * The X coordinate of the start point of the line segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x1;
 
         /**
          * The Y coordinate of the start point of the line segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y1;
 
         /**
          * The X coordinate of the end point of the line segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x2;
 
         /**
          * The Y coordinate of the end point of the line segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y2;
 

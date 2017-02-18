@@ -53,7 +53,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
     /**
      * The width dimension; negative values can be used.
      *
-     * @serial
+     * 
      * @see #getSize
      * @see #setSize
      * @since 1.0
@@ -63,7 +63,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
     /**
      * The height dimension; negative values can be used.
      *
-     * @serial
+     * 
      * @see #getSize
      * @see #setSize
      * @since 1.0

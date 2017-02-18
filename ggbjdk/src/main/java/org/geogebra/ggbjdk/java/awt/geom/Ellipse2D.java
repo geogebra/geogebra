@@ -57,7 +57,7 @@ public abstract class Ellipse2D extends RectangularShape {
          * The X coordinate of the upper-left corner of the
          * framing rectangle of this {@code Ellipse2D}.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x;
 
@@ -65,21 +65,21 @@ public abstract class Ellipse2D extends RectangularShape {
          * The Y coordinate of the upper-left corner of the
          * framing rectangle of this {@code Ellipse2D}.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y;
 
         /**
          * The overall width of this <code>Ellipse2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double width;
 
         /**
          * The overall height of the <code>Ellipse2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double height;
 

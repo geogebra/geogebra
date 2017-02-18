@@ -386,7 +386,7 @@ public class AffineTransform implements GAffineTransform {
      * The X coordinate scaling element of the 3x3
      * affine transformation matrix.
      *
-     * @serial
+     * 
      */
     double m00;
 
@@ -394,7 +394,7 @@ public class AffineTransform implements GAffineTransform {
      * The Y coordinate shearing element of the 3x3
      * affine transformation matrix.
      *
-     * @serial
+     * 
      */
      double m10;
 
@@ -402,7 +402,7 @@ public class AffineTransform implements GAffineTransform {
      * The X coordinate shearing element of the 3x3
      * affine transformation matrix.
      *
-     * @serial
+     * 
      */
      double m01;
 
@@ -410,7 +410,7 @@ public class AffineTransform implements GAffineTransform {
      * The Y coordinate scaling element of the 3x3
      * affine transformation matrix.
      *
-     * @serial
+     * 
      */
      double m11;
 
@@ -418,7 +418,7 @@ public class AffineTransform implements GAffineTransform {
      * The X coordinate of the translation element of the
      * 3x3 affine transformation matrix.
      *
-     * @serial
+     * 
      */
      double m02;
 
@@ -426,7 +426,7 @@ public class AffineTransform implements GAffineTransform {
      * The Y coordinate of the translation element of the
      * 3x3 affine transformation matrix.
      *
-     * @serial
+     * 
      */
      double m12;
 

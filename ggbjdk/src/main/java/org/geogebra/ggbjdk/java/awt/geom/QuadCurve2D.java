@@ -59,7 +59,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * The X coordinate of the start point of the quadratic curve
          * segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x1;
 
@@ -67,7 +67,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * The Y coordinate of the start point of the quadratic curve
          * segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y1;
 
@@ -75,7 +75,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * The X coordinate of the control point of the quadratic curve
          * segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double ctrlx;
 
@@ -83,7 +83,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * The Y coordinate of the control point of the quadratic curve
          * segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double ctrly;
 
@@ -91,7 +91,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * The X coordinate of the end point of the quadratic curve
          * segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x2;
 
@@ -99,7 +99,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * The Y coordinate of the end point of the quadratic curve
          * segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y2;
 

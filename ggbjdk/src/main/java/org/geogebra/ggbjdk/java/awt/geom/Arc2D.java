@@ -94,7 +94,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * The X coordinate of the upper-left corner of the framing
          * rectangle of the arc.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x;
 
@@ -102,7 +102,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * The Y coordinate of the upper-left corner of the framing
          * rectangle of the arc.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y;
 
@@ -110,7 +110,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * The overall width of the full ellipse of which this arc is
          * a partial section (not considering the angular extents).
          * @since 1.2
-         * @serial
+         * 
          */
         public double width;
 
@@ -118,21 +118,21 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * The overall height of the full ellipse of which this arc is
          * a partial section (not considering the angular extents).
          * @since 1.2
-         * @serial
+         * 
          */
         public double height;
 
         /**
          * The starting angle of the arc in degrees.
          * @since 1.2
-         * @serial
+         * 
          */
         public double start;
 
         /**
          * The angular extent of the arc in degrees.
          * @since 1.2
-         * @serial
+         * 
          */
         public double extent;
 
@@ -345,7 +345,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * indicating the arc type of this <code>Arc2D</code>
          * instance.
          *
-         * @serialData
+         * Data
          * <ol>
          * <li>The default serializable fields.
          * <li>
@@ -367,7 +367,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * indicating the arc type of this <code>Arc2D</code>
          * instance.
          *
-         * @serialData
+         * Data
          * <ol>
          * <li>The default serializable fields.
          * <li>

@@ -52,14 +52,14 @@ public abstract class Point2D extends GPoint2D {
         /**
          * The X coordinate of this <code>Point2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x;
 
         /**
          * The Y coordinate of this <code>Point2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y;
 

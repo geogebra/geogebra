@@ -82,28 +82,28 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
         /**
          * The X coordinate of this <code>Rectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x;
 
         /**
          * The Y coordinate of this <code>Rectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y;
 
         /**
          * The width of this <code>Rectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double width;
 
         /**
          * The height of this <code>Rectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double height;
 

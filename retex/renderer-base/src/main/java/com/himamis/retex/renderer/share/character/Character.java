@@ -2711,7 +2711,7 @@ public final class Character {
 	/**
 	 * The value of the {@code Character}.
 	 *
-	 * @serial
+	 * 
 	 */
 	private final char value;
 

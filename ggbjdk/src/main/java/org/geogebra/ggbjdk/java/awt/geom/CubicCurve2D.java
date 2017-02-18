@@ -62,7 +62,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The X coordinate of the start point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x1;
 
@@ -70,7 +70,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The Y coordinate of the start point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y1;
 
@@ -78,7 +78,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The X coordinate of the first control point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double ctrlx1;
 
@@ -86,7 +86,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The Y coordinate of the first control point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double ctrly1;
 
@@ -94,7 +94,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The X coordinate of the second control point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double ctrlx2;
 
@@ -102,7 +102,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The Y coordinate of the second control point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double ctrly2;
 
@@ -110,7 +110,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The X coordinate of the end point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x2;
 
@@ -118,7 +118,7 @@ public abstract class CubicCurve2D implements GShape  {
          * The Y coordinate of the end point
          * of the cubic curve segment.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y2;
 

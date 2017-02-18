@@ -282,42 +282,42 @@ public class TransformW implements Transform {
 	/**
 	 * The X coordinate scaling element of the 3x3 affine transformation matrix.
 	 *
-	 * @serial
+	 * 
 	 */
 	double m00;
 
 	/**
 	 * The Y coordinate shearing element of the 3x3 affine transformation matrix.
 	 *
-	 * @serial
+	 * 
 	 */
 	double m10;
 
 	/**
 	 * The X coordinate shearing element of the 3x3 affine transformation matrix.
 	 *
-	 * @serial
+	 * 
 	 */
 	double m01;
 
 	/**
 	 * The Y coordinate scaling element of the 3x3 affine transformation matrix.
 	 *
-	 * @serial
+	 * 
 	 */
 	double m11;
 
 	/**
 	 * The X coordinate of the translation element of the 3x3 affine transformation matrix.
 	 *
-	 * @serial
+	 * 
 	 */
 	double m02;
 
 	/**
 	 * The Y coordinate of the translation element of the 3x3 affine transformation matrix.
 	 *
-	 * @serial
+	 * 
 	 */
 	double m12;
 

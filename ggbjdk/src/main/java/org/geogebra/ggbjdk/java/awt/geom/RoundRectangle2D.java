@@ -57,42 +57,42 @@ public abstract class RoundRectangle2D extends RectangularShape {
         /**
          * The X coordinate of this <code>RoundRectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double x;
 
         /**
          * The Y coordinate of this <code>RoundRectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double y;
 
         /**
          * The width of this <code>RoundRectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double width;
 
         /**
          * The height of this <code>RoundRectangle2D</code>.
          * @since 1.2
-         * @serial
+         * 
          */
         public double height;
 
         /**
          * The width of the arc that rounds off the corners.
          * @since 1.2
-         * @serial
+         * 
          */
         public double arcwidth;
 
         /**
          * The height of the arc that rounds off the corners.
          * @since 1.2
-         * @serial
+         * 
          */
         public double archeight;
 
