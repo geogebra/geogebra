@@ -145,6 +145,16 @@ public abstract class AwtFactory {
 		return Tx;
 	}
 
+	/**
+	 * @param fillShape
+	 *            shape
+	 * @param g2
+	 *            g2
+	 * @param subImage2
+	 *            subImage
+	 * @param application
+	 *            app
+	 */
 	public void fillAfterImageLoaded(GShape fillShape, GGraphics2D g2,
 			GBufferedImage subImage2, App application) {
 		// needed in web only
