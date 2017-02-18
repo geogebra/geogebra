@@ -177,7 +177,7 @@ public class ToolManagerDialogModel {
 			e.printStackTrace();
 		}
 		app.setDefaultCursor();
-	};
+	}
 
 	/**
 	 * Saves all selected tools in a new file.

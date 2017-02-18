@@ -107,7 +107,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			geos.remove(idx);
 	        
         }
-	};
+	}
 	
 	private class GeoAttachedListBox extends GeoListBox {
 		private static final int MAX_VISIBLE_ROWS = 6;

@@ -311,7 +311,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			forceHideKeyboard();
 			wrappedPopup.hide();
 		}
-	};
+	}
 	
 	private native void forceHideKeyboard() /*-{
 		if ($wnd.android && $wnd.android.callPlugin) {

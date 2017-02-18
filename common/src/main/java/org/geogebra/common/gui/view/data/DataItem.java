@@ -37,7 +37,7 @@ public class DataItem {
 	 */
 	public static enum SourceType {
 		SPREADSHEET, LIST, CLASS, INTERNAL, EMPTY
-	};
+	}
 
 	private SourceType sourceType;
 	private GeoClass geoClass = GeoClass.NUMERIC;

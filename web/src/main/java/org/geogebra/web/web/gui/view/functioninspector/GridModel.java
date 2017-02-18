@@ -49,7 +49,7 @@ public class GridModel {
 	 		}
 			return result;
 
-		};
+		}
 	}
 
 	private static final String PREFIX = "[GRID MODEL]";

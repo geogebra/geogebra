@@ -115,6 +115,6 @@ public class AnimationStepModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 }

@@ -28,7 +28,7 @@ public class WindowReference implements EventRenderable {
 	/*
 	 * To check that window is open or not
 	 */
-	AnimationHandle requestAnimationFrame;;
+	AnimationHandle requestAnimationFrame;
 	/**
 	 * The instance of the opened window. We would like to have only one window opened in a given time
 	 */

@@ -16,7 +16,7 @@ public abstract class ClipperBase implements Clipper {
 		Edge leftBound;
 		Edge rightBound;
 		LocalMinima next;
-	};
+	}
 
 	/**
 	 * modified to be compatible with double
@@ -24,7 +24,7 @@ public abstract class ClipperBase implements Clipper {
 	protected static class Scanbeam {
 		double y;
 		Scanbeam next;
-	};
+	}
 
 	/**
 	 * modified to be compatible with double

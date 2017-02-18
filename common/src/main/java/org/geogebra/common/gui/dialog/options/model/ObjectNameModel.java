@@ -283,6 +283,6 @@ public class ObjectNameModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 }

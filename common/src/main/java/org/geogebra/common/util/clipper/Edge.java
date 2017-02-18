@@ -363,4 +363,4 @@ class Edge {
 		return MyDouble.exactEqual(d, Edge.HORIZONTAL);
 	}
 
-};
+}

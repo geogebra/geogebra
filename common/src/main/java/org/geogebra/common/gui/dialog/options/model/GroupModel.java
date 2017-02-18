@@ -49,6 +49,6 @@ public class GroupModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 }

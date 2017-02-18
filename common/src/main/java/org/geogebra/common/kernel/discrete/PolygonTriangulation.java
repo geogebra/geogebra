@@ -86,7 +86,7 @@ public class PolygonTriangulation {
 
 		public enum Type {
 			LEFT_POINT_INTERSECTION, ZERO_SEGMENT, DEAD_END
-		};
+		}
 
 		private Type type;
 

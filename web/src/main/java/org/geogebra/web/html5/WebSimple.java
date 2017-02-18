@@ -85,7 +85,7 @@ public class WebSimple implements EntryPoint {
 								&& ((JavaScriptException) cause).getThrown() != null ? ((JavaScriptException) cause)
 								.getThrown() : cause;
 						log(nativeCause);
-					};
+			}
 
 					public native void log(Object t) /*-{
 		console && console.log && console.log(t);

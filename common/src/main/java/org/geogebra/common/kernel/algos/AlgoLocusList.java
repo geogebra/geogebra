@@ -198,7 +198,7 @@ public class AlgoLocusList extends AlgoElement {
 		return EuclidianConstants.MODE_LOCUS;
 	}
 
-	public ArrayList getMoveableInputPoints() {
+	public ArrayList<?> getMoveableInputPoints() {
 		// TODO ?
 		return null;
 	}

@@ -51,5 +51,5 @@ public class DecoSegmentModel extends NumberOptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 }

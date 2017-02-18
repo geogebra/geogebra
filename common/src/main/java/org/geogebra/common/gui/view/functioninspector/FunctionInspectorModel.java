@@ -102,7 +102,7 @@ public class FunctionInspectorModel {
 
 	public enum Colors {
 		GEO, GEO2, EVEN_ROW, GRID
-	};
+	}
 
 	// column types
 	private static final int COL_DERIVATIVE = 0;

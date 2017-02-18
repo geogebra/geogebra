@@ -93,7 +93,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 		/** barchart of a discrete probability distribution **/
 		BARCHART_BINOMIAL, BARCHART_PASCAL, BARCHART_POISSON, BARCHART_HYPERGEOMETRIC, BARCHART_BERNOULLI, BARCHART_ZIPF
-	};
+	}
 
 	// tolerance for parabolic interpolation
 	private static final double TOLERANCE = 1E-7;

@@ -9,23 +9,23 @@ public interface Clipper {
 
 	enum Direction {
 		RIGHT_TO_LEFT, LEFT_TO_RIGHT
-	};
+	}
 
 	public enum EndType {
 		CLOSED_POLYGON, CLOSED_LINE, OPEN_BUTT, OPEN_SQUARE, OPEN_ROUND
-	};
+	}
 
 	public enum JoinType {
 		SQUARE, ROUND, MITER
-	};
+	}
 
 	public enum PolyFillType {
 		EVEN_ODD, NON_ZERO, POSITIVE, NEGATIVE
-	};
+	}
 
 	public enum PolyType {
 		SUBJECT, CLIP
-	};
+	}
 
 	/**
 	 * modified to be compatible with double
@@ -33,7 +33,7 @@ public interface Clipper {
 	public interface ZFillCallback {
 		void zFill(DoublePoint bot1, DoublePoint top1, DoublePoint bot2,
 				DoublePoint top2, DoublePoint pt);
-	};
+	}
 
 	// InitOptions that can be passed to the constructor ...
 	public final static int REVERSE_SOLUTION = 1;

@@ -50,7 +50,7 @@ public class PrintScalePanel extends JPanel {
 
 	public enum PrintScaleModes {
 		SIZEINCM, SIZEINPX, FIXED_SIZE
-	};
+	}
 
 	private PrintScaleModes mode = PrintScaleModes.SIZEINCM;
 

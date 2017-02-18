@@ -214,7 +214,7 @@ public class WinFileManager extends FileManager {
 			}
 		});
 
-	};
+	}
 
 	/**
 	 * @param sh

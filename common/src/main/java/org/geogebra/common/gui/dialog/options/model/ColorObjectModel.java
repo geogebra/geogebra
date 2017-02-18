@@ -236,7 +236,7 @@ public class ColorObjectModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 	protected AlgoElement getAlgorithm() {
 		return getGeoAt(0).getParentAlgorithm();

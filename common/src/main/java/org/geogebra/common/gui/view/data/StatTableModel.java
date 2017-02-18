@@ -68,10 +68,9 @@ public class StatTableModel {
 	private Construction cons;
 	private StatTableListener listener;
 
-	// !TODO: to common!
 	public enum Stat {
 		NULL, LENGTH, MEAN, SD, SAMPLE_SD, SUM, SIGMAXX, MIN, Q1, MEDIAN, Q3, MAX, MEANX, MEANY, SX, SY, PMCC, SPEARMAN, SXX, SYY, SXY, RSQUARE, SSE
-	};
+	}
 
 	/*************************************************
 	 * Construct the panel

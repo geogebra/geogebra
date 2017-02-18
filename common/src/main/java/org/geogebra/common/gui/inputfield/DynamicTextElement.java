@@ -17,7 +17,7 @@ public class DynamicTextElement {
 
 	public enum DynamicTextType {
 		VALUE, DEFINITION, FORMULA_TEXT, STATIC
-	};
+	}
 
 	public DynamicTextType type = DynamicTextType.STATIC;
 	public String text = "";

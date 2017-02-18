@@ -42,7 +42,7 @@ public class AngleArcSizeModel extends OptionsModel {
 			angle.updateRepaint();
 		}
 		storeUndoInfo();
-	};
+	}
 
 	@Override
 	public void updateProperties() {
@@ -67,5 +67,5 @@ public class AngleArcSizeModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 }

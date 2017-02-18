@@ -60,7 +60,7 @@ public class FunctionEvaluationException extends MathException {
 	 */
 	public FunctionEvaluationException(double[] argument) {
 		super(FAILED_EVALUATION_MESSAGE, new Object());
-		/* AGArrayRealVector(argument) */;
+		/* AGArrayRealVector(argument) */
 		this.argument = argument;
 	}
 

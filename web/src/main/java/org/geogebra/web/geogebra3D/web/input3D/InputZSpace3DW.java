@@ -189,7 +189,7 @@ public class InputZSpace3DW extends Input3D {
 		return inputGlassesPosition[i];
 	}
 
-	private double eyeSeparation;;
+	private double eyeSeparation;
 
 	@Override
 	public double getEyeSeparation() {

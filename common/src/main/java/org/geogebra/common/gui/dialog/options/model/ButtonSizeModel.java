@@ -79,5 +79,5 @@ public class ButtonSizeModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 }

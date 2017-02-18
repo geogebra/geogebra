@@ -51,7 +51,7 @@ public class AlgoFinancial extends AlgoElement {
 
 	public enum CalculationType {
 		RATE, NPER, PMT, PV, FV
-	};
+	}
 
 	// input
 	private GeoNumeric geoRate, geoNper, geoPmt, geoPV, geoFV, geoPmtType,

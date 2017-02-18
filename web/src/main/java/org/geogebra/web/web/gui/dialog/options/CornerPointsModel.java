@@ -33,6 +33,6 @@ public class CornerPointsModel extends OptionsModel {
 
 	public void setListener(CornerPointsPanel listener) {
 		this.listener = listener;
-	};
+	}
 
 }

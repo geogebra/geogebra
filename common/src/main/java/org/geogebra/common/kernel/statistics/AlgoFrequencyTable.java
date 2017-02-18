@@ -36,7 +36,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 	private enum inputType {
 		STANDARD, HISTOGRAM, BARCHART
-	};
+	}
 
 	private inputType type;
 

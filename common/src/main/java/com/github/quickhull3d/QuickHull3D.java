@@ -1170,7 +1170,7 @@ public class QuickHull3D {
 		for (Face face = newFaces.first(); face != null; face = face.next) {
 			if (face.mark == Face.VISIBLE) {
 				while (doAdjacentMerge(face, NONCONVEX_WRT_LARGER_FACE)) {
-					;
+					//
 				}
 			}
 		}
@@ -1180,7 +1180,7 @@ public class QuickHull3D {
 			if (face.mark == Face.NON_CONVEX) {
 				face.mark = Face.VISIBLE;
 				while (doAdjacentMerge(face, NONCONVEX)) {
-					;
+					//
 				}
 			}
 		}

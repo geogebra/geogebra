@@ -67,6 +67,6 @@ public class DecoAngleModel extends NumberOptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 }

@@ -24,7 +24,7 @@ public class CustomColorDialog extends DialogBoxW {
 	public interface ICustomColor {
 		GColor getSelectedColor();
 		void onCustomColor(GColor color);
-    };
+	}
     
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 258;

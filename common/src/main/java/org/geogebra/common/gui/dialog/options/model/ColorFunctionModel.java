@@ -22,7 +22,7 @@ public class ColorFunctionModel extends OptionsModel {
 		void setDefaultValues(GeoElement geo0);
 
 		void updateSelection(Object[] geos);
-	};
+	}
 
 	private IColorFunctionListener listener;
 	private Kernel kernel;
@@ -211,5 +211,5 @@ public class ColorFunctionModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 }

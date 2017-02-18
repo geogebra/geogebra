@@ -65,6 +65,6 @@ public class TextFieldSizeModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	};
+	}
 
 }

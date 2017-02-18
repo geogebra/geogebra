@@ -26,7 +26,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 	private AngleProperties getAnglePropertiesAt(int index) {
 		return (AngleProperties) getObjectAt(index);
-	};
+	}
 
 	@Override
 	public void updateProperties() {
