@@ -621,9 +621,9 @@ public class AlgoDependentNumber extends AlgoElement
 				/* TODO: check if this conversion is really correct */
 			} else {
 				i = new BigDecimal(d).toBigInteger();
+			}
 			polyNode.setPoly(new PPolynomial(i));
 			return;
-			}
 		}
 		polyNode.setOperation(expNode.getOperation());
 		if (expNode.getLeft() != null) {
