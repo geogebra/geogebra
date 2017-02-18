@@ -3,6 +3,7 @@ package org.geogebra.common.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
@@ -308,12 +309,8 @@ public class TableSymbols {
 
 	public final static String[] greekLettersPlusVariants() {
 		ArrayList<String> list = new ArrayList<String>();
-		for (int i = 0; i < Unicode.greekUpperCase.length; i++) {
-			list.add(Unicode.greekUpperCase[i] + "");
-		}
-		for (int i = 0; i < Unicode.greekLowerCaseNoPi.length; i++) {
-			list.add(Unicode.greekLowerCaseNoPi[i] + "");
-		}
+		GeoElement.addAddAllGreekUpperCase(list);
+		GeoElement.addAddAllGreekLowerCaseNoPi(list);
 		list.add("\u03C6"); // LaTeX /varPhi (loopy phi)
 		list.add("\u03B5"); // LaTeX /varEpsilon
 		list.add("\u03D1"); // LaTeX /varTheta (curly theta)

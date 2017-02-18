@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -334,10 +335,7 @@ public class AxisModel {
 			break;
 		}
 		listener.addAxisLabelItem(defaultLabel);
-		char[] greeks = Unicode.greekLowerCaseNoPi;
-		for (int i = 0; i < greeks.length; i++) {
-			listener.addAxisLabelItem(greeks[i] + "");
-		}
+		GeoElement.addAddAllGreekLowerCaseNoPi(listener);
 
 	}
 
