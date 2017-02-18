@@ -23,6 +23,7 @@ import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.Test;
 
 /**
  * Class for describing GeoElement in 3D version.
@@ -36,8 +37,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * <p>
  * 
- * <b> In GeoElement3D (this class), create an new constant to identify
- * GeoNew3D </b>
+ * <b> In GeoElement3D (this class), create an new constant to identify GeoNew3D
+ * </b>
  * <p>
  * <code> public static final int GEO_CLASS_NEW3D = 30??; </code>
  * <p>
@@ -111,8 +112,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * <li>{@link Drawable3D} to create a drawable linked to this new element.</li>
  * <li>{@link Kernel3D} to add a method to create this new element</li>
  * <li>
- * {@link Test3D#Test3D(Kernel3D, geogebra.euclidian.EuclidianView, geogebra3D.euclidian3D.EuclidianView3D, geogebra3D.Application3D)}
- * to test it</li>
+ * {@link Test} Kernel3D, geogebra.euclidian.EuclidianView,
+ * geogebra3D.euclidian3D.EuclidianView3D, geogebra3D.Application3D)} to test it
+ * </li>
  * </ul>
  * 
  * 
@@ -172,6 +174,9 @@ public abstract class GeoElement3D extends GeoElement {
 
 	private StringBuilder sbToString;
 
+	/**
+	 * @return builder for toString
+	 */
 	protected StringBuilder getSbToString() {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
@@ -181,6 +186,9 @@ public abstract class GeoElement3D extends GeoElement {
 
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
+	/**
+	 * @return builder for toValueString
+	 */
 	protected StringBuilder getSbBuildValueString() {
 		if (sbBuildValueString == null) {
 			sbBuildValueString = new StringBuilder();

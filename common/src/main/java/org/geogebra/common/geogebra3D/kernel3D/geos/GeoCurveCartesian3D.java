@@ -43,10 +43,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		RotateableND, Translateable,
 		MirrorableAtPlane, Transformable, Dilateable {
 	private CoordMatrix4x4 tmpMatrix4x4;
+	
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
 	 * 
 	 * @param c
+	 *            construction
 	 */
 	public GeoCurveCartesian3D(Construction c) {
 		super(c, 3, null);
@@ -56,7 +58,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param fun
+	 *            functions
+	 * @param point
+	 *            point expression (may be null)
 	 */
 	public GeoCurveCartesian3D(Construction c, Function fun[],
 			ExpressionNode point) {
@@ -64,8 +70,10 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	/**
+	 * copy constructor
 	 * 
 	 * @param curve
+	 *            original
 	 */
 	public GeoCurveCartesian3D(GeoCurveCartesian3D curve) {
 		super(curve.cons, 3, null);
@@ -77,6 +85,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return fun[i];
 	}
 
+	/**
+	 * @param t
+	 *            parameter
+	 * @return derivative at given point
+	 */
 	public Coords evaluateTangent(double t) {
 		updateDerivatives();
 		Coords v = new Coords(3);
@@ -101,6 +114,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return new double[3];
 	}
 
+	/**
+	 * @param t
+	 *            curve parameter
+	 * @return resulting coords
+	 */
 	public Coords evaluateCurve3D(double t) {
 		return new Coords(fun[0].evaluate(t), fun[1].evaluate(t),
 				fun[2].evaluate(t), 1);
@@ -708,8 +726,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons) {
-		return new GeoCurveCartesian3D(cons);
+	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons1) {
+		return new GeoCurveCartesian3D(cons1);
 	}
 
 	@Override

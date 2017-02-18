@@ -859,7 +859,9 @@ public class GeoConicPart3D extends GeoConic3D
 	 * super method
 	 * 
 	 * @param P
+	 *            moved point
 	 * @param pp
+	 *            path parameter
 	 */
 	@Override
 	public void superPointChanged(Coords P, PathParameter pp) {
@@ -879,7 +881,8 @@ public class GeoConicPart3D extends GeoConic3D
 	}
 
 	@Override
-	public GeoElement[] createTransformedObject(Transform t, String label) {
+	public GeoElement[] createTransformedObject(Transform t,
+			String transformedLabel) {
 		// TODO: this way we discard the path limitation
 		return new GeoElement[] { t.getTransformedConic(this) };
 	}

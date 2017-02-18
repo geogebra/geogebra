@@ -47,9 +47,9 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 final public class Geo3DVec extends ValidExpression
 		implements Vector3DValue, Geo3DVecInterface {
 
-	public double x = Double.NaN;
-	public double y = Double.NaN;
-	public double z = Double.NaN;
+	private double x = Double.NaN;
+	private double y = Double.NaN;
+	private double z = Double.NaN;
 	private int mode = Kernel.COORD_CARTESIAN_3D;
 
 	private Kernel kernel;
@@ -83,7 +83,12 @@ final public class Geo3DVec extends ValidExpression
 		this.z = z;
 	}
 
-	/** Copy constructor */
+	/**
+	 * Copy constructor
+	 * 
+	 * @param v
+	 *            original
+	 */
 	public Geo3DVec(Geo3DVec v) {
 		this(v.kernel);
 		x = v.x;
@@ -102,7 +107,16 @@ final public class Geo3DVec extends ValidExpression
 		// no variables ?
 	}
 
-	/** Creates new GeoVec3D as vector between Points P and Q */
+	/**
+	 * Creates new GeoVec3D as vector between Points P and Q
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param p
+	 *            start point
+	 * @param q
+	 *            end point
+	 */
 	public Geo3DVec(Kernel kernel, GeoPoint3D p, GeoPoint3D q) {
 		this(kernel);
 		x = q.getX() - p.getX();
@@ -110,30 +124,60 @@ final public class Geo3DVec extends ValidExpression
 		z = q.getZ() - p.getZ();
 	}
 
+	/**
+	 * @param x
+	 *            x-coord
+	 */
 	public void setX(double x) {
 		this.x = x;
 	}
 
+	/**
+	 * @param y
+	 *            y-coord
+	 */
 	public void setY(double y) {
 		this.y = y;
 	}
 
+	/**
+	 * @param z
+	 *            z-coord
+	 */
 	public void setZ(double z) {
 		this.z = z;
 	}
 
+	/**
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 */
 	public void setCoords(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
+	/**
+	 * @param a
+	 *            [x,y,z], further elements ignored
+	 */
 	public void setCoords(double[] a) {
 		x = a[0];
 		y = a[1];
 		z = a[2];
 	}
 
+	/**
+	 * Copy coords from source to this
+	 * 
+	 * @param v
+	 *            source vector
+	 */
 	public void setCoords(GeoVec3D v) {
 		x = v.x;
 		y = v.y;
@@ -158,11 +202,6 @@ final public class Geo3DVec extends ValidExpression
 	// final public double getR() { return length(x, y); }
 	// final public double getPhi() { return Math.atan2(y, x); }
 
-	final public double[] getCoords() {
-		double[] res = { x, y, z };
-		return res;
-	}
-
 	/**
 	 * Calculates the eucilidian length of this 2D vector. The result is
 	 * sqrt(x^2 + y^2).
@@ -172,18 +211,12 @@ final public class Geo3DVec extends ValidExpression
 		return length(x, y, z);
 	}
 
-	/**
-	 * Calculates the eucilidian length of this 2D vector. The result is
-	 * sqrt(a[0]^2 + a[1]^2).
-	 */
-	final public static double length(double[] a) {
-		return length(a[0], a[1], a[2]);
-	}
+
 
 	/**
 	 * Calculates the euclidian length sqrt(a^2 + b^2).
 	 */
-	final public static double length(double a, double b, double c) {
+	private static double length(double a, double b, double c) {
 		return Math.sqrt(a * a + b * b + c * c);
 
 	}
@@ -201,6 +234,10 @@ final public class Geo3DVec extends ValidExpression
 	/**
 	 * Yields true if the coordinates of this vector are equal to those of
 	 * vector v.
+	 * 
+	 * @param v
+	 *            other vector
+	 * @return whether they are equal, ignoring z
 	 */
 	final public boolean equals(GeoVec2D v) {
 		return Kernel.isEqual(x, v.getX()) && Kernel.isEqual(y, v.getY());
@@ -227,28 +264,49 @@ final public class Geo3DVec extends ValidExpression
 	// return res;
 	// }
 
-	/** c = a + b */
+	/**
+	 * c = a + b
+	 * 
+	 * @param a
+	 *            addend
+	 * @param b
+	 *            addend
+	 * @param c
+	 *            sum
+	 */
 	final public static void add(Geo3DVec a, Geo3DVec b, Geo3DVec c) {
 		c.x = a.x + b.x;
 		c.y = a.y + b.y;
 		c.z = a.z + b.z;
 	}
 
-	/** c = a + b */
+	/**
+	 * c = a + b
+	 * 
+	 * @param a
+	 *            addend
+	 * @param b
+	 *            addend
+	 * @param c
+	 *            sum
+	 */
 	final public static void add(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
 		c.x = a.x + b.getX();
 		c.y = a.y + b.getY();
 		c.z = a.z;
 	}
 
-	/** c = a + b */
-	final public static void add(GeoVec2D a, Geo3DVec b, Geo3DVec c) {
-		c.x = a.getX() + b.x;
-		c.y = a.getY() + b.y;
-		c.z = b.z;
-	}
 
-	/** c = Vector (Cross) Product of a and b */
+	/**
+	 * c = Vector (Cross) Product of a and b
+	 * 
+	 * @param a
+	 *            vector
+	 * @param b
+	 *            vector
+	 * @param c
+	 *            product
+	 */
 	final public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
 			Geo3DVec c) {
 		// tempX/Y needed because a and c can be the same variable
@@ -266,39 +324,97 @@ final public class Geo3DVec extends ValidExpression
 	// return res;
 	// }
 
-	/** c = a - b */
+	/**
+	 * c = a - b
+	 * 
+	 * @param a
+	 *            vector
+	 * @param b
+	 *            vector
+	 * @param c
+	 *            result
+	 */
 	final public static void sub(Geo3DVec a, Geo3DVec b, Geo3DVec c) {
 		c.x = a.x - b.x;
 		c.y = a.y - b.y;
 		c.z = a.z - b.z;
 	}
 
-	/** c = a - b */
+	/**
+	 * c = a - b
+	 * 
+	 * @param a
+	 *            vector
+	 * 
+	 * @param b
+	 *            vector
+	 * @param c
+	 *            result
+	 * */
 	final public static void sub(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
 		c.x = a.x - b.getX();
 		c.y = a.y - b.getY();
 		c.z = a.z;
 	}
 
-	/** c = a - b */
+	/**
+	 * c = a - b
+	 * 
+	 * @param a
+	 *            vector
+	 * @param b
+	 *            vector
+	 * @param c
+	 *            result
+	 */
 	final public static void sub(GeoVec2D a, Geo3DVec b, Geo3DVec c) {
 		c.x = a.getX() - b.x;
 		c.y = a.getY() - b.y;
 		c.z = -b.z;
 	}
 
-	/** c = a * b */
+	/**
+	 * c = a * b
+	 * 
+	 * @param a
+	 *            factor
+	 * @param b
+	 *            factor
+	 * @param c
+	 *            product
+	 */
 	final public static void mult(Geo3DVec a, double b, Geo3DVec c) {
 		c.x = a.x * b;
 		c.y = a.y * b;
 		c.z = a.z * b;
 	}
 
+	/**
+	 * Store inner product of two vectors in a number
+	 * 
+	 * @param a
+	 *            1st vector
+	 * @param b
+	 *            2nd vector
+	 * @param c
+	 *            output number
+	 */
 	final public static void inner(GeoVecInterface a, GeoVecInterface b,
 			MyDouble c) {
 		c.set(a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ());
 	}
 
+	/**
+	 * Multiplies two vectors as complex numbers. Returns undefined if they are
+	 * not 2D (z=0)
+	 * 
+	 * @param a
+	 *            factor
+	 * @param b
+	 *            factor
+	 * @param c
+	 *            product
+	 */
 	final public static void complexMultiply(GeoVecInterface a,
 			GeoVecInterface b, GeoVec2D c) {
 
@@ -317,7 +433,16 @@ final public class Geo3DVec extends ValidExpression
 		c.setMode(Kernel.COORD_COMPLEX);
 	}
 
-	/** c = a / b */
+	/**
+	 * c = a / b
+	 * 
+	 * @param a
+	 *            dividend
+	 * @param b
+	 *            divisor
+	 * @param c
+	 *            ratio
+	 */
 	final public static void div(Geo3DVec a, double b, Geo3DVec c) {
 		c.x = a.x / b;
 		c.y = a.y / b;

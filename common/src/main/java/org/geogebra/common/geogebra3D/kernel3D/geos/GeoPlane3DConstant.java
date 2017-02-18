@@ -10,16 +10,22 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
+/**
+ * Constant plane
+ *
+ */
 public class GeoPlane3DConstant extends GeoPlane3D
 		implements SymbolicParametersBotanaAlgo {
-
+	/** xYo plane */
 	public static final int XOY_PLANE = 1;
 
 	/**
 	 * construct the plane xOy, ...
 	 * 
 	 * @param c
+	 *            construction
 	 * @param type
+	 *            XOY_PLANE
 	 */
 	public GeoPlane3DConstant(Construction c, int type) {
 
@@ -120,6 +126,13 @@ public class GeoPlane3DConstant extends GeoPlane3D
 		return gridVisible && isEuclidianVisible();
 	}
 
+	/**
+	 * Show or hide grid
+	 * 
+	 * @param grid
+	 *            grid visibility flag
+	 * @return whether it changed
+	 */
 	public boolean setGridVisible(boolean grid) {
 		if (gridVisible == grid) {
 			return false;

@@ -79,8 +79,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param coeffs
 	 *            coefficients
 	 */
@@ -1463,6 +1461,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// //////////////////////////////
 	// CONE
 
+	/**
+	 * @param origin
+	 *            vertex
+	 * @param direction
+	 *            axis direction
+	 * @param angle
+	 *            angle between axis and surface
+	 */
 	public void setCone(GeoPointND origin, GeoVectorND direction,
 			double angle) {
 
@@ -2508,7 +2514,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	/**
 	 * 
 	 * @param u
+	 *            u-param
 	 * @param v
+	 *            v-param
 	 * @return deprecated use getPoint(double u, double v, Coords coords)
 	 *         instead
 	 */
@@ -2692,16 +2700,16 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	/**
 	 * 
-	 * @param p
+	 * @param source
 	 * @return direction from p to center (midpoint, or axis for cone,
 	 *         cylinder...)
 	 */
-	private Coords getDirectionToCenter(Coords p) {
+	private Coords getDirectionToCenter(Coords source) {
 
 		switch (getType()) {
 		case QUADRIC_SPHERE:
 		case QUADRIC_ELLIPSOID:
-			tmpCoords.setSub(getMidpoint3D(), p);
+			tmpCoords.setSub(getMidpoint3D(), source);
 			if (tmpCoords.isZero()) {
 				return getEigenvec3D(0).copyVector();
 			}
@@ -2709,15 +2717,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_HYPERBOLOID_ONE_SHEET:
 		case QUADRIC_HYPERBOLOID_TWO_SHEETS:
 		case QUADRIC_PARABOLOID:
-			p.projectLine(getMidpoint3D(), getEigenvec3D(2), tmpCoords);
-			tmpCoords.setSub(tmpCoords, p);
+			source.projectLine(getMidpoint3D(), getEigenvec3D(2), tmpCoords);
+			tmpCoords.setSub(tmpCoords, source);
 			if (tmpCoords.isZero()) {
 				return getEigenvec3D(0).copyVector();
 			}
 			return tmpCoords;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
-			eigenMatrix.pivotDegenerate(tmpCoords, p);
+			eigenMatrix.pivotDegenerate(tmpCoords, source);
 			// project on eigen xOy plane
 			// when we are already on axis, pick a direction "at random"
 			if (Kernel.isZero(tmpCoords.getX())
@@ -2734,13 +2742,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			tmpCoords2.mulInside(-1);
 			return tmpCoords2;
 		case QUADRIC_PARABOLIC_CYLINDER:
-			tmpCoords.setSub(getMidpoint3D(), p);
+			tmpCoords.setSub(getMidpoint3D(), source);
 			if (tmpCoords.dotproduct(getEigenvec3D(2)) > 0) {
 				return getEigenvec3D(2).copyVector(); // back to "plane axis"
 			}
 			return getEigenvec3D(2).mul(-1); // back to "plane axis"
 		case QUADRIC_HYPERBOLIC_CYLINDER:
-			tmpCoords.setSub(getMidpoint3D(), p);
+			tmpCoords.setSub(getMidpoint3D(), source);
 			if (tmpCoords.dotproduct(getEigenvec3D(0)) > 0) {
 				return getEigenvec3D(0).copyVector(); // back to "plane axis"
 			}
@@ -3061,27 +3069,27 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoLineND line) {
+	public void rotate(NumberValue r, GeoLineND axis) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(),
-				r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
+		CoordMatrix4x4.Rotation4x4(axis.getDirectionInD3().normalized(),
+				r.getDouble(), axis.getStartInhomCoords(), tmpMatrix4x4);
 		rotate(tmpMatrix4x4);
 
 		// planes
 		if (type == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES
 				|| type == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
 				|| type == GeoQuadricNDConstants.QUADRIC_PLANE) {
-			planes[0].rotate(r, line);
+			planes[0].rotate(r, axis);
 			if (type != GeoQuadricNDConstants.QUADRIC_PLANE) {
-				planes[1].rotate(r, line);
+				planes[1].rotate(r, axis);
 			}
 		}
 		// line
 		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
-			this.line.rotate(r, line);
+			this.line.rotate(r, axis);
 		}
 
 	}
@@ -3126,10 +3134,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private Coords tmpCoords = new Coords(4);
 
 	@Override
-	public void mirror(GeoLineND line) {
+	public void mirror(GeoLineND mirrorLine) {
 
-		Coords point = line.getStartInhomCoords();
-		Coords direction = line.getDirectionInD3().normalized();
+		Coords point = mirrorLine.getStartInhomCoords();
+		Coords direction = mirrorLine.getDirectionInD3().normalized();
 
 		// midpoint
 		Coords mp = getMidpoint3D();
@@ -3156,14 +3164,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (type == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES
 				|| type == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
 				|| type == GeoQuadricNDConstants.QUADRIC_PLANE) {
-			planes[0].mirror(line);
+			planes[0].mirror(mirrorLine);
 			if (type != GeoQuadricNDConstants.QUADRIC_PLANE) {
-				planes[1].mirror(line);
+				planes[1].mirror(mirrorLine);
 			}
 		}
 		// line
 		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
-			this.line.mirror(line);
+			this.line.mirror(mirrorLine);
 		}
 
 	}
@@ -3348,6 +3356,26 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private boolean setEigenvectorsCalled = false;
 
+	/**
+	 * @param x0
+	 *            x(e0)
+	 * @param y0
+	 *            y(e0)
+	 * @param z0
+	 *            z(e0)
+	 * @param x1
+	 *            x(e1)
+	 * @param y1
+	 *            y(e1)
+	 * @param z1
+	 *            z(e1)
+	 * @param x2
+	 *            x(e2)
+	 * @param y2
+	 *            y(e2)
+	 * @param z2
+	 *            z(e2)
+	 */
 	final public void setEigenvectors(double x0, double y0, double z0,
 			double x1, double y1, double z1, double x2, double y2, double z2) {
 
@@ -3426,7 +3454,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * sets the min and max values for limits
 	 * 
 	 * @param min
+	 *            minimum
 	 * @param max
+	 *            maximum
 	 */
 	public void setLimits(double min, double max) {
 		// implemented in GeoQuadric3DPart

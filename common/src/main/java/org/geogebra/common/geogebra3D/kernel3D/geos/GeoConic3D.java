@@ -44,6 +44,12 @@ public class GeoConic3D extends GeoConicND
 		setCoordSys(cs);
 	}
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param conic
+	 *            original
+	 */
 	public GeoConic3D(GeoConicND conic) {
 		this(conic.getConstruction());
 		set(conic);
@@ -380,6 +386,13 @@ public class GeoConic3D extends GeoConicND
 		return getCoordSys().getNormalProjection(coords);
 	}
 
+	/**
+	 * @param coords
+	 *            projected point
+	 * @param willingDirection
+	 *            direction of projection
+	 * @return projected point
+	 */
 	public Coords[] getProjection(Coords coords, Coords willingDirection) {
 
 		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };

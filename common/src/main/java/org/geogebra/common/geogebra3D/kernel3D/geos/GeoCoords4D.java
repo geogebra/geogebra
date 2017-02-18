@@ -13,9 +13,13 @@ public interface GeoCoords4D {
 	 * sets the coords
 	 * 
 	 * @param x
+	 *            x-ccord
 	 * @param y
+	 *            y-coord
 	 * @param z
+	 *            z-coord
 	 * @param w
+	 *            w-coord (homogenous)
 	 */
 	public void setCoords(double x, double y, double z, double w);
 
