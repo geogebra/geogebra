@@ -18,10 +18,10 @@ package org.geogebra.common.kernel;
  */
 public interface AsynchronousCommand {
 	/**
-	 * This flag switches using asyncronous CAS on or off in Desktop, has no
+	 * This flag switches using asynchronous CAS on or off in Desktop, has no
 	 * effect in Web.
 	 */
-	public boolean USE_ASYNCHRONOUS = false;
+	final public boolean USE_ASYNCHRONOUS = false;
 
 	/**
 	 * @param output
