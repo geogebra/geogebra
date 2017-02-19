@@ -21,6 +21,10 @@ import java.net.URLConnection;
 
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Helper for downloading files
+ *
+ */
 public class DownloadManager {
 
 	// size of byte buffer to download / copy files
@@ -28,6 +32,13 @@ public class DownloadManager {
 
 	/**
 	 * Copies or downloads url to destination file.
+	 * 
+	 * @param src
+	 *            source file
+	 * @param dest
+	 *            target file
+	 * @throws Exception
+	 *             if URL can't be opened or writing fails
 	 */
 	public static void copyURLToFile(URL src, File dest) throws Exception {
 		BufferedInputStream in = null;
@@ -91,6 +102,12 @@ public class DownloadManager {
 		}
 	}
 
+	/**
+	 * Closes stream without errors
+	 * 
+	 * @param c
+	 *            stream or null
+	 */
 	public static void closeSilent(Closeable c) {
 		try {
 			if (c != null) {

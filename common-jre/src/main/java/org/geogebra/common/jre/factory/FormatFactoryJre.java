@@ -6,6 +6,10 @@ import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
 
+/**
+ * Format factory for Desktop and Android
+ *
+ */
 public class FormatFactoryJre extends FormatFactory {
 
 	@Override

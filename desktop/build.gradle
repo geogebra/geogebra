@@ -92,6 +92,7 @@ run {
 test {
 	systemProperty "materials.token", project.hasProperty("materialsTokenPath") ? file( project.getProperty("materialsTokenPath")).getText() : "";
     ignoreFailures = true
+    outputs.upToDateWhen { false }
 }
 
 findbugs{

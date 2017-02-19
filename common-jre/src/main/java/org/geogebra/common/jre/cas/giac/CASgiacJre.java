@@ -15,6 +15,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Giac for Desktop and Android
+ *
+ */
 public abstract class CASgiacJre extends CASgiac {
 
 

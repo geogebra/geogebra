@@ -17,6 +17,7 @@ public abstract class LocalizationJre extends Localization {
 			rbcolors, rbsymbol;
 
 	private Locale tooltipLocale = null;
+	/** application */
 	protected App app;
 	private boolean tooltipFlag = false;
 
@@ -28,6 +29,12 @@ public abstract class LocalizationJre extends Localization {
 		this(dimension, 15);
 	}
 
+	/**
+	 * @param dimension
+	 *            3 for 3D, 2 otherwise
+	 * @param maxFigures
+	 *            maximum digits
+	 */
 	public LocalizationJre(int dimension, int maxFigures) {
 		super(dimension, maxFigures);
 	}
@@ -95,16 +102,19 @@ public abstract class LocalizationJre extends Localization {
 	 */
 	abstract protected ResourceBundle createBundle(String key, Locale locale);
 
+	/** @return path of Menu bundle */
 	abstract protected String getMenuRessourcePath();
 
+	/** @return path of Command bundle */
 	abstract protected String getCommandRessourcePath();
 
+	/** @return path of Color bundle */
 	abstract protected String getColorRessourcePath();
 
+	/** @return path of Error bundle */
 	abstract protected String getErrorRessourcePath();
 
-	abstract protected String getPlainRessourcePath();
-
+	/** @return path of Symbol bundle */
 	abstract protected String getSymbolRessourcePath();
 
 	@Override

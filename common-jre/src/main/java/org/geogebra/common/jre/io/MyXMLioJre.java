@@ -64,7 +64,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	/**
 	 * @param kernel
+	 *            kernel
 	 * @param cons
+	 *            construction
 	 */
 	public MyXMLioJre(Kernel kernel, Construction cons) {
 		super(kernel, cons);
@@ -80,8 +82,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * in xml format and maybe image files.
 	 * 
 	 * @param is
+	 *            input stream
 	 * @param isGGTfile
+	 *            true for ggt files
 	 * @throws Exception
+	 *             when file is not accessible / is not valid ggb
 	 */
 	public final void readZipFromInputStream(InputStream is, boolean isGGTfile)
 			throws Exception {
@@ -106,8 +111,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * saved in xml format and maybe image files.
 	 * 
 	 * @param zip
+	 *            zip input stream
 	 * @param isGGTfile
+	 *            true for ggt files
 	 * @throws Exception
+	 *             when file is not accessible / is not valid ggb
 	 */
 	protected abstract void readZip(ZipInputStream zip, boolean isGGTfile)
 			throws Exception;
@@ -116,9 +124,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * Handles the XML file stored in buffer.
 	 * 
 	 * @param buffer
+	 *            input buffer
 	 * @param clearConstruction
+	 *            whether to clear construction
 	 * @param isGGTOrDefaults
+	 *            whether this is just ggt/defaults (no construction)
 	 * @throws Exception
+	 *             on parsing error
 	 */
 	protected void processXMLBuffer(byte[] buffer, boolean clearConstruction,
 			boolean isGGTOrDefaults) throws Exception {
@@ -137,7 +149,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * saved in xml format.
 	 * 
 	 * @param is
+	 *            input stream
 	 * @throws Exception
+	 *             on parsing error
 	 */
 	public final void readZipFromMemory(InputStream is) throws Exception {
 		ZipInputStream zip = new ZipInputStream(is);
@@ -163,7 +177,9 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * in xml format plus all external images.
 	 * 
 	 * @param file
+	 *            output file
 	 * @throws IOException
+	 *             on write error
 	 */
 	final public void writeGeoGebraFile(File file) throws IOException {
 		// create file
@@ -182,8 +198,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * in xml format plus all external images. GeoGebra File Format.
 	 * 
 	 * @param os
+	 *            output stream
 	 * @param includeThumbail
+	 *            whether to include thumbnail
 	 * @throws IOException
+	 *             on write error
 	 */
 	final public void writeGeoGebraFile(OutputStream os,
 			boolean includeThumbail) throws IOException {
@@ -264,8 +283,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * their external images (e.g. icons).
 	 * 
 	 * @param file
+	 *            output file
 	 * @param macros
+	 *            list of macros
 	 * @throws IOException
+	 *             write error
 	 */
 	final public void writeMacroFile(File file, ArrayList<Macro> macros)
 			throws IOException {
@@ -286,8 +308,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * their external images (e.g. icons) to the specified output stream.
 	 * 
 	 * @param os
+	 *            output stream
 	 * @param macros
+	 *            list of macros
 	 * @throws IOException
+	 *             write error
 	 */
 	final public void writeMacroStream(OutputStream os, ArrayList<Macro> macros)
 			throws IOException {
@@ -459,9 +484,14 @@ public abstract class MyXMLioJre extends MyXMLio {
 	}
 
 	/**
+	 * Writes an image to stream
+	 * 
 	 * @param os
+	 *            output stream
 	 * @param fileName
+	 *            filename
 	 * @param img
+	 *            image
 	 */
 	final public void writeImageToStream(OutputStream os, String fileName,
 			MyImageJre img) {
@@ -491,9 +521,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	/**
 	 * @param img
+	 *            image
 	 * @param ext
+	 *            file extension
 	 * @param os
+	 *            output stream
 	 * @throws IOException
+	 *             write error
 	 */
 	abstract protected void writeImage(MyImageJre img, String ext,
 			OutputStream os) throws IOException;
@@ -502,8 +536,11 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * Compresses xml String and writes result to os.
 	 * 
 	 * @param os
+	 *            output stream
 	 * @param xmlString
+	 *            xml as string
 	 * @throws IOException
+	 *             write error
 	 */
 	public static void writeZipped(OutputStream os, StringBuilder xmlString)
 			throws IOException {
@@ -560,6 +597,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 		/**
 		 * @param str
+		 *            wrapped string
 		 */
 		public XMLStreamStringJre(String str) {
 			this.str = str;
@@ -592,6 +630,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 		/**
 		 * @param is
+		 *            input stream
 		 */
 		public XMLStreamInputStream(InputStream is) {
 			this.is = is;

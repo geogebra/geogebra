@@ -38,18 +38,23 @@ public class ScientificFormat extends Format
 	private DecimalFormat decimalFormat;
 	private static final long serialVersionUID = -1182686857248711235L;
 
-	public ScientificFormat() {
 
-	}
 
 	/**
 	 * Sets the significant digits, maximum allowable width and number
 	 * formatting style (SciNote == true for Pure formatting).
+	 * 
+	 * @param sigDigit
+	 *            significant digits
+	 * @param maxWidth
+	 *            maximum width
+	 * @param sciNote
+	 *            whether to use scientific notation
 	 */
-	public ScientificFormat(int sigDigit, int maxWidth, boolean SciNote) {
+	public ScientificFormat(int sigDigit, int maxWidth, boolean sciNote) {
 		setSigDigits(sigDigit);
 		setMaxWidth(maxWidth);
-		setScientificNotationStyle(SciNote);
+		setScientificNotationStyle(sciNote);
 	}
 
 	/**

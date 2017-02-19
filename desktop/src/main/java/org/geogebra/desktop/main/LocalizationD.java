@@ -18,7 +18,6 @@ public class LocalizationD extends LocalizationJre {
 	/** path to commands */
 	static final String RB_COMMAND = "/org/geogebra/desktop/properties/command";
 	private static final String RB_ERROR = "/org/geogebra/desktop/properties/error";
-	private static final String RB_PLAIN = "/org/geogebra/desktop/properties/plain";
 	private static final String RB_SYMBOL = "/org/geogebra/desktop/properties/symbols";
 	/** path to javaui properties (without extension) */
 	public static final String RB_JAVA_UI = "/org/geogebra/desktop/properties/javaui";
@@ -116,11 +115,6 @@ public class LocalizationD extends LocalizationJre {
 	@Override
 	protected String getErrorRessourcePath() {
 		return RB_ERROR;
-	}
-
-	@Override
-	protected String getPlainRessourcePath() {
-		return RB_PLAIN;
 	}
 
 	@Override
