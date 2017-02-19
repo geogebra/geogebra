@@ -1,19 +1,15 @@
 package org.geogebra.common.jre.cas.giac;
 
-import java.util.LinkedList;
-import java.util.List;
+import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.error.TimeoutException;
+import org.geogebra.common.cas.giac.CASgiac;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import javagiac.context;
 import javagiac.gen;
 import javagiac.giac;
-
-import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.error.TimeoutException;
-import org.geogebra.common.cas.giac.CASgiac;
-import org.geogebra.common.kernel.AsynchronousCommand;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Giac for Desktop and Android
@@ -200,13 +196,6 @@ public abstract class CASgiacJre extends CASgiac {
 	 *            thread
 	 */
 	abstract protected void stopThread(Thread thread);
-
-	/**
-	 * Queue of asynchronous commands that are waiting for update
-	 */
-	List<AsynchronousCommand> queue = new LinkedList<AsynchronousCommand>();
-
-
 
 	/**
 	 * @author michael
