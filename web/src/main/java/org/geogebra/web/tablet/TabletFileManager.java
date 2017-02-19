@@ -9,21 +9,23 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
-import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
 import org.geogebra.web.web.util.SaveCallback;
 
 public class TabletFileManager extends FileManagerT {
+	
+	private enum ReadMetaDataMode { NONE, GET_FILES, SYNC};
+	private ReadMetaDataMode readMetaDataMode;
 
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
 			exportJavascriptMethods();
+			readMetaDataMode = ReadMetaDataMode.NONE;
 		}
 	}
 	
@@ -31,7 +33,8 @@ public class TabletFileManager extends FileManagerT {
 	protected void getFiles(final MaterialFilter filter) {
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
 			getFilesFilter = filter;
-			getFilesNative();
+			readMetaDataMode = ReadMetaDataMode.GET_FILES;
+			listLocalFilesNative();
 		}else{
 			super.getFiles(filter);
 		}
@@ -39,7 +42,40 @@ public class TabletFileManager extends FileManagerT {
 	
 	private MaterialFilter getFilesFilter = null;
 	
-	private native void getFilesNative() /*-{
+	private native void listLocalFilesNative() /*-{
+		if ($wnd.android) {
+			$wnd.android.listLocalFiles();
+		}
+	}-*/;
+	
+	private int localFilesLength;
+	
+	/**
+	 * this method is called through js (see exportJavascriptMethods())
+	 */
+	public void catchListLocalFiles(int length) {
+		debugNative("catchListLocalFiles: "+length+", mode: "+readMetaDataMode);
+		if (length > 0){
+			localFilesLength = length;
+			getMetaDatasNative();
+		} else {
+			localFilesLength = 0;
+			stopCatchingMetaDatas();
+		}
+	}
+	
+	final private void checkStopCatchingMetaDatas(){
+		if (localFilesLength <= 0){
+			stopCatchingMetaDatas();
+		}
+	}
+	
+	final private void stopCatchingMetaDatas(){
+		debugNative("catching meta datas: stop -- mode: "+readMetaDataMode);
+		readMetaDataMode = ReadMetaDataMode.NONE;
+	}
+	
+	private native void getMetaDatasNative() /*-{
 		if ($wnd.android) {
 			$wnd.android.getMetaDatas();
 		}
@@ -48,14 +84,11 @@ public class TabletFileManager extends FileManagerT {
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
-	public void catchMetaDatas(String data) {
-
-		JSONTokener tokener = new JSONTokener(data);
+	public void catchMetaDatas(String name, String data) {
+		localFilesLength--;
+		debugNative("ok catching "+name+", still "+localFilesLength+" to catch ("+readMetaDataMode+" mode)");
 		try {
-			JSONArray arr = new JSONArray(tokener);
-			String name = (String) arr.get(0);
-			JSONObject metaDatas = (JSONObject) arr.get(1);
-			Material mat = JSONParserGGT.prototype.toMaterial(metaDatas);
+			Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
 
 			if (mat == null) {
 				mat = new Material(
@@ -72,9 +105,19 @@ public class TabletFileManager extends FileManagerT {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+		} finally {
+			checkStopCatchingMetaDatas();
 		}
 	}
 	
+	/**
+	 * this method is called through js (see exportJavascriptMethods())
+	 */
+	public void catchMetaDatasError() {
+		localFilesLength--;
+		debugNative("error catching meta data, still "+localFilesLength+" to catch ("+readMetaDataMode+" mode)");
+		checkStopCatchingMetaDatas();
+	}
 	
 	
 	@Override
@@ -153,13 +196,16 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			//TODO ?
 			Log.debug("uploadUsersMaterials");
+			
 		} else {
 			super.uploadUsersMaterials(events);
 		}
 		
 	}
+	
+	
+	
 	
 	@Override
 	public void open(String url, String name, String features){
@@ -258,12 +304,18 @@ public class TabletFileManager extends FileManagerT {
 		deleteOnSuccess.run();
 	}
 	
-	
+		
 	
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
-		$wnd.tabletFileManager_catchMetaDatas = $entry(function(data) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatas(Ljava/lang/String;)(data);
+		$wnd.tabletFileManager_catchListLocalFiles = $entry(function(length) {
+			that.@org.geogebra.web.tablet.TabletFileManager::catchListLocalFiles(I)(length);
+		});
+		$wnd.tabletFileManager_catchMetaDatas = $entry(function(name, data) {
+			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatas(Ljava/lang/String;Ljava/lang/String;)(name,data);
+		});
+		$wnd.tabletFileManager_catchMetaDatasError = $entry(function() {
+			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatasError()();
 		});
 		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
@@ -277,4 +329,9 @@ public class TabletFileManager extends FileManagerT {
 	}-*/;
 	
 
+	private native void debugNative(String s) /*-{
+		if ($wnd.android) {
+			$wnd.android.debug(s);
+		}
+	}-*/;
 }
