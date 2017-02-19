@@ -18,7 +18,7 @@ import org.geogebra.web.web.util.SaveCallback;
 
 public class TabletFileManager extends FileManagerT {
 	
-	private enum ReadMetaDataMode { NONE, GET_FILES, SYNC};
+	private enum ReadMetaDataMode { NONE, GET_FILES, UPLOAD_USERS_MATERIALS};
 	private ReadMetaDataMode readMetaDataMode;
 
 	public TabletFileManager(AppW tabletApp) {
@@ -57,10 +57,14 @@ public class TabletFileManager extends FileManagerT {
 		debugNative("catchListLocalFiles: "+length+", mode: "+readMetaDataMode);
 		if (length > 0){
 			localFilesLength = length;
+			if (readMetaDataMode == ReadMetaDataMode.UPLOAD_USERS_MATERIALS){
+				setNotSyncedFileCount(localFilesLength, uploadUsersMaterialsEvents);
+			}
 			getMetaDatasNative();
 		} else {
 			localFilesLength = 0;
 			stopCatchingMetaDatas();
+			setNotSyncedFileCount(0, uploadUsersMaterialsEvents);
 		}
 	}
 	
@@ -72,7 +76,10 @@ public class TabletFileManager extends FileManagerT {
 	
 	final private void stopCatchingMetaDatas(){
 		debugNative("catching meta datas: stop -- mode: "+readMetaDataMode);
-		readMetaDataMode = ReadMetaDataMode.NONE;
+//		if (readMetaDataMode == ReadMetaDataMode.UPLOAD_USERS_MATERIALS){
+//			ignoreNotSyncedFile(uploadUsersMaterialsEvents);
+//		}
+//		readMetaDataMode = ReadMetaDataMode.NONE;
 	}
 	
 	private native void getMetaDatasNative() /*-{
@@ -87,26 +94,47 @@ public class TabletFileManager extends FileManagerT {
 	public void catchMetaDatas(String name, String data) {
 		localFilesLength--;
 		debugNative("ok catching "+name+", still "+localFilesLength+" to catch ("+readMetaDataMode+" mode)");
-		try {
-			Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
+		switch(readMetaDataMode){
+		case GET_FILES:
+			try {
+				Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
 
-			if (mat == null) {
-				mat = new Material(
-						0,
-						MaterialType.ggb);
-				mat.setTitle(getTitleFromKey(name));
+				if (mat == null) {
+					mat = new Material(
+							0,
+							MaterialType.ggb);
+					mat.setTitle(getTitleFromKey(name));
+				}
+
+				mat.setLocalID(MaterialsManager.getIDFromKey(name));
+
+				if (getFilesFilter.check(mat)) {
+					addMaterial(mat);
+					Log.debug("add material: "+name+", id: "+mat.getLocalID());
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			} finally {
+				checkStopCatchingMetaDatas();
 			}
-
-			mat.setLocalID(MaterialsManager.getIDFromKey(name));
-
-			if (getFilesFilter.check(mat)) {
-				addMaterial(mat);
-				Log.debug("add material: "+name+", id: "+mat.getLocalID());
+			break;
+		case UPLOAD_USERS_MATERIALS:
+			try {
+				debugNative("sync "+name+", still "+localFilesLength);
+				Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
+				mat.setLocalID(MaterialsManager.getIDFromKey(name));
+				sync(mat, uploadUsersMaterialsEvents);
+			} catch (JSONException e) {
+				ignoreNotSyncedFile(uploadUsersMaterialsEvents);
+				e.printStackTrace();
+			} finally {
+				checkStopCatchingMetaDatas();
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} finally {
-			checkStopCatchingMetaDatas();
+			break;
+		case NONE:
+		default:
+			// do nothing (should not happen)
+			break;
 		}
 	}
 	
@@ -116,6 +144,9 @@ public class TabletFileManager extends FileManagerT {
 	public void catchMetaDatasError() {
 		localFilesLength--;
 		debugNative("error catching meta data, still "+localFilesLength+" to catch ("+readMetaDataMode+" mode)");
+		if (readMetaDataMode == ReadMetaDataMode.UPLOAD_USERS_MATERIALS){
+			ignoreNotSyncedFile(uploadUsersMaterialsEvents);
+		}
 		checkStopCatchingMetaDatas();
 	}
 	
@@ -191,19 +222,69 @@ public class TabletFileManager extends FileManagerT {
 	}-*/;
 	
 	
-	
+	private ArrayList<SyncEvent> uploadUsersMaterialsEvents;
 	
 	@Override
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			Log.debug("uploadUsersMaterials");
-			
+			debugNative("uploadUsersMaterials");
+			uploadUsersMaterialsEvents = events;
+			readMetaDataMode = ReadMetaDataMode.UPLOAD_USERS_MATERIALS;
+			listLocalFilesNative();
 		} else {
 			super.uploadUsersMaterials(events);
 		}
 		
 	}
 	
+	
+	@Override
+	protected void updateFile(final String key, final long modified,
+	        final Material material) {
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			debugNative("update file: "+material.getTitle());
+			material.setModified(modified);
+			if (key == null){
+				debugNative("key is null");
+				// save as a new local file
+				String base64 = material.getBase64();
+				material.setBase64("");
+				createFileFromTubeNative(getTitleWithoutReservedCharacters(material.getTitle()), 
+						base64, material.toJson().toString());
+			} else {
+		        material.setLocalID(MaterialsManager.getIDFromKey(key));
+		        String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
+		        if (key.equals(newKey)) {
+		        	debugNative("key == newKey");
+		        	// re-save file and meta data
+		        	String base64 = material.getBase64();
+		        	material.setBase64("");
+		        	updateFileFromTubeNative(key, base64, material.toJson().toString());
+		        } else {
+		        	String newTitle = material.getTitle();
+		        	material.setTitle(MaterialsManager.getTitleFromKey(key));
+		        	material.setSyncStamp(material.getModified());
+		        	debugNative("key != newKey");
+		        	// save and rename
+		        	debugNative("rename: "+newTitle);
+		        }
+			}
+		} else {
+			super.updateFile(key, modified, material);
+		}
+	}
+	
+	private native void createFileFromTubeNative(String title, String base64, String metaDatas) /*-{
+		if ($wnd.android) {
+			$wnd.android.createFileFromTube(title, base64, metaDatas);
+		}
+	}-*/;
+	
+	private native void updateFileFromTubeNative(String title, String base64, String metaDatas) /*-{
+		if ($wnd.android) {
+			$wnd.android.updateFileFromTube(title, base64, metaDatas);
+		}
+	}-*/;
 	
 	
 	
@@ -334,4 +415,8 @@ public class TabletFileManager extends FileManagerT {
 			$wnd.android.debug(s);
 		}
 	}-*/;
+	
+	protected void debug(String s){
+		debugNative(s);
+	}
 }
