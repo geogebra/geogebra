@@ -1355,6 +1355,7 @@ __GGB__keysVar.kn.menu = {
     "CasCell": "CAS Cell",
     "CasCellUseAsText": "\u0caa\u0ca0\u0ccd\u0caf",
     "CasTimeout": "CAS Timeout (in seconds)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Cell %0 is not defined",
     "CenterOfA": "Center of %0",
     "CentroidOfA": "Centroid of %0",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.eo.menu = {
     "CasCell": "CAS Cell",
     "CasCellUseAsText": "Texto",
     "CasTimeout": "KAS-eltempi\u011do (en sekundoj)",
+    "Categories": "Categories",
     "CellAisNotDefined": "\u0108elo %0 ne estas difinita",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Pezocentro de %0",

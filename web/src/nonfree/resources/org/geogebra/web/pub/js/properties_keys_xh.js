@@ -1355,6 +1355,7 @@ __GGB__keysVar.xh.menu = {
     "CasCell": "Igumbi leCAS",
     "CasCellUseAsText": "Amagama",
     "CasTimeout": "IsipheloSexesha seCAS (ingemizuzwana)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Igumbi u %0 alinantsingiselo",
     "CenterOfA": "Umbindi ka %0",
     "CentroidOfA": "iCentroid ka %0",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.vi.menu = {
     "CasCell": "\xd4 t\xednh to\xe1n \u0111\u1ea1i s\u1ed1",
     "CasCellUseAsText": "V\u0103n b\u1ea3n",
     "CasTimeout": "CAS ng\u1eebng (t\xednh theo gi\xe2y)",
+    "Categories": "Categories",
     "CellAisNotDefined": "\xd4 %0 ch\u01b0a \u0111\u01b0\u1ee3c \u0111\u1ecbnh ngh\u0129a",
     "CenterOfA": "T\xe2m c\u1ee7a %0",
     "CentroidOfA": "Tr\u1ecdng t\xe2m c\u1ee7a %0",

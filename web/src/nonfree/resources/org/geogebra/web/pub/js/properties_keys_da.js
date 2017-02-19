@@ -1355,6 +1355,7 @@ __GGB__keysVar.da.menu = {
     "CasCell": "CAS Celle",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CAS timeout (i sekunder)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Celle %0 er ikke defineret",
     "CenterOfA": "%0s centrum",
     "CentroidOfA": "%0s tyngdepunkt",

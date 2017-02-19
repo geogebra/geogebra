@@ -1355,6 +1355,7 @@ __GGB__keysVar.no_NN.menu = {
     "CasCell": "CAS-celle",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CAS-Timeout (i sekund)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Celle %0 er ikkje definert",
     "CenterOfA": "Sentrum i %0",
     "CentroidOfA": "Tyngdepunkt for %0",

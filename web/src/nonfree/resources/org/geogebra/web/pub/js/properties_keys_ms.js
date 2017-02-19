@@ -1355,6 +1355,7 @@ __GGB__keysVar.ms.menu = {
     "CasCell": "Sel CAS",
     "CasCellUseAsText": "Teks",
     "CasTimeout": "Tamat masa CAS (dalam saat)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Sel %0 tidak ditakrifkan",
     "CenterOfA": "Pusat bagi %0",
     "CentroidOfA": "Sentroid bagi %0",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.fi.menu = {
     "CasCell": "CAS solu",
     "CasCellUseAsText": "Teksti",
     "CasTimeout": "CAS aikakatkaisu (sekunteina)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Solua %0 ei ole m\xe4\xe4ritelty.",
     "CenterOfA": "%0:n keskus",
     "CentroidOfA": "%0:n painopiste",

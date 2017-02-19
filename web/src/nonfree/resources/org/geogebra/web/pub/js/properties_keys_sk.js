@@ -1355,6 +1355,7 @@ __GGB__keysVar.sk.menu = {
     "CasCell": "CAS bunka",
     "CasCellUseAsText": "Text",
     "CasTimeout": "CAS \u010das vypr\u0161al (v sekund\xe1ch)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Bunka %0 nie je definovan\xe1",
     "CenterOfA": "Stred %0",
     "CentroidOfA": "\u0164a\u017eisko toho: %0",

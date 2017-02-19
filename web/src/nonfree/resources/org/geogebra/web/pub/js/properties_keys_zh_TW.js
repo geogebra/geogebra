@@ -1355,6 +1355,7 @@ __GGB__keysVar.zh_TW.menu = {
     "CasCell": "\u904b\u7b97\u683c",
     "CasCellUseAsText": "\u8f49\u70ba\u6587\u5b57\u6b04\u4f4d",
     "CasTimeout": "\u904b\u7b97\u903e\u6642\u8a2d\u5b9a(\u55ae\u4f4d\uff1a\u79d2)",
+    "Categories": "Categories",
     "CellAisNotDefined": "\u5132\u5b58\u683c %0 \u672a\u5b9a\u7fa9",
     "CenterOfA": "%0 \u7684\u4e2d\u5fc3",
     "CentroidOfA": "%0 \u7684\u91cd\u5fc3",

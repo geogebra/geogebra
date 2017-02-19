@@ -1355,6 +1355,7 @@ __GGB__keysVar.ca_XV.menu = {
     "CasCell": "Cel\xb7la del CAS",
     "CasCellUseAsText": "Text",
     "CasTimeout": "CAS Temps d'espera (en segons)",
+    "Categories": "Categories",
     "CellAisNotDefined": "La cel\xb7la %0 no est\xe0 definida",
     "CenterOfA": "Centre de %0",
     "CentroidOfA": "Centroide de %0",

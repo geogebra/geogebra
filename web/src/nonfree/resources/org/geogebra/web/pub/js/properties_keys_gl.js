@@ -1355,6 +1355,7 @@ __GGB__keysVar.gl.menu = {
     "CasCell": "Cela CAS",
     "CasCellUseAsText": "Texto",
     "CasTimeout": "Tempo de espera de CAS (en segundos)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Cela %0 non definida",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Centroide de %0",

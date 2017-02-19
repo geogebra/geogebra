@@ -1355,6 +1355,7 @@ __GGB__keysVar.eu.menu = {
     "CasCell": "CAS gelaxka",
     "CasCellUseAsText": "Testua",
     "CasTimeout": "CAS Itxaroteko denbora (segundotan)",
+    "Categories": "Categories",
     "CellAisNotDefined": "%0 gelaxka ez dago definituta",
     "CenterOfA": "%0-(r)en zentroa",
     "CentroidOfA": "%0-(r)en zentroidea",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.mr.menu = {
     "CasCell": "CAS Cell",
     "CasCellUseAsText": "Text",
     "CasTimeout": "CAS Timeout (in seconds)",
+    "Categories": "Categories",
     "CellAisNotDefined": "\u0915\u094b\u0936\u093f\u0915\u093e %0 \u0905\u0938\u094d\u0924\u093f\u0924\u094d\u0935\u093e\u0924 \u0928\u093e\u0939\u0940",
     "CenterOfA": "%0 \u091a\u093e \u092e\u0927\u094d\u092f (centre)",
     "CentroidOfA": "%0 \u091a\u093e \u0917\u0941\u0930\u0941\u0924\u094d\u0935\u092e\u0927\u094d\u092f (centroid)",

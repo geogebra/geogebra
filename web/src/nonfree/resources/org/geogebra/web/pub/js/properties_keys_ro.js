@@ -1355,6 +1355,7 @@ __GGB__keysVar.ro.menu = {
     "CasCell": "Celul\u0103 CAS",
     "CasCellUseAsText": "Text",
     "CasTimeout": "CAS timeout(\xeen secunde)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Celula %0 nu este definit\u0103",
     "CenterOfA": "Centrul lui %0",
     "CentroidOfA": "Centroid de %0",

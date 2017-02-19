@@ -1355,6 +1355,7 @@ __GGB__keysVar.et.menu = {
     "CasCell": "CAS-i lahter",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CASi ajal\xf5pp (sekundites)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Lahter %0 ei ole defineeritud",
     "CenterOfA": "%0 keskpunkt",
     "CentroidOfA": "%0 raskuskese",

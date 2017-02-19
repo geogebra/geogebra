@@ -1355,6 +1355,7 @@ __GGB__keysVar.lv.menu = {
     "CasCell": "CAS \u0160\u016bna",
     "CasCellUseAsText": "Teksts",
     "CasTimeout": "CAS laiks beidzies (sekund\u0113s)",
+    "Categories": "Categories",
     "CellAisNotDefined": "\u0160\u016bna %0 nav defin\u0113ta",
     "CenterOfA": "Centrs %0",
     "CentroidOfA": "Centro\u012bda %0",

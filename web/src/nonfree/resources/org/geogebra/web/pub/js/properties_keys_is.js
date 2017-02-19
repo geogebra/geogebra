@@ -1355,6 +1355,7 @@ __GGB__keysVar.is.menu = {
     "CasCell": "CAS reitur",
     "CasCellUseAsText": "Texti",
     "CasTimeout": "CAS t\xedmalokun (\xed sek\xfandum)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Reitur %0 er ekki skilgreindur",
     "CenterOfA": "Mi\xf0ja %0",
     "CentroidOfA": "\xdeungami\xf0ja %0",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.tr.menu = {
     "CasCell": "CAS H\xfccresi",
     "CasCellUseAsText": "Metin",
     "CasTimeout": "CAS Zaman a\u015f\u0131m\u0131 (saniye cinsinden)",
+    "Categories": "Categories",
     "CellAisNotDefined": "%0 h\xfccresi tan\u0131ml\u0131 de\u011fildir",
     "CenterOfA": "%0 Merkezi",
     "CentroidOfA": "%0 A\u011f\u0131rl\u0131k Merkezi",

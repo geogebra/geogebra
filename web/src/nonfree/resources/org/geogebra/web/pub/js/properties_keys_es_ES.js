@@ -1355,6 +1355,7 @@ __GGB__keysVar.es_ES.menu = {
     "CasCell": "Celda CAS",
     "CasCellUseAsText": "Texto",
     "CasTimeout": "Permanencia del CAS (en segundos)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Celda %0 no definida",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Centroide de %0",

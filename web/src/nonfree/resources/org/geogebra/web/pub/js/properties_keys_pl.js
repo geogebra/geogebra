@@ -1355,6 +1355,7 @@ __GGB__keysVar.pl.menu = {
     "CasCell": "Kom\xf3rka CAS",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CAS Pozosta\u0142o czasu (w sekundach)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Kom\xf3rka %0 jest niezdefiniowana",
     "CenterOfA": "\u015arodek %0",
     "CentroidOfA": "\u015arodek ci\u0119\u017cko\u015bci %0",

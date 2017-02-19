@@ -1355,6 +1355,7 @@ __GGB__keysVar.nl_NL.menu = {
     "CasCell": "CAS Cel",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CAS time-out (in seconden)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Cel %0 is niet gedefini\xeberd",
     "CenterOfA": "Middelpunt van %0",
     "CentroidOfA": "Zwaartepunt van %0",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.az.menu = {
     "CasCell": "CAS Cell",
     "CasCellUseAsText": "Text",
     "CasTimeout": "CAS Timeout (in seconds)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Cell %0 is not defined",
     "CenterOfA": "%0 m\u0259rk\u0259zi",
     "CentroidOfA": "Centroid of %0",

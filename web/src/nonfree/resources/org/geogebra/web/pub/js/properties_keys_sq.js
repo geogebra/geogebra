@@ -1355,6 +1355,7 @@ __GGB__keysVar.sq.menu = {
     "CasCell": "CAS Qelize",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CAS Mbarim Kohe (ne sekonda)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Qeliza %0 jo e Percaktuar",
     "CenterOfA": "Qendra e %0",
     "CentroidOfA": "Centroidi i %0",

@@ -1355,6 +1355,7 @@ __GGB__keysVar.sr.menu = {
     "CasCell": "CAS \u0107elija",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "CAS vreme \u010dekanja (u sekundama)",
+    "Categories": "Categories",
     "CellAisNotDefined": "\u0106elija %0 nije definisana",
     "CenterOfA": "Centar od %0",
     "CentroidOfA": "Te\u017ei\u0161te od %0",

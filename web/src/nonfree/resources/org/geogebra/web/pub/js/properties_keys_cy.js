@@ -1355,6 +1355,7 @@ __GGB__keysVar.cy.menu = {
     "CasCell": "Cell CAS",
     "CasCellUseAsText": "Testun",
     "CasTimeout": "Terfynnir CAS (mewn eiliadau)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Nid yw cell %0 wedi ei diffinio",
     "CenterOfA": "Canol %0",
     "CentroidOfA": "Craidd %0",

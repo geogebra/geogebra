@@ -1355,6 +1355,7 @@ __GGB__keysVar.tl.menu = {
     "CasCell": "CAS Cell",
     "CasCellUseAsText": "Text",
     "CasTimeout": "Pagkaubos ng oras ng CAS (sa mga segundo)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Walang kahulugan ang Cell %0",
     "CenterOfA": "Gitna ng %0",
     "CentroidOfA": "Sentroyd ng %0",

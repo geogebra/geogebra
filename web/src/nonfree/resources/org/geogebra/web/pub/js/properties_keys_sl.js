@@ -1355,6 +1355,7 @@ __GGB__keysVar.sl.menu = {
     "CasCell": "SSR Celica",
     "CasCellUseAsText": "Tekst",
     "CasTimeout": "Prekinitev SSR (v sekundah)",
+    "Categories": "Categories",
     "CellAisNotDefined": "Celica %0 ni definirana",
     "CenterOfA": "Sredi\u0161\u010de %0",
     "CentroidOfA": "Te\u017ei\u0161\u010de %0",

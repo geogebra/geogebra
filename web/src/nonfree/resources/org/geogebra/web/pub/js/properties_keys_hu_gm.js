@@ -1355,6 +1355,7 @@ __GGB__keysVar.hu_gm.menu = {
     "CasCell": "CAS cella",
     "CasCellUseAsText": "Sz\xf6veg",
     "CasTimeout": "Id\u0151 t\xfall\xe9p\xe9s",
+    "Categories": "Categories",
     "CellAisNotDefined": "%0 cella nem defini\xe1lt",
     "CenterOfA": "%0 k\xf6z\xe9ppontja",
     "CentroidOfA": "%0 s\xfalypontja",
