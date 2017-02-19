@@ -113,13 +113,16 @@ public class ColorFunctionModel extends OptionsModel {
 		listener.setAlphaText(strAlpha);
 	}
 
-	public void applyChanges(String strRed, String strGreen, String strBlue,
-			String strAlpha, int colorSpace, final String defaultRed,
+	public void applyChanges(String strRed0, String strGreen0, String strBlue0,
+			String strAlpha0, int colorSpace, final String defaultRed,
 			final String defaultGreen, final String defaultBlue,
 			final String defaultAlpha) {
 		GeoList list = null;
 		GeoList listAlpha = null;
-
+		String strRed = strRed0;
+		String strGreen = strGreen0;
+		String strBlue = strBlue0;
+		String strAlpha = strAlpha0;
 		if ((strRed == null || strRed.trim().length() == 0)
 				&& (strGreen == null || strGreen.trim().length() == 0)
 				&& (strAlpha == null || strAlpha.trim().length() == 0)

@@ -645,8 +645,9 @@ public class EuclidianOptionsModel {
 
 	}
 
-	public void applyGridTickAngle(int value) {
-		if (value >= 0) {
+	public void applyGridTickAngle(int value0) {
+		if (value0 >= 0) {
+			int value = value0;
 			double[] ticks = view.getGridDistances();
 			// val = 4 gives 5*PI/12, skip this and go to 6*Pi/2 = Pi/2
 			if (value == 4) {

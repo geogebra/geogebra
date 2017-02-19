@@ -105,7 +105,11 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * If an exception is catched, the constructor with a restricted file system
 	 * view should be used.
 	 * 
+	 * @param app
+	 *            applivcation
+	 * 
 	 * @param currentDirectory
+	 *            directory
 	 */
 	public GeoGebraFileChooser(AppD app, File currentDirectory) {
 		this(app, currentDirectory, false);
@@ -115,8 +119,13 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * Construct a file chooser which may have a restricted file system view if
 	 * the second parameter is set to true.
 	 * 
+	 * @param app
+	 *            application
+	 * 
 	 * @param currentDirectory
+	 *            directory
 	 * @param restricted
+	 *            whether to use RestrictedFileSystemView
 	 */
 	public GeoGebraFileChooser(AppD app, File currentDirectory,
 			boolean restricted) {
@@ -143,7 +152,7 @@ public class GeoGebraFileChooser extends JFileChooser
 	/**
 	 * Get the current mode of the file chooser.
 	 * 
-	 * @return
+	 * @return current mode
 	 */
 	public int getMode() {
 		return currentMode;
@@ -153,10 +162,12 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * Set a new mode for the file chooser. Use the constants defined in this
 	 * class for the different modes.
 	 * 
-	 * @param mode
+	 * @param mode0
+	 *            file selection mode
 	 */
-	public void setMode(int mode) {
+	public void setMode(int mode0) {
 		// invalid mode?
+		int mode = mode0;
 		if (mode != MODE_IMAGES && mode != MODE_GEOGEBRA
 				&& mode != MODE_GEOGEBRA_SAVE && mode != MODE_DATA) {
 			Log.debug(
@@ -211,14 +222,17 @@ public class GeoGebraFileChooser extends JFileChooser
 
 	@Override
 	public void componentShown(ComponentEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
+		// nothing to do
 	}
 
 	/**
@@ -299,7 +313,7 @@ public class GeoGebraFileChooser extends JFileChooser
 						app.getLocalization().getMenu("PreviewUnavailable"));
 			} else {
 				layout.show(cards, "imagePanel");
-				img = null;
+				setImg(null);
 			}
 			fileLabel.setText(null);
 		}
@@ -528,9 +542,9 @@ public class GeoGebraFileChooser extends JFileChooser
 							graphics2D.drawImage(tmpImage, 0, 0);
 
 							// then scale down
-							img = new MyImageD(new BufferedImage(newWidth,
-									newHeight, BufferedImage.TYPE_INT_ARGB));
-							graphics2D = (GGraphics2DD) img.createGraphics();
+							setImg(new MyImageD(new BufferedImage(newWidth,
+									newHeight, BufferedImage.TYPE_INT_ARGB)));
+							graphics2D = (GGraphics2DD) getImg().createGraphics();
 							graphics2D.drawImage(bigImage, 0, 0, newWidth,
 									newHeight);
 
@@ -538,10 +552,10 @@ public class GeoGebraFileChooser extends JFileChooser
 
 						} else {
 							// Create a new image for the scaled preview image
-							img = new MyImageD(new BufferedImage(newWidth,
-									newHeight, BufferedImage.TYPE_INT_RGB));
+							setImg(new MyImageD(new BufferedImage(newWidth,
+									newHeight, BufferedImage.TYPE_INT_RGB)));
 
-							GGraphics2DD graphics2D = (GGraphics2DD) img
+							GGraphics2DD graphics2D = (GGraphics2DD) getImg()
 									.createGraphics();
 
 							graphics2D.drawImage(tmpImage, 0, 0, newWidth,
@@ -552,23 +566,31 @@ public class GeoGebraFileChooser extends JFileChooser
 						}
 
 					} else {
-						img = tmpImage;
+						setImg(tmpImage);
 					}
 
 					tmpImage = null;
 				} else {
-					img = null;
+					setImg(null);
 				}
 
 				repaint();
 			} catch (IllegalArgumentException iae) {
 				// This is thrown if you select .ico files
-				img = null;
+				setImg(null);
 			} catch (Throwable t) {
 				t.printStackTrace();
 				Log.debug(t.getClass() + "");
-				img = null;
+				setImg(null);
 			}
+		}
+
+		MyImageD getImg() {
+			return img;
+		}
+
+		private void setImg(MyImageD img) {
+			this.img = img;
 		}
 
 		/**
@@ -603,17 +625,17 @@ public class GeoGebraFileChooser extends JFileChooser
 				GGraphics2DD.setAntialiasing(g2);
 
 				// draw preview image if possible
-				if (img != null) {
+				if (getImg() != null) {
 					// calculate the scaling factor
-					int width = img.getWidth();
-					int height = img.getHeight();
+					int width = getImg().getWidth();
+					int height = getImg().getHeight();
 
 					// center image
 					int x = ((getWidth() - width) / 2);
 					int y = ((getHeight() - height) / 2);
 
 					// draw the image
-					img.drawImage(g2, x, y, width, height);
+					getImg().drawImage(g2, x, y, width, height);
 					// g2.drawImage(img, x, y, width, height, null);
 				}
 

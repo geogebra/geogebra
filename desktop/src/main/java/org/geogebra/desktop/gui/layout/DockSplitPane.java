@@ -24,12 +24,19 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	private static final long serialVersionUID = 1L;
 	private boolean dividerVisible;
 
+	/**
+	 * new split pane
+	 */
 	public DockSplitPane() {
 		this(JSplitPane.HORIZONTAL_SPLIT);
 
 		this.addPropertyChangeListener(paneResizeListener);
 	}
 
+	/**
+	 * @param newOrientation
+	 *            orientation
+	 */
 	public DockSplitPane(int newOrientation) {
 		super(newOrientation);
 
@@ -61,7 +68,8 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	 * Return the component which is opposite to the parameter.
 	 * 
 	 * @param component
-	 * @return
+	 *            part of layout
+	 * @return oposite component
 	 */
 	public Component getOpposite(Component component) {
 		if (component == leftComponent) {
@@ -131,7 +139,9 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	 * Replace a component from the split pane with another.
 	 * 
 	 * @param component
+	 *            part of layout
 	 * @param replacement
+	 *            replacement
 	 */
 	public void replaceComponent(Component component, Component replacement) {
 		if (component == leftComponent) {
@@ -183,12 +193,21 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		private int windowWidth;
 		private int windowHeight;
 
+		/**
+		 * @param app
+		 *            application
+		 */
 		public TreeReader(AppD app) {
 			this.app = app;
 
 			splitPaneInfo = new ArrayList<DockSplitPaneData>();
 		}
 
+		/**
+		 * @param rootPane
+		 *            layout root
+		 * @return layout description
+		 */
 		public DockSplitPaneData[] getInfo(DockSplitPane rootPane) {
 			splitPaneInfo.clear();
 
@@ -217,10 +236,10 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		 * @param parentLocation
 		 * @param parent
 		 */
-		private void saveSplitPane(String parentLocation,
+		private void saveSplitPane(String parentLocation0,
 				DockSplitPane parent) {
 			double dividerLocation = 0.2;
-
+			String parentLocation = parentLocation0;
 			// get relative divider location depending on the current
 			// orientation
 			if (parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {

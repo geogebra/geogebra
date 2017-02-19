@@ -302,7 +302,7 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public void setFocusedIfNotTab(){
 		if (isHandlingTab) {
-			isHandlingTab = false;
+			setHandlingTab(false);
 		} else {
 			setFocused(true);
 		}

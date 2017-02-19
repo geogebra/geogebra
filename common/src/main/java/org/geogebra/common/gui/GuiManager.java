@@ -81,9 +81,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String ggbMatShort = "ggbm.at/";
 	private static final String material = "/material/show/id/";
-	public static final int DESKTOP = 0;
-	public static final int WEB = 1;
-	public static final int TOUCH = 2;
 
 	protected Kernel kernel;
 	protected App app;
@@ -100,7 +97,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void updateMenubar() {
-	} // temporarily nothing
+		// temporarily nothing
+	}
 
 	@Override
 	public boolean hasAlgebraView() {
@@ -680,8 +678,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	protected ProbabilityCalculatorView probCalculator;
 
 	@Override
-	public void setMode(int mode, ModeSetter m) {
-
+	public void setMode(int mode0, ModeSetter m) {
+		int mode = mode0;
 		setModeFinished = false;
 
 		// can't move this after otherwise Object Properties doesn't work
@@ -749,6 +747,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
 	 * @param mode
+	 * @param m
+	 *            mode setter
 	 * @return sets the toolbar's mode
 	 */
 	protected int setToolbarMode(int mode, ModeSetter m) {
@@ -769,9 +769,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		switch (type) {
 		case COMMAND:
-			pageName = app.getLocalization().getEnglishCommand(pageName);
+			String cmdPageName = app.getLocalization().getEnglishCommand(
+					pageName);
 			urlSB.append("/cmd/");
-			urlSB.append(pageName);
+			urlSB.append(cmdPageName);
 			break;
 		case TOOL:
 			urlSB.append("/tool/");
@@ -886,12 +887,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void replaceInputSelection(String string) {
-
+		// override this in platforms where needed
 	}
 
 	@Override
 	public void setInputText(String string) {
-
+		// override this in platforms where needed
 	}
 
 	private GeoPoint getImageCornerFromSelection(int index) {
