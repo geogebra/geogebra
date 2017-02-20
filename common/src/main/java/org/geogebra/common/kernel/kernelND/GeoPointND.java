@@ -13,8 +13,11 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
+import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
@@ -29,7 +32,8 @@ import org.geogebra.common.kernel.geos.Translateable;
  */
 
 public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, PointRotateable, HasCoordsMode, VectorNDValue {
+		SpreadsheetTraceable, PointRotateable, HasCoordsMode, VectorNDValue,
+		Mirrorable, Dilateable, Animatable {
 
 	/** @return whether this point has changeable numbers as coordinates */
 	public boolean hasChangeableCoordParentNumbers();
@@ -373,8 +377,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public boolean movePoint(Coords rwTransVec, Coords endPosition);
 
 	public void set(GeoElementND pointND, boolean macroFeedback);
-
-	public long getID();
 
 	public void removePath();
 

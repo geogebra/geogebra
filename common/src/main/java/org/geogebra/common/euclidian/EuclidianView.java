@@ -3723,7 +3723,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 									// grid
 									// circles
 	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
-	GGeneralPath gp;
+
 	/**
 	 * Get styleBar
 	 */

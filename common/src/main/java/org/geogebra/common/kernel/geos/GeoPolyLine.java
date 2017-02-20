@@ -44,7 +44,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	protected GeoPointND[] points;
 	/** length of the line */
 	protected double length;
-	private boolean defined = false;
+	/** whether this is defined */
+	protected boolean defined = false;
 
 	/**
 	 * common constructor for 2D.
@@ -503,14 +504,14 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public void translate(Coords v) {
 		for (int i = 0; i < points.length; i++) {
-			getPoint(i).translate(v);
+			points[i].translate(v);
 		}
 	}
 
 	@Override
 	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < points.length; i++) {
-			getPoint(i).dilate(r, S);
+			points[i].dilate(r, S);
 		}
 		calcLength();
 	}
@@ -518,21 +519,21 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public void mirror(Coords Q) {
 		for (int i = 0; i < points.length; i++) {
-			getPoint(i).mirror(Q);
+			points[i].mirror(Q);
 		}
 	}
 
 	@Override
 	public void mirror(GeoLineND g) {
 		for (int i = 0; i < points.length; i++) {
-			getPoint(i).mirror(g);
+			points[i].mirror(g);
 		}
 	}
 
 	@Override
 	public boolean isAllVertexLabelsSet() {
 		for (int i = 0; i < points.length; i++) {
-			if (!((GeoPoint) points[i]).isLabelSet()) {
+			if (!points[i].isLabelSet()) {
 				return false;
 			}
 		}

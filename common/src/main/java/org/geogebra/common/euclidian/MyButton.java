@@ -264,48 +264,45 @@ public class MyButton implements Observer {
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			int xPos = latex
-					? (int) (x + (geoButton.getWidth() - textWidth) / 2)
-					: (int) (x + (geoButton.getWidth() - t.getAdvance() + add)
-							/ 2);
-			// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
-			// imgGap + t.getAscent() + imgStart);
-
 			if (geoButton.getFillImage() == null) {
 				imgStart = (int) (geoButton.getHeight()
 						- (marginTopMultiplier + marginBottomMultiplier)
-								* margin
-						- textHeight) / 2;
+						* margin - textHeight) / 2;
 			}
-
-			int yPos = latex
-					? (int) (y + (geoButton.getHeight() - textHeight) / 2)
-							+ imgHeight + imgGap + imgStart
-					: (int) (y + marginTopMultiplier * margin + imgHeight
-							+ imgGap + t.getAscent() + imgStart);
-
-			if (geoButton.getFillImage() != null) {
-				yPos = latex ? y + imgHeight + imgGap + imgStart
-						: (int) (y + marginTopMultiplier * margin + imgHeight
-								+ imgGap + t.getAscent() + imgStart);
-			}
-
-			if (latex) {
-				App app = view.getApplication();
-				g.setPaint(GColor.BLACK);
-
-				app.getDrawEquation().drawEquation(app, geoButton, g, xPos,
-						yPos,
-						geoButton.getCaption(StringTemplate.defaultTemplate),
-						font, false, geoButton.getObjectColor(),
-						geoButton.getBackgroundColor(), false, false, null);
-			} else {
-				g.drawString(
-						geoButton.getCaption(StringTemplate.defaultTemplate),
-						xPos, yPos);
-
-			}
+			drawText(g, t, imgStart + imgGap + imgHeight, latex, add);
 		}
+	}
+
+	private void drawText(GGraphics2D g, GTextLayout t, int imgEnd,
+			boolean latex, double add) {
+		int xPos = latex ? (int) (x + (geoButton.getWidth() - textWidth) / 2)
+				: (int) (x + (geoButton.getWidth() - t.getAdvance() + add) / 2);
+		// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
+		// imgGap + t.getAscent() + imgStart);
+
+		int yPos = latex ? (int) (y + (geoButton.getHeight() - textHeight) / 2)
+				+ imgEnd : (int) (y + marginTopMultiplier * margin + imgEnd + t
+				.getAscent());
+
+		if (geoButton.getFillImage() != null) {
+			yPos = latex ? y + imgEnd : (int) (y + marginTopMultiplier * margin
+					+ t.getAscent() + imgEnd);
+		}
+
+		if (latex) {
+			App app = view.getApplication();
+			g.setPaint(GColor.BLACK);
+
+			app.getDrawEquation().drawEquation(app, geoButton, g, xPos, yPos,
+					geoButton.getCaption(StringTemplate.defaultTemplate), font,
+					false, geoButton.getObjectColor(),
+					geoButton.getBackgroundColor(), false, false, null);
+		} else {
+			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
+					xPos, yPos);
+
+		}
+
 	}
 
 	private void resize(GGraphics2D g, int imgGap) {

@@ -86,9 +86,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus
  */
-public class GeoPoint extends GeoVec3D
-		implements VectorValue, PathOrPoint, Mirrorable, Dilateable,
-		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
+public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
+		MatrixTransformable, ConicMirrorable, GeoPointND,
 		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	// don't set point size here as this would overwrite

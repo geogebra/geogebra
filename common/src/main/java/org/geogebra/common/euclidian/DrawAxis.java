@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
@@ -17,6 +18,7 @@ import org.geogebra.common.util.MyMath;
 public class DrawAxis {
 	/** view */
 	EuclidianView view;
+	private GGeneralPath gp;
 
 	/**
 	 * @param euclidianView
@@ -58,8 +60,8 @@ public class DrawAxis {
 		boolean filled = (view.axesLineType
 				& EuclidianStyleConstants.AXES_FILL_ARROWS) != 0;
 
-		if (filled && view.gp == null) {
-			view.gp = AwtFactory.getPrototype().newGeneralPath();
+		if (filled && gp == null) {
+			gp = AwtFactory.getPrototype().newGeneralPath();
 		}
 
 		boolean drawRightArrow = ((view.axesLineType
@@ -101,68 +103,13 @@ public class DrawAxis {
 		// make sure arrows don't go off screen (eg EMF export)
 		double arrowAdjustx = drawRightArrow ? view.axesStroke.getLineWidth()
 				: 0;
-		double arrowAdjusty = drawTopArrow ? view.axesStroke.getLineWidth() : 0;
+
 
 		// Draw just y-axis first (in case any labels need to be drawn over it)
 		if (view.yAxisOnscreen()) {
 
-			// y-Axis itself
-			g2.setStroke(view.axesStroke);
-			g2.drawStraightLine(xCrossPix,
-					arrowAdjusty + (drawTopArrow ? 1 : -1), xCrossPix,
-					yAxisEnd + (drawBottomArrow ? -2 : 0));
-
-			if (drawTopArrow) {
-
-				if (filled) {
-
-					view.gp.reset();
-					view.gp.moveTo(xCrossPix, arrowAdjusty);
-					view.gp.lineTo((xCrossPix - arrowSize),
-							(arrowAdjusty + 4 * arrowSize));
-					view.gp.lineTo((xCrossPix + arrowSize),
-							(arrowAdjusty + 4 * arrowSize));
-
-					g2.fill(view.gp);
-
-				} else {
-					// draw top arrow for y-axis
-					g2.drawStraightLine(xCrossPix, arrowAdjusty,
-							xCrossPix - arrowSize, arrowAdjusty + arrowSize);
-					g2.drawStraightLine(xCrossPix, arrowAdjusty,
-							xCrossPix + arrowSize, arrowAdjusty + arrowSize);
-
-				}
-			}
-
-			if (drawBottomArrow) {
-
-				if (filled) {
-
-					view.gp.reset();
-					view.gp.moveTo(xCrossPix,
-							(view.getHeight() - arrowAdjusty));
-					view.gp.lineTo((xCrossPix - arrowSize),
-							(view.getHeight() - arrowAdjusty
-									- 4 * arrowSize));
-					view.gp.lineTo((xCrossPix + arrowSize),
-							(view.getHeight() - arrowAdjusty
-									- 4 * arrowSize));
-
-					g2.fill(view.gp);
-
-				} else {
-					// draw bottom arrow for y-axis
-					g2.drawStraightLine(xCrossPix,
-							view.getHeight() - arrowAdjusty,
-							xCrossPix - arrowSize,
-							view.getHeight() - arrowAdjusty - arrowSize);
-					g2.drawStraightLine(xCrossPix,
-							view.getHeight() - arrowAdjusty,
-							xCrossPix + arrowSize,
-							view.getHeight() - arrowAdjusty - arrowSize);
-				}
-			}
+			predrawYAxis(g2, xCrossPix, arrowSize, filled, drawTopArrow,
+					drawBottomArrow, yAxisEnd);
 			// erase grid to make space for labels
 
 		}
@@ -204,18 +151,18 @@ public class DrawAxis {
 
 				if (filled) {
 
-					view.gp.reset();
-					view.gp.moveTo((view.getWidth() - arrowAdjustx), yCrossPix);
-					view.gp.lineTo(
+					gp.reset();
+					gp.moveTo((view.getWidth() - arrowAdjustx), yCrossPix);
+					gp.lineTo(
 							(view.getWidth() - arrowAdjustx
 									- arrowSize * 4),
 							(yCrossPix - arrowSize));
-					view.gp.lineTo(
+					gp.lineTo(
 							(view.getWidth() - arrowAdjustx
 									- arrowSize * 4),
 							(yCrossPix + arrowSize));
 
-					g2.fill(view.gp);
+					g2.fill(gp);
 
 				} else {
 
@@ -237,14 +184,14 @@ public class DrawAxis {
 
 				if (filled) {
 
-					view.gp.reset();
-					view.gp.moveTo((arrowAdjustx), yCrossPix);
-					view.gp.lineTo((arrowAdjustx + arrowSize * 4),
+					gp.reset();
+					gp.moveTo((arrowAdjustx), yCrossPix);
+					gp.lineTo((arrowAdjustx + arrowSize * 4),
 							(yCrossPix - arrowSize));
-					view.gp.lineTo((arrowAdjustx + arrowSize * 4),
+					gp.lineTo((arrowAdjustx + arrowSize * 4),
 							(yCrossPix + arrowSize));
 
-					g2.fill(view.gp);
+					g2.fill(gp);
 
 				} else {
 
@@ -299,6 +246,64 @@ public class DrawAxis {
 			} else {
 				drawYticksLinear(g2, xCrossPix, fontsize, minusSign,
 						drawTopArrow, yCrossPix, yAxisEnd);
+			}
+		}
+
+	}
+
+	private void predrawYAxis(GGraphics2D g2, double xCrossPix,
+			double arrowSize, boolean filled, boolean drawTopArrow,
+			boolean drawBottomArrow, double yAxisEnd) {
+		double arrowAdjusty = drawTopArrow ? view.axesStroke.getLineWidth() : 0;
+		// y-Axis itself
+		g2.setStroke(view.axesStroke);
+		g2.drawStraightLine(xCrossPix, arrowAdjusty + (drawTopArrow ? 1 : -1),
+				xCrossPix, yAxisEnd + (drawBottomArrow ? -2 : 0));
+
+		if (drawTopArrow) {
+
+			if (filled) {
+
+				gp.reset();
+				gp.moveTo(xCrossPix, arrowAdjusty);
+				gp.lineTo((xCrossPix - arrowSize),
+						(arrowAdjusty + 4 * arrowSize));
+				gp.lineTo((xCrossPix + arrowSize),
+						(arrowAdjusty + 4 * arrowSize));
+
+				g2.fill(gp);
+
+			} else {
+				// draw top arrow for y-axis
+				g2.drawStraightLine(xCrossPix, arrowAdjusty, xCrossPix
+						- arrowSize, arrowAdjusty + arrowSize);
+				g2.drawStraightLine(xCrossPix, arrowAdjusty, xCrossPix
+						+ arrowSize, arrowAdjusty + arrowSize);
+
+			}
+		}
+
+		if (drawBottomArrow) {
+
+			if (filled) {
+
+				gp.reset();
+				gp.moveTo(xCrossPix, (view.getHeight() - arrowAdjusty));
+				gp.lineTo((xCrossPix - arrowSize), (view.getHeight()
+						- arrowAdjusty - 4 * arrowSize));
+				gp.lineTo((xCrossPix + arrowSize), (view.getHeight()
+						- arrowAdjusty - 4 * arrowSize));
+
+				g2.fill(gp);
+
+			} else {
+				// draw bottom arrow for y-axis
+				g2.drawStraightLine(xCrossPix, view.getHeight() - arrowAdjusty,
+						xCrossPix - arrowSize, view.getHeight() - arrowAdjusty
+								- arrowSize);
+				g2.drawStraightLine(xCrossPix, view.getHeight() - arrowAdjusty,
+						xCrossPix + arrowSize, view.getHeight() - arrowAdjusty
+								- arrowSize);
 			}
 		}
 

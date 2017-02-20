@@ -3586,8 +3586,8 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * appends all upper case Greek letters to list
 	 * 
-	 * @param list
-	 *            list to append Greek Upper case letters to
+	 * @param listener
+	 *            listener to append Greek Upper case letters to
 	 */
 	public static void addAddAllGreekLowerCaseNoPi(
 			IAxisModelListener listener) {

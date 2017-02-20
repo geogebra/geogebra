@@ -54,9 +54,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
-import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
-import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -86,7 +84,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, MatrixTransformable, CoordStyle, RotateableND,
-		Transformable, Traceable, MirrorableAtPlane, Dilateable, Animatable {
+		Transformable, Traceable, MirrorableAtPlane {
 
 	private boolean isInfinite, isDefined;
 	private int pointSize;

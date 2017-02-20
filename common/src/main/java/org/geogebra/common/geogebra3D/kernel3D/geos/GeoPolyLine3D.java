@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
@@ -9,10 +10,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
@@ -20,9 +25,9 @@ import org.geogebra.common.plugin.GeoClass;
  * @author ggb3D
  * 
  */
-public class GeoPolyLine3D extends GeoPolyLine {
+public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
+		MirrorableAtPlane {
 
-	private boolean defined = false;
 
 	private int index1;
 	private int index2;
@@ -93,7 +98,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		GeoPolyLine3D poly = (GeoPolyLine3D) geo;
 		length = poly.length;
 		defined = poly.defined;
-
 		// make sure both arrays have same size
 		if (points.length != poly.points.length) {
 			GeoPointND[] tempPoints = new GeoPointND[poly.points.length];
@@ -103,7 +107,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			}
 			points = tempPoints;
 		}
-
 		for (int i = 0; i < points.length; i++) {
 			points[i].set(poly.points[i]);
 		}
@@ -269,26 +272,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	}
 
 	@Override
-	public void translate(Coords v) {
-		return; // TODO
-	}
-
-	@Override
-	public void mirror(GeoLineND g) {
-		return; // TODO
-	}
-
-	@Override
-	public boolean isAllVertexLabelsSet() {
-		for (int i = 0; i < points.length; i++) {
-			if (!points[i].isLabelSet()) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		return; // TODO
@@ -373,6 +356,30 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			direction3 = null;
 			return;
 		}
+	}
+
+	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+		for (int i = 0; i < points.length; i++) {
+			((RotateableND) points[i]).rotate(r, S, orientation);
+			Log.debug(points[i]);
+		}
+
+	}
+
+	public void rotate(NumberValue r, GeoLineND line) {
+		for (int i = 0; i < points.length; i++) {
+			((RotateableND) points[i]).rotate(r, line);
+			Log.debug(points[i]);
+		}
+
+	}
+
+	public void mirror(GeoCoordSys2D plane) {
+		for (int i = 0; i < points.length; i++) {
+			((MirrorableAtPlane) points[i]).mirror(plane);
+			Log.debug(points[i]);
+		}
+
 	}
 
 }
