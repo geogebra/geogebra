@@ -254,7 +254,7 @@ public class MaterialListElement extends FlowPanel implements
 						                material.setTitle(oldTitle);
 						                app.getFileManager().rename(
 						                        title.getText(),
-						                                material, null);
+						                                material);
 					}
 				}
 			});
@@ -263,7 +263,7 @@ public class MaterialListElement extends FlowPanel implements
 			        SaveDialogW.getCurrentTimestamp(app),
 			        material.getSyncStamp() + 1));
 			this.app.getFileManager().rename(this.title.getText(),
-			        this.material, null);
+			        this.material);
 		}
 	}
 	

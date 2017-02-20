@@ -18,6 +18,8 @@ public interface MaterialsManagerI {
 
 	void search(String query);
 
+	void rename(String newTitle, Material mat);
+
 	void rename(String newTitle, Material mat, Runnable callback);
 
 	void setFileProvider(Provider google);

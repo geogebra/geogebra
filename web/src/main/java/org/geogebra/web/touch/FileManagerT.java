@@ -361,6 +361,11 @@ public class FileManagerT extends FileManager {
 			}
 		});
 	}
+	
+	@Override
+	public void rename(final String newTitle, final Material mat){
+		rename(newTitle, mat, null);
+	}
 
 	@Override
 	public void rename(final String newTitle, final Material mat,
@@ -941,26 +946,25 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(final FileWriter writer) {
 						        writer.write(material.getBase64());
 						        material.setModified(modified);
-										material.setLocalID(MaterialsManager
-						                .getIDFromKey(key));
-										String newKey = MaterialsManager
-												.createKeyString(
-						                material.getLocalID(),
-						                material.getTitle());
+						        material.setLocalID(MaterialsManager
+						        		.getIDFromKey(key));
+						        String newKey = MaterialsManager
+						        		.createKeyString(
+						        				material.getLocalID(),
+						        				material.getTitle());
 						        if (key.equals(newKey)) {
-						        createMetaData(key,
- material, null);
+						        	createMetaData(key, material, null);
 						        }else{
 
-							        String newTitle = material.getTitle();
-											Log.debug("incoming rename "
-													+ newTitle);
-											material.setTitle(MaterialsManager
-							                .getTitleFromKey(key));
-							        material.setSyncStamp(material
-							                .getModified());
-							        FileManagerT.this.rename(newTitle,
-							                material, null);
+						        	String newTitle = material.getTitle();
+						        	Log.debug("incoming rename "
+						        			+ newTitle);
+						        	material.setTitle(MaterialsManager
+						        			.getTitleFromKey(key));
+						        	material.setSyncStamp(material
+						        			.getModified());
+						        	FileManagerT.this.rename(newTitle,
+						        			material);
 						        }
 					        }
 
