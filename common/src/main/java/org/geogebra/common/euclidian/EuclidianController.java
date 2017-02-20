@@ -9712,6 +9712,11 @@ public abstract class EuclidianController {
 		kernel.notifyRepaint();
 	}
 
+	public void clearAndShowDrawingPadPopup(GPoint mouse) {
+		app.getSelectionManager().clearSelectedGeos();
+		showDrawingPadPopup(mouse);
+	}
+
 	public void showDrawingPadPopup(GPoint mouse) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().showDrawingPadPopup(view, mouse);
@@ -10270,12 +10275,20 @@ public abstract class EuclidianController {
 				if (view.getSelectionRectangle() != null) {
 					// don't show a contextMenu if there's a
 					// selectionRectangle
-					processSelectionRectangle(alt, control, shift);
+					if (isWhiteboard()) {
+						clearAndShowDrawingPadPopup(mouseLoc);
+					} else {
+						processSelectionRectangle(alt, control, shift);
+					}
 					return;
 				} else if (selection.selectedGeosSize() > 0) {
 					// GeoElement selGeo = (GeoElement)
 					// getAppSelectedGeos().get(0);
-					showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
+					if (isWhiteboard()) {
+						clearAndShowDrawingPadPopup(mouseLoc);
+					} else {
+						showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
+					}
 				} else {
 					showDrawingPadPopup(mouseLoc);
 				}
@@ -11751,4 +11764,9 @@ public abstract class EuclidianController {
 			pen.remove(geo);
 		}
 	}
+
+	protected boolean isWhiteboard() {
+		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+	}
+
 }
