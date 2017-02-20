@@ -222,7 +222,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	private Coords p1;
 
 	@Override
-	public void compute(double f, GeoPolygon bottomPolygon, Coords[] points) {
+	public void compute(double f0, GeoPolygon bottomPolygon, Coords[] points) {
 
 		if (p1 == null) {
 			p1 = new Coords(4);
@@ -232,7 +232,7 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		topCoords.projectPlane(
 				bottomPolygon.getCoordSys().getMatrixOrthonormal(), p1);
 		double d1 = p.getOrientedHeight();
-
+		double f = f0;
 		Coords faceDirection = bottomPolygon.getDirectionInD3();
 		if (d1 < 0) { // top point below the bottom face : negative rotation
 			f *= -1;

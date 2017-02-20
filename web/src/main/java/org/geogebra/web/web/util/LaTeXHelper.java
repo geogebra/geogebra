@@ -8,26 +8,68 @@ import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
+/**
+ * Abstract factory for LaTeX related stuff
+ *
+ */
 public abstract class LaTeXHelper {
+	/**
+	 * Load resources
+	 */
 	public abstract void initialize();
 
+	/**
+	 * @param table
+	 *            CAS table
+	 * @param app
+	 *            application
+	 * @param ml
+	 *            controller
+	 * @return CAS editor
+	 */
 	public abstract CASTableCellEditor getCASEditor(CASTableW table, AppW app,
 			CASTableControllerW ml);
 
+	/**
+	 * @param ob
+	 *            element
+	 * @return AV item for element
+	 */
 	public abstract RadioTreeItem getAVItem(GeoElement ob);
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return AV item for input
+	 */
 	public abstract RadioTreeItem getAVInput(Kernel kernel);
 
+	/**
+	 * @param fontSize
+	 *            font size
+	 */
 	public void setFontSize(int fontSize) {
-		// TODO Auto-generated method stub
-
+		// MQ only
 	}
 
+	/**
+	 * @return whether input in AV is supported
+	 */
 	public boolean supportsAV() {
 		return true;
 	}
 
+	/**
+	 * @param ob
+	 *            slider geo
+	 * @return slider item
+	 */
 	public abstract RadioTreeItem getSliderItem(GeoElement ob);
 
+	/**
+	 * @param ob
+	 *            bool
+	 * @return chackbox item
+	 */
 	public abstract RadioTreeItem getCheckboxItem(GeoElement ob);
 }

@@ -2017,7 +2017,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public String getFlagName() {
 
-		String country = Language.getCountry(this, getLocale().getLanguage(),
+		String country = Language.getCountry(getLocale().getLanguage(),
 				getLocale().getCountry());
 
 		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
@@ -3385,7 +3385,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 
-		((GuiManagerD) getGuiManager()).exitAll();
+		GuiManagerD.exitAll();
 	}
 
 	// returns true for YES or NO and false for CANCEL

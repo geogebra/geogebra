@@ -99,11 +99,12 @@ public class AppCacheLinker extends AbstractLinker {
 
 		if (toReturn.find(SelectionInformation.class).isEmpty()) {
 			logger.log(TreeLogger.INFO, "devmode: generating empty " + MANIFEST);
-			artifacts = null;
+		} else {
+			emitLandingPageCacheManifest(context, logger, artifacts, toReturn);
 		}
 
 		// Create the general cache-manifest resource for the landing page:
-		emitLandingPageCacheManifest(context, logger, artifacts, toReturn);
+
 
 		return toReturn;
 	}

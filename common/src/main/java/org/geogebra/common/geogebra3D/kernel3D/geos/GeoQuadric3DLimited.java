@@ -136,6 +136,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * init the labels
 	 * 
 	 * @param labels
+	 *            labels for self, bottom, top, side
 	 */
 	public void initLabelsIncludingBottom(String[] labels) {
 
@@ -144,7 +145,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		}
 
 		if (labels == null || labels.length == 0) {
-			labels = new String[1];
+			initLabelsIncludingBottom(new String[1]);
 		}
 
 		setLabel(labels[0]);
@@ -171,6 +172,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * init the labels
 	 * 
 	 * @param labels
+	 *            labels for self, top, side
 	 */
 	public void initLabelsNoBottom(String[] labels) {
 
@@ -179,7 +181,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		}
 
 		if (labels == null || labels.length == 0) {
-			labels = new String[1];
+			initLabelsNoBottom(new String[1]);
 		}
 
 		setLabel(labels[0]);

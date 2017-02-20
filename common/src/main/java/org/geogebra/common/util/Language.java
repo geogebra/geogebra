@@ -1,6 +1,5 @@
 package org.geogebra.common.util;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -455,7 +454,7 @@ public enum Language {
 	 *            2 letter country, eg GB
 	 * @return
 	 */
-	final public static String getCountry(App app, String language,
+	final public static String getCountry(String language,
 			String country) {
 
 		Language lang = Language.getLanguage(language + country);
@@ -512,16 +511,16 @@ public enum Language {
 	final public static String getDisplayName(String ggbLangCode) {
 
 		// eg change en_GB to enGB
-		ggbLangCode = ggbLangCode.replaceAll("_", "");
+		String shortLangCode = ggbLangCode.replaceAll("_", "");
 
 		for (Language l : Language.values()) {
-			if (l.locale.equals(ggbLangCode)
-					|| l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
+			if (l.locale.equals(shortLangCode)
+					|| l.localeGWT.replaceAll("_", "").equals(shortLangCode)) {
 				return l.name;
 			}
 		}
 
-		Log.error("language not found: " + ggbLangCode);
+		Log.error("language not found: " + shortLangCode);
 
 		return null;
 	}

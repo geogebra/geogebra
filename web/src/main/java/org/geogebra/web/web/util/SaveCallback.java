@@ -17,13 +17,21 @@ public class SaveCallback {
 	private final AppW app;
 	private SaveState state;
 
+	/** possible saving outcomes */
 	public enum SaveState {
-		OK, FORKED, ERROR
+		/** online saving OK */
+		OK,
+		/** online saving caused a fork */
+		FORKED,
+		/** online saving failed */
+		ERROR
 	}
 
 	/**
 	 * @param app
 	 *            {@link AppW}
+	 * @param state
+	 *            online saving state
 	 */
 	public SaveCallback(final AppW app, SaveState state) {
 		this.app = app;
@@ -33,16 +41,20 @@ public class SaveCallback {
 	/**
 	 * @param app
 	 *            {@link AppW}
+	 * @param state
+	 *            online saving state
+	 * @param isMacro
+	 *            whether this is for GGT file
 	 */
 	public static void onSaved(AppW app, SaveState state, boolean isMacro) {
 		Localization loc = app.getLocalization();
 		if (!isMacro) {
 			app.setSaved();
 			String msg = state == SaveState.ERROR
-					? (app.getLocalization().getError("SaveAccountFailed")
+					? (app.getLocalization().getMenu("SaveAccountFailed")
 							+ "\n"
 							+ app.getLocalization()
-									.getError("SavedLocalCopySuccessfully"))
+									.getMenu("SavedLocalCopySuccessfully"))
 					: loc.getMenu("SavedSuccessfully");
 			if (app.getActiveMaterial() != null
 					&& !app.getActiveMaterial().getVisibility().equals("P")
@@ -97,9 +109,10 @@ public class SaveCallback {
 	public void onError() {
 		if (state == SaveState.OK) {
 			app.getGgbApi().showTooltip(
-					app.getLocalization().getError("SavedToAccountSuccessfully")
+					app.getLocalization().getMenu("SavedToAccountSuccessfully")
 							+ "\n" +
-					app.getLocalization().getError("SaveLocalCopyFailed"));
+							app.getLocalization()
+									.getMenu("SaveLocalCopyFailed"));
 		} else {
 			app.showError(app.getLocalization().getError("SaveFileFailed"));
 		}

@@ -42,6 +42,9 @@ public interface Gridable {
 	 */
 	public int[] getGridRowHeights();
 
+	/**
+	 * @return application
+	 */
 	public AppD getApplication();
 
 	/**

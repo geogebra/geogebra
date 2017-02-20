@@ -360,27 +360,27 @@ public final class MyMath {
 	}
 
 	/**
-	 * @param n
+	 * @param n0
 	 *            n
 	 * @param k
 	 *            k
-	 * @return (n choose k)
+	 * @return (n choose k), 0 for non-integers
 	 */
-	public static double binomial(double n, double k) {
+	public static double binomial(double n0, double k) {
 		try {
-			if (n == 0d && k == 0d) {
+			if (n0 == 0d && k == 0d) {
 				return 1d;
 			}
-			double r = k > n / 2 ? n - k : k;
-			if (n < 1d || r < 0d || n < r) {
+			double r = k > n0 / 2 ? n0 - k : k;
+			if (n0 < 1d || r < 0d || n0 < r) {
 				return 0d;
 			}
-			if (!Kernel.isEqual(Math.round(n), n)
+			if (!Kernel.isEqual(Math.round(n0), n0)
 					|| !Kernel.isEqual(Math.round(r), r)) {
 				return 0d;
 			}
 
-			n = Math.round(n);
+			double n = Math.round(n0);
 			r = Math.round(r);
 
 			double ncr = binomLog(n, r);

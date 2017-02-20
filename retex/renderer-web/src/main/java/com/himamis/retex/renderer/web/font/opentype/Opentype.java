@@ -153,8 +153,8 @@ public class Opentype implements FontLoaderWrapper {
 		}
 	}
 
-	private void loadJavascriptFont(String path, final String familyName) {
-		path = path.substring(0, path.length() - 3);
+	private void loadJavascriptFont(String path0, final String familyName) {
+		String path = path0.substring(0, path0.length() - 3);
 		path = path + "js";
 
 		ScriptInjector.fromUrl(path).setWindow(ScriptInjector.TOP_WINDOW)

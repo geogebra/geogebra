@@ -568,12 +568,10 @@ public class GeoPolyhedron extends GeoElement3D
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
-
-		setAllLabelsAreSet(true);
-
 		if (labels == null || labels.length == 0) {
-			labels = new String[1];
+			initLabels(new String[1]);
 		}
+		setAllLabelsAreSet(true);
 
 		/*
 		 * String s="labels:\n"; for (int i=0; i<labels.length; i++)

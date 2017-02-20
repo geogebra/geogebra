@@ -22,12 +22,9 @@ import com.google.gwt.user.client.Window;
  *
  */
 public abstract class FileManager extends MaterialsManager {
+	/** application */
 	protected AppW app;
 	private Provider provider = Provider.TUBE;
-
-
-
-
 
 	/**
 	 * @param app

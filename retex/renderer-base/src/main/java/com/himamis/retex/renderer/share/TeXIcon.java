@@ -95,25 +95,22 @@ public class TeXIcon implements Icon {
 
     protected TeXIcon(Box b, double size, boolean trueValues) {
         box = b;
-
-        if (defaultSize != -1) {
-            size = defaultSize;
-        }
+		double size1 = defaultSize != -1 ? defaultSize : size;
 
         if (magFactor != 0) {
-            this.size = size * Math.abs(magFactor);
+			this.size = size1 * Math.abs(magFactor);
         } else {
-            this.size = size;
+			this.size = size1;
         }
 
         /* I add this little value because it seems that tftopl calculates badly
            the height and the depth of certains characters.
         */
         if (!trueValues) {
-            insets.top += (int)(0.18f * size);
-            insets.bottom += (int)(0.18f * size);
-            insets.left += (int)(0.18f * size);
-            insets.right += (int)(0.18f * size);
+			insets.top += (int) (0.18f * size1);
+			insets.bottom += (int) (0.18f * size1);
+			insets.left += (int) (0.18f * size1);
+			insets.right += (int) (0.18f * size1);
         }
     }
 

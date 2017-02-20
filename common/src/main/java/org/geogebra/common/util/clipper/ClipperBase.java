@@ -367,7 +367,8 @@ public abstract class ClipperBase implements Clipper {
 		currentLM = currentLM.next;
 	}
 
-	private Edge processBound(Edge e, boolean LeftBoundIsForward) {
+	private Edge processBound(Edge e0, boolean LeftBoundIsForward) {
+		Edge e = e0;
 		Edge EStart, result = e;
 		Edge Horz;
 

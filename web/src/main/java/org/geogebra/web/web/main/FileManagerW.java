@@ -276,13 +276,13 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void saveLoggedOut(App app) {
-		((AppW) app).getGuiManager().exportGGB();
+	public void saveLoggedOut(App app1) {
+		((AppW) app1).getGuiManager().exportGGB();
 	}
 	
 	@Override
-	public void export(App app) {
-		((AppW) app).getGuiManager().exportGGB();
+	public void export(App app1) {
+		((AppW) app1).getGuiManager().exportGGB();
 	}
 
 	@Override
@@ -327,9 +327,9 @@ public class FileManagerW extends FileManager {
 	
 	@Override
 	public void showExportAsPictureDialog(final String url, String filename,
-			final App app) {
+			final App app1) {
 		Localization loc = getApp().getLocalization();
-		((AppW) app).getGuiManager()
+		((AppW) app1).getGuiManager()
 				.getOptionPane()
 				.showSaveDialog(getApp(), loc.getMenu("ExportAsPicture"),
 						filename + ".png", null,
