@@ -101,7 +101,7 @@ public abstract class Layout implements SettingListener {
 		int i = 0; // current perspective
 
 		defaultPerspectives[i] = new Perspective(1, spData, dpData, defToolbar,
-				true, false, true, true, true, InputPosition.algebraView);
+				true, true, true, true, true, InputPosition.algebraView);
 
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[6];
@@ -534,14 +534,36 @@ public abstract class Layout implements SettingListener {
 		return true;
 	}
 
+	/**
+	 * @param string
+	 *            perspective ID
+	 * @return perspective
+	 */
 	public abstract Perspective createPerspective(String string);
 
+	/**
+	 * @param perspective
+	 *            perspective
+	 * @return whether EV settings changed
+	 */
 	public abstract boolean applyPerspective(Perspective perspective);
 
-	public abstract boolean isOnlyVisible(int viewEuclidian);
+	/**
+	 * @param viewID
+	 *            view id
+	 * @return whether given view is the only visible one
+	 */
+	public abstract boolean isOnlyVisible(int viewID);
 
+	/**
+	 * @param string
+	 *            perspective ID
+	 */
 	public abstract void applyPerspective(String string);
 
+	/**
+	 * @return dock manager
+	 */
 	public abstract DockManager getDockManager();
 
 }
