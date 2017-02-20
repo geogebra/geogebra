@@ -64,6 +64,8 @@ class MetaModelSymbols {
         operators.add(createOperator("="));
 		operators.add(createOperator("<"));
 		operators.add(createOperator(">"));
+		operators.add(createOperator(","));
+		operators.add(createOperator(";"));
 
         operators.add(createOperator("percent", "\\%", '%'));
         operators.add(createOperator("dollar", "\\$", '$'));

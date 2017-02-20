@@ -947,14 +947,14 @@ public class InputController {
 		} else if (ch == 215) { // multiplication cross char
 			newOperator(editorState, '*');
 			handled = true;
+		} else if (ch == ',') { // multiplication cross char
+			comma(editorState);
+			handled = true;
 		} else if (meta.isOperator("" + ch)) {
 			newOperator(editorState, ch);
 			handled = true;
 		} else if (meta.isSymbol("" + ch)) {
 			newSymbol(editorState, ch);
-			handled = true;
-		} else if (ch == ',') { // multiplication cross char
-			comma(editorState);
 			handled = true;
 		} else if (meta.isCharacter("" + ch)) {
 			newCharacter(editorState, ch);
@@ -972,7 +972,7 @@ public class InputController {
 			return;
 		}
 
-		newCharacter(editorState, ',');
+		newOperator(editorState, ',');
 
 	}
 

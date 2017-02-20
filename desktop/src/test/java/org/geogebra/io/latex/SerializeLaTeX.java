@@ -103,6 +103,13 @@ public class SerializeLaTeX {
 		checkCannon("{7,{{1,2},{3,4}}+2,4,5,6}", "{7,{{1,2},{3,4}}+2,4,5,6}");
 	}
 
+	@Test
+	public void testComma() {
+		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
+				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
+		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
+	}
+
 	private static void checkCannon(String input, String output) {
 		MathFormula mf = null;
 		try {
