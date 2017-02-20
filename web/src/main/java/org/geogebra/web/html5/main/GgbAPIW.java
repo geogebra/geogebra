@@ -518,14 +518,27 @@ public class GgbAPIW extends GgbAPI {
 
 	}-*/;
 
-	private void getBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,
+	void getBase64ZipJs(final JavaScriptObject arch, final JavaScriptObject clb,
 			String workerUrls, boolean sync) {
-		setWorkerURL(workerUrls, sync);
-		getBase64ZipJs(arch, clb);
+		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
+		getBase64ZipJs(arch, clb, nativeCallback(new StringHandler() {
+
+			public void handle(String s) {
+				if (oldWorkers && !isUsingWebWorkers()) {
+					Log.warn(
+							"Saving with workers failed, trying without workers.");
+					JavaScriptInjector
+							.inject(GuiResourcesSimple.INSTANCE.deflateJs());
+					getBase64ZipJs(arch, clb, "false", false);
+				}
+
+			}
+		}));
 	}
 
+
 	private native void getBase64ZipJs(JavaScriptObject arch,
-			JavaScriptObject clb) /*-{
+			JavaScriptObject clb, JavaScriptObject errorClb) /*-{
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -647,6 +660,9 @@ public class GgbAPIW extends GgbAPI {
 						},
 						function(error) {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating base64 zip");
+							if (typeof errorClb === "function") {
+								errorClb(error + "");
+							}
 						});
 	}-*/;
 
@@ -1031,7 +1047,7 @@ public class GgbAPIW extends GgbAPI {
 		});
 	}-*/;
 
-	public static native void setWorkerURL(String workerUrls,
+	public static native boolean setWorkerURL(String workerUrls,
 			boolean sync) /*-{
 		if (workerUrls === "false" || !workerUrls || sync) {
 			$wnd.zip.useWebWorkers = false;
@@ -1041,7 +1057,11 @@ public class GgbAPIW extends GgbAPI {
 			$wnd.zip.useWebWorkers = true;
 			$wnd.zip.workerScriptsPath = workerUrls;
 		}
+		return $wnd.zip.useWebWorkers;
+	}-*/;
 
+	native boolean isUsingWebWorkers()/*-{
+		return $wnd.zip.useWebWorkers;
 	}-*/;
 
 }

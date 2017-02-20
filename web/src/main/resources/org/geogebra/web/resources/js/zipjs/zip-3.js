@@ -589,12 +589,19 @@
 		else if (obj.zip.useWebWorkers) {
 			worker = new Worker(obj.zip.workerScriptsPath + DEFLATE_JS);
 			worker.addEventListener("message", onmessage, false);
+			worker.addEventListener("error", function(e){
+				if(obj.zip.useWebWorkers){
+					obj.zip.useWebWorkers = false;
+					onwriteerror();
+				}
+			});
 			worker.postMessage({
 				init : true,
 				level : level
 			});
-		} else
+		} else {
 			launchProcess(new obj.zip.Deflater(), reader, writer, 0, reader.size, ondeflateappend, onprogress, ondeflateend, onreaderror, onwriteerror);
+		}
 		return worker;
 	}
 
