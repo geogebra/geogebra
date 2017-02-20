@@ -691,10 +691,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public InputDialog newInputDialog(App app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			GeoElement geo, boolean showApply) {
+			String initString, InputHandler handler, GeoElement geo) {
 		return new InputDialogD((AppD) app, message, title, initString,
-				autoComplete, handler, geo);
+				true, handler, geo);
 	}
 
 }

@@ -28,7 +28,7 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 	public InputDialogRadiusW(AppW app, String title, InputHandler handler,
 			Kernel kernel) {
 		super(app, app.getLocalization().getMenu("Radius"), title, "", false,
-				handler, null);
+				handler);
 
 		this.kernel = kernel;
 	}

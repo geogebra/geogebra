@@ -120,7 +120,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor(),callback, app, oldVal);
 		InputDialogW id = new InputDialogW(((AppW) app), message, title,
-		        initText, false, handler, true, false, null) {
+				initText, false, handler, true, false) {
 			@Override
 			protected void cancel() {
 				cons.setSuppressLabelCreation(false);
@@ -220,7 +220,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
 				loc.getMenu("Rename"), initText, false, handler, false,
-				selectInitText, null);
+				selectInitText);
 
 		id.setVisible(true);
 	}
@@ -530,9 +530,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 
 	@Override
-	public InputDialog newInputDialog(App app, String message, String title, String initString, boolean autoComplete,
-			InputHandler handler, GeoElement geo, boolean showApply) {
-		return new InputDialogW((AppW) app, message, title, initString, autoComplete, handler, geo, showApply);
+	public InputDialog newInputDialog(App app1, String message, String title,
+			String initString, InputHandler handler, GeoElement geo) {
+		return new InputDialogW((AppW) app1, message, title, initString,
+				handler, geo);
 	}
 
 	public void showAnimGifExportDialog() {

@@ -70,10 +70,10 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	public InputDialogW(AppW app, String message, String title,
 	        String initString, boolean autoComplete, InputHandler handler,
-	        boolean modal, boolean selectInitText, GeoElement geo) {
+			boolean modal, boolean selectInitText) {
 
 		this(app, message, title, initString, autoComplete, handler, modal,
-		        selectInitText, geo, DialogType.GeoGebraEditor);
+				selectInitText, DialogType.GeoGebraEditor);
 	}
 
 	/**
@@ -91,17 +91,16 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 */
 	public InputDialogW(AppW app, String message, String title,
 	        String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, final boolean selectInitText, GeoElement geo,
+			boolean modal, final boolean selectInitText,
 			DialogType type) {
 
 		this(modal, app, true);
 
-		this.geo = geo;
 		this.setInputHandler(handler);
 		setInitString(initString);
 
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
-		        selectInitText, geo != null, geo != null, type);
+				selectInitText, false, false, type);
 
 		centerAndFocus(selectInitText);
 
@@ -136,8 +135,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	}
 
-	public InputDialogW(AppW app, String message, String title, String initString, boolean autoComplete,
-			InputHandler handler, GeoElement geo, boolean showApply) {
+	public InputDialogW(AppW app, String message, String title,
+			String initString, InputHandler handler, GeoElement geo) {
 
 		this(false, app, false);
 
@@ -145,7 +144,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		this.setInputHandler(handler);
 		setInitString(initString);
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, geo != null, showApply,
+		createGUI(title, message, true, DEFAULT_COLUMNS, 1, true, false,
+				geo != null, false,
 				DialogType.GeoGebraEditor);
 
 		centerAndFocus(false);
@@ -153,16 +153,15 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 	public InputDialogW(AppW app, String message, String title,
-	        String initString, boolean autoComplete, InputHandler handler,
-	        GeoElement geo) {
+			String initString, boolean autoComplete, InputHandler handler) {
 		this(app, message, title, initString, autoComplete, handler, false,
-		        false, geo);
+				false);
 	}
 
 	public InputDialogW(AppW app2, String message, String title2, String initString,
             boolean autoComplete, InputHandler handler, boolean selectInitText) {
 		this(app2, message, title2, initString, autoComplete, handler, false,
-				selectInitText, null);
+				selectInitText);
     }
 
 	protected void centerOnScreen() {

@@ -27,7 +27,7 @@ public class NumberChangeSignInputDialogW extends InputDialogW{
 			boolean changingSign, String checkBoxText) {
 		super(app, message, title, initString, false, 
 				handler, true,
-				false, null,
+				false, 
 				 DialogType.TextArea);
 		this.checkBox = new CheckBox(checkBoxText,true);
 		this.changingSign=changingSign;
