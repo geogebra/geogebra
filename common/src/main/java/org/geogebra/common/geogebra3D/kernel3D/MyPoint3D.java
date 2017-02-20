@@ -13,8 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -95,17 +93,6 @@ public class MyPoint3D extends MyPoint {
 	 */
 	public double distance(MyPoint3D p) {
 		return MyMath.length(p.x - x, p.y - y, p.z - z);
-	}
-
-	/**
-	 * Converts this into GeoPoint3D
-	 * 
-	 * @param cons
-	 *            construction for the new point
-	 * @return GeoPoint3D equivalent
-	 */
-	public GeoPoint3D getGeoPoint3D(Construction cons) {
-		return new GeoPoint3D(cons, null, x, y, z, 1.0);
 	}
 
 	@Override

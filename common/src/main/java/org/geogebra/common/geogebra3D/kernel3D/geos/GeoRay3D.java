@@ -16,18 +16,40 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * 3D ray
+ *
+ */
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param O
+	 *            start point
+	 * @param Q
+	 *            end point
+	 */
 	public GeoRay3D(Construction c, GeoPointND O, GeoPointND Q) {
 		super(c, O, Q);
 		setStartPoint(O);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param O
+	 *            start point
+	 */
 	public GeoRay3D(Construction c, GeoPointND O) {
 		super(c);
 		setStartPoint(O);
 	}
 
+	/**
+	 * @param construction
+	 *            construction
+	 */
 	public GeoRay3D(Construction construction) {
 		super(construction);
 	}
@@ -38,8 +60,8 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	@Override
-	protected GeoCoordSys1D create(Construction cons) {
-		return new GeoRay3D(cons);
+	protected GeoCoordSys1D create(Construction cons1) {
+		return new GeoRay3D(cons1);
 	}
 
 	// Path3D interface
@@ -112,7 +134,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	@Override
-	public GeoElement[] createTransformedObject(Transform t, String label) {
+	public GeoElement[] createTransformedObject(Transform t, String label1) {
 		AlgoElement algoParent1 = keepTypeOnGeometricTransform
 				? getParentAlgorithm() : null;
 
@@ -123,7 +145,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			// if(t.isAffine()){
-			GeoElement ray = (GeoElement) kernel.getManager3D().Ray3D(label,
+			GeoElement ray = (GeoElement) kernel.getManager3D().Ray3D(label1,
 					points[0], points[1]);
 			ray.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { ray, (GeoElement) points[0],
@@ -144,7 +166,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		}
 		// create LINE
 		GeoElement transformedLine = t.getTransformedLine(this);
-		transformedLine.setLabel(label);
+		transformedLine.setLabel(label1);
 		GeoElement[] ret = { transformedLine };
 		return ret;
 	}
@@ -163,9 +185,9 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	@Override
-	public GeoElement copyInternal(Construction cons) {
-		GeoRay3D ray = new GeoRay3D(cons,
-				(GeoPointND) startPoint.copyInternal(cons));
+	public GeoElement copyInternal(Construction cons1) {
+		GeoRay3D ray = new GeoRay3D(cons1,
+				(GeoPointND) startPoint.copyInternal(cons1));
 		ray.set(this);
 		return ray;
 	}

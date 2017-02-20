@@ -54,6 +54,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			"x z", "y z", "x", "y", "z" };
 
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
+	/** helper for 2d projection */
+	protected double[] tmpDouble2 = new double[2];
 
 	/**
 	 * @param c
@@ -2358,6 +2360,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return true;
 	}
 
+	/**
+	 * @param coords
+	 *            coordinates in eigenvector system
+	 * @param parameters
+	 *            path parameters
+	 */
 	protected void getNormalProjectionParameters(Coords coords,
 			double[] parameters) {
 
@@ -2457,8 +2465,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 	}
 
-	protected double[] tmpDouble2 = new double[2],
-			tmpDouble2bis = new double[2];
+
 
 	@Override
 	public Coords[] getNormalProjection(Coords coords) {
@@ -2587,6 +2594,22 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
+	/**
+	 * @param oldCoords
+	 *            point
+	 * @param willingCoords
+	 *            willing coords of the point
+	 * @param willingDirection
+	 *            willing direction
+	 * @param p1
+	 *            1st intersection of line with quadric
+	 * @param parameters1
+	 *            p1 parameters
+	 * @param p2
+	 *            2nd intersection of line with quadric
+	 * @param parameters2
+	 *            p2 parameters
+	 */
 	public void getProjections(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection, Coords p1, double[] parameters1, Coords p2,
 			double[] parameters2) {

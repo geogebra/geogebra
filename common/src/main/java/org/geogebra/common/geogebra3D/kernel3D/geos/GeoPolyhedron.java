@@ -63,15 +63,21 @@ public class GeoPolyhedron extends GeoElement3D
 		implements HasSegments, HasVolume, Traceable, RotateableND,
 		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
 		Path, GeoPolyhedronInterface, GeoNumberValue {
-
+	/** pyramid */
 	public static final int TYPE_PYRAMID = 1;
+	/** prism */
 	public static final int TYPE_PRISM = 3;
+	/** tetrahedron */
 	public static final int TYPE_TETRAHEDRON = 4;
+	/** cube */
 	public static final int TYPE_CUBE = 5;
+	/** octahedron */
 	public static final int TYPE_OCTAHEDRON = 6;
+	/** dodecahedron */
 	public static final int TYPE_DODECAHEDRON = 7;
+	/** icosahedron */
 	public static final int TYPE_ICOSAHEDRON = 8;
-
+	/** one of the TYPE_* constants */
 	int type;
 
 	/** vertices */
@@ -177,8 +183,10 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	/**
+	 * Copy constructor
 	 * 
 	 * @param polyhedron
+	 *            original
 	 */
 	public GeoPolyhedron(GeoPolyhedron polyhedron) {
 		this(polyhedron.getConstruction());
@@ -189,6 +197,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * set the type of polyhedron
 	 * 
 	 * @param type
+	 *            one of the TYPE_* constants
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -213,6 +222,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * add the point to the current face and to the point list if it's a new one
 	 * 
 	 * @param point
+	 *            vertex
 	 */
 	public void addPointToCurrentFace(GeoPointND point) {
 
@@ -528,6 +538,10 @@ public class GeoPolyhedron extends GeoElement3D
 		segmentsLinked.put(key, segment);
 	}
 
+	/**
+	 * @param labels
+	 *            output labels, only first one is used
+	 */
 	public void defaultLabels(String[] labels) {
 
 		if (cons.isSuppressLabelsActive()) { // for redefine
@@ -574,6 +588,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * polyhedron itself, labels[1..n] for faces and edges,
 	 * 
 	 * @param labels
+	 *            labels for this, points, faces, edges
 	 */
 	public void initLabels(String[] labels) {
 

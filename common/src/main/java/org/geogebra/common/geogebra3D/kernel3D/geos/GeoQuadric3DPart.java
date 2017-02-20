@@ -28,15 +28,24 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	/** max value for limites */
 	private double max;
 
+	private double[] tmpDouble2bis = new double[2];
+
 	/**
 	 * constructor
 	 * 
 	 * @param c
+	 *            construction
 	 */
 	public GeoQuadric3DPart(Construction c) {
 		super(c);
 	}
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param quadric
+	 *            original
+	 */
 	public GeoQuadric3DPart(GeoQuadric3DPart quadric) {
 		super(quadric);
 	}
@@ -53,7 +62,9 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	 * sets the min and max values for limits
 	 * 
 	 * @param min
+	 *            limit for bottom
 	 * @param max
+	 *            limit for top
 	 */
 	@Override
 	public void setLimits(double min, double max) {
@@ -301,11 +312,14 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 	private double area;
 
+	/**
+	 * Update the area
+	 */
 	public void calcArea() {
 
 		// Application.debug("geo="+getLabel()+", half="+getHalfAxis(0)+",
 		// min="+min+", max="+max+", type="+type);
-
+		// TODO make udefined when axes not equal
 		switch (type) {
 		case QUADRIC_CYLINDER:
 			area = 2 * getHalfAxis(0) * Math.PI * (max - min);
@@ -327,6 +341,9 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		}
 	}
 
+	/**
+	 * @return area of lateral surface
+	 */
 	public double getArea() {
 		if (defined) {
 			return area;

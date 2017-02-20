@@ -30,6 +30,10 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Plane
+ *
+ */
 public class GeoPlane3D extends GeoElement3D
 		implements Functional2Var, ViewCreator, GeoCoords4D, GeoPlaneND,
 		Translateable, Traceable, RotateableND, MirrorableAtPlane,
@@ -40,15 +44,17 @@ public class GeoPlane3D extends GeoElement3D
 
 	private static boolean KEEP_LEADING_SIGN = true;
 
-	double xmin, xmax, ymin, ymax; // values for grid and interactions
-	double xPlateMin, xPlateMax, yPlateMin, yPlateMax; // values for plate
+	private double xmin, xmax, ymin, ymax; // values for grid and interactions
+	private double xPlateMin, xPlateMax, yPlateMin, yPlateMax; // values for
+																// plate
 
 	// grid and plate
-	boolean plateVisible = true;
-	double dx = Double.NaN; // distance between two marks on the grid //TODO use
+	private boolean plateVisible = true;
+	private double dx = Double.NaN; // distance between two marks on the grid
+									// //TODO use
 							// object
 	// properties
-	double dy = Double.NaN;
+	private double dy = Double.NaN;
 
 	/** coord sys */
 	protected CoordSys coordsys;
@@ -82,6 +88,18 @@ public class GeoPlane3D extends GeoElement3D
 
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            x-coeeficient
+	 * @param b
+	 *            y-coefficient
+	 * @param c
+	 *            z-coefficient
+	 * @param d
+	 *            constant coefficient
+	 */
 	public GeoPlane3D(Construction cons, double a, double b, double c,
 			double d) {
 		this(cons);
@@ -90,6 +108,16 @@ public class GeoPlane3D extends GeoElement3D
 
 	}
 
+	/**
+	 * @param a
+	 *            x-coeeficient
+	 * @param b
+	 *            y-coefficient
+	 * @param c
+	 *            z-coefficient
+	 * @param d
+	 *            constant coefficient
+	 */
 	public void setEquation(double a, double b, double c, double d) {
 
 		setEquation(a, b, c, d, true);
@@ -179,7 +207,18 @@ public class GeoPlane3D extends GeoElement3D
 	// /////////////////////////////////
 	// GRID AND PLATE
 
-	/** sets corners of the plate */
+	/**
+	 * sets corners of the plate * @param x1 x-min
+	 * 
+	 * @param x1
+	 *            x-min
+	 * @param y1
+	 *            y-min
+	 * @param x2
+	 *            x-max
+	 * @param y2
+	 *            y-max
+	 */
 	public void setPlateCorners(double x1, double y1, double x2, double y2) {
 		if (x1 < x2) {
 			this.xPlateMin = x1;
@@ -197,7 +236,18 @@ public class GeoPlane3D extends GeoElement3D
 		}
 	}
 
-	/** sets corners of the grid */
+	/**
+	 * sets corners of the grid
+	 * 
+	 * @param x1
+	 *            x-min
+	 * @param y1
+	 *            y-min
+	 * @param x2
+	 *            x-max
+	 * @param y2
+	 *            y-max
+	 */
 	public void setGridCorners(double x1, double y1, double x2, double y2) {
 		if (x1 < x2) {
 			this.xmin = x1;
@@ -219,7 +269,9 @@ public class GeoPlane3D extends GeoElement3D
 	 * set grid distances (between two ticks)
 	 * 
 	 * @param dx
+	 *            grid x distance
 	 * @param dy
+	 *            grid y distance
 	 */
 	public void setGridDistances(double dx, double dy) {
 		this.dx = dx;
@@ -266,26 +318,30 @@ public class GeoPlane3D extends GeoElement3D
 		return yPlateMax;
 	}
 
-	/** returns if there is a grid to plot or not */
+	/** @return if there is a grid to plot or not */
 	public boolean isGridVisible() {
 		return getLineThickness() > 0 && isEuclidianVisible();
 	}
 
-	/** returns if there is a plate visible */
+	/** @return if there is a plate visible */
 	public boolean isPlateVisible() {
 		return plateVisible && isEuclidianVisible();
 	}
 
+	/**
+	 * @param flag
+	 *            if there is a plate visible
+	 */
 	public void setPlateVisible(boolean flag) {
 		plateVisible = flag;
 	}
 
-	/** returns x delta for the grid */
+	/** @return x delta for the grid */
 	public double getGridXd() {
 		return dx;
 	}
 
-	/** returns y delta for the grid */
+	/** @return y delta for the grid */
 	public double getGridYd() {
 		return dy;
 	}
@@ -352,6 +408,10 @@ public class GeoPlane3D extends GeoElement3D
 		}
 	}
 
+	/**
+	 * @param cs
+	 *            coordinate system
+	 */
 	public void setCoordSys(CoordSys cs) {
 		getCoordSys().set(cs);
 	}
@@ -431,6 +491,17 @@ public class GeoPlane3D extends GeoElement3D
 
 	}
 
+	/**
+	 * @param tpl
+	 *            template
+	 * @param kernel
+	 *            kernel
+	 * @param coords
+	 *            coefficients
+	 * @param needsZ
+	 *            whether to force +0z
+	 * @return value as stringbuilder
+	 */
 	static public final StringBuilder buildValueString(StringTemplate tpl,
 			Kernel kernel, Coords coords, boolean needsZ) {
 		return kernel.buildImplicitEquation(coords.get(), VAR_STRING,

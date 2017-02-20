@@ -73,7 +73,7 @@ public enum GeoClass {
 	IMPLICIT_POLY("ImplicitPoly", 60, false),
 
 	/** FUNCTION_NVAR */
-	FUNCTION_NVAR("Function/** NV */ NVar", 102, false),
+	FUNCTION_NVAR("FunctionNVar", 102, false),
 
 	/** POLYLINE */
 	POLYLINE("PolyLine", 51, false),
@@ -113,7 +113,7 @@ public enum GeoClass {
 	CONIC3D("Conic", "Conic3D", 70, true),
 
 	/** CONICSECTION */
-	CONICSECTION("ConicPart", "Conic3/** DP */ DPart", 70, true),
+	CONICSECTION("ConicPart", "Conic3DPart", 70, true),
 
 	/** AXIS */
 	AXIS3D("Axis", "Axis3D", 10, true),

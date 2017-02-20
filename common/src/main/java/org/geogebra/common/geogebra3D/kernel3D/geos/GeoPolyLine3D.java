@@ -46,6 +46,10 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		super(c, points);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoPolyLine3D(Construction c) {
 		super(c);
 	}
@@ -77,9 +81,9 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	// Overwrite GeoPolyLine
 
 	@Override
-	public GeoElement copyInternal(Construction cons) {
-		GeoPolyLine3D ret = new GeoPolyLine3D(cons, null);
-		ret.points = GeoElement.copyPointsND(cons, points);
+	public GeoElement copyInternal(Construction cons1) {
+		GeoPolyLine3D ret = new GeoPolyLine3D(cons1, null);
+		ret.points = GeoElement.copyPointsND(cons1, points);
 		ret.set(this);
 		return ret;
 	}
@@ -105,7 +109,11 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		}
 	}
 
-	// The only place where GeoPoint3D is directly referred to
+	/**
+	 * The only place where GeoPoint3D is directly referred to
+	 * 
+	 * @return 3D point
+	 */
 	protected GeoPointND createNewPoint() {
 		return new GeoPoint3D(cons);
 	}
@@ -265,14 +273,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		return; // TODO
 	}
 
-	public void dilate(NumberValue r, GeoPointND S) {
-		return; // TODO
-	}
-
-	public void mirror(GeoPointND Q) {
-		return; // TODO
-	}
-
 	@Override
 	public void mirror(GeoLineND g) {
 		return; // TODO
@@ -306,10 +306,16 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	// /////////////////////
 	// /isPlanar
 
+	/**
+	 * @return whether this is in plane
+	 */
 	public boolean isPlanar() {
 		return isPlanar;
 	}
 
+	/**
+	 * Update the planar flag
+	 */
 	public void calcIsPlanar() {
 		if (!isDefined()) {
 			return;
