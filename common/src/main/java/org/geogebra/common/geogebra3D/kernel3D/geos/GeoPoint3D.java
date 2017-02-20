@@ -135,7 +135,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            construction
 	 */
 	public GeoPoint3D(Construction c) {
-		super(c, 4);
+		super(c);
 		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setCartesian3D();
 		setUndefined();
@@ -153,7 +153,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            path
 	 */
 	public GeoPoint3D(Construction c, Path path) {
-		super(c, 4);
+		super(c);
 		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setCartesian3D();
 		setPath(path);
@@ -185,7 +185,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            region
 	 */
 	public GeoPoint3D(Construction c, Region region) {
-		super(c, 4);
+		super(c);
 		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setCartesian3D();
 		setRegion(region);
@@ -926,7 +926,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            original
 	 */
 	public GeoPoint3D(GeoPointND point) {
-		super(((GeoElement) point).getConstruction());
+		super(point.getConstruction());
 		setDrawingMatrix(CoordMatrix4x4.Identity());
 		set(point);
 	}

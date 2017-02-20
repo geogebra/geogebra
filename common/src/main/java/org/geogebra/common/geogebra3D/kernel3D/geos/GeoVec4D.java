@@ -19,31 +19,30 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 
  * @author Markus + ggb3D
  */
-public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
+public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D {
+	public Coords v;
+
+
 
 	public GeoVec4D(Construction c) {
-		this(c, 4);
+		super(c);
+		v = new Coords(4);
+		setConstructionDefaults(); // init visual settings
 	}
 
-	public GeoVec4D(Construction c, int n) {
-		super(c, n);
-	}
 
 	/** Creates new GeoVec4D with coordinates (x,y,z,w) and label */
 	public GeoVec4D(Construction c, double x, double y, double z, double w) {
-		super(c, new double[] { x, y, z, w });
+		this(c);
+		setCoords(x, y, z, w);
 
-	}
-
-	/** Copy constructor */
-	public GeoVec4D(Construction c, GeoVec4D v) {
-		super(c);
-		set(v);
 	}
 
 	@Override
@@ -109,6 +108,34 @@ public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 	@Override
 	public final boolean hasCoords() {
 		return true;
+	}
+
+	public void setCoords(Coords vals) {
+		setDefinition(null);
+		v.set(vals);
+	}
+
+	public void setCoords(double[] vals) {
+		setDefinition(null);
+		v.set(vals);
+	}
+
+	public void setCoords(GeoVec4D vec) {
+		setCoords(vec.v);
+	}
+
+	public void setCoords(GeoPointND p) {
+		setCoords(p.getCoordsInD3());
+	}
+
+	final public Coords getCoords() {
+		return v;
+	}
+
+	public void translate(Coords v0) {
+
+		v.addInside(v0);
+		setCoords(v);
 	}
 
 }

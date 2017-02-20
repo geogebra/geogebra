@@ -55,6 +55,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	 * simple constructor
 	 * 
 	 * @param c
+	 *            construction
 	 */
 	public GeoVector3D(Construction c) {
 		super(c);
@@ -66,9 +67,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	 * simple constructor with (x,y,z) coords
 	 * 
 	 * @param c
+	 *            construction
 	 * @param x
+	 *            x-coord
 	 * @param y
+	 *            y-coord
 	 * @param z
+	 *            z-coord
 	 */
 	public GeoVector3D(Construction c, double x, double y, double z) {
 		super(c, x, y, z, 0);
@@ -377,25 +382,25 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getXMLtags(StringBuilder sbXml) {
+		super.getXMLtags(sbXml);
 
 		// polar or cartesian coords
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
-			sb.append("\t<coordStyle style=\"polar\"/>\n");
+			sbXml.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			sb.append("\t<coordStyle style=\"complex\"/>\n");
+			sbXml.append("\t<coordStyle style=\"complex\"/>\n");
 			break;
 
 		case Kernel.COORD_CARTESIAN:
-			sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+			sbXml.append("\t<coordStyle style=\"cartesian\"/>\n");
 			break;
 
 		case Kernel.COORD_SPHERICAL:
-			sb.append("\t<coordStyle style=\"spherical\"/>\n");
+			sbXml.append("\t<coordStyle style=\"spherical\"/>\n");
 			break;
 
 		default:
@@ -403,11 +408,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		}
 
 		// line thickness and type
-		getLineStyleXML(sb);
+		getLineStyleXML(sbXml);
 
 		// startPoint of vector
 		if (startPoint != null) {
-			sb.append(startPoint.getStartPointXML());
+			sbXml.append(startPoint.getStartPointXML());
 		}
 
 	}
@@ -672,14 +677,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	public void rotate(NumberValue phiValue, GeoPointND S,
 			GeoDirectionND orientation) {
 
-		Coords o1 = S.getInhomCoordsInD3();
+		// origin ignored
 		Coords vn = orientation.getDirectionInD3();
 
-		rotate(phiValue, o1, vn);
+		rotate(phiValue, vn);
 
 	}
 
-	private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
+	private void rotate(NumberValue phiValue, Coords vn) {
 
 		if (vn.isZero()) {
 			setUndefined();
@@ -702,10 +707,10 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	@Override
 	public void rotate(NumberValue phiValue, GeoLineND line) {
 
-		Coords o1 = line.getStartInhomCoords();
+		// origin ignored
 		Coords vn = line.getDirectionInD3();
 
-		rotate(phiValue, o1, vn);
+		rotate(phiValue, vn);
 
 	}
 
