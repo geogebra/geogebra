@@ -291,7 +291,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	protected LogInOperation loginOperation = null;
 	/** XML input / output handler */
-	protected MyXMLio myXMLio;
+	private MyXMLio myXMLio;
 	/** gui / menu fontsize (-1 = use appFontSize) */
 	protected int guiFontSize = -1;
 	/** kernel */
@@ -3371,7 +3371,12 @@ public abstract class App implements UpdateSelection {
 		return optionsMenu != null;
 	}
 
-	public abstract MyXMLio getXMLio();
+	public MyXMLio getXMLio() {
+		if (myXMLio == null) {
+			myXMLio = createXMLio(kernel.getConstruction());
+		}
+		return myXMLio;
+	}
 
 	public abstract MyXMLio createXMLio(Construction cons);
 

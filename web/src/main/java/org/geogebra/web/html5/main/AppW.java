@@ -443,7 +443,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
-	private MyXMLioW xmlio;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
 
@@ -451,14 +450,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public boolean loadXML(String xml) throws Exception {
 		getXMLio().processXMLString(xml, true, false);
 		return true;
-	}
-
-	@Override
-	public MyXMLioW getXMLio() {
-		if (xmlio == null) {
-			xmlio = createXMLio(kernel.getConstruction());
-		}
-		return xmlio;
 	}
 
 	@Override
@@ -1711,8 +1702,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// if (has(Feature.AV_EXTENSIONS)) {
 		// settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
 		// }
-		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
-
 		fontManager = new FontManagerW();
 		setFontSize(16, false);
 		initEuclidianViews();

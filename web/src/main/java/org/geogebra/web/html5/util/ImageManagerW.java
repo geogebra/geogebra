@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Document;
@@ -42,7 +42,7 @@ public class ImageManagerW extends ImageManager {
 	 */
 
 	private String construction, defaults2d, defaults3d, macros;
-	private MyXMLioW myXMLio;
+	private MyXMLio myXMLio;
 
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
@@ -154,7 +154,7 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	public void triggerImageLoading(String construction, String defaults2d,
-			String defaults3d, String macros, MyXMLioW myXMLio,
+			String defaults3d, String macros, MyXMLio myXMLio,
  final AppW app) {
 		this.construction = construction;
 		this.defaults2d = defaults2d;

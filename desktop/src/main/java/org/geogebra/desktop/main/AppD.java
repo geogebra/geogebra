@@ -511,9 +511,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// we don't want to redefine the toolbar string from the file.
 		boolean ggtloading = isLoadingTool(args);
 
-		// init xml io for construction loading
-		myXMLio = new MyXMLioD(kernel, kernel.getConstruction());
-
 		// init default preferences if necessary
 		if (!isApplet) {
 			GeoGebraPreferencesD.getPref().initDefaultXML(this);
@@ -3681,7 +3678,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean saveGeoGebraFile(File file) {
 		try {
 			setWaitCursor();
-			((MyXMLioD) myXMLio).writeGeoGebraFile(file);
+			getXMLio().writeGeoGebraFile(file);
 			setSaved();
 			setDefaultCursor();
 			return true;
@@ -3701,7 +3698,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	final public boolean saveMacroFile(File file, ArrayList<Macro> macros) {
 		try {
 			setWaitCursor();
-			((MyXMLioD) myXMLio).writeMacroFile(file, macros);
+			getXMLio().writeMacroFile(file, macros);
 			setDefaultCursor();
 			return true;
 		} catch (Exception e) {
@@ -3726,7 +3723,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// make sure objects are displayed in the correct View
 			setActiveView(App.VIEW_EUCLIDIAN);
 
-			myXMLio.processXMLString(xml, clearAll, false);
+			getXMLio().processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
 			err.printStackTrace();
 			showError(err);
@@ -3767,7 +3764,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	final public MyXMLioD getXMLio() {
-		return (MyXMLioD) myXMLio;
+		return (MyXMLioD) super.getXMLio();
 	}
 
 	public OFFHandler getOFFHandler() {

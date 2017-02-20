@@ -88,7 +88,6 @@ public class AppDNoGui extends App {
 		loc.setLocale(Locale.US);
 		loc.setApp(this);
 		Layout.initializeDefaultPerspectives(this, 0.2);
-		myXMLio = new MyXMLioD(kernel, kernel.getConstruction());
 		initEuclidianViews();
 		loginOperation = new LoginOperationD();
 
@@ -569,11 +568,6 @@ public class AppDNoGui extends App {
 	public Factory getFactory() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public MyXMLio getXMLio() {
-		return myXMLio;
 	}
 
 	@Override
