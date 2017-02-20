@@ -1244,6 +1244,10 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			
 			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
 			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false);
+			String freeVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
+					null, true);
+			Log.trace("gbt polys = " + polys);
+			Log.trace("gbt vars = " + elimVars + "," + freeVars);
 			// Consider uncomment this if Giac cannot find a readable NDG:
 			// elimVars = dependentVariables.toString().replaceAll(" ", "");
 			// elimVars = elimVars.substring(1, elimVars.length()-1);
