@@ -358,7 +358,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private static boolean selectAllOnFocus(AVField avField,
 			MouseEvent<?> event) {
 		if (RadioTreeItemController.isWidgetHit(avField, event)) {
+			avField.removeDummyCursor();
 			avField.selectAll();
+			avField.addDummyCursor();
 			return true;
 		}
 		return false;
