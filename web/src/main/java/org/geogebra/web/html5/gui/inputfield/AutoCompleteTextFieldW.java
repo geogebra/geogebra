@@ -731,7 +731,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	public void addDummyCursor(int caretPos) {
-		if (dummyCursor) {
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			return;
+		}
+
+		if (dummyCursor || !Browser.isAndroid()) {
 			return;
 		}
 		String text = textField.getText();
@@ -744,7 +748,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void addDummyCursor() {
-		if (dummyCursor) {
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			return;
+		}
+		if (dummyCursor || !Browser.isAndroid()) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
