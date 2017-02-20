@@ -186,6 +186,9 @@ public class GgbAPIW extends GgbAPI {
 
 	}
 
+	/**
+	 * @return URL of zip worker directory
+	 */
 	public static String zipJSworkerURL() {
 		// FIXME disabled workers in Touch for now
 		if ("tablet".equals(GWT.getModuleName())
@@ -196,6 +199,12 @@ public class GgbAPIW extends GgbAPI {
 				+ "js/zipjs/" : "false";
 	}
 
+	/**
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
+	 * @param callback
+	 *            callback
+	 */
 	public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
 
@@ -295,7 +304,7 @@ public class GgbAPIW extends GgbAPI {
 		boolean isSaving = getKernel().isSaving();
 		// return getNativeBase64(includeThumbnail);
 		getKernel().setSaving(true);
-		adjustConstructionImages(getConstruction(), "");
+		adjustConstructionImages(getConstruction());
 		String constructionXml = getApplication().getXML();
 		String macroXml = getApplication().getMacroXMLorEmpty();
 		StringBuilder defaults2d = new StringBuilder();
@@ -371,7 +380,7 @@ public class GgbAPIW extends GgbAPI {
 		return nativeEntry;
 	}
 
-	public native void pushIntoNativeEntry(String key, String value,
+	private native void pushIntoNativeEntry(String key, String value,
 			JavaScriptObject ne) /*-{
 		if (typeof ne["archive"] === "undefined") { //needed because gwt gives an __objectId key :-(
 			ne["archive"] = [];
@@ -382,7 +391,7 @@ public class GgbAPIW extends GgbAPI {
 		ne["archive"].push(obj);
 	}-*/;
 
-	public native void getGGBZipJs(JavaScriptObject arch,
+	private native void getGGBZipJs(JavaScriptObject arch,
 			JavaScriptObject clb) /*-{
 
 		function encodeUTF8(string) {
@@ -644,11 +653,11 @@ public class GgbAPIW extends GgbAPI {
 	private void writeMacroImages(Map<String, String> archive) {
 		if (kernel.hasMacros()) {
 			ArrayList<Macro> macros = kernel.getAllMacros();
-			writeMacroImages(macros, "", archive);
+			writeMacroImages(macros, archive);
 		}
 	}
 
-	private void writeMacroImages(ArrayList<Macro> macros, String filePath,
+	private void writeMacroImages(ArrayList<Macro> macros,
 			Map<String, String> archive) {
 		if (macros == null) {
 			return;
@@ -685,7 +694,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	private void adjustConstructionImages(Construction cons, String filePath) {
+	private void adjustConstructionImages(Construction cons) {
 		// save all GeoImage images
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
@@ -808,6 +817,10 @@ public class GgbAPIW extends GgbAPI {
 		archive.put(filename, base64img);
 	}
 
+	/**
+	 * @param material
+	 *            material ID
+	 */
 	public void openMaterial(final String material) {
 		((AppW) app).openMaterial(material, new Runnable() {
 

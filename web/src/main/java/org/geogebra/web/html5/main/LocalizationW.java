@@ -276,7 +276,6 @@ public final class LocalizationW extends Localization {
 		setCommandChanged(true);
 
 		Log.debug("keys loaded for language: " + lang);
-		Log.debug("TODO: reinitialize GUI on language change");
 
 		updateLanguageFlags(lang);
 

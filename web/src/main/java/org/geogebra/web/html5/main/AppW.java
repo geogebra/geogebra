@@ -445,6 +445,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
+	private ScriptLoadCallback scriptCallback;
 
 	@Override
 	public boolean loadXML(String xml) throws Exception {
@@ -478,10 +479,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void setLanguage(final String browserLang) {
-		
 		final String lang = Language
 				.getClosestGWTSupportedLanguage(browserLang);
+		if (scriptCallback != null) {
+			scriptCallback.cancel();
+		}
 		if (lang != null && lang.equals(loc.getLocaleStr())) {
+			Log.debug("Language is already " + loc.getLocaleStr());
 			setLabels();
 			notifyLocalizationLoaded();
 			return;
@@ -507,10 +511,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			        .createScriptElement();
 			script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
 			        + ".js");
-			script.addLoadHandler(new ScriptLoadCallback() {
-
+			scriptCallback = new ScriptLoadCallback() {
+				private boolean canceled = false;
 				@Override
 				public void onLoad() {
+					if (canceled) {
+						Log.debug("Async language file load canceled.");
+						return;
+					}
 					// force reload
 					doSetLanguage(lang);
 					if (Browser.supportsSessionStorage()) {
@@ -521,11 +529,21 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 				@Override
 				public void onError() {
+					if (canceled) {
+						Log.debug("Async language file load canceled.");
+						return;
+					}
 					LocalizationW.loadPropertiesFromStorage(lang, "");
 					doSetLanguage(lang);
 				}
 
-			});
+				public void cancel() {
+					canceled = true;
+
+				}
+
+			};
+			script.addLoadHandler(scriptCallback);
 			Document.get().getBody().appendChild(script);
 
 		}

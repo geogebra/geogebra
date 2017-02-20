@@ -6,4 +6,6 @@ public interface ScriptLoadCallback {
 
 	public void onError();
 
+	public void cancel();
+
 }
