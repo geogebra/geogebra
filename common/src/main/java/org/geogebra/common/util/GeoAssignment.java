@@ -184,10 +184,11 @@ public class GeoAssignment extends Assignment {
 		while (input != null && !solutionFound) {
 			partRes.clear();
 			if (!isTypeCheckNeeded || areTypesOK(input)) {
-				double d = input[0].getKernel().getApplication().getMillisecondTime(); 
+				double d = macro.getKernel().getApplication()
+						.getMillisecondTime();
 				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input,
 						false);
-				ret += input[0].getKernel().getApplication()
+				ret += macro.getKernel().getApplication()
 						.getMillisecondTime() - d;
 				GeoElement[] macroOutput = algoMacro.getOutput();
 				for (int i = 0; i < possibleOutputPermutation.length

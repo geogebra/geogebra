@@ -179,10 +179,24 @@ public class GgbAPIW extends GgbAPI {
 		return c.toDataUrl().substring("data:image/png;base64,".length());
 	}
 
-	public void getGGB(boolean includeThumbnail, JavaScriptObject callback) {
+	public void getGGB(final boolean includeThumbnail,
+			final JavaScriptObject callback) {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
-		setWorkerURL(zipJSworkerURL(), false);
-		getGGBZipJs(prepareToEntrySet(archiveContent), callback);
+		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
+		final JavaScriptObject arch = prepareToEntrySet(archiveContent);
+		getGGBZipJs(arch, callback, nativeCallback(new StringHandler() {
+
+			public void handle(String s) {
+				if (oldWorkers && !isUsingWebWorkers()) {
+					Log.warn(
+							"Saving with workers failed, trying without workers.");
+					JavaScriptInjector
+							.inject(GuiResourcesSimple.INSTANCE.deflateJs());
+					getGGBZipJs(arch, callback, null);
+				}
+
+			}
+		}));
 
 	}
 
@@ -392,7 +406,7 @@ public class GgbAPIW extends GgbAPI {
 	}-*/;
 
 	private native void getGGBZipJs(JavaScriptObject arch,
-			JavaScriptObject clb) /*-{
+			JavaScriptObject clb, JavaScriptObject errorClb) /*-{
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -513,6 +527,9 @@ public class GgbAPIW extends GgbAPI {
 
 						},
 						function(error) {
+							if (typeof errorClb === "function") {
+								errorClb(error + "");
+							}
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while creating ggb zip");
 						});
 
