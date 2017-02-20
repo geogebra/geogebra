@@ -1470,8 +1470,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public String getText() {
 		String text = textField.getText();
-		int cpos = getCaretPosition();
-		return text.substring(0, cpos) + text.substring(cpos + 1);
+		if(dummyCursor){
+			int cpos = getCaretPosition();
+			text = text.substring(0, cpos) + text.substring(cpos + 1);
+		}
+		return text;
 	}
 
 	public String getText(boolean withDummyCursor) {
