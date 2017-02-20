@@ -181,15 +181,28 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	/**
-	 * set vector for bivariate newton method
+	 * set vector for bivariate newton method ie
+	 * 
+	 * vector = this(u,v) (X) v + c
 	 * 
 	 * @param uv
+	 *            parameters
+	 * @param xyz
+	 *            helper array
 	 * @param vx
+	 *            x(v)
 	 * @param vy
+	 *            y(v)
 	 * @param vz
+	 *            z(v)
 	 * @param cx
+	 *            x(c)
 	 * @param cy
+	 *            y(c)
+	 * @param cz
+	 *            z(c)
 	 * @param vector
+	 *            output vector
 	 */
 	public void setVectorForBivariate(double[] uv, double[] xyz, double vx,
 			double vy, double vz, double cx, double cy, double cz,
@@ -415,6 +428,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
+	/**
+	 * @return cartesian coords as functions
+	 */
 	public FunctionNVar[] getFunctions() {
 		return fun;
 	}
@@ -782,13 +798,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	 * @param vx
 	 * @param vy
 	 * @param vz
-	 * @param xyzuv
+	 * @param xyzuv1
 	 * 
 	 * @return true if found
 	 */
 	private boolean getClosestParameters(double uold, double vold, double x0,
 			double y0, double z0, double vx, double vy, double vz,
-			double[] xyzuv) {
+			double[] xyzuv1) {
 
 		// check (uold,vold) are correct starting parameters
 		if (Double.isNaN(uold) || Double.isNaN(vold)) {
@@ -814,17 +830,17 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		}
 
 		// init to no solution
-		xyzuv[0] = Double.NaN;
+		xyzuv1[0] = Double.NaN;
 
 		// make several tries
 		uv[0] = uold;
 		uv[1] = vold;
 		if (findMinimumDistanceGradient(x0, y0, z0, vx, vy, vz, uv)) {
-			xyzuv[0] = xyz[0];
-			xyzuv[1] = xyz[1];
-			xyzuv[2] = xyz[2];
-			xyzuv[3] = uv[0];
-			xyzuv[4] = uv[1];
+			xyzuv1[0] = xyz[0];
+			xyzuv1[1] = xyz[1];
+			xyzuv1[2] = xyz[2];
+			xyzuv1[3] = uv[0];
+			xyzuv1[4] = uv[1];
 			// Log.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2]);
 			return true;
 		}
@@ -1217,6 +1233,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		// TODO
 	}
 
+	/**
+	 * @param fun
+	 *            array of coordinate functions
+	 */
 	public void setFun(FunctionNVar[] fun) {
 		this.fun = fun;
 		this.fun1 = null;

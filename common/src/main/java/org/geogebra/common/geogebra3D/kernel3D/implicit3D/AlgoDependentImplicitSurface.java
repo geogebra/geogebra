@@ -182,7 +182,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 
 	}
 
-	protected void replaceGeoElement(GeoElementND newElem) {
+	private void replaceGeoElement(GeoElementND newElem) {
 		String label = geoElem.getLabelSimple();
 		newElem.toGeoElement().setVisualStyle(geoElem);
 		geoElem.doRemove();

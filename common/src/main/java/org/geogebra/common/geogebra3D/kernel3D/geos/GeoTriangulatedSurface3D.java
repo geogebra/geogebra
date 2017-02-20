@@ -1,16 +1,9 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
-import org.geogebra.common.kernel.arithmetic.ValueType;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Represent 3D triangulated surface. The set of points {p1, p2, p3, ... , pn}
@@ -25,23 +18,19 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Shamshad Alam
  *
  */
-public class GeoTriangulatedSurface3D extends GeoElement3D {
+public class GeoTriangulatedSurface3D {
 	private static final int DEFAULT_CAPACITY = 1024;
 	private int capacity = DEFAULT_CAPACITY;
 	private int current;
 	private int restore;
 	private int counter;
-	private boolean defined;
 	private MyPoint3D[] vertices;
 	private MyPoint3D[] normals;
 
 	/**
 	 * 
-	 * @param cons
-	 *            {@link Construction}
 	 */
-	public GeoTriangulatedSurface3D(Construction cons) {
-		super(cons);
+	public GeoTriangulatedSurface3D() {
 		this.vertices = new MyPoint3D[capacity];
 		this.normals = new MyPoint3D[capacity];
 	}
@@ -125,41 +114,6 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		}
 	}
 
-	@Override
-	public Coords getLabelPosition() {
-		return Coords.VZ;
-	}
-
-	@Override
-	public GeoClass getGeoClassType() {
-		return GeoClass.TRIANGULATED_SURFACE_3D;
-	}
-
-	@Override
-	public GeoElement copy() {
-		GeoTriangulatedSurface3D surf = new GeoTriangulatedSurface3D(cons);
-		copy(this, surf);
-		return surf;
-	}
-
-	@Override
-	public void set(GeoElementND geo) {
-		GeoTriangulatedSurface3D surf = (GeoTriangulatedSurface3D) geo;
-		copy(surf, this);
-	}
-
-	private static void copy(GeoTriangulatedSurface3D src,
-			GeoTriangulatedSurface3D dst) {
-		dst.vertices = copyOf(src.vertices);
-		dst.normals = copyOf(src.normals);
-		dst.current = src.current;
-		dst.capacity = src.capacity;
-		dst.restore = src.restore;
-		dst.defined = src.defined;
-		dst.counter = src.counter;
-
-	}
-
 	/**
 	 * @return list of points on the surface
 	 */
@@ -182,58 +136,6 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	 */
 	public int size() {
 		return this.current - this.counter;
-	}
-
-	/**
-	 * copy points from source to destination
-	 * 
-	 * @param src
-	 *            source list
-	 * @return copy of points
-	 */
-	public static MyPoint3D[] copyOf(MyPoint3D[] src) {
-		int size = src.length;
-		MyPoint3D[] pts = new MyPoint3D[size];
-		for (int i = 0; i < size; i++) {
-			pts[i] = new MyPoint3D(src[i].x, src[i].y, src[i].z,
-					src[i].getSegmentType());
-		}
-		return pts;
-	}
-
-	@Override
-	public boolean isDefined() {
-		return defined;
-	}
-
-	@Override
-	public void setUndefined() {
-		this.defined = false;
-	}
-
-	@Override
-	public String toValueString(StringTemplate tpl) {
-		return "";
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return false;
-	}
-
-	@Override
-	protected boolean showInEuclidianView() {
-		return false;
-	}
-
-	@Override
-	public boolean isEqual(GeoElement geo) {
-		return false;
-	}
-
-	@Override
-	public HitType getLastHitType() {
-		return HitType.NONE;
 	}
 
 	/**
@@ -270,10 +172,16 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 			next = 2;
 		}
 
+		/**
+		 * @return whether this has next triangle
+		 */
 		public boolean hasNext() {
 			return next < size;
 		}
 
+		/**
+		 * @return next triangle
+		 */
 		public Triangle next() {
 
 			set(current.v1, points[next]);
@@ -375,10 +283,5 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 		private static String toString(Coords3 c) {
 			return "(" + c.getXd() + "," + c.getYd() + "" + c.getZd() + ")";
 		}
-	}
-
-	@Override
-	public ValueType getValueType() {
-		return ValueType.EQUATION;
 	}
 }

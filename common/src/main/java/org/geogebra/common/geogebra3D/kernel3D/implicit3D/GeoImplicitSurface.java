@@ -53,8 +53,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		super(cons);
 		setAlphaValue(0.75f); // TODO remove that when construction default will
 		// be created
-		this.surface3D = new GeoTriangulatedSurface3D(cons);
-		cons.removeFromConstructionList(surface3D);
+		this.surface3D = new GeoTriangulatedSurface3D();
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		super(cons);
 		setAlphaValue(0.75f); // TODO remove that when construction default will
 								// be created
-		this.surface3D = new GeoTriangulatedSurface3D(cons);
+		this.surface3D = new GeoTriangulatedSurface3D();
 		fromEquation(eqn);
 	}
 
