@@ -70,6 +70,11 @@ public class TestMaterialsManager extends MaterialsManager {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public void rename(String newTitle, Material mat) {
+		rename(newTitle, mat, null);
+	}
 
 	public void rename(String newTitle, Material mat, Runnable callback) {
 		// TODO Auto-generated method stub

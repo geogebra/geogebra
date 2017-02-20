@@ -53,6 +53,11 @@ public class WinFileManager extends FileManager {
 	public void saveLoggedOut(App app) {
 		((DialogManagerW) app.getDialogManager()).showSaveDialog();
 	}
+	
+	@Override
+	public void rename(String newTitle, Material mat) {
+		rename(newTitle, mat, null);
+	}
 
 	@Override
 	public void rename(String newTitle, Material mat, Runnable callback) {

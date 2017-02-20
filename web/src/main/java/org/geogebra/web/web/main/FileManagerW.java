@@ -186,6 +186,11 @@ public class FileManagerW extends FileManager {
 		}
 		this.freeBytes = 5000000;
 	}
+	
+	@Override
+	public void rename(String newTitle, Material mat) {
+		rename(newTitle, mat, null);
+	}
 
 	@Override
 	public void rename(String newTitle, Material mat, Runnable callback) {
