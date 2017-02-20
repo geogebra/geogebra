@@ -331,5 +331,15 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	@Override
 	protected int getWidthForEdit() {
 		return MinMaxPanel.MINMAX_MIN_WIDHT;
+
 	}
+
+	@Override
+	public boolean onEditStart(boolean substituteNumbers) {
+		if (minMaxPanel.isVisible()) {
+			return false;
+		}
+		return super.onEditStart(substituteNumbers);
+	}
+
 }
