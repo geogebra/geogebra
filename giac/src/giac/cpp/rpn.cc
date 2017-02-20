@@ -1539,6 +1539,8 @@ namespace giac {
 	  return gen(vecteur(w.begin()+v2,w.begin()+v3+1),v[1].subtype);
       }
     }
+    if (v.size()==3)
+      v.insert(v.begin(),v0);
     if (v.size()<4)
       return gendimerr(contextptr);
     v[2]=_floor(v[2],contextptr);

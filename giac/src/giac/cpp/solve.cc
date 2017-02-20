@@ -3384,7 +3384,7 @@ namespace giac {
       if (i!=w.size())
 	return gensizeerr(gettext("fsolve([equations],[variables],[guesses])"));
       if (s==2 && _sort(lvar(v0),contextptr)==_sort(v[1],contextptr))
-	return gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),evalf_after,contextptr);
+	return evalf(gsolve(*v0._VECTptr,*v[1]._VECTptr,complex_mode(contextptr),evalf_after,contextptr),1,contextptr);
     }
     if (s==2 && v[1].type==_IDNT){ 
       // no initial guess, check for poly-like equation
