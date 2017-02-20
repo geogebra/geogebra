@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
-import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -217,7 +216,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 */
 	public void addPointToCurrentFace(GeoPointND point) {
 
-		currentFace.add((GeoElement) point);
+		currentFace.add(point);
 	}
 
 	/**
@@ -373,6 +372,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * add the polygon as a polygon linked to this (e.g basis of a prism)
 	 * 
 	 * @param polygon
+	 *            existing polygon
 	 */
 	public void addPolygonLinked(GeoPolygon polygon) {
 		polygonsLinked.add(polygon);
@@ -385,6 +385,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * add the point as created point (by algo)
 	 * 
 	 * @param point
+	 *            vertex
 	 */
 	public void addPointCreated(GeoPoint3D point) {
 		pointsCreated.add(point);
@@ -486,6 +487,13 @@ public class GeoPolyhedron extends GeoElement3D
 
 	}
 
+	/**
+	 * @param startPoint
+	 *            segment start point
+	 * @param endPoint
+	 *            segment end point
+	 * @return segment with given endpoints or null if not found
+	 */
 	public GeoSegmentND getSegment(GeoPointND startPoint, GeoPointND endPoint) {
 
 		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
@@ -507,6 +515,10 @@ public class GeoPolyhedron extends GeoElement3D
 		return null;
 	}
 
+	/**
+	 * @param segment
+	 *            existing segment
+	 */
 	public void addSegmentLinked(GeoSegmentND segment) {
 		ConstructionElementCycle key = ConstructionElementCycle
 				.segmentDescription(segment.getStartPointAsGeoElement(),
@@ -523,10 +535,11 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		if (labels == null || labels.length == 0) {
-			labels = new String[1];
-		}
+			setLabel(null);
+		} else {
 
-		setLabel(labels[0]);
+			setLabel(labels[0]);
+		}
 
 		defaultPolygonsLabels();
 		defaultSegmentLabels();
@@ -550,6 +563,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 * set init labels called
 	 * 
 	 * @param flag
+	 *            flag for labels
 	 */
 	public void setAllLabelsAreSet(boolean flag) {
 		allLabelsAreSet = flag;
@@ -570,6 +584,7 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 		if (labels == null || labels.length == 0) {
 			initLabels(new String[1]);
+			return;
 		}
 		setAllLabelsAreSet(true);
 
@@ -664,7 +679,7 @@ public class GeoPolyhedron extends GeoElement3D
 			String[] points = new String[key.size()];
 			int indexFirstPointName = 0;
 			int i = 0;
-			for (Iterator<ConstructionElement> it = key.iterator(); it.hasNext()
+			for (Iterator<GeoElementND> it = key.iterator(); it.hasNext()
 					&& (labelUsability < 2);) {
 				GeoElement p = (GeoElement) it.next();
 				labelUsability += usableLabel(p);
@@ -729,7 +744,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 			String[] points = new String[2];
 			int i = 0;
-			for (Iterator<ConstructionElement> it = key.iterator(); it.hasNext()
+			for (Iterator<GeoElementND> it = key.iterator(); it.hasNext()
 					&& (labelUsability < 2);) {
 				GeoElement p = (GeoElement) it.next();
 				labelUsability += usableLabel(p);
@@ -771,6 +786,9 @@ public class GeoPolyhedron extends GeoElement3D
 		return ret;
 	}
 
+	/**
+	 * @return polyhedron's edges
+	 */
 	public GeoSegment3D[] getSegments3D() {
 
 		GeoSegment3D[] ret = new GeoSegment3D[segments.size()];
@@ -782,6 +800,9 @@ public class GeoPolyhedron extends GeoElement3D
 		return ret;
 	}
 
+	/**
+	 * @return polyhedron's faces
+	 */
 	public GeoPolygon[] getFaces() {
 		GeoPolygon[] polygonsArray = new GeoPolygon[polygonsLinked.size()
 				+ polygons.size()];
@@ -798,6 +819,9 @@ public class GeoPolyhedron extends GeoElement3D
 		return polygonsArray;
 	}
 
+	/**
+	 * @return polyhedron's faces
+	 */
 	public GeoPolygon3D[] getFaces3D() {
 		GeoPolygon3D[] polygonsArray = new GeoPolygon3D[polygons.size()];
 		int index = 0;
@@ -809,10 +833,18 @@ public class GeoPolyhedron extends GeoElement3D
 		return polygonsArray;
 	}
 
+	/**
+	 * @return faces as collection
+	 */
 	public Collection<GeoPolygon3D> getFacesCollection() {
 		return polygons.values();
 	}
 
+	/**
+	 * @param index
+	 *            face index
+	 * @return face
+	 */
 	public GeoPolygon getFace(int index) {
 		int polygonsLinkedSize = polygonsLinked.size();
 		if (index < polygonsLinkedSize) {
@@ -821,10 +853,18 @@ public class GeoPolyhedron extends GeoElement3D
 		return polygons.get(index - polygonsLinkedSize);
 	}
 
+	/**
+	 * @return total number of faces
+	 */
 	public int getFacesSize() {
 		return polygonsLinked.size() + polygons.size();
 	}
 
+	/**
+	 * @param index
+	 *            index
+	 * @return face
+	 */
 	public GeoPolygon3D getFace3D(int index) {
 		return polygons.get(index);
 	}
@@ -1392,6 +1432,9 @@ public class GeoPolyhedron extends GeoElement3D
 		 */
 	}
 
+	/**
+	 * Set defined flag to true
+	 */
 	public void setDefined() {
 		isDefined = true;
 	}
@@ -1442,9 +1485,9 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		getLineStyleXML(sb);
-		super.getXMLtags(sb);
+	protected void getXMLtags(StringBuilder sbXml) {
+		getLineStyleXML(sbXml);
+		super.getXMLtags(sbXml);
 	}
 
 	// /////////////////////////////////////////
@@ -1536,6 +1579,9 @@ public class GeoPolyhedron extends GeoElement3D
 		return area;
 	}
 
+	/**
+	 * @return true when defined
+	 */
 	public boolean hasFiniteArea() {
 		return isDefined();
 	}

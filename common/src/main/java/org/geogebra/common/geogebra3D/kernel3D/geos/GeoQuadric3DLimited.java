@@ -146,6 +146,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		if (labels == null || labels.length == 0) {
 			initLabelsIncludingBottom(new String[1]);
+			return;
 		}
 
 		setLabel(labels[0]);
@@ -182,6 +183,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		if (labels == null || labels.length == 0) {
 			initLabelsNoBottom(new String[1]);
+			return;
 		}
 
 		setLabel(labels[0]);

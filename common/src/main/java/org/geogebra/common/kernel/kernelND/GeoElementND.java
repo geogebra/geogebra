@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
+import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -577,5 +578,9 @@ public interface GeoElementND extends ExpressionValue {
 	boolean hasIndexLabel();
 
 	boolean isLimitedPath();
+
+	long getID();
+
+	int compareTo(ConstructionElement cycleNext);
 
 }

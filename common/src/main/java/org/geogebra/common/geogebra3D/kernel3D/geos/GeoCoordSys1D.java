@@ -28,23 +28,37 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 
+/**
+ * 1D linear object in space (segment, line, ...)
+ *
+ */
 public abstract class GeoCoordSys1D extends GeoElement3D
 		implements Path, GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
 		Translateable, MatrixTransformable, Traceable, RotateableND,
 		MirrorableAtPlane, Transformable, Dilateable {
-
+	/** coord system */
 	protected CoordSys coordsys;
-
+	/** start point */
 	protected GeoPointND startPoint;
-
+	/** end point */
 	protected GeoPointND endPoint;
 
 	private boolean isIntersection;
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoCoordSys1D(Construction c) {
 		this(c, false);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param isIntersection
+	 *            whetherthis is intersection line
+	 */
 	public GeoCoordSys1D(Construction c, boolean isIntersection) {
 		super(c);
 
@@ -58,15 +72,41 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		coordsys = new CoordSys(1);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param O
+	 *            start point
+	 * @param V
+	 *            direction
+	 */
 	public GeoCoordSys1D(Construction c, Coords O, Coords V) {
 		this(c);
 		setCoord(O, V);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param O
+	 *            start point
+	 * @param I
+	 *            end point
+	 */
 	public GeoCoordSys1D(Construction c, GeoPointND O, GeoPointND I) {
 		this(c, O, I, false);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param O
+	 *            start point
+	 * @param I
+	 *            end point
+	 * @param isIntersection
+	 *            true for intersection lines
+	 */
 	public GeoCoordSys1D(Construction c, GeoPointND O, GeoPointND I,
 			boolean isIntersection) {
 		this(c, isIntersection);
@@ -83,12 +123,26 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		coordsys.setUndefined();
 	}
 
-	/** set the matrix to [(I-O) O] */
+	/**
+	 * set the matrix to [(I-O) O]
+	 * 
+	 * @param a_O
+	 *            start point
+	 * @param a_I
+	 *            end point
+	 */
 	public void setCoordFromPoints(Coords a_O, Coords a_I) {
 		setCoord(a_O, a_I.sub(a_O));
 	}
 
-	/** set the matrix to [V O] */
+	/**
+	 * set the matrix to [V O]
+	 * 
+	 * @param o
+	 *            start point
+	 * @param v
+	 *            direction
+	 */
 	public void setCoord(Coords o, Coords v) {
 		coordsys.resetCoordSys();
 		coordsys.addPoint(o);
@@ -146,6 +200,10 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
+	/**
+	 * @param geo
+	 *            other system
+	 */
 	public void setCoord(GeoCoordSys1D geo) {
 		setCoord(geo.getCoordSys().getOrigin(), geo.getCoordSys().getVx());
 	}
@@ -170,11 +228,12 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	}
 
 	/**
-	 * @param cons
+	 * @param cons1
+	 *            construction for the copy
 	 * @return a new instance of the proper GeoCoordSys1D (GeoLine3D,
 	 *         GeoSegment3D, ...)
 	 */
-	abstract protected GeoCoordSys1D create(Construction cons);
+	abstract protected GeoCoordSys1D create(Construction cons1);
 
 	@Override
 	final public GeoCoordSys1D copy() {
@@ -200,6 +259,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * returns the point at position lambda on the coord sys
 	 * 
 	 * @param lambda
+	 *            path parameter (0 for stat point)
 	 * @return the point at position lambda on the coord sys
 	 */
 	public Coords getPoint(double lambda) {
@@ -212,7 +272,9 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	 * given
 	 * 
 	 * @param dimension
+	 *            dimension
 	 * @param lambda
+	 *            path parameter
 	 * @return the point at position lambda on the coord sys
 	 */
 	@Override
@@ -273,7 +335,11 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 	}
 
-	// get the param of P's projection on line
+	/**
+	 * @param P
+	 *            point in space
+	 * @return path parameter of P's projection on line
+	 */
 	public double getParamOnLine(GeoPointND P) {
 
 		boolean done = false;

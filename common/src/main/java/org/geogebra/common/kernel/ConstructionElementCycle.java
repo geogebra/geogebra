@@ -2,8 +2,8 @@ package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * @author mathieu
@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *         This class is used e.g. for describing points of polygons.
  */
 
-public class ConstructionElementCycle extends ArrayList<ConstructionElement>
+public class ConstructionElementCycle extends ArrayList<GeoElementND>
 		implements Comparable<ConstructionElementCycle> {
 
 	private static final long serialVersionUID = -880160148856127100L;
@@ -56,7 +56,7 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 	}
 
 	@Override
-	public boolean add(ConstructionElement ce) {
+	public boolean add(GeoElementND ce) {
 
 		if (minID > ce.getID()) {
 			minID = ce.getID();
@@ -111,7 +111,8 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 		int diff = 0;
 		// find the first two different elements, return the difference or 0
 		for (int i = 0; diff == 0 && i < size(); i++) {
-			diff = getCycleNext().compareTo(cycle.getCycleNext());
+			diff = getCycleNext()
+					.compareTo(cycle.getCycleNext().toGeoElement());
 		}
 		return diff;
 	}
@@ -129,9 +130,9 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 		cycleIndex = minIndex;
 	}
 
-	private ConstructionElement getCycleNext() {
+	private GeoElementND getCycleNext() {
 
-		ConstructionElement ret = get(cycleIndex);
+		GeoElementND ret = get(cycleIndex);
 
 		// update cycleIndex
 		cycleIndex += direction;
@@ -151,7 +152,7 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 
 		setCycleFirst();
 		for (int i = 0; i < size(); i++) {
-			sb.append(getCycleNext().toString());
+			sb.append(getCycleNext().toString(StringTemplate.defaultTemplate));
 			sb.append(" - ");
 		}
 
