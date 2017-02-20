@@ -121,19 +121,7 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
-		if (tick == null) {
-			tick = new Timer() {
-
-				@Override
-				public void run() {
-					CursorBox.blink = !CursorBox.blink;
-					for (MathFieldW field : instances) {
-						field.repaintWeb();
-					}
-				}
-			};
-			tick.scheduleRepeating(500);
-		}
+		initTimer();
 		instances.add(this);
 		canvas.addDomHandler(new MouseDownHandler() {
 
@@ -155,6 +143,23 @@ public class MathFieldW implements MathField, IsWidget {
 
 
 		setKeyListener(wrap, keyListener);
+	}
+
+	private static void initTimer() {
+		if (tick == null) {
+			tick = new Timer() {
+
+				@Override
+				public void run() {
+					CursorBox.blink = !CursorBox.blink;
+					for (MathFieldW field : instances) {
+						field.repaintWeb();
+					}
+				}
+			};
+			tick.scheduleRepeating(500);
+		}
+
 	}
 
 	/**

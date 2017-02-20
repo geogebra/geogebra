@@ -1,5 +1,19 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
+import intel.rssdk.PXCMCaptureManager;
+import intel.rssdk.PXCMHandConfiguration;
+import intel.rssdk.PXCMHandConfiguration.AlertHandler;
+import intel.rssdk.PXCMHandData;
+import intel.rssdk.PXCMHandData.AlertData;
+import intel.rssdk.PXCMHandData.AlertType;
+import intel.rssdk.PXCMHandData.BodySideType;
+import intel.rssdk.PXCMHandModule;
+import intel.rssdk.PXCMPoint3DF32;
+import intel.rssdk.PXCMPoint4DF32;
+import intel.rssdk.PXCMSenseManager;
+import intel.rssdk.PXCMSession;
+import intel.rssdk.pxcmStatus;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -27,20 +41,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
-
-import intel.rssdk.PXCMCaptureManager;
-import intel.rssdk.PXCMHandConfiguration;
-import intel.rssdk.PXCMHandConfiguration.AlertHandler;
-import intel.rssdk.PXCMHandData;
-import intel.rssdk.PXCMHandData.AlertData;
-import intel.rssdk.PXCMHandData.AlertType;
-import intel.rssdk.PXCMHandData.BodySideType;
-import intel.rssdk.PXCMHandModule;
-import intel.rssdk.PXCMPoint3DF32;
-import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMSenseManager;
-import intel.rssdk.PXCMSession;
-import intel.rssdk.pxcmStatus;
 
 
 /**
@@ -605,8 +605,8 @@ public class Socket {
 
 	private final static String INSTALL_CORE_AND_HAND = "core,hand";
 	private final static String INSTALL_HAND = "hand";
-
-	private static boolean installRuntimes = false;
+	/** whethe runtimes are installed */
+	static boolean installRuntimes = false;
 
 	private static void installRuntimes(final App app, final String modules) {
 		
@@ -674,6 +674,13 @@ public class Socket {
 
 	}
 
+	/**
+	 * @param filename
+	 *            executable
+	 * @param modules
+	 *            modules
+	 * @return whether execution ended with 0
+	 */
 	static boolean install(String filename, String modules) {
 		Log.debug("installing " + filename + ", modules: " + modules);
 		Runtime runtime = Runtime.getRuntime();
@@ -776,24 +783,7 @@ public class Socket {
 			}
 		}
 
-		if (SESSION == null) {
-			throw new Input3DException(Input3DExceptionType.INSTALL,
-					"RealSense: no session created");
-		}
-
-		if (SENSE_MANAGER != null) {
-			throw new Input3DException(Input3DExceptionType.ALREADY_USED,
-					"RealSense: already in use");
-		}
-
-		SENSE_MANAGER = SESSION.CreateSenseManager();
-		if (SENSE_MANAGER == null) {
-			throw new Input3DException(Input3DExceptionType.RUN,
-					"RealSense: Failed to create a SenseManager instance");
-		}
-
-		CAPTURE_MANAGER = SENSE_MANAGER.QueryCaptureManager();
-		CAPTURE_MANAGER.FilterByDeviceInfo("RealSense", null, 0);
+		initSession();
 
 		sts = SENSE_MANAGER.EnableHand(null);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0) {
@@ -846,6 +836,28 @@ public class Socket {
 
 
 
+
+	private static void initSession() throws Input3DException {
+		if (SESSION == null) {
+			throw new Input3DException(Input3DExceptionType.INSTALL,
+					"RealSense: no session created");
+		}
+
+		if (SENSE_MANAGER != null) {
+			throw new Input3DException(Input3DExceptionType.ALREADY_USED,
+					"RealSense: already in use");
+		}
+
+		SENSE_MANAGER = SESSION.CreateSenseManager();
+		if (SENSE_MANAGER == null) {
+			throw new Input3DException(Input3DExceptionType.RUN,
+					"RealSense: Failed to create a SenseManager instance");
+		}
+
+		CAPTURE_MANAGER = SENSE_MANAGER.QueryCaptureManager();
+		CAPTURE_MANAGER.FilterByDeviceInfo("RealSense", null, 0);
+
+	}
 
 	private boolean connected = false;
 
