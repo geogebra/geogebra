@@ -204,7 +204,7 @@ public class ViewMenuW extends GMenuBar {
 		newItem.setCommand(new MenuCommand(app) {
 
 			@Override
-			public void doExecute() {
+			public void execute() {
 				boolean shown = app.getGuiManager().showView(e.getID());
 
 				if (e.getID() == App.VIEW_ALGEBRA && !shown) {
@@ -225,8 +225,11 @@ public class ViewMenuW extends GMenuBar {
 					}
 				};
 				timer.schedule(0);
+
 			}
+			
 		});
+		
 		newItem.setForceCheckbox(true);
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());

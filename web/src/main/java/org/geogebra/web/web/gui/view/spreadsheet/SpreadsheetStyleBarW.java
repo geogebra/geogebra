@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
@@ -110,7 +111,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		add(btnBgColor);
 
 		addMenuButton();
-		addViewButton();
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+			addViewButton();
+		}
 	}
 
 	@Override

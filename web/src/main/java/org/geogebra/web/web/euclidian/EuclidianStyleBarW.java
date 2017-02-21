@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
@@ -125,6 +126,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
+
+	// distinguish between view settings and object styles
+	private boolean isViewStyle;
 
 
 	/**
@@ -481,14 +485,39 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		addMenuButton();
-		if(getViewButton() == null){
-			addViewButton();
-		}else{
-			add(getViewButton());
+
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (getViewButton() == null) {
+				addViewButton();
+			} else {
+				add(getViewButton());
+			}
+		}
+
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			addContextMenuButton();
 		}
 	}
 
+	// TODO instead of addViewButton() we need a new function addContextMenu()
+	// that uses the same icon (3 dots) as ViewButton but instead opens the
+	// context menu
+	protected void addContextMenuButton() {
 
+		if (isBackground()) {
+			addSeparator();
+		} else {
+			if (getViewButton() == null) {
+				addViewButton();
+			} else {
+				add(getViewButton());
+			}
+		}
+	}
+
+	protected boolean isBackground() {
+		return (btnShowGrid != null && btnShowGrid.isVisible());
+	}
 	/**
 	 * add axes, grid, ... buttons
 	 */

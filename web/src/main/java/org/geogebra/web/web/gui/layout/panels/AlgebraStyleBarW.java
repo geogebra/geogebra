@@ -160,10 +160,12 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			addMenuButton();
 		}
 		// addViewButton is too expensive
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
 		if(getViewButton() == null){
 			addViewButton();
 		}else{
 			add(getViewButton());
+			}
 		}
 		setToolTips();
 	}

@@ -152,6 +152,11 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	}
 
+	@Override
+	protected boolean isBackground() {
+		return (btnShowGrid3D != null && btnShowGrid3D.isVisible());
+	}
+
 
 	private class RotateViewPopup extends PopupMenuButtonForView3D {
 
