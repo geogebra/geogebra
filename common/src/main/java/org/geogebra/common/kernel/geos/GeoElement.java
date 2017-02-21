@@ -8724,7 +8724,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public void setDefinition(ExpressionNode root) {
+	public final void setDefinition(ExpressionNode root) {
 		if (definition != null && root == null && algoParent != null) {
 			return;
 		}

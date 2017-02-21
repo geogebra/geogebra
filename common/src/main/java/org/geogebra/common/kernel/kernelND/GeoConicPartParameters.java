@@ -32,14 +32,26 @@ public class GeoConicPartParameters {
 	private boolean valueDefined;
 
 	private EllipticArcLength ellipticArcLength;
+	/** whether intersection outside of arc is allowed */
 	public boolean allowOutlyingIntersections = false;
+	/** whether to transform to arc or circle */
 	public boolean keepTypeOnGeometricTransform = true;
 
+	/**
+	 * @param conic
+	 *            conic
+	 * @param type
+	 *            arc type
+	 */
 	public GeoConicPartParameters(GeoConicND conic, int type) {
 		this.conic = conic;
 		conicPartType = type;
 	}
 
+	/**
+	 * @param cp
+	 *            source parameters
+	 */
 	public void set(GeoConicPartParameters cp) {
 		paramStart = cp.paramStart;
 		paramEnd = cp.paramEnd;
@@ -54,6 +66,11 @@ public class GeoConicPartParameters {
 		keepTypeOnGeometricTransform = cp.keepTypeOnGeometricTransform;
 	}
 
+	/**
+	 * @param other
+	 *            other parameters
+	 * @return whether this and other describe same range of same conic type
+	 */
 	final public boolean isEqual(GeoConicPartParameters other) {
 		return posOrientation == other.posOrientation
 				&& conicPartType == other.conicPartType
@@ -61,6 +78,16 @@ public class GeoConicPartParameters {
 				&& Kernel.isEqual(paramEnd, other.paramEnd);
 	}
 
+	/**
+	 * @param isDefined
+	 *            whether value is defined
+	 * @param start
+	 *            start param
+	 * @param end
+	 *            end param
+	 * @param positiveOrientation
+	 *            orientation
+	 */
 	final public void setParameters(boolean isDefined, double start, double end,
 			boolean positiveOrientation) {
 
@@ -198,6 +225,14 @@ public class GeoConicPartParameters {
 		return area;
 	}
 
+	/**
+	 * Set path parameter for point on ellipse
+	 * 
+	 * @param P
+	 *            point
+	 * @param pp
+	 *            path parameter
+	 */
 	public void setEllipseParameter(Coords P, PathParameter pp) {
 		// let GeoConic do the work
 		((GeoConicPartND) conic).superPointChanged(P, pp);
@@ -213,6 +248,14 @@ public class GeoConicPartParameters {
 		pp.t = t / paramExtent;
 	}
 
+	/**
+	 * Clip path parameter for point on ellipse
+	 * 
+	 * @param P
+	 *            point
+	 * @param pp
+	 *            path parameter
+	 */
 	public void clipEllipseParameter(Coords P, PathParameter pp) {
 		// make sure we don't get outside [0,1]
 		// the values of the path parameter are now
@@ -240,6 +283,12 @@ public class GeoConicPartParameters {
 		}
 	}
 
+	/**
+	 * Append arc settings
+	 * 
+	 * @param sb
+	 *            builder
+	 */
 	public void getXMLtags(StringBuilder sb) {
 
 		// allowOutlyingIntersections
@@ -254,6 +303,13 @@ public class GeoConicPartParameters {
 
 	}
 
+	/**
+	 * @param x0
+	 *            x-ccord
+	 * @param y0
+	 *            y-xoord
+	 * @return whether (x,y) is in region
+	 */
 	public boolean isInRegion(double x0, double y0) {
 
 		// for sector, check if (x0,y0) is on the arc outline
@@ -357,11 +413,18 @@ public class GeoConicPartParameters {
 		return false;
 	}
 
+	/**
+	 * @return whether value is defined
+	 */
 	public boolean isValueDefined() {
 		return valueDefined;
 	}
 
-	public void setValueDefined(boolean value_defined) {
-		this.valueDefined = value_defined;
+	/**
+	 * @param valueDefined
+	 *            whether value is considered defined
+	 */
+	public void setValueDefined(boolean valueDefined) {
+		this.valueDefined = valueDefined;
 	}
 }

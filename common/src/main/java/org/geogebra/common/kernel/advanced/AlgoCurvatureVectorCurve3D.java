@@ -161,7 +161,8 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 					f.updateDistanceFunction();
 					cas();
 				}
-				tvalue = f.getClosestParameter(A, f.getMinParameter());
+				tvalue = f.getClosestParameterForCurvature(A,
+						f.getMinParameter());
 				f1.evaluateCurve(tvalue, f1eval);
 				f2.evaluateCurve(tvalue, f2eval);
 				curvature = f.evaluateCurvature(tvalue);

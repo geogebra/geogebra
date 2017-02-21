@@ -462,13 +462,31 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 	/**
 	 * 
-	 * @param a
+	 * @param p
 	 *            point
 	 * @param minParameter
 	 *            minimal parameter
 	 * @return path parameter
 	 */
-	public abstract double getClosestParameter(GeoPointND a,
+	public final double getClosestParameterForCurvature(GeoPointND p,
+			double minParameter) {
+		if (p.getDefinition() != null
+				&& p.getDefinition().getOperation() == Operation.VEC_FUNCTION
+				&& p.getDefinition().getLeft() == this) {
+			return p.getDefinition().getRight().evaluateDouble();
+		}
+		return getClosestParameter(p, minParameter);
+	}
+
+	/**
+	 * 
+	 * @param p
+	 *            point
+	 * @param minParameter
+	 *            minimal parameter
+	 * @return path parameter
+	 */
+	public abstract double getClosestParameter(GeoPointND p,
 			double minParameter);
 
 	@Override

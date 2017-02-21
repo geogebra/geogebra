@@ -116,7 +116,8 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
 		if (f.isDefined()) {
 			try {
-				double t = f.getClosestParameter(A, f.getMinParameter());
+				double t = f.getClosestParameterForCurvature(A,
+						f.getMinParameter());
 				K.setValue(f.evaluateCurvature(t));
 			} catch (Exception ex) {
 				ex.printStackTrace();
