@@ -135,7 +135,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -8449,7 +8448,8 @@ public abstract class EuclidianController {
 			// for now allow only corner handlers
 			if (d != null && view
 				.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-				if (view.getBoundingBox().equals(d.getBoundingBox())) {
+				if (view.getBoundingBox() != null
+						&& view.getBoundingBox().equals(d.getBoundingBox())) {
 					EuclidianBoundingBoxHandler nrHandler = view
 							.getHitHandler();
 					// we have only 2 handlers for segment

@@ -53,6 +53,10 @@ public class EuclidianControllerCompanion {
 		setEuclidianController(ec);
 	}
 
+	/**
+	 * @param ec
+	 *            controller
+	 */
 	protected void setEuclidianController(EuclidianController ec) {
 		this.ec = ec;
 	}
@@ -73,39 +77,99 @@ public class EuclidianControllerCompanion {
 				(GeoPoint) C);
 	}
 
+	/**
+	 * @param p
+	 *            polygon
+	 * @return angles
+	 */
 	protected GeoElement[] createAngles(GeoPolygon p) {
 		return ec.getAlgoDispatcher().Angles(null, p);
 	}
 
+	/**
+	 * @param v1
+	 *            vector
+	 * @param v2
+	 *            vector
+	 * @return angle between vectors
+	 */
 	protected GeoAngle createAngle(GeoVectorND v1, GeoVectorND v2) {
 		return ec.getAlgoDispatcher().Angle(null, (GeoVector) v1,
 				(GeoVector) v2);
 	}
 
+	/**
+	 * @param A
+	 *            point
+	 * @param B
+	 *            apex
+	 * @param num
+	 *            angle size
+	 * @param clockWise
+	 *            orientation
+	 * @return angle with given size
+	 */
 	public GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoNumberValue num,
 			boolean clockWise) {
 		return (GeoAngle) ec.getAlgoDispatcher().Angle(null, (GeoPoint) A,
 				(GeoPoint) B, num, !clockWise)[0];
 	}
 
+	/**
+	 * @param g
+	 *            line
+	 * @param h
+	 *            line
+	 * @return angle between lines
+	 */
 	protected GeoAngle createLineAngle(GeoLineND g, GeoLineND h) {
 		return ec.getAlgoDispatcher().createLineAngle((GeoLine) g, (GeoLine) h);
 	}
 
+	/**
+	 * @param geo
+	 *            preimage
+	 * @param vec
+	 *            translation vector
+	 * @return translated object
+	 */
 	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
 		ec.checkZooming();
 
 		return ec.getAlgoDispatcher().Translate(null, geo, (GeoVector) vec);
 	}
 
+	/**
+	 * @param geo
+	 *            preimage
+	 * @param point
+	 *            mirror
+	 * @return reflected element
+	 */
 	protected GeoElement[] mirrorAtPoint(GeoElement geo, GeoPointND point) {
 		return ec.getAlgoDispatcher().Mirror(null, geo, (GeoPoint) point);
 	}
 
+	/**
+	 * @param geo
+	 *            preimage
+	 * @param line
+	 *            mirror
+	 * @return reflected element
+	 */
 	protected GeoElement[] mirrorAtLine(GeoElement geo, GeoLineND line) {
 		return ec.getAlgoDispatcher().Mirror(null, geo, (GeoLine) line);
 	}
 
+	/**
+	 * @param geo
+	 *            preimage
+	 * @param num
+	 *            coefficient
+	 * @param point
+	 *            point
+	 * @return dilated element
+	 */
 	public GeoElement[] dilateFromPoint(GeoElement geo, GeoNumberValue num,
 			GeoPointND point) {
 		return ec.kernel.getAlgoDispatcher().Dilate(null, geo, num,
