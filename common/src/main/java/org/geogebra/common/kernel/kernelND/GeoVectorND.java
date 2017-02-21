@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
  *
  */
 public interface GeoVectorND
-		extends GeoDirectionND, Locateable, HasCoordsMode, VectorNDValue {
+		extends GeoDirectionND, Locateable, CoordStyle, VectorNDValue {
 
 	/**
 	 * @param c

@@ -15,6 +15,11 @@ import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.main.Localization;
 
+/**
+ * 3D construction companion
+ * 
+ * @author Mathieu
+ */
 public class ConstructionCompanion3D extends ConstructionCompanion {
 
 	// axis objects

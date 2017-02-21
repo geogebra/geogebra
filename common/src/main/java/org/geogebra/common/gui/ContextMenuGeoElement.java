@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.kernel.kernelND.HasCoordsMode;
+import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
@@ -69,8 +69,8 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof HasCoordsMode) {
-				HasCoordsMode point1 = (HasCoordsMode) geo1;
+			if (geo1 instanceof CoordStyle) {
+				CoordStyle point1 = (CoordStyle) geo1;
 				point1.setMode(Kernel.COORD_CARTESIAN);
 				geo1.updateRepaint();
 			}
@@ -83,8 +83,8 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof HasCoordsMode) {
-				HasCoordsMode point1 = (HasCoordsMode) geo1;
+			if (geo1 instanceof CoordStyle) {
+				CoordStyle point1 = (CoordStyle) geo1;
 				point1.setMode(Kernel.COORD_POLAR);
 				geo1.updateRepaint();
 			}
@@ -97,8 +97,8 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof HasCoordsMode) {
-				HasCoordsMode point1 = (HasCoordsMode) geo1;
+			if (geo1 instanceof CoordStyle) {
+				CoordStyle point1 = (CoordStyle) geo1;
 				point1.setMode(Kernel.COORD_CARTESIAN_3D);
 				geo1.updateRepaint();
 			}
@@ -111,8 +111,8 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof HasCoordsMode) {
-				HasCoordsMode point1 = (HasCoordsMode) geo1;
+			if (geo1 instanceof CoordStyle) {
+				CoordStyle point1 = (CoordStyle) geo1;
 				point1.setMode(Kernel.COORD_SPHERICAL);
 				geo1.updateRepaint();
 			}

@@ -44,8 +44,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -133,7 +133,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addCoordsModeItems() {
-		if (!(getGeo() instanceof HasCoordsMode)) {
+		if (!(getGeo() instanceof CoordStyle)) {
 			return;
 		}
 
@@ -141,7 +141,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			return;
 		}
 
-		HasCoordsMode point = (HasCoordsMode) getGeo();
+		CoordStyle point = (CoordStyle) getGeo();
 		int mode = point.getMode();
 		AbstractAction action;
 

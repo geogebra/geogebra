@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.kernelND;
 /**
  * Interface for 3D vectors (not to be confused with GeoVec3D)
  */
-public interface Geo3DVecInterface extends GeoVecInterface, HasCoordsMode {
+public interface Geo3DVecInterface extends GeoVecInterface {
 	/**
 	 * @param vec
 	 *            other vector
@@ -70,5 +70,11 @@ public interface Geo3DVecInterface extends GeoVecInterface, HasCoordsMode {
 	 *            coefficient
 	 */
 	public void mult(double double1);
+
+	/**
+	 * @param mode
+	 *            coordinates mode
+	 */
+	public void setMode(int mode);
 
 }

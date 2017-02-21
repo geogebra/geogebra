@@ -85,7 +85,7 @@ public class GeoConicPart3D extends GeoConic3D
 
 	@Override
 	public String getTypeString() {
-		switch (parameters.conic_part_type) {
+		switch (parameters.conicPartType) {
 		case CONIC_PART_ARC:
 			return "Arc";
 
@@ -100,7 +100,7 @@ public class GeoConicPart3D extends GeoConic3D
 	@Override
 	public GeoElement copyInternal(Construction construction) {
 		GeoConicPart3D ret = new GeoConicPart3D(construction,
-				parameters.conic_part_type);
+				parameters.conicPartType);
 		ret.set(this);
 		return ret;
 	}
@@ -144,7 +144,7 @@ public class GeoConicPart3D extends GeoConic3D
 		if (parameters == null) { // for default settings
 			return GeoConicNDConstants.CONIC_PART_ARC;
 		}
-		return parameters.conic_part_type;
+		return parameters.conicPartType;
 	}
 
 	/**

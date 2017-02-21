@@ -15,16 +15,21 @@ import org.geogebra.common.kernel.integration.EllipticArcLength;
 public class GeoConicPartParameters {
 
 	private GeoConicND conic;
-
+	/** start param */
 	public double paramStart;
+	/** end param */
 	public double paramEnd;
+	/** end - start */
 	public double paramExtent;
+	/** orientation */
 	public boolean posOrientation = true;
-	public int conic_part_type;
+	/** sector or arc */
+	public int conicPartType;
 
 	private double area, arcLength;
+	/** value */
 	public double value;
-	private boolean value_defined;
+	private boolean valueDefined;
 
 	private EllipticArcLength ellipticArcLength;
 	public boolean allowOutlyingIntersections = false;
@@ -32,7 +37,7 @@ public class GeoConicPartParameters {
 
 	public GeoConicPartParameters(GeoConicND conic, int type) {
 		this.conic = conic;
-		conic_part_type = type;
+		conicPartType = type;
 	}
 
 	public void set(GeoConicPartParameters cp) {
@@ -40,7 +45,7 @@ public class GeoConicPartParameters {
 		paramEnd = cp.paramEnd;
 		paramExtent = cp.paramExtent;
 		posOrientation = cp.posOrientation;
-		conic_part_type = cp.conic_part_type;
+		conicPartType = cp.conicPartType;
 
 		value = cp.value;
 		area = cp.area;
@@ -51,7 +56,7 @@ public class GeoConicPartParameters {
 
 	final public boolean isEqual(GeoConicPartParameters other) {
 		return posOrientation == other.posOrientation
-				&& conic_part_type == other.conic_part_type
+				&& conicPartType == other.conicPartType
 				&& Kernel.isEqual(paramStart, other.paramStart)
 				&& Kernel.isEqual(paramEnd, other.paramEnd);
 	}
@@ -84,7 +89,7 @@ public class GeoConicPartParameters {
 
 			double r = conic.getHalfAxis(0);
 			arcLength = r * paramExtent;
-			if (conic_part_type == GeoConicNDConstants.CONIC_PART_ARC) {
+			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
 				value = arcLength;
 				// area arc = area sector - area triangle
 				area = r * r * (paramExtent - Math.sin(paramExtent)) / 2.0;
@@ -102,7 +107,7 @@ public class GeoConicPartParameters {
 				ellipticArcLength = new EllipticArcLength(conic);
 			}
 
-			if (conic_part_type == GeoConicNDConstants.CONIC_PART_ARC) {
+			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
 				// length
 				value = ellipticArcLength.compute(paramStart, paramEnd);
 			} else {
@@ -118,7 +123,7 @@ public class GeoConicPartParameters {
 		// to a segment or two rays
 		case GeoConicNDConstants.CONIC_LINE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			if (conic_part_type == GeoConicNDConstants.CONIC_PART_ARC
+			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC
 					&& posOrientation) {
 				// length of segment
 				// bugfix Michael Borcherds 2008-05-27
@@ -252,7 +257,7 @@ public class GeoConicPartParameters {
 	public boolean isInRegion(double x0, double y0) {
 
 		// for sector, check if (x0,y0) is on the arc outline
-		if (conic_part_type == GeoConicNDConstants.CONIC_PART_SECTOR) {
+		if (conicPartType == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			double arg = computeArg(x0, y0);
 			if (arg < 0)
 			 {
@@ -353,10 +358,10 @@ public class GeoConicPartParameters {
 	}
 
 	public boolean isValueDefined() {
-		return value_defined;
+		return valueDefined;
 	}
 
 	public void setValueDefined(boolean value_defined) {
-		this.value_defined = value_defined;
+		this.valueDefined = value_defined;
 	}
 }

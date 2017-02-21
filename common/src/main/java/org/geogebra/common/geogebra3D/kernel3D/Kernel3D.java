@@ -94,6 +94,12 @@ import org.geogebra.common.plugin.GeoClass;
 
 public class Kernel3D extends Kernel {
 
+	/**
+	 * @param app
+	 *            application
+	 * @param factory
+	 *            factory for geos
+	 */
 	public Kernel3D(App app, GeoFactory factory) {
 
 		super(app, factory);
@@ -456,7 +462,8 @@ public class Kernel3D extends Kernel {
 	/**
 	 * 
 	 * @param vec
-	 * @return
+	 *            vector
+	 * @return Point[vector]
 	 */
 	@Override
 	public GeoPointND wrapInPoint(GeoVectorND vec) {
@@ -473,7 +480,7 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public ConstructionCompanion createConstructionCompanion(
-			Construction cons) {
-		return new ConstructionCompanion3D(cons);
+			Construction cons1) {
+		return new ConstructionCompanion3D(cons1);
 	}
 }

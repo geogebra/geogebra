@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.geos.Translateable;
  */
 
 public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, PointRotateable, HasCoordsMode, VectorNDValue,
+		SpreadsheetTraceable, PointRotateable, CoordStyle, VectorNDValue,
 		Mirrorable, Dilateable, Animatable {
 
 	/** @return whether this point has changeable numbers as coordinates */

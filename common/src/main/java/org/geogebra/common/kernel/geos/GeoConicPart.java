@@ -87,7 +87,7 @@ public class GeoConicPart extends GeoConic
 
 	@Override
 	public String getTypeString() {
-		switch (parameters.conic_part_type) {
+		switch (parameters.conicPartType) {
 		case CONIC_PART_ARC:
 			return "Arc";
 
@@ -102,7 +102,7 @@ public class GeoConicPart extends GeoConic
 	@Override
 	public GeoElement copyInternal(Construction construction) {
 		GeoConicPart ret = new GeoConicPart(construction,
-				parameters.conic_part_type);
+				parameters.conicPartType);
 		ret.set(this);
 		return ret;
 	}
@@ -141,7 +141,7 @@ public class GeoConicPart extends GeoConic
 		if (parameters == null) { // for default settings
 			return GeoConicNDConstants.CONIC_PART_ARC;
 		}
-		return parameters.conic_part_type;
+		return parameters.conicPartType;
 	}
 
 	/**
@@ -610,7 +610,7 @@ public class GeoConicPart extends GeoConic
 			algoParent = getParentAlgorithm();
 		}
 
-		int conic_part_type = parameters.conic_part_type;
+		int conic_part_type = parameters.conicPartType;
 
 		// CREATE CONIC PART
 		if (algoParent instanceof AlgoConicPartCircle) {

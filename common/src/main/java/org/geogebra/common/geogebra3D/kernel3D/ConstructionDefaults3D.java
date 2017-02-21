@@ -75,15 +75,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default alpha for polyhedrons and limited quadrics */
 	public static final float DEFAULT_POLYHEDRON_ALPHA = 0.4f;
 
-	// intersection
-
+	/** intersection curve color */
 	public static final GColor colIntersectionCurve = GColor.ORANGE;
 
 	// axes TODO use gui
+	/** xAxis default color */
 	public static final GColor colXAXIS = GColor.RED;
-
+	/** yAxis default color */
 	public static final GColor colYAXIS = GColor.GREEN;
-
+	/** zAxis default color */
 	public static final GColor colZAXIS = GColor.BLUE;
 
 	/**

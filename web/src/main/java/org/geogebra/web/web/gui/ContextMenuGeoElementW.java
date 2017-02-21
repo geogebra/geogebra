@@ -15,8 +15,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -745,7 +745,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 	private void addCoordsModeItems() {
 
-		if (!(getGeo() instanceof HasCoordsMode)) {
+		if (!(getGeo() instanceof CoordStyle)) {
 			return;
 		}
 
@@ -753,7 +753,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			return;
 		}
 
-		HasCoordsMode point = (HasCoordsMode) getGeo();
+		CoordStyle point = (CoordStyle) getGeo();
 		int mode = point.getMode();
 		Command action;
 

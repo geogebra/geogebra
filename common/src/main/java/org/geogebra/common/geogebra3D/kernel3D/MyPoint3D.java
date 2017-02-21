@@ -36,8 +36,8 @@ public class MyPoint3D extends MyPoint {
 	 *            y-coord
 	 * @param z
 	 *            z-coord
-	 * @param lineTo
-	 *            lineto flag
+	 * @param segmentType
+	 *            segment type
 	 */
 	public MyPoint3D(double x, double y, double z, SegmentType segmentType) {
 		super(x, y, segmentType);
