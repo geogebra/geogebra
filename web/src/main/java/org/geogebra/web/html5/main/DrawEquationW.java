@@ -175,11 +175,12 @@ public class DrawEquationW extends DrawEquation {
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
 
 		double ratio = app.getPixelRatio() * printScale;
-		int width = Math.min(icon.getIconWidth(), 20000);
+		double width = roundUp(Math.min(icon.getIconWidth(), 20000), ratio);
+		double height = roundUp(icon.getIconHeight(), ratio);
 		c.setCoordinateSpaceWidth((int) (width * ratio));
-		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
+		c.setCoordinateSpaceHeight((int) (height * ratio));
 		c.getElement().getStyle().setWidth(width, Unit.PX);
-		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
+		c.getElement().getStyle().setHeight(height, Unit.PX);
 
 		// c.getElement().getStyle().setMargin(4, Unit.PX);
 		ctx.scale2(ratio, ratio);
@@ -195,6 +196,10 @@ public class DrawEquationW extends DrawEquation {
 		return c;
 	}
 
+	private static double roundUp(int w, double ratio) {
+
+		return Math.ceil(w * ratio) / ratio;
+	}
 
 
 	@Override

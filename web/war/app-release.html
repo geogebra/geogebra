@@ -327,9 +327,14 @@ var app = document.createElement("script");
 		}
 		function resizeStart(){
 			if(e("perspectivesBox")){
-				e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
+				if(window.innerHeight < 650 || window.innerWidth < 650){
+					e("perspectivesBox").style.display = "none";
+				}else{
+					e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
+				}
 			}
 		}
+		
 		resizeStart();
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if(e("ggw")){

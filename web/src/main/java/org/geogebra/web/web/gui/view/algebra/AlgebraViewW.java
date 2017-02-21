@@ -2384,8 +2384,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (avDockPanel.getParentSplitPane() == null) {
 			return;
 		}
-		avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
-		avDockPanel.deferredOnResize();
+		
+		// in portrait mode AV is in center and resize fails
+		if (!avDockPanel.getParentSplitPane().isCenter(avDockPanel)) {
+			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
+			avDockPanel.deferredOnResize();
+		}
 
 	}
 

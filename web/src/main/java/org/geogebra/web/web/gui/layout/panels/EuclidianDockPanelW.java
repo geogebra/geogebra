@@ -27,7 +27,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	 * 
 	 * @param stylebar (is there stylebar?)
 	 */
-	public EuclidianDockPanelW(boolean stylebar) {
+	public EuclidianDockPanelW(boolean stylebar, App app1) {
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
 				"DrawingPad", 				// view title
@@ -39,6 +39,11 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 			);
 
 
+		if (app1 != null && app1.has(Feature.DYNAMIC_STYLEBAR)) {
+			setViewImage(getResources().settings());
+		} else {
+			setViewImage(getResources().styleBar_graphicsView());
+		}
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
 		
@@ -56,14 +61,10 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	 * @param stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
-		this(stylebar);
+		this(stylebar, application);
 		attachApp(application);
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			setViewImage(getResources().settings());
-		} else {
-			setViewImage(getResources().styleBar_graphicsView());
-		}
+
 	}
 
 	public void attachApp(AppW application) {

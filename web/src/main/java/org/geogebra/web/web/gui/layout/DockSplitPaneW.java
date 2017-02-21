@@ -670,4 +670,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	public void setForcedLayout(boolean forcedLayout) {
 		this.forcedLayout = forcedLayout;
 	}
+
+	public boolean isCenter(Widget widget) {
+		LayoutData data = (LayoutData) widget.getLayoutData();
+		return data.direction == Direction.CENTER;
+
+	}
 }

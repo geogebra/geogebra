@@ -69,7 +69,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		super();
 
 		dockPanel = new MyDockPanelLayout(Style.Unit.PX);
-		ggwGraphicView = new EuclidianDockPanelW(true);
+		ggwGraphicView = new EuclidianDockPanelW(true, null);
 		glassPane = new DockGlassPaneW(null);
 		mainPanel = new MyDockPanelLayout(Style.Unit.PX);
 		spaceForKeyboard = new SimplePanel();

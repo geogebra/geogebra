@@ -12,12 +12,15 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 
 /**
  * File loader for Web
  */
 public class LoadFilePresenter {
+	// NB this needs to be adjusted in app-release if we change it here
+	private static final int MIN_SIZE_FOR_PICKER = 650;
 
 	/**
 	 * Create new file loader
@@ -224,10 +227,11 @@ public class LoadFilePresenter {
 		}
 
 		// no Feature.ADJUST_VIEWS: returns false.
-		boolean portrait = app.adjustViews(false);
-
+		app.adjustViews(false);
+		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
+				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
 		if (app.getArticleElement().getDataParamShowAppsPicker()
-				&& app.getExam() == null && !portrait) {
+				&& app.getExam() == null && !smallScreen) {
 			app.showPerspectivesPopup();
 			}
 
