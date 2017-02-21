@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
+import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -408,7 +410,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							.getSafeUri()
 							.asString(),
 					loc.getMenu("Angle") + Unicode.ellipsis),
-					loc.getMenu("Angle"));
+					loc.getMenu("Angle")).setSubMenu(getAngleSubMenu());
 		}
 
 	}
@@ -927,4 +929,39 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 		return mnu;
 	}
+
+	private MenuBar getAngleSubMenu() {
+		String[] angleIntervals = new String[GeoAngle
+				.getIntervalMinListLength() - 1];
+		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
+			angleIntervals[i] = app.getLocalization().getPlain(
+					"AngleBetweenAB.short", GeoAngle.getIntervalMinList(i),
+					GeoAngle.getIntervalMaxList(i));
+		}
+
+		MenuBar mnu = new MenuBar(true);
+		mnu.addStyleName("GeoGebraMenuBar");
+		GeoElement geos[] = { getGeo() };
+		final ReflexAngleModel model = new ReflexAngleModel(app, false);
+		model.setGeos(geos);
+
+		for (int i = 0; i < angleIntervals.length; i++) {
+			final int idx = i;
+			MenuItem mi = new MenuItem(
+					MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+							.getSafeUri().asString(), angleIntervals[i]),
+					true, new Command() {
+
+						@Override
+						public void execute() {
+							model.applyChanges(idx);
+						}
+					});
+			mi.addStyleName("mi_no_image"); // TEMP
+			mnu.addItem(mi);
+		}
+
+		return mnu;
+	}
+
 }
