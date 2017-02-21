@@ -914,18 +914,33 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		prewPolygon.reset();
 		int height = (int) (event.getY() - fixCornerY);
-		int radius = (int) (event.getY() - (fixCornerY + event.getY()) / 2);
+		int width = (int) (event.getX() - fixCornerX);
+		int radiusX = (int) (event.getX() - (fixCornerX + event.getX()) / 2);
 
-		if (height >= 0) {
-			pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
-					radius, 5, -Math.PI / 2);
-			pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
-					radius, 5, -Math.PI / 2);
+		if (width >= 0) {
+			if (height >= 0) {
+				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
+						radiusX, 5, -Math.PI / 2);
+				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
+						radiusX, 5, -Math.PI / 2);
+			} else {
+				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
+						radiusX, 5, -Math.PI / 2);
+				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
+						radiusX, 5, -Math.PI / 2);
+			}
 		} else {
-			pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
-					radius, 5, Math.PI / 2);
-			pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
-					radius, 5, Math.PI / 2);
+			if (height >= 0) {
+				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
+						radiusX, 5, Math.PI / 2);
+				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
+						radiusX, 5, Math.PI / 2);
+			} else {
+				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
+						radiusX, 5, Math.PI / 2);
+				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
+						radiusX, 5, Math.PI / 2);
+			}
 		}
 
 		prewPolygon.moveTo(pointsX[0], pointsY[0]);
