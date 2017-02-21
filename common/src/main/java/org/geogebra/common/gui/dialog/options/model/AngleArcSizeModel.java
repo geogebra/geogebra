@@ -51,18 +51,28 @@ public class AngleArcSizeModel extends OptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		boolean isValid = true;
-		if (getObjectAt(index) instanceof AngleProperties) {
-			AngleProperties angle = getAngleAt(index);
+		return match(getGeoAt(index));
+	}
+
+	/**
+	 * @param geo
+	 *            The geo to math returns true if geo meets the requirements of
+	 *            this model
+	 */
+	public static boolean match(GeoElement geo) {
+		if (geo instanceof AngleProperties) {
+			AngleProperties angle = (AngleProperties) geo;
 			if (angle.isIndependent() || !angle.isDrawable()) {
-				isValid = false;
+				return false;
 			}
 		} else {
-			isValid = false;
+			return false;
 		}
 
-		return isValid;
+		return true;
+
 	}
+
 
 	@Override
 	public PropertyListener getListener() {

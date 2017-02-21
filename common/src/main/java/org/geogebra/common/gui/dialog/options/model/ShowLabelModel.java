@@ -85,14 +85,26 @@ public class ShowLabelModel extends OptionsModel {
 	}
 
 	@Override
-	protected boolean isValidAt(int index) {
-		GeoElement geo = getGeoAt(index);
-		return geo.isLabelShowable() || isDropDownList(geo)
-				|| geo.isGeoInputBox();
+	public PropertyListener getListener() {
+		return listener;
 	}
 
 	@Override
-	public PropertyListener getListener() {
-		return listener;
+	protected boolean isValidAt(int index) {
+		GeoElement geo = getGeoAt(index);
+		return match(geo);
+		// geo.isLabelShowable() || isDropDownList(geo)
+		// || geo.isGeoInputBox();
+	}
+
+	/**
+	 * @param geo
+	 *            The geo to math returns true if geo meets the requirements of
+	 *            this model
+	 */
+	public static boolean match(GeoElement geo) {
+		return geo.isLabelShowable() || isDropDownList(geo)
+				|| geo.isGeoInputBox();
+
 	}
 }

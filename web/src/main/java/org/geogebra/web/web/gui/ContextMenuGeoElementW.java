@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.ContextMenuGeoElement;
+import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
+import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
@@ -22,6 +24,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -129,6 +132,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 		if (isWhiteboard()) {
 			addEditItems();
 			wrappedPopup.addSeparator();
+			addObjectPropertiesMenu();
+			wrappedPopup.addSeparator();
+
 		}
 		// SHOW, HIDE
 
@@ -368,9 +374,42 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							loc.getMenu("Properties")),
 					loc.getMenu("Properties"));
 		}
-		if (isWhiteboard()) {
-			wrappedPopup.addSeparator();
-			addOtherEllipseMenu();
+
+	}
+
+	public void addObjectPropertiesMenu() {
+		if (!isWhiteboard()) {
+			return;
+		}
+
+		GeoElement geo = getGeo();
+
+		if (ShowLabelModel.match(geo)) {
+			addAction(new Command() {
+
+				@Override
+				public void execute() {
+				}
+			}, MainMenu
+					.getMenuBarHtml(
+							AppResources.INSTANCE.mode_showhidelabel_16()
+									.getSafeUri().asString(),
+							loc.getMenu("Label") + Unicode.ellipsis),
+					loc.getMenu("Label"));
+		}
+
+		if (AngleArcSizeModel.match(geo)) {
+			addAction(new Command() {
+
+				@Override
+				public void execute() {
+				}
+			}, MainMenu.getMenuBarHtml(
+					AppResources.INSTANCE.stylingbar_angle_interval()
+							.getSafeUri()
+							.asString(),
+					loc.getMenu("Angle") + Unicode.ellipsis),
+					loc.getMenu("Angle"));
 		}
 
 	}
