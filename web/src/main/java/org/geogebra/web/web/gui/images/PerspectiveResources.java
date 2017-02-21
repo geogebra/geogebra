@@ -60,6 +60,8 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_icon_exam24();
 
 	// StyleBar
+	ResourcePrototype settings();
+
 	ResourcePrototype styleBar_algebraView();
 
 	ResourcePrototype styleBar_graphicsView();

@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -23,7 +24,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
 
-	public AlgebraDockPanelW() {
+	public AlgebraDockPanelW(App app1) {
 		super(
 				App.VIEW_ALGEBRA,	// view id 
 				"AlgebraWindow", 			// view title phrase
@@ -32,7 +33,11 @@ public class AlgebraDockPanelW extends DockPanelW {
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-		setViewImage(getResources().styleBar_algebraView());
+		if (app1.has(Feature.DYNAMIC_STYLEBAR)) {
+			setViewImage(getResources().settings());
+		} else {
+			setViewImage(getResources().styleBar_algebraView());
+		}
 	}
 
 	@Override

@@ -105,6 +105,11 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	ImageResource menu_icon_exam24();
 
 	// StyleBar
+
+	@Override
+	@Source("org/geogebra/common/icons/png24x24/settings.png")
+	ImageResource settings();
+
 	@Override
 	@Source("org/geogebra/common/icons/png24x24/stylebar_icon_algebra.png")
 	ImageResource styleBar_algebraView();
@@ -137,6 +142,8 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/png24x24/stylebar_icon_spreadsheet.png")
 	ImageResource styleBar_spreadsheetView();
 
+	
+	
 	@Override
 	@Source("org/geogebra/common/menu_header/p32/menu_edit_redo.png")
 	ImageResource menu_header_redo();

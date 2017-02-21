@@ -518,8 +518,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private void addToggleButton() {
 		// always show the view-icon; otherwise use showStylebar as parameter
-		toggleStyleBarButton = new StandardButton(getToggleImage(false),null, 32);
-		toggleStyleBarButton.addStyleName("toggleStyleBar");
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			toggleStyleBarButton = new StandardButton(getToggleImage(false), null, 24);
+			toggleStyleBarButton.addStyleName("toggleStyleBarNew");
+		} else {
+			toggleStyleBarButton = new StandardButton(getToggleImage(false), null, 32);
+			toggleStyleBarButton.addStyleName("toggleStyleBar");
+		}
+
 
 		if(!showStyleBar && viewImage != null){
 			toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");

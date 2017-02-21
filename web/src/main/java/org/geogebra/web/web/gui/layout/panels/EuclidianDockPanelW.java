@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 
@@ -36,7 +37,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 				5,							// menu order
 				'1' // ctrl-shift-1
 			);
-		setViewImage(getResources().styleBar_graphicsView());
+
 
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
@@ -57,6 +58,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
 		attachApp(application);
+
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			setViewImage(getResources().settings());
+		} else {
+			setViewImage(getResources().styleBar_graphicsView());
+		}
 	}
 
 	public void attachApp(AppW application) {

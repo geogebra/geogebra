@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -49,7 +50,11 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 
 	@Override
 	protected Widget loadComponent() {
-		setViewImage(getResources().styleBar_graphics2View());
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			setViewImage(getResources().settings());
+		} else {
+			setViewImage(getResources().styleBar_graphics2View());
+		}
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();

@@ -2,6 +2,7 @@ package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -50,7 +51,11 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadComponent() {
-		setViewImage(getResources().styleBar_graphics3dView());
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			setViewImage(getResources().settings());
+		} else {
+			setViewImage(getResources().styleBar_graphics3dView());
+		}
 		// 2D app or exam: just flow panel; 3D app in old browser: EVnoWebGL
 		if (!app.supportsView(App.VIEW_EUCLIDIAN3D)
 				&& Browser.supportsWebGL()) {
