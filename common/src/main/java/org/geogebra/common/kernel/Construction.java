@@ -3592,10 +3592,16 @@ public class Construction {
 		return companion.is3D();
 	}
 
+	/**
+	 * @return next construction element ID
+	 */
 	public long getNextCeIDcounter() {
 		return ceIDcounter++;
 	}
 
+	/**
+	 * @return next prover variable ID
+	 */
 	public int getNextVariableID() {
 		return nextVariableID++;
 	}

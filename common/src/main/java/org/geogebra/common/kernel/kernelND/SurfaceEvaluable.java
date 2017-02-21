@@ -88,5 +88,8 @@ public interface SurfaceEvaluable {
 	 */
 	public void setLevelOfDetail(LevelOfDetail lod);
 
+	/**
+	 * @return whether this is defined
+	 */
 	public boolean isDefined();
 }

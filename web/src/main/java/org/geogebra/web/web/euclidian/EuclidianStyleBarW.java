@@ -128,7 +128,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private Localization loc;
 
 	// distinguish between view settings and object styles
-	private boolean isViewStyle;
 
 
 	/**

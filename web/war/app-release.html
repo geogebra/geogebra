@@ -336,7 +336,7 @@ var app = document.createElement("script");
 			if(lookAndFeel){
 				e("ggw").setAttribute("data-param-laf",lookAndFeel);
 			}
-			if(location.host.indexOf("beta") == 0){
+			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease")){
 				setPrerelease("true");
 				
 			}
