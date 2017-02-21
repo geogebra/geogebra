@@ -8303,7 +8303,7 @@ public abstract class EuclidianController {
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 			if (app.has(Feature.DYNAMIC_STYLEBAR) && boundingBox != null) {
-				setDynamicStyleBarPosition(boundingBox.getRectangle());
+				setDynamicStyleBarPosition(boundingBox.getRectangle(), true);
 				setDynamicStylebarVisible(true);
 			}
 			view.repaintView();
@@ -8353,8 +8353,9 @@ public abstract class EuclidianController {
 	/**
 	 * @param gRectangle2D
 	 *            position
+	 * @param hasBoundingBox TODO
 	 */
-	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D) {
+	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
 		// Floating stylebar not supported
 	}
 

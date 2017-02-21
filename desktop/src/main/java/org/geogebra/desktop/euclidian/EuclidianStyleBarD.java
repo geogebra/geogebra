@@ -1791,7 +1791,7 @@ public class EuclidianStyleBarD extends JToolBar
 		setLabels();
 	}
 
-	public void setPosition(double[] screenCoords) {
+	public void setPosition(double[] screenCoords, boolean hasBoundingBox) {
 		// TODO Auto-generated method stub
 
 	}

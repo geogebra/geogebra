@@ -169,7 +169,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 					setIsSquare(true);
 				}
 				view.getEuclidianController()
-						.setDynamicStyleBarPosition(getBounds());
+						.setDynamicStyleBarPosition(getBounds(), true);
 			}
 		}
 	}

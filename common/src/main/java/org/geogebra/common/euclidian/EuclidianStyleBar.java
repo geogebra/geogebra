@@ -65,7 +65,7 @@ public interface EuclidianStyleBar {
 
 	void reinit();
 
-	void setPosition(double[] newPos);
+	void setPosition(double[] newPos, boolean hasBoundingBox);
 
 	void setVisible(boolean b);
 

@@ -20,7 +20,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 * corner of bounding box of drawable
 	 */
 	@Override
-	public void setPosition(double[] newPos) {
+	public void setPosition(double[] newPos, boolean hasBoundingBox) {
 		boolean oldVisible = this.isVisible();
 		this.setVisible(true);
 
@@ -34,8 +34,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		int height = this.getOffsetHeight();
 		this.setVisible(oldVisible);
 
-		newPos[0] -= move;
-		newPos[1] -= height + 5;
+		if (hasBoundingBox) {
+			newPos[0] -= move;
+			newPos[1] -= height + 5;
+		}
 
 		Log.debug("newpos: " + newPos[0] + " " + newPos[1]);
 

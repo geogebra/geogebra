@@ -443,6 +443,12 @@ public class DrawLine extends Drawable implements Previewable {
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
+
+			if (geo.isSelected()) {
+				view.getEuclidianController()
+						.setDynamicStyleBarPosition(labelRectangle, false);
+			}
+
 		}
 	}
 

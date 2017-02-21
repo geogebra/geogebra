@@ -431,7 +431,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D) {
+	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
 		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
 			return;
 		}
@@ -441,7 +441,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		double[] newPos = new double[2];
 		newPos[0] = gRectangle2D.getMaxX();
 		newPos[1] = gRectangle2D.getMinY();
-		this.getView().getDynamicStyleBar().setPosition(newPos);
+		this.getView().getDynamicStyleBar().setPosition(newPos, hasBoundingBox);
 	}
 }
 

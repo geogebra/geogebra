@@ -135,7 +135,7 @@ public class DrawSegment extends Drawable implements Previewable {
 				// (getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
 				// getBounds().getMaxY() + 15 + 3);
 				view.getEuclidianController()
-						.setDynamicStyleBarPosition(getBounds());
+						.setDynamicStyleBarPosition(getBounds(), true);
 
 			} else {
 				getBoundingBox().setRectangle(null);

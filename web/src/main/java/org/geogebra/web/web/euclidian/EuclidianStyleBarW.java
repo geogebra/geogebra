@@ -1474,7 +1474,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		EuclidianStyleBarW.currentPopup = currentPopup;
 	}
 
-	public void setPosition(double[] newPos) {
+	public void setPosition(double[] newPos, boolean hasBoundingBox) {
 		//used only in DynamicStyleBar class
 	}
 }
