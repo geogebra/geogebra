@@ -36,6 +36,7 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
@@ -48,6 +49,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
         AttachedToDOM {
 
 	protected GPopupMenuW wrappedPopup;
+	protected GPopupMenuW labelPopup = null;
 	protected Localization loc;
 	// private MenuItem mnuCopy;
 	private MenuItem mnuCut;
@@ -385,17 +387,14 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		GeoElement geo = getGeo();
 
 		if (ShowLabelModel.match(geo)) {
-			addAction(new Command() {
-
-				@Override
-				public void execute() {
-				}
-			}, MainMenu
+			addAction(null,
+					MainMenu
 					.getMenuBarHtml(
 							AppResources.INSTANCE.mode_showhidelabel_16()
 									.getSafeUri().asString(),
 							loc.getMenu("Label") + Unicode.ellipsis),
-					loc.getMenu("Label"));
+					loc.getMenu("Label")).setSubMenu(getLabelSubMenu());
+
 		}
 
 		if (AngleArcSizeModel.match(geo)) {
@@ -412,17 +411,6 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					loc.getMenu("Angle"));
 		}
 
-	}
-
-	private void addOtherEllipseMenu() {
-		addAction(new Command() {
-
-			@Override
-			public void execute() {
-				// TODO
-			}
-		}, MainMenu.getMenuBarHtml(null, loc.getMenu("Other")),
-				loc.getMenu("Other"));
 	}
 
 	private void addEditItems() {
@@ -904,4 +892,39 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		getWrappedPopup().removeFromDOM();
 	}
 
+	private MenuBar getLabelSubMenu() {
+
+		String[] labels = { loc.getMenu("stylebar.Hidden"), loc.getMenu("Name"),
+				loc.getMenu("NameAndValue"),
+				loc.getMenu("Value"), loc.getMenu("Caption") };
+
+		MenuBar mnu = new MenuBar(true);
+		mnu.addStyleName("GeoGebraMenuBar");
+		GeoElement geos[] = { getGeo() };
+		final ShowLabelModel model = new ShowLabelModel(app, null);
+		model.setGeos(geos);
+		for (int i = 0; i < labels.length; i++) {
+			final int idx = i;
+			MenuItem mi = new MenuItem(
+					MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+							.getSafeUri().asString(), labels[i]),
+					true, new Command() {
+
+						@Override
+						public void execute() {
+							if (idx == 0) {
+								model.applyModeChanges(4, false);
+
+							} else {
+								model.applyModeChanges(idx - 1, true);
+							}
+
+						}
+					});
+			mi.addStyleName("mi_no_image"); // TEMP
+			mnu.addItem(mi);
+		}
+
+		return mnu;
+	}
 }

@@ -50,7 +50,9 @@ public class ShowLabelModel extends OptionsModel {
 
 		// change "Show Label:" to "Show Label" if there's no menu
 		// Michael Borcherds 2008-02-18
-		listener.update(equalLabelVal, equalLabelMode);
+		if (listener != null) {
+			listener.update(equalLabelVal, equalLabelMode);
+		}
 	}
 
 	private static boolean isDropDownList(GeoElement geo) {
