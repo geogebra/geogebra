@@ -441,6 +441,8 @@ public class DrawConic extends Drawable implements Previewable {
 						getBoundingBox().getRectangle().getWidth(), 2)) {
 					setIsCircle(true);
 				}
+				view.getEuclidianController()
+						.setDynamicStyleBarPosition(getBounds());
 			} else {
 				getBoundingBox().setRectangle(null);
 				setIsCircle(false);

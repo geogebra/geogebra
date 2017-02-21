@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -430,7 +431,10 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected void setDynamicStyleBarPosition(GRectangle2D gRectangle2D) {
+	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D) {
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+			return;
+		}
 		if(gRectangle2D == null){
 			return;
 		}

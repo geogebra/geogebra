@@ -168,6 +168,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 						getBoundingBox().getRectangle().getWidth(), 2)) {
 					setIsSquare(true);
 				}
+				view.getEuclidianController()
+						.setDynamicStyleBarPosition(getBounds());
 			}
 		}
 	}
