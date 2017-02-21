@@ -38,6 +38,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -163,6 +164,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
 	private DockPanelW dockPanelKB;
+	private HeaderPanel lastBG;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
@@ -185,23 +187,43 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (bg instanceof MyHeaderPanel) {
 			((MyHeaderPanel) bg).setFrame(this);
 		}
+		this.lastBG = bg;
 		// frameLayout.forceLayout();
 
 	}
 
 	@Override
 	public void hideBrowser(MyHeaderPanel bg) {
-		GeoGebraFrameW frameLayout = this;
-		frameLayout.remove(bg);
-		final int count = frameLayout.getWidgetCount();
+		remove(bg);
+		lastBG = null;
+		final int count = getWidgetCount();
 		for (int i = 0; i < count; i++) {
 			if (childVisible.length > i) {
-				frameLayout.getWidget(i).setVisible(childVisible[i]);
+				getWidget(i).setVisible(childVisible[i]);
 			}
 		}
 		// frameLayout.setLayout(app);
 		// frameLayout.forceLayout();
-		app.updateViewSizes();
+		if (ae.getDataParamFitToScreen()) {
+
+			setSize(Window.getClientWidth(), Window.getClientHeight());
+
+
+		} else {
+			app.updateViewSizes();
+		}
+
+	}
+
+	@Override
+	public void setSize(int width, int height) {
+		// setPixelSize(width, height);
+		if (lastBG != null) {
+			((MyHeaderPanel) lastBG).setPixelSize(width, height);
+			((MyHeaderPanel) lastBG).resizeTo(width, height);
+		} else {
+			super.setSize(width, height);
+		}
 
 	}
 
@@ -646,5 +668,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			add(this.showKeyboardButton);
 		}
 		
+	}
+
+	public boolean isHeaderPanelOpen() {
+		return lastBG != null;
 	}
 }

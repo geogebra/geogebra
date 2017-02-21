@@ -98,4 +98,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	public double getKeyboardHeight() {
 		return 0;
 	}
+
+	public boolean isHeaderPanelOpen() {
+		return false;
+	}
 }

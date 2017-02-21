@@ -15,9 +15,9 @@ public class TabletMaterialListPanel extends MaterialListPanel {
 	}
 
 	@Override
-	public void onResize() {
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
-		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+	public void onResize(int appWidth, int appHeight) {
+		this.setPixelSize(appWidth,
+				appHeight - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 	}
 
 }

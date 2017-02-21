@@ -36,4 +36,6 @@ public abstract class MyHeaderPanel extends HeaderPanel {
 	 */
 	public abstract AppW getApp();
 
+	public abstract void resizeTo(int width, int height);
+
 }

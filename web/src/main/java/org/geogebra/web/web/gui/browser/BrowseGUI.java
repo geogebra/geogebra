@@ -34,9 +34,6 @@ import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -91,12 +88,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		addHeader();
 		addContent();
 
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(final ResizeEvent event) {
-				BrowseGUI.this.updateViewSizes();
-			}
-		});
+		// Window.addResizeHandler(new ResizeHandler() {
+		// @Override
+		// public void onResize(final ResizeEvent event) {
+		// BrowseGUI.this.updateViewSizes();
+		// }
+		// });
 
 		app.registerOpenFileListener(this);
 
@@ -339,11 +336,17 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	protected void updateViewSizes() {
-		this.container.setPixelSize((int) app.getWidth(), (int) app.getHeight()
+		resizeTo((int) app.getWidth(), (int) app.getHeight());
+	}
+
+	@Override
+	public void resizeTo(int width, int height) {
+		this.container.setPixelSize(width, height
 		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		for (final ResizeListener res : this.resizeListeners) {
-			res.onResize();
+			res.onResize(width, height);
 		}
+
 	}
 
 	@Override

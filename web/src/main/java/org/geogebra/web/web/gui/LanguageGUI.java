@@ -45,7 +45,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		fp.setStyleName("contentPanel");
 
 		labels = new ArrayList<Label>();
-		cols = estimateCols();
+		cols = estimateCols((int) app.getWidth());
 		for (Language l : Language.values()) {
 			if (!l.fullyTranslated && app.has(Feature.ALL_LANGUAGES)) {
 				continue;
@@ -108,19 +108,24 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
 	@Override
 	public void onResize() {
-		int newCols = estimateCols();
+		resizeCols((int) app.getWidth());
+		super.onResize();
+	}
+
+	private void resizeCols(int width) {
+		int newCols = estimateCols(width);
 		if (newCols != cols) {
 			cols = newCols;
 			fp.clear();
 			placeLabels();
 		}
-		super.onResize();
+
 	}
 
-	private int estimateCols() {
+	private int estimateCols(int appWidth) {
 		int width = fp.getOffsetWidth(); // this one does not include scrollbar
 		if (width == 0) {
-			width = (int) app.getWidth(); // incl. scrollbar, but maybe fp not
+			width = appWidth; // incl. scrollbar, but maybe fp not
 											// attached yet
 		}
 		return Math.max(1, (width - 40) / 350);
@@ -191,5 +196,11 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	@Override
 	public AppW getApp() {
 		return app;
+	}
+
+	@Override
+	public void resizeTo(int width, int height) {
+		resizeCols(width);
+
 	}
 }

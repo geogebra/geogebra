@@ -254,8 +254,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getGuiManager().setPixelRatio(getPixelRatio());
 
 		}
-
-		adjustViews(true);
+		if (!this.getAppletFrame().isHeaderPanelOpen()) {
+			adjustViews(true);
+		}
 	}
 
 	@Override

@@ -663,21 +663,19 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			final Widget root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged,
-			        root.getOffsetHeight() + heightChanged);
+					root.getOffsetHeight() + heightChanged);
 		} else {
 			geogebraFrame.getStyle().setProperty("height",
 					height - borderThickness + "px");
 			geogebraFrame.getStyle().setProperty("width",
 					width - borderThickness + "px");
-			((AppW) app).getEuclidianViewpanel().setPixelSize(width,
-					height);
+			((AppW) app).getEuclidianViewpanel().setPixelSize(width, height);
 
 			// maybe onResize is OK too
 			((AppW) app).getEuclidianViewpanel().deferredOnResize();
 		}
 		if (this.algebraInput != null) {
-			this.algebraInput.setWidth((width - borderThickness)
-					+ "px");
+			this.algebraInput.setWidth((width - borderThickness) + "px");
 			this.algebraInput.setInputFieldWidth(width - borderThickness);
 		}
 		if (this.toolbarPanel != null) {
@@ -686,7 +684,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// update view sizes
 		((AppW) app).updateViewSizes();
 		((AppW) app).recalculateEnvironments();
-		app.setPreferredSize(AwtFactory.getPrototype().newDimension(width, height));
+		app.setPreferredSize(
+				AwtFactory.getPrototype().newDimension(width, height));
 	}
 
 	public ToolBarW getGeneralToolbar() {
@@ -789,7 +788,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		layout.registerPanel(new SpreadsheetDockPanelW(app));
 
 		// register algebra view
-		layout.registerPanel(new AlgebraDockPanelW());
+		layout.registerPanel(new AlgebraDockPanelW(app));
 
 		// register CAS view
 		layout.registerPanel(new CASDockPanelW(app));

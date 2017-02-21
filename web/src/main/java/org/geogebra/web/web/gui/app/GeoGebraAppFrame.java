@@ -64,6 +64,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	private final GDevice device;
 
 	private final AppletFactory factory;
+	private Object lastBG;
 
 	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device, AppletFactory factory) {
 		this.laf = laf;
@@ -115,6 +116,12 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public void onResize() {
 		super.onResize();
 		device.setMinWidth(this);
+		if (lastBG != null) {
+			int width = (int) app.getWidth();
+			int height = (int) app.getHeight();
+			((MyHeaderPanel) lastBG).setPixelSize(width, height);
+			((MyHeaderPanel) lastBG).resizeTo(width, height);
+		}
 	}
 	
 	/**
@@ -348,11 +355,10 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	}
 
 	private boolean[] childVisible = new boolean[0];
-	private boolean isBrowserShowing = false;
 	
 	@Override
 	public void showBrowser(final HeaderPanel bg) {
-		this.isBrowserShowing = true;
+		this.lastBG = bg;
 	    final int count = frameLayout.getWidgetCount();
 
 	    for(int i = 0; i<count;i++){
@@ -377,7 +383,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 
 	@Override
 	public void hideBrowser(final MyHeaderPanel bg) {
-		this.isBrowserShowing = false;
+		this.lastBG = null;
 		frameLayout.remove(bg);
 		final int count = frameLayout.getWidgetCount();
 		for(int i = 0; i<count;i++){
@@ -389,10 +395,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    frameLayout.forceLayout();
 	    app.updateViewSizes(); 
     }
-	
-	public boolean isBrowserShowing() {
-		return this.isBrowserShowing;
-	}
 
 	public boolean toggleMenu() {
 	    return frameLayout.toggleMenu();
@@ -509,5 +511,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	public void remove() {
 		this.removeFromParent();
 
+	}
+
+	public boolean isHeaderPanelOpen() {
+		return this.lastBG != null;
 	}
 }

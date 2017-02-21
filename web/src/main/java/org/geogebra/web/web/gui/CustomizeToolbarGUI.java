@@ -980,6 +980,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 	@Override
 	public void onResize() {
+		doResize();
+
+	}
+
+	private void doResize() {
 		int w = (getOffsetWidth() / 2) - PANEL_GAP;
 		int h = (getOffsetHeight()) - getHeaderWidget().getOffsetHeight()
 		        - getFooterWidget().getOffsetHeight()
@@ -1053,5 +1058,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		updateUsedTools(toolbarId);
 		updateAllTools();
 		setLabels();
+	}
+
+	@Override
+	public void resizeTo(int width, int height) {
+		doResize();
+
 	}
 }

@@ -198,15 +198,15 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	}
 	
 	@Override
-	public void onResize() {
-		this.searchPanel.setWidth(getRemainingWidth() + "px");
+	public void onResize(int appWidth, int appHeight) {
+		this.searchPanel.setWidth(getRemainingWidth(appWidth) + "px");
 	}
 
 	/**
 	 * 
 	 * @return the remaining width for the searchPanel.
 	 */
-	private int getRemainingWidth() {
+	private int getRemainingWidth(int appWidth) {
 		int rightPanelWidth;
 		if (this.rightPanel.getOffsetWidth() == 0) {
 			if (this.signInButton != null && this.signInButton.isVisible()) {
@@ -218,7 +218,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			rightPanelWidth = this.rightPanel.getOffsetWidth();
 		}
 		
-	    return (int) app.getWidth() - WIDTH_HEADER_FIRST - rightPanelWidth;
+		return appWidth - WIDTH_HEADER_FIRST - rightPanelWidth;
     }
 
 	@Override
@@ -243,7 +243,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		app.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				onResize();
+				onResize((int) app.getWidth(), (int) app.getHeight());
 			}
 		});
 	}
@@ -256,6 +256,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	    if(event instanceof LogOutEvent){
 	    	this.onLogout();
 	    }
-	    onResize();
+		onResize((int) app.getWidth(), (int) app.getHeight());
     }
 }

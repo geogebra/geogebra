@@ -100,4 +100,6 @@ public interface HasAppletProperties {
 	public double getKeyboardHeight();
 
 	public void remove();
+
+	public boolean isHeaderPanelOpen();
 }

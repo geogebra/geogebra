@@ -365,9 +365,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	}
 
 	@Override
-	public void onResize() {
-		this.setPixelSize((int)app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, 
-				(int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+	public void onResize(int appWidth, int appHeight) {
+		this.setPixelSize(appWidth - GLookAndFeel.PROVIDER_PANEL_WIDTH,
+				appHeight - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 	}
 
 	/**
