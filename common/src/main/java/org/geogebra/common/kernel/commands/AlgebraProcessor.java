@@ -459,8 +459,8 @@ public class AlgebraProcessor {
 						if (storeUndoInfo) {
 							app.storeUndoInfo();
 						}
-						if (obj.length > 0 && callback != null) {
-							callback.callback(obj[0]);
+						if (callback != null) {
+							callback.callback(obj.length > 0 ? obj[0] : null);
 						}
 					}
 
