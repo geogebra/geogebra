@@ -9928,7 +9928,7 @@ public abstract class EuclidianController {
 		boolean changedKernel0 = false;
 		if (pastePreviewSelected != null) {
 
-			mergeStickyPointsAfterPaste();
+			// mergeStickyPointsAfterPaste();
 
 			// add moved points to sticky points again
 			for (int i = 0; i < pastePreviewSelectedAndDependent.size(); i++) {
