@@ -6392,7 +6392,9 @@ public class ExpressionNode extends ValidExpression
 			ExpressionValue[] fraction = new ExpressionValue[2];
 			getFraction(fraction, true);
 			if (fraction[0] != null) {
-				double lt = fraction[0].evaluateDouble();
+				ExpressionValue ltVal = fraction[0]
+						.evaluate(StringTemplate.defaultTemplate);
+				double lt = ltVal.evaluateDouble();
 
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
@@ -6404,7 +6406,8 @@ public class ExpressionNode extends ValidExpression
 				if (fraction[1] != null) {
 					rt = fraction[1].evaluateDouble();
 				} else if (!pi) {
-					resolve = new ExpressionNode(kernel, lt);
+					// keep angle dimension
+					resolve = ltVal.deepCopy(kernel).wrap();
 					return;
 				}
 				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
