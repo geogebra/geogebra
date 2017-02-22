@@ -31,6 +31,7 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.main.GDevice;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -56,6 +57,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private GGWMenuBar ggwMenuBar;
 	private boolean keyboardVisibilityChanging;
 	private final SimplePanel kbButtonSpace = new SimplePanel();
+	private GDevice device;
 
 	/**
 	 * @param factory
@@ -63,7 +65,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param laf
 	 *            look and feel
 	 */
-	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf) {
+	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf,
+			GDevice device) {
 		super(laf);
 		this.factory = factory;
 		kbButtonSpace.addStyleName("kbButtonSpace");
@@ -73,7 +76,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	protected AppW createApplication(ArticleElement article,
 			GLookAndFeelI laf) {
-		AppW application = factory.getApplet(article, this, laf);
+		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
 		
 		if (app!= null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
@@ -99,10 +102,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            look and feel
 	 */
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags,
-			AppletFactory factory, GLookAndFeel laf) {
+			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf);
+			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
+					device);
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
@@ -138,7 +142,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			GLookAndFeel laf, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
-				factory, laf), clb);
+				factory, laf, null), clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
 	}

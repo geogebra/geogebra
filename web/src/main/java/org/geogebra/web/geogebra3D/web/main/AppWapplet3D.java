@@ -24,14 +24,15 @@ import org.geogebra.web.web.gui.dialog.DialogManager3DW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.BrowserDevice;
+import org.geogebra.web.web.main.GDevice;
 
 public class AppWapplet3D extends AppWapplet {
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
 	public AppWapplet3D(ArticleElement ae, GeoGebraFrameBoth gf,
-	        GLookAndFeel laf) {
-		super(ae, gf, 3, laf);
+			GLookAndFeel laf, GDevice device) {
+		super(ae, gf, true, 3, laf, device);
 	}
 
 	@Override

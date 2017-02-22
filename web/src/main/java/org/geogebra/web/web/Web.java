@@ -228,7 +228,7 @@ public class Web implements EntryPoint {
 
 		GeoGebraFrameBoth.main(geoGebraMobileTags,
 				(AppletFactory) GWT.create(AppletFactory.class),
-				getLAF(geoGebraMobileTags));
+				getLAF(geoGebraMobileTags), null);
 
 	}
 

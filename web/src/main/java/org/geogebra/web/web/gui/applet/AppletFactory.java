@@ -19,10 +19,12 @@ public interface AppletFactory {
 	 *            applet frame
 	 * @param laf
 	 *            look and feel
+	 * @param device
+	 *            browser / tablet; used for file sync
 	 * @return applet
 	 */
 	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth frame,
-	        GLookAndFeelI laf);
+			GLookAndFeelI laf, GDevice device);
 
 	/**
 	 * 

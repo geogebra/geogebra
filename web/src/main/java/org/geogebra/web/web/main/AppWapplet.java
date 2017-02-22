@@ -76,7 +76,7 @@ public class AppWapplet extends AppWFull {
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
 			GLookAndFeel laf) {
-		this(ae, gf, true, dimension, laf);
+		this(ae, gf, true, dimension, laf, null);
 	}
 
 	/******************************************************
@@ -94,8 +94,9 @@ public class AppWapplet extends AppWFull {
 	 *            look and feel
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
-			final boolean undoActive, int dimension, GLookAndFeel laf) {
-		super(ae, dimension, laf, null);
+			final boolean undoActive, int dimension, GLookAndFeel laf,
+			GDevice device) {
+		super(ae, dimension, laf, device);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());

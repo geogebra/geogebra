@@ -233,7 +233,8 @@ public class Tablet implements EntryPoint {
 	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
 		GeoGebraFrameBoth.main(geoGebraMobileTags,
 		        (AppletFactory) GWT.create(AppletFactory.class),
-		        (GLookAndFeel) GWT.create(TabletLookAndFeel.class));
+				(GLookAndFeel) GWT.create(TabletLookAndFeel.class),
+				(GDevice) GWT.create(TabletDevice.class));
 	}
 
 }

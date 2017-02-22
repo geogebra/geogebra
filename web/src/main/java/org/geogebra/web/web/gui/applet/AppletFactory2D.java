@@ -16,8 +16,8 @@ public class AppletFactory2D implements AppletFactory {
 
 	@Override
 	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth gf,
-	        GLookAndFeelI laf) {
-		return new AppWapplet(ae, gf, 2, (GLookAndFeel) laf);
+			GLookAndFeelI laf, GDevice device) {
+		return new AppWapplet(ae, gf, true, 2, (GLookAndFeel) laf, device);
     }
 
 	@Override
