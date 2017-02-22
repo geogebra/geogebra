@@ -180,12 +180,22 @@ public class LineStyleModel extends OptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
+		return match(getGeoAt(index).getGeoElementForPropertiesDialog());
+	}
+
+	/**
+	 * Decides if geo is accepted for this model.
+	 * 
+	 * @param geo
+	 *            The geo to match.
+	 * @return if geo has
+	 */
+	public static boolean match(GeoElement geo) {
 		return (geo.showLineProperties() || geo.isNumberValue())
 				&& !geo.isGeoBoolean() && !((geo instanceof GeoNumeric)
 						&& ((GeoNumeric) geo).isSlider());
-	}
 
+	}
 	@Override
 	public boolean checkGeos() {
 		boolean geosOK = true;
