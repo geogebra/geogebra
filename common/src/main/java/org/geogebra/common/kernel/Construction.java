@@ -2250,11 +2250,14 @@ public class Construction {
 		}
 		if (!fileLoading) {
 			if (label1.contains("_{")) {
-				label1 = label1.replace("_{", "_").substring(0,
-						label1.length() - 2);
-				geo = geoTableVarLookup(label1);
-				if (geo != null) {
-					return checkConstructionStep(geo);
+				Log.debug(label1);
+				label1 = label1.replace("_{", "_");
+				if (label1.length() > 1) {
+					label1 = label1.substring(0, label1.length() - 1);
+					geo = geoTableVarLookup(label1);
+					if (geo != null) {
+						return checkConstructionStep(geo);
+					}
 				}
 			} else if (label1.contains("_")) {
 				label1 = label1.replace("_", "_{") + "}";

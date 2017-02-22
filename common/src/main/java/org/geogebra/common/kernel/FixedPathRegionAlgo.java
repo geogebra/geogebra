@@ -10,6 +10,9 @@ public interface FixedPathRegionAlgo {
 	/**
 	 * Returns true iff the output can be moved
 	 * 
+	 * @param out
+	 *            output object
+	 * 
 	 * @return true iff the output can be moved
 	 */
 	public boolean isChangeable(GeoElement out);

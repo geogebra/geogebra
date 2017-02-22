@@ -2371,7 +2371,7 @@ public class Kernel {
 	}
 
 	/**
-	 * Returns whether x is equal to y
+	 * Check difference is less than a constant
 	 * 
 	 * infinity == infinity returns true eg 1/0
 	 * 
@@ -2380,6 +2380,10 @@ public class Kernel {
 	 * -infinity == -infinity returns true
 	 * 
 	 * undefined == undefined returns false eg 0/0
+	 * 
+	 * @return whether x is equal to y
+	 * 
+	 * 
 	 */
 	final public static boolean isEqual(double x, double y) {
 		if (x == y) {
@@ -2389,6 +2393,15 @@ public class Kernel {
 				&& (y <= (x + STANDARD_PRECISION));
 	}
 
+	/**
+	 * Check difference is small, proportional to numbers
+	 * 
+	 * @param x
+	 *            first number
+	 * @param y
+	 *            second number
+	 * @return x==y
+	 */
 	final public static boolean isRatioEqualTo1(double x, double y) {
 		if (x == y) {
 			return true;
