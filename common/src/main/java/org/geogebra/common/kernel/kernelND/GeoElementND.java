@@ -123,6 +123,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public GeoElement copyInternal(Construction cons);
 
+	/**
+	 * @return a copy of this geo
+	 */
 	public GeoElementND copy();
 
 	/**
@@ -264,13 +267,30 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public boolean isGeoText();
 
+	/**
+	 * @return label mode, may be GeoElement.LABEL_NAME, LABEL_VALUE etc
+	 */
 	int getLabelMode();
 
-	void setLabelMode(int labelName);
+	/**
+	 * @param labelMode
+	 *            label mode, may be GeoElement.LABEL_NAME, LABEL_VALUE etc
+	 */
+	void setLabelMode(int labelMode);
 
 	// public Kernel getKernel();
+	/**
+	 * @return get the label if set; do not fallback to definition (unlike
+	 *         {@link #getLabel(StringTemplate)})
+	 */
 	public String getLabelSimple();
 
+	/**
+	 * Update value and basic properties from other geo
+	 * 
+	 * @param geo
+	 *            other geo
+	 */
 	public void set(GeoElementND geo);
 
 	/**
@@ -281,44 +301,99 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	public void setEuclidianVisibleIfNoConditionToShowObject(boolean visible);
 
+	/**
+	 * @return whether this is a point
+	 */
 	boolean isGeoPoint();
 
+	/**
+	 * @return whether this is a number
+	 */
 	boolean isGeoNumeric();
 
+	/**
+	 * @return whether this is a button
+	 */
 	boolean isGeoButton();
 
+	/**
+	 * @return caption template including %v, %n, ...
+	 */
 	String getRawCaption();
 
+	/**
+	 * @return parent construction
+	 */
 	Construction getConstruction();
 
+	/**
+	 * @return whether this is a polyhedron
+	 */
 	boolean isGeoPolyhedron();
 
+	/**
+	 * @return IDs of views that contain this geo
+	 */
 	List<Integer> getViewSet();
 
+	/**
+	 * @return whether this is a segment
+	 */
 	boolean isGeoSegment();
 
+	/**
+	 * @return whether this is a ray
+	 */
 	boolean isGeoPolygon();
 
+	/**
+	 * @return whether this is a ray
+	 */
 	boolean isGeoRay();
 
+	/**
+	 * @return whether this is a conic arc
+	 */
 	boolean isGeoConicPart();
 
+	/**
+	 * @return whether this is a vector
+	 */
 	boolean isGeoVector();
 
 	GeoClass getGeoClassType();
 
+	/**
+	 * @param auxilliary
+	 *            whether this is auxiliary object (not shown in AV by default)
+	 */
 	void setAuxiliaryObject(boolean auxilliary);
 
 	void setFixed(boolean fix);
 
 	void setLabelWanted(boolean b);
 
+	/**
+	 * @param colorSpace
+	 *            color space of dynamic color
+	 */
 	void setColorSpace(int colorSpace);
 
+	/**
+	 * @param colorFunction
+	 *            dynamic color
+	 */
 	void setColorFunction(GeoList colorFunction);
 
+	/**
+	 * @param hatchingDistance
+	 *            hatching distance in pixels
+	 */
 	void setHatchingDistance(int hatchingDistance);
 
+	/**
+	 * @return (lowercase) class name for XML
+	 */
 	String getXMLtypeString();
 
 	void setVisibleInView3D(GeoElement geoList);
@@ -329,6 +404,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isDrawable();
 
+	/**
+	 * @return defining expression
+	 */
 	ExpressionNode getDefinition();
 
 	void setDefinition(ExpressionNode def);
@@ -428,6 +506,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	GeoList getColorFunction();
 
+	/**
+	 * @return color space of dynamic color
+	 */
 	int getColorSpace();
 
 	boolean isSetEuclidianVisible();
@@ -436,6 +517,9 @@ public interface GeoElementND extends ExpressionValue {
 
 	void setDrawAlgorithm(DrawInformationAlgo copy);
 
+	/**
+	 * @return whether this can be moved
+	 */
 	public boolean isMoveable();
 
 	String getDefinitionForInputBar();
@@ -444,8 +528,14 @@ public interface GeoElementND extends ExpressionValue {
 
 	GeoElement toGeoElement();
 
+	/**
+	 * @return whether this is output of random() or randomizable algo
+	 */
 	boolean isRandomGeo();
 
+	/**
+	 * Randomize this and update parent algo (no cascade)
+	 */
 	void updateRandomGeo();
 
 	void addAlgorithm(AlgoElement algoElement);
