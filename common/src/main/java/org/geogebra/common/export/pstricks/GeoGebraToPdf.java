@@ -83,10 +83,17 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	private GeoNumeric num;
 	private int n, it;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GeoGebraToPdf(App app) {
 		super(app);
 	}
 
+	/**
+	 * Update animation settings from slider
+	 */
 	protected void getSliderNums() {
 		getApp().getKernel().getAnimatonManager().stopAnimation();
 		num = frame.getcbSlidersItem();
@@ -917,18 +924,19 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawTick(GeoAngle geo, double[] vertex, double angle) {
-		angle = -angle;
+	protected void drawTick(GeoAngle geo, double[] vertex, double angle0) {
+		double cos = Math.cos(angle0);
+		double sin = Math.sin(-angle0);
 		double radius = geo.getArcSize();
 		double diff = 2.5 + geo.getLineThickness() / 4d;
 		double x1 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius - diff) * Math.cos(angle));
+				vertex[0] + (radius - diff) * cos);
 		double x2 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius + diff) * Math.cos(angle));
+				vertex[0] + (radius + diff) * cos);
 		double y1 = euclidianView.toRealWorldCoordY(vertex[1] + (radius - diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		double y2 = euclidianView.toRealWorldCoordY(vertex[1] + (radius + diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		if (isBeamer) {
 			code.append("  ");
 		}
@@ -1124,7 +1132,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 	}
 
-	private void addText(String st, boolean isLatex, int style) {
+	private void addText(String st0, boolean isLatex, int style) {
+		String st = st0;
 		if (format == FORMAT_LATEX) {
 			if (isLatex) {
 				if (!st.startsWith("$")) {
@@ -1460,7 +1469,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	private void drawPgfStandard(GeoFunction geo, StringBuilder sb,
-			String value, double xrangemax, double xrangemin) {
+			String value0, double xrangemax, double xrangemin) {
 		sb.append("\\draw");
 		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
@@ -1476,7 +1485,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		sb.append(xrangemax);
 		sb.append("] plot");
 		sb.append("(\\x,{");
-		value = replaceX(value, "(\\x)");
+		String value = replaceX(value0, "(\\x)");
 		sb.append(value);
 		sb.append("});\n");
 	}
@@ -2447,7 +2456,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawLabel(GeoElement geo, DrawableND drawGeo) {
+	protected void drawLabel(GeoElement geo, DrawableND drawGeo0) {
+		DrawableND drawGeo = drawGeo0;
 		try {
 			if (geo.isLabelVisible()) {
 				String name = geo.getLabelDescription();
@@ -2516,9 +2526,10 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				endBeamer(codePoint);
 			}
 		}
-		// For GeoElement that don't have a Label
-		// For example (created with geoList)
+
 		catch (NullPointerException e) {
+			// For GeoElement that don't have a Label
+			// For example (created with geoList)
 		}
 	}
 
@@ -2948,6 +2959,13 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		sb.append(")");
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @param transparency
+	 *            whether to use transparency
+	 * @return code for line options
+	 */
 	public String lineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
@@ -3094,24 +3112,24 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	 * Append the name color to StringBuilder sb It will create a custom color,
 	 * if this color hasn't be defined yet
 	 * 
-	 * @param c
+	 * @param c0
 	 *            The Choosen color
 	 * @param sb
 	 *            The StringBuilder where the color has to be added
 	 */
 	@Override
-	protected void colorCode(GColor c, StringBuilder sb) {
+	protected void colorCode(GColor c0, StringBuilder sb) {
 		if (frame.isGrayscale()) {
-			if (c.equals(GColor.BLACK)) {
+			if (c0.equals(GColor.BLACK)) {
 				sb.append("black");
 				return;
 			}
 			String colorname = "";
-			int red = c.getRed();
-			int green = c.getGreen();
-			int blue = c.getBlue();
+			int red = c0.getRed();
+			int green = c0.getGreen();
+			int blue = c0.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = GColor.newColor(grayscale, grayscale, grayscale);
+			GColor c = GColor.newColor(grayscale, grayscale, grayscale);
 			if (customColor.containsKey(c)) {
 				colorname = customColor.get(c).toString();
 			} else {
@@ -3145,17 +3163,17 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			sb.append(colorname);
 		} else {
-			if (c.equals(GColor.BLACK)) {
+			if (c0.equals(GColor.BLACK)) {
 				sb.append("black");
 				return;
 			}
 			String colorname = "";
-			if (customColor.containsKey(c)) {
-				colorname = customColor.get(c).toString();
+			if (customColor.containsKey(c0)) {
+				colorname = customColor.get(c0).toString();
 			} else {
-				int red = c.getRed();
-				int green = c.getGreen();
-				int blue = c.getBlue();
+				int red = c0.getRed();
+				int green = c0.getGreen();
+				int blue = c0.getBlue();
 				colorname = createCustomColor(red, green, blue);
 				// Example: \definecolor{orange}{rgb}{1,0.5,0}
 				if (format == GeoGebraToPdf.FORMAT_LATEX) {
@@ -3164,7 +3182,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 									+ format(red / 255d) + ","
 									+ format(green / 255d) + ","
 									+ format(blue / 255d) + "}\n");
-					customColor.put(c, colorname);
+					customColor.put(c0, colorname);
 				}
 			}
 			sb.append(colorname);
@@ -3363,6 +3381,16 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		return true;
 	}
 
+	/**
+	 * @param s
+	 *            shape
+	 * @param ineq
+	 *            inequality
+	 * @param geo
+	 *            element
+	 * @param ds
+	 *            bounds, see getViewBoundsForGeo
+	 */
 	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);

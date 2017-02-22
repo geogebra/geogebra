@@ -82,6 +82,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private boolean gnuplotWarning = false;
 	private boolean hatchWarning = false;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GeoGebraToPgf(App app) {
 		super(app);
 	}
@@ -876,18 +880,19 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawTick(GeoAngle geo, double[] vertex, double angle) {
-		angle = -angle;
+	protected void drawTick(GeoAngle geo, double[] vertex, double angle0) {
+		double cos = Math.cos(angle0);
+		double sin = Math.sin(-angle0);
 		double radius = geo.getArcSize();
 		double diff = 2.5 + geo.getLineThickness() / 4d;
 		double x1 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius - diff) * Math.cos(angle));
+				vertex[0] + (radius - diff) * cos);
 		double x2 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius + diff) * Math.cos(angle));
+				vertex[0] + (radius + diff) * cos);
 		double y1 = euclidianView.toRealWorldCoordY(vertex[1] + (radius - diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		double y2 = euclidianView.toRealWorldCoordY(vertex[1] + (radius + diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		if (isBeamer) {
 			code.append("  ");
 		}
@@ -1431,7 +1436,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	private void drawPgfStandard(GeoFunction geo, StringBuilder sb,
-			String value, double xrangemax, double xrangemin) {
+			String value0, double xrangemax, double xrangemin) {
 		sb.append("\\draw");
 		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
@@ -1447,7 +1452,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(xrangemax);
 		sb.append("] plot");
 		sb.append("(\\x,{");
-		value = replaceX(value, "(\\x)");
+		String value = replaceX(value0, "(\\x)");
 		sb.append(value);
 		sb.append("});\n");
 	}
@@ -2442,7 +2447,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawLabel(GeoElement geo, DrawableND drawGeo) {
+	protected void drawLabel(GeoElement geo, DrawableND drawGeo0) {
+		DrawableND drawGeo = drawGeo0;
 		try {
 			if (geo.isLabelVisible()) {
 				String name = geo.getLabelDescription();
@@ -2952,6 +2958,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(")");
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @param transparency
+	 *            whether to use transparency
+	 * @return line options
+	 */
 	public String lineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
@@ -3105,7 +3118,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 * Append the name color to StringBuilder sb It will create a custom color,
 	 * if this color hasn't be defined yet
 	 * 
-	 * @param c
+	 * @param c0
 	 *            The Choosen color
 	 * @param sb
 	 *            The StringBuilder where the color has to be added

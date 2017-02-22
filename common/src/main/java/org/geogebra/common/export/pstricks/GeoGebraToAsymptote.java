@@ -113,8 +113,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	// usepackage_amssymb = false, usepackage_amsmath = false,
 	// usepackage_mathrsfs = false;
 	private Set<String> usepackage;
+	/** packages to import */
 	public Set<String> importpackage;
-
+	/** whether to fill inequality */
 	public boolean fillInequality = false;
 
 	/**
@@ -860,13 +861,13 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	@Override
 	protected void drawArrowArc(GeoAngle geo, double[] vertex, double angSt,
-			double angEnd, double r, boolean anticlockwise) {
+			double angEnd0, double r, boolean anticlockwise) {
 		// The arrow head goes away from the line.
 		// Arrow Winset=0.25, see PStricks spec for arrows
 		double arrowHeight = (geo.getLineThickness() * 0.8 + 3) * 1.4 * 3 / 4;
 		double angle = Math
 				.asin(arrowHeight / 2 / euclidianView.getXscale() / r);
-		angEnd = angEnd - angle;
+		double angEnd = angEnd0 - angle;
 
 		startDraw();
 		code.append("arc(");
@@ -908,18 +909,19 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawTick(GeoAngle geo, double[] vertex, double angle) {
-		angle = -angle;
+	protected void drawTick(GeoAngle geo, double[] vertex, double angle0) {
+		double cos = Math.cos(angle0);
+		double sin = Math.sin(-angle0);
 		double radius = geo.getArcSize();
 		double diff = 2.5 + geo.getLineThickness() / 4d;
 		double x1 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius - diff) * Math.cos(angle));
+				vertex[0] + (radius - diff) * cos);
 		double x2 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius + diff) * Math.cos(angle));
+				vertex[0] + (radius + diff) * cos);
 		double y1 = euclidianView.toRealWorldCoordY(vertex[1] + (radius - diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		double y2 = euclidianView.toRealWorldCoordY(vertex[1] + (radius + diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 
 		startDraw();
 		addPoint(format(x1), format(y1), code);
@@ -1321,6 +1323,16 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		drawFunction(geo, false, null, false);
 	}
 
+	/**
+	 * @param geo
+	 *            function
+	 * @param integral
+	 *            whether to fill below
+	 * @param geo1
+	 *            used for color
+	 * @param contour
+	 *            whether to show contour
+	 */
 	protected void drawFunction(GeoFunction geo, boolean integral,
 			GeoNumeric geo1, boolean contour) {
 		importpackage.add("graph");
@@ -2308,7 +2320,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// if label is visible, draw it
 	@Override
-	protected void drawLabel(GeoElement geo, DrawableND drawGeo) {
+	protected void drawLabel(GeoElement geo, DrawableND drawGeo0) {
 		try {
 			if (geo.isLabelVisible()) {
 				String name;
@@ -2330,7 +2342,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				if (name.indexOf(Unicode.DEGREE) != -1) {
 					name = name.replace(Unicode.DEGREE, "^\\\\circ");
 				}
-
+				DrawableND drawGeo = drawGeo0;
 				if (drawGeo == null) {
 					drawGeo = euclidianView.getDrawableFor(geo);
 				}
@@ -3020,12 +3032,12 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// Append the name color to StringBuilder sb
 	@Override
-	protected void colorCode(GColor c, StringBuilder sb) {
-		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
+	protected void colorCode(GColor c0, StringBuilder sb) {
+		int red = c0.getRed(), green = c0.getGreen(), blue = c0.getBlue();
 		if (grayscale) {
 			String colorname = "";
 			int grayscale1 = (red + green + blue) / 3;
-			c = GColor.newColor(grayscale1, grayscale1, grayscale1);
+			GColor c = GColor.newColor(grayscale1, grayscale1, grayscale1);
 			if (customColor.containsKey(c)) {
 				colorname = customColor.get(c).toString();
 			} else {
@@ -3060,24 +3072,24 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				sb.append(colorname);
 			}
 		} else {
-			if (c.equals(GColor.BLACK)) {
+			if (c0.equals(GColor.BLACK)) {
 				sb.append("black");
-			} else if (c.equals(GColor.GRAY)) {
+			} else if (c0.equals(GColor.GRAY)) {
 				sb.append("gray");
-			} else if (c.equals(GColor.WHITE)) {
+			} else if (c0.equals(GColor.WHITE)) {
 				sb.append("white");
-			} else if (c.equals(GColor.RED)) {
+			} else if (c0.equals(GColor.RED)) {
 				sb.append("red");
-			} else if (c.equals(GColor.GREEN)) {
+			} else if (c0.equals(GColor.GREEN)) {
 				sb.append("green");
-			} else if (c.equals(GColor.BLUE)) {
+			} else if (c0.equals(GColor.BLUE)) {
 				sb.append("blue");
-			} else if (c.equals(GColor.YELLOW)) {
+			} else if (c0.equals(GColor.YELLOW)) {
 				sb.append("yellow");
 			} else {
 				String colorname = "";
-				if (customColor.containsKey(c)) {
-					colorname = customColor.get(c).toString();
+				if (customColor.containsKey(c0)) {
+					colorname = customColor.get(c0).toString();
 				} else {
 					colorname = createCustomColor(red, green, blue);
 					if (!compact) {
@@ -3093,7 +3105,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					if (!compact) {
 						codeColors.append("; ");
 					}
-					customColor.put(c, colorname);
+					customColor.put(c0, colorname);
 				}
 				sb.append(colorname);
 			}
@@ -3223,10 +3235,11 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 */
 	// private void defineTransparency(){}
 
-	private void addText(String st, boolean isLatex, int style) {
+	private void addText(String st0, boolean isLatex, int style) {
 		if (isLatex) {
 			code.append("$");
 		}
+		String st = st0;
 		if (isLatex && st.charAt(0) == '$') {
 			st = st.substring(1);
 		}
@@ -3517,6 +3530,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * For use with drawSpecialPoint() function, appends dot styles
 	 * 
 	 * @param c
+	 *            color
 	 */
 	protected void endPoint(GColor c) {
 		if (!c.equals(GColor.BLACK) && dotColors) {
@@ -3803,6 +3817,11 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		return StringTemplate.fullFigures(StringType.PSTRICKS);
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return stroke style
+	 */
 	public String penStyle(GeoElement geo) {
 		StringBuilder sb = new StringBuilder();
 		switch (geo.getLineType()) {
@@ -3903,6 +3922,16 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		return true;
 	}
 
+	/**
+	 * @param s
+	 *            shape
+	 * @param ineq
+	 *            inequality
+	 * @param geo
+	 *            element
+	 * @param ds
+	 *            bounds, see getViewBoundsForGeo
+	 */
 	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		importpackage.add("patterns");
