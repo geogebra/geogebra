@@ -542,13 +542,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 			public void onClick(Widget source) {
 				setShowStyleBar(!showStyleBar);
 
-				if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-					if (showStyleBar) {
-						toggleStyleBarButton.setIcon(downImage);
-					} else {
-						toggleStyleBarButton.setIcon((ImageResource) viewImage);
-					}
-				}
 				updateStyleBarVisibility();
 				if (styleBar instanceof StyleBarW) {
 					((StyleBarW) styleBar).setOpen(showStyleBar);
@@ -837,6 +830,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 
 		buildGUIIfNecessary(true);
+
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (showStyleBar) {
+				toggleStyleBarButton.setIcon(downImage);
+			} else {
+				toggleStyleBarButton.setIcon((ImageResource) viewImage);
+			}
+		}
 
 		styleBarPanel.setVisible(isStyleBarVisible());
 		if (isStyleBarVisible()) {
