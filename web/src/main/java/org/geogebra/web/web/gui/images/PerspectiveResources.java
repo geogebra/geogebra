@@ -77,6 +77,8 @@ public interface PerspectiveResources {
 	ResourcePrototype styleBar_graphics2View();
 
 	ResourcePrototype styleBar_spreadsheetView();
+
+	ResourcePrototype back_right();
 		
 	ResourcePrototype menu_header_redo();
 
@@ -95,4 +97,5 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_header_open_menu_hover();
 
 	ResourcePrototype menu_header_back();
+
 }

@@ -111,6 +111,10 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	ImageResource settings();
 
 	@Override
+	@Source("org/geogebra/common/icons/png/web/menu_icons/back_right.png")
+	ImageResource back_right();
+
+	@Override
 	@Source("org/geogebra/common/icons/png24x24/stylebar_icon_algebra.png")
 	ImageResource styleBar_algebraView();
 

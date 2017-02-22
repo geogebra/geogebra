@@ -127,7 +127,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
 
-	// distinguish between view settings and object styles
+
 
 
 	/**
@@ -503,9 +503,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// context menu
 	protected void addContextMenuButton() {
 
-		if (isBackground()) {
-			addSeparator();
-		} else {
+		if (!isBackground()) {
 			if (getViewButton() == null) {
 				addViewButton();
 			} else {
@@ -568,8 +566,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected PopupMenuButtonW[] newPopupBtnList() {
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
 		        btnColor, btnBgColor, btnTextColor, btnLineStyle,
-		        btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
-				btnPointCapture, btnChangeView };
+ btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle, btnPointCapture,
+				btnChangeView };
 	}
 
 	// =====================================================

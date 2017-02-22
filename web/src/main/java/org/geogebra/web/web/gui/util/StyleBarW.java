@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
@@ -69,10 +70,15 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		if(menuButton == null){
 			menuButton = new MyCJButton();
 	
-			ImageOrText icon = new ImageOrText(
-					GuiResources.INSTANCE.menu_icon_options());
+			ImageOrText icon;
+			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+				icon = new ImageOrText(GuiResources.INSTANCE.stylebar_more());
+				menuButton.addStyleName("MyCanvasButton-borderless");
+			} else {
+				icon = new ImageOrText(GuiResources.INSTANCE.menu_icon_options());
+			}
 			menuButton.setIcon(icon);
-	
+
 			menuButton.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {

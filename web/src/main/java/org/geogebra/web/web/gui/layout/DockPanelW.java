@@ -43,6 +43,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -373,6 +374,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected StandardButton toggleStyleBarButton;
 
 	private ResourcePrototype viewImage;
+	private ImageResource downImage;
 
 	// needs to be initialized here, because the button might be added in
 	// adSouth(), before setLayout() is called
@@ -521,6 +523,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			toggleStyleBarButton = new StandardButton(getToggleImage(false), null, 24);
 			toggleStyleBarButton.addStyleName("toggleStyleBarNew");
+
+			downImage = (ImageResource) getResources().back_right();
+
 		} else {
 			toggleStyleBarButton = new StandardButton(getToggleImage(false), null, 32);
 			toggleStyleBarButton.addStyleName("toggleStyleBar");
@@ -537,6 +542,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 			public void onClick(Widget source) {
 				setShowStyleBar(!showStyleBar);
 
+				if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+					if (showStyleBar) {
+						toggleStyleBarButton.setIcon(downImage);
+					} else {
+						toggleStyleBarButton.setIcon((ImageResource) viewImage);
+					}
+				}
 				updateStyleBarVisibility();
 				if (styleBar instanceof StyleBarW) {
 					((StyleBarW) styleBar).setOpen(showStyleBar);
