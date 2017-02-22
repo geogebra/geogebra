@@ -445,8 +445,10 @@ public class DrawLine extends Drawable implements Previewable {
 			}
 
 			if (geo.isSelected()) {
+				GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);
+				rect.setBounds((int) (x1 + x2) / 2, view.getHeight() / 2, 0, 0);
 				view.getEuclidianController()
-						.setDynamicStyleBarPosition(labelRectangle, false);
+						.setDynamicStyleBarPosition(rect, false);
 			}
 
 		}
