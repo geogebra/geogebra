@@ -74,7 +74,7 @@ public class GCheckBoxMenuItem {
 		if (isToggleMenu()) {
 			itemPanel.clear();
 			String txt = app.getLocalization()
-					.getPlain(selected ? "ON" : "OFF");
+					.getPlain(selected ? "On" : "Off");
 			setText(text + " " + txt);
 		} else {
 			checkBox.setValue(sel);
