@@ -8379,8 +8379,39 @@ public abstract class EuclidianController {
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
-			getShapeMode().handleMouseDraggedForShapeMode(event);
-			return;
+			if (getResizedShape() == null) {
+				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
+				// for now allow only corner handlers
+				if (d != null && view
+						.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
+					if (view.getBoundingBox() != null && view.getBoundingBox()
+							.equals(d.getBoundingBox())) {
+						EuclidianBoundingBoxHandler nrHandler = view
+								.getHitHandler();
+						// we have only 2 handlers for segment
+						// needs special handling
+						if (d instanceof DrawSegment) {
+							nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
+						}
+						switch (nrHandler) {
+						case TOP_LEFT:
+						case BOTTOM_RIGHT:
+							view.setCursor(EuclidianCursor.RESIZE_NWSE);
+							break;
+						case BOTTOM_LEFT:
+						case TOP_RIGHT:
+							view.setCursor(EuclidianCursor.RESIZE_NESW);
+							break;
+						default:
+							break;
+						}
+						setResizedShape(d);
+					}
+				} else {
+					getShapeMode().handleMouseDraggedForShapeMode(event);
+					return;
+				}
+			}
 		}
 
 		if (!shouldCancelDrag()) {
@@ -8441,37 +8472,6 @@ public abstract class EuclidianController {
 			penDragged = true;
 			getPen().handleMouseDraggedForPenMode(event);
 			return;
-		}
-
-		if (getResizedShape() == null) {
-			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
-			// for now allow only corner handlers
-			if (d != null && view
-				.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-				if (view.getBoundingBox() != null
-						&& view.getBoundingBox().equals(d.getBoundingBox())) {
-					EuclidianBoundingBoxHandler nrHandler = view
-							.getHitHandler();
-					// we have only 2 handlers for segment
-					// needs special handling
-					if (d instanceof DrawSegment) {
-						nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
-					}
-					switch (nrHandler) {
-					case TOP_LEFT:
-					case BOTTOM_RIGHT:
-						view.setCursor(EuclidianCursor.RESIZE_NWSE);
-						break;
-					case BOTTOM_LEFT:
-					case TOP_RIGHT:
-						view.setCursor(EuclidianCursor.RESIZE_NESW);
-						break;
-					default:
-						break;
-					}
-					setResizedShape(d);
-				}
-			}
 		}
 
 		DrawList dl = view.getOpenedComboBox();
@@ -9798,14 +9798,12 @@ public abstract class EuclidianController {
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
-			return;
-		}
-
-		if (getResizedShape() != null) {
-			getResizedShape().updateGeo(event);
-			storeUndoInfo();
-			setResizedShape(null);
-			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+			if (getResizedShape() != null) {
+				getResizedShape().updateGeo(event);
+				storeUndoInfo();
+				setResizedShape(null);
+				view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+			}
 			return;
 		}
 
