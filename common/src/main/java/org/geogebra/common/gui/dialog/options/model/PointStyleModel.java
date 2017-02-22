@@ -50,18 +50,25 @@ public class PointStyleModel extends NumberOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-		boolean valid = true;
-		GeoElement geo = getGeoAt(index);
-		if ((geo.isGeoElement3D() && !(geo.isGeoPoint())) || // TODO add point
-																// style to 3D
-																// points
+		return match(getGeoAt(index));
+
+	}
+
+	/**
+	 * Decides if geo is accepted for this model.
+	 * 
+	 * @param geo
+	 *            The geo to match.
+	 * @return if geo has point properties
+	 */
+	public static boolean match(GeoElement geo) {
+		return !((geo.isGeoElement3D() && !(geo.isGeoPoint())) || // TODO add
+																	// point
+		// style to 3D
+		// points
 				(!geo.getGeoElementForPropertiesDialog().isGeoPoint()
 						&& (!(geo.isGeoList()
-								&& ((GeoList) geo).showPointProperties())))) {
-			valid = false;
-		}
-		return valid;
-
+								&& ((GeoList) geo).showPointProperties()))));
 	}
 
 	public boolean is3D() {

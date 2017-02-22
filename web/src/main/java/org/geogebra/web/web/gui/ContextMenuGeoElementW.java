@@ -1,12 +1,13 @@
 package org.geogebra.web.web.gui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
+import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.Kernel;
@@ -34,6 +35,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.html5.AttachedToDOM;
@@ -425,10 +427,24 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				}
 			}, MainMenu
 					.getMenuBarHtml(
-							AppResources.INSTANCE.stylingbar_angle_interval()
+							AppResources.INSTANCE.empty()
 									.getSafeUri().asString(),
 							loc.getMenu("Line")),
 					loc.getMenu("Line")).setSubMenu(getLineStyleSubMenu());
+		}
+
+		if (PointStyleModel.match(geo)) {
+			addAction(new Command() {
+
+				@Override
+				public void execute() {
+				}
+			}, MainMenu
+					.getMenuBarHtml(
+							AppResources.INSTANCE.empty()
+									.getSafeUri().asString(),
+							loc.getMenu("Point")),
+					loc.getMenu("Point")).setSubMenu(getPointStyleSubMenu());
 		}
 	}
 
@@ -984,8 +1000,6 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 	private MenuBar getLineStyleSubMenu() {
 		int iconHeight = 48;
 		ImageOrText[] icons = LineStylePopup.getLineStyleIcons(iconHeight);
-		final HashMap<Integer, Integer> map = LineStylePopup
-				.getLineStyleMap(iconHeight);
 		
 		MenuBar mnu = new MenuBar(true);
 		mnu.addStyleName("GeoGebraMenuBar");
@@ -1003,6 +1017,40 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 						public void execute() {
 
 							model.applyLineTypeFromIndex(idx);
+						}
+					});
+			mi.addStyleName("mi_no_image"); // TEMP
+			mnu.addItem(mi);
+		}
+
+		return mnu;
+	}
+
+	private MenuBar getPointStyleSubMenu() {
+		int iconHeight = 48;
+		ImageOrText[] icons = new ImageOrText[EuclidianView
+				.getPointStyleLength()];
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
+			icons[i] = GeoGebraIconW
+					.createPointStyleIcon(EuclidianView.getPointStyle(i));
+		}
+
+		MenuBar mnu = new MenuBar(true);
+		mnu.addStyleName("GeoGebraMenuBar");
+		GeoElement geos[] = { getGeo() };
+		final PointStyleModel model = new PointStyleModel(app);
+		model.setGeos(geos);
+
+		for (int i = 0; i < icons.length; i++) {
+			final int idx = i;
+			MenuItem mi = new MenuItem(
+					MainMenu.getMenuBarHtml(icons[i].getUrl(), ""), true,
+					new Command() {
+
+						@Override
+						public void execute() {
+
+							model.applyChanges(idx);
 						}
 					});
 			mi.addStyleName("mi_no_image"); // TEMP

@@ -188,7 +188,7 @@ public class LineStyleModel extends OptionsModel {
 	 * 
 	 * @param geo
 	 *            The geo to match.
-	 * @return if geo has
+	 * @return if geo has line properties
 	 */
 	public static boolean match(GeoElement geo) {
 		return (geo.showLineProperties() || geo.isNumberValue())
