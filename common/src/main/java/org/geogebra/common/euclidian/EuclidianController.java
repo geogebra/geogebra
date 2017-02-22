@@ -8378,7 +8378,7 @@ public abstract class EuclidianController {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		if (shapeMode(mode)) {
+		if (shapeMode(mode) && !app.isRightClick(event)) {
 			getShapeMode().handleMouseDraggedForShapeMode(event);
 			return;
 		}
@@ -9254,7 +9254,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		if (shapeMode(mode)) {
+		if (shapeMode(mode) && !app.isRightClick(event)) {
 			getShapeMode().handleMousePressedForShapeMode(event);
 			return;
 		}
@@ -9783,8 +9783,19 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if (shapeMode(mode)) {
-			getShapeMode().handleMouseReleasedForShapeMode(event);
+		if (shapeMode(mode) && !app.isRightClick(event)) {
+			GeoElement geo = getShapeMode()
+					.handleMouseReleasedForShapeMode(event);
+			if (geo != null && geo.isShape()
+					&& view.getDrawableFor(geo) != null) {
+				Drawable d = ((Drawable) view.getDrawableFor(geo));
+				d.update();
+				if (d.getBoundingBox().getRectangle() != null) {
+					view.setBoundingBox(d.getBoundingBox());
+					view.repaintView();
+					selection.addSelectedGeo(geo);
+				}
+			}
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
 			return;

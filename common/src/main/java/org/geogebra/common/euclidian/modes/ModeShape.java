@@ -259,13 +259,14 @@ public class ModeShape {
 	 * 
 	 * @param event
 	 *            - mouse event
+	 * @return geo was created
 	 */
-	public void handleMouseReleasedForShapeMode(AbstractEvent event) {
+	public GeoElement handleMouseReleasedForShapeMode(AbstractEvent event) {
 		view.setRounded(false);
 		// make sure we set new start point after ignoring simple click
 		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
 			dragPointSet = false;
-			return;
+			return null;
 		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
@@ -281,6 +282,8 @@ public class ModeShape {
 			createPolygon(algo);
 			view.setShapeRectangle(null);
 			view.repaintView();
+			wasDragged = false;
+			return algo.getOutput(0);
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_CIRCLE) {
 			Equation conicEqu;
@@ -297,6 +300,8 @@ public class ModeShape {
 			geos[0].updateRepaint();
 			view.setShapeEllipse(null);
 			view.repaintView();
+			wasDragged = false;
+			return geos[0];
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
 			GeoPoint[] points = getRealPointsOfLine(event);
 			algo = new AlgoJoinPointsSegment(view.getKernel().getConstruction(),
@@ -307,6 +312,8 @@ public class ModeShape {
 			segment.updateRepaint();
 			view.setShapeLine(null);
 			view.repaintView();
+			wasDragged = false;
+			return segment;
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_POLYGON) {
 			GeoPoint[] points = null;
@@ -335,6 +342,8 @@ public class ModeShape {
 			createPolygon(algo);
 			view.setShapePolygon(null);
 			view.repaintView();
+			wasDragged = false;
+			return algo.getOutput(0);
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (wasDragged) {
 				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
@@ -354,10 +363,12 @@ public class ModeShape {
 				polygon.reset();
 				view.setShapePolygon(null);
 				view.repaintView();
+				return algo.getOutput(0);
 			}
 		}
 		// if was drag finished with release
 		wasDragged = false;
+		return null;
 	}
 
 	private static void createPolygon(AlgoElement algo) {
