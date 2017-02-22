@@ -540,9 +540,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				this.showKeyboardButton(true);
 			}
 
-			else if (app != null && !app.isKeyboardNeeded()
-					&& this.showKeyboardButton != null) {
-				this.showKeyboardButton.hide();
+			else if (app != null && !app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
+
+				if (app != null && !app.isKeyboardNeeded() && this.showKeyboardButton != null) {
+					this.showKeyboardButton.hide();
+				}
 			}
 		}
 	}
