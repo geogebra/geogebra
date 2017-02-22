@@ -1,5 +1,6 @@
 package org.geogebra.web.web.euclidian;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -23,6 +24,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	public void setPosition(double[] newPos, boolean hasBoundingBox) {
 		boolean oldVisible = this.isVisible();
 		this.setVisible(true);
+
+		// make sure it reflects selected geos
+		setOpen(true);
+		setMode(EuclidianConstants.MODE_MOVE);
+		updateStyleBar();
 
 		// Calculates the x param. of distance between the start of dynamic
 		// stylebar and the three dot button.
