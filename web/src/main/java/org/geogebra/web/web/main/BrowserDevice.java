@@ -3,7 +3,7 @@ package org.geogebra.web.web.main;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.dialog.image.ImageInputDialog;
@@ -81,7 +81,7 @@ public class BrowserDevice implements GDevice {
 	}
 
 	@Override
-	public void setMinWidth(GeoGebraAppFrame frame) {
+	public void setMinWidth(GeoGebraFrameBoth frame) {
 		if (Window.getClientWidth() > 760) {
 			frame.removeStyleName("minWidth");
 			frame.syncPanelSizes();

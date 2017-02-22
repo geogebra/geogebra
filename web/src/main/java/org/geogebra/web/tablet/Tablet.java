@@ -11,7 +11,6 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
@@ -33,7 +32,7 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 public class Tablet implements EntryPoint {
 
 	// zum testen von private zu public
-	private static GeoGebraAppFrame appFrame;
+	private static GeoGebraFrameBoth appFrame;
 
 
 	/**
@@ -151,9 +150,10 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame() {
-		appFrame = new GeoGebraAppFrame((GLookAndFeel) GWT.create(TabletLookAndFeel.class),
-		        (GDevice) GWT.create(TabletDevice.class),
-		        (AppletFactory) GWT.create(AppletFactory.class));
+		appFrame = new GeoGebraFrameBoth(
+				(AppletFactory) GWT.create(AppletFactory.class),
+				(GLookAndFeel) GWT.create(TabletLookAndFeel.class),
+				(GDevice) GWT.create(TabletDevice.class));
 		appFrame.addStyleName(((TabletLookAndFeel) GWT
 				.create(TabletLookAndFeel.class)).getFrameStyleName());
 	}

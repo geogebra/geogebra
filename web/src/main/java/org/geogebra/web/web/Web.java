@@ -12,15 +12,12 @@ import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.web.gui.laf.SmartLookAndFeel;
-import org.geogebra.web.web.main.BrowserDevice;
-import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.util.LaTeXHelper;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -133,35 +130,9 @@ public class Web implements EntryPoint {
 		// });
 	}
 
-	private static void loadAppAsync() {
-		// GWT.runAsync(new RunAsyncCallback() {
 
-		// public void onSuccess() {
 
-		createGeoGebraAppFrame(new BrowserDevice());
-		// }
 
-		// public void onFailure(Throwable reason) {
-		// Log.debug(reason);
-		// }
-		// });
-
-	}
-
-	/**
-	 * create app frame
-	 * 
-	 * @param device
-	 *            device
-	 * @return frame
-	 */
-	protected static GeoGebraAppFrame createGeoGebraAppFrame(GDevice device) {
-		GLookAndFeel laf = Web.getLAF(ArticleElement.getGeoGebraMobileTags());
-		ResourcesInjector.injectResources(laf.forceReTeX());
-		return new GeoGebraAppFrame(
-				laf, device,
-				(AppletFactory) GWT.create(AppletFactory.class));
-	}
 
 	native static void exportArticleTagRenderer() /*-{
 		$wnd.GGW_ext.render = $entry(@org.geogebra.web.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))

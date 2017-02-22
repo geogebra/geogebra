@@ -5,7 +5,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.touch.gui.dialog.image.ImageInputDialogT;
 import org.geogebra.web.touch.gui.view.ConstructionProtocolViewT;
-import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.web.main.GDevice;
 
@@ -29,7 +29,7 @@ public abstract class TouchDevice implements GDevice {
 	}-*/;
 
 	@Override
-	public void setMinWidth(GeoGebraAppFrame frame) {
+	public void setMinWidth(GeoGebraFrameBoth frame) {
 		frame.syncPanelSizes();
 		frame.setStyleName("minWidth", Window.getClientWidth() <= 760);
 	}

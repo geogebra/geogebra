@@ -64,10 +64,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            factory for applets (2D or 3D)
 	 * @param laf
 	 *            look and feel
+	 * @param device
+	 *            browser/tablet; if left null, defaults to browser
 	 */
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf,
 			GDevice device) {
 		super(laf);
+		this.device = device;
 		this.factory = factory;
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
@@ -100,6 +103,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            applet factory
 	 * @param laf
 	 *            look and feel
+	 * @param device
+	 *            browser/tablet; if left null, defaults to browser
 	 */
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags,
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
@@ -678,5 +683,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	public boolean isHeaderPanelOpen() {
 		return lastBG != null;
+	}
+
+	public void syncPanelSizes() {
+		// TODO Auto-generated method stub
+
 	}
 }

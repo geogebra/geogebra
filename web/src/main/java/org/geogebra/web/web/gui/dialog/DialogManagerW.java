@@ -48,7 +48,6 @@ import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.web.main.AppWFull;
-import org.geogebra.web.web.main.AppWapplication;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;

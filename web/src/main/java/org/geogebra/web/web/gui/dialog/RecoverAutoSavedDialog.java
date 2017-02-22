@@ -4,7 +4,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.main.AppWFull;
-import org.geogebra.web.web.main.AppWapplication;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

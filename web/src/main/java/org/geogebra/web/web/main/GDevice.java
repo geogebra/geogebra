@@ -3,7 +3,7 @@ package org.geogebra.web.web.main;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
 
 /**
@@ -22,7 +22,7 @@ public interface GDevice {
 	 * @param frame
 	 *            app frame
 	 */
-	public void setMinWidth(GeoGebraAppFrame frame);
+	public void setMinWidth(GeoGebraFrameBoth frame);
 
 	/**
 	 * @param app
