@@ -893,7 +893,7 @@ public abstract class EuclidianController {
 			// do nothing
 			break;
 		case EuclidianConstants.MODE_MOVE:
-			deletePastePreviewSelected();
+			// deletePastePreviewSelected();
 			break;
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
