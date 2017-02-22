@@ -29,7 +29,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -400,7 +399,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					.getMenuBarHtml(
 							AppResources.INSTANCE.mode_showhidelabel_16()
 									.getSafeUri().asString(),
-							loc.getMenu("Label") + Unicode.ellipsis),
+									loc.getMenu("Label")),
 					loc.getMenu("Label")).setSubMenu(getLabelSubMenu());
 
 		}
@@ -415,7 +414,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					AppResources.INSTANCE.stylingbar_angle_interval()
 							.getSafeUri()
 							.asString(),
-					loc.getMenu("Angle") + Unicode.ellipsis),
+					loc.getMenu("Angle")),
 					loc.getMenu("Angle")).setSubMenu(getAngleSubMenu());
 		}
 
