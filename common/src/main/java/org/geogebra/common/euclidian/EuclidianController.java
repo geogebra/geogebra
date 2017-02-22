@@ -10285,11 +10285,7 @@ public abstract class EuclidianController {
 				if (view.getSelectionRectangle() != null) {
 					// don't show a contextMenu if there's a
 					// selectionRectangle
-					if (isWhiteboard()) {
-						clearAndShowDrawingPadPopup(mouseLoc);
-					} else {
-						processSelectionRectangle(alt, control, shift);
-					}
+					processSelectionRectangle(alt, control, shift);
 					return;
 				} else if (selection.selectedGeosSize() > 0) {
 					// GeoElement selGeo = (GeoElement)
