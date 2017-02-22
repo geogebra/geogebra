@@ -4107,8 +4107,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_DIALOG_WITH_NEW_KEYBOARD:
 			return prerelease;
 
-		case MOBILE_DIALOG_FORMULA_INPUT:
-			return true; // 5.0.299
 		// MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
