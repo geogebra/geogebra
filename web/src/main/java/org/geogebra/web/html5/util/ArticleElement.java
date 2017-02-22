@@ -561,21 +561,6 @@ public final class ArticleElement extends Element {
 		return articleNodes;
 	}
 
-	public static boolean checkAppNeeded() {
-		NodeList<Element> nodes = Dom
-				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		for (int i = 0; i < nodes.getLength(); i++) {
-			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))
-					&& !"canary".equals(nodes.getItem(i)
-							.getAttribute("data-param-prerelease"))
-					&& !"true".equals(nodes.getItem(i)
-							.getAttribute("data-param-prerelease"))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void initID(int i) {
 		String paramID = getDataParamId();
 		if (paramID.length() > 0) {

@@ -76,16 +76,14 @@ public class Web implements EntryPoint {
 
 		((LaTeXHelper) GWT.create(LaTeXHelper.class)).initialize();
 
-		if (!ArticleElement.checkAppNeeded()) {
+
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
 			} else {
 				loadExtensionAsync();
 			}
-		} else {
-			loadAppAsync();
-		}
+
 
 	}
 

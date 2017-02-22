@@ -74,16 +74,14 @@ public class Tablet implements EntryPoint {
 	private void run() {
 		((LaTeXHelper) GWT.create(LaTeXHelper.class)).initialize();
 
-		if (!ArticleElement.checkAppNeeded()) {
+
 			// we dont want to parse out of the box sometimes...
-			if (!calledFromExtension()) {
-				loadAppletAsync();
-			} else {
-				loadExtensionAsync();
-			}
+		if (!calledFromExtension()) {
+			loadAppletAsync();
 		} else {
-			loadAppAsync();
+			loadExtensionAsync();
 		}
+
 	}
 
 	/**
