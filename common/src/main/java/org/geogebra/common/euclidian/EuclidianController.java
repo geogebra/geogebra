@@ -9783,11 +9783,18 @@ public abstract class EuclidianController {
 			}
 		}
 
+		if (getResizedShape() != null) {
+			getResizedShape().updateGeo(event);
+			storeUndoInfo();
+			setResizedShape(null);
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
+		}
+
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			GeoElement geo = getShapeMode()
-					.handleMouseReleasedForShapeMode(event);
+						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape()
-					&& view.getDrawableFor(geo) != null) {
+						&& view.getDrawableFor(geo) != null) {
 				Drawable d = ((Drawable) view.getDrawableFor(geo));
 				d.update();
 				if (d.getBoundingBox().getRectangle() != null) {
@@ -9798,12 +9805,6 @@ public abstract class EuclidianController {
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
-			if (getResizedShape() != null) {
-				getResizedShape().updateGeo(event);
-				storeUndoInfo();
-				setResizedShape(null);
-				view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
-			}
 			return;
 		}
 
