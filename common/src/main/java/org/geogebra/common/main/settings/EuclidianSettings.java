@@ -107,6 +107,7 @@ public class EuclidianSettings extends AbstractSettings {
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
+		setGridType(EuclidianView.GRID_CARTESIAN);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
@@ -366,7 +367,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected boolean gridIsBold;
 
-	private int gridType;
+	private int gridType = EuclidianView.GRID_CARTESIAN;
 
 	private int pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
