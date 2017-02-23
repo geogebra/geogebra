@@ -38,12 +38,13 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		setTitle(loc.getMenu("GraphicsView3D"));
 
+		if (isWhiteboard()) {
+			addPasteItem();
+		} else {
+			addAxesAndGridCheckBoxes();
+			addNavigationBar();
 
-		addPasteItem();
-
-		addAxesAndGridCheckBoxes();
-
-		addNavigationBar();
+		}
 
 
 		addZoomMenu();
