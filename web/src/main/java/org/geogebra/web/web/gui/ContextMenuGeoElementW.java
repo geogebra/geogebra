@@ -391,11 +391,11 @@ MainMenu.getMenuBarHtml(img,
 					loc.getMenu("Delete"));
 		}
 
-		if (isWhiteboard()) {
-			wrappedPopup.addSeparator();
-			addSelect();
-			addOrder();
-		}
+		// if (isWhiteboard()) {
+		// wrappedPopup.addSeparator();
+		// addSelect();
+		// addOrder();
+		// }
 		// Object properties menuitem
 		if (app.showMenuBar() && app.letShowPropertiesDialog()
 		        && getGeo().hasProperties()) {
