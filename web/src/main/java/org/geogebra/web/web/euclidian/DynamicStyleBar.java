@@ -38,7 +38,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 //				- this.getAbsoluteLeft();
 		int move = this.getOffsetWidth(); 
 		int height = this.getOffsetHeight();
-		//this.setVisible(oldVisible);
+		this.setVisible(oldVisible);
 
 		if (hasBoundingBox) {
 			newPos[0] -= move;

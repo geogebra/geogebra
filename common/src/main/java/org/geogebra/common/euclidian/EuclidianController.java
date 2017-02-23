@@ -8302,8 +8302,13 @@ public abstract class EuclidianController {
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 			if (app.has(Feature.DYNAMIC_STYLEBAR) && boundingBox != null) {
-				setDynamicStyleBarPosition(boundingBox.getRectangle(), true);
-				setDynamicStylebarVisible(true);
+				if (boundingBox != null) {
+					setDynamicStyleBarPosition(boundingBox.getRectangle(),
+							true);
+					setDynamicStylebarVisible(true);
+				} else if (geo.isGeoLine()) {
+					setDynamicStylebarVisible(true);
+				}
 			}
 			view.repaintView();
 		}
@@ -8345,7 +8350,7 @@ public abstract class EuclidianController {
 	 * @param visible
 	 *            whether to show
 	 */
-	protected void setDynamicStylebarVisible(boolean visible) {
+	public void setDynamicStylebarVisible(boolean visible) {
 		// Floating stylebar not supported
 	}
 
