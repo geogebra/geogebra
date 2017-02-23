@@ -551,7 +551,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 			else if (app != null && !app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 
-				if (app != null && !app.isKeyboardNeeded() && this.showKeyboardButton != null) {
+				if (!app.isKeyboardNeeded()
+						&& this.showKeyboardButton != null) {
 					this.showKeyboardButton.hide();
 				}
 			}
