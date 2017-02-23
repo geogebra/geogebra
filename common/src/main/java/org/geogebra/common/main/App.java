@@ -4046,7 +4046,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-904
 		case MOBILE_KEYBOARD_IN_POPUP:
-			return prerelease;
+			return true;
 
 		// MOB-339
 		case MOBILE_ANALYTICS:
