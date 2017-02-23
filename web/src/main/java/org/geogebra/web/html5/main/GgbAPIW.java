@@ -240,6 +240,12 @@ public class GgbAPIW extends GgbAPI {
 		return prepareToEntrySet(archiveContent);
 	}
 
+	public void setFileJSON(JavaScriptObject obj) {
+		resetPerspective();
+		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
+		view.processJSON(obj);
+	}
+
 	private static class StoreString implements StringHandler {
 		private String result = "";
 

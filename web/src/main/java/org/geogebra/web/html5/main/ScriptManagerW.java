@@ -870,6 +870,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.getFileJSON = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFileJSON(Z)(false);
 		}
+		
+		api.setFileJSON = function(zip) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFileJSON(Lcom/google/gwt/core/client/JavaScriptObject;)(zip);
+		}
 
 		api.setLanguage = function(lang) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang);

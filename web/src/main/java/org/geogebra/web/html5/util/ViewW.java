@@ -418,6 +418,20 @@ public class ViewW {
 
 	}-*/;
 
+	public native void processJSON(JavaScriptObject zip) /*-{
+		var that = this;
+		$wnd
+				.setTimeout(
+						function() {
+							var content = zip.archive;
+							that.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
+							for (var k = 0; k < content.length; k++) {
+								that.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
+							}
+						}, 0);
+
+	}-*/;
+
 	public void adjustScale() {
 		((ArticleElement) this.container).adjustScale();
 	}

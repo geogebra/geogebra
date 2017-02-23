@@ -7,7 +7,7 @@
 function ggbOnInit(id){
 	if(id=="applet1"){
 		function onChange(){
-			applet2.setBase64(applet1.getBase64());
+			applet2.setFileJSON(applet1.getFileJSON());
 		}
 		applet1.registerAddListener(onChange);
 		applet1.registerUpdateListener(onChange);
