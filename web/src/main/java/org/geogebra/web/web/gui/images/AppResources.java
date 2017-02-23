@@ -182,4 +182,54 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_algebra.png")
 	ImageResource options_algebra24();
 	
+	/**
+	 * NEW ICONS USING MATERIAL DESIGN GUIDELINES
+	 * 
+	 * icon color = #000000 + active opacity: 0.54, inactive opacity: 0.26
+	 */
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/angle.png")
+	ImageResource angle20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/animation.png")
+	ImageResource animation20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/copy.png")
+	ImageResource copy20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/cut.png")
+	ImageResource cut20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/delete.png")
+	ImageResource delete20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/duplicate.png")
+	ImageResource duplicate20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/label.png")
+	ImageResource label20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/lock.png")
+	ImageResource lock20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/paste.png")
+	ImageResource paste20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/pin.png")
+	ImageResource pin20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/properties.png")
+	ImageResource properties20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/record_to_spreadsheet.png")
+	ImageResource record_to_spreadsheet20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/rename.png")
+	ImageResource rename20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/trace.png")
+	ImageResource trace20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/unlock.png")
+	ImageResource unlock20();
 }
