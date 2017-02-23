@@ -248,4 +248,10 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/axes.png")
 	ImageResource axes20();
 
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/plane.png")
+	ImageResource plane20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/edit.png")
+	ImageResource edit20();
+
 }

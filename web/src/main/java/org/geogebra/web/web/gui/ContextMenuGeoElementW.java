@@ -448,6 +448,14 @@ MainMenu.getMenuBarHtml(img,
 
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
 				&& !getGeo().isTextCommand() && !getGeo().isFixed()) {
+
+			String img2;
+			if (isWhiteboard()) {
+				img2 = AppResources.INSTANCE.edit20().getSafeUri().asString();
+			} else {
+				img2 = AppResources.INSTANCE.edit().getSafeUri().asString();
+			}
+
 			addAction(new Command() {
 
 				@Override
@@ -455,7 +463,7 @@ MainMenu.getMenuBarHtml(img,
 					editCmd();
 				}
 			}, MainMenu.getMenuBarHtml(
-					AppResources.INSTANCE.edit().getSafeUri().asString(),
+img2,
 					loc.getMenu("Edit")), loc.getMenu("Edit"));
 		}
 

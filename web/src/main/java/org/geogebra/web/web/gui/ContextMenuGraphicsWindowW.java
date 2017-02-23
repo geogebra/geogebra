@@ -24,6 +24,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	protected ContextMenuGraphicsWindowW(AppW app) {
 		super(app);
+		if (isWhiteboard()) {
+			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
+		}
 	}
 
 	public ContextMenuGraphicsWindowW(AppW app, double px, double py) {
@@ -41,9 +44,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			setTitle(loc.getMenu("DrawingPad"));
 		}
 
-		if (isWhiteboard()) {
-			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
-		}
+
 		addPasteItem();
 
 		addAxesAndGridCheckBoxes();
@@ -59,11 +60,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
 				(MenuBar) yaxisMenu);
 
-		if (isWhiteboard()) {
-			mi.addStyleName("mi_no_image_new");
-		} else {
-			mi.addStyleName("mi_no_image");
-		}
+
+		mi.addStyleName("mi_no_image_new");
+
 		wrappedPopup.addItem(mi);
 
 		String img;
@@ -83,9 +82,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		        });
 
-		if (!isWhiteboard()) {
-			miShowAllObjectsView.addStyleName("mi_with_image");
-		}
+
 
 		wrappedPopup.addItem(miShowAllObjectsView);
 
@@ -104,9 +101,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				        setStandardView();
 			        }
 		        });
-		if (!isWhiteboard()) {
-			miShowAllObjectsView.addStyleName("mi_with_image");
-		}
 
 
 		wrappedPopup.addItem(miStandardView);

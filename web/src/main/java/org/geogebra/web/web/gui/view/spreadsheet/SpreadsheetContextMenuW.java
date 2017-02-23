@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -43,6 +44,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup = new GPopupMenuW((AppW) app);
 		popup.getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
 		initMenu();
+		if (isWhiteboard()) {
+			popup.getPopupPanel().addStyleName("contextMenu");
+		}
 	}
 
 	@Override
@@ -60,15 +64,24 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup.addItem(title);
 	}
 
+	protected boolean isWhiteboard() {
+		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+	}
+
 	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
-
-		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		String html;
+		if (isWhiteboard()) {
+			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+		} else {
+			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		}
 
 		MenuItem mi;
 		mi = new MenuItem(html, true, getCommand(cmdString));
-		mi.addStyleName("mi_with_image");
-
+		if (!isWhiteboard()) {
+			mi.addStyleName("mi_with_image");
+		}
 		mi.setEnabled(enabled);
 
 		popup.addItem(mi);
@@ -78,7 +91,12 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public void addCheckBoxMenuItem(final String cmdString, String text,
 	        boolean isSelected) {
 
-		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		String html;
+		if (isWhiteboard()) {
+			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+		} else {
+			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		}
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
 				getCommand(cmdString), true, app);
@@ -89,7 +107,13 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public Object addSubMenu(String text, String cmdString) {
 
-		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		String html;
+		if (isWhiteboard()) {
+			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+		} else {
+			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		}
+
 		MenuBar subMenu = new MenuBar(true);
 		MenuItem menuItem = new MenuItem(html, true, subMenu);
 
@@ -101,7 +125,13 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public void addSubMenuItem(Object menu, final String cmdString,
 	        String text, boolean enabled) {
 
-		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		String html;
+		if (isWhiteboard()) {
+			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+		} else {
+			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+		}
+
 		MenuItem mi = new MenuItem(html, true, getCommand(cmdString));
 		mi.addStyleName("mi_with_image");
 		mi.setEnabled(enabled);
@@ -165,7 +195,50 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		default:
 			im = AppResources.INSTANCE.empty();
 		}
+		return im.getSafeUri().asString();
+	}
 
+	private static String getIconUrlNew(String cmdString) {
+
+		if (cmdString == null) {
+			return AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+
+		ImageResource im = null;
+
+		switch (MenuCommand.valueOf(cmdString)) {
+
+		case ShowObject:
+			im = AppResources.INSTANCE.mode_showhideobject_16();
+			break;
+		case ShowLabel:
+			im = AppResources.INSTANCE.label20();
+			break;
+		case Copy:
+			im = AppResources.INSTANCE.copy20();
+			break;
+		case Cut:
+			im = AppResources.INSTANCE.cut20();
+			break;
+		case Paste:
+			im = AppResources.INSTANCE.paste20();
+			break;
+		case Delete:
+		case DeleteObjects:
+			im = AppResources.INSTANCE.delete20();
+			break;
+		case RecordToSpreadsheet:
+			im = AppResources.INSTANCE.record_to_spreadsheet20();
+			break;
+		case Properties:
+			im = AppResources.INSTANCE.properties20();
+			break;
+		case SpreadsheetOptions:
+			im = AppResources.INSTANCE.properties20();
+			break;
+		default:
+			im = AppResources.INSTANCE.empty();
+		}
 		return im.getSafeUri().asString();
 	}
 
