@@ -86,6 +86,14 @@ public class JSONParserGGT {
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
 		material.setIs3d(getStringBoolean(obj, "is3d", false));
+		material.setSpreadsheet(getStringBoolean(obj, "spreadsheet", false));
+		material.setCas(getStringBoolean(obj, "cas", false));
+		material.setGraphics2(getStringBoolean(obj, "graphics2", false));
+		material.setConstprot(getStringBoolean(obj, "constprot", false));
+		material.setPropcalc(getStringBoolean(obj, "propcalc", false));
+		material.setDataanalysis(getStringBoolean(obj, "dataanalysis", false));
+		material.setFuncinsp(getStringBoolean(obj, "funcinsp", false));
+		material.setMacro(getStringBoolean(obj, "macro", false));
 		material.setElemcntApplet(getInt(obj, "elemcnt_applet", -1));
 		material.setViewerID(getInt(obj, "viewerID", -1));
 		if (setLocalValues) {
