@@ -139,7 +139,9 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 										newMat);
 
 							}
-
+							// TODO moved out of refresh material; do we need it
+							// twice (see above)?
+							newMat.setSyncStamp(newMat.getModified());
 							refreshMaterial(newMat);
 						}
 					}

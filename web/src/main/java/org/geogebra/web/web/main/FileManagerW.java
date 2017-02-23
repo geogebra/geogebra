@@ -20,6 +20,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.util.SaveCallback;
+import org.geogebra.web.web.util.SaveCallback.SaveState;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -79,6 +80,10 @@ public class FileManagerW extends FileManager {
 			stockStore.setItem(key, mat.toJson().toString());
 			cb.onSaved(mat, true);
 		} catch (Exception e) {
+			if (cb.getState() != SaveState.ERROR) {
+				mat.setSyncStamp(-1);
+				refreshMaterial(mat);
+			}
 			cb.onError();
 		}
 

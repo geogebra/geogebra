@@ -2250,7 +2250,6 @@ public class Construction {
 		}
 		if (!fileLoading) {
 			if (label1.contains("_{")) {
-				Log.debug(label1);
 				label1 = label1.replace("_{", "_");
 				if (label1.length() > 1) {
 					label1 = label1.substring(0, label1.length() - 1);

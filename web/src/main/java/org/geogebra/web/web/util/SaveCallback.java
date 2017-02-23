@@ -95,6 +95,9 @@ public class SaveCallback {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
 			if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
+				if (!isLocal) {
+					mat.setSyncStamp(mat.getModified());
+				}
 				app.getGuiManager().getBrowseView()
 						.refreshMaterial(mat, isLocal);
 			}
@@ -117,5 +120,9 @@ public class SaveCallback {
 			app.showError(app.getLocalization().getError("SaveFileFailed"));
 		}
 
+	}
+
+	public SaveState getState() {
+		return state;
 	}
 }

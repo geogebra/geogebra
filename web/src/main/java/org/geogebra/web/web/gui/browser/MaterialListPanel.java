@@ -30,6 +30,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
         ShowDetailsListener {
 	
 	private final static long MIN_DIFFERNCE_TO_SCROLL = 1000;
+	/** application */
 	protected AppW app;
 	/**
 	 * last selected {@link MaterialListElement material}
@@ -41,7 +42,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
 	private MaterialCallback userMaterialsCB;
 	private MaterialCallback ggtMaterialsCB;
+	/** last call of scroll handler */
 	long lastScroll = 0;
+	/** last call to setDefaultStyle */
 	long lastDefaultStyle = 0;
 
 	/**
@@ -375,10 +378,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 * @param material {@link Material}
 	 * @param isLocal boolean
 	 */
-	public void refreshMaterial(final Material material, final boolean isLocal) {
-		if (!isLocal) {
-			material.setSyncStamp(material.getModified());
-		}
+	public void refreshMaterial(final Material material,
+			final boolean isLocal) {
 		addMaterial(material, false, isLocal);
     }
 	
