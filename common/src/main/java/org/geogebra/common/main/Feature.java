@@ -158,11 +158,6 @@ public enum Feature {
 	MOBILE_OPEN_IN_RELEVANT_APP,
 
 	/**
-	 * MOB-1014
-	 */
-	MOBILE_KILL_DIALOG_TITLE,
-
-	/**
 	 * EXAM-10
 	 */
 	EXAM_ANDROID_CHECK_SCREEN_STATE,

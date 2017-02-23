@@ -4181,10 +4181,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_OPEN_IN_RELEVANT_APP:
 			return false;
 
-		// MOB-1014
-		case MOBILE_KILL_DIALOG_TITLE:
-			return true; // 5.0.294
-
 			//EXAM-10
 		case EXAM_ANDROID_CHECK_SCREEN_STATE:
 			return true;
