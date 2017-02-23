@@ -44,7 +44,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			newPos[0] -= move;
 			newPos[1] -= height + 5;
 		} else {
-			newPos[1] -= height / 2;
+			newPos[1] -= height / 2.0;
 		}
 
 		Log.debug("newpos: " + newPos[0] + " " + newPos[1]);
