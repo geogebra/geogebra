@@ -4611,7 +4611,9 @@ public abstract class App implements UpdateSelection {
 		if (adjustScreen == null) {
 			adjustScreen = new AdjustScreen(getActiveEuclidianView());
 		}
-
+		if (!reset) {
+			adjustScreen.restartButtons();
+		}
 		adjustScreen.apply(reset);
 	}
 

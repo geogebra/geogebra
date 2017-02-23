@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GeoGebra dynamic worksheet</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script>
+function ggbOnInit(id){
+	if(id=="applet1"){
+		function onChange(){
+			applet2.setBase64(applet1.getBase64());
+		}
+		applet1.registerAddListener(onChange);
+		applet1.registerUpdateListener(onChange);
+	}
+}
+</script>
+</head>
+
+<body>
+   
+    <script type="text/javascript" language="javascript" src="web3d/web3d.nocache.js"></script>
+    <article class="geogebraweb" data-param-width="800" data-param-height="800" data-param-enableLabelDrags="false" data-param-enableShiftDragZoom="false"  data-param-showLogging="true" style="border: 1px solid black; display:inline-block;"
+    data-param-prerelease="true" 
+    data-param-showToolbar="true"
+    data-param-useBrowserForJS="true"
+    data-param-perspective="2"
+    data-param-customToolbar="0 | 60"
+    data-param-id="applet1">
+    </article>
+    
+    <article class="geogebraweb" data-param-width="400" data-param-height="400" data-param-enableLabelDrags="false" data-param-enableShiftDragZoom="false"  data-param-showLogging="true" style="border: 1px solid black; display:inline-block;"
+    data-param-prerelease="true"    
+    data-param-id="applet2"
+    data-param-showToolbar="true"
+    data-param-perspective="2"
+    data-param-useBrowserForJS="true" 
+    >
+    </article>
+   
+</html>

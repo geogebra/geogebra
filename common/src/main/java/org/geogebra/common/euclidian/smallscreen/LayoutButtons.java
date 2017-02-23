@@ -18,11 +18,12 @@ public class LayoutButtons {
 	private List<GeoButton> fixed = new ArrayList<GeoButton>();
 	private List<GeoButton> moveable = new ArrayList<GeoButton>();
 	private EuclidianView view;
-	private ButtonComparator comparatorX = new ButtonComparator(false);
-	private ButtonComparator comparatorY = new ButtonComparator(true);
+	private final static ButtonComparator comparatorX = new ButtonComparator(
+			false);
+	private final static ButtonComparator comparatorY = new ButtonComparator(
+			true);
 
 	private boolean multiColumn;
-	private int sumOfHeight;
 
 	// Buttons should be collected only once.
 	private boolean collected = false;
@@ -76,8 +77,12 @@ public class LayoutButtons {
 		all.clear();
 		fixed.clear();
 		moveable.clear();
+	}
 
-
+	public void restart() {
+		clear();
+		collected = false;
+		originals.clear();
 	}
 
 	protected void sortX() {
@@ -164,6 +169,7 @@ public class LayoutButtons {
 		for (GeoButton btn : moveable) {
 			btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(), y);
 			y += btn.getHeight() + Y_GAP;
+			view.update(btn);
 		}
 	}
 
@@ -202,6 +208,7 @@ public class LayoutButtons {
 		for (GeoButton btn : moveable) {
 			btn.setAbsoluteScreenLoc(x, btn.getAbsoluteScreenLocY());
 			x += btn.getWidth() + X_GAP;
+			view.update(btn);
 		}
 	}
 
@@ -231,11 +238,11 @@ public class LayoutButtons {
 		fixed.clear();
 		moveable.clear();
 		multiColumn = false;
-		sumOfHeight = 0;
+		// sumOfHeight = 0;
 		int idx = 0;
 		while (!multiColumn && idx < all.size()) {
 			GeoButton btn = all.get(idx);
-			sumOfHeight += btn.getHeight() + Y_GAP;
+			// sumOfHeight += btn.getHeight() + Y_GAP;
 			// multiColumn = view.getHeight() < sumOfHeight;
 			if (isVerticallyOnScreen(btn)) {
 				fixed.add(btn);

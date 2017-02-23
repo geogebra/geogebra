@@ -94,6 +94,10 @@ public class AdjustScreen {
 		layoutButtons = new LayoutButtons(view);
 	}
 
+	public void restartButtons() {
+		layoutButtons.restart();
+	}
+
 	/**
 	 * Collect widgets, ensures they are on the screen and does not overlap.
 	 * 
