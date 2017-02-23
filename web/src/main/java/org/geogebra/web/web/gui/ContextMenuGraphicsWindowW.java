@@ -45,25 +45,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 
-		addPasteItem();
 
-		addAxesAndGridCheckBoxes();
-
-		addNavigationBar();
-
-		addZoomMenu();
-
-		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(app, false);
-		addAxesRatioItems(yaxisMenu);
-
-		MenuItem mi = new MenuItem(
-				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
-				(MenuBar) yaxisMenu);
-
-
-		mi.addStyleName("mi_no_image_new");
-
-		wrappedPopup.addItem(mi);
 
 		String img;
 		if (isWhiteboard()) {
@@ -82,10 +64,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		        });
 
-
-
-		wrappedPopup.addItem(miShowAllObjectsView);
-
 		String img2;
 		if (isWhiteboard()) {
 			img2 = AppResources.INSTANCE.standard_view20().getSafeUri().asString();
@@ -103,18 +81,43 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		        });
 
 
-		wrappedPopup.addItem(miStandardView);
+		if (isWhiteboard()) {
+			addPasteItem();
+		} else {
+			addAxesAndGridCheckBoxes();
+
+			addNavigationBar();
+
+			RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(app, false);
+			addAxesRatioItems(yaxisMenu);
+
+			MenuItem mi = new MenuItem(
+					loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
+					(MenuBar) yaxisMenu);
+
+			mi.addStyleName("mi_no_image_new");
+
+			wrappedPopup.addItem(mi);
+
+			if (!ev.isZoomable()) {
+				yaxisMenu.setEnabled(false);
+			}
+
+			if (ev.isLockedAxesRatio()) {
+				yaxisMenu.setEnabled(false);
+			}
+
+		}
 
 		if (!ev.isZoomable()) {
-			yaxisMenu.setEnabled(false);
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
 		}
 
-		if (ev.isLockedAxesRatio()) {
-			yaxisMenu.setEnabled(false);
-		}
+		addZoomMenu();
 
+		wrappedPopup.addItem(miShowAllObjectsView);
+		wrappedPopup.addItem(miStandardView);
 		addMiProperties("DrawingPad", ot);
 
 	}
