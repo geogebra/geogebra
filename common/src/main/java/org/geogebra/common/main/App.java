@@ -4111,10 +4111,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
 
-		// MOB-823, MOB-824
-		case MOBILE_APPS_CONNECTION:
-			return true; // 5.0.290
-
 		// MOB-821
 		case MOBILE_MATERIAL_RELEVANT_APP_TAG:
 			return true; // 5.0.290
