@@ -2283,6 +2283,7 @@ __GGB__keysVar.lv.menu = {
     "PictureHeight": "Bildes augstums",
     "PictureWidth": "Bildes platums",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Izv\u0113lies tr\u012bs punktus, punktu vai taisni vai divas taisnes vai daudzst\u016bri",

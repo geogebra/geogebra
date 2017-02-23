@@ -2283,6 +2283,7 @@ __GGB__keysVar.tr.menu = {
     "PictureHeight": "Resim y\xfcksekli\u011fi",
     "PictureWidth": "Resim geni\u015fli\u011fi",
     "PiecewiseFunction": "Par\xe7al\u0131 Fonksiyon",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "D\xfczlem",
     "Plane.Help": "\xdc\xe7 nokta; veya nokta ve do\u011fru; veya iki do\u011fru; veya bir \xe7okgen se\xe7iniz",

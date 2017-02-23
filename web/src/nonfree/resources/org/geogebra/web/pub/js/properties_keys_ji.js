@@ -2283,6 +2283,7 @@ __GGB__keysVar.ji.menu = {
     "PictureHeight": "\u05d4\u05d9\u05d9\u05da \u05e4\u05bf\u05d5\u05df \u05d1\u05d9\u05dc\u05d3",
     "PictureWidth": "\u05d1\u05e8\u05d9\u05d9\u05d8 \u05e4\u05bf\u05d5\u05df \u05d1\u05d9\u05dc\u05d3",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

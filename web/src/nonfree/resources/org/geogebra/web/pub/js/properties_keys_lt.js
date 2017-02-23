@@ -2283,6 +2283,7 @@ __GGB__keysVar.lt.menu = {
     "PictureHeight": "Paveiksl\u0117lio auk\u0161tis",
     "PictureWidth": "Paveiksl\u0117lio plotis",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plok\u0161tuma",
     "Plane.Help": "Pasirinkite tris ta\u0161kus, ta\u0161k\u0105 ir ties\u0119 arba daugiakamp\u012f",

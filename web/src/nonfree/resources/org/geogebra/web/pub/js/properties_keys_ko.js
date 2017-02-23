@@ -2283,6 +2283,7 @@ __GGB__keysVar.ko.menu = {
     "PictureHeight": "\ub192\uc774",
     "PictureWidth": "\ud3ed",
     "PiecewiseFunction": "\uc870\uac01\uc801 \uc5f0\uc18d \ud568\uc218",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "\ud53d\uc140",
     "Plane": "\ud3c9\uba74",
     "Plane.Help": "\uc138 \uc810 \ub610\ub294 \uc810\uacfc \uc9c1\uc120, \ub450 \uc9c1\uc120, \ub2e4\uac01\ud615\uc744 \uc120\ud0dd\ud558\uc138\uc694.",

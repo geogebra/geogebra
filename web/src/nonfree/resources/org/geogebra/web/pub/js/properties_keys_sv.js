@@ -2283,6 +2283,7 @@ __GGB__keysVar.sv.menu = {
     "PictureHeight": "Bildens h\xf6jd",
     "PictureWidth": "Bildens bredd",
     "PiecewiseFunction": "Stegvis definierad funktion",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "V\xe4lj tre punkter, eller punkt och linje, eller tv\xe5 linjer, eller en polygon",

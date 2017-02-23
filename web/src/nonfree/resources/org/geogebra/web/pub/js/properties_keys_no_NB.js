@@ -2283,6 +2283,7 @@ __GGB__keysVar.no_NB.menu = {
     "PictureHeight": "BIldeh\xf8yde",
     "PictureWidth": "BIldebredde",
     "PiecewiseFunction": "Funksjon med delt funksjonsuttrykk",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "Velg tre punkt, et punkt og ei linje, to linjer eller en mangekant",

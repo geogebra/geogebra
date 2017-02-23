@@ -2283,6 +2283,7 @@ __GGB__keysVar.hr.menu = {
     "PictureHeight": "Visina crte\u017ea",
     "PictureWidth": "\u0160irina crte\u017ea",
     "PiecewiseFunction": "Po dijelovima zadana funkcoja",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Ravnina",
     "Plane.Help": "Odaberite tri to\u010dke, ili to\u010dku i pravac, ili dva pravca, ili mnogokut",

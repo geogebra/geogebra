@@ -2283,6 +2283,7 @@ __GGB__keysVar.it.menu = {
     "PictureHeight": "Altezza immagine",
     "PictureWidth": "Larghezza immagine",
     "PiecewiseFunction": "Funzione a tratti",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Piano",
     "Plane.Help": "Selezionare tre punti, o un punto e una retta, o due rette, o un poligono",

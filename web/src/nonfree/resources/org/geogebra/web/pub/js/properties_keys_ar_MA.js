@@ -2283,6 +2283,7 @@ __GGB__keysVar.ar_MA.menu = {
     "PictureHeight": "\u0637\u0648\u0644 \u0627\u0644\u0635\u0648\u0631\u0629",
     "PictureWidth": "\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631\u0629",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "\u0628\u0643\u0633\u0644",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

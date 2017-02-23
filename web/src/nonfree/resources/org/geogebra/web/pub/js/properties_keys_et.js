@@ -2283,6 +2283,7 @@ __GGB__keysVar.et.menu = {
     "PictureHeight": "Pildi k\xf5rgus",
     "PictureWidth": "Pildi laius",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Tasand",
     "Plane.Help": "Valige kolm punkti, punkt ja sirge, kaks sirget v\xf5i hulknurk",

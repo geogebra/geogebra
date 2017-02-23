@@ -2283,6 +2283,7 @@ __GGB__keysVar.vi.menu = {
     "PictureHeight": "Chi\u1ec1u cao \u1ea3nh",
     "PictureWidth": "Chi\u1ec1u r\u1ed9ng \u1ea3nh",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Ch\u1ecdn 3 \u0111i\u1ec3m, ho\u1eb7c 1 \u0111i\u1ec3m v\xe0 1 \u0111\u01b0\u1eddng th\u1eb3ng, ho\u1eb7c 2 \u0111\u01b0\u1eddng th\u1eb3ng, ho\u1eb7c 1 \u0111a gi\xe1c",

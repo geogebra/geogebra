@@ -2283,6 +2283,7 @@ __GGB__keysVar.sl.menu = {
     "PictureHeight": "Vi\u0161ina slike",
     "PictureWidth": "\u0160irina slike",
     "PiecewiseFunction": "Funkcija po delih",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Ravnina",
     "Plane.Help": "Izberi tri to\u010dke, to\u010dko in ravnino, dve premici ali mnogokotnik",

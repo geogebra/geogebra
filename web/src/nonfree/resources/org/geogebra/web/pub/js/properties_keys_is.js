@@ -2283,6 +2283,7 @@ __GGB__keysVar.is.menu = {
     "PictureHeight": "H\xe6\xf0 myndar",
     "PictureWidth": "Breidd myndar",
     "PiecewiseFunction": "Fall \xe1 k\xf6flum",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Velji\xf0 \xferj\xe1 punkta, e\xf0a punkt og l\xednu, e\xf0a tv\xe6r l\xednur, e\xf0a marghyrning",

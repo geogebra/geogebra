@@ -2283,6 +2283,7 @@ __GGB__keysVar.da.menu = {
     "PictureHeight": "Billede h\xf8jde",
     "PictureWidth": "Billede bredde",
     "PiecewiseFunction": "Stykvis funktion",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "V\xe6lg tre punkter, et punkt og en linje, to linjer eller en polygon",

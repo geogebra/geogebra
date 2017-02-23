@@ -2283,6 +2283,7 @@ __GGB__keysVar.ca_XV.menu = {
     "PictureHeight": "Al\xe7\xe0ria de la imatge",
     "PictureWidth": "Ampl\xe0ria de la imatge",
     "PiecewiseFunction": "Funci\xf3 definida a trossos",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Pla",
     "Plane.Help": "Seleccioneu tres punts, un punt i una recta, dos rectes o un pol\xedgon",

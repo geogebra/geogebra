@@ -2283,6 +2283,7 @@ __GGB__keysVar.es_ES.menu = {
     "PictureHeight": "Altura de la imagen",
     "PictureWidth": "Ancho de la imagen",
     "PiecewiseFunction": "Funci\xf3n a trozos",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Elige tres puntos (o un punto y una recta, dos rectas, un pol\xedgono o una c\xf3nica)",

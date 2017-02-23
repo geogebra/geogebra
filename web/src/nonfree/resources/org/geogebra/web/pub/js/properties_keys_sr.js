@@ -2283,6 +2283,7 @@ __GGB__keysVar.sr.menu = {
     "PictureHeight": "Visina slike",
     "PictureWidth": "\u0160irina slike",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Ozna\u010dite/Kreirajte tri ta\u010dke, ili ta\u010dku i pravu, ili dve prave, ili mnogougao",

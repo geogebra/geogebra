@@ -2283,6 +2283,7 @@ __GGB__keysVar.sq.menu = {
     "PictureHeight": "Lartesi e Piktures",
     "PictureWidth": "Gjeresi e Piktures",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

@@ -2283,6 +2283,7 @@ __GGB__keysVar.ro.menu = {
     "PictureHeight": "\xcen\u0103l\u0163ime imagine",
     "PictureWidth": "L\u0103\u0163ime imagine",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "Selecteaz\u0103 trei puncte, sau un punct \u015fi o dreapt\u0103, sau dou\u0103 drepte, sau un poligon",

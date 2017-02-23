@@ -2283,6 +2283,7 @@ __GGB__keysVar.in.menu = {
     "PictureHeight": "Tinggi gambar",
     "PictureWidth": "Lebar gambar",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

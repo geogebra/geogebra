@@ -2283,6 +2283,7 @@ __GGB__keysVar.am.menu = {
     "PictureHeight": "\u1230\u12a5\u120d \u122d\u12dd\u1218\u1275",
     "PictureWidth": "Picture width",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "\u12dd\u122d\u130d",
     "Plane.Help": "\u1236\u1235\u1275 \u1290\u1325\u1266\u127d\u1363 \u12c8\u12ed\u121d \u1290\u1325\u1265 \u12a5\u1293 \u1218\u1235\u1218\u122d\u1363 \u12c8\u12ed\u121d \u1201\u1208\u1275 \u1218\u1235\u1218\u122e\u127d\u1363 \u12c8\u12ed\u121d \u130e\u1290\u1265\u12d9 \u121d\u1228\u1325",

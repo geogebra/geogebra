@@ -2283,6 +2283,7 @@ __GGB__keysVar.hu.menu = {
     "PictureHeight": "K\xe9pmagass\xe1g",
     "PictureWidth": "K\xe9psz\xe9less\xe9g",
     "PiecewiseFunction": "Szakaszonk\xe9nt defini\xe1lt f\xfcggv\xe9ny",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "S\xedk",
     "Plane.Help": "H\xe1rom pont, vagy pont \xe9s egyenes, vagy k\xe9t egyenes, vagy soksz\xf6g megad\xe1sa",

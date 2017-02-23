@@ -2283,6 +2283,7 @@ __GGB__keysVar.sk.menu = {
     "PictureHeight": "V\xfd\u0161ka obrazu",
     "PictureWidth": "\u0160\xedrka obrazu",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Rovina",
     "Plane.Help": "Vyzna\u010d tri body, alebo bod a priamku, alebo dve priamky, alebo mnohouholn\xedk",

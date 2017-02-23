@@ -2283,6 +2283,7 @@ __GGB__keysVar.nl_NL.menu = {
     "PictureHeight": "Hoogte afbeelding",
     "PictureWidth": "Breedte afbeelding",
     "PiecewiseFunction": "Stuksgewijs gedefinieerde functie",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Vlak",
     "Plane.Help": "Selecteer 3 punten, of 1 punt en een rechte, 2 rechten of een veelhoek",

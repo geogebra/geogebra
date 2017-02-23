@@ -2283,6 +2283,7 @@ __GGB__keysVar.fi.menu = {
     "PictureHeight": "Kuvan korkeus",
     "PictureWidth": "Kuvan leveys",
     "PiecewiseFunction": "Paloittain m\xe4\xe4ritelty funktio",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Taso",
     "Plane.Help": "Valitse kolme pistett\xe4, piste ja suora, kaksi suoraa tai monikulmio",

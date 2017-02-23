@@ -2283,6 +2283,7 @@ __GGB__keysVar.cy.menu = {
     "PictureHeight": "Uchder y llun",
     "PictureWidth": "Lled y llun",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

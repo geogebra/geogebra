@@ -2283,6 +2283,7 @@ __GGB__keysVar.eo.menu = {
     "PictureHeight": "Alto de la bildo",
     "PictureWidth": "Lar\u011do de la bildo",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Ebeno",
     "Plane.Help": "Elektu tri punktojn, a\u016d punkton kaj rekton, a\u016d du rektojn, a\u016d plurlateron",

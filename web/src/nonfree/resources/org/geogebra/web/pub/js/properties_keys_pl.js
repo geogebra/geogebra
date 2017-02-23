@@ -2283,6 +2283,7 @@ __GGB__keysVar.pl.menu = {
     "PictureHeight": "Wysoko\u015b\u0107 obrazu",
     "PictureWidth": "Szeroko\u015b\u0107 obrazu",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "P\u0142aszczyzna",
     "Plane.Help": "Wybierz trzy punkty lub punkt i prost\u0105 lub dwie proste lub wielok\u0105t",

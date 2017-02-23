@@ -2283,6 +2283,7 @@ __GGB__keysVar.de_AT.menu = {
     "PictureHeight": "Bildh\xf6he",
     "PictureWidth": "Bildbreite",
     "PiecewiseFunction": "St\xfcckweise Funktion",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Ebene",
     "Plane.Help": "W\xe4hlen oder erzeugen Sie entweder drei Punkte, oder einen Punkt und eine Gerade, oder zwei Geraden, oder ein Vieleck.",

@@ -2283,6 +2283,7 @@ __GGB__keysVar.cs.menu = {
     "PictureHeight": "V\xfd\u0161ka obr\xe1zku",
     "PictureWidth": "\u0160\xed\u0159ka obr\xe1zku",
     "PiecewiseFunction": "Funkce s podm\xednkami",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Rovina",
     "Plane.Help": "Vyberte t\u0159i body, nebo bod a p\u0159\xedmku, nebo dv\u011b p\u0159\xedmky, nebo mnoho\xfaheln\xedk",

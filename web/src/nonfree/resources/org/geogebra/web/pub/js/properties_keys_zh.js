@@ -2283,6 +2283,7 @@ __GGB__keysVar.zh.menu = {
     "PictureHeight": "Picture height",
     "PictureWidth": "Picture width",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

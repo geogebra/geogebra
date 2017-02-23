@@ -2283,6 +2283,7 @@ __GGB__keysVar.gl.menu = {
     "PictureHeight": "Altura da imaxe",
     "PictureWidth": "Anchura da imaxe",
     "PiecewiseFunction": "Funci\xf3n a cachos",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Selecci\xf3n de tres puntos, dun punto e unha recta, de d\xfaas rectas ou dun pol\xedgono",

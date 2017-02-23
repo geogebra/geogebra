@@ -2283,6 +2283,7 @@ __GGB__keysVar.pt_PT.menu = {
     "PictureHeight": "Altura da imagem",
     "PictureWidth": "Largura da imagem",
     "PiecewiseFunction": "Fun\xe7\xe3o por ramos",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plano",
     "Plane.Help": "Selecione um ponto e uma reta, ou duas retas, ou um pol\xedgono",

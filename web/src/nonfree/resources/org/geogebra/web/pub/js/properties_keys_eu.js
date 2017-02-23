@@ -2283,6 +2283,7 @@ __GGB__keysVar.eu.menu = {
     "PictureHeight": "Irudiaren altuera",
     "PictureWidth": "Irudiaren zabalera",
     "PiecewiseFunction": "Zatikako funtzioa",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Planoa",
     "Plane.Help": "Aukeratu hiru puntu, puntua eta zuzena, bi zuzen edo poligonoa",

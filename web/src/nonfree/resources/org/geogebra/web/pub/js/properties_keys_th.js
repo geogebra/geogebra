@@ -2283,6 +2283,7 @@ __GGB__keysVar.th.menu = {
     "PictureHeight": "\u0e04\u0e27\u0e32\u0e21\u0e2a\u0e38\u0e07\u0e02\u0e2d\u0e07\u0e20\u0e32\u0e1e",
     "PictureWidth": "\u0e04\u0e27\u0e32\u0e21\u0e01\u0e27\u0e49\u0e32\u0e07\u0e02\u0e2d\u0e07\u0e20\u0e32\u0e1e",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plane",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

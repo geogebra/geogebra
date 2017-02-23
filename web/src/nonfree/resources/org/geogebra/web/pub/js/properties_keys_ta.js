@@ -2283,6 +2283,7 @@ __GGB__keysVar.ta.menu = {
     "PictureHeight": "\u0baa\u0b9f \u0b89\u0baf\u0bb0\u0bae\u0bcd",
     "PictureWidth": "\u0baa\u0b9f \u0b85\u0b95\u0bb2\u0bae\u0bcd",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "\u0ba4\u0bb3\u0bae\u0bcd",
     "Plane.Help": "Select three points, or point and line, or two lines, or a polygon",

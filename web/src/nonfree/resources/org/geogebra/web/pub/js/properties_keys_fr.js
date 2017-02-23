@@ -2283,6 +2283,7 @@ __GGB__keysVar.fr.menu = {
     "PictureHeight": "Hauteur de la figure",
     "PictureWidth": "Largeur de la figure",
     "PiecewiseFunction": "Fonction par morceaux",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Plan",
     "Plane.Help": "S\xe9lectionner trois points, un point et une ligne, ou deux lignes, ou un polygone",

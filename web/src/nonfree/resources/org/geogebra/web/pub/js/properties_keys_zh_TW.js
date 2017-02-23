@@ -2283,6 +2283,7 @@ __GGB__keysVar.zh_TW.menu = {
     "PictureHeight": "\u5716\u7247\u9ad8\u5ea6",
     "PictureWidth": "\u5716\u7247\u5bec\u5ea6",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "\u5e73\u9762",
     "Plane.Help": "\u9078\u64c7\u4e0b\u5217\u4e4b\u4e00\uff1a(1) \u4e09\u9ede (2) \u4e00\u9ede\u3001\u4e00\u7dda (3) \u591a\u908a\u5f62",

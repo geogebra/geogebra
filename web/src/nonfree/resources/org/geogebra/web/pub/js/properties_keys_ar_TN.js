@@ -2283,6 +2283,7 @@ __GGB__keysVar.ar_TN.menu = {
     "PictureHeight": "\u0637\u0648\u0644 \u0627\u0644\u0635\u0648\u0631\u0629",
     "PictureWidth": "\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631\u0629",
     "PiecewiseFunction": "Piecewise function",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "\u0628\u064a\u0643\u0633\u0627\u0644",
     "Plane": "\u0645\u0633\u062a\u0648\u064a",
     "Plane.Help": "\u062d\u062f\u0651\u062f \u062b\u0644\u0627\u062b\u0629 \u0646\u0642\u0627\u0637 \u0623\u0648 \u0645\u0633\u062a\u0642\u064a\u0645\u064a\u0646 \u0623\u0648 \u0645\u0636\u0644\u0639",

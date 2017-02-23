@@ -2283,6 +2283,7 @@ __GGB__keysVar.xh.menu = {
     "PictureHeight": "Ukuphakama koMfanekiso",
     "PictureWidth": "Ububanzi boMfanekiso",
     "PiecewiseFunction": "I fankshini ePiecewise",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "iPleyni",
     "Plane.Help": "Khetha amachaphaza amathathu, okanye ichaphaza nomgca, okanye amachaphaza amabini, okanye umacalamaninzi",

@@ -2283,6 +2283,7 @@ __GGB__keysVar.ms.menu = {
     "PictureHeight": "Tinggi gambar",
     "PictureWidth": "Lebar gambar",
     "PiecewiseFunction": "Fungsi cebis demi cebis",
+    "PinToScreen": "Pin to Screen",
     "Pixels.short": "px",
     "Plane": "Satah",
     "Plane.Help": "Pilih tiga titik, atau titk dan garis, atau dua garis, atau satu poligon",
