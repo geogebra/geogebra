@@ -252,7 +252,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	 */
 	public static boolean match(GeoElement geo) {
 		return geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
+				&& ((GeoNumeric) geo).isShowingExtendedAV()
+				&& (geo.isSimple() || geo.isGeoAngle() && geo.isIndependent())
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
 
