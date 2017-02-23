@@ -13,7 +13,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
 		addStyleName("DynamicStyleBar");
-		((GeoGebraFrameW)((AppW) ev.getApplication()).getAppletFrame()).add(this);
 	}
 
 	/**

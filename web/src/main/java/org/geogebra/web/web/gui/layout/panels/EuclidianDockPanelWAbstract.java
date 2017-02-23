@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.web.euclidian.DynamicStyleBar;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
@@ -223,5 +224,13 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public abstract void calculateEnvironment();
 
 	public abstract void resizeView(int width, int height);
+	
+	private DynamicStyleBar getDynamicStyleBar(){
+		return (DynamicStyleBar) getEuclidianView().getDynamicStyleBar();
+	}
+	
+	protected void setDynamicStyleBar(){
+		this.getAbsolutePanel().add(getDynamicStyleBar());
+	}
 
 }
