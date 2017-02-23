@@ -201,7 +201,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				}
 
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
- loc.getMenu("TraceOn"), true),
+ loc.getMenu("ShowTrace"), true),
 				        new Command() {
 
 					        @Override
@@ -256,7 +256,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				}
 
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
-						loc.getMenu("Animating")), new Command() {
+ loc.getMenu("Animation")), new Command() {
 
 					@Override
 					public void execute() {
@@ -301,7 +301,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 					cbItem = new GCheckBoxMenuItem(
 MainMenu.getMenuBarHtml(img,
-									loc.getMenu("FixObject")),
+ loc.getMenu("LockObject")),
 							new Command() {
 
 								@Override
@@ -324,7 +324,7 @@ MainMenu.getMenuBarHtml(img,
 
 						cbItem = new GCheckBoxMenuItem(
 MainMenu.getMenuBarHtml(img,
-										loc.getMenu("FixObject")),
+ loc.getMenu("LockObject")),
 								new Command() {
 
 									@Override
@@ -567,8 +567,7 @@ img2,
 						}
 					},
  MainMenu.getMenuBarHtml(img,
-							loc.getMenu("AbsoluteScreenLocation")),
-					loc.getMenu("AbsoluteScreenLocation"));
+ loc.getMenu("PinToScreen")), loc.getMenu("PinToScreen"));
 
 		}
 	}
@@ -578,7 +577,7 @@ img2,
 			return;
 		}
 		Command cmd = null;
-		String label = loc.getMenu("FixObject");
+		String label = loc.getMenu("LockObject");
 		if (getGeo().isFixable() && (getGeo().isGeoText()
 				|| getGeo().isGeoImage() || getGeo().isGeoButton())) {
 			cmd = new Command() {
@@ -757,7 +756,7 @@ cmd, MainMenu.getMenuBarHtml(img, label),
 			final boolean pinned = getGeo().isPinned();
 			GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtml(img,
-							loc.getMenu("AbsoluteScreenLocation")),
+ loc.getMenu("PinToScreen")),
 					new Command() {
 
 				@Override
