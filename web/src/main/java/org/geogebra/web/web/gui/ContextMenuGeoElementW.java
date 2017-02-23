@@ -515,7 +515,7 @@ img2,
 		}
 
 		GeoElement geo = getGeo();
-
+		// Label
 		if (ShowLabelModel.match(geo)) {
 
 			String img;
@@ -524,13 +524,11 @@ img2,
 			} else {
 				img = AppResources.INSTANCE.mode_showhidelabel_16().getSafeUri().asString();
 			}
-
-			addAction(null,
- MainMenu.getMenuBarHtml(img, loc.getMenu("Label")),
-					loc.getMenu("Label")).setSubMenu(getLabelSubMenu());
-
+			addSubmenuAction(MainMenu.getMenuBarHtml(img, loc.getMenu("Label")), loc.getMenu("Label"),
+					getLabelSubMenu());
 		}
 
+		// Angle
 		if (AngleArcSizeModel.match(geo)) {
 
 			String img;
@@ -539,16 +537,9 @@ img2,
 			} else {
 				img = AppResources.INSTANCE.stylingbar_angle_interval().getSafeUri().asString();
 			}
+			addSubmenuAction(MainMenu.getMenuBarHtml(img, loc.getMenu("Angle")), loc.getMenu("Angle"),
+					getAngleSubMenu());
 
-			addAction(new Command() {
-
-				@Override
-				public void execute() {
-				}
-			}, MainMenu.getMenuBarHtml(
-img,
-					loc.getMenu("Angle")),
-					loc.getMenu("Angle")).setSubMenu(getAngleSubMenu());
 		}
 	}
 
@@ -1118,6 +1109,23 @@ cmd, MainMenu.getMenuBarHtml(img, label),
 		// return wrappedPopup.add(action, html, text);
 	}
 
+	protected void addSubmenuAction(String html, String text, MenuBar subMenu) {
+		MenuItem mi;
+		if (html != null) {
+			mi = new MenuItem(html, true, subMenu);
+			if (!isWhiteboard()) {
+				mi.addStyleName("mi_with_image"); // TEMP
+			}
+		} else {
+			mi = new MenuItem(text, true, subMenu);
+			mi.addStyleName("mi_no_image"); // TEMP
+		}
+
+		wrappedPopup.addItem(mi);
+		// return mi; // TODO: need we this?
+		// return wrappedPopup.add(action, html, text);
+	}
+
 	protected void setTitle(String str) {
 		MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(
 		        AppResources.INSTANCE.empty().getSafeUri().asString(), str),
@@ -1163,8 +1171,8 @@ cmd, MainMenu.getMenuBarHtml(img, label),
 				loc.getMenu("Value"), loc.getMenu("Caption") };
 
 		MenuBar mnu = new MenuBar(true);
-		mnu.addStyleName("gwt-PopupPanel");
-		mnu.addStyleName("contextMenuSubmenu");
+		// mnu.addStyleName("gwt-PopupPanel");
+		// mnu.addStyleName("contextMenuSubmenu");
 		GeoElement geos[] = { getGeo() };
 		final ShowLabelModel model = new ShowLabelModel(app, null);
 		model.setGeos(geos);
@@ -1202,8 +1210,8 @@ cmd, MainMenu.getMenuBarHtml(img, label),
 		}
 
 		MenuBar mnu = new MenuBar(true);
-		mnu.addStyleName("gwt-PopupPanel");
-		mnu.addStyleName("contextMenuSubmenu");
+		// mnu.addStyleName("gwt-PopupPanel");
+		// mnu.addStyleName("contextMenuSubmenu");
 		GeoElement geos[] = { getGeo() };
 		final ReflexAngleModel model = new ReflexAngleModel(app, false);
 		model.setGeos(geos);
