@@ -8301,12 +8301,10 @@ public abstract class EuclidianController {
 			BoundingBox boundingBox = ((Drawable) view.getDrawableFor(geo))
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
-			if (app.has(Feature.DYNAMIC_STYLEBAR) && boundingBox != null) {
+			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 				if (boundingBox != null) {
 					setDynamicStyleBarPosition(boundingBox.getRectangle(),
 							true);
-					setDynamicStylebarVisible(true);
-				} else if (geo.isGeoLine()) {
 					setDynamicStylebarVisible(true);
 				}
 			}
