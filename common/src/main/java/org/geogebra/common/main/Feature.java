@@ -78,12 +78,6 @@ public enum Feature {
 	/** MOB-788 */
 	MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT,
 
-	/** MOB-825 */
-	MOBILE_AUTO_SAVE,
-
-	/** related to MOB-825 */
-	MOBILE_NEW_EV_CENTERING,
-
 	/** GGB-798 */
 	AV_SCROLL,
 

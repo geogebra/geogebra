@@ -4100,14 +4100,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
 
-		// MOB-825
-		case MOBILE_AUTO_SAVE:
-			return true; // 5.0.290
-
-		// related to MOB-825
-		case MOBILE_NEW_EV_CENTERING:
-			return true; // 5.0.290
-
 		// MOB-893
 		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
 			return true; // 5.0.282

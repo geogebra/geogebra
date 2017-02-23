@@ -3229,48 +3229,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	protected void updateSizeKeepCenter() {
-
-		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
-			int w = getWidth();
-			int h = getHeight();
-			Log.debug(w + "x" + h);
-			Log.debug("xZero: " + xZero + ", yZero: " + yZero);
-			if (getSettings() != null) {
-				int sw = getSettings().getWidth();
-				int sh = getSettings().getHeight();
-				double x0 = getSettings().getXZero();
-				double y0 = getSettings().getYZero();
-				Log.debug("settings: " + sw + "x" + sh + "," + x0 + "," + y0);
-				if (sw == 0) {
-					// no dimension from file: center the view
-					sw = (int) Math.round(x0 * 2);
-					sh = (int) Math.round(y0 * 2);
-				}
-				int dx = (w - sw) / 2;
-				int dy = (h - sh) / 2;
-				xZero = getSettings().getXZero() + dx;
-				yZero = getSettings().getYZero() + dy;
-				Log.debug(">> xZero: " + xZero + ", yZero: " + yZero);
-				getSettings().setSize(w, h);
-				getSettings().setOriginNoUpdate(xZero, yZero);
-			} else {
-				Log.debug("settings: null");
+		int w = getWidth();
+		int h = getHeight();
+		Log.debug(w + "x" + h);
+		Log.debug("xZero: " + xZero + ", yZero: " + yZero);
+		if (getSettings() != null) {
+			int sw = getSettings().getWidth();
+			int sh = getSettings().getHeight();
+			double x0 = getSettings().getXZero();
+			double y0 = getSettings().getYZero();
+			Log.debug("settings: " + sw + "x" + sh + "," + x0 + "," + y0);
+			if (sw == 0) {
+				// no dimension from file: center the view
+				sw = (int) Math.round(x0 * 2);
+				sh = (int) Math.round(y0 * 2);
 			}
-
-			updateSizeChange();
+			int dx = (w - sw) / 2;
+			int dy = (h - sh) / 2;
+			xZero = getSettings().getXZero() + dx;
+			yZero = getSettings().getYZero() + dy;
+			Log.debug(">> xZero: " + xZero + ", yZero: " + yZero);
+			getSettings().setSize(w, h);
+			getSettings().setOriginNoUpdate(xZero, yZero);
 		} else {
-			if (!mViewCentered) {
-				mCenterX = 0;
-				mCenterY = 0;
-				mViewCentered = true;
-			} else {
-				mCenterX = getCenterX();
-				mCenterY = getCenterY();
-			}
-			updateSizeChange();
-			centerView(mCenterX, mCenterY);
+			Log.debug("settings: null");
 		}
 
+		updateSizeChange();
 	}
 
 	private double getCenterX() {
@@ -4494,16 +4479,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		int width = getWidth();
 		int height = getHeight();
-		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
-			// Log.debug(width + "x" + height);
-			if ((width <= MIN_WIDTH) && (height <= MIN_HEIGHT)) {
-				EuclidianSettings evSettings = getSettings();
-				if (evSettings != null) {
-					width = evSettings.getWidth();
-					height = evSettings.getHeight();
-				}
+		if ((width <= MIN_WIDTH) && (height <= MIN_HEIGHT)) {
+			EuclidianSettings evSettings = getSettings();
+			if (evSettings != null) {
+				width = evSettings.getWidth();
+				height = evSettings.getHeight();
 			}
-			// Log.debug("after:" + width + "x" + height);
 		}
 
 		if ((width > MIN_WIDTH) && (height > MIN_HEIGHT)) {

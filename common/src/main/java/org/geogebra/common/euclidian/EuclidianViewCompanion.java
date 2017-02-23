@@ -309,32 +309,28 @@ public class EuclidianViewCompanion {
 			// use the double values instead
 			double x0 = evs.getXZero();
 			double y0 = evs.getYZero();
-			if (view.getApplication().has(Feature.MOBILE_NEW_EV_CENTERING)) {
-				// Log.debug("view.isShowing() : "+view.isShowing()+" --
-				// "+view);
-				if (view.getKeepCenter() && view.isShowing()) {
-					// we may need to shift center if windows/settings sizes
-					// don't match
-					int w = view.getWidth();
-					int h = view.getHeight();
-					if (w > EuclidianView.MIN_WIDTH
-							&& h > EuclidianView.MIN_HEIGHT) {
-						int sw = evs.getWidth();
-						int sh = evs.getHeight();
-						// Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
-						// + sh + ", view: " + w + "x" + h);
-						if (sw == 0) {
-							// no dimension from file: center the view
-							sw = (int) Math.round(x0 * 2);
-							sh = (int) Math.round(y0 * 2);
-						}
-						x0 += (w - sw) / 2.0;
-						y0 += (h - sh) / 2.0;
-						evs.setSize(w, h);
-						evs.setOriginNoUpdate(x0, y0);
+			if (view.getKeepCenter() && view.isShowing()) {
+				// we may need to shift center if windows/settings sizes
+				// don't match
+				int w = view.getWidth();
+				int h = view.getHeight();
+				if (w > EuclidianView.MIN_WIDTH
+						&& h > EuclidianView.MIN_HEIGHT) {
+					int sw = evs.getWidth();
+					int sh = evs.getHeight();
+					// Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
+					// + sh + ", view: " + w + "x" + h);
+					if (sw == 0) {
+						// no dimension from file: center the view
+						sw = (int) Math.round(x0 * 2);
+						sh = (int) Math.round(y0 * 2);
 					}
-					// Log.debug(">> x0:" + x0 + ", y0:" + y0);
+					x0 += (w - sw) / 2.0;
+					y0 += (h - sh) / 2.0;
+					evs.setSize(w, h);
+					evs.setOriginNoUpdate(x0, y0);
 				}
+				// Log.debug(">> x0:" + x0 + ", y0:" + y0);
 			}
 			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);
 			evs.setXminObject(view.xminObject, false);
