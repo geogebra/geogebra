@@ -41,6 +41,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			setTitle(loc.getMenu("DrawingPad"));
 		}
 
+		if (isWhiteboard()) {
+			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
+		}
 		addPasteItem();
 
 		addAxesAndGridCheckBoxes();
@@ -55,11 +58,23 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		MenuItem mi = new MenuItem(
 				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
 				(MenuBar) yaxisMenu);
-		mi.addStyleName("mi_no_image");
+
+		if (isWhiteboard()) {
+			mi.addStyleName("mi_no_image_new");
+		} else {
+			mi.addStyleName("mi_no_image");
+		}
 		wrappedPopup.addItem(mi);
 
-		MenuItem miShowAllObjectsView = new MenuItem(
-				loc.getMenu("ShowAllObjects"), new Command() {
+		String img;
+		if (isWhiteboard()) {
+			img = AppResources.INSTANCE.show_all_objects20().getSafeUri().asString();
+		} else {
+			img = AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+
+		MenuItem miShowAllObjectsView = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")), true,
+				new Command() {
 
 			        @Override
 					public void execute() {
@@ -67,18 +82,33 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			        }
 
 		        });
-		miShowAllObjectsView.addStyleName("mi_no_image");
+
+		if (!isWhiteboard()) {
+			miShowAllObjectsView.addStyleName("mi_with_image");
+		}
+
 		wrappedPopup.addItem(miShowAllObjectsView);
 
-		MenuItem miStandardView = new MenuItem(loc.getMenu("StandardView"),
-		        new Command() {
+		String img2;
+		if (isWhiteboard()) {
+			img2 = AppResources.INSTANCE.standard_view20().getSafeUri().asString();
+		} else {
+			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+
+		MenuItem miStandardView = new MenuItem(MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")), true,
+				new Command() {
 
 			        @Override
 					public void execute() {
 				        setStandardView();
 			        }
 		        });
-		miStandardView.addStyleName("mi_no_image");
+		if (!isWhiteboard()) {
+			miShowAllObjectsView.addStyleName("mi_with_image");
+		}
+
+
 		wrappedPopup.addItem(miStandardView);
 
 		if (!ev.isZoomable()) {
@@ -101,9 +131,15 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	protected void addMiProperties(String name, final OptionType type) {
-		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(
-		        AppResources.INSTANCE.view_properties16().getSafeUri()
-						.asString(),
+
+		String img;
+		if (isWhiteboard()) {
+			img = AppResources.INSTANCE.properties20().getSafeUri().asString();
+		} else {
+			img = AppResources.INSTANCE.view_properties16().getSafeUri().asString();
+		}
+
+		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(img,
 				loc.getMenu(name) + " ..."), true,
 		        new Command() {
 
@@ -184,10 +220,20 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addZoomMenu() {
 		// zoom for both axes
 		MenuBar zoomMenu = new MenuBar(true);
+
+		String img;
+		if (isWhiteboard()) {
+			img = AppResources.INSTANCE.zoom20().getSafeUri().asString();
+		} else {
+			img = AppResources.INSTANCE.zoom16().getSafeUri().asString();
+		}
+
 		MenuItem zoomMenuItem = new MenuItem(MainMenu.getMenuBarHtml(
-				AppResources.INSTANCE.zoom16().getSafeUri().asString(),
+img,
 				loc.getMenu("Zoom")), true, zoomMenu);
-		zoomMenuItem.addStyleName("mi_with_image");
+		if (!isWhiteboard()) {
+			zoomMenuItem.addStyleName("mi_with_image");
+		}
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
 
@@ -248,8 +294,14 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			return;
 		}
 
-		String htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE
-				.axes().getSafeUri().asString(), loc.getMenu("Axes"));
+		String img;
+		if (isWhiteboard()) {
+			img = AppResources.INSTANCE.axes20().getSafeUri().asString();
+		} else {
+			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
+		}
+
+		String htmlString = MainMenu.getMenuBarHtml(img, loc.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowAxesAction(), true, app);
 
@@ -262,8 +314,15 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		// addAction(((AppW)app).getGuiManager().getShowGridAction(),
 		// MainMenu.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(),
 		// loc.getMenu("Grid")), loc.getMenu("Grid"));
-		htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.grid()
-				.getSafeUri().asString(), loc.getMenu("Grid"));
+
+		String img2;
+		if (isWhiteboard()) {
+			img2 = AppResources.INSTANCE.grid20().getSafeUri().asString();
+		} else {
+			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
+		}
+
+		htmlString = MainMenu.getMenuBarHtml(img2, loc.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowGridAction(), true, app);
 		cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());

@@ -232,4 +232,20 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/unlock.png")
 	ImageResource unlock20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/zoom.png")
+	ImageResource zoom20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/standard_view.png")
+	ImageResource standard_view20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/show_all_objects.png")
+	ImageResource show_all_objects20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/grid.png")
+	ImageResource grid20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/axes.png")
+	ImageResource axes20();
+
 }
