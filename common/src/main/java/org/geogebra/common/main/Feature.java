@@ -72,9 +72,6 @@ public enum Feature {
 
 	RETEX_EDITOR,
 
-	/** MOB-232, MOB-154 */
-	MOBILE_DIALOG_WITH_NEW_KEYBOARD,
-
 	/** GGB-1121 */
 	AV_PREVIEW,
 
