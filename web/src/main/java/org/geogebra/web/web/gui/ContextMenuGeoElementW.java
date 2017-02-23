@@ -136,15 +136,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 	private void addForAllItems() {
 		if (isWhiteboard()) {
 			addRename();
-			wrappedPopup.addSeparator();
 			addEditItems();
-			wrappedPopup.addSeparator();
 			addObjectPropertiesMenu();
-			wrappedPopup.addSeparator();
-			addFixObject();
-			addPinForWhiteboard();
-			wrappedPopup.addSeparator();
-
+			addPinAndFixObject();
 		}
 		// SHOW, HIDE
 
@@ -398,7 +392,9 @@ MainMenu.getMenuBarHtml(img,
 		// Object properties menuitem
 		if (app.showMenuBar() && app.letShowPropertiesDialog()
 		        && getGeo().hasProperties()) {
-			wrappedPopup.addSeparator();
+			if (!isWhiteboard()) {
+				wrappedPopup.addSeparator();
+			}
 
 			String img;
 			if (isWhiteboard()) {
@@ -514,8 +510,18 @@ img2,
 		}
 
 		GeoElement geo = getGeo();
+
+		boolean showLabel = ShowLabelModel.match(geo);
+		boolean angle = AngleArcSizeModel.match(geo);
+
+		if (!(showLabel || angle)) {
+			return;
+		}
+
+		wrappedPopup.addSeparator();
+
 		// Label
-		if (ShowLabelModel.match(geo)) {
+		if (showLabel) {
 
 			String img;
 			if (isWhiteboard()) {
@@ -528,7 +534,7 @@ img2,
 		}
 
 		// Angle
-		if (AngleArcSizeModel.match(geo)) {
+		if (angle) {
 
 			String img;
 			if (isWhiteboard()) {
@@ -540,14 +546,25 @@ img2,
 					getAngleSubMenu());
 
 		}
+		// wrappedPopup.addSeparator();
+
 	}
 
-	private void addPinForWhiteboard() {
+	private void addPinAndFixObject() {
 		if (!isWhiteboard()) {
 			return;
 		}
 
-		if (getGeo().isPinnable()) {
+		boolean pinnable = getGeo().isPinnable();
+		boolean fixable = getGeo().isFixable();
+
+		if (!(pinnable || fixable)) {
+			return;
+		}
+
+		wrappedPopup.addSeparator();
+
+		if (pinnable) {
 
 			String img;
 			if (isWhiteboard()) {
@@ -569,15 +586,10 @@ img2,
  loc.getMenu("PinToScreen")), loc.getMenu("PinToScreen"));
 
 		}
-	}
 
-	private void addFixObject() {
-		if (!isWhiteboard()) {
-			return;
-		}
 		Command cmd = null;
 		String label = loc.getMenu("LockObject");
-		if (getGeo().isFixable() && (getGeo().isGeoText()
+		if (fixable && (getGeo().isGeoText()
 				|| getGeo().isGeoImage() || getGeo().isGeoButton())) {
 			cmd = new Command() {
 
@@ -621,12 +633,17 @@ cmd, MainMenu.getMenuBarHtml(img, label),
 					label);
 		}
 		
+		// wrappedPopup.addSeparator();
+
 	}
 		
 	private void addEditItems() {
 		if (!isWhiteboard()) {
 			return;
 		}
+
+		wrappedPopup.addSeparator();
+
 		final SelectionManager selection = app.getSelectionManager();
 
 		String img;
