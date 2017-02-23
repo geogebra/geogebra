@@ -4123,10 +4123,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_NEW_EV_CENTERING:
 			return true; // 5.0.290
 
-		// MOB-779
-		case MOBILE_COPY_3D_VIEW_TO_IMAGE_VIEW_FOR_ANIMATIONS:
-			return false;
-
 		// MOB-893
 		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
 			return true; // 5.0.282
