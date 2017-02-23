@@ -553,7 +553,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public void updateCenterPanel(boolean b) {
+	public void updateCenterPanel() {
 
 		buildApplicationPanel();
 		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);

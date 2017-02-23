@@ -287,7 +287,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
 		this.remove(keyBoard);
-		app.updateCenterPanel(true);
+		app.updateCenterPanel();
 		// TODO too expensive
 		app.updateViewSizes();
 		keyBoard.resetKeyboardState();
@@ -352,7 +352,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	protected void onKeyboardAdded(final VirtualKeyboardW keyBoard) {
 		keyboardHeight = keyBoard.getOffsetHeight();
 		app.addToHeight(-keyboardHeight);
-		app.updateCenterPanel(true);
+		app.updateCenterPanel();
 		// TODO maybe too expensive?
 		app.updateViewSizes();
 		GeoGebraFrameBoth.this.add(keyBoard);

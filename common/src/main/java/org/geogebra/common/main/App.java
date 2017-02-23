@@ -201,7 +201,6 @@ public abstract class App implements UpdateSelection {
 	/** Singular web service (CAS) */
 	private SingularWebService singularWS;
 
-	protected boolean useFullAppGui = false;
 	private static String CASVersionString = "";
 	private static boolean CASViewEnabled = true;
 	private static boolean _3DViewEnabled = true;
@@ -476,16 +475,6 @@ public abstract class App implements UpdateSelection {
 		}
 
 		return ret;
-	}
-
-	/**
-	 * Please use !app.isApplet() where appropriate
-	 * 
-	 * @return whether app is an instance of AppWapplication.
-	 */
-	@Deprecated
-	public boolean isFullAppGui() {
-		return useFullAppGui;
 	}
 
 	/**
@@ -1657,9 +1646,13 @@ public abstract class App implements UpdateSelection {
 		return getXMLio().getFullMacroXML(macros);
 	}
 
+	/**
+	 * @param idx
+	 *            secondary EV index, 1 for EV2
+	 */
 	public boolean hasEuclidianView2(int idx) {
-		// TODO Auto-generated method stub
-		return false;
+		return (getGuiManager() != null)
+				&& getGuiManager().hasEuclidianView2(idx);
 	}
 
 	public final void showError(MyError e) {
@@ -2077,6 +2070,14 @@ public abstract class App implements UpdateSelection {
 		return toolbarPosition;
 	}
 
+	/**
+	 * Update the toolbar position flag and optionally rebuilds the UI
+	 * 
+	 * @param position
+	 *            new position
+	 * @param update
+	 *            whether to rebuild the UI
+	 */
 	public void setToolbarPosition(int position, boolean update) {
 		// needs to be overridden
 	}
@@ -3697,11 +3698,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	public void updateCenterPanel(boolean updateUI) {
-		Log.debug("App.updateCenterPanel() implementation needed");
-
-	}
-
 	public void toggleShowConstructionProtocolNavigation(int id) {
 
 		setShowConstructionProtocolNavigation(!showConsProtNavigation(id), id);
@@ -3716,6 +3712,10 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	/**
+	 * @param mode
+	 *            app mode ID
+	 */
 	public GImageIcon wrapGetModeIcon(int mode) {
 		// TODO: debug message commented out from Trunk version, probably loops
 		// Log.debug("App.wrapGetModeIcon must be overriden");
@@ -3816,12 +3816,7 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
-	/**
-	 * Will be overwritten in AppWapplication to toggle the menu for SMART
-	 */
-	public void toggleMenu() {
 
-	}
 
 	public final boolean isErrorDialogsActive() {
 		return isErrorDialogsActive;
@@ -3833,14 +3828,14 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Recompute coord systems in EV and spreadsheet Only needed in web,
-	 * overwritten in AppW
+	 * 
 	 */
 	public void updateViewSizes() {
-
+		// overwritten in AppW
 	}
 
 	public void persistWidthAndHeight() {
-
+		// overwritten in AppW
 	}
 
 	protected AppCompanion newAppCompanion() {
@@ -3897,9 +3892,6 @@ public abstract class App implements UpdateSelection {
 
 	public void setAllowPopups(boolean b) {
 		allowPopUps = b;
-	}
-
-	public void showPopUps() {
 	}
 
 	/**
@@ -4368,7 +4360,11 @@ public abstract class App implements UpdateSelection {
 		setExam(new ExamEnvironment());
 	}
 
-	public void setLanguage(String s) {
+	/**
+	 * @param lang
+	 *            locale description
+	 */
+	public void setLanguage(String lang) {
 		// overridden in subtypes
 	}
 
@@ -4680,6 +4676,12 @@ public abstract class App implements UpdateSelection {
 		return copyPaste;
 	}
 
+	/**
+	 * Update view settings with size from XML
+	 * 
+	 * @param evSet
+	 *            view settings
+	 */
 	public void ensureEvSizeSet(EuclidianSettings evSet) {
 		// only for applets
 
@@ -4748,6 +4750,10 @@ public abstract class App implements UpdateSelection {
 		return null;
 	}
 
+	/**
+	 * @param text
+	 *            text to be copied
+	 */
 	public void copyTextToSystemClipboard(String text) {
 		// overridden in AppD, AppW
 	}

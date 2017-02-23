@@ -538,8 +538,7 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		if (app.isFullAppGui()
-				|| app.getArticleElement().getDataParamShowMenuBar(false)) {
+		if (app.getArticleElement().getDataParamShowMenuBar(false)) {
 			DockGlassPaneW glassPane = ((AppWFull) app).getGlassPane();
 			if (glassPane.getArticleElement() == null) {
 				glassPane.setArticleElement(app
@@ -657,7 +656,7 @@ public class DockManagerW extends DockManager {
 			}
 		}
 		
-		app.updateCenterPanel(true);
+		app.updateCenterPanel();
 		//updatePanels();
 
 		double dividerLocation = 0;
@@ -918,7 +917,7 @@ public class DockManagerW extends DockManager {
 			}
 			
 			if(!app.isIniting()) {
-				app.updateCenterPanel(true);
+				app.updateCenterPanel();
 			}
 			
 			//check new split pane size regarding orientation
@@ -1112,7 +1111,7 @@ public class DockManagerW extends DockManager {
 				} else {
 					parent.replaceComponent(panel, null);
 				}
-				app.updateCenterPanel(true);
+				app.updateCenterPanel();
 			} else {
 				DockSplitPaneW grandParent = (DockSplitPaneW)parent.getParent();
 				int dividerLoc = grandParent.getDividerLocation();

@@ -1464,18 +1464,17 @@ public class MyXMLHandler implements DocHandler {
 			int width;
 			int height;
 			if (!isPreferencesXML) {
-				if (!app.isFullAppGui()) {// TODO: EV2 in Web!
-					// 2: border
-					width = (app.getAppletWidth() > 2 && !app.getUseFullGui())
-							? app.getAppletWidth() - 2
-							: Integer.parseInt(attrs.get("width"));
-					height = (app.getAppletHeight() > 2 && !app.getUseFullGui())
-							? app.getAppletHeight() - 2
-							: Integer.parseInt(attrs.get("height"));
-				} else {
-					width = app.getAppCanvasWidth();
-					height = app.getAppCanvasHeight();
-				}
+				int border = 2; // TODO needs to be 0 when fullscreen, also what
+								// about other views?
+				// 2: border
+				width = (app.getAppletWidth() > border && !app.getUseFullGui())
+						? app.getAppletWidth() - border
+						: Integer.parseInt(attrs.get("width"));
+				height = (app.getAppletHeight() > border
+						&& !app.getUseFullGui())
+								? app.getAppletHeight() - border
+						: Integer.parseInt(attrs.get("height"));
+
 				ev.setPreferredSize(
 						AwtFactory.getPrototype().newDimension(width, height));
 				ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(

@@ -219,7 +219,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public void focusGained() {
-		if (!isInFocus && !app.isFullAppGui()) {
+		if (!isInFocus) {
 			this.isInFocus = true;
 			if (getCanvas() != null) {
 				((AppW) this.app).focusGained(this, getCanvas().getElement());

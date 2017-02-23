@@ -53,6 +53,9 @@ public class ViewMenuW extends GMenuBar {
 
 	/**
 	 * Init actions for Refresh views, recompute objects
+	 * 
+	 * @param loc
+	 *            localization
 	 */
 	protected void initRefreshActions(Localization loc) {
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
@@ -115,7 +118,7 @@ public class ViewMenuW extends GMenuBar {
 										? InputPosition.bottom
 										: InputPosition.algebraView,
 								true);
-						app.updateCenterPanel(true);
+						app.updateCenterPanel();
 
 						app.updateViewSizes();
 						if (app.getGuiManager() != null
@@ -132,7 +135,7 @@ public class ViewMenuW extends GMenuBar {
 								// false, because we have just closed the menu
 								app.getGuiManager()
 										.updateStyleBarPositions(false);
-								app.updateCenterPanel(true);
+								app.updateCenterPanel();
 							}
 						};
 						timer.schedule(0);

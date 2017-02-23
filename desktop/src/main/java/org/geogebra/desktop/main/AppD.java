@@ -1849,10 +1849,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return (EuclidianViewD) getGuiManager().getEuclidianView2(idx);
 	}
 
-	@Override
-	public boolean hasEuclidianView2(int idx) {
-		return (guiManager != null) && getGuiManager().hasEuclidianView2(idx);
-	}
 
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
@@ -2879,7 +2875,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
-	@Override
 	public void updateCenterPanel(boolean updateUI) {
 		if (centerPanel == null) {
 			return;
@@ -5160,7 +5155,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private boolean popupsDone = false;
 
-	@Override
 	public void showPopUps() {
 		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
 		if (!signIn.isTubeCheckDone()) {

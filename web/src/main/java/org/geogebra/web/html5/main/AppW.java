@@ -2066,12 +2066,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public boolean hasEuclidianView2(int idx) {
-		return (getGuiManager() != null)
-		        && getGuiManager().hasEuclidianView2(idx);
-	}
-
-	@Override
 	public EuclidianViewW getEuclidianView2(int idx) {
 
 		if (getGuiManager() == null) {
@@ -2972,8 +2966,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return app.getGuiManager().getRootComponent();
 	}
 
-	@Override
-	public void updateCenterPanel(boolean updateUI) {
+	public void updateCenterPanel() {
 		// only needed with GUI
 	}
 
@@ -3452,21 +3445,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		GDimension gd = evSet.getPreferredSize();
 		if (gd.getWidth() == 0 || gd.getHeight() == 0) {
-			int width = 0;
-			int height = 0;
-			if (!isFullAppGui()) {
-				width = getAppletWidth() - 2; // 2: border
-				height = getAppletHeight() - 2; // 2: border
-				if (width == 0 || height == 0) {
-					// setting a standard size, like in
-					// compabilityLayout
-					// fixing a real bug of height 0
-					width = 598; // 2: border
-					height = 438; // 2: border
-				}
-			} else {
-				width = getAppCanvasWidth();
-				height = getAppCanvasHeight();
+			int width = getAppletWidth() - 2; // 2: border
+			int height = getAppletHeight() - 2; // 2: border
+			if (width == 0 || height == 0) {
+				// setting a standard size, like in
+				// compabilityLayout
+				// fixing a real bug of height 0
+				width = 598; // 2: border
+				height = 438; // 2: border
 			}
 			evSet.setPreferredSize(
 					AwtFactory.getPrototype().newDimension(width, height));
@@ -3563,6 +3549,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	private static void setLastActive(Element e) {
 		lastActiveElement = e;
+	}
+
+	public void toggleMenu() {
+		// only with GUI
+
 	}
 
 }

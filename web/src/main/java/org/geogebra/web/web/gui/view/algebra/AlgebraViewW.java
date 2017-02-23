@@ -26,7 +26,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -1521,12 +1520,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// usually, inputPanel is here, but not in use (not attached)
 		boolean forceKeyboard = false;
-		boolean appletHack = false;
+		boolean inputJustCreated = false;
 		if (inputPanelLatex == null) {
 			inputPanelLatex = createInputPanel();
 			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
-			appletHack = !app.isFullAppGui();
+			inputJustCreated = true;
 		} else {
 			inputPanelLatex.removeFromParent();
 		}
@@ -1541,11 +1540,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		unselect(getSelectionCtrl().getSelectedGeo());
 		unselect(getSelectionCtrl().getLastSelectedGeo());
 
-		if (appletHack) {
-			if (!isNodeTableEmpty()) {
-				AutoCompleteTextFieldW.showSymbolButtonIfExists(inputPanelLatex,
-						true);
-			} else {
+		if (inputJustCreated) {
+			if (isNodeTableEmpty()) {
 				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 			}
 		}
@@ -1593,7 +1589,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			// inputPanel.removeFromParent();//?
 		}
-		boolean appletHack = false;
+		boolean inputJustCreated = false;
 		boolean forceKeyboard = false;
 		boolean suggestKeyboard = false;
 		if (inputPanelLatex == null) {
@@ -1604,7 +1600,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// open the keyboard (or show the keyboard-open-button) at
 			// when the application is started
 
-			appletHack = !app.isFullAppGui();
+			inputJustCreated = true;
 		} else {
 			inputPanelLatex.removeFromParent();
 		}
@@ -1617,11 +1613,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 
 		inputPanelLatex.replaceXButtonDOM();
-		if (appletHack) {
-			if (!isNodeTableEmpty()) {
-				AutoCompleteTextFieldW.showSymbolButtonIfExists(
-						inputPanelLatex, true);
-			} else {
+		if (inputJustCreated) {
+			if (isNodeTableEmpty()) {
 				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 			}
 		}

@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -57,7 +56,7 @@ import com.google.gwt.user.client.ui.PushButton;
  * File created by Arpad Fekete
  */
 public class InputTreeItem extends MathQuillTreeItem
-		implements HasSymbolPopup, FocusHandler, BlurHandler {
+		implements FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
@@ -623,21 +622,6 @@ public class InputTreeItem extends MathQuillTreeItem
 		}
 	}
 
-	@Override
-	public void showPopup(boolean show) {
-		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (this.buttonPanel == null) {
-				return;
-			}
-			buttonPanel.setVisible(show);
-			setButtonVisible(getDeleteButton(), show);
-
-			if (plusButton != null) {
-				setButtonVisible(plusButton, show);
-			}
-		}
-	}
-
 	/**
 	 * Earlier methods used the 'shown' class to show the xButton, but later
 	 * code used simply xButton.setVisible(true)... to be compatible with both,
@@ -647,7 +631,7 @@ public class InputTreeItem extends MathQuillTreeItem
 	 *            button
 	 * 
 	 * @param show
-	 *            ehether it should be visible
+	 *            whether it should be visible
 	 */
 	public void setButtonVisible(final PushButton button, boolean show) {
 		if (button == null) {

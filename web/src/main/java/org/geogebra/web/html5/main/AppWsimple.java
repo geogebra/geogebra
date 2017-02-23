@@ -215,9 +215,4 @@ public class AppWsimple extends AppW {
 		return false;
 	}
 
-	@Override
-	public boolean hasEuclidianView2(int idx) {
-		return false;
-	}
-
 }
