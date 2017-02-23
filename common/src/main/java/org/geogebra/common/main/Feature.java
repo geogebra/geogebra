@@ -81,9 +81,6 @@ public enum Feature {
 	/** MOB-788 */
 	MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT,
 
-	/** MOB-821 */
-	MOBILE_MATERIAL_RELEVANT_APP_TAG,
-
 	/** MOB-825 */
 	MOBILE_AUTO_SAVE,
 
