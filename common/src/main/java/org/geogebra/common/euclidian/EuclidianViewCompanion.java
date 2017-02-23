@@ -31,7 +31,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
  *
  */
 public class EuclidianViewCompanion {
-
+	/** the view */
 	protected EuclidianView view;
 
 	/**
@@ -44,6 +44,10 @@ public class EuclidianViewCompanion {
 		setView(view);
 	}
 
+	/**
+	 * @param view
+	 *            euclidian view
+	 */
 	protected void setView(EuclidianView view) {
 		this.view = view;
 	}
@@ -73,6 +77,9 @@ public class EuclidianViewCompanion {
 		return new DrawAngle(view, geo);
 	}
 
+	/**
+	 * @return whether this is EV1/EV2 rather than view for plane
+	 */
 	public boolean isDefault2D() {
 		return true;
 	}
@@ -158,7 +165,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * @param geoElement
+	 * @param geo
 	 *            element
 	 * @return true if the element can be moved freely in this view
 	 */
@@ -171,8 +178,8 @@ public class EuclidianViewCompanion {
 	 *            algorithm
 	 * @return free input points of given algorithm
 	 */
-	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
-		return algoParent.getFreeInputPoints();
+	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algo) {
+		return algo.getFreeInputPoints();
 	}
 
 	/**
@@ -510,6 +517,11 @@ public class EuclidianViewCompanion {
 	 */
 	public void setHits(PointerEventType type) {
 		view.setHits(view.getEuclidianController().getMouseLoc(), type);
+		Drawable d = view.getBoundingBoxHandlerHit(
+				view.getEuclidianController().getMouseLoc(), type);
+		if (d != null) {
+			view.getHits().add(d.getGeoElement());
+		}
 	}
 
 	/**
