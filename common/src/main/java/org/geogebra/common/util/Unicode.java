@@ -1,5 +1,6 @@
 package org.geogebra.common.util;
 
+@SuppressWarnings("javadoc")
 public class Unicode {
 
 	// used by Giac for polar separator instead of ;
@@ -188,14 +189,14 @@ public class Unicode {
 	public static final String CAS_OUTPUT_NUMERIC = "\u2248";
 	public static final char micro = '\u00b5';
 
-	/*
+	/**
 	 * converts an integer to a unicode superscript string (including minus
 	 * sign) eg for use as a power
 	 * 
 	 * @author Michael
 	 */
-	final public static String numberToIndex(int i) {
-
+	final public static String numberToIndex(int i0) {
+		int i = i0;
 		final StringBuilder sb = new StringBuilder();
 		boolean negative = false;
 		if (i < 0) {

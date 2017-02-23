@@ -40,13 +40,13 @@ public class MathEditor {
 
     public void paste(MathFormula formula) {
         // clone first
-        MathSequence rootComponent = formula.getRootComponent().copy();
+        MathSequence root = formula.getRootComponent().copy();
 
         // insert then
-        int size = rootComponent.size();
-        while (rootComponent.size() > 0) {
-            MathComponent element = rootComponent.getArgument(rootComponent.size() - 1);
-            rootComponent.delArgument(rootComponent.size() - 1);
+        int size = root.size();
+        while (root.size() > 0) {
+            MathComponent element = root.getArgument(root.size() - 1);
+            root.delArgument(root.size() - 1);
             currentField.addArgument(currentOffset, element);
         }
         currentOffset += size;
@@ -98,23 +98,25 @@ public class MathEditor {
         lastField(component);*/
     }
 
-    protected void firstField(MathContainer component) {
+	protected void firstField(MathContainer component) {
         // surface to first symbol
-        while (!(component instanceof MathSequence)) {
-            int current = component.first();
-            component = (MathContainer) component.getArgument(current);
+		MathContainer comp = component;
+        while (!(comp instanceof MathSequence)) {
+            int current = comp.first();
+            comp = (MathContainer) comp.getArgument(current);
         }
-        currentField = (MathSequence) component;
+        currentField = (MathSequence) comp;
         currentOffset = 0;
     }
 
     protected void lastField(MathContainer component) {
         // surface to last symbol
-        while (!(component instanceof MathSequence)) {
-            int current = component.last();
-            component = (MathContainer) component.getArgument(current);
+		MathContainer comp = component;
+		while (!(comp instanceof MathSequence)) {
+			int current = comp.last();
+			comp = (MathContainer) comp.getArgument(current);
         }
-        currentField = (MathSequence) component;
+		currentField = (MathSequence) comp;
         currentOffset = currentField.size();
     }
 
@@ -147,8 +149,8 @@ public class MathEditor {
             // try to find next sibling
         } else if (container.hasNext(current)) {
             current = container.next(current);
-            component = (MathContainer) container.getArgument(current);
-            firstField(component);
+			MathContainer comp = (MathContainer) container.getArgument(current);
+			firstField(comp);
 
             // try to delve down the tree
         } else {

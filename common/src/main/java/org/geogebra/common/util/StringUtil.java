@@ -995,8 +995,8 @@ public class StringUtil {
 		return -1;
 	}
 
-	public static String fixVerticalBars(String parseString) {
-		String ignoredIndices = ignoreIndices(parseString);
+	public static String fixVerticalBars(String parseString0) {
+		String ignoredIndices = ignoreIndices(parseString0);
 		StringBuilder sbFix = new StringBuilder();
 
 		// When we have <splitter> || , we know that we should separate
@@ -1007,6 +1007,7 @@ public class StringUtil {
 
 		// first we iterate from left to right, and then backward
 		int topLevelBars = 0;
+		String parseString = parseString0;
 		for (int dir = 0; dir < 2; dir++) {
 			boolean comment = false;
 			int bars = 0;
@@ -1198,7 +1199,7 @@ public class StringUtil {
 	/**
 	 * @param x
 	 *            the number to convert
-	 * @param s
+	 * @param s0
 	 *            String to wrap (String representation of x)
 	 * @param tpl
 	 *            String template (Giac or GiacInternal)
@@ -1207,13 +1208,13 @@ public class StringUtil {
 	 * @return "exact(" + s + ")" if necessary (for Giac) or convert double into
 	 *         a fraction internally (for GiacInternal)
 	 */
-	public static String wrapInExact(double x, String s, StringTemplate tpl,
+	public static String wrapInExact(double x, String s0, StringTemplate tpl,
 			Kernel kernel) {
-		if (s.startsWith("exact(")) {
+		if (s0.startsWith("exact(")) {
 			// nothing to do
-			return s;
+			return s0;
 		}
-
+		String s = s0;
 		// if we have eg 6.048554268711413E7
 		// convert to exact(6.048554268711413e7)
 		if (s.indexOf("E") > -1) {

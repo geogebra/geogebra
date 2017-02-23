@@ -17,16 +17,19 @@ import org.geogebra.common.kernel.arithmetic.Traversing.GeoCollector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Helper class for Prover
+ */
 class StatementFeatures {
 
-	static final String[] rules = { "Intersect", "Segment", "Midpoint",
+	private static final String[] rules = { "Intersect", "Segment", "Midpoint",
 			"OrthogonalLine", "Circle", "Line", "Point", "Free Point",
 			"Ray", "Area", "Distance", "LineBisector", "Expression",
 			"Translate", "Vector", "Polygon", "Tangent", "Parabola",
 			"Mirror", "Ellipse", "AngularBisector", "Rotate", "Angle",
 			"Hyperbola" };
 
-	static final String[] obj_types = { "Point", "Circle", "Line",
+	private static final String[] obj_types = { "Point", "Circle", "Line",
 			"Segment", "Triangle", "Numeric", "Pentagon", "Angle",
 			"Triangle", "Parabola", "Ray", "Ellipse", "Hyperbola",
 			"Quadrilateral", "Vector" };
@@ -99,6 +102,14 @@ class StatementFeatures {
 		return parentsComplexity;
 	}
 
+	/**
+	 * @param description
+	 *            description
+	 * @param nodes
+	 *            nodes
+	 * @param categories
+	 *            ccategories
+	 */
 	static void generateStatistics(String description, List<Object> nodes,
 			String[] categories) {
 		/*
@@ -203,9 +214,9 @@ class StatementFeatures {
 		Log.debug("minimum=" + minimum + " maximum=" + maximum + " mean="
 				+ mean + " variation_coefficient=" + variation_coefficient
 				+ " entropy=" + entropy);
-
+		String description1 = description;
 		if (categories != null) {
-			description = "NF(" + description + ")";
+			description1 = "NF(" + description1 + ")";
 			double rel_freq;
 			for (String category : categories) {
 				if (frequencies.containsKey(category)) {
@@ -218,23 +229,27 @@ class StatementFeatures {
 			}
 		}
 
-		csvAdd("max " + description, maximum);
-		csvAdd("min " + description, minimum);
-		csvAdd("mean " + description, mean);
-		csvAdd("variation " + description, variation_coefficient);
-		csvAdd("entropy " + description, entropy);
+		csvAdd("max " + description1, maximum);
+		csvAdd("min " + description1, minimum);
+		csvAdd("mean " + description1, mean);
+		csvAdd("variation " + description1, variation_coefficient);
+		csvAdd("entropy " + description1, entropy);
 	}
 
-	static void csvAdd(String header, double data) {
+	private static void csvAdd(String header, double data) {
 		csv_header += header + ",";
 		csv_data += data + ",";
 	}
 
-	static void csvAdd(String header, String data) {
+	private static void csvAdd(String header, String data) {
 		csv_header += header + ",";
 		csv_data += data + ",";
 	}
 
+	/**
+	 * @param statement
+	 *            element
+	 */
 	static void init(GeoElement statement) {
 
 		nodeLongestPath = new HashMap<GeoElement, Integer>();

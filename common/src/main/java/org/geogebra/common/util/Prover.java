@@ -441,8 +441,7 @@ public abstract class Prover {
 	/**
 	 * Sets the maximal time spent in the Prover for the given proof.
 	 * 
-	 * @param timeout
-	 *            The timeout in seconds
+	 * @return The timeout in seconds
 	 */
 	public int getTimeout() {
 		return timeout;
@@ -754,6 +753,9 @@ public abstract class Prover {
 		return theoremText.toString();
 	}
 
+	/**
+	 * @return Recio's prover
+	 */
 	AbstractProverReciosMethod getReciosProver() {
 
 		if (reciosProver == null) {
@@ -763,10 +765,13 @@ public abstract class Prover {
 		return reciosProver;
 	}
 
+	/**
+	 * @return new Recio's prover
+	 */
 	protected abstract AbstractProverReciosMethod getNewReciosProver();
 
 	/**
-	 * The full GeoGebra construction, containing all geos and algos.
+	 * @return The full GeoGebra construction, containing all geos and algos.
 	 */
 	public Construction getConstruction() {
 		return construction;

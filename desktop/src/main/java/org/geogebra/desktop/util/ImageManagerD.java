@@ -153,8 +153,8 @@ public class ImageManagerD extends ImageManager {
 		}
 	}
 
-	public static MyImageD getExternalImage(String fileName) {
-
+	public static MyImageD getExternalImage(String fileName0) {
+		String fileName = fileName0;
 		// GIF saved as PNG in .ggb files so need to change extension
 		FileExtensions ext = StringUtil.getFileExtension(fileName);
 		if (!ext.isAllowedImage()) {
@@ -247,13 +247,14 @@ public class ImageManagerD extends ImageManager {
 
 	}
 
-	public static BufferedImage toBufferedImage(Image image, int transparency) {
-		if (image instanceof BufferedImage) {
-			return (BufferedImage) image;
+	public static BufferedImage toBufferedImage(Image image0,
+			int transparency) {
+		if (image0 instanceof BufferedImage) {
+			return (BufferedImage) image0;
 		}
 
 		// This code ensures that all the pixels in the image are loaded
-		image = new ImageIcon(image).getImage();
+		Image image = new ImageIcon(image0).getImage();
 
 		// Create a buffered image with a format that's compatible with the
 		// screen

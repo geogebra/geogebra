@@ -42,8 +42,8 @@ public class MidiSoundD implements MetaEventListener {
 	private MidiChannel channels[];
 
 	private Sequencer sequencer;
-	private Sequence sequence;
-	private long tickPosition;
+	private Sequence seq;
+	private long tickPos;
 
 	private Player player;
 	// Midi meta event
@@ -147,7 +147,9 @@ public class MidiSoundD implements MetaEventListener {
 			sequencer.start();
 
 		} catch (MidiUnavailableException e) {
+			// ignore
 		} catch (InvalidMidiDataException e) {
+			// ignore
 		}
 	}
 
@@ -158,17 +160,17 @@ public class MidiSoundD implements MetaEventListener {
 		}
 
 		if (doPause) {
-			tickPosition = sequencer.getTickPosition();
+			tickPos = sequencer.getTickPosition();
 			closeMidiSound();
 		} else {
-			playSequence(sequence, tickPosition);
+			playSequence(seq, tickPos);
 		}
 
 	}
 
 	public void stop() {
 		closeMidiSound();
-		sequence = null;
+		seq = null;
 	}
 
 	public void closeMidiSound() {
@@ -203,7 +205,7 @@ public class MidiSoundD implements MetaEventListener {
 	public void playSequenceNote(final int note, final double duration,
 			final int instrument) {
 
-		tickPosition = 0;
+		tickPos = 0;
 		String str = "[" + note + "]/" + Double.toString(duration);
 		this.playSequenceFromJFugueString(str, instrument);
 
@@ -217,7 +219,8 @@ public class MidiSoundD implements MetaEventListener {
 	 * Uses the sequencer to play a Midi sequence from a .mid file or a .txt
 	 * file containing a JFugue string.
 	 */
-	public void playMidiFile(String filePath) {
+	public void playMidiFile(String filePath0) {
+		String filePath = filePath0;
 		try {
 
 			if ("".equals(filePath) && app.isUsingFullGui()) {
@@ -296,11 +299,11 @@ public class MidiSoundD implements MetaEventListener {
 				loadSoundBank(f, url);
 			} else {
 				// Load new sequence from .mid file
-				tickPosition = 0;
+				tickPos = 0;
 
-				sequence = f == null ? MidiSystem.getSequence(url)
+				seq = f == null ? MidiSystem.getSequence(url)
 						: MidiSystem.getSequence(f);
-				playSequence(sequence, tickPosition);
+				playSequence(seq, tickPos);
 			}
 
 		} catch (IOException e) {
@@ -340,7 +343,7 @@ public class MidiSoundD implements MetaEventListener {
 		}
 	}
 
-	public void playSequenceFromJFugueString(String noteString,
+	public void playSequenceFromJFugueString(String noteString0,
 			int instrument) {
 
 		initialize();
@@ -351,7 +354,7 @@ public class MidiSoundD implements MetaEventListener {
 			e.printStackTrace();
 		}
 
-		noteString = "I[" + instrument + "] " + noteString;
+		String noteString = "I[" + instrument + "] " + noteString0;
 		player = new Player(sequencer);
 		Pattern pattern = new Pattern(noteString);
 		PlayerThread thread = new PlayerThread(player, pattern);
