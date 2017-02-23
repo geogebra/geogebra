@@ -4123,10 +4123,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_NEW_EV_CENTERING:
 			return true; // 5.0.290
 
-		// MOB-827
-		case MOBILE_ROUNDING_OPTION:
-			return true; // 5.0.276
-
 		// MOB-885
 		case MOBILE_PROGRESS_DIALOG_CANCEL:
 			return true; // 5.0.290

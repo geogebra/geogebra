@@ -90,12 +90,8 @@ public enum Feature {
 	/** related to MOB-825 */
 	MOBILE_NEW_EV_CENTERING,
 
-	/** MOB-827 */
-	MOBILE_ROUNDING_OPTION,
-
 	/** GGB-798 */
 	AV_SCROLL,
-
 
 	/** MOB-885 */
 	MOBILE_PROGRESS_DIALOG_CANCEL,
