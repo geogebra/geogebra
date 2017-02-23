@@ -4169,10 +4169,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ANDROID_PROCESS_LAST_VALID_INPUT:
 			return true; // 5.0.310
 
-		// MOB-555
-		case MOBILE_3D_TOOLS_WITH_DIALOGS:
-			return true; // 5.0.301
-
 		// MOB-1005
 		case MOBILE_DO_NOT_AUTOSYNC_APPS:
 			return true; // 5.0.299
