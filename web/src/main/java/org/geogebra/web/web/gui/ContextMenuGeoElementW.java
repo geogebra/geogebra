@@ -50,7 +50,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
         AttachedToDOM {
 
 	protected GPopupMenuW wrappedPopup;
-	protected GPopupMenuW labelPopup = null;
 	protected Localization loc;
 	// private MenuItem mnuCopy;
 	private MenuItem mnuCut;
