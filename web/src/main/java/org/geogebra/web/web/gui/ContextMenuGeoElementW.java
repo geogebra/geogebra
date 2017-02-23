@@ -136,6 +136,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	private void addForAllItems() {
 		if (isWhiteboard()) {
+			addRename();
+			wrappedPopup.addSeparator();
 			addEditItems();
 			wrappedPopup.addSeparator();
 			addObjectPropertiesMenu();
@@ -362,41 +364,8 @@ MainMenu.getMenuBarHtml(img,
 			wrappedPopup.addSeparator();
 		}
 
-		// Rename
-		if (getGeos().size() == 1 && app.letRename() && getGeo().isRenameable()) {
-
-			String img;
-			if (isWhiteboard()) {
-				img = AppResources.INSTANCE.rename20().getSafeUri().asString();
-			} else {
-				img = AppResources.INSTANCE.rename().getSafeUri().asString();
-			}
-
-			addAction(
-			        new Command() {
-
-				        @Override
-						public void execute() {
-					        renameCmd();
-				        }
-			        },
- MainMenu.getMenuBarHtml(img, loc.getMenu("Rename")),
-					loc.getMenu("Rename"));
-		}
-
-		if (getGeos().size() == 1 && getGeo() instanceof TextValue
-		        && !getGeo().isTextCommand() && !getGeo().isFixed()) {
-			addAction(
-			        new Command() {
-
-				        @Override
-						public void execute() {
-					        editCmd();
-				        }
-			        },
-			        MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit()
-							.getSafeUri().asString(), loc.getMenu("Edit")),
-					loc.getMenu("Edit"));
+		if (!isWhiteboard()) {
+			addRename();
 		}
 
 		// DELETE
@@ -451,6 +420,43 @@ MainMenu.getMenuBarHtml(img,
  MainMenu.getMenuBarHtml(img,
 							loc.getMenu("Properties")),
 					loc.getMenu("Properties"));
+		}
+
+	}
+
+	private void addRename() {
+		if (!(getGeos().size() == 1 && app.letRename()
+				&& getGeo().isRenameable())) {
+			return;
+		}
+
+		String img;
+		if (isWhiteboard()) {
+			img = AppResources.INSTANCE.rename20().getSafeUri().asString();
+		} else {
+			img = AppResources.INSTANCE.rename().getSafeUri().asString();
+		}
+
+		addAction(new Command() {
+
+			@Override
+			public void execute() {
+				renameCmd();
+			}
+		}, MainMenu.getMenuBarHtml(img, loc.getMenu("Rename")),
+				loc.getMenu("Rename"));
+
+		if (getGeos().size() == 1 && getGeo() instanceof TextValue
+				&& !getGeo().isTextCommand() && !getGeo().isFixed()) {
+			addAction(new Command() {
+
+				@Override
+				public void execute() {
+					editCmd();
+				}
+			}, MainMenu.getMenuBarHtml(
+					AppResources.INSTANCE.edit().getSafeUri().asString(),
+					loc.getMenu("Edit")), loc.getMenu("Edit"));
 		}
 
 	}
