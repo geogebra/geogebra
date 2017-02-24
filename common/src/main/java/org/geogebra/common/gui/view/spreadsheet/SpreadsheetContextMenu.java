@@ -49,7 +49,7 @@ public class SpreadsheetContextMenu {
 
 		RecordToSpreadsheet,
 
-		Copy, Paste, Cut, Delete, DeleteObjects,
+		Copy, Paste, Duplicate, Cut, Delete, DeleteObjects,
 
 		InsertLeft, InsertRight, InsertAbove, InsertBelow,
 
@@ -96,6 +96,38 @@ public class SpreadsheetContextMenu {
 	// Menu
 	// ===============================================
 
+	protected void addCut() {
+		String cmdString = MenuCommand.Cut.toString();
+		addMenuItem(cmdString, loc.getMenu(cmdString), !isEmptySelection());
+	}
+
+	protected void addCopy() {
+		String cmdString = MenuCommand.Copy.toString();
+		addMenuItem(cmdString, loc.getMenu(cmdString), !isEmptySelection());
+	}
+
+	protected void addPaste() {
+		String cmdString = MenuCommand.Paste.toString();
+		addMenuItem(cmdString, loc.getMenu(cmdString), true);
+	}
+
+	protected void addDelete() {
+		// TODO use "DeleteObjects" as text ?
+		String cmdString = (geos != null && geos.size() > 1)
+				? MenuCommand.DeleteObjects.toString()
+				: MenuCommand.Delete.toString();
+
+		addMenuItem(cmdString, loc.getMenu(cmdString), !allFixed());
+
+	}
+
+	protected void addEditItems() {
+		addSeparator();
+		addCopy();
+		addPaste();
+		addCut();
+		addDelete();
+	}
 	/**
 	 * Load menu items
 	 */
@@ -112,34 +144,12 @@ public class SpreadsheetContextMenu {
 
 		addSeparator();
 
-		// Copy
-		cmdString = MenuCommand.Copy.toString();
-		boolean enabled = !isEmptySelection();
-		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
-
-		// Paste
-		cmdString = MenuCommand.Paste.toString();
-		enabled = true;
-		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
-
-		// Cut
-		cmdString = MenuCommand.Cut.toString();
-		enabled = !isEmptySelection();
-		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
-
-		// Delete
-		// TODO use "DeleteObjects" as text ?
-		if (geos != null && geos.size() > 1) {
-			cmdString = MenuCommand.DeleteObjects.toString();
-		} else {
-			cmdString = MenuCommand.Delete.toString();
-		}
-		enabled = !allFixed();
-		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
+		addEditItems();
 
 		// ===============================================
 		// Insert/Delete Rows or Columns
 		// ===============================================
+		boolean enabled = false;
 
 		if (selectionType == MyTableInterface.COLUMN_SELECT
 				|| selectionType == MyTableInterface.ROW_SELECT) {
@@ -415,15 +425,16 @@ public class SpreadsheetContextMenu {
 			break;
 
 		case Copy:
-			table.getCopyPasteCut().copy(column1, row1, column2, row2, false);
+			cmdCopy();
+			break;
+
+		case Duplicate:
+			cmdCopy();
+			cmdPaste();
 			break;
 
 		case Paste:
-			succ = table.getCopyPasteCut().paste(column1, row1, column2, row2);
-			if (succ) {
-				app.storeUndoInfo();
-			}
-			table.getView().rowHeaderRevalidate();
+			cmdPaste();
 			break;
 
 		case Cut:
@@ -502,6 +513,21 @@ public class SpreadsheetContextMenu {
 			break;
 
 		}
+
+	}
+
+	private void cmdCopy() {
+		table.getCopyPasteCut().copy(column1, row1, column2, row2, false);
+
+	}
+
+	private void cmdPaste() {
+		boolean succ = table.getCopyPasteCut().paste(column1, row1, column2,
+				row2);
+		if (succ) {
+			app.storeUndoInfo();
+		}
+		table.getView().rowHeaderRevalidate();
 
 	}
 

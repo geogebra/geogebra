@@ -69,6 +69,26 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	@Override
+	protected void addEditItems() {
+		if (isWhiteboard()) {
+			addSeparator();
+			addCut();
+			addCopy();
+			addDuplicate();
+			addPaste();
+			addDelete();
+		} else {
+			super.addEditItems();
+		}
+	}
+
+	private void addDuplicate() {
+		String cmdString = MenuCommand.Duplicate.toString();
+		addMenuItem(cmdString, app.getLocalization().getMenu(cmdString),
+				!isEmptySelection());
+	}
+
+	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 		String html;
 		if (isWhiteboard()) {
