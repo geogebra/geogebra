@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
@@ -555,10 +556,11 @@ img2,
 			return;
 		}
 
-		boolean pinnable = getGeo().isPinnable();
-		boolean fixable = getGeo().isFixable();
-
+		final GeoElement geo = getGeo();
+		boolean pinnable = geo.isPinnable();
+		boolean fixable = geo.isFixable();
 		if (!(pinnable || fixable)) {
+			Log.debug("NEMFIXABLE!");
 			return;
 		}
 
@@ -573,7 +575,7 @@ img2,
 				img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			}
 
-			final boolean pinned = getGeo().isPinned();
+			final boolean pinned = geo.isPinned();
 			addAction(
 					new Command() {
 
@@ -589,32 +591,14 @@ img2,
 
 		Command cmd = null;
 		String label = loc.getMenu("LockObject");
-		if (fixable && (getGeo().isGeoText()
-				|| getGeo().isGeoImage() || getGeo().isGeoButton())) {
+		if (fixable) {
 			cmd = new Command() {
 
-				@Override
 				public void execute() {
-					fixObjectCmd();
-				}
-			};
-		} else if (getGeo().isGeoNumeric()) {
-			final GeoNumeric num = (GeoNumeric) getGeo();
-			if (num.isSlider()) {
-				cmd = new Command() {
-
-					@Override
-					public void execute() {
-						fixObjectNumericCmd(num);
-					}
-				};
-			}
-		} else if (getGeo().isGeoBoolean()) {
-			cmd = new Command() {
-
-				@Override
-				public void execute() {
-					fixCheckboxCmd();
+					ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
+					geoArray.add(geo);
+					EuclidianStyleBarStatic.applyFixObject(geoArray,
+							!geo.isFixed(), app.getActiveEuclidianView());
 				}
 			};
 		}
@@ -623,7 +607,14 @@ img2,
 
 			String img;
 			if (isWhiteboard()) {
-				img = AppResources.INSTANCE.lock20().getSafeUri().asString();
+				if (geo.isFixed()) {
+					img = AppResources.INSTANCE.lock20().getSafeUri()
+							.asString();
+				} else {
+					img = AppResources.INSTANCE.unlock20().getSafeUri()
+							.asString();
+
+				}
 			} else {
 				img = AppResources.INSTANCE.objectFixed().getSafeUri().asString();
 			}
