@@ -4103,10 +4103,6 @@ public abstract class App implements UpdateSelection {
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
 
-		// MOB-774, MOB-775
-		case MOBILE_TOOLBAR_FROM_FILE:
-			return true;
-
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
 			return prerelease;
 
