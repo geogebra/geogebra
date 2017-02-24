@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * 
@@ -486,8 +487,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
-		return getCaption(StringTemplate.defaultTemplate).length()
-				* kernel.getApplication().getFontSize();
+		return (int) (32 + StringUtil.getPrototype().estimateLength(
+				getCaption(StringTemplate.defaultTemplate),
+				ev.getApplication().getFontCanDisplay(label)));
 	}
 
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
