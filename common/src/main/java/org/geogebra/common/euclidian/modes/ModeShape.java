@@ -83,6 +83,32 @@ public class ModeShape {
 	public boolean isDragStartPointSet() {
 		return dragPointSet;
 	}
+
+	/**
+	 * @param isSet
+	 *            - false if we want to ignore that dragPoit was set
+	 */
+	public void setDragStartPointSet(boolean isSet) {
+		dragPointSet = isSet;
+	}
+
+	/**
+	 * @return start point from drawing of shape
+	 */
+	public GPoint getDragStartPoint() {
+		return dragStartPoint;
+	}
+
+	/**
+	 * @param x
+	 *            coord of start point
+	 * @param y
+	 *            coord of start point
+	 */
+	public void setDragStartPoint(int x, int y) {
+		this.dragStartPoint.setLocation(x, y);
+	}
+
 	/**
 	 * get start point of dragging
 	 * 

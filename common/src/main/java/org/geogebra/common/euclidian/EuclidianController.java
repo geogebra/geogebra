@@ -295,6 +295,8 @@ public abstract class EuclidianController {
 	protected Hits handleAddSelectedArrayList = new Hits();
 	protected Coords tmpCoordsL3;
 	protected boolean penDragged;
+	protected boolean shapeDragged;
+	protected int oldShapeMode = -1;
 	protected boolean doubleClickStarted;
 	protected double twoTouchStartX, twoTouchStartY, twoTouchStartDistance;
 	/**
@@ -7885,7 +7887,7 @@ public abstract class EuclidianController {
 	protected final void handleMouseDragged(boolean repaint,
 			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
-		if (getResizedShape() != null) {
+		if (getResizedShape() != null && !shapeDragged) {
 			EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
 			// we have only 2 handlers for segment
 			// needs special handling
@@ -8224,7 +8226,7 @@ public abstract class EuclidianController {
 		
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		// for now allow only corner handlers
-		if (d != null && view
+		if (!shapeDragged && d != null && view
 				.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 			EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
 			// we have only 2 handlers for segment
@@ -8649,7 +8651,8 @@ public abstract class EuclidianController {
 			// button
 			// else
 			if (app.isSelectionRectangleAllowed()
-					&& ((app.isRightClick(event)) || allowSelectionRectangle())
+					&& ((app.isRightClick(event))
+							|| (allowSelectionRectangle() && !shapeDragged))
 					&& !temporaryMode) {
 				// Michael Borcherds 2007-10-07
 				// set zoom rectangle's size
@@ -9221,6 +9224,7 @@ public abstract class EuclidianController {
 		scriptsHaveRun = false;
 
 		penDragged = false;
+		shapeDragged = false;
 
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			// determine parent panel to change focus
@@ -9258,8 +9262,28 @@ public abstract class EuclidianController {
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
-			getShapeMode().handleMousePressedForShapeMode(event);
-			return;
+			// no hit, so we have to create shape
+			if (view.getHits().isEmpty()) {
+				// clear selection to be able to drag created shape with shape
+				// tool
+				selection.clearSelectedGeos();
+				getShapeMode().handleMousePressedForShapeMode(event);
+			} else {
+				if (view.getHits().size() == 1 && view.getHits().get(0) != null
+						&& view.getHits().get(0).isShape()) {
+					if (view.getDrawableFor(view.getHits().get(0)) != null
+							&& ((Drawable) view
+									.getDrawableFor(view.getHits().get(0)))
+											.getBoundingBox() == view
+													.getBoundingBox()) {
+						// we want to drag shape with shape tool
+						// switch to move mode and store current mode
+						shapeDragged = true;
+						oldShapeMode = mode;
+						mode = EuclidianConstants.MODE_MOVE;
+					}
+				}
+			}
 		}
 
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
@@ -9793,7 +9817,7 @@ public abstract class EuclidianController {
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 		}
 
-		if (shapeMode(mode) && !app.isRightClick(event)) {
+		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {
 			GeoElement geo = getShapeMode()
 						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape()
@@ -9809,6 +9833,14 @@ public abstract class EuclidianController {
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
 			return;
+		}
+
+		// after finished drag switch back mode
+		// also ignore drag start point
+		if (mode == EuclidianConstants.MODE_MOVE && shapeDragged) {
+			shapeDragged = false;
+			mode = oldShapeMode;
+			getShapeMode().setDragStartPointSet(false);
 		}
 
 		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
