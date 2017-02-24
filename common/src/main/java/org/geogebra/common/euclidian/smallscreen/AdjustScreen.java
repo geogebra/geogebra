@@ -142,19 +142,19 @@ public class AdjustScreen {
 					// ensure = true;
 				}
 			} else if (geo.isGeoButton()) {
-				if (geo.isGeoInputBox()) {
-					Log.debug("[AS] collecting inputbox: " + geo);
-					GeoInputBox input = (GeoInputBox) geo;
-					inputBoxes.add(input);
-					// ensure = true;
-				} else {
+				// if (geo.isGeoInputBox()) {
+				// Log.debug("[AS] collecting inputbox: " + geo);
+				// GeoInputBox input = (GeoInputBox) geo;
+				// inputBoxes.add(input);
+				// // ensure = true;
+				// } else {
 					if (!layoutButtons.isCollected()) {
 						Log.debug("[AS] collecting buttons: " + geo);
 						GeoButton btn = (GeoButton) geo;
 						layoutButtons.add(btn);
 					}
 
-				}
+				// }
 			}
 
 			// if (ensure) {

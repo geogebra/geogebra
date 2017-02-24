@@ -48,7 +48,8 @@ import org.geogebra.common.util.debug.Log;
 public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	// TODO: examine these two, why are they needed and why these values.
 	private static final double TF_HEIGHT_FACTOR = 1.22;
-	private static final double TF_WIDTH_FACTOR = 0.81;
+	/** ratio of length and screen width */
+	public static final double TF_WIDTH_FACTOR = 0.81;
 
 	private static final int TF_MARGIN = 10;
 

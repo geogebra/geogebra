@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.StringTemplate;
@@ -427,28 +428,47 @@ public class GeoButton extends GeoElement
 		return ValueType.VOID;
 	}
 
+	/**
+	 * @return screen x from file
+	 */
 	public Integer getOrigX() {
 		return origX;
 	}
 
+	/**
+	 * @return screen y from file
+	 */
 	public Integer getOrigY() {
 		return origY;
 	}
 
+	/**
+	 * @return height from file
+	 */
 	public Integer getOrigHeight() {
 		return origHeight;
 	}
 
-	public void setOrigHeight(Integer origHeight) {
-		this.origHeight = origHeight;
-	}
-
+	/**
+	 * @return width from file
+	 */
 	public Integer getOrigWidth() {
 		return origWidth;
 	}
 
-	public void setOrigWidth(Integer origWidth) {
-		this.origWidth = origWidth;
+	/**
+	 * Reset the original location to null
+	 */
+	public void resetOrigLocation() {
+		this.origX = null;
+		this.origY = null;
+	}
+
+	/**
+	 * @return total screen width, overridden in GeoInputBox
+	 */
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return getWidth();
 	}
 
 }

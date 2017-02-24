@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -29,6 +32,10 @@ import org.geogebra.common.util.debug.Log;
 public class GeoInputBox extends GeoButton {
 	private static int defaultLength = 20;
 	private int length;
+	private int printDecimals = -1;
+	private int printFigures = -1;
+	private boolean useSignificantFigures = false;
+	private StringTemplate tpl = StringTemplate.defaultTemplate;
 
 	/**
 	 * Creates new text field
@@ -405,10 +412,7 @@ public class GeoInputBox extends GeoButton {
 		}
 	}
 
-	private int printDecimals = -1;
-	private int printFigures = -1;
-	private boolean useSignificantFigures = false;
-	private StringTemplate tpl = StringTemplate.defaultTemplate;
+
 
 	@Override
 	public int getPrintDecimals() {
@@ -462,6 +466,15 @@ public class GeoInputBox extends GeoButton {
 		}
 
 		bgColor = GColor.newColor(red, green, blue);
+	}
+
+	@Override
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		DrawableND draw = ev.getDrawableFor(this);
+		if (draw instanceof DrawInputBox) {
+			return ((DrawInputBox) draw).getTotalSize().getWidth();
+		}
+		return getWidth();
 	}
 
 }

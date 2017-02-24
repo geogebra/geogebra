@@ -98,7 +98,9 @@ public class LayoutButtons {
 
 	private static String buttonDetails(GeoButton btn) {
 		return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
-				+ btn.getAbsoluteScreenLocY() + ")";
+				+ btn.getAbsoluteScreenLocY() + "), " + btn.getWidth()
+				+ "x"
+				+ btn.getHeight();
 	}
 
 	private static void debugButtons(String msg, List<GeoButton> buttons) {
@@ -151,13 +153,13 @@ public class LayoutButtons {
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (GeoButton btn : moveable) {
 			final int x = btn.getAbsoluteScreenLocX();
-			int y = maxUnusedY(usedPositions, x, x + btn.getWidth(),
+			int y = maxUnusedY(usedPositions, x, x + btn.getTotalWidth(view),
 					view.getHeight());
 			y -= btn.getHeight() + Y_GAP;
 			y = Math.min(btn.getAbsoluteScreenLocY(), y);
 			btn.setAbsoluteScreenLoc(x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					btn.getWidth(), btn.getHeight()));
+					btn.getTotalWidth(view), btn.getHeight()));
 			view.update(btn);
 		}
 	}
@@ -176,11 +178,11 @@ public class LayoutButtons {
 			final int y = btn.getAbsoluteScreenLocY();
 			int x = maxUnusedX(usedPositions, y, y + btn.getHeight(),
 					view.getWidth());
-			x -= btn.getWidth() + X_GAP;
+			x -= btn.getTotalWidth(view) + X_GAP;
 			x = Math.min(btn.getAbsoluteScreenLocX(), x);
 			btn.setAbsoluteScreenLoc(x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					btn.getWidth(), btn.getHeight()));
+					btn.getTotalWidth(view), btn.getHeight()));
 			view.update(btn);
 		}
 	}
@@ -250,13 +252,13 @@ public class LayoutButtons {
 
 	}
 
-	private static int getWidths(List<GeoButton> buttons) {
-		int w = 0;
-		for (GeoButton btn : buttons) {
-			w += btn.getWidth() + X_GAP;
-		}
-		return w;
-	}
+	// private static int getTotalWidths(List<GeoButton> buttons) {
+	// int w = 0;
+	// for (GeoButton btn : buttons) {
+	// w += btn.getTotalWidth(view) + X_GAP;
+	// }
+	// return w;
+	// }
 
 	private static int getHeights(List<GeoButton> buttons) {
 		int h = 0;
@@ -268,7 +270,7 @@ public class LayoutButtons {
 
 	private boolean isHorizontallyOnScreen(GeoButton btn) {
 		int x = btn.getAbsoluteScreenLocX();
-		int width = btn.getWidth();
+		int width = btn.getTotalWidth(view);
 		return x + width < view.getViewWidth();
 	}
 
