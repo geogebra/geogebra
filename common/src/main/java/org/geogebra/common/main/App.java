@@ -4103,10 +4103,6 @@ public abstract class App implements UpdateSelection {
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
 
-		// MOB-882
-		case NEW_TOOLBAR_ANDROID:
-			return true;
-
 		// MOB-774, MOB-775
 		case MOBILE_TOOLBAR_FROM_FILE:
 			return true;
