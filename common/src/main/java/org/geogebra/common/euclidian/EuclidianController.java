@@ -6761,7 +6761,10 @@ public abstract class EuclidianController {
 		} else {
 			mouseIsOverLabel = false;
 		}
-		if (moveMode(mode)) { // label hit in move mode: block all other hits
+
+		// change cursor also in shape mode for hover
+		if (moveMode(mode) || shapeMode(mode)) { // label hit in move mode:
+													// block all other hits
 			if (geo != null) {
 				noHighlighting = true;
 				tempArrayList.clear();
@@ -6771,7 +6774,7 @@ public abstract class EuclidianController {
 			if (view.getBoundingBox() != null && geo == null) {
 				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc,
 						event.getType());
-				if (d != null) {
+				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
 					EuclidianBoundingBoxHandler nrHandler = view
 							.getHitHandler();
 					// we have only 2 handlers for segment
@@ -7887,7 +7890,7 @@ public abstract class EuclidianController {
 	protected final void handleMouseDragged(boolean repaint,
 			AbstractEvent event, boolean manual) {
 		startCollectingMinorRepaints();
-		if (getResizedShape() != null && !shapeDragged) {
+		if (getResizedShape() != null) {
 			EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
 			// we have only 2 handlers for segment
 			// needs special handling
@@ -8226,7 +8229,7 @@ public abstract class EuclidianController {
 		
 		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, e.getType());
 		// for now allow only corner handlers
-		if (!shapeDragged && d != null && view
+		if (d != null && view
 				.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 			EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
 			// we have only 2 handlers for segment
@@ -9263,7 +9266,7 @@ public abstract class EuclidianController {
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			// no hit, so we have to create shape
-			if (view.getHits().isEmpty()) {
+			if (view.getHits().isEmpty() || view.getHits().size() > 1) {
 				// clear selection to be able to drag created shape with shape
 				// tool
 				selection.clearSelectedGeos();
@@ -9281,6 +9284,11 @@ public abstract class EuclidianController {
 						shapeDragged = true;
 						oldShapeMode = mode;
 						mode = EuclidianConstants.MODE_MOVE;
+					}
+					// shape hit but not selected
+					else {
+						selection.clearSelectedGeos();
+						getShapeMode().handleMousePressedForShapeMode(event);
 					}
 				}
 			}
