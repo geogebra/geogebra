@@ -9,7 +9,6 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 
 public class PointStylePopup extends PopupMenuButtonW implements IComboListener {
@@ -20,7 +19,8 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 	private PointStyleModel model;
 	private boolean euclidian3D;
 
-	public static PointStylePopup create(AppW app, int iconHeight, int mode, boolean hasSlider, PointStyleModel model) {
+	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
+			PointStyleModel model) {
 		
 		PointStylePopup.mode = mode;
 		
@@ -29,7 +29,6 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 		}
 
-		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
 		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianView
 				.getPointStyleLength()];
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
@@ -38,19 +37,19 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 		}
 
 		return new PointStylePopup(app, pointStyleIcons, 2, -1,
-				pointStyleIconSize, SelectionTable.MODE_ICON, true,
+				SelectionTable.MODE_ICON, true,
 		        hasSlider, model);
 	}
 
 	public static PointStylePopup create(AppW app, int mode,
 	        PointStyleModel model) {
-		return new PointStylePopup(app, null, 1, -1, null,
+		return new PointStylePopup(app, null, 1, -1, 
 				SelectionTable.MODE_ICON, false, true, model);
 	}
 
 
 	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
-            Integer columns, GDimensionW iconSize, SelectionTable mode,
+			Integer columns, SelectionTable mode,
             boolean hasTable, boolean hasSlider, PointStyleModel model) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider, null);
 	    this.model = model;

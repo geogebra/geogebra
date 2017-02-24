@@ -710,7 +710,6 @@ public class OptionsTab extends FlowPanel {
 		private PointStyleModel model;
 		private Label titleLabel;
 		private PointStylePopup btnPointStyle;
-		private int iconHeight = 24;
 
 		public PointStylePanel(PointStyleModel model0, AppW app) {
 			model = model0;
@@ -721,7 +720,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.setStyleName("optionsPanel");
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
-			btnPointStyle = PointStylePopup.create(app, iconHeight, -1, false,
+			btnPointStyle = PointStylePopup.create(app, -1, false,
 					model);
 			if (btnPointStyle != null) {
 				btnPointStyle.setKeepVisible(false);
@@ -834,7 +833,7 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, iconHeight, -1, false);
+			btnLineStyle = LineStylePopup.create(app, -1, false);
 			// slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 

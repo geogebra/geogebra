@@ -623,8 +623,7 @@ public class AppWapplet extends AppWFull {
 					this.oldSplitLayoutPanel.getOffsetWidth()
 							- GLookAndFeel.MENUBAR_WIDTH,
 					this.oldSplitLayoutPanel.getOffsetHeight());
-			frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
-					this.oldSplitLayoutPanel.getOffsetHeight());
+			updateMenuHeight();
 			if (needsUpdate) {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
 			}
@@ -636,6 +635,15 @@ public class AppWapplet extends AppWFull {
 		} else {
 			hideMenu();
 		}
+	}
+
+	@Override
+	public void updateMenuHeight() {
+		if (menuShowing) {
+			frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
+					this.oldSplitLayoutPanel.getOffsetHeight());
+		}
+
 	}
 
 	@Override

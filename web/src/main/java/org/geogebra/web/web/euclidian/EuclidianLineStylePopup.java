@@ -15,12 +15,12 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		ILineStyleListener {
 	LineStyleModel model;
 
-	public EuclidianLineStylePopup(AppW app, int iconHeight, Integer rows,
+	public EuclidianLineStylePopup(AppW app, Integer rows,
 			Integer columns, SelectionTable mode, boolean hasTable,
 			boolean hasSlider) {
-		super(app, LineStylePopup.getLineStyleIcons(iconHeight), rows, columns,
+		super(app, LineStylePopup.getLineStyleIcons(), rows, columns,
 				mode, hasTable, hasSlider,
-				LineStylePopup.getLineStyleMap(iconHeight));
+				LineStylePopup.createLineStyleMap());
 		model = new LineStyleModel(app);
 		model.setListener(this);
 		this.setKeepVisible(false);

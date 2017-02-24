@@ -33,8 +33,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createLineStyleBtn(int mode) {
-		btnLineStyle = new EuclidianLineStylePopup(app,
-				(ICON_HEIGHT), -1, 6,
+		btnLineStyle = new EuclidianLineStylePopup(app, -1, 6,
 				SelectionTable.MODE_ICON, true, true);
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);
@@ -45,7 +44,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createPointStyleBtn(int mode) {
-		btnPointStyle = PointStylePopup.create(app, ICON_HEIGHT, mode, true,
+		btnPointStyle = PointStylePopup.create(app, mode, true,
 				new PointStyleModel(app));
 
 		btnPointStyle.getMySlider().setMinimum(1);

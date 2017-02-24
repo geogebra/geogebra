@@ -30,8 +30,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public abstract class StyleBarW extends HorizontalPanel implements
         ViewsChangedListener, SetLabels {
 
-	protected final static int ICON_HEIGHT = 24;
-
 	PopupMenuButtonW viewButton;
 	MyCJButton menuButton;
 	public AppW app;
@@ -82,6 +80,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			menuButton.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
+					// close keyboard first to avoid perspective mess
+					app.getAppletFrame().showKeyBoard(false, null, false);
 					if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
 						PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
 								.getGuiManager())
@@ -161,7 +161,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		viewButton.addStyleDependentName("borderless");
 		viewButton.addStyleDependentName("rightaligned");
 		ImageOrText views = new ImageOrText();
-		views.setUrl(AppResources.INSTANCE.dots().getSafeUri().asString());
+		views.setResource(AppResources.INSTANCE.dots());
 		viewButton.setFixedIcon(views);
 	
 		if (separator != null) {

@@ -681,7 +681,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (this.toolbarPanel != null) {
 			toolbarPanel.setToolbarWidth(width);
 		}
-		// update view sizes
+		((AppWFull) app).updateMenuHeight();
+		 // update view sizes
 		((AppW) app).updateViewSizes();
 		((AppW) app).recalculateEnvironments();
 		app.setPreferredSize(

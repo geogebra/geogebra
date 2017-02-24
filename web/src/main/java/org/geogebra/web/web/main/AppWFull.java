@@ -870,4 +870,6 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	public abstract void updateMenuHeight();
+
 }
