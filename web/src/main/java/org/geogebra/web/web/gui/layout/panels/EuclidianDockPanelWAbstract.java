@@ -230,7 +230,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 	
 	protected void setDynamicStyleBar(){
-		this.getAbsolutePanel().add(getDynamicStyleBar());
+		DynamicStyleBar dynamicStylebar = getDynamicStyleBar();
+		if(dynamicStylebar != null){
+			this.getAbsolutePanel().add(dynamicStylebar);			
+		}
 	}
 
 }
