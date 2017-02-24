@@ -180,7 +180,7 @@ public class GeoButton extends GeoElement
 		}
 
 		if (origY == null) {
-			origY = x;
+			origY = y;
 		}
 	}
 
@@ -431,16 +431,8 @@ public class GeoButton extends GeoElement
 		return origX;
 	}
 
-	public void setOrigX(Integer origX) {
-		this.origX = origX;
-	}
-
 	public Integer getOrigY() {
 		return origY;
-	}
-
-	public void setOrigY(Integer origY) {
-		this.origY = origY;
 	}
 
 	public Integer getOrigHeight() {

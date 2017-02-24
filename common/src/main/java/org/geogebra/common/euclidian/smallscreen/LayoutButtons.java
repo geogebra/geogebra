@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 public class LayoutButtons {
@@ -43,7 +46,7 @@ public class LayoutButtons {
 				if (y1 == y2) {
 					return 0;
 				}
-				return Kernel.isGreater(y2, y1) ? -1 : 1;
+				return Kernel.isGreater(y1, y2) ? -1 : 1;
 			}
 
 			int x1 = o1.getAbsoluteScreenLocX();
@@ -51,7 +54,7 @@ public class LayoutButtons {
 			if (x1 == x2) {
 				return 0;
 			}
-			return Kernel.isGreater(x2, x1) ? -1 : 1;
+			return Kernel.isGreater(x1, x2) ? -1 : 1;
 
 		}
 	}
@@ -67,7 +70,7 @@ public class LayoutButtons {
 	public void reset() {
 		Log.debug("[LayoutButtons] reset ");
 		for (GeoButton btn : originals) {
-			if (btn.getOrigX() != null) {
+			if (btn.getOrigX() != null && btn.getOrigY() != null) {
 				btn.setAbsoluteScreenLoc(btn.getOrigX(), btn.getOrigY());
 
 			}
@@ -141,34 +144,20 @@ public class LayoutButtons {
 			return;
 		}
 
-		if (multiColumn) {
-			layoutInColumns();
-			return;
-		}
 
-		int y = view.getHeight();
 
-		GeoButton lastFixed = getLastFixed();
-		int ySpace = view.getHeight() - (lastFixed == null ? Y_GAP
-				: lastFixed.getAbsoluteScreenLocY() + lastFixed.getHeight()
-						+ Y_GAP);
 
-		int h = getHeights(moveable);
 
-		while (ySpace < h && lastFixed != null) {
-			moveable.add(0, lastFixed);
-			fixed.remove(fixed.size() - 1);
-			h += lastFixed.getHeight() + Y_GAP;
-			lastFixed = getLastFixed();
-			ySpace = view.getHeight() - (lastFixed == null ? Y_GAP
-					: lastFixed.getAbsoluteScreenLocY() + lastFixed.getHeight()
-							+ Y_GAP);
-		}
-
-		y = view.getHeight() - getHeights(moveable);
+		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (GeoButton btn : moveable) {
-			btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(), y);
-			y += btn.getHeight() + Y_GAP;
+			final int x = btn.getAbsoluteScreenLocX();
+			int y = maxUnusedY(usedPositions, x, x + btn.getWidth(),
+					view.getHeight());
+			y -= btn.getHeight() + Y_GAP;
+			y = Math.min(btn.getAbsoluteScreenLocY(), y);
+			btn.setAbsoluteScreenLoc(x, y);
+			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
+					btn.getWidth(), btn.getHeight()));
 			view.update(btn);
 		}
 	}
@@ -181,40 +170,47 @@ public class LayoutButtons {
 			return;
 		}
 
-		int x = view.getWidth();
 
-		GeoButton lastFixed = getLastFixed();
-		int xSpace = view.getWidth() - (lastFixed == null ? X_GAP
-				: lastFixed.getAbsoluteScreenLocX() + lastFixed.getWidth()
-						+ X_GAP);
-
-		int w = getWidths(moveable);
-
-		while (xSpace < w && lastFixed != null) {
-			moveable.add(0, lastFixed);
-			fixed.remove(fixed.size() - 1);
-			w += lastFixed.getWidth() + X_GAP;
-			lastFixed = getLastFixed();
-			xSpace = view.getWidth() - (lastFixed == null ? X_GAP
-					: lastFixed.getAbsoluteScreenLocX() + lastFixed.getWidth()
-							+ X_GAP);
-
-		}
-
-		x = view.getWidth() - getWidths(moveable);
-		if (x < 0) {
-			x = 0;
-		}
+		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (GeoButton btn : moveable) {
-			btn.setAbsoluteScreenLoc(x, btn.getAbsoluteScreenLocY());
-			x += btn.getWidth() + X_GAP;
+			final int y = btn.getAbsoluteScreenLocY();
+			int x = maxUnusedX(usedPositions, y, y + btn.getHeight(),
+					view.getWidth());
+			x -= btn.getWidth() + X_GAP;
+			x = Math.min(btn.getAbsoluteScreenLocX(), x);
+			btn.setAbsoluteScreenLoc(x, y);
+			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
+					btn.getWidth(), btn.getHeight()));
 			view.update(btn);
 		}
 	}
 
-	private void layoutInColumns() {
-		// TODO Auto-generated method stub
 
+	private int maxUnusedX(ArrayList<GRectangle> usedPositions, int yTop, int yBottom, int max0) {
+		int max = max0;
+		for(GRectangle rect: usedPositions){
+			if (MyMath.intervalsIntersect(rect.getMinY(), rect.getMaxY(), yTop,
+					yBottom)) {
+				if (max > rect.getMinX()) {
+					max = (int) rect.getMinX();
+				}
+			}
+		}
+		return max;
+	}
+
+	private int maxUnusedY(ArrayList<GRectangle> usedPositions, int xLeft,
+			int xRight, int max0) {
+		int max = max0;
+		for (GRectangle rect : usedPositions) {
+			if (MyMath.intervalsIntersect(rect.getMinX(), rect.getMaxX(), xLeft,
+					xRight)) {
+				if (max > rect.getMinY()) {
+					max = (int) rect.getMinY();
+				}
+			}
+		}
+		return max;
 	}
 
 	private void divideX() {
@@ -225,6 +221,7 @@ public class LayoutButtons {
 			GeoButton btn = all.get(idx);
 
 			if (isHorizontallyOnScreen(btn)) {
+				moveable.add(btn);
 				fixed.add(btn);
 			} else {
 				moveable.add(btn);
@@ -237,10 +234,9 @@ public class LayoutButtons {
 	private void divideY() {
 		fixed.clear();
 		moveable.clear();
-		multiColumn = false;
 		// sumOfHeight = 0;
 		int idx = 0;
-		while (!multiColumn && idx < all.size()) {
+		while (idx < all.size()) {
 			GeoButton btn = all.get(idx);
 			// sumOfHeight += btn.getHeight() + Y_GAP;
 			// multiColumn = view.getHeight() < sumOfHeight;
