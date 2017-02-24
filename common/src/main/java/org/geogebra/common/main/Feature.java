@@ -81,9 +81,6 @@ public enum Feature {
 	/** GGB-798 */
 	AV_SCROLL,
 
-	/** MOB-893 */
-	MOBILE_SHOW_ALL_OBJECTS_ON_LOAD,
-
 	/** GGB-1236 */
 	DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW,
 

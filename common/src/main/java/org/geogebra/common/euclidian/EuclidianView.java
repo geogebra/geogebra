@@ -4855,45 +4855,34 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		y0RW -= yGap;
 		y1RW += yGap;
 
-		if (app.has(Feature.MOBILE_SHOW_ALL_OBJECTS_ON_LOAD)) {
-
-			// enlarge x/y if we want to keep ratio
-			if (keepRatio) {
-				double oldRatio = (xmax - xmin) / (ymax - ymin);
-				double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
-				if (newRatio > oldRatio) {
-					// enlarge y
-					double center = (y1RW + y0RW) / 2;
-					double delta = (y1RW - y0RW) / 2;
-					y0RW = center - delta * newRatio / oldRatio;
-					y1RW = center + delta * newRatio / oldRatio;
-				} else {
-					// enlarge x
-					double center = (x1RW + x0RW) / 2;
-					double delta = (x1RW - x0RW) / 2;
-					x0RW = center - delta * oldRatio / newRatio;
-					x1RW = center + delta * oldRatio / newRatio;
-				}
-			}
-
-			// check if animation is needed
-			if (steps == 0) {
-				setRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW);
-				if (storeUndo) {
-					getApplication().storeUndoInfo();
-				}
+		// enlarge x/y if we want to keep ratio
+		if (keepRatio) {
+			double oldRatio = (xmax - xmin) / (ymax - ymin);
+			double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
+			if (newRatio > oldRatio) {
+				// enlarge y
+				double center = (y1RW + y0RW) / 2;
+				double delta = (y1RW - y0RW) / 2;
+				y0RW = center - delta * newRatio / oldRatio;
+				y1RW = center + delta * newRatio / oldRatio;
 			} else {
-				setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, steps,
-						storeUndo);
+				// enlarge x
+				double center = (x1RW + x0RW) / 2;
+				double delta = (x1RW - x0RW) / 2;
+				x0RW = center - delta * oldRatio / newRatio;
+				x1RW = center + delta * oldRatio / newRatio;
 			}
+		}
 
+		// check if animation is needed
+		if (steps == 0) {
+			setRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW);
+			if (storeUndo) {
+				getApplication().storeUndoInfo();
+			}
 		} else {
-			if (keepRatio) {
-				alignView(x0RW, x1RW, y0RW, y1RW);
-			} else {
-				setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, steps,
-						storeUndo);
-			}
+			setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, steps,
+					storeUndo);
 		}
 	}
 

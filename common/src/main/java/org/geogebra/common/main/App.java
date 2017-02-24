@@ -4100,10 +4100,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
 
-		// MOB-893
-		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
-			return true; // 5.0.282
-
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
 
