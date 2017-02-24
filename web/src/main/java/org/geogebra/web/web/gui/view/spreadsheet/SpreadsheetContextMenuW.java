@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -80,6 +81,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		} else {
 			super.addEditItems();
 		}
+	}
+
+	@Override
+	protected void addShowObject(GeoElement geo) {
+
 	}
 
 	private void addDuplicate() {

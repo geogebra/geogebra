@@ -247,9 +247,7 @@ public class SpreadsheetContextMenu {
 				addSeparator();
 
 				if (doObjectMenu) {
-					cmdString = MenuCommand.ShowObject.toString();
-					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-							geo.isSetEuclidianVisible());
+					addShowObject(geo);
 				}
 
 				if (doLabelMenu) {
@@ -313,6 +311,13 @@ public class SpreadsheetContextMenu {
 			cmdString = MenuCommand.Properties.toString();
 			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
 		}
+
+	}
+
+	protected void addShowObject(GeoElement geo) {
+		String cmdString = MenuCommand.ShowObject.toString();
+		addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+				geo.isSetEuclidianVisible());
 
 	}
 
