@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.input;
 
+import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -51,7 +52,7 @@ public class KeyboardInputAdapter {
             public void commit(MathFieldInternal mfi, String input) {
                 typeCharacter(mfi, '^');
                 typeCharacter(mfi, '2');
-                mfi.getCursorController().nextCharacter(mfi.getEditorState());
+                CursorController.nextCharacter(mfi.getEditorState());
             }
         });
         adapters.add(new StringInput("\u221A") {
@@ -74,6 +75,10 @@ public class KeyboardInputAdapter {
                 typeCharacter(mfi, 'o');
                 typeCharacter(mfi, 'g');
                 typeCharacter(mfi, '_');
+                CursorController.nextCharacter(mfi.getEditorState());
+                typeCharacter(mfi, '(');
+                mfi.getCursorController().prevCharacter(mfi.getEditorState());
+                mfi.getCursorController().prevCharacter(mfi.getEditorState());
             }
         });
         adapters.add(new StringInput("10^") {
