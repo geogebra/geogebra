@@ -13,7 +13,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
-import org.geogebra.common.euclidian.draw.DrawList;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
@@ -4355,7 +4355,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected DrawList getComboBoxHit() {
+	protected DrawDropDownList getComboBoxHit() {
 		return null;
 	}
 

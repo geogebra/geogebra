@@ -10,13 +10,11 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
-import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -213,21 +211,7 @@ public class EuclidianViewW extends EuclidianView implements
 		initClickStartHandler();
 	}
 
-	/**
-	 * @param list
-	 *            list
-	 * @param b
-	 *            whether the list should be drawn as combobox
-	 */
-	@Override
-	public void drawListAsComboBox(GeoList list, boolean b) {
 
-		list.setDrawAsComboBox(b);
-
-		DrawList d = (DrawList) getDrawable(list);
-		d.resetDrawType();
-
-	}
 
 	@Override
 	public final GFont getFont() {

@@ -23,11 +23,11 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawButton;
 import org.geogebra.common.euclidian.draw.DrawConic;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
-import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
@@ -1595,11 +1595,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void drawListAsComboBox(GeoList list, boolean b) {
 
-		list.setDrawAsComboBox(b);
 
-		DrawList d = (DrawList) getDrawable(list);
+
+		DrawableND d = getDrawable(list);
 		if (d != null) {
-			d.resetDrawType();
+			remove(list);
+			add(list);
 		}
 
 	}
@@ -3942,12 +3943,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void drawActionObjects(GGraphics2D g) {
 		DrawableIterator it = allDrawableList.getIterator();
 		it.reset();
-		DrawList selected = null;
-		DrawList opened = null;
+		DrawDropDownList selected = null;
+		DrawDropDownList opened = null;
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d instanceof DrawList && ((DrawList) d).isCanvasDrawable()) {
-				DrawList dl = (DrawList) d;
+			if (d instanceof DrawDropDownList
+					&& ((DrawDropDownList) d).isCanvasDrawable()) {
+				DrawDropDownList dl = (DrawDropDownList) d;
 				if (dl.needsUpdate()) {
 					dl.setNeedsUpdate(false);
 					dl.update();
@@ -3973,7 +3975,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
-		DrawList topDropDown = opened != null ? opened : selected;
+		DrawDropDownList topDropDown = opened != null ? opened : selected;
 
 		if (topDropDown != null) {
 			topDropDown.draw(g);
@@ -5491,7 +5493,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private OptionsEuclidian optionPanel = null;
-	private DrawList openedComboBox = null;
+	private DrawDropDownList openedComboBox = null;
 
 	protected ViewTextField viewTextField;
 	private EuclidianStyleBar dynamicStyleBar;
@@ -5856,8 +5858,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 			boolean repaintNeeded = false;
 
-			if (d instanceof DrawList && d.isCanvasDrawable()) {
-				DrawList dl = (DrawList) d;
+			if (d instanceof DrawDropDownList && d.isCanvasDrawable()) {
+				DrawDropDownList dl = (DrawDropDownList) d;
 				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
 					repaintNeeded = repaintNeeded || dl.closeOptions();
 				}
@@ -5876,18 +5878,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		while (it.hasNext()) {
 			Drawable d = it.next();
 
-			if (d instanceof DrawList) {
-				DrawList dl = (DrawList) d;
+			if (d instanceof DrawDropDownList) {
+				DrawDropDownList dl = (DrawDropDownList) d;
 				dl.closeOptions();
 			}
 		}
 	}
 
-	public DrawList getOpenedComboBox() {
+	public DrawDropDownList getOpenedComboBox() {
 		return openedComboBox;
 	}
 
-	public void setOpenedComboBox(DrawList openedComboBox) {
+	public void setOpenedComboBox(DrawDropDownList openedComboBox) {
 		this.openedComboBox = openedComboBox;
 		SelectionManager sm = app.getSelectionManager();
 		if (openedComboBox != null) {

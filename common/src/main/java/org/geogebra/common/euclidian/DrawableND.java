@@ -1,10 +1,8 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
-import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -157,12 +155,6 @@ public abstract class DrawableND {
 	public boolean isCanvasDrawable() {
 		if (!(this instanceof CanvasDrawable)) {
 			return false;
-		}
-
-		if (this instanceof DrawList) {
-			if (!((GeoList) this.getGeoElement()).drawAsComboBox()) {
-				return false;
-			}
 		}
 
 		return true;

@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.draw.DrawButton;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawConicSection;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawImplicitCurve;
 import org.geogebra.common.euclidian.draw.DrawInequality;
@@ -308,6 +309,8 @@ public class EuclidianDraw {
 			if (algo instanceof AlgoDotPlot) {
 				d = new DrawPointPlot(ev, (GeoList) geo,
 						DrawPointPlot.DrawType.DOT_PLOT);
+			} else if (((GeoList) geo).drawAsComboBox()) {
+				d = new DrawDropDownList(ev, (GeoList) geo);
 			} else {
 				d = new DrawList(ev, (GeoList) geo);
 			}

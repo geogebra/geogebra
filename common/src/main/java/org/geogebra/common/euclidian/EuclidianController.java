@@ -26,7 +26,7 @@ import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
-import org.geogebra.common.euclidian.draw.DrawList;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -6919,11 +6919,11 @@ public abstract class EuclidianController {
 	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {
 		if (hit.isGeoList()) {
 			DrawableND dl = view.getDrawableFor(hit);
-			if (dl == null) {
-				return false;
+			if (dl instanceof DrawDropDownList) {
+				((DrawDropDownList) dl).onOptionOver(event.getX(),
+						event.getY());
+				return dl.isCanvasDrawable();
 			}
-			((DrawList) dl).onOptionOver(event.getX(), event.getY());
-			return dl.isCanvasDrawable();
 		}
 		return false;
 	}
@@ -8482,7 +8482,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		DrawList dl = view.getOpenedComboBox();
+		DrawDropDownList dl = view.getOpenedComboBox();
 		if (dl != null && isDraggingBeyondThreshold()) {
 			if (dl.onDrag(event.getX(), event.getY())) {
 				return;
@@ -9210,7 +9210,7 @@ public abstract class EuclidianController {
 		}
 		altCopy = true;
 
-		DrawList dl = getComboBoxHit();
+		DrawDropDownList dl = getComboBoxHit();
 
 		if (!event.isRightClick() && dl != null) {
 			clearSelections();
@@ -9795,7 +9795,7 @@ public abstract class EuclidianController {
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
-		DrawList dl = view.getOpenedComboBox();// getComboBoxHit(event.getX(),
+		DrawDropDownList dl = view.getOpenedComboBox();// getComboBoxHit(event.getX(),
 		// event.getY());
 		if (dl != null) {
 			dl.onMouseUp(event.getX(), event.getY());
@@ -10216,7 +10216,7 @@ public abstract class EuclidianController {
 								.get(0) instanceof GeoList);
 	}
 
-	protected DrawList getComboBoxHit() {
+	protected DrawDropDownList getComboBoxHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
 			GeoList list;
@@ -10224,7 +10224,7 @@ public abstract class EuclidianController {
 				if (geo instanceof GeoList
 						&& ((GeoList) geo).drawAsComboBox()) {
 					list = (GeoList) geo;
-					return (DrawList) (view.getDrawable(list));
+					return (DrawDropDownList) (view.getDrawable(list));
 				}
 			}
 
@@ -10428,7 +10428,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		DrawList combo = view.getOpenedComboBox();
+		DrawDropDownList combo = view.getOpenedComboBox();
 		if (combo != null) {
 			combo.onMouseWheel(delta);
 			return;

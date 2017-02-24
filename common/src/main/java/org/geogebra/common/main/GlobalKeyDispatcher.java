@@ -8,8 +8,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -127,7 +127,7 @@ public abstract class GlobalKeyDispatcher {
 			boolean down, boolean canOpenDropDown) {
 		Log.debug("[KEYS] handleUpDownArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
-			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl == null || !((GeoList) geos.get(0)).drawAsComboBox()) {
 				return false;
 			}
@@ -145,7 +145,7 @@ public abstract class GlobalKeyDispatcher {
 			boolean left, boolean canOpenDropDown) {
 		Log.debug("[KEYS] handleLeftRightArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
-			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (canOpenDropDown && !dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			}
@@ -777,7 +777,7 @@ public abstract class GlobalKeyDispatcher {
 		Log.debug("handleEscForDropdown");
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
-			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			}
@@ -1460,7 +1460,7 @@ public abstract class GlobalKeyDispatcher {
 		if (selection.getSelectedGeos().size() == 1) {
 			GeoElement geo = selection.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
-				DrawList.asDrawable(app, geo).selectCurrentItem();
+				DrawDropDownList.asDrawable(app, geo).selectCurrentItem();
 				return true;
 			}
 
