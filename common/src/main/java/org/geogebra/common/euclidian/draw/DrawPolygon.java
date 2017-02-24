@@ -932,17 +932,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 						radiusX, 5, -Math.PI / 2);
 			}
 		} else {
-			if (height >= 0) {
 				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
 						radiusX, 5, Math.PI / 2);
 				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
 						radiusX, 5, Math.PI / 2);
-			} else {
-				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
-						radiusX, 5, Math.PI / 2);
-				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
-						radiusX, 5, Math.PI / 2);
-			}
 		}
 
 		prewPolygon.moveTo(pointsX[0], pointsY[0]);
