@@ -17,6 +17,7 @@ import java.util.Comparator;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -1431,6 +1432,14 @@ public class GeoText extends GeoElement
 	@Override
 	public boolean isSymbolicMode() {
 		return this.symbolicMode;
+	}
+
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return (int) (ev.getXscale() * boundingBox.getWidth());
+	}
+
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return (int) (ev.getYscale() * boundingBox.getHeight());
 	}
 
 }

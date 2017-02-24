@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -482,5 +483,14 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public ValidExpression toValidExpression() {
 		return getMyBoolean();
+	}
+
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return getCaption(StringTemplate.defaultTemplate).length()
+				* kernel.getApplication().getFontSize();
+	}
+
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return 32;
 	}
 }

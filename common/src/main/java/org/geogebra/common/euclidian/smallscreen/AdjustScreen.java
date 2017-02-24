@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -141,7 +141,8 @@ public class AdjustScreen {
 					}
 					// ensure = true;
 				}
-			} else if (geo.isGeoButton()) {
+			} else if (geo.isGeoButton()
+					|| (geo.isGeoBoolean() && geo.isEuclidianShowable())) {
 				// if (geo.isGeoInputBox()) {
 				// Log.debug("[AS] collecting inputbox: " + geo);
 				// GeoInputBox input = (GeoInputBox) geo;
@@ -150,7 +151,7 @@ public class AdjustScreen {
 				// } else {
 					if (!layoutButtons.isCollected()) {
 						Log.debug("[AS] collecting buttons: " + geo);
-						GeoButton btn = (GeoButton) geo;
+					AbsoluteScreenLocateable btn = (AbsoluteScreenLocateable) geo;
 						layoutButtons.add(btn);
 					}
 

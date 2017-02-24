@@ -471,4 +471,8 @@ public class GeoButton extends GeoElement
 		return getWidth();
 	}
 
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return getHeight();
+	}
+
 }

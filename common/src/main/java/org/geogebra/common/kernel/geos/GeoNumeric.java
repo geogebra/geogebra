@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
@@ -1947,5 +1948,13 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public String getVarString(StringTemplate defaulttemplate) {
 		return "x";
+	}
+
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return 0;
+	}
+
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return 0;
 	}
 }

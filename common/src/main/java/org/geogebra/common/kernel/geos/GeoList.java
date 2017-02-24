@@ -18,6 +18,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -3183,6 +3184,14 @@ public class GeoList extends GeoElement
 			return GColor.WHITE;
 		}
 		return bgColor;
+	}
+
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return 0;
+	}
+
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return 0;
 	}
 
 }

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -78,4 +79,8 @@ public interface AbsoluteScreenLocateable extends GeoElementND {
 	 * @return true if this element can have absolute screen location
 	 */
 	public boolean isAbsoluteScreenLocateable();
+
+	public int getTotalHeight(EuclidianViewInterfaceCommon view);
+
+	public int getTotalWidth(EuclidianViewInterfaceCommon view);
 }

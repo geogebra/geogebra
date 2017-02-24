@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -1057,4 +1058,11 @@ public class GeoImage extends GeoElement implements Locateable,
 		return ValueType.VOID;
 	}
 
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return 0;
+	}
+
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return 0;
+	}
 }

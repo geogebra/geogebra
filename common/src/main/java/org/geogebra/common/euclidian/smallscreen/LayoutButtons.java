@@ -9,6 +9,8 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
@@ -16,10 +18,9 @@ import org.geogebra.common.util.debug.Log;
 public class LayoutButtons {
 	private static final int Y_GAP = 5;
 	private static final int X_GAP = 5;
-	private List<GeoButton> originals = new ArrayList<GeoButton>();
-	private List<GeoButton> all = new ArrayList<GeoButton>();
-	private List<GeoButton> fixed = new ArrayList<GeoButton>();
-	private List<GeoButton> moveable = new ArrayList<GeoButton>();
+	private List<AbsoluteScreenLocateable> originals = new ArrayList<AbsoluteScreenLocateable>();
+	private List<AbsoluteScreenLocateable> all = new ArrayList<AbsoluteScreenLocateable>();
+	private List<AbsoluteScreenLocateable> moveable = new ArrayList<AbsoluteScreenLocateable>();
 	private EuclidianView view;
 	private final static ButtonComparator comparatorX = new ButtonComparator(
 			false);
@@ -31,7 +32,8 @@ public class LayoutButtons {
 	// Buttons should be collected only once.
 	private boolean collected = false;
 
-	private static class ButtonComparator implements Comparator<GeoButton> {
+	private static class ButtonComparator
+			implements Comparator<AbsoluteScreenLocateable> {
 		private boolean vertical;
 
 		public ButtonComparator(boolean vertical) {
@@ -39,7 +41,8 @@ public class LayoutButtons {
 		}
 
 		@Override
-		public int compare(GeoButton o1, GeoButton o2) {
+		public int compare(AbsoluteScreenLocateable o1,
+				AbsoluteScreenLocateable o2) {
 			if (vertical) {
 				int y1 = o1.getAbsoluteScreenLocY();
 				int y2 = o2.getAbsoluteScreenLocY();
@@ -63,22 +66,24 @@ public class LayoutButtons {
 		this.view = view;
 	}
 
-	public void add(GeoButton button) {
+	public void add(AbsoluteScreenLocateable button) {
 		originals.add(button);
 	}
 
 	public void reset() {
 		Log.debug("[LayoutButtons] reset ");
-		for (GeoButton btn : originals) {
-			if (btn.getOrigX() != null && btn.getOrigY() != null) {
-				btn.setAbsoluteScreenLoc(btn.getOrigX(), btn.getOrigY());
+		for (AbsoluteScreenLocateable loc : originals) {
+			if (loc instanceof GeoButton) {
+				GeoButton btn = (GeoButton) loc;
+				if (btn.getOrigX() != null && btn.getOrigY() != null) {
+					btn.setAbsoluteScreenLoc(btn.getOrigX(), btn.getOrigY());
 
+				}
 			}
 		}
 	}
 	public void clear() {
 		all.clear();
-		fixed.clear();
 		moveable.clear();
 	}
 
@@ -96,30 +101,27 @@ public class LayoutButtons {
 		Collections.sort(all, comparatorY);
 	}
 
-	private static String buttonDetails(GeoButton btn) {
+	private static String buttonDetails(AbsoluteScreenLocateable btn,
+			EuclidianView view) {
 		return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
-				+ btn.getAbsoluteScreenLocY() + "), " + btn.getWidth()
+				+ btn.getAbsoluteScreenLocY() + "), " + btn.getTotalWidth(view)
 				+ "x"
-				+ btn.getHeight();
+				+ btn.getTotalHeight(view);
 	}
 
-	private static void debugButtons(String msg, List<GeoButton> buttons) {
+	private void debugButtons(String msg,
+			List<AbsoluteScreenLocateable> buttons) {
 		Log.debug("[LayoutButtons] " + msg);
 		for (int idx = 0; idx < buttons.size(); idx++) {
-			GeoButton btn = buttons.get(idx);
-			Log.debug("[LayoutButtons] " + idx + ". " + buttonDetails(btn));
+			AbsoluteScreenLocateable btn = buttons.get(idx);
+			Log.debug(
+					"[LayoutButtons] " + idx + ". " + buttonDetails(btn, view));
 
 		}
 
 	}
 
-	private GeoButton getLastFixed() {
-		int size = fixed.size();
-		if (size > 0) {
-			return fixed.get(size - 1);
-		}
-		return null;
-	}
+
 
 	public void apply() {
 		all.clear();
@@ -151,16 +153,16 @@ public class LayoutButtons {
 
 
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
-		for (GeoButton btn : moveable) {
+		for (AbsoluteScreenLocateable btn : moveable) {
 			final int x = btn.getAbsoluteScreenLocX();
 			int y = maxUnusedY(usedPositions, x, x + btn.getTotalWidth(view),
 					view.getHeight());
-			y -= btn.getHeight() + Y_GAP;
+			y -= btn.getTotalHeight(view) + Y_GAP;
 			y = Math.min(btn.getAbsoluteScreenLocY(), y);
-			btn.setAbsoluteScreenLoc(x, y);
+			setAbsoluteScreenLoc(btn, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					btn.getTotalWidth(view), btn.getHeight()));
-			view.update(btn);
+					btn.getTotalWidth(view), btn.getTotalHeight(view)));
+			view.update(btn.toGeoElement());
 		}
 	}
 
@@ -174,19 +176,30 @@ public class LayoutButtons {
 
 
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
-		for (GeoButton btn : moveable) {
+		for (AbsoluteScreenLocateable btn : moveable) {
 			final int y = btn.getAbsoluteScreenLocY();
-			int x = maxUnusedX(usedPositions, y, y + btn.getHeight(),
+			int x = maxUnusedX(usedPositions, y, y + btn.getTotalHeight(view),
 					view.getWidth());
 			x -= btn.getTotalWidth(view) + X_GAP;
 			x = Math.min(btn.getAbsoluteScreenLocX(), x);
-			btn.setAbsoluteScreenLoc(x, y);
+			setAbsoluteScreenLoc(btn, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					btn.getTotalWidth(view), btn.getHeight()));
-			view.update(btn);
+					btn.getTotalWidth(view), btn.getTotalHeight(view)));
+			Log.debug(btn + "---->" + x);
+			view.update(btn.toGeoElement());
 		}
 	}
 
+
+	private void setAbsoluteScreenLoc(AbsoluteScreenLocateable btn, int x,
+			int y) {
+		if (btn instanceof GeoBoolean) {
+			((GeoBoolean) btn).setAbsoluteScreenLoc(x, y, true);
+		} else {
+			btn.setAbsoluteScreenLoc(x, y);
+		}
+
+	}
 
 	private int maxUnusedX(ArrayList<GRectangle> usedPositions, int yTop, int yBottom, int max0) {
 		int max = max0;
@@ -216,37 +229,29 @@ public class LayoutButtons {
 	}
 
 	private void divideX() {
-		fixed.clear();
 		moveable.clear();
 		int idx = 0;
 		while (idx < all.size()) {
-			GeoButton btn = all.get(idx);
+			AbsoluteScreenLocateable btn = all.get(idx);
 
-			if (isHorizontallyOnScreen(btn)) {
-				moveable.add(btn);
-				fixed.add(btn);
-			} else {
-				moveable.add(btn);
-			}
+			moveable.add(btn);
+
 			idx++;
 		}
 
 	}
 
 	private void divideY() {
-		fixed.clear();
 		moveable.clear();
 		// sumOfHeight = 0;
 		int idx = 0;
 		while (idx < all.size()) {
-			GeoButton btn = all.get(idx);
+			AbsoluteScreenLocateable btn = all.get(idx);
 			// sumOfHeight += btn.getHeight() + Y_GAP;
 			// multiColumn = view.getHeight() < sumOfHeight;
-			if (isVerticallyOnScreen(btn)) {
-				fixed.add(btn);
-			} else {
+
 				moveable.add(btn);
-			}
+
 			idx++;
 		}
 
