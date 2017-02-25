@@ -32,6 +32,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	private GeoElement[] efficientInput, standardInput;
 	private String efficientInputFingerprint;
 	private GeoElement implicitLocus = null;
+	private long myPrecision = 0;
 
 	/**
 	 * @param cons
@@ -131,13 +132,32 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		// TODO: consider moving setInputOutput() out from compute()
 
 		efficientInputFingerprint = fingerprint(efficientInput);
+		myPrecision = kernel.precision();
 	}
 
 	/**
-	 * Reset fingerprint to force recomputing the locus equation.
+	 * Reset fingerprint to force recomputing the locus equation if the
+	 * precision has dramatically changed.
+	 * 
+	 * @param k
+	 *            kernel
+	 * @param force
+	 *            reset the fingerprint even if the precision has not changed
+	 * 
+	 * @return true if the fingerprint was reset
 	 */
-	public void resetFingerprint() {
-		efficientInputFingerprint = null;
+	public boolean resetFingerprint(Kernel k, boolean force) {
+		long kernelPrecision = k.precision();
+		double precisionRatio = (double) myPrecision / kernelPrecision;
+		if (precisionRatio > 5 || precisionRatio < 0.2 || force) {
+			Log.debug("myPrecision=" + myPrecision + " kernelPrecision="
+					+ kernelPrecision + " precisionRatio=" + precisionRatio);
+			efficientInputFingerprint = null;
+			myPrecision = kernelPrecision;
+			return true;
+		}
+		return false;
+
 	}
 
 	/*
@@ -178,6 +198,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	public void compute() {
 		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
 			efficientInputFingerprint = null;
+			myPrecision = 0;
 			return;
 		}
 		String efficientInputFingerprintPrev = efficientInputFingerprint;

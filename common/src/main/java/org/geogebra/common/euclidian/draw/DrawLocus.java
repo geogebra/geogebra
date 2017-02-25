@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -67,6 +68,14 @@ public class DrawLocus extends Drawable {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
+		}
+
+		if (geo.getParentAlgorithm() instanceof AlgoLocusEquation) {
+			AlgoLocusEquation ale = (AlgoLocusEquation) geo
+					.getParentAlgorithm();
+			if (ale.resetFingerprint(geo.getKernel(), false)) {
+				ale.update();
+			}
 		}
 
 		buildGeneralPath(locus.getPoints());

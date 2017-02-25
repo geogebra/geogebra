@@ -1223,7 +1223,7 @@ public class Construction {
 
 				// update algorithm
 				if (algo instanceof AlgoLocusEquation) {
-					((AlgoLocusEquation) algo).resetFingerprint();
+					((AlgoLocusEquation) algo).resetFingerprint(kernel, true);
 				}
 				if (randomize || !(algo instanceof SetRandomValue)) {
 					algo.update();
