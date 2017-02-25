@@ -2300,10 +2300,6 @@ public class DrawConic extends Drawable implements Previewable {
 		conic.setSelected(true);
 		conic.updateRepaint();
 		this.update();
-		view.getEuclidianController().setDynamicStyleBarPosition(getBounds(),
-				true);
-		view.getEuclidianController().setDynamicStylebarVisible(true);
-				
 		view.setShapeEllipse(null);
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
