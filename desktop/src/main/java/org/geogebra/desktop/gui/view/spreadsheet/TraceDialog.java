@@ -67,7 +67,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  * 
  */
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class TraceDialog extends javax.swing.JDialog
 		implements GeoElementSelectionListener, ActionListener, FocusListener,
 		ListSelectionListener, WindowListener
@@ -110,7 +110,16 @@ public class TraceDialog extends javax.swing.JDialog
 	private JLabel lblStartRow;
 	private final LocalizationD loc;
 
-	/** Constructor */
+	/**
+	 * Constructor
+	 * 
+	 * @param app
+	 *            application
+	 * @param selectedGeo
+	 *            selected geo
+	 * @param traceCell
+	 *            trce range
+	 */
 	public TraceDialog(AppD app, GeoElement selectedGeo, CellRange traceCell) {
 		super(app.getFrame());
 
@@ -146,10 +155,15 @@ public class TraceDialog extends javax.swing.JDialog
 	 * 
 	 * 3) Toolbar button. A button click loads the dialog without any selection.
 	 * 
+	 * @param selectedGeo0
+	 *            selected geo
+	 * @param traceCell
+	 *            trace range
+	 * 
 	 */
-	public void setTraceDialogSelection(GeoElement selectedGeo,
+	public void setTraceDialogSelection(GeoElement selectedGeo0,
 			CellRange traceCell) {
-
+		GeoElement selectedGeo = selectedGeo0;
 		// if the traceCell column is tracing a geo then set selectedGeo to this
 		// geo
 		if (traceCell != null
@@ -424,6 +438,9 @@ public class TraceDialog extends javax.swing.JDialog
 		return buttonPanel;
 	}
 
+	/**
+	 * Update localization
+	 */
 	public void setLabels() {
 		setTitle(loc.getMenu("RecordToSpreadsheet"));
 
@@ -637,6 +654,12 @@ public class TraceDialog extends javax.swing.JDialog
 		doActionPerformed(e.getSource());
 	}
 
+	/**
+	 * Process checkbox events
+	 * 
+	 * @param source
+	 *            event source
+	 */
 	public void doActionPerformed(Object source) {
 
 		if (source == cbResetColumns) {
@@ -737,41 +760,41 @@ public class TraceDialog extends javax.swing.JDialog
 
 	/** Listener for changes in geo selection */
 	@Override
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
+	public void geoElementSelected(GeoElement geo1, boolean addToSelection) {
 
-		if (traceManager.isTraceGeo(geo)) {
-			traceGeoList.setSelectedValue(geo, true);
+		if (traceManager.isTraceGeo(geo1)) {
+			traceGeoList.setSelectedValue(geo1, true);
 			updateGUI();
 		} else {
-			if (mode == MODE_ADD && geo.isSpreadsheetTraceable()
-					&& !GeoElementSpreadsheet.hasSpreadsheetLabel(geo)) {
+			if (mode == MODE_ADD && geo1.isSpreadsheetTraceable()
+					&& !GeoElementSpreadsheet.hasSpreadsheetLabel(geo1)) {
 
-				addTrace(geo);
+				addTrace(geo1);
 			}
 		}
 
 	}
 
 	/** Add a geo to the traceGeoCollection and update the dialog. */
-	private void addTrace(GeoElement geo) {
+	private void addTrace(GeoElement geo1) {
 
-		this.geo = geo;
+		this.geo = geo1;
 
 		// add geo to the trace collection
-		if (!traceManager.isTraceGeo(geo)) {
-			SpreadsheetTraceSettings t = geo.getTraceSettings();
+		if (!traceManager.isTraceGeo(geo1)) {
+			SpreadsheetTraceSettings t = geo1.getTraceSettings();
 			if (newTraceLocation != null) {
 				t.traceColumn1 = newTraceLocation.getMinColumn();
 				t.traceRow1 = newTraceLocation.getMinRow();
 			}
 
-			traceManager.addSpreadsheetTraceGeo(geo);
+			traceManager.addSpreadsheetTraceGeo(geo1);
 			updateTraceGeoList();
 		}
 
 		// update
 		setMode(MODE_NORMAL);
-		traceGeoList.setSelectedValue(geo, true);
+		traceGeoList.setSelectedValue(geo1, true);
 		newTraceLocation = null;
 		updateGUI();
 	}
@@ -812,7 +835,15 @@ public class TraceDialog extends javax.swing.JDialog
 		traceManager.clearGeoTrace(getSelectedGeo());
 	}
 
-	/** Determine the cell range to be selected on spreadsheet mouse click. */
+	/**
+	 * Determine the cell range to be selected on spreadsheet mouse click.
+	 * 
+	 * @param anchorColumn
+	 *            column
+	 * @param anchorRow
+	 *            row
+	 * @return range
+	 */
 	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
 
 		CellRange cr = new CellRange(app);
@@ -857,6 +888,7 @@ public class TraceDialog extends javax.swing.JDialog
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
+		// nothing to do
 	}
 
 	@Override
@@ -889,6 +921,10 @@ public class TraceDialog extends javax.swing.JDialog
 		updateGUI();
 	}
 
+	/**
+	 * @param euclidianMode
+	 *            app mode
+	 */
 	public void toolbarModeChanged(int euclidianMode) {
 		// System.out.println(euclidianMode);
 		if (euclidianMode != EuclidianConstants.MODE_MOVE
@@ -906,6 +942,9 @@ public class TraceDialog extends javax.swing.JDialog
 		updateGUI();
 	}
 
+	/**
+	 * Close this
+	 */
 	public void closeDialog() {
 
 		// System.out.println("closeDialog");
@@ -922,10 +961,12 @@ public class TraceDialog extends javax.swing.JDialog
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	@Override
@@ -935,18 +976,22 @@ public class TraceDialog extends javax.swing.JDialog
 
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	@Override
 	public void windowIconified(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	@Override
 	public void windowOpened(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	// ======================================================
@@ -956,7 +1001,7 @@ public class TraceDialog extends javax.swing.JDialog
 	/**
 	 * Custom cell renderer that displays GeoElement descriptions.
 	 */
-	private static class MyCellRenderer extends DefaultListCellRenderer {
+	static class MyCellRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		@Override

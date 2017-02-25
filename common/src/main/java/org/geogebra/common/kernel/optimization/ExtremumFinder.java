@@ -122,9 +122,9 @@ public class ExtremumFinder {
 	 *
 	 * Translated by Steve Verrill, March 24, 1998.
 	 *
-	 * @param a
+	 * @param a0
 	 *            Left endpoint of initial interval
-	 * @param b
+	 * @param b0
 	 *            Right endpoint of initial interval
 	 * @param minclass
 	 *            A class that defines a method, f_to_minimize, to minimize. The
@@ -136,10 +136,13 @@ public class ExtremumFinder {
 	 *            Desired length of the interval in which the minimum will be
 	 *            determined to lie (This should be greater than, roughly,
 	 *            3.0e-8.)
+	 * @return minimum position
 	 *
 	 */
-	final public double findMinimum(double a, double b,
+	final public double findMinimum(double a0, double b0,
 			RealRootFunction minclass, double tol) {
+		double a = a0;
+		double b = b0;
 
 		/*
 		 * 

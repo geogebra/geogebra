@@ -12,7 +12,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -85,13 +84,11 @@ import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -357,19 +354,19 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (Double.isNaN(v2)) {
 			return;
 		}
-
+		double vMin = v1;
+		double vMax = v2;
 		if (v1 > v2) {
-			double v = v1;
-			v1 = v2;
-			v2 = v;
+			vMax = v1;
+			vMin = v2;
 		}
 
-		if (v1 < minmax[0] && !Double.isInfinite(v1)) {
-			minmax[0] = v1;
+		if (vMin < minmax[0] && !Double.isInfinite(vMin)) {
+			minmax[0] = vMin;
 		}
 
-		if (v2 > minmax[1] && !Double.isInfinite(v2)) {
-			minmax[1] = v2;
+		if (vMax > minmax[1] && !Double.isInfinite(vMax)) {
+			minmax[1] = vMax;
 		}
 
 	}
@@ -672,7 +669,9 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 
 			case LOCUS:
-				d = new DrawLocus3D(this, (GeoLocusND) geo, geo, CoordSys.XOY);
+				d = new DrawLocus3D(this,
+						((GeoLocusNDInterface) geo).getLocus(), geo,
+						CoordSys.XOY);
 				break;
 			case IMPLICIT_POLY:
 				d = new DrawImplicitCurve3D(this, (GeoImplicit) geo);
@@ -2471,11 +2470,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * update the 3D cursor with current hits
 	 *
-	 * @param hits
+	 * @param hits1
 	 */
-	public void updateCursor3D(Hits hits) {
+	public void updateCursor3D(Hits hits1) {
 		if (hasMouse()) {
-			getEuclidianController().updateNewPoint(true, hits, true, true,
+			getEuclidianController().updateNewPoint(true, hits1, true, true,
 					getMode() != EuclidianConstants.MODE_MOVE, // TODO
 																// doSingleHighlighting
 																// = false ?
@@ -3773,8 +3772,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
-	public void updateDrawables(Drawable3DListsForView drawable3DLists) {
-		drawable3DLists.updateAll();
+	public void updateDrawables(Drawable3DListsForView drawables3D) {
+		drawables3D.updateAll();
 	}
 
 	public void updateOtherDrawables() {
@@ -4258,7 +4257,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void replaceBoundObject(GeoNumeric num, GeoNumeric geoNumeric) {
-
+		// TODO fix this for 3D dynamic bounds
 	}
 
 	public GColor getBackground() {
@@ -4306,17 +4305,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		this.evNo = evNo;
 	}
 
-	public Drawable newDrawButton(GeoButton geo) {
-		return null;
-	}
-
-	public Drawable newDrawTextField(GeoInputBox geo) {
-		return null;
-	}
-
 	@Override
 	protected void initCursor() {
-
+		// no normal cursor in 3D
 	}
 
 	@Override

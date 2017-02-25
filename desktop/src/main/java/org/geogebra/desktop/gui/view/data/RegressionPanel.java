@@ -263,8 +263,8 @@ public class RegressionPanel extends JPanel
 		}
 
 		// create an icon with the LaTeX string
-		ImageIcon icon = GeoGebraIconD.createLatexIcon(app, eqn, this.getFont(),
-				false, Color.RED, null);
+		ImageIcon icon = GeoGebraIconD.createLatexIcon(app, eqn,
+				this.getFont(), Color.RED, null);
 
 		// set the label icon with our equation string
 		lblRegEquation.setIcon(icon);

@@ -52,7 +52,9 @@ public class CursorController {
         firstField(editorState, editorState.getRootComponent());
     }
 
-    public static void firstField(EditorState editorState, MathContainer component) {
+	public static void firstField(EditorState editorState,
+			MathContainer component0) {
+		MathContainer component = component0;
         // surface to first symbol
         while (!(component instanceof MathSequence)) {
             int current = component.first();
@@ -66,7 +68,9 @@ public class CursorController {
         lastField(editorState, editorState.getRootComponent());
     }
 
-    public static void lastField(EditorState editorState, MathContainer component) {
+	public static void lastField(EditorState editorState,
+			MathContainer component0) {
+		MathContainer component = component0;
         // surface to last symbol
         while (!(component instanceof MathSequence)) {
             int current = component.last();
@@ -99,8 +103,9 @@ public class CursorController {
             // try to find next sibling
         } else if (container.hasNext(current)) {
             current = container.next(current);
-            component = (MathContainer) container.getArgument(current);
-            firstField(editorState, component);
+			MathContainer component1 = (MathContainer) container
+					.getArgument(current);
+			firstField(editorState, component1);
 			System.out.println("has next");
 			return true;
             // try to delve down the tree

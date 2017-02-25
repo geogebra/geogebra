@@ -33,6 +33,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
+@SuppressWarnings("javadoc")
 public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private static final long serialVersionUID = 1L;
@@ -155,52 +156,13 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				popupIsVisible = myPopup.isShowing();
+				popupIsVisible = isPopupShowing();
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				if (!thisButton.isEnabled()) {
-					return;
-				}
-				if (popupIsVisible && !myPopup.isVisible()) {
-					popupIsVisible = false;
-					return;
-				}
-
-				if (!prepareToShowPopup()) {
-					return;
-				}
-				Point locButton = getLocation();
-				final int clicDownArrowWidth = (int) Math
-						.round((CLICK_DOWN_ARROW_WIDTH
-								* (app.getScaledIconSize() / 16.0)));
-				// trigger popup
-				// default: trigger only when the mouse is over the right side
-				// of the button
-				// if isStandardButton: pressing anywhere triggers the popup
-				if (isStandardButton
-						|| e.getX() >= getWidth() - clicDownArrowWidth
-								&& e.getX() <= getWidth()) {
-					if (hasTable) {
-						myTable.updateFonts();
-					}
-					if (isDownwardPopup) {
-						// popup appears below the button
-						myPopup.show(getParent(), locButton.x,
-								locButton.y + getHeight());
-					} else {
-						// popup appears above the button
-						myPopup.show(getParent(),
-								locButton.x - myPopup.getPreferredSize().width
-										+ thisButton.getWidth(),
-								locButton.y - myPopup.getPreferredSize().height
-										- 2);
-					}
-				}
-
-				popupIsVisible = myPopup.isShowing();
+				onMousePressed(e.getX());
 			}
 		});
 
@@ -246,6 +208,51 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 			iconSize.width = myTable.getColumnWidth() - 4;
 			iconSize.height = myTable.getRowHeight() - 4;
 		}
+
+	}
+
+	protected boolean isPopupShowing() {
+		return myPopup.isShowing();
+	}
+
+	protected void onMousePressed(int x) {
+		if (!thisButton.isEnabled()) {
+			return;
+		}
+		if (popupIsVisible && !myPopup.isVisible()) {
+			popupIsVisible = false;
+			return;
+		}
+
+		if (!prepareToShowPopup()) {
+			return;
+		}
+		Point locButton = getLocation();
+		final int clicDownArrowWidth = (int) Math
+				.round((CLICK_DOWN_ARROW_WIDTH * (app.getScaledIconSize() / 16.0)));
+		// trigger popup
+		// default: trigger only when the mouse is over the right side
+		// of the button
+		// if isStandardButton: pressing anywhere triggers the popup
+		if (isStandardButton || x >= getWidth() - clicDownArrowWidth
+				&& x <= getWidth()) {
+			if (hasTable) {
+				myTable.updateFonts();
+			}
+			if (isDownwardPopup) {
+				// popup appears below the button
+				myPopup.show(getParent(), locButton.x, locButton.y
+						+ getHeight());
+			} else {
+				// popup appears above the button
+				myPopup.show(getParent(),
+						locButton.x - myPopup.getPreferredSize().width
+								+ thisButton.getWidth(),
+						locButton.y - myPopup.getPreferredSize().height - 2);
+			}
+		}
+
+		popupIsVisible = myPopup.isShowing();
 
 	}
 
@@ -297,8 +304,12 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		super.processMouseEvent(e);
 	}
 
+	/**
+	 * @param geos
+	 *            geo elements
+	 */
 	public void update(Object[] geos) {
-
+		// override in subclasses
 	}
 
 	// =============================================
@@ -398,10 +409,12 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		return myTable.getSelectedValue();
 	}
 
-	public void setSelectedIndex(Integer selectedIndex) {
-
-		if (selectedIndex == null) {
+	public void setSelectedIndex(Integer selectedIndex0) {
+		int selectedIndex;
+		if (selectedIndex0 == null) {
 			selectedIndex = -1;
+		} else {
+			selectedIndex = selectedIndex0.intValue();
 		}
 
 		myTable.setSelectedIndex(selectedIndex);
@@ -487,13 +500,13 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * Append a downward triangle image to the right hand side of an input icon.
 	 */
 	@Override
-	public void setIcon(Icon icon) {
+	public void setIcon(Icon icon0) {
 
 		if (isFixedIcon) {
-			super.setIcon(icon);
+			super.setIcon(icon0);
 			return;
 		}
-
+		Icon icon = icon0;
 		if (iconSize == null) {
 			if (icon != null) {
 				iconSize = new Dimension(icon.getIconWidth(),

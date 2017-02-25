@@ -16,6 +16,7 @@ import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
+@SuppressWarnings("javadoc")
 public class InputController {
 
 	public static final char FUNCTION_OPEN_KEY = '('; // probably universal
@@ -779,9 +780,10 @@ public class InputController {
 		}
 	}
 
-	private static void delCharacters(EditorState editorState, int length) {
+	private static void delCharacters(EditorState editorState, int length0) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
+		int length = length0;
 		while (length > 0 && currentOffset > 0 && currentField
 				.getArgument(currentOffset - 1) instanceof MathCharacter) {
 

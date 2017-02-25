@@ -30,6 +30,7 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
@@ -66,6 +67,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@SuppressWarnings("javadoc")
 public class MyTableW implements /* FocusListener, */MyTable {
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
@@ -745,7 +747,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return GeoClass.DEFAULT;
 	}
 
-	public BaseCellEditor getCellEditor(int row, int column) {
+	public BaseCellEditor getCellEditor() {
 		return editor;
 	}
 
@@ -838,7 +840,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
-	private void updateRowCount() {
+	void updateRowCount() {
 
 		if (ssGrid.getRowCount() >= tableModel.getRowCount()) {
 			return;
@@ -1120,10 +1122,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * Sets the initial selection parameters to a single cell. Does this without
 	 * calling changeSelection, so it should only be used at startup.
 	 */
-	public void setInitialCellSelection(int row, int column) {
+	public void setInitialCellSelection(int row0, int column0) {
 
 		setSelectionType(MyTableInterface.CELL_SELECT);
-
+		int row = row0;
+		int column = column0;
 		if (column == -1) {
 			column = 0;
 		}
@@ -1319,11 +1322,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public void setSelectionType(int selType) {
 
 		if (view.isColumnSelect()) {
-			selType = MyTableInterface.COLUMN_SELECT;
-		}
+			this.selectionType = MyTableInterface.COLUMN_SELECT;
+		} else {
 
-		// in web, selectionType should do what setSelectionMode do too
-		this.selectionType = selType;
+			// in web, selectionType should do what setSelectionMode do too
+			this.selectionType = selType;
+		}
 
 	}
 
@@ -1462,12 +1466,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        + wt.getOffsetHeight());
 	}
 
-	protected GPoint getPixelRelative(int column, int row, boolean min) {
+	protected GPoint getPixelRelative(int column0, int row0, boolean min) {
 
-		if (column < 0 || row < 0) {
+		if (column0 < 0 || row0 < 0) {
 			return null;
 		}
-
+		int row = row0;
+		int column = column0;
 		if (column > getColumnCount() - 1) {
 			column = getColumnCount() - 1;
 		}
@@ -1553,6 +1558,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return new GPoint(indexX, indexY);
 	}
 
+	/**
+	 * @param spacing
+	 *            whether to include border -- TODO unused
+	 */
 	public GRectangle getCellRect(int row, int column, boolean spacing) {
 		GPoint min = getPixel(column, row, true);
 		if (min == null) {
@@ -1596,7 +1605,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	final static double dash1[] = { 2.0 };
 	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
-			GBasicStrokeW.CAP_BUTT, GBasicStrokeW.JOIN_MITER, 10.0, dash1);
+			DefaultBasicStroke.CAP_BUTT, DefaultBasicStroke.JOIN_MITER, 10.0,
+			dash1);
 
 	/**
 	 * @param point
@@ -1644,8 +1654,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			case DEFAULT:
 				isEditing = true;
 
-				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor(
-				        row, col)).getTableCellEditorWidget(this, ob, false,
+				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor())
+						.getTableCellEditorWidget(this, ob, false,
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
@@ -1698,7 +1708,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}
 
-		BaseCellEditor mce = getCellEditor(row, col);
+		BaseCellEditor mce = getCellEditor();
 		if (mce != null) {
 			mce.cancelCellEditing();
 		}
@@ -1864,26 +1874,31 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			@Override
 			public void execute() {
 
-				minimumRowHeight = dummyTable.getCellFormatter()
-				        .getElement(0, 0).getOffsetHeight();
-
-				int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
-
-				if (row >= 0) {
-					ssGrid.getRowFormatter().getElement(row).getStyle()
-					        .setHeight(rowHeight2, Style.Unit.PX);
-
-					if (showRowHeader) {
-						syncRowHeaderHeight(row);
-					}
-				}
-				if (view != null) {
-					if (doRecordRowHeights) {
-						adjustedRowHeights.add(new GPoint(row, rowHeight2));
-					}
-				}
+				setRowHeightCallback(row, rowHeight);
 			}
 		});
+	}
+
+	protected void setRowHeightCallback(int row, int rowHeight) {
+		minimumRowHeight = dummyTable.getCellFormatter().getElement(0, 0)
+				.getOffsetHeight();
+
+		int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
+
+		if (row >= 0) {
+			ssGrid.getRowFormatter().getElement(row).getStyle()
+					.setHeight(rowHeight2, Style.Unit.PX);
+
+			if (showRowHeader) {
+				syncRowHeaderHeight(row);
+			}
+		}
+		if (view != null) {
+			if (doRecordRowHeights) {
+				adjustedRowHeights.add(new GPoint(row, rowHeight2));
+			}
+		}
+
 	}
 
 	// Keep table and row header heights in sync
@@ -2406,7 +2421,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		});
 	}
 
-	private void renderSelection() {
+	void renderSelection() {
 		// TODO implement other features from the old paint method
 
 		// draw dragging frame
@@ -2719,6 +2734,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
 	}
 
+	/**
+	 * Update spreadsheet when zoom level changes
+	 * 
+	 * @param ratio
+	 *            CSS pixel ratio
+	 */
 	public void setPixelRatio(double ratio) {
 		if (editor != null) {
 			editor.stopCellEditing();

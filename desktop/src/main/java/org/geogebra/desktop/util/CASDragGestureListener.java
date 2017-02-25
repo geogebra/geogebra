@@ -81,7 +81,7 @@ public class CASDragGestureListener
 		latex = cell.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
+				((AppD) app).getPlainFont(), Color.DARK_GRAY, null);
 
 		TransferableCAS transferable = new TransferableCAS(geoLabelList,
 				cellnumber);

@@ -739,7 +739,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		double arrowHeight = (geo.getLineThickness() * 0.8 + 3) * 1.4 * 3 / 4;
 		double angle = Math
 				.asin(arrowHeight / 2 / euclidianView.getXscale() / r);
-		angEnd = angEnd - angle;
+		double angSpan = angEnd - angle;
 		startBeamer(code);
 		code.append("\\psellipticarc");
 		code.append(lineOptionCode(geo, false));
@@ -758,7 +758,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		code.append("){");
 		code.append(format(Math.toDegrees(angSt)));
 		code.append("}{");
-		code.append(format(Math.toDegrees(angEnd)));
+		code.append(format(Math.toDegrees(angSpan)));
 		code.append("}\n");
 		endBeamer(code);
 	}
@@ -788,17 +788,18 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected void drawTick(GeoAngle geo, double[] vertex, double angle) {
-		angle = -angle;
+		double sin = Math.sin(-angle);
+		double cos = Math.cos(angle);
 		double radius = geo.getArcSize();
 		double diff = 2.5 + geo.getLineThickness() / 4d;
-		double x1 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius - diff) * Math.cos(angle));
-		double x2 = euclidianView.toRealWorldCoordX(
-				vertex[0] + (radius + diff) * Math.cos(angle));
+		double x1 = euclidianView.toRealWorldCoordX(vertex[0] + (radius - diff)
+				* cos);
+		double x2 = euclidianView.toRealWorldCoordX(vertex[0] + (radius + diff)
+				* cos);
 		double y1 = euclidianView.toRealWorldCoordY(vertex[1] + (radius - diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		double y2 = euclidianView.toRealWorldCoordY(vertex[1] + (radius + diff)
-				* Math.sin(angle) * euclidianView.getScaleRatio());
+				* sin * euclidianView.getScaleRatio());
 		if (isBeamer) {
 			code.append("  ");
 		}
@@ -1097,6 +1098,14 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		drawFunction(geo, false, null);
 	}
 
+	/**
+	 * @param geo
+	 *            function
+	 * @param integral
+	 *            whether to shade are below
+	 * @param geo1
+	 *            integral
+	 */
 	protected void drawFunction(GeoFunction geo, boolean integral,
 			GeoNumeric geo1) {
 		// line contains the row that define function
@@ -1725,7 +1734,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	// if label is Visible, draw it
 	@Override
-	protected void drawLabel(GeoElement geo, DrawableND drawGeo) {
+	protected void drawLabel(GeoElement geo, DrawableND drawGeo0) {
+		DrawableND drawGeo = drawGeo0;
 		try {
 			if (geo.isLabelVisible()) {
 				String name = geo.getLabelDescription();
@@ -1787,9 +1797,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				endBeamer(codePoint);
 			}
 		}
-		// For GeoElement that don't have a Label
-		// For example (created with geoList)
+
 		catch (NullPointerException e) {
+			// For GeoElement that don't have a Label
+			// For example (created with geoList)
 		}
 	}
 
@@ -2034,6 +2045,13 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @param transparency
+	 *            whether to use transparency
+	 * @return line style code
+	 */
 	public String lineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 
@@ -2202,7 +2220,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			int green = c.getGreen();
 			int blue = c.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = GColor.newColor(grayscale, grayscale, grayscale);
+			GColor gray = GColor.newColor(grayscale, grayscale, grayscale);
 			if (customColor.containsKey(c)) {
 				colorname = customColor.get(c).toString();
 			} else {
@@ -2211,17 +2229,17 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 						+ format(grayscale / 255d) + " "
 						+ format(grayscale / 255d) + " "
 						+ format(grayscale / 255d) + "}\n");
-				customColor.put(c, colorname);
+				customColor.put(gray, colorname);
 			}
-			if (c.equals(GColor.BLACK)) {
+			if (gray.equals(GColor.BLACK)) {
 				sb.append("black");
-			} else if (c.equals(GColor.DARK_GRAY)) {
+			} else if (gray.equals(GColor.DARK_GRAY)) {
 				sb.append("darkgray");
-			} else if (c.equals(GColor.GRAY)) {
+			} else if (gray.equals(GColor.GRAY)) {
 				sb.append("gray");
-			} else if (c.equals(GColor.LIGHT_GRAY)) {
+			} else if (gray.equals(GColor.LIGHT_GRAY)) {
 				sb.append("lightgray");
-			} else if (c.equals(GColor.WHITE)) {
+			} else if (gray.equals(GColor.WHITE)) {
 				sb.append("white");
 			} else {
 				sb.append(colorname);
@@ -2306,8 +2324,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	 * + "  \\psfs@solid}\n"; if (!transparency) codePreamble.append(str);
 	 * transparency=true; }
 	 */
-	private void addText(String st, boolean isLatex, int style,
+	private void addText(String st0, boolean isLatex, int style,
 			GColor geocolor) {
+		String st = st0;
 		if (isLatex) {
 			if (!st.startsWith("$")) {
 				code.append("$");
@@ -2532,6 +2551,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	/**
 	 * @param curves
+	 *            curves to fill
 	 */
 	@Override
 	protected boolean fillSpline(GeoCurveCartesian[] curves) {
@@ -2550,6 +2570,16 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		return true;
 	}
 
+	/**
+	 * @param s
+	 *            shape
+	 * @param ineq
+	 *            inequality
+	 * @param geo
+	 *            inequality function
+	 * @param ds
+	 *            view bounds
+	 */
 	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);

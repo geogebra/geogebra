@@ -324,7 +324,7 @@ class FillingPanelD extends JPanel
 		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);
 		for (int i = 1; i < iconArray.length; i++) {
 			iconArray[i] = GeoGebraIconD.createFileImageIcon(app,
-					imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
+					imgFileNameList.get(i));
 		}
 		// ============================================
 

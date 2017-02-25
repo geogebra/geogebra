@@ -57,8 +57,8 @@ public class MyTextFieldD extends JTextField
 	private SymbolTablePopupD tablePopup;
 	private MyTextFieldD thisField = this;
 
-	private ImageIcon icon = GeoGebraIconD.createSymbolTableIcon(this.getFont(),
-			false);
+	private ImageIcon icon = GeoGebraIconD
+			.createSymbolTableIcon(this.getFont());
 	private boolean showSymbolTableIcon = false;
 
 	// colored character rendering fields

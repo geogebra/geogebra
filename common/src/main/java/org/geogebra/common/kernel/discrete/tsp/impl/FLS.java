@@ -70,8 +70,8 @@ public final class FLS {
 		}
 
 		// otherwise must calculate distance delta.
-		return (Maths.sqrt(_ac) + Maths.sqrt(_bd))
-				- (Maths.sqrt(_ab) + Maths.sqrt(_cd));
+		return (Math.sqrt(_ac) + Math.sqrt(_bd))
+				- (Math.sqrt(_ab) + Math.sqrt(_cd));
 	}
 
 	/**

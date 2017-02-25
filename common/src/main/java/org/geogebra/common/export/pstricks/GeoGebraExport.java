@@ -66,11 +66,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-/*
- import org.mozilla.javascript.Context;
- import org.mozilla.javascript.Scriptable;
- import org.mozilla.javascript.ScriptableObject;
- */
 public abstract class GeoGebraExport {
 	protected int beamerSlideNumber = 1;
 	protected final static double PRECISION_XRANGE_FUNCTION = 0.00001;
@@ -1139,8 +1134,8 @@ public abstract class GeoGebraExport {
 	 * 
 	 * @param geo
 	 *            The GeoAngle
-	 * @param r
-	 *            The Radius
+	 * @param r0
+	 *            The radius
 	 * @param vertex
 	 *            The vertex coordinates
 	 * @param angSt
@@ -1148,9 +1143,10 @@ public abstract class GeoGebraExport {
 	 * @param angEnd
 	 *            Angle End
 	 */
-	protected void markAngle(GeoAngle geo, double r, double[] vertex,
+	protected void markAngle(GeoAngle geo, double r0, double[] vertex,
 			double angSt, double angEnd) {
 		double rdiff;
+		double r = r0;
 		switch (geo.getDecorationType()) {
 		default:
 			// do nothing

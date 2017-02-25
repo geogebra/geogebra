@@ -28,6 +28,10 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Fits implicit curve of given degree through points
+ *
+ */
 public class AlgoFitImplicit extends AlgoElement {
 
 	private GeoList pointlist; // input
@@ -175,6 +179,13 @@ public class AlgoFitImplicit extends AlgoElement {
 
 	}
 
+	/**
+	 * @param x
+	 *            base
+	 * @param power
+	 *            exponent
+	 * @return base ^ exponent
+	 */
 	public static double power(double x, int power) {
 		if (power == 0) {
 			return 1;
@@ -185,10 +196,11 @@ public class AlgoFitImplicit extends AlgoElement {
 		}
 
 		double ret = x;
+		int pow = power;
 
-		while (power > 1) {
+		while (pow > 1) {
 			ret *= x;
-			power--;
+			pow--;
 		}
 
 		return ret;

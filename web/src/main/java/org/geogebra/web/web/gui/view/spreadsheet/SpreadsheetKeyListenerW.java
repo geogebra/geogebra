@@ -573,8 +573,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 					str = new String(Character.toChars(charcode));
 				}
 
-				Object ce = table.getCellEditor(table.getSelectedRow(),
-				        table.getSelectedColumn());
+				Object ce = table.getCellEditor();
 				GeoClass ceType = table.getCellEditorType(
 				        table.getSelectedRow(), table.getSelectedColumn());
 				if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT

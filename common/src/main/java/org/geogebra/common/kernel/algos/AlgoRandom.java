@@ -25,6 +25,16 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  */
 public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param a
+	 *            min
+	 * @param b
+	 *            max
+	 */
 	public AlgoRandom(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
 		super(cons, label, a, b);
@@ -56,8 +66,8 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	}
 
 	@Override
-	public void setRandomValue(double d) {
-		d = Math.round(Kernel.checkInteger(d));
+	public void setRandomValue(double d0) {
+		double d = Math.round(Kernel.checkInteger(d0));
 
 		if (d >= a.getDouble() && d <= b.getDouble()) {
 			num.setValue(d);

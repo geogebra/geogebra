@@ -44,6 +44,7 @@ import com.himamis.retex.renderer.share.TeXFormula;
  * @author G. Sturr
  * 
  */
+@SuppressWarnings("javadoc")
 public class GeoGebraIconD {
 
 	private static final int HGRID_MARGIN = 4;
@@ -78,8 +79,7 @@ public class GeoGebraIconD {
 		return ic;
 	}
 
-	public static ImageIcon createFileImageIcon(AppD app, ImageResourceD res,
-			float alpha, Dimension iconSize) {
+	public static ImageIcon createFileImageIcon(AppD app, ImageResourceD res) {
 
 		Image im = app.getImageManager().getImageResource(res);
 		ImageIcon ic = im == null ? null
@@ -279,8 +279,7 @@ public class GeoGebraIconD {
 		return ic;
 	}
 
-	public static ImageIcon createSymbolTableIcon(Font font,
-			boolean isRollOver) {
+	public static ImageIcon createSymbolTableIcon(Font font0) {
 
 		int s = 14;
 		String alpha = Unicode.alpha + "";
@@ -292,7 +291,7 @@ public class GeoGebraIconD {
 
 		g2.setPaint(Color.DARK_GRAY);
 
-		font = font.deriveFont(Font.BOLD, s);
+		Font font = font0.deriveFont(Font.BOLD, s);
 		g2.setFont(font);
 		g2.setColor(Color.DARK_GRAY);
 		drawCenteredText(g2, alpha, s / 2 - 1, s / 2);
@@ -404,7 +403,7 @@ public class GeoGebraIconD {
 	}
 
 	public static ImageIcon createColorSwatchIcon(double alpha,
-			Dimension iconSize, Color fgColor, Color bgColor) {
+			Dimension iconSize, Color fgColor0, Color bgColor) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
@@ -412,7 +411,8 @@ public class GeoGebraIconD {
 		double thickness = 3;
 
 		// if fgColor is null then make it a transparent white
-		if (fgColor == null) {
+		Color fgColor = fgColor0;
+		if (fgColor0 == null) {
 			fgColor = new Color(255, 255, 255, 1);
 		}
 
@@ -542,7 +542,7 @@ public class GeoGebraIconD {
 				Color.BLACK, null);
 	}
 
-	public static ImageIcon createStringIcon(String str, Font font,
+	public static ImageIcon createStringIcon(String str, Font font0,
 			boolean isBold, boolean isItalic, boolean isCentered,
 			Dimension iconSize, Color fgColor, Color bgColor) {
 
@@ -560,6 +560,7 @@ public class GeoGebraIconD {
 
 		g2.setColor(fgColor);
 		// font = font.deriveFont((h-6)*1.0f);
+		Font font = font0;
 		if (isBold) {
 			font = font.deriveFont(Font.BOLD);
 		}
@@ -580,7 +581,7 @@ public class GeoGebraIconD {
 		return new ImageIcon(image);
 	}
 
-	public static ImageIcon createBracketIcon(String[] brackets, Font font,
+	public static ImageIcon createBracketIcon(String[] brackets, Font font0,
 			Dimension iconSize, Color fgColor, Color bgColor) {
 		/*
 		 * String latex = "\\left" + brackets[0] + "\\equiv" + "\\right" +
@@ -602,7 +603,7 @@ public class GeoGebraIconD {
 		}
 
 		g2.setColor(fgColor);
-		font = font.deriveFont((h - 4) * 1.0f);
+		Font font = font0.deriveFont((h - 4) * 1.0f);
 		g2.setFont(font);
 		FontMetrics fm = g2.getFontMetrics();
 
@@ -623,7 +624,7 @@ public class GeoGebraIconD {
 	 * Draw a LaTeX image in the icon.
 	 */
 	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
-			boolean serif, Color fgColor, Color bgColor) {
+			Color fgColor, Color bgColor) {
 		app.getDrawEquation().checkFirstCall(app);
 		return new ImageIcon((BufferedImage) TeXFormula.createBufferedImage(
 				latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
@@ -631,7 +632,7 @@ public class GeoGebraIconD {
 	}
 
 	public static ImageIcon createLatexIcon(AppD app, String latex,
-			boolean serif, Color fgColor, Color bgColor, int height) {
+			Color fgColor, Color bgColor, int height) {
 		app.getDrawEquation().checkFirstCall(app);
 		ImageIcon ic = new ImageIcon(
 				(BufferedImage) TeXFormula.createBufferedImage(latex,

@@ -47,7 +47,7 @@ public class Delaunay_Triangulation {
 	private Point_dt firstP;
 	private Point_dt lastP;
 
-	// for degenerate case!
+	/** for degenerate case! */
 	public boolean allCollinear;
 
 	// the first and last triangles (used only for first step construction)
@@ -57,7 +57,7 @@ public class Delaunay_Triangulation {
 	private Triangle_dt startTriangle;
 
 	// the triangle the convex hull starts from
-	public Triangle_dt startTriangleHull;
+	private Triangle_dt startTriangleHull;
 
 	private int nPoints = 0; // number of points
 	// additional data 4/8/05 used by the iterators
@@ -1101,16 +1101,17 @@ public class Delaunay_Triangulation {
 	 */
 	public Triangle_dt find(Point_dt p, Triangle_dt start) {
 		if (start == null) {
-			start = this.startTriangle;
+			return find(this.startTriangle, p);
 		}
 		Triangle_dt T = find(start, p);
 		return T;
 	}
 
-	private static Triangle_dt find(Triangle_dt curr, Point_dt p) {
+	private static Triangle_dt find(Triangle_dt start, Point_dt p) {
 		if (p == null) {
 			return null;
 		}
+		Triangle_dt curr = start;
 		Triangle_dt next_t;
 		if (curr.halfplane) {
 			next_t = findnext2(p, curr);
@@ -1234,9 +1235,11 @@ public class Delaunay_Triangulation {
 		return pointsVec;
 	}
 
-	// Walks on a consistent side of triangles until a cycle is achieved.
-	// By Doron Ganel & Eyal Roth
-	// changed to public by Udi
+	/**
+	 * Walks on a consistent side of triangles until a cycle is achieved.
+	 * 
+	 * By Doron Ganel & Eyal Roth changed to public by Udi
+	 */
 	public Vector<Triangle_dt> findTriangleNeighborhood(
 			Triangle_dt firstTriangle, Point_dt point) {
 		Vector<Triangle_dt> triangles = new Vector<Triangle_dt>(30);

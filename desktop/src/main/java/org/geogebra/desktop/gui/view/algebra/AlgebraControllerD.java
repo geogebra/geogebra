@@ -152,7 +152,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 		}
 
 		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
+				((AppD) app).getPlainFont(), Color.DARK_GRAY, null);
 
 		// start drag
 		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),
