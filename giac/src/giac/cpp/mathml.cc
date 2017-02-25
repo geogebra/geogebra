@@ -482,8 +482,12 @@ namespace giac {
   // --------------------------- provenant de derive ----------------------------
 
   static string mathml_printasderive(const gen & feuille,GIAC_CONTEXT){
-    if (feuille.type!=_VECT || feuille._VECTptr->size()<2)
-      return "<msup><mrow><mo>(</mo>"+gen2mathml(feuille,contextptr)+"<mo>)</mo></mrow><mi>'</mi></msup>";
+    if (feuille.type!=_VECT || feuille._VECTptr->size()<2){
+      if (feuille.type==_IDNT || feuille.type<=_CPLX || feuille.is_symb_of_sommet(at_derive))
+	return gen2mathml(feuille,contextptr)+"'";
+      else
+	return "<msup><mrow><mo>(</mo>"+gen2mathml(feuille,contextptr)+"<mo>)</mo></mrow><mi>'</mi></msup>";
+    }
     vecteur & v = *feuille._VECTptr;
     bool needpar=v[0].type==_SYMB;
     if (v.size()>2)

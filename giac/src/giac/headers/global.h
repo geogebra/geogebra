@@ -227,10 +227,10 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern bool CAN_USE_LAPACK;
   extern bool simplify_sincosexp_pi;
 #ifndef RTOS_THREADX
-#ifndef BESTA_OS
+  //#ifndef BESTA_OS
   extern int CALL_LAPACK; // lapack is used if dim of matrix is >= CALL_LAPACK
   // can be changed using shell variable GIAC_LAPACK in icas
-#endif
+  //#endif
 #endif
   extern int FACTORIAL_SIZE_LIMIT;
   extern int GAMMA_LIMIT;

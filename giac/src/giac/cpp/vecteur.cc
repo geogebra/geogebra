@@ -15669,16 +15669,30 @@ namespace giac {
   static gen rem(const gen & p,const gen & q,environment * env){
     if (!env)
       return smod(p,q);
+    if (p.type==_POLY || q.type==_POLY){
+      if (p.type!=_POLY)
+	return p;
+      if (q.type!=_POLY)
+	return 0;
+      return *p._POLYptr % *q._POLYptr;
+    }
     if (p.type!=_VECT)
-      return zero;
+      return p;
     if (q.type!=_VECT)
-      return q;
+      return 0;
     return operator_mod(*p._VECTptr,*q._VECTptr,env);
   }
 
   static gen quo(const gen & p,const gen & q,environment * env){
     if (!env)
       return (p-smod(p,q))/q;
+    if (p.type==_POLY || q.type==_POLY){
+      if (p.type!=_POLY)
+	return zero;
+      if (q.type!=_POLY)
+	return q;
+      return *p._POLYptr % *q._POLYptr;
+    }
     if (p.type!=_VECT)
       return zero;
     if (q.type!=_VECT)
@@ -15691,15 +15705,57 @@ namespace giac {
       egcd(a,b,u,v,d);
       return ;
     }
+    if (a.type==_POLY || b.type==_POLY){
+      if (a.type!=_POLY){
+	if (env && env->moduloon){
+	  d=1;
+	  u=invmod(a,env->modulo);
+	}
+	else {
+	  d=a;
+	  u=plus_one;
+	}
+	v=zero;
+	return;
+      }
+      if (b.type!=_POLY){
+	if (env && env->moduloon){
+	  d=1;
+	  v=invmod(b,env->modulo);
+	}
+	else {
+	  d=b;
+	  v=plus_one;
+	}
+	u=zero;
+	return;
+      }
+      polynome U,V,D;
+      egcd(*a._POLYptr,*b._POLYptr,U,V,D);
+      u=U; v=V; d=D;
+      return;
+    }
     if (a.type!=_VECT){
-      d=a;
-      u=plus_one;
+      if (env && env->moduloon){
+	d=1;
+	u=invmod(a,env->modulo);
+      }
+      else {
+	d=a;
+	u=plus_one;
+      }
       v=zero;
       return;
     }
     if (b.type!=_VECT){
-      d=b;
-      v=plus_one;
+      if (env && env->moduloon){
+	d=1;
+	v=invmod(b,env->modulo);
+      }
+      else {
+	d=b;
+	v=plus_one;
+      }
       u=zero;
       return;
     }
@@ -15759,7 +15815,7 @@ namespace giac {
 	    // Below diag: we use Bezout u*a+v*b=d where a=coeff, b="pivot"
 	    // L_i0 <- v*L_i0 + u*L_i
 	    // L_i <- (-a * L_i0 + b * L_i)/d
-	    // This transformation is Z-invertible since det=(U*a+b*v)/d=1
+	    // This transformation is Z-invertible since det=(u*a+b*v)/d=1
 	    // it will cancel the leading coeff of L_i
 	    // We should use the smallest possible |u| and |v|
 	    gen a = A[i][j];

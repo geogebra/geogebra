@@ -1617,6 +1617,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef BESTA_OS
   int LIST_SIZE_LIMIT = 100000 ;
   int FACTORIAL_SIZE_LIMIT = 1000 ;
+  int CALL_LAPACK = 1111;
 #else
   int LIST_SIZE_LIMIT = 1000 ;
   int FACTORIAL_SIZE_LIMIT = 254 ;
