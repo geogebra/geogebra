@@ -168,8 +168,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 						getBoundingBox().getRectangle().getWidth(), 2)) {
 					setIsSquare(true);
 				}
-				view.getEuclidianController()
-						.setDynamicStyleBarPosition(getBounds(), true);
 			}
 		}
 	}
@@ -614,6 +612,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 		setFixCornerY(Double.NaN);
 		setOldWidth(Double.NaN);
 		setOldHeight(Double.NaN);
+		view.getEuclidianController().setDynamicStyleBarPosition(getBounds(),
+				true);
+		view.getEuclidianController().setDynamicStylebarVisible(true);
 		view.repaintView();
 	}
 
@@ -635,6 +636,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateFreePolygon(handler, e);
 			view.setShapePolygon(prewPolygon);
 		}
+		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
 	}
 

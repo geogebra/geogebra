@@ -441,8 +441,6 @@ public class DrawConic extends Drawable implements Previewable {
 						getBoundingBox().getRectangle().getWidth(), 2)) {
 					setIsCircle(true);
 				}
-				view.getEuclidianController()
-						.setDynamicStyleBarPosition(getBounds(), true);
 			} else {
 				getBoundingBox().setRectangle(null);
 				setIsCircle(false);
@@ -2211,6 +2209,7 @@ public class DrawConic extends Drawable implements Previewable {
 		conic.updateRepaint();
 		updateEllipse(handler, e);
 		view.setShapeEllipse(prewEllipse);
+		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
 	}
 
@@ -2301,6 +2300,10 @@ public class DrawConic extends Drawable implements Previewable {
 		conic.setSelected(true);
 		conic.updateRepaint();
 		this.update();
+		view.getEuclidianController().setDynamicStyleBarPosition(getBounds(),
+				true);
+		view.getEuclidianController().setDynamicStylebarVisible(true);
+				
 		view.setShapeEllipse(null);
 		setFixCornerX(Double.NaN);
 		setFixCornerY(Double.NaN);
