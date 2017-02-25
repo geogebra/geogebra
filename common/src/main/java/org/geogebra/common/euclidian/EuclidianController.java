@@ -9828,6 +9828,8 @@ public abstract class EuclidianController {
 
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(event);
+			setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
+			setDynamicStylebarVisible(true);
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
