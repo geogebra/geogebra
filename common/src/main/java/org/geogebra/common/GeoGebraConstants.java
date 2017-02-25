@@ -150,6 +150,11 @@ public interface GeoGebraConstants {
 
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
+	/**
+	 * minimal precision in LocusEquation: by default rounding is at least 4
+	 * decimals (this changes dynamically when zooming in)
+	 */
+	public static final long PROVER_MIN_PRECISION = 10000;
 
 	/** CSS class name for GeoGebraWeb &article> tag */
 	public static final String GGM_CLASS_NAME = "geogebraweb";
@@ -205,5 +210,4 @@ public interface GeoGebraConstants {
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
 	public static final String PROFILE_URL_BASE = "https://www.geogebra.org/user/profile/id/";
-
 }

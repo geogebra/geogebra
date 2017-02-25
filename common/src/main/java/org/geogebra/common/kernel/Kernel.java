@@ -1203,17 +1203,9 @@ public class Kernel {
 	 * @return numerator and denominator
 	 */
 	public long[] doubleToRational(double x) {
-		double y;
 		long[] ret = new long[2];
-		ret[1] = 1;
-		int rounding = getPrintDecimals();
-		y = x; // Kernel.roundToScale(x, rounding);
-		while (rounding > 0) {
-			ret[1] *= 10;
-			y *= 10;
-			rounding--;
-		}
-		ret[0] = Math.round(y);
+		ret[1] = precision();
+		ret[0] = Math.round(x * precision());
 		long gcd = gcd(ret[0], ret[1]);
 		ret[0] /= gcd;
 		ret[1] /= gcd;
@@ -5550,13 +5542,17 @@ public class Kernel {
 	 * 
 	 * @return the size of a unit on the screen in pixels
 	 */
-	public int precision() {
+	public long precision() {
 		EuclidianView ev = this.getLastAttachedEV();
 		double xscale = ev == null ? EuclidianView.SCALE_STANDARD
 				: ev.getXscale();
 		double yscale = ev == null ? EuclidianView.SCALE_STANDARD
 				: ev.getYscale();
 		double scale = xscale < yscale ? xscale : yscale;
-		return (int) scale;
+		long p = (long) scale;
+		if (p < GeoGebraConstants.PROVER_MIN_PRECISION) {
+			p = GeoGebraConstants.PROVER_MIN_PRECISION;
+		}
+		return p;
 	}
 }

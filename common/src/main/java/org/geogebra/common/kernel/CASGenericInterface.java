@@ -138,7 +138,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return the elimination ideal
 	 */
 	public String createEliminateScript(String polys, String elimVars,
-			boolean oneCurve, Integer precision);
+			boolean oneCurve, Long precision);
 
 	/**
 	 * Creates a program to check if an equation system has no solution, using
