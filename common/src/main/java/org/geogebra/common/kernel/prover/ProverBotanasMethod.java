@@ -635,8 +635,11 @@ public class ProverBotanasMethod {
 				try {
 					PVariable[] vars = ((SymbolicParametersBotanaAlgo) movingPoint)
 							.getBotanaVars(movingPoint);
-					String strForGiac = getFormulaString(numerical);
 					Kernel kernel = geoStatement.kernel;
+					// int decimals = kernel.getPrintDecimals();
+					// kernel.setPrintDecimals(decimals * 2);
+					String strForGiac = getFormulaString(numerical);
+					// kernel.setPrintDecimals(decimals);
 					GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 					String giacOutput4 = "";
 					try {
@@ -1161,11 +1164,11 @@ public class ProverBotanasMethod {
 			}
 			while (!found && permutation < MAX_PERMUTATIONS) {
 
+				Kernel k = statement.getKernel();
 				eliminationIdeal = PPolynomial.eliminate(
 						as.polynomials
 								.toArray(new PPolynomial[as.polynomials.size()]),
-						substitutions, statement.getKernel(), permutation++,
-						true, false);
+						substitutions, k, permutation++, true, false);
 				if (eliminationIdeal == null) {
 					return ProofResult.UNKNOWN;
 				}
@@ -1593,5 +1596,4 @@ public class ProverBotanasMethod {
 		}
 		return as;
 	}
-
 }

@@ -5545,4 +5545,18 @@ public class Kernel {
 		userStopsLoading = flag;
 	}
 
+	/**
+	 * Computes precision.
+	 * 
+	 * @return the size of a unit on the screen in pixels
+	 */
+	public int precision() {
+		EuclidianView ev = this.getLastAttachedEV();
+		double xscale = ev == null ? EuclidianView.SCALE_STANDARD
+				: ev.getXscale();
+		double yscale = ev == null ? EuclidianView.SCALE_STANDARD
+				: ev.getYscale();
+		double scale = xscale < yscale ? xscale : yscale;
+		return (int) scale;
+	}
 }

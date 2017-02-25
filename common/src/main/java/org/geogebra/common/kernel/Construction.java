@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
@@ -1221,9 +1222,13 @@ public class Construction {
 				algo.initForNearToRelationship();
 
 				// update algorithm
+				if (algo instanceof AlgoLocusEquation) {
+					((AlgoLocusEquation) algo).resetFingerprint();
+				}
 				if (randomize || !(algo instanceof SetRandomValue)) {
 					algo.update();
 				}
+
 			}
 
 			// G.Sturr 2010-5-28:

@@ -738,18 +738,15 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	@Override
 	public String createEliminateScript(String polys, String elimVars,
-			boolean oneCurve, double scale) {
+			boolean oneCurve, Integer precision) {
 		if (!oneCurve) {
 			return CustomFunctions.PRIM_POLY + "(" + CustomFunctions.ELIMINATE2
 					+ "([" + polys
 					+ "],revlist([" + elimVars + "])))";
 		}
 
-		// expression is some change on scale
-		double exp = scale * scale;
-		
-		String PRECISION = Integer.toString((int) exp);
-		PRECISION = "10000";
+		String PRECISION = Integer.toString(precision);
+		// PRECISION = "10000";
 		Log.debug("PRECISION = " + PRECISION);
 		String retval;
 		/*

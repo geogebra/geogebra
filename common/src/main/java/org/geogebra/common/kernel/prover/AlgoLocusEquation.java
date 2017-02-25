@@ -84,21 +84,26 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	@Override
 	protected void setInputOutput() {
 
-		if (implicitLocus != null) {
-			setInputOutputImplicit();
-			return;
-		}
-
 		// it is inefficient to have Q and P as input
 		// let's take all independent parents of Q
 		// and the path as input
 		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
-		inSet.add(this.movingPoint.getPath().toGeoElement());
+		Iterator<GeoElement> it;
+		standardInput = new GeoElement[2];
+
+		if (implicitLocus != null) {
+			inSet.add(this.movingPoint);
+			it = this.implicitLocus.getAllPredecessors().iterator();
+			standardInput[0] = this.implicitLocus;
+		} else {
+			inSet.add(this.movingPoint.getPath().toGeoElement());
+			it = this.locusPoint.getAllPredecessors().iterator();
+			standardInput[0] = this.locusPoint;
+		}
 
 		// we need all independent parents of Q PLUS
 		// all parents of Q that are points on a path
-		Iterator<GeoElement> it = this.locusPoint.getAllPredecessors()
-				.iterator();
+
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isIndependent() || geo.isPointOnPath()) {
@@ -110,9 +115,6 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		efficientInput = new GeoElement[inSet.size()];
 		efficientInput = inSet.toArray(efficientInput);
-
-		standardInput = new GeoElement[2];
-		standardInput[0] = this.locusPoint;
 		standardInput[1] = this.movingPoint;
 
 		setOutputLength(1);
@@ -129,6 +131,13 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		// TODO: consider moving setInputOutput() out from compute()
 
 		efficientInputFingerprint = fingerprint(efficientInput);
+	}
+
+	/**
+	 * Reset fingerprint to force recomputing the locus equation.
+	 */
+	public void resetFingerprint() {
+		efficientInputFingerprint = null;
 	}
 
 	/*
@@ -274,38 +283,6 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
-	}
-
-	/**
-	 * Set up dependencies for the input and output objects.
-	 */
-	protected void setInputOutputImplicit() {
-
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
-		inSet.add(this.movingPoint);
-		Iterator<GeoElement> it = this.implicitLocus.getAllPredecessors()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isIndependent() || geo.isPointOnPath()) {
-				inSet.add(geo);
-			}
-		}
-		inSet.remove(movingPoint);
-
-		efficientInput = new GeoElement[inSet.size()];
-		efficientInput = inSet.toArray(efficientInput);
-
-		standardInput = new GeoElement[2];
-		standardInput[0] = this.implicitLocus;
-		standardInput[1] = this.movingPoint;
-
-		setOutputLength(1);
-		setOutput(0, this.geoPoly.toGeoElement());
-
-		setEfficientDependencies(standardInput, efficientInput);
-		efficientInputFingerprint = fingerprint(efficientInput);
-
 	}
 
 	/**

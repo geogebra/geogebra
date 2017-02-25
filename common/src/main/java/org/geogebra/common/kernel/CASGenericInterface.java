@@ -133,12 +133,12 @@ public interface CASGenericInterface extends SettingListener {
 	 *            if the output consists of more polynomials, consider the
 	 *            intersections of them as points with real coordinates and
 	 *            convert them to a single product
-	 * @param scale
-	 * 			  the size of a unit on the screen in pixels 	
+	 * @param precision
+	 *            the size of a unit on the screen in pixels
 	 * @return the elimination ideal
 	 */
 	public String createEliminateScript(String polys, String elimVars,
-			boolean oneCurve, double scale);
+			boolean oneCurve, Integer precision);
 
 	/**
 	 * Creates a program to check if an equation system has no solution, using

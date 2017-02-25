@@ -13,7 +13,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -1124,6 +1123,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param oneCurve
 	 *            prefer getting one algebraic curve than an ideal with more
 	 *            elements
+	 * @param precision
+	 *            the size of a unit on the screen in pixels
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<PPolynomial>> eliminate(PPolynomial[] eqSystem,
@@ -1256,14 +1257,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 				elimProgram = cas.getCurrentCAS()
 						.createEliminateFactorizedScript(polys, elimVars);
 			} else {
-				EuclidianView ev = kernel.getLastAttachedEV();
-				double xscale = ev == null ? EuclidianView.SCALE_STANDARD : ev
-						.getXscale();
-				double yscale = ev == null ? EuclidianView.SCALE_STANDARD : ev
-						.getYscale();
-				double scale = xscale < yscale ? xscale : yscale;
 				elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
-						elimVars, oneCurve, scale);
+						elimVars, oneCurve, kernel.precision());
 			}
 			if (elimProgram == null) {
 				Log.info("Not implemented (yet)");
