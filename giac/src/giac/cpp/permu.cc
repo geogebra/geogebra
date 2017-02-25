@@ -1213,10 +1213,14 @@ namespace giac {
     return true;
   }
 
-  bool hnf(const matrice & Aorig,const gen & var,matrice & U,matrice & A,GIAC_CONTEXT){
-    std_matrix<gen> aorig,u,a;
-    if (var.type==_VECT && var._VECTptr->empty())
-      matrice2std_matrix_gen(Aorig,aorig);
+  bool hnf(const matrice & Aorig,const gen & var,matrice & U,matrice & A,matrice & V,bool do_smith,GIAC_CONTEXT){
+    std_matrix<gen> aorig,u,a,v;
+    if (var.type==_VECT){ 
+      if (var._VECTptr->empty())
+	matrice2std_matrix_gen(Aorig,aorig);
+      else
+	return false; // multivariate polynomial are not yet allowed
+    }
     else {
       gen tmp=_symb2poly(makesequence(Aorig,var),contextptr);
       if (!ckmatrix(tmp))
@@ -1234,17 +1238,29 @@ namespace giac {
     }
     else 
       env.moduloon=false;
-    if (!hermite(aorig,u,a,&env,contextptr))
-      return false;
+    if (do_smith){
+      if (!smith(aorig,u,a,v,&env,contextptr))
+	return false;
+    }
+    else {
+      if (!hermite(aorig,u,a,&env,contextptr))
+	return false;
+    }
     std_matrix_gen2matrice_destroy(u,U);
     std_matrix_gen2matrice_destroy(a,A);
+    if (do_smith)
+      std_matrix_gen2matrice_destroy(v,V);
     if (var.type!=_VECT || !var._VECTptr->empty()) {
       poly2symbmat(U,var,contextptr);
       poly2symbmat(A,var,contextptr);
+      if (do_smith)
+	poly2symbmat(V,var,contextptr);
     }
     if (env.moduloon){
       U=*makemod(U,env.modulo)._VECTptr;
       A=*makemod(A,env.modulo)._VECTptr;
+      if (do_smith)
+	V=*makemod(V,env.modulo)._VECTptr;
     }
     return true;
   }
@@ -1254,10 +1270,10 @@ namespace giac {
     int n;
     gen a,x;
     if (!find_n_x(args,n,x,a)){
-      matrice U,A; // U invertible and A such that U*args==A
-      if (ckmatrix(args) && hnf(*args._VECTptr,ggb_var(args),U,A,contextptr))
+      matrice U,A,V; // U invertible and A such that U*args==A
+      if (ckmatrix(args) && hnf(*args._VECTptr,ggb_var(args),U,A,V,false,contextptr))
 	return makesequence(U,A);	
-      if (args.type==_VECT && args._VECTptr->size()==2 && ckmatrix(args._VECTptr->front()) && hnf(*args._VECTptr->front()._VECTptr,args._VECTptr->back(),U,A,contextptr))
+      if (args.type==_VECT && args._VECTptr->size()==2 && ckmatrix(args._VECTptr->front()) && hnf(*args._VECTptr->front()._VECTptr,args._VECTptr->back(),U,A,V,false,contextptr))
 	return makesequence(U,A);
       return gensizeerr(contextptr);
     }
@@ -1266,6 +1282,19 @@ namespace giac {
   static const char _hermite_s[]="hermite";
   static define_unary_function_eval (__hermite,&_hermite,_hermite_s);
   define_unary_function_ptr5( at_hermite ,alias_at_hermite,&__hermite,0,true);
+
+  gen _smith(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    matrice U,A,V; // U invertible and A such that U*args==A
+    if (ckmatrix(args) && hnf(*args._VECTptr,ggb_var(args),U,A,V,true,contextptr))
+      return makesequence(U,A,V);	
+    if (args.type==_VECT && args._VECTptr->size()==2 && ckmatrix(args._VECTptr->front()) && hnf(*args._VECTptr->front()._VECTptr,args._VECTptr->back(),U,A,V,true,contextptr))
+      return makesequence(U,A,V);
+    return gensizeerr(contextptr);
+  }
+  static const char _smith_s[]="smith";
+  static define_unary_function_eval (__smith,&_smith,_smith_s);
+  define_unary_function_ptr5( at_smith ,alias_at_smith,&__smith,0,true);
 
   vecteur laguerre(int n){
     // L_k(x)=v_k(x)/k!

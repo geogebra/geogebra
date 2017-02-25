@@ -15667,6 +15667,8 @@ namespace giac {
 
   // Utilities for Hermite and Smith normal forms
   static gen rem(const gen & p,const gen & q,environment * env){
+    if (is_zero(p))
+      return p;
     if (!env)
       return smod(p,q);
     if (p.type==_POLY || q.type==_POLY){
@@ -15676,14 +15678,16 @@ namespace giac {
 	return 0;
       return *p._POLYptr % *q._POLYptr;
     }
-    if (p.type!=_VECT)
-      return p;
-    if (q.type!=_VECT)
-      return 0;
-    return operator_mod(*p._VECTptr,*q._VECTptr,env);
+    vecteur R=operator_mod(gen2vecteur(p),gen2vecteur(q),env);
+    if (R.size()==1)
+      return R.front();
+    else
+      return gen(R,_POLY1__VECT);
   }
 
   static gen quo(const gen & p,const gen & q,environment * env){
+    if (is_zero(p))
+      return p;
     if (!env)
       return (p-smod(p,q))/q;
     if (p.type==_POLY || q.type==_POLY){
@@ -15691,19 +15695,39 @@ namespace giac {
 	return zero;
       if (q.type!=_POLY)
 	return q;
-      return *p._POLYptr % *q._POLYptr;
+      return *p._POLYptr % *q._POLYptr; // FIXME mod computation
     }
-    if (p.type!=_VECT)
-      return zero;
-    if (q.type!=_VECT)
-      return q;
-    return operator_div(*p._VECTptr,*q._VECTptr,env);
+    vecteur Q=operator_div(gen2vecteur(p),gen2vecteur(q),env);
+    if (Q.size()==1)
+      return Q.front();
+    else
+      return gen(Q,_POLY1__VECT);
+  }
+
+  // w=(c1*v1+c2*v2)/c smod modulo
+  void modlinear_combination(const gen & c1,const vecteur & v1,const gen & c2,const vecteur & v2,const gen & c,vecteur & w,environment * env,int cstart,int cend){
+    const_iterateur it1=v1.begin()+cstart,it1end=v1.end();
+    if (cend && cend>=cstart && cend<it1end-v1.begin())
+      it1end=v1.begin()+cend;
+    const_iterateur it2=v2.begin()+cstart;
+    iterateur jt=w.begin()+cstart;
+    gen modulo=env->modulo;
+    for (;it1!=it1end;++it1,++it2,++jt){
+      *jt=smod(c1*(*it1)+c2*(*it2),modulo);
+      *jt=quo(*jt,c,env);
+    }
   }
 
   static void egcd(const gen & a,const gen & b,gen & u,gen & v,gen & d,environment * env){
     if (!env){
       egcd(a,b,u,v,d);
       return ;
+    }
+    if (is_zero(a)){
+      u=0; v=1; d=b; return;
+    }
+    if (is_zero(b)){
+      u=1; v=0; d=a; return;
     }
     if (a.type==_POLY || b.type==_POLY){
       if (a.type!=_POLY){
@@ -15761,7 +15785,18 @@ namespace giac {
     }
     modpoly U,V,D;
     egcd(*a._VECTptr,*b._VECTptr,env,U,V,D);
-    u=U; v=V; d=D;
+    if (U.size()==1)
+      u=U.front();
+    else
+      u=gen(U,_POLY1__VECT); 
+    if (V.size()==1)
+      v=V.front();
+    else
+      v=gen(V,_POLY1__VECT); 
+    if (D.size()==1)
+      d=D.front();
+    else
+      d=gen(D,_POLY1__VECT);
   }
 
   // degree + 1 for poly, abs for integer, 1 otherwise
@@ -15821,11 +15856,19 @@ namespace giac {
 	    gen a = A[i][j];
 	    gen b = A[i0][j];
 	    egcd(a,b,u,v,d,env);
-	    linear_combination(v,U[i0],u,U[i],plus_one,1,B1,0.0,0);
-	    linear_combination(-a,U[i0],b,U[i],d,1,U[i],0.0,0);
+	    if (env && env->moduloon){
+	      modlinear_combination(v,U[i0],u,U[i],plus_one,B1,env,0,0);
+	      modlinear_combination(-a,U[i0],b,U[i],d,U[i],env,0,0);
+	      modlinear_combination(v,A[i0],u,A[i],plus_one,B2,env,0,0);
+	      modlinear_combination(-a,A[i0],b,A[i],d,A[i],env,0,0);
+	    }
+	    else {
+	      linear_combination(v,U[i0],u,U[i],plus_one,1,B1,0.0,0);
+	      linear_combination(-a,U[i0],b,U[i],d,1,U[i],0.0,0);
+	      linear_combination(v,A[i0],u,A[i],plus_one,1,B2,0.0,0);
+	      linear_combination(-a,A[i0],b,A[i],d,1,A[i],0.0,0);
+	    }
 	    U[i0]=B1;
-	    linear_combination(v,A[i0],u,A[i],plus_one,1,B2,0.0,0);
-	    linear_combination(-a,A[i0],b,A[i],d,1,A[i],0.0,0);
 	    A[i0]=B2;	    
 	  }
 	} // end for (column reduced)
@@ -15942,11 +15985,19 @@ namespace giac {
 	    gen a = A[i][j0];
 	    gen b = A[i0][j0];
 	    egcd(b,a,v,u,d,env);
-	    linear_combination(v,U[i0],u,U[i],plus_one,1,B1,0.0,0);
-	    linear_combination(-a,U[i0],b,U[i],d,1,U[i],0.0,0);
+	    if (env && env->moduloon){
+	      modlinear_combination(v,U[i0],u,U[i],plus_one,B1,env,0,0);
+	      modlinear_combination(-a,U[i0],b,U[i],d,U[i],env,0,0);
+	      modlinear_combination(v,A[i0],u,A[i],plus_one,B2,env,0,0);
+	      modlinear_combination(-a,A[i0],b,A[i],d,A[i],env,0,0);
+	    }
+	    else {
+	      linear_combination(v,U[i0],u,U[i],plus_one,1,B1,0.0,0);
+	      linear_combination(-a,U[i0],b,U[i],d,1,U[i],0.0,0);
+	      linear_combination(v,A[i0],u,A[i],plus_one,1,B2,0.0,0);
+	      linear_combination(-a,A[i0],b,A[i],d,1,A[i],0.0,0);
+	    }
 	    U[i0]=B1;
-	    linear_combination(v,A[i0],u,A[i],plus_one,1,B2,0.0,0);
-	    linear_combination(-a,A[i0],b,A[i],d,1,A[i],0.0,0);
 	    A[i0]=B2;	    
 	  } // end for (row reduced)
 	  if (!env && is_strictly_positive(-A[i0][j0],contextptr)){
@@ -15986,11 +16037,19 @@ namespace giac {
 	    gen a = A[i][i0];
 	    gen b = A[j0][i0];
 	    egcd(b,a,v,u,d,env);
-	    linear_combination(v,V[j0],u,V[i],plus_one,1,B2,0.0,0);
-	    linear_combination(-a,V[j0],b,V[i],d,1,V[i],0.0,0);
+	    if (env && env->moduloon){
+	      modlinear_combination(v,V[j0],u,V[i],plus_one,B2,env,0,0);
+	      modlinear_combination(-a,V[j0],b,V[i],d,V[i],env,0,0);
+	      modlinear_combination(v,A[j0],u,A[i],plus_one,B1,env,0,0);
+	      modlinear_combination(-a,A[j0],b,A[i],d,A[i],env,0,0);
+	    }
+	    else {
+	      linear_combination(v,V[j0],u,V[i],plus_one,1,B2,0.0,0);
+	      linear_combination(-a,V[j0],b,V[i],d,1,V[i],0.0,0);
+	      linear_combination(v,A[j0],u,A[i],plus_one,1,B1,0.0,0);
+	      linear_combination(-a,A[j0],b,A[i],d,1,A[i],0.0,0);
+	    }
 	    V[j0]=B2;
-	    linear_combination(v,A[j0],u,A[i],plus_one,1,B1,0.0,0);
-	    linear_combination(-a,A[j0],b,A[i],d,1,A[i],0.0,0);
 	    A[j0]=B1;	    
 	  } // end for (row reduced)
 	  if (!env && is_strictly_positive(-A[j0][i0],contextptr)){

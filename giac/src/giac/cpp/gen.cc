@@ -7574,7 +7574,7 @@ namespace giac {
 	return rdiv(_FRAC2_SYMB(a),b,contextptr);
       }
       if (b.type==_FRAC){
-	if ( (a.type!=_SYMB) && (a.type!=_IDNT) )
+	if ( a.type!=_SYMB && a.type!=_IDNT && !(a.type==_VECT && a.subtype==_POLY1__VECT) ) // POLY1__VECT check added feb 2017 for poly hermite normal form
 	  return a/(*b._FRACptr);
 	//return rdiv(a,_FRAC2_SYMB(b),contextptr);
 	// return symbolic(at_prod,makesequence(a,b._FRACptr->den,symbolic(at_inv,b._FRACptr->num)));

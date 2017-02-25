@@ -4068,7 +4068,8 @@ namespace giac {
     }
     modpoly a,b,q,r,tmp;
     bool swapped=false;
-    if (p1.size()<p2.size())
+    // change feb 2017, add p2.size()==1 check because I prefer u!=0 if p1 and p2 are csts (and this is required in polynomial Smith normal form)
+    if (p1.size()<p2.size() || p1.size()==1)
       swapped=true;
     // initializes a and b to p1, p2
     if (swapped){
