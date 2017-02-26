@@ -330,15 +330,12 @@ public class EuclidianStyleBarD extends JToolBar
 		// display a selection for the drag-delete-tool
 		// can't use a geo element for this
 		// -----------------------------------------------------
-		else if (mode == EuclidianConstants.MODE_DELETE
-				|| mode == EuclidianConstants.MODE_ERASER) {
 
-		}
 
 		// -----------------------------------------------------
 		// All other modes: load activeGeoList with current default geo
 		// -----------------------------------------------------
-		else if (defaultGeoMap.containsKey(mode)) {
+		else if (!deleteMode(mode) && defaultGeoMap.containsKey(mode)) {
 
 			// Save the current default geo state in oldDefaultGeo.
 			// Stylebar buttons can temporarily change a default geo, but this
@@ -418,6 +415,11 @@ public class EuclidianStyleBarD extends JToolBar
 
 		addButtons();
 
+	}
+
+	private static boolean deleteMode(int mode2) {
+		return mode2 == EuclidianConstants.MODE_DELETE
+				|| mode2 == EuclidianConstants.MODE_ERASER;
 	}
 
 	protected void updateButtons() {
@@ -1702,9 +1704,10 @@ public class EuclidianStyleBarD extends JToolBar
 	public void updateButtonPointCapture(int mode1) {
 		if (mode1 == 3 || mode1 == 0)
 		 {
-			mode1 = 3 - mode1; // swap 0 and 3
+			btnPointCapture.setSelectedIndex(3 - mode1); // swap 0 and 3
+		} else {
+			btnPointCapture.setSelectedIndex(mode1);
 		}
-		btnPointCapture.setSelectedIndex(mode1);
 	}
 
 	// ==============================================

@@ -194,9 +194,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Appends the commands required to draw a shape on the EPS document.
 	 */
-	protected void draw(GShape s, String action, boolean subPath) {
-		if (s != null) {
-
+	protected void draw(GShape s0, String action, boolean subPath) {
+		if (s0 != null) {
+			GShape s = s0;
 			// 20120115 bugfix: stroke needs to be appended each time
 			if (!subPath) {
 				appendStroke();
@@ -624,12 +624,16 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	/**
 	 * Sets the background color to be used by the clearRect method.
+	 * 
+	 * @param color
+	 *            background
 	 */
 	public void setBackground(GColor color) {
 		if (color == null) {
-			color = GColor.BLACK;
+			_backgroundColor = GColor.BLACK;
+		} else {
+			_backgroundColor = color;
 		}
-		_backgroundColor = color;
 	}
 
 	/**
@@ -693,15 +697,16 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void setColor(GColor color) {
-		if (color == null) {
-			color = GColor.BLACK;
+		GColor color1 = color;
+		if (color1 == null) {
+			color1 = GColor.BLACK;
 		}
 
-		float red = color.getRed() / 255f;
-		float green = color.getGreen() / 255f;
-		float blue = color.getBlue() / 255f;
+		float red = color1.getRed() / 255f;
+		float green = color1.getGreen() / 255f;
+		float blue = color1.getBlue() / 255f;
 
-		float alpha = color.getAlpha() / 255f;
+		float alpha = color1.getAlpha() / 255f;
 
 		if (alpha != 1) {
 
@@ -719,7 +724,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 		}
 
-		this.color = color;
+		this.color = color1;
 		switch (colorMode) {
 		case BLACK_AND_WHITE:
 			double value = 0;
@@ -736,7 +741,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 			append(red + " " + green + " " + blue + " setrgbcolor");
 			break;
 		case COLOR_CMYK:
-			if (color.equals(GColor.BLACK)) {
+			if (color1.equals(GColor.BLACK)) {
 				append("0.0 0.0 0.0 1.0 setcmykcolor");
 			} else {
 				double c = 1 - red;

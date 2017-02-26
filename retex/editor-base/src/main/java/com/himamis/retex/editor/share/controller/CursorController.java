@@ -139,8 +139,9 @@ public class CursorController {
             // try to find previous sibling
         } else if (container.hasPrev(current)) {
             current = container.prev(current);
-            component = (MathContainer) container.getArgument(current);
-            lastField(editorState, component);
+			MathContainer component1 = (MathContainer) container
+					.getArgument(current);
+			lastField(editorState, component1);
 
             // delve down the tree
         } else {

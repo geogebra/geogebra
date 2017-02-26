@@ -22,6 +22,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 
+/**
+ * Algo for converting decimals to fractions
+ *
+ */
 public class AlgoFractionText extends AlgoElement {
 
 	private GeoNumberValue num; // input
@@ -31,13 +35,13 @@ public class AlgoFractionText extends AlgoElement {
 
 	private StringBuilder sb = new StringBuilder();
 
-	public AlgoFractionText(Construction cons, String label,
-			GeoNumberValue num) {
-		this(cons, num);
-		text.setLabel(label);
-	}
-
-	AlgoFractionText(Construction cons, GeoNumberValue num) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param num
+	 *            input number
+	 */
+	public AlgoFractionText(Construction cons, GeoNumberValue num) {
 		super(cons);
 		this.num = num;
 
@@ -65,6 +69,9 @@ public class AlgoFractionText extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting text
+	 */
 	public GeoText getResult() {
 		return text;
 	}
@@ -96,11 +103,18 @@ public class AlgoFractionText extends AlgoElement {
 		}
 	}
 
+
 	// https://web.archive.org/web/20111027100847/http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
-	/*
+	/**
 	 * Algorithm To Convert A Decimal To A Fraction by John Kennedy Mathematics
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
 	 * http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
+	 * 
+	 * @param decimal
+	 *            to be converted to fraction
+	 * @param AccuracyFactor
+	 *            accuracy
+	 * @return [numerator, denominator]
 	 */
 	public static double[] decimalToFraction(double decimal,
 			double AccuracyFactor) {
@@ -133,21 +147,21 @@ public class AlgoFractionText extends AlgoElement {
 			decimalSign = 1.0;
 		}
 
-		decimal = Math.abs(decimal);
+		double decimalAbs = Math.abs(decimal);
 
-		if (Math.abs(decimal - Math.floor(decimal)) < AccuracyFactor) { // handles
+		if (Math.abs(decimalAbs - Math.floor(decimalAbs)) < AccuracyFactor) { // handles
 																		// exact
 																		// integers
 																		// including
 																		// 0
-			fractionNumerator = decimal * decimalSign;
+			fractionNumerator = decimalAbs * decimalSign;
 			fractionDenominator = 1.0;
 
 			ret[0] = fractionNumerator;
 			ret[1] = fractionDenominator;
 			return ret;
 		}
-		if (decimal < 1.0E-19) { // X = 0 already taken care of
+		if (decimalAbs < 1.0E-19) { // X = 0 already taken care of
 			fractionNumerator = decimalSign;
 			fractionDenominator = 9999999999999999999.0;
 
@@ -155,7 +169,7 @@ public class AlgoFractionText extends AlgoElement {
 			ret[1] = fractionDenominator;
 			return ret;
 		}
-		if (decimal > 1.0E19) {
+		if (decimalAbs > 1.0E19) {
 			fractionNumerator = 9999999999999999999.0 * decimalSign;
 			fractionDenominator = 1.0;
 
@@ -164,7 +178,7 @@ public class AlgoFractionText extends AlgoElement {
 			return ret;
 		}
 
-		Z = decimal;
+		Z = decimalAbs;
 		PreviousDenominator = 0.0;
 		fractionDenominator = 1.0;
 		do {
@@ -173,10 +187,11 @@ public class AlgoFractionText extends AlgoElement {
 			fractionDenominator = fractionDenominator * Math.floor(Z)
 					+ PreviousDenominator;
 			PreviousDenominator = ScratchValue;
-			fractionNumerator = Math.floor(decimal * fractionDenominator + 0.5); // Rounding
+			fractionNumerator = Math.floor(decimalAbs * fractionDenominator
+					+ 0.5); // Rounding
 																					// Function
 		} while (Math
-				.abs((decimal - (fractionNumerator
+				.abs((decimalAbs - (fractionNumerator
 						/ fractionDenominator))) > AccuracyFactor
 				&& !MyDouble.exactEqual(Z, Math.floor(Z)));
 		fractionNumerator = decimalSign * fractionNumerator;
@@ -191,6 +206,16 @@ public class AlgoFractionText extends AlgoElement {
 		return true;
 	}
 
+	/**
+	 * @param sb
+	 *            builder
+	 * @param frac
+	 *            [numerator, denominator]
+	 * @param tpl
+	 *            output template
+	 * @param kernel
+	 *            kernel
+	 */
 	public static void appendFormula(StringBuilder sb, double[] frac,
 			StringTemplate tpl, Kernel kernel) {
 		if (frac[1] == 1) { // integer

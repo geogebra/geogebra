@@ -923,8 +923,9 @@ public class PlotterSurface {
 	public void drawSphere(int size, Coords center, double radius) {
 
 		int longitude = 8;
-		size += 3;
-		while (longitude * 6 <= size * size) {// find the correct longitude size
+		int size1 = size + 3;
+		while (longitude * 6 <= size1 * size1) {// find the correct longitude
+												// size
 												// (size=3 <-> longitude=12 and
 												// size=9 <-> longitude=48)
 			longitude *= 2;

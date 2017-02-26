@@ -208,9 +208,18 @@ public abstract class ExportToPrinter3D {
 		return format;
 	}
 
+	/**
+	 * Print script to a file
+	 * 
+	 * @param s
+	 *            exported script
+	 */
 	abstract protected void printToFile(String s);
 
-	private void getVertex(boolean notFirst, double x, double y, double z) {
+	private void getVertex(boolean notFirst, double x0, double y0, double z0) {
+		double x = x0;
+		double y = y0;
+		double z = z0;
 		if (center != null) {
 			double r = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR
 					/ view.getScale();

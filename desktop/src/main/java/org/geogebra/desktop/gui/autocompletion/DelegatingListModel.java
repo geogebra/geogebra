@@ -31,12 +31,13 @@ public class DelegatingListModel extends AbstractListModel {
 	 * instance. If the list changes after it was passed in one must call
 	 * {@link #setDataList(List)} again.
 	 * 
-	 * @param dataList
+	 * @param dataList0
 	 *            The list
 	 */
-	public void setDataList(List<?> dataList) {
+	public void setDataList(List<?> dataList0) {
 		// Substitute null with an empty list
-		dataList = null != dataList ? dataList : Collections.emptyList();
+		List<?> dataList = null != dataList0 ? dataList0 : Collections
+				.emptyList();
 
 		// Remember sizes
 		int oldSize = delegate.size();

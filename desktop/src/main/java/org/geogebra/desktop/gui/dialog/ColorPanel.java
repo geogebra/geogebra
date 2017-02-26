@@ -279,8 +279,9 @@ class ColorPanel extends JPanel
 	// Methods that set value for single bar if single bar is selected
 	// and bar has tag for value
 
-	private void setPreview(GeoElement geo, double alpha) {
+	private void setPreview(GeoElement geo, double alpha0) {
 		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+		double alpha = alpha0;
 		if (selectedBarButton != 0
 				&& (algo.getBarAlpha(selectedBarButton) != -1)) {
 			alpha = algo.getBarAlpha(selectedBarButton);
@@ -326,8 +327,12 @@ class ColorPanel extends JPanel
 	/**
 	 * Sets the tooltip string for a given color
 	 * 
+	 * @param app
+	 *            application
+	 * 
 	 * @param color
-	 * @return
+	 *            color
+	 * @return tooltip
 	 */
 	public String getToolTipText(App app, Color color) {
 		return ColorObjectModel.getColorAsString(app, GColorD.newColor(color));

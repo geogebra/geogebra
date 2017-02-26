@@ -50,8 +50,8 @@ public class LaTeXPreviewerPanel extends JPanel {
 		super(false);
 	}
 
-	public void setLaTeX(AppD app, String str) {
-
+	public void setLaTeX(AppD app, String str0) {
+		String str = str0;
 		if (str.indexOf('"') > -1) {
 
 			GeoText text = app.getKernel().getAlgebraProcessor()

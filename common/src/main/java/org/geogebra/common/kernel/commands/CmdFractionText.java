@@ -35,9 +35,9 @@ public class CmdFractionText extends CommandProcessor {
 
 			if (arg[0] instanceof GeoNumberValue) {
 
-				AlgoFractionText algo = new AlgoFractionText(cons, c.getLabel(),
+				AlgoFractionText algo = new AlgoFractionText(cons,
 						(GeoNumberValue) arg[0]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[0].isGeoPoint()) {

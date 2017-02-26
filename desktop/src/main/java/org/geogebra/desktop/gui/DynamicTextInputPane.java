@@ -350,12 +350,14 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	/**
 	 * Overrides insertString to allow option offs = -1 for inserting at end.
 	 * 
-	 * @param offs
+	 * @param offs0
+	 *            offset
 	 * @param str
 	 * @param a
 	 */
-	public void insertString(int offs, String str, AttributeSet a) {
+	public void insertString(int offs0, String str, AttributeSet a) {
 		try {
+			int offs = offs0;
 			if (offs == -1) {
 				offs = doc.getLength(); // insert at end
 			}

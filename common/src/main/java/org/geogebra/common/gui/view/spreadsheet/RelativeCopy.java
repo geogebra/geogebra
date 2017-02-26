@@ -423,8 +423,8 @@ public class RelativeCopy {
 	}
 
 	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
-			GeoElement value, GeoElementND oldValue, int dx, int dy, int row0,
-			int column0) throws Exception {
+			GeoElement value, GeoElementND oldValue, int dx, int dy,
+			int rowStart, int columnStart) throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
 				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
@@ -535,6 +535,8 @@ public class RelativeCopy {
 
 		// get location of source cell
 		// TODO: Why not always use getSpreadsheetCoords()?
+		int row0 = rowStart;
+		int column0 = columnStart;
 		if (row0 > -1 && column0 > -1) {
 			// nothing to do, already set
 		} else if (value.isLabelSet()) {

@@ -22,7 +22,16 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 
 	private GeoPoint3D[] parentOutput;
 
-	// intersection point is the (a) nearest to refPoint
+	/**
+	 * intersection point is the (a) nearest to refPoint
+	 * 
+	 * @param label
+	 *            output label
+	 * @param algo
+	 *            generic intersect algo
+	 * @param refPoint
+	 *            closest point
+	 */
 	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo,
 			GeoPointND refPoint) {
 		super(algo.getConstruction());
@@ -38,17 +47,26 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		point.setLabel(label);
 	}
 
-	// intersection point is index-th intersection point of algo
-	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, int index) {
+	/**
+	 * intersection point is index-th intersection point of algo
+	 * 
+	 * @param label
+	 *            output label
+	 * @param algo
+	 *            intersect algo
+	 * @param index0
+	 *            output index
+	 */
+	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, int index0) {
 		super(algo.getConstruction());
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo
 
 		// check index
-		if (index < 0) {
-			index = 0;
+		if (index0 < 0) {
+			this.index = 0;
 		} else {
-			this.index = index;
+			this.index = index0;
 		}
 
 		point = new GeoPoint3D(algo.getConstruction());
@@ -97,6 +115,9 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return intersection point
+	 */
 	public GeoPoint3D getPoint() {
 		return point;
 	}

@@ -740,19 +740,22 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setSelectionType(MyTableInterface.CELL_SELECT);
 
 		if (column == -1) {
-			column = 0;
+			minSelectionColumn = 0;
+		} else {
+			minSelectionColumn = column;
 		}
 		if (row == -1) {
-			row = 0;
+			minSelectionRow = 0;
+		} else {
+			minSelectionRow = row;
 		}
-		minSelectionColumn = column;
-		maxSelectionColumn = column;
-		minSelectionRow = row;
-		maxSelectionRow = row;
+		maxSelectionColumn = minSelectionColumn;
+		maxSelectionRow = minSelectionRow;
 
-		getColumnModel().getSelectionModel().setSelectionInterval(column,
-				column);
-		getSelectionModel().setSelectionInterval(row, row);
+		getColumnModel().getSelectionModel().setSelectionInterval(
+				minSelectionColumn, maxSelectionColumn);
+		getSelectionModel().setSelectionInterval(minSelectionRow,
+				maxSelectionRow);
 	}
 
 	/*
@@ -921,8 +924,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 * }
 	 */
 
-	public void setSelectionType(int selType) {
-
+	public void setSelectionType(int selType0) {
+		int selType = selType0;
 		if (view.isColumnSelect()) {
 			selType = MyTableInterface.COLUMN_SELECT;
 		}

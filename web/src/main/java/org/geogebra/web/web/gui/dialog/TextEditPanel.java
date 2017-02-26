@@ -220,9 +220,10 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	public void setEditGeo(GeoText editGeo) {
 		if (editGeo == null) {
 			// create dummy GeoText to maintain the visual properties
-			editGeo = new GeoText(app.getKernel().getConstruction());
+			this.editGeo = new GeoText(app.getKernel().getConstruction());
+		} else {
+			this.editGeo = editGeo;
 		}
-		this.editGeo = editGeo;
 	}
 
 	@Override

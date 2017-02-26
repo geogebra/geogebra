@@ -287,7 +287,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 
 		@Override
-		protected void onUpdate(double progress) {
+		protected void onUpdate(double progress0) {
+			double progress = progress0;
 			if (!showing) {
 				progress = 1.0 - progress;
 			}
@@ -987,16 +988,16 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		// Account for the difference between absolute position and the
 		// body's positioning context.
-		left -= Document.get().getBodyOffsetLeft();
-		top -= Document.get().getBodyOffsetTop();
+		int left1 = left - Document.get().getBodyOffsetLeft();
+		int top1 = top - Document.get().getBodyOffsetTop();
 
 		// Set the popup's position manually, allowing setPopupPosition() to be
 		// called before show() is called (so a popup can be positioned without
 		// it
 		// 'jumping' on the screen).
 		Element elem = getElement();
-		elem.getStyle().setPropertyPx("left", left);
-		elem.getStyle().setPropertyPx("top", top);
+		elem.getStyle().setPropertyPx("left", left1);
+		elem.getStyle().setPropertyPx("top", top1);
 	}
 
 	/**

@@ -496,11 +496,11 @@ public abstract class Renderer {
 	abstract protected void setExportImageDimension(int w, int h);
 
 	protected void selectFBO() {
-
+		// to be overridden
 	}
 
 	protected void unselectFBO() {
-
+		// to be overridden
 	}
 
 	/**
@@ -1185,19 +1185,19 @@ public abstract class Renderer {
 	/**
 	 * draws a 3D cross cursor
 	 * 
-	 * @param type
+	 * @param cursorType
 	 */
-	final public void drawCursor(int type) {
+	final public void drawCursor(int cursorType) {
 
-		if (!PlotterCursor.isTypeAlready(type)) {
+		if (!PlotterCursor.isTypeAlready(cursorType)) {
 			disableLighting();
 		}
 
 		initMatrix();
-		geometryManager.draw(geometryManager.cursor.getIndex(type));
+		geometryManager.draw(geometryManager.cursor.getIndex(cursorType));
 		resetMatrix();
 
-		if (!PlotterCursor.isTypeAlready(type)) {
+		if (!PlotterCursor.isTypeAlready(cursorType)) {
 			enableLighting();
 		}
 
@@ -1571,13 +1571,13 @@ public abstract class Renderer {
 	public double[] getIntervalInFrustum(double[] minmax, Coords o, Coords v,
 			boolean extendedDepth) {
 
-		double left = (getLeft() - o.get(1)) / v.get(1);
-		double right = (getRight() - o.get(1)) / v.get(1);
-		updateIntervalInFrustum(minmax, left, right);
+		double left1 = (getLeft() - o.get(1)) / v.get(1);
+		double right1 = (getRight() - o.get(1)) / v.get(1);
+		updateIntervalInFrustum(minmax, left1, right1);
 
-		double top = (getTop() - o.get(2)) / v.get(2);
-		double bottom = (getBottom() - o.get(2)) / v.get(2);
-		updateIntervalInFrustum(minmax, top, bottom);
+		double top1 = (getTop() - o.get(2)) / v.get(2);
+		double bottom1 = (getBottom() - o.get(2)) / v.get(2);
+		updateIntervalInFrustum(minmax, top1, bottom1);
 
 		double halfDepth = getVisibleDepth() / 2.0;
 		double front = (-halfDepth - o.get(3)) / v.get(3);
@@ -1600,19 +1600,20 @@ public abstract class Renderer {
 	 */
 	private static double[] updateIntervalInFrustum(double[] minmax, double v1,
 			double v2) {
+		double vMin = v1;
+		double vMax = v2;
 
-		if (v1 > v2) {
-			double v = v1;
-			v1 = v2;
-			v2 = v;
+		if (vMin > vMax) {
+			vMin = v2;
+			vMax = v1;
 		}
 
-		if (v1 > minmax[0]) {
-			minmax[0] = v1;
+		if (vMin > minmax[0]) {
+			minmax[0] = vMin;
 		}
 
-		if (v2 < minmax[1]) {
-			minmax[1] = v2;
+		if (vMax < minmax[1]) {
+			minmax[1] = vMax;
 		}
 
 		return minmax;
@@ -1822,7 +1823,7 @@ public abstract class Renderer {
 
 	public enum ExportType {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
-	};
+	}
 
 	public double obliqueX;
 	public double obliqueY;

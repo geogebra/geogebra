@@ -97,22 +97,24 @@ public class SelectionTableD extends JTable {
 	 * Constructor
 	 * 
 	 * @param app
-	 * @param data
-	 * @param rows
-	 * @param columns
+	 * @param data0
+	 * @param rows0
+	 * @param columns0
 	 * @param iconSize
 	 * @param mode
 	 */
-	public SelectionTableD(AppD app, Object[] data, int rows, int columns,
+	public SelectionTableD(AppD app, Object[] data0, int rows0, int columns0,
 			Dimension iconSize, SelectionTable mode) {
-
+		int columns = columns0;
+		int rows = rows0;
 		this.app = app;
 		this.mode = mode;
 		this.iconSize = iconSize;
 		if (mode == SelectionTable.MODE_LATEX) {
-			data = createLatexIconArray((String[]) data);
+			this.data = createLatexIconArray((String[]) data0);
+		} else {
+			this.data = data0;
 		}
-		this.data = data;
 
 		// =======================================
 		// determine the dimensions of the table
@@ -177,15 +179,15 @@ public class SelectionTableD extends JTable {
 	}
 
 	/** Loads a one dimensional array of data into the table model */
-	public void populateModel(Object[] data) {
+	public void populateModel(Object[] data1) {
 
 		model = new DefaultTableModel(numRows, numColumns);
 		int r = 0;
 		int c = 0;
 
-		for (int i = 0; i < Math.min(data.length,
+		for (int i = 0; i < Math.min(data1.length,
 				this.numRows * this.numColumns); i++) {
-			model.setValueAt(data[i], r, c);
+			model.setValueAt(data1[i], r, c);
 			++c;
 			if (c == this.numColumns) {
 				c = 0;

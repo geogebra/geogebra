@@ -247,9 +247,9 @@ public class InputDialogD extends InputDialog
 
 		sl = new GeoElementSelectionListener() {
 			@Override
-			public void geoElementSelected(GeoElement geo,
+			public void geoElementSelected(GeoElement geo1,
 					boolean addToSelection) {
-				insertGeoElement(geo);
+				insertGeoElement(geo1);
 				inputPanel.getTextComponent().requestFocusInWindow();
 			}
 		};
@@ -359,10 +359,10 @@ public class InputDialogD extends InputDialog
 	// Text Handlers
 	// ===================================================
 
-	public void insertGeoElement(GeoElement geo) {
-		if (geo != null) {
+	public void insertGeoElement(GeoElement geo1) {
+		if (geo1 != null) {
 			insertString(
-					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
+					" " + geo1.getLabel(StringTemplate.defaultTemplate) + " ");
 		}
 	}
 
@@ -371,9 +371,10 @@ public class InputDialogD extends InputDialog
 		insertString(str, false);
 	}
 
-	public void insertString(String str, boolean isLatex) {
+	public void insertString(String str0, boolean isLatex) {
 
-		if (str != null) {
+		if (str0 != null) {
+			String str = str0;
 			if (isLatex) {
 				// don't convert Greek letters
 				// * JLaTeXMath can display Unicode
@@ -408,6 +409,7 @@ public class InputDialogD extends InputDialog
 		try {
 			tc.setCaretPosition(tc.getCaretPosition() + pos);
 		} catch (Exception e) {
+			// out of bounds
 		}
 		tc.requestFocusInWindow();
 	}

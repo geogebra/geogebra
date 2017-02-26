@@ -800,15 +800,18 @@ public class AlgoIntersectRegionPlanePolyhedron
 	/**
 	 * set polyhedron vertices as dummy polygons output
 	 * 
-	 * @param indexPolygon
+	 * @param indexPolygon0
 	 *            start index for polygons
-	 * @param indexPoint
+	 * @param indexPoint0
 	 *            start index for points
 	 * @param indexSegment
 	 *            start index for segments
 	 */
-	private void addPolyhedronVerticesToOutput(int indexPolygon, int indexPoint,
-			int indexSegment) {
+	private void addPolyhedronVerticesToOutput(int indexPolygon0,
+			int indexPoint0, int indexSegment0) {
+		int indexPolygon = indexPolygon0;
+		int indexSegment = indexSegment0;
+		int indexPoint = indexPoint0;
 		for (Coords coords : polyhedronVertices) {
 			GeoPolygon outputPoly = outputPolygons.getElement(indexPolygon);
 			GeoPoint3D point = outputPoints.getElement(indexPoint);

@@ -235,9 +235,9 @@ public class TextInputDialogD extends InputDialogD
 	 */
 
 	@Override
-	public void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw) {
-		this.startPoint = startPoint;
-		this.rw = rw;
+	public void reInitEditor(GeoText text, GeoPointND startPoint1, boolean rw1) {
+		this.startPoint = startPoint1;
+		this.rw = rw1;
 		setGeoText(text);
 		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		updatePreviewText();
@@ -1093,14 +1093,14 @@ public class TextInputDialogD extends InputDialogD
 		}
 
 		@Override
-		public void processInput(String inputValue, ErrorHandler handler,
+		public void processInput(String inputValue0, ErrorHandler handler,
 				final AsyncOperation<Boolean> callback) {
-			if (inputValue == null || (editGeo != null && editGeo.isFixed())
+			if (inputValue0 == null || (editGeo != null && editGeo.isFixed())
 					|| (editGeo != null && !editGeo.isLabelSet())) {
 				callback.callback(false);
 				return;
 			}
-
+			String inputValue = inputValue0;
 			// no quotes?
 			if (inputValue.indexOf('"') < 0) {
 				// this should become either
@@ -1211,6 +1211,7 @@ public class TextInputDialogD extends InputDialogD
 						try {
 							t.setStartPoint(startPoint);
 						} catch (Exception e) {
+							// circular def: ignore
 						}
 					} else {
 
