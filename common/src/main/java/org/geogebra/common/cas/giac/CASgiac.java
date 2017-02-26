@@ -74,6 +74,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		RESTART(null, "restart"),
 
 		/**
+		 * suppress warning about = vs :=
+		 */
+		DISABLE_WARNING(null, "warn_equal_in_prog(0)"),
+
+		/**
 		 * 
 		 */
 		PROBA_EPSILON(null, "proba_epsilon:=0;"),
