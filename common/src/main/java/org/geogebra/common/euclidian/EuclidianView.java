@@ -397,12 +397,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// keep same center after layout resize
 	private boolean keepCenter = false;
 
-	// x, y coordinates of the center of the ev
-	private double mCenterX;
-	private double mCenterY;
-
-	private boolean mViewCentered = false;
-
 	private boolean screenChanged = false;
 
 	private boolean tracing = false;

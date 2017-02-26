@@ -772,7 +772,6 @@ public class OptionsTab extends FlowPanel {
 		SliderPanel opacitySlider;
 		private Label popupLabel, styleHiddenLabel;
 		LineStylePopup btnLineStyle;
-		private int iconHeight = 24;
 		private FlowPanel stylePanel;
 		private FlowPanel styleHiddenPanel;
 		ListBox styleHiddenList;

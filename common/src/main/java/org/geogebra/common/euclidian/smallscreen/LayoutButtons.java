@@ -27,8 +27,6 @@ public class LayoutButtons {
 	private final static ButtonComparator comparatorY = new ButtonComparator(
 			true);
 
-	private boolean multiColumn;
-
 	// Buttons should be collected only once.
 	private boolean collected = false;
 

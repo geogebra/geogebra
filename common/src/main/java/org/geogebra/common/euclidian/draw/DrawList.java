@@ -40,9 +40,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	private DrawListArray drawables;
 	/** whether this is visible */
 	boolean isVisible;
-	/** dropdown */
-	/** selcted text */
-	String selectedText;
 
 	/**
 	 * Creates new drawable list
