@@ -3259,7 +3259,7 @@ public class ExpressionNode extends ValidExpression
 
 		case MULTIPLY_OR_FUNCTION:
 			Log.debug("Operation not resolved");
-			// FALL THROUGH
+			//$FALL-THROUGH$
 		case FUNCTION:
 
 			if (stringType.isGiac() && right instanceof ListValue) {
