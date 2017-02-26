@@ -1599,7 +1599,7 @@ public class Ggb2giac {
 						+ "regroup(convert("
 						+ "point(getNum(unitV([xcoord(%0),ycoord(%0)]))[0]/getDenom(unitV([xcoord(%0),ycoord(%0)])),"
 						+ "getNum(unitV([xcoord(%0),ycoord(%0)]))[1]/getDenom(unitV([xcoord(%0),ycoord(%0)])) ),25)) , "
-						+ "regroup(convert(unitV([xcoord(%0),ycoord(%0)]),25)) ) ),"
+						+ "regroup(convert(unitV([xcoord(%0),ycoord(%0)]),25)) ) )"
 						+ " ) ) )");
 		p("UnitVector.1",
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
