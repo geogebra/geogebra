@@ -264,7 +264,7 @@ __GGB__keysVar.kn.command = {
     "Directrix": "Directrix",
     "Directrix.Syntax": "[ <Conic> ]",
     "Distance": "Distance",
-    "Distance.Syntax": "[ <Point>, <Object> ]\n[ <Line>, <Line> ]",
+    "Distance.Syntax": "[ <Point>, <Object> ]\n[ <Line>, <Line> ]\n[ <Plane>, <Plane> ]",
     "Div": "Div",
     "Div.Syntax": "[ <Dividend Number>, <Divisor Number> ]\n[ <Dividend Polynomial>, <Divisor Polynomial> ]",
     "Division": "Division",
