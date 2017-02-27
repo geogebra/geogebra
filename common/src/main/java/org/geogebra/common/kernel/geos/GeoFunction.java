@@ -146,8 +146,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return whether function contains only valid variables
 	 */
 	public boolean validate(boolean autoLabel, boolean suppressLabel) {
-
-		if (!cons.isFileLoading()) {
+		if (!cons.isFileLoading() && fun != null) {
 			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
 					getFunctionVariables())) {
 				return false;

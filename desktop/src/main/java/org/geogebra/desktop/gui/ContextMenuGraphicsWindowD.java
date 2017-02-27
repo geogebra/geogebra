@@ -250,13 +250,9 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 			// build text like "125%" or "75%"
 			sb.setLength(0);
-			if (perc > 100) {
-
-			} else {
-				if (!separatorAdded) {
+			if (perc <= 100 && !separatorAdded) {
 					menu.addSeparator();
 					separatorAdded = true;
-				}
 			}
 			sb.append(perc);
 			sb.append('%');

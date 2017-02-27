@@ -1882,9 +1882,7 @@ public class MyXMLHandler implements DocHandler {
 			handleKernelLocalization(attrs);
 		} else if ("casSettings".equals(eName)) {
 			handleCasSettings(attrs);
-		} else if ("uses3D".equals(eName)) {
-			// nothing to do
-		} else {
+		} else if (!"uses3D".equals(eName)) {
 			Log.error("unknown tag in <kernel>: " + eName);
 		}
 	}

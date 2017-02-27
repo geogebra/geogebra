@@ -125,7 +125,7 @@ public class CellFormat implements CellFormatInterface {
 
 		private static final long serialVersionUID = 1L;
 
-		public MyHashMap() {
+		protected MyHashMap() {
 			// Auto-generated constructor stub
 		}
 

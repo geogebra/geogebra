@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.StringUtil;
 
 public class StartPointModel extends MultipleGeosModel {
 
@@ -56,9 +57,7 @@ public class StartPointModel extends MultipleGeosModel {
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 		handler.resetError();
-		if (strLoc == null || strLoc.trim().length() == 0) {
-			// newLoc = null;
-		} else {
+		if (!StringUtil.emptyTrim(strLoc)) {
 			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
 					handler, true);
 		}

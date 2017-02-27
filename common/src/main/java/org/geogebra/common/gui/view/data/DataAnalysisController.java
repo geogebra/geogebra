@@ -282,8 +282,6 @@ public abstract class DataAnalysisController {
 			// needs optimizing
 			updateAllPanels(true);
 
-		} else {
-			// Log.error("error in updateDialog");
 		}
 
 		getModel().updateGUI();

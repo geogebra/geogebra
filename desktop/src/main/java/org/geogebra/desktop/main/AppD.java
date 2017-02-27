@@ -4908,7 +4908,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 
 	private class initializeSingularWS_thread implements Runnable {
-		public initializeSingularWS_thread() {
+		protected initializeSingularWS_thread() {
 		}
 
 		@Override

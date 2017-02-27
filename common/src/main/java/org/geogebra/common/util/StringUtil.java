@@ -1657,4 +1657,13 @@ public class StringUtil {
 		return false;
 	}
 
+	/**
+	 * @param str
+	 *            input
+	 * @return whether input is null or empty after trim
+	 */
+	public static boolean emptyTrim(String str) {
+		return str == null || str.trim().length() == 0;
+	}
+
 }

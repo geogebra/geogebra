@@ -49,9 +49,6 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class NewEnvironmentMacro extends NewCommandMacro {
 
-	public NewEnvironmentMacro() {
-	}
-
 	public static void addNewEnvironment(String name, String begdef, String enddef, int nbArgs)
 			throws ParseException {
 		// if (macrocode.get(name + "@env") != null)

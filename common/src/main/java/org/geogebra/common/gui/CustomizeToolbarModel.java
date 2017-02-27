@@ -7,10 +7,6 @@ import org.geogebra.common.gui.toolbar.ToolbarItem;
 
 public class CustomizeToolbarModel {
 
-	public CustomizeToolbarModel() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
 	 * @param toolbarDefinition
 	 *            toolbar definition string (see EuclidianConstants)

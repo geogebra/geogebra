@@ -1254,7 +1254,12 @@ public abstract class ProbabilityCalculatorView
 									StringTemplate.maxPrecision)
 							+ ",1]";
 				} else if (graphType == GRAPH_STEP) {
-					// TODO: polyline
+					expr = "StepGraph["
+							+ discreteValueListCopy
+									.getLabel(StringTemplate.maxPrecision)
+							+ "," + discreteProbListCopy.getLabel(
+									StringTemplate.maxPrecision)
+							+ ",true]";
 				}
 
 				GeoElementND discreteGraphCopy = createGeoFromString(expr,
@@ -1285,6 +1290,9 @@ public abstract class ProbabilityCalculatorView
 				if (graphType == GRAPH_LINE) {
 					expr = "BarChart[" + intervalValueList1.getLabel(tpl) + ","
 							+ intervalProbList1.getLabel(tpl) + ",0]";
+				} else if (graphType == GRAPH_STEP) {
+					expr = "StepGraph[" + intervalValueList1.getLabel(tpl) + ","
+							+ intervalProbList1.getLabel(tpl) + ",true]";
 				} else {
 					expr = "BarChart[" + intervalValueList1.getLabel(tpl) + ","
 							+ intervalProbList1.getLabel(tpl) + ",1]";

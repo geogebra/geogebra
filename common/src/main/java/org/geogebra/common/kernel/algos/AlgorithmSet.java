@@ -140,6 +140,7 @@ public class AlgorithmSet {
 	 * 
 	 * @return true iff this set contains algo.
 	 * @param algo
+	 *            algorithm
 	 */
 	final public boolean contains(AlgoElement algo) {
 		if (size == 0 || algo == null) {
@@ -222,6 +223,7 @@ public class AlgorithmSet {
 	 * Adds all algorithms in this set to the given collection
 	 * 
 	 * @param collection
+	 *            collection of algorithms
 	 */
 	final public void addAllToCollection(Collection<AlgoElement> collection) {
 		Link cur = getHead();
@@ -235,6 +237,7 @@ public class AlgorithmSet {
 	 * Removes all algorithms in this set from the given collection
 	 * 
 	 * @param collection
+	 *            collection of algorithms
 	 */
 	final public void removeAllFromCollection(
 			Collection<AlgoElement> collection) {
@@ -296,11 +299,11 @@ public class AlgorithmSet {
 		this.head = head;
 	}
 
+	/**
+	 * Iterator for this set
+	 */
 	public class AlgorithmSetIterator implements Iterator<AlgoElement> {
 		private Link cur = getHead();
-
-		public AlgorithmSetIterator() {
-		}
 
 		@Override
 		public void remove() {

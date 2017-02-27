@@ -22,9 +22,6 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	 * This class is instantiated for only technical reasons i.e. to be able to
 	 * run this part of code async in web
 	 */
-	public AlgoKimberlingWeights() {
-
-	}
 
 	private static double p(double a, double b) {
 		return Math.pow(a, b);

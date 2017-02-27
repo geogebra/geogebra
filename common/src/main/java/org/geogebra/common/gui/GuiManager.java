@@ -352,9 +352,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			// handled elsewhere
 			break;
 		default:
-			if (App.isView3D(viewId)) {
-				// handled elsewhere
-			} else {
+			// ignore 3D view
+			if (!App.isView3D(viewId)) {
 				Log.error("Error attaching VIEW: " + viewId);
 			}
 		}

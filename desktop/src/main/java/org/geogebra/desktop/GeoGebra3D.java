@@ -31,9 +31,6 @@ public class GeoGebra3D extends GeoGebra {
 		(new GeoGebra3D()).doMain(cmdArgs);
 	}
 
-	public GeoGebra3D() {
-	}
-
 	@Override
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window

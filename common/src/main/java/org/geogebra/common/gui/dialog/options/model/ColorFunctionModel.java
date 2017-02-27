@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 
 public class ColorFunctionModel extends OptionsModel {
 	public interface IColorFunctionListener extends PropertyListener {
@@ -123,32 +124,33 @@ public class ColorFunctionModel extends OptionsModel {
 		String strGreen = strGreen0;
 		String strBlue = strBlue0;
 		String strAlpha = strAlpha0;
-		if ((strRed == null || strRed.trim().length() == 0)
-				&& (strGreen == null || strGreen.trim().length() == 0)
-				&& (strAlpha == null || strAlpha.trim().length() == 0)
-				&& (strBlue == null || strBlue.trim().length() == 0)) {
-			// num = null;
-		} else {
-			if (strRed == null || strRed.trim().length() == 0) {
-				strRed = defaultRed;
-			}
-			if (strGreen == null || strGreen.trim().length() == 0) {
-				strGreen = defaultGreen;
-			}
-			if (strBlue == null || strBlue.trim().length() == 0) {
-				strBlue = defaultBlue;
-			}
-			if (strAlpha == null || strAlpha.trim().length() == 0) {
-				strAlpha = defaultAlpha;
-			}
+		int defaults = 0;
 
+		if (StringUtil.emptyTrim(strRed)) {
+			strRed = defaultRed;
+			defaults++;
+		}
+		if (StringUtil.emptyTrim(strGreen)) {
+			strGreen = defaultGreen;
+			defaults++;
+		}
+		if (StringUtil.emptyTrim(strBlue)) {
+			strBlue = defaultBlue;
+			defaults++;
+		}
+		if (StringUtil.emptyTrim(strAlpha)) {
+			strAlpha = defaultAlpha;
+			defaults++;
+		}
+		if (defaults < 4) {
 			list = kernel.getAlgebraProcessor().evaluateToList(
 					"{" + strRed + "," + strGreen + "," + strBlue + "}");
 
 			listAlpha = kernel.getAlgebraProcessor().evaluateToList("{" + strRed
 					+ "," + strGreen + "," + strBlue + "," + strAlpha + "}");
-
 		}
+
+
 
 		// set condition
 		// try {

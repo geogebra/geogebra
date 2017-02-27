@@ -377,12 +377,13 @@ public class TeXFormula {
 		return f;
 	}
 
-	/**
-	 * @param b true if the fonts should be registered (Java 1.6 only) to be used with FOP.
-	 */
-	public static void registerFonts(boolean b) {
-		DefaultTeXFontParser.registerFonts(b);
-	}
+	// /**
+	// * @param b true if the fonts should be registered (Java 1.6 only) to be
+	// used with FOP.
+	// */
+	// public static void registerFonts(boolean b) {
+	// DefaultTeXFontParser.registerFonts(b);
+	// }
 
 	/**
 	 * Inserts an atom at the end of the current formula

@@ -965,7 +965,7 @@ public class CoordMatrix {
 	}
 
 	static abstract private class PivotAbstract {
-		public PivotAbstract() {
+		protected PivotAbstract() {
 			//
 		}
 
@@ -1067,7 +1067,7 @@ public class CoordMatrix {
 	}
 
 	static private class PivotSolResDegenerate extends PivotSolRes {
-		public PivotSolResDegenerate() {
+		protected PivotSolResDegenerate() {
 		}
 
 		private boolean[] nonZeroIndices;
@@ -1196,7 +1196,7 @@ public class CoordMatrix {
 		 */
 		public double[] res;
 
-		public PivotSolRes() {
+		protected PivotSolRes() {
 			super();
 		}
 
@@ -1235,7 +1235,7 @@ public class CoordMatrix {
 
 		public Coords[] inverse;
 
-		public PivotInverseMatrix() {
+		protected PivotInverseMatrix() {
 
 		}
 

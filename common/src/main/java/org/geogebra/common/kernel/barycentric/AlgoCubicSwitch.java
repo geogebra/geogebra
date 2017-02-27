@@ -15,9 +15,6 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 	 * This class is instantiated for only technical reasons i.e. to be able to
 	 * run this part of code async
 	 */
-	public AlgoCubicSwitch() {
-
-	}
 
 	private final static double r3 = Math.sqrt(3);
 

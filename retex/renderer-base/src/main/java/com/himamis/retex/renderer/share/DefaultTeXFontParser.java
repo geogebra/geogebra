@@ -70,11 +70,12 @@ import com.himamis.retex.renderer.share.platform.parser.NodeList;
  */
 public class DefaultTeXFontParser {
 
-	/**
-	 * if the register font cannot be found, we display an error message but we do it only once
-	 */
-	private static boolean registerFontExceptionDisplayed = false;
-	private static boolean shouldRegisterFonts = true;
+	// /**
+	// * if the register font cannot be found, we display an error message but
+	// we do it only once
+	// */
+	// private static boolean registerFontExceptionDisplayed = false;
+	// private static boolean shouldRegisterFonts = true;
 
 	private static interface CharChildParser { // NOPMD
 		public void parse(Element el, char ch, FontInfo info) throws XMLResourceParseException;
@@ -371,17 +372,16 @@ public class DefaultTeXFontParser {
 				if (parser == null) {
 					throw new XMLResourceParseException(RESOURCE_NAME
 							+ ": a <Char>-element has an unknown child element '" + el.getTagName() + "'!");
-				} else {
-					// process the child element
-					((CharChildParser) parser).parse(el, ch, info);
 				}
+				// process the child element
+				((CharChildParser) parser).parse(el, ch, info);
 			}
 		}
 	}
 
-	public static void registerFonts(boolean b) {
-		shouldRegisterFonts = b;
-	}
+	// public static void registerFonts(boolean b) {
+	// shouldRegisterFonts = b;
+	// }
 
 	public static Font createFont(String name) throws ResourceParseException {
 		return createFont(null, name);

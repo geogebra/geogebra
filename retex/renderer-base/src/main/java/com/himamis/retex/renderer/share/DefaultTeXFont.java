@@ -79,10 +79,8 @@ public class DefaultTeXFont implements TeXFont {
 	protected final static int SMALL = 2;
 	protected final static int UNICODE = 3;
 
-	/**
-	 * Number of font ids in a single font description file.
-	 */
-	private static final int NUMBER_OF_FONT_IDS = 256;
+	// Number of font ids in a single font description file.
+	// private static final int NUMBER_OF_FONT_IDS = 256;
 
 	private static Map<String, CharFont[]> textStyleMappings;
 	private static Map<String, CharFont> symbolMappings;
