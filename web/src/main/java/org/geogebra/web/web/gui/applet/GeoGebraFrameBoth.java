@@ -574,7 +574,18 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void updateKeyboardHeight() {
-		// TODO update of height
+		if(keyboardShowing){
+			int newHeight = app.getGuiManager().getOnScreenKeyboard(null, this)
+					.getOffsetHeight();
+			if (newHeight > 0) {
+				app.addToHeight(this.keyboardHeight - newHeight);
+				keyboardHeight = newHeight;
+				app.updateCenterPanel();
+				app.updateViewSizes();
+				GeoGebraFrameBoth.this
+					.add(app.getGuiManager().getOnScreenKeyboard(null, this));
+			}
+		}
 	}
 
 	@Override
@@ -684,10 +695,5 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	public boolean isHeaderPanelOpen() {
 		return lastBG != null;
-	}
-
-	public void syncPanelSizes() {
-		// TODO Auto-generated method stub
-
 	}
 }
