@@ -1,6 +1,7 @@
 package org.geogebra.web.tablet;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManager;
@@ -16,16 +17,40 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
 import org.geogebra.web.web.util.SaveCallback;
 
+import com.google.gwt.core.client.Callback;
+
 public class TabletFileManager extends FileManagerT {
 	
 	private enum ReadMetaDataMode { NONE, GET_FILES, UPLOAD_USERS_MATERIALS};
 	private ReadMetaDataMode readMetaDataMode;
+	
+	private static int NO_CALLBACK = 0;
+	private TreeMap<Integer, Callback<Integer, Integer>> callbacks;
+	private int callbacksCount = NO_CALLBACK;
 
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			callbacks = new TreeMap<Integer, Callback<Integer, Integer>>();
 			exportJavascriptMethods();
 			readMetaDataMode = ReadMetaDataMode.NONE;
+		}
+	}
+	
+	private int addNewCallback(Callback<Integer, Integer> callback){
+		callbacksCount++;
+		callbacks.put(callbacksCount, callback);
+		return callbacksCount;
+	}
+	
+	private void runCallback(int id, boolean success, int result){
+		if (id != NO_CALLBACK){
+			Callback<Integer, Integer> cb = callbacks.remove(id);
+			if (success){
+				cb.onSuccess(result);
+			}else{
+				cb.onFailure(result);
+			}
 		}
 	}
 	
@@ -179,19 +204,29 @@ public class TabletFileManager extends FileManagerT {
 		doOpenMaterial(openMaterialMaterial);
 	}
 	
-	
-	private SaveCallback saveCallback;
-	private Material saveFileMaterial;	
-	
 	@Override
 	public void saveFile(final String base64, final long modified,
 			 final SaveCallback cb) {
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			saveCallback = cb;
-			saveFileMaterial = createMaterial("", modified);
-			saveFileMaterial.setBase64("");
+			Material material = createMaterial("", modified);
+			material.setBase64("");
+			final Material saveFileMaterial = material;
+			int callback;
+			if (cb != null){
+				callback = addNewCallback(new Callback<Integer, Integer>() {
+					public void onSuccess(Integer result){
+						saveFileMaterial.setLocalID(result);
+						cb.onSaved(saveFileMaterial, true);
+					}
+					public void onFailure(Integer result){
+						cb.onError();
+					}
+				});
+			}else{
+				callback = NO_CALLBACK;
+			}
 			saveFileNative(getApp().getLocalID(), getTitleWithoutReservedCharacters(getApp()
-			        .getKernel().getConstruction().getTitle()),base64, saveFileMaterial.toJson().toString());
+			        .getKernel().getConstruction().getTitle()),base64, saveFileMaterial.toJson().toString(), callback);
 		}else{
 			super.saveFile(base64, modified, cb);
 		}
@@ -200,24 +235,14 @@ public class TabletFileManager extends FileManagerT {
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
-	public void catchSaveFileResult(String idString) {
-		if (idString == null || "0".equals(idString)){
-			saveCallback.onError();
-		}else{
-			try{
-				int id = Integer.parseInt(idString);
-				saveFileMaterial.setLocalID(id);
-				saveCallback.onSaved(saveFileMaterial, true);
-			}catch(NumberFormatException e){
-				Log.debug("error parsing material id: "+idString+", message: "+e.getMessage());
-			}
-		}
+	public void catchSaveFileResult(int result, int cb) {
+		runCallback(cb, result > 0, result);	
 	}
 			
 	
-	private native void saveFileNative(int id, String title, String base64, String metaDatas) /*-{
+	private native void saveFileNative(int id, String title, String base64, String metaDatas, int callback) /*-{
 		if ($wnd.android) {
-			$wnd.android.saveFile(id, title, base64, metaDatas);
+			$wnd.android.saveFile(id, title, base64, metaDatas, callback);
 		}
 	}-*/;
 	
@@ -401,8 +426,8 @@ public class TabletFileManager extends FileManagerT {
 		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
 		});
-		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(data) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(Ljava/lang/String;)(data);
+		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(result, callback) {
+			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(II)(result, callback);
 		});
 		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;)(data);
@@ -417,6 +442,7 @@ public class TabletFileManager extends FileManagerT {
 	}-*/;
 	
 	protected void debug(String s){
+		Log.debug(s);
 		debugNative(s);
 	}
 }
