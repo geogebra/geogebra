@@ -27,11 +27,17 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 	 * constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param A1
+	 *            first vertex
 	 * @param B1
+	 *            second vertex
 	 * @param num
+	 *            number of vertices
 	 * @param direction
+	 *            direction of the plane
 	 */
 	public AlgoPolygonRegular3D(Construction c, String[] labels, GeoPointND A1,
 			GeoPointND B1, GeoNumberValue num, GeoDirectionND direction) {
@@ -39,13 +45,13 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 	}
 
 	@Override
-	protected GeoPolygon newGeoPolygon(Construction cons) {
-		return new GeoPolygon3D(cons);
+	protected GeoPolygon newGeoPolygon(Construction cons1) {
+		return new GeoPolygon3D(cons1);
 	}
 
 	@Override
-	protected GeoElement newGeoPoint(Construction cons) {
-		GeoPoint3D newPoint = new GeoPoint3D(cons);
+	protected GeoElement newGeoPoint(Construction cons1) {
+		GeoPoint3D newPoint = new GeoPoint3D(cons1);
 		newPoint.setCoords(0, 0, 0, 1);
 		return newPoint;
 	}
@@ -114,6 +120,9 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 			// set also points (and thus segments) undefined
 			for (int i = 0; i < outputPoints.size(); i++) {
 				outputPoints.getElement(i).setUndefined();
+			}
+			if (getPoly().getPointsND() == null) {
+				getPoly().setPoints(new GeoPointND[] { A, B }, null, false);
 			}
 
 			numOld = 2;

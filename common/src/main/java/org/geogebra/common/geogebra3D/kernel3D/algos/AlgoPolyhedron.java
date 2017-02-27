@@ -20,15 +20,19 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 
 	/** points generated as output */
 	protected OutputHandler<GeoPoint3D> outputPoints;
-
+	/** output handler */
 	protected OutputHandler<GeoPolyhedron> outputPolyhedron;
-
+	/** output polyhedron */
 	protected GeoPolyhedron polyhedron;
 
 	// ///////////////////////////////////////////
 	// POLYHEDRON OF DETERMINED TYPE
 	// //////////////////////////////////////////
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	protected AlgoPolyhedron(Construction c) {
 		super(c);
 
@@ -113,15 +117,24 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				});
 	}
 
+	/**
+	 * Add this to dependency set of all inputs
+	 */
 	protected void addAlgoToInput() {
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
 		}
 	}
 
+	/**
+	 * Update output dependencies
+	 */
 	abstract protected void updateOutput();
 
-	protected void setOutput() {
+	/**
+	 * Alias for updateOutput TODO only use one
+	 */
+	protected final void setOutput() {
 
 		updateOutput();
 		// cons.addToAlgorithmList(this);
@@ -199,6 +212,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		return new OutputHandler<GeoPoint3D>(new PointFactory());
 	}
 
+	/**
+	 * Creates 3D points, sets visibility flags
+	 *
+	 */
 	protected class PointFactory implements elementFactory<GeoPoint3D> {
 		@Override
 		public GeoPoint3D newElement() {
