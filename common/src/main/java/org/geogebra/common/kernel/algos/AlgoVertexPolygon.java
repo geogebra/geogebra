@@ -224,7 +224,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param i
 	 */
 	protected void setPoint(GeoPointND point, int i) {
-		point.set(p.getPoint(i));
+		point.set(p.getPointND(i));
 	}
 
 	@Override

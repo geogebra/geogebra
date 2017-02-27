@@ -205,7 +205,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 				for (int i = 0; i < numPoints && pointsOK; i++) {
 					pointsOK = this.getPointND(i).isEqual(g.getPointND(i))
 							|| this
-							.getPoint(i).isEqual(g.getPoint(numPoints - 1 - i));
+									.getPointND(i)
+									.isEqual(g.getPointND(numPoints - 1 - i));
 				}
 
 			}

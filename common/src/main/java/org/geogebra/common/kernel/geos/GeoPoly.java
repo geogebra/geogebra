@@ -63,4 +63,6 @@ public interface GeoPoly extends Path {
 	 */
 	public int getNumPoints();
 
+	public GeoPointND getPointND(int index);
+
 }
