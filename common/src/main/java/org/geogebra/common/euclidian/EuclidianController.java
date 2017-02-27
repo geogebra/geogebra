@@ -8306,21 +8306,6 @@ public abstract class EuclidianController {
 			BoundingBox boundingBox = ((Drawable) view.getDrawableFor(geo))
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
-			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				if (boundingBox != null && boundingBox.getRectangle() != null) {
-					setDynamicStyleBarPosition(boundingBox.getRectangle(),
-							true);
-					setDynamicStylebarVisible(true);
-				} else {
-					DrawableND dr = view.getDrawableFor(geo);
-					if (dr instanceof Drawable) {
-						setDynamicStyleBarPosition(((Drawable) dr).getBounds(),
-								true);
-						setDynamicStylebarVisible(true);
-					}
-
-				}
-			}
 			view.repaintView();
 		}
 
@@ -8393,6 +8378,8 @@ public abstract class EuclidianController {
 		if (pen != null && !penDragged && freehandModePrepared) {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
+
+		this.setDynamicStylebarVisible(false);
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			if (getResizedShape() == null) {
@@ -9859,6 +9846,24 @@ public abstract class EuclidianController {
 			shapeDragged = false;
 			mode = oldShapeMode;
 			getShapeMode().setDragStartPointSet(false);
+		}
+		
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (mode == EuclidianConstants.MODE_MOVE) {
+				this.view.setHits(new GPoint(event.getX(), event.getY()),
+						event.getType());
+				Hits hits = view.getHits();
+				
+				if (hits.size() > 0) {
+					DrawableND dr = view.getDrawableFor(hits.get(0));
+					if (dr instanceof Drawable) {
+						setDynamicStyleBarPosition(((Drawable) dr).getBounds(),
+								true);
+						setDynamicStylebarVisible(true);
+					}
+				}
+
+			}
 		}
 
 		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
