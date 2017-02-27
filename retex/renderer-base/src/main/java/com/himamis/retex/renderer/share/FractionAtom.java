@@ -195,9 +195,8 @@ public class FractionAtom extends Atom {
 	private static int checkAlignment(int align) {
 		if (align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT) {
 			return align;
-		} else {
-			return TeXConstants.ALIGN_CENTER;
 		}
+		return TeXConstants.ALIGN_CENTER;
 	}
 
 	@Override

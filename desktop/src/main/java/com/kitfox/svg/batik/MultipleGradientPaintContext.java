@@ -795,24 +795,19 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		if (isSimpleLookup) { // easy to compute: just scale index by array size
 			return gradient[(int) (position * fastGradientArraySize)];
 		}
+		// for all the gradient interval arrays
+		for (int i = 0; i < gradientsLength; i++) {
 
-		else { // more complicated computation, to save space
+			if (position < fractions[i + 1]) { // this is the array we want
 
-			// for all the gradient interval arrays
-			for (int i = 0; i < gradientsLength; i++) {
+				float delta = position - fractions[i];
 
-				if (position < fractions[i + 1]) { // this is the array we want
+				// this is the interval we want.
+				int index = (int) ((delta / normalizedIntervals[i])
+						* (GRADIENT_SIZE_INDEX));
 
-					float delta = position - fractions[i];
-
-					// this is the interval we want.
-					int index = (int) ((delta / normalizedIntervals[i])
-							* (GRADIENT_SIZE_INDEX));
-
-					return gradients[i][index];
-				}
+				return gradients[i][index];
 			}
-
 		}
 
 		return gradientOverflow;

@@ -106,16 +106,14 @@ public abstract class CubicToLinePathConstructor
 				double f10 = Math.abs(f2 - f0) + Math.abs(f6 - f4);
 				return Math.max(f10, f8);
 
-			} else {
-
-				double d0 = f4 - f7;
-				double d1 = f3 - f0;
-				double f12 = Math.sqrt(d0 * d0 + d1 * d1);
-				double d2 = f3 * f4 - f0 * f7;
-				double f9 = Math.abs((d0 * f2 + d1 * f6) - d2) / f12;
-				double f11 = Math.abs((d0 * f1 + d1 * f5) - d2) / f12;
-				return Math.max(f9, f11);
 			}
+			double d0 = f4 - f7;
+			double d1 = f3 - f0;
+			double f12 = Math.sqrt(d0 * d0 + d1 * d1);
+			double d2 = f3 * f4 - f0 * f7;
+			double f9 = Math.abs((d0 * f2 + d1 * f6) - d2) / f12;
+			double f11 = Math.abs((d0 * f1 + d1 * f5) - d2) / f12;
+			return Math.max(f9, f11);
 		}
 
 		public ControlSet bisect() {

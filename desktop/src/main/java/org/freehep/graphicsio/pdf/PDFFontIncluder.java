@@ -119,13 +119,11 @@ public class PDFFontIncluder extends FontIncluder {
 		if (font.isBold()) {
 			if (font.isItalic()) {
 				return BOLDITALIC;
-			} else {
-				return BOLD;
 			}
-		} else {
-			if (font.isItalic()) {
-				return ITALIC;
-			}
+			return BOLD;
+		}
+		if (font.isItalic()) {
+			return ITALIC;
 		}
 		return PLAIN;
 	}

@@ -190,10 +190,9 @@ public class GenericTagHandler extends TagHandler {
 		// do nothing if tag wasn't opened
 		if (!tags.containsKey(tag)) {
 			return super.closeTag(tag);
-		} else {
-			begin = ((Integer) tags.get(tag)).intValue();
-			tags.remove(tag);
 		}
+		begin = ((Integer) tags.get(tag)).intValue();
+		tags.remove(tag);
 
 		// change attributes
 		if (tag.equalsIgnoreCase("b")) {

@@ -323,9 +323,8 @@ public class DefaultTeXFont implements TeXFont {
 		Object mapping = textStyleMappings.get(textStyle);
 		if (mapping == null) {
 			throw new TextStyleMappingNotFoundException(textStyle);
-		} else {
-			return getChar(c, (CharFont[]) mapping, style);
 		}
+		return getChar(c, (CharFont[]) mapping, style);
 	}
 
 	@Override
@@ -368,9 +367,8 @@ public class DefaultTeXFont implements TeXFont {
 		Object obj = symbolMappings.get(symbolName);
 		if (obj == null) {// no symbol mapping found!
 			throw new SymbolMappingNotFoundException(symbolName);
-		} else {
-			return getChar((CharFont) obj, style);
 		}
+		return getChar((CharFont) obj, style);
 	}
 
 	@Override
@@ -427,9 +425,8 @@ public class DefaultTeXFont implements TeXFont {
 		if (left.fontId == right.fontId) {
 			FontInfo info = fontInfo[left.fontId];
 			return info.getKern(left.c, right.c, getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 
 	@Override
@@ -496,9 +493,8 @@ public class DefaultTeXFont implements TeXFont {
 		char skew = info.getSkewChar();
 		if (skew == -1) {
 			return 0;
-		} else {
-			return getKern(cf, new CharFont(skew, cf.fontId), style);
 		}
+		return getKern(cf, new CharFont(skew, cf.fontId), style);
 	}
 
 	@Override
@@ -645,9 +641,8 @@ public class DefaultTeXFont implements TeXFont {
 		Object param = parameters.get(parameterName);
 		if (param == null) {
 			return 0;
-		} else {
-			return ((Double) param).doubleValue();
 		}
+		return ((Double) param).doubleValue();
 	}
 
 	public static double getSizeFactor(int style) {

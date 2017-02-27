@@ -176,18 +176,16 @@ public class FontInfo {
 		Object obj = kern.get(new CharCouple(left, right));
 		if (obj == null) {
 			return 0;
-		} else {
-			return ((Double) obj).doubleValue() * factor;
 		}
+		return ((Double) obj).doubleValue() * factor;
 	}
 
 	public CharFont getLigature(char left, char right) {
 		Object obj = lig.get(new CharCouple(left, right));
 		if (obj == null) {
 			return null;
-		} else {
-			return new CharFont(((Character) obj).charValue(), fontId);
 		}
+		return new CharFont(((Character) obj).charValue(), fontId);
 	}
 
 	public double[] getMetrics(char c) {

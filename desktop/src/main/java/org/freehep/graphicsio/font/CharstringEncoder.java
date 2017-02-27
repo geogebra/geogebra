@@ -110,10 +110,9 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 		if (rx == currentX) {
 			if (ry == currentY) {
 				return LAST_POINT;
-			} else {
-				writeY(y);
-				return VERTICAL;
 			}
+			writeY(y);
+			return VERTICAL;
 		} else if (ry == currentY) {
 			writeX(x);
 			return HORIZONTAL;

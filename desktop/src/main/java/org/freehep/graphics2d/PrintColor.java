@@ -82,9 +82,8 @@ public class PrintColor extends Color {
 		case BLACK_AND_WHITE:
 			if (getAsBlack()) {
 				return new PrintColor(Color.black, getAsGray(), getAsBlack());
-			} else {
-				return new PrintColor(Color.white, getAsGray(), getAsBlack());
 			}
+			return new PrintColor(Color.white, getAsGray(), getAsBlack());
 		default:
 			throw new IllegalArgumentException(
 					"ColorMode on PrintColor out of range: " + mode);

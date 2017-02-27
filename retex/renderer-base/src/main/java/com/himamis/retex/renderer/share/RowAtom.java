@@ -202,10 +202,9 @@ public class RowAtom extends Atom implements Row {
 						it.previous();
 						//position--;
 						break; // iterator remains unchanged (no ligature!)
-					} else { // ligature
-						atom.changeAtom(new FixedCharAtom(lig)); // go on with the
-						// ligature
 					}
+					atom.changeAtom(new FixedCharAtom(lig)); // go on with the
+					// ligature
 				} else {
 					it.previous();
 					//position--;
@@ -255,17 +254,15 @@ public class RowAtom extends Atom implements Row {
 	public int getLeftType() {
 		if (elements.size() == 0) {
 			return TeXConstants.TYPE_ORDINARY;
-		} else {
-			return (elements.get(0)).getLeftType();
 		}
+		return (elements.get(0)).getLeftType();
 	}
 
 	@Override
 	public int getRightType() {
 		if (elements.size() == 0) {
 			return TeXConstants.TYPE_ORDINARY;
-		} else {
-			return (elements.get(elements.size() - 1)).getRightType();
 		}
+		return (elements.get(elements.size() - 1)).getRightType();
 	}
 }

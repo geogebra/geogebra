@@ -139,23 +139,23 @@ public class AccentedAtom extends Atom {
 			InvalidSymbolTypeException {
 		if (acc == null) {
 			throw new InvalidTeXFormulaException("The accent TeXFormula can't be null!");
-		} else {
-			Atom root = acc.root;
-			if (root instanceof SymbolAtom) {
-				accent = (SymbolAtom) root;
-				if (accent.type == TeXConstants.TYPE_ACCENT) {
-					this.base = base;
-				} else {
-					throw new InvalidSymbolTypeException(
-							"The accent TeXFormula represents a single symbol with the name '"
-									+ accent.getName() + "', but this symbol is not defined as an accent ("
-									+ TeXSymbolParser.TYPE_ATTR + "='acc') in '"
-									+ TeXSymbolParser.RESOURCE_NAME + "'!");
-				}
+		}
+		Atom root = acc.root;
+		if (root instanceof SymbolAtom) {
+			accent = (SymbolAtom) root;
+			if (accent.type == TeXConstants.TYPE_ACCENT) {
+				this.base = base;
 			} else {
-				throw new InvalidTeXFormulaException(
-						"The accent TeXFormula does not represent a single symbol!");
+				throw new InvalidSymbolTypeException(
+						"The accent TeXFormula represents a single symbol with the name '"
+								+ accent.getName()
+								+ "', but this symbol is not defined as an accent ("
+								+ TeXSymbolParser.TYPE_ATTR + "='acc') in '"
+								+ TeXSymbolParser.RESOURCE_NAME + "'!");
 			}
+		} else {
+			throw new InvalidTeXFormulaException(
+					"The accent TeXFormula does not represent a single symbol!");
 		}
 	}
 

@@ -358,10 +358,9 @@ public class Value {
 	public boolean getBoolean() {
 		if (type == TYPE_BOOLEAN) {
 			return boolValue;
-		} else {
-			throw new ClassCastException(
-					"getBoolean cannot be called for type " + type.toString());
 		}
+		throw new ClassCastException(
+				"getBoolean cannot be called for type " + type.toString());
 	}
 
 	/**
@@ -375,10 +374,9 @@ public class Value {
 	public byte getByte() {
 		if (type == TYPE_BYTE) {
 			return byteValue;
-		} else {
-			throw new ClassCastException(
-					"getByte cannot be called for type " + type.toString());
 		}
+		throw new ClassCastException(
+				"getByte cannot be called for type " + type.toString());
 	}
 
 	/**
@@ -392,10 +390,9 @@ public class Value {
 	public char getChar() {
 		if (type == TYPE_CHAR) {
 			return charValue;
-		} else {
-			throw new ClassCastException(
-					"getChar cannot be called for type " + type.toString());
 		}
+		throw new ClassCastException(
+				"getChar cannot be called for type " + type.toString());
 	}
 
 	/**
@@ -441,10 +438,9 @@ public class Value {
 	public Date getDate() {
 		if (type == TYPE_DATE) {
 			return (Date) obj;
-		} else {
-			throw new ClassCastException(
-					"getDate cannot be called for type " + type.toString());
 		}
+		throw new ClassCastException(
+				"getDate cannot be called for type " + type.toString());
 	}
 
 	/**

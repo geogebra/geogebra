@@ -190,9 +190,8 @@ public class UnderOverAtom extends Atom {
 	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
 			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
-		} else {
-			return b;
 		}
+		return b;
 	}
 
 	@Override

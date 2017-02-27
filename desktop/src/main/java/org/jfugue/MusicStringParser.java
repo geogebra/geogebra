@@ -1742,10 +1742,9 @@ public final class MusicStringParser extends Parser {
 			if (isNumber) {
 				trace("Dictionary lookup returning the number ", word);
 				return word;
-			} else {
-				throw new JFugueException(JFugueException.WORD_NOT_DEFINED_EXC,
-						word, bracketedString);
 			}
+			throw new JFugueException(JFugueException.WORD_NOT_DEFINED_EXC,
+					word, bracketedString);
 		}
 		trace("Word ", word, " is defined as ", definition);
 		return definition;

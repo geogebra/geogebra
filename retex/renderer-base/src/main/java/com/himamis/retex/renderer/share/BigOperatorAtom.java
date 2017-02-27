@@ -142,82 +142,86 @@ public class BigOperatorAtom extends Atom {
 				return b;
 			}
 			return new ScriptsAtom(base, under, over).createBox(env);
-		} else {
-			if (base instanceof SymbolAtom && base.type == TeXConstants.TYPE_BIG_OPERATOR) { // single
-				// bigop
-				// symbol
-				Char c = tf.getChar(((SymbolAtom) base).getName(), style);
-				y = base.createBox(env);
-
-				// include delta in width
-				delta = c.getItalic();
-			} else { // formula
-				delta = 0;
-				y = new HorizontalBox(base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env));
-			}
-
-			// limits
-			Box x = null, z = null;
-			if (over != null) {
-				x = over.createBox(env.supStyle());
-			}
-			if (under != null) {
-				z = under.createBox(env.subStyle());
-			}
-
-			// make boxes equally wide
-			double maxWidth = Math.max(Math.max(x == null ? 0 : x.getWidth(), y.getWidth()),
-					z == null ? 0 : z.getWidth());
-			x = changeWidth(x, maxWidth);
-			y = changeWidth(y, maxWidth);
-			z = changeWidth(z, maxWidth);
-
-			// build vertical box
-			VerticalBox vBox = new VerticalBox();
-
-			double bigop5 = tf.getBigOpSpacing5(style), kern = 0;
-			//double xh = 0; // TODO: check why this is not used // NOPMD
-
-			// over
-			if (over != null) {
-				vBox.add(new StrutBox(0, bigop5, 0, 0));
-				x.setShift(delta / 2);
-				vBox.add(x);
-				kern = Math.max(tf.getBigOpSpacing1(style), tf.getBigOpSpacing3(style) - x.getDepth());
-				vBox.add(new StrutBox(0, kern, 0, 0));
-				//xh = vBox.getHeight() + vBox.getDepth();
-			}
-
-			// base
-			vBox.add(y);
-
-			// under
-			if (under != null) {
-				double k = Math.max(tf.getBigOpSpacing2(style), tf.getBigOpSpacing4(style) - z.getHeight());
-				vBox.add(new StrutBox(0, k, 0, 0));
-				z.setShift(-delta / 2);
-				vBox.add(z);
-				vBox.add(new StrutBox(0, bigop5, 0, 0));
-			}
-
-			// set height and depth vertical box and return it
-			double h = y.getHeight(), total = vBox.getHeight() + vBox.getDepth();
-			if (x != null) {
-				h += bigop5 + kern + x.getHeight() + x.getDepth();
-			}
-			vBox.setHeight(h);
-			vBox.setDepth(total - h);
-
-			if (bbase != null) {
-				HorizontalBox hb = new HorizontalBox(bbase.createBox(env));
-				bbase.add(base);
-				hb.add(vBox);
-				base = Base;
-				return hb;
-			}
-
-			return vBox;
 		}
+		if (base instanceof SymbolAtom
+				&& base.type == TeXConstants.TYPE_BIG_OPERATOR) { // single
+			// bigop
+			// symbol
+			Char c = tf.getChar(((SymbolAtom) base).getName(), style);
+			y = base.createBox(env);
+
+			// include delta in width
+			delta = c.getItalic();
+		} else { // formula
+			delta = 0;
+			y = new HorizontalBox(base == null ? new StrutBox(0, 0, 0, 0)
+					: base.createBox(env));
+		}
+
+		// limits
+		Box x = null, z = null;
+		if (over != null) {
+			x = over.createBox(env.supStyle());
+		}
+		if (under != null) {
+			z = under.createBox(env.subStyle());
+		}
+
+		// make boxes equally wide
+		double maxWidth = Math.max(
+				Math.max(x == null ? 0 : x.getWidth(), y.getWidth()),
+				z == null ? 0 : z.getWidth());
+		x = changeWidth(x, maxWidth);
+		y = changeWidth(y, maxWidth);
+		z = changeWidth(z, maxWidth);
+
+		// build vertical box
+		VerticalBox vBox = new VerticalBox();
+
+		double bigop5 = tf.getBigOpSpacing5(style), kern = 0;
+		// double xh = 0; // TODO: check why this is not used // NOPMD
+
+		// over
+		if (over != null) {
+			vBox.add(new StrutBox(0, bigop5, 0, 0));
+			x.setShift(delta / 2);
+			vBox.add(x);
+			kern = Math.max(tf.getBigOpSpacing1(style),
+					tf.getBigOpSpacing3(style) - x.getDepth());
+			vBox.add(new StrutBox(0, kern, 0, 0));
+			// xh = vBox.getHeight() + vBox.getDepth();
+		}
+
+		// base
+		vBox.add(y);
+
+		// under
+		if (under != null) {
+			double k = Math.max(tf.getBigOpSpacing2(style),
+					tf.getBigOpSpacing4(style) - z.getHeight());
+			vBox.add(new StrutBox(0, k, 0, 0));
+			z.setShift(-delta / 2);
+			vBox.add(z);
+			vBox.add(new StrutBox(0, bigop5, 0, 0));
+		}
+
+		// set height and depth vertical box and return it
+		double h = y.getHeight(), total = vBox.getHeight() + vBox.getDepth();
+		if (x != null) {
+			h += bigop5 + kern + x.getHeight() + x.getDepth();
+		}
+		vBox.setHeight(h);
+		vBox.setDepth(total - h);
+
+		if (bbase != null) {
+			HorizontalBox hb = new HorizontalBox(bbase.createBox(env));
+			bbase.add(base);
+			hb.add(vBox);
+			base = Base;
+			return hb;
+		}
+
+		return vBox;
 	}
 
 	/*
@@ -226,8 +230,7 @@ public class BigOperatorAtom extends Atom {
 	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
 			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
-		} else {
-			return b;
 		}
+		return b;
 	}
 }

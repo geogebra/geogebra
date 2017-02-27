@@ -92,9 +92,8 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 		int b = in.read();
 		if (b == -1) {
 			return -1;
-		} else {
-			return decrypt(b);
 		}
+		return decrypt(b);
 	}
 
 	@Override

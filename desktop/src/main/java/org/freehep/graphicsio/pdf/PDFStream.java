@@ -691,10 +691,9 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 			if (jpgBytes.length < 0.5 * zlibBytes.length) {
 				encode[0] = "DCT";
 				return jpgBytes;
-			} else {
-				encode[0] = "Flate";
-				return zlibBytes;
 			}
+			encode[0] = "Flate";
+			return zlibBytes;
 		}
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -137,12 +137,11 @@ public class MulticolumnAtom extends Atom {
 					if (c != '|') {
 						pos--;
 						break;
+					}
+					if (first) {
+						beforeVlines++;
 					} else {
-						if (first) {
-							beforeVlines++;
-						} else {
-							afterVlines++;
-						}
+						afterVlines++;
 					}
 				}
 			}

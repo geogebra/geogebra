@@ -114,9 +114,9 @@ public class RotateAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		if (option != -1) {
 			return new RotateBox(base.createBox(env), angle, option);
-		} else {
-			return new RotateBox(base.createBox(env), angle, x * SpaceAtom.getFactor(xunit, env), y
-					* SpaceAtom.getFactor(yunit, env));
 		}
+		return new RotateBox(base.createBox(env), angle,
+				x * SpaceAtom.getFactor(xunit, env),
+				y * SpaceAtom.getFactor(yunit, env));
 	}
 }

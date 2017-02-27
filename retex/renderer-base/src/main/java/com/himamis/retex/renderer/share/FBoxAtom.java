@@ -85,9 +85,8 @@ public class FBoxAtom extends Atom {
 		double space = INTERSPACE * SpaceAtom.getFactor(TeXConstants.UNIT_EM, env);
 		if (bg == null) {
 			return new FramedBox(bbase, drt, space);
-		} else {
-			env.isColored = true;
-			return new FramedBox(bbase, drt, space, line, bg);
 		}
+		env.isColored = true;
+		return new FramedBox(bbase, drt, space, line, bg);
 	}
 }

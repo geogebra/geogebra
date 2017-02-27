@@ -114,10 +114,8 @@ public class Base64InputStream extends InputStream {
 				if (cIndex == 0) {
 					// still a proper end.
 					return 0;
-				} else {
-					throw new EncodingException(
-							"Improperly padded Base64 Input.");
 				}
+				throw new EncodingException("Improperly padded Base64 Input.");
 			}
 
 			prevEncoding = encoding;

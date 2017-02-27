@@ -115,9 +115,8 @@ abstract public class ShapeElement extends RenderableElement {
 				}
 			}
 			return null;
-		} else {
-			return styleAttrib.getColorValue();
 		}
+		return styleAttrib.getColorValue();
 	}
 
 	protected void renderShape(Graphics2D g, Shape shape) throws SVGException {

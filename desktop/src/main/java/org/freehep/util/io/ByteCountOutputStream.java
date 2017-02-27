@@ -105,9 +105,8 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 		if (len >= 0) {
 			Buffer buffer = (Buffer) bufferList.remove(currentBuffer + 1);
 			return buffer.getBytes();
-		} else {
-			return new byte[0];
 		}
+		return new byte[0];
 	}
 
 	/**

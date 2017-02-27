@@ -207,17 +207,16 @@ public class SVGUniverse implements Serializable {
 				}
 			}
 			return null;
-		} else {
-			try {
-				URL url = imageURI.toURL();
-				registerImage(url);
-				return url;
-			} catch (MalformedURLException ex) {
-				Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
-						"Bad url", ex);
-			}
-			return null;
 		}
+		try {
+			URL url = imageURI.toURL();
+			registerImage(url);
+			return url;
+		} catch (MalformedURLException ex) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, "Bad url",
+					ex);
+		}
+		return null;
 	}
 
 	void registerImage(URL imageURL) {
@@ -388,10 +387,9 @@ public class SVGUniverse implements Serializable {
 		if ((b1 << 8 | b0) == GZIPInputStream.GZIP_MAGIC) {
 			GZIPInputStream iis = new GZIPInputStream(bin);
 			return iis;
-		} else {
-			// Plain text
-			return bin;
 		}
+		// Plain text
+		return bin;
 	}
 
 	public URI loadSVG(URL docRoot) {

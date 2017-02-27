@@ -486,10 +486,9 @@ public class DefaultTeXFontParser {
 						RESOURCE_NAME + ": the default text style mapping '"
 								+ textStyleName + "' for the range '" + code
 								+ "' contains no mapping for that range!");
-			} else {
-				// everything OK, put mapping in table
-				res[index] = textStyleName;
 			}
+			// everything OK, put mapping in table
+			res[index] = textStyleName;
 		}
 		return res;
 	}
@@ -641,18 +640,18 @@ public class DefaultTeXFontParser {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) {
 			return defaultValue;
-		} else {
-			// try parsing string to integer value
-			int res = 0;
-			try {
-				res = Integer.parseInt(attrValue);
-			} catch (NumberFormatException e) {
-				throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName,
-						"has an invalid integer value!");
-			}
-			// parsing OK
-			return res;
 		}
+		// try parsing string to integer value
+		int res = 0;
+		try {
+			res = Integer.parseInt(attrValue);
+		} catch (NumberFormatException e) {
+			throw new XMLResourceParseException(RESOURCE_NAME,
+					element.getTagName(), attrName,
+					"has an invalid integer value!");
+		}
+		// parsing OK
+		return res;
 	}
 
 	public static double getOptionalFloat(String attrName, Element element, double defaultValue)
@@ -660,17 +659,17 @@ public class DefaultTeXFontParser {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) {
 			return defaultValue;
-		} else {
-			// try parsing string to double value
-			double res = 0;
-			try {
-				res = Double.parseDouble(attrValue);
-			} catch (NumberFormatException e) {
-				throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName,
-						"has an invalid double value!");
-			}
-			// parsing OK
-			return res;
 		}
+		// try parsing string to double value
+		double res = 0;
+		try {
+			res = Double.parseDouble(attrValue);
+		} catch (NumberFormatException e) {
+			throw new XMLResourceParseException(RESOURCE_NAME,
+					element.getTagName(), attrName,
+					"has an invalid double value!");
+		}
+		// parsing OK
+		return res;
 	}
 }

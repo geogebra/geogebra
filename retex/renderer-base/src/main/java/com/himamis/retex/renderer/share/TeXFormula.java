@@ -547,9 +547,8 @@ public class TeXFormula {
 	private Box createBox(TeXEnvironment style) {
 		if (root == null) {
 			return new StrutBox(0, 0, 0, 0);
-		} else {
-			return root.createBox(style);
 		}
+		return root.createBox(style);
 	}
 
 	private static DefaultTeXFont createFont(double size, int type) {
@@ -968,9 +967,8 @@ public class TeXFormula {
 			TeXFormula tf = new TeXFormula(f);
 			predefinedTeXFormulas.put(name, tf);
 			return tf;
-		} else {
-			return new TeXFormula(formula);
 		}
+		return new TeXFormula(formula);
 	}
 
 	static class FontInfos {

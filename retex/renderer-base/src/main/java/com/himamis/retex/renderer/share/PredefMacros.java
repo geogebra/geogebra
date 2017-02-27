@@ -145,9 +145,8 @@ public class PredefMacros {
 			rat.add(new FcscoreAtom(r));
 
 			return rat;
-		} else {
-			return new FcscoreAtom(n);
 		}
+		return new FcscoreAtom(n);
 	}
 
 	public static final Atom st_macro(final TeXParser tp, final String[] args) throws ParseException {

@@ -155,9 +155,8 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	protected ResourcePrototype getViewIcon() {
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			return getResources().settings();
-		} else {
-			return getResources().styleBar_spreadsheetView();
 		}
+		return getResources().styleBar_spreadsheetView();
 	}
 
 }

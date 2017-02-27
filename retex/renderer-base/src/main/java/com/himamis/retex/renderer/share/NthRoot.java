@@ -108,29 +108,29 @@ public class NthRoot extends Atom {
 		if (root == null) {
 			// simple square root
 			return squareRoot;
-		} else { // nthRoot, not a simple square root
-
-			// create box from root
-			Box r = root.createBox(env.rootStyle());
-
-			// shift root up
-			double bottomShift = FACTOR * (squareRoot.getHeight() + squareRoot.getDepth());
-			r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
-
-			// negative kern
-			Box negativeKern = new SpaceAtom(TeXConstants.UNIT_MU, -10f, 0, 0).createBox(env);
-
-			// arrange both boxes together with the negative kern
-			Box res = new HorizontalBox();
-			double pos = r.getWidth() + negativeKern.getWidth();
-			if (pos < 0) {
-				res.add(new StrutBox(-pos, 0, 0, 0));
-			}
-
-			res.add(r);
-			res.add(negativeKern);
-			res.add(squareRoot);
-			return res;
 		}
+		// create box from root
+		Box r = root.createBox(env.rootStyle());
+
+		// shift root up
+		double bottomShift = FACTOR
+				* (squareRoot.getHeight() + squareRoot.getDepth());
+		r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
+
+		// negative kern
+		Box negativeKern = new SpaceAtom(TeXConstants.UNIT_MU, -10f, 0, 0)
+				.createBox(env);
+
+		// arrange both boxes together with the negative kern
+		Box res = new HorizontalBox();
+		double pos = r.getWidth() + negativeKern.getWidth();
+		if (pos < 0) {
+			res.add(new StrutBox(-pos, 0, 0, 0));
+		}
+
+		res.add(r);
+		res.add(negativeKern);
+		res.add(squareRoot);
+		return res;
 	}
 }

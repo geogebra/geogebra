@@ -163,9 +163,8 @@ public class RendererJogl {
 		
 		if(useCanvas){
 			return new ComponentGLCanvas();
-		}else{
-			return new ComponentGLJPanel();
 		}
+		return new ComponentGLJPanel();
 		
 	}
 	
@@ -174,9 +173,8 @@ public class RendererJogl {
 
 		if(useCanvas){
 			return new AnimatorCanvas((GLCanvas) canvas, i);
-		}else{
-			return new AnimatorJPanel((GLJPanel) canvas, i);	
 		}
+		return new AnimatorJPanel((GLJPanel) canvas, i);
 
 		
 	}

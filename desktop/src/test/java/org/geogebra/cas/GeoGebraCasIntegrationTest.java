@@ -227,9 +227,8 @@ public class GeoGebraCasIntegrationTest {
       }
       if (readablePattern != null) {
 		return "\nExpected: " + readablePattern + "\ngot: " + result;
-	} else {
-		return "\nExpected: " + expectedPattern + "\ngot: ";
 	}
+			return "\nExpected: " + expectedPattern + "\ngot: ";
     } catch (Throwable t) {
       return t.getClass().getName() + ":" + t.getMessage();
     }

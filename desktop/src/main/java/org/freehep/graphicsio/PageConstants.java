@@ -67,9 +67,8 @@ public class PageConstants {
 		Dimension d = (Dimension) sizeTable.get(size);
 		if (orientation.equals(PORTRAIT)) {
 			return d;
-		} else {
-			return new Dimension(d.height, d.width);
 		}
+		return new Dimension(d.height, d.width);
 	}
 
 	private static final Map sizeTable = new HashMap();
@@ -108,11 +107,9 @@ public class PageConstants {
 	public static final Insets getMargins(Insets insets, String orientation) {
 		if (orientation.equals(PORTRAIT)) {
 			return insets;
-		} else {
-			// turn page to right
-			return new Insets(insets.left, insets.bottom, insets.right,
-					insets.top);
 		}
+		// turn page to right
+		return new Insets(insets.left, insets.bottom, insets.right, insets.top);
 	}
 
 	// Fit

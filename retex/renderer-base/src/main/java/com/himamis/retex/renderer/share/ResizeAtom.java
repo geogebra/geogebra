@@ -107,25 +107,24 @@ public class ResizeAtom extends Atom {
 		Box bbox = base.createBox(env);
 		if (wunit == -1 && hunit == -1) {
 			return bbox;
-		} else {
-			double xscl = 1;
-			double yscl = 1;
-			if (wunit != -1 && hunit != -1) {
-				xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
-				yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
-				if (keepaspectratio) {
-					xscl = Math.min(xscl, yscl);
-					yscl = xscl;
-				}
-			} else if (wunit != -1 && hunit == -1) {
-				xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
-				yscl = xscl;
-			} else {
-				yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
-				xscl = yscl;
-			}
-
-			return new ScaleBox(bbox, xscl, yscl);
 		}
+		double xscl = 1;
+		double yscl = 1;
+		if (wunit != -1 && hunit != -1) {
+			xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
+			yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
+			if (keepaspectratio) {
+				xscl = Math.min(xscl, yscl);
+				yscl = xscl;
+			}
+		} else if (wunit != -1 && hunit == -1) {
+			xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
+			yscl = xscl;
+		} else {
+			yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
+			xscl = yscl;
+		}
+
+		return new ScaleBox(bbox, xscl, yscl);
 	}
 }

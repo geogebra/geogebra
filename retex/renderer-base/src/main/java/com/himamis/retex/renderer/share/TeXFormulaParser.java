@@ -85,22 +85,23 @@ public class TeXFormulaParser {
 				throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
 						ARG_OBJ_ATTR, "has an unknown temporary TeXFormula name as value : '" + objectName
 								+ "'!");
-			} else {
-				// parse arguments
-				//NodeList args = el.getElementsByTagName("Argument");
-				// get argument classes and values
-				//Class[] argClasses = getArgumentClasses(args);
-				//Object[] argValues = getArgumentValues(args);
-				// invoke method
-				try {
-					throw new UnsupportedOperationException("Not implemented yet.");
-					//TeXFormula.class.getMethod(methodName, argClasses).invoke((TeXFormula) object, argValues);
-				} catch (Exception e) {
-					throw new XMLResourceParseException("Error invoking the method '" + methodName
-							+ "' on the temporary TeXFormula '" + objectName
-							+ "' while constructing the predefined TeXFormula '" + formulaName + "'!\n"
-							+ e.toString());
-				}
+			}
+			// parse arguments
+			// NodeList args = el.getElementsByTagName("Argument");
+			// get argument classes and values
+			// Class[] argClasses = getArgumentClasses(args);
+			// Object[] argValues = getArgumentValues(args);
+			// invoke method
+			try {
+				throw new UnsupportedOperationException("Not implemented yet.");
+				// TeXFormula.class.getMethod(methodName,
+				// argClasses).invoke((TeXFormula) object, argValues);
+			} catch (Exception e) {
+				throw new XMLResourceParseException(
+						"Error invoking the method '" + methodName
+								+ "' on the temporary TeXFormula '" + objectName
+								+ "' while constructing the predefined TeXFormula '"
+								+ formulaName + "'!\n" + e.toString());
 			}
 		}
 	}
@@ -205,10 +206,11 @@ public class TeXFormulaParser {
 			checkNullValue(value, type);
 			if (value.length() == 1) {
 				return new Character(value.charAt(0));
-			} else {
-				throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
-						ARG_VAL_ATTR, "must have a value that consists of exactly 1 character!");
 			}
+			throw new XMLResourceParseException(
+					PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
+					ARG_VAL_ATTR,
+					"must have a value that consists of exactly 1 character!");
 		}
 	}
 
@@ -257,6 +259,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@SuppressWarnings("synthetic-access")
 		@Override
 		public void parse(Element el) throws ResourceParseException {
 			// get required string attribute
@@ -266,9 +269,8 @@ public class TeXFormulaParser {
 				throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, RETURN_EL,
 						"name", "contains an unknown temporary TeXFormula variable name '" + name
 								+ "' for the predefined TeXFormula '" + formulaName + "'!");
-			} else {
-				result = res;
 			}
+			result = res;
 		}
 	}
 
@@ -294,16 +296,16 @@ public class TeXFormulaParser {
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			if (value == null) {// null pointer argument
 				return null;
-			} else {
-				Object formula = tempFormulas.get(value);
-				if (formula == null) {// unknown temporary TeXFormula!
-					throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
-							ARG_VAL_ATTR, "has an unknown temporary TeXFormula name as value : '" + value
-									+ "'!");
-				} else {
-					return formula;
-				}
 			}
+			Object formula = tempFormulas.get(value);
+			if (formula == null) {// unknown temporary TeXFormula!
+				throw new XMLResourceParseException(
+						PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
+						ARG_VAL_ATTR,
+						"has an unknown temporary TeXFormula name as value : '"
+								+ value + "'!");
+			}
+			return formula;
 		}
 	}
 
@@ -448,9 +450,8 @@ public class TeXFormulaParser {
 			if (cl == null) {// no class mapping found
 				throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
 						"type", "has an invalid class name value!");
-			} else {
-				res[i] = (Class<?>) cl;
 			}
+			res[i] = (Class<?>) cl;
 			i++;
 		}
 		return res;

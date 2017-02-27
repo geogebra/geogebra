@@ -88,9 +88,8 @@ public abstract class TTFInput {
 			System.err
 					.println("Reserved bit " + bit + " in " + name + " not 0.");
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	// ---------------- Flags --------------------

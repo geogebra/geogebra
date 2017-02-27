@@ -72,9 +72,8 @@ public class CASDockPanelW extends NavigableDockPanelW {
 		// TODO Auto-generated method stub
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			return getResources().settings();
-		} else {
-			return getResources().styleBar_CASView();
 		}
+		return getResources().styleBar_CASView();
 	}
 
 	@Override

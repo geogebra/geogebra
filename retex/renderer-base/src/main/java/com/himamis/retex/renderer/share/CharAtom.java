@@ -115,9 +115,8 @@ public class CharAtom extends CharSymbol {
 		}
 		if (textStyle == null) {
 			return tf.getDefaultChar(chr, style);
-		} else {
-			return tf.getChar(chr, textStyle, style);
 		}
+		return tf.getChar(chr, textStyle, style);
 	}
 
 	@Override

@@ -75,9 +75,8 @@ public class ResourceLoaderD implements ResourceLoader {
 
 		if (base != null) {
 			return ((Class<?>) base).getResourceAsStream(path);
-		} else {
-			return FactoryProviderDesktop.class.getResourceAsStream(path);
 		}
+		return FactoryProviderDesktop.class.getResourceAsStream(path);
 	}
 
 }

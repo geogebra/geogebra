@@ -355,20 +355,19 @@ public class TTFGlyfTable extends TTFVersionTable {
 	public Glyph getGlyph(int i) throws IOException {
 		if (glyphs[i] != null) {
 			return glyphs[i];
-		} else {
-			ttf.pushPos();
-			ttf.seek(offsets[i]);
-			int numberOfContours = ttf.readShort();
-			if (numberOfContours >= 0) {
-				glyphs[i] = new SimpleGlyph(numberOfContours);
-			} else {
-				glyphs[i] = new CompositeGlyph();
-			}
-			glyphs[i].read();
-			// System.out.println(i+": "+offsets[i]+"-"+ttf.getPointer());
-			ttf.popPos();
-			return glyphs[i];
 		}
+		ttf.pushPos();
+		ttf.seek(offsets[i]);
+		int numberOfContours = ttf.readShort();
+		if (numberOfContours >= 0) {
+			glyphs[i] = new SimpleGlyph(numberOfContours);
+		} else {
+			glyphs[i] = new CompositeGlyph();
+		}
+		glyphs[i].read();
+		// System.out.println(i+": "+offsets[i]+"-"+ttf.getPointer());
+		ttf.popPos();
+		return glyphs[i];
 	}
 
 	@Override

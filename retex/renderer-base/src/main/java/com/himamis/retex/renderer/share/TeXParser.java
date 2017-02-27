@@ -523,9 +523,8 @@ public class TeXParser {
 						} catch (ParseException e) {
 							if (!isPartial) {
 								throw e;
-							} else {
-								spos += com.length() + 1;
 							}
+							spos += com.length() + 1;
 						}
 						len = parseString.length();
 						pos = spos;
@@ -965,9 +964,8 @@ public class TeXParser {
 
 		if (ch == openclose) {
 			return parseString.substring(spos, pos - 1);
-		} else {
-			return parseString.substring(spos, pos);
 		}
+		return parseString.substring(spos, pos);
 	}
 
 	/**
@@ -1011,9 +1009,8 @@ public class TeXParser {
 			}
 
 			return parseString.substring(spos + 1, pos - 1);
-		} else {
-			throw new ParseException("missing '" + open + "'!");
 		}
+		throw new ParseException("missing '" + open + "'!");
 	}
 
 	/**
@@ -1397,9 +1394,10 @@ public class TeXParser {
 		// not a valid command or symbol or predefined TeXFormula found
 		if (!isPartial) {
 			throw new ParseException("Unknown symbol or command or predefined TeXFormula: '" + command + "'");
-		} else {
-			return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, ColorUtil.RED);
 		}
+		return new ColorAtom(
+				new RomanAtom(new TeXFormula("\\backslash " + command).root),
+				null, ColorUtil.RED);
 	}
 
 	private void insert(int beg, int end, String formula) {

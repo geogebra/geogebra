@@ -172,9 +172,8 @@ public class SymbolAtom extends CharSymbol {
 		Object obj = symbols.get(name);
 		if (obj == null) {
 			throw new SymbolNotFoundException(name);
-		} else {
-			return (SymbolAtom) obj;
 		}
+		return (SymbolAtom) obj;
 	}
 
 	/**

@@ -79,12 +79,11 @@ public class PDFRedundanceTracker {
 		Object o = objects.get(object);
 		if (o != null) {
 			return ((Entry) o).reference;
-		} else {
-			Entry entry = new Entry(object, groupID, writer);
-			objects.put(object, entry);
-			orderedObjects.add(entry);
-			return entry.reference;
 		}
+		Entry entry = new Entry(object, groupID, writer);
+		objects.put(object, entry);
+		orderedObjects.add(entry);
+		return entry.reference;
 	}
 
 	public PDFRef getReference(Object object, Writer writer) {
