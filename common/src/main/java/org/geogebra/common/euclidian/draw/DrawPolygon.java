@@ -34,8 +34,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.algos.AlgoPolygonRegular;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
@@ -72,8 +70,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
-	private GRectangle prewRect = AwtFactory.getPrototype().newRectangle(0, 0,
-			0, 0);
 	/**
 	 * Creates new DrawPolygon
 	 * 
@@ -561,25 +557,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.isSquare = isSquare;
 	}
 
-	private boolean isTriangleShape() {
-		return poly.isShape() && poly.getPoints().length == 3;
-	}
-
-	private boolean isRectangleShape() {
-		return poly.isShape() && poly.getPoints().length == 4;
-	}
-
-	private boolean isPentagonShape() {
-		return poly.isShape() && poly.getPoints().length == 5
-				&& poly.getParentAlgorithm() != null
-				&& poly.getParentAlgorithm() instanceof AlgoPolygonRegular;
-	}
-
-	private boolean isFreePolygonShape() {
-		return poly.isShape() && poly.getParentAlgorithm() != null
-				&& poly.getParentAlgorithm() instanceof AlgoPolygon;
-	}
-
 	/**
 	 * method to update points of poly after mouse release
 	 * 
@@ -588,13 +565,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	@Override
 	public void updateGeo(AbstractEvent event) {
-		if (isTriangleShape()) {
-			updateRealPointsOfTriangle(event);
-		} else if (isRectangleShape()) {
-			updateRealPointsOfRectangle();
-		} else if (isPentagonShape() || isFreePolygonShape()) {
-			updateRealPointsOfPolygon();
-		}
+		updateRealPointsOfPolygon();
 		poly.updateCascade(true);
 		poly.getParentAlgorithm().update();
 		for (GeoSegmentND geoSeg : poly.getSegments()) {
@@ -620,100 +591,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 			EuclidianBoundingBoxHandler handler) {
 		poly.setEuclidianVisible(false);
 		poly.updateRepaint();
-		if (isTriangleShape()) {
-			updateTriangle(handler, e);
-			view.setShapePolygon(prewPolygon);
-		} else if (isRectangleShape()) {
-			updateRectangle(handler, e);
-			view.setShapeRectangle(prewRect);
-		} else if (isPentagonShape()) {
-			updatePentagon(handler, e);
-			view.setShapePolygon(prewPolygon);
-		} else if (isFreePolygonShape()) {
-			updateFreePolygon(handler, e);
-			view.setShapePolygon(prewPolygon);
-		}
+		updateFreePolygon(handler, e);
+		view.setShapePolygon(prewPolygon);
 		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
-	}
-
-	private void updateRealPointsOfTriangle(AbstractEvent event) {
-		int width = (int) (event.getX() - fixCornerX);
-		int height = (int) (event.getY() - fixCornerY);
-
-		if (Double.isNaN(fixCornerX) || Double.isNaN(fixCornerY)
-				|| Double.isNaN(proportion)) {
-			return;
-		}
-
-		if (height >= 0) {
-			if (width >= 0) {
-				poly.getPoint(0).setCoords(view.toRealWorldCoordX(fixCornerX),
-						view.toRealWorldCoordY(
-								(int) (fixCornerY + width / proportion)),
-						1);
-				poly.getPoint(1).setCoords(view.toRealWorldCoordX(event.getX()),
-						view.toRealWorldCoordY(
-								(int) (fixCornerY + width / proportion)),
-						1);
-				poly.getPoint(2).setCoords(
-						view.toRealWorldCoordX(
-								(fixCornerX + event.getX()) / 2.0),
-						view.toRealWorldCoordY(fixCornerY), 1);
-			} else {
-				poly.getPoint(0).setCoords(view.toRealWorldCoordX(fixCornerX),
-						view.toRealWorldCoordY(
-								(int) (fixCornerY - width / proportion)),
-						1);
-				poly.getPoint(1).setCoords(view.toRealWorldCoordX(event.getX()),
-						view.toRealWorldCoordY(
-								(int) (fixCornerY - width / proportion)),
-						1);
-				poly.getPoint(2).setCoords(
-						view.toRealWorldCoordX(
-								(fixCornerX + event.getX()) / 2.0),
-						view.toRealWorldCoordY(fixCornerY), 1);
-			}
-		} else {
-			if (width >= 0) {
-				poly.getPoint(0).setCoords(view.toRealWorldCoordX(
-							(fixCornerX + event.getX()) / 2.0),
-						view.toRealWorldCoordY(
-								(int) (fixCornerY - width / proportion)),
-						1);
-				poly.getPoint(1).setCoords(view.toRealWorldCoordX(fixCornerX),
-					view.toRealWorldCoordY(fixCornerY), 1);
-				poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
-					view.toRealWorldCoordY(fixCornerY), 1);
-			} else {
-				poly.getPoint(0).setCoords(
-						view.toRealWorldCoordX(
-								(fixCornerX + event.getX()) / 2.0),
-						view.toRealWorldCoordY(
-								(int) (fixCornerY + width / proportion)),
-						1);
-				poly.getPoint(1).setCoords(view.toRealWorldCoordX(fixCornerX),
-						view.toRealWorldCoordY(fixCornerY), 1);
-				poly.getPoint(2).setCoords(view.toRealWorldCoordX(event.getX()),
-						view.toRealWorldCoordY(fixCornerY), 1);
-			}
-		}
-	}
-
-	private void updateRealPointsOfRectangle() {
-		double startPointX = view
-				.toRealWorldCoordX(getBoundingBox().getRectangle().getX());
-		double startPointY = view
-				.toRealWorldCoordY(getBoundingBox().getRectangle().getY());
-		double endPointX = view
-				.toRealWorldCoordX(getBoundingBox().getRectangle().getMaxX());
-		double endPointY = view
-				.toRealWorldCoordY(getBoundingBox().getRectangle().getMaxY());
-
-		poly.getPoint(0).setCoords(startPointX, startPointY, 1);
-		poly.getPoint(1).setCoords(endPointX, startPointY, 1);
-		poly.getPoint(2).setCoords(endPointX, endPointY, 1);
-		poly.getPoint(3).setCoords(startPointX, endPointY, 1);
 	}
 
 	private void updateRealPointsOfPolygon() {
@@ -768,130 +649,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (Double.isNaN(oldHeight)) {
 			oldHeight = getBoundingBox().getRectangle().getHeight();
 		}
-	}
-
-	/**
-	 * update the coords of triangle
-	 * 
-	 * @param hitHandler
-	 *            - handler was hit
-	 * @param event
-	 *            - mouse event
-	 */
-	protected void updateTriangle(EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
-		int pointsX[] = new int[3];
-		int pointsY[] = new int[3];
-
-		if (prewPolygon == null) {
-			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
-		}
-
-		fixCornerCoords(hitHandler);
-
-		prewPolygon.reset();
-		int width = (int) (event.getX() - fixCornerX);
-		int height = (int) (event.getY() - fixCornerY);
-
-		if (height >= 0) {
-			pointsX[0] = (int) fixCornerX;
-			pointsX[1] = event.getX();
-			pointsX[2] = (int) Math.round((fixCornerX + event.getX()) / 2.0f);
-			pointsY[2] = (int) fixCornerY;
-			if (width >= 0) {
-				pointsY[0] = (int) (fixCornerY + width / proportion);
-				pointsY[1] = (int) (fixCornerY + width / proportion);
-			} else {
-				pointsY[0] = (int) (fixCornerY - width / proportion);
-				pointsY[1] = (int) (fixCornerY - width / proportion);
-			}
-		} else {
-			pointsX[0] = (int) Math.round((fixCornerX + event.getX()) / 2.0f);
-			pointsX[1] = (int) fixCornerX;
-			pointsX[2] = event.getX();
-			pointsY[1] = (int) fixCornerY;
-			pointsY[2] = (int) fixCornerY;
-			if (width >= 0) {
-				pointsY[0] = (int) (fixCornerY - width / proportion);
-			} else {
-				pointsY[0] = (int) (fixCornerY + width / proportion);
-			}
-		}
-
-		prewPolygon.moveTo(pointsX[0], pointsY[0]);
-		for (int index = 1; index < pointsX.length; index++) {
-			prewPolygon.lineTo(pointsX[index], pointsY[index]);
-		}
-		prewPolygon.closePath();
-
-		getBoundingBox().setRectangle(prewPolygon.getBounds());
-	}
-
-	/**
-	 * update the coords of rectangle
-	 * 
-	 * @param hitHandler
-	 *            - of handler was hit
-	 * @param event
-	 *            - mouse event
-	 */
-	protected void updateRectangle(EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
-		if (prewRect == null) {
-			prewRect = AwtFactory.getPrototype().newRectangle();
-		}
-	  
-		fixCornerCoords(hitHandler);
-	  
-	  int dx = (int) (event.getX() - fixCornerX); 
-	  int dy = (int) (event.getY() - fixCornerY);
-	  
-	  int width = dx; int height = dy;
-	  
-		if (height >= 0) {
-			if (width >= 0) {
-				prewRect.setLocation((int) fixCornerX, (int) fixCornerY);
-				if (isSquare) {
-					prewRect.setSize(width, width);
-				} else {
-					prewRect.setSize(width, (int) (width / proportion));
-				}
-			} else { // width < 0
-				prewRect.setLocation((int) fixCornerX + width,
-						(int) fixCornerY);
-				if (isSquare) {
-					prewRect.setSize(-width, -width);
-				} else {
-					prewRect.setSize(-width, (int) (-width / proportion));
-				}
-			}
-		} else { // height < 0
-			if (width >= 0) {
-				if (isSquare) {
-					prewRect.setLocation((int) fixCornerX,
-							(int) fixCornerY - width);
-					prewRect.setSize(width, width);
-				} else {
-					int newHeight = (int) (width / proportion);
-					prewRect.setLocation((int) fixCornerX,
-							(int) fixCornerY - newHeight);
-					prewRect.setSize(width, newHeight);
-				}
-			} else { // width < 0
-				if (isSquare) {
-					prewRect.setLocation((int) fixCornerX + width,
-							(int) fixCornerY + width);
-					prewRect.setSize(-width, -width);
-				} else {
-					int newHeight = (int) (-width / proportion);
-					prewRect.setLocation((int) fixCornerX + width,
-							(int) fixCornerY - newHeight);
-					prewRect.setSize(-width, newHeight);
-				}
-			}
-		}
-
-		getBoundingBox().setRectangle(prewRect.getBounds());
 	}
 
 	/**
@@ -971,7 +728,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		double ratioWidth = newWidth / oldWidth;
 		double ratioHeight = newHeight / oldHeight;
-
+		
 		double[] currCoords = new double[6];
 		GPathIterator it = gp.getPathIterator(null);
 		int i = poly.getPointsLength();
@@ -980,30 +737,26 @@ public class DrawPolygon extends Drawable implements Previewable {
 			it.currentSegment(currCoords);
 			// bottom or top right corner was moved
 			if (height >= 0) {
+				pointsX[i] = fixCornerX
+						+ (Math.abs(currCoords[0] - fixCornerX)) * ratioWidth;
 				if (newWidth >= 0) {
-					pointsX[i] = fixCornerX
-						+ (currCoords[0] - fixCornerX) * ratioWidth;
 					pointsY[i] = fixCornerY
-						+ (currCoords[1] - fixCornerY) * ratioHeight;
+						+ (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
 				} else {
-					pointsX[i] = fixCornerX
-							- (currCoords[0] - fixCornerX) * (ratioWidth);
 					pointsY[i] = fixCornerY
-							- (currCoords[1] - fixCornerY) * (ratioHeight);
+							- (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
 				}
 			}
 			// bottom or top left corner was moved
 			else {
+				pointsX[i] = fixCornerX
+						+ (Math.abs(currCoords[0] - fixCornerX)) * ratioWidth;
 				if (newWidth >= 0) {
-					pointsX[i] = fixCornerX
-							- (currCoords[0] - fixCornerX) * (ratioWidth);
 					pointsY[i] = fixCornerY
-							- (currCoords[1] - fixCornerY) * (ratioHeight);
+							- (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
 				} else {
-					pointsX[i] = fixCornerX
-							+ (currCoords[0] - fixCornerX) * ratioWidth;
 					pointsY[i] = fixCornerY
-							+ (currCoords[1] - fixCornerY) * ratioHeight;
+							+ (Math.abs(currCoords[1] - fixCornerY)) * ratioHeight;
 				}
 			}
 			it.next();
