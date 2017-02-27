@@ -286,34 +286,40 @@ public abstract class Box {
 		drawDebug(g2, x, y);
 	}
 
-	protected void drawDebug(Graphics2DInterface g2, double x, double y, boolean showDepth) {
+	protected void drawDebug(Graphics2DInterface g2, double x, double y,
+			boolean showDepth) {
 		if (DEBUG) {
+			double x1 = x;
 			Stroke st = g2.getStroke();
 			if (markForDEBUG != null) {
 				Color c = g2.getColor();
 				g2.setColor(markForDEBUG);
-				g2.fill(geom.createRectangle2D(x, y - height, width, height + depth));
+				g2.fill(geom.createRectangle2D(x1, y - height, width,
+						height + depth));
 				g2.setColor(c);
 			}
 			g2.setStroke(graphics.createBasicStroke(
 					 (Math.abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT,
 					BasicStroke.JOIN_MITER));
 			if (width < 0) {
-				x += width;
+				x1 += width;
 				width = -width;
 			}
-			g2.draw(geom.createRectangle2D(x, y - height, width, height + depth));
+			g2.draw(geom.createRectangle2D(x1, y - height, width,
+					height + depth));
 			if (showDepth) {
 				Color c = g2.getColor();
 				g2.setColor(ColorUtil.RED);
 				if (depth > 0) {
-					g2.fill(geom.createRectangle2D(x, y, width, depth));
+					g2.fill(geom.createRectangle2D(x1, y, width, depth));
 					g2.setColor(c);
-					g2.draw(geom.createRectangle2D(x, y, width, depth));
+					g2.draw(geom.createRectangle2D(x1, y, width, depth));
 				} else if (depth < 0) {
-					g2.fill(geom.createRectangle2D(x, y + depth, width, -depth));
+					g2.fill(geom.createRectangle2D(x1, y + depth, width,
+							-depth));
 					g2.setColor(c);
-					g2.draw(geom.createRectangle2D(x, y + depth, width, -depth));
+					g2.draw(geom.createRectangle2D(x1, y + depth, width,
+							-depth));
 				} else {
 					g2.setColor(c);
 				}

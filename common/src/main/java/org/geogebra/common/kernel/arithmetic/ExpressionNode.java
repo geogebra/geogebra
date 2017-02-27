@@ -6091,11 +6091,14 @@ public class ExpressionNode extends ValidExpression
 		case FUNCTION:
 			if (expandPlus && left instanceof Functional) {
 				Function fn = ((Functional) left).getFunction();
-				ExpressionNode expCopy = fn.getExpression().deepCopy(kernel);
-				expCopy.replace(fn.getFunctionVariables()[0],
-						denR == null ? numR : numR.wrap().divide(denR));
-				expCopy.getFraction(parts, expandPlus);
-				return;
+				if (fn != null) {
+					ExpressionNode expCopy = fn.getExpression()
+							.deepCopy(kernel);
+					expCopy.replace(fn.getFunctionVariables()[0],
+							denR == null ? numR : numR.wrap().divide(denR));
+					expCopy.getFraction(parts, expandPlus);
+					return;
+				}
 			}
 		default:
 			parts[0] = this;

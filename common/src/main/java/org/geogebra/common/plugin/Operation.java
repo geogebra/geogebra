@@ -540,6 +540,13 @@ public enum Operation {
 				}
 				double max = keyList.getListElement(keyList.size() - 1)
 						.evaluateDouble();
+				if (keyList.size() == 1) {
+					double ret = Double.NaN;
+					if (Kernel.isEqual(max, x)) {
+						ret = valueList.getListElement(0).evaluateDouble();
+					}
+					return new MyDouble(ev.getKernel(), ret);
+				}
 				double min = keyList.getListElement(0).evaluateDouble();
 				if (max < x || min > x) {
 					return new MyDouble(ev.getKernel(), Double.NaN);

@@ -2705,8 +2705,6 @@ public final class Character {
 	 */
 	private final char value;
 
-	/** use serialVersionUID from JDK 1.0.2 for interoperability */
-	private static final long serialVersionUID = 3786198910865385080L;
 
 	/**
 	 * Constructs a newly allocated {@code Character} object that represents the specified
@@ -3000,10 +2998,10 @@ public final class Character {
 	 * @since 1.5
 	 */
 	public static int codePointAt(CharSequence seq, int index) {
-		char c1 = seq.charAt(index++);
+		char c1 = seq.charAt(index);
 		if (isHighSurrogate(c1)) {
-			if (index < seq.length()) {
-				char c2 = seq.charAt(index);
+			if (index + 1 < seq.length()) {
+				char c2 = seq.charAt(index + 1);
 				if (isLowSurrogate(c2)) {
 					return toCodePoint(c1, c2);
 				}
@@ -3062,10 +3060,10 @@ public final class Character {
 
 	// throws ArrayIndexOutofBoundsException if index out of bounds
 	static int codePointAtImpl(char[] a, int index, int limit) {
-		char c1 = a[index++];
+		char c1 = a[index];
 		if (isHighSurrogate(c1)) {
-			if (index < limit) {
-				char c2 = a[index];
+			if (index + 1 < limit) {
+				char c2 = a[index + 1];
 				if (isLowSurrogate(c2)) {
 					return toCodePoint(c1, c2);
 				}
@@ -3091,10 +3089,10 @@ public final class Character {
 	 * @since 1.5
 	 */
 	public static int codePointBefore(CharSequence seq, int index) {
-		char c2 = seq.charAt(--index);
+		char c2 = seq.charAt(index - 1);
 		if (isLowSurrogate(c2)) {
-			if (index > 0) {
-				char c1 = seq.charAt(--index);
+			if (index > 1) {
+				char c1 = seq.charAt(index - 2);
 				if (isHighSurrogate(c1)) {
 					return toCodePoint(c1, c2);
 				}
@@ -3152,10 +3150,10 @@ public final class Character {
 
 	// throws ArrayIndexOutofBoundsException if index-1 out of bounds
 	static int codePointBeforeImpl(char[] a, int index, int start) {
-		char c2 = a[--index];
+		char c2 = a[index - 1];
 		if (isLowSurrogate(c2)) {
-			if (index > start) {
-				char c1 = a[--index];
+			if (index - 1 > start) {
+				char c1 = a[index - 2];
 				if (isHighSurrogate(c1)) {
 					return toCodePoint(c1, c2);
 				}

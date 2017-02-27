@@ -314,9 +314,10 @@ public class DefaultTeXFont implements TeXFont {
 		// if the mapping for the character's range, then use the default style
 		if (cf[kind] == null) {
 			return getDefaultChar(c, style);
-		} else {
-			return getChar(new CharFont((char) (cf[kind].c + offset), cf[kind].fontId), style);
 		}
+		return getChar(
+				new CharFont((char) (cf[kind].c + offset), cf[kind].fontId),
+				style);
 	}
 
 	@Override
@@ -330,10 +331,11 @@ public class DefaultTeXFont implements TeXFont {
 	}
 
 	@Override
-	public Char getChar(CharFont cf, int style) {
+	public Char getChar(CharFont cf0, int style) {
 		double fsize = getSizeFactor(style);
-		int id = isBold ? cf.boldFontId : cf.fontId;
+		int id = isBold ? cf0.boldFontId : cf0.fontId;
 		FontInfo info = fontInfo[id];
+		CharFont cf = cf0;
 		if (isBold && cf.fontId == cf.boldFontId) {
 			id = info.getBoldId();
 			info = fontInfo[id];

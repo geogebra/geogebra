@@ -1415,6 +1415,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	@Override
 	public double evaluateCurvature(double x) {
+		if (fun == null) {
+			return Double.NaN;
+		}
 		Function f1 = fun.getDerivative(1, true);
 		Function f2 = fun.getDerivative(2, true);
 		if (f1 == null || f2 == null) {
@@ -2360,19 +2363,22 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			setUndefined();
 			return;
 		}
-		FunctionVariable oldX = fun.getFunctionVariable();
-		ExpressionNode newX = new ExpressionNode(kernel,
-				new MyDouble(kernel, 1 / rd), Operation.MULTIPLY,
-				new ExpressionNode(kernel, oldX, Operation.PLUS,
-						new MyDouble(kernel, a * rd - a)));
-		ExpressionNode oldY = fun.getExpression().replace(oldX, newX).wrap();
-		if (!isBooleanFunction()) {
+		if (fun != null) {
+			FunctionVariable oldX = fun.getFunctionVariable();
+			ExpressionNode newX = new ExpressionNode(kernel,
+					new MyDouble(kernel, 1 / rd), Operation.MULTIPLY,
+					new ExpressionNode(kernel, oldX, Operation.PLUS,
+							new MyDouble(kernel, a * rd - a)));
+			ExpressionNode oldY = fun.getExpression().replace(oldX, newX)
+					.wrap();
+			if (!isBooleanFunction()) {
 
-			fun.setExpression(new ExpressionNode(kernel,
-					new ExpressionNode(kernel, oldY, Operation.MULTIPLY, r),
-					Operation.PLUS, new MyDouble(kernel, -b * rd + b)));
-		} else {
-			fun.setExpression(oldY);
+				fun.setExpression(new ExpressionNode(kernel,
+						new ExpressionNode(kernel, oldY, Operation.MULTIPLY, r),
+						Operation.PLUS, new MyDouble(kernel, -b * rd + b)));
+			} else {
+				fun.setExpression(oldY);
+			}
 		}
 	}
 
