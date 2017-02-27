@@ -55,8 +55,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	
 	@Override
 	public boolean isDynamicStylebarHit(int x, int y) {
-		Log.debug("temp - x, y: " + x + ", " + y);
-		Log.debug("temp returns: " + isWidgetHit(this, x, y));
 		return isWidgetHit(this, x, y);
 	}
 	

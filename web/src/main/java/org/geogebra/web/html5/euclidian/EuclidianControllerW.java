@@ -449,20 +449,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		this.getView().getDynamicStyleBar().setPosition(newPos, hasBoundingBox);
 	}
 	
-//	private static boolean isWidgetHit(Widget w, int x, int y) {
-//		if (w == null) {
-//			return false;
-//		}
-//		int left = w.getAbsoluteLeft();
-//		int top = w.getAbsoluteTop();
-//		int right = left + w.getOffsetWidth();
-//		int bottom = top + w.getOffsetHeight();
-//
-//		return (x > left && x < right && y > top && y < bottom);
-//	}
-	
 	protected boolean dynamicStyleBarClicked(int x, int y){
-		Log.debug("dynamic stylebarclicked - ECW");
   		return this.getView().getDynamicStyleBar().isDynamicStylebarHit(x,y);
 	}
 }
