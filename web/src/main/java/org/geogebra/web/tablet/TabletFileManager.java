@@ -25,27 +25,27 @@ public class TabletFileManager extends FileManagerT {
 	private ReadMetaDataMode readMetaDataMode;
 	
 	private static int NO_CALLBACK = 0;
-	private TreeMap<Integer, Callback<Integer, Integer>> callbacks;
+	private TreeMap<Integer, Callback<Object, Object>> callbacks;
 	private int callbacksCount = NO_CALLBACK;
 
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			callbacks = new TreeMap<Integer, Callback<Integer, Integer>>();
+			callbacks = new TreeMap<Integer, Callback<Object, Object>>();
 			exportJavascriptMethods();
 			readMetaDataMode = ReadMetaDataMode.NONE;
 		}
 	}
 	
-	private int addNewCallback(Callback<Integer, Integer> callback){
+	private int addNewCallback(Callback<Object, Object> callback){
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
 		return callbacksCount;
 	}
 	
-	private void runCallback(int id, boolean success, int result){
+	private void runCallback(int id, boolean success, Object result){
 		if (id != NO_CALLBACK){
-			Callback<Integer, Integer> cb = callbacks.remove(id);
+			Callback<Object, Object> cb = callbacks.remove(id);
 			if (success){
 				cb.onSuccess(result);
 			}else{
@@ -179,29 +179,34 @@ public class TabletFileManager extends FileManagerT {
 	@Override
     public void openMaterial(final Material material) {
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			openMaterialMaterial = material;
 			String fileName = getFileKey(material);
-			Log.debug("openMaterial: "+fileName+", id: "+material.getLocalID());
-			getBase64(fileName);
+			debug("openMaterial: "+fileName+", id: "+material.getLocalID());
+			int callback = addNewCallback(new Callback<Object, Object>() {
+					public void onSuccess(Object result){
+						material.setBase64((String) result);
+						doOpenMaterial(material);
+					}
+					public void onFailure(Object result){
+						// not needed
+					}
+				});
+			getBase64(fileName, callback);
 		}else{
 			super.openMaterial(material);
 		}
 	}
 	
-	private Material openMaterialMaterial = null;
-	
-	private native void getBase64(String fileName) /*-{
+	private native void getBase64(String fileName, int callback) /*-{
 		if ($wnd.android) {
-			$wnd.android.getBase64(fileName);
+			$wnd.android.getBase64(fileName, callback);
 		}
 	}-*/;
 	
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
-	public void catchBase64(String data) {
-		openMaterialMaterial.setBase64(data);
-		doOpenMaterial(openMaterialMaterial);
+	public void catchBase64(String data, int callback) {
+		runCallback(callback, true, data);
 	}
 	
 	@Override
@@ -213,12 +218,12 @@ public class TabletFileManager extends FileManagerT {
 			final Material saveFileMaterial = material;
 			int callback;
 			if (cb != null){
-				callback = addNewCallback(new Callback<Integer, Integer>() {
-					public void onSuccess(Integer result){
-						saveFileMaterial.setLocalID(result);
+				callback = addNewCallback(new Callback<Object, Object>() {
+					public void onSuccess(Object result){
+						saveFileMaterial.setLocalID((Integer) result);
 						cb.onSaved(saveFileMaterial, true);
 					}
-					public void onFailure(Integer result){
+					public void onFailure(Object result){
 						cb.onError();
 					}
 				});
@@ -423,8 +428,8 @@ public class TabletFileManager extends FileManagerT {
 		$wnd.tabletFileManager_catchMetaDatasError = $entry(function() {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDatasError()();
 		});
-		$wnd.tabletFileManager_catchBase64 = $entry(function(data) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;)(data);
+		$wnd.tabletFileManager_catchBase64 = $entry(function(data, callback) {
+			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;I)(data, callback);
 		});
 		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(result, callback) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(II)(result, callback);
