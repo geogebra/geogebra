@@ -69,4 +69,6 @@ public interface EuclidianStyleBar {
 
 	void setVisible(boolean b);
 
+	boolean isDynamicStylebarHit(int x, int y);
+
 }

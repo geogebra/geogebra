@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DynamicStyleBar extends EuclidianStyleBarW {
 
@@ -50,5 +51,24 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		this.getElement().getStyle().setLeft(newPos[0], Unit.PX);
 		this.getElement().getStyle().setTop(newPos[1], Unit.PX);
+	}
+	
+	@Override
+	public boolean isDynamicStylebarHit(int x, int y) {
+		Log.debug("temp - x, y: " + x + ", " + y);
+		Log.debug("temp returns: " + isWidgetHit(this, x, y));
+		return isWidgetHit(this, x, y);
+	}
+	
+	private static boolean isWidgetHit(Widget w, int x, int y) {
+		if (w == null) {
+			return false;
+		}
+		int left = w.getAbsoluteLeft();
+		int top = w.getAbsoluteTop();
+		int right = left + w.getOffsetWidth();
+		int bottom = top + w.getOffsetHeight();
+
+		return (x > left && x < right && y > top && y < bottom);
 	}
 }

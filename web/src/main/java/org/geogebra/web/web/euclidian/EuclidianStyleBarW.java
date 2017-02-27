@@ -1475,4 +1475,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	public void setPosition(double[] newPos, boolean hasBoundingBox) {
 		//used only in DynamicStyleBar class
 	}
+
+	@Override
+	public boolean isDynamicStylebarHit(int x, int y) {
+		// overwritten in DynamicStyleBar class
+		return false;
+	}
 }

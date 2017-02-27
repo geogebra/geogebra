@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -55,6 +56,7 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web version of Euclidian controller
@@ -445,6 +447,23 @@ public class EuclidianControllerW extends EuclidianController implements
 		newPos[0] = gRectangle2D.getMaxX();
 		newPos[1] = gRectangle2D.getMinY();
 		this.getView().getDynamicStyleBar().setPosition(newPos, hasBoundingBox);
+	}
+	
+//	private static boolean isWidgetHit(Widget w, int x, int y) {
+//		if (w == null) {
+//			return false;
+//		}
+//		int left = w.getAbsoluteLeft();
+//		int top = w.getAbsoluteTop();
+//		int right = left + w.getOffsetWidth();
+//		int bottom = top + w.getOffsetHeight();
+//
+//		return (x > left && x < right && y > top && y < bottom);
+//	}
+	
+	protected boolean dynamicStyleBarClicked(int x, int y){
+		Log.debug("dynamic stylebarclicked - ECW");
+  		return this.getView().getDynamicStyleBar().isDynamicStylebarHit(x,y);
 	}
 }
 

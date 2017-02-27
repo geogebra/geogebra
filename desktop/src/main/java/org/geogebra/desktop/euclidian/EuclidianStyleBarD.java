@@ -1795,7 +1795,13 @@ public class EuclidianStyleBarD extends JToolBar
 	}
 
 	public void setPosition(double[] screenCoords, boolean hasBoundingBox) {
-		// TODO Auto-generated method stub
+		// implemented for dynamic stylebar on web
 
+	}
+
+	@Override
+	public boolean isDynamicStylebarHit(int x, int y) {
+		// implemented for dynamic stylebar on web
+		return false;
 	}
 }

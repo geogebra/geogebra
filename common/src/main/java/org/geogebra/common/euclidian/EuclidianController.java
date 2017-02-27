@@ -8379,6 +8379,11 @@ public abstract class EuclidianController {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (dynamicStyleBarClicked(event.getX(), event.getY())) {
+				return;
+			}
+		}
 		this.setDynamicStylebarVisible(false);
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
@@ -9336,7 +9341,10 @@ public abstract class EuclidianController {
 
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
-			dontClearSelection = !hits.isEmpty();
+			dontClearSelection = !hits.isEmpty()
+					|| (app.has(Feature.DYNAMIC_STYLEBAR)
+							&& dynamicStyleBarClicked(event.getX(),
+									event.getY()));
 			if (hasNoHitsDisablingModeForShallMoveView(hits, event)
 					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
@@ -9353,6 +9361,10 @@ public abstract class EuclidianController {
 
 		}
 		switchModeForMousePressed(event);
+	}
+
+	protected boolean dynamicStyleBarClicked(int x, int y) {
+		return false;
 	}
 
 	private void setMoveModeForFurnitures() {
