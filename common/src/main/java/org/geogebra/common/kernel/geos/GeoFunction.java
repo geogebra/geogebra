@@ -2599,6 +2599,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public FunctionVariable[] getFunctionVariables() {
+		if (fun == null) {
+			return null;
+		}
 		return fun.getFunctionVariables();
 	}
 

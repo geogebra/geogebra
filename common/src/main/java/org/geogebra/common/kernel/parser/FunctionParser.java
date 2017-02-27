@@ -178,7 +178,8 @@ public class FunctionParser {
 
 		}
 		if (geo instanceof Evaluatable) {// function
-			if (geo instanceof ParametricCurve) {
+			if (geo instanceof ParametricCurve
+					&& ((ParametricCurve) geo).getFunctionVariables() != null) {
 				kernel.getConstruction()
 						.registerFunctionVariable(((ParametricCurve) geo)
 								.getFunctionVariables()[0].toString(
