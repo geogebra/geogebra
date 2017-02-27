@@ -182,14 +182,14 @@ public class TabletFileManager extends FileManagerT {
 			String fileName = getFileKey(material);
 			debug("openMaterial: "+fileName+", id: "+material.getLocalID());
 			int callback = addNewCallback(new Callback<Object, Object>() {
-					public void onSuccess(Object result){
-						material.setBase64((String) result);
-						doOpenMaterial(material);
-					}
-					public void onFailure(Object result){
-						// not needed
-					}
-				});
+				public void onSuccess(Object result){
+					material.setBase64((String) result);
+					doOpenMaterial(material);
+				}
+				public void onFailure(Object result){
+					// not needed
+				}
+			});
 			getBase64(fileName, callback);
 		}else{
 			super.openMaterial(material);
@@ -365,11 +365,7 @@ public class TabletFileManager extends FileManagerT {
 			$wnd.android.rename(oldKey, newKey, metaData);
 		}
 	}-*/;
-		
-	
-	
-	private Runnable deleteOnSuccess;
-	private Material deleteMaterial;
+
 	
 	@Override
 	public void delete(final Material mat, boolean permanent,
@@ -383,9 +379,16 @@ public class TabletFileManager extends FileManagerT {
 				return;
 			}
 
-			deleteMaterial = mat;
-			deleteOnSuccess = onSuccess;		
-			deleteNative(getFileKey(mat));
+			int callback = addNewCallback(new Callback<Object, Object>() {
+				public void onSuccess(Object result){
+					removeFile(mat);
+					onSuccess.run();
+				}
+				public void onFailure(Object result){
+					// not needed
+				}
+			});
+			deleteNative(getFileKey(mat), callback);
 		}else{
 			super.delete(mat, permanent, onSuccess);
 		}
@@ -398,21 +401,17 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 	
-	private native void deleteNative(String key) /*-{
+	private native void deleteNative(String key, int callback) /*-{
 		if ($wnd.android) {
-			$wnd.android.deleteGgb(key);
+			$wnd.android.deleteGgb(key, callback);
 		}
 	}-*/;
 	
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
-	public void catchDeleteResult(String result) {
-		if (result == null || "0".equals(result)){
-			return;
-		}		
-		removeFile(deleteMaterial);
-		deleteOnSuccess.run();
+	public void catchDeleteResult(String result, int callback) {
+		runCallback(callback, result != null && !"0".equals(result), result);
 	}
 	
 		
@@ -434,8 +433,8 @@ public class TabletFileManager extends FileManagerT {
 		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(result, callback) {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(II)(result, callback);
 		});
-		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;)(data);
+		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data, callback) {
+			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;I)(data, callback);
 		});
 	}-*/;
 	
