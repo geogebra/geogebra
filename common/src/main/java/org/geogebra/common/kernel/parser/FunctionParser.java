@@ -20,19 +20,37 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Class for building function nodes from parser
+ *
+ */
 public class FunctionParser {
 	private final Kernel kernel;
 	private final App app;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public FunctionParser(Kernel kernel) {
 		this.kernel = kernel;
 		this.app = kernel.getApplication();
 	}
 
+	/**
+	 * @param cimage
+	 *            function name+bracket, e.g. "f("
+	 * @param myList
+	 *            list of arguments
+	 * @param undecided
+	 *            list of nodes that may be either fns or multiplications
+	 * @param GiacParsing
+	 *            whether this is for Giac
+	 * @return function node
+	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
 			ArrayList<ExpressionNode> undecided, boolean GiacParsing) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
@@ -70,7 +88,7 @@ public class FunctionParser {
 			if (cell == null && (geo == null
 					|| !(geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {
 				if (label.startsWith("log_")) {
-					MyDouble indexVal = getLogIndex(label, kernel);
+					ExpressionValue indexVal = getLogIndex(label, kernel);
 
 					return new ExpressionNode(kernel,
 							indexVal, Operation.LOGB,
@@ -208,18 +226,23 @@ public class FunctionParser {
 	 *            kernel
 	 * @return MyDouble if numeric index is present, null otherwise
 	 */
-	public static MyDouble getLogIndex(String label, Kernel kernel) {
+	public static ExpressionValue getLogIndex(String label, Kernel kernel) {
 		String logIndex = label.substring(4);
 		if (logIndex.startsWith("{")) {
 			logIndex = logIndex.substring(1, logIndex.length() - 1);
 		}
-		double val = 0;
-		try{
-			val = MyDouble.parseDouble(kernel.getLocalization(), logIndex);
-		} catch (MyError e) {
+		ExpressionValue ret;
+		try {
+			if (logIndex.matches("[0-9]*")) {
+				ret = new MyDouble(kernel, MyDouble
+						.parseDouble(kernel.getLocalization(), logIndex));
+			}
+			ret = new GParser(kernel, kernel.getConstruction())
+					.parseGeoGebraExpression(logIndex);
+		} catch (Throwable e1) {
 			return null;
 		}
-		return new MyDouble(kernel,	val);
+		return ret;
 	}
 
 	private ExpressionValue toFunctionArgument(MyList list, String funcName) {

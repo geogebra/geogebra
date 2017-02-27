@@ -10,6 +10,9 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public class DefaultClipper extends ClipperBase {
 	private static class IntersectNode implements Comparator<IntersectNode> {
+		protected IntersectNode() {
+			// avoid synth access warning
+		}
 		Edge edge1;
 		Edge Edge2;
 		// private LongPoint pt;
@@ -84,8 +87,9 @@ public class DefaultClipper extends ClipperBase {
 		return Left[0] < Right[0];
 	}
 
-	private static boolean isParam1RightOfParam2(OutRec outRec1,
+	private static boolean isParam1RightOfParam2(OutRec outRec0,
 			OutRec outRec2) {
+		OutRec outRec1 = outRec0;
 		do {
 			outRec1 = outRec1.firstLeft;
 			if (outRec1 == outRec2) {
@@ -1054,17 +1058,19 @@ public class DefaultClipper extends ClipperBase {
 	 */
 	private static boolean doHorzSegmentsOverlap(double seg1a, double seg1b,
 			double seg2a, double seg2b) {
+		double seg1min = seg1a;
+		double seg2min = seg2a;
+		double seg1max = seg1b;
+		double seg2max = seg2b;
 		if (seg1a > seg1b) {
-			final double tmp = seg1a;
-			seg1a = seg1b;
-			seg1b = tmp;
+			seg1min = seg1b;
+			seg1max = seg1a;
 		}
 		if (seg2a > seg2b) {
-			final double tmp = seg2a;
-			seg2a = seg2b;
-			seg2b = tmp;
+			seg2min = seg2b;
+			seg2max = seg2a;
 		}
-		return seg1a < seg2b && seg2a < seg1b;
+		return seg1min < seg2max && seg2min < seg1max;
 	}
 
 	/**
@@ -1425,8 +1431,8 @@ public class DefaultClipper extends ClipperBase {
 		return outrec;
 	}
 
-	private void insertEdgeIntoAEL(Edge edge, Edge startEdge) {
-
+	private void insertEdgeIntoAEL(Edge edge, Edge startEdge0) {
+		Edge startEdge = startEdge0;
 		if (activeEdges == null) {
 			edge.prevInAEL = null;
 			edge.nextInAEL = null;
@@ -2116,11 +2122,11 @@ public class DefaultClipper extends ClipperBase {
 		}
 	}
 
-	private void processHorizontal(Edge horzEdge, boolean isTopOfScanbeam) {
+	private void processHorizontal(Edge horzEdge0, boolean isTopOfScanbeam) {
 
 		final Direction[] dir = new Direction[1];
 		final double[] horzLeft = new double[1], horzRight = new double[1];
-
+		Edge horzEdge = horzEdge0;
 		getHorzDirection(horzEdge, dir, horzLeft, horzRight);
 
 		Edge eLastHorz = horzEdge, eMaxPair = null;

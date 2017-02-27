@@ -214,7 +214,8 @@ public class Variable extends ValidExpression {
 					&& op != Operation.ZCOORD) {
 				return xyzPiDegPower(kernel, exponents, degPower).apply(op);
 			} else if (nameNoX.startsWith("log_")) {
-				MyDouble index = FunctionParser.getLogIndex(nameNoX, kernel);
+				ExpressionValue index = FunctionParser.getLogIndex(nameNoX,
+						kernel);
 				ExpressionValue arg = xyzPiDegPower(kernel, exponents,
 						degPower);
 				if (index != null) {

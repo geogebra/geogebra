@@ -6147,7 +6147,8 @@ public class ExpressionNode extends ValidExpression
 			}
 			if (leftImg.startsWith("log_")
 					&& kernel.lookupLabel(leftImg) == null) {
-				MyDouble index = FunctionParser.getLogIndex(leftImg, kernel);
+				ExpressionValue index = FunctionParser.getLogIndex(leftImg,
+						kernel);
 
 				if (index != null) {
 					return new ExpressionNode(kernel, index, Operation.LOGB,
