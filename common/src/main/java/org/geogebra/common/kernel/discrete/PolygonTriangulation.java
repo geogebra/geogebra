@@ -2005,8 +2005,15 @@ public class PolygonTriangulation {
 		return false;
 	}
 
-	public void triangulate(Segment firstBelow, Segment firstAbove) {
-
+	/**
+	 * @param firstBelow0
+	 *            segment below
+	 * @param firstAbove0
+	 *            segment above
+	 */
+	public void triangulate(Segment firstBelow0, Segment firstAbove0) {
+		Segment firstAbove = firstAbove0;
+		Segment firstBelow = firstBelow0;
 		// init stack
 		Chain chain;
 		Stack<Point> stack = new Stack<Point>();

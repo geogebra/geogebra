@@ -98,13 +98,13 @@ public class DefaultClipper extends ClipperBase {
 	/**
 	 * modified to be compatible with double
 	 */
-	private static int isPointInPolygon(DoublePoint pt, OutPt op) {
+	private static int isPointInPolygon(DoublePoint pt, final OutPt startOp) {
 		// returns 0 if false, +1 if true, -1 if pt ON polygon boundary
 		// See "The Point in Polygon Problem for Arbitrary Polygons" by Hormann
 		// & Agathos
 		// http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.88.5498&rep=rep1&type=pdf
 		int result = 0;
-		final OutPt startOp = op;
+		OutPt op = startOp;
 		final double ptx = pt.getX(), pty = pt.getY();
 		double poly0x = op.getPt().getX(), poly0y = op.getPt().getY();
 		do {
@@ -155,8 +155,12 @@ public class DefaultClipper extends ClipperBase {
 	/**
 	 * modified to be compatible with double
 	 */
-	private static boolean joinHorz(OutPt op1, OutPt op1b, OutPt op2,
-			OutPt op2b, DoublePoint Pt, boolean DiscardLeft) {
+	private static boolean joinHorz(OutPt opStart, OutPt opStartB, OutPt opEnd,
+			OutPt opEndB, DoublePoint Pt, boolean DiscardLeft) {
+		OutPt op1 = opStart;
+		OutPt op1b = opStartB;
+		OutPt op2 = opEnd;
+		OutPt op2b = opEndB;
 		final Direction Dir1 = op1.getPt().getX() > op1b.getPt().getX()
 				? Direction.RIGHT_TO_LEFT : Direction.LEFT_TO_RIGHT;
 		final Direction Dir2 = op2.getPt().getX() > op2b.getPt().getX()

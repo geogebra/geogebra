@@ -107,11 +107,11 @@ public class RotateBox extends Box {
 		this(b, angle, calculateShift(b, option));
 	}
 
-	public static int getOrigin(String option) {
-		if (option == null || option.length() == 0) {
+	public static int getOrigin(String option0) {
+		if (option0 == null || option0.length() == 0) {
 			return BBL;
 		}
-
+		String option = option0;
 		if (option.length() == 1) {
 			option += "c";
 		}
@@ -202,11 +202,11 @@ public class RotateBox extends Box {
 	}
 
 	@Override
-	public void draw(Graphics2DInterface g2, double x, double y) {
-		drawDebug(g2, x, y);
-		box.drawDebug(g2, x, y, true);
-		y -= shiftY;
-		x += shiftX - xmin;
+	public void draw(Graphics2DInterface g2, double x0, double y0) {
+		drawDebug(g2, x0, y0);
+		box.drawDebug(g2, x0, y0, true);
+		double y = y0 - shiftY;
+		double x = x0 + shiftX - xmin;
 		g2.rotate(-angle, x, y);
 		box.draw(g2, x, y);
 		box.drawDebug(g2, x, y, true);

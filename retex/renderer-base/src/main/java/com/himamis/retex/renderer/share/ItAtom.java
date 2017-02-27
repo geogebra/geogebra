@@ -62,10 +62,10 @@ public class ItAtom extends Atom {
 	}
 
 	@Override
-	public Box createBox(TeXEnvironment env) {
+	public Box createBox(TeXEnvironment env0) {
 		Box box;
 		if (base != null) {
-			env = env.copy(env.getTeXFont().copy());
+			TeXEnvironment env = env0.copy(env0.getTeXFont().copy());
 			env.getTeXFont().setIt(true);
 			box = base.createBox(env);
 		} else {

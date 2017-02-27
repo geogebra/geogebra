@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
+import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -6143,6 +6144,15 @@ public class ExpressionNode extends ValidExpression
 					&& !"z".equals(leftImg)) {
 				return new ExpressionNode(kernel, right, op, null);
 
+			}
+			if (leftImg.startsWith("log_")
+					&& kernel.lookupLabel(leftImg) == null) {
+				MyDouble index = FunctionParser.getLogIndex(leftImg, kernel);
+
+				if (index != null) {
+					return new ExpressionNode(kernel, index, Operation.LOGB,
+							right);
+				}
 			}
 			// x * sin x in GGB is function applied on the right if "sin" is not
 			// a variable

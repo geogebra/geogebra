@@ -241,8 +241,9 @@ public class StringReader extends Reader {
      * @see #reset()
      */
     @Override
-    public long skip(long ns) throws IOException {
+    public long skip(long ns0) throws IOException {
         synchronized (lock) {
+        	long ns = ns0; 
             if (isClosed()) {
                 throw new IOException(); //$NON-NLS-1$
             }

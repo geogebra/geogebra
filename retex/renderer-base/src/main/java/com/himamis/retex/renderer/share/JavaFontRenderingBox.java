@@ -84,10 +84,10 @@ public class JavaFontRenderingBox extends Box {
 		LIGATURES_ON = fontAdapter.getTextAttributeValue("LIGATURES_ON");
 	}
 
-	public JavaFontRenderingBox(String str, int type, double size, Font f,
+	public JavaFontRenderingBox(String str, int type, double size, Font f0,
 			boolean kerning) {
 		this.size = size;
-
+		Font f = f0;
 		if (kerning && KERNING != null) {
 			Map<TextAttribute, Object> map = new HashMap<TextAttribute, Object>();
 			map.put(KERNING, KERNING_ON);
