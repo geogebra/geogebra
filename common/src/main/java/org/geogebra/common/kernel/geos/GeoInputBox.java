@@ -357,6 +357,10 @@ public class GeoInputBox extends GeoButton {
 				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
 			}
 
+			if (linkedText == null) {
+				linkedText = "";
+			}
+
 			if (linkedGeo.isGeoText() && (linkedText.indexOf("\n") > -1)) {
 				// replace linefeed with \\n
 				while (linkedText.indexOf("\n") > -1) {
