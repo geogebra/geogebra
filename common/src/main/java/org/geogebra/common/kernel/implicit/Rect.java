@@ -21,9 +21,6 @@ class Rect {
 	Coords coords = new Coords(3);
 	Rect[] children;
 
-	public Rect() {
-	}
-
 	public void set(int x, int y, double fx, double fy, boolean singular) {
 		this.x = x;
 		this.y = y;

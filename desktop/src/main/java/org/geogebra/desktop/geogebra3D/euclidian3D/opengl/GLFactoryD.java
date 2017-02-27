@@ -14,13 +14,6 @@ import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
  */
 public class GLFactoryD extends GLFactory {
 
-	/**
-	 * constructor
-	 */
-	public GLFactoryD() {
-
-	}
-
 	@Override
 	final public GLBuffer newBuffer() {
 		return new GLBufferD();

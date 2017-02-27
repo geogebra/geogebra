@@ -50,10 +50,7 @@ import com.himamis.retex.renderer.share.character.Character;
 
 public class GreekRegistration implements AlphabetRegistration {
 
-    public GreekRegistration() {
-    }
-
-    @Override
+	@Override
 	public Character.UnicodeBlock[] getUnicodeBlock() {
 	return new Character.UnicodeBlock[]{Character.UnicodeBlock.GREEK, Character.UnicodeBlock.GREEK_EXTENDED};
     }

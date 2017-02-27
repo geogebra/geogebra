@@ -82,9 +82,6 @@ public final class RegressionMath {
 	private double[] pararray; // Parameter array
 
 	// / --- Interface --- ///
-	/** Constructor not needed */
-	public RegressionMath() { // private: Safety measure to avoid wrong use
-	}// Constructor
 
 	public final double getP1() {
 		return p1;

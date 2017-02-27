@@ -30,7 +30,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 	 */
 	private class FunMustBeZero implements RealRootFunction {
 
-		public FunMustBeZero() {
+		protected FunMustBeZero() {
 		}
 
 		@Override

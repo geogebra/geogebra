@@ -146,7 +146,7 @@ public final class FunctionSoundD extends FunctionSound
 
 		private volatile boolean stopped = false;
 
-		public SoundThread() {
+		protected SoundThread() {
 		}
 
 		@Override

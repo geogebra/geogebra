@@ -49,7 +49,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 	private static class ToolTreeResources implements Tree.Resources {
 
-		public ToolTreeResources() {
+		protected ToolTreeResources() {
 		}
 
 		@Override

@@ -157,8 +157,8 @@ public class AlgoIntersectRegionPlanePolyhedron
 		// index for currently looked (see next() method)
 		private int current;
 
-		public Vertices() {
-			super();
+		protected Vertices() {
+			// avoid synth access error
 		}
 
 		@Override
@@ -575,8 +575,8 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		protected int cumulateSize = 0;
 
-		public VerticesList() {
-			super();
+		protected VerticesList() {
+			// avoid synth access error
 		}
 
 		@Override

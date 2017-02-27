@@ -39,13 +39,7 @@ public abstract class InputStream implements Closeable {
 
     private static byte[] skipBuf;
 
-    /**
-     * This constructor does nothing. It is provided for signature
-     * compatibility.
-     */
-    public InputStream() {
-        /* empty */
-    }
+  
 
     /**
      * Returns the number of bytes that are available before this stream will

@@ -59,13 +59,6 @@ public class StatPanelSettings extends PlotSettings {
 	// stemplot options
 	private int stemAdjust = 0;
 
-	/**************************************************
-	 * Construct StatPanelSettings
-	 */
-	public StatPanelSettings() {
-		super();
-	}
-
 	// ==================================================
 	// Getters/Setters
 	// ==================================================

@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import org.geogebra.common.plugin.GeoClass;
@@ -322,9 +323,19 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		// TODO make udefined when axes not equal
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			area = 2 * getHalfAxis(0) * Math.PI * (max - min);
+			if (!Kernel.isEqual(getHalfAxis(0), getHalfAxis(1))) {
+				area = EllipticArcLength.getEllipseCircumference(getHalfAxis(0),
+						getHalfAxis(1)) * (max - min);
+			} else {
+				area = 2 * getHalfAxis(0) * Math.PI * (max - min);
+			}
 			break;
 		case QUADRIC_CONE:
+			if (!Kernel.isEqual(getHalfAxis(0), getHalfAxis(1))) {
+				// TODO formula for elliptic cone lateral surface
+				area = Double.NaN;
+				return;
+			}
 			double r2 = getHalfAxis(0);
 			r2 *= r2;
 			double h2;

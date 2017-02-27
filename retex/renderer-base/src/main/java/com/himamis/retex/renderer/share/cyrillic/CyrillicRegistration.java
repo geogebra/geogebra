@@ -50,9 +50,6 @@ import com.himamis.retex.renderer.share.character.Character;
 
 public class CyrillicRegistration implements AlphabetRegistration {
 
-    public CyrillicRegistration() {
-    }
-
     @Override
 	public Character.UnicodeBlock[] getUnicodeBlock() {
 	return new Character.UnicodeBlock[]{Character.UnicodeBlock.CYRILLIC};

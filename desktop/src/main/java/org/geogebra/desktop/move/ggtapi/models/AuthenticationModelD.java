@@ -15,12 +15,6 @@ public class AuthenticationModelD extends AuthenticationModel {
 	 */
 	public static final String TOKEN_NOT_AVAILABLE = "<n/a>";
 
-	/**
-	 * creates a new login model for Web
-	 */
-	public AuthenticationModelD() {
-	}
-
 	@Override
 	public void storeLoginToken(String token) {
 		GeoGebraPreferencesD.getPref()

@@ -20,6 +20,9 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	/**
 	 * creates a new login model for Web
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public AuthenticationModelW(AppW app) {
 		this.storage = Storage.getLocalStorageIfSupported();

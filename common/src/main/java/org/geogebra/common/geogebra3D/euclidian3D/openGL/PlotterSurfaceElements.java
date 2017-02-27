@@ -101,7 +101,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		private Coords center;
 		private double radius;
 
-		public DrawSphere() {
+		protected DrawSphere() {
 		}
 
 		public void set(PlotterSurface surface, Coords center, double radius) {
@@ -173,7 +173,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		private Coords n = new Coords(4);
 		private Coords tmpCoords = new Coords(4);
 
-		public DrawEllipsoid() {
+		protected DrawEllipsoid() {
 		}
 
 		public void set(PlotterSurface surface, Coords center, Coords ev0,
@@ -290,7 +290,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		protected Coords n = new Coords(4);
 		protected Coords tmpCoords = new Coords(4);
 
-		public DrawHyperboloidOneSheet() {
+		protected DrawHyperboloidOneSheet() {
 		}
 
 		public void set(PlotterSurface surface, Coords center, Coords ev0,
@@ -485,7 +485,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	private class DrawHyperboloidTwoSheets extends DrawHyperboloidOneSheet {
 
-		public DrawHyperboloidTwoSheets() {
+		protected DrawHyperboloidTwoSheets() {
 		}
 
 		@Override
@@ -560,7 +560,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	private class DrawParaboloid extends DrawHyperboloidOneSheet {
 
-		public DrawParaboloid() {
+		protected DrawParaboloid() {
 		}
 
 		@Override

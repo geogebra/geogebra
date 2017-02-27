@@ -61,12 +61,6 @@ public class AlgebraInputW extends FlowPanel
 	//	protected PopupPanel helpPopup;
 	private boolean focused = false;
 
-	/**
-	 * Creates AlgebraInput for Web
-	 */
-	public AlgebraInputW() {
-		super();
-	}
 
 	/**
 	 * @param app1

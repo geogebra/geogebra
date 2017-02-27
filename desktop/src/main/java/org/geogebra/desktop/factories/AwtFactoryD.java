@@ -59,9 +59,6 @@ import org.geogebra.desktop.gui.MyImageD;
 
 public class AwtFactoryD extends AwtFactory {
 
-	public AwtFactoryD() {
-	}
-
 	@Override
 	public GAffineTransform newAffineTransform() {
 		return new GAffineTransformD();

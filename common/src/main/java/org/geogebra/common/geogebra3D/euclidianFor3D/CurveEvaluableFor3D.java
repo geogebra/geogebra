@@ -29,7 +29,7 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 
 		private RealRootFunction parentFun;
 
-		public FunMustBeZero() {
+		protected FunMustBeZero() {
 		}
 
 		public void setParentFun(RealRootFunction parentFun) {

@@ -8,12 +8,6 @@ import org.geogebra.web.html5.main.ExamUtil;
  *
  */
 public class TabletWinLookAndFeel extends TabletLookAndFeel {
-	/**
-	 * Creates new LAF for Windows Store app
-	 */
-	public TabletWinLookAndFeel() {
-		//
-	}
 	@Override
 	public boolean exportSupported() {
 		return true;

@@ -50,9 +50,6 @@ package com.himamis.retex.renderer.share;
  */
 public class VdotsAtom extends Atom {
 
-	public VdotsAtom() {
-	}
-
 	@Override
 	final public Atom duplicate() {
 		return setFields(new VdotsAtom());

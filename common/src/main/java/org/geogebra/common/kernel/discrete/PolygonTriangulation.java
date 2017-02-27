@@ -35,7 +35,7 @@ public class PolygonTriangulation {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public MyTreeSet() {
+		protected MyTreeSet() {
 			super();
 		}
 

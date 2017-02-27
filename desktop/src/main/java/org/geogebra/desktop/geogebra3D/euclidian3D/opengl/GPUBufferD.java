@@ -6,9 +6,6 @@ public class GPUBufferD implements GPUBuffer {
 
 	private Integer impl;
 
-	public GPUBufferD() {
-	}
-
 	@Override
 	public void set(Object index) {
 		impl = (Integer) index;

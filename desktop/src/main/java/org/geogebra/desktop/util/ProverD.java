@@ -28,7 +28,7 @@ public class ProverD extends Prover {
 	 */
 	/* This code works in JVM only. */
 	private class computeThread implements Runnable {
-		public computeThread() {
+		protected computeThread() {
 		}
 
 		@Override

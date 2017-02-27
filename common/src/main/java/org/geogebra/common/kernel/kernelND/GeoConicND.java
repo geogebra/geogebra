@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.GgbMat;
@@ -4590,80 +4591,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public double getEllipseCircumference() {
 
-		double semiMajor = halfAxes[0];
-		double semiMinor = halfAxes[1];
-
-		// Gauss-KummerSeries doesn't converge fast so use Cayley in this case
-		// http://www.geogebra.org/help/topic/inaccurate-circumference-of-ellipse
-		if (eccentricity > 0.92) {
-
-			double k = semiMinor / semiMajor;
-			double q = Math.log(4 / k) - 0.5;
-			k = k * k;
-			double pVal = 0.5 * k;
-			double sum = 1 + pVal * q;
-			double n = 1;
-			double r = 0.5;
-			double s = 0.5;
-			double oldSum = sum + 1;
-
-			// stop when there's no change, or after 20
-			while (!MyDouble.exactEqual(sum, oldSum) && n < 40) {
-				n += 2;
-
-				// eg (1^2*3^2*5)/(2^2*4^2*6)
-				pVal = pVal * r;
-				r = n / (n + 1);
-				pVal = pVal * k * r;
-
-				// eg ln(k/4) - (2)/(1*2) - (2)/(3*4) - (1)/(5*6)
-				q = q - s;
-				s = 1 / (n * n + n);
-				q = q - s;
-
-				oldSum = sum;
-				sum = sum + pVal * q;
-			}
-
-			// Log.debug("Cayley = " + 4 * a * sum + " after " + i);
-			return 4 * semiMajor * sum;
-		}
-
-		double h = (semiMajor - semiMinor) / (semiMajor + semiMinor);
-		double h2 = h * h;
-		double hn = h2;
-
-		// http://mathworld.wolfram.com/Gauss-KummerSeries.html
-		// http://oeis.org/A056981
-		// http://oeis.org/A056982
-		double[] a056981 = { 1, 1, 1, 1, 25, 49, 441, 1089, 184041, 511225,
-				5909761, 17631601, 863948449, 2704312009l, 34493775625l,
-				111759833025l, 93990019574025l, 312541206957225l,
-				4201942893536025l, 14258670483605625l, 780804795682244025l };
-		double[] a056982 = { 1, 4, 64, 256, 16384, 65536, 1048576, 4194304,
-				1073741824, 4294967296l, 68719476736l, 274877906944l,
-				17592186044416l, 70368744177664l, 1125899906842624l,
-				4503599627370496l, 4611686018427387904l };
-
-		double ret = 1;
-		double lastAnswer;
-
-		for (int i = 1; i < 17; i++) {
-			lastAnswer = ret;
-			ret += a056981[i] / a056982[i] * hn;
-
-			hn = hn * h2;
-
-			// stop early if answer has converged to 15 sig figs
-			if (MyDouble.exactEqual(lastAnswer, ret)) {
-				break;
-			}
-
-		}
-
-		ret *= (semiMajor + semiMinor) * Math.PI;
-		// Log.debug("GK = " + ret);
-		return ret;
+		return EllipticArcLength.getEllipseCircumference(halfAxes[0],
+				halfAxes[1]);
 	}
 
 	/**

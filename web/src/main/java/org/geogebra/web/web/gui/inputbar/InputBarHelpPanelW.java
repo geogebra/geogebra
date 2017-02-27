@@ -345,8 +345,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	private static class MyTreeItem extends TreeItem {
 
-		public MyTreeItem() {
-			// TODO Auto-generated constructor stub
+		protected MyTreeItem() {
+			// avoid synth access warning
 		}
 
 		@Override
@@ -371,8 +371,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private static class LocaleSensitiveComparator
 			implements Comparator<String> {
 
-		public LocaleSensitiveComparator() {
-			// TODO Auto-generated constructor stub
+		protected LocaleSensitiveComparator() {
+			// avoid synth access warning
 		}
 
 		@Override

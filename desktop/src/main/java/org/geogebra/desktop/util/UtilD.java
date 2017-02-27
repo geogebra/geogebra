@@ -56,10 +56,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class UtilD extends Util {
 
-	/** Creates new Util */
-	public UtilD() {
-	}
-
 
 	/**
 	 * copy an object (deep copy)
