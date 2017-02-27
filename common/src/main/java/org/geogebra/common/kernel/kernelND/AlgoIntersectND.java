@@ -55,7 +55,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 	protected void avoidDoubleTangentPoint() {
 		GeoPointND[] points = getIntersectionPoints();
 		if (!points[1].isLabelSet()
-				&& ((GeoElement) points[0]).isEqual((GeoElement) points[1])) {
+				&& ((GeoElement) points[0]).isEqual(points[1])) {
 			points[1].setUndefined();
 		}
 	}

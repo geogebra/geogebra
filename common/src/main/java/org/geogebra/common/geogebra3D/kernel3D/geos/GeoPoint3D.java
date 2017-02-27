@@ -1690,7 +1690,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
-		return isEqual((GeoElement) PI);
+		return isEqual(PI);
 	}
 
 	@Override

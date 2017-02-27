@@ -63,6 +63,11 @@ public interface GeoPoly extends Path {
 	 */
 	public int getNumPoints();
 
+	/**
+	 * @param index
+	 *            index, starts with 0
+	 * @return vertex with given index
+	 */
 	public GeoPointND getPointND(int index);
 
 }

@@ -101,12 +101,12 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 		// if they are equal we started with a point on the conic section
 		// in this case we only want to see one tangent line,
 		// so we make the second one undefined
-		equalLines = tangents[0].isEqual((GeoElement) tangents[1]);
+		equalLines = tangents[0].isEqual(tangents[1]);
 		if (equalLines) {
 			tangents[1].setUndefined();
 			tangentPoints[1].setUndefined();
 		}
-		equalLines2 = tangents[0 + 2].isEqual((GeoElement) tangents[1 + 2]);
+		equalLines2 = tangents[0 + 2].isEqual(tangents[1 + 2]);
 		if (equalLines2) {
 			tangents[1 + 2].setUndefined();
 			tangentPoints2[1].setUndefined();

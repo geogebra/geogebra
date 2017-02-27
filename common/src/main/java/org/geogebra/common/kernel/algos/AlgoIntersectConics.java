@@ -403,7 +403,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		int secondIndex = (firstIndex + 1) % 2;
 
 		if (firstIntersection && didSetIntersectionPoint(firstIndex)) {
-			if (!P[firstIndex].isEqual((GeoElement) pointOnConic)) {
+			if (!P[firstIndex].isEqual(pointOnConic)) {
 				// pointOnConic is NOT equal to the loaded intersection point:
 				// we need to swap the indices
 				int temp = firstIndex;

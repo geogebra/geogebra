@@ -193,7 +193,7 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
 	@Override
 	protected boolean areEqual(GeoPointND p1, GeoPointND p2) {
-		return ((GeoElement) p1).isEqual(((GeoElement) p2));
+		return ((GeoElement) p1).isEqual(p2);
 	}
 
 	@Override

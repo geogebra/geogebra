@@ -417,6 +417,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		ret.forceQuadric = forceQuadric;
 		ret.forceImplicitPoly = forceImplicitPoly;
 		ret.forceSurface = forceSurface;
+		ret.isPolynomial = isPolynomial;
 		return ret;
 	}
 
