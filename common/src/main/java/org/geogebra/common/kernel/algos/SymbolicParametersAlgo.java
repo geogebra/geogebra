@@ -82,5 +82,8 @@ public interface SymbolicParametersAlgo {
 	 */
 	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException;
 
+	/**
+	 * See AlgoElement.remove()
+	 */
 	public void remove();
 }

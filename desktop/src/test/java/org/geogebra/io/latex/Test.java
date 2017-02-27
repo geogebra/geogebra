@@ -120,10 +120,10 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("1+(2+3)+4");
+					.parse("()");
 			mathField.setFormula(f);
 			// insertString(mathField, "Plane[<7>,<7>]");
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 1; i++) {
 				mathField.getInternal()
 						.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0));
 			}

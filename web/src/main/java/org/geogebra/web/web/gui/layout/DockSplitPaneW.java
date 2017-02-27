@@ -564,10 +564,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		/**
 		 * Save a split pane into the splitPaneInfo array list
 		 * 
-		 * @param parentLocation
+		 * @param parentLocation0
 		 * @param parent
 		 */
-		private void saveSplitPane(String parentLocation, DockSplitPaneW parent) {
+		private void saveSplitPane(String parentLocation0,
+				DockSplitPaneW parent) {
 			double dividerLocation = 0.2;
 
 			// get relative divider location depending on the current
@@ -580,9 +581,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 				        / windowHeight;
 			}
 
-			splitPaneInfo.add(new DockSplitPaneData(parentLocation,
+			splitPaneInfo.add(new DockSplitPaneData(parentLocation0,
 			        dividerLocation, parent.getOrientation()));
-
+			String parentLocation = parentLocation0;
 			if (parentLocation.length() > 0) {
 				parentLocation += ",";
 			}

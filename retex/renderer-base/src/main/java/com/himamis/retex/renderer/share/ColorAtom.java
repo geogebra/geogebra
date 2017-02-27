@@ -142,10 +142,10 @@ public class ColorAtom extends Atom implements Row {
 		return color;
 	}
 
-	public static Color getColor(String s) {
+	public static Color getColor(String s0) {
 		Graphics graphics = new Graphics();
-		if (s != null && s.length() != 0) {
-			s = s.trim();
+		if (s0 != null && s0.length() != 0) {
+			String s = s0.trim();
 			if (s.charAt(0) == '#') {
 				return ColorUtil.decode(s);
 			} else if (s.indexOf(',') != -1) {
@@ -168,12 +168,11 @@ public class ColorAtom extends Atom implements Row {
 							int ig = (int) Math.min(255, Math.max(0, g));
 							int ib = (int) Math.min(255, Math.max(0, b));
 							return graphics.createColor(ir, ig, ib);
-						} else {
-							r = Math.min(1, Math.max(0, r));
-							g =  Math.min(1, Math.max(0, g));
-							b =  Math.min(1, Math.max(0, b));
-							return graphics.createColor(r, g, b);
 						}
+						r = Math.min(1, Math.max(0, r));
+						g = Math.min(1, Math.max(0, g));
+						b = Math.min(1, Math.max(0, b));
+						return graphics.createColor(r, g, b);
 					} catch (NumberFormatException e) {
 						return ColorUtil.BLACK;
 					}
@@ -200,18 +199,17 @@ public class ColorAtom extends Atom implements Row {
 			Color c = Colors.get(s.toLowerCase());
 			if (c != null) {
 				return c;
-			} else {
-				if (s.indexOf('.') != -1) {
-					try {
-						double g = Math.min(1, Math.max(Double.parseDouble(s), 0));
-
-						return graphics.createColor(g, g, g);
-					} catch (NumberFormatException e) {
-					}
-				}
-
-				return ColorUtil.decode("#" + s);
 			}
+			if (s.indexOf('.') != -1) {
+				try {
+					double g = Math.min(1, Math.max(Double.parseDouble(s), 0));
+
+					return graphics.createColor(g, g, g);
+				} catch (NumberFormatException e) {
+				}
+			}
+
+			return ColorUtil.decode("#" + s);
 		}
 
 		return ColorUtil.BLACK;

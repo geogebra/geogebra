@@ -62,9 +62,10 @@ public class BoldAtom extends Atom {
 	}
 
 	@Override
-	public Box createBox(TeXEnvironment env) {
+	public Box createBox(TeXEnvironment env0) {
 		Box box;
 		if (base != null) {
+			TeXEnvironment env = env0;
 			env = env.copy(env.getTeXFont().copy());
 			env.getTeXFont().setBold(true);
 			box = base.createBox(env);

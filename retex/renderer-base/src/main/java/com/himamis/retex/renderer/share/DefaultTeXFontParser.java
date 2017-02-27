@@ -314,7 +314,9 @@ public class DefaultTeXFontParser {
 		return res.toArray(fi);
 	}
 
-	public FontInfo[] parseFontDescriptions(FontInfo[] fi) throws ResourceParseException {
+	public FontInfo[] parseFontDescriptions(FontInfo[] fontInfo)
+			throws ResourceParseException {
+		FontInfo[] fi = fontInfo;
 		Element fontDescriptions = root.getElementsByTagName("FontDescriptions").item(0).castToElement();
 		if (!fontDescriptions.isNull()) { // element present
 			NodeList list = fontDescriptions.getElementsByTagName("Metrics");
@@ -396,48 +398,55 @@ public class DefaultTeXFontParser {
 		if (symbolMappings.isNull()) {
 			// "SymbolMappings" is required!
 			throw new XMLResourceParseException(RESOURCE_NAME, "SymbolMappings");
-		} else { // element present
-				// iterate all mappings
-			NodeList list = symbolMappings.getElementsByTagName("Mapping");
-			for (int i = 0; i < list.getLength(); i++) {
-				String include = getAttrValueAndCheckIfNotNull("include", list.item(i).castToElement());
-				Element map;
-				try {
-					if (base == null) {
-						map = parserAdapter.createParserAndParseFile(resource.loadResource(
-								DefaultTeXFontParser.class, include));
-					} else {
-						map = parserAdapter.createParserAndParseFile(resource.loadResource(base, include));
-					}
-				} catch (Exception e) {
-					throw new XMLResourceParseException("Cannot find the file " + include + "!");
-				}
-				NodeList listM = map.getElementsByTagName(SYMBOL_MAPPING_EL);
-				for (int j = 0; j < listM.getLength(); j++) {
-					Element mapping = listM.item(j).castToElement();
-					// get string attribute
-					String symbolName = getAttrValueAndCheckIfNotNull("name", mapping);
-					// get integer attributes
-					int ch = getIntAndCheck("ch", mapping);
-					String fontId = getAttrValueAndCheckIfNotNull("fontId", mapping);
-					// put mapping in table
-					String boldFontId = null;
-					try {
-						boldFontId = getAttrValueAndCheckIfNotNull("boldId", mapping);
-					} catch (ResourceParseException e) {
-					}
-
-					if (boldFontId == null) {
-						res.put(symbolName, new CharFont((char) ch, Font_ID.indexOf(fontId)));
-					} else {
-						res.put(symbolName,
-								new CharFont((char) ch, Font_ID.indexOf(fontId), Font_ID.indexOf(boldFontId)));
-					}
-				}
-			}
-
-			return res;
 		}
+		// iterate all mappings
+		NodeList list = symbolMappings.getElementsByTagName("Mapping");
+		for (int i = 0; i < list.getLength(); i++) {
+			String include = getAttrValueAndCheckIfNotNull("include",
+					list.item(i).castToElement());
+			Element map;
+			try {
+				if (base == null) {
+					map = parserAdapter.createParserAndParseFile(resource
+							.loadResource(DefaultTeXFontParser.class, include));
+				} else {
+					map = parserAdapter.createParserAndParseFile(
+							resource.loadResource(base, include));
+				}
+			} catch (Exception e) {
+				throw new XMLResourceParseException(
+						"Cannot find the file " + include + "!");
+			}
+			NodeList listM = map.getElementsByTagName(SYMBOL_MAPPING_EL);
+			for (int j = 0; j < listM.getLength(); j++) {
+				Element mapping = listM.item(j).castToElement();
+				// get string attribute
+				String symbolName = getAttrValueAndCheckIfNotNull("name",
+						mapping);
+				// get integer attributes
+				int ch = getIntAndCheck("ch", mapping);
+				String fontId = getAttrValueAndCheckIfNotNull("fontId",
+						mapping);
+				// put mapping in table
+				String boldFontId = null;
+				try {
+					boldFontId = getAttrValueAndCheckIfNotNull("boldId",
+							mapping);
+				} catch (ResourceParseException e) {
+				}
+
+				if (boldFontId == null) {
+					res.put(symbolName,
+							new CharFont((char) ch, Font_ID.indexOf(fontId)));
+				} else {
+					res.put(symbolName,
+							new CharFont((char) ch, Font_ID.indexOf(fontId),
+									Font_ID.indexOf(boldFontId)));
+			}
+			}
+		}
+
+		return res;
 	}
 
 	public String[] parseDefaultTextStyleMappings() throws ResourceParseException {
@@ -446,36 +455,40 @@ public class DefaultTeXFontParser {
 				.castToElement();
 		if (defaultTextStyleMappings.isNull()) {
 			return res;
-		} else { // element present
-				// iterate all mappings
-			NodeList list = defaultTextStyleMappings.getElementsByTagName("MapStyle");
-			for (int i = 0; i < list.getLength(); i++) {
-				Element mapping = list.item(i).castToElement();
-				// get range name and check if it's valid
-				String code = getAttrValueAndCheckIfNotNull("code", mapping);
-				Object codeMapping = rangeTypeMappings.get(code);
-				if (codeMapping == null) {
-					throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle", "code",
-							"contains an unknown \"range name\" '" + code + "'!");
-				}
-				// get mapped style and check if it exists
-				String textStyleName = getAttrValueAndCheckIfNotNull("textStyle", mapping);
-				Object styleMapping = parsedTextStyles.get(textStyleName);
-				if (styleMapping == null) {
-					throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle", "textStyle",
-							"contains an unknown text style '" + textStyleName + "'!");
-				}
-				// now check if the range is defined within the mapped text style
-				CharFont[] charFonts = parsedTextStyles.get(textStyleName);
-				int index = ((Integer) codeMapping).intValue();
-				if (charFonts[index] == null) {
-					throw new XMLResourceParseException(RESOURCE_NAME + ": the default text style mapping '"
-							+ textStyleName + "' for the range '" + code
-							+ "' contains no mapping for that range!");
-				} else {
-					// everything OK, put mapping in table
-					res[index] = textStyleName;
-				}
+		}
+		// iterate all mappings
+		NodeList list = defaultTextStyleMappings
+				.getElementsByTagName("MapStyle");
+		for (int i = 0; i < list.getLength(); i++) {
+			Element mapping = list.item(i).castToElement();
+			// get range name and check if it's valid
+			String code = getAttrValueAndCheckIfNotNull("code", mapping);
+			Object codeMapping = rangeTypeMappings.get(code);
+			if (codeMapping == null) {
+				throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle",
+						"code",
+						"contains an unknown \"range name\" '" + code + "'!");
+			}
+			// get mapped style and check if it exists
+			String textStyleName = getAttrValueAndCheckIfNotNull("textStyle",
+					mapping);
+			Object styleMapping = parsedTextStyles.get(textStyleName);
+			if (styleMapping == null) {
+				throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle",
+						"textStyle", "contains an unknown text style '"
+								+ textStyleName + "'!");
+			}
+			// now check if the range is defined within the mapped text style
+			CharFont[] charFonts = parsedTextStyles.get(textStyleName);
+			int index = ((Integer) codeMapping).intValue();
+			if (charFonts[index] == null) {
+				throw new XMLResourceParseException(
+						RESOURCE_NAME + ": the default text style mapping '"
+								+ textStyleName + "' for the range '" + code
+								+ "' contains no mapping for that range!");
+			} else {
+				// everything OK, put mapping in table
+				res[index] = textStyleName;
 			}
 		}
 		return res;
@@ -487,16 +500,15 @@ public class DefaultTeXFontParser {
 		if (parameters.isNull()) {
 			// "Parameters" is required!
 			throw new XMLResourceParseException(RESOURCE_NAME, "Parameters");
-		} else { // element present
-				// iterate all attributes
-			NamedNodeMap list = parameters.getAttributes();
-			for (int i = 0; i < list.getLength(); i++) {
-				String name = (list.item(i).castToAttr()).getName();
-				// set double value (if valid)
-				res.put(name, new Double(getFloatAndCheck(name, parameters)));
-			}
-			return res;
 		}
+		// iterate all attributes
+		NamedNodeMap list = parameters.getAttributes();
+		for (int i = 0; i < list.getLength(); i++) {
+			String name = (list.item(i).castToAttr()).getName();
+			// set double value (if valid)
+			res.put(name, new Double(getFloatAndCheck(name, parameters)));
+		}
+		return res;
 	}
 
 	public Map<String, Number> parseGeneralSettings() throws ResourceParseException {
@@ -506,17 +518,18 @@ public class DefaultTeXFontParser {
 		if (generalSettings.isNull()) {
 			// "GeneralSettings" is required!
 			throw new XMLResourceParseException(RESOURCE_NAME, "GeneralSettings");
-		} else { // element present
-				// set required int values (if valid)
-			res.put(MUFONTID_ATTR,
-					Font_ID.indexOf(getAttrValueAndCheckIfNotNull(MUFONTID_ATTR, generalSettings))); // autoboxing
-			res.put(SPACEFONTID_ATTR,
-					Font_ID.indexOf(getAttrValueAndCheckIfNotNull(SPACEFONTID_ATTR, generalSettings))); // autoboxing
-			// set required double values (if valid)
-			res.put("scriptfactor", getFloatAndCheck("scriptfactor", generalSettings)); // autoboxing
-			res.put("scriptscriptfactor", getFloatAndCheck("scriptscriptfactor", generalSettings)); // autoboxing
-
 		}
+		// set required int values (if valid)
+		res.put(MUFONTID_ATTR, Font_ID.indexOf(
+				getAttrValueAndCheckIfNotNull(MUFONTID_ATTR, generalSettings))); // autoboxing
+		res.put(SPACEFONTID_ATTR,
+				Font_ID.indexOf(getAttrValueAndCheckIfNotNull(SPACEFONTID_ATTR,
+						generalSettings))); // autoboxing
+		// set required double values (if valid)
+		res.put("scriptfactor",
+				getFloatAndCheck("scriptfactor", generalSettings)); // autoboxing
+		res.put("scriptscriptfactor",
+				getFloatAndCheck("scriptscriptfactor", generalSettings)); // autoboxing
 		return res;
 	}
 
@@ -529,43 +542,50 @@ public class DefaultTeXFontParser {
 		Element textStyleMappings = root.getElementsByTagName("TextStyleMappings").item(0).castToElement();
 		if (textStyleMappings.isNull()) {
 			return res;
-		} else { // element present
-				// iterate all mappings
-			NodeList list = textStyleMappings.getElementsByTagName(STYLE_MAPPING_EL);
-			for (int i = 0; i < list.getLength(); i++) {
-				Element mapping = list.item(i).castToElement();
-				// get required string attribute
-				String textStyleName = getAttrValueAndCheckIfNotNull("name", mapping);
-				String boldFontId = null;
-				try {
-					boldFontId = getAttrValueAndCheckIfNotNull("bold", mapping);
-				} catch (ResourceParseException e) {
-				}
-
-				NodeList mapRangeList = mapping.getElementsByTagName("MapRange");
-				// iterate all mapping ranges
-				CharFont[] charFonts = new CharFont[4];
-				for (int j = 0; j < mapRangeList.getLength(); j++) {
-					Element mapRange = mapRangeList.item(j).castToElement();
-					// get required integer attributes
-					String fontId = getAttrValueAndCheckIfNotNull("fontId", mapRange);
-					int ch = getIntAndCheck("start", mapRange);
-					// get required string attribute and check if it's a known range
-					String code = getAttrValueAndCheckIfNotNull("code", mapRange);
-					Object codeMapping = rangeTypeMappings.get(code);
-					if (codeMapping == null) {
-						throw new XMLResourceParseException(RESOURCE_NAME, "MapRange", "code",
-								"contains an unknown \"range name\" '" + code + "'!");
-					} else if (boldFontId == null) {
-						charFonts[((Integer) codeMapping).intValue()] = new CharFont((char) ch,
-								Font_ID.indexOf(fontId));
-					} else {
-						charFonts[((Integer) codeMapping).intValue()] = new CharFont((char) ch,
-								Font_ID.indexOf(fontId), Font_ID.indexOf(boldFontId));
-					}
-				}
-				res.put(textStyleName, charFonts);
+		}
+		// iterate all mappings
+		NodeList list = textStyleMappings
+				.getElementsByTagName(STYLE_MAPPING_EL);
+		for (int i = 0; i < list.getLength(); i++) {
+			Element mapping = list.item(i).castToElement();
+			// get required string attribute
+			String textStyleName = getAttrValueAndCheckIfNotNull("name",
+					mapping);
+			String boldFontId = null;
+			try {
+				boldFontId = getAttrValueAndCheckIfNotNull("bold", mapping);
+			} catch (ResourceParseException e) {
 			}
+
+			NodeList mapRangeList = mapping.getElementsByTagName("MapRange");
+			// iterate all mapping ranges
+			CharFont[] charFonts = new CharFont[4];
+			for (int j = 0; j < mapRangeList.getLength(); j++) {
+				Element mapRange = mapRangeList.item(j).castToElement();
+				// get required integer attributes
+				String fontId = getAttrValueAndCheckIfNotNull("fontId",
+						mapRange);
+				int ch = getIntAndCheck("start", mapRange);
+				// get required string attribute and check if it's a known range
+				String code = getAttrValueAndCheckIfNotNull("code", mapRange);
+				Object codeMapping = rangeTypeMappings.get(code);
+				if (codeMapping == null) {
+					throw new XMLResourceParseException(RESOURCE_NAME,
+							"MapRange", "code",
+							"contains an unknown \"range name\" '" + code
+									+ "'!");
+				} else if (boldFontId == null) {
+					charFonts[((Integer) codeMapping)
+							.intValue()] = new CharFont((char) ch,
+									Font_ID.indexOf(fontId));
+				} else {
+					charFonts[((Integer) codeMapping)
+							.intValue()] = new CharFont((char) ch,
+									Font_ID.indexOf(fontId),
+									Font_ID.indexOf(boldFontId));
+			}
+		}
+			res.put(textStyleName, charFonts);
 		}
 		return res;
 	}

@@ -34,14 +34,20 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	
 	/**
 	 * @param data
-	 * @param rows
-	 * @param columns
+	 *            images / texts for the table
+	 * @param rows0
+	 *            number of rows or -1 for auto
+	 * @param columns0
+	 *            number of columns or -1 for auto
 	 * @param mode
+	 *            image / text / latex
 	 */
-	public SelectionTableW(ImageOrText[] data, Integer rows, Integer columns,
+	public SelectionTableW(ImageOrText[] data, Integer rows0, Integer columns0,
 			SelectionTable mode) {
 		super();
 		this.mode = mode;
+		int rows = rows0;
+		int columns = columns0;
 
 		//=======================================
 		// determine the dimensions of the table
@@ -160,6 +166,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 * 
 	 * @param index
 	 *            {@code int}
+	 * @param selected
+	 *            whether it was selected or deselected
 	 */
 	public void changeMultiSelection(int index, boolean selected) {
 		selectedRow = index / getColumnCount();
@@ -267,7 +275,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 
 	/**
 	 * @param index
-	 * @return
+	 *            data index
+	 * @return whether it's selected
 	 * 
 	 */
 	public boolean isSelected(int index) {
@@ -298,6 +307,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 * to update the text of the {@link ImageOrText}
 	 * 
 	 * @param data
+	 *            texts or images
 	 */
 	public void updateText(ImageOrText[] data) {
 		int r = 0;

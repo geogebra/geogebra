@@ -360,6 +360,7 @@ public class InputController {
 	public void endField(EditorState editorState, char ch) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
+		FactoryProvider.getInstance().debug(currentField.getParent());
 		// first array specific ...
 		if (currentField.getParent() instanceof MathArray) {
 			MathArray parent = (MathArray) currentField.getParent();
@@ -415,8 +416,7 @@ public class InputController {
 
 				// if ']' '}' typed at the end of last field ... move out of
 				// array
-			} else if (ch == parent.getCloseKey() && parent.isArray()
-					&& currentField.size() > 0) {
+			} else if (ch == parent.getCloseKey() && parent.isArray()) {
 
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset);
@@ -917,8 +917,7 @@ public class InputController {
 			deleteSelection(editorState);
 		}
 		MetaModel meta = editorState.getMetaModel();
-		if (isArrayCloseKey(ch, editorState)
-				|| ch == InputController.FUNCTION_CLOSE_KEY) {
+		if (meta.isArrayCloseKey(ch)) {
 			endField(editorState, ch);
 			handled = true;
 		} else if (meta.isFunctionOpenKey(ch)) {
@@ -1008,14 +1007,6 @@ public class InputController {
 		return false;
 	}
 
-	private static boolean isArrayCloseKey(char key, EditorState editorState) {
-		MathContainer parent = editorState.getCurrentField().getParent();
-		if (parent != null && parent instanceof MathArray) {
-			MathArray array = (MathArray) parent;
-			return array.getCloseKey() == key;
-		}
-		return false;
-	}
 
 	private boolean mCreateFrac = true;
 	private MathField mathField;

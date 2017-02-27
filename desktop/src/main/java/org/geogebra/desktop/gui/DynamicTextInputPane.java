@@ -51,9 +51,10 @@ import org.geogebra.desktop.main.AppD;
 public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
-
+	/** application */
 	AppD app;
-	protected DynamicTextInputPane thisPane;
+	protected final DynamicTextInputPane thisPane;
+	/** doc */
 	public DefaultStyledDocument doc;
 	private JTextComponent focusedTextComponent;
 
@@ -122,17 +123,18 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * Inserts dynamic text field at a specified position and returns the text
 	 * field's document
 	 * 
-	 * @param text
+	 * @param text0
 	 *            text to put in the dynamic field
-	 * @param pos
+	 * @param pos0
 	 *            position of the dynamic text field
 	 * @param inputDialog
 	 *            input dialog
 	 * @return dynamic text field
 	 */
-	public DynamicTextField insertDynamicText(String text, int pos,
+	public DynamicTextField insertDynamicText(String text0, int pos0,
 			TextInputDialogD inputDialog) {
-
+		String text = text0;
+		int pos = pos0;
 		if (pos == -1) {
 			pos = getDocument().getLength(); // insert at end
 		}
@@ -353,7 +355,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * @param offs0
 	 *            offset
 	 * @param str
+	 *            string to insert
 	 * @param a
+	 *            attributes
 	 */
 	public void insertString(int offs0, String str, AttributeSet a) {
 		try {

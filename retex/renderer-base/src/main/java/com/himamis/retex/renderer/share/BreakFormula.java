@@ -60,11 +60,13 @@ public final class BreakFormula {
 		}
 	}
 
-	public static Box split(HorizontalBox hbox, double width, double interline) {
+	public static Box split(HorizontalBox hbox0, double width,
+			double interline) {
 		VerticalBox vbox = new VerticalBox();
 		HorizontalBox first;
 		HorizontalBox second = null;
 		Stack<Position> positions = new Stack<Position>();
+		HorizontalBox hbox = hbox0;
 		while (hbox.width > width && (canBreak(positions, hbox, width)) != hbox.width) {
 			Position pos = positions.pop();
 			HorizontalBox[] hboxes = pos.hbox.split(pos.index - 1);

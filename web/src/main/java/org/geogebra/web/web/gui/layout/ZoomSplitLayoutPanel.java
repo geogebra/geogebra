@@ -288,40 +288,41 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
                 0);
     }
 
-    private void setAssociatedWidgetSize(double size) {
-      double maxSize = getMaxSize();
-      if (size > maxSize) {
-        size = maxSize;
-      }
+		private void setAssociatedWidgetSize(double size0) {
+			double maxSize = getMaxSize();
+			double size = size0;
+			if (size > maxSize) {
+				size = maxSize;
+			}
 
-      if (snapClosedSize > 0 && size < snapClosedSize) {
-        size = 0;
-      } else if (size < minSize) {
-        size = minSize;
-      }
+			if (snapClosedSize > 0 && size < snapClosedSize) {
+				size = 0;
+			} else if (size < minSize) {
+				size = minSize;
+			}
 
-      LayoutData layout = (LayoutData) target.getLayoutData();
-      if (size == layout.size) {
-        return;
-      }
+			LayoutData layout = (LayoutData) target.getLayoutData();
+			if (size == layout.size) {
+				return;
+			}
 
-      // Adjust our view until the deferred layout gets scheduled.
-      centerSize += layout.size - size;
-      layout.size = size;
+			// Adjust our view until the deferred layout gets scheduled.
+			centerSize += layout.size - size;
+			layout.size = size;
 
-      // Defer actually updating the layout, so that if we receive many
-      // mouse events before layout/paint occurs, we'll only update once.
-      if (layoutCommand == null) {
-        layoutCommand = new ScheduledCommand() {
-          @Override
-          public void execute() {
-            layoutCommand = null;
-            forceLayout();
-          }
-        };
-        Scheduler.get().scheduleDeferred(layoutCommand);
-      }
-    }
+			// Defer actually updating the layout, so that if we receive many
+			// mouse events before layout/paint occurs, we'll only update once.
+			if (layoutCommand == null) {
+				layoutCommand = new ScheduledCommand() {
+					@Override
+					public void execute() {
+						layoutCommand = null;
+						forceLayout();
+					}
+				};
+				Scheduler.get().scheduleDeferred(layoutCommand);
+			}
+		}
   }
 
   class VSplitter extends Splitter {

@@ -169,7 +169,8 @@ public class EditorState {
 
 	public String getSelectedText() {
 		StringBuilder sb = new StringBuilder();
-		if (currentSelStart != null && currentSelEnd != null) {
+		if (currentSelStart != null && currentSelEnd != null
+				&& currentSelStart.getParent() != null) {
 			for (int i = currentSelStart.getParentIndex(); i <= currentSelEnd
 					.getParentIndex(); i++) {
 				sb.append(currentSelStart.getParent().getArgument(i));
