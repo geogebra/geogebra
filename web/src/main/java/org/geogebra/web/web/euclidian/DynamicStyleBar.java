@@ -3,8 +3,6 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;

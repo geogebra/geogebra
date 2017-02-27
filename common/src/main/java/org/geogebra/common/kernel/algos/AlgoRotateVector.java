@@ -40,9 +40,13 @@ public class AlgoRotateVector extends AlgoElement {
 	 * Creates new algo for vector rotation
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param A
+	 *            vector
 	 * @param angle
+	 *            angle
 	 */
 	AlgoRotateVector(Construction cons, String label, GeoVector A,
 			GeoNumeric angle) {

@@ -53,16 +53,16 @@ public class AlgoRotatePoint extends AlgoTransformation
 	private PPolynomial[] botanaPolynomials;
 
 	/**
-	 * Creates new point rotation algo
-	 */
-	AlgoRotatePoint(Construction cons, String label, GeoElement A,
-			GeoNumberValue angle, GeoPointND Q) {
-		this(cons, A, angle, Q);
-		outGeo.setLabel(label);
-	}
-
-	/**
 	 * Creates new unlabeled point rotation algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            rotated geo
+	 * @param angle
+	 *            angle
+	 * @param Q
+	 *            rotation center
 	 */
 	public AlgoRotatePoint(Construction cons, GeoElement A,
 			GeoNumberValue angle, GeoPointND Q) {

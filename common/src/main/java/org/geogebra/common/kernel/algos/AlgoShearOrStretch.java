@@ -54,9 +54,13 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 	 * Creates new shear or stretch algorithm
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param in
+	 *            sheared / stretched geo
 	 * @param l
+	 *            stretch direction
 	 * @param num
+	 *            stretch coefficient
 	 * @param shear
 	 *            shear if true, stretch otherwise
 	 */

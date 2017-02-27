@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Creates a rounded polygon with given "vertices" and radius
@@ -66,8 +65,6 @@ public class AlgoRoundedPolygon extends AlgoElement {
 			double cos2 = tan(i, j, k);
 			double cos1 = tan(j, k, l);
 			double dist = points[j].distance(points[k]);
-			Log.debug(dist * cos1 + "," + dist * cos2 + "," + dist);
-			// r*cos2+r*cos1 <= dist
 			this.r = Math.min(r, dist
 					/ (Math.max(Math.abs(cos2 - cos1), Math.abs(cos2 + cos1))));
 

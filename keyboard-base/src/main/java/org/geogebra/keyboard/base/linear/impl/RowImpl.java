@@ -1,9 +1,7 @@
 package org.geogebra.keyboard.base.linear.impl;
 
-import org.geogebra.keyboard.base.Button;
 import org.geogebra.keyboard.base.linear.Row;
 import org.geogebra.keyboard.base.linear.WeightedButton;
-import org.geogebra.keyboard.base.linear.impl.WeightedButtonImpl;
 
 import java.util.ArrayList;
 import java.util.List;

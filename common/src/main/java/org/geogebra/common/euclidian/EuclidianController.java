@@ -9364,6 +9364,12 @@ public abstract class EuclidianController {
 		switchModeForMousePressed(event);
 	}
 
+	/**
+	 * @param x
+	 *            click x-coord
+	 * @param y
+	 *            click y-coord
+	 */
 	protected boolean dynamicStyleBarClicked(int x, int y) {
 		return false;
 	}
