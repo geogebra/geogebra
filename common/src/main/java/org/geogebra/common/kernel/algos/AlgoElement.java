@@ -59,6 +59,7 @@ public abstract class AlgoElement extends ConstructionElement
 	private GeoElementND[] efficientInput;
 
 	private boolean isPrintedInXML = true;
+	/** flag to stop update cascade */
 	protected boolean stopUpdateCascade = false;
 	/**
 	 * list of registered outputHandler of this AlgoElement
@@ -605,7 +606,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @return whether something was updated
 	 */
 	public boolean updateUnlabeledRandomGeos() {
-		if (!mayHaveRandomAncestors) {
+		if (!mayHaveRandomAncestors || input == null) {
 			return false;
 		}
 		boolean ret = false;
@@ -870,7 +871,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
-	protected boolean protectedInput = false;
+	private boolean protectedInput = false;
 
 	/**
 	 * sets if the "not labeled" inputs are protected from remove
@@ -1805,21 +1806,6 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public boolean isLaTeXTextCommand() {
 		return false;
-	}
-
-	/**
-	 * Creates a new EquationElement given a {@link GeoElement} and an
-	 * {@link EquationScope}.
-	 * 
-	 * @param element
-	 *            the {@link GeoElement} needed.
-	 * @param scope
-	 *            the scope containing the points.
-	 * @return a new EquationElement.
-	 */
-	public EquationElementInterface buildEquationElementForGeo(
-			GeoElement element, EquationScopeInterface scope) {
-		return null;
 	}
 
 	/**
