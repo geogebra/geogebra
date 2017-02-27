@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -26,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @author Rrubaa
  */
 
-public class AlgoRandomDiscrete extends AlgoElement {
+public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 
 	private GeoList values; // input
 	private GeoList probabilities;
@@ -62,6 +64,9 @@ public class AlgoRandomDiscrete extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting random number
+	 */
 	public GeoNumeric getResult() {
 		return randomDiscrete;
 	}
@@ -109,6 +114,15 @@ public class AlgoRandomDiscrete extends AlgoElement {
 
 		double result = ((NumberValue) values.get(count)).getDouble();
 		randomDiscrete.setValue(result);
+	}
+
+	public void setRandomValue(double d) {
+		for (int i = 0; i < values.size(); i++) {
+			if (Kernel.isEqual(values.get(i).evaluateDouble(), d)) {
+				randomDiscrete.setValue(values.get(i).evaluateDouble());
+			}
+		}
+
 	}
 
 }

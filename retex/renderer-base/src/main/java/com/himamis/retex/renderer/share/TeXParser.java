@@ -177,6 +177,8 @@ public class TeXParser {
 	 *            if true certains exceptions are not thrown
 	 * @param parseString
 	 *            the string to be parsed
+	 * @param formula
+	 *            the output formula
 	 * @param firstpass
 	 *            a boolean to indicate if the parser must replace the
 	 *            user-defined macros by their content
@@ -1240,24 +1242,25 @@ public class TeXParser {
 	 * Convert a character in the corresponding atom in using the file
 	 * TeXFormulaSettings.xml for non-alphanumeric characters
 	 * 
-	 * @param c
+	 * @param c0
 	 *            the character to be converted
 	 * @return the corresponding atom
 	 * @throws ParseException
 	 *             if the character is unknown
 	 */
-	public Atom convertCharacter(char c, boolean oneChar) throws ParseException {
+	public Atom convertCharacter(char c0, boolean oneChar)
+			throws ParseException {
 		if (ignoreWhiteSpace) {// The Unicode Greek letters in math mode are not
 								// drawn with the
 								// Greek font
-			if (c >= 945 && c <= 969) {
-				return SymbolAtom.get(TeXFormula.symbolMappings[c]);
-			} else if (c >= 913 && c <= 937) {
-				return new TeXFormula(TeXFormula.symbolFormulaMappings[c]).root;
+			if (c0 >= 945 && c0 <= 969) {
+				return SymbolAtom.get(TeXFormula.symbolMappings[c0]);
+			} else if (c0 >= 913 && c0 <= 937) {
+				return new TeXFormula(TeXFormula.symbolFormulaMappings[c0]).root;
 			}
 		}
 
-		c = convertToRomanNumber(c);
+		char c = convertToRomanNumber(c0);
 		if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
 			Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
 			if (!isLoading && !DefaultTeXFont.loadedAlphabets.contains(block)) {
@@ -1292,52 +1295,57 @@ public class TeXParser {
 				if (!isPartial) {
 					throw new ParseException(
 							"Unknown character : '" + Character.toString(c) + "' (or " + ((int) c) + ")");
-				} else {
-					return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int) c) + ")}").root),
-							null, ColorUtil.RED);
 				}
-			} else {
-				if (!ignoreWhiteSpace) {// we are in text mode
-					if (TeXFormula.symbolTextMappings[c] != null) {
-						return SymbolAtom.get(TeXFormula.symbolTextMappings[c]).setUnicode(c);
-					}
+				return new ColorAtom(new RomanAtom(new TeXFormula(
+						"\\text{(Unknown char " + ((int) c) + ")}").root),
+						null, ColorUtil.RED);
+			}
+			if (!ignoreWhiteSpace) {// we are in text mode
+				if (TeXFormula.symbolTextMappings[c] != null) {
+					return SymbolAtom.get(TeXFormula.symbolTextMappings[c])
+							.setUnicode(c);
 				}
-				if (TeXFormula.symbolFormulaMappings != null && TeXFormula.symbolFormulaMappings[c] != null) {
-					return new TeXFormula(TeXFormula.symbolFormulaMappings[c]).root;
-				}
+			}
+			if (TeXFormula.symbolFormulaMappings != null
+					&& TeXFormula.symbolFormulaMappings[c] != null) {
+				return new TeXFormula(TeXFormula.symbolFormulaMappings[c]).root;
+			}
 
-				try {
-					return SymbolAtom.get(symbolName);
-				} catch (SymbolNotFoundException e) {
-					throw new ParseException("The character '" + Character.toString(c)
-							+ "' was mapped to an unknown symbol with the name '" + symbolName + "'!", e);
-				}
+			try {
+				return SymbolAtom.get(symbolName);
+			} catch (SymbolNotFoundException e) {
+				throw new ParseException("The character '"
+						+ Character.toString(c)
+						+ "' was mapped to an unknown symbol with the name '"
+						+ symbolName + "'!", e);
 			}
-		} else {
-			// alphanumeric character
-			TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
-			if (fontInfos != null) {
-				if (oneChar) {
-					return new JavaFontRenderingAtom(Character.toString(c), fontInfos);
-				}
-				int start = pos++;
-				int end = len - 1;
-				while (pos < len) {
-					c = parseString.charAt(pos);
-					if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
-						end = --pos;
-						break;
-					}
-					pos++;
-				}
-				return new JavaFontRenderingAtom(parseString.substring(start, end + 1), fontInfos);
-			}
-			return new CharAtom(c, formula.textStyle);
 		}
+		// alphanumeric character
+		TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap
+				.get(Character.UnicodeBlock.BASIC_LATIN);
+		if (fontInfos != null) {
+			if (oneChar) {
+				return new JavaFontRenderingAtom(Character.toString(c),
+						fontInfos);
+			}
+			int start = pos++;
+			int end = len - 1;
+			while (pos < len) {
+				c = parseString.charAt(pos);
+				if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z'))) {
+					end = --pos;
+					break;
+				}
+				pos++;
+			}
+			return new JavaFontRenderingAtom(parseString.substring(start,
+					end + 1), fontInfos);
+		}
+		return new CharAtom(c, formula.textStyle);
 	}
 
 	private String getCommand() {
-		int spos = ++pos;
+		int pos1 = ++pos;
 		char ch = '\0';
 
 		while (pos < len) {
@@ -1353,11 +1361,11 @@ public class TeXParser {
 			return "";
 		}
 
-		if (pos == spos) {
+		if (pos == pos1) {
 			pos++;
 		}
 
-		String com = parseString.substring(spos, pos);
+		String com = parseString.substring(pos1, pos);
 		if ("cr".equals(com) && pos < len && parseString.charAt(pos) == ' ') {
 			pos++;
 		}

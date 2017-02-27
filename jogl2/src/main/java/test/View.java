@@ -1,14 +1,17 @@
 package test;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
+import javax.media.opengl.fixedfunc.GLMatrixFunc;
 import javax.media.opengl.glu.GLU;
 
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Animator;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Component3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 public class View implements GLEventListener {
 
@@ -58,7 +61,7 @@ public class View implements GLEventListener {
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
-		gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT); // clear
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT); // clear
 																				// color
 																// and depth
 																// buffers
@@ -68,7 +71,7 @@ public class View implements GLEventListener {
 		// testing) -----
 		gl.glTranslatef(0.0f, 0.0f, -6.0f); // translate into the screen
 		gl.glColor3f(r, g, b);
-		gl.glBegin(GLlocal.GL_TRIANGLES); // draw using triangles
+		gl.glBegin(GL.GL_TRIANGLES); // draw using triangles
 
 		long delay = System.currentTimeMillis() - time;
 		double angle = speed * delay * Math.PI / 2000;
@@ -93,12 +96,12 @@ public class View implements GLEventListener {
 		glu = new GLU(); // get GL Utilities
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // set background (clear) color
 		gl.glClearDepth(1.0f); // set clear depth value to farthest
-		gl.glEnable(GLlocal.GL_DEPTH_TEST); // enables depth testing
-		gl.glDepthFunc(GLlocal.GL_LEQUAL); // the type of depth test to do
-		gl.glHint(GLlocal.GL_PERSPECTIVE_CORRECTION_HINT, GLlocal.GL_NICEST); // best
+		gl.glEnable(GL.GL_DEPTH_TEST); // enables depth testing
+		gl.glDepthFunc(GL.GL_LEQUAL); // the type of depth test to do
+		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST); // best
 																// perspective
 																// correction
-		gl.glShadeModel(GLlocal.GL_SMOOTH); // blends colors nicely, and
+		gl.glShadeModel(GLLightingFunc.GL_SMOOTH); // blends colors nicely, and
 											// smoothes out
 									// lighting
 
@@ -107,11 +110,10 @@ public class View implements GLEventListener {
 
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height) {
+			int height0) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
-
-		if (height == 0)
-		 {
+		int height = height0;
+		if (height == 0) {
 			height = 1; // prevent divide by zero
 		}
 		float aspect = (float) width / height;
@@ -120,13 +122,13 @@ public class View implements GLEventListener {
 		gl.glViewport(0, 0, width, height);
 
 		// Setup perspective projection, with aspect ratio matches viewport
-		gl.glMatrixMode(GLlocal.GL_PROJECTION); // choose projection matrix
+		gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
 		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect, zNear,
 														// zFar
 
 		// Enable the model-view transform
-		gl.glMatrixMode(GLlocal.GL_MODELVIEW);
+		gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
 	}
 

@@ -65,8 +65,8 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public void setRandomValue(double d) {
-		d = Math.round(Kernel.checkInteger(d));
+	public void setRandomValue(double d0) {
+		double d = Math.round(Kernel.checkInteger(d0));
 
 		if (d >= 0 && d <= a.getDouble()) {
 			num.setValue(d);

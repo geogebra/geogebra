@@ -281,13 +281,13 @@ public abstract class DialogManager {
 		}
 	}
 
-	public static void rotateObject(final App app, String inputText,
+	public static void rotateObject(final App app, final String angleText,
 			boolean clockwise, final GeoPolygon[] polys,
 			final CreateGeoForRotate creator, final GeoElement[] selGeos,
 			final EuclidianController ec, final ErrorHandler eh,
 			final AsyncOperation<String> callback) {
 
-		final String angleText = inputText;
+		String inputText = angleText;
 		final Kernel kernel = app.getKernel();
 
 		// avoid labeling of num

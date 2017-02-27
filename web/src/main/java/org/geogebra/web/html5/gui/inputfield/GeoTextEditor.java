@@ -173,20 +173,6 @@ public class GeoTextEditor extends RichTextArea {
 		return IFrameElement.as(getElement()).getContentDocument();
 	}
 
-	private Element getHead() {
-		Document document = IFrameElement.as(getElement()).getContentDocument();
-		Element head = document.getElementsByTagName("head").getItem(0);
-
-		if (head == null) {
-			head = document.getDocumentElement().getFirstChildElement();
-
-			if (head == null) {
-				document.insertFirst(head = document.createElement("head"));
-			}
-		}
-		return head;
-	}
-
 	protected BodyElement getBody() {
 		if (getDocument() == null) {
 			return null;
@@ -375,12 +361,13 @@ public class GeoTextEditor extends RichTextArea {
 		insertElement(createValueElement(text));
 	}
 
-	public void insertTextString(String str, boolean isLatex) {
+	public void insertTextString(String str0, boolean isLatex) {
 
 		boolean convertGreekLetters = !app.getLocalization().getLanguage()
 		        .equals("gr");
 
-		if (str != null) {
+		if (str0 != null) {
+			String str = str0;
 			if (isLatex) {
 				str = StringUtil.toLaTeXString(str, convertGreekLetters);
 			}

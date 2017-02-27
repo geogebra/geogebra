@@ -31,7 +31,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
         ValueChangeHandler<Boolean>, PopupMenuHandler {
 
-	private static final int ICON_SIZE = 18;
 
 	private MyTableW table;
 	private CellFormat formatHandler;

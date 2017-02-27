@@ -31,7 +31,7 @@ package org.geogebra.common.util;
  */
 public class MD5EncrypterGWTImpl {
 
-	public String encrypt(String string) {
+	public String encrypt(String string0) {
 
 		int[] x;
 		int k, AA, BB, CC, DD, a, b, c, d;
@@ -40,7 +40,7 @@ public class MD5EncrypterGWTImpl {
 		int S31 = 4, S32 = 11, S33 = 16, S34 = 23;
 		int S41 = 6, S42 = 10, S43 = 15, S44 = 21;
 
-		string = utf8Encode(string);
+		String string = utf8Encode(string0);
 
 		x = convertToWordArray(string);
 
@@ -128,8 +128,8 @@ public class MD5EncrypterGWTImpl {
 		return temp.toLowerCase();
 	}
 
-	public String utf8Encode(String string) {
-		string = string.replaceAll("\r\n", "\n");
+	public String utf8Encode(String string0) {
+		String string = string0.replaceAll("\r\n", "\n");
 		StringBuilder utftext = new StringBuilder();
 
 		for (int n = 0; n < string.length(); n++) {
@@ -218,23 +218,23 @@ public class MD5EncrypterGWTImpl {
 	}
 
 	private int FF(int a, int b, int c, int d, int x, int s, int ac) {
-		a = addUnsigned(a, addUnsigned(addUnsigned(F(b, c, d), x), ac));
-		return addUnsigned(rotateLeft(a, s), b);
+		int a1 = addUnsigned(a, addUnsigned(addUnsigned(F(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
 	private int GG(int a, int b, int c, int d, int x, int s, int ac) {
-		a = addUnsigned(a, addUnsigned(addUnsigned(G(b, c, d), x), ac));
-		return addUnsigned(rotateLeft(a, s), b);
+		int a1 = addUnsigned(a, addUnsigned(addUnsigned(G(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
 	private int HH(int a, int b, int c, int d, int x, int s, int ac) {
-		a = addUnsigned(a, addUnsigned(addUnsigned(H(b, c, d), x), ac));
-		return addUnsigned(rotateLeft(a, s), b);
+		int a1 = addUnsigned(a, addUnsigned(addUnsigned(H(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
 	private int II(int a, int b, int c, int d, int x, int s, int ac) {
-		a = addUnsigned(a, addUnsigned(addUnsigned(I(b, c, d), x), ac));
-		return addUnsigned(rotateLeft(a, s), b);
+		int a1 = addUnsigned(a, addUnsigned(addUnsigned(I(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
 	private static String wordToHex(int lValue) {

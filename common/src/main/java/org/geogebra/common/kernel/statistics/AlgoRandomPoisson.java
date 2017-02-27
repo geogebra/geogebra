@@ -161,8 +161,8 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	}
 
 	@Override
-	public void setRandomValue(double d) {
-		d = Math.round(Kernel.checkInteger(d));
+	public void setRandomValue(double d0) {
+		double d = Math.round(Kernel.checkInteger(d0));
 
 		if (d >= 0) {
 			num.setValue(d);
