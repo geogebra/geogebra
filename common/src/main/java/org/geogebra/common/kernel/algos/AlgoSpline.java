@@ -168,7 +168,16 @@ public class AlgoSpline extends AlgoElement {
 			return;
 		}
 		int i = 0;
-		for (; i < doublePoints.length; i++) {
+
+		int len = this.inputList.size();
+
+		// length changed, eg https://www.geogebra.org/m/RGDcGA6J
+		if (len != doublePoints.length) {
+			doublePoints = new double[len][dimension];
+			parametersValues = new double[len];
+		}
+
+		for (; i < len; i++) {
 			GeoPointND p = (GeoPointND) this.inputList.get(i);
 			for (int j = 0; j < dimension; j++) {
 				doublePoints[i][j] = p.getInhomCoordsInD(dimension)
