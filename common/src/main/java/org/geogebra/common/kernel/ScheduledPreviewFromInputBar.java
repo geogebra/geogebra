@@ -179,7 +179,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.setSilentMode(silentModeOld);
 
 		} catch (Throwable ee) {
-			ee.printStackTrace();
 			Log.debug("-- invalid input" + ee + ":" + validInput);
 			this.kernel.setSilentMode(true);
 			this.kernel.notifyUpdatePreviewFromInputBar(null);

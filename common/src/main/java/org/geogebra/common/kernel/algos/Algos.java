@@ -2,9 +2,14 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.commands.Commands;
 
+/**
+ * Identifies algorithm used for creation of a geo
+ */
 public enum Algos implements GetCommand {
-
-	Expression, AlgoMacro;
+	/** For dependent elements defined using math. operations */
+	Expression,
+	/** For elements created by macro */
+	AlgoMacro;
 	private String command;
 
 	private Algos() {
