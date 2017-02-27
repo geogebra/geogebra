@@ -525,7 +525,7 @@ public class Context {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated see:
 	 * @see ContextFactory#addListener(org.mozilla.javascript.ContextFactory.Listener)
 	 * @see ContextFactory#getGlobal()
 	 */
@@ -554,7 +554,7 @@ public class Context {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated see:
 	 * @see ContextFactory#removeListener(org.mozilla.javascript.ContextFactory.Listener)
 	 * @see ContextFactory#getGlobal()
 	 */
@@ -1454,7 +1454,7 @@ public class Context {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated see:
 	 * @see #compileReader(Reader in, String sourceName, int lineno, Object
 	 *      securityDomain)
 	 */
@@ -1832,7 +1832,7 @@ public class Context {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated see:
 	 * @see #toObject(Object, Scriptable)
 	 */
 	@Deprecated
@@ -1905,7 +1905,7 @@ public class Context {
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated see:
 	 * @see #jsToJava(Object, Class)
 	 * @throws IllegalArgumentException
 	 *             if the conversion cannot be performed. Note that

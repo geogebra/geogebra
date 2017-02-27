@@ -308,13 +308,11 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	}
 
 	/**
-	 * @deprecated
 	 */
-	@Deprecated
 	@Override
 	public String readLine() throws IOException {
 		throw new IOException(
-				"ByteOrderInputStream.readLine() is deprecated and not implemented.");
+				"ByteOrderInputStream.readLine() is not implemented.");
 	}
 
 	/**

@@ -334,30 +334,6 @@ public class SVGIcon {
 		}
 	}
 
-	/**
-	 * If this SVG document has a viewbox, if scaleToFit is set, will scale the
-	 * viewbox to match the preferred size of this icon
-	 * 
-	 * @deprecated
-	 * @return
-	 */
-	@Deprecated
-	public boolean isScaleToFit() {
-		return autosize == AUTOSIZE_STRETCH;
-	}
-
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	@Deprecated
-	public void setScaleToFit(boolean scaleToFit) {
-		setAutosize(AUTOSIZE_STRETCH);
-		// boolean old = this.scaleToFit;
-		// this.scaleToFit = scaleToFit;
-		// firePropertyChange("scaleToFit", old, scaleToFit);
-	}
-
 	public Dimension getPreferredSize() {
 		if (preferredSize == null) {
 			SVGDiagram diagram = svgUniverse.getDiagram(svgURI);
@@ -383,25 +359,6 @@ public class SVGIcon {
 		}
 
 		changes.firePropertyChange("preferredSize", old, preferredSize);
-	}
-
-	/**
-	 * @return true if antiAliasing is turned on.
-	 * @deprecated
-	 */
-	@Deprecated
-	public boolean getUseAntiAlias() {
-		return getAntiAlias();
-	}
-
-	/**
-	 * @param antiAlias
-	 *            true to use antiAliasing.
-	 * @deprecated
-	 */
-	@Deprecated
-	public void setUseAntiAlias(boolean antiAlias) {
-		setAntiAlias(antiAlias);
 	}
 
 	/**

@@ -1343,12 +1343,10 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	/**
 	 * Gets the fontmetrics.
 	 *
-	 * @deprecated
 	 * @param font
 	 *            to be used for retrieving fontmetrics
 	 * @return fontmetrics for given font
 	 */
-	@Deprecated
 	@Override
 	public FontMetrics getFontMetrics(Font font) {
 		return Toolkit.getDefaultToolkit().getFontMetrics(font);

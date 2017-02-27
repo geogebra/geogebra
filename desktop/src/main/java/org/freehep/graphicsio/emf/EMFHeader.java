@@ -53,18 +53,6 @@ public class EMFHeader implements EMFConstants {
 
 	private boolean openGL;
 
-	/**
-	 * @deprecated
-	 */
-	@Deprecated
-	public EMFHeader(Rectangle bounds, int versionMajor, int versionMinor,
-			int bytes, int records, int handles, String application,
-			String name, Dimension device) {
-		// Was WMF in 2.0 should be EMF from now on
-		this(TYPE_EMF, bounds, versionMajor, versionMinor, bytes, records,
-				handles, application, name, device);
-	}
-
 	public EMFHeader(int type, Rectangle bounds, int versionMajor,
 			int versionMinor, int bytes, int records, int handles,
 			String application, String name, Dimension device) {
