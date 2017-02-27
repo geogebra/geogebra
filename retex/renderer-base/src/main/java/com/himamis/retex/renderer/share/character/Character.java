@@ -1185,16 +1185,6 @@ public final class Character {
 		public static final UnicodeBlock SPECIALS = new UnicodeBlock("SPECIALS");
 
 		/**
-		 * @deprecated As of J2SE 5, use {@link #HIGH_SURROGATES},
-		 *             {@link #HIGH_PRIVATE_USE_SURROGATES}, and {@link #LOW_SURROGATES}. These new
-		 *             constants match the block definitions of the Unicode Standard. The
-		 *             {@link #of(char)} and {@link #of(int)} methods return the new constants, not
-		 *             SURROGATES_AREA.
-		 */
-		@Deprecated
-		public static final UnicodeBlock SURROGATES_AREA = new UnicodeBlock("SURROGATES_AREA");
-
-		/**
 		 * Constant for the "Syriac" Unicode character block.
 		 * 
 		 * @since 1.4

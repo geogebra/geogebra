@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.freehep.graphics2d.font.CharTable;
-import org.freehep.graphics2d.font.FontEncoder;
 import org.freehep.graphics2d.font.Lookup;
 
 public class FontUtilities {
@@ -47,26 +46,28 @@ public class FontUtilities {
 		return windowsFonts.getProperty(fontName, fontName);
 	}
 
-	/**
-	 * @deprecated use
-	 *             org.freehep.graphics2d.font.FontEncoder.getEncodedString()
-	 */
-	@Deprecated
-	public static String getEncodedString(String string, String tableName) {
-		return FontEncoder.getEncodedString(string, tableName);
-	}
-
-	/**
-	 * Returns an unicode encoded string from an ascii encoded string, using the
-	 * supplied table.
-	 * 
-	 * @deprecated use
-	 *             org.freehep.graphics2d.font.FontEncoder.getEncodedString()
-	 */
-	@Deprecated
-	public static String getEncodedString(String string, CharTable charTable) {
-		return FontEncoder.getEncodedString(string, charTable);
-	}
+	// /**
+	// * @deprecated use
+	// * org.freehep.graphics2d.font.FontEncoder.getEncodedString()
+	// */
+	// @Deprecated
+	// public static String getEncodedString(String string, String tableName) {
+	// return FontEncoder.getEncodedString(string, tableName);
+	// }
+	//
+	// /**
+	// * Returns an unicode encoded string from an ascii encoded string, using
+	// the
+	// * supplied table.
+	// *
+	// * @deprecated use
+	// * org.freehep.graphics2d.font.FontEncoder.getEncodedString()
+	// */
+	// @Deprecated
+	// public static String getEncodedString(String string, CharTable charTable)
+	// {
+	// return FontEncoder.getEncodedString(string, charTable);
+	// }
 
 	public interface ShowString {
 		public void showString(Font font, String string) throws IOException;
