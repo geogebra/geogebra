@@ -453,20 +453,6 @@ public class AffineTransform implements Transform {
      */
     private transient int type;
 
-    private AffineTransform(double m00, double m10,
-                            double m01, double m11,
-                            double m02, double m12,
-                            int state) {
-        this.m00 = m00;
-        this.m10 = m10;
-        this.m01 = m01;
-        this.m11 = m11;
-        this.m02 = m02;
-        this.m12 = m12;
-        this.state = state;
-        this.type = TYPE_UNKNOWN;
-    }
-
     /**
      * Constructs a new <code>AffineTransform</code> representing the
      * Identity transformation.

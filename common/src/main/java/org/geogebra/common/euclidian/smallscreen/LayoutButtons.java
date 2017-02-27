@@ -255,33 +255,6 @@ public class LayoutButtons {
 
 	}
 
-	// private static int getTotalWidths(List<GeoButton> buttons) {
-	// int w = 0;
-	// for (GeoButton btn : buttons) {
-	// w += btn.getTotalWidth(view) + X_GAP;
-	// }
-	// return w;
-	// }
-
-	private static int getHeights(List<GeoButton> buttons) {
-		int h = 0;
-		for (GeoButton btn : buttons) {
-			h += btn.getHeight() + Y_GAP;
-		}
-		return h;
-	}
-
-	private boolean isHorizontallyOnScreen(GeoButton btn) {
-		int x = btn.getAbsoluteScreenLocX();
-		int width = btn.getTotalWidth(view);
-		return x + width < view.getViewWidth();
-	}
-
-	private boolean isVerticallyOnScreen(GeoButton btn) {
-		int y = btn.getAbsoluteScreenLocY();
-		int height = btn.getHeight();
-		return y + height < view.getViewHeight();
-	}
 
 	public boolean isCollected() {
 		return collected;

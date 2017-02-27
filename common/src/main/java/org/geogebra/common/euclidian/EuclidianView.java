@@ -3253,28 +3253,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		updateSizeChange();
 	}
 
-	private double getCenterX() {
-		return (getXmax() + getXmin()) / 2;
-	}
-
-	private double getCenterY() {
-		return (getYmax() + getYmin()) / 2;
-	}
-
-	/**
-	 * center point (x, y) in EV
-	 * 
-	 * @param x
-	 *            coord
-	 * @param y
-	 *            coord
-	 */
-	private void centerView(double x, double y) {
-		double px = (toRealWorldCoordX(getWidth()) - toRealWorldCoordX(0)) / 2;
-		double py = (-toRealWorldCoordY(getHeight()) + toRealWorldCoordY(0)) / 2;
-
-		setRealWorldCoordSystem(x - px, x + px, y - py, y + py);
-	}
 
 	private void updateSizeChange() {
 		updateSizeKeepDrawables();
@@ -4888,93 +4866,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * center the rectangle around all visible objects and zoom in/out until all
-	 * objects are visible on the graphicsView
-	 *
-	 * @param x0RW
-	 *            xMin of visible objects rectangle
-	 * @param x1RW
-	 *            xMax of visible objects rectangle
-	 * @param y0RW
-	 *            yMin of visible objects rectangle
-	 * @param y1RW
-	 *            yMax of visible objects rectangle
-	 */
-	private void alignView(double x0RW, double x1RW, double y0RW, double y1RW) {
-		centerVisibleObjectsRect(x0RW, x1RW, y0RW, y1RW);
-		setLockedAxesRatio(getScaleRatio());
-		zoomAllVisibleObjects(x0RW, x1RW, y0RW, y1RW);
-		setLockedAxesRatio(-1);
-	}
-
-	/**
-	 * zoom in/out so that the given rectangle fits on the euclidian view
-	 *
-	 * @param x0RW
-	 *            xMin of visible objects rectangle
-	 * @param x1RW
-	 *            xMax of visible objects rectangle
-	 * @param y0RW
-	 *            yMin of visible objects rectangle
-	 * @param y1RW
-	 *            yMax of visible objects rectangle
-	 */
-	private void zoomAllVisibleObjects(double x0RW, double x1RW, double y0RW,
-			double y1RW) {
-		int i = 0;
-		if (outOfRange(x0RW, x1RW, y0RW, y1RW)) {
-			// means zoom out
-			while (i < 1000 && outOfRange(x0RW, x1RW, y0RW, y1RW)) {
-				i++;
-				zoom(-0.5);
-			}
-		} else {
-			// means zoom in
-			while (i < 1000 && !outOfRange(x0RW, x1RW, y0RW, y1RW)) {
-				i++;
-				zoom(0.5);
-			}
-		}
-	}
-
-	/**
-	 * centers the rectangle of the visible objects on the visible euclidian
-	 * view
-	 *
-	 * @param x0RW
-	 *            xMin of visible objects rectangle
-	 * @param x1RW
-	 *            xMax of visible objects rectangle
-	 * @param y0RW
-	 *            yMin of visible objects rectangle
-	 * @param y1RW
-	 *            yMax of visible objects rectangle
-	 */
-	private void centerVisibleObjectsRect(double x0RW, double x1RW,
-			double y0RW, double y1RW) {
-		double screenMinX = getXmin();
-		double screenMaxX = getXmax();
-		double screenMinY = getYmin();
-		double screenMaxY = getYmax();
-
-		// center of the rectangle around the objects
-		double centerX = x0RW + (Math.abs(x1RW - x0RW) / 2);
-		double centerY = y0RW + (Math.abs(y1RW - y0RW) / 2);
-
-		// center of the visible graphics view
-		double screenCenterX = screenMinX + (Math.abs(screenMaxX - screenMinX))
-				/ 2;
-		double screenCenterY = screenMinY + (Math.abs(screenMaxY - screenMinY))
-				/ 2;
-
-		double diffX = screenCenterX - centerX;
-		double diffY = screenCenterY - centerY;
-
-		setRealWorldCoordSystem(screenMinX - diffX, screenMaxX - diffX,
-				screenMinY - diffY, screenMaxY - diffY);
-	}
-
-	/**
 	 * @return {@code true} if an object of the given TreeSet is visible in the
 	 *         graphicsView
 	 */
@@ -4985,33 +4876,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * @param factor
-	 *            positive numbers to ZoomIn, negative numbers to ZoomOut
-	 */
-	private void zoom(double factor) {
-		setRealWorldCoordSystem(getXmin() + factor, getXmax() - factor,
-				getYmin() + factor, getYmax() - factor);
-	}
-
-	/**
-	 * @param x0rw
-	 *            xMin of all objects
-	 * @param x1rw
-	 *            xMax of all objects
-	 * @param y0rw
-	 *            yMin of all objects
-	 * @param y1rw
-	 *            yMax of all objects
-	 * @return {@code true} if an object is out of the visible area of the
-	 *         euclidian view
-	 */
-	private boolean outOfRange(double x0rw, double x1rw, double y0rw,
-			double y1rw) {
-		return getXmin() > x0rw || getXmax() < x1rw || getYmin() > y0rw
-				|| getYmax() < y1rw;
 	}
 
 	/**

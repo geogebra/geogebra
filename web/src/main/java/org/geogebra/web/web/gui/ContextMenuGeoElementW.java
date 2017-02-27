@@ -465,46 +465,6 @@ img2,
 
 	}
 
-	private void addSelect() {
-		if (!isWhiteboard()) {
-			return;
-		}
-
-		addAction(null,
-				MainMenu.getMenuBarHtml(
-						AppResources.INSTANCE.empty().getSafeUri().asString(),
-						loc.getMenu("Select")),
-				loc.getMenu("Select")).setSubMenu(getSelectSubMenu());
-
-	}
-
-	private void addOrder() {
-		if (!isWhiteboard()) {
-			return;
-		}
-
-		addAction(null,
-				MainMenu.getMenuBarHtml(
-						AppResources.INSTANCE.empty().getSafeUri().asString(),
-						loc.getMenu("Order")),
-				loc.getMenu("Order")).setSubMenu(getOrderSubMenu());
-
-	}
-
-	private MenuBar getSelectSubMenu() {
-		MenuBar mnu = new MenuBar(true);
-		mnu.addStyleName("gwt-PopupPanel");
-		mnu.addStyleName("contextMenuSubmenu");
-		return mnu;
-	}
-
-	private MenuBar getOrderSubMenu() {
-		MenuBar mnu = new MenuBar(true);
-		mnu.addStyleName("gwt-PopupPanel");
-		mnu.addStyleName("contextMenuSubmenu");
-		return mnu;
-	}
-
 	private void addObjectPropertiesMenu() {
 		if (!isWhiteboard()) {
 			return;

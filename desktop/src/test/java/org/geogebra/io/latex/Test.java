@@ -145,10 +145,4 @@ public class Test {
 
 	}
 
-	private static void insertString(MathFieldD mf, String text) {
-		for (int i = 0; i < text.length(); i++) {
-			mf.getInternal().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
-		}
-
-	}
 }

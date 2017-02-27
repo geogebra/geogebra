@@ -832,7 +832,5 @@ public class ExpandConic {
 			}
 		}
 	}
-	private static String toJava(String coeffs) {
-		return coeffs.substring(1, coeffs.length()-1).replace("a^", "a").replace("b^", "b").replace("c^", "c");
-	}
+
 }
