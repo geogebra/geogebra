@@ -19,13 +19,6 @@ public abstract class AuthenticationModel extends BaseModel {
 	 */
 	public static String GGB_TOKEN_KEY_NAME = "token";
 
-	/**
-	 * Class constructor for login and logout operations
-	 */
-	public AuthenticationModel() {
-		super();
-	}
-
 	@Override
 	public void onEvent(BaseEvent event) {
 		if (event instanceof LoginEvent) {

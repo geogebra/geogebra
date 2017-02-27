@@ -8,9 +8,6 @@ public class GPUBufferW implements GPUBuffer {
 
 	private WebGLBuffer impl;
 
-	public GPUBufferW() {
-	}
-
 	@Override
 	public void set(Object index) {
 		impl = (WebGLBuffer) index;

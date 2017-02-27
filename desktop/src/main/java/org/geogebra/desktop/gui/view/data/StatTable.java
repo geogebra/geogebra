@@ -589,10 +589,6 @@ public class StatTable extends JScrollPane {
 
 		private boolean allowCellEdit = false;
 
-		public MyTable() {
-			super();
-		}
-
 		/**
 		 * @param allowCellEdit
 		 *            true if table cell can be edited

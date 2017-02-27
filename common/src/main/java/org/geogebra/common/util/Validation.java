@@ -20,7 +20,7 @@ public class Validation {
 
 	private static class DoubleValidator {
 
-		public DoubleValidator() {
+		protected DoubleValidator() {
 		}
 
 		public double validateDouble(TextObject tf, double def) {

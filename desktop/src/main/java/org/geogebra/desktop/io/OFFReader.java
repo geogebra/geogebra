@@ -27,16 +27,6 @@ import org.geogebra.common.util.opencsv.CSVException;
  */
 public class OFFReader {
 
-	/**
-	 * 
-	 * @param stream
-	 *            file input stream
-	 * @throws IOException
-	 *             input output exception
-	 */
-	public OFFReader() {
-
-	}
 
 	private static void parse(BufferedReader in, OFFHandler handler)
 			throws IOException, CSVException {

@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.CopyPaste;
 
+/**
+ * 3D extension of copy paste utility
+ */
 public class CopyPaste3D extends CopyPaste {
-
-	public CopyPaste3D() {
-		// dummy, for now
-	}
 
 	@Override
 	protected void addSubGeos(ArrayList<ConstructionElement> geos) {

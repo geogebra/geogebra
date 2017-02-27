@@ -13,13 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
  */
 public class GLFactoryW extends GLFactory {
 
-	/**
-	 * constructor
-	 */
-	public GLFactoryW() {
-
-	}
-
 	@Override
 	final public GLBuffer newBuffer() {
 		return new GLBufferW();

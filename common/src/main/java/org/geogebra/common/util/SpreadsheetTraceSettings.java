@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class creates a set of fields for GeoElements that will be traced in the
@@ -65,35 +66,29 @@ public class SpreadsheetTraceSettings {
 	/** Flag to pause the trace */
 	public boolean pause = false;
 
-	/********************************************************
-	 * Constructor.
-	 */
-	public SpreadsheetTraceSettings() {
-
-	}
-
 	/**
 	 * Prints current field values.
 	 * 
 	 * @param geo
+	 *            element to debug
 	 */
 	public void debug(GeoElement geo) {
-		System.out.println("=====================================");
-		System.out.println(geo.toString(StringTemplate.defaultTemplate));
-		System.out.println("traceColumn1 = " + traceColumn1);
-		System.out.println("traceColumn2 = " + traceColumn2);
-		System.out.println("traceRow1 = " + traceRow1);
-		System.out.println("traceRow2 = " + traceRow2);
-		System.out.println("tracingRow = " + tracingRow);
-		System.out.println("numRows = " + numRows);
-		System.out.println("headerOffset = " + headerOffset);
-		System.out.println("doColumnReset = " + doColumnReset);
-		System.out.println("needsColumnReset =" + needsColumnReset);
-		System.out.println("doRowLimit =" + doRowLimit);
-		System.out.println("showLabel =" + showLabel);
-		System.out.println("showTraceList =" + showTraceList);
-		System.out.println("doTraceGeoCopy =" + doTraceGeoCopy);
-		System.out.println("=====================================");
+		Log.debug("=====================================");
+		Log.debug(geo.toString(StringTemplate.defaultTemplate));
+		Log.debug("traceColumn1 = " + traceColumn1);
+		Log.debug("traceColumn2 = " + traceColumn2);
+		Log.debug("traceRow1 = " + traceRow1);
+		Log.debug("traceRow2 = " + traceRow2);
+		Log.debug("tracingRow = " + tracingRow);
+		Log.debug("numRows = " + numRows);
+		Log.debug("headerOffset = " + headerOffset);
+		Log.debug("doColumnReset = " + doColumnReset);
+		Log.debug("needsColumnReset =" + needsColumnReset);
+		Log.debug("doRowLimit =" + doRowLimit);
+		Log.debug("showLabel =" + showLabel);
+		Log.debug("showTraceList =" + showTraceList);
+		Log.debug("doTraceGeoCopy =" + doTraceGeoCopy);
+		Log.debug("=====================================");
 	}
 
 }

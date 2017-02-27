@@ -29,11 +29,6 @@ public class DrawableList {
 	private Link tail;
 	private int size = 0;
 
-	/**
-	 * Creates new drawable list, no initiation done.
-	 */
-	public DrawableList() {
-	}
 
 	/**
 	 * Number of drawables in list

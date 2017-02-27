@@ -66,9 +66,6 @@ public class CopyPaste {
 	// check if name is valid for geo
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
-	public CopyPaste() {
-		// dummy, for now
-	}
 
 	protected HashSet<Macro> copiedMacros;
 	protected StringBuilder copiedXML;

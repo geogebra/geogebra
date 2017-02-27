@@ -35,8 +35,8 @@ public class AdjustScreen {
 	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
 	private LayoutButtons layoutButtons;
 	private static class HSliderComparator implements Comparator<GeoNumeric> {
-		public HSliderComparator() {
-			// TODO Auto-generated constructor stub
+		protected HSliderComparator() {
+			// avoid synthetic access warning
 		}
 
 		@Override
@@ -51,8 +51,8 @@ public class AdjustScreen {
 	}
 
 	private static class VSliderComparator implements Comparator<GeoNumeric> {
-		public VSliderComparator() {
-			// TODO Auto-generated constructor stub
+		protected VSliderComparator() {
+			// avoid synthetic access warning
 		}
 
 		@Override
@@ -94,6 +94,9 @@ public class AdjustScreen {
 		layoutButtons = new LayoutButtons(view);
 	}
 
+	/**
+	 * Remove old collection of buttons
+	 */
 	public void restartButtons() {
 		layoutButtons.restart();
 	}
@@ -102,6 +105,7 @@ public class AdjustScreen {
 	 * Collect widgets, ensures they are on the screen and does not overlap.
 	 * 
 	 * @param reset
+	 *            whether to reset buttons from original coords
 	 */
 	public void apply(boolean reset) {
 		if (!enabled) {
@@ -166,6 +170,9 @@ public class AdjustScreen {
 
 	}
 
+	/**
+	 * Reset buttons from original coords
+	 */
 	public void reset() {
 		layoutButtons.reset();
 	}

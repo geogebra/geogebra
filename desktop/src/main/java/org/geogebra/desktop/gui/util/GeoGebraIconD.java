@@ -50,10 +50,6 @@ public class GeoGebraIconD {
 	private static final int HGRID_MARGIN = 4;
 	private static final int VGRID_MARGIN = 4;
 
-	public GeoGebraIconD() {
-		super();
-	}
-
 	public static ImageIcon createEmptyIcon(int width, int height) {
 
 		BufferedImage image = new BufferedImage(width, height,

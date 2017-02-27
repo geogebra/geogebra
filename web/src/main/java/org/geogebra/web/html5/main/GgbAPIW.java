@@ -249,7 +249,7 @@ public class GgbAPIW extends GgbAPI {
 	private static class StoreString implements StringHandler {
 		private String result = "";
 
-		public StoreString() {
+		protected StoreString() {
 
 		}
 

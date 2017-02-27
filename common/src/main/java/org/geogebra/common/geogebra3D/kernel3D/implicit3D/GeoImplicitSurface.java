@@ -315,7 +315,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	public void updateSurface(double[] bounds) {
 		if (isDefined()) {
 			surface3D.clear();
-			MarchingCube m = new MarchingCube();
+			MarchingCube m = new MarchingCube(this);
 			m.update(bounds);
 		}
 	}
@@ -463,12 +463,14 @@ public class GeoImplicitSurface extends GeoElement3D
 		return sb.toString();
 	}
 
-	private abstract class ImplicitSurface {
+	private static abstract class ImplicitSurface {
 
 		private static final int EMPTY_OR_INVALID = 0x1ff;
 
-		public ImplicitSurface() {
+		protected GeoImplicitSurface s;
 
+		public ImplicitSurface(GeoImplicitSurface s) {
+			this.s = s;
 		}
 
 		private final int[][] EDGE_TABLE = new int[][] { {}, // 0x00, 0xff
@@ -764,7 +766,7 @@ public class GeoImplicitSurface extends GeoElement3D
 			this.scaleX = bounds[6];
 			this.scaleY = bounds[7];
 			this.scaleZ = bounds[8];
-			this.surf = getSurface3D();
+			this.surf = s.getSurface3D();
 			this.update();
 		}
 
@@ -796,9 +798,9 @@ public class GeoImplicitSurface extends GeoElement3D
 					cube.pointOfIntersection(edges[i + 2], p3.val);
 					p2.sub(p1, p4);
 					p3.sub(p1, p5);
-					evaluateNormalAt(p1, n1);
-					evaluateNormalAt(p2, n2);
-					evaluateNormalAt(p3, n3);
+					s.evaluateNormalAt(p1, n1);
+					s.evaluateNormalAt(p2, n2);
+					s.evaluateNormalAt(p3, n3);
 					det = p4.dotCrossProduct(n1, p5);
 					if (det < 0) {
 						surf.insertPoint(p1.val, n1.val);
@@ -815,7 +817,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		}
 	}
 
-	private class MarchingCube extends ImplicitSurface {
+	private static class MarchingCube extends ImplicitSurface {
 		private static final int AVE_PXL = 40;
 		private static final int MAX_SUB_DIV = 25;
 
@@ -823,10 +825,11 @@ public class GeoImplicitSurface extends GeoElement3D
 		private int sizeY = 20;
 		private int sizeZ = 20;
 
-		public MarchingCube() {
+		public MarchingCube(GeoImplicitSurface s) {
+			super(s);
 		}
 
-		private int pixels(double c1, double c2, double scale) {
+		private static int pixels(double c1, double c2, double scale) {
 			return (int) Math.ceil((Math.abs(c1 - c2) * scale));
 		}
 
@@ -864,22 +867,22 @@ public class GeoImplicitSurface extends GeoElement3D
 
 			for (int i = 0; i <= sizeY; i++) {
 				for (int j = 0; j <= sizeX; j++) {
-					grid2d[i][j] = evaluateAt(xcoords[j], ycoords[i], z1);
+					grid2d[i][j] = s.evaluateAt(xcoords[j], ycoords[i], z1);
 				}
 			}
 
 			for (int k = 1; k <= sizeZ; k++) {
 				for (int i = 0; i <= sizeX; i++) {
-					grid1d[i] = evaluateAt(xcoords[i], y1, zcoords[k]);
+					grid1d[i] = s.evaluateAt(xcoords[i], y1, zcoords[k]);
 				}
 				cube.coords[Cube.Z1] = zcoords[k - 1];
 				cube.coords[Cube.Z2] = zcoords[k];
 				for (int i = 1; i <= sizeY; i++) {
-					prev = evaluateAt(x1, ycoords[i], zcoords[k]);
+					prev = s.evaluateAt(x1, ycoords[i], zcoords[k]);
 					cube.coords[Cube.Y1] = ycoords[i - 1];
 					cube.coords[Cube.Y2] = ycoords[i];
 					for (int j = 1; j <= sizeX; j++) {
-						cur = evaluateAt(xcoords[j], ycoords[i], zcoords[k]);
+						cur = s.evaluateAt(xcoords[j], ycoords[i], zcoords[k]);
 						cube.coords[Cube.X1] = xcoords[j - 1];
 						cube.coords[Cube.X2] = xcoords[j];
 						cube.cache[Cube.V0] = prev;
@@ -962,7 +965,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 */
 		public double[] cache = new double[8];
 
-		public Cube() {
+		protected Cube() {
 
 		}
 
