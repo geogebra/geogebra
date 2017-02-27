@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraDockPanelW extends DockPanelW {
@@ -149,6 +150,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 			return;
 		}
 
+
 		if (item.isInputTreeItem()) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -165,33 +167,32 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 			@Override
 			public void execute() {
-				// int kH = (int) (app.getAppletFrame().getKeyboardHeight());
-				//
-				// int allH = algebrap.getOffsetHeight() + kH;
-				// int maxPos = algebrap.getMaximumVerticalScrollPosition();
-				// int itemTop = item.getAbsoluteTop() +
-				// - aview.getAbsoluteTop();
-				// int relTop = itemTop % (spH + kH);
-				// int scrollPos = itemTop
-				// - spH + item.getOffsetHeight() - kH + AUTOSCROLL_MARGIN;
-				//
-				// Log.debug("[AVS] : sp height : " + spH);
-				// Log.debug("[AVS] : DOCK height : " + allH);
-				// Log.debug("[AVS] : max pos : " + maxPos);
-				//
-				// Log.debug("[AVS] : item top: " + itemTop);
-				// Log.debug("[AVS] : item rel. top: " + relTop);
-				// // Log.debug("[AVS] : scroll to: " + scrollPos);
-				//
-				// if (spH < relTop) {
-				// Log.debug("[AVS] scrollolololllollllllllllllll");
-				// scrollTo(scrollPos);
-				// }
-				// // }
-				algebrap.ensureVisible(item);
+				int i = 0;
+				int top = 0;
+				TreeItem ti = aview.getItem(0);
+				while (ti != item && i < aview.getItemCount()) {
+					top += ti.getOffsetHeight();
+					ti = aview.getItem(i);
+					i++;
+				}
+
+				int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+				int spH = algebrap.getOffsetHeight();
+				int allH = spH + kH;
+				int relTop = top % allH;
+				d(" sp: " + spH + " allH: " + allH + " relTop " + relTop);
+				
+				if (spH < relTop) {
+					int pos = item.getAbsoluteTop() - (relTop - spH);
+					algebrap.setVerticalScrollPosition(pos);
+				}
 			}
 		});
 
 
+	}
+
+	private void d(String msg) {
+		Log.debug("[AVSCROLL] " + msg);
 	}
 }
