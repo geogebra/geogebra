@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -9869,8 +9870,12 @@ public abstract class EuclidianController {
 				if (hits.size() > 0) {
 					DrawableND dr = view.getDrawableFor(hits.get(0));
 					if (dr instanceof Drawable) {
-						setDynamicStyleBarPosition(((Drawable) dr).getBounds(),
-								true);
+						if (dr instanceof DrawLine) {
+							((DrawLine) dr).updateDynamicStylebarPosition();
+						} else {
+							setDynamicStyleBarPosition(
+									((Drawable) dr).getBounds(), true);
+						}
 						setDynamicStylebarVisible(true);
 					}
 				}

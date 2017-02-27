@@ -231,7 +231,6 @@ public class DrawLine extends Drawable implements Previewable {
 				addLabelOffsetEnsureOnScreen(view.getFontLine());
 			}
 
-			updateDynamicStylebarPosition();
 		}
 	}
 
@@ -445,14 +444,10 @@ public class DrawLine extends Drawable implements Previewable {
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
-
-			if (geo.isSelected()) {
-				updateDynamicStylebarPosition();
-			}
 		}
 	}
 
-	private void updateDynamicStylebarPosition() {
+	public void updateDynamicStylebarPosition() {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);
 		rect.setBounds((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50, 0, 0);
 		view.getEuclidianController().setDynamicStylebarVisible(true);
