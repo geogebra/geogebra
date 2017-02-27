@@ -75,7 +75,7 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
+	public boolean isEqual(GeoElementND Geo) {
 		// TODO Auto-generated method stub
 		return false;
 	}

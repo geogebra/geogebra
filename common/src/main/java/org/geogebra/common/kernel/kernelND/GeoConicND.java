@@ -3414,7 +3414,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * c).
 	 */
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 
 		if (!geo.isGeoConic()) {
 			return false;

@@ -136,7 +136,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 
 		if (!geo.isGeoVector()) {
 			return false;

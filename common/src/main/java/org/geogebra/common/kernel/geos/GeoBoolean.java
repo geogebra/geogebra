@@ -358,7 +358,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		// return false if it's a different type, otherwise check
 		if (geo.isGeoBoolean()) {
 			return value == ((GeoBoolean) geo).getBoolean();

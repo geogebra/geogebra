@@ -465,7 +465,7 @@ public class GeoNumeric extends GeoElement
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoNumeric()) {
 			return Kernel.isEqual(value, ((GeoNumeric) geo).value);

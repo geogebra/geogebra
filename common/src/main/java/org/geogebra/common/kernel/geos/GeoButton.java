@@ -214,7 +214,7 @@ public class GeoButton extends GeoElement
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		return geo == this;
 	}
 

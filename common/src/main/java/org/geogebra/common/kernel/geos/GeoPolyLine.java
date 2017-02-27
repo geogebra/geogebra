@@ -195,7 +195,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * polyline p.
 	 */
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		boolean pointsOK = false;
 		if (geo.isGeoPolyLine()) {
 			GeoPolyLine g = (GeoPolyLine) geo;
@@ -203,7 +203,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 			if (numPoints == g.getNumPoints()) {
 				pointsOK = true;
 				for (int i = 0; i < numPoints && pointsOK; i++) {
-					pointsOK = this.getPoint(i).isEqual(g.getPoint(i)) || this
+					pointsOK = this.getPointND(i).isEqual(g.getPointND(i))
+							|| this
 							.getPoint(i).isEqual(g.getPoint(numPoints - 1 - i));
 				}
 

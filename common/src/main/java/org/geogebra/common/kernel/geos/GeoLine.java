@@ -683,7 +683,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	// Michael Borcherds 2008-04-30
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 
 		if (!geo.isDefined() || !isDefined()) {
 			return false;

@@ -629,7 +629,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		return false;
 	}
 

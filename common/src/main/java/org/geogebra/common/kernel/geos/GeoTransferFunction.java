@@ -210,7 +210,7 @@ public class GeoTransferFunction extends GeoElement {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		return false;
 	}
 

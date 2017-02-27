@@ -73,7 +73,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		return geo == this;
 	}
 

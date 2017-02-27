@@ -1102,7 +1102,7 @@ public class GeoList extends GeoElement
 	 * return whether this list equals GeoList list
 	 */
 	@Override
-	final public boolean isEqual(final GeoElement geo) {
+	final public boolean isEqual(final GeoElementND geo) {
 
 		if (!geo.isGeoList()) {
 			return false;

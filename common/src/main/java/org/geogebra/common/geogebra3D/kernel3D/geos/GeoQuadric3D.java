@@ -1805,7 +1805,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
+	public boolean isEqual(GeoElementND Geo) {
 		return false;
 	}
 

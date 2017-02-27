@@ -387,7 +387,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 
 		if (!geo.isGeoVector()) {
 			return false;

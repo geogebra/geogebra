@@ -7292,7 +7292,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if these elements are algebraically equal
 	 */
 	@Override
-	public abstract boolean isEqual(GeoElement geo);
+	public abstract boolean isEqual(GeoElementND geo);
 
 	/**
 	 * Returns whether this - f gives 0 in the CAS.
@@ -7301,7 +7301,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            other geo
 	 * @return whether this - f gives 0 in the CAS.
 	 */
-	final public boolean isDifferenceZeroInCAS(final GeoElement f) {
+	final public boolean isDifferenceZeroInCAS(final GeoElementND f) {
 		// use CAS to check f - g = 0
 		String myFormula = getFormulaString(StringTemplate.defaultTemplate,
 				true);

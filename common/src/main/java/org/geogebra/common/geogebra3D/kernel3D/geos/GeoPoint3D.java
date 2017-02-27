@@ -1045,7 +1045,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		if (!geo.isGeoPoint()) {
 			return false;
 		}

@@ -319,7 +319,7 @@ public class GeoConic3D extends GeoConicND
 	 */
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
+	public boolean isEqual(GeoElementND Geo) {
 		// TODO Auto-generated method stub
 		return false;
 	}

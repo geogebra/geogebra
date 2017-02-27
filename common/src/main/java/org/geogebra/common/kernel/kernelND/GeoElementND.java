@@ -432,7 +432,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return whether the elements are equal in geometric sense (for congruency
 	 *         use isCongruent)
 	 */
-	public boolean isEqual(GeoElement geo);
+	public boolean isEqual(GeoElementND geo);
 
 	Kernel getKernel();
 

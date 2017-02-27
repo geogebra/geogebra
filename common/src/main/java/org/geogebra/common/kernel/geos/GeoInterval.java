@@ -213,7 +213,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		return false;
 	}
 

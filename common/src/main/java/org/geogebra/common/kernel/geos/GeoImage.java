@@ -923,7 +923,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		// return false if it's a different type
 		if (!geo.isGeoImage()) {
 			return false;

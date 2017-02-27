@@ -1475,7 +1475,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	// Michael Borcherds 2009-02-15
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 
 		// support c==f for Line, Function
 		if (geo.isGeoLine()) {

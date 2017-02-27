@@ -181,7 +181,7 @@ public class GeoConicPart extends GeoConic
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 
 		if (!geo.isGeoConicPart()) {
 			return false;

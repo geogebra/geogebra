@@ -223,7 +223,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
+	public boolean isEqual(GeoElementND Geo) {
 		// TODO Auto-generated method stub
 		return false;
 	}

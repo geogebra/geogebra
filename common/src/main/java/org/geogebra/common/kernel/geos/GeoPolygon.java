@@ -970,7 +970,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * polygon p.
 	 */
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		// test 3D is geo is 3D
 		if (geo.isGeoElement3D()) {
 			return geo.isEqual(this);

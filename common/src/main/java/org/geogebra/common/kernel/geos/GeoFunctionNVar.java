@@ -537,7 +537,7 @@ public class GeoFunctionNVar extends GeoElement
 	private Equation equalityChecker;
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		if (!(geo instanceof GeoFunctionNVar)) {
 			return false;
 		}

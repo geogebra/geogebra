@@ -105,7 +105,7 @@ public class GeoScriptAction extends GeoElement {
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		if (!(geo instanceof GeoScriptAction)) {
 			return false;
 		}

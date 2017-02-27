@@ -127,7 +127,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 */
 
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		if (!geo.isGeoSegment()) {
 			return false;
 		}

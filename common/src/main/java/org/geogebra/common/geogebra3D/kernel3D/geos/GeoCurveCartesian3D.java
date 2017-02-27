@@ -167,7 +167,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
+	public boolean isEqual(GeoElementND Geo) {
 		// TODO Auto-generated method stub
 		return false;
 	}

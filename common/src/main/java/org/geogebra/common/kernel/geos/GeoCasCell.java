@@ -2952,7 +2952,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	@Override
-	public boolean isEqual(final GeoElement geo) {
+	public boolean isEqual(final GeoElementND geo) {
 		return geo == this;
 	}
 

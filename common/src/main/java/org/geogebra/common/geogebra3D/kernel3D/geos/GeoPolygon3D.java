@@ -1033,7 +1033,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * polygon p.
 	 */
 	@Override
-	final public boolean isEqual(GeoElement geo) {
+	final public boolean isEqual(GeoElementND geo) {
 		// Log.debug("Entree 3D");
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {

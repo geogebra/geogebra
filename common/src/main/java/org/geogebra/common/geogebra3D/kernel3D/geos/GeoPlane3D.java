@@ -377,7 +377,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public boolean isEqual(GeoElement geo) {
+	public boolean isEqual(GeoElementND geo) {
 		if (!geo.isDefined() || !isDefined()) {
 			return false;
 		}

@@ -69,7 +69,7 @@ import org.geogebra.common.kernel.geos.Test;
        return true;
     }
    <br>
-    public boolean isEqual(GeoElement Geo) {
+    public boolean isEqual(GeoElementND Geo) {
        return false;
     }
    <br>
