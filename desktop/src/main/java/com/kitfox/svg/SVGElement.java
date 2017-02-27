@@ -37,7 +37,6 @@ package com.kitfox.svg;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
-import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,9 +73,8 @@ import com.kitfox.svg.xml.XMLParseUtil;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-abstract public class SVGElement implements Serializable {
+abstract public class SVGElement {
 
-	public static final long serialVersionUID = 0;
 	public static final String SVG_NS = "http://www.w3.org/2000/svg";
 	protected SVGElement parent = null;
 	protected final ArrayList children = new ArrayList();

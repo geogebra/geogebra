@@ -53,6 +53,7 @@ import com.himamis.retex.renderer.share.TeXFormulaSettingsParser;
  * 
  * @author Kurt Vermeulen
  */
+@SuppressWarnings("serial")
 public class DelimiterMappingNotFoundException extends JMathTeXException {
 
 	public DelimiterMappingNotFoundException(char delimiter) {

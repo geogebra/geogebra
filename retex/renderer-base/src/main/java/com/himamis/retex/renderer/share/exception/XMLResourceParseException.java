@@ -46,6 +46,7 @@
 
 package com.himamis.retex.renderer.share.exception;
 
+@SuppressWarnings("serial")
 public class XMLResourceParseException extends ResourceParseException {
 
 	/*

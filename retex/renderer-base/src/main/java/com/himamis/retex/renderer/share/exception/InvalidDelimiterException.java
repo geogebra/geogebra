@@ -53,6 +53,7 @@ import com.himamis.retex.renderer.share.TeXSymbolParser;
  * 
  * @author Kurt Vermeulen
  */
+@SuppressWarnings("serial")
 public class InvalidDelimiterException extends JMathTeXException {
 
 	public InvalidDelimiterException(String symbolName) {

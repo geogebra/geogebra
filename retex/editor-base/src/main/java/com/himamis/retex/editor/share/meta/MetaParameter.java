@@ -27,9 +27,7 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-import java.io.Serializable;
-
-public class MetaParameter implements Serializable {
+public class MetaParameter {
 
     private String name;
     private String desc;

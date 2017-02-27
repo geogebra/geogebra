@@ -28,6 +28,7 @@ package org.jfugue;
  * @author David Koelle
  * @version 2.0
  */
+@SuppressWarnings("serial")
 public class JFugueException extends RuntimeException {
 	/**
 	 * Create a new JFugueException.

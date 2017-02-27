@@ -40,8 +40,8 @@ package com.kitfox.svg;
  *
  * @author kitfox
  */
+@SuppressWarnings("serial")
 public class SVGElementException extends SVGException {
-	public static final long serialVersionUID = 0;
 
 	private final SVGElement element;
 

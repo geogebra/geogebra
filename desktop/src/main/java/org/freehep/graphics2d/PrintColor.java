@@ -10,6 +10,7 @@ import java.awt.color.ColorSpace;
  * @author Mark Donszelmann
  * @version $Id: PrintColor.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
+@SuppressWarnings("serial")
 public class PrintColor extends Color {
 
 	public static final int COLOR = 0;

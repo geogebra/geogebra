@@ -53,6 +53,7 @@ import com.himamis.retex.renderer.share.DefaultTeXFontParser;
  * 
  * @author Kurt Vermeulen
  */
+@SuppressWarnings("serial")
 public class TextStyleMappingNotFoundException extends JMathTeXException {
 
 	public TextStyleMappingNotFoundException(String styleName) {

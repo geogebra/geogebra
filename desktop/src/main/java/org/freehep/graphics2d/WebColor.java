@@ -12,6 +12,7 @@ import java.awt.Color;
  * @author Mark Donszelmann
  * @version $Id: WebColor.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
+@SuppressWarnings("serial")
 public class WebColor extends Color {
 
 	private final static int space = 0x33;

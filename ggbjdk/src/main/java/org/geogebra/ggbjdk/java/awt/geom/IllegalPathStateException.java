@@ -34,6 +34,7 @@ package org.geogebra.ggbjdk.java.awt.geom;
  *
  */
 
+@SuppressWarnings("serial")
 public class IllegalPathStateException extends RuntimeException {
     /**
      * Constructs an <code>IllegalPathStateException</code> with no

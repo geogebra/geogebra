@@ -17,6 +17,7 @@ public class Input3DFactory {
 		INSTALL, INSTALL_RUNTIMES, RUN, ALREADY_USED, NOT_UP_TO_DATE, UNKNOWN
 	};
 	
+	@SuppressWarnings("serial")
 	static public class Input3DException extends Exception {
 
 		private Input3DExceptionType type;

@@ -48,6 +48,7 @@ package com.himamis.retex.renderer.share.exception;
 /**
  * Signals that an error occured while registering an alphabet
  */
+@SuppressWarnings("serial")
 public class AlphabetRegistrationException extends Exception {
 
 	public AlphabetRegistrationException(String str) {

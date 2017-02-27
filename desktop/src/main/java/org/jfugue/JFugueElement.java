@@ -22,8 +22,6 @@
 
 package org.jfugue;
 
-import java.io.Serializable;
-
 /**
  * This is the base class for the JFugue elements, including Voice, Instrument,
  * Note, Controller, and Tempo. It requires that elements be able to return a
@@ -34,7 +32,7 @@ import java.io.Serializable;
  * @version 4.0 - Added getVerifyString()
  * @version 4.0.3 - Now extends Serializable
  */
-public interface JFugueElement extends Serializable {
+public interface JFugueElement {
 	/**
 	 * Returns the Music String representing this element and all of its
 	 * settings.

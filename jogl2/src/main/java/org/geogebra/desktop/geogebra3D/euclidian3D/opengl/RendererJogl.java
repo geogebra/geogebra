@@ -186,6 +186,7 @@ public class RendererJogl {
 	// 3D Component
 	
 	
+	@SuppressWarnings("serial")
 	private static class ComponentGLJPanel extends GLJPanel implements Component3D{ 
 		
 		public ComponentGLJPanel(){
@@ -194,6 +195,7 @@ public class RendererJogl {
 		
 	}
 	
+	@SuppressWarnings("serial")
 	private static class ComponentGLCanvas extends GLCanvas implements Component3D{ 
 		
 		public ComponentGLCanvas(){

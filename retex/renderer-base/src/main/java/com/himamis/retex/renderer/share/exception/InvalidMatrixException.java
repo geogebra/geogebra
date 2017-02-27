@@ -51,6 +51,7 @@ package com.himamis.retex.renderer.share.exception;
  *
  * @author Calixte Denizet
  */
+@SuppressWarnings("serial")
 public class InvalidMatrixException extends JMathTeXException {
 
 	protected InvalidMatrixException(String msg) {

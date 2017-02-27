@@ -51,6 +51,7 @@ package com.himamis.retex.renderer.share.exception;
  * 
  * @author Kurt Vermeulen
  */
+@SuppressWarnings("serial")
 public class InvalidTeXFormulaException extends JMathTeXException {
 
 	public InvalidTeXFormulaException(String msg) {

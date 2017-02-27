@@ -22,7 +22,6 @@
 
 package org.jfugue;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +43,7 @@ import java.util.Map;
  * @version 3.0
  * @version 4.0.3 - Now implements Serializable
  */
-public class Rhythm implements Serializable {
+public class Rhythm {
 	private Map<Character, String> charToNote;
 	private String[] layers;
 	private String[] voices;

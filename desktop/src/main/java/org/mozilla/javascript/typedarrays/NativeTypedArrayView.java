@@ -27,6 +27,7 @@ import org.mozilla.javascript.Undefined;
  * affect the rest.
  */
 
+@SuppressWarnings("serial")
 public abstract class NativeTypedArrayView<T> extends NativeArrayBufferView
 		implements List<T>, RandomAccess, ExternalArrayData {
 	/** The length, in elements, of the array */

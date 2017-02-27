@@ -51,6 +51,7 @@ package com.himamis.retex.renderer.share.exception;
  * 
  * @author Kurt Vermeulen
  */
+@SuppressWarnings("serial")
 public class InvalidSymbolTypeException extends JMathTeXException {
 
 	public InvalidSymbolTypeException(String msg) {

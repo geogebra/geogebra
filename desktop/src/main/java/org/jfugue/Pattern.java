@@ -30,7 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ import javax.swing.event.EventListenerList;
  * @version 4.0 - Added Pattern Properties
  * @version 4.0.3 - Now implements Serializable
  */
-public class Pattern implements Serializable {
+public class Pattern {
 	private StringBuilder musicString;
 	private Map<String, String> properties;
 

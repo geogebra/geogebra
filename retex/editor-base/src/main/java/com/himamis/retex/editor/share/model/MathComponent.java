@@ -27,8 +27,6 @@
  */
 package com.himamis.retex.editor.share.model;
 
-import java.io.Serializable;
-
 import com.himamis.retex.editor.share.model.inspect.Inspectable;
 import com.himamis.retex.editor.share.model.traverse.Traversable;
 
@@ -37,7 +35,7 @@ import com.himamis.retex.editor.share.model.traverse.Traversable;
  *
  * @author Bea Petrovicova
  */
-abstract public class MathComponent implements Traversable, Inspectable, Serializable {
+abstract public class MathComponent implements Traversable, Inspectable {
 
     private MathContainer parent;
 
