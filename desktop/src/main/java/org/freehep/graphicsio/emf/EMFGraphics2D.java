@@ -806,4 +806,10 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	private static int toUnit(double d) {
 		return (int) Math.floor(d * UNITS_PER_PIXEL * TWIPS);
 	}
+
+	@Override
+	protected void writeDash(float[] dash, float phase) throws IOException {
+		//
+	}
+
 }

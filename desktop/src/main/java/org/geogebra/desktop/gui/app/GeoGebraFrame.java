@@ -538,7 +538,7 @@ public class GeoGebraFrame extends JFrame
 		public void run() {
 
 			// init file chooser
-			((DialogManagerD) this.app.getGuiManager().getDialogManager())
+			((DialogManagerD) this.app.getDialogManager())
 					.initFileChooser();
 
 			// init singularWS

@@ -137,17 +137,6 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	}
 
 	/**
-	 * Removes the element at the top of this heap, and returns it.
-	 * 
-	 * @deprecated Use {@link MapBinaryHeap#poll()} or
-	 *             {@link MapBinaryHeap#remove()} instead.
-	 */
-	@Deprecated
-	public T pop() throws NoSuchElementException {
-		return this.remove();
-	}
-
-	/**
 	 * Returns the size of this heap.
 	 */
 	@Override

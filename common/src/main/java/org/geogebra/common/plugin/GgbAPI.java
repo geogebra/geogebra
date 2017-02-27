@@ -400,17 +400,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 	}
 
-	private String[] objNames;
-
-	/**
-	 * 
-	 * @return object names
-	 */
-	@Deprecated
-	public String[] getObjNames() {
-		return getAllObjectNames();
-	}
-
 	@Override
 	public synchronized String[] getAllObjectNames() {
 		Construction cons = kernel.getConstruction();
@@ -418,7 +407,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		int size = geoSet.size();
 
 		// build objNames array
-		objNames = new String[size];
+		String[] objNames = new String[size];
 
 		int i = 0;
 		Iterator<GeoElement> it = geoSet.iterator();

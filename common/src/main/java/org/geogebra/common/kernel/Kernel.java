@@ -448,10 +448,7 @@ public class Kernel {
 	}
 
 	/**
-	 * @Deprecated Please get the app elsewhere! App will be separated from the
-	 *             Kernel in the future, instead a class with settings for the
-	 *             Kernel will be introduced. - Matthias
-	 * @return chaos
+	 * @return app
 	 */
 	final public App getApplication() {
 		return app;

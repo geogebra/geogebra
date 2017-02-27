@@ -1214,28 +1214,31 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param phase
 	 *            of the dash pattern
 	 */
-	protected void writeDash(float[] dash, float phase) throws IOException {
-		// for backward compatibility
-		double[] dd = new double[dash.length];
-		for (int i = 0; i < dash.length; i++) {
-			dd[i] = dash[i];
-		}
-		writeDash(dd, phase);
-	}
+	abstract protected void writeDash(float[] dash, float phase)
+			throws IOException;
+	// {
+	// // for backward compatibility
+	// double[] dd = new double[dash.length];
+	// for (int i = 0; i < dash.length; i++) {
+	// dd[i] = dash[i];
+	// }
+	// writeDash(dd, phase);
+	// }
 
-	/**
-	 * Writes out the dash of the stroke.
-	 * 
-	 * @deprecated use writeDash(float[], float)
-	 * @param dash
-	 *            dash pattern, empty array is solid line
-	 * @param phase
-	 *            of the dash pattern
-	 */
-	@Deprecated
-	protected void writeDash(double[] dash, double phase) throws IOException {
-		writeWarning(getClass() + ": writeDash() not implemented.");
-	}
+	// /**
+	// * Writes out the dash of the stroke.
+	// *
+	// * @deprecated use writeDash(float[], float)
+	// * @param dash
+	// * dash pattern, empty array is solid line
+	// * @param phase
+	// * of the dash pattern
+	// */
+	// @Deprecated
+	// protected void writeDash(double[] dash, double phase) throws IOException
+	// {
+	// writeWarning(getClass() + ": writeDash() not implemented.");
+	// }
 
 	/* 8.2 Paint */
 	@Override
