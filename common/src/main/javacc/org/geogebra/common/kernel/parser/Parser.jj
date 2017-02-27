@@ -124,6 +124,7 @@ public class Parser implements ParserInterface{
         // parse x^2 + y^2 as an expression and don't throw Incomplete Equation error
         GeoGebraCASParsing = true;                        
         ValidExpression ret = buildCASExpression(cell);
+        processUndecided();
         return ret;     
     }
     
