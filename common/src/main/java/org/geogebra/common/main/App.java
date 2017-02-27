@@ -4041,10 +4041,6 @@ public abstract class App implements UpdateSelection {
 		case AV_SINGLE_TAP_EDIT:
 			return prerelease || v6;
 
-		// MOB-527
-		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
-			return false;
-
 		// MOB-904
 		case MOBILE_KEYBOARD_IN_POPUP:
 			return true;
