@@ -1144,7 +1144,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void mirror(Coords Q) {
-		fun.mirror(Q);
+		fun.dilate(new MyDouble(kernel, -1.0), Q);
 	}
 
 	/**

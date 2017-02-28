@@ -1159,6 +1159,8 @@ public class FunctionNVar extends ValidExpression
 			this.translate(-s.getX(), -s.getY());
 			this.matrixTransform(r, 0, 0, r);
 			this.translate(s.getX(), s.getY());
+			double dv = d.getDouble();
+			expression = expression.multiply(dv).plus(s.getZ() * (1 - dv));
 		}
 	}
 
@@ -1397,14 +1399,6 @@ public class FunctionNVar extends ValidExpression
 		translate(-S.getX(), -S.getY());
 		matrixTransform(1 / r.getDouble(), 0, 0, 1 / r.getDouble());
 		translate(S.getX(), S.getY());
-	}
-
-	/**
-	 * @param q
-	 *            mirror at
-	 */
-	public void mirror(Coords q) {
-		dilate(new MyDouble(kernel, -1.0), q);
 	}
 
 	/**

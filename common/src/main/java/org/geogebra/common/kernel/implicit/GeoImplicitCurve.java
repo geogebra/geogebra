@@ -1000,9 +1000,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void mirror(Coords Q) {
-		expression.mirror(Q);
+		MyDouble minusOne = new MyDouble(kernel, -1.0);
+		expression.dilate(minusOne, Q);
 		for (int factor = 0; factor < factorLength(); ++factor) {
-			getFactor(factor).mirror(Q);
+			getFactor(factor).dilate(minusOne, Q);
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
