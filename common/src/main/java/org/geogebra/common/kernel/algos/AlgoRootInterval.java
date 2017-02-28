@@ -103,13 +103,9 @@ public class AlgoRootInterval extends AlgoElement {
 		double newtonRoot = Double.NaN;
 
 		try {
-			// Brent's method (Apache 2.2)
-			root = rootFinder.solve(100, fun, min, max);
-
-			// Apache 3.3 - solver seems more accurate
-			// #4691
-			// BrentSolver brent3 = new BrentSolver();
-			// root = brent3.solve(100, new RealRootAdapter3(fun), min, max);
+			// Brent's method (Apache)
+			root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min,
+					max);
 
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -119,7 +115,8 @@ public class AlgoRootInterval extends AlgoElement {
 				// Let's try again by searching for a valid domain first
 				double[] borders = RealRootUtil.getDefinedInterval(fun, min,
 						max);
-				root = rootFinder.solve(100, fun, borders[0],
+				root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
+						borders[0],
 						borders[1]);
 			} catch (Exception ex) {
 				// ex.printStackTrace();
@@ -135,7 +132,8 @@ public class AlgoRootInterval extends AlgoElement {
 		// #4691
 
 		try {
-			newtonRoot = rootPolisher.solve(100, fun, min,
+			newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
+					min,
 					max, root);
 
 			if (Math.abs(fun.evaluate(newtonRoot)) < Math
