@@ -19,6 +19,8 @@ import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoListElement;
+import org.geogebra.common.kernel.algos.AlgoMax;
+import org.geogebra.common.kernel.algos.AlgoMin;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoRayPointVector;
@@ -481,27 +483,34 @@ public abstract class ProbabilityCalculatorView
 					Operation.PLUS, offset);
 
 			AlgoDependentNumber xLow;
-			if (isCumulative) {
-				// for cumulative bar graphs we only show a single bar
-				xLow = new AlgoDependentNumber(cons, highPlusOffset, false);
-			} else {
-				xLow = new AlgoDependentNumber(cons, lowPlusOffset, false);
-			}
-			cons.removeFromConstructionList(xLow);
-
+			AlgoElement xMin;
+			AlgoElement xMax;
 			AlgoDependentNumber xHigh = new AlgoDependentNumber(cons,
 					highPlusOffset, false);
 			cons.removeFromConstructionList(xHigh);
+			if (isCumulative) {
+				// for cumulative bar graphs we only show a single bar
+				xLow = new AlgoDependentNumber(cons, highPlusOffset, false);
+				xMin = xLow;
+				xMax = xLow;
+			} else {
+				xLow = new AlgoDependentNumber(cons, lowPlusOffset, false);
+				xMin = new AlgoMin(cons, xLow.getNumber(), xHigh.getNumber());
+				xMax = new AlgoMax(cons, xLow.getNumber(), xHigh.getNumber());
+			}
+			cons.removeFromConstructionList(xLow);
+
+
 
 			AlgoTake take = new AlgoTake(cons, discreteValueList,
-					(GeoNumeric) xLow.getOutput(0),
-					(GeoNumeric) xHigh.getOutput(0));
+					(GeoNumeric) xMin.getOutput(0),
+					(GeoNumeric) xMax.getOutput(0));
 			cons.removeFromConstructionList(take);
 			intervalValueList = (GeoList) take.getOutput(0);
 
 			AlgoTake take2 = new AlgoTake(cons, discreteProbList,
-					(GeoNumeric) xLow.getOutput(0),
-					(GeoNumeric) xHigh.getOutput(0));
+					(GeoNumeric) xMin.getOutput(0),
+					(GeoNumeric) xMax.getOutput(0));
 			cons.removeFromConstructionList(take2);
 			intervalProbList = (GeoList) take2.getOutput(0);
 
@@ -1423,6 +1432,12 @@ public abstract class ProbabilityCalculatorView
 	@Override
 	public void update(GeoElement geo) {
 		if (!isSettingAxisPoints && !isIniting) {
+			if (lowPoint != null && highPoint != null
+					&& lowPoint.getInhomX() > highPoint.getInhomX()) {
+				GeoPoint swap = lowPoint;
+				lowPoint = highPoint;
+				highPoint = swap;
+			}
 			if (geo.equals(lowPoint)) {
 				if (isValidInterval(probMode, lowPoint.getInhomX(),
 						getHigh())) {
