@@ -159,33 +159,31 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		}
 
 		// try Newton's method
-		DifferentiableUnivariateFunction derivFun = fun;// .getRealRootDerivFunction();
-		if (derivFun != null) {
-			// check if fun(start) is defined
-			double eval = fun.value(startX);
-			double start1 = startX;
-			if (Double.isNaN(eval) || Double.isInfinite(eval)) {
-				// shift left border slightly right
-				borders[0] = 0.9 * borders[0] + 0.1 * borders[1];
-				start1 = (borders[0] + borders[1]) / 2;
-			}
-
-			if (rootFinderNewton == null) {
-				rootFinderNewton = new NewtonSolver();
-			}
-
-			try {
-				root = rootFinderNewton.solve(MAX_ITERATIONS, derivFun,
-						borders[0],
-						borders[1], start1);
-				if (checkRoot(fun, root)) {
-					// System.out.println("Newton worked: " + root);
-					return root;
-				}
-			} catch (RuntimeException e) {
-				root = Double.NaN;
-			}
+		DifferentiableUnivariateFunction derivFun = fun;
+		// check if fun(start) is defined
+		double eval = fun.value(startX);
+		double start1 = startX;
+		if (Double.isNaN(eval) || Double.isInfinite(eval)) {
+			// shift left border slightly right
+			borders[0] = 0.9 * borders[0] + 0.1 * borders[1];
+			start1 = (borders[0] + borders[1]) / 2;
 		}
+
+		if (rootFinderNewton == null) {
+			rootFinderNewton = new NewtonSolver();
+		}
+
+		try {
+			root = rootFinderNewton.solve(MAX_ITERATIONS, derivFun, borders[0],
+					borders[1], start1);
+			if (checkRoot(fun, root)) {
+				// System.out.println("Newton worked: " + root);
+				return root;
+			}
+		} catch (RuntimeException e) {
+			//
+		}
+
 
 		// neither Brent nor Newton worked
 		return Double.NaN;
