@@ -150,7 +150,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 			return;
 		}
 
-
 		if (item.isInputTreeItem()) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -183,7 +182,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 				d(" sp: " + spH + " allH: " + allH + " relTop " + relTop);
 				
 				if (spH < relTop) {
-					int pos = item.getAbsoluteTop() - (relTop - spH);
+					int pos = top + item.getOffsetHeight() - spH;
 					algebrap.setVerticalScrollPosition(pos);
 				}
 			}
