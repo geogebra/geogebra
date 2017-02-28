@@ -516,8 +516,12 @@ public class FormulaEditor extends View implements MathField {
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeValue(rootComponent);
-            out.writeValue(currentField);
+            if (rootComponent!=null) {
+                out.writeValue(rootComponent);
+            }
+            if (currentField!=null) {
+                out.writeValue(currentField);
+            }
             out.writeInt(currentOffset);
         }
 
