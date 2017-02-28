@@ -741,10 +741,14 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			if (Double.isNaN(secondSum)) {
 				return Double.NaN;
 			}
-		} catch (ArithmeticException e) {
-			error = true;
 		} catch (IllegalArgumentException e) {
 			return Double.NaN;
+		} catch (RuntimeException e) {
+			// catches IllegalStateException and ArithmeticException
+			// eg
+			// org.apache.commons.math3.exception.TooManyEvaluationsException:
+			// illegal state: maximal count ({0}) exceeded500: evaluations
+			error = true;
 		}
 
 		// if (!error) Application.debug(a+" "+b+" "+(firstSum - secondSum),
