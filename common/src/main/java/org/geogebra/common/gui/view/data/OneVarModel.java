@@ -15,7 +15,15 @@ public class OneVarModel {
 	private TTest tTestImpl;
 	private NormalDistribution normalDist;
 	private TDistribution tDist;
-	public double testStat, P, df, lower, upper, mean, se, me, N;
+	private double testStat;
+	private double P;
+	private double df;
+	private double lower;
+	private double upper;
+	private double mean;
+	private double se;
+	private double me;
+	private double N;
 	// input fields
 	public double confLevel = .95, hypMean = 0, sigma = 1;
 	// test type (tail)
@@ -157,5 +165,44 @@ public class OneVarModel {
 		}
 		return nameList;
 	}
+
+	public double getLower() {
+		return lower;
+	}
+
+
+	public double getUpper() {
+		return upper;
+	}
+
+	public double getP() {
+		return P;
+	}
+
+	public double getTestStat() {
+		return testStat;
+	}
+
+	public double getDf() {
+		return df;
+	}
+
+	public double getMean() {
+		return mean;
+	}
+
+	public double getSe() {
+		return se;
+	}
+
+	public double getMe() {
+		return me;
+	}
+
+	public double getN() {
+		return N;
+	}
+
+
 
 }

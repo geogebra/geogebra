@@ -235,51 +235,51 @@ public class OneVarInferencePanelD extends JPanel
 		DefaultTableModel model1 = resultTable.getModel();
 
 		evaluate();
-		String cInt = statDialog.format(model.mean) + " \u00B1 "
-				+ statDialog.format(model.me);
+		String cInt = statDialog.format(model.getMean()) + " \u00B1 "
+				+ statDialog.format(model.getMe());
 
 		switch (model.selectedPlot) {
 		default:
 			// do nothing
 			break;
 		case StatisticsModel.INFER_ZTEST:
-			model1.setValueAt(statDialog.format(model.P), 0, 0);
-			model1.setValueAt(statDialog.format(model.testStat), 1, 0);
+			model1.setValueAt(statDialog.format(model.getP()), 0, 0);
+			model1.setValueAt(statDialog.format(model.getTestStat()), 1, 0);
 			model1.setValueAt("", 2, 0);
-			model1.setValueAt(statDialog.format(model.N), 3, 0);
-			model1.setValueAt(statDialog.format(model.mean), 4, 0);
+			model1.setValueAt(statDialog.format(model.getN()), 3, 0);
+			model1.setValueAt(statDialog.format(model.getMean()), 4, 0);
 			break;
 
 		case StatisticsModel.INFER_TTEST:
-			model1.setValueAt(statDialog.format(model.P), 0, 0);
-			model1.setValueAt(statDialog.format(model.testStat), 1, 0);
-			model1.setValueAt(statDialog.format(model.df), 2, 0);
-			model1.setValueAt(statDialog.format(model.se), 3, 0);
+			model1.setValueAt(statDialog.format(model.getP()), 0, 0);
+			model1.setValueAt(statDialog.format(model.getTestStat()), 1, 0);
+			model1.setValueAt(statDialog.format(model.getDf()), 2, 0);
+			model1.setValueAt(statDialog.format(model.getSe()), 3, 0);
 			model1.setValueAt("", 4, 0);
-			model1.setValueAt(statDialog.format(model.N), 5, 0);
-			model1.setValueAt(statDialog.format(model.mean), 6, 0);
+			model1.setValueAt(statDialog.format(model.getN()), 5, 0);
+			model1.setValueAt(statDialog.format(model.getMean()), 6, 0);
 			break;
 
 		case StatisticsModel.INFER_ZINT:
 			model1.setValueAt(cInt, 0, 0);
-			model1.setValueAt(statDialog.format(model.lower), 1, 0);
-			model1.setValueAt(statDialog.format(model.upper), 2, 0);
-			model1.setValueAt(statDialog.format(model.me), 3, 0);
+			model1.setValueAt(statDialog.format(model.getLower()), 1, 0);
+			model1.setValueAt(statDialog.format(model.getUpper()), 2, 0);
+			model1.setValueAt(statDialog.format(model.getMe()), 3, 0);
 			model1.setValueAt("", 4, 0);
-			model1.setValueAt(statDialog.format(model.N), 5, 0);
-			model1.setValueAt(statDialog.format(model.mean), 6, 0);
+			model1.setValueAt(statDialog.format(model.getN()), 5, 0);
+			model1.setValueAt(statDialog.format(model.getMean()), 6, 0);
 			break;
 
 		case StatisticsModel.INFER_TINT:
 			model1.setValueAt(cInt, 0, 0);
-			model1.setValueAt(statDialog.format(model.lower), 1, 0);
-			model1.setValueAt(statDialog.format(model.upper), 2, 0);
-			model1.setValueAt(statDialog.format(model.me), 3, 0);
-			model1.setValueAt(statDialog.format(model.df), 4, 0);
-			model1.setValueAt(statDialog.format(model.se), 5, 0);
+			model1.setValueAt(statDialog.format(model.getLower()), 1, 0);
+			model1.setValueAt(statDialog.format(model.getUpper()), 2, 0);
+			model1.setValueAt(statDialog.format(model.getMe()), 3, 0);
+			model1.setValueAt(statDialog.format(model.getDf()), 4, 0);
+			model1.setValueAt(statDialog.format(model.getSe()), 5, 0);
 			model1.setValueAt("", 6, 0);
-			model1.setValueAt(statDialog.format(model.N), 7, 0);
-			model1.setValueAt(statDialog.format(model.mean), 8, 0);
+			model1.setValueAt(statDialog.format(model.getN()), 7, 0);
+			model1.setValueAt(statDialog.format(model.getMean()), 8, 0);
 			break;
 		}
 

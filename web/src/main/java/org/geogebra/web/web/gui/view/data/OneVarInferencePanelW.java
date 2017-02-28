@@ -245,51 +245,51 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 
 		evaluate();
-		String cInt = statDialog.format(model.mean) + " \u00B1 "
-				+ statDialog.format(model.me);
+		String cInt = statDialog.format(model.getMean()) + " \u00B1 "
+				+ statDialog.format(model.getMe());
 		
 		switch (model.selectedPlot) {
 		default:
 			// do nothing
 			break;
 		case StatisticsModel.INFER_ZTEST:
-			resultTable.setValueAt(statDialog.format(model.P), 0, 1);
-			resultTable.setValueAt(statDialog.format(model.testStat), 1, 1);
+			resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
+			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1, 1);
 			resultTable.setValueAt("", 2, 1);
-			resultTable.setValueAt(statDialog.format(model.N), 3, 1);
-			resultTable.setValueAt(statDialog.format(model.mean), 4, 1);
+			resultTable.setValueAt(statDialog.format(model.getN()), 3, 1);
+			resultTable.setValueAt(statDialog.format(model.getMean()), 4, 1);
 			break;
 
 		case StatisticsModel.INFER_TTEST:
-			resultTable.setValueAt(statDialog.format(model.P), 0, 1);
-			resultTable.setValueAt(statDialog.format(model.testStat), 1, 1);
-			resultTable.setValueAt(statDialog.format(model.df), 2, 1);
-			resultTable.setValueAt(statDialog.format(model.se), 3, 1);
+			resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
+			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1, 1);
+			resultTable.setValueAt(statDialog.format(model.getDf()), 2, 1);
+			resultTable.setValueAt(statDialog.format(model.getSe()), 3, 1);
 			resultTable.setValueAt("", 4, 1);
-			resultTable.setValueAt(statDialog.format(model.N), 5, 1);
-			resultTable.setValueAt(statDialog.format(model.mean), 6, 1);
+			resultTable.setValueAt(statDialog.format(model.getN()), 5, 1);
+			resultTable.setValueAt(statDialog.format(model.getMean()), 6, 1);
 			break;
 
 		case StatisticsModel.INFER_ZINT:
 			resultTable.setValueAt(cInt,0,1);
-			resultTable.setValueAt(statDialog.format(model.lower), 1, 1);
-			resultTable.setValueAt(statDialog.format(model.upper), 2, 1);
-			resultTable.setValueAt(statDialog.format(model.me), 3, 1);
+			resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
+			resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
+			resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
 			resultTable.setValueAt("", 4, 1);
-			resultTable.setValueAt(statDialog.format(model.N), 5, 1);
-			resultTable.setValueAt(statDialog.format(model.mean), 6, 1);
+			resultTable.setValueAt(statDialog.format(model.getN()), 5, 1);
+			resultTable.setValueAt(statDialog.format(model.getMean()), 6, 1);
 			break;
 
 		case StatisticsModel.INFER_TINT:
 			resultTable.setValueAt(cInt,0,1);
-			resultTable.setValueAt(statDialog.format(model.lower), 1, 1);
-			resultTable.setValueAt(statDialog.format(model.upper), 2, 1);
-			resultTable.setValueAt(statDialog.format(model.me), 3, 1);
-			resultTable.setValueAt(statDialog.format(model.df), 4, 1);
-			resultTable.setValueAt(statDialog.format(model.se), 5, 1);
+			resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
+			resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
+			resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
+			resultTable.setValueAt(statDialog.format(model.getDf()), 4, 1);
+			resultTable.setValueAt(statDialog.format(model.getSe()), 5, 1);
 			resultTable.setValueAt("", 6, 1);
-			resultTable.setValueAt(statDialog.format(model.N), 7, 1);
-			resultTable.setValueAt(statDialog.format(model.mean), 8, 1);
+			resultTable.setValueAt(statDialog.format(model.getN()), 7, 1);
+			resultTable.setValueAt(statDialog.format(model.getMean()), 8, 1);
 			break;
 		}
 
