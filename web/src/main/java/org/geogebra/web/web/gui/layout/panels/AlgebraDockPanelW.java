@@ -24,6 +24,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
+	private int savedScrollPosition;
 
 	public AlgebraDockPanelW(App app1) {
 		super(
@@ -183,7 +184,8 @@ public class AlgebraDockPanelW extends DockPanelW {
 				int relTop = top
 						% allH;
 				d(" sp: " + spH + " allH: " + allH + " top: " + top + " relTop "
-						+ relTop + " scrollPos: " + scrollPos);
+						+ relTop + " scrollPos: " + scrollPos + " saved: "
+						+ savedScrollPosition);
 				
 				if (spH < relTop) {
 					
@@ -198,5 +200,9 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	private void d(String msg) {
 		Log.debug("[AVSCROLL] " + msg);
+	}
+
+	public void saveScrollPosition() {
+		savedScrollPosition = algebrap.getVerticalScrollPosition();
 	}
 }

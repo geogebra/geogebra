@@ -1841,6 +1841,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
+		getAlgebraDockPanel().saveScrollPosition();
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
 					|| !attached) // needed for F2 when Algebra
