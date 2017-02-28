@@ -264,7 +264,7 @@ __GGB__keysVar.nl.command = {
     "Directrix": "Richtlijn",
     "Directrix.Syntax": "[ <Kegelsnede> ]",
     "Distance": "Afstand",
-    "Distance.Syntax": "[ <Punt>, <Object> ]\n[ <Rechte>, <Rechte> ]",
+    "Distance.Syntax": "[ <Punt>, <Object> ]\n[ <Rechte>, <Rechte> ]\n[ <Vlak>, <Vlak> ]",
     "Div": "Quoti\xebnt",
     "Div.Syntax": "[ <Deeltal>, <Deler> ]\n[ <Deelveelterm>, <Delerveelterm> ]",
     "Division": "Deling",

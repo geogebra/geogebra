@@ -264,7 +264,7 @@ __GGB__keysVar.it.command = {
     "Directrix": "Direttrice",
     "Directrix.Syntax": "[ <Conica> ]",
     "Distance": "Distanza",
-    "Distance.Syntax": "[ <Punto>, <Oggetto> ]\n[ <Retta>, <Retta> ]",
+    "Distance.Syntax": "[ <Punto>, <Oggetto> ]\n[ <Retta>, <Retta> ]\n[ <Piano>, <Piano> ]",
     "Div": "Quoziente",
     "Div.Syntax": "[ <Numero dividendo>, <Numero divisore> ]\n[ <Polinomio dividendo>, <Polinomio divisore> ]",
     "Division": "Divisione",

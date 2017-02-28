@@ -1355,7 +1355,7 @@ __GGB__keysVar.cs.menu = {
     "CasCell": "Bu\u0148ka CAS",
     "CasCellUseAsText": "Text",
     "CasTimeout": "CAS \u010dasov\xe1 prodleva (v sekund\xe1ch)",
-    "Categories": "Categories",
+    "Categories": "Kategorie",
     "CellAisNotDefined": "Bu\u0148ka %0 nen\xed definov\xe1na",
     "CenterOfA": "St\u0159ed %0",
     "CentroidOfA": "T\u011b\u017ei\u0161t\u011b %0",
