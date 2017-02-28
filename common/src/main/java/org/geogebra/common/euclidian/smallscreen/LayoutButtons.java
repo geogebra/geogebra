@@ -21,7 +21,7 @@ public class LayoutButtons {
 	private List<AbsoluteScreenLocateable> originals = new ArrayList<AbsoluteScreenLocateable>();
 	private List<AbsoluteScreenLocateable> all = new ArrayList<AbsoluteScreenLocateable>();
 	private List<AbsoluteScreenLocateable> moveable = new ArrayList<AbsoluteScreenLocateable>();
-	private EuclidianView view;
+	private final EuclidianView view;
 	private final static ButtonComparator comparatorX = new ButtonComparator(
 			false);
 	private final static ButtonComparator comparatorY = new ButtonComparator(
@@ -65,7 +65,9 @@ public class LayoutButtons {
 	}
 
 	public void add(AbsoluteScreenLocateable button) {
-		originals.add(button);
+		if (view.isVisibleInThisView(button)) {
+			originals.add(button);
+		}
 	}
 
 	public void reset() {
@@ -125,15 +127,15 @@ public class LayoutButtons {
 		all.clear();
 		all.addAll(originals);
 
-		debugButtons("initial: ", all);
+		// debugButtons("initial: ", all);
 
 		applyHorizontally();
 
-		debugButtons("after horizontally: ", all);
+		// debugButtons("after horizontally: ", all);
 
 		applyVertically();
 
-		debugButtons("after vertically: ", all);
+		// debugButtons("after vertically: ", all);
 
 	}
 
@@ -160,7 +162,7 @@ public class LayoutButtons {
 			setAbsoluteScreenLoc(btn, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
 					btn.getTotalWidth(view), btn.getTotalHeight(view)));
-			view.update(btn.toGeoElement());
+			btn.update();
 		}
 	}
 
@@ -183,8 +185,8 @@ public class LayoutButtons {
 			setAbsoluteScreenLoc(btn, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
 					btn.getTotalWidth(view), btn.getTotalHeight(view)));
-			Log.debug(btn + "---->" + x);
-			view.update(btn.toGeoElement());
+			btn.update();
+
 		}
 	}
 
@@ -229,7 +231,7 @@ public class LayoutButtons {
 	private void divideX() {
 		moveable.clear();
 		for (AbsoluteScreenLocateable btn : all) {
-			if (isVerticallyOnScreen(btn)) {
+			if (isHorizontallyOnScreen(btn)) {
 				moveable.add(btn);
 			}
 		}
@@ -251,13 +253,16 @@ public class LayoutButtons {
 	private boolean isHorizontallyOnScreen(AbsoluteScreenLocateable btn) {
 		int x = btn.getAbsoluteScreenLocX();
 		int width = btn.getTotalWidth(view);
-		return x + width < view.getViewWidth();
+		Log.debug("Checking" + view.getSettings().getFileWidth());
+		return view.getSettings().getFileWidth() == 0
+				|| x + width < view.getSettings().getFileWidth();
 	}
 
 	private boolean isVerticallyOnScreen(AbsoluteScreenLocateable btn) {
 		int y = btn.getAbsoluteScreenLocY();
 		int height = btn.getTotalHeight(view);
-		return y + height < view.getViewHeight();
+		return view.getSettings().getFileHeight() == 0
+				|| y + height < view.getSettings().getFileHeight();
 	}
 
 	// private static int getTotalWidths(List<GeoButton> buttons) {

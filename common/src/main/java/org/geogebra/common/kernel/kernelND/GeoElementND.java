@@ -673,4 +673,8 @@ public interface GeoElementND extends ExpressionValue {
 
 	int compareTo(ConstructionElement cycleNext);
 
+	boolean isVisibleInView(int viewID);
+
+	boolean isVisibleInViewForPlane();
+
 }

@@ -2186,7 +2186,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            geo
 	 * @return true if geo is visible in this view
 	 */
-	public boolean isVisibleInThisView(GeoElement geo) {
+	public boolean isVisibleInThisView(GeoElementND geo) {
 		return companion.isVisibleInThisView(geo);
 	}
 

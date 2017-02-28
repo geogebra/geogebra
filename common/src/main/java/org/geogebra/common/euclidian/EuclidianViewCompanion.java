@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -88,7 +89,7 @@ public class EuclidianViewCompanion {
 	 *            geo
 	 * @return true if geo is visible in this view
 	 */
-	public boolean isVisibleInThisView(GeoElement geo) {
+	public boolean isVisibleInThisView(GeoElementND geo) {
 		return geo.isVisibleInView(view.getViewID());
 	}
 

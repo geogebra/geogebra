@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
@@ -365,7 +366,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	public boolean isVisibleInThisView(GeoElement geo) {
+	public boolean isVisibleInThisView(GeoElementND geo) {
 
 		// prevent not implemented type to be displayed (TODO remove)
 		switch (geo.getGeoClassType()) {

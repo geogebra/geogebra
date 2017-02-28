@@ -1527,6 +1527,7 @@ public abstract class App implements UpdateSelection {
 	private boolean isAutoSaved = false;
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
+	private AdjustScreen adjustScreen2 = null;
 
 	public final boolean isAutoSaved() {
 		return isAutoSaved;
@@ -4574,12 +4575,21 @@ public abstract class App implements UpdateSelection {
 			return;
 		}
 		if (adjustScreen == null) {
-			adjustScreen = new AdjustScreen(getActiveEuclidianView());
+			adjustScreen = new AdjustScreen(getEuclidianView1());
 		}
 		if (!reset) {
 			adjustScreen.restartButtons();
 		}
 		adjustScreen.apply(reset);
+		if (this.hasEuclidianView2(1)) {
+			if (adjustScreen2 == null) {
+				adjustScreen2 = new AdjustScreen(getEuclidianView2(1));
+			}
+			if (!reset) {
+				adjustScreen2.restartButtons();
+			}
+			adjustScreen2.apply(reset);
+		}
 	}
 
 	/**
