@@ -4044,10 +4044,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_KEYBOARD_IN_POPUP:
 			return true;
 
-		// MOB-339
-		case MOBILE_ANALYTICS:
-			return true;
-
 		case DATA_COLLECTION:
 			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
 				return true;

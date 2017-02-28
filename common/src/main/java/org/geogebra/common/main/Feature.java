@@ -47,9 +47,6 @@ public enum Feature {
 	/** MOB-904 */
 	MOBILE_KEYBOARD_IN_POPUP,
 
-	/** MOB-339 */
-	MOBILE_ANALYTICS,
-
 	CONVEX_HULL_3D,
 
 	/** MOB-637 */
