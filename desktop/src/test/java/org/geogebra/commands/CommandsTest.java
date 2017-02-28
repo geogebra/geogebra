@@ -873,6 +873,12 @@ public class CommandsTest extends Assert{
 		t("ab_{1}+1", "4");
 	}
 
+	@Test
+	public void testShorthandIntersect() {
+		t("x=2*y=3*z", "X = (0, 0, 0) + " + Unicode.lambda + " (6, 3, 2)");
+		t("(x=2y,2y=3z)", "X = (0, 0, 0) + " + Unicode.lambda + " (6, 3, 2)");
+	}
+
 	private static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
 				Unicode.Superscript_3 + "");
