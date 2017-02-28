@@ -334,7 +334,8 @@ public class ExceptionContext implements Serializable {
      * interface.
      * @return a string that mentions which class could not be serialized.
      */
-    private String nonSerializableReplacement(Object obj) {
+	@SuppressWarnings("unused")
+	private static String nonSerializableReplacement(Object obj) {
         return "[Object could not be serialized: " + obj.getClass().getName() + "]";
     }
 }

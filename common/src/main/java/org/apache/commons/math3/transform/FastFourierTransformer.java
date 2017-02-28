@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 import org.geogebra.common.util.Cloner;
 
@@ -455,7 +454,8 @@ public class FastFourierTransformer implements Serializable {
      * @throws IllegalArgumentException if any dimension is not a power of two
      * @deprecated see MATH-736
      */
-    @Deprecated
+	@SuppressWarnings("unused")
+	@Deprecated
     private void mdfft(MultiDimensionalComplexMatrix mdcm,
             TransformType type, int d, int[] subVector) {
 
@@ -517,7 +517,8 @@ public class FastFourierTransformer implements Serializable {
          * @param multiDimensionalComplexArray array containing the matrix
          * elements
          */
-        MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
+		@SuppressWarnings("unused")
+		MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
 
             this.multiDimensionalComplexArray = multiDimensionalComplexArray;
 
@@ -626,7 +627,8 @@ public class FastFourierTransformer implements Serializable {
          *
          * @return underlying storage array
          */
-        public Object getArray() {
+		@SuppressWarnings("unused")
+		public Object getArray() {
             return multiDimensionalComplexArray;
         }
 
@@ -645,7 +647,8 @@ public class FastFourierTransformer implements Serializable {
          *
          * @param mdcm array where to copy data
          */
-        private void clone(MultiDimensionalComplexMatrix mdcm) {
+		@SuppressWarnings("unused")
+		private void clone(MultiDimensionalComplexMatrix mdcm) {
 
             int[] vector = new int[dimensionSize.length];
             int size = 1;

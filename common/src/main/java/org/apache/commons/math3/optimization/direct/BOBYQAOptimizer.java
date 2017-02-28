@@ -27,9 +27,8 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.MultivariateOptimizer;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.optimization.PointValuePair;
 
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and
@@ -2464,7 +2463,8 @@ public class BOBYQAOptimizer
      * Marker for code paths that are not explored with the current unit tests.
      * If the path becomes explored, it should just be removed from the code.
      */
-    private static class PathIsExploredException extends RuntimeException {
+	@SuppressWarnings("unused")
+	private static class PathIsExploredException extends RuntimeException {
         /** Serializable UID. */
         private static final long serialVersionUID = 745350979634801853L;
 

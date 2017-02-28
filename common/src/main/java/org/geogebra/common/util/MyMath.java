@@ -116,8 +116,7 @@ public final class MyMath {
 	}
 
 	final public static double acosh(double a) {
-		// Math.acosh(a) is basically the same as this
-		return Math.log(a + Math.sqrt(a * a - 1.0));
+		return FastMath.acosh(a);
 	}
 
 	final public static double asinh(double a) {

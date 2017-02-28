@@ -1004,7 +1004,7 @@ public class Function extends FunctionNVar
 	 * for root finding
 	 */
 	private static class DerivFunction
-			implements RealRootDerivFunction, UnivariateFunction {
+			implements RealRootDerivFunction {
 
 		private Function fun, realRootDerivative;
 		private double[] ret = new double[2];
@@ -1031,13 +1031,11 @@ public class Function extends FunctionNVar
 			return realRootDerivative.evaluate(x);
 		}
 
+		@Override
 		public double value(double x) {
 			return evaluate(x);
 		}
 
-		public UnivariateFunction derivative() {
-			return realRootDerivative;
-		}
 	}
 
 	/**

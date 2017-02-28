@@ -351,13 +351,15 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		try {
 			// Brent's method
-			root = rootFinder.solve(100, fun, left, right);
+			root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, left,
+					right);
 		} catch (Exception e) {
 			try {
 				// Let's try again by searching for a valid domain first
 				double[] borders = RealRootUtil.getDefinedInterval(fun, left,
 						right);
-				root = rootFinder.solve(100, fun, borders[0], borders[1]);
+				root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
+						borders[0], borders[1]);
 			} catch (Exception ex) {
 				root = Double.NaN;
 			} // try-catch
