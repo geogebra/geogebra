@@ -20,11 +20,13 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -91,6 +93,10 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 		if (inGeo instanceof GeoFunction) {
 			AlgoTransformation3D.toGeoCurveCartesian(kernel,
 					(GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
+		}
+		else if (inGeo instanceof GeoFunctionNVar) {
+			AlgoTransformation3D.toGeoSurfaceCartesian(kernel,
+					(GeoFunctionNVar) inGeo, (GeoSurfaceCartesian3D) outGeo);
 		} else {
 			outGeo.set(inGeo);
 		}
@@ -113,6 +119,15 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 		return getLoc().getPlain("ARotatedByAngleBAboutC", inGeo.getLabel(tpl),
 				((GeoElement) angle).getLabel(tpl), line.getLabel(tpl));
 
+	}
+
+	@Override
+	protected GeoElement getResultTemplate(GeoElement geo) {
+		if (geo instanceof GeoFunctionNVar) {
+			return new GeoSurfaceCartesian3D(cons);
+		}
+
+		return super.getResultTemplate(geo);
 	}
 
 	@Override

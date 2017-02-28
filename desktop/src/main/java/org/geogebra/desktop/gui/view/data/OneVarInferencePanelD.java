@@ -23,15 +23,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.NormalDistributionImpl;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.stat.inference.TTestImpl;
+import org.geogebra.common.gui.view.data.OneVarModel;
 import org.geogebra.common.gui.view.data.StatisticsModel;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -65,27 +59,19 @@ public class OneVarInferencePanelD extends JPanel
 	private int fieldWidth = 6;
 
 	// test type (tail)
-	private static final String tail_left = "<";
-	private static final String tail_right = ">";
-	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-	private String tail = tail_two;
 
-	// input fields
-	private double confLevel = .95, hypMean = 0, sigma = 1;
+
 
 	// statistics
-	double testStat, P, df, lower, upper, mean, se, me, N;
-	private TTestImpl tTestImpl;
-	private TDistributionImpl tDist;
-	private NormalDistributionImpl normalDist;
+
 
 	// flags
 	private boolean isIniting;
 	private boolean isTest = true;
 	private boolean isZProcedure;
 
-	private int selectedPlot = StatisticsModel.INFER_TINT;
 	private LocalizationD loc;
+	private final OneVarModel model;
 
 	/***************************************
 	 * Construct a OneVarInference panel
@@ -97,6 +83,7 @@ public class OneVarInferencePanelD extends JPanel
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.statDialog = statDialog;
+		this.model = new OneVarModel();
 
 		this.setLayout(new BorderLayout());
 		this.createGUIElements();
@@ -112,9 +99,9 @@ public class OneVarInferencePanelD extends JPanel
 
 	private void createGUIElements() {
 
-		btnLeft = new JRadioButton(tail_left);
-		btnRight = new JRadioButton(tail_right);
-		btnTwo = new JRadioButton(tail_two);
+		btnLeft = new JRadioButton(OneVarModel.tail_left);
+		btnRight = new JRadioButton(OneVarModel.tail_right);
+		btnTwo = new JRadioButton(OneVarModel.tail_two);
 		ButtonGroup group = new ButtonGroup();
 		group.add(btnLeft);
 		group.add(btnRight);
@@ -230,57 +217,12 @@ public class OneVarInferencePanelD extends JPanel
 		c.fill = GridBagConstraints.HORIZONTAL;
 		mainPanel.add(resultPanel, c);
 
+
 	}
 
 	private void setResultTable() {
 
-		ArrayList<String> nameList = new ArrayList<String>();
-
-		switch (selectedPlot) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_ZTEST:
-			nameList.add(loc.getMenu("PValue"));
-			nameList.add(loc.getMenu("ZStatistic"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-
-			break;
-
-		case StatisticsModel.INFER_TTEST:
-			nameList.add(loc.getMenu("PValue"));
-			nameList.add(loc.getMenu("TStatistic"));
-			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
-			nameList.add(loc.getMenu("StandardError.short"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-			break;
-
-		case StatisticsModel.INFER_ZINT:
-			nameList.add(loc.getMenu("Interval"));
-			nameList.add(loc.getMenu("LowerLimit"));
-			nameList.add(loc.getMenu("UpperLimit"));
-			nameList.add(loc.getMenu("MarginOfError"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-			break;
-
-		case StatisticsModel.INFER_TINT:
-			nameList.add(loc.getMenu("Interval"));
-			nameList.add(loc.getMenu("LowerLimit"));
-			nameList.add(loc.getMenu("UpperLimit"));
-			nameList.add(loc.getMenu("MarginOfError"));
-			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
-			nameList.add(loc.getMenu("StandardError.short"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-			break;
-		}
+		ArrayList<String> nameList = model.getNameList(loc);
 
 		String[] rowNames = new String[nameList.size()];
 		nameList.toArray(rowNames);
@@ -290,54 +232,54 @@ public class OneVarInferencePanelD extends JPanel
 
 	private void updateResultTable() {
 
-		DefaultTableModel model = resultTable.getModel();
+		DefaultTableModel model1 = resultTable.getModel();
 
 		evaluate();
-		String cInt = statDialog.format(mean) + " \u00B1 "
-				+ statDialog.format(me);
+		String cInt = statDialog.format(model.mean) + " \u00B1 "
+				+ statDialog.format(model.me);
 
-		switch (selectedPlot) {
+		switch (model.selectedPlot) {
 		default:
 			// do nothing
 			break;
 		case StatisticsModel.INFER_ZTEST:
-			model.setValueAt(statDialog.format(P), 0, 0);
-			model.setValueAt(statDialog.format(testStat), 1, 0);
-			model.setValueAt("", 2, 0);
-			model.setValueAt(statDialog.format(N), 3, 0);
-			model.setValueAt(statDialog.format(mean), 4, 0);
+			model1.setValueAt(statDialog.format(model.P), 0, 0);
+			model1.setValueAt(statDialog.format(model.testStat), 1, 0);
+			model1.setValueAt("", 2, 0);
+			model1.setValueAt(statDialog.format(model.N), 3, 0);
+			model1.setValueAt(statDialog.format(model.mean), 4, 0);
 			break;
 
 		case StatisticsModel.INFER_TTEST:
-			model.setValueAt(statDialog.format(P), 0, 0);
-			model.setValueAt(statDialog.format(testStat), 1, 0);
-			model.setValueAt(statDialog.format(df), 2, 0);
-			model.setValueAt(statDialog.format(se), 3, 0);
-			model.setValueAt("", 4, 0);
-			model.setValueAt(statDialog.format(N), 5, 0);
-			model.setValueAt(statDialog.format(mean), 6, 0);
+			model1.setValueAt(statDialog.format(model.P), 0, 0);
+			model1.setValueAt(statDialog.format(model.testStat), 1, 0);
+			model1.setValueAt(statDialog.format(model.df), 2, 0);
+			model1.setValueAt(statDialog.format(model.se), 3, 0);
+			model1.setValueAt("", 4, 0);
+			model1.setValueAt(statDialog.format(model.N), 5, 0);
+			model1.setValueAt(statDialog.format(model.mean), 6, 0);
 			break;
 
 		case StatisticsModel.INFER_ZINT:
-			model.setValueAt(cInt, 0, 0);
-			model.setValueAt(statDialog.format(lower), 1, 0);
-			model.setValueAt(statDialog.format(upper), 2, 0);
-			model.setValueAt(statDialog.format(me), 3, 0);
-			model.setValueAt("", 4, 0);
-			model.setValueAt(statDialog.format(N), 5, 0);
-			model.setValueAt(statDialog.format(mean), 6, 0);
+			model1.setValueAt(cInt, 0, 0);
+			model1.setValueAt(statDialog.format(model.lower), 1, 0);
+			model1.setValueAt(statDialog.format(model.upper), 2, 0);
+			model1.setValueAt(statDialog.format(model.me), 3, 0);
+			model1.setValueAt("", 4, 0);
+			model1.setValueAt(statDialog.format(model.N), 5, 0);
+			model1.setValueAt(statDialog.format(model.mean), 6, 0);
 			break;
 
 		case StatisticsModel.INFER_TINT:
-			model.setValueAt(cInt, 0, 0);
-			model.setValueAt(statDialog.format(lower), 1, 0);
-			model.setValueAt(statDialog.format(upper), 2, 0);
-			model.setValueAt(statDialog.format(me), 3, 0);
-			model.setValueAt(statDialog.format(df), 4, 0);
-			model.setValueAt(statDialog.format(se), 5, 0);
-			model.setValueAt("", 6, 0);
-			model.setValueAt(statDialog.format(N), 7, 0);
-			model.setValueAt(statDialog.format(mean), 8, 0);
+			model1.setValueAt(cInt, 0, 0);
+			model1.setValueAt(statDialog.format(model.lower), 1, 0);
+			model1.setValueAt(statDialog.format(model.upper), 2, 0);
+			model1.setValueAt(statDialog.format(model.me), 3, 0);
+			model1.setValueAt(statDialog.format(model.df), 4, 0);
+			model1.setValueAt(statDialog.format(model.se), 5, 0);
+			model1.setValueAt("", 6, 0);
+			model1.setValueAt(statDialog.format(model.N), 7, 0);
+			model1.setValueAt(statDialog.format(model.mean), 8, 0);
 			break;
 		}
 
@@ -378,35 +320,39 @@ public class OneVarInferencePanelD extends JPanel
 
 	private void updateGUI() {
 
-		isTest = (selectedPlot == StatisticsModel.INFER_ZTEST
-				|| selectedPlot == StatisticsModel.INFER_TTEST);
+		isTest = (model.selectedPlot == StatisticsModel.INFER_ZTEST
+				|| model.selectedPlot == StatisticsModel.INFER_TTEST);
 
-		isZProcedure = selectedPlot == StatisticsModel.INFER_ZTEST
-				|| selectedPlot == StatisticsModel.INFER_ZINT;
+		isZProcedure = model.selectedPlot == StatisticsModel.INFER_ZTEST
+				|| model.selectedPlot == StatisticsModel.INFER_ZINT;
 
-		updateNumberField(fldNullHyp, hypMean);
-		updateNumberField(fldConfLevel, confLevel);
-		updateNumberField(fldSigma, sigma);
+		updateNumberField(fldNullHyp, model.hypMean);
+		updateNumberField(fldConfLevel, model.confLevel);
+		updateNumberField(fldSigma, model.sigma);
 		updateCBAlternativeHyp();
 		setResultTable();
 		updateResultTable();
 		updateMainPanel();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void updateCBAlternativeHyp() {
 
 		cbAltHyp.removeActionListener(this);
 		cbAltHyp.removeAllItems();
 		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
-				+ tail_right + " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_left
-				+ " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two
-				+ " " + statDialog.format(hypMean));
+				+ OneVarModel.tail_right + " "
+				+ statDialog.format(model.hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
+				+ OneVarModel.tail_left
+				+ " " + statDialog.format(model.hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
+				+ OneVarModel.tail_two
+				+ " " + statDialog.format(model.hypMean));
 
-		if (tail == tail_right) {
+		if (model.tail == OneVarModel.tail_right) {
 			cbAltHyp.setSelectedIndex(0);
-		} else if (tail == tail_left) {
+		} else if (model.tail == OneVarModel.tail_left) {
 			cbAltHyp.setSelectedIndex(1);
 		} else {
 			cbAltHyp.setSelectedIndex(2);
@@ -430,11 +376,11 @@ public class OneVarInferencePanelD extends JPanel
 		else if (source == cbAltHyp) {
 
 			if (cbAltHyp.getSelectedIndex() == 0) {
-				tail = tail_right;
+				model.tail = OneVarModel.tail_right;
 			} else if (cbAltHyp.getSelectedIndex() == 1) {
-				tail = tail_left;
+				model.tail = OneVarModel.tail_left;
 			} else {
-				tail = tail_two;
+				model.tail = OneVarModel.tail_two;
 			}
 
 			evaluate();
@@ -448,22 +394,23 @@ public class OneVarInferencePanelD extends JPanel
 			return;
 		}
 
-		Double value = Double.parseDouble(source.getText().trim());
+		double value = model.evaluateExpression(kernel,
+				source.getText().trim());
 
 		if (source == fldConfLevel) {
-			confLevel = value;
+			model.confLevel = value;
 			evaluate();
 			updateGUI();
 		}
 
 		else if (source == fldNullHyp) {
-			hypMean = value;
+			model.hypMean = value;
 			evaluate();
 			updateGUI();
 		}
 
 		else if (source == fldSigma) {
-			sigma = value;
+			model.sigma = value;
 			evaluate();
 			updateGUI();
 		}
@@ -472,6 +419,7 @@ public class OneVarInferencePanelD extends JPanel
 
 	@Override
 	public void focusGained(FocusEvent e) {
+		// nothing to do
 	}
 
 	@Override
@@ -480,7 +428,7 @@ public class OneVarInferencePanelD extends JPanel
 	}
 
 	public void setSelectedPlot(int selectedPlot) {
-		this.selectedPlot = selectedPlot;
+		model.selectedPlot = selectedPlot;
 		updateGUI();
 	}
 
@@ -500,83 +448,8 @@ public class OneVarInferencePanelD extends JPanel
 		GeoList dataList = statDialog.getController().getDataSelected();
 		double[] sample = statDialog.getController().getValueArray(dataList);
 
-		mean = StatUtils.mean(sample);
-		N = sample.length;
+		model.evaluate(sample);
 
-		try {
-			switch (selectedPlot) {
-
-			default:
-				// do nothing
-				break;
-			case StatisticsModel.INFER_ZTEST:
-			case StatisticsModel.INFER_ZINT:
-				normalDist = new NormalDistributionImpl(0, 1);
-				se = sigma / Math.sqrt(N);
-				testStat = (mean - hypMean) / se;
-				P = 2.0 * normalDist.cumulativeProbability(-Math.abs(testStat));
-				P = adjustedPValue(P, testStat, tail);
-
-				double zCritical = normalDist
-						.inverseCumulativeProbability((confLevel + 1d) / 2);
-				me = zCritical * se;
-				upper = mean + me;
-				lower = mean - me;
-				break;
-
-			case StatisticsModel.INFER_TTEST:
-			case StatisticsModel.INFER_TINT:
-				if (tTestImpl == null) {
-					tTestImpl = new TTestImpl();
-				}
-				se = Math.sqrt(StatUtils.variance(sample) / N);
-				df = N - 1;
-				testStat = tTestImpl.t(hypMean, sample);
-				P = tTestImpl.tTest(hypMean, sample);
-				P = adjustedPValue(P, testStat, tail);
-
-				tDist = new TDistributionImpl(N - 1);
-				double tCritical = tDist
-						.inverseCumulativeProbability((confLevel + 1d) / 2);
-				me = tCritical * se;
-				upper = mean + me;
-				lower = mean - me;
-				break;
-			}
-
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (MathException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static double adjustedPValue(double p, double testStatistic,
-			String tail) {
-
-		// two sided test
-		if (tail.equals(tail_two)) {
-			return p;
-		} else if ((tail.equals(tail_right) && testStatistic > 0)
-				|| (tail.equals(tail_left) && testStatistic < 0)) {
-			return p / 2;
-		} else {
-			return 1 - p / 2;
-		}
-	}
-
-	protected double evaluateExpression(String expr) {
-
-		NumberValue nv;
-
-		try {
-			nv = kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Double.NaN;
-		}
-		return nv.getDouble();
 	}
 
 	// ============================================================
