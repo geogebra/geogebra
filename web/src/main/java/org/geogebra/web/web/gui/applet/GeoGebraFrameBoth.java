@@ -481,6 +481,17 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	private boolean viewHasKeyboard() {
+		int focusedView = app.getGuiManager().getLayout().getDockManager()
+				.getFocusedViewId();
+		if (focusedView == App.VIEW_ALGEBRA || focusedView == App.VIEW_CAS
+				|| focusedView == App.VIEW_PROBABILITY_CALCULATOR
+				|| focusedView == App.VIEW_SPREADSHEET) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Make sure keyboard visibility corresponds to both app.isKeyboardNeeded()
 	 * and appNeedsKeyboard() TODO rename one of those functions
@@ -490,7 +501,15 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			final VirtualKeyboardW keyBoard = app.getGuiManager()
 					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
-				add(keyBoard);
+				if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
+					if (viewHasKeyboard()) {
+						add(keyBoard);
+					} else {
+						showKeyboardButton(null);
+					}
+				} else {
+					add(keyBoard);
+				}
 			} else {
 				removeKeyboard(null);
 				if (this.showKeyboardButton != null) {
