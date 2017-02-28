@@ -19,7 +19,9 @@ public class MyMath2 {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html
 			// http://en.wikipedia.org/wiki/Incomplete_gamma_function#Regularized_Gamma_functions_and_Poisson_random_variables
 			return Gamma.regularizedGammaP(a, x) * gamma(a);
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			return Double.NaN;
 		}
 
@@ -29,7 +31,9 @@ public class MyMath2 {
 
 		try {
 			return Gamma.regularizedGammaP(a, x);
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			return Double.NaN;
 		}
 
@@ -45,7 +49,9 @@ public class MyMath2 {
 
 		try {
 			return Beta.regularizedBeta(x, a, b) * beta(a, b);
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			return Double.NaN;
 		}
 
@@ -56,7 +62,9 @@ public class MyMath2 {
 
 		try {
 			return Beta.regularizedBeta(x, a, b);
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			return Double.NaN;
 		}
 	}

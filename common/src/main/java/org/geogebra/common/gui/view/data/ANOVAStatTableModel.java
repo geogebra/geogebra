@@ -133,9 +133,9 @@ public class ANOVAStatTableModel extends StatTableModel {
 			Collection<double[]> categoryData) {
 		try {
 			return anovaStats(categoryData);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 		return null;

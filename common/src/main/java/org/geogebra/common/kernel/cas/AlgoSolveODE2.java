@@ -142,8 +142,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 																			// state
 		try {
 			integrator.integrate(ode, x.getDouble(), yy2, end.getDouble(), yy2);
-		} catch (ArithmeticException e) {
-			// TODO Auto-generated catch block
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 

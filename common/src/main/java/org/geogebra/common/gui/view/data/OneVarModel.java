@@ -77,9 +77,9 @@ public class OneVarModel {
 				break;
 			}
 
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 

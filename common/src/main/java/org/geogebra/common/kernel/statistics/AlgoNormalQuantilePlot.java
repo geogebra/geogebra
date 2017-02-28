@@ -103,8 +103,9 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 			x = Math.pow(0.5, 1.0 / n);
 			zValues[n - 1] = normalDist.inverseCumulativeProbability(x);
 
-		} catch (ArithmeticException e) {
-			// TODO Auto-generated catch block
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 

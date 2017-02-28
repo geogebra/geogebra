@@ -298,9 +298,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			// result.add(new GeoNumeric(cons, getDegreeOfFreedom(var1, var2,
 			// n1, n2, pooled)));
 
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 

@@ -130,8 +130,9 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 		try {
 			integrator.integrate(ode, t0, y0, endX.getDouble(), y0);
-		} catch (ArithmeticException e) {
-			e.printStackTrace();
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			setUndefined();
 			return;
 		}

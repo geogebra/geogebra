@@ -187,14 +187,11 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				integrator.integrate(ode, 0.0, yy2, end.getDouble(), yy2);
 			}
-		} catch (IllegalArgumentException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 			locus.setDefined(false);
-			return;
-		} catch (ArithmeticException e) {
-			e.printStackTrace();
-			locus.setDefined(false);
-			return;
 		} // now y contains final state at time t=16.0
 
 		// g.setDefined(true);

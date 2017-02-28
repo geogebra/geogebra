@@ -288,10 +288,9 @@ public class TwoVarInferenceModel {
 				break;
 			}
 
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			return false;
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 			return false;
 		}

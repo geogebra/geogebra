@@ -229,12 +229,11 @@ public class AlgoChiSquaredTest extends AlgoElement {
 			double leftArea = getChiSquaredDistribution(df)
 					.cumulativeProbability(testStat);
 			p = 1 - leftArea;
-		} catch (IllegalArgumentException e) {
-			result.setUndefined();
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
-		} catch (ArithmeticException e) {
 			result.setUndefined();
-			e.printStackTrace();
 		}
 
 		// put results into the output list

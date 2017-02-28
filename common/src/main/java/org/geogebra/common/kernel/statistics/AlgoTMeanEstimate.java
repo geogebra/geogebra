@@ -182,9 +182,9 @@ public class AlgoTMeanEstimate extends AlgoElement {
 			// result.addNumber( n-1, null); // df
 			cons.setSuppressLabelCreation(oldSuppress);
 
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 

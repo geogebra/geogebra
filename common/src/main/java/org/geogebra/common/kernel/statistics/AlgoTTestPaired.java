@@ -138,9 +138,9 @@ public class AlgoTTestPaired extends AlgoElement {
 			result.addNumber(p, null);
 			result.addNumber(testStat, null);
 
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
 		}
 

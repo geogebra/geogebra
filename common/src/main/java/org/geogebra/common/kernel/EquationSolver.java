@@ -555,7 +555,7 @@ public class EquationSolver implements EquationSolverInterface {
 			complexRoots = laguerreSolver.solveAllComplex(eqn, LAGUERRE_START);
 		} catch (ArithmeticException e) {
 			Log.warn("Too many iterations. Degree: " + eqn.length);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error("EquationSolver.LaguerreSolver: "
 					+ e.getLocalizedMessage());
 		}

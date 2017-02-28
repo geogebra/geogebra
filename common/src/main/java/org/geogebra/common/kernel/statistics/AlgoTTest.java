@@ -171,9 +171,9 @@ public class AlgoTTest extends AlgoElement {
 				result.addNumber(p, null);
 				result.addNumber(testStat, null);
 
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (ArithmeticException e) {
+			} catch (RuntimeException e) {
+				// catches ArithmeticException, IllegalStateException and
+				// ArithmeticException
 				e.printStackTrace();
 			}
 
@@ -209,7 +209,9 @@ public class AlgoTTest extends AlgoElement {
 				result.setUndefined();
 				return;
 
-			} catch (ArithmeticException e) {
+			} catch (RuntimeException e) {
+				// catches ArithmeticException, IllegalStateException and
+				// ArithmeticException
 				e.printStackTrace();
 				result.setUndefined();
 				return;

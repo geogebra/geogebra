@@ -367,7 +367,9 @@ public class AlgoFinancial extends AlgoElement {
 	private static double value(RateFunction fun, double min) {
 		try {
 			return fun.value(min);
-		} catch (ArithmeticException e) {
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			return Double.NaN;
 		}
 	}

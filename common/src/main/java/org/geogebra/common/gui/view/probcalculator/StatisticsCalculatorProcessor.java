@@ -398,12 +398,11 @@ public class StatisticsCalculatorProcessor {
 					.cumulativeProbability(sc.testStat);
 			sc.P = 1 - leftArea;
 
-		} catch (IllegalArgumentException e) {
-			sc.P = Double.NaN;
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
-		} catch (ArithmeticException e) {
 			sc.P = Double.NaN;
-			e.printStackTrace();
 		}
 
 	}
@@ -458,12 +457,11 @@ public class StatisticsCalculatorProcessor {
 					.cumulativeProbability(sc.testStat);
 			sc.P = 1 - leftArea;
 
-		} catch (IllegalArgumentException e) {
-			sc.P = Double.NaN;
+		} catch (RuntimeException e) {
+			// catches ArithmeticException, IllegalStateException and
+			// ArithmeticException
 			e.printStackTrace();
-		} catch (ArithmeticException e) {
 			sc.P = Double.NaN;
-			e.printStackTrace();
 		}
 	}
 
