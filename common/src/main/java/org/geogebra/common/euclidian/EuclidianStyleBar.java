@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -65,7 +66,7 @@ public interface EuclidianStyleBar {
 
 	void reinit();
 
-	void setPosition(double[] newPos, boolean hasBoundingBox);
+	void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox);
 
 	void setVisible(boolean b);
 

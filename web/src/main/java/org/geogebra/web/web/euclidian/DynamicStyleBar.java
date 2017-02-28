@@ -1,5 +1,6 @@
 package org.geogebra.web.web.euclidian;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.debug.Log;
@@ -19,7 +20,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 * corner of bounding box of drawable
 	 */
 	@Override
-	public void setPosition(double[] newPos, boolean hasBoundingBox) {
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
 		boolean oldVisible = this.isVisible();
 		this.setVisible(true);
 
@@ -38,19 +39,32 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		int height = this.getOffsetHeight();
 		this.setVisible(oldVisible);
 
-		if (hasBoundingBox) {
-			newPos[0] -= move;
-			newPos[1] -= height + 5;
-		} else {
-			newPos[1] -= height / 2.0;
+//		newPos[0] -= move;
+//		newPos[1] -= height + 5;
+		
+//		newPos[0] = gRectangle2D.getMaxX();
+//		newPos[1] = gRectangle2D.getMinY();
+		
+		
+		double left, top;
+		if(hasBoundingBox){
+			left = gRectangle2D.getMaxX() - move;
+			top = gRectangle2D.getMinY() - height - 5;
+			
+			//if there is no enouth place on the top of bounding box, stylebar will be visible at the bottom of bounding box.
+			if (top < 0){
+				top = gRectangle2D.getMaxY() + 5;
+			}
+		} else { //line has no bounding box
+			left = gRectangle2D.getMaxX() - height / 2.0;  //TODO
+			top = gRectangle2D.getMinY();
 		}
-
-		Log.debug("newpos: " + newPos[0] + " " + newPos[1]);
-
-		this.getElement().getStyle().setLeft(newPos[0], Unit.PX);
-		this.getElement().getStyle().setTop(newPos[1], Unit.PX);
+			
+		this.getElement().getStyle().setLeft(left, Unit.PX);
+		this.getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
+
 	@Override
 	public boolean isDynamicStylebarHit(int x, int y) {
 		return isWidgetHit(this, x, y);

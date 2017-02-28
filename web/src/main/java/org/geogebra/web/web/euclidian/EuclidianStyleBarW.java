@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -1472,7 +1473,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		EuclidianStyleBarW.currentPopup = currentPopup;
 	}
 
-	public void setPosition(double[] newPos, boolean hasBoundingBox) {
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
 		//used only in DynamicStyleBar class
 	}
 

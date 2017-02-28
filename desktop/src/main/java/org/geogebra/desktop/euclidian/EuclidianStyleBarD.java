@@ -16,6 +16,7 @@ import javax.swing.JToolBar;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -1794,14 +1795,16 @@ public class EuclidianStyleBarD extends JToolBar
 		setLabels();
 	}
 
-	public void setPosition(double[] screenCoords, boolean hasBoundingBox) {
-		// implemented for dynamic stylebar on web
-
+	@Override
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
+		// TODO Auto-generated method stub
+		
 	}
-
+	
 	@Override
 	public boolean isDynamicStylebarHit(int x, int y) {
 		// implemented for dynamic stylebar on web
 		return false;
 	}
+
 }
