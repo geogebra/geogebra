@@ -168,21 +168,26 @@ public class AlgebraDockPanelW extends DockPanelW {
 			public void execute() {
 				int i = 0;
 				int top = 0;
-				TreeItem ti = aview.getItem(0);
-				while (ti != item && i < aview.getItemCount()) {
-					top += ti.getOffsetHeight();
+				TreeItem ti = null;
+				while (ti != item) {
 					ti = aview.getItem(i);
+					top += ti.getOffsetHeight();
 					i++;
 				}
 
+				top -= item.getOffsetHeight();
 				int kH = (int) (app.getAppletFrame().getKeyboardHeight());
 				int spH = algebrap.getOffsetHeight();
 				int allH = spH + kH;
-				int relTop = top % allH;
-				d(" sp: " + spH + " allH: " + allH + " relTop " + relTop);
+				int scrollPos = algebrap.getVerticalScrollPosition();
+				int relTop = top
+						% allH;
+				d(" sp: " + spH + " allH: " + allH + " top: " + top + " relTop "
+						+ relTop + " scrollPos: " + scrollPos);
 				
 				if (spH < relTop) {
-					int pos = top + item.getOffsetHeight() - spH;
+					
+					int pos = top - spH;
 					algebrap.setVerticalScrollPosition(pos);
 				}
 			}
