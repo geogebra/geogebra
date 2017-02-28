@@ -670,15 +670,6 @@ public class EquationSolver implements EquationSolverInterface {
 		return realRoots;
 	}
 
-	private Complex[] getComplexArray(double[] eqn) {
-		Complex coeffs[] = new Complex[eqn.length];
-		for (int i = 0; i < eqn.length; i++) {
-			coeffs[i] = new Complex(eqn[i], 0);
-		}
-
-		return coeffs;
-	}
-
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
