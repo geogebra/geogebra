@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -40,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 		implements UsesCAS {
 
-	private GeoCurveCartesian curve2;
+	private GeoCurveCartesianND curve2;
 	private GeoNumberValue t1, t2;
 
 	// numeric = false is too slow on MPReduce (ggb42). OK to set false for Giac
@@ -283,9 +284,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
 			String c1Y = curve.getFun(1).toValueString(
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
-			String c2X = curve2.getFunX().toValueString(
+			String c2X = curve2.getFun(0).toValueString(
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
-			String c2Y = curve2.getFunY().toValueString(
+			String c2Y = curve2.getFun(1).toValueString(
 					StringTemplate.fullFigures(StringType.GEOGEBRA_XML));
 
 			// it's likely that both curves have parameter 't'
