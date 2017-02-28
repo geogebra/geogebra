@@ -1096,7 +1096,7 @@ public abstract class App implements UpdateSelection {
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
 				if (!geo.isFixed()) {
-					if (isCut) {
+					if (isCut || geo.isShape()) {
 						if (geo.getParentAlgorithm() != null) {
 							for (GeoElement ge : geo
 									.getParentAlgorithm().input) {
