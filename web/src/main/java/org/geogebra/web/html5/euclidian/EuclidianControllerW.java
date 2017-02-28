@@ -441,10 +441,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if(gRectangle2D == null){
 			return;
 		}
-//		double[] newPos = new double[2];
-//		newPos[0] = gRectangle2D.getMaxX();
-//		newPos[1] = gRectangle2D.getMinY();
-//		this.getView().getDynamicStyleBar().setPosition(newPos, hasBoundingBox);
+
 		this.getView().getDynamicStyleBar().setPosition(gRectangle2D, hasBoundingBox);
 		
 	}

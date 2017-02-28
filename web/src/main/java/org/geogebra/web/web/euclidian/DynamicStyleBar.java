@@ -39,19 +39,13 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		int height = this.getOffsetHeight();
 		this.setVisible(oldVisible);
 
-//		newPos[0] -= move;
-//		newPos[1] -= height + 5;
-		
-//		newPos[0] = gRectangle2D.getMaxX();
-//		newPos[1] = gRectangle2D.getMinY();
-		
-		
+				
 		double left, top;
 		if(hasBoundingBox){
 			left = gRectangle2D.getMaxX() - move;
 			top = gRectangle2D.getMinY() - height - 5;
 			
-			//if there is no enouth place on the top of bounding box, stylebar will be visible at the bottom of bounding box.
+			//if there is no enough place on the top of bounding box, dynamic stylebar will be visible at the bottom of bounding box.
 			if (top < 0){
 				top = gRectangle2D.getMaxY() + 5;
 			}
