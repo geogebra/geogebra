@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AlgebraDockPanelW extends DockPanelW {
@@ -162,47 +161,31 @@ public class AlgebraDockPanelW extends DockPanelW {
 			});
 			return;
 		}
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				int i = 0;
-				int top = 0;
-				TreeItem ti = null;
-				while (ti != item) {
-					ti = aview.getItem(i);
-					top += ti.getOffsetHeight();
-					i++;
-				}
-
-				top -= item.getOffsetHeight();
-				int kH = (int) (app.getAppletFrame().getKeyboardHeight());
-				int spH = algebrap.getOffsetHeight();
-				int allH = spH + kH;
-				int scrollPos = algebrap.getVerticalScrollPosition();
-				int relTop = top
-						% allH;
-				d(" sp: " + spH + " allH: " + allH + " top: " + top + " relTop "
-						+ relTop + " scrollPos: " + scrollPos + " saved: "
-						+ savedScrollPosition);
-				
-				if (spH < relTop) {
-					
-					int pos = top - spH;
-					algebrap.setVerticalScrollPosition(pos);
-				}
-			}
-		});
-
-
+		doScrollToActiveItem();
 	}
 
-	private void d(String msg) {
-		Log.debug("[AVSCROLL] " + msg);
-	}
-
+	/**
+	 * Saves the current scroll position of the dock panel.
+	 */
 	public void saveScrollPosition() {
 		savedScrollPosition = algebrap.getVerticalScrollPosition();
+	}
+
+	private void doScrollToActiveItem() {
+		final RadioTreeItem item = aview.getActiveTreeItem();
+
+		int spH = algebrap.getOffsetHeight();
+
+		int top = item.getElement().getOffsetTop();
+
+		int relTop = top - savedScrollPosition;
+
+		if (spH < relTop + item.getOffsetHeight()) {
+
+			int pos = top + item.getOffsetHeight() - spH;
+			algebrap.setVerticalScrollPosition(pos);
+		} else {
+			// algebrap.setVerticalScrollPosition(savedScrollPosition);
+		}
 	}
 }
