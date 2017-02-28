@@ -652,58 +652,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	/**
-	 * update the coords of pentagon
-	 * 
-	 * @param hitHandler
-	 *            - handler was hit
-	 * @param event
-	 *            - mouse event
-	 */
-	protected void updatePentagon(EuclidianBoundingBoxHandler hitHandler,
-			AbstractEvent event) {
-		int pointsX[];
-		int pointsY[];
-
-		if (prewPolygon == null) {
-			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
-		}
-
-		fixCornerCoords(hitHandler);
-
-		prewPolygon.reset();
-		int height = (int) (event.getY() - fixCornerY);
-		int width = (int) (event.getX() - fixCornerX);
-		int radiusX = (int) (event.getX() - (fixCornerX + event.getX()) / 2);
-
-		if (width >= 0) {
-			if (height >= 0) {
-				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
-						radiusX, 5, -Math.PI / 2);
-				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
-						radiusX, 5, -Math.PI / 2);
-			} else {
-				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
-						radiusX, 5, -Math.PI / 2);
-				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
-						radiusX, 5, -Math.PI / 2);
-			}
-		} else {
-				pointsX = getXCoordinates((int) (fixCornerX + event.getX()) / 2,
-						radiusX, 5, Math.PI / 2);
-				pointsY = getYCoordinates((int) (fixCornerY + event.getY()) / 2,
-						radiusX, 5, Math.PI / 2);
-		}
-
-		prewPolygon.moveTo(pointsX[0], pointsY[0]);
-		for (int index = 1; index < pointsX.length; index++) {
-			prewPolygon.lineTo(pointsX[index], pointsY[index]);
-		}
-		prewPolygon.closePath();
-
-		getBoundingBox().setRectangle(prewPolygon.getBounds());
-	}
-
-	/**
 	 * update the coords of free polygon
 	 * 
 	 * @param hitHandler
@@ -732,6 +680,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		double[] currCoords = new double[6];
 		GPathIterator it = gp.getPathIterator(null);
 		int i = poly.getPointsLength();
+
 		while (!it.isDone() && i > 0) {
 			i--;
 			it.currentSegment(currCoords);
@@ -771,30 +720,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		prewPolygon.closePath();
 
 		getBoundingBox().setRectangle(prewPolygon.getBounds());
-	}
-
-	private static int[] getXCoordinates(int centerX, int radius, int vertexNr,
-			double startAngle) {
-		int res[] = new int[vertexNr];
-		double addAngle = 2 * Math.PI / vertexNr;
-		double angle = startAngle;
-		for (int i = 0; i < vertexNr; i++) {
-			res[i] = (int) Math.round(radius * Math.cos(angle)) + centerX;
-			angle += addAngle;
-		}
-		return res;
-	}
-
-	private static int[] getYCoordinates(int centerY, int radius, int vertexNr,
-			double startAngle) {
-		int res[] = new int[vertexNr];
-		double addAngle = 2 * Math.PI / vertexNr;
-		double angle = startAngle;
-		for (int i = 0; i < vertexNr; i++) {
-			res[i] = (int) Math.round(radius * Math.sin(angle)) + centerY;
-			angle += addAngle;
-		}
-		return res;
 	}
 
 	private final void calculateCorners() {
