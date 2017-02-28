@@ -1032,13 +1032,11 @@ public class Function extends FunctionNVar
 		}
 
 		public double value(double x) {
-			// TODO Auto-generated method stub
-			return 0;
+			return evaluate(x);
 		}
 
 		public UnivariateFunction derivative() {
-			// TODO Auto-generated method stub
-			return null;
+			return realRootDerivative;
 		}
 	}
 
