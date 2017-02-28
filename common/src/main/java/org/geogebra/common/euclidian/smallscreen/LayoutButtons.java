@@ -228,13 +228,10 @@ public class LayoutButtons {
 
 	private void divideX() {
 		moveable.clear();
-		int idx = 0;
-		while (idx < all.size()) {
-			AbsoluteScreenLocateable btn = all.get(idx);
-
-			moveable.add(btn);
-
-			idx++;
+		for (AbsoluteScreenLocateable btn : all) {
+			if (isVerticallyOnScreen(btn)) {
+				moveable.add(btn);
+			}
 		}
 
 	}
@@ -242,19 +239,42 @@ public class LayoutButtons {
 	private void divideY() {
 		moveable.clear();
 		// sumOfHeight = 0;
-		int idx = 0;
-		while (idx < all.size()) {
-			AbsoluteScreenLocateable btn = all.get(idx);
-			// sumOfHeight += btn.getHeight() + Y_GAP;
-			// multiColumn = view.getHeight() < sumOfHeight;
-
+		for (AbsoluteScreenLocateable btn : all) {
+			if (isVerticallyOnScreen(btn)) {
 				moveable.add(btn);
+			}
 
-			idx++;
 		}
 
 	}
 
+	private boolean isHorizontallyOnScreen(AbsoluteScreenLocateable btn) {
+		int x = btn.getAbsoluteScreenLocX();
+		int width = btn.getTotalWidth(view);
+		return x + width < view.getViewWidth();
+	}
+
+	private boolean isVerticallyOnScreen(AbsoluteScreenLocateable btn) {
+		int y = btn.getAbsoluteScreenLocY();
+		int height = btn.getTotalHeight(view);
+		return y + height < view.getViewHeight();
+	}
+
+	// private static int getTotalWidths(List<GeoButton> buttons) {
+	// int w = 0;
+	// for (GeoButton btn : buttons) {
+	// w += btn.getTotalWidth(view) + X_GAP;
+	// }
+	// return w;
+	// }
+
+	private static int getHeights(List<GeoButton> buttons) {
+		int h = 0;
+		for (GeoButton btn : buttons) {
+			h += btn.getHeight() + Y_GAP;
+		}
+		return h;
+	}
 
 	public boolean isCollected() {
 		return collected;
