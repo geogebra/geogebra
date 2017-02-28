@@ -169,9 +169,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			// http://introcs.cs.princeton.edu/java/96optimization/
 
 			Function funx1 = curve.getFun(0);
-			Function funx2 = curve2.getFunX();
-			Function funy1 = curve.getFun(0);
-			Function funy2 = curve2.getFunY();
+			Function funx2 = curve2.getFun(0);
+			Function funy1 = curve.getFun(1);
+			Function funy2 = curve2.getFun(1);
 
 			ExpressionNode enx1 = funx1.getExpression();
 			ExpressionNode eny1 = funy1.getExpression();
