@@ -22,6 +22,7 @@ import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math3.complex.Complex;
+import org.geogebra.common.kernel.algos.AlgoRootNewton;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.util.debug.Log;
@@ -596,7 +597,8 @@ public class EquationSolver implements EquationSolverInterface {
 					}
 
 					// small f'(root): don't go too far from our laguerre root !
-					double brentRoot = rootFinderBrent.solve(100, polyFunc,
+					double brentRoot = rootFinderBrent.solve(
+							AlgoRootNewton.MAX_ITERATIONS, polyFunc,
 							left, right/* , root */);
 					if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
 							.abs(polyFunc.evaluate(root))) {
@@ -610,7 +612,8 @@ public class EquationSolver implements EquationSolverInterface {
 					}
 
 					// the root is not bounded: give Mr. Newton a chance
-					double newtonRoot = rootFinderNewton.solve(100, polyFunc,
+					double newtonRoot = rootFinderNewton.solve(
+							AlgoRootNewton.MAX_ITERATIONS, polyFunc,
 							left, right,
 							root);
 					if (Math.abs(polyFunc.evaluate(newtonRoot)) < Math
@@ -628,7 +631,8 @@ public class EquationSolver implements EquationSolverInterface {
 						rootFinderBrent = new BrentSolver();
 					}
 					if (left < right) {
-						double brentRoot = rootFinderBrent.solve(100, derivFunc,
+						double brentRoot = rootFinderBrent.solve(
+								AlgoRootNewton.MAX_ITERATIONS, derivFunc,
 								left, right);
 						if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
 								.abs(polyFunc.evaluate(root))) {
