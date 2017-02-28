@@ -162,7 +162,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		DifferentiableUnivariateFunction derivFun = fun;// .getRealRootDerivFunction();
 		if (derivFun != null) {
 			// check if fun(start) is defined
-			double eval = fun.evaluate(startX);
+			double eval = fun.value(startX);
 			double start1 = startX;
 			if (Double.isNaN(eval) || Double.isInfinite(eval)) {
 				// shift left border slightly right
@@ -194,7 +194,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	private static boolean checkRoot(Function fun, double root) {
 		// check what we got
 		return !Double.isNaN(root)
-				&& (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION);
+				&& (Math.abs(fun.value(root)) < Kernel.MIN_PRECISION);
 	}
 
 	/**

@@ -56,8 +56,4 @@ public class OptimizerPoint extends Optimizer {
 
 	}
 
-	public double value(double x) {
-		return evaluate(x);
-	}
-
 }

@@ -113,7 +113,7 @@ public final class FunctionSoundW extends FunctionSound implements
 
 	@Override
 	public double getValueAt(double t) {
-		double value = getF().evaluate(t + 1.0 * getSamplePeriod());
+		double value = getF().value(t + 1.0 * getSamplePeriod());
 
 		if (value > 1.0) {
 			value = 1.0;

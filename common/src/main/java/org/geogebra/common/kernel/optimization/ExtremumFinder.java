@@ -55,8 +55,8 @@ Date        Translator        Changes
 
 package org.geogebra.common.kernel.optimization;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  *
@@ -103,7 +103,7 @@ public class ExtremumFinder {
 	 *
 	 */
 	final public double findMaximum(double a, double b,
-			RealRootFunction maxfunction, double tol) {
+			UnivariateFunction maxfunction, double tol) {
 		NegativeRealRootFunction minfunc = new NegativeRealRootFunction(
 				maxfunction);
 		return findMinimum(a, b, minfunc, tol);
@@ -140,7 +140,7 @@ public class ExtremumFinder {
 	 *
 	 */
 	final public double findMinimum(double a0, double b0,
-			RealRootFunction minclass, double tol) {
+			UnivariateFunction minclass, double tol) {
 		double a = a0;
 		double b = b0;
 
@@ -193,7 +193,7 @@ public class ExtremumFinder {
 		x = v;
 		e = 0.0;
 
-		fx = minclass.evaluate(x);
+		fx = minclass.value(x);
 		/* added by Markus Hohenwarter */
 		if (Double.isNaN(fx)) {
 			return Double.NaN;
@@ -303,7 +303,7 @@ public class ExtremumFinder {
 
 			}
 
-			fu = minclass.evaluate(u);
+			fu = minclass.value(u);
 			/* added by Markus Hohenwarter */
 			if (Double.isNaN(fu)) {
 				return Double.NaN;

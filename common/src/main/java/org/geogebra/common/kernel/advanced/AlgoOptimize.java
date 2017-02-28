@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * AlgoOptimize: Abstract class for AlgoMaximize and AlgoMinimize Command
@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
  * which searches for the independent variable which gives the smallest/largest
  * result for the dependent variable.
  * 
- * Packages the relationship as a RealRootFunction for the ExtremumFinder.
+ * Packages the relationship as a UnivariateFunction for the ExtremumFinder.
  * 
  * @author Hans-Petter Ulven
  * @version 20.02.2011
@@ -48,7 +48,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 	private Construction optCons = null;
 	private ExtremumFinder extrFinder = null; // Uses ExtremumFinder for the
 												// dirty work
-	private RealRootFunction i_am_not_a_real_function = null;
+	private UnivariateFunction i_am_not_a_real_function = null;
 	private GeoElement dep = null;
 	private Optimizer indep = null;
 	private GeoElement result = null;

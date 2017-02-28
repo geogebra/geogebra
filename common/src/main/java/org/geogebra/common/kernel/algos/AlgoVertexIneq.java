@@ -257,7 +257,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		for (GeoPoint bp : bz) {
 			ensurePoint();
 			vertices.get(validVertices).setCoords(bp.getX(),
-					af.evaluate(bp.getX()), 1);
+					af.value(bp.getX()), 1);
 			validVertices++;
 		}
 
@@ -309,7 +309,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		GeoFunction af = a.getFunBorder();
 		for (GeoPoint bp : bz) {
 			ensurePoint();
-			vertices.get(validVertices).setCoords(af.evaluate(bp.getX()),
+			vertices.get(validVertices).setCoords(af.value(bp.getX()),
 					bp.getX(), 1);
 			validVertices++;
 		}
@@ -404,7 +404,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		for (int k = 0; k < output.length; k++) {
 			GeoPoint pt = (GeoPoint) output[k];
 			double x = pt.getX() / pt.getZ();
-			pt.setCoords(x, b.getFunBorder().evaluate(x), 1);
+			pt.setCoords(x, b.getFunBorder().value(x), 1);
 			if (vertices.size() <= validVertices) {
 				vertices.add(pt);
 			} else {

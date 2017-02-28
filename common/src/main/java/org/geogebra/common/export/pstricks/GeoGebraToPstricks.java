@@ -351,8 +351,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		String valueG = g.toValueString(getStringTemplate());
 		valueG = killSpace(StringUtil.toLaTeXString(valueG, true));
 		// String expressions for f(a) and g(b)
-		String fa = format(f.evaluate(a));
-		String gb = format(g.evaluate(b));
+		String fa = format(f.value(a));
+		String gb = format(g.value(b));
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\pscustom");
 		codeFilledObject.append(lineOptionCode(geo, true));
@@ -1168,9 +1168,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				if (integral) {
 					code.append(lineOptionCode(geo1, true));
 					pre = "{";
-					post = "(" + b + "," + f.evaluate(b) + ")(" + b + ",0)\n";
+					post = "(" + b + "," + f.value(b) + ")(" + b + ",0)\n";
 					post += "(" + b + ",0)(" + a + ",0)\n";
-					post += "(" + a + ",0)(" + a + "," + f.evaluate(a) + ")}\n";
+					post += "(" + a + ",0)(" + a + "," + f.value(a) + ")}\n";
 
 				}
 				s = pre + s + post;

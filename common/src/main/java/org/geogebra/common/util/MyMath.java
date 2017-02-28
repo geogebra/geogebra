@@ -17,9 +17,9 @@ package org.geogebra.common.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.util.FastMath;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * @author Markus Hohenwarter
@@ -226,10 +226,10 @@ public final class MyMath {
 		}
 	}
 
-	public static double distancePointFunctionAt(final RealRootFunction fun,
+	public static double distancePointFunctionAt(final UnivariateFunction fun,
 			final double px, final double py, double x) {
 		// D(x) = sqrt((x - a)^2+(f(x) - b)^2)
-		return MyMath.length(x - px, fun.evaluate(x) - py);
+		return MyMath.length(x - px, fun.value(x) - py);
 	}
 
 	/**

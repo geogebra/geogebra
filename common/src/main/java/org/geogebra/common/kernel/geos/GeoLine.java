@@ -1524,7 +1524,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public double evaluate(double x_var) {
+	public double value(double x_var) {
 		if (Kernel.isZero(y)) {
 			return Double.NaN;
 		}

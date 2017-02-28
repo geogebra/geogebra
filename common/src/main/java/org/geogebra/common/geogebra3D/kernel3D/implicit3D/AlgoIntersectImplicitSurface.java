@@ -120,9 +120,9 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 		f3.initFunction();
 		outputs.adjustOutputSize(roots.length);
 		for (int i = 0; i < roots.length; i++) {
-			double vx = f1.evaluate(roots[i]);
-			double vy = f2.evaluate(roots[i]);
-			double vz = f3.evaluate(roots[i]);
+			double vx = f1.value(roots[i]);
+			double vy = f2.value(roots[i]);
+			double vz = f3.value(roots[i]);
 			outputs.getElement(i).setCoords(vx, vy, vz, 1.0);
 		}
 	}

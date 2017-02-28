@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -22,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -157,7 +157,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				r = tmp;
 			} // correct user input
 
-			RealRootFunction rrfunc = f1.getRealRootFunctionY();
+			UnivariateFunction rrfunc = f1.getUnivariateFunctionY();
 
 			// / --- Algorithm --- ///
 
@@ -193,7 +193,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	 * samplesize depending on screen coordinates Samples n intervals and
 	 * collects extremums in intervals
 	 */
-	public final static double[] findExtremums(RealRootFunction rrfunc,
+	public final static double[] findExtremums(UnivariateFunction rrfunc,
 			double l, double r, int samples) {
 		double[] y = new double[samples + 1]; // n+1 y-values
 		boolean[] grad = new boolean[samples]; // n gradients, true: f'>=0,
@@ -209,7 +209,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 		for (int i = 0; i <= samples; i++) { // debug("iteration: "+i);
 
-			y[i] = rrfunc.evaluate(l + i * deltax);
+			y[i] = rrfunc.value(l + i * deltax);
 			if (i > 0) { // grad only from 1 to n-1
 				if (y[i] >= y[i - 1]) { // grad positive or zero
 					grad[i - 1] = true;
@@ -282,12 +282,12 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	}// findNumberOfSamples()
 
-	private final static boolean gradientChangesSign(RealRootFunction rrf,
+	private final static boolean gradientChangesSign(UnivariateFunction rrf,
 			double x, double l, double r) {
 		double dx = (r - l) / 1E8;
-		double vx = rrf.evaluate(x);
-		double vxRight = rrf.evaluate(x + dx);
-		double vxLeft = rrf.evaluate(x - dx);
+		double vx = rrf.value(x);
+		double vxRight = rrf.value(x + dx);
+		double vxLeft = rrf.value(x - dx);
 		if (vxRight >= vx && vxLeft >= vx) {
 			return true;
 		}

@@ -138,7 +138,7 @@ public abstract class FunctionSound {
 	protected void loadBuffer8(double t) {
 		double value;
 		for (int k = 0; k < getBuf().length; k++) {
-			value = getF().evaluate(t + 1.0 * k * getSamplePeriod());
+			value = getF().value(t + 1.0 * k * getSamplePeriod());
 			// clip sound data
 			if (value > 1.0) {
 				value = 1.0;
@@ -175,7 +175,7 @@ public abstract class FunctionSound {
 			if (k < 5 || k > getBuf().length / 2 - 6) {
 				Log.debug(k + " " + (t + 1.0 * k * getSamplePeriod()));
 			}
-			value = getF().evaluate(t + 1.0 * k * getSamplePeriod());
+			value = getF().value(t + 1.0 * k * getSamplePeriod());
 			// System.out.print(value+",");
 			// clip sound data
 			if (value > 1.0) {

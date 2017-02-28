@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * Curve in parametric form (f(t),g(t))
@@ -32,12 +32,12 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	/**
 	 * @return x-coord as function of parameter
 	 */
-	RealRootFunction getRealRootFunctionX();
+	UnivariateFunction getUnivariateFunctionX();
 
 	/**
 	 * @return y-coord as function of parameter
 	 */
-	RealRootFunction getRealRootFunctionY();
+	UnivariateFunction getUnivariateFunctionY();
 
 	/**
 	 * Evaluates the curve for given parameter value

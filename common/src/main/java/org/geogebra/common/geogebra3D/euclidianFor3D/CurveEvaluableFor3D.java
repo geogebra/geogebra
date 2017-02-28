@@ -1,10 +1,10 @@
 package org.geogebra.common.geogebra3D.euclidianFor3D;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * For 3D curve, evaluator that returns NaN when z != 0
@@ -25,29 +25,26 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 	 * @author mathieu
 	 *
 	 */
-	private static class FunMustBeZero implements RealRootFunction {
+	private static class FunMustBeZero
+			implements org.apache.commons.math3.analysis.UnivariateFunction {
 
-		private RealRootFunction parentFun;
+		private UnivariateFunction parentFun;
 
 		protected FunMustBeZero() {
 		}
 
-		public void setParentFun(RealRootFunction parentFun) {
+		public void setParentFun(UnivariateFunction parentFun) {
 			this.parentFun = parentFun;
 		}
 
 		@Override
-		public double evaluate(double t) {
-			double z = parentFun.evaluate(t);
+		public double value(double t) {
+			double z = parentFun.value(t);
 			if (!Kernel.isZero(z)) {
 				return Double.NaN;
 			}
 
 			return 0;
-		}
-
-		public double value(double x) {
-			return evaluate(x);
 		}
 
 	}

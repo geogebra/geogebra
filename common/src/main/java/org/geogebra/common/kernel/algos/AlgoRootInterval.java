@@ -136,8 +136,7 @@ public class AlgoRootInterval extends AlgoElement {
 					min,
 					max, root);
 
-			if (Math.abs(fun.evaluate(newtonRoot)) < Math
-					.abs(fun.evaluate(root))) {
+			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(root))) {
 				root = newtonRoot;
 				// Log.debug("polished result from Newton is better: " +
 				// newtonRoot);
@@ -148,7 +147,7 @@ public class AlgoRootInterval extends AlgoElement {
 		}
 
 		// check result
-		if (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION) {
+		if (Math.abs(fun.value(root)) < Kernel.MIN_PRECISION) {
 			return root;
 		}
 

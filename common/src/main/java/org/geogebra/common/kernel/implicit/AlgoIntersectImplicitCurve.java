@@ -285,7 +285,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		outputs.adjustOutputSize(outputLen);
 
 		for (int i = 0; i < roots.length; i++) {
-			double py = fn.evaluate(roots[i]);
+			double py = fn.value(roots[i]);
 			outputs.getElement(n + i).setCoords(roots[i], py, 1.0);
 		}
 	}
@@ -319,7 +319,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		outputs.adjustOutputSize(outputLen);
 
 		for (int i = 0; i < roots.length; i++) {
-			double px = fn.evaluate(roots[i]);
+			double px = fn.value(roots[i]);
 			outputs.getElement(n + i).setCoords(px, roots[i], 1.0);
 		}
 	}

@@ -133,7 +133,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		double max = (l + r) / 2; // Tentative max (or min) so far
 
 		// Max or min? Check if "derivative" is positive (negative) at left:
-		if (f.evaluate(l) < f.evaluate(l + Math.abs((max - l) / 1E12))) { // 1E16
+		if (f.value(l) < f.value(l + Math.abs((max - l) / 1E12))) { // 1E16
 																			// might
 																			// not
 																			// give
@@ -152,39 +152,39 @@ public class AlgoExtremumNumerical extends AlgoElement {
 			didslice = false;
 			if (isgoingup) {
 				newleft = max - (max - l) / DIVIDER;
-				if (f.evaluate(newleft) < f.evaluate(l)) {
+				if (f.value(newleft) < f.value(l)) {
 					r = newleft;
 					didslice = true;
 				}
-				if (f.evaluate(newleft) > f.evaluate(max)) {
+				if (f.value(newleft) > f.value(max)) {
 					r = max;
 					didslice = true;
 				}
 				newright = max + (r - max) / DIVIDER;
-				if (f.evaluate(newright) < f.evaluate(r)) {
+				if (f.value(newright) < f.value(r)) {
 					l = newright;
 					didslice = true;
 				}
-				if (f.evaluate(newright) > f.evaluate(max)) {
+				if (f.value(newright) > f.value(max)) {
 					l = max;
 					didslice = true;
 				}
 			} else {
 				newleft = max - (max - l) / DIVIDER;
-				if (f.evaluate(newleft) > f.evaluate(l)) {
+				if (f.value(newleft) > f.value(l)) {
 					r = newleft;
 					didslice = true;
 				}
-				if (f.evaluate(newleft) < f.evaluate(max)) {
+				if (f.value(newleft) < f.value(max)) {
 					r = max;
 					didslice = true;
 				}
 				newright = max + (r - max) / DIVIDER;
-				if (f.evaluate(newright) > f.evaluate(r)) {
+				if (f.value(newright) > f.value(r)) {
 					l = newright;
 					didslice = true;
 				}
-				if (f.evaluate(newright) < f.evaluate(max)) {
+				if (f.value(newright) < f.value(max)) {
 					l = max;
 					didslice = true;
 				}
@@ -200,11 +200,11 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		} // while not finished
 
 		// Save some repetitive calculations:
-		double y = f.evaluate(max);
+		double y = f.value(max);
 		double ld = left.getDouble();
 		double rd = right.getDouble();
-		double fl = f.evaluate(ld);
-		double fr = f.evaluate(rd);
+		double fl = f.value(ld);
+		double fr = f.value(rd);
 
 		E.setCoords(max, y, 1.0);
 

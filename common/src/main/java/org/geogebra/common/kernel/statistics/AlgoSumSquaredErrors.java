@@ -118,7 +118,7 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 				point = (GeoPoint) geo;
 				x = point.getX();
 				y = point.getY();
-				v = funGeo.evaluate(x);
+				v = funGeo.value(x);
 				errorsum += (v - y) * (v - y);
 			} else {
 				sse.setUndefined();

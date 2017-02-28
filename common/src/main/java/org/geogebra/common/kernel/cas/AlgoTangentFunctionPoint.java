@@ -203,7 +203,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 		double slope;
 		double a = P.getInhomX();
-		double fa = f.evaluate(a);
+		double fa = f.value(a);
 
 		if (freehand) {
 
@@ -241,7 +241,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 		} else {
 			// calc the tangent;
-			slope = deriv.evaluate(a);
+			slope = deriv.value(a);
 
 		}
 
@@ -253,7 +253,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	}
 
 	private GeoPoint newPoint(double a) {
-		return new GeoPoint(cons, a, f.evaluate(a), 1);
+		return new GeoPoint(cons, a, f.value(a), 1);
 	}
 
 	@Override

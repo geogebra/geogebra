@@ -126,7 +126,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 		double ad = a.getDouble();
 
 		// first part f(a)
-		double coeff = f.evaluate(ad);
+		double coeff = f.value(ad);
 		if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 			g.setUndefined();
 			return;
@@ -165,7 +165,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 					g.setUndefined();
 					return;
 				}
-				coeff = deriv.evaluate(ad);
+				coeff = deriv.value(ad);
 
 				// Log.debug("deriv = "
 				// + deriv.toValueString(StringTemplate.giacTemplate));

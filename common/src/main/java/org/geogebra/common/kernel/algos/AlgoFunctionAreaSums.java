@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.distribution.BinomialDistribution;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.IntegerDistribution;
@@ -32,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.optimization.NegativeRealRootFunction;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -859,7 +859,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				return;
 			}
 
-			RealRootFunction fun = f.getRealRootFunctionY();
+			UnivariateFunction fun = f.getUnivariateFunctionY();
 			double ad = a.getDouble();
 			double bd = b.getDouble();
 			if (!onlyZoom) {
@@ -884,7 +884,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				yval = new double[N];
 				leftBorder = new double[N];
 			}
-			RealRootFunction fmin = fun;
+			UnivariateFunction fmin = fun;
 			if (type == SumType.UPPERSUM)
 			 {
 				fmin = new NegativeRealRootFunction(fun); // use -f to find
@@ -937,7 +937,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 					// Application.debug("subsampling from "+left+" to "+right);
 					double y, minSample = left;
 					for (double x = left; x < right; x += subStep) {
-						y = fmin.evaluate(x);
+						y = fmin.value(x);
 						if (y < min) {
 							min = y;
 							minSample = x;
@@ -946,7 +946,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 					// if the minimum is on the left border then minSample ==
 					// left now
 					// check right border too
-					y = fmin.evaluate(right);
+					y = fmin.value(right);
 					if (y < min) {
 						minSample = right;
 					}
@@ -959,7 +959,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 				// find minimum (resp. maximum) over interval
 				double x = extrFinder.findMinimum(left, right, fmin, TOLERANCE);
-				double y = fmin.evaluate(x);
+				double y = fmin.value(x);
 
 				// one of the evaluated sub-samples could be smaller
 				// e.g. at the border of this interval
@@ -1000,7 +1000,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				sum.setUndefined();
 			} // if d parameter for rectanglesum
 
-			fun = f.getRealRootFunctionY();
+			fun = f.getUnivariateFunctionY();
 
 			// lower bound
 			ad = a.getDouble();
@@ -1043,7 +1043,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 						// eg sqrt(1-1.00000000000001)
 						double xVal = Math.min(bd, leftBorder[i] + dd * STEP);
 
-						yval[i] = fun.evaluate(xVal); // divider
+						yval[i] = fun.value(xVal); // divider
 														// into
 														// step-interval
 					} else {
@@ -1051,7 +1051,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 						return;
 					} // if divider ok
 				} else {
-					yval[i] = fun.evaluate(leftBorder[i]);
+					yval[i] = fun.value(leftBorder[i]);
 				} // if
 
 				totalArea += yval[i];
@@ -1702,12 +1702,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		double interval = (bd - ad) / CHECKPOINTS;
 		for (double temp = ad; (interval > 0 && temp < bd)
 				|| (interval < 0 && temp > bd); temp += interval) {
-			double val = f.evaluate(temp);
+			double val = f.value(temp);
 			if (Double.isNaN(val) || Double.isInfinite(val)) {
 				return false;
 			}
 		}
-		double val = f.evaluate(bd);
+		double val = f.value(bd);
 		if (Double.isNaN(val) || Double.isInfinite(val)) {
 			return false;
 		}

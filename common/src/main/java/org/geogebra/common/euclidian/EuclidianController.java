@@ -7518,9 +7518,9 @@ public abstract class EuclidianController {
 
 					if (factors.size() == 1
 							&& factors.get(0).getDegree() == 2) {
-						double c = movedGeoFunction.evaluate(0);
-						double s = movedGeoFunction.evaluate(1);
-						double a = 0.5 * (s + movedGeoFunction.evaluate(-1))
+						double c = movedGeoFunction.value(0);
+						double s = movedGeoFunction.value(1);
+						double a = 0.5 * (s + movedGeoFunction.value(-1))
 								- c;
 						double b = s - a - c;
 

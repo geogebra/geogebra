@@ -1,22 +1,18 @@
 package org.geogebra.common.kernel.optimization;
 
-import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
-public class NegativeRealRootFunction implements RealRootFunction {
+public class NegativeRealRootFunction implements UnivariateFunction {
 
-	private RealRootFunction f;
+	private UnivariateFunction f;
 
-	public NegativeRealRootFunction(RealRootFunction f) {
+	public NegativeRealRootFunction(UnivariateFunction f) {
 		this.f = f;
 	}
 
 	@Override
-	final public double evaluate(double x) {
-		return -f.evaluate(x);
-	}
-
-	public double value(double x) {
-		return evaluate(x);
+	final public double value(double x) {
+		return -f.value(x);
 	}
 
 }

@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -35,7 +36,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -163,10 +163,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		super.setInterval(startParam, endParam);
 
 		// update isClosedPath, i.e. startPoint == endPoint
-		this.isClosedPath = Kernel.isEqual(getFun(0).evaluate(startParam),
-				getFun(0).evaluate(endParam), Kernel.MIN_PRECISION)
-				&& Kernel.isEqual(getFun(1).evaluate(startParam),
-						getFun(1).evaluate(endParam), Kernel.MIN_PRECISION);
+		this.isClosedPath = Kernel.isEqual(getFun(0).value(startParam),
+				getFun(0).value(endParam), Kernel.MIN_PRECISION)
+				&& Kernel.isEqual(getFun(1).value(startParam),
+						getFun(1).value(endParam), Kernel.MIN_PRECISION);
 	}
 
 	@Override
@@ -244,12 +244,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	// end Loic Le Coq
 
 	@Override
-	final public RealRootFunction getRealRootFunctionX() {
+	final public UnivariateFunction getUnivariateFunctionX() {
 		return getFun(0);
 	}
 
 	@Override
-	final public RealRootFunction getRealRootFunctionY() {
+	final public UnivariateFunction getUnivariateFunctionY() {
 		return getFun(1);
 	}
 
@@ -378,8 +378,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 		for (double i = 0, v = startInterval; i < n; i++, v += step) {
 			double[] point = new double[2];
-			point[0] = getFun(0).evaluate(v);
-			point[1] = getFun(1).evaluate(v);
+			point[0] = getFun(0).value(v);
+			point[1] = getFun(1).value(v);
 			pointList.add(new GeoPoint(this.cons, point[0], point[1], 1));
 		}
 
@@ -530,8 +530,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
 		double t = getClosestParameter(P, pp.t);
-		boolean onPath = Math.abs(getFun(0).evaluate(t) - P.getInhomX()) <= eps
-				&& Math.abs(getFun(1).evaluate(t) - P.getInhomY()) <= eps;
+		boolean onPath = Math.abs(getFun(0).value(t) - P.getInhomX()) <= eps
+				&& Math.abs(getFun(1).value(t) - P.getInhomY()) <= eps;
 		return onPath;
 	}
 
@@ -561,7 +561,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		}
 
 		// calc point for given parameter
-		P.setCoords2D(getFun(0).evaluate(pp.t), getFun(1).evaluate(pp.t), 1);
+		P.setCoords2D(getFun(0).value(pp.t), getFun(1).value(pp.t), 1);
 		P.updateCoordsFrom2D(false, null);
 	}
 
@@ -597,7 +597,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 			// point A is on curve c, take its parameter
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
-			if (this.distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
+			if (this.distFun.value(pathParam) < Kernel.MIN_PRECISION
 					* Kernel.MIN_PRECISION) {
 				return pathParam;
 			}
@@ -612,12 +612,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		// first sample distFun to find a start interval for ExtremumFinder
 		double step = (this.endParam - this.startParam)
 				/ CLOSEST_PARAMETER_SAMPLES;
-		double minVal = this.distFun.evaluate(this.startParam);
+		double minVal = this.distFun.value(this.startParam);
 		double minParam = this.startParam;
 		double t = this.startParam;
 		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
 			t = t + step;
-			double ft = this.distFun.evaluate(t);
+			double ft = this.distFun.value(t);
 			if (ft < minVal) {
 				// found new minimum
 				minVal = ft;
@@ -653,8 +653,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 			startValResult = adjustRange(startValResult);
 
-			if (this.distFun.evaluate(
-					startValResult) < this.distFun.evaluate(sampleResult)
+			if (this.distFun
+					.value(startValResult) < this.distFun.value(sampleResult)
 							+ Kernel.MIN_PRECISION / 2) {
 				return startValResult;
 			}
@@ -727,14 +727,14 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	 */
 	@Override
 	public void evaluateCurve(double paramVal, double[] out) {
-		out[0] = getFun(0).evaluate(paramVal);
-		out[1] = getFun(1).evaluate(paramVal);
+		out[0] = getFun(0).value(paramVal);
+		out[1] = getFun(1).value(paramVal);
 	}
 
 	@Override
 	public GeoVec2D evaluateCurve(double t) {
-		return new GeoVec2D(this.kernel, getFun(0).evaluate(t),
-				getFun(1).evaluate(t));
+		return new GeoVec2D(this.kernel, getFun(0).value(t),
+				getFun(1).value(t));
 	}
 
 	/**
@@ -757,10 +757,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 		double f1eval[] = new double[2];
 		double f2eval[] = new double[2];
-		f1eval[0] = f1X.evaluate(t);
-		f1eval[1] = f1Y.evaluate(t);
-		f2eval[0] = f2X.evaluate(t);
-		f2eval[1] = f2Y.evaluate(t);
+		f1eval[0] = f1X.value(t);
+		f1eval[1] = f1Y.value(t);
+		f2eval[0] = f2X.value(t);
+		f2eval[1] = f2Y.value(t);
 		double t1 = Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]);
 		double t3 = t1 * t1 * t1;
 		return (f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1]) / t3;
@@ -830,8 +830,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	@Override
 	public double distance(GeoPoint p) {
 		double t = getClosestParameter(p, 0);
-		return MyMath.length(getFun(0).evaluate(t) - p.getX(),
-				getFun(1).evaluate(t) - p.getY());
+		return MyMath.length(getFun(0).value(t) - p.getX(),
+				getFun(1).value(t) - p.getY());
 	}
 
 	@Override
@@ -843,8 +843,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 		double t = getClosestParameter(p, 0);
 		Coords coords = p.getInhomCoordsInD3();
-		return MyMath.length(getFun(0).evaluate(t) - coords.getX(),
-				getFun(1).evaluate(t) - coords.getY(), coords.getZ());
+		return MyMath.length(getFun(0).value(t) - coords.getX(),
+				getFun(1).value(t) - coords.getY(), coords.getZ());
 	}
 
 	@Override
@@ -902,9 +902,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	@Override
 	public double[] getDefinedInterval(double a, double b) {
 		double[] intervalX = RealRootUtil
-				.getDefinedInterval(getRealRootFunctionX(), a, b);
+				.getDefinedInterval(getUnivariateFunctionX(), a, b);
 		double[] intervalY = RealRootUtil
-				.getDefinedInterval(getRealRootFunctionY(), a, b);
+				.getDefinedInterval(getUnivariateFunctionY(), a, b);
 
 		if (intervalX[0] < intervalY[0]) {
 			intervalX[0] = intervalY[0];

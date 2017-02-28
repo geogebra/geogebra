@@ -140,7 +140,7 @@ public class DrawIntegralFunctions extends Drawable {
 
 		// init first point of gp as (ax, ay)
 		double ax = view.toClippedScreenCoordX(aRW);
-		double ay = view.toClippedScreenCoordY(f.evaluate(aRW));
+		double ay = view.toClippedScreenCoordY(f.value(aRW));
 
 		// plot area between f and g
 		if (gp == null) {
@@ -163,7 +163,7 @@ public class DrawIntegralFunctions extends Drawable {
 			int bx = view.toClippedScreenCoordX(bRW);
 			xLabel = (int) Math.round((ax + bx) / 2);
 			aRW = view.toRealWorldCoordX(xLabel);
-			double y = (f.evaluate(aRW) + g.evaluate(aRW)) / 2;
+			double y = (f.value(aRW) + g.value(aRW)) / 2;
 			yLabel = view.toClippedScreenCoordY(y);
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();

@@ -210,7 +210,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		if (type == TYPE_ROOTS) {
 			return 0;
 		}
-		return f1.evaluate(x);
+		return f1.value(x);
 	}
 
 	private final void compute2(GeoFunction f) {
@@ -276,7 +276,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	public static final double[] findRoots(GeoFunction f, double l, double r,
 			int samples) {
 		if (Kernel.isEqual(l, r)) {
-			return Kernel.isZero(f.evaluate(l)) ? new double[] { l }
+			return Kernel.isZero(f.value(l)) ? new double[] { l }
 					: new double[0];
 		}
 		double[] y = new double[samples + 1]; //
@@ -286,7 +286,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		for (int i = 0; i <= samples; i++) {
 			x = l + i * deltax;
-			y[i] = f.evaluate(x);
+			y[i] = f.value(x);
 			// if left endpoint is root by pure luck...
 			if ((Math.abs(y[i]) < Kernel.MIN_PRECISION)
 					&& (signChanged(f, x))) { // if
@@ -304,7 +304,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 															// y[i-1]*y[i]<0...
 						((y[i - 1] > 0.0d) && (y[i] < 0.0d))) {
 					xval = calcSingleRoot(f, x - deltax, x);
-					if (Math.abs(f.evaluate(xval)) < Kernel.MIN_PRECISION) { // =1E-5:
+					if (Math.abs(f.value(xval)) < Kernel.MIN_PRECISION) { // =1E-5:
 																				// Quite
 																				// large,
 																				// but
@@ -398,11 +398,11 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		left = x - delta;
 		right = x + delta;
 		int count = 0;
-		while (Math.abs(lefty = f.evaluate(left)) < delta && count++ < 100) {
+		while (Math.abs(lefty = f.value(left)) < delta && count++ < 100) {
 			left = left - delta;
 		}
 		count = 0;
-		while (Math.abs(righty = f.evaluate(right)) < delta && count++ < 100) {
+		while (Math.abs(righty = f.value(right)) < delta && count++ < 100) {
 			right = right + delta;
 		}
 		signChanged = lefty * righty < 0.0d;

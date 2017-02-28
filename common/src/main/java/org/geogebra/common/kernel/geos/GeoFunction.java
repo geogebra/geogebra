@@ -58,7 +58,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
@@ -78,9 +77,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class GeoFunction extends GeoElement implements VarString, Translateable,
 		Functional, FunctionalNVar, GeoFunctionable, Region,
-		CasEvaluableFunction, ParametricCurve, RealRootFunction, Dilateable,
-		Transformable, InequalityProperties, SurfaceEvaluable,
-		UnivariateFunction {
+		CasEvaluableFunction, ParametricCurve, UnivariateFunction, Dilateable,
+		Transformable, InequalityProperties, SurfaceEvaluable {
 
 	/** inner function representation */
 	protected Function fun;
@@ -228,10 +226,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 			fun = new Function(c.getKernel()) {
 				@Override
-				public double evaluate(double x) {
+				public double value(double x) {
 
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(x,
-							substituteFunctions[1].getFunction().evaluate(x));
+							substituteFunctions[1].getFunction().value(x));
 				}
 			};
 
@@ -267,10 +265,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 			fun = new Function(c.getKernel()) {
 				@Override
-				public double evaluate(double x) {
+				public double value(double x) {
 
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(
-							substituteFunctions[0].getFunction().evaluate(x),
+							substituteFunctions[0].getFunction().value(x),
 							x);
 				}
 			};
@@ -284,11 +282,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 			fun = new Function(c.getKernel()) {
 				@Override
-				public double evaluate(double x) {
+				public double value(double x) {
 
 					return GeoFunction.this.iPoly.evaluateImplicitCurve(
-							substituteFunctions[0].getFunction().evaluate(x),
-							substituteFunctions[1].getFunction().evaluate(x));
+							substituteFunctions[0].getFunction().value(x),
+							substituteFunctions[1].getFunction().value(x));
 				}
 			};
 
@@ -571,7 +569,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return f(x)
 	 */
 	@Override
-	public double evaluate(double x) {
+	public double value(double x) {
 		if (fun == null || !isDefined) {
 			return Double.NaN;
 		}
@@ -582,7 +580,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		 * substituteFunctions[1].evaluate(x); return iPoly.evalPolyAt(evalX,
 		 * evalY); } else
 		 */
-		return fun.evaluate(x);
+		return fun.value(x);
 
 	}
 
@@ -596,7 +594,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public double evaluate(double[] vals) {
 
-		return evaluate(vals[0]);
+		return value(vals[0]);
 	}
 
 	/**
@@ -1170,9 +1168,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				double val = AlgoDistancePointObject.closestValPoly(
 						polyFunction, P.getX(), P.getY(), kernel);
 				P.setX(val);
-				P.setY(evaluate(val));
+				P.setY(value(val));
 			} else {
-				P.setY(evaluate(P.getX()));
+				P.setY(value(P.getX()));
 			}
 
 		} else {
@@ -1247,7 +1245,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 		if (!isBooleanFunction()) {
 			return isDefined && Math
-					.abs(fun.evaluate(P.getInhomX()) - P.getInhomY()) <= eps;
+					.abs(fun.value(P.getInhomX()) - P.getInhomY()) <= eps;
 		}
 		double px = isFunctionOfY() ? P.getY() : P.getX();
 		if (P.getZ() != 1.0) {
@@ -1402,10 +1400,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public void evaluateCurve(double t, double[] out) {
 		if (evalSwapped) {
 			out[1] = t;
-			out[0] = evaluate(t);
+			out[0] = value(t);
 		} else {
 			out[0] = t;
-			out[1] = evaluate(t);
+			out[1] = value(t);
 		}
 	}
 
@@ -1425,43 +1423,37 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return Double.NaN;
 		}
 
-		double f1eval = f1.evaluate(x);
+		double f1eval = f1.value(x);
 		double t = Math.sqrt(1 + f1eval * f1eval);
 		double t3 = t * t * t;
-		return f2.evaluate(x) / t3;
+		return f2.value(x) / t3;
 	}
 
 	@Override
-	final public RealRootFunction getRealRootFunctionX() {
-		return new RealRootFunction() {
+	final public UnivariateFunction getUnivariateFunctionX() {
+		return new UnivariateFunction() {
 			@Override
-			public double evaluate(double t) {
+			public double value(double t) {
 				return t;
 			}
 
-			public double value(double x) {
-				return evaluate(x);
-			}
 		};
 	}
 
 	@Override
-	final public RealRootFunction getRealRootFunctionY() {
-		return new RealRootFunction() {
+	final public UnivariateFunction getUnivariateFunctionY() {
+		return new UnivariateFunction() {
 			@Override
-			public double evaluate(double t) {
-				return GeoFunction.this.evaluate(t);
+			public double value(double t) {
+				return GeoFunction.this.value(t);
 			}
 
-			public double value(double x) {
-				return evaluate(x);
-			}
 		};
 	}
 
 	@Override
 	public GeoVec2D evaluateCurve(double t) {
-		return new GeoVec2D(kernel, t, evaluate(t));
+		return new GeoVec2D(kernel, t, value(t));
 	}
 
 	@Override
@@ -1522,8 +1514,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	private static boolean differAt(GeoFunction f1, GeoFunction f2, double x) {
-		double v1 = f1.evaluate(x);
-		double v2 = f2.evaluate(x);
+		double v1 = f1.value(x);
+		double v2 = f2.value(x);
 		if (!MyDouble.isFinite(v2) || Math.abs(v1) > 1E8) {
 			return false;
 		}
@@ -2397,7 +2389,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	@Override
 	public double distance(GeoPoint p) {
-		return Math.abs(evaluate(p.getInhomX()) - p.getInhomY());
+		return Math.abs(value(p.getInhomX()) - p.getInhomY());
 	}
 
 	@Override
@@ -3091,7 +3083,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public double[] getDefinedInterval(double a, double b) {
-		return RealRootUtil.getDefinedInterval(getRealRootFunctionY(), a, b);
+		return RealRootUtil.getDefinedInterval(getUnivariateFunctionY(), a, b);
 	}
 
 	@Override
@@ -3192,9 +3184,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public double evaluate(double x, double y) {
 		if (isFunctionOfY()) {
-			return evaluate(y);
+			return value(y);
 		}
-		return fun.evaluate(x);
+		return fun.value(x);
 	}
 
 	@Override
@@ -3225,10 +3217,5 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	static boolean hideDefinitionInAlgebra(ExpressionNode ex) {
 		return ex == null || Operation.includesFreehandOrData(ex.getOperation())
 				|| ex.isSecret();
-	}
-
-	@Override
-	public double value(double x) {
-		return evaluate(x);
 	}
 }

@@ -279,7 +279,7 @@ public class AlgoIntegralODE extends AlgoElement {
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[y, x(A), y(A), 5, 0.1]
 			if (f instanceof GeoFunction && ((GeoFunction) f).isFunctionOfY()) {
-				yDot[0] = ((GeoFunction) f).evaluate(y[0]);
+				yDot[0] = ((GeoFunction) f).value(y[0]);
 			} else {
 				yDot[0] = f.evaluate(input);
 			}
@@ -311,7 +311,7 @@ public class AlgoIntegralODE extends AlgoElement {
 			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
 			if (y1 instanceof GeoFunction
 					&& ((GeoFunction) y1).isFunctionOfY()) {
-				yDot[0] = ((GeoFunction) y1).evaluate(y[1]);
+				yDot[0] = ((GeoFunction) y1).value(y[1]);
 			} else {
 				yDot[0] = y1.evaluate(input);
 			}
@@ -320,7 +320,7 @@ public class AlgoIntegralODE extends AlgoElement {
 			// eg SolveODE[-x, y, x(A), y(A), 5, 0.1]
 			if (y0 instanceof GeoFunction
 					&& ((GeoFunction) y0).isFunctionOfY()) {
-				yDot[1] = ((GeoFunction) y0).evaluate(y[1]);
+				yDot[1] = ((GeoFunction) y0).value(y[1]);
 			} else {
 				yDot[1] = y0.evaluate(input);
 			}

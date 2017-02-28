@@ -111,7 +111,7 @@ public class AlgoClosestPoint extends AlgoElement
 				double val = AlgoDistancePointObject
 						.getClosestFunctionValueToPoint(fun, coords.getX(),
 								coords.getY());
-				((GeoPoint) P).setCoords(val, fun.evaluate(val), 1.0);
+				((GeoPoint) P).setCoords(val, fun.value(val), 1.0);
 			} else {
 				setCoords();
 				path.pointChanged(P);

@@ -14,6 +14,7 @@ package org.geogebra.common.gui.view.functioninspector;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -52,7 +53,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -272,7 +272,7 @@ public class FunctionInspectorModel {
 		xMax = coords[0];
 
 		ExtremumFinder ef = new ExtremumFinder();
-		RealRootFunction fun = selectedGeo.getRealRootFunctionY();
+		UnivariateFunction fun = selectedGeo.getUnivariateFunctionY();
 
 		// get the table
 		double integral = ((GeoNumeric) integralGeo).getDouble();
@@ -280,12 +280,12 @@ public class FunctionInspectorModel {
 		double mean = integral / (xMax - xMin);
 		double length = ((GeoNumeric) lengthGeo).getDouble();
 
-		double yMin = selectedGeo.evaluate(xMin);
-		double yMax = selectedGeo.evaluate(xMax);
+		double yMin = selectedGeo.value(xMin);
+		double yMax = selectedGeo.value(xMax);
 		double xMinInt = ef.findMinimum(xMin, xMax, fun, 5.0E-8);
 		double xMaxInt = ef.findMaximum(xMin, xMax, fun, 5.0E-8);
-		double yMinInt = selectedGeo.evaluate(xMinInt);
-		double yMaxInt = selectedGeo.evaluate(xMaxInt);
+		double yMinInt = selectedGeo.value(xMinInt);
+		double yMaxInt = selectedGeo.value(xMaxInt);
 
 		if (yMin < yMinInt) {
 			yMinInt = yMin;
@@ -445,7 +445,7 @@ public class FunctionInspectorModel {
 			double x = start - step * (pointCount - 1) / 2;
 			double y;
 			for (int i = 0; i < rowCount; i++) {
-				y = f.evaluate(x);
+				y = f.value(x);
 				listener.setXYValueAt(x, i, 0);
 				listener.setXYValueAt(y, i, 1);
 				((GeoPoint) pts.get(i)).setCoords(x, y, 1);
@@ -460,7 +460,7 @@ public class FunctionInspectorModel {
 
 		} else {
 			double x = start;
-			double y = f.evaluate(x);
+			double y = f.value(x);
 			listener.setXYValueAt(x, 0, 0);
 			listener.setXYValueAt(y, 0, 1);
 
@@ -501,7 +501,7 @@ public class FunctionInspectorModel {
 					String str = (String) listener.getXYValueAt(row, 0);
 					if (!"".equals(str)) {
 						double x = Double.parseDouble(str);
-						double d = derivative.evaluate(x);// evaluateExpression(derivative.getLabel()
+						double d = derivative.value(x);// evaluateExpression(derivative.getLabel()
 						// + "(" + x + ")");
 						listener.setXYValueAt(d, row, column);
 						copyArray[row] = d;
@@ -515,7 +515,7 @@ public class FunctionInspectorModel {
 					String str = (String) listener.getXYValueAt(row, 0);
 					if (!"".equals(str)) {
 						double x = Double.parseDouble(str);
-						double d2 = derivative2.evaluate(x);// evaluateExpression(derivative2.getLabel()
+						double d2 = derivative2.value(x);// evaluateExpression(derivative2.getLabel()
 						// + "(" + x + ")");
 						listener.setXYValueAt(d2, row, column);
 						copyArray[row] = d2;
@@ -604,14 +604,14 @@ public class FunctionInspectorModel {
 	}
 
 	public void applyHigh(double value) {
-		double y = selectedGeo.evaluate(value);
+		double y = selectedGeo.value(value);
 		highPoint.setCoords(value, y, 1);
 		highPoint.updateCascade();
 		highPoint.updateRepaint();
 	}
 
 	public void applyLow(double value) {
-		double y = selectedGeo.evaluate(value);
+		double y = selectedGeo.value(value);
 		lowPoint.setCoords(value, y, 1);
 		lowPoint.updateCascade();
 		lowPoint.updateRepaint();
@@ -686,11 +686,11 @@ public class FunctionInspectorModel {
 		defineDisplayGeos();
 
 		double x = getInitialX() - 4 * step;
-		double y = selectedGeo.evaluate(x);
+		double y = selectedGeo.value(x);
 		lowPoint.setCoords(x, y, 1);
 
 		x = getInitialX() + 4 * step;
-		y = selectedGeo.evaluate(x);
+		y = selectedGeo.value(x);
 		highPoint.setCoords(x, y, 1);
 
 		lowPoint.updateCascade();
@@ -965,7 +965,7 @@ public class FunctionInspectorModel {
 			String str = (String) listener.getXYValueAt(row, 0);
 			if (!"".equals(str)) {
 				double x = Double.parseDouble(str);
-				double y = selectedGeo.evaluate(x);
+				double y = selectedGeo.value(x);
 				testPoint.setCoords(x, y, 1);
 				testPoint.updateRepaint();
 			}

@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
@@ -16,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
@@ -135,7 +135,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				tempPoint.setCoords(solution.curRoots[i],
-						func.evaluate(solution.curRoots[i]), 1.0);
+						func.value(solution.curRoots[i]), 1.0);
 				if (seg.isOnPath(tempPoint, Kernel.MIN_PRECISION)) {
 					intrsctCrds.add(tempPoint.getCoords());
 					numOfOutputPoints++;
@@ -158,7 +158,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		RealRootFunction evalFunction = AlgoRootsPolynomial
+		UnivariateFunction evalFunction = AlgoRootsPolynomial
 				.calcRootsMultiple(fun, derivDegree, solution, eqnSolver);
 
 		if (solution.curRealRoots > 1) {

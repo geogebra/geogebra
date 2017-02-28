@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -27,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Finds all real roots of a polynomial. TODO: extend for rational functions
@@ -295,8 +295,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// check if the intersection points are really on the functions
 			// due to interval restrictions this might not be the case
 			for (int i = 0; i < solution.curRealRoots; i++) {
-				if (!Kernel.isEqual(f.evaluate(solution.curRoots[i]),
-						g.evaluate(solution.curRoots[i]),
+				if (!Kernel.isEqual(f.value(solution.curRoots[i]),
+						g.value(solution.curRoots[i]),
 						Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
 					i--;
@@ -330,7 +330,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				tempPoint.setCoords(solution.curRoots[i],
-						f.evaluate(solution.curRoots[i]), 1.0);
+						f.value(solution.curRoots[i]), 1.0);
 				if (!line.isIntersectionPointIncident(tempPoint,
 						Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
@@ -352,7 +352,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		RealRootFunction evalFunction = calcRootsMultiple(fun, derivDegree,
+		UnivariateFunction evalFunction = calcRootsMultiple(fun, derivDegree,
 				solution, eqnSolver);
 
 		if (solution.curRealRoots > 1) {
@@ -380,12 +380,12 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		}
 	}
 
-	public static RealRootFunction calcRootsMultiple(Function fun,
+	public static UnivariateFunction calcRootsMultiple(Function fun,
 			int derivDegree, Solution solution,
 			EquationSolverInterface eqnSolver) {
 		LinkedList<PolyFunction> factorList;
 		PolyFunction derivPoly = null;// only needed for derivatives
-		RealRootFunction evalFunction = null; // needed to remove wrong extrema
+		UnivariateFunction evalFunction = null; // needed to remove wrong extrema
 												// and inflection points
 
 		// get polynomial factors for this function
@@ -467,7 +467,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				rootPoints[i].setCoords(roots[i], 0.0, 1.0); // root point
 			} else { // extremum or turnal point
 				rootPoints[i].setCoords(roots[i],
-						yValFunction.evaluate(roots[i]), 1.0);
+						yValFunction.value(roots[i]), 1.0);
 
 				// Application.debug(" " + rootPoints[i]);
 			}

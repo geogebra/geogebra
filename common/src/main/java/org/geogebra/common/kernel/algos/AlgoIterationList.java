@@ -537,7 +537,7 @@ public class AlgoIterationList extends AlgoElement {
 		double val = startValue.getDouble();
 		setListElement(0, val);
 		for (int i = 0; i < iterations; i++) {
-			val = f.evaluate(val);
+			val = f.value(val);
 			setListElement(i + 1, val);
 		}
 	}

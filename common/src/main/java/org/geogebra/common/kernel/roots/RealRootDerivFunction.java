@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.roots;
 
-public interface RealRootDerivFunction extends RealRootFunction {
+import org.apache.commons.math3.analysis.UnivariateFunction;
+
+public interface RealRootDerivFunction extends UnivariateFunction {
 
 	/**
 	 * returns array with function's value and derivative's value

@@ -28,7 +28,7 @@ public class RealRootDerivAdapter
 
 	@Override
 	public double value(double x) {
-		double res = derivFun.evaluate(x);
+		double res = derivFun.value(x);
 		// if (Double.isInfinite(res) || Double.isNaN(res)) {
 		// throw new FunctionEvaluationException(x);
 		// }

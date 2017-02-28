@@ -112,7 +112,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 			mydoubles[i].set(pars[i]);
 			// mydoubles[i].setLabel("p_{"+i+"}");
 		} // for all parameter
-		lastvalue = newf.evaluate(x);
+		lastvalue = newf.value(x);
 		return lastvalue;
 	}// evaluate(x,pars[])
 
@@ -215,8 +215,8 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		return lastvalue;
 	}
 
-	public final double evaluate(double x) {
-		return newf.evaluate(x);
+	public final double value(double x) {
+		return newf.value(x);
 	}// evaluate(x);
 
 	public final Function getFunction() {

@@ -1479,7 +1479,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						}
 						return new MyDouble(getKernel(),
 								((GeoFunction) nextSublist)
-										.evaluate(lv.getListElement(i + 1)
+										.value(lv.getListElement(i + 1)
 												.evaluateDouble()));
 					} else if (nextSublist instanceof GeoFunctionNVar
 							&& i == lv.size() - ((GeoFunctionNVar) nextSublist)

@@ -271,8 +271,8 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 				&& Kernel.isGreaterEqual(p2, curve2.getMinParameter())
 				&& Kernel.isGreaterEqual(curve2.getMaxParameter(), p2)) {
 
-			double x = curve.getFun(0).evaluate(p1);
-			double y = curve.getFun(1).evaluate(p1);
+			double x = curve.getFun(0).value(p1);
+			double y = curve.getFun(1).value(p1);
 			// Log.debug("in range: ("+x+", "+y+")");
 
 			point.setCoords(x, y, 1.0);

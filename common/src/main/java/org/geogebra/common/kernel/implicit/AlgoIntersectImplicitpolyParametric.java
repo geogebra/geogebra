@@ -220,7 +220,7 @@ public class AlgoIntersectImplicitpolyParametric
 		List<double[]> valPairs = new ArrayList<double[]>();
 		for (int i = 0; i < rootPoints.length; i++) {
 			double t = rootPoints[i].getX();
-			valPairs.add(new double[] { t, fun.evaluate(t) });
+			valPairs.add(new double[] { t, fun.value(t) });
 		}
 
 		setPoints(valPairs);

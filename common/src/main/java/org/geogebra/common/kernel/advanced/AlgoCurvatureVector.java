@@ -90,8 +90,8 @@ public class AlgoCurvatureVector extends AlgoElement {
 	@Override
 	public final void compute() {
 		try {
-			double f1eval = f1.evaluate(A.inhomX);
-			double f2eval = f2.evaluate(A.inhomX);
+			double f1eval = f1.value(A.inhomX);
+			double f2eval = f2.value(A.inhomX);
 			double t = Math.sqrt(1 + f1eval * f1eval);
 			double t4 = t * t * t * t;
 

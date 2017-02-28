@@ -201,7 +201,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			List<double[]> valPairs = new ArrayList<double[]>();
 			for (int i = 0; i < rootPoints.length; i++) {
 				double t = rootPoints[i].getX();
-				valPairs.add(new double[] { t, h.evaluate(t) });
+				valPairs.add(new double[] { t, h.value(t) });
 			}
 
 			ker.setSilentMode(oldSilentMode);
@@ -225,7 +225,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 
 	@Override
 	protected double getYValue(double x) {
-		return h.evaluate(x);
+		return h.value(x);
 	}
 
 }

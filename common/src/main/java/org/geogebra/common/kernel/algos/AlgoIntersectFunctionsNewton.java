@@ -103,11 +103,11 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 			double x = calcRoot(diffFunction, startPoint.inhomX);
 
 			// check if x and g(x) are defined
-			if (Double.isNaN(x) || Double.isNaN(g.evaluate(x))) {
+			if (Double.isNaN(x) || Double.isNaN(g.value(x))) {
 				rootPoint.setUndefined();
 				return;
 			}
-			double y = f.evaluate(x);
+			double y = f.value(x);
 			rootPoint.setCoords(x, y, 1.0);
 
 			// if we got here we have a new valid rootPoint
@@ -152,7 +152,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 
 		double x = Double.isNaN(higher) || (startPoint.getInhomX()
 				- lower < higher - startPoint.getInhomX()) ? lower : higher;
-		rootPoint.setCoords(x, real.evaluate(x), 1);
+		rootPoint.setCoords(x, real.value(x), 1);
 
 	}
 

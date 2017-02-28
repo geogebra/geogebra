@@ -104,7 +104,7 @@ public class AlgoResidualPlot extends AlgoElement {
 			if (p instanceof GeoPoint) {
 				x = ((GeoPoint) p).getInhomX();
 				y = ((GeoPoint) p).getInhomY();
-				r = y - funGeo.evaluate(x);
+				r = y - funGeo.value(x);
 				min = Math.min(r, min);
 				max = Math.max(r, max);
 				outputList.addPoint(x, r, 1.0, null);

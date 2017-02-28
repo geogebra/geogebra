@@ -133,7 +133,7 @@ public class AlgoIntersectPathPoint extends AlgoElement
 				double val = AlgoDistancePointObject
 						.getClosestFunctionValueToPoint(fun, coords.getX(),
 								coords.getY());
-				P.setCoords(val, fun.evaluate(val), 1.0);
+				P.setCoords(val, fun.value(val), 1.0);
 			} else {
 				setCoords();
 				path.pointChanged(P);

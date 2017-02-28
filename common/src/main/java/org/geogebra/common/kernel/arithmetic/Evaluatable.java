@@ -12,5 +12,5 @@ public interface Evaluatable {
 	 *            position
 	 * @return f(x)
 	 */
-	public double evaluate(double x);
+	public double value(double x);
 }

@@ -204,8 +204,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
 			yDot[0] = y[1]; // (1)
-			yDot[1] = f.evaluate(t) - b.evaluate(t) * y[1]
-					- c.evaluate(t) * y[0]; // (2)
+			yDot[1] = f.value(t) - b.value(t) * y[1] - c.value(t) * y[0]; // (2)
 		}
 	}
 

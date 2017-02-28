@@ -338,7 +338,7 @@ public class RegressionPanel extends JPanel
 						.evaluateToNumeric(inputText, true);
 				double value = nv.getDouble();
 				double output = ((GeoFunctionable) statDialog
-						.getRegressionModel()).getGeoFunction().evaluate(value);
+						.getRegressionModel()).getGeoFunction().value(value);
 
 				fldOutputY.setText(statDialog.format(output));
 

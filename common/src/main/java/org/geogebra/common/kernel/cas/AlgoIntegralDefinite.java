@@ -264,8 +264,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			return;
 		}
 		// check if f(a) and f(b) are defined
-		double fa = f.evaluate(lowerLimit);
-		double fb = f.evaluate(upperLimit);
+		double fa = f.value(lowerLimit);
+		double fb = f.value(upperLimit);
 		if (Double.isNaN(fa) || Double.isInfinite(fa) || Double.isNaN(fb)
 				|| Double.isInfinite(fb)) {
 			if (!this.evaluateNumerically && !evaluateOnly()
@@ -299,8 +299,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			if (symbIntegral != null && symbIntegral.isDefined()
 					&& !f.includesDivisionByVar()
 					&& !f.includesNonContinuousIntegral()) {
-				double val = symbIntegral.evaluate(upperLimit)
-						- symbIntegral.evaluate(lowerLimit);
+				double val = symbIntegral.value(upperLimit)
+						- symbIntegral.value(lowerLimit);
 				n.setValue(val);
 				if (n.isDefined()) {
 					return;
@@ -338,8 +338,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			// it it is...
 			if (polyIntegral != null) {
 				// ... we can calculate the integral more accurately
-				n.setValue(polyIntegral.evaluate(upperLimit)
-						- polyIntegral.evaluate(lowerLimit));
+				n.setValue(polyIntegral.value(upperLimit)
+						- polyIntegral.value(lowerLimit));
 
 			} else {
 
@@ -496,19 +496,19 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			if (!Kernel.isZero(startx - lowerLimit)) {
 				// h (a+b) /2
 				area += (startx - lowerLimit)
-						* (f.evaluate(startx) + f.evaluate(lowerLimit)) / 2.0;
+						* (f.value(startx) + f.value(lowerLimit)) / 2.0;
 			}
 
 			if (!Kernel.isZero(endx - upperLimit)) {
 				// h (a+b) /2
 				area += (upperLimit - endx)
-						* (f.evaluate(endx) + f.evaluate(upperLimit)) / 2.0;
+						* (f.value(endx) + f.value(upperLimit)) / 2.0;
 			}
 		} else {
 			// just a trapezium from lowerLimit to upperLimit
 
 			area = (upperLimit - lowerLimit)
-					* (f.evaluate(lowerLimit) + f.evaluate(upperLimit)) / 2.0;
+					* (f.value(lowerLimit) + f.value(upperLimit)) / 2.0;
 		}
 
 		return Kernel.checkDecimalFraction(area) * multiplier;
@@ -579,8 +579,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		if (start == end) {
 			x1 = lowerLimit;
 			x2 = upperLimit;
-			y1 = f2.evaluate(x1);
-			y2 = f2.evaluate(x2);
+			y1 = f2.value(x1);
+			y2 = f2.value(x2);
 
 			// area of trapezium
 			return trapeziumArea(x1, x2, y1, y2);

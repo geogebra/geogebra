@@ -151,7 +151,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}// setPoints(double[],n)
 
 	protected double yAt(double d) {
-		return f.evaluate(d);
+		return f.value(d);
 	}
 
 	// number is the number of current roots

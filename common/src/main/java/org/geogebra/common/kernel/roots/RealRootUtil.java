@@ -17,6 +17,7 @@
 
 package org.geogebra.common.kernel.roots;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class RealRootUtil {
@@ -26,15 +27,15 @@ public class RealRootUtil {
 	/**
 	 * Returns an interval within [a, b] where f(x) is defined.
 	 * 
-	 * @see #getDefinitionBorder(RealRootFunction, double, double)
+	 * @see #getDefinitionBorder(UnivariateFunction, double, double)
 	 */
-	public static double[] getDefinedInterval(RealRootFunction f, double a,
+	public static double[] getDefinedInterval(UnivariateFunction f, double a,
 			double b) {
 		double[] bounds = new double[2];
 
 		// calculate the function value at the estimate of the higher bound to x
-		double fa = f.evaluate(a);
-		double fb = f.evaluate(b);
+		double fa = f.value(a);
+		double fb = f.value(b);
 		boolean faNaN = Double.isNaN(fa) || Double.isInfinite(fa);
 		boolean fbNaN = Double.isNaN(fb) || Double.isInfinite(fb);
 
@@ -43,7 +44,7 @@ public class RealRootUtil {
 			if (faNaN && fbNaN) {
 				// desperate mode: try if midpoint is defined
 				double m = (a + b) * 0.5;
-				double fm = f.evaluate(m);
+				double fm = f.value(m);
 				if (Double.isNaN(fm)) {
 					// bad luck: could not find an interval
 					bounds[0] = Double.NaN;
@@ -77,15 +78,15 @@ public class RealRootUtil {
 	 * (likely to be) undefined on [a, x0) and defined on [x0, b]. If both f(a)
 	 * and f(b) are defined resp. undefined Double.NaN is returned.
 	 */
-	private static double getDefinitionBorder(RealRootFunction f, double a,
+	private static double getDefinitionBorder(UnivariateFunction f, double a,
 			double b) {
 		double left = a, right = b;
 		boolean leftDef = false, rightDef;
 
 		int iter = 0;
 		while (iter < ITER_MAX && !MyDouble.exactEqual(left, right)) {
-			double fleft = f.evaluate(left);
-			double fright = f.evaluate(right);
+			double fleft = f.value(left);
+			double fright = f.value(right);
 			leftDef = !(Double.isNaN(fleft) || Double.isInfinite(fleft));
 			rightDef = !(Double.isNaN(fright) || Double.isInfinite(fright));
 
@@ -96,7 +97,7 @@ public class RealRootUtil {
 			// make next step using midpoint of interval
 			iter++;
 			double m = (left + right) * 0.5;
-			double fm = f.evaluate(m);
+			double fm = f.value(m);
 			boolean mDef = !(Double.isNaN(fm) || Double.isInfinite(fm));
 			// set next interval by preserving the definition change
 			if (mDef == leftDef) {
@@ -117,7 +118,7 @@ public class RealRootUtil {
 	 * Tries to find a value x0 in [a, b] where f(x0) is defined. If no such
 	 * value can be found Double.NaN is returned.
 	 * 
-	 * private static double getAnyDefinedValue(RealRootFunction f, double a,
+	 * private static double getAnyDefinedValue(UnivariateFunction f, double a,
 	 * double b) { // we are desperately looking for some defined position of
 	 * this function double left = a, right = b; boolean leftDef = false,
 	 * rightDef;
@@ -152,7 +153,7 @@ public class RealRootUtil {
 	 * 
 	 * 
 	 */
-	public static void updateDefinedIntervalIntersecting(RealRootFunction f,
+	public static void updateDefinedIntervalIntersecting(UnivariateFunction f,
 			double a, double b, double[] interval) {
 
 		double[] interval2 = getDefinedInterval(f, a, b);

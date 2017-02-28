@@ -812,13 +812,13 @@ public class GeoFunctionNVar extends GeoElement
 					double px = 0, py = 0;
 					if (in.getType() == IneqType.INEQUALITY_PARAMETRIC_Y) {
 						px = P.getX2D();
-						py = in.getFunBorder().evaluate(px);
+						py = in.getFunBorder().value(px);
 						py += in.isAboveBorder() ? STRICT_INEQ_OFFSET
 								: -STRICT_INEQ_OFFSET;
 					} else if (in
 							.getType() == IneqType.INEQUALITY_PARAMETRIC_X) {
 						py = P.getY2D();
-						px = in.getFunBorder().evaluate(py);
+						px = in.getFunBorder().value(py);
 						px += in.isAboveBorder() ? STRICT_INEQ_OFFSET
 								: -STRICT_INEQ_OFFSET;
 					} else if (in.getType() == IneqType.INEQUALITY_LINEAR) {

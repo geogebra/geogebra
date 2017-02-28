@@ -3899,15 +3899,15 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 		for (int i = 0; i < curves.length; i++) {
 			p = curves[i].getMinParameter();
-			y = curves[i].getFunY().evaluate(curves[i].getMinParameter());
+			y = curves[i].getFunY().value(curves[i].getMinParameter());
 			if (Math.abs(y) < 0.001) {
 				y = 0;
 			}
 			double step = (curves[i].getMaxParameter()
 					- curves[i].getMinParameter()) / 200;
 			for (; p <= curves[i].getMaxParameter(); p += step) {
-				y = curves[i].getFunY().evaluate(p);
-				x = curves[i].getFunX().evaluate(p);
+				y = curves[i].getFunY().value(p);
+				x = curves[i].getFunX().value(p);
 				if (Math.abs(y) < 0.001) {
 					y = 0;
 				}

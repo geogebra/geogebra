@@ -457,8 +457,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		double b = algo.getB().getDouble();
 
 		// values for f(a) and g(b)
-		double fa = f.evaluate(a);
-		double gb = g.evaluate(b);
+		double fa = f.value(a);
+		double gb = g.value(b);
 
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
@@ -3342,29 +3342,29 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		liopco = "[" + liopco + "]";
 		String template = "\\pgflineto{\\pgfxy(%0,%1)}\n";
 		double p = curves[0].getMinParameter();
-		double y = curves[0].getFunY().evaluate(curves[0].getMinParameter());
+		double y = curves[0].getFunY().value(curves[0].getMinParameter());
 		double yprec = y;
 		if (Math.abs(y) < 0.001) {
 			y = yprec = 0;
 		}
 		double xprec = curves[0].getFunX()
-				.evaluate(curves[0].getMinParameter());
+				.value(curves[0].getMinParameter());
 		double x = xprec;
 		fill.append("\\pgfmoveto{\\pgfxy(" + x + "," + y + ")}");
 		for (int i1 = 0; i1 < curves.length; i1++) {
 			p = curves[i1].getMinParameter();
-			y = curves[i1].getFunY().evaluate(curves[i1].getMinParameter());
+			y = curves[i1].getFunY().value(curves[i1].getMinParameter());
 			yprec = y;
 			if (Math.abs(y) < 0.001) {
 				y = yprec = 0;
 			}
 			double step1 = (curves[i1].getMaxParameter()
 					- curves[i1].getMinParameter()) / 200;
-			xprec = curves[i1].getFunX().evaluate(curves[i1].getMinParameter());
+			xprec = curves[i1].getFunX().value(curves[i1].getMinParameter());
 			x = xprec;
 			for (; p <= curves[i1].getMaxParameter(); p += step1) {
-				y = curves[i1].getFunY().evaluate(p);
-				x = curves[i1].getFunX().evaluate(p);
+				y = curves[i1].getFunY().value(p);
+				x = curves[i1].getFunX().value(p);
 				if (Math.abs(y) < 0.001) {
 					y = 0;
 				}

@@ -4704,22 +4704,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				double max = curve.getMaxParameter();
 				double step = curve.getAnimationStep();
 
-				xMinCurve = funX.evaluate(min);
+				xMinCurve = funX.value(min);
 				xMaxCurve = xMinCurve;
-				yMinCurve = funY.evaluate(min);
+				yMinCurve = funY.value(min);
 				yMaxCurve = yMinCurve;
 
 				double helper;
 
 				while (min < max) {
 					min += step;
-					helper = funX.evaluate(min);
+					helper = funX.value(min);
 					if (helper < xMinCurve) {
 						xMinCurve = helper;
 					} else if (helper > xMaxCurve) {
 						xMaxCurve = helper;
 					}
-					helper = funY.evaluate(min);
+					helper = funY.value(min);
 					if (helper < yMinCurve) {
 						yMinCurve = helper;
 					} else if (helper > yMaxCurve) {
@@ -4791,11 +4791,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					for (int i = 0; i < 200; i++) {
 
 						if (i == 0) {
-							abscissa = fun.evaluate(x0RW); // check far left
+							abscissa = fun.value(x0RW); // check far left
 						} else if (i == 1) {
-							abscissa = fun.evaluate(x1RW); // check far right
+							abscissa = fun.value(x1RW); // check far right
 						} else {
-							abscissa = fun.evaluate(x0RW
+							abscissa = fun.value(
+									x0RW
 									+ (Math.random() * (x1RW - x0RW)));
 						}
 

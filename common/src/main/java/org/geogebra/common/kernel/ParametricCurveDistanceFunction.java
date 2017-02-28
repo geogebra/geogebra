@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
- * Distance function of a curve that implements RealRootFunction.
+ * Distance function of a curve that implements UnivariateFunction.
  * 
  * @author Markus Hohenwarter
  */
@@ -26,7 +26,7 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 
 	// private GeoPoint P;
 	private double px, py;
-	private RealRootFunction funX, funY;
+	private UnivariateFunction funX, funY;
 
 	// private double mint;
 	// private double maxt;
@@ -49,8 +49,8 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 	 *            curve
 	 */
 	public void setFunctions(ParametricCurve curve) {
-		funX = curve.getRealRootFunctionX();
-		funY = curve.getRealRootFunctionY();
+		funX = curve.getUnivariateFunctionX();
+		funY = curve.getUnivariateFunctionY();
 	}
 
 	/**
@@ -59,10 +59,10 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 	 * (funY(t) - Py)^2.
 	 */
 	@Override
-	public double evaluate(double t) {
+	public double value(double t) {
 
-		double dx = funX.evaluate(t) - px;
-		double dy = funY.evaluate(t) - py;
+		double dx = funX.value(t) - px;
+		double dy = funY.value(t) - py;
 		return dx * dx + dy * dy;
 	}
 
@@ -79,10 +79,6 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 		px = coords.getX() / coords.getZ();
 		py = coords.getY() / coords.getZ();
 
-	}
-
-	public double value(double x) {
-		return evaluate(x);
 	}
 
 }

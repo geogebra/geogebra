@@ -265,7 +265,7 @@ public class DrawInequality1Var extends Drawable {
 			}
 			xLabel = (int) view.getXZero() + 6;
 			initGP(numOfX);
-			int j = ineq.getFunBorder().evaluate(
+			int j = ineq.getFunBorder().value(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
 			GArea a = AwtFactory.getPrototype().newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
@@ -331,7 +331,7 @@ public class DrawInequality1Var extends Drawable {
 				}
 			} else {
 				int j = ineq.getFunBorder()
-						.evaluate(view.toRealWorldCoordX(-10)) <= 0 ? 1 : 0;
+						.value(view.toRealWorldCoordX(-10)) <= 0 ? 1 : 0;
 
 				for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 					gp[i] = new GeneralPathClipped(view);

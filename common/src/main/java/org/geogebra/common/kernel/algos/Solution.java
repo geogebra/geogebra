@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * Set of real numbers that are solutions to an equation
@@ -63,7 +63,7 @@ public class Solution {
 	 * @param DELTA
 	 *            half-width of the interval where we check sign
 	 */
-	void ensureSignChanged(RealRootFunction f, double DELTA) {
+	void ensureSignChanged(UnivariateFunction f, double DELTA) {
 		double left, right, leftEval, rightEval;
 		boolean signUnChanged;
 		for (int i = 0; i < curRealRoots; i++) {
@@ -71,14 +71,14 @@ public class Solution {
 			right = curRoots[i] + DELTA;
 			// ensure we get a non-zero y value to the left
 			int count = 0;
-			while (Math.abs(leftEval = f.evaluate(left)) < DELTA
+			while (Math.abs(leftEval = f.value(left)) < DELTA
 					&& count++ < 100) {
 				left = left - DELTA;
 			}
 
 			// ensure we get a non-zero y value to the right
 			count = 0;
-			while (Math.abs(rightEval = f.evaluate(right)) < DELTA
+			while (Math.abs(rightEval = f.value(right)) < DELTA
 					&& count++ < 100) {
 				right = right + DELTA;
 			}

@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
@@ -28,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -94,7 +94,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		updateDerivatives();
 		Coords v = new Coords(3);
 		for (int i = 0; i < 3; i++) {
-			v.set(i + 1, funD1[i].evaluate(t));
+			v.set(i + 1, funD1[i].value(t));
 		}
 
 		return v.normalized();
@@ -105,7 +105,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public void evaluateCurve(double t, double[] out) {
 
 		for (int i = 0; i < 3; i++) {
-			out[i] = fun[i].evaluate(t);
+			out[i] = fun[i].value(t);
 		}
 	}
 
@@ -120,8 +120,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @return resulting coords
 	 */
 	public Coords evaluateCurve3D(double t) {
-		return new Coords(fun[0].evaluate(t), fun[1].evaluate(t),
-				fun[2].evaluate(t), 1);
+		return new Coords(fun[0].value(t), fun[1].value(t), fun[2].value(t), 1);
 	}
 
 	/**
@@ -137,11 +136,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		Coords D2 = new Coords(3);
 
 		for (int i = 0; i < 3; i++) {
-			D1.set(i + 1, funD1[i].evaluate(t));
+			D1.set(i + 1, funD1[i].value(t));
 		}
 
 		for (int i = 0; i < 3; i++) {
-			D2.set(i + 1, funD2[i].evaluate(t));
+			D2.set(i + 1, funD2[i].value(t));
 		}
 
 		// compute curvature using the formula k = |f'' x f'| / |f'|^3
@@ -331,8 +330,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * 
 	 */
 	static public double[] getDefinedInterval(double a, double b,
-			RealRootFunction funX, RealRootFunction funY,
-			RealRootFunction funZ) {
+			UnivariateFunction funX, UnivariateFunction funY,
+			UnivariateFunction funZ) {
 
 		// compute interval for x(t)
 		double[] interval = RealRootUtil.getDefinedInterval(funX, a, b);
@@ -364,8 +363,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * 
 	 */
 	static public double[] getDefinedInterval(double a, double b,
-			RealRootFunction funX, RealRootFunction funY, RealRootFunction funZ,
-			RealRootFunction fun) {
+			UnivariateFunction funX, UnivariateFunction funY, UnivariateFunction funZ,
+			UnivariateFunction fun) {
 
 		// compute interval for x(t), y(t), z(t)
 		double[] interval = getDefinedInterval(a, b, funX, funY, funZ);
@@ -412,9 +411,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		PathParameter pp = PI.getPathParameter();
 		double t = getClosestParameter(PI, pp.t);
 		Coords coords = PI.getInhomCoordsInD3();
-		boolean onPath = Math.abs(fun[0].evaluate(t) - coords.getX()) <= eps
-				&& Math.abs(fun[1].evaluate(t) - coords.getY()) <= eps
-				&& Math.abs(fun[2].evaluate(t) - coords.getZ()) <= eps;
+		boolean onPath = Math.abs(fun[0].value(t) - coords.getX()) <= eps
+				&& Math.abs(fun[1].value(t) - coords.getY()) <= eps
+				&& Math.abs(fun[2].value(t) - coords.getZ()) <= eps;
 		return onPath;
 	}
 
@@ -478,7 +477,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			// point A is on curve c, take its parameter
 			PathParameter pp = P.getPathParameter();
 			double pathParam = pp.t;
-			if (distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
+			if (distFun.value(pathParam) < Kernel.MIN_PRECISION
 					* Kernel.MIN_PRECISION) {
 				return pathParam;
 			}
@@ -492,12 +491,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// first sample distFun to find a start intervall for ExtremumFinder
 		double step = (endParam - startParam) / CLOSEST_PARAMETER_SAMPLES;
-		double minVal = distFun.evaluate(startParam);
+		double minVal = distFun.value(startParam);
 		double minParam = startParam;
 		double t = startParam;
 		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
 			t = t + step;
-			double ft = distFun.evaluate(t);
+			double ft = distFun.value(t);
 			if (ft < minVal) {
 				// found new minimum
 				minVal = ft;
@@ -533,7 +532,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			startValResult = adjustRange(startValResult);
 
 			if (distFun
-					.evaluate(startValResult) < distFun.evaluate(sampleResult)
+					.value(startValResult) < distFun.value(sampleResult)
 							+ Kernel.MIN_PRECISION / 2) {
 				return startValResult;
 			}
@@ -615,7 +614,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		 * point and this curve at parameter position t
 		 */
 		@Override
-		public double evaluate(double t) {
+		public double value(double t) {
 
 			Coords eval = curve.evaluateCurve3D(t);
 			if (distDirection == null || !distDirection.isDefined()) {
@@ -623,10 +622,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			}
 
 			return eval.squareDistLine3(distCoords, distDirection);
-		}
-
-		public double value(double x) {
-			return evaluate(x);
 		}
 
 	}
@@ -725,8 +720,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 */
 	@Override
 	public Geo3DVec evaluateCurve(double t) {
-		return new Geo3DVec(this.kernel, getFun(0).evaluate(t),
-				getFun(1).evaluate(t), getFun(2).evaluate(t));
+		return new Geo3DVec(this.kernel, getFun(0).value(t), getFun(1).value(t),
+				getFun(2).value(t));
 	}
 
 	@Override
@@ -745,13 +740,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public RealRootFunction getRealRootFunctionX() {
+	public UnivariateFunction getUnivariateFunctionX() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public RealRootFunction getRealRootFunctionY() {
+	public UnivariateFunction getUnivariateFunctionY() {
 		// TODO Auto-generated method stub
 		return null;
 	}

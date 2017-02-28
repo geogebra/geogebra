@@ -99,7 +99,7 @@ public class AlgoRSquare extends AlgoElement {
 				point = (GeoPoint) geo;
 				x = point.getX();
 				y = point.getY();
-				v = funGeo.evaluate(x);
+				v = funGeo.value(x);
 				errorsum += (v - y) * (v - y);
 				sumy += y;
 				sumyy += y * y;

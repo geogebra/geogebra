@@ -155,7 +155,7 @@ public class AlgoIteration extends AlgoElement {
 		// perform iteration f(f(f(...(startValue))))
 		double val = startValue.getDouble();
 		for (int i = 0; i < iterations; i++) {
-			val = f.evaluate(val);
+			val = f.value(val);
 		}
 		((GeoNumeric) result).setValue(val);
 	}

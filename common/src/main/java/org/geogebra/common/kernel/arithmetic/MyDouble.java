@@ -900,7 +900,7 @@ public class MyDouble extends ValidExpression
 	 * @return value of lt(this)
 	 */
 	final public MyDouble apply(Evaluatable lt) {
-		val = lt.evaluate(val);
+		val = lt.value(val);
 		angleDim = 0; // want function to return numbers eg f(x) = sin(x),
 						// f(45^o)
 		return this;

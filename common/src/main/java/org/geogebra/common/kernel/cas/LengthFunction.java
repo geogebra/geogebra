@@ -19,7 +19,7 @@ class LengthFunction implements UnivariateFunction {
 
 	@Override
 	public double value(double t) {
-		double p = f1.evaluate(t);
+		double p = f1.value(t);
 		return Math.sqrt(1 + p * p);
 	}
 }

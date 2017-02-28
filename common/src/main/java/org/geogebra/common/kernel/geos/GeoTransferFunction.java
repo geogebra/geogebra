@@ -222,7 +222,7 @@ public class GeoTransferFunction extends GeoElement {
 	public Coords evaluate(Complex z) {
 		try {
 			if (Kernel.isEqual(z.getRe(), 0, Kernel.MIN_PRECISION)) {
-				return (new Coords(originalFunction.evaluate(0), 0, 1));
+				return (new Coords(originalFunction.value(0), 0, 1));
 			}
 			exp = parser.parseExpression(z.toString());
 			currentFunction = new Function(originalFunction, kernel);
@@ -247,7 +247,7 @@ public class GeoTransferFunction extends GeoElement {
 	public Coords evaluate(double x) {
 		try {
 			if (Kernel.isEqual(x, 0, Kernel.MIN_PRECISION)) {
-				return (new Coords(originalFunction.evaluate(0), 0, 1));
+				return (new Coords(originalFunction.value(0), 0, 1));
 			}
 			GeoVec2D xi = new GeoVec2D(kernel, 0, x);
 			xi.setMode(Kernel.COORD_COMPLEX);

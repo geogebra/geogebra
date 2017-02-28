@@ -191,7 +191,7 @@ public class PolyFunction
 	 * Evaluates polynomial
 	 */
 	@Override
-	final public double evaluate(double x) {
+	final public double value(double x) {
 		double p = coeffs[degree];
 		for (int i = degree - 1; i >= 0; i--) {
 			p = p * x + coeffs[i];
@@ -317,11 +317,6 @@ public class PolyFunction
 	 */
 	public boolean hasZeroRoot() {
 		return coeffs.length > 0 && Kernel.isZero(coeffs[0]);
-	}
-
-	@Override
-	public double value(double x) {
-		return evaluate(x);
 	}
 
 	@Override

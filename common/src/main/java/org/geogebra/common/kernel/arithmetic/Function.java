@@ -171,7 +171,7 @@ public class Function extends FunctionNVar
 	 * @return f(x)
 	 */
 	@Override
-	public double evaluate(double x) {
+	public double value(double x) {
 		if (isBooleanFunction) {
 			// BooleanValue
 			return evaluateBoolean(x) ? 1 : 0;
@@ -1016,24 +1016,19 @@ public class Function extends FunctionNVar
 
 		@Override
 		public double[] evaluateDerivFunc(double x) {
-			ret[0] = fun.evaluate(x);
-			ret[1] = realRootDerivative.evaluate(x);
+			ret[0] = fun.value(x);
+			ret[1] = realRootDerivative.value(x);
 			return ret;
 		}
 
 		@Override
-		public double evaluate(double x) {
-			return fun.evaluate(x);
+		public double value(double x) {
+			return fun.value(x);
 		}
 
 		@Override
 		public double evaluateDerivative(double x) {
-			return realRootDerivative.evaluate(x);
-		}
-
-		@Override
-		public double value(double x) {
-			return evaluate(x);
+			return realRootDerivative.value(x);
 		}
 
 	}
@@ -1114,7 +1109,7 @@ public class Function extends FunctionNVar
 	public double[] evaluateDerivFunc(double x) {
 
 		double[] ret = new double[2];
-		ret[0] = this.evaluate(x);
+		ret[0] = this.value(x);
 
 		if (isBooleanFunction) {
 			ret[1] = Double.NaN;
@@ -1125,7 +1120,7 @@ public class Function extends FunctionNVar
 			derivative = getDerivative(1, false, true);
 		}
 
-		ret[1] = derivative.evaluate(x);
+		ret[1] = derivative.value(x);
 
 		return ret;
 
@@ -1142,7 +1137,7 @@ public class Function extends FunctionNVar
 			derivative = getDerivative(1, false, true);
 		}
 
-		return derivative.evaluate(x);
+		return derivative.value(x);
 	}
 
 	@Override
@@ -1182,11 +1177,6 @@ public class Function extends FunctionNVar
 	public void dilateX(double scale) {
 		dilateX(expression, scale, 0);
 
-	}
-
-	@Override
-	public double value(double x) {
-		return evaluate(x);
 	}
 
 	/**

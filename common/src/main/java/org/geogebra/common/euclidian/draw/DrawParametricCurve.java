@@ -217,7 +217,7 @@ public class DrawParametricCurve extends Drawable {
 				continue;
 			}
 			double y = view
-					.toScreenCoordYd(((GeoFunction) curve).evaluate(xRW));
+					.toScreenCoordYd(((GeoFunction) curve).value(xRW));
 
 			if (y < 0 || y > view.getHeight()) {
 				continue;
@@ -372,15 +372,15 @@ public class DrawParametricCurve extends Drawable {
 				double low = view.toRealWorldCoordY(y + hitThreshold);
 				double high = view.toRealWorldCoordY(y - hitThreshold);
 				double dx = hitThreshold * view.getInvXscale();
-				double left = f.evaluate(rwx - dx);
+				double left = f.value(rwx - dx);
 				if (left >= low && left <= high) {
 					return true;
 				}
-				double right = f.evaluate(rwx + dx);
+				double right = f.value(rwx + dx);
 				if (right >= low && right <= high) {
 					return true;
 				}
-				double middle = f.evaluate(rwx);
+				double middle = f.value(rwx);
 				if (middle >= low && middle <= high) {
 					return true;
 				}

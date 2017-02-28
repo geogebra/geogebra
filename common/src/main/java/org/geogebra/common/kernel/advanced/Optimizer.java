@@ -1,14 +1,14 @@
 package org.geogebra.common.kernel.advanced;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Common class for minimizing a function over number interval or path
  *
  */
-public abstract class Optimizer implements RealRootFunction {
+public abstract class Optimizer implements UnivariateFunction {
 	private NumberValue dep;
 
 	/**
@@ -52,7 +52,7 @@ public abstract class Optimizer implements RealRootFunction {
 	public abstract void setValue(double old);
 
 	@Override
-	public double evaluate(double x) {
+	public double value(double x) {
 		if ((dep != null) && (getGeo() != null)) {
 			setValue(x);
 			getGeo().updateCascade();

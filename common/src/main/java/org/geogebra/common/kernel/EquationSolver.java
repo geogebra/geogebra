@@ -586,8 +586,8 @@ public class EquationSolver implements EquationSolverInterface {
 			double left = i == 0 ? root - 1 : (root + laguerreRoots[i - 1]) / 2;
 			double right = i == laguerreRoots.length - 1 ? root + 1
 					: (root + laguerreRoots[i + 1]) / 2;
-			double f_left = polyFunc.evaluate(left);
-			double f_right = polyFunc.evaluate(right);
+			double f_left = polyFunc.value(left);
+			double f_right = polyFunc.value(right);
 			boolean bounded = f_left * f_right < 0.0;
 
 			try {
@@ -600,8 +600,8 @@ public class EquationSolver implements EquationSolverInterface {
 					double brentRoot = rootFinderBrent.solve(
 							AlgoRootNewton.MAX_ITERATIONS, polyFunc,
 							left, right/* , root */);
-					if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
-							.abs(polyFunc.evaluate(root))) {
+					if (Math.abs(polyFunc.value(brentRoot)) < Math
+							.abs(polyFunc.value(root))) {
 						root = brentRoot;
 					}
 					// System.out.println("Polish bisectNewtonRaphson: " +
@@ -616,8 +616,8 @@ public class EquationSolver implements EquationSolverInterface {
 							AlgoRootNewton.MAX_ITERATIONS, polyFunc,
 							left, right,
 							root);
-					if (Math.abs(polyFunc.evaluate(newtonRoot)) < Math
-							.abs(polyFunc.evaluate(root))) {
+					if (Math.abs(polyFunc.value(newtonRoot)) < Math
+							.abs(polyFunc.value(root))) {
 						root = newtonRoot;
 					}
 					// System.out.println("Polish newtonRaphson: " + root);
@@ -634,8 +634,8 @@ public class EquationSolver implements EquationSolverInterface {
 						double brentRoot = rootFinderBrent.solve(
 								AlgoRootNewton.MAX_ITERATIONS, derivFunc,
 								left, right);
-						if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
-								.abs(polyFunc.evaluate(root))) {
+						if (Math.abs(polyFunc.value(brentRoot)) < Math
+								.abs(polyFunc.value(root))) {
 							root = brentRoot;
 						}
 					}

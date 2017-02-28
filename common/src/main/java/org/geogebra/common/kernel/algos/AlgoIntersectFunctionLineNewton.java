@@ -132,7 +132,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 			rootPoint.setUndefined();
 			return;
 		}
-		double y = f.evaluate(x);
+		double y = f.value(x);
 		rootPoint.setCoords(x, y, 1.0);
 
 		// check if the intersection point really is on the line

@@ -176,7 +176,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 			return null;
 		}
 
-		double y = fn.evaluate(x);
+		double y = fn.value(x);
 		temp = new Coords(x, y, 1.0);
 
 		// check if the intersection point really is on the line

@@ -51,15 +51,15 @@ public class AlgoCompleteSquare extends AlgoElement {
 		GeoList coefs = null;
 		fv.setVarString(f.getVarString(StringTemplate.defaultTemplate));
 		// px^2+qx+r; p+q+r=s;
-		double r = f.evaluate(0);
-		double s = f.evaluate(1);
-		double p = 0.5 * (s + f.evaluate(-1)) - r;
+		double r = f.value(0);
+		double s = f.value(1);
+		double p = 0.5 * (s + f.value(-1)) - r;
 		double q = s - p - r;
 		boolean isQuadratic = !f.isGeoFunctionConditional();
 		double[] checkpoints = { 1000, -1000, Math.PI, Math.E };
 		for (int i = 0; i < checkpoints.length; i++) {
 			double x = checkpoints[i];
-			if (!Kernel.isZero(p * x * x + q * x + r - f.evaluate(x))) {
+			if (!Kernel.isZero(p * x * x + q * x + r - f.value(x))) {
 				// Log.debug(p + "," + q + "," + r + ","
 				// + (p * x * x + q * x + r - f.evaluate(x)));
 				isQuadratic = false;

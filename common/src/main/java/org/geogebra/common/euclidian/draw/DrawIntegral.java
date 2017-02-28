@@ -137,7 +137,7 @@ public class DrawIntegral extends Drawable {
 
 		if (Kernel.isEqual(aRW, bRW)) {
 			gp.moveTo(ax, y0);
-			gp.lineTo(ax, view.toScreenCoordYd(f.evaluate(aRW)));
+			gp.lineTo(ax, view.toScreenCoordYd(f.value(aRW)));
 			gp.lineTo(ax, y0);
 			labelVisible = false;
 			return;

@@ -126,8 +126,8 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 		}
 
 		// calc the tangent;
-		double fa = f.evaluate(a);
-		double slope = deriv.evaluate(a);
+		double fa = f.value(a);
+		double slope = deriv.value(a);
 		tangent.setCoords(-slope, 1.0, a * slope - fa);
 		T.setCoords(a, fa, 1.0);
 	}

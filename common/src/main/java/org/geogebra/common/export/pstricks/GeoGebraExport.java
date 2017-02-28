@@ -1396,7 +1396,7 @@ public abstract class GeoGebraExport {
 				app.getKernel().getConstruction());
 		geo.toGeoCurveCartesian(curve);
 		StringBuilder lineBuilder = new StringBuilder();
-		double y = geo.evaluate(xrangemin);
+		double y = geo.value(xrangemin);
 		double yprec = y;
 		if (Math.abs(y) < 0.001) {
 			y = yprec = 0;
@@ -1405,7 +1405,7 @@ public abstract class GeoGebraExport {
 		double xprec = xrangemin;
 		double x = xprec;
 		for (; x <= xrangemax; x += step) {
-			y = geo.evaluate(x);
+			y = geo.value(x);
 			if (Math.abs(y) < 0.001) {
 				y = 0;
 			}
@@ -1638,7 +1638,7 @@ public abstract class GeoGebraExport {
 		double x = a;
 		double step = (b - a) / 100;
 		while (x <= b) {
-			double y = f.evaluate(x);
+			double y = f.value(x);
 			if (!Double.isNaN(y)) {
 				if (Kernel.isEqual(x, a)) {
 					return a;
@@ -1657,7 +1657,7 @@ public abstract class GeoGebraExport {
 		double x = a;
 		double step1 = (b - a) / 100;
 		while (x <= b) {
-			double y = f.evaluate(x);
+			double y = f.value(x);
 			if (Double.isNaN(y)) {
 				if (step1 < PRECISION_XRANGE_FUNCTION) {
 					return x - step1;
