@@ -2,20 +2,19 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.NormalDistributionImpl;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.stat.inference.TTestImpl;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.inference.TTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.Localization;
 
 public class OneVarModel {
-	private TTestImpl tTestImpl;
-	private NormalDistributionImpl normalDist;
-	private TDistributionImpl tDist;
+	private TTest tTestImpl;
+	private NormalDistribution normalDist;
+	private TDistribution tDist;
 	public double testStat, P, df, lower, upper, mean, se, me, N;
 	// input fields
 	public double confLevel = .95, hypMean = 0, sigma = 1;
@@ -37,7 +36,7 @@ public class OneVarModel {
 				break;
 			case StatisticsModel.INFER_ZTEST:
 			case StatisticsModel.INFER_ZINT:
-				normalDist = new NormalDistributionImpl(0, 1);
+				normalDist = new NormalDistribution(0, 1);
 				se = sigma / Math.sqrt(N);
 				testStat = (mean - hypMean) / se;
 				P = 2.0 * normalDist.cumulativeProbability(-Math.abs(testStat));
@@ -53,7 +52,7 @@ public class OneVarModel {
 			case StatisticsModel.INFER_TTEST:
 			case StatisticsModel.INFER_TINT:
 				if (tTestImpl == null) {
-					tTestImpl = new TTestImpl();
+					tTestImpl = new TTest();
 				}
 				se = Math.sqrt(StatUtils.variance(sample) / N);
 				df = N - 1;
@@ -61,7 +60,7 @@ public class OneVarModel {
 				P = tTestImpl.tTest(hypMean, sample);
 				P = adjustedPValue(P, testStat, tail);
 
-				tDist = new TDistributionImpl(N - 1);
+				tDist = new TDistribution(N - 1);
 				double tCritical = tDist
 						.inverseCumulativeProbability((confLevel + 1d) / 2);
 				me = tCritical * se;
@@ -72,7 +71,7 @@ public class OneVarModel {
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 		}
 

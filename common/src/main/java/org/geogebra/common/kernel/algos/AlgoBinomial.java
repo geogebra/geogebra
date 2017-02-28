@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.MyMath;
 
-//import org.apache.commons.math.special.Gamma;
+//import org.apache.commons.math3.special.Gamma;
 
 //from http://www.javajungle.de/math/primes/PrimeNumberSieve.html
 //import de.luschny.math.primes.PrimeSieve;

@@ -3,8 +3,8 @@ package org.geogebra.common.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.linear.AnyMatrix;
+import org.apache.commons.math3.exception.MathRuntimeException;
+import org.apache.commons.math3.linear.AnyMatrix;
 
 /*
  * utilities for "exact" arithmetics

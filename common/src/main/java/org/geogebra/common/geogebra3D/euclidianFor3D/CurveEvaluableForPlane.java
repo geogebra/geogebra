@@ -47,6 +47,10 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 			return 0;
 		}
 
+		public double value(double x) {
+			return evaluate(x);
+		}
+
 	}
 
 	/**

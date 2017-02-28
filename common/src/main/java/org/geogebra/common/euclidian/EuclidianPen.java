@@ -3,11 +3,10 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.SingularValueDecomposition;
-import org.apache.commons.math.linear.SingularValueDecompositionImpl;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
@@ -1313,7 +1312,7 @@ public class EuclidianPen implements GTimerListener {
 				}
 			}
 
-			SingularValueDecomposition svd = new SingularValueDecompositionImpl(
+			SingularValueDecomposition svd = new SingularValueDecomposition(
 					M);
 			RealMatrix V = svd.getV();
 			RealVector coeffsRV = V.getColumnVector(5);

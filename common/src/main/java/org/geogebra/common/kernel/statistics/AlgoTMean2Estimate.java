@@ -12,9 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -44,7 +43,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	private double level, mean1, var1, n1, mean2, var2, n2, me;
 	boolean pooled;
 	private SummaryStatistics stats;
-	private TDistributionImpl tDist;
+	private TDistribution tDist;
 	private double difference;
 
 	public AlgoTMean2Estimate(Construction cons, String label, GeoList geoList1,
@@ -138,7 +137,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 	/**
 	 * Computes approximate degrees of freedom for 2-sample t-estimate. (code
-	 * from Apache commons, TTestImpl class)
+	 * from Apache commons, TTest class)
 	 *
 	 * @param v1
 	 *            first sample variance
@@ -176,24 +175,24 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 * @param confLevel
 	 *            confidence level
 	 * @return margin of error for 2 mean interval estimate
-	 * @throws MathException
+	 * @throws ArithmeticException
 	 */
 	private double getMarginOfError(double v1, double n1, double v2, double n2,
-			double confLevel, boolean pooled) throws MathException {
+			double confLevel, boolean pooled) throws ArithmeticException {
 
 		if (pooled) {
 
 			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 					/ (n1 + n2 - 2);
 			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-			tDist = new TDistributionImpl(
+			tDist = new TDistribution(
 					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
 
 		}
 		double se = Math.sqrt((v1 / n1) + (v2 / n2));
-		tDist = new TDistributionImpl(
+		tDist = new TDistribution(
 				getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * se;
@@ -301,7 +300,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 		}
 

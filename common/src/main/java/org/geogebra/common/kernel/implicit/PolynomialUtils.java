@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.implicit;
 
-import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;

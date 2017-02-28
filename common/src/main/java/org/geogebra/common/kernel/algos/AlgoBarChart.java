@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.math.distribution.BinomialDistributionImpl;
-import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
-import org.apache.commons.math.distribution.IntegerDistribution;
-import org.apache.commons.math.distribution.PascalDistributionImpl;
-import org.apache.commons.math.distribution.PoissonDistributionImpl;
-import org.apache.commons.math.distribution.ZipfDistributionImpl;
+import org.apache.commons.math3.distribution.BinomialDistribution;
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
+import org.apache.commons.math3.distribution.IntegerDistribution;
+import org.apache.commons.math3.distribution.PascalDistribution;
+import org.apache.commons.math3.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawBarGraph;
 import org.geogebra.common.euclidian.draw.DrawBarGraph.DrawType;
@@ -1085,7 +1085,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				}
 				int n = (int) Math.round(p1.getDouble());
 				double p = p2.getDouble();
-				dist = new BinomialDistributionImpl(n, p);
+				dist = new BinomialDistribution(n, p);
 				first = 0;
 				last = n;
 				break;
@@ -1096,7 +1096,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				}
 				n = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
-				dist = new PascalDistributionImpl(n, p);
+				dist = new PascalDistribution(n, p);
 
 				first = 0;
 				last = (int) Math.max(1, (kernel).getXmax() + 1);
@@ -1107,7 +1107,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				}
 				n = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
-				dist = new ZipfDistributionImpl(n, p);
+				dist = new ZipfDistribution(n, p);
 
 				first = 0;
 				last = n;
@@ -1117,7 +1117,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 					return false;
 				}
 				double lambda = p1.getDouble();
-				dist = new PoissonDistributionImpl(lambda);
+				dist = new PoissonDistribution(lambda);
 				first = 0;
 				last = (int) Math.max(1, kernel.getXmax() + 1);
 				break;
@@ -1130,7 +1130,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				int pop = (int) p1.getDouble();
 				int successes = (int) p2.getDouble();
 				int sample = (int) p3.getDouble();
-				dist = new HypergeometricDistributionImpl(pop, successes,
+				dist = new HypergeometricDistribution(pop, successes,
 						sample);
 				first = Math.max(0, successes + sample - pop);
 				last = Math.min(successes, sample);

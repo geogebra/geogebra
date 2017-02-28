@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
@@ -2048,14 +2049,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 			solutionColumn++;
 
-			solver = new LUDecompositionImpl(matrix).getSolver();
+			solver = new LUDecomposition(matrix).getSolver();
 		} while (!solver.isNonSingular());
 
 		for (int i = 0; i < results.length; i++) {
 			results[i] *= -1;
 		}
 
-		double[] partialSolution = solver.solve(results);
+		double[] partialSolution = ((ArrayRealVector) solver
+				.solve(new ArrayRealVector(results))).getDataRef();
 
 		double[] solution = new double[partialSolution.length + 1];
 

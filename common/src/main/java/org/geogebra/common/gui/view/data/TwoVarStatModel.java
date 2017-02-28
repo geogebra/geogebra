@@ -1,7 +1,7 @@
 package org.geogebra.common.gui.view.data;
 
-import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;

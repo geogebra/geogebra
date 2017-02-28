@@ -2,11 +2,10 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.stat.StatUtils;
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math.stat.inference.TTestImpl;
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.stat.inference.TTest;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
@@ -50,8 +49,8 @@ public class TwoVarInferenceModel {
 	// statistics
 	double t, P, df, lower, upper, se, me, n1, n2, diffMeans, mean1,
 			mean2;
-	private TTestImpl tTestImpl;
-	private TDistributionImpl tDist;
+	private TTest tTestImpl;
+	private TDistribution tDist;
 	private boolean pooled = false;
 	private double meanDifference;
 
@@ -213,7 +212,7 @@ public class TwoVarInferenceModel {
 		}
 
 		if (tTestImpl == null) {
-			tTestImpl = new TTestImpl();
+			tTestImpl = new TTest();
 		}
 		double tCritical;
 
@@ -245,7 +244,7 @@ public class TwoVarInferenceModel {
 				}
 
 				// get confidence interval
-				tDist = new TDistributionImpl(df);
+				tDist = new TDistribution(df);
 				tCritical = tDist.inverseCumulativeProbability(
 						(getConfLevel() + 1d) / 2);
 				me = tCritical * se;
@@ -274,7 +273,7 @@ public class TwoVarInferenceModel {
 						meanDifference) / n1);
 				df = n1 - 1;
 
-				tDist = new TDistributionImpl(df);
+				tDist = new TDistribution(df);
 				tCritical = tDist.inverseCumulativeProbability(
 						(getConfLevel() + 1d) / 2);
 				me = tCritical * se;
@@ -292,7 +291,7 @@ public class TwoVarInferenceModel {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			return false;
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -318,7 +317,7 @@ public class TwoVarInferenceModel {
 
 	/**
 	 * Computes approximate degrees of freedom for 2-sample t-estimate. (code
-	 * from Apache commons, TTestImpl class)
+	 * from Apache commons, TTest class)
 	 * 
 	 * @param v1
 	 *            first sample variance
@@ -356,24 +355,24 @@ public class TwoVarInferenceModel {
 	 * @param confLevel
 	 *            confidence level
 	 * @return margin of error for 2 mean interval estimate
-	 * @throws MathException
+	 * @throws ArithmeticException
 	 */
 	public double getMarginOfError(double v1, double n1, double v2, double n2,
-			double confLevel, boolean pooled) throws MathException {
+			double confLevel, boolean pooled) throws ArithmeticException {
 
 		if (pooled) {
 
 			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 					/ (n1 + n2 - 2);
 			double se1 = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-			tDist = new TDistributionImpl(
+			tDist = new TDistribution(
 					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se1;
 
 		}
 		double se = Math.sqrt((v1 / n1) + (v2 / n2));
-		tDist = new TDistributionImpl(
+		tDist = new TDistribution(
 				getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * se;

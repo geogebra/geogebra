@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.stat.correlation.SpearmansCorrelation;
+import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;

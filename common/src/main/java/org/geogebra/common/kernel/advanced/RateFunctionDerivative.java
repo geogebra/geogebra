@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * @author michael
@@ -12,7 +11,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *         pv * (1 + rate)^n + fv
  *
  */
-public class RateFunctionDerivative implements UnivariateRealFunction {
+public class RateFunctionDerivative implements UnivariateFunction {
 
 	private double n;
 	private double pv;
@@ -40,7 +39,7 @@ public class RateFunctionDerivative implements UnivariateRealFunction {
 	}
 
 	@Override
-	public double value(double x) throws FunctionEvaluationException {
+	public double value(double x) {
 		double a = pv;
 		// double n = n;
 		double b = pmt;

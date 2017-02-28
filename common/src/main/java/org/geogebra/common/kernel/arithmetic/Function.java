@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -35,7 +37,8 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus Hohenwarter
  */
 public class Function extends FunctionNVar
-		implements Functional, RealRootDerivFunction {
+		implements Functional, RealRootDerivFunction, UnivariateFunction,
+		DifferentiableUnivariateFunction {
 
 	/** function expression */
 	private Function derivative;
@@ -995,27 +998,13 @@ public class Function extends FunctionNVar
 		c.fVars[0] = f.fVars[0];
 	}
 
-	/**
-	 * Tries to build a RealRootDerivFunction out of this function and its
-	 * derivative. This can be used for root finding. Note: changes to the
-	 * function will not affect the returned RealRootDerivFunction.
-	 * 
-	 * Switched to fast derivatives because of #4929
-	 * 
-	 * @return real root function
-	 */
-	final public RealRootDerivFunction getRealRootDerivFunction() {
-		Function deriv = getDerivativeNoFractions(1, true);
-		if (deriv == null) {
-			return null;
-		}
-		return new DerivFunction(this, deriv);
-	}
+
 
 	/*
 	 * for root finding
 	 */
-	private static class DerivFunction implements RealRootDerivFunction {
+	private static class DerivFunction
+			implements RealRootDerivFunction, UnivariateFunction {
 
 		private Function fun, realRootDerivative;
 		private double[] ret = new double[2];
@@ -1040,6 +1029,16 @@ public class Function extends FunctionNVar
 		@Override
 		public double evaluateDerivative(double x) {
 			return realRootDerivative.evaluate(x);
+		}
+
+		public double value(double x) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public UnivariateFunction derivative() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
@@ -1187,6 +1186,35 @@ public class Function extends FunctionNVar
 	public void dilateX(double scale) {
 		dilateX(expression, scale, 0);
 
+	}
+
+	@Override
+	public double value(double x) {
+		return evaluate(x);
+	}
+
+	/**
+	 * Tries to build a RealRootDerivFunction out of this function and its
+	 * derivative. This can be used for root finding. Note: changes to the
+	 * function will not affect the returned RealRootDerivFunction.
+	 * 
+	 * Switched to fast derivatives because of #4929
+	 * 
+	 * @Deprecated, replace with UnivariateFunction derivative() (probably)
+	 * 
+	 * @return real root function
+	 */
+	@Deprecated
+	final public RealRootDerivFunction getRealRootDerivFunction() {
+		Function deriv = getDerivativeNoFractions(1, true);
+		if (deriv == null) {
+			return null;
+		}
+		return new DerivFunction(this, deriv);
+	}
+
+	public UnivariateFunction derivative() {
+		return getRealRootDerivFunction();
 	}
 
 }

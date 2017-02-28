@@ -12,8 +12,8 @@ package org.geogebra.common.kernel.statistics;
 
  */
 
-import org.apache.commons.math.optimization.fitting.CurveFitter;
-import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.optimization.fitting.CurveFitter;
+import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -149,10 +149,10 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 			curvefitter.fit(prfunction, prfunction.getStartValues());
 
 			// DEBUG - to be removed:
-			int iter = LMO.getIterations();
-			if (iter > 200) {
-				Log.debug("More than 200 iterations...");
-			}
+			// int iter = LMO.getIterations();
+			// if (iter > 200) {
+			// Log.debug("More than 200 iterations...");
+			// }
 
 			outputfunction.setFunction(prfunction.getFunction());
 			outputfunction.setDefined(true);

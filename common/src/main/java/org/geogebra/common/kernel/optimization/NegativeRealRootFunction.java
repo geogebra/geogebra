@@ -15,4 +15,8 @@ public class NegativeRealRootFunction implements RealRootFunction {
 		return -f.evaluate(x);
 	}
 
+	public double value(double x) {
+		return evaluate(x);
+	}
+
 }

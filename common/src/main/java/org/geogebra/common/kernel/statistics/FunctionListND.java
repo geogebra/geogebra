@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;

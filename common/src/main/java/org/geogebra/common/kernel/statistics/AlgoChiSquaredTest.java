@@ -12,9 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -93,7 +91,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	 */
 	ChiSquaredDistribution getChiSquaredDistribution(double df) {
 		if (chisquared == null || chisquared.getDegreesOfFreedom() != df) {
-			chisquared = new ChiSquaredDistributionImpl(df);
+			chisquared = new ChiSquaredDistribution(df);
 		}
 
 		return chisquared;
@@ -234,7 +232,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		} catch (IllegalArgumentException e) {
 			result.setUndefined();
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			result.setUndefined();
 			e.printStackTrace();
 		}

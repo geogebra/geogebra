@@ -1,11 +1,10 @@
 package org.geogebra.common.kernel.roots;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
 public class RealRootDerivAdapter
-		implements DifferentiableUnivariateRealFunction {
+		implements DifferentiableUnivariateFunction {
 
 	RealRootDerivFunction derivFun;
 
@@ -14,25 +13,25 @@ public class RealRootDerivAdapter
 	}
 
 	@Override
-	public UnivariateRealFunction derivative() {
-		return new UnivariateRealFunction() {
+	public UnivariateFunction derivative() {
+		return new UnivariateFunction() {
 			@Override
-			public double value(double x) throws FunctionEvaluationException {
+			public double value(double x) {
 				double res = derivFun.evaluateDerivative(x);
-				if (Double.isInfinite(res) || Double.isNaN(res)) {
-					throw new FunctionEvaluationException(x);
-				}
+				// if (Double.isInfinite(res) || Double.isNaN(res)) {
+				// throw new FunctionEvaluationException(x);
+				// }
 				return res;
 			}
 		};
 	}
 
 	@Override
-	public double value(double x) throws FunctionEvaluationException {
+	public double value(double x) {
 		double res = derivFun.evaluate(x);
-		if (Double.isInfinite(res) || Double.isNaN(res)) {
-			throw new FunctionEvaluationException(x);
-		}
+		// if (Double.isInfinite(res) || Double.isNaN(res)) {
+		// throw new FunctionEvaluationException(x);
+		// }
 		return res;
 	}
 

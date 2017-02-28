@@ -1,10 +1,9 @@
 package org.geogebra.common.util;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.special.Beta;
-import org.apache.commons.math.special.Erf;
-import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.special.Beta;
+import org.apache.commons.math3.special.Erf;
+import org.apache.commons.math3.special.Gamma;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.util.mathIT.Riemann;
@@ -20,7 +19,7 @@ public class MyMath2 {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html
 			// http://en.wikipedia.org/wiki/Incomplete_gamma_function#Regularized_Gamma_functions_and_Poisson_random_variables
 			return Gamma.regularizedGammaP(a, x) * gamma(a);
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			return Double.NaN;
 		}
 
@@ -30,7 +29,7 @@ public class MyMath2 {
 
 		try {
 			return Gamma.regularizedGammaP(a, x);
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			return Double.NaN;
 		}
 
@@ -46,7 +45,7 @@ public class MyMath2 {
 
 		try {
 			return Beta.regularizedBeta(x, a, b) * beta(a, b);
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			return Double.NaN;
 		}
 
@@ -57,7 +56,7 @@ public class MyMath2 {
 
 		try {
 			return Beta.regularizedBeta(x, a, b);
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			return Double.NaN;
 		}
 	}

@@ -17,15 +17,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.solvers.LaguerreSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
+import org.apache.commons.math3.analysis.solvers.NewtonSolver;
+import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
-import org.geogebra.common.kernel.roots.RealRootAdapter;
-import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -35,10 +33,11 @@ public class EquationSolver implements EquationSolverInterface {
 
 	private static final double LAGUERRE_EPS = 1E-5;
 	private LaguerreSolver laguerreSolver;
-	private UnivariateRealSolver rootFinderBrent, rootFinderNewton;
+	private UnivariateSolver rootFinderBrent;
+	NewtonSolver rootFinderNewton;
 
 	/**
-	 * Createsnew equation solver
+	 * Creates new equation solver
 	 * 
 	 * @param kernel
 	 *            kernel
@@ -551,8 +550,9 @@ public class EquationSolver implements EquationSolverInterface {
 			if (laguerreSolver == null) {
 				laguerreSolver = new LaguerreSolver();
 			}
-			complexRoots = laguerreSolver.solveAll(eqn, LAGUERRE_START);
-		} catch (MaxIterationsExceededException e) {
+
+			complexRoots = laguerreSolver.solveAllComplex(eqn, LAGUERRE_START);
+		} catch (ArithmeticException e) {
 			Log.warn("Too many iterations. Degree: " + eqn.length);
 		} catch (Exception e) {
 			Log.error("EquationSolver.LaguerreSolver: "
@@ -592,14 +592,12 @@ public class EquationSolver implements EquationSolverInterface {
 			try {
 				if (bounded) {
 					if (rootFinderBrent == null) {
-						UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
-								.newInstance();
-						rootFinderBrent = fact.newBrentSolver();
+						rootFinderBrent = new BrentSolver();
 					}
 
 					// small f'(root): don't go too far from our laguerre root !
-					double brentRoot = rootFinderBrent.solve(
-							new RealRootAdapter(polyFunc), left, right, root);
+					double brentRoot = rootFinderBrent.solve(100, polyFunc,
+							left, right/* , root */);
 					if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
 							.abs(polyFunc.evaluate(root))) {
 						root = brentRoot;
@@ -608,14 +606,12 @@ public class EquationSolver implements EquationSolverInterface {
 					// root);
 				} else {
 					if (rootFinderNewton == null) {
-						UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
-								.newInstance();
-						rootFinderNewton = fact.newNewtonSolver();
+						rootFinderNewton = new NewtonSolver();
 					}
 
 					// the root is not bounded: give Mr. Newton a chance
-					double newtonRoot = rootFinderNewton.solve(
-							new RealRootDerivAdapter(polyFunc), left, right,
+					double newtonRoot = rootFinderNewton.solve(100, polyFunc,
+							left, right,
 							root);
 					if (Math.abs(polyFunc.evaluate(newtonRoot)) < Math
 							.abs(polyFunc.evaluate(root))) {
@@ -629,13 +625,11 @@ public class EquationSolver implements EquationSolverInterface {
 				// try to find a local extremum
 				try {
 					if (rootFinderBrent == null) {
-						UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
-								.newInstance();
-						rootFinderBrent = fact.newBrentSolver();
+						rootFinderBrent = new BrentSolver();
 					}
 					if (left < right) {
-						double brentRoot = rootFinderBrent.solve(
-								new RealRootAdapter(derivFunc), left, right);
+						double brentRoot = rootFinderBrent.solve(100, derivFunc,
+								left, right);
 						if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
 								.abs(polyFunc.evaluate(root))) {
 							root = brentRoot;
@@ -672,6 +666,15 @@ public class EquationSolver implements EquationSolverInterface {
 		return realRoots;
 	}
 
+	private Complex[] getComplexArray(double[] eqn) {
+		Complex coeffs[] = new Complex[eqn.length];
+		for (int i = 0; i < eqn.length; i++) {
+			coeffs[i] = new Complex(eqn[i], 0);
+		}
+
+		return coeffs;
+	}
+
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
@@ -683,7 +686,7 @@ public class EquationSolver implements EquationSolverInterface {
 			if (laguerreSolver == null) {
 				laguerreSolver = new LaguerreSolver();
 			}
-			complexRoots = laguerreSolver.solveAll(real, LAGUERRE_START);
+			complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START);
 		} catch (Exception e) {
 			Log.debug("Problem solving with LaguerreSolver"
 					+ e.getLocalizedMessage());

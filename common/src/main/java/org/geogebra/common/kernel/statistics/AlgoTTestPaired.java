@@ -12,8 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.stat.inference.TTestImpl;
+import org.apache.commons.math3.stat.inference.TTest;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -34,7 +33,7 @@ public class AlgoTTestPaired extends AlgoElement {
 	private GeoList geoList0, geoList1; // input
 	private GeoText tail; // input
 	private GeoList result; // output
-	private TTestImpl tTestImpl;
+	private TTest tTestImpl;
 	private double[] val0, val1;
 
 	public AlgoTTestPaired(Construction cons, String label, GeoList geoList0,
@@ -127,7 +126,7 @@ public class AlgoTTestPaired extends AlgoElement {
 
 			// get the test statistic and p
 			if (tTestImpl == null) {
-				tTestImpl = new TTestImpl();
+				tTestImpl = new TTest();
 			}
 			testStat = tTestImpl.pairedT(val0, val1);
 			p = tTestImpl.pairedTTest(val0, val1);
@@ -141,7 +140,7 @@ public class AlgoTTestPaired extends AlgoElement {
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 		}
 

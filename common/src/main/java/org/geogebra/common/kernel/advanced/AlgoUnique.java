@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.advanced;
 
 import java.util.Iterator;
 
-import org.apache.commons.math.stat.Frequency;
+import org.apache.commons.math3.stat.Frequency;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;

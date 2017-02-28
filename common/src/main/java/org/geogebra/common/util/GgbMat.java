@@ -1,9 +1,9 @@
 package org.geogebra.common.util;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -126,7 +126,7 @@ public class GgbMat extends Array2DRowRealMatrix {
 	public void inverseImmediate() {
 
 		try {
-			DecompositionSolver d = new LUDecompositionImpl(this,
+			DecompositionSolver d = new LUDecomposition(this,
 					Kernel.STANDARD_PRECISION).getSolver();
 			RealMatrix ret = d.getInverse();
 			data = ret.getData();
@@ -140,10 +140,10 @@ public class GgbMat extends Array2DRowRealMatrix {
 	/**
 	 * Returns determinant of this matrix
 	 * 
-	 * @return determinat
+	 * @return determinant
 	 */
 	public double determinant() {
-		return new LUDecompositionImpl(this, Kernel.STANDARD_PRECISION)
+		return new LUDecomposition(this, Kernel.STANDARD_PRECISION)
 				.getDeterminant();
 	}
 

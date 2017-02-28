@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.distribution.HypergeometricDistribution;
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -79,7 +79,7 @@ public class AlgoHyperGeometric extends AlgoDistribution {
 			int param = (int) Math.round(a.getDouble());
 			int param2 = (int) Math.round(b.getDouble());
 			int param3 = (int) Math.round(c.getDouble());
-			double val = d.getDouble();
+			int val = (int) Math.round(d.getDouble());
 			try {
 				HypergeometricDistribution dist = getHypergeometricDistribution(
 						param, param2, param3);

@@ -12,10 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.cas;
 
-import org.apache.commons.math.ConvergenceException;
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.integration.LegendreGaussIntegrator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -37,8 +35,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.roots.RealRootAdapter;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Integral of a function (GeoFunction)
@@ -62,6 +58,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	// for numerical adaptive GaussQuad integration
 	private static final int FIRST_ORDER = 3;
 	private static final int SECOND_ORDER = 5;
+	private static final int MIN_ITER = 1;
 	private static final int MAX_ITER = 5;
 	private static LegendreGaussIntegrator firstGauss, secondGauss;
 	private static int adaptiveGaussQuadCounter = 0;
@@ -682,7 +679,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 *            upper bound
 	 * @return integral value
 	 */
-	public static double numericIntegration(RealRootFunction fun, double a,
+	public static double numericIntegration(UnivariateFunction fun, double a,
 			double b) {
 
 		return numericIntegration(fun, a, b, 1);
@@ -693,7 +690,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 * Computes integral of function fun in interval a, b using an adaptive
 	 * Gauss quadrature approach.
 	 * 
-	 * @param fun
+	 * @param ad
 	 *            function
 	 * @param a
 	 *            lower bound
@@ -703,10 +700,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	 *            multiplier (to allow more iterations for freehand functions)
 	 * @return integral value
 	 */
-	public static double numericIntegration(RealRootFunction fun, double a,
+	public static double numericIntegration(UnivariateFunction ad, double a,
 			double b, int maxMultiplier) {
 		adaptiveGaussQuadCounter = 0;
-		RealRootAdapter ad = new RealRootAdapter(fun);
 		if (a > b) {
 			return -doAdaptiveGaussQuad(ad, b, a, maxMultiplier);
 		}
@@ -716,7 +712,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 	}
 
-	private static double doAdaptiveGaussQuad(RealRootAdapter fun, double a,
+	private static double doAdaptiveGaussQuad(UnivariateFunction fun, double a,
 			double b, int maxMultiplier) {
 		if (++adaptiveGaussQuadCounter > MAX_GAUSS_QUAD_CALLS * maxMultiplier) {
 			return Double.NaN;
@@ -724,8 +720,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		// init GaussQuad classes for numerical integration
 		if (firstGauss == null) {
-			firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MAX_ITER);
-			secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MAX_ITER);
+			firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MIN_ITER,
+					MAX_ITER);
+			secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MIN_ITER,
+					MAX_ITER);
 		}
 
 		double firstSum = 0;
@@ -735,20 +733,16 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		// integrate using gauss quadrature
 		try {
-			firstSum = firstGauss.integrate(fun, a, b);
+			firstSum = firstGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
 			if (Double.isNaN(firstSum)) {
 				return Double.NaN;
 			}
-			secondSum = secondGauss.integrate(fun, a, b);
+			secondSum = secondGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
 			if (Double.isNaN(secondSum)) {
 				return Double.NaN;
 			}
-		} catch (MaxIterationsExceededException e) {
+		} catch (ArithmeticException e) {
 			error = true;
-		} catch (ConvergenceException e) {
-			error = true;
-		} catch (FunctionEvaluationException e) {
-			return Double.NaN;
 		} catch (IllegalArgumentException e) {
 			return Double.NaN;
 		}

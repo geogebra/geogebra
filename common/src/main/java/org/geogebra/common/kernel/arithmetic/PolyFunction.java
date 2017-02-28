@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.plugin.Operation;
@@ -19,7 +21,8 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Fast polynomial evaluation of Function
  */
-public class PolyFunction implements RealRootDerivFunction {
+public class PolyFunction
+		implements RealRootDerivFunction, DifferentiableUnivariateFunction {
 	/** coefficients */
 	protected double[] coeffs;
 	private int degree;
@@ -314,6 +317,16 @@ public class PolyFunction implements RealRootDerivFunction {
 	 */
 	public boolean hasZeroRoot() {
 		return coeffs.length > 0 && Kernel.isZero(coeffs[0]);
+	}
+
+	@Override
+	public double value(double x) {
+		return evaluate(x);
+	}
+
+	@Override
+	public UnivariateFunction derivative() {
+		return getDerivative();
 	}
 
 	/*

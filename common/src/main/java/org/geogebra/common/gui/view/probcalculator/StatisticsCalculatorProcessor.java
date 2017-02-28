@@ -2,9 +2,7 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -403,7 +401,7 @@ public class StatisticsCalculatorProcessor {
 		} catch (IllegalArgumentException e) {
 			sc.P = Double.NaN;
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			sc.P = Double.NaN;
 			e.printStackTrace();
 		}
@@ -463,7 +461,7 @@ public class StatisticsCalculatorProcessor {
 		} catch (IllegalArgumentException e) {
 			sc.P = Double.NaN;
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			sc.P = Double.NaN;
 			e.printStackTrace();
 		}
@@ -477,7 +475,7 @@ public class StatisticsCalculatorProcessor {
 	 */
 	private ChiSquaredDistribution getChiSquaredDistribution(double df) {
 		if (chisquared == null || chisquared.getDegreesOfFreedom() != df) {
-			chisquared = new ChiSquaredDistributionImpl(df);
+			chisquared = new ChiSquaredDistribution(df);
 		}
 
 		return chisquared;

@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
@@ -78,7 +79,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class GeoFunction extends GeoElement implements VarString, Translateable,
 		Functional, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, RealRootFunction, Dilateable,
-		Transformable, InequalityProperties, SurfaceEvaluable {
+		Transformable, InequalityProperties, SurfaceEvaluable,
+		UnivariateFunction {
 
 	/** inner function representation */
 	protected Function fun;
@@ -1436,6 +1438,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			public double evaluate(double t) {
 				return t;
 			}
+
+			public double value(double x) {
+				return evaluate(x);
+			}
 		};
 	}
 
@@ -1445,6 +1451,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			@Override
 			public double evaluate(double t) {
 				return GeoFunction.this.evaluate(t);
+			}
+
+			public double value(double x) {
+				return evaluate(x);
 			}
 		};
 	}
@@ -3215,5 +3225,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	static boolean hideDefinitionInAlgebra(ExpressionNode ex) {
 		return ex == null || Operation.includesFreehandOrData(ex.getOperation())
 				|| ex.isSecret();
+	}
+
+	@Override
+	public double value(double x) {
+		return evaluate(x);
 	}
 }

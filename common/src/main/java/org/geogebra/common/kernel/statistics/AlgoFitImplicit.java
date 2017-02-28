@@ -12,11 +12,10 @@ package org.geogebra.common.kernel.statistics;
 
  */
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.RealVector;
-import org.apache.commons.math.linear.SingularValueDecomposition;
-import org.apache.commons.math.linear.SingularValueDecompositionImpl;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
@@ -116,7 +115,7 @@ public class AlgoFitImplicit extends AlgoElement {
 			// Log.debug("M rows = "+M.getRowDimension());
 			// Log.debug("M = "+M.toString());
 
-			SingularValueDecomposition svd = new SingularValueDecompositionImpl(
+			SingularValueDecomposition svd = new SingularValueDecomposition(
 					M);
 
 			V = svd.getV();

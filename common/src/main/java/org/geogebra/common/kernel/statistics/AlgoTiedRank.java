@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.stat.ranking.NaturalRanking;
-import org.apache.commons.math.stat.ranking.TiesStrategy;
+import org.apache.commons.math3.stat.ranking.NaturalRanking;
+import org.apache.commons.math3.stat.ranking.TiesStrategy;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;

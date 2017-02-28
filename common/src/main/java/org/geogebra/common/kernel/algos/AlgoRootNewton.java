@@ -12,10 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.MaxIterationsExceededException;
-import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.analysis.solvers.NewtonSolver;
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -26,9 +25,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.roots.RealRootAdapter;
-import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
-import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 
 /**
@@ -138,8 +134,8 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			// arbitrary (used to depend on screen width)
 			double step = 1;
 
-			root = rootFinderBrent.solve(MAX_ITERATIONS,
-					new RealRootAdapter(fun), startX - step, startX + step,
+			root = rootFinderBrent.solve(MAX_ITERATIONS, fun, startX - step,
+					startX + step,
 					startX);
 			if (checkRoot(fun, root)) {
 				// System.out.println("1. Brent worked: " + root);
@@ -147,31 +143,23 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			}
 		} catch (RuntimeException e) {
 			root = Double.NaN;
-		} catch (MaxIterationsExceededException e) {
-			root = Double.NaN;
-		} catch (FunctionEvaluationException e) {
-			root = Double.NaN;
 		}
 
 		// try Brent method on valid interval around start
 		double[] borders = getDomain(fun, startX);
 		try {
-			root = rootFinderBrent.solve(MAX_ITERATIONS,
-					new RealRootAdapter(fun), borders[0], borders[1], startX);
+			root = rootFinderBrent.solve(MAX_ITERATIONS, fun, borders[0],
+					borders[1], startX);
 			if (checkRoot(fun, root)) {
 				// System.out.println("2. Brent worked: " + root);
 				return root;
 			}
 		} catch (RuntimeException e) {
 			root = Double.NaN;
-		} catch (MaxIterationsExceededException e) {
-			root = Double.NaN;
-		} catch (FunctionEvaluationException e) {
-			root = Double.NaN;
 		}
 
 		// try Newton's method
-		RealRootDerivFunction derivFun = fun.getRealRootDerivFunction();
+		DifferentiableUnivariateFunction derivFun = fun;// .getRealRootDerivFunction();
 		if (derivFun != null) {
 			// check if fun(start) is defined
 			double eval = fun.evaluate(startX);
@@ -187,18 +175,14 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			}
 
 			try {
-				root = rootFinderNewton.solve(MAX_ITERATIONS,
-						new RealRootDerivAdapter(derivFun), borders[0],
+				root = rootFinderNewton.solve(MAX_ITERATIONS, derivFun,
+						borders[0],
 						borders[1], start1);
 				if (checkRoot(fun, root)) {
 					// System.out.println("Newton worked: " + root);
 					return root;
 				}
 			} catch (RuntimeException e) {
-				root = Double.NaN;
-			} catch (MaxIterationsExceededException e) {
-				root = Double.NaN;
-			} catch (FunctionEvaluationException e) {
 				root = Double.NaN;
 			}
 		}

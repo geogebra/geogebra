@@ -2,9 +2,8 @@ package org.geogebra.common.kernel.advanced;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -275,11 +274,9 @@ public class AlgoFinancial extends AlgoElement {
 	 */
 	private boolean computeRate() {
 
-		UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
-				.newInstance();
-		UnivariateRealSolver rootFinder = fact.newBrentSolver();
+		BrentSolver rootFinder = new BrentSolver();
 
-		UnivariateRealSolver rootPolisher = fact.newNewtonSolver();
+		NewtonSolver rootPolisher = new NewtonSolver();
 
 		RateFunction fun = new RateFunction(nper, pv, fv, pmt, pmtType);
 
@@ -330,7 +327,7 @@ public class AlgoFinancial extends AlgoElement {
 
 			// App.error("min = " + min + " max = " + max);
 
-			rate = rootFinder.solve(fun, min, max);
+			rate = rootFinder.solve(100, fun, min, max);
 			// App.error("brent rate = " + rate);
 
 		} catch (Exception e) {
@@ -345,7 +342,7 @@ public class AlgoFinancial extends AlgoElement {
 
 		try {
 			// Log.debug("trying Newton with starting value " + rate);
-			newtonRoot = rootPolisher.solve(fun, min, max, rate);
+			newtonRoot = rootPolisher.solve(100, fun, min, max, rate);
 			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
 				// App.error("polished result from Newton is better: \n" + rate
 				// + "\n" + newtonRoot);
@@ -367,7 +364,7 @@ public class AlgoFinancial extends AlgoElement {
 	private static double value(RateFunction fun, double min) {
 		try {
 			return fun.value(min);
-		} catch (FunctionEvaluationException e) {
+		} catch (ArithmeticException e) {
 			return Double.NaN;
 		}
 	}

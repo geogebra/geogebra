@@ -17,7 +17,7 @@ package org.geogebra.common.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math3.util.FastMath;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
@@ -116,7 +116,7 @@ public final class MyMath {
 	}
 
 	final public static double acosh(double a) {
-		// FastMath.acosh(a) is basically the same as this
+		// Math.acosh(a) is basically the same as this
 		return Math.log(a + Math.sqrt(a * a - 1.0));
 	}
 

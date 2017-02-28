@@ -12,9 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.stat.descriptive.StatisticalSummaryValues;
-import org.apache.commons.math.stat.inference.TTestImpl;
+import org.apache.commons.math3.stat.descriptive.StatisticalSummaryValues;
+import org.apache.commons.math3.stat.inference.TTest;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -39,7 +38,7 @@ public class AlgoTTest2 extends AlgoElement {
 	private GeoBoolean pooled; // input
 
 	private GeoList result; // output
-	private TTestImpl tTestImpl;
+	private TTest tTestImpl;
 	private double[] val0, val1;
 
 	public AlgoTTest2(Construction cons, String label, GeoList geoList0,
@@ -189,7 +188,7 @@ public class AlgoTTest2 extends AlgoElement {
 
 				// get the test statistic and p
 				if (tTestImpl == null) {
-					tTestImpl = new TTestImpl();
+					tTestImpl = new TTest();
 				}
 
 				if (pooled.getBoolean()) {
@@ -209,7 +208,7 @@ public class AlgoTTest2 extends AlgoElement {
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-			} catch (MathException e) {
+			} catch (ArithmeticException e) {
 				e.printStackTrace();
 			}
 
@@ -234,7 +233,7 @@ public class AlgoTTest2 extends AlgoElement {
 
 				// get the test statistic and p
 				if (tTestImpl == null) {
-					tTestImpl = new TTestImpl();
+					tTestImpl = new TTest();
 				}
 
 				if (pooled.getBoolean()) {
@@ -254,7 +253,7 @@ public class AlgoTTest2 extends AlgoElement {
 
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
-			} catch (MathException e) {
+			} catch (ArithmeticException e) {
 				e.printStackTrace();
 			}
 

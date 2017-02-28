@@ -15,7 +15,7 @@ package org.geogebra.common.kernel.cas;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math3.util.ArithmeticUtils;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -633,7 +633,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					}
 				}
 
-				int gcd = MathUtils.gcd(MathUtils.gcd(a, b1), c);
+				int gcd = ArithmeticUtils.gcd(ArithmeticUtils.gcd(a, b1), c);
 				if (gcd != 1) {
 					a = a / gcd;
 					b1 = b1 / gcd;
@@ -785,7 +785,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 
-			int gcd = MathUtils.gcd(MathUtils.gcd(a, b1), c);
+			int gcd = ArithmeticUtils.gcd(ArithmeticUtils.gcd(a, b1), c);
 			if (gcd != 1) {
 				a = a / gcd;
 				b1 = b1 / gcd;

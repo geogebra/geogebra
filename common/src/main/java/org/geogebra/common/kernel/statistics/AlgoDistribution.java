@@ -14,32 +14,32 @@ package org.geogebra.common.kernel.statistics;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.distribution.BinomialDistribution;
-import org.apache.commons.math.distribution.BinomialDistributionImpl;
-import org.apache.commons.math.distribution.CauchyDistribution;
-import org.apache.commons.math.distribution.CauchyDistributionImpl;
-import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
-import org.apache.commons.math.distribution.ExponentialDistribution;
-import org.apache.commons.math.distribution.ExponentialDistributionImpl;
-import org.apache.commons.math.distribution.FDistribution;
-import org.apache.commons.math.distribution.FDistributionImpl;
-import org.apache.commons.math.distribution.GammaDistribution;
-import org.apache.commons.math.distribution.GammaDistributionImpl;
-import org.apache.commons.math.distribution.HypergeometricDistribution;
-import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
-import org.apache.commons.math.distribution.NormalDistribution;
-import org.apache.commons.math.distribution.NormalDistributionImpl;
-import org.apache.commons.math.distribution.PascalDistribution;
-import org.apache.commons.math.distribution.PascalDistributionImpl;
-import org.apache.commons.math.distribution.PoissonDistribution;
-import org.apache.commons.math.distribution.PoissonDistributionImpl;
-import org.apache.commons.math.distribution.TDistribution;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.distribution.WeibullDistribution;
-import org.apache.commons.math.distribution.WeibullDistributionImpl;
-import org.apache.commons.math.distribution.ZipfDistribution;
-import org.apache.commons.math.distribution.ZipfDistributionImpl;
+import org.apache.commons.math3.distribution.BinomialDistribution;
+import org.apache.commons.math3.distribution.BinomialDistribution;
+import org.apache.commons.math3.distribution.CauchyDistribution;
+import org.apache.commons.math3.distribution.CauchyDistribution;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
+import org.apache.commons.math3.distribution.ExponentialDistribution;
+import org.apache.commons.math3.distribution.ExponentialDistribution;
+import org.apache.commons.math3.distribution.FDistribution;
+import org.apache.commons.math3.distribution.FDistribution;
+import org.apache.commons.math3.distribution.GammaDistribution;
+import org.apache.commons.math3.distribution.GammaDistribution;
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.PascalDistribution;
+import org.apache.commons.math3.distribution.PascalDistribution;
+import org.apache.commons.math3.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.distribution.WeibullDistribution;
+import org.apache.commons.math3.distribution.WeibullDistribution;
+import org.apache.commons.math3.distribution.ZipfDistribution;
+import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -279,7 +279,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 */
 	protected TDistribution getTDistribution(double param) {
 		if (t == null || t.getDegreesOfFreedom() != param) {
-			t = new TDistributionImpl(param);
+			t = new TDistribution(param);
 		}
 		return t;
 	}
@@ -294,7 +294,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	protected FDistribution getFDistribution(double param, double param2) {
 		if (f == null || f.getDenominatorDegreesOfFreedom() != param2
 				|| f.getNumeratorDegreesOfFreedom() != param) {
-			f = new FDistributionImpl(param, param2);
+			f = new FDistribution(param, param2);
 		}
 
 		return f;
@@ -311,7 +311,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 			double param2) {
 		if (gamma == null || gamma.getBeta() != param2
 				|| gamma.getAlpha() != param) {
-			gamma = new GammaDistributionImpl(param, param2);
+			gamma = new GammaDistribution(param, param2);
 		}
 		return gamma;
 	}
@@ -327,7 +327,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 			double param2) {
 		if (cauchy == null || cauchy.getMedian() != param
 				|| cauchy.getScale() != param2) {
-			cauchy = new CauchyDistributionImpl(param, param2);
+			cauchy = new CauchyDistribution(param, param2);
 		}
 
 		return cauchy;
@@ -340,7 +340,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 */
 	protected ChiSquaredDistribution getChiSquaredDistribution(double param) {
 		if (chisquared == null || chisquared.getDegreesOfFreedom() != param) {
-			chisquared = new ChiSquaredDistributionImpl(param);
+			chisquared = new ChiSquaredDistribution(param);
 		}
 
 		return chisquared;
@@ -353,7 +353,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 */
 	protected ExponentialDistribution getExponentialDistribution(double param) {
 		if (exponential == null || exponential.getMean() != param) {
-			exponential = new ExponentialDistributionImpl(1.0 / param);
+			exponential = new ExponentialDistribution(1.0 / param);
 		}
 
 		return exponential;
@@ -374,7 +374,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 				|| hypergeometric.getNumberOfSuccesses() != param2
 				|| hypergeometric.getPopulationSize() != param
 				|| hypergeometric.getSampleSize() != param3) {
-			hypergeometric = new HypergeometricDistributionImpl(param, param2,
+			hypergeometric = new HypergeometricDistribution(param, param2,
 					param3);
 		}
 
@@ -392,7 +392,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 			double param2) {
 		if (pascal == null || pascal.getNumberOfSuccesses() != param
 				|| pascal.getProbabilityOfSuccess() != param2) {
-			pascal = new PascalDistributionImpl(param, param2);
+			pascal = new PascalDistribution(param, param2);
 		}
 
 		return pascal;
@@ -405,7 +405,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 */
 	protected PoissonDistribution getPoissonDistribution(double param) {
 		if (poisson == null || poisson.getMean() != param) {
-			poisson = new PoissonDistributionImpl(param);
+			poisson = new PoissonDistribution(param);
 		}
 		return poisson;
 	}
@@ -421,7 +421,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 			double param2) {
 		if (binomial == null || binomial.getNumberOfTrials() != param
 				|| binomial.getProbabilityOfSuccess() != param2) {
-			binomial = new BinomialDistributionImpl(param, param2);
+			binomial = new BinomialDistribution(param, param2);
 		}
 
 		return binomial;
@@ -437,7 +437,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	WeibullDistribution getWeibullDistribution(double param, double param2) {
 		if (weibull == null || weibull.getShape() != param
 				|| weibull.getScale() != param2) {
-			weibull = new WeibullDistributionImpl(param, param2);
+			weibull = new WeibullDistribution(param, param2);
 		}
 
 		return weibull;
@@ -453,7 +453,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	NormalDistribution getNormalDistribution(double param, double param2) {
 		if (normal == null || normal.getMean() != param
 				|| normal.getStandardDeviation() != param2) {
-			normal = new NormalDistributionImpl(param, param2);
+			normal = new NormalDistribution(param, param2);
 		}
 
 		return normal;
@@ -469,7 +469,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	ZipfDistribution getZipfDistribution(int param, double param2) {
 		if (zipf == null || zipf.getNumberOfElements() != param
 				|| zipf.getExponent() != param2) {
-			zipf = new ZipfDistributionImpl(param, param2);
+			zipf = new ZipfDistribution(param, param2);
 		}
 		return zipf;
 	}

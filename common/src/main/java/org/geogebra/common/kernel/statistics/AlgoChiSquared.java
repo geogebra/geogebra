@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.distribution.ChiSquaredDistribution;
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;

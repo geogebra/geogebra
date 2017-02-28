@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.geos;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * T = sqrt(a'(t)^2+b'(t)^2)
  */
-public class LengthCurve implements RealRootFunction {
+public class LengthCurve implements UnivariateFunction {
 	private GeoCurveCartesianND c1;
 	private double f1eval[] = new double[] { 0, 0, 0 };
 
@@ -21,7 +21,7 @@ public class LengthCurve implements RealRootFunction {
 	}
 
 	@Override
-	public double evaluate(double t) {
+	public double value(double t) {
 
 		c1.evaluateCurve(t, f1eval);
 		return (Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]

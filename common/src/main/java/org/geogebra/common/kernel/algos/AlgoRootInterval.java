@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -24,8 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.roots.RealRootAdapter;
-import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -39,8 +37,8 @@ public class AlgoRootInterval extends AlgoElement {
 	private GeoPoint rootPoint; // output
 
 	private GeoElement aGeo, bGeo;
-	private UnivariateRealSolver rootFinder;
-	UnivariateRealSolver rootPolisher;
+	private BrentSolver rootFinder;
+	NewtonSolver rootPolisher;
 
 	public AlgoRootInterval(Construction cons, String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b) {
@@ -94,11 +92,9 @@ public class AlgoRootInterval extends AlgoElement {
 		Function fun = f.getFunction();
 
 		if (rootFinder == null) {
-			UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
-					.newInstance();
-			rootFinder = fact.newBrentSolver();
+			rootFinder = new BrentSolver();
 
-			rootPolisher = fact.newNewtonSolver();
+			rootPolisher = new NewtonSolver();
 		}
 
 		double min = a.getDouble();
@@ -108,7 +104,7 @@ public class AlgoRootInterval extends AlgoElement {
 
 		try {
 			// Brent's method (Apache 2.2)
-			root = rootFinder.solve(new RealRootAdapter(fun), min, max);
+			root = rootFinder.solve(100, fun, min, max);
 
 			// Apache 3.3 - solver seems more accurate
 			// #4691
@@ -123,7 +119,7 @@ public class AlgoRootInterval extends AlgoElement {
 				// Let's try again by searching for a valid domain first
 				double[] borders = RealRootUtil.getDefinedInterval(fun, min,
 						max);
-				root = rootFinder.solve(new RealRootAdapter(fun), borders[0],
+				root = rootFinder.solve(100, fun, borders[0],
 						borders[1]);
 			} catch (Exception ex) {
 				// ex.printStackTrace();
@@ -139,7 +135,7 @@ public class AlgoRootInterval extends AlgoElement {
 		// #4691
 
 		try {
-			newtonRoot = rootPolisher.solve(new RealRootDerivAdapter(fun), min,
+			newtonRoot = rootPolisher.solve(100, fun, min,
 					max, root);
 
 			if (Math.abs(fun.evaluate(newtonRoot)) < Math

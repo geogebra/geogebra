@@ -14,12 +14,12 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.distribution.BinomialDistributionImpl;
-import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
-import org.apache.commons.math.distribution.IntegerDistribution;
-import org.apache.commons.math.distribution.PascalDistributionImpl;
-import org.apache.commons.math.distribution.PoissonDistributionImpl;
-import org.apache.commons.math.distribution.ZipfDistributionImpl;
+import org.apache.commons.math3.distribution.BinomialDistribution;
+import org.apache.commons.math3.distribution.HypergeometricDistribution;
+import org.apache.commons.math3.distribution.IntegerDistribution;
+import org.apache.commons.math3.distribution.PascalDistribution;
+import org.apache.commons.math3.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -1771,7 +1771,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				}
 				int n1 = (int) Math.round(p1.getDouble());
 				double p = p2.getDouble();
-				dist = new BinomialDistributionImpl(n1, p);
+				dist = new BinomialDistribution(n1, p);
 				first = 0;
 				last = n1;
 				break;
@@ -1782,7 +1782,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				}
 				n1 = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
-				dist = new PascalDistributionImpl(n1, p);
+				dist = new PascalDistribution(n1, p);
 
 				first = 0;
 				last = (int) Math.max(1, (kernel).getXmax() + 1);
@@ -1793,7 +1793,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				}
 				n1 = (int) Math.round(p1.getDouble());
 				p = p2.getDouble();
-				dist = new ZipfDistributionImpl(n1, p);
+				dist = new ZipfDistribution(n1, p);
 
 				first = 0;
 				last = n1;
@@ -1803,7 +1803,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 					return false;
 				}
 				double lambda = p1.getDouble();
-				dist = new PoissonDistributionImpl(lambda);
+				dist = new PoissonDistribution(lambda);
 				first = 0;
 				last = (int) Math.max(1, kernel.getXmax() + 1);
 				break;
@@ -1816,7 +1816,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				int pop = (int) p1.getDouble();
 				int successes = (int) p2.getDouble();
 				int sample = (int) p3.getDouble();
-				dist = new HypergeometricDistributionImpl(pop, successes,
+				dist = new HypergeometricDistribution(pop, successes,
 						sample);
 				first = Math.max(0, successes + sample - pop);
 				last = Math.min(successes, sample);

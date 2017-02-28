@@ -15,8 +15,7 @@ package org.geogebra.common.kernel.algos;
 //import geogebra.kernel.AlgoElement;
 import java.util.ArrayList;
 
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
+import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -26,11 +25,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.util.debug.Log;
 
-//import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
+//import org.apache.commons.math3.analysis.solvers.UnivariateRealSolverFactory;
 
 /**
  * Command: Roots[ <function>, <left-x>, <right-x>] (TYPE 0) and Command:
@@ -342,8 +340,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 */
 	public final static double calcSingleRoot(GeoFunction f, double left,
 			double right) {
-		UnivariateRealSolver rootFinder = UnivariateRealSolverFactory
-				.newInstance().newBrentSolver(); // Apache lib
+		BrentSolver rootFinder = new BrentSolver();
 
 		if (!f.isDefined()) {
 			return Double.NaN;
@@ -354,14 +351,13 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		try {
 			// Brent's method
-			root = rootFinder.solve(new RealRootAdapter(fun), left, right);
+			root = rootFinder.solve(100, fun, left, right);
 		} catch (Exception e) {
 			try {
 				// Let's try again by searching for a valid domain first
 				double[] borders = RealRootUtil.getDefinedInterval(fun, left,
 						right);
-				root = rootFinder.solve(new RealRootAdapter(fun), borders[0],
-						borders[1]);
+				root = rootFinder.solve(100, fun, borders[0], borders[1]);
 			} catch (Exception ex) {
 				root = Double.NaN;
 			} // try-catch

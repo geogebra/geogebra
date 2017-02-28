@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.distribution.PascalDistribution;
+import org.apache.commons.math3.distribution.PascalDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -47,7 +47,7 @@ public class AlgoPascal extends AlgoDistribution {
 				&& input[3].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			double param2 = b.getDouble();
-			double val = c.getDouble();
+			int val = (int) Math.round(c.getDouble());
 			try {
 				PascalDistribution dist = getPascalDistribution(param, param2);
 				if (isCumulative.getBoolean()) {

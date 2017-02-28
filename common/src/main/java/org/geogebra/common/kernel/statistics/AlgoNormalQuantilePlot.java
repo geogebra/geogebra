@@ -14,9 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.NormalDistributionImpl;
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -89,7 +88,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	private void calculateZValues(int n) {
 
 		zValues = new double[n];
-		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
+		NormalDistribution normalDist = new NormalDistribution(0, 1);
 		double x;
 
 		try {
@@ -104,7 +103,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 			x = Math.pow(0.5, 1.0 / n);
 			zValues[n - 1] = normalDist.inverseCumulativeProbability(x);
 
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

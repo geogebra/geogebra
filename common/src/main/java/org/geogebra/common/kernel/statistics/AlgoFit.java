@@ -12,10 +12,10 @@ package org.geogebra.common.kernel.statistics;
 
  */
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.QRDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.QRDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
@@ -142,7 +142,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			}
 
 			// Solve for parametermatrix P:
-			DecompositionSolver solver = new QRDecompositionImpl(M).getSolver();
+			DecompositionSolver solver = new QRDecomposition(M).getSolver();
 			if (solver.isNonSingular()) {
 				P = solver.solve(Y);
 

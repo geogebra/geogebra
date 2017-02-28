@@ -3,12 +3,10 @@ package org.geogebra.common.gui.view.data;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.distribution.FDistribution;
-import org.apache.commons.math.distribution.FDistributionImpl;
-import org.apache.commons.math.stat.descriptive.summary.Sum;
-import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math3.distribution.FDistribution;
+import org.apache.commons.math3.exception.MathRuntimeException;
+import org.apache.commons.math3.stat.descriptive.summary.Sum;
+import org.apache.commons.math3.stat.descriptive.summary.SumOfSquares;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -58,7 +56,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 	 *             if an error occurs computing the Anova stats
 	 */
 	public static AnovaStats anovaStats(Collection<double[]> categoryData)
-			throws IllegalArgumentException, MathException {
+			throws IllegalArgumentException, ArithmeticException {
 
 		// check if we have enough categories
 		if (categoryData.size() < 2) {
@@ -116,7 +114,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 		double mswg = sswg / dfwg;
 		double F = msbg / mswg;
 
-		FDistribution fdist = new FDistributionImpl(dfbg, dfwg);
+		FDistribution fdist = new FDistribution(dfbg, dfwg);
 		double P = 1.0 - fdist.cumulativeProbability(F);
 
 		return new AnovaStats(dfbg, dfwg, F, P, ssbg, sswg, sst, msbg, mswg);
@@ -137,7 +135,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 			return anovaStats(categoryData);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -266,6 +264,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 
 	public static AnovaStats getStatsSilent(GeoList dataList) {
 		return anovaStatsSilent(getCategoryData(dataList));
+
 	}
 
 	public ANOVAStatTableModel(App app, StatTableListener listener) {

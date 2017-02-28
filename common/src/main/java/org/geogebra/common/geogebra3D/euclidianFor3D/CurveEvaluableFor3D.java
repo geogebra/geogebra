@@ -46,6 +46,10 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 			return 0;
 		}
 
+		public double value(double x) {
+			return evaluate(x);
+		}
+
 	}
 
 	/**

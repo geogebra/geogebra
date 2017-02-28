@@ -2,13 +2,11 @@ package org.geogebra.common.kernel.cas;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
-import org.apache.commons.math.ode.sampling.StepHandler;
-import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math3.ode.FirstOrderIntegrator;
+import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
+import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -24,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * eg SolveODE[x/y,x(A),y(A),5,0.1]
@@ -188,11 +187,11 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				integrator.integrate(ode, 0.0, yy2, end.getDouble(), yy2);
 			}
-		} catch (DerivativeException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			locus.setDefined(false);
 			return;
-		} catch (IntegratorException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 			locus.setDefined(false);
 			return;
@@ -205,19 +204,10 @@ public class AlgoSolveODE extends AlgoElement {
 	}
 
 	private StepHandler stepHandler = new StepHandler() {
-		@Override
-		public void reset() {
-			//
-		}
-
-		@Override
-		public boolean requiresDenseOutput() {
-			return false;
-		}
 
 		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast)
-				throws DerivativeException {
+				throws IllegalArgumentException {
 			double t = interpolator.getCurrentTime();
 			double[] y1 = interpolator.getInterpolatedState();
 			// System.out.println(t + " " + y[0]);
@@ -227,6 +217,11 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				al.add(new MyPoint(y1[0], y1[1], SegmentType.LINE_TO));
 			}
+
+		}
+
+		public void init(double t0, double[] y0, double t) {
+			Log.error("unimplemented");
 
 		}
 	};

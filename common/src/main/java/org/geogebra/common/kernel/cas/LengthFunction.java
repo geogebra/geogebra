@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.cas;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * T = sqrt( 1 + f'(x)^2)
  */
-class LengthFunction implements RealRootFunction {
+class LengthFunction implements UnivariateFunction {
 	private final GeoFunction f1;
 
 	/**
@@ -18,7 +18,7 @@ class LengthFunction implements RealRootFunction {
 	}
 
 	@Override
-	public double evaluate(double t) {
+	public double value(double t) {
 		double p = f1.evaluate(t);
 		return Math.sqrt(1 + p * p);
 	}

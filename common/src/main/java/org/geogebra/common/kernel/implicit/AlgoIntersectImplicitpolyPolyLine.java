@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;

@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.integration;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Computes the arc length of an ellipse.
@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 public class EllipticArcLength {
 	/** half axes of the ellipse */
 	double[] halfAxes;
-	private RealRootFunction arcLengthFunction;
+	private UnivariateFunction arcLengthFunction;
 
 	/**
 	 * Creates new elliptic arc length calculator
@@ -62,13 +62,15 @@ public class EllipticArcLength {
 	/**
 	 * f(t) = sqrt((a sin(t))^2 + (b cos(t))^2)
 	 */
-	private class EllipticArcLengthFunction implements RealRootFunction {
+	private class EllipticArcLengthFunction implements UnivariateFunction {
+
 		protected EllipticArcLengthFunction() {
 			// avoid synth access warning
+
 		}
 
 		@Override
-		public double evaluate(double t) {
+		public double value(double t) {
 			double p = halfAxes[0] * Math.sin(t);
 			double q = halfAxes[1] * Math.cos(t);
 			return Math.sqrt(p * p + q * q);

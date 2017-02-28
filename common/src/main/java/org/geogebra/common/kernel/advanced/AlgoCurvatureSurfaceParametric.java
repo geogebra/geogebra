@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.LUDecomposition;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -190,9 +192,13 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 				{ evEval / 2, eEval, fEval }, { guEval / 2, fEval, gEval } };
 
 		matrix1.setSubMatrix(m1, 0, 0);
-		double det1 = matrix1.getDeterminant();
+		// double det1 = matrix1.getDeterminant();
+		double det1 = new LUDecomposition(matrix1, Kernel.STANDARD_PRECISION)
+				.getDeterminant();
 		matrix2.setSubMatrix(m2, 0, 0);
-		double det2 = matrix2.getDeterminant();
+		// double det2 = matrix2.getDeterminant();
+		double det2 = new LUDecomposition(matrix2, Kernel.STANDARD_PRECISION)
+				.getDeterminant();
 
 		double denomSqrt = eEval * gEval - fEval * fEval;
 

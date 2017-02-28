@@ -81,4 +81,8 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 
 	}
 
+	public double value(double x) {
+		return evaluate(x);
+	}
+
 }

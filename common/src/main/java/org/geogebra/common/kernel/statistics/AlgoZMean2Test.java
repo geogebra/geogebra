@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.distribution.NormalDistributionImpl;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
@@ -185,7 +185,7 @@ public class AlgoZMean2Test extends AlgoElement {
 		se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
 		double testStatistic = (mean1 - mean2) / se;
 
-		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
+		NormalDistribution normalDist = new NormalDistribution(0, 1);
 		double P = 0;
 		try {
 			P = normalDist.cumulativeProbability(testStatistic);

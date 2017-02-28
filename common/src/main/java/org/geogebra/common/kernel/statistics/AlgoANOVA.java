@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.statistics;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.stat.inference.OneWayAnovaImpl;
+import org.apache.commons.math3.stat.inference.OneWayAnova;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -35,7 +35,7 @@ public class AlgoANOVA extends AlgoElement {
 
 	private ArrayList<double[]> categoryData;
 	private double p, testStat;
-	private OneWayAnovaImpl anovaImpl;
+	private OneWayAnova anovaImpl;
 
 	/**
 	 * @param cons
@@ -130,7 +130,7 @@ public class AlgoANOVA extends AlgoElement {
 
 			// get the test statistic and p value
 			if (anovaImpl == null) {
-				anovaImpl = new OneWayAnovaImpl();
+				anovaImpl = new OneWayAnova();
 			}
 			p = anovaImpl.anovaPValue(categoryData);
 			testStat = anovaImpl.anovaFValue(categoryData);

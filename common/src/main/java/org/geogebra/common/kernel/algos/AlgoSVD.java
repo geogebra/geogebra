@@ -1,9 +1,8 @@
 package org.geogebra.common.kernel.algos;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.RealMatrix;
-import org.apache.commons.math.linear.SingularValueDecomposition;
-import org.apache.commons.math.linear.SingularValueDecompositionImpl;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -92,8 +91,7 @@ public class AlgoSVD extends AlgoElement {
 			}
 
 			// get decomposition
-			SingularValueDecomposition svd = new SingularValueDecompositionImpl(
-					M);
+			SingularValueDecomposition svd = new SingularValueDecomposition(M);
 
 			U = svd.getU();
 			S = svd.getS();

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.cas;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -7,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.LengthCurve;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * @author Victor Franco Espino
@@ -23,7 +23,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	private GeoCurveCartesianND c; // c1 is c'(x)
 
 	private GeoNumeric length; // output
-	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
+	private UnivariateFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
 	/**
 	 * @param cons

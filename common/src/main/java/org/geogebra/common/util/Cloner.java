@@ -2,6 +2,9 @@ package org.geogebra.common.util;
 
 import java.util.Arrays;
 
+import org.apache.commons.math3.fitting.WeightedObservedPoint;
+import org.apache.commons.math3.ode.EquationsMapper;
+
 public class Cloner {
 	public static double[] clone(double[] array) {
 
@@ -34,6 +37,56 @@ public class Cloner {
 		}
 		return arrayClone;
 	}
+
+	public static Integer[] clone(Integer[] intArray) {
+
+		Integer[] ret = new Integer[intArray.length];
+
+		for (int i = 0; i < intArray.length; i++) {
+			ret[i] = Integer.valueOf(intArray[i]);
+		}
+
+		return ret;
+	}
+
+	public static WeightedObservedPoint[] clone(
+			WeightedObservedPoint[] points) {
+		WeightedObservedPoint[] ret = new WeightedObservedPoint[points.length];
+
+		for (int i = 0; i < points.length; i++) {
+			ret[i] = new WeightedObservedPoint(points[i].getWeight(),
+					points[i].getX(), points[i].getY());
+		}
+
+		return ret;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[] clone(
+			org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[] points) {
+		org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[] ret = new org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[points.length];
+
+		for (int i = 0; i < points.length; i++) {
+			ret[i] = new org.apache.commons.math3.optimization.fitting.WeightedObservedPoint(
+					points[i].getWeight(), points[i].getX(), points[i].getY());
+		}
+
+		return ret;
+	}
+
+	public static EquationsMapper[] clone(EquationsMapper[] map) {
+
+		EquationsMapper[] ret = new EquationsMapper[map.length];
+
+		for (int i = 0; i < map.length; i++) {
+			ret[i] = new EquationsMapper(map[i].getFirstIndex(),
+					map[i].getDimension());
+		}
+
+		return ret;
+	}
+
+
 
 	/*
 	 * public static void main(String [] args) {

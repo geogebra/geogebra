@@ -2,13 +2,11 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.IntegratorException;
-import org.apache.commons.math.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math.ode.sampling.StepHandler;
-import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math3.ode.FirstOrderIntegrator;
+import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
+import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -132,11 +130,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 		try {
 			integrator.integrate(ode, t0, y0, endX.getDouble(), y0);
-		} catch (DerivativeException e) {
-			e.printStackTrace();
-			setUndefined();
-			return;
-		} catch (IntegratorException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 			setUndefined();
 			return;
@@ -156,19 +150,12 @@ public class AlgoNSolveODE extends AlgoElement {
 
 	private StepHandler stepHandler = new StepHandler() {
 
-		@Override
-		public void reset() {
+		public void init(double t0, double[] y0, double t) {
 			//
 		}
 
 		@Override
-		public boolean requiresDenseOutput() {
-			return true;
-		}
-
-		@Override
-		public void handleStep(StepInterpolator interpolator, boolean isLast)
-				throws DerivativeException {
+		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
 			double[] y1 = interpolator.getInterpolatedState();
 

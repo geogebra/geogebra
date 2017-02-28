@@ -12,9 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.distribution.TDistribution;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -38,7 +37,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	private double[] val;
 	private double level, mean, sd, n, me;
 	private SummaryStatistics stats;
-	private TDistributionImpl tDist;
+	private TDistribution tDist;
 
 	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList,
 			GeoNumeric geoLevel) {
@@ -112,8 +111,8 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	}
 
 	private double getMarginOfError(double sd, double n, double confLevel)
-			throws MathException {
-		tDist = new TDistributionImpl(n - 1);
+			throws ArithmeticException {
+		tDist = new TDistribution(n - 1);
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * sd / Math.sqrt(n);
 	}
@@ -185,7 +184,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (MathException e) {
+		} catch (ArithmeticException e) {
 			e.printStackTrace();
 		}
 

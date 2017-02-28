@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -72,7 +72,8 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 
 				double sum = 0;
 				for (int i = 0; i < list.size(); i++) {
-					sum += dist.probability(list.get(i).evaluateDouble());
+					sum += dist.probability(
+							(int) Math.round(list.get(i).evaluateDouble()));
 				}
 
 				num.setValue(sum);

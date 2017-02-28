@@ -20,7 +20,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.HashSet;
 
-import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;

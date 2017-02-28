@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math.linear.Array2DRowRealMatrix;
-import org.apache.commons.math.linear.DecompositionSolver;
-import org.apache.commons.math.linear.QRDecompositionImpl;
-import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.QRDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -150,7 +150,7 @@ public final class RegressionMath {
 			 */
 			makeMatrixArrays(degree); // make marray and yarray
 			RealMatrix M = new Array2DRowRealMatrix(marray, false);
-			DecompositionSolver solver = new QRDecompositionImpl(M).getSolver();
+			DecompositionSolver solver = new QRDecomposition(M).getSolver();
 			// time=System.currentTimeMillis();
 			RealMatrix Y = new Array2DRowRealMatrix(yarray, false);
 			RealMatrix P = solver.solve(Y);

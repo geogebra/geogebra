@@ -2,12 +2,11 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math.ode.DerivativeException;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math.ode.FirstOrderIntegrator;
-import org.apache.commons.math.ode.nonstiff.ClassicalRungeKuttaIntegrator;
-import org.apache.commons.math.ode.sampling.StepHandler;
-import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math3.ode.FirstOrderIntegrator;
+import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
+import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -228,19 +228,18 @@ public class AlgoIntegralODE extends AlgoElement {
 	}
 
 	private StepHandler stepHandler = new StepHandler() {
-		@Override
-		public void reset() {
-			//
-		}
+		// @Override
+		// public void reset() {
+		// //
+		// }
+		//
+		// @Override
+		// public boolean requiresDenseOutput() {
+		// return false;
+		// }
 
 		@Override
-		public boolean requiresDenseOutput() {
-			return false;
-		}
-
-		@Override
-		public void handleStep(StepInterpolator interpolator, boolean isLast)
-				throws DerivativeException {
+		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
 			double[] y = interpolator.getInterpolatedState();
 			// System.out.println(t + " " + y[0]);
@@ -250,6 +249,11 @@ public class AlgoIntegralODE extends AlgoElement {
 			} else {
 				al.add(new MyPoint(y[0], y[1], SegmentType.LINE_TO));
 			}
+
+		}
+
+		public void init(double t0, double[] y0, double t) {
+			Log.error("unimplemented");
 
 		}
 	};

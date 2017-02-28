@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.cas;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * @author Victor Franco Espino
@@ -21,7 +21,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	private GeoNumeric A, B; // input
 	private GeoFunction f; // f1 is f'(x)
 	private GeoNumeric length; // output
-	private RealRootFunction lengthFunction; // is T = sqrt(1+(f')^2)
+	private UnivariateFunction lengthFunction; // is T = sqrt(1+(f')^2)
 
 	/**
 	 * @param cons

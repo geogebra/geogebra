@@ -1,8 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.apache.commons.math.FunctionEvaluationException;
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * @author michael
@@ -14,7 +13,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * 
  */
-public class RateFunction implements DifferentiableUnivariateRealFunction {
+public class RateFunction implements DifferentiableUnivariateFunction {
 
 	private double n;
 	private double pv;
@@ -47,7 +46,7 @@ public class RateFunction implements DifferentiableUnivariateRealFunction {
 	}
 
 	@Override
-	public double value(double x) throws FunctionEvaluationException {
+	public double value(double x) {
 		// fv + pmt (1 + x pmtType) ((1 + x)^n - 1) / x + pv (1 + x)^n
 
 		// fill in the "hole" in the function
@@ -64,7 +63,7 @@ public class RateFunction implements DifferentiableUnivariateRealFunction {
 	}
 
 	@Override
-	public UnivariateRealFunction derivative() {
+	public UnivariateFunction derivative() {
 		return deriv;
 	}
 

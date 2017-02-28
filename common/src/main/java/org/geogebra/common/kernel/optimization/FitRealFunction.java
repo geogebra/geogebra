@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.optimization;
 
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
  http://www.geogebra.org
@@ -33,7 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *   
  *   Implements:
  * 
- *         org.apache.commons.math.optimization.fitting.ParametricRealFunction
+ *         org.apache.commons.math.optimization.fitting.ParametricUnivariateFunction
  *         which can be given to org.apache....fitting.CurveFitter which
  *         does the rest of the job.
  *   
@@ -66,8 +68,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @author Hans-Petter Ulven
  * @version 15.03.2011
  */
-public class FitRealFunction implements
-		org.apache.commons.math.optimization.fitting.ParametricRealFunction {
+public class FitRealFunction implements ParametricUnivariateFunction {
 
 	// / --- Properties --- ///
 	private Kernel kernel = null;
@@ -97,7 +98,7 @@ public class FitRealFunction implements
 	}// Constructor
 
 	/**
-	 * Implementing org.apache...fitting.ParametricRealFunction
+	 * Implementing org.apache...fitting.ParametricUnivariateFunction
 	 * 
 	 * @param x
 	 *            double variable
@@ -116,7 +117,7 @@ public class FitRealFunction implements
 	}// evaluate(x,pars[])
 
 	/**
-	 * Implementing org.apache...fitting.ParametricRealFunction
+	 * Implementing org.apache...fitting.ParametricUnivariateFunction
 	 * 
 	 * @param x
 	 *            double variable

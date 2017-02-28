@@ -625,6 +625,10 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			return eval.squareDistLine3(distCoords, distDirection);
 		}
 
+		public double value(double x) {
+			return evaluate(x);
+		}
+
 	}
 
 	// ///////////////////////////////////
