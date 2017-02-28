@@ -294,12 +294,11 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	protected void updateFile(final String key, final long modified,
 	        final Material material) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			/*
-			debugNative("update file: "+material.getTitle());
+		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){		
+			debug("update file: "+material.getTitle());
 			material.setModified(modified);
 			if (key == null){
-				debugNative("key is null");
+				debug("key is null");
 				// save as a new local file
 				String base64 = material.getBase64();
 				material.setBase64("");
@@ -309,7 +308,7 @@ public class TabletFileManager extends FileManagerT {
 		        material.setLocalID(MaterialsManager.getIDFromKey(key));
 		        String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
 		        if (key.equals(newKey)) {
-		        	debugNative("key == newKey");
+		        	debug("key == newKey");
 		        	// re-save file and meta data
 		        	String base64 = material.getBase64();
 		        	material.setBase64("");
@@ -318,12 +317,12 @@ public class TabletFileManager extends FileManagerT {
 		        	String newTitle = material.getTitle();
 		        	material.setTitle(MaterialsManager.getTitleFromKey(key));
 		        	material.setSyncStamp(material.getModified());
-		        	debugNative("key != newKey");
+		        	debug("key != newKey");
 		        	// save and rename
-		        	debugNative("rename: "+newTitle);
+		        	debug("rename: "+newTitle);
+		        	rename(newTitle, material);
 		        }
-			}
-			*/
+			}	
 		} else {
 			super.updateFile(key, modified, material);
 		}
