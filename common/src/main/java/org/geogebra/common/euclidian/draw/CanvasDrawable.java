@@ -71,7 +71,7 @@ public abstract class CanvasDrawable extends Drawable {
 				g2.setFont(getLabelFont());
 				setLabelSize(
 						EuclidianStatic.drawIndexedString(view.getApplication(),
-								g2, text, 0, 0, false, false, false));
+								g2, text, 0, 0, false, false));
 			}
 			calculateBoxBounds(latex);
 		} else {

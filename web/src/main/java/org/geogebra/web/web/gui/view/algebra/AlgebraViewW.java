@@ -1881,6 +1881,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
+	/**
+	 * Expand AV to make space for editing a specific item
+	 * 
+	 * @param ri
+	 *            edited item
+	 */
 	void expandAVToItem(RadioTreeItem ri) {
 		int currentWidth = getOffsetWidth();
 		int editedWidth = ri.getWidthForEdit();
@@ -2215,6 +2221,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// repaintView();
 	}
 
+	/**
+	 * Reset active item to null
+	 */
 	public void clearActiveItem() {
 		activeItem = null;
 		// repaintView();
@@ -2366,6 +2375,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Restores AV original size before editing, if it has been expanded.
+	 * 
+	 * @param force
+	 *            whether to force this over the canceling timer
 	 */
 	public void restoreWidth(boolean force) {
 		if (!force && CancelEventTimer.cancelAVRestoreWidth()) {
@@ -2374,13 +2386,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		int w = userWidth;
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-		if (avDockPanel.getParentSplitPane() == null) {
+		DockSplitPaneW avParent = getAlgebraDockPanel().getParentSplitPane();
+		if (avParent == null || userWidth == 0 || avParent
+						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 			return;
 		}
-		
-		// in portrait mode AV is in center and resize fails
-		if (!avDockPanel.getParentSplitPane().isCenter(avDockPanel)) {
-			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
+
+		// normally the "center" orientation should be handled by the
+		// VERTICAL_SPLIT check above
+		if (!avParent.isCenter(avDockPanel)) {
+			avParent.setWidgetSize(avDockPanel, w);
 			avDockPanel.deferredOnResize();
 		}
 
@@ -2430,16 +2445,26 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return nodeTable.get(geo);
 	}
 
+	/**
+	 * @return width determined by user resizing
+	 */
 	public int getUserWidth() {
 		return userWidth;
 	}
 
+	/**
+	 * @param userWidth
+	 *            width determined by user resizing
+	 */
 	public void setUserWidth(int userWidth) {
 		MinMaxPanel.closeMinMaxPanel();
 		this.userWidth = userWidth;
 
 	}
 
+	/**
+	 * Set AV width to current offset width or default if not attached
+	 */
 	public void setDefaultUserWidth() {
 		int w = getOffsetWidth();
 		setUserWidth(w > 0 ? w : getDefaultAVWidth());

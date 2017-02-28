@@ -157,6 +157,8 @@ public class EuclidianStatic {
 	 *            y-coord
 	 * @param serif
 	 *            true touseserif font
+	 * @param callback
+	 *            LaTeX loading callback
 	 * @return bounds of resulting LaTeX formula
 	 */
 	public static final GRectangle drawMultilineLaTeX(App app,
@@ -379,7 +381,7 @@ public class EuclidianStatic {
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
 			double xPos, double yPos, boolean serif) {
 
-		return drawIndexedString(app, g3, str, xPos, yPos, serif, true,
+		return drawIndexedString(app, g3, str, xPos, yPos, serif, 
 				true);
 	}
 
@@ -406,7 +408,7 @@ public class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
-			double xPos, double yPos, boolean serif, boolean precise,
+			double xPos, double yPos, boolean serif,
 			boolean doDraw) {
 
 		GFont g2font = g3.getFont();
@@ -540,6 +542,7 @@ public class EuclidianStatic {
 	 * @param serif
 	 *            true for serif font
 	 * @param textFont
+	 *            font
 	 * @return border of resulting text drawing
 	 */
 	public final static GRectangle drawMultiLineText(App app, String labelDesc,
