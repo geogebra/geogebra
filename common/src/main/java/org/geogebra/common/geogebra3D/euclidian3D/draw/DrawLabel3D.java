@@ -230,7 +230,7 @@ public class DrawLabel3D {
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					tempGraphics, text, 0, 0, false, false);
+					tempGraphics, text, 0, 0, false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(),
 					rectangle.getWidth(), rectangle.getHeight() + p.y);
 		} else {
@@ -277,7 +277,7 @@ public class DrawLabel3D {
 
 		if (hasIndex) {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text,
-					0, 0, false, false);
+					0, 0, false);
 		} else {
 			g2d.drawString(text, 0, 0);
 		}

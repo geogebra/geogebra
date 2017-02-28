@@ -160,7 +160,7 @@ public final class DrawBoolean extends Drawable {
 							+ checkBoxIcon.getIconWidth() / 2 + 5;
 					top += height / 2;
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-							labelDesc, left, top, false, false);
+							labelDesc, left, top, false);
 				}
 			}
 

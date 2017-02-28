@@ -271,7 +271,7 @@ public abstract class Drawable extends DrawableND {
 			oldLabelDesc = labelDesc;
 
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, label, xLabel, yLabel, isSerif(), false);
+					g2, label, xLabel, yLabel, isSerif());
 			labelHasIndex = p.y > 0;
 			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x,
 					fontSize + p.y);
@@ -412,7 +412,7 @@ public abstract class Drawable extends DrawableND {
 					GPoint p = EuclidianStatic.drawIndexedString(
 							view.getApplication(), g2,
 							labelDesc.substring(lineBegin, i), xLabel,
-							yLabel + lines * lineSpread, isSerif(), true);
+							yLabel + lines * lineSpread, isSerif());
 					if (p.x > xoffset) {
 						xoffset = p.x;
 					}
@@ -429,8 +429,8 @@ public abstract class Drawable extends DrawableND {
 			// iOS (bug?) - bold text needs font setting for each line
 			g2.setFont(textFont);
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, labelDesc.substring(lineBegin), xLabel, ypos, isSerif(),
-					true);
+					g2, labelDesc.substring(lineBegin), xLabel, ypos,
+					isSerif());
 			if (p.x > xoffset) {
 				xoffset = p.x;
 			}

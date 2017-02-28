@@ -266,8 +266,7 @@ public class EuclidianStatic {
 					g2.setFont(font); // JLaTeXMath changes g2's fontsize
 					xOffset += drawIndexedString(app, g2, lines[j],
 							xLabel + xOffset,
-							yLabel + height + yOffset + lineSpread, serif,
-							true).x;
+							yLabel + height + yOffset + lineSpread, serif).x;
 
 					// add the height of this line if more lines follow
 					if (j + 1 < lines.length) {
@@ -378,9 +377,9 @@ public class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
-			double xPos, double yPos, boolean serif, boolean precise) {
+			double xPos, double yPos, boolean serif) {
 
-		return drawIndexedString(app, g3, str, xPos, yPos, serif, precise,
+		return drawIndexedString(app, g3, str, xPos, yPos, serif, true,
 				true);
 	}
 

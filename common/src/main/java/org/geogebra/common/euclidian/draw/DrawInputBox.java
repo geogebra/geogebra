@@ -404,7 +404,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				text.substring(0, getTruncIndex(text, g2)), textLeft,
-				textBottom, false, false);
+				textBottom, false);
 		g2.setFont(font);
 		if (isSelectedForInput()) {
 			getBox().repaint(g2);

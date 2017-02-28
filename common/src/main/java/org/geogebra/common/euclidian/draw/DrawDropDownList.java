@@ -347,7 +347,7 @@ public final class DrawDropDownList extends CanvasDrawable
 				int y = (itemHeight - yPadding);
 
 				EuclidianStatic.drawIndexedString(viewOpt.getApplication(), g2,
-						item.text, rectLeft + x, rectTop + y, false, false);
+						item.text, rectLeft + x, rectTop + y, false);
 			}
 			if (clip) {
 				g2.resetClip();
@@ -1195,7 +1195,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(getLabelFont());
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					xLabel, textBottom, false, false);
+					xLabel, textBottom, false);
 		}
 
 	}
@@ -1302,7 +1302,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		if (draw) {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					selectedText, left, top, false, false);
+					selectedText, left, top, false);
 		}
 
 		return AwtFactory.getPrototype().newDimension(w,

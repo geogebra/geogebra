@@ -135,7 +135,7 @@ public class DrawAxis {
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							view.axesLabels[0],
 							view.getWidth() - 10 - layout.getAdvance(),
-							(int) (yCrossPix - 4), false, false);
+							(int) (yCrossPix - 4), false);
 					g2.setFont(old);
 				}
 			}
@@ -235,7 +235,7 @@ public class DrawAxis {
 					g2.setFont(font);
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							view.axesLabels[1], (int) (xCrossPix + 5),
-							(int) (5 + layout.getAscent()), false, false);
+							(int) (5 + layout.getAscent()), false);
 					g2.setFont(old);
 				}
 			}
