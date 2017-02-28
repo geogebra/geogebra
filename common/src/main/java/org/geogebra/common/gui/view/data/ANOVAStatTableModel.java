@@ -123,6 +123,27 @@ public class ANOVAStatTableModel extends StatTableModel {
 	}
 
 	/**
+	 * Calculates ANOVA stats. (Modified form of method found in Apache Commons
+	 * OneWayAnovaImpl)
+	 * 
+	 * @param categoryData
+	 *            <code>Collection</code> of <code>double[]</code> arrays each
+	 *            containing data for one category
+	 * @return computed AnovaStats
+	 */
+	public static AnovaStats anovaStatsSilent(
+			Collection<double[]> categoryData) {
+		try {
+			return anovaStats(categoryData);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (MathException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
 	 * Convenience class to pass dfbg,dfwg,F values around within AnovaImpl.
 	 * (Modified form of class found in OneWayAnovaImpl)
 	 */
@@ -243,9 +264,8 @@ public class ANOVAStatTableModel extends StatTableModel {
 		}
 	}
 
-	public static AnovaStats getStats(GeoList dataList)
-			throws IllegalArgumentException, MathException {
-		return anovaStats(getCategoryData(dataList));
+	public static AnovaStats getStatsSilent(GeoList dataList) {
+		return anovaStatsSilent(getCategoryData(dataList));
 	}
 
 	public ANOVAStatTableModel(App app, StatTableListener listener) {

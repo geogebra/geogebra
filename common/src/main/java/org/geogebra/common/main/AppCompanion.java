@@ -17,7 +17,7 @@ import org.geogebra.common.main.settings.Settings;
  *         Companion for application
  */
 public class AppCompanion {
-
+	/** application */
 	protected App app;
 
 	/**
@@ -102,6 +102,10 @@ public class AppCompanion {
 	}
 
 	/**
+	 * @param id
+	 *            view ID
+	 * @param plane
+	 *            plane label
 	 * @return new EuclidianDockPanelForPlane
 	 */
 	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {

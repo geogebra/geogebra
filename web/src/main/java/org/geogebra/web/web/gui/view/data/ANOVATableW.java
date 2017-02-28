@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.view.data;
 
-import org.apache.commons.math.MathException;
 import org.geogebra.common.gui.view.data.ANOVAStatTableModel;
 import org.geogebra.common.gui.view.data.ANOVAStatTableModel.AnovaStats;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -43,9 +42,9 @@ public class ANOVATableW extends BasicStatTableW {
 		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
 				COLUMN_COUNT, getColumnNames());
 
-		try {
-			AnovaStats stats = ANOVAStatTableModel.getStats(dataList);
-
+		
+		AnovaStats stats = ANOVAStatTableModel.getStatsSilent(dataList);
+		if(stats!=null){
 			// first column, degrees of freedom
 			statTable.setValueAt(daView.format(stats.getDfbg()), 0, 1);
 			statTable.setValueAt(daView.format(stats.getDfwg()), 1, 1);
@@ -66,12 +65,6 @@ public class ANOVATableW extends BasicStatTableW {
 			// fifth column, P value
 			statTable.setValueAt(daView.format(stats.getP()), 0, 5);
 
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MathException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
