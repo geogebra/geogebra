@@ -5490,7 +5490,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	final public EuclidianStyleBar getDynamicStyleBar() {
 		if (dynamicStyleBar == null) {
 			dynamicStyleBar = newDynamicStyleBar();
-			dynamicStyleBar.setVisible(false);
+			if (dynamicStyleBar != null) {
+				dynamicStyleBar.setVisible(false);
+			}
 		}
 
 		return dynamicStyleBar;
