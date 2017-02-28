@@ -598,6 +598,7 @@ public class NoExceptionsTest {
 	public void cmdDistance() {
 		t("Distance[ Pt1, obj ]");
 		t("Distance[ xAxis,yAxis ]");
+		t("Distance[x+y+z=1, x+y+z=2]");
 	}
 
 	@Test
