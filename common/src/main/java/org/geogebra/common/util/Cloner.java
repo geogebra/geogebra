@@ -43,7 +43,7 @@ public class Cloner {
 		Integer[] ret = new Integer[intArray.length];
 
 		for (int i = 0; i < intArray.length; i++) {
-			ret[i] = Integer.valueOf(intArray[i]);
+			ret[i] = intArray[i];
 		}
 
 		return ret;
