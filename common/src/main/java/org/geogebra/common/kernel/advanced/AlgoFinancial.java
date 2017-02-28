@@ -7,6 +7,7 @@ import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoRootNewton;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -327,7 +328,8 @@ public class AlgoFinancial extends AlgoElement {
 
 			// App.error("min = " + min + " max = " + max);
 
-			rate = rootFinder.solve(100, fun, min, max);
+			rate = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min,
+					max);
 			// App.error("brent rate = " + rate);
 
 		} catch (Exception e) {
@@ -342,7 +344,8 @@ public class AlgoFinancial extends AlgoElement {
 
 		try {
 			// Log.debug("trying Newton with starting value " + rate);
-			newtonRoot = rootPolisher.solve(100, fun, min, max, rate);
+			newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
+					min, max, rate);
 			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
 				// App.error("polished result from Newton is better: \n" + rate
 				// + "\n" + newtonRoot);
