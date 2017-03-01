@@ -16,16 +16,13 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoPolyLine;
+import org.geogebra.common.kernel.algos.AlgoPenStroke;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPenStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 public class ModeDelete {
@@ -102,8 +99,8 @@ public class ModeDelete {
 				}
 
 				if (gps.getParentAlgorithm() != null
-						&& gps.getParentAlgorithm() instanceof AlgoPolyLine) {
-					dataPoints = ((AlgoPolyLine) gps.getParentAlgorithm())
+						&& gps.getParentAlgorithm() instanceof AlgoPenStroke) {
+					dataPoints = ((AlgoPenStroke) gps.getParentAlgorithm())
 							.getPoints();
 				} else {
 					dataPoints = gps.getPoints();
@@ -538,19 +535,15 @@ public class ModeDelete {
 			GeoPenStroke gps) {
 		if (dataPoints.length != gps.getPoints().length) {
 			if (gps.getParentAlgorithm() != null
-					&& gps.getParentAlgorithm() instanceof AlgoPolyLine) {
+					&& gps.getParentAlgorithm() instanceof AlgoPenStroke) {
 				GeoPoint[] data = new GeoPoint[dataPoints.length];
 				for (int k = 0; k < dataPoints.length; k++) {
 					data[k] = (GeoPoint) dataPoints[k];
 				}
-				GeoList pointList = CommandProcessor.wrapInList(
-						view.getKernel(), data, data.length, GeoClass.POINT);
-				((AlgoPolyLine) gps.getParentAlgorithm())
-						.setPointsList(pointList);
-				((AlgoPolyLine) gps.getParentAlgorithm()).update();
-				((AlgoPolyLine) gps.getParentAlgorithm()).setPointsList(null);
-				((AlgoPolyLine) gps.getParentAlgorithm()).updateInput();
-				((AlgoPolyLine) gps.getParentAlgorithm()).update();
+
+				((AlgoPenStroke) gps.getParentAlgorithm())
+						.updateFrom(data);
+
 				gps.notifyUpdate();
 			}
 		}
@@ -595,8 +588,8 @@ public class ModeDelete {
 					}
 				}
 				if (gps.getParentAlgorithm() != null
-						&& gps.getParentAlgorithm() instanceof AlgoPolyLine) {
-					dataPoints = ((AlgoPolyLine) gps
+						&& gps.getParentAlgorithm() instanceof AlgoPenStroke) {
+					dataPoints = ((AlgoPenStroke) gps
 							.getParentAlgorithm())
 							.getPoints();
 				} else {

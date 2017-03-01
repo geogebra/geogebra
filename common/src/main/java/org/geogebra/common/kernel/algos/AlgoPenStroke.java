@@ -15,10 +15,12 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPenStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -29,52 +31,36 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * @author Michael Borcherds
  */
-public class AlgoPolyLine extends AlgoElement {
+public class AlgoPenStroke extends AlgoElement {
 
 	protected GeoPointND[] points; // input
-	protected GeoList geoList; // alternative input
 	protected GeoPolyLine poly; // output
-
-	public AlgoPolyLine(Construction cons, GeoList geoList) {
-		this(cons, (GeoPointND[]) null, geoList);
-	}
-
-	public AlgoPolyLine(Construction cons, GeoPointND[] points) {
-		this(cons, points, null);
-	}
 
 	/**
 	 * @param cons
 	 *            the construction
+	 * @param label
+	 *            name of the polyline
 	 * @param points
 	 *            vertices of the polygon
 	 * @param geoList
 	 *            list of vertices of the polygon (alternative to points)
 	 */
-	public AlgoPolyLine(Construction cons, GeoPointND[] points,
-			GeoList geoList) {
+
+
+	public AlgoPenStroke(Construction cons, GeoPointND[] points) {
 		super(cons);
 		this.points = points;
-		this.geoList = geoList;
 
 		// Log.debug(penStroke);
 
 		// poly = new GeoPolygon(cons, points);
-		createPolyLine();
+		poly = new GeoPenStroke(this.cons, this.points);
 
 		// compute polygon points
 		compute();
 
 		setInputOutput(); // for AlgoElement
-
-	}
-
-	/**
-	 * create the polygon
-	 */
-	protected void createPolyLine() {
-
-		poly = new GeoPolyLine(this.cons, this.points);
 
 	}
 
@@ -92,7 +78,7 @@ public class AlgoPolyLine extends AlgoElement {
 	 * @return - true, if poly is pen stroke
 	 */
 	public boolean getIsPenStroke() {
-		return false;
+		return true;
 	}
 
 	/**
@@ -120,28 +106,19 @@ public class AlgoPolyLine extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		if (geoList != null) {
 
-
-				// list as input
-				input = new GeoElement[2];
-				input[0] = geoList;
-				input[1] = new GeoBoolean(cons, true); // dummy to force
-														// PolyLine[list, true]
-
-				// list as input
-				input = new GeoElement[1];
-				input[0] = geoList;
-
-		} else {
-			input = new GeoElement[points.length];
+			input = new GeoElement[points.length + 1];
 			for (int i = 0; i < points.length; i++) {
 				input[i] = (GeoElement) points[i];
 			}
 
+			input[points.length] = new GeoBoolean(cons, true); // dummy to
+																// force
+																// PolyLine[...,
+																// true]
 
 
-		}
+
 		// set dependencies
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
@@ -168,57 +145,33 @@ public class AlgoPolyLine extends AlgoElement {
 		return points;
 	}
 
-	public GeoList getPointsList() {
-		return geoList;
-	}
 
 	@Override
 	public void compute() {
-		if (geoList != null) {
-			updatePointArray(geoList);
-		}
+
 
 		// compute area
 		poly.calcLength();
 	}
 
-	private StringBuilder sb;
 
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
+		return "";
 
-		sb.append(getLoc().getPlain("PolyLine"));
-		sb.append(' ');
-
-		// G.Sturr: get label from geoList (2010-3-15)
-		if (geoList != null) {
-			sb.append(geoList.getLabel(tpl));
-
-		} else if (points.length < 20) {
-			// use point labels
-
-			int last = points.length - 1;
-			for (int i = 0; i < last; i++) {
-				sb.append(points[i].getLabel(tpl));
-				sb.append(", ");
-			}
-			sb.append(points[last].getLabel(tpl));
-		} else {
-			// too long (eg from Pen Tool), just return empty string
-			return "";
-		}
-
-		return sb.toString();
 	}
 
 	public final GeoPointND[] getPointsND() {
 		return points;
+	}
+
+	public void updateFrom(GeoPoint[] data) {
+		GeoList pointList = CommandProcessor.wrapInList(kernel, data,
+				data.length, GeoClass.POINT);
+		updatePointArray(pointList);
+		update();
+
 	}
 
 }

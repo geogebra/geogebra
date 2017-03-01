@@ -852,7 +852,8 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] PolyLine(String label, GeoPointND[] P,
 			boolean penStroke) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, P, null, penStroke);
+		AlgoElement algo = penStroke ? new AlgoPenStroke(cons, P)
+				: new AlgoPolyLine(cons, P, null);
 		algo.getOutput(0).setLabel(label);
 		return algo.getOutput();
 	}

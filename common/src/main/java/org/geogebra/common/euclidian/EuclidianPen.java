@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import org.geogebra.common.kernel.algos.AlgoPolyLine;
+import org.geogebra.common.kernel.algos.AlgoPenStroke;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -313,7 +313,7 @@ public class EuclidianPen implements GTimerListener {
 
 		if (penGeo == null) {
 			lastAlgo = null;
-		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
+		} else if (penGeo.getParentAlgorithm() instanceof AlgoPenStroke) {
 			lastAlgo = penGeo.getParentAlgorithm();
 		}
 	}
@@ -759,7 +759,7 @@ public class EuclidianPen implements GTimerListener {
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 
-			GeoPointND[] pts = getAlgoPolyline(lastAlgo).getPointsND();
+			GeoPointND[] pts = getAlgoPenStroke(lastAlgo).getPointsND();
 
 			newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
 
@@ -784,7 +784,7 @@ public class EuclidianPen implements GTimerListener {
 
 		AlgoElement algo;
 		// don't set label
-		AlgoPolyLine newPolyLine = new AlgoPolyLine(cons, newPts, null, true);
+		AlgoPenStroke newPolyLine = new AlgoPenStroke(cons, newPts);
 		if (!absoluteScreenPosition) {
 
 			// set label
@@ -824,7 +824,7 @@ public class EuclidianPen implements GTimerListener {
 		newPolyLine.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
 
 		if (lastAlgo == null) {
-			// lastPolyLine = new AlgoPolyLine(cons, null, newPts);
+			// lastPolyLine = new AlgoPenStroke(cons, null, newPts);
 		} else {
 			try {
 				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
@@ -859,11 +859,11 @@ public class EuclidianPen implements GTimerListener {
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
-	private static AlgoPolyLine getAlgoPolyline(AlgoElement al) {
-		if (al instanceof AlgoPolyLine) {
-			return (AlgoPolyLine) al;
+	private static AlgoPenStroke getAlgoPenStroke(AlgoElement al) {
+		if (al instanceof AlgoPenStroke) {
+			return (AlgoPenStroke) al;
 		}
-		return (AlgoPolyLine) al.getInput()[0].getParentAlgorithm();
+		return (AlgoPenStroke) al.getInput()[0].getParentAlgorithm();
 	}
 
 	// Return true if a shape was created, false otherwise
