@@ -30,12 +30,14 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Class for solving polynomial equations
  */
+@SuppressWarnings("deprecation")
 public class EquationSolver implements EquationSolverInterface {
-
+	private static final double LAGUERRE_START = -1;
+	private static final int LAGUERRE_MAX_EVAL = 100;
 	private static final double LAGUERRE_EPS = 1E-5;
 	private LaguerreSolver laguerreSolver;
 	private UnivariateSolver rootFinderBrent;
-	NewtonSolver rootFinderNewton;
+	private NewtonSolver rootFinderNewton;
 
 	/**
 	 * Creates new equation solver
@@ -531,7 +533,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 	/* ************************************************* */
 
-	private static final double LAGUERRE_START = -1;
+
 
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
@@ -552,7 +554,8 @@ public class EquationSolver implements EquationSolverInterface {
 				laguerreSolver = new LaguerreSolver();
 			}
 
-			complexRoots = laguerreSolver.solveAllComplex(eqn, LAGUERRE_START);
+			complexRoots = laguerreSolver.solveAllComplex(eqn, LAGUERRE_START,
+					LAGUERRE_MAX_EVAL);
 		} catch (ArithmeticException e) {
 			Log.warn("Too many iterations. Degree: " + eqn.length);
 		} catch (RuntimeException e) {
