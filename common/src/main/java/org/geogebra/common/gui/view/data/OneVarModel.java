@@ -13,7 +13,6 @@ import org.geogebra.common.main.Localization;
 
 public class OneVarModel {
 	private TTest tTestImpl;
-	private NormalDistribution normalDist;
 	private TDistribution tDist;
 	private double testStat;
 	private double P;
@@ -35,7 +34,7 @@ public class OneVarModel {
 	public void evaluate(double[] sample) {
 		mean = StatUtils.mean(sample);
 		N = sample.length;
-
+		NormalDistribution normalDist;
 		try {
 			switch (selectedPlot) {
 

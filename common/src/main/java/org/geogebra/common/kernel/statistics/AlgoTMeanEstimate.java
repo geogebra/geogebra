@@ -37,7 +37,6 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	private double[] val;
 	private double level, mean, sd, n, me;
 	private SummaryStatistics stats;
-	private TDistribution tDist;
 
 	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList,
 			GeoNumeric geoLevel) {
@@ -112,7 +111,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 
 	private double getMarginOfError(double sd, double n, double confLevel)
 			throws ArithmeticException {
-		tDist = new TDistribution(n - 1);
+		TDistribution tDist = new TDistribution(n - 1);
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * sd / Math.sqrt(n);
 	}
