@@ -337,7 +337,6 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 					i--;
 				}
 			}
-			// end Zbynek Konecny
 		} else {
 			solution.curRealRoots = 0;
 		}

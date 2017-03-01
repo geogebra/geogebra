@@ -10,7 +10,7 @@ import org.geogebra.common.main.MyError;
 /**
  * CompleteSquare[ &lt;Polynomial> ]
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class CmdCompleteSquare extends CommandProcessor {

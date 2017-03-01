@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -10,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.HasShortSyntax;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 
@@ -19,11 +21,13 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
  * @author zbynek
  *
  */
-public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
+public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
+		implements HasShortSyntax {
 
 	private GeoImplicitSurface surface;
 	private GeoPlaneND plane;
 	private GeoImplicitCurve3D curve;
+	private boolean shortSyntax;
 
 	/**
 	 * @param c
@@ -102,6 +106,20 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
 	@Override
 	public GetCommand getClassName() {
 		return Commands.IntersectPath;
+	}
+
+	@Override
+	final public String getDefinition(StringTemplate tpl) {
+		if (shortSyntax) {
+			return "(" + surface.getLabel(tpl) + "," + plane.getLabel(tpl)
+					+ ")";
+		}
+		return super.getDefinition(tpl);
+	}
+
+	public void setShortSyntax(boolean b) {
+		this.shortSyntax = b;
+
 	}
 
 }

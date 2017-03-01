@@ -13,7 +13,7 @@ import org.geogebra.common.main.MyError;
  * (GeoScriptAction is created and the command is not executed until you call
  * {@link GeoScriptAction#perform()}) so that they work nicely with If.
  * 
- * @author kondr
+ * @author Zbynek
  *
  */
 public abstract class CmdScripting extends CommandProcessor {

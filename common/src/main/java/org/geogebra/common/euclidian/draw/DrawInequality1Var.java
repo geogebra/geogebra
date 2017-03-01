@@ -24,7 +24,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class DrawInequality1Var extends Drawable {

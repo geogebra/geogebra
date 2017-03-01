@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Determine whether point is in region.
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class AlgoIsInRegion extends AlgoElement {

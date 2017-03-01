@@ -8,8 +8,6 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 /**
  * Translation
  * 
- * @author kondr
- * 
  */
 public class TransformTranslate extends Transform {
 

@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Rotation
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class TransformRotate extends Transform {

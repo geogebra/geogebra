@@ -90,7 +90,6 @@ public class AlgoCountIf extends AlgoElement {
 		try {
 
 			int count = 0;
-			// <Zbynek Konecny 2010-04-15>
 			/*
 			 * If val is not numeric, we use the underlying Expression of the
 			 * function and plug the list element as variable. Deep copy is
@@ -117,7 +116,6 @@ public class AlgoCountIf extends AlgoElement {
 					}
 				}
 			}
-			// </Zbynek>
 			result.setValue(count);
 
 		} catch (Exception e) {

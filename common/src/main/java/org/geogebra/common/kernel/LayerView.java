@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Extends the View functionality by layer listener
  * 
- * @author kondr
+ * @author Zbynek
  *
  */
 public interface LayerView extends View {

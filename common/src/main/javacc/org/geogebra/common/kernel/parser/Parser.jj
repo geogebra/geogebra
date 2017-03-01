@@ -865,7 +865,7 @@ ValidExpression expressionOrEquation():
       )?
   {
     if(rrhs!=null)    {
-      return kernel.getAlgebraProcessor().intersectCommand(new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs));    }
+      return new MyVecNode(kernel, new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs)).wrap();    }
             
     return  rhs == null ? en : new Equation(kernel, en, rhs);           
   }

@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 /**
  * Shear or stretch
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class TransformShearOrStretch extends Transform {

@@ -9,7 +9,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
 
 /**
- * @author kondr
+ * Desktop wrapper for stroke
  * 
  */
 public class GBasicStrokeD implements GBasicStroke {

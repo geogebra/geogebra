@@ -46,8 +46,6 @@ public class UndoManagerD extends UndoManager {
 	/**
 	 * Desktop version of ap stat: wrapper for file
 	 * 
-	 * @author kondr
-	 * 
 	 */
 	protected static class AppStateDesktop implements AppState {
 		private File f;

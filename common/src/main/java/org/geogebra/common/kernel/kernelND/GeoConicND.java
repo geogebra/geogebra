@@ -3582,7 +3582,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (!isDefined()) {
 			polar.setUndefined();
 		} else {
-			// </Zbynek>
 			polar.x = matrix[0] * project.getX() + matrix[3] * project.getY()
 					+ matrix[4] * project.getZ();
 			polar.y = matrix[3] * project.getX() + matrix[1] * project.getY()

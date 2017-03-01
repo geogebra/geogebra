@@ -280,8 +280,8 @@ public class Macro {
 			case FUNCTION:
 			case INTERVAL:
 			case POLYHEDRON:
-			case CURVE_CARTESIAN:// added by Zbynek Konecny, 2010-05-25
-									// (http://www.geogebra.org/forum/viewtopic.php?t=7275)
+			case CURVE_CARTESIAN:// needed for
+									// http://www.geogebra.org/forum/viewtopic.php?t=7275
 				// add parent algo and its input objects to
 				// macroConsOrigElements
 				addSpecialInputElement(input[i], macroConsOrigElements);

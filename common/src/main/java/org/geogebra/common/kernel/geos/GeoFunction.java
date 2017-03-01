@@ -2775,7 +2775,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * Container for condition tripples (upper bound, lower bound, other
 	 * conditions)
 	 * 
-	 * @author kondr
+	 * @author Zbynek
 	 * 
 	 */
 	class Bounds {

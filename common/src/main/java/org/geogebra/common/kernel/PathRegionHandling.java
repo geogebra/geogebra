@@ -3,7 +3,7 @@ package org.geogebra.common.kernel;
 /**
  * Types of path / region parameter behaviours
  * 
- * @author kondr
+ * @author Zbynek
  *
  */
 public enum PathRegionHandling {

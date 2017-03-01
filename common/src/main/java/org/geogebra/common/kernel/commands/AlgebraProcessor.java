@@ -3068,7 +3068,12 @@ public class AlgebraProcessor {
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
 
-		return processCommand(intersectCommand(x, y), new EvalInfo(true));
+		GeoElement[] ret = processCommand(intersectCommand(x, y),
+				new EvalInfo(true));
+		if (ret[0].getParentAlgorithm() instanceof HasShortSyntax) {
+			((HasShortSyntax) ret[0].getParentAlgorithm()).setShortSyntax(true);
+		}
+		return ret;
 	}
 
 	/**
@@ -3078,7 +3083,7 @@ public class AlgebraProcessor {
 	 *            second equation
 	 * @return intersection line as command
 	 */
-	public Command intersectCommand(ExpressionValue x, ExpressionValue y) {
+	private Command intersectCommand(ExpressionValue x, ExpressionValue y) {
 		if (y.unwrap() instanceof Equation && x.unwrap() instanceof Equation) {
 			boolean yHasZ = ((Equation) y.unwrap())
 					.containsFreeFunctionVariable("z");

@@ -141,7 +141,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 					numOfOutputPoints++;
 				}
 			}
-			// end Zbynek Konecny
 		} else {
 			solution.curRealRoots = 0;
 		}

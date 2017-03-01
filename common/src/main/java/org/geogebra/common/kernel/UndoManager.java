@@ -17,8 +17,6 @@ public abstract class UndoManager {
 
 	/**
 	 * Interface for application state
-	 * 
-	 * @author kondr
 	 *
 	 */
 	protected interface AppState {

@@ -23,9 +23,11 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.HasShortSyntax;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 
@@ -37,8 +39,9 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
  *         plane).
  * 
  */
-public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
-
+public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
+		implements HasShortSyntax {
+	private boolean shortSyntax = false;
 	/**
 	 * Creates new AlgoIntersectLinePlane
 	 * 
@@ -168,6 +171,20 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 	@Override
 	public final Commands getClassName() {
 		return Commands.IntersectPath;
+	}
+
+	@Override
+	final public String getDefinition(StringTemplate tpl) {
+		if (shortSyntax) {
+			return "(" + getCS1().getLabel(tpl) + "," + getCS2().getLabel(tpl)
+				+ ")";
+		}
+		return super.getDefinition(tpl);
+	}
+
+	public void setShortSyntax(boolean b) {
+		this.shortSyntax = b;
+
 	}
 
 }

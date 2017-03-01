@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 /**
  * Container for transforms
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public abstract class Transform {
