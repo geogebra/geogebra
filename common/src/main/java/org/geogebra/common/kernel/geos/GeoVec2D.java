@@ -725,6 +725,7 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	final public static void complexPower(GeoVec2D a, NumberValue b,
 			GeoVec2D c) {
+
 		if (a.x == 0 && a.y == 0 && b.getDouble() > 0) {
 			c.x = 0;
 			c.y = 0;
@@ -1015,8 +1016,17 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	final public static void complexPower(NumberValue a, GeoVec2D b,
 			GeoVec2D c) {
-		Complex out = new Complex(a.getDouble(), 0);
-		out = out.pow(new Complex(b.x, b.y));
+		Complex out;
+		if (a.getDouble() == Math.E && b.getX() == 0) {
+			// special case for e^(i theta)
+			// (more accurate)
+			out = new Complex(b.x, b.y);
+			out = out.exp();
+
+		} else {
+			out = new Complex(a.getDouble(), 0);
+			out = out.pow(new Complex(b.x, b.y));
+		}
 		c.x = out.getReal();
 		c.y = out.getImaginary();
 		c.setMode(Kernel.COORD_COMPLEX);
