@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math3.stat.ranking.NaNStrategy;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.KthSelector;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
@@ -674,42 +673,40 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
 
     /**
-     * An enum for various estimation strategies of a percentile referred in
-     * <a href="http://en.wikipedia.org/wiki/Quantile">wikipedia on quantile</a>
-     * with the names of enum matching those of types mentioned in
-     * wikipedia.
-     * <p>
-     * Each enum corresponding to the specific type of estimation in wikipedia
-     * implements  the respective formulae that specializes in the below aspects
-     * <ul>
-     * <li>An <b>index method</b> to calculate approximate index of the
-     * estimate</li>
-     * <li>An <b>estimate method</b> to estimate a value found at the earlier
-     * computed index</li>
-     * <li>A <b> minLimit</b> on the quantile for which first element of sorted
-     * input is returned as an estimate </li>
-     * <li>A <b> maxLimit</b> on the quantile for which last element of sorted
-     * input is returned as an estimate </li>
-     * </ul>
-     * <p>
-     * Users can now create {@link Percentile} by explicitly passing this enum;
-     * such as by invoking {@link Percentile#withEstimationType(EstimationType)}
-     * <p>
-     * References:
-     * <ol>
-     * <li>
-     * <a href="http://en.wikipedia.org/wiki/Quantile">Wikipedia on quantile</a>
-     * </li>
-     * <li>
-     * <a href="https://www.amherst.edu/media/view/129116/.../Sample+Quantiles.pdf">
-     * Hyndman, R. J. and Fan, Y. (1996) Sample quantiles in statistical
-     * packages, American Statistician 50, 361–365</a> </li>
-     * <li>
-     * <a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">
-     * R-Manual </a></li>
-     * </ol>
-     *
-     */
+	 * An enum for various estimation strategies of a percentile referred in
+	 * <a href="http://en.wikipedia.org/wiki/Quantile">wikipedia on quantile</a>
+	 * with the names of enum matching those of types mentioned in wikipedia.
+	 * <p>
+	 * Each enum corresponding to the specific type of estimation in wikipedia
+	 * implements the respective formulae that specializes in the below aspects
+	 * <ul>
+	 * <li>An <b>index method</b> to calculate approximate index of the
+	 * estimate</li>
+	 * <li>An <b>estimate method</b> to estimate a value found at the earlier
+	 * computed index</li>
+	 * <li>A <b> minLimit</b> on the quantile for which first element of sorted
+	 * input is returned as an estimate</li>
+	 * <li>A <b> maxLimit</b> on the quantile for which last element of sorted
+	 * input is returned as an estimate</li>
+	 * </ul>
+	 * <p>
+	 * Users can now create {@link Percentile} by explicitly passing this enum;
+	 * such as by invoking {@link Percentile#withEstimationType(EstimationType)}
+	 * <p>
+	 * References:
+	 * <ol>
+	 * <li><a href="http://en.wikipedia.org/wiki/Quantile">Wikipedia on
+	 * quantile</a></li>
+	 * <li><a href=
+	 * "https://www.amherst.edu/media/view/129116/.../Sample+Quantiles.pdf">
+	 * Hyndman, R. J. and Fan, Y. (1996) Sample quantiles in statistical
+	 * packages, American Statistician 50, 361-365</a></li>
+	 * <li><a href=
+	 * "http://stat.ethz.ch/R-manual/R-devel/library/stats/html/quantile.html">
+	 * R-Manual </a></li>
+	 * </ol>
+	 *
+	 */
     public enum EstimationType {
         /**
          * This is the default type used in the {@link Percentile}.This method
