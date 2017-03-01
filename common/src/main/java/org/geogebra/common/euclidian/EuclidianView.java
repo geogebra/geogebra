@@ -2216,7 +2216,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public DrawableND newDrawable(GeoElement geo) {
-		return companion.newDrawable(geo);
+		DrawableND d = companion.newDrawable(geo);
+		if (d instanceof Drawable && ((Drawable) d).getBounds() != null) {
+			this.euclidianController.setDynamicStyleBarPosition(
+					((Drawable) d).getBounds(),
+					true);
+			this.euclidianController.setDynamicStylebarVisible(true);
+		}
+		return d;
 	}
 
 	@Override
