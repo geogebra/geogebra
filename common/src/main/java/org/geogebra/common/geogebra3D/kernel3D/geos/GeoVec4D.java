@@ -124,7 +124,13 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D {
 		setCoords(vec.v);
 	}
 
-	public void setCoords(GeoPointND p) {
+	/**
+	 * set coords to point's coords (in 3D)
+	 * 
+	 * @param p
+	 *            point
+	 */
+	final public void setCoords(GeoPointND p) {
 		setCoords(p.getCoordsInD3());
 	}
 

@@ -44,7 +44,7 @@ public class AlgoClosestPoint3D extends AlgoClosestPoint {
 
 	@Override
 	protected void setCoords() {
-		((GeoPoint3D) P).setCoords(point);
+		((GeoPoint3D) P).setCoords(point.getCoordsInD3(), false);
 	}
 
 	@Override

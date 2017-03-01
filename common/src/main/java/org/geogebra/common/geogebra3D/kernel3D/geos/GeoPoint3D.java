@@ -1713,12 +1713,15 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return null;
 	}
 
-	private Coords tmpWillingCoords, tmpWillingDirection;
+	private Coords tmpWillingCoords, tmpWillingDirection, tmpCoordsOld;
 
 	@Override
 	public double distanceToPath(PathOrPoint path1) {
 
-		Coords coordsOld = getInhomCoords().copyVector();
+		if (tmpCoordsOld == null) {
+			tmpCoordsOld = new Coords(4);
+		}
+		tmpCoordsOld.set(getInhomCoords());
 
 		if (tmpWillingCoords == null) {
 			tmpWillingCoords = Coords.createInhomCoorsInD3();
@@ -1732,7 +1735,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			tmpWillingCoords.set(getWillingCoords());
 		} else {
 			hadWillingCoords = false;
-			tmpWillingCoords.set(coordsOld);
+			tmpWillingCoords.set(tmpCoordsOld);
 		}
 		if (hasWillingDirection()) {
 			tmpWillingDirection.set(getWillingDirection());
@@ -1755,7 +1758,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			setWillingCoords(tmpWillingCoords);
 		}
 
-		setCoords(coordsOld, false);
+		setCoords(tmpCoordsOld, false);
 
 		return d;
 
