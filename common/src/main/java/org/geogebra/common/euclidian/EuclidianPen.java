@@ -783,16 +783,15 @@ public class EuclidianPen implements GTimerListener {
 		}
 
 		AlgoElement algo;
-		AlgoPolyLine newPolyLine;
+		// don't set label
+		AlgoPolyLine newPolyLine = new AlgoPolyLine(cons, newPts, null, true);
 		if (!absoluteScreenPosition) {
 
 			// set label
-			newPolyLine = new AlgoPolyLine(cons, null, newPts, null, true);
+			newPolyLine.getOutput(0).setLabel(null);
 			algo = newPolyLine;
 		} else {
 
-			// don't set label
-			newPolyLine = new AlgoPolyLine(cons, newPts, null, true);
 
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 

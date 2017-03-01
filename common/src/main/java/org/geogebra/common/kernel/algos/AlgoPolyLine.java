@@ -37,54 +37,29 @@ public class AlgoPolyLine extends AlgoElement {
 	protected GeoPolyLine poly; // output
 	private boolean penStroke;
 
-	public AlgoPolyLine(Construction cons, String label, GeoList geoList) {
-		this(cons, label, null, geoList);
-	}
-
-	public AlgoPolyLine(Construction cons, String label, GeoList geoList,
-			boolean penStroke) {
-		this(cons, label, null, geoList, penStroke);
-	}
-
 	public AlgoPolyLine(Construction cons, GeoList geoList) {
-		this(cons, (GeoPointND[]) null, geoList, false);
+		this(cons, (GeoPointND[]) null, geoList);
 	}
 
-	public AlgoPolyLine(Construction cons, String label, GeoPointND[] points,
-			boolean penStroke) {
-		this(cons, label, points, null, penStroke);
-	}
-
-	public AlgoPolyLine(Construction cons, GeoPointND[] points,
-			boolean penStroke) {
-		this(cons, points, null, penStroke);
+	public AlgoPolyLine(Construction cons, GeoPointND[] points) {
+		this(cons, points, null);
 	}
 
 	/**
 	 * @param cons
 	 *            the construction
-	 * @param labels
-	 *            names of the polygon
+	 * @param label
+	 *            name of the polyline
 	 * @param points
 	 *            vertices of the polygon
 	 * @param geoList
 	 *            list of vertices of the polygon (alternative to points)
 	 */
-	public AlgoPolyLine(Construction cons, String label, GeoPointND[] points,
+	public AlgoPolyLine(Construction cons, GeoPointND[] points,
 			GeoList geoList) {
 
 		this(cons, points, geoList, false);
 
-		poly.setLabel(label);
-
-	}
-
-	public AlgoPolyLine(Construction cons, String label, GeoPointND[] points,
-			GeoList geoList, boolean penStroke) {
-
-		this(cons, points, geoList, penStroke);
-
-		poly.setLabel(label);
 
 	}
 

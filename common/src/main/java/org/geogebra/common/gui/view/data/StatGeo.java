@@ -358,7 +358,7 @@ public class StatGeo {
 
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points, false);
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points);
 
 		return polyLine;
 	}
@@ -801,7 +801,7 @@ public class StatGeo {
 
 	public GeoElementND createScatterPlotLine(GeoList points) {
 
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, (String) null, points);
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points);
 		removeFromConstructionList(polyLine);
 		GeoElementND geo = polyLine.getOutput(0);
 

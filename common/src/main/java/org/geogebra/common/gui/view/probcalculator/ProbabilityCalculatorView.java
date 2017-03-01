@@ -830,7 +830,7 @@ public abstract class ProbabilityCalculatorView
 		// System.out.println("yval: " + Arrays.toString(yCoords));
 		// System.out.println("polyline points: " + Arrays.toString(points));
 
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points, false);
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, points);
 
 		return polyLine;
 	}

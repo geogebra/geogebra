@@ -97,7 +97,8 @@ public class CmdPolyLine extends CommandProcessor {
 	 * @return polyline
 	 */
 	protected GeoElement[] polyLine(String label, GeoList pointList) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, label, pointList);
+		AlgoPolyLine algo = new AlgoPolyLine(cons, pointList);
+		algo.getOutput(0).setLabel(label);
 		return algo.getOutput();
 	}
 

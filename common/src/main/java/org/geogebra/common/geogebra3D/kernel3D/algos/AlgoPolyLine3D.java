@@ -51,8 +51,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 	 */
 	protected AlgoPolyLine3D(Construction cons, String label,
 			GeoPointND[] points, GeoList geoList) {
-		super(cons, label, points, geoList);
-
+		super(cons, points, geoList);
+		poly.setLabel(label);
 		// poly = new GeoPolygon(cons, points);
 		// createPolyLine(createSegments);
 
