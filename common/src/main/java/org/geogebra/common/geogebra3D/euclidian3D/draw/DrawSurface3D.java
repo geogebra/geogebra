@@ -706,7 +706,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
 
-		for (int i = 0; i < wireframeBottomCorners.length; i++) {
+		for (int i = 0; i < wireframeBottomCornersLength; i++) {
 			Corner above = wireframeBottomCorners[i];
 			boolean currentPointIsDefined = isDefinedForWireframe(above);
 			if (currentPointIsDefined) {
@@ -731,7 +731,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			brush.endPlot();
 		}
 
-		for (int i = 0; i < wireframeRightCorners.length; i++) {
+		for (int i = 0; i < wireframeRightCornersLength; i++) {
 			Corner left = wireframeRightCorners[i];
 			boolean currentPointIsDefined = isDefinedForWireframe(left);
 			if (currentPointIsDefined) {
@@ -868,6 +868,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	// corners for drawing wireframe (bottom and right sides)
 	private Corner[] wireframeBottomCorners, wireframeRightCorners;
+	private int wireframeBottomCornersLength, wireframeRightCornersLength;
 
 	// says if we draw borders for wireframe
 	// (we use short for array index shifting)
@@ -911,15 +912,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Corner bottomRight = newCorner(uBorderMax, vBorderMax);
 		Corner first = bottomRight;
 
-		int wireframeIndexU = 0, wireframeIndexV = 0,
-				wireFrameSetU = wireFrameStepU, wireFrameSetV = wireFrameStepV;
+		wireframeBottomCornersLength = 0;
+		wireframeRightCornersLength = 0;
+		int wireFrameSetU = wireFrameStepU, wireFrameSetV = wireFrameStepV;
 		if (wireframeNeeded()) {
 			if (wireframeUniqueU) {
 				wireFrameSetU = 0;
 			}
 			if (wireframeBorderU == 1) { // draw edges
 				wireframeBottomCorners[0] = first;
-				wireframeIndexU = 1;
+				wireframeBottomCornersLength = 1;
 				wireFrameSetU = 1;
 			}
 			if (wireframeUniqueV) {
@@ -927,7 +929,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 			if (wireframeBorderV == 1) { // draw edges
 				wireframeRightCorners[0] = first;
-				wireframeIndexV = 1;
+				wireframeRightCornersLength = 1;
 				wireFrameSetV = 1;
 			}
 		}
@@ -938,8 +940,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, vBorderMax);
 			if (wireframeNeeded()) {
 				if (wireFrameSetU == wireFrameStepU) { // set wireframe
-					wireframeBottomCorners[wireframeIndexU] = right;
-					wireframeIndexU++;
+					wireframeBottomCorners[wireframeBottomCornersLength] = right;
+					wireframeBottomCornersLength++;
 					if (wireframeUniqueU) {
 						wireFrameSetU++;
 					} else {
@@ -953,7 +955,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		right = addLeftToMesh(right, uBorderMin, vBorderMax);
 		if (wireframeNeeded()) {
 			if (wireframeBorderU == 1) {
-				wireframeBottomCorners[wireframeIndexU] = right;
+				wireframeBottomCorners[wireframeBottomCornersLength] = right;
+				wireframeBottomCornersLength++;
 			}
 		}
 
@@ -963,8 +966,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					vMax - (vDelta * j) / vN, uBorderMin, uBorderMax, uMax, uN);
 			if (wireframeNeeded()) {
 				if (wireFrameSetV == wireFrameStepV) { // set wireframe
-					wireframeRightCorners[wireframeIndexV] = bottomRight;
-					wireframeIndexV++;
+					wireframeRightCorners[wireframeRightCornersLength] = bottomRight;
+					wireframeRightCornersLength++;
 					if (wireframeUniqueV) {
 						wireFrameSetV++;
 					} else {
@@ -981,7 +984,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				uBorderMax, uMax, uN);
 		if (wireframeNeeded()) {
 			if (wireframeBorderV == 1) {
-				wireframeRightCorners[wireframeIndexV] = bottomRight;
+				wireframeRightCorners[wireframeRightCornersLength] = bottomRight;
+				wireframeRightCornersLength++;
 			}
 		}
 
