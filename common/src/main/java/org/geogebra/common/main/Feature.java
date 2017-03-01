@@ -157,6 +157,9 @@ public enum Feature {
 	AV_TEXT_BLACK,
 
 	/** MOV-169 */
-	DYNAMIC_STYLEBAR
+	DYNAMIC_STYLEBAR,
+
+	/** MOW-29 */
+	MOW_TOOLBAR
 
 }

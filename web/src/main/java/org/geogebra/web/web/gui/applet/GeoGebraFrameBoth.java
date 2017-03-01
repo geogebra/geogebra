@@ -30,6 +30,7 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.GDevice;
 
@@ -174,6 +175,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private int keyboardHeight;
 	private DockPanelW dockPanelKB;
 	private HeaderPanel lastBG;
+	private MOWToolbar mowToolbar;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
@@ -634,6 +636,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            application
 	 */
 	public void attachToolbar(AppW app1) {
+		if (app1.has(Feature.MOW_TOOLBAR)) {
+			mowToolbar = new MOWToolbar(app1);
+			insert(mowToolbar, 0);
+			return;
+		}
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
@@ -646,6 +653,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			insert(ggwToolBar, 0);
 		}
+
+
 	}
 
 	@Override

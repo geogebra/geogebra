@@ -4013,6 +4013,10 @@ public abstract class App implements UpdateSelection {
 		case TOOLBAR_ON_SMALL_SCREENS:
 			return prerelease;
 
+		// MOW-29
+		case MOW_TOOLBAR:
+			return false;// prerelease;
+
 		// MOB-270
 		case ACRA:
 			return prerelease;
