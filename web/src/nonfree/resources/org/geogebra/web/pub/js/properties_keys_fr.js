@@ -1597,7 +1597,7 @@ __GGB__keysVar.fr.menu = {
     "DifferenceOfProportions.short": "p\u2081 - p\u2082",
     "DifferenceofMeansT": "Diff\xe9rence des moyennes T",
     "Differences": "Diff\xe9rences",
-    "Dilate.Factor": "Facteur",
+    "Dilate.Factor": "Rapport",
     "DilateFromPoint": "Homoth\xe9tie",
     "DilateFromPoint.Help": "Objet \xe0 transformer, puis centre d'homoth\xe9tie[cr\xe9\xe9s] puis rapport",
     "Dimensions": "Dimensions",
