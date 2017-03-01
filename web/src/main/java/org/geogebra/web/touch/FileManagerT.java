@@ -56,6 +56,10 @@ public class FileManagerT extends FileManager {
 
 	public FileManagerT(final AppW app) {
 		super(app);
+		init();
+	}
+	
+	protected void init(){
 		this.phonegap = PhoneGapManager.getPhoneGap();
 		convertToNewFileFormat();
 	}

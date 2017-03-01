@@ -39,10 +39,15 @@ public class TabletFileManager extends FileManagerT {
 	private int callbacksCount = NO_CALLBACK;
 
 	public TabletFileManager(AppW tabletApp) {
-		super(tabletApp);
+		super(tabletApp);	
+	}
+	
+	protected void init(){
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
 			callbacks = new TreeMap<Integer, MyCallback>();
 			exportJavascriptMethods();
+		} else {
+			super.init();
 		}
 	}
 	
@@ -416,6 +421,7 @@ public class TabletFileManager extends FileManagerT {
 	        final Runnable onSuccess) {
 		
 		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+			debug("permanent: "+permanent);
 			if (!permanent) {
 				mat.setDeleted(true);
 				mat.setBase64("");
@@ -425,11 +431,13 @@ public class TabletFileManager extends FileManagerT {
 
 			int callback = addNewCallback(new MyCallback() {
 				public void onSuccess(Object result){
+					debug("delete, onSuccess");
 					removeFile(mat);
 					onSuccess.run();
 				}
 				public void onFailure(Object result){
 					// not needed
+					debug("delete, onFailure");
 				}
 			});
 			deleteNative(getFileKey(mat), callback);
