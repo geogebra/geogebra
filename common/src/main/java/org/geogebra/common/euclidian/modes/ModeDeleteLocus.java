@@ -14,14 +14,15 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
@@ -30,7 +31,7 @@ public class ModeDeleteLocus extends ModeDelete {
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
-	private ArrayList<GeoPointND[]> newDataAndRealPoint = new ArrayList<GeoPointND[]>();
+	private ArrayList<MyPoint[]> newDataAndRealPoint = new ArrayList<MyPoint[]>();
 	private AlgorithmSet as = null;
 
 	public ModeDeleteLocus(EuclidianView view) {
@@ -88,8 +89,8 @@ public class ModeDeleteLocus extends ModeDelete {
 				// for
 				// hit detection).
 
-				GeoPointND[] realPoints = gps.getPointsND();
-				GeoPointND[] dataPoints;
+				MyPoint[] realPoints = gps.getPointsND();
+				MyPoint[] dataPoints;
 
 				if (geo.getParentAlgorithm() != null && (geo
 						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
@@ -112,12 +113,12 @@ public class ModeDeleteLocus extends ModeDelete {
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
-						GeoPoint p = (GeoPoint) realPoints[i];
+						MyPoint p = realPoints[i];
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
-										- view.toScreenCoordXd(p.inhomX)),
+										- view.toScreenCoordXd(p.getX())),
 								Math.abs(eventY - view.toScreenCoordYd(
-										p.inhomY))) <= deleteSize / 2.0) {
+										p.getY()))) <= deleteSize / 2.0) {
 							// end point of segment is in rectangle
 							if ((i - 1 >= 0 && dataPoints[i - 1].isDefined())) {
 								// get intersection point
@@ -217,12 +218,12 @@ public class ModeDeleteLocus extends ModeDelete {
 		}
 	}
 
-	private void deleteUnnecessaryUndefPoints(GeoPointND[] dataPoints,
-			GeoPointND[] realPoints) {
+	private void deleteUnnecessaryUndefPoints(MyPoint[] dataPoints,
+			MyPoint[] realPoints) {
 		newDataAndRealPoint.clear();
-		ArrayList<GeoPointND> dataPointList = new ArrayList<GeoPointND>(
+		ArrayList<MyPoint> dataPointList = new ArrayList<MyPoint>(
 				dataPoints.length);
-		ArrayList<GeoPointND> realPointList = new ArrayList<GeoPointND>(
+		ArrayList<MyPoint> realPointList = new ArrayList<MyPoint>(
 				realPoints.length);
 		int i = 1;
 		while (i < dataPoints.length) {
@@ -236,8 +237,8 @@ public class ModeDeleteLocus extends ModeDelete {
 		}
 		dataPointList.add(dataPoints[i - 1]);
 		realPointList.add(realPoints[i - 1]);
-		GeoPointND[] newDataPoints = new GeoPointND[dataPointList.size()];
-		GeoPointND[] newRealPoints = new GeoPointND[dataPointList.size()];
+		MyPoint[] newDataPoints = new MyPoint[dataPointList.size()];
+		MyPoint[] newRealPoints = new MyPoint[dataPointList.size()];
 		dataPointList.toArray(newDataPoints);
 		realPointList.toArray(newRealPoints);
 		if (newDataPoints.length != dataPoints.length) {
@@ -247,14 +248,14 @@ public class ModeDeleteLocus extends ModeDelete {
 	}
 
 	// add new undefined points and update old points coordinates
-	private ArrayList<GeoPointND[]> getNewPolyLinePoints(
-			GeoPointND[] dataPoints, GeoPointND[] realPoints, int newSize,
+	private ArrayList<MyPoint[]> getNewPolyLinePoints(
+			MyPoint[] dataPoints, MyPoint[] realPoints, int newSize,
 			int i, int indexInter1, int indexUndef, int indexInter2,
 			double[] realCoords) {
-		ArrayList<GeoPointND[]> dataAndRealPoint = new ArrayList<GeoPointND[]>();
-		GeoPointND[] newDataPoints = Arrays.copyOf(dataPoints,
+		ArrayList<MyPoint[]> dataAndRealPoint = new ArrayList<MyPoint[]>();
+		MyPoint[] newDataPoints = Arrays.copyOf(dataPoints,
 				dataPoints.length + newSize);
-		GeoPointND[] newRealPoints = Arrays.copyOf(realPoints,
+		MyPoint[] newRealPoints = Arrays.copyOf(realPoints,
 				realPoints.length + newSize);
 
 		if (newSize == 1) {
@@ -273,14 +274,14 @@ public class ModeDeleteLocus extends ModeDelete {
 				newRealPoints[j + newSize - 1] = realPoints[j - 1];
 			}
 		}
-		newDataPoints[indexInter1] = new GeoPoint(
+		newDataPoints[indexInter1] = ngp(
 				view.getKernel().getConstruction(), realCoords[0],
 				realCoords[1], 1);
-		newDataPoints[indexUndef] = new GeoPoint(
+		newDataPoints[indexUndef] = ngp(
 				view.getKernel().getConstruction());
-		newRealPoints[indexUndef] = new GeoPoint(
+		newRealPoints[indexUndef] = ngp(
 				view.getKernel().getConstruction());
-		newDataPoints[indexInter2] = new GeoPoint(
+		newDataPoints[indexInter2] = ngp(
 				view.getKernel().getConstruction(), realCoords[2],
 				realCoords[3], 1);
 
@@ -290,12 +291,22 @@ public class ModeDeleteLocus extends ModeDelete {
 		return dataAndRealPoint;
 	}
 
-	private void populateAlgoUpdateSet(GeoPointND point) {
-		if (as == null) {
-			as = point.getAlgoUpdateSet();
-		} else {
-			as.addAll(point.getAlgoUpdateSet());
-		}
+	private MyPoint ngp(Construction construction) {
+		return new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO);
+	}
+
+	private MyPoint ngp(Construction construction, double d, double e, int i) {
+		// TODO Auto-generated method stub
+		return new MyPoint(d, e, SegmentType.LINE_TO);
+	}
+
+	private void populateAlgoUpdateSet(MyPoint point) {
+		// TODO ignore?
+		// if (as == null) {
+		// as = point.getAlgoUpdateSet();
+		// } else {
+		// as.addAll(point.getAlgoUpdateSet());
+		// }
 	}
 
 	private void updatePenDeleteMode(Hits h) {
@@ -319,9 +330,7 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            eraser
 	 * @return intersection point with top of rectangle (if there is any)
 	 */
-	@Override
-	public GPoint2D getTopIntersectionPoint(GeoPointND point1,
-			GeoPointND point2,
+	public GPoint2D getTopIntersectionPoint(MyPoint point1, MyPoint point2,
 			GRectangle rectangle) {
 		// Top line
 		return getIntersectionPoint(point1, point2,
@@ -339,9 +348,8 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            eraser
 	 * @return intersection point with bottom of rectangle (if there is any)
 	 */
-	@Override
-	public GPoint2D getBottomIntersectionPoint(GeoPointND point1,
-			GeoPointND point2, GRectangle rectangle) {
+	public GPoint2D getBottomIntersectionPoint(MyPoint point1, MyPoint point2,
+			GRectangle rectangle) {
 		// Bottom line
 		return getIntersectionPoint(point1, point2,
 				rectangle.getX(),
@@ -359,9 +367,8 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            eraser
 	 * @return intersection point with left side of rectangle (if there is any)
 	 */
-	@Override
-	public GPoint2D getLeftIntersectionPoint(GeoPointND point1,
-			GeoPointND point2, GRectangle rectangle) {
+	public GPoint2D getLeftIntersectionPoint(MyPoint point1, MyPoint point2,
+			GRectangle rectangle) {
 		// Left side
 		return getIntersectionPoint(point1, point2,
 				rectangle.getX(), rectangle.getY(),
@@ -378,9 +385,8 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            eraser
 	 * @return intersection point with right side of rectangle (if there is any)
 	 */
-	@Override
-	public GPoint2D getRightIntersectionPoint(GeoPointND point1,
-			GeoPointND point2, GRectangle rectangle) {
+	public GPoint2D getRightIntersectionPoint(MyPoint point1, MyPoint point2,
+			GRectangle rectangle) {
 		// Right side
 		return getIntersectionPoint(point1, point2,
 				rectangle.getX() + rectangle.getWidth(),
@@ -401,9 +407,8 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            eraser
 	 * @return list of intersection points
 	 */
-	@Override
-	public ArrayList<GPoint2D> getAllIntersectionPoint(GeoPointND point1,
-			GeoPointND point2,
+	public ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1,
+			MyPoint point2,
 			GRectangle rectangle) {
 		ArrayList<GPoint2D> interPointList = new ArrayList<GPoint2D>();
 		// intersection points
@@ -446,14 +451,13 @@ public class ModeDeleteLocus extends ModeDelete {
 	 *            end coord of end point of second segment
 	 * @return intersection point
 	 */
-	@Override
-	public GPoint2D getIntersectionPoint(GeoPointND point1, GeoPointND point2,
+	public GPoint2D getIntersectionPoint(MyPoint point1, MyPoint point2,
 			double startPointX, double startPointY, double endPointX,
 			double endPointY) {
-		double x1 = view.toScreenCoordXd(point1.getInhomX());
-		double y1 = view.toScreenCoordYd(point1.getInhomY());
-		double x2 = view.toScreenCoordXd(point2.getInhomX());
-		double y2 = view.toScreenCoordYd(point2.getInhomY());
+		double x1 = view.toScreenCoordXd(point1.getX());
+		double y1 = view.toScreenCoordYd(point1.getY());
+		double x2 = view.toScreenCoordXd(point2.getX());
+		double y2 = view.toScreenCoordYd(point2.getY());
 
 		double x3 = startPointX;
 		double y3 = startPointY;
@@ -503,7 +507,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		return distance < 20;
 	}
 
-	private double[] getInterRealCoords(GeoPoint point) {
+	private double[] getInterRealCoords(MyPoint point) {
 		double[] coords = new double[4];
 
 		double realX1 = view.toRealWorldCoordX(interPoints.get(0).getX());
@@ -540,14 +544,14 @@ public class ModeDeleteLocus extends ModeDelete {
 		this.penDeleteMode = false;
 	}
 
-	private void updatePolyLineDataPoints(GeoPointND[] dataPoints,
+	private void updatePolyLineDataPoints(MyPoint[] dataPoints,
 			GeoLocusStroke gps) {
 		if (dataPoints.length != gps.getPoints().size()) {
 			if (gps.getParentAlgorithm() != null
 					&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-				GeoPoint[] data = new GeoPoint[dataPoints.length];
+				MyPoint[] data = new MyPoint[dataPoints.length];
 				for (int k = 0; k < dataPoints.length; k++) {
-					data[k] = (GeoPoint) dataPoints[k];
+					data[k] = dataPoints[k];
 				}
 
 				((AlgoLocusStroke) gps.getParentAlgorithm())
@@ -585,8 +589,8 @@ public class ModeDeleteLocus extends ModeDelete {
 					return false;
 				}
 				GeoLocusStroke gps = (GeoLocusStroke) geos[0];
-				GeoPointND[] realPoints = gps.getPointsND();
-				GeoPointND[] dataPoints;
+				MyPoint[] realPoints = gps.getPointsND();
+				MyPoint[] dataPoints;
 
 				if (geos[0].getParentAlgorithm() != null && (geos[0]
 						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
@@ -609,12 +613,12 @@ public class ModeDeleteLocus extends ModeDelete {
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
-						GeoPoint p = (GeoPoint) realPoints[i];
+						MyPoint p = realPoints[i];
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
-										- view.toScreenCoordXd(p.inhomX)),
+										- view.toScreenCoordXd(p.getX())),
 								Math.abs(eventY
-										- view.toScreenCoordYd(p.inhomY))) <= ec
+										- view.toScreenCoordYd(p.getX()))) <= ec
 												.getDeleteToolSize() / 2.0) {
 							// end point of segment is in rectangle
 							if ((i - 1 >= 0 && dataPoints[i - 1].isDefined())) {
@@ -713,7 +717,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		return false;
 	}
 
-	private void handleLastFirstOrSinglePoints(GeoPointND[] dataPoints, int i) {
+	private void handleLastFirstOrSinglePoints(MyPoint[] dataPoints, int i) {
 		newDataAndRealPoint.clear();
 		if ((i == 0 && ((i + 1 < dataPoints.length
 				&& !dataPoints[i + 1].isDefined())
@@ -721,22 +725,20 @@ public class ModeDeleteLocus extends ModeDelete {
 				|| (i - 1 >= 0 && !dataPoints[i - 1].isDefined()
 						&& i + 1 == dataPoints.length)) {
 			dataPoints[i].setUndefined();
-			dataPoints[i].resetDefinition();
 		}
 		// handle single remained point
 		else if (i - 1 >= 0 && !dataPoints[i - 1].isDefined()
 				&& i + 1 < dataPoints.length
 				&& !dataPoints[i + 1].isDefined()) {
 			dataPoints[i].setUndefined();
-			dataPoints[i].resetDefinition();
 		}
 		populateAlgoUpdateSet(dataPoints[i]);
 		newDataAndRealPoint.add(dataPoints);
 
 	}
 
-	private void handleEraserAtStartPointOfSegment(GeoPointND[] dataPoints,
-			GeoPointND[] realPoints, int i) {
+	private void handleEraserAtStartPointOfSegment(MyPoint[] dataPoints,
+			MyPoint[] realPoints, int i) {
 		newDataAndRealPoint.clear();
 		// get intersection points
 		interPoints.clear();
@@ -750,8 +752,8 @@ public class ModeDeleteLocus extends ModeDelete {
 		}
 		// no intersection
 		else if (interPoints.isEmpty()) {
-			double pointX = view.toScreenCoordXd(dataPoints[i + 1].getInhomX());
-			double pointY = view.toScreenCoordYd(dataPoints[i + 1].getInhomY());
+			double pointX = view.toScreenCoordXd(dataPoints[i + 1].getX());
+			double pointY = view.toScreenCoordYd(dataPoints[i + 1].getY());
 			GPoint2D point = AwtFactory.getPrototype().newPoint2D(pointX,
 					pointY);
 			// if end point is also inside of the
@@ -760,7 +762,6 @@ public class ModeDeleteLocus extends ModeDelete {
 				// we can set point the start point at
 				// undefined
 				dataPoints[i].setUndefined();
-				dataPoints[i].resetDefinition();
 			}
 		}
 		// 2 intersection points
@@ -775,21 +776,20 @@ public class ModeDeleteLocus extends ModeDelete {
 				dataPoints[i].setCoords(realX, realY, 1);
 			} else {
 				dataPoints[i].setUndefined();
-				dataPoints[i].resetDefinition();
 			}
 		}
 		newDataAndRealPoint.add(dataPoints);
 		newDataAndRealPoint.add(realPoints);
 	}
 
-	private int handleEraserAtPoint(GeoPointND[] dataPoints,
-			GeoPointND[] realPoints, int i) {
+	private int handleEraserAtPoint(MyPoint[] dataPoints, MyPoint[] realPoints,
+			int i) {
 		int index = i;
 		newDataAndRealPoint.clear();
 		// no intersection points
 		if (interPoints.isEmpty()) {
-			double pointX = view.toScreenCoordXd(dataPoints[i - 1].getInhomX());
-			double pointY = view.toScreenCoordYd(dataPoints[i - 1].getInhomY());
+			double pointX = view.toScreenCoordXd(dataPoints[i - 1].getX());
+			double pointY = view.toScreenCoordYd(dataPoints[i - 1].getY());
 			GPoint2D point = AwtFactory.getPrototype().newPoint2D(pointX,
 					pointY);
 			// if the first point is also inside of
@@ -797,7 +797,6 @@ public class ModeDeleteLocus extends ModeDelete {
 			if (rect.contains(point)) {
 				// we can set the end point to undefined
 				dataPoints[i].setUndefined();
-				dataPoints[i].resetDefinition();
 			}
 		}
 		// two intersection points
@@ -812,7 +811,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				dataPoints[i].setCoords(realX, realY, 1);
 			} else {
 				double[] realCoords = getInterRealCoords(
-						(GeoPoint) dataPoints[i - 1]);
+						dataPoints[i - 1]);
 				newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 						realPoints, 1, i, i - 1, i, i + 1, realCoords);
 				populateAlgoUpdateSet(newDataAndRealPoint.get(0)[i]);
@@ -826,8 +825,8 @@ public class ModeDeleteLocus extends ModeDelete {
 		return index;
 	}
 
-	private int handleEraserAtJoinPointOrEndOfSegments(GeoPointND[] dataPoints,
-			GeoPointND[] realPoints, int i) {
+	private int handleEraserAtJoinPointOrEndOfSegments(MyPoint[] dataPoints,
+			MyPoint[] realPoints, int i) {
 		int index = i;
 		newDataAndRealPoint.clear();
 		ArrayList<GPoint2D> secondInterPoints;
@@ -839,7 +838,7 @@ public class ModeDeleteLocus extends ModeDelete {
 			if (!secondInterPoints.isEmpty() && secondInterPoints.size() == 1) {
 				interPoints.add(secondInterPoints.get(0));
 				double[] realCoords = getInterRealCoords(
-						(GeoPoint) dataPoints[i - 1]);
+						dataPoints[i - 1]);
 				if (i + 2 < dataPoints.length && dataPoints[i + 2].isDefined()
 						&& i - 2 > 0 && dataPoints[i - 2].isDefined()) {
 					// switch old point with
@@ -847,7 +846,6 @@ public class ModeDeleteLocus extends ModeDelete {
 					dataPoints[i - 1].setCoords(realCoords[0], realCoords[1],
 							1);
 					dataPoints[i].setUndefined();
-					dataPoints[i].resetDefinition();
 					// switch old point with
 					// intersection point
 					dataPoints[i + 1].setCoords(realCoords[2], realCoords[3],
@@ -902,14 +900,14 @@ public class ModeDeleteLocus extends ModeDelete {
 	}
 
 	private int handleEraserBetweenPointsOfSegment(
-			GeoPointND[] dataPoints, GeoPointND[] realPoints, int i) {
+			MyPoint[] dataPoints, MyPoint[] realPoints, int i) {
 		int index = i;
 		interPoints.clear();
 		interPoints = getAllIntersectionPoint(dataPoints[i], dataPoints[i + 1],
 				rect);
 		newDataAndRealPoint.clear();
 		if (!interPoints.isEmpty() && interPoints.size() >= 2) {
-			double[] realCoords = getInterRealCoords((GeoPoint) dataPoints[i]);
+			double[] realCoords = getInterRealCoords(dataPoints[i]);
 			// case ?,(A),(B),? or ?,(A),(B)
 			if (i - 1 > 0 && !dataPoints[i - 1].isDefined()
 					&& ((i + 2 < dataPoints.length

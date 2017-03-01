@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -36,7 +35,7 @@ public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
 	protected GeoPointND[] points; // input
-	protected GeoLocus poly; // output
+	protected GeoLocusStroke poly; // output
 
 	/**
 	 * @param cons
@@ -162,14 +161,9 @@ public class AlgoLocusStroke extends AlgoElement
 
 	}
 
-	public final GeoPointND[] getPointsND() {
-		return points;
-	}
+	public final MyPoint[] getPointsND() {
 
-	public void updateFrom(GeoPoint[] data) {
-		updatePointArray(data);
-		update();
-
+		return poly.getPointsND();
 	}
 
 	public int getPointsLength() {
@@ -182,6 +176,37 @@ public class AlgoLocusStroke extends AlgoElement
 
 	public ArrayList<MyPoint> getPoints() {
 		return poly.getPoints();
+	}
+
+	public void updateFrom(MyPoint[] data) {
+		int size = data.length;
+		points = new GeoPoint[size];
+		poly.setDefined(true);
+		poly.getPoints().clear();
+		for (int i = 0; i < size; i++) {
+			points[i] = new GeoPoint(cons, data[i].x, data[i].y, 1);
+			poly.getPoints().add(data[i]);
+		}
+		updateInput();
+		getOutput(0).update();
+	}
+
+	public void updateInput() {
+
+		input = new GeoElement[points.length + 1];
+		for (int i = 0; i < points.length; i++) {
+			input[i] = (GeoElement) points[i];
+		}
+
+		input[points.length] = new GeoBoolean(cons, true); // dummy to
+															// force
+															// PolyLine[...,
+															// true]
+
+		// set dependencies
+		for (int i = 0; i < input.length; i++) {
+			input[i].addAlgorithm(this);
+		}
 	}
 
 }

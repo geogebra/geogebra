@@ -5,8 +5,6 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoLocusStroke;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -93,14 +91,14 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * @return the definitng points
 	 */
-	public GeoPointND[] getPointsND() {
-		if (getParentAlgorithm() instanceof AlgoLocusStroke) {
-			return ((AlgoLocusStroke) getParentAlgorithm()).getPointsND();
-		}
-		GeoPointND[] pts = new GeoPointND[getPoints().size()];
+	public MyPoint[] getPointsND() {
+		// if (getParentAlgorithm() instanceof AlgoLocusStroke) {
+		// return ((AlgoLocusStroke) getParentAlgorithm()).getPointsND();
+		// }
+		MyPoint[] pts = new MyPoint[getPoints().size()];
 		int i = 0;
 		for (MyPoint pt : getPoints()) {
-			pts[i++] = new GeoPoint(cons, pt.x, pt.y, 1);
+			pts[i++] = pt;
 		}
 		return pts;
 	}

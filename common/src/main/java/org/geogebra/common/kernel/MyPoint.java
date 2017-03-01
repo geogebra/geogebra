@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.MyMath;
@@ -242,5 +243,28 @@ public class MyPoint extends GPoint2D implements Point {
 
 	public MyPoint copy() {
 		return new MyPoint(x, y, segmentType);
+	}
+
+	public boolean isDefined() {
+		return MyDouble.isFinite(x);
+	}
+
+	public double getInhomX() {
+		return x;
+	}
+
+	public double getInhomY() {
+		return y;
+	}
+
+	public void setCoords(double d, double e, int i) {
+		x = d;
+		y = e;
+
+	}
+
+	public void setUndefined() {
+		x = java.lang.Double.NaN;
+
 	}
 }

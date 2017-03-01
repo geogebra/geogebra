@@ -161,8 +161,27 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	public void updateFrom(GeoPoint[] data) {
 
 		updatePointArray(data);
+		updateInput();
 		update();
 
+	}
+
+	public void updateInput() {
+
+		input = new GeoElement[points.length + 1];
+		for (int i = 0; i < points.length; i++) {
+			input[i] = (GeoElement) points[i];
+		}
+
+		input[points.length] = new GeoBoolean(cons, true); // dummy to
+															// force
+															// PolyLine[...,
+															// true]
+
+		// set dependencies
+		for (int i = 0; i < input.length; i++) {
+			input[i].addAlgorithm(this);
+		}
 	}
 
 	public int getPointsLength() {
