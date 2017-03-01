@@ -1726,9 +1726,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (tmpWillingDirection == null) {
 			tmpWillingDirection = new Coords(4);
 		}
+		boolean hadWillingCoords;
 		if (hasWillingCoords()) {
+			hadWillingCoords = true;
 			tmpWillingCoords.set(getWillingCoords());
 		} else {
+			hadWillingCoords = false;
 			tmpWillingCoords.set(coordsOld);
 		}
 		if (hasWillingDirection()) {
@@ -1748,7 +1751,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			setWillingDirection(tmpWillingDirection);
 		}
 
-		setWillingCoords(tmpWillingCoords);
+		if (hadWillingCoords) {
+			setWillingCoords(tmpWillingCoords);
+		}
 
 		setCoords(coordsOld, false);
 
