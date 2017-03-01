@@ -19,7 +19,6 @@ package org.apache.commons.math3.random;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * <p>This class provides a stable normalized random generator. It samples from a stable

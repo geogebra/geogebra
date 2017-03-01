@@ -18,8 +18,6 @@ package org.apache.commons.math3.random;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.FastMath;
-
 
 /** This class implements a powerful pseudo-random number generator
  * developed by Makoto Matsumoto and Takuji Nishimura during

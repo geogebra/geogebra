@@ -18,6 +18,7 @@
 package org.apache.commons.math3.util;
 
 import java.util.NoSuchElementException;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;

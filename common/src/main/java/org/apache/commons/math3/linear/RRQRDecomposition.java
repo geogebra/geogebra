@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * Calculates the rank-revealing QR-decomposition of a matrix, with column pivoting.
  * <p>The rank-revealing QR-decomposition of a matrix A consists of three matrices Q,

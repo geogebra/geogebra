@@ -18,8 +18,6 @@ package org.apache.commons.math3.random;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.FastMath;
-
 
 /** This abstract class implements the WELL class of pseudo-random number generator
  * from Fran&ccedil;ois Panneton, Pierre L'Ecuyer and Makoto Matsumoto.

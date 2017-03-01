@@ -17,8 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * Calculates the rectangular Cholesky decomposition of a matrix.
  * <p>The rectangular Cholesky decomposition of a real symmetric positive

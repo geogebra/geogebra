@@ -19,8 +19,6 @@ package org.apache.commons.math3.random;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * <a href="http://burtleburtle.net/bob/rand/isaacafa.html">
  *  ISAAC: a fast cryptographic pseudo-random number generator</a>

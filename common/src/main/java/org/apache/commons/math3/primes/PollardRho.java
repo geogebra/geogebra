@@ -19,8 +19,6 @@ package org.apache.commons.math3.primes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * Implementation of the Pollard's rho factorization algorithm.
  * @since 3.2

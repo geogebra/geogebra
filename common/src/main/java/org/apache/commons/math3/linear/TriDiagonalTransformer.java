@@ -19,8 +19,6 @@ package org.apache.commons.math3.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.util.FastMath;
-
 
 /**
  * Class transforming a symmetrical matrix to tridiagonal shape.

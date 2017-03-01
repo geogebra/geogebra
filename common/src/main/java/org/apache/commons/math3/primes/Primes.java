@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math3.primes;
 
+import java.util.List;
+
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-
-import java.util.List;
 
 
 /**

@@ -17,6 +17,7 @@
 package org.apache.commons.math3.random;
 
 import java.util.Random;
+
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
 /**

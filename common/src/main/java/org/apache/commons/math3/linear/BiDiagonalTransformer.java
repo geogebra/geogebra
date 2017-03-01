@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.linear;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * Class transforming any matrix to bi-diagonal shape.
  * <p>Any m &times; n matrix A can be written as the product of three matrices:

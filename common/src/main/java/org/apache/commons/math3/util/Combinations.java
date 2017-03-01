@@ -16,13 +16,14 @@
  */
 package org.apache.commons.math3.util;
 
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.io.Serializable;
-import org.apache.commons.math3.exception.MathInternalError;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**

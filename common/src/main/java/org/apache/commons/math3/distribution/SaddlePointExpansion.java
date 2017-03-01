@@ -17,7 +17,6 @@
 package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /**

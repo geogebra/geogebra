@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math3.special;
 
-import org.apache.commons.math3.util.FastMath;
-
 /**
  * This is a utility class that provides computation methods related to the
  * error functions.
