@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
-public class ModeDelete {
+public class ModeDeleteLocus extends ModeDelete {
 	private EuclidianView view;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
@@ -33,13 +33,16 @@ public class ModeDelete {
 	private ArrayList<GeoPointND[]> newDataAndRealPoint = new ArrayList<GeoPointND[]>();
 	private AlgorithmSet as = null;
 
-	public ModeDelete(EuclidianView view) {
+	public ModeDeleteLocus(EuclidianView view) {
+		super(view);
 		this.ec = view.getEuclidianController();
 		this.view = view;
 		this.interPoints = new ArrayList<GPoint2D>();
 	}
 
 	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
+
+	@Override
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -120,7 +123,7 @@ public class ModeDelete {
 								// get intersection point
 								interPoints.clear();
 								interPoints = getAllIntersectionPoint(
-											dataPoints[i - 1], dataPoints[i],
+										dataPoints[i - 1], dataPoints[i],
 											rect);
 								if (!interPoints.isEmpty()
 										&& interPoints.size() == 1) {
@@ -223,8 +226,7 @@ public class ModeDelete {
 				realPoints.length);
 		int i = 1;
 		while (i < dataPoints.length) {
-			if (!dataPoints[i].isDefined()
-					&& !dataPoints[i - 1].isDefined()) {
+			if (!dataPoints[i].isDefined() && !dataPoints[i - 1].isDefined()) {
 				i++;
 			} else {
 				dataPointList.add(dataPoints[i - 1]);
@@ -317,6 +319,7 @@ public class ModeDelete {
 	 *            eraser
 	 * @return intersection point with top of rectangle (if there is any)
 	 */
+	@Override
 	public GPoint2D getTopIntersectionPoint(GeoPointND point1,
 			GeoPointND point2,
 			GRectangle rectangle) {
@@ -336,6 +339,7 @@ public class ModeDelete {
 	 *            eraser
 	 * @return intersection point with bottom of rectangle (if there is any)
 	 */
+	@Override
 	public GPoint2D getBottomIntersectionPoint(GeoPointND point1,
 			GeoPointND point2, GRectangle rectangle) {
 		// Bottom line
@@ -355,6 +359,7 @@ public class ModeDelete {
 	 *            eraser
 	 * @return intersection point with left side of rectangle (if there is any)
 	 */
+	@Override
 	public GPoint2D getLeftIntersectionPoint(GeoPointND point1,
 			GeoPointND point2, GRectangle rectangle) {
 		// Left side
@@ -373,6 +378,7 @@ public class ModeDelete {
 	 *            eraser
 	 * @return intersection point with right side of rectangle (if there is any)
 	 */
+	@Override
 	public GPoint2D getRightIntersectionPoint(GeoPointND point1,
 			GeoPointND point2, GRectangle rectangle) {
 		// Right side
@@ -395,6 +401,7 @@ public class ModeDelete {
 	 *            eraser
 	 * @return list of intersection points
 	 */
+	@Override
 	public ArrayList<GPoint2D> getAllIntersectionPoint(GeoPointND point1,
 			GeoPointND point2,
 			GRectangle rectangle) {
@@ -439,6 +446,7 @@ public class ModeDelete {
 	 *            end coord of end point of second segment
 	 * @return intersection point
 	 */
+	@Override
 	public GPoint2D getIntersectionPoint(GeoPointND point1, GeoPointND point2,
 			double startPointX, double startPointY, double endPointX,
 			double endPointY) {
@@ -526,6 +534,7 @@ public class ModeDelete {
 		return coords;
 	}
 
+	@Override
 	public void mousePressed(PointerEventType type) {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;
@@ -549,6 +558,7 @@ public class ModeDelete {
 		}
 	}
 
+	@Override
 	public boolean process(Hits hits, boolean control,
 			boolean selPreview) {
 		if (hits.isEmpty() || this.penDeleteMode) {
@@ -611,8 +621,7 @@ public class ModeDelete {
 								// get intersection point
 								interPoints.clear();
 								interPoints = getAllIntersectionPoint(
-										dataPoints[i - 1],
-										dataPoints[i], rect);
+										dataPoints[i - 1], dataPoints[i], rect);
 								// one intersection point
 								if (!interPoints.isEmpty()
 										&& interPoints.size() == 1) {
@@ -654,8 +663,8 @@ public class ModeDelete {
 						// eraser is between the points of segment
 						else {
 							if (i < dataPoints.length - 1 &&
-							  dataPoints[i].isDefined() && 
-							  dataPoints[i + 1].isDefined()) {
+									dataPoints[i].isDefined()
+									&& dataPoints[i + 1].isDefined()) {
 								i = handleEraserBetweenPointsOfSegment(
 										dataPoints, realPoints, i);
 								if (newDataAndRealPoint != null

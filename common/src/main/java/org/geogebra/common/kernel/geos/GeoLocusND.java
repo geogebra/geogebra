@@ -84,7 +84,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			defined = locus.defined;
 
 			myPointList.clear();
-			myPointList.addAll(locus.myPointList);
+			for (MyPoint pt : locus.myPointList) {
+				myPointList.add((T) pt.copy());
+			}
 		}
 	}
 

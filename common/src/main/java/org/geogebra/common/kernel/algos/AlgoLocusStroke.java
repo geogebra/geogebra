@@ -12,29 +12,31 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPenStroke;
+import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Creates a PolyLine from a given list of points or point array.
  * 
  * @author Michael Borcherds
  */
-public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
+public class AlgoLocusStroke extends AlgoElement
+		implements AlgoStrokeInterface {
 
 	protected GeoPointND[] points; // input
-	protected GeoPolyLine poly; // output
+	protected GeoLocus poly; // output
 
 	/**
 	 * @param cons
@@ -48,14 +50,15 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	 */
 
 
-	public AlgoPenStroke(Construction cons, GeoPointND[] points) {
+	public AlgoLocusStroke(Construction cons, GeoPointND[] points) {
 		super(cons);
-		this.points = points;
+		poly = new GeoLocusStroke(this.cons);
+		updatePointArray(points);
 
 		// Log.debug(penStroke);
 
 		// poly = new GeoPolygon(cons, points);
-		poly = new GeoPenStroke(this.cons, this.points);
+
 
 		// compute polygon points
 		compute();
@@ -86,17 +89,21 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	 * 
 	 * @param pointList
 	 */
-	private void updatePointArray(GeoPoint[] data) {
+	private void updatePointArray(GeoPointND[] data) {
 		// check if we have a point list
-
 
 		// create new points array
 		int size = data.length;
 		points = new GeoPoint[size];
+		poly.setDefined(true);
+		poly.getPoints().clear();
 		for (int i = 0; i < size; i++) {
 			points[i] = data[i];
+			poly.getPoints().add(new MyPoint(points[i].getInhomX(),
+					points[i].getInhomY(),
+					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 		}
-		poly.setPoints(points);
+
 
 	}
 
@@ -134,13 +141,6 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 		getOutput(0).update();
 	}
 
-	public GeoPolyLine getPoly() {
-		return poly;
-	}
-
-	public GeoPointND[] getPoints() {
-		return points;
-	}
 
 
 	@Override
@@ -148,7 +148,6 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 
 
 		// compute area
-		poly.calcLength();
 	}
 
 
@@ -164,7 +163,6 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	}
 
 	public void updateFrom(GeoPoint[] data) {
-
 		updatePointArray(data);
 		update();
 
@@ -176,6 +174,10 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 
 	public GeoPoint getPointCopy(int i) {
 		return (GeoPoint) points[i].copyInternal(cons);
+	}
+
+	public ArrayList<MyPoint> getPoints() {
+		return poly.getPoints();
 	}
 
 }

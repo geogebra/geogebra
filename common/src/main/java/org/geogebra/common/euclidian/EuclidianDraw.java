@@ -138,6 +138,14 @@ public class EuclidianDraw {
 			break;
 
 		case PENSTROKE:
+			// TODO remove this when Feature.PEN_IS_LOCUS is removed
+			if (geo instanceof GeoLocusNDInterface) {
+				d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus(),
+						CoordSys.XOY);
+			} else {
+				d = new DrawPolyLine(ev, (GeoPolyLine) geo);
+			}
+			break;
 		case POLYLINE:
 		case POLYLINE3D:
 			d = new DrawPolyLine(ev, (GeoPolyLine) geo);

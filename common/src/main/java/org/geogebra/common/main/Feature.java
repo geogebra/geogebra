@@ -160,6 +160,8 @@ public enum Feature {
 	DYNAMIC_STYLEBAR,
 
 	/** MOW-29 */
-	MOW_TOOLBAR
+	MOW_TOOLBAR,
+
+	PEN_IS_LOCUS
 
 }

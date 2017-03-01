@@ -36,6 +36,7 @@ import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
+import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -474,7 +475,8 @@ public abstract class EuclidianController {
 
 	ModeDelete getDeleteMode() {
 		if (deleteMode == null && view != null) {
-			deleteMode = new ModeDelete(view);
+			deleteMode = view.getApplication().has(Feature.PEN_IS_LOCUS)
+					? new ModeDeleteLocus(view) : new ModeDelete(view);
 		}
 		return deleteMode;
 	}

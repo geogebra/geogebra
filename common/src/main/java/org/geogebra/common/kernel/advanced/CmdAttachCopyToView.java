@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -88,7 +89,8 @@ public class CmdAttachCopyToView extends CommandProcessor {
 
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoPolyLine()
-						|| arg[0].isGeoList()) {
+						|| arg[0].isGeoList()
+						|| arg[0] instanceof GeoLocusStroke) {
 
 					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,
 							c.getLabel(), arg[0], (GeoNumberValue) arg[1],

@@ -147,4 +147,9 @@ public class MyPoint3D extends MyPoint {
 				(1 - t) * y + t * point2.y, (1 - t) * z + t * point2.getZ(),
 				SegmentType.MOVE_TO);
 	}
+
+	@Override
+	public MyPoint copy() {
+		return new MyPoint3D(x, y, z, getSegmentType());
+	}
 }

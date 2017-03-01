@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -852,10 +853,15 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] PolyLine(String label, GeoPointND[] P,
 			boolean penStroke) {
-		AlgoElement algo = penStroke ? new AlgoPenStroke(cons, P)
+		AlgoElement algo = penStroke ? getStrokeAlgo(P)
 				: new AlgoPolyLine(cons, P, null);
 		algo.getOutput(0).setLabel(label);
 		return algo.getOutput();
+	}
+
+	public AlgoElement getStrokeAlgo(GeoPointND[] p) {
+		return cons.getApplication().has(Feature.PEN_IS_LOCUS)
+				? new AlgoLocusStroke(cons, p) : new AlgoPenStroke(cons, p);
 	}
 
 	/**

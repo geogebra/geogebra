@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import org.geogebra.common.kernel.algos.AlgoPenStroke;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
+import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -313,7 +313,7 @@ public class EuclidianPen implements GTimerListener {
 
 		if (penGeo == null) {
 			lastAlgo = null;
-		} else if (penGeo.getParentAlgorithm() instanceof AlgoPenStroke) {
+		} else if (penGeo.getParentAlgorithm() instanceof AlgoStrokeInterface) {
 			lastAlgo = penGeo.getParentAlgorithm();
 		}
 	}
@@ -758,18 +758,18 @@ public class EuclidianPen implements GTimerListener {
 
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
+			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
+			int ptsLength = algo.getPointsLength();
 
-			GeoPointND[] pts = getAlgoPenStroke(lastAlgo).getPointsND();
+			newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
 
-			newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
-
-			for (int i = 0; i < pts.length; i++) {
-				newPts[i] = (GeoPoint) pts[i].copyInternal(cons);
+			for (int i = 0; i < ptsLength; i++) {
+				newPts[i] = algo.getPointCopy(i);
 			}
 
-			newPts[pts.length] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
+			newPts[ptsLength] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
 
-			offset = pts.length + 1;
+			offset = ptsLength + 1;
 		}
 
 		Iterator<GPoint> it = penPoints2.iterator();
@@ -784,7 +784,9 @@ public class EuclidianPen implements GTimerListener {
 
 		AlgoElement algo;
 		// don't set label
-		AlgoPenStroke newPolyLine = new AlgoPenStroke(cons, newPts);
+		Kernel kernelA = app.getKernel();
+		AlgoElement newPolyLine = kernelA.getAlgoDispatcher()
+				.getStrokeAlgo(newPts);
 		if (!absoluteScreenPosition) {
 
 			// set label
@@ -795,7 +797,7 @@ public class EuclidianPen implements GTimerListener {
 
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
-			Kernel kernelA = app.getKernel();
+
 
 			GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
 			GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
@@ -824,7 +826,7 @@ public class EuclidianPen implements GTimerListener {
 		newPolyLine.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
 
 		if (lastAlgo == null) {
-			// lastPolyLine = new AlgoPenStroke(cons, null, newPts);
+			// lastPolyLine = new AlgoStrokeInterface(cons, null, newPts);
 		} else {
 			try {
 				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
@@ -840,7 +842,7 @@ public class EuclidianPen implements GTimerListener {
 
 		lastAlgo = algo;
 
-		GeoPolyLine poly = (GeoPolyLine) algo.getOutput(0);
+		GeoElement poly = algo.getOutput(0);
 
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
@@ -859,11 +861,11 @@ public class EuclidianPen implements GTimerListener {
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
-	private static AlgoPenStroke getAlgoPenStroke(AlgoElement al) {
-		if (al instanceof AlgoPenStroke) {
-			return (AlgoPenStroke) al;
+	private static AlgoStrokeInterface getAlgoStrokeInterface(AlgoElement al) {
+		if (al instanceof AlgoStrokeInterface) {
+			return (AlgoStrokeInterface) al;
 		}
-		return (AlgoPenStroke) al.getInput()[0].getParentAlgorithm();
+		return (AlgoStrokeInterface) al.getInput()[0].getParentAlgorithm();
 	}
 
 	// Return true if a shape was created, false otherwise

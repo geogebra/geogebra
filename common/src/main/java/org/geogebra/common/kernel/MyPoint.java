@@ -239,4 +239,8 @@ public class MyPoint extends GPoint2D implements Point {
 	public SegmentType getSegmentType() {
 		return segmentType;
 	}
+
+	public MyPoint copy() {
+		return new MyPoint(x, y, segmentType);
+	}
 }
