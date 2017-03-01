@@ -39,7 +39,11 @@ import java.io.Serializable;
  */
 abstract public class MathComponent implements Traversable, Inspectable, Serializable {
 
-    private MathContainer parent;
+    /**
+	 * MathComponent needs to implement serializable for Parcel (Android project)
+	 */
+	private static final long serialVersionUID = 1L;
+	private MathContainer parent;
 
     /**
      * Gets parent of this component.
