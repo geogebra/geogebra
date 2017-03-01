@@ -7032,6 +7032,7 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean moveObject(final Coords rwTransVec,
 			final Coords endPosition, final Coords viewDirection,
 			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
+		Log.debug(rwTransVec);
 		boolean movedGeo = false;
 		GeoElement geo = this;
 		// moveable geo

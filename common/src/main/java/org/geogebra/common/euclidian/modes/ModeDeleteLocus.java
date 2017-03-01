@@ -16,10 +16,10 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoPenStroke;
+import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPenStroke;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
@@ -75,38 +75,38 @@ public class ModeDeleteLocus extends ModeDelete {
 			if (view.getApplication().has(Feature.ERASER)
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
-			} else if (geo instanceof GeoPenStroke) {
-				GeoPenStroke gps = (GeoPenStroke) geo;
+			} else if (geo instanceof GeoLocusStroke) {
+				GeoLocusStroke gps = (GeoLocusStroke) geo;
 
 				// we need two arrays for the case that AlgoAttachCopyToView is
 				// involved
 				// the original points (dataPoints) are saved, but will be
 				// translated
 				// and everything by the algorithm so that the
-				// GeoPenStroke-output
+				// GeoLocusStroke-output
 				// holds the points which are really drawn (and should be used
 				// for
 				// hit detection).
 
-				GeoPointND[] realPoints = gps.getPoints();
+				GeoPointND[] realPoints = gps.getPointsND();
 				GeoPointND[] dataPoints;
 
 				if (geo.getParentAlgorithm() != null && (geo
 						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
 					AlgoElement ae = geo.getParentAlgorithm();
 					for (int i = 0; i < ae.getInput().length; i++) {
-						if (ae.getInput()[i] instanceof GeoPenStroke) {
-							gps = (GeoPenStroke) ae.getInput()[i];
+						if (ae.getInput()[i] instanceof GeoLocusStroke) {
+							gps = (GeoLocusStroke) ae.getInput()[i];
 						}
 					}
 				}
 
 				if (gps.getParentAlgorithm() != null
-						&& gps.getParentAlgorithm() instanceof AlgoPenStroke) {
-					dataPoints = ((AlgoPenStroke) gps.getParentAlgorithm())
-							.getPoints();
+						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
+					dataPoints = ((AlgoLocusStroke) gps.getParentAlgorithm())
+							.getPointsND();
 				} else {
-					dataPoints = gps.getPoints();
+					dataPoints = gps.getPointsND();
 				}
 
 				boolean hasVisiblePart = false;
@@ -304,7 +304,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		Iterator<GeoElement> it2 = h.iterator();
 		while (it2.hasNext()) {
 			GeoElement geo2 = it2.next();
-			if (geo2 instanceof GeoPenStroke) {
+			if (geo2 instanceof GeoLocusStroke) {
 				this.penDeleteMode = true;
 			}
 		}
@@ -541,16 +541,16 @@ public class ModeDeleteLocus extends ModeDelete {
 	}
 
 	private void updatePolyLineDataPoints(GeoPointND[] dataPoints,
-			GeoPenStroke gps) {
-		if (dataPoints.length != gps.getPoints().length) {
+			GeoLocusStroke gps) {
+		if (dataPoints.length != gps.getPoints().size()) {
 			if (gps.getParentAlgorithm() != null
-					&& gps.getParentAlgorithm() instanceof AlgoPenStroke) {
+					&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 				GeoPoint[] data = new GeoPoint[dataPoints.length];
 				for (int k = 0; k < dataPoints.length; k++) {
 					data[k] = (GeoPoint) dataPoints[k];
 				}
 
-				((AlgoPenStroke) gps.getParentAlgorithm())
+				((AlgoLocusStroke) gps.getParentAlgorithm())
 						.updateFrom(data);
 
 				gps.notifyUpdate();
@@ -568,9 +568,9 @@ public class ModeDeleteLocus extends ModeDelete {
 		if (ec.selGeos() == 1) {
 			GeoElement[] geos = ec.getSelectedGeos();
 			as = null;
-			// delete only parts of geoPenStroke, not the whole object
+			// delete only parts of GeoLocusStroke, not the whole object
 			// when eraser tool is used
-			if (geos[0] instanceof GeoPenStroke
+			if (geos[0] instanceof GeoLocusStroke
 					&& ec.getMode() == EuclidianConstants.MODE_ERASER) {
 				updatePenDeleteMode(hits);
 				int eventX = 0;
@@ -584,26 +584,26 @@ public class ModeDeleteLocus extends ModeDelete {
 				} else {
 					return false;
 				}
-				GeoPenStroke gps = (GeoPenStroke) geos[0];
-				GeoPointND[] realPoints = gps.getPoints();
+				GeoLocusStroke gps = (GeoLocusStroke) geos[0];
+				GeoPointND[] realPoints = gps.getPointsND();
 				GeoPointND[] dataPoints;
 
 				if (geos[0].getParentAlgorithm() != null && (geos[0]
 						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
 					AlgoElement ae = geos[0].getParentAlgorithm();
 					for (int i = 0; i < ae.getInput().length; i++) {
-						if (ae.getInput()[i] instanceof GeoPenStroke) {
-							gps = (GeoPenStroke) ae.getInput()[i];
+						if (ae.getInput()[i] instanceof GeoLocusStroke) {
+							gps = (GeoLocusStroke) ae.getInput()[i];
 						}
 					}
 				}
 				if (gps.getParentAlgorithm() != null
-						&& gps.getParentAlgorithm() instanceof AlgoPenStroke) {
-					dataPoints = ((AlgoPenStroke) gps
+						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
+					dataPoints = ((AlgoLocusStroke) gps
 							.getParentAlgorithm())
-							.getPoints();
+									.getPointsND();
 				} else {
-					dataPoints = gps.getPoints();
+					dataPoints = gps.getPointsND();
 				}
 
 				boolean hasVisiblePart = false;

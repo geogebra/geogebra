@@ -93,6 +93,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -7231,7 +7232,8 @@ public abstract class EuclidianController {
 					|| movedGeoElement.isGeoConic()
 					|| movedGeoElement.isGeoImage()
 					|| movedGeoElement.isGeoList()
-					|| movedGeoElement.isGeoVector()) {
+					|| movedGeoElement.isGeoVector()
+					|| movedGeoElement instanceof GeoLocusStroke) {
 				if (translateableGeos == null) {
 					translateableGeos = new ArrayList<GeoElement>();
 				} else {

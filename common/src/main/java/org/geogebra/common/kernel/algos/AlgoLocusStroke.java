@@ -60,8 +60,7 @@ public class AlgoLocusStroke extends AlgoElement
 		// poly = new GeoPolygon(cons, points);
 
 
-		// compute polygon points
-		compute();
+		// updatePointArray already covered compute
 
 		setInputOutput(); // for AlgoElement
 
@@ -146,7 +145,12 @@ public class AlgoLocusStroke extends AlgoElement
 	@Override
 	public void compute() {
 
-
+		poly.getPoints().clear();
+		for (int i = 0; i < points.length; i++) {
+			poly.getPoints().add(new MyPoint(points[i].getInhomX(),
+					points[i].getInhomY(),
+					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
+		}
 		// compute area
 	}
 
