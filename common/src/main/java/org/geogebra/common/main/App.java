@@ -4041,10 +4041,6 @@ public abstract class App implements UpdateSelection {
 		case AV_SINGLE_TAP_EDIT:
 			return prerelease || v6;
 
-		// MOB-904
-		case MOBILE_KEYBOARD_IN_POPUP:
-			return true;
-
 		case DATA_COLLECTION:
 			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
 				return true;

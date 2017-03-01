@@ -44,9 +44,6 @@ public enum Feature {
 
 	AV_DEFINITION_AND_VALUE,
 
-	/** MOB-904 */
-	MOBILE_KEYBOARD_IN_POPUP,
-
 	CONVEX_HULL_3D,
 
 	/** MOB-637 */
