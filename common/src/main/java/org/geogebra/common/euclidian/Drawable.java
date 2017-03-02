@@ -803,14 +803,14 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * method to handle corner drag of bounding box to resize geo
+	 * method to handle corner or side drag of bounding box to resize geo
 	 * 
 	 * @param e
 	 *            - mouse drag event
 	 * @param handler
 	 *            - which corner was dragged
 	 */
-	public void updateByBoundingBoxCorner(AbstractEvent e,
+	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
 		// do nothing here
 	}

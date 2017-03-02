@@ -616,12 +616,23 @@ public class DrawPolygon extends Drawable implements Previewable {
 		view.repaintView();
 	}
 
+	private boolean isCornerHandler(EuclidianBoundingBoxHandler handler) {
+		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
+				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
+				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
+				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
+	}
+
 	@Override
-	public void updateByBoundingBoxCorner(AbstractEvent e,
+	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
 		poly.setEuclidianVisible(false);
 		poly.updateRepaint();
-		updateFreePolygon(handler, e);
+		if (isCornerHandler(handler)) {
+			updateFreePolygonCorner(handler, e);
+		} else {
+			updateFreePolygonSide(handler, e);
+		}
 		view.setShapePolygon(prewPolygon);
 		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
@@ -661,10 +672,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 			switch (hitHandler) {
 			case BOTTOM_LEFT:
 			case TOP_LEFT:
+			case LEFT:
 				fixCornerX = getBoundingBox().getRectangle().getMaxX();
 				break;
 			case TOP_RIGHT:
 			case BOTTOM_RIGHT:
+			case RIGHT:
 				fixCornerX = getBoundingBox().getRectangle().getMinX();
 				break;
 			default:
@@ -675,10 +688,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 			switch (hitHandler) {
 			case TOP_LEFT:
 			case TOP_RIGHT:
+			case TOP:
 				fixCornerY = getBoundingBox().getRectangle().getMaxY();
 				break;
 			case BOTTOM_LEFT:
 			case BOTTOM_RIGHT:
+			case BOTTOM:
 				fixCornerY = getBoundingBox().getRectangle().getMinY();
 				break;
 			default:
@@ -698,14 +713,15 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	/**
-	 * update the coords of free polygon
+	 * update the coords of free polygon by dragging corner handler
 	 * 
 	 * @param hitHandler
 	 *            - handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updateFreePolygon(EuclidianBoundingBoxHandler hitHandler,
+	protected void updateFreePolygonCorner(
+			EuclidianBoundingBoxHandler hitHandler,
 			AbstractEvent event) {
 		double pointsX[] = new double[poly.getPointsLength()];
 		double pointsY[] = new double[poly.getPointsLength()];
@@ -766,6 +782,77 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		prewPolygon.reset();
 
+		prewPolygon.moveTo(pointsX[0], pointsY[0]);
+		for (int index = 1; index < pointsX.length; index++) {
+			prewPolygon.lineTo(pointsX[index], pointsY[index]);
+		}
+		prewPolygon.closePath();
+
+		getBoundingBox().setRectangle(prewPolygon.getBounds());
+	}
+
+	/**
+	 * update the coords of free polygon by dragging side handler
+	 * 
+	 * @param hitHandler
+	 *            - handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateFreePolygonSide(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
+		double pointsX[] = new double[poly.getPointsLength()];
+		double pointsY[] = new double[poly.getPointsLength()];
+
+		if (prewPolygon == null) {
+			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
+		}
+
+		fixCornerCoords(hitHandler);
+
+		if (!Double.isNaN(fixCornerX)) {
+			if (Double.isNaN(startDragDistX)) {
+				startDragDistX = fixCornerX - event.getX();
+			}
+			
+			int width = (int) (event.getX() - fixCornerX);
+			double[] currCoords = new double[6];
+			GPathIterator it = gp.getPathIterator(null);
+			int i = poly.getPointsLength();
+			while (!it.isDone() && i > 0) {
+				i--;
+				it.currentSegment(currCoords);
+				// left or right side was moved
+				pointsX[i] = fixCornerX
+							+ (Math.abs(currCoords[0] - fixCornerX)) * width
+									/ oldWidth;
+				pointsY[i] = currCoords[1];
+				it.next();
+			}
+		}
+
+		if (!Double.isNaN(fixCornerY)) {
+			if (Double.isNaN(startDragDistY)) {
+				startDragDistY = fixCornerY - event.getY();
+			}
+
+			int height = (int) (event.getY() - fixCornerY);
+			double[] currCoords = new double[6];
+			GPathIterator it = gp.getPathIterator(null);
+			int i = poly.getPointsLength();
+			while (!it.isDone() && i > 0) {
+				i--;
+				it.currentSegment(currCoords);
+				// bottom or top side was moved
+				pointsX[i] = currCoords[0];
+				pointsY[i] = fixCornerY
+							+ (Math.abs(currCoords[1] - fixCornerY)) * height
+									/ oldHeight;
+				it.next();
+			}
+		}
+
+		prewPolygon.reset();
 		prewPolygon.moveTo(pointsX[0], pointsY[0]);
 		for (int index = 1; index < pointsX.length; index++) {
 			prewPolygon.lineTo(pointsX[index], pointsY[index]);

@@ -7931,7 +7931,7 @@ public abstract class EuclidianController {
 			default:
 				break;
 			}
-			getResizedShape().updateByBoundingBoxCorner(event,
+			getResizedShape().updateByBoundingBoxResize(event,
 					view.getHitHandler());
 			stopCollectingMinorRepaints();
 			return;

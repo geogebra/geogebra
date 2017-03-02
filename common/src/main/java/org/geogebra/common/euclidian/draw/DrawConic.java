@@ -2203,7 +2203,7 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void updateByBoundingBoxCorner(AbstractEvent e,
+	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
 		conic.setEuclidianVisible(false);
 		conic.updateRepaint();
