@@ -13183,7 +13183,9 @@ namespace giac {
       std_matrix<gen> m; vecteur w;
       matrice2std_matrix_gen(M,m);
       mod_pcar(m,w,true);
-      return gen(w,_POLY1__VECT);
+      if (is_undef(b))
+	return gen(w,_POLY1__VECT);
+      return symb_horner(w,b);	
     }
     if (p.type==_MOD && (p._MODptr+1)->type==_INT_){
       gen mg=unmod(M);
@@ -13196,9 +13198,10 @@ namespace giac {
 	if (mod_pcar(M1,N,modulo,krylov,res,contextptr,false)){
 	  vecteur w;
 	  vector_int2vecteur(res,w);
-	  environment env;
-	  w=modularize(w,modulo,&env);
-	  return gen(w,_POLY1__VECT);
+	  w=*makemod(w,modulo)._VECTptr;
+	  if (is_undef(b))
+	    return gen(w,_POLY1__VECT);
+	  return symb_horner(w,b);	
 	}
       }
     }

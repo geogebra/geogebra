@@ -3228,38 +3228,43 @@ namespace giac {
 	    return undef;
 	  return res;
 	}
-	// find integers of the form a*x+b in [borne_inf,borne_sup]
-	gen n1=_floor(a*borne_inf+b,contextptr);
-	// n1=a*x+b -> x=(n1-b)/a
-	gen stepx,stepn;
-	if (is_positive(a,contextptr)){
-	  stepx=inv(a,contextptr);
-	  stepn=1;
+	if (is_inf(borne_inf) || is_inf(borne_sup)){
+	  *logptr(contextptr) << gettext("Floor definite integration: unable to handle infinite boundaries") << endl;
 	}
 	else {
-	  stepx=-inv(a,contextptr);
-	  stepn=-1;
-	}
-	gen cur=borne_inf,next=(n1+stepn-b)/a,res=0;
-	if (stepn==-1 && n1==a*borne_inf+b)
-	  n1 -= 1;
-	for (;is_greater(borne_sup,next,contextptr); cur=next,next+=stepx,n1+=stepn){
-	  tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
-	  res += _integrate(makesequence(tmp,x,cur,next),contextptr);
-#ifdef TIMEOUT
-	  control_c();
-#endif
-	  if (ctrl_c || interrupted) { 
-	    interrupted = true; ctrl_c=false;
-	    gensizeerr(gettext("Stopped by user interruption."),res);
-	    return res;
+	  // find integers of the form a*x+b in [borne_inf,borne_sup]
+	  gen n1=_floor(a*borne_inf+b,contextptr);
+	  // n1=a*x+b -> x=(n1-b)/a
+	  gen stepx,stepn;
+	  if (is_positive(a,contextptr)){
+	    stepx=inv(a,contextptr);
+	    stepn=1;
 	  }
-	  if (is_undef(res))
-	    return res;
+	  else {
+	    stepx=-inv(a,contextptr);
+	    stepn=-1;
+	  }
+	  gen cur=borne_inf,next=(n1+stepn-b)/a,res=0;
+	  if (stepn==-1 && n1==a*borne_inf+b)
+	    n1 -= 1;
+	  for (;is_greater(borne_sup,next,contextptr); cur=next,next+=stepx,n1+=stepn){
+	    tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
+	    res += _integrate(makesequence(tmp,x,cur,next),contextptr);
+#ifdef TIMEOUT
+	    control_c();
+#endif
+	    if (ctrl_c || interrupted) { 
+	      interrupted = true; ctrl_c=false;
+	      gensizeerr(gettext("Stopped by user interruption."),res);
+	      return res;
+	    }
+	    if (is_undef(res))
+	      return res;
+	  }
+	  tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
+	  res += _integrate(makesequence(tmp,x,cur,borne_sup),contextptr);
+	  return ck_int_numerically(v0orig,x,aorig,borig,res,contextptr);
 	}
-	tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
-	res += _integrate(makesequence(tmp,x,cur,borne_sup),contextptr);
-	return ck_int_numerically(v0orig,x,aorig,borig,res,contextptr);
       }
       v[0]=when2piecewise(v[0],contextptr);
       vecteur lpiece(lop(v[0],at_piecewise));
