@@ -53,7 +53,7 @@ public class FunctionKeyboardFactory {
         addInputButton(row, "{");
         addInputButton(row, "}");
         addInputButton(row, ";");
-        addInputButton(row, ":=");
+        addInputButton(row, ":=", "\u2254");
 
         row = functionKeyboard.nextRow(9.2f);
         addInputButton(row, "ln", width);
@@ -62,7 +62,7 @@ public class FunctionKeyboardFactory {
         addButton(row, createEmptySpace(0.2f));
         addInputCommandButton(row, "d/dx", "Derivative", 1.0f);
         addConstantInputCommandButton(row, RESOURCE_INTEGRAL, "Integral", 1.0f);
-        addInputButton(row, "i");
+        addInputButton(row, "i", "\u03af");
         addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
 
         row = functionKeyboard.nextRow(9.2f);
