@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
-import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.main.Feature;
@@ -32,7 +31,6 @@ public class ModeDeleteLocus extends ModeDelete {
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
 	private ArrayList<MyPoint[]> newDataAndRealPoint = new ArrayList<MyPoint[]>();
-	private AlgorithmSet as = null;
 
 	public ModeDeleteLocus(EuclidianView view) {
 		super(view);
@@ -67,7 +65,7 @@ public class ModeDeleteLocus extends ModeDelete {
 
 		Iterator<GeoElement> it = h.iterator();
 
-		as = null;
+		resetAlgoSet();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			// delete tool should delete the object for dragging
@@ -213,9 +211,17 @@ public class ModeDeleteLocus extends ModeDelete {
 		}
 
 		ec.deleteAll(h);
-		if (as != null) {
-			as.updateAll();
-		}
+		updateAlgoSet();
+	}
+
+	private void updateAlgoSet() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void resetAlgoSet() {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void deleteUnnecessaryUndefPoints(MyPoint[] dataPoints,
@@ -571,7 +577,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		ec.addSelectedGeo(hits, 1, false, selPreview);
 		if (ec.selGeos() == 1) {
 			GeoElement[] geos = ec.getSelectedGeos();
-			as = null;
+			resetAlgoSet();
 			// delete only parts of GeoLocusStroke, not the whole object
 			// when eraser tool is used
 			if (geos[0] instanceof GeoLocusStroke
@@ -704,9 +710,7 @@ public class ModeDeleteLocus extends ModeDelete {
 					// remove this Stroke
 					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
 				}
-				if (as != null) {
-					as.updateAll();
-				}
+				updateAlgoSet();
 			}
 			// delete this object
 			else {

@@ -625,7 +625,7 @@ public class EquationSolver implements EquationSolverInterface {
 					}
 					// System.out.println("Polish newtonRaphson: " + root);
 				}
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				// Application.debug("Polish FAILED: ");
 				// polishing failed: maybe we have an extremum here
 				// try to find a local extremum
@@ -644,7 +644,7 @@ public class EquationSolver implements EquationSolverInterface {
 					}
 					// System.out.println(" find extremum successfull: " +
 					// root);
-				} catch (Exception ex) {
+				} catch (RuntimeException ex) {
 					Log.debug(ex.getMessage());
 				}
 			}
