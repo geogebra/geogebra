@@ -1930,7 +1930,7 @@ var __giac = [ {},
 { cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
 { cat:"Determinant", cmd:"Determinant[{{1,-1/2,1/2},{0,(sqrt(11))/2,-(sqrt(11))/2},{1/2,-3/2,5/2}}]", result:"sqrt(11)/2" },
 { cat:"SolveODE", cmd:"SolveODE[y' sin(x)=y ln(y)]", result:"y = \u212F^(sqrt(-cos(x)\u00B2 + 1) / (cos(x) + 1) / c_0)|OR|y = \u212F^(sqrt(-cos(x)² + 1) \u212F^(-c_0) / (cos(x) + 1))" },
-{ cat:"SolveTrig", cmd:"Solve[(sin(x) * exp(x)) + (cos(x) * exp(x))]", result:"{x = 2n_11 \u03C0 - 1 / 4 \u03C0, x = 2n_12 \u03C0 + 3 / 4 \u03C0}" },
+{ cat:"SolveTrig", cmd:"Solve[(sin(x) * exp(x)) + (cos(x) * exp(x))]", result:"{x = 2n_119 \u03C0 - 1 / 4 \u03C0, x = 2n_120 \u03C0 + 3 / 4 \u03C0}" },
 { cat:"SolveTrig", cmd:"Solve[Factor[(sin(x) * exp(x)) + (cos(x) * exp(x))]]", result:"{x = n_0 \u03C0 - 1 / 4 \u03C0}" },
 { cat:"Angle", cmd:"Angle[Vector[(-1,2)],Vector[(t,5)]]", result:"acos((-t + 10) sqrt(t\u00B2 + 25) / (sqrt(5) t\u00B2 + 25sqrt(5)))", notes:"GGB-988" },
 { cat:"Angle", cmd:"Angle[Vector[(2,-1)],Vector[(5,t)]]", result:"acos((-t + 10) sqrt(t\u00B2 + 25) / (sqrt(5) t\u00B2 + 25sqrt(5)))", notes:"GGB-988" },
@@ -1996,7 +1996,7 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric[arg(+1.56+1.22 \u03AF )]", result:"0.6637003813744", round:"0.66" },
 { cat:"Numeric", cmd:"Numeric[arg(+1.56-1.22 \u03AF )]", result:"-0.6637003813744", round:"-0.66" },
 { cat:"Numeric", cmd:"Numeric[arg(-1.56-1.22 \u03AF )]", result:"-2.477892272215", round:"-2.48" },
-
+{ cat:"Angle", cmd:"Angle[((0, 0)),(((-9) / 32, 9sqrt(3) / 32)),((0, 3sqrt(3) / 8))]", result:"pi/2" },
 
 // JSONEND
 //{ 
