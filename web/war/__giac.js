@@ -1996,7 +1996,7 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric[arg(+1.56+1.22 \u03AF )]", result:"0.6637003813744", round:"0.66" },
 { cat:"Numeric", cmd:"Numeric[arg(+1.56-1.22 \u03AF )]", result:"-0.6637003813744", round:"-0.66" },
 { cat:"Numeric", cmd:"Numeric[arg(-1.56-1.22 \u03AF )]", result:"-2.477892272215", round:"-2.48" },
-{ cat:"Angle", cmd:"Angle[((0, 0)),(((-9) / 32, 9sqrt(3) / 32)),((0, 3sqrt(3) / 8))]", result:"pi/2" },
+{ cat:"Angle", cmd:"Angle[((0, 0)),(((-9) / 32, 9sqrt(3) / 32)),((0, 3sqrt(3) / 8))]", result:"1 / 2 \u03C0" },
 
 // JSONEND
 //{ 
