@@ -30,7 +30,7 @@ class Util {
     }
 
     static WeightedButton createTranslateInputButton(String translate, String input, float weight) {
-        return new WeightedButtonImpl(translate, ResourceType.TRANSLATION_KEY, input, ActionType.INPUT, weight);
+        return new WeightedButtonImpl(translate, ResourceType.TRANSLATION_MENU_KEY, input, ActionType.INPUT, weight);
     }
 
     static WeightedButton createCustomConstantButton(String resource, String action, float weight) {
@@ -88,7 +88,7 @@ class Util {
     }
 
     static void addTranslateInputCommandButton(RowImpl row, String translateName, String translateInput, float weight) {
-        row.addButton(new WeightedButtonImpl(translateName, ResourceType.TRANSLATION_KEY, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
+        row.addButton(new WeightedButtonImpl(translateName, ResourceType.TRANSLATION_MENU_KEY, translateInput, ActionType.INPUT_TRANSLATE_MENU, weight));
     }
 
     static void addInputCommandButton(RowImpl row, String name, String translateInput, float weight) {

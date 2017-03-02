@@ -11,9 +11,14 @@ public enum ResourceType {
     TEXT,
 
     /**
-     * The resource is a translation key.
+     * The resource is a translation key (menu table).
      */
-    TRANSLATION_KEY,
+    TRANSLATION_MENU_KEY,
+
+    /**
+     * The resource is a translation key (command table).
+     */
+    TRANSLATION_COMMAND_KEY,
 
     /**
      * The resource is specified in the {@link ButtonConstants} class,
