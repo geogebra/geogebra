@@ -27,14 +27,21 @@
  */
 package com.himamis.retex.editor.share.meta;
 
+import java.io.Serializable;
+
 /**
  * Meta Model of Math Component.
  *
  * @author Bea Petrovicova
  */
-public class MetaComponent {
+public class MetaComponent implements Serializable{
 
-    private String name;
+    /**
+	 * MetaComponent needs to implement Serializable to be parcelable (android)
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String name;
     private String casName;
     private String texName;
     private char key;
