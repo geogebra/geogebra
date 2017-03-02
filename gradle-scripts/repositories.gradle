@@ -26,7 +26,6 @@ allprojects {
     repositories {
         maven { url 'http://dev.geogebra.org/maven2' }
         maven { url 'http://dl.bintray.com/android/android-tools' }
-        maven { url 'https://jitpack.io' }
         mavenCentral()
         jcenter()
     }
