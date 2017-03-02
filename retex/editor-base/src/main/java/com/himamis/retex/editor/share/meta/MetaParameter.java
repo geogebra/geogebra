@@ -27,7 +27,14 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-public class MetaParameter {
+import java.io.Serializable;
+
+public class MetaParameter implements Serializable{
+
+    /**
+	 * MetaParameter needs to implement Serializable to be parcelable (android)
+	 */
+	private static final long serialVersionUID = 1L;
 
     private String name;
     private String desc;
