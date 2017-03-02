@@ -17,6 +17,10 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -142,6 +146,20 @@ public class PopupMenuButtonW extends MyCJButton
 				handleClick();
 			}
 		});
+	
+		addDomHandler(new TouchStartHandler() {
+			@Override
+			public void onTouchStart(TouchStartEvent event) {
+				event.stopPropagation();
+			}
+		}, TouchStartEvent.getType());
+
+		addDomHandler(new TouchEndHandler() {
+			@Override
+			public void onTouchEnd(TouchEndEvent event) {
+				event.stopPropagation();
+			}
+		}, TouchEndEvent.getType());
 
 		if (hasTable) {
 			createSelectionTable(data, rows, columns, mode, selected);
