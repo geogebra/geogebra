@@ -637,8 +637,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	public void attachToolbar(AppW app1) {
 		if (app1.has(Feature.MOW_TOOLBAR)) {
-			mowToolbar = new MOWToolbar(app1);
-			insert(mowToolbar, 0);
+			attachMOWToolbar(app1);
 			return;
 		}
 		// reusing old toolbar is probably a good decision
@@ -648,12 +647,23 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			ggwToolBar.updateClassname(app1.getToolbarPosition());
 		}
+
 		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
 			add(ggwToolBar);
 		} else {
 			insert(ggwToolBar, 0);
 		}
 
+
+	}
+
+	private void attachMOWToolbar(AppW app1) {
+		mowToolbar = new MOWToolbar(app1);
+		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
+			add(mowToolbar);
+		} else {
+			insert(mowToolbar, 0);
+		}
 
 	}
 

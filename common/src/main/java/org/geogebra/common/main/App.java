@@ -4015,7 +4015,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOW-29
 		case MOW_TOOLBAR:
-			return false;// prerelease;
+			return canary;// prerelease;
 
 		// MOB-270
 		case ACRA:
