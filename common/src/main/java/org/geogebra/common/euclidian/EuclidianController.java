@@ -6796,6 +6796,14 @@ public abstract class EuclidianController {
 					case TOP_RIGHT:
 						view.setCursor(EuclidianCursor.RESIZE_NESW);
 						break;
+					case TOP:
+					case BOTTOM:
+						view.setCursor(EuclidianCursor.RESIZE_NS);
+						break;
+					case LEFT:
+					case RIGHT:
+						view.setCursor(EuclidianCursor.RESIZE_EW);
+						break;
 					default:
 						break;
 					}
@@ -7912,6 +7920,14 @@ public abstract class EuclidianController {
 			case TOP_RIGHT:
 				view.setCursor(EuclidianCursor.RESIZE_NESW);
 				break;
+			case TOP:
+			case BOTTOM:
+				view.setCursor(EuclidianCursor.RESIZE_NS);
+				break;
+			case LEFT:
+			case RIGHT:
+				view.setCursor(EuclidianCursor.RESIZE_EW);
+				break;
 			default:
 				break;
 			}
@@ -8251,6 +8267,14 @@ public abstract class EuclidianController {
 			case TOP_RIGHT:
 				view.setCursor(EuclidianCursor.RESIZE_NESW);
 				break;
+			case TOP:
+			case BOTTOM:
+				view.setCursor(EuclidianCursor.RESIZE_NS);
+				break;
+			case LEFT:
+			case RIGHT:
+				view.setCursor(EuclidianCursor.RESIZE_EW);
+				break;
 			default:
 				break;
 			}
@@ -8414,6 +8438,14 @@ public abstract class EuclidianController {
 						case BOTTOM_LEFT:
 						case TOP_RIGHT:
 							view.setCursor(EuclidianCursor.RESIZE_NESW);
+							break;
+						case TOP:
+						case BOTTOM:
+							view.setCursor(EuclidianCursor.RESIZE_NS);
+							break;
+						case LEFT:
+						case RIGHT:
+							view.setCursor(EuclidianCursor.RESIZE_EW);
 							break;
 						default:
 							break;

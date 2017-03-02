@@ -24,6 +24,10 @@ public enum EuclidianCursor {
 	RESIZE_NESW,
 	/** nwse resize */
 	RESIZE_NWSE,
+	/** ew resize */
+	RESIZE_EW,
+	/** ns resize */
+	RESIZE_NS,
 	/** Eraser */
 	ERASER,
 	/** Pen */

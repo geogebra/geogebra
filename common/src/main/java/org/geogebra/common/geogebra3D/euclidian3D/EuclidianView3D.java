@@ -3127,6 +3127,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		case RESIZE_NWSE:
 			cursor = EuclidianCursor.RESIZE_NWSE;
 			break;
+		case RESIZE_EW:
+			cursor = EuclidianCursor.RESIZE_EW;
+		case RESIZE_NS:
+			cursor = EuclidianCursor.RESIZE_NS;
 		case TRANSPARENT:
 			setTransparentCursor();
 			return;

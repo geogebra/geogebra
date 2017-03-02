@@ -544,7 +544,14 @@ public abstract class Drawable extends DrawableND {
 			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
 		case 3:
 			return EuclidianBoundingBoxHandler.TOP_RIGHT;
-
+		case 4:
+			return EuclidianBoundingBoxHandler.TOP;
+		case 5:
+			return EuclidianBoundingBoxHandler.LEFT;
+		case 6:
+			return EuclidianBoundingBoxHandler.BOTTOM;
+		case 7:
+			return EuclidianBoundingBoxHandler.RIGHT;
 		default:
 			return EuclidianBoundingBoxHandler.UNDEFINED;
 		}

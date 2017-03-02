@@ -108,20 +108,24 @@ public class BoundingBox {
 				rectangle.getY() + 3);
 
 			// side handlers
+			// top
 			handlers.get(4).setFrameFromCenter(
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 				rectangle.getMinY(),
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
 				rectangle.getMinY() + 3);
+			// left
 			handlers.get(5).setFrameFromCenter(rectangle.getMinX(),
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
 				rectangle.getMinX() + 3,
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 3);
+			// bottom
 			handlers.get(6).setFrameFromCenter(
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 				rectangle.getMaxY(),
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
 				rectangle.getMaxY() + 3);
+			// right
 			handlers.get(7).setFrameFromCenter(rectangle.getMaxX(),
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
 				rectangle.getMaxX() + 3,

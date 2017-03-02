@@ -25,6 +25,22 @@ public enum EuclidianBoundingBoxHandler {
 	 */
 	TOP_LEFT,
 	/**
+	 * left side handler of bounding box
+	 */
+	LEFT,
+	/**
+	 * right side handler of bounding box
+	 */
+	RIGHT,
+	/**
+	 * top side handler of bounding box
+	 */
+	TOP,
+	/**
+	 * bottom side handler of bounding box
+	 */
+	BOTTOM,
+	/**
 	 * undefined handler
 	 */
 	UNDEFINED
