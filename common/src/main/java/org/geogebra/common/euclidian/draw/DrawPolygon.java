@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoPolygonRegular;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
@@ -66,7 +65,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
-	private double startDragDistX = Double.NaN, startDragDistY = Double.NaN;
 	private double proportion = Double.NaN;
 	private double oldWidth = Double.NaN, oldHeight = Double.NaN;
 	private boolean isSquare = false;
@@ -529,26 +527,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	/**
-	 * set distance between fix x coord and drag start x coord
-	 * 
-	 * @param startDragDistX
-	 *            - x coord where drag started
-	 */
-	public void setStartDragDistX(double startDragDistX) {
-		this.startDragDistX = startDragDistX;
-	}
-
-	/**
-	 * set distance between fix y coord and drag start y coord
-	 * 
-	 * @param startDragDistY
-	 *            - y coord where drag started
-	 */
-	public void setStartDragDistY(double startDragDistY) {
-		this.startDragDistY = startDragDistY;
-	}
-
-	/**
 	 * @param oldWidth
 	 *            - old width of bounding box
 	 */
@@ -579,12 +557,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.isSquare = isSquare;
 	}
 
-	private boolean isPentagonShape() {
-		return poly.isShape() && poly.getPoints().length == 5
-				&& poly.getParentAlgorithm() != null
-				&& poly.getParentAlgorithm() instanceof AlgoPolygonRegular;
-	}
-
 	/**
 	 * method to update points of poly after mouse release
 	 * 
@@ -593,7 +565,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	@Override
 	public void updateGeo(AbstractEvent event) {
-		updateRealPointsOfPolygon(event);
+		updateRealPointsOfPolygon();
 		poly.updateCascade(true);
 		poly.getParentAlgorithm().update();
 		for (GeoSegmentND geoSeg : poly.getSegments()) {
@@ -611,12 +583,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 		setFixCornerY(Double.NaN);
 		setOldWidth(Double.NaN);
 		setOldHeight(Double.NaN);
-		setStartDragDistX(Double.NaN);
-		setStartDragDistY(Double.NaN);
 		view.repaintView();
 	}
 
-	private boolean isCornerHandler(EuclidianBoundingBoxHandler handler) {
+	private static boolean isCornerHandler(
+			EuclidianBoundingBoxHandler handler) {
 		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
 				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
 				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
@@ -638,7 +609,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		view.repaintView();
 	}
 
-	private void updateRealPointsOfPolygon(AbstractEvent e) {
+	private void updateRealPointsOfPolygon() {
 		double[] coordArr = new double[6];
 		GPathIterator it = prewPolygon.getPathIterator(null);
 		int i = poly.getPoints().length;
@@ -648,22 +619,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 			poly.getPoint(i).setCoords(view.toRealWorldCoordX(coordArr[0]),
 					view.toRealWorldCoordY(coordArr[1]), 1);
 			it.next();
-		}
-		
-		if (isPentagonShape()) {
-			double distX = fixCornerX - e.getX();
-			double distY = fixCornerY - e.getY();
-			if ((Math.signum(distX) == Math.signum(startDragDistX)
-					&& Math.signum(distY) != Math.signum(startDragDistY))
-					|| (Math.signum(distY) == Math.signum(startDragDistY)
-							&& Math.signum(distX) != Math
-									.signum(startDragDistX))) {
-				double x = poly.getPointX(0);
-				double y = poly.getPointY(0);
-				poly.getPoint(0).setCoords(poly.getPointX(1), poly.getPointY(1),
-						1);
-				poly.getPoint(1).setCoords(x, y, 1);
-			}
 		}
 	}
 
@@ -732,13 +687,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		fixCornerCoords(hitHandler);
 		
-		if (Double.isNaN(startDragDistX)) {
-			startDragDistX = fixCornerX - event.getX();
-		}
-		if (Double.isNaN(startDragDistY)) {
-			startDragDistY = fixCornerY - event.getY();
-		}
-
 		int newWidth = (int) (event.getX() - fixCornerX);
 		int height = (int) (event.getY() - fixCornerY);
 		int newHeight = (int) (newWidth * oldHeight / oldWidth);
@@ -811,10 +759,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		fixCornerCoords(hitHandler);
 
 		if (!Double.isNaN(fixCornerX)) {
-			if (Double.isNaN(startDragDistX)) {
-				startDragDistX = fixCornerX - event.getX();
-			}
-			
 			int width = (int) (event.getX() - fixCornerX);
 			double[] currCoords = new double[6];
 			GPathIterator it = gp.getPathIterator(null);
@@ -832,10 +776,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 
 		if (!Double.isNaN(fixCornerY)) {
-			if (Double.isNaN(startDragDistY)) {
-				startDragDistY = fixCornerY - event.getY();
-			}
-
 			int height = (int) (event.getY() - fixCornerY);
 			double[] currCoords = new double[6];
 			GPathIterator it = gp.getPathIterator(null);

@@ -16,13 +16,11 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.algos.AlgoPolygonRegular;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -345,21 +343,11 @@ public class ModeShape {
 			GeoPoint[] points = null;
 			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 				points = getRealPointsOfTriangle(event);
-				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
-						points, false);
 			} else {
 				points = getRealPointsOfPolygon(event);
-				algo = new AlgoPolygonRegular(
-						view.getKernel().getConstruction(), null, points[2],
-						points[1],
-						new GeoNumeric(view.getKernel().getConstruction(), 5));
-				// do not show edge points
-				for (GeoPointND geoPoint : ((GeoPolygon) algo.getOutput(0))
-						.getPoints()) {
-					geoPoint.setEuclidianVisible(false);
-					geoPoint.updateRepaint();
-				}
 			}
+			algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
+					points, false);
 			// do not show edge points
 			for (GeoPoint geoPoint : points) {
 				geoPoint.setEuclidianVisible(false);
