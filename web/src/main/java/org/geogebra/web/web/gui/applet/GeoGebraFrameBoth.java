@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -21,22 +22,29 @@ import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
+import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
+import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
+import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.GDevice;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
@@ -44,6 +52,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Frame for applets with GUI
@@ -176,6 +185,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private DockPanelW dockPanelKB;
 	private HeaderPanel lastBG;
 	private MOWToolbar mowToolbar;
+	private StandardButton openMenuButton;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
@@ -638,6 +648,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public void attachToolbar(AppW app1) {
 		if (app1.has(Feature.MOW_TOOLBAR)) {
 			attachMOWToolbar(app1);
+			attachOpenMenuButton();
 			return;
 		}
 		// reusing old toolbar is probably a good decision
@@ -664,6 +675,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			insert(mowToolbar, 0);
 		}
+
 
 	}
 
@@ -733,5 +745,44 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	public boolean isHeaderPanelOpen() {
 		return lastBG != null;
+	}
+
+	private void attachOpenMenuButton() {
+		PerspectiveResources pr = ((ImageFactory) GWT
+				.create(ImageFactory.class)).getPerspectiveResources();
+
+		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
+				32);
+
+		openMenuButton.getUpHoveringFace()
+				.setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(),
+						32));
+
+		openMenuButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick(Widget source) {
+				app.hideKeyboard();
+				app.closePopups();
+				app.toggleMenu();
+			}
+		});
+
+		openMenuButton.addDomHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					app.toggleMenu();
+				}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+					// GGWToolBar.this.selectMenuButton(0);
+				}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+					// GGWToolBar.this.toolBar.selectMenu(0);
+				}
+			}
+		}, KeyUpEvent.getType());
+
+		openMenuButton.addStyleName("mowOpenMenuButton");
+		add(openMenuButton);
 	}
 }

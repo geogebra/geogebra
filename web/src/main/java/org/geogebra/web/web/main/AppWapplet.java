@@ -240,6 +240,7 @@ public class AppWapplet extends AppWFull {
 						.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
+
 		attachSplitLayoutPanel();
 
 		// showAlgebraInput should come from data-param,

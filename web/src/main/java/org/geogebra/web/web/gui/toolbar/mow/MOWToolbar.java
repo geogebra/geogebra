@@ -130,7 +130,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            size
 	 * @return image wrapped in no-dragging widget
 	 */
-	public NoDragImage getImage(ResourcePrototype uri, int width) {
+	public static NoDragImage getImage(ResourcePrototype uri, int width) {
 		return new NoDragImage(ImgResourceHelper.safeURI(uri), width);
 	}
 
