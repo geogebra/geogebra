@@ -194,6 +194,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_ATTACH_DETACH = 125;
 	protected static final int MOVE_IMPLICIT_CURVE = 127;
 	public static final int MOVE_Z_AXIS = 128;
+	public static final int MOVE_STROKE = 129;
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
@@ -6475,6 +6476,7 @@ public abstract class EuclidianController {
 		}
 	}
 
+	// clean testAll publishWebOnTubeBeta
 	protected void moveDependent(boolean repaint) {
 
 		translationVec.setX(xRW - getStartPointX());
@@ -6488,7 +6490,6 @@ public abstract class EuclidianController {
 		if (tmpCoordsL3 == null) {
 			tmpCoordsL3 = new Coords(4);
 		}
-
 		view.getCompanion().getCoordsFromView(xRW, yRW, tmpCoordsL3);
 		GeoElement.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
 				null, view);
@@ -7066,7 +7067,6 @@ public abstract class EuclidianController {
 
 	public void handleMovedElement(GeoElement geo, boolean multiple,
 			PointerEventType type) {
-
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
 
@@ -7371,7 +7371,7 @@ public abstract class EuclidianController {
 		if (handleMovedElementFreePoint()) {
 			return;
 		}
-
+		
 		// free line
 		else if (movedGeoElement.isGeoLine()) {
 			moveMode = MOVE_LINE;
@@ -7557,6 +7557,14 @@ public abstract class EuclidianController {
 				tempFunction = new GeoFunction(kernel.getConstruction());
 			}
 			tempFunction.set(movedGeoFunction);
+		} else if (movedGeoElement instanceof GeoLocusStroke) {
+			if (translationVec == null) {
+				translationVec = new Coords(2);
+			}
+			translateableGeos = new ArrayList<GeoElement>(1);
+			translateableGeos.add(movedGeoElement);
+			setStartPointLocation(xRW, yRW);
+			moveMode = MOVE_STROKE;
 		}
 
 		// free number
@@ -8034,7 +8042,9 @@ public abstract class EuclidianController {
 		case MOVE_BUTTON:
 			moveButton(repaint);
 			break;
-
+		case MOVE_STROKE:
+			moveDependent(repaint);
+			break;
 		case MOVE_DEPENDENT:
 			if (movedGeoElement.getParentAlgorithm() != null
 					&& movedGeoElement.getParentAlgorithm()
@@ -8303,7 +8313,6 @@ public abstract class EuclidianController {
 		} else {
 			moveableList = viewHits;
 		}
-
 		Hits hits = moveableList.getTopHits();
 
 		// make sure that eg line takes precedence over a polygon (in the same
@@ -8341,6 +8350,7 @@ public abstract class EuclidianController {
 		Hits th = viewHits.getTopHits();
 		// make sure dragging a fixed eg button triggers the scripts
 		// important for tablets, IWBs
+
 		if (geo == null && th.size() > 0) {
 
 			geo = th.get(0);

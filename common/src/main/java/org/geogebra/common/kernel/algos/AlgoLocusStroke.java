@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
-	protected GeoPointND[] points; // input
 	protected GeoLocusStroke poly; // output
 
 	/**
@@ -60,6 +59,16 @@ public class AlgoLocusStroke extends AlgoElement
 
 
 		// updatePointArray already covered compute
+
+		input = new GeoElement[points.length + 1];
+		for (int i = 0; i < points.length; i++) {
+			input[i] = (GeoElement) points[i];
+		}
+
+		input[points.length] = new GeoBoolean(cons, true); // dummy to
+															// force
+															// PolyLine[...,
+															// true]
 
 		setInputOutput(); // for AlgoElement
 
@@ -92,13 +101,11 @@ public class AlgoLocusStroke extends AlgoElement
 
 		// create new points array
 		int size = data.length;
-		points = new GeoPoint[size];
 		poly.setDefined(true);
 		poly.getPoints().clear();
 		for (int i = 0; i < size; i++) {
-			points[i] = data[i];
-			poly.getPoints().add(new MyPoint(points[i].getInhomX(),
-					points[i].getInhomY(),
+			poly.getPoints().add(new MyPoint(data[i].getInhomX(),
+					data[i].getInhomY(),
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 		}
 
@@ -109,15 +116,7 @@ public class AlgoLocusStroke extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 
-			input = new GeoElement[points.length + 1];
-			for (int i = 0; i < points.length; i++) {
-				input[i] = (GeoElement) points[i];
-			}
 
-			input[points.length] = new GeoBoolean(cons, true); // dummy to
-																// force
-																// PolyLine[...,
-																// true]
 
 
 
@@ -145,12 +144,12 @@ public class AlgoLocusStroke extends AlgoElement
 	public void compute() {
 
 		poly.getPoints().clear();
-		for (int i = 0; i < points.length; i++) {
-			poly.getPoints().add(new MyPoint(points[i].getInhomX(),
-					points[i].getInhomY(),
+		for (int i = 0; i < input.length - 1; i++) {
+			GeoPoint pt = (GeoPoint) input[i];
+			poly.getPoints().add(new MyPoint(pt.getInhomX(), pt.getInhomY(),
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 		}
-		// compute area
+
 	}
 
 
@@ -167,11 +166,12 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	public int getPointsLength() {
-		return points.length;
+		return poly.getPointLength();
 	}
 
 	public GeoPoint getPointCopy(int i) {
-		return (GeoPoint) points[i].copyInternal(cons);
+		return new GeoPoint(cons, poly.getPoints().get(i).getInhomX(),
+				poly.getPoints().get(i).getInhomY(), 1);
 	}
 
 	public ArrayList<MyPoint> getPoints() {
@@ -180,25 +180,24 @@ public class AlgoLocusStroke extends AlgoElement
 
 	public void updateFrom(MyPoint[] data) {
 		int size = data.length;
-		points = new GeoPoint[size];
 		poly.setDefined(true);
 		poly.getPoints().clear();
 		for (int i = 0; i < size; i++) {
-			points[i] = new GeoPoint(cons, data[i].x, data[i].y, 1);
 			poly.getPoints().add(data[i]);
 		}
-		updateInput();
+		updateInput(data);
 		getOutput(0).update();
 	}
 
-	public void updateInput() {
+	public void updateInput(Object[] data) {
 
-		input = new GeoElement[points.length + 1];
-		for (int i = 0; i < points.length; i++) {
-			input[i] = (GeoElement) points[i];
+		input = new GeoElement[data.length + 1];
+		for (int i = 0; i < data.length; i++) {
+			input[i] = new GeoPoint(cons, ((MyPoint) data[i]).getInhomX(),
+					((MyPoint) data[i]).getInhomY(), 1);
 		}
 
-		input[points.length] = new GeoBoolean(cons, true); // dummy to
+		input[data.length] = new GeoBoolean(cons, true); // dummy to
 															// force
 															// PolyLine[...,
 															// true]

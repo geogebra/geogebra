@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -114,7 +115,21 @@ public class GeoLocusStroke extends GeoLocus
 			pt.x += v.getX();
 			pt.y += v.getY();
 		}
+		if (getParentAlgorithm() instanceof AlgoLocusStroke) {
+			((AlgoLocusStroke) getParentAlgorithm())
+					.updateInput(getPoints().toArray());
+		}
 
+	}
+
+	@Override
+	public boolean isMoveable() {
+		return true;
+	}
+
+	@Override
+	public boolean isChangeable() {
+		return true;
 	}
 
 }
