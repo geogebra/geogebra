@@ -6476,7 +6476,6 @@ public abstract class EuclidianController {
 		}
 	}
 
-	// clean testAll publishWebOnTubeBeta
 	protected void moveDependent(boolean repaint) {
 
 		translationVec.setX(xRW - getStartPointX());
