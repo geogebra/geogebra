@@ -183,8 +183,6 @@ public class ModeDeleteLocus extends ModeDelete {
 							}
 						}
 
-						populateAlgoUpdateSet(dataPoints.get(i));
-
 						if (!hasVisiblePart && dataPoints.get(i).isDefined()) {
 							hasVisiblePart = true;
 						}
@@ -309,15 +307,6 @@ public class ModeDeleteLocus extends ModeDelete {
 	private MyPoint ngp(Construction construction, double d, double e, int i) {
 		// TODO Auto-generated method stub
 		return new MyPoint(d, e, SegmentType.LINE_TO);
-	}
-
-	private void populateAlgoUpdateSet(MyPoint point) {
-		// TODO ignore?
-		// if (as == null) {
-		// as = point.getAlgoUpdateSet();
-		// } else {
-		// as.addAll(point.getAlgoUpdateSet());
-		// }
 	}
 
 	private void updatePenDeleteMode(Hits h) {
@@ -695,8 +684,6 @@ public class ModeDeleteLocus extends ModeDelete {
 							}
 						}
 
-						populateAlgoUpdateSet(dataPoints.get(i));
-
 						if (!hasVisiblePart && dataPoints.get(i).isDefined()) {
 							hasVisiblePart = true;
 						}
@@ -746,7 +733,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				&& !dataPoints.get(i + 1).isDefined()) {
 			dataPoints.get(i).setUndefined();
 		}
-		populateAlgoUpdateSet(dataPoints.get(i));
+
 		newDataAndRealPoint.add(dataPoints);
 
 	}
@@ -831,7 +818,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				newDataAndRealPoint = getNewPolyLinePoints(
 						dataPoints, realPoints, 1, i, i - 1, i, i + 1,
 						realCoords);
-				populateAlgoUpdateSet(newDataAndRealPoint.get(0).get(i));
+
 				index = i + 2;
 			}
 		}
@@ -878,30 +865,26 @@ public class ModeDeleteLocus extends ModeDelete {
 						&& dataPoints.get(i - 2).isDefined()) {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 1, i, i - 1, i, i + 1, realCoords);
-					populateAlgoUpdateSet(
-							newDataAndRealPoint.get(0).get(i - 1));
+
 					index = i + 2;
 				} else if (i - 2 > 0 && !dataPoints.get(i - 2).isDefined()
 						&& i + 2 < dataPoints.size()
 						&& dataPoints.get(i + 2).isDefined()) {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 1, i, i, i + 1, i + 2, realCoords);
-					populateAlgoUpdateSet(
-							newDataAndRealPoint.get(0).get(i - 1));
+
 					index = i + 2;
 				} else if (i - 2 > 0 && !dataPoints.get(i - 2).isDefined()
 						&& i + 2 < dataPoints.size()
 						&& !dataPoints.get(i + 2).isDefined()) {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 2, i, i, i + 1, i + 2, realCoords);
-					populateAlgoUpdateSet(
-							newDataAndRealPoint.get(0).get(i - 1));
+
 					index = i + 3;
 				} else {
 					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
 							realPoints, 1, i, i, i + 1, i + 2, realCoords);
-					populateAlgoUpdateSet(
-							newDataAndRealPoint.get(0).get(i + 1));
+
 					index = i + 2;
 				}
 			}

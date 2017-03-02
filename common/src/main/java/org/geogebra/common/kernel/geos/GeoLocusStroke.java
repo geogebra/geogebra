@@ -128,8 +128,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public boolean isChangeable() {
-		return true;
+	public boolean isFillable() {
+		return false;
 	}
 
 }
