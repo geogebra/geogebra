@@ -1239,8 +1239,10 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		case RESIZE_EW:
 			setResizeEWCursor();
+			return;
 		case RESIZE_NS:
 			setResizeNSCursor();
+			return;
 		case TRANSPARENT:
 			setTransparentCursor();
 			return;
