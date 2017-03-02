@@ -134,10 +134,10 @@ var views = {'is3D': 1,'AV': 1,'SV': 0,'CV': 0,'EV2': 0,'CP': 0,'PC': 0,'DA': 0,
 var applet = new GGBApplet(parameters, '5.0', views);
 if (cb) {
     if (cb == "jenkins") {
-        cb = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/web3d/";
+        cb = "https://autotest2.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/web3d/";
     } else if (cb.startsWith("jenkins")) {
         var version = cb.substring(7);
-        cb = "https://autotest.geogebra.org/job/GeoGebra-autotest/" + version + "/artifact/web/war/web3d/";
+        cb = "https://autotest2.geogebra.org/job/GeoGebra-autotest/" + version + "/artifact/web/war/web3d/";
     } else if (cb == "deploy50") {
         cb = "https://deploy-secure.geogebra.org/build-jenkins/test/GeoGebraWeb/web/";
     } else if (cb == "local") {
