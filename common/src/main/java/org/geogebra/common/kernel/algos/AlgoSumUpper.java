@@ -12,11 +12,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.util.Cloner;
 
 /**
  * upper sum of function f in interval [a, b] with n intervals

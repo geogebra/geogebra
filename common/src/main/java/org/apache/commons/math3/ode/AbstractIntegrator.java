@@ -37,9 +37,9 @@ import org.apache.commons.math3.ode.events.EventHandler;
 import org.apache.commons.math3.ode.events.EventState;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.Precision;
-import org.geogebra.common.util.GWTMath;
 
 /**
  * Base class managing common boilerplate for all integrators.

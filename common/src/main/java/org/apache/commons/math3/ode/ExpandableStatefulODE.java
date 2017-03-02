@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 
 /**

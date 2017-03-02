@@ -28,8 +28,8 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Fits points to a {@link

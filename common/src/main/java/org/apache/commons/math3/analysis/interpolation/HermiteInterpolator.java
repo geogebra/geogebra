@@ -27,8 +27,8 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.geogebra.common.util.Cloner;
 
 /** Polynomial interpolator using both sample values and sample derivatives.
  * <p>

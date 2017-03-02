@@ -21,7 +21,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * This class converts

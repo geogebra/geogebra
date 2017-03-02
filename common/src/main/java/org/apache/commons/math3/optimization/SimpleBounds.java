@@ -17,7 +17,7 @@
 
 package org.apache.commons.math3.optimization;
 
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Simple optimization constraints: lower and upper bounds.

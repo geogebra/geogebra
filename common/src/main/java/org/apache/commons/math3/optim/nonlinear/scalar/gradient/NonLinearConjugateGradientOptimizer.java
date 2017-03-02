@@ -28,7 +28,7 @@ import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.GradientMultivariateOptimizer;
 import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 
 /**

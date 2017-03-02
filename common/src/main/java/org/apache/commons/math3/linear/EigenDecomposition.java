@@ -23,8 +23,8 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.Precision;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Calculates the eigen decomposition of a real matrix.

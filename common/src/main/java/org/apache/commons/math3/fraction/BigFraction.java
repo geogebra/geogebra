@@ -27,8 +27,8 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.MathUtils;
-import org.geogebra.common.util.GWTMath;
 
 /**
  * Representation of a rational number without any overflow. This class is

@@ -28,7 +28,7 @@ import org.apache.commons.math3.ode.nonstiff.AdaptiveStepsizeIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * This class is the base class for multistep integrators for Ordinary

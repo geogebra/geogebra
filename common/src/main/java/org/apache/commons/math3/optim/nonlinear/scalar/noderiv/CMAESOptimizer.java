@@ -36,9 +36,9 @@ import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
-import org.geogebra.common.util.Cloner;
 
 /**
  * An implementation of the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)

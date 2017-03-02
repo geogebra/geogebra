@@ -19,7 +19,7 @@ package org.apache.commons.math3.optim;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Base class for implementing optimizers for multivariate functions.

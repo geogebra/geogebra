@@ -26,9 +26,9 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
 import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
+import org.apache.commons.math3.util.Cloner;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.MathArrays;
-import org.geogebra.common.util.Cloner;
-import org.geogebra.common.util.GWTMath;
 
 /**
  * Powell's algorithm.

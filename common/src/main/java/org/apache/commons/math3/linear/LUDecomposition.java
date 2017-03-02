@@ -18,7 +18,7 @@
 package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Calculates the LUP-decomposition of a square matrix.

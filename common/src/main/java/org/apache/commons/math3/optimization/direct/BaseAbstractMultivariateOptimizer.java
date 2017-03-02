@@ -31,8 +31,8 @@ import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.SimpleBounds;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.Incrementor;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.

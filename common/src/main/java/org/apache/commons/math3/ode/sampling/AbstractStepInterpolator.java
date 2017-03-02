@@ -19,7 +19,7 @@ package org.apache.commons.math3.ode.sampling;
 
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.EquationsMapper;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.

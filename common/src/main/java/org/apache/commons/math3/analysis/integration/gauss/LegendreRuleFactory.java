@@ -17,8 +17,8 @@
 package org.apache.commons.math3.analysis.integration.gauss;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.Pair;
-import org.geogebra.common.util.GWTMath;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Legendre polynomials.

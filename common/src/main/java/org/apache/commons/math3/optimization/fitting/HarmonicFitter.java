@@ -23,8 +23,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Class that implements a curve fitting specialized for sinusoids.

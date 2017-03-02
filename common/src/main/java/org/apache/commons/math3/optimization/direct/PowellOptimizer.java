@@ -29,9 +29,9 @@ import org.apache.commons.math3.optimization.univariate.BracketFinder;
 import org.apache.commons.math3.optimization.univariate.BrentOptimizer;
 import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChecker;
 import org.apache.commons.math3.optimization.univariate.UnivariatePointValuePair;
+import org.apache.commons.math3.util.Cloner;
+import org.apache.commons.math3.util.GWTMath;
 import org.apache.commons.math3.util.MathArrays;
-import org.geogebra.common.util.Cloner;
-import org.geogebra.common.util.GWTMath;
 
 /**
  * Powell algorithm.

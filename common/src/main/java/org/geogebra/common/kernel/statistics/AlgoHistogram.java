@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Histogram algorithm. See AlgoFunctionAreaSums for implementation.

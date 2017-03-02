@@ -22,8 +22,8 @@ import java.util.TreeMap;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.Pair;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Base class for rules that determines the integration nodes and their

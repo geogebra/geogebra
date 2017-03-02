@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -23,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Find asymptotes of ImplicitCurves

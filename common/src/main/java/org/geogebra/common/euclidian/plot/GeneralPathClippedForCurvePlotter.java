@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.plot;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -10,7 +11,6 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.util.Cloner;
 
 /**
  * General path clipped with methods for CurvePlotter

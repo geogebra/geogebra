@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
@@ -33,7 +34,6 @@ import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.util.Cloner;
 import org.geogebra.common.util.debug.Log;
 
 /**

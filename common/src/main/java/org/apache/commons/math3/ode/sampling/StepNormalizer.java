@@ -18,9 +18,9 @@
 package org.apache.commons.math3.ode.sampling;
 
 import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
-import org.geogebra.common.util.Cloner;
 
 /**
  * This class wraps an object implementing {@link FixedStepHandler}

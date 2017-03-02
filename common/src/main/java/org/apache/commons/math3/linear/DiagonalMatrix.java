@@ -23,9 +23,9 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Implementation of a diagonal matrix.

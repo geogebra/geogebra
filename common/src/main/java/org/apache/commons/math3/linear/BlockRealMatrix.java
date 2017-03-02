@@ -27,8 +27,8 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathUtils;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Cache-friendly implementation of RealMatrix using a flat arrays to store

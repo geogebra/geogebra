@@ -25,7 +25,7 @@ import org.apache.commons.math3.optim.BaseMultivariateOptimizer;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Base class for a multivariate vector function optimizer.

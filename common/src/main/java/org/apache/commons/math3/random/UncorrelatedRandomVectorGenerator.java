@@ -20,7 +20,7 @@ package org.apache.commons.math3.random;
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with uncorrelated

@@ -1,4 +1,4 @@
-package org.geogebra.common.util;
+package org.apache.commons.math3.util;
 
 import java.util.Arrays;
 

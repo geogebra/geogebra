@@ -20,9 +20,9 @@ package org.apache.commons.math3.optimization.direct;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
-import org.geogebra.common.util.Cloner;
 
 /**
  * <p>Adapter extending bounded {@link MultivariateFunction} to an unbouded

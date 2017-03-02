@@ -18,7 +18,7 @@
 package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.geogebra.common.util.GWTMath;
+import org.apache.commons.math3.util.GWTMath;
 
 /**
  * {@code ulp} function.

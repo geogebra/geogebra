@@ -20,7 +20,7 @@ package org.apache.commons.math3.random;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RectangularCholeskyDecomposition;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with with

@@ -12,13 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.statistics;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.util.Cloner;
 
 /**
  * @author G. Sturr

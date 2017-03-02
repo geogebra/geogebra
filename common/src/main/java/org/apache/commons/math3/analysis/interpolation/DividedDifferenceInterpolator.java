@@ -23,7 +23,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionNewtonFor
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Implements the <a href=

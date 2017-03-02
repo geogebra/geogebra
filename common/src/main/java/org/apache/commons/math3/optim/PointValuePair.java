@@ -18,8 +18,8 @@ package org.apache.commons.math3.optim;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.Pair;
-import org.geogebra.common.util.Cloner;
 
 /**
  * This class holds a point and the value of an objective function at

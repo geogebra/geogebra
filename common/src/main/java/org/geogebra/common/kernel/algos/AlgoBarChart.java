@@ -22,6 +22,7 @@ import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.PascalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.apache.commons.math3.distribution.ZipfDistribution;
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawBarGraph;
 import org.geogebra.common.euclidian.draw.DrawBarGraph.DrawType;
@@ -38,7 +39,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
-import org.geogebra.common.util.Cloner;
 import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;

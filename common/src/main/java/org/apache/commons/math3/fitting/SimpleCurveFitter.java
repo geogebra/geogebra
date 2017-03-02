@@ -22,7 +22,7 @@ import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Fits points to a user-defined {@link ParametricUnivariateFunction function}.

@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -22,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Boxplot algorithm. See AlgoFunctionAreaSums for implementation.

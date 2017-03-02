@@ -18,7 +18,7 @@ package org.apache.commons.math3.exception;
 
 import org.apache.commons.math3.exception.util.Localizable;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Exception to be thrown when two sets of dimensions differ.

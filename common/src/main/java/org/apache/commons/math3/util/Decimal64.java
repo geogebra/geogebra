@@ -19,7 +19,6 @@ package org.apache.commons.math3.util;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.geogebra.common.util.GWTMath;
 
 /**
  * This class wraps a {@code double} value in an object. It is similar to the

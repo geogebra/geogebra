@@ -18,7 +18,7 @@ package org.apache.commons.math3.optim;
 
 import java.util.Arrays;
 
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /**
  * Simple optimization constraints: lower and upper bounds.

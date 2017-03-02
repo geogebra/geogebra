@@ -20,7 +20,7 @@ package org.apache.commons.math3.ode.nonstiff;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
-import org.geogebra.common.util.Cloner;
+import org.apache.commons.math3.util.Cloner;
 
 /** This class represents an interpolator over the last step during an
  * ODE integration for Runge-Kutta and embedded Runge-Kutta integrators.

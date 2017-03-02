@@ -24,8 +24,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
-import org.geogebra.common.util.Cloner;
 
 /**
  * This abstract class holds the common part of all adaptive

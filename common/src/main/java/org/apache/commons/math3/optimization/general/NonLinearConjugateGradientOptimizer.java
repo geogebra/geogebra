@@ -26,8 +26,8 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
+import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.FastMath;
-import org.geogebra.common.util.Cloner;
 
 /**
  * Non-linear conjugate gradient optimizer.
