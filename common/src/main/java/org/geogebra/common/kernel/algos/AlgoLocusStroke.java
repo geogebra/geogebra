@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
@@ -39,12 +40,8 @@ public class AlgoLocusStroke extends AlgoElement
 	/**
 	 * @param cons
 	 *            the construction
-	 * @param label
-	 *            name of the polyline
 	 * @param points
 	 *            vertices of the polygon
-	 * @param geoList
-	 *            list of vertices of the polygon (alternative to points)
 	 */
 
 
@@ -143,12 +140,12 @@ public class AlgoLocusStroke extends AlgoElement
 	@Override
 	public void compute() {
 
-		poly.getPoints().clear();
-		for (int i = 0; i < input.length - 1; i++) {
-			GeoPoint pt = (GeoPoint) input[i];
-			poly.getPoints().add(new MyPoint(pt.getInhomX(), pt.getInhomY(),
-					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
-		}
+		// poly.getPoints().clear();
+		// for (int i = 0; i < input.length - 1; i++) {
+		// GeoPoint pt = (GeoPoint) input[i];
+		// poly.getPoints().add(new MyPoint(pt.getInhomX(), pt.getInhomY(),
+		// i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
+		// }
 
 	}
 
@@ -178,26 +175,28 @@ public class AlgoLocusStroke extends AlgoElement
 		return poly.getPoints();
 	}
 
-	public void updateFrom(MyPoint[] data) {
-		int size = data.length;
-		poly.setDefined(true);
-		poly.getPoints().clear();
-		for (int i = 0; i < size; i++) {
-			poly.getPoints().add(data[i]);
+	public void updateFrom(List<MyPoint> data) {
+		if (poly.getPoints() != data) {
+			poly.setDefined(true);
+			poly.getPoints().clear();
+			for (MyPoint pt : data) {
+				poly.getPoints().add(pt);
+			}
 		}
 		updateInput(data);
 		getOutput(0).update();
 	}
 
-	public void updateInput(Object[] data) {
+	public void updateInput(List<MyPoint> data) {
 
-		input = new GeoElement[data.length + 1];
-		for (int i = 0; i < data.length; i++) {
-			input[i] = new GeoPoint(cons, ((MyPoint) data[i]).getInhomX(),
-					((MyPoint) data[i]).getInhomY(), 1);
+		input = new GeoElement[data.size() + 1];
+		int j = 0;
+		for (MyPoint pt : data) {
+			input[j] = new GeoPoint(cons, pt.getInhomX(), pt.getInhomY(), 1);
+			j++;
 		}
 
-		input[data.length] = new GeoBoolean(cons, true); // dummy to
+		input[data.size()] = new GeoBoolean(cons, true); // dummy to
 															// force
 															// PolyLine[...,
 															// true]

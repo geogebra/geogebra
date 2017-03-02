@@ -117,7 +117,7 @@ public class GeoLocusStroke extends GeoLocus
 		}
 		if (getParentAlgorithm() instanceof AlgoLocusStroke) {
 			((AlgoLocusStroke) getParentAlgorithm())
-					.updateInput(getPoints().toArray());
+					.updateInput(getPoints());
 		}
 
 	}
