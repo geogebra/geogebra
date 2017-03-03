@@ -358,12 +358,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (it.isDone()) {
 			if (pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					Coords v = pointList.get(i).getInhomCoordsInD3();
-					coords[0] = v.getX();
-					coords[1] = v.getY();
-					view.toScreenCoords(coords);
-					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
-					p.setLocation(coords[0], coords[1]);
+					GPoint2D p = convertPoint(pointList.get(i));
 					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
 							0, 100, 100);
 					rect.setBounds(x - hitThreshold, y - hitThreshold,
@@ -386,12 +381,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			// try single points of polyline
 			if (!intersects && pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					Coords v = pointList.get(i).getInhomCoordsInD3();
-					coords[0] = v.getX();
-					coords[1] = v.getY();
-					view.toScreenCoords(coords);
-					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
-					p.setLocation(coords[0], coords[1]);
+					GPoint2D p = convertPoint(pointList.get(i));
 					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
 							0, 100, 100);
 					rect.setBounds(x - hitThreshold, y - hitThreshold,
@@ -406,6 +396,16 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		return false;
 	}
 
+	private GPoint2D convertPoint(GeoPointND point) {
+		Coords v = point.getInhomCoordsInD3();
+		coords[0] = v.getX();
+		coords[1] = v.getY();
+		view.toScreenCoords(coords);
+		GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+		p.setLocation(coords[0], coords[1]);
+		return p;
+	}
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 
@@ -415,12 +415,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (it.isDone()) {
 			if (pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					Coords v = pointList.get(i).getInhomCoordsInD3();
-					coords[0] = v.getX();
-					coords[1] = v.getY();
-					view.toScreenCoords(coords);
-					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
-					p.setLocation(coords[0], coords[1]);
+					GPoint2D p = convertPoint(pointList.get(i));
 					if (rect.contains(p)) {
 						return true;
 					}
@@ -436,12 +431,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			boolean intersects = strokedShape.intersects(rect);
 			if (!intersects && pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					Coords v = pointList.get(i).getInhomCoordsInD3();
-					coords[0] = v.getX();
-					coords[1] = v.getY();
-					view.toScreenCoords(coords);
-					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
-					p.setLocation(coords[0], coords[1]);
+					GPoint2D p = convertPoint(pointList.get(i));
 					if (rect.contains(p)) {
 						return true;
 					}
