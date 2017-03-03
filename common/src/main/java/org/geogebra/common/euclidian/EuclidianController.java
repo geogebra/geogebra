@@ -5036,7 +5036,8 @@ public abstract class EuclidianController {
 					.getParentPoint();
 		}
 
-		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());
+		view.setShowMouseCoords(
+				!app.isApplet() && !movedGeoPoint.isPointOnPath());
 		setDragCursor();
 	}
 

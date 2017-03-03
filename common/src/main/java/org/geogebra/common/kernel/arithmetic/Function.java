@@ -36,8 +36,9 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
+@SuppressWarnings("deprecation")
 public class Function extends FunctionNVar
-		implements Functional, RealRootDerivFunction, UnivariateFunction,
+		implements Functional, RealRootDerivFunction,
 		DifferentiableUnivariateFunction {
 
 	/** function expression */

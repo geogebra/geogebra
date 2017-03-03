@@ -938,12 +938,12 @@ public abstract class Drawable3D extends DrawableND {
 			// if both are points
 			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
 				// check if one is on a path and the other not
-				if ((((GeoPointND) geo1).hasPath())
-						&& (!((GeoPointND) geo2).hasPath())) {
+				if ((((GeoPointND) geo1).isPointOnPath())
+						&& (!((GeoPointND) geo2).isPointOnPath())) {
 					return -1;
 				}
-				if ((!((GeoPointND) geo1).hasPath())
-						&& (((GeoPointND) geo2).hasPath())) {
+				if ((!((GeoPointND) geo1).isPointOnPath())
+						&& (((GeoPointND) geo2).isPointOnPath())) {
 					return 1;
 				}
 				// check if one is the child of the other

@@ -68,7 +68,7 @@ public class TextDispatcher3D extends TextDispatcher {
 			return getPointForDynamicText(cursor.getRegion(), loc);
 		}
 
-		if (cursor.hasPath()) {
+		if (cursor.isPointOnPath()) {
 			return getPointForDynamicText(cursor.getPath(), loc);
 		}
 

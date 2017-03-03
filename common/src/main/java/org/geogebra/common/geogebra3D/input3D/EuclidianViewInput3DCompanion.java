@@ -511,7 +511,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		if (point.hasRegion()) {
 			super.drawPointAlready(point);
-		} else if (!point.hasPath()
+		} else if (!point.isPointOnPath()
 				&& point.getMoveMode() != GeoPointND.MOVE_MODE_NONE) {
 			getView().getRenderer().drawCursor(PlotterCursor.TYPE_ALREADY_XYZ);
 		}

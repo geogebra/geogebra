@@ -3542,7 +3542,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 
 				GeoPoint3D point = view3D.getCursor3D();
-				if (point.hasPath()) {
+				if (point.isPointOnPath()) {
 					return true;
 				}
 				if (point.hasRegion()) {
@@ -3555,7 +3555,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			case EuclidianConstants.MODE_ANGLE:
 				point = view3D.getCursor3D();
-				if (point.hasPath()) {
+				if (point.isPointOnPath()) {
 					return false;
 				}
 				if (point.hasRegion()) {

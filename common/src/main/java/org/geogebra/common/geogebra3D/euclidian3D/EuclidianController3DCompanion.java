@@ -56,7 +56,7 @@ public class EuclidianController3DCompanion
 		if (ec.movedGeoPoint instanceof GeoPoint3D) {
 			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) ec.movedGeoPoint;
 
-			if (movedGeoPoint3D.hasPath()) {
+			if (movedGeoPoint3D.isPointOnPath()) {
 
 				ec3D.setMouseInformation(movedGeoPoint3D);
 				movedGeoPoint3D.doPath();
@@ -518,7 +518,7 @@ public class EuclidianController3DCompanion
 
 	protected void updateMovedGeoPointStartValues(Coords coords,
 			GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
-		if (!movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion()) {
+		if (!movedGeoPoint.isPointOnPath() && !movedGeoPoint.hasRegion()) {
 
 			CoordMatrix4x4.Identity(currentPlane);
 			// update the moving plane altitude

@@ -245,7 +245,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			}
 
 			// path
-			if (hasPath()) {
+			if (isPointOnPath()) {
 				// remember path parameter for undefined case
 				// PathParameter tempPathParameter = getTempPathparameter();
 				// tempPathParameter.set(getPathParameter());
@@ -258,7 +258,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 			}
 			updateCoords();
-		} else if (hasPath()) {
+		} else if (isPointOnPath()) {
 			// make sure animation value is consistent with path parameter
 			animationValue = PathNormalizer.toNormalizedPathParameter(
 					getPathParameter().t, path.getMinParameter(),
@@ -560,11 +560,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	// /////////////////////////////////////////////////////////
 	// PATHS
-
-	@Override
-	public boolean hasPath() {
-		return path != null;
-	}
 
 	@Override
 	final public boolean isPointOnPath() {
@@ -1329,7 +1324,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			return MOVE_MODE_NONE;
 		}
 
-		if (hasPath()) {
+		if (isPointOnPath()) {
 			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when
 									// not lines
 		}

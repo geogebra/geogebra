@@ -136,11 +136,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void getInhomCoords(double[] coords);
 
 	/**
-	 * @return true if this is point on path TODO merge with isPointOnPath
-	 */
-	public boolean hasPath();
-
-	/**
 	 * @return path parameter
 	 */
 	public PathParameter getPathParameter();
@@ -320,20 +315,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public boolean getTrace();
 	// private boolean movePointMode = MOVE_POINT_MODE_XY;
 
-	/**
-	 * Changes coord style to CARTESIAN
-	 */
-	public void setCartesian();
 
-	/**
-	 * Changes coord style to CARTESIAN 3D
-	 */
-	public void setCartesian3D();
-
-	/**
-	 * Changes coord style to SPHERICAL
-	 */
-	public void setSpherical();
 
 	/**
 	 * 
@@ -345,27 +327,56 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	public void addIncidence(GeoElement path, boolean isStartPoint);
 
+	/**
+	 * @param path
+	 *            path this belongs to
+	 */
 	public void setPath(Path path);
 
 	public Coords getCoords();
 
+	/**
+	 * @return list of objects that use this as corner
+	 */
 	public boolean hasLocateableList();
 
 	public void setLocateableList(LocateableList locateableList);
 
 	public void setCoordsFromPoint(GeoPointND point);
 
+	/**
+	 * @param geo
+	 *            incident path
+	 */
 	public void removeIncidence(GeoElement geo);
 
+	/**
+	 * @return list of objects (paths) this belongs to
+	 */
 	public ArrayList<GeoElement> getIncidenceList();
 
+	/**
+	 * @param geo
+	 *            point
+	 * @return whether the two points are equal
+	 */
 	public boolean isEqualPointND(GeoPointND geo);
 
 	public void set(double param1, double param2, MyPoint leftPoint,
 			MyPoint rightPoint);
 
+	/**
+	 * @param phi
+	 *            angle
+	 * @param center
+	 *            rotation center
+	 */
 	public void rotate(NumberValue phi, Coords center);
 
+	/**
+	 * @param r
+	 *            parent region
+	 */
 	public void setRegion(Region r);
 
 	public double getAnimationValue();
@@ -378,6 +389,9 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	public void set(GeoElementND pointND, boolean macroFeedback);
 
+	/**
+	 * Remove reference to path
+	 */
 	public void removePath();
 
 	/**

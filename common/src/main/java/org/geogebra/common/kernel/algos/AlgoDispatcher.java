@@ -1904,7 +1904,7 @@ public class AlgoDispatcher {
 
 			boolean setDefaultColor = false;
 			if (((GeoElement) p).getColorFunction() == null) {
-				if (p.hasPath()) {
+				if (p.isPointOnPath()) {
 					setDefaultColor = ((GeoElement) p).getObjectColor()
 							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(

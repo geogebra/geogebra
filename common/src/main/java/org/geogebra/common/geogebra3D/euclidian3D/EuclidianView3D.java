@@ -2739,7 +2739,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				break;
 			case PREVIEW_POINT_ALREADY:
 
-				if (getCursor3D().hasPath()) {
+				if (getCursor3D().isPointOnPath()) {
 					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
 							.getMainDirection());
 					if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {

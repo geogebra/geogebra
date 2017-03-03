@@ -119,7 +119,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 			if (ec.getMoveMode() == EuclidianController.MOVE_POINT
 					&& ec.movedGeoPoint.isGeoElement3D()
-					&& !ec.movedGeoPoint.hasPath()
+					&& !ec.movedGeoPoint.isPointOnPath()
 					&& !ec.movedGeoPoint.hasRegion()) {
 				// update point decorations
 				((EuclidianView3D) ec.getView()).updatePointDecorations();

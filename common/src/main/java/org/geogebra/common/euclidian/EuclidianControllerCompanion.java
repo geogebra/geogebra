@@ -450,7 +450,7 @@ public class EuclidianControllerCompanion {
 				n = 1;
 			}
 
-			if (ec.movedGeoPoint.hasPath()) {
+			if (ec.movedGeoPoint.isPointOnPath()) {
 
 				double dist = Double.MAX_VALUE;
 

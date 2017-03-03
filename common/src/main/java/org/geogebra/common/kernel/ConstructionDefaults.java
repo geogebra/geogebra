@@ -569,7 +569,7 @@ public class ConstructionDefaults {
 			} else if (p.isIndependent()) {
 				type = DEFAULT_POINT_FREE;
 			} else {
-				if (p.hasPath()) {
+				if (p.isPointOnPath()) {
 					type = DEFAULT_POINT_ON_PATH;
 				} else if (p.hasRegion()) {
 					type = DEFAULT_POINT_IN_REGION;

@@ -1411,7 +1411,7 @@ public abstract class GlobalKeyDispatcher {
 					// update point on path
 					else if (geo.isGeoPoint() && !geo.isGeoElement3D()) {
 						GeoPoint p = (GeoPoint) geo;
-						if (p.hasPath()) {
+						if (p.isPointOnPath()) {
 							p.addToPathParameter(
 									changeVal * p.getAnimationStep());
 						}

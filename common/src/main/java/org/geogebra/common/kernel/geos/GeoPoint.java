@@ -637,11 +637,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return hasPolarParentNumbers;
 	}
 
-	@Override
-	final public boolean isPointOnPath() {
-		return path != null;
-	}
-
 	/**
 	 * Returns whether this number can be animated. Only free numbers with min
 	 * and max interval values can be animated (i.e. shown or hidden sliders).
@@ -652,7 +647,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public boolean hasPath() {
+	public boolean isPointOnPath() {
 		return path != null;
 	}
 
@@ -2362,7 +2357,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		if (!isIndependent() || isFixed()) {
 			return MOVE_MODE_NONE;
-		} else if (hasPath()) {
+		} else if (isPointOnPath()) {
 			return MOVE_MODE_Z;
 		} else {
 			return MOVE_MODE_XY;
