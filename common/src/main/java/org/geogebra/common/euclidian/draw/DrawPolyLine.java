@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -51,7 +50,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<? extends GeoPointND> points;
 	// list of single points created by pen
-	private ArrayList<GeoPointND> pointList = new ArrayList<GeoPointND>();
+	private ArrayList<GPoint2D> pointList = new ArrayList<GPoint2D>();
 	private boolean startPointAdded = false;
 
 	/**
@@ -175,8 +174,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 								|| (i + 2 < pts.length
 										&& pts[i + 2].isDefined())
 								|| i == 0 || i == pts.length - 1) {
-							if (!pointList.contains(pts[i])) {
-								pointList.add(pts[i]);
+							if (!pointList.contains(convertPoint(pts[i]))) {
+								pointList.add(convertPoint(pts[i]));
 								startPointAdded = true;
 							}
 						}
@@ -211,16 +210,11 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	final public void draw(GGraphics2D g2) {
 		// draw single points
 		for (int i = 0; i < pointList.size(); i++) {
-			Coords v = pointList.get(i).getInhomCoordsInD3();
-			coords[0] = v.getX();
-			coords[1] = v.getY();
-			view.toScreenCoords(coords);
-			GPoint p = new GPoint((int) Math.round(coords[0]),
-					(int) Math.round(coords[1]));
+			GPoint2D v = pointList.get(i);
 			if (poly.getLineType() == EuclidianStyleConstants.LINE_TYPE_FULL) {
-				drawEllipse(g2, p);
+				drawEllipse(g2, v);
 			} else {
-				drawRectangle(g2, p);
+				drawRectangle(g2, v);
 			}
 		}
 		if (isVisible) {
@@ -245,7 +239,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	// method to draw ellipse for point created by pen tool
 	// for full line type
-	private void drawEllipse(GGraphics2D g2D, GPoint point) {
+	private void drawEllipse(GGraphics2D g2D, GPoint2D point) {
 		GEllipse2DDouble ellipse = AwtFactory.getPrototype()
 				.newEllipse2DDouble();
 		ellipse.setFrameFromCenter(point.getX(), point.getY(),
@@ -261,7 +255,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	// method to draw rectangle for point created by pen tool
 	// for other line types
-	private void drawRectangle(GGraphics2D g2D, GPoint point) {
+	private void drawRectangle(GGraphics2D g2D, GPoint2D point) {
 		GRectangle rectangle = AwtFactory.getPrototype().newRectangle();
 		rectangle.setRect(point.getX(), point.getY(),
 				getLineThicknessForPoint() * 1.5,
@@ -358,7 +352,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (it.isDone()) {
 			if (pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = convertPoint(pointList.get(i));
+					GPoint2D p = pointList.get(i);
 					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
 							0, 100, 100);
 					rect.setBounds(x - hitThreshold, y - hitThreshold,
@@ -381,7 +375,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			// try single points of polyline
 			if (!intersects && pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = convertPoint(pointList.get(i));
+					GPoint2D p = pointList.get(i);
 					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
 							0, 100, 100);
 					rect.setBounds(x - hitThreshold, y - hitThreshold,
@@ -415,7 +409,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (it.isDone()) {
 			if (pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = convertPoint(pointList.get(i));
+					GPoint2D p = pointList.get(i);
 					if (rect.contains(p)) {
 						return true;
 					}
@@ -431,7 +425,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			boolean intersects = strokedShape.intersects(rect);
 			if (!intersects && pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = convertPoint(pointList.get(i));
+					GPoint2D p = pointList.get(i);
 					if (rect.contains(p)) {
 						return true;
 					}
