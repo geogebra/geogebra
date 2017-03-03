@@ -1997,6 +1997,7 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric[arg(+1.56-1.22 \u03AF )]", result:"-0.6637003813744", round:"-0.66" },
 { cat:"Numeric", cmd:"Numeric[arg(-1.56-1.22 \u03AF )]", result:"-2.477892272215", round:"-2.48" },
 { cat:"Angle", cmd:"Angle[((0, 0)),(((-9) / 32, 9sqrt(3) / 32)),((0, 3sqrt(3) / 8))]", result:"1 / 2 \u03C0" },
+{ cat:"NSolve", cmd:"NSolve[{3x-5y=11,14x^2-11x=52}]", result:"{x = 2.359738544716, y = -0.7841568731702}", round:"{x = 2.36, y = -0.78}", notes:"Giac calculates exact then rounds" },
 
 // JSONEND
 //{ 
