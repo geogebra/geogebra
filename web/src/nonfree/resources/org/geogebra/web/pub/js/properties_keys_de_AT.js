@@ -19,7 +19,7 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar.de_AT = {}
+__GGB__keysVar.de_AT = {};
 
 
 /***********************************************

@@ -19,7 +19,7 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar.zh_TW = {}
+__GGB__keysVar.zh_TW = {};
 
 
 /***********************************************

@@ -19,7 +19,7 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar.hu = {}
+__GGB__keysVar.hu = {};
 
 
 /***********************************************
