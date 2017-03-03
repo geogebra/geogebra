@@ -17,6 +17,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -146,7 +148,19 @@ public class PopupMenuButtonW extends MyCJButton
 				handleClick();
 			}
 		});
-	
+
+		addDomHandler(new MouseDownHandler() {
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				event.stopPropagation();
+				if (!PopupMenuButtonW.this.isEnabled()) {
+					return;
+				}
+				handleClick();
+			}
+		}, MouseDownEvent.getType());
+		
 		addDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
