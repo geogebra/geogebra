@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
+	private static final int SUBMENU_ROW = 1;
 	private AppW app;
 	private StandardButton redoButton;
 	private StandardButton undoButton;
@@ -30,6 +31,10 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private FlowPanel leftPanel;
 	private FlowPanel middlePanel;
 	private FlowPanel rightPanel;
+	private SubMenuPanel currentMenu = null;
+	private SubMenuPanel penMenu;
+	private SubMenuPanel toolsMenu;
+	private SubMenuPanel mediaMenu;
 
 	public MOWToolbar(AppW app) {
 		this.app = app;
@@ -51,6 +56,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		createMiddleButtons();
 		createMoveButton();
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
+		add(toolsMenu);
+
+
 	}
 
 	private void createMiddleButtons() {
@@ -72,17 +80,20 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private void createPenButton() {
 		penButton = createButton(
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN, app));
+		penMenu = new PenSubMenu(app);
 	}
 
 	private void createToolsButton() {
 		toolsButton = createButton(
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_TEXT, app));
+		toolsMenu = new ToolsSubMenu(app);
+
 	}
 
 	private void createMediaButton() {
 		mediaButton = createButton(
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_IMAGE, app));
-
+		mediaMenu = new MediaSubMenu(app);
 	}
 
 	private void createMoveButton() {
@@ -155,7 +166,28 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			app.hideKeyboard();
 		} else if (source == moveButton) {
 			app.setMoveMode();
+		} else if (source == penButton) {
+			setCurrentMenu(penMenu);
+		} else if (source == toolsButton) {
+			setCurrentMenu(toolsMenu);
+		} else if (source == mediaButton) {
+			setCurrentMenu(mediaMenu);
 		}
+	}
+
+	public SubMenuPanel getCurrentMenu() {
+		return currentMenu;
+	}
+
+	public void setCurrentMenu(SubMenuPanel submenu) {
+		if (currentMenu == submenu) {
+			currentMenu.setVisible(!currentMenu.isVisible());
+			return;
+		} else if (currentMenu != null) {
+			remove(SUBMENU_ROW);
+		}
+		this.currentMenu = submenu;
+		add(currentMenu);
 	}
 
 }
