@@ -2098,6 +2098,14 @@ public class DrawConic extends Drawable implements Previewable {
 		this.isCircle = isCircle;
 	}
 
+	private static boolean isCornerHandler(
+			EuclidianBoundingBoxHandler handler) {
+		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
+				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
+				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
+				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
+	}
+
 	private void fixCornerCoords(EuclidianBoundingBoxHandler hitHandler) {
 		if (Double.isNaN(fixCornerX)) {
 			switch (hitHandler) {
@@ -2105,9 +2113,17 @@ public class DrawConic extends Drawable implements Previewable {
 			case TOP_LEFT:
 				fixCornerX = getBoundingBox().getRectangle().getMaxX();
 				break;
+			case LEFT:
+				fixCornerX = getBoundingBox().getRectangle().getMaxX();
+				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				break;
 			case TOP_RIGHT:
 			case BOTTOM_RIGHT:
 				fixCornerX = getBoundingBox().getRectangle().getX();
+				break;
+			case RIGHT:
+				fixCornerX = getBoundingBox().getRectangle().getX();
+				fixCornerY = getBoundingBox().getRectangle().getMinY();
 				break;
 			default:
 				break;
@@ -2119,8 +2135,16 @@ public class DrawConic extends Drawable implements Previewable {
 			case TOP_RIGHT:
 				fixCornerY = getBoundingBox().getRectangle().getMaxY();
 				break;
+			case TOP:
+				fixCornerX = getBoundingBox().getRectangle().getMinX();
+				fixCornerY = getBoundingBox().getRectangle().getMaxY();
+				break;
 			case BOTTOM_LEFT:
 			case BOTTOM_RIGHT:
+				fixCornerY = getBoundingBox().getRectangle().getMinY();
+				break;
+			case BOTTOM:
+				fixCornerX = getBoundingBox().getRectangle().getMinX();
 				fixCornerY = getBoundingBox().getRectangle().getMinY();
 				break;
 			default:
@@ -2135,12 +2159,14 @@ public class DrawConic extends Drawable implements Previewable {
 	}
 
 	/**
+	 * update ellipse/circle by dragging corner handler
+	 * 
 	 * @param hitHandler
 	 *            - handler was hit
 	 * @param event
 	 *            - mouse event
 	 */
-	protected void updateEllipse(EuclidianBoundingBoxHandler hitHandler,
+	protected void updateEllipseCorner(EuclidianBoundingBoxHandler hitHandler,
 			AbstractEvent event) {
 		if (prewEllipse == null) {
 			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
@@ -2202,12 +2228,68 @@ public class DrawConic extends Drawable implements Previewable {
 		getBoundingBox().setRectangle(prewEllipse.getBounds());
 	}
 
+	/**
+	 * update ellipse/circle by dragging side handler
+	 * 
+	 * @param hitHandler
+	 *            - handler was hit
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateEllipseSide(EuclidianBoundingBoxHandler hitHandler,
+			AbstractEvent event) {
+		if (prewEllipse == null) {
+			prewEllipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0,
+					0);
+		}
+
+		fixCornerCoords(hitHandler);
+		int width = (int) (event.getX() - fixCornerX);
+		int height = (int) (event.getY() - fixCornerY);
+		
+		if (hitHandler == EuclidianBoundingBoxHandler.LEFT
+				|| hitHandler == EuclidianBoundingBoxHandler.RIGHT) {
+			if (width >= 0) {
+				prewEllipse.setFrame(fixCornerX,
+							getBoundingBox().getRectangle().getMinY(),
+							width, getBoundingBox().getRectangle().getHeight());
+			} else { // width < 0
+				prewEllipse.setFrame(
+							fixCornerX + width,
+							getBoundingBox().getRectangle().getMinY(), -width,
+							getBoundingBox().getRectangle().getHeight());
+			}
+		}
+
+		if (hitHandler == EuclidianBoundingBoxHandler.TOP
+				|| hitHandler == EuclidianBoundingBoxHandler.BOTTOM) {
+			if (height >= 0) {
+				prewEllipse.setFrame(getBoundingBox().getRectangle().getMinX(),
+						fixCornerY, getBoundingBox().getRectangle().getWidth(),
+						height);
+			} else { // height < 0
+				prewEllipse.setFrame(getBoundingBox().getRectangle().getMinX(),
+						fixCornerY + height,
+						getBoundingBox().getRectangle().getWidth(), -height);
+			}
+		}
+
+		// with side handler dragging no circle anymore
+		setIsCircle(false);
+		proportion = Double.NaN;
+		getBoundingBox().setRectangle(prewEllipse.getBounds());
+	}
+
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
 		conic.setEuclidianVisible(false);
 		conic.updateRepaint();
-		updateEllipse(handler, e);
+		if (isCornerHandler(handler)) {
+			updateEllipseCorner(handler, e);
+		} else {
+			updateEllipseSide(handler, e);
+		}
 		view.setShapeEllipse(prewEllipse);
 		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
