@@ -1763,8 +1763,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		if (createAndAddDrawable(geo)) {
 			repaint();
+
+			if (!isDrawingPredecessor(geo)) {
+				// if (geo.hasChildren()) {
+				d = companion.newDrawable(geo);
+
+				if (d instanceof Drawable
+						&& ((Drawable) d).getBounds() != null) {
+					this.euclidianController.setDynamicStyleBarPosition(
+							((Drawable) d).getBounds(), true);
+					this.euclidianController.setDynamicStylebarVisible(true);
+				}
+			}
 		}
 
+	}
+
+	private boolean isDrawingPredecessor(GeoElement geo){
+		if (geo instanceof GeoPoint && getEuclidianController()
+				.getMode() != EuclidianConstants.MODE_POINT) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -2216,14 +2236,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public DrawableND newDrawable(GeoElement geo) {
-		DrawableND d = companion.newDrawable(geo);
-		if (d instanceof Drawable && ((Drawable) d).getBounds() != null) {
-			this.euclidianController.setDynamicStyleBarPosition(
-					((Drawable) d).getBounds(),
-					true);
-			this.euclidianController.setDynamicStylebarVisible(true);
-		}
-		return d;
+		return companion.newDrawable(geo);
 	}
 
 	@Override
