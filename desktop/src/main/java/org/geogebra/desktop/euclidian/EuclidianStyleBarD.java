@@ -361,7 +361,7 @@ public class EuclidianStyleBarD extends JToolBar
 				if (justCreated.isGeoPoint()) {
 					// get default type regarding what type of point has been
 					// created
-					if (((GeoPointND) justCreated).hasPath()) {
+					if (((GeoPointND) justCreated).isPointOnPath()) {
 						type = ConstructionDefaults.DEFAULT_POINT_ON_PATH;
 					} else if (((GeoPointND) justCreated).hasRegion()) {
 						type = ConstructionDefaults.DEFAULT_POINT_IN_REGION;
