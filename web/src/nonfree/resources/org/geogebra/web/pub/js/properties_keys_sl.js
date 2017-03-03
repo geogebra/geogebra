@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.sl = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.sl.colors = {
     "violet": "Vijoli\u010dna",
     "white": "Bela",
     "yellow": "Rumena",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.sl.command = {
     "ZoomOut.Syntax": "[ <faktor> ]\n[ <faktor>, <sredi\u0161\u010dna to\u010dka> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <\u0161tevilo>, <\u0161tevilo> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.sl.error = {
     "UnknownCommand": "Neznan ukaz",
     "UnsupportedLAF": "Izbran izgled na va\u0161em ra\u010dunalniku ni mogo\u010d",
     "VectorExpected": "Pri\u010dakujem to\u010dko ali vektor",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.sl.menu = {
     "ymin": "ymin",
     "ystep": "korak y",
     "zAxis": "zos",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.sl.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

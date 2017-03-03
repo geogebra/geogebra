@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.en_GB = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.en_GB.colors = {
     "violet": "Violet",
     "white": "White",
     "yellow": "Yellow",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.en_GB.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Centre Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.en_GB.error = {
     "UnknownCommand": "Unknown command",
     "UnsupportedLAF": "The chosen look and feel is not available on your computer",
     "VectorExpected": "Point or vector expected",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.en_GB.menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "zAxis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.en_GB.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

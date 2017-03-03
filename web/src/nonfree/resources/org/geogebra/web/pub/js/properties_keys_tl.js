@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.tl = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.tl.colors = {
     "violet": "Ube",
     "white": "Puti",
     "yellow": "Dilaw",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.tl.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.tl.error = {
     "UnknownCommand": "Ito ay hindi kilalang command",
     "UnsupportedLAF": "Ang napiling hitsura ay hindi available sa iyong computer",
     "VectorExpected": "Ang point o vector ang inaasahan",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.tl.menu = {
     "ymin": "Y Min",
     "ystep": "Y Step",
     "zAxis": "zAksis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.tl.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

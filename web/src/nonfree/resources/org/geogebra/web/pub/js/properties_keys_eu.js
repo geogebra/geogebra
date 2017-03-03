@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.eu = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.eu.colors = {
     "violet": "Bioleta",
     "white": "Zuria",
     "yellow": "Horia",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.eu.command = {
     "ZoomOut.Syntax": "[ <Eskala-faktorea> ]\n[ <Eskala-faktorea>, <Zentroa (puntua)> ]",
     "nPr": "Permutazioak",
     "nPr.Syntax": "[ <Zenbakia>, <Zenbakia> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.eu.error = {
     "UnknownCommand": "Komando ezezaguna",
     "UnsupportedLAF": "Aukeratutako itxura ezin da erabili ordenagailu honetan.",
     "VectorExpected": "Puntu edo bektore baten zain...",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.eu.menu = {
     "ymin": "ymin",
     "ystep": "Y Pausoa",
     "zAxis": "zArdatza",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.eu.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

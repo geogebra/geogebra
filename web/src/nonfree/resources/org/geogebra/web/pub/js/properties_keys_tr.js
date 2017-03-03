@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.tr = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.tr.colors = {
     "violet": "Menek\u015fe",
     "white": "Beyaz",
     "yellow": "Sar\u0131",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.tr.command = {
     "ZoomOut.Syntax": "[ <\xd6l\xe7ek Fakt\xf6r\xfc> ]\n[ <\xd6l\xe7ek Fakt\xf6r\xfc>, <Merkez Nokta> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Say\u0131>, <Say\u0131> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.tr.error = {
     "UnknownCommand": "Bilinmeyen komut",
     "UnsupportedLAF": "Se\xe7ilen g\xf6r\xfcn\xfcm tipi bilgisayar\u0131n\u0131zda y\xfckl\xfc de\u011fil.",
     "VectorExpected": "Nokta veya vekt\xf6r beklenmektedir",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.tr.menu = {
     "ymin": "ymin",
     "ystep": "Y Ad\u0131m",
     "zAxis": "zEkseni",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.tr.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.sq = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.sq.colors = {
     "violet": "Vjollce",
     "white": "I/e bardhe",
     "yellow": "I/e verdhe",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.sq.command = {
     "ZoomOut.Syntax": "[ <Faktori Zvogelues> ]\n[ <Faktori Zvogeues>, <Pika Qender> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Numer>, <Numer> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.sq.error = {
     "UnknownCommand": "Komande e panjohur",
     "UnsupportedLAF": "Pamja dhe ndjesia te zgjedhura nuk jane ne dispozicion ne kompjuterin tuaj.",
     "VectorExpected": "Pika apo vektori i pritur",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.sq.menu = {
     "ymin": "y-min",
     "ystep": "Y Shkalle",
     "zAxis": "zBosht",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.sq.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

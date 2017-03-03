@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.nl_NL = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.nl_NL.colors = {
     "violet": "Violet",
     "white": "Wit",
     "yellow": "Geel",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.nl_NL.command = {
     "ZoomOut.Syntax": "[ <Schaalfactor> ]\n[ <Schaalfactor>, <Centrum> ]",
     "nPr": "Aantal_Permutaties",
     "nPr.Syntax": "[ <Getal>, <Getal> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.nl_NL.error = {
     "UnknownCommand": "Ongekend commando",
     "UnsupportedLAF": "De gekozen look and feel is niet beschikbaar op jouw computer.",
     "VectorExpected": "Punt of vector verwacht",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.nl_NL.menu = {
     "ymin": "yMin",
     "ystep": "Y Stapgrootte",
     "zAxis": "zAs",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.nl_NL.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

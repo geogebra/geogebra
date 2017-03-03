@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.it = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.it.colors = {
     "violet": "Viola",
     "white": "Bianco",
     "yellow": "Giallo",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.it.command = {
     "ZoomOut.Syntax": "[ <Fattore di scala> ]\n[ <Fattore di scala>, <Punto centrale> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Numero>, <Numero> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.it.error = {
     "UnknownCommand": "Comando sconosciuto",
     "UnsupportedLAF": "Il tipo di visualizzazione selezionato non \xe8 supportato dal computer.",
     "VectorExpected": "Atteso punto o vettore",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.it.menu = {
     "ymin": "y Min",
     "ystep": "Passo Y",
     "zAxis": "asseZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.it.symbols = {
     "T.7": "Per ogni",
     "T.8": "Esiste",
     "T.9": "Non esiste",
-}
+};

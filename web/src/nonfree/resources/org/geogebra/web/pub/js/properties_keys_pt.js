@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.pt = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.pt.colors = {
     "violet": "Violeta",
     "white": "Branco",
     "yellow": "Amarelo",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.pt.command = {
     "ZoomOut.Syntax": "[ <Fator de Escala> ]\n[ <Fator de Escala>, <Centro> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <N\xfamero>, <N\xfamero> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.pt.error = {
     "UnknownCommand": "Comando desconhecido",
     "UnsupportedLAF": "Esta configura\xe7\xe3o n\xe3o est\xe1 dispon\xedvel no seu computador.",
     "VectorExpected": "Entre com um ponto ou vetor",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.pt.menu = {
     "ymin": "y M\xedn",
     "ystep": "Passo em y",
     "zAxis": "EixoZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.pt.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

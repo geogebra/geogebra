@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.lv = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.lv.colors = {
     "violet": "Violets",
     "white": "Balts",
     "yellow": "Dzeltens",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.lv.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Skaitlis>, <Skaitlis> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.lv.error = {
     "UnknownCommand": "Nezin\u0101ms uzdevums",
     "UnsupportedLAF": "Izv\u0113l\u0113tais izskats nav iesp\u0113jams uz j\u016bsu datora",
     "VectorExpected": "Tiek pras\u012bts punkts vai vektors",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.lv.menu = {
     "ymin": "y Minimums",
     "ystep": "Y Solis",
     "zAxis": "zAss",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.lv.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

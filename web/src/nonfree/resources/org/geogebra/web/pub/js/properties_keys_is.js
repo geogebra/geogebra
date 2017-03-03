@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.is = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.is.colors = {
     "violet": "Fj\xf3lubl\xe1r",
     "white": "Hv\xedtur",
     "yellow": "Gulur",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.is.command = {
     "ZoomOut.Syntax": "[ <Sk\xf6lun> ]\n[ <Sk\xf6lun>, <Mi\xf0punktur> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Tala>, <Tala> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.is.error = {
     "UnknownCommand": "\xd3\xfeekkt skipun",
     "UnsupportedLAF": "Vali\xf0 \xfatlit er ekki \xed bo\xf0i \xe1 t\xf6lvunni \xfeinni",
     "VectorExpected": "B\xfaist var vi\xf0 punkti e\xf0a vigur",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.is.menu = {
     "ymin": "y Min",
     "ystep": "Y skref",
     "zAxis": "z\xc1s",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.is.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

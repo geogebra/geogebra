@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.no_NB = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.no_NB.colors = {
     "violet": "Fiolett",
     "white": "Hvit",
     "yellow": "Gul",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.no_NB.command = {
     "ZoomOut.Syntax": "[ <Skaleringsfaktor> ]\n[ <Skaleringsfaktor>, <Sentrumspunkt> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Tall>, <Tall> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.no_NB.error = {
     "UnknownCommand": "Ukjent kommando.",
     "UnsupportedLAF": "Den valgte utformingen er ikke tilgjengelig for din maskin.",
     "VectorExpected": "Her var det ventet et punkt eller en vektor.",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.no_NB.menu = {
     "ymin": "y-min",
     "ystep": "y-trinn",
     "zAxis": "zAkse",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.no_NB.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

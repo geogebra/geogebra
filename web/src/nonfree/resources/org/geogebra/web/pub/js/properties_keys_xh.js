@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.xh = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.xh.colors = {
     "violet": "Vayoleti",
     "white": "Mhlophe",
     "yellow": "Mthubi",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.xh.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Ichaphaza Lasembindini> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Inani>, <Inani> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.xh.error = {
     "UnknownCommand": "Umyalelo Ongaziwayo",
     "UnsupportedLAF": "Lembonakalo nesimo asifumaneki kweyakho ikhompyutha",
     "VectorExpected": "Kulindeleke ichaphaza okanye ivektha",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.xh.menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "zAxis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.xh.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.de_AT = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.de_AT.colors = {
     "violet": "Violett",
     "white": "Wei\xdf",
     "yellow": "Gelb",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.de_AT.command = {
     "ZoomOut.Syntax": "[ <Skalierungsfaktor> ]\n[ <Skalierungsfaktor>, <Mittelpunkt> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Zahl n>, <Zahl r> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.de_AT.error = {
     "UnknownCommand": "Unbekannter Befehl",
     "UnsupportedLAF": "Das gew\xe4hlte Look and Feel ist auf Ihrem Computer leider nicht verf\xfcgbar.",
     "VectorExpected": "Punkt oder Vektor erwartet",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.de_AT.menu = {
     "ymin": "y Min",
     "ystep": "Y Schrittweite",
     "zAxis": "zAchse",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.de_AT.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

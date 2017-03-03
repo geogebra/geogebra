@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.ml = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.ml.colors = {
     "violet": "\u0d35\u0d2f\u0d32\u0d31\u0d4d\u0d31\u0d4d",
     "white": "\u0d35\u0d46\u0d33\u0d41\u0d2a\u0d4d\u0d2a\u0d4d",
     "yellow": "\u0d2e\u0d1e\u0d4d\u0d1e",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.ml.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.ml.error = {
     "UnknownCommand": "\u0d05\u0d31\u0d3f\u0d2f \u0d2a\u0d4d\u0d2a\u0d46\u0d1f\u0d3e\u0d24\u0d4d\u0d24 \u0d06\u0d1c\u0d4d\u0d1e",
     "UnsupportedLAF": "\u0d24\u0d3f\u0d30\u0d1e\u0d4d\u0d1e\u0d46\u0d1f\u0d41\u0d24\u0d4d\u0d24 \u0d15\u0d3e\u0d34\u0d4d\u0d1a\u0d2f\u0d41\u0d02 \u0d05\u0d28\u0d41\u0d2d\u0d35\u0d35\u0d41\u0d02 \u0d24\u0d3e\u0d19\u0d4d\u0d15\u0d33\u0d41\u0d1f\u0d46 \u0d15\u0d2e\u0d4d\u0d2a\u0d4d\u0d2f\u0d42\u0d1f\u0d4d\u0d1f\u0d31\u0d3f\u0d7d \u0d32\u0d2d\u0d4d\u0d2f\u0d2e\u0d32\u0d4d\u0d32\u0d4d",
     "VectorExpected": "\u0d2c\u0d3f\u0d28\u0d4d\u0d26\u0d41\u0d35\u0d4b \u0d38\u0d26\u0d3f\u0d36\u0d2e\u0d4b \u0d2a\u0d4d\u0d30\u0d24\u0d40\u0d15\u0d4d\u0d37\u0d3f\u0d15\u0d4d\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d41",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.ml.menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "zAxis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.ml.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

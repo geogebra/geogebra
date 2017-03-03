@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.fi = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.fi.colors = {
     "violet": "Violetti",
     "white": "Valkoinen",
     "yellow": "Keltainen",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.fi.command = {
     "ZoomOut.Syntax": "[ <Kerroin> ]\n[ <Kerroin>, <Keskipiste> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Luku>, <Luku> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.fi.error = {
     "UnknownCommand": "Tuntematon komento",
     "UnsupportedLAF": "Valittua ulkoasua ei ole saatavissa tietokoneellasi",
     "VectorExpected": "Pistett\xe4 tai vektoria odotetaan",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.fi.menu = {
     "ymin": "y min",
     "ystep": "Y askel",
     "zAxis": "zAkseli",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.fi.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

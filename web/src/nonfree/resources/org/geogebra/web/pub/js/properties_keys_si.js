@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.si = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.si.colors = {
     "violet": "\u0da2\u0db8\u0dca\u0db6\u0dd6\u0dbd \u0dc0\u0dbb\u0dca\u0dab\u0dba",
     "white": "\u0dc3\u0dd4\u0daf\u0dd4",
     "yellow": "\u0d9a\u0dc4",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.si.command = {
     "ZoomOut.Syntax": "[ <\u0dad\u0dd4\u0dbd\u0dcf \u0dc3\u0dcf\u0db0\u0d9a\u0dba> ]\n[ <\u0dad\u0dd4\u0dbd\u0dcf \u0dc3\u0dcf\u0db0\u0d9a\u0dba>, <\u0db8\u0dcf\u0db0\u0dca\u200d\u0dba \u0dbd\u0d9a\u0dca\u0dc2\u0dba> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf\u0dc0>, <\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf\u0dc0> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.si.error = {
     "UnknownCommand": "\u0dc0\u0dd2\u0db0\u0dcf\u0db1\u0dba \u0dc4\u0daf\u0dd4\u0db1\u0dcf \u0d9c\u0dad \u0db1\u0ddc\u0dc4\u0dd0\u0d9a.",
     "UnsupportedLAF": "\u0dad\u0ddd\u0dbb\u0dcf\u0d9c\u0dad\u0dca \u0db1\u0dd2\u0dbb\u0dca\u0db8\u0dd2\u0dad\u0dd2\u0dba \u0db8\u0dd9\u0db8 \u0db4\u0dbb\u0dd2\u0d9d\u0db1\u0d9a\u0dba\u0dda \u0db7\u0dcf\u0dc0\u0dd2\u0dad \u0d9a\u0dc5 \u0db1\u0ddc\u0dc4\u0dd0\u0d9a.",
     "VectorExpected": "\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u0dba\u0dba\u0d9a\u0dca \u0dc4\u0ddd \u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba\u0d9a\u0dca \u0d85\u0dc0\u0dc1\u0dca\u200d\u0dba\u0dba.",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.si.menu = {
     "ymin": "Y\u0dc4\u0dd3 \u0d85\u0dc0\u0db8\u0dba",
     "ystep": "Y \u0db4\u0dd2\u0dba\u0dc0\u0dbb",
     "zAxis": "z \u0d85\u0d9a\u0dca\u0dc2\u0dba",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.si.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

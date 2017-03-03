@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.ro = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.ro.colors = {
     "violet": "Violet",
     "white": "Alb",
     "yellow": "Galben",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.ro.command = {
     "ZoomOut.Syntax": "[ <Factor dimensiune> ]\n[ <Factor dimensiune>, <Punct centru> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Num\u0103r>, <Num\u0103r> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.ro.error = {
     "UnknownCommand": "Comand\u0103 necunoscut\u0103",
     "UnsupportedLAF": "Aspectul \u015fi textura aleas\u0103 nu sunt disponibile pe computerul Dvs.",
     "VectorExpected": "Se a\u015fteapt\u0103 un punct sau un vector",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.ro.menu = {
     "ymin": "y min",
     "ystep": "Pas Y",
     "zAxis": "axaZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.ro.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

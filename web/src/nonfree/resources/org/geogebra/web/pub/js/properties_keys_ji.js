@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.ji = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.ji.colors = {
     "violet": "\u05e4\u05bf\u05d9\u05d0\u05b8\u05dc\u05e2\u05d8",
     "white": "\u05d5\u05d5\u05f2\u05b7\u05e1",
     "yellow": "\u05d2\u05e2\u05dc",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.ji.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.ji.error = {
     "UnknownCommand": "\u05d0\u05d5\u05de\u05d1\u05d0\u05b7\u05e7\u05d0\u05b7\u05e0\u05d8\u05e2\u05e8 \u05d1\u05d0\u05b7\u05e4\u05bf\u05e2\u05dc",
     "UnsupportedLAF": "\u05d3\u05d0\u05b8\u05e1 \u05d0\u05d5\u05d9\u05e1\u05d2\u05e2\u05e7\u05dc\u05d9\u05d1\u05e2\u05e0\u05e2 \u05d0\u05d5\u05d9\u05e1\u05d6\u05e2\u05df \u05d0\u05d9\u05d6 \u05e0\u05d9\u05e9\u05d8 \u05d1\u05e0\u05d9\u05de\u05e6\u05d0 \u05d0\u05d5\u05d9\u05e3 \u05d3\u05e2\u05dd \u05e7\u05d0\u05b8\u05de\u05e4\u05bc\u05d9\u05d5\u05d8\u05e2\u05e8",
     "VectorExpected": "\u05d3\u05d0\u05b8 \u05e4\u05bf\u05d0\u05b8\u05d3\u05e2\u05e8\u05d8 \u05d6\u05d9\u05da \u05d0\u05b7 \u05e4\u05bc\u05d5\u05e0\u05e7\u05d8 \u05d0\u05b8\u05d3\u05e2\u05e8 \u05d0\u05b7 \u05d5\u05d5\u05e2\u05e7\u05d8\u05d0\u05b8\u05e8",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.ji.menu = {
     "ymin": "\u05de\u05d9\u05e0\u05d9\u05de\u05d5\u05dd Y",
     "ystep": "\u05e9\u05e4\u05bc\u05d0\u05b7\u05df \u05e4\u05bf\u05d0\u05b7\u05e8 Y",
     "zAxis": "\u05d0\u05b7\u05e7\u05e1Z",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.ji.symbols = {
     "T.7": "\u05d7\u05d9\u05e8\u05d9\u05e7\u05be\u05d9\u05d5\u05d3",
     "T.8": "\u05e4\u05bc\u05ea\u05d7 \u05e6\u05d5\u05d5\u05d9\u05d9 \u05d9\u05d5\u05d3\u05df",
     "T.9": "\u05db\u05bc\u05e3",
-}
+};

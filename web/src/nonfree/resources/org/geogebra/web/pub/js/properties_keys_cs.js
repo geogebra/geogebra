@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.cs = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.cs.colors = {
     "violet": "fialov\xe1",
     "white": "b\xedl\xe1",
     "yellow": "\u017elut\xe1",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.cs.command = {
     "ZoomOut.Syntax": "[ <M\u011b\u0159\xedtko> ]\n[ <M\u011b\u0159\xedtko>, <St\u0159ed> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <\u010c\xedslo>, <\u010c\xedslo> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.cs.error = {
     "UnknownCommand": "Nezn\xe1m\xfd p\u0159\xedkaz",
     "UnsupportedLAF": "Zvolen\xfd vzhled nen\xed na tomto po\u010d\xedta\u010di k dispozici.",
     "VectorExpected": "O\u010dek\xe1v\xe1n bod nebo vektor",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.cs.menu = {
     "ymin": "y min.",
     "ystep": "y krok",
     "zAxis": "OsaZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.cs.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

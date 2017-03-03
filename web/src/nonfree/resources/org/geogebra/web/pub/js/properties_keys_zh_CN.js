@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.zh_CN = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.zh_CN.colors = {
     "violet": "\u7d2b\u84dd",
     "white": "\u767d\u8272",
     "yellow": "\u9ec4\u8272",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.zh_CN.command = {
     "ZoomOut.Syntax": "[ <\u7f29\u653e\u56e0\u5b50> ]\n[ <\u7f29\u653e\u56e0\u5b50>, <\u4e2d\u5fc3\u70b9> ]",
     "nPr": "\u6392\u5217\u6570",
     "nPr.Syntax": "[ <\u6570\u5b57n>, <\u6570\u5b57r> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.zh_CN.error = {
     "UnknownCommand": "\u672a\u77e5\u7684\u6307\u4ee4",
     "UnsupportedLAF": "\u4f60\u7684\u7535\u8111\u7cfb\u7edf\u5e76\u4e0d\u652f\u6301\u4f60\u6240\u9009\u53d6\u7684\u5916\u89c2\u98ce\u683c",
     "VectorExpected": "\u4f60\u5fc5\u987b\u8f93\u5165\u70b9\u5750\u6807\u6216\u8005\u5411\u91cf",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.zh_CN.menu = {
     "ymin": "y \u6700\u5c0f\u503c",
     "ystep": "Y \u6b65\u957f",
     "zAxis": "z\u8f74",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.zh_CN.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

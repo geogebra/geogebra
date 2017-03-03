@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.et = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.et.colors = {
     "violet": "Violetne",
     "white": "Valge",
     "yellow": "Kollane",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.et.command = {
     "ZoomOut.Syntax": "[ <Skaala tegur> ]\n[ <Skaala tegur>, <Keskpunkt> ]",
     "nPr": "nPermutatsioonideArv",
     "nPr.Syntax": "[ <Arv>, <Arv> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.et.error = {
     "UnknownCommand": "Tundmatu k\xe4sk",
     "UnsupportedLAF": "Valitud t\xf6\xf6ilme pole selles arvutis k\xe4ttesaadav.",
     "VectorExpected": "Sisestage punkt v\xf5i vektor.",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.et.menu = {
     "ymin": "y min",
     "ystep": "Y Samm",
     "zAxis": "zTelg",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.et.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

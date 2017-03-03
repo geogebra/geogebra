@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.es_UY = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.es_UY.colors = {
     "violet": "Violeta",
     "white": "Blanco",
     "yellow": "Amarillo",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.es_UY.command = {
     "ZoomOut.Syntax": "[ <Factor de escala> ]\n[ <Factor de escala>, <Punto (centro)> ]",
     "nPr": "N\xfameroArreglos",
     "nPr.Syntax": "[ <N\xfamero>, <N\xfamero> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.es_UY.error = {
     "UnknownCommand": "Comando desconocido.",
     "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible",
     "VectorExpected": "Se esperaba un punto o un vector.",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.es_UY.menu = {
     "ymin": "y M\xedn",
     "ystep": "Paso Y",
     "zAxis": "EjeZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.es_UY.symbols = {
     "T.7": "e con tilde",
     "T.8": "U con di\xe9resis",
     "T.9": "u con di\xe9resis",
-}
+};

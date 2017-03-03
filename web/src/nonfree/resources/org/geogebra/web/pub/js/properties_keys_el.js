@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.el = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.el.colors = {
     "violet": "\u0392\u03b9\u03bf\u03bb\u03b5\u03c4\u03af",
     "white": "\u0386\u03c3\u03c0\u03c1\u03bf",
     "yellow": "\u039a\u03af\u03c4\u03c1\u03b9\u03bd\u03bf",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.el.command = {
     "ZoomOut.Syntax": "[ <\u03a0\u03b1\u03c1\u03ac\u03b3\u03bf\u03bd\u03c4\u03b1\u03c2 \u03ba\u03bb\u03af\u03bc\u03b1\u03ba\u03b1\u03c2> ]\n[ <\u03a0\u03b1\u03c1\u03ac\u03b3\u03bf\u03bd\u03c4\u03b1\u03c2 \u03ba\u03bb\u03af\u03bc\u03b1\u03ba\u03b1\u03c2>, <\u03a3\u03b7\u03bc\u03b5\u03af\u03bf> ]",
     "nPr": "\u039c\u03b5\u03c4\u03b1\u03b8\u03ad\u03c3\u03b5\u03b9\u03c2",
     "nPr.Syntax": "[ <\u0391\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2>, <\u0391\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.el.error = {
     "UnknownCommand": "\u0386\u03b3\u03bd\u03c9\u03c3\u03c4\u03b7 \u03b5\u03bd\u03c4\u03bf\u03bb\u03ae",
     "UnsupportedLAF": "\u0397 \u03b5\u03c0\u03b9\u03bb\u03b5\u03b3\u03bc\u03ad\u03bd\u03b7 \u03b5\u03bc\u03c6\u03ac\u03bd\u03b9\u03c3\u03b7 \u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b5\u03bd\u03b5\u03c1\u03b3\u03bf\u03c0\u03bf\u03b9\u03b7\u03bc\u03ad\u03bd\u03b7 \u03c3\u03c4\u03bf\u03bd \u03c5\u03c0\u03bf\u03bb\u03bf\u03b3\u03b9\u03c3\u03c4\u03ae \u03c3\u03b1\u03c2.",
     "VectorExpected": "\u0391\u03bd\u03b1\u03bc\u03ad\u03bd\u03b5\u03c4\u03b1\u03b9 \u03c3\u03b7\u03bc\u03b5\u03af\u03bf \u03ae \u03b4\u03b9\u03ac\u03bd\u03c5\u03c3\u03bc\u03b1",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.el.menu = {
     "ymin": "y Min",
     "ystep": "\u0392\u03ae\u03bc\u03b1 \u03a5",
     "zAxis": "\u0391\u03be\u03bf\u03bd\u03b1\u03c2\u0396",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.el.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

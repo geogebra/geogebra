@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.lt = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.lt.colors = {
     "violet": "Violetin\u0117",
     "white": "Balta",
     "yellow": "Geltona",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.lt.command = {
     "ZoomOut.Syntax": "[ <Skal\u0117s faktorius> ]\n[ <Skal\u0117s faktorius>, <Centro ta\u0161kas> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Skai\u010dius>, <Skai\u010dius> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.lt.error = {
     "UnknownCommand": "Ne\u017einoma komanda",
     "UnsupportedLAF": "Pasirinktas stilius negali b\u016bti paleistas \u0161iame kompiuteryje.",
     "VectorExpected": "Reikalingas ta\u0161kas ar vektorius",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.lt.menu = {
     "ymin": "y minimumas",
     "ystep": "Y \u017eingsnis",
     "zAxis": "zA\u0161is",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.lt.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

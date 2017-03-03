@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.vi = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.vi.colors = {
     "violet": "M\xe0u t\xedm",
     "white": "M\xe0u tr\u1eafng",
     "yellow": "M\xe0u v\xe0ng t\u01b0\u01a1i",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.vi.command = {
     "ZoomOut.Syntax": "[ <T\u1ec9 l\u1ec7> ]\n[ <T\u1ec9 l\u1ec7>, <T\xe2m> ]",
     "nPr": "nChinhHop",
     "nPr.Syntax": "[ <S\u1ed1>, <S\u1ed1> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.vi.error = {
     "UnknownCommand": "C\xe2u l\u1ec7nh ch\u01b0a \u0111\u1ecbnh ngh\u0129a",
     "UnsupportedLAF": "M\xe1y t\xednh c\u1ee7a b\u1ea1n kh\xf4ng h\u1ed7 tr\u1ee3 giao di\u1ec7n \u0111\u01b0\u1ee3c ch\u1ecdn",
     "VectorExpected": "\u0110i\u1ec3m ho\u1eb7c v\xe9ct\u01a1 th\u1ecfa m\xe3n",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.vi.menu = {
     "ymin": "GTNNy",
     "ystep": "Y B\u01b0\u1edbc",
     "zAxis": "TrucZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.vi.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

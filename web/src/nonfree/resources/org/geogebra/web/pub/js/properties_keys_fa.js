@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.fa = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.fa.colors = {
     "violet": "\u0628\u0646\u0641\u0634",
     "white": "\u0633\u0641\u06cc\u062f",
     "yellow": "\u0632\u0631\u062f",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.fa.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.fa.error = {
     "UnknownCommand": "\u062f\u0633\u062a\u0648\u0631 \u0634\u0646\u0627\u062e\u062a\u0647 \u0646\u0634\u062f\u0647",
     "UnsupportedLAF": "\u062f\u064a\u062f\u06af\u0627\u0647 \u0627\u0646\u062a\u062e\u0627\u0628 \u0634\u062f\u0647 \u062f\u0631 \u0631\u0627\u064a\u0627\u0646\u0647 \u0634\u0645\u0627 \u0642\u0627\u0628\u0644 \u062f\u0633\u062a\u0631\u0633\u064a \u0646\u064a\u0633\u062a",
     "VectorExpected": "\u0646\u0642\u0637\u0647 \u064a\u0627 \u0628\u0631\u062f\u0627\u0631 \u0645\u0648\u0631\u062f \u0646\u064a\u0627\u0632 \u0627\u0633\u062a",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.fa.menu = {
     "ymin": "y \u06a9\u0645\u062a\u0631\u06cc\u0646",
     "ystep": "\u06af\u0627\u0645 Y",
     "zAxis": "zAxis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.fa.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

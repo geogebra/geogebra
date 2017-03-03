@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.cy = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.cy.colors = {
     "violet": "Fioled",
     "white": "Gwyn",
     "yellow": "Melyn",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.cy.command = {
     "ZoomOut.Syntax": "[ <Ffactor Graddfa> ]\n[ <Ffactor Graddfa>, <Canolbwynt> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Rhif>, <Rhif> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.cy.error = {
     "UnknownCommand": "Gorchymyn anhysbys",
     "UnsupportedLAF": "Nid yw'r edrychiad a'r naws a ddewiswyd ar gael ar eich cyfrifiadur.",
     "VectorExpected": "Disgwylir pwynt neu fector",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.cy.menu = {
     "ymin": "MinY",
     "ystep": "Cynyddiad Y",
     "zAxis": "zAxis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.cy.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

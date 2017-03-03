@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.pl = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.pl.colors = {
     "violet": "fioletowy",
     "white": "bia\u0142y",
     "yellow": "\u017c\xf3\u0142ty",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.pl.command = {
     "ZoomOut.Syntax": "[ <Czynnik Skaluj\u0105cy> ]\n[ <Czynnik Skaluj\u0105cy>, <Punkt \u015arodkowy> ]",
     "nPr": "WariacjeBezPowtorzen",
     "nPr.Syntax": "[ <Liczba>, <Liczba> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.pl.error = {
     "UnknownCommand": "Nieznane polecenie",
     "UnsupportedLAF": "Wybrany widok nie jest dost\u0119pny na twoim komputerze.",
     "VectorExpected": "Oczekiwany jest punkt lub wektor",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.pl.menu = {
     "ymin": "yMin",
     "ystep": "Y krok",
     "zAxis": "o\u015b Z",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.pl.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.da = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.da.colors = {
     "violet": "Violet",
     "white": "hvid",
     "yellow": "gul",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.da.command = {
     "ZoomOut.Syntax": "[ <Skalerings Faktor> ]\n[ <Skalerings Faktor>, <Center Punkt> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <tal>, <tal> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.da.error = {
     "UnknownCommand": "Ukendt kommando",
     "UnsupportedLAF": "Det valgte udseende er ikke tilr\xe5dighed p\xe5 din maskine.",
     "VectorExpected": "Punkt eller vektor forventet",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.da.menu = {
     "ymin": "y Min",
     "ystep": "Y trin",
     "zAxis": "zAkse",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.da.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

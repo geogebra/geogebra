@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.in = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.in.colors = {
     "violet": "Jingga",
     "white": "Putih",
     "yellow": "Kuning",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.in.command = {
     "ZoomOut.Syntax": "[ <Faktor Skala> ]\n[ <Faktor Skala>, <Titik Tengah> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Angka>, <Angka> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.in.error = {
     "UnknownCommand": "Perintah tidak dikenal",
     "UnsupportedLAF": "Tampilan yang dipilih tidak tersedia pada komputer Anda.",
     "VectorExpected": "Diharapkan titik atau vektor",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.in.menu = {
     "ymin": "Min y",
     "ystep": "Langkah Y",
     "zAxis": "Sumbuz",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.in.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

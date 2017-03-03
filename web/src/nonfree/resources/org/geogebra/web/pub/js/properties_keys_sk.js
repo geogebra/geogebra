@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.sk = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.sk.colors = {
     "violet": "fialov\xe1",
     "white": "biela",
     "yellow": "\u017elt\xe1",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.sk.command = {
     "ZoomOut.Syntax": "[ <Factor> ]\n[ <Factor>, <Stred> ]",
     "nPr": "Permut\xe1cia",
     "nPr.Syntax": "[ <\u010c\xedslo n>, <\u010c\xedslo r> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.sk.error = {
     "UnknownCommand": "Nezn\xe1my pr\xedkaz",
     "UnsupportedLAF": "Zvolen\xfd vzh\u013ead na tomto po\u010d\xedta\u010di nie je k dispoz\xedcii",
     "VectorExpected": "O\u010dak\xe1vam bod alebo vektor",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.sk.menu = {
     "ymin": "ymin",
     "ystep": "y krok",
     "zAxis": "zOs",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.sk.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

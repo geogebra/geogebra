@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.fr = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.fr.colors = {
     "violet": "Violet",
     "white": "Blanc",
     "yellow": "Jaune",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.fr.command = {
     "ZoomOut.Syntax": "[ <Facteur de r\xe9duction> ]\n[ <Facteur de r\xe9duction>, <Centre> ]",
     "nPr": "Arrangement",
     "nPr.Syntax": "[ <Nombre n>, <Nombre p> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.fr.error = {
     "UnknownCommand": "Commande inconnue",
     "UnsupportedLAF": "L'apparence choisie n'est pas disponible sur cet ordinateur.",
     "VectorExpected": "Point ou vecteur attendu",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.fr.menu = {
     "ymin": "yMin",
     "ystep": "ypas",
     "zAxis": "axeZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.fr.symbols = {
     "T.7": "e accent aigu",
     "T.8": "e accent grave",
     "T.9": "e tr\xe9ma",
-}
+};

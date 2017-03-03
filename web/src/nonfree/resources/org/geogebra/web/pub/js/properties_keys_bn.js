@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.bn = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.bn.colors = {
     "violet": "\u09ac\u09c7\u0997\u09c1\u09a8\u09c0",
     "white": "\u09b8\u09be\u09a6\u09be",
     "yellow": "\u09b9\u09b2\u09c1\u09a6",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.bn.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.bn.error = {
     "UnknownCommand": "\u0985\u099c\u09be\u09a8\u09be \u0995\u09ae\u09be\u09a8\u09cd\u09a1",
     "UnsupportedLAF": "The chosen look and feel is not available on your computer",
     "VectorExpected": "Point or vector expected",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.bn.menu = {
     "ymin": "y Min",
     "ystep": "Y Step",
     "zAxis": "zAxis",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.bn.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

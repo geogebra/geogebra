@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.ca_XV = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.ca_XV.colors = {
     "violet": "Violeta",
     "white": "Blanc",
     "yellow": "Groc",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.ca_XV.command = {
     "ZoomOut.Syntax": "[ <Factor d\u2019escala> ]\n[ <Factor d\u2019escala>, <Punt de centre> ]",
     "nPr": "Vnr",
     "nPr.Syntax": "[ <Nombre>, <Nombre> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.ca_XV.error = {
     "UnknownCommand": "L'orde \xe9s desconeguda",
     "UnsupportedLAF": "Esta aparen\xe7a no est\xe0 disponible en este ordinador",
     "VectorExpected": "S'esperava un punt o un vector.",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.ca_XV.menu = {
     "ymin": "y m\xedn.",
     "ystep": "Pas Y",
     "zAxis": "EixZ",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.ca_XV.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

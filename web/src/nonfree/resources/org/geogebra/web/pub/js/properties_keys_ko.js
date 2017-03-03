@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.ko = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.ko.colors = {
     "violet": "\ubcf4\ub77c",
     "white": "\ud770\uc0c9",
     "yellow": "\ub178\ub791",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.ko.command = {
     "ZoomOut.Syntax": "[ <\ub2e8\uc704> ]\n[ <\ub2e8\uc704>, <\uc911\uc2ec\uc810> ]",
     "nPr": "\uc21c\uc5f4",
     "nPr.Syntax": "[ <\uc218 n>, <\uc218 r> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.ko.error = {
     "UnknownCommand": "\uc54c \uc218 \uc5c6\ub294 \uba85\ub839",
     "UnsupportedLAF": "\uc120\ud0dd\ub41c \ub8e9\uc564\ud544(Look & Feel)\uc740 \ud604\uc7ac \ucef4\ud4e8\ud130\uc5d0\uc11c \uc0ac\uc6a9\ub420 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "VectorExpected": "\uc608\uc0c1\ub41c \uc810\uc774\ub098 \ubca1\ud130",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.ko.menu = {
     "ymin": "y\uc758 \ucd5c\uc19f\uac12",
     "ystep": "y\ucd95 \uac04\uaca9",
     "zAxis": "z\ucd95",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.ko.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

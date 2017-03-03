@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.hu_gm = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.hu_gm.colors = {
     "violet": "ibolyak\xe9k",
     "white": "feh\xe9r",
     "yellow": "s\xe1rga",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.hu_gm.command = {
     "ZoomOut.Syntax": "[ <Ar\xe1ny> ]\n[ <Ar\xe1ny>, <K\xf6z\xe9ppont> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Sz\xe1m>, <Sz\xe1m> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.hu_gm.error = {
     "UnknownCommand": "Ismeretlen parancs",
     "UnsupportedLAF": "A v\xe1lasztott kin\xe9zet nem \xe9rhet\u0151 el a sz\xe1m\xedt\xf3g\xe9peden",
     "VectorExpected": "Pontot vagy vektort kell megadni",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.hu_gm.menu = {
     "ymin": "y-minimum",
     "ystep": "y-l\xe9p\xe9sk\xf6z",
     "zAxis": "zTengely",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.hu_gm.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};

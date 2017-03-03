@@ -17,7 +17,7 @@
 /* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
-}
+};
 
 __GGB__keysVar.zh_TW = {};
 
@@ -59,7 +59,7 @@ __GGB__keysVar.zh_TW.colors = {
     "violet": "\u7d2b\u85cd",
     "white": "\u767d",
     "yellow": "\u9ec3",
-}
+};
 
 
 /***********************************************
@@ -1094,7 +1094,7 @@ __GGB__keysVar.zh_TW.command = {
     "ZoomOut.Syntax": "[ <Scale Factor> ]\n[ <Scale Factor>, <Center Point> ]",
     "nPr": "nPr",
     "nPr.Syntax": "[ <Number>, <Number> ]",
-}
+};
 
 
 /***********************************************
@@ -1164,7 +1164,7 @@ __GGB__keysVar.zh_TW.error = {
     "UnknownCommand": "\u4e0d\u660e\u7684\u6307\u4ee4",
     "UnsupportedLAF": "\u60a8\u7684\u96fb\u8166\u4e26\u4e0d\u652f\u63f4\u60a8\u6240\u9078\u53d6\u7684\u5916\u89c0\u98a8\u683c",
     "VectorExpected": "\u60a8\u5fc5\u9808\u8f38\u5165\u9ede\u5ea7\u6a19\u6216\u662f\u5411\u91cf",
-}
+};
 
 
 /***********************************************
@@ -3102,7 +3102,7 @@ __GGB__keysVar.zh_TW.menu = {
     "ymin": "y \u6700\u5c0f",
     "ystep": "y \u9593\u8ddd",
     "zAxis": "z\u8ef8",
-}
+};
 
 
 /***********************************************
@@ -3148,4 +3148,4 @@ __GGB__keysVar.zh_TW.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-}
+};
