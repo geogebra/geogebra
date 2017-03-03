@@ -1176,8 +1176,6 @@ public abstract class ProbabilityCalculatorView
 		discreteProbList.setLabelVisible(false);
 		discreteProbList.setFixed(true);
 		discreteProbList.setSelectionAllowed(false);
-
-		return;
 	}
 
 	private void clearPlotGeoList() {

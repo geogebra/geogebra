@@ -570,12 +570,15 @@ public class Command extends ValidExpression
 			if (ev != null) {
 				lastType = ev.getValueType();
 			} else {
-				throw ex instanceof MyError ? (MyError) ex
-						: new MyError(kernel.getLocalization(),
-								ex.getMessage());
+				throw wrapError(ex);
 			}
 		}
 		return lastType;
+	}
+
+	private MyError wrapError(Throwable ex) {
+		return ex instanceof MyError ? (MyError) ex
+				: new MyError(kernel.getLocalization(), ex.getMessage());
 	}
 
 	@Override

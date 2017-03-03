@@ -88,16 +88,12 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 				false, false);
 
 		if (poly != null) {
-
 			num.setValue(poly.getDegree());
-
 			return;
 		}
 
 		// not a polynomial
 		num.setUndefined();
-		return;
-
 	}
 
 }

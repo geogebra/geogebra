@@ -58,8 +58,6 @@ public class NumberInputHandler implements InputHandler {
 							if (callback0 != null) {
 								callback0.callback(success);
 							}
-							return;
-
 						}
 					});
 		} catch (Throwable e) {

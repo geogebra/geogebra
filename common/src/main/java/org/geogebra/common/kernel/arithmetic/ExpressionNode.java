@@ -6354,7 +6354,6 @@ public class ExpressionNode extends ValidExpression
 		} else if (right != null) {
 			factors.add(right.deepCopy(kernel).wrap());
 		}
-		return;
 	}
 
 	/**

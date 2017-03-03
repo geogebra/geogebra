@@ -1113,7 +1113,6 @@ public class Kernel {
 		}
 		sb.append(STRING_MINUS_PLUS);
 		sb.append(format(-x, tpl));
-		return;
 	}
 
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,

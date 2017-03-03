@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.advanced;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * AlgoOptimize: Abstract class for AlgoMaximize and AlgoMinimize Command
@@ -138,9 +138,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 		// indep.updateCascade();
 		optCons.updateConstruction();
 		isrunning = false;
-		return;
-
-	}// compute()
+	}
 
 	/**
 	 * @return optimal value of independent number

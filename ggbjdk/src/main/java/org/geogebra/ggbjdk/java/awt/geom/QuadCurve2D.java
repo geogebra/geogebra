@@ -848,7 +848,6 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
         eqn[0] = c1 - val;
         eqn[1] = cp + cp - c1 - c1;
         eqn[2] = c1 - cp - cp + c2;
-        return;
     }
 
     /**
@@ -1154,19 +1153,20 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
     }
 
     /**
-     * Returns an iteration object that defines the boundary of the
-     * shape of this <code>QuadCurve2D</code>.
-     * The iterator for this class is not multi-threaded safe,
-     * which means that this <code>QuadCurve2D</code> class does not
-     * guarantee that modifications to the geometry of this
-     * <code>QuadCurve2D</code> object do not affect any iterations of
-     * that geometry that are already in process.
-     * @param at an optional {@link AffineTransform} to apply to the
-     *          shape boundary
-     * @return a {@link PathIterator} object that defines the boundary
-     *          of the shape.
-     * @since 1.2
-     */
+	 * Returns an iteration object that defines the boundary of the shape of
+	 * this <code>QuadCurve2D</code>. The iterator for this class is not
+	 * multi-threaded safe, which means that this <code>QuadCurve2D</code> class
+	 * does not guarantee that modifications to the geometry of this
+	 * <code>QuadCurve2D</code> object do not affect any iterations of that
+	 * geometry that are already in process.
+	 * 
+	 * @param at
+	 *            an optional {@link AffineTransform} to apply to the shape
+	 *            boundary
+	 * @return a {@link GPathIterator} object that defines the boundary of the
+	 *         shape.
+	 * @since 1.2
+	 */
     @Override
 	public GPathIterator getPathIterator(GAffineTransform at) {
         return new QuadIterator(this, at);

@@ -489,7 +489,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 
 		parent.add(child);
-		return;
 	}
 
 	@Override

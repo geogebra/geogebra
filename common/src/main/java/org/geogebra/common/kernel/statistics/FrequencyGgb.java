@@ -23,6 +23,5 @@ public class FrequencyGgb extends Frequency {
 			return;
 		}
 		super.addValue(v);
-		return;
 	}
 }

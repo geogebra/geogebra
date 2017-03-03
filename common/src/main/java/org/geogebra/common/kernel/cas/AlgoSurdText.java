@@ -2562,8 +2562,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			formalSolution
 					.append(kernel.format(-bestRelation[numOfConsts + 1], tpl));
 			formalSolution.append(")");
-
-			return;
 		}
 
 		private int leastPenaltyIndex() {

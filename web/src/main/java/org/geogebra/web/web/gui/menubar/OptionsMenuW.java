@@ -81,13 +81,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			}
 		});
 		}
-		return;
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
 		
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
-.empty()
+		addItem(MainMenu.getMenuBarHtml(
+				AppResources.INSTANCE.empty()
 				.getSafeUri().asString(),
 				getApp().getLocalization().getMenu("Settings.ResetDefault"),
 				true),

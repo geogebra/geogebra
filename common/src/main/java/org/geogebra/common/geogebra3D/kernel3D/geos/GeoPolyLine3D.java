@@ -257,24 +257,24 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 
 	@Override
 	public void rotate(NumberValue r) {
-		return; // TODO
+		// TODO
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
-		return; // TODO
+		// TODO
 	}
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
-		return; // TODO
+		// TODO
 	}
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		return; // TODO
+		// TODO
 	}
 
 	/**

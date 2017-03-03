@@ -137,8 +137,6 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 		// not a polynomial
 		g.setUndefined();
-		return;
-
 	}
 
 }

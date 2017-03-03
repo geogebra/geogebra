@@ -396,7 +396,6 @@ public class DataSource {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return;
 	}
 
 	public void setDataListFromSettings(ArrayList<String> items, int mode) {

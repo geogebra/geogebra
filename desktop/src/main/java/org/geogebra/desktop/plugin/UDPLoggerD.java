@@ -347,24 +347,19 @@ public class UDPLoggerD extends SensorLogger {
 					try {
 						Log.debug("waiting");
 						dsocket.receive(packet);
-					} catch (IOException e) {
-						if (dsocket != null) {
-							dsocket.close();
-						}
-						dsocket = null;
-						Log.debug("logging failed");
-
+					} catch (SocketTimeoutException e) {
+						closeSocket(e);
 						// stoplogging also drops exception here, so no need
 						// error message if
 						// stoplogging called
-						if (e instanceof SocketTimeoutException) {
 							kernel.getApplication()
 									.showError(kernel.getApplication()
 											.getLocalization()
 											.getMenu("LoggingError"));
-						}
 
-						e.printStackTrace();
+
+					} catch (IOException e) {
+						closeSocket(e);
 					}
 
 					if (socketCopy == dsocket) {
@@ -415,6 +410,16 @@ public class UDPLoggerD extends SensorLogger {
 		thread.start();
 
 		return true;
+
+	}
+
+	protected void closeSocket(IOException e) {
+		if (dsocket != null) {
+			dsocket.close();
+		}
+		dsocket = null;
+		Log.debug("logging failed");
+		e.printStackTrace();
 
 	}
 }

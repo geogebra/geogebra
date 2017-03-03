@@ -1017,7 +1017,7 @@ final public class GeoVec2D extends ValidExpression
 	final public static void complexPower(NumberValue a, GeoVec2D b,
 			GeoVec2D c) {
 		Complex out;
-		if (a.getDouble() == Math.E) {
+		if (MyDouble.exactEqual(a.getDouble(), Math.E)) {
 			// special case for e^(i theta)
 			// (more accurate)
 			out = new Complex(b.x, b.y);
@@ -1495,8 +1495,6 @@ final public class GeoVec2D extends ValidExpression
 		double z1 = a20 * xx + a21 * yy + a22 * zz;
 		x = x1 / z1;
 		y = y1 / z1;
-		return;
-
 	}
 
 	/**

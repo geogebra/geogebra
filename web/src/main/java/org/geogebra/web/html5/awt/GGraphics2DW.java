@@ -946,8 +946,6 @@ public class GGraphics2DW implements GGraphics2D {
 		} catch (Exception e) {
 			Log.error("error in context.drawImage.4 method");
 		}
-
-		return;
 	}
 
 	public void drawImage(ImageElement img, int x, int y) {
