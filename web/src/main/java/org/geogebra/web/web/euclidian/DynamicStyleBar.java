@@ -52,15 +52,18 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			
 		} else { //line has no bounding box
 			left = gRectangle2D.getMaxX() - height / 2.0;
-			if(left + this.getOffsetWidth() > app.getActiveEuclidianView().getWidth()){
-				left = app.getActiveEuclidianView().getWidth() - this.getOffsetWidth();
-			}
 			top = gRectangle2D.getMinY();
 		}
 		
 		if(left<0){
 			left = 0;
 		}
+		
+		if(left + this.getOffsetWidth() > app.getActiveEuclidianView().getWidth()){
+			left = app.getActiveEuclidianView().getWidth() - this.getOffsetWidth();
+		}
+		
+		
 			
 		this.getElement().getStyle().setLeft(left, Unit.PX);
 		this.getElement().getStyle().setTop(top, Unit.PX);
