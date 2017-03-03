@@ -14,6 +14,7 @@ import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -181,13 +182,20 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	public void setCurrentMenu(SubMenuPanel submenu) {
 		if (currentMenu == submenu) {
-			currentMenu.setVisible(!currentMenu.isVisible());
+			setSubmenuVisible(!currentMenu.isVisible());
 			return;
 		} else if (currentMenu != null) {
+			setSubmenuVisible(false);
 			remove(SUBMENU_ROW);
 		}
 		this.currentMenu = submenu;
 		add(currentMenu);
+		setSubmenuVisible(true);
+	}
+
+	private void setSubmenuVisible(boolean b) {
+		int h = currentMenu.getOffsetHeight();
+		getElement().getStyle().setTop((b ? -h : 0), Unit.PX);
 	}
 
 }
