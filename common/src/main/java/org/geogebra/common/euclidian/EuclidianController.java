@@ -7015,7 +7015,7 @@ public abstract class EuclidianController {
 					getDialogManager().showPropertiesDialog(hits);
 				} else if (!geo0.isFixed()
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
-						&& !(geo0.isGeoImage() && geo0.isIndependent())
+						&& geo0.isRedefineable()
 						&& !geo0.isGeoButton() && !(geo0.isGeoList()
 								&& ((GeoList) geo0).drawAsComboBox())) {
 					getDialogManager().showRedefineDialog(hits.get(0), true);

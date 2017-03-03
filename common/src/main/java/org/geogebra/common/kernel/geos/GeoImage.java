@@ -1005,7 +1005,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	final public boolean isAlgebraViewEditable() {
-		return false;
+		return !isIndependent();
 	}
 
 	@Override

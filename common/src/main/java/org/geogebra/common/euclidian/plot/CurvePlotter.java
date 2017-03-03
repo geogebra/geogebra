@@ -660,7 +660,7 @@ public class CurvePlotter {
 		// and there is no lineto if there is an infinite point between the
 		// points
 		boolean linetofirst = true;
-
+		double[] lastMove = null;
 		for (int i = 0; i < size; i++) {
 			MyPoint p = pointList.get(i);
 			// don't add infinite points
@@ -671,10 +671,16 @@ public class CurvePlotter {
 							|| p.getSegmentType() == SegmentType.AUXILIARY)
 							&& !linetofirst) {
 						gp.drawTo(coords, p.getSegmentType());
+						lastMove = null;
 					} else if (p.getLineTo() && !linetofirst) {
 						gp.lineTo(coords);
+						lastMove = null;
 					} else {
+						if (lastMove != null) {
+							gp.lineTo(lastMove);
+						}
 						gp.moveTo(coords);
+						lastMove = Cloner.clone(coords);
 					}
 					linetofirst = false;
 				} else {
