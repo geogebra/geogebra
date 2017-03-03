@@ -3876,11 +3876,6 @@ public abstract class EuclidianController {
 
 		selection.clearLists();
 		view.setBoundingBox(null);
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (this.getView().hasDynamicStyleBar()) {
-				setDynamicStylebarVisible(false);
-			}
-		}
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
@@ -8417,11 +8412,6 @@ public abstract class EuclidianController {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (dynamicStyleBarClicked(event.getX(), event.getY())) {
-				return;
-			}
-		}
 		this.setDynamicStylebarVisible(false);
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
@@ -9387,10 +9377,7 @@ public abstract class EuclidianController {
 
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
-			dontClearSelection = !hits.isEmpty()
-					|| (app.has(Feature.DYNAMIC_STYLEBAR)
-							&& dynamicStyleBarClicked(event.getX(),
-									event.getY()));
+			dontClearSelection = !hits.isEmpty();
 			if (hasNoHitsDisablingModeForShallMoveView(hits, event)
 					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
