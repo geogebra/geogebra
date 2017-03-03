@@ -2959,7 +2959,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getEuclidianView1().getDynamicStyleBar().updateStyleBar();
 		}
 
-		if (getEuclidianView2(1).getDynamicStyleBar() != null) {
+		if (hasEuclidianView2(1)
+				&& getEuclidianView2(1).getDynamicStyleBar() != null) {
 			getEuclidianView2(1).getDynamicStyleBar().updateStyleBar();
 		}
 	}
