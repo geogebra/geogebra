@@ -1486,7 +1486,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (conic.isInverseFill()) {
 			fill(g2, getShape());
 		} else {
-			fill(g2, shape);
+			fill(g2, shape == null ? getShape() : shape);
 		}
 	}
 
