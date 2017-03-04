@@ -1769,12 +1769,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					// if (geo.hasChildren()) {
 					d = companion.newDrawable(geo);
 
-					if (d instanceof Drawable
-							&& ((Drawable) d).getBounds() != null) {
-						this.euclidianController.setDynamicStyleBarPosition(
-								((Drawable) d).getBounds(), true);
-						this.euclidianController
-								.setDynamicStylebarVisible(true);
+					if (d instanceof Drawable){
+						if (d instanceof DrawLine){
+							((DrawLine) d).updateDynamicStylebarPosition();
+							this.euclidianController
+									.setDynamicStylebarVisible(true);
+						} else if (((Drawable) d).getBounds() != null) {
+							this.euclidianController.setDynamicStyleBarPosition(
+									((Drawable) d).getBounds(), true);
+							this.euclidianController
+									.setDynamicStylebarVisible(true);
+						}
+
 					}
 				} else {
 					this.euclidianController.setDynamicStylebarVisible(false);
