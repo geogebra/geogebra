@@ -431,7 +431,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		}
 
 		// store current tools including icon images as ggt file (byte array)
-		putByteArray(ggbPrefs, TOOLS_FILE_GGT, app.getMacroFileAsByteArray());
+		putByteArray(TOOLS_FILE_GGT, app.getMacroFileAsByteArray());
 
 		try {
 			ggbPrefs.flush();
@@ -444,7 +444,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * Breaks up byte array value into pieces and calls
 	 * prefs.putByteArray(prefs, key+k, piece_k) for every piece.
 	 */
-	private void putByteArray(Preferences prefs, String key, byte[] value) {
+	private void putByteArray(String key, byte[] value) {
 		// byte array must not be longer than 3/4 of max value length
 		int max_length = (int) Math.floor(Preferences.MAX_VALUE_LENGTH * 0.75);
 
@@ -508,7 +508,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * Breaks up byte array value into pieces and calls
 	 * prefs.putByteArray(prefs, key+k, piece_k) for every piece.
 	 */
-	private byte[] getByteArray(Preferences prefs, String key, byte[] def) {
+	private byte[] getByteArray(String key, byte[] def) {
 		byte[] ret = ggbPrefs.getByteArray(key, null);
 
 		if (ret != null) {
@@ -593,7 +593,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		// load this preferences xml file in application
 		try {
 			// load tools from ggt file (byte array)
-			byte[] ggtFile = getByteArray(ggbPrefs, TOOLS_FILE_GGT, null);
+			byte[] ggtFile = getByteArray(TOOLS_FILE_GGT, null);
 			app.loadMacroFileFromByteArray(ggtFile, true);
 
 			// load preferences xml

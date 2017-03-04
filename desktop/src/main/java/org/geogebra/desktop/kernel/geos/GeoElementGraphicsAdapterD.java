@@ -13,9 +13,13 @@ import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.ImageResourceD;
 
 public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
-
+	/** application */
 	protected App app;
 
+	/**
+	 * @param appl
+	 *            application
+	 */
 	public GeoElementGraphicsAdapterD(App appl) {
 		app = appl;
 	}
@@ -31,8 +35,8 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		}
 
 		if (imageFileName.startsWith("/geogebra")) {
-			Image im = ((AppD) app).getImageManager()
-					.getImageResource(findFillImage(imageFileName));
+			Image im = ((AppD) app).getImageManager().getImageResource(
+					findFillImage());
 			if (im == null) {
 				Log.error(imageFileName + " does not exist");
 				return null;
@@ -52,7 +56,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		return image;
 	}
 
-	private ImageResourceD findFillImage(String fileName) {
+	private ImageResourceD findFillImage() {
 		ImageResourceD res = null;
 		if (imageFileName.startsWith("/geogebra")) {
 			String fn = imageFileName.replace("/geogebra/", "")
@@ -96,7 +100,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 
 		if (fileName.startsWith("/geogebra")) { // internal image
 			Image im = ((ImageManagerD) app.getImageManager())
-					.getImageResource(findFillImage(imageFileName));
+					.getImageResource(findFillImage());
 			image = new MyImageD(ImageManagerD.toBufferedImage(im));
 
 		} else {
