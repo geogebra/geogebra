@@ -3,6 +3,8 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -13,6 +15,14 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
 		addStyleName("DynamicStyleBar");
+		
+		app.getSelectionManager().addSelectionListener(new GeoElementSelectionListener() {
+			@Override
+			public void geoElementSelected(GeoElement geo,
+					boolean addToSelection) {
+				DynamicStyleBar.this.setVisible(addToSelection);
+			}
+		});
 	}
 
 	/**

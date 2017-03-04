@@ -164,8 +164,20 @@ public class SelectionManager {
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
-				geo.setSelected(false);
-
+				if (geo.getKernel().getApplication()
+						.has(Feature.DYNAMIC_STYLEBAR)) {
+					boolean oldSelected = geo.isSelected();
+					geo.setSelected(false);
+					if (oldSelected) {
+						for (GeoElementSelectionListener sl : getSelectionListeners()) {
+							if (sl != null) {
+								sl.geoElementSelected(geo, false);
+							}
+						}
+					}
+				} else {
+					geo.setSelected(false);
+				}
 			}
 			selectedGeos.clear();
 			if (repaint) {
