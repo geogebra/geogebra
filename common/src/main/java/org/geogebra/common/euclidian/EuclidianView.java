@@ -1776,6 +1776,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 						this.euclidianController
 								.setDynamicStylebarVisible(true);
 					}
+				} else {
+					this.euclidianController.setDynamicStylebarVisible(false);
 				}
 			}
 		}

@@ -20,6 +20,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			@Override
 			public void geoElementSelected(GeoElement geo,
 					boolean addToSelection) {
+				if(addToSelection){
+					return;
+				}
 				DynamicStyleBar.this.setVisible(addToSelection);
 			}
 		});
