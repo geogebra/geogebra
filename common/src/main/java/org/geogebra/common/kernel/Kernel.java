@@ -1086,7 +1086,6 @@ public class Kernel {
 		}
 		sb.append("- ");
 		sb.append(format(-x, tpl));
-		return;
 	}
 
 	final public void formatSignedCoefficientPlusMinus(double x,

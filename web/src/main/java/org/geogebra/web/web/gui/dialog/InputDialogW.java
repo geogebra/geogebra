@@ -164,12 +164,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				selectInitText);
     }
 
-	protected void centerOnScreen() {
-
-	}
-
 	/**
-	 * @param title
+	 * @param title1
 	 * @param message
 	 * @param autoComplete
 	 * @param columns
@@ -180,12 +176,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 * @param showApply
 	 * @param type
 	 */
-	protected void createGUI(String title, String message,
+	protected void createGUI(String title1, String message,
 	        boolean autoComplete, int columns, int rows,
 			boolean showSymbolPopupIcon, boolean selectInitText,
 	        boolean showProperties, boolean showApply, DialogType type) {
 
-		this.title = title;
+		this.title = title1;
 
 		// Create components to be displayed
 		inputPanel = new InputPanelW(getInitString(), app, rows, columns,
@@ -384,7 +380,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
-
+		// overridden in angle dialog
 	}
 
 	@Override

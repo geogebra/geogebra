@@ -200,17 +200,17 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 		@Override
 		public EuclidianView getEuclidianView() {
-
 			return ev;
 		}
 
 		@Override
 		public void onResize() {
-		//	ev.setCoordinateSpaceSizeDirectly(100, 100);
+			// nothing to do on resize
 		}
 
 		@Override
 		public void deferredOnResize() {
+			// nothing to do on resize
 		}
 
 		@Override

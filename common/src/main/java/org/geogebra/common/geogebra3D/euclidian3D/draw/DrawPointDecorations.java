@@ -65,6 +65,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	 * set the point for which decorations are made
 	 * 
 	 * @param point0
+	 *            decorated point
 	 */
 	public void setPoint(GeoPointND point0) {
 
@@ -166,6 +167,6 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	protected void updateColors() {
-
+		// no colors
 	}
 }

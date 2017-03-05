@@ -20,6 +20,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 
+@SuppressWarnings("javadoc")
 public class ConstructionProtocolView {
 
 	public App app;
@@ -471,6 +472,7 @@ public class ConstructionProtocolView {
 		 */
 		@Override
 		public void setMode(int mode, ModeSetter m) {
+			// mode does not affect CP
 		}
 
 		public int getRowCount() {
@@ -510,7 +512,7 @@ public class ConstructionProtocolView {
 			return -1;
 		}
 
-		public boolean isCellEditable(int nRow, int nCol) {
+		public boolean isCellEditable(int nCol) {
 
 			if ((this.columns[nCol].getTitle()).equals("Caption")) {
 				return true;

@@ -28,7 +28,7 @@ public class DrawText3D extends Drawable3DCurves {
 
 	@Override
 	protected void updateForView() {
-
+		// no change on zoom / rotate
 	}
 
 	@Override

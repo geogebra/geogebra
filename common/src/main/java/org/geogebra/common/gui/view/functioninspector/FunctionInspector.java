@@ -211,35 +211,43 @@ public abstract class FunctionInspector
 
 	@Override
 	public void add(GeoElement geo) {
+		// not needed in this view
 	}
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
+		// not needed in this view
 	}
 
 	@Override
 	public void remove(GeoElement geo) {
+		Log.debug(geo);
+		// not needed in this view
 	}
 
 	@Override
 	public void rename(GeoElement geo) {
+		// not needed in this view
 	}
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
+		// not needed in this view
 	}
 
 	@Override
 	public void repaintView() {
+		// not needed in this view
 	}
 
 	@Override
 	public void clearView() {
+		// not needed in this view
 	}
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
+		// not needed in this view
 	}
 
 	// ====================================================

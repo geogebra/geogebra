@@ -1451,8 +1451,6 @@ final public class GeoVec2D extends ValidExpression
 				y = Double.NaN;
 			}
 		}
-
-		return;
 	}
 
 	@Override

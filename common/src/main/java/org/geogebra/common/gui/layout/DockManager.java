@@ -32,5 +32,6 @@ public abstract class DockManager implements SetLabels {
 	 * 
 	 */
 	public void adjustViews() {
+		// overridden in Web
 	}
 }

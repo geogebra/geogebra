@@ -25,6 +25,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
@@ -308,7 +309,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onClick(ClickEvent event) {
-	              app.getDialogManager().showColorChooserDialog(model.getAxesColor(),
+					getDialogManager().showColorChooserDialog(
+							model.getAxesColor(),
 	            		  new ColorChangeHandler() {
 					
 					@Override
@@ -423,6 +425,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			indent(axesOptionsPanel);
 		}
 		
+
+
 		protected void setShowAxes(Boolean value) {
 			model.showAxes(value);
 			xAxisTab.setShowAxis(value);
@@ -560,7 +564,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onClick(ClickEvent event) {
-		              app.getDialogManager().showColorChooserDialog(model.getBackgroundColor(),
+					getDialogManager().showColorChooserDialog(
+							model.getBackgroundColor(),
 		           		  new ColorChangeHandler() {
 							
 							@Override
@@ -971,7 +976,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					if (!cbShowGrid.getValue()) {
 						return;
 					}
-	              app.getDialogManager().showColorChooserDialog(model.getGridColor(),
+					getDialogManager().showColorChooserDialog(
+							model.getGridColor(),
 	            		new ColorChangeHandler() {
 						
 						@Override
@@ -1424,6 +1430,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
+	}
+
+	protected DialogManagerW getDialogManager() {
+		return (DialogManagerW) app.getDialogManager();
 	}
 }
 

@@ -85,7 +85,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 	@Override
 	protected void addShowObject(GeoElement geo) {
-
+		// Show object item is skipped in spreadsheet
 	}
 
 	private void addDuplicate() {

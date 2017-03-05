@@ -167,7 +167,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation callback) {
+			String initText, AsyncOperation<GeoNumberValue> callback) {
 
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
@@ -235,16 +235,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		imageDialog.setLocation(loc);
 		imageDialog.center();
 		imageDialog.show();
-	}
-
-	@Override
-	public void showPropertiesDialog() {
-	}
-
-	@Override
-	public void showToolbarConfigDialog() {
-		// TODO Auto-generated method stub
-
 	}
 
 
@@ -505,7 +495,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 * @param {@link GColor originalColor}.
 	 * @param {@link ColorChangeHandler handler}
 	 */
-	@Override
 	public void showColorChooserDialog(GColor originalColor,
 	        ColorChangeHandler handler) {
 		ColorChooserDialog dialog = new ColorChooserDialog((AppW)app,

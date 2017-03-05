@@ -14,14 +14,12 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.dialog.TextInputDialog;
-import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -45,6 +43,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 
+@SuppressWarnings("javadoc")
 public abstract class DialogManager {
 
 	protected String defaultAngle = Unicode.FORTY_FIVE_DEGREES;
@@ -89,17 +88,28 @@ public abstract class DialogManager {
 
 	}
 
-	public abstract InputDialog newInputDialog(App app, String message,
+	public abstract InputDialog newInputDialog(App app1, String message,
 			String title, String initString, InputHandler handler,
 			GeoElement geo);
 
 	public abstract void showNumberInputDialogSegmentFixed(String menu,
 			GeoPointND geoPoint2);
 
+	/**
+	 * 
+	 * @param menu
+	 * @param selectedSegments
+	 * @param selectedPoints
+	 * @param selGeos
+	 * @param ec
+	 */
 	public void showNumberInputDialogAngleFixed(String menu,
 			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		doAngleFixed(app.getKernel(), selectedSegments, selectedPoints, selGeos,
+		doAngleFixed(
+				app.getKernel(),
+				selectedSegments,
+				selectedPoints,
 				getNumber(app.getKernel(), menu + " " + loc.getMenu("Length"),
 						""),
 				false, ec);
@@ -107,7 +117,7 @@ public abstract class DialogManager {
 	}
 
 	public static void doAngleFixed(Kernel kernel, GeoSegmentND[] segments,
-			GeoPointND[] points, GeoElement[] selGeo2s, GeoNumberValue num,
+			GeoPointND[] points, GeoNumberValue num,
 			boolean clockWise, EuclidianController ec) {
 		// GeoElement circle = kernel.Circle(null, geoPoint1,
 		// ((NumberInputHandler)inputHandler).getNum());
@@ -215,7 +225,7 @@ public abstract class DialogManager {
 	public abstract void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2);
 
-	public abstract void showBooleanCheckboxCreationDialog(GPoint loc,
+	public abstract void showBooleanCheckboxCreationDialog(GPoint corner,
 			GeoBoolean bool);
 
 	public abstract void showNumberInputDialogCirclePointRadius(String title,
@@ -229,7 +239,7 @@ public abstract class DialogManager {
 			AsyncOperation<GeoNumberValue> callback);
 
 	public abstract void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation callback);
+			String initText, AsyncOperation<GeoNumberValue> callback);
 
 	public abstract boolean showButtonCreationDialog(int x, int y,
 			boolean textfield);
@@ -446,14 +456,10 @@ public abstract class DialogManager {
 	public abstract void showRenameDialog(GeoElement geo, boolean b,
 			String label, boolean c);
 
-	public abstract void showPropertiesDialog();
-
 	public abstract void showPropertiesDialog(ArrayList<GeoElement> geos);
 
 	public abstract void showPropertiesDialog(OptionType type,
 			ArrayList<GeoElement> geos);
-
-	public abstract void showToolbarConfigDialog();
 
 	public static boolean doDilate(Kernel kernel, GeoNumberValue num,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
@@ -538,7 +544,8 @@ public abstract class DialogManager {
 	// public abstract void showOpenFromGGTDialog();
 
 	/**
-	 * 
+	 * @param ec
+	 *            controller
 	 * @param title
 	 * @param geoPoint
 	 */
@@ -556,6 +563,8 @@ public abstract class DialogManager {
 	 *            basis center
 	 * @param b
 	 *            apex point
+	 * @param ec
+	 *            controller
 	 */
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
@@ -571,6 +580,8 @@ public abstract class DialogManager {
 	 *            basis center
 	 * @param b
 	 *            top center
+	 * @param ec
+	 *            controller
 	 */
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
@@ -579,6 +590,8 @@ public abstract class DialogManager {
 	}
 
 	/**
+	 * @param ec
+	 *            controller
 	 * @param title
 	 * @param geoPoint
 	 * @param forAxis
@@ -591,6 +604,13 @@ public abstract class DialogManager {
 
 	}
 
+	/**
+	 * @param title
+	 * @param polys
+	 * @param selectedLines
+	 * @param selGeos
+	 * @param ec
+	 */
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
 			GeoLineND[] selectedLines, GeoElement[] selGeos,
 			EuclidianController ec) {
@@ -598,12 +618,7 @@ public abstract class DialogManager {
 
 	}
 
-	public void showColorChooserDialog(GColor originalColor,
-			ColorChangeHandler handler) {
-	}
-
 	public boolean hasFunctionInspector() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -106,7 +106,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 							}
 
 							DialogManager.doAngleFixed(kernel, segments, points,
-									selGeos,
+
 									((NumberInputHandler) getInputHandler())
 											.getNum(),
 									rbClockWise.getValue(), ec);

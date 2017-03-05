@@ -32,6 +32,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	 * constructor for previewables
 	 * 
 	 * @param a_view3d
+	 *            3D view
 	 */
 	public Drawable3DCurves(EuclidianView3D a_view3d) {
 		super(a_view3d);
@@ -71,17 +72,20 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	}
 
-	// methods not used for solid drawables
+
 	@Override
 	public void drawHiding(Renderer renderer) {
+		// method not used for solid drawables
 	}
 
 	@Override
 	public void drawTransp(Renderer renderer) {
+		// methods not used for solid drawables
 	}
 
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer) {
+		// methods not used for solid drawables
 	}
 
 	@Override

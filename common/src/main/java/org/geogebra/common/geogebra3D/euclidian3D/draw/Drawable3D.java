@@ -1265,7 +1265,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param g2
 	 */
 	public void drawPreview(GGraphics2D g2) {
-
+		// overrides 2D, needed for subclasses that implement previewable
 	}
 
 	// ////////////////////

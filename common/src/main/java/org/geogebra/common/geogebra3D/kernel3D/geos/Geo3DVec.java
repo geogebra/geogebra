@@ -686,7 +686,6 @@ final public class Geo3DVec extends ValidExpression
 
 		ret.setCoords(a * xx + b * yy + c * zz, d * xx + e * yy + f * zz);
 
-		return;
 	}
 
 	@Override

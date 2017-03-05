@@ -32,7 +32,6 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	public void wrapMouseWheelMoved(int x, int y, double delta,
 	        boolean shiftOrMeta, boolean alt) {
 		//scolling disabled
-		return;
 	}
 
 	@Override

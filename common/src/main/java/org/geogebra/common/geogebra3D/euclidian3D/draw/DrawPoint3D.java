@@ -151,12 +151,12 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	@Override
 	public void updateMousePos(double xRW, double yRW) {
-
+		// not needed in 3D
 	}
 
 	@Override
 	public void updatePreview() {
-
+		// not needed
 	}
 
 	@Override

@@ -1704,16 +1704,17 @@ public abstract class ProbabilityCalculatorView
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
-
+		// not needed for prob. calc
 	}
 
 	@Override
 	public void repaintView() {
+		// not needed for prob. calc
 	}
 
 	@Override
 	public void reset() {
-
+		// not needed for prob. calc
 	}
 
 	@Override
@@ -1724,8 +1725,7 @@ public abstract class ProbabilityCalculatorView
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
-		// TODO Auto-generated method stub
-
+		// not needed for prob. calc
 	}
 
 	@Override

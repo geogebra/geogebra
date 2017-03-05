@@ -1637,7 +1637,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
 			if (geo.isGeoButton() || geo.isGeoImage()) {
-				app.getDialogManager().showPropertiesDialog();
+				ArrayList<GeoElement> sel = new ArrayList<GeoElement>();
+				sel.add(geo);
+				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+						sel);
 				return true;
 			}
 			if (!view.getShowFormulaBar()) {

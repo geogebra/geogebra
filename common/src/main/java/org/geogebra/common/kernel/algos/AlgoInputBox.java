@@ -66,13 +66,16 @@ public class AlgoInputBox extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return the box
+	 */
 	public GeoInputBox getResult() {
 		return inputBox;
 	}
 
 	@Override
 	public final void compute() {
-
+		// nothing to compute
 	}
 
 	@Override
