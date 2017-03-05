@@ -236,6 +236,7 @@ public class CheckboxCreationDialog extends JDialog implements
 
 	@Override
 	public void windowLostFocus(WindowEvent arg0) {
+		// only handles gained focus
 	}
 
 	@Override

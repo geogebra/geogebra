@@ -390,6 +390,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	@Override
 	@Deprecated
 	public void onMouseEnter(Widget sender) {
+		// nothing to do
 	}
 
 	/**
@@ -398,6 +399,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	@Override
 	@Deprecated
 	public void onMouseLeave(Widget sender) {
+		// nothing to do
 	}
 
 	/**

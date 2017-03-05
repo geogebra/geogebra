@@ -7,6 +7,10 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 
+/**
+ * Used for plot panel and for 3D
+ *
+ */
 public class MyEuclidianViewPanel extends AbsolutePanel implements
         EuclidianPanelWAbstract {
 
@@ -53,11 +57,12 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 
 	@Override
 	public void onResize() {
-		// ev.setCoordinateSpaceSizeDirectly(100, 100);
+		// no resizing
 	}
 
 	@Override
 	public void deferredOnResize() {
+		// no resizing
 	}
 
 	@Override

@@ -88,6 +88,6 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 
 	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
-
+		// nothing to do
 	}
 }

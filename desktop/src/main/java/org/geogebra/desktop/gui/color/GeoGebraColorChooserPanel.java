@@ -381,10 +381,11 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		}
 
 		protected void initValues() {
+			// overridden
 		}
 
 		protected void initColors() {
-
+			// overridden
 		}
 
 		protected void initSwatchCount() {

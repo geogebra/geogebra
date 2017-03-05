@@ -65,12 +65,12 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		return this;
 	}
 
-	public void attachApp(App app) {
-		this.app = (AppW) app;
-	}
-
-	public EuclidianSimplePanelW getEuclidianView1Wrapper() {
-		return this;
+	/**
+	 * @param app1
+	 *            application
+	 */
+	public void attachApp(App app1) {
+		this.app = (AppW) app1;
 	}
 
 	@Override
@@ -126,6 +126,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 
 	@Override
 	public void updateNavigationBar() {
+		// no navigation
 	}
 
 	@Override

@@ -125,10 +125,12 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// only handle key release
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// only handle key release
 	}
 
 	/*

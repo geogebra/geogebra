@@ -46,16 +46,22 @@ public class FileDropTargetListener implements DropTargetListener {
 
 	private AppD app;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public FileDropTargetListener(AppD app) {
 		this.app = app;
 	}
 
 	@Override
 	public void dragEnter(DropTargetDragEvent event) {
+		// only dragOver /drop
 	}
 
 	@Override
 	public void dragExit(DropTargetEvent event) {
+		// only dragOver /drop
 	}
 
 	@Override
@@ -66,6 +72,7 @@ public class FileDropTargetListener implements DropTargetListener {
 
 	@Override
 	public void dropActionChanged(DropTargetDragEvent event) {
+		// only dragOver /drop
 	}
 
 	@Override

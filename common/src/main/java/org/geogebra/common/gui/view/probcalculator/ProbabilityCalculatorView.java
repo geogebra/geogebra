@@ -1411,19 +1411,22 @@ public abstract class ProbabilityCalculatorView
 
 	@Override
 	public void add(GeoElement geo) {
+		// view dows not handle external geos
 	}
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
+		// view dows not handle external geos
 	}
 
 	@Override
 	public void remove(GeoElement geo) {
+		// view dows not handle external geos
 	}
 
 	@Override
 	public void rename(GeoElement geo) {
+		// view dows not handle external geos
 	}
 
 	// Handles user point changes in the EV plot panel

@@ -1,70 +1,11 @@
 package org.geogebra.desktop.util;
 
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
 
-import javax.swing.JComponent;
-import javax.swing.TransferHandler;
-
-@SuppressWarnings("serial")
-public class CASTransferHandler extends TransferHandler {
+public class CASTransferHandler {
 
 	// supported data flavors
 	public static final DataFlavor casTableFlavor = new DataFlavor(
 			Integer.class, "cell reference");
 
-	private static DataFlavor supportedFlavors[] = {};// {
-
-	private void setSupportedFlavours() {
-
-	}
-
-	/**
-	 * We only support importing strings.
-	 */
-	@Override
-	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
-		setSupportedFlavours();
-
-		for (int i = 0, n = flavor.length; i < n; i++) {
-			// System.out.println(flavor[i].getMimeType());
-			for (int j = 0, m = supportedFlavors.length; j < m; j++) {
-				if (flavor[i].equals(supportedFlavors[j])) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Bundle up the selected items in a single list for export. Each line is
-	 * separated by a newline.
-	 */
-	@Override
-	protected Transferable createTransferable(JComponent c) {
-		return null;
-	}
-
-	/**
-	 * We support both copy and move actions.
-	 */
-	@Override
-	public int getSourceActions(JComponent c) {
-		return TransferHandler.COPY_OR_MOVE;
-	}
-
-	/**
-	 * Perform the actual import. This demo only supports drag and drop.
-	 */
-	public boolean importData() {
-		return true;
-	}
-
-	/**
-	 * Remove the items moved from the list.
-	 */
-	@Override
-	protected void exportDone(JComponent c, Transferable data, int action) {
-	}
 }

@@ -90,10 +90,12 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// only handle release
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// only handle release
 	}
 
 	/*

@@ -250,16 +250,17 @@ public abstract class GeoGebraTubeAPI {
 				+ "\"task\": {\"type\":\"setuserlang\", \"lang\":\"" + lang
 				+ "\"}}}", true, new AjaxCallback() {
 
-					@Override
-					public void onSuccess(String response) {
-					}
+			@Override
+			public void onSuccess(String response) {
+				// yay, it worked
+			}
 
-					@Override
-					public void onError(String error) {
-						Log.error(error);
+			@Override
+			public void onError(String error) {
+				Log.error(error);
 
-					}
-				});
+			}
+		});
 	}
 
 	public void logout(String token) {

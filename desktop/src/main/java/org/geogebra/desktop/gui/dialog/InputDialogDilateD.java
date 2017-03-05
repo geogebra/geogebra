@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
@@ -107,16 +106,9 @@ public class InputDialogDilateD extends InputDialogD {
 		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
-	public void keyTyped(KeyEvent e) {
-	}
-
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-	}
-
 	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
-
+		// nothing to do
 	}
 
 }

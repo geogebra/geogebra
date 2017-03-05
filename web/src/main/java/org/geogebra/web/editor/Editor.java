@@ -10,8 +10,6 @@ import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -53,22 +51,17 @@ public class Editor implements EntryPoint, MathFieldListener {
 			@Override
 			public void keyBoardNeeded(boolean show,
 					MathKeyboardListener textField) {
-
+				// no real app frame
 			}
 
 			@Override
 			public void doShowKeyBoard(boolean b,
 					MathKeyboardListener textField) {
+				// no real app frame
 			}
 		});
 		kb.setProcessing(new MathFieldProcessing(fld));
-		parentWidget.addDomHandler(new MouseUpHandler() {
 
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-
-			}
-		}, MouseUpEvent.getType());
 		parentWidget.add(fld.asWidget());
 		parentWidget.add(kb);
 		kb.show();

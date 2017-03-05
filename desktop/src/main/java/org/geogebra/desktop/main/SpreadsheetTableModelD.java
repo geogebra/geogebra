@@ -85,9 +85,6 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 		return false;
 	}
 
-	public void repaint() {
-	}
-
 	@Override
 	public boolean isShowing() {
 		return false;

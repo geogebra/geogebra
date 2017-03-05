@@ -99,6 +99,7 @@ public class CompletionsPopup {
 
 		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
+			// ignore
 		}
 
 		@Override
@@ -126,6 +127,7 @@ public class CompletionsPopup {
 		textFieldDocListener = new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+				// only handle insert
 			}
 
 			@Override
@@ -138,6 +140,7 @@ public class CompletionsPopup {
 
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				// only handle insert
 			}
 		};
 

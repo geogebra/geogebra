@@ -120,7 +120,7 @@ public class ToolNameIconPanelD extends JPanel {
 		KeyListener kl = new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-
+				// only handles release
 			}
 
 			@Override
@@ -130,6 +130,7 @@ public class ToolNameIconPanelD extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
+				// only handles release
 			}
 		};
 		{
@@ -150,6 +151,7 @@ public class ToolNameIconPanelD extends JPanel {
 			FocusListener fl = new FocusListener() {
 				@Override
 				public void focusGained(FocusEvent arg0) {
+					// only handles blur
 				}
 
 				@Override
@@ -279,18 +281,18 @@ public class ToolNameIconPanelD extends JPanel {
 	 * macro. The ToolManagerDialog is registered as a listener to be updated
 	 * whenever the macro properties are changed.
 	 * 
-	 * @param macro
+	 * @param macro1
 	 *            Macro into which new name, help, etc. are stored
-	 * @param managerDialog
+	 * @param managerDialog1
 	 *            Manager dialog this tab belongs to
 	 */
-	public void init(ToolManagerDialogD managerDialog, Macro macro) {
+	public void init(ToolManagerDialogD managerDialog1, Macro macro1) {
 		updateMacro(); // update last macro if we already had one
 
-		this.managerDialog = managerDialog;
-		this.macro = macro;
+		this.managerDialog = managerDialog1;
+		this.macro = macro1;
 
-		boolean enabled = macro != null;
+		boolean enabled = macro1 != null;
 		if (!enabled) {
 			tfToolName.setText("");
 			tfCmdName.setText("");
@@ -299,7 +301,7 @@ public class ToolNameIconPanelD extends JPanel {
 			iconFileName = "";
 			labelIcon.setIcon(null);
 		} else {
-			setFromMacro(macro);
+			setFromMacro(macro1);
 		}
 
 		tfToolName.setEnabled(enabled);

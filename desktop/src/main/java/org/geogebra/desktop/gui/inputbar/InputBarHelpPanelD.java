@@ -397,6 +397,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		cmdTree.addTreeExpansionListener(new TreeExpansionListener() {
 			@Override
 			public void treeCollapsed(TreeExpansionEvent e) {
+				// only handle expanding
 			}
 
 			@Override
