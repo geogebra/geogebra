@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.cas;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.LegendreGaussIntegrator;
-import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -742,9 +741,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			if (Double.isNaN(secondSum)) {
 				return Double.NaN;
 			}
-		} catch (MaxCountExceededException e) {
-			error = true;
-		} catch (RuntimeException e) {
+		} catch (IllegalArgumentException e) {
 			return Double.NaN;
 		} catch (RuntimeException e) {
 			// catches IllegalStateException and ArithmeticException
