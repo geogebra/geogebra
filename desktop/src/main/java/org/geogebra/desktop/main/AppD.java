@@ -4688,7 +4688,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public DialogManager getDialogManager() {
+	public DialogManagerMinimal getDialogManager() {
 
 		if (dialogManager == null) {
 			if (getGuiManager() == null) {
@@ -4698,7 +4698,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 
-		return dialogManager;
+		return (DialogManagerMinimal) dialogManager;
 	}
 
 	@Override

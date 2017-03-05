@@ -134,7 +134,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	}
 
-	@Override
+	/**
+	 * Open properties view
+	 */
 	public void showPropertiesDialog() {
 		showPropertiesDialog(null);
 	}
@@ -432,7 +434,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 */
 	@Override
 	public void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation callback) {
+			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();

@@ -1226,7 +1226,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			@Override
 			public boolean isCellEditable(int nRow, int nCol) {
-				return ctData.isCellEditable(nRow, nCol);
+				return ctData.isCellEditable(nCol);
 			}
 
 			@Override

@@ -115,7 +115,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation callback) {
+			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// TODO Auto-generated method stub
 	}
 
@@ -138,13 +138,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	}
 
-	@Override
-	public void showPropertiesDialog() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
+	/** open toolbar customizer */
 	public void showToolbarConfigDialog() {
 		// TODO Auto-generated method stub
 

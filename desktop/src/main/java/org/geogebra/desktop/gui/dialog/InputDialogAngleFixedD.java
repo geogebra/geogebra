@@ -103,7 +103,7 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 							}
 							DialogManager.doAngleFixed(kernel, segments, points,
-									selGeos,
+
 									((NumberInputHandler) getInputHandler())
 											.getNum(),
 									rbClockWise.isSelected(), ec);
