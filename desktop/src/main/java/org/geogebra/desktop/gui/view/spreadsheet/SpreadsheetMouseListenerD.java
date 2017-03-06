@@ -137,7 +137,7 @@ public class SpreadsheetMouseListenerD
 		// }
 	}
 
-	// automatic fill down from the dragging dot
+	/** automatic fill down from the dragging dot */
 	public void handleAutoFillDown() {
 		int col = table.getSelectedColumn();
 		int row = table.maxSelectionRow;
@@ -182,10 +182,12 @@ public class SpreadsheetMouseListenerD
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// nothing to do
 	}
 
 	@Override

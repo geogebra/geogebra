@@ -577,10 +577,12 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
+		// only handle key pressed
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+		// only handle key pressed
 	}
 
 	// Mouse Listeners

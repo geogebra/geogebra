@@ -400,7 +400,7 @@ public class OptionsDefaultsD extends OptionsDefaults
 	 */
 	@Override
 	public void applyModifications() {
-
+		propPanel.applyModifications();
 	}
 
 	@Override

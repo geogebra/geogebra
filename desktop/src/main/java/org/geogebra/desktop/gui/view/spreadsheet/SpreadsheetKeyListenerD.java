@@ -460,7 +460,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		// only handle key pressed
 	}
 
 }

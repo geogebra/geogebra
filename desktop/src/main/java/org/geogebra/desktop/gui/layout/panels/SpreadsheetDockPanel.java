@@ -45,14 +45,6 @@ public class SpreadsheetDockPanel extends NavigableDockPanel {
 		return getGuiManager().getSpreadsheetView().getViewContainer();
 	}
 
-	@Override
-	protected void focusGained() {
-	}
-
-	@Override
-	protected void focusLost() {
-	}
-
 	private static String getDefaultToolbar() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(EuclidianConstants.MODE_MOVE);

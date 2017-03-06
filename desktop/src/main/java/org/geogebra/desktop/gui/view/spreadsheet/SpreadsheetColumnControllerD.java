@@ -46,7 +46,8 @@ public class SpreadsheetColumnControllerD
 	protected boolean isResizing = false;
 
 	private int overTraceButtonColumn = -1;
-	private final LocalizationD loc;
+	/** localization */
+	final LocalizationD loc;
 
 	public SpreadsheetColumnControllerD(AppD app, MyTableD table) {
 
@@ -90,6 +91,7 @@ public class SpreadsheetColumnControllerD
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// nothing to do
 	}
 
 	@Override
@@ -332,6 +334,7 @@ public class SpreadsheetColumnControllerD
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// only handle key pressed
 	}
 
 	@Override
@@ -439,7 +442,7 @@ public class SpreadsheetColumnControllerD
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		// only handle key pressed
 	}
 
 	// =========================================================

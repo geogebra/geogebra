@@ -653,8 +653,6 @@ final public class Geo3DVec extends ValidExpression
 		x = a * xx + b * yy;
 		y = d * xx + e * yy;
 		z = g * xx + h * yy;
-
-		return;
 	}
 
 	/**

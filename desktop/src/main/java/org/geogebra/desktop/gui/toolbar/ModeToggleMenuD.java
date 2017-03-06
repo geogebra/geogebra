@@ -495,7 +495,7 @@ class MyJToggleButton extends JToggleButton
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		// nothing to do
 	}
 
 	@Override

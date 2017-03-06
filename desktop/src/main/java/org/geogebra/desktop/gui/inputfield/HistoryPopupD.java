@@ -84,6 +84,7 @@ public class HistoryPopupD implements ListSelectionListener {
 
 		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
+			// nothing to do
 		}
 
 		@Override

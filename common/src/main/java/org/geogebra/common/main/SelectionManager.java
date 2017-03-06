@@ -164,10 +164,11 @@ public class SelectionManager {
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
+				boolean oldSelected = geo.isSelected();
+				geo.setSelected(false);
 				if (geo.getKernel().getApplication()
 						.has(Feature.DYNAMIC_STYLEBAR)) {
-					boolean oldSelected = geo.isSelected();
-					geo.setSelected(false);
+
 					if (oldSelected) {
 						for (GeoElementSelectionListener sl : getSelectionListeners()) {
 							if (sl != null) {
@@ -175,8 +176,6 @@ public class SelectionManager {
 							}
 						}
 					}
-				} else {
-					geo.setSelected(false);
 				}
 			}
 			selectedGeos.clear();
@@ -233,7 +232,7 @@ public class SelectionManager {
 	/**
 	 * Adds geo to selection
 	 * 
-	 * @param geo
+	 * @param geoND
 	 *            geo to be added to selection
 	 * @param repaint
 	 *            whether repaint is needed
@@ -880,54 +879,93 @@ public class SelectionManager {
 		return selectionListeners;
 	}
 
+	/**
+	 * @return selected points
+	 */
 	public ArrayList<GeoPointND> getSelectedPointList() {
 		return selectedPoints;
 	}
 
+	/**
+	 * @return selected numerics
+	 */
 	public ArrayList<GeoNumeric> getSelectedNumberList() {
 		return selectedNumbers;
 	}
 
+	/**
+	 * @return selected numbers
+	 */
 	public ArrayList<GeoNumberValue> getSelectedNumberValueList() {
 		return selectedNumberValues;
 	}
 
+	/**
+	 * @return selected lines
+	 */
 	public ArrayList<GeoLineND> getSelectedLineList() {
 		return selectedLines;
 	}
 
+	/**
+	 * @return selected paths
+	 */
 	public ArrayList<Path> getSelectedPathList() {
 		return selectedPaths;
 	}
 
+	/**
+	 * @return selected conics
+	 */
 	public ArrayList<GeoConicND> getSelectedConicNDList() {
 		return selectedConicsND;
 	}
 
+	/**
+	 * @return selected direction geos
+	 */
 	public ArrayList<GeoDirectionND> getSelectedDirectionList() {
 		return selectedDirections;
 	}
 
+	/**
+	 * @return selected segments
+	 */
 	public ArrayList<GeoSegmentND> getSelectedSegmentList() {
 		return selectedSegments;
 	}
 
+	/**
+	 * @return selected regions
+	 */
 	public ArrayList<Region> getSelectedRegionList() {
 		return selectedRegions;
 	}
 
+	/**
+	 * @return selected implicit curves
+	 */
 	public ArrayList<GeoImplicit> getSelectedImplicitpolyList() {
 		return selectedImplicitpoly;
 	}
 
+	/**
+	 * @return selected implicit surfaces
+	 */
 	public ArrayList<GeoImplicitSurfaceND> getSelectedImplicitSurfaceList() {
 		return selectedImplicitSurface;
 	}
 
+	/**
+	 * @return selected functions
+	 */
 	public ArrayList<GeoFunction> getSelectedFunctionList() {
 		return selectedFunctions;
 	}
 
+	/**
+	 * @return selected nvar functions
+	 */
 	public ArrayList<GeoFunctionNVar> getSelectedFunctionNVarList() {
 		return selectedFunctionsNVar;
 	}

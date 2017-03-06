@@ -766,6 +766,7 @@ public class AlgebraViewD extends AlgebraTree
 		 */
 		@Override
 		public void editingCanceled(ChangeEvent event) {
+			// nothing to do
 		}
 
 		@Override

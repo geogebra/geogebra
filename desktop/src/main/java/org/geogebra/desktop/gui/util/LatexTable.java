@@ -63,11 +63,13 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 
 	@Override
 	public void menuSelectionChanged(boolean arg0) {
+		// nothing to do
 	}
 
 	@Override
 	public void processKeyEvent(KeyEvent arg0, MenuElement[] arg1,
 			MenuSelectionManager arg2) {
+		// nothing to do
 	}
 
 	@Override
