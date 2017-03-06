@@ -5813,8 +5813,10 @@ public abstract class EuclidianController {
 		if (dr instanceof DrawLine) {
 			((DrawLine) dr).updateDynamicStylebarPosition();
 		}
-		setDynamicStyleBarPosition(dr.getBounds(), true);
-		setDynamicStylebarVisible(true);
+		else if (dr != null) {
+			setDynamicStyleBarPosition(dr.getBounds(), true);
+			setDynamicStylebarVisible(true);
+		}
 	}
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElementND[] ret,
@@ -11366,13 +11368,17 @@ public abstract class EuclidianController {
 	}
 
 	public final void setDefaultEventType(PointerEventType pointerEventType) {
-		if (pointerEventType == PointerEventType.PEN
-				&& pointerEventType != defaultEventType) {
-			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
-		}
-		if (pointerEventType != PointerEventType.PEN
-				&& pointerEventType != defaultEventType) {
-			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
+		if (app.has(Feature.PEN_EVENTS)) {
+			if (pointerEventType == PointerEventType.PEN
+					&& pointerEventType != defaultEventType) {
+				app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
+			}
+			if (pointerEventType != PointerEventType.PEN
+					&& app.getMode() == EuclidianConstants.MODE_PEN
+					&& PointerEventType.PEN == defaultEventType) {
+				app.setMode(EuclidianConstants.MODE_MOVE,
+						ModeSetter.DOCK_PANEL);
+			}
 		}
 		this.defaultEventType = pointerEventType;
 	}

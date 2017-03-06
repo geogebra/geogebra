@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -509,13 +508,19 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 
 
+		event.preventDefault();
+		AbstractEvent e = PointerEvent.wrapEvent(event, this);
+		onPointerEventEnd(e);
+		//
+		// if (elementCreated) {
+		// ec.toolCompleted();
+		// }
+	}
+
+	public void onPointerEventEnd(AbstractEvent e) {
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();
 		}
-
-		event.preventDefault();
-
-		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		this.moveIfWaiting();
 		resetDelay();
 		dragModeMustBeSelected = false;
@@ -534,10 +539,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 //		        && ec.pen.getCreatedShape() != null;
 
 		ec.resetModeAfterFreehand();
-//
-//		if (elementCreated) {
-//			ec.toolCompleted();
-//		}
+
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
@@ -639,7 +641,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			return mouseEventX(clientX - style.getxOffset());
 		}
 		// IE touch events are mouse events
-		return Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))
+		return Browser.supportsPointerEvents(false)
 				? mouseEventX(clientX)
 		        : mouseEventX(clientX - style.getxOffset());
 	}
@@ -650,7 +652,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			return mouseEventY(clientY - style.getyOffset());
 		}
 		// IE touch events are mouse events
-		return Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))
+		return Browser.supportsPointerEvents(false)
 				? mouseEventY(clientY)
 		        : mouseEventY(clientY - style.getyOffset());
 	}

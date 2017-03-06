@@ -195,7 +195,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 
 		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
-			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
+			msZoomer = new MsZoomer((IsEuclidianController) euclidianController,
+					euclidiancontroller.getOffsets());
 			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
 					app.has(Feature.PEN_EVENTS));
 			return;

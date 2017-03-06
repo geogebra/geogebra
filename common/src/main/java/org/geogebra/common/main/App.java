@@ -2234,7 +2234,7 @@ public abstract class App implements UpdateSelection {
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
 		}
-
+		Log.debug("MODE CHANGE" + EuclidianConstants.getModeText(mode));
 		if (getGuiManager() != null) {
 			setModeFromGuiManager(mode, m);
 		} else if (euclidianView != null) {

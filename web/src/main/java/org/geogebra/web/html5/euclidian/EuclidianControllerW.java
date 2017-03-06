@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -452,6 +453,14 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void onPointerEventMove(PointerEvent event) {
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
+	}
+
+	public void onPointerEventEnd(PointerEvent event) {
+		mtg.onPointerEventEnd(event);
+	}
+
+	public HasOffsets getOffsets() {
+		return mtg;
 	}
 }
 

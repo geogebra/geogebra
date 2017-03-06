@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -27,7 +28,8 @@ public class MsZoomer {
 		}
 
 		private native int zoom() /*-{
-			return $wnd.screen.deviceXDPI / $wnd.screen.logicalXDPI;
+			return $wnd.screen.deviceXDPI ? $wnd.screen.deviceXDPI
+					/ $wnd.screen.logicalXDPI : 1;
 		}-*/;
 
 		@Override
@@ -52,10 +54,11 @@ public class MsZoomer {
 
 	}
 
-	public MsZoomer(IsEuclidianController tc) {
+	public MsZoomer(IsEuclidianController tc, HasOffsets off) {
 		this.tc = tc;
+		Log.debug("Zoomer for" + off);
 		// this.off = (HasOffsets)this.tc;
-		this.off = new MsOffset(tc);
+		this.off = off == null ? new MsOffset(tc) : off;
 	}
 
 	private void pointersUp() {
@@ -72,19 +75,22 @@ public class MsZoomer {
 		this.tc.twoTouchMove(x1, y1, x2, y2);
 	}
 
-	private void setPointerTypeTouch(boolean b) {
-		this.tc.setDefaultEventType(b ? PointerEventType.TOUCH
-		        : PointerEventType.MOUSE);
-	}
-
 	private void singleDown(double x, double y){
-		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off);
+		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off,
+				false);
 		this.tc.onPointerEventStart(e);
 	}
 
 	private void singleMove(double x, double y) {
-		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off);
+		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off,
+				false);
 		this.tc.onPointerEventMove(e);
+	}
+
+	private void singleUp(double x, double y) {
+		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off,
+				false);
+		this.tc.onPointerEventEnd(e);
 	}
 
 	private final PointerEventType[] types = new PointerEventType[] {
@@ -136,7 +142,7 @@ public class MsZoomer {
 			if(e.pointerType == 2 || e.pointerType == "touch"){
 				return 1;
 			}
-			if(e.pointerType == "pen"){
+			if(e.pointerType == "pen" && override){
 				return 2;
 			}
 			return 0;
@@ -161,12 +167,13 @@ public class MsZoomer {
 								}
 
 							}
-							if(override && e.pointerType == "touch"){
+							if(override){
+								e.preventDefault();
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DD)(e.x, e.y);
 							}
 
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::moveLongTouch(II)($wnd.first.x, $wnd.first.y);
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(getType(e));
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 						});
 
 		element
@@ -192,14 +199,13 @@ public class MsZoomer {
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
 							}
-							if(override && e.pointerType == "touch"){
+							if(override){
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleDown(DD)(e.x, e.y);
 							}
 							if (e.pointerType == 2 || e.pointerType == "touch") {
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
 							}
-							$wnd.console.log(e.pointerType);
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(getType(e));
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 
 						});
 		removePointer = function(e) {
@@ -208,8 +214,11 @@ public class MsZoomer {
 			} else {
 				$wnd.second.id = -1;
 			}
+			if(override){
+					zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleUp(DD)(e.x, e.y);
+			}
 			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
-			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(getType(e));
+			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 		};
 		element.addEventListener(fix("PointerUp"), removePointer);
 		element.addEventListener(fix("PointerOut"), removePointer);

@@ -760,17 +760,25 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianControllerW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-
-		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
-		if (app.getLAF() == null || !app.getLAF().isSmart()) {
-			evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
+		if (!app.has(Feature.PEN_EVENTS)
+				|| !Browser.supportsPointerEvents(true)) {
+			evPanel.addDomHandler(euclidiancontroller,
+					MouseMoveEvent.getType());
+			evPanel.addDomHandler(euclidiancontroller,
+					MouseOverEvent.getType());
+			evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
+			evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+			if (app.getLAF() == null || !app.getLAF().isSmart()) {
+				evPanel.addDomHandler(euclidiancontroller,
+						MouseDownEvent.getType());
+			}
 		}
-		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+
+
 
 		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
-			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
+			msZoomer = new MsZoomer((IsEuclidianController) euclidianController,
+					euclidiancontroller.getOffsets());
 			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
 					app.has(Feature.PEN_EVENTS));
 			return;

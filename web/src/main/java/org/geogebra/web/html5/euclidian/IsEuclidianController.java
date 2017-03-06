@@ -33,4 +33,6 @@ public interface IsEuclidianController extends LongTouchHandler {
 
 	void onPointerEventMove(PointerEvent e);
 
+	void onPointerEventEnd(PointerEvent e);
+
 }
