@@ -36,6 +36,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private SubMenuPanel penMenu;
 	private SubMenuPanel toolsMenu;
 	private SubMenuPanel mediaMenu;
+	private int submenuHeight;
 
 	public MOWToolbar(AppW app) {
 		this.app = app;
@@ -57,8 +58,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		createMiddleButtons();
 		createMoveButton();
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
-		add(toolsMenu);
 
+		// hack
+		submenuHeight = 65;
 
 	}
 
@@ -181,21 +183,33 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	public void setCurrentMenu(SubMenuPanel submenu) {
+		if (submenu == null) {
+			return;
+		}
+
 		if (currentMenu == submenu) {
 			setSubmenuVisible(!currentMenu.isVisible());
 			return;
-		} else if (currentMenu != null) {
-			setSubmenuVisible(false);
-			remove(SUBMENU_ROW);
 		}
+
 		this.currentMenu = submenu;
-		add(currentMenu);
+		currentMenu.setVisible(true);
 		setSubmenuVisible(true);
 	}
 
-	private void setSubmenuVisible(boolean b) {
-		int h = currentMenu.getOffsetHeight();
-		getElement().getStyle().setTop((b ? -h : 0), Unit.PX);
+	private void setSubmenuVisible(final boolean b) {
+		currentMenu.setVisible(b);
+		int top = 0;
+		if (b) {
+			add(currentMenu);
+			top = -submenuHeight;
+		} else {
+			remove(SUBMENU_ROW);
+		}
+		getElement().getStyle().setTop(top, Unit.PX);
+
+
+
 	}
 
 }
