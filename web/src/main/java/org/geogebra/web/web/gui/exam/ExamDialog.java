@@ -33,7 +33,7 @@ public class ExamDialog {
 	/** Application */
 	protected AppW app;
 	/** Wrapped box */
-	protected DialogBoxW box;
+	protected DialogBoxKbW box;
 
 	private Localization loc;
 
@@ -181,7 +181,13 @@ public class ExamDialog {
 		if ((app.getArticleElement().hasDataParamEnableGraphing())) {
 			btnOk.addStyleName("ExamTabletStartButton");
 		}
-		box.center();
+		app.invokeLater(new Runnable() {
+
+			public void run() {
+				box.center();
+
+			}
+		});
 
 		// Cancel button
 		btnCancel.addStyleName("cancelBtn");

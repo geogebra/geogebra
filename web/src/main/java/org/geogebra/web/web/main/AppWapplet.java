@@ -211,16 +211,11 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 
-        if (has(Feature.KEYBOARD_BEHAVIOUR)) {        	 
-        	for(int i=frame.getWidgetCount()-1; i>=0; i--){
-        		if (!(frame.getWidget(i) instanceof HasKeyboardPopup)){
-        			frame.remove(i);
-        		}
-        	}
-        } else {
-            frame.clear();
-        }
-
+		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
+			if (!(frame.getWidget(i) instanceof HasKeyboardPopup)) {
+				frame.remove(i);
+			}
+		}
 
 		// showMenuBar should come from data-param,
 		// this is just a 'second line of defense'
