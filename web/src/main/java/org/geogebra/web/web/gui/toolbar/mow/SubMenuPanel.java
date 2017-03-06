@@ -4,10 +4,12 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class SubMenuPanel extends FlowPanel {
 	private AppW app;
 	private boolean info;
+	ScrollPanel scrollPanel;
 	FlowPanel contentPanel;
 	FlowPanel infoPanel;
 
@@ -22,21 +24,22 @@ public class SubMenuPanel extends FlowPanel {
 		createContentPanel();
 		if (hasInfo()) {
 			createInfoPanel();
-			add(LayoutUtilW.panelRow(contentPanel, infoPanel));
+			add(LayoutUtilW.panelRow(scrollPanel, infoPanel));
 		} else {
-			add(contentPanel);
+			add(scrollPanel);
 		}
 	}
 
 	protected void createContentPanel() {
+		scrollPanel = new ScrollPanel();
+		scrollPanel.addStyleName("mowSubMenuContent");
 		contentPanel = new FlowPanel();
-		contentPanel.addStyleName("mowSubMenuContent");
-
+		scrollPanel.add(contentPanel);
 	}
 
 	protected void createInfoPanel() {
 		infoPanel = new FlowPanel();
-		contentPanel.addStyleName("mowSubMenuInfo");
+		infoPanel.addStyleName("mowSubMenuInfo");
 	}
 
 	public boolean hasInfo() {

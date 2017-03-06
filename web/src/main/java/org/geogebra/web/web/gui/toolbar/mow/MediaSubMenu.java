@@ -18,6 +18,6 @@ public class MediaSubMenu extends SubMenuPanel {
 
 	protected void createInfoPanel() {
 		super.createInfoPanel();
-		contentPanel.add(new Label("Here comes the info..."));
+		infoPanel.add(new Label("Here comes the info..."));
 	}
 }
