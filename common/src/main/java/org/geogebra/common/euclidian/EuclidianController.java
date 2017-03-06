@@ -11323,6 +11323,14 @@ public abstract class EuclidianController {
 	}
 
 	public final void setDefaultEventType(PointerEventType pointerEventType) {
+		if (pointerEventType == PointerEventType.PEN
+				&& pointerEventType != defaultEventType) {
+			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
+		}
+		if (pointerEventType != PointerEventType.PEN
+				&& pointerEventType != defaultEventType) {
+			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
+		}
 		this.defaultEventType = pointerEventType;
 	}
 

@@ -3,6 +3,7 @@ package org.geogebra.web.html5.euclidian;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.event.HasOffsets;
+import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 
 import com.google.gwt.dom.client.Element;
@@ -76,6 +77,23 @@ public class MsZoomer {
 		        : PointerEventType.MOUSE);
 	}
 
+	private void singleDown(double x, double y){
+		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off);
+		this.tc.onPointerEventStart(e);
+	}
+
+	private void singleMove(double x, double y) {
+		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off);
+		this.tc.onPointerEventMove(e);
+	}
+
+	private final PointerEventType[] types = new PointerEventType[] {
+			PointerEventType.MOUSE, PointerEventType.TOUCH,
+			PointerEventType.PEN };
+	private void setPointerType(int i) {
+		this.tc.setDefaultEventType(types[i]);
+	}
+
 	private void startLongTouch(int x, int y) {
 		if (this.tc.getMode() == EuclidianConstants.MODE_MOVE) {
 			this.tc.getLongTouchManager().scheduleTimer(tc, x, y);
@@ -103,17 +121,29 @@ public class MsZoomer {
 		};
 	}-*/;
 
-	public static native void attachTo(Element element, MsZoomer zoomer) /*-{
+	public static native void attachTo(Element element, MsZoomer zoomer,
+			boolean override) /*-{
 		$wnd.first = {
 			id : -1
 		};
 		$wnd.second = {
 			id : -1
 		};
-
+		var fix = function(name) {
+			return $wnd.PointerEvent ? name.toLowerCase() : "MS" + name;
+		};
+		var getType = function(e){
+			if(e.pointerType == 2 || e.pointerType == "touch"){
+				return 1;
+			}
+			if(e.pointerType == "pen"){
+				return 2;
+			}
+			return 0;
+		};
 		element
 				.addEventListener(
-						"MSPointerMove",
+						fix("PointerMove"),
 						function(e) {
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								if ($wnd.second.id === e.pointerId) {
@@ -131,15 +161,17 @@ public class MsZoomer {
 								}
 
 							}
+							if(override && e.pointerType == "touch"){
+								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer.singleMove(DD)(e.x, e.y);
+							}
 
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::moveLongTouch(II)($wnd.first.x, $wnd.first.y);
-
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(getType(e));
 						});
 
 		element
 				.addEventListener(
-						"MSPointerDown",
+						fix("PointerDown"),
 						function(e) {
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								return;
@@ -160,10 +192,14 @@ public class MsZoomer {
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
 							}
+							if(override && e.pointerType == "touch"){
+								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer.singleDown(DD)(e.x, e.y);
+							}
 							if (e.pointerType == 2 || e.pointerType == "touch") {
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
 							}
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
+							$wnd.console.log(e.pointerType);
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(getType(e));
 
 						});
 		removePointer = function(e) {
@@ -173,10 +209,10 @@ public class MsZoomer {
 				$wnd.second.id = -1;
 			}
 			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
-			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(e.pointerType == 2 || e.pointerType == "touch");
+			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerTypeTouch(Z)(getType(e));
 		};
-		element.addEventListener("MSPointerUp", removePointer);
-		element.addEventListener("MSPointerOut", removePointer);
+		element.addEventListener(fix("PointerUp"), removePointer);
+		element.addEventListener(fix("PointerOut"), removePointer);
 	}-*/;
 
 }

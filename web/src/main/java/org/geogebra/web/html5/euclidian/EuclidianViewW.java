@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -768,9 +769,10 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 
-		if (Browser.supportsPointerEvents()) {
+		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
 			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
-			MsZoomer.attachTo(evPanel.getElement(), msZoomer);
+			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
+					app.has(Feature.PEN_EVENTS));
 			return;
 		}
 

@@ -1,6 +1,9 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 
@@ -23,5 +26,11 @@ public interface IsEuclidianController extends LongTouchHandler {
 	boolean isDraggingBeyondThreshold();
 
 	int getMode();
+
+	void setMode(int i, ModeSetter ms);
+
+	void onPointerEventStart(AbstractEvent e);
+
+	void onPointerEventMove(PointerEvent e);
 
 }

@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -638,7 +639,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			return mouseEventX(clientX - style.getxOffset());
 		}
 		// IE touch events are mouse events
-		return Browser.supportsPointerEvents() ? mouseEventX(clientX)
+		return Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))
+				? mouseEventX(clientX)
 		        : mouseEventX(clientX - style.getxOffset());
 	}
 
@@ -648,7 +650,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			return mouseEventY(clientY - style.getyOffset());
 		}
 		// IE touch events are mouse events
-		return Browser.supportsPointerEvents() ? mouseEventY(clientY)
+		return Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))
+				? mouseEventY(clientY)
 		        : mouseEventY(clientY - style.getyOffset());
 	}
 

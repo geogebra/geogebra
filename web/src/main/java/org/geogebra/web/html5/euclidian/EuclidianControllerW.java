@@ -449,5 +449,9 @@ public class EuclidianControllerW extends EuclidianController implements
 	protected boolean dynamicStyleBarClicked(int x, int y){
   		return this.getView().getDynamicStyleBar().isDynamicStylebarHit(x,y);
 	}
+
+	public void onPointerEventMove(PointerEvent event) {
+		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
+	}
 }
 

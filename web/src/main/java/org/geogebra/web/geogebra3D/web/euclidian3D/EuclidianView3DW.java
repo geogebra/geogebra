@@ -17,6 +17,7 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -193,12 +194,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 
-		if (Browser.supportsPointerEvents()) {
+		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
 			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
-			MsZoomer.attachTo(evPanel.getElement(), msZoomer);
+			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
+					app.has(Feature.PEN_EVENTS));
 			return;
 		}
-
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());

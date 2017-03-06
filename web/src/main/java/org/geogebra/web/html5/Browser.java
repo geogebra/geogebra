@@ -134,7 +134,11 @@ public class Browser {
 		return 'undefined' !== typeof Float64Array;
 	}-*/;
 
-	public static native boolean supportsPointerEvents()/*-{
+	public static native boolean supportsPointerEvents(boolean usePen)/*-{
+		$wnd.console.log("PEN SUPPORT" + usePen + "," + (!!$wnd.PointerEvent));
+		if (usePen && $wnd.PointerEvent) {
+			return true;
+		}
 		return $wnd.navigator.msPointerEnabled ? true : false;
 	}-*/;
 

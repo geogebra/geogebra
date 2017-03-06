@@ -367,4 +367,8 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		// TODO Auto-generated method stub
 
 	}
+
+	public void onPointerEventMove(PointerEvent event) {
+		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
+	}
 }

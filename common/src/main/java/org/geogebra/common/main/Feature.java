@@ -162,6 +162,6 @@ public enum Feature {
 	/** MOW-29 */
 	MOW_TOOLBAR,
 
-	PEN_IS_LOCUS
+	PEN_IS_LOCUS, PEN_EVENTS
 
 }
