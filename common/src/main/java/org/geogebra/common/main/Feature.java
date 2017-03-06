@@ -151,9 +151,6 @@ public enum Feature {
 	/** GGB- 1501 */
 	DIALOGS_OVERLAP_KEYBOARD,
 
-	/** related to EXAM-9 */
-	TABLET_WITHOUT_CORDOVA,
-
 	AV_TEXT_BLACK,
 
 	/** MOV-169 */

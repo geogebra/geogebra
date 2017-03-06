@@ -7,6 +7,7 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
@@ -34,7 +35,6 @@ public class Tablet implements EntryPoint {
 	// zum testen von private zu public
 	private static GeoGebraFrameBoth appFrame;
 
-
 	/**
 	 * set true if Google Api Js loaded
 	 */
@@ -48,13 +48,15 @@ public class Tablet implements EntryPoint {
 			return;
 		}
 		Browser.checkFloat64();
-		PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
-
-			@Override
-			public void onBackButtonPressed(final BackButtonPressedEvent event) {
-				goBack();
-			}
-		});
+		if (AppW.useCordova()){
+			PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
+	
+				@Override
+				public void onBackButtonPressed(final BackButtonPressedEvent event) {
+					goBack();
+				}
+			});
+		}
 		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
 		// production
 		// GeoGebraProfiler.init(new GeoGebraProfilerW());

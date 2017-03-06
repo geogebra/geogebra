@@ -4159,8 +4159,6 @@ public abstract class App implements UpdateSelection {
 		case DIALOGS_OVERLAP_KEYBOARD:
 			return prerelease;
 
-		case TABLET_WITHOUT_CORDOVA:
-			return false;
 		case AV_TEXT_BLACK:
 			return true;
 			

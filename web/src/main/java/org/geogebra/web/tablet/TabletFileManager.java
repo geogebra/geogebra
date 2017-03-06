@@ -18,22 +18,21 @@ import org.geogebra.web.touch.FileManagerT;
 import org.geogebra.web.web.util.SaveCallback;
 
 import com.google.gwt.core.client.Callback;
-import com.googlecode.gwtphonegap.client.file.FileError;
 
 public class TabletFileManager extends FileManagerT {
-	
+
 	private abstract class MyCallback implements Callback<Object, Object> {
 		private int id;
-		
+
 		public void setId(int id){
 			this.id = id;
 		}
-		
+
 		public int getId(){
 			return id;
 		}
 	}
-	
+
 	private static int NO_CALLBACK = 0;
 	private TreeMap<Integer, MyCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
@@ -41,23 +40,20 @@ public class TabletFileManager extends FileManagerT {
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);	
 	}
-	
+
+	@Override
 	protected void init(){
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			callbacks = new TreeMap<Integer, MyCallback>();
-			exportJavascriptMethods();
-		} else {
-			super.init();
-		}
+		callbacks = new TreeMap<Integer, MyCallback>();
+		exportJavascriptMethods();
 	}
-	
+
 	private int addNewCallback(MyCallback callback){
 		callbacksCount++;
 		callbacks.put(callbacksCount, callback);
 		callback.setId(callbacksCount);
 		return callbacksCount;
 	}
-	
+
 	private void runCallback(int id, boolean success, Object result){
 		if (id != NO_CALLBACK){
 			MyCallback cb = callbacks.remove(id);
@@ -68,424 +64,378 @@ public class TabletFileManager extends FileManagerT {
 			}
 		}
 	}
-	
+
 	@Override
-	protected void getFiles(final MaterialFilter filter) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){		
-			final int callbackParent = addNewCallback(new MyCallback() {
-				public void onSuccess(Object result){
-					int length = (Integer) result;
-					debug("catchListLocalFiles: "+length);
-					for (int i = 0; i < length; i++){
-						int callback = addNewCallback(new MyCallback() {
-							public void onSuccess(Object result){
-								try {
-									String[] resultStrings = (String[]) result;										
-									String name = resultStrings[0];
-									String data = resultStrings[1];
-									Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
-									
-									if (mat == null) {
-										mat = new Material(
-												0,
-												MaterialType.ggb);
-										mat.setTitle(getTitleFromKey(name));
-									}
+	protected void getFiles(final MaterialFilter filter) {	
+		final int callbackParent = addNewCallback(new MyCallback() {
+			public void onSuccess(Object result){
+				int length = (Integer) result;
+				debug("catchListLocalFiles: "+length);
+				for (int i = 0; i < length; i++){
+					int callback = addNewCallback(new MyCallback() {
+						public void onSuccess(Object result){
+							try {
+								String[] resultStrings = (String[]) result;										
+								String name = resultStrings[0];
+								String data = resultStrings[1];
+								Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
 
-									mat.setLocalID(MaterialsManager.getIDFromKey(name));
-
-									if (filter.check(mat)) {
-										addMaterial(mat);
-										debug("add material: "+name+", id: "+mat.getLocalID());
-									}
-								} catch (JSONException e) {
-									e.printStackTrace();
+								if (mat == null) {
+									mat = new Material(
+											0,
+											MaterialType.ggb);
+									mat.setTitle(getTitleFromKey(name));
 								}
+
+								mat.setLocalID(MaterialsManager.getIDFromKey(name));
+
+								if (filter.check(mat)) {
+									addMaterial(mat);
+									debug("add material: "+name+", id: "+mat.getLocalID());
+								}
+							} catch (JSONException e) {
+								e.printStackTrace();
 							}
-							public void onFailure(Object result){
-								// not needed
-								debug("on failure");
-							}
-						});
-						getMetaDataNative(i, callback, getId());
-					}
+						}
+						public void onFailure(Object result){
+							// not needed
+							debug("on failure");
+						}
+					});
+					getMetaDataNative(i, callback, getId());
 				}
-				public void onFailure(Object result){
-					// not needed
-					debug("parent -- on failure");
-				}
-			});
-			listLocalFilesNative(callbackParent);
-		}else{
-			super.getFiles(filter);
-		}
+			}
+			public void onFailure(Object result){
+				// not needed
+				debug("parent -- on failure");
+			}
+		});
+		listLocalFilesNative(callbackParent);
 	}
-		
+
 	private native void listLocalFilesNative(int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.listLocalFiles(callback);
 		}
 	}-*/;
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchListLocalFiles(int length, int callback) {
 		runCallback(callback, true, length);
 	}
-	
+
 	private native void getMetaDataNative(int i, int callback, int callbackParent) /*-{
 		if ($wnd.android) {
 			$wnd.android.getMetaData(i, callback, callbackParent);
 		}
 	}-*/;
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchMetaData(String name, String data, int callback) {
 		runCallback(callback, true, new String[] {name, data});
 	}
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchMetaDataError(int callback) {
 		runCallback(callback, false, null);
 	}
-	
-	
+
+
 	@Override
-    public void openMaterial(final Material material) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			String fileName = getFileKey(material);
-			debug("openMaterial: "+fileName+", id: "+material.getLocalID());
-			int callback = addNewCallback(new MyCallback() {
-				public void onSuccess(Object result){
-					material.setBase64((String) result);
-					doOpenMaterial(material);
-				}
-				public void onFailure(Object result){
-					// not needed
-				}
-			});
-			getBase64(fileName, callback);
-		}else{
-			super.openMaterial(material);
-		}
+	public void openMaterial(final Material material) {
+		String fileName = getFileKey(material);
+		debug("openMaterial: "+fileName+", id: "+material.getLocalID());
+		int callback = addNewCallback(new MyCallback() {
+			public void onSuccess(Object result){
+				material.setBase64((String) result);
+				doOpenMaterial(material);
+			}
+			public void onFailure(Object result){
+				// not needed
+			}
+		});
+		getBase64(fileName, callback);
 	}
-	
+
 	private native void getBase64(String fileName, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.getBase64(fileName, callback);
 		}
 	}-*/;
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchBase64(String data, int callback) {
 		runCallback(callback, true, data);
 	}
-	
+
 	@Override
 	public void saveFile(final String base64, final long modified,
-			 final SaveCallback cb) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			Material material = createMaterial("", modified);
-			material.setBase64("");
-			final Material saveFileMaterial = material;
-			int callback;
-			if (cb != null){
-				callback = addNewCallback(new MyCallback() {
-					public void onSuccess(Object result){
-						saveFileMaterial.setLocalID((Integer) result);
-						cb.onSaved(saveFileMaterial, true);
-					}
-					public void onFailure(Object result){
-						cb.onError();
-					}
-				});
-			}else{
-				callback = NO_CALLBACK;
-			}
-			saveFileNative(getApp().getLocalID(), getTitleWithoutReservedCharacters(getApp()
-			        .getKernel().getConstruction().getTitle()),base64, saveFileMaterial.toJson().toString(), callback);
+			final SaveCallback cb) {
+		Material material = createMaterial("", modified);
+		material.setBase64("");
+		final Material saveFileMaterial = material;
+		int callback;
+		if (cb != null){
+			callback = addNewCallback(new MyCallback() {
+				public void onSuccess(Object result){
+					saveFileMaterial.setLocalID((Integer) result);
+					cb.onSaved(saveFileMaterial, true);
+				}
+				public void onFailure(Object result){
+					cb.onError();
+				}
+			});
 		}else{
-			super.saveFile(base64, modified, cb);
+			callback = NO_CALLBACK;
 		}
+		saveFileNative(getApp().getLocalID(), getTitleWithoutReservedCharacters(getApp()
+				.getKernel().getConstruction().getTitle()),base64, saveFileMaterial.toJson().toString(), callback);
 	}
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchSaveFileResult(int result, int cb) {
 		runCallback(cb, result > 0, result);	
 	}
-			
-	
+
+
 	private native void saveFileNative(int id, String title, String base64, String metaDatas, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.saveFile(id, title, base64, metaDatas, callback);
 		}
 	}-*/;
-		
+
 	@Override
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			debug("uploadUsersMaterials");			
-			final int callbackParent = addNewCallback(new MyCallback() {
-				public void onSuccess(Object result){
-					int length = (Integer) result;
-					debug("catchListLocalFiles: "+length);
-					setNotSyncedFileCount(length, events);
-					for (int i = 0; i < length; i++){
-						int callback = addNewCallback(new MyCallback() {
-							public void onSuccess(Object result){
-								try {
-									String[] resultStrings = (String[]) result;										
-									String name = resultStrings[0];
-									String data = resultStrings[1];
-									debug("sync "+name);
-									Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
-									mat.setLocalID(MaterialsManager.getIDFromKey(name));
-									sync(mat, events);
-								} catch (JSONException e) {
-									ignoreNotSyncedFile(events);
-									e.printStackTrace();
-								}
-							}
-							public void onFailure(Object result){
-								// not needed
-								debug("on failure: ignoreNotSyncedFile");
+		debug("uploadUsersMaterials");			
+		final int callbackParent = addNewCallback(new MyCallback() {
+			public void onSuccess(Object result){
+				int length = (Integer) result;
+				debug("catchListLocalFiles: "+length);
+				setNotSyncedFileCount(length, events);
+				for (int i = 0; i < length; i++){
+					int callback = addNewCallback(new MyCallback() {
+						public void onSuccess(Object result){
+							try {
+								String[] resultStrings = (String[]) result;										
+								String name = resultStrings[0];
+								String data = resultStrings[1];
+								debug("sync "+name);
+								Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
+								mat.setLocalID(MaterialsManager.getIDFromKey(name));
+								sync(mat, events);
+							} catch (JSONException e) {
 								ignoreNotSyncedFile(events);
+								e.printStackTrace();
 							}
-						});
-						getMetaDataNative(i, callback, getId());
-					}
+						}
+						public void onFailure(Object result){
+							// not needed
+							debug("on failure: ignoreNotSyncedFile");
+							ignoreNotSyncedFile(events);
+						}
+					});
+					getMetaDataNative(i, callback, getId());
 				}
-				public void onFailure(Object result){
-					// not needed
-					debug("parent -- on failure");
-				}
-			});
-			listLocalFilesNative(callbackParent);
-		} else {
-			super.uploadUsersMaterials(events);
-		}
-		
+			}
+			public void onFailure(Object result){
+				// not needed
+				debug("parent -- on failure");
+			}
+		});
+		listLocalFilesNative(callbackParent);
 	}
-	
-	
+
+
 	@Override
 	public void upload(final Material mat) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			int callback = addNewCallback(new MyCallback() {
-				public void onSuccess(Object result){
-					mat.setBase64((String) result);
-					doUpload(mat);
-				}
-				public void onFailure(Object result){
-					// not needed
-				}
-			});
-			getBase64(getFileKey(mat), callback);
-		}else{
-			super.upload(mat);
-		}
+		int callback = addNewCallback(new MyCallback() {
+			public void onSuccess(Object result){
+				mat.setBase64((String) result);
+				doUpload(mat);
+			}
+			public void onFailure(Object result){
+				// not needed
+			}
+		});
+		getBase64(getFileKey(mat), callback);
 	}
-	
-	
+
+
 	@Override
 	protected void updateFile(final String key, final long modified,
-	        final Material material) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){		
-			debug("update file: "+material.getTitle());
-			material.setModified(modified);
-			if (key == null){
-				debug("key is null");
-				// save as a new local file
+			final Material material) {	
+		debug("update file: "+material.getTitle());
+		material.setModified(modified);
+		if (key == null){
+			debug("key is null");
+			// save as a new local file
+			String base64 = material.getBase64();
+			material.setBase64("");
+			createFileFromTubeNative(getTitleWithoutReservedCharacters(material.getTitle()), 
+					base64, material.toJson().toString());
+		} else {
+			material.setLocalID(MaterialsManager.getIDFromKey(key));
+			String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
+			if (key.equals(newKey)) {
+				debug("key == newKey");
+				// re-save file and meta data
 				String base64 = material.getBase64();
 				material.setBase64("");
-				createFileFromTubeNative(getTitleWithoutReservedCharacters(material.getTitle()), 
-						base64, material.toJson().toString());
+				updateFileFromTubeNative(key, base64, material.toJson().toString());
 			} else {
-		        material.setLocalID(MaterialsManager.getIDFromKey(key));
-		        String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
-		        if (key.equals(newKey)) {
-		        	debug("key == newKey");
-		        	// re-save file and meta data
-		        	String base64 = material.getBase64();
-		        	material.setBase64("");
-		        	updateFileFromTubeNative(key, base64, material.toJson().toString());
-		        } else {
-		        	String newTitle = material.getTitle();
-		        	material.setTitle(MaterialsManager.getTitleFromKey(key));
-		        	material.setSyncStamp(material.getModified());
-		        	debug("key != newKey");
-		        	// save and rename
-		        	debug("rename: "+newTitle);
-		        	rename(newTitle, material);
-		        }
-			}	
-		} else {
-			super.updateFile(key, modified, material);
+				String newTitle = material.getTitle();
+				material.setTitle(MaterialsManager.getTitleFromKey(key));
+				material.setSyncStamp(material.getModified());
+				debug("key != newKey");
+				// save and rename
+				debug("rename: "+newTitle);
+				rename(newTitle, material);
+			}
 		}
 	}
-	
+
 	private native void createFileFromTubeNative(String title, String base64, String metaDatas) /*-{
 		if ($wnd.android) {
 			$wnd.android.createFileFromTube(title, base64, metaDatas);
 		}
 	}-*/;
-	
+
 	private native void updateFileFromTubeNative(String title, String base64, String metaDatas) /*-{
 		if ($wnd.android) {
 			$wnd.android.updateFileFromTube(title, base64, metaDatas);
 		}
 	}-*/;
-	
-	
-	
+
+
+
 	@Override
 	public void open(String url, String name, String features){
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			openUrlInBrowser(url, name, features);
-		} else {
-			super.open(url, name, features);
-		}
+		openUrlInBrowser(url, name, features);
 	}
-	
+
 	@Override
 	public void open(String url){
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			openUrlInBrowser(url, "", "");
-		} else {
-			super.open(url);
-		}
+		openUrlInBrowser(url, "", "");
 	}
-	
+
 	private native void openUrlInBrowser(String url, String name, String features) /*-{
 		if ($wnd.android) {
 			$wnd.android.openUrlInBrowser(url, name, features);
 		}
 	}-*/;
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public void rename(final String newTitle, final Material mat,
-	        final Runnable callback) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			final String newKey = MaterialsManager.createKeyString(mat.getLocalID(),
-					newTitle);
-			final String oldKey = getFileKey(mat);
-			mat.setBase64("");
-			mat.setTitle(newTitle);
-			int callback1 = addNewCallback(new MyCallback() {			
-				@Override
-				public void onSuccess(Object result) {
-					if (callback != null){
-						debug("rename callback");
-						callback.run();
-					}					
-				}			
-				@Override
-				public void onFailure(Object reason) {
-					// not needed					
-				}
-			});
-			renameNative(oldKey, newKey, mat.toJson().toString(), callback1);
-		} else {
-			super.rename(newTitle, mat, callback);
-		}		
+			final Runnable callback) {
+		final String newKey = MaterialsManager.createKeyString(mat.getLocalID(),
+				newTitle);
+		final String oldKey = getFileKey(mat);
+		mat.setBase64("");
+		mat.setTitle(newTitle);
+		int callback1 = addNewCallback(new MyCallback() {			
+			@Override
+			public void onSuccess(Object result) {
+				if (callback != null){
+					debug("rename callback");
+					callback.run();
+				}					
+			}			
+			@Override
+			public void onFailure(Object reason) {
+				// not needed					
+			}
+		});
+		renameNative(oldKey, newKey, mat.toJson().toString(), callback1);
 	}
-	
+
 	private native void renameNative(String oldKey, String newKey, String metaData, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.rename(oldKey, newKey, metaData, callback);
 		}
 	}-*/;
 
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchRename(int callback) {
 		runCallback(callback, true, null);
 	}
-	
+
 	@Override
 	public void delete(final Material mat, boolean permanent,
-	        final Runnable onSuccess) {
-		
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			debug("permanent: "+permanent);
-			if (!permanent) {
-				mat.setDeleted(true);
-				mat.setBase64("");
-				overwriteMetaDataNative(getFileKey(mat), mat.toJson().toString(), NO_CALLBACK);
-				return;
-			}
+			final Runnable onSuccess) {
 
-			int callback = addNewCallback(new MyCallback() {
-				public void onSuccess(Object result){
-					debug("delete, onSuccess");
-					removeFile(mat);
-					onSuccess.run();
-				}
-				public void onFailure(Object result){
-					// not needed
-					debug("delete, onFailure");
-				}
-			});
-			deleteNative(getFileKey(mat), callback);
-		}else{
-			super.delete(mat, permanent, onSuccess);
+		if (!permanent) {
+			mat.setDeleted(true);
+			mat.setBase64("");
+			overwriteMetaDataNative(getFileKey(mat), mat.toJson().toString(), NO_CALLBACK);
+			return;
 		}
 
+		int callback = addNewCallback(new MyCallback() {
+			public void onSuccess(Object result){
+				debug("delete, onSuccess");
+				removeFile(mat);
+				onSuccess.run();
+			}
+			public void onFailure(Object result){
+				// not needed
+				debug("delete, onFailure");
+			}
+		});
+		deleteNative(getFileKey(mat), callback);
+
 	}
-	
+
 	private native void overwriteMetaDataNative(String key, String metaData, int callback)/*-{
 		if ($wnd.android) {
 			$wnd.android.overwriteMetaData(key, metaData, callback);
 		}
 	}-*/;
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchOverwriteMetaData(int callback) {
 		runCallback(callback, true, null);
 	}
-	
+
 	private native void deleteNative(String key, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.deleteGgb(key, callback);
 		}
 	}-*/;
-	
+
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
 	 */
 	public void catchDeleteResult(String result, int callback) {
 		runCallback(callback, result != null && !"0".equals(result), result);
 	}
-	
+
 	@Override
 	public void setTubeID(String localID, Material mat) {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			mat.setBase64("");
-	        overwriteMetaDataNative(localID, mat.toJson().toString(), NO_CALLBACK);
-		}else{
-			super.setTubeID(localID, mat);
-		}
+		mat.setBase64("");
+		overwriteMetaDataNative(localID, mat.toJson().toString(), NO_CALLBACK);
 	}
-	
 
-		
-	
+
+
+
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
 		$wnd.tabletFileManager_catchListLocalFiles = $entry(function(length, callback) {
@@ -513,14 +463,14 @@ public class TabletFileManager extends FileManagerT {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchOverwriteMetaData(I)(callback);
 		});
 	}-*/;
-	
+
 
 	private native void debugNative(String s) /*-{
 		if ($wnd.android) {
 			$wnd.android.debug(s);
 		}
 	}-*/;
-	
+
 	protected void debug(String s){
 		Log.debug(s);
 		debugNative(s);

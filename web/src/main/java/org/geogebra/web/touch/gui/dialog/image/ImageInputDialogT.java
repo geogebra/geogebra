@@ -1,7 +1,6 @@
 package org.geogebra.web.touch.gui.dialog.image;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -55,7 +54,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 			}
 		};
 		
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
+		if (!AppW.useCordova()){
 			exportJavascriptMethods();
 		}
 	}
@@ -100,10 +99,10 @@ public class ImageInputDialogT extends UploadImageDialog {
 	 * Callback for file open button
 	 */
 	void openFromFileClicked() {
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			openFromFileClickedNative();
-		}else{
+		if (AppW.useCordova()){
 			PhoneGapManager.getPhoneGap().getCamera().getPicture(options, this.pictureCallback);
+		}else{
+			openFromFileClickedNative();		
 		}
 	}
 	
@@ -183,12 +182,12 @@ public class ImageInputDialogT extends UploadImageDialog {
 		pictureOptions.setAllowEdit(false);
 		pictureOptions.setCorrectOrientation(true);
 
-		if (app.has(Feature.TABLET_WITHOUT_CORDOVA)){
-			getCameraPictureNative();
-		}else{
+		if (AppW.useCordova()){
 			PhoneGapManager.getPhoneGap().getCamera().getPicture(
 			pictureOptions,
 			this.pictureCallback);
+		}else{			
+			getCameraPictureNative();
 		}
     }
 
