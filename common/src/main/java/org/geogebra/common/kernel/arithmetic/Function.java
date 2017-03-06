@@ -1004,35 +1004,7 @@ public class Function extends FunctionNVar
 	/*
 	 * for root finding
 	 */
-	private static class DerivFunction
-			implements RealRootDerivFunction {
 
-		private Function fun, realRootDerivative;
-		private double[] ret = new double[2];
-
-		DerivFunction(Function fun, Function derivative) {
-			this.fun = fun;
-			this.realRootDerivative = derivative;
-		}
-
-		@Override
-		public double[] evaluateDerivFunc(double x) {
-			ret[0] = fun.value(x);
-			ret[1] = realRootDerivative.value(x);
-			return ret;
-		}
-
-		@Override
-		public double value(double x) {
-			return fun.value(x);
-		}
-
-		@Override
-		public double evaluateDerivative(double x) {
-			return realRootDerivative.value(x);
-		}
-
-	}
 
 	/**
 	 * Decides whether function includes division by expression containing
@@ -1191,17 +1163,12 @@ public class Function extends FunctionNVar
 	 * 
 	 * @return real root function
 	 */
-	@Deprecated
-	final public RealRootDerivFunction getRealRootDerivFunction() {
+	public UnivariateFunction derivative() {
 		Function deriv = getDerivativeNoFractions(1, true);
 		if (deriv == null) {
 			return null;
 		}
-		return new DerivFunction(this, deriv);
-	}
-
-	public UnivariateFunction derivative() {
-		return getRealRootDerivFunction();
+		return deriv;
 	}
 
 }
