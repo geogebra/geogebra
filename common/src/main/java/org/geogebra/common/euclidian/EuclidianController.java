@@ -8358,8 +8358,9 @@ public abstract class EuclidianController {
 			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 				if (dr instanceof DrawLine) {
 					((DrawLine) dr).updateDynamicStylebarPosition();
+				} else {
+					setDynamicStyleBarPosition(dr.getBounds(), true);
 				}
-				setDynamicStyleBarPosition(dr.getBounds(), true);
 				setDynamicStylebarVisible(true);
 			}
 			view.repaintView();
