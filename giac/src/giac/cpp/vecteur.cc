@@ -48,7 +48,8 @@ using namespace std;
 // (link with -framewrok Accelerate)
 // it is not used by default because the Accelerate version is slower 
 // than the current Atlas, at least on OSX.6, and is also slower than giac built-in
-#ifndef APPLE_SMART
+
+#if !defined(APPLE_SMART) && !defined(DONT_USE_LIBLAPLACK)
 #if defined __APPLE__ && !defined(HAVE_LIBLAPACK) && !defined(USE_GMP_REPLACEMENTS)
 #define HAVE_LIBLAPACK
 #endif

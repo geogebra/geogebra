@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.homepage = 'http://dev.geogebra.org'
   s.source = { :path => 'src' }
   s.license = 'GeoGebra License'
-  s.compiler_flags = '-Wno-c++11-narrowing', '-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DHAVE_CONFIG_H', '-DGIAC_GGB', '-DHAVE_UNISTD_H', '-DHAVE_SYS_TIMES_H', '-DHAVE_SYS_TIME_H', '-DANDROID_INCLUDE', '-DAPPLE_SMART'
+  s.compiler_flags = '-Wno-c++11-narrowing', '-DIN_GIAC', '-DGIAC_GENERIC_CONSTANTS', '-DHAVE_CONFIG_H', '-DGIAC_GGB', '-DHAVE_UNISTD_H', '-DHAVE_SYS_TIMES_H', '-DHAVE_SYS_TIME_H', '-DANDROID_INCLUDE', '-DDONT_USE_LIBLAPLACK'
 
   s.subspec 'gmp' do |gmp|
   	gmp.vendored_libraries = 'src/jni/prebuilt/ios/all/libgmp.a'
