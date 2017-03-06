@@ -781,6 +781,10 @@ public class EuclidianViewW extends EuclidianView implements
 					euclidiancontroller.getOffsets());
 			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
 					app.has(Feature.PEN_EVENTS));
+
+			if (app.has(Feature.PEN_EVENTS)) {
+				CancelEventTimer.killTouch(evPanel);
+			}
 			return;
 		}
 

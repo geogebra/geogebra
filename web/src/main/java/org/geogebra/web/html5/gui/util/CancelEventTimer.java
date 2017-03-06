@@ -2,6 +2,12 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.debug.Log;
 
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * The static methods of this class should be used to check for duplicated
  * events (e.g. TouchStart and MouseDown) and to prevent that one event is
@@ -114,6 +120,24 @@ public class CancelEventTimer {
 		Log.debug("[RS]  cancelAVRestoreWidth()");
 		return System.currentTimeMillis()
 				- avRestoreWidthEvent < TIME_BEFORE_RESTORING_AV_WIDTH;
+	}
+
+	public static void killTouch(Widget evPanel) {
+		evPanel.addDomHandler(new TouchStartHandler() {
+
+			public void onTouchStart(TouchStartEvent event) {
+				event.preventDefault();
+
+			}
+		}, TouchStartEvent.getType());
+		evPanel.addDomHandler(new TouchMoveHandler() {
+
+			public void onTouchMove(TouchMoveEvent event) {
+				event.preventDefault();
+
+			}
+		}, TouchMoveEvent.getType());
+
 	}
 
 }
