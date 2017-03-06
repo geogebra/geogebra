@@ -435,8 +435,12 @@ namespace giac {
 #define GBASIS_SWAP 
 #endif
   // minimal numbers of pair to reduce simultaneously with f4buchberger
-  #define GBASISF4_BUCHBERGER 4
-  // #define GBASISF4_BUCHBERGER 0
+#ifdef __APPLE__
+  #define GBASISF4_BUCHBERGER 0 // temp. disabled on mac
+#else
+  #define GBASISF4_BUCHBERGER 4 
+#endif
+
 #define GBASIS_POSTF4BUCHBERGER 0 // 0 means final simplification at the end, 1 at each loop
 
   // #define GIAC_GBASIS_REDUCTOR_MAXSIZE 10 // max size for keeping a reductor even if it should be removed from gbasis
