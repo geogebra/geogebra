@@ -1625,10 +1625,10 @@ namespace giac {
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
     if (X%2){
-      if (x.tdeg2!=y.tdeg2) return x.tdeg2>y.tdeg2?1:0;
 #ifdef GIAC_ELIM
       if ( x.elim!=y.elim) return x.elim<y.elim?1:0;
 #endif
+      if (x.tdeg2!=y.tdeg2) return x.tdeg2>y.tdeg2?1:0;
       //if (x.ui==y.ui) return 2;
 #if 1 && !defined BIGENDIAN && !defined GIAC_CHARDEGTYPE
       return tdeg_t_greater_dyn(x,y,order);
@@ -10872,7 +10872,7 @@ namespace giac {
 	    jtend=j;
 	  continue;
 	}
-	if (int res=tdeg_t_greater_dyn(*j,u,order)){
+	if (int res=tdeg_t_greater(*j,u,order)){
 	  jt=j;
 	  if (res==2)
 	    return true;
