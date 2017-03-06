@@ -1822,12 +1822,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	@Override
 	public boolean hasDeferredFocus() {
 		return deferredFocus;
 	}
 
-	@Override
 	public void setDeferredFocus(boolean b) {
 		deferredFocus = b;
 	}

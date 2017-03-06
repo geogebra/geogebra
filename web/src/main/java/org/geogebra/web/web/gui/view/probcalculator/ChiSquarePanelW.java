@@ -477,10 +477,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 			updateCellData(fldInput.getText());
     	}
 
-    	public void focusGained(FocusEvent e) {
-    		
-    	}
-
+		// TODO attach the listener
     	public void focusLost(FocusEvent e) {
     		updateCellData();
     		getStatCalc().updateResult();

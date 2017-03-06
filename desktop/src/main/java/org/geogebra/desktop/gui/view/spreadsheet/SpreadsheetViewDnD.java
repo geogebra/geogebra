@@ -141,22 +141,27 @@ public class SpreadsheetViewDnD
 
 	@Override
 	public void dragDropEnd(DragSourceDropEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void dragEnter(DragSourceDragEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void dragExit(DragSourceEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void dragOver(DragSourceDragEvent e) {
+		// nothing to do
 	}
 
 	@Override
 	public void dropActionChanged(DragSourceDragEvent e) {
+		// nothing to do
 	}
 
 	// ======================================

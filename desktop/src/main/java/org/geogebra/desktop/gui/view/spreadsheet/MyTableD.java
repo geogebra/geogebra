@@ -1700,18 +1700,22 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		@Override
 		public void columnAdded(TableColumnModelEvent arg0) {
+			// only care about margin
 		}
 
 		@Override
 		public void columnMoved(TableColumnModelEvent arg0) {
+			// only care about margin
 		}
 
 		@Override
 		public void columnRemoved(TableColumnModelEvent arg0) {
+			// only care about margin
 		}
 
 		@Override
 		public void columnSelectionChanged(ListSelectionEvent arg0) {
+			// only care about margin
 		}
 	}
 

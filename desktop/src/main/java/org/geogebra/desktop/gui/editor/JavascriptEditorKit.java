@@ -213,6 +213,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		 */
 		@Override
 		public void changedUpdate(DocumentEvent e) {
+			// only handle insert and delete
 		}
 
 		/**

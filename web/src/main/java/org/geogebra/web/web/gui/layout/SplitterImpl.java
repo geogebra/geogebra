@@ -33,6 +33,11 @@ public class SplitterImpl {
 		return baseDivElement;
 	}
 	
+	/**
+	 * @param layer
+	 *            parent layer
+	 */
 	public void splitterInsertedIntoLayer(Layer layer) {
+		// overridden in touch
 	}
 }

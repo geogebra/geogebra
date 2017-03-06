@@ -367,7 +367,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void requestLayout() {
-
+		// for desktop only
 	}
 
 	public KeyListener getKeyListener() {
@@ -381,7 +381,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 	@Override
 	public void repaint() {
-
+		// called to often, use repaintWeb for actual repaint
 	}
 
 	public void repaintWeb() {

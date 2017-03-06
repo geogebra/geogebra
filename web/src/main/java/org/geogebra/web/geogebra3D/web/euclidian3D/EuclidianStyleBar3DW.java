@@ -386,7 +386,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
 
-		btnShowAxesAndPlane.removeActionListener(this);
 		btnShowAxesAndPlane.setIndexFromEV();
 	}
 

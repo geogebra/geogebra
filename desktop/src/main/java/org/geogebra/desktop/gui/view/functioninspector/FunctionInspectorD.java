@@ -24,8 +24,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
@@ -76,7 +74,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
  */
 
 public class FunctionInspectorD extends FunctionInspector
-		implements MouseListener, ListSelectionListener, KeyListener,
+ implements
+		ListSelectionListener, KeyListener,
 		SpecialNumberFormatInterface, ActionListener, WindowFocusListener,
 		FocusListener {
 
@@ -587,25 +586,7 @@ public class FunctionInspectorD extends FunctionInspector
 	// Mouse Listeners
 	// =========================================
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-	}
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-	}
 
 	@Override
 	public void updateFonts() {

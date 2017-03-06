@@ -522,13 +522,6 @@ public class PopupMenuButtonW extends MyCJButton
 	}
 
 	/**
-	 * @param euclidianStyleBar
-	 *            {@link EuclidianStyleBarW}
-	 */
-	public void removeActionListener(EuclidianStyleBarW euclidianStyleBar) {
-	}
-
-	/**
 	 * @param keepVisible
 	 *            {@code boolean}
 	 */

@@ -1076,21 +1076,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void setFocus(boolean b) {
-
+		// called from common, needed only in web
 	}
 
 	@Override
 	public void prepareShowSymbolButton(boolean b) {
 		this.setShowSymbolTableIcon(b);
-	}
-
-	@Override
-	public boolean hasDeferredFocus() {
-		return false;
-	}
-
-	@Override
-	public void setDeferredFocus(boolean b) {
 	}
 
 	@Override

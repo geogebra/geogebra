@@ -1560,42 +1560,52 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 	@Override
 	public final void windowClosed(WindowEvent e) {
+		// only handle windowClosing
 	}
 
 	@Override
 	public final void windowActivated(WindowEvent e) {
+		// only handle windowClosing
 	}
 
 	@Override
 	public final void windowDeactivated(WindowEvent e) {
+		// only handle windowClosing
 	}
 
 	@Override
 	public final void windowDeiconified(WindowEvent e) {
+		// only handle windowClosing
 	}
 
 	@Override
 	public final void windowIconified(WindowEvent e) {
+		// only handle windowClosing
 	}
 
 	@Override
 	public final void windowOpened(WindowEvent e) {
+		// only handle windowClosing
 	}
 
 	@Override
 	public final void mouseClicked(MouseEvent e) {
+		// only handle mousePressed
 	}
 
 	@Override
 	public final void mouseEntered(MouseEvent e) {
+		// only handle mousePressed
 	}
 
 	@Override
 	public final void mouseExited(MouseEvent e) {
+		// only handle mousePressed
 	}
 
 	@Override
 	public final void mouseReleased(MouseEvent e) {
+		// only handle mousePressed
 	}
 
 	public class MyButtonHider extends MouseAdapter {

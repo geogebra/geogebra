@@ -264,34 +264,33 @@ public abstract class GeoGebraTubeAPI {
 	}
 
 	public void logout(String token) {
-		performRequest(
-				"{\"request\": {" + "\"api\":\"1.0.0\","
-						+ "\"logout\": {\"token\":\"" + token
-						+ "\", \"getuserinfo\":\"false\"}}}",
-				true, new AjaxCallback() {
+		performRequest("{\"request\": {" + "\"api\":\"1.0.0\","
+				+ "\"logout\": {\"token\":\"" + token
+				+ "\", \"getuserinfo\":\"false\"}}}", true, new AjaxCallback() {
 
-					@Override
-					public void onSuccess(String response) {
-					}
+			@Override
+			public void onSuccess(String response) {
+				// yay, it worked
+			}
 
-					@Override
-					public void onError(String error) {
-						Log.error(error);
+			@Override
+			public void onError(String error) {
+				Log.error(error);
 
-					}
-				});
+			}
+		});
 	}
 
 	public void favorite(int id, boolean favorite) {
-		performRequest(
-				"{\"request\": {" + "\"-api\":\"1.0.0\","
-						+ "\"login\": {\"-token\":\"" + getToken() + "\"},"
-						+ "\"task\": {\"-type\":\"favorite\", \"id\":\"" + id
-						+ "\",\"favorite\":\"" + favorite + "\"}}}",
-				false, new AjaxCallback() {
+		performRequest("{\"request\": {" + "\"-api\":\"1.0.0\","
+				+ "\"login\": {\"-token\":\"" + getToken() + "\"},"
+				+ "\"task\": {\"-type\":\"favorite\", \"id\":\"" + id
+				+ "\",\"favorite\":\"" + favorite + "\"}}}", false,
+				new AjaxCallback() {
 
 					@Override
 					public void onSuccess(String response) {
+						// yay, it worked
 					}
 
 					@Override
@@ -300,7 +299,6 @@ public abstract class GeoGebraTubeAPI {
 
 					}
 				});
-
 	}
 
 	/**

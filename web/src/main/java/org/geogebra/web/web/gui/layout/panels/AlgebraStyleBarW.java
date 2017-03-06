@@ -28,14 +28,12 @@ import org.geogebra.web.web.gui.util.StyleBarW2;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 /**
  * StyleBar for AlgebraView
  */
 public class AlgebraStyleBarW extends StyleBarW2 implements
-		ValueChangeHandler<Boolean>, SettingListener {
+ SettingListener {
 
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButtonW treeModeButton;
@@ -288,9 +286,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				"AlgebraDescriptions"));
 	}
 
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-	}
+
 
 	@Override
 	public void setOpen(boolean showStyleBar) {

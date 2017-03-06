@@ -134,8 +134,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void changeMode(int mode) {
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
 		setView(dataSource, mode, true);
-
 	}
+
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 
@@ -484,7 +484,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	@Override
 	public void repaintView() {
-
+		// do nothing
 	}
 
 	@Override
@@ -526,9 +526,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	public String[] getDataTitles() {
 		return daCtrl.getDataTitles();
-	}
-
-	public void updateSelection() {
 	}
 
 	// =================================================

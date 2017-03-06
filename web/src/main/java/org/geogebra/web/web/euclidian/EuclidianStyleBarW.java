@@ -1125,7 +1125,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			return;
 		}
 
-		btnPointCapture.removeActionListener(this);
 		updateButtonPointCapture(ev.getPointCapturingMode());
 
 		updateAxesAndGridGUI();
@@ -1136,7 +1135,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
-		btnShowGrid.removeActionListener(this);
 		btnShowGrid.setSelectedIndex(gridIndex(ev));
 	}
 

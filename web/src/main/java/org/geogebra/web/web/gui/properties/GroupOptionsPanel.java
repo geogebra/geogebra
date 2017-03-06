@@ -80,10 +80,6 @@ public class GroupOptionsPanel implements IOptionPanel {
 	}
 
 	@Override
-	public void setWidget(Widget widget) {
-	}
-
-	@Override
 	public OptionsModel getModel() {
 		return model;
 	}

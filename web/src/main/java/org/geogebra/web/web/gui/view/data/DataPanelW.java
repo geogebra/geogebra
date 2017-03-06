@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/** Data panel */
 public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		RequiresResize
 	
@@ -50,8 +51,14 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
         }
 		
 	}
+	
 	/*************************************************
 	 * Construct a DataPanel
+	 * 
+	 * @param app
+	 *            application
+	 * @param statDialog
+	 *            data analysis view
 	 */
 	public DataPanelW(AppW app, DataAnalysisViewW statDialog) {
 		this.app = app;
@@ -93,9 +100,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		setLabels();
 	}
 
-	public void removeGeos() {
-
-	}
 
 	@Override
 	public void setLabels() {
@@ -260,6 +264,10 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	
 //}
 	
+	/**
+	 * @param index
+	 *            clicked item index
+	 */
 	public void onDataClick(int index) { 
 		selectionList[index] = !selectionList[index];
 		statController.updateSelectedDataList(index,
@@ -268,6 +276,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		cbEnableAll.setEnabled(true);
 	}
 
+	/**
+	 * Mark all items as enabled
+	 */
 	public void enableAll() {
 
 		for (int i = 0; i < selectionList.length; ++i) {
@@ -286,6 +297,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		cbEnableAll.setEnabled(false);
 	}
 
+	/**
+	 * @return whether all items are selected
+	 */
 	public boolean isAllEnabled() {
 		for (int i = 0; i < selectionList.length; ++i) {
 			if (!selectionList[i]) {

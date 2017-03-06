@@ -155,6 +155,7 @@ public class BorderButtonD extends AbstractBorder
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		// only care about mouse move and press
 	}
 
 	@Override
@@ -177,14 +178,17 @@ public class BorderButtonD extends AbstractBorder
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		// only care about mouse move and press
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// only care about mouse move and press
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// only care about mouse move and press
 	}
 
 	@Override

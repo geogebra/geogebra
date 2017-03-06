@@ -140,7 +140,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW implements MouseMoveHandler
 
 	@Override
 	public void onStart(HumanInputEvent<?> event) {
-
+		// own event handling for touch and mouse
 	}
 
 	@Override

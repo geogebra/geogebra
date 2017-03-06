@@ -35,7 +35,6 @@ public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 		return widget;
 	}
 
-	@Override
 	public void setWidget(Widget widget) {
 		this.widget = widget;
 	}

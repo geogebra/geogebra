@@ -82,13 +82,6 @@ public interface AutoCompleteTextField
 
 	void prepareShowSymbolButton(boolean b);
 
-	/**
-	 * deferred focus for web
-	 */
-	boolean hasDeferredFocus();
-
-	void setDeferredFocus(boolean b);
-
 	void hideDeferred(final GBox box);
 
 	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,

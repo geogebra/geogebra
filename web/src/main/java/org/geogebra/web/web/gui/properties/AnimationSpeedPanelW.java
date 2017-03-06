@@ -67,12 +67,13 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 
 			@Override
 			protected void wrapFocusGained(){
+				// only handle blur
 			}
 			
 			@Override
 			protected void wrapFocusLost(){
 					doActionPerformed();
-			}	
+			}
 		});
         tfAnimSpeed.requestToShowSymbolButton();
 

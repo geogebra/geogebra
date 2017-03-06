@@ -5,7 +5,6 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -24,10 +23,10 @@ public class PropertiesDockPanel extends DockPanelD
 	private PropertiesViewD view;
 	private boolean closed;
 
-	JDialog dialog = null;
 
 	/**
 	 * @param app
+	 *            application
 	 */
 	public PropertiesDockPanel(AppD app) {
 		super(App.VIEW_PROPERTIES, // view id
@@ -127,12 +126,12 @@ public class PropertiesDockPanel extends DockPanelD
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		//
-
+		// only handle windowClosing
 	}
 
 	@Override
 	public void windowLostFocus(WindowEvent arg0) {
+		// only handle windowClosing
 	}
 
 	@Override
@@ -151,10 +150,7 @@ public class PropertiesDockPanel extends DockPanelD
 
 	@Override
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
-
 		// no action on properties view
-
-		setFocus(hasFocus);
 	}
 
 	/**
