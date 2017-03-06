@@ -292,7 +292,7 @@ typedef int ref_count_t;
 #include "gmp_replacements.h"
 #else
 #include "gmp.h"
-#endif /* HAVE_LIBMPFR */
+#endif // USE_GMP_REPLACEMENTS
 
 #include <cassert>
 
