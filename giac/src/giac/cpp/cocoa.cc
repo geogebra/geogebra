@@ -15096,12 +15096,14 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #if GROEBNER_VARS==15
 
   int tdeg_t15_3var_greater (const tdeg_t15 & x,const tdeg_t15 & y){
+    if (x.tab[0]!=y.tab[0])
+      return x.tab[0]>=y.tab[0]?1:0;
+    if (x.tab[4]!=y.tab[4])
+      return x.tab[4]>=y.tab[4]?1:0;
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
 #ifdef GBASIS_SWAP
       return ((longlong *) x.tab)[0] <= ((longlong *) y.tab)[0];
 #else
-      if (x.tab[0]!=y.tab[0])
-	return x.tab[0]>=y.tab[0]?1:0;
       if (x.tab[1]!=y.tab[1])
 	return x.tab[1]<=y.tab[1]?1:0;
       if (x.tab[2]!=y.tab[2])
@@ -15110,8 +15112,6 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
     }
     if (((longlong *) x.tab)[1] != ((longlong *) y.tab)[1]){
-      if (x.tab[4]!=y.tab[4])
-	return x.tab[4]>=y.tab[4]?1:0;
 #ifdef GBASIS_SWAP
       return ((longlong *) x.tab)[1] <= ((longlong *) y.tab)[1];
 #else
@@ -15152,12 +15152,14 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   }
 
   int tdeg_t15_7var_greater (const tdeg_t15 & x,const tdeg_t15 & y){
+    if (x.tab[0]!=y.tab[0])
+      return x.tab[0]>=y.tab[0]?1:0;
+    if (x.tab[8]!=y.tab[8])
+      return x.tab[8]>=y.tab[8]?1:0;
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
 #ifdef GBASIS_SWAP
       return ((longlong *) x.tab)[0] <= ((longlong *) y.tab)[0];
 #else
-      if (x.tab[0]!=y.tab[0])
-	return x.tab[0]>=y.tab[0]?1:0;
       if (x.tab[1]!=y.tab[1])
 	return x.tab[1]<=y.tab[1]?1:0;
       if (x.tab[2]!=y.tab[2])
@@ -15179,8 +15181,6 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
     }
     if (((longlong *) x.tab)[2] != ((longlong *) y.tab)[2]){
-      if (x.tab[8]!=y.tab[8])
-	return x.tab[8]>=y.tab[8]?1:0;
 #ifdef GBASIS_SWAP
       return ((longlong *) x.tab)[2] <= ((longlong *) y.tab)[2];
 #else
@@ -15208,12 +15208,14 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
   }
 
   int tdeg_t15_11var_greater (const tdeg_t15 & x,const tdeg_t15 & y){
+    if (x.tab[0]!=y.tab[0])
+      return x.tab[0]>=y.tab[0]?1:0;
+    if (x.tab[12]!=y.tab[12])
+      return x.tab[12]>=y.tab[12]?1:0;
     if (((longlong *) x.tab)[0] != ((longlong *) y.tab)[0]){
 #ifdef GBASIS_SWAP
       return ((longlong *) x.tab)[0] <= ((longlong *) y.tab)[0];
 #else
-      if (x.tab[0]!=y.tab[0])
-	return x.tab[0]>=y.tab[0]?1:0;
       if (x.tab[1]!=y.tab[1])
 	return x.tab[1]<=y.tab[1]?1:0;
       if (x.tab[2]!=y.tab[2])
@@ -15248,8 +15250,6 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif
     }
     if (((longlong *) x.tab)[3] != ((longlong *) y.tab)[3]){
-      if (x.tab[12]!=y.tab[12])
-	return x.tab[12]>=y.tab[12]?1:0;
 #ifdef GBASIS_SWAP
       return ((longlong *) x.tab)[3] <= ((longlong *) y.tab)[3];
 #else

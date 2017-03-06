@@ -8841,9 +8841,14 @@ namespace giac {
 	  return gensizeerr(contextptr);
 	if (!n)
 	  return i;
+	int ratnormal_test=MAX_RECURSION_LEVEL/2;
+	// otherwise f(x):=-3x+2; g:=(f@@300)(x):; simplifier(g); might segfault
 	tmp=tmp._VECTptr->front();
-	for (int j=0;j<n;++j)
+	for (int j=0;j<n;++j){
 	  res=tmp(res,contextptr);
+	  if (j%ratnormal_test==ratnormal_test-1)
+	    res=ratnormal(res);
+	}
 	return res;
       }
       if (_SYMBptr->sommet==at_function_diff || _SYMBptr->sommet==at_of || _SYMBptr->sommet==at_at)

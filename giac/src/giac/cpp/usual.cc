@@ -4245,6 +4245,13 @@ namespace giac {
     }
     if (arg0.type!=_IDNT)
       arg0=arg0.eval(eval_level(contextptr),contextptr);
+    if (arg0.type!=_IDNT && arg1.type==_IDNT){
+      gen swapped=gen(makevecteur(arg1,arg0),_SEQ__VECT);
+      if (s==at_superieur_strict) return assumesymbolic(symbolic(at_inferieur_strict,swapped),idnt_must_be,contextptr);
+      if (s==at_superieur_egal) return assumesymbolic(symbolic(at_inferieur_egal,swapped),idnt_must_be,contextptr);
+      if (s==at_inferieur_strict) return assumesymbolic(symbolic(at_superieur_strict,swapped),idnt_must_be,contextptr);
+      if (s==at_inferieur_egal) return assumesymbolic(symbolic(at_superieur_egal,swapped),idnt_must_be,contextptr);
+    }
     if ( (arg0.type!=_IDNT) || (!is_zero(idnt_must_be,contextptr) && (arg0!=idnt_must_be) ) )
       return gensizeerr(contextptr);
     bool or_assumption= !is_zero(idnt_must_be,contextptr) && (arg0==idnt_must_be);
@@ -4298,8 +4305,12 @@ namespace giac {
       purge_assume(a._SYMBptr->feuille,contextptr);
       return;
     }
-    if (a.type==_VECT && !a._VECTptr->empty())
-      purge_assume(a._VECTptr->front(),contextptr);
+    if (a.type==_VECT && !a._VECTptr->empty()){
+      if (a._VECTptr->back().type==_IDNT && a._VECTptr->front().type!=_IDNT)
+	purge_assume(a._VECTptr->back(),contextptr);
+      else
+	purge_assume(a._VECTptr->front(),contextptr);
+    }
     else
       purgenoassume(a,contextptr);
   }
