@@ -162,7 +162,7 @@ public class MsZoomer {
 
 							}
 							if(override && e.pointerType == "touch"){
-								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer.singleMove(DD)(e.x, e.y);
+								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DD)(e.x, e.y);
 							}
 
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::moveLongTouch(II)($wnd.first.x, $wnd.first.y);
@@ -193,7 +193,7 @@ public class MsZoomer {
 												$wnd.second.y);
 							}
 							if(override && e.pointerType == "touch"){
-								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer.singleDown(DD)(e.x, e.y);
+								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleDown(DD)(e.x, e.y);
 							}
 							if (e.pointerType == 2 || e.pointerType == "touch") {
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
