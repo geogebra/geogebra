@@ -1625,10 +1625,10 @@ namespace giac {
     if (X!=y.tab[0]) return X>y.tab[0]?1:0; // since tdeg is tab[0] for plex
 #ifdef GIAC_64VARS
     if (X%2){
+      if (x.tdeg2!=y.tdeg2) return x.tdeg2>y.tdeg2?1:0;
 #ifdef GIAC_ELIM
       if ( x.elim!=y.elim) return x.elim<y.elim?1:0;
 #endif
-      if (x.tdeg2!=y.tdeg2) return x.tdeg2>y.tdeg2?1:0;
       //if (x.ui==y.ui) return 2;
 #if 1 && !defined BIGENDIAN && !defined GIAC_CHARDEGTYPE
       return tdeg_t_greater_dyn(x,y,order);
@@ -10851,7 +10851,7 @@ namespace giac {
     if (jtend-jt<=6){ ++jt; return false; }// == test faster
 #ifdef GIAC_ELIM
     if (u.tab[0]%2){
-      int utdeg=u.tab[0];
+      int utdeg=u.tab[0],utdeg2=u.tdeg2;
       ulonglong uelim=u.elim;
       for (;;){
 	int step=(jtend-jt)/2;
@@ -10860,6 +10860,13 @@ namespace giac {
 	  return *j==u;
 	if (j->tab[0]!=utdeg){
 	  if (j->tdeg>utdeg)
+	    jt=j;
+	  else
+	    jtend=j;
+	  continue;
+	}
+	if (j->tdeg2!=utdeg2){
+	  if (j->tdeg2>utdeg2)
 	    jt=j;
 	  else
 	    jtend=j;
