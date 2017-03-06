@@ -291,8 +291,12 @@ typedef int ref_count_t;
 #undef HAVE_LIBMPFR
 #include "gmp_replacements.h"
 #else
+#ifdef ANDROID_INCLUDE
+#include "android/gmp.h"
+#else
 #include "gmp.h"
-#endif
+#endif /* ANDROID_INCLUDE */
+#endif /* HAVE_LIBMPFR */
 
 #include <cassert>
 
