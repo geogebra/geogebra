@@ -646,7 +646,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            application
 	 */
 	public void attachToolbar(AppW app1) {
-		if (app1.has(Feature.MOW_TOOLBAR)) {
+		if (app1.has(Feature.MOW_TOOLBAR) && app1.isWitheboardActive()) {
 			attachMOWToolbar(app1);
 			attachOpenMenuButton();
 			return;

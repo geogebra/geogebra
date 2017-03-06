@@ -3565,4 +3565,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	public int getActivePerspective() {
+		return 0;
+	}
+
+	public boolean isWitheboardActive() {
+		return false;
+	}
 }

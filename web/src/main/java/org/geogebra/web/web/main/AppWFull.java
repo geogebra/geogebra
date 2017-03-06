@@ -568,6 +568,8 @@ public abstract class AppWFull extends AppW {
 	/** material ID waiting for login */
 	String toOpen = "";
 	private PerspectivesPopup perspectivesPopup;
+
+	private int activePerspective;
 	@Override
 	public final void openMaterial(final String id, final Runnable onError) {
 		if (getLoginOperation() != null
@@ -700,7 +702,13 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void setActivePerspective(int index) {
+		activePerspective = index;
 		getPerspectivesPopup().setActivePerspective(index);
+	}
+
+	@Override
+	public int getActivePerspective() {
+		return activePerspective;
 	}
 
 	/**
@@ -872,4 +880,8 @@ public abstract class AppWFull extends AppW {
 
 	public abstract void updateMenuHeight();
 
+	public boolean isWitheboardActive() {
+		Log.debug("[WB] activePerspective " + activePerspective);
+		return activePerspective == 6;
+	}
 }
