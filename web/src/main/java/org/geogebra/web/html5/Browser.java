@@ -135,7 +135,7 @@ public class Browser {
 	}-*/;
 
 	public static native boolean supportsPointerEvents(boolean usePen)/*-{
-		$wnd.console.log("PEN SUPPORT" + usePen + "," + (!!$wnd.PointerEvent));
+		//$wnd.console.log("PEN SUPPORT" + usePen + "," + (!!$wnd.PointerEvent));
 		if (usePen && $wnd.PointerEvent) {
 			return true;
 		}
