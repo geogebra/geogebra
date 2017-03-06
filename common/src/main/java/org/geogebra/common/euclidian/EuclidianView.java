@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1764,37 +1765,53 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (createAndAddDrawable(geo)) {
 			repaint();
 
-			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				if (!isDrawingPredecessor(geo)) {
-					// if (geo.hasChildren()) {
-					d = companion.newDrawable(geo);
-
-					if (d instanceof Drawable){
-						if (d instanceof DrawLine){
-							((DrawLine) d).updateDynamicStylebarPosition();
-							this.euclidianController
-									.setDynamicStylebarVisible(true);
-						} else if (((Drawable) d).getBounds() != null) {
-							this.euclidianController.setDynamicStyleBarPosition(
-									((Drawable) d).getBounds(), true);
-							this.euclidianController
-									.setDynamicStylebarVisible(true);
-						}
-
-					}
-				} else {
-					this.euclidianController.setDynamicStylebarVisible(false);
-				}
-			}
+			// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			// if (!isDrawingPredecessor(geo)) {
+			// // if (geo.hasChildren()) {
+			// d = companion.newDrawable(geo);
+			//
+			// if (d instanceof Drawable){
+			// if (d instanceof DrawLine){
+			// ((DrawLine) d).updateDynamicStylebarPosition();
+			// this.euclidianController
+			// .setDynamicStylebarVisible(true);
+			// } else if (((Drawable) d).getBounds() != null) {
+			// this.euclidianController.setDynamicStyleBarPosition(
+			// ((Drawable) d).getBounds(), true);
+			// this.euclidianController
+			// .setDynamicStylebarVisible(true);
+			// }
+			//
+			// }
+			// } else {
+			// // this.euclidianController.setDynamicStylebarVisible(false);
+			// }
+			// }
 		}
 
 	}
 
-	private boolean isDrawingPredecessor(GeoElement geo){
-		if (geo instanceof GeoPoint && getEuclidianController()
-				.getMode() != EuclidianConstants.MODE_POINT) {
+	public boolean isDrawingPredecessor(GeoElement geo) {
+		if (geo instanceof GeoPoint
+				&& getEuclidianController()
+						.getMode() != EuclidianConstants.MODE_POINT
+				&& getEuclidianController()
+						.getMode() != EuclidianConstants.MODE_SHAPE_LINE) {
 			return true;
 		}
+
+		if (geo instanceof GeoSegment && getEuclidianController()
+				.getMode() != EuclidianConstants.MODE_SEGMENT) {
+			return true;
+		}
+
+		// Log.debug("has children? - " + geo.getAlgebraDescriptionDefault());
+		// if (!geo.hasChildren()) {
+		// Log.debug("HAS NO");
+		// return true;
+		// }
+		// Log.debug("HAS!");
+
 		return false;
 	}
 

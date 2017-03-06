@@ -5799,8 +5799,22 @@ public abstract class EuclidianController {
 			// do nothing
 		}
 
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (ret != null && ret.length > 0) {
+				addDynamicStylebar(ret[0]);
+			}
+		}
 		return endOfSwitchModeForProcessMode(ret, changedKernel, callback,
 				selectionPreview);
+	}
+
+	private void addDynamicStylebar(GeoElementND geo) {
+		Drawable dr = ((Drawable) view.getDrawableFor(geo));
+		if (dr instanceof DrawLine) {
+			((DrawLine) dr).updateDynamicStylebarPosition();
+		}
+		setDynamicStyleBarPosition(dr.getBounds(), true);
+		setDynamicStylebarVisible(true);
 	}
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElementND[] ret,
@@ -8336,9 +8350,18 @@ public abstract class EuclidianController {
 		}
 
 		if (geo != null && view.getDrawableFor(geo) != null) {
-			BoundingBox boundingBox = ((Drawable) view.getDrawableFor(geo))
+			Drawable dr = ((Drawable) view.getDrawableFor(geo));
+			BoundingBox boundingBox = dr
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
+
+			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+				if (dr instanceof DrawLine) {
+					((DrawLine) dr).updateDynamicStylebarPosition();
+				}
+				setDynamicStyleBarPosition(dr.getBounds(), true);
+				setDynamicStylebarVisible(true);
+			}
 			view.repaintView();
 		}
 
@@ -9224,6 +9247,8 @@ public abstract class EuclidianController {
 
 	public void wrapMousePressed(AbstractEvent event) {
 
+		setDynamicStylebarVisible(false);
+
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 
@@ -9886,6 +9911,20 @@ public abstract class EuclidianController {
 					view.repaintView();
 					selection.addSelectedGeo(geo);
 				}
+
+				if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+				 // if (mode == EuclidianConstants.MODE_MOVE) {
+				
+				 if (d instanceof DrawLine) {
+					((DrawLine) d).updateDynamicStylebarPosition();
+				 } else {
+				 	setDynamicStyleBarPosition(d.getBounds(), true);
+				 }
+				 setDynamicStylebarVisible(true);
+				
+				 // }
+				 }
+
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
@@ -9901,12 +9940,15 @@ public abstract class EuclidianController {
 		}
 		
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (mode == EuclidianConstants.MODE_MOVE) {
-				this.view.setHits(new GPoint(event.getX(), event.getY()),
-						event.getType());
-				Hits hits = view.getHits();
-				
-				if (hits.size() > 0) {
+
+			this.view.setHits(new GPoint(event.getX(), event.getY()),
+					event.getType());
+			Hits hits = view.getHits();
+
+			if (hits.size() > 0) {
+				if (mode == EuclidianConstants.MODE_MOVE
+						|| !view.isDrawingPredecessor(hits.get(0))) {
+
 					DrawableND dr = view.getDrawableFor(hits.get(0));
 					if (dr instanceof Drawable) {
 						if (dr instanceof DrawLine) {
