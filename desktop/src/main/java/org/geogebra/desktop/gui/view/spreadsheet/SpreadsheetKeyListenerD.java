@@ -35,7 +35,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-
+		// only handle key pressed
 	}
 
 	@Override

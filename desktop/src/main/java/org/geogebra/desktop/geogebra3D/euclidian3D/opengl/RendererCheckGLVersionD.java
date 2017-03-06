@@ -397,13 +397,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 	}
 
 	/**
-	 * openGL method called when the display change. empty method
-	 */
-	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
-			boolean deviceChanged) {
-	}
-
-	/**
 	 * remove texture at index
 	 * 
 	 * @param index

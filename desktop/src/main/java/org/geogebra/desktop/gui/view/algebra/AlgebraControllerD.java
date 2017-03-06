@@ -116,22 +116,27 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	@Override
 	public void dragDropEnd(DragSourceDropEvent e) {
+		// only handle dragGestureRecognized
 	}
 
 	@Override
 	public void dragEnter(DragSourceDragEvent e) {
+		// only handle dragGestureRecognized
 	}
 
 	@Override
 	public void dragExit(DragSourceEvent e) {
+		// only handle dragGestureRecognized
 	}
 
 	@Override
 	public void dragOver(DragSourceDragEvent e) {
+		// only handle dragGestureRecognized
 	}
 
 	@Override
 	public void dropActionChanged(DragSourceDragEvent e) {
+		// only handle dragGestureRecognized
 	}
 
 	private ArrayList<String> geoLabelList;

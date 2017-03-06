@@ -542,14 +542,17 @@ public class DataPanelD extends JPanel
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
+			// only handle mouse pressed
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
+			// only handle mouse pressed
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
+			// only handle mouse pressed
 		}
 
 		@Override
@@ -577,10 +580,10 @@ public class DataPanelD extends JPanel
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
+			// only handle mouse pressed
 		}
 
 		public void enableAll() {
-
 			for (int i = 0; i < selectionList.length; ++i) {
 				if (!selectionList[i]) {
 					statController.updateSelectedDataList(i, true);

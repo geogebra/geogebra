@@ -271,6 +271,7 @@ public class AlgebraViewD extends AlgebraTree
 
 			@Override
 			public void focusGained(FocusEvent e) {
+				// only handle focus lost
 			}
 
 			@Override

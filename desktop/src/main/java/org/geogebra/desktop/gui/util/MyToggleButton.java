@@ -53,6 +53,7 @@ public class MyToggleButton extends JButton {
 	}
 
 	public void update(Object[] geos) {
+		// override
 	}
 
 	protected void toggle() {

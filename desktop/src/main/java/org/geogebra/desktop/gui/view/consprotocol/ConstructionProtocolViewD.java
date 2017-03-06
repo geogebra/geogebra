@@ -1166,14 +1166,17 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			@Override
 			public void columnMarginChanged(ChangeEvent e) {
+				// only handle removed / added
 			}
 
 			@Override
 			public void columnMoved(TableColumnModelEvent e) {
+				// only handle removed / added
 			}
 
 			@Override
 			public void columnSelectionChanged(ListSelectionEvent e) {
+				// only handle removed / added
 			}
 		}
 

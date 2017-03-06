@@ -887,6 +887,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
+		// only handle focus lost
 	}
 
 	@Override

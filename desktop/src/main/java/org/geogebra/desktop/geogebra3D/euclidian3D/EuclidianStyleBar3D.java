@@ -131,10 +131,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	@SuppressWarnings("serial")
 	private class PopupMenuButtonForView3D extends PopupMenuButtonD {
 
-		public PopupMenuButtonForView3D() {
-			super(app, null, -1, -1,
-					new Dimension(app.getScaledIconSize(),
-							app.getScaledIconSize()),
+		public PopupMenuButtonForView3D(AppD app1) {
+			super(app1, null, -1, -1,
+					new Dimension(app1.getScaledIconSize(),
+							app1.getScaledIconSize()),
 					SelectionTable.MODE_ICON, false, true);
 
 		}
@@ -166,7 +166,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		// ========================================
 		// rotate view button
-		btnRotateView = new PopupMenuButtonForView3D();
+		btnRotateView = new PopupMenuButtonForView3D(app);
 		btnRotateView.setIcon(app.getScaledIcon(
 				GuiResources3D.STYLINGBAR_GRAPHICS3D_ROTATEVIEW_PLAY));
 		btnRotateView.getMySlider().setMinimum(-10);
@@ -182,7 +182,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		// ========================================
 		// clipping button
-		btnClipping = new PopupMenuButtonForView3D();
+		btnClipping = new PopupMenuButtonForView3D(app);
 		btnClipping.setIcon(app.getScaledIcon(
 				GuiResources3D.STYLINGBAR_GRAPHICS3D_CLIPPING_MEDIUM));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
@@ -349,6 +349,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	@Override
 	protected void selectPointStyle(int idx) {
-
+		// no point style in 3D
 	}
 }

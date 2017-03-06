@@ -126,6 +126,7 @@ public class FullWidthLayout implements LayoutManager {
 	 */
 	@Override
 	public void addLayoutComponent(String name, Component comp) {
+		// not needed
 	}
 
 	/**
@@ -133,6 +134,7 @@ public class FullWidthLayout implements LayoutManager {
 	 */
 	@Override
 	public void removeLayoutComponent(Component comp) {
+		// not needed
 	}
 
 	/**

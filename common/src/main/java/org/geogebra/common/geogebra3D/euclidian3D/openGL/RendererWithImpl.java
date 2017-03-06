@@ -711,32 +711,32 @@ public abstract class RendererWithImpl extends Renderer
 
 	@Override
 	protected void exportImageEquirectangular() {
-
+		// only in Desktop for now
 	}
 
 	@Override
 	protected void initExportImageEquirectangularTiles() {
-
+		// only in Desktop for now
 	}
 
 	@Override
 	protected void setExportImageEquirectangularTileLeft(int i) {
-
+		// only in Desktop for now
 	}
 
 	@Override
 	protected void setExportImageEquirectangularTileRight(int i) {
-
+		// only in Desktop for now
 	}
 
 	@Override
 	protected void setExportImageEquirectangularFromTiles() {
-
+		// only in Desktop for now
 	}
 
 	@Override
 	protected void exportImage() {
-
+		// only in Desktop; Web uses canvas methods
 	}
 
 	@Override

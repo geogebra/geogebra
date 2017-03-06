@@ -147,6 +147,7 @@ public class OptionsCASD extends OptionsCAS
 	 */
 	@Override
 	public void applyModifications() {
+		// all controls fire immediately
 	}
 
 	@Override
