@@ -26,7 +26,7 @@ public abstract class CASgiacB extends CASgiac {
         try {
             CASGiacBinding binding = createBinding();
             context = binding.createContext();
-        } catch (UnsatisfiedLinkError e) {
+        } catch (Throwable e) {
             Log.error("CAS not available: " + e.getMessage());
         }
     }
