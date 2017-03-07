@@ -475,4 +475,9 @@ public class GeoButton extends GeoElement
 		return getHeight();
 	}
 
+	@Override
+	final public boolean isAlgebraViewEditable() {
+		return !isIndependent();
+	}
+
 }

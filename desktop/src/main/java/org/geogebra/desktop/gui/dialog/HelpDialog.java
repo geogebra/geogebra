@@ -48,7 +48,7 @@ public class HelpDialog {
 			} else {
 				// use image as icon
 				icon = new ImageIcon(
-						ImageManagerD.addBorder(img.getImage(), border));
+						ImageManagerD.addBorder(img.getImage(), border, null));
 			}
 
 		} else {

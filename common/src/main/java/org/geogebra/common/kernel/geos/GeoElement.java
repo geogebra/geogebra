@@ -3659,7 +3659,7 @@ public abstract class GeoElement extends ConstructionElement
 					return str;
 				}
 				chars = lineLabels;
-			} else if (this instanceof GeoPenStroke) {
+			} else if (this instanceof GeoPenStroke || this instanceof GeoLocusStroke) {
 				// needs to come before PolyLine (subclass)
 				return defaultNumberedLabel("penStroke"); // Name.penStroke
 			} else if (isGeoPolyLine()) {
@@ -6954,33 +6954,7 @@ public abstract class GeoElement extends ConstructionElement
 	protected boolean movePoint(final Coords rwTransVec,
 			final Coords endPosition) {
 
-		boolean movedGeo = false;
-
-		final GeoPoint point = (GeoPoint) this;
-		if (endPosition != null) {
-			point.setCoords(endPosition.getX(), endPosition.getY(), 1);
-			movedGeo = true;
-		}
-
-		// translate point
-		else {
-			double x = point.getInhomX() + rwTransVec.getX();
-			double y = point.getInhomY() + rwTransVec.getY();
-
-			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x = Kernel.checkDecimalFraction(x);
-			}
-			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y = Kernel.checkDecimalFraction(y);
-			}
-
-			// set translated point coords
-			point.setCoords(x, y, 1);
-			movedGeo = true;
-		}
-
-		return movedGeo;
+		return false;
 
 	}
 

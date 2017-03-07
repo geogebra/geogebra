@@ -89,12 +89,17 @@ public class ImageManagerD extends ImageManager {
 	 * @return icon
 	 */
 	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor) {
+		return getImageIcon(fileName, borderColor, null);
+	}
+
+	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor,
+			Color background) {
 		ImageIcon icon = iconTable.get(fileName.getFilename());
 		if (icon == null) {
 			// load the icon
 			Image im = getImageResourceGeoGebra(fileName);
 			if (im != null) {
-				icon = new ImageIcon(addBorder(im, borderColor));
+				icon = new ImageIcon(addBorder(im, borderColor, background));
 				iconTable.put(fileName.getFilename(), icon);
 			}
 		}
@@ -102,14 +107,19 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	// draw a line around the image
-	public static Image addBorder(Image im, Color borderColor) {
+	public static Image addBorder(Image im, Color borderColor,
+			Color background) {
 		if (borderColor == null) {
 			return im;
 		}
 
 		BufferedImage bim = toBufferedImage(im);
 		Graphics g = bim.getGraphics();
-
+		if (background != null) {
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, bim.getWidth() - 1, bim.getHeight() - 1);
+			g.drawImage(im, 0, 0, null);
+		}
 		g.setColor(borderColor);
 		g.drawRect(0, 0, bim.getWidth() - 1, bim.getHeight() - 1);
 		return bim;

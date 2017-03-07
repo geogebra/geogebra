@@ -89,11 +89,12 @@ public class ObjectNameModel extends OptionsModel {
 		// DEFINITION
 		// boolean showDefinition = !(currentGeo.isGeoText() ||
 		// currentGeo.isGeoImage());
-		boolean showDefinition = getCurrentGeo().isGeoText()
-				? ((GeoText) getCurrentGeo()).isTextCommand()
-				: !(((getCurrentGeo().isGeoImage()
-						|| getCurrentGeo().isGeoButton())
-						&& getCurrentGeo().isIndependent()));
+		boolean showDefinition = true;
+		if(getCurrentGeo().isGeoText()){
+			showDefinition = ((GeoText) getCurrentGeo()).isTextCommand();
+		}else{
+			showDefinition = getCurrentGeo().isAlgebraViewEditable();
+		}
 
 		if (showDefinition) {
 			listener.updateDefLabel();

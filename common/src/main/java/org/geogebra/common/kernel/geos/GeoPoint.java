@@ -2519,8 +2519,34 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public boolean movePoint(Coords a, Coords b) {
-		return super.movePoint(a, b);
+	public boolean movePoint(Coords rwTransVec, Coords endPosition) {
+		boolean movedGeo = false;
+
+		final GeoPoint point = this;
+		if (endPosition != null) {
+			point.setCoords(endPosition.getX(), endPosition.getY(), 1);
+			movedGeo = true;
+		}
+
+		// translate point
+		else {
+			double x1 = point.getInhomX() + rwTransVec.getX();
+			double y1 = point.getInhomY() + rwTransVec.getY();
+
+			// round to decimal fraction, e.g. 2.800000000001 to 2.8
+			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
+				x1 = Kernel.checkDecimalFraction(x1);
+			}
+			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
+				y1 = Kernel.checkDecimalFraction(y1);
+			}
+
+			// set translated point coords
+			point.setCoords(x1, y1, 1);
+			movedGeo = true;
+		}
+
+		return movedGeo;
 	}
 
 	/**

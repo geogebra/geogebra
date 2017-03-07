@@ -2037,7 +2037,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		ImageIcon icon = imageManager.getImageIcon(
 				imageManager.getToolImageResource(modeText),
-				borderColor);
+				borderColor, Color.WHITE);
 
 		/*
 		 * mathieu 2010-04-10 see ImageManager3D.getImageResourceGeoGebra() if
@@ -2160,7 +2160,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					int size = imageManager.getMaxIconSize();
 					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
-							border));
+							border, null));
 				}
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);

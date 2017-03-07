@@ -80,7 +80,17 @@ public interface AbsoluteScreenLocateable extends GeoElementND {
 	 */
 	public boolean isAbsoluteScreenLocateable();
 
+	/**
+	 * @param view
+	 *            view
+	 * @return height in given view, including label
+	 */
 	public int getTotalHeight(EuclidianViewInterfaceCommon view);
 
+	/**
+	 * @param view
+	 *            view
+	 * @return width in given view, including label
+	 */
 	public int getTotalWidth(EuclidianViewInterfaceCommon view);
 }

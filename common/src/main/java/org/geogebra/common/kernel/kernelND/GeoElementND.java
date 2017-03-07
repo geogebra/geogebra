@@ -677,4 +677,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isVisibleInViewForPlane();
 
+	boolean isAlgebraViewEditable();
+
 }

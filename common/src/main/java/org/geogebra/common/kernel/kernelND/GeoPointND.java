@@ -385,8 +385,21 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	public void setAnimating(boolean start);
 
+	/**
+	 * @param rwTransVec
+	 *            translation vector (ignored if endPos given)
+	 * @param endPosition
+	 *            end position
+	 * @return whethe move happened
+	 */
 	public boolean movePoint(Coords rwTransVec, Coords endPosition);
 
+	/**
+	 * @param pointND
+	 *            template element
+	 * @param macroFeedback
+	 *            whether to allow moving macro moveable outputs
+	 */
 	public void set(GeoElementND pointND, boolean macroFeedback);
 
 	/**
