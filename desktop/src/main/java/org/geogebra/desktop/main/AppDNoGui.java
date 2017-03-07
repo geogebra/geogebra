@@ -506,12 +506,6 @@ public class AppDNoGui extends App {
 	}
 
 	@Override
-	public void createNewWindow() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void fileNew() {
 		// TODO Auto-generated method stub
 

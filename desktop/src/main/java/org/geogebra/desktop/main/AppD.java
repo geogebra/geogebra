@@ -1394,7 +1394,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return fileList.size();
 	}
 
-	@Override
 	public void createNewWindow() {
 		GeoGebraFrame.createNewWindow(cmdArgs.getGlobalArguments());
 	}

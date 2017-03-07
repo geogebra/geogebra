@@ -369,7 +369,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	@Override
 	protected void createNewWindow() {
 		// no wait cursor needed here, that's taken care of before we call this
-		app.createNewWindow();
+		if (app instanceof AppD) {
+			((AppD) app).createNewWindow();
+		}
 	}
 
 	@Override
