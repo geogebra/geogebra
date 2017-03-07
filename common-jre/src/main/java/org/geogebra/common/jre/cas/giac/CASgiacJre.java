@@ -21,7 +21,8 @@ public abstract class CASgiacJre extends CASgiacB {
         super(casParser);
     }
 
-    public CASGiacBinding createBinding() {
+	@Override
+	public CASGiacBinding createBinding() {
         return new CASGiacBindingJre();
     }
 

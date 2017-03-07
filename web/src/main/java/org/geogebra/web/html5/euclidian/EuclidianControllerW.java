@@ -447,6 +447,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		
 	}
 	
+	@Override
 	protected boolean dynamicStyleBarClicked(int x, int y){
   		return this.getView().getDynamicStyleBar().isDynamicStylebarHit(x,y);
 	}

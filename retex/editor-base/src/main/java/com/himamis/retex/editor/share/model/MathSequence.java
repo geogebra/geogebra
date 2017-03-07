@@ -127,6 +127,7 @@ public class MathSequence extends MathContainer {
 		}
 	}
 
+	@Override
 	public MathComponent wrap() {
 		return this;
 	}

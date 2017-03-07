@@ -229,6 +229,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		return (DynamicStyleBar) getEuclidianView().getDynamicStyleBar();
 	}
 	
+	@Override
 	protected void setDynamicStyleBar(){
 		DynamicStyleBar dynamicStylebar = getDynamicStyleBar();
 		if(dynamicStylebar != null){

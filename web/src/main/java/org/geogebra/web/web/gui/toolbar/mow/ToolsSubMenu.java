@@ -16,6 +16,7 @@ public class ToolsSubMenu extends SubMenuPanel {
 		contentPanel.add(new Label("Here comes the tools"));
 	}
 
+	@Override
 	protected void createInfoPanel() {
 		super.createInfoPanel();
 		infoPanel.add(new Label("Here comes the info..."));

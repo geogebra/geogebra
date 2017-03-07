@@ -16,6 +16,7 @@ public class MediaSubMenu extends SubMenuPanel {
 		contentPanel.add(new Label("Media SubMenu"));
 	}
 
+	@Override
 	protected void createInfoPanel() {
 		super.createInfoPanel();
 		infoPanel.add(new Label("Here comes the info..."));

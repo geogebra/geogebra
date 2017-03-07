@@ -880,6 +880,7 @@ public abstract class AppWFull extends AppW {
 
 	public abstract void updateMenuHeight();
 
+	@Override
 	public boolean isWitheboardActive() {
 		Log.debug("[WB] activePerspective " + activePerspective);
 		return activePerspective == 6;
