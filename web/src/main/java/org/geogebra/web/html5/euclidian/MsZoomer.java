@@ -208,7 +208,9 @@ public class MsZoomer {
 									zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
 								}
 							}
-
+							if(override){
+								e.preventDefault();
+							}
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::checkMoveLongTouch()();
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 						});
@@ -228,6 +230,9 @@ public class MsZoomer {
 								$wnd.first.id = e.pointerId;
 								$wnd.first.x = e.x;
 								$wnd.first.y = e.y;
+							}
+							if(override){
+								e.preventDefault();
 							}
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								zoomer
