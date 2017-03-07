@@ -80,7 +80,7 @@ public class AppCacheLinker extends AbstractLinker {
 
 	private static final String SWORKER = "sworker.js";
 	private static final String MANIFEST = "appcache.nocache.manifest";
-	private static final String CDN = "https://download.geogebera.org/5.0/";
+	private static final String CDN = "https://web.geogebra.org/5.0/";
 
 	@Override
 	public String getDescription() {
