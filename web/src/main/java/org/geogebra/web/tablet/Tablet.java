@@ -48,7 +48,7 @@ public class Tablet implements EntryPoint {
 			return;
 		}
 		Browser.checkFloat64();
-		if (AppW.useCordova()){
+		if (useCordova()){
 			PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
 	
 				@Override
@@ -238,5 +238,15 @@ public class Tablet implements EntryPoint {
 				(GLookAndFeel) GWT.create(TabletLookAndFeel.class),
 				(GDevice) GWT.create(TabletDevice.class));
 	}
+	
+
+	public static native boolean useCordova() /*-{
+		if ($wnd.android) {
+			if($wnd.android.noCordova) {
+				return false;
+			}
+		}
+		return true;
+	}-*/;
 
 }

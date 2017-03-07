@@ -1,6 +1,7 @@
 package org.geogebra.web.tablet.main;
 
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.tablet.Tablet;
 import org.geogebra.web.tablet.TabletFileManager;
 import org.geogebra.web.tablet.gui.browser.TabletBrowseGUI;
 import org.geogebra.web.touch.FileManagerT;
@@ -12,7 +13,7 @@ public class TabletDevice extends TouchDevice {
 
 	@Override
 	public FileManager createFileManager(AppW app) {
-		if (AppW.useCordova()){
+		if (Tablet.useCordova()){
 			return new FileManagerT(app);
 		}
 		return new TabletFileManager(app);
@@ -31,7 +32,7 @@ public class TabletDevice extends TouchDevice {
 	
 	@Override
 	public boolean isOffline(AppW app) {
-		if (AppW.useCordova()){
+		if (Tablet.useCordova()){
 			return super.isOffline(app);
 		}
 		return !isOnlineNative();	

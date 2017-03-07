@@ -3573,12 +3573,4 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return false;
 	}
 
-	public static native boolean useCordova() /*-{
-		if ($wnd.android) {
-			if($wnd.android.noCordova) {
-				return false;
-			}
-		}
-		return true;
-	}-*/;
 }
