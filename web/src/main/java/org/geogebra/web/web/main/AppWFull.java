@@ -582,7 +582,7 @@ public abstract class AppWFull extends AppW {
 						ArticleElement.isEnableUsageStats());
 			}
 			toOpen = id;
-			Log.debug("created");
+
 			getLoginOperation().getView().add(new EventRenderable() {
 
 				@Override
@@ -691,6 +691,23 @@ public abstract class AppWFull extends AppW {
 		if (el != null) {
 			el.removeFromParent();
 		}
+	}
+
+	public void appSplashCanNowHide() {
+		String cmd = Location.getParameter("command");
+
+		if (cmd != null) {
+
+			Log.debug("exectuing commands: " + cmd);
+
+			String[] cmds = cmd.split(";");
+			for (int i = 0; i < cmds.length; i++) {
+				getKernel().getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionsOrErrors(cmds[i],
+								false);
+			}
+		}
+		removeSplash();
 
 	}
 	@Override

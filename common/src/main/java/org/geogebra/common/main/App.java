@@ -2965,10 +2965,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract boolean clearConstruction();
 
-	/**
-	 * create a new GeoGebra window
-	 */
-	public abstract void createNewWindow();
 
 	/**
 	 * Clear construction and reset settings from preferences

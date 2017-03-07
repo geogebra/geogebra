@@ -1267,7 +1267,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            callback for errors
 	 */
 	public void openMaterial(String id, Runnable onError) {
-		// TODO Auto-generated method stub
+		// only with GUI
 
 	}
 
@@ -1619,7 +1619,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 
 	protected GOptionPaneW getOptionPane() {
-		// TODO Auto-generated method stub
 		return getGuiManager() != null ? getGuiManager().getOptionPane()
 				: new GOptionPaneW(getPanel());
 	}
@@ -1879,23 +1878,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void appSplashCanNowHide() {
-		// not sure we need this in web applets
-		// (not application mode)
-
-		// allow eg ?command=A=(1,1);B=(2,2) in URL
-		String cmd = Location.getParameter("command");
-
-		if (cmd != null) {
-
-			Log.debug("exectuing commands: " + cmd);
-
-			String[] cmds = cmd.split(";");
-			for (int i = 0; i < cmds.length; i++) {
-				getKernel().getAlgebraProcessor()
-				        .processAlgebraCommandNoExceptionsOrErrors(cmds[i],
-				                false);
-			}
-		}
+		// only with GUI
 	}
 
 	/**
@@ -2333,10 +2316,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		kernel.getConstruction().updateConstructionLaTeX();
 		kernel.notifyRepaint();
 		kernel.setForceUpdatingBoundingBox(force);
-	}
-	@Override
-	public void createNewWindow() {
-		// TODO implement it ?
 	}
 
 	public String getDataParamId() {
@@ -2810,8 +2789,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 				String[] optionNames = { getLocalization().getPlain("OK"),
 						getLocalization().getPlain("ShowOnlineHelp") };
-				getOptionPane().showOptionDialog(AppW.this, message, title,
- 0,
+				getOptionPane().showOptionDialog(AppW.this, message, title, 0,
 						GOptionPane.ERROR_MESSAGE,
 						null, optionNames, new AsyncOperation<String[]>() {
 							@Override
@@ -2829,7 +2807,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			@Override
 			public String getCurrentCommand() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		};

@@ -8,6 +8,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -67,7 +68,12 @@ public class LoadFilePresenter {
 
 				@Override
 				public void run() {
+
 					openEmptyApp(app);
+					ToolTipManagerW.sharedInstance().showBottomMessage(
+							app.getLocalization().getError("LoadFileFailed"),
+
+							false, app);
 
 				}
 			});
