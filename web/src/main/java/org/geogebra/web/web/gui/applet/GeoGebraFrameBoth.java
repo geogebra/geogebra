@@ -536,6 +536,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 						@Override
 						public void run() {
+							if (app.isWitheboardActive()) {
+								return;
+							}
 							app.persistWidthAndHeight();
 							addKeyboard(null);
 							app.getGuiManager().focusScheduled(false, false,
