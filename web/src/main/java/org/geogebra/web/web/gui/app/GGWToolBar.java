@@ -1146,6 +1146,24 @@ pr.menu_header_undo(), null, 32);
 		 * case EuclidianConstants.MODE_HIGHLIGHTER: return
 		 * myIconResourceBundle.mode_highlighter_32();
 		 */
+		case EuclidianConstants.MODE_PEN_PANEL:
+			return myIconResourceBundle.pen_panel_32();
+
+		case EuclidianConstants.MODE_TOOLS_PANEL:
+			return myIconResourceBundle.tools_panel_32();
+
+		case EuclidianConstants.MODE_MEDIA_PANEL:
+			return myIconResourceBundle.media_panel_32();
+
+		case EuclidianConstants.MODE_VIDEO:
+			return myIconResourceBundle.mode_video_32();
+
+		case EuclidianConstants.MODE_AUDIO:
+			return myIconResourceBundle.mode_audio_32();
+
+		case EuclidianConstants.MODE_GEOGEBRA:
+			return myIconResourceBundle.mode_geogebra_32();
+
 		default:
 			return AppResources.INSTANCE.empty();
 		}

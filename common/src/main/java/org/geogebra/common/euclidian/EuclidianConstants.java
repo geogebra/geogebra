@@ -394,6 +394,18 @@ public final class EuclidianConstants {
 	public static final int MODE_ERASER = 110;
 	/** Highlighter */
 	public static final int MODE_HIGHLIGHTER = 111;
+	/** Pen Panel */
+	public static final int MODE_PEN_PANEL = 112;
+	/** Tools Panel */
+	public static final int MODE_TOOLS_PANEL = 113;
+	/** Media Panel */
+	public static final int MODE_MEDIA_PANEL = 114;
+	/** Video */
+	public static final int MODE_VIDEO = 115;
+	/** Audio */
+	public static final int MODE_AUDIO = 116;
+	/** Geogebra */
+	public static final int MODE_GEOGEBRA = 117;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -819,6 +831,19 @@ public final class EuclidianConstants {
 			return "Eraser";
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			return "Highlighter";
+
+		case EuclidianConstants.MODE_PEN_PANEL:
+			return "PenPanel";
+		case EuclidianConstants.MODE_TOOLS_PANEL:
+			return "ToolsPanel";
+		case EuclidianConstants.MODE_MEDIA_PANEL:
+			return "MediaPanel";
+		case EuclidianConstants.MODE_VIDEO:
+			return "Video";
+		case EuclidianConstants.MODE_AUDIO:
+			return "Audio";
+		case EuclidianConstants.MODE_GEOGEBRA:
+			return "GeoGebra";
 
 		default:
 			Log.error("Unknown mode " + mode);
