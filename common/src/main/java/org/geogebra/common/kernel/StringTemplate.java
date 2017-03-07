@@ -354,6 +354,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 		maxPrecision.forceSF = true;
 		maxPrecision.localizeCmds = false;
 	}
+
+	public static final StringTemplate maxDecimals = new StringTemplate(
+			"maxPrecision");
+	static {
+		maxPrecision.nf = FormatFactory.getPrototype().getNumberFormat(15);
+		maxPrecision.allowMoreDigits = false;
+		maxPrecision.forceNF = true;
+		maxPrecision.localizeCmds = false;
+	}
 	/**
 	 * Default template, just increases precision to max 13 not 15 so that when
 	 * sent to Giac is treated as a double, not a multi-precision float (MPFR).

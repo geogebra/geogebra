@@ -53,7 +53,7 @@ public class CmdExecute extends CmdScripting {
 				String cmdText = ((GeoText) list.get(i)).getTextString();
 				for (int k = 1; k < n; k++) {
 					cmdText = cmdText.replace("%" + k,
-							arg[k].getLabel(StringTemplate.maxPrecision));
+							arg[k].getLabel(StringTemplate.maxDecimals));
 				}
 				kernelA.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(cmdText,
