@@ -82,7 +82,7 @@ public class MsZoomer {
 		this.tc.onPointerEventStart(e);
 	}
 
-	private void adjust(PointerEvent e, int modifiers) {
+	private static void adjust(PointerEvent e, int modifiers) {
 		if ((modifiers & 8) > 0) {
 			e.setAlt(true);
 		}
@@ -125,7 +125,7 @@ public class MsZoomer {
 		}
 	}
 
-	private void moveLongTouch(int x, int y) {
+	private void checkMoveLongTouch() {
 		if (!tc.isDraggingBeyondThreshold()) {
 			/*
 			 * this.tc.getLongTouchManager().rescheduleTimerIfRunning(tc, x, y,
@@ -208,9 +208,8 @@ public class MsZoomer {
 									zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
 								}
 							}
-							
 
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::moveLongTouch(II)($wnd.first.x, $wnd.first.y);
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::checkMoveLongTouch()();
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 						});
 

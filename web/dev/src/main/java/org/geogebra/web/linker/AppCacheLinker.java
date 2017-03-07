@@ -80,6 +80,7 @@ public class AppCacheLinker extends AbstractLinker {
 
 	private static final String SWORKER = "sworker.js";
 	private static final String MANIFEST = "appcache.nocache.manifest";
+	private static final String CDN = "https://download.geogebera.org/5.0/";
 
 	@Override
 	public String getDescription() {
@@ -162,10 +163,10 @@ public class AppCacheLinker extends AbstractLinker {
 						// skip these resources
 					} else {
 						publicSourcesSb
-								.append("\"https://cdn.geogebra.org/apps/"
+								.append("      \"" + CDN
 								+ GeoGebraConstants.VERSION_STRING + "/web3d/" + pathName.replace("\\", "/") + "\",\n");
 						publicSourcesSbM
-								.append("https://cdn.geogebra.org/apps/"
+								.append(CDN
 										+ GeoGebraConstants.VERSION_STRING
 										+ "/web3d/"
 										+ pathName.replace("\\", "/") + "\n");
