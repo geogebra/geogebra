@@ -22,7 +22,7 @@ public abstract class CASgiacB extends CASgiac {
 
     protected abstract CASGiacBinding createBinding();
 
-    private void createContext() {
+    protected void createContext() {
         try {
             CASGiacBinding binding = createBinding();
             context = binding.createContext();
