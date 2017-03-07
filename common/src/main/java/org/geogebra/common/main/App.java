@@ -3968,6 +3968,9 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 			return prerelease;
 
+		case AUTOMATIC_DERIVATIVES:
+			return canary;
+
 		case EXERCISES:
 			return prerelease;
 
@@ -4779,6 +4782,17 @@ public abstract class App implements UpdateSelection {
 	public AlgoCubicSwitchInterface setCubicw(AlgoCubicSwitchInterface cubicw) {
 		this.cubicw = cubicw;
 		return cubicw;
+	}
+
+	/**
+	 * SMART and Android WebView apps use special native Giac Other web apps use
+	 * giac.js GGB6 WebView uses giac.js for now, see GGB-895 Everything else
+	 * uses native Giac
+	 * 
+	 * @return true if using native Giac, false if using giac.js
+	 */
+	public boolean nativeCAS() {
+		return true;
 	}
 
 }
