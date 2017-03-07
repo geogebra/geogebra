@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.toolbar.mow;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -27,6 +28,7 @@ public class PenSubMenu extends SubMenuPanel
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
 	private Label btnColor[];
+	private GColor penColor[];
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
 	private Kernel kernel;
@@ -63,9 +65,11 @@ public class PenSubMenu extends SubMenuPanel
 		colorPanel = new FlowPanel();
 		colorPanel.addStyleName("colorPanel");
 		btnColor = new Label[hexColors.length];
+		penColor = new GColor[hexColors.length];
 		for (int i = 0; i < hexColors.length; i++) {
-			btnColor[i] = createColorButton(
-					GColor.newColorRGB(Integer.parseInt(hexColors[i], 16)));
+			penColor[i] = GColor
+					.newColorRGB(Integer.parseInt(hexColors[i], 16));
+			btnColor[i] = createColorButton(penColor[i]);
 		}
 
 		btnCustomColor = new StandardButton("+");
@@ -132,6 +136,10 @@ public class PenSubMenu extends SubMenuPanel
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
 				btnColor[i].addStyleName("penSubMenu-selected");
+				GeoElement geo = app.getActiveEuclidianView()
+						.getEuclidianController().getPen().DEFAULT_PEN_LINE;
+				geo.setObjColor(penColor[i]);
+
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");
 			}
