@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
 
@@ -312,13 +313,23 @@ public class ViewW {
       };
       
       var errorCallback = function (error) {
-      @org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(error);
+      	view.@org.geogebra.web.html5.util.ViewW::onError(Ljava/lang/String;)(error);
       };
       
       $wnd.zip.createReader(ggbReader,readerCallback, errorCallback);
        
        
       }-*/;
+
+	public void onError(String s) {
+		Log.error(s);
+		if (s.startsWith("Error 40")) {
+			this.app.getScriptManager().ggbOnInit();
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					"We are sorry, but file could not be found.", false,
+					app);
+		}
+	}
 
 	public void processFileName(String url) {
 		if (url.endsWith(".off")) {
