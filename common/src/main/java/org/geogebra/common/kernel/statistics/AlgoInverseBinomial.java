@@ -82,7 +82,7 @@ public class AlgoInverseBinomial extends AlgoDistribution {
 				if (result > param) {
 					num.setValue(param);
 				} else {
-					num.setValue(result + 1);
+					num.setValue(result);
 				}
 
 			} catch (Exception e) {
