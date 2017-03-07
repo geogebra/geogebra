@@ -49,7 +49,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * Random number generator
 	 */
-	protected static Random rand = new Random();
+	protected static final Random rand = new Random();
 
 	/**
 	 * string to put Giac into GeoGebra mode (not affected by 'restart')

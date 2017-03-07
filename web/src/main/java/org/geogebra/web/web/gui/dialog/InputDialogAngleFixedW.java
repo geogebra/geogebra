@@ -20,12 +20,14 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
+/**
+ * Web dialog for angle
+ */
 public class InputDialogAngleFixedW extends AngleInputDialogW{
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
-	GeoSegmentND[] segments;
-	GeoPointND[] points;
-	GeoElement[] selGeos;
+	private GeoSegmentND[] segments;
+	private GeoPointND[] points;
 
 	private Kernel kernel;
 	
@@ -37,7 +39,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 		
 		this.segments = segments;
 		this.points = points;
-		this.selGeos = selGeos;
 		this.kernel = kernel;
 		
 		this.ec = ec;
@@ -97,19 +98,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
-							String angleText = inputPanel.getText();
-							// keep angle entered if it ends with 'degrees'
-							if (angleText.endsWith(Unicode.DEGREE)) {
-								defaultRotateAngle = angleText;
-							} else {
-								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
-							}
-
-							DialogManager.doAngleFixed(kernel, segments, points,
-
-									((NumberInputHandler) getInputHandler())
-											.getNum(),
-									rbClockWise.getValue(), ec);
+							doProcesInput();
 
 						}
 						setVisibleForTools(ok);
@@ -118,6 +107,25 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 
 
 		
+	}
+
+	/**
+	 * Create angle if input was valid
+	 */
+	protected void doProcesInput() {
+		String angleText = inputPanel.getText();
+		// keep angle entered if it ends with 'degrees'
+		if (angleText.endsWith(Unicode.DEGREE)) {
+			defaultRotateAngle = angleText;
+		} else {
+			defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+		}
+
+		DialogManager.doAngleFixed(kernel, segments, points,
+
+				((NumberInputHandler) getInputHandler()).getNum(),
+				rbClockWise.getValue(), ec);
+
 	}
 
 	protected void setVisibleForTools(boolean ok) {
