@@ -85,13 +85,15 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void createPenButton() {
 		penButton = createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN, app), this);
+				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN_PANEL, app),
+				this);
 		penMenu = new PenSubMenu(app);
 	}
 
 	private void createToolsButton() {
 		toolsButton = createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_TEXT, app),
+				GGWToolBar.getImageURL(EuclidianConstants.MODE_TOOLS_PANEL,
+						app),
 				this);
 		toolsMenu = new ToolsSubMenu(app);
 
@@ -99,14 +101,16 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void createMediaButton() {
 		mediaButton = createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_IMAGE, app),
+				GGWToolBar.getImageURL(EuclidianConstants.MODE_MEDIA_PANEL,
+						app),
 				this);
 		mediaMenu = new MediaSubMenu(app);
 	}
 
 	private void createMoveButton() {
 		NoDragImage im = new NoDragImage(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_MOVE, app));
+				GGWToolBar.getImageURL(EuclidianConstants.MODE_MOVE,
+						app));
 		moveButton = new StandardButton(null, "", 32);
 		moveButton.getUpFace().setImage(im);
 		rightPanel.add(moveButton);
