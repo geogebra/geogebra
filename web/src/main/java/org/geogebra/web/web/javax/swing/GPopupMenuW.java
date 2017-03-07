@@ -1,7 +1,6 @@
 package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.javax.swing.GPopupMenu;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -32,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Judit Elias
  */
-public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
+public class GPopupMenuW implements AttachedToDOM {
 
 	protected PopupPanel popupPanel;
 	protected PopupMenuBar popupMenu;

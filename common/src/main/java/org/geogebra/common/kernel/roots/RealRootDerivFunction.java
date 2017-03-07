@@ -11,10 +11,4 @@ public interface RealRootDerivFunction extends UnivariateFunction {
 	 */
 	public double[] evaluateDerivFunc(double x);
 
-	/**
-	 * returns derivative's value
-	 * 
-	 * @param x
-	 */
-	public double evaluateDerivative(double x);
 }

@@ -1,5 +1,8 @@
 package org.geogebra.desktop.main;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -11,12 +14,15 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.MyZoomerD;
 
 /** no GUI implementation of EV */
 public class EuclidianViewNoGui extends EuclidianView {
 
 	private GColor backgroundColor = GColor.WHITE;
+	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
+			BufferedImage.TYPE_INT_RGB).createGraphics();
 
 	/**
 	 * @param ec
@@ -126,8 +132,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GGraphics2DD(g2Dtemp);
 	}
 
 	@Override

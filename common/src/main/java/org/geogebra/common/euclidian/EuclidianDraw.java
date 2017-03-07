@@ -108,7 +108,6 @@ public class EuclidianDraw {
 			break;
 
 		case TEXTFIELD:
-
 			d = new DrawInputBox(ev, (GeoInputBox) geo);
 			break;
 

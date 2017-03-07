@@ -1100,20 +1100,6 @@ public class Function extends FunctionNVar
 	}
 
 	@Override
-	public double evaluateDerivative(double x) {
-
-		if (isBooleanFunction) {
-			return Double.NaN;
-		}
-
-		if (derivative == null) {
-			derivative = getDerivative(1, false, true);
-		}
-
-		return derivative.value(x);
-	}
-
-	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
 		return expression.derivative(fv, kernel0);
 	}

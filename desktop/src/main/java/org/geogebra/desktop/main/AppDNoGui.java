@@ -1,5 +1,6 @@
 package org.geogebra.desktop.main;
 
+import java.awt.Font;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
@@ -53,6 +54,7 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
@@ -90,6 +92,7 @@ public class AppDNoGui extends App {
 		Layout.initializeDefaultPerspectives(this, 0.2);
 		initEuclidianViews();
 		loginOperation = new LoginOperationD();
+		kernel.attach(euclidianView);
 
 	}
 
@@ -288,8 +291,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public GFont getPlainFontCommon() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GFontD(new Font("sans", Font.PLAIN, 12));
 	}
 
 	@Override
@@ -450,7 +452,7 @@ public class AppDNoGui extends App {
 	@Override
 	protected FontManager getFontManager() {
 		// TODO Auto-generated method stub
-		return null;
+		return new FontManagerNoGui();
 	}
 
 	@Override

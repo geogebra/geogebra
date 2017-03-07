@@ -182,11 +182,6 @@ public class PolyFunction
 		return ret;
 	}
 
-	@Override
-	final public double evaluateDerivative(double x) {
-		return evaluateDerivFunc(x)[1];
-	}
-
 	/**
 	 * Evaluates polynomial
 	 */
