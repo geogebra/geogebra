@@ -75,21 +75,40 @@ public class MsZoomer {
 		this.tc.twoTouchMove(x1, y1, x2, y2);
 	}
 
-	private void singleDown(double x, double y){
-		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off,
+	private void singleDown(double x, double y, int type, int modifiers) {
+		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
+		adjust(e, modifiers);
 		this.tc.onPointerEventStart(e);
 	}
 
-	private void singleMove(double x, double y) {
-		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off,
+	private void adjust(PointerEvent e, int modifiers) {
+		if ((modifiers & 8) > 0) {
+			e.setAlt(true);
+		}
+		if ((modifiers & 4) > 0) {
+			e.setShift(true);
+		}
+		if ((modifiers & 2) > 0) {
+			e.setControl(true);
+		}
+		if ((modifiers & 1) > 0) {
+			e.setIsRightClick(true);
+		}
+
+	}
+
+	private void singleMove(double x, double y, int type, int modifiers) {
+		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
+		adjust(e, modifiers);
 		this.tc.onPointerEventMove(e);
 	}
 
-	private void singleUp(double x, double y) {
-		PointerEvent e = new PointerEvent(x, y, PointerEventType.TOUCH, off,
+	private void singleUp(double x, double y, int type, int modifiers) {
+		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
+		adjust(e, modifiers);
 		this.tc.onPointerEventEnd(e);
 	}
 
@@ -147,6 +166,23 @@ public class MsZoomer {
 			}
 			return 0;
 		};
+		
+		var getModifiers = function(e){
+			var mod = 0;
+			if(e.altKey){
+				mod+=8;
+			}
+			if(e.shiftKey){
+				mod+=4;
+			}
+			if(e.ctrlKey){
+				mod+=2;
+			}
+			if(e.button == 2){
+				mod+=1;
+			}
+			return mod;
+		};
 		element
 				.addEventListener(
 						fix("PointerMove"),
@@ -166,11 +202,13 @@ public class MsZoomer {
 									$wnd.first.y = e.y;
 								}
 
+							}else{
+								if(override){
+									e.preventDefault();
+									zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
+								}
 							}
-							if(override){
-								e.preventDefault();
-								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DD)(e.x, e.y);
-							}
+							
 
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::moveLongTouch(II)($wnd.first.x, $wnd.first.y);
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
@@ -198,9 +236,8 @@ public class MsZoomer {
 												DDDD)($wnd.first.x,
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
-							}
-							if(override){
-								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleDown(DD)(e.x, e.y);
+							} else if(override){
+								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleDown(DDII)(e.x, e.y, getType(e), getModifiers(e));
 							}
 							if (e.pointerType == 2 || e.pointerType == "touch") {
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
@@ -215,7 +252,7 @@ public class MsZoomer {
 				$wnd.second.id = -1;
 			}
 			if(override){
-					zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleUp(DD)(e.x, e.y);
+					zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleUp(DDII)(e.x, e.y, getType(e), getModifiers(e));
 			}
 			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
 			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));

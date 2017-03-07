@@ -277,4 +277,17 @@ public class PointerEvent extends AbstractEvent {
 		return nativeEvent;
 	}
 
+	public void setControl(boolean b) {
+		this.control = b;
+
+	}
+
+	public void setShift(boolean b) {
+		this.shift = b;
+	}
+
+	public void setAlt(boolean b) {
+		this.alt = b;
+	}
+
 }
