@@ -2,9 +2,7 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -16,12 +14,15 @@ import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PenSubMenu extends SubMenuPanel
 		implements ClickHandler, FastClickHandler {
+	private static final int BLACK = 0;
 	private StandardButton pen;
 	private StandardButton eraser;
 	private FlowPanel penPanel;
@@ -31,19 +32,17 @@ public class PenSubMenu extends SubMenuPanel
 	private GColor penColor[];
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
-	private Kernel kernel;
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
 			"E67E22" };
 
 	public PenSubMenu(AppW app) {
 		super(app, false);
-		this.kernel = app.getKernel();
+		app.getKernel();
 		addStyleName("penSubMenu");
 	}
 
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
-		Log.debug("app is null: " + (app == null));
 		pen = MOWToolbar.createButton(
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN, app), this);
 		eraser = MOWToolbar.createButton(
@@ -52,9 +51,9 @@ public class PenSubMenu extends SubMenuPanel
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser));
 	}
 
-	private Label createColorButton(GColor btnColor) {
+	private Label createColorButton(GColor aColor) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
-				btnColor);
+				aColor);
 		Label label = new Label();
 		color.applyToLabel(label);
 		label.addStyleName("MyCanvasButton");
@@ -80,8 +79,15 @@ public class PenSubMenu extends SubMenuPanel
 	private void createSizePanel() {
 		sizePanel = new FlowPanel();
 		sizePanel.addStyleName("sizePanel");
-		slider = new SliderPanelW(0, 12, app.getKernel(), false);
+		slider = new SliderPanelW(0, 20, app.getKernel(), false);
+		slider.addStyleName("optionsSlider");
 		sizePanel.add(slider);
+		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
+
+			public void onValueChange(ValueChangeEvent<Double> event) {
+				getPenGeo().setLineThickness(slider.getValue().intValue());
+			}
+		});
 	}
 
 	@Override
@@ -116,7 +122,7 @@ public class PenSubMenu extends SubMenuPanel
 		app.setMode(EuclidianConstants.MODE_PEN);
 		pen.addStyleName("penSubMenu-selected");
 		eraser.removeStyleName("penSubMenu-selected");
-
+		selectColor(BLACK);
 	}
 
 	private void selectEraser() {
@@ -136,14 +142,17 @@ public class PenSubMenu extends SubMenuPanel
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
 				btnColor[i].addStyleName("penSubMenu-selected");
-				GeoElement geo = app.getActiveEuclidianView()
-						.getEuclidianController().getPen().DEFAULT_PEN_LINE;
-				geo.setObjColor(penColor[i]);
+				getPenGeo().setObjColor(penColor[i]);
 
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");
 			}
 		}
 
+	}
+
+	private GeoElement getPenGeo() {
+		return app.getActiveEuclidianView().getEuclidianController()
+				.getPen().DEFAULT_PEN_LINE;
 	}
 }

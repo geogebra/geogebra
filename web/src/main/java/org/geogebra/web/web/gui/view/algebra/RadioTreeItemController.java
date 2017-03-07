@@ -162,6 +162,7 @@ public class RadioTreeItemController
 
 	protected void setEditing(boolean value) {
 		editing = value;
+
 	}
 
 	@Override

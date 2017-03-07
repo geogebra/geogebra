@@ -112,6 +112,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 		onEnter(true);
+		item.getAV().clearActiveItem();
 	}
 
 	@Override

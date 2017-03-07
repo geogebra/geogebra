@@ -1021,6 +1021,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		controller.setEditing(true);
 
+
 		if (!onEditStart(false)) {
 			return false;
 		}
@@ -1127,6 +1128,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (RadioTreeItem.this.lastTeX == null) {
 					RadioTreeItem.this.lastInput = null;
 				}
+
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true,
 						getErrorHandler(valid, allowSliderDialog),
