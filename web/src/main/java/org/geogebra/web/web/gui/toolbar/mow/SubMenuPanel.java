@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class SubMenuPanel extends FlowPanel {
-	private AppW app;
+	AppW app;
 	private boolean info;
 	ScrollPanel scrollPanel;
 	FlowPanel contentPanel;
@@ -50,4 +50,7 @@ public class SubMenuPanel extends FlowPanel {
 		this.info = info;
 	}
 
+	public void onOpen() {
+
+	}
 }
