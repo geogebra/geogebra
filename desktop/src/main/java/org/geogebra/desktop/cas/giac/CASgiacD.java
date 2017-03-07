@@ -23,8 +23,6 @@ public class CASgiacD extends CASgiacJre {
 	 */
 	public CASgiacD(CASparser casParser, Kernel k) {
 		super(casParser, k);
-		// Log.printStacktrace("");
-		createContext();
 	}
 
 	private static boolean giacLoaded = false;
