@@ -493,41 +493,45 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	ImageResource mode_orthogonalthreed_32();
 	
 	
-	//Whiteboard
+	/**
+	 * WHITEBOARD
+	 */
+
+	// TOOLBAR
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_line.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_line.png")
 	ImageResource mode_shape_line_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapetriangle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_triangle.png")
 	ImageResource mode_shape_triangle_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapesquare.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_square.png")
 	ImageResource mode_shape_square_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shaperectangle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle.png")
 	ImageResource mode_shape_rectangle_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shaperoundedrectangle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle_round_edges.png")
 	ImageResource mode_shape_rectangle_round_edges_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapepolygon.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_polygon.png")
 	ImageResource mode_shape_polygon_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapefreeform.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_freeform.png")
 	ImageResource mode_shape_freeform_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_circle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_circle.png")
 	ImageResource mode_shape_circle_32();
 	
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_ellipse.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_ellipse.png")
 	ImageResource mode_shape_ellipse_32();
 	
 	@Override
@@ -537,4 +541,47 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	// @Source("org/geogebra/common/icons_toolbar/p32/mode_highlighter.png")
 	// ImageResource mode_highlighter_32();
 	
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
+	ImageResource help_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/media_panel.png")
+	ImageResource media_panel_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/pen_panel.png")
+	ImageResource pen_panel_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/tools_panel.png")
+	ImageResource tools_panel_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/move_hand.png")
+	ImageResource move_hand_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_geogebra.png")
+	ImageResource mode_geogebra_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_photo.png")
+	ImageResource mode_photo_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_video.png")
+	ImageResource mode_video_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_audio.png")
+	ImageResource mode_audio_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/undo.png")
+	ImageResource undo_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/redo.png")
+	ImageResource redo_32();
 }

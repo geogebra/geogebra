@@ -384,6 +384,28 @@ public interface ToolbarResources {
 	ResourcePrototype mode_shape_ellipse_32();
 		
 	ResourcePrototype mode_eraser_32();
+
+	ResourcePrototype help_32();
+
+	ResourcePrototype media_panel_32();
+
+	ResourcePrototype pen_panel_32();
+
+	ResourcePrototype tools_panel_32();
+
+	ResourcePrototype move_hand_32();
+
+	ResourcePrototype mode_geogebra_32();
+
+	ResourcePrototype mode_photo_32();
+
+	ResourcePrototype mode_video_32();
+
+	ResourcePrototype mode_audio_32();
+
+	ResourcePrototype undo_32();
+
+	ResourcePrototype redo_32();
 		
 	// ResourcePrototype mode_highlighter_32();
 
