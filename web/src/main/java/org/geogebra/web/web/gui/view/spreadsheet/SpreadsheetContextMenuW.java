@@ -249,6 +249,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		case Paste:
 			im = AppResources.INSTANCE.paste20();
 			break;
+		case Duplicate:
+			im = AppResources.INSTANCE.duplicate20();
+			break;
 		case Delete:
 		case DeleteObjects:
 			im = AppResources.INSTANCE.delete20();
