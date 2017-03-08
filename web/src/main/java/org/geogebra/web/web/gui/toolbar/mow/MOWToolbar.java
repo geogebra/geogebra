@@ -87,7 +87,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		penButton = createButton(
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN_PANEL, app),
 				this);
-		penButton.addStyleName("mowPanelButton");
 		penMenu = new PenSubMenu(app);
 	}
 
@@ -96,7 +95,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_TOOLS_PANEL,
 						app),
 				this);
-		toolsButton.addStyleName("mowPanelButton");
 		toolsMenu = new ToolsSubMenu(app);
 
 	}
@@ -106,7 +104,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				GGWToolBar.getImageURL(EuclidianConstants.MODE_MEDIA_PANEL,
 						app),
 				this);
-		mediaButton.addStyleName("mowPanelButton");
 		mediaMenu = new MediaSubMenu(app);
 	}
 
