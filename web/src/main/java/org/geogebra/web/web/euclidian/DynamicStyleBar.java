@@ -162,59 +162,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		return false;
 	}
-	
-
-	@Override
-	public boolean isDynamicStylebarHit(int x, int y) {
-		return isWidgetHit(this, x, y);
-	}
-	
-	private static boolean isWidgetHit(Widget w, int x, int y) {
-		if (w == null) {
-			return false;
-		}
-		int left = w.getAbsoluteLeft();
-		int top = w.getAbsoluteTop();
-		int right = left + w.getOffsetWidth();
-		int bottom = top + w.getOffsetHeight();
-
-		return (x > left && x < right && y > top && y < bottom);
-	}
-	
-	private void addHandlers(){
-
-	addDomHandler(new ClickHandler() {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			event.stopPropagation();
-		}
-	}, ClickEvent.getType());
-	
-	addDomHandler(new MouseDownHandler() {
-
-		@Override
-		public void onMouseDown(MouseDownEvent event) {
-			event.stopPropagation();
-		}
-	}, MouseDownEvent.getType());
-	
-	
-	addDomHandler(new TouchStartHandler() {
-		@Override
-		public void onTouchStart(TouchStartEvent event) {
-			event.stopPropagation();
-		}
-	}, TouchStartEvent.getType());
-
-	addDomHandler(new TouchEndHandler() {
-		@Override
-		public void onTouchEnd(TouchEndEvent event) {
-			event.stopPropagation();
-		}
-	}, TouchEndEvent.getType());
-	
-	}
 }
 
 

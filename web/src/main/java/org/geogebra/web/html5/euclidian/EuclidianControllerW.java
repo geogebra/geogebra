@@ -445,11 +445,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		this.getView().getDynamicStyleBar().setPosition(gRectangle2D, hasBoundingBox);
 		
 	}
-	
-	@Override
-	protected boolean dynamicStyleBarClicked(int x, int y){
-  		return this.getView().getDynamicStyleBar().isDynamicStylebarHit(x,y);
-	}
 
 	public void onPointerEventMove(PointerEvent event) {
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
