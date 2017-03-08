@@ -114,7 +114,12 @@ public class ToolbarSubmenuW extends FlowPanel {
 	}
 
 	protected Image createImage(int mode) {
-		return new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(mode), 32);
+		Image img = new NoDragImage(((GGWToolBar) app.getToolbar()).getImageURL(mode), 32);
+		// temporary opacity fix until all the icons will be renewed
+		if (mode == 62 || mode == 73 || mode == 110) {
+			img.addStyleName("mowPanelButton");
+		}
+		return img;
 	}
 
 	protected Label createLabel(int mode) {

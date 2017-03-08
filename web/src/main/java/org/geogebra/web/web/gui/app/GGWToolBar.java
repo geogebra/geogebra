@@ -728,6 +728,7 @@ pr.menu_header_undo(), null, 32);
 				}
 				// use image as icon
 				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName),32);
+
 				return img.getUrl();
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
