@@ -78,12 +78,12 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 			Vector<Integer> menu = ob.getMenu();
 
 			if (app.isModeValid(menu.get(0).intValue())) {
-				addButton(menu.get(0).intValue());
+				contentPanel.add(createButton(menu.get(0).intValue()));
 			}
 		}
 	}
 
-	protected void addButton(int mode) {
+	protected StandardButton createButton(int mode) {
 		NoDragImage im = new NoDragImage(GGWToolBar.getImageURL(mode, app));
 		StandardButton button = new StandardButton(null, "", 32);
 		button.getUpFace().setImage(im);
@@ -91,7 +91,7 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 		button.addStyleName("mowToolButton");
 		button.getElement().setAttribute("mode", mode + "");
-		contentPanel.add(button);
+		return button;
 	}
 
 	public boolean hasInfo() {
