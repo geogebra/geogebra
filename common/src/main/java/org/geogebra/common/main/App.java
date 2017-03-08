@@ -2435,24 +2435,7 @@ public abstract class App implements UpdateSelection {
 			propertiesView.updateSelection();
 		}
 		
-		if (has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
-			if (0 < this.getSelectionManager().getSelectedGeos().size()) {
-				GeoElement geo0 = this.getSelectionManager().getSelectedGeos()
-						.get(0);
-				String text = geo0.getCaptionSimple();
-				if (text == null || "".equals(text)) {
-					text = geo0.getAlgebraDescriptionDefault();
-				}
-				// MOW-137 if selection originated in AV we don't want to move
-				// focus to EV
-				if (getGuiManager() == null
-						|| getGuiManager().getLayout().getDockManager()
-								.getFocusedViewId() == getActiveEuclidianView()
-										.getViewID()) {
-					getActiveEuclidianView().readText(text);
-				}
-			}
-		}
+		ScreenReader.updateSelection(this);
 		
 	}
 
