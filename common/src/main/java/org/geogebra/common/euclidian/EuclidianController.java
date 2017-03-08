@@ -5799,11 +5799,11 @@ public abstract class EuclidianController {
 			// do nothing
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (ret != null && ret.length > 0) {
-				addDynamicStylebar(ret[0]);
-			}
-		}
+		// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		// if (ret != null && ret.length > 0) {
+		// addDynamicStylebar(ret[0]);
+		// }
+		// }
 		return endOfSwitchModeForProcessMode(ret, changedKernel, callback,
 				selectionPreview);
 	}
@@ -8357,14 +8357,14 @@ public abstract class EuclidianController {
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 
-			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				if (dr instanceof DrawLine) {
-					((DrawLine) dr).updateDynamicStylebarPosition();
-				} else {
-					setDynamicStyleBarPosition(dr.getBounds(), true);
-				}
-				setDynamicStylebarVisible(true);
-			}
+			// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			// if (dr instanceof DrawLine) {
+			// ((DrawLine) dr).updateDynamicStylebarPosition();
+			// } else {
+			// setDynamicStyleBarPosition(dr.getBounds(), true);
+			// }
+			// setDynamicStylebarVisible(true);
+			// }
 			view.repaintView();
 		}
 
@@ -9250,7 +9250,7 @@ public abstract class EuclidianController {
 
 	public void wrapMousePressed(AbstractEvent event) {
 
-		setDynamicStylebarVisible(false);
+		//setDynamicStylebarVisible(false);
 
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
@@ -9895,8 +9895,8 @@ public abstract class EuclidianController {
 
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(event);
-			setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
-			setDynamicStylebarVisible(true);
+			// setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
+			// setDynamicStylebarVisible(true);
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
@@ -9915,18 +9915,18 @@ public abstract class EuclidianController {
 					selection.addSelectedGeo(geo);
 				}
 
-				if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				 // if (mode == EuclidianConstants.MODE_MOVE) {
-				
-				 if (d instanceof DrawLine) {
-					((DrawLine) d).updateDynamicStylebarPosition();
-				 } else {
-				 	setDynamicStyleBarPosition(d.getBounds(), true);
-				 }
-				 setDynamicStylebarVisible(true);
-				
-				 // }
-				 }
+				// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+				// // if (mode == EuclidianConstants.MODE_MOVE) {
+				//
+				// if (d instanceof DrawLine) {
+				// ((DrawLine) d).updateDynamicStylebarPosition();
+				// } else {
+				// setDynamicStyleBarPosition(d.getBounds(), true);
+				// }
+				// setDynamicStylebarVisible(true);
+				//
+				// // }
+				// }
 
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
@@ -9940,31 +9940,6 @@ public abstract class EuclidianController {
 			shapeDragged = false;
 			mode = oldShapeMode;
 			getShapeMode().setDragStartPointSet(false);
-		}
-		
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-
-			this.view.setHits(new GPoint(event.getX(), event.getY()),
-					event.getType());
-			Hits hits = view.getHits();
-
-			if (hits.size() > 0) {
-				if (mode == EuclidianConstants.MODE_MOVE
-						|| !view.isDrawingPredecessor(hits.get(0))) {
-
-					DrawableND dr = view.getDrawableFor(hits.get(0));
-					if (dr instanceof Drawable) {
-						if (dr instanceof DrawLine) {
-							((DrawLine) dr).updateDynamicStylebarPosition();
-						} else {
-							setDynamicStyleBarPosition(
-									((Drawable) dr).getBounds(), true);
-						}
-						setDynamicStylebarVisible(true);
-					}
-				}
-
-			}
 		}
 
 		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
@@ -10017,6 +9992,30 @@ public abstract class EuclidianController {
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			setResizedShape(null);
 		}
+
+		// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		//
+		// ArrayList<GeoElement> selGeos = app.getSelectionManager()
+		// .getSelectedGeos();
+		// if (selGeos != null && selGeos.size() > 0) {
+		//
+		// if (mode == EuclidianConstants.MODE_MOVE) {
+		// //|| !view.isDrawingPredecessor(selGeos.get(0))) {
+		//
+		// DrawableND dr = view.getDrawableFor(selGeos.get(0));
+		// if (dr instanceof Drawable) {
+		// if (dr instanceof DrawLine) {
+		// ((DrawLine) dr).updateDynamicStylebarPosition();
+		// } else {
+		// setDynamicStyleBarPosition(
+		// ((Drawable) dr).getBounds(), true);
+		// }
+		// setDynamicStylebarVisible(true);
+		// }
+		// }
+		//
+		// }
+		// }
 	}
 
 	public void wrapMouseReleasedND(final AbstractEvent event,

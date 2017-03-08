@@ -1125,6 +1125,11 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	public ArrayList<GeoElement> getJustCreatedGeos() {
+		return getActiveEuclidianView().getEuclidianController()
+				.getJustCreatedGeos();
+	}
+
 	/**
 	 * @return whether auxiliary objects are shown in AV
 	 */
@@ -2418,6 +2423,11 @@ public abstract class App implements UpdateSelection {
 		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE
 				|| getActiveEuclidianView()
 						.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+			updateStyleBars();
+		}
+
+		if (has(Feature.DYNAMIC_STYLEBAR)) {
+			// TODO update only dynamic stylebar
 			updateStyleBars();
 		}
 

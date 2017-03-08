@@ -386,7 +386,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		addButtons();
 	}
 
-	private void updateButtons() {
+	protected void updateButtons() {
 		// -----------------------------------------------------
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
