@@ -1,12 +1,23 @@
 package org.geogebra.web.web.gui.toolbar.mow;
 
+import java.util.Vector;
+
+import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.gui.util.StandardButton;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class SubMenuPanel extends FlowPanel {
+public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHandler {
 	AppW app;
 	private boolean info;
 	ScrollPanel scrollPanel;
@@ -42,6 +53,41 @@ public class SubMenuPanel extends FlowPanel {
 		infoPanel.addStyleName("mowSubMenuInfo");
 	}
 
+	protected Vector<ToolbarItem> getToolbarVec(String toolbarString) {
+		Vector<ToolbarItem> toolbarVec;
+		try {
+
+			toolbarVec = ToolBar.parseToolbarString(toolbarString);
+			Log.debug("toolbarVec parsed");
+
+		} catch (Exception e) {
+
+			Log.debug("invalid toolbar string: " + toolbarString);
+
+			toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
+		}
+		return toolbarVec;
+	}
+
+	protected void addModesToToolbar(String toolbarString) {
+		Vector<ToolbarItem> toolbarVec = getToolbarVec(toolbarString);
+		for (int i = 0; i < toolbarVec.size(); i++) {
+			ToolbarItem ob = toolbarVec.get(i);
+			Vector<Integer> menu = ob.getMenu();
+
+			if (app.isModeValid(menu.get(0).intValue())) {
+				addButton(menu.get(0).intValue());
+			}
+		}
+	}
+
+	protected void addButton(int mode) {
+		StandardButton button = MOWToolbar.createButton(GGWToolBar.getImageURL(mode, app), this);
+		button.addStyleName("mowToolButton");
+		button.getElement().setAttribute("mode", mode + "");
+		contentPanel.add(button);
+	}
+
 	public boolean hasInfo() {
 		return info;
 	}
@@ -51,6 +97,18 @@ public class SubMenuPanel extends FlowPanel {
 	}
 
 	public void onOpen() {
+
+	}
+
+	@Override
+	public void onClick(Widget source) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onClick(ClickEvent event) {
+		// TODO Auto-generated method stub
 
 	}
 }

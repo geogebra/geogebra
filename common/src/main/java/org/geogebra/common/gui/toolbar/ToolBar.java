@@ -254,6 +254,16 @@ public class ToolBar {
 		return sb.toString();
 	}
 
+	public static String getMOWMediaToolBarDefString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(EuclidianConstants.MODE_TEXT + " | ");
+		sb.append(EuclidianConstants.MODE_IMAGE + " | ");
+		sb.append(EuclidianConstants.MODE_VIDEO + " | ");
+		sb.append(EuclidianConstants.MODE_AUDIO + " | ");
+		sb.append(EuclidianConstants.MODE_GEOGEBRA);
+
+		return sb.toString();
+	}
 	/**
 	 * @return The default definition of the general tool bar without macros.
 	 */
