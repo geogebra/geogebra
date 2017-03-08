@@ -15,25 +15,11 @@ import org.geogebra.web.web.gui.util.StandardButton;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHandler, MouseDownHandler, MouseUpHandler,
-		TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler {
+public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHandler {
 	AppW app;
 	private boolean info;
 	ScrollPanel scrollPanel;
@@ -101,7 +87,7 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 		NoDragImage im = new NoDragImage(GGWToolBar.getImageURL(mode, app));
 		StandardButton button = new StandardButton(null, "", 32);
 		button.getUpFace().setImage(im);
-		addDomHandlers(button);
+		button.addFastClickHandler(this);
 
 		button.addStyleName("mowToolButton");
 		button.getElement().setAttribute("mode", mode + "");
@@ -122,7 +108,9 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 	@Override
 	public void onClick(Widget source) {
-		// TODO Auto-generated method stub
+		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
+		setCSStoSelected(source.getElement());
+		app.setMode(mode);
 
 	}
 
@@ -132,58 +120,7 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 	}
 
-	public void addDomHandlers(Widget w) {
-		w.addDomHandler(this, MouseDownEvent.getType());
-		w.addDomHandler(this, MouseUpEvent.getType());
-		w.addDomHandler(this, TouchStartEvent.getType());
-		w.addDomHandler(this, TouchEndEvent.getType());
-		w.addDomHandler(this, MouseOverEvent.getType());
-		w.addDomHandler(this, MouseOutEvent.getType());
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMouseOut(MouseOutEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		onEnd(event);
-
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		onEnd(event);
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void onEnd(DomEvent<?> event) {
-		int mode = Integer.parseInt(event.getRelativeElement().getAttribute("mode"));
-		setCSStoSelected(event.getRelativeElement());
-		event.stopPropagation();
-		app.setMode(mode);
-	}
-
-	private void setCSStoSelected(Element e) {
+	public void setCSStoSelected(Element e) {
 		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
 			Element w = contentPanel.getWidget(i).getElement();
 			if (w != e) {
