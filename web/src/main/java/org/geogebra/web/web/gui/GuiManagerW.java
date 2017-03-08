@@ -224,6 +224,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (ggwMenuBar != null && ggwMenuBar.getMenubar() != null) {
 			ggwMenuBar.getMenubar().updateSelection();
 		}
+
+		if (app.has(Feature.MOW_TOOLBAR) && ((AppW) app).isWitheboardActive()) {
+			(((AppWapplet) app).getAppletFrame()).updateMOWToorbar();
+			return;
+		}
+
 		if (getToolbarPanel() != null) {
 			getToolbarPanel().updateUndoActions();
 		}
@@ -847,6 +853,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// if (toolbarPanel != null) {
 		// toolbarPanel.buildGui();
 		// }
+
 
 		if (layout != null) {
 			// AG layout.getDockManager().updateToolbars();

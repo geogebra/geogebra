@@ -682,6 +682,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public MOWToolbar getMOWToorbar() {
+		return mowToolbar;
+	}
+
 	@Override
 	public GGWToolBar getToolbar() {
 		return ggwToolBar;
@@ -787,5 +795,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
 		add(openMenuButton);
+	}
+
+	public void updateMOWToorbar() {
+		if (mowToolbar == null) {
+			return;
+		}
+		mowToolbar.update();
 	}
 }
