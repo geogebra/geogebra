@@ -37,7 +37,6 @@ public class PenSubMenu extends SubMenuPanel
 
 	public PenSubMenu(AppW app) {
 		super(app, false);
-		app.getKernel();
 		addStyleName("penSubMenu");
 	}
 
@@ -151,6 +150,12 @@ public class PenSubMenu extends SubMenuPanel
 
 	}
 
+	private void setColorsEnabled(boolean enable) {
+		for (int i = 0; i < btnColor.length; i++) {
+			btnColor[i].setStyleName("disabled");
+		}
+
+	}
 	private GeoElement getPenGeo() {
 		return app.getActiveEuclidianView().getEuclidianController()
 				.getPen().DEFAULT_PEN_LINE;
