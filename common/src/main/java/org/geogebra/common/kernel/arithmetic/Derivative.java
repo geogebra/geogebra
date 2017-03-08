@@ -353,7 +353,7 @@ public class Derivative {
 		case EQUAL_BOOLEAN:
 			break;
 		case FRACTIONAL_PART:
-			break;
+			return left.derivative(fv, kernel0).wrap();
 		case FREEHAND:
 			break;
 		case FUNCTION_NVAR:
