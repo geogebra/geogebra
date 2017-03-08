@@ -21,6 +21,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class PenSubMenu extends SubMenuPanel
 		implements ClickHandler, FastClickHandler {
+	private static final int MAX_PEN_SIZE = 12;
+	private static final int MAX_ERASER_SIZE = 100;
+	private static final int PEN_STEP = 1;
+	private static final int ERASER_STEP = 20;
 	private static final int BLACK = 0;
 	private StandardButton pen;
 	private StandardButton eraser;
@@ -82,7 +86,13 @@ public class PenSubMenu extends SubMenuPanel
 		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 
 			public void onValueChange(ValueChangeEvent<Double> event) {
-				getPenGeo().setLineThickness(slider.getValue().intValue());
+				int value = slider.getValue().intValue();
+				if (colorsEnabled) {
+					getPenGeo().setLineThickness(value);
+				} else {
+					app.getActiveEuclidianView().getSettings()
+							.setDeleteToolSize(value);
+				}
 			}
 		});
 	}
@@ -125,6 +135,10 @@ public class PenSubMenu extends SubMenuPanel
 		eraser.removeStyleName("penSubMenu-selected");
 		setColorsEnabled(true);
 		selectColor(BLACK);
+		slider.setMinimum(1, false);
+		slider.setMaximum(MAX_PEN_SIZE, false);
+		slider.setStep(PEN_STEP);
+		slider.setValue((double) getPenGeo().getLineThickness());
 	}
 
 	private void selectEraser() {
@@ -132,12 +146,17 @@ public class PenSubMenu extends SubMenuPanel
 		pen.removeStyleName("penSubMenu-selected");
 		eraser.addStyleName("penSubMenu-selected");
 		setColorsEnabled(false);
+		slider.setMinimum(1, false);
+		slider.setMaximum(MAX_ERASER_SIZE, false);
+		slider.setStep(ERASER_STEP);
+		int delSize = app.getActiveEuclidianView().getSettings()
+				.getDeleteToolSize();
+		slider.setValue((double) delSize);
 	}
 
 	@Override
 	public void onOpen() {
 		selectPen();
-		selectColor(0);
 	}
 
 	private void selectColor(int idx) {
