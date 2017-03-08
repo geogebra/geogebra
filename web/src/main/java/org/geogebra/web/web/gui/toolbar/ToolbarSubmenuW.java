@@ -116,7 +116,7 @@ public class ToolbarSubmenuW extends FlowPanel {
 	protected Image createImage(int mode) {
 		Image img = new NoDragImage(((GGWToolBar) app.getToolbar()).getImageURL(mode), 32);
 		// temporary opacity fix until all the icons will be renewed
-		if (mode == 62 || mode == 73 || mode == 110) {
+		if (mode == 26 || mode == 61 || mode == 62 || mode == 73 || mode == 110) {
 			img.addStyleName("mowPanelButton");
 		}
 		return img;

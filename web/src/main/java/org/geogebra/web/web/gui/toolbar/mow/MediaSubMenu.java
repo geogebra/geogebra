@@ -33,15 +33,18 @@ public class MediaSubMenu extends SubMenuPanel implements ClickHandler, FastClic
 	@Override
 	public void onClick(Widget source) {
 		/*
+		 * Log.debug("onClick widget");
+		 * 
 		 * int mode =
 		 * Integer.parseInt(source.getElement().getAttribute("mode"));
 		 * Log.debug("onClick mode: " + mode); app.setMode(mode);
+		 * 
 		 */
-
 	}
 
 	@Override
 	public void onClick(ClickEvent event) {
+		// Log.debug("onClick event");
 		// TODO Auto-generated method stub
 
 	}
