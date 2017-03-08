@@ -80,7 +80,6 @@ public class MsZoomer {
 	}
 
 	private void singleDown(double x, double y, int type, int modifiers) {
-		Log.debug("DOWN: " + x + "," + y);
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
 		adjust(e, modifiers);
@@ -111,8 +110,6 @@ public class MsZoomer {
 	}
 
 	private void singleUp(double x, double y, int type, int modifiers) {
-		Log.debug("UP: " + x + "," + y + "," + type);
-
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
 		adjust(e, modifiers);

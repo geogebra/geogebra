@@ -359,7 +359,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 		CancelEventTimer.touchEventOccured();
 
-		ec.prepareModeForFreehand();
 		moveCounter = 0;
 		ignoreEvent = false;
 	}
@@ -552,9 +551,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		ec.onPointerEventStart(e);
 
-		if (!e.isRightClick()) {
-			ec.prepareModeForFreehand();
-		}
 		moveCounter = 0;
 		ignoreEvent = false;
 	}
@@ -570,6 +566,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// hide PopUp if no hits was found.
 		if (ec.getView().getHits().isEmpty() && ec.getView().hasStyleBar()) {
 			ec.getView().getStyleBar().hidePopups();
+		}
+		if (!event.isRightClick()) {
+			ec.prepareModeForFreehand();
 		}
 		event.release();
 	}
