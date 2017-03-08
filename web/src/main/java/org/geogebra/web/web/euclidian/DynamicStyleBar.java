@@ -120,10 +120,23 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	public void updateStyleBar(){
         //ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
 		ArrayList<GeoElement> selGeos = app.getJustCreatedGeos();
-        if (selGeos != null && selGeos.size() > 0 && !isDrawingPredecessor(selGeos.get(selGeos.size()-1))){
+		if(selGeos == null || selGeos.size() == 0){
+			selGeos = app.getSelectionManager().getSelectedGeos();
+		}
+		
+		GeoElement geoAddStylebar = null;
+		if (selGeos != null && selGeos.size() > 0){
+			for (GeoElement geo : selGeos) {
+				if(!this.isDrawingPredecessor(geo)){
+					geoAddStylebar = geo;
+				}
+			}
+		}
+		
+        if (geoAddStylebar != null){
         	Log.debug("add dynamic stylebar");
             EuclidianView view = app.getGuiManager().getActiveEuclidianView();
-            Drawable dr = ((Drawable) view.getDrawableFor(selGeos.get(0)));
+            Drawable dr = ((Drawable) view.getDrawableFor(geoAddStylebar));
             if (dr.getBounds() != null){
                 setPosition(dr.getBounds(), true);
                 setVisible(true);
