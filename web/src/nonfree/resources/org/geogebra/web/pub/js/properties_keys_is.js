@@ -1734,6 +1734,7 @@ __GGB__keysVar.is.menu = {
     "File.epub": "Skr\xe1: epub",
     "File.iBook": "Skr\xe1: iBook",
     "FileBrowser": "Skr\xe1avafri",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Skr\xe1akerfi",
     "Filename": "Heiti skjals",
     "Files": "Skr\xe1r",

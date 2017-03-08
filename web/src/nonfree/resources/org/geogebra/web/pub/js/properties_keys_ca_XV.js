@@ -1734,6 +1734,7 @@ __GGB__keysVar.ca_XV.menu = {
     "File.epub": "Fitxer: epub",
     "File.iBook": "Fitxer: iBook",
     "FileBrowser": "Navegador de fitxers",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Sistema de fitxers",
     "Filename": "Nom del fitxer",
     "Files": "Fitxers",

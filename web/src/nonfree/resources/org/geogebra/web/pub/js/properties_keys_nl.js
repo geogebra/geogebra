@@ -1734,6 +1734,7 @@ __GGB__keysVar.nl.menu = {
     "File.epub": "Bestand: epub",
     "File.iBook": "Bestand: iBook",
     "FileBrowser": "Bestandsbrowser",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Bestandssyteem",
     "Filename": "Bestandsnaam",
     "Files": "Bestanden",

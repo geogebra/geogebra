@@ -1734,6 +1734,7 @@ __GGB__keysVar.lv.menu = {
     "File.epub": "Fails: epub",
     "File.iBook": "Fails: iBook",
     "FileBrowser": "Faila mekl\u0113t\u0101js",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Dat\u0146u Sist\u0113ma",
     "Filename": "Failanosaukums",
     "Files": "Faili",

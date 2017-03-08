@@ -1734,6 +1734,7 @@ __GGB__keysVar.cy.menu = {
     "File.epub": "File: epub",
     "File.iBook": "File: iBook",
     "FileBrowser": "Porwr Ffeiliau",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "System Ffeiliau",
     "Filename": "Filename",
     "Files": "Ffeiliau",

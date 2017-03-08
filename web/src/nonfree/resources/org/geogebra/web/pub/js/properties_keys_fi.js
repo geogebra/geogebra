@@ -1734,6 +1734,7 @@ __GGB__keysVar.fi.menu = {
     "File.epub": "Tiedosto: epub",
     "File.iBook": "Tiedosto: iBook",
     "FileBrowser": "Tiedostoselain",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Tiedostoj\xe4rjestelm\xe4",
     "Filename": "Tiedosto",
     "Files": "Tiedostot",

@@ -1734,6 +1734,7 @@ __GGB__keysVar.ro.menu = {
     "File.epub": "Fi\u0219ier: epub",
     "File.iBook": "Fi\u0219ier: iBook",
     "FileBrowser": "Browser fi\u0219iere",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Sistem de fi\u015fiere",
     "Filename": "Nume fi\u0219ier",
     "Files": "Fi\u015fiere",

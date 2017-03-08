@@ -1734,6 +1734,7 @@ __GGB__keysVar.eo.menu = {
     "File.epub": "Dosiero : epub",
     "File.iBook": "Dosiero : iBook",
     "FileBrowser": "Dosieresplorilo",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Dosiersistemo",
     "Filename": "Dosiernomo",
     "Files": "Dosieroj",

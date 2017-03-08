@@ -1734,6 +1734,7 @@ __GGB__keysVar.tr.menu = {
     "File.epub": "Dosya: epub",
     "File.iBook": "Dosya: iBook",
     "FileBrowser": "Dosya Taray\u0131c\u0131",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Dosya Sistemi",
     "Filename": "Dosya ad\u0131",
     "Files": "Dosyalar",

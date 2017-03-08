@@ -1734,6 +1734,7 @@ __GGB__keysVar.sq.menu = {
     "File.epub": "Dokument: epub",
     "File.iBook": "Dokument: iLiber",
     "FileBrowser": "Brauzer dokumentash",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Sistem dokumentash",
     "Filename": "Filename",
     "Files": "Dokumenta/Fajella",

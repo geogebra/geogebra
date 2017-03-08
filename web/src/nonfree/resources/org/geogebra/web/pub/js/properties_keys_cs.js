@@ -1734,6 +1734,7 @@ __GGB__keysVar.cs.menu = {
     "File.epub": "Soubor: epub",
     "File.iBook": "Soubor: iBook",
     "FileBrowser": "Prohl\xed\u017ee\u010d soubor\u016f",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Souborov\xfd syst\xe9m",
     "Filename": "Jm\xe9no souboru",
     "Files": "Soubory",

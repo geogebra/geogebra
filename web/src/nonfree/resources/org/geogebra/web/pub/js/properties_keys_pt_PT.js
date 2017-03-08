@@ -1734,6 +1734,7 @@ __GGB__keysVar.pt_PT.menu = {
     "File.epub": "Ficheiro: epub",
     "File.iBook": "Ficheiro: iBook",
     "FileBrowser": "Explorador de Ficheiros",
+    "FileLoadingError": "N\xe3o foi poss\xedvel carregar o ficheiro. Envie um e-mail para support@geogebra.org",
     "FileSystem": "Ficheiro de Sistema",
     "Filename": "Nome do Ficheiro",
     "Files": "Ficheiros",

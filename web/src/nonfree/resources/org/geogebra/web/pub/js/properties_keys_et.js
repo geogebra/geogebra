@@ -1734,6 +1734,7 @@ __GGB__keysVar.et.menu = {
     "File.epub": "Fail: epub",
     "File.iBook": "Fail: iBook",
     "FileBrowser": "Failisirvija",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Failis\xfcsteem",
     "Filename": "Faili nimi",
     "Files": "Failid",

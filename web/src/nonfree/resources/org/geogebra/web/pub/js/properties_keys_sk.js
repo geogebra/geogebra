@@ -1734,6 +1734,7 @@ __GGB__keysVar.sk.menu = {
     "File.epub": "S\xfabor: epub",
     "File.iBook": "S\xfabor: iBook",
     "FileBrowser": "Prehliada\u010d s\xfaborov",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Syst\xe9m s\xfaborov",
     "Filename": "N\xe1zov s\xfaboru",
     "Files": "S\xfabory",

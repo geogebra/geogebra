@@ -1734,6 +1734,7 @@ __GGB__keysVar.fr.menu = {
     "File.epub": "Fichier : epub",
     "File.iBook": "Fichier : iBook",
     "FileBrowser": "Arborescence",
+    "FileLoadingError": "D\xe9sol\xe9, le fichier ne peut \xeatre charg\xe9. Merci d'avertir support@geogebra.org",
     "FileSystem": "Fichier Syst\xe8me",
     "Filename": "Nom de fichier",
     "Files": "Fichiers",

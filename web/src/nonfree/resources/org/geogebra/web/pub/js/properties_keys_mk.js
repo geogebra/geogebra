@@ -1734,6 +1734,7 @@ __GGB__keysVar.mk.menu = {
     "File.epub": "\u0414\u0430\u0442\u043e\u0442\u0435\u043a\u0430: epub",
     "File.iBook": "\u0414\u0430\u0442\u043e\u0442\u0435\u043a\u0430: iBook",
     "FileBrowser": "\u041f\u0440\u0435\u043b\u0438\u0441\u0442\u0443\u0432\u0430\u0447 \u043d\u0430 \u0434\u0430\u0442\u043e\u0442\u0435\u043a\u0438",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "\u0414\u0430\u0442\u043e\u0442\u0435\u0447\u0435\u043d \u0421\u0438\u0441\u0442\u0435\u043c",
     "Filename": "\u0418\u043c\u0435 \u043d\u0430 \u0434\u0430\u0442\u043e\u0442\u0435\u043a\u0430",
     "Files": "\u0414\u0430\u0442\u043e\u0442\u0435\u043a\u0438",

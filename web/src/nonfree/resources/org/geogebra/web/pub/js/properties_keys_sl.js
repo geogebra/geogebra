@@ -1734,6 +1734,7 @@ __GGB__keysVar.sl.menu = {
     "File.epub": "Datoteka: epub",
     "File.iBook": "Datoteka: iBook",
     "FileBrowser": "Raziskovalec datotek",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Datote\u010dni sistem",
     "Filename": "Ime datoteke",
     "Files": "Datoteke",

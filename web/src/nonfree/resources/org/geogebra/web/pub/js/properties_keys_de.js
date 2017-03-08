@@ -1734,6 +1734,7 @@ __GGB__keysVar.de.menu = {
     "File.epub": "Datei: epub",
     "File.iBook": "Datei: iBook",
     "FileBrowser": "Browser f\xfcr Dateien",
+    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
     "FileSystem": "Dateisystem",
     "Filename": "Dateiname",
     "Files": "Dateien",
