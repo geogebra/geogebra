@@ -427,7 +427,8 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void setDynamicStylebarVisible(boolean visible) {
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)
+				|| !((AppW) app).allowStylebar()) {
 			return;
 		}
 		this.getView().getDynamicStyleBar().setVisible(visible);
@@ -435,7 +436,8 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)
+				|| !((AppW) app).allowStylebar()) {
 			return;
 		}
 		if(gRectangle2D == null){
