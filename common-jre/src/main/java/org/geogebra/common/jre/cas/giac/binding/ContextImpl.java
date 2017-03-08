@@ -1,12 +1,14 @@
 package org.geogebra.common.jre.cas.giac.binding;
 
+import org.geogebra.common.cas.giac.binding.Context;
+
 import javagiac.context;
 
-class Context implements org.geogebra.common.cas.giac.binding.Context {
+class ContextImpl implements Context {
 
     context context;
 
-    Context() {
+    ContextImpl() {
         context = new context();
     }
 }

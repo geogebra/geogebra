@@ -8,11 +8,11 @@ public class CASGiacBindingJre implements CASGiacBinding {
     
     @Override
     public Context createContext() {
-        return new org.geogebra.common.jre.cas.giac.binding.Context();
+        return new ContextImpl();
     }
 
     @Override
     public Gen createGen(String string, Context context) {
-        return new org.geogebra.common.jre.cas.giac.binding.Gen(string, context);
+        return new GenImpl(string, context);
     }
 }

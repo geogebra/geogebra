@@ -1,5 +1,7 @@
 package org.geogebra.common.jre.cas.giac.binding;
 
+import org.geogebra.common.cas.giac.binding.Context;
+
 import javagiac.context;
 
 class Util {
@@ -7,7 +9,7 @@ class Util {
     private Util() {
     }
 
-    static context convert(org.geogebra.common.cas.giac.binding.Context context) {
-        return ((Context) context).context;
+    static context convert(Context context) {
+        return ((ContextImpl) context).context;
     }
 }
