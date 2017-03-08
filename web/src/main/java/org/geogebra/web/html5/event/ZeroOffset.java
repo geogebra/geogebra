@@ -50,4 +50,9 @@ public class ZeroOffset implements HasOffsets {
 	public PointerEventType getDefaultEventType() {
 		return PointerEventType.MOUSE;
 	}
+
+	public void closePopups() {
+		// nothing to do
+
+	}
 }

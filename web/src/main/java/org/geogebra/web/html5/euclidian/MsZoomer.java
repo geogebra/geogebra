@@ -80,6 +80,7 @@ public class MsZoomer {
 	}
 
 	private void singleDown(double x, double y, int type, int modifiers) {
+		tc.getOffsets().closePopups();
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
 		adjust(e, modifiers);

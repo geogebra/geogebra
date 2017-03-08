@@ -699,4 +699,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void resetDelay() {
 		DELAY_UNTIL_MOVE_FINISH = 150;
 	}
+
+	public void closePopups() {
+		app.closePerspectivesPopup();
+		app.closePopups();
+	}
 }

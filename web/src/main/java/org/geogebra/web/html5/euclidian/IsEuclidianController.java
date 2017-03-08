@@ -35,4 +35,5 @@ public interface IsEuclidianController extends LongTouchHandler {
 
 	void onPointerEventEnd(PointerEvent e);
 
+	MouseTouchGestureControllerW getOffsets();
 }

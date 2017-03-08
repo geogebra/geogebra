@@ -5,8 +5,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.util.debug.Log;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,7 +26,20 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 				DynamicStyleBar.this.setVisible(addToSelection);
 			}
 		});
+		stopPointer(getElement());
 	}
+
+	private native void stopPointer(Element element) /*-{
+		if ($wnd.PointerEvent) {
+			var evts = [ "PointerDown", "PointerUp" ];
+			for ( var k in evts) {
+				element.addEventListener(evts[k].toLowerCase(), function(e) {
+					e.stopPropagation()
+				});
+			}
+		}
+
+	}-*/;
 
 	/**
 	 * Sets the position of dynamic style bar. newPos position of right top

@@ -14,7 +14,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
-import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
@@ -377,7 +376,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onPointerEventEnd(event);
 	}
 
-	public HasOffsets getOffsets() {
+	public MouseTouchGestureControllerW getOffsets() {
 		return mtg;
 	}
 }
