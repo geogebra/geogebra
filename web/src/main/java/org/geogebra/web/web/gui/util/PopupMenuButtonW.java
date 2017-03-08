@@ -2,10 +2,12 @@ package org.geogebra.web.web.gui.util;
 
 import java.util.HashMap;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -17,12 +19,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -142,31 +140,20 @@ public class PopupMenuButtonW extends MyCJButton
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
-				if (!PopupMenuButtonW.this.isEnabled()) {
-					return;
-				}
-				handleClick();
 			}
 		});
-
-		addDomHandler(new MouseDownHandler() {
+		// merge mousedown + touchstart
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 
 			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				event.stopPropagation();
+			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!PopupMenuButtonW.this.isEnabled()) {
 					return;
 				}
 				handleClick();
+
 			}
-		}, MouseDownEvent.getType());
-		
-		addDomHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				event.stopPropagation();
-			}
-		}, TouchStartEvent.getType());
+		});
 
 		addDomHandler(new TouchEndHandler() {
 			@Override
