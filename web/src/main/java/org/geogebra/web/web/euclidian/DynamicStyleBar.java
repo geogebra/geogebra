@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -137,7 +138,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
         	Log.debug("add dynamic stylebar");
             EuclidianView view = app.getGuiManager().getActiveEuclidianView();
             Drawable dr = ((Drawable) view.getDrawableFor(geoAddStylebar));
-            if (dr.getBounds() != null){
+            if(dr instanceof DrawLine){
+            	((DrawLine)dr).updateDynamicStylebarPosition();
+            	setVisible(true);
+            } else if(dr.getBounds() != null){
                 setPosition(dr.getBounds(), true);
                 setVisible(true);
             }
