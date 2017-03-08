@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.StandardButton;
@@ -42,11 +41,8 @@ public class PenSubMenu extends SubMenuPanel
 
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
-		pen = MOWToolbar.createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN, app), this);
-		eraser = MOWToolbar.createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_ERASER, app),
-				this);
+		pen = createButton(EuclidianConstants.MODE_PEN);
+		eraser = createButton(EuclidianConstants.MODE_ERASER);
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser));
 	}
 
@@ -56,6 +52,7 @@ public class PenSubMenu extends SubMenuPanel
 		Label label = new Label();
 		color.applyToLabel(label);
 		label.addStyleName("MyCanvasButton");
+		label.addStyleName("color-button");
 		label.addClickHandler(this);
 		return label;
 	}
