@@ -62,15 +62,27 @@ public class ResourceAvailability {
 		StringBuilder missing = new StringBuilder();
 		for (int i = 0; i < 1000; i++) {
 			String modeText = EuclidianConstants.getModeTextSimple(i);
-			if (modeText.isEmpty() || "Select".equals(modeText)
-					|| "FreehandCircle".equals(modeText)) {
+			if (modeText.isEmpty()) {
 				continue;
 			}
-			ImageResourceD res = man.getToolImageResource(modeText);
-			URL url = ResourceAvailability.class.getResource(res.getFilename());
-			if (url == null) {
-				missing.append(modeText + ",");
+			switch (i) {
+			case EuclidianConstants.MODE_SELECTION_LISTENER:
+			case EuclidianConstants.MODE_PEN_PANEL:
+			case EuclidianConstants.MODE_TOOLS_PANEL:
+			case EuclidianConstants.MODE_MEDIA_PANEL:
+			case EuclidianConstants.MODE_VIDEO:
+			case EuclidianConstants.MODE_AUDIO:
+			case EuclidianConstants.MODE_GEOGEBRA:
+				continue;
+			default:
+				ImageResourceD res = man.getToolImageResource(modeText);
+				URL url = ResourceAvailability.class.getResource(res
+						.getFilename());
+				if (url == null) {
+					missing.append(modeText + ",");
+				}
 			}
+
 		}
 		Assert.assertEquals(missing.toString(), missing.length(), 0);
 	}
