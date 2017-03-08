@@ -31,6 +31,7 @@ public class PenSubMenu extends SubMenuPanel
 	private GColor penColor[];
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
+	private boolean colorsEnabled;
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
 			"E67E22" };
 
@@ -105,6 +106,10 @@ public class PenSubMenu extends SubMenuPanel
 	}
 
 	public void onClick(ClickEvent event) {
+		if (!colorsEnabled) {
+			return;
+		}
+
 		Object source = event.getSource();
 		for (int i = 0; i < btnColor.length; i++) {
 			if (source == btnColor[i]) {
@@ -118,6 +123,7 @@ public class PenSubMenu extends SubMenuPanel
 		app.setMode(EuclidianConstants.MODE_PEN);
 		pen.addStyleName("penSubMenu-selected");
 		eraser.removeStyleName("penSubMenu-selected");
+		setColorsEnabled(true);
 		selectColor(BLACK);
 	}
 
@@ -125,7 +131,7 @@ public class PenSubMenu extends SubMenuPanel
 		app.setMode(EuclidianConstants.MODE_ERASER);
 		pen.removeStyleName("penSubMenu-selected");
 		eraser.addStyleName("penSubMenu-selected");
-
+		setColorsEnabled(false);
 	}
 
 	@Override
@@ -149,8 +155,15 @@ public class PenSubMenu extends SubMenuPanel
 
 	private void setColorsEnabled(boolean enable) {
 		for (int i = 0; i < btnColor.length; i++) {
-			btnColor[i].setStyleName("disabled");
+			btnColor[i].removeStyleName("penSubMenu-selected");
+			if (enable) {
+				btnColor[i].removeStyleName("disabled");
+			} else {
+				btnColor[i].addStyleName("disabled");
+
+			}
 		}
+		colorsEnabled = enable;
 
 	}
 	private GeoElement getPenGeo() {
