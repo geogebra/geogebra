@@ -142,7 +142,8 @@ public class AlgoDependentPoint extends AlgoElement
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		GeoElement left = (GeoElement) P.getDefinition().getLeft();
 		// GeoElement right = (GeoElement) root.getRight();
 		if (left != null) {

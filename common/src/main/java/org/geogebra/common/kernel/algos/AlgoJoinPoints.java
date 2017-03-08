@@ -199,7 +199,8 @@ public class AlgoJoinPoints extends AlgoElement
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (botanaVars != null) {
 			return botanaVars;
 		}

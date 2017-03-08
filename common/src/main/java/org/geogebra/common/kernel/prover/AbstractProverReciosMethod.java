@@ -89,8 +89,14 @@ public abstract class AbstractProverReciosMethod {
 			Iterator<GeoElement> it = freePoints.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
-				PVariable[] vars = ((SymbolicParametersBotanaAlgo) geo)
-						.getBotanaVars(geo);
+				PVariable[] vars;
+				try {
+					vars = ((SymbolicParametersBotanaAlgo) geo)
+							.getBotanaVars(geo);
+				} catch (NoSymbolicParametersException e) {
+					Log.debug("Cannot get Botana variables for " + geo);
+					return ProofResult.UNKNOWN;
+				}
 				variables.add(vars[0]);
 				variables.add(vars[1]);
 				/*

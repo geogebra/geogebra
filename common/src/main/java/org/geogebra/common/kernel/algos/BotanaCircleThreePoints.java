@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
@@ -8,7 +9,8 @@ public class BotanaCircleThreePoints {
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;
 
-	public PPolynomial[] getPolynomials(GeoElement[] input) {
+	public PPolynomial[] getPolynomials(GeoElement[] input)
+			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}

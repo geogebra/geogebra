@@ -209,12 +209,19 @@ public class NDGDetector {
 				points[i] = (GeoElement) it.next();
 				i++;
 			}
-			PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-					.getBotanaVars(points[0]);
-			PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-					.getBotanaVars(points[1]);
-			PVariable[] fv3 = ((SymbolicParametersBotanaAlgo) points[2])
-					.getBotanaVars(points[2]);
+			PVariable[] fv1, fv2, fv3;
+			try {
+				fv1 = ((SymbolicParametersBotanaAlgo) points[0])
+						.getBotanaVars(points[0]);
+				fv2 = ((SymbolicParametersBotanaAlgo) points[1])
+						.getBotanaVars(points[1]);
+				fv3 = ((SymbolicParametersBotanaAlgo) points[2])
+						.getBotanaVars(points[2]);
+
+			} catch (NoSymbolicParametersException e) {
+				Log.debug("Cannot get Botana vars during NDG detection");
+				return null;
+			}
 			// Creating the polynomial for collinearity:
 			PPolynomial coll = PPolynomial
 					.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1])
@@ -245,10 +252,17 @@ public class NDGDetector {
 				points[i] = (GeoElement) it.next();
 				i++;
 			}
-			PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-					.getBotanaVars(points[0]);
-			PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-					.getBotanaVars(points[1]);
+			PVariable[] fv1, fv2;
+			try {
+				fv1 = ((SymbolicParametersBotanaAlgo) points[0])
+						.getBotanaVars(points[0]);
+				fv2 = ((SymbolicParametersBotanaAlgo) points[1])
+						.getBotanaVars(points[1]);
+			} catch (NoSymbolicParametersException e) {
+				Log.debug("Cannot get Botana vars during NDG detection");
+				return null;
+			}
+
 			// Creating the polynomial for equality:
 			PPolynomial eq = PPolynomial
 					.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1])
@@ -275,17 +289,23 @@ public class NDGDetector {
 			GeoElement geo = it.next();
 			if (geo.isGeoPoint()
 					&& (geo instanceof SymbolicParametersBotanaAlgo)) {
-				PVariable x = ((SymbolicParametersBotanaAlgo) geo)
-						.getBotanaVars(geo)[0];
-				if (x.isFree()) {
-					freeXvars.add(x);
-					xvarGeo.put(x, geo);
-				}
-				PVariable y = ((SymbolicParametersBotanaAlgo) geo)
-						.getBotanaVars(geo)[1];
-				if (y.isFree()) {
-					freeYvars.add(y);
-					yvarGeo.put(y, geo);
+				PVariable x, y;
+				try {
+					x = ((SymbolicParametersBotanaAlgo) geo)
+							.getBotanaVars(geo)[0];
+					if (x.isFree()) {
+						freeXvars.add(x);
+						xvarGeo.put(x, geo);
+					}
+					y = ((SymbolicParametersBotanaAlgo) geo)
+							.getBotanaVars(geo)[1];
+					if (y.isFree()) {
+						freeYvars.add(y);
+						yvarGeo.put(y, geo);
+					}
+				} catch (NoSymbolicParametersException e) {
+					Log.debug("Cannot get Botana vars during NDG detection");
+					return null;
 				}
 			}
 		}
@@ -384,14 +404,21 @@ public class NDGDetector {
 					i++;
 				}
 
-				PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-						.getBotanaVars(points[0]);
-				PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-						.getBotanaVars(points[1]);
-				PVariable[] fv3 = ((SymbolicParametersBotanaAlgo) points[2])
-						.getBotanaVars(points[0]);
-				PVariable[] fv4 = ((SymbolicParametersBotanaAlgo) points[3])
-						.getBotanaVars(points[1]);
+				PVariable[] fv1, fv2, fv3, fv4;
+				try {
+					fv1 = ((SymbolicParametersBotanaAlgo) points[0])
+							.getBotanaVars(points[0]);
+					fv2 = ((SymbolicParametersBotanaAlgo) points[1])
+							.getBotanaVars(points[1]);
+					fv3 = ((SymbolicParametersBotanaAlgo) points[2])
+							.getBotanaVars(points[0]);
+					fv4 = ((SymbolicParametersBotanaAlgo) points[3])
+							.getBotanaVars(points[1]);
+				} catch (NoSymbolicParametersException e) {
+					Log.debug("Cannot get Botana vars during NDG detection");
+					return null;
+				}
+
 				// Creating the polynomial for perpendicularity:
 				PPolynomial eq = PPolynomial
 						.perpendicular(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0],
@@ -443,12 +470,19 @@ public class NDGDetector {
 			it = freePointsSet.iterator();
 			while (it.hasNext()) {
 				points[1] = points[3] = it.next();
-				PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-						.getBotanaVars(points[0]);
-				PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-						.getBotanaVars(points[1]);
-				PVariable[] fv3 = ((SymbolicParametersBotanaAlgo) points[2])
-						.getBotanaVars(points[2]);
+				PVariable[] fv1, fv2, fv3;
+				try {
+					fv1 = ((SymbolicParametersBotanaAlgo) points[0])
+							.getBotanaVars(points[0]);
+					fv2 = ((SymbolicParametersBotanaAlgo) points[1])
+							.getBotanaVars(points[1]);
+					fv3 = ((SymbolicParametersBotanaAlgo) points[2])
+							.getBotanaVars(points[2]);
+				} catch (NoSymbolicParametersException e) {
+					Log.debug("Cannot get Botana vars during NDG detection");
+					return null;
+				}
+
 				// Creating the polynomial for being isosceles:
 				PPolynomial eq = PPolynomial.equidistant(fv1[0], fv1[1], fv2[0],
 						fv2[1], fv3[0], fv3[1]).substitute(substitutions);

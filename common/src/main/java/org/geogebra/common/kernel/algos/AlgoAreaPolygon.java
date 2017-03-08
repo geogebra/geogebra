@@ -92,7 +92,8 @@ public class AlgoAreaPolygon extends AlgoElement
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		GeoPointND[] pointsOfPolygon = polygon.getPoints();
 		if (botanaVars == null) {
 			botanaVars = new PVariable[pointsOfPolygon.length * 2];

@@ -1776,7 +1776,8 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)

@@ -2731,7 +2731,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
@@ -2746,9 +2747,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				Log.trace("Free point " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}
+			return botanaVars;
 		}
-
-		return botanaVars;
+		Log.debug("There is no implementation yet for " + algoParent);
+		throw new NoSymbolicParametersException();
 	}
 
 	@Override

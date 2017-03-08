@@ -1798,7 +1798,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaVars(this);

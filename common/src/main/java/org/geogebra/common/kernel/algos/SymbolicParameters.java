@@ -263,8 +263,10 @@ public class SymbolicParameters {
 	 * @param input
 	 *            Two EV points
 	 * @return List of Botana variables (4 elements)
+	 * @throws NoSymbolicParametersException
 	 */
-	public static PVariable[] addBotanaVarsJoinPoints(GeoElementND[] input) {
+	public static PVariable[] addBotanaVarsJoinPoints(GeoElementND[] input)
+			throws NoSymbolicParametersException {
 		PVariable[] botanaVars = new PVariable[4];
 		PVariable[] line1vars, line2vars;
 		line1vars = ((SymbolicParametersBotanaAlgo) input[0])
@@ -288,9 +290,11 @@ public class SymbolicParameters {
 	 * @param botanaVars
 	 *            Botana variables for the new point (midpoint)
 	 * @return the polynomials (2 elements)
+	 * @throws NoSymbolicParametersException
 	 */
 	public static PPolynomial[] botanaPolynomialsMidpoint(GeoElement P,
-			GeoElement Q, PVariable[] botanaVars) {
+			GeoElement Q, PVariable[] botanaVars)
+			throws NoSymbolicParametersException {
 		PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
 		PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars(Q);
 		PPolynomial[] botanaPolynomials = new PPolynomial[2];

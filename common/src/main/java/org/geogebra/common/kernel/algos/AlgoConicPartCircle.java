@@ -149,7 +149,8 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircle();
 		}

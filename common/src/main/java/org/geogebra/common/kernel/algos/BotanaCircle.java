@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class BotanaCircle {
 	private PVariable[] botanaVars;
 
-	public PVariable[] getBotanaVars(GeoElementND P, GeoElementND M) {
+	public PVariable[] getBotanaVars(GeoElementND P, GeoElementND M)
+			throws NoSymbolicParametersException {
 		if (botanaVars == null) {
 			PVariable[] circle1vars, centerVars;
 			circle1vars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);

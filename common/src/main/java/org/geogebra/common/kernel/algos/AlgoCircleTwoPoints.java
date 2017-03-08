@@ -86,7 +86,8 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	 */
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircle();
 		}

@@ -743,8 +743,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 	/**
 	 * @return string for giac from input expression
+	 * @throws NoSymbolicParametersException
 	 */
-	public String getStrForGiac() {
+	public String getStrForGiac() throws NoSymbolicParametersException {
 		String[] labels = new String[allSegmentsFromExpression.size()];
 		extraPolys.clear();
 		if (botanaVars == null) {

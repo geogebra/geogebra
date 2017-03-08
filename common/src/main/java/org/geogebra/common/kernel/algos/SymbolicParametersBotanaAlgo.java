@@ -19,8 +19,11 @@ public interface SymbolicParametersBotanaAlgo {
 	 * @param geo
 	 *            The corresponding GeoElement
 	 * @return array of the free variables
+	 * @throws NoSymbolicParametersException
+	 *             if it is not possible to obtain suitable polynomials
 	 */
-	public PVariable[] getBotanaVars(GeoElementND geo);
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException;
 
 	/**
 	 * Calculates the polynomials of an object for the Botana method

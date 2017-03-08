@@ -1087,7 +1087,8 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)

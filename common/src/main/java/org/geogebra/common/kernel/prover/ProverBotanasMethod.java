@@ -69,8 +69,10 @@ public class ProverBotanasMethod {
 	 * 
 	 * @param statement
 	 *            the input statement
+	 * @throws NoSymbolicParametersException
 	 */
-	private static void updateBotanaVarsInv(GeoElement statement) {
+	private static void updateBotanaVarsInv(GeoElement statement)
+			throws NoSymbolicParametersException {
 		if (botanaVarsInv == null) {
 			botanaVarsInv = new HashMap<List<PVariable>, GeoElement>();
 		}
@@ -144,9 +146,10 @@ public class ProverBotanasMethod {
 	 *            the underlying prover
 	 * 
 	 * @return the NDG polynomials (in denial form)
+	 * @throws NoSymbolicParametersException
 	 */
 	static PPolynomial[] create3FreePointsNeverCollinearNDG(
-			Prover prover) {
+			Prover prover) throws NoSymbolicParametersException {
 		/* Creating the set of free points first: */
 		List<GeoElement> freePoints = getFreePoints(prover.getStatement());
 		int setSize = freePoints.size();
@@ -236,9 +239,10 @@ public class ProverBotanasMethod {
 	 * @param coords
 	 *            number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
+	 * @throws NoSymbolicParametersException
 	 */
 	private static HashMap<PVariable, Long> fixValues(Prover prover,
-			int coords) {
+			int coords) throws NoSymbolicParametersException {
 
 		long[] fixCoords = { 0, 0, 0, 1 };
 
@@ -1051,7 +1055,13 @@ public class ProverBotanasMethod {
 			if (result != null) {
 				return;
 			}
-			updateBotanaVarsInv(statement);
+			try {
+				updateBotanaVarsInv(statement);
+			} catch (NoSymbolicParametersException e) {
+				Log.debug("Botana vars cannot be inverted");
+				result = ProofResult.UNKNOWN;
+				return;
+			}
 			if (prover.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
 				return;
 			}
@@ -1068,8 +1078,13 @@ public class ProverBotanasMethod {
 					&& proverSettings.freePointsNeverCollinear != null
 					&& proverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
-				Collections.addAll(polynomials,
-						create3FreePointsNeverCollinearNDG(prover));
+				try {
+					Collections.addAll(polynomials,
+							create3FreePointsNeverCollinearNDG(prover));
+				} catch (NoSymbolicParametersException e) {
+					Log.debug("Xxtra NDG conditions cannot be added");
+					result = ProofResult.UNKNOWN;
+				}
 			}
 		}
 	}
@@ -1134,7 +1149,13 @@ public class ProverBotanasMethod {
 			fixcoords = as.maxFixcoords;
 		}
 		if (fixcoords > 0) {
-			substitutions = fixValues(prover, fixcoords);
+			try {
+				substitutions = fixValues(prover, fixcoords);
+			} catch (NoSymbolicParametersException e) {
+				as.result = ProofResult.UNKNOWN;
+				Log.debug("Cannot add fix values");
+				return as.result;
+			}
 			Log.debug("substitutions: " + substitutions);
 		}
 
@@ -1401,8 +1422,14 @@ public class ProverBotanasMethod {
 		for (GeoElement geo : (tracer).getAllPredecessors()) {
 			if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
 
-				PVariable[] vars = ((SymbolicParametersBotanaAlgo) geo)
-						.getBotanaVars(geo);
+				PVariable[] vars;
+				try {
+					vars = ((SymbolicParametersBotanaAlgo) geo)
+							.getBotanaVars(geo);
+				} catch (NoSymbolicParametersException e) {
+					Log.debug("Cannot get Botana variables for " + geo);
+					return null;
+				}
 
 				GeoLine l = (GeoLine) geo;
 
@@ -1492,8 +1519,14 @@ public class ProverBotanasMethod {
 		 */
 		for (GeoElement freePoint : freePoints) {
 			freePoint.addToUpdateSetOnly(callerAlgo);
-			PVariable[] vars = ((SymbolicParametersBotanaAlgo) freePoint)
-					.getBotanaVars(freePoint);
+			PVariable[] vars;
+			try {
+				vars = ((SymbolicParametersBotanaAlgo) freePoint)
+						.getBotanaVars(freePoint);
+			} catch (NoSymbolicParametersException e1) {
+				Log.debug("Cannot get Botana variables for " + freePoint);
+				return null;
+			}
 			boolean condition = !mover.equals(freePoint);
 			if (!implicit) {
 				condition &= !tracer.equals(freePoint);

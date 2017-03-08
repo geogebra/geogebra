@@ -213,11 +213,11 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
-		if (botanaVars != null) {
-			return botanaVars;
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (botanaVars == null) {
+			botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		}
-		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
