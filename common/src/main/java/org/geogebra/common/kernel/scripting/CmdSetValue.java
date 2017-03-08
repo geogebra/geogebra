@@ -133,10 +133,18 @@ public class CmdSetValue extends CmdScripting {
 			while (it.hasNext()) {
 				GeoElement geo2 = it.next();
 				if (geo2.isGeoList()) {
-					GeoList gl = (GeoList) geo2;
+					final GeoList gl = (GeoList) geo2;
 					for (int i = 0; i < gl.size(); i++) {
 						if (gl.get(i) == geo) {
-							gl.updateRepaint();
+
+							// avoid ConcurrentModificationException in desktop
+							kernel.getApplication().invokeLater(new Runnable() {
+								@Override
+								public void run() {
+
+									gl.updateRepaint();
+								}
+							});
 						}
 					}
 				}
