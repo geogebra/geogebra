@@ -1,4 +1,5 @@
 /* -*- mode:C++ ; compile-command: "g++ -I.. -I../include -I.. -g -c -fno-strict-aliasing -DGIAC_GENERIC_CONSTANTS -DHAVE_CONFIG_H -DIN_GIAC -Wall cocoa.cc" -*- */
+// Thanks to Zoltan Kovacs for motivating this work, in order to improve geogebra theorem proving
 // Special thanks to Anna M. Bigatti from CoCoA team for insightfull discussions on how to choose an order for elimination
 #include "giacPCH.h"
 
@@ -12545,8 +12546,8 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	}
 	polymod<tdeg_t> TMP1(order,dim),TMP2(order,dim);
 	zpolymod<tdeg_t> TMP;
-	paire bk=B[smallposv.front()];
-	B.erase(B.begin()+smallposv.front());
+	paire bk=B[smallposv.back()];
+	B.erase(B.begin()+smallposv.back());
 	if (!learning && pairs_reducing_to_zero && learned_position<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[learned_position]){
 	  if (debug_infolevel>2)
 	    CERR << bk << " learned " << learned_position << endl;

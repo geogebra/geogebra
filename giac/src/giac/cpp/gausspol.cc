@@ -2365,7 +2365,7 @@ namespace giac {
   polynome pow(const polynome & p,const gen & n){
     polynome res(p.dim);
     if (!n.is_integer()){
-#ifdef NO_SDTEXCEPT
+#ifdef NO_STDEXCEPT
       res.coord.push_back(monomial<gen>(gensizeerr(gettext("gausspol.cc/pow")),p.dim));
       return res;
 #else
