@@ -21,6 +21,7 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Fast polynomial evaluation of Function
  */
+@SuppressWarnings("deprecation")
 public class PolyFunction
 		implements RealRootDerivFunction, DifferentiableUnivariateFunction {
 	/** coefficients */

@@ -3,7 +3,21 @@ package org.geogebra.common.kernel.arithmetic;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Functions for csymbolic computation with vectors
+ */
 public class VectorArithmetic {
+	/**
+	 * @param kernel
+	 *            kernel for output expression
+	 * @param left
+	 *            left subtree
+	 * @param right
+	 *            right subtree
+	 * @param operation
+	 *            operation
+	 * @return x(left)*x(right)+y(left)*y(right)
+	 */
 	static ExpressionNode expandScalarProduct(Kernel kernel,
 			ExpressionValue left, ExpressionValue right, Operation operation) {
 		if (operation == Operation.MULTIPLY
