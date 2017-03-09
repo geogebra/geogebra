@@ -5,11 +5,10 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelLabel;
-import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
@@ -29,7 +28,7 @@ public class CASTableCellW extends VerticalPanel {
 	private InputPanel inputPanel;
 	private FlowPanel outputPanel;
 	private String textBeforeEdit;
-	private AutoCompleteW textField;
+	private CASEditorW textField;
 	private String outputText;
 	private Label commentLabel;
 
@@ -129,12 +128,12 @@ public class CASTableCellW extends VerticalPanel {
 	 * Remove editor and show input normally, update the CAS cell input
 	 */
 	public void stopEditing() {
+		Log.debug("stop");
 		if (!textBeforeEdit.equals(textField.getText())) {
 			setInput();
 			inputPanel.setText(textField.getText());
-			if (textField instanceof EquationEditorListener) {
-				inputPanel.setLaTeX(((EquationEditorListener) textField)
-						.getLaTeX());
+			if (textField != null) {
+				inputPanel.setLaTeX(textField.getLaTeX());
 			}
 		}
 		clear();
@@ -153,9 +152,8 @@ public class CASTableCellW extends VerticalPanel {
 
 	public void setInput() {
 		casCell.setInput(textField.getText());
-		if (textField instanceof EquationEditorListener) {
-			casCell.setLaTeXInput(((EquationEditorListener) textField)
-					.getLaTeX());
+		if (textField != null) {
+			casCell.setLaTeXInput(textField.getLaTeX());
 		}
 	}
 

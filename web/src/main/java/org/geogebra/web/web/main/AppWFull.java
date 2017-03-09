@@ -427,7 +427,6 @@ public abstract class AppWFull extends AppW {
 	 */
 	@Override
 	public void examWelcome(){
-		Log.printStacktrace("EXAM DIALOG");
 		if (isExam() && getExam().getStart() < 0) {
 			this.closePerspectivesPopup();
 

@@ -27,8 +27,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -108,6 +110,15 @@ public class CASLaTeXEditor extends FlowPanel
 	}
 
 	@Override
+	public String getLaTeX() {
+		if (mf == null) {
+			return "";
+		}
+		TeXSerializer s = new TeXSerializer(new MetaModel());
+		return s.serialize(mf.getFormula());
+	}
+
+	@Override
 	public String getInput() {
 		return getText();
 	}
@@ -182,9 +193,6 @@ public class CASLaTeXEditor extends FlowPanel
 		setWidget(focus ? mf.asWidget()
 				: dummy);
 		mf.setFocus(focus);
-		if (focus) {
-			Log.printStacktrace("");
-		}
 
 	}
 

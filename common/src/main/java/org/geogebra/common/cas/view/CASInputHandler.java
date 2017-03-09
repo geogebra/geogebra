@@ -824,13 +824,15 @@ public class CASInputHandler {
 
 		// check success
 		success = !cellValue.isError();
-		if (startEditing || !success) {
+		if (startEditing) {
 			// start editing row below successful evaluation
 
 			boolean goDown = success &&
 			// we are in last row or next row is empty
 					(isLastRow || casView.isRowOutputEmpty(rowNum + 1));
 			consoleTable.startEditingRow(goDown ? rowNum + 1 : rowNum);
+		} else if (!success) {
+			return true;
 		}
 
 		return success;
