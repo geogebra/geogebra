@@ -86,6 +86,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 //				- this.getAbsoluteLeft();
 		int move = this.getOffsetWidth(); 
 		int height = this.getOffsetHeight();
+		Log.debug("move: " + move + " height: " + height);
 		this.setVisible(oldVisible);
 
 				
@@ -120,10 +121,14 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	
 	public void updateStyleBar(){
         //ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
-		ArrayList<GeoElement> selGeos = app.getJustCreatedGeos();
-		if(selGeos == null || selGeos.size() == 0){
+		ArrayList<GeoElement> selGeos;
+		
+		if(app.getMode() == EuclidianConstants.MODE_MOVE){
 			selGeos = app.getSelectionManager().getSelectedGeos();
+		} else {
+			selGeos = app.getJustCreatedGeos();
 		}
+		
 		
 		GeoElement geoAddStylebar = null;
 		if (selGeos != null && selGeos.size() > 0){
