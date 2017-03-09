@@ -37,6 +37,9 @@ public class TeXSerializer extends SerializerAdapter {
 
     @Override
     public void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
+		if (mathCharacter.getUnicode() == '\u200b') {
+			return;
+		}
         // jmathtex v0.7: incompatibility
 		if (mathCharacter == currentSelStart) {
 			stringBuilder.append(selection_start);
