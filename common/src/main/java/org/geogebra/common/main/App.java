@@ -180,7 +180,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * initial number of columns for spreadsheet
 	 */
-	public static final int SPREADSHEET_INI_COLS = 26;
+	public static final int SPREADSHEET_INI_COLS = 10;
 	/**
 	 * initial number of rows for spreadsheet
 	 */
