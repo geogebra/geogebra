@@ -114,7 +114,7 @@ public class Kernel {
 	 */
 	final public static int MAX_SPREADSHEET_COLUMNS_WEB = 200;
 	/** Maximal number of spreadsheet rows */
-	final public static int MAX_SPREADSHEET_ROWS_WEB = 200;
+	final public static int MAX_SPREADSHEET_ROWS_WEB = 350;
 
 	/** string for +- */
 	final public static String STRING_PLUS_MINUS = "\u00B1 ";
