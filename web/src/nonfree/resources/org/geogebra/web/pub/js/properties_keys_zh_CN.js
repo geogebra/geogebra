@@ -1734,7 +1734,7 @@ __GGB__keysVar.zh_CN.menu = {
     "File.epub": "\u6587\u4ef6: epub",
     "File.iBook": "\u6587\u4ef6: iBook",
     "FileBrowser": "\u6587\u4ef6\u6d4f\u89c8\u5668",
-    "FileLoadingError": "Sorry, the file could not be loaded. Please email support@geogebra.org",
+    "FileLoadingError": "\u5bf9\u4e0d\u8d77, \u65e0\u6cd5\u52a0\u8f7d\u6587\u4ef6. \u8bf7\u7ed9 support@geogebra.org \u53d1\u9001\u7535\u5b50\u90ae\u4ef6",
     "FileSystem": "\u6587\u4ef6\u7cfb\u7edf",
     "Filename": "\u6587\u4ef6\u540d",
     "Files": "\u6587\u4ef6",
