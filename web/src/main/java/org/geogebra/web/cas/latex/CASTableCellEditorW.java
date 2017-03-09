@@ -262,7 +262,7 @@ public class CASTableCellEditorW extends Label implements
 		String input1 = EquationEditor.stopCommon(input2);
 		// App.debug("STOPPED" + input1 + "," + latex);
 		this.editor.addToHistory(input1, dollarFix(latex));
-		this.ml.handleEnterKey(false, false, app);
+		this.ml.handleEnterKey(false, false, app, true);
 		return false;
 	}
 

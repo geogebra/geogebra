@@ -185,7 +185,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 						if (!cellValue.isInputEmpty()
 								&& cellValue.isOutputEmpty()) {
 							getConsoleTable().startEditingRow(rows - 1);
-							processInput("Evaluate");
+							processInput("Evaluate", true);
 							ensureOneEmptyRow();
 							getConsoleTable()
 									.startEditingRow(getRowCount() - 1);

@@ -182,6 +182,9 @@ public class CASLaTeXEditor extends FlowPanel
 		setWidget(focus ? mf.asWidget()
 				: dummy);
 		mf.setFocus(focus);
+		if (focus) {
+			Log.printStacktrace("");
+		}
 
 	}
 
@@ -191,7 +194,7 @@ public class CASLaTeXEditor extends FlowPanel
 		if (sug.needsEnterForSuggestion()) {
 			return;
 		}
-		this.controller.handleEnterKey(false, false, app);
+		this.controller.handleEnterKey(false, false, app, b);
 	}
 
 	@Override

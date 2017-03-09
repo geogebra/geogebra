@@ -136,10 +136,10 @@ public abstract class CASView implements Editing, SetLabels {
 	 */
 	@Override
 	public void setMode(int mode, ModeSetter m) {
-		if (m != ModeSetter.TOOLBAR) {
+		if (m != ModeSetter.TOOLBAR && m != ModeSetter.CAS_BLUR) {
 			return;
 		}
-
+		boolean focus = m == ModeSetter.TOOLBAR;
 		String command = EuclidianConstants.getModeTextSimple(mode); // e.g.
 		// "Derivative"
 		boolean backToEvaluate = true;
@@ -149,7 +149,7 @@ public abstract class CASView implements Editing, SetLabels {
 		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
 			// no parameters, keep mode
 			backToEvaluate = false;
-			processInput(command);
+			processInput(command, focus);
 			break;
 		case EuclidianConstants.MODE_CAS_EXPAND:
 		case EuclidianConstants.MODE_CAS_FACTOR:
@@ -158,7 +158,7 @@ public abstract class CASView implements Editing, SetLabels {
 		case EuclidianConstants.MODE_CAS_SOLVE:
 
 			// no parameters
-			processInput(command);
+			processInput(command, focus);
 			break;
 		case EuclidianConstants.MODE_DELETE:
 			// make sure we don't switch to evaluate if delete tool is used in
@@ -191,7 +191,7 @@ public abstract class CASView implements Editing, SetLabels {
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 		case EuclidianConstants.MODE_CAS_INTEGRAL:
-			processInput(command);
+			processInput(command, focus);
 			break;
 		default:
 			backToEvaluate = false;
@@ -331,11 +331,11 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @param ggbcmd
 	 *            command name
 	 */
-	public void processInput(String ggbcmd) {
+	public void processInput(String ggbcmd, boolean focus) {
 		getApp().getCommandDictionaryCAS(); // #5456 make sure we have the right
 											// dict
 		// before evaluating
-		getInputHandler().processCurrentRow(ggbcmd);
+		getInputHandler().processCurrentRow(ggbcmd, focus);
 		getApp().storeUndoInfo();
 	}
 

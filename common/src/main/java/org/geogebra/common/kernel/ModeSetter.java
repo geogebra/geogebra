@@ -13,6 +13,6 @@ public enum ModeSetter {
 	/**
 	 * exit mode set temporarily
 	 */
-	EXIT_TEMPORARY_MODE
+	EXIT_TEMPORARY_MODE, CAS_BLUR
 
 }

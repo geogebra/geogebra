@@ -69,7 +69,7 @@ public class CASTableCellControllerD extends CASTableCellController
 			// copied/selected etc..
 			return true;
 		case KeyEvent.VK_ENTER:
-			handleEnterKey(AppD.isControlDown(e), AppD.isAltDown(e), app);
+			handleEnterKey(AppD.isControlDown(e), AppD.isAltDown(e), app, true);
 			consumeEvent = true;
 			// needUndo remains false because handleEnterKey handles Undo!
 			break;

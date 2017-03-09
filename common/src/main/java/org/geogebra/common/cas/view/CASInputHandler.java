@@ -54,7 +54,7 @@ public class CASInputHandler {
 	 * @param command
 	 *            command like "Factor" or "Integral"
 	 */
-	public void processCurrentRow(String command) {
+	public void processCurrentRow(String command, boolean focus) {
 		String ggbcmd = command;
 		int selRow = consoleTable.getSelectedRow();
 		if (selRow < 0) {
@@ -319,7 +319,8 @@ public class CASInputHandler {
 				// evaluate assignment row
 				boolean needInsertRow = !isEvaluate && !isKeepInput
 						&& !isNumeric;
-				boolean success = processRowThenEdit(selRow, !needInsertRow);
+				boolean success = processRowThenEdit(selRow,
+						!needInsertRow && focus);
 
 				// insert a new row below with the assignment label and process
 				// it
@@ -352,7 +353,7 @@ public class CASInputHandler {
 					}
 					newRowValue.setInput(sb.toString());
 					casView.insertRow(newRowValue, true);
-					processCurrentRow(ggbcmd1);
+					processCurrentRow(ggbcmd1, focus);
 				}
 
 				return;
@@ -384,7 +385,7 @@ public class CASInputHandler {
 			cellValue.setError(ex.getKey());
 		}
 		// process given row and below, then start editing
-		processRowThenEdit(selRow, true);
+		processRowThenEdit(selRow, focus);
 	}
 
 	// function to handle NSolve input for non-polynomial equations
