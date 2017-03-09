@@ -244,7 +244,7 @@ public abstract class CASSubDialog {
 			// make sure pure substitute is not evaluated
 			currCell.setKeepInputUsed(keepInput);
 
-			getCASView().processRowThenEdit(editRow, true);
+			getCASView().processRowThenEdit(editRow);
 			// table.startEditingRow(editRow + 1);
 			return true;
 		} catch (Throwable e) {

@@ -345,11 +345,9 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @see CASInputHandler#processRowThenEdit(int, boolean)
 	 * @param row
 	 *            row index
-	 * @param flag
-	 *            start editing
 	 */
-	public void processRowThenEdit(int row, boolean flag) {
-		getInputHandler().processRowThenEdit(row, flag);
+	public void processRowThenEdit(int row) {
+		getInputHandler().processRowThenEdit(row, true);
 	}
 
 	/**

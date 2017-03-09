@@ -124,7 +124,7 @@ public class CASDropTargetListener implements DropTargetListener {
 							substitution.length() - 1);
 				}
 				newcell.setEvalComment(substitution);
-				view.processRowThenEdit(newcell.getRowNumber(), true);
+				view.processRowThenEdit(newcell.getRowNumber());
 
 				app.storeUndoInfo();
 				return;
