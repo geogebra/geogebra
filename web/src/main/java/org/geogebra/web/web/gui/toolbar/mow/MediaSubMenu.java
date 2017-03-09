@@ -4,6 +4,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MediaSubMenu extends SubMenuPanel {
 
@@ -17,7 +18,13 @@ public class MediaSubMenu extends SubMenuPanel {
 		addModesToToolbar(ToolBar.getMOWMediaToolBarDefString());
 	}
 
-
+	@Override
+	public void deselectAllCSS() {
+		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+			Widget w = contentPanel.getWidget(i);
+			w.getElement().setAttribute("selected", "false");
+		}
+	}
 
 
 	@Override

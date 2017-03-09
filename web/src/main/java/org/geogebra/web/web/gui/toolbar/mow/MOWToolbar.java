@@ -181,7 +181,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		} else if (source == moveButton) {
 			app.setMoveMode();
 			if (currentMenu != null) {
-				currentMenu.setCSStoSelected(source.getElement());
+				// currentMenu.setCSStoSelected(source.getElement());
 			}
 		} else if (source == penButton) {
 			submenuHeight = DEFAULT_SUBMENU_HEIGHT;

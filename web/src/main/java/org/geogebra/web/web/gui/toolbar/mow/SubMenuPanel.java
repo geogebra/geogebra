@@ -12,7 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.util.StandardButton;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -107,13 +106,14 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 	}
 
 	public void onOpen() {
-
+		deselectAllCSS();
 	}
 
 	@Override
 	public void onClick(Widget source) {
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
-		setCSStoSelected(source.getElement());
+		setCSStoSelected(source);
+		Log.debug("setCSS - mode: " + mode);
 		app.setMode(mode);
 
 	}
@@ -124,14 +124,19 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 	}
 
-	public void setCSStoSelected(Element e) {
-		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
-			Element w = contentPanel.getWidget(i).getElement();
-			if (w != e) {
-				w.setAttribute("selected", "false");
+	public void setCSStoSelected(Widget source) {
+
+		FlowPanel parent = (FlowPanel) source.getParent();
+		for (int i = 0; i < parent.getWidgetCount(); i++) {
+			Widget w = parent.getWidget(i);
+			if (w != source) {
+				w.getElement().setAttribute("selected", "false");
 			} else {
-				w.setAttribute("selected", "true");
+				w.getElement().setAttribute("selected", "true");
 			}
 		}
+	}
+
+	public void deselectAllCSS() {
 	}
 }

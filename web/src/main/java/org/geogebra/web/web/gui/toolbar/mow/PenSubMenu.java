@@ -166,8 +166,8 @@ public class PenSubMenu extends SubMenuPanel
 				btnColor[i].addStyleName("penSubMenu-selected");
 				getPenGeo().setObjColor(penColor[i]);
 				// set background of pen icon to selected color
-				pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
-						"background-color: " + penColor[i].toString());
+				// pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
+				// "background-color: " + penColor[i].toString());
 
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");

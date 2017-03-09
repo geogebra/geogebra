@@ -1,11 +1,13 @@
 package org.geogebra.web.web.gui.toolbar.mow;
 
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ToolsSubMenu extends SubMenuPanel {
 
@@ -20,6 +22,7 @@ public class ToolsSubMenu extends SubMenuPanel {
 		}
 	}
 
+	private FlowPanel panelRow;
 	private GroupPanel shapes;
 	private GroupPanel points;
 	public ToolsSubMenu(AppW app) {
@@ -35,9 +38,28 @@ public class ToolsSubMenu extends SubMenuPanel {
 		points = new GroupPanel(4);
 		addModesToToolbar(shapes, ToolBar.getMOWToolsShapesDefString());
 		addModesToToolbar(points, ToolBar.getMOWToolsPointsDefString());
-		contentPanel.add(LayoutUtilW.panelRow(shapes, points));
+		panelRow = LayoutUtilW.panelRow(shapes, points);
+		contentPanel.add(panelRow);
 	}
 
+	@Override
+	public void deselectAllCSS() {
+		Log.debug("widget count: " + panelRow.getWidgetCount());
+
+		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
+			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
+			for (int j = 0; j < w.getWidgetCount(); j++) {
+				w.getWidget(j).getElement().setAttribute("selected", "false");
+			}
+
+		}
+	}
+
+	@Override
+	public void setCSStoSelected(Widget source) {
+		deselectAllCSS();
+		super.setCSStoSelected(source);
+	}
 
 	@Override
 	protected void createInfoPanel() {
