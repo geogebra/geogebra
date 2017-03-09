@@ -3466,7 +3466,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	@Override
 	public int getMaxSpreadsheetColumnsVisible() {
-		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
+		return Kernel.MAX_SPREADSHEET_COLUMNS_WEB;
 	}
 
 	@Override
