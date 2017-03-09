@@ -152,6 +152,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
             //in probability calculator dr can be null at this point
             if (dr == null){
             	setVisible(false);
+            	return;
             }
             
             if(dr instanceof DrawLine){
