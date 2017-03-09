@@ -338,7 +338,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
-		boolean inputBoxFocused = false;
+		final boolean inputBoxFocused = false;
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
 			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
@@ -701,6 +701,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public void closePopups() {
+		app.onUnhandledClick();
 		app.closePerspectivesPopup();
 		app.closePopups();
 	}

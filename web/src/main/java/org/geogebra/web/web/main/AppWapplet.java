@@ -313,21 +313,26 @@ public class AppWapplet extends AppWFull {
 						@Override
 						public void onClickStart(int x, int y,
 								final PointerEventType type) {
-							updateAVStylebar();
-
-							if (!CancelEventTimer.cancelKeyboardHide()) {
-								Timer timer = new Timer() {
-									@Override
-									public void run() {
-										getAppletFrame().keyBoardNeeded(false,
-												null);
-									}
-								};
-								timer.schedule(0);
-							}
+							onUnhandledClick();
 						}
 					});
 		}
+	}
+
+	@Override
+	public void onUnhandledClick() {
+		updateAVStylebar();
+
+		if (!CancelEventTimer.cancelKeyboardHide()) {
+			Timer timer = new Timer() {
+				@Override
+				public void run() {
+					getAppletFrame().keyBoardNeeded(false, null);
+				}
+			};
+			timer.schedule(0);
+		}
+
 	}
 
 	@Override

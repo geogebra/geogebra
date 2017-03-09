@@ -111,6 +111,7 @@ public class MsZoomer {
 	}
 
 	private void singleUp(double x, double y, int type, int modifiers) {
+		this.tc.getLongTouchManager().cancelTimer();
 		PointerEvent e = new PointerEvent(x, y, types[type], off,
 				false);
 		adjust(e, modifiers);
@@ -126,7 +127,8 @@ public class MsZoomer {
 
 	private void startLongTouch(int x, int y) {
 		if (this.tc.getMode() == EuclidianConstants.MODE_MOVE) {
-			this.tc.getLongTouchManager().scheduleTimer(tc, x, y);
+			this.tc.getLongTouchManager().scheduleTimer(tc, off.touchEventX(x),
+					off.touchEventY(y));
 		}
 	}
 
@@ -192,6 +194,7 @@ public class MsZoomer {
 				.addEventListener(
 						fix("PointerMove"),
 						function(e) {
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								if ($wnd.second.id === e.pointerId) {
 									$wnd.second.x = e.x;
@@ -215,7 +218,7 @@ public class MsZoomer {
 								e.preventDefault();
 							}
 							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::checkMoveLongTouch()();
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
+							
 						});
 
 		element
@@ -234,9 +237,11 @@ public class MsZoomer {
 								$wnd.first.x = e.x;
 								$wnd.first.y = e.y;
 							}
-							if(override){
+							//prevent touch but not mouse: make sure focus is moved
+							if(override && getType(e) != 0){
 								e.preventDefault();
 							}
+							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								zoomer
 										.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,
@@ -248,7 +253,7 @@ public class MsZoomer {
 							if (e.pointerType == 2 || e.pointerType == "touch") {
 								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
 							}
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
+							
 
 						});
 		function removePointer(out){

@@ -3554,4 +3554,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public boolean nativeCAS() {
 		return Browser.externalCAS();
 	}
+
+	public void onUnhandledClick() {
+		// TODO Auto-generated method stub
+
+	}
 }
