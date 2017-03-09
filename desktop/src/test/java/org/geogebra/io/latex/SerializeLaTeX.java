@@ -86,7 +86,11 @@ public class SerializeLaTeX {
 		checkCannon("(1; 2)", "(1;2)");
 		checkCannon("(1, 2, 3)", "(1,2,3)");
 		checkCannon("(1; 2; 3)", "(1;2;3)");
+	}
 
+	@Test
+	public void testMultiply() {
+		checkCannon("t (1,2)", "t (1,2)");
 	}
 
 	@Test
