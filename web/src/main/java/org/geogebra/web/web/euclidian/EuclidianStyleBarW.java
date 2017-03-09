@@ -512,6 +512,17 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		}
 	}
+	
+	/*
+	 * Some style button removed from dynamic stylebar. Those will be shown in the default stylebar yet.
+	 */
+	private boolean showAllStyleButtons(){
+		return !app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar();
+	}
+	
+	protected boolean isDynamicStylebar(){
+		return false;
+	}
 
 	protected boolean isBackground() {
 		return (btnShowGrid != null && btnShowGrid.isVisible());
@@ -715,7 +726,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 				        .checkGeosForCaptionStyle(geos, mode, app);
-				boolean geosOK = geo != null;
+				boolean geosOK = geo != null && showAllStyleButtons();
 				this.setVisible(geosOK);
 
 				if (geosOK) {
@@ -1021,7 +1032,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixPosition(geos);
+				        .checkGeosForFixPosition(geos) && showAllStyleButtons();
 				setVisible(geosOK);
 				if (geosOK) {
 					btnFixPosition.setValue(EuclidianStyleBarStatic
@@ -1043,7 +1054,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixObject(geos);
+				        .checkGeosForFixObject(geos) && showAllStyleButtons();
 				setVisible(geosOK);
 				if (geosOK) {
 					btnFixObject.setValue(EuclidianStyleBarStatic
