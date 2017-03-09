@@ -47,6 +47,7 @@ public class PenSubMenu extends SubMenuPanel
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
 		pen = createButton(EuclidianConstants.MODE_PEN);
+		pen.addStyleName("MOWpenButton");
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser));
 	}
@@ -164,6 +165,9 @@ public class PenSubMenu extends SubMenuPanel
 			if (idx == i) {
 				btnColor[i].addStyleName("penSubMenu-selected");
 				getPenGeo().setObjColor(penColor[i]);
+				// set background of pen icon to selected color
+				pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
+						"background-color: " + penColor[i].toString());
 
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");
