@@ -484,7 +484,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			add(btnDeleteSizes[i]);
 		}
 
-		addMenuButton();
+		if (showAllStyleButtons()) {
+			addMenuButton();
+		}
 
 		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (getViewButton() == null) {
