@@ -389,17 +389,21 @@ void quotes(MathContainer currentField) :
 void mathCharacter(MathContainer currentField) :
 {
     Token t = null;
+    Token sp = null; 
 }
 {
     (t = <ELSE>| t= < OPERATOR >) {
         currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
     }
     |
-    (( <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {
+    (( sp = <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {
+      	if(sp!=null)      	{
+      	  System.out.println("space char");
+      	  currentField.addArgument(new MathCharacter(createMetaCharacter("\u200b", metaModel)));      	}
         if (t != null) {
             MetaCharacter metaCharacter = createMetaCharacter(t.image, metaModel);
             if ((metaCharacter.getType() == MetaCharacter.CHARACTER ||
-                metaCharacter.getType() == MetaCharacter.SYMBOL) && currentField.size() > 0) {
+                metaCharacter.getType() == MetaCharacter.SYMBOL) && currentField.size() > 0 && sp==null) {
                 int s = currentField.size();
                 MathComponent comp = currentField.getArgument(s - 1);
                 if (comp instanceof MathCharacter) {
