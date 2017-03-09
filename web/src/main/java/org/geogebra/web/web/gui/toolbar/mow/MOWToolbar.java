@@ -21,6 +21,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
+	private static final int DEFAULT_SUBMENU_HEIGHT = 65;
+	private static final int TOOLS_SUBMENU_HEIGHT = 100;
 	private static final int SUBMENU_ROW = 1;
 	private AppW app;
 	private StandardButton redoButton;
@@ -62,7 +64,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
 		add(subMenuPanel);
 		// hack
-		submenuHeight = 65;
+		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 
 	}
 
@@ -182,10 +184,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				currentMenu.setCSStoSelected(source.getElement());
 			}
 		} else if (source == penButton) {
+			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 			setCurrentMenu(penMenu);
 		} else if (source == toolsButton) {
+			submenuHeight = TOOLS_SUBMENU_HEIGHT;
 			setCurrentMenu(toolsMenu);
 		} else if (source == mediaButton) {
+			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 			setCurrentMenu(mediaMenu);
 		}
 	}

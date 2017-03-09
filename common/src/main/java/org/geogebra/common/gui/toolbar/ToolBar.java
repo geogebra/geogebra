@@ -269,6 +269,36 @@ public class ToolBar {
 
 		return sb.toString();
 	}
+
+	public static String getMOWToolsShapesDefString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(EuclidianConstants.MODE_SHAPE_LINE + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE + " | ");
+		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
+
+		return sb.toString();
+	}
+
+	public static String getMOWToolsPointsDefString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(EuclidianConstants.MODE_POINT + " | ");
+		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT + " | ");
+		sb.append(EuclidianConstants.MODE_ATTACH_DETACH + " | ");
+		sb.append(EuclidianConstants.MODE_INTERSECT + " | ");
+		sb.append(EuclidianConstants.MODE_MIDPOINT + " | ");
+		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER + " | ");
+		sb.append(EuclidianConstants.MODE_EXTREMUM + " | ");
+		sb.append(EuclidianConstants.MODE_ROOTS);
+
+		return sb.toString();
+	}
+
 	/**
 	 * @return The default definition of the general tool bar without macros.
 	 */
