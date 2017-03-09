@@ -773,7 +773,7 @@ public class SelectionManager {
 				} else {
 					Log.debug("[TF][TAB] next: " + next);
 					kernel.getApplication().getActiveEuclidianView()
-							.focusTextField((GeoInputBox) next);
+							.focusAndShowTextField((GeoInputBox) next);
 				}
 				break;
 			}
@@ -826,6 +826,10 @@ public class SelectionManager {
 				// make sure Input Boxes lose focus on <SHIFT><TAB>
 				if (!(lastGeo instanceof GeoInputBox)) {
 					ev.requestFocus();
+				} else {
+					kernel.getApplication().getActiveEuclidianView()
+							.focusAndShowTextField((GeoInputBox) lastGeo);
+
 				}
 
 				break;

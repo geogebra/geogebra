@@ -1461,6 +1461,9 @@ public abstract class GlobalKeyDispatcher {
 			if (geo.isGeoList()) {
 				DrawDropDownList.asDrawable(app, geo).selectCurrentItem();
 				return true;
+			} else if (geo.isGeoInputBox()) {
+				app.getActiveEuclidianView()
+						.focusAndShowTextField((GeoInputBox) geo);
 			}
 
 		}
