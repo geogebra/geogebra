@@ -1762,6 +1762,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (toolbarPanel == null) {
 			return mode;
 		}
+		if (app.has(Feature.MOW_TOOLBAR)) {
+			// TODO need to rebuild MOW gui when tool changed from code
+			return mode;
+		}
 
 		final int ret = toolbarPanel.setMode(mode, m);
 		if (this.updateToolBar != null) {
