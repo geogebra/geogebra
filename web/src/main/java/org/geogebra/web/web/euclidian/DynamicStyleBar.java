@@ -148,6 +148,12 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
         	Log.debug("add dynamic stylebar");
             EuclidianView view = app.getGuiManager().getActiveEuclidianView();
             Drawable dr = ((Drawable) view.getDrawableFor(geoAddStylebar));
+            
+            //in probability calculator dr can be null at this point
+            if (dr == null){
+            	setVisible(false);
+            }
+            
             if(dr instanceof DrawLine){
             	((DrawLine)dr).updateDynamicStylebarPosition();
             	setVisible(true);
