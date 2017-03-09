@@ -17,6 +17,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -2240,7 +2241,6 @@ public abstract class App implements UpdateSelection {
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
 		}
-		Log.debug("MODE CHANGE" + EuclidianConstants.getModeText(mode));
 		if (getGuiManager() != null) {
 			setModeFromGuiManager(mode, m);
 		} else if (euclidianView != null) {
@@ -4268,9 +4268,11 @@ public abstract class App implements UpdateSelection {
 				geoBool.updateRepaint();
 			} else if (geo.isGeoInputBox()) {
 				getActiveEuclidianView().focusTextField((GeoInputBox) geo);
-				Drawable d = (Drawable) getActiveEuclidianView()
+				DrawableND d = getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((CanvasDrawable) d).setWidgetVisible(true);
+				if (d != null) {
+					((CanvasDrawable) d).setWidgetVisible(true);
+				}
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
