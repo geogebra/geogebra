@@ -174,5 +174,10 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		this.setFocus(false);
+		// if we do not stop propagation, this will close keyboard => rebuild
+		// DOM => internal state of button is lost (hovering + capturing flag in
+		// ToggleButton), mouseUp will have no effect e.g. with axis button in
+		// EV
+		event.stopPropagation();
 	}
 }
