@@ -897,10 +897,6 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public boolean isWhiteboardActive() {
-		if (activePerspective != 6) {
-			Log.printStacktrace("[WB] activePerspective " + activePerspective);
-		}
-
 		return activePerspective == 6
 				|| "7".equals(getArticleElement().getDataParamPerspective());
 	}
