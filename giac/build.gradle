@@ -67,10 +67,9 @@ def exec_(String... script) {
 }
 
 def clangBin = exec_("xcrun", "--sdk", "iphoneos", "--find", "clang")
+def clangPath = "/usr/bin"
 if (clangBin.length() > 0) {
-    def clangPath = clangBin.substring(0, clangBin.lastIndexOf("/"))
-} else {
-    def clangPath = "/usr/bin"
+    clangPath = clangBin.substring(0, clangBin.lastIndexOf("/"))
 }
 def iphoneosSdk = exec_("xcrun", "--sdk", "iphoneos", "--show-sdk-path")
 def iphonesimulatorSdk = exec_("xcrun", "--sdk", "iphonesimulator", "--show-sdk-path")
