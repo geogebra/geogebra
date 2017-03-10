@@ -23,7 +23,7 @@ def emccCommand = "emcc"
 // You may override it by using environmental variable:
 if (System.env['EMCC'] != null) {
     emccCommand = System.env['EMCC']
-    }
+}
 // Also consider setting LLVM for the older emscripten version.
 // Emscripten should be configured before running this script, and on the first run there may be problems.
 
@@ -33,15 +33,15 @@ def LlvmGmpA = "$jsPrebuiltDir/libgmp.a"
 if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "local") {
     LlvmMpfrA = "$mpfrSourceDir/src/.libs/libmpfr.a"
     LlvmGmpA = "$gmpSourceDir/.libs/libgmp.a"
-    }
+}
 if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "emgiac") {
     LlvmMpfrA = "$emgiacSourceDir/giac/libmpfr.a"
     LlvmGmpA = "$emgiacSourceDir/giac/libgmp.a"
-    }
+}
 def emscriptenVer = '201304'
 if (System.env['EMSCRIPTEN_VER'] != null && System.env['EMSCRIPTEN_VER'] == "201505") {
     emscriptenVer = '201505'
-    }
+}
 
 def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
@@ -49,7 +49,32 @@ def emsdkDir = file('build/emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk_portable")
 def emscriptenDir = file("$emsdkRunDir/emscripten/1.30.0")
 
+import org.apache.tools.ant.taskdefs.condition.Os
+
+def exec_(String... script) {
+    if (!Os.isFamily(Os.FAMILY_MAC)) {
+        return ""
+    }
+    def retVal
+    exec {
+        commandLine script
+        standardOutput = new ByteArrayOutputStream()
+        retVal = {
+            standardOutput.toString().trim()
+        }
+    }
+    return retVal()
+}
+
+def clangBin = exec_("xcrun", "--sdk", "iphoneos", "--find", "clang")
+def clangPath = clangBin.substring(0, clangBin.lastIndexOf("/"))
+def iphoneosSdk = exec_("xcrun", "--sdk", "iphoneos", "--show-sdk-path")
+def iphonesimulatorSdk = exec_("xcrun", "--sdk", "iphonesimulator", "--show-sdk-path")
+def iphoneosPlatform = exec_("xcrun", "--sdk", "iphoneos", "--show-sdk-platform-path")
+def minIosVersion = '9.0'
+
 model {
+
     repositories {
         libs(PrebuiltLibraries) {
             mpfr {
@@ -57,82 +82,137 @@ model {
                     def arch = targetPlatform.architecture.name
                     def os = targetPlatform.operatingSystem.name
                     staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libmpfr.a")
-                    }
                 }
+            }
             gmp {
                 binaries.withType(StaticLibraryBinary) {
                     def arch = targetPlatform.architecture.name
                     def os = targetPlatform.operatingSystem.name
                     staticLibraryFile = file("src/jni/prebuilt/$os/$arch/libgmp.a")
-                    }
                 }
             }
         }
+    }
 
     platforms {
         win32 {
             architecture 'i386'
             operatingSystem 'windows'
-            }
+        }
         win64 {
             architecture 'x64'
             operatingSystem 'windows'
-            }
+        }
         linux32 { // this will be fixed in Gradle 2.4 (-> linux32)
             architecture 'i386'
             operatingSystem 'linux'
-            }
+        }
         linux64 {
             architecture 'x64'
             operatingSystem 'linux'
-            }
+        }
         osx_amd64 {
             architecture 'amd64'
             operatingSystem 'osx'
-            }
+        }
         androideabi {
             architecture 'arm'
             operatingSystem 'android'
-            }
+        }
         androidx86 {
             architecture 'x86'
             operatingSystem 'android'
-            }
         }
+        ios_armv7 {
+            architecture 'armv7'
+            operatingSystem 'ios'
+        }
+        ios_arm64 {
+            architecture 'arm64'
+            operatingSystem 'ios'
+        }
+        ios_i386 {
+            architecture 'i386'
+            operatingSystem 'ios'
+        }
+    }
 
     toolChains {
         mingw(Gcc) {
             target('win32') {
                 cppCompiler.executable 'i686-w64-mingw32-g++'
                 linker.executable 'i686-w64-mingw32-g++'
-                }
+            }
             target('win64') {
                 cppCompiler.executable 'x86_64-w64-mingw32-g++'
                 linker.executable 'x86_64-w64-mingw32-g++'
-                }
             }
+        }
         clang(Clang) {
             target('osx_amd64') {
                 cppCompiler.executable 'clang'
                 linker.executable 'gcc'
-                }
             }
+            target('ios_armv7') {
+                cppCompiler.executable 'clang'
+                cppCompiler.withArguments { args ->
+                    args << "-isysroot"
+                    args << "${iphoneosSdk}"
+                    args << "-arch"
+                    args << "armv7"
+                    args << "-target" 
+                    args << "armv7-apple-darwin"
+                }
+                path clangPath
+            }
+            target('ios_arm64') {
+                cppCompiler.executable 'clang'
+                cppCompiler.withArguments { args ->
+                    args << "-isysroot"
+                    args << "${iphoneosSdk}"
+                    args << "-arch"
+                    args << "arm64"
+                    args << "-target"
+                    args << "arm64-apple-darwin"
+                }
+                path clangPath
+            }
+            target('ios_i386') {
+                cppCompiler.executable 'clang'
+                cppCompiler.withArguments { args ->
+                    args << "-isysroot"
+                    args << "${iphonesimulatorSdk}"
+                    args << "-arch"
+                    args << "i386"
+                    args << "-target"
+                    args << "i386-apple-darwin"
+                }
+                path clangPath
+            }
+        }
         // Note: Make sure manually that these executables are on the PATH.
         android(Gcc) {
             target('androideabi') {
                 cppCompiler.executable 'arm-linux-androideabi-g++'
                 linker.executable 'arm-linux-androideabi-g++'
-                }
+            }
             target('androidx86') {
                 cppCompiler.executable 'i686-linux-android-g++'
                 linker.executable 'i686-linux-android-g++'
-                }
             }
         }
+    }
+
     components {
         // giac static libary
         giac(NativeLibrarySpec) {
-            binaries.all { 
+            targetPlatform 'linux32'
+            targetPlatform 'linux64'
+            targetPlatform 'ios_armv7'
+            targetPlatform 'ios_arm64'
+            targetPlatform 'ios_i386'
+            
+            binaries.all {
                 cppCompiler.define "GIAC_GGB"
                 cppCompiler.define "IN_GIAC"
                 cppCompiler.define "GIAC_GENERIC_CONSTANTS"
@@ -144,10 +224,47 @@ model {
                 cppCompiler.define "TIMEOUT"
                 cppCompiler.define 'HAVE_SYS_TIMES_H'
                 cppCompiler.define 'HAVE_SYS_TIME_H'
+
+                if (targetPlatform.operatingSystem.name == 'ios') {
+                    cppCompiler.args "-miphoneos-version-min=${minIosVersion}"
+                    cppCompiler.args "-no-integrated-as"
+                    cppCompiler.args "-fembed-bitcode"
+
+                    cppCompiler.define 'APPLE_SMART'
+                    cppCompiler.define 'NO_GETTEXT'
+                    cppCompiler.define 'NO_SCANDIR'
+                    cppCompiler.define 'OSX_10_9_CXX'
                 }
             }
+        }
+
+        simpleInterface(NativeLibrarySpec) {
+            targetPlatform 'ios_armv7'
+            targetPlatform 'ios_arm64'
+            targetPlatform 'ios_i386'
+
+            binaries.all {
+                lib library: 'giac', linkage: 'static'
+                cppCompiler.define 'GIAC_GGB'
+                cppCompiler.define 'IN_GIAC'
+                cppCompiler.define 'GIAC_GENERIC_CONSTANTS'
+                cppCompiler.define 'HAVE_CONFIG_H'
+                cppCompiler.define 'HAVE_UNISTD_H'
+                cppCompiler.define 'HAVE_SYS_TIMES_H'
+                cppCompiler.define 'HAVE_SYS_TIME_H'
+                cppCompiler.define 'APPLE_SMART'
+                cppCompiler.define 'NO_GETTEXT'
+                cppCompiler.define 'NO_SCANDIR'
+                cppCompiler.define 'OSX_10_9_CXX'
+
+            }
+        }
 
         minigiac(NativeExecutableSpec) {
+            targetPlatform 'linux32'
+            targetPlatform 'linux64'
+
+
             binaries.all {
                 lib library: 'giac', linkage: 'static'
                 linker.args '-lgmp', '-lmpfr', '-lpthread'
@@ -158,13 +275,13 @@ model {
                 cppCompiler.define 'HAVE_UNISTD_H'
                 cppCompiler.define 'HAVE_SYS_TIMES_H'
                 cppCompiler.define 'HAVE_SYS_TIME_H'
-                }
+            }
             sources.all {
                 source {
                     srcDirs 'src/giac/cpp', 'src/minigiac/cpp'
-                    }
                 }
             }
+        }
 
         javagiac(NativeLibrarySpec) {
             targetPlatform 'win32'
@@ -178,13 +295,14 @@ model {
             sources.cpp {
                 source {
                     srcDirs 'src/giac/cpp', 'src/jni/cpp'
-                    }
+                }
                 exportedHeaders {
                     srcDirs 'src/giac/headers', 'src/jni/jdkHeaders'
-                    }
+                }
                 lib library: 'mpfr', linkage: 'static'
                 lib library: 'gmp', linkage: 'static'
-                }
+            }
+                
 
             binaries.withType(SharedLibraryBinarySpec) {
                 // Common settings for all platforms and architectures:
@@ -298,31 +416,67 @@ model {
     }
 }
 
+def lipoOutput(name, output) {
+    def path = "build/libs/${name}/static"
+    mkdir("${output}")
+    exec_("lipo", "${path}/ios_armv7/lib${name}.a", "${path}/ios_arm64/lib${name}.a", "${path}/ios_i386/lib${name}.a", '-create', '-output', "${output}/lib${name}.a")
+}
+
+def lipoPrebuilt(name, output) {
+    def path = "src/jni/prebuilt/ios"
+    mkdir("${output}")
+    exec_("lipo", "${path}/armv7/lib${name}.a", "${path}/arm64/lib${name}.a", "${path}/i386/lib${name}.a", '-create', '-output', "${output}/lib${name}.a")
+}
+
+task createFatIosStaticLibrary(dependsOn: ['simpleInterfaceIos_armv7StaticLibrary', 'simpleInterfaceIos_arm64StaticLibrary', 'simpleInterfaceIos_i386StaticLibrary']) {
+    doLast {
+        def output = "build/libs/lipo"
+        lipoOutput("simpleInterface", output)
+        lipoOutput("giac", output)
+        lipoPrebuilt("mpfr", output)
+        lipoPrebuilt("gmp", output)
+    }
+}
+
+task zipIosLibrary(dependsOn: 'createFatIosStaticLibrary', type: Zip) {
+    baseName 'Giac'
+    from("src/simpleInterface/headers") {
+        include "*.hpp"
+        into("headers")
+    }
+    from("${buildDir}/libs/lipo") {
+        include "*.a"
+        into("libs")
+    }
+    from("src/simpleInterface/pod/Giac.podspec")
+    destinationDir = file("${buildDir}/archives/")
+}
+
 task testMinigiacExecutable (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description 'Tests the minigiac executable.'
     workingDir 'src/test'
     commandLine './regression', '-r', '-s'
-    }
+}
 
 task androidCopyEabiLibjavagiacSo (dependsOn: 'javagiacAndroideabiSharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/libs/javagiac/shared/androideabi'
     into 'giac-android/src/main/jniLibs/armeabi-v7a'
     include ('libjavagiac.so')
-    }
+}
 
 task androidCopyX86LibjavagiacSo (dependsOn: 'javagiacAndroidx86SharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/libs/javagiac/shared/androidx86'
     into 'giac-android/src/main/jniLibs/x86'
     include ('libjavagiac.so')
-    }
+}
 
 task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description "Runs Giac's minigiac terminal"
     commandLine 'build/install/minigiac/minigiac'
     standardInput = System.in
-    }
+}
 
 tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.") { String taskName ->
     if ((taskName.startsWith('emccCompile_')) && (taskName.endsWith('Cc'))) {
@@ -341,26 +495,26 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
                     commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DNO_STDEXCEPT -DHAVE_CONFIG_H' // from old Makefile
                     if (emscriptenVer == '201304') {
                         commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
-                        }
+                    }
                     if (emscriptenVer == '201505') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1 -fno-exceptions"
-                        }
+                    }
 
                     commandline += ' -DGIAC_GGB' // from old Makefile
                     commandline += ' -DTIMEOUT -DEMCC' // from old config.h
                     commandline += " -Isrc/giac/headers -c $input -o $output"
 
                     commandLine commandline.split()
-                    }
                 }
             }
         }
     }
+}
 
 task emccClean(type: Delete) {
     description 'Deletes .o files and linked giac*.js for cleaning up.'
     delete 'build/objs/giac.js', 'build/binaries/giacggb.js'
-    }
+}
 
 task emccCompile {
     description 'Creates .o files for giac.js.'
@@ -370,10 +524,10 @@ task emccCompile {
         if (f.name.endsWith('.cc')) {
             def emccCompileTask = 'emccCompile_' + f.name - '.cc' + 'Cc'
             list << emccCompileTask
-            }
         }
-    dependsOn list
     }
+    dependsOn list
+}
 
 task emccGiacJs (dependsOn: 'emccCompile') {
     description 'Links giac.js.'
@@ -400,27 +554,27 @@ task emccGiacJs (dependsOn: 'emccCompile') {
             linkerArgs << '--js-library' << 'src/giac.js/js/time.js'
             if (emscriptenVer == '201304') {
                 linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
-                }
+            }
             if (emscriptenVer == '201505') {
                 linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
                 // linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
-                }
+            }
             linkerArgs << '-DGIAC_GGB'
             linkerArgs << '-o' << output
             linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
             linkerArgs << '--closure' << '1'
             commandLine emccCommand
             args linkerArgs
-            }
         }
     }
+}
 
 task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
     description 'Creates the giacggb.js folder to store embeddable giac.js.'
     from 'src/giac.js'
     into 'build/binaries/giacggb.js'
     include ('ggb.html')
-    }
+}
 
 task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
@@ -429,7 +583,7 @@ task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
     include ('giacggb.js')
     rename 'giacggb.js', 'giac.js'
     filter { line -> line.replace('Module', '__ggb__giac') }
-    }
+}
 
 // Using emsdk
 
@@ -443,9 +597,9 @@ task downloadEmsdk {
         copy {
             from tarTree("$emsdkDir/$emsdkTgzFile")
             into "$emsdkDir"
-            }
         }
     }
+}
 
 task installEmsdk (dependsOn: 'downloadEmsdk') {
     description 'Installs/updates the emscripten SDK.'
@@ -453,18 +607,18 @@ task installEmsdk (dependsOn: 'downloadEmsdk') {
         exec {
             commandLine './emsdk update'.split()
             workingDir emsdkRunDir
-            }
+        }
         exec {
             commandLine './emsdk install latest'.split()
             workingDir emsdkRunDir
-            }
+        }
         exec {
             commandLine './emsdk activate latest'.split()
             workingDir emsdkRunDir
-            }
-        // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
         }
+        // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
     }
+}
 
 task emConfigureGmp {
     description 'Configures GMP for the emscripten SDK.'
@@ -472,9 +626,9 @@ task emConfigureGmp {
         exec {
             commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emconfigure $gmpSourceDir/configure --build=none --host=none --disable-assembly"
             workingDir gmpSourceDir
-            }
         }
     }
+}
 
 task emMakeGmp {
     description 'Makes GMP with the emscripten SDK.'
@@ -482,9 +636,9 @@ task emMakeGmp {
         exec {
             commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
             workingDir gmpSourceDir
-            }
         }
     }
+}
 
 task emConfigureMpfr {
     description 'Configures MPFR for the emscripten SDK.'
@@ -494,9 +648,9 @@ task emConfigureMpfr {
                 "$emscriptenDir/emconfigure $mpfrSourceDir/configure --build=none --host=none --disable-assembly " +
                 "--with-gmp-lib=$gmpSourceDir/.libs --with-gmp-include=$gmpSourceDir"
             workingDir mpfrSourceDir
-            }
         }
     }
+}
 
 task emMakeMpfr {
     description 'Makes MPFR with the emscripten SDK.'
@@ -504,9 +658,9 @@ task emMakeMpfr {
         exec {
             commandLine 'bash', '-c', "source $emsdkRunDir/emsdk_env.sh; $emscriptenDir/emmake make"
             workingDir mpfrSourceDir
-            }
         }
     }
+}
 
 /* How to use the new system:
  * Run tasks downloadEmsdk, installEmsdk, emConfigureGmp, emMakeGmp, emConfigureMpfr, emMakeMpfr, then run
@@ -522,4 +676,4 @@ task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
-    }
+}
