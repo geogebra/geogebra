@@ -76,6 +76,18 @@ def iphonesimulatorSdk = exec_("xcrun", "--sdk", "iphonesimulator", "--show-sdk-
 def iphoneosPlatform = exec_("xcrun", "--sdk", "iphoneos", "--show-sdk-platform-path")
 def minIosVersion = '9.0'
 
+def iosClangCompilerArgs(args, sdk, arch, minIosVersion) {
+    args << "-isysroot"
+    args << "${sdk}"
+    args << "-arch"
+    args << "${arch}"
+    args << "-target" 
+    args << "${arch}-apple-darwin"
+    args << "-miphoneos-version-min=${minIosVersion}"
+    args << "-no-integrated-as"
+    args << "-fembed-bitcode"
+}
+
 model {
 
     repositories {
@@ -159,36 +171,21 @@ model {
             target('ios_armv7') {
                 cppCompiler.executable 'clang'
                 cppCompiler.withArguments { args ->
-                    args << "-isysroot"
-                    args << "${iphoneosSdk}"
-                    args << "-arch"
-                    args << "armv7"
-                    args << "-target" 
-                    args << "armv7-apple-darwin"
+                    iosClangCompilerArgs(args, iphoneosSdk, "armv7", minIosVersion)
                 }
                 path clangPath
             }
             target('ios_arm64') {
                 cppCompiler.executable 'clang'
                 cppCompiler.withArguments { args ->
-                    args << "-isysroot"
-                    args << "${iphoneosSdk}"
-                    args << "-arch"
-                    args << "arm64"
-                    args << "-target"
-                    args << "arm64-apple-darwin"
+                    iosClangCompilerArgs(args, iphoneosSdk, "arm64", minIosVersion)
                 }
                 path clangPath
             }
             target('ios_i386') {
                 cppCompiler.executable 'clang'
                 cppCompiler.withArguments { args ->
-                    args << "-isysroot"
-                    args << "${iphonesimulatorSdk}"
-                    args << "-arch"
-                    args << "i386"
-                    args << "-target"
-                    args << "i386-apple-darwin"
+                    iosClangCompilerArgs(args, iphonesimulatorSdk, "i386", minIosVersion)
                 }
                 path clangPath
             }
@@ -229,10 +226,6 @@ model {
                 cppCompiler.define 'HAVE_SYS_TIME_H'
 
                 if (targetPlatform.operatingSystem.name == 'ios') {
-                    cppCompiler.args "-miphoneos-version-min=${minIosVersion}"
-                    cppCompiler.args "-no-integrated-as"
-                    cppCompiler.args "-fembed-bitcode"
-
                     cppCompiler.define 'APPLE_SMART'
                     cppCompiler.define 'NO_GETTEXT'
                     cppCompiler.define 'NO_SCANDIR'
