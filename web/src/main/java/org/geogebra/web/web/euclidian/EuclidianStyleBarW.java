@@ -519,7 +519,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * Some style button removed from dynamic stylebar. Those will be shown in the default stylebar yet.
 	 */
 	private boolean showAllStyleButtons(){
-		return !app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar() || !app.isWitheboardActive();
+		return !app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar()
+				|| !app.isWhiteboardActive();
 	}
 	
 	protected boolean isDynamicStylebar(){

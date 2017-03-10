@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -3946,7 +3945,7 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean isSelectionRectangleAllowed();
 
 	public final boolean has(Feature f) {
-		boolean v6 = true;
+		boolean whiteboard = isWhiteboardActive();
 		switch (f) {
 
 		// leave as prerelease
@@ -4007,7 +4006,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOW-29
 		case MOW_TOOLBAR:
-			return canary;// prerelease;
+			return prerelease && whiteboard;// prerelease;
 
 		// MOB-270
 		case ACRA:
@@ -4021,7 +4020,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1121
 		case AV_PREVIEW:
-			return prerelease || v6;
+			return true;
 
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
@@ -4035,7 +4034,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1357
 		case AV_SINGLE_TAP_EDIT:
-			return prerelease || v6;
+			return true;
 
 		case DATA_COLLECTION:
 			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
@@ -4065,7 +4064,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-798
 		case AV_SCROLL:
-			return prerelease || v6;
+			return true;
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
@@ -4075,11 +4074,11 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LOCAL_SAVE:
 			return prerelease;
 		case RETEX_EDITOR:
-			return prerelease || v6;
+			return true;
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
-			return prerelease || v6;
+			return true;
 
 		// MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
@@ -4155,7 +4154,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 			
 		case DYNAMIC_STYLEBAR:
-			return prerelease;
+			return prerelease && whiteboard;
 
 		case PEN_IS_LOCUS:
 			return prerelease;
@@ -4167,6 +4166,10 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		}
+	}
+
+	public boolean isWhiteboardActive() {
+		return false;
 	}
 
 	public boolean canResize() {
@@ -4252,11 +4255,7 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	private void showInputField(GeoElement geo) {
-		Drawable d = (Drawable) getActiveEuclidianView().getDrawableFor(geo);
-		((CanvasDrawable) d).setWidgetVisible(true);
 
-	}
 	/**
 	 * handle space key hitted
 	 *

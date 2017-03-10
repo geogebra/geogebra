@@ -225,7 +225,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			ggwMenuBar.getMenubar().updateSelection();
 		}
 
-		if (app.has(Feature.MOW_TOOLBAR) && ((AppW) app).isWitheboardActive()) {
+		if (app.has(Feature.MOW_TOOLBAR) && ((AppW) app).isWhiteboardActive()) {
 			(((AppWapplet) app).getAppletFrame()).updateMOWToorbar();
 			return;
 		}

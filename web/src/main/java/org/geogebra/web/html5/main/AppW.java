@@ -3546,10 +3546,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return 0;
 	}
 
-	public boolean isWitheboardActive() {
-		return false;
-	}
-
 	@Override
 	public boolean nativeCAS() {
 		return Browser.externalCAS();

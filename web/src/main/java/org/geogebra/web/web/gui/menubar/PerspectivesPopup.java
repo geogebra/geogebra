@@ -4,8 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -29,16 +27,16 @@ public class PerspectivesPopup {
 	/** dialog */
 	private DialogBoxW box;
 	/** application */
-	AppW app;
+	final AppWFull app;
 	private FlowPanel contentPanel;
 
-	private int activePerspective;
+
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public PerspectivesPopup(final AppW app) {
+	public PerspectivesPopup(final AppWFull app) {
 		this.app = app;
 		box = new DialogBoxW(true, false, null, app.getPanel()){
 			@Override
@@ -117,8 +115,7 @@ public class PerspectivesPopup {
 		final int defID = Layout.getDefaultPerspectives(i).getDefaultID();
 		HorizontalPanel rowPanel = addPerspectiveRow(icon,
 				Layout.getDefaultPerspectives(i).getId(), index, defID);
-		if (activePerspective == index) {
-			Log.debug("activePerspective: " + activePerspective);
+		if (app.getActivePerspective() == index) {
 			rowPanel.addStyleName("perspectiveHighlighted");
 		} else {
 			rowPanel.removeStyleName("perspectiveHighlighted");
@@ -187,21 +184,6 @@ public class PerspectivesPopup {
 		}, ClickEvent.getType());
 
 		return rowPanel;
-	}
-
-	/**
-	 * @return perspective index
-	 */
-	public int getActivePerspective() {
-		return activePerspective;
-	}
-
-	/**
-	 * @param index
-	 *            perspective index
-	 */
-	public void setActivePerspective(int index) {
-		activePerspective = index;
 	}
 
 	/**

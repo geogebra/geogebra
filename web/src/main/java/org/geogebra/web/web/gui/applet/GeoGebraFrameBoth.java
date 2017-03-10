@@ -536,7 +536,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 						@Override
 						public void run() {
-							if (app.isWitheboardActive()) {
+							if (app.isWhiteboardActive()) {
 								return;
 							}
 							app.persistWidthAndHeight();
@@ -649,7 +649,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            application
 	 */
 	public void attachToolbar(AppW app1) {
-		if (app1.has(Feature.MOW_TOOLBAR) && app1.isWitheboardActive()) {
+		if (app1.has(Feature.MOW_TOOLBAR) && app1.isWhiteboardActive()) {
 			attachMOWToolbar(app1);
 			attachOpenMenuButton();
 			return;
