@@ -728,8 +728,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 				        .checkGeosForCaptionStyle(geos, mode, app);
-				boolean geosOK = geo != null;
-				this.setVisible(geosOK  && showAllStyleButtons());
+				boolean geosOK = geo != null && showAllStyleButtons();
+				this.setVisible(geosOK);
 
 				if (geosOK) {
 					setSelectedIndex(EuclidianStyleBarStatic
@@ -1034,8 +1034,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixPosition(geos);
-				setVisible(geosOK  && showAllStyleButtons());
+				        .checkGeosForFixPosition(geos) && showAllStyleButtons();
+				setVisible(geosOK);
 				if (geosOK) {
 					btnFixPosition.setValue(EuclidianStyleBarStatic
 					        .checkSelectedFixPosition((GeoElement) geos[0]));
@@ -1056,8 +1056,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixObject(geos);
-				setVisible(geosOK && showAllStyleButtons());
+				        .checkGeosForFixObject(geos) && showAllStyleButtons();
+				setVisible(geosOK);
 				if (geosOK) {
 					btnFixObject.setValue(EuclidianStyleBarStatic
 					        .checkSelectedFixObject((GeoElement) geos[0]));
