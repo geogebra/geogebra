@@ -428,7 +428,10 @@ def lipoPrebuilt(name, output) {
     exec_("lipo", "${path}/armv7/lib${name}.a", "${path}/arm64/lib${name}.a", "${path}/i386/lib${name}.a", '-create', '-output', "${output}/lib${name}.a")
 }
 
-task createFatIosStaticLibrary(dependsOn: ['simpleInterfaceIos_armv7StaticLibrary', 'simpleInterfaceIos_arm64StaticLibrary', 'simpleInterfaceIos_i386StaticLibrary']) {
+task simpleInterfaceIosStaticLibrary(dependsOn: ['simpleInterfaceIos_armv7StaticLibrary', 'simpleInterfaceIos_arm64StaticLibrary', 'simpleInterfaceIos_i386StaticLibrary'])
+task giacIosStaticLibrary(dependsOn: ['giacIos_armv7StaticLibrary', 'giacIos_arm64StaticLibrary', 'giacIos_i386StaticLibrary'])
+
+task createFatIosStaticLibrary(dependsOn: ['simpleInterfaceIosStaticLibrary', 'giacIosStaticLibrary']) {
     doLast {
         def output = "build/libs/lipo"
         lipoOutput("simpleInterface", output)
