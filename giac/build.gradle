@@ -66,6 +66,11 @@ def exec_(String... script) {
     return retVal()
 }
 
+def gccBin = exec_("xcrun", "--sdk", "macosx", "--find", "gcc")
+def gccPath = "/usr/bin"
+if (gccBin.length() > 0) {
+    gccPath = gccBin.substring(0, gccBin.lastIndexOf("/"))
+}
 def clangBin = exec_("xcrun", "--sdk", "iphoneos", "--find", "clang")
 def clangPath = "/usr/bin"
 if (clangBin.length() > 0) {
@@ -167,6 +172,7 @@ model {
             target('osx_amd64') {
                 cppCompiler.executable 'clang'
                 linker.executable 'gcc'
+                path gccPath, clangPath
             }
             target('ios_armv7') {
                 cppCompiler.executable 'clang'
