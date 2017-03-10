@@ -1906,7 +1906,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public EuclidianStyleBar newDynamicStylebar(final EuclidianView ev) {
-		return new DynamicStyleBar(ev);
+		DockPanelW evDockPanel = this.getLayout().getDockManager().getPanel(ev.getViewID());
+		if (!(evDockPanel instanceof EuclidianDockPanelWAbstract)) {
+			return null;
+		}
+		DynamicStyleBar dynamicStylebar = new DynamicStyleBar(ev);
+		((EuclidianDockPanelWAbstract)evDockPanel).getAbsolutePanel().add(dynamicStylebar);
+		return dynamicStylebar;
 	}
 
 	@Override
