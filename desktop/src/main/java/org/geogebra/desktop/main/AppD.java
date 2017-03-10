@@ -168,7 +168,7 @@ import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;

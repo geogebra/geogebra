@@ -49,7 +49,7 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;

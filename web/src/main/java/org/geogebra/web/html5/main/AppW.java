@@ -73,7 +73,7 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;

@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 
 /**

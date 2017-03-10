@@ -1,9 +1,6 @@
 package org.geogebra.common.util;
 
 public interface GTimer {
-	public interface GTimerListener {
-		void onRun();
-	}
 
 	void start();
 

@@ -6,7 +6,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 
 import com.google.j2objc.annotations.Weak;
 

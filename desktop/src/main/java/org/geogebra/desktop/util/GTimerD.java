@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 
 /**
  * Desktop timer

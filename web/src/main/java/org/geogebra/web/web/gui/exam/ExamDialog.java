@@ -7,6 +7,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
@@ -436,7 +437,7 @@ public class ExamDialog {
 		if (checkTaskLockTimer != null && checkTaskLockTimer.isRunning()) {
 			checkTaskLockTimer.stop();
 		}
-		checkTaskLockTimer = app.newTimer(new GTimer.GTimerListener() {
+		checkTaskLockTimer = app.newTimer(new GTimerListener() {
 			@Override
 			public void onRun() {
 				checkTaskLock();

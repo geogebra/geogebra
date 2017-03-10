@@ -85,7 +85,7 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;

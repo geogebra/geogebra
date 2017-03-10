@@ -2,7 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.web.html5.sound.GTimerW;
 
 public class MyZoomerW extends MyZoomer implements GTimerListener {

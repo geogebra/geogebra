@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimer.GTimerListener;
+import org.geogebra.common.util.GTimerListener;
 
 /**
  * Updates all animated geos based on slider ticks
