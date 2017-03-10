@@ -86,10 +86,13 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 		for (int i = 0; i < toolbarVec.size(); i++) {
 			ToolbarItem ob = toolbarVec.get(i);
 			Vector<Integer> menu = ob.getMenu();
+			addModeMenu(panel, menu);
+		}
+	}
 
-			if (app.isModeValid(menu.get(0).intValue())) {
-				panel.add(createButton(menu.get(0).intValue()));
-			}
+	protected void addModeMenu(FlowPanel panel, Vector<Integer> menu) {
+		if (app.isModeValid(menu.get(0).intValue())) {
+			panel.add(createButton(menu.get(0).intValue()));
 		}
 	}
 
