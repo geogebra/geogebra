@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.core.client.GWT;
@@ -110,11 +110,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void createMoveButton() {
-		NoDragImage im = new NoDragImage(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_MOVE,
-						app));
-		moveButton = new StandardButton(null, "", 32);
-		moveButton.getUpFace().setImage(im);
+		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
+
+		moveButton = new StandardButton(pr.move_hand_32(), "", 32);
 		rightPanel.add(moveButton);
 		moveButton.addFastClickHandler(this);
 
@@ -125,21 +123,20 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void createUndoRedo() {
-		PerspectiveResources pr = ((ImageFactory) GWT
-				.create(ImageFactory.class)).getPerspectiveResources();
+		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
 
-		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
+		redoButton = new StandardButton(pr.redo_32(), null, 32);
 		redoButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_redo_hover(), 32));
+.setImage(getImage(pr.redo_32(), 32));
 
 		redoButton.addFastClickHandler(this);
 
 		redoButton.addStyleName("redoButton");
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
-		undoButton = new StandardButton(pr.menu_header_undo(), null, 32);
+		undoButton = new StandardButton(pr.undo_32(), null, 32);
 		undoButton.getUpHoveringFace()
-				.setImage(getImage(pr.menu_header_undo_hover(), 32));
+.setImage(getImage(pr.undo_32(), 32));
 
 		undoButton.addFastClickHandler(this);
 		undoButton.addStyleName("undoButton");
@@ -181,7 +178,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		} else if (source == moveButton) {
 			app.setMoveMode();
 			if (currentMenu != null) {
-				// currentMenu.setCSStoSelected(source.getElement());
 			}
 		} else if (source == penButton) {
 			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
@@ -218,7 +214,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void setSubmenuVisible(final boolean b) {
 		subMenuPanel.setVisible(b);
-		getElement().getStyle().setTop((b ? -submenuHeight : 0), Unit.PX);
+		getElement().getStyle().setTop((b ? -(submenuHeight + 30) : -10), Unit.PX);
 
 
 

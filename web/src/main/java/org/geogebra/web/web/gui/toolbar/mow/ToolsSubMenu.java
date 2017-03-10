@@ -6,7 +6,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ToolsSubMenu extends SubMenuPanel {
@@ -64,6 +63,5 @@ public class ToolsSubMenu extends SubMenuPanel {
 	@Override
 	protected void createInfoPanel() {
 		super.createInfoPanel();
-		infoPanel.add(new Label("Here comes the info..."));
 	}
 }
