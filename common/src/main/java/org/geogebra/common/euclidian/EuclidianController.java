@@ -5814,6 +5814,9 @@ public abstract class EuclidianController {
 	}
 
 	private void addDynamicStylebar(Drawable dr) {
+		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+			return;
+		}
 		if (dr instanceof DrawLine) {
 			((DrawLine) dr).updateDynamicStylebarPosition();
 		}
@@ -8360,15 +8363,7 @@ public abstract class EuclidianController {
 			BoundingBox boundingBox = dr
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
-
-			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				if (dr instanceof DrawLine) {
-					((DrawLine) dr).updateDynamicStylebarPosition();
-				} else {
-					setDynamicStyleBarPosition(dr.getBounds(), true);
-				}
-				setDynamicStylebarVisible(true);
-			}
+			addDynamicStylebar(dr);
 			view.repaintView();
 		}
 
