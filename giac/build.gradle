@@ -458,7 +458,7 @@ task zipIosLibrary(dependsOn: 'createFatIosStaticLibrary', type: Zip) {
     destinationDir = file("${buildDir}/archives/")
 }
 
-task installMinigiacExecutable (dependsOn: 'installMinigiacLinux32Executable')
+task installMinigiacExecutable (dependsOn: 'installMinigiacLinux64Executable')
 
 task testMinigiacExecutable (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description 'Tests the minigiac executable.'
