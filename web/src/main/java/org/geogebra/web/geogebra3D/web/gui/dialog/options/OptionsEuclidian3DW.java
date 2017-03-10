@@ -14,7 +14,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -307,22 +307,22 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		private class ProjectionButtons implements ClickHandler {
 
-			private MyToggleButton2[] buttons;
+			private MyToggleButtonW[] buttons;
 			private int buttonSelected;
 
 			ProjectionButtons() {
 
-				buttons = new MyToggleButton2[4];
+				buttons = new MyToggleButtonW[4];
 
-				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new MyToggleButton2(
+				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
 				        new Image(StyleBar3DResources.INSTANCE
 				                .viewOrthographic()));
-				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new MyToggleButton2(
+				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
 				        new Image(
 				                StyleBar3DResources.INSTANCE.viewPerspective()));
-				buttons[EuclidianView3D.PROJECTION_GLASSES] = new MyToggleButton2(
+				buttons[EuclidianView3D.PROJECTION_GLASSES] = new MyToggleButtonW(
 				        new Image(StyleBar3DResources.INSTANCE.viewGlasses()));
-				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new MyToggleButton2(
+				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new MyToggleButtonW(
 				        new Image(StyleBar3DResources.INSTANCE.viewOblique()));
 
 
@@ -340,7 +340,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				MyToggleButton2 source = (MyToggleButton2) event.getSource();
+				MyToggleButtonW source = (MyToggleButtonW) event.getSource();
 
 				if (source == buttons[get3dview().getProjection()]) {
 					source.setDown(true);

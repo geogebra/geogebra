@@ -10,7 +10,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.GCheckBoxMenuItem;
 import org.geogebra.web.web.gui.menubar.GRadioButtonMenuItem;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.helper.SafeHtmlFactory;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -109,7 +109,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		wrappedToolbar.clearItems();
 		buildOptionsButton();
 		
-		MyToggleButton2 btnCumulative = new MyToggleButton2(
+		MyToggleButtonW btnCumulative = new MyToggleButtonW(
 				AppResources.INSTANCE.cumulative_distribution());
 		btnCumulative.setSelected(getProbCalc().isCumulative());
 		btnCumulative.addClickHandler(new ClickHandler() {
@@ -129,7 +129,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()), false);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
 		
-		MyToggleButton2 btnGrid = new MyToggleButton2(
+		MyToggleButtonW btnGrid = new MyToggleButtonW(
 				StyleBarResources.INSTANCE.grid());
 		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
 		btnGrid.addClickHandler(new ClickHandler() {

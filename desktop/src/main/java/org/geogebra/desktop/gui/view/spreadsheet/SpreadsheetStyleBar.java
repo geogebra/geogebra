@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.MyToggleButton;
+import org.geogebra.desktop.gui.util.MyToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -37,10 +37,10 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private CellFormat formatHandler;
 	private ArrayList<CellRange> selectedCells;
 
-	private MyToggleButton btnFormulaBar;
-	private MyToggleButton btnLeftAlign, btnCenterAlign, btnRightAlign;
+	private MyToggleButtonD btnFormulaBar;
+	private MyToggleButtonD btnLeftAlign, btnCenterAlign, btnRightAlign;
 	private ColorPopupMenuButton btnBgColor;
-	private MyToggleButton btnBold, btnItalic;
+	private MyToggleButtonD btnBold, btnItalic;
 	private boolean allowActionPerformed = true;
 	private PopupMenuButtonD btnBorderStyle;
 
@@ -96,34 +96,34 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private void createButtons() {
 		iconHeight = app.getScaledIconSize();
 		iconDimension = new Dimension(iconHeight, iconHeight);
-		btnFormulaBar = new MyToggleButton(
+		btnFormulaBar = new MyToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.FORMULA_BAR), iconHeight);
 		btnFormulaBar.addActionListener(this);
 
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
 				loc.getPlain("Bold").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
-		btnBold = new MyToggleButton(boldIcon, iconHeight);
+		btnBold = new MyToggleButtonD(boldIcon, iconHeight);
 		btnBold.addActionListener(this);
 		btnBold.setPreferredSize(iconDimension);
 
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton(italicIcon, iconHeight);
+		btnItalic = new MyToggleButtonD(italicIcon, iconHeight);
 		btnItalic.addActionListener(this);
 
-		btnLeftAlign = new MyToggleButton(
+		btnLeftAlign = new MyToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_LEFT),
 				iconHeight);
 		btnLeftAlign.addActionListener(this);
 
-		btnCenterAlign = new MyToggleButton(
+		btnCenterAlign = new MyToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_CENTER),
 				iconHeight);
 		btnCenterAlign.addActionListener(this);
 
-		btnRightAlign = new MyToggleButton(
+		btnRightAlign = new MyToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_RIGHT),
 				iconHeight);
 		btnRightAlign.addActionListener(this);
@@ -204,7 +204,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				|| source == btnRightAlign) {
 
 			Integer align = null;
-			if (((MyToggleButton) source).isSelected()) {
+			if (((MyToggleButtonD) source).isSelected()) {
 				if (source == btnLeftAlign) {
 					align = CellFormat.ALIGN_LEFT;
 				} else if (source == btnRightAlign) {

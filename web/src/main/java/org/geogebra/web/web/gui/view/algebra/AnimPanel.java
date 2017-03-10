@@ -6,7 +6,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,10 +26,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
 			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private final RadioTreeItem radioTreeItem;
-	private MyToggleButton2 btnSpeedDown;
+	private MyToggleButtonW btnSpeedDown;
 	private PushButton btnSpeedValue;
-	private MyToggleButton2 btnSpeedUp;
-	private MyToggleButton2 btnPlay;
+	private MyToggleButtonW btnSpeedUp;
+	private MyToggleButtonW btnPlay;
 	private boolean speedButtons = false;
 	private boolean play = false;
 	private int speedIndex = 6;
@@ -43,7 +43,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		this.radioTreeItem = radioTreeItem;
 		addStyleName("elemRow");
 
-		btnSpeedDown = new MyToggleButton2(
+		btnSpeedDown = new MyToggleButtonW(
 				GuiResources.INSTANCE.icons_play_rewind());
 		btnSpeedDown.getUpHoveringFace().setImage(
 				new Image(GuiResources.INSTANCE.icons_play_rewind_hover()));
@@ -51,7 +51,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		btnSpeedDown.setStyleName("avSpeedButton");
 		btnSpeedDown.addStyleName("slideIn");
 
-		btnSpeedUp = new MyToggleButton2(
+		btnSpeedUp = new MyToggleButtonW(
 				GuiResources.INSTANCE.icons_play_fastforward());
 		btnSpeedUp.getUpHoveringFace().setImage(new Image(
 				GuiResources.INSTANCE.icons_play_fastforward_hover()));
@@ -76,7 +76,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void createPlayButton() {
-		btnPlay = new MyToggleButton2(
+		btnPlay = new MyToggleButtonW(
 				GuiResourcesSimple.INSTANCE.icons_play_circle(),
 				GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
 		btnPlay.getUpHoveringFace().setImage(

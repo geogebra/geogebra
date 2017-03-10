@@ -13,12 +13,12 @@ import javax.swing.JButton;
  * @author G. Sturr
  *
  */
-public class MyToggleButton extends JButton {
+public class MyToggleButtonD extends JButton {
 
 	private static final long serialVersionUID = 1L;
 	private int myHeight;
 
-	public MyToggleButton(ImageIcon icon, int height) {
+	public MyToggleButtonD(ImageIcon icon, int height) {
 		super(icon);
 		initButton(height);
 
@@ -26,7 +26,7 @@ public class MyToggleButton extends JButton {
 		setIcon(GeoGebraIconD.ensureIconSize(icon, d));
 	}
 
-	public MyToggleButton(int height) {
+	public MyToggleButtonD(int height) {
 		super();
 		initButton(height);
 	}

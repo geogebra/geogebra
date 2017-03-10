@@ -38,7 +38,7 @@ import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PointStylePopup;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW2;
@@ -61,12 +61,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * Toggle button that should be visible if no geos are selected or to be
 	 * created and no special icons appear in stylebar (eg. delete mode)
 	 */
-	protected class MyToggleButtonForEV extends MyToggleButton2 {
+	protected class MyToggleButtonWforEV extends MyToggleButtonW {
 		/**
 		 * @param img
 		 *            image
 		 */
-		public MyToggleButtonForEV(ImageResource img) {
+		public MyToggleButtonWforEV(ImageResource img) {
 			super(img);
 		}
 
@@ -113,16 +113,16 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected PopupMenuButtonW btnPointCapture;
 	protected PopupMenuButtonW btnChangeView;
 
-	private MyToggleButton2 btnShowAxes;
-	MyToggleButton2 btnBold;
-	MyToggleButton2 btnItalic;
+	private MyToggleButtonW btnShowAxes;
+	MyToggleButtonW btnBold;
+	MyToggleButtonW btnItalic;
 	
-	private MyToggleButton2 btnFixPosition, btnFixObject;
+	private MyToggleButtonW btnFixPosition, btnFixObject;
 	
 	protected MyCJButton btnStandardView;
 
-	private MyToggleButton2[] toggleBtnList;
-	private MyToggleButton2[] btnDeleteSizes = new MyToggleButton2[3];
+	private MyToggleButtonW[] toggleBtnList;
+	private MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
@@ -563,7 +563,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// used in 3D
 	}
 
-	protected MyToggleButton2 getAxesOrGridToggleButton() {
+	protected MyToggleButtonW getAxesOrGridToggleButton() {
 		return btnShowAxes;
 	}
 
@@ -571,8 +571,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return btnShowGrid;
 	}
 
-	private MyToggleButton2[] newToggleBtnList() {
-		return new MyToggleButton2[] { getAxesOrGridToggleButton(), btnBold,
+	private MyToggleButtonW[] newToggleBtnList() {
+		return new MyToggleButtonW[] { getAxesOrGridToggleButton(), btnBold,
 		        btnItalic, btnFixPosition, btnFixObject, btnDeleteSizes[0],
 		        btnDeleteSizes[1],
 		        btnDeleteSizes[2] };
@@ -644,7 +644,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected void createAxesAndGridButtons() {
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButtonForEV(StyleBarResources.INSTANCE.axes());
+		btnShowAxes = new MyToggleButtonWforEV(StyleBarResources.INSTANCE.axes());
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
@@ -666,7 +666,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        StyleBarResources.INSTANCE.stylingbar_delete_medium(),
 		        StyleBarResources.INSTANCE.stylingbar_delete_large() };
 		for (int i = 0; i < 3; i++) {
-			btnDeleteSizes[i] = new MyToggleButton2(delBtns[i]) {
+			btnDeleteSizes[i] = new MyToggleButtonW(delBtns[i]) {
 
 				@Override
 				public void update(Object[] geos) {
@@ -1007,7 +1007,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextBoldBtn() {
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short")) {
+		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1028,7 +1028,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createFixPositionBtn() {
-		btnFixPosition = new MyToggleButton2(
+		btnFixPosition = new MyToggleButtonW(
 		        StyleBarResources.INSTANCE.fixPosition()) {
 
 			@Override
@@ -1049,7 +1049,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createFixObjectBtn() {
 
-		btnFixObject = new MyToggleButton2(
+		btnFixObject = new MyToggleButtonW(
 		        StyleBarResources.INSTANCE.objectUnfixed(),
 		        StyleBarResources.INSTANCE.objectFixed()) {
 
@@ -1069,7 +1069,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextItalicBtn() {
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short")) {
+		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
 
 			@Override
 			public void update(Object[] geos) {

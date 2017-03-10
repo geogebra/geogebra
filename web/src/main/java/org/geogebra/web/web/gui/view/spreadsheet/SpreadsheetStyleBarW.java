@@ -14,7 +14,7 @@ import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW;
@@ -35,9 +35,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	private MyTableW table;
 	private CellFormat formatHandler;
 
-	private MyToggleButton2 btnLeftAlign, btnCenterAlign, btnRightAlign;
-	private MyToggleButton2 btnBold;
-	private MyToggleButton2 btnItalic;
+	private MyToggleButtonW btnLeftAlign, btnCenterAlign, btnRightAlign;
+	private MyToggleButtonW btnBold;
+	private MyToggleButtonW btnItalic;
 	private ColorPopupMenuButton btnBgColor;
 
 	private boolean allowActionPerformed = true;
@@ -65,24 +65,24 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 	private void createButtons() {
 		Localization loc = app.getLocalization();
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
+		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 		
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
+		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 
-		btnLeftAlign = new MyToggleButton2(
+		btnLeftAlign = new MyToggleButtonW(
 		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_left(),
 		        this);
 
-		btnCenterAlign = new MyToggleButton2(
+		btnCenterAlign = new MyToggleButtonW(
 		        StyleBarResources.INSTANCE
 		                .stylingbar_spreadsheet_align_center(),
 		        this);
 
-		btnRightAlign = new MyToggleButton2(
+		btnRightAlign = new MyToggleButtonW(
 		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(),
 		        this);
 
@@ -167,7 +167,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		        || source == btnRightAlign) {
 
 			Integer align = null;
-			if (((MyToggleButton2) source).isSelected()) {
+			if (((MyToggleButtonW) source).isSelected()) {
 				if (source == btnLeftAlign) {
 					align = CellFormat.ALIGN_LEFT;
 				} else if (source == btnRightAlign) {

@@ -17,7 +17,7 @@ import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -53,8 +53,8 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
 
-	private MyToggleButton2 btnBold, btnItalic;
-	private MyToggleButton2 btnSerif, btnLatex;
+	private MyToggleButtonW btnBold, btnItalic;
+	private MyToggleButtonW btnSerif, btnLatex;
 	private GeoElementSelectionListener sl;
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;
@@ -263,20 +263,20 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		
 		
 
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
+		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
+		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 		
-		btnSerif = new MyToggleButton2(loc.getMenu("Serif"));
+		btnSerif = new MyToggleButtonW(loc.getMenu("Serif"));
 		btnSerif.addClickHandler(this);
 		btnSerif.addStyleName("btnSerif");
 		
 		String latexTr = loc.getPlain("LaTeXFormula");
-		btnLatex = new MyToggleButton2(latexTr);
+		btnLatex = new MyToggleButtonW(latexTr);
 		btnLatex.addClickHandler(this);
 		btnLatex.addStyleName("btnLatex");
 		

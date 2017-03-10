@@ -17,7 +17,7 @@ import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.gui.util.MyToggleButton;
+import org.geogebra.desktop.gui.util.MyToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -42,7 +42,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 	JToolBar wrappedToolbar;
 
-	private MyToggleButton btnCumulative, btnLineGraph, btnGrid, btnStepGraph,
+	private MyToggleButtonD btnCumulative, btnLineGraph, btnGrid, btnStepGraph,
 			btnBarGraph, btnExport, btnNormalOverlay;
 
 	private final LocalizationD loc;
@@ -93,7 +93,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		wrappedToolbar.removeAll();
 		buildOptionsButton();
 
-		btnCumulative = new MyToggleButton(((AppD) getApp()).getScaledIcon(
+		btnCumulative = new MyToggleButtonD(((AppD) getApp()).getScaledIcon(
 				GuiResourcesD.CUMULATIVE_DISTRIBUTION), iconHeight);
 		btnCumulative.setSelected(getProbCalc().isCumulative());
 		btnCumulative.addActionListener(new ActionListener() {
@@ -104,17 +104,17 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 			}
 		});
 
-		btnLineGraph = new MyToggleButton(
+		btnLineGraph = new MyToggleButtonD(
 				((AppD) getApp()).getScaledIcon(GuiResourcesD.LINE_GRAPH),
 				iconHeight);
 		btnLineGraph.addActionListener(this);
 
-		btnStepGraph = new MyToggleButton(
+		btnStepGraph = new MyToggleButtonD(
 				((AppD) getApp()).getScaledIcon(GuiResourcesD.STEP_GRAPH),
 				iconHeight);
 		btnStepGraph.addActionListener(this);
 
-		btnBarGraph = new MyToggleButton(
+		btnBarGraph = new MyToggleButtonD(
 				((AppD) getApp()).getScaledIcon(GuiResourcesD.BAR_GRAPH),
 				iconHeight);
 		btnBarGraph.addActionListener(this);
@@ -124,7 +124,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		gp.add(btnLineGraph);
 		gp.add(btnStepGraph);
 
-		btnGrid = new MyToggleButton(
+		btnGrid = new MyToggleButtonD(
 				((AppD) getApp()).getScaledIcon(GuiResourcesD.GRID), iconHeight);
 		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
 		btnGrid.addActionListener(new ActionListener() {
@@ -138,13 +138,13 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		});
 
 		// create export button
-		btnExport = new MyToggleButton(
+		btnExport = new MyToggleButtonD(
 				((AppD) getApp()).getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
 		// create normal overlay button
-		btnNormalOverlay = new MyToggleButton(
+		btnNormalOverlay = new MyToggleButtonD(
 				((AppD) getApp()).getScaledIcon(GuiResourcesD.NORMAL_OVERLAY),
 				iconHeight);
 		btnNormalOverlay.setFocusable(false);

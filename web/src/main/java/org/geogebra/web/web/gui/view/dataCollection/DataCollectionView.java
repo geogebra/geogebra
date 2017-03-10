@@ -24,7 +24,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.dataCollection.GeoListBox.DefaultEntries;
 import org.geogebra.web.web.gui.view.dataCollection.Settings.AccSetting;
@@ -82,7 +82,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private FlowPanel connectionStatusPanel;
 	private FlowPanel freqPanel;
 
-	private MyToggleButton2 connectButton;
+	private MyToggleButtonW connectButton;
 	private TextBox appIDTextBox;
 
 	/** different settings for the available sensors */
@@ -264,7 +264,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 		Image imgON = new Image(GuiResources.INSTANCE.datacollection_on());
 		Image imgOFF = new Image(GuiResources.INSTANCE.datacollection_off());
-		this.connectButton = new MyToggleButton2(imgOFF, imgON);
+		this.connectButton = new MyToggleButtonW(imgOFF, imgON);
 		this.connectButton.addStyleName("connectButton");
 		this.connectButton.addClickHandler(new ClickHandler() {
 

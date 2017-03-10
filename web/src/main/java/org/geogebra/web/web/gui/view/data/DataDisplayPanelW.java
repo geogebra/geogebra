@@ -26,7 +26,7 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -90,7 +90,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private List<PlotType> plotTypes;
 	// options button and sidebar panel
 	private OptionsPanelW optionsPanel;
-	private MyToggleButton2 btnOptions;
+	private MyToggleButtonW btnOptions;
 
 	// numClasses panel
 	// private int numClasses = 6;
@@ -107,9 +107,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// stemplot adjustment panel
 	private FlowPanel stemAdjustPanel;
 	private Label lblAdjust;
-	private MyToggleButton2 minus;
-	private MyToggleButton2 none;
-	private MyToggleButton2 plus;
+	private MyToggleButtonW minus;
+	private MyToggleButtonW none;
+	private MyToggleButtonW plus;
 
 	private FlowPanel imagePanel;
 
@@ -177,7 +177,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		oldWidth = 0;
 		oldHeight = 0;
 		// create options button
-		btnOptions = new MyToggleButton2(new NoDragImage(GuiResources.INSTANCE
+		btnOptions = new MyToggleButtonW(new NoDragImage(GuiResources.INSTANCE
 				.menu_icon_options().getSafeUri().asString(), 18));
 
 		btnOptions.addClickHandler(new ClickHandler() {
@@ -371,9 +371,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createStemPlotAdjustmentPanel() {
 
 		lblAdjust = new Label();
-		minus = new MyToggleButton2("-1");
-		none = new MyToggleButton2("0");
-		plus = new MyToggleButton2("+1");
+		minus = new MyToggleButtonW("-1");
+		none = new MyToggleButtonW("0");
+		plus = new MyToggleButtonW("+1");
 
 		minus.addClickHandler(new ClickHandler() {
 

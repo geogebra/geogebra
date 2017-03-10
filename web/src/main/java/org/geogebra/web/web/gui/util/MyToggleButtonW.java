@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Extends GWT ToggleButton to support tooltips and Icon image data.
  * 
  */
-public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
+public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 
 	private HandlerRegistration actionListener;
 
@@ -22,7 +22,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param upText
 	 *            String
 	 */
-	public MyToggleButton2(String upText) {
+	public MyToggleButtonW(String upText) {
 		super(upText);
 		initButton();
 	}
@@ -31,7 +31,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param image
 	 *            an {@link Image} to use as an up Image
 	 */
-	public MyToggleButton2(Image image) {
+	public MyToggleButtonW(Image image) {
 		super(image);
 		initButton();
 	}
@@ -40,7 +40,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param upIcon
 	 *            the icon to show as up Image
 	 */
-	public MyToggleButton2(ImageResource upIcon) {
+	public MyToggleButtonW(ImageResource upIcon) {
 		this(new Image(upIcon.getSafeUri()));
 	}
 
@@ -50,7 +50,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public MyToggleButton2(ImageResource upIcon, ClickHandler handler) {
+	public MyToggleButtonW(ImageResource upIcon, ClickHandler handler) {
 		super(new Image(upIcon.getSafeUri()), handler);
 		initButton();
 	}
@@ -63,7 +63,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public MyToggleButton2(Image upImage, Image downImage, ClickHandler handler) {
+	public MyToggleButtonW(Image upImage, Image downImage, ClickHandler handler) {
 		super(upImage, downImage, handler);
 		initButton();
 	}
@@ -74,7 +74,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param downImage
 	 *            an {@link Image} to use as an down Image
 	 */
-	public MyToggleButton2(Image upImage, Image downImage) {
+	public MyToggleButtonW(Image upImage, Image downImage) {
 		super(upImage, downImage);
 		initButton();
 	}
@@ -87,7 +87,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public MyToggleButton2(ImageResource upIcon, ImageResource downIcon,
+	public MyToggleButtonW(ImageResource upIcon, ImageResource downIcon,
 	        ClickHandler handler) {
 		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
 		        handler);
@@ -99,7 +99,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 	 * @param downIcon
 	 *            an {@link ImageResource} to use an down Image
 	 */
-	public MyToggleButton2(ImageResource upIcon, ImageResource downIcon) {
+	public MyToggleButtonW(ImageResource upIcon, ImageResource downIcon) {
 		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
 	}
 

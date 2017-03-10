@@ -16,7 +16,7 @@ import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -33,7 +33,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	// private ClippingPopup btnClipping;
 
-	private MyToggleButton2 btnShowGrid3D;
+	private MyToggleButtonW btnShowGrid3D;
 
 	private AxesAndPlanePopup btnShowAxesAndPlane;
 
@@ -288,13 +288,13 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		// ========================================
 		// show grid button
-		btnShowGrid3D = new MyToggleButtonForEV(StyleBarResources.INSTANCE.grid());
+		btnShowGrid3D = new MyToggleButtonWforEV(StyleBarResources.INSTANCE.grid());
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
 	}
 
 	@Override
-	protected MyToggleButton2 getAxesOrGridToggleButton() {
+	protected MyToggleButtonW getAxesOrGridToggleButton() {
 		return btnShowGrid3D;
 	}
 

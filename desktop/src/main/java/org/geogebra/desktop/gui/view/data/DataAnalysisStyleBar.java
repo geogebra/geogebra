@@ -15,7 +15,7 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
-import org.geogebra.desktop.gui.util.MyToggleButton;
+import org.geogebra.desktop.gui.util.MyToggleButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -31,11 +31,11 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private DataAnalysisViewD daView;
 	protected int iconHeight = 18;
 	private JButton btnRounding, btnPrint;
-	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
-	private MyToggleButton btnDataSource;
+	private MyToggleButtonD btnShowStatistics, btnShowPlot2, btnShowData;
+	private MyToggleButtonD btnDataSource;
 	private MyTextFieldD fldDataSource;
-	private MyToggleButton btnExport;
-	private MyToggleButton btnSwapXY;
+	private MyToggleButtonD btnExport;
+	private MyToggleButtonD btnSwapXY;
 
 	/**
 	 * @param app
@@ -63,7 +63,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnPrint.setContentAreaFilled(false);
 		btnPrint.setFocusable(false);
 
-		btnShowStatistics = new MyToggleButton(
+		btnShowStatistics = new MyToggleButtonD(
 				app.getScaledIcon(
 						GuiResourcesD.STYLINGBAR_VARIABLE_ANALYSIS_STATISTICS),
 				iconHeight);
@@ -71,7 +71,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowStatistics.setFocusPainted(false);
 		btnShowStatistics.setFocusable(false);
 
-		btnShowData = new MyToggleButton(
+		btnShowData = new MyToggleButtonD(
 				app.getScaledIcon(
 						GuiResourcesD.STYLINGBAR_VARIABLE_ANALYSIS_DATA),
 				iconHeight);
@@ -79,7 +79,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowData.setFocusPainted(false);
 		btnShowData.setFocusable(false);
 
-		btnShowPlot2 = new MyToggleButton(
+		btnShowPlot2 = new MyToggleButtonD(
 				app.getScaledIcon(
 						GuiResourcesD.STYLINGBAR_VARIABLE_ANALYSIS_2PLOT),
 				iconHeight);
@@ -88,13 +88,13 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowPlot2.setFocusable(false);
 
 		// create export button
-		btnExport = new MyToggleButton(
+		btnExport = new MyToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
 		btnExport.setFocusPainted(false);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
-		btnSwapXY = new MyToggleButton(iconHeight);
+		btnSwapXY = new MyToggleButtonD(iconHeight);
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addActionListener(this);
 		btnSwapXY.setFocusable(false);
@@ -159,7 +159,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	private JPanel createDataSourcePanel() {
 
-		btnDataSource = new MyToggleButton(
+		btnDataSource = new MyToggleButtonD(
 				app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING),
 				iconHeight);
 

@@ -5,7 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,9 +22,9 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	private AppW app;
 	private DataAnalysisViewW daView;
 	private Button btnPrint;
-	private MyToggleButton2 btnShowStatistics, btnShowPlot2, btnShowData;
-	private MyToggleButton2 btnExport;
-	private MyToggleButton2 btnSwapXY;
+	private MyToggleButtonW btnShowStatistics, btnShowPlot2, btnShowData;
+	private MyToggleButtonW btnExport;
+	private MyToggleButtonW btnSwapXY;
 
 	/**
 	 * @param app
@@ -48,20 +48,20 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 //		btnPrint.app.getImageIcon("document-print.png"));
 		btnPrint.addClickHandler(this);
 		
-		btnShowStatistics = new MyToggleButton2(AppResources.INSTANCE.dataview_showstatistics());
+		btnShowStatistics = new MyToggleButtonW(AppResources.INSTANCE.dataview_showstatistics());
 		btnShowStatistics.addClickHandler(this);
 		
-		btnShowData = new MyToggleButton2(AppResources.INSTANCE.dataview_showdata());
+		btnShowData = new MyToggleButtonW(AppResources.INSTANCE.dataview_showdata());
 		btnShowData.addClickHandler(this);
 	
-		btnShowPlot2 = new MyToggleButton2(AppResources.INSTANCE.dataview_showplot2());
+		btnShowPlot2 = new MyToggleButtonW(AppResources.INSTANCE.dataview_showplot2());
 		btnShowPlot2.addClickHandler(this);
 		
 		// create export button
-		btnExport = new MyToggleButton2(AppResources.INSTANCE.export());
+		btnExport = new MyToggleButtonW(AppResources.INSTANCE.export());
 		btnExport.addClickHandler(this);
 
-		btnSwapXY = new MyToggleButton2(getSwapXYString(app.getLocalization()));
+		btnSwapXY = new MyToggleButtonW(getSwapXYString(app.getLocalization()));
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addClickHandler(this);
 		btnSwapXY.getElement().addClassName("daSwapXYButton");

@@ -20,7 +20,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.MyToggleButton;
+import org.geogebra.desktop.gui.util.MyToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -38,18 +38,18 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	protected CASViewD casView;
 
 	// buttons and lists of buttons
-	private MyToggleButton[] toggleBtnList;
+	private MyToggleButtonD[] toggleBtnList;
 	private PopupMenuButtonD[] popupBtnList;
 	private ColorPopupMenuButton btnTextColor;
 	private PopupMenuButtonD btnTextSize;
 	/** button for bold text */
-	protected MyToggleButton btnBold;
+	protected MyToggleButtonD btnBold;
 	/** button for italic text */
-	protected MyToggleButton btnItalic;
+	protected MyToggleButtonD btnItalic;
 	/** use as text button */
-	protected MyToggleButton btnUseAsText;
+	protected MyToggleButtonD btnUseAsText;
 	/** use as text button */
-	protected MyToggleButton btnShowKeyboard;
+	protected MyToggleButtonD btnShowKeyboard;
 	/** height of buttons */
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
@@ -274,8 +274,8 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	/**
 	 * @return array of toggle buttons
 	 */
-	protected MyToggleButton[] newToggleBtnList() {
-		return new MyToggleButton[] { btnBold, btnItalic, btnUseAsText };
+	protected MyToggleButtonD[] newToggleBtnList() {
+		return new MyToggleButtonD[] { btnBold, btnItalic, btnUseAsText };
 	}
 
 	public void reinit() {
@@ -290,7 +290,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 		iconHeight = kbdIcon.getIconHeight();
 		iconDimension = new Dimension(iconHeight, iconHeight);
-		btnShowKeyboard = new MyToggleButton(kbdIcon, iconHeight);
+		btnShowKeyboard = new MyToggleButtonD(kbdIcon, iconHeight);
 
 		createTextButtons();
 
@@ -390,7 +390,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		ImageIcon useAsTextIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Text").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
-		btnUseAsText = new MyToggleButton(useAsTextIcon, iconHeight) {
+		btnUseAsText = new MyToggleButtonD(useAsTextIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -409,7 +409,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
-		btnBold = new MyToggleButton(boldIcon, iconHeight) {
+		btnBold = new MyToggleButtonD(boldIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -434,7 +434,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton(italicIcon, iconHeight) {
+		btnItalic = new MyToggleButtonD(italicIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 

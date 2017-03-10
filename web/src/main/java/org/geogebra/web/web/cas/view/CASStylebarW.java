@@ -16,7 +16,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW;
@@ -32,11 +32,11 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 
 	/** button to set input as text */
-	MyToggleButton2 btnUseAsText;
+	MyToggleButtonW btnUseAsText;
 	/** button to set text to bold */
-	MyToggleButton2 btnBold;
+	MyToggleButtonW btnBold;
 	/** button to set text to italic */
-	MyToggleButton2 btnItalic;
+	MyToggleButtonW btnItalic;
 	/** button to set the text color */
 	private ColorPopupMenuButton btnTextColor;
 
@@ -44,7 +44,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	private ArrayList<GeoElement> selectedRows;
 	private CASViewW casView;
 	private PopupMenuButtonW[] popupBtnList;
-	private MyToggleButton2[] toggleBtnList;
+	private MyToggleButtonW[] toggleBtnList;
 	private Localization loc;
 
 	/**
@@ -81,7 +81,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 	private void createTextButtons() {
 
-		btnUseAsText = new MyToggleButton2(loc.getMenu("Text").substring(0, 1)) {
+		btnUseAsText = new MyToggleButtonW(loc.getMenu("Text").substring(0, 1)) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -128,7 +128,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short")) {
+		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -146,7 +146,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short")) {
+		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -276,8 +276,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	/**
 	 * @return array of toggle buttons
 	 */
-	private MyToggleButton2[] newToggleBtnList() {
-		return new MyToggleButton2[] { btnBold, btnItalic, btnUseAsText };
+	private MyToggleButtonW[] newToggleBtnList() {
+		return new MyToggleButtonW[] { btnBold, btnItalic, btnUseAsText };
 	}
 
 	/**

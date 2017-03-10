@@ -51,7 +51,7 @@ import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -507,7 +507,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		outputPanel.clear();
 		if (isSymbolicDiffers()) {
-			final MyToggleButton2 btnSymbolic = new MyToggleButton2(
+			final MyToggleButtonW btnSymbolic = new MyToggleButtonW(
 					GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
 					GuiResourcesSimple.INSTANCE.modeToggleNumeric());
 			btnSymbolic.addStyleName("symbolicButton");
@@ -711,7 +711,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * @param button
 	 * @return true if output is numeric, false otherwise
 	 */
-	void toggleSymbolic(MyToggleButton2 button) {
+	void toggleSymbolic(MyToggleButtonW button) {
 		if (geo instanceof HasSymbolicMode) {
 			((HasSymbolicMode) geo)
 					.setSymbolicMode(!((HasSymbolicMode) geo).isSymbolicMode(),

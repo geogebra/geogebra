@@ -66,7 +66,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private JTextField fldLow, fldHigh, fldResult;
 	private JLabel[] lblParameterArray;
 	private JLabel lblBetween, lblProbOf, lblEndProbOf, lblProb, lblDist;
-	private MyToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
+	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
 			btnIntervalRight;
 
 	// private JSlider[] sliderArray;
@@ -271,14 +271,14 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		comboDistribution.addActionListener(this);
 		lblDist = new JLabel();
 
-		btnCumulative = new MyToggleButton(((AppD) app)
+		btnCumulative = makeButton(((AppD) app)
 				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
 
-		btnIntervalLeft = new MyToggleButton(
+		btnIntervalLeft = makeButton(
 				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_LEFT));
-		btnIntervalBetween = new MyToggleButton(
+		btnIntervalBetween = makeButton(
 				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_BETWEEN));
-		btnIntervalRight = new MyToggleButton(
+		btnIntervalRight = makeButton(
 				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_RIGHT));
 
 		btnCumulative.addActionListener(this);
@@ -973,20 +973,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	/**
 	 * Custom toggle button
 	 */
-	static class MyToggleButton extends JToggleButton {
-
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * @param ic
-		 *            button icon
-		 */
-		public MyToggleButton(Icon ic) {
-			super(ic);
-			this.setFocusPainted(false);
-			// this.setPreferredSize(new Dimension(24, 24));
-			this.setMargin(new Insets(0, 0, 0, 0));
-		}
+	private JToggleButton makeButton(Icon ic) {
+		JToggleButton btn = new JToggleButton(ic);
+		btn.setFocusPainted(false);
+		btn.setMargin(new Insets(0, 0, 0, 0));
+		return btn;
 	}
 
 	public JPanel getWrapperPanel() {

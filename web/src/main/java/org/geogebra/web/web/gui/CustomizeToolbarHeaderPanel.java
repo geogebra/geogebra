@@ -7,7 +7,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -45,7 +45,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private int selectedViewId = GENERAL;
 	private CustomizeToolbarListener listener;
 
-	private static class ViewButton extends MyToggleButton2 {
+	private static class ViewButton extends MyToggleButtonW {
 
 		private int id;
 
@@ -84,7 +84,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		buttons.setStyleName("panelRow");
 		PerspectiveResources pr = ((ImageFactory) GWT
 		        .create(ImageFactory.class)).getPerspectiveResources();
-		final MyToggleButton2 btnGeneral = new MyToggleButton2(new NoDragImage(
+		final MyToggleButtonW btnGeneral = new MyToggleButtonW(new NoDragImage(
 				ImgResourceHelper.safeURI(pr.menu_icon_graphics()), 24));
 		buttons.add(btnGeneral);
 		DockPanelW[] panels = ((GuiManagerW) app.getGuiManager()).getLayout()
@@ -144,18 +144,18 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	 * @param viewId
 	 *            view ID
 	 */
-	protected void selectAndUpdate(MyToggleButton2 btn, int viewId) {
+	protected void selectAndUpdate(MyToggleButtonW btn, int viewId) {
 		uncheckAll(btn);
 		selectedViewId = viewId;
 		listener.update(selectedViewId);
 
 	}
 
-	private void uncheckAll(MyToggleButton2 current) {
+	private void uncheckAll(MyToggleButtonW current) {
 		for (int i = 0; i < buttons.getWidgetCount(); i++) {
 			Widget w = buttons.getWidget(i);
-			if (w instanceof MyToggleButton2 && w != current) {
-				((MyToggleButton2) w).setValue(false);
+			if (w instanceof MyToggleButtonW && w != current) {
+				((MyToggleButtonW) w).setValue(false);
 			}
 		}
 	}
@@ -166,8 +166,8 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			if (w instanceof ViewButton) {
 				ViewButton btn = (ViewButton) w;
 				btn.setValue(btn.getId() == viewId);
-			} else if (w instanceof MyToggleButton2) {
-				((MyToggleButton2) w).setValue(viewId == -1);
+			} else if (w instanceof MyToggleButtonW) {
+				((MyToggleButtonW) w).setValue(viewId == -1);
 			}
 		}
 	}

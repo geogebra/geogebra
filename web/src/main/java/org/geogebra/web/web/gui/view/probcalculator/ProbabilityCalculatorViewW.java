@@ -19,7 +19,7 @@ import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.web.main.FileManagerW;
 
@@ -65,10 +65,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	public static final String SEPARATOR = "--------------------";
 
 	private Label lblDist;
-	private MyToggleButton2 btnCumulative;
-	private MyToggleButton2 btnIntervalLeft;
-	private MyToggleButton2 btnIntervalBetween;
-	private MyToggleButton2 btnIntervalRight;
+	private MyToggleButtonW btnCumulative;
+	private MyToggleButtonW btnIntervalLeft;
+	private MyToggleButtonW btnIntervalBetween;
+	private MyToggleButtonW btnIntervalRight;
 	private Label[] lblParameterArray;
 	private AutoCompleteTextFieldW[] fldParameterArray;
 	private ListBox comboProbType, comboDistribution;
@@ -95,7 +95,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
 	private MenuBar btnExport;
-	private MyToggleButton2 btnNormalOverlay;
+	private MyToggleButtonW btnNormalOverlay;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -351,13 +351,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    
 	    lblDist = new Label();
 	    
-	    btnCumulative = new MyToggleButton2(GuiResources.INSTANCE.cumulative_distribution());
+	    btnCumulative = new MyToggleButtonW(GuiResources.INSTANCE.cumulative_distribution());
 	    
-	    btnIntervalLeft = new MyToggleButton2(GuiResources.INSTANCE.interval_left());
+	    btnIntervalLeft = new MyToggleButtonW(GuiResources.INSTANCE.interval_left());
 	    
-	    btnIntervalBetween = new MyToggleButton2(GuiResources.INSTANCE.interval_between());
+	    btnIntervalBetween = new MyToggleButtonW(GuiResources.INSTANCE.interval_between());
 	    
-	    btnIntervalRight = new MyToggleButton2(GuiResources.INSTANCE.interval_right());
+	    btnIntervalRight = new MyToggleButtonW(GuiResources.INSTANCE.interval_right());
 	    
 	    btnCumulative.addValueChangeHandler(this);
 	    btnIntervalLeft.addValueChangeHandler(this);
@@ -423,7 +423,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		createExportMenu();
 
-		btnNormalOverlay = new MyToggleButton2(
+		btnNormalOverlay = new MyToggleButtonW(
 		        GuiResources.INSTANCE.normal_overlay());
 	    btnNormalOverlay.addStyleName("btnNormalOverlay");
 	    btnNormalOverlay.addClickHandler(new ClickHandler() {
@@ -884,7 +884,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		} else if (source == btnIntervalLeft || source == btnIntervalBetween
 				|| source == btnIntervalRight) {
-			simulateRadioButtons((MyToggleButton2) source);
+			simulateRadioButtons((MyToggleButtonW) source);
 
 			if (!isCumulative) {
 				updateProbabilityType();
@@ -894,7 +894,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
     }
 
-	private void simulateRadioButtons(MyToggleButton2 source) {
+	private void simulateRadioButtons(MyToggleButtonW source) {
 	   if (source.getValue()) {
 		   if (source == btnIntervalRight) {
 			   btnIntervalLeft.setValue(false);

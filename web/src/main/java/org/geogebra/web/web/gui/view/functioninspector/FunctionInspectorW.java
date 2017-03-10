@@ -19,7 +19,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StandardButton;
@@ -61,10 +61,10 @@ public class FunctionInspectorW extends FunctionInspector {
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
 	private FlowPanel pointsTab;
-	private MyToggleButton2 btnTable;
-	private MyToggleButton2 btnXYSegments;
-	private MyToggleButton2 btnTangent;
-	private MyToggleButton2 btnOscCircle;
+	private MyToggleButtonW btnTable;
+	private MyToggleButtonW btnXYSegments;
+	private MyToggleButtonW btnTangent;
+	private MyToggleButtonW btnOscCircle;
 
 	private StandardButton btnHelp;
 	PopupMenuButtonW btnOptions;
@@ -350,13 +350,13 @@ public class FunctionInspectorW extends FunctionInspector {
 	private FlowPanel createBtnPanel() {
 		FlowPanel btnPanel = new FlowPanel();
 		btnPanel.setStyleName("panelRowIndent");
-		btnTable = new MyToggleButton2(new Image(AppResources.INSTANCE.table()
+		btnTable = new MyToggleButtonW(new Image(AppResources.INSTANCE.table()
 		        .getSafeUri()));
-		btnXYSegments = new MyToggleButton2(new Image(AppResources.INSTANCE
+		btnXYSegments = new MyToggleButtonW(new Image(AppResources.INSTANCE
 		        .xy_segments().getSafeUri()));
-		btnTangent = new MyToggleButton2(new Image(AppResources.INSTANCE
+		btnTangent = new MyToggleButtonW(new Image(AppResources.INSTANCE
 		        .tangent_line().getSafeUri()));
-		btnOscCircle = new MyToggleButton2(new Image(AppResources.INSTANCE
+		btnOscCircle = new MyToggleButtonW(new Image(AppResources.INSTANCE
 		        .osculating_circle().getSafeUri()));
 
 		btnPanel.add(btnTable);

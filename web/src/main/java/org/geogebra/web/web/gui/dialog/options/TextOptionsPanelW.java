@@ -20,7 +20,7 @@ import org.geogebra.web.web.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.web.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
-import org.geogebra.web.web.gui.util.MyToggleButton2;
+import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -44,8 +44,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	ListBox lbFont;
 	ListBox lbSize;
 	ListBox lbDecimalPlaces;
-	MyToggleButton2 btnBold;
-	MyToggleButton2 btnItalic;
+	MyToggleButtonW btnBold;
+	MyToggleButtonW btnItalic;
 	private ToggleButton btnLatex;
 
 	private FlowPanel secondLine;
@@ -133,16 +133,16 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		// font size
 		// TODO require font phrases F.S.
 		// toggle buttons for bold and italic
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
+		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
+		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
 		btnItalic.addStyleName("btnItalic");
 
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 
-		btnLatex = new MyToggleButton2("LaTeX");
+		btnLatex = new MyToggleButtonW("LaTeX");
 
 		// hack
 		// btnLatex.getElement().getStyle().setWidth(100, Unit.PX);
