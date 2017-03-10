@@ -10,11 +10,13 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,6 +26,11 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 	ScrollPanel scrollPanel;
 	FlowPanel contentPanel;
 	FlowPanel infoPanel;
+
+	NoDragImage infoImage;
+	NoDragImage questionMark;
+	HTML infoLabel;
+	String infoURL;
 
 	public SubMenuPanel(AppW app, boolean info) {
 		this.app=app;
@@ -113,15 +120,18 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 	public void onClick(Widget source) {
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
 		setCSStoSelected(source);
-		Log.debug("setCSS - mode: " + mode);
 		app.setMode(mode);
-
+		if (hasInfo()) {
+			infoPanel.clear();
+			showToolTip(mode);
+		}
 	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-
+		if (event.getSource() == questionMark) {
+			app.getFileManager().open(infoURL);
+		}
 	}
 
 	public void setCSStoSelected(Widget source) {
@@ -139,4 +149,26 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 	public void deselectAllCSS() {
 	}
+
+	protected void showToolTip(int mode) {
+		if (mode >= 0) {
+			infoImage = new NoDragImage(GGWToolBar.getImageURL(mode, app));
+			infoImage.addStyleName("mowToolButton");
+
+			infoLabel = new HTML(app.getToolTooltipHTML(mode));
+			infoLabel.addStyleName("mowInfoLabel");
+			infoURL = app.getGuiManager().getTooltipURL(mode);
+			questionMark = new NoDragImage(ImgResourceHelper.safeURI(GGWToolBar.getMyIconResourceBundle().help_32()));
+			infoPanel.add(infoImage);
+			infoPanel.add(infoLabel);
+
+			boolean online = app.getNetworkOperation() == null || app.getNetworkOperation().isOnline();
+			if (infoURL != null && infoURL.length() > 0 && online) {
+				questionMark.addClickHandler(this);
+				questionMark.addStyleName("mowQuestionMark");
+				infoPanel.add(questionMark);
+			}
+		}
+	}
+
 }
