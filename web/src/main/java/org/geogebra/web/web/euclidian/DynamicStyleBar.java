@@ -192,4 +192,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		return false;
 	}
+	
+	protected boolean isDynamicStylebar(){
+		return true;
+	}
+	
 }
