@@ -114,6 +114,7 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 	public void onOpen() {
 		deselectAllCSS();
+		infoPanel.clear();
 	}
 
 	@Override
@@ -149,6 +150,7 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 	public void deselectAllCSS() {
 	}
+
 
 	protected void showToolTip(int mode) {
 		if (mode >= 0) {

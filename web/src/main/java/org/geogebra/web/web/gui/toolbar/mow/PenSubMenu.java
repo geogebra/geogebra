@@ -47,7 +47,6 @@ public class PenSubMenu extends SubMenuPanel
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
 		pen = createButton(EuclidianConstants.MODE_PEN);
-		pen.addStyleName("MOWpenButton");
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser));
 	}
@@ -74,6 +73,7 @@ public class PenSubMenu extends SubMenuPanel
 		}
 
 		btnCustomColor = new StandardButton("+");
+		btnCustomColor.addStyleName("MyCanvasButton color-button");
 		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
 				btnColor[2], btnColor[3], btnCustomColor));
 	}
@@ -132,8 +132,8 @@ public class PenSubMenu extends SubMenuPanel
 
 	private void selectPen() {
 		app.setMode(EuclidianConstants.MODE_PEN);
-		pen.addStyleName("penSubMenu-selected");
-		eraser.removeStyleName("penSubMenu-selected");
+		pen.getElement().setAttribute("selected", "true");
+		eraser.getElement().setAttribute("selected", "false");
 		setColorsEnabled(true);
 		selectColor(BLACK);
 		slider.setMinimum(1, false);
@@ -144,8 +144,8 @@ public class PenSubMenu extends SubMenuPanel
 
 	private void selectEraser() {
 		app.setMode(EuclidianConstants.MODE_ERASER);
-		pen.removeStyleName("penSubMenu-selected");
-		eraser.addStyleName("penSubMenu-selected");
+		pen.getElement().setAttribute("selected", "false");
+		eraser.getElement().setAttribute("selected", "true");
 		setColorsEnabled(false);
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_ERASER_SIZE, false);
