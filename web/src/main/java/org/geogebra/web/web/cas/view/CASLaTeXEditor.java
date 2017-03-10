@@ -77,8 +77,12 @@ public class CASLaTeXEditor extends FlowPanel
 
 	public void onBlur(BlurEvent event) {
 		// autocommitting empty text produces $1
-		if (!isSuggesting() && !StringUtil.empty(getText())) {
-			this.onEnter(false);
+		if (!isSuggesting()) {
+			if (!StringUtil.empty(getText())) {
+				this.onEnter(false);
+			} else {
+				this.setFocus(false, false);
+			}
 		}
 
 	}

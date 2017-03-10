@@ -292,70 +292,8 @@ public class CASInputHandler {
 			// assignments are processed immediately, the ggbcmd creates a new
 			// row below
 			if (isAssignment) {
-				ValidExpression inVE = cellValue.getInputVE();
-				// if evaluation mode is Numeric, only the evaluation text is
-				// wrapped, input is left unchanged
-				if (isNumeric && inVE != null) {
-					// evaluation text is wrapped only if the input is not
-					// already wrapped
-					if (inVE.getTopLevelCommand() == null || !inVE
-							.getTopLevelCommand().getName().equals("Numeric")) {
-						cellValue.setProcessingInformation(prefix,
-								ggbcmd + "["
-										+ inVE.toString(
-												StringTemplate.numericDefault)
-										+ "]",
-								postfix);
-					}
-					// otherwise set the evaluation text to input
-				} else {
-					cellValue.setProcessingInformation(prefix,
-							cellValue.getInput(StringTemplate.defaultTemplate),
-							postfix);
-				}
-				if (isKeepInput || isEvaluate || isNumeric) {
-					cellValue.setEvalCommand(ggbcmd);
-				}
-				// evaluate assignment row
-				boolean needInsertRow = !isEvaluate && !isKeepInput
-						&& !isNumeric;
-				boolean success = processRowThenEdit(selRow,
-						!needInsertRow && focus);
-
-				// insert a new row below with the assignment label and process
-				// it
-				// using the current command
-				if (success && needInsertRow) {
-					String ggbcmd1 = ggbcmd;
-					ValidExpression outputVE = cellValue
-							.getOutputValidExpression();
-					String assignmentLabel = outputVE.getLabelForAssignment();
-					String label = cellValue.getEvalVE()
-							.getLabelForAssignment();
-					GeoCasCell newRowValue = new GeoCasCell(
-							kernel.getConstruction());
-					StringBuilder sb = new StringBuilder(label);
-					boolean isDerivative = "Derivative".equals(ggbcmd);
-					boolean isIntegral = !isDerivative
-							&& "Integral".equals(ggbcmd);
-					if ((isDerivative || isIntegral)
-							&& outputVE.unwrap() instanceof FunctionNVar) {
-						if (isDerivative) {
-							sb.append('\'');
-						}
-						sb.append('(').append(((FunctionNVar) outputVE.unwrap())
-								.getVarString(StringTemplate.defaultTemplate))
-								.append(')');
-						sb.append(outputVE.getAssignmentOperator());
-						sb.append(ggbcmd).append('[').append(assignmentLabel)
-								.append(']');
-						ggbcmd1 = "Evaluate";
-					}
-					newRowValue.setInput(sb.toString());
-					casView.insertRow(newRowValue, true);
-					processCurrentRow(ggbcmd1, focus);
-				}
-
+				processAssignment(ggbcmd, cellValue, prefix, postfix, focus,
+						selRow, isKeepInput || isEvaluate || isNumeric);
 				return;
 			}
 
@@ -386,6 +324,70 @@ public class CASInputHandler {
 		}
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, focus);
+	}
+
+	private void processAssignment(String ggbcmd, GeoCasCell cellValue,
+			String prefix, String postfix, boolean focus,
+			int selRow, boolean isBasicTool) {
+		boolean isNumeric = "Numeric".equals(ggbcmd);
+		ValidExpression inVE = cellValue.getInputVE();
+		// if evaluation mode is Numeric, only the evaluation text is
+		// wrapped, input is left unchanged
+		if (isNumeric && inVE != null) {
+			// evaluation text is wrapped only if the input is not
+			// already wrapped
+			if (inVE.getTopLevelCommand() == null
+					|| !inVE.getTopLevelCommand().getName().equals("Numeric")) {
+				cellValue.setProcessingInformation(prefix,
+						ggbcmd + "["
+								+ inVE.toString(StringTemplate.numericDefault)
+								+ "]",
+						postfix);
+			}
+			// otherwise set the evaluation text to input
+		} else {
+			cellValue.setProcessingInformation(prefix,
+					cellValue.getInput(StringTemplate.defaultTemplate),
+					postfix);
+		}
+		if (isBasicTool) {
+			cellValue.setEvalCommand(ggbcmd);
+		}
+		// evaluate assignment row
+		boolean needInsertRow = !isBasicTool;
+		boolean success = processRowThenEdit(selRow, !needInsertRow && focus);
+
+		// insert a new row below with the assignment label and process
+		// it
+		// using the current command
+		if (success && needInsertRow) {
+			String ggbcmd1 = ggbcmd;
+			ValidExpression outputVE = cellValue.getOutputValidExpression();
+			String assignmentLabel = outputVE.getLabelForAssignment();
+			String label = cellValue.getEvalVE().getLabelForAssignment();
+			GeoCasCell newRowValue = new GeoCasCell(kernel.getConstruction());
+			StringBuilder sb = new StringBuilder(label);
+			boolean isDerivative = "Derivative".equals(ggbcmd);
+			boolean isIntegral = !isDerivative && "Integral".equals(ggbcmd);
+			if ((isDerivative || isIntegral)
+					&& outputVE.unwrap() instanceof FunctionNVar) {
+				if (isDerivative) {
+					sb.append('\'');
+				}
+				sb.append('(')
+						.append(((FunctionNVar) outputVE.unwrap())
+								.getVarString(StringTemplate.defaultTemplate))
+						.append(')');
+				sb.append(outputVE.getAssignmentOperator());
+				sb.append(ggbcmd).append('[').append(assignmentLabel)
+						.append(']');
+				ggbcmd1 = "Evaluate";
+			}
+			newRowValue.setInput(sb.toString());
+			casView.insertRow(newRowValue, true);
+			processCurrentRow(ggbcmd1, focus);
+		}
+
 	}
 
 	// function to handle NSolve input for non-polynomial equations
