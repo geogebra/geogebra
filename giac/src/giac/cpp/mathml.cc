@@ -98,11 +98,20 @@ namespace giac {
 
    string string2mathml(const string & m){
      string s=m;
+#if 0
+     size_t ms=m.size();
+     for (size_t i=0;i<ms;++i){
+       if (m[i]=='\\')
+	 s+="\\\\";
+       else
+	 s+=m[i];
+     }
+#endif
      string t="";
-     string mat[4]={"&","<",">","\n"};
-     string rep[4]={"&amp;","&lt;","&gt;","</mi></mtd></mtr><mtr><mtd><mi>"};
+     string mat[]={"&","<",">","\n"};
+     string rep[]={"&amp;","&lt;","&gt;","</mi></mtd></mtr><mtr><mtd><mi>"};
      //start with & before adding new ones
-     for(int siz=0;siz<4;siz++){
+     for(int siz=0;siz<sizeof(mat)/sizeof(string);siz++){
        int c=0,k=-1,le=s.length();
        while (c<le){
          k=s.find(mat[siz],c);

@@ -4420,6 +4420,8 @@ unsigned int ConvertUTF8toUTF16 (
   }
   */
 
+#define DBG_ARCHIVE 0
+
   bool archive_save(void * f,const gen & g,size_t writefunc(void const* p, size_t nbBytes,size_t NbElements, void *file),GIAC_CONTEXT, bool noRecurse){
     // write the gen first
     writefunc(&g,sizeof(gen),1,f);
@@ -4449,6 +4451,12 @@ unsigned int ConvertUTF8toUTF16 (
       return true;
     }
     if (g.type==_IDNT){
+#if DBG_ARCHIVE
+      std::ofstream ofs;
+      ofs.open ("e:\\tmp\\logsave", std::ofstream::out | std::ofstream::app);
+      ofs << "IDNT " << g << endl;
+      ofs.close();
+#endif
       // fprintf(f,"%s",g._IDNTptr->id_name);
       writefunc(g._IDNTptr->id_name,1,strlen(g._IDNTptr->id_name),f);
       return true;
@@ -4456,6 +4464,12 @@ unsigned int ConvertUTF8toUTF16 (
     if (g.type==_SYMB){
       if (!archive_save(f,g._SYMBptr->feuille,writefunc,contextptr,noRecurse))
 	return false;
+#if DBG_ARCHIVE
+      std::ofstream ofs;
+      ofs.open ("e:\\tmp\\logsave", std::ofstream::out | std::ofstream::app);
+      ofs << "SYMB " << g << endl;
+      ofs.close();
+#endif
       short i=archive_function_index(g._SYMBptr->sommet); // equalposcomp(archive_function_tab(),g._SYMBptr->sommet);
       writefunc(&i,sizeof(short),1,f);
       if (i)
@@ -4577,11 +4591,23 @@ unsigned int ConvertUTF8toUTF16 (
 	delete [] ch;
 	return undef;
       }
-      gen res=identificateur(string(ch));
-      lock_syms_mutex();  
-      syms()[ch] = res;
-      unlock_syms_mutex();  
+      string sch(ch); gen res;
       delete [] ch;
+      lock_syms_mutex();
+      sym_string_tab::const_iterator it=syms().find(sch),itend=syms().end();
+      if (it!=itend)
+	res=it->second;
+      else {
+	res=identificateur(sch);
+	syms()[sch]=res;
+      }
+      unlock_syms_mutex();  
+#if DBG_ARCHIVE
+      std::ofstream ofs;
+      ofs.open ("e:\\tmp\\logrestore", std::ofstream::out | std::ofstream::app);
+      ofs << "IDNT " << res << endl;
+      ofs.close();
+#endif
       return res;
     }
     if (t==_SYMB){
@@ -4594,8 +4620,15 @@ unsigned int ConvertUTF8toUTF16 (
 	if (index<archive_function_tab_length){
 	  g=symbolic(aptr[index-1],fe);
 	}
-	else
+	else {
+#if DBG_ARCHIVE
+	  std::ofstream ofs;
+	  ofs.open ("e:\\tmp\\logrestore", std::ofstream::out | std::ofstream::app);
+	  ofs << "archive_restore error _SYMB index " << index << endl;
+	  ofs.close();
+#endif
 	  g=fe; // ERROR
+	}
       }
       else {
 	gen res;
@@ -4629,8 +4662,15 @@ unsigned int ConvertUTF8toUTF16 (
 #else	  
 	  if (builtin_lexer_functions_){
 #ifdef GIAC_HAS_STO_38
-	    if (!casbuiltin(ch,res))
+	    if (!casbuiltin(ch,res)){
+#if DBG_ARCHIVE
+	      std::ofstream ofs;
+	      ofs.open ("e:\\tmp\\logrestore", std::ofstream::out | std::ofstream::app);
+	      ofs << "archive_restore error _SYMB " << ch << endl;
+	      ofs.close();
+#endif
 	      res=0;
+	    }
 #else
 	    std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ch,0),tri);
 	    if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
@@ -4643,8 +4683,15 @@ unsigned int ConvertUTF8toUTF16 (
 	  }
 #endif 
 	}
-	if (is_zero(res))
+	if (is_zero(res)){
+#if DBG_ARCHIVE
+	  std::ofstream ofs;
+	  ofs.open ("e:\\tmp\\logrestore", std::ofstream::out | std::ofstream::app);
+	  ofs << "archive_restore error _SYMB 0 " << ch << endl;
+	  ofs.close();
+#endif
 	  res=gen(ch,contextptr);
+	}
 	delete [] ch;
 	if (res.type!=_FUNC){
 	  return undef;
@@ -4652,6 +4699,12 @@ unsigned int ConvertUTF8toUTF16 (
 	g=symbolic(*res._FUNCptr,fe);
       }
       g.subtype=s;
+#if DBG_ARCHIVE
+      std::ofstream ofs;
+      ofs.open ("e:\\tmp\\logrestore", std::ofstream::out | std::ofstream::app);
+      ofs << "SYMB " << g << endl;
+      ofs.close();
+#endif
       return g;
     }
     if (t==_FUNC){
