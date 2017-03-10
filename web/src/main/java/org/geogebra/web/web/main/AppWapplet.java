@@ -323,7 +323,7 @@ public class AppWapplet extends AppWFull {
 	public void onUnhandledClick() {
 		updateAVStylebar();
 
-		if (!CancelEventTimer.cancelKeyboardHide()) {
+		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
