@@ -5810,6 +5810,10 @@ public abstract class EuclidianController {
 
 	private void addDynamicStylebar(GeoElementND geo) {
 		Drawable dr = ((Drawable) view.getDrawableFor(geo));
+		addDynamicStylebar(dr);
+	}
+
+	private void addDynamicStylebar(Drawable dr) {
 		if (dr instanceof DrawLine) {
 			((DrawLine) dr).updateDynamicStylebarPosition();
 		}
@@ -8439,7 +8443,9 @@ public abstract class EuclidianController {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
-		this.setDynamicStylebarVisible(false);
+		if (view.hasDynamicStyleBar()) {
+			this.setDynamicStylebarVisible(false);
+		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			if (getResizedShape() == null) {
@@ -9903,6 +9909,7 @@ public abstract class EuclidianController {
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
+					addDynamicStylebar(d);
 				}
 
 				// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
