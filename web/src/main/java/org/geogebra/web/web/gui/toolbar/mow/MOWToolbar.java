@@ -177,6 +177,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			app.hideKeyboard();
 		} else if (source == moveButton) {
 			app.setMoveMode();
+			if (currentMenu != null) {
+				currentMenu.reset();
+			}
 		} else if (source == penButton) {
 			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 			setCurrentMenu(penMenu);
@@ -206,11 +209,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		subMenuPanel.clear();
 		this.currentMenu = submenu;
 		subMenuPanel.add(currentMenu);
-		currentMenu.onOpen();
 		setSubmenuVisible(true);
 	}
 
 	private void setSubmenuVisible(final boolean b) {
+		if (b) {
+			currentMenu.onOpen();
+		}
 		subMenuPanel.setVisible(b);
 		getElement().getStyle().setTop((b ? -(submenuHeight + 30) : -10), Unit.PX);
 

@@ -160,6 +160,12 @@ public class PenSubMenu extends SubMenuPanel
 		selectPen();
 	}
 
+	public void reset() {
+		pen.getElement().setAttribute("selected", "false");
+		eraser.getElement().setAttribute("selected", "false");
+		setColorsEnabled(false);
+	}
+
 	private void selectColor(int idx) {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {

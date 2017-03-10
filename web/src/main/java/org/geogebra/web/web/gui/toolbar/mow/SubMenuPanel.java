@@ -116,6 +116,10 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 	}
 
 	public void onOpen() {
+		reset();
+	}
+
+	public void reset() {
 		deselectAllCSS();
 		infoPanel.clear();
 	}
@@ -175,5 +179,6 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 			}
 		}
 	}
+
 
 }

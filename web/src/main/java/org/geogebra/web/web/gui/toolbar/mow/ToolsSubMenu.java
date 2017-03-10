@@ -5,7 +5,10 @@ import java.util.Vector;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.util.StandardButton;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,7 +49,9 @@ public class ToolsSubMenu extends SubMenuPanel {
 		GroupPanel group = new GroupPanel();
 		for (Integer mode : menu) {
 			if (app.isModeValid(mode)) {
-				group.add(createButton(mode));
+				StandardButton btn = createButton(mode);
+				btn.getElement().setId("mode" + mode);
+				group.add(btn);
 				col++;
 			}
 		}
@@ -76,5 +81,16 @@ public class ToolsSubMenu extends SubMenuPanel {
 	@Override
 	protected void createInfoPanel() {
 		super.createInfoPanel();
+	}
+
+	@Override
+	public void onOpen() {
+		super.onOpen();
+		int mode = app.getMode();
+		Element btn = DOM.getElementById("mode" + mode);
+		if (btn != null) {
+			btn.setAttribute("selected", "true");
+		}
+
 	}
 }
