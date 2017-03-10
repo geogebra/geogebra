@@ -394,11 +394,43 @@ public class ToolBar {
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
 		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PARABOLA);
+
+		// reflects
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_MIRROR_AT_LINE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
+
+		// advanced lines
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_ORTHOGONAL);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_PARALLEL);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
 		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+		sb.append(EuclidianConstants.MODE_TANGENTS);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_FITLINE);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_LOCUS);
 
 		// measurements
 
