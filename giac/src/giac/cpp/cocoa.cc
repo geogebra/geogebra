@@ -798,7 +798,7 @@ namespace giac {
       ptr[3]=0;
 #endif
     }
-    void get_tab(short * ptr) const {
+    void get_tab(short * ptr,order_t order) const {
 #ifdef GIAC_64VARS
       if (tab[0]%2){ // copy only 16 first
 	degtype * ptr_=(degtype *)(ui+1);
@@ -2325,7 +2325,7 @@ namespace giac {
       }
 #endif
       short tab[GROEBNER_VARS+1];
-      it->u.get_tab(tab);
+      it->u.get_tab(tab,p.order);
       switch (p.order.o){
       case _PLEX_ORDER:
 	for (int i=0;i<=GROEBNER_VARS;++i){
@@ -3601,7 +3601,7 @@ namespace giac {
       }
 #endif
       short tab[GROEBNER_VARS+1];
-      it->u.get_tab(tab);
+      it->u.get_tab(tab,p.order);
       switch (p.order.o){
       case _PLEX_ORDER:
 	for (int i=0;i<=GROEBNER_VARS;++i){
@@ -10427,7 +10427,7 @@ namespace giac {
       }
 #endif
       short tab[GROEBNER_VARS+1];
-      (*p.expo)[it->u].get_tab(tab);
+      (*p.expo)[it->u].get_tab(tab,p.order);
       switch (p.order.o){
       case _PLEX_ORDER:
 	for (int i=0;i<=GROEBNER_VARS;++i){
@@ -14082,7 +14082,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       longlong * ptr = (longlong *) tab;
       ptr[1]=ptr[0]=0;
     }
-    void get_tab(short * ptr) const {
+    void get_tab(short * ptr,order_t order) const {
 #ifdef GBASIS_SWAP
       tdeg_t14 t(*this);
       swap_indices14(t.tab);
@@ -14469,7 +14469,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       longlong * ptr = (longlong *) tab;
       ptr[2]=ptr[1]=ptr[0]=0;
     }
-    void get_tab(short * ptr) const {
+    void get_tab(short * ptr,order_t order) const {
       for (unsigned i=0;i<=11;++i)
 	ptr[i]=tab[i];
 #ifdef GBASIS_SWAP
@@ -14846,11 +14846,11 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
       ptr[3]=0;
 #endif
     }
-    void get_tab(short * ptr) const {
+    void get_tab(short * ptr,order_t order) const {
       for (unsigned i=0;i<=GROEBNER_VARS;++i)
 	ptr[i]=tab[i];
 #ifdef GBASIS_SWAP
-      swap_indices15_revlex(ptr);
+      swap_indices15(ptr,order.o);
 #endif
     }
     tdeg_t15(const index_m & lm,order_t order){ 
@@ -15278,7 +15278,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 #endif // GROEBNER_VARS==15
 
   int tdeg_t15_lex_greater (const tdeg_t15 & x,const tdeg_t15 & y){
-#ifdef GBASIS_SWAP
+#if 0 // def GBASIS_SWAP
     ulonglong *xtab=(ulonglong *)&x,*ytab=(ulonglong *)&y;
     ulonglong X=*xtab, Y=*ytab;
     if (X!=Y){
