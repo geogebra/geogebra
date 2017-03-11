@@ -9250,6 +9250,9 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMousePressed(AbstractEvent event) {
+		if (view.hasDynamicStyleBar()) {
+			this.setDynamicStylebarVisible(false);
+		}
 
 		//setDynamicStylebarVisible(false);
 
@@ -10526,6 +10529,10 @@ public abstract class EuclidianController {
 
 	public void wrapMouseWheelMoved(int x, int y, double delta,
 			boolean shiftOrMeta, boolean alt) {
+
+		if (view.hasDynamicStyleBar()) {
+			this.setDynamicStylebarVisible(false);
+		}
 
 		if (isTextfieldHasFocus()) {
 			return;
