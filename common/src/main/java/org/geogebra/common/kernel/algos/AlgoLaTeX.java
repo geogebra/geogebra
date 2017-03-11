@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Returns a description of a GeoElement as a GeoText in LaTeX format.
@@ -134,10 +133,6 @@ public class AlgoLaTeX extends AlgoElement {
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
-
-		Log.error("XXX " + geo.getLabelSimple() + " "
-				+ geo.getCorrespondingCasCell()
-						.toValueString(StringTemplate.defaultTemplate));
 
 		// whether to use a formula renderer
 		boolean useLaTeX = true;
