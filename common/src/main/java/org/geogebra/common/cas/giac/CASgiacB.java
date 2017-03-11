@@ -1,5 +1,7 @@
 package org.geogebra.common.cas.giac;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
@@ -71,15 +73,32 @@ public abstract class CASgiacB extends CASgiac {
         g.eval(1, context);
 
         CustomFunctions[] init = CustomFunctions.values();
+		CustomFunctions.setDependencies();
 
         for (int i = 0; i < init.length; i++) {
             CustomFunctions function = init[i];
 
             // send only necessary init commands
+			boolean foundInInput = false;
+			/* This is very hacky here. If the input expression as string
+			 * contains an internal GeoGebra CAS command, then that command will be executed
+			 * in Giac. TODO: find a better a way.
+			 */
             if (function.functionName == null
-                    || exp.indexOf(function.functionName) > -1) {
+					|| (foundInInput = (exp
+							.indexOf(function.functionName) > -1))) {
                 g = binding.createGen(function.definitionString, context);
                 g.eval(1, context);
+				/* Some commands may require additional commands to load. */
+				if (foundInInput) {
+					ArrayList<CustomFunctions> dependencies = CustomFunctions
+							.prereqs(function);
+					for (CustomFunctions dep : dependencies) {
+						Log.debug(function + " implicitly loads " + dep);
+						g = binding.createGen(dep.definitionString, context);
+						g.eval(1, context);
+					}
+				}
             }
         }
 

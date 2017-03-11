@@ -1,7 +1,10 @@
 package org.geogebra.common.cas.giac;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -198,12 +201,13 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		IS_ZERO("ggbIsZero", "ggbIsZero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]=='pnt' && x[1] == ggbvect[0,0,0])))"),
 		/**
-		 * convert the polys into primitive polys in the input list (contains
+		 * Convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):
 		 */
 		PRIM_POLY("primpoly", "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
 		/**
-		 * strange why sommet(-x)!='-' (so we do an ugly hack here, FIXME)
+		 * Compute squarefree factorization of the input poly p. Strange why
+		 * sommet(-x)!='-' (so we do an ugly hack here, FIXME)
 		 */
 		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
 		/**
@@ -231,7 +235,26 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars.
 		 */
-		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end");
+		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end"),
+		/**
+		 * Compute coefficient matrix of the input polynomial. The output is a
+		 * flattened variant of the matrix: the elements are returned row by
+		 * row, starting with the sizes of the matrix: height and width. Used
+		 * internally.
+		 */
+		COEFF_MATRIX("coeffMatrix", "coeffMatrix(aa):=begin local bb, sx, sy, ii, jj, ee, cc, kk; bb:=coeffs(aa); sx:=size(bb); sy:=size(coeffs(aa,y)); cc:=[sx,sy]; for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj]; cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0; cc:=append(cc,ee); od; od; return cc; end"),
+		/**
+		 * Compute the coefficient matrices for the factors of the input
+		 * polynomial. The first number in the flattened output is the number of
+		 * the coefficient matrices, then each coefficient matrix is added. Used
+		 * internally.
+		 */
+		COEFF_MATRICES("coeffMatrices", "coeffMatrices(aa):=begin local ff, bb, ccf, ll, aaf; ff:=factors(aa); ccf:=[size(ff)/2]; for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffMatrix(aaf); ccf:=append(ccf,bb); od; return flatten(ccf); end"),
+		/**
+		 * Compute the flattened coefficient matrix as it is directly used when
+		 * the algebraic curve is plotted as an implicit poly. Used publicly.
+		 */
+		IMPLICIT_CURVE_COEFFS("implicitCurveCoeffs", "implicitCurveCoeffs(aa):=begin local bb; bb:=factorsqrfree(aa); return [coeffMatrix(bb),coeffMatrices(bb)]; end");
 		/** function name */
 		final public String functionName;
 		/** definition string */
@@ -247,6 +270,49 @@ public abstract class CASgiac implements CASGenericInterface {
 			return functionName;
 		}
 
+		private static List<Entry<CustomFunctions, CustomFunctions>> CustomFunctionsDependencies;
+
+		private static void setDependency(CustomFunctions cf1,
+				CustomFunctions cf2) {
+			Entry<CustomFunctions, CustomFunctions> pair = new SimpleEntry<CustomFunctions, CustomFunctions>(
+					cf1, cf2);
+			CustomFunctionsDependencies.add(pair);
+		}
+
+		/**
+		 * Create dependencies between two CAS custom functions. This is
+		 * required to ensure that all dependencies will be loaded when a custom
+		 * function is loaded.
+		 */
+		public static void setDependencies() {
+			CustomFunctionsDependencies = new ArrayList<Entry<CustomFunctions, CustomFunctions>>();
+			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRIX);
+			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRICES);
+			setDependency(IMPLICIT_CURVE_COEFFS, FACTOR_SQR_FREE);
+		}
+
+		/**
+		 * Create the list of prerequisites of a custom command. TODO: Currently
+		 * we don't have a complex tree of dependencies. Later we may add a more
+		 * sophisticated algorithm here to remove duplicates, be faster etc.
+		 * 
+		 * @param cf
+		 *            the custom command
+		 * @return the prerequisites
+		 */
+		public static ArrayList<CustomFunctions> prereqs(
+				CustomFunctions cf) {
+			ArrayList<CustomFunctions> list = new ArrayList<CustomFunctions>();
+			for (Entry<CustomFunctions, CustomFunctions> pair : CustomFunctionsDependencies) {
+				CustomFunctions key = pair.getKey();
+				CustomFunctions value = pair.getValue();
+				if (key.equals(cf)) {
+					list.add(0, value);
+					list.addAll(0, prereqs(value));
+				}
+			}
+			return list;
+		}
 	}
 
 	/** CAS parser */
