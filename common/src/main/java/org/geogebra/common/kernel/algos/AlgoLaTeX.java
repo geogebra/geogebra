@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Returns a description of a GeoElement as a GeoText in LaTeX format.
@@ -134,19 +135,29 @@ public class AlgoLaTeX extends AlgoElement {
 	@Override
 	public final void compute() {
 
+		Log.error("XXX " + geo.getLabelSimple() + " "
+				+ geo.getCorrespondingCasCell()
+						.toValueString(StringTemplate.defaultTemplate));
+
 		// whether to use a formula renderer
 		boolean useLaTeX = true;
+
+		boolean substitute = substituteVars == null ? true
+				: substituteVars.getBoolean();
 
 		// undefined 0/0 should be ?, undefined If[x>0,"a"] should be ""
 		if (!geo.isDefined() && !geo.isGeoText()) {
 			text.setTextString("?");
+		} else if (geo.getCorrespondingCasCell() != null) {
+			// it's a twin geo, display the corresponding CAS cell
+			text.setTextString(geo.getCorrespondingCasCell().getFormulaString(
+					StringTemplate.latexTemplateJLM, substitute));
 		} else if ((substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
 			text.setTextString("");
 
 		} else {
-			boolean substitute = substituteVars == null ? true
-					: substituteVars.getBoolean();
+
 			boolean show = showName == null ? false : showName.getBoolean();
 
 			if (!geo.isLabelSet()) {
