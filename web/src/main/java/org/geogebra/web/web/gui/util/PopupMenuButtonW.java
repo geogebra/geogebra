@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -402,8 +403,11 @@ public class PopupMenuButtonW extends MyCJButton
 		if (changeEventHandler != null) {
 			changeEventHandler.fireActionPerformed(this);
 		} else {
-			((EuclidianStyleBarW) app.getActiveEuclidianView().getStyleBar())
-					.fireActionPerformed(this);
+			// needed checking if stylebar exists: don't create EV stylebar if
+			// the slider belong to the popup of dynamic stylebar
+			if (app.getActiveEuclidianView().hasStyleBar() || !app.has(Feature.DYNAMIC_STYLEBAR)) {
+				((EuclidianStyleBarW) app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
+			}
 		}
 		fireActionPerformed();
 		updateGUI();
