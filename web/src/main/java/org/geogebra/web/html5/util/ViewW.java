@@ -323,10 +323,11 @@ public class ViewW {
 
 	public void onError(String s) {
 		Log.error(s);
+		// eg 403
 		if (s.startsWith("Error 40")) {
 			this.app.getScriptManager().ggbOnInit();
 			ToolTipManagerW.sharedInstance().showBottomMessage(
-					"We are sorry, but file could not be found.", false,
+					app.getLocalization().getMenu("FileLoadingError"), false,
 					app);
 		}
 	}
