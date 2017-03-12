@@ -3302,7 +3302,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			}
 		}
 	};
+	public boolean panelScrolled = false;
 	
+	public boolean isPanelScrolled() {
+		return panelScrolled;
+	}
+
+	public void setPanelScrolled(boolean b) {
+		panelScrolled = b;
+	}
+
 	@Override
 	public void setAltText() {
 		altTextTimer.schedule(700);

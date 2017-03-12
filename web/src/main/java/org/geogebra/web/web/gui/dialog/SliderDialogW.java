@@ -32,6 +32,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
@@ -184,6 +186,16 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 
 		bottomWidget.add(btOK);
 		bottomWidget.add(btCancel);
+
+		this.addDomHandler(new ScrollHandler() {
+
+			@Override
+			public void onScroll(ScrollEvent event) {
+				app.panelScrolled = true;
+
+			}
+
+		}, ScrollEvent.getType());
 	}
 
 	private void updateLabelField(GeoElement geo, boolean isInteger) {

@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -56,7 +57,21 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 			if (CancelEventTimer.cancelKeyboardHide()) {
 				return;
 			}
-			app.hideKeyboard();
+
+			if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
+				Timer timer = new Timer() {
+					@Override
+					public void run() {
+						if (!app.isPanelScrolled()) {
+							app.hideKeyboard();
+						}
+					}
+				};
+				app.setPanelScrolled(false);
+				timer.schedule(400);
+			} else {
+				app.hideKeyboard();
+			}
 		}
 	}
 
