@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
 import com.google.gwt.core.client.Scheduler;
@@ -143,10 +142,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	public boolean isInputField(MathKeyboardListener ml) {
 		return (aview.getInputTreeItem() == ml);
-	}
-
-	public void showKeyboardOnInputField() {
-		((LatexTreeItem) aview.getInputTreeItem()).showKeyboard();
 	}
 
 	/**

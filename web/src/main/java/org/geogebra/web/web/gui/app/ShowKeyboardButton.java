@@ -72,10 +72,7 @@ public class ShowKeyboardButton extends SimplePanel {
 						
 				if (app.has(Feature.KEYBOARD_BEHAVIOUR) && panel instanceof AlgebraDockPanelW
 						&& ((AlgebraDockPanelW) panel).isInputField(mathKeyboardListener)) {
-					((AlgebraDockPanelW) panel).showKeyboardOnInputField();
 					((LatexTreeItem) mathKeyboardListener).getLatexController().initAndShowKeyboard(false);
-					((LatexTreeItem) mathKeyboardListener).getLatexController()
-							.getRetexListener();
 					listener.doShowKeyBoard(true,
 							((LatexTreeItem) mathKeyboardListener).getLatexController().getRetexListener());
 				}
