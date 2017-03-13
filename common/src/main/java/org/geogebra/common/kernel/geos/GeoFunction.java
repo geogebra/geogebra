@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
@@ -78,7 +79,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class GeoFunction extends GeoElement implements VarString, Translateable,
 		Functional, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, UnivariateFunction, Dilateable,
-		Transformable, InequalityProperties, SurfaceEvaluable {
+		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable {
 
 	/** inner function representation */
 	protected Function fun;
@@ -3218,4 +3219,23 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return ex == null || Operation.includesFreehandOrData(ex.getOperation())
 				|| ex.isSecret();
 	}
+
+	public boolean isGeoLocusable() {
+		return getParentAlgorithm() instanceof AlgoFunctionFreehand;
+	}
+
+	/**
+	 * from GeoLocusable interface
+	 */
+	public double getPointLength() {
+		return ((AlgoFunctionFreehand) getParentAlgorithm()).getPointLength();
+	}
+
+	/**
+	 * from GeoLocusable interface
+	 */
+	public ArrayList<MyPoint> getPoints() {
+		return ((AlgoFunctionFreehand) getParentAlgorithm()).getPoints();
+	}
+
 }
