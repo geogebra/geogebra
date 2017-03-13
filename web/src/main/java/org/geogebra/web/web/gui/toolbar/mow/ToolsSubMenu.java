@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ToolsSubMenu extends SubMenuPanel {
 
-	private class GroupPanel extends FlowPanel {
+	private static class GroupPanel extends FlowPanel {
 		private static final int BUTTON_WIDTH = 40;
 
 		public GroupPanel() {

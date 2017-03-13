@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
-	private InputPanel inputPanel;
+	private final InputPanel inputPanel;
 	private FlowPanel outputPanel;
 	private String textBeforeEdit;
 	private CASEditorW textField;
@@ -127,13 +127,11 @@ public class CASTableCellW extends VerticalPanel {
 	 * Remove editor and show input normally, update the CAS cell input
 	 */
 	public void stopEditing() {
-		Log.debug("stop");
-		if (!textBeforeEdit.equals(textField.getText())) {
+		if (textField != null && !textBeforeEdit.equals(textField.getText())) {
 			setInput();
 			inputPanel.setText(textField.getText());
-			if (textField != null) {
-				inputPanel.setLaTeX(textField.getLaTeX());
-			}
+			inputPanel.setLaTeX(textField.getLaTeX());
+
 		}
 		clear();
 		add(inputPanel);
@@ -150,8 +148,8 @@ public class CASTableCellW extends VerticalPanel {
 	}
 
 	public void setInput() {
-		casCell.setInput(textField.getText());
 		if (textField != null) {
+			casCell.setInput(textField.getText());
 			casCell.setLaTeXInput(textField.getLaTeX());
 		}
 	}
@@ -231,9 +229,8 @@ public class CASTableCellW extends VerticalPanel {
 			}
 
 		}
-		if (inputPanel != null) {
-			this.inputPanel.setPixelRatio(ratio);
-		}
+
+		this.inputPanel.setPixelRatio(ratio);
 	}
 
 }

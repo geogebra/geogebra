@@ -98,7 +98,6 @@ import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -2101,9 +2100,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return new AutocompleteProcessing(
 					(AutoCompleteTextFieldW) textField);
 		}
-		if (textField instanceof EquationEditorListener) {
-			return ((EquationEditorListener) textField).getKeyboardListener();
-		}
+
 		if (textField instanceof ScriptArea) {
 			return new ScriptAreaProcessing((ScriptArea) textField);
 		}
