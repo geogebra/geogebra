@@ -127,7 +127,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
-	private ContextMenuPopup btnContextMenu;
+	private ContextMenuPopup btnContextMenu = null;
 
 
 
@@ -357,6 +357,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					if (geo != null){
 						activeGeoList.add(geo);
 					}
+				}
+
+				if (btnContextMenu != null) {
+					btnContextMenu.hideMenu();
 				}
 			}
 
@@ -1521,5 +1525,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	public boolean isDynamicStylebarHit(int x, int y) {
 		// overwritten in DynamicStyleBar class
 		return false;
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		if (btnContextMenu != null) {
+			btnContextMenu.hideMenu();
+		}
 	}
 }
