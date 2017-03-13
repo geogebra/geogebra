@@ -5809,11 +5809,6 @@ public abstract class EuclidianController {
 				selectionPreview);
 	}
 
-	private void addDynamicStylebar(GeoElementND geo) {
-		Drawable dr = ((Drawable) view.getDrawableFor(geo));
-		addDynamicStylebar(dr);
-	}
-
 	private void addDynamicStylebar(Drawable dr) {
 		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
 			return;
