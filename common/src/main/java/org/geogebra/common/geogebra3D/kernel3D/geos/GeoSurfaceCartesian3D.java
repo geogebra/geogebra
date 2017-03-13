@@ -133,13 +133,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 		double val;
 		for (int i = 0; i < 3; i++) {
-			val = fun1[0][i].evaluate(tmp);
+			val = fun1evaluate(0, i, tmp);
 			if (Double.isNaN(val)) {
 				return setNormalFromNeighbours(p, u, v, n);
 			}
 			der1.set(i + 1, val);
 
-			val = fun1[1][i].evaluate(tmp);
+			val = fun1evaluate(1, i, tmp);
 			if (Double.isNaN(val)) {
 				return setNormalFromNeighbours(p, u, v, n);
 			}
@@ -151,6 +151,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 		return true;
 
+	}
+
+	private double fun1evaluate(int i, int j, double[] d) {
+		return fun1[i][j].evaluate(d);
 	}
 
 	/**
@@ -165,12 +169,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	public void setJacobianForBivariate(double[] uv, double vx, double vy,
 			double vz, CoordMatrix matrix) {
 
-		final double dfxu = fun1[0][0].evaluate(uv);
-		final double dfyu = fun1[0][1].evaluate(uv);
-		final double dfzu = fun1[0][2].evaluate(uv);
-		final double dfxv = fun1[1][0].evaluate(uv);
-		final double dfyv = fun1[1][1].evaluate(uv);
-		final double dfzv = fun1[1][2].evaluate(uv);
+		final double dfxu = fun1evaluate(0, 0, uv);
+		final double dfyu = fun1evaluate(0, 1, uv);
+		final double dfzu = fun1evaluate(0, 2, uv);
+		final double dfxv = fun1evaluate(1, 0, uv);
+		final double dfyv = fun1evaluate(1, 1, uv);
+		final double dfzv = fun1evaluate(1, 2, uv);
 
 		matrix.set(1, 1, vz * dfyu - vy * dfzu);
 		matrix.set(1, 2, vz * dfyv - vy * dfzv);
@@ -334,10 +338,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 		double val;
 		for (int i = 0; i < 3; i++) {
-			val = fun1[0][i].evaluate(tmp);
+			val = fun1evaluate(0, i, tmp);
 			der1.set(i + 1, val);
 
-			val = fun1[1][i].evaluate(tmp);
+			val = fun1evaluate(1, i, tmp);
 			der2.set(i + 1, val);
 		}
 
@@ -640,29 +644,29 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			double dz = xyz[2] - z0;
 
 			// calculate derivatives values
-			xyzDu[0] = fun1[0][0].evaluate(uvOut);
-			xyzDu[1] = fun1[0][1].evaluate(uvOut);
-			xyzDu[2] = fun1[0][2].evaluate(uvOut);
+			xyzDu[0] = fun1evaluate(0, 0, uvOut);
+			xyzDu[1] = fun1evaluate(0, 1, uvOut);
+			xyzDu[2] = fun1evaluate(0, 2, uvOut);
 
-			xyzDv[0] = fun1[1][0].evaluate(uvOut);
-			xyzDv[1] = fun1[1][1].evaluate(uvOut);
-			xyzDv[2] = fun1[1][2].evaluate(uvOut);
+			xyzDv[0] = fun1evaluate(1, 0, uvOut);
+			xyzDv[1] = fun1evaluate(1, 1, uvOut);
+			xyzDv[2] = fun1evaluate(1, 2, uvOut);
 
-			xyzDuu[0] = fun2[0][0][0].evaluate(uvOut);
-			xyzDuu[1] = fun2[0][0][1].evaluate(uvOut);
-			xyzDuu[2] = fun2[0][0][2].evaluate(uvOut);
+			xyzDuu[0] = fun2evaluate(0, 0, 0, uvOut);
+			xyzDuu[1] = fun2evaluate(0, 0, 1, uvOut);
+			xyzDuu[2] = fun2evaluate(0, 0, 2, uvOut);
 
-			xyzDuv[0] = fun2[1][0][0].evaluate(uvOut);
-			xyzDuv[1] = fun2[1][0][1].evaluate(uvOut);
-			xyzDuv[2] = fun2[1][0][2].evaluate(uvOut);
+			xyzDuv[0] = fun2evaluate(1, 0, 0, uvOut);
+			xyzDuv[1] = fun2evaluate(1, 0, 1, uvOut);
+			xyzDuv[2] = fun2evaluate(1, 0, 2, uvOut);
 
-			xyzDvu[0] = fun2[0][1][0].evaluate(uvOut);
-			xyzDvu[1] = fun2[0][1][1].evaluate(uvOut);
-			xyzDvu[2] = fun2[0][1][2].evaluate(uvOut);
+			xyzDvu[0] = fun2evaluate(0, 1, 0, uvOut);
+			xyzDvu[1] = fun2evaluate(0, 1, 1, uvOut);
+			xyzDvu[2] = fun2evaluate(0, 1, 2, uvOut);
 
-			xyzDvv[0] = fun2[1][1][0].evaluate(uvOut);
-			xyzDvv[1] = fun2[1][1][1].evaluate(uvOut);
-			xyzDvv[2] = fun2[1][1][2].evaluate(uvOut);
+			xyzDvv[0] = fun2evaluate(1, 1, 0, uvOut);
+			xyzDvv[1] = fun2evaluate(1, 1, 1, uvOut);
+			xyzDvv[2] = fun2evaluate(1, 1, 2, uvOut);
 
 			// set bivariate vector
 			bivariateVector.setX(dx * xyzDu[0] + dy * xyzDu[1] + dz * xyzDu[2]);
@@ -788,6 +792,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	// + dist);
 	// }
 
+	private double fun2evaluate(int i, int j, int k, double[] d) {
+		return fun2[i][j][k].evaluate(d);
+	}
+
 	/**
 	 * calc closest point to line (x0,y0,z0) (vx,vy,vz) with (uold, vold) start
 	 * parameters
@@ -863,29 +871,29 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			xyz[2] = fun[2].evaluate(uvOut);
 
 			// calculate derivatives values
-			xyzDu[0] = fun1[0][0].evaluate(uvOut);
-			xyzDu[1] = fun1[0][1].evaluate(uvOut);
-			xyzDu[2] = fun1[0][2].evaluate(uvOut);
+			xyzDu[0] = fun1evaluate(0, 0, uvOut);
+			xyzDu[1] = fun1evaluate(0, 1, uvOut);
+			xyzDu[2] = fun1evaluate(0, 2, uvOut);
 
-			xyzDv[0] = fun1[1][0].evaluate(uvOut);
-			xyzDv[1] = fun1[1][1].evaluate(uvOut);
-			xyzDv[2] = fun1[1][2].evaluate(uvOut);
+			xyzDv[0] = fun1evaluate(1, 0, uvOut);
+			xyzDv[1] = fun1evaluate(1, 1, uvOut);
+			xyzDv[2] = fun1evaluate(1, 2, uvOut);
 
-			xyzDuu[0] = fun2[0][0][0].evaluate(uvOut);
-			xyzDuu[1] = fun2[0][0][1].evaluate(uvOut);
-			xyzDuu[2] = fun2[0][0][2].evaluate(uvOut);
+			xyzDuu[0] = fun2evaluate(0, 0, 0, uvOut);
+			xyzDuu[1] = fun2evaluate(0, 0, 1, uvOut);
+			xyzDuu[2] = fun2evaluate(0, 0, 2, uvOut);
 
-			xyzDuv[0] = fun2[1][0][0].evaluate(uvOut);
-			xyzDuv[1] = fun2[1][0][1].evaluate(uvOut);
-			xyzDuv[2] = fun2[1][0][2].evaluate(uvOut);
+			xyzDuv[0] = fun2evaluate(1, 0, 0, uvOut);
+			xyzDuv[1] = fun2evaluate(1, 0, 1, uvOut);
+			xyzDuv[2] = fun2evaluate(1, 0, 2, uvOut);
 
-			xyzDvu[0] = fun2[0][1][0].evaluate(uvOut);
-			xyzDvu[1] = fun2[0][1][1].evaluate(uvOut);
-			xyzDvu[2] = fun2[0][1][2].evaluate(uvOut);
+			xyzDvu[0] = fun2evaluate(0, 1, 0, uvOut);
+			xyzDvu[1] = fun2evaluate(0, 1, 1, uvOut);
+			xyzDvu[2] = fun2evaluate(0, 1, 2, uvOut);
 
-			xyzDvv[0] = fun2[1][1][0].evaluate(uvOut);
-			xyzDvv[1] = fun2[1][1][1].evaluate(uvOut);
-			xyzDvv[2] = fun2[1][1][2].evaluate(uvOut);
+			xyzDvv[0] = fun2evaluate(1, 1, 0, uvOut);
+			xyzDvv[1] = fun2evaluate(1, 1, 1, uvOut);
+			xyzDvv[2] = fun2evaluate(1, 1, 2, uvOut);
 
 			// we want to minimize (x,y,z)-to-line distance,
 			// i.e. norm of vector:
