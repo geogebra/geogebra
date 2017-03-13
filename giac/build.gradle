@@ -155,6 +155,10 @@ model {
             architecture 'i386'
             operatingSystem 'ios'
         }
+        ios_x86_64 {
+            architecture 'x86_64'
+            operatingSystem 'ios'
+        }
     }
 
     toolChains {
@@ -195,6 +199,13 @@ model {
                 }
                 path clangPath
             }
+            target('ios_x86_64') {
+                cppCompiler.executable 'clang'
+                cppCompiler.withArguments { args ->
+                    iosClangCompilerArgs(args, iphonesimulatorSdk, "x86_64", minIosVersion)
+                }
+                path clangPath
+            }
         }
         // Note: Make sure manually that these executables are on the PATH.
         android(Gcc) {
@@ -217,6 +228,7 @@ model {
             targetPlatform 'ios_armv7'
             targetPlatform 'ios_arm64'
             targetPlatform 'ios_i386'
+            targetPlatform 'ios_x86_64'
             
             binaries.all {
                 cppCompiler.define "GIAC_GGB"
@@ -244,6 +256,7 @@ model {
             targetPlatform 'ios_armv7'
             targetPlatform 'ios_arm64'
             targetPlatform 'ios_i386'
+            targetPlatform 'ios_x86_64'
 
             binaries.all {
                 lib library: 'giac', linkage: 'static'
@@ -258,14 +271,12 @@ model {
                 cppCompiler.define 'NO_GETTEXT'
                 cppCompiler.define 'NO_SCANDIR'
                 cppCompiler.define 'OSX_10_9_CXX'
-
             }
         }
 
         minigiac(NativeExecutableSpec) {
             targetPlatform 'linux32'
             targetPlatform 'linux64'
-
 
             binaries.all {
                 lib library: 'giac', linkage: 'static'
@@ -326,9 +337,9 @@ model {
                 if (targetPlatform.architecture.name == 'i386') {
                     cppCompiler.define 'SMARTPTR64'
                     cppCompiler.define 'SIZEOF_LONG', '8'
-                    } else {
+                } else {
                     cppCompiler.define 'SIZEOF_LONG', '4'
-                    }
+                }
 
                 // OS based settings:
                 if (targetPlatform.operatingSystem.name == 'windows') {
@@ -421,17 +432,37 @@ model {
 def lipoOutput(name, output) {
     def path = "build/libs/${name}/static"
     mkdir("${output}")
-    exec_("lipo", "${path}/ios_armv7/lib${name}.a", "${path}/ios_arm64/lib${name}.a", "${path}/ios_i386/lib${name}.a", '-create', '-output', "${output}/lib${name}.a")
+    exec_("lipo", 
+        "${path}/ios_armv7/lib${name}.a", 
+        "${path}/ios_arm64/lib${name}.a", 
+        "${path}/ios_i386/lib${name}.a",
+        "${path}/ios_x86_64/lib${name}.a",
+        '-create', '-output', "${output}/lib${name}.a")
 }
 
 def lipoPrebuilt(name, output) {
     def path = "src/jni/prebuilt/ios"
     mkdir("${output}")
-    exec_("lipo", "${path}/armv7/lib${name}.a", "${path}/arm64/lib${name}.a", "${path}/i386/lib${name}.a", '-create', '-output', "${output}/lib${name}.a")
+    exec_("lipo", 
+        "${path}/armv7/lib${name}.a", 
+        "${path}/arm64/lib${name}.a", 
+        "${path}/i386/lib${name}.a",
+        "${path}/x86_64/lib${name}.a",
+        '-create', '-output', "${output}/lib${name}.a")
 }
 
-task simpleInterfaceIosStaticLibrary(dependsOn: ['simpleInterfaceIos_armv7StaticLibrary', 'simpleInterfaceIos_arm64StaticLibrary', 'simpleInterfaceIos_i386StaticLibrary'])
-task giacIosStaticLibrary(dependsOn: ['giacIos_armv7StaticLibrary', 'giacIos_arm64StaticLibrary', 'giacIos_i386StaticLibrary'])
+task simpleInterfaceIosStaticLibrary(dependsOn: [
+    'simpleInterfaceIos_armv7StaticLibrary', 
+    'simpleInterfaceIos_arm64StaticLibrary', 
+    'simpleInterfaceIos_i386StaticLibrary',
+    'simpleInterfaceIos_x86_64StaticLibrary'
+])
+task giacIosStaticLibrary(dependsOn: [
+    'giacIos_armv7StaticLibrary', 
+    'giacIos_arm64StaticLibrary', 
+    'giacIos_i386StaticLibrary',
+    'giacIos_x86_64StaticLibrary'
+])
 
 task createFatIosStaticLibrary(dependsOn: ['simpleInterfaceIosStaticLibrary', 'giacIosStaticLibrary']) {
     doLast {
