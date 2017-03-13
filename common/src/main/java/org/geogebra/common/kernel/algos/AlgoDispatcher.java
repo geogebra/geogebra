@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -821,7 +822,7 @@ public class AlgoDispatcher {
 	/**
 	 * Length[locus]
 	 */
-	final public GeoNumeric Length(String label, GeoLocus locus) {
+	final public GeoNumeric Length(String label, GeoLocusable locus) {
 		AlgoLengthLocus algo = new AlgoLengthLocus(cons, label, locus);
 		return algo.getLength();
 	}

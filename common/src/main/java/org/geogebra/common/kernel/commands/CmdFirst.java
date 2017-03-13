@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.algos.AlgoFirstString;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
@@ -49,7 +49,7 @@ public class CmdFirst extends CommandProcessor {
 		case 2:
 			boolean list = arg[0].isGeoList();
 			boolean string = arg[0].isGeoText();
-			boolean locus = arg[0].isGeoLocus();
+			boolean locus = arg[0].isGeoLocusable();
 			if (list && arg[1].isGeoNumeric()) {
 				GeoElement[] ret = { First(c.getLabel(), (GeoList) arg[0],
 						(GeoNumeric) arg[1]) };
@@ -61,7 +61,7 @@ public class CmdFirst extends CommandProcessor {
 			} else if (locus && arg[1].isGeoNumeric()) {
 
 				AlgoFirstLocus algo = new AlgoFirstLocus(cons, c.getLabel(),
-						(GeoLocus) arg[0], (GeoNumeric) arg[1]);
+						(GeoLocusable) arg[0], (GeoNumeric) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

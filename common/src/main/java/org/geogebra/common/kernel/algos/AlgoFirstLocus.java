@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoFirstLocus extends AlgoFirst {
 
-	public AlgoFirstLocus(Construction cons, String label, GeoLocus inputLocus,
+	public AlgoFirstLocus(Construction cons, String label,
+			GeoLocusable inputLocus,
 			GeoNumeric n) {
-		super(cons, label, inputLocus, n);
+		super(cons, label, inputLocus.toGeoElement(), n);
 
 	}
 
@@ -25,7 +26,7 @@ public class AlgoFirstLocus extends AlgoFirst {
 	@Override
 	public final void compute() {
 
-		ArrayList<MyPoint> points = ((GeoLocus) inputList).getPoints();
+		ArrayList<MyPoint> points = ((GeoLocusable) inputList).getPoints();
 
 		size = points.size();
 		int outsize = n == null ? 1 : (int) n.getDouble();

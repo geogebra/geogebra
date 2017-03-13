@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.cas.AlgoLengthFunction2Points;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -70,9 +70,9 @@ public class CmdLength extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getLength() };
 				return ret;
-			} else if (arg[0].isGeoLocus()) {
+			} else if (arg[0].isGeoLocusable()) {
 				GeoElement[] ret = { getAlgoDispatcher().Length(c.getLabel(),
-						(GeoLocus) arg[0]) };
+						(GeoLocusable) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {
 

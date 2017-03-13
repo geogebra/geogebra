@@ -137,4 +137,8 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		return ValueType.PARAMETRIC2D;
 	}
 
+	public boolean isGeoLocusable() {
+		return true;
+	}
+
 }

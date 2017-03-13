@@ -12,7 +12,10 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -111,6 +114,36 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 	public GeoList getList() {
 		return inputList;
+	}
+
+	public double getPointLength() {
+		// first two elements are the min/max so subtract 2
+		return inputList.size() - 2;
+	}
+
+	public ArrayList<MyPoint> getPoints() {
+		ArrayList<MyPoint> ret = new ArrayList<MyPoint>();
+		double step, min, max;
+		int n = inputList.size() - 3;
+		if (n >= 1) {
+			min = inputList.getListElement(0).evaluateDouble();
+			max = inputList.getListElement(1).evaluateDouble();
+
+			if (min > max) {
+				return ret;
+			}
+
+			step = (max - min) / n;
+		} else {
+			return ret;
+		}
+
+		for (int i = 2; i < inputList.size(); i++) {
+			double x = min + step * (i - 2);
+			ret.add(new MyPoint(x, g.value(x)));
+		}
+
+		return ret;
 	}
 
 }

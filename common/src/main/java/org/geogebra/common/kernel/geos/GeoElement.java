@@ -8846,4 +8846,12 @@ public abstract class GeoElement extends ConstructionElement
 				? GeoElement.pointLabels : null, false);
 	}
 
+	// @Override
+	// public NumberDerivativePair getDualNumber(Kernel kernel) {
+	// return new NumberDerivativePair(kernel, evaluateDouble(), 0);
+	// }
+
+	public boolean isGeoLocusable() {
+		return false;
+	}
 }

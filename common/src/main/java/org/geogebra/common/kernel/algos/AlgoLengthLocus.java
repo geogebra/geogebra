@@ -15,7 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -23,10 +23,11 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoLengthLocus extends AlgoElement {
 
-	private GeoLocus locus; // input
+	private GeoLocusable locus; // input
 	private GeoNumeric length; // output
 
-	public AlgoLengthLocus(Construction cons, String label, GeoLocus locus) {
+	public AlgoLengthLocus(Construction cons, String label,
+			GeoLocusable locus) {
 		super(cons);
 		this.locus = locus;
 
@@ -45,7 +46,7 @@ public class AlgoLengthLocus extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = locus;
+		input[0] = locus.toGeoElement();
 
 		super.setOutputLength(1);
 		super.setOutput(0, length);
