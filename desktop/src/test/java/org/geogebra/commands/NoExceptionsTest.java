@@ -104,6 +104,7 @@ public class NoExceptionsTest {
 		t("P=(2,3)");
 		t("c3:circle[P,2]");
 		t("alog=1");
+		t("freehandFunc=Function[{1,2,1,2,1,2,1,2,1,2,1}]");
 	}
 	public static int syntaxes;
 	@Before
@@ -733,6 +734,7 @@ public class NoExceptionsTest {
 		t("First[ list1 ]");
 		t("First[ list1 , n1 ]");
 		t("First[ loc , n1 ]");
+		t("First[ freehandFunc , 2 ]");
 
 		t("First[ txt ]");
 		t("First[ txt , n1 ]");
@@ -1149,6 +1151,8 @@ public class NoExceptionsTest {
 		t("Length[ seg1]");
 		t("Length[ list1 ]");
 		t("Length[ loc ]");
+		t("Length[ freehandFunc ]");
+
 		t("Length[ Pt1 ]");
 
 		t("Length[ txt ]");

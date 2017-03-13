@@ -116,7 +116,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		return inputList;
 	}
 
-	public double getPointLength() {
+	public int getPointLength() {
 		// first two elements are the min/max so subtract 2
 		return inputList.size() - 2;
 	}

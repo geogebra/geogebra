@@ -36,7 +36,7 @@ public interface GeoLocusable {
 
 	public boolean isDefined();
 
-	public double getPointLength();
+	public int getPointLength();
 
 	public ArrayList<MyPoint> getPoints();
 }

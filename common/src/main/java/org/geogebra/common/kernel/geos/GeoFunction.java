@@ -3227,7 +3227,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/**
 	 * from GeoLocusable interface
 	 */
-	public double getPointLength() {
+	public int getPointLength() {
 		return ((AlgoFunctionFreehand) getParentAlgorithm()).getPointLength();
 	}
 

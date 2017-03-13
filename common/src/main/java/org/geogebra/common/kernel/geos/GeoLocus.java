@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * 
  * @author Markus
  */
-public class GeoLocus extends GeoLocusND<MyPoint> {
+public class GeoLocus extends GeoLocusND<MyPoint> implements GeoLocusable {
 
 	/**
 	 * Creates new locus
