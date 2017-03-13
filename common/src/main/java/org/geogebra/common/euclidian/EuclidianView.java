@@ -2868,6 +2868,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return ret;
 	}
 
+	public String getAxisLabel(int axis, boolean addBoldItalicTags) {
+		if (addBoldItalicTags) {
+			if (axesLabels[axis] != null && this.settings != null) {
+				return this.settings.axisLabelForXML(axis);
+			}
+		}
+		return axesLabels[axis];
+	}
+
 	@Override
 	public void setAxesLabels(String[] axesLabels) {
 		setAxisLabel(0, axesLabels[0]);

@@ -14,6 +14,7 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 
 	private AxisModel[] mAxisModel;
 	private EuclidianView view;
+	private int dimension;
 
 	/**
 	 * constructor
@@ -27,20 +28,23 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 
         this.view = view;
 
-        int dim;
         if (view.isEuclidianView3D()) {
-            dim = 3;
-        } else {
-            dim = 2;
-        }
+			dimension = 3;
+		} else {
+			dimension = 2;
+		}
 
         // axes
-        mAxisModel = new AxisModel[dim];
-        for (int i = 0; i < dim; i++) {
-            mAxisModel[i] = new AxisModel(app, view, i, null);
+		mAxisModel = new AxisModel[dimension];
+		for (int i = 0; i < dimension; i++) {
+			mAxisModel[i] = new AxisModel(app, view, i, null);
         }
 
     }
+
+	public int getDimension() {
+		return dimension;
+	}
 
 	/**
 	 * 
@@ -122,6 +126,16 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 				mAxisModel[i].applyAxisLabel(labels[i]);
 			}
 		}
+	}
+
+	private static final String[] EDIT_TEXT_DEFAULT = {"x", "y", "z"};
+
+	public String getAxisLabel(int i) {
+		String text = getView().getAxisLabel(i, true);
+		if (text == null || text.equals("")) {
+			return EDIT_TEXT_DEFAULT[i];
+		}
+		return text;
 	}
 
 }
