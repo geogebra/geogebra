@@ -185,9 +185,14 @@ public class RadioTreeItemController
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
+
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
+				ZeroOffset.instance);
+		onPointerDown(wrappedEvent);
 		CancelEventTimer.avRestoreWidth();
 		if (CancelEventTimer.cancelMouseEvent()
-				|| isMarbleHit(event)) {
+				|| isMarbleHit(event)
+				|| app.isRightClick(wrappedEvent)) {
 			return;
 		}
 
@@ -216,9 +221,6 @@ public class RadioTreeItemController
 			return;
 		}
 
-		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
-				ZeroOffset.instance);
-		onPointerDown(wrappedEvent);
 		handleAVItem(event);
 		item.updateButtonPanelPosition();
 
