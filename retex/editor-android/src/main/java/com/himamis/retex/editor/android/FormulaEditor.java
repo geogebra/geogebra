@@ -26,6 +26,8 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.parser.Parser;
@@ -37,6 +39,9 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class FormulaEditor extends View implements MathField {
 
@@ -449,10 +454,27 @@ public class FormulaEditor extends View implements MathField {
         EditorState editorState = getEditorState();
 
         state.currentOffset = editorState.getCurrentOffset();
-        state.currentField = editorState.getCurrentField();
+        state.currentPath = getCurrentPath(editorState.getCurrentField());
         state.rootComponent = editorState.getRootComponent();
 
         return state;
+    }
+
+    private ArrayList<Integer> getCurrentPath(MathComponent component) {
+        ArrayList<Integer> currentPath = new ArrayList<>();
+        getPath(component, currentPath);
+        Collections.reverse(currentPath);
+        return currentPath;
+    }
+
+    private void getPath(MathComponent component, ArrayList<Integer> path) {
+
+        MathContainer container = component.getParent();
+        if (container != null) {
+            int index = container.indexOf(component);
+            path.add(index);
+            getPath(container, path);
+        }
     }
 
     @Override
@@ -473,8 +495,16 @@ public class FormulaEditor extends View implements MathField {
         // Change the editor state
         EditorState editorState = getEditorState();
         editorState.setRootComponent(formulaEditorState.rootComponent);
-        editorState.setCurrentField(formulaEditorState.currentField);
+        editorState.setCurrentField(getCurrentField(formulaEditorState.rootComponent, formulaEditorState.currentPath));
         editorState.setCurrentOffset(formulaEditorState.currentOffset);
+    }
+
+    private MathSequence getCurrentField(MathSequence root, ArrayList<Integer> currentPath) {
+        MathContainer child = root;
+        for (int i : currentPath) {
+            child = (MathContainer) child.getArgument(i);
+        }
+        return (MathSequence) child;
     }
 
     public void hideCopyPasteButtons() {
@@ -499,7 +529,7 @@ public class FormulaEditor extends View implements MathField {
                 };
 
         MathSequence rootComponent;
-        MathSequence currentField;
+        ArrayList<Integer> currentPath;
         Integer currentOffset;
 
         public FormulaEditorState(Parcelable superState) {
@@ -509,7 +539,7 @@ public class FormulaEditor extends View implements MathField {
         public FormulaEditorState(Parcel source) {
             super(source);
             rootComponent = (MathSequence) source.readValue(null);
-            currentField = (MathSequence) source.readValue(null);
+            currentPath = source.readArrayList(Integer.class.getClassLoader());
             currentOffset = source.readInt();
         }
 
@@ -517,7 +547,7 @@ public class FormulaEditor extends View implements MathField {
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeValue(rootComponent);
-            out.writeValue(currentField);
+            out.writeList(currentPath);
             out.writeInt(currentOffset);
         }
 
