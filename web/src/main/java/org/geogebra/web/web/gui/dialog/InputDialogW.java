@@ -260,10 +260,15 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		actionPerformed(e);
 	}
 	
+	protected void closeIOSKeyboard() {
+		// implemented in TextInputDialog
+	}
+	
 	protected void actionPerformed(DomEvent event) {
 		Widget source = (Widget) event.getSource();
 		if (source == btOK
 		        || sourceShouldHandleOK(source)) {
+			closeIOSKeyboard();
 			inputText = inputPanel.getText();
 			processInputHandler(new AsyncOperation<Boolean>() {
 
@@ -283,6 +288,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			setVisible(false);
 			openProperties(app, geo);
 		} else if (source == btCancel) {
+			closeIOSKeyboard();
 			cancel();
 			resetMode();
 		}

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -20,6 +21,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Web implementation of Text Dialog
@@ -103,6 +105,24 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				resetEditor();
 			}
 		});
+	}
+
+	/*
+	 * Close iOS keyboard at creating text. At using TextInputDialog iOS
+	 * keyboard has to be closed programmatically at clicking on OK or Cancel,
+	 * otherwise it won't be closed after the dialog will be hidden.
+	 */
+	protected void closeIOSKeyboard() {
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			return;
+		}
+		if (inputPanel == null || inputPanel.getTextAreaComponent() == null) {
+			return;
+		}
+		TextBox dummyTextBox = new TextBox();
+		editor.add(dummyTextBox);
+		dummyTextBox.setFocus(true);
+		dummyTextBox.setFocus(false);
 	}
 
 	/**
