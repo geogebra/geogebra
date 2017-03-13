@@ -43,7 +43,7 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            app
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-			final DockManagerW dm, Widget parent, AppW app) {
+			final DockManagerW dm, Widget parent, final AppW app) {
 
 		this.parent = parent;
 		this.addStyleName("openKeyboardButton");
@@ -70,7 +70,7 @@ public class ShowKeyboardButton extends SimplePanel {
 				final MathKeyboardListener mathKeyboardListener = panel
 						.getKeyboardListener();
 						
-				if (panel instanceof AlgebraDockPanelW
+				if (app.has(Feature.KEYBOARD_BEHAVIOUR) && panel instanceof AlgebraDockPanelW
 						&& ((AlgebraDockPanelW) panel).isInputField(mathKeyboardListener)) {
 					((AlgebraDockPanelW) panel).showKeyboardOnInputField();
 					((LatexTreeItem) mathKeyboardListener).getLatexController().initAndShowKeyboard(false);
