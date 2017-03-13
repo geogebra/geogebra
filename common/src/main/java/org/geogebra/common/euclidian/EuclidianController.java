@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawLine;
+import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -5819,8 +5820,10 @@ public abstract class EuclidianController {
 		}
 		if (dr instanceof DrawLine) {
 			((DrawLine) dr).updateDynamicStylebarPosition();
-		}
-		else if (dr != null) {
+		} else if (dr instanceof DrawLocus) {
+			setDynamicStyleBarPosition(((DrawLocus) dr).getGpBounds(), true);
+			setDynamicStylebarVisible(true);
+		} else if (dr != null) {
 			setDynamicStyleBarPosition(dr.getBounds(), true);
 			setDynamicStylebarVisible(true);
 		}

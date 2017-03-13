@@ -266,6 +266,13 @@ public class DrawLocus extends Drawable {
 		return gp.getBounds();
 	}
 
+	public GRectangle getGpBounds() {
+		if (gp == null) {
+			return null;
+		}
+		return gp.getBounds();
+	}
+
 	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
