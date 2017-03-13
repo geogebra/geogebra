@@ -127,6 +127,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
+	private ContextMenuPopup btnContextMenu;
 
 
 
@@ -501,17 +502,44 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 	}
 
+	private void createContextMenuButton() {
+		btnContextMenu = new ContextMenuPopup(app);
+		// btnContextMenu.setIcon(new
+		// ImageOrText(AppResources.INSTANCE.dots()));
+		// btnContextMenu.addStyleName("MyCanvasButton-borderless");
+		// btnContextMenu.addClickHandler(new ClickHandler() {
+		//
+		// public void onClick(ClickEvent event) {
+		// if (ec.isObjectMenuActive()) {
+		// app.closePopups();
+		// btnContextMenu.setIcon(
+		// new ImageOrText(AppResources.INSTANCE.dots()));
+		//
+		// } else {
+		// btnContextMenu.setIcon(
+		// new ImageOrText(AppResources.INSTANCE.dots_active()));
+		// ec.showObjectContextMenu(0, 0);
+		// }
+		// }
+		// });
+	}
+
 	// TODO instead of addViewButton() we need a new function addContextMenu()
 	// that uses the same icon (3 dots) as ViewButton but instead opens the
 	// context menu
 	protected void addContextMenuButton() {
-
-		if (!isBackground()) {
-			if (getViewButton() == null) {
-				addViewButton();
-			} else {
-				add(getViewButton());
+		if (!isBackground() && app.isWhiteboardActive()) {
+			if (btnContextMenu == null) {
+				createContextMenuButton();
 			}
+
+			add(btnContextMenu);
+		} else if (!isBackground()) {
+				if (getViewButton() == null) {
+					addViewButton();
+				} else {
+					add(getViewButton());
+				}
 		}
 	}
 	

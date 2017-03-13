@@ -8114,6 +8114,7 @@ public abstract class EuclidianController {
 	}
 
 	protected double newZero, newScale;
+	private boolean objectMenuActive;
 
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {
@@ -10951,6 +10952,14 @@ public abstract class EuclidianController {
 		}
 	}
 
+	public void showObjectContextMenu(int x, int y) {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().showPopupChooseGeo(getAppSelectedGeos(),
+					view.getHits().getTopHits(), view, mouseLoc);
+			setObjectMenuActive(true);
+		}
+	}
+
 	public EuclidianPen getPen() {
 
 		if (pen == null) {
@@ -11956,6 +11965,14 @@ public abstract class EuclidianController {
 
 	protected boolean isWhiteboard() {
 		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+	}
+
+	public boolean isObjectMenuActive() {
+		return objectMenuActive;
+	}
+
+	public void setObjectMenuActive(boolean objectMenuActive) {
+		this.objectMenuActive = objectMenuActive;
 	}
 
 }
