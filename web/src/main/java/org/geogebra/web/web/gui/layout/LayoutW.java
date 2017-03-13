@@ -19,9 +19,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.util.LaTeXHelper;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LayoutW extends Layout implements SettingListener {
@@ -113,14 +111,10 @@ public class LayoutW extends Layout implements SettingListener {
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
-		if (((LaTeXHelper) GWT.create(LaTeXHelper.class)).supportsAV()
-				|| app.has(Feature.RETEX_EDITOR)) {
-			app.setInputPosition(app.getArticleElement()
+
+		app.setInputPosition(
+				app.getArticleElement()
 					.getAlgebraPosition(perspective.getInputPosition()), false);
-		} else {
-			app.setInputPosition(InputPosition.bottom, false);
-		}
-		
 		String toolbar3D = "";
 
 		// change the dock panel layout

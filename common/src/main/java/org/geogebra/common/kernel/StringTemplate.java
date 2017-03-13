@@ -169,35 +169,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * LaTeX string type for MathQuillGGB, almost the same as latexTemplate, but
-	 * uses \cdot for multiplication sign
-	 */
-	public static final StringTemplate latexTemplateMQedit = new StringTemplate(
-			"latexTemplateMQ") {
-		@Override
-		public boolean isMathQuill() {
-			return true;
-		}
-
-		@Override
-		public String multiplyString(ExpressionValue left,
-				ExpressionValue right, String leftStr, String rightStr,
-				boolean valueForm, Localization loc) {
-			return mathQuillMultiply(left, right, leftStr, rightStr, valueForm,
-					loc);
-		}
-	};
-	static {
-		latexTemplateMQedit.setType(StringType.LATEX);
-		latexTemplateMQedit.allowMoreDigits = true;
-		latexTemplateMQedit.sf = FormatFactory.getPrototype()
-				.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION, 20,
-						false);
-		latexTemplateMQedit.nf = FormatFactory.getPrototype()
-				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
-	}
-
-	/**
 	 * MathML string type, do not internationalize digits
 	 */
 	public static final StringTemplate mathmlTemplate = new StringTemplate(

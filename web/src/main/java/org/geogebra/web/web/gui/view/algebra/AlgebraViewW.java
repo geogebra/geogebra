@@ -36,13 +36,11 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -1042,21 +1040,21 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (forceRetex) {
 				ti = new SliderTreeItemRetex(ob);
 			} else {
-				ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+				ti = new ReTeXHelper()
 						.getSliderItem(ob);
 			}
 		} else if (CheckboxTreeItem.match(ob)) {
 			if (forceRetex) {
 				ti = new CheckboxTreeItem(ob);
 			} else {
-				ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+				ti = new ReTeXHelper()
 						.getCheckboxItem(ob);
 
 			}
 		} else if (forceRetex) {
 			ti = new LatexTreeItem(ob);
 		} else {
-			ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class)).getAVItem(ob);
+			ti = new ReTeXHelper().getAVItem(ob);
 		}
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");
@@ -1551,7 +1549,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private RadioTreeItem createInputPanel() {
 		return app.has(Feature.RETEX_EDITOR) ? new LatexTreeItem(kernel)
-				: ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+				: new ReTeXHelper()
 						.getAVInput(kernel);
 	}
 
@@ -1820,10 +1818,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	@Override
 	public void startEditItem(GeoElement geo) {
-		if (!app.has(Feature.RETEX_EDITOR)
-				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
-			return;
-		}
 		if (geo == null) {
 			if (app.has(Feature.RETEX_EDITOR)) {
 				editItem = true;
@@ -2009,7 +2003,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void updateFonts() {
 		if (mqFontSize != app.getFontSizeWeb()) {
 			mqFontSize = app.getFontSizeWeb();
-			((LaTeXHelper) GWT.create(LaTeXHelper.class))
+			new ReTeXHelper()
 					.setFontSize(mqFontSize);
 			if (getInputTreeItem() != null) {
 				getInputTreeItem().updateFonts();

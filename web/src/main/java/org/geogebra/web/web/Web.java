@@ -18,7 +18,6 @@ import org.geogebra.web.web.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.web.gui.laf.SmartLookAndFeel;
-import org.geogebra.web.web.util.LaTeXHelper;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -70,9 +69,6 @@ public class Web implements EntryPoint {
 	}
 
 	private static void run() {
-
-		((LaTeXHelper) GWT.create(LaTeXHelper.class)).initialize();
-
 
 			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {

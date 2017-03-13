@@ -18,11 +18,8 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
-import org.geogebra.web.web.util.LaTeXHelper;
-import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -166,10 +163,6 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	@Override
 	public void setFocus(boolean focus, boolean sv) {
-		if (focus && !app.has(Feature.RETEX_EDITOR)
-				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
-			return;
-		}
 		if (focus) {
 			removeDummy();
 		}

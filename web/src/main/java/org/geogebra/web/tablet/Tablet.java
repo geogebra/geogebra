@@ -7,7 +7,6 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
@@ -17,7 +16,6 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.GDevice;
-import org.geogebra.web.web.util.LaTeXHelper;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -73,9 +71,6 @@ public class Tablet implements EntryPoint {
 	}
 
 	private void run() {
-		((LaTeXHelper) GWT.create(LaTeXHelper.class)).initialize();
-
-
 			// we dont want to parse out of the box sometimes...
 		if (!calledFromExtension()) {
 			loadAppletAsync();
@@ -242,7 +237,7 @@ public class Tablet implements EntryPoint {
 
 	public static native boolean useCordova() /*-{
 		if ($wnd.android) {
-			if($wnd.android.noCordova) {
+			if ($wnd.android.noCordova) {
 				return false;
 			}
 		}

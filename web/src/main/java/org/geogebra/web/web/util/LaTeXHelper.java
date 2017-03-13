@@ -13,10 +13,6 @@ import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
  *
  */
 public abstract class LaTeXHelper {
-	/**
-	 * Load resources
-	 */
-	public abstract void initialize();
 
 	/**
 	 * @param table

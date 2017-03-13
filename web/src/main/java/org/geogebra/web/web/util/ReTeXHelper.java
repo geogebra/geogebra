@@ -17,11 +17,6 @@ import org.geogebra.web.web.gui.view.algebra.SliderTreeItemRetex;
  */
 public class ReTeXHelper extends LaTeXHelper {
 
-	@Override
-	public void initialize() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public CASTableCellEditor getCASEditor(CASTableW table, AppW app,

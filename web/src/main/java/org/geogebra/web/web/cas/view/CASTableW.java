@@ -12,9 +12,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.util.LaTeXHelper;
+import org.geogebra.web.web.util.ReTeXHelper;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
@@ -219,7 +218,7 @@ public class CASTableW extends Grid implements CASTable {
 	@Override
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
-			editor = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+			editor = new ReTeXHelper()
 					.getCASEditor(this, app, ml);
 		}
 		return editor;

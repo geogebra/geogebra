@@ -111,8 +111,7 @@ public class CASTableCellW extends VerticalPanel {
 		if (newText == null) {
 			casEditorW.setLaTeX(
 					textBeforeEdit,
-					getCASCell().getLaTeXInput(
-							StringTemplate.latexTemplateMQedit));
+					getCASCell().getLaTeXInput(StringTemplate.latexTemplate));
 		}
 		textField.setText(newText == null ? textBeforeEdit : newText);
 		casEditorW.ensureEditing();

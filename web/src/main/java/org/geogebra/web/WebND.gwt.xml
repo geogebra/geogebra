@@ -28,13 +28,8 @@
      <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
     <when-type-is class="org.geogebra.common.factories.CASFactory" />    
   </replace-with>
-
   
-  <replace-with class="org.geogebra.web.cas.latex.MathQuillHelper">
-    <when-type-is class="org.geogebra.web.web.util.LaTeXHelper" />    
-  </replace-with>
-  
-  <replace-with class="org.geogebra.web.cas.latex.ResourcesInjectorMathQuill">
+ <replace-with class="org.geogebra.web.web.helper.ResourcesInjectorReTeX">
     <when-type-is class="org.geogebra.web.html5.js.ResourcesInjector" />    
   </replace-with>
   
