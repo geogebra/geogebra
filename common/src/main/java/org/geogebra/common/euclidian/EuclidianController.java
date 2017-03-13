@@ -8366,7 +8366,7 @@ public abstract class EuclidianController {
 			BoundingBox boundingBox = dr
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
-			addDynamicStylebar(dr);
+			// addDynamicStylebar(dr);
 			view.repaintView();
 		}
 
@@ -9892,8 +9892,8 @@ public abstract class EuclidianController {
 
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(event);
-			// setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
-			// setDynamicStylebarVisible(true);
+			setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
+			setDynamicStylebarVisible(true);
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
@@ -9938,6 +9938,22 @@ public abstract class EuclidianController {
 			shapeDragged = false;
 			mode = oldShapeMode;
 			getShapeMode().setDragStartPointSet(false);
+		}
+		
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (mode == EuclidianConstants.MODE_MOVE) {
+				this.view.setHits(new GPoint(event.getX(), event.getY()),
+						event.getType());
+				Hits hits = view.getHits();
+				
+				if (hits.size() > 0) {
+					DrawableND dr = view.getDrawableFor(hits.get(0));
+					if (dr instanceof Drawable) {
+						addDynamicStylebar((Drawable) dr);
+					}
+				}
+
+			}
 		}
 
 		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
