@@ -351,7 +351,7 @@ public class ToolBar {
 		sb.append(" | ");
 
 		// Lines
-		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
+		sb.append(EuclidianConstants.MODE_JOIN);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SEGMENT);
 		sb.append(" ");
@@ -361,7 +361,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_VECTOR);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
+		sb.append(EuclidianConstants.MODE_VECTOR_FROM_POINT);
 		sb.append(" | ");
 
 		// Polygons
@@ -437,7 +437,7 @@ public class ToolBar {
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_ANGLE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
+		sb.append(EuclidianConstants.MODE_SLOPE);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_DISTANCE);
 		sb.append(" ");
