@@ -1830,6 +1830,7 @@ __GGB__keysVar.is.menu = {
     "GenerateCode": "B\xfaa til k\xf3\xf0a",
     "GeneratePgf": "B\xfaa til PGF/TikZ k\xf3\xf0a",
     "GeneratePstricks": "B\xfaa til PSTricks k\xf3\xf0a",
+    "GeoGebra3DGrapher": "GeoGebra 3D",
     "GeoGebra3DGrapher.short": "3D (\xfer\xedv\xeddd)",
     "GeoGebraForum": "Spjallbor\xf0 GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra graf\xedskur vasareiknir",

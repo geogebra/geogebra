@@ -1830,6 +1830,7 @@ __GGB__keysVar.eu.menu = {
     "GenerateCode": "Sortu Kodea",
     "GeneratePgf": "Sortu PGF/TikZ kodea",
     "GeneratePstricks": "Sortu PSTricks kodea LaTeX-erako",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grafikatzailea",
     "GeoGebra3DGrapher.short": "3D Grafikatzailea",
     "GeoGebraForum": "GeoGebra Foroa",
     "GeoGebraGraphingCalculator": "GeoGebraren Kalkulagailu Grafikoa",

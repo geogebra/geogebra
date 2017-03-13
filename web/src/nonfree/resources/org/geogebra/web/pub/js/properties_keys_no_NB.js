@@ -1830,6 +1830,7 @@ __GGB__keysVar.no_NB.menu = {
     "GenerateCode": "Generer kode",
     "GeneratePgf": "Generer PGF/TikZ-kode",
     "GeneratePstricks": "Generer PSTricks (for grafikk i LaTeX)",
+    "GeoGebra3DGrapher": "GeoGebra 3D-graftegner",
     "GeoGebra3DGrapher.short": "3D-graftegner",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra grafisk kalkulator",

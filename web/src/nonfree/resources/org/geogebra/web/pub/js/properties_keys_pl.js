@@ -1830,6 +1830,7 @@ __GGB__keysVar.pl.menu = {
     "GenerateCode": "Utw\xf3rz kod",
     "GeneratePgf": "Wygenerowa\u0107 PGF/TikZ",
     "GeneratePstricks": "Wygenerowa\u0107 PSTricks",
+    "GeoGebra3DGrapher": "GeoGebra Grafika 3D",
     "GeoGebra3DGrapher.short": "Grafika 3D",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra - Kalkulator Graficzny",

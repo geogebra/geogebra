@@ -1830,6 +1830,7 @@ __GGB__keysVar.ko.menu = {
     "GenerateCode": "\ucf54\ub4dc \ub9cc\ub4e4\uae30",
     "GeneratePgf": "PGF/TikZ \ucf54\ub4dc \ub9cc\ub4e4\uae30",
     "GeneratePstricks": "PSTricks \ucf54\ub4dc \ub9cc\ub4e4\uae30",
+    "GeoGebra3DGrapher": "\uc9c0\uc624\uc9c0\ube0c\ub77c 3D \uadf8\ub798\ud53d\uacc4\uc0b0\uae30",
     "GeoGebra3DGrapher.short": "3D \uadf8\ub798\ud53d\uacc4\uc0b0\uae30",
     "GeoGebraForum": "\uc9c0\uc624\uc9c0\ube0c\ub77c \ud3ec\ub7fc",
     "GeoGebraGraphingCalculator": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uadf8\ub798\ud53d \uacc4\uc0b0\uae30",

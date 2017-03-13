@@ -1830,6 +1830,7 @@ __GGB__keysVar.et.menu = {
     "GenerateCode": "Kirjuta kood",
     "GeneratePgf": "Loo PGF/TikZ kood",
     "GeneratePstricks": "Loo kood",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra foorum",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

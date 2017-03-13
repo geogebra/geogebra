@@ -1830,6 +1830,7 @@ __GGB__keysVar.da.menu = {
     "GenerateCode": "Lav kode",
     "GeneratePgf": "Lav PGF/TikZ",
     "GeneratePstricks": "Lav PSTricks",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Graf",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

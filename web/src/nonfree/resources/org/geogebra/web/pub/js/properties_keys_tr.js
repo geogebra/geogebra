@@ -1830,6 +1830,7 @@ __GGB__keysVar.tr.menu = {
     "GenerateCode": "Kod \xdcret",
     "GeneratePgf": "PGF/TikZ kodu \xfcret",
     "GeneratePstricks": "PSTricks \xfcret",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grafik",
     "GeoGebra3DGrapher.short": "3D-Grafik",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra Grafik Hesap Makinesi",

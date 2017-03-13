@@ -1830,6 +1830,7 @@ __GGB__keysVar.fi.menu = {
     "GenerateCode": "Luo koodi",
     "GeneratePgf": "Luo PGF/TikZ-koodi",
     "GeneratePstricks": "Luo PSTricks-koodi",
+    "GeoGebra3DGrapher": "GeoGebra 3D-ohjelma",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra graafinen laskin",

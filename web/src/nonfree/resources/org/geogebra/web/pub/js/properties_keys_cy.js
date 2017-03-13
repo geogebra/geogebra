@@ -1830,6 +1830,7 @@ __GGB__keysVar.cy.menu = {
     "GenerateCode": "Creu C\xf4d",
     "GeneratePgf": "Cynhyrchu cod PGF/TikZ",
     "GeneratePstricks": "Cynhyrchu cod PSTricks",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "Fforwm GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

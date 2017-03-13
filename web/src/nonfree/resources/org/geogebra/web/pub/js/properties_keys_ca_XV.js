@@ -1830,6 +1830,7 @@ __GGB__keysVar.ca_XV.menu = {
     "GenerateCode": "Genera codi",
     "GeneratePgf": "Genera codi PGF/TikZ",
     "GeneratePstricks": "Genera PSTricks per a LaTeX",
+    "GeoGebra3DGrapher": "GeoGebra - Gr\xe0fics 3D",
     "GeoGebra3DGrapher.short": "Gr\xe0fics 3D",
     "GeoGebraForum": "F\xf2rum del GeoGebra",
     "GeoGebraGraphingCalculator": "Calculadora gr\xe0fica GeoGebra",

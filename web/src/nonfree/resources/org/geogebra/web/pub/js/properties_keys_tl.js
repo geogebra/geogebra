@@ -1830,6 +1830,7 @@ __GGB__keysVar.tl.menu = {
     "GenerateCode": "Generate Code",
     "GeneratePgf": "Gumawa ng code na PGF/TikZ",
     "GeneratePstricks": "Gumawa ng code",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

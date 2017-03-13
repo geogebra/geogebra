@@ -1830,6 +1830,7 @@ __GGB__keysVar.in.menu = {
     "GenerateCode": "Buat Kode",
     "GeneratePgf": "Hasilkan kode PGF/TikZ",
     "GeneratePstricks": "Hasilkan kode PSTricks",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "Forum GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

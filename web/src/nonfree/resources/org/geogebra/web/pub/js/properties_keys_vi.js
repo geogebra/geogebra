@@ -1830,6 +1830,7 @@ __GGB__keysVar.vi.menu = {
     "GenerateCode": "Sinh m\xe3",
     "GeneratePgf": "Ph\xe1t sinh m\xe3 PGF/TikZ",
     "GeneratePstricks": "T\u1ea1o PSTricks",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "Di\u1ec5n \u0111\xe0n GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

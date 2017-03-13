@@ -1830,6 +1830,7 @@ __GGB__keysVar.sq.menu = {
     "GenerateCode": "Gjenero Kod",
     "GeneratePgf": "Gjeneroj Kodin PGF/TikZ",
     "GeneratePstricks": "Gjeneroj Kodin",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

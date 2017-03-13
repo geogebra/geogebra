@@ -1830,6 +1830,7 @@ __GGB__keysVar.hu_gm.menu = {
     "GenerateCode": "K\xf3d gener\xe1l\xe1sa",
     "GeneratePgf": "PGF/TikZ k\xf3d gener\xe1l\xe1sa",
     "GeneratePstricks": "PSTricks k\xf3d gener\xe1l\xe1sa",
+    "GeoGebra3DGrapher": "GeoGebra 3D rajzol\xf3",
     "GeoGebra3DGrapher.short": "3D rajzol\xf3",
     "GeoGebraForum": "GeoGebra F\xf3rum",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",

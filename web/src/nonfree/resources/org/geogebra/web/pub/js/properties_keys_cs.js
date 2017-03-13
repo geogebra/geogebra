@@ -1830,6 +1830,7 @@ __GGB__keysVar.cs.menu = {
     "GenerateCode": "Generovat k\xf3d",
     "GeneratePgf": "Generovat PGF/TikZ k\xf3d",
     "GeneratePstricks": "Generovat PSTricks",
+    "GeoGebra3DGrapher": "GeoGebra 3D Grafy",
     "GeoGebra3DGrapher.short": "3D Grafy",
     "GeoGebraForum": "Forum GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra grafick\xfd kalkul\xe1tor",
