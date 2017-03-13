@@ -82,7 +82,7 @@ public class LatexTreeItem extends RadioTreeItem {
 	}
 
 	@Override
-	protected void showKeyboard() {
+	public void showKeyboard() {
 		getLatexController().showKeyboard();
 
 	}
@@ -192,6 +192,7 @@ public class LatexTreeItem extends RadioTreeItem {
 				} else {
 					content.removeStyleName("scrollableTextBox");
 				}
+				//this.getAV().setActiveTreeItem(null);
 			}
 		}
 

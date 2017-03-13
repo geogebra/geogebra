@@ -11,6 +11,8 @@ import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -67,7 +69,19 @@ public class ShowKeyboardButton extends SimplePanel {
 				DockPanelW panel = dm.getPanelForKeyboard();
 				final MathKeyboardListener mathKeyboardListener = panel
 						.getKeyboardListener();
-				listener.doShowKeyBoard(true, mathKeyboardListener);
+						
+				if (panel instanceof AlgebraDockPanelW
+						&& ((AlgebraDockPanelW) panel).isInputField(mathKeyboardListener)) {
+					((AlgebraDockPanelW) panel).showKeyboardOnInputField();
+					((LatexTreeItem) mathKeyboardListener).getLatexController().initAndShowKeyboard(false);
+					((LatexTreeItem) mathKeyboardListener).getLatexController()
+							.getRetexListener();
+					listener.doShowKeyBoard(true,
+							((LatexTreeItem) mathKeyboardListener).getLatexController().getRetexListener());
+				}
+				else {
+					listener.doShowKeyBoard(true, mathKeyboardListener);
+				}
 
 				if ((dm.getApp() == null)
 						|| (dm.getApp().getGuiManager() == null)) {
