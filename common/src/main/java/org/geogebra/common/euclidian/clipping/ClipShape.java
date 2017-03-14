@@ -365,7 +365,7 @@ public class ClipShape {
 			if (offset == 0) {
 				// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,dest);
 				int k = AwtFactory.getPrototype().solveCubic(eqn, dest);
-				if (k < 0) {
+				if (k < 0 || (k == 1 && Double.isNaN(dest[0]))) {
 					return 0;
 				}
 				return k;
@@ -375,7 +375,7 @@ public class ClipShape {
 			}
 			// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,t2);
 			int k = AwtFactory.getPrototype().solveCubic(eqn, t2);
-			if (k < 0) {
+			if (k < 0 || (k == 1 && Double.isNaN(t2[0]))) {
 				return 0;
 			}
 			for (int i = 0; i < k; i++) {
