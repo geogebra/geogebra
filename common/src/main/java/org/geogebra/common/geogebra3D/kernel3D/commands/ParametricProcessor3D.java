@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -53,9 +54,9 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			}
 			GeoNumeric loc = getLocalVar(exp, fv[0]);
 
-			ExpressionNode cx = ap.computeCoord(exp, 0);
-			ExpressionNode cy = ap.computeCoord(exp, 1);
-			ExpressionNode cz = ap.computeCoord(exp, 2);
+			ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
+			ExpressionNode cy = VectorArithmetic.computeCoord(exp, 1);
+			ExpressionNode cz = VectorArithmetic.computeCoord(exp, 2);
 
 			ExpressionValue[] coefX = new ExpressionValue[5];
 			ExpressionValue[] coefY = new ExpressionValue[5];
@@ -338,9 +339,9 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
 		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
 		Construction cons = kernel.getConstruction();
-		ExpressionNode cx = ap.computeCoord(exp, 0);
-		ExpressionNode cy = ap.computeCoord(exp, 1);
-		ExpressionNode cz = ap.computeCoord(exp, 2);
+		ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
+		ExpressionNode cy = VectorArithmetic.computeCoord(exp, 1);
+		ExpressionNode cz = VectorArithmetic.computeCoord(exp, 2);
 		AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 		cons.removeFromConstructionList(nx);
 		AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);

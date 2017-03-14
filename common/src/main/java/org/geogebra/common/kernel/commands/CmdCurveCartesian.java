@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -47,8 +48,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 				int dim = ((VectorNDValue) arg[0]).getDimension();
 				GeoNumberValue[] coords = new GeoNumberValue[dim];
 				for (int i = 0; i < dim; i++) {
-					ExpressionNode cx = kernelA.getAlgebraProcessor()
-							.computeCoord(exp, i);
+					ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
 					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
 							false);
 					cons.removeFromConstructionList(nx);

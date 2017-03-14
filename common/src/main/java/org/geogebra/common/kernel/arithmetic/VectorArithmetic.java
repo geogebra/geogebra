@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -49,10 +50,78 @@ public class VectorArithmetic {
 		return null;
 	}
 
+	/**
+	 * @param kernel0
+	 *            target kernel, ignored ATM
+	 */
 	private static ExpressionNode scalarProductComponent(Kernel kernel0, int i,
 			ExpressionValue left1, ExpressionValue right1) {
-		return kernel0.getAlgebraProcessor().computeCoord(left1.wrap(), i)
-				.multiply(kernel0.getAlgebraProcessor()
-						.computeCoord(right1.wrap(), i));
+		return computeCoord(left1.wrap(), i).multiply(
+				computeCoord(right1.wrap(), i));
+	}
+
+	/**
+	 * @param exp
+	 *            expression
+	 * @param i
+	 *            0 for x, 1 for y, 2 for z
+	 * @return given coordinate of expression
+	 */
+	public static ExpressionNode computeCoord(ExpressionNode exp, int i) {
+		Kernel kernel = exp.getKernel();
+		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
+				Operation.ZCOORD };
+		if (exp.isLeaf()) {
+			if (exp.getLeft() instanceof MyVecNode
+					&& ((MyVecNode) exp.getLeft()).getMode() == Kernel.COORD_CARTESIAN) {
+				return i == 0 ? ((MyVecNode) exp.getLeft()).getX().wrap()
+						: (i == 1 ? ((MyVecNode) exp.getLeft()).getY().wrap()
+								: new ExpressionNode(kernel, 0));
+			}
+			if (exp.getLeft() instanceof MyVecNode
+					&& ((MyVecNode) exp.getLeft()).getMode() == Kernel.COORD_POLAR) {
+				if (i == 2) {
+					return new ExpressionNode(kernel, 0);
+				}
+				return ((MyVecNode) exp.getLeft())
+						.getX()
+						.wrap()
+						.multiply(
+								((MyVecNode) exp.getLeft())
+										.getY()
+										.wrap()
+										.apply(i == 0 ? Operation.COS
+												: Operation.SIN));
+			}
+			if (exp.getLeft() instanceof MyVec3DNode
+					&& (((MyVec3DNode) exp.getLeft()).getMode() == Kernel.COORD_CARTESIAN || ((MyVec3DNode) exp
+							.getLeft()).getMode() == Kernel.COORD_CARTESIAN_3D)) {
+				return i == 0 ? ((MyVec3DNode) exp.getLeft()).getX().wrap()
+						: (i == 1 ? ((MyVec3DNode) exp.getLeft()).getY().wrap()
+								: ((MyVec3DNode) exp.getLeft()).getZ().wrap());
+			}
+		}
+		switch (exp.getOperation()) {
+		case IF:
+			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
+					Operation.IF, computeCoord(exp.getRightTree(), i));
+		case PLUS:
+			return computeCoord(exp.getLeftTree(), i).plus(
+					computeCoord(exp.getRightTree(), i));
+		case MINUS:
+			return computeCoord(exp.getLeftTree(), i).subtract(
+					computeCoord(exp.getRightTree(), i));
+		case MULTIPLY:
+			if (exp.getRight().evaluatesToNDVector()) {
+				return computeCoord(exp.getRightTree(), i).multiply(
+						exp.getLeft());
+			} else if (exp.getLeft().evaluatesToNDVector()) {
+				return computeCoord(exp.getLeftTree(), i).multiply(
+						exp.getRight());
+			}
+		default:
+			return new ExpressionNode(kernel, exp, ops[i], null);
+		}
+
 	}
 }

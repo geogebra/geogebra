@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariable
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -224,13 +225,13 @@ public class ParametricProcessor {
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
 			if (exp.getOperation() == Operation.IF) {
 				ExpressionNode exp1 = exp.getRightTree();
-				ExpressionNode cx = ap.computeCoord(exp1, 0);
-				ExpressionNode cy = ap.computeCoord(exp1, 1);
+				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
+				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);
 				return this.cartesianCurve(cons, label, exp1, locVar, cx, cy,
 						exp.getLeftTree());
 			}
-			ExpressionNode cx = ap.computeCoord(exp, 0);
-			ExpressionNode cy = ap.computeCoord(exp, 1);
+			ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
+			ExpressionNode cy = VectorArithmetic.computeCoord(exp, 1);
 
 			ExpressionValue[] coefX = new ExpressionValue[5],
 					coefY = new ExpressionValue[5];
