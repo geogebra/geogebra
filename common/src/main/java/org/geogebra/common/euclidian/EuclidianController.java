@@ -9932,18 +9932,19 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if ((mode == EuclidianConstants.MODE_MOVE && !temporaryMode)
+					|| shapeDragged) {
+				addDynamicStylebar();
+			}
+		}
+
 		// after finished drag switch back mode
 		// also ignore drag start point
 		if (mode == EuclidianConstants.MODE_MOVE && shapeDragged) {
 			shapeDragged = false;
 			mode = oldShapeMode;
 			getShapeMode().setDragStartPointSet(false);
-		}
-		
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (mode == EuclidianConstants.MODE_MOVE && !temporaryMode) {
-				addDynamicStylebar();
-			}
 		}
 
 		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
