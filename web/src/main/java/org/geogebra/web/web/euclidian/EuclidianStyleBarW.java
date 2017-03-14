@@ -101,7 +101,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// button-specific fields
 	// TODO: create button classes so these become internal
 
-	private ArrayList<GeoElement> activeGeoList;
+	protected ArrayList<GeoElement> activeGeoList;
 	private boolean visible;
 
 	// // buttons and lists of buttons

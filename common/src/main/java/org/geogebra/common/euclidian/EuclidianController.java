@@ -5809,6 +5809,10 @@ public abstract class EuclidianController {
 				selectionPreview);
 	}
 
+	protected void addDynamicStylebar(){
+		// implemented in EuclidianControllerW
+	}
+
 	private void addDynamicStylebar(Drawable dr) {
 		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
 			return;
@@ -9937,17 +9941,7 @@ public abstract class EuclidianController {
 		
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (mode == EuclidianConstants.MODE_MOVE) {
-				this.view.setHits(new GPoint(event.getX(), event.getY()),
-						event.getType());
-				Hits hits = view.getHits();
-				
-				if (hits.size() > 0) {
-					DrawableND dr = view.getDrawableFor(hits.get(0));
-					if (dr instanceof Drawable) {
-						addDynamicStylebar((Drawable) dr);
-					}
-				}
-
+				addDynamicStylebar();
 			}
 		}
 

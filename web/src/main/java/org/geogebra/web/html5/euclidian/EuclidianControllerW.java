@@ -448,6 +448,10 @@ public class EuclidianControllerW extends EuclidianController implements
 		
 	}
 
+	protected void addDynamicStylebar() {
+		this.getView().getDynamicStyleBar().updateStyleBar();
+	}
+
 	public void onPointerEventMove(PointerEvent event) {
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
 	}

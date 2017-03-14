@@ -1,8 +1,12 @@
 package org.geogebra.web.web.euclidian;
 
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawLine;
+import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
@@ -29,16 +33,16 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	}
 
 	private native void stopPointer(Element element) /*-{
-														if ($wnd.PointerEvent) {
-														var evts = [ "PointerDown", "PointerUp" ];
-														for ( var k in evts) {
-														element.addEventListener(evts[k].toLowerCase(), function(e) {
-														e.stopPropagation()
-														});
-														}
-														}
-														
-														}-*/;
+		if ($wnd.PointerEvent) {
+			var evts = [ "PointerDown", "PointerUp" ];
+			for ( var k in evts) {
+				element.addEventListener(evts[k].toLowerCase(), function(e) {
+					e.stopPropagation()
+				});
+			}
+		}
+
+	}-*/;
 
 	/**
 	 * Sets the position of dynamic style bar. newPos position of right top
@@ -46,6 +50,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	@Override
 	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
+
+		if (gRectangle2D == null) {
+			return;
+		}
 
 		// Log.printStacktrace("setPosition");
 		Log.debug("rectangle:" + gRectangle2D.getMinX() + " " + gRectangle2D.getMaxX() + " " + gRectangle2D.getMinY()
@@ -106,6 +114,39 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		this.getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
+	public void updateStyleBar() {
+
+		this.getElement().getStyle().setTop(0, Unit.PX);
+		this.getElement().getStyle().setLeft(0, Unit.PX);
+		setVisible(true);
+
+		// make sure it reflects selected geos
+		setOpen(true);
+
+		setMode(EuclidianConstants.MODE_MOVE);
+		super.updateStyleBar();
+
+		if (activeGeoList == null || activeGeoList.size() == 0) {
+			// this.setVisible(false);
+			return;
+		}
+
+		DrawableND dr = ev.getDrawableND(activeGeoList.get(0));
+
+		if (!(dr instanceof Drawable)) {
+			return;
+		}
+		
+		if (dr instanceof DrawLine) {
+			((DrawLine) dr).updateDynamicStylebarPosition();
+		} else if (dr instanceof DrawLocus) {
+			setPosition(((DrawLocus) dr).getGpBounds(), true);
+		} else if (dr != null) {
+			setPosition(((Drawable) dr).getBounds(), true);
+		}
+
+	}
+
 	protected boolean isDynamicStylebar(){
 		return true;
 	}
