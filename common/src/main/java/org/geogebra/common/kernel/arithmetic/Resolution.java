@@ -52,8 +52,7 @@ public class Resolution implements ExpressionValue {
 
 	@Override
 	public boolean evaluatesToNonComplex2DVector() {
-		// TODO Auto-generated method stub
-		return false;
+		return type == ValueType.NONCOMPLEX2D;
 	}
 
 	@Override
@@ -64,8 +63,7 @@ public class Resolution implements ExpressionValue {
 
 	@Override
 	public boolean evaluatesTo3DVector() {
-		// TODO Auto-generated method stub
-		return false;
+		return type == ValueType.VECTOR3D;
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -266,6 +268,12 @@ public enum ValueType {
 		case VECTORPRODUCT:
 			return ValueType.VECTOR3D.check(left, ValueType.NUMBER);
 		case VEC_FUNCTION:
+			if (left.unwrap() instanceof GeoCurveCartesian) {
+				return ValueType.NONCOMPLEX2D;
+			}
+			if (left.unwrap() instanceof GeoCurveCartesianND) {
+				return ValueType.VECTOR3D;
+			}
 			break;
 		case XCOORD:
 		case YCOORD:
