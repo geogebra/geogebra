@@ -216,9 +216,14 @@ public class GeneralPathClipped implements GShape {
 
 	private double auxX;
 	private double auxY;
+	// first control point
+	private double cont1X = Double.NaN;
+	private double cont1Y = Double.NaN;
+	// second control point
+	private double cont2X = Double.NaN;
+	private double cont2Y = Double.NaN;
 	private void addToGeneralPath(GPoint2D q, SegmentType lineTo) {
 		GPoint2D p = gp.getCurrentPoint();
-
 		/*
 		 * We don't need to check the distance, since it has been already
 		 * checked when gp was constructed. Anyway, the distance check is not
@@ -233,7 +238,25 @@ public class GeneralPathClipped implements GShape {
 		// if (!distant) {
 		// return;
 		// }
-		if (lineTo == SegmentType.AUXILIARY) {
+		if (lineTo == SegmentType.CONTROL) {
+			if (Double.isNaN(cont1X) && Double.isNaN(cont1Y)) {
+				cont1X = q.getX();
+				cont1Y = q.getY();
+			} else {
+				cont2X = q.getX();
+				cont2Y = q.getY();
+			}
+		} else if (lineTo == SegmentType.CURVE_TO) {
+			if (!Double.isNaN(cont1X) && !Double.isNaN(cont1Y)
+					&& !Double.isNaN(cont2X) && !Double.isNaN(cont2Y)) {
+				gp.curveTo(cont1X, cont1Y, cont2X, cont2Y, q.getX(), q.getY());
+				cont1X = Double.NaN;
+				cont1Y = Double.NaN;
+				cont2X = Double.NaN;
+				cont2Y = Double.NaN;
+			}
+		}
+		else if (lineTo == SegmentType.AUXILIARY) {
 			auxX = q.getX();
 			auxY = q.getY();
 		} else if (lineTo == SegmentType.ARC_TO && p != null) {

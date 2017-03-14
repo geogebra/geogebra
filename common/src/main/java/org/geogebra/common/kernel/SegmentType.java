@@ -13,6 +13,12 @@ public enum SegmentType {
 	 * pi/2
 	 */
 	ARC_TO,
+	/**
+	 * needed for pen stroke, uses bezier curve
+	 */
+	CURVE_TO,
+	/** control point for curve_to */
+	CONTROL,
 	/** aux point for arc_to */
 	AUXILIARY
 

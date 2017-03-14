@@ -667,12 +667,16 @@ public class CurvePlotter {
 			// otherwise hit-testing doesn't work
 			if (p.isFinite()) {
 				if (gp.copyCoords(p, coords, transformSys)) {
-					if ((p.getSegmentType() == SegmentType.ARC_TO
+					if (p.getSegmentType() == SegmentType.CURVE_TO
+							|| p.getSegmentType() == SegmentType.CONTROL) {
+						gp.drawTo(coords, p.getSegmentType());
+					} else if ((p.getSegmentType() == SegmentType.ARC_TO
 							|| p.getSegmentType() == SegmentType.AUXILIARY)
 							&& !linetofirst) {
 						gp.drawTo(coords, p.getSegmentType());
 						lastMove = null;
-					} else if (p.getLineTo() && !linetofirst) {
+					} 
+					else if (p.getLineTo() && !linetofirst) {
 						gp.lineTo(coords);
 						lastMove = null;
 					} else {

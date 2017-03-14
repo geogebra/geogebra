@@ -71,6 +71,12 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			return;
 		}
 
+		if (lineTo == SegmentType.CONTROL || lineTo == SegmentType.CURVE_TO) {
+			addPoint(x, y, lineTo);
+			lineDrawn = true;
+			return;
+		}
+
 		if (isLine) {
 			addPoint(x, y, lineTo);
 			lineDrawn = true;

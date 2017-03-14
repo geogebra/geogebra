@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 
 /**
  * Creates a PolyLine from a given list of points or point array.
@@ -36,6 +37,7 @@ public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
 	protected GeoLocusStroke poly; // output
+	private ArrayList<MyPoint> pointList = new ArrayList<MyPoint>();
 
 	/**
 	 * @param cons
@@ -95,18 +97,150 @@ public class AlgoLocusStroke extends AlgoElement
 	 */
 	private void updatePointArray(GeoPointND[] data) {
 		// check if we have a point list
-
 		// create new points array
 		int size = data.length;
 		poly.setDefined(true);
 		poly.getPoints().clear();
-		for (int i = 0; i < size; i++) {
-			poly.getPoints().add(new MyPoint(data[i].getInhomX(),
+		if (size >= 4 && poly.getKernel().getApplication()
+				.has(Feature.PEN_SMOOTHING)) {
+			int index = 2;
+			pointList.clear();
+			pointList.add(new MyPoint(data[0].getInhomX(), data[0].getInhomY(),
+					SegmentType.MOVE_TO));
+			while (index <= data.length) {
+				pointList.add(
+						new MyPoint(Double.NaN, Double.NaN,
+								SegmentType.LINE_TO));
+				GeoPointND[] partOfStroke = getPartOfPenStroke(index, data);
+				if (partOfStroke.length == 1) {
+					pointList.add(new MyPoint(partOfStroke[0].getInhomX(),
+							partOfStroke[0].getInhomY(), SegmentType.LINE_TO));
+				} else {
+					ArrayList<double[]> controlPoints = getControlPoints(
+							partOfStroke);
+					for (int i = 0; i < partOfStroke.length - 1; i++) {
+						// start point of segment
+						pointList.add(new MyPoint(partOfStroke[i].getInhomX(),
+								partOfStroke[i].getInhomY(),
+								i == 0 ? SegmentType.MOVE_TO
+										: SegmentType.CURVE_TO));
+						// first control point
+						pointList.add(new MyPoint(controlPoints.get(0)[i],
+								controlPoints.get(1)[i], SegmentType.CONTROL));
+						// second control point
+						pointList.add(new MyPoint(controlPoints.get(2)[i],
+								controlPoints.get(3)[i], SegmentType.CONTROL));
+					}
+					pointList.add(new MyPoint(
+							partOfStroke[partOfStroke.length - 1].getInhomX(),
+							partOfStroke[partOfStroke.length - 1].getInhomY(),
+							SegmentType.CURVE_TO));
+				}
+				index = index + partOfStroke.length + 1;
+			}
+			/*
+			 * for (int i = 0; i < pointList.size(); i++) { Log.debug("POINT[ "
+			 * + i + " ] : " + "(" + pointList.get(i).x + "," +
+			 * pointList.get(i).y + ") -> " +
+			 * pointList.get(i).getSegmentType()); }
+			 */
+			poly.setPoints(pointList);
+		} else {
+			for (int i = 0; i < size; i++) {
+				poly.getPoints().add(new MyPoint(data[i].getInhomX(),
 					data[i].getInhomY(),
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
+			}
+		}
+	}
+
+	private GeoPointND[] getPartOfPenStroke(int index, GeoPointND[] data) {
+		int size = 0;
+		for (int i=index;i<data.length;i++) {
+			if (data[i].isDefined()) {
+				size++;
+			} else {
+				break;
+			}
+		}
+		GeoPointND[] partOfStroke;
+		if (size == 2) {
+			partOfStroke = new GeoPointND[size + 1];
+			for (int i = 0; i < size; i++) {
+				partOfStroke[i] = data[i + index];
+			}
+			partOfStroke[size] = data[size + index - 1];
+		} else {
+			partOfStroke = new GeoPointND[size];
+			for (int i = 0; i < size; i++) {
+				partOfStroke[i] = data[i + index];
+			}
+		}
+		return partOfStroke;
+	}
+
+	private ArrayList<double[]> getControlPoints(GeoPointND[] data) {
+		ArrayList<double[]> values = new ArrayList<double[]>();
+		double[] xCoordsP1 = new double[data.length - 1];
+		double[] xCoordsP2 = new double[data.length - 1];
+		double[] yCoordsP1 = new double[data.length - 1];
+		double[] yCoordsP2 = new double[data.length - 1];
+
+		double[] a = new double[data.length - 1];
+		double[] b = new double[data.length - 1];
+		double[] c = new double[data.length - 1];
+		double[] rX = new double[data.length - 1];
+		double[] rY = new double[data.length - 1];
+		int n = data.length - 1;
+		/* left most segment */
+		a[0] = 0;
+		b[0] = 2;
+		c[0] = 1;
+		rX[0] = data[0].getInhomX() + 2 * data[1].getInhomX();
+		rY[0] = data[0].getInhomY() + 2 * data[1].getInhomY();
+		/* internal segments */
+		for (int i = 1; i < n - 1; i++) {
+			a[i] = 1;
+			b[i] = 4;
+			c[i] = 1;
+			rX[i] = 4 * data[i].getInhomX() + 2 * data[i + 1].getInhomX();
+			rY[i] = 4 * data[i].getInhomY() + 2 * data[i + 1].getInhomY();
+		}
+		/* right segment */
+		a[n - 1] = 2;
+		b[n - 1] = 7;
+		c[n - 1] = 0;
+		rX[n - 1] = 8 * data[n - 1].getInhomX() + data[n].getInhomX();
+		rY[n - 1] = 8 * data[n - 1].getInhomY() + data[n].getInhomY();
+
+		/* solves Ax=b with the Thomas algorithm (from Wikipedia) */
+		for (int i = 1; i < n; i++) {
+			double m = a[i] / b[i - 1];
+			b[i] = b[i] - m * c[i - 1];
+			rX[i] = rX[i] - m * rX[i - 1];
+			rY[i] = rY[i] - m * rY[i - 1];
 		}
 
+		xCoordsP1[n - 1] = rX[n - 1] / b[n - 1];
+		yCoordsP1[n - 1] = rY[n - 1] / b[n - 1];
+		for (int i = n - 2; i >= 0; --i) {
+			xCoordsP1[i] = (rX[i] - c[i] * xCoordsP1[i + 1]) / b[i];
+			yCoordsP1[i] = (rY[i] - c[i] * yCoordsP1[i + 1]) / b[i];
+		}
 
+		/* we have p1, now compute p2 */
+		for (int i = 0; i < n - 1; i++) {
+			xCoordsP2[i] = 2 * data[i + 1].getInhomX() - xCoordsP1[i + 1];
+			yCoordsP2[i] = 2 * data[i + 1].getInhomY() - yCoordsP1[i + 1];
+		}
+		xCoordsP2[n - 1] = 0.5 * (data[n].getInhomX() + xCoordsP1[n - 1]);
+		yCoordsP2[n - 1] = 0.5 * (data[n].getInhomY() + yCoordsP1[n - 1]);
+
+		values.add(xCoordsP1);
+		values.add(yCoordsP1);
+		values.add(xCoordsP2);
+		values.add(yCoordsP2);
+		return values;
 	}
 
 	// for AlgoElement
