@@ -43,15 +43,11 @@ public class Derivative {
 		case NOT:
 
 		case XCOORD:
+			return coordDerivative(left, 0, fv, kernel0);
 		case YCOORD:
+			return coordDerivative(left, 1, fv, kernel0);
 		case ZCOORD:
-			if (!left.contains(fv)) {
-				return new ExpressionNode(kernel0, 0d);
-			}
-
-			Log.debug("fast derivatives can't handle " + operation + " for "
-					+ left.toValueString(StringTemplate.defaultTemplate));
-			return new ExpressionNode(kernel0, Double.NaN);
+			return coordDerivative(left, 2, fv, kernel0);
 
 		case POWER:
 			return derivativePower(left, right, fv, kernel0);
@@ -422,6 +418,31 @@ public class Derivative {
 		return wrap(kernel0, Double.NaN);
 	}
 
+	private static Inspecting checkCoordOperations = new Inspecting() {
+
+		public boolean check(ExpressionValue v) {
+			return v.isExpressionNode()
+					&& (((ExpressionNode) v).getOperation() == Operation.XCOORD
+							|| ((ExpressionNode) v)
+									.getOperation() == Operation.YCOORD
+							|| ((ExpressionNode) v)
+									.getOperation() == Operation.ZCOORD);
+		}
+	};
+
+	private static ExpressionNode coordDerivative(ExpressionValue left, int i,
+			FunctionVariable fv, Kernel kernel0) {
+		if (!left.contains(fv)) {
+			return new ExpressionNode(kernel0, 0d);
+		}
+		ExpressionNode en = VectorArithmetic.computeCoord(left.wrap(), i);
+		if (!en.inspect(checkCoordOperations)) {
+			return en.derivative(fv, kernel0);
+		}
+		Log.debug("fast derivatives can't handle " + ('x' + i) + " for "
+				+ left.toValueString(StringTemplate.defaultTemplate));
+		return new ExpressionNode(kernel0, Double.NaN);
+	}
 
 	private static ExpressionNode derivativePower(ExpressionValue left,
 			ExpressionValue right, FunctionVariable fv, Kernel kernel0) {
