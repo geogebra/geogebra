@@ -120,7 +120,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			((DrawLine) dr).updateDynamicStylebarPosition();
 		} else if (dr instanceof DrawLocus) {
 			setPosition(((DrawLocus) dr).getGpBounds(), true);
-		} else if (dr != null) {
+		} else {
 			setPosition(((Drawable) dr).getBounds(), true);
 		}
 

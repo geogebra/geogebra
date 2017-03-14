@@ -76,6 +76,10 @@ public class ContextMenuPopup extends MyCJButton
 		hideMenu();
 	}
 	
+	public boolean isMenuShown() {
+		return menuShown;
+	}
+
 	public void close() {
 		popup.getWrappedPopup().hide();
 
