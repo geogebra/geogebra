@@ -65,17 +65,11 @@ public class TableSymbolsLaTeX {
 
 			"\\left(   \\right) ", "\\left [  \\right ] ",
 			"\\left\\{  \\right\\} ", "\\left|  \\right| ",
-			// not suported in MathQuillGGB
-			// "\\left\\Vert \\right\\Vert ",
-			// "\\left\\langle \\right\\rangle ",
-			// "\\left\\lceil \\right\\rceil ",
-			// "\\left\\lfloor \\right\\rfloor ",
-			// "\\left\\lgroup \\right\\rgroup ",
-			// "\\left\\lmoustache \\right\\rmoustache ",
-			// "\\shadowbox{xx}",
-			// "\\fbox{xx}",
-			// "\\doublebox{xx}",
-			// "\\ovalbox{xx}"
+			"\\left\\Vert \\right\\Vert ", "\\left\\langle \\right\\rangle ",
+			"\\left\\lceil \\right\\rceil ", "\\left\\lfloor \\right\\rfloor ",
+			"\\left\\lgroup \\right\\rgroup ",
+			"\\left\\lmoustache \\right\\rmoustache ", "\\shadowbox{xx}",
+			"\\fbox{xx}", "\\doublebox{xx}", "\\ovalbox{xx}"
 	};
 
 	public final static String[] matrices = {

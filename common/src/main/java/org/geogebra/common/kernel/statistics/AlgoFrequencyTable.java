@@ -370,15 +370,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void createLaTeXTable(boolean useClassList) {
-		// always use JLaTeXMath instead of MathQuillGGB in case
-		// it is technically available, because this is never edited (by MQ)
-		// ... so NOT latexTemplateMQ is used here (but anything else)
-
-		createLaTeXTableD(useClassList);
-
-	}
-
-	private void createLaTeXTableD(boolean useClassList) {
 
 		sb.setLength(0);
 		sb.append("\\begin{array}{c|c}");

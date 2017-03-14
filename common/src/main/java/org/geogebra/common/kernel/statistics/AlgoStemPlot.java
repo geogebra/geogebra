@@ -314,9 +314,6 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		}
 		high.append("} \\\\ "); // newline in LaTeX ie \\
 
-		// as this is never edited by MathQuillGGB, we can always use
-		// JLatexMath when it is technically available, so
-		// null is used here instead of StringTemplate.latexTemplateMQ
 		stemPlot(data, outlierIndex, multUnit, stemLines);
 
 		// ==========================================
