@@ -215,6 +215,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * buggy eliminate)
 		 */
 		ELIMINATE2("eliminate2", "eliminate2(x,y):=eliminate(eliminate(x,y),y);"),
+
+		/**
+		 * Eliminate variables from a polynomial ideal. If the result is a set
+		 * of discrete points, then convert the linear polynomials to a product
+		 * of circle definitions with zero radius.
+		 */
+		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+
 		/**
 		 * Helps simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -289,6 +297,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRIX);
 			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRICES);
 			setDependency(IMPLICIT_CURVE_COEFFS, FACTOR_SQR_FREE);
+			setDependency(GEOM_ELIM, PRIM_POLY);
 		}
 
 		/**

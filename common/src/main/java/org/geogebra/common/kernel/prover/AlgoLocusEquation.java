@@ -3,12 +3,13 @@
  */
 package org.geogebra.common.kernel.prover;
 
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
+import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -235,51 +237,14 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
-		Set<Set<PPolynomial>> eliminationIdeal;
 		Kernel k = movingPoint.getKernel();
 
-		eliminationIdeal = PPolynomial
-				.eliminate(
-						as.getPolynomials()
-								.toArray(new PPolynomial[as.getPolynomials()
-										.size()]),
-						as.substitutions, k, 0, false, true);
-
-		// We implicitly assume that there is one equation here as result.
-		PPolynomial result = null;
-		Iterator<Set<PPolynomial>> it1 = eliminationIdeal.iterator();
-		if (it1.hasNext()) {
-			Set<PPolynomial> results1 = it1.next();
-			Iterator<PPolynomial> it2 = results1.iterator();
-			if (it2.hasNext()) {
-				result = it2.next();
-			}
-		}
-
-		if (result == null) {
-			Log.info("No such implicit curve exists (0=-1)");
-			return "{{1,1,1},{1,1,1,1}}";
-		}
-
-		// Replacing variables to have x and y instead of vx and vy:
-		String implicitCurveString = result.toString();
-		if (as.curveVars[0] != null) {
-			implicitCurveString = implicitCurveString
-					.replaceAll(as.curveVars[0].toString(), "x");
-		}
-		if (as.curveVars[1] != null) {
-			implicitCurveString = implicitCurveString
-					.replaceAll(as.curveVars[1].toString(), "y");
-		}
-		Log.trace("Implicit locus equation: " + implicitCurveString);
-
-		StringBuilder script = new StringBuilder();
-		script.append(CustomFunctions.IMPLICIT_CURVE_COEFFS + "("
-				+ implicitCurveString + ")");
+		// TODO: Implement Singular computation also.
 		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
+
 		try {
 			String impccoeffs = cas.getCurrentCAS()
-					.evaluateRaw(script.toString());
+					.evaluateRaw(implicitCurveCoeffs(as, null).toString());
 			Log.trace("Output from giac: " + impccoeffs);
 			return impccoeffs;
 		} catch (Exception ex) {
@@ -318,6 +283,87 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		} else {
 			this.geoPoly.setUndefined();
 		}
+	}
+
+	/**
+	 * Compute the coefficients of the implicit curve.
+	 * 
+	 * @param as
+	 *            the algebraic statement structure
+	 * @param detCode
+	 *            program code for determinant as output in the "last" variable
+	 * @return the implicit curve as a string
+	 */
+	public StringBuilder implicitCurveCoeffs(AlgebraicStatement as,
+			String detCode) {
+		StringBuilder sb = new StringBuilder();
+		boolean useSingular = false;
+
+		/* Use Singular if it is enabled. TODO: Implement this. */
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		if (singularWS != null && singularWS.isAvailable()) {
+			useSingular = true;
+		}
+		/* Otherwise use Giac. */
+
+		TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
+		TreeSet<PVariable> freeVariables = new TreeSet<PVariable>();
+		PPolynomial[] eqSystem = as.getPolynomials()
+				.toArray(new PPolynomial[as.getPolynomials().size()]);
+		TreeSet<PVariable> variables = new TreeSet<PVariable>(
+				PPolynomial.getVars(eqSystem));
+		HashMap<PVariable, Long> substitutions = as.substitutions;
+
+		Iterator<PVariable> variablesIterator = variables.iterator();
+		while (variablesIterator.hasNext()) {
+			PVariable variable = variablesIterator.next();
+			if (!variable.isFree()) {
+				dependentVariables.add(variable);
+			} else {
+				if (substitutions == null
+						|| !substitutions.containsKey(variable)) {
+					freeVariables.add(variable);
+				}
+			}
+		}
+
+		PPolynomial[] eqSystemSubstituted;
+		if (substitutions != null) {
+			eqSystemSubstituted = new PPolynomial[eqSystem.length];
+			for (int i = 0; i < eqSystem.length; i++) {
+				eqSystemSubstituted[i] = eqSystem[i].substitute(substitutions);
+			}
+			variables.removeAll(substitutions.keySet());
+		} else {
+			eqSystemSubstituted = eqSystem;
+		}
+
+		Log.debug("Eliminating system in " + variables.size() + " variables ("
+				+ dependentVariables.size() + " dependent)");
+
+		String polys = PPolynomial
+				.getPolysAsCommaSeparatedString(eqSystemSubstituted);
+		String elimVars = PPolynomial.getVarsAsCommaSeparatedString(
+				eqSystemSubstituted, null, false);
+		String freeVars = PPolynomial
+				.getVarsAsCommaSeparatedString(eqSystemSubstituted, null, true);
+		Log.trace("gbt polys = " + polys);
+		Log.trace("gbt vars = " + elimVars + "," + freeVars);
+
+		if (detCode != null) {
+			polys += ",last";
+		}
+
+		String PRECISION = Long.toString(kernel.precision());
+		Log.debug("PRECISION = " + PRECISION);
+
+		sb.append(CustomFunctions.IMPLICIT_CURVE_COEFFS).append("(")
+				.append("subst(").append(CustomFunctions.GEOM_ELIM).append("([")
+				.append(polys).append("],[").append(elimVars).append("],")
+				.append(PRECISION).append(")").append(",[")
+				.append(as.curveVars[0]).append("=x,").append(as.curveVars[1])
+				.append("=y])").append(")");
+		return sb;
 	}
 
 }

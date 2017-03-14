@@ -1123,8 +1123,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param oneCurve
 	 *            prefer getting one algebraic curve than an ideal with more
 	 *            elements
-	 * @param precision
-	 *            the size of a unit on the screen in pixels
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<PPolynomial>> eliminate(PPolynomial[] eqSystem,
