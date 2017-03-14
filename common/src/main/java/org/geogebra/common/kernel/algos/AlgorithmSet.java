@@ -121,6 +121,72 @@ public class AlgorithmSet {
 		return true;
 	}
 
+	final private boolean addSorted(AlgoElement algo) {
+		if (contains(algo)) {
+			return false;
+		}
+
+		// empty list?
+		if (getHead() == null) {
+			if (hashMap == null) {
+				hashMap = new HashMap<AlgoElement, AlgoElement>();
+			}
+			hashMap.put(algo, algo);
+
+			setHead(new Link(algo, null));
+			tail = getHead();
+			size++;
+			return true;
+		}
+
+		// check if algo is already at end of list
+		if (tail.algo == algo) {
+			return false;
+		}
+
+		/*
+		 * Usually we can just add an algorithm at the end of the list to have
+		 * it at the right place for updating. However, in certain cases an
+		 * algorithm needs to be inserted at an earlier place right after a
+		 * certain parentAlgo. For example, in a regular polygon, new segments
+		 * can be created later that need to be inserted directly after the
+		 * parent polygon.
+		 */
+
+		// check if algo needs to be inserted right after a certain parentAlgo
+		AlgoElement parentAlgo = algo.getUpdateAfterAlgo();
+
+		// Standard case: insert at end of list
+		if (parentAlgo == tail.algo) {
+			tail.next = new Link(algo, null);
+			tail = tail.next;
+		} else if (parentAlgo == null || !contains(parentAlgo)) {
+			Link cur = getHead();
+			while (cur.algo.getID() < algo.getID() && cur.next != null) {
+				cur = cur.next;
+			}
+			cur.next = new Link(algo, cur.next);
+		}
+
+		// Special case: insert in the middle, right after parentAlgo
+		else {
+			// search for parentAlgo
+			Link cur = getHead();
+			while (cur.algo != parentAlgo) {
+				cur = cur.next;
+			}
+
+			// now cur.algo == parentAlgo, insert right afterwards
+			cur.next = new Link(algo, cur.next);
+		}
+
+		hashMap.put(algo, algo);
+		size++;
+
+		return true;
+
+	}
+
 	/**
 	 * Inserts all algos of set at the end of this set.
 	 * 
@@ -131,6 +197,20 @@ public class AlgorithmSet {
 		Link cur = algoSet.getHead();
 		while (cur != null) {
 			add(cur.algo);
+			cur = cur.next;
+		}
+	}
+
+	/**
+	 * Inserts all algos of set into this set.
+	 * 
+	 * @param algoSet
+	 *            set of algos to be added
+	 */
+	public void addAllSorted(AlgorithmSet algoSet) {
+		Link cur = algoSet.getHead();
+		while (cur != null) {
+			addSorted(cur.algo);
 			cur = cur.next;
 		}
 	}

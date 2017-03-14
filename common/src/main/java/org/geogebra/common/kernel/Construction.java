@@ -1064,12 +1064,12 @@ public class Construction {
 				}
 				if (elem instanceof GeoElement) {
 					GeoElement geo = (GeoElement) elem;
-					updateSet.addAll(geo.getAlgoUpdateSet());
+					updateSet.addAllSorted(geo.getAlgoUpdateSet());
 				} else if (elem instanceof AlgoElement) {
 					AlgoElement algo = (AlgoElement) elem;
 					GeoElement[] geos = algo.getOutput();
 					for (GeoElement geo : geos) {
-						updateSet.addAll(geo.getAlgoUpdateSet());
+						updateSet.addAllSorted(geo.getAlgoUpdateSet());
 					}
 				}
 			}
