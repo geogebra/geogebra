@@ -696,6 +696,9 @@ public class CurvePlotter {
 				linetofirst = true;
 			}
 		}
+		if (lastMove != null) {
+			gp.lineTo(lastMove);
+		}
 
 		gp.endPlot();
 

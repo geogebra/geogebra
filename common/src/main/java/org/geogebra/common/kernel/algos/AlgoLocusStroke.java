@@ -326,11 +326,14 @@ public class AlgoLocusStroke extends AlgoElement
 		input = new GeoElement[data.size() + 1];
 		int j = 0;
 		for (MyPoint pt : data) {
-			input[j] = new GeoPoint(cons, pt.getInhomX(), pt.getInhomY(), 1);
-			j++;
+			if (pt.getSegmentType() != SegmentType.CONTROL) {
+				input[j] = new GeoPoint(cons, pt.getInhomX(), pt.getInhomY(),
+						1);
+				j++;
+			}
 		}
 
-		input[data.size()] = new GeoBoolean(cons, true); // dummy to
+		input[j] = new GeoBoolean(cons, true); // dummy to
 															// force
 															// PolyLine[...,
 															// true]
