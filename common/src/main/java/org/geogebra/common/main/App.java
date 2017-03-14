@@ -49,7 +49,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -4186,13 +4185,6 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
-	/**
-	 * Returns false.
-	 */
-	@Deprecated
-	public final static boolean isLatexMathQuillStyle(StringTemplate tpl) {
-		return false;
-	}
 
 	public final int getTubeId() {
 		return tubeID;

@@ -317,11 +317,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		// as this is never edited by MathQuillGGB, we can always use
 		// JLatexMath when it is technically available, so
 		// null is used here instead of StringTemplate.latexTemplateMQ
-		if (kernel.getApplication().isLatexMathQuillStyle(null)) {
-			stemPlotMQ(data, outlierIndex, multUnit, stemLines);
-		} else {
-			stemPlot(data, outlierIndex, multUnit, stemLines);
-		}
+		stemPlot(data, outlierIndex, multUnit, stemLines);
 
 		// ==========================================
 		// set to LaTeX
@@ -419,92 +415,6 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		sb.append('}');
 
 		// Application.debug(sb.toString());
-	}
-
-	private void stemPlotMQ(double[] data, int[] outlierIndex, double multUnit,
-			ArrayList<ArrayList<Integer>> stemLines) {
-
-		// some code may have been copied from AlgoTableText.latexMQ,
-		// but it will be more efficient to implement the part that is really
-		// needed
-
-		// find the maximum length of the stem lines (used to create the LaTeX)
-		int maxSize = 0;
-		for (int i = 0; i < stemLines.size(); i++) {
-			maxSize = Math.max(maxSize, stemLines.get(i).size());
-		}
-
-		// =============================================
-		// create LaTex for the stemplot body
-
-		StringBuilder body = new StringBuilder();
-		body.setLength(0);
-		body.append('{');
-		body.append(" \\ggbtable{ ");
-
-		// populate the body array
-		ArrayList<Integer> currentLine;
-		int stem;
-		for (int r = 0; r < stemLines.size(); r++) {
-			body.append(" \\ggbtr{ ");
-
-			currentLine = stemLines.get(r);
-
-			// add the stem and handle the case of -0
-			stem = currentLine.get(0);
-
-			body.append(" \\ggbtdlrR{ ");
-			if (stem == 0 && (r < stemLines.size() - 2
-					&& stemLines.get(r + 1).get(0) == 0)) {
-				body.append("-" + stem + "");
-			} else {
-				body.append(stem + "");
-			}
-			body.append(" } ");
-
-			// add the leaf values
-			for (int c = 1; c < maxSize; c++) {
-				body.append(" \\ggbtdL{ ");
-				body.append(
-						currentLine.size() > c ? currentLine.get(c) + "" : " ");
-				body.append(" } ");
-			}
-			body.append(" } ");
-		}
-
-		body.append("} ");
-		body.append('}');
-		body.append(" \\\\ "); // newline in LaTeX ie \\
-
-		// ==========================================
-		// create LaTeX for the key
-		StringBuilder key = new StringBuilder();
-		key.setLength(0);
-		key.append(" \\ggbtable{ \\ggbtrl{ \\ggbtdl{ \\text{ ");
-
-		// calculate the key string, avoid eg 31.0
-		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit
-				: "" + 31.0 * multUnit;
-		key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
-		key.append(" } } } } ");
-		key.append(" \\\\ "); // newline in LaTeX ie \\
-
-		// ==========================================
-		// create the stemplot LaTeX
-
-		sb.setLength(0);
-		sb.append('{');
-		if (outlierIndex[0] > 0) {
-			sb.append(low);
-		}
-		// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
-		sb.append(body);
-		if (outlierIndex[1] < data.length) {
-			sb.append(high);
-		}
-		sb.append(key);
-
-		sb.append('}');
 	}
 
 	@Override

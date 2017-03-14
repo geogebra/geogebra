@@ -785,17 +785,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			inputs[2] = kernel.format(z, tpl);
 		}
 
-		if (inputs.length == 3
-				&& kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-			sb.append("\\vectorize{\\ggbtable{\\ggbtr{\\ggbtd{");
-			sb.append(inputs[0]);
-			sb.append("}}\\ggbtr{\\ggbtd{");
-			sb.append(inputs[1]);
-			sb.append("}}\\ggbtr{\\ggbtd{");
-			sb.append(inputs[2]);
-			sb.append("}}}}");
-			return;
-		}
 		buildTabular(inputs, sb);
 
 	}
@@ -921,18 +910,10 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			// \\ \end{tabular} \right)
 			// so use eg \binom{ -10 }{ 0 } in web
 			// see #1987
-			if (inputs.length == 2
-					&& kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-				sb.append("\\vectorize{\\ggbtable{\\ggbtr{\\ggbtd{");
-				sb.append(inputs[0]);
-				sb.append("}}\\ggbtr{\\ggbtd{");
-				sb.append(inputs[1]);
-				sb.append("}}}}");
 
-			} else {
 
-				buildTabular(inputs, sb);
-			}
+			buildTabular(inputs, sb);
+
 			break;
 		}
 

@@ -373,11 +373,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		// always use JLaTeXMath instead of MathQuillGGB in case
 		// it is technically available, because this is never edited (by MQ)
 		// ... so NOT latexTemplateMQ is used here (but anything else)
-		if (kernel.getApplication().isLatexMathQuillStyle(null)) {
-			createLaTeXTableMQ(useClassList);
-		} else {
-			createLaTeXTableD(useClassList);
-		}
+
+		createLaTeXTableD(useClassList);
+
 	}
 
 	private void createLaTeXTableD(boolean useClassList) {
@@ -407,35 +405,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			}
 		}
 		sb.append("\\end{array}");
-	}
-
-	private void createLaTeXTableMQ(boolean useClassList) {
-		// FrequencyTable[{1,2,3,4,5}]
-		sb.setLength(0);
-		sb.append("\\ggbtable{\\ggbtrlb{\\ggbtd{");
-
-		sb.append(strHeader[0]);
-		sb.append("}\\ggbtdll{\\text{");
-		sb.append(strHeader[1]);
-		sb.append("}}}\\ggbtr{\\ggbtd{ ");
-		if (useClassList) {
-			for (int i = 0; i < strFrequency.length - 1; i++) {
-				sb.append(strValue[i]);
-				sb.append("\\text{ -- }");
-				sb.append(strValue[i + 1]);
-				sb.append("}\\ggbtdll{");
-				sb.append(strFrequency[i]);
-				sb.append("}\\ggbtr{\\ggbtd{");
-			}
-		} else {
-			for (int i = 0; i < strFrequency.length; i++) {
-				sb.append(strValue[i]);
-				sb.append("}\\ggbtdll{");
-				sb.append(strFrequency[i]);
-				sb.append("}}\\ggbtr{\\ggbtd{");
-			}
-		}
-		sb.append("}}}");
 	}
 
 }

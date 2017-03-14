@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * ContingencyTable[] algorithm
@@ -428,13 +427,10 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		table.setTextString(tableSb.toString());
 	}
 
-	private void endTable(StringBuilder sb2) {
-		if (!useJLaTeXMath()) {
-			sb2.append("}");
-		} else {
-			sb2.append("\\end{array}");
-		}
-		Log.debug(sb2.toString());
+	private static void endTable(StringBuilder sb2) {
+
+		sb2.append("\\end{array}");
+
 	}
 
 	private void addChiTest(StringBuilder sb) {
@@ -448,7 +444,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		cons.removeFromConstructionList(test);
 		GeoList result = test.getResult();
 
-		String split = !useJLaTeXMath() ? "}\\ggbtdl{" : "&";
+		String split = "&";
 
 		String rowHeader = getLoc().getMenu("DegreesOfFreedom.short") + split
 				+ Unicode.chi + Unicode.Superscript_2 + split
@@ -465,46 +461,33 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		sb.append(getLoc().getMenu("ChiSquaredTest"));
 		sb.append("}\\\\");
 
-		if (!useJLaTeXMath()) {
-			sb.append("\\ggbtable{\\ggbtrl{\\ggbtdl{");
+		sb.append("\\begin{array}{|l|l|l|l|}");
+		sb.append(" \\\\ \\hline ");
+		sb.append(rowHeader);
+		sb.append("\\\\");
+		sb.append("\\hline ");
+		sb.append(secondRow);
+		sb.append("\\\\");
+		sb.append("\\hline ");
+		sb.append("\\end{array}");
 
-			sb.append(rowHeader);
-			sb.append("}}\\ggbtrl{\\ggbtdl{");
-			sb.append(secondRow);
-			sb.append("}}}");
-
-		} else {
-
-			sb.append("\\begin{array}{|l|l|l|l|}");
-			sb.append(" \\\\ \\hline ");
-			sb.append(rowHeader);
-			sb.append("\\\\");
-			sb.append("\\hline ");
-			sb.append(secondRow);
-			sb.append("\\\\");
-			sb.append("\\hline ");
-			sb.append("\\end{array}");
-		}
 	}
 
 	private void beginTable() {
-		if (!useJLaTeXMath()) {
-			tableSb.append("\\ggbtable{");
-		} else {
-			tableSb.append("\\begin{array}{|l");
-			for (int i = 0; i < colValues.length - 1; i++) {
-				tableSb.append("|l");
-			}
-			tableSb.append("|l||l|}"); // extra column for margin
-			tableSb.append(" \\\\ ");
+		tableSb.append("\\begin{array}{|l");
+		for (int i = 0; i < colValues.length - 1; i++) {
+			tableSb.append("|l");
 		}
+		tableSb.append("|l||l|}"); // extra column for margin
+		tableSb.append(" \\\\ ");
+
 	}
 
 	private void addTableRow(StringBuilder sb, int rowIndex, String header,
 			String type, boolean lineBelow) {
 
 		double x;
-		startRow(sb, lineBelow, rowIndex == -1);
+		startRow(sb, rowIndex == -1);
 		// row header
 		if (header == null) {
 			sb.append("\\;");
@@ -576,41 +559,24 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		endRow(sb, lineBelow);
 	}
 
-	private void startRow(StringBuilder sb, boolean lineBelow,
-			boolean lineAbove) {
-		if (!useJLaTeXMath()) {
-			sb.append(lineBelow ? (lineAbove ? "\\ggbtrl{" : "\\ggbtrlb{")
-					: (lineAbove ? "\\ggbtrlt{" : "\\ggbtr{"));
-			sb.append("\\ggbtdl{");
-		} else if (lineAbove) {
-			tableSb.append("\\hline ");
+	private static void startRow(StringBuilder sb, boolean lineAbove) {
+		if (lineAbove) {
+			sb.append("\\hline ");
 		}
 	}
 
-	private boolean useJLaTeXMath() {
-		// always use JLaTeXMath instead of MathQuillGGB in case
-		// it is technically available, because this is never edited
-		// ... so NOT latexTemplateMQ is used here (but anything else)
-		return !kernel.getApplication().isLatexMathQuillStyle(null);
+	private static void endRow(StringBuilder sb, boolean lineBelow) {
+
+		sb.append("\\\\");
+		if (lineBelow) {
+			sb.append("\\hline ");
+		}
+
 	}
 
-	private void endRow(StringBuilder sb, boolean lineBelow) {
-		if (!useJLaTeXMath()) {
-			sb.append("}}");
-		} else {
-			sb.append("\\\\");
-			if (lineBelow) {
-				sb.append("\\hline ");
-			}
-		}
-	}
+	private static void endCell(StringBuilder sb) {
+		sb.append("&");
 
-	private void endCell(StringBuilder sb) {
-		if (!useJLaTeXMath()) {
-			sb.append("}\\ggbtdl{");
-		} else {
-			sb.append("&");
-		}
 	}
 
 	private static String handleSpecialChar(String s) {

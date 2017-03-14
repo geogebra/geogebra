@@ -2650,26 +2650,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			boolean complete = collectCases(expr, cases, conditions,
 					new Bounds());
 
-			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-				sbLaTeX.append("\\piecewise{ \\pwtable{ ");
-				for (int i = 0; i < cases.size(); i++) {
-					sbLaTeX.append("\\ggbtr{ \\ggbtdL{ ");
-					sbLaTeX.append(cases.get(i)
-							.toLaTeXString(!substituteNumbers, tpl));
-					sbLaTeX.append("} \\ggbtdL{ : \\space ");
-					if (i == cases.size() - 1 && complete) {
-						sbLaTeX.append("\\textotherwise{");
-						sbLaTeX.append(getLoc().getPlain("otherwise"));
-						sbLaTeX.append("}");
-					} else {
-						sbLaTeX.append(conditions.get(i).toLaTeXString(
-								!substituteNumbers, getVarString(tpl), tpl));
-
-					}
-					sbLaTeX.append(" } } ");
-				}
-				sbLaTeX.append(" } } ");
-			} else {
+			{
 				int lastValid = conditions.size() - 1;
 				while (lastValid >= 0 && !conditions.get(lastValid).isValid()) {
 					lastValid--;
