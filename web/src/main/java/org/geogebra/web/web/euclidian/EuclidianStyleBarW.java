@@ -57,27 +57,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
         org.geogebra.common.euclidian.EuclidianStyleBar,
 		ValueChangeHandler<Boolean> {
 
-	/**
-	 * Toggle button that should be visible if no geos are selected or to be
-	 * created and no special icons appear in stylebar (eg. delete mode)
-	 */
-	protected class MyToggleButtonWforEV extends MyToggleButtonW {
-		/**
-		 * @param img
-		 *            image
-		 */
-		public MyToggleButtonWforEV(ImageResource img) {
-			super(img);
-		}
-
-		@Override
-		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
-					&& mode != EuclidianConstants.MODE_DELETE
-					&& mode != EuclidianConstants.MODE_ERASER);
-		}
-	}
-
 	private enum StyleBarMethod {
 		NONE, UPDATE, UPDATE_STYLE
 	}
@@ -651,7 +630,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		@Override
 		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0
+			super.setVisible(geos.length == 0
 					&& mode != EuclidianConstants.MODE_PEN);
 		}
 
@@ -676,7 +655,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected void createAxesAndGridButtons() {
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButtonWforEV(StyleBarResources.INSTANCE.axes());
+		btnShowAxes = new MyToggleButtonWforEV(
+				StyleBarResources.INSTANCE.axes(), this);
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
@@ -703,7 +683,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				@Override
 				public void update(Object[] geos) {
 					// always show this button unless in pen mode
-					this.setVisible(mode == EuclidianConstants.MODE_DELETE
+					super.setVisible(mode == EuclidianConstants.MODE_DELETE
 							|| mode == EuclidianConstants.MODE_ERASER);
 				}
 
@@ -723,7 +703,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			@Override
 			public void update(Object[] geos) {
 				// same as axes
-				this.setVisible(geos.length == 0
+				super.setVisible(geos.length == 0
 				        && !EuclidianView.isPenMode(mode)
 						&& mode != EuclidianConstants.MODE_DELETE
 						&& mode != EuclidianConstants.MODE_ERASER);
@@ -762,7 +742,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				GeoElement geo = EuclidianStyleBarStatic
 				        .checkGeosForCaptionStyle(geos, mode, app);
 				boolean geosOK = geo != null && showAllStyleButtons();
-				this.setVisible(geosOK);
+				super.setVisible(geosOK);
 
 				if (geosOK) {
 					setSelectedIndex(EuclidianStyleBarStatic
@@ -803,7 +783,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				GeoElement geo = EuclidianStyleBarStatic
 				        .checkGeosForAngleInterval(geos);
 				boolean geosOK = (geo != null);
-				this.setVisible(geosOK);
+				super.setVisible(geosOK);
 
 				if (geosOK) {
 					setSelectedIndex(((AngleProperties) geo).getAngleStyle()
@@ -867,7 +847,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 					}
 
-					setVisible(geosOK);
+					super.setVisible(geosOK);
 
 
 					if (geosOK) {
@@ -949,7 +929,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 				}
 
-				setVisible(geosOK);
+				super.setVisible(geosOK);
 
 
 				if (geosOK) {
@@ -1005,7 +985,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = checkGeoText(geos);
-				setVisible(geosOK);
+				super.setVisible(geosOK);
 
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
@@ -1046,7 +1026,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 				boolean geosOK = checkGeoText(geos)
 				        && !((GeoElement) geos[0]).isGeoInputBox();
-				setVisible(geosOK);
+				super.setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
@@ -1068,7 +1048,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 				boolean geosOK = EuclidianStyleBarStatic
 				        .checkGeosForFixPosition(geos) && showAllStyleButtons();
-				setVisible(geosOK);
+				super.setVisible(geosOK);
 				if (geosOK) {
 					btnFixPosition.setValue(EuclidianStyleBarStatic
 					        .checkSelectedFixPosition((GeoElement) geos[0]));
@@ -1108,8 +1088,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 				boolean geosOK = checkGeoText(geos)
 				        && !((GeoElement) geos[0]).isGeoInputBox();
-				setVisible(geosOK);
-				this.setVisible(geosOK);
+				super.setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
@@ -1139,7 +1118,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = checkGeoText(geos);
-				setVisible(geosOK);
+				super.setVisible(geosOK);
 
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])

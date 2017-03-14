@@ -14,6 +14,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.web.euclidian.MyToggleButtonWforEV;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
@@ -288,7 +289,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		// ========================================
 		// show grid button
-		btnShowGrid3D = new MyToggleButtonWforEV(StyleBarResources.INSTANCE.grid());
+		btnShowGrid3D = new MyToggleButtonWforEV(
+				StyleBarResources.INSTANCE.grid(), this);
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
 	}

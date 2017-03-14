@@ -93,8 +93,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 							return;
 						}
 					}
-					if ((!app.getSelectionManager().getSelectedGeos()
-.isEmpty() && optionType != OptionType.ALGEBRA)
+					if ((!app.getSelectionManager().getSelectedGeos().isEmpty() && optionType != OptionType.ALGEBRA)
 							|| optionType == null
 							) {
 						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
