@@ -53,6 +53,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private EditMenuW editMenu;
 
 	private PerspectivesMenuW perspectivesMenu;
+	private boolean leftSide = false;
 	/**
 	 * Menus
 	 */
@@ -69,6 +70,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 */
 	public MainMenu(AppW app) {
 		this.addStyleName("menubarSMART");
+		leftSide = app.isWhiteboardActive();
+		if (leftSide) {
+			addStyleName("mowMenubar");
+		}
 		this.app = app;
 		init();
 	}
@@ -222,7 +227,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.menuPanel.add(toolsMenu, getHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
 		if (!exam) {
-			this.menuPanel.add(helpMenu, getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 			if(app.getNetworkOperation().isOnline()){
 				render(true);
 			}
@@ -350,9 +354,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.menus[index].focus();
 		}
 	}
-	
+
 	public static void addSubmenuArrow(MenuBar w) {
-		w.addStyleName("subMenuLeftSide");
+		addSubmenuArrow(w, "subMenuLeftSide");
+	}
+
+	public static void addSubmenuArrow(MenuBar w, String styleName) {
+		w.addStyleName(styleName);
 		FlowPanel arrowSubmenu = new FlowPanel();
 		arrowSubmenu.addStyleName("arrowSubmenu");
 		NoDragImage arrow = new NoDragImage(GuiResources.INSTANCE

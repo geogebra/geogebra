@@ -32,6 +32,7 @@ public class GGWMenuBar extends Composite {
 	 */
 	public void init(AppW app) {
 		menubar = (MainMenu) app.getLAF().getMenuBar(app);
+
 		ggbmenubarwrapper.add(menubar);
 	}
 	

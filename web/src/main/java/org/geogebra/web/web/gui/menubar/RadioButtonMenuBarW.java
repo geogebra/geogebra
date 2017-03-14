@@ -40,7 +40,8 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		radioButtons = new ArrayList<RadioButton>();
 		app = application;
 		if(arrow){
-			MainMenu.addSubmenuArrow(this);
+			MainMenu.addSubmenuArrow(this, app.isWhiteboardActive()
+					? "subMenuRightSide" : "subMenuLeftSide");
 		}
 	}
 

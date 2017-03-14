@@ -619,7 +619,12 @@ public class AppWapplet extends AppWFull {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
-			this.splitPanelWrapper.add(frame.getMenuBar(this));
+			if (isWhiteboardActive()) {
+				this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
+
+			} else {
+				this.splitPanelWrapper.add(frame.getMenuBar(this));
+			}
 			this.oldSplitLayoutPanel.setPixelSize(
 					this.oldSplitLayoutPanel.getOffsetWidth()
 							- GLookAndFeel.MENUBAR_WIDTH,
