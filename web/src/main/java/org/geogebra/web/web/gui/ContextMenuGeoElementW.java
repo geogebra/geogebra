@@ -1204,4 +1204,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return mnu;
 	}
 
+	public void update() {
+		initPopup((AppW) app, app.getActiveEuclidianView()
+				.getEuclidianController().getAppSelectedGeos());
+		addOtherItems();
+	}
 }
