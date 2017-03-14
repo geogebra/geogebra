@@ -403,9 +403,16 @@ public class PopupMenuButtonW extends MyCJButton
 		if (changeEventHandler != null) {
 			changeEventHandler.fireActionPerformed(this);
 		} else {
-			// needed checking if stylebar exists: don't create EV stylebar if
-			// the slider belong to the popup of dynamic stylebar
-			if (app.getActiveEuclidianView().hasStyleBar() || !app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+				// needed checking if stylebar exists: don't create EV stylebar
+				if (app.getActiveEuclidianView().hasStyleBar()) {
+					((EuclidianStyleBarW) app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
+				}
+				if (app.getActiveEuclidianView().hasDynamicStyleBar()) {
+					((EuclidianStyleBarW) app.getActiveEuclidianView().getDynamicStyleBar()).fireActionPerformed(this);
+				}
+
+			} else {
 				((EuclidianStyleBarW) app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
 			}
 		}
