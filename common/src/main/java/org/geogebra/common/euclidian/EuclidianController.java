@@ -27,8 +27,6 @@ import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
-import org.geogebra.common.euclidian.draw.DrawLine;
-import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -5813,19 +5811,19 @@ public abstract class EuclidianController {
 		// implemented in EuclidianControllerW
 	}
 
-	private void addDynamicStylebar(Drawable dr) {
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
-			return;
-		}
-		if (dr instanceof DrawLine) {
-			((DrawLine) dr).updateDynamicStylebarPosition();
-		} else if (dr instanceof DrawLocus) {
-			setDynamicStyleBarPosition(((DrawLocus) dr).getGpBounds(), true);
-		} else if (dr != null) {
-			setDynamicStyleBarPosition(dr.getBounds(), true);
-		}
-		setDynamicStylebarVisible(true);
-	}
+	// private void addDynamicStylebar(Drawable dr) {
+	// if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
+	// return;
+	// }
+	// if (dr instanceof DrawLine) {
+	// ((DrawLine) dr).updateDynamicStylebarPosition();
+	// } else if (dr instanceof DrawLocus) {
+	// setDynamicStyleBarPosition(((DrawLocus) dr).getGpBounds(), true);
+	// } else if (dr != null) {
+	// setDynamicStyleBarPosition(dr.getBounds(), true);
+	// }
+	// setDynamicStylebarVisible(true);
+	// }
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElementND[] ret,
 			boolean changedKernel, AsyncOperation<Boolean> callback,
@@ -9891,8 +9889,10 @@ public abstract class EuclidianController {
 
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(event);
-			setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
-			setDynamicStylebarVisible(true);
+			selection.addSelectedGeo(getResizedShape().getGeoElement());
+			addDynamicStylebar();
+			// setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
+			// setDynamicStylebarVisible(true);
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
@@ -9909,7 +9909,8 @@ public abstract class EuclidianController {
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
-					addDynamicStylebar(d);
+					// addDynamicStylebar(d);
+					addDynamicStylebar();
 				}
 
 				// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
