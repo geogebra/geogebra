@@ -346,7 +346,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			}
 
 		}
-		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			if (flag) {
 				app.registerPopup(this);
 			} else {
