@@ -432,7 +432,7 @@ public class Derivative {
 
 	private static ExpressionNode coordDerivative(ExpressionValue left, int i,
 			FunctionVariable fv, Kernel kernel0) {
-		if (!left.contains(fv)) {
+		if (!left.wrap().containsDeep(fv)) {
 			return new ExpressionNode(kernel0, 0d);
 		}
 		ExpressionNode en = VectorArithmetic.computeCoord(left.wrap(), i);
