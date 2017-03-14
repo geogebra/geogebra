@@ -24,6 +24,8 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
@@ -450,7 +452,28 @@ public class EuclidianControllerW extends EuclidianController implements
 	// }
 
 	protected void addDynamicStylebar() {
-		this.getView().getDynamicStyleBar().updateStyleBar();
+		// Let's wait until bounds will be updated, otherwise dynamic stylebar
+		// will be drawn at the old position of geo at drop
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				EuclidianControllerW.this.getView().getDynamicStyleBar().setVisible(true);
+
+				// quick fix
+				// active view can change at onDrop, so let's update
+				// dynamic
+				// stylebar on both view, otherwise dynamic stylebar won't
+				// follow the geo all time at drop
+				if (mode == EuclidianConstants.MODE_MOVE) {
+					app.updateDynamicStyleBars();
+
+
+				} else {
+					EuclidianControllerW.this.getView().getDynamicStyleBar().updateStyleBar();
+				}
+			}
+		});
+
 	}
 
 	public void onPointerEventMove(PointerEvent event) {

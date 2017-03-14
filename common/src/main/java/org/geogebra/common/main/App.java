@@ -2212,6 +2212,11 @@ public abstract class App implements UpdateSelection {
 	public abstract void updateStyleBars();
 
 	/**
+	 * Update dynamic stylebars of all views
+	 */
+	public abstract void updateDynamicStyleBars();
+
+	/**
 	 * Changes current mode to move mode
 	 */
 	public void setMoveMode() {

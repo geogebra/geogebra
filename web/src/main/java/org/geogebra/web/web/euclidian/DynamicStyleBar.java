@@ -93,9 +93,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	}
 	
 	public void updateStyleBar() {
+		if (!isVisible()) {
+			return;
+		}
 
 		this.getElement().getStyle().setTop(-10000, Unit.PX);
-		setVisible(true);
 
 		// make sure it reflects selected geos
 		setOpen(true);

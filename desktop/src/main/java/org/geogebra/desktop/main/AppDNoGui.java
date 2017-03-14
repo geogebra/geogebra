@@ -329,6 +329,12 @@ public class AppDNoGui extends App {
 	}
 
 	@Override
+	public void updateDynamicStyleBars() {
+		// not implemented here
+
+	}
+
+	@Override
 	public void set1rstMode() {
 		// TODO Auto-generated method stub
 

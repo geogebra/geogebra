@@ -2937,12 +2937,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 		if (has(Feature.DYNAMIC_STYLEBAR)) {
-			updateDynamicStylebars();
+			updateDynamicStyleBars();
 		}
 
 	}
 
-	public void updateDynamicStylebars() {
+	@Override
+	public void updateDynamicStyleBars() {
 		if (getEuclidianView1().hasDynamicStyleBar()) {
 			getEuclidianView1().getDynamicStyleBar().updateStyleBar();
 		}

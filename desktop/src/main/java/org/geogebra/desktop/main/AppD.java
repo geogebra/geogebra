@@ -2945,6 +2945,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	public void updateDynamicStyleBars() {
+		// not implemented here
+	}
+
 	public void updateMenuWindow() {
 		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
