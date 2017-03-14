@@ -190,7 +190,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			return false;
 		}
 		if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			FactoryProvider.getInstance().debug("ESCAPE");
 			if (listener != null && listener.onEscape()) {
 				return true;
 			}

@@ -91,6 +91,7 @@ public class SerializeLaTeX {
 	@Test
 	public void testMultiply() {
 		checkCannon("t (1,2)", "t (1,2)");
+		checkCannon("x x x", "x*x*x");
 	}
 
 	@Test
@@ -118,7 +119,6 @@ public class SerializeLaTeX {
 		MathFormula mf = null;
 		try {
 			mf = parser.parse(input);
-			System.out.println(mf.getRootComponent());
 		} catch (ParseException e) {
 			Assert.assertNull(e);
 		}

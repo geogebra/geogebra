@@ -14,7 +14,6 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 @SuppressWarnings("javadoc")
 public class InputController {
@@ -105,7 +104,6 @@ public class InputController {
 	 */
 	public void newBraces(EditorState editorState, char ch) {
 		String casName = ArgumentHelper.readCharacters(editorState);
-		FactoryProvider.getInstance().debug(casName + "CAS NAME");
 		if (ch == FUNCTION_OPEN_KEY && metaModel.isGeneral(casName)) {
 			delCharacters(editorState, casName.length());
 			newFunction(editorState, casName);
@@ -360,7 +358,6 @@ public class InputController {
 	public void endField(EditorState editorState, char ch) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
-		FactoryProvider.getInstance().debug(currentField.getParent());
 		// first array specific ...
 		if (currentField.getParent() instanceof MathArray) {
 			MathArray parent = (MathArray) currentField.getParent();

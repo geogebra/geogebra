@@ -396,14 +396,11 @@ void mathCharacter(MathContainer currentField) :
         currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
     }
     |
-    (( sp = <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {
-      	if(sp!=null)      	{
-      	  System.out.println("space char");
-      	  currentField.addArgument(new MathCharacter(createMetaCharacter("\u200b", metaModel)));      	}
+    (( sp = <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {      	
         if (t != null) {
             MetaCharacter metaCharacter = createMetaCharacter(t.image, metaModel);
             if ((metaCharacter.getType() == MetaCharacter.CHARACTER ||
-                metaCharacter.getType() == MetaCharacter.SYMBOL) && currentField.size() > 0 && sp==null) {
+                metaCharacter.getType() == MetaCharacter.SYMBOL) ) {
                 int s = currentField.size();
                 MathComponent comp = currentField.getArgument(s - 1);
                 if (comp instanceof MathCharacter) {
@@ -416,7 +413,10 @@ void mathCharacter(MathContainer currentField) :
                 }
             }
             currentField.addArgument(new MathCharacter(metaCharacter));
-        }
+        }else
+            {
+              currentField.addArgument(new MathCharacter(createMetaCharacter("\u200b", metaModel)));
+            }
     }
 }
 
