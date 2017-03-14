@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
@@ -44,7 +45,13 @@ public class Derivative {
 		case XCOORD:
 		case YCOORD:
 		case ZCOORD:
-			return new ExpressionNode(kernel0, 0d);
+			if (!left.contains(fv)) {
+				return new ExpressionNode(kernel0, 0d);
+			}
+
+			Log.debug("fast derivatives can't handle " + operation + " for "
+					+ left.toValueString(StringTemplate.defaultTemplate));
+			return new ExpressionNode(kernel0, Double.NaN);
 
 		case POWER:
 			return derivativePower(left, right, fv, kernel0);
