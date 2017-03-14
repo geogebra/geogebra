@@ -563,9 +563,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 											.getKeyboardListener();
 									((GuiManagerW) app.getGuiManager())
 											.setOnScreenKeyboardTextField(ml);
-
-									ml.setFocus(true, true);
-									ml.ensureEditing();
+									if (ml != null) {
+										ml.setFocus(true, true);
+										ml.ensureEditing();
+									}
 
 								}
 							}.schedule(500);
