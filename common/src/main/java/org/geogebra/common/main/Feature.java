@@ -162,9 +162,11 @@ public enum Feature {
 	PEN_IS_LOCUS,
 
 	PEN_EVENTS,
+
 	/** MOW-105 */
 	PEN_SMOOTHING,
 
+	/** GGB-1617 */
 	AUTOMATIC_DERIVATIVES
 
 }
