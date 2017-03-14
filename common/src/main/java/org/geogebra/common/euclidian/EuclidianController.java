@@ -5817,11 +5817,10 @@ public abstract class EuclidianController {
 			((DrawLine) dr).updateDynamicStylebarPosition();
 		} else if (dr instanceof DrawLocus) {
 			setDynamicStyleBarPosition(((DrawLocus) dr).getGpBounds(), true);
-			setDynamicStylebarVisible(true);
 		} else if (dr != null) {
 			setDynamicStyleBarPosition(dr.getBounds(), true);
-			setDynamicStylebarVisible(true);
 		}
+		setDynamicStylebarVisible(true);
 	}
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElementND[] ret,
