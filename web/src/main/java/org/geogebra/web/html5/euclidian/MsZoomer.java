@@ -256,7 +256,7 @@ public class MsZoomer {
 							
 
 						});
-		function removePointer(out){
+		function removePointer(out, stopPropagation){
 			return function(e) {
 			if ($wnd.first.id == e.pointerId) {
 				$wnd.first.id = -1;
@@ -264,6 +264,9 @@ public class MsZoomer {
 				$wnd.second.id = -1;
 			}
 			if(override){
+				if(stopPropagation){
+					e.stopPropagation();
+				}
 				if(!out){
 					zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleUp(DDII)(e.x, e.y, getType(e), getModifiers(e));
 				}
@@ -273,8 +276,11 @@ public class MsZoomer {
 			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 		};
 		}
-		element.addEventListener(fix("PointerUp"), removePointer(false));
-		element.addEventListener(fix("PointerOut"), removePointer(true));
+		element.addEventListener(fix("PointerUp"), removePointer(false, true));		
+		element.addEventListener(fix("PointerOut"), removePointer(true, false));
+		if(override){
+			$wnd.addEventListener(fix("PointerUp"), removePointer(false, false));
+		}
 	}-*/;
 
 }
