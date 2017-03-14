@@ -2,7 +2,6 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -434,19 +433,21 @@ public class EuclidianControllerW extends EuclidianController implements
 		this.getView().getDynamicStyleBar().setVisible(visible);
 	}
 
-	@Override
-	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
-		if (!app.has(Feature.DYNAMIC_STYLEBAR)
-				|| !((AppW) app).allowStylebar()) {
-			return;
-		}
-		if(gRectangle2D == null){
-			return;
-		}
-
-		this.getView().getDynamicStyleBar().setPosition(gRectangle2D, hasBoundingBox);
-		
-	}
+	// @Override
+	// public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean
+	// hasBoundingBox) {
+	// if (!app.has(Feature.DYNAMIC_STYLEBAR)
+	// || !((AppW) app).allowStylebar()) {
+	// return;
+	// }
+	// if(gRectangle2D == null){
+	// return;
+	// }
+	//
+	// this.getView().getDynamicStyleBar().setPosition(gRectangle2D,
+	// hasBoundingBox);
+	//
+	// }
 
 	protected void addDynamicStylebar() {
 		this.getView().getDynamicStyleBar().updateStyleBar();

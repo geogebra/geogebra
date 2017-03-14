@@ -21,7 +21,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
@@ -8414,9 +8413,10 @@ public abstract class EuclidianController {
 	 *            position
 	 * @param hasBoundingBox TODO
 	 */
-	public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
-		// Floating stylebar not supported
-	}
+	// public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean
+	// hasBoundingBox) {
+	// // Floating stylebar not supported
+	// }
 
 	protected boolean shouldCancelDrag() {
 		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY
