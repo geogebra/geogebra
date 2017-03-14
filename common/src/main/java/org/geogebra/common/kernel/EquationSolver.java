@@ -145,6 +145,11 @@ public class EquationSolver implements EquationSolverInterface {
 
 	@Override
 	final public int solveQuadratic(double eqn[], double res[], double eps) {
+		return solveQuadraticS(eqn, res, eps);
+	}
+
+	final public static int solveQuadraticS(double eqn[], double res[],
+			double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
 		double c = eqn[0];
@@ -288,12 +293,17 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	@Override
 	final public int solveCubic(double eqn[], double res[], double eps) {
+		return solveCubicS(eqn, res, eps);
+	}
+
+	final static public int solveCubicS(double eqn[], double res[],
+			double eps) {
 
 		int roots = 0;
 		double d = eqn[3];
 		if (Math.abs(d) < eps) {
 			// The cubic has degenerated to quadratic (or line or ...).
-			return solveQuadratic(eqn, res, eps);
+			return solveQuadraticS(eqn, res, eps);
 		}
 		double a = eqn[2] / d;
 		double b = eqn[1] / d;

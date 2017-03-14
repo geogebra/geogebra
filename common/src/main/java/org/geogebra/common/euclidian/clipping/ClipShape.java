@@ -30,6 +30,7 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.EquationSolver;
 
 /**
  * This class lets you clip/intersect an arbitrary shape to a Rectangle2D.
@@ -364,8 +365,8 @@ public class ClipShape {
 			eqn[3] = a;
 			if (offset == 0) {
 				// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,dest);
-				int k = AwtFactory.getPrototype().solveCubic(eqn, dest);
-				if (k < 0 || (k == 1 && Double.isNaN(dest[0]))) {
+				int k = EquationSolver.solveCubicS(eqn, dest, 1E-8);
+				if (k < 0) {
 					return 0;
 				}
 				return k;
@@ -374,8 +375,8 @@ public class ClipShape {
 				t2 = new double[3];
 			}
 			// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,t2);
-			int k = AwtFactory.getPrototype().solveCubic(eqn, t2);
-			if (k < 0 || (k == 1 && Double.isNaN(t2[0]))) {
+			int k = EquationSolver.solveCubicS(eqn, t2, 1E-8);
+			if (k < 0) {
 				return 0;
 			}
 			for (int i = 0; i < k; i++) {

@@ -289,9 +289,4 @@ public class AwtFactoryD extends AwtFactory {
 				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
-	@Override
-	public int solveCubic(double[] eqn, double[] dest) {
-		return java.awt.geom.CubicCurve2D.solveCubic(eqn, dest);
-	}
-
 }

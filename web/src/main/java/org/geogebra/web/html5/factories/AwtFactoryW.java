@@ -304,11 +304,6 @@ public class AwtFactoryW extends AwtFactory {
 			}
 		}
 	}
-	
-	@Override
-	public int solveCubic(double[] eqn, double[] dest) {
-		return org.geogebra.ggbjdk.java.awt.geom.CubicCurve2D.solveCubic(eqn, dest);
-	}
 
 
 }

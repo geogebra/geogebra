@@ -161,7 +161,6 @@ public abstract class AwtFactory {
 
 	}
 
-	public abstract int solveCubic(double[] eqn, double[] dest);
 
 	public static void fillTriangle(GGraphics2D g2, double x1, double y1,
 			double x2,
