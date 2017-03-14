@@ -9941,7 +9941,7 @@ public abstract class EuclidianController {
 		}
 		
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (mode == EuclidianConstants.MODE_MOVE) {
+			if (mode == EuclidianConstants.MODE_MOVE && !temporaryMode) {
 				addDynamicStylebar();
 			}
 		}
