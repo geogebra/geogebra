@@ -22,6 +22,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -32,6 +33,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
@@ -123,6 +126,15 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		sliderPanelUpdate(geos);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.registerPopup(this);
+		}
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
+			this.addCloseHandler(new CloseHandler<GPopupPanel>() {
+				@Override
+				public void onClose(CloseEvent<GPopupPanel> event) {
+					app.unregisterPopup(SliderDialogW.this);
+					app.hideKeyboard();
+				}
+			});
 		}
 	}
 

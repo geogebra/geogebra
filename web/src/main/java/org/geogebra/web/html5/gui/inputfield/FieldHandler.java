@@ -56,6 +56,10 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 			if (CancelEventTimer.cancelKeyboardHide()) {
 				return;
 			}
+			if (app.hasPopup() && app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
+				app.getGuiManager().setOnScreenKeyboardTextField(null);
+				return;
+			}
 			app.hideKeyboard();
 		}
 	}
