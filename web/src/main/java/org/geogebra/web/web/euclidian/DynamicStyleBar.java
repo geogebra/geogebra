@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLocus;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -55,30 +54,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			return;
 		}
 
-		// Log.printStacktrace("setPosition");
-		Log.debug("rectangle:" + gRectangle2D.getMinX() + " " + gRectangle2D.getMaxX() + " " + gRectangle2D.getMinY()
-				+ " " + gRectangle2D.getMaxY());
-		Log.debug("hasboundinbox: " + hasBoundingBox);
-
-		boolean oldVisible = this.isVisible();
-		this.setVisible(true);
-
-		// make sure it reflects selected geos
-		setOpen(true);
-		// updateButtons();
-		setMode(EuclidianConstants.MODE_MOVE);
-		super.updateStyleBar();
-
-		// Calculates the x param. of distance between the start of dynamic
-		// stylebar and the three dot button.
-		this.getElement().getStyle().setTop(-10000, Unit.PX);
-
 		// int move = this.getViewButton().getAbsoluteLeft()
 		// - this.getAbsoluteLeft();
 		int move = this.getOffsetWidth();
 		int height = this.getOffsetHeight();
-		Log.debug("move: " + move + " height: " + height);
-		this.setVisible(oldVisible);
 
 		double left, top;
 		if (hasBoundingBox) {
@@ -109,15 +88,13 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			left = app.getActiveEuclidianView().getWidth() - this.getOffsetWidth();
 		}
 
-		Log.debug("left: " + left + "top: " + top);
 		this.getElement().getStyle().setLeft(left, Unit.PX);
 		this.getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
 	public void updateStyleBar() {
 
-		this.getElement().getStyle().setTop(0, Unit.PX);
-		this.getElement().getStyle().setLeft(0, Unit.PX);
+		this.getElement().getStyle().setTop(-10000, Unit.PX);
 		setVisible(true);
 
 		// make sure it reflects selected geos
