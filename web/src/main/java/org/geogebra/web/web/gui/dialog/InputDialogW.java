@@ -11,6 +11,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -25,6 +26,8 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -192,6 +195,15 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			app.registerPopup(wrappedPopup);
 		}
 
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
+			wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+				@Override
+				public void onClose(CloseEvent<GPopupPanel> event) {
+					app.unregisterPopup(wrappedPopup);
+					app.hideKeyboard();
+				}
+			});
+		}
 		// add key handler for ENTER if inputPanel uses a text field
 		if (inputPanel.getTextComponent() != null) {
 			inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);

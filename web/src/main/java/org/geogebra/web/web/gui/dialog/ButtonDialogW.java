@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -16,6 +17,8 @@ import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -33,7 +36,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	ScriptArea tfScript;
 	private Localization loc;
 	
-	public ButtonDialogW(AppW app, int x, int y, boolean textField) {
+	public ButtonDialogW(final AppW app, int x, int y, boolean textField) {
 		super(false, true, null, app.getPanel());
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
@@ -48,6 +51,15 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		center();
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.registerPopup(this);
+		}
+		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
+			this.addCloseHandler(new CloseHandler<GPopupPanel>() {
+				@Override
+				public void onClose(CloseEvent<GPopupPanel> event) {
+					app.unregisterPopup(ButtonDialogW.this);
+					app.hideKeyboard();
+				}
+			});
 		}
 	}
 
@@ -64,10 +76,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);
-		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-
-			app.registerPopup(this);
-		}
 		tfCaption = ip.getTextComponent();
 		if (tfCaption != null) {
 			tfCaption.setAutoComplete(false);
