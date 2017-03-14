@@ -694,28 +694,12 @@ public class MyList extends ValidExpression
 			// in schools the emptyset symbol is typically not used, see #
 			// return "\\emptyset";
 
-			// changed from "\\{ \\}" as MathQuillGGB doesn't render that
 			// correctly
 			return "\\left\\{ \\right\\}";
 		} else if (isMatrix()
 				&& !(getListElement(0).unwrap() instanceof ListValue
 						&& getListElement(0).getListDepth() > 1)) {
-			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-				toLaTeXString.append("\\left(\\ggbtable{");
-				for (int i = 0; i < size(); i++) {
-					ListValue singleValue = (ListValue) getListElement(i)
-							.evaluate(StringTemplate.defaultTemplate);
-					toLaTeXString.append("\\ggbtr{");
-					for (int j = 0; j < singleValue.size(); j++) {
-						toLaTeXString.append("\\ggbtd{");
-						toLaTeXString.append(singleValue.getListElement(j)
-								.toLaTeXString(symbolic, tpl));
-						toLaTeXString.append("}");
-					}
-					toLaTeXString.append("}");
-				}
-				toLaTeXString.append("}\\right)");
-			} else {
+
 				toLaTeXString.append("\\left(\\begin{array}{");
 				for (int i = 0; i < matrixCols; i++) {
 					// nice alignment for eg {{-1,1},{1,-1}} in CAS
@@ -740,7 +724,7 @@ public class MyList extends ValidExpression
 					toLaTeXString.append("\\\\");
 				}
 				toLaTeXString.append("\\end{array}\\right)");
-			}
+
 		} else {
 			toLaTeXString.append(" \\left\\{ ");
 

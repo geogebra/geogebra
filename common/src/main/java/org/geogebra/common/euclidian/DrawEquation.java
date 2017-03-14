@@ -98,7 +98,6 @@ public abstract class DrawEquation {
 		Iterator<Entry<String, GColor>> it = ggbCols.entrySet().iterator();
 
 		// add commands eg \red{text}
-		// same commands added to MathQuillGGB
 		while (it.hasNext()) {
 			Entry<String, GColor> colPair = it.next();
 
@@ -120,11 +119,6 @@ public abstract class DrawEquation {
 				initJLM.append(',');
 				initJLM.append(col.getBlue());
 				initJLM.append("}{#1}} ");
-
-				// generate JavaScript code for MathQuillGGB
-				// System.out.println("LatexCmds."+colStr+" = bind(Style,
-				// '\\\\"+colStr+"', '<span
-				// style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
 
 			}
 		}

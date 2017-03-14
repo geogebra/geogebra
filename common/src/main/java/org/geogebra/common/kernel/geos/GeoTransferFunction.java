@@ -285,25 +285,16 @@ public class GeoTransferFunction extends GeoElement {
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (isDefined) {
 			StringBuilder sb = new StringBuilder();
-			if (tpl.isMathQuill()) {
-				sb.append(originalFunction.toLaTeXString(symbolic, tpl));
-				sb.append(" , ");
-				sb.append(kernel.format(-omegaStart, tpl));
-				sb.append(" \\le ");
-				sb.append(Unicode.omega);
-				sb.append(" \\le ");
-				sb.append(kernel.format(omegaStart, tpl));
-			} else {
-				sb.append("\\left.");
-				sb.append(label + ":  ");
-				sb.append(originalFunction.toLaTeXString(symbolic, tpl));
-				sb.append("\\right\\} \\; ");
-				sb.append(kernel.format(-omegaStart, tpl));
-				sb.append(" \\le ");
-				sb.append(Unicode.omega);
-				sb.append(" \\le ");
-				sb.append(kernel.format(omegaStart, tpl));
-			}
+			sb.append("\\left.");
+			sb.append(label + ":  ");
+			sb.append(originalFunction.toLaTeXString(symbolic, tpl));
+			sb.append("\\right\\} \\; ");
+			sb.append(kernel.format(-omegaStart, tpl));
+			sb.append(" \\le ");
+			sb.append(Unicode.omega);
+			sb.append(" \\le ");
+			sb.append(kernel.format(omegaStart, tpl));
+
 			return sb.toString();
 		}
 		return "?";

@@ -146,29 +146,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * LaTeX string type for MathQuillGGB, almost the same as latexTemplate, but
-	 * uses \cdot for multiplication sign
-	 */
-	public static final StringTemplate latexTemplateMQ = new StringTemplate(
-			"latexTemplateMQ") {
-		@Override
-		public boolean isMathQuill() {
-			return true;
-		}
-
-		@Override
-		public String multiplyString(ExpressionValue left,
-				ExpressionValue right, String leftStr, String rightStr,
-				boolean valueForm, Localization loc) {
-			return mathQuillMultiply(left, right, leftStr, rightStr, valueForm,
-					loc);
-		}
-	};
-	static {
-		latexTemplateMQ.setType(StringType.LATEX);
-	}
-
-	/**
 	 * MathML string type, do not internationalize digits
 	 */
 	public static final StringTemplate mathmlTemplate = new StringTemplate(
@@ -432,228 +409,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		this.name = name;
 	}
 
-	/**
-	 * @param left
-	 *            left subtree
-	 * @param right
-	 *            right subtree
-	 * @param leftStr
-	 *            left subtree as string
-	 * @param rightStr
-	 *            right subtree as string
-	 * @param valueForm
-	 *            whether to show values rather than names
-	 * @param loc
-	 *            localization
-	 * @return left*right as string
-	 */
-	protected String mathQuillMultiply(ExpressionValue left,
-			ExpressionValue right, String leftStr, String rightStr,
-			boolean valueForm, Localization loc) {
 
-		StringBuilder sb = new StringBuilder();
-		Operation operation = Operation.MULTIPLY;
-		switch (getStringType()) {
-
-		case CONTENT_MATHML:
-			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
-			break;
-		default:
-			// check for 1 at left
-			if (ExpressionNode.isEqualString(left, 1, !valueForm)) {
-				append(sb, rightStr, right, operation);
-				break;
-			}
-			// check for 1 at right
-			else if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
-				append(sb, leftStr, left, operation);
-				break;
-			}
-
-			// removed 0 handling due to problems with functions,
-			// e.g 0 * x + 1 becomes 0 + 1 and no longer is a function
-			// // check for 0 at left
-			// else if (valueForm && isEqualString(left, 0, !valueForm)) {
-			// sb.append("0");
-			// break;
-			// }
-			// // check for 0 at right
-			// else if (valueForm && isEqualString(right, 0, !valueForm)) {
-			// sb.append("0");
-			// break;
-			// }
-
-			// check for degree sign or 1degree or degree1 (eg for Arabic)
-			else if ((rightStr.length() == 2 &&
-
-					((rightStr.charAt(0) == Unicode.DEGREE_CHAR
-							&& rightStr.charAt(1) == (loc.unicodeZero + 1))
-
-							|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
-									&& rightStr.charAt(0) == loc.unicodeZero
-											+ 1)))
-
-					|| rightStr.equals(Unicode.DEGREE)) {
-
-				boolean rtl = loc.isRightToLeftDigits(this);
-
-				if (rtl) {
-					sb.append(Unicode.DEGREE);
-				}
-
-				if (!left.isLeaf()) {
-					sb.append('('); // needed for eg (a+b)\u00b0
-				}
-				sb.append(leftStr);
-				if (!left.isLeaf()) {
-					sb.append(')'); // needed for eg (a+b)\u00b0
-				}
-
-				if (!rtl) {
-					sb.append(Unicode.DEGREE);
-				}
-
-				break;
-			}
-
-		case LATEX:
-		case LIBRE_OFFICE:
-
-			boolean nounary = true;
-
-			// vector * (matrix * vector) needs brackets; always use
-			// brackets
-			// for internal templates
-			if (!isPrintLocalizedCommandNames()
-					|| (left.evaluatesToList() && isNDvector(right))) {
-				sb.append(leftBracket());
-			}
-
-			// left wing
-			if (left.isLeaf() || (ExpressionNode
-					.opID(left) >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
-				if (ExpressionNode.isEqualString(left, -1, !valueForm)) { // unary
-																			// minus
-					nounary = false;
-					sb.append('-');
-				} else {
-					if (leftStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
-						// brackets needed for eg Arabic digits
-						sb.append(Unicode.RightToLeftMark);
-						sb.append(leftBracket());
-						sb.append(leftStr);
-						sb.append(rightBracket());
-						sb.append(Unicode.RightToLeftMark);
-					} else {
-						sb.append(leftStr);
-					}
-				}
-			} else {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
-			}
-
-			// right wing
-			int opIDright = ExpressionNode.opID(right);
-			if (right.isLeaf() || (opIDright >= Operation.MULTIPLY.ordinal())) { // not
-				// +,
-				// -
-				boolean showMultiplicationSign = true;
-				boolean multiplicationSpaceNeeded = false;
-				if (nounary) {
-					if (StringType.LATEX.equals(getStringType())) {
-
-						// check if we need a multiplication sign, see #414
-						// digit-digit, e.g. 3 * 5
-						// digit-fraction, e.g. 3 * \frac{5}{2}
-						showMultiplicationSign = !(right instanceof MySpecialDouble
-								&& Unicode.DEGREE.equals(
-										right.toString(defaultTemplate)));
-						// left is digit or ends with }, e.g. exponent,
-						// fraction
-
-						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble
-								&& Unicode.DEGREE.equals(
-										right.toString(defaultTemplate)));
-
-					}
-
-					if (getStringType().equals(StringType.LATEX)
-							&& isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-
-					if (showMultiplicationSign) {
-						sb.append(multiplicationSign());
-					} else if (multiplicationSpaceNeeded) {
-						// space instead of multiplication sign
-						sb.append("\\space");
-					}
-				}
-
-				boolean rtlMinus;
-				// show parentheses around these cases
-				if (((rtlMinus = rightStr
-						.startsWith(Unicode.RightToLeftUnaryMinusSign))
-						|| (rightStr.charAt(0) == '-')) // 2 (-5) or -(-5)
-						|| (!nounary && !right.isLeaf()
-								&& (opIDright <= Operation.DIVIDE.ordinal() // -(x
-																			// *
-																			// a)
-																			// or
-																			// -(x
-																			// /
-																			// a)
-								))) // 3 (5)
-				{
-					if (rtlMinus) {
-						sb.append(Unicode.RightToLeftMark);
-					}
-					sb.append(leftBracket());
-					sb.append(rightStr);
-					sb.append(rightBracket());
-					if (rtlMinus) {
-						sb.append(Unicode.RightToLeftMark);
-					}
-				} else {
-					// -1.0 * 5 becomes "-5"
-					sb.append(rightStr);
-				}
-			} else { // right is + or - tree
-				if (nounary) {
-
-					// space instead of multiplication sign
-					sb.append("\\space");
-
-				}
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
-			}
-
-			// vector * (matrix * vector) needs brackets; always use
-			// brackets
-			// for internal templates
-			if (!isPrintLocalizedCommandNames()
-					|| (left.evaluatesToList() && isNDvector(right))) {
-				sb.append(rightBracket());
-			}
-
-			break;
-
-		case GIAC:
-
-			// Log.debug(left.getClass()+" "+right.getClass());
-			// Log.debug(leftStr+" "+rightStr);
-
-			break;
-
-		}
-		return sb.toString();
-	}
 
 	/**
 	 * Returns string type of resulting text
@@ -2444,16 +2200,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		switch (getStringType()) {
 		case LATEX:
 			if (isInsertLineBreaks()) {
-
-				if (isMathQuill()) {
-					return "\\-\\questeq ";
-				}
 				return "\\-\\stackrel{ \\small ?}{=} ";
 			}
 			// #4068 changed from \stackrel{ \small ?}{=}
-			if (isMathQuill()) {
-				return "\\questeq ";
-			}
 			return "\\stackrel{ \\small ?}{=} ";
 
 		case LIBRE_OFFICE:
@@ -3074,10 +2823,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		String[] strs = str.split("E");
 		return strs;
-	}
-
-	public boolean isMathQuill() {
-		return false;
 	}
 
 	public String escapeString(String string) {

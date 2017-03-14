@@ -387,9 +387,7 @@ public class GeoText extends GeoElement
 
 		sbToString.setLength(0);
 
-		if (tpl1.isMathQuill()) {
-			sbToString.append("\\quotation{");
-		} else if (printForm.equals(StringType.LATEX)) {
+		if (printForm.equals(StringType.LATEX)) {
 
 			if (!StringUtil.containsLaTeX(str)) {
 				sbToString.append("\\text{");
@@ -405,9 +403,7 @@ public class GeoText extends GeoElement
 			sbToString.append(str);
 		}
 
-		if (tpl1.isMathQuill()) {
-			sbToString.append("}");
-		} else if (printForm.equals(StringType.LATEX)) {
+		if (printForm.equals(StringType.LATEX)) {
 			sbToString.append(Unicode.CLOSE_DOUBLE_QUOTE);
 			if (!StringUtil.containsLaTeX(str)) {
 				sbToString.append("}");
@@ -425,31 +421,13 @@ public class GeoText extends GeoElement
 			sbToString.append(label);
 			sbToString.append(" = ");
 		}
-		if (tpl1.isMathQuill()) {
-			if (isLaTeX) {
-				sbToString.append("FormulaText[");
-			}
-			sbToString.append(" \\quotation{");
-			if (str != null) {
-				// do the reverse of what MathQuillGGB will replace
-				// this escaping is necessary for proper parsing
-				String str2 = str.replace("}", "\\}");
-				if (str2.endsWith("\\")) {
-					str2 += " ";
-				}
-				sbToString.append(str2);
-			}
-			sbToString.append("} ");
-			if (isLaTeX) {
-				sbToString.append("]");
-			}
-		} else {
-			sbToString.append('\"');
-			if (str != null) {
-				sbToString.append(tpl1.escapeString(str));
-			}
-			sbToString.append('\"');
+
+		sbToString.append('\"');
+		if (str != null) {
+			sbToString.append(tpl1.escapeString(str));
 		}
+		sbToString.append('\"');
+
 		return sbToString.toString();
 	}
 

@@ -139,11 +139,8 @@ public class InputSuggestions implements HasSuggestions {
 		}
 
 		// start autocompletion only for words with at least two characters
-		// maybe this was also done in the Web case in MathQuillGGB, but
-		// it should not do harm to check it twice...
 		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
 			completions = null;
-			Log.debug("ABORT");
 			return null;
 		}
 

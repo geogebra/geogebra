@@ -485,9 +485,6 @@ public abstract class KBBase extends PopupPanel {
 		addButton("8", index, numbers);
 		addButton("9", index, numbers);
 
-		// addButton(Unicode.DIVIDE, "/", index, numbers);
-
-		// better for MathQuill to know this syntax as well:
 		addButton(Unicode.DIVIDE, Unicode.DIVIDE, index, numbers);
 
 		// fill next row
@@ -496,9 +493,6 @@ public abstract class KBBase extends PopupPanel {
 		addButton("5", index, numbers);
 		addButton("6", index, numbers);
 
-		// addButton(Unicode.MULTIPLY + "", "*", index, numbers);
-
-		// better for MathQuill to know this syntax as well:
 		addButton(Unicode.MULTIPLY + "", "*", index, numbers);
 
 		// fill next row

@@ -286,7 +286,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content.add(getPlainTextItem());
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
-		String ltx = getLatexString(true, null, true);
+		String ltx = getLatexString(null, true);
 		if (ltx != null) {
 			if (getAV().isLaTeXLoaded()) {
 				doUpdate();
@@ -336,12 +336,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// only for checkboxes
 	}
 
-	protected final String getLatexString(boolean MathQuill, Integer limit,
+	protected final String getLatexString(Integer limit,
 			boolean output) {
-		return getLatexString(geo, MathQuill, limit, output);
+		return getLatexString(geo, limit, output);
 	}
 
-	private String getLatexString(GeoElement geo1, boolean MathQuill,
+	private String getLatexString(GeoElement geo1, 
 			Integer limit, boolean output) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 				&& !isDefinitionAndValue()) || !geo1.isDefined()
@@ -350,8 +350,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		String text = geo1.getLaTeXAlgebraDescription(true,
-				MathQuill ? StringTemplate.latexTemplateMQ
-						: StringTemplate.latexTemplate);
+				StringTemplate.latexTemplate);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {
 			return text;
@@ -576,7 +575,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
 				false);
 		latex = text != null;
 		if (latex) {
@@ -674,7 +673,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void buildItemWithSingleRow() {
 
 		// LaTeX
-		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
 				true);
 		latex = text != null;
 
@@ -682,7 +681,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (latex) {
 			if (isInputTreeItem()) {
 				text = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ);
+						StringTemplate.latexTemplate);
 			}
 
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
@@ -845,7 +844,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				|| isDefinitionAndValue()) {
 			String text = "";
 			if (geo != null) {
-				text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT,
+				text = getLatexString(LATEX_MAX_EDIT_LENGHT,
 						true);
 				latexAfterEdit = (text != null);
 			} else {
@@ -856,7 +855,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				// Both original and edited text is LaTeX
 				if (isInputTreeItem() && geo != null) {
 					text = geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplateMQ);
+							StringTemplate.latexTemplate);
 				}
 				updateLaTeX(text);
 
@@ -2021,14 +2020,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// typing(false);
 		// }
 
-	}
-
-	/**
-	 * @param heuristic
-	 *            true = user is typing
-	 */
-	public void typing(boolean heuristic) {
-		// legacy: MathQuillTreeItem uses this.
 	}
 
 	public abstract RadioTreeItem copy();

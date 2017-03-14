@@ -62,15 +62,11 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder temp = new StringBuilder();
-		if (tpl.isMathQuill()) {
-			temp.append("\\quotation{");
-			temp.append(sb.toString().replace("}", "\\}"));
-			temp.append("}");
-		} else {
-			temp.append("\"");
-			temp.append(sb);
-			temp.append("\"");
-		}
+
+		temp.append("\"");
+		temp.append(sb);
+		temp.append("\"");
+
 		return temp.toString();
 	}
 
@@ -117,15 +113,11 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	@Override
 	final public String toOutputValueString(StringTemplate tpl) {
 		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
-		if (tpl.isMathQuill()) {
-			sb2.append("\\quotation{");
-			sb2.append(sb);
-			sb2.append('}');
-		} else {
-			sb2.append('"');
-			sb2.append(sb);
-			sb2.append('"');
-		}
+
+		sb2.append('"');
+		sb2.append(sb);
+		sb2.append('"');
+
 		return sb2.toString();
 	}
 

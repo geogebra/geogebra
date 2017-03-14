@@ -214,34 +214,14 @@ public class MyVec3DNode extends ValidExpression
 			break;
 		default:
 			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
+				sb.append("\\left( \\begin{tabular}{r}");
+				sb.append(print(x, values, tpl));
+				sb.append("\\\\");
+				sb.append(print(y, values, tpl));
+				sb.append("\\\\ ");
+				sb.append(print(z, values, tpl));
+				sb.append("\\\\ \\end{tabular} \\right)	");
 
-				if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-					sb.append(" \\left( \\ggbtable{");
-
-					sb.append("\\ggbtr{ \\ggbtdL{  ");
-					sb.append(sb.append(print(x, values, tpl)));
-					sb.append("} }");
-
-					sb.append("\\ggbtr{ \\ggbtdL{  ");
-					sb.append(sb.append(print(y, values, tpl)));
-					sb.append("} }");
-
-					sb.append("\\ggbtr{ \\ggbtdL{  ");
-					sb.append(sb.append(print(z, values, tpl)));
-					sb.append("} }");
-
-					sb.append("} \\right) ");
-
-				} else {
-
-					sb.append("\\left( \\begin{tabular}{r}");
-					sb.append(print(x, values, tpl));
-					sb.append("\\\\");
-					sb.append(print(y, values, tpl));
-					sb.append("\\\\ ");
-					sb.append(print(z, values, tpl));
-					sb.append("\\\\ \\end{tabular} \\right)	");
-				}
 			} else {
 				sb.append(tpl.leftBracket());
 				sb.append(print(x, values, tpl));

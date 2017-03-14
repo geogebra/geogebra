@@ -319,9 +319,9 @@ public class StringUtil {
 				break;
 
 			/*
-			 * not needed for MathQuillGGB / JLaTeXMath and in fact it doesn't
-			 * work inside \text{} // Exponents // added by Loic Le Coq
-			 * 2009/11/04 case '\u2070': // ^0 sbReplaceExp.append("^0"); break;
+			 * not needed for JLaTeXMath and in fact it doesn't work inside
+			 * \text{} // Exponents // added by Loic Le Coq 2009/11/04 case
+			 * '\u2070': // ^0 sbReplaceExp.append("^0"); break;
 			 * 
 			 * case '\u00b9': // ^1 sbReplaceExp.append("^1"); break; // end
 			 * Loic case '\u00b2': // ^2 sbReplaceExp.append("^2"); break;
@@ -1439,14 +1439,13 @@ public class StringUtil {
 	}
 
 	/**
-	 * Used in DynamicTextProcessor and DynamicTextInputPane, and later also to
-	 * support the output of MathQuillGGB
+	 * Used in DynamicTextProcessor and DynamicTextInputPane
 	 * 
 	 * @param sb
 	 *            output
 	 * @param content
 	 *            input
-	 * @param currentQuote
+	 * @param ret
 	 *            alternate between open and closed
 	 */
 	public static char processQuotes(StringBuilder sb, String content,

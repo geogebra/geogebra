@@ -524,80 +524,47 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 			String param = getVarString(tpl);
 
-			if (this.kernel.getApplication().isLatexMathQuillStyle(tpl)) {
-				sbTemp.append("\\prcurve{ ");
-				if (!hideRangeInFormula) {
-					sbTemp.append("\\parametric{ ");
-				}
-				sbTemp.append("\\prtable{");
-				if (point == null) {
-					for (int i = 0; i < getDimension(); i++) {
-						sbTemp.append("\\ggbtr{ \\ggbtdL{  ");
-						sbTemp.append(getVariable(i));
-						sbTemp.append(" = ");
-						sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
-						sbTemp.append("} }");
 
+
+			if (!hideRangeInFormula && point == null) {
+				sbTemp.append("\\left.");
 					}
-				} else {
-					sbTemp.append("\\ggbtr{ \\ggbtdL{  ");
-					sbTemp.append(point.toLaTeXString(true, tpl));
-					sbTemp.append("} }");
-				}
-
-				sbTemp.append("}");
-				if (!hideRangeInFormula) {
-					sbTemp.append("}");
-					sbTemp.append("\\prcondition{");
-					sbTemp.append(this.kernel.format(this.startParam, tpl));
-					sbTemp.append(" \\prle ");
-					sbTemp.append(param);
-					sbTemp.append(" \\prle ");
-					sbTemp.append(this.kernel.format(this.endParam, tpl));
-					sbTemp.append("}");
-				}
-				sbTemp.append("}");
-			} else {
-
-				if (!hideRangeInFormula && point == null) {
-					sbTemp.append("\\left.");
-				}
-				if (point == null) {
-					sbTemp.append("\\begin{array}{lll}");
-
-					for (int i = 0; i < getDimension(); i++) {
-
-						if (i > 0) {
-							sbTemp.append("\\\\ ");
-						}
-						sbTemp.append(getVariable(i));
-						sbTemp.append(" = ");
-						sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
-
-					}
-					sbTemp.append(" \\end{array}");
-				} else {
-					sbTemp.append(point.toLaTeXString(true, tpl));
-				}
-
-				if (!hideRangeInFormula) {
 					if (point == null) {
-						sbTemp.append("\\right\\} \\; ");
-					} else {
-						sbTemp.append(", \\;\\;\\;\\; \\left(");
+				sbTemp.append("\\begin{array}{lll}");
+
+				for (int i = 0; i < getDimension(); i++) {
+
+					if (i > 0) {
+						sbTemp.append("\\\\ ");
 					}
-					sbTemp.append(this.kernel.format(this.startParam, tpl));
-					sbTemp.append(" \\le ");
-					sbTemp.append(param);
-					sbTemp.append(" \\le ");
-					sbTemp.append(this.kernel.format(this.endParam, tpl));
-					if (point == null) {
-						// nothing to do here
+					sbTemp.append(getVariable(i));
+					sbTemp.append(" = ");
+					sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
+
+				}
+				sbTemp.append(" \\end{array}");
 					} else {
-						sbTemp.append("\\right)");
+				sbTemp.append(point.toLaTeXString(true, tpl));
 					}
+
+			if (!hideRangeInFormula) {
+				if (point == null) {
+					sbTemp.append("\\right\\} \\; ");
+				} else {
+					sbTemp.append(", \\;\\;\\;\\; \\left(");
+				}
+				sbTemp.append(this.kernel.format(this.startParam, tpl));
+				sbTemp.append(" \\le ");
+				sbTemp.append(param);
+				sbTemp.append(" \\le ");
+				sbTemp.append(this.kernel.format(this.endParam, tpl));
+				if (point == null) {
+					// nothing to do here
+				} else {
+					sbTemp.append("\\right)");
 				}
 			}
+
 			return sbTemp.toString();
 		}
 		return "?";

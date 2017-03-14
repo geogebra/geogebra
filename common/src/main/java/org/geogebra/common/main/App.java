@@ -4187,21 +4187,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Method is used to determine whether we CAN && SHOULD display LaTeX by
-	 * MathQuillGGB, should not be changed or used for a different reason.
-	 *
-	 * @param tpl
-	 *            can be null or StringTemplate.latexTemplateMQ, or something
-	 *            that might be StringTemplate.latexTemplateMQ, but maybe not
-	 *
-	 * @return boolean whether we CAN && SHOULD display LaTeX by MathQuillGGB
+	 * Returns false.
 	 */
-	public final boolean isLatexMathQuillStyle(StringTemplate tpl) {
-		if (!isHTML5Applet()) {
-			return false;
-		}
-
-		return tpl != null && tpl.isMathQuill();
+	@Deprecated
+	public final static boolean isLatexMathQuillStyle(StringTemplate tpl) {
+		return false;
 	}
 
 	public final int getTubeId() {

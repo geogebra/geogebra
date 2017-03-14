@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelLabel;
@@ -111,7 +110,8 @@ public class CASTableCellW extends VerticalPanel {
 		if (newText == null) {
 			casEditorW.setLaTeX(
 					textBeforeEdit,
-					getCASCell().getLaTeXInput(StringTemplate.latexTemplate));
+					getCASCell()
+							.getLaTeXInput(StringTemplate.latexTemplateJLM));
 		}
 		textField.setText(newText == null ? textBeforeEdit : newText);
 		casEditorW.ensureEditing();
