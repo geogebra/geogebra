@@ -52,13 +52,7 @@ public class ContextMenuPopup extends MyCJButton
 	}
 	@Override
 	public void onClick(ClickEvent event) {
-
-		if (menuShown) {
-			hideMenu();
-			app.closePopups();
-		} else {
-			showMenu();
-		}
+		showMenu();
 	}
 
 
@@ -80,6 +74,11 @@ public class ContextMenuPopup extends MyCJButton
 
 	public void onClose(CloseEvent<PopupPanel> event) {
 		hideMenu();
+	}
+	
+	public void close() {
+		popup.getWrappedPopup().hide();
+
 	}
 
 }

@@ -1531,7 +1531,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (btnContextMenu != null) {
-			btnContextMenu.hideMenu();
+			btnContextMenu.close();
 		}
 	}
 }
