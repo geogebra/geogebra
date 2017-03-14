@@ -132,6 +132,10 @@ public class PenSubMenu extends SubMenuPanel
 
 	private void selectPen() {
 		app.setMode(EuclidianConstants.MODE_PEN);
+		doSelectPen();
+	}
+
+	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
 		eraser.getElement().setAttribute("selected", "false");
 		setColorsEnabled(true);
@@ -140,10 +144,15 @@ public class PenSubMenu extends SubMenuPanel
 		slider.setMaximum(MAX_PEN_SIZE, false);
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) getPenGeo().getLineThickness());
+
 	}
 
 	private void selectEraser() {
 		app.setMode(EuclidianConstants.MODE_ERASER);
+		doSelectEraser();
+	}
+
+	private void doSelectEraser() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "true");
 		setColorsEnabled(false);
@@ -153,6 +162,7 @@ public class PenSubMenu extends SubMenuPanel
 		int delSize = app.getActiveEuclidianView().getSettings()
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
+
 	}
 
 	@Override
@@ -198,5 +208,14 @@ public class PenSubMenu extends SubMenuPanel
 	private GeoElement getPenGeo() {
 		return app.getActiveEuclidianView().getEuclidianController()
 				.getPen().DEFAULT_PEN_LINE;
+	}
+
+	public void setMode(int mode) {
+		reset();
+		if (mode == EuclidianConstants.MODE_ERASER) {
+			doSelectEraser();
+		} else {
+			doSelectPen();
+		}
 	}
 }

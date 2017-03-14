@@ -192,6 +192,17 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 	}
 
+	public void setMode(int mode) {
+		if (mode == EuclidianConstants.MODE_PEN
+				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
+				|| mode == EuclidianConstants.MODE_ERASER) {
+			doSetCurrentMenu(penMenu);
+		} else {
+			doSetCurrentMenu(toolsMenu);
+		}
+		currentMenu.setMode(mode);
+	}
+
 	public SubMenuPanel getCurrentMenu() {
 		return currentMenu;
 	}
@@ -202,20 +213,25 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 
 		if (currentMenu == submenu) {
+			if (!subMenuPanel.isVisible()) {
+				currentMenu.onOpen();
+			}
 			setSubmenuVisible(!subMenuPanel.isVisible());
 			return;
 		}
+		submenu.onOpen();
+		doSetCurrentMenu(submenu);
+	}
 
+	private void doSetCurrentMenu(SubMenuPanel submenu) {
 		subMenuPanel.clear();
 		this.currentMenu = submenu;
 		subMenuPanel.add(currentMenu);
 		setSubmenuVisible(true);
+
 	}
 
 	private void setSubmenuVisible(final boolean b) {
-		if (b) {
-			currentMenu.onOpen();
-		}
 		subMenuPanel.setVisible(b);
 		getElement().getStyle().setTop((b ? -(submenuHeight + 30) : -10), Unit.PX);
 

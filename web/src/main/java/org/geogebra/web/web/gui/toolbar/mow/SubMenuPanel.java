@@ -180,5 +180,9 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 		}
 	}
 
+	public void setMode(int mode) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

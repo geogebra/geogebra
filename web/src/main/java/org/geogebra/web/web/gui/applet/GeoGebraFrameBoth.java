@@ -683,8 +683,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	/**
-	 * 
-	 * @return
+	 * @return MOW toolbar
 	 */
 	public MOWToolbar getMOWToorbar() {
 		return mowToolbar;
@@ -797,10 +796,24 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		add(openMenuButton);
 	}
 
+	/**
+	 * Update undo/redo in MOW toolbar
+	 */
 	public void updateMOWToorbar() {
 		if (mowToolbar == null) {
 			return;
 		}
 		mowToolbar.update();
+	}
+
+	/**
+	 * @param mode
+	 *            new mode for MOW toolbar
+	 */
+	public void setMOWToorbarMode(int mode) {
+		if (mowToolbar == null) {
+			return;
+		}
+		mowToolbar.setMode(mode);
 	}
 }

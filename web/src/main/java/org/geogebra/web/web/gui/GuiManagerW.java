@@ -1761,7 +1761,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return mode;
 		}
 		if (app.has(Feature.MOW_TOOLBAR)) {
-			// TODO need to rebuild MOW gui when tool changed from code
+			(((AppWapplet) app).getAppletFrame()).setMOWToorbarMode(mode);
 			return mode;
 		}
 

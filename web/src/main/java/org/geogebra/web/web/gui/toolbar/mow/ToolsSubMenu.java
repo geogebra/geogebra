@@ -85,8 +85,12 @@ public class ToolsSubMenu extends SubMenuPanel {
 
 	@Override
 	public void onOpen() {
-		super.onOpen();
 		int mode = app.getMode();
+		setMode(mode);
+	}
+
+	public void setMode(int mode) {
+		reset();
 		Element btn = DOM.getElementById("mode" + mode);
 		if (btn != null) {
 			btn.setAttribute("selected", "true");
