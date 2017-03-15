@@ -659,7 +659,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 *            A map of the substitutions
 	 * @return a new polynomial with the variables substituted.
 	 */
-	public PPolynomial substitute(Map<PVariable, Long> substitutions) {
+	public PPolynomial substitute(Map<PVariable, BigInteger> substitutions) {
 		
 		if (substitutions == null)
 			return this;
@@ -672,15 +672,16 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			PTerm t1 = entry.getKey();
 			TreeMap<PVariable, Integer> term = new TreeMap<PVariable, Integer>(t1.getTerm());
 			BigInteger product = BigInteger.ONE;
-			Iterator<Entry<PVariable, Long>> itSubst = substitutions.entrySet()
+			Iterator<Entry<PVariable, BigInteger>> itSubst = substitutions
+					.entrySet()
 					.iterator();
 			while (itSubst.hasNext()) {
-				Entry<PVariable, Long> entrySubst = itSubst.next();
+				Entry<PVariable, BigInteger> entrySubst = itSubst.next();
 				PVariable variable = entrySubst.getKey();
 				Integer exponent = term.get(variable);
 				if (exponent != null) {
-					product = product.multiply(BigInteger.valueOf(
-							entrySubst.getValue()).pow(exponent));
+					product = product
+							.multiply(entrySubst.getValue().pow(exponent));
 					term.remove(variable);
 				}
 			}
@@ -817,12 +818,13 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 *            input as a HashMap
 	 * @return the parameters for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
 	 */
-	static String substitutionsString(HashMap<PVariable, Long> substitutions) {
+	static String substitutionsString(
+			HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<PVariable, Long>> it = substitutions.entrySet()
+		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet()
 				.iterator();
 		while (it.hasNext()) {
-			Entry<PVariable, Long> entry = it.next();
+			Entry<PVariable, BigInteger> entry = it.next();
 			PVariable v = entry.getKey();
 			ret.append("," + v.toString() + "," + entry.getValue());
 		}
@@ -866,7 +868,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @return the Singular program code
 	 */
 	public static String createGroebnerSolvableScript(
-			HashMap<PVariable, Long> substitutions, String polys,
+			HashMap<PVariable, BigInteger> substitutions, String polys,
 			String fieldVars, String ringVars, boolean transcext) {
 		
 		String ringVariable = "r";
@@ -1007,7 +1009,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
 	public static ExtendedBoolean solvable(PPolynomial[] polys,
-			HashMap<PVariable, Long> substitutions, Kernel kernel,
+			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
 			boolean transcext) {
 		
 		HashSet<PVariable> substVars = null;
@@ -1126,7 +1128,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<PPolynomial>> eliminate(PPolynomial[] eqSystem,
-			HashMap<PVariable, Long> substitutions, Kernel kernel,
+			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
 			int permutation, boolean factorized, boolean oneCurve) {
 
 		TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();

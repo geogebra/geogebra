@@ -36,7 +36,7 @@ public class NDGDetector {
 
 	private HashMap<String, NDGCondition> lookupTable;
 	private Prover prover;
-	private HashMap<PVariable, Long> substitutions;
+	private HashMap<PVariable, BigInteger> substitutions;
 
 	/**
 	 * Creates an NDGDetector instance. The NDG detector will try to detect
@@ -48,7 +48,7 @@ public class NDGDetector {
 	 * @param substitutions2
 	 *            Fix substitutions.
 	 */
-	NDGDetector(Prover prover, HashMap<PVariable, Long> substitutions2) {
+	NDGDetector(Prover prover, HashMap<PVariable, BigInteger> substitutions2) {
 		lookupTable = new HashMap<String, NDGCondition>();
 		this.prover = prover;
 		this.substitutions = substitutions2;

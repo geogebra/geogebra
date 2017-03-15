@@ -258,7 +258,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		locusPoint.remove();
 
 		if (as == null) {
-			Log.debug("Cannot compute locus equation (yet?)");
+			Log.debug("Cannot compute envelope equation (yet?)");
 			return null;
 		}
 
@@ -289,7 +289,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		String PRECISION = Long.toString(kernel.precision());
 		Log.debug("PRECISION = " + PRECISION);
 
-		/* Use Singular if it is enabled. TODO: Implement this. */
+		/* Use Singular if it is enabled. */
 		SingularWebService singularWS = kernel.getApplication().getSingularWS();
 		if (singularWS != null && singularWS.isAvailable()) {
 

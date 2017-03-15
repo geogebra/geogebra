@@ -1,5 +1,6 @@
 package org.geogebra.common.cas.giac;
 
+import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -803,9 +804,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            if the output consists of more polynomials, consider the
 	 *            intersections of them as points with real coordinates and
 	 *            convert them to a single product
-	 * @param scale
-	 * 			  the size of a unit on the screen in pixels 	
-	 * 
 	 * @return the Giac program which creates the output ideal
 	 */
 	@Override
@@ -851,7 +849,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	@Override
 	public String createGroebnerSolvableScript(
-			HashMap<PVariable, Long> substitutions, String polys,
+			HashMap<PVariable, BigInteger> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext) {
 		/*
 		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
@@ -912,12 +910,13 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *         Taken from prover.Polynomial, one character difference. Maybe
 	 *         commonize.
 	 */
-	static String substitutionsString(HashMap<PVariable, Long> substitutions) {
+	static String substitutionsString(
+			HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<PVariable, Long>> it = substitutions.entrySet()
+		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet()
 				.iterator();
 		while (it.hasNext()) {
-			Entry<PVariable, Long> v = it.next();
+			Entry<PVariable, BigInteger> v = it.next();
 			ret.append(",");
 			ret.append(v.getKey().toString());
 			ret.append("=");

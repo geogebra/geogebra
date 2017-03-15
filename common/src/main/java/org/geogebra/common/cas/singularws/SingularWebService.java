@@ -31,7 +31,8 @@ public class SingularWebService {
 	private String locusLib = "";
 	private boolean fastConn;
 
-	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcovG",
+	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcov",
+			"grobcovG",
 			"grobcovF2m", "grobcovC1", "grobcovC0" };
 
 	private final static int CONNECTION_SPEED_NO_TESTS = 3;
@@ -307,11 +308,15 @@ public class SingularWebService {
 
 	/**
 	 * Decides if we are using a new or an old version of the grobcov library.
-	 * In old versions the "locusdg" command was "locus2d".
+	 * In old versions the "locusdg" command was "locus2d". In the newest
+	 * version it is "locus".
 	 * 
 	 * @return locus command
 	 */
 	public String getLocusCommand() {
+		if (locusLib.equals("grobcov")) {
+			return "locus";
+		}
 		if (locusLib.endsWith("F2m") || locusLib.endsWith("G")) {
 			return "locusdg";
 		}

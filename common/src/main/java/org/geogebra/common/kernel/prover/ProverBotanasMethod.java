@@ -70,8 +70,9 @@ public class ProverBotanasMethod {
 	 * @param statement
 	 *            the input statement
 	 * @throws NoSymbolicParametersException
+	 *             if implementaion is missing
 	 */
-	private static void updateBotanaVarsInv(GeoElement statement)
+	static void updateBotanaVarsInv(GeoElement statement)
 			throws NoSymbolicParametersException {
 		if (botanaVarsInv == null) {
 			botanaVarsInv = new HashMap<List<PVariable>, GeoElement>();
@@ -147,6 +148,7 @@ public class ProverBotanasMethod {
 	 * 
 	 * @return the NDG polynomials (in denial form)
 	 * @throws NoSymbolicParametersException
+	 *             if implementation is missing
 	 */
 	static PPolynomial[] create3FreePointsNeverCollinearNDG(
 			Prover prover) throws NoSymbolicParametersException {
@@ -241,10 +243,11 @@ public class ProverBotanasMethod {
 	 * @return a HashMap, containing the substitutions
 	 * @throws NoSymbolicParametersException
 	 */
-	private static HashMap<PVariable, Long> fixValues(Prover prover,
+	private static HashMap<PVariable, BigInteger> fixValues(Prover prover,
 			int coords) throws NoSymbolicParametersException {
 
-		long[] fixCoords = { 0, 0, 0, 1 };
+		BigInteger[] fixCoords = { BigInteger.ZERO, BigInteger.ZERO,
+				BigInteger.ZERO, BigInteger.ONE };
 
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
@@ -254,7 +257,7 @@ public class ProverBotanasMethod {
 			fixedPoints.add(ge);
 		}
 
-		HashMap<PVariable, Long> ret = new HashMap<PVariable, Long>();
+		HashMap<PVariable, BigInteger> ret = new HashMap<PVariable, BigInteger>();
 
 		Iterator<GeoElement> it = fixedPoints.iterator();
 		GeoElement[] geos = new GeoElement[2];
@@ -376,7 +379,7 @@ public class ProverBotanasMethod {
 		/**
 		 * A map of substitutions, used only in locus equations and envelopes.
 		 */
-		public HashMap<PVariable, Long> substitutions;
+		public HashMap<PVariable, BigInteger> substitutions;
 		/**
 		 * The variables for x and y, used only in locus equations and
 		 * envelopes.
@@ -1221,7 +1224,7 @@ public class ProverBotanasMethod {
 		}
 
 		/* Set substitutions. */
-		HashMap<PVariable, Long> substitutions = null;
+		HashMap<PVariable, BigInteger> substitutions = null;
 		int fixcoords;
 		if (prover.isReturnExtraNDGs()) {
 			fixcoords = proverSettings.useFixCoordinatesProveDetails;
@@ -1270,8 +1273,9 @@ public class ProverBotanasMethod {
 
 				Kernel k = statement.getKernel();
 				eliminationIdeal = PPolynomial.eliminate(
-						as.polynomials
-								.toArray(new PPolynomial[as.polynomials.size()]),
+						as.getPolynomials()
+								.toArray(new PPolynomial[as.getPolynomials()
+										.size()]),
 						substitutions, k, permutation++, true, false);
 				if (eliminationIdeal == null) {
 					return ProofResult.UNKNOWN;
@@ -1418,8 +1422,9 @@ public class ProverBotanasMethod {
 			/* START OF PROVE. */
 		} else {
 			ExtendedBoolean solvable = PPolynomial.solvable(
-					as.polynomials
-							.toArray(new PPolynomial[as.polynomials.size()]),
+					as.getPolynomials()
+							.toArray(new PPolynomial[as.getPolynomials()
+									.size()]),
 					substitutions, statement.getKernel(),
 					proverSettings.transcext);
 			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
@@ -1490,7 +1495,7 @@ public class ProverBotanasMethod {
 			return null;
 		}
 
-		as.substitutions = new HashMap<PVariable, Long>();
+		as.substitutions = new HashMap<PVariable, BigInteger>();
 		HashSet<GeoElement> freePoints = ProverBotanasMethod
 				.getLocusFreePoints(tracer);
 		if (!implicit) {

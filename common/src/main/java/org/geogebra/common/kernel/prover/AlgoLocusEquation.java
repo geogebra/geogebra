@@ -225,30 +225,17 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		return Commands.LocusEquation;
 	}
 
-
 	private String getImplicitPoly(boolean implicit) throws Throwable {
-		AlgebraicStatement as = ProverBotanasMethod.translateConstructionAlgebraically(
-				implicit ? implicitLocus : locusPoint, movingPoint, implicit,
-				this);
+		AlgebraicStatement as = ProverBotanasMethod
+				.translateConstructionAlgebraically(
+						implicit ? implicitLocus : locusPoint, movingPoint,
+						implicit, this);
 		if (as == null) {
 			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
-		Kernel k = movingPoint.getKernel();
 
-		// TODO: Implement Singular computation also.
-		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
-
-		try {
-			String impccoeffs = cas.getCurrentCAS()
-					.evaluateRaw(locusEqu(as).toString());
-			Log.trace("Output from giac: " + impccoeffs);
-			return impccoeffs;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Log.debug("Cannot compute locus equation (yet?)");
-			return null;
-		}
+		return locusEqu(as);
 	}
 
 	/**
@@ -283,35 +270,101 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * Compute the coefficients of the implicit curve for the locus equation.
+	 * Compute the coefficients of the implicit curve for the envelope equation.
 	 * 
 	 * @param as
 	 *            the algebraic statement structure
 	 * @return the implicit curve as a string
 	 */
-	public static StringBuilder locusEqu(AlgebraicStatement as) {
+	public String locusEqu(AlgebraicStatement as) {
 		StringBuilder sb = new StringBuilder();
-		boolean useSingular = false;
-		Kernel kernel = as.geoStatement.getKernel();
-
-		/* Use Singular if it is enabled. TODO: Implement this. */
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
-		if (singularWS != null && singularWS.isAvailable()) {
-			useSingular = true;
-		}
-		/* Otherwise use Giac. */
 
 		String polys = as.getPolys();
 		String elimVars = as.getElimVars();
+		String varx = as.curveVars[0].toString();
+		String vary = as.curveVars[1].toString();
+		String vars = varx + "," + vary;
 
 		String PRECISION = Long.toString(kernel.precision());
 		Log.debug("PRECISION = " + PRECISION);
 
+		/* Use Singular if it is enabled. TODO: Implement this. */
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		if (singularWS != null && singularWS.isAvailable()) {
+
+			String locusLib = singularWS.getLocusLib();
+
+			/*
+			 * Constructing the Singular script. This code contains a modified
+			 * version of Francisco Botana's locusdgto() and envelopeto()
+			 * procedures in the grobcov library. I.e. we no longer use these
+			 * two commands, but locusto(), locus() and locusdg() only. We use
+			 * one single Singular call instead of two (as above for Giac).
+			 * Computation of the Jacobian is maybe slower here.
+			 * 
+			 * At the moment this code is here for backward compatibility only.
+			 * It is not used in the web version and can be invoked only by
+			 * forcing SingularWS on startup. TODO: Consider implementing
+			 * Singular's grobcov library in Giac---it may produce better
+			 * envelopes.
+			 */
+
+			sb.append(
+					"LIB \"" + locusLib + ".lib\";ring r=(0,").append(vars)
+					.append("),(" + elimVars)
+					.append("),dp;").append("short=0;ideal I=" + polys)
+					.append(";def Gp=grobcov(I);list l="
+							+ singularWS.getLocusCommand() + "(Gp);");
+			/*
+			 * If Gp is an empty list, then there is no locus, so that we return
+			 * 0=-1.
+			 */
+			sb.append("if(size(l)==0){print(\"{{1,1,1},{1,1,1,1}}\");exit;}")
+					.append("poly pp=1; int i; for (i=1; i<=size(l); i++) { pp=pp*l[i][1][1]; }")
+					.append("string s=string(pp);int sl=size(s);string pg=\"poly p=\"+s[2,sl-2];")
+					.append("ring rr=0,(").append(vars)
+					.append("),dp;execute(pg);")
+					.append("string out=sprintf(\"%s,%s,%s\",size(coeffs(p,")
+					.append(varx).append(")),size(coeffs(p,").append(vary)
+					.append(")),").append("coeffs(coeffs(p,").append(varx)
+					.append("),").append(vary).append("));");
+
+			/*
+			 * Temporary workaround by creating dummy factor, because the output
+			 * is not factorized (that is, it may not produce nice plots in some
+			 * cases:
+			 */
+			sb.append("sprintf(\"{{%s},{1,%s}}\",out,out);").toString();
+
+			Log.trace("Input to singular: " + sb);
+			String result;
+			try {
+				result = kernel.getApplication().getSingularWS()
+						.directCommand(sb.toString());
+			} catch (Throwable e) {
+				Log.error("Error on running Singular code");
+				return null;
+			}
+			Log.trace("Output from singular: " + result);
+
+			return result;
+		}
+
+		/* Otherwise use Giac. */
 		sb.append(CustomFunctions.LOCUS_EQU).append("([").append(polys)
 				.append("],[").append(elimVars).append("],").append(PRECISION)
 				.append(",").append(",").append(as.curveVars[0]).append(",")
 				.append(as.curveVars[1]).append(")");
-		return sb;
+
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		try {
+			String result = cas.getCurrentCAS().evaluateRaw(sb.toString());
+			Log.trace("Output from giac: " + result);
+			return result;
+		} catch (Throwable ex) {
+			Log.error("Error on running Giac code");
+			return null;
+		}
 	}
 
 }

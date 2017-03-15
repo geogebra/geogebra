@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -146,7 +147,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return the program code
 	 */
 	public String createGroebnerSolvableScript(
-			HashMap<PVariable, Long> substitutions, String polys,
+			HashMap<PVariable, BigInteger> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext);
 
 	/**

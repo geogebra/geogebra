@@ -69,13 +69,13 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 			if (as != null) {
 				// use Botana's method
-				HashMap<PVariable, Long> substitutions = new HashMap<PVariable, Long>();
+				HashMap<PVariable, BigInteger> substitutions = new HashMap<PVariable, BigInteger>();
 				for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 
 					PVariable v = entry.getKey();
 
 					// FIXME: Change Long in Variable to BigInteger
-					substitutions.put(v, entry.getValue().longValue());
+					substitutions.put(v, entry.getValue());
 				}
 				ExtendedBoolean solvable = PPolynomial.solvable(as.getPolynomials()
 						.toArray(new PPolynomial[as.getPolynomials().size()]),
