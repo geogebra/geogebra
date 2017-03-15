@@ -430,7 +430,13 @@ public class ProverBotanasMethod {
 		 */
 		public void computeStrings() {
 			TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
+
+			/*
+			 * We don't use this at the moment, but later it could be useful for
+			 * the prover.
+			 */
 			TreeSet<PVariable> freeVariables = new TreeSet<PVariable>();
+
 			PPolynomial[] eqSystem = this.getPolynomials()
 					.toArray(new PPolynomial[this.getPolynomials().size()]);
 			TreeSet<PVariable> variables = new TreeSet<PVariable>(
