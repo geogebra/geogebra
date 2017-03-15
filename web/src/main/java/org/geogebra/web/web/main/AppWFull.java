@@ -773,9 +773,7 @@ public abstract class AppWFull extends AppW {
 			Widget w = popups.get(i);
 			if (w instanceof HasKeyboardPopup) {
 				if (w instanceof DialogBoxW) {
-					if (has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
-						((DialogBoxW) w).setOverlapFeature(true);
-					}
+					((DialogBoxW) w).setOverlapFeature(true);
 					((DialogBoxW) w)
 							.centerAndResize(this.getAppletFrame().getKeyboardHeight());
 				}
