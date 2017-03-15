@@ -247,4 +247,14 @@ public class InputBarHelpPanel {
 		return ret.replaceAll(" ", "%20");
 
 	}
+
+	/**
+	 * verify that word is not reserved or an existing geo
+	 */
+	public boolean checkWordAroundCursorIsUsable(String word) {
+		if (word.length() > 0 && (mApp.getParserFunctions().isReserved(word) || mApp.getKernel().lookupLabel(word) != null)) {
+			return false;
+		}
+		return true;
+	}
 }
