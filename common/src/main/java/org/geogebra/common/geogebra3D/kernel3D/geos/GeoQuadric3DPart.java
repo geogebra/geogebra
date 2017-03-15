@@ -320,7 +320,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 		// Application.debug("geo="+getLabel()+", half="+getHalfAxis(0)+",
 		// min="+min+", max="+max+", type="+type);
-		// TODO make udefined when axes not equal
 		switch (type) {
 		case QUADRIC_CYLINDER:
 			if (!Kernel.isEqual(getHalfAxis(0), getHalfAxis(1))) {
@@ -332,8 +331,17 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 			break;
 		case QUADRIC_CONE:
 			if (!Kernel.isEqual(getHalfAxis(0), getHalfAxis(1))) {
-				// TODO formula for elliptic cone lateral surface
-				area = Double.NaN;
+				double h = max - min;
+				double a = getHalfAxis(0) * h;
+				double b = getHalfAxis(1) * h;
+
+
+				area = 0.5 * a
+						* Math.sqrt(
+								b * b + h * h)
+						* EllipticArcLength.getEllipseCircumference(1,
+								Math.sqrt(1 - (1 - b / a * b / a)
+										/ (1 + b / h * b / h)));
 				return;
 			}
 			double r2 = getHalfAxis(0);
