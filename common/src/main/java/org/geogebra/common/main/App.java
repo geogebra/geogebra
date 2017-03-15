@@ -3960,6 +3960,9 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 			return prerelease;
 
+		case SOLVE_QUARTIC:
+			return canary;
+
 		case AUTOMATIC_DERIVATIVES:
 			return canary;
 

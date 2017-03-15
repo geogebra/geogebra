@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ] is
@@ -1312,44 +1313,54 @@ public class Ggb2giac {
 		// SolveQuartic[x^(4) - (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5] =
 		// ((x^(2) - (3 * x) + 1) * (x^(2) + x - 5))
 		// http://en.wikipedia.org/wiki/Quartic_function
-		/*
-		 * p("SolveQuartic.1", "["+ "[ggbsqans:={}],"+ "[ggbfun:=%0],"+
-		 * "[ggbcoeffs:=coeffs(ggbfun)],"+ "[a:=ggbcoeffs[0]],"+
-		 * "[b:=ggbcoeffs[1]],"+ "[c:=ggbcoeffs[2]],"+ "[d:=ggbcoeffs[3]],"+
-		 * "[ee:=ggbcoeffs[4]],"+ // for checking, but unnecessary //
-		 * "[delta:=256*a^3*ee^3-192*a^2*b*d*ee^2-128*a^2*c^2*ee^2+144*a^2*c*d^2*ee-27*a^2*d^4+144*a*b^2*c*ee^2-6*a*b^2*d^2*ee-80*a*b*c^2*d*ee+18*a*b*c*d^3+16*a*c^4*ee-4*a*c^3*d^2-27*b^4*ee^2+18*b^3*c*d*ee-4*b^3*d^3-4*b^2*c^3*ee+b^2*c^2*d^2],"
-		 * + "[p:=(8*a*c-3*b*b)/(8*a*a)],"+
-		 * "[q:=(b^3-4*a*b*c+8*a^2*d)/(8*a^3)],"+
-		 * "[delta0:=c^2-3*b*d+12*a*ee],"+//OK
-		 * "[delta1:=2*c^3-9*b*c*d+27*b^2*ee+27*a*d^2-72*a*c*ee],"+//OK
-		 * 
-		 * "if (delta0 == 0 && delta1 == 0) then"+ // giac's solve should give
-		 * exact in this case " ggbsqans:=zeros(ggbfun) else " +
-		 * 
-		 * " ["+ "[minusdelta27:=delta1^2-4*delta0^3],"+//OK // use surd rather
-		 * than cbrt so that simplify cbrt(27) works //
-		 * "[Q:=simplify(surd((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2,3))],"
-		 * + // find all 3 cube-roots
-		 * "[Qzeros:=czeros(x^3=(delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)],"
-		 * + // czeros can return an empty list eg czeros(x^(3) = (1150 + ((180
-		 * * i) * sqrt(35))) / 2) // from SolveQuartic[x^(4) - (2 * x^(3)) - (7
-		 * * x^(2)) + (16 * x) - 5]
-		 * "[Qzeros:=when(length(Qzeros)==0,{cbrt((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)},Qzeros)],"
-		 * + "[Q:=Qzeros[0]],"+
-		 * "[Q1:=when(length(Qzeros) > 1,Qzeros[1],Qzeros[0])],"+
-		 * "[Q2:=when(length(Qzeros) > 2,Qzeros[2],Qzeros[0])],"+ // pick a
-		 * cube-root to make S non-zero // always possible unless quartic is in
-		 * form (x+a)^4 "[S:=sqrt(-2*p/3+(Q+delta0/Q)/(3*a))/2],"+
-		 * "[S:=when(S!=0,S,sqrt(-2*p/3+(Q1+delta0/Q1)/(3*a))/2)],"+
-		 * "[S:=when(S!=0,S,sqrt(-2*p/3+(Q2+delta0/Q2)/(3*a))/2)],"+
-		 * 
-		 * // could use these for delta > 0 ie minusdelta27 < 0
-		 * //"[phi:=acos(delta1/2/sqrt(delta0^3))],"+
-		 * //"[Salt:=sqrt(-2*p/3+2/(3*a)*sqrt(delta0)*cos(phi/3))/2],"+
-		 * 
-		 * "[ggbsqans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"
-		 * + "]" + "fi"+ //")]" + " ,ggbsqans][13]");
-		 */
+
+		if (app.has(Feature.SOLVE_QUARTIC)) {
+		p("SolveQuartic.1", "[" + "[ggbsqans:={}]," + "[ggbfun:=%0],"
+				+ "[ggbcoeffs:=coeffs(ggbfun)]," + "[a:=ggbcoeffs[0]],"
+				+ "[b:=ggbcoeffs[1]]," + "[c:=ggbcoeffs[2]],"
+
+				// for checking, but unnecessary
+				+ "[d:=ggbcoeffs[3]]," + "[ee:=ggbcoeffs[4]]," +
+
+				"[delta:=256*a^3*ee^3-192*a^2*b*d*ee^2-128*a^2*c^2*ee^2+144*a^2*c*d^2*ee-27*a^2*d^4+144*a*b^2*c*ee^2-6*a*b^2*d^2*ee-80*a*b*c^2*d*ee+18*a*b*c*d^3+16*a*c^4*ee-4*a*c^3*d^2-27*b^4*ee^2+18*b^3*c*d*ee-4*b^3*d^3-4*b^2*c^3*ee+b^2*c^2*d^2],"
+				+ "[p:=(8*a*c-3*b*b)/(8*a*a)],"
+				+ "[q:=(b^3-4*a*b*c+8*a^2*d)/(8*a^3)],"
+				+ "[delta0:=c^2-3*b*d+12*a*ee]," + // OK
+				"[delta1:=2*c^3-9*b*c*d+27*b^2*ee+27*a*d^2-72*a*c*ee]," + // OK
+
+				// giac's solve should give exact in this case
+				"if (delta0 == 0 && delta1 == 0) then" +
+				" ggbsqans:=zeros(ggbfun) else " +
+
+				" [" + "[minusdelta27:=delta1^2-4*delta0^3]," +
+
+				// use surd rather than cbrt so that simplify cbrt(27) works
+				"[Q:=simplify(surd((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2,3))],"
+
+				+ // find all 3 cube-roots
+				"[Qzeros:=czeros(x^3=(delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)],"
+				+ // czeros can return an empty list eg czeros(x^(3) = (1150 +
+					// ((180 * i) * sqrt(35))) / 2) // from SolveQuartic[x^(4) -
+					// (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5]
+				"[Qzeros:=when(length(Qzeros)==0,{cbrt((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)},Qzeros)],"
+				+ "[Q:=Qzeros[0]],"
+				+ "[Q1:=when(length(Qzeros) > 1,Qzeros[1],Qzeros[0])],"
+				+ "[Q2:=when(length(Qzeros) > 2,Qzeros[2],Qzeros[0])]," +
+				// pick a cube-root to make S non-zero always possible unless
+				// quartic is in form (x+a)^4
+				"[S:=sqrt(-2*p/3+(Q+delta0/Q)/(3*a))/2],"
+				+ "[S:=when(S!=0,S,sqrt(-2*p/3+(Q1+delta0/Q1)/(3*a))/2)],"
+				+ "[S:=when(S!=0,S,sqrt(-2*p/3+(Q2+delta0/Q2)/(3*a))/2)]," +
+
+				// could use these for delta > 0 ie minusdelta27 < 0
+				// "[phi:=acos(delta1/2/sqrt(delta0^3))],"+
+				// "[Salt:=sqrt(-2*p/3+2/(3*a)*sqrt(delta0)*cos(phi/3))/2],"+
+
+				"[ggbsqans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"
+				+ "]" + "fi" +
+				// ")]" +
+				" ,ggbsqans][13]");
+		}
 
 		// Experimental Geometry commands. Giac only
 		p("Radius.1", "normal(regroup(radius(%0)))");
@@ -1487,7 +1498,7 @@ public class Ggb2giac {
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b
 		// don't want normal(), eg Line[(a,b),(c,d)]
 		// X=point(xcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),ycoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),zcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)))
-		p("Line.2", "[[ggblinearg0:=%0],[ggblinearg1:=%1],"
+		String line2def = "[[ggblinearg0:=%0],[ggblinearg1:=%1],"
 				+ "when(is_3dpoint(ggblinearg0),"
 				+ "when(ggblinearg1[0]=='pnt',"
 				// case Line[3dPoint,3dPoint]
@@ -1495,7 +1506,13 @@ public class Ggb2giac {
 				// case Line[3dPoint,Vect]
 				+ "equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),"
 				// case Line[2dPoint,2dPoint] or Line[2dPoint,Vector]
-				+ "regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
+				+ "regroup(equation(line(ggblinearg0,ggblinearg1))))][2]";
+
+		p("Line.2", line2def);
+
+		// TODO: return Segment() not equation
+		p("Segment.2", line2def);
+
 
 		p("Point.1",
 				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");
@@ -1513,8 +1530,6 @@ public class Ggb2giac {
 				"convert(factor((normal(coordinates(midpoint(%0,%1))))),25)");
 
 		p("OrthogonalLine.2", "equation(perpendicular(%0,line(%1)))");
-		// TODO: return Segment() not equation
-		p("Segment.2", "equation(segment(%0,%1))");
 
 		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
 		// p("Curve.5", "equation(plotparam([%0,%1],%2,%3,%4))");

@@ -167,6 +167,9 @@ public enum Feature {
 	PEN_SMOOTHING,
 
 	/** GGB-1617 */
-	AUTOMATIC_DERIVATIVES
+	AUTOMATIC_DERIVATIVES,
+
+	/** SolveQuartic in CAS */
+	SOLVE_QUARTIC
 
 }
