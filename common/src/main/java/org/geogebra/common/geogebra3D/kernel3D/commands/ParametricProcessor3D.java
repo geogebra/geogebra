@@ -165,6 +165,9 @@ public class ParametricProcessor3D extends ParametricProcessor {
 						fv[0]);
 
 			}
+			checkNumber(cx);
+			checkNumber(cy);
+			checkNumber(cz);
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 			cons.removeFromConstructionList(nx);
 			AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);

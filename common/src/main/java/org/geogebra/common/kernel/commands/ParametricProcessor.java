@@ -356,6 +356,8 @@ public class ParametricProcessor {
 	private GeoElement[] cartesianCurve(Construction cons, String label,
 			ExpressionNode exp, GeoNumeric locVar, ExpressionNode cx,
 			ExpressionNode cy, ExpressionNode condition) {
+		checkNumber(cx);
+		checkNumber(cy);
 		AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
 		cons.removeFromConstructionList(nx);
 		AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
@@ -379,6 +381,18 @@ public class ParametricProcessor {
 				from, to);
 		ac.getCurve().setLabel(label);
 		return ac.getOutput();
+	}
+
+	/**
+	 * @param cx
+	 *            potential numeric expression
+	 */
+	protected void checkNumber(ExpressionNode cx) {
+		if (!cx.evaluate(StringTemplate.maxPrecision).isNumberValue()) {
+			throw new MyError(kernel.getApplication().getLocalization(),
+					"InvalidFunction");
+		}
+
 	}
 
 	private GeoNumberValue getBound(GeoNumeric locVar, ExpressionNode condition,
