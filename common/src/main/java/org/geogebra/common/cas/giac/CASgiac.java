@@ -709,41 +709,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	@Override
-	public String createLocusEquationScript(String constructRestrictions,
-			String vars, String varsToEliminate) {
-
-		StringBuilder script = new StringBuilder();
-
-		String eliminateCommand = CustomFunctions.ELIMINATE2 + "(["
-				+ constructRestrictions + "],["
-				+ varsToEliminate + "])";
-
-		return script.append("[").append("[aa:=").append(eliminateCommand)
-				.append("],").
-				// Creating a matrix from the output to satisfy Sergio:
-				append("[bb:=coeffs(" + CustomFunctions.FACTOR_SQR_FREE
-						+ "(aa[0]),x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],")
-				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
-				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
-				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
-				.append("cc:=append(cc,ee); od; od],") // cc][6]")
-				// See CASTranslator.createSingularScript for more details.
-				// Add the coefficients for the factors also to improve
-				// visualization:
-				.append("[ff:=factors(" + CustomFunctions.FACTOR_SQR_FREE
-						+ "(aa[0]))], [ccf:=[size(ff)/2]], ")
-				.append("[for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffs(aaf,x); sx:=size(bb);")
-				.append(" sy:=size(coeffs(aaf,y)); ccf:=append(ccf,sx,sy);")
-				.append(" for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd);")
-				.append(" for jj from sd-1 to 0 by -1 do ee:=dd[jj]; ccf:=append(ccf,ee);")
-				.append(" od; for kk from sd to sy-1 do ee:=0; ccf:=append(ccf,ee); od; od; od],")
-				.append("[cc,ccf]][9]")
-
-				.toString();
-
-	}
-
-	@Override
 	public String createEliminateFactorizedScript(String polys,
 			String elimVars) {
 		/*

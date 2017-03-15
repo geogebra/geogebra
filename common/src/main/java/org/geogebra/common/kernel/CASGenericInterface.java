@@ -98,17 +98,6 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	String evaluateCAS(String exp);
 
-	/**
-	 * @param constructRestrictions
-	 *            construct restrictions (hypotheses)
-	 * @param vars
-	 *            existing variables
-	 * @param varsToEliminate
-	 *            variables to be eliminated
-	 * @return locus equation
-	 */
-	String createLocusEquationScript(String constructRestrictions, String vars,
-			String varsToEliminate);
 
 	/**
 	 * Creates a program to return the elimination ideal in factorized form.
