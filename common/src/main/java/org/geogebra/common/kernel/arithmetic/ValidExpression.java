@@ -186,8 +186,13 @@ public abstract class ValidExpression implements ExpressionValue {
 	 */
 	public String toAssignmentString(StringTemplate tpl,
 			AssignmentType assignmentType) {
+		return toAssignmentString(toString(tpl), assignmentType);
+	}
+
+	public String toAssignmentString(String rhs,
+			AssignmentType assignmentType) {
 		if (labels == null) {
-			return toString(tpl);
+			return rhs;
 		}
 
 		StringBuilder sb = new StringBuilder();
@@ -206,7 +211,7 @@ public abstract class ValidExpression implements ExpressionValue {
 			break;
 		}
 
-		sb.append(toString(tpl));
+		sb.append(rhs);
 		return sb.toString();
 	}
 

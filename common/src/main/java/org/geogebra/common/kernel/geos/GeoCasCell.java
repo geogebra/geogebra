@@ -3704,4 +3704,12 @@ public class GeoCasCell extends GeoElement
 		return super.evaluateDouble();
 	}
 
+	public String getOutput(StringTemplate tpl, boolean substitute) {
+		if (!substitute) {
+			return getOutputValidExpression().toAssignmentString(
+					getFormulaString(tpl, substitute), getAssignmentType());
+		}
+		return getOutput(tpl);
+	}
+
 }
