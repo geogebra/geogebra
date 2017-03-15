@@ -7,7 +7,6 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -240,15 +239,11 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	}
 
 	private String getImplicitPoly() throws Throwable {
-		SingularWebService sws = kernel.getApplication().getSingularWS();
-		String locusLib = sws == null ? "" : sws.getLocusLib();
-
 		/*
 		 * First we create a virtual locus point on the path object. This is
 		 * done with AlgoPointOnPath. Then we retrieve the corresponding
 		 * equation to this virtual locus point.
 		 */
-
 		GeoPoint locusPoint = new GeoPoint(cons);
 		AlgoPointOnPath apop = new AlgoPointOnPath(cons, (Path) path, 1, 1);
 		locusPoint.setParentAlgorithm(apop);
@@ -266,83 +261,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
-		Kernel k = movingPoint.getKernel();
 
-		// TODO: Implement Singular computation also.
-		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
-
-		if (true) {
-		try {
-			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
-						envelopeEqu(as).toString());
-			Log.trace("Output from giac: " + impccoeffs);
-			return impccoeffs;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Log.debug("Cannot compute locus equation (yet?)");
-			return null;
-		}
-		}
-
-		StringBuilder script = new StringBuilder();
-		String varlist = "", vars = "", polys = "", varx = "", vary = "";
-
-		/*
-		 * Constructing the Singular script. This code contains a modified
-		 * version of Francisco Botana's locusdgto() and envelopeto() procedures
-		 * in the grobcov library. I.e. we no longer use these two commands, but
-		 * locusto(), locus() and locusdg() only. We use one single Singular
-		 * call instead of two (as above for Giac). Computation of the Jacobian
-		 * is maybe slower here.
-		 * 
-		 * At the moment this code is here for backward compatibility only. It
-		 * is not used in the web version and can be invoked only by forcing
-		 * SingularWS on startup. TODO: Consider implementing Singular's grobcov
-		 * library in Giac---it may produce better envelopes.
-		 */
-		script.append("proc mylocusdgto(list L) {" + "poly p=1;"
-				+ "int i; int j; int k;"
-				+ "for(i=1;i<=size(L);i++) { if(L[i][3]<>\"Degenerate\")"
-				+ " { if(size(L[i][1])>1) {p=p*((L[i][1][1])^2+(L[i][1][2])^2);}"
-				+ "else {p=p*L[i][1][1];}" + "} } return(p); }");
-		script.append("proc myenvelopeto (list GG) {" + "list GGG;"
-				+ "if (GG[1][2][1]<>1) { GGG=delete(GG,1); }"
-				+ "else { GGG=GG; };" + "string SLo=locusto(locus(GGG));"
-				+ "if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0 and find(SLo,\"Special\") == 0)"
-				+ "{ return(1); }"
-				+ "else { return(mylocusdgto(locus(GGG))); } }");
-		script.append("LIB \"" + locusLib + ".lib\";ring r=(0," + varlist
-				+ "),(" + vars)
-				.append("),dp;short=0;ideal m=");
-		script.append(polys);
-		script.append(";poly D=det(jacob(m));ideal S=" + polys
-				+ ",D;list e=myenvelopeto(grobcov(S));");
-		/*
-		 * This trick is required to push the result polynomial to the new ring
-		 * world:
-		 */
-		script.append("string ex=\"poly p=\" + string(e[1]);");
-		script.append("ring rr=0,(" + varlist + "),dp;");
-		script.append("execute(ex);");
-		/*
-		 * Now we obtain the coefficients (see exactly the same code for locus
-		 * equation):
-		 */
-		script.append(
-				"sprintf(\"%s,%s,%s\",size(coeffs(p," + varx
-						+ ")),size(coeffs(p," + vary + ")),")
-				.append("coeffs(coeffs(p," + varx + ")," + vary + "));");
-		Log.trace("Input to singular: " + script);
-		String result = kernel.getApplication().getSingularWS()
-				.directCommand(script.toString());
-		Log.trace("Output from singular: " + result);
-		/* Temporary workaround by creating dummy factor: */
-		result = "{{" + result + "},{1," + result + "}}";
-		/*
-		 * because the output is not factorized (that is, it may not produce
-		 * nice plots in some cases.
-		 */
-		return result;
+		return envelopeEqu(as);
 	}
 
 	@Override
@@ -357,28 +277,106 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 *            the algebraic statement structure
 	 * @return the implicit curve as a string
 	 */
-	public StringBuilder envelopeEqu(AlgebraicStatement as) {
+	public String envelopeEqu(AlgebraicStatement as) {
 		StringBuilder sb = new StringBuilder();
-		boolean useSingular = false;
-
-		/* Use Singular if it is enabled. TODO: Implement this. */
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
-		if (singularWS != null && singularWS.isAvailable()) {
-			useSingular = true;
-		}
-		/* Otherwise use Giac. */
 
 		String polys = as.getPolys();
 		String elimVars = as.getElimVars();
+		String varx = as.curveVars[0].toString();
+		String vary = as.curveVars[1].toString();
+		String vars = varx + "," + vary;
 
 		String PRECISION = Long.toString(kernel.precision());
 		Log.debug("PRECISION = " + PRECISION);
 
+		/* Use Singular if it is enabled. TODO: Implement this. */
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		if (singularWS != null && singularWS.isAvailable()) {
+
+			String locusLib = singularWS.getLocusLib();
+
+			/*
+			 * Constructing the Singular script. This code contains a modified
+			 * version of Francisco Botana's locusdgto() and envelopeto()
+			 * procedures in the grobcov library. I.e. we no longer use these
+			 * two commands, but locusto(), locus() and locusdg() only. We use
+			 * one single Singular call instead of two (as above for Giac).
+			 * Computation of the Jacobian is maybe slower here.
+			 * 
+			 * At the moment this code is here for backward compatibility only.
+			 * It is not used in the web version and can be invoked only by
+			 * forcing SingularWS on startup. TODO: Consider implementing
+			 * Singular's grobcov library in Giac---it may produce better
+			 * envelopes.
+			 */
+
+			sb.append("proc mylocusdgto(list L) {" + "poly p=1;"
+					+ "int i; int j; int k;"
+					+ "for(i=1;i<=size(L);i++) { if(L[i][3]<>\"Degenerate\")"
+					+ " { if(size(L[i][1])>1) {p=p*((L[i][1][1])^2+(L[i][1][2])^2);}"
+					+ "else {p=p*L[i][1][1];}" + "} } return(p); }");
+			sb.append("proc myenvelopeto (list GG) {" + "list GGG;"
+					+ "if (GG[1][2][1]<>1) { GGG=delete(GG,1); }"
+					+ "else { GGG=GG; };" + "string SLo=locusto(locus(GGG));"
+					+ "if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0 and find(SLo,\"Special\") == 0)"
+					+ "{ return(1); }"
+					+ "else { return(mylocusdgto(locus(GGG))); } }");
+			sb.append("LIB \"" + locusLib + ".lib\";ring r=(0," + vars + "),("
+					+ elimVars).append("),dp;short=0;ideal m=");
+			sb.append(polys);
+			sb.append(";poly D=det(jacob(m));ideal S=" + polys
+					+ ",D;list e=myenvelopeto(grobcov(S));");
+			/*
+			 * This trick is required to push the result polynomial to the new
+			 * ring world:
+			 */
+			sb.append("string ex=\"poly p=\" + string(e[1]);");
+			sb.append("ring rr=0,(" + vars + "),dp;");
+			sb.append("execute(ex);");
+			/*
+			 * Now we obtain the coefficients (see exactly the same code for
+			 * locus equation):
+			 */
+			sb.append("string out=sprintf(\"%s,%s,%s\",size(coeffs(p," + varx
+					+ ")),size(coeffs(p," + vary + ")),")
+					.append("coeffs(coeffs(p," + varx + ")," + vary + "));");
+			/*
+			 * Temporary workaround by creating dummy factor, because the output
+			 * is not factorized (that is, it may not produce nice plots in some
+			 * cases:
+			 */
+			sb.append("sprintf(\"{{%s},{1,%s}}\",out,out);");
+
+			Log.trace("Input to singular: " + sb);
+			String result;
+			try {
+				result = kernel.getApplication().getSingularWS()
+						.directCommand(sb.toString());
+			} catch (Throwable e) {
+				Log.error("Error on running Singular code");
+				return null;
+			}
+			Log.trace("Output from singular: " + result);
+
+			return result;
+		}
+
+		/* Otherwise use Giac. */
 		sb.append(CustomFunctions.ENVELOPE_EQU).append("([").append(polys)
 				.append("],[").append(elimVars).append("],").append(PRECISION)
 				.append(",").append(as.curveVars[0]).append(",")
 				.append(as.curveVars[1]).append(")");
-		return sb;
+
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		try {
+			String result = cas.getCurrentCAS()
+					.evaluateRaw(sb.toString());
+			Log.trace("Output from giac: " + result);
+			return result;
+		} catch (Throwable ex) {
+			Log.error("Error on running Giac code");
+			return null;
+		}
 	}
 
 }
