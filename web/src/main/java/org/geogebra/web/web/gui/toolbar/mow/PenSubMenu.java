@@ -113,14 +113,11 @@ public class PenSubMenu extends SubMenuPanel
 
 	public void onClick(Widget source) {
 		if (source == pen) {
-			selectPen();
-			((MOWToolbar) this.getParent()).toggleMoveButton(false);
+			app.setMode(EuclidianConstants.MODE_PEN);
 		} else if (source == eraser) {
-			selectEraser();
-			((MOWToolbar) this.getParent()).toggleMoveButton(false);
+			app.setMode(EuclidianConstants.MODE_ERASER);
 		} else if (source == freehand) {
-			selectFreehand();
-			((MOWToolbar) this.getParent()).toggleMoveButton(false);
+			app.setMode(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		}
 	}
 
@@ -138,11 +135,6 @@ public class PenSubMenu extends SubMenuPanel
 
 	}
 
-	private void selectPen() {
-		app.setMode(EuclidianConstants.MODE_PEN);
-		doSelectPen();
-	}
-
 	private void doSelectPen() {
 		reset();
 		pen.getElement().setAttribute("selected", "true");
@@ -154,16 +146,6 @@ public class PenSubMenu extends SubMenuPanel
 		slider.setValue((double) getPenGeo().getLineThickness());
 		slider.setVisible(true);
 
-	}
-
-	private void selectEraser() {
-		app.setMode(EuclidianConstants.MODE_ERASER);
-		doSelectEraser();
-	}
-
-	private void selectFreehand() {
-		app.setMode(EuclidianConstants.MODE_FREEHAND_SHAPE);
-		doSelectFreehand();
 	}
 
 	private void doSelectEraser() {
@@ -189,7 +171,7 @@ public class PenSubMenu extends SubMenuPanel
 
 	@Override
 	public void onOpen() {
-		selectPen();
+		app.setMode(EuclidianConstants.MODE_ERASER);
 	}
 
 	public void reset() {

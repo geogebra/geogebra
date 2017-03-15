@@ -133,8 +133,6 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 			infoPanel.clear();
 			showToolTip(mode);
 		}
-		((MOWToolbar) this.getParent()).toggleMoveButton(false);
-
 	}
 
 	@Override

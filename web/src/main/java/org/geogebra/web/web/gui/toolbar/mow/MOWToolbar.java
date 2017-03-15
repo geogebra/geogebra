@@ -276,6 +276,14 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	public void setMode(int mode) {
+		if(mode == EuclidianConstants.MODE_MOVE){
+			toggleMoveButton(true);
+			if (currentMenu != null) {
+				currentMenu.reset();
+			}
+			return;
+		}
+		toggleMoveButton(false);
 		if (mode == EuclidianConstants.MODE_PEN
 				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
 				|| mode == EuclidianConstants.MODE_ERASER) {
