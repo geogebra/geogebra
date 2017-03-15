@@ -28,6 +28,7 @@ public class PenSubMenu extends SubMenuPanel
 	private static final int BLACK = 0;
 	private StandardButton pen;
 	private StandardButton eraser;
+	private StandardButton freehand;
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
@@ -49,7 +50,8 @@ public class PenSubMenu extends SubMenuPanel
 		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
-		penPanel.add(LayoutUtilW.panelRow(pen, eraser));
+		freehand = createButton(EuclidianConstants.MODE_FREEHAND_SHAPE);
+		penPanel.add(LayoutUtilW.panelRow(pen, eraser, freehand));
 	}
 
 	private Label createColorButton(GColor aColor) {
@@ -114,6 +116,8 @@ public class PenSubMenu extends SubMenuPanel
 			selectPen();
 		} else if (source == eraser) {
 			selectEraser();
+		} else if (source == freehand) {
+			selectFreehand();
 		}
 	}
 
@@ -137,14 +141,15 @@ public class PenSubMenu extends SubMenuPanel
 	}
 
 	private void doSelectPen() {
+		reset();
 		pen.getElement().setAttribute("selected", "true");
-		eraser.getElement().setAttribute("selected", "false");
 		setColorsEnabled(true);
 		selectColor(BLACK);
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_PEN_SIZE, false);
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) getPenGeo().getLineThickness());
+		slider.setVisible(true);
 
 	}
 
@@ -153,8 +158,13 @@ public class PenSubMenu extends SubMenuPanel
 		doSelectEraser();
 	}
 
+	private void selectFreehand() {
+		app.setMode(EuclidianConstants.MODE_FREEHAND_SHAPE);
+		doSelectFreehand();
+	}
+
 	private void doSelectEraser() {
-		pen.getElement().setAttribute("selected", "false");
+		reset();
 		eraser.getElement().setAttribute("selected", "true");
 		setColorsEnabled(false);
 		slider.setMinimum(1, false);
@@ -163,6 +173,14 @@ public class PenSubMenu extends SubMenuPanel
 		int delSize = app.getActiveEuclidianView().getSettings()
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
+		slider.setVisible(true);
+	}
+
+	private void doSelectFreehand() {
+		reset();
+		freehand.getElement().setAttribute("selected", "true");
+		setColorsEnabled(false);
+		slider.setVisible(false);
 
 	}
 
@@ -174,6 +192,7 @@ public class PenSubMenu extends SubMenuPanel
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "false");
+		freehand.getElement().setAttribute("selected", "false");
 		setColorsEnabled(false);
 	}
 
@@ -213,7 +232,9 @@ public class PenSubMenu extends SubMenuPanel
 
 	public void setMode(int mode) {
 		reset();
-		if (mode == EuclidianConstants.MODE_ERASER) {
+		if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
+			doSelectFreehand();
+		} else if (mode == EuclidianConstants.MODE_ERASER) {
 			doSelectEraser();
 		} else {
 			doSelectPen();
