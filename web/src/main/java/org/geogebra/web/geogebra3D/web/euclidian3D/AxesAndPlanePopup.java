@@ -14,9 +14,16 @@ public class AxesAndPlanePopup extends PopupMenuButtonW {
 	private EuclidianView3D ev;
 	private ImageOrText defaultIcon;
 
-	public AxesAndPlanePopup(AppW app, ImageOrText[] data, int rows,
-	        int columns, SelectionTable mode, EuclidianView3D ev) {
-		super(app, data, rows, columns, mode, true,
+	/**
+	 * @param app
+	 *            application
+	 * @param data
+	 *            icons
+	 * @param ev
+	 *            view
+	 */
+	public AxesAndPlanePopup(AppW app, ImageOrText[] data, EuclidianView3D ev) {
+		super(app, data, -1, data.length, SelectionTable.MODE_ICON, true,
 				false, null);
 		this.ev = ev;
 		defaultIcon = data.length > 1 ? data[1] : null;

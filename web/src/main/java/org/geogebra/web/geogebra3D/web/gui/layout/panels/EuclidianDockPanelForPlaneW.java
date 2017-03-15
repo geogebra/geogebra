@@ -43,6 +43,8 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	 * 
 	 * @param app
 	 *            application
+	 * @param viewId
+	 *            view ID
 	 * 
 	 */
 	public EuclidianDockPanelForPlaneW(App app, int viewId) {

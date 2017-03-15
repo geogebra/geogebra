@@ -38,8 +38,8 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
  * To use:
  * <ol>
  * <li>Add {@code manifest="YOURMODULENAME/appcache.nocache.manifest"} to the
- * {@code <html>} tag in your base html file. E.g.,
- * {@code <html manifest="mymodule/appcache.nocache.manifest">}</li>
+ * {@code <html>} tag in your base html file. E.g., {@code 
+ * <html manifest="mymodule/appcache.nocache.manifest">}</li>
  * <li>Add a mime-mapping to your web.xml file:
  * <p>
  * 
@@ -88,8 +88,8 @@ public class AppCacheLinker extends AbstractLinker {
 
 	@Override
 	public ArtifactSet link(TreeLogger logger, LinkerContext context,
-	        ArtifactSet artifacts, boolean onePermutation)
-	        throws UnableToCompleteException {
+			ArtifactSet artifacts, boolean onePermutation)
+			throws UnableToCompleteException {
 
 		ArtifactSet toReturn = new ArtifactSet(artifacts);
 
@@ -98,24 +98,17 @@ public class AppCacheLinker extends AbstractLinker {
 		}
 
 		if (toReturn.find(SelectionInformation.class).isEmpty()) {
-			logger.log(TreeLogger.INFO, "devmode: generating empty " + MANIFEST);
+			logger.log(TreeLogger.INFO,
+					"devmode: generating empty " + MANIFEST);
 		} else {
 			emitLandingPageCacheManifest(context, logger, artifacts, toReturn);
 		}
 
 		// Create the general cache-manifest resource for the landing page:
 
-
 		return toReturn;
 	}
 
-	/**
-	 * Override this method to force the linker to also include more files in
-	 * the manifest.
-	 */
-	protected String[] otherCachedFiles() {
-		return null;
-	}
 
 	/**
 	 * Creates the cache-manifest resource specific for the landing page.
@@ -130,7 +123,7 @@ public class AppCacheLinker extends AbstractLinker {
 	 */
 	private void emitLandingPageCacheManifest(LinkerContext context,
 			TreeLogger logger, ArtifactSet artifacts, ArtifactSet toReturn)
-	        throws UnableToCompleteException {
+			throws UnableToCompleteException {
 		StringBuilder publicSourcesSb = new StringBuilder();
 		StringBuilder staticResoucesSb = new StringBuilder();
 		StringBuilder publicSourcesSbM = new StringBuilder();
@@ -145,39 +138,46 @@ public class AppCacheLinker extends AbstractLinker {
 					EmittedArtifact ea = (EmittedArtifact) artifact;
 					String pathName = ea.getPartialPath();
 					if (pathName.endsWith("symbolMap")
-					        || pathName.endsWith(".xml.gz")
-					        || pathName.endsWith("rpc.log")
-					        || pathName.endsWith("gwt.rpc")
-					        || pathName.endsWith("manifest.txt")
-					        || pathName.startsWith("rpcPolicyManifest")
-					        || pathName.endsWith("cssmap")
-							|| pathName.endsWith("MANIFEST.MF") || pathName.endsWith(".txt")
-					        || pathName.endsWith(".php")
-					        || pathName.endsWith("README")
-							|| pathName.endsWith("COPYING") || pathName.endsWith("LICENSE")
-					        || pathName.endsWith("oauthWindow.html")
-					        || pathName.endsWith("windowslive.html")
-					        || pathName.endsWith("devmode.js")
-					        || pathName.startsWith("js/properties_")) {
+							|| pathName.endsWith(".xml.gz")
+							|| pathName.endsWith("rpc.log")
+							|| pathName.endsWith("gwt.rpc")
+							|| pathName.endsWith("manifest.txt")
+							|| pathName.startsWith("rpcPolicyManifest")
+							|| pathName.endsWith("cssmap")
+							|| pathName.endsWith("MANIFEST.MF")
+							|| pathName.endsWith(".txt")
+							|| pathName.endsWith(".php")
+							|| pathName.endsWith("README")
+							|| pathName.endsWith("COPYING")
+							|| pathName.endsWith("LICENSE")
+							|| pathName.endsWith("oauthWindow.html")
+							|| pathName.endsWith("windowslive.html")
+							|| pathName.endsWith("devmode.js")
+							|| pathName.startsWith("js/properties_")) {
 						// skip these resources
 					} else {
 						publicSourcesSb
 								.append("\"https://cdn.geogebra.org/apps/"
-								+ GeoGebraConstants.VERSION_STRING + "/web3d/" + pathName.replace("\\", "/") + "\",\n");
-						publicSourcesSbM
-								.append("https://cdn.geogebra.org/apps/"
 										+ GeoGebraConstants.VERSION_STRING
 										+ "/web3d/"
-										+ pathName.replace("\\", "/") + "\n");
+										+ pathName.replace("\\", "/")
+										+ "\",\n");
+						publicSourcesSbM.append("https://cdn.geogebra.org/apps/"
+								+ GeoGebraConstants.VERSION_STRING + "/web3d/"
+								+ pathName.replace("\\", "/") + "\n");
 					}
 				}
 			}
 
-			String[] cacheExtraFiles = AppCacheLinkerSettings.otherCachedFiles();
+			String[] cacheExtraFiles = AppCacheLinkerSettings
+					.otherCachedFiles();
 			for (int i = 0; i < cacheExtraFiles.length; i++) {
 				staticResoucesSb.append("\"");
 				staticResoucesSb.append(cacheExtraFiles[i]);
-				staticResoucesSb.append("\",\n");
+				staticResoucesSb.append("\"");
+				if (i < cacheExtraFiles.length - 1) {
+					staticResoucesSb.append(",\n");
+				}
 
 				staticResoucesSbM.append(cacheExtraFiles[i]);
 				staticResoucesSbM.append("\n");
@@ -210,7 +210,6 @@ public class AppCacheLinker extends AbstractLinker {
 		// build cache list
 		StringBuilder sb = new StringBuilder();
 
-
 		// logger.log(
 		// TreeLogger.INFO,
 		// "Make sure you have the following"
@@ -221,12 +220,15 @@ public class AppCacheLinker extends AbstractLinker {
 
 		// Create the manifest as a new artifact and return it:
 		try {
-			InputStream s = AppCacheLinker.class.getResourceAsStream("/org/geogebra/web/worker_template.js");
+			InputStream s = AppCacheLinker.class.getResourceAsStream(
+					"/org/geogebra/web/worker_template.js");
 			byte[] contents = new byte[1024];
 			int bytesRead = 0;
 			while ((bytesRead = s.read(contents)) != -1) {
-				sb.append(new String(contents, 0, bytesRead).replace("%URLS%",
-						publicSourcesSb.toString() + staticResoucesSb.toString())
+				sb.append(new String(contents, 0, bytesRead)
+						.replace("%URLS%",
+								publicSourcesSb.toString()
+										+ staticResoucesSb.toString())
 						.replace("%ID%", id));
 			}
 			// fbr.close();
@@ -236,9 +238,11 @@ public class AppCacheLinker extends AbstractLinker {
 		}
 		// toReturn.add(emitString(logger, sbM.toString(), MANIFEST));
 		toReturn.add(emitString(logger, sb.toString(), SWORKER));
+		toReturn.add(emitString(logger,
+				("{\n" + publicSourcesSb.toString()
+						+ staticResoucesSb.toString()).replaceAll("\\n", "\n  ")
+						+ "\n}",
+				"files.json"));
 	}
-
-
-
 
 }

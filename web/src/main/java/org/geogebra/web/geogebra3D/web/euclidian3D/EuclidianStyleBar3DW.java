@@ -283,8 +283,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 						StyleBar3DResources.INSTANCE.plane(),
 						StyleBar3DResources.INSTANCE.axes_plane() }, 24);
 
-		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1,
-				4, SelectionTable.MODE_ICON, getView());
+		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons,
+				getView());
 		btnShowAxesAndPlane.addPopupHandler(this);
 
 		// ========================================

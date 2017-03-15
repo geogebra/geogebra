@@ -29,6 +29,8 @@ public class GuiManager3DW extends GuiManagerW {
 	 * 
 	 * @param app
 	 *            application
+	 * @param device
+	 *            device (browser / tablet)
 	 */
 	public GuiManager3DW(AppW app, GDevice device) {
 		super(app, device);
@@ -123,8 +125,8 @@ public class GuiManager3DW extends GuiManagerW {
 	}
 
 	@Override
-	protected PropertiesViewW newPropertiesViewW(AppW app, OptionType ot) {
-		return new PropertiesView3DW(app, ot);
+	protected PropertiesViewW newPropertiesViewW(AppW app1, OptionType ot) {
+		return new PropertiesView3DW(app1, ot);
 	}
 
 }

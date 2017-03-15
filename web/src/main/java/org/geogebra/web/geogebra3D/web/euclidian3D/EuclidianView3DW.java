@@ -70,9 +70,14 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianView3DW extends EuclidianView3D implements
         EuclidianViewWInterface {
 
-	protected EuclidianPanelWAbstract EVPanel;
+	private EuclidianPanelWAbstract EVPanel;
 
-	public boolean isInFocus = false;
+	private boolean isInFocus = false;
+
+	/** graphics */
+	public GGraphics2DW g2p = null;
+
+	private MsZoomer msZoomer;
 
 	/**
 	 * constructor
@@ -92,21 +97,19 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				((AppW) app).closePopups();
+				((AppW) getApplication()).closePopups();
 			}
 		});
 
 	}
 
-	public GGraphics2DW g2p = null;
 
-	private MsZoomer msZoomer;
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController euclidiancontroller) {
 
 		Canvas canvas = euclidianViewPanel.getCanvas();
-		setEvNo(canvas);
+		setEvNo();
 
 		this.g2p = new GGraphics2DW(canvas);
 		g2p.setView(this);
@@ -161,7 +164,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-	private void setEvNo(Canvas canvas) {
+	private void setEvNo() {
 
 		this.evNo = EVNO_3D;
 	}
@@ -218,6 +221,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
+	/**
+	 * Callback for blur event
+	 */
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
@@ -227,6 +233,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
+	/**
+	 * Callback for focus event
+	 */
 	public void focusGained() {
 		if (!isInFocus) {
 			this.isInFocus = true;
@@ -252,6 +261,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	// MyEuclidianViewPanel
 	// //////////////////////////////////////////////////////////
 
+	/**
+	 * @return EV panel
+	 */
 	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
 		return new MyEuclidianViewPanel3D(this);
 	}
@@ -265,7 +277,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
 	        RequiresResize {
 
-		private Renderer renderer;
+		private Renderer pRenderer;
 
 		/**
 		 * constructor
@@ -279,8 +291,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		@Override
 		protected void createCanvas() {
-			renderer = getRenderer();
-			canvas = (Canvas) renderer.getCanvas();
+			pRenderer = getRenderer();
+			canvas = (Canvas) pRenderer.getCanvas();
 		}
 
 		@Override
@@ -661,10 +673,19 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
+	/**
+	 * Update canvas size
+	 */
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
 
+	/**
+	 * @param width
+	 *            canvas width
+	 * @param height
+	 *            canvas height
+	 */
 	public void setCoordinateSpaceSize(int width, int height) {
 
 		int oldWidth = g2p.getOffsetWidth();

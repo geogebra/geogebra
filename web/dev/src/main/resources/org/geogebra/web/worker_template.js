@@ -3,7 +3,7 @@
 /**
 * Designed by Gabor, made by GWT
 */
-var urlsToCache = {"urls_to_cache":[%URLS% "https:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.11.1\/jquery.min.js",
+var urlsToCache = {"urls_to_cache":[%URLS%, "https:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.11.1\/jquery.min.js",
                                     "https:\/\/ajax.googleapis.com\/ajax\/libs\/jqueryui\/1.11.1\/jquery-ui.min.js",
                                     "\/scripts\/jlatexmath\/jlatexmath.js?v=1472544409",
                                     "\/scripts\/deployggb.js?v=1472544409"],"unique_id":"#%ID%"};
