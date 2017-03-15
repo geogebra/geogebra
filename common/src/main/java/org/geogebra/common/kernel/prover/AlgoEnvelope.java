@@ -7,6 +7,7 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -17,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
-import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -262,89 +262,30 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// It is safe to remove the virtual locus point here.
 		locusPoint.remove();
 
-		/*
-		 * The equation is not yet in the form we want: the last two variables
-		 * should be changed to x and y.
-		 */
-		String varx = as.curveVars[0].toString();
-		String vary = as.curveVars[1].toString();
-
-		// We collect the used x1,x2,... variables (their order is not
-		// relevant):
-		PPolynomial[] allPolys = new PPolynomial[as.getPolynomials().size()];
-		Iterator<PPolynomial> it = as.getPolynomials().iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			PPolynomial poly = it.next();
-			allPolys[i] = poly;
-			i++;
+		if (as == null) {
+			Log.debug("Cannot compute locus equation (yet?)");
+			return null;
 		}
+		Kernel k = movingPoint.getKernel();
 
-		StringBuilder vars = new StringBuilder();
-		String allVars = PPolynomial.getVarsAsCommaSeparatedString(allPolys,
-				null, null) + ",";
-		allVars = allVars.replaceAll(varx + ",", "");
-		allVars = allVars.replaceAll(vary + ",", "");
+		// TODO: Implement Singular computation also.
+		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
 
-		// trim closing ","
-		vars.append(allVars.substring(0, allVars.length() - 1));
-
-		// Obtaining polynomials:
-		String polys = PPolynomial.getPolysAsCommaSeparatedString(allPolys);
+		if (true) {
+		try {
+			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
+						envelopeEqu(as).toString());
+			Log.trace("Output from giac: " + impccoeffs);
+			return impccoeffs;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Log.debug("Cannot compute locus equation (yet?)");
+			return null;
+		}
+		}
 
 		StringBuilder script = new StringBuilder();
-
-		// Constructing the script.
-		// Single points [y-A,x-B] are returned in the form (x-B)^2+(y-A)^2.
-		// Empty envelopes are drawn as 0=-1.
-		// Multiple curves are drawn as products of the curves.
-
-		String varlist = varx + "," + vary;
-
-		if (locusLib.length() == 0) {
-			/*
-			 * If there is no Singular support with the Groebner cover package,
-			 * then we use Giac and construct the Jacobi matrix on our own. Here
-			 * we use two Giac calls, one for the Jacobian and one for the
-			 * elimination. Actually, this code is faster than Singular because
-			 * of local execution and faster Jacobian computation.
-			 */
-			script.append("[[");
-			script.append("m:=[").append(polys)
-					.append("]],[J:=" + CustomFunctions.JACOBI_PREPARE + "(m,["
-							+ varlist + "])],[" + CustomFunctions.JACOBI_DET
-							+ "(J,[" + varlist + "])]]");
-			script.append("[2][0]");
-
-			Log.trace(
-					"Input to giac (compute det of Jacobi matrix): " + script);
-			GeoGebraCAS cas = (GeoGebraCAS) locusPoint.getKernel()
-					.getGeoGebraCAS();
-			try {
-				String det = cas.getCurrentCAS().evaluateRaw(script.toString());
-				if ("?".equals(det)) {
-					Log.debug("Cannot compute det of Jacobi matrix (yet?)");
-					return null;
-				}
-				/* Replacing variables. */
-				det = det.replaceAll(varx, "x").replaceAll(vary, "y");
-				polys = polys.replaceAll(varx, "x").replaceAll(vary, "y");
-
-				Log.trace("Output from giac (compute det of Jacobi matrix): "
-						+ det);
-				String script2 = cas.getCurrentCAS().createLocusEquationScript(
-						polys + "," + det, vars + ",x,y", vars.toString());
-
-				Log.trace("Input to giac: " + script2);
-				String result = cas.getCurrentCAS().evaluateRaw(script2);
-				return result;
-
-			} catch (Exception ex) {
-				Log.debug("Cannot compute envelope (yet?)");
-				return null;
-			}
-
-		}
+		String varlist = "", vars = "", polys = "", varx = "", vary = "";
 
 		/*
 		 * Constructing the Singular script. This code contains a modified
@@ -408,4 +349,36 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	public Commands getClassName() {
 		return Commands.Envelope;
 	}
+
+	/**
+	 * Compute the coefficients of the implicit curve for the envelope equation.
+	 * 
+	 * @param as
+	 *            the algebraic statement structure
+	 * @return the implicit curve as a string
+	 */
+	public StringBuilder envelopeEqu(AlgebraicStatement as) {
+		StringBuilder sb = new StringBuilder();
+		boolean useSingular = false;
+
+		/* Use Singular if it is enabled. TODO: Implement this. */
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		if (singularWS != null && singularWS.isAvailable()) {
+			useSingular = true;
+		}
+		/* Otherwise use Giac. */
+
+		String polys = as.getPolys();
+		String elimVars = as.getElimVars();
+
+		String PRECISION = Long.toString(kernel.precision());
+		Log.debug("PRECISION = " + PRECISION);
+
+		sb.append(CustomFunctions.ENVELOPE_EQU).append("([").append(polys)
+				.append("],[").append(elimVars).append("],").append(PRECISION)
+				.append(",").append(as.curveVars[0]).append(",")
+				.append(as.curveVars[1]).append(")");
+		return sb;
+	}
+
 }

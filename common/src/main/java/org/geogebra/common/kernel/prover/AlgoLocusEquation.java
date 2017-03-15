@@ -3,7 +3,6 @@
  */
 package org.geogebra.common.kernel.prover;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -20,8 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
-import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
-import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -244,7 +241,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		try {
 			String impccoeffs = cas.getCurrentCAS()
-					.evaluateRaw(implicitCurveCoeffs(as, null).toString());
+					.evaluateRaw(locusEqu(as).toString());
 			Log.trace("Output from giac: " + impccoeffs);
 			return impccoeffs;
 		} catch (Exception ex) {
@@ -286,18 +283,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * Compute the coefficients of the implicit curve.
+	 * Compute the coefficients of the implicit curve for the locus equation.
 	 * 
 	 * @param as
 	 *            the algebraic statement structure
-	 * @param detCode
-	 *            program code for determinant as output in the "last" variable
 	 * @return the implicit curve as a string
 	 */
-	public StringBuilder implicitCurveCoeffs(AlgebraicStatement as,
-			String detCode) {
+	public static StringBuilder locusEqu(AlgebraicStatement as) {
 		StringBuilder sb = new StringBuilder();
 		boolean useSingular = false;
+		Kernel kernel = as.geoStatement.getKernel();
 
 		/* Use Singular if it is enabled. TODO: Implement this. */
 		SingularWebService singularWS = kernel.getApplication().getSingularWS();
@@ -306,65 +301,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 		/* Otherwise use Giac. */
 
-		TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
-		TreeSet<PVariable> freeVariables = new TreeSet<PVariable>();
-		PPolynomial[] eqSystem = as.getPolynomials()
-				.toArray(new PPolynomial[as.getPolynomials().size()]);
-		TreeSet<PVariable> variables = new TreeSet<PVariable>(
-				PPolynomial.getVars(eqSystem));
-		HashMap<PVariable, Long> substitutions = as.substitutions;
-
-		Iterator<PVariable> variablesIterator = variables.iterator();
-		while (variablesIterator.hasNext()) {
-			PVariable variable = variablesIterator.next();
-			if (!variable.isFree()) {
-				dependentVariables.add(variable);
-			} else {
-				if (substitutions == null
-						|| !substitutions.containsKey(variable)) {
-					freeVariables.add(variable);
-				}
-			}
-		}
-
-		PPolynomial[] eqSystemSubstituted;
-		if (substitutions != null) {
-			eqSystemSubstituted = new PPolynomial[eqSystem.length];
-			for (int i = 0; i < eqSystem.length; i++) {
-				eqSystemSubstituted[i] = eqSystem[i].substitute(substitutions);
-			}
-			variables.removeAll(substitutions.keySet());
-		} else {
-			eqSystemSubstituted = eqSystem;
-		}
-
-		Log.debug("Eliminating system in " + variables.size() + " variables ("
-				+ dependentVariables.size() + " dependent, "
-				+ freeVariables.size() + " free) "
-				+ (useSingular ? "using singular" : "using giac"));
-
-		String polys = PPolynomial
-				.getPolysAsCommaSeparatedString(eqSystemSubstituted);
-		String elimVars = PPolynomial.getVarsAsCommaSeparatedString(
-				eqSystemSubstituted, null, false);
-		String freeVars = PPolynomial
-				.getVarsAsCommaSeparatedString(eqSystemSubstituted, null, true);
-		Log.trace("gbt polys = " + polys);
-		Log.trace("gbt vars = " + elimVars + "," + freeVars);
-
-		if (detCode != null) {
-			polys += ",last";
-		}
+		String polys = as.getPolys();
+		String elimVars = as.getElimVars();
 
 		String PRECISION = Long.toString(kernel.precision());
 		Log.debug("PRECISION = " + PRECISION);
 
-		sb.append(CustomFunctions.IMPLICIT_CURVE_COEFFS).append("(")
-				.append("subst(").append(CustomFunctions.GEOM_ELIM).append("([")
-				.append(polys).append("],[").append(elimVars).append("],")
-				.append(PRECISION).append(")").append(",[")
-				.append(as.curveVars[0]).append("=x,").append(as.curveVars[1])
-				.append("=y])").append(")");
+		sb.append(CustomFunctions.LOCUS_EQU).append("([").append(polys)
+				.append("],[").append(elimVars).append("],").append(PRECISION)
+				.append(",").append(",").append(as.curveVars[0]).append(",")
+				.append(as.curveVars[1]).append(")");
 		return sb;
 	}
 

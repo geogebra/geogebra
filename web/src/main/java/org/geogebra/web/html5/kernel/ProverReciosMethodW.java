@@ -77,8 +77,8 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, entry.getValue().longValue());
 				}
-				ExtendedBoolean solvable = PPolynomial.solvable(as.polynomials
-						.toArray(new PPolynomial[as.polynomials.size()]),
+				ExtendedBoolean solvable = PPolynomial.solvable(as.getPolynomials()
+						.toArray(new PPolynomial[as.getPolynomials().size()]),
 						substitutions, as.geoStatement.getKernel(),
 						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana #" + nrOfTests + ": "

@@ -228,8 +228,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					substitutions.put(v, entry.getValue().longValue());
 				}
 				ExtendedBoolean solvable = PPolynomial.solvable(
-						as.polynomials
-								.toArray(new PPolynomial[as.polynomials.size()]),
+						as.getPolynomials()
+								.toArray(new PPolynomial[as.getPolynomials().size()]),
 						substitutions, as.geoStatement.getKernel(),
 						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana (threaded): " + substitutions);

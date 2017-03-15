@@ -304,7 +304,7 @@ public class ProverBotanasMethod {
 		 * The set of polynomials which are the translations of the geometric
 		 * hypotheses and the thesis. The thesis is stored reductio ad absurdum.
 		 */
-		public Set<PPolynomial> polynomials;
+		private Set<PPolynomial> polynomials;
 		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
@@ -315,6 +315,39 @@ public class ProverBotanasMethod {
 		boolean interpretTrueAsUndefined = false;
 
 		private boolean disallowFixSecondPoint = false;
+
+
+		private String polys, elimVars, freeVars;
+
+		/**
+		 * Return the polynomials of the algebraic structure as a String. Use
+		 * computeStrings() before using this method.
+		 * 
+		 * @return polynomials in String format
+		 */
+		public String getPolys() {
+			return polys;
+		}
+
+		/**
+		 * Return the elimination variables of the algebraic structure as a
+		 * String. Use computeStrings() before using this method.
+		 * 
+		 * @return elimination variables in String format
+		 */
+		public String getElimVars() {
+			return elimVars;
+		}
+
+		/**
+		 * Return the free variables of the algebraic structure as a String. Use
+		 * computeStrings() before using this method.
+		 * 
+		 * @return free variables in String format
+		 */
+		public String getFreeVars() {
+			return freeVars;
+		}
 
 		/**
 		 * @return the polynomials
@@ -387,6 +420,56 @@ public class ProverBotanasMethod {
 			} else {
 				result = ProofResult.PROCESSING;
 			}
+		}
+
+		/**
+		 * Convert Java datatypes into String datatypes.
+		 */
+		public void computeStrings() {
+			TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
+			TreeSet<PVariable> freeVariables = new TreeSet<PVariable>();
+			PPolynomial[] eqSystem = this.getPolynomials()
+					.toArray(new PPolynomial[this.getPolynomials().size()]);
+			TreeSet<PVariable> variables = new TreeSet<PVariable>(
+					PPolynomial.getVars(eqSystem));
+
+			Iterator<PVariable> variablesIterator = variables.iterator();
+			while (variablesIterator.hasNext()) {
+				PVariable variable = variablesIterator.next();
+				if (!variable.isFree()) {
+					dependentVariables.add(variable);
+				} else {
+					if (substitutions == null
+							|| !substitutions.containsKey(variable)) {
+						freeVariables.add(variable);
+					}
+				}
+			}
+
+			PPolynomial[] eqSystemSubstituted;
+			if (substitutions != null) {
+				eqSystemSubstituted = new PPolynomial[eqSystem.length];
+				for (int i = 0; i < eqSystem.length; i++) {
+					eqSystemSubstituted[i] = eqSystem[i]
+							.substitute(substitutions);
+				}
+				variables.removeAll(substitutions.keySet());
+			} else {
+				eqSystemSubstituted = eqSystem;
+			}
+
+			Log.debug(
+					"Eliminating system in " + variables.size() + " variables ("
+							+ dependentVariables.size() + " dependent)");
+
+			this.polys = PPolynomial
+					.getPolysAsCommaSeparatedString(eqSystemSubstituted);
+			this.elimVars = PPolynomial.getVarsAsCommaSeparatedString(
+					eqSystemSubstituted, null, false);
+			this.freeVars = PPolynomial.getVarsAsCommaSeparatedString(
+					eqSystemSubstituted, null, true);
+			Log.trace("gbt polys = " + polys);
+			Log.trace("gbt vars = " + elimVars + "," + freeVars);
 		}
 
 		private void setHypotheses(GeoElement movingPoint) {
@@ -1082,7 +1165,7 @@ public class ProverBotanasMethod {
 					Collections.addAll(polynomials,
 							create3FreePointsNeverCollinearNDG(prover));
 				} catch (NoSymbolicParametersException e) {
-					Log.debug("Xxtra NDG conditions cannot be added");
+					Log.debug("Extra NDG conditions cannot be added");
 					result = ProofResult.UNKNOWN;
 				}
 			}
@@ -1627,6 +1710,7 @@ public class ProverBotanasMethod {
 				}
 			}
 		}
+		as.computeStrings();
 		return as;
 	}
 }

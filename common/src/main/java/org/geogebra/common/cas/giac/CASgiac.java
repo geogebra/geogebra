@@ -211,20 +211,19 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
 		/**
-		 * remove zeroes or linear dependencies from a list (workaround for
-		 * buggy eliminate)
+		 * Remove zeroes or linear dependencies from a list (workaround for
+		 * buggy eliminate). Probably obsolete and can be removed and
+		 * substituted by eliminate().
 		 */
 		ELIMINATE2("eliminate2", "eliminate2(x,y):=eliminate(eliminate(x,y),y);"),
-
 		/**
 		 * Eliminate variables from a polynomial ideal. If the result is a set
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
 		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
-
 		/**
-		 * Helps simplifying the input when computing the Jacobian matrix in the
+		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
 		 * variables which will not be used as derivatives. Output: another list
 		 * of polynomials (a shorter list) which does not contain the linear
@@ -237,13 +236,35 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * substituted into all other polys. After doing this for all one
 		 * variable linear polys recursively, the resulted polys will be used in
 		 * the Jacobian matrix in jacobiDet().
+		 * 
+		 * Used internally.
 		 */
 		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
-		 * excludevars.
+		 * excludevars. Used internally.
 		 */
 		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end"),
+		/**
+		 * Compute the Jacobian determinant of the polys with respect to
+		 * excludevars, but first some geometrical preparations are performed to
+		 * simplify the result. Used internally.
+		 */
+		GEOM_JACOBI_DET("geomJacobiDet",
+				"geomJacobiDet(polys,excludevars):=begin local J; J:=jacobiPrepare(polys,excludevars); return jacobiDet(J,excludevars); end"),
+		/**
+		 * Compute the coefficients of the envelope equation for the input
+		 * polys, elimvars with given precision for the curve variables x and y.
+		 * Used publicly.
+		 */
+		ENVELOPE_EQU("envelopeEqu",
+				"envelopeEqu(polys,elimvars,precision,curvevarx,curvevary):=begin local D; D:=geomJacobiDet(polys,[curvevarx,curvevary]); polys:=append(polys,D); return locusEqu(polys,elimvars,precision,curvevarx,curvevary); end"),
+		/**
+		 * Compute the coefficients of the locus equation for the input polys,
+		 * elimvars with given precision for the curve variables x and y. Used
+		 * publicly.
+		 */
+		LOCUS_EQU("locusEqu", "locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(polys,elimvars,precision),[curvevarx=x,curvevary=y]))"),
 		/**
 		 * Compute coefficient matrix of the input polynomial. The output is a
 		 * flattened variant of the matrix: the elements are returned row by
@@ -298,6 +319,12 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRICES);
 			setDependency(IMPLICIT_CURVE_COEFFS, FACTOR_SQR_FREE);
 			setDependency(GEOM_ELIM, PRIM_POLY);
+			setDependency(LOCUS_EQU, IMPLICIT_CURVE_COEFFS);
+			setDependency(LOCUS_EQU, GEOM_ELIM);
+			setDependency(ENVELOPE_EQU, LOCUS_EQU);
+			setDependency(ENVELOPE_EQU, GEOM_JACOBI_DET);
+			setDependency(GEOM_JACOBI_DET, JACOBI_PREPARE);
+			setDependency(GEOM_JACOBI_DET, JACOBI_DET);
 		}
 
 		/**

@@ -233,8 +233,8 @@ public abstract class AbstractProverReciosMethod {
 			}
 			ProverSettings proverSettings = ProverSettings.get();
 			ExtendedBoolean solvable = PPolynomial.solvable(
-					as.polynomials
-							.toArray(new PPolynomial[as.polynomials.size()]),
+					as.getPolynomials().toArray(
+							new PPolynomial[as.getPolynomials().size()]),
 					substitutions, as.geoStatement.getKernel(),
 					proverSettings.transcext);
 			Log.debug("Recio meets Botana:" + substitutions);
@@ -272,8 +272,8 @@ public abstract class AbstractProverReciosMethod {
 				}
 				ProverSettings proverSettings = ProverSettings.get();
 				ExtendedBoolean solvable = PPolynomial.solvable(
-						as.polynomials
-								.toArray(new PPolynomial[as.polynomials.size()]),
+						as.getPolynomials().toArray(
+								new PPolynomial[as.getPolynomials().size()]),
 						substitutions, as.geoStatement.getKernel(),
 						proverSettings.transcext);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
@@ -326,8 +326,9 @@ public abstract class AbstractProverReciosMethod {
 						substitutions.put(v, entry.getValue().longValue());
 					}
 					ExtendedBoolean solvable = PPolynomial.solvable(
-							as.polynomials.toArray(
-									new PPolynomial[as.polynomials.size()]),
+							as.getPolynomials()
+									.toArray(new PPolynomial[as.getPolynomials()
+											.size()]),
 							substitutions, as.geoStatement.getKernel(),
 							ProverSettings.get().transcext);
 					Log.debug("Recio meets Botana: #" + caseno + " "
