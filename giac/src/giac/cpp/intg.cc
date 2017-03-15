@@ -3451,8 +3451,11 @@ namespace giac {
       return symbolic(at_integrate,makesequence(v[0],x,borne_inf,borne_sup));
     }
 #endif
-    if (is_undef(res))
+    if (is_undef(res)){
+      if (res.type==_STRNG && abs_calc_mode(contextptr)==38)
+	return res;
       res=subst(primitive,*x._IDNTptr,borne_sup,false,contextptr)-subst(primitive,*x._IDNTptr,borne_inf,false,contextptr);
+    }
     vecteur sp;
     sp=lidnt(evalf(makevecteur(primitive,borne_inf,borne_sup),1,contextptr));
     if (sp.size()>1){
