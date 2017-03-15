@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverLocus;
 import org.geogebra.common.kernel.PathParameter;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
@@ -45,6 +46,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	/** coords of points on locus */
 	protected ArrayList<T> myPointList;
+	private ArrayList<T> poitsWithoutControl;
 
 	/**
 	 * Creates new locus
@@ -112,6 +114,18 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	@Override
 	public ArrayList<T> getPoints() {
 		return myPointList;
+	}
+
+	public ArrayList<T> getPointsWithoutControl() {
+		if (poitsWithoutControl == null) {
+			poitsWithoutControl = new ArrayList<T>();
+			for (MyPoint t : myPointList) {
+				if (t.getSegmentType() != SegmentType.CONTROL) {
+					poitsWithoutControl.add((T) t.copy());
+				}
+			}
+		}
+		return poitsWithoutControl;
 	}
 
 	@Override

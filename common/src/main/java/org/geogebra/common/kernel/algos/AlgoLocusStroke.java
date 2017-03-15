@@ -114,7 +114,7 @@ public class AlgoLocusStroke extends AlgoElement
 				GeoPointND[] partOfStroke = getPartOfPenStroke(index, data);
 				if (partOfStroke.length == 1) {
 					pointList.add(new MyPoint(partOfStroke[0].getInhomX(),
-							partOfStroke[0].getInhomY(), SegmentType.LINE_TO));
+							partOfStroke[0].getInhomY(), SegmentType.MOVE_TO));
 				} else {
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
@@ -138,12 +138,6 @@ public class AlgoLocusStroke extends AlgoElement
 				}
 				index = index + partOfStroke.length + 1;
 			}
-			/*
-			 * for (int i = 0; i < pointList.size(); i++) { Log.debug("POINT[ "
-			 * + i + " ] : " + "(" + pointList.get(i).x + "," +
-			 * pointList.get(i).y + ") -> " +
-			 * pointList.get(i).getSegmentType()); }
-			 */
 			poly.setPoints(pointList);
 		} else {
 			for (int i = 0; i < size; i++) {
@@ -300,9 +294,26 @@ public class AlgoLocusStroke extends AlgoElement
 		return poly.getPointLength();
 	}
 
+	public int getPointsLengthWihtoutControl() {
+		int size = 0;
+		for (int i = 0; i < getPointsLength(); i++) {
+			if (!(poly.getPoints().get(i)
+					.getSegmentType() == SegmentType.CONTROL)) {
+				size++;
+			}
+		}
+		return size;
+	}
+
 	public GeoPoint getPointCopy(int i) {
 		return new GeoPoint(cons, poly.getPoints().get(i).getInhomX(),
 				poly.getPoints().get(i).getInhomY(), 1);
+	}
+
+	public GeoPoint getNoControlPointCopy(int i) {
+		return new GeoPoint(cons,
+				poly.getPointsWithoutControl().get(i).getInhomX(),
+				poly.getPointsWithoutControl().get(i).getInhomY(), 1);
 	}
 
 	public ArrayList<MyPoint> getPoints() {
@@ -323,7 +334,13 @@ public class AlgoLocusStroke extends AlgoElement
 
 	public void updateInput(List<MyPoint> data) {
 
-		input = new GeoElement[data.size() + 1];
+		int size = 0;
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).getSegmentType() != SegmentType.CONTROL) {
+				size++;
+			}
+		}
+		input = new GeoElement[size + 1];
 		int j = 0;
 		for (MyPoint pt : data) {
 			if (pt.getSegmentType() != SegmentType.CONTROL) {

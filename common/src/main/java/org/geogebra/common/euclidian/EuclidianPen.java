@@ -759,12 +759,12 @@ public class EuclidianPen implements GTimerListener {
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
-			int ptsLength = algo.getPointsLength();
+			int ptsLength = algo.getPointsLengthWihtoutControl();
 
 			newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
 
 			for (int i = 0; i < ptsLength; i++) {
-				newPts[i] = algo.getPointCopy(i);
+				newPts[i] = algo.getNoControlPointCopy(i);
 			}
 
 			newPts[ptsLength] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
