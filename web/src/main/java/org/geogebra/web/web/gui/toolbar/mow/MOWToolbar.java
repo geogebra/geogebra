@@ -46,6 +46,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private SubMenuPanel mediaMenu;
 	private FlowPanel subMenuPanel;
 	private int submenuHeight;
+	private int lastSubmenuHeight;
 	private ToolbarResources pr;
 
 	public MOWToolbar(AppW app) {
@@ -72,6 +73,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		add(subMenuPanel);
 		// hack
 		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
+		lastSubmenuHeight = 0;
 		addStyleName("mowToolbar");
 		setResponsiveStyle();
 
@@ -270,6 +272,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			setCSStoSelected(source);
 		}
 		setButtonActive(source);
+		lastSubmenuHeight = submenuHeight;
 	}
 
 	public void setMode(int mode) {
@@ -295,12 +298,15 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (currentMenu == submenu) {
 			if (!subMenuPanel.isVisible()) {
 				currentMenu.onOpen();
+				lastSubmenuHeight = 0;
 			}
+
 			setSubmenuVisible(!subMenuPanel.isVisible());
 			return;
 		}
 		submenu.onOpen();
 		doSetCurrentMenu(submenu);
+		lastSubmenuHeight = 0;
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
@@ -312,16 +318,27 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void setSubmenuVisible(final boolean b) {
-		Log.debug("setVisible: " + b);
+		
+		Log.debug("last submenu height: " + lastSubmenuHeight);
+		//boolean menuOpen = subMenuPanel.isVisible();
 		if (b) {
 			subMenuPanel.setVisible(b);
 			if (submenuHeight == 120) {
-				setStyleName("animate0to120");
+				if (lastSubmenuHeight == 0) {
+					setStyleName("animate0to120");
+				}
+				if (lastSubmenuHeight == 55) {
+					setStyleName("animate55to120");
+				}
 			}
 			if (submenuHeight == 55) {
-				setStyleName("animate0to55");
+				if (lastSubmenuHeight == 0) {
+					setStyleName("animate0to55");
+				}
+				if (lastSubmenuHeight == 120) {
+					setStyleName("animate120to55");
+				}
 			}
-
 		} else {
 			if (submenuHeight == 120) {
 				setStyleName("animate120to0");
@@ -334,7 +351,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 					subMenuPanel.setVisible(b);
 				}
 			};
-			timer.schedule(1000);
+			timer.schedule(500);
 
 		}
 		addStyleName("mowToolbar");
