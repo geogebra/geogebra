@@ -63,7 +63,11 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		boolean distant = !Kernel.isEqual(x, point.getX(),
 				view.getMinPixelDistance())
 				|| !Kernel.isEqual(y, point.getY(), view.getMinPixelDistance());
-
+		if (lineTo == SegmentType.CONTROL || lineTo == SegmentType.CURVE_TO
+				|| lineTo == SegmentType.ARC_TO
+				|| lineTo == SegmentType.AUXILIARY) {
+			distant = true;
+		}
 		// only add points that are more than MIN_PIXEL_DISTANCE
 		// from current location
 		boolean isLine = lineTo != SegmentType.MOVE_TO;
