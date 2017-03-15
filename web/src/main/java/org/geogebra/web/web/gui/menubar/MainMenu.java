@@ -227,6 +227,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.menuPanel.add(toolsMenu, getHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
 		if (!exam) {
+			this.menuPanel.add(helpMenu,
+					getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"),
+					true);
 			if(app.getNetworkOperation().isOnline()){
 				render(true);
 			}
