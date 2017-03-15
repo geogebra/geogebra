@@ -203,7 +203,7 @@ public class CASLaTeXEditor extends FlowPanel
 	@Override
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
-		if (sug.needsEnterForSuggestion()) {
+		if (sug != null && sug.needsEnterForSuggestion()) {
 			return;
 		}
 		this.controller.handleEnterKey(false, false, app, b);

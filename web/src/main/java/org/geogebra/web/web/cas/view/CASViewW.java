@@ -2,10 +2,13 @@ package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -69,7 +72,20 @@ public class CASViewW extends CASView implements PrintableW {
 				}
 			}
 		});
+		// prevent default: no blur
+		ClickStartHandler.init(component, new ClickStartHandler(true, false) {
 
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (!StringUtil
+						.empty(((CASEditorW) getConsoleTable().getEditor())
+								.getText())) {
+					((CASEditorW) getConsoleTable().getEditor()).onEnter(true);
+				}
+
+			}
+
+		});
 	}
 
 	@Override
