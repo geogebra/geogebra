@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.Variable;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -211,45 +210,6 @@ public abstract class CommandProcessor {
 			return newXVarStr;
 		}
 		return null;
-	}
-
-	/**
-	 * @param c
-	 *            command
-	 * @param keepCAScells
-	 *            false = replace CAS cells by twin geos, true = keep cells
-	 * @param info
-	 *            evaluation flags
-	 * @return processed arguments
-	 * @throws MyError
-	 *             when arguments contain errors, eg. invalid operation in exp
-	 *             node
-	 */
-	protected final GeoElement[] resArgs(Command c, boolean keepCAScells,
-			EvalInfo info) throws MyError {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		// resolve arguments to get GeoElements
-		ExpressionNode[] arg = c.getArguments();
-		GeoElement[] result = new GeoElement[arg.length];
-		EvalInfo argInfo = info.withLabels(false);
-		for (int i = 0; i < arg.length; ++i) {
-			// resolve variables in argument expression
-			arg[i].resolveVariables(argInfo);
-			if (keepCAScells && arg[i].unwrap() instanceof GeoCasCell) {
-				result[i] = (GeoElement) arg[i].unwrap();
-			} else {
-
-				// resolve i-th argument and get GeoElements
-				// use only first resolved argument object for result
-				result[i] = resArg(arg[i], argInfo)[0];
-
-			}
-		}
-
-		cons.setSuppressLabelCreation(oldMacroMode);
-		return result;
 	}
 
 	/**
