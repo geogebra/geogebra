@@ -143,11 +143,8 @@ public class AlgoLaTeX extends AlgoElement {
 		// undefined 0/0 should be ?, undefined If[x>0,"a"] should be ""
 		if (!geo.isDefined() && !geo.isGeoText()) {
 			text.setTextString("?");
-		} else if (geo.getCorrespondingCasCell() != null) {
-			// it's a twin geo, display the corresponding CAS cell
-			text.setTextString(geo.getCorrespondingCasCell().getFormulaString(
-					StringTemplate.latexTemplateJLM, substitute));
-		} else if ((substituteVars != null && !substituteVars.isDefined())
+		}
+		if ((substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
 			text.setTextString("");
 
@@ -163,32 +160,42 @@ public class AlgoLaTeX extends AlgoElement {
 			StringTemplate tpl = text.getStringTemplate().deriveReal();
 			// Application.debug(geo.getFormulaString(StringType.LATEX,
 			// substitute ));
+			GeoElement geoToShow = geo;
+			if (geo.getCorrespondingCasCell() != null) {
+				// it's a twin geo, display the corresponding CAS cell
+				geoToShow = geo.getCorrespondingCasCell();
+			}
 			if (show) {
-				if (geo.isGeoCasCell()) {
-					text.setTextString(((GeoCasCell) geo)
+				if (geoToShow.isGeoCasCell()) {
+					text.setTextString(((GeoCasCell) geoToShow)
 							.getOutput(StringTemplate.numericLatex));
 				} else {
 					text.setTextString(
-							geo.getLaTeXAlgebraDescription(substitute, tpl));
+							geoToShow.getLaTeXAlgebraDescription(substitute,
+									tpl));
 				}
 				if (text.getTextString() == null) {
-					String desc = geo
+					String desc = geoToShow
 							.getAlgebraDescription(text.getStringTemplate());
-					if (geo.hasIndexLabel()) {
+					if (geoToShow.hasIndexLabel()) {
 						desc = GeoElement.indicesToHTML(desc, true);
 					}
 					text.setTextString(desc);
 					useLaTeX = false;
 				}
 			} else {
-				if (geo.isGeoText()) {
+				if (geoToShow.isGeoText()) {
 					// needed for eg Text commands eg FormulaText[Text[
 					text.setTextString(((GeoText) geo).getTextString());
-				} else if (geo.isGeoCasCell()) {
-					text.setTextString(((GeoCasCell) geo)
-							.getOutput(StringTemplate.numericLatex));
+				} else if (geoToShow.isGeoCasCell()
+						&& geoToShow.isIndependent() && ((GeoCasCell) geoToShow)
+								.getOutputValidExpression() != null) {
+					text.setTextString(
+							((GeoCasCell) geoToShow).getOutputValidExpression()
+									.toString(StringTemplate.numericLatex));
 				} else {
-					text.setTextString(geo.getFormulaString(tpl, substitute));
+					text.setTextString(
+							geoToShow.getFormulaString(tpl, substitute));
 				}
 			}
 
