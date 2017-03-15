@@ -667,6 +667,7 @@ public class CurvePlotter {
 			// otherwise hit-testing doesn't work
 			if (p.isFinite()) {
 				if (gp.copyCoords(p, coords, transformSys)) {
+					// handle curve_to like arc_to
 					if ((p.getSegmentType() == SegmentType.CURVE_TO
 							|| p.getSegmentType() == SegmentType.CONTROL)
 							&& !linetofirst) {

@@ -37,6 +37,8 @@ public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
 	protected GeoLocusStroke poly; // output
+	// list of all points (also newly calculated control points of
+	// bezier curve)
 	private ArrayList<MyPoint> pointList = new ArrayList<MyPoint>();
 
 	/**
@@ -51,14 +53,8 @@ public class AlgoLocusStroke extends AlgoElement
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
 		updatePointArray(points);
-
-		// Log.debug(penStroke);
-
 		// poly = new GeoPolygon(cons, points);
-
-
 		// updatePointArray already covered compute
-
 		input = new GeoElement[points.length + 1];
 		for (int i = 0; i < points.length; i++) {
 			input[i] = (GeoElement) points[i];
@@ -101,10 +97,13 @@ public class AlgoLocusStroke extends AlgoElement
 		int size = data.length;
 		poly.setDefined(true);
 		poly.getPoints().clear();
+		// to use bezier curve we need at least 2 points
+		// stroke is: (A),(?),(A),(B) -> size 4
 		if (size >= 4 && poly.getKernel().getApplication()
 				.has(Feature.PEN_SMOOTHING)) {
 			int index = 2;
 			pointList.clear();
+			// move at first point
 			pointList.add(new MyPoint(data[0].getInhomX(), data[0].getInhomY(),
 					SegmentType.MOVE_TO));
 			while (index <= data.length) {
@@ -112,6 +111,8 @@ public class AlgoLocusStroke extends AlgoElement
 						new MyPoint(Double.NaN, Double.NaN,
 								SegmentType.LINE_TO));
 				GeoPointND[] partOfStroke = getPartOfPenStroke(index, data);
+				// if we found single point
+				// just add it to the list without control points
 				if (partOfStroke.length == 1) {
 					pointList.add(new MyPoint(partOfStroke[0].getInhomX(),
 							partOfStroke[0].getInhomY(), SegmentType.MOVE_TO));
@@ -131,6 +132,7 @@ public class AlgoLocusStroke extends AlgoElement
 						pointList.add(new MyPoint(controlPoints.get(2)[i],
 								controlPoints.get(3)[i], SegmentType.CONTROL));
 					}
+					// end point of curve
 					pointList.add(new MyPoint(
 							partOfStroke[partOfStroke.length - 1].getInhomX(),
 							partOfStroke[partOfStroke.length - 1].getInhomY(),
@@ -148,7 +150,9 @@ public class AlgoLocusStroke extends AlgoElement
 		}
 	}
 
-	private GeoPointND[] getPartOfPenStroke(int index, GeoPointND[] data) {
+	// returns the part of array started at index until first undef point
+	private static GeoPointND[] getPartOfPenStroke(int index,
+			GeoPointND[] data) {
 		int size = 0;
 		for (int i=index;i<data.length;i++) {
 			if (data[i].isDefined()) {
@@ -158,6 +162,8 @@ public class AlgoLocusStroke extends AlgoElement
 			}
 		}
 		GeoPointND[] partOfStroke;
+		// for simple segment add endpoint once again
+		// trick needed for bezier curve
 		if (size == 2) {
 			partOfStroke = new GeoPointND[size + 1];
 			for (int i = 0; i < size; i++) {
@@ -173,7 +179,8 @@ public class AlgoLocusStroke extends AlgoElement
 		return partOfStroke;
 	}
 
-	private ArrayList<double[]> getControlPoints(GeoPointND[] data) {
+	// calculate control points for bezier curve
+	private static ArrayList<double[]> getControlPoints(GeoPointND[] data) {
 		ArrayList<double[]> values = new ArrayList<double[]>();
 		double[] xCoordsP1 = new double[data.length - 1];
 		double[] xCoordsP2 = new double[data.length - 1];
@@ -240,11 +247,6 @@ public class AlgoLocusStroke extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-
-
-
-
-
 		// set dependencies
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
@@ -286,7 +288,6 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	public final MyPoint[] getPointsND() {
-
 		return poly.getPointsND();
 	}
 
@@ -316,6 +317,16 @@ public class AlgoLocusStroke extends AlgoElement
 				poly.getPointsWithoutControl().get(i).getInhomY(), 1);
 	}
 
+	/**
+	 * @return list of points without the control points
+	 */
+	public ArrayList<MyPoint> getPointsWithoutControl() {
+		return poly.getPointsWithoutControl();
+	}
+
+	/**
+	 * @return full list of definition points
+	 */
 	public ArrayList<MyPoint> getPoints() {
 		return poly.getPoints();
 	}
@@ -335,6 +346,7 @@ public class AlgoLocusStroke extends AlgoElement
 	public void updateInput(List<MyPoint> data) {
 
 		int size = 0;
+		// nr of no control points in data
 		for (int i = 0; i < data.size(); i++) {
 			if (data.get(i).getSegmentType() != SegmentType.CONTROL) {
 				size++;
@@ -343,6 +355,7 @@ public class AlgoLocusStroke extends AlgoElement
 		input = new GeoElement[size + 1];
 		int j = 0;
 		for (MyPoint pt : data) {
+			// add only control points
 			if (pt.getSegmentType() != SegmentType.CONTROL) {
 				input[j] = new GeoPoint(cons, pt.getInhomX(), pt.getInhomY(),
 						1);
