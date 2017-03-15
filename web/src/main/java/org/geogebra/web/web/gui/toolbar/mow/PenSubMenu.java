@@ -46,6 +46,7 @@ public class PenSubMenu extends SubMenuPanel
 
 	private void createPenPanel() {
 		penPanel = new FlowPanel();
+		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser));

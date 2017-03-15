@@ -260,13 +260,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_IMAGE + " | ");
 		sb.append(EuclidianConstants.MODE_VIDEO + " | ");
 		sb.append(EuclidianConstants.MODE_AUDIO + " | ");
-		sb.append(EuclidianConstants.MODE_GEOGEBRA + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
-
+		sb.append(EuclidianConstants.MODE_GEOGEBRA);
 		return sb.toString();
 	}
 

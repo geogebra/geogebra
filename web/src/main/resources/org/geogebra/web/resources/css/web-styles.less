@@ -5863,21 +5863,38 @@ body.application[dir=rtl] .deleteAlgebra {
    ###       MOW TOOLBAR 	            ###
    ######################################## */
 
+
 .mowToolbar {
 	position: relative;
-	width: 70%;
-	/*max-width: 800px;*/
-	left: 15%;
 	height: 40px;
-	bottom: 10px;
+	bottom: 0px;
+
 	/** explicit non-transparent to hide EV content */
 	background-color: #fff;
 	
 	border: 1px solid #e0e0e0;
-  /*  border-radius: 5px;*/
 	box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.8);
     padding: 5px 0px 5px 0px;
+}
+.mowToolbar .animate { 
+    animation-name: mowToolbarAnimation;
+    animation-duration: 2s;
 } 
+
+
+@keyframes mowToolbarAnimation {
+	0% {bottom: 0px;}
+	100% {bottom: 120px;}
+}
+	
+.BigScreen {
+	width: 700px;
+} 
+
+.SmallScreen {
+	width: 100%;
+} 
+
 
 .mowToolbar img {
 	opacity: 0.6;
@@ -5885,8 +5902,11 @@ body.application[dir=rtl] .deleteAlgebra {
 
 .mowPanelButton {
 	opacity: 0.6;
-	}
-
+}	
+	
+.mowActivePanelButton img {
+		background-color: #673AB7;
+}
 .mowPanelButton :hover {
 	opacity: 0.8;
 	}
@@ -5908,10 +5928,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 
 .mowToolbar .left {
+	position: absolute;
+	top: 3px;
 	float: left;
 	padding-left: 10px;
-	position: absolute;
-    top: 3px;
 } 
 
 .mowToolbar .middle {
@@ -5921,6 +5941,7 @@ body.application[dir=rtl] .deleteAlgebra {
 } 
 
 .mowToolbar .right {
+	top: 3px;
 	float: right;
 	padding-right: 5px;
 } 
@@ -5939,32 +5960,29 @@ body.application[dir=rtl] .deleteAlgebra {
 	width: 100%;
 	border: 1px solid #e0e0e0;
 	background-color: #fafafa;
-	height: 65px;
-	 padding: 5px 0px 5px 0px;
-
 }
 
 .mowSubMenuContent {
-	/*width: 60%;*/
+	width: 400px;
 	height: 65px;
-	padding-left: 15px;
 }
 .mowSubMenuInfo {
 	position: absolute;
 	top: 0px;
-	width: 37%;
+	width: 300px;
 }
 
 .mowSubMenuInfo img {
 	margin-top: 10px;
-	}
+}
 
 .mowInfoLabel {
+	position: absolute;
 	padding-left: 60px;
 	padding-top: 10px;
 	padding-right: 30px;
-	max-width: 400px;
-	}
+	max-width: 200px;
+}
 	
 .mowInfoLabel b {
 	font-weight: bold !important;
@@ -5973,27 +5991,32 @@ body.application[dir=rtl] .deleteAlgebra {
 .mowQuestionMark {
 	position: absolute;
 	top: 10px;
-    right: 0px;
+    right: 20px;
 	width: 24px;
 	height:24px;
 	cursor: pointer;
-	float: right;
 	}
 
 .penSubMenu .mowSubMenuContent {
-	/*width: 100%;*/
-	height: 65px;
+	position: absolute;
+	width: 700px;
+	height: 55px;
 }
+
+.penSubMenu .penPanel {
+	margin-left: 5px;
+}
+
 .penSubMenu .colorPanel {
-	position: relative;
+	position: absolute;
 	left: 20%; 
+	top: 5px;
 } 
 
 .penSubMenu .sizePanel {
-	position: relative;
 	color: black;
-	margin-right: 20px;
-    margin-top: 14px;
+	padding-right: 20px;
+    padding-top: 14px;
 	float: right; 
 } 
 
@@ -6010,31 +6033,36 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 .toolsSubMenu {
-	height: 110px;
+	position: absolute;
 }
 
 .toolsSubMenu .groupPanel {
+	position: absolute;
 	height: 80px;
 	padding-right: 15px;
-	
 }
 
 .toolsSubMenu .mowSubMenuContent {
-	width: 60%;
-	height: 110px;
+	width: 400px;
+	height: 117px;
 	overflow: hidden;
 	overflow-x: scroll;
 	overflow-y: hidden;
+	border-right: 1px solid #e0e0e0;
 }
 
 .toolsSubMenu .mowSubMenuContent .panelRow {
+	position: absolute;
 	width: 1760px;
 	height: 80px;
-	border-right: 1px solid #e0e0e0;
+	margin-left: 5px;
+	
 }	
 
 .mediaSubMenu .mowSubMenuContent {
-	width: 60%;
+	position: absolute;
+	width: 400px;
+	height: 115px;
 	border-right: 1px solid #e0e0e0;
 }	
 
@@ -6042,4 +6070,5 @@ body.application[dir=rtl] .deleteAlgebra {
  	  position: absolute;
  	  width: 100%;
    	  top: 45px;
+   	  background-color: #ffffff !important;
 	}

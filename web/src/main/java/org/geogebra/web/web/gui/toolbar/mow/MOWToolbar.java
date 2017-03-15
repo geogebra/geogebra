@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -15,14 +16,18 @@ import org.geogebra.web.web.gui.util.StandardButton;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
-	private static final int DEFAULT_SUBMENU_HEIGHT = 65;
-	private static final int TOOLS_SUBMENU_HEIGHT = 100;
+	private static final int DEFAULT_SUBMENU_HEIGHT = 55;
+	private static final int TOOLS_SUBMENU_HEIGHT = 120;
+	private static final int MEDIA_SUBMENU_HEIGHT = 55;
 	private static final int SUBMENU_ROW = 1;
 	private AppW app;
 	private StandardButton redoButton;
@@ -47,7 +52,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	protected void buildGUI() {
-		addStyleName("mowToolbar");
+		// addStyleName("mowToolbar");
 		leftPanel = new FlowPanel();
 		leftPanel.addStyleName("left");
 
@@ -56,7 +61,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 		rightPanel = new FlowPanel();
 		rightPanel.addStyleName("right");
-
 		createUndoRedo();
 		createMiddleButtons();
 		createMoveButton();
@@ -65,6 +69,15 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		add(subMenuPanel);
 		// hack
 		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
+		setResponsiveStyle();
+
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(ResizeEvent event) {
+				setResponsiveStyle();
+			}
+		});
+
 
 	}
 
@@ -82,13 +95,15 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		StandardButton btn = new StandardButton(null, "", 32);
 		btn.getUpFace().setImage(im);
 		btn.addFastClickHandler(handler);
+		btn.addStyleName("mowPanelButton");
 		return btn;
 	}
 
 	private void createPenButton() {
-		penButton = createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN_PANEL, app),
-				this);
+		penButton = createButton(GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN_PANEL, app), this);
+		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
+		penButton.getDownFace().setImage(getImage(pr.pen_panel_active_32(), 32));
+		penButton.setActive(false);
 		penMenu = new PenSubMenu(app);
 	}
 
@@ -117,6 +132,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		moveButton.addFastClickHandler(this);
 
 	}
+
 
 	public void update() {
 		updateUndoActions();
@@ -187,8 +203,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			submenuHeight = TOOLS_SUBMENU_HEIGHT;
 			setCurrentMenu(toolsMenu);
 		} else if (source == mediaButton) {
-			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
+			submenuHeight = MEDIA_SUBMENU_HEIGHT;
 			setCurrentMenu(mediaMenu);
+		}
+		if (source != redoButton && source != undoButton) {
+			setCSStoSelected(source);
 		}
 	}
 
@@ -217,6 +236,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				currentMenu.onOpen();
 			}
 			setSubmenuVisible(!subMenuPanel.isVisible());
+
 			return;
 		}
 		submenu.onOpen();
@@ -233,10 +253,39 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void setSubmenuVisible(final boolean b) {
 		subMenuPanel.setVisible(b);
-		getElement().getStyle().setTop((b ? -(submenuHeight + 30) : -10), Unit.PX);
+		getElement().getStyle().setTop((b ? -submenuHeight : 0), Unit.PX);
 
 
 
+	}
+
+	public void setResponsiveStyle() {
+		Log.debug("app width: " + app.getWidth());
+		addStyleName("mowToolbar");
+		// small screen
+		if (app.getWidth() < 700) {
+			removeStyleName("BigScreen");
+			addStyleName("SmallScreen");
+			getElement().getStyle().setLeft(0, Unit.PX);
+		} // big screen
+		else {
+			removeStyleName("SmallScreen");
+			addStyleName("BigScreen");
+			getElement().getStyle().setLeft((app.getWidth() - 700) / 2, Unit.PX);
+		}
+
+	}
+
+	private void setCSStoSelected(Widget source) {
+		FlowPanel parent = (FlowPanel) source.getParent();
+		for (int i = 0; i < parent.getWidgetCount(); i++) {
+			Widget w = parent.getWidget(i);
+			if (w == source) {
+				w.addStyleName("mowActivePanelButton");
+			} else {
+				w.removeStyleName("mowActivePanelButton");
+			}
+		}
 	}
 
 }
