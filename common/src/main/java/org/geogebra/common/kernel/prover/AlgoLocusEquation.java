@@ -339,7 +339,9 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 
 		Log.debug("Eliminating system in " + variables.size() + " variables ("
-				+ dependentVariables.size() + " dependent)");
+				+ dependentVariables.size() + " dependent, "
+				+ freeVariables.size() + " free) "
+				+ (useSingular ? "using singular" : "using giac"));
 
 		String polys = PPolynomial
 				.getPolysAsCommaSeparatedString(eqSystemSubstituted);

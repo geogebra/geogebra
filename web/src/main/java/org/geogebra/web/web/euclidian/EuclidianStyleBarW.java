@@ -1070,7 +1070,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 				boolean geosOK = EuclidianStyleBarStatic
 				        .checkGeosForFixObject(geos) && showAllStyleButtons();
-				setVisible(geosOK);
+				super.setVisible(geosOK);
 				if (geosOK) {
 					btnFixObject.setValue(EuclidianStyleBarStatic
 					        .checkSelectedFixObject((GeoElement) geos[0]));
