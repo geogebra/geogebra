@@ -1314,52 +1314,56 @@ public class Ggb2giac {
 		// ((x^(2) - (3 * x) + 1) * (x^(2) + x - 5))
 		// http://en.wikipedia.org/wiki/Quartic_function
 
+		// GGB-1635
 		if (app.has(Feature.SOLVE_QUARTIC)) {
-		p("SolveQuartic.1", "[" + "[ggbsqans:={}]," + "[ggbfun:=%0],"
-				+ "[ggbcoeffs:=coeffs(ggbfun)]," + "[a:=ggbcoeffs[0]],"
-				+ "[b:=ggbcoeffs[1]]," + "[c:=ggbcoeffs[2]],"
+			p("SolveQuartic.1", "[" + "[ggbsqans:={}]," + "[ggbfun:=%0],"
+					+ "[ggbcoeffs:=coeffs(ggbfun)]," + "[a:=ggbcoeffs[0]],"
+					+ "[b:=ggbcoeffs[1]]," + "[c:=ggbcoeffs[2]],"
 
-				// for checking, but unnecessary
-				+ "[d:=ggbcoeffs[3]]," + "[ee:=ggbcoeffs[4]]," +
+					// for checking, but unnecessary
+					+ "[d:=ggbcoeffs[3]]," + "[ee:=ggbcoeffs[4]]," +
 
-				"[delta:=256*a^3*ee^3-192*a^2*b*d*ee^2-128*a^2*c^2*ee^2+144*a^2*c*d^2*ee-27*a^2*d^4+144*a*b^2*c*ee^2-6*a*b^2*d^2*ee-80*a*b*c^2*d*ee+18*a*b*c*d^3+16*a*c^4*ee-4*a*c^3*d^2-27*b^4*ee^2+18*b^3*c*d*ee-4*b^3*d^3-4*b^2*c^3*ee+b^2*c^2*d^2],"
-				+ "[p:=(8*a*c-3*b*b)/(8*a*a)],"
-				+ "[q:=(b^3-4*a*b*c+8*a^2*d)/(8*a^3)],"
-				+ "[delta0:=c^2-3*b*d+12*a*ee]," + // OK
-				"[delta1:=2*c^3-9*b*c*d+27*b^2*ee+27*a*d^2-72*a*c*ee]," + // OK
+					"[delta:=256*a^3*ee^3-192*a^2*b*d*ee^2-128*a^2*c^2*ee^2+144*a^2*c*d^2*ee-27*a^2*d^4+144*a*b^2*c*ee^2-6*a*b^2*d^2*ee-80*a*b*c^2*d*ee+18*a*b*c*d^3+16*a*c^4*ee-4*a*c^3*d^2-27*b^4*ee^2+18*b^3*c*d*ee-4*b^3*d^3-4*b^2*c^3*ee+b^2*c^2*d^2],"
+					+ "[p:=(8*a*c-3*b*b)/(8*a*a)],"
+					+ "[q:=(b^3-4*a*b*c+8*a^2*d)/(8*a^3)],"
+					+ "[delta0:=c^2-3*b*d+12*a*ee]," + // OK
+					"[delta1:=2*c^3-9*b*c*d+27*b^2*ee+27*a*d^2-72*a*c*ee]," + // OK
 
-				// giac's solve should give exact in this case
-				"if (delta0 == 0 && delta1 == 0) then" +
-				" ggbsqans:=zeros(ggbfun) else " +
+					// giac's solve should give exact in this case
+					"if (delta0 == 0 && delta1 == 0) then"
+					+ " ggbsqans:=zeros(ggbfun) else " +
 
-				" [" + "[minusdelta27:=delta1^2-4*delta0^3]," +
+					" [" + "[minusdelta27:=delta1^2-4*delta0^3]," +
 
-				// use surd rather than cbrt so that simplify cbrt(27) works
-				"[Q:=simplify(surd((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2,3))],"
+					// use surd rather than cbrt so that simplify cbrt(27) works
+					"[Q:=simplify(surd((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2,3))],"
 
-				+ // find all 3 cube-roots
-				"[Qzeros:=czeros(x^3=(delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)],"
-				+ // czeros can return an empty list eg czeros(x^(3) = (1150 +
-					// ((180 * i) * sqrt(35))) / 2) // from SolveQuartic[x^(4) -
-					// (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5]
-				"[Qzeros:=when(length(Qzeros)==0,{cbrt((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)},Qzeros)],"
-				+ "[Q:=Qzeros[0]],"
-				+ "[Q1:=when(length(Qzeros) > 1,Qzeros[1],Qzeros[0])],"
-				+ "[Q2:=when(length(Qzeros) > 2,Qzeros[2],Qzeros[0])]," +
-				// pick a cube-root to make S non-zero always possible unless
-				// quartic is in form (x+a)^4
-				"[S:=sqrt(-2*p/3+(Q+delta0/Q)/(3*a))/2],"
-				+ "[S:=when(S!=0,S,sqrt(-2*p/3+(Q1+delta0/Q1)/(3*a))/2)],"
-				+ "[S:=when(S!=0,S,sqrt(-2*p/3+(Q2+delta0/Q2)/(3*a))/2)]," +
+					+ // find all 3 cube-roots
+					"[Qzeros:=czeros(x^3=(delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)],"
+					+ // czeros can return an empty list eg czeros(x^(3) = (1150
+						// +
+						// ((180 * i) * sqrt(35))) / 2) // from
+						// SolveQuartic[x^(4) -
+						// (2 * x^(3)) - (7 * x^(2)) + (16 * x) - 5]
+					"[Qzeros:=when(length(Qzeros)==0,{cbrt((delta1 + when(delta0==0, delta1, sqrt(minusdelta27)))/2)},Qzeros)],"
+					+ "[Q:=Qzeros[0]],"
+					+ "[Q1:=when(length(Qzeros) > 1,Qzeros[1],Qzeros[0])],"
+					+ "[Q2:=when(length(Qzeros) > 2,Qzeros[2],Qzeros[0])]," +
+					// pick a cube-root to make S non-zero always possible
+					// unless
+					// quartic is in form (x+a)^4
+					"[S:=sqrt(-2*p/3+(Q+delta0/Q)/(3*a))/2],"
+					+ "[S:=when(S!=0,S,sqrt(-2*p/3+(Q1+delta0/Q1)/(3*a))/2)],"
+					+ "[S:=when(S!=0,S,sqrt(-2*p/3+(Q2+delta0/Q2)/(3*a))/2)]," +
 
-				// could use these for delta > 0 ie minusdelta27 < 0
-				// "[phi:=acos(delta1/2/sqrt(delta0^3))],"+
-				// "[Salt:=sqrt(-2*p/3+2/(3*a)*sqrt(delta0)*cos(phi/3))/2],"+
+					// could use these for delta > 0 ie minusdelta27 < 0
+					// "[phi:=acos(delta1/2/sqrt(delta0^3))],"+
+					// "[Salt:=sqrt(-2*p/3+2/(3*a)*sqrt(delta0)*cos(phi/3))/2],"+
 
-				"[ggbsqans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"
-				+ "]" + "fi" +
-				// ")]" +
-				" ,ggbsqans][13]");
+					"[ggbsqans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"
+					+ "]" + "fi" +
+					// ")]" +
+					" ,ggbsqans][13][10][0]");
 		}
 
 		// Experimental Geometry commands. Giac only
