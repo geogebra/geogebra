@@ -102,7 +102,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private void createPenButton() {
 		penButton = createButton(GGWToolBar.getImageURL(EuclidianConstants.MODE_PEN_PANEL, app), this);
 		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
-		penButton.getDownFace().setImage(getImage(pr.pen_panel_active_32(), 32));
+		penButton.getDownFace().setImage(getImage(pr.pen_panel_32(), 32));
 		penButton.setActive(false);
 		penMenu = new PenSubMenu(app);
 	}
