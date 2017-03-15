@@ -4165,7 +4165,7 @@ public abstract class App implements UpdateSelection {
 		case PEN_EVENTS:
 			return prerelease;
 		case PEN_SMOOTHING:
-			return false;
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
