@@ -300,6 +300,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
 	// Michael Borcherds 2008-04-28
+	/** for toggle buttons */
+	public static final int GRID_NOT_SHOWN = -1;
 	/** cartesian grid */
 	public static final int GRID_CARTESIAN = 0;
 	/** isometric grid */
