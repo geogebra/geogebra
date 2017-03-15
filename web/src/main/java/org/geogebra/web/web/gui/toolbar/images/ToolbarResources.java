@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.toolbar.images;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 public interface ToolbarResources {
@@ -406,6 +407,14 @@ public interface ToolbarResources {
 	ResourcePrototype undo_32();
 
 	ResourcePrototype redo_32();
+
+	ResourcePrototype media_panel_active_32();
+
+	ResourcePrototype move_hand_active_32();
+
+	ResourcePrototype tools_panel_active_32();
+
+	ResourcePrototype pen_panel_active_32();
 		
 	// ResourcePrototype mode_highlighter_32();
 

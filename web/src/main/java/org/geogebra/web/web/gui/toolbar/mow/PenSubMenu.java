@@ -114,10 +114,13 @@ public class PenSubMenu extends SubMenuPanel
 	public void onClick(Widget source) {
 		if (source == pen) {
 			selectPen();
+			((MOWToolbar) this.getParent()).toggleMoveButton(false);
 		} else if (source == eraser) {
 			selectEraser();
+			((MOWToolbar) this.getParent()).toggleMoveButton(false);
 		} else if (source == freehand) {
 			selectFreehand();
+			((MOWToolbar) this.getParent()).toggleMoveButton(false);
 		}
 	}
 

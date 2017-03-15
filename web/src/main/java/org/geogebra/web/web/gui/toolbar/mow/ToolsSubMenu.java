@@ -51,6 +51,10 @@ public class ToolsSubMenu extends SubMenuPanel {
 			if (app.isModeValid(mode)) {
 				StandardButton btn = createButton(mode);
 				btn.getElement().setId("mode" + mode);
+				// old icons don't need opacity
+				if (mode < 101 || mode > 109) {
+					btn.addStyleName("opacityFixForOldIcons");
+				}
 				group.add(btn);
 				col++;
 			}
