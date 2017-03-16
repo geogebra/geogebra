@@ -24,12 +24,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The toolbar for MOW.
+ * 
+ * @author Laszlo Gal
+ *
+ */
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private static final int DEFAULT_SUBMENU_HEIGHT = 55;
 	private static final int TOOLS_SUBMENU_HEIGHT = 120;
 	private static final int MEDIA_SUBMENU_HEIGHT = 55;
-	private static final int SUBMENU_ROW = 1;
 	private AppW app;
 	private StandardButton redoButton;
 	private StandardButton undoButton;
@@ -49,11 +54,19 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private int lastSubmenuHeight;
 	private ToolbarResources pr;
 
+	/**
+	 *
+	 * @param app
+	 */
 	public MOWToolbar(AppW app) {
 		this.app = app;
 		buildGUI();
 	}
 
+	/**
+	 * Builds main GUI parts: left (undo/redo), middle (pen/tools/media) and
+	 * right (move) panels
+	 */
 	protected void buildGUI() {
 		pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
 		// addStyleName("mowToolbar");
@@ -95,13 +108,21 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				.add(LayoutUtilW.panelRow(penButton, toolsButton, mediaButton));
 	}
 
+	/**
+	 * Creates a button for MOW main toolbar.
+	 * 
+	 * @param url
+	 *            The image URL for the button.
+	 * @param handler
+	 *            The handler of the button.
+	 * @return the newly created button for the toolbar.
+	 */
 	public static StandardButton createButton(String url,
 			FastClickHandler handler) {
 		NoDragImage im = new NoDragImage(url);
 		StandardButton btn = new StandardButton(null, "", 32);
 		btn.getUpFace().setImage(im);
 		btn.addFastClickHandler(handler);
-		// btn.addStyleName("mowPanelButton");
 		return btn;
 	}
 
@@ -186,6 +207,12 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	}
 
+	/**
+	 * Makes move button selected/unselected.
+	 * 
+	 * @param toggle
+	 *            true if button will be selected.
+	 */
 	public void toggleMoveButton(boolean toggle) {
 		NoDragImage upFace = getImage(pr.move_hand_32(), 32);
 		NoDragImage downFace = getImage(pr.move_hand_active_32(), 32);
@@ -197,6 +224,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 
+	/**
+	 * Updates the toolbar ie. undo/redo button states
+	 */
 	public void update() {
 		updateUndoActions();
 	}
@@ -234,7 +264,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	/**
-	 * Update enabled/disabled for undo and redo
+	 * Update enabled/disabled state of undo and redo buttons.
 	 */
 	public void updateUndoActions() {
 		if (undoButton != null) {
@@ -245,6 +275,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == redoButton) {
 			app.getGuiManager().redo();
@@ -291,6 +322,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			return toolsMenu;
 		}
 	}
+
+	/**
+	 * Set the toolbar state for the selected mode
+	 * 
+	 * @param mode
+	 *            the mode to set.
+	 */
 	public void setMode(int mode) {
 		if(mode == EuclidianConstants.MODE_MOVE){
 			toggleMoveButton(true);
@@ -308,10 +346,22 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 	}
 
+
+	/**
+	 * 
+	 * @return The current submenu panel that is visible or last used.
+	 */
 	public SubMenuPanel getCurrentMenu() {
 		return currentMenu;
 	}
 
+	/**
+	 * Sets the actual submenu, and opens it if it is different than the last
+	 * one, toggles its visibility otherwise.
+	 * 
+	 * @param submenu
+	 *            The submenu panel to set.
+	 */
 	public void setCurrentMenu(SubMenuPanel submenu) {
 		Log.debug("set current menu");
 		if (submenu == null) {
@@ -386,6 +436,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		setResponsiveStyle();
 	}
 
+	/**
+	 * Decides style depending on the screen size.
+	 */
 	public void setResponsiveStyle() {
 		// small screen
 		if (app.getWidth() < 700) {
@@ -401,7 +454,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	}
 
-	private void setCSStoSelected(Widget source) {
+	private static void setCSStoSelected(Widget source) {
 		FlowPanel parent = (FlowPanel) source.getParent();
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
 			Widget w = parent.getWidget(i);
