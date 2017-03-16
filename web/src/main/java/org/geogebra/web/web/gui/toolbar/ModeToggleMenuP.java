@@ -129,8 +129,10 @@ public class ModeToggleMenuP extends ModeToggleMenuW implements MouseMoveHandler
 			submenu.setVisible(false);
 		}
 		removeBackButton();
+		if (toolbar != null) {
 		toolbar.getParent().setVisible(true);
 		toolbar.setVisible(true);
+		}
 	}
 
 	public int getButtonCount() {
