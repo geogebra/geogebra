@@ -11,6 +11,12 @@ import org.geogebra.web.web.gui.util.StandardButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Tools submenu for MOWToolbar.
+ * 
+ * @author Laszlo Gal
+ * 
+ */
 public class ToolsSubMenu extends SubMenuPanel {
 
 	private static class GroupPanel extends FlowPanel {
@@ -27,6 +33,12 @@ public class ToolsSubMenu extends SubMenuPanel {
 	}
 
 	private FlowPanel panelRow;
+
+	/**
+	 * 
+	 * @param app
+	 *            ggb app.
+	 */
 	public ToolsSubMenu(AppW app) {
 		super(app, true);
 		addStyleName("toolsSubMenu");

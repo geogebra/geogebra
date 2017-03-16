@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.toolbar.mow;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -17,15 +16,19 @@ import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PenSubMenu extends SubMenuPanel
-		implements ClickHandler, FastClickHandler {
+/**
+ * Pen/Eraser/Color submenu for MOWToolbar.
+ * 
+ * @author Laszlo Gal
+ *
+ */
+public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_PEN_SIZE = 12;
 	private static final int MAX_ERASER_SIZE = 100;
 	private static final int PEN_STEP = 1;
@@ -45,6 +48,11 @@ public class PenSubMenu extends SubMenuPanel
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
 			"E67E22" };
 
+	/**
+	 * 
+	 * @param app
+	 *            ggb app.
+	 */
 	public PenSubMenu(AppW app) {
 		super(app, false);
 		addStyleName("penSubMenu");
@@ -101,15 +109,21 @@ public class PenSubMenu extends SubMenuPanel
 		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 
 			public void onValueChange(ValueChangeEvent<Double> event) {
-				int value = slider.getValue().intValue();
-				if (colorsEnabled) {
-					getPenGeo().setLineThickness(value);
-				} else {
-					app.getActiveEuclidianView().getSettings()
-							.setDeleteToolSize(value);
-				}
+				sliderValueChanged();
 			}
 		});
+	}
+
+	/**
+	 * Sets the size of pen/eraser from the slider value.
+	 */
+	void sliderValueChanged() {
+		int value = slider.getValue().intValue();
+		if (colorsEnabled) {
+			getPenGeo().setLineThickness(value);
+		} else {
+			app.getActiveEuclidianView().getSettings().setDeleteToolSize(value);
+		}
 	}
 
 	@Override
@@ -122,6 +136,7 @@ public class PenSubMenu extends SubMenuPanel
 		contentPanel.add(LayoutUtilW.panelRow(penPanel, colorPanel, sizePanel));
 	}
 
+	@Override
 	public void onClick(Widget source) {
 		if (source == pen) {
 			app.setMode(EuclidianConstants.MODE_PEN);
@@ -132,6 +147,7 @@ public class PenSubMenu extends SubMenuPanel
 		}
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		if (!colorsEnabled) {
 			return;
@@ -181,6 +197,7 @@ public class PenSubMenu extends SubMenuPanel
 	}
 
 
+	@Override
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "false");
@@ -222,6 +239,7 @@ public class PenSubMenu extends SubMenuPanel
 				.getPen().DEFAULT_PEN_LINE;
 	}
 
+	@Override
 	public void setMode(int mode) {
 		reset();
 		if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
