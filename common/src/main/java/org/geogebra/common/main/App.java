@@ -1528,7 +1528,7 @@ public abstract class App implements UpdateSelection {
 				|| !kernel.getConstruction().isStarted();
 	}
 
-	private boolean isAutoSaved = false;
+	private boolean isAutoSaved = true;
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
 	private AdjustScreen adjustScreen2 = null;
