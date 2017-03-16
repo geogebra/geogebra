@@ -1,8 +1,11 @@
 package org.geogebra.web.cas.giac;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.Evaluate;
 import org.geogebra.common.cas.giac.CASgiac;
+import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -93,6 +96,7 @@ public class CASgiacW extends CASgiac {
 		
 		// GGB-850
 		CustomFunctions[] init = CustomFunctions.values();
+		CustomFunctions.setDependencies();
 
 		// Log.debug("exp = " + exp);
 
@@ -100,9 +104,24 @@ public class CASgiacW extends CASgiac {
 			CustomFunctions function = init[i];
 
 			// send only necessary init commands
-			if (function.functionName == null
-					|| exp.indexOf(function.functionName) > -1) {
-				nativeEvaluateRaw(function.definitionString, false);
+			boolean foundInInput = false;
+			/* This is very hacky here. If the input expression as string
+			 * contains an internal GeoGebra CAS command, then that command will be executed
+			 * in Giac. TODO: find a better a way.
+			 */
+            if (function.functionName == null || (foundInInput = (exp
+				.indexOf(function.functionName) > -1))) {
+            	nativeEvaluateRaw(function.definitionString, false);
+				/* Some commands may require additional commands to load. */
+				if (foundInInput) {
+					ArrayList<CustomFunctions> dependencies = CustomFunctions
+							.prereqs(function);
+					for (CustomFunctions dep : dependencies) {
+						Log.debug(function + " implicitly loads " + dep);
+						nativeEvaluateRaw(dep.definitionString, false);
+					}
+				}
+
 				// Log.debug("sending " + function);
 			} else {
 				// Log.error("not sending " + function + " "
