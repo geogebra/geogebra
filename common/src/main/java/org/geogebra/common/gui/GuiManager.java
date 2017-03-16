@@ -83,7 +83,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private static final String material = "/material/show/id/";
 
 	protected Kernel kernel;
-	protected App app;
+	public App app;
 
 	/**
 	 * Abstract constructor
