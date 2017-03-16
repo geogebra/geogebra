@@ -102,7 +102,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	protected StandardButton createButton(int mode) {
 		NoDragImage im = new NoDragImage(GGWToolBar.getImageURL(mode, app));
 		// dirty opacity hack: old icons don't need opacity, new ones do
-		if ((mode < 101 && mode != 17 && mode != 26 && mode != 62 && mode != 73)
+		if ((mode < 101 && mode != 17 && mode != 26 && mode != 73)
 				|| (mode > 110 && mode != 115 && mode != 116 && mode != 117)) {
 			im.addStyleName("opacityFixForOldIcons");
 		}

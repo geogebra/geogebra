@@ -4,13 +4,18 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.web.gui.ImageFactory;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
+import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.StandardButton;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -49,7 +54,13 @@ public class PenSubMenu extends SubMenuPanel
 		penPanel = new FlowPanel();
 		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
+		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
+		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
+		im.addStyleName("opacityFixForOldIcons");
+		pen.getUpFace().setImage(im);
+
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
+
 		freehand = createButton(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser, freehand));
 	}
@@ -183,8 +194,8 @@ public class PenSubMenu extends SubMenuPanel
 				btnColor[i].addStyleName("penSubMenu-selected");
 				getPenGeo().setObjColor(penColor[i]);
 				// set background of pen icon to selected color
-				// pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
-				// "background-color: " + penColor[i].toString());
+				pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
+						"background-color: " + penColor[i].toString());
 
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");

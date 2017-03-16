@@ -600,4 +600,8 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/redo.png")
 	ImageResource redo_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_pen_white.png")
+	ImageResource mode_pen_white_32();
 }
