@@ -5701,8 +5701,11 @@ namespace giac {
       return *g._MODptr;
     if (g.type==_VECT)
       return apply(g,unmod);
-    if (g.type==_SYMB)
+    if (g.type==_SYMB){
+      if (g._SYMBptr->sommet==at_normalmod)
+	return g._SYMBptr->feuille[0];
       return symbolic(g._SYMBptr->sommet,unmod(g._SYMBptr->feuille));
+    }
     return g;
   }
   gen unmodunprod(const gen & g){

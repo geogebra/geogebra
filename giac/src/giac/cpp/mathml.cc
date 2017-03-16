@@ -1426,12 +1426,24 @@ namespace giac {
 	return gen2mathml(tmp,svg,contextptr);
       return symbolic2mathml(*tmp._SYMBptr, svg,contextptr);
     }
-    case _VECT:                        
+    case _VECT: {
+      vector<int> V; int p=0;
+      if (is_mod_vecteur(*e._VECTptr,V,p) && p!=0){
+	gen gm=makemodquoted(unmod(e),p);
+	return gen2mathml(gm,svg,contextptr);
+      }
       if (e.subtype==_SPREAD__VECT)
 	return spread2mathml(*e._VECTptr,1,contextptr); //----------------v??rifier le 2??me param??tre
-      if (e.subtype!=_SEQ__VECT && ckmatrix(*e._VECTptr))
+      if (e.subtype!=_SEQ__VECT && ckmatrix(*e._VECTptr)){
+	vector< vector<int> > M; p=0;
+	if (is_mod_matrice(*e._VECTptr,M,p) && p!=0){
+	  gen gm=makemodquoted(unmod(e),p);
+	  return gen2mathml(gm,svg,contextptr);
+	}
 	return matrix2mathml(*e._VECTptr,contextptr);
+      }
       return _VECT2mathml(*e._VECTptr,e.subtype, svg,contextptr);
+    }
     case _SPOL1:
       return _SPOL12mathml(*e._SPOL1ptr,svg,contextptr);
     case _POLY:

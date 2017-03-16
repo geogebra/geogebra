@@ -6134,6 +6134,17 @@ namespace giac {
 	v.push_back(it->_MODptr->val);
 	continue;
       }
+      if (it->is_symb_of_sommet(at_normalmod)){
+	const gen & f=it->_SYMBptr->feuille;
+	if (f.type!=_VECT || f._VECTptr->size()!=2 || f._VECTptr->front().type!=_INT_ || f._VECTptr->back().type!=_INT_)
+	  return false;
+	if (!p)
+	  p=f._VECTptr->back().val;
+	if (f._VECTptr->back().val!=p)
+	  return false;
+	v.push_back(f._VECTptr->front().val);
+	continue;
+      }
       if (it->type!=_INT_) return false;
       v.push_back(it->val);
     }
