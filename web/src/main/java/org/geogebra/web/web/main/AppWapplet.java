@@ -250,7 +250,9 @@ public class AppWapplet extends AppWFull {
 				&& this.getToolbarPosition() == SwingConstants.SOUTH) {
 			frame.attachToolbar(this);
 		}
-		if(has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+		if (has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)
+				// we do not need keyboard in whiteboard
+				&& !isWhiteboardActive()) {
 			frame.attachKeyboardButton();
 		}
 		frame.attachGlass();
