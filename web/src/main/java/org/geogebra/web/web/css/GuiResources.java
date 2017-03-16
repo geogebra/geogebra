@@ -1,5 +1,6 @@
 package org.geogebra.web.web.css;
 
+import org.geogebra.web.html5.util.LessReference;
 import org.geogebra.web.html5.util.LessResource;
 
 import com.google.gwt.core.client.GWT;
@@ -9,8 +10,6 @@ import com.google.gwt.resources.client.ImageResource;
 public interface GuiResources extends ClientBundle {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
-
-
 
 	@Source("org/geogebra/common/icons/png/web/algebra-view-tree-open.png")
 	ImageResource algebra_tree_open();
@@ -29,21 +28,14 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/menu_view_graphics.png")
 	ImageResource graphicsView();
 
-
-
 	// end PHONE GUI
-
-
-
 
 	// TOOLBAR
 	// Little triangles for tools with submenu
 	@Source("org/geogebra/common/icons/png/web/toolbar-further-tools-icon.png")
 	ImageResource toolbar_further_tools();
-	
 
 	// HEADER MENU
-
 
 	// SMART MENUBAR
 	@Source("org/geogebra/common/icons/png/web/menuBarSubMenuIconRTL.png")
@@ -171,7 +163,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons_view_perspectives/p20/perspectives_geometry.png")
 	ImageResource menu_icon_geometry();
 
-
 	// OTHER MENUICONS
 
 	@Source("org/geogebra/common/menu_icons/p20/menu-create-exercise.png")
@@ -268,10 +259,12 @@ public interface GuiResources extends ClientBundle {
 	ImageResource properties_object();
 
 	/*
-	 * @Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_graphics_view.png"
+	 * @Source(
+	 * "org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_graphics_view.png"
 	 * ) ImageResource properties_graphics();
 	 * 
-	 * @Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_graphics_view2.png"
+	 * @Source(
+	 * "org/geogebra/common/icons/png/web/stylingbar/stylingbar_properties_graphics_view2.png"
 	 * ) ImageResource properties_graphics2();
 	 */
 
@@ -386,9 +379,8 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/stylingbar_algebraview_new_parametric_curve.png")
 	ImageResource algebra_new_parametric();
-	
-	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW, EV AND IN NAVIGATION BAR
 
+	// PLAY, PAUSE, REWIND, ETC. USED IN ALGEBRA VIEW, EV AND IN NAVIGATION BAR
 
 	@Source("org/geogebra/common/icons_play/p24/nav_skipback.png")
 	ImageResource icons_play_skipback();
@@ -421,11 +413,10 @@ public interface GuiResources extends ClientBundle {
 	// PLAY, PAUSE, REWIND, ARROWS, CANCEL
 	// USED FOR BUTTON FILLINGS
 
-
 	// DATA COLLECTION
 	@Source("org/geogebra/common/icons/png/web/general/datacollection_on.png")
 	ImageResource datacollection_on();
-	
+
 	@Source("org/geogebra/common/icons/png/web/general/datacollection_off.png")
 	ImageResource datacollection_off();
 
@@ -441,4 +432,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/exam/css/exam.rtl.less")
 	LessResource examStyleRTL();
+
+	@Source("org/geogebra/web/exam/css/exam.less")
+	LessReference examStyle();
 }

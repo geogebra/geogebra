@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Exam start dialog
  */
 public class ExamDialog {
+	private static boolean examStyle;
 	/** Application */
 	protected AppW app;
 	/** Wrapped box */
@@ -54,6 +55,7 @@ public class ExamDialog {
 	 * Show the wrapped dialog
 	 */
 	public void show() {
+		ensureExamStyle();
 		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		box = new DialogBoxKbW(false, true, null, app.getPanel());
@@ -82,10 +84,6 @@ public class ExamDialog {
 		} else {
 			box.addStyleName("ExamTabletBoxsize");
 		}
-
-
-
-		// description.addStyleName("padding");
 
 		int checkboxes = 0;
 
@@ -254,7 +252,8 @@ public class ExamDialog {
 		if (needsFullscreen) {
 			app.getLAF().toggleFullscreen(true);
 		}
-		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+		ensureExamStyle();
+
 		Date date = new Date();
 		guiManager.updateToolbarActions();
 		app.getLAF().removeWindowClosingHandler();
@@ -296,6 +295,14 @@ public class ExamDialog {
 	////////////////////////////////////
 	// ANDROID TABLETS
 	////////////////////////////////////
+
+	private static void ensureExamStyle() {
+		if (examStyle) {
+			return;
+		}
+		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+		examStyle = true;
+	}
 
 	final private boolean runsOnAndroid() {
 		return app.getVersion().isAndroidWebview();
