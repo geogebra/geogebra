@@ -116,6 +116,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return myPointList;
 	}
 
+	/**
+	 * @return points without control points
+	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<T> getPointsWithoutControl() {
 		if (poitsWithoutControl == null) {
 			poitsWithoutControl = new ArrayList<T>();
@@ -307,7 +311,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			MyPoint locusPoint2 = myPointList.get(i + 1);
 
 			// not a line, just a move (eg Voronoi Diagram)
-			if (!locusPoint2.getLineTo()) {
+			if (locusPoint2.getSegmentType() == SegmentType.MOVE_TO) {
 				continue;
 			}
 
