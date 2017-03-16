@@ -315,8 +315,6 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
-		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);

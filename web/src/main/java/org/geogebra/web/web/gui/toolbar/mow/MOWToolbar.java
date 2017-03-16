@@ -259,6 +259,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				currentMenu.reset();
 			}
 		} else if (source == penButton) {
+			Log.debug("source = penButton");
 			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 			setCurrentMenu(penMenu);
 		} else if (source == toolsButton) {
@@ -272,7 +273,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			setCSStoSelected(source);
 		}
 		setButtonActive(source);
-		lastSubmenuHeight = submenuHeight;
+		// lastSubmenuHeight = submenuHeight;
 	}
 
 	public void setMode(int mode) {
@@ -284,14 +285,18 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			return;
 		}
 		toggleMoveButton(false);
-		if (mode == EuclidianConstants.MODE_PEN
-				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
+
+		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND_SHAPE
 				|| mode == EuclidianConstants.MODE_ERASER) {
 			doSetCurrentMenu(penMenu);
+			Log.debug("doSetCurrentMenu from setMode");
 		} else {
 			doSetCurrentMenu(toolsMenu);
 		}
-		currentMenu.setMode(mode);
+
+		if (currentMenu != null) {
+			currentMenu.setMode(mode);
+		}
 	}
 
 	public SubMenuPanel getCurrentMenu() {
@@ -299,6 +304,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	public void setCurrentMenu(SubMenuPanel submenu) {
+		Log.debug("set current menu");
 		if (submenu == null) {
 			return;
 		}
@@ -306,7 +312,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (currentMenu == submenu) {
 			if (!subMenuPanel.isVisible()) {
 				currentMenu.onOpen();
-				lastSubmenuHeight = 0;
+				// lastSubmenuHeight = 0;
 			}
 
 			setSubmenuVisible(!subMenuPanel.isVisible());
@@ -314,10 +320,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 		submenu.onOpen();
 		doSetCurrentMenu(submenu);
-		lastSubmenuHeight = 0;
+		// lastSubmenuHeight = 0;
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
+		Log.debug("do set current menu");
 		subMenuPanel.clear();
 		this.currentMenu = submenu;
 		subMenuPanel.add(currentMenu);
@@ -326,18 +333,22 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void setSubmenuVisible(final boolean b) {
-		
+		Log.debug("set visible: " + b);
 		Log.debug("last submenu height: " + lastSubmenuHeight);
-		//boolean menuOpen = subMenuPanel.isVisible();
+		Log.debug("new submenu height: " + submenuHeight);
+
+		// Log.printStacktrace("stacktrace");
 		if (b) {
 			subMenuPanel.setVisible(b);
 			if (submenuHeight == 120) {
 				if (lastSubmenuHeight == 0) {
 					setStyleName("animate0to120");
+
 				}
 				if (lastSubmenuHeight == 55) {
 					setStyleName("animate55to120");
 				}
+				lastSubmenuHeight = 120;
 			}
 			if (submenuHeight == 55) {
 				if (lastSubmenuHeight == 0) {
@@ -346,6 +357,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				if (lastSubmenuHeight == 120) {
 					setStyleName("animate120to55");
 				}
+				lastSubmenuHeight = 55;
 			}
 		} else {
 			if (submenuHeight == 120) {
@@ -360,15 +372,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				}
 			};
 			timer.schedule(500);
-
+			lastSubmenuHeight = 0;
 		}
 		addStyleName("mowToolbar");
 		setResponsiveStyle();
 	}
 
 	public void setResponsiveStyle() {
-		Log.debug("app width: " + app.getWidth());
-
 		// small screen
 		if (app.getWidth() < 700) {
 			removeStyleName("BigScreen");
