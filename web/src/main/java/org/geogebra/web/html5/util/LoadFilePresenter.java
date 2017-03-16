@@ -230,7 +230,8 @@ public class LoadFilePresenter {
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
 		if (app.getArticleElement().getDataParamShowAppsPicker()
-				&& app.getExam() == null && !smallScreen) {
+				&& app.getExam() == null && !smallScreen
+				&& !app.isWhiteboardActive()) {
 			app.showPerspectivesPopup();
 			}
 
