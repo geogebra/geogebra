@@ -126,8 +126,6 @@ public class AppCacheLinker extends AbstractLinker {
 			throws UnableToCompleteException {
 		StringBuilder publicSourcesSb = new StringBuilder();
 		StringBuilder staticResoucesSb = new StringBuilder();
-		StringBuilder publicSourcesSbM = new StringBuilder();
-		StringBuilder staticResoucesSbM = new StringBuilder();
 
 		if (artifacts != null) {
 			// Iterate over all emitted artifacts, and collect all cacheable
@@ -157,14 +155,11 @@ public class AppCacheLinker extends AbstractLinker {
 						// skip these resources
 					} else {
 						publicSourcesSb
-								.append("\"https://cdn.geogebra.org/apps/"
+								.append("\"https://download.geogebra.org/web/5.0/"
 										+ GeoGebraConstants.VERSION_STRING
 										+ "/web3d/"
 										+ pathName.replace("\\", "/")
 										+ "\",\n");
-						publicSourcesSbM.append("https://cdn.geogebra.org/apps/"
-								+ GeoGebraConstants.VERSION_STRING + "/web3d/"
-								+ pathName.replace("\\", "/") + "\n");
 					}
 				}
 			}
@@ -179,34 +174,15 @@ public class AppCacheLinker extends AbstractLinker {
 					staticResoucesSb.append(",\n");
 				}
 
-				staticResoucesSbM.append(cacheExtraFiles[i]);
-				staticResoucesSbM.append("\n");
 			}
 		}
 
 		// build manifest
-		StringBuilder sbM = new StringBuilder();
-		sbM.append("CACHE MANIFEST\n");
 		String id = GeoGebraConstants.VERSION_STRING + ":"
 				+ System.currentTimeMillis();
-		sbM.append("# Unique id #" + id + "\n");
 		// we have to generate this unique id because the resources can change
 		// but
 		// the hashed cache.html files can remain the same.
-		sbM.append(
-				"# Note: must change this every time for cache to invalidate\n");
-		sbM.append("\n");
-		sbM.append("CACHE:\n");
-		sbM.append("# Static app files\n");
-		sbM.append(staticResoucesSbM.toString());
-		sbM.append("\n# Generated app files\n");
-		sbM.append(publicSourcesSbM.toString());
-		sbM.append("\n\n");
-		sbM.append("# All other resources require the user to be online.\n");
-		sbM.append("NETWORK:\n");
-		sbM.append("*\n\n");
-		sbM.append("FALLBACK:\n");
-		sbM.append("/ https://app.geogebra.org/\n");
 		// build cache list
 		StringBuilder sb = new StringBuilder();
 

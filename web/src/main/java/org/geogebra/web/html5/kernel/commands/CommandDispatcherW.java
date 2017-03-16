@@ -8,8 +8,16 @@ import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
 import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
 
+/**
+ * For deferred loading of advanced algos
+ *
+ */
 public class CommandDispatcherW extends CommandDispatcher {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CommandDispatcherW(Kernel kernel) {
 		super(kernel);
 	}

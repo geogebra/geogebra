@@ -399,8 +399,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		// public void onSuccess() {
 		ResourcesInjector
-				.injectResources("true".equals(ae.getDataParamPrerelease())
-						|| "canary".equals(ae.getDataParamPrerelease()));
+				.injectResources();
 		// More testing is needed how can we use
 		// createApplicationSimple effectively
 		// if (ae.getDataParamGuiOff())

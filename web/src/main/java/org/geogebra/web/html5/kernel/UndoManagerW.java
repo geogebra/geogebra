@@ -10,20 +10,31 @@ import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.storage.client.Storage;
 
+/**
+ * Undo manager using session storage
+ */
 public class UndoManagerW extends UndoManager {
 
 	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo";
-	private static long nextKeyNum = 1;
+	/** state counter */
+	static long nextKeyNum = 1;
 
 	/**
 	 * can be null (eg IE9 running locally)
 	 */
 	Storage storage;
 
+	/**
+	 * Storage state
+	 */
 	protected class AppStateWeb implements AppState {
 		private String key;
 		private String xml;
 
+		/**
+		 * @param xmls
+		 *            XML
+		 */
 		AppStateWeb(String xmls) {
 			if (storage != null) {
 				storage.setItem(key = TEMP_STORAGE_PREFIX + nextKeyNum++, xmls);
@@ -32,6 +43,9 @@ public class UndoManagerW extends UndoManager {
 			}
 		}
 
+		/**
+		 * @return XML
+		 */
 		public String getXML() {
 			if (storage == null) {
 				return xml;
@@ -48,6 +62,10 @@ public class UndoManagerW extends UndoManager {
 		}
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 */
 	public UndoManagerW(Construction cons) {
 		super(cons);
 		if (Browser.supportsSessionStorage()) {

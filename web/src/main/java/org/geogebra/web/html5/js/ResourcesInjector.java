@@ -31,7 +31,7 @@ public class ResourcesInjector {
 	 *            whether to force retex only style (=exclude MQ)
 	 * 
 	 */
-	public static void injectResources(boolean forceReTeX) {
+	public static void injectResources() {
 		if (resourcesInjected) {
 			return;
 		}
@@ -48,7 +48,7 @@ public class ResourcesInjector {
 		if (INSTANCE == null) {
 			INSTANCE = (ResourcesInjector) GWT.create(ResourcesInjector.class);
 		}
-		INSTANCE.injectResourcesGUI(forceReTeX);
+		INSTANCE.injectResourcesGUI();
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 
@@ -81,7 +81,12 @@ public class ResourcesInjector {
 
 	}
 
-	protected void injectResourcesGUI(boolean forceReTeX) {
+	/**
+	 * Inject resources for GUI, overridden in ReTeX injector (to add JQuery +
+	 * JqueryUI for sliders)
+	 * 
+	 */
+	protected void injectResourcesGUI() {
 		// TODO Auto-generated method stub
 
 	}

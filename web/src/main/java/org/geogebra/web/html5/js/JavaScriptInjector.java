@@ -7,9 +7,17 @@ import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.DOM;
 
+/**
+ * Injects scripts into parent document
+ *
+ */
 public class JavaScriptInjector {
 	private static HeadElement head;
 
+	/**
+	 * @param scriptResource
+	 *            javascript file
+	 */
 	public static void inject(TextResource scriptResource) {
 		if (DOM.getElementById(scriptResource.getName()) == null) {
 			ScriptElement element = createScriptElement(scriptResource

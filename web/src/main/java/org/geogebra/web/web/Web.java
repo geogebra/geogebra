@@ -96,7 +96,7 @@ public class Web implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		ResourcesInjector.injectResources(false);
+		ResourcesInjector.injectResources();
 
 		exportArticleTagRenderer();
 		// export other methods if needed

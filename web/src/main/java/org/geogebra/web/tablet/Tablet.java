@@ -97,7 +97,7 @@ public class Tablet implements EntryPoint {
 		// GWT.runAsync(new RunAsyncCallback() {
 
 		// public void onSuccess() {
-		ResourcesInjector.injectResources(false);
+		ResourcesInjector.injectResources();
 		exportArticleTagRenderer();
 		// export other methods if needed
 		// call the registered methods if any
@@ -132,7 +132,7 @@ public class Tablet implements EntryPoint {
 	private void loadAppAsync() {
 		// GWT.runAsync(new RunAsyncCallback() {
 		// public void onSuccess() {
-		ResourcesInjector.injectResources(false);
+		ResourcesInjector.injectResources();
 		createGeoGebraAppFrame();
 		// }
 

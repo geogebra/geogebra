@@ -7,7 +7,7 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 
 public class ResourcesInjectorReTeX extends ResourcesInjector {
 	@Override
-	protected void injectResourcesGUI(boolean forceReTeX) {
+	protected void injectResourcesGUI() {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());

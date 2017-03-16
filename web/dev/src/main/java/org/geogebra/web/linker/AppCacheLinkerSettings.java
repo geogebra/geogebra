@@ -15,6 +15,8 @@
  */
 package org.geogebra.web.linker;
 
+import org.geogebra.common.GeoGebraConstants;
+
 /**
  * A custom linker that generates an app cache manifest with the files generated
  * by the GWT compiler and the static files used by this application.
@@ -32,6 +34,8 @@ public class AppCacheLinkerSettings {
 	 */
 	protected static String[] otherCachedFiles() {
 		return new String[] {
+				"https://cdn.geogebra.org/apps/deployggb.js?v="
+						+ GeoGebraConstants.VERSION_STRING,
 				"https://www.geogebra.org/graphing", "https://www.geogebra.org/cas",
 				"https://www.geogebra.org/3d", "https://www.geogebra.org/spreadsheet",
 				"https://www.geogebra.org/probability", "https://www.geogebra.org/geometry",
