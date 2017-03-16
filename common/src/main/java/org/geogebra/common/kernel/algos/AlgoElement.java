@@ -1363,8 +1363,8 @@ public abstract class AlgoElement extends ConstructionElement
 		try {
 			// command
 			StringTemplate tpl = StringTemplate.xmlTemplate;
-			String cmdname = getDefinitionName(tpl);
-			if ("Expression".equals(cmdname)) {
+			String cmdname = getDefinitionName(StringTemplate.xmlTemplate);
+			if (hasExpXML(cmdname)) {
 				sb.append(getExpXML(tpl));
 
 			} else {
@@ -1378,6 +1378,10 @@ public abstract class AlgoElement extends ConstructionElement
 			e.printStackTrace();
 		}
 
+	}
+
+	protected boolean hasExpXML(String cmdName) {
+		return "Expression".equals(cmdName);
 	}
 
 	/**

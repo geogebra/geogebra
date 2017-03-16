@@ -117,6 +117,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	/**
+	 * Reset list of points for XML
+	 */
+	public void resetPointsWithoutControl() {
+		poitsWithoutControl = null;
+	}
+	/**
 	 * @return points without control points
 	 */
 	@SuppressWarnings("unchecked")

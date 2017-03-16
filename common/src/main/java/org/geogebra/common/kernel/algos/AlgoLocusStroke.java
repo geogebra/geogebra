@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Creates a PolyLine from a given list of points or point array.
@@ -182,6 +183,9 @@ public class AlgoLocusStroke extends AlgoElement
 	// calculate control points for bezier curve
 	private static ArrayList<double[]> getControlPoints(GeoPointND[] data) {
 		ArrayList<double[]> values = new ArrayList<double[]>();
+		if (data.length == 0) {
+			return values;
+		}
 		double[] xCoordsP1 = new double[data.length - 1];
 		double[] xCoordsP2 = new double[data.length - 1];
 		double[] yCoordsP1 = new double[data.length - 1];
@@ -291,10 +295,12 @@ public class AlgoLocusStroke extends AlgoElement
 		return poly.getPointsND();
 	}
 
+	@Override
 	public int getPointsLength() {
 		return poly.getPointLength();
 	}
 
+	@Override
 	public int getPointsLengthWihtoutControl() {
 		int size = 0;
 		for (int i = 0; i < getPointsLength(); i++) {
@@ -306,11 +312,13 @@ public class AlgoLocusStroke extends AlgoElement
 		return size;
 	}
 
+	@Override
 	public GeoPoint getPointCopy(int i) {
 		return new GeoPoint(cons, poly.getPoints().get(i).getInhomX(),
 				poly.getPoints().get(i).getInhomY(), 1);
 	}
 
+	@Override
 	public GeoPoint getNoControlPointCopy(int i) {
 		return new GeoPoint(cons,
 				poly.getPointsWithoutControl().get(i).getInhomX(),
@@ -339,39 +347,50 @@ public class AlgoLocusStroke extends AlgoElement
 				poly.getPoints().add(pt);
 			}
 		}
-		updateInput(data);
+		poly.resetPointsWithoutControl();
 		getOutput(0).update();
 	}
 
-	public void updateInput(List<MyPoint> data) {
-
-		int size = 0;
-		// nr of no control points in data
-		for (int i = 0; i < data.size(); i++) {
-			if (data.get(i).getSegmentType() != SegmentType.CONTROL) {
-				size++;
+	/**
+	 * Expressions should be shown as out = expression e.g.
+	 * <expression label="u" exp="a + 7 b"/>
+	 * 
+	 * @param tpl
+	 *            string template
+	 * @return expression XML tag
+	 */
+	@Override
+	protected String getExpXML(StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<expression");
+		// add label
+		if (/* output != null && */getOutputLength() == 1) {
+			if (getOutput(0).isLabelSet()) {
+				sb.append(" label=\"");
+				StringUtil.encodeXML(sb, getOutput(0).getLabel(tpl));
+				sb.append("\"");
 			}
 		}
-		input = new GeoElement[size + 1];
-		int j = 0;
-		for (MyPoint pt : data) {
-			// add only control points
-			if (pt.getSegmentType() != SegmentType.CONTROL) {
-				input[j] = new GeoPoint(cons, pt.getInhomX(), pt.getInhomY(),
-						1);
-				j++;
-			}
+		// add expression
+		sb.append(" exp=\"PolyLine[");
+		ArrayList<MyPoint> pts = this.getPointsWithoutControl();
+		for (MyPoint m : pts) {
+			sb.append("(");
+			sb.append(kernel.format(m.getX(), tpl));
+			sb.append(",");
+			sb.append(kernel.format(m.getY(), tpl));
+			sb.append("),");
 		}
+		sb.append("true]\"");
 
-		input[j] = new GeoBoolean(cons, true); // dummy to
-															// force
-															// PolyLine[...,
-															// true]
+		// expression
+		sb.append(" />\n");
+		return sb.toString();
+	}
 
-		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
-		}
+	@Override
+	protected boolean hasExpXML(String cmd) {
+		return true;
 	}
 
 }
