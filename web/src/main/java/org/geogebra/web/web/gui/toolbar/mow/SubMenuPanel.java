@@ -101,6 +101,11 @@ public abstract class SubMenuPanel extends FlowPanel
 
 	protected StandardButton createButton(int mode) {
 		NoDragImage im = new NoDragImage(GGWToolBar.getImageURL(mode, app));
+		// dirty opacity hack: old icons don't need opacity, new ones do
+		if ((mode < 101 && mode != 17 && mode != 26 && mode != 62 && mode != 73)
+				|| (mode > 110 && mode != 115 && mode != 116 && mode != 117)) {
+			im.addStyleName("opacityFixForOldIcons");
+		}
 		StandardButton button = new StandardButton(null, "", 32);
 		button.getUpFace().setImage(im);
 		button.addFastClickHandler(this);
@@ -131,6 +136,7 @@ public abstract class SubMenuPanel extends FlowPanel
 
 	@Override
 	public void onClick(Widget source) {
+		int pos = scrollPanel.getHorizontalScrollPosition();
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
 		setCSStoSelected(source);
 		app.setMode(mode);
@@ -138,6 +144,7 @@ public abstract class SubMenuPanel extends FlowPanel
 			infoPanel.clear();
 			showToolTip(mode);
 		}
+		scrollPanel.setHorizontalScrollPosition(pos);
 	}
 
 	@Override
@@ -168,7 +175,13 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (mode >= 0) {
 			infoImage = new NoDragImage(GGWToolBar.getImageURL(mode, app));
 			infoImage.addStyleName("mowToolButton");
-
+			// dirty opacity hack: old icons don't need opacity, new ones do
+			if ((mode < 101 && mode != 17 && mode != 26 && mode != 62 && mode != 73)
+					|| (mode > 110 && mode != 115 && mode != 116 && mode != 117)) {
+				infoImage.addStyleName("opacityFixForOldIconsSelected");
+			} else {
+				infoImage.addStyleName("selected");
+			}
 			infoLabel = new HTML(app.getToolTooltipHTML(mode));
 			infoLabel.addStyleName("mowInfoLabel");
 			infoURL = app.getGuiManager().getTooltipURL(mode);
@@ -190,6 +203,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		Element btn = DOM.getElementById("mode" + mode);
 		if (btn != null) {
 			btn.setAttribute("selected", "true");
+			showToolTip(mode);
 		}
 	}
 
