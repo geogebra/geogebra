@@ -271,20 +271,11 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		if (!geo.isGeoSegment()) {
 			return false;
 		}
-		GeoSegment s = (GeoSegment) geo;
-		return ((startPoint.isEqual(s.startPoint)
-				&& endPoint.isEqual(s.endPoint))
-				|| (startPoint.isEqual(s.endPoint)
-						&& endPoint.isEqual(s.startPoint)));
-	}
-
-	@Override
-	final public boolean isEqual(GeoSegmentND geo) {
-
-		return (((startPoint).isEqualPointND(geo.getStartPoint())
-				&& (endPoint).isEqualPointND(geo.getEndPoint()))
-				|| ((startPoint).isEqualPointND(geo.getEndPoint())
-						&& (endPoint).isEqualPointND(geo.getStartPoint())));
+		GeoSegmentND s = (GeoSegmentND) geo;
+		return ((startPoint.isEqualPointND(s.getStartPoint())
+				&& endPoint.isEqualPointND(s.getEndPoint()))
+				|| (startPoint.isEqualPointND(s.getEndPoint())
+						&& endPoint.isEqualPointND(s.getStartPoint())));
 	}
 
 	@Override

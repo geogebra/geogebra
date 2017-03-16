@@ -70,8 +70,6 @@ public interface GeoSegmentND
 	 */
 	public void modifyInputPoints(GeoPointND P, GeoPointND Q);
 
-	public boolean isEqual(GeoSegmentND thisSegment);
-
 	/**
 	 * set the segment throught the two points
 	 * 
