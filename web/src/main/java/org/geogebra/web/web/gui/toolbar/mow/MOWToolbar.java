@@ -276,6 +276,21 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		// lastSubmenuHeight = submenuHeight;
 	}
 
+	private SubMenuPanel getSubMenuForMode(int mode) {
+		if (mode == EuclidianConstants.MODE_TEXT
+				|| mode == EuclidianConstants.MODE_IMAGE
+				|| mode == EuclidianConstants.MODE_VIDEO
+				|| mode == EuclidianConstants.MODE_AUDIO
+				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
+			return mediaMenu;
+		} else if (mode == EuclidianConstants.MODE_PEN
+				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
+				|| mode == EuclidianConstants.MODE_ERASER) {
+			return penMenu;
+		} else {
+			return toolsMenu;
+		}
+	}
 	public void setMode(int mode) {
 		if(mode == EuclidianConstants.MODE_MOVE){
 			toggleMoveButton(true);
@@ -286,13 +301,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 		toggleMoveButton(false);
 
-		if (mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_FREEHAND_SHAPE
-				|| mode == EuclidianConstants.MODE_ERASER) {
-			doSetCurrentMenu(penMenu);
-			Log.debug("doSetCurrentMenu from setMode");
-		} else {
-			doSetCurrentMenu(toolsMenu);
-		}
+		doSetCurrentMenu(getSubMenuForMode(mode));
 
 		if (currentMenu != null) {
 			currentMenu.setMode(mode);
@@ -318,9 +327,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			setSubmenuVisible(!subMenuPanel.isVisible());
 			return;
 		}
-		submenu.onOpen();
-		doSetCurrentMenu(submenu);
-		// lastSubmenuHeight = 0;
+		// this will call setMode => submenu is open
+		app.setMode(submenu.getFirstMode());
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {

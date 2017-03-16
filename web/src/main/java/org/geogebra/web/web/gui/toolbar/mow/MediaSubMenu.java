@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.toolbar.mow;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.web.html5.main.AppW;
 
@@ -24,5 +25,10 @@ public class MediaSubMenu extends SubMenuPanel {
 			Widget w = contentPanel.getWidget(i);
 			w.getElement().setAttribute("selected", "false");
 		}
+	}
+
+	@Override
+	public int getFirstMode() {
+		return EuclidianConstants.MODE_TEXT;
 	}
 }

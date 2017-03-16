@@ -15,12 +15,15 @@ import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHandler {
+public abstract class SubMenuPanel extends FlowPanel
+		implements ClickHandler, FastClickHandler {
 	AppW app;
 	private boolean info;
 	ScrollPanel scrollPanel;
@@ -104,6 +107,7 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 
 		button.addStyleName("mowToolButton");
 		button.getElement().setAttribute("mode", mode + "");
+		button.getElement().setId("mode" + mode);
 		return button;
 	}
 
@@ -116,7 +120,8 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 	}
 
 	public void onOpen() {
-		reset();
+		int mode = app.getMode();
+		setMode(mode);
 	}
 
 	public void reset() {
@@ -181,8 +186,13 @@ public class SubMenuPanel extends FlowPanel implements ClickHandler, FastClickHa
 	}
 
 	public void setMode(int mode) {
-		// TODO Auto-generated method stub
-
+		reset();
+		Element btn = DOM.getElementById("mode" + mode);
+		if (btn != null) {
+			btn.setAttribute("selected", "true");
+		}
 	}
+
+	public abstract int getFirstMode();
 
 }

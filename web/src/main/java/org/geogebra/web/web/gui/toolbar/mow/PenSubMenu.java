@@ -169,10 +169,6 @@ public class PenSubMenu extends SubMenuPanel
 
 	}
 
-	@Override
-	public void onOpen() {
-		app.setMode(EuclidianConstants.MODE_ERASER);
-	}
 
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
@@ -221,8 +217,13 @@ public class PenSubMenu extends SubMenuPanel
 			doSelectFreehand();
 		} else if (mode == EuclidianConstants.MODE_ERASER) {
 			doSelectEraser();
-		} else {
+		} else if (mode == EuclidianConstants.MODE_PEN) {
 			doSelectPen();
 		}
+	}
+
+	@Override
+	public int getFirstMode() {
+		return EuclidianConstants.MODE_PEN;
 	}
 }

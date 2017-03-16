@@ -2,13 +2,12 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 import java.util.Vector;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.StandardButton;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -50,7 +49,6 @@ public class ToolsSubMenu extends SubMenuPanel {
 		for (Integer mode : menu) {
 			if (app.isModeValid(mode)) {
 				StandardButton btn = createButton(mode);
-				btn.getElement().setId("mode" + mode);
 				// old icons don't need opacity
 				if (mode < 101 || mode > 109) {
 					btn.addStyleName("opacityFixForOldIcons");
@@ -93,12 +91,10 @@ public class ToolsSubMenu extends SubMenuPanel {
 		setMode(mode);
 	}
 
-	public void setMode(int mode) {
-		reset();
-		Element btn = DOM.getElementById("mode" + mode);
-		if (btn != null) {
-			btn.setAttribute("selected", "true");
-		}
 
+
+	@Override
+	public int getFirstMode() {
+		return EuclidianConstants.MODE_SHAPE_LINE;
 	}
 }
