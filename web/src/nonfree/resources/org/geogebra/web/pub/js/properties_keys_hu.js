@@ -909,6 +909,8 @@ __GGB__keysVar.hu.command = {
     "SolveODE": "Differenci\xe1lEgyenletNumerikusan",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Pont f-en> ]\n[ <f'(x, y)>, <Kezd\u0151 x \xe9rt\xe9k>, <Kezd\u0151 y \xe9rt\xe9k>, <Z\xe1r\xf3 x \xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]\n[ <y'>, <x'>, <Kezd\u0151 x \xe9rt\xe9k>, <Kezd\u0151 y \xe9rt\xe9k>, <Z\xe1r\xf3 t \xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Kezd\u0151 x \xe9rt\xe9k>, <Kezd\u0151 y \xe9rt\xe9k>, <Kezd\u0151 y' \xe9rt\xe9k>, <Z\xe1r\xf3 x \xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]",
     "SolveODE.SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <F\xfcgg\u0151 v\xe1ltoz\xf3>, <F\xfcggetlen v\xe1ltoz\xf3> ]",
+    "SolveQuartic": "Negyedfok\xfatMegold",
+    "SolveQuartic.Syntax": "[ <Negyedfok\xfa polinom> ]",
     "Sort": "Rendez\xe9s",
     "Sort.Syntax": "[ <Lista> ]\n[ <\xc9rt\xe9kek>, <Kulcsok> ]",
     "Spearman": "SpearmanRangkorrel\xe1ci\xf3",

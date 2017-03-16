@@ -909,6 +909,8 @@ __GGB__keysVar.bs.command = {
     "SolveODE": "Rije\u0161iDifJnu",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Ta\u010dka na f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <Kraj x>, <Korak> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <Kraj t>, <Korak> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <Kraj x>, <Korak> ]",
     "SolveODE.SyntaxCAS": "[ <Jedna\u010dina> ]\n[ <Jedna\u010dina>, <Ta\u010dka(e) na f> ]\n[ <Jedna\u010dina>, <Ta\u010dka(e) na f>, <Ta\u010dka(e) na f'> ]\n[ <Jedna\u010dina>, <Zavisna promjenljiva>, <Nezavisna promjenljiva>, <Ta\u010dka(e) na f> ]\n[ <Jedna\u010dina>, <Zavisna promjenljiva>, <Nezavisna promjenljiva>, <Ta\u010dka(e) na f>, <Ta\u010dka(e) na f'> ]",
+    "SolveQuartic": "Rije\u0161iKvadrik",
+    "SolveQuartic.Syntax": "[ <Kvadrik polinom> ]",
     "Sort": "Sortiraj",
     "Sort.Syntax": "[ <Lista> ]\n[ <Vrijednosti>, <Klju\u010devi> ]",
     "Spearman": "Spearman",

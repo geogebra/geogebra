@@ -909,6 +909,8 @@ __GGB__keysVar.lt.command = {
     "SolveODE": "Spr\u0119stiODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Ta\u0161kas priklausantis f> ]\n[ <f'(x, y)>, <x prad\u017eia>, <y prad\u017eia>, <x pabaiga>, <\u017dingsnis> ]\n[ <y'>, <x'>, <x prad\u017eia>, <y prad\u017eia>, <t pabaiga>, <\u017dingsnis> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x prad\u017eia>, <y prad\u017eia>, <y' prad\u017eia>, <x pabaiga>, <\u017dingsnis> ]",
     "SolveODE.SyntaxCAS": "[ <Lygtis> ]\n[ <Lygtis>, <Priklausomas kintamasis>, <Nepriklausomas kintamasis> ]",
+    "SolveQuartic": "SolveQuartic",
+    "SolveQuartic.Syntax": "[ <Antro laipsnio daugianaris> ]",
     "Sort": "R\u016b\u0161iuoti",
     "Sort.Syntax": "[ <S\u0105ra\u0161as> ]\n[ <Vert\u0117s>, <Raktai> ]",
     "Spearman": "Spirmano",

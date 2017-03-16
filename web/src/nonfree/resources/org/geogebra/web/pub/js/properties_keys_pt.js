@@ -909,6 +909,8 @@ __GGB__keysVar.pt.command = {
     "SolveODE": "ResolverEDO",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Ponto de f> ]\n[ <f'(x, y)>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de x Final>, <Passo> ]\n[ <y'>, <x'>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de t Final>, <Passo> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de y' Inicial>, <Valor de x Final>, <Passo> ]",
     "SolveODE.SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente> ]",
+    "SolveQuartic": "ResolverQu\xe1rtica",
+    "SolveQuartic.Syntax": "[ <Polin\xf4mio de Grau 4> ]",
     "Sort": "Ordenar",
     "Sort.Syntax": "[ <Lista> ]\n[ <Valores>, <Chaves> ]",
     "Spearman": "Correla\xe7\xe3oDeSpearman",

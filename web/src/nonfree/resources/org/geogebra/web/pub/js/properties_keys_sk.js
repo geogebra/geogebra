@@ -909,6 +909,8 @@ __GGB__keysVar.sk.command = {
     "SolveODE": "Rie\u0161i\u0165ODR",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <bod na f> ]\n[ <f'(x, y)>, <x od>, <y od>, <x do>, <y do> ]\n[ <y'>, <x'>, <x od>, <y od>, <t do>, <krok> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x od>, <y od>, <y' od>, <x do>, <krok> ]",
     "SolveODE.SyntaxCAS": "[ <Rovnica> ]\n[ <Rovnica>, <Z\xe1visl\xe1 premenn\xe1>, <Nez\xe1visl\xe1 premen\xe1> ]",
+    "SolveQuartic": "Rie\u0161i\u0165Kvarticky",
+    "SolveQuartic.Syntax": "[ <Polyn\xf3m 4 stup\u0148a> ]",
     "Sort": "Triedi\u0165",
     "Sort.Syntax": "[ <Zoznam> ]\n[ <Hodnoty>, <Kl\xfa\u010de> ]",
     "Spearman": "Spearman",

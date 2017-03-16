@@ -909,6 +909,8 @@ __GGB__keysVar.pt_PT.command = {
     "SolveODE": "ResolverEDO",
     "SolveODE.Syntax": "[ <f(x, y)> ]\n[ <f(x, y)>, <Ponto em f> ]\n[ <f(x, y)>, <In\xedcio x>, <In\xedcio y>, <Fim x>, <Passso> ]\n[ <y'>, <x'>, <In\xedcio  x>, <In\xedcio  y>, <Fim t>, <Passo> ]\n[ <b(x)>, <c(x)>, <f(x)>, <In\xedcio  x>, <In\xedcio  y>, <In\xedcio  y'>, <Fim x>, <Passo> ]",
     "SolveODE.SyntaxCAS": "[ <Condi\xe7\xe3o> ]\n[ <Condi\xe7\xe3o>, <Ponto(s) em f> ]\n[ <Condi\xe7\xe3o>, <Ponto(s) em f>, <Pontos(s) em f'> ]\n[ <Condi\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente>, <Ponto(s) em f> ]\n[ <Condi\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente>, <Ponto(s) em f>, <Ponto(s) em f'> ]",
+    "SolveQuartic": "ResolverQu\xe1tica",
+    "SolveQuartic.Syntax": "[ <Polin\xf3mio 4\xbaGrau> ]",
     "Sort": "Ordenar",
     "Sort.Syntax": "[ <Lista> ]\n[ <Valores>, <Chaves> ]",
     "Spearman": "Correla\xe7\xe3oSpearman",

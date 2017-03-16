@@ -909,6 +909,8 @@ __GGB__keysVar.sr.command = {
     "SolveODE": "Re\u0161iODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <ta\u010dka(e) na f> ]\n[ <f'(x, y)>, <po\u010detna vrednost x>, <po\u010detna vrednost y>, <krajnja vrednost x>, <korak> ]\n[ <y'>, <x'>, <po\u010detna vrednost x>, <po\u010detna vrednost y>, <krajnja vrednost t>, <korak> ]\n[ <b(x)>, <c(x)>, <f(x)>, <po\u010detna vrednost x>, <po\u010detna vrednost y>, <po\u010detna vrednost y'>, <krajnja vrednost x>, <korak> ]",
     "SolveODE.SyntaxCAS": "[ <jedna\u010dina> ]\n[ <jedna\u010dina>, <ta\u010dka(e) na f> ]\n[ <jedna\u010dina>, <ta\u010dka(e) na f>, <ta\u010dka(e) na f'> ]\n[ <jedna\u010dina>, <zavisna promenljiva>, <nezavisna promenljiva>, <ta\u010dka(e) na f> ]\n[ <jedna\u010dina>, <zavisna promenljiva>, <nezavisna promenljiva>, <ta\u010dka(e) na f>, <ta\u010dka(e) na f'> ]",
+    "SolveQuartic": "SolveQuartic",
+    "SolveQuartic.Syntax": "[ <Quartic Polynomial> ]",
     "Sort": "Sortiraj",
     "Sort.Syntax": "[ <lista> ]\n[ <vrednosti>, <klju\u010devi> ]",
     "Spearman": "Spearman",

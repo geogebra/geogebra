@@ -909,6 +909,8 @@ __GGB__keysVar.it.command = {
     "SolveODE": "RisolviEDO",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punto di f> ]\n[ <f'(x, y)>, <x iniziale>, <y iniziale>, <x finale>, <Passo> ]\n[ <y'>, <x'>, <x iniziale>, <y iniziale>, <t finale>, <Passo> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x iniziale>, <y iniziale>, <y' iniziale>, <x finale>, <Passo> ]",
     "SolveODE.SyntaxCAS": "[ <Equazione> ]\n[ <Equazione>, <Punto/i su f> ]\n[ <Equazione>, <Punto/i su f>, <Punto/i su f'> ]\n[ <Equazione>, <Variabile dipendente>, <Variabile indipendente>, <Punto/i su f> ]\n[ <Equazione>, <Variabile dipendente>, <Variabile indipendente>, <Punto/i su f>, <Punto/i su f'> ]",
+    "SolveQuartic": "RisolviQuartica",
+    "SolveQuartic.Syntax": "[ <Polinomio quartico> ]",
     "Sort": "Ordina",
     "Sort.Syntax": "[ <Lista> ]\n[ <Valori>, <Chiavi> ]",
     "Spearman": "Spearman",

@@ -909,6 +909,8 @@ __GGB__keysVar.no_NB.command = {
     "SolveODE": "L\xf8sODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punkt p\xe5 f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <Slutt x>, <Trinn> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <Slutt t>, <Trinn> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <Slutt x>, <Trinn> ]",
     "SolveODE.SyntaxCAS": "[ <Likning> ]\n[ <Likning>, <Punkt p\xe5 f> ]\n[ <Likning>, <Punkt p\xe5 f>, <Punkt p\xe5 f\xb4> ]\n[ <Likning>, <Avhengig variabel>, <Uavhengig variabel>, <Punkt p\xe5 f> ]\n[ <Likning>, <Avhengig variabel>, <Uavhengig variabel>, <Punkt p\xe5 f>, <Punkt p\xe5 f\xb4> ]",
+    "SolveQuartic": "L\xf8sFjerdegradslikning",
+    "SolveQuartic.Syntax": "[ <Fjerdegradspolynom> ]",
     "Sort": "Sorter",
     "Sort.Syntax": "[ <Liste> ]\n[ <Verdier>, <Sorter etter> ]",
     "Spearman": "Spearman",

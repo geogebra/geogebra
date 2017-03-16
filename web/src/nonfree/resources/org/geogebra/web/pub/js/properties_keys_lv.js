@@ -909,6 +909,8 @@ __GGB__keysVar.lv.command = {
     "SolveODE": "AtrisinaODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punkts uz f> ]\n[ <f'(x, y)>, <S\u0101kuma x>, <S\u0101kuma y>, <Beigu x>, <Solis> ]\n[ <y'>, <x'>, <S\u0101kuma x>, <S\u0101kuma y>, <Beigu t>, <Solis> ]\n[ <b(x)>, <c(x)>, <f(x)>, <S\u0101kuma x>, <S\u0101kuma y>, <S\u0101kuma y'>, <Beigu x>, <Solis> ]",
     "SolveODE.SyntaxCAS": "[ <Vien\u0101dojums> ]\n[ <Vien\u0101dojums>, <Punkts uz f> ]\n[ <Vien\u0101dojums>, <Punkts uz f>, <Punkts uz f'> ]\n[ <Vien\u0101dojums>, <Atkar\u012bgais Main\u012bgais>, <Neatkar\u012bgais Main\u012bgais>, <Punkts uz f> ]\n[ <Vien\u0101dojums>, <Atkar\u012bgais Main\u012bgais>, <Neatkar\u012bgais Main\u012bgais>, <Pinkts uz f>, <Punkts uz f'> ]",
+    "SolveQuartic": "SolveQuartic",
+    "SolveQuartic.Syntax": "[ <Kvadr\u0101tvien\u0101dojums> ]",
     "Sort": "\u0160\u0137iro",
     "Sort.Syntax": "[ <Saraksts> ]\n[ <V\u0113rt\u012bbas>, <tausti\u0146i> ]",
     "Spearman": "Spearman",

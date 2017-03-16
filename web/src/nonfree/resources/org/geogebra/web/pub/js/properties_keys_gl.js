@@ -909,6 +909,8 @@ __GGB__keysVar.gl.command = {
     "SolveODE": "ResolveODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punto en f> ]\n[ <f'(x, y)>, <Valor x inicial>, <Valor y inicial>, <Valor x final>, <Paso> ]\n[ <y'>, <x'>, <Valor x inicial>, <Valor y inicial>, <Valor t final>, <Paso> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Valor x inicial>, <Valor y inicial>, <Valor y' inicial>, <Valor x final>, <Paso> ]",
     "SolveODE.SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Variable dependente>, <Variable independente> ]",
+    "SolveQuartic": "ResolveCu\xe1rtica",
+    "SolveQuartic.Syntax": "[ <Polinomio cu\xe1rtico> ]",
     "Sort": "Ordena",
     "Sort.Syntax": "[ <Lista> ]\n[ <Valores>, <Claves> ]",
     "Spearman": "CoeficienteCorrelaci\xf3nSpearman",

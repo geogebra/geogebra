@@ -909,6 +909,8 @@ __GGB__keysVar.da.command = {
     "SolveODE": "BeregnODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punkt p\xe5 f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <Slut x>, <Trin> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <Slut t>, <Trin> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <Slut x>, <Trin> ]",
     "SolveODE.SyntaxCAS": "[ <ligning> ]\n[ <ligning>, <Punkt(er) p\xe5 f> ]\n[ <ligning>, <Punkt(er) p\xe5 f>, <Punkt(er) p\xe5 f'> ]\n[ <ligning>, <afh\xe6ngig variabel>, <uafh\xe6ngig variabel>, <Punkt(er) p\xe5 f> ]\n[ <ligning>, <afh\xe6ngig variabel>, <uafh\xe6ngig variabel>, <Punkt(er) p\xe5 f>, <Punkt(er) p\xe5 f'> ]",
+    "SolveQuartic": "SolveQuartic",
+    "SolveQuartic.Syntax": "[ <4. grads Polynomie> ]",
     "Sort": "Sorter",
     "Sort.Syntax": "[ <Liste> ]\n[ <V\xe6rdier>, <N\xf8gle> ]",
     "Spearman": "Spearman",

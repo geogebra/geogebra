@@ -909,6 +909,8 @@ __GGB__keysVar.is.command = {
     "SolveODE": "LausnDiffurj\xf6fnu",
     "SolveODE.Syntax": "[ <f'(x y)> ]\n[ <f'(x y)>, <Punktur \xe1 f> ]\n[ <f'(x y)>, <Byrjunargildi x>, <Byrjunargildi y>, <Lokagildi x>, <Skref> ]\n[ <y'>, <x'>, <Byrjunargildi x>, <Byrjunargildi y>, <Lokagildi t>, <Skref> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Byrjunargildi x>, <Byrjunargildi y>, <Byrjunargildi y'>, <Lokagildi x>, <Skref> ]",
     "SolveODE.SyntaxCAS": "[ <Jafna> ]\n[ <Jafna>, <H\xe1\xf0 breyta>, <\xd3h\xe1\xf0 breyta> ]",
+    "SolveQuartic": "SolveQuartic",
+    "SolveQuartic.Syntax": "[ <Quartic Polynomial> ]",
     "Sort": "Ra\xf0a",
     "Sort.Syntax": "[ <Listi> ]\n[ <Gildi>, <Lyklar> ]",
     "Spearman": "Spearman",
