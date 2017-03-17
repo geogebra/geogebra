@@ -57,15 +57,15 @@ public class LessResourceGenerator extends AbstractResourceGenerator {
 
 		LessEngine leg = new LessEngine();
 		try {
-			css = leg.compile(resource);
+			css = leg.compile(resource, true);
 		} catch (LessException e) {
 			logger.log(Type.ERROR, "Error processing " + method.getName(), null);
 			if (Util.readURLAsString(resource) == null) {
 				logger.log(Type.ERROR, method.getName() + " not found:"
 						+ resource.toString(), null);
 			}
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new UnableToCompleteException();
 		}
 		logger.log(Type.INFO,
 				method.getName() + ": " + css.length() + " bytes", null);
