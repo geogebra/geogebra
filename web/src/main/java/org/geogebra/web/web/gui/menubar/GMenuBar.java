@@ -38,13 +38,16 @@ public class GMenuBar extends MenuBar{
 	}
 
 	/**
-	 * As far as GWT is buggy in the implementation of this,
-	 * it is necessary to have a method to correct that
+	 * As far as GWT is buggy in the implementation of this, it is necessary to
+	 * have a method to correct that
+	 *
+	 * @param subleft
+	 *            specifies if submenu should open to the left.
 	 * @return MenuItem
 	 */
-	@Override
 	public MenuItem addItem(String itemtext, boolean textishtml,
-	        final MenuBar submenupopup) {
+			final MenuBar submenupopup, final boolean subleft) {
+
 		// this works, but it is still different from addItem in
 		// not following mouse movement, only following mouse clicks, etc
 		final Object[] ait = new Object[2];
@@ -72,14 +75,23 @@ public class GMenuBar extends MenuBar{
 						// popuppanel still not present
 						final PopupPanel pp = new PopupPanel(true, false);
 						pp.addAutoHidePartner(((MenuItem)ait[0]).getElement());
-						submenupopup.addStyleName("subMenuLeftSide2");
+						submenupopup.addStyleName(subleft ? "subMenuLeftSide2"
+								: "subMenuRightSide2");
 						submenupopup.selectItem(null);
-						pp.addStyleName("subMenuLeftSidePopup");
+						if (subleft) {
+							pp.addStyleName("subMenuLeftSidePopup");
+						} else {
+							pp.addStyleName(
+									"GeoGebraMenuBar.subMenuRightSidePopup");
+
+						}
+
 						pp.add(submenupopup);
-						int left = ((MenuItem) ait[0]).getElement()
-						        .getAbsoluteLeft();
-						int top = ((MenuItem) ait[0]).getElement()
-						        .getAbsoluteTop();
+						MenuItem mi0 = ((MenuItem) ait[0]);
+						        
+						int left = subleft ? mi0.getElement().getAbsoluteLeft()
+								: mi0.getElement().getAbsoluteRight();
+						int top = mi0.getElement().getAbsoluteTop();
 						pp.setPopupPosition(left, top);
 
 						if (submenupopup instanceof RadioButtonMenuBarW) {
@@ -120,6 +132,12 @@ public class GMenuBar extends MenuBar{
 		});
 
 		return (MenuItem) ait[0];
+	}
+
+	@Override
+	public MenuItem addItem(String itemtext, boolean textishtml,
+			final MenuBar submenupopup) {
+		return addItem(itemtext, textishtml, submenupopup, true);
 	}
 
 	public String getMenuTitle() {

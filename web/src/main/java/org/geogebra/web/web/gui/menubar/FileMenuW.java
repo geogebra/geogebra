@@ -239,7 +239,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				        .menu_icons_file_export()
 .getSafeUri().asString(),
 					loc.getMenu("Export"), true),
-			        true, new ExportMenuW(app));
+					true, new ExportMenuW(app), !app.isWhiteboardActive());
 
 		}
 

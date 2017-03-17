@@ -30,8 +30,7 @@ public class ExportMenuW extends MenuBar {
 
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
-		MainMenu.addSubmenuArrow(this, app.isWhiteboardActive()
-				? "subMenuRightSide" : "subMenuLeftSide");
+		MainMenu.addSubmenuArrow(this, app.isWhiteboardActive());
 
 		initActions();
 	}

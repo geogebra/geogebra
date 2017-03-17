@@ -6132,3 +6132,46 @@ body.application[dir=rtl] .deleteAlgebra {
 	width: 267px !important;
 	border: 1px solid #DCDCDC;
 }
+
+.subMenuRightSidePopup {
+		box-shadow: none;
+		padding: 0px;
+		.border-radius(0px);
+		left: 280px;
+		.GeoGebraMenuBar.subMenuRightSide {
+			left: 280px;
+			white-space: nowrap;
+			top: -25px;
+			position: absolute;
+			z-index: 600;
+			.border-radius(10px);
+			padding: 5px;
+			background-color: @color-white-transparent-90;
+			.box-shadow(@shadow-dark);
+			
+			
+			.gwt-MenuItem {
+				padding: 3px 10px;
+			}
+			
+			input[type="radio"] {
+				.margin(0px, 5px, 0px, 0px);
+			}
+			
+			
+			/* Workaround due to GWT's bug, see ticket #4819 */
+			&.subMenuRightSide2 {
+				.right(10px);
+			}
+		}
+	}
+
+.subMenuRightSide {
+	left: -15px;
+}
+.subMenuRightSide .arrowSubmenu {
+				position: absolute;
+				top: 3px;
+				left: -15px;
+			}
+			

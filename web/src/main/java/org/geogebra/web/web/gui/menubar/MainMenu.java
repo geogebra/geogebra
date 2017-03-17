@@ -359,15 +359,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 
 	public static void addSubmenuArrow(MenuBar w) {
-		addSubmenuArrow(w, "subMenuLeftSide");
+		addSubmenuArrow(w, false);
 	}
 
-	public static void addSubmenuArrow(MenuBar w, String styleName) {
-		w.addStyleName(styleName);
+	public static void addSubmenuArrow(MenuBar w, boolean left) {
+		w.addStyleName(left ? "subMenuRightSide" : "subMenuLeftSide");
 		FlowPanel arrowSubmenu = new FlowPanel();
 		arrowSubmenu.addStyleName("arrowSubmenu");
-		NoDragImage arrow = new NoDragImage(GuiResources.INSTANCE
-		        .arrow_submenu_right().getSafeUri().asString());
+		NoDragImage arrow = left
+				? new NoDragImage(GuiResources.INSTANCE.arrow_submenu_left()
+						.getSafeUri().asString())
+				: new NoDragImage(GuiResources.INSTANCE.arrow_submenu_right()
+						.getSafeUri().asString());
 		arrowSubmenu.add(arrow);
 		w.getElement().appendChild(arrowSubmenu.getElement());
     }

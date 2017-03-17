@@ -187,10 +187,10 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 					imgRes = GuiResources.INSTANCE
 							.menu_icon_options_font_size();
 				}
-				parentMenu.addItem(
+				((GMenuBar) parentMenu).addItem(
 						getApp().getGuiManager().getMenuBarHtml(imgRes,
 								getApp().getLocalization().getMenu(key), true),
-						true, (MenuBar) subMenu);
+						true, (MenuBar) subMenu, !app.isWhiteboardActive());
 			}
 		});
 	}

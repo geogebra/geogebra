@@ -190,6 +190,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/arrow-submenu-right.png")
 	ImageResource arrow_submenu_right();
 
+	@Source("org/geogebra/common/icons/png/web/arrow-submenu-left.png")
+	ImageResource arrow_submenu_left();
+
 	@Source("org/geogebra/common/icons/png/web/arrow-submenu-up.png")
 	ImageResource arrow_submenu_up();
 
