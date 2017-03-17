@@ -6136,7 +6136,7 @@ body.application[dir=rtl] .deleteAlgebra {
 .subMenuRightSidePopup {
 		box-shadow: none;
 		padding: 0px;
-		.border-radius(0px);
+		border-radius: 0;
 		left: 280px;
 		.GeoGebraMenuBar.subMenuRightSide {
 			left: 280px;
@@ -6144,10 +6144,10 @@ body.application[dir=rtl] .deleteAlgebra {
 			top: -25px;
 			position: absolute;
 			z-index: 600;
-			.border-radius(10px);
+			border-radius:10px;
 			padding: 5px;
-			background-color: @color-white-transparent-90;
-			.box-shadow(@shadow-dark);
+			background-color: @color-white-transparent - 90;
+			box-shadow: @shadow-dark;
 			
 			
 			.gwt-MenuItem {
