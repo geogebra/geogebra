@@ -480,8 +480,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		super();
 		this.root = root;
 		resizeAnimation = new ResizeAnimation(this, root);
-		Element childElement = impl.createElement();
-		super.getContainerElement().appendChild(childElement);
+		super.getContainerElement().appendChild(impl.createElement());
 
 		// Default position of popup should be in the upper-left corner of the
 		// window. By setting a default position, the popup will not appear in
@@ -489,6 +488,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		setPopupPosition(0, 0);
 		setStyleName(DEFAULT_STYLENAME);
 		setStyleName(getContainerElement(), "popupContent");
+		super.getContainerElement().getFirstChildElement().addClassName("mainChild");
 	}
 
 	protected Panel getRootPanel() {
@@ -588,9 +588,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		if (childElement.getOffsetHeight() > maxHeight) {
 			childElement.getStyle().setHeight(maxHeight, Unit.PX);
-			childElement.getStyle().setProperty("overflowY", "scroll");
-		} else {
-			childElement.getStyle().setProperty("overflowY", "hidden");
 		}
 	}
 
