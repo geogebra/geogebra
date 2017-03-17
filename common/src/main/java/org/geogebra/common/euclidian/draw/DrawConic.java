@@ -34,6 +34,7 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -2309,6 +2310,11 @@ public class DrawConic extends Drawable implements Previewable {
 			updateEllipseSide(handler, e);
 		}
 		view.setShapeEllipse(prewEllipse);
+		view.setShapeFillCol(conic.getFillColor());
+		view.setShapeObjCol(conic.getObjectColor());
+		view.setShapeStroke(EuclidianStatic.getStroke(
+				conic.getLineThickness() / 2.0,
+				conic.getLineType()));
 		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
 	}

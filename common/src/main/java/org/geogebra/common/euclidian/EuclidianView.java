@@ -175,16 +175,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * fill color of shape (transparent)
 	 */
-	protected static final GColor shapeRectangleFillCol = GColor.newColor(192,
+	private GColor shapeFillCol = GColor.newColor(192,
 			192, 192, 0.0);
 	/**
 	 * object color of shape (black by default)
 	 */
-	protected static final GColor shapeRectangleObjCol = GColor.BLACK;
+	private GColor shapeObjCol = GColor.BLACK;
 	/**
 	 * stroke of shape
 	 */
-	protected static final GBasicStroke strokeShapeRectangle = AwtFactory
+	private GBasicStroke shapeStroke = AwtFactory
 			.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER);
 	private boolean isRounded = false;
@@ -2772,6 +2772,42 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setShapePolygon(GGeneralPath shapePolygon) {
 		this.shapePolygon = shapePolygon;
+	}
+
+	public GColor getShapeFillCol() {
+		return shapeFillCol;
+	}
+
+	public void setShapeFillCol(GColor shapeFillCol) {
+		this.shapeFillCol = shapeFillCol;
+	}
+
+	public GColor getShapeObjCol() {
+		return shapeObjCol;
+	}
+
+	public void setShapeObjCol(GColor shapeObjCol) {
+		this.shapeObjCol = shapeObjCol;
+	}
+
+	public GBasicStroke getShapeStroke() {
+		return shapeStroke;
+	}
+
+	public void setShapeStroke(GBasicStroke shapeStroke) {
+		this.shapeStroke = shapeStroke;
+	}
+
+	/**
+	 * reset style of shape, needed by new shape
+	 */
+	public void setDefaultShapeStyle() {
+		setShapeFillCol(GColor.newColor(192,
+				192, 192, 0.0));
+		setShapeObjCol(GColor.BLACK);
+		setShapeStroke(AwtFactory
+				.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
+						GBasicStroke.JOIN_MITER));
 	}
 
 	@Override

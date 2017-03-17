@@ -9339,6 +9339,7 @@ public abstract class EuclidianController {
 				// clear selection to be able to drag created shape with shape
 				// tool
 				selection.clearSelectedGeos();
+				view.setDefaultShapeStyle();
 				getShapeMode().handleMousePressedForShapeMode(event);
 			} else {
 				if (view.getHits().size() == 1 && view.getHits().get(0) != null
@@ -9357,6 +9358,7 @@ public abstract class EuclidianController {
 					// shape hit but not selected
 					else {
 						selection.clearSelectedGeos();
+						view.setDefaultShapeStyle();
 						getShapeMode().handleMousePressedForShapeMode(event);
 					}
 				}

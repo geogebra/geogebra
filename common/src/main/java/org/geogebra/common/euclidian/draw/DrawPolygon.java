@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -620,6 +621,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateFreePolygonSide(handler, e);
 		}
 		view.setShapePolygon(prewPolygon);
+		view.setShapeFillCol(poly.getFillColor());
+		view.setShapeObjCol(poly.getObjectColor());
+		view.setShapeStroke(EuclidianStatic
+				.getStroke(poly.getLineThickness() / 2.0,
+				poly.getLineType()));
 		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
 	}

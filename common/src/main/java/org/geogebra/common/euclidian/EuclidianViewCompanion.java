@@ -378,28 +378,24 @@ public class EuclidianViewCompanion {
 
 		// draw shape preview for shape tools
 		if (view.getShapeRectangle() != null) {
-			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
-					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle,
+			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
+					view.getShapeStroke(),
 					view.getShapeRectangle());
 		}
 
 		if (view.getShapeEllipse() != null) {
-			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
-					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle, view.getShapeEllipse());
+			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
+					view.getShapeStroke(), view.getShapeEllipse());
 		}
 
 		if (view.getShapeLine() != null) {
-			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
-					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle, view.getShapeLine());
+			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
+					view.getShapeStroke(), view.getShapeLine());
 		}
 
 		if (view.getShapePolygon() != null) {
-			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
-					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle,
+			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
+					view.getShapeStroke(),
 					view.getShapePolygon());
 		}
 
