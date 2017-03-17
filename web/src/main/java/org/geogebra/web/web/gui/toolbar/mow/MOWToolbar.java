@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -14,7 +13,6 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -69,7 +67,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 */
 	protected void buildGUI() {
 		pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
-		// addStyleName("mowToolbar");
 		leftPanel = new FlowPanel();
 		leftPanel.addStyleName("left");
 
@@ -78,22 +75,26 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 		rightPanel = new FlowPanel();
 		rightPanel.addStyleName("right");
+
 		createUndoRedo();
+		// midddle buttons open submenus
 		createMiddleButtons();
 		createMoveButton();
-		subMenuPanel = new FlowPanel();
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
+
+		subMenuPanel = new FlowPanel();
 		add(subMenuPanel);
 		// hack
 		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 		lastSubmenuHeight = 0;
 		addStyleName("mowToolbar");
-		setResponsiveStyle();
+		// sets the horizontal position of the toolbar
+		setResponsivePosition();
 
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
-				setResponsiveStyle();
+				setResponsivePosition();
 			}
 		});
 
@@ -131,53 +132,93 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		penMenu = new PenSubMenu(app);
 	}
 
-	private void togglePenButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.pen_panel_32(), 32);
-		NoDragImage downFace = getImage(pr.pen_panel_active_32(), 32);
-		if (!toggle) {
-			penButton.getUpFace().setImage(upFace);
-		} else {
-			penButton.getUpFace().setImage(downFace);
-		}
-	}
-
 	private void createToolsButton() {
-		toolsButton = createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_TOOLS_PANEL,
-						app),
-				this);
+		toolsButton = createButton(GGWToolBar.getImageURL(EuclidianConstants.MODE_TOOLS_PANEL, app), this);
 		toolsMenu = new ToolsSubMenu(app);
-
-	}
-
-	private void toggleToolsButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.tools_panel_32(), 32);
-		NoDragImage downFace = getImage(pr.tools_panel_active_32(), 32);
-		if (!toggle) {
-			toolsButton.getUpFace().setImage(upFace);
-		} else {
-			toolsButton.getUpFace().setImage(downFace);
-		}
 	}
 
 	private void createMediaButton() {
-		mediaButton = createButton(
-				GGWToolBar.getImageURL(EuclidianConstants.MODE_MEDIA_PANEL,
-						app),
-				this);
+		mediaButton = createButton(GGWToolBar.getImageURL(EuclidianConstants.MODE_MEDIA_PANEL, app), this);
 		mediaMenu = new MediaSubMenu(app);
 	}
 
-	private void toggleMediaButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.media_panel_32(), 32);
-		NoDragImage downFace = getImage(pr.media_panel_active_32(), 32);
-		if (!toggle) {
-			mediaButton.getUpFace().setImage(upFace);
+	private void createMoveButton() {
+		moveButton = new StandardButton("");
+		moveButton.getUpFace().setImage(getImage(pr.move_hand_32(), 32));
+		rightPanel.add(moveButton);
+		moveButton.addFastClickHandler(this);
+	}
+
+	/**
+	 * Toggles the pen panel icon
+	 * 
+	 * @param toggle
+	 *            true = highlighted icon, false = gray icon
+	 */
+	private void togglePenButton(boolean toggle) {
+		NoDragImage upFace = getImage(pr.pen_panel_32(), 32);
+		NoDragImage downFace = getImage(pr.pen_panel_active_32(), 32);
+		if (toggle) {
+			penButton.getUpFace().setImage(downFace);
 		} else {
-			mediaButton.getUpFace().setImage(downFace);
+			penButton.getUpFace().setImage(upFace);
 		}
 	}
 
+	/**
+	 * Toggles the tools panel icon
+	 * 
+	 * @param toggle
+	 *            true = highlighted icon, false = gray icon
+	 */
+	private void toggleToolsButton(boolean toggle) {
+		NoDragImage upFace = getImage(pr.tools_panel_32(), 32);
+		NoDragImage downFace = getImage(pr.tools_panel_active_32(), 32);
+		if (toggle) {
+			toolsButton.getUpFace().setImage(downFace);
+		} else {
+			toolsButton.getUpFace().setImage(upFace);
+		}
+	}
+
+	/**
+	 * Toggles the media panel icon
+	 * 
+	 * @param toggle
+	 *            true = highlighted icon, false = gray icon
+	 */
+	private void toggleMediaButton(boolean toggle) {
+		NoDragImage upFace = getImage(pr.media_panel_32(), 32);
+		NoDragImage downFace = getImage(pr.media_panel_active_32(), 32);
+		if (toggle) {
+			mediaButton.getUpFace().setImage(downFace);
+		} else {
+			mediaButton.getUpFace().setImage(upFace);
+		}
+	}
+
+	/**
+	 * Toggles the move hand icon
+	 * 
+	 * @param toggle
+	 *            true = highlighted icon, false = gray icon
+	 */
+	public void toggleMoveButton(boolean toggle) {
+		NoDragImage upFace = getImage(pr.move_hand_32(), 32);
+		NoDragImage downFace = getImage(pr.move_hand_active_32(), 32);
+		if (toggle) {
+			moveButton.getUpFace().setImage(downFace);
+		} else {
+			moveButton.getUpFace().setImage(upFace);
+		}
+	}
+
+	/**
+	 * Toggles the toolbar icons - only 1 icon highlighted at a time
+	 * 
+	 * @param button
+	 *            the button to be highlighted
+	 */
 	private void setButtonActive(Widget button) {
 		if (button == penButton) {
 			togglePenButton(true);
@@ -199,31 +240,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 	}
 
-	private void createMoveButton() {
-		moveButton = new StandardButton("");
-		moveButton.getUpFace().setImage(getImage(pr.move_hand_32(), 32));
-		rightPanel.add(moveButton);
-		moveButton.addFastClickHandler(this);
-
-	}
-
-	/**
-	 * Makes move button selected/unselected.
-	 * 
-	 * @param toggle
-	 *            true if button will be selected.
-	 */
-	public void toggleMoveButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.move_hand_32(), 32);
-		NoDragImage downFace = getImage(pr.move_hand_active_32(), 32);
-		if (!toggle) {
-			moveButton.getUpFace().setImage(upFace);
-		} else {
-			moveButton.getUpFace().setImage(downFace);
-		}
-	}
-
-
 	/**
 	 * Updates the toolbar ie. undo/redo button states
 	 */
@@ -235,32 +251,17 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		redoButton = new StandardButton(pr.redo_32(), null, 32);
 		redoButton.getUpHoveringFace()
 .setImage(getImage(pr.redo_32(), 32));
-
 		redoButton.addFastClickHandler(this);
-
 		redoButton.addStyleName("redoButton");
-		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
 		undoButton = new StandardButton(pr.undo_32(), null, 32);
 		undoButton.getUpHoveringFace()
 .setImage(getImage(pr.undo_32(), 32));
-
 		undoButton.addFastClickHandler(this);
 		undoButton.addStyleName("undoButton");
 
 		leftPanel.add(LayoutUtilW.panelRow(undoButton, redoButton));
 		updateUndoActions();
-	}
-
-	/**
-	 * @param uri
-	 *            image URI
-	 * @param width
-	 *            size
-	 * @return image wrapped in no-dragging widget
-	 */
-	public static NoDragImage getImage(ResourcePrototype uri, int width) {
-		return new NoDragImage(ImgResourceHelper.safeURI(uri), width);
 	}
 
 	/**
@@ -274,6 +275,18 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			this.redoButton.setEnabled(app.getKernel().redoPossible());
 		}
 	}
+
+	/**
+	 * @param uri
+	 *            image URI
+	 * @param width
+	 *            size
+	 * @return image wrapped in no-dragging widget
+	 */
+	public static NoDragImage getImage(ResourcePrototype uri, int width) {
+		return new NoDragImage(ImgResourceHelper.safeURI(uri), width);
+	}
+
 
 	@Override
 	public void onClick(Widget source) {
@@ -290,7 +303,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				currentMenu.reset();
 			}
 		} else if (source == penButton) {
-			Log.debug("source = penButton");
 			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 			setCurrentMenu(penMenu);
 		} else if (source == toolsButton) {
@@ -300,11 +312,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			submenuHeight = MEDIA_SUBMENU_HEIGHT;
 			setCurrentMenu(mediaMenu);
 		}
-		if (source != redoButton && source != undoButton) {
-			setCSStoSelected(source);
-		}
 		setButtonActive(source);
-		// lastSubmenuHeight = submenuHeight;
 	}
 
 	private SubMenuPanel getSubMenuForMode(int mode) {
@@ -363,7 +371,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            The submenu panel to set.
 	 */
 	public void setCurrentMenu(SubMenuPanel submenu) {
-		Log.debug("set current menu");
 		if (submenu == null) {
 			return;
 		}
@@ -371,7 +378,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (currentMenu == submenu) {
 			if (!subMenuPanel.isVisible()) {
 				currentMenu.onOpen();
-				// lastSubmenuHeight = 0;
 			}
 
 			setSubmenuVisible(!subMenuPanel.isVisible());
@@ -382,7 +388,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
-		Log.debug("do set current menu");
 		subMenuPanel.clear();
 		this.currentMenu = submenu;
 		subMenuPanel.add(currentMenu);
@@ -390,14 +395,15 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	}
 
-	private void setSubmenuVisible(final boolean b) {
-		Log.debug("set visible: " + b);
-		Log.debug("last submenu height: " + lastSubmenuHeight);
-		Log.debug("new submenu height: " + submenuHeight);
-
-		// Log.printStacktrace("stacktrace");
-		if (b) {
-			subMenuPanel.setVisible(b);
+	/**
+	 * Set the submenu visible / invisible and adds the animation
+	 * 
+	 * @param visible
+	 *            true if submenu should be visible
+	 */
+	private void setSubmenuVisible(final boolean visible) {
+		if (visible) {
+			subMenuPanel.setVisible(visible);
 			if (submenuHeight == 120) {
 				if (lastSubmenuHeight == 0) {
 					setStyleName("animate0to120");
@@ -424,22 +430,24 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			if (submenuHeight == 55) {
 				setStyleName("animate55to0");
 			}
+			// timer delays hiding the submenu so it stays visible until the end
+			// of the animation
 			Timer timer = new Timer() {
 				public void run() {
-					subMenuPanel.setVisible(b);
+					subMenuPanel.setVisible(visible);
 				}
 			};
 			timer.schedule(500);
 			lastSubmenuHeight = 0;
 		}
 		addStyleName("mowToolbar");
-		setResponsiveStyle();
+		setResponsivePosition();
 	}
 
 	/**
-	 * Decides style depending on the screen size.
+	 * Sets the horizontal position of the toolbar depending on screen size
 	 */
-	public void setResponsiveStyle() {
+	public void setResponsivePosition() {
 		// small screen
 		if (app.getWidth() < 700) {
 			removeStyleName("BigScreen");
@@ -450,19 +458,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			removeStyleName("SmallScreen");
 			addStyleName("BigScreen");
 			getElement().getStyle().setLeft((app.getWidth() - 700) / 2, Unit.PX);
-		}
-
-	}
-
-	private static void setCSStoSelected(Widget source) {
-		FlowPanel parent = (FlowPanel) source.getParent();
-		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			Widget w = parent.getWidget(i);
-			if (w == source) {
-				w.addStyleName("mowActivePanelButton");
-			} else {
-				w.removeStyleName("mowActivePanelButton");
-			}
 		}
 	}
 

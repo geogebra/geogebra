@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.StandardButton;
 
@@ -54,6 +53,9 @@ public class ToolsSubMenu extends SubMenuPanel {
 		contentPanel.add(panelRow);
 	}
 
+	/**
+	 * add modes to a group so they get grouped in the toolbox
+	 */
 	@Override
 	protected void addModeMenu(FlowPanel panel, Vector<Integer> menu) {
 		int col = 0;
@@ -71,8 +73,6 @@ public class ToolsSubMenu extends SubMenuPanel {
 
 	@Override
 	public void deselectAllCSS() {
-		Log.debug("widget count: " + panelRow.getWidgetCount());
-
 		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
 			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
 			for (int j = 0; j < w.getWidgetCount(); j++) {

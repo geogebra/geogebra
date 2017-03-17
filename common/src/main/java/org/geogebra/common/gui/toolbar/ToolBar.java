@@ -307,11 +307,9 @@ public class ToolBar {
 
 	public static String getMOWToolsDefString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
 		sb.append(" ");
@@ -322,6 +320,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
 		sb.append(" | ");
 
 		// Points

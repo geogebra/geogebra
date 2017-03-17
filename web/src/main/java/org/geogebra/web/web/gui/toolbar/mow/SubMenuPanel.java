@@ -2,9 +2,9 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 import java.util.Vector;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -117,14 +117,8 @@ public abstract class SubMenuPanel extends FlowPanel
 	protected Vector<ToolbarItem> getToolbarVec(String toolbarString) {
 		Vector<ToolbarItem> toolbarVec;
 		try {
-
 			toolbarVec = ToolBar.parseToolbarString(toolbarString);
-			Log.debug("toolbarVec parsed");
-
 		} catch (Exception e) {
-
-			Log.debug("invalid toolbar string: " + toolbarString);
-
 			toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
 		}
 		return toolbarVec;
@@ -182,9 +176,8 @@ public abstract class SubMenuPanel extends FlowPanel
 	 */
 	protected StandardButton createButton(int mode) {
 		NoDragImage im = new NoDragImage(GGWToolBar.getImageURL(mode, app));
-		// dirty opacity hack: old icons don't need opacity, new ones do
-		if ((mode < 101 && mode != 17 && mode != 26 && mode != 73)
-				|| (mode > 110 && mode != 115 && mode != 116 && mode != 117)) {
+		// opacity hack: old icons don't need opacity, new ones do
+		if (imageNeedsOpacity(mode)) {
 			im.addStyleName("opacityFixForOldIcons");
 		}
 		StandardButton button = new StandardButton(null, "", 32);
@@ -251,7 +244,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	}
 
 	/**
-	 * Select widget w only.
+	 * Sets CSS of active tool to selected
 	 * 
 	 * @param source
 	 *            The widget to select.
@@ -270,14 +263,14 @@ public abstract class SubMenuPanel extends FlowPanel
 	}
 
 	/**
-	 * unselect all.
+	 * unselect all tools
 	 */
 	public void deselectAllCSS() {
 	}
 
 
 	/**
-	 * Sets contents of info panel
+	 * Add tooltips to info panel
 	 * 
 	 * @param mode
 	 *            The mode of the tool that needs info.
@@ -286,9 +279,8 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (mode >= 0) {
 			infoImage = new NoDragImage(GGWToolBar.getImageURL(mode, app));
 			infoImage.addStyleName("mowToolButton");
-			// dirty opacity hack: old icons don't need opacity, new ones do
-			if ((mode < 101 && mode != 17 && mode != 26 && mode != 62 && mode != 73)
-					|| (mode > 110 && mode != 115 && mode != 116 && mode != 117)) {
+			// opacity hack: old icons don't need opacity, new ones do
+			if (imageNeedsOpacity(mode)) {
 				infoImage.addStyleName("opacityFixForOldIconsSelected");
 			} else {
 				infoImage.addStyleName("selected");
@@ -306,6 +298,24 @@ public abstract class SubMenuPanel extends FlowPanel
 				questionMark.addStyleName("mowQuestionMark");
 				infoPanel.add(questionMark);
 			}
+		}
+	}
+
+	/**
+	 * Decide if icon needs opacity or not. New icons are black with opacity.
+	 * Old icons don't need opacity so they get a style fix.
+	 * 
+	 * @param mode
+	 * @return true if icon needs a style fix
+	 */
+	protected boolean imageNeedsOpacity(int mode) {
+		if ((mode < 101 && mode != EuclidianConstants.MODE_TEXT && mode != EuclidianConstants.MODE_IMAGE
+				&& mode != EuclidianConstants.MODE_PEN && mode != EuclidianConstants.MODE_FREEHAND_SHAPE)
+				|| (mode > 110 && mode != EuclidianConstants.MODE_VIDEO && mode != EuclidianConstants.MODE_AUDIO
+						&& mode != EuclidianConstants.MODE_GEOGEBRA)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -45,6 +45,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
 	private boolean colorsEnabled;
+	// preset colors: black, purple, teal, orange
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
 			"E67E22" };
 
@@ -62,17 +63,23 @@ public class PenSubMenu extends SubMenuPanel {
 		penPanel = new FlowPanel();
 		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
+		// pen gets a separate icon here so it can show the selected color
 		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
 		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
 		im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);
 
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
-
 		freehand = createButton(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		penPanel.add(LayoutUtilW.panelRow(pen, eraser, freehand));
 	}
 
+	/**
+	 * Create color buttons for selecting pen color
+	 * 
+	 * @param aColor
+	 * @return
+	 */
 	private Label createColorButton(GColor aColor) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
 				aColor);
@@ -100,6 +107,9 @@ public class PenSubMenu extends SubMenuPanel {
 				btnColor[2], btnColor[3], btnCustomColor));
 	}
 
+	/**
+	 * Create panel with slider for pen and eraser size
+	 */
 	private void createSizePanel() {
 		sizePanel = new FlowPanel();
 		sizePanel.addStyleName("sizePanel");
