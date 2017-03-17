@@ -13,6 +13,12 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_show_or_hide_the_axes.png")
 	ImageResource axes();
 	
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_axes_2_arrows.png")
+	ImageResource axes_2arrows();
+
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_axes_4_arrows.png")
+	ImageResource axes_4arrows();
+
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_empty.png")
 	ImageResource stylingbar_empty();
 
