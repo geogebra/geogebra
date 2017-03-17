@@ -18,7 +18,6 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Widget;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
@@ -65,7 +64,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public BrowseViewI getBrowseView();
 
-	public Widget getRootComponent();
 
 	public void showToolBar(boolean show);
 

@@ -43,6 +43,8 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		}
 	};
 	private boolean forcedLayout = false;
+	private int preferredWidth;
+	private int preferredHeight;
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -676,5 +678,33 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		LayoutData data = (LayoutData) widget.getLayoutData();
 		return data.direction == Direction.CENTER;
 
+	}
+
+	public int getPreferredHeight(DockPanelW dockPanelW) {
+		if (this.orientation == SwingConstants.HORIZONTAL_SPLIT) {
+			return preferredHeight;
+		}
+		return dockPanelW == getLeftComponent() ? this.dividerLocation
+				: preferredHeight - this.dividerLocation - getSplitterSize();
+	}
+
+	public int getPreferredWidth(DockPanelW dockPanelW) {
+		if (this.orientation == SwingConstants.VERTICAL_SPLIT) {
+			return preferredWidth;
+		}
+		return dockPanelW == getLeftComponent() ? this.dividerLocation
+				: preferredWidth - this.dividerLocation - getSplitterSize();
+	}
+
+	public void setPreferredWidth(int width, int height) {
+		this.preferredHeight = height;
+		this.preferredWidth = width;
+	}
+	public int getEstimateWidth() {
+		return getOffsetWidth() > 0 ? getOffsetWidth() : preferredWidth;
+	}
+
+	public int getEstimateHeight() {
+		return getOffsetHeight() > 0 ? getOffsetHeight() : preferredHeight;
 	}
 }

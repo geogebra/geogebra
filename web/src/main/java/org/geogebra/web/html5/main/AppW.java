@@ -386,19 +386,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return timers;
 	}
 
-	/**
-	 * 
-	 * @param width
-	 *            view width
-	 * @param height
-	 *            view height
-	 * @param evNo
-	 *            view number
-	 */
-	public void syncAppletPanelSize(int width, int height, int evNo) {
-		// TODO Auto-generated method stub
 
-	}
 
 	@Override
 	protected ScriptManager newScriptManager() {
@@ -2954,29 +2942,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	public static Widget getRootComponent(AppW app) {
 
-		// This is just used from tooltipManager yet
-		if (app.getGuiManager() == null) {
-			return null;
-		}
-
-		return app.getGuiManager().getRootComponent();
-	}
 
 	public void updateCenterPanel() {
 		// only needed with GUI
 	}
 
-	public Widget getSplitLayoutPanel() {
-		if (getGuiManager() == null) {
-			return null;
-		}
-		if (getGuiManager().getLayout() == null) {
-			return null;
-		}
-		return getGuiManager().getRootComponent();
-	}
+
 
 	/**
 	 * @param ggwGraphicsViewWidth

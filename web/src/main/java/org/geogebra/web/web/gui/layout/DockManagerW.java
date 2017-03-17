@@ -390,8 +390,9 @@ public class DockManagerW extends DockManager {
 					windowHeight2 = windowHeight;
 					app.setPreferredSize(new GDimensionW(windowWidth2, windowHeight2));
 				}
-				setSplitPaneDividers(spData, splitPanes, windowHeight2, windowWidth2, windowHeight, windowWidth);
 
+				setSplitPaneDividers(spData, splitPanes, windowHeight2, windowWidth2, windowHeight, windowWidth);
+				setPreferredSizes(rootPane, windowHeight, windowWidth);
 				// for debugging
 				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
 				
@@ -438,6 +439,32 @@ public class DockManagerW extends DockManager {
 		
 	}
 	
+	private void setPreferredSizes(DockSplitPaneW pane, int h, int w) {
+		pane.setPreferredWidth(w, h);
+		if (pane.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
+			if (pane.getLeftComponent() instanceof DockSplitPaneW) {
+				setPreferredSizes((DockSplitPaneW) pane.getLeftComponent(), h,
+						w);
+			}
+			if (pane.getRightComponent() instanceof DockSplitPaneW) {
+				setPreferredSizes((DockSplitPaneW) pane.getLeftComponent(),
+						h - pane.getDividerLocation() - pane.getSplitterSize(),
+						w);
+			}
+		} else { // horizontal
+			if (pane.getLeftComponent() instanceof DockSplitPaneW) {
+				setPreferredSizes((DockSplitPaneW) pane.getLeftComponent(), h,
+						pane.getDividerLocation());
+			}
+			if (pane.getRightComponent() instanceof DockSplitPaneW) {
+				setPreferredSizes((DockSplitPaneW) pane.getLeftComponent(), h,
+						w - pane.getDividerLocation() - pane.getSplitterSize());
+			}
+		}
+	}
+
+
+
 	@Override
 	public void ensureFocus() {
 		if (this.focusedDockPanel != null) {

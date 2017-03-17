@@ -22,12 +22,15 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
+import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
@@ -92,6 +95,8 @@ public class AppWapplet extends AppWFull {
 	 *            3 for 3d, 2 otherwise
 	 * @param laf
 	 *            look and feel
+	 * @param device
+	 *            browser or tablet
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
 			final boolean undoActive, int dimension, GLookAndFeel laf,
@@ -193,7 +198,8 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
-	private Widget oldSplitLayoutPanel = null; // just a technical helper
+	private DockSplitPaneW oldSplitLayoutPanel = null; // just a technical
+														// helper
 												// variable
 	private HorizontalPanel splitPanelWrapper = null;
 
@@ -284,7 +290,27 @@ public class AppWapplet extends AppWFull {
 				.setInputFieldWidth(this.appletWidth);
 	}
 
+	@Override
+	protected final void updateTreeUI() {
+		if (getSplitLayoutPanel() != null) {
+			((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
+		}
+		// updateComponentTreeUI();
 
+	}
+
+	/**
+	 * @return main panel
+	 */
+	public DockSplitPaneW getSplitLayoutPanel() {
+		if (getGuiManager() == null) {
+			return null;
+		}
+		if (getGuiManager().getLayout() == null) {
+			return null;
+		}
+		return ((GuiManagerW) getGuiManager()).getRootComponent();
+	}
 	private void attachSplitLayoutPanel() {
 		boolean oldSLPanelChanged = oldSplitLayoutPanel == getSplitLayoutPanel() ? false
 				: true;
@@ -492,28 +518,6 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
-	@Override
-	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
-		Log.debug(widthDiff + "x" + heightDiff);
-		if (evno == 1 && getEuclidianView1().isShowing()) {
-			// this should follow the resizing of the EuclidianView
-			if (getSplitLayoutPanel() != null) {
-				getSplitLayoutPanel().setPixelSize(
-						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-			}
-		} else if (evno == 2 && hasEuclidianView2(1)
-				&& getEuclidianView2(1).isShowing()) {// or the EuclidianView 2
-			if (getSplitLayoutPanel() != null) {
-				getSplitLayoutPanel().setPixelSize(
-						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-			}
-		}
-	}
-
-
-
 	/**
 	 * Check if just the euclidian view is visible in the document just loaded.
 	 * 
@@ -590,8 +594,8 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void persistWidthAndHeight() {
 		if (this.oldSplitLayoutPanel != null) {
-			spWidth = this.oldSplitLayoutPanel.getOffsetWidth();
-			spHeight = this.oldSplitLayoutPanel.getOffsetHeight();
+			spWidth = this.oldSplitLayoutPanel.getEstimateWidth();
+			spHeight = this.oldSplitLayoutPanel.getEstimateHeight();
 		}
 	}
 

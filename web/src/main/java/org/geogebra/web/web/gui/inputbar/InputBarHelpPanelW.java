@@ -247,7 +247,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		showOnlineHelpButton(!app.isExam());
 		int h = (int) (maxOffsetHeight * scale
 				- 60);
-		double width = AppW.getRootComponent(app).getOffsetWidth() * scale - 60;
+		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
+				.getOffsetWidth() * scale - 60;
 
 		if (app.getArticleElement().hasDataParamEnableGraphing()
 				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {

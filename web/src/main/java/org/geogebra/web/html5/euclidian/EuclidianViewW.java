@@ -425,12 +425,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public void setCoordinateSpaceSize(int width, int height) {
 
-		int oldWidth = g2p.getOffsetWidth();
-		int oldHeight = g2p.getOffsetHeight();
 		g2p.setCoordinateSpaceSize(width, height);
 		try {
-			app.syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
-
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle()
 			        .setWidth(width, Style.Unit.PX);
@@ -1112,12 +1108,6 @@ public class EuclidianViewW extends EuclidianView implements
 		int w = getWidth();
 		((GGraphics2DW) g).getCanvas().getContext2d()
 		        .drawImage(getResetImage(), w - 24, 2);
-	}
-
-	public void synCanvasSizeWithApp(int canvasWidth, int canvasHeight) {
-		g2p.setWidth(canvasWidth);
-		g2p.setHeight(canvasHeight);
-		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
 
 	/* needed because set the id of canvas */

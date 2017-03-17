@@ -1,7 +1,6 @@
 package org.geogebra.web.geogebra3D.web.main;
 
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
@@ -30,6 +29,18 @@ public class AppWapplet3D extends AppWapplet {
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
+	/**
+	 * Constructs AppW for applets
+	 * 
+	 * @param ae
+	 *            article element
+	 * @param gf
+	 *            frame
+	 * @param laf
+	 *            look and feel
+	 * @param device
+	 *            browser or tablet
+	 */
 	public AppWapplet3D(ArticleElement ae, GeoGebraFrameBoth gf,
 			GLookAndFeel laf, GDevice device) {
 		super(ae, gf, true, 3, laf, device);
@@ -118,15 +129,15 @@ public class AppWapplet3D extends AppWapplet {
 
 	@Override
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
-	        EuclidianController ec, boolean[] showAxes, boolean showGrid,
-	        int id, EuclidianSettings settings) {
-		return App3DW.newEuclidianView(evPanel, ec, showAxes, showGrid, id,
-		        settings);
+			EuclidianController ec, boolean[] evShowAxes, boolean evShowGrid,
+	        int id, EuclidianSettings evSettings) {
+		return App3DW.newEuclidianView(evPanel, ec, evShowAxes, evShowGrid, id,
+		        evSettings);
 	}
 
 	@Override
-	public EuclidianController newEuclidianController(Kernel kernel) {
-		return App3DW.newEuclidianController(kernel);
+	public EuclidianController newEuclidianController(Kernel kernel1) {
+		return App3DW.newEuclidianController(kernel1);
 
 	}
 
@@ -150,20 +161,6 @@ public class AppWapplet3D extends AppWapplet {
 			dialogManager = new DialogManager3DW(this);
 		}
 		return dialogManager;
-	}
-
-	@Override
-	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
-		if (evno == EuclidianView.EVNO_3D && hasEuclidianView3D()
-		        && getEuclidianView3D().isShowing()) {// or the EuclidianView 2
-			if (getSplitLayoutPanel() != null) {
-				getSplitLayoutPanel().setPixelSize(
-				        getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-				        getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-			}
-		} else {
-			super.syncAppletPanelSize(widthDiff, heightDiff, evno);
-		}
 	}
 
 	@Override

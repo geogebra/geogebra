@@ -156,19 +156,6 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
-	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
-
-		// not sure this is needed here
-
-		/*
-		 * if (widthDiff != 0 || heightDiff != 0)
-		 * getEuclidianViewpanel().setPixelSize(
-		 * getEuclidianViewpanel().getOffsetWidth() + widthDiff,
-		 * getEuclidianViewpanel().getOffsetHeight() + heightDiff);
-		 */
-	}
-
-	@Override
 	public Element getFrameElement() {
 		return frame.getElement();
 	}

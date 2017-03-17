@@ -20,8 +20,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
-import com.google.gwt.user.client.ui.Widget;
-
 public class LayoutW extends Layout implements SettingListener {
 	
 	private AppW app;
@@ -393,7 +391,7 @@ public class LayoutW extends Layout implements SettingListener {
 		return dockManager;
 	}
 
-	public Widget getRootComponent() {
+	public DockSplitPaneW getRootComponent() {
 		if(dockManager == null) {
 			return null;
 		}		

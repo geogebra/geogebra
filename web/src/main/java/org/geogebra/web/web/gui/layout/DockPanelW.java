@@ -626,16 +626,23 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	public int getComponentInteriorHeight() {
-
 		if (dockPanel != null) {
-			return (int) dockPanel.getCenterHeight();
+			int h = (int) dockPanel.getCenterHeight();
+			if (h == 0 && this.getParentSplitPane() != null) {
+				return this.getParentSplitPane().getPreferredHeight(this);
+			}
+			return h;
 		}
 		return 0;
 	}
 
 	public int getComponentInteriorWidth() {
 		if (dockPanel != null) {
-			return (int) dockPanel.getCenterWidth();
+			int w = (int) dockPanel.getCenterWidth();
+			if (w == 0 && this.getParentSplitPane() != null) {
+				return this.getParentSplitPane().getPreferredWidth(this);
+			}
+			return w;
 		}
 		return 0;
 	}

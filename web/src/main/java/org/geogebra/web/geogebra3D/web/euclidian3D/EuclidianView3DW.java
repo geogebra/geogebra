@@ -674,13 +674,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	/**
-	 * Update canvas size
-	 */
-	public void synCanvasSize() {
-		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
-	}
-
-	/**
 	 * @param width
 	 *            canvas width
 	 * @param height
@@ -688,14 +681,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	public void setCoordinateSpaceSize(int width, int height) {
 
-		int oldWidth = g2p.getOffsetWidth();
-		int oldHeight = g2p.getOffsetHeight();
 		// no transform nor color set since it's a WebGL context
 		g2p.setCoordinateSpaceSizeNoTransformNoColor(width, height);
 		try {
-			((AppW) app).syncAppletPanelSize(width - oldWidth, height
-					- oldHeight, evNo);
-
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle()
 					.setWidth(width, Style.Unit.PX);

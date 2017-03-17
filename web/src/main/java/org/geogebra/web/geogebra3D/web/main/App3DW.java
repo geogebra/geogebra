@@ -123,7 +123,7 @@ public class App3DW {
 				AwtFactory.getPrototype().newDimension(width, height));
 
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
-		view.synCanvasSize();
+		view.setCoordinateSpaceSize(width, height);
 		view.doRepaint2();
 		app.stopCollectingRepaints();
 	}

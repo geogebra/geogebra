@@ -78,6 +78,7 @@ import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.CASDockPanelW;
@@ -1902,8 +1903,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// ((AppW) app).getEuclidianViewpanel().updateNavigationBar();
 	}
 
-	@Override
-	public Widget getRootComponent() {
+	public DockSplitPaneW getRootComponent() {
 		return getLayout().getRootComponent();
 	}
 

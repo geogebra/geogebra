@@ -54,7 +54,6 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
-import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
@@ -508,14 +507,7 @@ public abstract class AppWFull extends AppW {
 		}
 	}
 
-	@Override
-	protected final void updateTreeUI() {
-		if (getSplitLayoutPanel() instanceof ZoomSplitLayoutPanel) {
-			((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
-		}
-		// updateComponentTreeUI();
 
-	}
 
 	@Override
 	public final MaterialsManagerI getFileManager() {
@@ -692,6 +684,7 @@ public abstract class AppWFull extends AppW {
 		}
 	}
 
+	@Override
 	public void appSplashCanNowHide() {
 		String cmd = Location.getParameter("command");
 
