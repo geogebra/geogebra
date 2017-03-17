@@ -9,11 +9,10 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 	@Override
 	protected void injectResourcesGUI() {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
-
+		jQueryNoConflict();
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
-		jQueryNoConflict();
 	}
 
 	private native void jQueryNoConflict() /*-{
