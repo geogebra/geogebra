@@ -4155,6 +4155,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case DIALOGS_OVERLAP_KEYBOARD:
+			// see comment at GPopupPanel.setOverlapFeature
 			return prerelease;
 
 		case AV_TEXT_BLACK:

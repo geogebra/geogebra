@@ -488,7 +488,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		setPopupPosition(0, 0);
 		setStyleName(DEFAULT_STYLENAME);
 		setStyleName(getContainerElement(), "popupContent");
-		super.getContainerElement().getFirstChildElement().addClassName("mainChild");
+		// super.getContainerElement().getFirstChildElement().addClassName("mainChild");
 	}
 
 	protected Panel getRootPanel() {
@@ -527,10 +527,17 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	}
 	
 	/**
-	 * temporary function to set feature flag
+	 * Temporary function to set feature flag. After releasing
+	 * DIALOGS_OVERLAP_KEYBOARD it can be removed and the class name setting
+	 * which in it can be moved to the constructor.
 	 */
 	public void setOverlapFeature(boolean b){
 		hasOverlapFeature = b;
+
+		if (b) {
+			super.getContainerElement().getFirstChildElement()
+					.addClassName("mainChild");
+		}
 	}
 
 	/**
