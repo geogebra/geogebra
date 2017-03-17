@@ -430,6 +430,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			if (wasSegmentHit
 					|| (getBoundingBox() != null
 							&& getBoundingBox().getRectangle() != null
+							&& getBoundingBox() == view.getBoundingBox()
 							&& getBoundingBox().getRectangle().intersects(
 									x - hitThreshold, y - hitThreshold,
 									2 * hitThreshold, 2 * hitThreshold))

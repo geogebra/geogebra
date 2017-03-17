@@ -570,6 +570,7 @@ public class DrawSegment extends Drawable implements Previewable {
 						2 * hitThreshold, 2 * hitThreshold))
 				|| (getBoundingBox() != null
 						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox() == view.getBoundingBox()
 						&& getBoundingBox().getRectangle().intersects(
 								x - hitThreshold, y - hitThreshold,
 								2 * hitThreshold, 2 * hitThreshold)

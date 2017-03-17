@@ -532,7 +532,8 @@ public abstract class Drawable extends DrawableND {
 	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y,
 			int hitThreshold) {
 		int hit = -1;
-		if (getBoundingBox() != null) {
+		if (getBoundingBox() != null
+				&& getBoundingBox() == view.getBoundingBox()) {
 			hit = getBoundingBox().hitHandlers(x, y, hitThreshold);
 		}
 		switch (hit) {

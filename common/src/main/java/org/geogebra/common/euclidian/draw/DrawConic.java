@@ -1688,6 +1688,7 @@ public class DrawConic extends Drawable implements Previewable {
 			if (!isOnBoundary && type == GeoConicNDConstants.CONIC_CIRCLE) {
 				isOnBoundary = getBoundingBox() != null
 						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox() == view.getBoundingBox()
 						&& getBoundingBox().getRectangle().intersects(
 								hitX - hitThreshold, hitY - hitThreshold,
 								2 * hitThreshold, 2 * hitThreshold)
@@ -1781,6 +1782,7 @@ public class DrawConic extends Drawable implements Previewable {
 				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold))
 				|| (getBoundingBox() != null
 						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox() == view.getBoundingBox()
 						&& getBoundingBox().getRectangle().intersects(
 								hitX - hitThreshold, hitY - hitThreshold,
 								2 * hitThreshold, 2 * hitThreshold)
