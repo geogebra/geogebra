@@ -565,8 +565,16 @@ public class DrawSegment extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return line != null && isVisible && line.intersects(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		return (line != null && isVisible
+				&& line.intersects(x - hitThreshold, y - hitThreshold,
+						2 * hitThreshold, 2 * hitThreshold))
+				|| (getBoundingBox() != null
+						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox().getRectangle().intersects(
+								x - hitThreshold, y - hitThreshold,
+								2 * hitThreshold, 2 * hitThreshold)
+						&& getBoundingBox().hitSideOfBoundingBox(x, y,
+								hitThreshold));
 	}
 
 	@Override

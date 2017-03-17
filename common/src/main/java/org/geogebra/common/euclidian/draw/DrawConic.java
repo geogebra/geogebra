@@ -1685,6 +1685,15 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 			isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
 					hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+			if (!isOnBoundary && type == GeoConicNDConstants.CONIC_CIRCLE) {
+				isOnBoundary = getBoundingBox() != null
+						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox().getRectangle().intersects(
+								hitX - hitThreshold, hitY - hitThreshold,
+								2 * hitThreshold, 2 * hitThreshold)
+						&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY,
+								hitThreshold);
+			}
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -1768,8 +1777,15 @@ public class DrawConic extends Drawable implements Previewable {
 		if (strokedShape == null) {
 			strokedShape = objStroke.createStrokedShape(shape);
 		}
-		return strokedShape.intersects(hitX - hitThreshold, hitY - hitThreshold,
-				2 * hitThreshold, 2 * hitThreshold);
+		return (strokedShape.intersects(hitX - hitThreshold,
+				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold))
+				|| (getBoundingBox() != null
+						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox().getRectangle().intersects(
+								hitX - hitThreshold, hitY - hitThreshold,
+								2 * hitThreshold, 2 * hitThreshold)
+						&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY,
+								hitThreshold));
 	}
 
 	@Override
