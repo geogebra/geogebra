@@ -104,6 +104,6 @@ public class ToolsSubMenu extends SubMenuPanel {
 
 	@Override
 	public int getFirstMode() {
-		return EuclidianConstants.MODE_SHAPE_LINE;
+		return EuclidianConstants.MODE_SHAPE_RECTANGLE;
 	}
 }
