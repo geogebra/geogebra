@@ -309,6 +309,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			 * envelopes.
 			 */
 
+			/*
+			 * Convert v1-a,v2-b type ideals to (v1-a)^2+(v2-b)^2. This works
+			 * also in general, not only for linear polys.
+			 */
+			sb.append(
+					"proc point_to_0circle(ideal l) { if (size(l)==1) {return(l[1]);} if (size(l)==2) {return((l[1])^2+(l[2])^2));} return 1; }; ");
 			sb.append(
 					"LIB \"" + locusLib + ".lib\";ring r=(0,").append(vars)
 					.append("),(" + elimVars)
@@ -320,7 +326,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			 * 0=-1.
 			 */
 			sb.append("if(size(l)==0){print(\"{{1,1,1},{1,1,1,1}}\");exit;}")
-					.append("poly pp=1; int i; for (i=1; i<=size(l); i++) { pp=pp*l[i][1][1]; }")
+					.append("poly pp=1; int i; for (i=1; i<=size(l); i++)")
+					.append("{ if ((string(l[i][3])==\"Normal\") || (string(l[i][3])==\"Accumulation\")) { pp=pp*point_to_0circle(l[i][1]); } }")
 					.append("string s=string(pp);int sl=size(s);string pg=\"poly p=\"+s[2,sl-2];")
 					.append("ring rr=0,(").append(vars)
 					.append("),dp;execute(pg);")
