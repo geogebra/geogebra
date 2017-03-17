@@ -425,18 +425,30 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 		// no filling
 		if (!checkIsOnFilling()) {
-			// draggable only from sides
-			if (wasSegmentHit) {
+			// draggable only from sides of poly
+			// or from sides of boundingBox
+			if (wasSegmentHit
+					|| (getBoundingBox() != null
+							&& getBoundingBox().getRectangle() != null
+							&& getBoundingBox().getRectangle().intersects(
+									x - hitThreshold, y - hitThreshold,
+									2 * hitThreshold, 2 * hitThreshold))) {
 				poly.setLastHitType(HitType.ON_BOUNDARY);
 				return true;
-			}
+			} 
 			poly.setLastHitType(HitType.NONE);
 			return false;
 		}
 
-		return t != null
+		// also check for boundingBox is has filling
+		return (t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
+						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))
+				|| (getBoundingBox() != null
+						&& getBoundingBox().getRectangle() != null
+						&& getBoundingBox().getRectangle().intersects(
+								x - hitThreshold, y - hitThreshold,
+								2 * hitThreshold, 2 * hitThreshold));
 	}
 
 
