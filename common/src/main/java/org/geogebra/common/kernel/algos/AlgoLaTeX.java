@@ -167,7 +167,7 @@ public class AlgoLaTeX extends AlgoElement {
 			}
 			if (show) {
 				if (geoToShow.isGeoCasCell()) {
-					text.setTextString(((GeoCasCell) geoToShow).getOutput(
+					text.setTextString(((GeoCasCell) geoToShow).getOutputOrInput(
 							StringTemplate.numericLatex, substitute));
 
 				} else {

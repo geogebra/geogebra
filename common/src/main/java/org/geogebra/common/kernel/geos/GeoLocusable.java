@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Allow Freehand Functions to behave like GeoLocus for some things eg
@@ -23,20 +24,14 @@ import org.geogebra.common.kernel.MyPoint;
  * @author Michael
  *
  */
-public interface GeoLocusable {
+public interface GeoLocusable extends GeoElementND {
 	/**
-	 * @return this as GeoFunction
+	 * @return number of points
 	 */
-	// public GeoFunction getGeoFunction();
-
-	/**
-	 * @return this as GeoElement
-	 */
-	public GeoElement toGeoElement();
-
-	public boolean isDefined();
-
 	public int getPointLength();
 
+	/**
+	 * @return list of points
+	 */
 	public ArrayList<MyPoint> getPoints();
 }

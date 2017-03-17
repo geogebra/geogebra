@@ -85,6 +85,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
@@ -8723,12 +8724,20 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public final boolean isSimple() {
 
-		if (!isIndependent() || (definition != null
-				&& definition.unwrap() instanceof ExpressionNode)) {
+		if (!isIndependent()) {
 			return false;
 		}
 		if (definition == null) {
 			return true;
+		}
+		if(definition.getOperation() == Operation.MULTIPLY){
+			if(definition.getLeft().unwrap() instanceof NumberValue && definition.getRight().unwrap() instanceof MyDouble
+					&& definition.getRight().evaluateDouble() == MyMath.DEG) {
+				return true;
+			}
+		}
+		if (definition.unwrap() instanceof ExpressionNode) {
+			return false;
 		}
 		if (definition.unwrap() instanceof NumberValue) {
 			double val = evaluateDouble();
@@ -8851,6 +8860,9 @@ public abstract class GeoElement extends ConstructionElement
 	// return new NumberDerivativePair(kernel, evaluateDouble(), 0);
 	// }
 
+	/**
+	 * @return whether this is locusable (locus or function)
+	 */
 	public boolean isGeoLocusable() {
 		return false;
 	}

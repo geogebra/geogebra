@@ -137,6 +137,7 @@ public class GeoLocus extends GeoLocusND<MyPoint> implements GeoLocusable {
 		return ValueType.PARAMETRIC2D;
 	}
 
+	@Override
 	public boolean isGeoLocusable() {
 		return true;
 	}

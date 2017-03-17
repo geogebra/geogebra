@@ -3201,6 +3201,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				|| ex.isSecret();
 	}
 
+	@Override
 	public boolean isGeoLocusable() {
 		return getParentAlgorithm() instanceof AlgoFunctionFreehand;
 	}
