@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.RadioButton;
  *
  */
 public class ProbabilityCalculatorStyleBarW extends
-        ProbabilityCalculatorStyleBar implements ValueChangeHandler<Boolean> {
+		ProbabilityCalculatorStyleBar implements ValueChangeHandler<Boolean> {
 	
 	private MenuBar wrappedToolbar;
 	private MenuItem btnRounding;

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.toolbar.images;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 
+@SuppressWarnings("javadoc")
 public interface ToolbarResources {
 	
 	ResourcePrototype mode_angle_32();

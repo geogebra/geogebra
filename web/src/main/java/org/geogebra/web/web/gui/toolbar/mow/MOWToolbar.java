@@ -55,6 +55,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	/**
 	 *
 	 * @param app
+	 *            application
 	 */
 	public MOWToolbar(AppW app) {
 		this.app = app;
@@ -436,8 +437,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			// timer delays hiding the submenu so it stays visible until the end
 			// of the animation
 			Timer timer = new Timer() {
+				@Override
 				public void run() {
-					subMenuPanel.setVisible(visible);
+					doShowSubmenu(visible);
 				}
 			};
 			timer.schedule(500);
@@ -445,6 +447,15 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 		addStyleName("mowToolbar");
 		setResponsivePosition();
+	}
+
+	/**
+	 * @param visible
+	 *            whether to show the subpanel
+	 */
+	protected void doShowSubmenu(boolean visible) {
+		subMenuPanel.setVisible(visible);
+
 	}
 
 	/**

@@ -5,6 +5,10 @@ import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
 
+/**
+ * SVG icons for toolbar
+ *
+ */
 public interface SvgToolbarResources extends ClientBundle, ToolbarResources{
 	@Override
 	@Source("mode_angle.svg")

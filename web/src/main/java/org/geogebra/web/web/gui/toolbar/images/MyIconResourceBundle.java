@@ -3,6 +3,10 @@ package org.geogebra.web.web.gui.toolbar.images;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
+/**
+ * PNG toolbar icons
+ *
+ */
 public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	// @Source("org/geogebra/common/icons_toolbar/p32/mode_move.png")
 //	MenuBar.Resources mode_move();

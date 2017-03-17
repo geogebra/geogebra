@@ -266,6 +266,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * unselect all tools
 	 */
 	public void deselectAllCSS() {
+		// override in subclasses
 	}
 
 
@@ -306,6 +307,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * Old icons don't need opacity so they get a style fix.
 	 * 
 	 * @param mode
+	 *            app mode
 	 * @return true if icon needs a style fix
 	 */
 	protected boolean imageNeedsOpacity(int mode) {
@@ -314,9 +316,8 @@ public abstract class SubMenuPanel extends FlowPanel
 				|| (mode > 110 && mode != EuclidianConstants.MODE_VIDEO && mode != EuclidianConstants.MODE_AUDIO
 						&& mode != EuclidianConstants.MODE_GEOGEBRA)) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -334,6 +335,9 @@ public abstract class SubMenuPanel extends FlowPanel
 		}
 	}
 
+	/**
+	 * @return first mode; to be selected once this submenu is opened
+	 */
 	public abstract int getFirstMode();
 
 }
