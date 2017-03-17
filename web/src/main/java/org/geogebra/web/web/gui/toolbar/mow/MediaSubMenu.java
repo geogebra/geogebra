@@ -6,6 +6,12 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Submenu for media (i.e. photo, video, ...)
+ * 
+ * @author Alicia Hofstaetter
+ *
+ */
 public class MediaSubMenu extends SubMenuPanel {
 
 	public MediaSubMenu(AppW app) {

@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * The toolbar for MOW.
  * 
- * @author Laszlo Gal
+ * @author Laszlo Gal, Alicia Hofstaetter
  *
  */
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
@@ -347,6 +347,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 		toggleMoveButton(false);
 
+		if (mode == EuclidianConstants.MODE_PEN) {
+			setButtonActive(penButton);
+		}
 		doSetCurrentMenu(getSubMenuForMode(mode));
 
 		if (currentMenu != null) {

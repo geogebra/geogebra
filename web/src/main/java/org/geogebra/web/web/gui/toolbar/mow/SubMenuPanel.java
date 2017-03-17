@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Base class of submenus of MOWToorbar
  * 
- * @author Laszlo Gal
+ * @author Laszlo Gal, Alicia Hofstaetter
  *
  */
 public abstract class SubMenuPanel extends FlowPanel

@@ -48,6 +48,7 @@ public class PenSubMenu extends SubMenuPanel {
 	// preset colors: black, purple, teal, orange
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
 			"E67E22" };
+	private int lastSelectedColorIndex = -1;
 
 	/**
 	 * 
@@ -167,16 +168,21 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (source == btnColor[i]) {
 				selectColor(i);
+				lastSelectedColorIndex = i;
 			}
 		}
 
 	}
 
 	private void doSelectPen() {
-		reset();
+		// reset();
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
-		selectColor(BLACK);
+		if (lastSelectedColorIndex == -1) {
+			selectColor(BLACK);
+		} else {
+			selectColor(lastSelectedColorIndex);
+		}
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_PEN_SIZE, false);
 		slider.setStep(PEN_STEP);
