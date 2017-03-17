@@ -597,9 +597,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 			updateStyleBarVisibility();
 		}
-		if(app.has(Feature.DYNAMIC_STYLEBAR)){
-			setDynamicStyleBar();
-		}
+
 		if (!app.allowStylebar() && needsResetIcon()) {
 			showResetIcon();
 		}
@@ -1556,7 +1554,4 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	}
 	
-	protected void setDynamicStyleBar(){
-		//overwritten in EuclidianDockPanelWAbstract
-	}
 }
