@@ -361,6 +361,9 @@ public abstract class KBBase extends PopupPanel {
 	 * keyboard needs to be scaled
 	 */
 	public void updateSize() {
+		if (app.getWidth() < 12) {
+			return;
+		}
 		// -10 because of padding, -2 for applet border
 		this.setWidth(app.getWidth() - 12 + "px");
 
