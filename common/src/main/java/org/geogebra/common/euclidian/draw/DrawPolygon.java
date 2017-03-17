@@ -432,7 +432,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 							&& getBoundingBox().getRectangle() != null
 							&& getBoundingBox().getRectangle().intersects(
 									x - hitThreshold, y - hitThreshold,
-									2 * hitThreshold, 2 * hitThreshold))) {
+									2 * hitThreshold, 2 * hitThreshold))
+							&& getBoundingBox().hitSideOfBoundingBox(x, y,
+									hitThreshold)) {
 				poly.setLastHitType(HitType.ON_BOUNDARY);
 				return true;
 			} 
@@ -443,14 +445,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// also check for boundingBox is has filling
 		return (t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))
-				|| (getBoundingBox() != null
+						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)))|| (getBoundingBox() != null
 						&& getBoundingBox().getRectangle() != null
 						&& getBoundingBox().getRectangle().intersects(
 								x - hitThreshold, y - hitThreshold,
-								2 * hitThreshold, 2 * hitThreshold));
+								2 * hitThreshold, 2 * hitThreshold)
+						&& getBoundingBox().hitSideOfBoundingBox(x, y,
+								hitThreshold));
 	}
-
 
 	@Override
 	final public boolean isInside(GRectangle rect) {

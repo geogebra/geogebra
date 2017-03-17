@@ -221,4 +221,44 @@ public class BoundingBox {
 		return index;
 	}
 
+	/**
+	 * @param x
+	 *            - x coord of hit
+	 * @param y
+	 *            - y coord og hit
+	 * @param hitThreshold
+	 *            - threshold
+	 * @return true if hits any side of boundingBox
+	 */
+	public boolean hitSideOfBoundingBox(int x, int y, int hitThreshold) {
+		if (rectangle == null) {
+			return false;
+		}
+		return
+		// left side
+		onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
+				rectangle.getMinX(), rectangle.getMaxY(), hitThreshold)
+				// top side
+				|| onSegment(rectangle.getMinX(), rectangle.getMinY(), x, y,
+						rectangle.getMaxX(), rectangle.getMinY(), hitThreshold)
+				// bottom side
+				|| onSegment(rectangle.getMinX(), rectangle.getMaxY(), x, y,
+						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold)
+				// right side
+				|| onSegment(rectangle.getMaxX(), rectangle.getMinY(), x, y,
+						rectangle.getMaxX(), rectangle.getMaxY(), hitThreshold);
+	}
+
+	// check if intersection point is on segment
+	private static boolean onSegment(double segStartX, double segStartY,
+			int hitX, int hitY, double segEndX, double segEndY,
+			int hitThreshold) {
+		if (hitX <= Math.max(segStartX, segEndX) + 2 * hitThreshold
+				&& hitX >= Math.min(segStartX, segEndX) - 2 * hitThreshold
+				&& hitY <= Math.max(segStartY, segEndY) + 2 * hitThreshold
+				&& hitY >= Math.min(segStartY, segEndY) - 2 * hitThreshold) {
+			return true;
+		}
+		return false;
+	}
 }
