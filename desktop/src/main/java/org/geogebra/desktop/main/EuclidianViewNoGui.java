@@ -236,4 +236,10 @@ public class EuclidianViewNoGui extends EuclidianView {
 		return null;
 	}
 
+	@Override
+	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

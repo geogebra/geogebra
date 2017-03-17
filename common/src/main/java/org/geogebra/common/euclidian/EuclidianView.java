@@ -5551,6 +5551,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	abstract protected EuclidianStyleBar newEuclidianStyleBar();
 
+	abstract protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar);
+
 	@Override
 	final public EuclidianStyleBar getDynamicStyleBar() {
 		if (dynamicStyleBar == null) {
@@ -5559,7 +5561,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				dynamicStyleBar.setVisible(false);
 			}
 		}
-
+		addDynamicStylebarToEV(dynamicStyleBar);
 		return dynamicStyleBar;
 	}
 

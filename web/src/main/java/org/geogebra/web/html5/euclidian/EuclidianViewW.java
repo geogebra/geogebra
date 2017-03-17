@@ -971,6 +971,11 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
+	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
+		app.getGuiManager().addStylebar(this, dynamicStylebar);
+	}
+
+	@Override
 	protected EuclidianStyleBar newDynamicStyleBar() {
 		return app.getGuiManager().newDynamicStylebar(this);
 	}

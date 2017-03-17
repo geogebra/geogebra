@@ -634,4 +634,10 @@ public class EuclidianView3DD extends EuclidianView3D
 		return null;
 	}
 
+	@Override
+	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -180,4 +180,10 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 		return null;
 	}
 
+	@Override
+	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
