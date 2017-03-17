@@ -90,7 +90,7 @@ public class GMenuBar extends MenuBar{
 						MenuItem mi0 = ((MenuItem) ait[0]);
 						        
 						int left = subleft ? mi0.getElement().getAbsoluteLeft()
-								: mi0.getElement().getAbsoluteRight();
+								: mi0.getElement().getAbsoluteRight() + 8;
 						int top = mi0.getElement().getAbsoluteTop();
 						pp.setPopupPosition(left, top);
 
