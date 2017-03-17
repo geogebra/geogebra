@@ -472,8 +472,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	//temporary variable for checking feature flag
 	public boolean hasOverlapFeature = false;
 
-	private Element childElement;
-
 	/**
 	 * Creates an empty popup panel. A child widget must be added to it before
 	 * it is shown.
@@ -482,7 +480,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		super();
 		this.root = root;
 		resizeAnimation = new ResizeAnimation(this, root);
-		childElement = impl.createElement();
+		Element childElement = impl.createElement();
 		super.getContainerElement().appendChild(childElement);
 
 		// Default position of popup should be in the upper-left corner of the
@@ -573,6 +571,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	}
 	
 	public void centerAndResize(double keyboardHeight){
+		Element childElement = super.getContainerElement()
+				.getFirstChildElement();
 		
 		if (hasOverlapFeature){
 			childElement.getStyle().clearHeight();
