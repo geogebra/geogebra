@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -674,13 +676,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	private void attachMOWToolbar(AppW app1) {
 		mowToolbar = new MOWToolbar(app1);
+
 		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
 			add(mowToolbar);
 		} else {
 			insert(mowToolbar, 0);
 		}
-
-
+		// set pen as start tool
+		app1.setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 	}
 
 	/**
