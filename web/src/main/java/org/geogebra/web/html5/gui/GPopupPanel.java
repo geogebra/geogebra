@@ -577,7 +577,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		if (hasOverlapFeature){
 			childElement.getStyle().clearHeight();
 		}
-		int top = center(keyboardHeight);
+		center(keyboardHeight);
 		if (!hasOverlapFeature){
 			return;
 		}
