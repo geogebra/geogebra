@@ -345,6 +345,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
+		if (gp == null) {
+			return false;
+		}
 		// hit points of polyline
 		GPathIterator it = gp.getGeneralPath().getPathIterator(null);
 		it.currentSegment(coords);
