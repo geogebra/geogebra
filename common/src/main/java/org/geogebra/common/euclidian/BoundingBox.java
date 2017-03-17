@@ -96,40 +96,40 @@ public class BoundingBox {
 			// corner handlers
 			handlers.get(0).setFrameFromCenter(rectangle.getX(),
 					rectangle.getY(),
-				rectangle.getX() + 3, rectangle.getY() + 3);
+					rectangle.getX() + 5, rectangle.getY() + 5);
 			handlers.get(1).setFrameFromCenter(rectangle.getX(),
-				rectangle.getMaxY(), rectangle.getX() + 3,
-				rectangle.getMaxY() + 3);
+					rectangle.getMaxY(), rectangle.getX() + 5,
+					rectangle.getMaxY() + 5);
 			handlers.get(2).setFrameFromCenter(
 				rectangle.getMaxX(), rectangle.getMaxY(),
-				rectangle.getMaxX() + 3, rectangle.getMaxY() + 3);
+					rectangle.getMaxX() + 5, rectangle.getMaxY() + 5);
 			handlers.get(3).setFrameFromCenter(
-				rectangle.getMaxX(), rectangle.getY(), rectangle.getMaxX() + 3,
-				rectangle.getY() + 3);
+					rectangle.getMaxX(), rectangle.getY(),
+					rectangle.getMaxX() + 5, rectangle.getY() + 5);
 
 			// side handlers
 			// top
 			handlers.get(4).setFrameFromCenter(
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 				rectangle.getMinY(),
-				(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
-				rectangle.getMinY() + 3);
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
+					rectangle.getMinY() + 5);
 			// left
 			handlers.get(5).setFrameFromCenter(rectangle.getMinX(),
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
-				rectangle.getMinX() + 3,
-				(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 3);
+					rectangle.getMinX() + 5,
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
 			// bottom
 			handlers.get(6).setFrameFromCenter(
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 				rectangle.getMaxY(),
-				(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
-				rectangle.getMaxY() + 3);
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
+					rectangle.getMaxY() + 5);
 			// right
 			handlers.get(7).setFrameFromCenter(rectangle.getMaxX(),
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
-				rectangle.getMaxX() + 3,
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 3);
+					rectangle.getMaxX() + 5,
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
 			// handler for rotation
 			// handlers.get(8).setFrameFromCenter(
 			// (rectangle.getMinX() + rectangle.getMaxX()) / 2,
@@ -153,7 +153,7 @@ public class BoundingBox {
 			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 			g2.fill(rectangle);
-			g2.setColor(GColor.GEOGEBRA_GRAY);
+			g2.setColor(GColor.MOW_PURPLE);
 			g2.draw(rectangle);
 		}
 		if (handlers != null && !handlers.isEmpty()) {
@@ -166,7 +166,7 @@ public class BoundingBox {
 			// g2.setColor(GColor.GEOGEBRA_GRAY);
 			// g2.draw(line);
 			for (int i = 0; i < /* = */nrHandlers; i++) {
-				g2.setPaint(GColor.GEOGEBRA_BLUE);
+				g2.setPaint(GColor.MOW_PURPLE);
 				g2.fill(handlers.get(i));
 				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 						GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
