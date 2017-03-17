@@ -12,7 +12,6 @@
  *    }
  */
  
- 
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
@@ -6136,7 +6135,7 @@ body.application[dir=rtl] .deleteAlgebra {
 .subMenuRightSidePopup {
 		box-shadow: none;
 		padding: 0px;
-		border-radius: 0;
+		.border-radius(0px);
 		left: 280px;
 		.GeoGebraMenuBar.subMenuRightSide {
 			left: 280px;
@@ -6144,10 +6143,10 @@ body.application[dir=rtl] .deleteAlgebra {
 			top: -25px;
 			position: absolute;
 			z-index: 600;
-			border-radius:10px;
+			.border-radius(10px);
 			padding: 5px;
-			background-color: @color-white-transparent - 90;
-			box-shadow: @shadow-dark;
+			background-color: @color-white-transparent-90;
+			.box-shadow(@shadow-dark);
 			
 			
 			.gwt-MenuItem {
