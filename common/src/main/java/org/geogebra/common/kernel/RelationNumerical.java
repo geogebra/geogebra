@@ -340,6 +340,8 @@ public class RelationNumerical {
 			return relation((GeoPoint) a, (GeoPolygon) b);
 		} else if (a instanceof GeoPolygon && b instanceof GeoPoint) {
 			return relation((GeoPoint) b, (GeoPolygon) a);
+		} else if (a instanceof GeoPolygon && b instanceof GeoPolygon) {
+			return relation((GeoPolygon) a, (GeoPolygon) b);
 		} else if (a instanceof GeoPoint && b instanceof Path) {
 			return relation((GeoPoint) a, (Path) b);
 		} else if (a instanceof Path && b instanceof GeoPoint) {
@@ -538,6 +540,16 @@ public class RelationNumerical {
 	}
 
 	/**
+	 * description of the relation between polygons a and b
+	 */
+	final private Set<Report> relation(GeoPolygon a, GeoPolygon b) {
+		Boolean bool = a.hasSameArea(b);
+		String str = equalAreaString(a, b, bool, loc);
+		register(bool, RelationCommand.AreEqual, str);
+		return reports;
+	}
+
+	/**
 	 * description of the relation between lines g and h (equal, parallel or
 	 * intersecting)
 	 */
@@ -661,31 +673,16 @@ public class RelationNumerical {
 		register(bool, null, str);
 		// TODO: No prover support for conic equality yet.
 
+		bool = Kernel.isEqual(((NumberValue) a).getDouble(),
+				((NumberValue) b).getDouble());
 		int type = a.getConicPartType();
 		if (type == b.getConicPartType()) {
 			if (type == GeoConicNDConstants.CONIC_PART_ARC) {
-				if (Kernel.isEqual(((NumberValue) a).getDouble(),
-						((NumberValue) b).getDouble())) {
-					str = loc.getPlain("AhasTheSameLengthAsB",
-							a.getColoredLabel(), b.getColoredLabel());
-					register(true, null, str); // TODO: No symbolic support.
-				} else {
-					str = loc.getPlain("AdoesNothaveTheSameLengthAsB",
-							a.getColoredLabel(), b.getColoredLabel());
-					register(false, null, str);
-				}
+				str = congruentSegmentString(a, b, bool, loc);
+				register(bool, null, str); // TODO: No symbolic support.
 			} else {
-				// sb.append(app.getCommand("Area"));
-				if (Kernel.isEqual(((NumberValue) a).getDouble(),
-						((NumberValue) b).getDouble())) {
-					str = loc.getPlain("AhasTheSameAreaAsB",
-							a.getColoredLabel(), b.getColoredLabel());
-					register(true, null, str); // TODO: No symbolic support.
-				} else {
-					str = loc.getPlain("AdoesNothaveTheSameAreaAsB",
-							a.getColoredLabel(), b.getColoredLabel());
-					register(false, null, str);
-				}
+				str = equalAreaString(a, b, bool, loc);
+				register(bool, null, str); // TODO: No symbolic support.
 			}
 			// sb.append(": ");
 			// sb.append(relation((NumberValue) a, (NumberValue) b));
@@ -879,6 +876,29 @@ public class RelationNumerical {
 					b.getColoredLabel());
 		}
 		return loc.getPlain("AdoesNothaveTheSameLengthAsB", a.getColoredLabel(),
+				b.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "a and b have the same area" (or not)
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param equal
+	 *            yes or no
+	 * @param loc
+	 *            locale
+	 * @return internationalized string
+	 */
+	final static public String equalAreaString(GeoElement a, GeoElement b,
+			boolean equal, Localization loc) {
+		if (equal) {
+			return loc.getPlain("AhasTheSameAreaAsB", a.getColoredLabel(),
+					b.getColoredLabel());
+		}
+		return loc.getPlain("AdoesNothaveTheSameAreaAsB", a.getColoredLabel(),
 				b.getColoredLabel());
 	}
 
