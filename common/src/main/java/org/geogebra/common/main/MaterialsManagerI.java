@@ -46,7 +46,7 @@ public interface MaterialsManagerI {
 
 	void export(App app);
 
-	void exportImage(String url, String string);
+	void exportImage(String url, String string, String extension);
 
 	boolean hasBase64(Material material);
 
