@@ -542,7 +542,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param tpl
 	 *            TODO unused
 	 */
-	private void appendUndefined(StringBuilder sb1, StringTemplate tpl,
+	private void appendUndefined(StringBuilder sb1,
 			double num1) {
 
 		// eg SurdText[1.23456789012345] returns 1.23456789012345
@@ -575,7 +575,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (coeffs[0] == 0 && coeffs[1] == 0) {
 
 			if (coeffs[2] == 0 && coeffs[3] == 0 && coeffs[4] == 0) {
-				appendUndefined(sBuilder, tpl, num1);
+				appendUndefined(sBuilder, num1);
 			} else if (coeffs[2] == 0) {
 				// coeffs[1]: denominator; coeffs[2]: numerator
 				int denom = coeffs[3];
@@ -595,7 +595,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				int c = 2 * coeffs[2];
 
 				if (b2 <= 0) { // should not happen!
-					appendUndefined(sBuilder, tpl, num1);
+					appendUndefined(sBuilder, num1);
 					return;
 				}
 
@@ -710,7 +710,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		int[] coeffs = PSLQ(numPowers, 1E-10, 10);
 
 		if (coeffs == null) {
-			appendUndefined(sBuilder, tpl, num1);
+			appendUndefined(sBuilder, num1);
 			return;
 		}
 
@@ -727,7 +727,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				|| Math.abs(coeffs[0]) > 570 || Math.abs(coeffs[1]) > 729
 				|| Math.abs(coeffs[2]) > 465) {
 			// Log.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
-			appendUndefined(sBuilder, tpl, num1);
+			appendUndefined(sBuilder, num1);
 		} else if (coeffs[0] == 0) {
 			// coeffs[1]: denominator; coeffs[2]: numerator
 			int denom = coeffs[1];
@@ -747,7 +747,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			int c = 2 * coeffs[0];
 
 			if (b2 <= 0) { // should not happen!
-				appendUndefined(sBuilder, tpl, num1);
+				appendUndefined(sBuilder, num1);
 				return;
 			}
 

@@ -1,27 +1,13 @@
 package org.geogebra.common.kernel.implicit;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoIntersect;
-import org.geogebra.common.kernel.algos.AlgoRoots;
-import org.geogebra.common.kernel.algos.GetCommand;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Algorithm to find intersection of implicit with line, function, conic and
@@ -30,7 +16,7 @@ import org.geogebra.common.plugin.Operation;
  * @author GSoCImplicitCurve2015
  *
  */
-public class AlgoIntersectImplicitCurve extends AlgoIntersect {
+public class AlgoIntersectImplicitCurve {
 
 	/**
 	 * Default sampling interval
@@ -41,11 +27,6 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 * Default size of output
 	 */
 	public static final int OUTPUT_SIZE = 100;
-	/**
-	 * Sample size
-	 */
-	private static final int SAMPLE_SIZE = 100;
-
 	/**
 	 * Root Precision
 	 */
@@ -65,312 +46,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	private static final double MOMENT_RATE = 0.92;
 
 	private static final double MIN_LAMBDA = 0.0001;
-	/**
-	 * First Equation {@link GeoImplicitCurve}
-	 */
-	private GeoImplicitCurve curve;
-	/**
-	 * Second Equation: Line, GeoConic, Function, Implicit Curve
-	 */
-	private GeoElement equation;
-	/**
-	 * Type of equation
-	 */
-	private EquationType equationType;
-	/**
-	 * Solutions of the equations
-	 */
-	private OutputHandler<GeoPoint> outputs;
-	/**
-	 * Point counts
-	 */
-	private int outputLen;
-
-	private AlgoIntersectImplicitCurve(Construction cons,
-			GeoImplicitCurve curve, GeoElement eqn, EquationType equationType) {
-
-		super(cons);
-
-		this.equationType = equationType;
-		this.equation = eqn;
-		this.curve = curve;
-
-		setInputOutput();
-		compute();
-	}
-
-	@Override
-	protected void setInputOutput() {
-		input = new GeoElement[2];
-		input[0] = curve;
-		input[1] = equation;
-
-		outputs = new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				p.setParentAlgorithm(AlgoIntersectImplicitCurve.this);
-				return p;
-			}
-		});
-
-		setDependencies();
-	}
-
-	@Override
-	public void compute() {
-
-		if (curve == null || !curve.isDefined()) {
-			outputs.adjustOutputSize(0);
-			return;
-		}
-
-		if (equationType != EquationType.ROOT
-				&& (equation == null || !equation.isDefined())) {
-			outputs.adjustOutputSize(0);
-			return;
-		}
-
-		this.outputLen = 0;
-
-		switch (equationType) {
-		case LINE:
-			GeoLine l = (GeoLine) equation;
-			intersectLine(l.getX(), l.getY(), l.getZ());
-			break;
-		case FUNCTION:
-			GeoFunction f = (GeoFunction) equation;
-			intersect(curve.getExpression(),
-					f.getFunctionExpression().getCopy(kernel), true);
-			break;
-		case ROOT:
-			intersectLineY(0);
-			break;
-		case CONIC:
-			intersectConic((GeoConic) equation);
-			break;
-		case IMPLICIT_CURVE:
-			intersectCurves();
-			break;
-		}
-
-		if (this.outputLen == 0) {
-			outputs.adjustOutputSize(0);
-		}
-	}
-
-	private void intersectCurves() {
-		List<double[]> roots = new ArrayList<double[]>();
-		findIntersections(curve, (GeoImplicitCurve) equation, SAMPLE_SIZE_2D,
-				OUTPUT_SIZE, roots);
-		if (roots.size() == 0) {
-			outputs.adjustOutputSize(0);
-			return;
-		}
-		outputLen = roots.size();
-		outputs.adjustOutputSize(outputLen);
-		for (int i = 0; i < outputLen; i++) {
-			outputs.getElement(i).setCoords(roots.get(i)[0], roots.get(i)[1],
-					1.0);
-		}
-	}
-
-	private void intersectLine(double a, double b, double c) {
-		if (a == 0 && b == 0) {
-			return;
-		} else if (a == 0) {
-			intersectLineY(-c / b);
-			return;
-		} else if (b == 0) {
-			intersectLineX(-c / a);
-			return;
-		} else {
-			FunctionVariable xVar = new FunctionVariable(kernel, "x");
-			ExpressionNode exp = new ExpressionNode(kernel, xVar,
-					Operation.MULTIPLY, new MyDouble(kernel, -a / b));
-			intersect(curve.getExpression(), exp.subtract(c / b), true);
-		}
-	}
-
-	private void intersectLineX(double c) {
-		ExpressionNode exp = new ExpressionNode(kernel, c);
-		intersect(curve.getExpression(), exp, false);
-	}
-
-	private void intersectLineY(double c) {
-		ExpressionNode exp = new ExpressionNode(kernel, c);
-		intersect(curve.getExpression(), exp, true);
-	}
-
-	private void intersectConic(GeoConic conic) {
-		if (conic.isDegenerate() && conic.isLineConic()) {
-			GeoLine[] l = conic.lines;
-			for (int i = 0; i < l.length; i++) {
-				if (l[i] != null && l[i].isDefined()) {
-					intersectLine(l[i].getX(), l[i].getY(), l[i].getZ());
-				}
-			}
-			return;
-		} else if (conic.isDegenerate()) {
-			GeoPoint pt = conic.getSinglePoint();
-			if (pt != null && pt.isDefined()
-					&& curve.isOnPath(pt, Kernel.STANDARD_PRECISION)) {
-				outputLen++;
-				outputs.adjustOutputSize(outputLen);
-				outputs.getElement(outputLen - 1).setCoordsFromPoint(pt);
-			}
-			return;
-		}
-		double[] m = conic.getMatrix();
-
-		for (int i = 3; i < 6; i++) {
-			m[i] *= 2;
-		}
-		FunctionVariable x = new FunctionVariable(kernel, "x");
-		ExpressionNode num = new ExpressionNode(kernel, x);
-		ExpressionNode den = new ExpressionNode(kernel, x);
-		if (m[0] == 0.0 && m[1] == 0.0) {
-			den = den.multiply(m[3]).plus(m[5]);
-			num = num.multiply(m[4]).plus(m[2]);
-			num = num.multiply(-1.0).divide(den);
-			intersect(curve.getExpression(), num, false);
-			return;
-		} else if (m[0] == 0.0) {
-			num = num.multiply(m[1]).plus(m[5]).multiply(x).plus(m[2]);
-			den = den.multiply(m[3]).plus(m[4]);
-			num = num.multiply(-1.0).divide(den);
-			intersect(curve.getExpression(), num, false);
-		} else if (m[1] == 0.0) {
-			num = num.multiply(m[0]).plus(m[4]).multiply(x).plus(m[2]);
-			den = den.multiply(m[3]).plus(m[5]);
-			num = num.multiply(-1.0).divide(den);
-			intersect(curve.getExpression(), num, false);
-		} else {
-			GeoImplicitCurve curve1 = new GeoImplicitCurve(cons);
-			conic.toGeoImplicitCurve(curve1);
-			equation = curve1;
-			intersectCurves();
-			equation = conic;
-		}
-	}
-
-	private void intersect(FunctionNVar func, ExpressionNode repl,
-			boolean replY) {
-		if (!replY) {
-			intersectRepX(func, repl);
-			return;
-		}
-
-		FunctionVariable y = func.getFunctionVariables()[1];
-		ExpressionNode exp = func.getExpression().getCopy(kernel);
-
-		exp.replace(y, repl);
-		exp.simplifyConstantIntegers();
-
-		Function fn = new Function(exp);
-
-		double[] roots = AlgoRoots.findRoots(new GeoFunction(cons, fn),
-				kernel.getViewsXMin(curve), kernel.getViewsXMax(curve),
-				SAMPLE_SIZE);
-
-		if (roots == null || roots.length == 0) {
-			return;
-		}
-
-		fn = new Function(repl);
-		fn.initFunction();
-
-		int n = outputLen;
-		outputLen += roots.length;
-		outputs.adjustOutputSize(outputLen);
-
-		for (int i = 0; i < roots.length; i++) {
-			double py = fn.value(roots[i]);
-			outputs.getElement(n + i).setCoords(roots[i], py, 1.0);
-		}
-	}
-
-	private void intersectRepX(FunctionNVar func, ExpressionNode repl) {
-
-		FunctionVariable x = func.getFunctionVariables()[0];
-		FunctionVariable y = func.getFunctionVariables()[1];
-
-		ExpressionNode exp = func.getExpression().getCopy(kernel);
-
-		exp.replace(x, repl);
-		exp.replace(y, x);
-		exp.simplifyConstantIntegers();
-
-		Function fn = new Function(exp);
-
-		double[] roots = AlgoRoots.findRoots(new GeoFunction(cons, fn),
-				kernel.getViewsYMin(curve), kernel.getViewsYMax(curve),
-				SAMPLE_SIZE);
-
-		if (roots == null || roots.length == 0) {
-			return;
-		}
-
-		fn = new Function(repl);
-		fn.initFunction();
-
-		int n = outputLen;
-		outputLen += roots.length;
-		outputs.adjustOutputSize(outputLen);
-
-		for (int i = 0; i < roots.length; i++) {
-			double px = fn.value(roots[i]);
-			outputs.getElement(n + i).setCoords(px, roots[i], 1.0);
-		}
-	}
-
-	/**
-	 * @param c1
-	 *            first curve
-	 * @param c2
-	 *            second curve
-	 * @param samples
-	 *            maximum number of samples for initial points
-	 * @param outputs
-	 *            maximum size of output
-	 * @param vals
-	 *            List that would have the final solution
-	 */
-	public static void findIntersections(GeoImplicitCurve c1,
-			GeoImplicitCurve c2, int samples, int outputs,
-			List<double[]> vals) {
-
-		double[] b1 = c1.getKernel().getViewBoundsForGeo(c1);
-		double[] b2 = c2.getKernel().getViewBoundsForGeo(c2);
-
-		double xMin = Math.max(b1[0], b2[0]);
-		double yMin = Math.max(b1[2], b2[2]);
-		double xMax = Math.min(b1[1], b2[1]);
-		double yMax = Math.min(b1[3], b2[3]);
-
-		double[] params = new double[] { xMin, yMin, xMax, yMax };
-
-		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(c1, c2,
-				samples);
-
-		if (c1.hasDerivative() && c2.hasDerivative()) {
-			FunctionNVar[] f = new FunctionNVar[6];
-
-			f[0] = c1.getExpression();
-			f[1] = c2.getExpression();
-
-			f[2] = c1.getDerivativeX();
-			f[3] = c1.getDerivativeY();
-			f[4] = c2.getDerivativeX();
-			f[5] = c2.getDerivativeY();
-			intersections(f, params, guess, outputs, vals);
-		}
-
-		FunctionNVar fn1 = c1.getExpression();
-		FunctionNVar fn2 = c2.getExpression();
-
-		intersects(fn1, fn2, params, guess, outputs, vals);
-	}
+	
+	
 
 	/**
 	 * 
@@ -695,35 +372,5 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		eval[1] = y + EPS;
 		right = func.evaluate(eval);
 		return (right - left) / (2 * EPS);
-	}
-
-	@Override
-	public GeoPoint[] getIntersectionPoints() {
-		return outputs.getOutput(new GeoPoint[outputs.size()]);
-	}
-
-	@Override
-	protected GeoPoint[] getLastDefinedIntersectionPoints() {
-		return getIntersectionPoints();
-	}
-
-	@Override
-	public GetCommand getClassName() {
-		return Commands.Intersect;
-	}
-
-	/**
-	 * Set output labels
-	 * 
-	 * @param labels
-	 *            labels
-	 */
-	public void setLabels(String[] labels) {
-		outputs.setLabels(labels);
-		update();
-	}
-
-	private static enum EquationType {
-		ROOT, LINE, CONIC, FUNCTION, IMPLICIT_CURVE;
 	}
 }

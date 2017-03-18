@@ -1662,7 +1662,15 @@ public class StringUtil {
 	 * @return whether input is null or empty after trim
 	 */
 	public static boolean emptyTrim(String str) {
-		return str == null || str.trim().length() == 0;
+		if (str == null) {
+			return true;
+		}
+		for (int i = 0; i < str.length(); i++) {
+			if (!isWhitespace(str.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

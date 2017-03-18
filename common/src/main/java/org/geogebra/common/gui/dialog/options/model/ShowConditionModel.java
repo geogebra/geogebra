@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.StringUtil;
 
 public class ShowConditionModel extends OptionsModel {
 	public interface IShowConditionListener extends PropertyListener {
@@ -63,7 +64,7 @@ public class ShowConditionModel extends OptionsModel {
 	public void applyChanges(String strCond, ErrorHandler handler) {
 		// processed = true;
 		GeoBoolean cond;
-		if (strCond == null || strCond.trim().length() == 0) {
+		if (StringUtil.emptyTrim(strCond)) {
 			cond = null;
 		} else {
 
@@ -71,7 +72,7 @@ public class ShowConditionModel extends OptionsModel {
 					.evaluateToBoolean(strCond, handler);
 		}
 
-		if (cond != null || strCond.trim().length() == 0) {
+		if (cond != null || StringUtil.emptyTrim(strCond)) {
 			// set condition
 			try {
 				for (int i = 0; i < getGeosLength(); i++) {

@@ -27,7 +27,7 @@ public abstract class AlgoOrthoLineLine extends AlgoElement3D {
 	protected GeoLineND line1; // input
 	private GeoLine3D line; // output
 
-	public AlgoOrthoLineLine(Construction cons, String label, GeoLineND line1) {
+	public AlgoOrthoLineLine(Construction cons, GeoLineND line1) {
 		super(cons);
 		this.line1 = line1;
 		line = new GeoLine3D(cons);

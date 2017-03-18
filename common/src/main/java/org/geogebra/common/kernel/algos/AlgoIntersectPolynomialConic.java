@@ -59,39 +59,11 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		this.c = c;
 
 		// initForNearToRelationship();
+		// TODO set incidence
 		compute();
 	}
 
-	/**
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            labels for result
-	 * @param setLabel
-	 *            whether to set labels
-	 * @param h
-	 *            function
-	 * @param c
-	 *            conic
-	 */
-	public AlgoIntersectPolynomialConic(Construction cons, String[] labels,
-			boolean setLabel, GeoFunction h, GeoConic c) {
-		super(cons, h, c);
-		this.h = h;
-		this.c = c;
-		compute();
 
-		addIncidence();
-	}
-
-	/**
-	 * @author Tam
-	 * 
-	 *         for special cases of e.g. AlgoIntersectLineConic
-	 */
-	private void addIncidence() {
-		// TODO
-	}
 
 	@Override
 	public void compute() {
@@ -117,16 +89,6 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			boolean oldSilentMode = ker.isSilentMode();
 			ker.setSilentMode(true);
 
-			/*
-			 * try { substituteFunctionX = (GeoFunction)
-			 * ker.getAlgebraProcessor().processValidExpression(
-			 * ker.getParser().parseGeoGebraExpression("x"))[0]; } catch
-			 * (MyError e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); } catch (ParseException e) { // TODO
-			 * Auto-generated catch block e.printStackTrace(); } catch
-			 * (Exception e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); }
-			 */
 
 			GeoImplicit iPoly = kernel.newImplicitPoly(cons);
 			iPoly.preventPathCreation();

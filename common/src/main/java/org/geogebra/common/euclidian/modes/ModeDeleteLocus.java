@@ -15,7 +15,6 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
@@ -40,7 +39,8 @@ public class ModeDeleteLocus extends ModeDelete {
 		this.interPoints = new ArrayList<GPoint2D>();
 	}
 
-	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
+	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
+			100);
 
 	@Override
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
@@ -255,7 +255,7 @@ public class ModeDeleteLocus extends ModeDelete {
 	}
 
 	// add new undefined points and update old points coordinates
-	private ArrayList<List<MyPoint>> getNewPolyLinePoints(
+	private static ArrayList<List<MyPoint>> getNewPolyLinePoints(
 			List<MyPoint> dataPoints, List<MyPoint> realPoints, int newSize,
 			int i, int indexInter1, int indexUndef, int indexInter2,
 			double[] realCoords) {
@@ -283,16 +283,10 @@ public class ModeDeleteLocus extends ModeDelete {
 				newRealPoints[j + newSize - 1] = realPoints.get(j - 1);
 			}
 		}
-		newDataPoints[indexInter1] = ngp(
-				view.getKernel().getConstruction(), realCoords[0],
-				realCoords[1], 1);
-		newDataPoints[indexUndef] = ngp(
-				view.getKernel().getConstruction());
-		newRealPoints[indexUndef] = ngp(
-				view.getKernel().getConstruction());
-		newDataPoints[indexInter2] = ngp(
-				view.getKernel().getConstruction(), realCoords[2],
-				realCoords[3], 1);
+		newDataPoints[indexInter1] = ngp(realCoords[0], realCoords[1]);
+		newDataPoints[indexUndef] = ngp();
+		newRealPoints[indexUndef] = ngp();
+		newDataPoints[indexInter2] = ngp(realCoords[2], realCoords[3]);
 
 		dataAndRealPoint.add(Arrays.asList(newDataPoints));
 		dataAndRealPoint.add(Arrays.asList(newRealPoints));
@@ -300,12 +294,11 @@ public class ModeDeleteLocus extends ModeDelete {
 		return dataAndRealPoint;
 	}
 
-	private MyPoint ngp(Construction construction) {
+	private static MyPoint ngp() {
 		return new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO);
 	}
 
-	private MyPoint ngp(Construction construction, double d, double e, int i) {
-		// TODO Auto-generated method stub
+	private static MyPoint ngp(double d, double e) {
 		return new MyPoint(d, e, SegmentType.LINE_TO);
 	}
 
@@ -545,7 +538,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		this.penDeleteMode = false;
 	}
 
-	private void updatePolyLineDataPoints(List<MyPoint> dataPoints,
+	private static void updatePolyLineDataPoints(List<MyPoint> dataPoints,
 			GeoLocusStroke gps) {
 			if (gps.getParentAlgorithm() != null
 					&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {

@@ -107,7 +107,7 @@ public class DataAnalysisViewD extends JPanel
 		this.kernel = app.getKernel();
 
 		daCtrl = new DataAnalysisControllerD(app, this);
-		model = new DataAnalysisModel(app, mode, this, daCtrl);
+		model = new DataAnalysisModel(app, this, daCtrl);
 
 		dataDisplayPanel1 = new DataDisplayPanelD(this);
 		dataDisplayPanel2 = new DataDisplayPanelD(this);

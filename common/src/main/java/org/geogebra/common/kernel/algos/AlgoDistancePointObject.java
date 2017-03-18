@@ -218,7 +218,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		eq[0] -= 2 * x;
 		// new polynomial coeffs in eq
 		// calculate the roots and find the minimum
-		EquationSolver solver = new EquationSolver(kernel);
+		EquationSolver solver = new EquationSolver();
 		int nrOfRoots = solver.polynomialRoots(eq, false);
 		if (nrOfRoots == 0) {
 			return Double.NaN;

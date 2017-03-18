@@ -154,9 +154,8 @@ public class AlgoText extends AlgoElement {
 		}
 
 		// standard case: set text
-		boolean bool = substituteVars == null ? true
-				: substituteVars.getBoolean();
-		boolean formula = latex == null ? false : latex.getBoolean();
+		boolean bool = substituteVars == null || substituteVars.getBoolean();
+		boolean formula = latex != null && latex.getBoolean();
 		if (geo.isGeoText()) {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText) geo).getTextString());

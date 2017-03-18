@@ -62,7 +62,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	public ScriptInputPanelW(AppW app, GeoElement geo,
 			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
 
-		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
+		model = new ScriptInputModel(app, this, updateScript);
 
 		inputPanel = new FlowPanel();
 		textArea = new ScriptArea();

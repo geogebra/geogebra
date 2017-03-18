@@ -58,8 +58,9 @@ public class CmdCurvatureVector extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoConic3D))) {
 
 				AlgoCurvatureVectorCurve3D algo = new AlgoCurvatureVectorCurve3D(
-						cons, c.getLabel(), (GeoPoint3D) arg[0],
+						cons, (GeoPoint3D) arg[0],
 						(GeoConic3D) arg[1]);
+				algo.getVector().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getVector() };
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof GeoPoint))

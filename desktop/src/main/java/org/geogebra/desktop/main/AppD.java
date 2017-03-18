@@ -3767,7 +3767,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public OFFHandler getOFFHandler() {
 		if (offHandler == null) {
-			offHandler = new OFFHandler(kernel, kernel.getConstruction());
+			offHandler = new OFFHandler(kernel.getConstruction());
 		}
 		return offHandler;
 	}

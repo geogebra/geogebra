@@ -39,7 +39,7 @@ public class ScriptInputModel extends OptionsModel {
 	private boolean editOccurred = false;
 
 	public ScriptInputModel(App app, IScriptInputListener listener,
-			boolean updateScript, boolean forceJavaScript) {
+			boolean updateScript) {
 		super(app);
 		this.listener = listener;
 		this.updateScript = updateScript;
@@ -128,7 +128,7 @@ public class ScriptInputModel extends OptionsModel {
 
 		private Kernel kernel;
 
-		private TextInputHandler() {
+		public TextInputHandler() {
 			kernel = app.getKernel();
 		}
 

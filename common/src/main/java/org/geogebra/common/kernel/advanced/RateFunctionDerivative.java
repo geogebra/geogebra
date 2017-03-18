@@ -23,14 +23,12 @@ public class RateFunctionDerivative implements UnivariateFunction {
 	 *            number of payments
 	 * @param pv
 	 *            Present Value
-	 * @param fv
-	 *            Future Value
 	 * @param pmt
 	 *            Payment
 	 * @param pmtType
 	 *            0 or 1
 	 */
-	public RateFunctionDerivative(double n, double pv, double fv, double pmt,
+	public RateFunctionDerivative(double n, double pv, double pmt,
 			double pmtType) {
 		this.n = n;
 		this.pv = pv;

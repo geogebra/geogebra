@@ -101,7 +101,7 @@ public class StatGeo {
 		getDataBounds(dataList, false, false);
 	}
 
-	private void getDataBounds(GeoList dataList, boolean isPointList) {
+	private void getDataBoundsForPointList(GeoList dataList) {
 		getDataBounds(dataList, true, false);
 	}
 
@@ -842,7 +842,7 @@ public class StatGeo {
 	public void getScatterPlotSettings(GeoList dataList,
 			StatPanelSettings settings) {
 
-		getDataBounds(dataList, true);
+		getDataBoundsForPointList(dataList);
 
 		setXYBounds(settings);
 
@@ -927,7 +927,7 @@ public class StatGeo {
 			StatPanelSettings settings) {
 
 		if (settings.isAutomaticWindow()) {
-			getDataBounds(dataList, true);
+			getDataBoundsForPointList(dataList);
 
 			setXYBounds(settings, .25, .25);
 
@@ -963,7 +963,7 @@ public class StatGeo {
 	public void getResidualPlotSettings(GeoList dataList,
 			GeoElement residualPlot, StatPanelSettings settings) {
 
-		getDataBounds(dataList, true);
+		getDataBoundsForPointList(dataList);
 
 		double[] residualBounds = ((AlgoResidualPlot) residualPlot
 				.getParentAlgorithm()).getResidualBounds();

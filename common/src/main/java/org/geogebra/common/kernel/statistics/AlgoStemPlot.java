@@ -356,7 +356,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			stem = currentLine.get(0);
 			if (stem == 0 && (r < stemLines.size() - 2
 					&& stemLines.get(r + 1).get(0) == 0)) {
-				body.append("-" + stem);
+				body.append("-");
+				body.append(stem);
 			} else {
 				body.append(stem);
 			}

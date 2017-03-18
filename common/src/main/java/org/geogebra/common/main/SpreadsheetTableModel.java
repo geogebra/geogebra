@@ -168,7 +168,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public void remove(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null) {
-			doRemove(geo, location.y, location.x);
+			doRemove(location.y, location.x);
 			cellRangeManager.updateCellRangeAlgos(geo, location, true);
 		}
 	}
@@ -177,13 +177,13 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public void rename(GeoElement geo) {
 		GPoint location = geo.getOldSpreadsheetCoords();
 		if (location != null) {
-			doRemove(geo, location.y, location.x);
+			doRemove(location.y, location.x);
 			cellRangeManager.updateCellRangeAlgos(geo, location, true);
 		}
 		addWithoutTrace(geo);
 	}
 
-	private void doRemove(GeoElement geo, int row, int col) {
+	private void doRemove(int row, int col) {
 		setValueAt(null, row, col);
 		updateHighestUsedColAndRow(col, row);
 	}

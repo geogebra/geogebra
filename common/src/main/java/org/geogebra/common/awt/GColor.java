@@ -194,7 +194,7 @@ public class GColor implements GPaint {
 		// prevent endless loop
 		int loopCounter = 0;
 		int difference = 5;
-		while (!checkColorRatioWhite(fgRed, fgGreen, fgBlue, GColor.WHITE)
+		while (!checkColorRatioWhite(fgRed, fgGreen, fgBlue)
 				&& loopCounter < 50) {
 			// create a slightly darker version of the color
 			fgRed = Math.max(fgRed - difference, 0);
@@ -203,7 +203,7 @@ public class GColor implements GPaint {
 			loopCounter++;
 		}
 
-		if (!checkColorRatioWhite(fgRed, fgGreen, fgBlue, GColor.WHITE)) {
+		if (!checkColorRatioWhite(fgRed, fgGreen, fgBlue)) {
 			// If the color could not be set correctly, the font color is set to
 			// black.
 			return GColor.BLACK;
@@ -224,7 +224,7 @@ public class GColor implements GPaint {
 	 * @return if the contrast ration sufficient (true) or not (false)
 	 */
 	private static boolean checkColorRatioWhite(int fgRed, int fgGreen,
-			int fgBlue, GColor background) {
+			int fgBlue) {
 		int diff_hue = 3 * 255 - fgRed - fgBlue - fgGreen;
 
 		double diff_brightness = 255
@@ -459,9 +459,13 @@ public class GColor implements GPaint {
 	/**
 	 * 
 	 * @param color1
+	 *            first color
 	 * @param color2
+	 *            second color
 	 * @param mix
+	 *            ratio of second color, from [0,1]
 	 * @param alpha
+	 *            output opacity
 	 * @return color1 * (1-mix) + color2 * mix and force alpha
 	 */
 	public static GColor mixColors(GColor color1, GColor color2,

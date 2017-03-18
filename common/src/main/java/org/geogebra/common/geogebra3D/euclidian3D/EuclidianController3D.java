@@ -158,13 +158,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		 *            second geo for the intersection
 		 * @param result
 		 *            result intersection
-		 * @param hitted
-		 *            say if the intersection is hitted
+		 * 
 		 * @param drawable
 		 *            drawable for the intersection
 		 */
 		public IntersectionCurve(GeoElement geo1, GeoElement geo2,
-				GeoElement result, boolean hitted, Drawable3D drawable) {
+				Drawable3D drawable) {
 			this.geo1 = geo1;
 			this.geo2 = geo2;
 			this.drawable = drawable;
@@ -2948,8 +2947,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		intersection.setLineThickness(3);
 		intersection.setIsPickable(false);
 		intersection.setObjColor(ConstructionDefaults3D.colIntersectionCurve);
-		intersectionCurveList
-				.add(new IntersectionCurve(A, B, intersection, true, d));
+		intersectionCurveList.add(new IntersectionCurve(A, B, d));
 	}
 
 	private IntersectionCurve resultedIntersectionCurve;

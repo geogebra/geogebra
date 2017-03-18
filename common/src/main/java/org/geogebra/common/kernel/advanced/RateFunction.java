@@ -42,7 +42,7 @@ public class RateFunction implements DifferentiableUnivariateFunction {
 		this.pmt = pmt;
 		this.pmtType = pmtType;
 
-		this.deriv = new RateFunctionDerivative(n, pv, fv, pmt, pmtType);
+		this.deriv = new RateFunctionDerivative(n, pv, pmt, pmtType);
 	}
 
 	@Override

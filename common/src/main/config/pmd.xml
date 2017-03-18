@@ -35,5 +35,6 @@
   </rule>
 <rule ref="rulesets/java/basic.xml">
 <exclude name="CollapsibleIfStatements"/>
+<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/>
 </rule>
 </ruleset>

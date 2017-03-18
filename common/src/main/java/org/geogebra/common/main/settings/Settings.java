@@ -57,17 +57,11 @@ public class Settings {
 	}
 
 	private EuclidianSettings createEuclidanSettings(App app, int i) {
-
-		EuclidianSettings base = null;
-		if (i != 0) {
-			base = euclidianSettings[0];
-		}
-
 		if (i == 2) { // 3D view
-			return new EuclidianSettings3D(app, base);
+			return new EuclidianSettings3D(app);
 		}
 
-		return new EuclidianSettings(app, base);
+		return new EuclidianSettings(app);
 	}
 
 	public void resetSettings(App app) {

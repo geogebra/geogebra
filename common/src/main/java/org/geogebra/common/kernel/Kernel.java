@@ -459,7 +459,7 @@ public class Kernel {
 	 */
 	final public EquationSolver getEquationSolver() {
 		if (eqnSolver == null) {
-			eqnSolver = new EquationSolver(this);
+			eqnSolver = new EquationSolver();
 		}
 		return eqnSolver;
 	}
@@ -4616,7 +4616,7 @@ public class Kernel {
 	 */
 	public void addMacro(Macro macro) {
 		if (macroManager == null) {
-			macroManager = new MacroManager(getApplication());
+			macroManager = new MacroManager();
 		}
 		macroManager.addMacro(macro);
 

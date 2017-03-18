@@ -260,7 +260,7 @@ public class ColorProvider {
 		List<String> groups;
 		private boolean isCommand;
 
-		public MyMatchResult(int index, String input, List<String> groups,
+		public MyMatchResult(int index, List<String> groups,
 				boolean isCommand) {
 			this.index = index;
 			this.groups = groups;
@@ -332,7 +332,7 @@ public class ColorProvider {
 			}
 			// Set the second parameter and create return value
 			groups.add(params);
-			ret = new MyMatchResult(index + res.getIndex(), input, groups,
+			ret = new MyMatchResult(index + res.getIndex(), groups,
 					"[".equals(openingBracket));
 
 			index += step;

@@ -51,7 +51,7 @@ public class AlgoLocusList extends AlgoElement {
 	private boolean shouldUpdateScreenBorders = false;
 
 	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P,
-			int try_steps, boolean registerCE) {
+			boolean registerCE) {
 
 		// just ignoring try_steps here because it would
 		// probably not be OK to split MIN_STEPS any more
@@ -154,7 +154,7 @@ public class AlgoLocusList extends AlgoElement {
 
 					if (actel instanceof GeoList) {
 						if (((GeoList) actel).shouldUseAlgoLocusList(true)) {
-							actal = new AlgoLocusList(cons, Q, P, try_steps,
+							actal = new AlgoLocusList(cons, Q, P,
 									false);
 							pathp = ((AlgoLocusList) actal).getLocus();
 						} else {
@@ -306,9 +306,9 @@ public class AlgoLocusList extends AlgoElement {
 				continue;
 			}
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
-				insertPoint(actGeo.getPoints().get(j).x,
-						actGeo.getPoints().get(j).y,
-						(j == 0) ? false : actGeo.getPoints().get(j).getLineTo());
+				insertPoint(actGeo.getPoints().get(j).x, actGeo.getPoints()
+						.get(j).y, j != 0
+						&& actGeo.getPoints().get(j).getLineTo());
 			}
 			if (actGeo.getPointLength() > 0) {
 				foundDefined = true;

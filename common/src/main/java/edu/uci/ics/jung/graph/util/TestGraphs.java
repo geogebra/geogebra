@@ -124,7 +124,7 @@ public class TestGraphs {
 	}
 
 	private static void createEdge(Graph<String, Number> g, String v1Label,
-			String v2Label, int weight) {
+			String v2Label) {
 		g.addEdge(new Double(Math.random()), v1Label, v2Label);
 	}
 
@@ -182,7 +182,7 @@ public class TestGraphs {
 
 		for (int i = 0; i < pairs.length; i++) {
 			String[] pair = pairs[i];
-			createEdge(g, pair[0], pair[1], Integer.parseInt(pair[2]));
+			createEdge(g, pair[0], pair[1]);
 		}
 
 		// let's throw in a clique, too

@@ -15,7 +15,6 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -31,10 +30,8 @@ public class MacroManager {
 	/**
 	 * Creates new macro manager
 	 * 
-	 * @param app
-	 *            application
 	 */
-	public MacroManager(App app) {
+	public MacroManager() {
 		macroMap = new HashMap<String, Macro>();
 		macroList = new ArrayList<Macro>();
 	}

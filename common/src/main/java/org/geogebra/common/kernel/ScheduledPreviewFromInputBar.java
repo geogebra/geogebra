@@ -41,7 +41,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private void setInput(String str, ErrorHandler validation) {
 		this.input = str;
 		this.validation = validation;
-		if (str.trim().length() == 0) {
+		if (StringUtil.emptyTrim(str)) {
 			validInput = "";
 			maxLength = DEFAULT_MAX_LENGTH;
 			return;

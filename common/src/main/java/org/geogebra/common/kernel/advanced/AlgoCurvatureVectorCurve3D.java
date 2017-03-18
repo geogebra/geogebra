@@ -68,7 +68,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		compute();
 	}
 
-	public AlgoCurvatureVectorCurve3D(Construction cons, String label,
+	public AlgoCurvatureVectorCurve3D(Construction cons,
 			GeoPoint3D arg, GeoConic3D geoConic3D) {
 		super(cons);
 		this.gc = geoConic3D;

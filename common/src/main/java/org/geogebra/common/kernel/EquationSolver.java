@@ -42,10 +42,8 @@ public class EquationSolver implements EquationSolverInterface {
 	/**
 	 * Creates new equation solver
 	 * 
-	 * @param kernel
-	 *            kernel
 	 */
-	public EquationSolver(Kernel kernel) {
+	public EquationSolver() {
 		// we need someone to polish our roots
 		// rootPolisher = new RealRoot();
 		// extrFinder = kernel.getExtremumFinder();

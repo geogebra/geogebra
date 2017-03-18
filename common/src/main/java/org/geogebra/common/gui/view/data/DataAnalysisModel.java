@@ -125,9 +125,10 @@ public class DataAnalysisModel {
 	 * Constructs the view.
 	 * 
 	 * @param app
-	 * @param mode
+	 * @param listener
+	 *            dialog listening to this
 	 */
-	public DataAnalysisModel(App app, int mode, IDataAnalysisListener listener,
+	public DataAnalysisModel(App app, IDataAnalysisListener listener,
 			DataAnalysisController ctrl) {
 		setIniting(true);
 		this.app = app;

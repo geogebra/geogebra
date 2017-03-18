@@ -26,7 +26,7 @@ public class BoundingBox {
 	 * @param view
 	 *            - euclidianView
 	 */
-	public BoundingBox(EuclidianView view) {
+	public BoundingBox() {
 		handlers = new ArrayList<GEllipse2DDouble>();
 	}
 

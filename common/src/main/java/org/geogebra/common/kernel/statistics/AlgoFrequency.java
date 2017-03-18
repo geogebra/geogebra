@@ -49,18 +49,6 @@ public class AlgoFrequency extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
-	 * @param isCumulative
-	 * @param classList
-	 * @param dataList
-	 */
-	public AlgoFrequency(Construction cons, String label,
-			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
-		this(cons, label, isCumulative, classList, dataList, null, null);
-	}
-
-	/**
-	 * @param cons
 	 * @param isCumulative
 	 * @param classList
 	 * @param dataList
@@ -75,6 +63,7 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param isCumulative
 	 * @param classList
 	 * @param dataList
+	 * @param scale
 	 */
 	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoNumeric scale) {
@@ -83,19 +72,16 @@ public class AlgoFrequency extends AlgoElement {
 
 	/**
 	 * @param cons
-	 * @param label
 	 * @param isCumulative
 	 * @param classList
 	 * @param dataList
 	 * @param useDensity
 	 * @param density
 	 */
-	public AlgoFrequency(Construction cons, String label,
+	public AlgoFrequency(Construction cons,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
-		this(cons, isCumulative, classList, dataList, useDensity, density,
-				null);
-		frequency.setLabel(label);
+		this(cons, isCumulative, classList, dataList, useDensity, density, null);
 	}
 
 	private GeoNumeric scale;
@@ -127,25 +113,9 @@ public class AlgoFrequency extends AlgoElement {
 		compute();
 	}
 
+
 	/***************************************************
 	 * Contingency table constructor
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 * @param isContingencyTable
-	 * 
-	 */
-	public AlgoFrequency(Construction cons, String label, GeoList list1,
-			GeoList list2, boolean isContingencyTable) {
-
-		this(cons, list1, list2, isContingencyTable);
-		frequency.setLabel(label);
-	}
-
-	/***************************************************
-	 * Contingency table constructor (no label)
 	 * 
 	 * @param cons
 	 * @param list1
@@ -157,7 +127,7 @@ public class AlgoFrequency extends AlgoElement {
 			boolean isContingencyTable) {
 		super(cons);
 
-		this.isContingencyTable = true;
+		this.isContingencyTable = isContingencyTable;
 		this.classList = list1;
 		this.dataList = list2;
 		frequency = new GeoList(cons);

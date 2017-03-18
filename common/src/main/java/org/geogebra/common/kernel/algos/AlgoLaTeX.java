@@ -137,8 +137,8 @@ public class AlgoLaTeX extends AlgoElement {
 		// whether to use a formula renderer
 		boolean useLaTeX = true;
 
-		boolean substitute = substituteVars == null ? true
-				: substituteVars.getBoolean();
+		boolean substitute = substituteVars == null
+				|| substituteVars.getBoolean();
 
 		// undefined 0/0 should be ?, undefined If[x>0,"a"] should be ""
 		if (!geo.isDefined() && !geo.isGeoText()) {
@@ -150,7 +150,7 @@ public class AlgoLaTeX extends AlgoElement {
 
 		} else {
 
-			boolean show = showName == null ? false : showName.getBoolean();
+			boolean show = showName != null && showName.getBoolean();
 
 			if (!geo.isLabelSet()) {
 				// eg FormulaText[(1,1), true, true]

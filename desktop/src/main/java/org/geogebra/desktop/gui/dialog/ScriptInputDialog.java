@@ -60,7 +60,7 @@ public class ScriptInputDialog extends InputDialogD
 			int rows, boolean updateScript, boolean forceJavaScript) {
 		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;
-		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
+		model = new ScriptInputModel(app, this, updateScript);
 
 		createGUI(title, "", false, cols, rows, true, false, false, false,
 				DialogType.GeoGebraEditor);

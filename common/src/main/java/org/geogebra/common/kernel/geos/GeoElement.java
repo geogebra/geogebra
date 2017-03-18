@@ -2988,8 +2988,6 @@ public abstract class GeoElement extends ConstructionElement
 			return false;
 		}
 
-		caption2 = caption2.trim();
-
 		// workaround for unintended feature of old Input Boxes
 		// &nbsp and &nbsp; both used to work
 		if (caption2.indexOf("&nbsp") > -1) {
@@ -2997,12 +2995,14 @@ public abstract class GeoElement extends ConstructionElement
 			caption2 = caption2.replaceAll("&nbsp", Unicode.NBSP);
 		}
 
-		if (caption2.trim().length() == 0) {
+		caption2 = caption2.trim();
+
+		if (caption2.isEmpty()) {
 			this.caption = null;
 			return true;
 		}
 
-		this.caption = caption2.trim();
+		this.caption = caption2;
 		return true;
 	}
 

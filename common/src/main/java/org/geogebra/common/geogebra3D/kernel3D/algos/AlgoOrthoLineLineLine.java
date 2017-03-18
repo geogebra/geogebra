@@ -31,7 +31,7 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 
 	public AlgoOrthoLineLineLine(Construction cons, String label,
 			GeoLineND line1, GeoLineND line2) {
-		super(cons, label, line1);
+		super(cons, line1);
 		this.line2 = line2;
 
 		setInputOutput(

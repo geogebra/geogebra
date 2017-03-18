@@ -57,8 +57,8 @@ public class VectorArithmetic {
 	 */
 	private static ExpressionNode scalarProductComponent(Kernel kernel0, int i,
 			ExpressionValue left1, ExpressionValue right1) {
-		return computeCoord(left1.wrap(), i).multiply(
-				computeCoord(right1.wrap(), i));
+		return computeCoord(left1.wrap(), i, kernel0).multiply(
+				computeCoord(right1.wrap(), i, kernel0));
 	}
 
 	/**
@@ -69,7 +69,12 @@ public class VectorArithmetic {
 	 * @return given coordinate of expression
 	 */
 	public static ExpressionNode computeCoord(ExpressionNode exp, int i) {
-		Kernel kernel = exp.getKernel();
+		return computeCoord(exp, i, exp.getKernel());
+	}
+
+	private static ExpressionNode computeCoord(ExpressionNode exp, int i,
+			Kernel kernel) {
+
 		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
 				Operation.ZCOORD };
 		if (exp.isLeaf()) {

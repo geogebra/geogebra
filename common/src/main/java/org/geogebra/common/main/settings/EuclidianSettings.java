@@ -68,7 +68,7 @@ public class EuclidianSettings extends AbstractSettings {
 	// settings for the base EuclidianView (or null if this is the base)
 	// private final EuclidianSettings euclidianSettings1;
 
-	public EuclidianSettings(App app, EuclidianSettings euclidianSettings1) {
+	public EuclidianSettings(App app) {
 		// this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
@@ -446,12 +446,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setAxisLabel(int axis, String axisLabel) {
 		boolean changed = false;
-		if ((axisLabel == null) || (axisLabel.length() == 0)) {
+		if (StringUtil.empty(axisLabel)) {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
 		} else {
-			changed = axesLabels[axis] != null
-					? !axesLabels[axis].equals(axisLabel) : true;
 			changed = !axisLabel.equals(axesLabels[axis]);
 			axesLabels[axis] = axisLabel;
 		}

@@ -384,7 +384,7 @@ public class DataSource {
 			// spreadsheet's selected cell range list
 			if (selection.getSelectedGeos().get(0)
 					.getSpreadsheetCoords() != null) {
-				setDataListFromSpreadsheet(mode, defaultGroupType);
+				setDataListFromSpreadsheet(mode);
 
 			} else {
 				// otherwise add all selected GeoLists
@@ -411,10 +411,9 @@ public class DataSource {
 					range.substring(range.indexOf(':') + 1));
 
 			CellRange cr = new CellRange(app, start.x, start.y, end.x, end.y);
-			Log.debug(cr.getLabel());
 			ranges.add(cr);
 		}
-		this.setDataListFromSpreadsheet(mode, GroupType.RAWDATA, ranges);
+		setDataListFromSpreadsheet(mode, ranges);
 	}
 
 	/**
@@ -473,16 +472,16 @@ public class DataSource {
 	 * Creates a new list of DataVariables from the current spreadsheet
 	 * selection.
 	 */
-	private void setDataListFromSpreadsheet(int mode, GroupType groupType) {
+	private void setDataListFromSpreadsheet(int mode) {
 
 		// The cell range list returned by the spreadsheet can change
 		// dynamically, so we need to use a copy.
 		ArrayList<CellRange> rangeList = CellRangeProcessor
 				.clone(spreadsheetTable().getSelectedCellRanges());
-		setDataListFromSpreadsheet(mode, groupType, rangeList);
+		setDataListFromSpreadsheet(mode, rangeList);
 	}
 
-	private void setDataListFromSpreadsheet(int mode, GroupType groupType,
+	private void setDataListFromSpreadsheet(int mode,
 			ArrayList<CellRange> rangeList) {
 		DataVariable var = new DataVariable(app);
 

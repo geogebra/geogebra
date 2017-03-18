@@ -26,6 +26,12 @@ public class CmdFrequency extends CommandProcessor {
 
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
+		GeoElement frequency = processFrequency(c);
+		frequency.setLabel(c.getLabel());
+		return new GeoElement[]{frequency};
+	}
+
+	private GeoElement processFrequency(Command c) {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -35,9 +41,7 @@ public class CmdFrequency extends CommandProcessor {
 
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = {
-						Frequency(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
+				return Frequency((GeoList) arg[0]);
 
 			}
 			throw argErr(app, c, arg[0]);
@@ -46,17 +50,15 @@ public class CmdFrequency extends CommandProcessor {
 
 			// arg[0] = is cumulative, arg[1] = data list,
 			if ((arg[0].isGeoBoolean()) && (arg[1].isGeoList())) {
-				GeoElement[] ret = { Frequency(c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1]) };
-				return ret;
+				return Frequency((GeoBoolean) arg[0],
+						(GeoList) arg[1]);
 			}
 
 			// arg[0] = class list, arg[1] = data list
 			else if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
 				if (arg[1].isGeoList()) {
-					GeoElement[] ret = { Frequency(c.getLabel(),
-							(GeoList) arg[0], (GeoList) arg[1]) };
-					return ret;
+					return Frequency((GeoList) arg[0],
+							(GeoList) arg[1]);
 				}
 
 			} else if (!ok[0]) {
@@ -70,19 +72,16 @@ public class CmdFrequency extends CommandProcessor {
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list
 			if ((ok[0] = arg[0].isGeoBoolean()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoList())) {
-				GeoElement[] ret = {
-						Frequency(c.getLabel(), (GeoBoolean) arg[0],
-								(GeoList) arg[1], (GeoList) arg[2]) };
-				return ret;
+				return Frequency((GeoBoolean) arg[0],
+						(GeoList) arg[1], (GeoList) arg[2]);
 
 			}
 			// arg[0] = class list, arg[1] = data list, arg[2] = useDensity
 			else if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { Frequency(c.getLabel(), (GeoList) arg[0],
-						(GeoList) arg[1], (GeoBoolean) arg[2]) };
-				return ret;
+				return Frequency((GeoList) arg[0],
+						(GeoList) arg[1], (GeoBoolean) arg[2]);
 
 			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);
@@ -99,10 +98,9 @@ public class CmdFrequency extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { Frequency(c.getLabel(), (GeoList) arg[0],
+				return Frequency((GeoList) arg[0],
 						(GeoList) arg[1], (GeoBoolean) arg[2],
-						(GeoNumeric) arg[3]) };
-				return ret;
+						(GeoNumeric) arg[3]);
 			}
 
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list,
@@ -111,10 +109,9 @@ public class CmdFrequency extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
-				GeoElement[] ret = { Frequency(c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						(GeoBoolean) arg[3]) };
-				return ret;
+				return Frequency((GeoBoolean) arg[0],
+						(GeoList) arg[1], (GeoList) arg[2], (GeoBoolean) arg[3]);
+				
 			}
 
 			else if (!ok[0]) {
@@ -134,10 +131,9 @@ public class CmdFrequency extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoList())
 					&& (ok[3] = arg[3].isGeoBoolean())
 					&& (ok[4] = arg[4].isGeoNumeric())) {
-				GeoElement[] ret = { Frequency(c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						(GeoBoolean) arg[3], (GeoNumeric) arg[4]) };
-				return ret;
+				return Frequency((GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoList) arg[2],
+						(GeoBoolean) arg[3], (GeoNumeric) arg[4]);
 			}
 
 			else if (!ok[0]) {
@@ -160,8 +156,8 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[dataList] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, null, null,
+	final private GeoList Frequency(GeoList dataList) {
+		AlgoFrequency algo = new AlgoFrequency(cons, null, null,
 				dataList);
 		GeoList list = algo.getResult();
 		return list;
@@ -170,9 +166,9 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[isCumulative, dataList] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoBoolean isCumulative,
+	final private GeoList Frequency(GeoBoolean isCumulative,
 			GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, isCumulative, null,
+		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative, null,
 				dataList);
 		GeoList list = algo.getResult();
 		return list;
@@ -181,14 +177,14 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[classList, dataList] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoList classList,
+	final private GeoList Frequency(GeoList classList,
 			GeoList dataList) {
 		AlgoFrequency algo;
 
 		if (classList.getElementType() == GeoClass.TEXT) {
-			algo = new AlgoFrequency(cons, label, classList, dataList, true);
+			algo = new AlgoFrequency(cons, classList, dataList, true);
 		} else {
-			algo = new AlgoFrequency(cons, label, null, classList, dataList);
+			algo = new AlgoFrequency(cons, null, classList, dataList);
 		}
 		GeoList list = algo.getResult();
 		return list;
@@ -197,9 +193,9 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[classList, dataList, useDensity] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoList classList,
+	final private GeoList Frequency(GeoList classList,
 			GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, null, classList,
+		AlgoFrequency algo = new AlgoFrequency(cons, null, classList,
 				dataList, useDensity, null);
 		GeoList list = algo.getResult();
 		return list;
@@ -208,9 +204,9 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[classList, dataList, useDensity, scaleFactor] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoList classList,
+	final private GeoList Frequency(GeoList classList,
 			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, null, classList,
+		AlgoFrequency algo = new AlgoFrequency(cons, null, classList,
 				dataList, useDensity, scaleFactor);
 		GeoList list = algo.getResult();
 		return list;
@@ -219,9 +215,9 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[isCumulative, classList, dataList] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoBoolean isCumulative,
+	final private GeoList Frequency(GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, isCumulative,
+		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative,
 				classList, dataList, null, null);
 		GeoList list = algo.getResult();
 		return list;
@@ -230,9 +226,9 @@ public class CmdFrequency extends CommandProcessor {
 	/**
 	 * Frequency[isCumulative, classList, dataList, useDensity] G. Sturr
 	 */
-	final private GeoList Frequency(String label, GeoBoolean isCumulative,
+	final private GeoList Frequency(GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, isCumulative,
+		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative,
 				classList, dataList, useDensity, null);
 		GeoList list = algo.getResult();
 		return list;
@@ -242,10 +238,10 @@ public class CmdFrequency extends CommandProcessor {
 	 * Frequency[isCumulative, classList, dataList, useDensity, scaleFactor] G.
 	 * Sturr
 	 */
-	final private GeoList Frequency(String label, GeoBoolean isCumulative,
+	final private GeoList Frequency(GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
 			GeoNumeric scaleFactor) {
-		AlgoFrequency algo = new AlgoFrequency(cons, label, isCumulative,
+		AlgoFrequency algo = new AlgoFrequency(cons, isCumulative,
 				classList, dataList, useDensity, scaleFactor);
 		GeoList list = algo.getResult();
 		return list;

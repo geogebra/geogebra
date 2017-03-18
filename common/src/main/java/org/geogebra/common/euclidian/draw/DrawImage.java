@@ -287,7 +287,6 @@ public final class DrawImage extends Drawable {
 					// g2.draw(labelRectangle);
 
 					// draw parallelogram around edge
-					drawHighlighting(at, g3);
 					GPoint2D corner1 = AwtFactory.getPrototype().newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMinY());
 					GPoint2D corner2 = AwtFactory.getPrototype().newPoint2D(
@@ -321,19 +320,6 @@ public final class DrawImage extends Drawable {
 
 			g3.setComposite(oldComp);
 		}
-	}
-
-	/**
-	 * Draws highligting (not implemented)
-	 * 
-	 * @param at2
-	 *            transform
-	 * @param g2
-	 *            graphics
-	 */
-	private void drawHighlighting(GAffineTransform at2, GGraphics2D g2) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**

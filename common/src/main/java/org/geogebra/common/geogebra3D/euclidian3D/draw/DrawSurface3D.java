@@ -500,7 +500,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// start recursive split
 		loopSplitIndex = 0;
 		// long time = System.currentTimeMillis();
-		stillRoomLeft = split(false);
+		stillRoomLeft = split();
 
 		// time = System.currentTimeMillis() - time;
 		// if (time > 0){
@@ -1039,7 +1039,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private boolean split(boolean draw) {
+	private boolean split() {
 
 		if (currentSplitStoppedIndex == currentSplitIndex) {
 			// swap stacks
@@ -1070,7 +1070,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// drawListIndex);
 
 		if (loopSplitIndex < maxSplitsInOneUpdate && nextSplitIndex > 0) {
-			return split(false);
+			return split();
 		}
 
 		return true; // went to end of loop
@@ -3235,7 +3235,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			hitting.calculateClippedValues();
 			if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
 				// clipping box
-				resetLastHitParameters(surface);
+				// TODO reset last hit parameters ?
 				return false;
 			}
 
@@ -3274,8 +3274,5 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		geoF.resetLastHitParameters();
 	}
 
-	private static void resetLastHitParameters(GeoSurfaceCartesian3D surface) {
-		// curve.resetLastHitParameters();
-	}
 
 }

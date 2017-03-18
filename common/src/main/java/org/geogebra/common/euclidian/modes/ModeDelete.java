@@ -39,7 +39,8 @@ public class ModeDelete {
 		this.interPoints = new ArrayList<GPoint2D>();
 	}
 
-	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
+	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
+			100);
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {

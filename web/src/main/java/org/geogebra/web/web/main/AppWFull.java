@@ -381,8 +381,7 @@ public abstract class AppWFull extends AppW {
 	
 	@Override
 	public void openOFF(String content){
-		OFFHandler h = new OFFHandler(getKernel(), 
-				getKernel().getConstruction());
+		OFFHandler h = new OFFHandler(getKernel().getConstruction());
 		h.reset();
 		String[] lines = content.split("\n");
 		try {

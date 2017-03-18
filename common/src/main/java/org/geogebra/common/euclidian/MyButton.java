@@ -252,7 +252,6 @@ public class MyButton implements Observer {
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
-		this.setForeground(GColor.WHITE);
 
 		// draw image
 		if (geoButton.getFillImage() != null) {
@@ -355,15 +354,6 @@ public class MyButton implements Observer {
 		}
 		double ret = GeoText.getRelativeFontSize(i);
 		paintComponent(g, ret);
-
-	}
-
-	/**
-	 * @param white
-	 *            color
-	 */
-	private void setForeground(GColor white) {
-		// TODO Auto-generated method stub
 
 	}
 

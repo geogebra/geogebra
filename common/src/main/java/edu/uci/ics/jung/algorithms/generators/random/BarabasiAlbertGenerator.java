@@ -10,7 +10,6 @@
 package edu.uci.ics.jung.algorithms.generators.random;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -165,7 +164,7 @@ public class BarabasiAlbertGenerator<V, E>
 		mElapsedTimeSteps = 0;
 	}
 
-	private void createRandomEdge(Collection<V> preexistingNodes, V newVertex,
+	private void createRandomEdge(V newVertex,
 			Set<Pair<V>> added_pairs) {
 		V attach_point;
 		boolean created_edge = false;
@@ -222,7 +221,6 @@ public class BarabasiAlbertGenerator<V, E>
 	}
 
 	private void evolveGraph() {
-		Collection<V> preexistingNodes = mGraph.getVertices();
 		V newVertex = vertexFactory.create();
 
 		mGraph.addVertex(newVertex);
@@ -234,7 +232,7 @@ public class BarabasiAlbertGenerator<V, E>
 				mNumEdgesToAttachPerStep * 3);
 
 		for (int i = 0; i < mNumEdgesToAttachPerStep; i++) {
-			createRandomEdge(preexistingNodes, newVertex, added_pairs);
+			createRandomEdge(newVertex, added_pairs);
 		}
 
 		for (Pair<V> pair : added_pairs) {

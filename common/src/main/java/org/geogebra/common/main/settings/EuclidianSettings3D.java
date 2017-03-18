@@ -23,8 +23,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	private double a = EuclidianView3D.ANGLE_ROT_OZ;
 	private double b = EuclidianView3D.ANGLE_ROT_XOY;// angles (in degrees)
 
-	public EuclidianSettings3D(App app, EuclidianSettings euclidianSettings1) {
-		super(app, euclidianSettings1);
+	public EuclidianSettings3D(App app) {
+		super(app);
 
 		setXscale(50);
 		setYscale(50);

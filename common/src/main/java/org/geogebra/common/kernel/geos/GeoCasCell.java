@@ -2143,7 +2143,7 @@ public class GeoCasCell extends GeoElement
 	 */
 	public boolean isSubstitute() {
 		Command cmd = evalVE.getTopLevelCommand();
-		return (cmd == null) ? false : "Substitute".equals(cmd.getName());
+		return cmd != null && "Substitute".equals(cmd.getName());
 	}
 
 	/**

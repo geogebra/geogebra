@@ -968,7 +968,7 @@ public class AlgebraProcessor {
 			}
 			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo,
-					handler, false, callback0);
+					handler, autoCreateSliders, callback0);
 		} catch (Throwable t) {
 			Log.warn(t.getMessage());
 		}

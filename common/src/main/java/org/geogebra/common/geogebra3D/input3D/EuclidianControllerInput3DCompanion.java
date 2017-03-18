@@ -312,8 +312,8 @@ public class EuclidianControllerInput3DCompanion extends
 
 				if (!stickyPoints.isEmpty()) {
 					StickyPoint sp = stickyPoints.pollFirst();
-					if (checkDistanceToStickyPoint(sp.getDistanceAbs(),
-							sp.point, scale, DISTANCE_THRESHOLD)) {
+					if (checkDistanceToStickyPoint(sp.getDistanceAbs(), scale,
+							DISTANCE_THRESHOLD)) {
 						origin = sp.point.getInhomCoordsInD3();
 						step++;
 
@@ -432,8 +432,8 @@ public class EuclidianControllerInput3DCompanion extends
 				PointerEventType.TOUCH);
 	}
 
-	private static boolean checkDistanceToStickyPoint(double d,
-			GeoPointND point, double scale, int threshold) {
+	private static boolean checkDistanceToStickyPoint(double d, double scale,
+			int threshold) {
 		return d * scale < DrawPoint.getSelectionThreshold(threshold);// point.getPointSize()
 																		// +
 																		// threshold;

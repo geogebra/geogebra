@@ -8,7 +8,6 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
@@ -39,12 +38,10 @@ public class OFFHandler {
 
 	/**
 	 * 
-	 * @param kernel
-	 *            kernel
 	 * @param construction
 	 *            construction
 	 */
-	public OFFHandler(Kernel kernel, Construction construction) {
+	public OFFHandler(Construction construction) {
 
 		this.construction = construction;
 		this.parser = new CSVParser(' ');

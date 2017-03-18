@@ -113,7 +113,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		this.kernel = app.getKernel();
 
 		daCtrl = new DataAnalysisControllerW(app, this);
-		model = new DataAnalysisModel(app, mode, this, daCtrl);
+		model = new DataAnalysisModel(app, this, daCtrl);
 
 
 		dataSource = new DataSource(app);
@@ -132,7 +132,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 
 	public void changeMode(int mode) {
-		model = new DataAnalysisModel(app, mode, this, daCtrl);
+		model = new DataAnalysisModel(app, this, daCtrl);
 		setView(dataSource, mode, true);
 	}
 

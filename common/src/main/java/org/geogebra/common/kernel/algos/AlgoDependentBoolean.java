@@ -907,7 +907,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			strForGiac.append("," + labels[i] + "=" + botanaVars[i]);
 		}
 		strForGiac.append("],[");
-		strForGiac.append(labelsStr + "])");
+		strForGiac.append(labelsStr);
+		strForGiac.append("])");
 		return strForGiac.toString();
 	}
 

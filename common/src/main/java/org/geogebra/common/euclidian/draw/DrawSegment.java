@@ -645,7 +645,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox(view);
+			boundingBox = new BoundingBox();
 			boundingBox.setNrHandlers(2);
 		}
 		return boundingBox;
