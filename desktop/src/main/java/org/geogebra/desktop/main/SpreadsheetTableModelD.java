@@ -29,7 +29,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	 *            number of columns
 	 */
 	public SpreadsheetTableModelD(App app, int rows, int columns) {
-		super(app, rows, columns);
+		super(app);
 		defaultTableModel = new DefaultTableModel(rows, columns);
 		attachView();
 		isIniting = false;
