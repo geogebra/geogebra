@@ -355,10 +355,10 @@ public class WinFileManager extends FileManager {
 	}-*/;
 	
 	@Override
-	public native void exportImage(String url, String title)/*-{
+	public native void exportImage(String url, String title, String ext)/*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
 			$wnd.android.callPlugin('SaveDialog', [
-					url.substring(url.indexOf(',') + 1), title, 'png' ]);
+					url.substring(url.indexOf(',') + 1), title, ext ]);
 		}
 	}-*/;
 
@@ -370,9 +370,23 @@ public class WinFileManager extends FileManager {
 	@Override
 	public void showExportAsPictureDialog(String url, String filename,
 			App app) {
-		exportImage(url, filename);
+
+		String extension = "png";
+		String titleKey = "ExportAsPicture";
+
+		if (url.startsWith("data:text/")) {
+			// eg Tizk export
+			extension = "txt";
+			titleKey = "Export";
+			// could use:
+			// TitleExportPstricks
+			// TitleExportPgf
+		}
+
+		exportImage(url, filename, extension);
 		// TODO check if it really happened
-		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));
+		app.dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
 
 	}
 

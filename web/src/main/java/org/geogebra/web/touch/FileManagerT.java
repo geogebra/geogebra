@@ -1089,18 +1089,33 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public native void exportImage(String url, String title) /*-{
+	public native void exportImage(String url, String title,
+			String extension) /*-{
 		if ($wnd.android) {
-			$wnd.android.share(url, title, 'png');
+			$wnd.android.share(url, title, extension);
 		}
 	}-*/;
 
 	@Override
 	public void showExportAsPictureDialog(String url, String filename,
 			App app) {
-		exportImage(url, filename);
+
+		String extension = "png";
+		String titleKey = "ExportAsPicture";
+
+		if (url.startsWith("data:text/")) {
+			// eg Tizk export
+			extension = "txt";
+			titleKey = "Export";
+			// could use:
+			// TitleExportPstricks
+			// TitleExportPgf
+		}
+
+		exportImage(url, filename, extension);
 		// TODO check if it really happened
-		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));
+		app.dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
 	}
 
 	@Override

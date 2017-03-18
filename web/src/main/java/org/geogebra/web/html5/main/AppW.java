@@ -2229,7 +2229,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		String title = ev.getApplication().getKernel().getConstruction()
 				.getTitle();
 		title = "".equals(title) ? "GeoGebraImage" : title;
-		getFileManager().exportImage(image, title);
+		getFileManager().exportImage(image, title, "png");
 	}
 
 	@Override

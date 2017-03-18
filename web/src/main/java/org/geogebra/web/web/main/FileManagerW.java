@@ -333,11 +333,26 @@ public class FileManagerW extends FileManager {
 	@Override
 	public void showExportAsPictureDialog(final String url, String filename,
 			final App app1) {
+
+		String extension = "png";
+		String titleKey = "ExportAsPicture";
+
+		if (url.startsWith("data:text/")) {
+			// eg Tizk export
+			extension = "txt";
+			titleKey = "Export";
+			// could use:
+			// TitleExportPstricks
+			// TitleExportPgf
+		}
+
+		final String extension2 = extension;
+
 		Localization loc = getApp().getLocalization();
 		((AppW) app1).getGuiManager()
 				.getOptionPane()
-				.showSaveDialog(getApp(), loc.getMenu("ExportAsPicture"),
-						filename + ".png", null,
+				.showSaveDialog(getApp(), loc.getMenu(titleKey),
+						filename + "." + extension, null,
 						new AsyncOperation<String[]>() {
 
 							@Override
@@ -347,9 +362,10 @@ public class FileManagerW extends FileManager {
 									return;
 								}
 
-								exportImage(url, obj[1]);
+								exportImage(url, obj[1], extension2);
 								getApp().dispatchEvent(new Event(
-										EventType.EXPORT, null, "[\"png\"]"));
+										EventType.EXPORT, null,
+										"[\"" + extension2 + "\"]"));
 							}
 						}, loc.getMenu("Export"));
 
@@ -362,7 +378,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void exportImage(String url, String filename) {
+	public void exportImage(String url, String filename, String extension) {
 		Browser.exportImage(url, filename);
 	}
 

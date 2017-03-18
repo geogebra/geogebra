@@ -202,7 +202,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 						String downloadUrl = "data:image/gif;base64,"
 						        + base64.isString().stringValue();
-						app.getFileManager().exportImage(downloadUrl, "ggbanim.gif");
+						app.getFileManager().exportImage(downloadUrl,
+								"ggbanim.gif", "gif");
 						WindowW.postMessage(gifWnd, StringUtil.toHTMLString(app
 						        .getLocalization().getPlain(
 						                "AnimatedGIF.Success")));

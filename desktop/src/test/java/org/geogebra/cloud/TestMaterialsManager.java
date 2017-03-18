@@ -8,7 +8,6 @@ import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 
 public class TestMaterialsManager extends MaterialsManager {
@@ -131,7 +130,7 @@ public class TestMaterialsManager extends MaterialsManager {
 
 	}
 
-	public void exportImage(String url, String string) {
+	public void exportImage(String url, String string, String extension) {
 		// TODO Auto-generated method stub
 
 	}

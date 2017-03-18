@@ -85,6 +85,70 @@ public class ExportMenuW extends MenuBar {
 						}
 					});
 		}
+
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+				// translation not needed
+				.getSafeUri().asString(), "PSTricks", true), true,
+				new MenuCommand(app) {
+
+					@Override
+					public void execute() {
+						app.getActiveEuclidianView()
+								.setSelectionRectangle(null);
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
+						hide();
+						String url = "data:text/plain;charset=utf-8,"
+								+ app.getGgbApi().exportPSTricks();
+
+						app.getFileManager().showExportAsPictureDialog(url,
+								app.getExportTitle(), app);
+						dialogEvent("exportPSTricks");
+					}
+				});
+
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+				// translation not needed
+				.getSafeUri().asString(), "PGF/TikZ", true), true,
+				new MenuCommand(app) {
+
+					@Override
+					public void execute() {
+						app.getActiveEuclidianView()
+								.setSelectionRectangle(null);
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
+						hide();
+						String url = "data:text/plain;charset=utf-8,"
+								+ app.getGgbApi().exportPGF();
+
+						app.getFileManager().showExportAsPictureDialog(url,
+								app.getExportTitle(), app);
+						dialogEvent("exportPGF");
+					}
+				});
+
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+				// translation not needed
+				.getSafeUri().asString(), "Asymptote", true), true,
+				new MenuCommand(app) {
+
+					@Override
+					public void execute() {
+						app.getActiveEuclidianView()
+								.setSelectionRectangle(null);
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
+						hide();
+						String url = "data:text/plain;charset=utf-8,"
+								+ app.getGgbApi().exportAsymptote();
+
+						app.getFileManager().showExportAsPictureDialog(url,
+								app.getExportTitle(), app);
+						dialogEvent("exportPGF");
+					}
+				});
+
 	}
 
 	/**
