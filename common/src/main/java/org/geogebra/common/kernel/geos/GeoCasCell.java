@@ -2397,17 +2397,25 @@ public class GeoCasCell extends GeoElement
 						geos = new GeoElement[] { new GeoBoolean(cons, true) };
 					}
 					success = true;
-					result = geos[0]
-							.toValueString(StringTemplate.numericNoLocal);
-					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
-					if (parentAlgo != null) {
-						parentAlgo.remove();
-						// make sure fallback algos are synced with CAS, but not
-						// printed in XML (#2688)
-						parentAlgo.setPrintedInXML(false);
+					Command tlc = evalVE.getTopLevelCommand();
+					/*
+					 * Relation does not return any output, so it does not make
+					 * sense to read off geos.
+					 */
+					if (!tlc.isTopLevelCommand("Relation")) {
+						result = geos[0]
+								.toValueString(StringTemplate.numericNoLocal);
+						AlgoElement parentAlgo = geos[0].getParentAlgorithm();
+						if (parentAlgo != null) {
+							parentAlgo.remove();
+							// make sure fallback algos are synced with CAS, but
+							// not
+							// printed in XML (#2688)
+							parentAlgo.setPrintedInXML(false);
+						}
+						outputVE = new ExpressionNode(kernel, geos[0]);
+						// geos[0].addCasAlgoUser();
 					}
-					outputVE = new ExpressionNode(kernel, geos[0]);
-					// geos[0].addCasAlgoUser();
 					nativeOutput = false;
 				}
 			} catch (Throwable th2) {
