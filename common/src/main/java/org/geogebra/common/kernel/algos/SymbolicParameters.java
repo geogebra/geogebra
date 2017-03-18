@@ -175,7 +175,7 @@ public class SymbolicParameters {
 	 * @return the reduced homogeneous coordinates
 	 */
 	public static BigInteger[] reduce(final BigInteger[] vect) {
-		BigInteger gcd = new BigInteger("0");
+		BigInteger gcd = BigInteger.ZERO;
 		for (int i = 0; i < vect.length; i++) {
 			gcd = gcd.gcd(vect[i]);
 		}
@@ -264,6 +264,7 @@ public class SymbolicParameters {
 	 *            Two EV points
 	 * @return List of Botana variables (4 elements)
 	 * @throws NoSymbolicParametersException
+	 *             if it's not possible to obtain polynomials
 	 */
 	public static PVariable[] addBotanaVarsJoinPoints(GeoElementND[] input)
 			throws NoSymbolicParametersException {
@@ -291,6 +292,7 @@ public class SymbolicParameters {
 	 *            Botana variables for the new point (midpoint)
 	 * @return the polynomials (2 elements)
 	 * @throws NoSymbolicParametersException
+	 *             if it's not possible to obtain polynomials
 	 */
 	public static PPolynomial[] botanaPolynomialsMidpoint(GeoElement P,
 			GeoElement Q, PVariable[] botanaVars)

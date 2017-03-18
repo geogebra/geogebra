@@ -1064,29 +1064,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 				} else {
 					if (leftVN.getDimension() == 3
 							|| rightVN.getDimension() == 3) {
-						sb.append("point(");
-						sb.append("xcoord(");
+						sb.append("point(xcoord(");
 						sb.append(leftStr);
 						sb.append(')');
-						sb.append("+");
-						sb.append("xcoord(");
+						sb.append("+xcoord(");
 						sb.append(rightStr);
-						sb.append("),");
-						sb.append("ycoord(");
+						sb.append("),ycoord(");
 						sb.append(leftStr);
-						sb.append(')');
-						sb.append("+");
-						sb.append("ycoord(");
+						sb.append(")+ycoord(");
 						sb.append(rightStr);
-						sb.append("),");
-						sb.append("zcoord(");
+						sb.append("),zcoord(");
 						sb.append(leftStr);
-						sb.append(')');
-						sb.append("+");
-						sb.append("zcoord(");
+						sb.append(")+zcoord(");
 						sb.append(rightStr);
-						sb.append(")");
-						sb.append(")");
+						sb.append("))");
 					} else {
 						sb.append("point(");
 						sb.append(leftStr);
@@ -1110,29 +1101,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				// eg Evaluate[(1,2,3)+Vector[(10,20,30)]]
 				// eg f: (x, y, z) = (3, 2, 1) + t (5, 1, -3)
-				sb.append("point(");
-				sb.append("xcoord(");
+				sb.append("point(xcoord(");
 				sb.append(leftStr);
-				sb.append(')');
-				sb.append("+");
-				sb.append("xcoord(");
+				sb.append(")+xcoord(");
 				sb.append(rightStr);
-				sb.append("),");
-				sb.append("ycoord(");
+				sb.append("),ycoord(");
 				sb.append(leftStr);
-				sb.append(')');
-				sb.append("+");
-				sb.append("ycoord(");
+				sb.append(")+ycoord(");
 				sb.append(rightStr);
-				sb.append("),");
-				sb.append("zcoord(");
+				sb.append("),zcoord(");
 				sb.append(leftStr);
-				sb.append(')');
-				sb.append("+");
-				sb.append("zcoord(");
+				sb.append(")+zcoord(");
 				sb.append(rightStr);
-				sb.append(")");
-				sb.append(")");
+				sb.append("))");
 
 			} else {
 				// Log.debug("default method" +
@@ -1339,13 +1320,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append("-(");
 				sb.append(rightStr);
-				sb.append(")[0]");
-				sb.append(",");
+				sb.append(")[0],");
 				sb.append(leftStr);
 				sb.append("-(");
 				sb.append(rightStr);
-				sb.append(")[1]");
-				sb.append(",");
+				sb.append(")[1],");
 				sb.append(leftStr);
 				sb.append("-(");
 				sb.append(rightStr);
@@ -1410,29 +1389,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 				} else {
 					if (leftVN.getDimension() == 3
 							|| rightVN.getDimension() == 3) {
-						sb.append("point(");
-						sb.append("xcoord(");
+						sb.append("point(xcoord(");
 						sb.append(leftStr);
-						sb.append(')');
-						sb.append("-");
-						sb.append("xcoord(");
+						sb.append(")-xcoord(");
 						sb.append(rightStr);
-						sb.append("),");
-						sb.append("ycoord(");
+						sb.append("),ycoord(");
 						sb.append(leftStr);
-						sb.append(')');
-						sb.append("-");
-						sb.append("ycoord(");
+						sb.append(")-ycoord(");
 						sb.append(rightStr);
-						sb.append("),");
-						sb.append("zcoord(");
+						sb.append("),zcoord(");
 						sb.append(leftStr);
-						sb.append(')');
-						sb.append("-");
-						sb.append("zcoord(");
+						sb.append(")-zcoord(");
 						sb.append(rightStr);
-						sb.append(")");
-						sb.append(")");
+						sb.append("))");
 					} else {
 						sb.append("point(");
 						sb.append(leftStr);
@@ -1456,30 +1425,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// Log.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
 				// eg f: (x, y, z) = (3, 2, 1) - t (5, 1, -3)
-				sb.append("point(");
-				sb.append("xcoord(");
+				sb.append("point(xcoord(");
 				sb.append(leftStr);
-				sb.append(')');
-				sb.append("-");
-				sb.append("xcoord(");
+				sb.append(")-xcoord(");
 				sb.append(rightStr);
-				sb.append("),");
-				sb.append("ycoord(");
+				sb.append("),ycoord(");
 				sb.append(leftStr);
-				sb.append(')');
-				sb.append("-");
-				sb.append("ycoord(");
+				sb.append(")-ycoord(");
 				sb.append(rightStr);
-				sb.append("),");
-				sb.append("zcoord(");
+				sb.append("),zcoord(");
 				sb.append(leftStr);
-				sb.append(')');
-				sb.append("-");
-				sb.append("zcoord(");
+				sb.append(")-zcoord(");
 				sb.append(rightStr);
-				sb.append(")");
-				sb.append(")");
-
+				sb.append("))");
 			} else {
 
 				sb.append('(');

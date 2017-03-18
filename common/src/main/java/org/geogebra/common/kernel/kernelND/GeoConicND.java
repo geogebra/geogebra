@@ -1707,7 +1707,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	protected String getXMLtagsMinimal() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 5; i++) {
-			sb.append(regrFormat(matrix[i]) + " ");
+			sb.append(regrFormat(matrix[i]));
+			sb.append(" ");
 		}
 		sb.append(regrFormat(matrix[5]));
 

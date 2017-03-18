@@ -207,7 +207,7 @@ public class StringUtil {
 
 				// eg &#10;
 				sb.append("&#");
-				sb.append(((int) c) + "");
+				sb.append(((int) c));
 				sb.append(';');
 
 				if (c != '\n' && c != 13) {

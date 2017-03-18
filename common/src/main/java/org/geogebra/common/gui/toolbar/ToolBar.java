@@ -229,51 +229,82 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" | ");
 		// write tools + erasers
-		sb.append(EuclidianConstants.MODE_PEN + " ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE + " ");
-		sb.append(EuclidianConstants.MODE_DELETE + " ");
-		sb.append(EuclidianConstants.MODE_ERASER + " | ");
+		sb.append(EuclidianConstants.MODE_PEN);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_DELETE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ERASER);
+		sb.append(" | ");
 		// geometry objects
-		sb.append(EuclidianConstants.MODE_JOIN + " ");
-		sb.append(EuclidianConstants.MODE_POLYGON + " ");
-		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON + " ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS + " ");
-		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS + " | ");
+		sb.append(EuclidianConstants.MODE_JOIN);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_POLYGON);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+		sb.append(" | ");
 		// shapes
-		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE + " ");
-		sb.append(EuclidianConstants.MODE_SHAPE_LINE + " | ");
-		sb.append(EuclidianConstants.MODE_TEXT + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_TEXT);
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		return sb.toString();
 	}
 
 	public static String getMOWMediaToolBarDefString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_TEXT + " | ");
-		sb.append(EuclidianConstants.MODE_IMAGE + " | ");
-		sb.append(EuclidianConstants.MODE_VIDEO + " | ");
-		sb.append(EuclidianConstants.MODE_AUDIO + " | ");
+		sb.append(EuclidianConstants.MODE_TEXT);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_IMAGE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_VIDEO);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_AUDIO);
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_GEOGEBRA);
 		return sb.toString();
 	}
 
 	public static String getMOWToolsShapesDefString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_SHAPE_LINE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE + " | ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON + " | ");
-		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM + " | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
 
 		return sb.toString();
@@ -281,13 +312,20 @@ public class ToolBar {
 
 	public static String getMOWToolsPointsDefString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_POINT + " | ");
-		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT + " | ");
-		sb.append(EuclidianConstants.MODE_ATTACH_DETACH + " | ");
-		sb.append(EuclidianConstants.MODE_INTERSECT + " | ");
-		sb.append(EuclidianConstants.MODE_MIDPOINT + " | ");
-		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER + " | ");
-		sb.append(EuclidianConstants.MODE_EXTREMUM + " | ");
+		sb.append(EuclidianConstants.MODE_POINT);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_INTERSECT);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_MIDPOINT);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_EXTREMUM);
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_ROOTS);
 
 		return sb.toString();
@@ -295,11 +333,16 @@ public class ToolBar {
 
 	public static String getMOWToolsLinesDefString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_LINE_BISECTOR + " | ");
-		sb.append(EuclidianConstants.MODE_SEGMENT + " | ");
-		sb.append(EuclidianConstants.MODE_RAY + " | ");
-		sb.append(EuclidianConstants.MODE_POLYLINE + " | ");
-		sb.append(EuclidianConstants.MODE_VECTOR + " | ");
+		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_SEGMENT);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_RAY);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_POLYLINE);
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_VECTOR);
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
 
 		return sb.toString();

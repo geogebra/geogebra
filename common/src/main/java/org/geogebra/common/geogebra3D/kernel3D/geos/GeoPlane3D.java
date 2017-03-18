@@ -569,20 +569,15 @@ public class GeoPlane3D extends GeoElement3D
 		Coords equation = getCoordSys().getEquationVector();
 
 		// equation
-		sb.append("\t<coords");
-		sb.append(" x=\"");
+		sb.append("\t<coords x=\"");
 		sb.append(equation.getX());
-		sb.append("\"");
-		sb.append(" y=\"");
+		sb.append("\" y=\"");
 		sb.append(equation.getY());
-		sb.append("\"");
-		sb.append(" z=\"");
+		sb.append("\" z=\"");
 		sb.append(equation.getZ());
-		sb.append("\"");
-		sb.append(" w=\"");
+		sb.append("\" w=\"");
 		sb.append(equation.getW());
-		sb.append("\"");
-		sb.append("/>\n");
+		sb.append("\"/>\n");
 
 		// fading
 		sb.append("\t<fading val=\"");

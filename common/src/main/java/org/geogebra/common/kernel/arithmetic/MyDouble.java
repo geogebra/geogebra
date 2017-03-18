@@ -986,7 +986,7 @@ public class MyDouble extends ValidExpression
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
 			if (ch <= 0x30) {
-				sb.append(str.charAt(i) + ""); // eg .
+				sb.append(str.charAt(i)); // eg .
 				continue;
 			}
 
@@ -994,7 +994,7 @@ public class MyDouble extends ValidExpression
 			else if (ch <= 0x39) {
 				ch -= 0x30; // Roman (normal)
 			} else if (ch <= 0x100) {
-				sb.append(str.charAt(i) + ""); // eg E
+				sb.append(str.charAt(i)); // eg E
 				continue;
 			} else if (ch <= 0x669) {
 				ch -= 0x660; // Arabic-Indic
@@ -1044,10 +1044,10 @@ public class MyDouble extends ValidExpression
 			} else if (ch <= 0xa8d9) {
 				ch -= 0xa8d0; // Saurashtra
 			} else {
-				sb.append(str.charAt(i) + ""); // eg -
+				sb.append(str.charAt(i)); // eg -
 				continue;
 			}
-			sb.append(ch + "");
+			sb.append(ch);
 		}
 		try {
 			return StringUtil.parseDouble(sb.toString());

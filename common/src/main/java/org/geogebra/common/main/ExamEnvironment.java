@@ -130,14 +130,14 @@ public class ExamEnvironment {
 
 		if (!hasGraph) {
 			if (!supportsCAS || !supports3D) {
-				sb.append(loc.getMenu("exam_views_deactivated") + ":");
-				sb.append(' ');
+				sb.append(loc.getMenu("exam_views_deactivated"));
+				sb.append(": ");
 			}
 			if (!supportsCAS) {
 				sb.append(loc.getMenu("Perspective.CAS"));
 			}
 			if (!supportsCAS && !supports3D) {
-				sb.append("," + ' ');
+				sb.append(", ");
 			}
 			if (!supports3D) {
 				sb.append(loc.getMenu("Perspective.3DGraphics"));
@@ -146,21 +146,21 @@ public class ExamEnvironment {
 		}
 
 		// Exam Start Date
-		sb.append(loc.getMenu("exam_start_date") + ":");
-		sb.append(' ');
+		sb.append(loc.getMenu("exam_start_date"));
+		sb.append(": ");
 		sb.append(getLocalizedDateOnly(loc, examStartTime));
 		sb.append("<br>");
 
 		// Exam Start Time
-		sb.append(loc.getMenu("exam_start_time") + ":");
-		sb.append(' ');
+		sb.append(loc.getMenu("exam_start_time"));
+		sb.append(": ");
 		sb.append(getLocalizedTimeOnly(loc, examStartTime));
 		sb.append("<br>");
 
 		// Exam End Time
 		if (closed > 0) {
-			sb.append(loc.getMenu("exam_end_time") + ":");
-			sb.append(' ');
+			sb.append(loc.getMenu("exam_end_time"));
+			sb.append(": ");
 			sb.append(getLocalizedTimeOnly(loc, closed));
 			sb.append("<br>");
 		}

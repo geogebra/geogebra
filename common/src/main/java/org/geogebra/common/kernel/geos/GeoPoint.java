@@ -1476,8 +1476,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString.append("?");
 			return sbBuildValueString.toString();
 		}
-		sbBuildValueString
-				.append(regrFormat(inhomX) + " " + regrFormat(inhomY));
+		sbBuildValueString.append(regrFormat(inhomX));
+		sbBuildValueString.append(" ");
+		sbBuildValueString.append(regrFormat(inhomY));
 		return sbBuildValueString.toString();
 	}
 
@@ -1773,9 +1774,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + x + "\"");
-			sb.append(" y=\"" + y + "\"");
-			sb.append(" z=\"" + z + "\"");
+			sb.append(" x=\"");
+			sb.append(x);
+			sb.append("\"");
+			sb.append(" y=\"");
+			sb.append(y);
+			sb.append("\"");
+			sb.append(" z=\"");
+			sb.append(z);
+			sb.append("\"");
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));

@@ -381,19 +381,42 @@ public class Material implements Comparable<Material>, Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("ID: " + this.id + ": (" + this.type + ") (local " + localID
-				+ ") ");
-		sb.append("Title: " + this.title + " ");
-		sb.append("by " + this.author + " (" + this.getAuthorURL() + "), ");
-		sb.append("Date: " + this.getDate() + "\n");
-		sb.append("Description: " + this.description + "\n");
-		sb.append("Language: " + this.language + "\n");
-		sb.append("URL: " + this.url + "\n");
-		sb.append("URL_DIRECT: " + this.url_direct + "\n");
-		sb.append("preview URL: " + this.preview_url + "\n");
-		sb.append("Thumbnail: " + this.thumbnail + "\n");
-		sb.append("Featured: " + this.isFeatured() + " ");
-		sb.append("Likes: " + this.likes);
+		sb.append("ID: ").append(this.id).append(": (").append(this.type)
+				.append(") (local ").append(localID).append(") ");
+		sb.append("Title: ");
+		sb.append(this.title);
+		sb.append(" ");
+		sb.append("by ");
+		sb.append(this.author);
+		sb.append(" (");
+		sb.append(this.getAuthorURL());
+		sb.append("), ");
+		sb.append("Date: ");
+		sb.append(this.getDate());
+		sb.append("\n");
+		sb.append("Description: ");
+		sb.append(this.description);
+		sb.append("\n");
+		sb.append("Language: ");
+		sb.append(this.language);
+		sb.append("\n");
+		sb.append("URL: ");
+		sb.append(this.url);
+		sb.append("\n");
+		sb.append("URL_DIRECT: ");
+		sb.append(this.url_direct);
+		sb.append("\n");
+		sb.append("preview URL: ");
+		sb.append(this.preview_url);
+		sb.append("\n");
+		sb.append("Thumbnail: ");
+		sb.append(this.thumbnail);
+		sb.append("\n");
+		sb.append("Featured: ");
+		sb.append(this.isFeatured());
+		sb.append(" ");
+		sb.append("Likes: ");
+		sb.append(this.likes);
 		return sb.toString();
 	}
 

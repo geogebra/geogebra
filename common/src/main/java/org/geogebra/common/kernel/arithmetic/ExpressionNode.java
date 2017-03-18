@@ -2040,80 +2040,80 @@ public class ExpressionNode extends ValidExpression
 			break;
 
 		case COS:
-			trig(kernel, left, leftStr, sb, "<cos/>", "\\cos", "COS(", "cos",
+			trig(left, leftStr, sb, "<cos/>", "\\cos", "COS(", "cos",
 					"cos", tpl, loc, true);
 			break;
 
 		case SIN:
-			trig(kernel, left, leftStr, sb, "<sin/>", "\\sin", "SIN(", "sin",
+			trig(left, leftStr, sb, "<sin/>", "\\sin", "SIN(", "sin",
 					"sin", tpl, loc, true);
 			break;
 
 		case TAN:
-			trig(kernel, left, leftStr, sb, "<tan/>", "\\tan", "TAN(", "tan",
+			trig(left, leftStr, sb, "<tan/>", "\\tan", "TAN(", "tan",
 					"tan", tpl, loc, true);
 			break;
 
 		case CSC:
-			trig(kernel, left, leftStr, sb, "<csc/>", "\\csc", "CSC(", "csc",
+			trig(left, leftStr, sb, "<csc/>", "\\csc", "CSC(", "csc",
 					"csc", tpl, loc, true);
 			break;
 
 		case SEC:
-			trig(kernel, left, leftStr, sb, "<sec/>", "\\sec", "SEC(", "sec",
+			trig(left, leftStr, sb, "<sec/>", "\\sec", "SEC(", "sec",
 					"sec", tpl, loc, true);
 			break;
 
 		case COT:
-			trig(kernel, left, leftStr, sb, "<cot/>", "\\cot", "COT(", "cot",
+			trig(left, leftStr, sb, "<cot/>", "\\cot", "COT(", "cot",
 					"cot", tpl, loc, true);
 			break;
 
 		case CSCH:
-			trig(kernel, left, leftStr, sb, "<csch/>", "\\csch", "CSCH(",
+			trig(left, leftStr, sb, "<csch/>", "\\csch", "CSCH(",
 					"csch", "func csch", tpl, loc, false);
 			break;
 
 		case SECH:
-			trig(kernel, left, leftStr, sb, "<sech/>", "\\sech", "SECH(",
+			trig(left, leftStr, sb, "<sech/>", "\\sech", "SECH(",
 					"sech", "func sech", tpl, loc, false);
 			break;
 
 		case COTH:
-			trig(kernel, left, leftStr, sb, "<coth/>", "\\coth", "COTH(",
+			trig(left, leftStr, sb, "<coth/>", "\\coth", "COTH(",
 					"coth", "coth", tpl, loc, false);
 			break;
 
 		case ARCCOS:
-			trig(kernel, left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
+			trig(left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
 					"acos", "arccos", degFix("acos", kernel), tpl, loc, false,
 					true);
 			break;
 
 		case ARCCOSD:
-			trig(kernel, left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
+			trig(left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
 					"acosd", "arccos", "acosd", tpl, loc, false, true);
 			break;
 
 		case ARCSIN:
-			trig(kernel, left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
+			trig(left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
 					"asin", "arcsin", degFix("asin", kernel), tpl, loc, false,
 					true);
 			break;
 
 		case ARCSIND:
-			trig(kernel, left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
+			trig(left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
 					"asind", "arcsin", "asind", tpl, loc, false, true);
 			break;
 
 		case ARCTAN:
-			trig(kernel, left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
+			trig(left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
 					"atan", "arctan", degFix("atan", kernel), tpl, loc, false,
 					true);
 			break;
 
 		case ARCTAND:
-			trig(kernel, left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
+			trig(left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
 					"atand", "arctan", "atand", tpl, loc, false, true);
 			break;
 
@@ -2180,47 +2180,47 @@ public class ExpressionNode extends ValidExpression
 			break;
 
 		case COSH:
-			trig(kernel, left, leftStr, sb, "<cosh/>", "\\cosh", "COSH(",
+			trig(left, leftStr, sb, "<cosh/>", "\\cosh", "COSH(",
 					"cosh", "cosh", tpl, loc, false);
 			break;
 
 		case SINH:
-			trig(kernel, left, leftStr, sb, "<sinh/>", "\\sinh", "SINH(",
+			trig(left, leftStr, sb, "<sinh/>", "\\sinh", "SINH(",
 					"sinh", "sinh", tpl, loc, false);
 			break;
 
 		case TANH:
-			trig(kernel, left, leftStr, sb, "<tanh/>", "\\tanh", "TANH(",
+			trig(left, leftStr, sb, "<tanh/>", "\\tanh", "TANH(",
 					"tanh", "tanh", tpl, loc, false);
 			break;
 
 		case ACOSH:
-			trig(kernel, left, leftStr, sb, "<arccosh/>",
+			trig(left, leftStr, sb, "<arccosh/>",
 					"\\operatorname{acosh}", "ACOSH(", "acosh", "arcosh", tpl,
 					loc, false);
 			break;
 		case ASINH:
-			trig(kernel, left, leftStr, sb, "<arcsinh/>",
+			trig(left, leftStr, sb, "<arcsinh/>",
 					"\\operatorname{asinh}", "ASINH(", "asinh", "arsinh", tpl,
 					loc, false);
 			break;
 
 		case ATANH:
-			trig(kernel, left, leftStr, sb, "<arctanh/>",
+			trig(left, leftStr, sb, "<arctanh/>",
 					"\\operatorname{atanh}", "ATANH(", "atanh", "artanh", tpl,
 					loc, false);
 			break;
 		case REAL:
-			trig(kernel, left, leftStr, sb, "<real/>", "\\operatorname{real}",
+			trig(left, leftStr, sb, "<real/>", "\\operatorname{real}",
 					"", "real", "real", "re", tpl, loc, false);
 			break;
 		case IMAGINARY:
-			trig(kernel, left, leftStr, sb, "<imaginary/>",
+			trig(left, leftStr, sb, "<imaginary/>",
 					"\\operatorname{imaginary}", "", "imaginary", "imaginary",
 					"im", tpl, loc, false);
 			break;
 		case FRACTIONAL_PART:
-			trig(kernel, left, leftStr, sb, "<todo/>",
+			trig(left, leftStr, sb, "<todo/>",
 					"\\operatorname{fractionalPart}", "", "fractionalPart",
 					"fractionalPart", "fPart", tpl, loc, false);
 			break;
@@ -3677,7 +3677,8 @@ public class ExpressionNode extends ValidExpression
 
 			break;
 		default:
-			sb.append("unhandled operation " + operation);
+			sb.append("unhandled operation ");
+			sb.append(operation);
 		}
 		return sb.toString();
 	}
@@ -3734,23 +3735,23 @@ public class ExpressionNode extends ValidExpression
 		return string;
 	}
 
-	private static void trig(Kernel kernel, ExpressionValue left,
+	private static void trig(ExpressionValue left,
 			String leftStr, StringBuilder sb, String mathml, String latex,
 			String psTricks, String key, String libreOffice, StringTemplate tpl,
 			Localization loc, boolean needDegrees) {
 
 		// send "key" for Giac
-		trig(kernel, left, leftStr, sb, mathml, latex, psTricks, key,
+		trig(left, leftStr, sb, mathml, latex, psTricks, key,
 				libreOffice, key, tpl, loc, needDegrees);
 
 	}
 
-	private static void trig(Kernel kernel, ExpressionValue left,
+	private static void trig(ExpressionValue left,
 			String leftStr, StringBuilder sb, String mathml, String latex,
 			String psTricks2, String key, String libreOffice, String giac,
 			StringTemplate tpl, Localization loc, boolean needDegrees) {
 
-		trig(kernel, left, leftStr, sb, mathml, latex, psTricks2, key,
+		trig(left, leftStr, sb, mathml, latex, psTricks2, key,
 				libreOffice, giac, tpl, loc, needDegrees, false);
 	}
 
@@ -3759,7 +3760,7 @@ public class ExpressionNode extends ValidExpression
 	 *            left expression (might need context-aware serialization for
 	 *            GIAC)
 	 */
-	private static void trig(Kernel kernel, ExpressionValue left,
+	private static void trig(ExpressionValue left,
 			String leftStr, StringBuilder sb, String mathml, String latex,
 			String psTricks, String key, String libreOffice, String giac,
 			StringTemplate tpl, Localization loc, boolean needDegrees,

@@ -1361,7 +1361,8 @@ public class Construction {
 			int size = ceList.size();
 			for (int i = 0; i < size; ++i) {
 				ce = ceList.get(i);
-				sb.append(ce.getNameDescription() + " = ");
+				sb.append(ce.getNameDescription());
+				sb.append(" = ");
 
 				if (ce instanceof GeoElement) {
 					// sb.append(((GeoElement) ce).toValueString());

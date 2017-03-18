@@ -858,7 +858,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (macro.isShowInToolBar()
 					&& !(oldToolbar.contains(String.valueOf(macroMode)))
 					&& (macroViewId == activeViewId)) {
-				customToolBar.append(" " + macroMode);
+				customToolBar.append(" ");
+				customToolBar.append(macroMode);
 			}
 		}
 

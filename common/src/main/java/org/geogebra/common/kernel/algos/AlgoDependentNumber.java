@@ -735,7 +735,8 @@ public class AlgoDependentNumber extends AlgoElement
 
 	private String getStrForGiac(String str) {
 		StringBuilder strForGiac = new StringBuilder();
-		strForGiac.append("eliminate([" + str);
+		strForGiac.append("eliminate([");
+		strForGiac.append(str);
 		StringBuilder labelsStr = new StringBuilder();
 		Iterator<GeoSegment> it = allSegmentsFromExpression.iterator();
 
@@ -765,7 +766,8 @@ public class AlgoDependentNumber extends AlgoElement
 			strForGiac.append(currSeg.getLabelSimple());
 		}
 		strForGiac.append("],[");
-		strForGiac.append(labelsStr + "])");
+		strForGiac.append(labelsStr);
+		strForGiac.append("])");
 		return strForGiac.toString();
 	}
 

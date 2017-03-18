@@ -22,7 +22,7 @@ public class MyMathExact {
 
 		public MyDecimal(int significance) {
 			// super(0);
-			impl = (new BigDecimal(0)).setScale(significance);
+			impl = BigDecimal.ZERO.setScale(significance);
 			fixedScale = significance;
 		}
 

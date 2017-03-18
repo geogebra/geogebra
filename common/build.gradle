@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'ca.coglinc.javacc'
 apply plugin: 'java'
 apply plugin: 'findbugs'
+apply plugin: 'pmd'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -85,3 +86,7 @@ findbugs{
      excludeFilter = file("src/main/config/findbugs.xml")
 }
 
+pmd {
+     ruleSets = []
+     ruleSetFiles = files("src/main/config/pmd.xml")
+}

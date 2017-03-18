@@ -266,6 +266,9 @@ public class DrawLocus extends Drawable {
 		return gp.getBounds();
 	}
 
+	/**
+	 * @return bounds of the drawn path
+	 */
 	public GRectangle getGpBounds() {
 		if (gp == null) {
 			return null;

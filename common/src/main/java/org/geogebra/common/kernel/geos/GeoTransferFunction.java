@@ -57,8 +57,6 @@ public class GeoTransferFunction extends GeoElement {
 	/**
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param num
 	 *            list of coefficients of numerator
 	 * @param den
@@ -66,7 +64,7 @@ public class GeoTransferFunction extends GeoElement {
 	 * @param omega
 	 *            value of interval [-omega;omega]
 	 */
-	public GeoTransferFunction(Construction c, String label, GeoList num,
+	public GeoTransferFunction(Construction c, GeoList num,
 			GeoList den, int omega) {
 		super(c);
 		if (num.getElementType().equals(GeoClass.NUMERIC)
@@ -88,16 +86,14 @@ public class GeoTransferFunction extends GeoElement {
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param num
 	 *            numerator
 	 * @param den
 	 *            denominator
 	 */
-	public GeoTransferFunction(Construction c, String label, GeoList num,
+	public GeoTransferFunction(Construction c, GeoList num,
 			GeoList den) {
-		this(c, label, num, den, 10);
+		this(c, num, den, 10);
 	}
 
 	private Function createFunction(GeoList num, GeoList den) {
@@ -286,7 +282,8 @@ public class GeoTransferFunction extends GeoElement {
 		if (isDefined) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("\\left.");
-			sb.append(label + ":  ");
+			sb.append(label);
+			sb.append(":  ");
 			sb.append(originalFunction.toLaTeXString(symbolic, tpl));
 			sb.append("\\right\\} \\; ");
 			sb.append(kernel.format(-omegaStart, tpl));

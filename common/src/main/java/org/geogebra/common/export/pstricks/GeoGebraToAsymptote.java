@@ -1382,7 +1382,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 						str = "cycle;\nfill(p" + functionCount + "," + color;
 						str += "+opacity(0.05)";
 					}
-					lineBuilder.append(str + ");\n");
+					lineBuilder.append(str);
+					lineBuilder.append(");\n");
 					sb.append(lineBuilder);
 					lineBuilder = sb;
 				} else {
@@ -3356,7 +3357,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		sb.append(s[0]);
 		for (int i = 1; i < s.length; i++) {
 			if (!compact) {
-				sb.append(" " + s[i]);
+				sb.append(" ");
+				sb.append(s[i]);
 			} else {
 				sb.append(s[i]);
 			}

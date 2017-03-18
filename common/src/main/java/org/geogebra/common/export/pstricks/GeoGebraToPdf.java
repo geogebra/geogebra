@@ -1532,7 +1532,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 		StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
 				xrangemin, 400, template);
-		sb.append(lineBuilder.toString() + close + cycle);
+		sb.append(lineBuilder.toString());
+		sb.append(close);
+		sb.append(cycle);
 	}
 
 	@Override

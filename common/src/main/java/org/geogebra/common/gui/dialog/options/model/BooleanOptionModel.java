@@ -28,7 +28,7 @@ public abstract class BooleanOptionModel extends OptionsModel {
 				isEqual = false;
 			}
 		}
-		getListener().updateCheckbox(isEqual ? value0 : false);
+		getListener().updateCheckbox(isEqual && value0);
 
 	}
 

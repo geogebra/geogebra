@@ -367,7 +367,7 @@ public abstract class Drawable extends DrawableND {
 	 * @return true if serif font is used for GeoText
 	 */
 	final boolean isSerif() {
-		return geo.isGeoText() ? ((GeoText) geo).isSerifFont() : false;
+		return geo.isGeoText() && ((GeoText) geo).isSerifFont();
 	}
 
 	/**

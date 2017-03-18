@@ -316,7 +316,8 @@ public abstract class Log {
 				if (memoryLog.length() > LOGFILE_MAXLENGTH) {
 					memoryLog.setLength(0);
 				}
-				memoryLog.append(logEntry + "\n");
+				memoryLog.append(logEntry);
+				memoryLog.append("\n");
 			}
 		}
 	}

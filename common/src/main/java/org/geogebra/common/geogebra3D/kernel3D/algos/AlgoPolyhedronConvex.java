@@ -143,7 +143,8 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		}
 		sb.append("\navailable indices:");
 		for (Integer index : availableIndices) {
-			sb.append(" " + index);
+			sb.append(" ");
+			sb.append(index);
 		}
 		Log.debug(sb);
 

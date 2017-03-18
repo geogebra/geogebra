@@ -353,19 +353,27 @@ public class GeoConic3D extends GeoConicND
 			Coords v1 = getCoordSys().getV(1);
 			Coords origin = getCoordSys().getOrigin();
 
-			sb.append("\t<coords ");
-			sb.append(" ox=\"" + origin.get(1) + "\"");
-			sb.append(" oy=\"" + origin.get(2) + "\"");
-			sb.append(" oz=\"" + origin.get(3) + "\"");
-			sb.append(" ow=\"" + origin.get(4) + "\"");
-			sb.append(" vx=\"" + v0.get(1) + "\"");
-			sb.append(" vy=\"" + v0.get(2) + "\"");
-			sb.append(" vz=\"" + v0.get(3) + "\"");
-			sb.append(" wx=\"" + v1.get(1) + "\"");
-			sb.append(" wy=\"" + v1.get(2) + "\"");
-			sb.append(" wz=\"" + v1.get(3) + "\"");
-
-			sb.append("/>\n");
+			sb.append("\t<coords ox=\"");
+			sb.append(origin.get(1));
+			sb.append("\" oy=\"");
+			sb.append(origin.get(2));
+			sb.append("\" oz=\"");
+			sb.append(origin.get(3));
+			sb.append("\" ow=\"");
+			sb.append(origin.get(4));
+			sb.append("\" vx=\"");
+			sb.append(v0.get(1));
+			sb.append("\" vy=\"");
+			sb.append(v0.get(2));
+			sb.append("\" vz=\"");
+			sb.append(v0.get(3));
+			sb.append("\" wx=\"");
+			sb.append(v1.get(1));
+			sb.append("\" wy=\"");
+			sb.append(v1.get(2));
+			sb.append("\" wz=\"");
+			sb.append(v1.get(3));
+			sb.append("\"/>\n");
 		}
 		// curve thickness and type printed by conicND
 		super.getXMLtags(sb);

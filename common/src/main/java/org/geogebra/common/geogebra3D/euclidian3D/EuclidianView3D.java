@@ -1197,7 +1197,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void setZeroFromXML(double x, double y, double z) {
 
-		if (app.fileVersionBefore(App.getSubValues("4.9.14.0"))) {
+		if (app.fileVersionBefore(new int[] { 4, 9, 14, 0 })) {
 			// new matrix multiplication (since 4.9.14)
 			updateRotationMatrix();
 			updateScaleMatrix();
@@ -3229,11 +3229,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		sb.append(" xZero=\"");
 		sb.append(getXZero());
-		sb.append("\"");
-		sb.append(" yZero=\"");
+		sb.append("\" yZero=\"");
 		sb.append(getYZero());
-		sb.append("\"");
-		sb.append(" zZero=\"");
+		sb.append("\" zZero=\"");
 		sb.append(getZZero());
 		sb.append("\"");
 
@@ -3254,12 +3252,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		sb.append(" xAngle=\"");
 		sb.append(b);
-		sb.append("\"");
-		sb.append(" zAngle=\"");
+		sb.append("\" zAngle=\"");
 		sb.append(a);
-		sb.append("\"");
-
-		sb.append("/>\n");
+		sb.append("\"/>\n");
 
 		// ev settings
 		sb.append("\t<evSettings axes=\"");
@@ -3307,28 +3302,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		// axis settings
 		for (int i = 0; i < 3; i++) {
-			// sb.append("\t<axis id=\"");
-			// sb.append(i);
-			// sb.append("\" show=\"");
-			// sb.append(axis[i].isEuclidianVisible());
-			// sb.append("\" label=\"");
-			// sb.append(axis[i].getAxisLabel());
-			// sb.append("\" unitLabel=\"");
-			// sb.append(axis[i].getUnitLabel());
-			// sb.append("\" tickStyle=\"");
-			// sb.append(axis[i].getTickStyle());
-			// sb.append("\" showNumbers=\"");
-			// sb.append(axis[i].getShowNumbers());
-			//
-			// // the tick distance should only be saved if
-			// // it isn't calculated automatically
-			// /*
-			// * if (!automaticAxesNumberingDistances[i]) {
-			// * sb.append("\" tickDistance=\"");
-			// * sb.append(axesNumberingDistances[i]); }
-			// */
-			//
-			// sb.append("\"/>\n");
 			this.getSettings().addAxisXML(i, sb);
 
 		}

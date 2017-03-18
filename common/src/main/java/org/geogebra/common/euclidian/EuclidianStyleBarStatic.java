@@ -327,10 +327,11 @@ public class EuclidianStyleBarStatic {
 
 		GeoElement geo = null;
 		for (int i = 0; i < geos.length; i++) {
-			if (((GeoElement) geos[i]).isLabelShowable()
-					|| ((GeoElement) geos[i]).isGeoAngle()
-					|| (((GeoElement) geos[i]).isGeoNumeric()
-							? ((GeoNumeric) geos[i]).isSliderFixed() : false)) {
+			GeoElement current = (GeoElement) geos[i];
+			if (current.isLabelShowable()
+					|| current.isGeoAngle()
+					|| (current.isGeoNumeric() && ((GeoNumeric) current)
+							.isSliderFixed())) {
 				geo = (GeoElement) geos[i];
 				return geo;
 			}
@@ -348,8 +349,10 @@ public class EuclidianStyleBarStatic {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo.isLabelShowable() || geo.isGeoAngle() || (geo.isGeoNumeric()
-					? ((GeoNumeric) geo).isSliderFixed() : false)) {
+			if (geo.isLabelShowable()
+					|| geo.isGeoAngle()
+					|| (geo.isGeoNumeric() && ((GeoNumeric) geo)
+							.isSliderFixed())) {
 				geo.setLabelModeFromStylebar(index);
 			}
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);

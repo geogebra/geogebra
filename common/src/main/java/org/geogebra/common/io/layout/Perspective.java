@@ -436,34 +436,11 @@ public class Perspective {
 		StringUtil.encodeXML(sb, getId());
 		sb.append("\">\n");
 
-		sb.append("\t<panes>\n");
-		for (int i = 0; i < splitPaneData.length; ++i) {
-			sb.append("\t\t");
-			sb.append(splitPaneData[i].getXml());
-			sb.append("\n");
-		}
-		sb.append("\t</panes>\n");
+		getPanesXML(sb);
 
-		sb.append("\t<views>\n");
-		for (int i = 0; i < getDockPanelData().length; ++i) {
-			DockPanelData data = getDockPanelData()[i];
-			if (data.storeXml()) {
-				sb.append("\t\t");
-				sb.append(data.getXml());
-			}
-		}
-		sb.append("\t</views>\n");
+		getViewsXML(sb);
 
-		// main toolbar
-		sb.append("\t<toolbar show=\"");
-		sb.append(getShowToolBar());
-		sb.append("\" items=\"");
-		sb.append(getToolbarDefinition());
-		sb.append("\" position=\"");
-		sb.append(getToolBarPosition());
-		sb.append("\" help=\"");
-		sb.append(getShowToolBarHelp());
-		sb.append("\" />\n");
+		getToolbarXML(sb);
 
 		// skip axes & grid for document perspectives
 		if (!"tmp".equals(id)) {
@@ -488,6 +465,52 @@ public class Perspective {
 						: "algebra"));
 		sb.append("\" />\n");
 
+		getDockbarXML(sb);
+
+		sb.append("</perspective>\n");
+
+		return sb.toString();
+	}
+
+	private void getPanesXML(StringBuilder sb) {
+		sb.append("\t<panes>\n");
+		for (int i = 0; i < splitPaneData.length; ++i) {
+			sb.append("\t\t");
+			sb.append(splitPaneData[i].getXml());
+			sb.append("\n");
+		}
+		sb.append("\t</panes>\n");
+
+	}
+
+	private void getToolbarXML(StringBuilder sb) {
+		// main toolbar
+		sb.append("\t<toolbar show=\"");
+		sb.append(getShowToolBar());
+		sb.append("\" items=\"");
+		sb.append(getToolbarDefinition());
+		sb.append("\" position=\"");
+		sb.append(getToolBarPosition());
+		sb.append("\" help=\"");
+		sb.append(getShowToolBarHelp());
+		sb.append("\" />\n");
+
+	}
+
+	private void getViewsXML(StringBuilder sb) {
+		sb.append("\t<views>\n");
+		for (int i = 0; i < getDockPanelData().length; ++i) {
+			DockPanelData data = getDockPanelData()[i];
+			if (data.storeXml()) {
+				sb.append("\t\t");
+				sb.append(data.getXml());
+			}
+		}
+		sb.append("\t</views>\n");
+
+	}
+
+	private void getDockbarXML(StringBuilder sb) {
 		// dockbar
 		sb.append("\t<dockBar show=\"");
 		sb.append(getShowDockBar());
@@ -495,9 +518,6 @@ public class Perspective {
 		sb.append(isDockBarEast());
 		sb.append("\" />\n");
 
-		sb.append("</perspective>\n");
-
-		return sb.toString();
 	}
 
 	/**

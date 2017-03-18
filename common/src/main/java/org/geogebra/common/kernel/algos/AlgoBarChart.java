@@ -1404,37 +1404,57 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		sb.append("\t<tags>\n");
 		for (int i = 1; i <= N; i++) {
 			if (getBarColor(i) != null) {
-				sb.append("\t\t<tag key=\"barColor\"" + " barNumber=\"" + i
-						+ "\" value=\"" + GColor.getColorString(getBarColor(i))
-						+ "\" />\n");
+				sb.append("\t\t<tag key=\"barColor\"");
+				sb.append(" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(GColor.getColorString(getBarColor(i)));
+				sb.append("\" />\n");
 			}
 
 			double barAlpha = getBarAlpha(i);
 			if (barAlpha != -1) {
-				sb.append("\t\t<tag key=\"barAlpha\"" + " barNumber=\"" + i
-						+ "\" value=\"" + barAlpha + "\" />\n");
+				sb.append("\t\t<tag key=\"barAlpha\" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(barAlpha);
+				sb.append("\"/>\n");
 			}
 			if (getBarHatchDistance(i) != -1) {
-				sb.append("\t\t<tag key=\"barHatchDistance\"" + " barNumber=\""
-						+ i + "\" value=\"" + getBarHatchDistance(i)
-						+ "\" />\n");
+				sb.append("\t\t<tag key=\"barHatchDistance\" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(getBarHatchDistance(i)
+);
+				sb.append("\"/>\n");
 			}
 			if (getBarHatchAngle(i) != -1) {
-				sb.append("\t\t<tag key=\"barHatchAngle\"" + " barNumber=\"" + i
-						+ "\" value=\"" + getBarHatchAngle(i) + "\" />\n");
+				sb.append("\t\t<tag key=\"barHatchAngle\" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(getBarHatchAngle(i));
+				sb.append("\"/>\n");
 			}
 			if (getBarFillType(i) != FillType.STANDARD) {
-				sb.append("\t\t<tag key=\"barFillType\"" + " barNumber=\"" + i
-						+ "\" value=\"" + getBarFillType(i).ordinal()
-						+ "\" />\n");
+				sb.append("\t\t<tag key=\"barFillType\" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(getBarFillType(i).ordinal());
+				sb.append("\"/>\n");
 			}
 			if (getBarImage(i) != null) {
-				sb.append("\t\t<tag key=\"barImage\"" + " barNumber=\"" + i
-						+ "\" value=\"" + getBarImage(i) + "\" />\n");
+				sb.append("\t\t<tag key=\"barImage\" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(getBarImage(i));
+				sb.append("\"/>\n");
 			}
 			if (getBarSymbol(i) != null) {
-				sb.append("\t\t<tag key=\"barSymbol\"" + " barNumber=\"" + i
-						+ "\" value=\"" + getBarSymbol(i) + "\" />\n");
+				sb.append("\t\t<tag key=\"barSymbol\" barNumber=\"");
+				sb.append(i);
+				sb.append("\" value=\"");
+				sb.append(getBarSymbol(i));
+				sb.append("\"/>\n");
 			}
 		}
 		sb.append("\t</tags>\n");
@@ -1444,12 +1464,16 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		int freq = (int) yval[index];
 		double percent = 100 * freq / dataSize;
 		StringBuilder sb = new StringBuilder();
-		sb.append(getLoc().getMenu("Value") + " = " + value[index]);
+		sb.append(getLoc().getMenu("Value"));
+		sb.append(" = ");
+		sb.append(value[index]);
 		sb.append("<br>");
-		sb.append(getLoc().getMenu("Count") + " = "
-				+ kernel.format(freq, StringTemplate.defaultTemplate));
+		sb.append(getLoc().getMenu("Count"));
+		sb.append(" = ");
+		sb.append(kernel.format(freq, StringTemplate.defaultTemplate));
 		sb.append("<br>");
-		sb.append(kernel.format(percent, StringTemplate.defaultTemplate) + "%");
+		sb.append(kernel.format(percent, StringTemplate.defaultTemplate));
+		sb.append("%");
 
 		toolTipText = sb.toString();
 	}

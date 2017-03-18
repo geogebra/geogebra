@@ -315,12 +315,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			 */
 			sb.append(
 					"proc point_to_0circle(ideal l) { if (size(l)==1) {return(l[1]);} if (size(l)==2) {return((l[1])^2+(l[2])^2));} return 1; }; ");
-			sb.append(
-					"LIB \"" + locusLib + ".lib\";ring r=(0,").append(vars)
-					.append("),(" + elimVars)
-					.append("),dp;").append("short=0;ideal I=" + polys)
-					.append(";def Gp=grobcov(I);list l="
-							+ singularWS.getLocusCommand() + "(Gp);");
+			sb.append("LIB \"").append(locusLib).append(".lib\";ring r=(0,")
+					.append(vars)
+					.append("),(")
+					.append(elimVars)
+					.append("),dp;")
+					.append("short=0;ideal I=")
+					.append(polys)
+					.append(";def Gp=grobcov(I);list l=")
+					.append(singularWS.getLocusCommand());
+			sb.append("(Gp);");
 			/*
 			 * If Gp is an empty list, then there is no locus, so that we return
 			 * 0=-1.

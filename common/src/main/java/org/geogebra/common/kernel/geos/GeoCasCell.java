@@ -2792,122 +2792,116 @@ public class GeoCasCell extends GeoElement
 
 		// useAsText
 		if (useAsText) {
-			sb.append("\t\t");
-			sb.append("<useAsText>\n");
-			sb.append("\t\t\t");
+			sb.append("\t\t<useAsText>\n");
 
-			sb.append("<FontStyle");
-			sb.append(" value=\"");
-			sb.append(getFontStyle());
-			sb.append("\" ");
-			sb.append("/>\n");
+			getFontXML(sb);
 
-			sb.append("\t\t\t");
-			sb.append("<FontSizeM");
-			sb.append(" value=\"");
-			sb.append(getFontSizeMultiplier());
-			sb.append("\" ");
-			sb.append("/>\n");
-
-			sb.append("\t\t\t");
-			sb.append("<FontColor");
-			sb.append(" r=\"");
-			sb.append(getFontColor().getRed());
-			sb.append("\" ");
-			sb.append(" b=\"");
-			sb.append(getFontColor().getBlue());
-			sb.append("\" ");
-			sb.append(" g=\"");
-			sb.append(getFontColor().getGreen());
-			sb.append("\" ");
-			sb.append("/>\n");
-
-			sb.append("\t\t");
-			sb.append("</useAsText>\n");
+			sb.append("\t\t</useAsText>\n");
 		}
 
 		// inputCell
 		if (!isInputEmpty() || useAsText
 				|| (input != null && input.length() > 0)) {
-			sb.append("\t\t");
-			sb.append("<inputCell>\n");
-			sb.append("\t\t\t");
-			sb.append("<expression");
-			sb.append(" value=\"");
-			if (useAsText) {
-				StringUtil.encodeXML(sb, commentText.getTextString());
-				sb.append("\" ");
-			} else {
-				StringUtil.encodeXML(sb, input);
-				sb.append("\" ");
-
-				if (evalVE != getInputVE()) {
-					if (!"".equals(prefix)) {
-						sb.append(" prefix=\"");
-						StringUtil.encodeXML(sb, prefix);
-						sb.append("\" ");
-					}
-
-					sb.append(" eval=\"");
-					StringUtil.encodeXML(sb, getEvalText());
-					sb.append("\" ");
-
-					if (!"".equals(postfix)) {
-						sb.append(" postfix=\"");
-						StringUtil.encodeXML(sb, postfix);
-						sb.append("\" ");
-					}
-
-					sb.append("evalCmd=\"");
-					StringUtil.encodeXML(sb, evalCmd);
-					sb.append("\"");
-				}
-
-				if (pointList) {
-					sb.append(" pointList=\"true\"");
-				}
-			}
-			sb.append("/>\n");
-			sb.append("\t\t");
-			sb.append("</inputCell>\n");
+			sb.append("\t\t<inputCell>\n");
+			getInputExpressionXML(sb);
+			sb.append("\t\t</inputCell>\n");
 		}
 
 		// outputCell
 		if (!isOutputEmpty()) {
-			sb.append("\t\t");
-			sb.append("<outputCell>\n");
-			sb.append("\t\t\t");
-			sb.append("<expression");
-
-			sb.append(" value=\"");
-			StringUtil.encodeXML(sb, getOutput(StringTemplate.xmlTemplate));
-			sb.append("\"");
-			if (isError()) {
-				sb.append(" error=\"true\"");
-			}
-			if (isNative()) {
-				sb.append(" native=\"true\"");
-			}
-			if (!"".equals(evalCmd)) {
-				sb.append(" evalCommand=\"");
-				StringUtil.encodeXML(sb, evalCmd);
-				sb.append("\" ");
-			}
-
-			if (!"".equals(evalComment)) {
-				sb.append(" evalComment=\"");
-				StringUtil.encodeXML(sb, evalComment);
-				sb.append("\" ");
-			}
-
-			sb.append("/>\n");
-			sb.append("\t\t");
-			sb.append("</outputCell>\n");
+			sb.append("\t\t<outputCell>\n");
+			getOutputExpressionXML(sb);
+			sb.append("\t\t</outputCell>\n");
 		}
 
 		sb.append("\t</cellPair>\n");
 
 		// return sb.toString();
+	}
+
+	private void getOutputExpressionXML(StringBuilder sb) {
+		sb.append("\t\t\t<expression value=\"");
+		StringUtil.encodeXML(sb, getOutput(StringTemplate.xmlTemplate));
+		sb.append("\"");
+		if (isError()) {
+			sb.append(" error=\"true\"");
+		}
+		if (isNative()) {
+			sb.append(" native=\"true\"");
+		}
+		if (!"".equals(evalCmd)) {
+			sb.append(" evalCommand=\"");
+			StringUtil.encodeXML(sb, evalCmd);
+			sb.append("\" ");
+		}
+
+		if (!"".equals(evalComment)) {
+			sb.append(" evalComment=\"");
+			StringUtil.encodeXML(sb, evalComment);
+			sb.append("\" ");
+		}
+
+		sb.append("/>\n");
+
+	}
+
+	private void getInputExpressionXML(StringBuilder sb) {
+		sb.append("\t\t\t<expression value=\"");
+		if (useAsText) {
+			StringUtil.encodeXML(sb, commentText.getTextString());
+			sb.append("\" ");
+		} else {
+			StringUtil.encodeXML(sb, input);
+			sb.append("\" ");
+
+			if (evalVE != getInputVE()) {
+				if (!"".equals(prefix)) {
+					sb.append(" prefix=\"");
+					StringUtil.encodeXML(sb, prefix);
+					sb.append("\" ");
+				}
+
+				sb.append(" eval=\"");
+				StringUtil.encodeXML(sb, getEvalText());
+				sb.append("\" ");
+
+				if (!"".equals(postfix)) {
+					sb.append(" postfix=\"");
+					StringUtil.encodeXML(sb, postfix);
+					sb.append("\" ");
+				}
+
+				sb.append("evalCmd=\"");
+				StringUtil.encodeXML(sb, evalCmd);
+				sb.append("\"");
+			}
+
+			if (pointList) {
+				sb.append(" pointList=\"true\"");
+			}
+		}
+		sb.append("/>\n");
+
+	}
+
+	private void getFontXML(StringBuilder sb) {
+		sb.append("\t\t\t<FontStyle value=\"");
+		sb.append(getFontStyle());
+		sb.append("\" ");
+		sb.append("/>\n");
+
+		sb.append("\t\t\t<FontSizeM value=\"");
+		sb.append(getFontSizeMultiplier());
+		sb.append("\" ");
+		sb.append("/>\n");
+
+		sb.append("\t\t\t<FontColor r=\"");
+		sb.append(getFontColor().getRed());
+		sb.append("\" b=\"");
+		sb.append(getFontColor().getBlue());
+		sb.append("\" g=\"");
+		sb.append(getFontColor().getGreen());
+		sb.append("\"/>\n");
 	}
 
 	@Override

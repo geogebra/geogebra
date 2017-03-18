@@ -41,7 +41,7 @@ public class AlgoTransferFunction extends AlgoElement {
 		super(c);
 		this.omegaStart = omegaStart;
 
-		gcf = new GeoTransferFunction(c, label, num, den,
+		gcf = new GeoTransferFunction(c, num, den,
 				(int) this.omegaStart.getDouble());
 		this.num = num;
 		this.den = den;
@@ -53,7 +53,7 @@ public class AlgoTransferFunction extends AlgoElement {
 	public AlgoTransferFunction(Construction c, String label, GeoList num,
 			GeoList den) {
 		super(c);
-		gcf = new GeoTransferFunction(c, label, num, den, 10);
+		gcf = new GeoTransferFunction(c, num, den, 10);
 		this.num = num;
 		this.den = den;
 		setInputOutput();

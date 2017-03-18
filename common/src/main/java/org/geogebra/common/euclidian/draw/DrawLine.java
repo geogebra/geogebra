@@ -447,6 +447,9 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 	}
 
+	/**
+	 * Update stylebar position
+	 */
 	public void updateDynamicStylebarPosition() {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);
 		rect.setBounds((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50, 0, 0);
@@ -736,7 +739,7 @@ public class DrawLine extends Drawable implements Previewable {
 		// cross top/bottom and right
 		else if (x1 > 0 && x2 > view.getWidth()) {
 			gpc.lineTo(view.getWidth(), y1);
-			invert ^= forConic ? true : y1 > 0;
+			invert ^= forConic || (y1 > 0);
 		}
 		// cros left and bottom/top
 		else if (x1 <= 0 && x2 <= view.getWidth()) {

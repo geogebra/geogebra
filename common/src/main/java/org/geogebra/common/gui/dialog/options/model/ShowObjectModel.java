@@ -33,8 +33,8 @@ public class ShowObjectModel extends BooleanOptionModel {
 			}
 		}
 
-		((IShowObjectListener) getListener()).updateCheckbox(
-				equalObjectVal ? geo0.isSetEuclidianVisible() : false,
+		((IShowObjectListener) getListener()).updateCheckbox(equalObjectVal
+				&& geo0.isSetEuclidianVisible(),
 				!showObjectCondition);
 
 	}

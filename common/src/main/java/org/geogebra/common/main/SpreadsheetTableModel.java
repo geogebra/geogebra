@@ -36,12 +36,8 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 * 
 	 * @param app
 	 *            ggb Application
-	 * @param rows
-	 *            initial number of rows
-	 * @param columns
-	 *            initial number of columns
 	 */
-	public SpreadsheetTableModel(App app, int rows, int columns) {
+	public SpreadsheetTableModel(App app) {
 		isIniting = true;
 		this.app = app;
 

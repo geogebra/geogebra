@@ -312,14 +312,11 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		view.startXML(sbxml, asPreference);
 
 		// transform
-		sbxml.append("\t<transformForPlane ");
-		sbxml.append("mirror=\"");
+		sbxml.append("\t<transformForPlane mirror=\"");
 		sbxml.append(transformMirror == -1);
-		sbxml.append("\"");
-		sbxml.append(" rotate=\"");
+		sbxml.append("\" rotate=\"");
 		sbxml.append(transformRotate);
-		sbxml.append("\"");
-		sbxml.append("/>\n");
+		sbxml.append("\"/>\n");
 
 		view.endXML(sbxml);
 

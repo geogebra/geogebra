@@ -247,13 +247,19 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Vertices:");
 		for (V v : getVertices()) {
-			sb.append(v + ",");
+			sb.append(v);
+			sb.append(",");
 		}
 		sb.setLength(sb.length() - 1);
 		sb.append("\nEdges:");
 		for (E e : getEdges()) {
 			Pair<V> ep = getEndpoints(e);
-			sb.append(e + "[" + ep.getFirst() + "," + ep.getSecond() + "] ");
+			sb.append(e);
+			sb.append("[");
+			sb.append(ep.getFirst());
+			sb.append(",");
+			sb.append(ep.getSecond());
+			sb.append("] ");
 		}
 		return sb.toString();
 	}

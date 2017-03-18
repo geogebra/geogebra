@@ -469,8 +469,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						}
 						// add current equation to assumptions
 						ExpressionValue ev = listOfEqus.getListElement(k);
-						assumesForArgs.append(
-								toString(ev, symbolic, tpl) + "),assume(");
+						assumesForArgs.append(toString(ev, symbolic, tpl));
+						assumesForArgs.append("),assume(");
 					}
 					// we found an equation which should be solved
 					else if (contains) {
@@ -519,8 +519,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						}
 						// add current equation to assumptions
 						ExpressionValue ev = listOfEqus.getListElement(k);
-						assumesForArgs.append(
-								toString(ev, symbolic, tpl) + "),assume(");
+						assumesForArgs.append(toString(ev, symbolic, tpl));
+						assumesForArgs.append("),assume(");
 					}
 					// the current equation is an equation which should be
 					// solved
@@ -735,7 +735,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 										tplToUse);
 								if (!listOfVars.startsWith("{")) {
 									// add { with the defined vars by user
-									sbCASCommand.append("{" + listOfVars);
+									sbCASCommand.append("{");
+									sbCASCommand.append(listOfVars);
 								} else {
 									// add defined vars by user
 									sbCASCommand.append(listOfVars);
@@ -746,7 +747,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 											sbCASCommand.length() - 1);
 								}
 								// add completion of list of vars
-								sbCASCommand.append(complOfVarsStr + "}");
+								sbCASCommand.append(complOfVarsStr);
+								sbCASCommand.append("}");
 							} else {
 								sbCASCommand.append(
 										toString(ev, symbolic, tplToUse));
@@ -937,10 +939,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		while (ite.hasNext()) {
 			String currVar = ite.next();
 			if (!"x".equals(currVar) && !"y".equals(currVar)) {
-				listOfVars.append(",ggbtmpvar" + currVar);
+				listOfVars.append(",ggbtmpvar");
 			} else {
-				listOfVars.append("," + currVar);
+				listOfVars.append(",");
 			}
+			listOfVars.append(currVar);
 		}
 
 		if (listOfVars.length() > 0) {

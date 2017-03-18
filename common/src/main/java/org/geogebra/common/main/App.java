@@ -2678,11 +2678,11 @@ public abstract class App implements UpdateSelection {
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
 		sb.append("\t<window width=\"");
 
-		sb.append(getWindowWidth() + "");
+		sb.append(getWindowWidth());
 
 		sb.append("\" height=\"");
 
-		sb.append(this.getWindowHeight() + "");
+		sb.append(getWindowHeight());
 
 		sb.append("\" />\n");
 
@@ -3144,25 +3144,30 @@ public abstract class App implements UpdateSelection {
 		sb.append(
 				"// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View\n");
 		sb.append("var views = {");
-		sb.append("'is3D': "
-				+ (kernel.getConstruction().has3DObjects() ? "1" : "0"));
+		sb.append("'is3D': ");
+		sb.append(kernel.getConstruction().has3DObjects() ? "1" : "0");
 		if (gui != null) {
-			sb.append(",'AV': "
-					+ (gui.hasAlgebraView() && gui.getAlgebraView().isShowing()
-							? "1" : "0"));
-			sb.append(",'SV': " + (gui.hasSpreadsheetView()
-					&& gui.getSpreadsheetView().isShowing() ? "1" : "0"));
-			sb.append(",'CV': " + (gui.hasCasView() ? "1" : "0"));
-			sb.append(",'EV2': " + (hasEuclidianView2(1) ? "1" : "0"));
-			sb.append(",'CP': "
-					+ (gui.isUsingConstructionProtocol() ? "1" : "0"));
-			sb.append(",'PC': " + (gui.hasProbabilityCalculator() ? "1" : "0"));
-			sb.append(",'DA': " + (gui.hasDataAnalysisView() ? "1" : "0"));
-			sb.append(",'FI': "
-					+ (getDialogManager().hasFunctionInspector() ? "1" : "0"));
+			sb.append(",'AV': ");
+			sb.append(gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1"
+					: "0");
+			sb.append(",'SV': ");
+			sb.append(gui.hasSpreadsheetView()
+					&& gui.getSpreadsheetView().isShowing() ? "1" : "0");
+			sb.append(",'CV': ");
+			sb.append((gui.hasCasView() ? "1" : "0"));
+			sb.append(",'EV2': ");
+			sb.append((hasEuclidianView2(1) ? "1" : "0"));
+			sb.append(",'CP': ");
+			sb.append(gui.isUsingConstructionProtocol() ? "1" : "0");
+			sb.append(",'PC': ");
+			sb.append(gui.hasProbabilityCalculator() ? "1" : "0");
+			sb.append(",'DA': ");
+			sb.append(gui.hasDataAnalysisView() ? "1" : "0");
+			sb.append(",'FI': ");
+			sb.append(getDialogManager().hasFunctionInspector() ? "1" : "0");
 		}
 		// TODO
-		sb.append(",'macro': " + "0");
+		sb.append(",'macro': 0");
 		sb.append("};\n");
 
 		sb.append("var applet = new GGBApplet(parameters, '5.0', views);\n");

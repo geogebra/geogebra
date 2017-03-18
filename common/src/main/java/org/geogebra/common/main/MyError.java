@@ -34,7 +34,7 @@ public class MyError extends java.lang.Error {
 	 * Creates new MyError
 	 * 
 	 * @param loc0
-	 *            application
+	 *            localization
 	 * @param errorName
 	 *            error name (should be a key in error.properties)
 	 */
@@ -45,12 +45,14 @@ public class MyError extends java.lang.Error {
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * @param loc0
+	 *            localization
 	 * @param errorName
 	 *            error name (should be a key in error.properties)
 	 * @param commandName
 	 *            associated command name
+	 * @param cause
+	 *            cause
 	 */
 	public MyError(Localization loc0, String errorName, String commandName,
 			Throwable cause) {
@@ -61,8 +63,8 @@ public class MyError extends java.lang.Error {
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * @param loc0
+	 *            localization
 	 * @param strs
 	 *            lines of the error
 	 */
@@ -86,9 +88,11 @@ public class MyError extends java.lang.Error {
 		}
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
-		sb.append(getError(strs[0]) + " \n");
+		sb.append(getError(strs[0]));
+		sb.append(" \n");
 		for (int i = 1; i < strs.length; i++) {
-			sb.append(getError(strs[i]) + " ");
+			sb.append(getError(strs[i]));
+			sb.append(" ");
 		}
 		return sb.toString();
 	}
@@ -97,17 +101,24 @@ public class MyError extends java.lang.Error {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(getClass().toString() + ": ");
+		sb.append(getClass().toString());
+		sb.append(": ");
 		if (strs == null) {
 			sb.append(getError(getMessage()));
 		} else {
 			for (int i = 0; i < strs.length; i++) {
-				sb.append(getError(strs[i]) + " : ");
+				sb.append(getError(strs[i]));
+				sb.append(" : ");
 			}
 		}
 		return sb.toString();
 	}
 
+	/**
+	 * @param s
+	 *            key
+	 * @return localized error
+	 */
 	protected String getError(String s) {
 		if (loc == null) {
 			return s;

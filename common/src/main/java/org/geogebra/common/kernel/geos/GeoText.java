@@ -659,14 +659,11 @@ public class GeoText extends GeoElement
 		StringBuilder sb = new StringBuilder();
 
 		if (hasAbsoluteScreenLocation) {
-			sb.append("\t<absoluteScreenLocation ");
-			sb.append(" x=\"");
+			sb.append("\t<absoluteScreenLocation x=\"");
 			sb.append(labelOffsetX);
-			sb.append("\"");
-			sb.append(" y=\"");
+			sb.append("\" y=\"");
 			sb.append(labelOffsetY);
-			sb.append("\"");
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 		} else {
 			// location of text
 			if (startPoint != null) {
@@ -676,11 +673,9 @@ public class GeoText extends GeoElement
 					sb.append("\t<labelOffset");
 					sb.append(" x=\"");
 					sb.append(labelOffsetX);
-					sb.append("\"");
-					sb.append(" y=\"");
+					sb.append("\" y=\"");
 					sb.append(labelOffsetY);
-					sb.append("\"");
-					sb.append("/>\n");
+					sb.append("\"/>\n");
 				}
 			}
 		}

@@ -435,7 +435,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		ArrayList<GeoPointND> sp = null; // segment selected points
 
 		// set points to existing segments points
-		for (; i.hasNext() && spi.hasNext();) {
+		while (i.hasNext() && spi.hasNext()) {
 			point = i.next();
 			if (sp != null)
 			 {
@@ -448,13 +448,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// clear segments points if there are some more
-		for (; spi.hasNext();) {
+		while (spi.hasNext()) {
 			sp = spi.next();
 			sp.clear();
 		}
 
 		// set points to new segments points
-		for (; i.hasNext();) {
+		while (i.hasNext()) {
 			if (sp != null && point != null)
 			 {
 				sp.add(point); // add second point to precedent segment

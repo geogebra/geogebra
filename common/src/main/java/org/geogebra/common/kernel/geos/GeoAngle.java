@@ -574,7 +574,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	public void getXMLtagsMinimal(StringBuilder sb, StringTemplate tpl) {
 		sb.append(regrFormat(rawValue));
 		if (isDrawable() || isSliderable()) {
-			sb.append(" " + regrFormat(arcSize));
+			sb.append(" ");
+			sb.append(regrFormat(arcSize));
 		}
 	}
 

@@ -744,6 +744,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	/**
 	 * @return string for giac from input expression
 	 * @throws NoSymbolicParametersException
+	 *             when no polynomials can be obtained
 	 */
 	public String getStrForGiac() throws NoSymbolicParametersException {
 		String[] labels = new String[allSegmentsFromExpression.size()];
@@ -824,18 +825,26 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		 */
 		rootStr = splitedStr[0].substring(24, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
-		strForGiac.append("eliminate([" + rootStr + "=0");
+		strForGiac.append("eliminate([");
+		strForGiac.append(rootStr);
+		strForGiac.append("=0");
 		StringBuilder labelsStr = new StringBuilder();
 		for (int i = 0; i < labels.length; i++) {
 			if (i == 0) {
 				labelsStr.append(labels[i]);
 			} else {
-				labelsStr.append("," + labels[i]);
+				labelsStr.append(",");
+				labelsStr.append(labels[i]);
 			}
-			strForGiac.append("," + labels[i] + "^2=" + botanaVars[i] + "^2");
+			strForGiac.append(",");
+			strForGiac.append(labels[i]);
+			strForGiac.append("^2=");
+			strForGiac.append(botanaVars[i]);
+			strForGiac.append("^2");
 		}
 		strForGiac.append("],[");
-		strForGiac.append(labelsStr + "])");
+		strForGiac.append(labelsStr);
+		strForGiac.append("])");
 		Log.debug(strForGiac.toString());
 		return strForGiac.toString();
 	}
@@ -884,13 +893,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		 */
 		rootStr = splitedStr[0].substring(24, splitedStr[0].length() - 2);
 		StringBuilder strForGiac = new StringBuilder();
-		strForGiac.append("eliminate([" + rootStr + "=0");
+		strForGiac.append("eliminate([");
+		strForGiac.append(rootStr);
+		strForGiac.append("=0");
 		StringBuilder labelsStr = new StringBuilder();
 		for (int i = 0; i < labels.length; i++) {
 			if (i == 0) {
 				labelsStr.append(labels[i]);
 			} else {
-				labelsStr.append("," + labels[i]);
+				labelsStr.append(",");
+				labelsStr.append(labels[i]);
 			}
 			strForGiac.append("," + labels[i] + "=" + botanaVars[i]);
 		}

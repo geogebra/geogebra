@@ -2855,8 +2855,7 @@ public class MyXMLHandler implements DocHandler {
 			boolean openInFrame = !attrs.get("inframe").equals("false");
 
 			String showStyleBarStr = attrs.get("stylebar");
-			boolean showStyleBar = (showStyleBarStr != null
-					? !"false".equals(showStyleBarStr) : false);
+			boolean showStyleBar = !"false".equals(showStyleBarStr);
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
@@ -2971,10 +2970,9 @@ public class MyXMLHandler implements DocHandler {
 			macro = new Macro(kernel, myCmdName);
 			macro.setToolName(toolName);
 			macro.setCopyCaptionsAndVisibility(copyCaptions);
-			macro.setToolHelp(toolHelp);
+			macro.setToolHelp(toolHelp); 
 			macro.setIconFileName(iconFile);
-			boolean showTool = strShowInToolBar == null ? true
-					: parseBoolean(strShowInToolBar);
+			boolean showTool = strShowInToolBar == null || parseBoolean(strShowInToolBar);
 			macro.setShowInToolBar(showTool);
 			macro.setViewId(viewId);
 

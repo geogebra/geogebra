@@ -559,9 +559,11 @@ public abstract class CASgiac implements CASGenericInterface {
 				// append only asked solutions
 				for (int j = 0; j < nrOfVars; j++) {
 					if (j == nrOfVars - 1) {
-						newPlainResult.append(partsOfCurrSol[j] + "},");
+						newPlainResult.append(partsOfCurrSol[j]);
+						newPlainResult.append("},");
 					} else {
-						newPlainResult.append(partsOfCurrSol[j] + ",");
+						newPlainResult.append(partsOfCurrSol[j]);
+						newPlainResult.append(",");
 					}
 				}
 			}

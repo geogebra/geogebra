@@ -53,6 +53,8 @@ public class CASInputHandler {
 	 * 
 	 * @param command
 	 *            command like "Factor" or "Integral"
+	 * @param focus
+	 *            whether focus should stay in CAS
 	 */
 	public void processCurrentRow(String command, boolean focus) {
 		String ggbcmd = command;
@@ -756,9 +758,9 @@ public class CASInputHandler {
 				}
 				if (vars.get(i) instanceof GeoDummyVariable) {
 					first = false;
-					cellText.append(
-							vars.get(i).toString(StringTemplate.defaultTemplate)
-									+ "=1");
+					cellText.append(vars.get(i).toString(
+							StringTemplate.defaultTemplate));
+					cellText.append("=1");
 				}
 			}
 			cellText.append("}");

@@ -1911,17 +1911,25 @@ public class Kernel {
 				- (numbers[5] / numbers[4]);
 
 		StringBuilder sbBuildVertexformEquation = new StringBuilder(80);
-		sbBuildVertexformEquation.append(vars[4] + " = ");
+		sbBuildVertexformEquation.append(vars[4]);
+		sbBuildVertexformEquation.append(" = ");
 		sbBuildVertexformEquation.append(formatCoeff(a, tpl));
 		if (h == 0) {
-			sbBuildVertexformEquation.append(vars[3] + squared(tpl));
+			sbBuildVertexformEquation.append(vars[3]);
+			sbBuildVertexformEquation.append(squared(tpl));
 		} else {
-			sbBuildVertexformEquation.append("(" + vars[3] + " " + sign(h) + ' '
-					+ format(Math.abs(h), tpl) + ")" + squared(tpl));
+			sbBuildVertexformEquation.append("(");
+			sbBuildVertexformEquation.append(vars[3]);
+			sbBuildVertexformEquation.append(" ");
+			sbBuildVertexformEquation.append(sign(h) + ' ');
+			sbBuildVertexformEquation.append(format(Math.abs(h), tpl));
+			sbBuildVertexformEquation.append(")");
+			sbBuildVertexformEquation.append(squared(tpl));
 		}
 		if (k != 0) {
-			sbBuildVertexformEquation
-					.append(" " + sign(k) + format(Math.abs(k), tpl));
+			sbBuildVertexformEquation.append(" ");
+			sbBuildVertexformEquation.append(sign(k));
+			sbBuildVertexformEquation.append(format(Math.abs(k), tpl));
 		}
 		return sbBuildVertexformEquation;
 	}
@@ -4579,25 +4587,19 @@ public class Kernel {
 		}
 
 		if (asPreference) {
-			sb.append("\t<localization");
-			sb.append(" digits=\"");
+			sb.append("\t<localization digits=\"");
 			sb.append(getLocalization().isUsingLocalizedDigits());
-			sb.append("\"");
-			sb.append(" labels=\"");
+			sb.append("\" labels=\"");
 			sb.append(getLocalization().isUsingLocalizedLabels());
-			sb.append("\"");
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 
-			sb.append("\t<casSettings");
-			sb.append(" timeout=\"");
+			sb.append("\t<casSettings timeout=\"");
 			sb.append(OptionsCAS.getTimeoutOption(
 					app.getSettings().getCasSettings().getTimeoutMilliseconds()
 							/ 1000));
-			sb.append("\"");
-			sb.append(" expRoots=\"");
+			sb.append("\" expRoots=\"");
 			sb.append(app.getSettings().getCasSettings().getShowExpAsRoots());
-			sb.append("\"");
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 		}
 
 		sb.append("</kernel>\n");
@@ -4910,10 +4912,9 @@ public class Kernel {
 			sb.setLength(0);
 			sb.append("Rotate[");
 			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
-			sb.append("+ (");
 
 			// #5445
-			sb.append("Segment[");
+			sb.append("+ (Segment[");
 			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault));
 			sb.append(",");
 			sb.append(pts[i % n].getLabel(StringTemplate.noLocalDefault));

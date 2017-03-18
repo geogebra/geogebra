@@ -1143,16 +1143,20 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + getCoords().get(1) + "\"");
-			sb.append(" y=\"" + getCoords().get(2) + "\"");
-			sb.append(" z=\"" + getCoords().get(3) + "\"");
-			sb.append(" w=\"" + getCoords().get(4) + "\"");
+			sb.append("x=\"");
+			sb.append(getCoords().get(1));
+			sb.append("\" y=\"");
+			sb.append(getCoords().get(2));
+			sb.append("\" z=\"");
+			sb.append(getCoords().get(3));
+			sb.append("\" w=\"");
+			sb.append(getCoords().get(4));
+			sb.append("\"/>\n");
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
-			sb.append("\"");
+			sb.append("\"/>\n");
 		}
-		sb.append("/>\n");
 		return sb.toString();
 	}
 
