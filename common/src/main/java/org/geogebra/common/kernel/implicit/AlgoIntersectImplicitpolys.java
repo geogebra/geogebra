@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Cloner;
@@ -412,7 +411,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 				}
 
 				if (PolynomialUtils.rootPolishing(pair, p1, p2)) {
-					insert(pair);
+					ImplicitIntersectionFinder.insert(pair, valPairs);
 				}
 			}
 		}
@@ -647,28 +646,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	// return nrRoots+nrNearRoots;
 	// }
 
-	private void insert(double[] pair) {
-		ListIterator<double[]> it = valPairs.listIterator();
-		double eps = 1E-3; // find good value...
-		while (it.hasNext()) {
-			double[] p = it.next();
-			if (Kernel.isGreater(p[0], pair[0], eps)) {
-				it.previous();
-				break;
-			}
-			if (Kernel.isEqual(p[0], pair[0], eps)) {
-				if (Kernel.isGreater(p[1], pair[1], eps)) {
-					it.previous();
-					break;
-				}
-				if (Kernel.isEqual(p[1], pair[1], eps))
-				 {
-					return; // do not add
-				}
-			}
-		}
-		it.add(pair);
-	}
+
 
 	@Override
 	public Commands getClassName() {

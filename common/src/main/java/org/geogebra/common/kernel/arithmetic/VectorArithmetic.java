@@ -86,8 +86,12 @@ public class VectorArithmetic {
 		switch (exp.getOperation()) {
 		case VEC_FUNCTION:
 			if (exp.getLeft() instanceof GeoCurveCartesianND) {
-				return ((GeoCurveCartesianND) exp.getLeft()).getFun(i)
+				ExpressionNode parent = ((GeoCurveCartesianND) exp.getLeft())
+						.getFun(i)
 					.getExpression().deepCopy(kernel);
+				return parent.replace(
+						((GeoCurveCartesianND) exp.getLeft()).getFun(i)
+								.getFunctionVariable(), exp.getRight()).wrap();
 			}
 			return new ExpressionNode(kernel, exp.traverse(new CoordComputer()),
 					ops[i], null);
@@ -102,6 +106,10 @@ public class VectorArithmetic {
 					computeCoord(exp.getRightTree(), i));
 		case MULTIPLY:
 			if (exp.getRight().evaluatesToNDVector()) {
+				ExpressionNode ret = matrixMulVector(exp, i, kernel);
+				if (ret != null) {
+					return ret;
+				}
 				return computeCoord(exp.getRightTree(), i).multiply(
 						exp.getLeft());
 			} else if (exp.getLeft().evaluatesToNDVector()) {
@@ -109,10 +117,28 @@ public class VectorArithmetic {
 						exp.getRight());
 			}
 		default:
-			return new ExpressionNode(kernel, exp.traverse(new CoordComputer()),
-					ops[i], null);
+			return new ExpressionNode(kernel, exp,	ops[i], null);
 		}
 
+	}
+
+	private static ExpressionNode matrixMulVector(ExpressionNode exp, int i,
+			Kernel kernel) {
+		if (exp.getLeft().unwrap() instanceof ListValue
+				&& exp.getLeft().unwrap().getListDepth() == 2
+				&& ((ListValue) exp.getLeft().unwrap()).size() > i) {
+			ListValue lv = (ListValue) ((ListValue) exp.getLeft())
+					.getListElement(i);
+			if (lv.size() == 2 || lv.size() == 3) {
+				ExpressionNode sum = new ExpressionNode(kernel, 0);
+				for (int j = 0; j < lv.size(); j++) {
+					sum = sum.plus(computeCoord(exp.getRightTree(), j)
+							.multiply(lv.getListElement(j)));
+				}
+				return sum;
+			}
+		}
+		return null;
 	}
 
 	private static ExpressionValue extractCoord(ExpressionNode exp, int i,

@@ -16,7 +16,11 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
  * @author GSoCImplicitCurve2015
  *
  */
-public class ImplicitIntersectionFinder {
+public final class ImplicitIntersectionFinder {
+
+	private ImplicitIntersectionFinder() {
+		// utility class
+	}
 
 	/**
 	 * Default sampling interval
@@ -116,10 +120,14 @@ public class ImplicitIntersectionFinder {
 	 *            {f1(x,y), f2(x,y), f1'(x), f1'(y), f2'(x), f2'(y)}
 	 * @param params
 	 *            {xMin, yMin, xMax, yMax}
+	 * @param guess
+	 *            rough coordinates
 	 * @param outputs
 	 *            number of samples in output
+	 * @param vals
+	 *            output array
 	 */
-	private static void intersections(FunctionNVar[] f, double[] params,
+	static void intersections(FunctionNVar[] f, double[] params,
 			List<Coords> guess, int outputs, List<double[]> vals) {
 
 		// double[][] out = new double[outputs][2];
@@ -205,7 +213,13 @@ public class ImplicitIntersectionFinder {
 
 	}
 
-	private static void insert(double[] pair, List<double[]> pairs) {
+	/**
+	 * @param pair
+	 *            intersection to be inserted
+	 * @param pairs
+	 *            ordered intersection
+	 */
+	static void insert(double[] pair, List<double[]> pairs) {
 		ListIterator<double[]> it = pairs.listIterator();
 		double eps = ROOT_ACCURACY; // find good value...
 		while (it.hasNext()) {

@@ -74,10 +74,10 @@ public class Derivative {
 							wrap(right.derivative(fv, kernel0)).multiply(left))
 					.divide(wrap(right).square());
 		case MULTIPLY:
-			if (right.isNumberValue() && !right.contains(fv)) {
+			if (right.isNumberValue() && !right.wrap().containsDeep(fv)) {
 				return wrap(left).derivative(fv, kernel0).multiply(right);
 			}
-			if (left.isNumberValue() && !left.contains(fv)) {
+			if (left.isNumberValue() && !left.wrap().containsDeep(fv)) {
 				return wrap(right).derivative(fv, kernel0).multiply(left);
 			}
 			ExpressionNode scalarExpanded = VectorArithmetic
