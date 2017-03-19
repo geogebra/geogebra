@@ -2821,7 +2821,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			this.previewDrawable.disposePreview();
 		}
 
-		if (previewDrawable != null && previewDrawable instanceof Drawable3D) {
+		if (previewDrawable instanceof Drawable3D) {
 			if (((Drawable3D) previewDrawable).getGeoElement() != null)
 			 {
 				addToDrawable3DLists((Drawable3D) previewDrawable);

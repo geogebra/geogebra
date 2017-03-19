@@ -169,8 +169,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperation(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType,
-			int[] outputSizes) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType) {
 
 		super(cons);
 

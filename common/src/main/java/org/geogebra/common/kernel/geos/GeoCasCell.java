@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import org.geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
@@ -49,7 +50,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
-import org.geogebra.common.kernel.arithmetic.Traversing.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -2311,8 +2311,7 @@ public class GeoCasCell extends GeoElement
 								for (GeoNumeric geoNum : constList) {
 									GeoElement geo = cons.lookupLabel(
 											geoNum.getLabelSimple());
-									if (geo != null
-											&& geo instanceof GeoNumeric) {
+									if (geo instanceof GeoNumeric) {
 										((GeoNumeric) geo)
 												.setIsDependentConst(true);
 										cons.removeLabel(geo);

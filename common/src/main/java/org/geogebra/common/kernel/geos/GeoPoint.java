@@ -2740,8 +2740,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaVars(this);
 		}
@@ -2763,8 +2762,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaPolynomials(this);
 		}

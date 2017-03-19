@@ -87,8 +87,9 @@ public class CmdIteration extends CommandProcessor {
 				cons.setSuppressLabelCreation(oldval);
 			}
 
-			AlgoIteration algo = new AlgoIteration(cons, c.getLabel(), arg1,
+			AlgoIteration algo = new AlgoIteration(cons, arg1,
 					vars, over, num[0]);
+			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
 		}
 	}

@@ -39,7 +39,7 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 	public AlgoPolygonIntersection(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION, null);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
 		initialize(null);
 	}
 
@@ -59,8 +59,7 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 	public AlgoPolygonIntersection(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1, int[] outputSizes) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION,
-				outputSizes);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
 		initialize(outputSizes);
 	}
 

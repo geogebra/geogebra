@@ -85,7 +85,7 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 	public boolean isAutoDistance() {
 		boolean[] auto = view.isAutomaticAxesNumberingDistance();
 		for (int i = 0; i < auto.length; i++) {
-			if (auto[i] == false) {
+			if (!auto[i]) {
 				return false;
 			}
 		}

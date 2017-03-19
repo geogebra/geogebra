@@ -1318,7 +1318,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 		if (!isIndependent()) {
 			AlgoElement algo = getParentAlgorithm();
-			if (algo != null && algo instanceof AlgoDynamicCoordinates3D) {
+			if (algo instanceof AlgoDynamicCoordinates3D) {
 				return moveMode;
 			}
 			return MOVE_MODE_NONE;

@@ -101,25 +101,25 @@ public class LayoutButtons {
 		Collections.sort(all, comparatorY);
 	}
 
-	private static String buttonDetails(AbsoluteScreenLocateable btn,
-			EuclidianView view) {
-		return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
-				+ btn.getAbsoluteScreenLocY() + "), " + btn.getTotalWidth(view)
-				+ "x"
-				+ btn.getTotalHeight(view);
-	}
+	// private static String buttonDetails(AbsoluteScreenLocateable btn,
+	// EuclidianView view) {
+	// return btn + " (" + btn.getAbsoluteScreenLocX() + ", "
+	// + btn.getAbsoluteScreenLocY() + "), " + btn.getTotalWidth(view)
+	// + "x"
+	// + btn.getTotalHeight(view);
+	// }
 
-	private void debugButtons(String msg,
-			List<AbsoluteScreenLocateable> buttons) {
-		Log.debug("[LayoutButtons] " + msg);
-		for (int idx = 0; idx < buttons.size(); idx++) {
-			AbsoluteScreenLocateable btn = buttons.get(idx);
-			Log.debug(
-					"[LayoutButtons] " + idx + ". " + buttonDetails(btn, view));
-
-		}
-
-	}
+	// private void debugButtons(String msg,
+	// List<AbsoluteScreenLocateable> buttons) {
+	// Log.debug("[LayoutButtons] " + msg);
+	// for (int idx = 0; idx < buttons.size(); idx++) {
+	// AbsoluteScreenLocateable btn = buttons.get(idx);
+	// Log.debug(
+	// "[LayoutButtons] " + idx + ". " + buttonDetails(btn, view));
+	//
+	// }
+	//
+	// }
 
 
 
@@ -147,10 +147,6 @@ public class LayoutButtons {
 			// All buttons is on screen, nothing to do.
 			return;
 		}
-
-
-
-
 
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (AbsoluteScreenLocateable btn : moveable) {
@@ -273,13 +269,13 @@ public class LayoutButtons {
 	// return w;
 	// }
 
-	private static int getHeights(List<GeoButton> buttons) {
-		int h = 0;
-		for (GeoButton btn : buttons) {
-			h += btn.getHeight() + Y_GAP;
-		}
-		return h;
-	}
+	// private static int getHeights(List<GeoButton> buttons) {
+	// int h = 0;
+	// for (GeoButton btn : buttons) {
+	// h += btn.getHeight() + Y_GAP;
+	// }
+	// return h;
+	// }
 
 	public boolean isCollected() {
 		return collected;

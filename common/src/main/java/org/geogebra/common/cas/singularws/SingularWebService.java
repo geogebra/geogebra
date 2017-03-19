@@ -314,7 +314,7 @@ public class SingularWebService {
 	 * @return locus command
 	 */
 	public String getLocusCommand() {
-		if (locusLib.equals("grobcov")) {
+		if ("grobcov".equals(locusLib)) {
 			return "locus";
 		}
 		if (locusLib.endsWith("F2m") || locusLib.endsWith("G")) {

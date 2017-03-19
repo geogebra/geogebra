@@ -581,9 +581,10 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
-						while (!pathMover.hasNext()
-								&& pathMover.smallerStep()) {
-							// do nothing
+						boolean check = true;
+						while (check) {
+							check = !pathMover.hasNext()
+									&& pathMover.smallerStep();
 						}
 						// no smaller step possible: run finished
 						if (!pathMover.hasNext()) {

@@ -60,7 +60,7 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE, null);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
 		initialize(null);
 
 	}
@@ -82,8 +82,7 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, int[] outputSizes) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE,
-				outputSizes);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
 		initialize(outputSizes);
 	}
 

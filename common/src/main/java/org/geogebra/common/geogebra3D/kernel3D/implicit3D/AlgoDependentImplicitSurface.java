@@ -29,15 +29,11 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param equ
 	 *            equation
-	 * @param simplify
-	 *            simplify the equation
 	 */
-	public AlgoDependentImplicitSurface(Construction c, String label,
-			Equation equ, boolean simplify) {
+	public AlgoDependentImplicitSurface(Construction c,
+			Equation equ) {
 		super(c, false);
 		equation = equ;
 
@@ -61,7 +57,6 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 
 		compute(true);
 
-		geoElem.setLabel(label);
 	}
 
 	@Override

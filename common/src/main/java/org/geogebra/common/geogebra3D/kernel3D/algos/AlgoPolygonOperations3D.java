@@ -180,8 +180,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPoly inPoly0, GeoPoly inPoly1, PolyOperation operationType,
-			int[] outputSizes) {
+			GeoPoly inPoly0, GeoPoly inPoly1, PolyOperation operationType) {
 
 		super(cons);
 

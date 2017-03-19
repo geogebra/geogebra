@@ -2795,9 +2795,9 @@ public class Construction {
 				return dist.getDistance();
 
 			}
-		} else if (geo1 != null && geo1 instanceof NumberValue) {
-			GeoElement geo2 = kernel.lookupLabel(string2 + "");
-			if (geo2 != null && geo2 instanceof NumberValue) {
+		} else if (geo1 instanceof NumberValue) {
+			GeoElement geo2 = kernel.lookupLabel(string2);
+			if (geo2 instanceof NumberValue) {
 				ExpressionNode node = new ExpressionNode(kernel, geo1,
 						Operation.MULTIPLY, geo2);
 				AlgoDependentNumber algo = new AlgoDependentNumber(this, node,

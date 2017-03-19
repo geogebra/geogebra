@@ -216,7 +216,7 @@ public class ManagerShadersElementsGlobalBuffer
 		 *            GL renderer
 		 */
 		public void removeBuffers(RendererShadersInterface r) {
-
+			// TODO not needed?
 		}
 
 		private TypeElement oldType = TypeElement.NONE;

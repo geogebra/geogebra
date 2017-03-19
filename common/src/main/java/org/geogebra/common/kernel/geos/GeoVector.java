@@ -1021,8 +1021,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public SymbolicParameters getSymbolicParameters() {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return new SymbolicParameters((SymbolicParametersAlgo) algoParent);
 		}
 		return null;
@@ -1031,8 +1030,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	@Override
 	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
 			return;
 		}
@@ -1052,8 +1050,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public BigInteger[] getExactCoordinates(
 			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent)
 					.getExactCoordinates(values);
 		}
@@ -1062,8 +1059,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersAlgo) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
 		}
 		throw new NoSymbolicParametersException();
@@ -1072,8 +1068,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaVars(this);
 		}
@@ -1083,8 +1078,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaPolynomials(this);
 		}

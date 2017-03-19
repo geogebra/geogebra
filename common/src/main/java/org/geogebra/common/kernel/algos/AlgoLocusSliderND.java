@@ -501,9 +501,10 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
-						while (!sliderMover.hasNext()
-								&& sliderMover.smallerStep()) {
-							// do nothing
+						boolean check = true;
+						while (check) {
+							check = !sliderMover.hasNext()
+									&& sliderMover.smallerStep();
 						}
 
 						// no smaller step possible: run finished

@@ -10,13 +10,13 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 /**
- * Algorithm to find intersection of implicit with line, function, conic and
+ * Collection of static methods to find intersection of implicit with line, function, conic and
  * other implicit curve
  * 
  * @author GSoCImplicitCurve2015
  *
  */
-public class AlgoIntersectImplicitCurve {
+public class ImplicitIntersectionFinder {
 
 	/**
 	 * Default sampling interval

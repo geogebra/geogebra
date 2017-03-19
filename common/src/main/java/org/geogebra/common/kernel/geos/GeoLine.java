@@ -1742,8 +1742,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public void getFreeVariables(HashSet<PVariable> variables)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
 			return;
 		}
@@ -1752,8 +1751,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public int[] getDegrees() throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getDegrees();
 		}
 		throw new NoSymbolicParametersException();
@@ -1763,8 +1761,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public BigInteger[] getExactCoordinates(
 			final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent)
 					.getExactCoordinates(values);
 		}
@@ -1773,8 +1770,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public PPolynomial[] getPolynomials() throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersAlgo) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
 		}
 		throw new NoSymbolicParametersException();

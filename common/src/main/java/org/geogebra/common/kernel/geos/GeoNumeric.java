@@ -1778,8 +1778,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaVars(this);
 		}
@@ -1799,8 +1798,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null
-				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaPolynomials(this);
 		}

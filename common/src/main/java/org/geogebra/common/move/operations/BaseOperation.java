@@ -70,7 +70,7 @@ public abstract class BaseOperation<T> {
 			model.onEvent(event);
 		}
 
-		if (view != null && view instanceof BaseEventView) {
+		if (view instanceof BaseEventView) {
 			((BaseEventView) view).onEvent(event);
 		}
 	}

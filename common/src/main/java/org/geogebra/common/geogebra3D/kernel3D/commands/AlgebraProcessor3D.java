@@ -250,7 +250,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 					geo = new GeoImplicitSurface(cons, equ);
 				} else {
 					AlgoElement surfaceAlgo = new AlgoDependentImplicitSurface(
-							cons, null, equ, true);
+							cons, equ);
 					geo = surfaceAlgo.getOutput(0);
 				}
 				geo.setDefinition(definition);

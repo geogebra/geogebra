@@ -242,14 +242,14 @@ final public class DockPanelData {
 	 * 
 	 * @return view id for XML
 	 */
-	protected int getViewIdForXML() {
+	private int getViewIdForXML() {
 		return plane == null ? getViewId() : App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
 	/**
 	 * @return string builder with tag name and basic parameters
 	 */
-	protected final StringBuilder getStartXml() {
+	private final StringBuilder getStartXml() {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("<view id=\"");

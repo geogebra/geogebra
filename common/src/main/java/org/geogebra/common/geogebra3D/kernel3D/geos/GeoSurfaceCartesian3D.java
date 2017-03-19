@@ -1052,7 +1052,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
 				uv[1] = vMin + vi * dv;
 				double error = findBivariateColinear(x0, y0, z0, vx, vy, vz,
-						vSquareNorm, gxc, gyc, gzc, uv, uMin, uMax, vMin, vMax);
+						vSquareNorm, gxc, gyc, gzc, uv);
 				if (!Double.isNaN(error)) {
 					// check if the hit point is in the correct direction
 					double d = (xyz[0] - x0) * vx + (xyz[1] - y0) * vy
@@ -1080,8 +1080,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private double findBivariateColinear(final double x0, final double y0,
 			final double z0, final double vx, final double vy, final double vz,
 			final double vSquareNorm, final double gxc, final double gyc,
-			final double gzc, double[] uv, final double uMin, final double uMax,
-			final double vMin, final double vMax) {
+			final double gzc, double[] uv) {
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 

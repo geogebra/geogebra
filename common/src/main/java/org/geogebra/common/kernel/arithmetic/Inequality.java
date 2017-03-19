@@ -87,11 +87,9 @@ public class Inequality {
 	 *            operation
 	 * @param fv
 	 *            variable
-	 * @param function
-	 *            function to which this ineq belongs
 	 */
 	public Inequality(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs,
-			Operation op, FunctionVariable[] fv, FunctionalNVar function) {
+			Operation op, FunctionVariable[] fv) {
 
 		this.op = op;
 		this.kernel = kernel;

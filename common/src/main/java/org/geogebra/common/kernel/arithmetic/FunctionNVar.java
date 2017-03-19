@@ -747,8 +747,7 @@ public class FunctionNVar extends ValidExpression
 				|| op.equals(Operation.LESS)
 				|| op.equals(Operation.LESS_EQUAL)) {
 			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
-					adjustOp(op, negate), getFunction().getFunctionVariables(),
-					functional);
+					adjustOp(op, negate), getFunction().getFunctionVariables());
 			if (newIneq.getType() != IneqType.INEQUALITY_INVALID) {
 				if (newIneq.getType() != IneqType.INEQUALITY_1VAR_X
 						&& newIneq.getType() != IneqType.INEQUALITY_1VAR_Y) {

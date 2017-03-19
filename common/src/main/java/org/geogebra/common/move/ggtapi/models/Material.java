@@ -367,7 +367,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 	@Override
 	public boolean equals(Object another) {
-		if (another == null || !(another instanceof Material)) {
+		if (!(another instanceof Material)) {
 			return false;
 		}
 		return this.id == ((Material) another).id;

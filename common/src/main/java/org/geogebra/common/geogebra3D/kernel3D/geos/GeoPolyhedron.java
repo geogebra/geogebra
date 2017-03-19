@@ -1345,7 +1345,7 @@ public class GeoPolyhedron extends GeoElement3D
 			}
 
 			AlgoElement algo = getParentAlgorithm();
-			if (algo == null || !(algo instanceof AlgoTransformation)) {
+			if (!(algo instanceof AlgoTransformation)) {
 				// we need it e.g. for polyhedron0 = polyhedron, for lists
 				updatePolygonsAndSegmentsAlgos();
 			}
@@ -1578,7 +1578,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 		// if parent algo is prism/pyramid, update area from faces
 		AlgoElement algo = getParentAlgorithm();
-		if (algo != null && algo instanceof AlgoPolyhedronPoints) {
+		if (algo instanceof AlgoPolyhedronPoints) {
 			area = 0;
 
 			for (GeoPolygon p : polygonsLinked) {

@@ -1634,7 +1634,7 @@ public class ProverBotanasMethod {
 				 * important to be kept as a symbolic object for consistency.
 				 * Let's do that if the path is linear.
 				 */
-				if (ae != null && ae instanceof AlgoPointOnPath
+				if (ae instanceof AlgoPointOnPath
 						&& ae.input[0] instanceof GeoLine) {
 					PPolynomial[] symPolys;
 					try {

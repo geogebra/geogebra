@@ -38,7 +38,7 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 	public AlgoPolygonUnion(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION, null);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 		initialize(null);
 	}
 
@@ -58,7 +58,7 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 	public AlgoPolygonUnion(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1, int[] outputSizes) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION, outputSizes);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 		initialize(outputSizes);
 	}
 

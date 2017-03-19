@@ -413,7 +413,7 @@ public class GColor implements GPaint {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || !(object instanceof GColor)) {
+		if (!(object instanceof GColor)) {
 			return false;
 		}
 		GColor other = (GColor) object;

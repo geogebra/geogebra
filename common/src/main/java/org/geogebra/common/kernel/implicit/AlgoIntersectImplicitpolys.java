@@ -67,31 +67,14 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 */
 	public AlgoIntersectImplicitpolys(Construction c, GeoImplicit p1,
 			GeoConic c1) {
-		this(c, null, false, p1, c1);
-	}
-
-	/**
-	 * To compute intersection of polynomial and conic
-	 * 
-	 * @param c
-	 *            construction
-	 * @param labels
-	 *            labels for results
-	 * @param setLabels
-	 *            true to set labels
-	 * @param p1
-	 *            polynomial
-	 * @param c1
-	 *            conic
-	 */
-	public AlgoIntersectImplicitpolys(Construction c, String[] labels,
-			boolean setLabels, GeoImplicit p1, GeoConic c1) {
 		super(c, p1.toGeoElement(), c1);
 		this.p1 = p1;
 		this.c1 = c1;
 		initForNearToRelationship();
 		compute();
 	}
+
+
 
 	/**
 	 * To compute intersection of two polynomials
@@ -105,25 +88,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 */
 	public AlgoIntersectImplicitpolys(Construction c, GeoImplicit p1,
 			GeoImplicit p2) {
-		this(c, null, false, p1, p2);
-	}
-
-	/**
-	 * To compute intersection of two polynomials
-	 * 
-	 * @param c
-	 *            construction
-	 * @param labels
-	 *            labels for results
-	 * @param setLabels
-	 *            true to set labels
-	 * @param p1
-	 *            first polynomial
-	 * @param p2
-	 *            second polynomial
-	 */
-	public AlgoIntersectImplicitpolys(Construction c, String[] labels,
-			boolean setLabels, GeoImplicit p1, GeoImplicit p2) {
 		super(c, p1.toGeoElement(), p2.toGeoElement());
 		this.p1 = p1;
 		this.p2 = p2;
@@ -204,9 +168,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double[] params = kernel.getViewBoundsForGeo(c1 == null ? a : c1);
 
 			// find roots
-			AlgoIntersectImplicitCurve.findIntersections(a.getExpression(),
+			ImplicitIntersectionFinder.findIntersections(a.getExpression(),
 					b.getExpression(), params[0], params[2], params[1],
-					params[3], AlgoIntersectImplicitCurve.SAMPLE_SIZE_2D, 10,
+					params[3], ImplicitIntersectionFinder.SAMPLE_SIZE_2D, 10,
 					valPairs);
 			setPoints(valPairs);
 			Log.debug(params[0] + "," + params[2] + "," + params[1] + ","

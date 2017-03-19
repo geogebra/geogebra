@@ -28,7 +28,7 @@ public class AlgoUnionPolygons3D extends AlgoPolygonOperations3D {
 	public AlgoUnionPolygons3D(Construction cons, String[] labels,
 			GeoPoly inPoly0, GeoPoly inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION, null);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 		initialize(null);
 	}
 

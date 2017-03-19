@@ -46,6 +46,7 @@ public class AlgoIntersectImplicitpolyParametric
 	private GeoFunction f;
 	private GeoPoint[] tangentPoints;
 
+
 	/**
 	 * To compute intersection of polynomial and line
 	 * 
@@ -58,7 +59,10 @@ public class AlgoIntersectImplicitpolyParametric
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
 			GeoLine l) {
-		this(c, null, false, p, l);
+		super(c, p.toGeoElement(), l);
+		this.p = p;
+		this.l = l;
+		compute();
 	}
 
 	/**
@@ -73,47 +77,6 @@ public class AlgoIntersectImplicitpolyParametric
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, GeoImplicit p,
 			GeoFunction f) {
-		this(c, null, false, p, f);
-	}
-
-	/**
-	 * To compute intersection of polynomial and line
-	 * 
-	 * @param c
-	 *            construction
-	 * @param labels
-	 *            labels for output
-	 * @param setLabels
-	 *            true to set labels
-	 * @param p
-	 *            polynomial
-	 * @param l
-	 *            line
-	 */
-	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
-			boolean setLabels, GeoImplicit p, GeoLine l) {
-		super(c, p.toGeoElement(), l);
-		this.p = p;
-		this.l = l;
-		compute();
-	}
-
-	/**
-	 * To compute intersection of polynomial and function
-	 * 
-	 * @param c
-	 *            construction
-	 * @param labels
-	 *            labels for output
-	 * @param setLabels
-	 *            true to set labels
-	 * @param p
-	 *            polynomial
-	 * @param f
-	 *            function
-	 */
-	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
-			boolean setLabels, GeoImplicit p, GeoFunction f) {
 		super(c, p.toGeoElement(), f);
 		this.p = p;
 		this.f = f;

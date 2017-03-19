@@ -69,8 +69,8 @@ public class CASInputHandler {
 			return;
 		}
 		// Multiple cells selected and solve button clicked
-		if ((ggbcmd.equalsIgnoreCase("Solve")
-				|| ggbcmd.equalsIgnoreCase("NSolve"))
+		if (("Solve".equalsIgnoreCase(ggbcmd) || "NSolve"
+				.equalsIgnoreCase(ggbcmd))
 				&& (consoleTable.getSelectedRows().length > 1)) {
 			processMultipleRows(ggbcmd);
 			return;

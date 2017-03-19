@@ -25,8 +25,7 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 	 * @author mathieu
 	 *
 	 */
-	private static class FunMustBeZero
-			implements org.apache.commons.math3.analysis.UnivariateFunction {
+	private static class FunMustBeZero implements UnivariateFunction {
 
 		private UnivariateFunction parentFun;
 

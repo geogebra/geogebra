@@ -43,12 +43,10 @@ public class CmdDelete extends CmdScripting {
 			GeoElement geo = arg[0];
 
 			AlgoElement algoParent = geo.getParentAlgorithm();
-			if (algoParent != null
-					&& algoParent instanceof AlgoDependentGeoCopy) {
+			if (algoParent instanceof AlgoDependentGeoCopy) {
 				algoParent.getInput(0)
 						.removeOrSetUndefinedIfHasFixedDescendent();
-			} else if (algoParent != null
-					&& algoParent instanceof AlgoCellRange) {
+			} else if (algoParent instanceof AlgoCellRange) {
 				// delete cells
 				AlgoCellRange algo = (AlgoCellRange) algoParent;
 				GPoint startCoords = GeoElementSpreadsheet

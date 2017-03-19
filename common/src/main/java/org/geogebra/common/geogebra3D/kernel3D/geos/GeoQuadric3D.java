@@ -1796,8 +1796,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	public String getTypeStringForAlgebraView() {
 
-		if (getParentAlgorithm() != null
-				&& getParentAlgorithm() instanceof AlgoDependentQuadric3D) {
+		if (getParentAlgorithm() instanceof AlgoDependentQuadric3D) {
 			return "Quadric";
 		}
 
@@ -3409,8 +3408,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenvecND[2].set(x2, y2, z2);
 
 		// compute dependent quadric again to ensure eigenvalues are correct
-		if (algoParent != null
-				&& algoParent instanceof AlgoDependentQuadric3D) {
+		if (algoParent instanceof AlgoDependentQuadric3D) {
 			algoParent.compute();
 		}
 	}

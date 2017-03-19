@@ -1443,7 +1443,7 @@ public class AlgoDispatcher {
 	final public GeoPoint[] IntersectImplicitCurveLine(String[] labels,
 			GeoImplicitCurve curve, GeoLine line) {
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
-				cons, labels, false, curve, line);
+				cons, curve, line);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;
@@ -1452,7 +1452,7 @@ public class AlgoDispatcher {
 	final public GeoPoint[] IntersectImplicitCurveConic(String[] labels,
 			GeoImplicitCurve curve, GeoConic conic) {
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
-				labels, false, curve, conic);
+				curve, conic);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;
@@ -1461,7 +1461,7 @@ public class AlgoDispatcher {
 	final public GeoPoint[] IntersectImplicitCurveFunction(String[] labels,
 			GeoImplicitCurve curve, GeoFunction func) {
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
-				cons, labels, false, curve, func);
+				cons, curve, func);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;
@@ -1470,7 +1470,7 @@ public class AlgoDispatcher {
 	final public GeoPoint[] IntersectImplicitCurveImpCurve(String[] labels,
 			GeoImplicit curve, GeoImplicit impCurve) {
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
-				labels, false, curve, impCurve);
+				curve, impCurve);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return points;

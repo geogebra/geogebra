@@ -304,8 +304,7 @@ public class AlgoLocusStroke extends AlgoElement
 	public int getPointsLengthWihtoutControl() {
 		int size = 0;
 		for (int i = 0; i < getPointsLength(); i++) {
-			if (!(poly.getPoints().get(i)
-					.getSegmentType() == SegmentType.CONTROL)) {
+			if (poly.getPoints().get(i).getSegmentType() != SegmentType.CONTROL) {
 				size++;
 			}
 		}

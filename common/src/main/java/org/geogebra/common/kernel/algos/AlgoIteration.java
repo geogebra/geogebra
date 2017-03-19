@@ -78,7 +78,7 @@ public class AlgoIteration extends AlgoElement {
 	private AlgoElement expressionParentAlgo;
 	AlgoIterationList.Type type;
 
-	public AlgoIteration(Construction cons, String label, GeoElement expression,
+	public AlgoIteration(Construction cons, GeoElement expression,
 			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
 		super(cons);
 		this.expression = expression;

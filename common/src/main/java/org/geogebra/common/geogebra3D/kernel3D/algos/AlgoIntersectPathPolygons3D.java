@@ -30,7 +30,7 @@ public class AlgoIntersectPathPolygons3D extends AlgoPolygonOperations3D {
 	public AlgoIntersectPathPolygons3D(Construction cons, String[] labels,
 			GeoPoly inPoly0, GeoPoly inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION, null);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
 		initialize(null);
 	}
 

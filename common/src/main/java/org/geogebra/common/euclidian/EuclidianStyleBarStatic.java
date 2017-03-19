@@ -608,7 +608,7 @@ public class EuclidianStyleBarStatic {
 
 		for (int i = 0; i < geos.length; i++) {
 			algo = ((GeoElement) geos[i]).getParentAlgorithm();
-			if (algo == null || !(algo instanceof AlgoTableText)) {
+			if (!(algo instanceof AlgoTableText)) {
 				geosOK = false;
 			}
 		}

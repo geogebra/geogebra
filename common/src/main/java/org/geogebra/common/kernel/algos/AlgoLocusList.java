@@ -121,7 +121,7 @@ public class AlgoLocusList extends AlgoElement {
 			arrLocusSize = arrLocus.size();
 			for (int i = 0; i < ((GeoList) path).size(); i++) {
 				actel = ((GeoList) path).get(i);
-				if (actel != null && actel instanceof Path) {
+				if (actel instanceof Path) {
 					if (i < arrLocusSize) {
 						if (arrLocus.get(i) instanceof AlgoLocusList) {
 							oldel = ((AlgoLocusList) arrLocus.get(i))

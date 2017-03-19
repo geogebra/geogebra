@@ -1114,7 +1114,7 @@ public class Delaunay_Triangulation {
 		Triangle_dt curr = start;
 		Triangle_dt next_t;
 		if (curr.halfplane) {
-			next_t = findnext2(p, curr);
+			next_t = findnext2(curr);
 			if (next_t == null || next_t.halfplane) {
 				return curr;
 			}
@@ -1164,7 +1164,7 @@ public class Delaunay_Triangulation {
 	/**
 	 * assumes v is an halfplane! - returns another (none halfplane) triangle
 	 */
-	private static Triangle_dt findnext2(Point_dt p, Triangle_dt v) {
+	private static Triangle_dt findnext2(Triangle_dt v) {
 		if (v.abnext != null && !v.abnext.halfplane) {
 			return v.abnext;
 		}

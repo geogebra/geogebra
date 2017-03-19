@@ -38,8 +38,8 @@ public class CmdImplicitSurface extends CommandProcessor {
 						.getFunctionExpression();
 				ExpressionNode rhs = new ExpressionNode(kernelA, 0.0);
 				Equation e = new Equation(kernelA, lhs, rhs);
-				GeoImplicitSurface surf = new GeoImplicitSurface(cons, e,
-						e.getLabel());
+				GeoImplicitSurface surf = new GeoImplicitSurface(cons, e);
+				surf.setLabel(c.getLabel());
 				return new GeoElement[] { surf };
 			}
 			throw argErr(app, c, arg[0]);

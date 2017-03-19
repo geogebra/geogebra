@@ -57,18 +57,6 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * Create a new GeoImplicitSurface
-	 * 
-	 * @param cons
-	 *            {@link Construction}
-	 * @param eqn
-	 *            {@link Equation}
-	 */
-	public GeoImplicitSurface(Construction cons, Equation eqn) {
-		this(cons, eqn, eqn.getLabel());
-	}
-
-	/**
 	 * 
 	 * @param cons
 	 *            {@link Construction}
@@ -77,7 +65,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	 * @param label
 	 *            label for the object
 	 */
-	public GeoImplicitSurface(Construction cons, Equation eqn, String label) {
+	public GeoImplicitSurface(Construction cons, Equation eqn) {
 		super(cons);
 		setAlphaValue(0.75f); // TODO remove that when construction default will
 								// be created

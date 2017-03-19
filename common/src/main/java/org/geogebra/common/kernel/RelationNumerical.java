@@ -131,7 +131,7 @@ public class RelationNumerical {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null || !(obj instanceof Report)) {
+			if (!(obj instanceof Report)) {
 				return false;
 			}
 			// This does not work in GWT, maybe there is something equivalent.
