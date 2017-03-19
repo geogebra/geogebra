@@ -56,7 +56,7 @@ import static org.geogebra.common.util.mathIT.Complex.subtract;
  * @author Andreas de Vries
  * @version 2.01
  */
-public class Riemann {
+public final class Riemann {
 	// Suppresses default constructor, ensuring non-instantiability.
 	private Riemann() {
 	}

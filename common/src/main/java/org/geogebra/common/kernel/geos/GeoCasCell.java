@@ -324,38 +324,8 @@ public class GeoCasCell extends GeoElement
 				} else {
 					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
 							.getLeft());
-					if (isAssignmentVariableDefined()) {
-						sb.append(getAssignmentLHS(
-								StringTemplate.latexTemplateCAS));
-						if (geo instanceof GeoFunction
-								|| geo instanceof GeoSurfaceCartesianND) {
-							sb.append('(');
-							sb.append(((VarString) geo).getVarString(
-									StringTemplate.latexTemplateCAS));
-							sb.append(')');
-						}
+					appendLaTeXOutputGeo(sb, geo);
 
-						switch (getAssignmentType()) {
-						case DEFAULT:
-							sb.append(outputVE.getAssignmentOperator().trim());
-							break;
-						case DELAYED:
-							sb.append(outputVE.getDelayedAssignmentOperator()
-									.trim());
-							break;
-						case NONE:
-							break;
-
-						}
-					}
-					if (!(geo instanceof GeoLocus)) {
-						sb.append(geo.toValueString(
-								StringTemplate.latexTemplateCAS));
-					} else {
-						// as GeoLocuses can not be converted to value strings
-						sb.append(geo.algoParent.getDefinition(
-								StringTemplate.latexTemplateCAS));
-					}
 				}
 				sb.append("}");
 				latex = sb.toString();
@@ -366,6 +336,38 @@ public class GeoCasCell extends GeoElement
 		}
 
 		return latex;
+	}
+
+	private void appendLaTeXOutputGeo(StringBuilder sb, GeoElement geo) {
+		if (isAssignmentVariableDefined()) {
+			sb.append(getAssignmentLHS(StringTemplate.latexTemplateCAS));
+			if (geo instanceof GeoFunction
+					|| geo instanceof GeoSurfaceCartesianND) {
+				sb.append('(');
+				sb.append(((VarString) geo)
+						.getVarString(StringTemplate.latexTemplateCAS));
+				sb.append(')');
+			}
+
+			switch (getAssignmentType()) {
+			case DEFAULT:
+				sb.append(outputVE.getAssignmentOperator().trim());
+				break;
+			case DELAYED:
+				sb.append(outputVE.getDelayedAssignmentOperator().trim());
+				break;
+			case NONE:
+				break;
+
+			}
+		}
+		if (!(geo instanceof GeoLocus)) {
+			sb.append(geo.toValueString(StringTemplate.latexTemplateCAS));
+		} else {
+			// as GeoLocuses can not be converted to value strings
+			sb.append(geo.algoParent
+					.getDefinition(StringTemplate.latexTemplateCAS));
+		}
 	}
 
 	/**

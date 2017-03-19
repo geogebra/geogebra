@@ -32,7 +32,7 @@ package org.geogebra.common.util;
  * @author Joseph D. Darcy
  */
 
-public class DoubleConsts {
+public final class DoubleConsts {
 	/**
 	 * Don't let anyone instantiate this class.
 	 */

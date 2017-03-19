@@ -7,9 +7,10 @@
 	<description>
   This ruleset checks my code for bad stuff
 	</description>
-	<exclude-pattern>.*/org/apache.*</exclude-pattern>
-	<exclude-pattern>.*/com/github.*</exclude-pattern>
-	<exclude-pattern>.*/edu/uci.*</exclude-pattern>
+	<exclude-pattern>.*/org/apache/.*</exclude-pattern>
+	<exclude-pattern>.*/com/github/.*</exclude-pattern>
+	<exclude-pattern>.*/com/google/.*</exclude-pattern>
+	<exclude-pattern>.*/edu/uci/.*</exclude-pattern>
 	<exclude-pattern>.*/org/geogebra/common/kernel/parser/.*</exclude-pattern>
 	<exclude-pattern>.*/org/geogebra/common/io/latex/.*</exclude-pattern>
 	<exclude-pattern>.*/org/geogebra/common/kernel/prover/polynomial/.*</exclude-pattern>
@@ -53,7 +54,6 @@
 	<exclude name="UnnecessaryLocalBeforeReturn"/>
 	<exclude name="GodClass"/>
 	<exclude name="MissingBreakInSwitch"/>
-	
 	<exclude name="ReturnEmptyArrayRatherThanNull"/>
 	<exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
 	<exclude name="NonThreadSafeSingleton"/>
@@ -61,7 +61,6 @@
 	<exclude name="SwitchStmtsShouldHaveDefault"/>
 	<exclude name="SwitchDensity"/>
 	<exclude name="UseCollectionIsEmpty"/>
-	<exclude name="AvoidDeeplyNestedIfStmts"/>
 	<exclude name="ConstantsInInterface"/>
 	<exclude name="CompareObjectsWithEquals"/>
 	<exclude name="AvoidSynchronizedAtMethodLevel"/>
@@ -69,8 +68,6 @@
 	<exclude name="UseUtilityClass"/>
 	<exclude name="SimplifyBooleanReturns"/>
 	<exclude name="UseLocaleWithCaseConversions"/>
-	<exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/>
-	<exclude name="AvoidReassigningParameters"/>
 	<exclude name="AvoidConstantsInterface"/>
 	<exclude name="AbstractClassWithoutAbstractMethod"/>
 	<exclude name="UncommentedEmptyConstructor"/>
@@ -79,6 +76,11 @@
 	<exclude name="PreserveStackTrace"/>
 	
 	</rule>
+	<rule ref="rulesets/java/design.xml/AvoidDeeplyNestedIfStmts">
+    <properties>
+        <property name="problemDepth" value="4"/>
+    </properties>
+  </rule>
 	<rule ref="rulesets/java/basic.xml">
 		<exclude name="CollapsibleIfStatements" />
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />		

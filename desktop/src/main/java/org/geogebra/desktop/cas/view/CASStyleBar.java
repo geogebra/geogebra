@@ -321,8 +321,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	static boolean checkGeoText(Object[] geos) {
 		boolean geosOK = (geos.length > 0);
 		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i])
-					.getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
+			if (!(geos[i] instanceof GeoCasCell)) {
 				geosOK = false;
 				break;
 			} else if (!((GeoCasCell) geos[i]).isUseAsText()) {

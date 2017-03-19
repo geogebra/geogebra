@@ -287,14 +287,7 @@ public abstract class Log {
 			String caller = "";
 			if (callerShown) {
 				caller = getCaller(depth);
-				if (message.length() >= 21) {
-					if (message.toLowerCase().substring(0, 21)
-							.equals("implementation needed")) {
-						if (!reportedImplementationNeeded.contains(caller)) {
-							reportedImplementationNeeded.add(caller);
-						}
-					}
-				}
+				handleImplementationNeeded(caller, message);
 				caller += ": ";
 			}
 			String timeInfo = "";
@@ -320,6 +313,18 @@ public abstract class Log {
 				memoryLog.append("\n");
 			}
 		}
+	}
+
+	private void handleImplementationNeeded(String caller, String message) {
+		if (message.length() >= 21
+				&& message.toLowerCase().substring(0, 21)
+						.equals("implementation needed")) {
+			if (!reportedImplementationNeeded.contains(caller)) {
+				reportedImplementationNeeded.add(caller);
+			}
+
+		}
+
 	}
 
 	/**

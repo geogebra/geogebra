@@ -167,15 +167,11 @@ public class SelectionManager {
 				boolean oldSelected = geo.isSelected();
 				geo.setSelected(false);
 				if (geo.getKernel().getApplication()
-						.has(Feature.DYNAMIC_STYLEBAR)) {
+						.has(Feature.DYNAMIC_STYLEBAR)
+						&& oldSelected) {
 
-					if (oldSelected) {
-						for (GeoElementSelectionListener sl : getSelectionListeners()) {
-							if (sl != null) {
-								sl.geoElementSelected(geo, false);
-							}
-						}
-					}
+					notifyListeners(geo);
+
 				}
 			}
 			selectedGeos.clear();
@@ -188,6 +184,15 @@ public class SelectionManager {
 			}
 			kernel.getApplication().getEventDispatcher()
 					.dispatchEvent(EventType.DESELECT, null);
+		}
+
+	}
+
+	private void notifyListeners(GeoElement geo) {
+		for (GeoElementSelectionListener sl : getSelectionListeners()) {
+			if (sl != null) {
+				sl.geoElementSelected(geo, false);
+			}
 		}
 
 	}

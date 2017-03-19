@@ -127,35 +127,7 @@ public class CASInputHandler {
 			if (selRowInput.length() == 0) {
 				// not first row
 				if (selRow > 0) {
-					// get previous cell
-					GeoCasCell prevCell = consoleTable
-							.getGeoCasCell(selRow - 1);
-					if (prevCell != null
-							&& prevCell.getOutputValidExpression() != null) {
-						// get output of previous cell
-						StringBuilder prevCellName = new StringBuilder();
-						prevCellName.append(prevCell.getAssignmentVariable());
-						if (!prevCellName.toString().equals("null")) {
-							if (prevCell.getFunctionVariables() != null) {
-								prevCellName.append("(");
-								FunctionVariable[] fVars = prevCell
-										.getFunctionVariables();
-								for (int i = 0; i < fVars.length; i++) {
-									prevCellName.append(fVars[i].toString(
-											StringTemplate.defaultTemplate));
-									if (i != fVars.length - 1) {
-										prevCellName.append(",");
-									}
-								}
-								prevCellName.append(")");
-							}
-							cellValue.setInput(prevCellName.toString());
-							selRowInput = prevCellName.toString();
-						} else {
-							cellValue.setInput("$" + (selRow));
-							selRowInput = "$" + (selRow);
-						}
-					}
+					selRowInput = wrapPrevCell(selRow, cellValue);
 				} else {
 					return;
 				}
@@ -326,6 +298,35 @@ public class CASInputHandler {
 		}
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, focus);
+	}
+
+	private String wrapPrevCell(int selRow, GeoCasCell cellValue) {
+		// get previous cell
+		GeoCasCell prevCell = consoleTable.getGeoCasCell(selRow - 1);
+		if (prevCell != null && prevCell.getOutputValidExpression() != null) {
+			// get output of previous cell
+			StringBuilder prevCellName = new StringBuilder();
+			prevCellName.append(prevCell.getAssignmentVariable());
+			if (!prevCellName.toString().equals("null")) {
+				if (prevCell.getFunctionVariables() != null) {
+					prevCellName.append("(");
+					FunctionVariable[] fVars = prevCell.getFunctionVariables();
+					for (int i = 0; i < fVars.length; i++) {
+						prevCellName.append(fVars[i]
+								.toString(StringTemplate.defaultTemplate));
+						if (i != fVars.length - 1) {
+							prevCellName.append(",");
+						}
+					}
+					prevCellName.append(")");
+				}
+				cellValue.setInput(prevCellName.toString());
+				return prevCellName.toString();
+			}
+			cellValue.setInput("$" + (selRow));
+			return "$" + (selRow);
+		}
+		return "";
 	}
 
 	private void processAssignment(String ggbcmd, GeoCasCell cellValue,

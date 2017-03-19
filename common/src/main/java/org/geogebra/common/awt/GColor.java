@@ -10,7 +10,7 @@ import java.util.HashMap;
  *         a HashMap is used to recycle colors (to avoid extra "new GColor()"s)
  *
  */
-public class GColor implements GPaint {
+public final class GColor implements GPaint {
 
 	// MUST be first in class
 	private static HashMap<Integer, GColor> map = new HashMap<Integer, GColor>();

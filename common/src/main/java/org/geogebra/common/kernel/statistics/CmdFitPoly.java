@@ -55,22 +55,9 @@ public class CmdFitPoly extends CommandProcessor {
 
 					// FitPoly[ <Freehand Function>, <Order> ]
 
-					GeoFunction fun = (GeoFunction) arg[0];
 
-					if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 
-						GeoList list = wrapFreehandFunctionArgInList(kernelA,
-								(AlgoFunctionFreehand) fun
-										.getParentAlgorithm());
-
-						if (list != null) {
-							GeoElement[] ret = {
-									FitPoly(list, (GeoNumberValue) arg[1]) };
-							ret[0].setLabel(c.getLabel());
-							return ret;
-						}
-
-					}
+					return fitPolyFunction(c, arg);
 
 				}
 
@@ -88,8 +75,25 @@ public class CmdFitPoly extends CommandProcessor {
 				return ret;
 			}
 			throw argNumErr(app, c, n);
-		}// switch(number of arguments)
-	}// process(Command)
+		}
+	}
+
+	private GeoElement[] fitPolyFunction(Command c, GeoElement[] arg) {
+		GeoFunction fun = (GeoFunction) arg[0];
+		if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+
+			GeoList list = wrapFreehandFunctionArgInList(kernelA,
+					(AlgoFunctionFreehand) fun.getParentAlgorithm());
+
+			if (list != null) {
+				GeoElement[] ret = { FitPoly(list, (GeoNumberValue) arg[1]) };
+				ret[0].setLabel(c.getLabel());
+				return ret;
+			}
+
+		}
+		throw argErr(app, c, arg[0]);
+	}
 
 	/**
 	 * FitPoly[list of coords,degree] Hans-Petter Ulven

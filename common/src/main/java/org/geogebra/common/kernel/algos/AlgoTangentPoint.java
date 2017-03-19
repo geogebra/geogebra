@@ -169,7 +169,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			GeoPoint point = this.getPoint();
 			GeoConic circle = this.getConic();
 
-			if (point != null && circle != null) {
+
 				PVariable[] vPoint = point.getBotanaVars(point);
 				PVariable[] vcircle = circle.getBotanaVars(circle);
 
@@ -245,15 +245,14 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 						vcircle[3]);
 				return botanaPolynomials;
 
-			}
-			throw new NoSymbolicParametersException();
+
 		}
 
 		if (c.isParabola()) {
 			GeoPoint point = this.getPoint();
 			GeoConic parabola = this.getConic();
 
-			if (point != null && parabola != null) {
+
 				PVariable[] vPoint = point.getBotanaVars(point);
 				PVariable[] vparabola = parabola.getBotanaVars(parabola);
 
@@ -302,7 +301,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					return botanaPolynomials;
 				}
 
-			}
+
 			throw new NoSymbolicParametersException();
 
 		}
@@ -312,7 +311,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 			GeoPoint point = this.getPoint();
 			GeoConic ellipse = this.getConic();
 
-			if (point != null && ellipse != null) {
+
 				PVariable[] vPoint = point.getBotanaVars(point);
 				PVariable[] vellipse = ellipse.getBotanaVars(ellipse);
 
@@ -362,7 +361,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					return botanaPolynomials;
 				}
 
-			}
+
 			throw new NoSymbolicParametersException();
 
 		}

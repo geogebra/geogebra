@@ -450,38 +450,14 @@ public class Derivative {
 			if (Kernel.isZero(right.evaluateDouble())) {
 				return wrap(new MyDouble(kernel0, 0d));
 			}
-
+			ExpressionNode ret = null;
 			// make sure Tangent[x^(1/3), A] works when x(A)<0
 			if (right.isConstant()) {
-
-				double rightDoub = right.evaluateDouble();
-				if (Kernel.isEqual(rightDoub, 2)) {
-					return wrap(left).multiply(left.derivative(fv, kernel0))
-							.multiply(right);
-				}
-				// not an integer, convert to x^(a/b)
-				if (!Kernel.isInteger(rightDoub)) {
-
-					double[] fraction = AlgoFractionText.decimalToFraction(
-							rightDoub, Kernel.STANDARD_PRECISION);
-
-					double a = fraction[0];
-					double b = fraction[1];
-
-					// Log.debug(a + " / " + b);
-
-					if (b == 0) {
-						return wrap(new MyDouble(kernel0, Double.NaN));
-					}
-
-					// a/b-1 = (a-b)/b
-					ExpressionNode newPower = wrap(new MyDouble(kernel0, a - b))
-							.divide(new MyDouble(kernel0, b));
-
-					// x^(1/b-1) * a / b * x'
-					return wrap(left).power(newPower).multiply(a).divide(b)
-							.multiply(left.derivative(fv, kernel0));
-				}
+				ret = derivativeConstantPower(left, right,
+						fv, kernel0);
+			}
+			if (ret != null) {
+				return ret;
 			}
 
 			return wrap(left).power(wrap(right).subtract(1))
@@ -496,6 +472,39 @@ public class Derivative {
 				wrap(right.derivative(fv, kernel0)).multiply(wrap(left).ln())
 						.plus(wrap(right).multiply(left.derivative(fv, kernel0))
 								.divide(left)));
+	}
+
+	private static ExpressionNode derivativeConstantPower(ExpressionValue left,
+			ExpressionValue right, FunctionVariable fv, Kernel kernel0) {
+		double rightDoub = right.evaluateDouble();
+		if (Kernel.isEqual(rightDoub, 2)) {
+			return wrap(left).multiply(left.derivative(fv, kernel0)).multiply(
+					right);
+		}
+		// not an integer, convert to x^(a/b)
+		if (!Kernel.isInteger(rightDoub)) {
+
+			double[] fraction = AlgoFractionText.decimalToFraction(rightDoub,
+					Kernel.STANDARD_PRECISION);
+
+			double a = fraction[0];
+			double b = fraction[1];
+
+			// Log.debug(a + " / " + b);
+
+			if (b == 0) {
+				return wrap(new MyDouble(kernel0, Double.NaN));
+			}
+
+			// a/b-1 = (a-b)/b
+			ExpressionNode newPower = wrap(new MyDouble(kernel0, a - b))
+					.divide(new MyDouble(kernel0, b));
+
+			// x^(1/b-1) * a / b * x'
+			return wrap(left).power(newPower).multiply(a).divide(b)
+					.multiply(left.derivative(fv, kernel0));
+		}
+		return null;
 	}
 
 	private static ExpressionNode wrap(Kernel kernel0, double d) {
