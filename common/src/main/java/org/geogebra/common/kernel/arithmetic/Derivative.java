@@ -41,7 +41,7 @@ public class Derivative {
 		case GREATER:
 		case GREATER_EQUAL:
 		case NOT:
-
+			return new ExpressionNode(kernel0, 0);
 		case XCOORD:
 			return coordDerivative(left, 0, fv, kernel0);
 		case YCOORD:

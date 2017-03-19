@@ -1402,6 +1402,7 @@ public interface Traversing {
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
+				boolean surface = false;
 				final ExpressionNode en = (ExpressionNode) ev;
 				if (en.getOperation() == Operation.FUNCTION
 						|| en.getOperation() == Operation.FUNCTION_NVAR
@@ -1486,7 +1487,7 @@ public interface Traversing {
 						fv = ((GeoCasCell) geo).getFunctionVariables();
 					}
 					if (geo instanceof GeoSurfaceCartesian3D) {
-						en.setOperation(Operation.FUNCTION_NVAR);
+						surface = true;
 						if (en.getRight() instanceof MyList
 								&& ((MyList) en.getRight()).getListElement(
 										0) instanceof ExpressionNode
@@ -1500,10 +1501,13 @@ public interface Traversing {
 						FunctionNVar[] fun = ((GeoSurfaceCartesian3D) geo)
 								.getFunctions();
 						fv = fun[0].getFunctionVariables();
+						Kernel kernel = fun[0].getKernel();
 						MyVec3DNode vect = new MyVec3DNode(
 								((ExpressionNode) ev).getKernel(),
-								fun[0].getExpression(), fun[1].getExpression(),
-								fun[2].getExpression());
+ fun[0]
+										.getExpression().deepCopy(kernel),
+								fun[1].getExpression().deepCopy(kernel), fun[2]
+										.getExpression().deepCopy(kernel));
 						en2 = new ExpressionNode(en.getKernel(), vect);
 					}
 					if (deriv != null) {
@@ -1530,7 +1534,8 @@ public interface Traversing {
 						// or else replacing f(x,y) with f(y,x)
 						// will result in f(x, x)
 						for (int i = 0; i < fv.length; i++) {
-							if (en.getOperation() == Operation.FUNCTION_NVAR) {
+							if (en.getOperation() == Operation.FUNCTION_NVAR
+									|| surface) {
 								ithArg = ((MyList) argument).getListElement(i);
 							}
 							VariableReplacer.addVars(fv[i].getSetVarString(),

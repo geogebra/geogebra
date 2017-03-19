@@ -189,6 +189,13 @@ public abstract class ValidExpression implements ExpressionValue {
 		return toAssignmentString(toString(tpl), assignmentType);
 	}
 
+	/**
+	 * @param rhs
+	 *            assignment RHS
+	 * @param assignmentType
+	 *            assignment type
+	 * @return rhs with prepended label + assignment operator
+	 */
 	public String toAssignmentString(String rhs,
 			AssignmentType assignmentType) {
 		if (labels == null) {
@@ -411,7 +418,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel) {
 		Log.debug("derivative from " + this.getValueType());
-		return null;
+		return new ExpressionNode(kernel, Double.NaN);
 	}
 
 	@Override
