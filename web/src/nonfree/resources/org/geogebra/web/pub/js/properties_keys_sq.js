@@ -2867,6 +2867,7 @@ __GGB__keysVar.sq.menu = {
     "UngroupObjectes": "Cgrupo Objekte",
     "UnitVectorOfA": "Vektori Njesi i %0",
     "UnitVectorPerpendicularToA": "Vektori Njesi Pingul ndaj %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Pa-titull",
     "UntitledA": "Untitled%0",

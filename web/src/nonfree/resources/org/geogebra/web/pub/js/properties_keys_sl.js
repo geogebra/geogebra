@@ -2867,6 +2867,7 @@ __GGB__keysVar.sl.menu = {
     "UngroupObjectes": "Razdru\u017ei objekte",
     "UnitVectorOfA": "Enotski vektor %0",
     "UnitVectorPerpendicularToA": "Enotski normalni vektor %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra ima neshranjene spremembe. Jih obnovimo, ali zavr\u017eemo?",
     "Untitled": "Neimenovano",
     "UntitledA": "Neimenovana%0",

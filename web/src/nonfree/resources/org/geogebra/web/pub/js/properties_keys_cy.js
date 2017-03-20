@@ -2867,6 +2867,7 @@ __GGB__keysVar.cy.menu = {
     "UngroupObjectes": "Dadgrwpio gwrthrychau",
     "UnitVectorOfA": "Fector uned o %0",
     "UnitVectorPerpendicularToA": "Fector uned yn berpendiciwlar i %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Di-destun",
     "UntitledA": "Untitled%0",

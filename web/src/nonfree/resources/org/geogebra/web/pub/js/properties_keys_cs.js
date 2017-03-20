@@ -2867,6 +2867,7 @@ __GGB__keysVar.cs.menu = {
     "UngroupObjectes": "Rozd\u011blit objekty",
     "UnitVectorOfA": "Jednotkov\xfd vektor vektoru %0",
     "UnitVectorPerpendicularToA": "Jednotkov\xfd vektor kolm\xfd k %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "Nalezeny neulo\u017een\xe9 zm\u011bny. P\u0159ejete si je obnovit, nebo smazat?",
     "Untitled": "Neozna\u010den\xfd",
     "UntitledA": "BezNazvu%0",

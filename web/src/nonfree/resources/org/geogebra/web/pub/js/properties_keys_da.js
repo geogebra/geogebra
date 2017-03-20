@@ -2867,6 +2867,7 @@ __GGB__keysVar.da.menu = {
     "UngroupObjectes": "Opdel objekter",
     "UnitVectorOfA": "Enhedsvektor p\xe5 %0",
     "UnitVectorPerpendicularToA": "Enhedsvektor vinkelret p\xe5 %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra registrerede \xe6ndringer, der ikke er gemt. Vil du genoprette \xe6ndringerne eller kassere dem?",
     "Untitled": "Ikke navngivet",
     "UntitledA": "Untitled%0",

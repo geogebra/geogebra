@@ -2867,6 +2867,7 @@ __GGB__keysVar.ko.menu = {
     "UngroupObjectes": "\uadf8\ub8f9 \ud574\uc81c",
     "UnitVectorOfA": "%0 \uc758 \ub2e8\uc704 \ubca1\ud130",
     "UnitVectorPerpendicularToA": "%0 \uc5d0 \uc218\uc9c1\uc778 \ub2e8\uc704 \ubca1\ud130",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "\uc9c0\uc624\uc9c0\ube0c\ub77c\uc5d0\uc11c \uc800\uc7a5\ub418\uc9c0 \uc54a\uc740 \ubcc0\uacbd\uc0ac\ud56d\uc774 \ubc1c\uacac\ub418\uc5c8\uc2b5\ub2c8\ub2e4. \uc800\uc7a5\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c? \uc544\ub2c8\uba74 \uc0ad\uc81c\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?",
     "Untitled": "\uc81c\ubaa9 \uc5c6\uc74c",
     "UntitledA": "\uc81c\ubaa9\uc5c6\uc74c%0",

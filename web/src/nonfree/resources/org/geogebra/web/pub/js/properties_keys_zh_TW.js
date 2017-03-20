@@ -2867,6 +2867,7 @@ __GGB__keysVar.zh_TW.menu = {
     "UngroupObjectes": "\u53d6\u6d88\u7fa4\u7d44",
     "UnitVectorOfA": "%0 \u7684\u55ae\u4f4d\u5411\u91cf",
     "UnitVectorPerpendicularToA": "%0 \u7684\u55ae\u4f4d\u6cd5\u5411\u91cf",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "\u672a\u547d\u540d",
     "UntitledA": "\u672a\u547d\u540d%0",

@@ -2867,6 +2867,7 @@ __GGB__keysVar.ro.menu = {
     "UngroupObjectes": "Degrupare obiecte",
     "UnitVectorOfA": "Vector unitate pentru %0",
     "UnitVectorPerpendicularToA": "Vector unitate perpendicular la %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra a g\u0103sit modific\u0103ri nesalvate. Dori\u0163i s\u0103 le recupera\u0163i sau le \u015fterge\u0163i?",
     "Untitled": "F\u0103r\u0103 titlu",
     "UntitledA": "Fara titlu%0",

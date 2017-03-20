@@ -2867,6 +2867,7 @@ __GGB__keysVar.lv.menu = {
     "UngroupObjectes": "Atgrup\u0113t objektus",
     "UnitVectorOfA": "Vien\u012bbas vektors %0",
     "UnitVectorPerpendicularToA": "Vien\u012bbas vektors perpendikul\u0101ri %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Bez nosaukuma",
     "UntitledA": "Beznosaukuma%0",

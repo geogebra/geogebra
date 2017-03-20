@@ -2867,6 +2867,7 @@ __GGB__keysVar.xh.menu = {
     "UngroupObjectes": "Yohlulahlula iZintoEziphathekayo",
     "UnitVectorOfA": "iUnit vector ka %0",
     "UnitVectorPerpendicularToA": "Unit vector perpendicular to %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "uJiyoJebra ufumene izinto ongaziseyivanga. Ufuna ukubuyela kuzo okanye ukuzicima?",
     "Untitled": "Ayinasintloko",
     "UntitledA": "Untitled%0",

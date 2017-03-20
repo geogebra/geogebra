@@ -2867,6 +2867,7 @@ __GGB__keysVar.eo.menu = {
     "UngroupObjectes": "Ungroup Objects",
     "UnitVectorOfA": "Unuvektoro de %0",
     "UnitVectorPerpendicularToA": "Unuvektoro orta al %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Sentitola",
     "UntitledA": "Sentitola%0",

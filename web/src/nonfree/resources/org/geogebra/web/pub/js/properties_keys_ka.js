@@ -2867,6 +2867,7 @@ __GGB__keysVar.ka.menu = {
     "UngroupObjectes": "\u10dd\u10d1\u10d8\u10d4\u10e5\u10e2\u10d4\u10d1\u10d8\u10e1 \u10d2\u10d0\u10dc\u10ef\u10d2\u10e3\u10e4\u10d4\u10d1\u10d0",
     "UnitVectorOfA": "%0-\u10d8\u10e1 \u10d4\u10e0\u10d7\u10d4\u10e3\u10da\u10dd\u10d5\u10d0\u10dc\u10d8 \u10d5\u10d4\u10e5\u10e2\u10dd\u10e0\u10d8\u10d0",
     "UnitVectorPerpendicularToA": "%0-\u10d8\u10e1 \u10d4\u10e0\u10d7\u10d4\u10e3\u10da\u10dd\u10d5\u10d0\u10dc\u10d8 \u10dc\u10dd\u10e0\u10db\u10d0\u10da\u10d8\u10d0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "\u10e3\u10e1\u10d0\u10d7\u10d0\u10e3\u10e0\u10dd",
     "UntitledA": "\u10e3\u10e1\u10d0\u10ee\u10d4\u10da\u10dd%0",

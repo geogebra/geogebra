@@ -2867,6 +2867,7 @@ __GGB__keysVar.tr.menu = {
     "UngroupObjectes": "Nesnelerin grubunu ay\u0131r",
     "UnitVectorOfA": "%0 birim vekt\xf6r\xfc",
     "UnitVectorPerpendicularToA": "%0 dik olan birim vekt\xf6r",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra kaydedilmemi\u015f de\u011fi\u015fiklikler buldu. Bunlar\u0131 geri getirmek mi veya silmek mi istiyorsunuz?",
     "Untitled": "Ads\u0131z",
     "UntitledA": "Ads\u0131z%0",

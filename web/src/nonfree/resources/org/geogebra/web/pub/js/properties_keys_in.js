@@ -2867,6 +2867,7 @@ __GGB__keysVar.in.menu = {
     "UngroupObjectes": "Pisah Grup Objek",
     "UnitVectorOfA": "Vektor satuan dari %0",
     "UnitVectorPerpendicularToA": "Vektor satuan tegak lurus terhadap %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Tak Berjudul",
     "UntitledA": "Untitled%0",

@@ -2867,6 +2867,7 @@ __GGB__keysVar.hu.menu = {
     "UngroupObjectes": "Alakzatok csoportj\xe1nak bont\xe1sa",
     "UnitVectorOfA": "%0 egys\xe9gvektora",
     "UnitVectorPerpendicularToA": "Mer\u0151leges egys\xe9gvektor %0-ra/-re",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "A GeoGebra nem mentett v\xe1ltoztat\xe1sokat tal\xe1lt. T\xf6r\xf6lni k\xedv\xe1nja \u0151ket vagy meg\u0151rizni?",
     "Untitled": "N\xe9vtelen",
     "UntitledA": "C\xedmn\xe9lk\xfcli%0",

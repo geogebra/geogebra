@@ -2867,6 +2867,7 @@ __GGB__keysVar.si.menu = {
     "UngroupObjectes": "Ungroup Objects",
     "UnitVectorOfA": "%0\u0dc4\u0dd3 \u0d92\u0d9a\u0d9a \u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba",
     "UnitVectorPerpendicularToA": "%0\u0da7 \u0dbd\u0db8\u0dca\u0db6\u0d9a \u0d92\u0d9a\u0d9a \u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Untitled",
     "UntitledA": "\u0db1\u0db8\u0dca \u0db1\u0ddc\u0d9a\u0dc5 %0",

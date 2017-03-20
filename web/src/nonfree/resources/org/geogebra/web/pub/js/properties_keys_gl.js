@@ -2867,6 +2867,7 @@ __GGB__keysVar.gl.menu = {
     "UngroupObjectes": "Desagrupar obxectos",
     "UnitVectorOfA": "Vector de %0",
     "UnitVectorPerpendicularToA": "Vector perpendicular a %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra encontrou cambios sen gardar. Queres recuperalos ou eliminalos?",
     "Untitled": "Sen t\xedtulo",
     "UntitledA": "SinT\xedtulo%0",

@@ -2867,6 +2867,7 @@ __GGB__keysVar.sv.menu = {
     "UngroupObjectes": "Dela upp grupp",
     "UnitVectorOfA": "Enhetssvektor till %0",
     "UnitVectorPerpendicularToA": "Enhetsvektor vinkelr\xe4t mot %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra hittade osparade \xe4ndringar. Vill du spara eller sl\xe4nga dem?",
     "Untitled": "Namnl\xf6s",
     "UntitledA": "NyKonstruktion-%0",

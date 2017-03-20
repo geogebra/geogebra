@@ -2867,6 +2867,7 @@ __GGB__keysVar.ca_XV.menu = {
     "UngroupObjectes": "Desagrupa els objectes",
     "UnitVectorOfA": "Vector unitari de %0",
     "UnitVectorPerpendicularToA": "Vector unitari perpendicular a %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "El GeoGebra ha trobat canvis sense desar. Vols recuperar-los o eliminar-los?",
     "Untitled": "Sense t\xedtol",
     "UntitledA": "SenseT\xedtol%0",

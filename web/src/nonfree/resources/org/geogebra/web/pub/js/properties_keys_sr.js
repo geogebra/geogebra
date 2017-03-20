@@ -2867,6 +2867,7 @@ __GGB__keysVar.sr.menu = {
     "UngroupObjectes": "Razbij grupu objekata",
     "UnitVectorOfA": "Jedini\u010dni vektor od %0",
     "UnitVectorPerpendicularToA": "Jedini\u010dni vektor normalan na %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Bez naslova",
     "UntitledA": "Neimenovano%0",

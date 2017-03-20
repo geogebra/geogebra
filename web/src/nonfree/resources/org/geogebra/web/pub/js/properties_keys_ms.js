@@ -2867,6 +2867,7 @@ __GGB__keysVar.ms.menu = {
     "UngroupObjectes": "Leraikan Objek-objek",
     "UnitVectorOfA": "Vektor Unit %0",
     "UnitVectorPerpendicularToA": "Vektor Unit berserenjang dengan %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra menjumpai perubahan-perubahan yang tidak disimpan. Anda ingin memulihkannya atau menghapuskan?",
     "Untitled": "Tidak Bertajuk",
     "UntitledA": "Tak berjudul%0",

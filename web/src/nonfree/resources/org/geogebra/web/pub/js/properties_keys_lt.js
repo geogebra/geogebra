@@ -2867,6 +2867,7 @@ __GGB__keysVar.lt.menu = {
     "UngroupObjectes": "I\u0161grupuoti objektus",
     "UnitVectorOfA": "%0 vienetinis vektorius",
     "UnitVectorPerpendicularToA": "Vienetinis vektorius statmenas %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra rado nei\u0161saugot\u0173 pakeitim\u0173. Ar norite juos atstatyti ar i\u0161trinti?",
     "Untitled": "Be pavadinimo",
     "UntitledA": "Bevardis%0",

@@ -2867,6 +2867,7 @@ __GGB__keysVar.pt_PT.menu = {
     "UngroupObjectes": "Desagrupar Objetos",
     "UnitVectorOfA": "Vetor unit\xe1rio de %0",
     "UnitVectorPerpendicularToA": "Vetor unit\xe1rio perpendicular a %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra encontrado altera\xe7\xf5es n\xe3o gravadas. Quer recuperar ou exclu\xed-las?",
     "Untitled": "Sem T\xedtulo",
     "UntitledA": "SemNome%0",

@@ -2867,6 +2867,7 @@ __GGB__keysVar.tl.menu = {
     "UngroupObjectes": "Ungroup Objects",
     "UnitVectorOfA": "Yunit na bektor ng %0",
     "UnitVectorPerpendicularToA": "Yunit-bektor na perpendikular sa %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "Untitled",
     "UntitledA": "Untitled%0",

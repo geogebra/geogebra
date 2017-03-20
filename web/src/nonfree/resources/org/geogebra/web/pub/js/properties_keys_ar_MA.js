@@ -2867,6 +2867,7 @@ __GGB__keysVar.ar_MA.menu = {
     "UngroupObjectes": "\u062a\u0641\u0631\u064a\u0642 \u0627\u0644\u0639\u0646\u0627\u0635\u0631",
     "UnitVectorOfA": "\u0645\u062a\u0651\u062c\u0647 \u0627\u0644\u0648\u062d\u062f\u0629 \u0644\u0640 %0",
     "UnitVectorPerpendicularToA": "\u0645\u062a\u0651\u062c\u0647 \u0627\u0644\u0648\u062d\u062f\u0629 \u0627\u0644\u0645\u062a\u0639\u0627\u0645\u062f  \u0644\u0640 %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra found unsaved changes. Do you want to recover or delete them?",
     "Untitled": "\u0628\u062f\u0648\u0646 \u0639\u0646\u0648\u0627\u0646",
     "UntitledA": "Untitled%0",

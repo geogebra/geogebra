@@ -2867,6 +2867,7 @@ __GGB__keysVar.no_NN.menu = {
     "UngroupObjectes": "Degrupp\xe9r objekt",
     "UnitVectorOfA": "Einingsvektor til %0",
     "UnitVectorPerpendicularToA": "Einingsvektor vinkelrett p\xe5 %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra fann endringar som ikkje er lagra. Vil du gjenopprette eller lagre desse?",
     "Untitled": "Utan namn",
     "UntitledA": "Utan namn%0",

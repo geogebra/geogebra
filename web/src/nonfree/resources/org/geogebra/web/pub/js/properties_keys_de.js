@@ -2867,6 +2867,7 @@ __GGB__keysVar.de.menu = {
     "UngroupObjectes": "Gruppierung von Objekten aufheben",
     "UnitVectorOfA": "Einheitsvektor von %0",
     "UnitVectorPerpendicularToA": "Einheitsnormalvektor zu %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra hat nicht gespeicherte \xc4nderungen gefunden. Wollen Sie diese wiederherstellen oder l\xf6schen?",
     "Untitled": "Unbenannt",
     "UntitledA": "Unbenannt%0",

@@ -2867,6 +2867,7 @@ __GGB__keysVar.et.menu = {
     "UngroupObjectes": "Degrupeeri objektid",
     "UnitVectorOfA": "%0 \xfchikvektor",
     "UnitVectorPerpendicularToA": "%0-ga ristuv \xfchikvektor",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra leidis salvestamata muudatusi. Kas soovid neid taastada v\xf5i kustutada?",
     "Untitled": "Pealkirjata",
     "UntitledA": "IlmaNimeta%0",

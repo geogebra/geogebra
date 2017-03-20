@@ -2867,6 +2867,7 @@ __GGB__keysVar.is.menu = {
     "UngroupObjectes": "Taka burt flokkaskiptingu hluta",
     "UnitVectorOfA": "Einingarvigur %0",
     "UnitVectorPerpendicularToA": "Einingarvigur hornr\xe9ttur \xe1 %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "\xd3vista\xf0ar breytingar fundust \xed GeoGebra. Viltu endurvekja \xfe\xe6r e\xf0a ey\xf0a \xfeeim?",
     "Untitled": "\xc1n titils",
     "UntitledA": "Untitled%0",

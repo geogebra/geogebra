@@ -2867,6 +2867,7 @@ __GGB__keysVar.it.menu = {
     "UngroupObjectes": "Separa oggetti",
     "UnitVectorOfA": "Versore di %0",
     "UnitVectorPerpendicularToA": "Versore perpendicolare a %0",
+    "UnlockObject": "Sblocca oggetto",
     "UnsavedChangesFound": "GeoGebra ha individuato delle modifiche non salvate. Si desidera recuperarle o eliminarle?",
     "Untitled": "Senza titolo",
     "UntitledA": "Senza Titolo %0",

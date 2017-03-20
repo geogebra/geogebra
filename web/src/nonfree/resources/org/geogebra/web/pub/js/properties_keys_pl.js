@@ -2867,6 +2867,7 @@ __GGB__keysVar.pl.menu = {
     "UngroupObjectes": "Rozgrupuj Obiekty",
     "UnitVectorOfA": "Wektor jednostkowy do %0",
     "UnitVectorPerpendicularToA": "Wektor jednostkowy prostopad\u0142y do %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra znalaz\u0142a niezapisane zmiany. Czy chcesz odzyska\u0107 lub usun\u0105\u0107 je?",
     "Untitled": "Bez Nazwy",
     "UntitledA": "BezNazwy%0",

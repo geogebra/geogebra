@@ -2867,6 +2867,7 @@ __GGB__keysVar.eu.menu = {
     "UngroupObjectes": "Banandu Objektuak",
     "UnitVectorOfA": "%0-(r)en unitate-bektorea",
     "UnitVectorPerpendicularToA": "Unitate-bektorea %0-(r)en perpendikularra",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebrak gorde gabeko aldaketak aurkitu ditu. Berreskuratu ala ezabatu egin nahi dituzu?",
     "Untitled": "Titulurik gabe",
     "UntitledA": "Izengabea%0",

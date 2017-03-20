@@ -2867,6 +2867,7 @@ __GGB__keysVar.es.menu = {
     "UngroupObjectes": "Objetos desagrupados",
     "UnitVectorOfA": "Vector unitario de %0",
     "UnitVectorPerpendicularToA": "Vector unitario ortogonal a %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "\xbfSe recuperan o se eliminan los cambios sin guardar encontrados?",
     "Untitled": "Sin t\xedtulo",
     "UntitledA": "SinT\xedtulo%0",

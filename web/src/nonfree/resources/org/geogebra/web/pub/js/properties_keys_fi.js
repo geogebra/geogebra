@@ -2867,6 +2867,7 @@ __GGB__keysVar.fi.menu = {
     "UngroupObjectes": "Poista ryhmittely",
     "UnitVectorOfA": "%0n yksikk\xf6vektori",
     "UnitVectorPerpendicularToA": "Objektia %0 vastaan kohtisuora yksikk\xf6vektori",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra l\xf6ysi tallentamattomia muutoksia. Haluatko palauttaa vai poistaa ne?",
     "Untitled": "Nime\xe4m\xe4t\xf6n",
     "UntitledA": "Nimet\xf6n%0",

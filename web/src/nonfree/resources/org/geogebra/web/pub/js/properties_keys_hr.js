@@ -2867,6 +2867,7 @@ __GGB__keysVar.hr.menu = {
     "UngroupObjectes": "Razgrupiranje objekata",
     "UnitVectorOfA": "Jedini\u010dni vektor od %0",
     "UnitVectorPerpendicularToA": "Jedini\u010dni vektor okomit na %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra je prona\u0161la nespremljene promjene. \u017delite li ih obnoviti ili izbrisati?",
     "Untitled": "Bez naslova",
     "UntitledA": "Neimenovano%0",

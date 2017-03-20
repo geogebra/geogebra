@@ -2867,6 +2867,7 @@ __GGB__keysVar.sk.menu = {
     "UngroupObjectes": "Oddeli\u0165 objekty",
     "UnitVectorOfA": "Jednotkov\xfd vektor toho: %0",
     "UnitVectorPerpendicularToA": "Jednotkov\xfd norm\xe1lov\xfd vektor toho: %0",
+    "UnlockObject": "Unlock Object",
     "UnsavedChangesFound": "GeoGebra na\u0161iel neulo\u017een\xe9 zmeny. Chcete ich obnovi\u0165 alebo zmaza\u0165?",
     "Untitled": "Nepomenovan\xfd",
     "UntitledA": "Bezn\xe1zvu%0",
