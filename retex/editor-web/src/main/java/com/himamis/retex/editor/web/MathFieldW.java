@@ -388,6 +388,9 @@ public class MathFieldW implements MathField, IsWidget {
 		if (lastIcon == null) {
 			return;
 		}
+		if (!active(wrap.getElement()) && this.enabled) {
+			wrap.getElement().focus();
+		}
 		final double height = roundUp(lastIcon.getIconHeight() + bottomOffset);
 		final double width = roundUp(lastIcon.getIconWidth() + 30);
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
@@ -401,6 +404,10 @@ public class MathFieldW implements MathField, IsWidget {
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 
 	}
+
+	private native boolean active(Element element) /*-{
+		return $doc.activeElement == element;
+	}-*/;
 
 	/**
 	 * 
