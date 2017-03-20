@@ -125,10 +125,8 @@ public class AlgoIsOnPath extends AlgoElement
 	private PPolynomial[][] getPolynomialsConic()
 			throws NoSymbolicParametersException {
 		if (((GeoConic) inputPath).isCircle()) {
-			PVariable[] fv1 = new PVariable[2];
-			PVariable[] fv2 = new PVariable[4];
-			fv1 = inputPoint.getBotanaVars(inputPoint);
-			fv2 = ((GeoConic) inputPath).getBotanaVars(inputPath);
+			PVariable[] fv1 = inputPoint.getBotanaVars(inputPoint);
+			PVariable[] fv2 = ((GeoConic) inputPath).getBotanaVars(inputPath);
 
 			botanaPolynomials = new PPolynomial[1][1];
 			botanaPolynomials[0][0] = PPolynomial.equidistant(fv1[0], fv1[1],
@@ -143,10 +141,8 @@ public class AlgoIsOnPath extends AlgoElement
 				botanaVars[1] = new PVariable(kernel);
 			}
 
-			PVariable[] fv1 = new PVariable[2];
-			PVariable[] fv2 = new PVariable[10];
-			fv1 = inputPoint.getBotanaVars(inputPoint);
-			fv2 = ((GeoConic) inputPath).getBotanaVars(inputPath);
+			PVariable[] fv1 = inputPoint.getBotanaVars(inputPoint);
+			PVariable[] fv2 = ((GeoConic) inputPath).getBotanaVars(inputPath);
 
 			botanaPolynomials = new PPolynomial[1][3];
 
@@ -174,13 +170,10 @@ public class AlgoIsOnPath extends AlgoElement
 				botanaVars = ((SymbolicParametersBotanaAlgo) ((GeoElement) inputPoint)
 						.getParentAlgorithm()).getBotanaVars(inputPoint);
 			}
-
-			PVariable[] fv1 = new PVariable[4];
-			PVariable[] fv2 = new PVariable[12];
 			// botana variables of input point
-			fv1 = inputPoint.getBotanaVars(inputPoint);
+			PVariable[] fv1 = inputPoint.getBotanaVars(inputPoint);
 			// botana variables of input path
-			fv2 = ((GeoConic) inputPath).getBotanaVars(inputPath);
+			PVariable[] fv2 = ((GeoConic) inputPath).getBotanaVars(inputPath);
 
 			botanaPolynomials = new PPolynomial[1][3];
 

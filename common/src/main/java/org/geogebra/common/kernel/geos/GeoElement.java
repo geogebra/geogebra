@@ -8732,7 +8732,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		if(definition.getOperation() == Operation.MULTIPLY){
 			if(definition.getLeft().unwrap() instanceof NumberValue && definition.getRight().unwrap() instanceof MyDouble
-					&& definition.getRight().evaluateDouble() == MyMath.DEG) {
+					&& MyDouble.exactEqual(definition.getRight()
+							.evaluateDouble(), MyMath.DEG)) {
 				return true;
 			}
 		}

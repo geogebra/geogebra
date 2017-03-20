@@ -288,7 +288,6 @@ public class ColorProvider {
 	private static class MyLabelParamRegExp {
 
 		RegExp regExp = RegExp.compile(LABEL_PARAM);
-		String input;
 		String text;
 		int index;
 
@@ -342,7 +341,6 @@ public class ColorProvider {
 
 		public void setText(String text) {
 			this.text = text;
-			input = text;
 			index = 0;
 		}
 

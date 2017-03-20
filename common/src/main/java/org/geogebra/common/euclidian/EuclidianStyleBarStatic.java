@@ -226,7 +226,6 @@ public class EuclidianStyleBarStatic {
 			FillType fillType) {
 		GeoElement ret = geos.get(0);
 
-		App app = geos.get(0).getKernel().getApplication();
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 
