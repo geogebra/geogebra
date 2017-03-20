@@ -5947,4 +5947,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean isTraceDrawn() {
 		return tracing;
 	}
+
+	public NumberFormatAdapter getAxisNumberFormat(int i) {
+		return axesNumberFormat[i];
+	}
 }

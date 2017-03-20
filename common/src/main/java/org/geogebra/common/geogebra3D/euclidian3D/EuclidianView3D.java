@@ -4412,10 +4412,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return super.getGridDistances(i);
 	}
 
-	public NumberFormatAdapter getAxisNumberFormat(int i) {
-		return axesNumberFormat[i];
-	}
-
 	@Override
 	public EuclidianController getEuclidianController() {
 		return euclidianController;
