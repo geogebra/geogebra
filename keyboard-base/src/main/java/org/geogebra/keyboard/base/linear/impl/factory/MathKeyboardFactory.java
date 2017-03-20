@@ -20,6 +20,7 @@ import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_POWA2;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_POWAB;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RETURN;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RIGHT_ARROW;
+import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_ROOT;
 import static org.geogebra.keyboard.base.ButtonConstants.ROOT;
 import static org.geogebra.keyboard.base.ButtonConstants.SUP2;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
@@ -48,7 +49,7 @@ public class MathKeyboardFactory {
         row = mathKeyboard.nextRow(9.2f);
         addConstantInputButton(row, RESOURCE_POWA2, SUP2);
         addConstantInputButton(row, RESOURCE_POWAB, "^");
-        addInputButton(row, ROOT);
+        addConstantInputButton(row, RESOURCE_ROOT, ROOT);
         addInputButton(row, EULER);
         addButton(row, createEmptySpace(0.2f));
         addInputButton(row, "4");

@@ -13,6 +13,7 @@ import static org.geogebra.keyboard.base.ButtonConstants.EULER;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_10_X;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_A_N;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_BACKSPACE;
+import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_DERIVATIVE;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_E_X;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_INTEGRAL;
 import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LEFT_ARROW;
@@ -60,7 +61,7 @@ public class FunctionKeyboardFactory {
         addConstantInputButton(row, RESOURCE_LOG_10, "log_{10}", width);
         addConstantInputButton(row, RESOURCE_LOG_B, "logb", width);
         addButton(row, createEmptySpace(0.2f));
-        addInputCommandButton(row, "d/dx", "Derivative", 1.0f);
+        addConstantInputCommandButton(row, RESOURCE_DERIVATIVE, "Derivative", 1.0f);
         addConstantInputCommandButton(row, RESOURCE_INTEGRAL, "Integral", 1.0f);
         addInputButton(row, "i", "\u03af");
         addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
