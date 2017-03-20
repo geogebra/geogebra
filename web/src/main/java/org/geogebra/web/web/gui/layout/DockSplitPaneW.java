@@ -217,21 +217,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		return resizeWeight;
 	}
 
-	/**
-	 * Listener for split pane resizing. Transfers focus to the split pane after
-	 * a resize event, thus removing focus and sending a focus lost event to the
-	 * DockSplitPane components.
-	 */
-	// PropertyChangeListener paneResizeListener = new PropertyChangeListener()
-	// {
-	// public void propertyChange(PropertyChangeEvent changeEvent) {
-	// JSplitPane splitPane = (JSplitPane) changeEvent.getSource();
-	// String propertyName = changeEvent.getPropertyName();
-	// if (propertyName.equals(JSplitPane.LAST_DIVIDER_LOCATION_PROPERTY)) {
-	// splitPane.requestFocus();
-	// }
-	// }
-	// };
+
 
 	/**
 	 * Return the component which is opposite to the parameter.

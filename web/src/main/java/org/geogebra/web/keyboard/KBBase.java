@@ -160,6 +160,8 @@ public abstract class KBBase extends PopupPanel {
 	 */
 	protected static final String PAGE_ONE_OF_TWO = "1/2";
 	protected static final String PAGE_TWO_OF_TWO = "2/2";
+	public static final int SMALL_HEIGHT = 131;
+	public static final int BIG_HEIGHT = 186;
 
 	// images of the buttons:
 	private final ImageResource SHIFT = KeyboardResources.INSTANCE

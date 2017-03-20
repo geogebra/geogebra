@@ -396,13 +396,10 @@ public class MathFieldW implements MathField, IsWidget {
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-
-
 		ctx.setFillStyle("rgb(255,255,255)");
 		((JLMContext2d) ctx).scale2(ratio, ratio);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
-
 	}
 
 	private native boolean active(Element element) /*-{

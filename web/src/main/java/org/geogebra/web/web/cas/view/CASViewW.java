@@ -91,7 +91,6 @@ public class CASViewW extends CASView implements PrintableW {
 	@Override
 	public void clearView() {
 		super.clearView();
-		maybeOpenKeyboard(false);
 	}
 
 	@Override
@@ -239,6 +238,12 @@ public class CASViewW extends CASView implements PrintableW {
 		// Widget[] printableList = {};
 
 		// printableList[0] = new Label("CAS View");
+	}
+
+	@Override
+	public void attachView() {
+		super.attachView();
+		maybeOpenKeyboard(false);
 	}
 
 }
