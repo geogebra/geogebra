@@ -86,7 +86,7 @@ public class AlgebraInputW extends FlowPanel
 	 */
 	public void initGUI() {
 		clear();
-		inputPanel = new InputPanelW(null,app,0,true);
+		inputPanel = new InputPanelW(app, 0, true);
 
 		inputField = inputPanel.getTextComponent();
 		inputField.requestToShowSymbolButton();

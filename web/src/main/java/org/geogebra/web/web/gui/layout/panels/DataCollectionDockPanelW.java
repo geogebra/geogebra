@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.layout.panels;
 
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
@@ -11,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DataCollectionDockPanelW extends DockPanelW {
 	
-	public DataCollectionDockPanelW(AppW app) {
+	public DataCollectionDockPanelW() {
 		super(App.VIEW_DATA_COLLECTION, // view id
 				"DataCollection", // view title phrase
 				null, // toolbar string

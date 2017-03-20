@@ -265,7 +265,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
 
 		// :NEXT:Grid.setCellFormatter
-		editor = new MyCellEditorW(kernel, view, editorPanel,
+		editor = new MyCellEditorW(kernel, editorPanel,
 				getEditorController());
 		// setDefaultEditor(Object.class, editor);
 

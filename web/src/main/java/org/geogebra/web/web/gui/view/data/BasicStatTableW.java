@@ -53,7 +53,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 	protected void initStatTable() {
 
-		statTable = new StatTableW(app);
+		statTable = new StatTableW();
 		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
 				getColumnCount(), getModel().getColumnNames());
 		clear();

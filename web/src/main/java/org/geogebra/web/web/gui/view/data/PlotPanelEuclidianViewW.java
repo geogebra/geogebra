@@ -9,7 +9,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,7 +28,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	/*************************************************
 	 * Construct the panel
 	 */
-	public PlotPanelEuclidianViewW(Kernel kernel, ScheduledCommand exportAction) {
+	public PlotPanelEuclidianViewW(Kernel kernel) {
 		super(new PlotPanelEuclidianControllerW(kernel), EVNO_GENERAL, null);
 
 	

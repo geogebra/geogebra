@@ -5,7 +5,6 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.DialogManager;
@@ -33,7 +32,9 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 	
 	private EuclidianController ec;
 		
-	public InputDialogAngleFixedW(AppW app, String title, InputHandler handler, GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
+	public InputDialogAngleFixedW(AppW app, String title, InputHandler handler,
+			GeoSegmentND[] segments, GeoPointND[] points, Kernel kernel,
+			EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
 				defaultRotateAngle, false, handler, false);
 		

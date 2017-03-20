@@ -267,7 +267,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private void createLayoutPanels() {
 		//control panel
 	    createControlPanel();
-	    setPlotPanel(new PlotPanelEuclidianViewW(kernel, exportToEVAction));
+		setPlotPanel(new PlotPanelEuclidianViewW(kernel));
 	    
 	    plotPanelOptions = new FlowPanel();
 	    plotPanelOptions.setStyleName("plotPanelOptions");

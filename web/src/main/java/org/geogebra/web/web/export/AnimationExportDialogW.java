@@ -127,8 +127,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		panel.add(optionsPanel = new HorizontalPanel());
 		optionsPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		optionsPanel.add(new Label(loc.getMenu("TimeBetweenFrames") + ":"));
-		optionsPanel.add(timeBetweenFramesInput = new InputPanelW("500", app,
-		        5, false));
+		timeBetweenFramesInput = new InputPanelW(app, 5, false);
+		optionsPanel.add(timeBetweenFramesInput);
 		optionsPanel.add(new Label("ms"));
 		optionsPanel.add(isLoop = new CheckBox(loc.getMenu("AnimationLoop")));
 

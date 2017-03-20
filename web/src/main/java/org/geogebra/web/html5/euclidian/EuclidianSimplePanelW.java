@@ -21,27 +21,16 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	int oldWidth = 0;
 
 	Canvas eview1 = null;// static foreground
-
-	/**
-	 * This constructor is used by the Application and by the other constructor
-	 * 
-	 * @param stylebar
-	 *            (is there stylebar?)
-	 */
-	public EuclidianSimplePanelW(boolean stylebar) {
-		super();
-
-		loadComponent();
-	}
-
 	/**
 	 * This constructor is used by the applet
 	 * 
 	 * @param application
 	 * @param stylebar
 	 */
-	public EuclidianSimplePanelW(AppW application, boolean stylebar) {
-		this(stylebar);
+	public EuclidianSimplePanelW(AppW application) {
+		super();
+
+		loadComponent();
 		app = application;
 	}
 

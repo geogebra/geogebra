@@ -179,7 +179,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		samplePanel.add(twoStatPanel);
 
 		// Result panel
-		resultTable = new StatTableW(app);
+		resultTable = new StatTableW();
 		model.setResults();
 
 		resultPanel = new FlowPanel();

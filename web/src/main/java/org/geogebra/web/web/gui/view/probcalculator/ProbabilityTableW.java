@@ -38,7 +38,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	   this.wrappedPanel = new FlowPanel();
 	   this.wrappedPanel.addStyleName("ProbabilityTableW");
 	   
-	   statTable = new StatTableW(app);
+		statTable = new StatTableW();
 	   statTable.getTable().addClickHandler(this);
 	   
 	   wrappedPanel.add(statTable);

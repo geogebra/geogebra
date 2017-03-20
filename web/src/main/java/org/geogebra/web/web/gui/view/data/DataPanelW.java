@@ -84,7 +84,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	private void buildDataTable() {
-		dataTable = new StatTableW(app);
+		dataTable = new StatTableW();
 		
 	}
 

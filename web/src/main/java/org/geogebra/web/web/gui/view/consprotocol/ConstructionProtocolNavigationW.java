@@ -271,7 +271,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			if (isPlaying()) {
 				player.stopAnimation();
 			} else {
-				player = new AutomaticPlayer(playDelay);
+				player = new AutomaticPlayer();
 				player.startAnimation();
 			}
 		}
@@ -317,9 +317,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	      /**
          * Creates a new player to step through the construction
          * automatically.
-         * @param delay in seconds between steps
          */
-		public AutomaticPlayer(double delay){
+		public AutomaticPlayer() {
 			timer = new Timer(){
 				
 				@Override

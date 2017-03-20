@@ -219,7 +219,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		createExportToEvAction();
-		plotPanel = new PlotPanelEuclidianViewW(app.getKernel(), exportToEVAction);
+		plotPanel = new PlotPanelEuclidianViewW(app.getKernel());
 	
 		//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
 		//		plotPanel.updateSize();
@@ -229,8 +229,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		lblTitleX = new Label();
 		lblTitleY = new Label();
 
-		fldTitleX = (new InputPanelW(null, app, -1, false)).getTextComponent();
-		fldTitleY = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldTitleX = (new InputPanelW(app, -1, false)).getTextComponent();
+		fldTitleY = (new InputPanelW(app, -1, false)).getTextComponent();
 
 		fldTitleX.setEditable(false);
 		fldTitleY.setEditable(false);
@@ -252,7 +252,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		optionsPanel = new OptionsPanelW(app, daModel, getModel());
 		optionsPanel.setVisible(false);
 
-		frequencyTable = new FrequencyTablePanelW(app);
+		frequencyTable = new FrequencyTablePanelW();
 
 		spFrequencyTable = new ScrollPanel();
 		spFrequencyTable.add(frequencyTable);
@@ -336,7 +336,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createNumClassesPanel() {
 
 		int numClasses = getModel().getSettings().getNumClasses();
-		fldNumClasses = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldNumClasses = (new InputPanelW(app, -1, false)).getTextComponent();
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setOpaque(true);
 		fldNumClasses.setColumns(2);

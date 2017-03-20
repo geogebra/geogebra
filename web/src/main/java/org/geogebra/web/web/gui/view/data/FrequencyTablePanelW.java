@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.data;
 
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,8 +14,8 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 	
 	// private StatPanelSettings settings;
 
-	public FrequencyTablePanelW(AppW app) {
-		statTable = new StatTableW(app);
+	public FrequencyTablePanelW() {
+		statTable = new StatTableW();
 		statTable.setStyleName("frequencyTable");
 		add(statTable);
 

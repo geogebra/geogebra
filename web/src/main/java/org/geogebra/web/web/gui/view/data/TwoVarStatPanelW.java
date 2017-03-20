@@ -32,7 +32,7 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	
 	public TwoVarStatPanelW(AppW app, DataAnalysisViewW statDialog,
 			boolean isPairedData, UpdatePanel listener) {
-		super(app);
+		super();
 		model = new TwoVarStatModel(app, isPairedData, this);
 		this.app = app;
 		this.statDialog = statDialog;

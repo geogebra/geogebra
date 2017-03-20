@@ -831,7 +831,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		layout.registerPanel(new DataAnalysisViewDockPanelW((AppW) app));
 
 		//register data collection view
-		layout.registerPanel(new DataCollectionDockPanelW((AppW) app));
+		layout.registerPanel(new DataCollectionDockPanelW());
 		
 
 

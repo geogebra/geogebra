@@ -397,18 +397,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		historyPopup.setDownPopup(isDownPopup);
 
-		ClickHandler al = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// AGString cmd = event.;
-				// AGif (cmd.equals(1 + BorderButton.cmdSuffix)) {
-				// TODO: should up/down orientation be tied to InputBar?
-				// show popup
-				historyPopup.showPopup();
-
-			}
-		};
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class ANOVATableW extends BasicStatTableW {
 	@Override
 	protected void initStatTable() {
 
-		statTable = new StatTableW(app);
+		statTable = new StatTableW();
 		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
 				COLUMN_COUNT, getColumnNames());
 		clear();

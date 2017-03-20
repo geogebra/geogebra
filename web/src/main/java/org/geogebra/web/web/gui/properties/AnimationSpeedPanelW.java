@@ -34,7 +34,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
     	setModel(model);
     	modeLabel = new Label();
 
-		InputPanelW inputPanel = new InputPanelW(null, app, -1, false);
+		InputPanelW inputPanel = new InputPanelW(app, -1, false);
 		tfAnimSpeed = inputPanel.getTextComponent();
         FlowPanel mainPanel = new FlowPanel();
         FlowPanel speedPanel = new FlowPanel();

@@ -49,7 +49,7 @@ public class AppWsimple extends AppW {
 		initing = true;
 
 		// TODO: EuclidianSimplePanelW
-		this.euclidianViewPanel = new EuclidianSimplePanelW(this, false);
+		this.euclidianViewPanel = new EuclidianSimplePanelW(this);
 		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");

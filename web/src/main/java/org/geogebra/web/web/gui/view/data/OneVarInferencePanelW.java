@@ -155,20 +155,20 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		lblTailType = new Label();
 		lblTailType.setStyleName("panelTitle");
 		
-		fldNullHyp = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldNullHyp = (new InputPanelW(app, -1, false)).getTextComponent();
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.setText("" + 0);
 		fldNullHyp.addKeyHandler(new ParamKeyHandler(fldNullHyp));
 		fldNullHyp.addBlurHandler(new ParamBlurHandler(fldNullHyp));
 		lblConfLevel = new Label();
 		lblConfLevel.setStyleName("panelTitle");
-		fldConfLevel = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldConfLevel = (new InputPanelW(app, -1, false)).getTextComponent();
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addKeyHandler(new ParamKeyHandler(fldConfLevel));
 		fldConfLevel.addBlurHandler(new ParamBlurHandler(fldConfLevel));
 
 		lblSigma = new Label();
-		fldSigma = (new InputPanelW(null, app, -1, false)).getTextComponent();
+		fldSigma = (new InputPanelW(app, -1, false)).getTextComponent();
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addKeyHandler(new ParamKeyHandler(fldSigma));
 		fldSigma.addBlurHandler(new ParamBlurHandler(fldSigma));
@@ -191,7 +191,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		intPanel.add(fldConfLevel);	
 //
 //		// result panel	
-		resultTable = new StatTableW(app);
+		resultTable = new StatTableW();
 		resultTable.setStyleName("daStatistics");
 		setResultTable();
 

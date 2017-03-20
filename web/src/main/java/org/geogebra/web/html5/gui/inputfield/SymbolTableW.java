@@ -28,7 +28,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * @param symbolStrings
 	 * @param symbolToolTips
 	 */
-	public SymbolTableW(String[] symbolStrings, String[] symbolToolTips,
+	public SymbolTableW(String[] symbolStrings,
 			boolean isLatex, int rowLength, App app, GColor[] colors) {
 		super();
 		this.symbolStrings = symbolStrings;
@@ -49,8 +49,8 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * @param symbolStrings
 	 * @param symbolToolTips
 	 */
-	public SymbolTableW(String[] symbolStrings, String[] symbolToolTips) {
-		this(symbolStrings, symbolToolTips, false, 10, null, null);
+	public SymbolTableW(String[] symbolStrings) {
+		this(symbolStrings, false, 10, null, null);
 	}
 
 	private void buildSymbolTable(App app, GColor[] colors) {

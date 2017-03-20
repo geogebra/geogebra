@@ -142,7 +142,7 @@ public class PropertiesViewW extends PropertiesView
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
-				defaultsPanel = new OptionsDefaultsW((AppW) app);
+				defaultsPanel = new OptionsDefaultsW();
 			}
 			return defaultsPanel;
 
@@ -194,7 +194,7 @@ public class PropertiesViewW extends PropertiesView
 
 		case ADVANCED:
 			if (advancedPanel == null) {
-				advancedPanel = new OptionsAdvancedW((AppW) app);
+				advancedPanel = new OptionsAdvancedW();
 			}
 			return advancedPanel;
 
@@ -206,7 +206,7 @@ public class PropertiesViewW extends PropertiesView
 
 		case LAYOUT:
 			if (layoutPanel == null) {
-				layoutPanel = new OptionsLayoutW((AppW) app);
+				layoutPanel = new OptionsLayoutW();
 			}
 			layoutPanel.getWrappedPanel().setStyleName("layoutPanel");
 			

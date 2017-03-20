@@ -21,8 +21,6 @@ public class InputPanelW extends FlowPanel{
 	private TextEditPanel textAreaComponent;
 
 	/**
-	 * @param initText
-	 *            initial text
 	 * @param app
 	 *            application
 	 * @param columns
@@ -30,7 +28,7 @@ public class InputPanelW extends FlowPanel{
 	 * @param autoComplete
 	 *            whether to allow autocomplete
 	 */
-	public InputPanelW(String initText, App app, int columns,
+	public InputPanelW(App app, int columns,
 	        boolean autoComplete) {
 		super();
 		//setHorizontalAlignment(ALIGN_CENTER);
@@ -38,6 +36,7 @@ public class InputPanelW extends FlowPanel{
 		addStyleName("InputPanel");
 
 		textComponent = new AutoCompleteTextFieldW(columns, app);
+		textComponent.setAutoComplete(autoComplete);
 		add(textComponent);
 	}
 
@@ -171,6 +170,6 @@ public class InputPanelW extends FlowPanel{
 	 * @return new AutoCompleteTextField
 	 */
 	public static AutoCompleteTextFieldW newTextComponent(App app) {
-		return new InputPanelW(null, app, -1, false).getTextComponent();
+		return new InputPanelW(app, -1, false).getTextComponent();
 	}
 }

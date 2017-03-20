@@ -271,15 +271,18 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		latexPanel.setWidth("100%");
 		latexPanel.setHeight("100%");
 
-		addLaTeXTable(TableSymbolsLaTeX.roots_fractions, "RootsAndFractions",
+		addLaTeXTable(
+				TableSymbolsLaTeX.roots_fractions, /* "RootsAndFractions", */
 		        defaultRowSize, false);
-		addLaTeXTable(TableSymbolsLaTeX.sums, "SumsAndIntegrals",
+		addLaTeXTable(TableSymbolsLaTeX.sums, /* "SumsAndIntegrals", */
 		        defaultRowSize, true);
-		addLaTeXTable(TableSymbolsLaTeX.accents, "Accents", defaultRowSize,
+		addLaTeXTable(TableSymbolsLaTeX.accents,
+				/* "Accents", */ defaultRowSize,
 		        true);
-		addLaTeXTable(TableSymbolsLaTeX.accentsExtended, "AccentsExt",
+		addLaTeXTable(TableSymbolsLaTeX.accentsExtended, /* "AccentsExt", */
 		        defaultRowSize, true);
-		addLaTeXTable(TableSymbolsLaTeX.brackets, "Brackets", defaultRowSize,
+		addLaTeXTable(TableSymbolsLaTeX.brackets,
+				/* "Brackets", */ defaultRowSize,
 		        true);
 		// addLaTeXTable(TableSymbolsLaTeX.matrices, "Matrices", defaultRowSize,
 		// true);
@@ -294,7 +297,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 	}
 
-	private void addLaTeXTable(String[] tableSymbols, String header,
+	private void addLaTeXTable(String[] tableSymbols, 
 	        int rowSize, boolean addSeparator) {
 
 		final SymbolTableW symTable = newSymbolTable(tableSymbols, true,
@@ -322,7 +325,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private SymbolTableW newSymbolTable(String[] table, boolean isLatexSymbol,
 			int rowSize, final StringHandler onChange, GColor[] colors) {
 
-		final SymbolTableW symTable = new SymbolTableW(table, null,
+		final SymbolTableW symTable = new SymbolTableW(table, 
 				isLatexSymbol, rowSize, app, colors);
 
 		if (Browser.isIE10plus()) {

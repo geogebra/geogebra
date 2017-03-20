@@ -47,9 +47,8 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
 
 		String[] icons = TableSymbols.basicSymbols(loc, map);
-		String[] iconshelp = TableSymbols.basicSymbolsToolTips(loc, map);
 
-		symbolTable = new SymbolTableW(icons, iconshelp);
+		symbolTable = new SymbolTableW(icons);
 		add(symbolTable);
 		symbolTable.addClickHandler(this);
 	}

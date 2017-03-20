@@ -66,7 +66,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		autoCompleteTextField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditorW(Kernel kernel, SpreadsheetViewW view,
+	public MyCellEditorW(Kernel kernel,
 			SimplePanel editorPanel, SpreadsheetController controller) {
 		this.controller = controller;
 		this.kernel = kernel;

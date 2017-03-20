@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.data;
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -26,7 +25,7 @@ public class StatTableW extends FlowPanel {
 	/**
 	 * @param app App
 	 */
-	public StatTableW(App app) {
+	public StatTableW() {
 	    
 	    initTable();
 	}

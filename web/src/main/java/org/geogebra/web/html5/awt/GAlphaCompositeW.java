@@ -15,8 +15,4 @@ public class GAlphaCompositeW implements GAlphaComposite {
 		return alpha;
 	}
 
-	public static GAlphaCompositeW getInstance(double a) {
-		return new GAlphaCompositeW(a);
-	}
-
 }

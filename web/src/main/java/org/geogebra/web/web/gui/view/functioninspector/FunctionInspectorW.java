@@ -418,7 +418,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
     private void createStep() {
 	    lblStep = new Label();
-		InputPanelW stepPanel = new InputPanelW(null, app, -1, false);
+		InputPanelW stepPanel = new InputPanelW(app, -1, false);
 		fldStep = stepPanel.getTextComponent();
 
 		fldStep.addKeyHandler(new KeyHandler() {
@@ -474,7 +474,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		lblGeoName = new Label(getModel().getTitleString());
 
 		lblInterval = new Label();
-		InputPanelW lowPanel = new InputPanelW(null, app, -1, false);
+		InputPanelW lowPanel = new InputPanelW(app, -1, false);
 		fldLow = lowPanel.getTextComponent();
 		fldLow.setColumns(6);
 
@@ -497,7 +497,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 		});
 
-		InputPanelW highPanel = new InputPanelW(null, app, -1, false);
+		InputPanelW highPanel = new InputPanelW(app, -1, false);
 		fldHigh = highPanel.getTextComponent();
 		fldHigh.setColumns(6);
 

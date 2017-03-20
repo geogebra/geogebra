@@ -59,7 +59,7 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	@Override
 	protected void initStatTable() {
 
-		statTable = new StatTableW(app);
+		statTable = new StatTableW();
 		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
 				getColumnCount() + 1, getColumnNames());
 		clear();

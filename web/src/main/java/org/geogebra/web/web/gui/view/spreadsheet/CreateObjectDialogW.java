@@ -131,7 +131,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		lblName = new Label();
 		lblName.setStyleName("panelTitle");
-		InputPanelW input = new InputPanelW(null, app, -1, false);
+		InputPanelW input = new InputPanelW(app, -1, false);
 
 		fldName = input.getTextComponent();
 		fldName.showPopupSymbolButton(true);

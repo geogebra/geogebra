@@ -163,7 +163,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		setAvailableProviders();
 	}
 
-	private void addDriveButton(GeoGebraTubeUser user) {
+	private void addDriveButton() {
 
 		if (locationDrive == null) {
 			locationDrive = new StandardButton(
@@ -184,7 +184,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 	}
 
-	private void addOneDriveButton(GeoGebraTubeUser user) {
+	private void addOneDriveButton() {
 
 		if (this.locationSkyDrive == null) {
 			this.locationSkyDrive = new StandardButton(
@@ -368,12 +368,12 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		        .getLoggedInUser();
 		if (user != null && user.hasGoogleDrive()
 		        && app.getLAF().supportsGoogleDrive()) {
-			this.addDriveButton(user);
+			this.addDriveButton();
 		} else if (user != null) {
 			Log.debug(user.getIdentifier());
 		}
 		if (user != null && user.hasOneDrive()) {
-			this.addOneDriveButton(user);
+			this.addOneDriveButton();
 		}
 		// Set Tube as the active on
 		locationTube.addStyleName("selected");

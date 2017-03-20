@@ -25,7 +25,8 @@ public final class ScrollableSuggestionDisplay extends
 		super();
 		this.editor = ed;
 	}
-	protected ScrollPanel scrollable;
+
+	private ScrollPanel scrollable;
 
 	@Override
 	protected void moveSelectionDown() {
