@@ -1348,7 +1348,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				if (color == null) {
-					openPropertiesForColor(true);
+					if (app.isWhiteboardActive()) {
+						openColorDialog(targetGeos, true);
+					} else {
+						openPropertiesForColor(true);
+					}
 					return false;
 				}
 				double alpha = btnBgColor.getSliderValue() / 100.0;
@@ -1359,7 +1363,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
 				if (color == null) {
-					openPropertiesForColor(false);
+					if (app.isWhiteboardActive()) {
+						openColorDialog(targetGeos, false);
+					} else {
+						openPropertiesForColor(false);
+					}
 					return false;
 				}
 				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,

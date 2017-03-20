@@ -1,9 +1,11 @@
 package org.geogebra.web.web.gui.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -14,6 +16,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
+import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.ColorPanel;
 
 /**
@@ -56,6 +59,21 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	/**
+	 * Opens color chooser dialog in MOW or properties view elsewhere.
+	 * 
+	 * @param targetGeos
+	 *            The geos color needs to be set.
+	 */
+	protected void openColorChooser(ArrayList<GeoElement> targetGeos,
+			boolean background) {
+		if (app.isWhiteboardActive()) {
+			openColorDialog(targetGeos, background);
+		} else {
+			openPropertiesForColor(background);
+		}
+	}
+
+	/**
 	 * process the action performed
 	 * 
 	 * @param source
@@ -67,7 +85,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-				openPropertiesForColor(false);
+				openColorChooser(targetGeos, false);
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
@@ -123,6 +141,52 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		if (colorPanel != null) {
 			colorPanel.setBackground(background);
 		}
+	}
+
+	protected void openColorDialog(final List<GeoElement> targetGeos,
+			final boolean background) {
+		if (!app.isWhiteboardActive()) {
+			return;
+		}
+
+		final GeoElement geo0 = targetGeos.get(0);
+		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
+		GColor originalColor = geo0.getObjectColor();
+		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
+
+			public void onForegroundSelected() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onColorChange(GColor color) {
+				if (background) {
+					return;
+				}
+				EuclidianStyleBarStatic.applyColor(targetGeos, color,
+						geo0.getAlphaValue(), app);
+			}
+
+			public void onClearBackground() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onBarSelected() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onBackgroundSelected() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onAlphaChange() {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	/**

@@ -17,6 +17,7 @@ public class MOWColorButton extends ColorPopupMenuButton {
 	 */
 	public MOWColorButton(AppW app) {
 		super(app, 0, true);
+		getMyPopup().addStyleName("mowColorPopup");
 	}
 
 	@Override
