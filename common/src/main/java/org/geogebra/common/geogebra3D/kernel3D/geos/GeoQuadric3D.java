@@ -2588,8 +2588,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		// get closer point (in some "eigen coord sys")
-		return getNormalProjection(
-				willingCoords.add(willingDirection.mul(-b / a)));
+		tmpCoords.setMul3(willingDirection, -b / a);
+		tmpCoords.setAdd3(tmpCoords, willingCoords);
+		tmpCoords.setW(1);
+		return getNormalProjection(tmpCoords);
 
 	}
 
