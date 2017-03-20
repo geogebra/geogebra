@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LayerView;
@@ -32,7 +33,6 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
@@ -2467,6 +2467,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private int getDefaultAVWidth() {
 		return (int) (app.getWidth()
-				* DockManagerW.landscapeRatio(app.getWidth()));
+				* PerspectiveDecoder.landscapeRatio(app.getWidth()));
 	}
 }

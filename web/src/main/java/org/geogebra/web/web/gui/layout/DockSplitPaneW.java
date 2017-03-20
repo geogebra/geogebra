@@ -6,6 +6,7 @@ import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -181,11 +182,12 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	}
 
 	public void setDividerLocation(int location) {
-		dividerLocation = location;
+		setDividerLocationSilent(location);
 		setComponents();
 	}
 
 	public void setDividerLocationSilent(int location) {
+		Log.printStacktrace("new loc" + location);
 		dividerLocation = location;
 	}
 

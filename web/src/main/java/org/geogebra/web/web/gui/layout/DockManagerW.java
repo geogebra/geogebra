@@ -12,6 +12,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
+import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -1832,7 +1833,8 @@ public class DockManagerW extends DockManager {
 		}
 		calculateKeyboardHeight();
 		final boolean portrait = app.getWidth() < app.getHeight();
-		final double landscape = landscapeRatio(app.getWidth());
+		final double landscape = PerspectiveDecoder
+				.landscapeRatio(app.getWidth());
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -1843,18 +1845,7 @@ public class DockManagerW extends DockManager {
 		});
 	}
 
-	public static double landscapeRatio(double width) {
-		if (width < 300) {
-			return 2.0 / 3.0;
-		}
-		if (width < 600) {
-			return 200 / width;
-		}
-		
 
-		return 100 / width + 1 / 6.0;
-
-	}
 
 	/**
 	 * @param portrait
