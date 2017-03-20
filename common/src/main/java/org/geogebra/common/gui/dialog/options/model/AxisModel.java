@@ -62,9 +62,9 @@ public class AxisModel {
 	 * convert string to value for tick distance
 	 *
 	 * @param str string
-	 * @return true if a value was possible to compute
+	 * @return value computed (may be null)
 	 */
-	public boolean applyTickDistance(String str) {
+	public GeoNumberValue applyTickDistance(String str) {
 		GeoNumberValue value = null;
 		final String text = str.trim();
 		if (!"".equals(text)) {
@@ -95,9 +95,8 @@ public class AxisModel {
 			}
 
 			view.updateBackground();
-			return true;
 		}
-		return false;
+		return value;
 	}
 
 	protected double parseDouble(String text) {
