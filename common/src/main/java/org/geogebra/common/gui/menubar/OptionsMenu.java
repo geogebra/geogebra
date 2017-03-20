@@ -282,4 +282,22 @@ public class OptionsMenu {
 	public static int roundingMenuLookup(int i) {
 		return ROUNDING_MENU_LOOKUP[i];
 	}
+
+	public static void setRounding(App app, int id, boolean figures) {
+		Kernel kernel = app.getKernel();
+		if (figures) {
+			kernel.setPrintFigures(OptionsMenu.roundingMenuLookup(id));
+		} else {
+			kernel.setPrintDecimals(OptionsMenu.roundingMenuLookup(id));
+		}
+
+
+		kernel.updateConstruction();
+		app.refreshViews();
+
+		// see ticket 79
+		kernel.updateConstruction();
+
+		app.setUnsaved();
+	}
 }
