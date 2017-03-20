@@ -685,6 +685,8 @@ public abstract class Localization implements KeyboardLocale {
 
 	}
 
+	static final public String ROUNDING_MENU_SEPARATOR = "---";
+
 	/**
 	 * @return rounding menu items
 	 */
@@ -695,7 +697,7 @@ public abstract class Localization implements KeyboardLocale {
 				getPlain("ADecimalPlaces", "4"),
 				getPlain("ADecimalPlaces", "5"),
 				getPlain("ADecimalPlaces", "10"),
-				getPlain("ADecimalPlaces", "15"), "---", // separator
+				getPlain("ADecimalPlaces", "15"), ROUNDING_MENU_SEPARATOR,
 				getPlain("ASignificantFigures", "3"),
 				getPlain("ASignificantFigures", "5"),
 				getPlain("ASignificantFigures", "10"),
