@@ -1628,7 +1628,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// exp = (int) Math.log10(exp);
 		// }
 
-		int maxFractionDigtis = Math.max(-exp, kernel.getPrintDecimals());
+		int maxFractionDigits = Math.max(-exp, kernel.getPrintDecimals());
 
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
@@ -1672,15 +1672,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if ((axesNumberingDistances[axis] < 10E-6)
 				|| (axesNumberingDistances[axis] > 10E6)) {
 			// df.applyPattern("0.##E0");
-			maxFractionDigtis = Math.min(14, maxFractionDigtis);
+			maxFractionDigits = Math.min(14, maxFractionDigits);
 			axesNumberFormat[axis] = FormatFactory.getPrototype()
-					.getNumberFormat("0.##E0", maxFractionDigtis);
+					.getNumberFormat("0.##E0", maxFractionDigits);
 			// avoid 4.00000000000004E-11 due to rounding error when
 			// computing
 			// tick mark numbers
 		} else {
 			axesNumberFormat[axis] = FormatFactory.getPrototype()
-					.getNumberFormat("###0.##", maxFractionDigtis);
+					.getNumberFormat("###0.##", maxFractionDigits);
 		}
 
 		if (automaticGridDistance && axis < 2) {
