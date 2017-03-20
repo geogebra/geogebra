@@ -30,7 +30,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -541,6 +544,7 @@ public class EuclidianPen implements GTimerListener {
 		GeoElement geo;
 		if ((geo = tryPolygonOrLine()) != null || (geo = tryCircle()) != null) {
 			geo.setLabelVisible(false);
+			geo.setIsShape(true);
 			return geo;
 		}
 
@@ -1383,6 +1387,9 @@ public class EuclidianPen implements GTimerListener {
 			conic = null;
 		}
 
+		if (conic != null) {
+			conic.setIsShape(true);
+		}
 		return conic;
 	}
 
@@ -1646,6 +1653,11 @@ public class EuclidianPen implements GTimerListener {
 		for (GeoPointND point : points) {
 			point.setEuclidianVisible(false);
 		}
+		if (poly instanceof GeoPolygon) {
+			for (GeoSegmentND geoSeg : ((GeoPolygon) poly).getSegments()) {
+				((GeoSegment) geoSeg).setSelectionAllowed(false);
+			}
+		}
 		return poly;
 	}
 
@@ -1653,6 +1665,8 @@ public class EuclidianPen implements GTimerListener {
 		Construction cons = app.getKernel().getConstruction();
 		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null,
 				first, last);
+		first.setEuclidianVisible(false);
+		last.setEuclidianVisible(false);
 		GeoElement line = algo.getOutput(0);
 		line.updateRepaint();
 		return line;
