@@ -188,8 +188,7 @@ public class PropertiesViewW extends PropertiesView
 			
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheetW((AppW)app, ((AppW)app)
-						.getGuiManager().getSpreadsheetView());
+				spreadsheetPanel = new OptionsSpreadsheetW((AppW) app);
 			}
 			return spreadsheetPanel;
 

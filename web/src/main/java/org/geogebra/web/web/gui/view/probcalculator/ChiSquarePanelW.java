@@ -517,11 +517,11 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	public void onKeyPress(KeyPressEvent event) {
 	   Object source = event.getSource();
 	   if (source instanceof TextBox) {
-		   doTextFieldActionPerformed((TextBox) source);
+			doTextFieldActionPerformed();
 	   }
     }
 
-	private void doTextFieldActionPerformed(TextBox source) {
+	private void doTextFieldActionPerformed() {
 	    updateCellContent();
     }
 

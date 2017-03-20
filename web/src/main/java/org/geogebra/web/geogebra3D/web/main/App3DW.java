@@ -50,17 +50,15 @@ public class App3DW {
 	 * 
 	 * @param evPanel
 	 * @param ec
-	 * @param showAxes
-	 * @param showGrid
 	 * @param id
 	 * @param settings
 	 * @return new euclidian view
 	 */
 	static final public EuclidianViewW newEuclidianView(
 	        EuclidianPanelWAbstract evPanel, EuclidianController ec,
-	        boolean[] showAxes, boolean showGrid, int id,
+			int id,
 	        EuclidianSettings settings) {
-		return new EuclidianViewFor3DW(evPanel, ec, showAxes, showGrid, id,
+		return new EuclidianViewFor3DW(evPanel, ec, id,
 		        settings);
 	}
 

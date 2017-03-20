@@ -43,7 +43,7 @@ public class AppWapplet3D extends AppWapplet {
 	 */
 	public AppWapplet3D(ArticleElement ae, GeoGebraFrameBoth gf,
 			GLookAndFeel laf, GDevice device) {
-		super(ae, gf, true, 3, laf, device);
+		super(ae, gf, 3, laf, device);
 	}
 
 	@Override
@@ -131,8 +131,7 @@ public class AppWapplet3D extends AppWapplet {
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
 			EuclidianController ec, boolean[] evShowAxes, boolean evShowGrid,
 	        int id, EuclidianSettings evSettings) {
-		return App3DW.newEuclidianView(evPanel, ec, evShowAxes, evShowGrid, id,
-		        evSettings);
+		return App3DW.newEuclidianView(evPanel, ec, id, evSettings);
 	}
 
 	@Override

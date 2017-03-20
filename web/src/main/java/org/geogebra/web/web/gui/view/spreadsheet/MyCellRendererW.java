@@ -305,7 +305,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			text = "";
 		} else if (geo.isIndependent()) {
 			if (geo.isLaTeXDrawableGeo()
-			        && (geo.isGeoText() ? ((GeoText) geo).isLaTeX() : true)) {
+					&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
 				latex = geo.getLaTeXdescription();
 			}
@@ -315,7 +315,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			default:
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				if (geo.isLaTeXDrawableGeo()
-				        && (geo.isGeoText() ? ((GeoText) geo).isLaTeX() : true)) {
+						&& (!geo.isGeoText() || ((GeoText) geo).isLaTeX())) {
 
 					latex = geo.getLaTeXdescription();
 				}
@@ -335,7 +335,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			}
 		}
 		
-		if (useSpecialEditor(row, column)) {
+		if (useSpecialEditor()) {
 			updateSpecialEditor(table, geo, row, column);
 			return;
 		}
@@ -369,7 +369,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		e.stopPropagation();
 	}
 	
-	private boolean useSpecialEditor(int row, int column) {
+	private boolean useSpecialEditor() {
 		if (!view.allowSpecialEditor()
 				|| (kernel.getAlgebraStyleSpreadsheet() != Kernel.ALGEBRA_STYLE_VALUE)) {
 			return false;

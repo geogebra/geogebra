@@ -233,14 +233,18 @@ public class GridModel {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n " + PREFIX + "    ");
 		for (String header: headers) {
-			sb.append(header + " ");
+			sb.append(header);
+			sb.append(" ");
 		}
 		sb.append("\n");
 		int rowIdx = 0;
 		for (List<DataCell> row: data) {
-			sb.append(PREFIX + rowIdx +  ". : (");
+			sb.append(PREFIX);
+			sb.append(rowIdx);
+			sb.append(". : (");
 			for (DataCell cell: row) {
-				sb.append(cell.toString() + " ");
+				sb.append(cell.toString());
+				sb.append(" ");
 			}
 			rowIdx++;
 			sb.append(")\n");

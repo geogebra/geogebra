@@ -1988,8 +1988,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
 			EuclidianController ec, boolean[] showEvAxes, boolean showEvGrid,
 			int id, EuclidianSettings evSettings) {
-		return new EuclidianViewW(evPanel, ec, showEvAxes, showEvGrid, id,
-				evSettings);
+		return new EuclidianViewW(evPanel, ec, id, evSettings);
 	}
 
 	@Override

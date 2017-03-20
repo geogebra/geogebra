@@ -29,7 +29,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  * 
  * @author Arpad
  */
-public class CancelEvents implements MouseDownHandler,
+public final class CancelEvents implements MouseDownHandler,
 		MouseUpHandler, MouseOverHandler, MouseOutHandler, MouseMoveHandler,
 		ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler,
 		TouchMoveHandler, TouchCancelHandler {

@@ -493,7 +493,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	protected void onComboBoxChange() {
 		int index = cbLogAxes.getSelectedIndex();
 		settings.setCoordMode(StatPanelSettings.CoordMode.values()[index]);
-		this.firePropertyChange("settings", true, false);
+		this.firePropertyChange();
 		updateGUI();
 
 	}
@@ -626,53 +626,53 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		else if (source == ckManual) {
 			settings.setUseManualClasses(ckManual.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckCumulative) {
 			settings.setCumulative(ckCumulative.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == rbFreq) {
 			settings.setFrequencyType(StatPanelSettings.TYPE_COUNT);
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == rbRelative) {
 			settings.setFrequencyType(StatPanelSettings.TYPE_RELATIVE);
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == rbNormalized) {
 			settings.setFrequencyType(StatPanelSettings.TYPE_NORMALIZED);
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckOverlayNormal) {
 			settings.setHasOverlayNormal(ckOverlayNormal.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckOverlayPolygon) {
 			settings.setHasOverlayPolygon(ckOverlayPolygon.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckShowGrid) {
 			settings.showGrid = ckShowGrid.getValue();
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckAutoWindow) {
 			settings.setAutomaticWindow(ckAutoWindow.getValue());
 			settings.xAxesIntervalAuto = ckAutoWindow.getValue();
 			settings.yAxesIntervalAuto = ckAutoWindow.getValue();
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckShowFrequencyTable) {
 			settings.setShowFrequencyTable(ckShowFrequencyTable.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckShowHistogram) {
 			settings.setShowHistogram(ckShowHistogram.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == rbLeftRule || source == rbRightRule) {
 			settings.setLeftRule(rbLeftRule.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckShowLines) {
 			settings.setShowScatterplotLine(ckShowLines.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckShowOutliers) {
 			settings.setShowOutliers(ckShowOutliers.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else if (source == ckAutoBarWidth) {
 			settings.setAutomaticBarWidth(ckAutoBarWidth.getValue());
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		} else {
-			firePropertyChange("settings", true, false);
+			firePropertyChange();
 		}
 
 		updateGUI();
@@ -694,25 +694,25 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 			if (source == fldXMin) {
 				settings.xMin = value;
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			} else if (source == fldXMax) {
 				settings.xMax = value;
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			} else if (source == fldYMax) {
 				settings.yMax = value;
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			} else if (source == fldYMin) {
 				settings.yMin = value;
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			} else if (source == fldXInterval && value >= 0) {
 				settings.xAxesInterval = value;
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			} else if (source == fldYInterval && value >= 0) {
 				settings.yAxesInterval = value;
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			} else if (source == fldBarWidth && value >= 0) {
 				settings.setBarWidth(value);
-				firePropertyChange("settings", true, false);
+				firePropertyChange();
 			}
 			updateGUI();
 
@@ -722,7 +722,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
     }
 
-	private void firePropertyChange(String string, boolean b, boolean c) {
+	private void firePropertyChange() {
 	    dyModel.updatePlot(true);
     }
 

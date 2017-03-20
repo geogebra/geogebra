@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -37,7 +36,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	 * @param spreadsheetView
 	 *            spreadsheet view
 	 */
-	public OptionsSpreadsheetW(AppW app, View spreadsheetView) {
+	public OptionsSpreadsheetW(AppW app) {
 		this.app = app;
 		createGUI();
 	}

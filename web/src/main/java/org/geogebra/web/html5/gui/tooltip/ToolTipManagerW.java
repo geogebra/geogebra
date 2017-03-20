@@ -50,7 +50,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * 
  * @author G. Sturr
  */
-public class ToolTipManagerW {
+public final class ToolTipManagerW {
 
 	/**
 	 * The toolTip can include a link. depending on the type of the link,

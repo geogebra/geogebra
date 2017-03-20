@@ -130,14 +130,12 @@ public class EuclidianViewW extends EuclidianView implements
 	/**
 	 * @param euclidianViewPanel
 	 * @param euclidiancontroller
-	 * @param showAxes
-	 * @param showGrid
 	 * @param evNo
 	 * @param settings
 	 */
 	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
-	        EuclidianController euclidiancontroller, boolean[] showAxes,
-	        boolean showGrid, int evNo, EuclidianSettings settings) {
+			EuclidianController euclidiancontroller, int evNo,
+			EuclidianSettings settings) {
 
 		super(euclidiancontroller, evNo, settings);
 		viewTextField = new ViewTextFieldW(this);
@@ -161,26 +159,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 			}
 		});
-
-	}
-
-	/**
-	 * @param euclidiancontroller
-	 *            controller
-	 * @param showAxes
-	 *            whether to show axes
-	 * @param showGrid
-	 *            whether to show grid
-	 * @param viewNo
-	 *            view number
-	 * @param settings
-	 *            settings
-	 */
-	public EuclidianViewW(EuclidianController euclidiancontroller,
-	        boolean[] showAxes, boolean showGrid, int viewNo,
-	        EuclidianSettings settings) {
-
-		this(euclidiancontroller, viewNo, settings);
 
 	}
 

@@ -7,7 +7,7 @@ import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
  * {@link LongTouchHandler}, get an instance with {@link #getInstance()} and
  * schedule the timer.
  */
-public class LongTouchManager {
+public final class LongTouchManager {
 
 	private static LongTouchManager instance = new LongTouchManager();
 

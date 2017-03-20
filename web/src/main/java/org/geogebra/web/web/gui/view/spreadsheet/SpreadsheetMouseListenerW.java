@@ -193,7 +193,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			if (editor.textStartsWithEquals()
 					&& copyIntoEditorFromCellAt(point)) {
 
-				startEditDragging(point);
+				startEditDragging();
 				event.preventDefault();
 				return;
 			}
@@ -276,11 +276,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return false;
 	}
 
-	private void startEditDragging(GPoint point) {
-		startEditDragging(point.getY(), point.getX());
-	}
 
-	private void startEditDragging(int row, int column) {
+
+	private void startEditDragging() {
 		int caretPos = editor.getCaretPosition();
 		String text = editor.getEditingValue();
 		prefix = text.substring(0, caretPos);

@@ -40,8 +40,7 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController ec, ViewCreator plane,
 	        EuclidianSettings settings, int panelID) {
-		super(euclidianViewPanel, ec, new boolean[] { false, false }, false,
-		        EVNO_GENERAL, settings);
+		super(euclidianViewPanel, ec, EVNO_GENERAL, settings);
 		this.panelID = panelID;
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}

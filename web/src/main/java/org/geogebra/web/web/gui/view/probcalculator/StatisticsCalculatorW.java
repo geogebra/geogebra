@@ -615,12 +615,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 	@Override
 	public void onClick(ClickEvent event) {
-	   doButtonEvents(event);
-    }
-
-	private void doButtonEvents(ClickEvent event) {
 		updateResult();
     }
+
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {

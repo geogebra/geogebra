@@ -79,7 +79,7 @@ public class AppWapplet extends AppWFull {
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
 			GLookAndFeel laf) {
-		this(ae, gf, true, dimension, laf, null);
+		this(ae, gf, dimension, laf, null);
 	}
 
 	/******************************************************
@@ -99,7 +99,7 @@ public class AppWapplet extends AppWFull {
 	 *            browser or tablet
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
-			final boolean undoActive, int dimension, GLookAndFeel laf,
+			int dimension, GLookAndFeel laf,
 			GDevice device) {
 		super(ae, dimension, laf, device);
 		this.frame = gf;

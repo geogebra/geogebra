@@ -106,11 +106,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 	@Override
 	protected EuclidianViewW getEuclidianView() {
-		boolean[] showAxes = { false, false };
-		boolean showGrid = false;
 		if (ev == null) {
 			ev = new MyEuclidianView(getEVPanel(), new EuclidianControllerW(
-			        kernel), showAxes, showGrid, EuclidianView.EVNO_GENERAL,
+					kernel), EuclidianView.EVNO_GENERAL,
 			        null);
 		}
 		return (EuclidianViewW) ev;
@@ -134,9 +132,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 	private static class MyEuclidianView extends EuclidianViewW {
 
 		public MyEuclidianView(MyEuclidianViewPanelForTextPreviewPanelW panel,
-		        EuclidianController ec, boolean[] showAxes, boolean showGrid,
+				EuclidianController ec, 
 		        int evno, EuclidianSettings settings) {
-			super(panel, ec, showAxes, showGrid, evno, settings);
+			super(panel, ec, evno, settings);
 
 			// the show axis and show grid parameters currently do nothing, so
 			// we do it here
