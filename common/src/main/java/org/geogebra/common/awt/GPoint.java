@@ -55,7 +55,7 @@ public class GPoint {
 	}
 
 	@Override
-	final public boolean equals(Object o) {
+	public boolean equals(Object o) {
 
 		if (!(o instanceof GPoint)) {
 			return false;

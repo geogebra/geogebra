@@ -511,7 +511,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// check if cell fixed
 		Object o = model.getValueAt(table.getSelectedRow(),
 		        table.getSelectedColumn());
-		if (o != null && o instanceof GeoElement) {
+		if (o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
 			if (geo.isFixed()) {
 				return;

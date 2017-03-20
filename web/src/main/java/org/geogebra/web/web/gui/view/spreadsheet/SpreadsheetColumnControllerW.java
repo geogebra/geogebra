@@ -99,55 +99,60 @@ public class SpreadsheetColumnControllerW implements
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 
-				// check if the cursor is within the resizing region (i.e.
-				// border +- 3pixels)
-				GPoint point2 = table
-						.getPixel(point.getX(), point.getY(), true);
-				GPoint point3 = table.getPixel(point.getX(), point.getY(),
-						false);
-				int x2 = point2.getX();
-				int x3 = point3.getX();
-				isResizing = !(x > x2 + 2 && x < x3 - 3);
+				pointerDownForCell(point, shiftDown);
+				// repaint();
+			}
+		}
 
-				if (!isResizing) {
+	}
 
-					// launch trace dialog if over a trace button
-					if (point.x == this.overTraceButtonColumn) {
-						int column = point.getX();
-						table.setColumnSelectionInterval(column, column);
-						//?//view.showTraceDialog(null,
-						//?//		table.selectedCellRanges.get(0));
-						//?//e.consume();
-						return;
-					}
+	private void pointerDownForCell(GPoint point, boolean shiftDown) {
+		// check if the cursor is within the resizing region (i.e.
+		// border +- 3pixels)
+		GPoint point2 = table
+				.getPixel(point.getX(), point.getY(), true);
+		GPoint point3 = table.getPixel(point.getX(), point.getY(),
+				false);
+		int x2 = point2.getX();
+		int x3 = point3.getX();
+		int x = point.getX();
+		isResizing = !(x > x2 + 2 && x < x3 - 3);
 
-					// otherwise handle column selection
-					if (table
-							.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-						table.setSelectionType(MyTableInterface.COLUMN_SELECT);
-						//?//if (table.getTableHeader() != null) {
-						//?//	table.getTableHeader().requestFocusInWindow();
-						//?//}
-					}
+		if (!isResizing) {
 
-					if (shiftDown) {
-						if (column0 != -1) {
-							int column = point.getX();
-							table.setColumnSelectionInterval(column0, column);
-						}
-						// } else if (metaDown) {
-						// column0 = point.getX();
-						// // Note: ctrl-select now handled in
-						// // table.changeSelection
-						// table.setColumnSelectionInterval(column0, column0);
-					} else {
-						column0 = point.getX();
-						table.setColumnSelectionInterval(column0, column0);
-					}
-					// repaint();
-				}
+			// launch trace dialog if over a trace button
+			if (point.x == this.overTraceButtonColumn) {
+				int column = point.getX();
+				table.setColumnSelectionInterval(column, column);
+				//?//view.showTraceDialog(null,
+				//?//		table.selectedCellRanges.get(0));
+				//?//e.consume();
+				return;
 			}
 
+			// otherwise handle column selection
+			if (table
+					.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
+				table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+				//?//if (table.getTableHeader() != null) {
+				//?//	table.getTableHeader().requestFocusInWindow();
+				//?//}
+			}
+
+			if (shiftDown) {
+				if (column0 != -1) {
+					int column = point.getX();
+					table.setColumnSelectionInterval(column0, column);
+				}
+				// } else if (metaDown) {
+				// column0 = point.getX();
+				// // Note: ctrl-select now handled in
+				// // table.changeSelection
+				// table.setColumnSelectionInterval(column0, column0);
+			} else {
+				column0 = point.getX();
+				table.setColumnSelectionInterval(column0, column0);
+			}
 		}
 	}
 

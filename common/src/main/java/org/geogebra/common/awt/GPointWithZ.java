@@ -51,6 +51,12 @@ public class GPointWithZ extends GPoint {
 		return (super.hashCode() << 16) ^ z;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		// super also check z-coord
+		return super.equals(o);
+	}
+
 	public double distance(GPointWithZ d) {
 		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y)
 				+ (z - d.z) * (z - d.z));

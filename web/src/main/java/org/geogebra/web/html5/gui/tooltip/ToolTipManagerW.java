@@ -199,7 +199,7 @@ public final class ToolTipManagerW {
 	/**
 	 * Open current help URL in browser / webview
 	 */
-	protected void openHelp() {
+	void openHelp() {
 		if (helpURL != null && app != null) {
 			app.getFileManager().open(helpURL);
 			hideAllToolTips();
@@ -464,7 +464,7 @@ public final class ToolTipManagerW {
 	 * Set the toolTip widget location using the tipElement location or, if this
 	 * is null, use current mouse coordinates.
 	 */
-	protected void setToolTipLocation() {
+	void setToolTipLocation() {
 		int left, top, topAbove;
 
 		// get initial position from associated tip element or,
@@ -560,7 +560,7 @@ public final class ToolTipManagerW {
 	/**
 	 * Show the toolTip.
 	 */
-	protected void show() {
+	void show() {
 		if (!enabled) {
 			return;
 		}
