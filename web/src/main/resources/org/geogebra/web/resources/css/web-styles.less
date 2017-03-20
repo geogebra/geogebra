@@ -5662,11 +5662,22 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 @media screen {
-	.printPanel{
-		position: absolute;
+	.printPanel{	
 		left: 10000px;
-		max-width: 10000px !important;
+		
 	}
+}
+
+@media print {
+	.printPanel{	
+		left: 0px;
+		top: 0px;
+	}
+}
+
+.printPanel{
+	position: absolute;
+	max-width: 10000px !important;
 }
 
 .pagebreakbefore{
