@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
-import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -82,7 +81,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-		Vector3DValue, MatrixTransformable, RotateableND,
+		MatrixTransformable, RotateableND,
 		Transformable, Traceable, MirrorableAtPlane {
 
 	private boolean isInfinite, isDefined;

@@ -43,18 +43,6 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;
 
-	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
-			GeoNumberValue r) {
-
-		super(cons, label, M, r);
-	}
-
-	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
-			GeoSegment segment, boolean dummy) {
-
-		super(cons, label, M, segment, dummy);
-	}
-
 	public AlgoCirclePointRadius(Construction cons, GeoPoint M,
 			GeoNumberValue r) {
 

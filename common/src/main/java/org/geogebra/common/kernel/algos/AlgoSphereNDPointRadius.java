@@ -44,19 +44,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	final static int TYPE_RADIUS = 0;
 	final static int TYPE_SEGMENT = 1;
 
-	protected AlgoSphereNDPointRadius(Construction cons, String label,
-			GeoPointND M, GeoNumberValue r) {
 
-		this(cons, M, r);
-		sphereND.setLabel(label);
-	}
-
-	protected AlgoSphereNDPointRadius(Construction cons, String label,
-			GeoPointND M, GeoSegmentND segment, boolean dummy) {
-
-		this(cons, M, segment);
-		sphereND.setLabel(label);
-	}
 
 	public AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
 			GeoNumberValue r) {

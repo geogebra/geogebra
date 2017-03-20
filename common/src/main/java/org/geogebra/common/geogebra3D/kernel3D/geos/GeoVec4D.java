@@ -20,13 +20,15 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 
  * @author Markus + ggb3D
  */
-public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D {
+public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
+		Vector3DValue {
 	public Coords v;
 
 

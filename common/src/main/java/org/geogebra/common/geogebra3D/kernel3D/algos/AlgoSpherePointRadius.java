@@ -33,11 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
-	public AlgoSpherePointRadius(Construction cons, String label, GeoPointND M,
-			GeoNumberValue r) {
-
-		super(cons, label, M, r);
-	}
 
 	public AlgoSpherePointRadius(Construction cons, GeoPointND M,
 			GeoNumberValue r) {

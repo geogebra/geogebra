@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -43,7 +42,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
 		SpreadsheetTraceable, RotateableND, Traceable, MirrorableAtPlane,
-		Transformable, Dilateable, MatrixTransformable, CoordStyle {
+ Transformable, Dilateable, MatrixTransformable {
 
 	private GeoPointND startPoint;
 

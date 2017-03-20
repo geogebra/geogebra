@@ -568,12 +568,11 @@ public class AlgoDispatcher {
 	 * circle with midpoint M and radius r
 	 */
 	public GeoConicND Circle(String label, GeoPointND M, GeoNumberValue r) {
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label,
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons,
 				(GeoPoint) M, r);
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
-		circle.update();
-		// notifyUpdate(circle);
+		circle.setLabel(label);
 		return circle;
 	}
 
@@ -582,12 +581,10 @@ public class AlgoDispatcher {
 	 */
 	final public GeoConic Circle(String label, GeoPoint A, GeoSegment segment) {
 
-		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label, A,
-				segment, true);
+		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, A, segment);
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
-		circle.update();
-		// notifyUpdate(circle);
+		circle.setLabel(label);
 		return circle;
 	}
 
@@ -595,11 +592,10 @@ public class AlgoDispatcher {
 	 * circle with midpoint M through point P
 	 */
 	final public GeoConic Circle(String label, GeoPoint M, GeoPoint P) {
-		AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons, label, M, P);
+		AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons, M, P);
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
-		circle.update();
-		// notifyUpdate(circle);
+		circle.setLabel(label);
 		return circle;
 	}
 

@@ -45,12 +45,6 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 		setIncidence();
 	}
 
-	public AlgoCircleTwoPoints(Construction cons, String label, GeoPoint M,
-			GeoPoint P) {
-		super(cons, label, M, P);
-		setIncidence();
-	}
-
 	private void setIncidence() {
 		((GeoPoint) getP()).addIncidence(getCircle(), false);
 	}
