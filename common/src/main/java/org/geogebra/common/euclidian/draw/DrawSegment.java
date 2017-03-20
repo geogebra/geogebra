@@ -123,11 +123,11 @@ public class DrawSegment extends Drawable implements Previewable {
 				getBoundingBox().setRectangle(getBounds());
 				// for segment only two handler
 				boundingBox.getHandlers().get(0).setFrameFromCenter(
-						line.getX1(), line.getY1(), line.getX1() + 3,
-						line.getY1() + 3);
+						line.getX1(), line.getY1(), line.getX1() + 5,
+						line.getY1() + 5);
 				boundingBox.getHandlers().get(1).setFrameFromCenter(
-						line.getX2(), line.getY2(), line.getX2() + 3,
-						line.getY2() + 3);
+						line.getX2(), line.getY2(), line.getX2() + 5,
+						line.getY2() + 5);
 				// handler for rotation
 				// boundingBox.getHandlers().get(2).setFrameFromCenter(
 				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
@@ -628,10 +628,10 @@ public class DrawSegment extends Drawable implements Previewable {
 				// for segment only two handler
 				boundingBox.getHandlers().get(0).setFrameFromCenter(
 						line.getX1(),
-						line.getY1(), line.getX1() + 3, line.getY1() + 3);
+						line.getY1(), line.getX1() + 5, line.getY1() + 5);
 				boundingBox.getHandlers().get(1).setFrameFromCenter(
-						line.getX2(), line.getY2(), line.getX2() + 3,
-						line.getY2() + 3);
+						line.getX2(), line.getY2(), line.getX2() + 5,
+						line.getY2() + 5);
 				// handler for rotation
 				// boundingBox.getHandlers().get(2).setFrameFromCenter(
 				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
