@@ -7,6 +7,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLocus;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.GeoElementSelectionListener;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -17,17 +19,17 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		super(ev, -1);
 		addStyleName("DynamicStyleBar");
 
-		// app.getSelectionManager().addSelectionListener(new
-		// GeoElementSelectionListener() {
-		// @Override
-		// public void geoElementSelected(GeoElement geo,
-		// boolean addToSelection) {
-		// if(addToSelection){
-		// return;
-		// }
-		// DynamicStyleBar.this.setVisible(addToSelection);
-		// }
-		// });
+		app.getSelectionManager()
+				.addSelectionListener(new GeoElementSelectionListener() {
+					@Override
+					public void geoElementSelected(GeoElement geo,
+							boolean addToSelection) {
+						if (addToSelection) {
+							return;
+						}
+						DynamicStyleBar.this.setVisible(addToSelection);
+					}
+				});
 		stopPointer(getElement());
 	}
 
