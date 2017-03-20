@@ -606,6 +606,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			// user authentication handling
 			initSignInEventFlow();
 		}
+		if (kernel.wantAnimationStarted()) {
+			kernel.getAnimatonManager().startAnimation();
+			kernel.setWantAnimationStarted(false);
+		}
 
 	}
 
@@ -3496,6 +3500,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			if (success && !isMacroFile) {
 				setCurrentFile(file);
 			}
+
 			return success;
 		} catch (Exception e) {
 			setCurrentFile(null);

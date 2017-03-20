@@ -4758,8 +4758,8 @@ public class Kernel {
 	/*
 	 * used to delay animation start until everything loaded
 	 */
-	public void setWantAnimationStarted() {
-		wantAnimationStarted = true;
+	public void setWantAnimationStarted(boolean want) {
+		wantAnimationStarted = want;
 	}
 
 	public boolean wantAnimationStarted() {

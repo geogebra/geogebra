@@ -2449,7 +2449,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			getLayout().setPerspectives(app.getTmpPerspectives(), null);
 			SwingUtilities
 					.updateComponentTreeUI(getLayout().getRootComponent());
-
 			if (!app.isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (app.needsSpreadsheetTableModel())
@@ -2463,7 +2462,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			((AppD) app).updateToolBar();
 			((AppD) app).updateContentPane();
 		}
-
+		if (kernel.wantAnimationStarted()) {
+			kernel.getAnimatonManager().startAnimation();
+			kernel.setWantAnimationStarted(false);
+		}
 		if (app.isEuclidianView3Dinited()) {
 			EuclidianView ev = (EuclidianView) app.getEuclidianView3D();
 			ev.updateFonts();
