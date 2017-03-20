@@ -5587,6 +5587,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	abstract protected EuclidianStyleBar newEuclidianStyleBar();
 
+	/**
+	 * 
+	 * Adds dynamic stylebar to DOM if not added yet
+	 */
 	abstract protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar);
 
 	@Override
