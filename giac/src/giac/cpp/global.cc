@@ -2600,7 +2600,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      /* If we have a POSIX path list, convert to win32 path list */
      if (_epath != NULL && *_epath != 0
          && cygwin_posix_path_list_p (_epath)){
-#ifdef __x86_64__
+#ifdef x86_64
        int s = cygwin_conv_path (CCP_POSIX_TO_WIN_A , _epath, NULL, 0);
        char * _win32path = (char *) malloc(s);
        cygwin_conv_path(CCP_POSIX_TO_WIN_A,_epath, _win32path,s);
@@ -2863,7 +2863,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _epath = res.c_str()  ;
       if (_epath != NULL && *_epath != 0
 	  && cygwin_posix_path_list_p (_epath)){
-#ifdef __x86_64__
+#ifdef x86_64
 	int s = cygwin_conv_path (CCP_POSIX_TO_WIN_A , _epath, NULL, 0);
 	char * _win32path = (char *) malloc(s);
 	cygwin_conv_path(CCP_POSIX_TO_WIN_A,_epath, _win32path,s);

@@ -48,7 +48,7 @@ namespace giac {
     return ptr()->s;
   }
 
-#if 0 // def __x86_64__
+#if 0 // def x86_64
   bool unary_function_ptr::quoted() const { return (ptr()->index_quoted_function & 0x1) || ( ((longlong) _ptr) & 0x1); }
 #else
   bool unary_function_ptr::quoted() const { return (ptr()->index_quoted_function & 0x1) || ( ((size_t) _ptr) & 0x1); }

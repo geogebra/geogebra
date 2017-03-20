@@ -21,6 +21,10 @@
 #ifndef _GIAC_FIRST_H_
 #define _GIAC_FIRST_H_
 
+#ifdef __x86_64__
+#define x86_64
+#endif
+
 // Thanks to Jason Papadopoulos, author of msieve
 #ifdef BESTA_OS
 #include <time.h>

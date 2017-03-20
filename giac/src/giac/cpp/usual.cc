@@ -9342,7 +9342,7 @@ namespace giac {
 	// ? use __float80 or __float128
 	/*
 #ifdef __SSE__
-#if defined __x86_64__ && defined __SSE_4_2__
+#if defined x86_64 && defined __SSE_4_2__
 	__float128 ei=0.0q,pi=1.0q;
 #else
 	__float80 ei=0.0w,pi=1.0w;
@@ -9488,7 +9488,7 @@ namespace giac {
 	return gen(double(result.real()),double(result.imag())+M_PI*(x.imag()>0?-1:1));
       }
     }
-#if 1 // defined(__x86_64__) || defined(__i386__) // if long_double available use this
+#if 1 // defined(x86_64) || defined(__i386__) // if long_double available use this
     gen tmp=evalf_double(args,1,contextptr);
     if (tmp.type==_CPLX && prec<=13){
       complex_long_double Z(tmp._CPLXptr->_DOUBLE_val,(tmp._CPLXptr+1)->_DOUBLE_val);
@@ -9800,7 +9800,7 @@ namespace giac {
   // #ifndef GNUWINCE
   // #ifndef WIN32
   // #endif
-#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined( __x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined( x86_64)
   const gen zero(0);
   const gen plus_one(1);
   const gen plus_two(2);
@@ -9829,7 +9829,7 @@ namespace giac {
   const double deg2rad_d(M_PI/180);
   const double rad2grad_d(200 / M_PI);
   const double grad2rad_d(M_PI / 200);
-#if defined(DOUBLEVAL) || defined(GIAC_GENERIC_CONSTANTS) || defined(VISUALC) || defined(__x86_64__)
+#if defined(DOUBLEVAL) || defined(GIAC_GENERIC_CONSTANTS) || defined(VISUALC) || defined(x86_64)
   static const gen rad2deg_g_(rad2deg_d);
   const gen & rad2deg_g=rad2deg_g_;
   static const gen deg2rad_g_(deg2rad_d);
@@ -9852,7 +9852,7 @@ namespace giac {
   const gen & grad2rad_g = *(const gen*)& alias_grad2rad_g;
 #endif
 
-#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
   gen cst_two_pi(symbolic(at_prod,makevecteur(plus_two,_IDNT_pi())));
   gen cst_pi_over_2(_FRAC2_SYMB(_IDNT_pi(),2));
   gen plus_inf(symbolic(at_plus,_IDNT_infinity()));

@@ -37,7 +37,7 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
   // unary_function_ptr quoted_op[]={at_of,at_for,at_bloc,at_local,at_program,at_rpn_prog,at_ifte,at_try_catch,at_print,at_signal,at_as_function_of,at_lieu,at_legende,at_debug,at_sst,at_sst_in,at_cont,at_kill,at_halt,at_watch,at_rmwatch,at_breakpoint,at_maple2mupad,at_mupad2maple,at_maple2xcas,at_mupad2xcas,at_purge,0};
-#if defined(GIAC_GENERIC_CONSTANTS) || defined(VISUALC) || defined(__x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) || defined(VISUALC) || defined(x86_64)
   const unary_function_ptr * archive_function_tab(){
     static const unary_function_ptr archive_function_tab_ptr[]={*at_plus,*at_neg,*at_binary_minus,*at_prod,*at_division,*at_inv,*at_pow,*at_exp,*at_ln,*at_abs,*at_arg,*at_pnt,*at_point,*at_segment,*at_sto,*at_sin,
 								*at_cos,*at_tan,*at_asin,*at_acos,*at_atan,*at_sinh,*at_cosh,*at_tanh,*at_asinh,*at_acos,*at_atanh,*at_interval,*at_union,*at_minus,*at_intersect,*at_not,

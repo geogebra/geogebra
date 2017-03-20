@@ -173,7 +173,7 @@ namespace giac {
     long n=lg(G);
     gen res;
     for (int i=2;i<n;++i){
-#ifdef __x86_64__ // FIXME make a gen constructor from ulonglong
+#ifdef x86_64 // FIXME make a gen constructor from ulonglong
       unsigned long u=G[i];
       res=res*pow2sizeof_long;
       if (u%2)

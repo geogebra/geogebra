@@ -1407,7 +1407,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	return smod(Res,modulo);
       } // end if alpha>=-84 and alpha<=84
     } // end else (modulo>46430)
-#if defined _I386_ && !defined __x86_64__
+#if defined _I386_ && !defined x86_64
     if (unsig){
       if (alpha<0)
 	alpha += modulo;

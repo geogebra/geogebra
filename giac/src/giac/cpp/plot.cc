@@ -15281,7 +15281,7 @@ namespace giac {
   static define_unary_function_eval (__bezier,&_bezier,_bezier_s);
   define_unary_function_ptr5( at_bezier ,alias_at_bezier,&__bezier,0,true);
 
-#if defined(GIAC_GENERIC_CONSTANTS) || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
   unary_function_ptr plot_sommets[]={*at_pnt,*at_parameter,*at_cercle,*at_curve,*at_animation,0};
   unary_function_ptr not_point_sommets[]={*at_cercle,*at_curve,*at_hyperplan,*at_hypersphere,*at_hypersurface,0};
   unary_function_ptr notexprint_plot_sommets[]={*at_funcplot,*at_paramplot,*at_polarplot,*at_implicitplot,*at_contourplot,*at_odeplot,*at_interactive_odeplot,*at_fieldplot,*at_seqplot,*at_ellipse,*at_hyperbole,*at_parabole,0};

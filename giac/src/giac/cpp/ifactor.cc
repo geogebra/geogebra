@@ -270,7 +270,7 @@ namespace giac {
     ptr2=tmp;
   }
 
-#ifdef __x86_64__
+#ifdef x86_64
 #define GIAC_RREF_UNROLL 4
 #else
 #define GIAC_RREF_UNROLL 4
@@ -329,7 +329,7 @@ namespace giac {
       if (i!=l) 
 	swap(m[i].tab,m[l].tab); // don't care about count...
       int start=mode==1?l+1:0, end=mode==2?l:L;
-#ifdef __x86_64__
+#ifdef x86_64
       ulonglong * pivend, * pivbeg;
       pivbeg = (ulonglong *) (m[l].tab+(c1/GIAC_RREF_UNROLL)*GIAC_RREF_UNROLL);
       pivend = (ulonglong *) (m[l].tab+C32);
@@ -340,7 +340,7 @@ namespace giac {
 	if (i==l || ( (m[i].tab[c1] >> c2) & 1)!=1) 
 	  continue;
 	// line combination l and i
-#ifdef __x86_64__
+#ifdef x86_64
 	ulonglong * curptr=(ulonglong *) (m[i].tab+(c1/GIAC_RREF_UNROLL)*GIAC_RREF_UNROLL);
 	for (ulonglong * pivptr=pivbeg;pivptr!=pivend;curptr += GIAC_RREF_UNROLL/2,pivptr += GIAC_RREF_UNROLL/2){
 	  // small optimization (loop unroll), assumes mult of 4(*32) columns
@@ -465,7 +465,7 @@ namespace giac {
 
 #if !defined(RTOS_THREADX) && !defined(BESTA_OS) && !defined NSPIRE
   // #define WITH_INVA
-#if defined(__APPLE__) || defined(__x86_64__)
+#if defined(__APPLE__) || defined(x86_64)
 #define LP_TAB_SIZE 15 // slice size will be 2^LP_TAB_SIZE
   //  #define LP_SMALL_PRIMES
 #define LP_TAB_TOGETHER
@@ -705,7 +705,7 @@ namespace giac {
     if (debug_infolevel>6)
       *logptr(contextptr) << CLOCK() << gettext(" reset") << endl;
     // assumes slice type is size 1 byte and multiple of 32
-#ifdef __x86_64__
+#ifdef x86_64
     ulonglong * ptr=(ulonglong *) &slice[0];
     ulonglong * ptrend=ptr+ss/8;
     ulonglong pattern=(logB <<24)|(logB<<16)|(logB<<8) | logB;
@@ -823,20 +823,20 @@ namespace giac {
       *logptr(contextptr) << cl << gettext("relations ") << endl;
     // now find relations
     st=slice; stend=slice+ss;
-#ifdef __x86_64__
+#ifdef x86_64
     ulonglong * st8=(ulonglong *) &slice[0],*st8end=st8+ss/8;
 #else
     unsigned * st4=(unsigned *) &slice[0],*st4end=st4+ss/4;
 #endif
     for (
-#ifdef __x86_64__
+#ifdef x86_64
 	 ;st8!=st8end;st8+=4
 #else
 	 ;st4<st4end;st4+=8
 #endif
 	 ){
       // compare slice[pos] to boundary
-#ifdef __x86_64__
+#ifdef x86_64
       if ( !( (*st8  | st8[1] | st8[2] | st8[3] ) & 0x8080808080808080) )
 	continue;
       int pos=int(((slicetype*)st8)-slice);
@@ -1156,7 +1156,7 @@ namespace giac {
   }
 #endif
 
-#if (defined __i386__ || defined __x86_64__) && !defined PIC && !defined _I386_ && !defined __APPLE__ && !defined VISUALC && !defined(FIR_LINUX) && !defined(FIR_ANDROID)
+#if (defined __i386__ || defined x86_64) && !defined PIC && !defined _I386_ && !defined __APPLE__ && !defined VISUALC && !defined(FIR_LINUX) && !defined(FIR_ANDROID)
   #define _I386_
 #endif
 

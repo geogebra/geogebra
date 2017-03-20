@@ -460,7 +460,7 @@ namespace giac {
     if (((i1.taille % 2))==0){
       if (i1.riptr==i2.riptr)
 	return true;
-#if 0 // def __x86_64__
+#if 0 // def x86_64
       const index_t & i1t=i1.riptr->i;
       const index_t & i2t=i2.riptr->i;
       int n=i1t.size();
@@ -537,7 +537,7 @@ namespace giac {
 #endif // DEBUG_SUPPORT
     index_m res(s);
     deg_t * it=(deg_t*)&*res.begin();
-#if 0 // def __x86_64__
+#if 0 // def x86_64
     ulonglong * target=(ulonglong *) &*it;
     const ulonglong * ptr1=(const ulonglong *) &*ita,* ptr1end=ptr1+s/(sizeof(ulonglong)/sizeof(deg_t));
     const ulonglong * ptr2=(const ulonglong *) &*itb;

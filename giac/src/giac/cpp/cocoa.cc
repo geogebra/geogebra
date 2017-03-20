@@ -63,8 +63,8 @@ using namespace std;
 #undef HAVE_LIBCOCOA
 #endif
 
-#if defined VISUALC && defined __x86_64__ 
-#undef __x86_64__
+#if defined VISUALC && defined x86_64 
+#undef x86_64
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
@@ -3356,7 +3356,7 @@ namespace giac {
     return r;
   }
 
-#if 0 // def __x86_64__
+#if 0 // def x86_64
   typedef longlong modint;
   typedef int128_t modint2;
   longlong smod(int128_t a,longlong b){
@@ -3790,7 +3790,7 @@ namespace giac {
       invlcg[i]=invmod(g[G[i]].coord.front().g,env);
     }
     modint c=1;
-#ifdef __x86_64__
+#ifdef x86_64
     int128_t C=0; // int128_t to avoid %
 #else
     modint2 C=0; // int128_t to avoid %
@@ -3818,7 +3818,7 @@ namespace giac {
 	heap_t<tdeg_t> & current=H.back(); // was root node of the heap
 	const polymod<tdeg_t> & gcurrent = g[G[current.i]];
 	if (!R){
-#ifdef __x86_64__
+#ifdef x86_64
 	  C -= modint2(q[current.i].coord[current.qi].g) * gcurrent.coord[current.gj].g;
 #else
 	  C = (C-modint2(q[current.i].coord[current.qi].g) * gcurrent.coord[current.gj].g) % env;
@@ -3833,7 +3833,7 @@ namespace giac {
 	  H.pop_back();
       }
       if (!R){
-#ifdef __x86_64__
+#ifdef x86_64
 	c = C % env;
 #else
 	c=modint(C);
@@ -5035,7 +5035,7 @@ namespace giac {
     return res;
   }
 
-#ifdef __x86_64__
+#ifdef x86_64
   unsigned reducef4buchberger_64(vector<modint> &v,const vector< vector<sparse_element> > & M,modint env,vector<int128_t> & w){
     w.resize(v.size());
     vector<modint>::iterator vt=v.begin(),vtend=v.end();
@@ -5410,7 +5410,7 @@ namespace giac {
     ++it;
   }
 
-#ifdef __x86_64__
+#ifdef x86_64
   inline void next_index(vector<int128_t>::iterator & pos,const shifttype * & it){
     if (*it)
       pos+=(*it);
@@ -5497,7 +5497,7 @@ namespace giac {
     ++it;
   }
 
-#ifdef __x86_64__
+#ifdef x86_64
   inline void next_index(vector<int128_t>::iterator & pos,const shifttype * & it){
     if (*it)
       pos += (*it);
@@ -5552,7 +5552,7 @@ namespace giac {
     coeffindex_t():b(false),u(0) {};
   };
 
-#ifdef __x86_64__
+#ifdef x86_64
   unsigned reducef4buchbergersplit64(vector<modint> &v,const vector< vector<shifttype> > & M,const vector<unsigned> & firstpos,vector< vector<modint> > & coeffs,vector<coeffindex_t> & coeffindex,modint env,vector<int128_t> & v128){
     vector<modint>::iterator vt=v.begin(),vtend=v.end();
     v128.resize(v.size());
@@ -7445,7 +7445,7 @@ namespace giac {
       // step3 reduce
       vector<modint> v(N);
       vector< vector<sparse_element> > SK(f4buchbergerv.size());
-#ifdef __x86_64__
+#ifdef x86_64
       vector<int128_t> v128(N); 
       vector<modint> multiplier(M.size()); vector<unsigned> pos(M.size());
 #endif
@@ -7455,7 +7455,7 @@ namespace giac {
 	  if (freemem){ 
 	    polymod<tdeg_t> clearer; swap(f4buchbergerv[f4buchbergervG[i]].coord,clearer.coord); 
 	  }
-#ifdef __x86_64__
+#ifdef x86_64
 	  /* vector<modint> w(v);
 	  // CERR << "reduce " << v << endl << M << endl;
 	  c=giacmin(c,reducef4buchbergerslice(w,M,env,v128,multiplier,pos));
@@ -7467,9 +7467,9 @@ namespace giac {
 	    c=giacmin(c,reducef4buchberger(v,M,env));
 	  else
 	    c=giacmin(c,reducef4buchberger_64(v,M,env,v128));
-#else // __x86_64__
+#else // x86_64
 	  c=giacmin(c,reducef4buchberger(v,M,env));
-#endif // __x86_64__
+#endif // x86_64
 	  // convert v to a sparse vector in SK and update used
 	  convert(v,SK[i],used);
 	  // CERR << v << endl << SK[i] << endl;
@@ -7896,7 +7896,7 @@ namespace giac {
     // step3 reduce
     vector<modint> v(N); 
     vector<modint2> v64(N);
-#ifdef __x86_64__
+#ifdef x86_64
     vector<int128_t> v128(N);
 #endif
 #ifdef GIAC_Z
@@ -7925,7 +7925,7 @@ namespace giac {
       if (!f4buchbergerv[f4buchbergervG[i]].coord.empty()){
 	makeline<tdeg_t>(f4buchbergerv[f4buchbergervG[i]],0,R,v);
 	//CERR << v << endl;
-#ifdef __x86_64__
+#ifdef x86_64
 	if (useshort){
 	  if (env<(1<<24)){
 #if GIAC_SHORTSHIFTTYPE==16
@@ -8114,14 +8114,14 @@ namespace giac {
     unsigned c=N;
     vector<modint> v(N);
     typename vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
-#ifdef __x86_64__
+#ifdef x86_64
     vector<int128_t> v128(N);
 #endif
     for (i=0;i<f4buchbergervG.size();++i){
       if (!f4buchbergerv[f4buchbergervG[i]].coord.empty()){
 	makeline(f4buchbergerv[f4buchbergervG[i]],0,R,v);
 	// CERR << v << endl;
-#ifdef __x86_64__
+#ifdef x86_64
 	/* if (N>=4096)
 	  c=giacmin(c,reducef4buchberger(v,M,env));
 	  else */
@@ -8372,7 +8372,7 @@ namespace giac {
     // step3 reduce
     vector<modint> v(N);
     vector<modint2> v64(N);
-#ifdef __x86_64__
+#ifdef x86_64
     vector<int128_t> v128(N);
 #endif
     if (N<nrows){
@@ -8398,7 +8398,7 @@ namespace giac {
       // CERR << v << endl << v2 << endl;
       // sub(v,v2,env);
       // CERR << v << endl;
-#ifdef __x86_64__
+#ifdef x86_64
       if (useshort){
 	if (env<(1<<24)){
 #if GIAC_SHORTSHIFTTYPE==16
@@ -8421,7 +8421,7 @@ namespace giac {
 	else
 	  c=giacmin(c,reducef4buchbergersplit64u(v,Muindex,Mcoeff,coeffindex,env,v128));
       }
-#else // __x86_64__
+#else // x86_64
       if (useshort){
 #if GIAC_SHORTSHIFTTYPE==16
 	c=giacmin(c,reducef4buchbergersplit(v,Mindex,firstpos,Mcoeff,coeffindex,env,v64));
@@ -8431,7 +8431,7 @@ namespace giac {
       }
       else 
 	c=giacmin(c,reducef4buchbergersplitu(v,Muindex,Mcoeff,coeffindex,env,v64));
-#endif // __x86_64__
+#endif // x86_64
       // zconvert(v,coeffit,bitmap,used); bitmap += (N>>5)+1;
       K[i].reserve(Kcols);
       zconvert_(v,K[i],bitmap,used); bitmap += (N>>5)+1;
@@ -9447,7 +9447,7 @@ namespace giac {
     }
   }
 
-#ifdef __x86_64__
+#ifdef x86_64
   bool checkreducef4buchberger_64(vector<modint> &v,vector<modint> & coeff,const vector< vector<sparse_element> > & M,modint env,vector<int128_t> & w){
     w.resize(v.size());
     vector<modint>::iterator vt=v.begin(),vtend=v.end();
@@ -9884,12 +9884,12 @@ namespace giac {
 	CERR << CLOCK()*1e-6 << " checking mod " << p << endl;
       vector<modint> v;
       unsigned countres=0;
-#ifdef __x86_64__
+#ifdef x86_64
       vector<int128_t> v128;
 #endif
       for (unsigned i=0;i<f4buchbergervmod.size();++i){
 	makeline<tdeg_t>(f4buchbergervmod[i],0,R,v);
-#if 0 // def __x86_64__
+#if 0 // def x86_64
 	if (!checkreducef4buchberger_64(v,coeffmatmodp[i],Mp,env,v128))
 	  return false;
 #else
@@ -10100,12 +10100,12 @@ namespace giac {
 	CERR << CLOCK()*1e-6 << " checking mod " << p << endl;
       vector<modint> v;
       unsigned countres=0;
-#ifdef __x86_64__
+#ifdef x86_64
       vector<int128_t> v128;
 #endif
       for (unsigned i=0;i<f4buchbergervmod.size();++i){
 	makeline(f4buchbergervmod[i],0,R,v);
-#ifdef __x86_64__
+#ifdef x86_64
 	if (!checkreducef4buchbergersplit_64(v,coeffmatmodp[i],Mindex,Mcoeffp,coeffindex,env,v128))
 	  return false;
 #else
@@ -11743,7 +11743,7 @@ namespace giac {
     vector<modint> v(N);
     vector<modint2> v64(N);
     vector<double> v64d(N);
-#ifdef __x86_64__
+#ifdef x86_64
     vector<int128_t> v128;
     if (!large)
       v128.resize(N);
