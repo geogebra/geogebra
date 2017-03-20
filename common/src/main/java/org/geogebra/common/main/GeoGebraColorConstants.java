@@ -500,6 +500,23 @@ public class GeoGebraColorConstants {
 	}
 
 	/**
+	 * Returns array of colors for MOW color popup.
+	 * 
+	 * @return array of colors for MOW color popup.
+	 */
+	public static GColor[] getMOWPopupArray() {
+
+		GColor[] popupColors = new GColor[5];
+
+		popupColors[0] = GGB_GREEN;
+		popupColors[1] = GColor.BLUE;
+		popupColors[2] = GGB_PURPLE;
+		popupColors[3] = GGB_VIOLET;// rgb(244, 0, 153);
+		popupColors[4] = null; // placeholder for (...) button
+		return popupColors;
+	}
+
+	/**
 	 * Array of colors intended for the primary color swatch panel of the
 	 * GeoGebraColorChooser class.
 	 * 

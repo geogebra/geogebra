@@ -46,7 +46,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		this.app = app;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
-		colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
+
+		setColors();
 		defaultColor = colorSet[0];
 
 		lookupMap = new HashMap<String, Integer>();
@@ -67,6 +68,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		getMyTable().removeDefaultStyle();
 	}
 
+	/**
+	 * Sets the colors to choose from.
+	 */
+	protected void setColors() {
+		colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
+	}
 	/**
 	 * @param visible
 	 *            {@code boolean}
@@ -207,6 +214,14 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);
+	}
+
+	public GColor[] getColorSet() {
+		return colorSet;
+	}
+
+	public void setColorSet(GColor[] colorSet) {
+		this.colorSet = colorSet;
 	}
 
 }

@@ -31,6 +31,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
+import org.geogebra.web.web.gui.color.MOWColorButton;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -610,7 +611,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		createAngleIntervalBtn();
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
-		createColorBtn();
+		if (app.isWhiteboardActive()) {
+			createMOWColorBtn();
+		} else {
+			createColorBtn();
+		}
 		createBgColorBtn();
 		createTextColorBtn();
 		createTextBoldBtn();
@@ -909,6 +914,91 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnColor.addPopupHandler(this);
 	}
 
+	private void createMOWColorBtn() {
+
+		btnColor = new MOWColorButton(app) {
+
+			@Override
+			public void update(Object[] geos) {
+
+				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
+					Log.debug(
+							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
+				} else {
+					boolean geosOK = (geos.length > 0
+							|| EuclidianView.isPenMode(mode));
+					for (int i = 0; i < geos.length; i++) {
+						GeoElement geo = ((GeoElement) geos[i])
+								.getGeoElementForPropertiesDialog();
+						if (geo instanceof GeoText
+								|| geo instanceof GeoButton) {
+							geosOK = false;
+							break;
+						}
+					}
+
+					super.setVisible(geosOK);
+
+					if (geosOK) {
+						// get color from first geo
+						GColor geoColor;
+						geoColor = ((GeoElement) geos[0]).getObjectColor();
+
+						// check if selection contains a fillable geo
+						// if true, then set slider to first fillable's alpha
+						// value
+						double alpha = 1.0;
+						boolean hasFillable = false;
+						for (int i = 0; i < geos.length; i++) {
+							if (((GeoElement) geos[i]).isFillable()) {
+								hasFillable = true;
+								alpha = ((GeoElement) geos[i]).getAlphaValue();
+								break;
+							}
+							if (geos[i] instanceof GeoPolyLine
+									&& EuclidianView.isPenMode(mode)) {
+								hasFillable = true;
+								alpha = ((GeoElement) geos[i]).getLineOpacity();
+
+								break;
+							}
+						}
+
+						if (hasFillable) {
+							setTitle(loc.getMenu("stylebar.ColorTransparency"));
+						} else {
+							setTitle(loc.getMenu("stylebar.Color"));
+						}
+
+						setSliderVisible(hasFillable);
+
+						if (EuclidianView.isPenMode(mode)) {
+							setSliderValue(
+									(int) Math.round((alpha * 100) / 255));
+						} else {
+							setSliderValue((int) Math.round(alpha * 100));
+						}
+
+						updateColorTable();
+						setEnableTable(!(geos[0] instanceof GeoImage));
+						// find the geoColor in the table and select it
+						int index = this.getColorIndex(geoColor);
+						setSelectedIndex(index);
+						if (EuclidianView.isPenMode(mode)) {
+							setDefaultColor(alpha / 255, geoColor);
+						} else {
+							setDefaultColor(alpha, geoColor);
+						}
+
+						this.setKeepVisible(
+								mode == EuclidianConstants.MODE_MOVE);
+					}
+				}
+			}
+		};
+		btnColor.addPopupHandler(this);
+	}
+
 	private void createBgColorBtn() {
 
 		btnBgColor = new ColorPopupMenuButton(app,
@@ -973,6 +1063,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnBgColor.setKeepVisible(true);
 		btnBgColor.addPopupHandler(this);
 	}
+
 
 	private void createTextColorBtn() {
 

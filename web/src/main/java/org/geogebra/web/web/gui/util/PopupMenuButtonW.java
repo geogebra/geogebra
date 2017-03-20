@@ -475,8 +475,16 @@ public class PopupMenuButtonW extends MyCJButton
 			return;
 		}
 		mySlider.setValue(value);
-		sliderLabel.setText(value + "");
+		sliderLabel.setText(value + getSliderPostfix());
 		updateGUI();
+	}
+
+	/**
+	 * 
+	 * @return The postix string after the value of the slider.
+	 */
+	protected String getSliderPostfix() {
+		return "";
 	}
 
 	/**
