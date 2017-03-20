@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -16,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
+import org.geogebra.web.web.gui.color.MOWColorButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.ColorPanel;
 
@@ -91,6 +93,11 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
 						color,
 					alpha, app);
+				if (app.isWhiteboardActive()) {
+					FillType fillType = ((MOWColorButton) btnColor)
+							.getSelectedFillType();
+					EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
+				}
 			}
 		} else if (source == btnLineStyle) {
 			// if (btnLineStyle.getSelectedValue() != null) {

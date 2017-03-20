@@ -971,6 +971,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						setSliderVisible(hasFillable);
+						setFillEnabled(hasFillable);
 
 						if (EuclidianView.isPenMode(mode)) {
 							setSliderValue(

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -208,6 +209,32 @@ public class EuclidianStyleBarStatic {
 		}
 
 		app.getSelectionManager().updateSelection();
+
+		return ret;
+	}
+
+	/**
+	 * Fills selected geos with a given type of pattern.
+	 * 
+	 * @param geos
+	 *            to fill.
+	 * @param fillType
+	 *            Type of the filling pattern;
+	 * @return geo modified.
+	 */
+	public static GeoElement applyFillType(ArrayList<GeoElement> geos,
+			FillType fillType) {
+		GeoElement ret = geos.get(0);
+
+		App app = geos.get(0).getKernel().getApplication();
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+
+			if (geo.isFillable()) {
+				geo.setFillType(fillType);
+
+			}
+		}
 
 		return ret;
 	}
