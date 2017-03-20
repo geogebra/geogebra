@@ -118,15 +118,16 @@ public class PerformanceTest implements EntryPoint {
 
 		GeoSegment i = new AlgoJoinPointsSegment(cons, "i", C, D).getSegment();
 
-		GeoConic k = new AlgoCirclePointRadius(cons, "k", D,
+		GeoConic k = new AlgoCirclePointRadius(cons, D,
 		        new AlgoDistancePoints(cons, C, F).getDistance()).getCircle();
+		k.setLabel("k");
 
-		GeoConic p = new AlgoCirclePointRadius(cons, "p", A,
+		GeoConic p = new AlgoCirclePointRadius(cons, A,
 		        new AlgoDistancePoints(cons, C, F).getDistance()).getCircle();
-
-		GeoConic q = new AlgoCirclePointRadius(cons, "q", B,
+		p.setLabel("p");
+		GeoConic q = new AlgoCirclePointRadius(cons, B,
 		        new AlgoDistancePoints(cons, C, F).getDistance()).getCircle();
-
+		q.setLabel("q");
 		GeoPoint L = new AlgoIntersectSingle("L", new AlgoIntersectLineConic(
 		        cons, i, k), 0).getPoint();
 
