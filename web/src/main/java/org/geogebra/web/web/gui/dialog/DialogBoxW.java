@@ -4,6 +4,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GDialogBox;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.util.StandardButton;
 
@@ -80,7 +81,8 @@ public class DialogBoxW extends GDialogBox {
 			@Override
 			public void onResize(ResizeEvent event) {
 				if (DialogBoxW.this.isShowing()) {
-					if (!hasOverlapFeature) {
+					if (!hasOverlapFeature
+							|| !(DialogBoxW.this instanceof HasKeyboardPopup)) {
 						centerAndResize(0);
 					}
 				}
