@@ -29,7 +29,6 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 	protected DataAnalysisViewW daView;
 	protected StatTableW statTable;
-	protected AppW app;
 
 	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog) {
 		this(app, statDialog, true);
@@ -37,7 +36,6 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog,
 			boolean defaultModel) {
-		this.app = app;
 		this.daView = statDialog;
 		setStyleName("daStatistics");
 		

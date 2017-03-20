@@ -105,10 +105,9 @@ public class AlgoIsOnPath extends AlgoElement
 		if (inputPoint == null || inputPath == null) {
 			if (inputPath instanceof GeoLine) {
 
-				PVariable[] fv1 = new PVariable[2];
-				PVariable[] fv2 = new PVariable[4];
-				fv1 = inputPoint.getBotanaVars(inputPoint);
-				fv2 = ((GeoLine) inputPath).getBotanaVars(inputPath);
+				PVariable[] fv1 = inputPoint.getBotanaVars(inputPoint);
+				PVariable[] fv2 = ((GeoLine) inputPath)
+						.getBotanaVars(inputPath);
 
 				botanaPolynomials = new PPolynomial[1][1];
 				botanaPolynomials[0][0] = PPolynomial.collinear(fv1[0], fv1[1],

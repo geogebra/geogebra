@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.KeyEvent;
@@ -30,7 +29,6 @@ import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -120,9 +118,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private AutoCompleteTextFieldW fldNumClasses;
 
 	private DataAnalysisModel daModel;
-
-	private ScheduledCommand exportToEVAction;
-
 
 	private ScrollPanel spFrequencyTable;
 
@@ -218,7 +213,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 			controlPanel.add(LayoutUtilW.panelRow(lbDisplayType, controlDecks, buttonPanel));
 		}
 
-		createExportToEvAction();
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel());
 	
 		//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
@@ -742,49 +736,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		this.model = model;
 	}
 
-	private void createExportToEvAction() {
-		/**
-		 * Action to export all GeoElements that are currently displayed in this
-		 * panel to a EuclidianView. The viewID for the target EuclidianView is
-		 * stored as a property with key "euclidianViewID".
-		 * 
-		 * This action is passed as a parameter to plotPanel where it is used in the
-		 * plotPanel context menu and the EuclidianView transfer handler when the
-		 * plot panel is dragged into an EV.
-		 */
-		exportToEVAction = new ScheduledCommand() {
 
-			private HashMap<String, Object> value = new HashMap<String, Object>();
-
-			public Object getValue(String key) {
-				return value.get(key);
-			}
-
-			public void putValue(String key, Object value) {
-				this.value.put(key, value);
-			}
-
-			@Override
-			public void execute() {
-				Integer euclidianViewID = (Integer) this
-						.getValue("euclidianViewID");
-
-
-				// if null ID then use EV1 unless shift is down, then use EV2
-				if (euclidianViewID == null) {
-					euclidianViewID = GlobalKeyDispatcherW.getShiftDown() ? app.getEuclidianView2(1)
-							.getViewID() : app.getEuclidianView1().getViewID();
-				}
-
-				// do the export
-				getModel().exportGeosToEV(euclidianViewID);
-
-				// null out the ID property
-				this.putValue("euclidianViewID", null);
-			}
-		};
-
-	}
 
 	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;

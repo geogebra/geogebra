@@ -23,7 +23,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		RequiresResize
 	
 {
-	private AppW app;
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;
 
@@ -61,7 +60,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 *            data analysis view
 	 */
 	public DataPanelW(AppW app, DataAnalysisViewW statDialog) {
-		this.app = app;
 		this.loc = (LocalizationW) app.getLocalization();
 		this.daView = statDialog;
 		this.statController = statDialog.getController();
