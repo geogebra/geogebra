@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -55,36 +54,7 @@ public class InputPanelW extends FlowPanel{
 	 *            whether to show symbol icon
 	 */
 	public InputPanelW(String initText, App app, int rows, int columns,
-	        boolean showSymbolPopupIcon) {
-		this(initText, app, rows, columns, showSymbolPopupIcon,
-				DialogType.GeoGebraEditor);
-		if (textComponent != null) {
-			AutoCompleteTextFieldW atf = textComponent;
-			atf.setAutoComplete(false);
-
-			if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-				atf.enableGGBKeyboard();
-			}
-		}
-	}
-
-	/**
-	 * @param initText
-	 *            initial text
-	 * @param app
-	 *            application
-	 * @param columns
-	 *            number of columns
-	 * @param rows
-	 *            number of rows
-	 * @param showSymbolPopupIcon
-	 *            whether to show symbol icon
-	 * @param type
-	 *            dialog type
-	 */
-	public InputPanelW(String initText, App app, int rows, int columns,
-			boolean showSymbolPopupIcon,
-			DialogType type) {
+			boolean showSymbolPopupIcon) {
 
 		this.showSymbolPopup = showSymbolPopupIcon;
 
@@ -115,6 +85,15 @@ public class InputPanelW extends FlowPanel{
 				textComponent.setText(initText);
 			}
 			add(textComponent);
+		}
+
+		if (textComponent != null) {
+			AutoCompleteTextFieldW atf = textComponent;
+			atf.setAutoComplete(false);
+
+			if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+				atf.enableGGBKeyboard();
+			}
 		}
 	}
 

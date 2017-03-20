@@ -19,7 +19,7 @@ import com.google.gwt.user.client.Window;
  * @author gabor
  *	windowReference for GGT API
  */
-public class WindowReference implements EventRenderable {
+public final class WindowReference implements EventRenderable {
 	
 	/**
 	 * The window object itself.

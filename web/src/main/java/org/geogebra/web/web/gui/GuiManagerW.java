@@ -43,6 +43,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
@@ -1872,13 +1873,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public BrowseViewI getBrowseView(String query) {
 		if (!browseGUIwasLoaded()) {
 			this.browseGUI = this.device.createBrowseView((AppW) this.app);
-			if (query != null && query.trim().length() > 0) {
+			if (!StringUtil.emptyTrim(query)) {
 				this.browseGUI.displaySearchResults(query);
 			} else {
 				this.browseGUI.loadAllMaterials();
 			}
 		}
- else if (query != null && query.trim().length() > 0) {
+		else if (!StringUtil.emptyTrim(query)) {
 			this.browseGUI.displaySearchResults(query);
 		}
 		return this.browseGUI;

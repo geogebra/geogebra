@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public abstract class KBBase extends PopupPanel {
 
-	private static final int LOWER_HEIGHT = 350;
+
 
 	private HasKeyboard hasKeyboard;
 	private KeyboardLocalization localization;
@@ -366,13 +366,13 @@ public abstract class KBBase extends PopupPanel {
 		}
 		// -10 because of padding, -2 for applet border
 		this.setWidth(app.getWidth() - 12 + "px");
-
-		if (app.getHeight() <= LOWER_HEIGHT && !isSmallKeyboard) {
+		boolean shouldBeSmall = app.needsSmallKeyboard();
+		if (shouldBeSmall && !isSmallKeyboard) {
 			this.addStyleName("lowerHeight");
-			this.isSmallKeyboard = !this.isSmallKeyboard;
-		} else if (app.getHeight() > LOWER_HEIGHT && isSmallKeyboard) {
+			this.isSmallKeyboard = true;
+		} else if (!shouldBeSmall && isSmallKeyboard) {
 			this.removeStyleName("lowerHeight");
-			this.isSmallKeyboard = !this.isSmallKeyboard;
+			this.isSmallKeyboard = false;
 		}
 		updateHeight();
 	}

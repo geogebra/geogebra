@@ -36,7 +36,6 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
@@ -44,7 +43,6 @@ import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.dom.client.Element;
@@ -411,18 +409,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			}
 		};
-		setBorderButton(1, BasicIcons.createUpDownTriangleIcon(false, true),
-				al);
-		this.setBorderButtonVisible(1, false);
-	}
-
-	private void setBorderButtonVisible(int i, boolean b) {
-		//
-	}
-
-	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
-			ClickHandler al) {
-		//
 	}
 
 	@Override

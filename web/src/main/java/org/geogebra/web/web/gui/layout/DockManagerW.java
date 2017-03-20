@@ -1504,7 +1504,7 @@ public class DockManagerW extends DockManager {
 		if(rootPane.getRightComponent() == null) {
 			Widget leftComponent = rootPane.getLeftComponent();
 			
-			if(leftComponent != null && leftComponent instanceof DockPanel) {
+			if (leftComponent instanceof DockPanel) {
 				singlePanel = (DockPanelW)leftComponent;
 			}
 		}
@@ -1512,7 +1512,7 @@ public class DockManagerW extends DockManager {
 		if(rootPane.getLeftComponent() == null) {
 			Widget rightComponent = rootPane.getRightComponent();
 			
-			if(rightComponent != null && rightComponent instanceof DockPanel) {
+			if (rightComponent instanceof DockPanel) {
 				singlePanel = (DockPanelW)rightComponent;
 			}
 		}

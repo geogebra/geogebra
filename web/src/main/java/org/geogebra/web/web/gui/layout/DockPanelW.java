@@ -886,7 +886,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		Widget parent = getParent();
 
-		if (parent == null || !(parent instanceof DockSplitPaneW)) {
+		if (!(parent instanceof DockSplitPaneW)) {
 			return null;
 		}
 
@@ -927,7 +927,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 			if (def.length() == 0) {
 				def.append(defType);
 			} else {
-				def.append("," + defType);
+				def.append(",");
+				def.append(defType);
 			}
 
 			current = parent;

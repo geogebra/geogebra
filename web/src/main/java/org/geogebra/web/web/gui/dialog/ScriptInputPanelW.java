@@ -59,8 +59,8 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 *            whether to only allow JS
 	 * 
 	 */
-	public ScriptInputPanelW(AppW app, GeoElement geo,
-			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
+	public ScriptInputPanelW(AppW app, GeoElement geo, boolean updateScript,
+			boolean forceJavaScript) {
 
 		model = new ScriptInputModel(app, this, updateScript);
 

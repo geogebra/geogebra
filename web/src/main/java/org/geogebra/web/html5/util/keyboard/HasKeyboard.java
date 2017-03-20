@@ -6,10 +6,10 @@ public interface HasKeyboard {
 	
 	void updateKeyboardHeight();
 
-	double getHeight();
-
 	double getWidth();
 
 	KeyboardLocale getLocalization();
+
+	boolean needsSmallKeyboard();
 
 }

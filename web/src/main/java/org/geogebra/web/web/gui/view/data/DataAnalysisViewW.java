@@ -325,12 +325,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		deferredDataPanelOnResize();
 	} 
 
-	public void showSourcePanel() {
-	}
-
-	public void showMainPanel() {
-	}
-
 	// ======================================
 	// Getters/setters
 	// ======================================

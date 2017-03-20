@@ -12,12 +12,6 @@ public class KeyboardContext implements HasKeyboard {
 	}
 
 	@Override
-	public double getHeight() {
-		// TODO Auto-generated method stub
-		return 600;
-	}
-
-	@Override
 	public double getWidth() {
 		// TODO Auto-generated method stub
 		return 800;
@@ -46,6 +40,11 @@ public class KeyboardContext implements HasKeyboard {
 						: (i == 2 ? "aAsSdDfFgGhHjJkKlL''" : "zZxXcCvVbBnNmM");
 			}
 		};
+	}
+
+	public boolean needsSmallKeyboard() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

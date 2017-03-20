@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'gwt-compiler'
 apply plugin: 'java'
 apply plugin: 'findbugs'
+apply plugin: 'pmd'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -197,4 +198,10 @@ test {
 findbugs {
     ignoreFailures = true
     excludeFilter = file("src/main/config/findbugs.xml")
+}
+
+pmd {
+     ignoreFailures = true
+     ruleSets = []
+     ruleSetFiles = files("src/main/config/pmd.xml")
 }

@@ -4,7 +4,8 @@ import java.util.LinkedList;
 
 import org.geogebra.common.util.debug.Log;
 
-public class KeyEventW extends org.geogebra.common.euclidian.event.KeyEvent {
+public final class KeyEventW
+		extends org.geogebra.common.euclidian.event.KeyEvent {
 
 	private static final LinkedList<KeyEventW> pool = new LinkedList<KeyEventW>();
 	private com.google.gwt.event.dom.client.KeyPressEvent event;

@@ -40,10 +40,10 @@ class ScriptEditPanel extends OptionPanel {
 		tabbedPane.setStyleName("scriptTabPanel");
 
 		clickDialog = new ScriptInputPanelW(app,
-				null, row, column, false, false);
+				null, false, false);
 		updateDialog = new ScriptInputPanelW(app,
-				null, row, column, true, false);
-		globalDialog = new ScriptInputPanelW(app, null, row, column, false,
+				null, true, false);
+		globalDialog = new ScriptInputPanelW(app, null, false,
 				true);
 		// add(td.getInputPanel(), BorderLayout.NORTH);
 		// add(td2.getInputPanel(), BorderLayout.CENTER);

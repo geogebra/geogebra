@@ -2901,6 +2901,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return getFrameElement().getOffsetHeight();
 	}
 
+	private static final int LOWER_HEIGHT = 350;
+
+	public boolean needsSmallKeyboard() {
+		return (getHeight() > 0 && getHeight() < LOWER_HEIGHT)
+				|| (getHeight() == 0 && getArticleElement()
+						.getDataParamHeight() < LOWER_HEIGHT);
+	}
+
 	@Override
 	public void updateMenubar() {
 		// getGuiManager().updateMenubar();
@@ -3370,7 +3378,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// add focus to AV if visible
 		AlgebraView av = getAlgebraView();
-		boolean visible = (av == null) ? false : av.isShowing();
+		boolean visible = av != null && av.isShowing();
 		if (visible) {
 			((Widget) av).getElement().focus();
 			focusGained(av, ((Widget) av).getElement());
@@ -3379,7 +3387,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// focus -> EV
 		EuclidianViewW ev = getEuclidianView1();
-		visible = (ev == null) ? false : ev.isShowing();
+		visible = ev != null && ev.isShowing();
 		if (visible) {
 			ev.getCanvas().getElement().focus();
 			ev.focusGained();

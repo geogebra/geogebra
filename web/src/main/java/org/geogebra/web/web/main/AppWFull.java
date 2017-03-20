@@ -883,6 +883,9 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	/**
+	 * Update the menu height
+	 */
 	public abstract void updateMenuHeight();
 
 	@Override

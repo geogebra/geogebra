@@ -28,7 +28,7 @@ import java.io.Serializable;
  *
  * @author Ross M. Lodge
  */
-public class UUIDW implements Serializable, Comparable<UUIDW> {
+public final class UUIDW implements Serializable, Comparable<UUIDW> {
 
 	/**
 	 * 
