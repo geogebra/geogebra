@@ -3970,15 +3970,16 @@ namespace giac {
 	      lower=is_zero(v[j]);
 	    }
 	  }
-	  for (unsigned i=0;i<b.size();++i){
-	    vecteur y(n);
-	    if (lower)
+	  if (lower){
+	    for (unsigned i=0;i<b.size();++i){
+	      vecteur y(n);
 	      linsolve_l(m,*b[i]._VECTptr,y);
-	    if (!mat)
-	      return y;
-	    res.push_back(y);
+	      if (!mat)
+		return y;
+	      res.push_back(y);
+	    }
+	    return res;
 	  }
-	  return res;
 	}
 	// upper triangular?
 	bool upper=true;
