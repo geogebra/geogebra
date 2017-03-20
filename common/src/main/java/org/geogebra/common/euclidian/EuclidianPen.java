@@ -540,6 +540,7 @@ public class EuclidianPen implements GTimerListener {
 
 		GeoElement geo;
 		if ((geo = tryPolygonOrLine()) != null || (geo = tryCircle()) != null) {
+			geo.setLabelVisible(false);
 			return geo;
 		}
 
@@ -564,10 +565,12 @@ public class EuclidianPen implements GTimerListener {
 			GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null,
 					circle.getMidpoint().getX(), circle.getMidpoint().getY(),
 					1.0);
+			m.setEuclidianVisible(false);
 
 			// point on the circle
 			GeoPoint p = circle.getPointsOnConic(1).get(0);
 			p.setLabel(null);
+			p.setEuclidianVisible(false);
 
 			// delete the circle that was created in makeACircle
 			circle.remove();
