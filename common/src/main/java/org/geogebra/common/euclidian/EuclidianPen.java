@@ -1368,10 +1368,13 @@ public class EuclidianPen implements GTimerListener {
 
 			GeoPoint f0 = new GeoPoint(cons, null, focus[0].getInhomX(),
 					focus[0].getInhomY(), 1);
+			f0.setEuclidianVisible(false);
 			GeoPoint f1 = new GeoPoint(cons, null, focus[1].getInhomX(),
 					focus[1].getInhomY(), 1);
+			f1.setEuclidianVisible(false);
 			GeoPoint additionalPoint = new GeoPoint(cons, null,
 					pointOnConic.getInhomX(), pointOnConic.getInhomY(), 1);
+			additionalPoint.setEuclidianVisible(false);
 
 			conic = (GeoConic) this.app.getKernel().getAlgoDispatcher()
 					.EllipseHyperbola(null, f0, f1, additionalPoint, type);
@@ -1636,7 +1639,13 @@ public class EuclidianPen implements GTimerListener {
 		// poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// poly.setLineType(penLineStyle);
 		// poly.setObjColor(penColor);
+		poly.setAlphaValue(0);
+		poly.setBackgroundColor(GColor.WHITE);
+		poly.setObjColor(GColor.BLACK);
 		poly.updateRepaint();
+		for (GeoPointND point : points) {
+			point.setEuclidianVisible(false);
+		}
 		return poly;
 	}
 
