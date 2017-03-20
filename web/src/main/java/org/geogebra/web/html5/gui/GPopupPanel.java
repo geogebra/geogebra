@@ -488,7 +488,12 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		setPopupPosition(0, 0);
 		setStyleName(DEFAULT_STYLENAME);
 		setStyleName(getContainerElement(), "popupContent");
-		// super.getContainerElement().getFirstChildElement().addClassName("mainChild");
+
+		// if (this instanceof HasKeyboardPopup) {
+		// super.getContainerElement().getFirstChildElement()
+		// .addClassName("mainChild");
+		// }
+
 	}
 
 	protected Panel getRootPanel() {
@@ -535,8 +540,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		hasOverlapFeature = b;
 
 		if (b) {
-			super.getContainerElement().getFirstChildElement()
-					.addClassName("mainChild");
+			if (this instanceof HasKeyboardPopup) {
+				super.getContainerElement().getFirstChildElement()
+						.addClassName("mainChild");
+			}
 		}
 	}
 
