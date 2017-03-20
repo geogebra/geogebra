@@ -57,11 +57,12 @@ public class ExportMenuW extends MenuBar {
 
 					@Override
 					public void execute() {
+						hide();
+						app.toggleMenu();
 						app.getActiveEuclidianView()
 								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
-						hide();
 						String url = ((EuclidianViewWInterface) app
 								.getActiveEuclidianView())
 										.getExportImageDataUrl(1.0, false);
