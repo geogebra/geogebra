@@ -58,7 +58,13 @@ public class AxisModel {
 		}
 	}
 
-	public void applyTickDistance(String str) {
+	/**
+	 * convert string to value for tick distance
+	 *
+	 * @param str string
+	 * @return true if a value was possible to compute
+	 */
+	public boolean applyTickDistance(String str) {
 		GeoNumberValue value = null;
 		final String text = str.trim();
 		if (!"".equals(text)) {
@@ -89,7 +95,9 @@ public class AxisModel {
 			}
 
 			view.updateBackground();
+			return true;
 		}
+		return false;
 	}
 
 	protected double parseDouble(String text) {
