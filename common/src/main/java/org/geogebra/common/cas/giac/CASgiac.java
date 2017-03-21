@@ -272,7 +272,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * row, starting with the sizes of the matrix: height and width. Used
 		 * internally.
 		 */
-		COEFF_MATRIX("coeffMatrix", "coeffMatrix(aa):=begin local bb, sx, sy, ii, jj, ee, cc, kk; bb:=coeffs(aa); sx:=size(bb); sy:=size(coeffs(aa,y)); cc:=[sx,sy]; for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj]; cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0; cc:=append(cc,ee); od; od; return cc; end"),
+		COEFF_MATRIX("coeffMatrix", "coeffMatrix(aa):=begin local bb, sx, sy, ii, jj, ee, cc, kk; bb:=coeffs(aa,x); sx:=size(bb); sy:=size(coeffs(aa,y)); cc:=[sx,sy]; for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj]; cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0; cc:=append(cc,ee); od; od; return cc; end"),
 		/**
 		 * Compute the coefficient matrices for the factors of the input
 		 * polynomial. The first number in the flattened output is the number of
