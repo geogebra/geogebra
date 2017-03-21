@@ -527,6 +527,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 	}
 	
+	protected ContextMenuPopup getContextMenuButton() {
+		return btnContextMenu;
+	}
+
 	/*
 	 * Some style button removed from dynamic stylebar. Those will be shown in the default stylebar yet.
 	 */
