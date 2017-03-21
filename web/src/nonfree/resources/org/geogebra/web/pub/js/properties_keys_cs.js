@@ -1642,7 +1642,7 @@ __GGB__keysVar.cs.menu = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "Dol\u016f",
     "Download": "St\xe1hnout",
-    "DownloadAs": "Export",
+    "DownloadAs": "St\xe1hnout jako",
     "DownloadAsGgbFile": "St\xe1hnout jako soubor .ggb",
     "DrawAsDropDownList": "Zobrazit jako rozbalovac\xed seznam",
     "DrawingPad": "N\xe1kresna",

@@ -1642,7 +1642,7 @@ __GGB__keysVar.fr.menu = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "Descendre",
     "Download": "T\xe9l\xe9charger",
-    "DownloadAs": "Exporter",
+    "DownloadAs": "Exporter en",
     "DownloadAsGgbFile": "T\xe9l\xe9charger comme fichier .ggb",
     "DrawAsDropDownList": "Liste d\xe9roulante",
     "DrawingPad": "Graphique",
