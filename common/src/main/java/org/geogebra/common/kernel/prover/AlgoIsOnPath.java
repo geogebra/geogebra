@@ -102,7 +102,7 @@ public class AlgoIsOnPath extends AlgoElement
 			return botanaPolynomials;
 		}
 
-		if (inputPoint == null || inputPath == null) {
+		if (inputPoint != null && inputPath != null) {
 			if (inputPath instanceof GeoLine) {
 
 				PVariable[] fv1 = inputPoint.getBotanaVars(inputPoint);
