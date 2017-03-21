@@ -9,6 +9,7 @@
   },
   "gypfile": true,
   "dependencies": {
-    "bindings": "~1.2.1"
+    "bindings": "~1.2.1",
+    "gmp": "1.0.0"
   }
 }

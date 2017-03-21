@@ -23,7 +23,13 @@
       ],
       "cflags_cc!" : [
           "-fno-rtti"
-      ]
+      ],
+      "link_settings" : {
+        "libraries" : [
+          "-lgmp"
+        ]
+      # See the bigint package how to do this linking on different operating systems.
+      }
     }
   ]
 }
