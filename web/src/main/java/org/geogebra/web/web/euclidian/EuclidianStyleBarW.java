@@ -380,7 +380,22 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (activeGeoList == null) {
 			return;
 		}
-		Object[] geos = activeGeoList.toArray();
+
+		Object[] geos;
+
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			geos = new GeoElement[0];
+
+			for (int i = 0; i < activeGeoList.size(); i++) {
+				if (activeGeoList.get(i).isEuclidianVisible()) {
+					geos[geos.length] = activeGeoList.get(i);
+				}
+			}
+		} else {
+			geos = activeGeoList.toArray();
+		}
+
+
 		for (int i = 0; i < popupBtnList.length; i++) {
 			if (popupBtnList[i] != null) {// null pointer fix until necessary
 				popupBtnList[i].update(geos);
