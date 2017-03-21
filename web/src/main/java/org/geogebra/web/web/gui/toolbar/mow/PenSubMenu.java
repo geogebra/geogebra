@@ -104,6 +104,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 		btnCustomColor = new StandardButton("+");
 		btnCustomColor.addStyleName("MyCanvasButton color-button");
+		btnCustomColor.addStyleName("plusButton");
 		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
 				btnColor[2], btnColor[3], btnCustomColor));
 	}
