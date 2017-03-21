@@ -2,25 +2,30 @@ package org.geogebra.web.web.gui.util;
 
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
+public class MOWPointStyleButton extends MOWStyleButton {
 
-public class MOWPointStyleButton extends PointStylePopup {
-
+	private GGraphics2DW g2;
+	private DrawPoint drawPoint;
 	public MOWPointStyleButton(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, boolean hasTable,
 			boolean hasSlider, PointStyleModel model) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider, model);
+		g2 = new GGraphics2DW(canvas);
+		GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), 1, 1, 0);
+		p.setObjColor(GColor.RED);
+		p.setPointSize(7);
+		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
 
-		// Rearranging content.
-		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
-		panel.clear();
-		panel.add(sliderPanel);
-		panel.add(getMyTable());
+		updateCanvas();
 	}
 
 	public static MOWPointStyleButton create(AppW app, int mode,
@@ -44,4 +49,11 @@ public class MOWPointStyleButton extends PointStylePopup {
 				SelectionTable.MODE_ICON, true, hasSlider, model);
 	}
 
+
+	@Override
+	protected void updateCanvas() {
+		drawPoint.draw(g2);
+		drawPoint.update();
+		g2.drawRect(1, 1, 20, 20);
+	}
 }

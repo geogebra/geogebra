@@ -476,8 +476,18 @@ public class PopupMenuButtonW extends MyCJButton
 			return;
 		}
 		mySlider.setValue(value);
-		sliderLabel.setText(value + getSliderPostfix());
+		setSliderText(value + getSliderPostfix());
 		updateGUI();
+	}
+
+	/**
+	 * Sets the value next to the slider.
+	 * 
+	 * @param text
+	 *            the value string.
+	 */
+	protected void setSliderText(String text) {
+		sliderLabel.setText(text);
 	}
 
 	/**
