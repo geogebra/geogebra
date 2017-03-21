@@ -4176,8 +4176,7 @@ public abstract class App implements UpdateSelection {
 		case PEN_SMOOTHING:
 			return prerelease;
 		case AXES_STYLE_SUBMENU:
-			// return prerelease;
-			return false;
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
