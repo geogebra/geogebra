@@ -24,7 +24,7 @@ public class MOWPointStyleButton extends MOWStyleButton {
 		p.setObjColor(GColor.RED);
 		p.setPointSize(7);
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
-
+		p.setEuclidianVisible(true);
 		updateCanvas();
 	}
 
@@ -52,8 +52,9 @@ public class MOWPointStyleButton extends MOWStyleButton {
 
 	@Override
 	protected void updateCanvas() {
+		double coords[] = { 0, 0 };
+		drawPoint.update(coords);
 		drawPoint.draw(g2);
-		drawPoint.update();
 		g2.drawRect(1, 1, 20, 20);
 	}
 }
