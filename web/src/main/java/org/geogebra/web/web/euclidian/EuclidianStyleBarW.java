@@ -614,6 +614,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private MyToggleButtonW[] newToggleBtnList() {
+		if (app.has(Feature.AXES_STYLE_SUBMENU)) { // no axes button here if
+													// feature flag is true
+			return new MyToggleButtonW[] { btnBold, btnItalic, btnFixPosition,
+					btnFixObject, btnDeleteSizes[0], btnDeleteSizes[1],
+					btnDeleteSizes[2] };
+		}
 		return new MyToggleButtonW[] { getAxesOrGridToggleButton(), btnBold,
 		        btnItalic, btnFixPosition, btnFixObject, btnDeleteSizes[0],
 		        btnDeleteSizes[1],
@@ -621,6 +627,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
+		if (app.has(Feature.AXES_STYLE_SUBMENU)) { // axes menu added if feature
+													// flag is true
+			return new PopupMenuButtonW[] { btnShowAxes_new,
+					getAxesOrGridPopupMenuButton(), btnColor, btnBgColor,
+					btnTextColor, btnLineStyle, btnPointStyle, btnTextSize,
+					btnAngleInterval, btnLabelStyle, btnPointCapture,
+					btnChangeView };
+		}
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
 		        btnColor, btnBgColor, btnTextColor, btnLineStyle,
  btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle, btnPointCapture,
