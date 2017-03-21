@@ -247,7 +247,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		saveAsAction = new AbstractAction(loc.getMenu("SaveAs") + " ...",
+		saveAsAction = new AbstractAction(
+				loc.getMenu("SaveAs") + Unicode.ellipsis,
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 

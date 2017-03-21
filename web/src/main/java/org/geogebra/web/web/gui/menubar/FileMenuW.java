@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
@@ -238,7 +239,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				        .menu_icons_file_export()
 .getSafeUri().asString(),
-					loc.getMenu("Export"), true),
+					loc.getMenu("DownloadAs") + Unicode.ellipsis, true),
 					true, new ExportMenuW(app), !app.isWhiteboardActive());
 
 		}
