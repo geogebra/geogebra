@@ -22,7 +22,6 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.DialogManager3DW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.AppWapplet;
-import org.geogebra.web.web.main.BrowserDevice;
 import org.geogebra.web.web.main.GDevice;
 
 public class AppWapplet3D extends AppWapplet {
@@ -70,7 +69,7 @@ public class AppWapplet3D extends AppWapplet {
 
 	@Override
 	protected GuiManagerW newGuiManager() {
-		return App3DW.newGuiManager(this, new BrowserDevice());
+		return App3DW.newGuiManager(this, getDevice());
 	}
 
 
