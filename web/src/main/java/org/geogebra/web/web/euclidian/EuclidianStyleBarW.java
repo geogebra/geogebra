@@ -519,7 +519,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
-
+			btnContextMenu.addStyleName("dynStyleContextButton");
 			add(btnContextMenu);
 		} else if (!isBackground()) {
 				if (getViewButton() == null) {

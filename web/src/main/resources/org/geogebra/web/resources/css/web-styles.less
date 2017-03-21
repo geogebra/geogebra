@@ -1536,6 +1536,14 @@ body.application[dir=rtl] .StyleBarPanel {
 
 .DynamicStyleBar{
 	position: absolute;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
+}
+.dynStyleContextButton{
+	margin-right: 0px !important;
+	margin-left: 10px !important;
 }
 
 .Separator {
@@ -5839,8 +5847,9 @@ body.application[dir=rtl] .deleteAlgebra {
 	/** explicit non-transparent to hide EV content */
 	background-color: #fff;
 	
-	border: 1px solid #e0e0e0;
-	box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.8);
+/*	border: 1px solid #e0e0e0;*/
+	box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
+/*	box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.8);*/
     padding: 5px 0px 5px 0px;
 }
 .animate0to120 { 
@@ -5973,16 +5982,16 @@ body.application[dir=rtl] .deleteAlgebra {
 .mowSubMenu {
 	position: absolute;
 	top: 50px;
-	left: -1px;
 	width: 100%;
-	border: 1px solid #e0e0e0;
-	background-color: #fafafa;
-	box-shadow: 0px 5px 5px rgba(204, 204, 204, 0.8);
+	border-top: 2px solid #e0e0e0;
+	background-color: #eee;
+	box-shadow: 0 2px 2px 1px rgba(102,102,102,0.3);
 }
 
 .mowSubMenuContent {
 	width: 400px;
 	height: 65px;
+	background-color: #fafafa;
 }
 .mowSubMenuInfo {
 	position: absolute;
@@ -6072,18 +6081,18 @@ body.application[dir=rtl] .deleteAlgebra {
 
 .toolsSubMenu .mowSubMenuContent {
 	width: 400px;
-	height: 117px;
+	height: 120px;
+	top: -3px;
 	overflow: hidden;
 	overflow-x: scroll;
 	overflow-y: hidden;
-	border-right: 1px solid #e0e0e0;
+	border-right: 2px solid #e0e0e0;
 }
 
 .toolsSubMenu .mowSubMenuContent .panelRow {
 	position: absolute;
 	width: 1760px;
 	height: 80px;
-	margin-top: -3px;
 	
 }	
 
@@ -6091,8 +6100,13 @@ body.application[dir=rtl] .deleteAlgebra {
 	position: absolute;
 	width: 400px;
 	height: 115px;
-	border-right: 1px solid #e0e0e0;
+	top: -3px;
+	padding-top: 3px;
+	border-right: 2px solid #e0e0e0;
 }	
+.mediaSubMenu .mowSubMenuContent panelRow {
+	margin-top: 3px;
+}
 
 .mowMenubar {
  	  position: absolute;
