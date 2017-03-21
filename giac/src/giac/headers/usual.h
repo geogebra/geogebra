@@ -515,7 +515,7 @@ namespace giac {
   gen _Heaviside(const gen & args,GIAC_CONTEXT);
   gen _Dirac(const gen & args,GIAC_CONTEXT);
 
-#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
   extern const gen zero;
   extern const gen plus_one;
   extern const gen minus_one;
@@ -549,7 +549,7 @@ namespace giac {
   extern const gen & rad2grad_g;
   extern const gen & grad2rad_g;
 
-#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) // || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
   extern gen cst_two_pi;
   extern gen cst_pi_over_2;
   extern gen plus_inf;

@@ -41,7 +41,7 @@
 #define EMCC
 #undef HAVE_LIBPTHREAD
 #undef HAVE_PTHREAD_H
-#undef __x86_64__
+#undef x86_64
 #undef SMARTPTR64
 #undef HAVE_LONG_DOUBLE
 #endif
@@ -111,7 +111,7 @@ int my_sprintf(char * s, const char * format, ...);
 #define my_ostream std::ostream
 #endif
 
-#ifdef __x86_64__
+#ifdef x86_64
 #define alias_type ulonglong
 #else
 #define alias_type size_t
@@ -184,7 +184,7 @@ int my_sprintf(char * s, const char * format, ...);
 
 #endif //  NO_UNARY_FUNCTION_COMPOSE
 
-#ifdef __x86_64__
+#ifdef x86_64
 #define define_unary_function_ptr(name,alias_name,ptr) const ulonglong alias_name = (ulonglong)(ptr); const unary_function_ptr * const name = (const unary_function_ptr *) &alias_name
 #else
 #define define_unary_function_ptr(name,alias_name,ptr) const size_t alias_name = (size_t)(ptr); const unary_function_ptr * const name = (const unary_function_ptr *) &alias_name
@@ -196,13 +196,13 @@ int my_sprintf(char * s, const char * format, ...);
 #endif
 
 #ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
-#ifdef __x86_64__
+#ifdef x86_64
 #define define_unary_function_ptr5(name,alias_name,ptr,quoted,token) const ulonglong alias_name = ulonglong(ptr); const unary_function_ptr * const name = (const unary_function_ptr *) &alias_name;
 #else
 #define define_unary_function_ptr5(name,alias_name,ptr,quoted,token) const size_t alias_name = (size_t)(ptr); const unary_function_ptr * const name = (const unary_function_ptr *) &alias_name;
 #endif
 #else
-#ifdef __x86_64__
+#ifdef x86_64
 #define define_unary_function_ptr5(name,alias_name,ptr,quoted,token) static const unary_function_ptr alias_name##_(ptr,quoted,token); const ulonglong alias_name=(ulonglong)ptr; const unary_function_ptr * const name = &alias_name##_;
 #else
 #define define_unary_function_ptr5(name,alias_name,ptr,quoted,token) static const unary_function_ptr alias_name##_(ptr,quoted,token); const size_t alias_name=(size_t)ptr; const unary_function_ptr * const name = &alias_name##_;
@@ -238,13 +238,13 @@ typedef unsigned __int64 ulonglong ;
 #else // __VISUALC__
 typedef long long longlong;
 typedef unsigned long long ulonglong;
-#ifdef __x86_64__
+#ifdef x86_64
   typedef int int128_t __attribute__((mode(TI)));
   typedef unsigned int uint128_t __attribute__((mode(TI)));
 #ifndef INT128
 #define INT128 1
 #endif
-#endif // __x86_64__
+#endif // x86_64
 
 // do not define PSEUDO_MOD if a negative unsigned longlong >> 63 is != 0xffffffffffffffff
 // #define PSEUDO_MOD accelerates cyclic* gbasis computation significantly
@@ -266,7 +266,7 @@ inline void swap_giac_double(double & a,double & b){ double c=a; a=b; b=c; }
 #define swap_giac_double(a,b) std::swap<giac_double>(a,b)
 #endif
 
-#if defined WIN32 && defined __x86_64__
+#if defined WIN32 && defined x86_64
 typedef longlong ref_count_t;
 #else
 typedef int ref_count_t;
@@ -278,16 +278,16 @@ typedef int ref_count_t;
 //#define CP15_TPIDRURW          15, 0, 13,  0, 2         // Software Thread ID Register, User Read/Write
 #endif
 
-#if defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) &&     !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
+#if defined(__LP64__) || defined(_WIN64) || (defined(x86_64) &&     !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
 #define SMARTPTR64
-#else // __x86_64__
+#else // x86_64
 #ifdef SMARTPTR64
 #undef SMARTPTR64
 #endif // SMARTPTR64
 #ifdef _I386_
 #undef _I386_
 #endif // _I386_
-#endif // __x86_64__
+#endif // x86_64
 
 #ifdef USE_GMP_REPLACEMENTS
 //#define GIAC_TYPE_ON_8BITS

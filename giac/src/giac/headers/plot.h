@@ -797,7 +797,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_Bezier;
 
 
-#if defined(GIAC_GENERIC_CONSTANTS) || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(__x86_64__)
+#if defined(GIAC_GENERIC_CONSTANTS) || (defined(VISUALC) && !defined(RTOS_THREADX)) || defined(x86_64)
   extern unary_function_ptr point_sommet_tab_op[];
   extern unary_function_ptr nosplit_polygon_function[];
   extern unary_function_ptr measure_functions[];
