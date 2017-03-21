@@ -448,7 +448,7 @@ public class DockManagerW extends DockManager {
 						w);
 			}
 			if (pane.getRightComponent() instanceof DockSplitPaneW) {
-				setPreferredSizes((DockSplitPaneW) pane.getLeftComponent(),
+				setPreferredSizes((DockSplitPaneW) pane.getRightComponent(),
 						h - pane.getDividerLocation() - pane.getSplitterSize(),
 						w);
 			}
@@ -458,7 +458,7 @@ public class DockManagerW extends DockManager {
 						pane.getDividerLocation());
 			}
 			if (pane.getRightComponent() instanceof DockSplitPaneW) {
-				setPreferredSizes((DockSplitPaneW) pane.getLeftComponent(), h,
+				setPreferredSizes((DockSplitPaneW) pane.getRightComponent(), h,
 						w - pane.getDividerLocation() - pane.getSplitterSize());
 			}
 		}
