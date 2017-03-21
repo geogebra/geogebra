@@ -983,7 +983,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					if (geosOK) {
 						// get color from first geo
 						GColor geoColor;
-						geoColor = ((GeoElement) geos[0]).getObjectColor();
+						if (EuclidianView.isPenMode(mode)) {
+							geoColor = app.getActiveEuclidianView()
+									.getEuclidianController()
+									.getPen().DEFAULT_PEN_LINE.getObjectColor();
+						} else {
+							geoColor = ((GeoElement) geos[0]).getObjectColor();
+						}
 
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
