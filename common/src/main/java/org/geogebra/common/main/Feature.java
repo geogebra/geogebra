@@ -170,6 +170,9 @@ public enum Feature {
 	AUTOMATIC_DERIVATIVES,
 
 	/** SolveQuartic in CAS GGB-1635 */
-	SOLVE_QUARTIC
+	SOLVE_QUARTIC,
+
+	/** MOW-166 */
+	AXES_STYLE_SUBMENU
 
 }
