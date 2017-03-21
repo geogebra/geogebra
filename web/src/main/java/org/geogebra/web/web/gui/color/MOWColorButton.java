@@ -11,6 +11,7 @@ import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.SelectionTableW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 
 /**
  * Color chooser button for MOW.
@@ -45,7 +46,14 @@ public class MOWColorButton extends ColorPopupMenuButton {
 		fillTable = new SelectionTableW(icons, 1, 5,
 				SelectionTable.MODE_ICON, false);
 
-		fillTable.addClickHandler(this);
+		fillTable.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				handlePopupActionEvent();
+			}
+
+		});
 	}
 
 	@Override
@@ -74,14 +82,14 @@ public class MOWColorButton extends ColorPopupMenuButton {
 		return idx != -1 ? fillTypes[idx] : FillType.STANDARD;
 
 	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		if (event.getSource() == fillTable) {
-			fireActionPerformed();
-			return;
-		}
-		super.onClick(event);
-	}
+	//
+	// @Override
+	// public void onClick(ClickEvent event) {
+	// if (event.getSource() == fillTable) {
+	// fireActionPerformed();
+	// return;
+	// }
+	// super.onClick(event);
+	// }
 
 }
