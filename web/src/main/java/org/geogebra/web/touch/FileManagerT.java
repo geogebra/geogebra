@@ -1101,12 +1101,10 @@ public class FileManagerT extends FileManager {
 			App app) {
 
 		String extension = "png";
-		String titleKey = "ExportAsPicture";
 
 		if (url.startsWith("data:text/")) {
 			// eg Tizk export
 			extension = "txt";
-			titleKey = "Export";
 			// could use:
 			// TitleExportPstricks
 			// TitleExportPgf

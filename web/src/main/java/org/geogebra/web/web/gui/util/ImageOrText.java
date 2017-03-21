@@ -78,7 +78,7 @@ public class ImageOrText {
 				button.getElement().getStyle()
 						.setColor(GColor.getColorString(fgColor));
 			}
-			if (text == "+") {
+			if ("+".equals(text)) {
 				button.getElement().addClassName("borderButton");
 				button.getElement().addClassName("plusButton");
 			} else {
