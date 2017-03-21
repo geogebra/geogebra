@@ -1,9 +1,9 @@
 {
   "name": "giac",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Giac",
   "main": "nodegiac.js",
-  "private": true,
+  "private": false,
   "scripts": {
     "test": "node nodegiac.js"
   },
