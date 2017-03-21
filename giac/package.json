@@ -1,0 +1,14 @@
+{
+  "name": "giac",
+  "version": "1.2.2",
+  "description": "Giac",
+  "main": "nodegiac.js",
+  "private": true,
+  "scripts": {
+    "test": "node nodegiac.js"
+  },
+  "gypfile": true,
+  "dependencies": {
+    "bindings": "~1.2.1"
+  }
+}
