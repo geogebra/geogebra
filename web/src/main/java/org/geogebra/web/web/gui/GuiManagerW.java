@@ -1745,11 +1745,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void showToolBar(final boolean show) {
 		if (((AppWFull) app).getToolbar() != null) {
-			((AppWFull) app).getToolbar().setVisible(show);
-		} else {
+			((AppW) app).closePopups();
+			if (((AppWFull) app).getToolbar().isVisible() != show) {
+
+				((AppWFull) app).getToolbar().setVisible(show);
+				((AppWFull) app).addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
+						: GLookAndFeel.TOOLBAR_HEIGHT);
+				((AppWFull) app).updateCenterPanel();
+				((AppWFull) app).getAppletFrame().refreshKeyboard();
+			}
+		} else if (show) {
 			((AppWapplet) app).getAppletFrame().attachToolbar((AppW) app);
+			((AppW) app).closePopups();
 		}
-		((AppW) app).closePopups();
+
 	}
 
 	/**

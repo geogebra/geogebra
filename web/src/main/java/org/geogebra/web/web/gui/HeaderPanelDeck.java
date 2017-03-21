@@ -41,4 +41,10 @@ public interface HeaderPanelDeck extends HasAppletProperties {
 	 */
 	Element getElement();
 
+	/**
+	 * Make sure keyboard visibility corresponds to both app.isKeyboardNeeded()
+	 * and appNeedsKeyboard() TODO rename one of those functions
+	 */
+	void refreshKeyboard();
+
 }

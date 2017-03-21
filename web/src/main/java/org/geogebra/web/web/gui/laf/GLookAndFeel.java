@@ -32,8 +32,10 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public static final int BROWSE_HEADER_HEIGHT = 61;
 	/** width of panle with file sources in browse gui (GDrive, MAT) */
 	public static final int PROVIDER_PANEL_WIDTH = 70;
-	/** toolbar height */
+	/** toolbar height + offset */
 	public static final int TOOLBAR_OFFSET = 61;
+	/** toolbar height */
+	public static final int TOOLBAR_HEIGHT = 53;
 	/** size of icons in view submenu of stylebar */
 	public static final int VIEW_ICON_SIZE = 20;
 	private HandlerRegistration windowClosingHandler;

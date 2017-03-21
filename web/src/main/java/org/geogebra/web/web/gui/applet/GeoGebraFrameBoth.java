@@ -513,10 +513,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		return false;
 	}
 
-	/**
-	 * Make sure keyboard visibility corresponds to both app.isKeyboardNeeded()
-	 * and appNeedsKeyboard() TODO rename one of those functions
-	 */
+	@Override
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
 			final VirtualKeyboardW keyBoard = app.getGuiManager()
