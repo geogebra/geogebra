@@ -56,9 +56,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			return;
 		}
 
-		// int move = this.getViewButton().getAbsoluteLeft()
-		// - this.getAbsoluteLeft();
-		int move = this.getOffsetWidth();
+		int move = this.getContextMenuButton().getAbsoluteLeft()
+				- this.getAbsoluteLeft();
 		int height = this.getOffsetHeight();
 
 		double left, top;
