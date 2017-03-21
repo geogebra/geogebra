@@ -437,6 +437,16 @@ public class AppD extends App implements KeyEventDispatcher {
 				|| args.containsArg("canary"));
 		this.canary = args != null && args.containsArg("canary");
 
+		if (canary) {
+			Log.error("*****************************");
+			Log.error("*** Running with --canary ***");
+			Log.error("*****************************");
+		} else if (prerelease) {
+			Log.error("*********************************");
+			Log.error("*** Running with --prerelease ***");
+			Log.error("*********************************");
+		}
+
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 
 		if (args != null) {
@@ -944,6 +954,10 @@ public class AppD extends App implements KeyEventDispatcher {
 					.setTimeoutMilliseconds(13000);
 
 			String filename = args.getStringValue("giacJSONtests");
+
+			if (filename == null) {
+				filename = "../web/war/__giac.js";
+			}
 
 			int count = 0;
 
