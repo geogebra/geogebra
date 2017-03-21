@@ -202,23 +202,41 @@ public class GeoGebraIconW extends BasicIcons {
 	 *            {@code int}
 	 * @return {@link ImageOrText}
 	 */
-	public static ImageOrText createAxesStyleIcon(int id) {
+	public static ImageOrText createAxesStyleIcon(int id, boolean newStyle) {
 		ImageResource url = null;
-		switch(id){
-			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-				url =  GuiResources.INSTANCE.deco_axes_arrow();
+
+		if (newStyle) {
+			switch (id) {
+			case EuclidianStyleConstants.AXES_TWO_ARROWS:
+				url = StyleBarResources.INSTANCE.axes_2arrows();
 				break;
-			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-				url =  GuiResources.INSTANCE.deco_axes_arrows();
+			case EuclidianStyleConstants.AXES_FOUR_ARROWS:
+				url = StyleBarResources.INSTANCE.axes_4arrows();
 				break;
-			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
-				url =  GuiResources.INSTANCE.deco_axes_arrow_filled();
-				break;
-			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-				url =  GuiResources.INSTANCE.deco_axes_arrows_filled();
+			case EuclidianStyleConstants.AXES_NO_ARROW:
+				url = StyleBarResources.INSTANCE.axes();
 				break;
 			default:
-				url =  GuiResources.INSTANCE.deco_axes_none();
+				url = StyleBarResources.INSTANCE.axes(); // stylingbar_empty()
+			}
+
+		} else {
+			switch (id) {
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
+				url = GuiResources.INSTANCE.deco_axes_arrow();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+				url = GuiResources.INSTANCE.deco_axes_arrows();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
+				url = GuiResources.INSTANCE.deco_axes_arrow_filled();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+				url = GuiResources.INSTANCE.deco_axes_arrows_filled();
+				break;
+			default:
+				url = GuiResources.INSTANCE.deco_axes_none();
+			}
 		}
 
 		return new ImageOrText(url);

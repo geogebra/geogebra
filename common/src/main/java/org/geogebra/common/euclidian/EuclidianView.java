@@ -256,6 +256,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return pointStyles[i];
 	}
 
+	private final static int[] axesStyles = { EuclidianStyleConstants.NO_AXES, EuclidianStyleConstants.AXES_TWO_ARROWS,
+			EuclidianStyleConstants.AXES_FOUR_ARROWS, EuclidianStyleConstants.AXES_NO_ARROW };
+
+	public static int getAxesStyle(int i) {
+		return axesStyles[i];
+	}
+
 	public static int getPointStyleLength() {
 		return pointStyles.length;
 	}

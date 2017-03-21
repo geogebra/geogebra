@@ -704,12 +704,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected void createAxesAndGridButtons() {
 		// ========================================
 		// show axes button
-		ImageOrText[] axes = new ImageOrText[4];
-		for (int i = 0; i < 4; i++) {
-			axes[i] = GeoGebraIconW
-					.createGridStyleIcon(EuclidianView.getPointStyle(i));
-		}
+
 		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
+			ImageOrText[] axes = new ImageOrText[4];
+			for (int i = 0; i < 4; i++) {
+				axes[i] = GeoGebraIconW.createAxesStyleIcon(
+						EuclidianView.getAxesStyle(i), true);
+			}
 			btnShowAxes_new = new AxesPopup(app, axes, -1, 4,
 					SelectionTable.MODE_ICON, ev);
 			btnShowAxes_new.addPopupHandler(this);
@@ -1313,7 +1314,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	protected void updateAxesAndGridGUI() {
 		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
-			// TODO
+			btnShowAxes_new.setSelectedIndex(1); // TODO axesIndex(ev)
 		} else {
 			btnShowAxes.removeValueChangeHandler();
 			btnShowAxes.setSelected(ev.getShowXaxis());
