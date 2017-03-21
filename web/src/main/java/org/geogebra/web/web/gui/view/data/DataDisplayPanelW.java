@@ -305,6 +305,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			plotTypes = new ArrayList<PlotType>();
 
 		} else {
+			plotTypes.clear();
 			lbDisplayType.clear();
 		}
 
